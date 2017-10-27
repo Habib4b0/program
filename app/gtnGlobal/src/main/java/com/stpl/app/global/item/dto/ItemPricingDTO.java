@@ -117,6 +117,9 @@ public class ItemPricingDTO implements Serializable {
         
         private int createdByValue;
         
+        private int itemPricePrecision;
+        
+        
     public int getCreatedByValue() {
         return createdByValue;
     }
@@ -664,4 +667,11 @@ public class ItemPricingDTO implements Serializable {
         this.itemUom = itemUom;
     }
 
+    public int getItemPricePrecision() {
+        return itemPricePrecision;
     }
+
+    public void setItemPricePrecision(int itemPricePrecision) {
+        this.itemPricePrecision = itemPricePrecision;
+    }
+ }

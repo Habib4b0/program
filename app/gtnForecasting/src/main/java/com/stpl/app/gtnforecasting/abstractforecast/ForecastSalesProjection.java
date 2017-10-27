@@ -109,6 +109,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -384,13 +385,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected ExtFilterTreeTable rightTable;
     protected CustomTableHeaderDTO leftHeader = null;
     protected CustomTableHeaderDTO rightHeader = null;
-    final public BeanItemContainer<String> groupBean = new BeanItemContainer<String>(String.class);
-    final public BeanItemContainer<String> massGroupBean = new BeanItemContainer<String>(String.class);
+    final public BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
+    final public BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
     protected SessionDTO session;
     protected FreezePagedTreeTable resultsTable;
     protected MSalesProjectionTableLogic mSalesProjectionTableLogic;
     protected ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
-    protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<SalesRowDto>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
     AlternateHistoryLogic logic = new AlternateHistoryLogic();
     DataSelectionLogic dsLogic = new DataSelectionLogic();
     protected int uncheckRecordCount;
@@ -419,8 +420,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     ComboBox userGroupTest = new ComboBox();
     protected ComboBox metohdologyFilter = new ComboBox();
     protected ComboBox baseLineFilter = new ComboBox();
-    final public BeanItemContainer<String> methdologyBean = new BeanItemContainer<String>(String.class);
-    final public BeanItemContainer<String> baseLineBean = new BeanItemContainer<String>(String.class);
+    final public BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
+    final public BeanItemContainer<String> baseLineBean = new BeanItemContainer<>(String.class);
     protected String screenName;
     @UiField("mainPanel")
     Panel mainPanel;
@@ -463,8 +464,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private Map<Object, String> radioMap = new HashMap<>();
     protected boolean isSalesCalculated;
     List<String> checkedList;
-    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<String, Map<String, List<String>>>();
-    List<Object> checkedDiscountsPropertyIds = new ArrayList<Object>();
+    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
+    List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
     @UiField("AlternateGrid")
     private GridLayout AlternateGrid;
     @UiField("ContractLabel")
@@ -492,6 +493,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected Label forecastEPeriod;
     boolean returnsFlag = false;
     public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    CommonLogic commonLogic = new CommonLogic();
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -505,7 +507,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             this.screenName = screenName;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/abstractforecast/forecastSalesProjection.xml"), this));
             returnsFlag = CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName);
-            projectionDTO.setTabName("Sales Projection");
+            projectionDTO.setTabName(Constant.SALES_PROJECTION_LABEL);
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
                 projectionDTO.setScreenName(screenName);
                 mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
@@ -568,17 +570,17 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         variable.select(Constant.SALES_SMALL);
         variable.setStyleName(Constant.HORIZONTAL);
 
-        adjustPeriods.addItem(Constant.All);
+        adjustPeriods.addItem(Constant.ALL);
         adjustPeriods.addItem(Constants.ButtonConstants.SELECT.getConstant());
-        adjustPeriods.select(Constant.All);
+        adjustPeriods.select(Constant.ALL);
         adjustPeriods.setStyleName(Constant.HORIZONTAL);
         adjustment.setStyleName(Constant.TXT_RIGHT_ALIGN);
 
         graphIcon.setStyleName(Reindeer.BUTTON_LINK);
 
         view.addItem(Constant.CUSTOMER_SMALL);
-        view.addItem(Constant.PRODUCT);
-        view.addItem(Constant.CUSTOM);
+        view.addItem(Constant.PRODUCT_LABEL);
+        view.addItem(Constant.CUSTOM_LABEL);
         view.select(Constant.CUSTOMER_SMALL);
         view.setStyleName(Constant.HORIZONTAL);
 
@@ -690,7 +692,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             methodology.addItem(Constant.PERCOFDEMAND);
             methodology.addItem(Constant.PERCOFINVENTORYWITHDRAWAL);
             methodology.addItem(Constant.PERC_OF_ADJUSTED_DEMAND);
-
+            
             variables.addItem(Constant.SALES_SMALL);
             variables.addItem(Constant.UNITS_SMALL);
             variables.addItem(Constant.PRODUCT_GROWTH);
@@ -711,7 +713,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             populate.setEnabled(false);
         }
 
-        configureFrequency(nmFrequencyDdlb, historyDdlb, true);
+        configureFrequency(nmFrequencyDdlb, historyDdlb);
         loadFrequency(nmFrequencyDdlb, historyDdlb);
 
         refreshBtn.addClickListener(new Button.ClickListener() {
@@ -815,12 +817,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         baseLineFilterValueChangeListener = new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
+                return;
             }
         };
 
         methodologyFilterValueChangeListener = new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
+                return;
             }
         };
 
@@ -843,7 +847,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                     if (validateForAlternateHistory()) {
                         AlternateHistory alternateContractLookup;
-                        session.setForecastName("Sales Projection");
+                        session.setForecastName(Constant.SALES_PROJECTION_LABEL);
                         session.setFrequency(projectionDTO.getFrequency());
                         alternateContractLookup = new AlternateHistory(session, projectionDTO.getVariableList());
 
@@ -926,7 +930,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
             public void noMethod() {
-
+                return;
             }
 
             @Override
@@ -1061,7 +1065,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     private void addComponent() {
 
-        spAdjustment.setCaption("Sales Projection");
+        spAdjustment.setCaption(Constant.SALES_PROJECTION_LABEL);
         channelSalesAllocationSelection.setVisible(false);
         proPeriodOrd.addItem(ASCENDING.getConstant());
         proPeriodOrd.addItem(Constant.DESCENDING);
@@ -1167,7 +1171,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         history = history.trim();
         final String actualsOrProjections = String.valueOf(actualsProjections.getValue());
         final String projectionPeriodorder = String.valueOf(proPeriodOrd.getValue());
-        Map<String, String> selection = new HashMap<String, String>();
+        Map<String, String> selection = new HashMap<>();
         selection.put(Constant.FREQUENCY, QUARTERLY.getConstant());
         selection.put(Constant.HISTORY, history);
         if (session.getForecastDTO().getForecastEndDate().after(session.getForecastDTO().getProjectionEndDate())) {
@@ -1177,10 +1181,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         }
         selection.put(Constant.ORDER, projectionPeriodorder);
         selection.put("actualsorprojections", actualsOrProjections);
-        selection.put(Constant.SALES, "false");
-        selection.put(Constant.UNITS, "false");
-        selection.put(Constant.P_Growth, "false");
-        selection.put(Constant.A_Growth, "false");
+        selection.put(Constant.SALES, Constant.FALSE);
+        selection.put(Constant.UNITS, Constant.FALSE);
+        selection.put(Constant.P_GROWTH, Constant.FALSE);
+        selection.put(Constant.A_GROWTH, Constant.FALSE);
 
         if (variables.getValue() != null) {
             String tempVariables = variables.getValue().toString();
@@ -1196,10 +1200,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         selection.put(Constant.UNITS, Constant.TRUE);
                         break;
                     case Constant.ACCOUNT_GROWTH:
-                        selection.put(Constant.P_Growth, Constant.TRUE);
+                        selection.put(Constant.P_GROWTH, Constant.TRUE);
                         break;
                     case Constant.PRODUCT_GROWTH:
-                        selection.put(Constant.A_Growth, Constant.TRUE);
+                        selection.put(Constant.A_GROWTH, Constant.TRUE);
                         break;
                 }
             }
@@ -1243,7 +1247,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 resultsTable.setSplitPosition(NumericConstants.SEVEN_HUNDRED, Sizeable.Unit.PIXELS);
                 resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
                 resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
-            } else if ((Constant.CUSTOM).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+            } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
                 resultsTable.setSplitPosition(NumericConstants.EIGHT_HUNDRED, Sizeable.Unit.PIXELS);
                 resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
                 resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -1252,7 +1256,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
             resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
             resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
-        } else if ((Constant.CUSTOM).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
             resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
             resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -1260,7 +1264,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
@@ -1268,14 +1272,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }
-        if ((Constant.CUSTOM).equals(view.getValue())) {
+        if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
             newBtn.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
             viewDdlb.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
             projectionDTO.setIsCustomHierarchy(true);
-            projectionDTO.setHierarchyIndicator(Constant.CUSTOM);
+            projectionDTO.setHierarchyIndicator(Constant.CUSTOM_LABEL);
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
                 if (!session.getCustomHierarchyMap().isEmpty() && customId != 0) {
-                    Utility.loadLevelValue(level, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM);
+                    Utility.loadLevelValue(level, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
                 } else {
                     CommonUtils.resetDdlb(level);
                     CommonUtils.resetDdlb(levelFilter);
@@ -1390,7 +1394,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected void customTreeViewLogic() {
 
         LOGGER.debug("newCustomHierarchhy clickEvent method starts");
-        final CustomTreeBuild customTree = new CustomTreeBuild(Constant.ADD_FULL_SMALL, session);
+        final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
@@ -1411,7 +1415,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void editHierarchyLogic() {
         LOGGER.debug("Entering editHierarchyBtn");
         if (CommonLogic.editButtonValidation(viewDdlb, customViewList)) {
-            final CustomTreeBuild customTree = new CustomTreeBuild(Constant.EDIT, session, customId);
+            final CustomTreeBuild customTree = new CustomTreeBuild( session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
                 @Override
                 public void windowClose(Window.CloseEvent e) {
@@ -1519,7 +1523,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 } else if (!ACTION_VIEW.getConstant().equals(session.getAction()) && Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue()))) {
                     SalesRowDto salesRowDto = (SalesRowDto) itemId;
                     if (Constant.GROUP.equals(propertyId) && (Constant.TRADINGPARTNER.equalsIgnoreCase(salesRowDto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(salesRowDto.getHierarchyLevel()))) {
-                        final TextField textField = new TextField();
+                       final TextField textField = new TextField();
                         textField.setData(getBeanFromId(itemId).getHierarchyNo());
                         textField.setImmediate(true);
                         textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
@@ -1571,7 +1575,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     final Component uiContext) {
                 if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains(Constant.HISTORY_CAPS) && !String.valueOf(propertyId).contains(Constant.ACTUALSALES) && !String.valueOf(propertyId).contains(Constant.ACTUALUNITS)
                         && !String.valueOf(propertyId).contains(Constant.METHODOLOGY) && !String.valueOf(propertyId).contains(Constant.BASELINE) && !String.valueOf(propertyId).contains(Constant.GROUP) && !String.valueOf(propertyId).contains("Dis")
-                        && !String.valueOf(propertyId).contains("ActualReturned") && !String.valueOf(propertyId).contains(Constant.ActualRPU)) {
+                        && !String.valueOf(propertyId).contains("ActualReturned") && !String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
                     final TextField textField = new TextField();
                     final SalesRowDto salesRowDto = getBeanFromId(itemId);
                     textField.setData(propertyId + "~" + salesRowDto.getHierarchyNo());
@@ -1625,7 +1629,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     String changedValue = ((TextField) event.getComponent()).getValue();
                                     changedValue = StringUtils.isBlank(changedValue) || Constant.NULL.equals(changedValue) ? "0.0" : changedValue;
                                     if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
-                                        salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDec, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
+                                        salesLogic.saveEditedRecsReturns(propertyId.toString(), changedValue, incOrDec, salesRowDto, projectionDTO);
                                     } else if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
                                         salesLogic.saveRecords(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
                                     } else {
@@ -1902,7 +1906,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (itemId != null) {
                 int uncheckCount = ((SalesRowDto) itemId).getUncheckCount();
                 uncheckRecordCount += uncheckCount;
-                int ccpCount = Integer.valueOf(((SalesRowDto) itemId).getCcpCount());
                 finalHirarechyNo.add(tableTreeLevelNo);
             }
         }
@@ -1956,7 +1959,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
             }
             if (startPeriod.getValue() != null && endPeriod.getValue() != null && !validateStartEndPeriods(String.valueOf(nmFrequencyDdlb.getValue()), String.valueOf(startPeriod.getValue()), String.valueOf(endPeriod.getValue()))) {
-                AbstractNotificationUtils.getErrorNotification("Error", "The Start Period must be before the End Period.Please try again");
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "The Start Period must be before the End Period.Please try again");
                 return;
             }
             if (fieldDdlb.getValue() == null) {
@@ -2042,8 +2045,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
                 boolean isUpdated = false;
 
-                String enteredValue = StringUtils.EMPTY;
-                enteredValue = Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue())) ? String.valueOf(valueDdlb.getValue()) : String.valueOf(valueTxt.getValue());
+                String enteredValue = Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue())) ? String.valueOf(valueDdlb.getValue()) : String.valueOf(valueTxt.getValue());
 
                 String updateVariable;
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
@@ -2069,7 +2071,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
 
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
-                    Set<String> returnDetilsSidSet = new HashSet<String>();
+                    Set<String> returnDetilsSidSet = new HashSet<>();
                     boolean levelFlag = false;
                     for (String tableTreeLevelNo : getTableLogic().getAllLevels()) {
                         Object itemId = getTableLogic().getcurrentTreeData(tableTreeLevelNo);
@@ -2081,7 +2083,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                             }
                         }
                         if (itemId != null) {
-                            Map<String, Double> selectedValues = new TreeMap<String, Double>();
+                            Map<String, Double> selectedValues = new TreeMap<>();
                             SalesRowDto dto = (SalesRowDto) itemId;
                             boolean levelNoFlag = false;
                             if (Constant.GROWTH_RATE.equals(String.valueOf(fieldDdlb.getValue()))) {
@@ -2208,11 +2210,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 final String historyPeriods;
                 final String projectionPeriods;
 
-                if (adjustPeriod.equals(Constant.All)) {
-                    if (adjMethodology.equals(Constant.HIST_PER_OF_BUISNESS)) {
+                if (adjustPeriod.equals(Constant.ALL)) {
+                    if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
                         historyPeriods = getSelectedHistoryPeriods();
                         if (StringUtils.EMPTY.equals(historyPeriods)) {
-                            AbstractNotificationUtils.getErrorNotification("Improper calculation variables", "Please select a Historic Period");
+                            AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Historic Period");
                             return;
                         }
                         projectionPeriods = getAllProjectionPeriods();
@@ -2220,21 +2222,21 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         historyPeriods = getAllProjectionPeriods();
                         projectionPeriods = getAllProjectionPeriods();
                     }
-                } else if (adjMethodology.equals(Constant.HIST_PER_OF_BUISNESS)) {
+                } else if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
                     historyPeriods = getSelectedHistoryPeriods();
                     if (String.valueOf(historyPeriods).equals(StringUtils.EMPTY)) {
-                        AbstractNotificationUtils.getErrorNotification("Improper calculation variables", "Please select a Historic Period");
+                        AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Historic Period");
                         return;
                     }
                     projectionPeriods = getSelectedProjectionPeriods();
                     if (String.valueOf(projectionPeriods).equals(StringUtils.EMPTY)) {
-                        AbstractNotificationUtils.getErrorNotification("Improper calculation variables", "Please select a Projection Period.");
+                        AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Projection Period.");
                         return;
                     }
                 } else {
                     historyPeriods = getSelectedProjectionPeriods();
                     if (String.valueOf(historyPeriods).equals(StringUtils.EMPTY)) {
-                        AbstractNotificationUtils.getErrorNotification("Improper calculation variables", "Please select a Projection Period.");
+                        AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Projection Period.");
                         return;
                     }
                     projectionPeriods = getSelectedProjectionPeriods();
@@ -2250,28 +2252,28 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     confirmMessage = "Confirm Incremental adjustment";
                     if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
                         if (variable.getValue().equals(Constant.UNIT)) {
-                            messageBody = "You are about to make the following " + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY)
-                                    + " adjustment for the following periods " + projectionPeriods + ".\n Are you sure you want to continue?";
+                            messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY)
+                                    + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                         } else {
-                            messageBody = "You are about to make the following " + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY)
-                                    + " adjustment for the following periods " + projectionPeriods + ".\n Are you sure you want to continue?";
+                            messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY)
+                                    + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                         }
                     } else {
-                        messageBody = "You are about to make the following " + adjValue
-                                + "% adjustment for the following periods " + projectionPeriods + ".\n Are you sure you want to continue?";
+                        messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + adjValue
+                                + "% adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                     }
                 } else if (adjType.equals("Override")) {
                     confirmMessage = "Confirm Override";
                     if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
                         if (variable.getValue().equals(Constant.UNIT)) {
-                            messageBody = "You are about to replace the current values in the list view with the following variable: "
+                            messageBody = Constant.REPLACE_THE_CURRENT_VALUES
                                     + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY) + ". \n Are you sure you want to continue?";
                         } else {
-                            messageBody = "You are about to replace the current values in the list view with the following variable: "
+                            messageBody = Constant.REPLACE_THE_CURRENT_VALUES
                                     + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY) + ". \n Are you sure you want to continue?";
                         }
                     } else {
-                        messageBody = "You are about to replace the current values in the list view with the following variable: "
+                        messageBody = Constant.REPLACE_THE_CURRENT_VALUES
                                 + adjValue + "%. \n Are you sure you want to continue?";
                     }
                 }
@@ -2279,6 +2281,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
+                        return;
                     }
 
                     @Override
@@ -2324,8 +2327,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         for (Object key : checkBoxMap.keySet()) {
             String temp[] = ((String) key).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
-            int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll("[^0-9]", StringUtils.EMPTY)).trim()) : 0;
-            int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll("[^0-9]", StringUtils.EMPTY)).trim()) : 0;
+            int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
+            int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempMonth = MONTHLY.equals(selectedFreq) ? CommonUtils.getMonthNumber(temp[0].trim()) : 0;
             boolean condition = false;
             switch (selectedFreq) {
@@ -2335,7 +2338,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 case Constant.QUARTERLY:
                     condition = tempYear < currentYear || (tempYear == currentYear && tempQuarter < currentQuarter);
                     break;
-                case "Semi-Annual":
+                case Constant.SEMI_ANNUALY:
                     condition = tempYear < currentYear || (tempYear == currentYear && tempSemi < currentSemi);
                     break;
                 case ANNUAL:
@@ -2372,8 +2375,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (!String.valueOf(key).equals(Constant.GROUP)) {
                 String temp[] = ((String) key).split("-");
                 int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
-                int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll("[^0-9]", StringUtils.EMPTY)).trim()) : 0;
-                int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll("[^0-9]", StringUtils.EMPTY)).trim()) : 0;
+                int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
+                int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
                 int tempMonth = MONTHLY.equals(selectedFreq) ? CommonUtils.getMonthNumber(temp[0].trim()) : 0;
                 boolean condition = false;
                 switch (selectedFreq) {
@@ -2383,7 +2386,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     case Constant.QUARTERLY:
                         condition = tempYear > projStartYear || (tempYear == projStartYear && tempQuarter >= projStartQuarter);
                         break;
-                    case "Semi-Annual":
+                    case Constant.SEMI_ANNUALY:
                         condition = tempYear > projStartYear || (tempYear == projStartYear && tempSemi >= projStartSemi);
                         break;
                     case ANNUAL:
@@ -2420,8 +2423,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         for (Object key : checkBoxMap.keySet()) {
             String temp[] = ((String) key).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
-            int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll("[^0-9]", StringUtils.EMPTY)).trim()) : 0;
-            int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll("[^0-9]", StringUtils.EMPTY)).trim()) : 0;
+            int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
+            int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempMonth = MONTHLY.equals(selectedFreq) ? CommonUtils.getMonthNumber(temp[0].trim()) : 0;
             boolean condition = false;
             switch (selectedFreq) {
@@ -2431,7 +2434,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 case Constant.QUARTERLY:
                     condition = tempYear > projStartYear || (tempYear == projStartYear && tempQuarter >= projStartQuarter);
                     break;
-                case "Semi-Annual":
+                case Constant.SEMI_ANNUALY:
                     condition = tempYear > projStartYear || (tempYear == projStartYear && tempSemi >= projStartSemi);
                     break;
                 case ANNUAL:
@@ -2509,12 +2512,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             return;
         }
         if (forecastEndPeriod.getValue() != null && !validateStartEndPeriods(String.valueOf(nmFrequencyDdlb.getValue()), String.valueOf(forecastStartPeriod.getValue()), String.valueOf(forecastEndPeriod.getValue()))) {
-            AbstractNotificationUtils.getErrorNotification("Error", "The Start Period must be before the End Period.Please try again");
+            AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "The Start Period must be before the End Period.Please try again");
             return;
         }
 
         if (!ismultipleDiscount()) {
-            AbstractNotificationUtils.getErrorNotification("Error", "The selected baseline periods are within the Start Period and End Period range.  Please select a baseline period that is prior to the calculation range.");
+            AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "The selected baseline periods are within the Start Period and End Period range.  Please select a baseline period that is prior to the calculation range.");
             return;
         }
         switch (checkBaseLinePeriods(forecastEndPeriod.getValue() != null)) {
@@ -2526,7 +2529,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 return;
 
             case NumericConstants.THREE:
-                AbstractNotificationUtils.getErrorNotification("Error", alertMsg.getString("SP_MSG_ID_03"));
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR, alertMsg.getString("SP_MSG_ID_03"));
                 return;
             case NumericConstants.FOUR:
                 AbstractNotificationUtils.getErrorNotification("No period selected", "Please select at least two historic periods to use as a baseline for each selected discount.");
@@ -2553,76 +2556,79 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 AbstractNotificationUtils.getErrorNotification("Mandatory Error", "Please select either sales or units for all periods,\n cannot combine both sales and units");
                 return;
             }
-            if (StringUtils.isEmpty(selectedPeriods) && !"Average".equalsIgnoreCase(calcMethodology) && !"Customer GTS".equalsIgnoreCase(calcMethodology)) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Please select a Historic Period.");
+            if (StringUtils.isEmpty(selectedPeriods) && !Constant.AVERAGE.equalsIgnoreCase(calcMethodology) && !"Customer GTS".equalsIgnoreCase(calcMethodology)) {
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "Please select a Historic Period.");
                 return;
-            } else if ("Average".equalsIgnoreCase(calcMethodology)) {
+            } else if (Constant.AVERAGE.equalsIgnoreCase(calcMethodology)) {
                 String[] historySelected = selectedPeriods.split(",");
                 if (historySelected.length < NumericConstants.TWO) {
-                    AbstractNotificationUtils.getErrorNotification("Error", "Please select at least two Historic Periods.");
+                    AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "Please select at least two Historic Periods.");
                     return;
                 }
             }
-            if ((calcMethodology.equals("Single Period") || Constant.PERCOFDEMAND.equals(calcMethodology) || Constant.PERCOFEXFACTORYSALES.equals(calcMethodology) || Constant.PERCOFINVENTORYWITHDRAWAL.equals(calcMethodology) || Constant.PERC_OF_ADJUSTED_DEMAND.equals(calcMethodology)) && (selectedPeriods.contains(","))) {
+            if ((calcMethodology.equals(Constant.SINGLE_PERIOD) || Constant.PERCOFDEMAND.equals(calcMethodology) || Constant.PERCOFEXFACTORYSALES.equals(calcMethodology) || Constant.PERCOFINVENTORYWITHDRAWAL.equals(calcMethodology) || Constant.PERC_OF_ADJUSTED_DEMAND.equals(calcMethodology))  && (selectedPeriods.contains(","))) {
                 AbstractNotificationUtils.getErrorNotification("Single period ", "Please select a single period for calculation.");
                 return;
             }
 
-            if (Constant.ROLLINGANNUALTREND.equalsIgnoreCase(calcMethodology)) {
+            if (Constant.ROLLINGANNUALTREND.equalsIgnoreCase(calcMethodology) || Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(calcMethodology)) {
                 String[] historySelected = selectedPeriods.split(",");
 
                 if (QUARTERLY.getConstant().equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length == NumericConstants.FOUR) {
                         if (!String.valueOf(forecastStartPeriod.getValue()).trim().startsWith("Q1")) {
-                            throwErrorMessage();
+                            throwErrorMessage(calcMethodology);
                             return;
                         }
                     } else {
-                        throwErrorMessage();
+                        throwErrorMessage(calcMethodology);
                         return;
                     }
 
                 } else if (SEMI_ANNUAL.getConstant().equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length == NumericConstants.TWO) {
                         if (!String.valueOf(forecastStartPeriod.getValue()).trim().startsWith("S1")) {
-                            throwErrorMessage();
+                            throwErrorMessage(calcMethodology);
                             return;
                         }
                     } else {
-                        throwErrorMessage();
+                        throwErrorMessage(calcMethodology);
                         return;
                     }
                 } else if (ANNUAL.equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length != 1) {
-                        throwErrorMessage();
+                        throwErrorMessage(calcMethodology);
                         return;
                     }
                 } else if (MONTHLY.equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length == NumericConstants.TWELVE) {
                         if (!String.valueOf(forecastStartPeriod.getValue()).startsWith("Jan")) {
-                            throwErrorMessage();
+                            throwErrorMessage(calcMethodology);
                             return;
                         }
                     } else {
-                        throwErrorMessage();
+                        throwErrorMessage(calcMethodology);
                         return;
                     }
                 }
                 if (!getValidation(selectedPeriods)) {
 
-                    throwErrorMessage();
+                    throwErrorMessage(calcMethodology);
                     return;
                 }
             }
             if (!validateStartEndPeriods(String.valueOf(nmFrequencyDdlb.getValue()), String.valueOf(forecastStartPeriod.getValue()), String.valueOf(forecastEndPeriod.getValue()))) {
-                AbstractNotificationUtils.getErrorNotification("Error", "End Period should be greater than Start Period.");
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "End Period should be greater than Start Period.");
                 return;
             } else if (setMethodologiesValuesVal.contains(String.valueOf(methodology.getValue())) && !checkHistorySelectedCount(1)) {
-                NotificationUtils.getErrorNotification("Error", "Please select only one period for the Single Period methodology.");
+                NotificationUtils.getErrorNotification(Constant.ERROR, "Please select only one period for the Single Period methodology.");
             }
             LOGGER.debug("CALC Methodology :" + calcMethodology);
             session.setIsSalesCalculated(true);
             session.setIsSPCalculationDoneAgain(true);
+            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                commonLogic.insertPFDTemp(session, calcMethodology, String.valueOf(allocationBasis.getValue()), true);
+            }
             isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), String.valueOf(forecastEndPeriod.getValue()), String.valueOf(allocationBasis.getValue()));
             refreshTableData(getCheckedRecordsHierarchyNo());
 
@@ -2633,31 +2639,31 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 if (QUARTERLY.getConstant().equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length == NumericConstants.FOUR) {
                         if (!String.valueOf(forecastStartPeriod.getValue()).trim().startsWith("Q1")) {
-                            throwErrorMessage();
+                            throwErrorMessage(calcMethodology);
                             return;
                         }
                     } else {
-                        throwErrorMessage();
+                        throwErrorMessage(calcMethodology);
                         return;
                     }
 
                 } else if (SEMI_ANNUAL.getConstant().equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length == NumericConstants.TWO) {
                         if (!String.valueOf(forecastStartPeriod.getValue()).trim().startsWith("S1")) {
-                            throwErrorMessage();
+                            throwErrorMessage(calcMethodology);
                             return;
                         }
                     } else {
-                        throwErrorMessage();
+                        throwErrorMessage(calcMethodology);
                         return;
                     }
                 } else if (ANNUAL.equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length != 1) {
-                        throwErrorMessage();
+                        throwErrorMessage(calcMethodology);
                         return;
                     }
                 } else if ((MONTHLY.equalsIgnoreCase(projectionDTO.getFrequency())) && (historySelected.length != NumericConstants.TWELVE)) {
-                    throwErrorMessage();
+                    throwErrorMessage(calcMethodology);
                     return;
                 }
             }
@@ -2709,9 +2715,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         if (tempSalesvalue && tempUnitValue) {
             return -1;
 
-        } else if (tempSalesvalue && !tempUnitValue) {
-
-            return 0;
         } else if (!tempSalesvalue && tempUnitValue) {
 
             return 1;
@@ -2727,7 +2730,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * @param history
      * @param flag
      */
-    private void configureFrequency(final ComboBox frequency, final ComboBox history, boolean flag) {
+    private void configureFrequency(final ComboBox frequency, final ComboBox history) {
         frequency.addItem(MONTHLY);
         frequency.addItem(QUARTERLY.getConstant());
 
@@ -2868,7 +2871,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         List<Leveldto> hierarchy = null;
         if (projectionDTO.isIsCustomHierarchy()) {
             hierarchy = session.getCustomHierarchyMap().get(customId);
-            Utility.loadLevelValue(level, levelFilter, null, hierarchy, Constant.CUSTOM);
+            Utility.loadLevelValue(level, levelFilter, null, hierarchy, Constant.CUSTOM_LABEL);
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
             Utility.loadLevelValue(level, levelFilter, populateLevel, session.getCustomerHierarchyList(), String.valueOf(view.getValue()));
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
@@ -2881,9 +2884,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * Configures the table for the excel export.
      */
     protected void configureExcelResultTable() {
-        excelContainer = new ExtTreeContainer<SalesRowDto>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
-        List<String> columnHeader = new ArrayList<String>();
-        List<Object> visibleColumns = new ArrayList<Object>();
+        excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
+        List<String> columnHeader;
+        List<Object> visibleColumns;
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
         if (returnsFlag) {
             excelTable.setRefresh(false);
@@ -2894,31 +2897,17 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             excelTable.setColumnHeaders(excelHeader.getSingleHeaders().toArray(new String[excelHeader.getSingleHeaders().size()]));
             tableLayout.addComponent(excelTable);
         } else {
-            visibleColumns.add(Constant.LEVELNAME);
-            columnHeader.add("Level");
-            visibleColumns.add(Constant.BASELINE);
-            columnHeader.add("Base Line");
-            visibleColumns.add(Constant.METHODOLOGY);
-            columnHeader.add("Methodology");
-
-            for (Object obj : excelHeader.getSingleColumns()) {
-                visibleColumns.add(obj);
-            }
-            for (String header : excelHeader.getSingleHeaders()) {
-                columnHeader.add(StringUtils.EMPTY + header);
-            }
             excelTable.setRefresh(false);
             excelTable.setVisible(Boolean.FALSE);
             excelContainer.setColumnProperties(excelHeader.getProperties());
             excelTable.setContainerDataSource(excelContainer);
-            excelTable.setVisibleColumns(visibleColumns.toArray());
-            excelTable.setColumnHeaders(Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class));
             tableLayout.addComponent(excelTable);
         }
 
     }
 
     protected void levelFilterDdlbChangeOption(boolean excelExport) {
+        LOGGER.debug("excelExport"+excelExport);
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
@@ -3062,9 +3051,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private void setProjectionSelection() {
         Map<Object, Object> map = null;
         if ("Returns".equalsIgnoreCase(screenName)) {
-            map = CommonLogic.getReturnsProjectionSelection(session.getProjectionId(), "Sales Projection");
+            map = CommonLogic.getReturnsProjectionSelection(session.getProjectionId());
         } else {
-            map = CommonLogic.getNMProjectionSelection(session.getProjectionId(), "Sales Projection");
+            map = CommonLogic.getNMProjectionSelection(session.getProjectionId(), Constant.SALES_PROJECTION_LABEL);
         }
 
         if (map != null && !map.isEmpty()) {
@@ -3172,7 +3161,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         if (methodology.getValue() != null && (Constant.PERCOFDEMAND.equals(methodology.getValue()) || Constant.PERCOFEXFACTORY.equals(methodology.getValue())
                 || Constant.PERCOFEXFACTORYSALES.equals(methodology.getValue()) || Constant.PERCOFINVENTORYWITHDRAWAL.equals(methodology.getValue())
-                || Constant.CUSTOMER_GTS.equals(methodology.getValue()) || Constant.PERC_OF_ADJUSTED_DEMAND.equals(methodology.getValue()))) {
+                || Constant.CUSTOMER_GTS.equals(methodology.getValue()) || Constant.PERC_OF_ADJUSTED_DEMAND.equals(methodology.getValue()) || Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equals(methodology.getValue()))) {
             allocationBasis.select(Constant.SELECT_ONE);
             allocationBasis.setEnabled(false);
         } else {
@@ -3189,7 +3178,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         boolean isOne = true;
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-        checkedList = new ArrayList<String>();
+        checkedList = new ArrayList<>();
         for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
             Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
             for (String e : checkedDoubleHeaders.keySet()) {
@@ -3247,10 +3236,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         if (count == 0) {
             m = NumericConstants.THREE;
         }
-        if (methodology.getValue().equals("Average") && count < NumericConstants.TWO && count != 0) {
+        if (methodology.getValue().equals(Constant.AVERAGE) && count < NumericConstants.TWO && count != 0) {
             m = NumericConstants.FOUR;
         }
-        if (methodology.getValue().equals("Single Period") && count > 1) {
+        if (methodology.getValue().equals(Constant.SINGLE_PERIOD) && count > 1) {
             m = NumericConstants.FIVE;
         }
         if (methodology.getValue().equals(Constant.CUSTOMER_GTS)) {
@@ -3320,6 +3309,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     }
 
     public void NonMandatedFilter() {
+        leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
         leftTable.setFilterGenerator(new ExtFilterGenerator() {
 
             @Override
@@ -3345,23 +3335,19 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     return group;
                 } else if (Constant.METHODOLOGY.equals(propertyId)) {
                     TextField metohdologyFilter = new TextField();
-                    metohdologyFilter.setReadOnly(true);
                     metohdologyFilter.setWidth("100%");
                     return metohdologyFilter;
                 } else if (Constant.BASELINE.equals(propertyId)) {
                     TextField baseLineFilter = new TextField();
-                    baseLineFilter.setReadOnly(true);
                     baseLineFilter.setWidth("100%");
                     return baseLineFilter;
                 } else if (Constant.LEVELNAME.equals(propertyId)) {
                     TextField levelField = new TextField();
-                    levelField.setReadOnly(true);
                     levelField.setWidth("100%");
                     return levelField;
                 } else if (Constant.CHECK.equals(propertyId)) {
                     TextField checkField = new TextField();
                     checkField.setWidth("100%");
-                    checkField.setReadOnly(true);
                     return checkField;
                 }
                 return null;
@@ -3369,10 +3355,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             @Override
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             @Override
@@ -3380,6 +3368,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 return null;
             }
         });
+        leftTable.resetFilters();
     }
 
     public void MandatedFilter() {
@@ -3428,10 +3417,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             @Override
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             @Override
@@ -3441,10 +3432,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         });
     }
 
-    private void throwErrorMessage() {
+    private void throwErrorMessage(String calcMethodology) {
+        if(Constant.ROLLINGANNUALTREND.equalsIgnoreCase(calcMethodology) || Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(calcMethodology)){
         AbstractNotificationUtils.getErrorNotification("Select complete annual period",
-                "The Rolling Annual Trend methodology requires a complete calendar year of periods to use as a baseline.\n  Please select a complete calendar year of periods and try again.");
-
+                "The "+calcMethodology+" methodology requires a complete calendar year of periods to use as a baseline.\n  Please select a complete calendar year of periods and try again.");
+        }
     }
 
     private Integer[] getPeriod(Object key, int frequencyDivision) {
@@ -3476,7 +3468,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             if (numoFCustomers > 0) {
 
-                boolean flag = logic.checkActuals(session, Boolean.TRUE);
+                boolean flag = logic.checkActuals(session);
 
                 if (flag) {
                     NotificationUtils.getAlertNotification("Info", "Selected Customer has Actuals");
@@ -3493,7 +3485,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
             int numOfNDC = getCheckedProductCount(logic);
             if (numOfNDC > 0) {
-                boolean flag = logic.checkActuals(session, Boolean.TRUE);
+                boolean flag = logic.checkActuals(session);
 
                 if (flag) {
                     NotificationUtils.getAlertNotification("Info", "Selected NDC has Actuals");
@@ -3510,11 +3502,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     }
 
     public int getCheckedCustomercount(final AlternateHistoryLogic logic) {
-        return logic.getCCPCount(logic.buildCCPCountQuery(true, session), session);
+        return logic.getCCPCount(logic.buildCCPCountQuery(true), session);
     }
 
     public int getCheckedProductCount(final AlternateHistoryLogic logic) {
-        return logic.getCCPCount(logic.buildCCPCountQuery(false, session), session);
+        return logic.getCCPCount(logic.buildCCPCountQuery(false), session);
     }
 
     /**
@@ -3533,8 +3525,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 if (df.parse(end.trim()).after(df.parse(start.trim()))) {
                     return true;
                 }
-                // Assigning Null ,to be destoyed by JVM
-                df = null;
             } else if (frequency.equals(ANNUAL)) {
                 if (Integer.valueOf(end.trim()) > Integer.valueOf(start.trim())) {
                     return true;

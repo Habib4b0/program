@@ -118,7 +118,7 @@ public class FormulaLookup extends Window {
     
     private final ExtFilterTable detailsTable = new ExtFilterTable();
     
-    private BeanItemContainer<RSFormulaDTO> detailsContainer = new BeanItemContainer<RSFormulaDTO>(RSFormulaDTO.class);
+    private BeanItemContainer<RSFormulaDTO> detailsContainer = new BeanItemContainer<>(RSFormulaDTO.class);
     
     @UiField("formulaType")
     private ComboBox formulaType;
@@ -193,8 +193,8 @@ public class FormulaLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);    
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(RsUtils.FORMULA_LOOKUP);
-        resultsTable.setColumnHeaders(RsUtils.FORMULA_LOOKUP_HEADER);    
+        resultsTable.setVisibleColumns(RsUtils.getInstance().formulaLookup);
+        resultsTable.setColumnHeaders(RsUtils.getInstance().formulaLookupHeader);    
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSelectable(true);
         tableLayout.addComponent(resultsTable);
@@ -213,7 +213,7 @@ public class FormulaLookup extends Window {
         resultsTable.setFilterGenerator(new RSFilterGenerate());
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         
-        BeanItemContainer<HelperDTO> container = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         container.addAll(rebateLogic.getHelperIdDetails(RsUtils.REBATE_PLAN_FORMULA_TYPE));
         formulaType.setContainerDataSource(container);
         formulaType.setNullSelectionItemId(dto);
@@ -410,7 +410,7 @@ public class FormulaLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof RSFormulaDTO) {
-            targetItem = new BeanItem<RSFormulaDTO>(
+            targetItem = new BeanItem<>(
                     (RSFormulaDTO) obj);
         }
         return (RSFormulaDTO) targetItem.getBean();

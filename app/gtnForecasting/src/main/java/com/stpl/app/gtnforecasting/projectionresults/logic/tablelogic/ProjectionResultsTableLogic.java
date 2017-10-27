@@ -47,7 +47,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         GtnSmallHashMap map = new GtnSmallHashMap();
         if (firstGenerated && offset > 0) {
             try {
-                List<String> indexList = new ArrayList<String>();
+                List<String> indexList = new ArrayList<>();
                 for (int i = 0; i < getNonFetchableData().size(); i++) {
                     indexList.add(getNonFetchableData().getIndex(i).getKey().toString());
                 }
@@ -213,9 +213,9 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 addExpandedTreeList(customTreeLevel, dto);
                 recursivelyLoadExpandDataForNM(dto, customTreeLevel, expandLevelNo);
             } else {
-                 List<String> detailsList =Collections.EMPTY_LIST;
+                 List<String> detailsList;
                   List<String> hierarchyNoList = Collections.EMPTY_LIST;
-                 String hierarchy=StringUtils.EMPTY;
+                 String hierarchy;
                 String hierarchyIndicator=StringUtils.EMPTY;
                  Map<String, List> relationshipLevelDetailsMap =Collections.EMPTY_MAP ;
                 if(projSelDTO.getLevelCount()!=0){

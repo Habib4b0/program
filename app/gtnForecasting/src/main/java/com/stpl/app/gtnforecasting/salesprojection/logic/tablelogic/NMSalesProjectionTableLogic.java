@@ -16,7 +16,6 @@ import com.vaadin.data.Container;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
@@ -33,7 +32,6 @@ import java.util.logging.Logger;
 public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
 
     ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    private final SalesLogic salesLogic = new SalesLogic();
     int levelNo;
     String hierarchyNo;
     boolean firstGenerated = false;
@@ -53,19 +51,6 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
     public GtnSmallHashMap loadData(int start, int offset) {
         LOGGER.info("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
-//        if (firstGenerated && offset > 0) {
-//            try {
-//                List<SalesRowDto> list = salesLogic.getConfiguredSalesProjection(getLastParent(), start, offset, projSelDTO);
-//                int i = start;
-//                for (SalesRowDto dto : list) {
-//                    map.put(i, dto);
-//                    i++;
-//                }
-//            } catch (Exception ex) {
-//                LOGGER.error(ex);
-//            }
-//        }
-//        LOGGER.info("loadData ended  " + map.size());
         return map;
     }
 
@@ -82,10 +67,10 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
             tree = new SalesProjectionTree();
             int forecastlevel = Integer.valueOf(projSelDTO.getHierarchyIndicator().equals("C") ? projSelDTO.getSessionDTO().getCustomerLevelNumber() : projSelDTO.getSessionDTO().getProductLevelNumber());
             projSelDTO.setTreeLevelNo(forecastlevel);
+            projSelDTO.setHierarchyNo(null);
             tree.buildtree(projSelDTO);
             LevelMap levelMap = new LevelMap(tree.getApex().getNoOfChilds(), getColumnIdToFilterMap());
             addlevelMap("", levelMap);
-//            System.out.println("Size ---- "+ObjectSizeFetcher.getObjectSize(tree));
         }
         firstGenerated = false;
         if (tree != null) {
@@ -193,13 +178,11 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
     @Override
     public GtnSmallHashMap loadBulkData(GtnSmallHashMap bulkDataMap) {
         Set<TreeNode> neededNodeSet = new TreeSet<>();
-        Set<String> dataFetchable = getExpandedTreeDataFetchable();
         for (int i = 0; i < bulkDataMap.size(); i++) {
             String treeLevel = (String) bulkDataMap.getIndex(i).getKey();
             SalesBaseNode parentNode = (SalesBaseNode) tree.getHierarchy(tree.getApex(), treeLevel);
             neededNodeSet.add(parentNode);
             getCurrentPageData().remove(treeLevel);
-//            neededNodeSet.addAll(parentNode.getChildNodeMap().values());
         }
         if (projSelDTO.isIsCustomHierarchy()) {
             loadDataForBulkNode(neededNodeSet);
@@ -210,13 +193,12 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
         return new GtnSmallHashMap();
     }
 
-    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
+    protected void recursivelyLoadExpandData(int expandLevelNo) {
         findRequiredHierarchies(tree.getApex(), expandLevelNo);
 
     }
 
     private void findRequiredHierarchies(SalesBaseNode apex, int expandLevelNo) {
-        int forecastlevel = Integer.valueOf(projSelDTO.getHierarchyIndicator().equals("C") ? projSelDTO.getSessionDTO().getCustomerLevelNumber() : projSelDTO.getSessionDTO().getProductLevelNumber());
         Set<TreeNode> hierarchySet = getHierarchyNodes(apex, expandLevelNo);
         int i = 0;
         int initial = hierarchySet.size() % getItemsPerPage() == 0 ? (hierarchySet.size() / getItemsPerPage()) - 1 : hierarchySet.size() / getItemsPerPage();
@@ -318,7 +300,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
 
     public void loadExpandData(int levelNo) {
         try {
-            recursivelyLoadExpandData(new Object(), StringUtils.EMPTY, levelNo);
+            recursivelyLoadExpandData(levelNo);
             setRecordCount(getCalculatedTotalRecordCount());
             setCurrentPage(getTotalAmountOfPages());
         } catch (Exception e) {

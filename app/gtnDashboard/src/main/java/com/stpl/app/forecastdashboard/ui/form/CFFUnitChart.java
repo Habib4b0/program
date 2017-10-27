@@ -56,8 +56,6 @@ public class CFFUnitChart {
      */
     private static final Logger LOGGER = Logger.getLogger(CFFUnitChart.class);
 
-    private int fromDate = 0;
-    private int toDate = 0;
     private int projId=0;
     private String projType;
     private boolean isStack;
@@ -296,7 +294,7 @@ public class CFFUnitChart {
         mainLayout.addComponent(subLayout);
         mainLayout.addComponent(getChart(projId,projType,freq));
         }catch(Exception e){
-          e.printStackTrace();
+         LOGGER.info(e);
         }       
         
         return mainLayout;

@@ -22,7 +22,9 @@ import org.apache.commons.lang.StringUtils;
  * @author pvinoth
  */
 public class HeaderUtils {
-
+    
+    public static final String PROJECTIONS_RPU = "ProjectionsRPU";
+    public static final String PROJECTIONS_RATE = "ProjectionsRate";
 
     public static CustomTableHeaderDTO getDiscountProjectionResultsLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO, String group) {
 
@@ -38,7 +40,7 @@ public class HeaderUtils {
         return tableHeaderDTO;
     }
 
-    public static CustomTableHeaderDTO getNMDiscountProjectionResultsLeftTableColumns(ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
+    public static CustomTableHeaderDTO getNMDiscountProjectionResultsLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         Object doubleCol = Constant.GROUP;
         Object[] singleCol = {Constant.GROUP};
@@ -112,58 +114,55 @@ public class HeaderUtils {
 
         if (pivotView.contains(Constant.DISCOUNT_SMALL)) {
             for (int i = 0; i < NumericConstants.THREE; i++) {
-                String commonColumn = StringUtils.EMPTY;
+                String commonColumn;
                 String commonHeader = StringUtils.EMPTY;
                 if (i == 0) {
-                    commonColumn = Constant.TOTALDISCOUNT;
                     commonHeader = "Total Discount";
                 } else if (i == 1) {
-                    commonColumn = "MandatedDiscount";
                     commonHeader = Constant.MANDATED_DISCOUNT;
                 } else if (i == NumericConstants.TWO) {
-                    commonColumn = "SupplementalDiscount";
-                    commonHeader = "Supplemental Discount";
+                    commonHeader = Constant.SUPPLEMENTAL_DISCOUNT_LABEL;
                 }
                 commonColumn = commonHeader.replace(" ", StringUtils.EMPTY);
-                List<Object> dmap = new ArrayList<Object>();
-                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("actuals") || projections.contains(ACTUALS.getConstant())) {
-                    Object singleColumn1 = commonColumn + "ActualsRate";
+                List<Object> dmap = new ArrayList<>();
+                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
+                    Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn1, commonHeader + " " + ACTUAL_RATE.getConstant(), String.class);
 
-                    Object singleColumn2 = commonColumn + "ActualsAmount";
+                    Object singleColumn2 = commonColumn + Constant.ACTUALS_AMOUNT;
                     dmap.add(singleColumn2);
                     tableHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn2, commonHeader + " " + ACTUAL_AMOUNT, String.class);
 
-                    Object singleColumn3 = commonColumn + "ActualsRPU";
+                    Object singleColumn3 = commonColumn + Constant.ACTUALS_RPU;
                     dmap.add(singleColumn3);
                     tableHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn3, commonHeader + " " + ACTUAL_RPU, String.class);
                     
-                    Object singleColumn4 = commonColumn + "ActualsEx-Factory";
+                    Object singleColumn4 = commonColumn + Constant.ACTUALS_EX_FACTORY;
                     dmap.add(singleColumn4);
                     tableHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn4, commonHeader + " " + ACTUALEXFACTORY, String.class);
                 }
-                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("projections") || projections.contains(PROJECTIONS.getConstant())) {
-                    Object singleColumn1 = commonColumn + "ProjectionsRate";
+                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.PROJECTIONS1) || projections.contains(PROJECTIONS.getConstant())) {
+                    Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn1, commonHeader + " " + PROJECTED_RATE.getConstant(), String.class);
 
-                    Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                    Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                     dmap.add(singleColumn2);
                     tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn2, commonHeader + " " + PROJECTED_AMOUNT.getConstant(), String.class);
 
-                    Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                    Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                     dmap.add(singleColumn3);
                     tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn3, commonHeader + " " + PROJECTED_RPU, String.class);
                     
-                    Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                    Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                     dmap.add(singleColumn4);
                     tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn4, commonHeader + " " + PROJECTEDEXFACTORY, String.class);
@@ -181,8 +180,8 @@ public class HeaderUtils {
 
             int startPr = projSelDTO.getHistoryStartPeriod();
             int lastPr = frequencyDivision;
-            List<String> periodList = new ArrayList<String>();
-            Map<String, String> periodListMap = new HashMap<String, String>();
+            List<String> periodList = new ArrayList<>();
+            Map<String, String> periodListMap = new HashMap<>();
             for (int yr = projSelDTO.getHistoryStartYear(); yr <= projSelDTO.getForecastDTO().getForecastEndYear(); yr++) {
                 if (yr == projSelDTO.getForecastDTO().getForecastEndYear()) {
                     lastPr = endPeriod;
@@ -206,14 +205,14 @@ public class HeaderUtils {
 
         } else {
 
-            List<String> projectionColumnList = new ArrayList<String>();
-            List<String> projectionHeaderList = new ArrayList<String>();
-            List<Object> singleColumnForExcel = new ArrayList<Object>();
-            List<String> singleHeaderForExcel = new ArrayList<String>();
-            List<Object> doubleColumnForExcel = new ArrayList<Object>();
-            List<String> doubleHeaderForExcel = new ArrayList<String>();
-            Map<Object, Object[]> doubleHeaderMap = new HashMap<Object, Object[]>();
-            List headerListForExcel = new ArrayList();
+            List<String> projectionColumnList = new ArrayList<>();
+            List<String> projectionHeaderList = new ArrayList<>();
+            List<Object> singleColumnForExcel = new ArrayList<>();
+            List<String> singleHeaderForExcel = new ArrayList<>();
+            List<Object> doubleColumnForExcel = new ArrayList<>();
+            List<String> doubleHeaderForExcel = new ArrayList<>();
+            Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
+            List headerListForExcel;
             Object leftColumn = fullHeaderDTO.getSingleColumns().get(0);
             String leftHeader = fullHeaderDTO.getSingleHeaders().get(0);
             int tempYear, j = 0, k = 0;
@@ -249,12 +248,12 @@ public class HeaderUtils {
                 lastPr = frequencyDivision;
                 //History Start Year
                 for (int yr = projSelDTO.getHistoryStartYear(); yr <= projSelDTO.getHistoryEndYear(); yr++) {
-                    singleColumnForExcel = new ArrayList<Object>();
-                    singleHeaderForExcel = new ArrayList<String>();
+                    singleColumnForExcel = new ArrayList<>();
+                    singleHeaderForExcel = new ArrayList<>();
                     headerListForExcel = new ArrayList();
-                    doubleColumnForExcel = new ArrayList<Object>();
-                    doubleHeaderForExcel = new ArrayList<String>();
-                    doubleHeaderMap = new HashMap<Object, Object[]>();
+                    doubleColumnForExcel = new ArrayList<>();
+                    doubleHeaderForExcel = new ArrayList<>();
+                    doubleHeaderMap = new HashMap<>();
                     headerListForExcel.add(singleColumnForExcel);
                     headerListForExcel.add(singleHeaderForExcel);
                     headerListForExcel.add(yr);
@@ -269,34 +268,34 @@ public class HeaderUtils {
                     doubleHeaderForExcel.add(StringUtils.EMPTY);
                     doubleHeaderMap.put(StringUtils.EMPTY, new Object[]{leftColumn});
                     if (!ANNUALLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
-                        List<Object> dmap = new ArrayList<Object>();
+                        List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(1, yr, 0, false);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
                         if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
 
-                            Object singleColumn1 = commonColumn + "ActualsRate";
+                            Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                             dmap.add(singleColumn1);
                             tableHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn1);
                             singleHeaderForExcel.add(ACTUAL_RATE.getConstant());
 
-                            Object singleColumn2 = commonColumn + "ActualsAmount";
+                            Object singleColumn2 = commonColumn + Constant.ACTUALS_AMOUNT;
                             dmap.add(singleColumn2);
                             tableHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn2);
                             singleHeaderForExcel.add(ACTUAL_AMOUNT.getConstant());
 
-                            Object singleColumn3 = commonColumn + "ActualsRPU";
+                            Object singleColumn3 = commonColumn + Constant.ACTUALS_RPU;
                             dmap.add(singleColumn3);
                             tableHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn3);
                             singleHeaderForExcel.add(ACTUAL_RPU.getConstant());
                             
-                            Object singleColumn4 = commonColumn + "ActualsEx-Factory";
+                            Object singleColumn4 = commonColumn + Constant.ACTUALS_EX_FACTORY;
                             dmap.add(singleColumn4);
                             tableHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
@@ -315,28 +314,28 @@ public class HeaderUtils {
                         }
                         if (toAdd) {
 
-                            Object singleColumn1 = commonColumn + "ProjectionsRate";
+                            Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                             dmap.add(singleColumn1);
                             tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn1);
                             singleHeaderForExcel.add(PROJECTED_RATE.getConstant());
 
-                            Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                            Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                             dmap.add(singleColumn2);
                             tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn2);
                             singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
 
-                            Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                            Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                             dmap.add(singleColumn3);
                             tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn3);
                             singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
                             
-                            Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                            Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                             dmap.add(singleColumn4);
                             tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
@@ -363,33 +362,33 @@ public class HeaderUtils {
                         lastPr = yr;
                     }
                     for (int pr = startPr; pr <= lastPr; pr++) {
-                        List<Object> dmap = new ArrayList<Object>();
+                        List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr, false);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
                         if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
-                            Object singleColumn1 = commonColumn + "ActualsRate";
+                            Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                             dmap.add(singleColumn1);
                             tableHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn1);
                             singleHeaderForExcel.add(ACTUAL_RATE.getConstant());
 
-                            Object singleColumn2 = commonColumn + "ActualsAmount";
+                            Object singleColumn2 = commonColumn + Constant.ACTUALS_AMOUNT;
                             dmap.add(singleColumn2);
                             tableHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn2);
                             singleHeaderForExcel.add(ACTUAL_AMOUNT.getConstant());
 
-                            Object singleColumn3 = commonColumn + "ActualsRPU";
+                            Object singleColumn3 = commonColumn + Constant.ACTUALS_RPU;
                             dmap.add(singleColumn3);
                             tableHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn3);
                             singleHeaderForExcel.add(ACTUAL_RPU.getConstant());
                             
-                             Object singleColumn4 = commonColumn + "ActualsEx-Factory";
+                             Object singleColumn4 = commonColumn + Constant.ACTUALS_EX_FACTORY;
                             dmap.add(singleColumn4);
                             tableHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
@@ -407,28 +406,28 @@ public class HeaderUtils {
                             toAdd = true;
                         }
                         if (toAdd) {
-                            Object singleColumn1 = commonColumn + "ProjectionsRate";
+                            Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                             dmap.add(singleColumn1);
                             tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn1);
                             singleHeaderForExcel.add(PROJECTED_RATE.getConstant());
 
-                            Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                            Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                             dmap.add(singleColumn2);
                             tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn2);
                             singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
 
-                            Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                            Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                             dmap.add(singleColumn3);
                             tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn3);
                             singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
                             
-                            Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                            Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                             dmap.add(singleColumn4);
                             tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
@@ -447,8 +446,8 @@ public class HeaderUtils {
                             doubleHeaderMap.put(commonColumn, dmap.toArray());
                         }
                         boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
-                        k = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(".*[a-zA-Z]+.*") ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
-                                : Integer.parseInt(commonColumn.matches(".*[a-zA-Z]+.*") ? commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY) : commonColumn) : 0;
+                        k = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
+                                : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
                     }
                     startPr = 1;
                 }
@@ -456,17 +455,17 @@ public class HeaderUtils {
                 for (int i = 0; i < projectionColumnList.size(); i++) {
                     String commonColumn = projectionColumnList.get(i);
                     String commonHeader = projectionHeaderList.get(i);
-                    List<Object> dmap = new ArrayList<Object>();
+                    List<Object> dmap = new ArrayList<>();
                     boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
-                    tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(".*[a-zA-Z]+.*") ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
-                            : Integer.parseInt(commonColumn.matches(".*[a-zA-Z]+.*") ? commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY) : commonColumn) : 0;
+                    tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
+                            : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
                     if (k != tempYear) {
-                        singleColumnForExcel = new ArrayList<Object>();
-                        singleHeaderForExcel = new ArrayList<String>();
+                        singleColumnForExcel = new ArrayList<>();
+                        singleHeaderForExcel = new ArrayList<>();
                         headerListForExcel = new ArrayList();
-                        doubleColumnForExcel = new ArrayList<Object>();
-                        doubleHeaderForExcel = new ArrayList<String>();
-                        doubleHeaderMap = new HashMap<Object, Object[]>();
+                        doubleColumnForExcel = new ArrayList<>();
+                        doubleHeaderForExcel = new ArrayList<>();
+                        doubleHeaderMap = new HashMap<>();
                         headerListForExcel.add(singleColumnForExcel);
                         headerListForExcel.add(singleHeaderForExcel);
                         headerListForExcel.add(tempYear);
@@ -483,28 +482,28 @@ public class HeaderUtils {
                         k = tempYear;
                     }
 
-                    Object singleColumn1 = commonColumn + "ProjectionsRate";
+                    Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn1);
                     singleHeaderForExcel.add(PROJECTED_RATE.getConstant());
 
-                    Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                    Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                     dmap.add(singleColumn2);
                     tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn2);
                     singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
 
-                    Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                    Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                     dmap.add(singleColumn3);
                     tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn3);
                     singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
                     
-                    Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                    Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                     dmap.add(singleColumn4);
                     tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
@@ -525,7 +524,7 @@ public class HeaderUtils {
                 startPr = projSelDTO.getForecastStartPeriod() == 0 ? 1 : projSelDTO.getForecastStartPeriod();
                 lastPr = frequencyDivision;
                 //Get Forecast Start Year Period
-                Set<Integer> forecastYearList=new HashSet<Integer>();
+                Set<Integer> forecastYearList=new HashSet<>();
                 List<String> forecastColumnList=new ArrayList<>();
                 List<String> forecastHeaderList=new ArrayList<>();
                 for (int yr = projSelDTO.getForecastDTO().getForecastStartYear(); yr <= projSelDTO.getForecastDTO().getForecastEndYear(); yr++) {
@@ -558,15 +557,15 @@ public class HeaderUtils {
                     String commonHeader = forecastHeaderList.get(i);
                     boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
                     tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.substring(NumericConstants.TWO, commonColumn.length()))
-                            : Integer.parseInt(commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY)) : 0;
+                            : Integer.parseInt(commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY)) : 0;
 
                     if (k != tempYear) {
-                        singleColumnForExcel = new ArrayList<Object>();
-                        singleHeaderForExcel = new ArrayList<String>();
+                        singleColumnForExcel = new ArrayList<>();
+                        singleHeaderForExcel = new ArrayList<>();
                         headerListForExcel = new ArrayList();
-                        doubleColumnForExcel = new ArrayList<Object>();
-                        doubleHeaderForExcel = new ArrayList<String>();
-                        doubleHeaderMap = new HashMap<Object, Object[]>();
+                        doubleColumnForExcel = new ArrayList<>();
+                        doubleHeaderForExcel = new ArrayList<>();
+                        doubleHeaderMap = new HashMap<>();
                         headerListForExcel.add(singleColumnForExcel);
                         headerListForExcel.add(singleHeaderForExcel);
                         headerListForExcel.add(tempYear);
@@ -583,29 +582,29 @@ public class HeaderUtils {
                         k = tempYear;
                     }
 
-                    List<Object> dmap = new ArrayList<Object>();
-                    Object singleColumn1 = commonColumn + "ProjectionsRate";
+                    List<Object> dmap = new ArrayList<>();
+                    Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn1);
                     singleHeaderForExcel.add(PROJECTED_RATE.getConstant());
 
-                    Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                    Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                     dmap.add(singleColumn2);
                     tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn2);
                     singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
 
-                    Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                    Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                     dmap.add(singleColumn3);
                     tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn3);
                     singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
                     
-                    Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                    Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                     dmap.add(singleColumn4);
                     tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
@@ -628,12 +627,12 @@ public class HeaderUtils {
                 startPr = projSelDTO.getHistoryStartPeriod();
                 lastPr = frequencyDivision;
                 for (int yr = projSelDTO.getHistoryStartYear(); yr <= projSelDTO.getHistoryEndYear(); yr++) {
-                    singleColumnForExcel = new ArrayList<Object>();
-                    singleHeaderForExcel = new ArrayList<String>();
+                    singleColumnForExcel = new ArrayList<>();
+                    singleHeaderForExcel = new ArrayList<>();
                     headerListForExcel = new ArrayList();
-                    doubleColumnForExcel = new ArrayList<Object>();
-                    doubleHeaderForExcel = new ArrayList<String>();
-                    doubleHeaderMap = new HashMap<Object, Object[]>();
+                    doubleColumnForExcel = new ArrayList<>();
+                    doubleHeaderForExcel = new ArrayList<>();
+                    doubleHeaderMap = new HashMap<>();
                     headerListForExcel.add(singleColumnForExcel);
                     headerListForExcel.add(singleHeaderForExcel);
                     headerListForExcel.add(yr);
@@ -648,7 +647,7 @@ public class HeaderUtils {
                     doubleHeaderForExcel.add(StringUtils.EMPTY);
                     doubleHeaderMap.put(StringUtils.EMPTY, new Object[]{leftColumn});
                     if (!ANNUALLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
-                        List<Object> dmap = new ArrayList<Object>();
+                        List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(1, yr, 0, false);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
@@ -663,28 +662,28 @@ public class HeaderUtils {
                         }
                         if (toAdd) {
                             
-                            Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                            Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                             dmap.add(singleColumn4);
                             tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn4);
                             singleHeaderForExcel.add(PROJECTEDEXFACTORY.getConstant());
 
-                            Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                            Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                             dmap.add(singleColumn3);
                             tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn3);
                             singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
 
-                            Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                            Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                             dmap.add(singleColumn2);
                             tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn2);
                             singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
 
-                            Object singleColumn1 = commonColumn + "ProjectionsRate";
+                            Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                             dmap.add(singleColumn1);
                             tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
@@ -694,28 +693,28 @@ public class HeaderUtils {
                         }
                         if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
 
-                            Object singleColumn4 = commonColumn + "ActualsEx-Factory";
+                            Object singleColumn4 = commonColumn + Constant.ACTUALS_EX_FACTORY;
                             dmap.add(singleColumn4);
                             tableHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn4);
                             singleHeaderForExcel.add(ACTUALEXFACTORY.getConstant());
                             
-                            Object singleColumn3 = commonColumn + "ActualsRPU";
+                            Object singleColumn3 = commonColumn + Constant.ACTUALS_RPU;
                             dmap.add(singleColumn3);
                             tableHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn3);
                             singleHeaderForExcel.add(ACTUAL_RPU.getConstant());
 
-                            Object singleColumn2 = commonColumn + "ActualsAmount";
+                            Object singleColumn2 = commonColumn + Constant.ACTUALS_AMOUNT;
                             dmap.add(singleColumn2);
                             tableHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn2);
                             singleHeaderForExcel.add(ACTUAL_AMOUNT.getConstant());
 
-                            Object singleColumn1 = commonColumn + "ActualsRate";
+                            Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                             dmap.add(singleColumn1);
                             tableHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
@@ -743,7 +742,7 @@ public class HeaderUtils {
                         lastPr = yr;
                     }
                     for (int pr = startPr; pr <= lastPr; pr++) {
-                        List<Object> dmap = new ArrayList<Object>();
+                        List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr, false);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
@@ -758,28 +757,28 @@ public class HeaderUtils {
                         }
                         if (toAdd) {
                             
-                            Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                            Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                             dmap.add(singleColumn4);
                             tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn4);
                             singleHeaderForExcel.add(PROJECTEDEXFACTORY.getConstant());
                             
-                            Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                            Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                             dmap.add(singleColumn3);
                             tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn3);
                             singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
 
-                            Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                            Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                             dmap.add(singleColumn2);
                             tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn2);
                             singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
 
-                            Object singleColumn1 = commonColumn + "ProjectionsRate";
+                            Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                             dmap.add(singleColumn1);
                             tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
@@ -789,28 +788,28 @@ public class HeaderUtils {
                         }
                         if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
                             
-                            Object singleColumn4 = commonColumn + "ActualsEx-Factory";
+                            Object singleColumn4 = commonColumn + Constant.ACTUALS_EX_FACTORY;
                             dmap.add(singleColumn4);
                             tableHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn4);
                             singleHeaderForExcel.add(ACTUALEXFACTORY.getConstant());
                             
-                            Object singleColumn3 = commonColumn + "ActualsRPU";
+                            Object singleColumn3 = commonColumn + Constant.ACTUALS_RPU;
                             dmap.add(singleColumn3);
                             tableHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn3);
                             singleHeaderForExcel.add(ACTUAL_RPU.getConstant());
 
-                            Object singleColumn2 = commonColumn + "ActualsAmount";
+                            Object singleColumn2 = commonColumn + Constant.ACTUALS_AMOUNT;
                             dmap.add(singleColumn2);
                             tableHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                             singleColumnForExcel.add(singleColumn2);
                             singleHeaderForExcel.add(ACTUAL_AMOUNT.getConstant());
 
-                            Object singleColumn1 = commonColumn + "ActualsRate";
+                            Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                             dmap.add(singleColumn1);
                             tableHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                             fullHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
@@ -830,8 +829,8 @@ public class HeaderUtils {
                             doubleHeaderMap.put(commonColumn, dmap.toArray());
                         }
                         boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
-                        k = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(".*[a-zA-Z]+.*") ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
-                                : Integer.parseInt(commonColumn.matches(".*[a-zA-Z]+.*") ? commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY) : commonColumn) : 0;
+                        k = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
+                                : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
                     }
                     startPr = 1;
                 }
@@ -839,17 +838,17 @@ public class HeaderUtils {
                 for (int i = 0; i < projectionColumnList.size(); i++) {
                     String commonColumn = projectionColumnList.get(i);
                     String commonHeader = projectionHeaderList.get(i);
-                    List<Object> dmap = new ArrayList<Object>();
+                    List<Object> dmap = new ArrayList<>();
                     boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
-                    tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(".*[a-zA-Z]+.*") ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
-                            : Integer.parseInt(commonColumn.matches(".*[a-zA-Z]+.*") ? commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY) : commonColumn) : 0;
+                    tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.substring(NumericConstants.TWO, commonColumn.length()) : commonColumn)
+                            : Integer.parseInt(commonColumn.matches(Constant.REGEX_AZ) ? commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY) : commonColumn) : 0;
                     if (k != tempYear) {
-                        singleColumnForExcel = new ArrayList<Object>();
-                        singleHeaderForExcel = new ArrayList<String>();
+                        singleColumnForExcel = new ArrayList<>();
+                        singleHeaderForExcel = new ArrayList<>();
                         headerListForExcel = new ArrayList();
-                        doubleColumnForExcel = new ArrayList<Object>();
-                        doubleHeaderForExcel = new ArrayList<String>();
-                        doubleHeaderMap = new HashMap<Object, Object[]>();
+                        doubleColumnForExcel = new ArrayList<>();
+                        doubleHeaderForExcel = new ArrayList<>();
+                        doubleHeaderMap = new HashMap<>();
                         headerListForExcel.add(singleColumnForExcel);
                         headerListForExcel.add(singleHeaderForExcel);
                         headerListForExcel.add(tempYear);
@@ -866,28 +865,28 @@ public class HeaderUtils {
                         k = tempYear;
                     }
 
-                    Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                    Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                     dmap.add(singleColumn4);
                     tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn4);
                     singleHeaderForExcel.add(PROJECTEDEXFACTORY.getConstant());
                     
-                    Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                    Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                     dmap.add(singleColumn3);
                     tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn3);
                     singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
 
-                    Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                    Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                     dmap.add(singleColumn2);
                     tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn2);
                     singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
 
-                    Object singleColumn1 = commonColumn + "ProjectionsRate";
+                    Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
@@ -939,15 +938,15 @@ public class HeaderUtils {
                     String commonHeader = forecastHeaderList.get(i);
                     boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
                     tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.substring(NumericConstants.TWO, commonColumn.length()))
-                            : Integer.parseInt(commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY)) : 0;
+                            : Integer.parseInt(commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY)) : 0;
 
                         if (k != tempYear) {
-                            singleColumnForExcel = new ArrayList<Object>();
-                            singleHeaderForExcel = new ArrayList<String>();
+                            singleColumnForExcel = new ArrayList<>();
+                            singleHeaderForExcel = new ArrayList<>();
                             headerListForExcel = new ArrayList();
-                            doubleColumnForExcel = new ArrayList<Object>();
-                            doubleHeaderForExcel = new ArrayList<String>();
-                            doubleHeaderMap = new HashMap<Object, Object[]>();
+                            doubleColumnForExcel = new ArrayList<>();
+                            doubleHeaderForExcel = new ArrayList<>();
+                            doubleHeaderMap = new HashMap<>();
                             headerListForExcel.add(singleColumnForExcel);
                             headerListForExcel.add(singleHeaderForExcel);
                             headerListForExcel.add(tempYear);
@@ -963,30 +962,30 @@ public class HeaderUtils {
                             doubleHeaderMap.put(StringUtils.EMPTY, new Object[]{leftColumn});
                             k = tempYear;
                         }
-                        List<Object> dmap = new ArrayList<Object>();
+                        List<Object> dmap = new ArrayList<>();
                         
-                        Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                        Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                         dmap.add(singleColumn4);
                         tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                         fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                         singleColumnForExcel.add(singleColumn4);
                         singleHeaderForExcel.add(PROJECTEDEXFACTORY.getConstant());
                         
-                        Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                        Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                         dmap.add(singleColumn3);
                         tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                         fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                         singleColumnForExcel.add(singleColumn3);
                         singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
 
-                        Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                        Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                         dmap.add(singleColumn2);
                         tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                         fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                         singleColumnForExcel.add(singleColumn2);
                         singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
 
-                        Object singleColumn1 = commonColumn + "ProjectionsRate";
+                        Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                         dmap.add(singleColumn1);
                         tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                         fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
@@ -1014,7 +1013,7 @@ public class HeaderUtils {
     }
     
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period, boolean isNMDPR) {
-        List<String> common = new ArrayList<String>();
+        List<String> common = new ArrayList<>();
         String commonColumn = StringUtils.EMPTY;
         String commonHeader = StringUtils.EMPTY;
         if (frequencyDivision == 1) {
@@ -1062,53 +1061,53 @@ public class HeaderUtils {
     private static void getPCHeaders(List<Object> pcNameList, String projections, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO fullHeaderDTO, String mandOrSupp) {
         if (pcNameList != null && !pcNameList.isEmpty()) {
             for (int i = 0; i < pcNameList.size(); i++) {
-                String commonColumn = StringUtils.EMPTY;
-                String commonHeader = StringUtils.EMPTY;
+                String commonColumn;
+                String commonHeader;
                 String pcName = String.valueOf(pcNameList.get(i));
 
                 commonColumn = StringUtils.isNotBlank(pcName) ? pcName : StringUtils.EMPTY;
                 commonHeader = commonColumn;
                 commonColumn = commonHeader + mandOrSupp;
-                List<Object> dmap = new ArrayList<Object>();
-                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("actuals") || projections.contains(ACTUALS.getConstant())) {
-                    Object singleColumn1 = commonColumn + "ActualsRate";
+                List<Object> dmap = new ArrayList<>();
+                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
+                    Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn1, commonHeader + " " + ACTUAL_RATE.getConstant(), String.class);
 
-                    Object singleColumn2 = commonColumn + "ActualsAmount";
+                    Object singleColumn2 = commonColumn + Constant.ACTUALS_AMOUNT;
                     dmap.add(singleColumn2);
                     tableHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn2, commonHeader + " " + ACTUAL_AMOUNT.getConstant(), String.class);
 
-                    Object singleColumn3 = commonColumn + "ActualsRPU";
+                    Object singleColumn3 = commonColumn + Constant.ACTUALS_RPU;
                     dmap.add(singleColumn3);
                     tableHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn3, commonHeader + " " + ACTUAL_RPU.getConstant(), String.class);
                     
-                    Object singleColumn4 = commonColumn + "ActualsEx-Factory";
+                    Object singleColumn4 = commonColumn + Constant.ACTUALS_EX_FACTORY;
                     dmap.add(singleColumn4);
                     tableHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn4, commonHeader + " " + ACTUALEXFACTORY.getConstant(), String.class);
                     
                 }
-                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("projections") || projections.contains(PROJECTIONS.getConstant())) {
-                    Object singleColumn1 = commonColumn + "ProjectionsRate";
+                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.PROJECTIONS1) || projections.contains(PROJECTIONS.getConstant())) {
+                    Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn1, commonHeader + " " + PROJECTED_RATE.getConstant(), String.class);
 
-                    Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                    Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                     dmap.add(singleColumn2);
                     tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn2, commonHeader + " " + PROJECTED_AMOUNT.getConstant(), String.class);
 
-                    Object singleColumn3 = commonColumn + "ProjectionsRPU";
+                    Object singleColumn3 = commonColumn + PROJECTIONS_RPU;
                     dmap.add(singleColumn3);
                     tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn3, commonHeader + " " + PROJECTED_RPU.getConstant(), String.class);
                     
-                    Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                    Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                     dmap.add(singleColumn4);
                     tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn4, commonHeader + " " + PROJECTEDEXFACTORY.getConstant(), String.class);
@@ -1186,8 +1185,8 @@ public class HeaderUtils {
                     String commonColumn =discountNo.get(i);
                     String commonHeader =discountNames.get(i);
                     commonHeader = commonHeader.replace(" ", StringUtils.EMPTY);
-                    List<Object> dmap = new ArrayList<Object>();
-                    if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("actuals") || projections.contains(ACTUALS.getConstant())) {
+                    List<Object> dmap = new ArrayList<>();
+                    if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
                         Object singleColumn;
                         if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
                             singleColumn = commonColumn+ ACTUALRATE.getConstant();
@@ -1216,7 +1215,7 @@ public class HeaderUtils {
                         }
                         
                     }
-                    if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("projections") || projections.contains(PROJECTIONS.getConstant())) {
+                    if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.PROJECTIONS1) || projections.contains(PROJECTIONS.getConstant())) {
                         Object singleColumn;
                         if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
                             singleColumn = commonColumn+ PROJECTEDRATE.getConstant();
@@ -1265,31 +1264,31 @@ public class HeaderUtils {
         } else {
             List<String> periodList = projSelDTO.getPeriodList();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
-            List<Object> singleColumnForExcel = new ArrayList<Object>();
-            List<String> singleHeaderForExcel = new ArrayList<String>();
-            List<Object> doubleColumnForExcel = new ArrayList<Object>();
-            List<String> doubleHeaderForExcel = new ArrayList<String>();
-            Map<Object, Object[]> doubleHeaderMap = new HashMap<Object, Object[]>();
-            List headerListForExcel = new ArrayList();
+            List<Object> singleColumnForExcel = new ArrayList<>();
+            List<String> singleHeaderForExcel = new ArrayList<>();
+            List<Object> doubleColumnForExcel = new ArrayList<>();
+            List<String> doubleHeaderForExcel = new ArrayList<>();
+            Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
+            List headerListForExcel;
             Object leftColumn = fullHeaderDTO.getSingleColumns().get(0);
             String leftHeader = fullHeaderDTO.getSingleHeaders().get(0);
             int tempYear, j = 0, k = 0;
             for (int i = 0; i < periodList.size(); i++) {
-                List<Object> dmap = new ArrayList<Object>();
+                List<Object> dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn);
                 boolean historyFlag = false;
                 boolean projectionCol = false;
                 boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
                 tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.substring(NumericConstants.TWO, commonColumn.length()))
-                        : Integer.parseInt(commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY)) : 0;
+                        : Integer.parseInt(commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY)) : 0;
                 if (k != tempYear) {
-                    singleColumnForExcel = new ArrayList<Object>();
-                    singleHeaderForExcel = new ArrayList<String>();
+                    singleColumnForExcel = new ArrayList<>();
+                    singleHeaderForExcel = new ArrayList<>();
                     headerListForExcel = new ArrayList();
-                    doubleColumnForExcel = new ArrayList<Object>();
-                    doubleHeaderForExcel = new ArrayList<String>();
-                    doubleHeaderMap = new HashMap<Object, Object[]>();
+                    doubleColumnForExcel = new ArrayList<>();
+                    doubleHeaderForExcel = new ArrayList<>();
+                    doubleHeaderMap = new HashMap<>();
                     headerListForExcel.add(singleColumnForExcel);
                     headerListForExcel.add(singleHeaderForExcel);
                     headerListForExcel.add(tempYear);
@@ -1428,8 +1427,8 @@ public class HeaderUtils {
         int historyEndIndex = -1;
         int projectionEndIndex = -1;
         int forecastEndIndex = -1;
-        List<String> periodList = new ArrayList<String>();
-        Map<String, String> periodListMap = new HashMap<String, String>();
+        List<String> periodList = new ArrayList<>();
+        Map<String, String> periodListMap = new HashMap<>();
         int startPr = projSelDTO.getHistoryStartPeriod();
         int lastPr = frequencyDivision;
         if (year != 0) {
@@ -1489,7 +1488,6 @@ public class HeaderUtils {
 
             //Calculating projection
             startPr = projSelDTO.getProjectionStartPeriod() == 0 ? 1 : projSelDTO.getProjectionStartPeriod();
-            lastPr = frequencyDivision;
             int projectionStartYear = projSelDTO.getProjectionStartYear();
             int projectionEndYear = projSelDTO.getForecastDTO().getProjectionEndYear();
             lastPr = projSelDTO.getProjectionEndPeriod();
@@ -1505,8 +1503,6 @@ public class HeaderUtils {
 
             //Calculating history
             startPr = projSelDTO.getHistoryStartPeriod();
-            lastPr = frequencyDivision;
-            historyStartIndex = 0;
             int historyStartYear = projSelDTO.getHistoryStartYear();
             int historyEndYear = projSelDTO.getHistoryEndYear();
             lastPr = projSelDTO.getHistoryEndPeriod();
@@ -1521,7 +1517,6 @@ public class HeaderUtils {
 
             //Calculating forecast
             startPr = projSelDTO.getForecastStartPeriod();
-            lastPr = frequencyDivision;
 
             int forecastStartYear = projSelDTO.getForecastDTO().getForecastStartYear();
             int forecastEndYear = projSelDTO.getForecastDTO().getForecastEndYear();
@@ -1619,7 +1614,7 @@ public class HeaderUtils {
         return true;
     }
 
-    public static CustomTableHeaderDTO getDiscountProjectionResultsLeftTableColumn(ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
+    public static CustomTableHeaderDTO getDiscountProjectionResultsLeftTableColumn(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         Object doubleCol = Constant.GROUP;
         Object[] singleCol = {Constant.GROUP};
@@ -1684,50 +1679,50 @@ public class HeaderUtils {
         Map<Integer, List> periodListMapForExcel = new HashMap<>();
 
         if (pivotView.contains(Constant.DISCOUNT_SMALL)) {
-            String commonColumn = StringUtils.EMPTY;
+            String commonColumn;
             String commonHeader = "Total Discount";
             commonColumn = commonHeader.replace(" ", StringUtils.EMPTY);
-            List<Object> dmap = new ArrayList<Object>();
-            if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("actuals") || projections.contains(Constant.ACTUALS)) {
-                Object singleColumn1 = commonColumn + "ActualsRate";
+            List<Object> dmap = new ArrayList<>();
+            if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(Constant.ACTUALS)) {
+                Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                 dmap.add(singleColumn1);
                 tableHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn1, commonHeader + " " + ACTUAL_RATE.getConstant(), String.class);
 
-                Object singleColumn2 = commonColumn + "ActualsAmount";
+                Object singleColumn2 = commonColumn + Constant.ACTUALS_AMOUNT;
                 dmap.add(singleColumn2);
                 tableHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn2, commonHeader + " " + ACTUAL_AMOUNT.getConstant(), String.class);
 
-                Object singleColumn3 = commonColumn + "ActualsRPU";
+                Object singleColumn3 = commonColumn + Constant.ACTUALS_RPU;
                 dmap.add(singleColumn3);
                 tableHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn3, commonHeader + " " + ACTUAL_RPU.getConstant(), String.class);
                 
-                 Object singleColumn4 = commonColumn + "ActualsEx-Factory";
+                 Object singleColumn4 = commonColumn + Constant.ACTUALS_EX_FACTORY;
                 dmap.add(singleColumn4);
                 tableHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn4, commonHeader + " " + ACTUALEXFACTORY.getConstant(), String.class);
                 
             }
-            if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("projections") || projections.contains(Constant.PROJECTIONS)) {
+            if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.PROJECTIONS1) || projections.contains(Constant.PROJECTIONS)) {
 
-                Object singleColumn3 = commonColumn + Constant.ProjectedRPU;
+                Object singleColumn3 = commonColumn + Constant.PROJECTEDRPU;
                 dmap.add(singleColumn3);
                 tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn3, commonHeader + " " + PROJECTED_RPU.getConstant(), String.class);
 
-                Object singleColumn1 = commonColumn + "ProjectionsRate";
+                Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                 dmap.add(singleColumn1);
                 tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn1, commonHeader + " " + PROJECTED_RATE.getConstant(), String.class);
 
-                Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                 dmap.add(singleColumn2);
                 tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn2, commonHeader + " " + PROJECTED_AMOUNT.getConstant(), String.class);
             
-               Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+               Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                 dmap.add(singleColumn4);
                 tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn4, commonHeader + " " + PROJECTEDEXFACTORY.getConstant(), String.class);
@@ -1742,8 +1737,8 @@ public class HeaderUtils {
 
             int startPr = startPeriod;
             int lastPr = frequencyDivision;
-            List<String> periodList = new ArrayList<String>();
-            Map<String, String> periodListMap = new HashMap<String, String>();
+            List<String> periodList = new ArrayList<>();
+            Map<String, String> periodListMap = new HashMap<>();
             for (int yr = startYear; yr <= endYear; yr++) {
                 if (yr == endYear) {
                     lastPr = endPeriod;
@@ -1769,31 +1764,31 @@ public class HeaderUtils {
         } else {
             List<String> periodList = projSelDTO.getPeriodList();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
-            List<Object> singleColumnForExcel = new ArrayList<Object>();
-            List<String> singleHeaderForExcel = new ArrayList<String>();
-            List<Object> doubleColumnForExcel = new ArrayList<Object>();
-            List<String> doubleHeaderForExcel = new ArrayList<String>();
-            Map<Object, Object[]> doubleHeaderMap = new HashMap<Object, Object[]>();
-            List headerListForExcel = new ArrayList();
+            List<Object> singleColumnForExcel = new ArrayList<>();
+            List<String> singleHeaderForExcel = new ArrayList<>();
+            List<Object> doubleColumnForExcel = new ArrayList<>();
+            List<String> doubleHeaderForExcel = new ArrayList<>();
+            Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
+            List headerListForExcel;
             Object leftColumn = fullHeaderDTO.getSingleColumns().get(0);
             String leftHeader = fullHeaderDTO.getSingleHeaders().get(0);
             int tempYear, j = 0, k = 0;
             for (int i = 0; i < periodList.size(); i++) {
-                List<Object> dmap = new ArrayList<Object>();
+                List<Object> dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn);
                 boolean historyFlag = false;
                 boolean projectionCol = false;
                 boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;
                 tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.substring(NumericConstants.TWO, commonColumn.length()))
-                        : Integer.parseInt(commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY)) : 0;
+                        : Integer.parseInt(commonColumn.replaceAll(Constant.REGEX_D, StringUtils.EMPTY)) : 0;
                 if (k != tempYear) {
-                    singleColumnForExcel = new ArrayList<Object>();
-                    singleHeaderForExcel = new ArrayList<String>();
+                    singleColumnForExcel = new ArrayList<>();
+                    singleHeaderForExcel = new ArrayList<>();
                     headerListForExcel = new ArrayList();
-                    doubleColumnForExcel = new ArrayList<Object>();
-                    doubleHeaderForExcel = new ArrayList<String>();
-                    doubleHeaderMap = new HashMap<Object, Object[]>();
+                    doubleColumnForExcel = new ArrayList<>();
+                    doubleHeaderForExcel = new ArrayList<>();
+                    doubleHeaderMap = new HashMap<>();
                     headerListForExcel.add(singleColumnForExcel);
                     headerListForExcel.add(singleHeaderForExcel);
                     headerListForExcel.add(tempYear);
@@ -1814,28 +1809,28 @@ public class HeaderUtils {
 
                     if (projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS)) {
 
-                        Object singleColumn1 = commonColumn + "ActualsRate";
+                        Object singleColumn1 = commonColumn + Constant.ACTUALS_RATE;
                         dmap.add(singleColumn1);
                         tableHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                         fullHeaderDTO.addSingleColumn(singleColumn1, ACTUAL_RATE.getConstant(), String.class);
                         singleColumnForExcel.add(singleColumn1);
                         singleHeaderForExcel.add(ACTUAL_RATE.getConstant());
 
-                        Object singleColumn2 = commonColumn + "ActualsAmount";
+                        Object singleColumn2 = commonColumn + Constant.ACTUALS_AMOUNT;
                         dmap.add(singleColumn2);
                         tableHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                         fullHeaderDTO.addSingleColumn(singleColumn2, ACTUAL_AMOUNT.getConstant(), String.class);
                         singleColumnForExcel.add(singleColumn2);
                         singleHeaderForExcel.add(ACTUAL_AMOUNT.getConstant());
 
-                        Object singleColumn3 = commonColumn + "ActualsRPU";
+                        Object singleColumn3 = commonColumn + Constant.ACTUALS_RPU;
                         dmap.add(singleColumn3);
                         tableHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                         fullHeaderDTO.addSingleColumn(singleColumn3, ACTUAL_RPU.getConstant(), String.class);
                         singleColumnForExcel.add(singleColumn3);
                         singleHeaderForExcel.add(ACTUAL_RPU.getConstant());
                         
-                         Object singleColumn4 = commonColumn + "ActualsEx-Factory";
+                         Object singleColumn4 = commonColumn + Constant.ACTUALS_EX_FACTORY;
                         dmap.add(singleColumn4);
                         tableHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
                         fullHeaderDTO.addSingleColumn(singleColumn4, ACTUALEXFACTORY.getConstant(), String.class);
@@ -1855,27 +1850,27 @@ public class HeaderUtils {
                 }
 
                 if (projectionCol) {
-                    Object singleColumn3 = commonColumn + Constant.ProjectedRPU;
+                    Object singleColumn3 = commonColumn + Constant.PROJECTEDRPU;
                     dmap.add(singleColumn3);
                     tableHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn3, PROJECTED_RPU.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn3);
                     singleHeaderForExcel.add(PROJECTED_RPU.getConstant());
 
-                    Object singleColumn1 = commonColumn + "ProjectionsRate";
+                    Object singleColumn1 = commonColumn + PROJECTIONS_RATE;
                     dmap.add(singleColumn1);
                     tableHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn1, PROJECTED_RATE.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn1);
                     singleHeaderForExcel.add(PROJECTED_RATE.getConstant());
 
-                    Object singleColumn2 = commonColumn + "ProjectionsAmount";
+                    Object singleColumn2 = commonColumn + Constant.PROJECTIONS_AMOUNT;
                     dmap.add(singleColumn2);
                     tableHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn2, PROJECTED_AMOUNT.getConstant(), String.class);
                     singleColumnForExcel.add(singleColumn2);
                     singleHeaderForExcel.add(PROJECTED_AMOUNT.getConstant());
-                    Object singleColumn4 = commonColumn + "ProjectionsEx-Factory";
+                    Object singleColumn4 = commonColumn + Constant.PROJECTIONS_EX_FACTORY;
                     dmap.add(singleColumn4);
                     tableHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);
                     fullHeaderDTO.addSingleColumn(singleColumn4, PROJECTEDEXFACTORY.getConstant(), String.class);

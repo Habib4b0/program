@@ -21,7 +21,6 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +48,7 @@ public class AddDiscountForm extends CustomComponent implements View {
     /**
      * The tab lazy load map.
      */
-    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<Integer, Boolean>();
+    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
 
     /**
      * The previous btn.
@@ -93,7 +92,7 @@ public class AddDiscountForm extends CustomComponent implements View {
     StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
 
-    public AddDiscountForm(AddDiscountWindow editWindow, List<RemoveDiscountDto> removeList, SessionDTO session) throws SystemException {
+    public AddDiscountForm(AddDiscountWindow editWindow, List<RemoveDiscountDto> removeList, SessionDTO session) {
         this.editWindow = editWindow;
         this.resultTable = resultTable;
         this.removeList = removeList;
@@ -136,7 +135,7 @@ public class AddDiscountForm extends CustomComponent implements View {
                 buttonEnableLogic(tabPosition, tabSheet.getComponentCount() - 1);
 
                 try {
-                    onTabChange(tabPosition);
+                    onTabChange();
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
@@ -156,7 +155,7 @@ public class AddDiscountForm extends CustomComponent implements View {
         if (tabPosition != 0) {
             existingDiscountTab.componentTypeDdlb.focus();
             previousBtn.setVisible(true);
-        } else if (tabPosition == 0) {
+        } else {
             newDiscountTab.componentTypeddlb.focus();
             previousBtn.setVisible(false);
         }
@@ -176,8 +175,8 @@ public class AddDiscountForm extends CustomComponent implements View {
      *
      * @param tabPosition the tab position
      */
-    protected void onTabChange(int tabPosition) throws PortalException, SystemException {
-
+    protected void onTabChange() throws PortalException, SystemException {
+        return;
     }
 
     /**
@@ -185,8 +184,8 @@ public class AddDiscountForm extends CustomComponent implements View {
      *
      * @param tabPosition the tab position
      */
-    protected void lazyLoadTab(int tabPosition) {
-
+    protected void lazyLoadTab() {
+        return;
     }
 
     /**
@@ -230,6 +229,7 @@ public class AddDiscountForm extends CustomComponent implements View {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Close", "Are you sure you want to close the popup ?");
     }
@@ -259,7 +259,7 @@ public class AddDiscountForm extends CustomComponent implements View {
         tabFlag = true;
     }
 
-    private void saveDiscount() throws SystemException {
+    private void saveDiscount() {
         if (tabPosition == 0) {
             newDiscountTab.addDiscountSaveLogic();
         }
@@ -270,7 +270,7 @@ public class AddDiscountForm extends CustomComponent implements View {
     }
 
     public void detachListeners(TabSheet tabsheet) {
-        List<TabSheet.SelectedTabChangeListener> listeners = new ArrayList<TabSheet.SelectedTabChangeListener>();
+        List<TabSheet.SelectedTabChangeListener> listeners;
 
         listeners = (List<TabSheet.SelectedTabChangeListener>) tabsheet
                 .getListeners(TabSheet.SelectedTabChangeEvent.class);

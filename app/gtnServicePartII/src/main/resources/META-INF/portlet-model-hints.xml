@@ -686,6 +686,8 @@
 		<field name="shelfLife" type="String" />
 		<field name="marketTerminationDate" type="String" />
 		<field name="checkRecord" type="boolean" />
+		<field name="baseCpiPrecision" type="int" />
+		<field name="baselineAmpPrecision" type="int" />
 	</model>
 	<model name="com.stpl.app.parttwo.model.IvldItemPricing">
 		<field name="itemNo" type="String" />
@@ -714,6 +716,7 @@
 		<field name="itemPrice" type="String" />
 		<field name="intfInsertedDate" type="Date" />
 		<field name="checkRecord" type="boolean" />
+		<field name="itemPriceprecision" type="String" />
 	</model>
 	<model name="com.stpl.app.parttwo.model.SlaCalendarDetails">
 		<field name="createdDate" type="Date" />
@@ -1244,6 +1247,8 @@
 		<field name="itemCode" type="String" />
 		<field name="clottingFactorStartDate" type="Date" />
 		<field name="nonFederalExpirationDate" type="Date" />
+		<field name="baseCpiPrecision" type="int" />
+		<field name="baselineAmpPrecision" type="int" />
 	</model>
 	<model name="com.stpl.app.parttwo.model.VwItemPricing">
 		<field name="pricingCodeQualifier" type="String" />
@@ -1265,6 +1270,7 @@
 		<field name="itemPricingSid" type="int" />
 		<field name="pricingCodeStatus" type="String" />
 		<field name="pricingCodeQualifierName" type="String" />
+		<field name="itemPriceprecision" type="int" />
 	</model>
 	<model name="com.stpl.app.parttwo.model.VwIvldAdjDemandForeActual">
 		<field name="forecastVersion" type="String" />

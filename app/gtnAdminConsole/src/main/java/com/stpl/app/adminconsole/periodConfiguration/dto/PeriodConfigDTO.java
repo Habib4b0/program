@@ -33,11 +33,11 @@ private int fromFrequencyId=0;
 private String fromFrequencyName="";
 private int fromDefFrequencyId=0;
 private String fromDefFrequencyName="";
-private int fromPeriod=0;
+private String fromPeriod=null;
 private String fromPeriodValue="";
 private Date fromPeriodDate=null;
 private String fromPeriodDateValue="";
-private int fromDefPeriod=0;
+private String  fromDefPeriod=null;
 private String fromDefPeriodValue="";
 private Date fromDefPeriodDate =null;
 private String fromDefPeriodDateValue="";
@@ -50,14 +50,14 @@ private int toFrequencyId=0;
 private String toFrequencyName="";
 private int toDefFrequencyId=0;
 private String toDefFrequencyName="";
-private int toPeriod=0;
+private String toPeriod=null;
 private String toPeriodValue="";
 private Date toPeriodDate=null;
-private String toPeriodDateValue="";
-private int toDefPeriod=0;
+private String toPeriodDateValue=null;
+private String toDefPeriod=null;
 private String toDefPeriodValue="";
 private Date toDefPeriodDate =null;
-private String toDefPeriodDateValue="";
+private String toDefPeriodDateValue=null;
 
 private int periodViewId=0;
 private String periodViewName="";
@@ -216,21 +216,21 @@ private String activeFlag="";
         this.fromDefFrequencyName = fromDefFrequencyName;
     }
 
-    public int getFromPeriod() {
+    public String getFromPeriod() {
         return fromPeriod;
     }
 
-    public void setFromPeriod(int fromPeriod) {
+    public void setFromPeriod(String fromPeriod) {
         this.fromPeriod = fromPeriod;
     }
 
  
 
-    public int getFromDefPeriod() {
+    public String getFromDefPeriod() {
         return fromDefPeriod;
     }
 
-    public void setFromDefPeriod(int fromDefPeriod) {
+    public void setFromDefPeriod(String fromDefPeriod) {
         this.fromDefPeriod = fromDefPeriod;
     }
 
@@ -306,20 +306,20 @@ private String activeFlag="";
         this.toDefFrequencyName = toDefFrequencyName;
     }
 
-    public int getToPeriod() {
+    public String getToPeriod() {
         return toPeriod;
     }
 
-    public void setToPeriod(int toPeriod) {
+    public void setToPeriod(String  toPeriod) {
         this.toPeriod = toPeriod;
     }
 
 
-    public int getToDefPeriod() {
+    public String getToDefPeriod() {
         return toDefPeriod;
     }
 
-    public void setToDefPeriod(int toDefPeriod) {
+    public void setToDefPeriod(String toDefPeriod) {
         this.toDefPeriod = toDefPeriod;
     }
 

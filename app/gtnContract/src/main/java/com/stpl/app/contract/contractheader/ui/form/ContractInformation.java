@@ -258,7 +258,7 @@ public class ContractInformation extends CustomComponent {
         binder.bindMemberFields(this);
     }
 
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         LOGGER.debug("Entering configureFields method ");
 	
 	try{
@@ -820,7 +820,7 @@ public class ContractInformation extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method ");
             if (originalStartDate.getValue() != null && originalEndDate.getValue() != null) {
                 if (originalStartDate.getValue().after(originalEndDate.getValue())) {

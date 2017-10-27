@@ -45,6 +45,7 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -78,14 +79,13 @@ public class DataSelectionLogic {
             if (!StringUtils.EMPTY.equals((String) productGroupValue)) {
                 resultList = dsQueryUtils.getProductGroupresults(companyValue, therapeuticClassValue, productGroupValue,businessUnit);
             } else {
-                resultList = getAvailableProducts(companyValue, therapeuticClassValue, productGroupValue, businessUnit);
+                resultList = getAvailableProducts(companyValue, therapeuticClassValue, businessUnit);
             }
             productsList = getCustomizedCustomersAndContractsFromModel(resultList);
             result.setAvailableProducts(productsList);
             if (productsList.size() > 0) {
                 result.setFlag(Constant.SUCCESS);
             }
-            resultList = null;
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -100,7 +100,7 @@ public class DataSelectionLogic {
      */
     private Set<DataSelectionDTO> getCustomizedCustomersAndContractsFromModel(
             List resultList) {
-        Set<DataSelectionDTO> customersAndContracts = new HashSet<DataSelectionDTO>();
+        Set<DataSelectionDTO> customersAndContracts = new HashSet<>();
         for (Object element : resultList) {
             Object[] object = (Object[]) element;
             DataSelectionDTO cac = new DataSelectionDTO();
@@ -118,7 +118,7 @@ public class DataSelectionLogic {
     }
     
     public String saveProjection(Object[] values,
-            List<DataSelectionDTO> selectedProducts, boolean updateFlag,SessionDTO session) throws FieldGroup.CommitException {
+            List<DataSelectionDTO> selectedProducts, boolean updateFlag,SessionDTO session)  {
         String result= StringUtils.EMPTY;
             try {
                 int companyId=Integer.valueOf(values[1].toString());
@@ -140,9 +140,6 @@ public class DataSelectionLogic {
                             .addNaProjMaster(naProjMaster);
                     if (!updateFlag) {
                       result= saveProducts(naProjMaster.getNaProjMasterSid(),selectedProducts);  
-                    }
-                    if(!selectedProducts.isEmpty()){
-                        selectedProducts = null; 
                     }
                 } catch (Exception e) {
                     LOGGER.error(e);
@@ -188,7 +185,7 @@ public class DataSelectionLogic {
                     }
                     
                 }
-                Map<String, Object> input = new HashMap<String, Object>();
+                Map<String, Object> input = new HashMap<>();
                 input.put("?PID", naProjDetailsID);
                 String customSql = CustomSQLUtil.get("na.update");
                 
@@ -226,13 +223,10 @@ public class DataSelectionLogic {
     }
     @SuppressWarnings("unchecked")
     public List<DataSelectionDTO> getProjectionResults(String projectionName,String getSelectedProducts, Object companyValueId, Object thearupeticValueId, int productGroupId,int startIndex, int offset, Set<Container.Filter> filters,List<SortByColumn> sortByColumns,Object businessUnit) {
-        List<DataSelectionDTO> projectionResults = new ArrayList<DataSelectionDTO>();
+        List<DataSelectionDTO> projectionResults = new ArrayList<>();
         try {  
           List<Object[]> returnList= dsQueryUtils.loadResultsTable(projectionName,getSelectedProducts, companyValueId,thearupeticValueId, productGroupId,startIndex, offset,filters,sortByColumns,businessUnit);
            projectionResults= getCustomizedProjectionResults(returnList);
-           if(!returnList.isEmpty()){
-               returnList = null;
-           }
         } catch (Exception ex) {
                 LOGGER.error(ex);
         }
@@ -252,7 +246,7 @@ public class DataSelectionLogic {
     }
 
     private List<DataSelectionDTO> getCustomizedProjectionResults(List<Object[]> resultList) throws ParseException {
-        List<DataSelectionDTO> projectionResults = new ArrayList<DataSelectionDTO>();       
+        List<DataSelectionDTO> projectionResults = new ArrayList<>();       
         for (Object[] obj : resultList) {
             DataSelectionDTO projResult = new DataSelectionDTO();
             projResult.setProjectionName(obj[0]!=null?obj[0].toString():StringUtils.EMPTY);
@@ -319,7 +313,6 @@ public class DataSelectionLogic {
                     NaProjDetailsLocalServiceUtil
                             .deleteNaProjDetails(prodDetails);
                 }
-                naProjDetails = null;
             }
                     
            projMaster = NaProjMasterLocalServiceUtil.deleteNaProjMaster(projMaster.getNaProjMasterSid());
@@ -344,7 +337,7 @@ public class DataSelectionLogic {
        DynamicQuery query =DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
        query.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionId));
         NaProjMaster naProjMaster=NaProjMasterLocalServiceUtil.createNaProjMaster(0);
-         List<NaProjDetails> detailsList=new ArrayList<NaProjDetails>();
+         List<NaProjDetails> detailsList=new ArrayList<>();
         try {
            naProjMaster=  NaProjMasterLocalServiceUtil.getNaProjMaster(projectionId);
            detailsList= NaProjDetailsLocalServiceUtil.dynamicQuery(query);
@@ -387,7 +380,7 @@ public class DataSelectionLogic {
     }
   private static Date parsetDate(String value) throws ParseException {
         Date date = null;
-        String tempDate = StringUtils.EMPTY;
+        String tempDate;
         SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         if (value != null && !StringUtils.EMPTY.equals(value) && !Constant.NULL.equals(value)) {
@@ -417,7 +410,7 @@ public class DataSelectionLogic {
         }
         return date;
     }
-     public List getAvailableProducts(Object companyValue, Object therapeuticClassValue, Object productGroupValue, Object businessUnit) {
+     public List getAvailableProducts(Object companyValue, Object therapeuticClassValue, Object businessUnit) {
         StringBuilder sql = null;
           try{
             if (!String.valueOf(companyValue).equals("0") || (!String.valueOf(therapeuticClassValue).equals("") && 
@@ -442,7 +435,7 @@ public class DataSelectionLogic {
         } catch (Exception e) {            
             LOGGER.error(e);
             LOGGER.error(sql.toString());
-            return null;
+            return Collections.emptyList();
         } finally {
 }
     }   

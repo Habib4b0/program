@@ -41,7 +41,6 @@ public class PrivatePublicLookup extends Window {
     /**
      * Options will be: Public, Private
      */
-
     /**
      * Search by View Name, results table will filter based on viewNameEpl
      */
@@ -77,19 +76,20 @@ public class PrivatePublicLookup extends Window {
     AdjustmentRateLogic arLogic = new AdjustmentRateLogic();
     String viewMasterSid = StringUtils.EMPTY;
     ViewLookupDTO dtoValue = new ViewLookupDTO();
-    String viewValue=StringUtils.EMPTY;
+    String viewValue = StringUtils.EMPTY;
     int userId;
-    String detailsName=StringUtils.EMPTY;
-    String viewType=StringUtils.EMPTY;
-    String viewCategory=StringUtils.EMPTY;
-    boolean selectFlag=false;
+    String detailsName = StringUtils.EMPTY;
+    String viewType = StringUtils.EMPTY;
+    String viewCategory = StringUtils.EMPTY;
+    boolean selectFlag = false;
     public static final Logger LOGGER = Logger.getLogger(PrivatePublicLookup.class);
-    public PrivatePublicLookup(String viewValue,int userId,String detailsName, String viewType, String viewCategory) {
+
+    public PrivatePublicLookup(String viewValue, int userId, String detailsName, String viewType, String viewCategory) {
         super();
-        this.viewValue=viewValue;
-        this.userId=userId;
-        this.detailsName=detailsName;
-        this.viewType=viewType;
+        this.viewValue = viewValue;
+        this.userId = userId;
+        this.detailsName = detailsName;
+        this.viewType = viewType;
         this.viewCategory = viewCategory;
         addStyleName("bootstrap");
         addStyleName("bootstrap-bb");
@@ -112,9 +112,9 @@ public class PrivatePublicLookup extends Window {
             dtoValue.setViewName(StringUtils.EMPTY);
             viewNameEpl.setValue(StringUtils.EMPTY);
             viewNameEpl.focus();
-            
+
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in configureFields :"+e);
         }
     }
 
@@ -124,37 +124,37 @@ public class PrivatePublicLookup extends Window {
         tableLogic.setContainerDataSource(availableResultsContainer);
         resultsTable.setSelectable(true);
         resultsTable.setWidth("870px");
-        resultsTable.setHeight("290px");   
+        resultsTable.setHeight("290px");
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
         resultsTable.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);  
-        resultsTable.setColumnAlignment("modifiedDate", ExtCustomTable.Align.CENTER);  
-        resultsTable.setFilterBarVisible(true);  
+        resultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);
+        resultsTable.setColumnAlignment("modifiedDate", ExtCustomTable.Align.CENTER);
+        resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName("table-header-normal");
         resultsTable.addStyleName("filterbar");
         resultsTable.addStyleName("filtertable");
-        if(viewCategory.equals("Customer") || viewCategory.equals("Customer Group")){
-            resultsTable.setVisibleColumns(ARMUtils.INVENTORY_VIEW_LOOKUP_COLUMNS);
-            resultsTable.setColumnHeaders(ARMUtils.INVENTORY_VIEW_LOOKUP_HEADERS);
+        if ("Customer".equals(viewCategory) || "Customer Group".equals(viewCategory)) {
+            resultsTable.setVisibleColumns(ARMUtils.getInventoryViewLookupColumns());
+            resultsTable.setColumnHeaders(ARMUtils.getInventoryViewLookupHeaders());
         } else {
-            resultsTable.setVisibleColumns(ARMUtils.VIEW_LOOKUP_COLUMNS);
-            resultsTable.setColumnHeaders(ARMUtils.VIEW_LOOKUP_HEADERS);
+            resultsTable.setVisibleColumns(ARMUtils.getViewLookupColumns());
+            resultsTable.setColumnHeaders(ARMUtils.getViewLookupHeaders());
         }
         resultsTable.setConverter("createdDate", new StringToDateConverter() {
-                @Override
-                public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
-                }
+            @Override
+            public DateFormat getFormat(Locale locale) {
+                return new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
+            }
         });
         resultsTable.setConverter("modifiedDate", new StringToDateConverter() {
-                @Override
-                public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
-                }
+            @Override
+            public DateFormat getFormat(Locale locale) {
+                return new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
+            }
         });
-       
+
     }
 
     @UiHandler("searchBtn")
@@ -166,39 +166,38 @@ public class PrivatePublicLookup extends Window {
             } else {
                 availableResultsContainer.removeAllItems();
                 dtoValue.setViewTypeFlag("privateView".equalsIgnoreCase(viewType));
-                dtoValue.setCreatedBy(""+userId);
+                dtoValue.setCreatedBy(String.valueOf(userId));
                 dtoValue.setViewName(String.valueOf(viewNameEpl));
                 dtoValue.setViewType(viewType);
                 dtoValue.setDetailsValue(detailsName);
-                tableLogic.configureSearchData(dtoValue, true,viewCategory);
-                if(resultsTable.size()==0){
-                AbstractNotificationUtils.getErrorNotification("Invalid Search", "There are no Views that match the search criteria.  Please try again.");
+                tableLogic.configureSearchData(dtoValue, true, viewCategory);
+                if (resultsTable.size() == 0) {
+                    AbstractNotificationUtils.getErrorNotification("Invalid Search", "There are no Views that match the search criteria.  Please try again.");
+                }
             }
-            }
-            
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in searchButtonClick :"+e);
         }
     }
 
     @UiHandler("resetBtn")
     public void resetButtonClick(Button.ClickEvent event) {
         try {
-            if("Customer Group".equals(viewCategory)) { //GAL-7223
+            if ("Customer Group".equals(viewCategory)) { //GAL-7223
                 notifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_view_CG());
             } else {
                 notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_views());
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in resetButtonClick :"+e);
         }
     }
 
     @UiHandler("selectBtn")
     public void selectButtonClick(Button.ClickEvent event) {
         try {
-            if (resultsTable.size()!= 0 && resultsTable.getValue() != null) {
+            if (resultsTable.size() != 0 && resultsTable.getValue() != null) {
                 ViewLookupDTO viewDTO = (ViewLookupDTO) resultsTable.getValue();
                 viewDTO.setCheckFlag(true);
                 setSelectFlag(true);
@@ -209,7 +208,7 @@ public class PrivatePublicLookup extends Window {
                 AbstractNotificationUtils.getErrorNotification("No View Selected", "There is no view selected. Please select a saved view and try again.");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in selectButtonClick :"+e);
         }
     }
 
@@ -220,7 +219,7 @@ public class PrivatePublicLookup extends Window {
             this.close();
             viewNameEpl.setValue(StringUtils.EMPTY);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in closeButtonClick :"+e);
         }
     }
     private final CustomNotification notifier = new CustomNotification();
@@ -229,6 +228,8 @@ public class PrivatePublicLookup extends Window {
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside CustomNotification NO Method");
+
         }
 
         @Override
@@ -245,14 +246,15 @@ public class PrivatePublicLookup extends Window {
     public void setDtoValue(ViewLookupDTO dtoValue) {
         this.dtoValue = dtoValue;
     }
-    public void reloadScreen(String viewValue,int userId,String detailsName,String viewName){
-    availableResultsContainer.removeAllItems();
-    viewNameEpl.setValue(StringUtils.EMPTY);
-    viewNameEpl.focus(); // GAL-7222
-    this.viewValue=viewValue;
-    this.userId=userId;
-    this.detailsName=detailsName;
-    this.viewType=viewName;
+
+    public void reloadScreen(String viewValue, int userId, String detailsName, String viewName) {
+        availableResultsContainer.removeAllItems();
+        viewNameEpl.setValue(StringUtils.EMPTY);
+        viewNameEpl.focus(); // GAL-7222
+        this.viewValue = viewValue;
+        this.userId = userId;
+        this.detailsName = detailsName;
+        this.viewType = viewName;
     }
 
     public boolean isSelectFlag() {
@@ -261,6 +263,16 @@ public class PrivatePublicLookup extends Window {
 
     public void setSelectFlag(boolean selectFlag) {
         this.selectFlag = selectFlag;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

@@ -28,6 +28,7 @@ public class WorkFlowFilterGenerate implements ExtFilterGenerator {
     CommonUtils commonUtil = new CommonUtils();
 
     public WorkFlowFilterGenerate() {
+        LOGGER.debug("WorkFlowFilterGenerate");
     }
 
     @Override
@@ -118,10 +119,12 @@ public class WorkFlowFilterGenerate implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

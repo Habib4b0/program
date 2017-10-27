@@ -380,7 +380,7 @@ from   (select DISTINCT cm.COMPANY_MASTER_SID as companyMasterSid,
             JOIN HELPER_TABLE HT
             ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID
             AND HT.DESCRIPTION like '?'
-            AND HT.LIST_NAME='COMP_TYPE';
+            AND HT.LIST_NAME='COMPANY_TYPE';
 
 		]]>
     </sql>

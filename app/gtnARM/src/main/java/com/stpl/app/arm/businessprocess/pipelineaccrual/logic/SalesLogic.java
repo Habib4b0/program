@@ -5,6 +5,9 @@
  */
 package com.stpl.app.arm.businessprocess.pipelineaccrual.logic;
 
+import static com.stpl.app.arm.utils.ARMUtils.SalesVariables.ST_ARM_PIPELINE_SALES;
+
+
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractPipelineLogic;
@@ -13,18 +16,17 @@ import com.stpl.app.arm.supercode.Criteria;
 import com.stpl.app.arm.supercode.DataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
-import static com.stpl.app.arm.utils.ARMUtils.SalesVariables.ST_ARM_PIPELINE_SALES;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.app.utils.xmlparser.SQlUtil;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
-import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +36,7 @@ import org.apache.commons.lang.StringUtils;
  * @author srithar
  * @param <T>
  */
-public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO> extends AbstractPipelineLogic<T,E> {
+public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO> extends AbstractPipelineLogic<T, E> {
 
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
 
@@ -48,6 +50,7 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
         return getSalesData(criteria.getParent(), criteria.getSelectionDto(), criteria.getStart(), criteria.getOffset());
     }
 
+    @Override
     public List<Object> getMonthYear() {
         String sql = SQlUtil.getQuery("getMonthYear");
         List result = HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -74,7 +77,7 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in getMonthName :"+e);
 
         }
         return monthName;
@@ -86,9 +89,9 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
         String brandMasterSid = "0";
         if (parentId instanceof AdjustmentDTO) {
             level = "ITEM";
-            brandMasterSid = ((AdjustmentDTO) parentId).getBrand_item_masterSid();
+            brandMasterSid = ((AdjustmentDTO) parentId).getBranditemmasterSid();
         }
-        if (VariableConstants.PRODUCT.equalsIgnoreCase(String.valueOf(selection.getSales_levelFilterValue()))) {
+        if (VariableConstants.PRODUCT.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
             level = "ITEM";
         }
         if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
@@ -102,13 +105,13 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
         LOGGER.debug("brandMasterSid----" + brandMasterSid);
         sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
         if ("ITEM".equals(level)) {
-            if (VariableConstants.PRODUCT.equalsIgnoreCase(String.valueOf(selection.getSales_levelFilterValue()))) {
-                sql = sql.replace("[BRAND_MASTER_SID]", "");
+            if (VariableConstants.PRODUCT.equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
+                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
             } else {
-                sql = sql.replace("[BRAND_MASTER_SID]", "AND BM.BRAND_MASTER_SID  = " + brandMasterSid + "");
+                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "AND BM.BRAND_MASTER_SID  = " + brandMasterSid + "");
             }
         } else {
-            sql = sql.replace("[BRAND_MASTER_SID]", "");
+            sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
         }
         List<Integer> result = QueryUtils.executeSelect(sql);
         LOGGER.debug("count--------------------" + result.get(0));
@@ -123,9 +126,9 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
         String brandMasterSid = "0";
         if (parentId instanceof AdjustmentDTO) {
             level = "ITEM";
-            brandMasterSid = ((AdjustmentDTO) parentId).getBrand_item_masterSid();
+            brandMasterSid = ((AdjustmentDTO) parentId).getBranditemmasterSid();
         }
-        if (VariableConstants.PRODUCT.equals(String.valueOf(selection.getSales_levelFilterValue()))) {
+        if (VariableConstants.PRODUCT.equals(String.valueOf(selection.getSaleslevelFilterValue()))) {
             level = "ITEM";
         }
         if (selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
@@ -137,28 +140,27 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
         sql = sql.replace("[$VIEW]", level);
         sql = sql.replace("[PROJECTION_MASTER_SID]", String.valueOf(selection.getProjectionMasterSid()));
         sql = sql.replace("[PRODUCT_MASTER_SID]", brandMasterSid);
-        sql = sql.replace("[LEVEL_FILTER]", String.valueOf(selection.getSales_levelFilterValue()));
+        sql = sql.replace("[LEVEL_FILTER]", String.valueOf(selection.getSaleslevelFilterValue()));
         if ("ITEM".equals(level)) {
-            if (VariableConstants.PRODUCT.equals(String.valueOf(selection.getSales_levelFilterValue()))) {
-                sql = sql.replace("[BRAND_MASTER_SID]", "");
+            if (VariableConstants.PRODUCT.equals(String.valueOf(selection.getSaleslevelFilterValue()))) {
+                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
             } else {
-                sql = sql.replace("[BRAND_MASTER_SID]", "AND BM.BRAND_MASTER_SID  = " + brandMasterSid + "");
+                sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "AND BM.BRAND_MASTER_SID  = " + brandMasterSid + "");
             }
         } else {
-            sql = sql.replace("[BRAND_MASTER_SID]", "");
+            sql = sql.replace(CommonConstant.BRAND_MASTER_SID, "");
         }
         sql += " ORDER BY PRODUCT_NO OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
         List<Object[]> result = QueryUtils.executeSelect(sql);
-        DataResult<T> resultList = customizier("com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO",
+        return customizier("com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO",
                 ARMUtils.getSalesVariables(), result);
-        return resultList;
     }
 
     public boolean updatePriceOverride(List input) {
         try {
             QueryUtils.itemUpdate(input, "PA_sales_updatePriceOverride");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in updatePriceOverride :"+e);
             return false;
         }
         return true;
@@ -171,35 +173,36 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
 
     public static void callProcedure(String procedureName, Object[] orderedArgs) {
         LOGGER.debug("Procedure Name " + procedureName);
-        String procedureToCall = "{call " + procedureName;
+        StringBuilder procedureToCall = new StringBuilder("{call ");
+        procedureToCall.append(procedureName);
         int noOfArgs = orderedArgs.length;
         for (int i = 0; i < noOfArgs; i++) {
             if (i == 0) {
-                procedureToCall += "(";
+                procedureToCall.append("(");
             }
-            procedureToCall += "?,";
+            procedureToCall.append("?,");
             if (i == noOfArgs - 1) {
-                procedureToCall += ")";
+                procedureToCall.append(")");
             }
         }
-        procedureToCall = procedureToCall.replace(",)", ")");
-        procedureToCall += "}";
+        procedureToCall.append("}");
+        String procedureToCallVal = procedureToCall.toString().replace(",)", ")");
         try (Connection connection = ((DataSource) new InitialContext().lookup(DATASOURCE_CONTEXT)).getConnection();
-                CallableStatement statement = connection.prepareCall(procedureToCall)) {
+                CallableStatement statement = connection.prepareCall(procedureToCallVal)) {
             for (int i = 0; i < noOfArgs; i++) {
                 LOGGER.debug(i + " -- " + orderedArgs[i]);
                 statement.setObject(i + 1, orderedArgs[i]);
             }
             statement.executeUpdate();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in callProcedure :"+ex);
         }
 
     }
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
-        String query = StringUtils.EMPTY;
+        String query;
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (isView) {
             query = SQlUtil.getQuery("getPASalesExcelQueryView");
@@ -207,7 +210,6 @@ public class SalesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO>
             query = SQlUtil.getQuery("getPASalesExcelQuery");
         }
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
     }
 }

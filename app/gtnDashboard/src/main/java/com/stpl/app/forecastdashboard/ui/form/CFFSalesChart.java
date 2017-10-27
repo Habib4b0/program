@@ -56,8 +56,6 @@ public class CFFSalesChart {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(CFFSalesChart.class);
-    private int fromDate = 0;
-    private int toDate = 0;
     private boolean isStack;
     Chart chart;
     List<String> xasis=new ArrayList<>();

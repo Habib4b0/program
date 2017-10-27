@@ -26,7 +26,7 @@ public class Constants {
      * Enum for label constants
      */
     public enum LabelConstants {
-    	       
+
         PROJECTION_OPTIONS_CAPTION("Projection Options"),
         CUSTOMER_SELECTION_CAPTION("Customer Selection"),
         PRODUCT_SELECTION_CAPTION("Product Selection"),
@@ -47,13 +47,13 @@ public class Constants {
         PROGRAM("Program"),
         PROGRAM_CATEGORY("Program Category"),
         BRAND_TYPE("Brand Type"),
-        BRAND("Brand"),
-        CONTRACT("Contract"),
+        BRAND(BRAND1_LEVEL),
+        CONTRACT(CONTRACT1_LABEL),
         CONTRACT_NAME("Contract Name"),
         CONTRACT_NO("Contract No"),
         CUSTOMER_ID("Customer ID"),
         CONTRACT_HOLDER_NAME("Contract Holder Name"),
-        COMPANY("Company"),
+        COMPANY(COMPANY1_LABEL),
         CONTRACTED("Contracted"),
         ALL_BRANDS("All Brands"),
         MODE("Mode"),
@@ -140,13 +140,13 @@ public class Constants {
         PRICE_TRENDING("Price Trending"),// Changed as per Galuat-48
         GROWTH("Growth"),
         TYPE("type"),
-       CHECK("check"),
-       ROLLING_AVERAGE("Rolling Average"),
-       EMPTYSTRING(""),
-       SINGLE_PERIOD("Single Period"),
-       AVERAGE("Average"),
-       WEIGHTED_AVG("Weighted Average"),
-       WAC("WAC"),
+        CHECK("check"),
+        ROLLING_AVERAGE("Rolling Average"),
+        EMPTYSTRING(""),
+        SINGLE_PERIOD("Single Period"),
+        AVERAGE("Average"),
+        WEIGHTED_AVG("Weighted Average"),
+        WAC("WAC"),
         PHS("PHS"),
         TOTAL_URA("Total URA"),
         PHS_DISCOUNT("PHS Discount"),
@@ -169,7 +169,7 @@ public class Constants {
         MID_QUARTER_WAC("Mid-Quarter WAC"),
         DAY_WEIGHTED_WAC("Day Weighted WAC"),
         SALES_WEIGHTED_WAC("Sales Weighted WAC"),
-//        PRICE_TYPE_FORECASTING("Price Type Forecasting"),
+        //        PRICE_TYPE_FORECASTING("Price Type Forecasting"),
         NATIONAL_ASSUMPTIONS("National Assumptions"),
         MEDICAID_URA("Medicaid URA Results"),
         FCP_RESULTS("FCP Results"),
@@ -200,6 +200,9 @@ public class Constants {
         }
 
     } 
+    public static final String CONTRACT1_LABEL = "Contract";
+    public static final String BRAND1_LEVEL = "Brand";
+    public static final String COMPANY1_LABEL = "Company";
 
     /**
      * Enum for Module/Screen/Functionality indicator constants
@@ -310,25 +313,25 @@ public class Constants {
      */
     public enum LevelConstants {
 
-        LEVEL_SEGMENT_GROUP("Segment Group"),
-        LEVEL_SEGMENT("Segment"),
-        LEVEL_MARKET_TYPE("Market Type"),
-        LEVEL_CONTRACT_HOLDER("Contract Holder"),
-        LEVEL_CONTRACT("Contract"),
-        LEVEL_TRADING_PARTNER("Trading Partner"),
-        LEVEL_COMPANY("Company"),
-        LEVEL_THERAPEUTIC_CLASS("Therapeutic Class"),
-        LEVEL_BRAND("Brand"),
+        LEVEL_SEGMENT_GROUP(SEGMENT_GROUP_LABEL),
+        LEVEL_SEGMENT(Constant.SEGMENT_LABEL),
+        LEVEL_MARKET_TYPE(MARKET_TYPE_LABEL),
+        LEVEL_CONTRACT_HOLDER(CONTRACT_HOLDER1_LABEL),
+        LEVEL_CONTRACT(CONTRACT1_LABEL),
+        LEVEL_TRADING_PARTNER(TRADING_PARTNER1_LABEL),
+        LEVEL_COMPANY(COMPANY1_LABEL),
+        LEVEL_THERAPEUTIC_CLASS(THERAPEUTIC_CLASS_LABEL),
+        LEVEL_BRAND(BRAND1_LEVEL),
         LEVEL_NDC("NDC"),
-        LEVEL_1_CUSTOMER("Segment Group"),
-        LEVEL_2_CUSTOMER("Segment"),
-        LEVEL_3_CUSTOMER("Market Type"),
-        LEVEL_4_CUSTOMER("Contract Holder"),
-        LEVEL_5_CUSTOMER("Contract"),
-        LEVEL_6_CUSTOMER("Trading Partner"),
-        LEVEL_1_BRAND("Company"),
-        LEVEL_2_BRAND("Therapeutic Class"),
-        LEVEL_3_BRAND("Brand"),
+        LEVEL_1_CUSTOMER(SEGMENT_GROUP_LABEL),
+        LEVEL_2_CUSTOMER(Constant.SEGMENT_LABEL),
+        LEVEL_3_CUSTOMER(MARKET_TYPE_LABEL),
+        LEVEL_4_CUSTOMER(CONTRACT_HOLDER1_LABEL),
+        LEVEL_5_CUSTOMER(CONTRACT1_LABEL),
+        LEVEL_6_CUSTOMER(TRADING_PARTNER1_LABEL),
+        LEVEL_1_BRAND(COMPANY1_LABEL),
+        LEVEL_2_BRAND(THERAPEUTIC_CLASS_LABEL),
+        LEVEL_3_BRAND(BRAND1_LEVEL),
         LEVEL_4_BRAND("NDC"),
         LEVEL_1("Level 1"),
         LEVEL_2("Level 2"),
@@ -353,6 +356,10 @@ public class Constants {
         }
 
     }
+    public static final String TRADING_PARTNER1_LABEL = "Trading Partner";
+    public static final String CONTRACT_HOLDER1_LABEL = "Contract Holder";
+    public static final String MARKET_TYPE_LABEL = "Market Type";
+    public static final String THERAPEUTIC_CLASS_LABEL = "Therapeutic Class";
 
     /**
      * Enum for Regex constants
@@ -448,15 +455,15 @@ public class Constants {
         HEADER_PRODUCT_HIERARCHY("Product Hierarchy"),
         HEADER_PRODUCT_LEVEL("Product Level"),
         HEADER_LEVEL("Level"),
-        HEADER_MARKET_TYPE("Market Type"),
-        HEADER_COMPANY("Company"),
-        HEADER_THERAPEUTIC_CLASS("Therapeutic Class"),
-        HEADER_SEGMENT_GROUP("Segment Group"),
-        HEADER_SEGMENT("Segment"),
-        HEADER_CONTRACT_HOLDER("Contract Holder"),
-        HEADER_CONTRACT("Contract"),
-        HEADER_TRADING_PARTNER("Trading Partner"),
-        HEADER_BRAND("Brand"),
+        HEADER_MARKET_TYPE(MARKET_TYPE_LABEL),
+        HEADER_COMPANY(COMPANY1_LABEL),
+        HEADER_THERAPEUTIC_CLASS(THERAPEUTIC_CLASS_LABEL),
+        HEADER_SEGMENT_GROUP(SEGMENT_GROUP_LABEL),
+        HEADER_SEGMENT(Constant.SEGMENT_LABEL),
+        HEADER_CONTRACT_HOLDER(CONTRACT_HOLDER1_LABEL),
+        HEADER_CONTRACT(CONTRACT1_LABEL),
+        HEADER_TRADING_PARTNER(TRADING_PARTNER1_LABEL),
+        HEADER_BRAND(BRAND1_LEVEL),
         HEADER_NDC("NDC"),
         NDC11("NDC 11");
 
@@ -476,6 +483,7 @@ public class Constants {
         }
 
     }
+    public static final String SEGMENT_GROUP_LABEL = "Segment Group";
 
     /**
      * Window messages enum

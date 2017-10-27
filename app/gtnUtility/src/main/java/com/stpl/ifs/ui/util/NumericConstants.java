@@ -87,7 +87,10 @@ public class NumericConstants {
     public final static int SIXTY_EIGHT = 68;
     public final static int SIXTY_NINE = 69;
     public final static int SEVENTY = 70;
+    public final static int SEVENTY_FOUR = 74;
     public final static int SEVENTY_FIVE = 75;
+    public final static int SEVENTY_SIX = 76;
+    public final static int SEVENTY_SEVEN = 77;
     public final static int SEVENTY_NINE = 79;
     public final static int EIGHTY = 80;
     public final static int NINETY = 90;
@@ -201,4 +204,17 @@ public class NumericConstants {
     public final static int SEVEN_SEVEN_FIVE = 775;
     public final static int FIVE_TWO_SEVEN = 527;
     public final static int MINUS_ONE = -1;
+    public final static int SEVENTY_THREE = 73;
+    public final static int SEVENTY_TWO = 72;
+    public final static int SEVENTY_EIGHT = 78;
+    public final static int EIGHTY_ONE = 81;
+    public final static int EIGHTY_TWO = 82;
+    public final static int EIGHTY_FOUR = 84;
+    public final static int EIGHTY_SEVEN = 87;
+    public final static int EIGHTY_EIGHT = 88;
+    public final static int NINTY_ONE = 91;
+    public final static int NINTY_THREE = 93;
+    public final static int NINTY_FOUR = 94;
+    public final static int NINTY_SIX = 96;
+    public final static int NINTY_SEVEN = 97;
 }

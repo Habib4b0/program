@@ -6,6 +6,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>&#47;</directory>
     <parameters>
     </parameters>
@@ -114,28 +115,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Database join</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Database join</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Database join 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2</from><to>Database join 3</to><enabled>N</enabled> </hop>  <hop> <from>Database join 3</from><to>Insert &#47; Update</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by</from><to>RECEIVED COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>SET AUDIT STATUS</from><to>Audit Insert &#47; Update</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Database join 4</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 4</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>RECEIVED COUNT</from><to>SET AUDIT STATUS</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Insert &#47; Update</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>  <hop> <from>Block this step until steps finish</from><to>Abort</to><enabled>Y</enabled> </hop>  </order>
-  <step>
-    <name>Abort</name>
-    <type>Abort</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <row_threshold>0</row_threshold>
-      <message>INVALID DATA PROCESSING</message>
-      <always_log_rows>N</always_log_rows>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>190</xloc>
-      <yloc>1057</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
+  <hop> <from>COUNT_WITH_IVLD_BATCH_ID</from><to>Filter rows</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>COUNT_WITH_IVLD_BATCH_ID</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Switch &#47; Case</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>Database join 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2</from><to>Database join 3</to><enabled>N</enabled> </hop>  <hop> <from>Database join 3</from><to>Insert &#47; Update</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by</from><to>RECEIVED COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>STAG_ACTUAL_MASTER  COUNT</from><to>STAG_ACTUAL_MASTER  </to><enabled>Y</enabled> </hop>  <hop> <from>STAG_ACTUAL_MASTER  </from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>RECEIVED COUNT</from><to>SET AUDIT STATUS</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Insert &#47; Update</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>  <hop> <from>Block this step until steps finish</from><to>STOP PROCESS</to><enabled>Y</enabled> </hop>  <hop> <from>SET AUDIT STATUS</from><to>DATE</to><enabled>Y</enabled> </hop>  <hop> <from>DATE</from><to>Audit Insert &#47; Update</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>Set Variables</to><enabled>Y</enabled> </hop>  <hop> <from>STAG_ACTUAL_MASTER  COUNT</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Get Variables 2 2</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Filter rows</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>Add constants</name>
     <type>Constant</type>
@@ -165,7 +145,7 @@
         <currency/>
         <decimal/>
         <group/>
-        <nullif>ACTUAL_MASTER_INTERFACE</nullif>
+        <nullif>ACCRUAL_INBOUND_INTERFACE</nullif>
         <length>-1</length>
         <precision>-1</precision>
       </field>
@@ -176,7 +156,7 @@
         <currency/>
         <decimal/>
         <group/>
-        <nullif>Actual_Master_Intf.ksh</nullif>
+        <nullif>Accrual_Master_Intf.ksh</nullif>
         <length>-1</length>
         <precision>-1</precision>
       </field>
@@ -185,6 +165,37 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>310</xloc>
       <yloc>142</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>INTERFACE_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ACCRUAL_INBOUND_INTERFACE</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>536</xloc>
+      <yloc>70</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -211,6 +222,12 @@
         <condition>=</condition>
         <name2/>
       </key>
+      <key>
+        <name>ZERO</name>
+        <field>AUDIT_INBOUND_SID</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
       <value>
         <name>APPLICATION_PROCESS</name>
         <rename>APPLICATION_PROCESS</rename>
@@ -219,7 +236,7 @@
       <value>
         <name>BATCH_ID</name>
         <rename>BATCH_ID</rename>
-        <update>N</update>
+        <update>Y</update>
       </value>
       <value>
         <name>FILE_NAME</name>
@@ -246,6 +263,16 @@
         <rename>STATUS</rename>
         <update>Y</update>
       </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>NEW_DATE</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ADD_COUNT</name>
+        <rename>ZERO</rename>
+        <update>Y</update>
+      </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -256,7 +283,31 @@
     </step>
 
   <step>
-    <name>Database join</name>
+    <name>Block this step until steps finish</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Audit Insert &#47; Update</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>312</xloc>
+      <yloc>983</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>COUNT_WITH_IVLD_BATCH_ID</name>
     <type>DBJoin</type>
     <description/>
     <distribute>Y</distribute>
@@ -274,8 +325,33 @@
     </parameter>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>307</xloc>
-      <yloc>322</yloc>
+      <xloc>475</xloc>
+      <yloc>323</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>DATE</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>db</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE() AS NEW_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>411</xloc>
+      <yloc>839</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -328,31 +404,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>117</xloc>
       <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Database join 4</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>db</connection>
-    <rowlimit>0</rowlimit>
-    <sql>select * FROM STAG_ACTUAL_MASTER  </sql>
-    <outer_join>N</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>318</xloc>
-      <yloc>69</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -417,6 +468,38 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>306</xloc>
       <yloc>421</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Get Variables 2 2</name>
+    <type>GetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>BATCHID_COUNT</name>
+        <variable>${BATCHID_COUNT}</variable>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>409</xloc>
+      <yloc>184</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -537,7 +620,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
            </partitioning>
     <connection>db</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT COUNT(*)  AS  RECEIVED_COUNT FROM STAG_ACTUAL_MASTER  where BATCH_ID=?</sql>
+    <sql>SELECT COUNT(*)  AS  RECEIVED_COUNT FROM STAG_ACCRUAL_INBOUND  where BATCH_ID=?</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -571,9 +654,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <jsScript_script>&#47;&#47;Script here
 
 var STATUS=&quot;R&quot;;
-var APPLICATION_PROCESS=&quot;ACTUAL_MASTER_INTERFACE&quot;;
-var FILE_NAME=&quot;Actual_Master_Intf.ksh&quot;
-var Interface_Run_Start_Date=new Date();</jsScript_script>
+var APPLICATION_PROCESS=&quot;ACCRUAL_INBOUND_INTERFACE&quot;;
+var FILE_NAME=&quot;Accrual_Master_Intf.ksh&quot;
+var Interface_Run_Start_Date=new Date();
+var ZERO=0;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS</name>
         <rename>STATUS</rename>
         <type>String</type>
@@ -598,10 +682,115 @@ var Interface_Run_Start_Date=new Date();</jsScript_script>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
+      </field>      <field>        <name>ZERO</name>
+        <rename>ZERO</rename>
+        <type>Number</type>
+        <length>16</length>
+        <precision>2</precision>
+        <replace>N</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>201</xloc>
       <yloc>786</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>STAG_ACTUAL_MASTER  </name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>db</connection>
+    <rowlimit>0</rowlimit>
+    <sql>select * FROM STAG_ACCRUAL_INBOUND</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>318</xloc>
+      <yloc>69</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>STAG_ACTUAL_MASTER  COUNT</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>db</connection>
+    <sql>select count(*) as COUNT FROM STAG_ACCRUAL_INBOUND
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>317</xloc>
+      <yloc>13</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>STOP PROCESS</name>
+    <type>Abort</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <row_threshold>0</row_threshold>
+      <message>INVALID DATA PROCESSING</message>
+      <always_log_rows>N</always_log_rows>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>190</xloc>
+      <yloc>1057</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Set Variables</name>
+    <type>SetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <field_name>INTERFACE_NAME</field_name>
+        <variable_name>INTERFACE_NAME</variable_name>
+        <variable_type>ROOT_JOB</variable_type>
+        <default_value/>
+        </field>
+      </fields>
+    <use_formatting>N</use_formatting>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>668</xloc>
+      <yloc>131</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -622,63 +811,13 @@ var Interface_Run_Start_Date=new Date();</jsScript_script>
 <case_value_format/>
 <case_value_decimal/>
 <case_value_group/>
-<default_target_step>Database join</default_target_step>
+<default_target_step>Filter rows</default_target_step>
 <cases><case><value>0</value>
 <target_step>Dummy (do nothing) 2</target_step>
 </case></cases>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>308</xloc>
       <yloc>228</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Table input</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>db</connection>
-    <sql>select count(*) as COUNT FROM STAG_ACTUAL_MASTER 
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>311</xloc>
-      <yloc>11</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Audit Insert &#47; Update</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>312</xloc>
-      <yloc>983</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

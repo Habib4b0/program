@@ -31,6 +31,7 @@ public class AdjustmentSummaryInventory extends AbstractPipelineSummary {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        logger.debug("Inside Enter Method Of AdjustmentSummaryInventory Class");
 
     }
 
@@ -41,15 +42,15 @@ public class AdjustmentSummaryInventory extends AbstractPipelineSummary {
 
     @Override
     protected void configureSummary() {
-        variableVisibleColumns = VariableConstants.VARIABLE_VISIBLE_COLUMN_PI;
-        variableHeader = new String[]{VariableConstants.PISummaryVariables.CPipelineAccrual.toString(),
-            VariableConstants.PISummaryVariables.PPipelineAccrual.toString(),
-            VariableConstants.PISummaryVariables.PipelineRatio.toString(),
-            VariableConstants.PISummaryVariables.Variance.toString()
+        variableVisibleColumns = VariableConstants.getVariableVisibleColumnPi();
+        variableHeader = new String[]{VariableConstants.PISummaryVariables.CPIPELINEACCRUAL.toString(),
+            VariableConstants.PISummaryVariables.PPIPELINEACCRUAL.toString(),
+            VariableConstants.PISummaryVariables.PIPELINERATIO.toString(),
+            VariableConstants.PISummaryVariables.VARIANCE.toString()
 //            VariableConstants.PISummaryVariables.Adjustment.toString()
         };
-        variableHeader_deduction = VariableConstants.PISummaryDeductionVariables.names();
-        variableVisibleColumns_deduction = VariableConstants.VARIABLE_VISIBLE_COLUMN_DEDUTION_PI;
+        variableHeaderDeduction = VariableConstants.PISummaryDeductionVariables.names();
+        variableVisibleColumnsDeduction = VariableConstants.getVariableVisibleColumnDedutionPi();
 
     }
 

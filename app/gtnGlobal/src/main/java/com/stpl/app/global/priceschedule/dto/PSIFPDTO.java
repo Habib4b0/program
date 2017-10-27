@@ -352,7 +352,7 @@ public class PSIFPDTO implements Serializable {
      */
     private String priceTypeFormulaSid = StringUtils.EMPTY;
 
-    private Map<String, Field> dtoFields = new HashMap<String, Field>();
+    private Map<String, Field> dtoFields = new HashMap<>();
 
     private HelperDTO selectedBasePrice = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
 

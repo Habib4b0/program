@@ -96,8 +96,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>559</xloc>
-      <yloc>225</yloc>
+      <xloc>339</xloc>
+      <yloc>284</yloc>
       </entry>
     <entry>
       <name>Transformation</name>
@@ -128,8 +128,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1296</xloc>
-      <yloc>1138</yloc>
+      <xloc>1368</xloc>
+      <yloc>1304</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS</name>
@@ -139,8 +139,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1418</xloc>
-      <yloc>355</yloc>
+      <xloc>1950</xloc>
+      <yloc>615</yloc>
       </entry>
     <entry>
       <name>FILE CHECKING</name>
@@ -148,7 +148,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;FULL_JOB.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -169,8 +169,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>968</xloc>
-      <yloc>301</yloc>
+      <xloc>1040</xloc>
+      <yloc>467</yloc>
       </entry>
     <entry>
       <name>CSV_TO_INTERFACE</name>
@@ -199,8 +199,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>972</xloc>
-      <yloc>379</yloc>
+      <xloc>1044</xloc>
+      <yloc>545</yloc>
       </entry>
     <entry>
       <name>VALIDATION_FAIL_MAIL</name>
@@ -208,7 +208,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -231,8 +231,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1271</xloc>
-      <yloc>789</yloc>
+      <xloc>1343</xloc>
+      <yloc>955</yloc>
       </entry>
     <entry>
       <name>Truncate STAG_GL_POSTING</name>
@@ -249,8 +249,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>984</xloc>
-      <yloc>1281</yloc>
+      <xloc>1056</xloc>
+      <yloc>1447</yloc>
       </entry>
     <entry>
       <name>TEMP_TABLE_TRUNCATION_FAIL</name>
@@ -258,7 +258,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -281,8 +281,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1227</xloc>
-      <yloc>1270</yloc>
+      <xloc>1299</xloc>
+      <yloc>1436</yloc>
       </entry>
     <entry>
       <name>STAGING_TRUNCATION_FAIL</name>
@@ -290,7 +290,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -313,8 +313,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1222</xloc>
-      <yloc>1399</yloc>
+      <xloc>1294</xloc>
+      <yloc>1565</yloc>
       </entry>
     <entry>
       <name>TRUNCATE INTERFACE TABLE</name>
@@ -331,14 +331,17 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>987</xloc>
-      <yloc>1404</yloc>
+      <xloc>1059</xloc>
+      <yloc>1570</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;GL_POSTING_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;GL_POSTING_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;GL_POSTING_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -347,14 +350,17 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>689</xloc>
-      <yloc>256</yloc>
+      <xloc>675</xloc>
+      <yloc>92</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS AUDIT (3)</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;GL_POSTING_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;GL_POSTING_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;GL_POSTING_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -363,14 +369,17 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>994</xloc>
-      <yloc>1502</yloc>
+      <xloc>1066</xloc>
+      <yloc>1668</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS AUDIT (2)</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;GL_POSTING_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;GL_POSTING_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;GL_POSTING_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -379,8 +388,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1411</xloc>
-      <yloc>1244</yloc>
+      <xloc>1489</xloc>
+      <yloc>1234</yloc>
       </entry>
     <entry>
       <name>HANDLING_NEW_AUDIT</name>
@@ -411,8 +420,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>972</xloc>
-      <yloc>469</yloc>
+      <xloc>1044</xloc>
+      <yloc>635</yloc>
       </entry>
     <entry>
       <name>GL_POSTING_DATAFETCH</name>
@@ -443,8 +452,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>985</xloc>
-      <yloc>761</yloc>
+      <xloc>1057</xloc>
+      <yloc>927</yloc>
       </entry>
     <entry>
       <name>GL_POSTING_VALIDATION</name>
@@ -475,8 +484,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>984</xloc>
-      <yloc>1072</yloc>
+      <xloc>1056</xloc>
+      <yloc>1238</yloc>
       </entry>
     <entry>
       <name>GL_POSTING_VALIDATION 2</name>
@@ -507,8 +516,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>980</xloc>
-      <yloc>1158</yloc>
+      <xloc>1052</xloc>
+      <yloc>1324</yloc>
       </entry>
     <entry>
       <name>STAG</name>
@@ -560,8 +569,8 @@ GL_POSTING_INTERFACE_ID
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>988</xloc>
-      <yloc>665</yloc>
+      <xloc>1060</xloc>
+      <yloc>831</yloc>
       </entry>
     <entry>
       <name>GTN</name>
@@ -620,8 +629,8 @@ AND a.TRANSACTION_LEVEL=&apos;GTN&apos;
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>899</xloc>
-      <yloc>847</yloc>
+      <xloc>971</xloc>
+      <yloc>1013</yloc>
       </entry>
     <entry>
       <name>RESERVE</name>
@@ -679,8 +688,8 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>897</xloc>
-      <yloc>945</yloc>
+      <xloc>969</xloc>
+      <yloc>1111</yloc>
       </entry>
     <entry>
       <name>SNAP</name>
@@ -711,8 +720,8 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>949</xloc>
-      <yloc>571</yloc>
+      <xloc>1021</xloc>
+      <yloc>737</yloc>
       </entry>
     <entry>
       <name>RETENTION_LOGIC</name>
@@ -720,7 +729,7 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${MAIL_FILE_PATH}&#47;new&#47;ZIP_FILE.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -741,8 +750,8 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1250</xloc>
-      <yloc>1514</yloc>
+      <xloc>1322</xloc>
+      <yloc>1680</yloc>
       </entry>
     <entry>
       <name>GETTING_FILE_NAME</name>
@@ -750,7 +759,7 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;GETTING_FILE_NAME.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -773,8 +782,8 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>880</xloc>
-      <yloc>198</yloc>
+      <xloc>1038</xloc>
+      <yloc>376</yloc>
       </entry>
     <entry>
       <name>Check if a folder is empty</name>
@@ -787,8 +796,351 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>689</xloc>
-      <yloc>1447</yloc>
+      <xloc>591</xloc>
+      <yloc>1637</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT (2) 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;GL_POSTING_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>db</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1285</xloc>
+      <yloc>516</yloc>
+      </entry>
+    <entry>
+      <name>SNAP TABLE PURGE</name>
+      <description/>
+      <type>SQL</type>
+      <sql>DECLARE @SQL        VARCHAR(MAX),
+        @TABLE_NAME VARCHAR(100)=&apos;SNAP_GL_POSTING&apos;,
+        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
+		,@var1 varchar(2)=&apos;&lt;&apos;
+
+
+SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
+          FROM   SYS.TABLES
+          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
+          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
+
+SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
+
+
+exec( @SQL)
+
+SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
+          FROM   SYS.TABLES
+          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
+          FOR XML PATH(&apos;&apos;))
+
+exec( @SQL) 
+
+
+</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>T</sendOneStatement>
+      <connection>staging</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1557</xloc>
+      <yloc>1680</yloc>
+      </entry>
+    <entry>
+      <name>SET_ENVIROIMENTAL_VARIABLE</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>505</xloc>
+      <yloc>304</yloc>
+      </entry>
+    <entry>
+      <name>Check if a folder is empty 2</name>
+      <description/>
+      <type>FOLDER_IS_EMPTY</type>
+      <foldername>${INBOUND_FILE_PATH}&#47;GL_POSTING_INTERFACE&#47;Input&#47;</foldername>
+      <include_subfolders>N</include_subfolders>
+      <specify_wildcard>N</specify_wildcard>
+      <wildcard/>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1479</xloc>
+      <yloc>206</yloc>
+      </entry>
+    <entry>
+      <name>PRECISION</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1743</xloc>
+      <yloc>1679</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${SOURCE_MODE}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>829</xloc>
+      <yloc>294</yloc>
+      </entry>
+    <entry>
+      <name>DATABASE FETCH</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>835</xloc>
+      <yloc>478</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>Y</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>839</xloc>
+      <yloc>387</yloc>
+      </entry>
+    <entry>
+      <name>TRUNCATE INTERFACE TABLE 2</name>
+      <description/>
+      <type>TRUNCATE_TABLES</type>
+      <connection>staging</connection>
+      <arg_from_previous>N</arg_from_previous>
+      <fields>
+        <field>
+          <name>GL_POSTING_INTERFACE</name>
+          <schemaname/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>813</xloc>
+      <yloc>200</yloc>
+      </entry>
+    <entry>
+      <name>MAIL (2) 2</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1328</xloc>
+      <yloc>324</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2 3</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${SOURCE_MODE}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>850</xloc>
+      <yloc>1522</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2 3 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${SOURCE_MODE}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1755</xloc>
+      <yloc>850</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT (2) 3</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;GL_POSTING_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;GL_POSTING_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>db</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1756</xloc>
+      <yloc>1189</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT (2) 3 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;GL_POSTING_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;GL_POSTING_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>db</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1932</xloc>
+      <yloc>814</yloc>
       </entry>
   </entries>
   <hops>
@@ -847,33 +1199,6 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>FILE CHECKING</from>
-      <to>STOP PROCESS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>START</from>
-      <to>STOP PROCESS AUDIT</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
-    </hop>
-    <hop>
       <from>VALIDATION_FAIL_MAIL</from>
       <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
@@ -894,15 +1219,6 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
       <to>STOP PROCESS AUDIT (2)</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>STOP PROCESS AUDIT (2)</from>
-      <to>STOP PROCESS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1081,26 +1397,8 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT</from>
-      <to>GETTING_FILE_NAME</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>GETTING_FILE_NAME</from>
       <to>FILE CHECKING</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>TRUNCATE INTERFACE TABLE</from>
-      <to>Check if a folder is empty</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1119,6 +1417,276 @@ AND a.TRANSACTION_LEVEL=&apos;RESERVE&apos;
     <hop>
       <from>Check if a folder is empty</from>
       <to>STOP PROCESS AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILE CHECKING</from>
+      <to>STOP PROCESS AUDIT (2) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CSV_TO_INTERFACE</from>
+      <to>STOP PROCESS AUDIT (2) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>RETENTION_LOGIC</from>
+      <to>SNAP TABLE PURGE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>START</from>
+      <to>SET_ENVIROIMENTAL_VARIABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>SET_ENVIROIMENTAL_VARIABLE</from>
+      <to>STOP PROCESS AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check if a folder is empty 2</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check if a folder is empty 2</from>
+      <to>STOP PROCESS AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SNAP TABLE PURGE</from>
+      <to>PRECISION</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT</from>
+      <to>TRUNCATE INTERFACE TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE INTERFACE TABLE 2</from>
+      <to>Simple evaluation 2 4 2 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2</from>
+      <to>Simple evaluation 2 4 2 2 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 2</from>
+      <to>DATABASE FETCH</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2</from>
+      <to>GETTING_FILE_NAME</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 2</from>
+      <to>GETTING_FILE_NAME</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DATABASE FETCH</from>
+      <to>HANDLING_NEW_AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DATABASE FETCH</from>
+      <to>MAIL (2) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (2) 2</from>
+      <to>STOP PROCESS AUDIT (2) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE INTERFACE TABLE</from>
+      <to>Simple evaluation 2 4 2 2 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 3</from>
+      <to>STOP PROCESS AUDIT (3)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 3</from>
+      <to>Check if a folder is empty</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (2) 2</from>
+      <to>Simple evaluation 2 4 2 2 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (2)</from>
+      <to>Simple evaluation 2 4 2 2 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (2) 2</from>
+      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATION_FAIL_MAIL</from>
+      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TEMP_TABLE_TRUNCATION_FAIL</from>
+      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STAGING_TRUNCATION_FAIL</from>
+      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (2) 3</from>
+      <to>Simple evaluation 2 4 2 2 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 3 2</from>
+      <to>STOP PROCESS AUDIT (2) 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (2) 3 2</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 3 2</from>
+      <to>Check if a folder is empty 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

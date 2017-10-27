@@ -76,11 +76,11 @@ public final class IdentifierResults extends StplCustomComponent {
 	/**
 	 * The binder.
 	 */
-	private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<ItemIrtIdentifierDTO>(identifierFormBean));
+	private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(identifierFormBean));
 	/**
 	 * The identifier results bean.
 	 */
-	private BeanItemContainer<ItemIrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<ItemIrtIdentifierDTO>(ItemIrtIdentifierDTO.class);
+	private BeanItemContainer<ItemIrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<>(ItemIrtIdentifierDTO.class);
 	/**
 	 * The table.
 	 */
@@ -109,6 +109,7 @@ public final class IdentifierResults extends StplCustomComponent {
 	 * The identifier status.
 	 */
 	private final NativeSelect identifierStatus = new NativeSelect();
+        private final UIUtils uiUtils = UIUtils.getInstance();
 
 	/**
 	 * Instantiates a new identifier results.
@@ -198,8 +199,8 @@ public final class IdentifierResults extends StplCustomComponent {
 	private Table addToTable() {
 
 		table.setContainerDataSource(identifierResultsBean);
-		table.setVisibleColumns(UIUtils.IDEN_FORM_COL_ORDER);
-		table.setColumnHeaders(UIUtils.IDEN_FORM_COL_ORDER_HEADER);
+		table.setVisibleColumns(uiUtils.idenFormColOrder);
+		table.setColumnHeaders(uiUtils.idenFormColOrderHeader);
 		table.setPageLength(NumericConstants.SEVEN);
 		table.setImmediate(true);
 		table.setSelectable(true);
@@ -454,7 +455,7 @@ public final class IdentifierResults extends StplCustomComponent {
 		 *             the invalid value exception
 		 */
 		@Override
-		public void validate(final Object value) throws Validator.InvalidValueException {
+		public void validate(final Object value)  {
 			if (startDate.getValue() != null && endDate.getValue() != null) {
 				if (startDate.getValue().after(endDate.getValue())) {
 					throw new Validator.InvalidValueException("Start date is less than End date");

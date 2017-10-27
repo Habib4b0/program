@@ -1,4 +1,3 @@
-
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.BaselinePeriodDTO;
@@ -210,39 +209,40 @@ public class NationalAssumptions extends CustomComponent implements View {
     @UiField("resetBtn")
     Button resetBtn;
     Button deleteBtn = new Button(EMPTYSTRING.getConstant());
-    Set<String> ndcList = new HashSet<String>();
-    final List<String> listNDC9 = new ArrayList<String>();
-    final Map<String, String> wacHashMap = new HashMap<String, String>();
-    final Map<String, String> federalWacMap = new HashMap<String, String>();
-    final Map<String, String> cpiHashMap = new HashMap<String, String>();
+    Set<String> ndcList = new HashSet<>();
+    final List<String> listNDC9 = new ArrayList<>();
+    final Map<String, String> wacHashMap = new HashMap<>();
+    final Map<String, String> federalWacMap = new HashMap<>();
+    final Map<String, String> cpiHashMap = new HashMap<>();
 
-    final Map<Integer, String> ndc9Map = new HashMap<Integer, String>();
-    final Map<String, String> itemNo = new HashMap<String, String>();
-    final Map<String, String> ampHashMap = new HashMap<String, String>();
+    final Map<Integer, String> ndc9Map = new HashMap<>();
+    final Map<String, String> itemNo = new HashMap<>();
+    final Map<String, String> ampHashMap = new HashMap<>();
 
-    final Map<String, String> nonFampMap = new HashMap<String, String>();
-    final Map<String, String> fssMap = new HashMap<String, String>();
+    final Map<String, String> nonFampMap = new HashMap<>();
+    final Map<String, String> fssMap = new HashMap<>();
 
-    final Map<Integer, String> itemMasterSidMap = new HashMap<Integer, String>();
+    final Map<Integer, String> itemMasterSidMap = new HashMap<>();
     NewNdcDTO newNdcDto = new NewNdcDTO();
-    final List<String> listItemNo = new ArrayList<String>();
+    final List<String> listItemNo = new ArrayList<>();
     public NdcPopupForm ndcPopup;
     String growthValueUnFormated = StringUtils.EMPTY;
+    public static final String NDC_CREATED = "ndcCreated";
     public final Resource deleteImage = new ThemeResource("../../../icons/delete.png");
     /**
      * The baseline results bean.
      */
-    BeanItemContainer<BaselinePeriodDTO> baselineResultsBean = new BeanItemContainer<BaselinePeriodDTO>(BaselinePeriodDTO.class);
+    BeanItemContainer<BaselinePeriodDTO> baselineResultsBean = new BeanItemContainer<>(BaselinePeriodDTO.class);
 
     /**
      * The rolling avg results bean.
      */
-    BeanItemContainer<BaselinePeriodDTO> rollingAvgResultsBean = new BeanItemContainer<BaselinePeriodDTO>(BaselinePeriodDTO.class);
+    BeanItemContainer<BaselinePeriodDTO> rollingAvgResultsBean = new BeanItemContainer<>(BaselinePeriodDTO.class);
 
     /**
      * The price types bean.
      */
-    BeanItemContainer<PriceTypeDTO> priceTypesBean = new BeanItemContainer<PriceTypeDTO>(PriceTypeDTO.class);
+    BeanItemContainer<PriceTypeDTO> priceTypesBean = new BeanItemContainer<>(PriceTypeDTO.class);
 
     /**
      * The baseline period dto.
@@ -254,31 +254,32 @@ public class NationalAssumptions extends CustomComponent implements View {
      */
     NationalAssumptionLogic logic = new NationalAssumptionLogic();
     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    public List<PriceTypeDTO> removedList = new ArrayList<PriceTypeDTO>();
-    final Map<Integer, Object> medicaidMap = new HashMap<Integer, Object>();
-    final Map<Integer, Object> federalMap = new HashMap<Integer, Object>();
+    public List<PriceTypeDTO> removedList = new ArrayList<>();
+    final Map<Integer, Object> medicaidMap = new HashMap<>();
+    final Map<Integer, Object> federalMap = new HashMap<>();
     @UiField("cpiCompounding")
     OptionGroup cpiCompounding;
-    Label growthLabel=new Label(" ");
+    Label growthLabel = new Label(" ");
     SessionDTO sessionDTO;
-    
+    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
+
     /**
      * Instantiates a new national assumptions.
      */
     public NationalAssumptions(SessionDTO sessionDTO) {
         super();
-        this.sessionDTO=sessionDTO;
+        this.sessionDTO = sessionDTO;
         LOGGER.debug("NationalAssumption Constructor initiated");
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/nationalassumption/NationalAssumptions.xml"), this));
         vLayout.addComponent(addPeriodsForBaseline());
         vLayoutAvg.addComponent(addPeriodsForRoleAvg());
         forecastMethodologyLayout.addComponent(forecastMethodology, 0, 0, 0, NumericConstants.FOUR);
-        forecastMethodologyLayout.addComponent(new Label(" "), 1,0,1, 0);
-        forecastMethodologyLayout.addComponent(priceBasisDdlb, 1,1,1, 1);
-        forecastMethodologyLayout.addComponent(growthLabel,1,NumericConstants.TWO,1, NumericConstants.TWO);
-        forecastMethodologyLayout.addComponent(growthValue, 1,NumericConstants.THREE,1, NumericConstants.THREE);
-        forecastMethodologyLayout.addComponent(frequencyDdlb, 1,NumericConstants.FOUR,1, NumericConstants.FOUR);
-        
+        forecastMethodologyLayout.addComponent(new Label(" "), 1, 0, 1, 0);
+        forecastMethodologyLayout.addComponent(priceBasisDdlb, 1, 1, 1, 1);
+        forecastMethodologyLayout.addComponent(growthLabel, 1, NumericConstants.TWO, 1, NumericConstants.TWO);
+        forecastMethodologyLayout.addComponent(growthValue, 1, NumericConstants.THREE, 1, NumericConstants.THREE);
+        forecastMethodologyLayout.addComponent(frequencyDdlb, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
+
         init();
         LOGGER.debug("NationalAssumption Constructor ends");
 
@@ -297,184 +298,186 @@ public class NationalAssumptions extends CustomComponent implements View {
      * Configurefields.
      */
     public void configureFields() {
-         try {
-        LOGGER.debug("Entering configurefields method");
-        growthLabel.setHeight("49px");
-        frequencyDdlb.addStyleName("fieldPositionfreq");
-        forecastMethodology.addStyleName("disablelabel");
-        forecastMethodology.addItem(PRICE_TRENDING.getConstant());
-        forecastMethodology.addItem("Price Basis");
-        forecastMethodology.addItem(ROLLING_AVERAGE.getConstant());
-        forecastMethodology.addItem(GROWTH.getConstant());
-        forecastMethodology.addItem(FREQUENCY.getConstant());
-        forecastMethodology.setItemEnabled("Price Basis", false);
-        forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
-        forecastMethodology.select(PRICE_TRENDING.getConstant());
-        if((forecastMethodology.getValue().equals(GROWTH.getConstant()) 
-                || (forecastMethodology.getValue().equals(ROLLING_AVERAGE.getConstant()))) && CPI_U.getConstant().equals(priceTypeDdlb.getValue())){
-            cpiCompounding.setEnabled(true);
-        } else {
-            cpiCompounding.setEnabled(false);
-        }
+        try {
+            LOGGER.debug("Entering configurefields method");
+            growthLabel.setHeight("49px");
+            frequencyDdlb.addStyleName("fieldPositionfreq");
+            forecastMethodology.addStyleName("disablelabel");
+            forecastMethodology.addItem(PRICE_TRENDING.getConstant());
+            forecastMethodology.addItem("Price Basis");
+            forecastMethodology.addItem(ROLLING_AVERAGE.getConstant());
+            forecastMethodology.addItem(GROWTH.getConstant());
+            forecastMethodology.addItem(FREQUENCY.getConstant());
+            forecastMethodology.setItemEnabled("Price Basis", false);
+            forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
+            forecastMethodology.select(PRICE_TRENDING.getConstant());
+            if ((forecastMethodology.getValue().equals(GROWTH.getConstant())
+                    || (forecastMethodology.getValue().equals(ROLLING_AVERAGE.getConstant()))) && CPI_U.getConstant().equals(priceTypeDdlb.getValue())) {
+                cpiCompounding.setEnabled(true);
+            } else if (forecastMethodology.getValue().equals(GROWTH.getConstant()) && !CPI_U.getConstant().equals(priceTypeDdlb.getValue()) && !Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue())) {
+                cpiCompounding.setEnabled(true);
+            } else {
+                cpiCompounding.setEnabled(false);
+            }
 
-        priceBasisDdlb.setImmediate(true);
+            priceBasisDdlb.setImmediate(true);
 
-        priceBasisDdlb.addItem(SELECT_ONE.getConstant());
-        priceBasisDdlb.addItem(AVERAGE_QUARTER_WAC.getConstant());
-        priceBasisDdlb.addItem(BEGINNING_QUARTER_WAC.getConstant());
-        priceBasisDdlb.addItem(ENDING_QUARTER_WAC.getConstant());
-        priceBasisDdlb.addItem(MID_QUARTER_WAC.getConstant());
-        priceBasisDdlb.addItem(DAY_WEIGHTED_WAC.getConstant());
-        priceBasisDdlb.addItem(SALES_WEIGHTED_WAC.getConstant());
-        priceBasisDdlb.select(SELECT_ONE.getConstant());
+            priceBasisDdlb.addItem(SELECT_ONE.getConstant());
+            priceBasisDdlb.addItem(AVERAGE_QUARTER_WAC.getConstant());
+            priceBasisDdlb.addItem(BEGINNING_QUARTER_WAC.getConstant());
+            priceBasisDdlb.addItem(ENDING_QUARTER_WAC.getConstant());
+            priceBasisDdlb.addItem(MID_QUARTER_WAC.getConstant());
+            priceBasisDdlb.addItem(DAY_WEIGHTED_WAC.getConstant());
+            priceBasisDdlb.addItem(SALES_WEIGHTED_WAC.getConstant());
+            priceBasisDdlb.select(SELECT_ONE.getConstant());
 
-        priceBasisDdlb.addStyleName("fieldPositionWac");
-        priceBasisDdlb.setNullSelectionAllowed(false);
+            priceBasisDdlb.addStyleName("fieldPositionWac");
+            priceBasisDdlb.setNullSelectionAllowed(false);
 
-        deleteBtn.setImmediate(true);
-        deleteBtn.setIcon(deleteImage);
+            deleteBtn.setImmediate(true);
+            deleteBtn.setIcon(deleteImage);
 
-        priceTypesTable.setImmediate(true);
-        priceTypesTable.setSelectable(true);
-        priceTypesTable.markAsDirty();
-        priceTypesTable.setContainerDataSource(priceTypesBean);
-        priceTypesTable.setVisibleColumns(CommonUiUtils.PERIOD_TYPES_COLUMNS);
-        priceTypesTable.setColumnHeaders(CommonUiUtils.PERIOD_TYPES_HEADER);
-        priceTypesTable.setColumnAlignment(CommonUiUtils.PERIOD_TYPES_COLUMNS[NumericConstants.FIVE], Table.Align.RIGHT);
-        priceTypesTable.setColumnAlignment(CommonUiUtils.PERIOD_TYPES_COLUMNS[NumericConstants.NINE], Table.Align.CENTER);
-        priceTypesTable.setPageLength(NumericConstants.SEVEN);
+            priceTypesTable.setImmediate(true);
+            priceTypesTable.setSelectable(true);
+            priceTypesTable.markAsDirty();
+            priceTypesTable.setContainerDataSource(priceTypesBean);
+            priceTypesTable.setVisibleColumns(commonUiUtils.periodTypeColumns);
+            priceTypesTable.setColumnHeaders(commonUiUtils.periodTypesHeader);
+            priceTypesTable.setColumnAlignment(commonUiUtils.periodTypeColumns[NumericConstants.FIVE], Table.Align.RIGHT);
+            priceTypesTable.setColumnAlignment(commonUiUtils.periodTypeColumns[NumericConstants.NINE], Table.Align.CENTER);
+            priceTypesTable.setPageLength(NumericConstants.SEVEN);
 
-        loadFrequency();
+            loadFrequency();
 
-        priceTypeDdlb.addItem(BEST_PRICE.getConstant());
-        priceTypeDdlb.addItem(CPI_U.getConstant());
-        priceTypeDdlb.addItem(AMP.getConstant());
+            priceTypeDdlb.addItem(BEST_PRICE.getConstant());
+            priceTypeDdlb.addItem(CPI_U.getConstant());
+            priceTypeDdlb.addItem(AMP.getConstant());
 //        priceTypeDdlb.addItem("FSS(OGA)"); Commented for CEL-370 CR
-        priceTypeDdlb.addItem(Constant.ANNUAL_FSS);
-        priceTypeDdlb.addItem(NON_FAMP.getConstant());
-        priceTypeDdlb.select(AMP.getConstant());
-        priceTypeDdlb.addStyleName("table-header-center");
+            priceTypeDdlb.addItem(Constant.ANNUAL_FSS);
+            priceTypeDdlb.addItem(NON_FAMP.getConstant());
+            priceTypeDdlb.select(AMP.getConstant());
+            priceTypeDdlb.addStyleName("table-header-center");
 
-        baselineMethodology.addItem(SINGLE_PERIOD.getConstant());
-        baselineMethodology.addItem(AVERAGE.getConstant());
-        baselineMethodology.addItem(WEIGHTED_AVG.getConstant());
-        baselineMethodology.select(SINGLE_PERIOD.getConstant());
+            baselineMethodology.addItem(SINGLE_PERIOD.getConstant());
+            baselineMethodology.addItem(AVERAGE.getConstant());
+            baselineMethodology.addItem(WEIGHTED_AVG.getConstant());
+            baselineMethodology.select(SINGLE_PERIOD.getConstant());
 
-        baselineStartPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
-        baselineEndPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
-        rollingStartPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
-        rollingEndPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
-        effectiveStartPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
-        effectiveEndPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
+            baselineStartPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
+            baselineEndPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
+            rollingStartPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
+            rollingEndPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
+            effectiveStartPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
+            effectiveEndPeriod.setNullSelectionItemId(SELECT_ONE.getConstant());
 
-        growthValue.setValidationVisible(true);
-        growthValue.addValidator(new RegexpValidator(CommonUtils.GROWTH, CommonUtils.GROWTH_VAL_MSG));
-        growthValue.setWidth("177px");
-        growthValue.addStyleName(Constant.TXT_RIGHT_ALIGN);
-        growthValue.setConverter(dollarFormat);
-        frequencyDdlb.setNullSelectionAllowed(false);
+            growthValue.setValidationVisible(true);
+            growthValue.addValidator(new RegexpValidator(CommonUtils.GROWTH, CommonUtils.GROWTH_VAL_MSG));
+            growthValue.setWidth("177px");
+            growthValue.addStyleName(Constant.TXT_RIGHT_ALIGN);
+            growthValue.setConverter(dollarFormat);
+            frequencyDdlb.setNullSelectionAllowed(false);
 
-        growthValue.setImmediate(true);
+            growthValue.setImmediate(true);
 
-        priceTypesTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
-            private static final long serialVersionUID = 1L;
+            priceTypesTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+                private static final long serialVersionUID = 1L;
 
-            public void itemClick(ItemClickEvent event) {
-                if (event.isDoubleClick()) {
-                    PriceTypeDTO priceTypesDTO = (PriceTypeDTO) event.getItemId();
-                    setPriceTypeProjection(priceTypesDTO);
-                }
-            }
-        });
-        if (PRICE_TRENDING.getConstant().equals(String.valueOf(forecastMethodology.getValue()))) {
-            frequencyDdlb.setEnabled(false);
-            growthValue.setEnabled(false);
-        }
-
-        forecastMethodology.addValueChangeListener(new Property.ValueChangeListener() {
-
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                LOGGER.debug("Inside forecastMethodology listener");
-                priceBasisDdlb.setEnabled(true);
-                String forecastMethodologyValue = String.valueOf(forecastMethodology.getValue());
-                if (GROWTH.getConstant().equals(forecastMethodologyValue)) {
-                    cpiCompounding.setEnabled(true);
-                    if (priceTypeDdlb.getValue() != null) {
-
-                        if (cpiCompounding.getValue() !=null && ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
-                            frequencyDdlb.setEnabled(false);
-                        } else {
-                            frequencyDdlb.setEnabled(true);
-                        }
-                    } 
-                    growthValue.setEnabled(true);
-                    priceBasisDdlb.setEnabled(false);
-                } else {
-                    cpiCompounding.setEnabled(false);
-                    frequencyDdlb.select(ANNUAL.getConstant());
-                    growthValue.setValue(EMPTYSTRING.getConstant());
-                    frequencyDdlb.setEnabled(false);
-                    growthValue.setEnabled(false);
-
-                }
-                if (ROLLING_AVERAGE.getConstant().equals(forecastMethodologyValue)) {
-
-                    try {
-                        int newNdcCount = findNewNdcCount();
-                        if (newNdcCount == 0) {
-                            if (checkSelection(rollingStartPeriod.getValue(), rollingEndPeriod.getValue())) {
-                                rollingAvgOnChange();
-                            }
-                            priceBasisDdlb.setEnabled(false);
-                            frequencyDdlb.setEnabled(false);
-                            growthValue.setEnabled(false);
-
-                        } else {
-                            AbstractNotificationUtils.getInfoNotification("Rolling Average", "Rolling Average is not available because there are new NDC's in the projection that do not have multiple periods with price type data available");
-                            forecastMethodology.select(PRICE_TRENDING.getConstant());
-                            priceBasisDdlb.setEnabled(true);
-                            priceBasisDdlb.setImmediate(true);
-                            frequencyDdlb.setEnabled(false);
-                            frequencyDdlb.setImmediate(true);
-                            growthValue.setEnabled(false);
-                            growthValue.setImmediate(true);
-                        }
-                        if(CPI_U.getConstant().equals(priceTypeDdlb.getValue())){
-                            cpiCompounding.setEnabled(true);
-                        } else {
-                            cpiCompounding.setEnabled(false);
-                        }                            
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
+                public void itemClick(ItemClickEvent event) {
+                    if (event.isDoubleClick()) {
+                        PriceTypeDTO priceTypesDTO = (PriceTypeDTO) event.getItemId();
+                        setPriceTypeProjection(priceTypesDTO);
                     }
-                } else {
-                    rollingAvgResultsBean.removeAllItems();
                 }
-                if (PRICE_TRENDING.getConstant().equals(forecastMethodologyValue)) {
+            });
+            if (PRICE_TRENDING.getConstant().equals(String.valueOf(forecastMethodology.getValue()))) {
+                frequencyDdlb.setEnabled(false);
+                growthValue.setEnabled(false);
+            }
+
+            forecastMethodology.addValueChangeListener(new Property.ValueChangeListener() {
+
+                @Override
+                public void valueChange(ValueChangeEvent event) {
+                    LOGGER.debug("Inside forecastMethodology listener");
                     priceBasisDdlb.setEnabled(true);
-                    frequencyDdlb.setEnabled(false);
-                    growthValue.setEnabled(false);
+                    String forecastMethodologyValue = String.valueOf(forecastMethodology.getValue());
+                    if (GROWTH.getConstant().equals(forecastMethodologyValue)) {
+                        cpiCompounding.setEnabled(true);
+                        if (priceTypeDdlb.getValue() != null) {
+
+                            if (cpiCompounding.getValue() != null && ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
+                                frequencyDdlb.setEnabled(false);
+                            } else {
+                                frequencyDdlb.setEnabled(true);
+                            }
+                        }
+                        growthValue.setEnabled(true);
+                        priceBasisDdlb.setEnabled(false);
+                    } else {
+                        cpiCompounding.setEnabled(false);
+                        frequencyDdlb.select(ANNUAL.getConstant());
+                        growthValue.setValue(EMPTYSTRING.getConstant());
+                        frequencyDdlb.setEnabled(false);
+                        growthValue.setEnabled(false);
+
+                    }
+                    if (ROLLING_AVERAGE.getConstant().equals(forecastMethodologyValue)) {
+
+                        try {
+                            int newNdcCount = findNewNdcCount();
+                            if (newNdcCount == 0) {
+                                if (checkSelection(rollingStartPeriod.getValue(), rollingEndPeriod.getValue())) {
+                                    rollingAvgOnChange();
+                                }
+                                priceBasisDdlb.setEnabled(false);
+                                frequencyDdlb.setEnabled(false);
+                                growthValue.setEnabled(false);
+
+                            } else {
+                                AbstractNotificationUtils.getInfoNotification("Rolling Average", "Rolling Average is not available because there are new NDC's in the projection that do not have multiple periods with price type data available");
+                                forecastMethodology.select(PRICE_TRENDING.getConstant());
+                                priceBasisDdlb.setEnabled(true);
+                                priceBasisDdlb.setImmediate(true);
+                                frequencyDdlb.setEnabled(false);
+                                frequencyDdlb.setImmediate(true);
+                                growthValue.setEnabled(false);
+                                growthValue.setImmediate(true);
+                            }
+                            if (CPI_U.getConstant().equals(priceTypeDdlb.getValue())) {
+                                cpiCompounding.setEnabled(true);
+                            } else {
+                                cpiCompounding.setEnabled(false);
+                            }
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
+                        }
+                    } else {
+                        rollingAvgResultsBean.removeAllItems();
+                    }
+                    if (PRICE_TRENDING.getConstant().equals(forecastMethodologyValue)) {
+                        priceBasisDdlb.setEnabled(true);
+                        frequencyDdlb.setEnabled(false);
+                        growthValue.setEnabled(false);
+                    }
+                    LOGGER.debug("Inside forecastMethodology listener");
+
                 }
-                LOGGER.debug("Inside forecastMethodology listener");
+            });
 
+            if (Constant.VIEW.equalsIgnoreCase(mode)) {
+                disableFieldsOnView();
             }
-        });
-
-        if (Constant.VIEW.equalsIgnoreCase(mode)) {
-            disableFieldsOnView();
-        }
-        if (Constant.EDIT_SMALL.equalsIgnoreCase(mode)) {
-            try {
-                callNDCPopupProcedure();
-            } catch (Exception ex) {
-                LOGGER.error(ex);
+            if (Constant.EDIT_SMALL.equalsIgnoreCase(mode)) {
+                try {
+                    callNDCPopupProcedure();
+                } catch (Exception ex) {
+                    LOGGER.error(ex);
+                }
             }
-        }
 
-        final StplSecurity stplSecurity = new StplSecurity();
-        final String userId =  sessionDTO.getUserId();
-            final Map<String, AppPermission> tabItemHM = stplSecurity.getBusinessFunctionPermission(userId, NATIONAL_ASSUMPTIONS.getConstant() + "," +NATIONAL_ASSUMPTIONS.getConstant());
+            final StplSecurity stplSecurity = new StplSecurity();
+            final String userId = sessionDTO.getUserId();
+            final Map<String, AppPermission> tabItemHM = stplSecurity.getBusinessFunctionPermission(userId, NATIONAL_ASSUMPTIONS.getConstant() + "," + NATIONAL_ASSUMPTIONS.getConstant());
             if (tabItemHM.get("populateBtn") != null && tabItemHM.get("populateBtn").isFunctionFlag()) {
                 populateBtn.setVisible(true);
             } else {
@@ -490,34 +493,34 @@ public class NationalAssumptions extends CustomComponent implements View {
             } else {
                 ndcBtn.setVisible(false);
             }
-             CommonUtils.getBaselineStartPeriod(baselineStartPeriod);
-             CommonUtils.getBaselineStartPeriod(baselineEndPeriod);
-             CommonUtils.getRollingStartPeriod(rollingStartPeriod);
-             CommonUtils.getRollingStartPeriod(rollingEndPeriod);
-             CommonUtils.getEffectivePeriods(effectiveStartPeriod, priceTypeDdlb.getValue());
-             CommonUtils.getEffectivePeriods(effectiveEndPeriod, priceTypeDdlb.getValue());
-            
-             cpiCompounding.addItem(QUARTERLY.getConstant());
-             cpiCompounding.addItem(ANNUAL.getConstant());
-             cpiCompounding.select(ANNUAL.getConstant());
-             cpiCompounding.setValue(ANNUAL.getConstant());
-             cpiCompounding.addValueChangeListener(new Property.ValueChangeListener() {
+            CommonUtils.getBaselineStartPeriod(baselineStartPeriod);
+            CommonUtils.getBaselineStartPeriod(baselineEndPeriod);
+            CommonUtils.getRollingStartPeriod(rollingStartPeriod);
+            CommonUtils.getRollingStartPeriod(rollingEndPeriod);
+            CommonUtils.getEffectivePeriods(effectiveStartPeriod, priceTypeDdlb.getValue());
+            CommonUtils.getEffectivePeriods(effectiveEndPeriod, priceTypeDdlb.getValue());
 
-                 @Override
-                 public void valueChange(ValueChangeEvent event) {
-                   String fmValue = String.valueOf(forecastMethodology.getValue());
-                   
-                    if ((GROWTH.getConstant()).equalsIgnoreCase(fmValue)){
-                     if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
-                         frequencyDdlb.select(ANNUAL.getConstant());;
-                         frequencyDdlb.setEnabled(false);
-                     } else {
-                         frequencyDdlb.setEnabled(true);
-                     }
+            cpiCompounding.addItem(QUARTERLY.getConstant());
+            cpiCompounding.addItem(ANNUAL.getConstant());
+            cpiCompounding.select(ANNUAL.getConstant());
+            cpiCompounding.setValue(ANNUAL.getConstant());
+            cpiCompounding.addValueChangeListener(new Property.ValueChangeListener() {
+
+                @Override
+                public void valueChange(ValueChangeEvent event) {
+                    String fmValue = String.valueOf(forecastMethodology.getValue());
+
+                    if ((GROWTH.getConstant()).equalsIgnoreCase(fmValue)) {
+                        if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
+                            frequencyDdlb.select(ANNUAL.getConstant());;
+                            frequencyDdlb.setEnabled(false);
+                        } else {
+                            frequencyDdlb.setEnabled(true);
+                        }
                     }
-                 }
-             });
-            
+                }
+            });
+
         } catch (PortalException portal) {
             LOGGER.error(portal);
         } catch (SystemException system) {
@@ -547,8 +550,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForBaselineTable.setContainerDataSource(baselineResultsBean);
         periodsForBaselineTable.addStyleName(Constant.FILTER_TABLE);
         periodsForBaselineTable.addStyleName("valo-theme-extfiltertable");
-        periodsForBaselineTable.setVisibleColumns(CommonUiUtils.BASELINE_PERIOD_COLUMNS);
-        periodsForBaselineTable.setColumnHeaders(CommonUiUtils.BASELINE_PERIOD_HEADER);
+        periodsForBaselineTable.setVisibleColumns(commonUiUtils.baselinePeriodColumns);
+        periodsForBaselineTable.setColumnHeaders(commonUiUtils.baselinePeriodHeader);
         periodsForBaselineTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
         periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.HUNDRED);
         periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
@@ -613,8 +616,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.setWidth("292px");
         periodsForRollingAvgTable.setPageLength(NumericConstants.FIVE);
         periodsForRollingAvgTable.setContainerDataSource(rollingAvgResultsBean);
-        periodsForRollingAvgTable.setVisibleColumns(CommonUiUtils.BASELINE_PERIOD_COLUMNS);
-        periodsForRollingAvgTable.setColumnHeaders(CommonUiUtils.BASELINE_PERIOD_HEADER);
+        periodsForRollingAvgTable.setVisibleColumns(commonUiUtils.baselinePeriodColumns);
+        periodsForRollingAvgTable.setColumnHeaders(commonUiUtils.baselinePeriodHeader);
         periodsForRollingAvgTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
         periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.NINTY_FIVE);
         periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
@@ -670,7 +673,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     public void baselineStartPeriod(Property.ValueChangeEvent event) {
         if (baselineStartPeriod.getValue() != null && baselineEndPeriod.getValue() != null) {
             if (!CommonUtils.isEndDateGreater(baselineStartPeriod.getValue().toString(), baselineEndPeriod.getValue().toString())) {
-                AbstractNotificationUtils.getErrorNotification("Baseline Period Date Range Error", "Please select a start period that occurs before the selected end period.");
+                AbstractNotificationUtils.getErrorNotification("Baseline Period Date Range Error", Constant.PLEASE_SELECT_A_START_PERIOD);
             } else {
                 baselineOnChange();
             }
@@ -688,7 +691,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     public void baselineEndPeriod(Property.ValueChangeEvent event) {
         if (baselineStartPeriod.getValue() != null && baselineEndPeriod.getValue() != null) {
             if (!CommonUtils.isEndDateGreater(baselineStartPeriod.getValue().toString(), baselineEndPeriod.getValue().toString())) {
-                AbstractNotificationUtils.getErrorNotification("Baseline Period Date Range Error", "Please select a start period that occurs before the selected end period.");
+                AbstractNotificationUtils.getErrorNotification("Baseline Period Date Range Error", Constant.PLEASE_SELECT_A_START_PERIOD);
                 baselineEndPeriod.select(Constant.SELECT_ONE);
             } else {
                 baselineOnChange();
@@ -709,7 +712,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         String forecastMethodologyValue = String.valueOf(forecastMethodology.getValue());
         if (rollingStartPeriod.getValue() != null && rollingEndPeriod.getValue() != null) {
             if (!CommonUtils.isEndDateGreater(rollingStartPeriod.getValue().toString(), rollingEndPeriod.getValue().toString())) {
-                AbstractNotificationUtils.getErrorNotification("Forecast Period Date Range Error", "Please select a start period that occurs before the selected end period.");
+                AbstractNotificationUtils.getErrorNotification("Forecast Period Date Range Error", Constant.PLEASE_SELECT_A_START_PERIOD);
                 rollingStartPeriod.select(Constant.SELECTONE);
             } else if (ROLLING_AVERAGE.getConstant().equals(forecastMethodologyValue)) {
                 rollingAvgOnChange();
@@ -732,7 +735,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         String forecastMethodologyValue = String.valueOf(forecastMethodology.getValue());
         if (rollingStartPeriod.getValue() != null && rollingEndPeriod.getValue() != null) {
             if (!CommonUtils.isEndDateGreater(rollingStartPeriod.getValue().toString(), rollingEndPeriod.getValue().toString())) {
-                AbstractNotificationUtils.getErrorNotification("Forecast Period Date Range Error", "Please select a start period that occurs before the selected end period.");
+                AbstractNotificationUtils.getErrorNotification("Forecast Period Date Range Error", Constant.PLEASE_SELECT_A_START_PERIOD);
                 rollingEndPeriod.select(Constant.SELECTONE);
             } else if (ROLLING_AVERAGE.getConstant().equals(forecastMethodologyValue)) {
                 rollingAvgOnChange();
@@ -754,18 +757,18 @@ public class NationalAssumptions extends CustomComponent implements View {
         try {
 
             if (ndcPopup == null) {
-                String isCreated = (String) VaadinSession.getCurrent().getAttribute("isCreated");
+                String isCreated = (String) VaadinSession.getCurrent().getAttribute(Constant.IS_CREATED);
                 if ("Y".equalsIgnoreCase(isCreated)) {
-                    ndcPopup = (NdcPopupForm) VaadinSession.getCurrent().getAttribute("ndcCreated");
-                    VaadinSession.getCurrent().setAttribute("isCreated", "N");
-                    VaadinSession.getCurrent().setAttribute("ndcCreated", null);
+                    ndcPopup = (NdcPopupForm) VaadinSession.getCurrent().getAttribute(NDC_CREATED);
+                    VaadinSession.getCurrent().setAttribute(Constant.IS_CREATED, "N");
+                    VaadinSession.getCurrent().setAttribute(NDC_CREATED, null);
                 } else {
                     callNDCPopupProcedure();
-                    ndcPopup = new NdcPopupForm(newNdcDto, medicaidMap, federalMap,sessionDTO);
+                    ndcPopup = new NdcPopupForm(newNdcDto, medicaidMap, federalMap, sessionDTO);
                 }
             }
-            ndcPopup.setHeight("900px");
-            ndcPopup.setWidth("900px");
+            ndcPopup.setHeight(Constant.NINE_THOUSAND_PX);
+            ndcPopup.setWidth(Constant.NINE_THOUSAND_PX);
             UI.getCurrent().addWindow(ndcPopup);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -786,7 +789,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             List<String> items = (List<String>) baselineStartPeriod.getItemIds();
             int startIndex = items.lastIndexOf(start.toString());
             int endIndex = items.lastIndexOf(end.toString());
-            List<BaselinePeriodDTO> list = new ArrayList<BaselinePeriodDTO>();
+            List<BaselinePeriodDTO> list;
             list = logic.getBasePeriods(startIndex - 1, endIndex - 1);
             baselineResultsBean.removeAllItems();
             baselineResultsBean.addAll(list);
@@ -839,15 +842,13 @@ public class NationalAssumptions extends CustomComponent implements View {
                 if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue() != null && forecastMethodology.getValue() != null) {
                     if (SINGLE_PERIOD.getConstant().equalsIgnoreCase(baselineMethodology.getValue().toString())) {
                         if (selecteditems == 1) {
-                                if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))) && (priceBasisDdlb.getValue() == null || priceBasisDdlb.getValue() == SELECT_ONE.getConstant())) {
-                                    AbstractNotificationUtils.getErrorNotification("No Price Basis Selected",
-                                            "Please select a Price Basis.");
-                                    return;
-                                }
+                            if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))) && (priceBasisDdlb.getValue() == null || priceBasisDdlb.getValue() == SELECT_ONE.getConstant())) {
+                                AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_BASIS_SELECTED, Constant.PLEASE_SELECT_A_PRICE_BASIS);
+                                return;
+                            }
                             if (GROWTH.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))) {
                                 if (frequencyDdlb.getValue() == null && !ANNUAL.getConstant().equals(String.valueOf(cpiCompounding.getValue()))) {
-                                    AbstractNotificationUtils.getErrorNotification("No Frequency Selected",
-                                            "Please select a Frequency.");
+                                    AbstractNotificationUtils.getErrorNotification(Constant.NO_FREQUENCY_SELECTED, Constant.PLEASE_SELECT_A_FREQUENCY);
                                     return;
                                 }
                                 String growthString = String.valueOf(growthValue.getValue());
@@ -855,13 +856,11 @@ public class NationalAssumptions extends CustomComponent implements View {
                                     growthString = growthString.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
                                 }
                                 if (StringUtils.isBlank(growthString)) {
-                                    AbstractNotificationUtils.getErrorNotification("No Growth Rate",
-                                            "Please enter in a Growth rate %.");
+                                    AbstractNotificationUtils.getErrorNotification(Constant.NO_GROWTH_RATE, Constant.PLEASE_ENTER_IN_A_GROWTH_RATE);
                                     return;
                                 }
-                                if (!growthString.matches("^(0*100{1,1}\\.?((?<=\\.)0*)?%?$)|(^0*\\d{0,2}\\.?((?<=\\.)\\d{4})?%?)$")) {
-                                    AbstractNotificationUtils.getErrorNotification("Invalid Growth Rate",
-                                            "Please enter Growth Rate in Percent with 4 decimal places.");
+                                if (!growthString.matches(Constant.SPECIAL_STRING_REGEX)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constant.INVALID_GROWTH_RATE, Constant.GROWTH_RATE_IN_PERCENT);
                                     return;
                                 }
 
@@ -886,16 +885,14 @@ public class NationalAssumptions extends CustomComponent implements View {
                     }
                     if (!excuteFlag && AVERAGE.getConstant().equalsIgnoreCase(baselineMethodology.getValue().toString())) {
                         if (selecteditems > 1) {
-                                if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))) && (priceBasisDdlb.getValue() == null || priceBasisDdlb.getValue() == SELECT_ONE.getConstant())) {
-                                    AbstractNotificationUtils.getErrorNotification("No Price Basis Selected",
-                                            "Please select a Price Basis.");
-                                    return;
-                                }
+                            if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))) && (priceBasisDdlb.getValue() == null || priceBasisDdlb.getValue() == SELECT_ONE.getConstant())) {
+                                AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_BASIS_SELECTED, Constant.PLEASE_SELECT_A_PRICE_BASIS);
+                                return;
+                            }
                             if (GROWTH.getConstant().equalsIgnoreCase(forecastMethodology.getValue().toString())) {
 
                                 if (frequencyDdlb.getValue() == null && !ANNUAL.getConstant().equals(String.valueOf(cpiCompounding.getValue()))) {
-                                    AbstractNotificationUtils.getErrorNotification("No Frequency Selected",
-                                            "Please select a Frequency.");
+                                    AbstractNotificationUtils.getErrorNotification(Constant.NO_FREQUENCY_SELECTED, Constant.PLEASE_SELECT_A_FREQUENCY);
                                     return;
                                 }
                                 String growthString = String.valueOf(growthValue.getValue());
@@ -903,13 +900,11 @@ public class NationalAssumptions extends CustomComponent implements View {
                                     growthString = growthString.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
                                 }
                                 if (StringUtils.isBlank(growthString)) {
-                                    AbstractNotificationUtils.getErrorNotification("No Growth Rate",
-                                            "Please enter in a Growth rate %.");
+                                    AbstractNotificationUtils.getErrorNotification(Constant.NO_GROWTH_RATE, Constant.PLEASE_ENTER_IN_A_GROWTH_RATE);
                                     return;
                                 }
-                                if (!growthString.matches("^(0*100{1,1}\\.?((?<=\\.)0*)?%?$)|(^0*\\d{0,2}\\.?((?<=\\.)\\d{4})?%?)$")) {
-                                    AbstractNotificationUtils.getErrorNotification("Invalid Growth Rate",
-                                            "Please enter Growth Rate in Percent with 4 decimal places.");
+                                if (!growthString.matches(Constant.SPECIAL_STRING_REGEX)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constant.INVALID_GROWTH_RATE, Constant.GROWTH_RATE_IN_PERCENT);
                                     return;
                                 }
 
@@ -933,17 +928,15 @@ public class NationalAssumptions extends CustomComponent implements View {
                     }
                     if (!excuteFlag && WEIGHTED_AVG.getConstant().equalsIgnoreCase(baselineMethodology.getValue().toString())) {
                         if (selecteditems > 1) {
-                                if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))) && (priceBasisDdlb.getValue() == null || priceBasisDdlb.getValue() == SELECT_ONE.getConstant())) {
-                                    AbstractNotificationUtils.getErrorNotification("No Price Basis Selected",
-                                            "Please select a Price Basis.");
-                                    return;
-                                }
+                            if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))) && (priceBasisDdlb.getValue() == null || priceBasisDdlb.getValue() == SELECT_ONE.getConstant())) {
+                                AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_BASIS_SELECTED, Constant.PLEASE_SELECT_A_PRICE_BASIS);
+                                return;
+                            }
 
                             if (GROWTH.getConstant().equalsIgnoreCase(forecastMethodology.getValue().toString())) {
 
                                 if (frequencyDdlb.getValue() == null && !ANNUAL.getConstant().equals(String.valueOf(cpiCompounding.getValue()))) {
-                                    AbstractNotificationUtils.getErrorNotification("No Frequency Selected",
-                                            "Please select a Frequency.");
+                                    AbstractNotificationUtils.getErrorNotification(Constant.NO_FREQUENCY_SELECTED, Constant.PLEASE_SELECT_A_FREQUENCY);
                                     return;
                                 }
                                 String growthString = String.valueOf(growthValue.getValue());
@@ -951,23 +944,19 @@ public class NationalAssumptions extends CustomComponent implements View {
                                     growthString = growthString.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
                                 }
                                 if (StringUtils.isBlank(growthString)) {
-                                    AbstractNotificationUtils.getErrorNotification("No Growth Rate",
-                                            "Please enter in a Growth rate %.");
+                                    AbstractNotificationUtils.getErrorNotification(Constant.NO_GROWTH_RATE, Constant.PLEASE_ENTER_IN_A_GROWTH_RATE);
                                     return;
                                 }
-                                if (!growthString.matches("^(0*100{1,1}\\.?((?<=\\.)0*)?%?$)|(^0*\\d{0,2}\\.?((?<=\\.)\\d{4})?%?)$")) {
-                                    AbstractNotificationUtils.getErrorNotification("Invalid Growth Rate",
-                                            "Please enter Growth Rate in Percent with 4 decimal places.");
+                                if (!growthString.matches(Constant.SPECIAL_STRING_REGEX)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constant.INVALID_GROWTH_RATE, Constant.GROWTH_RATE_IN_PERCENT);
                                     return;
                                 }
 
                                 if (!excuteFlag && growthValue.getValue() != null) {
                                     populateBtnOnClick();
-                                    excuteFlag = true;
                                 }
                             } else {
                                 populateBtnOnClick();
-                                excuteFlag = true;
                             }
                         } else if (selecteditems == 0) {
                             AbstractNotificationUtils.getErrorNotification("Weighted Average Error",
@@ -979,9 +968,8 @@ public class NationalAssumptions extends CustomComponent implements View {
                             return;
                         }
                     }
-                } else if (priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS)){
+                } else if (priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS)) {
                     populateBtnOnClick();
-                    excuteFlag = true;
                 }
             } else {
                 AbstractNotificationUtils.getErrorNotification("Alert",
@@ -1004,7 +992,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         String effectiveEndPeriodNew = String.valueOf(effectiveEndPeriod.getValue());
         List currentPeriod = new ArrayList();
 
-        com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO  startAndTodate = CommonUtils.sessionDto;
+        com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
         int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
@@ -1064,13 +1052,13 @@ public class NationalAssumptions extends CustomComponent implements View {
             }
         }
         if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && !StringUtils.isNotBlank(actualsPeriod1)) {
-            AbstractNotificationUtils.getErrorNotification("Warning", "Baseline is mandatory, Please select baseline.");
+            AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "Baseline is mandatory, Please select baseline.");
             return;
         }
         priceTypeDTO.setBasePeriod(priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) ? StringUtils.EMPTY : actualsPeriod1);
         priceTypeDTO.setForecastMethodology(priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) ? "Mandated Calculation" : ObjectUtils
                 .toString(forecastMethodology.getValue()));
-            priceTypeDTO.setCpiCompounding(String.valueOf(cpiCompounding.getValue()));
+        priceTypeDTO.setCpiCompounding(String.valueOf(cpiCompounding.getValue()));
         if (GROWTH.getConstant().equalsIgnoreCase(priceTypeDTO.getForecastMethodology())) {
             String growthString = growthValue.getValue();
             growthString = StringUtils.isNotBlank(growthString) ? growthString.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY) : DASH;
@@ -1102,7 +1090,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
         priceTypeDTO.setSymbol(deleteBtn);
         if (count > 1) {
-            if (baselineMethodology.getValue().equals("Single Period")) {
+            if (baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
                 selectedFlag = false;
             } else {
                 selectedFlag = true;
@@ -1117,7 +1105,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         }
         if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && ROLLING_AVERAGE.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))
                 && !StringUtils.isNotBlank(actualsPeriod2)) {
-            AbstractNotificationUtils.getErrorNotification("Warning", "Rolling Average baseline is not selected");
+            AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "Rolling Average baseline is not selected");
             return;
         }
         if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && ROLLING_AVERAGE.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))
@@ -1129,11 +1117,11 @@ public class NationalAssumptions extends CustomComponent implements View {
         if (selectedFlag) {
             priceTypesBean.addItem(priceTypeDTO);
         } else {
-            if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals("Single Period")) {
-                AbstractNotificationUtils.getErrorNotification("Warning", "You can only select a single period when the Single Period Baseline Methodology is selected.");
+            if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
+                AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "You can only select a single period when the Single Period Baseline Methodology is selected.");
             }
             if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals("Average")) {
-                AbstractNotificationUtils.getErrorNotification("Warning", "You must select more than 1 single period when using the Average Baseline Methodology.");
+                AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "You must select more than 1 single period when using the Average Baseline Methodology.");
             }
         }
     }
@@ -1147,7 +1135,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-       
+        return;
     }
 
     @UiHandler("resetBtn")
@@ -1160,7 +1148,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
             @Override
             public void noMethod() {
-               
+                return;
             }
         }.getConfirmationMessage(RESET_CONFIRMATION.getConstant(),
                 "Are you sure you want to reset the page to default/previous values?");
@@ -1173,7 +1161,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         baselineEndPeriod.select(null);
         rollingStartPeriod.setValue(null);
         rollingEndPeriod.setValue(null);
-        baselineMethodology.select("Single Period");
+        baselineMethodology.select(Constant.SINGLE_PERIOD);
         forecastMethodology.select(PRICE_TRENDING.getConstant());
         frequencyDdlb.select(ANNUAL.getConstant());
         periodsForBaselineTable.removeAllItems();
@@ -1193,7 +1181,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 ndcPopup.deleteNewNdc();
             }
             List<PriceTypeDTO> list = priceTypesBean.getItemIds();
-            List<PriceTypeDTO> savedPriceTypes = logic.saveNationalAssumptions(list, saveFlag,sessionDTO);
+            List<PriceTypeDTO> savedPriceTypes = logic.saveNationalAssumptions(list, saveFlag, sessionDTO);
             List<PriceTypeDTO> savedPriceTypesResults = new ArrayList<>();
             for (PriceTypeDTO priceTypeDTO : savedPriceTypes) {
                 createDeleteButton(priceTypeDTO);
@@ -1214,7 +1202,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         priceTypesBean.removeAllItems();
     }
 
-    public void callNDCPopupProcedure() throws NamingException, SQLException  {
+    public void callNDCPopupProcedure() throws NamingException, SQLException {
         int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(
                 Constant.PROJECTION_ID);
         newNdcDto.setFssFlag(false);
@@ -1232,7 +1220,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
         final List<Object[]> result = logic.NewNDCSetupCook(projectionId);
         if (result != null && result.size() > 0) {
-            for (Object[] obj : result) {                              
+            for (Object[] obj : result) {
                 String tabName = String.valueOf(obj[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : obj[NumericConstants.SEVEN]);
                 newNdcDto.setIndicator(Constant.NDC);
                 if ("MEDICAID FSS".equals(tabName)) {
@@ -1286,7 +1274,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     ndcDto.setNdcDescription(ndcDesc);
                     federalMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDto);
                 }
-                
+
             }
             newNdcDto.setNdc9Map(ndc9Map);
             newNdcDto.setListNDC9(listNDC9);
@@ -1302,36 +1290,43 @@ public class NationalAssumptions extends CustomComponent implements View {
         }
     }
 
-    public void getNDCSetup() throws NamingException, SQLException  {
+    public void getNDCSetup(String projectionId) throws NamingException, SQLException {
         callNDCPopupProcedure();
         String ndcNo = Arrays.toString(ndcList.toArray()).replace("[", " ").replace("]", " ");
         if (StringUtils.isNotBlank(ndcNo)) {
-            new AbstractNotificationUtils() {
-                @Override
-                public void noMethod() {
-                }
-
-                @Override
-                public void yesMethod() {
-                    try {
-                        if (ndcPopup == null) {
-                            ndcPopup = new NdcPopupForm(newNdcDto, medicaidMap, federalMap,sessionDTO);
-                            VaadinSession.getCurrent().setAttribute("ndcCreated", ndcPopup);
-                            VaadinSession.getCurrent().setAttribute("isCreated", "Y");
-                        }
-
-                        ndcPopup.setHeight("900px");
-                        ndcPopup.setWidth("900px");
-                        UI.getCurrent().addWindow(ndcPopup);
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
+            if (logic.isAFSSPriceTypeAvailable(projectionId)) {
+                new AbstractNotificationUtils() {
+                    @Override
+                    public void noMethod() {
+                        return;
                     }
-                }
-            }.getConfirmationMessage("NDC Setup Required", "The following NDC’s " + ndcNo + " are not setup with AMP, CPI, AFSS, Non-FAMP or Best Price. Do you want to manually update these NDC’s?");
+
+                    @Override
+                    public void yesMethod() {
+                        loadNDCSetup();
+                    }
+                }.getConfirmationMessage("NDC Setup Required", "The following NDC’s " + ndcNo + " are not setup with AMP, CPI, AFSS, Non-FAMP or Best Price. Do you want to manually update these NDC’s?");
+            }
         }
     }
 
-    public void callNaProcedure() throws NamingException, SQLException  {
+    private void loadNDCSetup() {
+        try {
+            if (ndcPopup == null) {
+                ndcPopup = new NdcPopupForm(newNdcDto, medicaidMap, federalMap, sessionDTO);
+                VaadinSession.getCurrent().setAttribute(NDC_CREATED, ndcPopup);
+                VaadinSession.getCurrent().setAttribute(Constant.IS_CREATED, "Y");
+            }
+
+            ndcPopup.setHeight(Constant.NINE_THOUSAND_PX);
+            ndcPopup.setWidth(Constant.NINE_THOUSAND_PX);
+            UI.getCurrent().addWindow(ndcPopup);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
+
+    public void callNaProcedure() throws NamingException, SQLException {
         logic.nationalAssumptionsCook(sessionDTO);
     }
 
@@ -1343,8 +1338,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         if (GROWTH.getConstant().equalsIgnoreCase(priceTypesDTO.getForecastMethodology())) {
             growthValue.setValue(priceTypesDTO.getGrowthRate());
             if (!ANNUAL.getConstant().equalsIgnoreCase(priceTypesDTO.getCpiCompounding())) {
-                frequencyDdlb.select(priceTypesDTO.getFrequency()); 
-            }else{
+                frequencyDdlb.select(priceTypesDTO.getFrequency());
+            } else {
                 frequencyDdlb.select(ANNUAL.getConstant());
             }
         } else {
@@ -1356,8 +1351,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         } else {
             priceBasisDdlb.select(SELECT_ONE.getConstant());
         }
-            cpiCompounding.select(priceTypesDTO.getCpiCompounding());
-        
+        cpiCompounding.select(priceTypesDTO.getCpiCompounding());
+
         effectiveStartPeriod.select(priceTypesDTO.getStartPeriod());
         effectiveEndPeriod.select(priceTypesDTO.getEndPeriod());
         List<String> baseLinePeriods = Arrays.asList(priceTypesDTO.getBasePeriod().split(","));
@@ -1369,10 +1364,10 @@ public class NationalAssumptions extends CustomComponent implements View {
         baselineStartPeriod.select(baseLinePeriods.get(0));
 
         ListIterator baseLineIterator = baseLinePeriods.listIterator();
-        List<BaselinePeriodDTO> baseLineList = new ArrayList<BaselinePeriodDTO>();
+        List<BaselinePeriodDTO> baseLineList = new ArrayList<>();
         BaselinePeriodDTO basePeriod;
-        String period = StringUtils.EMPTY;
-        String type = StringUtils.EMPTY;
+        String period;
+        String type;
         Calendar calendar = Calendar.getInstance();
         while (baseLineIterator.hasNext()) {
             basePeriod = new BaselinePeriodDTO();
@@ -1393,28 +1388,28 @@ public class NationalAssumptions extends CustomComponent implements View {
         baselineResultsBean.addAll(baseLineList);
         if ((ROLLING_AVERAGE.getConstant().equalsIgnoreCase(priceTypesDTO.getForecastMethodology())) && ((priceTypesDTO.getRollingPeriod()) != null)) {
 
-                List<String> rollingAveragePeriods = Arrays.asList(priceTypesDTO.getRollingPeriod().split(","));
-                rollingStartPeriod.select(rollingAveragePeriods.get(0));
-                if (rollingAveragePeriods.size() <= 1) {
-                    rollingEndPeriod.select(SELECT_ONE.getConstant());
-                } else {
-                    rollingEndPeriod.select(rollingAveragePeriods.get(rollingAveragePeriods.size() - 1));
-                }
+            List<String> rollingAveragePeriods = Arrays.asList(priceTypesDTO.getRollingPeriod().split(","));
+            rollingStartPeriod.select(rollingAveragePeriods.get(0));
+            if (rollingAveragePeriods.size() <= 1) {
+                rollingEndPeriod.select(SELECT_ONE.getConstant());
+            } else {
+                rollingEndPeriod.select(rollingAveragePeriods.get(rollingAveragePeriods.size() - 1));
+            }
 
-                ListIterator rollingAverageIterator = rollingAveragePeriods.listIterator();
-                BaselinePeriodDTO rollPeriod;
-                List<BaselinePeriodDTO> rollingAverageList = new ArrayList<BaselinePeriodDTO>();
-                while (rollingAverageIterator.hasNext()) {
-                    rollPeriod = new BaselinePeriodDTO();
-                    Object element = rollingAverageIterator.next();
-                    period = element.toString().trim();
-                    rollPeriod.setType(Constant.ACTUALS);
-                    rollPeriod.setPeriod(period);
-                    rollPeriod.setCheck(true);
-                    rollingAverageList.add(rollPeriod);
-                }
-                rollingAvgResultsBean.removeAllItems();
-                rollingAvgResultsBean.addAll(rollingAverageList);
+            ListIterator rollingAverageIterator = rollingAveragePeriods.listIterator();
+            BaselinePeriodDTO rollPeriod;
+            List<BaselinePeriodDTO> rollingAverageList = new ArrayList<>();
+            while (rollingAverageIterator.hasNext()) {
+                rollPeriod = new BaselinePeriodDTO();
+                Object element = rollingAverageIterator.next();
+                period = element.toString().trim();
+                rollPeriod.setType(Constant.ACTUALS);
+                rollPeriod.setPeriod(period);
+                rollPeriod.setCheck(true);
+                rollingAverageList.add(rollPeriod);
+            }
+            rollingAvgResultsBean.removeAllItems();
+            rollingAvgResultsBean.addAll(rollingAverageList);
         }
     }
 
@@ -1465,13 +1460,13 @@ public class NationalAssumptions extends CustomComponent implements View {
             if ((PRICE_TRENDING.getConstant()).equalsIgnoreCase(forecastMethodologyValue)) {
                 forecastMethodology.select(GROWTH.getConstant());
             }
-            forecastMethodology.setItemEnabled(PRICE_TRENDING.getConstant(),false);
+            forecastMethodology.setItemEnabled(PRICE_TRENDING.getConstant(), false);
             priceBasisDdlb.setValue(SELECT_ONE.getConstant());
             priceBasisDdlb.setEnabled(false);
-            if ((GROWTH.getConstant()).equalsIgnoreCase(forecastMethodologyValue)){
-                if(ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))){
+            if ((GROWTH.getConstant()).equalsIgnoreCase(forecastMethodologyValue)) {
+                if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
                     frequencyDdlb.setEnabled(false);
-            } else{
+                } else {
                     frequencyDdlb.setEnabled(true);
                 }
             }
@@ -1493,15 +1488,17 @@ public class NationalAssumptions extends CustomComponent implements View {
             CommonUtils.getEffectivePeriods(effectiveStartPeriod, priceTypeDdlb.getValue());
             CommonUtils.getEffectivePeriods(effectiveEndPeriod, priceTypeDdlb.getValue());
         } else {
-            forecastMethodology.setItemEnabled(PRICE_TRENDING.getConstant(),true);
+            forecastMethodology.setItemEnabled(PRICE_TRENDING.getConstant(), true);
             if (GROWTH.getConstant().equals(forecastMethodologyValue) && !ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
                 frequencyDdlb.setEnabled(true);
-            }else{
+            } else {
                 frequencyDdlb.setEnabled(false);
             }
         }
-        if((forecastMethodology.getValue().equals(GROWTH.getConstant()) 
-                || (forecastMethodology.getValue().equals(ROLLING_AVERAGE.getConstant()))) && CPI_U.getConstant().equals(priceTypeDdlb.getValue())){
+        if ((forecastMethodology.getValue().equals(GROWTH.getConstant())
+                || (forecastMethodology.getValue().equals(ROLLING_AVERAGE.getConstant()))) && CPI_U.getConstant().equals(priceTypeDdlb.getValue())) {
+            cpiCompounding.setEnabled(true);
+        } else if (forecastMethodology.getValue().equals(GROWTH.getConstant()) && !CPI_U.getConstant().equals(priceTypeDdlb.getValue()) && !Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue())) {
             cpiCompounding.setEnabled(true);
         } else {
             cpiCompounding.setEnabled(false);
@@ -1517,7 +1514,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         frequencyDdlb.select(ANNUAL.getConstant());
     }
 
-    public void saveDeletedPrice(){
+    public void saveDeletedPrice() {
         int projectionId = (Integer) VaadinSession.getCurrent()
                 .getAttribute(PROJECTION_ID.getConstant());
 
@@ -1527,11 +1524,11 @@ public class NationalAssumptions extends CustomComponent implements View {
             }
         }
         // reload the table 
-        reloadTable(projectionId);
+        reloadTable();
         removedList.clear();
     }
 
-    public void reloadTable(int projectionId) {
+    public void reloadTable() {
         priceTypesBean.removeAllItems();
         List<PriceTypeDTO> savedPriceTypesResults = new ArrayList<>();
         List<PriceTypeDTO> savedPriceTypes = logic.getSavedPriceTypes(sessionDTO);
@@ -1561,7 +1558,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                         PriceTypeDTO projDTO = (PriceTypeDTO) event.getButton().getData();
                         int projId = projDTO.getNaProjMasterSid();
                         if (projId != 0) {
-                            logic.removePriceType(projDTO,sessionDTO);
+                            logic.removePriceType(projDTO, sessionDTO);
                             removedList.add(projDTO);
                         }
                         priceTypesBean.removeItem(projDTO);
@@ -1569,6 +1566,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
                     @Override
                     public void noMethod() {
+                        return;
                         // TODO Auto-generated method stub
                     }
                 }.getConfirmationMessage("Delete Confirmation",
@@ -1607,12 +1605,13 @@ public class NationalAssumptions extends CustomComponent implements View {
             LOGGER.error(ex);
         }
     }
+
     public void callCumulativeCalculation() {
         List<PriceTypeDTO> list = priceTypesBean.getItemIds();
         for (PriceTypeDTO priceTypeDTO : list) {
             if (priceTypeDTO.getBaselineMethodology().equals(SINGLE_PERIOD.getConstant()) || priceTypeDTO.getBaselineMethodology().equals(AVERAGE.getConstant())) {
                 logic.cumulativeCalculation(priceTypeDTO.getBaselineMethodology(), sessionDTO);
-}
+            }
         }
 
     }

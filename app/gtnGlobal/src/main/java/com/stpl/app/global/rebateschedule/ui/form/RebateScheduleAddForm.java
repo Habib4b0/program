@@ -48,6 +48,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -91,11 +92,6 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
     private ErrorLabel errorMsg;
 
     /**
-     * The tabsheet.
-     */
-    TabSheet tabsheet = new TabSheet();
-
-    /**
      * The rebate schedule logic.
      */
     private final RebateScheduleLogic rebateLogic;
@@ -106,7 +102,7 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
     /**
      * The item family plan results bean.
      */
-    private BeanItemContainer<IfpModel> itemFamilyplanResultsBean = new BeanItemContainer<IfpModel>(IfpModel.class);
+    private BeanItemContainer<IfpModel> itemFamilyplanResultsBean = new BeanItemContainer<>(IfpModel.class);
 
     /**
      * The item result bean.
@@ -131,7 +127,6 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
      */
     private RebateScheduleMasterDTO rebateScheduleMaster;
 
-
     /**
      * The binder.
      */
@@ -151,17 +146,16 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
     private Button deleteBtn;
 
     @UiField("informationLayout")
-    private VerticalLayout informationLayout;   
-    
-    private final NotesTabLogic notesLogic =new NotesTabLogic();
+    private VerticalLayout informationLayout;
+
+    private final NotesTabLogic notesLogic = new NotesTabLogic();
 
     private String ruleName;
     /**
      * The tabsheet.
      */
     @UiField("tabSheet")
-    private TabSheet tabSheet;
-    
+    private TabSheet tabSheeet;
     RSInfoTabForm infoTab;
     RSItemAdditionTabForm itemAdditionTab;
     RSProcessingOptionTabForm poTab;
@@ -170,16 +164,17 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
 
     private NotesTabForm notesTab;
 
-    private final BeanItemContainer<IfpModel> emptyAvailableContainer = new BeanItemContainer<IfpModel>(IfpModel.class);
+    private final BeanItemContainer<IfpModel> emptyAvailableContainer = new BeanItemContainer<>(IfpModel.class);
 
     private final String mode;
     private final boolean isViewMode;
     private final boolean isAddMode;
-    CommonUtil commonMsg=CommonUtil.getInstance();
+    CommonUtil commonMsg = CommonUtil.getInstance();
     SessionDTO sessionDTO;
     String prevIfpId;
     String ifpEditIdent;
     String ifpId;
+    private final CommonUIUtils commonUiUtils = new CommonUIUtils();
 
     /**
      * @return the itemFamilyplanResultsBean
@@ -321,16 +316,16 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
         rebateLogic = new RebateScheduleLogic(this.sessionDTO);
         this.isViewMode = ConstantsUtils.VIEW.equals(mode);
         this.isAddMode = ConstantsUtils.ADD.equals(mode);
-        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/common/tabsheetform.xml"), this));         
+        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/common/tabsheetform.xml"), this));
         init();
 
-        }
+    }
 
     /**
-     * 
+     *
      * @throws SystemException
      * @throws PortalException
-     * @throws Exception 
+     * @throws Exception
      */
     public void init() throws SystemException, PortalException {
         addToContent();
@@ -346,6 +341,9 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
      * Method to add buttons, labels, and tabs components .
      */
     public void addToContent() throws SystemException, PortalException {
+         if (ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
+            configInfoLayoutCopy();
+        }
         informationLayout.addComponent(new InformationLayout("rebate_Schedule", rebateScheduleMaster.getRebateScheduleId(), rebateScheduleMaster.getRebateScheduleNo(), rebateScheduleMaster.getRebateScheduleName()));
         addTabSheet();
         addPermissionToFooterButtons();
@@ -361,7 +359,7 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
     private ErrorfulFieldGroup getBinder() {
 
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<RebateScheduleMasterDTO>(rebateScheduleMaster));
+        binder.setItemDataSource(new BeanItem<>(rebateScheduleMaster));
         binder.setBuffered(true);
         binder.setErrorDisplay(errorMsg);
         errorMsg.setId("ErrorMessage");
@@ -375,46 +373,45 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
      * @return the tab sheet
      */
     public void addTabSheet() throws PortalException, SystemException {
-        tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
-        tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setId("responsive-tab");
-        tabSheet.setReadOnly(true);
+        tabSheeet.addStyleName(ValoTheme.TABSHEET_FRAMED);
+        tabSheeet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+        tabSheeet.setId("responsive-tab");
+        tabSheeet.setReadOnly(true);
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         LOGGER.debug("addTabSheet  userId=" + userId + ConstantsUtils.QUERY_RS + UISecurityUtil.REBATE_SCHEDULE);
         final Map<String, AppPermission> tabRsHM = stplSecurity.getBusinessTabPermission(userId, UISecurityUtil.REBATE_SCHEDULE);
         LOGGER.debug("addTabSheet  userId=" + userId + ConstantsUtils.QUERY_RS + UISecurityUtil.REBATE_SCHEDULE);
 
-        infoTab = new RSInfoTabForm(this, binder,mode);
-            infoTab.setCaption(TabNameUtil.REBATE_SCHEDULE_INFO);
-            tabSheet.addTab(infoTab, TabNameUtil.REBATE_SCHEDULE_INFO);
+        infoTab = new RSInfoTabForm(this, binder, mode);
+        infoTab.setCaption(TabNameUtil.REBATE_SCHEDULE_INFO);
+        tabSheeet.addTab(infoTab, TabNameUtil.REBATE_SCHEDULE_INFO);
         if (tabRsHM.get(TabNameUtil.PROCESSING_OPTION) != null && ((AppPermission) tabRsHM.get(TabNameUtil.PROCESSING_OPTION)).isTabFlag()) {
-        
-        poTab = new RSProcessingOptionTabForm(binder, mode);
-        poTab.setCaption(TabNameUtil.PROCESSING_OPTION);
-        tabSheet.addTab(poTab, TabNameUtil.PROCESSING_OPTION);
-       
-        }
-         rebateSetupTab = new RSRebateSetupTabForm(binder, rebateLogic, itemResultBean,infoTab, mode,sessionDTO);
-            itemAdditionTab = new RSItemAdditionTabForm(binder, itemFamilyplanResultsBean, selectedItemResultBean,itemResultBean,rebateLogic, selectedIfp, mode,rebateSetupTab,sessionDTO);            
-            itemAdditionTab.setCaption(TabNameUtil.RS_ITEM_ADDITION);
-            tabSheet.addTab(itemAdditionTab, TabNameUtil.RS_ITEM_ADDITION);
-            availableTable = itemAdditionTab.getAvailableTable();
-            selectedTable = itemAdditionTab.getSelectedTable();
-            rebateSetupTab.setCaption(TabNameUtil.RS_REBATE_SETUP);
-            tabSheet.addTab(rebateSetupTab, TabNameUtil.RS_REBATE_SETUP);
-            itemDetailsTable = rebateSetupTab.getItemDetailsTable();
 
-        
+            poTab = new RSProcessingOptionTabForm(binder, mode);
+            poTab.setCaption(TabNameUtil.PROCESSING_OPTION);
+            tabSheeet.addTab(poTab, TabNameUtil.PROCESSING_OPTION);
+
+        }
+        rebateSetupTab = new RSRebateSetupTabForm(binder, rebateLogic, itemResultBean, infoTab, mode, sessionDTO);
+        itemAdditionTab = new RSItemAdditionTabForm(binder, itemFamilyplanResultsBean, selectedItemResultBean, itemResultBean, rebateLogic, selectedIfp, mode, rebateSetupTab, sessionDTO);
+        itemAdditionTab.setCaption(TabNameUtil.ITEM_ADDITION);
+        tabSheeet.addTab(itemAdditionTab, TabNameUtil.ITEM_ADDITION);
+        availableTable = itemAdditionTab.getAvailableTable();
+        selectedTable = itemAdditionTab.getSelectedTable();
+        rebateSetupTab.setCaption(TabNameUtil.RS_REBATE_SETUP);
+        tabSheeet.addTab(rebateSetupTab, TabNameUtil.RS_REBATE_SETUP);
+        itemDetailsTable = rebateSetupTab.getItemDetailsTable();
+
         try {
-                notesTab = new NotesTabForm(binder, "Rebate Schedule", "RS_MODEL","rebateScheduleSystemId",mode);
-                notesTab.setCaption(TabNameUtil.NOTES);
-                tabSheet.addTab(notesTab, TabNameUtil.NOTES);
+            notesTab = new NotesTabForm(binder, "Rebate Schedule", "RS_MODEL", "rebateScheduleSystemId", mode);
+            notesTab.setCaption(TabNameUtil.NOTES);
+            tabSheeet.addTab(notesTab, TabNameUtil.NOTES);
 
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        tabSheet.setErrorHandler(new ErrorHandler() {
+        tabSheeet.setErrorHandler(new ErrorHandler() {
             /**
              * Method used to handling error for tab sheet
              */
@@ -423,7 +420,7 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 LOGGER.error(event.toString());
             }
         });
-        tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+        tabSheeet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             /**
              * Method used for Handling error for tabsheet
              */
@@ -431,38 +428,38 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
 
                 try {
                     final String selectedIfpId = selectedIfp.getValue();
-                    prevIfpId=selectedIfpId;
+                    prevIfpId = selectedIfpId;
                     selectedTabName = event.getTabSheet().getSelectedTab().getCaption();
                     LOGGER.debug("selectedTabIndex :" + selectedTabName);
                     if (selectedTabName.equals(TabNameUtil.REBATE_SCHEDULE_INFO)) { // Rebate Schedule Information
                         infoTab.focusRebateScheduleId();
                         binder.getErrorDisplay().clearError();
-                    } else if (selectedTabName.equals(TabNameUtil.RS_ITEM_ADDITION)) {// Item Addition
+                    } else if (selectedTabName.equals(TabNameUtil.ITEM_ADDITION)) {// Item Addition
                         itemAdditionTab.focusIfpNo();
                         binder.getErrorDisplay().clearError();
                     } else if (selectedTabName.equals(TabNameUtil.RS_REBATE_SETUP)) { // Rebate setup
                         if (isViewMode) {
-                            rebateSetupTab.loadBasedOnCalculationType(String.valueOf(binder.getField("calculationType").getValue()));
+                            rebateSetupTab.loadBasedOnCalculationType(String.valueOf(binder.getField(ConstantsUtils.CALCULATION_TYPE).getValue()));
                             rebateSetupTab.refreshTable();
                         } else if (isAddMode) {
                             rebateSetupTab.focusMassCheck();
-                            binder.getErrorDisplay().clearError();                            
-                            rebateSetupTab.loadBasedOnCalculationType(String.valueOf(binder.getField("calculationType").getValue()));
+                            binder.getErrorDisplay().clearError();
+                            rebateSetupTab.loadBasedOnCalculationType(String.valueOf(binder.getField(ConstantsUtils.CALCULATION_TYPE).getValue()));
                             if (!itemResultBean.getItemIds().isEmpty()) {
                                 rebateLogic.saveToTemp(itemResultBean.getItemIds(), true);
                                 itemResultBean.removeAllItems();
                                 itemDetailsTable.commit();
-                            } 
+                            }
                             rebateSetupTab.loadItemDetailsTable();
                         } else {
                             rebateSetupTab.focusMassCheck();
-                            binder.getErrorDisplay().clearError();                           
-                            rebateSetupTab.loadBasedOnCalculationType( String.valueOf(binder.getField("calculationType").getValue()));
+                            binder.getErrorDisplay().clearError();
+                            rebateSetupTab.loadBasedOnCalculationType(String.valueOf(binder.getField(ConstantsUtils.CALCULATION_TYPE).getValue()));
                             if (!itemResultBean.getItemIds().isEmpty()) {
                                 rebateLogic.saveToTemp(itemResultBean.getItemIds(), true);
                                 itemResultBean.removeAllItems();
-                                itemDetailsTable.commit();                                
-                            } 
+                                itemDetailsTable.commit();
+                            }
                             rebateSetupTab.loadItemDetailsTable();
                         }
                     } else if (selectedTabName.equals(TabNameUtil.NOTES)) { // Notes
@@ -471,24 +468,24 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                         notesTab.callJavaScriptForButton();
                         notesTab.refreshTable();
                         binder.getErrorDisplay().clearError();
-                        if(isViewMode){
+                        if (isViewMode) {
                             notesTab.removeAndDisablingComponents();
                         }
                     }
 
                 } catch (Exception exception) {
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {  
-                        /**           
-                         * The method is triggered when a button of the message box is
-                         * pressed .      
-                         *           
-                         * @param buttonId The buttonId of the pressed button.          
-                         */             
-                        @SuppressWarnings("PMD")    
-                        public void buttonClicked(final ButtonId buttonId) { 
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing  
-                        }         
-                    }, ButtonId.OK);    
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                     LOGGER.error(exception);
 
@@ -504,22 +501,22 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         LOGGER.debug("init  userId=" + userId + ConstantsUtils.QUERY_RS + UISecurityUtil.REBATE_SCHEDULE);
-        final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Common");
-       
+        final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.REBATE_SCHEDULE + "," + "Common");
+
         if (functionRsHM.get(FunctionNameUtil.SAVE) != null && ((AppPermission) functionRsHM.get(FunctionNameUtil.SAVE)).isFunctionFlag()) {
             addButton();
-        }else{
+        } else {
             btnUpdate.setVisible(false);
         }
-            backButton();
+        backButton();
         if (functionRsHM.get(FunctionNameUtil.RESET) != null && ((AppPermission) functionRsHM.get(FunctionNameUtil.RESET)).isFunctionFlag()) {
             resetButton();
-        }else{
+        } else {
             resetBtn.setVisible(false);
         }
         if (functionRsHM.get(FunctionNameUtil.DELETE) != null && ((AppPermission) functionRsHM.get(FunctionNameUtil.DELETE)).isFunctionFlag()) {
             deleteButton();
-        }else{
+        } else {
             deleteBtn.setVisible(false);
         }
 
@@ -540,23 +537,26 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
             deleteBtn.setVisible(true);
 
         }
+        else if (ConstantsUtils.COPY.equals(mode)) {
+            btnUpdate.setCaption("Save");
+        }
     }
 
     private void addButton() {
-            LOGGER.debug("Entering Add Buuton Method  :::: ");
-            btnUpdate.setCaption(ConstantsUtils.SAVE);
-            btnUpdate.setWidth(ConstantsUtils.BTN_WIDTH);
-            btnUpdate.addClickListener(new ClickListener() {
-                /**
-                 * After clicking update button, function will be executed.
-                 */
-                @SuppressWarnings("PMD")
-                public void buttonClick(final ClickEvent event) {
-                    LOGGER.debug("Entering Rebate Schedule Save operation from Add");
-                    updateLogic();
-                    LOGGER.debug("Ending Rebate Schedule Save operation from Add");
-                }
-            });
+        LOGGER.debug("Entering Add Buuton Method  :::: ");
+        btnUpdate.setCaption(ConstantsUtils.SAVE);
+        btnUpdate.setWidth(ConstantsUtils.BTN_WIDTH);
+        btnUpdate.addClickListener(new ClickListener() {
+            /**
+             * After clicking update button, function will be executed.
+             */
+            @SuppressWarnings("PMD")
+            public void buttonClick(final ClickEvent event) {
+                LOGGER.debug("Entering Rebate Schedule Save operation from Add");
+                updateLogic();
+                LOGGER.debug("Ending Rebate Schedule Save operation from Add");
+            }
+        });
     }
 
     /**
@@ -579,44 +579,36 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug("Entering Rebate Schedule back button operation from Add");
                 if (mode.equals(ConstantsUtils.VIEW)) {
-                     AbstractSearchView.flag=false;
+                    AbstractSearchView.flag = false;
                     getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
                 } else {
                     try {
-                        MessageBox.showPlain(Icon.QUESTION, "Confirmation", commonMsg.getBackMessage(), new MessageBoxListener() {
+                        MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFIRMATION, commonMsg.getBackMessage(), new MessageBoxListener() {
                             /**
                              * Called when a Button has been clicked .
                              *
                              */
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                    try {
-                                        LOGGER.debug("NavigateTo Rebate Schedule SearchView page");
-                                          AbstractSearchView.flag=false;
-                                        getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
-                                        rebateLogic.removeAllFromTempTable(true);
-                                    } catch (SystemException ex) {
-                                       LOGGER.error(ex);
-                                    } catch (PortalException ex) {
-                                        LOGGER.error(ex);
-                                    }
+                                    backButtonYesMethod();
                                 }
                             }
                         }, ButtonId.YES, ButtonId.NO);
                     } catch (Exception exception) {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1009), new MessageBoxListener() {  
-                            /**            
-                             * The method is triggered when a button of the message box is 
-                             * pressed .          
-                             *               
-                             * @param buttonId The buttonId of the pressed button.     
-                             */             
-                            @SuppressWarnings("PMD")          
-                            public void buttonClicked(final ButtonId buttonId) {      
+                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1009), new MessageBoxListener() {
+                            /**
+                             * The method is triggered when a button of the
+                             * message box is pressed .
+                             *
+                             * @param buttonId The buttonId of the pressed
+                             * button.
+                             */
+                            @SuppressWarnings("PMD")
+                            public void buttonClicked(final ButtonId buttonId) {
                                 // Do Nothing              
-                            }         
-                        }, ButtonId.OK);  
-                    msg.getButton(ButtonId.OK).focus();
+                            }
+                        }, ButtonId.OK);
+                        msg.getButton(ButtonId.OK).focus();
                         LOGGER.error(exception);
                     }
                     LOGGER.debug("Ending Rebate Schedule back button operation from Add");
@@ -659,7 +651,7 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
              */
             @SuppressWarnings("PMD")
             public void buttonClick(final ClickEvent event) {
-                MessageBox.showPlain(Icon.QUESTION, "Confirmation", commonMsg.getResetMessage(), new MessageBoxListener() {
+                MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFIRMATION, commonMsg.getResetMessage(), new MessageBoxListener() {
                     /**
                      * Called when a Button has been clicked .
                      *
@@ -746,76 +738,79 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                     msg.getButton(ButtonId.OK).focus();
 
                 } else {
-                
-                MessageBox.showPlain(Icon.QUESTION, "Confirmation",commonMsg.getDeleteMessage(binder.getField(ConstantsUtils.REBATE_SCHEDULE_NAME).getValue().toString()), new MessageBoxListener() {
-                    /**
-                     * Method used to delete button logic for click event
-                     * listener
-                     */
-                    @SuppressWarnings("PMD")
-                    public void buttonClicked(final ButtonId buttonId) {
-                        try {
-                            if (buttonId.name().equals(ConstantsUtils.YES)) {
-                              
-                                final RsModel master = rebateLogic.deleteRebateScheduleById(idValue);
-                                final Notification notif = new Notification(commonMsg.getDeletedSuccessfulMessage(master.getRsId() , master.getRsName()), Notification.Type.HUMANIZED_MESSAGE);
-                                notif.setPosition(Position.MIDDLE_CENTER);
-                                notif.setStyleName(ConstantsUtils.MY_STYLE);
-                                notif.show(Page.getCurrent());
-                                  AbstractSearchView.flag=true;
-                                getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
-                            }
-                        } catch (SystemException sysException) {
-                            final String errorMsg = ErrorCodeUtil.getErrorMessage(sysException);
-                            LOGGER.error(errorMsg);
-                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {  
-                                    /**            
-                                     * The method is triggered when a button of the message box is 
-                                     * pressed .          
-                                     *               
-                                     * @param buttonId The buttonId of the pressed button.     
-                                     */             
-                                    @SuppressWarnings("PMD")          
-                                    public void buttonClicked(final ButtonId buttonId) {      
-                                        // Do Nothing              
-                                    }         
-                                }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
-                        } catch (PortalException portException) {
-                            LOGGER.error(portException);
-                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {  
-                                    /**            
-                                     * The method is triggered when a button of the message box is 
-                                     * pressed .          
-                                     *               
-                                     * @param buttonId The buttonId of the pressed button.     
-                                     */             
-                                    @SuppressWarnings("PMD")          
-                                    public void buttonClicked(final ButtonId buttonId) {      
-                                        // Do Nothing              
-                                    }         
-                                }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
-                        } catch (Exception exception) {
-                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {  
-                                    /**            
-                                     * The method is triggered when a button of the message box is 
-                                     * pressed .          
-                                     *               
-                                     * @param buttonId The buttonId of the pressed button.     
-                                     */             
-                                    @SuppressWarnings("PMD")          
-                                    public void buttonClicked(final ButtonId buttonId) {      
-                                        // Do Nothing              
-                                    }         
-                                }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
-                            LOGGER.error(exception);
 
-                        }
-                    }
-                }, ButtonId.YES, ButtonId.NO);
+                    MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFIRMATION, commonMsg.getDeleteMessage(binder.getField(ConstantsUtils.REBATE_SCHEDULE_NAME).getValue().toString()), new MessageBoxListener() {
+                        /**
+                         * Method used to delete button logic for click event
+                         * listener
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
+                            try {
+                                if (buttonId.name().equals(ConstantsUtils.YES)) {
+
+                                    final RsModel master = rebateLogic.deleteRebateScheduleById(idValue);
+                                    final Notification notif = new Notification(commonMsg.getDeletedSuccessfulMessage(master.getRsId(), master.getRsName()), Notification.Type.HUMANIZED_MESSAGE);
+                                    notif.setPosition(Position.MIDDLE_CENTER);
+                                    notif.setStyleName(ConstantsUtils.MY_STYLE);
+                                    notif.show(Page.getCurrent());
+                                    AbstractSearchView.flag = true;
+                                    getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
+                                }
+                            } catch (SystemException sysException) {
+                                final String errorMsg = ErrorCodeUtil.getErrorMessage(sysException);
+                                LOGGER.error(errorMsg);
+                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+                                    /**
+                                     * The method is triggered when a button of
+                                     * the message box is pressed .
+                                     *
+                                     * @param buttonId The buttonId of the
+                                     * pressed button.
+                                     */
+                                    @SuppressWarnings("PMD")
+                                    public void buttonClicked(final ButtonId buttonId) {
+                                        // Do Nothing              
+                                    }
+                                }, ButtonId.OK);
+                                msg.getButton(ButtonId.OK).focus();
+                            } catch (PortalException portException) {
+                                LOGGER.error(portException);
+                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+                                    /**
+                                     * The method is triggered when a button of
+                                     * the message box is pressed .
+                                     *
+                                     * @param buttonId The buttonId of the
+                                     * pressed button.
+                                     */
+                                    @SuppressWarnings("PMD")
+                                    public void buttonClicked(final ButtonId buttonId) {
+                                        // Do Nothing              
+                                    }
+                                }, ButtonId.OK);
+                                msg.getButton(ButtonId.OK).focus();
+                            } catch (Exception exception) {
+                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+                                    /**
+                                     * The method is triggered when a button of
+                                     * the message box is pressed .
+                                     *
+                                     * @param buttonId The buttonId of the
+                                     * pressed button.
+                                     */
+                                    @SuppressWarnings("PMD")
+                                    public void buttonClicked(final ButtonId buttonId) {
+                                        // Do Nothing              
+                                    }
+                                }, ButtonId.OK);
+                                msg.getButton(ButtonId.OK).focus();
+                                LOGGER.error(exception);
+
                             }
+                        }
+                    }, ButtonId.YES, ButtonId.NO);
+                }
                 LOGGER.debug("Ending Rebate Schedule delete operation in Edit");
             }
         });
@@ -858,98 +853,120 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 }
                 errorMessage.append("Rebate Schedule Name");
                 flag = true;
-            }   
-            if (binder.getField("rebateScheduleStatus").getValue() == null 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("rebateScheduleStatus").getValue()) 
-                    || ConstantsUtils.NULL.equals(binder.getField("rebateScheduleStatus").getValue()) 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("rebateScheduleStatus").getDescription())) {
+            }
+            if (binder.getField(ConstantsUtils.REBATE_SCHEDULE_STATUS).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_STATUS).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_STATUS).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_STATUS).getDescription())) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
                 errorMessage.append("Rebate Schedule Status");
                 flag = true;
             }
-            
-             if (binder.getField("startDate").getValue() == null) {
+
+            if (binder.getField("startDate").getValue() == null) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
                 errorMessage.append("Rebate Schedule Start Date");
                 flag = true;
             }
-  
-             if (binder.getField("deductionInclusion").getValue() == null 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("deductionInclusion").getValue()) 
-                    || ConstantsUtils.NULL.equals(binder.getField("deductionInclusion").getValue()) 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("deductionInclusion").getDescription())) {
+
+            if (binder.getField(ConstantsUtils.DEDUCTION_INCLUSION).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.DEDUCTION_INCLUSION).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.DEDUCTION_INCLUSION).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.DEDUCTION_INCLUSION).getDescription())) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
                 errorMessage.append("Deduction Inclusion");
                 flag = true;
             }
-             
-             if (binder.getField("calendar").getValue() == null 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("calendar").getValue()) 
-                    || ConstantsUtils.NULL.equals(binder.getField("calendar").getValue()) 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("calendar").getDescription())) {
-                if (flag) {
-                    errorMessage.append(", ");
-                }
-                errorMessage.append("Calendar");
-                flag = true;
-            }
-             
-             
-            if (binder.getField("rebateScheduleType").getValue() == null || ConstantsUtils.SELECT_ONE.equals(binder.getField("rebateScheduleType").getValue())
-                    || ConstantsUtils.NULL.equals(binder.getField("rebateScheduleType").getValue()) 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("rebateScheduleType").getDescription())) {
+
+            if (binder.getField(ConstantsUtils.REBATE_SCHEDULE_TYPE).getValue() == null || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_TYPE).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_TYPE).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_TYPE).getDescription())) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
                 errorMessage.append("Rebate Schedule Type");
                 flag = true;
             }
-            if (binder.getField("rebateProgramType").getValue() == null 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("rebateProgramType").getValue())
-                    || ConstantsUtils.NULL.equals(binder.getField("rebateProgramType").getValue()) 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("rebateProgramType").getDescription())) {
+            if (binder.getField(ConstantsUtils.REBATE_PROGRAM_TYPE).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_PROGRAM_TYPE).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.REBATE_PROGRAM_TYPE).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_PROGRAM_TYPE).getDescription())) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
                 errorMessage.append("Rebate Program Type");
                 flag = true;
             }
-            if (binder.getField("rebateScheduleCategory").getValue() == null 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("rebateScheduleCategory").getValue())
-                    || ConstantsUtils.NULL.equals(binder.getField("rebateScheduleCategory").getValue()) 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("rebateScheduleCategory").getDescription())) {
+            if (binder.getField(ConstantsUtils.REBATE_SCHEDULE_CATEGORY).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_CATEGORY).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_CATEGORY).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_SCHEDULE_CATEGORY).getDescription())) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
                 errorMessage.append("Rebate Schedule Category");
                 flag = true;
             }
-            if (binder.getField("paymentFrequency").getValue() == null 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("paymentFrequency").getValue())
-                    || ConstantsUtils.NULL.equals(binder.getField("paymentFrequency").getValue()) 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("paymentFrequency").getDescription())) {
+            if (binder.getField(ConstantsUtils.REBATE_FREQUENCY).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_FREQUENCY).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.REBATE_FREQUENCY).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.REBATE_FREQUENCY).getDescription())) {
+                if (flag) {
+                    errorMessage.append(", ");
+                }
+                errorMessage.append("Rebate Frequency");
+                flag = true;
+            }
+            //rebateFrequency
+             if (binder.getField(ConstantsUtils.PAYMENT_FREQUENCY).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.PAYMENT_FREQUENCY).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.PAYMENT_FREQUENCY).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.PAYMENT_FREQUENCY).getDescription())) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
                 errorMessage.append("Payment Frequency");
                 flag = true;
             }
-            if (binder.getField("paymentMethod").getValue() == null 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("paymentMethod").getValue())
-                    || ConstantsUtils.NULL.equals(binder.getField("paymentMethod").getValue()) 
-                    || ConstantsUtils.SELECT_ONE.equals(binder.getField("paymentMethod").getDescription())) {
+            if (binder.getField(ConstantsUtils.PAYMENT_METHOD).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.PAYMENT_METHOD).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.PAYMENT_METHOD).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.PAYMENT_METHOD).getDescription())) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
                 errorMessage.append("Payment Method");
                 flag = true;
-            }  
+            }
+            
+             if (binder.getField(ConstantsUtils.CALCULATION_TYPE).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.CALCULATION_TYPE).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.CALCULATION_TYPE).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.CALCULATION_TYPE).getDescription())) {
+                if (flag) {
+                    errorMessage.append(", ");
+                }
+                errorMessage.append("Calculation Type");
+                flag = true;
+            }
+             
+            if (binder.getField(ConstantsUtils.CALCULATION_LEVEL).getValue() == null
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.CALCULATION_LEVEL).getValue())
+                    || ConstantsUtils.NULL.equals(binder.getField(ConstantsUtils.CALCULATION_LEVEL).getValue())
+                    || ConstantsUtils.SELECT_ONE.equals(binder.getField(ConstantsUtils.CALCULATION_LEVEL).getDescription())) {
+                if (flag) {
+                    errorMessage.append(", ");
+                }
+                errorMessage.append("Calculation Level");
+                flag = true;
+            }
+              
             if (flag) {
                 errorMessage.append(ConstantsUtils.BREAK);
             }
@@ -963,42 +980,43 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 binder.getErrorDisplay().setError(errorMessage.toString());
                 return;
             }
-	
+
             rebateLogic.saveToTemp(itemResultBean.getItemIds(), false);
             itemResultBean.removeAllItems();
-            if (saveFlag) {
+            if (saveFlag || ConstantsUtils.COPY.equals(mode)) {
                 saveFlag = rebateLogic.saveValidation("CheckRecord");
-                long startdatecount=rebateLogic.startDateValidation(userId,sessionId);
+                long startdatecount = rebateLogic.startDateValidation(userId, sessionId);
                 if (saveFlag || (!systemId.equals(ifpSysId) && ifpSysId != null && !(ConstantsUtils.NULL).equals(ifpSysId))) {
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Cannot Save Rebate Schedule", "No items have been selected.  Please select at least one item.", new MessageBoxListener() {  
-                                    /**            
-                                     * The method is triggered when a button of the message box is 
-                                     * pressed .          
-                                     *               
-                                     * @param buttonId The buttonId of the pressed button.     
-                                     */             
-                                    @SuppressWarnings("PMD")          
-                                    public void buttonClicked(final ButtonId buttonId) {      
-                                        // Do Nothing              
-                                    }         
-                                }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Cannot Save Rebate Schedule", "No items have been selected.  Please select at least one item.", new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
+                            // Do Nothing              
+                        }
+                    }, ButtonId.OK);
+                    msg.getButton(ButtonId.OK).focus();
                     return;
-                } else if(startdatecount>0){
+                } else if (startdatecount > 0) {
                     binder.getErrorDisplay().setError("RS Start Date is less than RS End date");
                     return;
-                }else{
-                    
+                } else {
+
                     saveFlag = true;
                 }
-                if (saveFlag) {
-                    saveFlag = rebateLogic.saveValidation("ItemRebateStartDate");                    
+                if (saveFlag || ConstantsUtils.COPY.equals(mode)) {
+                    saveFlag = rebateLogic.saveValidation("ItemRebateStartDate");
                     if (!saveFlag) {
                         binder.getErrorDisplay().setError("Start Date is Mandatory");
                         return;
                     }
-                    if (saveFlag) {
-                        saveFlag = rebateLogic.saveValidation("ItemRebateScheduleStatus");                        
+
+                    if (saveFlag || ConstantsUtils.COPY.equals(mode)) {
+                        saveFlag = rebateLogic.saveValidation("ItemRebateScheduleStatus");
                         if (!rebateLogic.saveValidation("ItemRebateScheduleStatus")) {
                             binder.getErrorDisplay().setError("RS Status is Mandatory");
                             return;
@@ -1006,13 +1024,13 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                     }
                 }
             }
-            
+
             if (binder.getField(ConstantsUtils.REBATE_SCHEDULE_ID).getValue() != null) {
             }
 
-            final List<ItemDetailsDTO> ifpList = new ArrayList<ItemDetailsDTO>();
+            final List<ItemDetailsDTO> ifpList = new ArrayList<>();
 
-            if (saveFlag) {
+            if (saveFlag || ConstantsUtils.COPY.equals(mode)) {
 
                 /**
                  * After clicking delete button, function will be executed.
@@ -1030,8 +1048,8 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                         }
                     }
                 }
-                      
-                MessageBox.showPlain(Icon.QUESTION, "Confirmation", commonMsg.getSaveMessage( binder.getField(ConstantsUtils.REBATE_SCHEDULE_NAME).getValue().toString()), new MessageBoxListener() {
+
+                MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFIRMATION, commonMsg.getSaveMessage(binder.getField(ConstantsUtils.REBATE_SCHEDULE_NAME).getValue().toString()), new MessageBoxListener() {
                     /**
                      * Called when a Button has been clicked .
                      *
@@ -1039,41 +1057,7 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                     @SuppressWarnings("PMD")
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(ConstantsUtils.YES)) {
-                            try {
-                                final String msg = rebateLogic.saveRS(binder, ifpList, notesTab.getUploadedData(), notesTab.getAddedNotes());
-                                if (ConstantsUtils.SUCCESS.equals(msg)) {
-                                   
-                                    final Notification notif = new Notification(commonMsg.getSavedSuccessfulMessage(binder.getField(ConstantsUtils.REBATE_SCHEDULE_ID).getValue().toString(),binder.getField(ConstantsUtils.REBATE_SCHEDULE_NAME).toString()), Notification.Type.HUMANIZED_MESSAGE);
-                                    notif.setPosition(Position.MIDDLE_CENTER);
-                                    notif.setStyleName("mystyle");
-                                    notif.show(Page.getCurrent());
-                                     sessionDTO.setMode(ConstantsUtils.EDIT);
-                                    getUI().getNavigator().navigateTo(RebateScheduleAddView.NAME);
-                                } else if (ConstantsUtils.DUPLICATE.equals(msg)) {
-                                    binder.getErrorDisplay().setError("Rebate Schedule ID already exists. Please enter different Rebate Schedule ID");
-                                } else if (ConstantsUtils.DUPLICATENO.equals(msg)) {
-                                    binder.getErrorDisplay().setError("Rebate Schedule No already exists. Please enter different Rebate Schedule No");
-                                } else if (ConstantsUtils.DUPLICATENAME.equals(msg)) {
-                                    binder.getErrorDisplay().setError("Rebate Schedule Name already exists. Please enter different Rebate Schedule Name");
-                                }
-                              
-                            } catch (Exception exception) {
-                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {  
-                                    /**            
-                                     * The method is triggered when a button of the message box is 
-                                     * pressed .          
-                                     *               
-                                     * @param buttonId The buttonId of the pressed button.     
-                                     */             
-                                    @SuppressWarnings("PMD")          
-                                    public void buttonClicked(final ButtonId buttonId) {      
-                                        // Do Nothing              
-                                    }         
-                                }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
-                                LOGGER.error(exception);
-
-                            }
+                            noteTabLoadDataListener(ifpList);
                         }
                     }
                 }, ButtonId.YES, ButtonId.NO);
@@ -1087,48 +1071,48 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
         } catch (SystemException sysException) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(sysException);
             LOGGER.error(errorMsg);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {  
-                                    /**            
-                                     * The method is triggered when a button of the message box is 
-                                     * pressed .          
-                                     *               
-                                     * @param buttonId The buttonId of the pressed button.     
-                                     */             
-                                    @SuppressWarnings("PMD")          
-                                    public void buttonClicked(final ButtonId buttonId) {      
-                                        // Do Nothing              
-                                    }         
-                                }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing              
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
         } catch (PortalException portException) {
             LOGGER.error(portException);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {  
-                                    /**            
-                                     * The method is triggered when a button of the message box is 
-                                     * pressed .          
-                                     *               
-                                     * @param buttonId The buttonId of the pressed button.     
-                                     */             
-                                    @SuppressWarnings("PMD")          
-                                    public void buttonClicked(final ButtonId buttonId) {      
-                                        // Do Nothing              
-                                    }         
-                                }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing              
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
         } catch (Exception exception) {
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {  
-                                    /**            
-                                     * The method is triggered when a button of the message box is 
-                                     * pressed .          
-                                     *               
-                                     * @param buttonId The buttonId of the pressed button.     
-                                     */             
-                                    @SuppressWarnings("PMD")          
-                                    public void buttonClicked(final ButtonId buttonId) {      
-                                        // Do Nothing              
-                                    }         
-                                }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing              
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
             LOGGER.error(exception);
 
         }
@@ -1149,6 +1133,11 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
             final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
 
             if (selectedTabName.equals(TabNameUtil.REBATE_SCHEDULE_INFO)) {
+                if (ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
+                    rebateScheduleMaster.setRebateScheduleId(StringUtils.EMPTY);
+                    rebateScheduleMaster.setRebateScheduleName(StringUtils.EMPTY);
+                    rebateScheduleMaster.setRebateScheduleNo(StringUtils.EMPTY);
+                }
                 TextField id = (TextField) binder.getField(FieldNameUtils.REBATE_SCHEDULE_ID);
                 id.setValue(rebateScheduleMaster.getRebateScheduleId());
                 TextField no = (TextField) binder.getField(FieldNameUtils.REBATE_SCHEDULE_NO);
@@ -1157,6 +1146,10 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 name.setValue(rebateScheduleMaster.getRebateScheduleName());
                 ComboBox status = (ComboBox) binder.getField(FieldNameUtils.REBATE_SCHEDULE_STATUS);
                 status.setValue(rebateScheduleMaster.getRebateScheduleStatus());
+                PopupDateField startDate = (PopupDateField) binder.getField(ConstantsUtils.START_DATE);
+                startDate.setValue(rebateScheduleMaster.getStartDate());
+                PopupDateField endDate = (PopupDateField) binder.getField(ConstantsUtils.END_DATE);
+                endDate.setValue(rebateScheduleMaster.getEndDate());
                 ComboBox type = (ComboBox) binder.getField(FieldNameUtils.REBATE_SCHEDULE_TYPE);
                 type.setValue(rebateScheduleMaster.getRebateScheduleType());
                 ComboBox programType = (ComboBox) binder.getField(FieldNameUtils.REBATE_PROGRAM_TYPE);
@@ -1168,8 +1161,8 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 ComboBox freq = (ComboBox) binder.getField(FieldNameUtils.REBATE_FREQUENCY);
                 freq.setValue(rebateScheduleMaster.getRebateFrequency());
                 CustomTextField parentCompany = (CustomTextField) binder.getField(FieldNameUtils.REBATE_SCHEDULE_TRANS_REF_NO);
-                parentCompany.setReadOnly(false);          
-                parentCompany.setValue(rebateScheduleMaster.getRebateScheduleTransRefNo());                
+                parentCompany.setReadOnly(false);
+                parentCompany.setValue(rebateScheduleMaster.getRebateScheduleTransRefNo());
                 parentCompany.setReadOnly(true);
                 TextField refName = (TextField) binder.getField(FieldNameUtils.REBATE_SCHEDULE_TRANS_REF_NAME);
                 refName.setReadOnly(false);
@@ -1216,9 +1209,9 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 udc6.setValue(rebateScheduleMaster.getUdc6());
                 TextField gracePeriod = (TextField) binder.getField(FieldNameUtils.PAYMENT_GRACE_PERIOD);
                 gracePeriod.setValue(rebateScheduleMaster.getPaymentGracePeriod());
-                ComboBox calculationType = (ComboBox) binder.getField("calculationType");
+                ComboBox calculationType = (ComboBox) binder.getField(ConstantsUtils.CALCULATION_TYPE);
                 calculationType.setValue(rebateScheduleMaster.getCalculationType());
-                ComboBox calculationLevel = (ComboBox) binder.getField("calculationLevel");
+                ComboBox calculationLevel = (ComboBox) binder.getField(ConstantsUtils.CALCULATION_LEVEL);
                 calculationLevel.setValue(rebateScheduleMaster.getCalculationLevel());
                 ComboBox interestBearingIndicator = (ComboBox) binder.getField("interestBearingIndicator");
                 interestBearingIndicator.select(rebateScheduleMaster.getInterestBearingIndicator());
@@ -1234,11 +1227,11 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 evaluationRuleType.select(rebateScheduleMaster.getEvaluationRuleType());
                 ComboBox evaluationRuleLevel = (ComboBox) binder.getField("evaluationRuleLevel");
                 evaluationRuleLevel.select(rebateScheduleMaster.getEvaluationRuleLevel());
-                 TextField calculationRule = (TextField) binder.getField("calculationRule");
+                TextField calculationRule = (TextField) binder.getField(ConstantsUtils.CALCULATION_RULE);
                 calculationRule.setValue(rebateScheduleMaster.getCalculationRule());
                 TextField evaluationRuleAssociation = (TextField) binder.getField("evaluationRuleAssociation");
                 evaluationRuleAssociation.setValue(rebateScheduleMaster.getEvaluationRuleAssociation());
-                 ComboBox deductionInclusion = (ComboBox) binder.getField("deductionInclusion");
+                ComboBox deductionInclusion = (ComboBox) binder.getField(ConstantsUtils.DEDUCTION_INCLUSION);
                 deductionInclusion.select(rebateScheduleMaster.getDeductionInclusion());
             }
             if (selectedTabName.equals(TabNameUtil.PROCESSING_OPTION)) {
@@ -1251,28 +1244,28 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 ComboBox rebateProcessingTypeDDLB = (ComboBox) binder.getField("rebateProcessingTypeDDLB");
                 rebateProcessingTypeDDLB.select(rebateScheduleMaster.getRebateProcessingTypeDDLB());
             }
-            if (selectedTabName.equals(TabNameUtil.RS_ITEM_ADDITION)) {
+            if (selectedTabName.equals(TabNameUtil.ITEM_ADDITION)) {
                 itemResultBean.removeAllItems();
                 itemAdditionTab.resetItemAdditionSearchCiteria();
                 availableTable.setContainerDataSource(emptyAvailableContainer);
-                availableTable.setVisibleColumns(CommonUIUtils.IFP_COLUMNS_IN_RS);
-                availableTable.setColumnHeaders(CommonUIUtils.IFP_HEADER_IN_RS);                 
-                ImtdRsDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, "All", null, null, null, null);                
+                availableTable.setVisibleColumns(commonUiUtils.ifpColumnsInRs);
+                availableTable.setColumnHeaders(commonUiUtils.ifpHeadersinRs);
+                ImtdRsDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, "All", null, null, null, null);
                 List<IFPDetailsDTO> list = rebateLogic.getItemFamilyPlanFromRSID(systemId);
                 final IFPDetailsDTO obj = list.get(0);
                 int ifpId = obj.getItemFamilyplanSystemId();
                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.IFP_SYS_ID, ifpId);
-                prevIfpId=String.valueOf(ifpId);
-                selectedItemResultBean.addAll(list);               
+                prevIfpId = String.valueOf(ifpId);
+                selectedItemResultBean.addAll(list);
                 selectedIfp.setValue(String.valueOf(ifpId));
-                rebateLogic.loadItemDetailsFromIfp(idValue);  
-                itemResultBean.removeAllItems();                
-                rebateSetupTab.clearRebateSetupData(); 
+                rebateLogic.loadItemDetailsFromIfp(idValue);
+                itemResultBean.removeAllItems();
+                rebateSetupTab.clearRebateSetupData();
             }
             if (selectedTabName.equals(TabNameUtil.RS_REBATE_SETUP)) {
                 rebateSetupTab.getMassCheck().setValue(ConstantsUtils.DISABLE);
                 selectedItemResultBean.removeAllItems();
-                selectedItemResultBean.addAll(rebateLogic.getItemFamilyPlanFromRSID(systemId));                
+                selectedItemResultBean.addAll(rebateLogic.getItemFamilyPlanFromRSID(systemId));
                 itemResultBean.removeAllItems();
                 ImtdRsDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, "All", null, null, null, null);
                 rebateLogic.loadItemDetailsFromIfp(idValue);
@@ -1281,13 +1274,13 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 notesTab.resetBtnLogic(rebateScheduleMaster.getInternalNotes());
             }
 
-        } catch (Exception e) {  
+        } catch (Exception e) {
             LOGGER.error(e);
         }
     }
 
     private void resetForAddMode() {
-        try {            
+        try {
             LOGGER.debug("Entering inside  reset  method from ADD with tab index :" + selectedTabName);
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
             final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
@@ -1356,9 +1349,9 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 udc6.select(null);
                 TextField gracePeriod = (TextField) binder.getField(FieldNameUtils.PAYMENT_GRACE_PERIOD);
                 gracePeriod.setValue(StringUtils.EMPTY);
-                ComboBox calculationType = (ComboBox) binder.getField("calculationType");
+                ComboBox calculationType = (ComboBox) binder.getField(ConstantsUtils.CALCULATION_TYPE);
                 calculationType.select(null);
-                ComboBox calculationLevel = (ComboBox) binder.getField("calculationLevel");
+                ComboBox calculationLevel = (ComboBox) binder.getField(ConstantsUtils.CALCULATION_LEVEL);
                 calculationLevel.select(null);
                 ComboBox interestBearingIndicator = (ComboBox) binder.getField("interestBearingIndicator");
                 interestBearingIndicator.select(null);
@@ -1374,33 +1367,36 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
                 evaluationRuleType.select(null);
                 ComboBox evaluationRuleLevel = (ComboBox) binder.getField("evaluationRuleLevel");
                 evaluationRuleLevel.select(null);
-                TextField calculationRule = (TextField) binder.getField("calculationRule");
+                TextField calculationRule = (TextField) binder.getField(ConstantsUtils.CALCULATION_RULE);
                 calculationRule.setValue(StringUtils.EMPTY);
                 TextField evaluationRuleAssociation = (TextField) binder.getField("evaluationRuleAssociation");
                 evaluationRuleAssociation.setValue(StringUtils.EMPTY);
-                ComboBox deductionInclusion = (ComboBox) binder.getField("deductionInclusion");
+                ComboBox deductionInclusion = (ComboBox) binder.getField(ConstantsUtils.DEDUCTION_INCLUSION);
                 deductionInclusion.select(null);
-                
+                PopupDateField startDate = (PopupDateField) binder.getField(ConstantsUtils.START_DATE);
+                startDate.setValue(null);
+                PopupDateField endDate = (PopupDateField) binder.getField(ConstantsUtils.END_DATE);
+                endDate.setValue(null);
             }
             if (selectedTabName.equals(TabNameUtil.PROCESSING_OPTION)) {
                 poTab.resetProcessingOptions();
             }
-            if (selectedTabName.equals(TabNameUtil.RS_ITEM_ADDITION)) { // Item Addition tab
+            if (selectedTabName.equals(TabNameUtil.ITEM_ADDITION)) { // Item Addition tab
                 itemAdditionTab.resetItemAdditionSearchCiteria();
 
                 availableTable.setContainerDataSource(emptyAvailableContainer);
-                availableTable.setVisibleColumns(CommonUIUtils.IFP_COLUMNS_IN_RS);
-                availableTable.setColumnHeaders(CommonUIUtils.IFP_HEADER_IN_RS);
+                availableTable.setVisibleColumns(commonUiUtils.ifpColumnsInRs);
+                availableTable.setColumnHeaders(commonUiUtils.ifpHeadersinRs);
                 selectedIfp.setValue(StringUtils.EMPTY);
                 ImtdRsDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, "All", null, null, null, null);
-                rebateSetupTab.clearRebateSetupData();                
+                rebateSetupTab.clearRebateSetupData();
             }
             if (selectedTabName.equals(TabNameUtil.RS_REBATE_SETUP)) { // rebate setup tab                
                 rebateSetupTab.setMassCheckValue(ConstantsUtils.DISABLE);
                 itemResultBean.removeAllItems();
-                rebateSetupTab.setDefaultOnReset(String.valueOf(binder.getField("calculationType").getValue()));
-                rebateSetupTab.refreshTable();        
-            }  else if (selectedTabName.equals(TabNameUtil.NOTES)) { // Notes tab
+                rebateSetupTab.setDefaultOnReset(String.valueOf(binder.getField(ConstantsUtils.CALCULATION_TYPE).getValue()));
+                rebateSetupTab.refreshTable();
+            } else if (selectedTabName.equals(TabNameUtil.NOTES)) { // Notes tab
                 notesTab.resetAddMode();
             }
 
@@ -1408,11 +1404,61 @@ public final class RebateScheduleAddForm extends StplCustomComponent implements 
             LOGGER.error(e);
         }
     }
-    
-     private void configDeductionInclusion() {
+
+    private void configDeductionInclusion() {
         HelperListUtil helperListUtil = HelperListUtil.getInstance();
         helperListUtil.getListNameMap().get("LOCKED_STATUS");
-      
 
+    }
+
+    public void backButtonYesMethod() {
+        LOGGER.debug("NavigateTo Rebate Schedule SearchView page");
+        AbstractSearchView.flag = false;
+        getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
+        rebateLogic.removeAllFromTempTable(true);
+    }
+
+    public void noteTabLoadDataListener(final List<ItemDetailsDTO> ifpList) {
+        try {
+            final String msg = rebateLogic.saveRS(binder, ifpList, notesTab.getUploadedData(), notesTab.getAddedNotes());
+            if (ConstantsUtils.SUCCESS.equals(msg)) {
+
+                final Notification notif = new Notification(commonMsg.getSavedSuccessfulMessage(binder.getField(ConstantsUtils.REBATE_SCHEDULE_ID).getValue().toString(), binder.getField(ConstantsUtils.REBATE_SCHEDULE_NAME).toString()), Notification.Type.HUMANIZED_MESSAGE);
+                notif.setPosition(Position.MIDDLE_CENTER);
+                notif.setStyleName("mystyle");
+                notif.show(Page.getCurrent());
+                sessionDTO.setMode(ConstantsUtils.EDIT);
+                getUI().getNavigator().navigateTo(RebateScheduleAddView.NAME);
+            } else if (ConstantsUtils.DUPLICATE.equals(msg)) {
+                binder.getErrorDisplay().setError("Rebate Schedule ID is already exists. Please enter different Rebate Schedule ID");
+            } else if (ConstantsUtils.DUPLICATENO.equals(msg)) {
+                binder.getErrorDisplay().setError("Rebate Schedule No already exists. Please enter different Rebate Schedule No");
+            } else if (ConstantsUtils.DUPLICATENAME.equals(msg)) {
+                binder.getErrorDisplay().setError("Rebate Schedule Name already exists. Please enter different Rebate Schedule Name");
+            }
+
+        } catch (Exception exception) {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing              
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+            LOGGER.error(exception);
+
+        }
+    }
+    
+    public void configInfoLayoutCopy() {
+                    rebateScheduleMaster.setRebateScheduleId(StringUtils.EMPTY);
+                    rebateScheduleMaster.setRebateScheduleName(StringUtils.EMPTY);
+                    rebateScheduleMaster.setRebateScheduleNo(StringUtils.EMPTY);
     }
 }

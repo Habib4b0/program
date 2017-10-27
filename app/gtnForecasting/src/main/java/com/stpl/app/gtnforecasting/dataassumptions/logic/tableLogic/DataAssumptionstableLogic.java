@@ -51,7 +51,7 @@ public class DataAssumptionstableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
 
         LOGGER.debug("loadData Started ");
-        List<Object[]> returnList = new ArrayList();
+        List<Object[]> returnList;
         List<DataAssumptionDTO> headerList = new ArrayList<>();
 
         if (isFirstLoad) {

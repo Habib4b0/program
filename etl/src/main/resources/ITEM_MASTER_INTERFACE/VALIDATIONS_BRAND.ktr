@@ -528,7 +528,7 @@
            </partitioning>
       <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
-      <sort_size>50000</sort_size>
+      <sort_size>5000</sort_size>
       <free_memory/>
       <compress>N</compress>
       <compress_variable/>
@@ -560,7 +560,7 @@
            </partitioning>
       <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
-      <sort_size>50000</sort_size>
+      <sort_size>5000</sort_size>
       <free_memory/>
       <compress>N</compress>
       <compress_variable/>

@@ -47,6 +47,7 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
     private String _itemPrice;
     private Date _intfInsertedDate;
     private boolean _checkRecord;
+    private String _itemPriceprecision;
     private BaseModel<?> _ivldItemPricingRemoteModel;
 
     public IvldItemPricingClp() {
@@ -112,6 +113,7 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
         attributes.put("itemPrice", getItemPrice());
         attributes.put("intfInsertedDate", getIntfInsertedDate());
         attributes.put("checkRecord", getCheckRecord());
+        attributes.put("itemPriceprecision", getItemPriceprecision());
 
         return attributes;
     }
@@ -276,6 +278,13 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
 
         if (checkRecord != null) {
             setCheckRecord(checkRecord);
+        }
+
+        String itemPriceprecision = (String) attributes.get(
+                "itemPriceprecision");
+
+        if (itemPriceprecision != null) {
+            setItemPriceprecision(itemPriceprecision);
         }
     }
 
@@ -866,6 +875,29 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
         }
     }
 
+    @Override
+    public String getItemPriceprecision() {
+        return _itemPriceprecision;
+    }
+
+    @Override
+    public void setItemPriceprecision(String itemPriceprecision) {
+        _itemPriceprecision = itemPriceprecision;
+
+        if (_ivldItemPricingRemoteModel != null) {
+            try {
+                Class<?> clazz = _ivldItemPricingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setItemPriceprecision",
+                        String.class);
+
+                method.invoke(_ivldItemPricingRemoteModel, itemPriceprecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getIvldItemPricingRemoteModel() {
         return _ivldItemPricingRemoteModel;
     }
@@ -961,6 +993,7 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
         clone.setItemPrice(getItemPrice());
         clone.setIntfInsertedDate(getIntfInsertedDate());
         clone.setCheckRecord(getCheckRecord());
+        clone.setItemPriceprecision(getItemPriceprecision());
 
         return clone;
     }
@@ -1006,7 +1039,7 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(53);
+        StringBundler sb = new StringBundler(55);
 
         sb.append("{itemNo=");
         sb.append(getItemNo());
@@ -1060,6 +1093,8 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
         sb.append(getIntfInsertedDate());
         sb.append(", checkRecord=");
         sb.append(getCheckRecord());
+        sb.append(", itemPriceprecision=");
+        sb.append(getItemPriceprecision());
         sb.append("}");
 
         return sb.toString();
@@ -1067,7 +1102,7 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(82);
+        StringBundler sb = new StringBundler(85);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.parttwo.model.IvldItemPricing");
@@ -1176,6 +1211,10 @@ public class IvldItemPricingClp extends BaseModelImpl<IvldItemPricing>
         sb.append(
             "<column><column-name>checkRecord</column-name><column-value><![CDATA[");
         sb.append(getCheckRecord());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>itemPriceprecision</column-name><column-value><![CDATA[");
+        sb.append(getItemPriceprecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

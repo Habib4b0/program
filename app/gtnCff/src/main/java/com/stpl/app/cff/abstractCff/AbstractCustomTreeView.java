@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -67,12 +68,12 @@ public abstract class AbstractCustomTreeView extends Window {
     /**
      * The Constant CUST_ID_TRANSF_COLUMNS.
      */
-    public static final Object[] CUST_ID_TRANSF_COLUMNS = new Object[]{"level"};
+    public final Object[] custIdTransferColumns = new Object[]{"level"};
 
     /**
      * The Constant CUST_ID_TRANSF_HEADER.
      */
-    public static final String[] CUST_ID_TRANSF_HEADER = new String[]{"LEVEL"};
+    public final String[] custIdTransferHeader = new String[]{"LEVEL"};
     @UiField("addCustomer")
     private Button addCustomer;
     @UiField("removeCustomer")
@@ -115,15 +116,15 @@ public abstract class AbstractCustomTreeView extends Window {
      * Configure fields.
      */
     private void configureFields() {
-        addStyleName(Constants.bootstrap_ui);
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP_UI);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
 
         viewName.setValue(getCustomMasterData());
         viewName.setMaxLength(NumericConstants.TWO_HUNDRED);
         treeTable.setContainerDataSource(getCustomTreeContainer());
-        treeTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        treeTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        treeTable.setVisibleColumns(custIdTransferColumns);
+        treeTable.setColumnHeaders(custIdTransferHeader);
         treeTable.setSizeFull();
         treeTable.setSizeUndefined();
         treeTable.setSelectable(true);
@@ -131,24 +132,24 @@ public abstract class AbstractCustomTreeView extends Window {
         treeTable.setWidth("370px");
         loadCustomTree();
         productTable.setContainerDataSource(getProductsContainer());
-        productTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        productTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        productTable.setVisibleColumns(custIdTransferColumns);
+        productTable.setColumnHeaders(custIdTransferHeader);
         productTable.setSizeFull();
         productTable.setSizeUndefined();
         productTable.setSelectable(true);
         productTable.setPageLength(NumericConstants.TEN);
-        productTable.setHeight("210px");
-        productTable.setWidth("210px");
+        productTable.setHeight(StringConstantsUtil.TWO_TEN_PX);
+        productTable.setWidth(StringConstantsUtil.TWO_TEN_PX);
         loadProducts();
         customerTable.setContainerDataSource(getCustomersContainer());
-        customerTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        customerTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        customerTable.setVisibleColumns(custIdTransferColumns);
+        customerTable.setColumnHeaders(custIdTransferHeader);
         customerTable.setSizeFull();
         customerTable.setSizeUndefined();
         customerTable.setSelectable(true);
         customerTable.setPageLength(NumericConstants.TEN);
-        customerTable.setHeight("210px");
-        customerTable.setWidth("210px");
+        customerTable.setHeight(StringConstantsUtil.TWO_TEN_PX);
+        customerTable.setWidth(StringConstantsUtil.TWO_TEN_PX);
         loadCustomers();
 
         save.addClickListener(new Button.ClickListener() {
@@ -158,6 +159,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
                     @Override
                     public void noMethod() {
+                        return;
                     }
 
                     @Override
@@ -179,6 +181,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
 
                         @Override

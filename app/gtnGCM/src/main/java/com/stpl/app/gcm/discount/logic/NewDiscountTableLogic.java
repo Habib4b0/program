@@ -50,7 +50,7 @@ public class NewDiscountTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
-        List<ContractsDetailsDto> resultList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> resultList = new ArrayList<>();
         try {
             resultList = logic.getCommonSearchList(binderDto, sessionDTO);
         } catch (Exception ex) {

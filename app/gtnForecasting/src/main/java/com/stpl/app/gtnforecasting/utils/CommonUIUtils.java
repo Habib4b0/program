@@ -21,23 +21,23 @@ public class CommonUIUtils {
     /**
      * The Constant ATTACHMENT_COLUMNS.
      */
-    public static final Object[] ATTACHMENT_COLUMNS = new Object[]{Constant.DOCUMENT_NAME, Constant.DATE_ADDED, Constant.USER_NAME};
+    public final Object[] attachmentColumns = new Object[]{Constant.DOCUMENT_NAME, Constant.DATE_ADDED, Constant.USER_NAME};
     /**
      * The Constant ATTACHMENT_HEADER.
      */
-    public static final String[] ATTACHMENT_HEADER = new String[]{"Document Name", "Date Added", "User Name"};
+    public final String[] attachmentHeader = new String[]{"Document Name", "Date Added", "User Name"};
     
       /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final Object[] FORMULA_LOOKUP = new Object[]{
+    public final Object[] formulaLookup = new Object[]{
         Constant.FORMULA_TYPE,"formulaID", "formulaNo", "formulaName","version"};
     
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final String[] FORMULA_LOOKUP_HEADER = new String[]{
+    public final String[] formulaLookupHeader = new String[]{
         "Formula Type","Formula ID", "Formula No", "Formula Name","Version"}; 
     
-    public static final  Object RULE_DETAILS_COLUMNS[] = new Object[]{
+    public final  Object[] ruleDetailsColumns = new Object[]{
         Constant.DEDUCTION_TYPE, Constant.DEDUCTION_SUB_TYPE, Constant.DEDUCTION_CATEGORY, Constant.INDICATOR};
-    public static final  String RULE_DETAILS_HEADERS[] = new String[]{"Deduction Type", "Deduction Sub Type", "Deduction Category", "+/- Indicator"};
+    public final  String[] ruleDetailsHeaders = new String[]{"Deduction Type", "Deduction Sub Type", "Deduction Category", "+/- Indicator"};
 
     /**
      * Gets the message notification.

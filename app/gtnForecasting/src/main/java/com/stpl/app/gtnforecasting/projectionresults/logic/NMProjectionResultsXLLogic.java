@@ -12,6 +12,7 @@ import static com.stpl.app.gtnforecasting.projectionresults.logic.NMProjectionRe
 import com.stpl.app.gtnforecasting.projectionvariance.dto.PVParameters;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.SEMI_ANNUALLY;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
@@ -46,7 +47,7 @@ public class NMProjectionResultsXLLogic {
     private final List<String> discountKeys;
     private final ProjectionSelectionDTO selection;
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
-    private static final DecimalFormat UNIT_VOLUME = new DecimalFormat("#,##0.00");
+    private static final DecimalFormat UNIT_VOLUME = new DecimalFormat("#,##0");
     private static final DecimalFormat PER = new DecimalFormat("#,##0.00%");
     private static final DecimalFormat RATE_PER = new DecimalFormat("#,##0.00");
     private static final String ZERO = "0";
@@ -74,12 +75,13 @@ public class NMProjectionResultsXLLogic {
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
     private static final String PRC_PR_EXCEL = "PRC_PROJECTION_RESULT_EXCEL_EXPORT";
     private static String DASH = "-";
-    List<Object> pivotDiscountList = new ArrayList<Object>();
-    List<ProjectionResultsDTO> discountList = new ArrayList<ProjectionResultsDTO>();
+    List<Object> pivotDiscountList = new ArrayList<>();
+    List<ProjectionResultsDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String DETAIL = "Detail";
-    List<Object> pivotTotalList = new ArrayList<Object>();
+    List<Object> pivotTotalList = new ArrayList<>();
+    public static final String ASSUMPTIONS1 = "ASSUMPTIONS";
     List<Integer> pivotPriorProjIdList = new ArrayList();
     private final Map<String, PVParameters> parameters = new HashMap();
     private final Map<String, String> customView_relationship_hierarchy = new HashMap();
@@ -89,6 +91,7 @@ public class NMProjectionResultsXLLogic {
     private String VAR_CONTRACT_UNITS = "Unit Volume";
     private String VAR_DIS_AMOUNT = "Total Discount $";
     private String VAR_DIS_PERCENT = "Total Discount %";
+    public static final String QUARTERLY = "QUARTERLY";
     private String VAR_RPU = "Total RPU";
     private String PERCENT = "%";
 
@@ -125,7 +128,7 @@ public class NMProjectionResultsXLLogic {
             customView_relationship_hierarchy.putAll(getGroup_customViewNM());
         }
         frequencyDivision = selection.getFrequencyDivision();
-        boolean isRefresh = isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
+        isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
 
         if (Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(selection.getPivotView())) {
             isTotal = true;
@@ -188,10 +191,10 @@ public class NMProjectionResultsXLLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList(pvList, obj, index);
+                addList(pvList, obj);
                 hierarchyAndTP_keys(obj, key, pvList);
             } else {
-                updateList(pvList, obj, index);
+                updateList(pvList, obj);
             }
         }
         if (discountFlag) {
@@ -229,12 +232,12 @@ public class NMProjectionResultsXLLogic {
         }
     }
 
-    private void addList(List<ProjectionResultsDTO> pvList, final Object[] obj, int index) {
+    private void addList(List<ProjectionResultsDTO> pvList, final Object[] obj) {
         try {
 
             if (isTotal) {
                 ProjectionResultsDTO total = new ProjectionResultsDTO();
-                total.setGroup("Projection Total");
+                total.setGroup(Constant.PROJECTION_TOTAL);
                 pvList.add(total);
             } else {
                 ProjectionResultsDTO detail = new ProjectionResultsDTO();
@@ -255,49 +258,49 @@ public class NMProjectionResultsXLLogic {
             //Contract Sales @ WAC
             if (selection.getSalesOrUnit().equals("Sales") || selection.getSalesOrUnit().equals("Both")) {
                 salesValue = new ProjectionResultsDTO();
-                calculate(Constant.PVVariables.VAR_CONTRACT_SALES.toString(), Constant.VALUE, obj, NumericConstants.FIVE, NumericConstants.SIX, salesValue, selection, AMOUNT);
+                calculate(Constant.PVVariables.VAR_CONTRACT_SALES.toString(), Constant.VALUE, obj, NumericConstants.FIVE, NumericConstants.SIX, salesValue,  AMOUNT);
                 pvList.add(salesValue);
             }
             //Contract Units
             if (selection.getSalesOrUnit().equals("Units") || selection.getSalesOrUnit().equals("Both")) {
                 unitsValue = new ProjectionResultsDTO();
-                calculate(VAR_CONTRACT_UNITS, Constant.VALUE, obj, NumericConstants.SEVEN, NumericConstants.EIGHT, unitsValue, selection, AMOUNT);
+                calculate(VAR_CONTRACT_UNITS, Constant.VALUE, obj, NumericConstants.SEVEN, NumericConstants.EIGHT, unitsValue,UNIT_VOLUME);
                 pvList.add(unitsValue);
             }
             //Discount $
             disDollValue = new ProjectionResultsDTO();
-            calculate(VAR_DIS_AMOUNT, Constant.VALUE, obj, NumericConstants.TWELVE, NumericConstants.THIRTEEN, disDollValue, selection, AMOUNT);
+            calculate(VAR_DIS_AMOUNT, Constant.VALUE, obj, NumericConstants.TWELVE, NumericConstants.THIRTEEN, disDollValue,  AMOUNT);
             pvList.add(disDollValue);
             //Discount %
             disPerValue = new ProjectionResultsDTO();
-            calculate(VAR_DIS_PERCENT, Constant.VALUE, obj, NumericConstants.FOURTEEN, NumericConstants.FIFTEEN, disPerValue, selection, RATE);
+            calculate(VAR_DIS_PERCENT, Constant.VALUE, obj, NumericConstants.FOURTEEN, NumericConstants.FIFTEEN, disPerValue,  RATE);
             pvList.add(disPerValue);
             //RPU
             rpuValue = new ProjectionResultsDTO();
-            calculate(VAR_RPU, Constant.VALUE, obj, NumericConstants.THIRTY_SIX, NumericConstants.THIRTY_SEVEN, rpuValue, selection, AMOUNT);
+            calculate(VAR_RPU, Constant.VALUE, obj, NumericConstants.THIRTY_SIX, NumericConstants.THIRTY_SEVEN, rpuValue, AMOUNT);
             pvList.add(rpuValue);
             //Discount % of Ex-Factory
             disPerExfac = new ProjectionResultsDTO();
-            calculate(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FIFTY, NumericConstants.FIFTY_ONE, disPerExfac, selection, RATE);
+            calculate(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FIFTY, NumericConstants.FIFTY_ONE, disPerExfac,RATE);
             pvList.add(disPerExfac);
             
             //Net Sales 
             netSalesValue = new ProjectionResultsDTO();
-            calculate(Constant.PVVariables.VAR_NETSALES.toString(), Constant.VALUE, obj, NumericConstants.TWENTY_THREE, NumericConstants.TWENTY_FOUR, netSalesValue, selection, AMOUNT);
+            calculate(Constant.PVVariables.VAR_NETSALES.toString(), Constant.VALUE, obj, NumericConstants.TWENTY_THREE, NumericConstants.TWENTY_FOUR, netSalesValue,  AMOUNT);
             pvList.add(netSalesValue);
             
             //Net Sales % of Ex-Factory
             netSalesExFac = new ProjectionResultsDTO();
-            calculate(Constant.NET_SALES_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FORTY_EIGHT, NumericConstants.FORTY_NINE, netSalesExFac, selection, RATE);
+            calculate(Constant.NET_SALES_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FORTY_EIGHT, NumericConstants.FORTY_NINE, netSalesExFac,  RATE);
             pvList.add(netSalesExFac);
             
             //COGS
             cogsValue = new ProjectionResultsDTO();
-            calculate(Constant.PVVariables.VAR_COGS.toString(), Constant.VALUE, obj, NumericConstants.THIRTY_EIGHT, NumericConstants.THIRTY_NINE, cogsValue, selection, AMOUNT);
+            calculate(Constant.PVVariables.VAR_COGS.toString(), Constant.VALUE, obj, NumericConstants.THIRTY_EIGHT, NumericConstants.THIRTY_NINE, cogsValue,  AMOUNT);
             pvList.add(cogsValue);
             //Net Profit
             netProfitValue = new ProjectionResultsDTO();
-            calculate(Constant.PVVariables.VAR_NET_PROFITE.toString(), Constant.VALUE, obj, NumericConstants.FORTY, NumericConstants.FORTY_ONE, netProfitValue, selection, AMOUNT);
+            calculate(Constant.PVVariables.VAR_NET_PROFITE.toString(), Constant.VALUE, obj, NumericConstants.FORTY, NumericConstants.FORTY_ONE, netProfitValue, AMOUNT);
             pvList.add(netProfitValue);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -305,48 +308,49 @@ public class NMProjectionResultsXLLogic {
 
     }
 
-    private void updateList(List<ProjectionResultsDTO> pvList, Object[] obj, int index) {
+    private void updateList(List<ProjectionResultsDTO> pvList, Object[] obj) {
 
         int listIndex = 1;
         //Contract Sales @ WAC
         if (selection.getSalesOrUnit().equals("Sales") || selection.getSalesOrUnit().equals("Both")) {
             salesValue = pvList.get(listIndex++);
-            calculate(Constant.PVVariables.VAR_CONTRACT_SALES.toString(), Constant.VALUE, obj, NumericConstants.FIVE, NumericConstants.SIX, salesValue, selection, AMOUNT);
+            calculate(Constant.PVVariables.VAR_CONTRACT_SALES.toString(), Constant.VALUE, obj, NumericConstants.FIVE, NumericConstants.SIX, salesValue,  AMOUNT);
         }
         //Contract Units\
         if (selection.getSalesOrUnit().equals("Units") || selection.getSalesOrUnit().equals("Both")) {
             unitsValue = pvList.get(listIndex++);
-            calculate(VAR_CONTRACT_UNITS, Constant.VALUE, obj, NumericConstants.SEVEN, NumericConstants.EIGHT, unitsValue, selection, UNIT_VOLUME);
+            calculate(VAR_CONTRACT_UNITS, Constant.VALUE, obj, NumericConstants.SEVEN, NumericConstants.EIGHT, unitsValue, UNIT_VOLUME);
         }
         //Discount $
         disDollValue = pvList.get(listIndex++);
-        calculate(VAR_DIS_AMOUNT, Constant.VALUE, obj, NumericConstants.TWELVE, NumericConstants.THIRTEEN, disDollValue, selection, AMOUNT);
+        calculate(VAR_DIS_AMOUNT, Constant.VALUE, obj, NumericConstants.TWELVE, NumericConstants.THIRTEEN, disDollValue, AMOUNT);
         //Discount %
         disPerValue = pvList.get(listIndex++);
-        calculate(VAR_DIS_PERCENT, Constant.VALUE, obj, NumericConstants.FOURTEEN, NumericConstants.FIFTEEN, disPerValue, selection, RATE);
+        calculate(VAR_DIS_PERCENT, Constant.VALUE, obj, NumericConstants.FOURTEEN, NumericConstants.FIFTEEN, disPerValue,  RATE);
         //RPU
         rpuValue = pvList.get(listIndex++);
-        calculate(VAR_RPU, Constant.VALUE, obj, NumericConstants.THIRTY_SIX, NumericConstants.THIRTY_SEVEN, rpuValue, selection, AMOUNT);
+        calculate(VAR_RPU, Constant.VALUE, obj, NumericConstants.THIRTY_SIX, NumericConstants.THIRTY_SEVEN, rpuValue, AMOUNT);
         //Discount % of Ex-Factory
         disPerExfac = pvList.get(listIndex++);
-        calculate(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FIFTY, NumericConstants.FIFTY_ONE, disPerExfac, selection, RATE);
+        calculate(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FIFTY, NumericConstants.FIFTY_ONE, disPerExfac,  RATE);
 
         //Net Sales 
         netSalesValue = pvList.get(listIndex++);
-        calculate(Constant.PVVariables.VAR_NETSALES.toString(), Constant.VALUE, obj, NumericConstants.TWENTY_THREE, NumericConstants.TWENTY_FOUR, netSalesValue, selection, AMOUNT);
+        calculate(Constant.PVVariables.VAR_NETSALES.toString(), Constant.VALUE, obj, NumericConstants.TWENTY_THREE, NumericConstants.TWENTY_FOUR, netSalesValue,  AMOUNT);
         //Net Sales % of Ex-Factory
         netSalesExFac = pvList.get(listIndex++);
-        calculate(Constant.NET_SALES_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FORTY_EIGHT, NumericConstants.FORTY_NINE, netSalesExFac, selection, RATE);
+        calculate(Constant.NET_SALES_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, obj, NumericConstants.FORTY_EIGHT, NumericConstants.FORTY_NINE, netSalesExFac,  RATE);
         //COGS
         cogsValue = pvList.get(listIndex++);
-        calculate(Constant.PVVariables.VAR_COGS.toString(), Constant.VALUE, obj, NumericConstants.THIRTY_EIGHT, NumericConstants.THIRTY_NINE, cogsValue, selection, AMOUNT);
+        calculate(Constant.PVVariables.VAR_COGS.toString(), Constant.VALUE, obj, NumericConstants.THIRTY_EIGHT, NumericConstants.THIRTY_NINE, cogsValue,  AMOUNT);
         //Net Profit
         netProfitValue = pvList.get(listIndex++);
-        calculate(Constant.PVVariables.VAR_NET_PROFITE.toString(), Constant.VALUE, obj, NumericConstants.FORTY, NumericConstants.FORTY_ONE, netProfitValue, selection, AMOUNT);
+        calculate(Constant.PVVariables.VAR_NET_PROFITE.toString(), Constant.VALUE, obj, NumericConstants.FORTY, NumericConstants.FORTY_ONE, netProfitValue, AMOUNT);
+        LOGGER.debug("List Index----" + listIndex);
     }
 
     private void calculate(String varaibleName, String varibaleCat, Object[] obj, int actIndex, int projindex, ProjectionResultsDTO pvDTO,
-            ProjectionSelectionDTO selection, DecimalFormat format) {
+             DecimalFormat format) {
         pvDTO.setGroup(varaibleName);
         String commonColumn = StringUtils.EMPTY;
         if (frequencyDivision == NumericConstants.FOUR) {
@@ -400,18 +404,18 @@ public class NMProjectionResultsXLLogic {
         List<Integer> projectionIdList = new ArrayList();
         procRawList_total.clear();
         priorList.clear();
-        if (frequency.equals("Quarterly")) {
-            frequency = "QUARTERLY";
-        } else if (frequency.equals("Semi-Annually")) {
-            frequency = "SEMI-ANNUAL";
-        } else if (frequency.equals("Monthly")) {
-            frequency = "MONTHLY";
+        if (frequency.equals(Constant.QUARTERLY)) {
+            frequency = QUARTERLY;
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            frequency = Constant.SEMIANNUAL_CAPS;
+        } else if (frequency.equals(Constant.MONTHLY)) {
+            frequency = Constant.MONTHLY_COLUMN;
         } else {
-            frequency = "ANNUAL";
+            frequency = Constant.ANNUAL_CAPS;
         }
         projectionIdList.add(selection.getProjectionId());
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        Object[] orderedArg = {projectionId, frequency, discountId, "ASSUMPTIONS", selection.getSessionDTO().getSessionId(), selection.getUserId()};
+        Object[] orderedArg = {projectionId, frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId()};
         List< Object[]> rawList = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
         procRawList_total.addAll(rawList);
         rawList.clear();
@@ -460,7 +464,7 @@ public class NMProjectionResultsXLLogic {
         //To check condition total or details values
         List<ProjectionResultsDTO> pvList = new ArrayList();
         ProjectionResultsDTO total = new ProjectionResultsDTO();
-        total.setGroup("Projection Total");
+        total.setGroup(Constant.PROJECTION_TOTAL);
         pvList.add(total);
 
         hierarchyKeys.add(Constants.LabelConstants.TOTAL.toString());
@@ -473,35 +477,35 @@ public class NMProjectionResultsXLLogic {
     private void calculateAndCustomize_total_pivot() {
         String frequency = selection.getFrequency();
         String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
-        List<String> projectionIdList = new ArrayList<String>();
-        pivotTotalList = new ArrayList<Object>();
-        pivotPriorProjIdList = new ArrayList<Integer>();
-        if (frequency.equals("Quarterly")) {
-            frequency = "QUARTERLY";
-        } else if (frequency.equals("Semi-Annually")) {
-            frequency = "SEMI-ANNUAL";
-        } else if (frequency.equals("Monthly")) {
-            frequency = "MONTHLY";
+        List<String> projectionIdList = new ArrayList<>();
+        pivotTotalList = new ArrayList<>();
+        pivotPriorProjIdList = new ArrayList<>();
+        if (frequency.equals(Constant.QUARTERLY)) {
+            frequency = QUARTERLY;
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            frequency = Constant.SEMIANNUAL_CAPS;
+        } else if (frequency.equals(Constant.MONTHLY)) {
+            frequency = Constant.MONTHLY_COLUMN;
         } else {
-            frequency = "ANNUAL";
+            frequency = Constant.ANNUAL_CAPS;
         }
         projectionIdList.add(String.valueOf(selection.getProjectionId()));
-        Object[] orderedArgs = {selection.getProjectionId(), frequency, discountId, "ASSUMPTIONS", selection.getSessionDTO().getSessionId(), selection.getUserId()};
+        Object[] orderedArgs = {selection.getProjectionId(), frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId()};
         hierarchyKeys.add(Constants.LabelConstants.TOTAL.toString());
         List<ProjectionResultsDTO> pvList = new ArrayList();
         ProjectionResultsDTO total = new ProjectionResultsDTO();
-        total.setGroup("Projection Total");
+        total.setGroup(Constant.PROJECTION_TOTAL);
         pvList.add(total);
         NMProjectionResultsLogic logic = new NMProjectionResultsLogic();
         pvList.addAll(logic.getProjectionPivotTotal(orderedArgs, selection));
         resultMap.put(Constants.LabelConstants.TOTAL.toString(), pvList);
     }
 
-    private void addList_pivot(List<ProjectionResultsDTO> pvList, Object[] obj, ProjectionResultsDTO frequencyBasedDTO, int indexForTotal) {
+    private void addList_pivot(List<ProjectionResultsDTO> pvList, Object[] obj, ProjectionResultsDTO frequencyBasedDTO) {
 
         if (isTotal) {
             ProjectionResultsDTO total = new ProjectionResultsDTO();
-            total.setGroup("Projection Total");
+            total.setGroup(Constant.PROJECTION_TOTAL);
             pvList.add(total);
         } else {
             ProjectionResultsDTO detail = new ProjectionResultsDTO();
@@ -523,29 +527,29 @@ public class NMProjectionResultsXLLogic {
         pvList.add(frequencyBasedDTO);
 
         //Ex-Factory-Sales
-        calculateForTotal("conSalesWac", Constant.VALUE, obj, NumericConstants.SIX, NumericConstants.SEVEN, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal("conSalesWac", Constant.VALUE, obj, NumericConstants.SIX, NumericConstants.SEVEN, frequencyBasedDTO,  AMOUNT);
         //Contract Units
-        calculateForTotal("unitVol", Constant.VALUE, obj, NumericConstants.EIGHT, NumericConstants.NINE, frequencyBasedDTO, selection, RATE_PER);
+        calculateForTotal("unitVol", Constant.VALUE, obj, NumericConstants.EIGHT, NumericConstants.NINE, frequencyBasedDTO,  UNIT_VOLUME);
         //Discount $
-        calculateForTotal("totDisDol", Constant.VALUE, obj, NumericConstants.THIRTEEN, NumericConstants.FOURTEEN, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal(Constant.TOTAL_DISCOUNT_DOLLAR, Constant.VALUE, obj, NumericConstants.THIRTEEN, NumericConstants.FOURTEEN, frequencyBasedDTO,  AMOUNT);
         //Discount %
-        calculateForTotal("totDisPer", Constant.VALUE, obj, NumericConstants.FIFTEEN, NumericConstants.SIXTEEN, frequencyBasedDTO, selection, PER);
+        calculateForTotal(Constant.TOT_DIS_PER, Constant.VALUE, obj, NumericConstants.FIFTEEN, NumericConstants.SIXTEEN, frequencyBasedDTO,  PER);
         //RPU
-        calculateForTotal("totalRPU", Constant.VALUE, obj, NumericConstants.THIRTY_SEVEN, NumericConstants.THIRTY_EIGHT, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal(Constant.TOTAL_RPU, Constant.VALUE, obj, NumericConstants.THIRTY_SEVEN, NumericConstants.THIRTY_EIGHT, frequencyBasedDTO,  AMOUNT);
         //Net Sales 
-        calculateForTotal("netSales", Constant.VALUE, obj, NumericConstants.TWENTY_FOUR, NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal("netSales", Constant.VALUE, obj, NumericConstants.TWENTY_FOUR, NumericConstants.TWENTY_FIVE, frequencyBasedDTO,  AMOUNT);
         //COGS
-        calculateForTotal("cogs", Constant.VALUE, obj, NumericConstants.THIRTY_NINE, NumericConstants.FORTY, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal("cogs", Constant.VALUE, obj, NumericConstants.THIRTY_NINE, NumericConstants.FORTY, frequencyBasedDTO, AMOUNT);
         //Net Profit
-        calculateForTotal("netProfit", Constant.VALUE, obj, NumericConstants.FORTY_ONE, NumericConstants.FORTY_TWO, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal("netProfit", Constant.VALUE, obj, NumericConstants.FORTY_ONE, NumericConstants.FORTY_TWO, frequencyBasedDTO, AMOUNT);
         //Net Sales % of Ex-Factory
-        calculateForTotal(Constant.NET_SALES_PER_OF_EX_FACTORY, Constant.VALUE, obj, NumericConstants.FORTY_NINE, NumericConstants.FIFTY, frequencyBasedDTO, selection, PER);
+        calculateForTotal(Constant.NET_SALES_PER_OF_EX_FACTORY, Constant.VALUE, obj, NumericConstants.FORTY_NINE, NumericConstants.FIFTY, frequencyBasedDTO, PER);
         //Discount % of Ex-Factory
-        calculateForTotal(Constant.DISCOUNT_PER_OF_EX_FACTORY, Constant.VALUE, obj, NumericConstants.FIFTY_ONE, NumericConstants.FIFTY_TWO, frequencyBasedDTO, selection, PER);
+        calculateForTotal(Constant.DISCOUNT_PER_OF_EX_FACTORY, Constant.VALUE, obj, NumericConstants.FIFTY_ONE, NumericConstants.FIFTY_TWO, frequencyBasedDTO, PER);
 
     }
 
-    private void calculateForTotal(String variableName, String varibaleCat, Object[] obj, int actIndex, int index, ProjectionResultsDTO pvDTO, ProjectionSelectionDTO selection, DecimalFormat format) {
+    private void calculateForTotal(String variableName, String varibaleCat, Object[] obj, int actIndex, int index, ProjectionResultsDTO pvDTO, DecimalFormat format) {
         if (varibaleCat.equals(Constant.VALUE)) {
             String val = getFormattedValue(format, String.valueOf(obj[index]));
 
@@ -560,7 +564,6 @@ public class NMProjectionResultsXLLogic {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = "null".equals(String.valueOf(obj[NumericConstants.FIFTY_THREE])) ? obj[baseColumn_hierarchy_index].toString() : obj[baseColumn_hierarchy_index].toString() + "$" + obj[NumericConstants.FIFTY_THREE].toString();
-//            key = key.substring(key.indexOf('-') + 1);
             List<ProjectionResultsDTO> pvList = resultMap.get(key);
             int year = Integer.valueOf(obj[baseColumn_year_index].toString());
             int period = Integer.valueOf(obj[frequencyDivision == 1 ? 0 : baseColumn_period_index].toString());
@@ -574,10 +577,10 @@ public class NMProjectionResultsXLLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList_pivot(pvList, obj, freVarianceDTO, index);
+                addList_pivot(pvList, obj, freVarianceDTO);
                 hierarchyAndTP_keys(obj, key, pvList);
             } else {
-                updateList_pivot(pvList, obj, freVarianceDTO, index);
+                updateList_pivot(pvList, obj, freVarianceDTO);
             }
         }
         if (discountFlag) {
@@ -592,7 +595,6 @@ public class NMProjectionResultsXLLogic {
                     continue;
                 }
                 String key = "null".equals(String.valueOf(obj[13])) ? obj[baseColumn_hierarchy_index].toString() : obj[baseColumn_hierarchy_index].toString() + "$" + obj[13].toString();
-//                key = key.substring(key.indexOf('-') + 1);
                 if (hierarchySet.add(key)) {
                     listIndex = 1;
                     yearPeriod.clear();
@@ -601,59 +603,60 @@ public class NMProjectionResultsXLLogic {
                     listIndex++;
                 }
                 List<ProjectionResultsDTO> pvList = resultMap.get(key);
-                updateList_detail_discount_pivot(pvList, key, obj, listIndex);
+                updateList_detail_discount_pivot(pvList, obj, listIndex);
             }
         }
     }
 
-    private void updateList_pivot(List<ProjectionResultsDTO> pvList, Object[] obj, ProjectionResultsDTO frequencyBasedDTO, int indexForTotal) {
+    private void updateList_pivot(List<ProjectionResultsDTO> pvList, Object[] obj, ProjectionResultsDTO frequencyBasedDTO) {
 
         pvList.add(frequencyBasedDTO);
 
         //Contract Sales @ WAC
-        calculateForTotal("conSalesWac", Constant.VALUE, obj, NumericConstants.SIX, NumericConstants.SEVEN, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal("conSalesWac", Constant.VALUE, obj, NumericConstants.SIX, NumericConstants.SEVEN, frequencyBasedDTO, AMOUNT);
         //Contract Units
-        calculateForTotal("unitVol", Constant.VALUE, obj, NumericConstants.EIGHT, NumericConstants.NINE, frequencyBasedDTO, selection, RATE_PER);
+        calculateForTotal("unitVol", Constant.VALUE, obj, NumericConstants.EIGHT, NumericConstants.NINE, frequencyBasedDTO,  UNIT_VOLUME);
         //Discount $
-        calculateForTotal("totDisDol", Constant.VALUE, obj, NumericConstants.THIRTEEN, NumericConstants.FOURTEEN, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal(Constant.TOTAL_DISCOUNT_DOLLAR, Constant.VALUE, obj, NumericConstants.THIRTEEN, NumericConstants.FOURTEEN, frequencyBasedDTO,  AMOUNT);
         //Discount %
-        calculateForTotal("totDisPer", Constant.VALUE, obj, NumericConstants.FIFTEEN, NumericConstants.SIXTEEN, frequencyBasedDTO, selection, PER);
+        calculateForTotal(Constant.TOT_DIS_PER, Constant.VALUE, obj, NumericConstants.FIFTEEN, NumericConstants.SIXTEEN, frequencyBasedDTO,PER);
         //RPU
-        calculateForTotal("totalRPU", Constant.VALUE, obj, NumericConstants.THIRTY_SEVEN, NumericConstants.THIRTY_EIGHT, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal(Constant.TOTAL_RPU, Constant.VALUE, obj, NumericConstants.THIRTY_SEVEN, NumericConstants.THIRTY_EIGHT, frequencyBasedDTO, AMOUNT);
         //Net Sales 
-        calculateForTotal("netSales", Constant.VALUE, obj, NumericConstants.TWENTY_FOUR, NumericConstants.TWENTY_FIVE, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal("netSales", Constant.VALUE, obj, NumericConstants.TWENTY_FOUR, NumericConstants.TWENTY_FIVE, frequencyBasedDTO,  AMOUNT);
         //COGS
-        calculateForTotal("cogs", Constant.VALUE, obj, NumericConstants.THIRTY_NINE, NumericConstants.FORTY, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal("cogs", Constant.VALUE, obj, NumericConstants.THIRTY_NINE, NumericConstants.FORTY, frequencyBasedDTO,  AMOUNT);
         //Net Profit
-        calculateForTotal("netProfit", Constant.VALUE, obj, NumericConstants.FORTY_ONE, NumericConstants.FORTY_TWO, frequencyBasedDTO, selection, AMOUNT);
+        calculateForTotal("netProfit", Constant.VALUE, obj, NumericConstants.FORTY_ONE, NumericConstants.FORTY_TWO, frequencyBasedDTO,  AMOUNT);
         //Net Sales % of Ex-Factory 
-        calculateForTotal(Constant.NET_SALES_PER_OF_EX_FACTORY, Constant.VALUE, obj, NumericConstants.FORTY_NINE, NumericConstants.FIFTY, frequencyBasedDTO, selection, PER);
+        calculateForTotal(Constant.NET_SALES_PER_OF_EX_FACTORY, Constant.VALUE, obj, NumericConstants.FORTY_NINE, NumericConstants.FIFTY, frequencyBasedDTO,  PER);
         //Discount % of Ex-Factory
-        calculateForTotal(Constant.DISCOUNT_PER_OF_EX_FACTORY, Constant.VALUE, obj, NumericConstants.FIFTY_ONE, NumericConstants.FIFTY_TWO, frequencyBasedDTO, selection, PER);
+        calculateForTotal(Constant.DISCOUNT_PER_OF_EX_FACTORY, Constant.VALUE, obj, NumericConstants.FIFTY_ONE, NumericConstants.FIFTY_TWO, frequencyBasedDTO, PER);
     }
 
-    public void getCustomisedProjectionResultsTotalDiscount(List<Object> dataList, ProjectionSelectionDTO projSelDTO, int index, int actIndex, boolean isPer, String parentGroup, String indicator) {
+    public void getCustomisedProjectionResultsTotalDiscount(List<Object> dataList, ProjectionSelectionDTO projSelDTO, int index, int actIndex, boolean isPer, String parentGroup) {
         LOGGER.debug("Inside getCustomisedProjectionResultsTotalDiscount");
         String lastValue = StringUtils.EMPTY;
-        List<ProjectionResultsDTO> resultDto = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> resultDto = new ArrayList<>();
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         ProjectionResultsDTO pvDTO = new ProjectionResultsDTO();
         pvDTO.setLevelValue(projSelDTO.getLevelValue());
         pvDTO.setLevelNo(projSelDTO.getLevelNo());
         pvDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         pvDTO.setParent(0);
+         String lastGroupName = StringUtils.EMPTY;
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
-                if (!"".equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.THREE] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.THREE]))) {
-                    pvDTO.setGroup(lastValue);
+                if (!StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && obj[NumericConstants.TEN] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TEN]))) {
+                    pvDTO.setGroup(lastGroupName);
                     resultDto.add(pvDTO);
-
                     pvDTO = new ProjectionResultsDTO();
                 }
-                lastValue = String.valueOf(obj[NumericConstants.THREE]);
 
-                pvDTO.setGroup(lastValue);
+                lastValue = String.valueOf(obj[NumericConstants.TEN]);
+                lastGroupName = String.valueOf(obj[NumericConstants.THREE]);
+                pvDTO.setGroup(lastGroupName);
                 String commonColumn = StringUtils.EMPTY;
                 if (frequencyDivision == NumericConstants.FOUR) {
                     commonColumn = "q" + obj[NumericConstants.TWO] + StringUtils.EMPTY + obj[1];
@@ -669,7 +672,7 @@ public class NMProjectionResultsXLLogic {
                 String actvalue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[actIndex])));
 
                 pvDTO.addStringProperties(commonColumn + CURRENT, isPer ? getFormattedValue(RATE, value) + PERCENT : getFormattedValue(AMOUNT, value));
-                pvDTO.addStringProperties(commonColumn + "Actuals", isPer ? getFormattedValue(RATE, actvalue) + PERCENT : getFormattedValue(AMOUNT, actvalue));
+                pvDTO.addStringProperties(commonColumn + Constant.ACTUALS, isPer ? getFormattedValue(RATE, actvalue) + PERCENT : getFormattedValue(AMOUNT, actvalue));
                 if (i == dataList.size() - 1) {
                     resultDto.add(pvDTO);
                 }
@@ -705,7 +708,7 @@ public class NMProjectionResultsXLLogic {
                 if (isDetail) {
                     final Object[] obj = (Object[]) dataList.get(i);
                     String commonColumn = StringUtils.EMPTY;
-                    String column1 = StringUtils.EMPTY;
+                    String column1;
                     if (frequencyDivision == NumericConstants.FOUR) {
                         commonColumn = "q" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     } else if (frequencyDivision == NumericConstants.TWO) {
@@ -718,7 +721,7 @@ public class NMProjectionResultsXLLogic {
                     }
                     column1 = commonColumn + CURRENT;
                     String value = "" + obj[NumericConstants.FIVE];
-                    if (projSelDTO.getSales().contains("SALES")) {
+                    if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
                         value = getFormattedValue(AMOUNT, value);
                     } else if (projSelDTO.getSales().contains("RATE")) {
                         value = getFormattedValue(RATE_PER_THREE, value);
@@ -742,7 +745,7 @@ public class NMProjectionResultsXLLogic {
                     pvDTO.addStringProperties(commonColumn + CURRENT, isPer ? baseValue + PERCENT : baseValue);
                     value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[actIndex])));
                     baseValue = getFormattedValue(AMOUNT, value);
-                    pvDTO.addStringProperties(commonColumn + "Actuals", isPer ? baseValue + PERCENT : baseValue);
+                    pvDTO.addStringProperties(commonColumn + Constant.ACTUALS, isPer ? baseValue + PERCENT : baseValue);
                 }
             }
         }
@@ -750,7 +753,7 @@ public class NMProjectionResultsXLLogic {
         if (list != null) {
             list.add(pvDTO);
         } else {
-            List<ProjectionResultsDTO> dto = new ArrayList<ProjectionResultsDTO>();
+            List<ProjectionResultsDTO> dto = new ArrayList<>();
             dto.add(pvDTO);
             resultMap.put(parentGroup, dto);
         }
@@ -777,7 +780,7 @@ public class NMProjectionResultsXLLogic {
                     if (isDetail) {
                         final Object[] obj = (Object[]) dataList.get(i);
                         String commonColumn = StringUtils.EMPTY;
-                        String column1 = StringUtils.EMPTY;
+                        String column1;
                         if (frequencyDivision == NumericConstants.FOUR) {
                             commonColumn = "q" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[discountIndex];
                         } else if (frequencyDivision == NumericConstants.TWO) {
@@ -792,7 +795,7 @@ public class NMProjectionResultsXLLogic {
                         }
                         column1 = commonColumn + CURRENT;
                         String value = "" + obj[NumericConstants.FOUR];
-                        if (projSelDTO.getSales().contains("SALES")) {
+                        if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
                             value = getFormattedValue(AMOUNT, value);
                         } else if (projSelDTO.getSales().contains("RATE")) {
                             value = getFormattedValue(RATE, value);
@@ -801,7 +804,7 @@ public class NMProjectionResultsXLLogic {
                         for (int j = 0; j < priorList.size(); j++) {
                             column1 = commonColumn + priorList.get(j);
                             String pValue = "" + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.THREE)];
-                            if (projSelDTO.getSales().contains("SALES")) {
+                            if (projSelDTO.getSales().contains(Constant.SALES_WHOLE_CAPS)) {
                                 pValue = getFormattedValue(AMOUNT, pValue);
                             } else if (projSelDTO.getSales().contains("RATE")) {
                                 pValue = getFormattedValue(RATE, pValue);
@@ -844,7 +847,7 @@ public class NMProjectionResultsXLLogic {
             if (list != null) {
                 list.add(pvDTO);
             } else {
-                List<ProjectionResultsDTO> returnsDTO = new ArrayList<ProjectionResultsDTO>();
+                List<ProjectionResultsDTO> returnsDTO = new ArrayList<>();
                 returnsDTO.add(pvDTO);
                 resultMap.put(parentGroup, returnsDTO);
             }
@@ -853,7 +856,7 @@ public class NMProjectionResultsXLLogic {
         }
     }
 
-    private void commonCustomizationForTotalDiscount(String group, String discountType, List<Object> dataList, ProjectionSelectionDTO projSelDTO, boolean isDetail, int index, boolean isPer, String ppaGroup, String returnsGroup, List<Object> pivotList) {
+    private void commonCustomizationForTotalDiscount(String group, List<Object> dataList, ProjectionSelectionDTO projSelDTO, boolean isDetail, boolean isPer) {
         LOGGER.debug("Inside commonCustomizationForTotalDiscount");
 
         int indexValue = 0;
@@ -871,12 +874,12 @@ public class NMProjectionResultsXLLogic {
             actIndex = NumericConstants.EIGHT;
             indexValue = NumericConstants.NINE;
         }
-        String parentGroup = StringUtils.EMPTY;
+        String parentGroup;
         if (!isDetail) {
             parentGroup = group + "value";
             if (!selection.getDiscountNameList().isEmpty()) {
 
-                getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, indexValue, actIndex, isPer, parentGroup, VALUE.getConstant());
+                getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, indexValue, actIndex, isPer, parentGroup);
             }
 
         }
@@ -884,7 +887,7 @@ public class NMProjectionResultsXLLogic {
     }
 
     private void calculate_discount(String varaibleName, String varibaleCat, String masterKey, Object[] obj, int actIndex, ProjectionResultsDTO pvDTO,
-            ProjectionSelectionDTO selection, DecimalFormat format, boolean isAdd, int listIndex) {
+            DecimalFormat format, boolean isAdd, int listIndex) {
         actIndex++;
 
         String key = masterKey + varaibleName;
@@ -930,46 +933,46 @@ public class NMProjectionResultsXLLogic {
     private void addList_detail_discount(String key, final Object[] obj) {
         //Discount $
         disDollValue = new ProjectionResultsDTO();
-        calculate_discount(VAR_DIS_AMOUNT, Constant.VALUE, key, obj, index_detail_discount, disDollValue, selection, AMOUNT, true, 0);
+        calculate_discount(VAR_DIS_AMOUNT, Constant.VALUE, key, obj, index_detail_discount, disDollValue,  AMOUNT, true, 0);
         //Discount %
         disPerValue = new ProjectionResultsDTO();
-        calculate_discount(VAR_DIS_PERCENT, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.TWO, disPerValue, selection, RATE, true, 0);
+        calculate_discount(VAR_DIS_PERCENT, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.TWO, disPerValue,  RATE, true, 0);
         //RPU
         rpuValue = new ProjectionResultsDTO();
-        calculate_discount(VAR_RPU, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.FOUR, rpuValue, selection, AMOUNT, true, 0);
+        calculate_discount(VAR_RPU, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.FOUR, rpuValue, AMOUNT, true, 0);
         //Discount % of Ex-Factory
         disPerExfac = new ProjectionResultsDTO();
-        calculate_discount(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.SEVEN, disPerExfac, selection, RATE, true, 0);
+        calculate_discount(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.SEVEN, disPerExfac, RATE, true, 0);
     }
 
     private void updateList_detail_discount(String key, final Object[] obj, int listIndex) {
-        calculate_discount(VAR_DIS_AMOUNT, Constant.VALUE, key, obj, index_detail_discount, null, selection, AMOUNT, false, listIndex);
+        calculate_discount(VAR_DIS_AMOUNT, Constant.VALUE, key, obj, index_detail_discount, null, AMOUNT, false, listIndex);
         //Discount %
-        calculate_discount(VAR_DIS_PERCENT, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.TWO, null, selection, RATE, false, listIndex);
+        calculate_discount(VAR_DIS_PERCENT, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.TWO, null, RATE, false, listIndex);
 
         //RPU
-        calculate_discount(VAR_RPU, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.FOUR, null, selection, AMOUNT, false, listIndex);
+        calculate_discount(VAR_RPU, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.FOUR, null, AMOUNT, false, listIndex);
         //Discount % of Ex-Factory
-        calculate_discount(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.SEVEN, null, selection, RATE, false, listIndex);
+        calculate_discount(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER, Constant.VALUE, key, obj, index_detail_discount + NumericConstants.SEVEN, null,  RATE, false, listIndex);
 
     }
 
-    private void updateList_detail_discount_pivot(List<ProjectionResultsDTO> pvList, String key, final Object[] obj, int listIndex) {
+    private void updateList_detail_discount_pivot(List<ProjectionResultsDTO> pvList, final Object[] obj, int listIndex) {
         ProjectionResultsDTO frequencyBasedDTO = pvList.get(listIndex < pvList.size() ? listIndex : 0);
         //Discount $
-        calculate_discount_pivot("totDisDol", Constant.VALUE,  obj, frequencyBasedDTO, index_detail_discount, selection, AMOUNT);
+        calculate_discount_pivot(Constant.TOTAL_DISCOUNT_DOLLAR,   obj, frequencyBasedDTO, index_detail_discount, AMOUNT);
         //Discount %
-        calculate_discount_pivot("totDisPer", Constant.VALUE, obj, frequencyBasedDTO, index_detail_discount + NumericConstants.TWO, selection, PER);
+        calculate_discount_pivot(Constant.TOT_DIS_PER, obj, frequencyBasedDTO, index_detail_discount + NumericConstants.TWO,  PER);
         //RPU
-        calculate_discount_pivot("totalRPU", Constant.VALUE, obj, frequencyBasedDTO, index_detail_discount + NumericConstants.FOUR, selection, AMOUNT);
+        calculate_discount_pivot(Constant.TOTAL_RPU,  obj, frequencyBasedDTO, index_detail_discount + NumericConstants.FOUR, AMOUNT);
         //Discount %
-        calculate_discount_pivot(Constant.DISCOUNT_PER_OF_EX_FACTORY, Constant.VALUE, obj, frequencyBasedDTO, index_detail_discount + NumericConstants.SEVEN, selection, PER);
+        calculate_discount_pivot(Constant.DISCOUNT_PER_OF_EX_FACTORY,  obj, frequencyBasedDTO, index_detail_discount + NumericConstants.SEVEN,  PER);
     }
 
-    private void calculate_discount_pivot(String varaibleName, String varibaleCat, Object[] obj, ProjectionResultsDTO pvDTO, int index,
-            ProjectionSelectionDTO selection, DecimalFormat format) {
+    private void calculate_discount_pivot(String varaibleName, Object[] obj, ProjectionResultsDTO pvDTO, int index,
+             DecimalFormat format) {
 
-        String discoun_ppa_returns_Name = obj[NumericConstants.SIXTEEN] == null ? "" : obj[NumericConstants.SIXTEEN].toString();
+        String discoun_ppa_returns_Name;
         discoun_ppa_returns_Name = obj[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : obj[NumericConstants.SIXTEEN].toString().replace(" ", StringUtils.EMPTY);
 
         String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index + NumericConstants.TWO])));
@@ -983,30 +986,30 @@ public class NMProjectionResultsXLLogic {
 
     public void discount_Customize() {
         boolean isDetail = selection.getLevel().equals(DETAIL);
-        commonCustomizationForTotalDiscount("D$", "Discount", pivotDiscountList, selection, isDetail, NumericConstants.THREE, Boolean.FALSE, "PPA Discount $", "Return Discount $", pivotTotalList);
-        commonCustomizationForTotalDiscount("D%", "Discount", pivotDiscountList, selection, isDetail, NumericConstants.FOUR, Boolean.TRUE, "PPA Discount %", "Return Discount %", pivotTotalList);
-        commonCustomizationForTotalDiscount("RPU-", "Discount", pivotDiscountList, selection, isDetail, NumericConstants.FIVE, Boolean.FALSE, "PPA RPU", "Returns RPU", pivotTotalList);
-        commonCustomizationForTotalDiscount("Dis%Ex", "Discount", pivotDiscountList, selection, isDetail, NumericConstants.FOUR, Boolean.TRUE, "PPA Discount %", "Return Discount %", pivotTotalList); //change the NumericConstants
+        commonCustomizationForTotalDiscount("D$",  pivotDiscountList, selection, isDetail,  Boolean.FALSE);
+        commonCustomizationForTotalDiscount("D%",  pivotDiscountList, selection, isDetail,  Boolean.TRUE);
+        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, Boolean.FALSE);
+        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, Boolean.TRUE); //change the NumericConstants
     }
 
     public List<Object[]> getTotalPivotVariance(ProjectionSelectionDTO selection) {
         String frequency = selection.getFrequency();
         String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
-        List<String> projectionIdList = new ArrayList<String>();
-        pivotTotalList = new ArrayList<Object>();
-        pivotPriorProjIdList = new ArrayList<Integer>();
-        if (frequency.equals("Quarterly")) {
-            frequency = "QUARTERLY";
-        } else if (frequency.equals("Semi-Annually")) {
-            frequency = "SEMI-ANNUAL";
-        } else if (frequency.equals("Monthly")) {
-            frequency = "MONTHLY";
+        List<String> projectionIdList = new ArrayList<>();
+        pivotTotalList = new ArrayList<>();
+        pivotPriorProjIdList = new ArrayList<>();
+        if (frequency.equals(Constant.QUARTERLY)) {
+            frequency = QUARTERLY;
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            frequency = Constant.SEMIANNUAL_CAPS;
+        } else if (frequency.equals(Constant.MONTHLY)) {
+            frequency = Constant.MONTHLY_COLUMN;
         } else {
-            frequency = "ANNUAL";
+            frequency = Constant.ANNUAL_CAPS;
         }
         projectionIdList.add(String.valueOf(selection.getProjectionId()));
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-         Object[] orderedArg = {projectionId, frequency, discountId, "ASSUMPTIONS", selection.getSessionDTO().getSessionId(), selection.getUserId(), "PIVOT"};
+         Object[] orderedArg = {projectionId, frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId(), "PIVOT"};
         List< Object[]> gtsResult   = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
         
         
@@ -1023,20 +1026,20 @@ public class NMProjectionResultsXLLogic {
         pivotDiscountList.clear();
         String frequency = projSelDTO.getFrequency();
         String discountId = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
-        List<String> projectionIdList = new ArrayList<String>();
-        pivotDiscountList = new ArrayList<Object>();
-        if (frequency.equals("Quarterly")) {
-            frequency = "QUARTERLY";
-        } else if (frequency.equals("Semi-Annually")) {
-            frequency = "SEMI-ANNUAL";
-        } else if (frequency.equals("Monthly")) {
-            frequency = "MONTHLY";
+        List<String> projectionIdList = new ArrayList<>();
+        pivotDiscountList = new ArrayList<>();
+        if (frequency.equals(Constant.QUARTERLY)) {
+            frequency = QUARTERLY;
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            frequency = Constant.SEMIANNUAL_CAPS;
+        } else if (frequency.equals(Constant.MONTHLY)) {
+            frequency = Constant.MONTHLY_COLUMN;
         } else {
-            frequency = "ANNUAL";
+            frequency = Constant.ANNUAL_CAPS;
         }
         projectionIdList.add(String.valueOf(projSelDTO.getProjectionId()));
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-           Object[] orderedArg = {projectionId, frequency, discountId, "ASSUMPTIONS", projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), "1"};
+           Object[] orderedArg = {projectionId, frequency, discountId, ASSUMPTIONS1, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), "1"};
              List<Object[]> discountsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
         pivotDiscountList.addAll(discountsList);
 
@@ -1064,10 +1067,10 @@ public class NMProjectionResultsXLLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList(pvList, obj, index);
+                addList(pvList, obj);
                 hierarchyAndTP_keys(obj, key, pvList);
                 } else {
-                    updateList(pvList, obj, index);
+                    updateList(pvList, obj);
                 }
             }
         if (discountFlag) {

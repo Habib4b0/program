@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionLogic;
 import com.stpl.ifs.util.HelperDTO;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -58,11 +59,11 @@ public class TherapeuticContainer implements DAO<HelperDTO> {
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             LOGGER.debug("Entering TherapeuticContainer find method :");
-            return NationalAssumptionLogic.getLazyTherapeuticClassResults(startIndex, startIndex + offset, searchCriteria.getFilter(), therapeuticClass);
+            return NationalAssumptionLogic.getLazyTherapeuticClassResults(startIndex, startIndex + offset, searchCriteria.getFilter());
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
 }

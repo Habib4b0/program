@@ -491,7 +491,7 @@ FROM   @TEMP_ADJ_SUMMARY
         <query>
             <![CDATA[
              DECLARE
-       @PROJECTION INT=?
+                @PROJECTION INT=?
             SELECT DISTINCT 
                    ?
             FROM   RS_CONTRACT A
@@ -639,7 +639,16 @@ FROM   @TEMP_ADJ_SUMMARY
                   ]]>  
         </query>
     </entity>
-    <entity id="TRANSACTION_1_Wf_Save_Query">
+    <entity id="getReturnReserveSelection">
+        <query>
+     <![CDATA[
+                SELECT FIELD_NAME,FIELD_VALUES 
+                   from ARM_PROJ_SELECTION 
+                where PROJECTION_MASTER_SID = '@projectionId' AND FIELD_NAME in (@fieldname) ORDER BY FIELD_NAME ASC;
+                  ]]>  
+        </query>
+    </entity>
+    <entity id="Transaction_1_-_Pipeline_Accrual_Wf_Save_Query">
         <query> 
             <![CDATA[
             -- MAIN TABLE DELETE
@@ -659,6 +668,14 @@ FROM   @TEMP_ADJ_SUMMARY
 
                 DELETE
                         ARM_PIPELINE_EXCLUSION_DETAILS
+                WHERE
+                        PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+                DELETE
+                        AA
+                FROM
+                        ARM_ADJUSTMENTS AA
+                JOIN ARM_ADJUSTMENT_DETAILS AAD ON
+                        AA.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
                 WHERE
                         PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
 
@@ -733,12 +750,31 @@ FROM   @TEMP_ADJ_SUMMARY
                                         COMPANY_MASTER_SID
                                 FROM
                                         ST_ARM_PIPELINE_EXCLUSION_DETAILS
+                                        
+                        INSERT
+                            INTO
+                                ARM_ADJUSTMENTS(
+                                    ARM_ADJUSTMENT_DETAILS_SID,
+                                    PERIOD_SID,
+                                    ADJUSTMENT_TYPE,
+                                    ACCOUNT,
+                                    DEBIT,
+                                    CREDIT
+                                ) SELECT
+                                    ARM_ADJUSTMENT_DETAILS_SID,
+                                    PERIOD_SID,
+                                    ADJUSTMENT_TYPE,
+                                    ACCOUNT,
+                                    DEBIT,
+                                    CREDIT
+                                FROM
+                                    ST_ARM_ADJUSTMENTS;
 
             ]]>
         </query>
     </entity>
     
-    <entity id="TRANSACTION~1_Wf_Edit_Query">
+    <entity id="Transaction_1_-_Pipeline_Accrual_Wf_Edit_Query">
         <query> 
             <![CDATA[
                 INSERT
@@ -818,6 +854,28 @@ FROM   @TEMP_ADJ_SUMMARY
                                     ARM_PIPELINE_EXCLUSION_DETAILS
                             WHERE
                                     PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+                                    
+                INSERT
+                    INTO
+                        ST_ARM_ADJUSTMENTS(
+                                ARM_ADJUSTMENT_DETAILS_SID,
+                                PERIOD_SID,
+                                ADJUSTMENT_TYPE,
+                                ACCOUNT,
+                                DEBIT,
+                                CREDIT
+                        ) SELECT
+                                AA.ARM_ADJUSTMENT_DETAILS_SID,
+                                AA.PERIOD_SID,
+                                AA.ADJUSTMENT_TYPE,
+                                AA.CREDIT,
+                                AA.DEBIT
+                        FROM
+                                ARM_ADJUSTMENTS AA
+                        JOIN ARM_ADJUSTMENT_DETAILS AAD ON
+                                AA.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
+                        WHERE
+                                AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;  
             ]]>
         </query>
     </entity>
@@ -1394,8 +1452,8 @@ ORDER BY
                 @CONDITION             VARCHAR(50)='@DEDCONDITION',
                 @CONDITION_VALUE VARCHAR(1000)='@CONDITIONVALUE',
                 @PROJECTION_MASTER_SID INT = @PROJECTIONMASTERSID,
-                @RATE_BASIS            VARCHAR(100)='@RATEBASIC'
-
+                @RATE_BASIS            VARCHAR(100)='@RATEBASIC',
+                @FLAG BIT = @FLAG_BIT
 
                 SET @SQL=';WITH CTE
                      AS (SELECT B.CONTRACT_MASTER_SID,
@@ -1555,7 +1613,8 @@ ORDER BY
                                                                            WHEN @CONDITION='DEDUCTION' THEN 'RS_ID,'
                                                                            ELSE ''
                                                                            END+CASE WHEN @RATE_BASIS='ACCRUAL RATE PROJECTION' AND @SQL_UNION='I'  THEN 'ISNULL(MAX(RATE), 0)'	
-	                                                                   WHEN @RATE_BASIS='ACCRUAL RATE PROJECTION' AND @SQL_UNION !='I'  THEN 'ISNULL(AVG(RATE), 0)'			
+	                                                                   WHEN @RATE_BASIS='ACCRUAL RATE PROJECTION' AND @SQL_UNION !='I'  THEN 'ISNULL(AVG(RATE), 0)'
+																	    WHEN @RATE_BASIS !='ACCRUAL RATE PROJECTION' AND @FLAG=1 THEN 	'ISNULL(AVG(RATE), 0)'
 	                                                                   ELSE 'COALESCE(SUM(DISCOUNT_AMOUNT) / NULLIF(SUM(SALES_AMOUNT), 0), 0) * 100'
                                                                            END  + '  AS RATE
                                         FROM   CTE
@@ -2022,16 +2081,15 @@ ORDER BY
                 @CONDITION             VARCHAR(50)='@DEDCONDITION',
                 @CONDITION_VALUE VARCHAR(1000)='@CONDITIONVALUE',
                 @PROJECTION_MASTER_SID INT = @PROJECTIONMASTERSID,
-                @USER_ID INT = @USERID,
-                @SESSION_ID INT = @SESSIONID
+                @RATE_BASIS            VARCHAR(100)='@RATEBASIC',
+                @FLAG BIT = @FLAG_BIT
 
-
-                SET @SQL=';WITH CTE 
-                     AS (SELECT B.CONTRACT_MASTER_SID, 
+                SET @SQL=';WITH CTE
+                     AS (SELECT B.CONTRACT_MASTER_SID,
                                     CN.CONTRACT_ID,CN.CONTRACT_NAME,
-                                B.COMPANY_MASTER_SID, 
+                                B.COMPANY_MASTER_SID,
                                                 CM.COMPANY_ID,CM.COMPANY_NAME,
-                                B.ITEM_MASTER_SID, 
+                                B.ITEM_MASTER_SID,
                                                 IM.ITEM_ID,
                                                 IM.ITEM_NAME,
                                 BM.BRAND_MASTER_SID,
@@ -2039,7 +2097,7 @@ ORDER BY
                                                 BM.BRAND_NAME,
                                 A.RS_MODEL_SID,
                                                 RS.RS_ID,RS_NAME,
-                                ARP.RATE' 
+                                ARP.RATE,ARP.DISCOUNT_AMOUNT,ARP.SALES_AMOUNT'
                              SET @SQL+=CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN ',RS_CAT.DESCRIPTION AS RS_CATEGORY'
                                                                WHEN @CONDITION='DEDUCTION TYPE' THEN ',RS_TYP.DESCRIPTION AS RS_TYPE'
                                                                            WHEN @CONDITION='DEDUCTION PROGRAM' THEN ',RS_PGM_TYP.DESCRIPTION AS REBATE_PROGRAM_TYPE'
@@ -2050,24 +2108,25 @@ ORDER BY
                                                                            WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN ',DC6.DESCRIPTION AS DEDUCTION_CATEGORY_6'
                                                                            ELSE ''
                                                                   END
-                                 SET @SQL+=' FROM   ARM_ADJUSTMENT_DETAILS A 
-                                JOIN CCP_DETAILS B 
-                                  ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID 
-                                JOIN ITEM_MASTER IM 
-                                  ON IM.ITEM_MASTER_SID = B.ITEM_MASTER_SID 
-                                JOIN BRAND_MASTER BM 
-                                  ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID 
+                                 SET @SQL+='
+                         FROM   ARM_ADJUSTMENT_DETAILS A
+                                JOIN CCP_DETAILS B
+                                  ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                                JOIN ITEM_MASTER IM
+                                  ON IM.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                JOIN BRAND_MASTER BM
+                                  ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
                                 JOIN ARM_PIPELINE_RATE ARP 
-                                  ON ARP.ARM_ADJUSTMENT_DETAILS_SID = A.ARM_ADJUSTMENT_DETAILS_SID 
-                                                JOIN CONTRACT_MASTER CN 
-                                                  ON CN.CONTRACT_MASTER_SID=B.CONTRACT_MASTER_SID 
+                                  ON ARP.ARM_ADJUSTMENT_DETAILS_SID = A.ARM_ADJUSTMENT_DETAILS_SID
+                                                JOIN CONTRACT_MASTER CN
+                                                  ON CN.CONTRACT_MASTER_SID=B.CONTRACT_MASTER_SID
                                                 JOIN COMPANY_MASTER CM
                                                   ON CM.COMPANY_MASTER_SID=B.COMPANY_MASTER_SID
-                                                JOIN RS_CONTRACT RS 
-                                                  ON RS.RS_MODEL_SID=A.RS_MODEL_SID AND RS.CONTRACT_MASTER_SID=B.CONTRACT_MASTER_SID 
-                                                JOIN ARM_DEDUCTION_SELECTION ADS 
+                                                JOIN RS_CONTRACT RS
+                                                  ON RS.RS_MODEL_SID=A.RS_MODEL_SID AND RS.CONTRACT_MASTER_SID=B.CONTRACT_MASTER_SID
+                                                JOIN ARM_DEDUCTION_SELECTION ADS
                                                   ON ADS.PROJECTION_MASTER_SID=A.PROJECTION_MASTER_SID AND ADS.RS_CONTRACT_SID=RS.RS_CONTRACT_SID'
-                                                SET @SQL+=CASE WHEN @CONDITION IN ('DEDUCTION CATEGORY 2','DEDUCTION CATEGORY 3','DEDUCTION CATEGORY 4','DEDUCTION CATEGORY 5','DEDUCTION CATEGORY 6') THEN ' LEFT  JOIN UDCS U ON U.MASTER_TYPE=''RS_CONTRACT'' AND U.MASTER_SID=RS.RS_CONTRACT_SID' ELSE '' END
+                                                SET @SQL+=CASE WHEN @CONDITION IN ('DEDUCTION CATEGORY 2','DEDUCTION CATEGORY 3','DEDUCTION CATEGORY 4','DEDUCTION CATEGORY 5','DEDUCTION CATEGORY 6') THEN '  LEFT JOIN UDCS U ON U.MASTER_TYPE=''RS_CONTRACT'' AND U.MASTER_SID=RS.RS_CONTRACT_SID' ELSE '' END
                                                 SET @SQL+=CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN ' JOIN HELPER_TABLE RS_CAT ON RS_CAT.HELPER_TABLE_SID=RS.RS_CATEGORY'
                                                                WHEN @CONDITION='DEDUCTION TYPE' THEN ' JOIN HELPER_TABLE RS_TYP ON RS_TYP.HELPER_TABLE_SID=RS.RS_TYPE'
                                                                            WHEN @CONDITION='DEDUCTION PROGRAM' THEN ' JOIN HELPER_TABLE RS_PGM_TYP ON RS_PGM_TYP.HELPER_TABLE_SID=RS.REBATE_PROGRAM_TYPE'
@@ -2079,8 +2138,8 @@ ORDER BY
                                                                            ELSE ''
                                                                   END
                     SET @SQL+=' WHERE  A.PROJECTION_MASTER_SID = '+CONVERT(VARCHAR(10),@PROJECTION_MASTER_SID)
-                        SET @SQL+=CASE WHEN @CONDITION='DEDUCTION' THEN ' AND RS.RS_ID IN ('+@CONDITION_VALUE+')' WHEN @CONDITION='DEDUCTION CATEGORY' THEN ' AND RS_CAT.DESCRIPTION IN ('+@CONDITION_VALUE+')' 
-                         WHEN @CONDITION='DEDUCTION TYPE' THEN ' AND RS_TYP.DESCRIPTION IN ('+@CONDITION_VALUE+')'  
+                        SET @SQL+=CASE WHEN @CONDITION='DEDUCTION' THEN ' AND RS.RS_ID IN ('+@CONDITION_VALUE+')' WHEN @CONDITION='DEDUCTION CATEGORY' THEN ' AND RS_CAT.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+                         WHEN @CONDITION='DEDUCTION TYPE' THEN ' AND RS_TYP.DESCRIPTION IN ('+@CONDITION_VALUE+')'
                          WHEN @CONDITION='DEDUCTION PROGRAM' THEN ' AND RS_PGM_TYP.DESCRIPTION IN ('+@CONDITION_VALUE+')'
                          WHEN @CONDITION='DEDUCTION CATEGORY 2' THEN ' AND DC2.DESCRIPTION IN ('+@CONDITION_VALUE+')'
                          WHEN @CONDITION='DEDUCTION CATEGORY 3' THEN ' AND DC3.DESCRIPTION IN ('+@CONDITION_VALUE+')'
@@ -2100,9 +2159,9 @@ ORDER BY
                         COLUMN_ADD_NAME VARCHAR(50),
                         ALIAS_NAME VARCHAR(50)
                 )
-                --LEFT(@String, LEN(@String) - 1) 
+                --LEFT(@String, LEN(@String) - 1)
                 INSERT INTO #TEMP_TABLE(STRING,COLUMN_NAME,COLUMN_ADD_NAME,ALIAS_NAME)
-                SELECT token,CASE WHEN token='B' THEN 'BRAND_MASTER_SID'  
+                SELECT token,CASE WHEN token='B' THEN 'BRAND_MASTER_SID'
                                                   WHEN token='I' THEN 'ITEM_MASTER_SID'
                                                   WHEN token='T' THEN 'COMPANY_MASTER_SID'
                                                   WHEN token='C' THEN 'CONTRACT_MASTER_SID'
@@ -2116,13 +2175,13 @@ ORDER BY
                                                   WHEN token='U5' THEN 'DEDUCTION_CATEGORY_5'
                                                   WHEN token='U6' THEN 'DEDUCTION_CATEGORY_6'
                                      END AS COLUMN_NAME,
-                                         CASE WHEN token='B' THEN 'BRAND_ID+'' - ''+BRAND_NAME'  
+                                         CASE WHEN token='B' THEN 'BRAND_ID+'' - ''+BRAND_NAME'
                                                   WHEN token='I' THEN 'ITEM_ID+'' - ''+ITEM_NAME'
                                                   WHEN token='T' THEN 'COMPANY_ID+'' - ''+COMPANY_NAME'
-                                                  WHEN token='C' THEN 'CONTRACT_ID+'' - ''+CONTRACT_NAME' 
+                                                  WHEN token='C' THEN 'CONTRACT_ID+'' - ''+CONTRACT_NAME'
                                                   WHEN token='D' THEN 'RS_ID+'' - ''+RS_NAME'
                                      END AS COLUMN_ADD_NAME,
-                                         CASE WHEN token='B' THEN 'BRAND '  
+                                         CASE WHEN token='B' THEN 'BRAND '
                                                   WHEN token='I' THEN 'ITEM '
                                                   WHEN token='T' THEN 'COMPANY'
                                                   WHEN token='C' THEN 'CONTRACT'
@@ -2135,7 +2194,7 @@ ORDER BY
                 WHILE(@I<=@MAX_VAL)
 
                 BEGIN
-                 SELECT 
+                 SELECT
                     @SQL_SELECT=
                     STUFF((
                         SELECT ', NULL AS ' + U.COLUMN_NAME +', NULL AS ' +U.ALIAS_NAME
@@ -2146,7 +2205,7 @@ ORDER BY
                     ),1,1,'') ,
                         @SQL_COUNT=
                         STUFF((
-                        SELECT ', ' + U.COLUMN_NAME 
+                        SELECT ', ' + U.COLUMN_NAME
                         FROM #TEMP_TABLE U
                         WHERE U.ID = ID AND U.ID>@I
                         ORDER BY U.ID
@@ -2154,12 +2213,12 @@ ORDER BY
                     ),1,1,'') ,
                         @SQL_ADD_COUNT=
                         STUFF((
-                        SELECT ', NULL AS ' + U.ALIAS_NAME 
+                        SELECT ', NULL AS ' + U.ALIAS_NAME
                         FROM #TEMP_TABLE U
                         WHERE U.ID = ID AND U.ID>@I
                         ORDER BY U.ID
                         FOR XML PATH('')
-                    ),1,1,'') 
+                    ),1,1,'')
                 FROM #TEMP_TABLE
                  SET   @SQL_SELECT+=','
                  SET   @SQL_ADD_COUNT+=','
@@ -2168,10 +2227,10 @@ ORDER BY
                  SET @SQL_COUNT=ISNULL(@SQL_COUNT,'')
 
                  SELECT @VAR=@VAR+COLUMN_NAME+','+COLUMN_ADD_NAME+' AS '+ALIAS_NAME+',', @SQL_UNION=STRING FROM #TEMP_TABLE WHERE ID=@I
-                 SELECT @VAR_ADD+=CASE WHEN @I=1 THEN '' ELSE ',' END +COLUMN_NAME+','+COLUMN_ADD_NAME+',' FROM #TEMP_TABLE WHERE ID=@I
+                 SELECT @VAR_ADD+=COLUMN_NAME+','+COLUMN_ADD_NAME+',' FROM #TEMP_TABLE WHERE ID=@I
 
                  SELECT @SQL_OUTER_SELECT+='SELECT * FROM '+@SQL_UNION+' UNION ALL '
-                 SET @VAR_ADD=LEFT(@VAR_ADD, LEN(@VAR_ADD) - 1)
+                 SET @VAR_ADD=LEFT(@VAR_ADD, LEN(@VAR) - 1)
                  SET @SQL+=CASE WHEN @I=1 THEN '' ELSE ',' END +@SQL_UNION+' AS (SELECT '+@VAR+@SQL_SELECT+CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN 'RS_CATEGORY,'
                                                                WHEN @CONDITION='DEDUCTION TYPE' THEN 'RS_TYPE,'
                                                                            WHEN @CONDITION='DEDUCTION PROGRAM' THEN 'REBATE_PROGRAM_TYPE,'
@@ -2182,30 +2241,33 @@ ORDER BY
                                                                            WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN 'DEDUCTION_CATEGORY_6,'
                                                                            WHEN @CONDITION='DEDUCTION' THEN 'RS_ID,'
                                                                            ELSE ''
-                                                                  END+' ISNULL(SUM(RATE),0)                       AS RATE
-                                        FROM   CTE 
-                         GROUP  BY '+CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN 'RS_CATEGORY,'
-                                                               WHEN @CONDITION='DEDUCTION TYPE' THEN 'RS_TYPE,'
-                                                                           WHEN @CONDITION='DEDUCTION PROGRAM' THEN 'REBATE_PROGRAM_TYPE,'
-                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 2' THEN 'DEDUCTION_CATEGORY_2,'
-                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 3' THEN 'DEDUCTION_CATEGORY_3,'
-                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 4' THEN 'DEDUCTION_CATEGORY_4,'
-                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 5' THEN 'DEDUCTION_CATEGORY_5,'
-                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN 'DEDUCTION_CATEGORY_6,'
-                                                                           WHEN @CONDITION='DEDUCTION' THEN 'RS_ID,'
-                                                                           ELSE '' 
-                                                                  END+@VAR_ADD+
+                                                                           END+CASE WHEN @RATE_BASIS='ACCRUAL RATE PROJECTION' AND @SQL_UNION='I'  THEN 'ISNULL(MAX(RATE), 0)'	
+	                                                                   WHEN @RATE_BASIS='ACCRUAL RATE PROJECTION' AND @SQL_UNION !='I'  THEN 'ISNULL(AVG(RATE), 0)'
+																	    WHEN @RATE_BASIS !='ACCRUAL RATE PROJECTION' AND @FLAG=1 THEN 	'ISNULL(AVG(RATE), 0)'
+	                                                                   ELSE 'COALESCE(SUM(DISCOUNT_AMOUNT) / NULLIF(SUM(SALES_AMOUNT), 0), 0) * 100'
+                                                                           END  + '  AS RATE
+                                        FROM   CTE
+                         GROUP  BY '+@VAR_ADD+CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN 'RS_CATEGORY'
+                                                               WHEN @CONDITION='DEDUCTION TYPE' THEN 'RS_TYPE'
+                                                                           WHEN @CONDITION='DEDUCTION PROGRAM' THEN 'REBATE_PROGRAM_TYPE'
+                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 2' THEN 'DEDUCTION_CATEGORY_2'
+                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 3' THEN 'DEDUCTION_CATEGORY_3'
+                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 4' THEN 'DEDUCTION_CATEGORY_4'
+                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 5' THEN 'DEDUCTION_CATEGORY_5'
+                                                                           WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN 'DEDUCTION_CATEGORY_6'
+                                                                           WHEN @CONDITION='DEDUCTION' THEN 'RS_ID'
+                                                                           ELSE ''
+                                                                  END+
                                  ')'
                  SET @I+=1
 
 
                 END
-                SET @SQL_OUTER_SELECT=LEFT(@SQL_OUTER_SELECT, LEN(@SQL_OUTER_SELECT) - 10) 
+                SET @SQL_OUTER_SELECT=LEFT(@SQL_OUTER_SELECT, LEN(@SQL_OUTER_SELECT) - 10)
                 SET @SQL+=@SQL_OUTER_SELECT
-                 PRINT @SQL
 
-                 EXECUTE (@SQL)
-      
+
+                 EXEC (@SQL)
         ]]>  
         </query>
     </entity>
@@ -2606,6 +2668,29 @@ SELECT ARM_ADJUSTMENT_DETAILS_SID,
 FROM   ? 
 WHERE  OVERRIDE IS NOT NULL 
        AND OVERRIDE != 0 
+       
+---UPDATE for Credit and debit Values in adjustments table
+UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
+FROM  ? AA INNER JOIN(SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID AS ARM_ADJUSTMENT_DETAILS_SID,
+        ISNULL(A1.PERIOD_SID, A2.PERIOD_SID) AS PERIOD_SID,
+        ACCOUNT,
+        SUM(ABS(A1.ACCRUAL_AMOUNT))                  AS CREDIT,
+        SUM(ABS(A2.ACCRUAL_AMOUNT))                  AS DEBIT
+FROM   #TEMP_AMOUNT TAM
+        JOIN ARM_ADJ_RES_CCP AAC
+             ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AAC.ARM_ADJUSTMENT_DETAILS_SID
+        LEFT JOIN #TEMP_AMOUNT A1
+                     ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A1.ARM_ADJUSTMENT_DETAILS_SID
+                           AND AAC.CREDIT = A1.INDICATOR
+        LEFT JOIN #TEMP_AMOUNT A2
+                     ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A2.ARM_ADJUSTMENT_DETAILS_SID
+                           AND AAC.DEBIT = A2.INDICATOR
+            JOIN PERIOD P ON P.PERIOD_SID=ISNULL(A1.PERIOD_SID, A2.PERIOD_SID) AND P.PERIOD_SID=TAM.PERIOD_SID
+            WHERE CREDIT IS NOT NULL AND DEBIT IS NOT NULL
+GROUP  BY TAM.ARM_ADJUSTMENT_DETAILS_SID,
+              ISNULL(A1.PERIOD_SID, A2.PERIOD_SID),
+              ACCOUNT) BB ON AA.ARM_ADJUSTMENT_DETAILS_SID=BB.ARM_ADJUSTMENT_DETAILS_SID AND AA.PERIOD_SID=BB.PERIOD_SID
+              AND AA.ACCOUNT=BB.ACCOUNT
 
 IF OBJECT_ID('TEMPDB..#CURRENT_LIABILITY') IS NOT NULL 
   DROP TABLE #CURRENT_LIABILITY 
@@ -2691,6 +2776,29 @@ T
                  AND T.PERIOD_SID = CEX.PERIOD_SID 
 
      ]]>  
+        </query>
+    </entity>
+    <entity id="loadDeductionValueForInflation">
+        <query>
+            <![CDATA[
+             DECLARE
+                @PROJECTION INT=?
+            SELECT DISTINCT 
+                   ?
+            FROM   RS_CONTRACT A
+            LEFT JOIN ARM_ADJUSTMENT_DETAILS DS ON A.RS_MODEL_SID=DS.RS_MODEL_SID
+            LEFT JOIN UDCS U ON U.MASTER_SID=A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
+            ?
+            WHERE 
+             DS.PROJECTION_MASTER_SID=@PROJECTION
+             AND CONTRACT_MASTER_SID IN (SELECT DISTINCT CONTRACT_MASTER_SID 
+                                   FROM   ARM_ADJUSTMENT_DETAILS AD 
+                                          JOIN CCP_DETAILS CD 
+                                            ON 
+                                  AD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID 
+                                   WHERE  PROJECTION_MASTER_SID = @PROJECTION) 
+                                   ? 
+                       ]]>  
         </query>
     </entity>
     

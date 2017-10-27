@@ -58,7 +58,7 @@ public class FederalNdcPopup extends CustomComponent {
      * The federal Results bean.
      */
 
-    BeanItemContainer<NewNdcDTO> federalBean = new BeanItemContainer<NewNdcDTO>(NewNdcDTO.class);
+    BeanItemContainer<NewNdcDTO> federalBean = new BeanItemContainer<>(NewNdcDTO.class);
     NewNdcDTO newNdcDTO;
     /**
      * The ndc.
@@ -90,7 +90,7 @@ public class FederalNdcPopup extends CustomComponent {
     Map<String, String> wACList;
     Map<String, String> nonFampList;
     Map<String, String> fssList;
-    Map<Integer, String> itemIdMap = new HashMap<Integer, String>();
+    Map<Integer, String> itemIdMap = new HashMap<>();
     List<String> listNDC;
     DecimalFormat decimalFormat = new DecimalFormat("#0.0000");
     NdcPopupForm ndcPopupForm = new NdcPopupForm();
@@ -98,7 +98,7 @@ public class FederalNdcPopup extends CustomComponent {
     public boolean flag;
     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     public NationalAssumptionLogic nationalAssumptionLogic = new NationalAssumptionLogic();
-    public List<NewNdcDTO> removedFederalNdc = new ArrayList<NewNdcDTO>();
+    public List<NewNdcDTO> removedFederalNdc = new ArrayList<>();
     Map<Integer, Object> federalMap;
     /**
      * The Constant LOGGER.
@@ -106,6 +106,7 @@ public class FederalNdcPopup extends CustomComponent {
     private static final Logger LOGGER = Logger.getLogger(FederalNdcPopup.class);
     DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
     SessionDTO sessionDTO;
+    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
 
     public FederalNdcPopup(NewNdcDTO newNdcDTO, Map<Integer, Object> federalMap,SessionDTO sessionDTO) {
         this.sessionDTO=sessionDTO;
@@ -143,16 +144,16 @@ public class FederalNdcPopup extends CustomComponent {
 
         federalTable.markAsDirty();
         federalTable.setContainerDataSource(federalBean);
-        federalTable.setVisibleColumns(CommonUiUtils.FEDERAL_NDC_COLUMNS);
-        federalTable.setColumnHeaders(CommonUiUtils.FEDERAL_NDC_HEADER);
+        federalTable.setVisibleColumns(commonUiUtils.federalNDCColumns);
+        federalTable.setColumnHeaders(commonUiUtils.federalNdcHeader);
         federalTable.setFilterBarVisible(true);
         federalTable.setFilterDecorator(new ExtDemoFilterDecorator());
         federalTable.addStyleName(Constant.FILTER_TABLE);
         federalTable.addStyleName("table-header-center");
-        federalTable.setColumnAlignment(CommonUiUtils.FEDERAL_NDC_COLUMNS[0], ExtFilterTable.Align.LEFT);
-        int length = CommonUiUtils.FEDERAL_NDC_COLUMNS.length;
+        federalTable.setColumnAlignment(commonUiUtils.federalNDCColumns[0], ExtFilterTable.Align.LEFT);
+        int length = commonUiUtils.federalNDCColumns.length;
         for (int i = 1; i < length; i++) {
-            federalTable.setColumnAlignment(CommonUiUtils.FEDERAL_NDC_COLUMNS[i], ExtFilterTable.Align.RIGHT);
+            federalTable.setColumnAlignment(commonUiUtils.federalNDCColumns[i], ExtFilterTable.Align.RIGHT);
         }
 
         ndc.addValueChangeListener(new Property.ValueChangeListener() {
@@ -393,7 +394,7 @@ public class FederalNdcPopup extends CustomComponent {
     public void resetTableLogic() throws SystemException {
         NewNdcDTO projection = (NewNdcDTO) federalTable.getValue();
 
-        String value = StringUtils.EMPTY;
+        String value;
 
 
         List listCount = nationalAssumptionLogic.federalListCount(projection.getItemMasterSid(), sessionDTO);

@@ -171,7 +171,7 @@ public final class ParentIFPIdLookup extends Window {
     private Boolean itemClicked = false;
 
     /**  A dummy BeanItemContainer to avoid load issue in empty lazy bean container. */
-    private BeanItemContainer<TempPricingDTO> dummySearchResulbeans = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private BeanItemContainer<TempPricingDTO> dummySearchResulbeans = new BeanItemContainer<>(TempPricingDTO.class);
     
      private CommonUtil commonUtil = CommonUtil.getInstance();
 
@@ -358,7 +358,7 @@ public final class ParentIFPIdLookup extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public ParentIFPIdLookup(final TextField parentItemFamilyplanId, final TextField parentItemFamilyplanName) throws SystemException{
+    public ParentIFPIdLookup(final TextField parentItemFamilyplanId, final TextField parentItemFamilyplanName) {
         super("Item Family Plan Search");
     	this.parentItemFamilyplanId = parentItemFamilyplanId;
         this.parentItemFamilyplanName = parentItemFamilyplanName;
@@ -371,7 +371,7 @@ public final class ParentIFPIdLookup extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void init() throws SystemException {
+    private void init() {
         center();
         setClosable(true);
         setModal(true);
@@ -399,7 +399,7 @@ public final class ParentIFPIdLookup extends Window {
      *
      * @return the panel
      */
-    private void addToContent() throws SystemException {
+    private void addToContent() {
     
         setContent(Clara.create(getClass().getResourceAsStream("/declarative-ui/contract-dashboard/parentifpidlookup.xml"), this));
         
@@ -416,7 +416,7 @@ public final class ParentIFPIdLookup extends Window {
     private ErrorfulFieldGroup getBinder() {
 
         binder = new ErrorfulFieldGroup(
-                new BeanItem<TempPricingDTO>(new TempPricingDTO()));
+                new BeanItem<>(new TempPricingDTO()));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -459,8 +459,8 @@ public final class ParentIFPIdLookup extends Window {
         resultTable.setWidth(NumericConstants.NINETY_EIGHT, UNITS_PERCENTAGE);
 
         resultTable.setContainerDataSource(dummySearchResulbeans);
-        resultTable.setVisibleColumns(ContractUtils.IFP_SEARCH_LOOKUP);
-        resultTable.setColumnHeaders(ContractUtils.IFP_LOOKUP_HEADERS);
+        resultTable.setVisibleColumns(ContractUtils.getInstance().ifpSearchLookup);
+        resultTable.setColumnHeaders(ContractUtils.getInstance().ifpLookupHeaders);
         
         resultTable.setFilterBarVisible(true);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -496,12 +496,12 @@ public final class ParentIFPIdLookup extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    protected void configureFields() throws SystemException {
+    protected void configureFields() {
         addStyleName("bootstrap-company");
         addStyleName("bootstrap");
         addStyleName("bootstrap-bb");
          selectBtn.setEnabled(false);
-         closeBtn.setEnabled(false);
+         closeBtn.setEnabled(true);
         setResizable(false);
         itemFamilyplanId.focus();
         setCloseShortcut(ShortcutAction.KeyCode.ESCAPE);
@@ -564,7 +564,7 @@ public final class ParentIFPIdLookup extends Window {
              */
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug("Entering ParentIFPIdLookup search operaion");
-                List<Object> collapsedColumns = new ArrayList<Object>();     
+                List<Object> collapsedColumns = new ArrayList<>();     
                 try {
                   
                     for (Object item : resultTable.getVisibleColumns()) {
@@ -590,8 +590,8 @@ public final class ParentIFPIdLookup extends Window {
                     } else {
                          Notification.show("No results found");
                     }
-                    resultTable.setVisibleColumns(ContractUtils.IFP_SEARCH_LOOKUP);
-                    resultTable.setColumnHeaders(ContractUtils.IFP_LOOKUP_HEADERS);
+                    resultTable.setVisibleColumns(ContractUtils.getInstance().ifpSearchLookup);
+                    resultTable.setColumnHeaders(ContractUtils.getInstance().ifpLookupHeaders);
                 } catch (FieldGroup.CommitException ex) {
                     LOGGER.error(ex);
                 }
@@ -618,22 +618,22 @@ public final class ParentIFPIdLookup extends Window {
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals("YES")) {
                             try {
-                                List<Object> collapsedColumns = new ArrayList<Object>();
+                                List<Object> collapsedColumns = new ArrayList<>();
                                 for (Object item : resultTable.getVisibleColumns()) {
                                     if (resultTable.isColumnCollapsed(item)) {
                                         collapsedColumns.add(item);
                                     }
                                 }
                                 LOGGER.debug("Entering ParentIFPIdLookup reset operaion");
-                                binder.setItemDataSource(new BeanItem<TempPricingDTO>(new TempPricingDTO()));
+                                binder.setItemDataSource(new BeanItem<>(new TempPricingDTO()));
                                 if (searchResults != null) {
                                     searchResults.removeAllItems();
                                 }
                                 binder.getErrorDisplay().clearError();
-                                final BeanItemContainer<TempPricingDTO> searchResultbeans = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+                                final BeanItemContainer<TempPricingDTO> searchResultbeans = new BeanItemContainer<>(TempPricingDTO.class);
                                 resultTable.setContainerDataSource(searchResultbeans);
-                              resultTable.setVisibleColumns(ContractUtils.IFP_SEARCH_LOOKUP);
-                               resultTable.setColumnHeaders(ContractUtils.IFP_LOOKUP_HEADERS);
+                              resultTable.setVisibleColumns(ContractUtils.getInstance().ifpSearchLookup);
+                               resultTable.setColumnHeaders(ContractUtils.getInstance().ifpLookupHeaders);
                                 binder.getErrorDisplay().clearError();
                                 ifpCriteria.setCustomDirty(false);
                                 for (Object propertyId : collapsedColumns) {
@@ -651,7 +651,7 @@ public final class ParentIFPIdLookup extends Window {
                                      */             
                                     @SuppressWarnings("PMD")          
                                     public void buttonClicked(final ButtonId buttonId) {      
-                                                    
+                                        return;
                                     }         
                                 }, ButtonId.OK);      
                                 msg.getButton(ButtonId.OK).focus();
@@ -689,7 +689,7 @@ public final class ParentIFPIdLookup extends Window {
                  */             
                 @SuppressWarnings("PMD")          
                 public void buttonClicked(final ButtonId buttonId) {      
-                               
+                    return;
                 }         
             }, ButtonId.OK);      
             msg.getButton(ButtonId.OK).focus();

@@ -9,6 +9,8 @@ import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
 import com.stpl.app.arm.adjustmentreserveconfiguration.logic.AdjustmentReserveLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+
+import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
@@ -39,9 +41,9 @@ public class ReserveSearchTableLogic extends PageTableLogic {
         try {
             return logic.getSearchResults(binderDto, start, offset, getFilters(), getSortByColumns());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in loadData :"+ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

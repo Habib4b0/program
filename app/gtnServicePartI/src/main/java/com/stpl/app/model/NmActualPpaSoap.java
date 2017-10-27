@@ -16,11 +16,7 @@ import java.util.List;
 public class NmActualPpaSoap implements Serializable {
     private double _actualRate;
     private int _periodSid;
-    private double _actualProjDiscountDollar;
-    private double _actualProjectionSales;
     private int _projectionDetailsSid;
-    private double _actualProjectionRate;
-    private double _actualProjDiscountUnits;
     private double _actualDiscountDollar;
     private double _actualDiscountUnits;
     private double _actualSales;
@@ -33,11 +29,7 @@ public class NmActualPpaSoap implements Serializable {
 
         soapModel.setActualRate(model.getActualRate());
         soapModel.setPeriodSid(model.getPeriodSid());
-        soapModel.setActualProjDiscountDollar(model.getActualProjDiscountDollar());
-        soapModel.setActualProjectionSales(model.getActualProjectionSales());
         soapModel.setProjectionDetailsSid(model.getProjectionDetailsSid());
-        soapModel.setActualProjectionRate(model.getActualProjectionRate());
-        soapModel.setActualProjDiscountUnits(model.getActualProjDiscountUnits());
         soapModel.setActualDiscountDollar(model.getActualDiscountDollar());
         soapModel.setActualDiscountUnits(model.getActualDiscountUnits());
         soapModel.setActualSales(model.getActualSales());
@@ -106,44 +98,12 @@ public class NmActualPpaSoap implements Serializable {
         _periodSid = periodSid;
     }
 
-    public double getActualProjDiscountDollar() {
-        return _actualProjDiscountDollar;
-    }
-
-    public void setActualProjDiscountDollar(double actualProjDiscountDollar) {
-        _actualProjDiscountDollar = actualProjDiscountDollar;
-    }
-
-    public double getActualProjectionSales() {
-        return _actualProjectionSales;
-    }
-
-    public void setActualProjectionSales(double actualProjectionSales) {
-        _actualProjectionSales = actualProjectionSales;
-    }
-
     public int getProjectionDetailsSid() {
         return _projectionDetailsSid;
     }
 
     public void setProjectionDetailsSid(int projectionDetailsSid) {
         _projectionDetailsSid = projectionDetailsSid;
-    }
-
-    public double getActualProjectionRate() {
-        return _actualProjectionRate;
-    }
-
-    public void setActualProjectionRate(double actualProjectionRate) {
-        _actualProjectionRate = actualProjectionRate;
-    }
-
-    public double getActualProjDiscountUnits() {
-        return _actualProjDiscountUnits;
-    }
-
-    public void setActualProjDiscountUnits(double actualProjDiscountUnits) {
-        _actualProjDiscountUnits = actualProjDiscountUnits;
     }
 
     public double getActualDiscountDollar() {

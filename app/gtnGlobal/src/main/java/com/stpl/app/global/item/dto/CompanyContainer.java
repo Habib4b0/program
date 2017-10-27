@@ -177,7 +177,7 @@ public class CompanyContainer implements BeanDAO<SearchCompanyForm> {
                         }
 		}
 		
-		return new ArrayList<SearchCompanyForm>();
+		return new ArrayList<>();
 	}
 
 	/**

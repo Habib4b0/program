@@ -23,6 +23,7 @@ public class NotificationMgmtView extends VerticalLayout implements View{
     }
         
     public void enter(ViewChangeEvent event) {
+        return;
 		
 	}
 

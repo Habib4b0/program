@@ -134,7 +134,7 @@ public class IFPLogicDAOImpl implements ItemFamilyplanDAO{
      * @throws SystemException
      * @throws PortalException 
      */
-    public IfpDetails deleteIfpDetails(final IfpDetails itemFamilyplanDetails) throws SystemException, PortalException {
+    public IfpDetails deleteIfpDetails(final IfpDetails itemFamilyplanDetails) throws SystemException {
         LOGGER.debug("Query Hit For deleteIfpDetails ,IfpDetails ");
        return IfpDetailsLocalServiceUtil.deleteIfpDetails(itemFamilyplanDetails);
     }

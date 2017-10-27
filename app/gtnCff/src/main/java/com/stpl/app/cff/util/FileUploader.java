@@ -46,14 +46,10 @@ public class FileUploader implements Upload.Receiver {
      */
     private String moduleName;
     /**
-     * The move back.
-     */
-    private final static String MOVEBACK = "../";
-    /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
-      public static final String FILE_PATH="../../../../var/Attachments/";
+    public static final String FILE_PATH = getFilePath();
     final String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
     public  boolean upload=true;
     /**
@@ -78,7 +74,7 @@ public class FileUploader implements Upload.Receiver {
     public OutputStream receiveUpload(final String filename, final String mimeType) {
         LOGGER.debug("Entering receiveUpload method ");
         try {           
-            final File dir = new File(basepath + File.separator + MOVEBACK + MOVEBACK + MOVEBACK + File.separator + "Documents" + File.separator + moduleName + File.separator + userId + File.separator);
+            final File dir = new File(FILE_PATH+moduleName);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
@@ -202,6 +198,15 @@ public class FileUploader implements Upload.Receiver {
 
     public void setUpload(boolean upload) {
         this.upload = upload;
-    }      
+    }  
     
-}
+      public static String getFilePath()
+    {
+        String path= "";
+        String jbossHome = System.getProperty("jboss.home.dir");
+        String[] ftppath = jbossHome.split("jboss-7.1.1");
+        path = ftppath[0];
+        return path;
+    }
+    
+    }

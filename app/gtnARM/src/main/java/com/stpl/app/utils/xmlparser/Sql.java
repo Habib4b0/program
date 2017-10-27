@@ -9,7 +9,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 @XmlRootElement
 public class Sql {
 
@@ -19,7 +18,7 @@ public class Sql {
         return sqlEntity;
     }
 
-    @XmlElement(name ="entity")
+    @XmlElement(name = "entity")
     public void setSqlEntity(List<SqlEntity> sqlEntity) {
         this.sqlEntity = sqlEntity;
     }

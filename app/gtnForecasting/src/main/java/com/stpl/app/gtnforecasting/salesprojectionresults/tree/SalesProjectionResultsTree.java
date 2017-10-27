@@ -105,7 +105,7 @@ public class SalesProjectionResultsTree {
                 buildMap.put(hiearachy, salesNode);
             } else {
                 String[] parentHierarrchy = parentHierarchy.split("~");
-                SalesPRCustom parent = apexNode;
+                SalesPRCustom parent;
                 String secondParent = "";
                 if (parentHierarrchy.length > 1) {
                     secondParent = parentHierarrchy[parentHierarrchy.length - 2];
@@ -123,14 +123,14 @@ public class SalesProjectionResultsTree {
 
     private void addToChildCustom(SalesPRCustom parent, SalesPRCustom child, HashMap dataMap) {
         addSalesGroupCustom(parent, child, dataMap);
-        addStaticRow(parent, child, dataMap);
+        addStaticRow(child);
     }
 
     private void addSalesGroupCustom(SalesPRCustom parent, SalesPRCustom child, HashMap dataMap) {
         if (child.getLevel() == creteria.tpLevel && creteria.tpLevel != 0) {
             SalesPRBaseNode tpParent = (SalesPRBaseNode) dataMap.get(parent.getHierachyNo() + "~All Sales Groups");
             if (tpParent == null) {
-                tpParent = new SalesPRCustom("All Sales Groups");
+                tpParent = new SalesPRCustom(Constant.ALL_SALES_GROUP);
                 tpParent.setStatic(true);
                 dataMap.put(parent.getHierachyNo() + "~All Sales Groups", tpParent);
                 parent.addChild(tpParent);
@@ -143,7 +143,7 @@ public class SalesProjectionResultsTree {
 
     }
 
-    protected void addStaticRow(SalesPRCustom parent, SalesPRCustom child, HashMap dataMap) {
+    protected void addStaticRow(SalesPRCustom child) {
         if (isSalesNeed()) {
             SalesPRCustom contractSales = new SalesPRCustom(SPRStaticData.SALES.getLabel());
             contractSales.setStatic(true);
@@ -194,7 +194,6 @@ public class SalesProjectionResultsTree {
         CommonLogic cmLogic = new CommonLogic();
         String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO)
                 + " Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO";
-        String level = projSelDTO.getSessionDTO().getCustomerLevelNumber();
         return (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames()));
     }
 
@@ -227,7 +226,7 @@ public class SalesProjectionResultsTree {
                     currentLevel = level;
                 }
             }
-            parent = addChildrenToParent(parent, child, currentLevel, dataMap, salesGroupRelation);
+            addChildrenToParent(parent, child, currentLevel, dataMap, salesGroupRelation);
         }
         return apex;
     }
@@ -249,13 +248,13 @@ public class SalesProjectionResultsTree {
 
     protected void addChildCP(SalesPRCP parent, SalesPRCP child, HashMap dataMap, Map<String, String> salesGroupRelation) {
         addSalesGroup(parent, child, dataMap, salesGroupRelation);
-        addStaticDataRow(parent, child, dataMap);
+        addStaticDataRow(child);
     }
 
     private void addSalesGroup(SalesPRCP parent, SalesPRCP child, HashMap dataMap, Map<String, String> salesGroupRelation) {
         if (!creteria.cpIndicator.equals("P") && child.getLevel() == creteria.tpLevel && !creteria.isFilter) {
             String userGroup = salesGroupRelation.get(child.getHierachyNo());
-            userGroup = userGroup == null ? "All Sales Groups" : userGroup.equals("0") ? "All Sales Groups" : "Sales Group -" + userGroup;
+            userGroup = userGroup == null ? Constant.ALL_SALES_GROUP : userGroup.equals("0") ? Constant.ALL_SALES_GROUP : "Sales Group -" + userGroup;
             SalesPRBaseNode tpParent = (SalesPRBaseNode) dataMap.get(parent.getHierachyNo() + "~" + userGroup);
             if (tpParent == null) {
                 tpParent = new SalesPRCP(userGroup);
@@ -270,7 +269,7 @@ public class SalesProjectionResultsTree {
         dataMap.put(child.getHierachyNo(), child);
     }
 
-    protected void addStaticDataRow(SalesPRCP parent, SalesPRCP child, HashMap dataMap) {
+    protected void addStaticDataRow(SalesPRCP child) {
         if (isSalesNeed()) {
             SalesPRCP contractSales = new SalesPRCP(SPRStaticData.SALES.getLabel());
             contractSales.setStatic(true);
@@ -292,17 +291,14 @@ public class SalesProjectionResultsTree {
         if (parent == null) {
             if (startLevel == currentLevel) {
                 parent = apex;
-//                addChildrenToParent((SalesProjectionNodeCP) parent, Arrays.asList(new String[]{hierarchy}), currentLevel, dataMap);
                 return parent;
             }
             String[] istParent = hierarchy.split("\\.");
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < istParent.length - 1; i++) {
-//            System.out.println("" + istParent[i]);
                 builder.append(istParent[i]).append(".");
             }
             parent = getParent(builder.toString(), dataMap, currentLevel - 1, startLevel, apex);
-//            addChildrenToParent((SalesProjectionNodeCP) parent, Arrays.asList(new String[]{hierarchy}), currentLevel, dataMap);
         }
         return parent;
     }
@@ -380,7 +376,6 @@ public class SalesProjectionResultsTree {
             }
 
             loadDataMap.put(treeNode.getHierarchyForTable() + k + ".", cuurentData[2]);
-            k++;
 
         }
     }
@@ -447,8 +442,6 @@ public class SalesProjectionResultsTree {
         }
 
         public SalesProjectionResultsTreeBuildCreteria(ProjectionSelectionDTO projdto) {
-//            setConfigData(projdto);
-//            loadStaticData(projdto);
             this.salesUnitVariable = projdto.getSalesOrUnit();
             custom = projdto.isIsCustomHierarchy();
             if (projdto.getCustomId() != 0) {
@@ -459,7 +452,6 @@ public class SalesProjectionResultsTree {
             pivotView = projdto.getPivotView();
             levelNo = projdto.getFilterLevelNo();
              isFilter = projdto.isIsFilter();
-//            this.cpOrCustom=projdto.get
         }
 
         public boolean isNeedtoReBuildTree(ProjectionSelectionDTO projdto) {
@@ -497,7 +489,6 @@ public class SalesProjectionResultsTree {
             if (!(projdto.getFrequency().equals(frequency)
                     && projdto.getHistory().equals(history)
                     && projdto.getActualsOrProjections().equals(actualProjection)) || projdto.getSessionDTO().isIsSPCalculationDoneAgain()) {
-//                setConfigData(projdto);
                 loadStaticData(projdto);
                 projdto.getSessionDTO().setIsSPCalculationDoneAgain(false);
             }
@@ -515,7 +506,7 @@ public class SalesProjectionResultsTree {
             if (projSelDTO.getFrequencyDivision() == 1 || Constant.ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                 freq = "ANNUAL";
             } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO || Constant.SEMI_ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
-                freq = "SEMI-ANNUAL";
+                freq = Constant.SEMIANNUAL_CAPS;
             } else if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR || Constant.QUARTERLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                 freq = "QUARTERLY";
             } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE || Constant.MONTHLY.equalsIgnoreCase(projSelDTO.getFrequency())) {

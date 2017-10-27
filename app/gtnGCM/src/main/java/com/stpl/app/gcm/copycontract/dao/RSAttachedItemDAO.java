@@ -34,7 +34,7 @@ private static final Logger LOGGER = Logger.getLogger(RSAttachedItemDAO.class);
     }
 
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
-        List<ExistingComponentDTO> resultList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.getRSAttachedItemSearch(RsIfpDto, i, i1, bsc, list);
         } catch (ParseException ex) {

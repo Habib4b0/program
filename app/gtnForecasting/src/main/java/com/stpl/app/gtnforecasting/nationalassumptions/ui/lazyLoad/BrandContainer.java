@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionLogic;
 import com.stpl.ifs.util.HelperDTO;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -61,7 +62,7 @@ public class BrandContainer implements DAO<HelperDTO> {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
 }

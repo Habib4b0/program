@@ -41,7 +41,7 @@ public class TransactionalSearchLogic extends PageTableLogic {
     List<DetailsDTO> moduleDetailsValue = null;
     private String tableName;
     SearchLogic searchLogic = new SearchLogic();
-    Map<Integer, Boolean> SelectedAccrualsIdMap = new LinkedHashMap<Integer, Boolean>();
+    Map<Integer, Boolean> SelectedAccrualsIdMap = new LinkedHashMap<>();
     AccrualdetailsDTO accDto = null;
     ARPOutboundDTO arpDto = null;
     ArmOutboundDTO gtnDto = null;
@@ -95,10 +95,10 @@ public class TransactionalSearchLogic extends PageTableLogic {
                     List<Object> list = searchLogic.gtnSearch(searchValues, Boolean.TRUE, this.getFilters(), this.getSortByColumns(), 0, 0, isFirstTimeSearch,tableName, Boolean.FALSE);
                         count = list == null || list.isEmpty() ? 0 : list.size();
                     } else {
-                        if (searchValues != null && searchValues.get("accrualType") != null
-                                && !searchValues.get("accrualType").equals("Other")
+                        if (searchValues != null && searchValues.get(ACCRUAL_TYPE) != null
+                                && !searchValues.get(ACCRUAL_TYPE).equals("Other")
                                 && !tableName.equals(ConstantUtil.INVALID_ACCURAL_INBOUND)) {
-                            tableName = "AccrualDetails";
+                            tableName = ACCRUAL_DETAILS;
                         }
 
                         count = searchLogic.getDynamicQuerySearch(searchValues, this.getFilters(), tableName);
@@ -118,6 +118,8 @@ public class TransactionalSearchLogic extends PageTableLogic {
         return 0;
 
     }
+    public static final String ACCRUAL_DETAILS = "AccrualDetails";
+    public static final String ACCRUAL_TYPE = "accrualType";
 
     /**
      *
@@ -134,7 +136,7 @@ public class TransactionalSearchLogic extends PageTableLogic {
                     || ConstantUtil.VW_COMPANY_PARENT_DETAILS.equals(tableName) || ConstantUtil.VW_COMPANY_TRADE_CLASS.equals(tableName) || ConstantUtil.VW_ITEM_MASTER.equals(tableName)
                     || ConstantUtil.VW_COMPANY_MASTER.equals(tableName)  || ConstantUtil.RETURN_RESERVE.equals(tableName) || ConstantUtil.IVLD_RETURN_RESERVE.equals(tableName)) {
                 cl = Class.forName(ConstantUtil.TABLE_MODEL_PATH_TWO + tableName);
-            } else if ("AccrualDetails".equals(tableName)) {
+            } else if (ACCRUAL_DETAILS.equals(tableName)) {
                 cl = Class.forName("com.stpl.app.model.AccrualDetails");
             }else if (ConstantUtil.ARP_OUTBOUND.equals(tableName)) {
                  cl = Class.forName("com.stpl.app.transactional.common.dto.ARPOutboundDTO");
@@ -145,7 +147,7 @@ public class TransactionalSearchLogic extends PageTableLogic {
             } else {
                 cl = Class.forName(ConstantUtil.TABLE_MODEL_PATH + tableName);
             }
-            if ("AccrualDetails".equals(tableName)) {
+            if (ACCRUAL_DETAILS.equals(tableName)) {
                 ((BeanItemContainer<Object>) datasource).addBean(getAccuralsDTO((AccrualDetails) (object)));
             } else if(ConstantUtil.ARP_OUTBOUND.equals(tableName))
             {
@@ -227,10 +229,10 @@ public class TransactionalSearchLogic extends PageTableLogic {
                     salesList1= searchLogic.gtnSearch(searchValues, Boolean.FALSE, this.getFilters(), this.getSortByColumns(),start,offset,Boolean.FALSE,tableName, Boolean.FALSE);
                     }
                 else {
-                    if (searchValues != null && searchValues.get("accrualType") != null 
-                            && !searchValues.get("accrualType").equals("Other") 
+                    if (searchValues != null && searchValues.get(ACCRUAL_TYPE) != null 
+                            && !searchValues.get(ACCRUAL_TYPE).equals("Other") 
                             && !tableName.equals(ConstantUtil.INVALID_ACCURAL_INBOUND)) {
-                        tableName = "AccrualDetails";
+                        tableName = ACCRUAL_DETAILS;
                     }
                     salesList1 = searchLogic.searchFind(searchValues, start, start + offset, this.getSortByColumns(), this.getFilters(), tableName,false, null, SelectedAccrualsIdMap,primaryDTO);
                 }
@@ -320,7 +322,7 @@ public class TransactionalSearchLogic extends PageTableLogic {
 
       private ARPOutboundDTO arpOutbound(Object atpObject) throws ParseException {
          try{
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(MM_DD_YYYY);
         arpDto = new ARPOutboundDTO();
         Object[] obj = (Object[]) atpObject;
         arpDto.setArp_Id(checkForNullValue(obj[NumericConstants.ONE]));
@@ -415,6 +417,7 @@ public class TransactionalSearchLogic extends PageTableLogic {
          }
         return arpDto;
     }
+    public static final String MM_DD_YYYY = "MM/dd/yyy";
 
     private String checkForNullValue(Object obj) {
         String value=StringUtils.EMPTY;
@@ -432,7 +435,7 @@ public class TransactionalSearchLogic extends PageTableLogic {
    
   
       private double checkForDoubleValue(Object obj) {
-        String strValue = " ";
+        String strValue;
         double value=0;
        if(obj==null){
           
@@ -526,7 +529,7 @@ public class TransactionalSearchLogic extends PageTableLogic {
    
      private ArmOutboundDTO gtnOutbound(Object gtnObject) throws ParseException {
          try{
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(MM_DD_YYYY);
         gtnDto = new ArmOutboundDTO();
         Object[] obj = (Object[]) gtnObject;
        gtnDto.setAdjustmentType(isValid(obj[0]) ?  obj[0].toString() : StringUtils.EMPTY);
@@ -622,7 +625,7 @@ public class TransactionalSearchLogic extends PageTableLogic {
       
       private ArmOutboundDTO reserveOutbound(Object gtnObject) throws ParseException {
          try{
-             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyy");// GAL-8610
+             SimpleDateFormat sdf = new SimpleDateFormat(MM_DD_YYYY);// GAL-8610
         gtnDto = new ArmOutboundDTO();
         Object[] obj = (Object[]) gtnObject;
         gtnDto.setAdjustmentType(isValid(obj[0]) ?  obj[0].toString() : StringUtils.EMPTY);

@@ -62,10 +62,10 @@ public final class IdentifierResults extends CustomComponent {
 	private final CompanyCrtIdentifierDTO identifierFormBean = new CompanyCrtIdentifierDTO();
 
 	/** The binder. */
-	private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyCrtIdentifierDTO>(identifierFormBean));
+	private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(identifierFormBean));
 
 	/** The identifier results bean. */
-	private BeanItemContainer<CompanyCrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<CompanyCrtIdentifierDTO>(CompanyCrtIdentifierDTO.class);
+	private BeanItemContainer<CompanyCrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
 
 	/** The company crt qualifier name. */
 	private ComboBox companyCrtQualifierName = new ComboBox();
@@ -313,8 +313,8 @@ public final class IdentifierResults extends CustomComponent {
 		LOGGER.debug("Entering IdentifierResults addToTable");
 		final Table table = new Table();
 		table.setContainerDataSource(identifierResultsBean);
-		table.setVisibleColumns(UIUtils.IDEN_FORM_COL_ORDER);
-		table.setColumnHeaders(UIUtils.IDEN_FORM_COL_HEADER);
+		table.setVisibleColumns(UIUtils.getInstance().idenFormColOrder);
+		table.setColumnHeaders(UIUtils.getInstance().idenFormHeader);
 		table.setPageLength(NumericConstants.SEVEN);
 		table.setImmediate(true);
 		table.setSelectable(true);
@@ -592,7 +592,7 @@ public final class IdentifierResults extends CustomComponent {
 		 * to validate the given object
 		 */
 		@Override
-		public void validate(final Object value) throws InvalidValueException {
+		public void validate(final Object value) {
 			if (startDate.getValue() != null && endDate.getValue() != null) {
 				if (startDate.getValue().after(endDate.getValue())) {
 					throw new InvalidValueException("Start date is less than End date");

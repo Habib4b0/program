@@ -143,9 +143,9 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The attachments list bean.
      */
-    private BeanItemContainer<AttachmentDTO> attachmentsListBean = new BeanItemContainer<AttachmentDTO>(AttachmentDTO.class);
+    private BeanItemContainer<AttachmentDTO> attachmentsListBean = new BeanItemContainer<>(AttachmentDTO.class);
 
-    List<AttachmentDTO> newFileDto = new ArrayList<AttachmentDTO>();
+    List<AttachmentDTO> newFileDto = new ArrayList<>();
 
     /**
      * The move back.
@@ -160,11 +160,12 @@ public class AdditionalInformation extends CustomComponent {
      * The file size.
      */
     private Double fileSize = 0.00;
-
+    public static final String DOCUMENTS = "Documents";
     /**
      * The file path.
      */
-    final File filePath = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME + File.separator + userId);
+    final File filePath = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId);
+    
     /**
      * The upload receiver.
      */
@@ -206,19 +207,20 @@ public class AdditionalInformation extends CustomComponent {
      * The pdf downloader.
      */
     private FileDownloader pdfDownloader;
-    public List<AttachmentDTO> removedDetailsList = new ArrayList<AttachmentDTO>();
+    public List<AttachmentDTO> removedDetailsList = new ArrayList<>();
     /**
      * The common logic.
      */
     private AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
-    List<String> notesList = new ArrayList<String>();
-    List<String> wordList = new ArrayList<String>();
+    List<String> notesList = new ArrayList<>();
+    List<String> wordList = new ArrayList<>();
     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    public CommonUiUtils commonUiUtils = new CommonUiUtils();
 
     /**
      * The file path.
      */
-    final File filePathForLink = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME);
+    final File filePathForLink = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
 
     /**
      * Instantiates a new additional information.
@@ -240,18 +242,18 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * Configure fields.
      */
-    private void configureFields() throws PortalException, SystemException {
+    private void configureFields() throws SystemException  {
 
         newNotes.setInputPrompt("- Enter New Note -");
         wordBtn.setIcon(wordImage);
         pdfBtn.setIcon(pdfImage);
         resultsTable.setContainerDataSource(attachmentsListBean);
-        resultsTable.setVisibleColumns(CommonUiUtils.ATTACHMENT_COLUMNS);
-        resultsTable.setColumnHeaders(CommonUiUtils.ATTACHMENT_HEADER);
+        resultsTable.setVisibleColumns(commonUiUtils.attachmentColumns);
+        resultsTable.setColumnHeaders(commonUiUtils.attachmentHeader);
         resultsTable.setSelectable(true);
-        resultsTable.setColumnAlignment(CommonUiUtils.ATTACHMENT_COLUMNS[0], Table.Align.LEFT);
-        resultsTable.setColumnAlignment(CommonUiUtils.ATTACHMENT_COLUMNS[1], Table.Align.CENTER);
-        resultsTable.setColumnAlignment(CommonUiUtils.ATTACHMENT_COLUMNS[NumericConstants.TWO], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[0], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[1], Table.Align.CENTER);
+        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[NumericConstants.TWO], Table.Align.LEFT);
         uploader.setStyleName(Constant.SEARCH_TEXT);
         layout.setStyleName("uploadId");
         notesHistory.setEnabled(false);
@@ -352,7 +354,7 @@ public class AdditionalInformation extends CustomComponent {
                         attachDto.setDateAdded(dateTimeFormat.format(new Date()));
                         attachDto.setDocumentName(AdditionalInfoLogic.configureDownloader(event.getFilename(), filePath.getAbsolutePath()));
                         attachDto.setUserName(CommonUtils.getUserNameById(userId));
-                        attachDto.setDocumentFullPath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME + File.separator + userId
+                        attachDto.setDocumentFullPath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
                                 + File.separator + event.getFilename());
                         attachmentsListBean.addBean(attachDto);
                         newFileDto.add(attachDto);
@@ -391,7 +393,7 @@ public class AdditionalInformation extends CustomComponent {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 LOGGER.debug("uploader.addValueChangeListener started");
-                File[] listOfFiles = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME + File.separator + userId)
+                File[] listOfFiles = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId)
                         .listFiles();
                 boolean fileExist = false;
                 for (File file : listOfFiles) {
@@ -439,7 +441,7 @@ public class AdditionalInformation extends CustomComponent {
         if (tableBeanId instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableBeanId;
         } else if (tableBeanId instanceof AttachmentDTO) {
-            targetItem = new BeanItem<AttachmentDTO>((AttachmentDTO) tableBeanId);
+            targetItem = new BeanItem<>((AttachmentDTO) tableBeanId);
         }
         tableBean = (AttachmentDTO) targetItem.getBean();
         LOGGER.debug("Ends resultsTable itemClick method");
@@ -499,7 +501,7 @@ public class AdditionalInformation extends CustomComponent {
     public void removeBtn(final Button.ClickEvent event) {
         LOGGER.debug("Inside removeBtn listener method");
         if (tableBeanId == null || resultsTable.size() <= 0 || !resultsTable.isSelected(tableBeanId)) {
-            AbstractNotificationUtils.getInfoNotification("Remove Attachment", "Please select an attachment to remove.");
+            AbstractNotificationUtils.getInfoNotification(Constant.REMOVE_ATTACHMENT, "Please select an attachment to remove.");
         } else {
             if (tableBean.getUserName().equalsIgnoreCase(CommonUtils.getUserNameById(userId))) {
 
@@ -522,7 +524,7 @@ public class AdditionalInformation extends CustomComponent {
                             dto.setDocumentFullPath(tableBean.getDocumentFullPath());
                             removedDetailsList.add(dto);
 
-                            File file = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME + File.separator + userId
+                            File file = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
                                     + File.separator + tableBean.getDocumentName());
                             file.delete();
                             resultsTable.removeItem(tableBeanId);
@@ -533,10 +535,10 @@ public class AdditionalInformation extends CustomComponent {
                             LOGGER.error(e);
                         }
                     }
-                }.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
+                }.getConfirmationMessage(Constant.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");
 
             } else {
-                AbstractNotificationUtils.getInfoNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+                AbstractNotificationUtils.getInfoNotification(Constant.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
 
             }
         }
@@ -617,7 +619,7 @@ public class AdditionalInformation extends CustomComponent {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void setValues(boolean saveFlag) throws SystemException, PortalException {
+    public void setValues(boolean saveFlag) throws SystemException {
         LOGGER.debug("Inside of AdditionalInformation setValues Method");
         String mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
         if (Constant.EDIT_SMALL.equalsIgnoreCase(mode) || Constant.VIEW.equalsIgnoreCase(mode) || saveFlag) {

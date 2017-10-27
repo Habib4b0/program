@@ -26,7 +26,6 @@ public class ContractSearchTableLogic extends PageTableLogic {
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
     private boolean isReset = false;
-    private SalesBasis salesBasis;
     private ErrorfulFieldGroup binder;
     private final SalesLogic searchLogic = new SalesLogic();
 
@@ -35,7 +34,7 @@ public class ContractSearchTableLogic extends PageTableLogic {
         int count = 0;
         try {
             if (isFirstLoad) {
-                count = searchLogic.getCount(binder, salesBasis, 0, 0, true, null, this.getFilters());
+                count = searchLogic.getCount(binder, 0, 0, true, null, this.getFilters());
             }
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
@@ -50,7 +49,7 @@ public class ContractSearchTableLogic extends PageTableLogic {
         List list = new ArrayList();
         if (isFirstLoad) {
             try {
-                list = searchLogic.getSearchResults(binder, salesBasis, start, offset, false, this.getSortByColumns(), this.getFilters());
+                list = searchLogic.getSearchResults(binder, start, offset, false, this.getSortByColumns(), this.getFilters());
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
@@ -65,12 +64,11 @@ public class ContractSearchTableLogic extends PageTableLogic {
         return dto;
     }
     
-    public void configureSearchData(final ErrorfulFieldGroup binder,SalesBasis obj) {
+    public void configureSearchData(final ErrorfulFieldGroup binder) {
         isFirstLoad = true;
         isReset = false;
         this.clearAll();
         this.getFilters().clear();
-        this.salesBasis = obj;
         this.binder = binder;
         this.setRequiredCount(true);
         this.setCurrentPage(1);

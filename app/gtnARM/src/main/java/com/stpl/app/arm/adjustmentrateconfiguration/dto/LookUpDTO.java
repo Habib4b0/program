@@ -17,10 +17,10 @@ public class LookUpDTO implements Serializable {
 
     private String viewName = StringUtils.EMPTY;
     private String createdBy = StringUtils.EMPTY;
-    private Date createdDate ;
-    private int viewMasterSid =0;
-    private String exclusionAndInclusionValue= StringUtils.EMPTY;
-    private String inventCalculationValue= StringUtils.EMPTY;
+    private Date createdDate;
+    private int viewMasterSid = 0;
+    private String exclusionAndInclusionValue = StringUtils.EMPTY;
+    private String inventCalculationValue = StringUtils.EMPTY;
     private boolean selectFlag = false;
 
     public String getViewName() {

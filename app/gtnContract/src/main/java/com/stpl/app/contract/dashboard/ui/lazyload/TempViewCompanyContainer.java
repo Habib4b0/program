@@ -30,16 +30,7 @@ public class TempViewCompanyContainer implements BeanDAO<CFPCompanyDTO> {
 
 	    @Override
 	    public int count(final BeanSearchCriteria searchCriteria) {
-	        try {
-	             return cfpSearchLogic.getLazySelectedCompaniesCount(searchCriteria,getRecord());
-	        } catch (PortalException ex) {
-	            LOGGER.error(ex);
-	            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
-	        } catch (SystemException ex) {
-	            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-	            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-	        } 
-	        return 0;
+                return cfpSearchLogic.getLazySelectedCompaniesCount(searchCriteria,getRecord()); 
 	    }
 
 	    /**
@@ -52,18 +43,8 @@ public class TempViewCompanyContainer implements BeanDAO<CFPCompanyDTO> {
 	     */
 	    @Override
 	    public List<CFPCompanyDTO> find(final BeanSearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
-	        try {
-	            LOGGER.debug("Entering AvailableCompanyAddition find method :");
-	            return cfpSearchLogic.getLazySelectedCompaniesDeatils(startIndex, offset, true, list,searchCriteria,false,getRecord(), Boolean.FALSE);
-	        } catch (PortalException ex) {
-	            LOGGER.error(ex);
-	            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
-	        } catch (SystemException ex) {
-	            LOGGER.error(ex);
-	            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-	            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-	        }
-	        return new ArrayList<CFPCompanyDTO>();
+                LOGGER.debug("Entering AvailableCompanyAddition find method :");
+                return cfpSearchLogic.getLazySelectedCompaniesDeatils(startIndex, offset, true, list,searchCriteria,false,getRecord(), Boolean.FALSE);
 	    }
 
     public String getRecord() {

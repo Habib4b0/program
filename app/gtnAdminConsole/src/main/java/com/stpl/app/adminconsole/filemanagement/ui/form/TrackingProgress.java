@@ -107,18 +107,18 @@ public class TrackingProgress extends Window {
     /**
      * The available results bean.
      */
-    private BeanItemContainer<TrackingProcessDTO> summaryResultsBean = new BeanItemContainer<TrackingProcessDTO>(TrackingProcessDTO.class);
+    private BeanItemContainer<TrackingProcessDTO> summaryResultsBean = new BeanItemContainer<>(TrackingProcessDTO.class);
     private static final Logger LOGGER = Logger.getLogger(TrackingProgress.class);
-    public static final Object[] SUMMARY_COLUMN = new Object[]{"processIdentifier", "startTime", "endTime", "noOfProjections", "status"};
+    public final Object[] summaryColumn = new Object[]{"processIdentifier", "startTime", "endTime", "noOfProjections", "status"};
     /**
      * The Constant FIELD_LOOKUP_HEADER.
      */
-    public static final String[] SUMMARY_HEADER = new String[]{"Process Identifier", "Start Time", "End Time", "# of Projections", "Status"};
-    public static final Object[] DETAILS_COLUMN = new Object[]{"processType", "startTime", "endTime", "noOfProjections", "sequence", "status"};
+    public final String[] summaryHeader = new String[]{"Process Identifier", "Start Time", "End Time", "# of Projections", "Status"};
+    public final Object[] detailsColumn = new Object[]{"processType", "startTime", "endTime", "noOfProjections", "sequence", "status"};
     /**
      * The Constant FIELD_LOOKUP_HEADER.
      */
-    public static final String[] DETAILS_HEADER = new String[]{"Process Identifier", "Start Time", "End Time", "# of Projections", "Sequence", "Status"};
+    public final String[] detailsHeader = new String[]{"Process Identifier", "Start Time", "End Time", "# of Projections", "Sequence", "Status"};
     CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
     SessionDTO sessionDTO;
     public TrackingProgress(String name,final SessionDTO sessionDTO) {
@@ -158,7 +158,7 @@ public class TrackingProgress extends Window {
             fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.FILE_MANAGEMENT+","+UISecurityUtil.PROGRAM_TRACKING_LIST_VIEW);
 
             List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.FILE_MANAGEMENT, UISecurityUtil.PROGRAM_TRACKING_LIST_VIEW);
-            Object[] objColumn = SUMMARY_COLUMN;
+            Object[] objColumn = summaryColumn;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, "Add");
 
             summaryTableLayout.addComponent(summaryTable);
@@ -197,7 +197,7 @@ public class TrackingProgress extends Window {
             fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.FILE_MANAGEMENT+","+UISecurityUtil.PROGRAM_TRACKING_LIST_VIEW);
 
             List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.FILE_MANAGEMENT, UISecurityUtil.PROGRAM_TRACKING_LIST_VIEW);
-            Object[] objColumn = DETAILS_COLUMN;
+            Object[] objColumn = detailsColumn;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, "Add");
 
             detailsTableLayout.addComponent(detailsTable);

@@ -7,6 +7,7 @@ import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.DiscountSelectionDTO;
 import com.stpl.app.service.NmDiscountProjMasterLocalServiceUtil;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import java.util.Collections;
 import java.util.Map;
 import org.jboss.logging.Logger;
 
@@ -88,7 +89,7 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
     @Override
     public List getGlobalRebateDetails(int projectionId) {
         // TODO Auto-generated method stub
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

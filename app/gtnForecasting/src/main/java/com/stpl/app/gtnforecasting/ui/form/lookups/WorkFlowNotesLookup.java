@@ -93,13 +93,13 @@ public class WorkFlowNotesLookup extends Window {
     protected String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
     protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
     protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
-    protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<NotesDTO>(NotesDTO.class);
+    protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;
     protected File fileUpload;
     protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(new File("tst")));
     protected String fileName;
     protected String fileUploadPath;
-    public List<NotesDTO> removeDetailsList = new ArrayList<NotesDTO>();
+    public List<NotesDTO> removeDetailsList = new ArrayList<>();
     protected String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
     private NotesDTO tableBean = new NotesDTO();
@@ -243,7 +243,7 @@ public class WorkFlowNotesLookup extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                removeButtonLogic(event);
+                removeButtonLogic();
             }
         });
 
@@ -378,17 +378,18 @@ public class WorkFlowNotesLookup extends Window {
 
     }
 
-    public void removeButtonLogic(Button.ClickEvent event) {
+    public void removeButtonLogic() {
         
         String temp = tableBean.getUserName();
-        if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
-            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "Please select an attachment to remove ");
-        }
+        if (tableBeanId == null  || !table.isSelected(tableBeanId)) {
+            AbstractNotificationUtils.getErrorNotification(Constant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
+        }else{
       
         if (CommonUtils.getUserNameById(userId).equalsIgnoreCase(temp)) {
             AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
+                    return;
                 }
 
                 @Override
@@ -402,10 +403,11 @@ public class WorkFlowNotesLookup extends Window {
                     tableBean = null;
                 }
             };
-            notification.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
+            notification.getConfirmationMessage(Constant.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+            AbstractNotificationUtils.getErrorNotification(Constant.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
+        }
         }
     }
 
@@ -416,7 +418,7 @@ public class WorkFlowNotesLookup extends Window {
             if (tableBeanId instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) tableBeanId;
             } else if (tableBeanId instanceof NotesDTO) {
-                targetItem = new BeanItem<NotesDTO>((NotesDTO) tableBeanId);
+                targetItem = new BeanItem<>((NotesDTO) tableBeanId);
             }
             tableBean = (NotesDTO) targetItem.getBean();
             if (event.isDoubleClick()) {

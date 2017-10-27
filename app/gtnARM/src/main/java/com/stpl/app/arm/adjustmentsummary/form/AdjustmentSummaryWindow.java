@@ -25,6 +25,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.arm.dataselection.view.DataSelectionView;
 import com.stpl.app.arm.security.StplSecurity;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -50,8 +51,6 @@ public class AdjustmentSummaryWindow extends Window {
     @UiField("previousBtn")
     private Button previousBtn;
 
-    private DataSelectionTab dataSelection;
-    private AdjustmentSummary adjustmentsummary;
     private AdjustmentDetail adjustmentDetail;
     int tabPosition = 0;
     AdjustmentReserveDTO binderDto = new AdjustmentReserveDTO();
@@ -72,36 +71,38 @@ public class AdjustmentSummaryWindow extends Window {
     }
 
     private void initializeTabs() throws PortalException, SystemException {
+        DataSelectionTab dataSelection;
+        AdjustmentSummary adjustmentsummary;
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
         Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + "," + "Landing screen");
-        if (functionHM.get("nextBtn") != null && !((AppPermission) functionHM.get("nextBtn")).isFunctionFlag()) {
+        if (functionHM.get(CommonConstant.NEXT_BTN) != null && !(functionHM.get(CommonConstant.NEXT_BTN)).isFunctionFlag()) {
             nextBtn.setVisible(false);
         } else {
             nextBtn.setVisible(true);
         }
-        if (functionHM.get("closeBtn") != null && !((AppPermission) functionHM.get("closeBtn")).isFunctionFlag()) {
+        if (functionHM.get(CommonConstant.CLOSE_BTN) != null && !(functionHM.get(CommonConstant.CLOSE_BTN)).isFunctionFlag()) {
             closeBtn.setVisible(false);
         } else {
             closeBtn.setVisible(true);
         }
 
-        if (functionHM.get("previousBtn") != null && !((AppPermission) functionHM.get("previousBtn")).isFunctionFlag()) {
+        if (functionHM.get(CommonConstant.PREVIOUS_BTN) != null && !(functionHM.get(CommonConstant.PREVIOUS_BTN)).isFunctionFlag()) {
             previousBtn.setVisible(false);
         } else {
             previousBtn.setVisible(true);
         }
-        if (functionHM.get("nextBtn") != null && !((AppPermission) functionHM.get("nextBtn")).isFunctionFlag()) {
+        if (functionHM.get(CommonConstant.NEXT_BTN) != null && !(functionHM.get(CommonConstant.NEXT_BTN)).isFunctionFlag()) {
             nextBtn.setVisible(false);
         } else {
             nextBtn.setVisible(true);
         }
-        if (functionHM.get("previousBtn") != null && !((AppPermission) functionHM.get("previousBtn")).isFunctionFlag()) {
+        if (functionHM.get(CommonConstant.PREVIOUS_BTN) != null && !(functionHM.get(CommonConstant.PREVIOUS_BTN)).isFunctionFlag()) {
             previousBtn.setVisible(false);
         } else {
             previousBtn.setVisible(true);
         }
-        if (functionHM.get("closeBtn") != null && !((AppPermission) functionHM.get("closeBtn")).isFunctionFlag()) {
+        if (functionHM.get(CommonConstant.CLOSE_BTN) != null && !(functionHM.get(CommonConstant.CLOSE_BTN)).isFunctionFlag()) {
             closeBtn.setVisible(false);
         } else {
             closeBtn.setVisible(true);
@@ -113,12 +114,8 @@ public class AdjustmentSummaryWindow extends Window {
             dataSelection = new DataSelectionTab(dataSelectionDTO, new SessionDTO());
             selection.setDataSelectionDTO(dataSelectionDTO);
             selection.setProjectionMasterSid(selection.getDataSelectionDTO().getProjectionId());
-            try {
-                adjustmentsummary = new AdjustmentSummary(selection, sessionDTO);
-                adjustmentDetail = new AdjustmentDetail(selection, sessionDTO);
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
+            adjustmentsummary = new AdjustmentSummary(selection, sessionDTO);
+            adjustmentDetail = new AdjustmentDetail(selection, sessionDTO);
 
             tabSheet.addTab(dataSelection, ARMConstants.getDataSelection());
             TabSheet.Tab tab = tabSheet.addTab(adjustmentsummary, ARMConstants.getAdjustmentSummary());
@@ -138,7 +135,7 @@ public class AdjustmentSummaryWindow extends Window {
                 @Override
                 public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                     try {
-                        final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
+                        final TabSheet.Tab tab = event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                         tabPosition = event.getTabSheet().getTabPosition(tab);
                         if (tabPosition == 0) {
                             nextBtn.setVisible(true);
@@ -152,12 +149,12 @@ public class AdjustmentSummaryWindow extends Window {
                             nextBtn.setVisible(false);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in tabSheet Listner :"+ex);
                     }
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in tabSheet Listner :"+ex);
         }
 
     }
@@ -170,6 +167,7 @@ public class AdjustmentSummaryWindow extends Window {
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
@@ -183,6 +181,7 @@ public class AdjustmentSummaryWindow extends Window {
                         break;
                     case "save":
                         break;
+                    default:
                 }
             }
         }
@@ -199,7 +198,7 @@ public class AdjustmentSummaryWindow extends Window {
             notifier.setButtonName("close");
             notifier.getConfirmationMessage(ARMMessages.getCloseMessageName_001(), ARMMessages.getCloseMessage_Summary());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in closeButtonClick :"+e);
         }
     }
 
@@ -228,5 +227,15 @@ public class AdjustmentSummaryWindow extends Window {
     public void previousButtonListener(Button.ClickEvent event) {
         int position = tabSheet.getTabPosition(tabSheet.getTab(tabSheet.getSelectedTab()));
         tabSheet.setSelectedTab(position - 1);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

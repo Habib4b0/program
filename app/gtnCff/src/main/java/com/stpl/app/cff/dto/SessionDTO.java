@@ -55,17 +55,17 @@ public class SessionDTO implements Cloneable {
     private Boolean assumptionSales;
     private Boolean assumptionDiscount;
     private Boolean assumptionPPA;
-    private Map<String, Integer> projectionPeriod = new HashMap<String, Integer>();
-    private Map<String, List> FrequencyAndQuater = new HashMap<String, List>();
-    private Map<String, Date> HistoryAndStartDate = new HashMap<String, Date>();
+    private Map<String, Integer> projectionPeriod = new HashMap<>();
+    private Map<String, List> FrequencyAndQuater = new HashMap<>();
+    private Map<String, Date> HistoryAndStartDate = new HashMap<>();
     private Date currentDate;
-    private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<String, Map<String, Integer>>();
-    private Map<String, Integer> projectionDetails = new HashMap<String, Integer>();
+    private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<>();
+    private Map<String, Integer> projectionDetails = new HashMap<>();
     private boolean fromDateChanged = false;
     private String custRelationshipBuilderSid = StringUtils.EMPTY;
     private String prodRelationshipBuilderSid = StringUtils.EMPTY;
-    private Map<String, String> customerDescription = new HashMap<String, String>();
-    private Map<String, String> productDescription = new HashMap<String, String>();
+    private Map<String, String> customerDescription = new HashMap<>();
+    private Map<String, String> productDescription = new HashMap<>();
     private int customerHierarchyId;
     private int productHierarchyId;
     private int customerRelationId;
@@ -86,7 +86,7 @@ public class SessionDTO implements Cloneable {
     private String totalDiscountCount = StringUtils.EMPTY;
     //Added for persisting freq value in session for calc and adj prc
     private String frequency = StringUtils.EMPTY;
-    private Map<String, String> returnsDetailsMap = new HashMap<String, String>();
+    private Map<String, String> returnsDetailsMap = new HashMap<>();
     private String detailsSID = StringUtils.EMPTY;
     private int noOfApproval;
     private int approvalLevel;
@@ -99,9 +99,9 @@ public class SessionDTO implements Cloneable {
     private Map<String, String> currentTableNames = new LinkedHashMap<>();
     private String screenName = StringUtils.EMPTY;
     private Map<String, List> hierarchyLevelDetails = new HashMap<>();   
-    private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<Integer, List<Leveldto>>();
+    private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<>();
     private int customId;
-    private Map<Integer, List<CffCustomViewDetails>> customDetailMap = new HashMap<Integer, List<CffCustomViewDetails>>();
+    private Map<Integer, List<CffCustomViewDetails>> customDetailMap = new HashMap<>();
     private Future future;
     public boolean isHasTradingPartner() {
         return hasTradingPartner;

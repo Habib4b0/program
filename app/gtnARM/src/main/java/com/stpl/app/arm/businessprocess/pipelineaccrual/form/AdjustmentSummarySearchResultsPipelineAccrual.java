@@ -25,13 +25,13 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     public PASummaryLogic getExcelLogic() {
-        return (PASummaryLogic) getLogic();
+        return (PASummaryLogic) getSummaryLogic();
     }
 
     @Override
     public Object[] getExcelHierarchy() {
         Object[] value = null;
-        if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummary_deductionLevelDes().equals(ARMConstants.getDeduction())) {
+        if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "C", "T", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
             value = new Object[]{"T", "C", "B", "I"};
@@ -61,7 +61,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
     @Override
     public int getInterval() {
         int interval = 0;
-        List<String[]> selectedVariables = getSelection().getSummary_variables();
+        List<String[]> selectedVariables = getSelection().getSummaryvariables();
         String[] object = null;
         if (selectedVariables != null && !selectedVariables.isEmpty()) {
             for (int i = 0; i < selectedVariables.size(); i++) {
@@ -84,6 +84,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
     public int discountColumnNeeded() {
         return 1;
     }
+
     @Override
     public boolean getisDeductionCustomer() {
         return Boolean.FALSE;
@@ -91,7 +92,7 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
 
     @Override
     protected String[] getExcelVariableVisibleColumns() {
-        return VariableConstants.VARIABLE_VISIBLE_COLUMN_DEDUTION;
+        return VariableConstants.getVariableVisibleColumnDedution();
     }
 
     @Override
@@ -99,5 +100,4 @@ public class AdjustmentSummarySearchResultsPipelineAccrual extends AbstractPipel
         return Boolean.FALSE;
     }
 
-    
 }

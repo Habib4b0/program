@@ -41,9 +41,9 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      */
     public ConsolidatedFinancialForecastView() {
         super();
-        addStyleName(Constants.bootstrap_ui);
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP_UI);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         sessionDTO.setUserId((String) VaadinSession.getCurrent().getAttribute(CommonUtils.USERID_SESSION));
         sessionDTO.setSessionId((String) VaadinSession.getCurrent().getAttribute(ConstantsUtil.SESSION_ID));
         mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);

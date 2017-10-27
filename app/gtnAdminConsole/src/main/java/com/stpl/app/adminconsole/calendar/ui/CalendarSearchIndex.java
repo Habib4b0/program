@@ -103,9 +103,8 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Calender Configuration" + ConstantsUtils.COMMA + "Result screen", false);
-            String mode = sessionDTO.getMode();
-            List<Object> resultList = getFieldsForSecurity("Calender Configuration", "Result screen");
+            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, ConstantsUtils.CALENDER_CONFIG + ConstantsUtils.COMMA + "Result screen", false);
+            List<Object> resultList = getFieldsForSecurity(ConstantsUtils.CALENDER_CONFIG, "Result screen");
             Object[] obj = visibleColumn;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, "Add");
             if (tableResultCustom.getObjResult().length == 0) {
@@ -138,7 +137,7 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
     private void configureIntegerColumn() {
         Converter integerToString = new StringToIntegerConverter() {
             @Override
-            public String convertToPresentation(Integer value, Class<? extends String> targetType, Locale locale) throws Converter.ConversionException {
+            public String convertToPresentation(Integer value, Class<? extends String> targetType, Locale locale) {
                 return String.valueOf(value); //To change body of generated methods, choose Tools | Templates.
             }
         };
@@ -150,7 +149,7 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
         final DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         Converter dateToString = new Converter<String, Date>() {
             @Override
-            public Date convertToModel(String value, Class<? extends Date> targetType, Locale locale) throws Converter.ConversionException {
+            public Date convertToModel(String value, Class<? extends Date> targetType, Locale locale) {
                 try {
                     return format.parse(value);
                 } catch (ParseException ex) {
@@ -160,7 +159,7 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
             }
 
             @Override
-            public String convertToPresentation(Date value, Class<? extends String> targetType, Locale locale) throws Converter.ConversionException {
+            public String convertToPresentation(Date value, Class<? extends String> targetType, Locale locale) {
                 if (value != null) {
                     return format.format(value);
                 } else {
@@ -258,7 +257,7 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
                      */
                     @Override
                     public void noMethod() {
-
+                        return;
                     }
                 };
                 notificationUtils.getConfirmationMessage(ConstantsUtils.CONFORMATION, "Are you sure you want to delete the selected Calendar?");
@@ -348,7 +347,7 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-
+                        return;
                     }
 
                     @Override
@@ -367,16 +366,16 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
     }
 
     @UiHandler("excelExport")
-    public void excelExportButtonClick(Button.ClickEvent event) {
+    public void excelExportButtonClick(Button.ClickEvent event) throws SystemException {
         try {
             createWorkSheet("Calendar Configuration", resultsTable);
             excelData = null;
-        } catch (SystemException | PortalException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (PortalException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             LOGGER.error(ex);
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws  PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException,  SystemException {
         long recordCount = 0;
         List<String> visibleList = Arrays.asList(header);
         if (resultTable.size() != 0) {
@@ -386,7 +385,7 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
 
         List visibleList = Arrays.asList(visibleColumn);
         try {
@@ -403,7 +402,7 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
 
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(sessionDTO.getUserId());
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Calender Configuration" + "," + "Landing screen");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, ConstantsUtils.CALENDER_CONFIG + "," + "Landing screen");
             if (functionHM.get("addButton") != null && !((AppPermission) functionHM.get("addButton")).isFunctionFlag()) {
                 addButton.setVisible(false);
             } else {
@@ -454,7 +453,7 @@ public class CalendarSearchIndex extends CalendarAbstractIndex {
      * @return object of list or count
      */
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {

@@ -2,7 +2,6 @@ package com.stpl.app.model;
 
 import com.stpl.app.service.persistence.NmSalesProjectionPK;
 
-import com.stpl.portal.kernel.bean.AutoEscape;
 import com.stpl.portal.model.BaseModel;
 import com.stpl.portal.model.CacheModel;
 import com.stpl.portal.service.ServiceContext;
@@ -44,36 +43,6 @@ public interface NmSalesProjectionModel extends BaseModel<NmSalesProjection> {
      * @param primaryKey the primary key of this nm sales projection
      */
     public void setPrimaryKey(NmSalesProjectionPK primaryKey);
-
-    /**
-     * Returns the adjustment methodology of this nm sales projection.
-     *
-     * @return the adjustment methodology of this nm sales projection
-     */
-    @AutoEscape
-    public String getAdjustmentMethodology();
-
-    /**
-     * Sets the adjustment methodology of this nm sales projection.
-     *
-     * @param adjustmentMethodology the adjustment methodology of this nm sales projection
-     */
-    public void setAdjustmentMethodology(String adjustmentMethodology);
-
-    /**
-     * Returns the adjustment basis of this nm sales projection.
-     *
-     * @return the adjustment basis of this nm sales projection
-     */
-    @AutoEscape
-    public String getAdjustmentBasis();
-
-    /**
-     * Sets the adjustment basis of this nm sales projection.
-     *
-     * @param adjustmentBasis the adjustment basis of this nm sales projection
-     */
-    public void setAdjustmentBasis(String adjustmentBasis);
 
     /**
      * Returns the period sid of this nm sales projection.
@@ -118,41 +87,6 @@ public interface NmSalesProjectionModel extends BaseModel<NmSalesProjection> {
     public void setProjectionDetailsSid(int projectionDetailsSid);
 
     /**
-     * Returns the adjustment values of this nm sales projection.
-     *
-     * @return the adjustment values of this nm sales projection
-     */
-    public double getAdjustmentValues();
-
-    /**
-     * Sets the adjustment values of this nm sales projection.
-     *
-     * @param adjustmentValues the adjustment values of this nm sales projection
-     */
-    public void setAdjustmentValues(double adjustmentValues);
-
-    /**
-     * Returns the adjustment variable of this nm sales projection.
-     *
-     * @return the adjustment variable of this nm sales projection
-     */
-    public boolean getAdjustmentVariable();
-
-    /**
-     * Returns <code>true</code> if this nm sales projection is adjustment variable.
-     *
-     * @return <code>true</code> if this nm sales projection is adjustment variable; <code>false</code> otherwise
-     */
-    public boolean isAdjustmentVariable();
-
-    /**
-     * Sets whether this nm sales projection is adjustment variable.
-     *
-     * @param adjustmentVariable the adjustment variable of this nm sales projection
-     */
-    public void setAdjustmentVariable(boolean adjustmentVariable);
-
-    /**
      * Returns the account growth of this nm sales projection.
      *
      * @return the account growth of this nm sales projection
@@ -179,21 +113,6 @@ public interface NmSalesProjectionModel extends BaseModel<NmSalesProjection> {
      * @param projectionUnits the projection units of this nm sales projection
      */
     public void setProjectionUnits(double projectionUnits);
-
-    /**
-     * Returns the adjustment type of this nm sales projection.
-     *
-     * @return the adjustment type of this nm sales projection
-     */
-    @AutoEscape
-    public String getAdjustmentType();
-
-    /**
-     * Sets the adjustment type of this nm sales projection.
-     *
-     * @param adjustmentType the adjustment type of this nm sales projection
-     */
-    public void setAdjustmentType(String adjustmentType);
 
     /**
      * Returns the projection sales of this nm sales projection.

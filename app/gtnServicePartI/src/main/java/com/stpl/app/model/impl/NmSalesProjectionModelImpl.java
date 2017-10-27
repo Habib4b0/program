@@ -8,7 +8,6 @@ import com.stpl.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.stpl.portal.kernel.util.GetterUtil;
 import com.stpl.portal.kernel.util.ProxyUtil;
 import com.stpl.portal.kernel.util.StringBundler;
-import com.stpl.portal.kernel.util.StringPool;
 import com.stpl.portal.model.CacheModel;
 import com.stpl.portal.model.impl.BaseModelImpl;
 
@@ -41,19 +40,14 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
      */
     public static final String TABLE_NAME = "NM_SALES_PROJECTION";
     public static final Object[][] TABLE_COLUMNS = {
-            { "ADJUSTMENT_METHODOLOGY", Types.VARCHAR },
-            { "ADJUSTMENT_BASIS", Types.VARCHAR },
             { "PERIOD_SID", Types.INTEGER },
             { "PRODUCT_GROWTH", Types.DOUBLE },
             { "PROJECTION_DETAILS_SID", Types.INTEGER },
-            { "ADJUSTMENT_VALUES", Types.DOUBLE },
-            { "ADJUSTMENT_VARIABLE", Types.BOOLEAN },
             { "ACCOUNT_GROWTH", Types.DOUBLE },
             { "PROJECTION_UNITS", Types.DOUBLE },
-            { "ADJUSTMENT_TYPE", Types.VARCHAR },
             { "PROJECTION_SALES", Types.DOUBLE }
         };
-    public static final String TABLE_SQL_CREATE = "create table NM_SALES_PROJECTION (ADJUSTMENT_METHODOLOGY VARCHAR(75) null,ADJUSTMENT_BASIS VARCHAR(75) null,PERIOD_SID INTEGER not null IDENTITY,PRODUCT_GROWTH DOUBLE,PROJECTION_DETAILS_SID INTEGER not null IDENTITY,ADJUSTMENT_VALUES DOUBLE,ADJUSTMENT_VARIABLE BOOLEAN,ACCOUNT_GROWTH DOUBLE,PROJECTION_UNITS DOUBLE,ADJUSTMENT_TYPE VARCHAR(75) null,PROJECTION_SALES DOUBLE,primary key (PERIOD_SID, PROJECTION_DETAILS_SID))";
+    public static final String TABLE_SQL_CREATE = "create table NM_SALES_PROJECTION (PERIOD_SID INTEGER not null IDENTITY,PRODUCT_GROWTH DOUBLE,PROJECTION_DETAILS_SID INTEGER not null IDENTITY,ACCOUNT_GROWTH DOUBLE,PROJECTION_UNITS DOUBLE,PROJECTION_SALES DOUBLE,primary key (PERIOD_SID, PROJECTION_DETAILS_SID))";
     public static final String TABLE_SQL_DROP = "drop table NM_SALES_PROJECTION";
     public static final String ORDER_BY_JPQL = " ORDER BY nmSalesProjection.id.periodSid ASC, nmSalesProjection.id.projectionDetailsSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY NM_SALES_PROJECTION.PERIOD_SID ASC, NM_SALES_PROJECTION.PROJECTION_DETAILS_SID ASC";
@@ -73,16 +67,11 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
     private static Class<?>[] _escapedModelInterfaces = new Class[] {
             NmSalesProjection.class
         };
-    private String _adjustmentMethodology;
-    private String _adjustmentBasis;
     private int _periodSid;
     private double _productGrowth;
     private int _projectionDetailsSid;
-    private double _adjustmentValues;
-    private boolean _adjustmentVariable;
     private double _accountGrowth;
     private double _projectionUnits;
-    private String _adjustmentType;
     private double _projectionSales;
     private NmSalesProjection _escapedModel;
 
@@ -124,16 +113,11 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("adjustmentMethodology", getAdjustmentMethodology());
-        attributes.put("adjustmentBasis", getAdjustmentBasis());
         attributes.put("periodSid", getPeriodSid());
         attributes.put("productGrowth", getProductGrowth());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("adjustmentValues", getAdjustmentValues());
-        attributes.put("adjustmentVariable", getAdjustmentVariable());
         attributes.put("accountGrowth", getAccountGrowth());
         attributes.put("projectionUnits", getProjectionUnits());
-        attributes.put("adjustmentType", getAdjustmentType());
         attributes.put("projectionSales", getProjectionSales());
 
         return attributes;
@@ -141,19 +125,6 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        String adjustmentMethodology = (String) attributes.get(
-                "adjustmentMethodology");
-
-        if (adjustmentMethodology != null) {
-            setAdjustmentMethodology(adjustmentMethodology);
-        }
-
-        String adjustmentBasis = (String) attributes.get("adjustmentBasis");
-
-        if (adjustmentBasis != null) {
-            setAdjustmentBasis(adjustmentBasis);
-        }
-
         Integer periodSid = (Integer) attributes.get("periodSid");
 
         if (periodSid != null) {
@@ -173,19 +144,6 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
             setProjectionDetailsSid(projectionDetailsSid);
         }
 
-        Double adjustmentValues = (Double) attributes.get("adjustmentValues");
-
-        if (adjustmentValues != null) {
-            setAdjustmentValues(adjustmentValues);
-        }
-
-        Boolean adjustmentVariable = (Boolean) attributes.get(
-                "adjustmentVariable");
-
-        if (adjustmentVariable != null) {
-            setAdjustmentVariable(adjustmentVariable);
-        }
-
         Double accountGrowth = (Double) attributes.get("accountGrowth");
 
         if (accountGrowth != null) {
@@ -198,45 +156,11 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
             setProjectionUnits(projectionUnits);
         }
 
-        String adjustmentType = (String) attributes.get("adjustmentType");
-
-        if (adjustmentType != null) {
-            setAdjustmentType(adjustmentType);
-        }
-
         Double projectionSales = (Double) attributes.get("projectionSales");
 
         if (projectionSales != null) {
             setProjectionSales(projectionSales);
         }
-    }
-
-    @Override
-    public String getAdjustmentMethodology() {
-        if (_adjustmentMethodology == null) {
-            return StringPool.BLANK;
-        } else {
-            return _adjustmentMethodology;
-        }
-    }
-
-    @Override
-    public void setAdjustmentMethodology(String adjustmentMethodology) {
-        _adjustmentMethodology = adjustmentMethodology;
-    }
-
-    @Override
-    public String getAdjustmentBasis() {
-        if (_adjustmentBasis == null) {
-            return StringPool.BLANK;
-        } else {
-            return _adjustmentBasis;
-        }
-    }
-
-    @Override
-    public void setAdjustmentBasis(String adjustmentBasis) {
-        _adjustmentBasis = adjustmentBasis;
     }
 
     @Override
@@ -270,31 +194,6 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
     }
 
     @Override
-    public double getAdjustmentValues() {
-        return _adjustmentValues;
-    }
-
-    @Override
-    public void setAdjustmentValues(double adjustmentValues) {
-        _adjustmentValues = adjustmentValues;
-    }
-
-    @Override
-    public boolean getAdjustmentVariable() {
-        return _adjustmentVariable;
-    }
-
-    @Override
-    public boolean isAdjustmentVariable() {
-        return _adjustmentVariable;
-    }
-
-    @Override
-    public void setAdjustmentVariable(boolean adjustmentVariable) {
-        _adjustmentVariable = adjustmentVariable;
-    }
-
-    @Override
     public double getAccountGrowth() {
         return _accountGrowth;
     }
@@ -312,20 +211,6 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
     @Override
     public void setProjectionUnits(double projectionUnits) {
         _projectionUnits = projectionUnits;
-    }
-
-    @Override
-    public String getAdjustmentType() {
-        if (_adjustmentType == null) {
-            return StringPool.BLANK;
-        } else {
-            return _adjustmentType;
-        }
-    }
-
-    @Override
-    public void setAdjustmentType(String adjustmentType) {
-        _adjustmentType = adjustmentType;
     }
 
     @Override
@@ -352,16 +237,11 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
     public Object clone() {
         NmSalesProjectionImpl nmSalesProjectionImpl = new NmSalesProjectionImpl();
 
-        nmSalesProjectionImpl.setAdjustmentMethodology(getAdjustmentMethodology());
-        nmSalesProjectionImpl.setAdjustmentBasis(getAdjustmentBasis());
         nmSalesProjectionImpl.setPeriodSid(getPeriodSid());
         nmSalesProjectionImpl.setProductGrowth(getProductGrowth());
         nmSalesProjectionImpl.setProjectionDetailsSid(getProjectionDetailsSid());
-        nmSalesProjectionImpl.setAdjustmentValues(getAdjustmentValues());
-        nmSalesProjectionImpl.setAdjustmentVariable(getAdjustmentVariable());
         nmSalesProjectionImpl.setAccountGrowth(getAccountGrowth());
         nmSalesProjectionImpl.setProjectionUnits(getProjectionUnits());
-        nmSalesProjectionImpl.setAdjustmentType(getAdjustmentType());
         nmSalesProjectionImpl.setProjectionSales(getProjectionSales());
 
         nmSalesProjectionImpl.resetOriginalValues();
@@ -410,44 +290,15 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
     public CacheModel<NmSalesProjection> toCacheModel() {
         NmSalesProjectionCacheModel nmSalesProjectionCacheModel = new NmSalesProjectionCacheModel();
 
-        nmSalesProjectionCacheModel.adjustmentMethodology = getAdjustmentMethodology();
-
-        String adjustmentMethodology = nmSalesProjectionCacheModel.adjustmentMethodology;
-
-        if ((adjustmentMethodology != null) &&
-                (adjustmentMethodology.length() == 0)) {
-            nmSalesProjectionCacheModel.adjustmentMethodology = null;
-        }
-
-        nmSalesProjectionCacheModel.adjustmentBasis = getAdjustmentBasis();
-
-        String adjustmentBasis = nmSalesProjectionCacheModel.adjustmentBasis;
-
-        if ((adjustmentBasis != null) && (adjustmentBasis.length() == 0)) {
-            nmSalesProjectionCacheModel.adjustmentBasis = null;
-        }
-
         nmSalesProjectionCacheModel.periodSid = getPeriodSid();
 
         nmSalesProjectionCacheModel.productGrowth = getProductGrowth();
 
         nmSalesProjectionCacheModel.projectionDetailsSid = getProjectionDetailsSid();
 
-        nmSalesProjectionCacheModel.adjustmentValues = getAdjustmentValues();
-
-        nmSalesProjectionCacheModel.adjustmentVariable = getAdjustmentVariable();
-
         nmSalesProjectionCacheModel.accountGrowth = getAccountGrowth();
 
         nmSalesProjectionCacheModel.projectionUnits = getProjectionUnits();
-
-        nmSalesProjectionCacheModel.adjustmentType = getAdjustmentType();
-
-        String adjustmentType = nmSalesProjectionCacheModel.adjustmentType;
-
-        if ((adjustmentType != null) && (adjustmentType.length() == 0)) {
-            nmSalesProjectionCacheModel.adjustmentType = null;
-        }
 
         nmSalesProjectionCacheModel.projectionSales = getProjectionSales();
 
@@ -456,28 +307,18 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(23);
+        StringBundler sb = new StringBundler(13);
 
-        sb.append("{adjustmentMethodology=");
-        sb.append(getAdjustmentMethodology());
-        sb.append(", adjustmentBasis=");
-        sb.append(getAdjustmentBasis());
-        sb.append(", periodSid=");
+        sb.append("{periodSid=");
         sb.append(getPeriodSid());
         sb.append(", productGrowth=");
         sb.append(getProductGrowth());
         sb.append(", projectionDetailsSid=");
         sb.append(getProjectionDetailsSid());
-        sb.append(", adjustmentValues=");
-        sb.append(getAdjustmentValues());
-        sb.append(", adjustmentVariable=");
-        sb.append(getAdjustmentVariable());
         sb.append(", accountGrowth=");
         sb.append(getAccountGrowth());
         sb.append(", projectionUnits=");
         sb.append(getProjectionUnits());
-        sb.append(", adjustmentType=");
-        sb.append(getAdjustmentType());
         sb.append(", projectionSales=");
         sb.append(getProjectionSales());
         sb.append("}");
@@ -487,20 +328,12 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(37);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.NmSalesProjection");
         sb.append("</model-name>");
 
-        sb.append(
-            "<column><column-name>adjustmentMethodology</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentMethodology());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>adjustmentBasis</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentBasis());
-        sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>periodSid</column-name><column-value><![CDATA[");
         sb.append(getPeriodSid());
@@ -514,24 +347,12 @@ public class NmSalesProjectionModelImpl extends BaseModelImpl<NmSalesProjection>
         sb.append(getProjectionDetailsSid());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>adjustmentValues</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentValues());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>adjustmentVariable</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentVariable());
-        sb.append("]]></column-value></column>");
-        sb.append(
             "<column><column-name>accountGrowth</column-name><column-value><![CDATA[");
         sb.append(getAccountGrowth());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>projectionUnits</column-name><column-value><![CDATA[");
         sb.append(getProjectionUnits());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>adjustmentType</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentType());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>projectionSales</column-name><column-value><![CDATA[");

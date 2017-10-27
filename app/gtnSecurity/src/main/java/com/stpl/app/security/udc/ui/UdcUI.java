@@ -74,16 +74,16 @@ public class UdcUI extends UI implements VaadinPortletSession.PortletListener {
 
     @Override
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
-
+        return;
     }
 
     @Override
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
-
+        return;
     }
 
     @Override
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
-
+        return;
     }
 }

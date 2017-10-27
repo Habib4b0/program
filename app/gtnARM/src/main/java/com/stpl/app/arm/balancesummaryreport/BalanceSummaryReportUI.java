@@ -26,12 +26,12 @@ import org.jboss.logging.Logger;
  */
 public class BalanceSummaryReportUI extends CommonUI {
 
-    private Navigator navigator;
-    private SessionDTO sessionDTO;
-    private static final Logger LOGGER = Logger.getLogger(BalanceSummaryReportUI.class);
+    private static final Logger LOGGERBALSUMMARYUI = Logger.getLogger(BalanceSummaryReportUI.class);
 
     @Override
     protected void init(VaadinRequest request) {
+        Navigator navigator;
+        SessionDTO sessionDTO;
         final String userId = request.getRemoteUser();
         if (userId == null) {
             return;
@@ -49,11 +49,21 @@ public class BalanceSummaryReportUI extends CommonUI {
         } catch (SystemException ex) {
             java.util.logging.Logger.getLogger(BalanceSummaryReportUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        LOGGER.info("USER_ID :" + userId);
-        LOGGER.debug("SESSION_ID :" + sessionId);
+        LOGGERBALSUMMARYUI.info("USER_ID :" + userId);
+        LOGGERBALSUMMARYUI.debug("SESSION_ID :" + sessionId);
         navigator = new Navigator(this, this);
         HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");
         navigator.addView(BalanceSummaryReportDataSelectionView.NAME, new BalanceSummaryReportDataSelectionView(sessionDTO, "Balance Summary Report"));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

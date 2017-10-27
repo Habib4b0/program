@@ -94,7 +94,7 @@ public class RebateScheduleUI extends UI {
                     LOGGER.error(cause);
                 }
             });
-        } catch (SystemException sysException) {
+        }catch (SystemException sysException) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(sysException);
             LOGGER.error(errorMsg);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
@@ -110,22 +110,15 @@ public class RebateScheduleUI extends UI {
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
-        } catch (PortalException portException) {
-            LOGGER.error(portException);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-                @SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                    // Do Nothing          
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
-        } catch (Exception exception) {
+        }
+        /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */
+        // Do Nothing
+         catch (Exception exception) {
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
                 /**
                  * The method is triggered when a button of the message box is

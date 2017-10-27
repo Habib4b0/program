@@ -46,6 +46,7 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.UI;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -57,6 +58,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -95,6 +97,8 @@ public class PmpyLogic {
      * The Constant EXCEL_MIME_TYPE.
      */
     public static final String EXCEL_MIME_TYPE = "application/vnd.ms-excel";
+    public static final String TRADING_PARTNER_NAME = "tradingPartnerName";
+    public static final String TRADING_PARTNER_NO = "tradingPartnerNo";
 
     /**
      * The Constant WINDOW_NAME.
@@ -119,10 +123,10 @@ public class PmpyLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public Object tradingPartnerLookUp(String tpNo, String tpName, Object contractHolder, int start, int offset, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) throws SystemException{
+    public Object tradingPartnerLookUp(String tpNo, String tpName, Object contractHolder, int start, int offset, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
         LOGGER.debug("Entering tradingPartnerLookUp  ::::");
-        List input = new ArrayList<String>();
-        String queryName = StringUtils.EMPTY;
+        List input = new ArrayList<>();
+        String queryName;
 
         if (contractHolder != null) {
             input.add(contractHolder);
@@ -139,7 +143,7 @@ public class PmpyLogic {
                 queryName = "PMPY-Load TP without CH";
             }
         }
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
 
         if (filterSet != null) {
 
@@ -172,7 +176,7 @@ public class PmpyLogic {
             input.add(Constant.PERCENT);
         }
         Object tradingpartner;
-        List resultTPList = getPmpyData(input, queryName, start, start + offset, sortByColumns, filterSet, isCount, parameters);
+        List resultTPList = getPmpyData(input, queryName, start, start + offset, sortByColumns, isCount, parameters);
         if (isCount) {
             tradingpartner = resultTPList.get(0);
         } else {
@@ -189,7 +193,7 @@ public class PmpyLogic {
      * @return the TP looked up
      */
     public List<PmpyTradingPartnerDTO> getTPLookedUp(final List<Object[]> list) {
-        final List<PmpyTradingPartnerDTO> resultList = new ArrayList<PmpyTradingPartnerDTO>();
+        final List<PmpyTradingPartnerDTO> resultList = new ArrayList<>();
 
         LOGGER.debug("Entering getTPLookedUp  ::::");
         final int index = list.size();
@@ -209,11 +213,11 @@ public class PmpyLogic {
 
     final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
 
-    public static List getGroupList(int projectionId) {
+    public static List getGroupList() {
         return new ArrayList();
     }
 
-    List getPmpyData(List input, String queryName, final int index, final int next, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount, Map<String, String> parameters) {
+    List getPmpyData(List input, String queryName, final int index, final int next, final List<SortByColumn> sortByColumns, boolean isCount, Map<String, String> parameters) {
         LOGGER.debug("Inside getPmpyData queryName=" + queryName);
         HashMap<String, String> tpColumnName = loadDbColumnName();
         List list = new ArrayList();
@@ -242,7 +246,7 @@ public class PmpyLogic {
                 }
             }
             boolean flag = false;
-            if (parameters.get("tradingPartnerNo") != null) {
+            if (parameters.get(TRADING_PARTNER_NO) != null) {
                 if (flag) {
                     sql.append(" and");
                 } else {
@@ -251,19 +255,18 @@ public class PmpyLogic {
                 }
 
                 sql.append(" COMM.COMPANY_NO like '")
-                        .append(String.valueOf(parameters.get("tradingPartnerNo"))).append("'   ");
+                        .append(String.valueOf(parameters.get(TRADING_PARTNER_NO))).append("'   ");
 
             }
-            if (parameters.get("tradingPartnerName") != null) {
+            if (parameters.get(TRADING_PARTNER_NAME) != null) {
                 if (flag) {
                     sql.append(" and");
                 } else {
                     sql.append(" where ");
-                    flag = true;
                 }
 
                 sql.append(" COMM.COMPANY_NAME like '")
-                        .append(String.valueOf(parameters.get("tradingPartnerName"))).append("'   ");
+                        .append(String.valueOf(parameters.get(TRADING_PARTNER_NAME))).append("'   ");
 
             }
 
@@ -277,7 +280,7 @@ public class PmpyLogic {
 
                 sql.append(" OFFSET ");
                 sql.append(index);
-                sql.append(" ROWS FETCH NEXT ");
+                sql.append(Constant.ROWS_FETCH_NEXT_SPACE);
                 sql.append(next - index);
                 sql.append(" ROWS ONLY;");
             }
@@ -293,13 +296,13 @@ public class PmpyLogic {
     }
 
     public HashMap<String, String> loadDbColumnName() {
-        HashMap<String, String> tpColumnName = new HashMap<String, String>();
-        tpColumnName.put("tradingPartnerNo", "COMM.COMPANY_NO");
-        tpColumnName.put("tradingPartnerName", "COMM.COMPANY_NAME");
+        HashMap<String, String> tpColumnName = new HashMap<>();
+        tpColumnName.put(TRADING_PARTNER_NO, "COMM.COMPANY_NO");
+        tpColumnName.put(TRADING_PARTNER_NAME, "COMM.COMPANY_NAME");
         return tpColumnName;
     }
 
-    public List loadCustomer(int customerHierarchyId, int productHierarchyId) throws PortalException, SystemException {
+    public List loadCustomer() throws PortalException, SystemException {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CM.COMPANY_MASTER_SID,CM.COMPANY_NO FROM dbo.CCP_DETAILS CCP \n"
@@ -313,13 +316,13 @@ public class PmpyLogic {
         return list;
     }
 
-    public List loadContract(int customerHierarchyId, int productHierarchyId, int customerSid) throws PortalException, SystemException {
+    public List loadContract(int customerSid) throws PortalException, SystemException {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CO.CONTRACT_MASTER_SID,CO.CONTRACT_NO FROM dbo.CCP_DETAILS CCP \n"
                 + " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID AND CM.COMPANY_MASTER_SID = " + customerSid + " \n"
                 + " JOIN dbo.CONTRACT_MASTER CO ON CO.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID \n"
-                + " JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CO.CONTRACT_TYPE AND HT.LIST_NAME = 'CONTRACT_TYPE' AND \n"
+                + " JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CO.CONTRACT_TYPE AND HT.LIST_NAME = 'CONTRACT_TYPE' AND  \n"
                 + " HT.DESCRIPTION IN ('FFS','Medicaid FFS','SPAP','ADAP','PHS','Managed Medicaid','MM','Federal') order by CO.CONTRACT_NO;");
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -327,7 +330,7 @@ public class PmpyLogic {
         return list;
     }
 
-    public List loadProduct(int customerHierarchyId, int productHierarchyId, int customerSid, int contractSid) throws PortalException, SystemException {
+    public List loadProduct( int customerSid, int contractSid) throws PortalException, SystemException {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT IM.ITEM_MASTER_SID,IM.ITEM_NO,IM.ITEM_NAME FROM dbo.CCP_DETAILS CCP \n"
@@ -343,7 +346,7 @@ public class PmpyLogic {
     }
 
     public List convertProductResults(List<Object[]> list) {
-        List<MPmpyDTO> resultList = new ArrayList<MPmpyDTO>();
+        List<MPmpyDTO> resultList = new ArrayList<>();
         for (Object[] obj : list) {
             MPmpyDTO pmpyDTO = new MPmpyDTO();
             pmpyDTO.setProductSid(String.valueOf(obj[0]));
@@ -354,7 +357,7 @@ public class PmpyLogic {
         return resultList;
     }
 
-    public List<MPmpyDTO> convertPMPYResults(List<Object[]> list, String frequency, boolean isExcelExport) {
+    public List<MPmpyDTO> convertPMPYResults(List<Object[]> list, String frequency) {
         List<MPmpyDTO> resultList = new ArrayList();
 
         MPmpyDTO pmpyActualSalesDTO = new MPmpyDTO();
@@ -437,12 +440,10 @@ public class PmpyLogic {
      * @param exporterDto the exporter dto
      * @throws SystemException the system exception
      */
-    public void export(final MPmpyDTO exporterDto) throws SystemException {
-        try {
+    public void export(final MPmpyDTO exporterDto)  {
+        File tempFile = getFile();
+        try (FileOutputStream fileOut = new FileOutputStream(tempFile);){
             LOGGER.debug("Entering export method ");
-
-            final File tempFile = File.createTempFile(FILE_NAME, XLS_FORMAT);
-            final FileOutputStream fileOut = new FileOutputStream(tempFile);
             final HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFCell cellA1;
             HSSFRow dataRow;
@@ -632,7 +633,7 @@ public class PmpyLogic {
 
     public List getTradingPartnerInfo(int prDetId) {
         List list = new ArrayList();
-        List<String> resultList = new ArrayList<String>();
+        List<String> resultList = new ArrayList<>();
         String tradingName = StringUtils.EMPTY;
         String tradingNo = StringUtils.EMPTY;
         String contractHolder = StringUtils.EMPTY;
@@ -715,7 +716,7 @@ public class PmpyLogic {
 
     public List<PMPYRowDto> getNmPmpyResultList(Object[] inputs) {
 
-        List<PMPYRowDto> resultList = new ArrayList<PMPYRowDto>();
+        List<PMPYRowDto> resultList = new ArrayList<>();
 
         List list = null;
         try {
@@ -727,7 +728,7 @@ public class PmpyLogic {
         List<Object> propertyList = (List<Object>) inputs[NumericConstants.FOUR];
 
         if (list != null) {
-            List<PeriodDTO> tempList = new ArrayList<PeriodDTO>();
+            List<PeriodDTO> tempList = new ArrayList<>();
             PeriodDTO periodDTO = null;
             for (int i = 0; i < list.size(); i++) {
                 Object obj[] = (Object[]) list.get(i);
@@ -762,9 +763,9 @@ public class PmpyLogic {
             PMPYRowDto pmpyRowDto2 = new PMPYRowDto();
             PMPYRowDto pmpyRowDto3 = new PMPYRowDto();
 
-            Map<String, String> properties1 = new HashMap<String, String>();
-            Map<String, String> properties2 = new HashMap<String, String>();
-            Map<String, String> properties3 = new HashMap<String, String>();
+            Map<String, String> properties1 = new HashMap<>();
+            Map<String, String> properties2 = new HashMap<>();
+            Map<String, String> properties3 = new HashMap<>();
             for (Object obj : propertyList) {
 
                 properties1.put(String.valueOf(obj), "0.0");
@@ -795,7 +796,7 @@ public class PmpyLogic {
         return resultList;
     }
 
-    private List callNmPmpyProcedure(Object inputs[]) throws SystemException, SQLException {
+    private List callNmPmpyProcedure(Object inputs[])  {
         List list = null;
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
         Connection connection = null;
@@ -893,5 +894,15 @@ public class PmpyLogic {
         }
         LOGGER.debug("End of pmpy Update ");
         return Boolean.FALSE;
+    }
+
+    private File getFile() {
+        try {
+            File tempFile = File.createTempFile(FILE_NAME, XLS_FORMAT);
+            return tempFile;
+        } catch (IOException ex) {
+            LOGGER.error(ex);
+        }
+        return null;
     }
 }

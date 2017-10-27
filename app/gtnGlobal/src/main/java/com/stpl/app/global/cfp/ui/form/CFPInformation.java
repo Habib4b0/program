@@ -198,7 +198,7 @@ public class CFPInformation extends CustomComponent {
         LOGGER.debug("Ending configurePermission");
     }
 
-    private void configureFields() throws SystemException, PortalException {
+    private void configureFields() {
 
         commonUtil.loadComboBox(salesInclusion,"LOCKED_STATUS",false);
         commonUtil.loadComboBox(companyFamilyPlanStatus, UIUtils.CFP_STATUS, false);
@@ -305,7 +305,7 @@ public class CFPInformation extends CustomComponent {
             @Override
             public void click(CustomTextField.ClickEvent event) {
                 try {
-                    int cfpSystemId = (companyFamilyPlanSystemId.getValue() != null) ? Integer.parseInt(companyFamilyPlanSystemId.getValue()) : 0;
+                    int cfpSystemId = (companyFamilyPlanSystemId.getValue() != null) ? Integer.parseInt(companyFamilyPlanSystemId.getValue().replace(",", "")) : 0;
                     if(lookUp==null){
                     lookUp = new ParentCFPIdLookup(parentCompanyFamilyPlanId, parentCompanyFamilyPlanName, cfpSystemId, parentFlagSID, sessionDTO);
                     UI.getCurrent().addWindow(lookUp);
@@ -319,23 +319,7 @@ public class CFPInformation extends CustomComponent {
                             lookUp=null;
                         }
                     });
-                }catch (SystemException se) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(se);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message box is
-                         * pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (Exception e) {
+                }catch (Exception e) {
                     LOGGER.error(e);
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
                         /**
@@ -351,13 +335,21 @@ public class CFPInformation extends CustomComponent {
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                 }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                
             }
         });
         parentCompanyFamilyPlanName.addClickListener(new CustomTextField.ClickListener() {
             @Override
             public void click(CustomTextField.ClickEvent event) {
                 try {
-                    int cfpSystemId = (companyFamilyPlanSystemId.getValue() != null) ? Integer.parseInt(companyFamilyPlanSystemId.getValue()) : 0;
+                    int cfpSystemId = (companyFamilyPlanSystemId.getValue() != null) ? Integer.parseInt(companyFamilyPlanSystemId.getValue().replace(",", "")) : 0;
                    if(lookUp==null){
                     lookUp = new ParentCFPIdLookup(parentCompanyFamilyPlanId, parentCompanyFamilyPlanName, cfpSystemId, parentFlagSID, sessionDTO);
                     UI.getCurrent().addWindow(lookUp);
@@ -371,23 +363,7 @@ public class CFPInformation extends CustomComponent {
                             lookUp=null;
                         }
                     });
-                } catch (SystemException se) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(se);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message box is
-                         * pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (Exception e) {
+                }catch (Exception e) {
                     LOGGER.error(e);
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
                         /**
@@ -403,6 +379,14 @@ public class CFPInformation extends CustomComponent {
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                 }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                
             }
         });
         companyFamilyPlanDesignation.addValueChangeListener(new Property.ValueChangeListener() {
@@ -458,7 +442,7 @@ public class CFPInformation extends CustomComponent {
          *
          * @Param value - Object.
          */
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
 
             if (companyFamilyPlanStartDate.getValue() != null && companyFamilyPlanEndDate.getValue() != null) {
                 if (companyFamilyPlanStartDate.getValue().after(companyFamilyPlanEndDate.getValue())) {
@@ -549,7 +533,7 @@ public class CFPInformation extends CustomComponent {
      */
     private void configSalesInclusion() {
         HelperListUtil helperListUtil = HelperListUtil.getInstance();
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList;
         helperList = helperListUtil.getListNameMap().get("LOCKED_STATUS");
         salesInclusion.setReadOnly(false);
         for (HelperDTO dto : helperList) {

@@ -34,9 +34,9 @@ and open the template in the editor.
                     <HorizontalLayout margin="true"
                                       spacing="true">
                      
-                        <GridLayout columns="3"
+                        <GridLayout columns="2"
                                     rows="1" spacing="true" styleName = "forecast-tab">
-                            <GridLayout margin="true" spacing="true" columns="6"
+                            <GridLayout margin="true" spacing="true" columns="8"
                                         rows="4" styleName = "forecast-tab">
 
                                 <Label caption="Contract Holder:" contentMode="HTML" />
@@ -50,6 +50,11 @@ and open the template in the editor.
                                 <Label caption="Company Family Plan:" contentMode="HTML" />
                                 <b:CustomTextField id="cfp" inputPrompt="" immediate="true"
                                                    styleName="searchicon" />
+                                
+                                <Button id="allItemsBtn" caption="All Items"  styleName="link"/>
+                                   <ComboBox id="allItemsCombo" />
+                                
+                                
                                 <Label caption="Contract No:" contentMode="HTML" />
                                 <b:CustomTextField id="contractNo" inputPrompt="" immediate="true"
                                                    styleName="searchicon" />
@@ -60,6 +65,8 @@ and open the template in the editor.
                                 <Label caption="Item Family Plan:" contentMode="HTML" />
                                 <b:CustomTextField id="ifp" inputPrompt="" immediate="true"
                                                    styleName="searchicon" />
+                                <Label caption="" contentMode="HTML" />
+                                <Label caption="" contentMode="HTML" />
                     
                                 <Label caption="Contract Name:" contentMode="HTML" />
                                 <b:CustomTextField id="contractName" inputPrompt="" immediate="true"
@@ -70,6 +77,10 @@ and open the template in the editor.
                                 <Label caption="Price Schedule:" contentMode="HTML" />
                                 <b:CustomTextField id="priceSchedule" inputPrompt="" immediate="true"
                                                    styleName="searchicon" />
+                                
+                                <Label caption="" contentMode="HTML" />
+                                <Label caption="" contentMode="HTML" />
+                                
                                 <Label caption="Customer No:" contentMode="HTML" />
                                 <b:CustomTextField id="customerNo" inputPrompt="" immediate="true"
                                                    styleName="searchicon" />
@@ -79,12 +90,15 @@ and open the template in the editor.
                                 <Label caption="Rebate Schedule:" contentMode="HTML" />
                                 <b:CustomTextField id="rebateSchedule" inputPrompt="" immediate="true"
                                                    styleName="searchicon" />
+                                
+                                <Label caption="" contentMode="HTML" />
+                                <Label caption="" contentMode="HTML" />
                             </GridLayout>
-                            <GridLayout columns="3"
+<!--                            <GridLayout columns="3"
                                     rows="1" spacing="true" styleName = "forecast-tab">
                                   <Button id="allItemsBtn" caption="All Items"  styleName="link"/>
                                    <ComboBox id="allItemsCombo" />
-                            </GridLayout>
+                            </GridLayout>-->
                             <Panel  styleName="adjustCaption" id="aliasDetails" caption="Alias Details">
                                 <GridLayout id="gridLayout" spacing="true" margin="true"
                                             immediate="true" columns="4" rows="2">
@@ -151,7 +165,7 @@ and open the template in the editor.
        
         </HorizontalLayout>
          
-        <Panel  styleName="adjustCaption" id="componentInformation" caption="Component Information">
+        <!--<Panel  styleName="adjustCaption" id="componentInformation" caption="Component Information">-->
             <HorizontalLayout>      
                 <VerticalLayout styleName = "width-auto">     
                 <VerticalLayout styleName = "width-auto" id="componentInfoLayout"></VerticalLayout>
@@ -187,7 +201,7 @@ and open the template in the editor.
 
                 </VerticalLayout>
             </HorizontalLayout>   
-        </Panel>
+        <!--</Panel>-->
     </VerticalLayout>
 </Panel>
 

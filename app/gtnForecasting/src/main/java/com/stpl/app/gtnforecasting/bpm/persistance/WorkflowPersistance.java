@@ -3,6 +3,7 @@ package com.stpl.app.gtnforecasting.bpm.persistance;
 import com.stpl.app.gtnforecasting.bpm.persistance.provider.BasePersistanceProvider;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.util.QueryUtil;
 import java.util.List;
@@ -45,11 +46,11 @@ public class WorkflowPersistance extends BasePersistanceProvider {
         try {
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
                 String customSql = CustomSQLUtil.get("getProjectionRecordsForReturns");
-                customSql = customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
+                customSql = customSql.replace(Constant.QUESTION_PROJECTION_ID, String.valueOf(projectionId));
                 obj = executeSelectQuery(QueryUtil.replaceTableNames(customSql,sessionDto.getCurrentTableNames()), null, null);
             } else {
                 String customSql =CustomSQLUtil.get("getProjectionRecords");
-                customSql=customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
+                customSql=customSql.replace(Constant.QUESTION_PROJECTION_ID, String.valueOf(projectionId));
                 customSql=customSql.replace("?USER_ID", String.valueOf(userId));
                 customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));
                 obj = executeSelectQuery(customSql, null, null);
@@ -67,7 +68,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
         List<Object[]> obj = null;
         try {
             String customSql =SQlUtil.getQuery("getProjectionRecordsForAccrual-ARP");
-            customSql=customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
+            customSql=customSql.replace(Constant.QUESTION_PROJECTION_ID, String.valueOf(projectionId));
             customSql=customSql.replace("?USER_ID", String.valueOf(userId));
             customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));
             obj = executeSelectQuery(customSql, null, null);

@@ -46,10 +46,10 @@ public class MassUpdateRunnableJob implements Runnable {
     public void run() {
         List input = null;
         if (populateIdentifier.get(Constant.FROZEN_FIELDS).contains(fieldValue)) {
-            input = logic.getInputForMassUpdateGroup(value, columnName, group, selection);
+            input = logic.getInputForMassUpdateGroup(value, columnName, selection);
             PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-Group");
         } else {
-            input = logic.getInputForMassUpdate(startQuater, endQuater, startYear, endYear, value, columnName, group, selection);
+            input = logic.getInputForMassUpdate(startQuater, endQuater, startYear, endYear, value, columnName, selection);
             PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-PriceCap");
 
         }

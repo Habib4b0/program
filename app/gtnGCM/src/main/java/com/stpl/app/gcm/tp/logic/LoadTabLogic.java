@@ -41,6 +41,15 @@ public class LoadTabLogic {
     static int projectionId = 0;
     public static String forecatingType = StringUtils.EMPTY;
     public static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
+    public static final String VARIANCE = "Variance";
+    public static final String CONTRACT = "contract";
+    public static final String COMPANY = "company";
+    public static final String UNITS = "Units";
+    public static final String TOTAL_VARIANCE = "Total Variance";
+    public static final String AMOUNT = "Amount";
+    public static final String SALES = "Sales";
+    public static final String REBATE = "rebate";
+    public static final String EMPTY_STRING = "empty";
     /**
      * The Currency Zero Decimal Places Format.
      */
@@ -62,12 +71,12 @@ public class LoadTabLogic {
             SalesTabDTO pDto = (SalesTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
             tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
-            if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+            if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setBrandMasterSid(pDto.getBrandMasterSid());
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
@@ -95,17 +104,18 @@ public class LoadTabLogic {
 
     public void setParentLevels(TabSelectionDTO tabSelectionDTO) {
         if ("new".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("Variance");
-        } else if ("Variance".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("contract");
-        } else if ("contract".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("company");
-        } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("brand");
-        } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(VARIANCE);
+        } else if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(CONTRACT);
+        } else if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(COMPANY);
+        } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(Constants.BRAND_PROPERTY);
+        } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
             tabSelectionDTO.setParentLevel("item");
         }
     }
+
 
     public void setForecastingType(int projectionId) {
         List<Object> list = (List<Object>) executeSelectQuery("select FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID = " + projectionId);
@@ -118,7 +128,7 @@ public class LoadTabLogic {
         LOGGER.debug("Entering getLevelListQuery");
         String query = new String();
         List input = new ArrayList();
-        if ("Variance".equalsIgnoreCase(tabSelectionDTO.getParentLevel()) || "contract".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        if (VARIANCE.equalsIgnoreCase(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "getContract";
             input.add(tabSelectionDTO.getFrequency());
             input.add(tabSelectionDTO.getSalesField());
@@ -144,7 +154,7 @@ public class LoadTabLogic {
             input.add(projectionId);
             input.add(tabSelectionDTO.getSessionID());
             input.add(tabSelectionDTO.getFrequency());
-        } else if ("company".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (COMPANY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "getCompany";
             input.add(tabSelectionDTO.getFrequency());
             input.add(tabSelectionDTO.getSalesField());
@@ -156,7 +166,7 @@ public class LoadTabLogic {
             input.add(projectionId);
             input.add(tabSelectionDTO.getSessionID());
             input.add(tabSelectionDTO.getFrequency());
-        } else if ("brand".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (Constants.BRAND_PROPERTY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "getBrandForSales";
             input.add(tabSelectionDTO.getFrequency());
             input.add(tabSelectionDTO.getSalesField());
@@ -205,17 +215,17 @@ public class LoadTabLogic {
 
     public List<SalesTabDTO> getConfiguredSalesTabResults(Object parentId, TabSelectionDTO tabSelectionDTO, boolean excelExport) {
         LOGGER.debug("Inside getConfiguredSalesTabResults");
-        List<SalesTabDTO> salesRowList = new ArrayList<SalesTabDTO>();
+        List<SalesTabDTO> salesRowList = new ArrayList<>();
         if (parentId instanceof SalesTabDTO) {
             SalesTabDTO pDto = (SalesTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
             tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
-            if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+            if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setBrandMasterSid(pDto.getBrandMasterSid());
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
@@ -223,7 +233,7 @@ public class LoadTabLogic {
         } else {
             tabSelectionDTO.setParentLevel("new");
         }
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list;
         setParentLevels(tabSelectionDTO);
         List<String> tableAndColumn = CommonLogic.getApprovedProjectionResults(forecatingType, true);
         if (!tableAndColumn.isEmpty()) {
@@ -233,7 +243,7 @@ public class LoadTabLogic {
             tabSelectionDTO.setUnitField(tableAndColumn.get(NumericConstants.TWO));
         }
         list = getLevelListQuery(tabSelectionDTO);
-        String tempCcpid = "empty";
+        String tempCcpid = EMPTY_STRING;
         String levelNo = StringUtils.EMPTY;
         SalesTabDTO salesTabDTO = null;
         int frequencyDivision = 0;
@@ -255,37 +265,37 @@ public class LoadTabLogic {
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
 
-            if (tempCcpid.equalsIgnoreCase("empty")) {
+            if (tempCcpid.equalsIgnoreCase(EMPTY_STRING)) {
                 tempCcpid = String.valueOf(obj[1]);
                 salesTabDTO = new SalesTabDTO();
             }
 
             if (tempCcpid.equalsIgnoreCase(String.valueOf(obj[1]))) {
 
-                if ("contract".equals(tabSelectionDTO.getParentLevel()) || "item".equals(tabSelectionDTO.getParentLevel())) {
-                    if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+                if (CONTRACT.equals(tabSelectionDTO.getParentLevel()) || "item".equals(tabSelectionDTO.getParentLevel())) {
+                    if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                         salesTabDTO.setContractMasterSid((Integer) obj[0]);
                     }
                     levelNo = String.valueOf(String.valueOf(obj[NumericConstants.SIX]));
-                } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     levelNo = String.valueOf(String.valueOf(obj[NumericConstants.SEVEN]));
-                } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setBrandMasterSid((Integer) obj[0]);
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                     levelNo = String.valueOf(String.valueOf(obj[NumericConstants.EIGHT]));
                 }
 
-                if ("Variance".equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setLevelValue("Total Variance");
+                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
+                    salesTabDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
                     salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
                 }
 
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Sales", getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Units", getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
+                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
                 salesTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
                 if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setParent(0);
@@ -304,45 +314,45 @@ public class LoadTabLogic {
                 tempCcpid = String.valueOf(obj[1]);
 
                 salesTabDTO = new SalesTabDTO();
-                if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+                if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setContractMasterSid((Integer) obj[0]);
-                } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setBrandMasterSid((Integer) obj[0]);
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                 }
-                if ("Variance".equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setLevelValue("Total Variance");
+                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
+                    salesTabDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
                     salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
                 }
 
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Sales", getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Units", getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
+                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
 
             }
             if (i == (list.size() - 1)) {
-                if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+                if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setContractMasterSid((Integer) obj[0]);
-                } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
-                } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setBrandMasterSid((Integer) obj[0]);
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     salesTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                 }
-                if ("Variance".equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setLevelValue("Total Variance");
+                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
+                    salesTabDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
                     salesTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
                 }
 
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Sales", getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
-                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Units", getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
+                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + SALES, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                salesTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + UNITS, getFormattedValue(UNITVOLUME, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
 
                 if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setParent(0);
@@ -361,15 +371,15 @@ public class LoadTabLogic {
         LOGGER.debug("getCountQuery");
         String query = new String();
         List input = new ArrayList();
-        if ("Variance".equals(tabSelectionDTO.getParentLevel()) || "contract".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        if (VARIANCE.equals(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "contractCount";
             input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
             input.add(tabSelectionDTO.getContractMasterSid());
             input.add(projectionId);
-        } else if ("company".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (COMPANY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "companyCount";
             input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-        } else if ("brand".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (Constants.BRAND_PROPERTY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "brandCount";
             input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
             input.add(tabSelectionDTO.getContractMasterSid());
@@ -388,20 +398,20 @@ public class LoadTabLogic {
     public static List<Object> getRebateCountQuery(TabSelectionDTO tabSelectionDTO) {
         String query = StringUtils.EMPTY;
         List input = new ArrayList();
-        if ("Variance".equals(tabSelectionDTO.getParentLevel()) || "contract".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        if (VARIANCE.equals(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "contractCount";
             input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
             input.add(tabSelectionDTO.getContractMasterSid());
             input.add(projectionId);
-        } else if ("company".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (COMPANY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "companyCount";
             input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
-        } else if ("brand".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (Constants.BRAND_PROPERTY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "brandCount";
             input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
             input.add(tabSelectionDTO.getContractMasterSid());
             input.add(projectionId);
-        } else if ("rebate".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (REBATE.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "rebateCount";
             input.add(getCompanyIds(tabSelectionDTO.getCompanyMasterSids()));
             input.add(tabSelectionDTO.getContractMasterSid());
@@ -424,16 +434,16 @@ public class LoadTabLogic {
             RebateTabDTO pDto = (RebateTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
             tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
-            if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+            if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setBrandMasterSid(pDto.getBrandMasterSid());
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("rebate".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setBrandMasterSid(pDto.getBrandMasterSid());
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
@@ -459,37 +469,37 @@ public class LoadTabLogic {
 
     public void getRebateParentLevels(TabSelectionDTO tabSelectionDTO) {
         if ("new".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("Variance");
-        } else if ("Variance".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("contract");
-        } else if ("contract".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("company");
-        } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("brand");
-        } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
-            tabSelectionDTO.setParentLevel("rebate");
-        } else if ("rebate".equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(VARIANCE);
+        } else if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(CONTRACT);
+        } else if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(COMPANY);
+        } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(Constants.BRAND_PROPERTY);
+        } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
+            tabSelectionDTO.setParentLevel(REBATE);
+        } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
             tabSelectionDTO.setParentLevel("item");
         }
     }
 
     public List<RebateTabDTO> getConfiguredRebateTabResults(Object parentId, TabSelectionDTO tabSelectionDTO, boolean excelExport) {
-        List<RebateTabDTO> rebateRowList = new ArrayList<RebateTabDTO>();
+        List<RebateTabDTO> rebateRowList = new ArrayList<>();
 
         if (parentId instanceof RebateTabDTO) {
             RebateTabDTO pDto = (RebateTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
             tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
-            if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+            if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setBrandMasterSid(pDto.getBrandMasterSid());
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
-            } else if ("rebate".equals(tabSelectionDTO.getParentLevel())) {
+            } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setBrandMasterSid(pDto.getBrandMasterSid());
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
@@ -508,7 +518,7 @@ public class LoadTabLogic {
         }
 
         List<Object> list = getLevelListQueryForRebate(tabSelectionDTO);
-        String tempCcpid = "empty";
+        String tempCcpid = EMPTY_STRING;
         RebateTabDTO rebateTabDTO = null;
         String levelNo = StringUtils.EMPTY;
         int frequencyDivision = 0;
@@ -530,31 +540,31 @@ public class LoadTabLogic {
             int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
-            if (tempCcpid.equalsIgnoreCase("empty")) {
+            if (tempCcpid.equalsIgnoreCase(EMPTY_STRING)) {
                 tempCcpid = String.valueOf(obj[1]);
                 levelNo = String.valueOf(obj[NumericConstants.SIX]);
                 rebateTabDTO = new RebateTabDTO();
             }
 
             if (tempCcpid.equalsIgnoreCase(String.valueOf(obj[1]))) {
-                if ("Variance".equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setLevelValue("Total Variance");
+                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
+                    rebateTabDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
                     rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
                 }
-                if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+                if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setContractMasterSid((Integer) obj[0]);
                     levelNo = String.valueOf(obj[NumericConstants.SIX]);
-                } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     levelNo = String.valueOf(obj[NumericConstants.SEVEN]);
-                } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setBrandMasterSid((Integer) obj[0]);
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                     levelNo = String.valueOf(obj[NumericConstants.EIGHT]);
-                } else if ("rebate".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setRebateProgramType((Integer) obj[0]);
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
@@ -562,7 +572,7 @@ public class LoadTabLogic {
                     levelNo = String.valueOf(obj[NumericConstants.NINE]);
                 }
 
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Amount", getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
 
                 rebateTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
@@ -575,19 +585,19 @@ public class LoadTabLogic {
             } else {
 
                 rebateTabDTO.setParentLevel(tabSelectionDTO.getParentLevel());
-                if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+                if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setContractMasterSid((Integer) obj[0]);
                     levelNo = String.valueOf(obj[NumericConstants.SIX]);
-                } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     levelNo = String.valueOf(obj[NumericConstants.SEVEN]);
-                } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setBrandMasterSid((Integer) obj[0]);
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                     levelNo = String.valueOf(obj[NumericConstants.EIGHT]);
-                } else if ("rebate".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setRebateProgramType((Integer) obj[0]);
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
@@ -604,34 +614,34 @@ public class LoadTabLogic {
                 tempCcpid = String.valueOf(obj[1]);
 
                 rebateTabDTO = new RebateTabDTO();
-                if ("Variance".equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setLevelValue("Total Variance");
+                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
+                    rebateTabDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
                     rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
                 }
 
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Amount", getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
             }
             if (i == (list.size() - 1)) {
-                if ("Variance".equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setLevelValue("Total Variance");
+                if (VARIANCE.equals(tabSelectionDTO.getParentLevel())) {
+                    rebateTabDTO.setLevelValue(TOTAL_VARIANCE);
                 } else {
                     rebateTabDTO.setLevelValue(levelNo + "-" + String.valueOf(obj[1]));
                 }
-                if ("contract".equals(tabSelectionDTO.getParentLevel())) {
+                if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setContractMasterSid((Integer) obj[0]);
                     levelNo = String.valueOf(obj[NumericConstants.SIX]);
-                } else if ("company".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     levelNo = String.valueOf(obj[NumericConstants.SEVEN]);
-                } else if ("brand".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setBrandMasterSid((Integer) obj[0]);
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
                     levelNo = String.valueOf(obj[NumericConstants.EIGHT]);
-                } else if ("rebate".equals(tabSelectionDTO.getParentLevel())) {
+                } else if (REBATE.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setRebateProgramType((Integer) obj[0]);
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     rebateTabDTO.setCompanyMasterSid((Integer) obj[NumericConstants.SEVEN]);
@@ -639,7 +649,7 @@ public class LoadTabLogic {
                     levelNo = String.valueOf(obj[NumericConstants.NINE]);
                 }
 
-                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Amount", getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
+                rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + AMOUNT, getFormattedValue(CUR_ZERO, String.valueOf(obj[NumericConstants.FOUR]), excelExport));
                 rebateTabDTO.addStringProperties(StringUtils.EMPTY + commonColumn + "Rate", getFormattedValue(PER2DECIMAL, String.valueOf(obj[NumericConstants.FIVE]), excelExport));
                 if ("item".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
                     levelNo = String.valueOf(obj[NumericConstants.SIX]);
@@ -660,7 +670,7 @@ public class LoadTabLogic {
 
         String queryString = StringUtils.EMPTY;
         List input = new ArrayList();
-        if ("Variance".equalsIgnoreCase(tabSelectionDTO.getParentLevel()) || "contract".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        if (VARIANCE.equalsIgnoreCase(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
 
             queryString = "getContractForRebate";
             input.add(tabSelectionDTO.getFrequency());
@@ -687,7 +697,7 @@ public class LoadTabLogic {
             input.add(projectionId);
             input.add(tabSelectionDTO.getSessionID());
             input.add(tabSelectionDTO.getFrequency());
-        } else if ("company".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (COMPANY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             queryString = "getCompanyForRebate";
             input.add(tabSelectionDTO.getFrequency());
             input.add(tabSelectionDTO.getRebateField());
@@ -699,7 +709,7 @@ public class LoadTabLogic {
             input.add(projectionId);
             input.add(tabSelectionDTO.getSessionID());
             input.add(tabSelectionDTO.getFrequency());
-        } else if ("brand".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (Constants.BRAND_PROPERTY.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             queryString = "getBrandForRebate";
             input.add(tabSelectionDTO.getFrequency());
             input.add(tabSelectionDTO.getRebateField());
@@ -710,7 +720,7 @@ public class LoadTabLogic {
             input.add(projectionId);
             input.add(tabSelectionDTO.getSessionID());
             input.add(tabSelectionDTO.getFrequency());
-        } else if ("rebate".equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
+        } else if (REBATE.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             queryString = "getRebate";
             input.add(tabSelectionDTO.getFrequency());
             input.add(tabSelectionDTO.getRebateField());
@@ -757,8 +767,8 @@ public class LoadTabLogic {
     }
 
     public List<SummaryTemDTO> getCompanyResults(String query) {
-        List list = new ArrayList();
-        List<SummaryTemDTO> resultList = new ArrayList<SummaryTemDTO>();
+        List list;
+        List<SummaryTemDTO> resultList = new ArrayList<>();
         SummaryTemDTO dto = null;
 
         list = (List) DAO.executeSelect(query);
@@ -819,8 +829,8 @@ public class LoadTabLogic {
                 + "			SESSION_ID,\n"
                 + "			LAST_MODIFIED_DATE )\n"
                 + "		SELECT A.PROJECTION_DETAILS_SID,\n"
-                + "			A." + salesColumn.get(1) + ",\n"
-                + "			A." + salesColumn.get(NumericConstants.TWO) + ",\n"
+                + "			 A." + salesColumn.get(1) + ",\n"
+                + "			 A." + salesColumn.get(NumericConstants.TWO) + ",\n"
                 + "			A.PERIOD_SID,\n"
                 + "			" + session.getUserId() + " USER_ID,\n"
                 + "			" + session.getSessionId() + " SESSION_ID,\n"

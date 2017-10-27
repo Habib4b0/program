@@ -73,7 +73,7 @@ public class RebateTab extends VerticalLayout {
     @UiField("history")
     public ComboBox history;
     CustomTableHeaderDTO tableHeader = new CustomTableHeaderDTO();
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<String>(String.class);
+    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     /**
      * The Constant LOGGER.
      */
@@ -81,15 +81,17 @@ public class RebateTab extends VerticalLayout {
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightDTO;
     CustomTableHeaderDTO leftDTO;
-    private ExtTreeContainer<RebateTabDTO> resultBean = new ExtTreeContainer<RebateTabDTO>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    public static final String FOUR_QUARTERS = "4 Quarters";
+    public static final String QUARTERLY1 = "Quarterly";
+    private ExtTreeContainer<RebateTabDTO> resultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     /**
      * The map right visible columns.
      */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     ExtFilterTreeTable leftTable;
     ExtFilterTreeTable rightTable;
     RebateTabTableLogic tableLogic = new RebateTabTableLogic();
@@ -111,7 +113,7 @@ public class RebateTab extends VerticalLayout {
     public Panel panel;
     public TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private ExtCustomTreeTable exportPeriodViewTable;
-    private ExtTreeContainer<RebateTabDTO> excelResultBean = new ExtTreeContainer<RebateTabDTO>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<RebateTabDTO> excelResultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
     LoadTabLogic tabLogic = new LoadTabLogic();
     boolean load = false;
     SessionDTO session;
@@ -141,13 +143,13 @@ public class RebateTab extends VerticalLayout {
         selectionDTO.setFrequency("QUARTER");
         frequency.addItem("Annually");
         frequency.addItem("Semi-Annually");
-        frequency.addItem("Quarterly");
+        frequency.addItem(QUARTERLY1);
         frequency.addItem("Monthly");
-        frequency.setValue("Quarterly");
+        frequency.setValue(QUARTERLY1);
         frequency.focus();
 
-        history.addItem("4 Quarters");
-        history.setValue("4 Quarters");
+        history.addItem(FOUR_QUARTERS);
+        history.setValue(FOUR_QUARTERS);
     }
 
     /**
@@ -157,8 +159,8 @@ public class RebateTab extends VerticalLayout {
         fullHeader = new CustomTableHeaderDTO();
         leftDTO = HeaderUtils.getSalesTabLeftTableColumns(fullHeader);
         tableHeader = new CustomTableHeaderDTO();
-        rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, NumericConstants.FOUR, "Quarterly", false);
-        resultBean = new ExtTreeContainer<RebateTabDTO>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
+        rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, NumericConstants.FOUR, QUARTERLY1, false);
+        resultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBean.setColumnProperties(leftDTO.getProperties());
         resultBean.setColumnProperties(rightDTO.getProperties());
         tableLogic.setPageLength(NumericConstants.FIFTEEN);
@@ -210,7 +212,7 @@ public class RebateTab extends VerticalLayout {
             }
         });
         tradingPartnerSalesTableLayout.addComponent(resultsTable);
-        HorizontalLayout hLayout = new HorizontalLayout();
+        HorizontalLayout hLayout;
         hLayout = tableLogic.createControls();
         tradingPartnerSalesTableLayout.addComponent(hLayout);
     }
@@ -245,7 +247,7 @@ public class RebateTab extends VerticalLayout {
             loadExcelResultTable();
         }
         exportPeriodViewTable.setRefresh(Boolean.TRUE);
-        Map<String, String> formatter = new HashMap<String, String>();
+        Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Amount");
         formatter.put("perTwoDecimal", "Rate");
         VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, Constants.TRUE);
@@ -304,7 +306,8 @@ public class RebateTab extends VerticalLayout {
         loadDataToContainer(resultList, id);
     }
 
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
+    public void enter() {
+        return;
     }
 
     /**
@@ -356,7 +359,7 @@ public class RebateTab extends VerticalLayout {
             mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
             resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
             tradingPartnerSalesTableLayout.addComponent(resultsTable);
-            HorizontalLayout hLayout = new HorizontalLayout();
+            HorizontalLayout hLayout;
             hLayout = tableLogic.createControls();
             tradingPartnerSalesTableLayout.addComponent(hLayout);
             if (Constants.QUARTERLY.equalsIgnoreCase(String.valueOf(frequency.getValue()))) {
@@ -390,7 +393,7 @@ public class RebateTab extends VerticalLayout {
                 String.valueOf(frequency.getValue()))) {
             history.removeAllItems();
             historyBean.addAll(loadHistory(Constants.QUARTERLY, QUARTERS.getConstant()));
-            historyConstant = "4 Quarters";
+            historyConstant = FOUR_QUARTERS;
         } else if (MONTHLY.getConstant().equals(
                 String.valueOf(frequency.getValue()))) {
             history.removeAllItems();
@@ -410,7 +413,7 @@ public class RebateTab extends VerticalLayout {
      * @return the list
      */
     protected final List<String> loadHistory(String frequency, String period) {
-        List<String> history = new ArrayList<String>();
+        List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {

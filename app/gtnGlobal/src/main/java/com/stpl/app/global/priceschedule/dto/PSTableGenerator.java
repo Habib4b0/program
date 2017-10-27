@@ -1,7 +1,10 @@
 package com.stpl.app.global.priceschedule.dto;
 
+import com.stpl.app.global.cfp.logic.CFPSearchLogic;
+import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.common.ui.lookup.FormulaLookup;
 import com.stpl.app.global.common.util.CommonUtil;
+import com.stpl.app.global.company.util.QueryUtils;
 import com.stpl.app.global.priceschedule.logic.PSLogic;
 import com.stpl.app.global.priceschedule.ui.form.NEPFormulaLookUp;
 import com.stpl.app.global.priceschedule.ui.lazyload.PriceTypeCriteria;
@@ -33,6 +36,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -62,6 +66,14 @@ public class PSTableGenerator extends DefaultFieldFactory {
     private boolean reset;
     HelperDTO psnullDTO = new HelperDTO();
 
+    private CFPSearchLogic cfpLogic;
+    private String userId;
+    private String sessionId;
+    List checkUpdate = new ArrayList();
+    List checkSelect = new ArrayList();
+    private int check;
+    SessionDTO sessionDTO;
+
     public HelperDTO getPsnullDTO() {
         return psnullDTO;
     }
@@ -76,11 +88,12 @@ public class PSTableGenerator extends DefaultFieldFactory {
     FormulaLookup formulaLookup = null;
     PSDTO priceScheduleDTO;
 
-    public PSTableGenerator(ExtPagedTable table, final BeanItemContainer<PSIFPDTO> itemDetailsResultBean, final String mode, final PSDTO psDTO) {
+    public PSTableGenerator(ExtPagedTable table, final BeanItemContainer<PSIFPDTO> itemDetailsResultBean, final String mode, final PSDTO psDTO, SessionDTO sessionDTO) {
         this.table = table;
         this.itemDetailsResultBean = itemDetailsResultBean;
         this.mode = mode;
         this.priceScheduleDTO = psDTO;
+        this.sessionDTO = sessionDTO;
     }
 
     /**
@@ -98,30 +111,58 @@ public class PSTableGenerator extends DefaultFieldFactory {
             final PSIFPDTO psDTO = (PSIFPDTO) itemId;
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
             reset = true;
-            if ("checkRecord".equals(propertyId)) {
+            sessionId = sessionDTO.getUiSessionId();
+            if (ConstantsUtils.CHECK_RECORD.equals(propertyId)) {
                 final CheckBox checkbox = new CheckBox();
                 checkbox.setReadOnly(false);
                 checkbox.setValue(psDTO.getCheckRecord());
                 checkbox.setImmediate(true);
+
                 checkbox.addValueChangeListener(new Property.ValueChangeListener() {
                     public void valueChange(Property.ValueChangeEvent event) {
                         if (psDTO.getCheckRecord() != null) {
                             itemDetailsResultBean.addItem(itemId);
+                            check = psDTO.getCheckRecord() ? 1 : 0;
+                            checkUpdate = new ArrayList();
+
+                            checkUpdate.add(check);
+                            checkUpdate.add(sessionId);
+                            checkUpdate.add(userId);
+                            checkUpdate.add(psDTO.getItemID());
+
+                            QueryUtils.updateAppData(checkUpdate, "PSCheckUpdate");
+
+                            checkUpdate = new ArrayList();
+
+                            checkUpdate.add(sessionId);
+                            checkUpdate.add(userId);
+
+                            checkSelect = new ArrayList();
+
+                            checkSelect = QueryUtils.getAppData(checkUpdate, "PSCheckSelect", null);
+
+                            if (checkSelect.isEmpty()) {
+                                table.setCurrentPage(table.getCurrentPage());
+                                table.setColumnCheckBox(ConstantsUtils.CHECK_RECORD, true, true);
+                            } else {
+                                table.setCurrentPage(table.getCurrentPage());
+                                table.setColumnCheckBox(ConstantsUtils.CHECK_RECORD, true, false);
+                            }
                         }
                     }
                 });
                 return checkbox;
-            } else if ("priceType".equals(propertyId)) {
+            } else if (ConstantsUtils.PRICE_TYPE.equals(propertyId)) {
                 final ComboBox priceType;
 
-                Field tempField = psDTO.getDTOValue("priceType");
+                Field tempField = psDTO.getDTOValue(ConstantsUtils.PRICE_TYPE);
                 if (tempField != null && tempField instanceof ComboBox) {
                     priceType = (ComboBox) tempField;
                 } else {
                     priceType = new ComboBox();
                     psnullDTO.setId(0);
                     psnullDTO.setDescription(ConstantsUtils.SELECT_ONE);
-                    
+
                     priceType.setPageLength(NumericConstants.SEVEN);
                     priceType.setImmediate(true);
                     priceType.setNullSelectionAllowed(true);
@@ -146,27 +187,24 @@ public class PSTableGenerator extends DefaultFieldFactory {
 
                         @Override
                         public void valueChange(Property.ValueChangeEvent event) {
-                            try {
-                                HelperDTO helperDTO = (HelperDTO) event.getProperty().getValue();
-                                Field priceField = psDTO.getDTOValue("price");
-                                if (priceField != null) {
-                                    if (event.getProperty().getValue() != null && !helperDTO.equals(GeneralCommonUtils.NULL_HELPER_DTO)
-                                            && !"contractprice".equalsIgnoreCase(helperDTO.getDescription().replace(" ", ""))) {
-                                        itemDetailsResultBean.addItem(updateChangedInfoDdlb(itemId));
-                                        priceType.setValue(psDTO.getPriceType());
-                                        priceField.setReadOnly(true);
-                                    } else {
-                                        itemDetailsResultBean.addItem(updateChangedInfoDdlb(itemId));
-                                        priceField.setReadOnly(false);
-                                    }
-                                }
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
 
+                            HelperDTO helperDTO = (HelperDTO) event.getProperty().getValue();
+                            Field priceField = psDTO.getDTOValue(ConstantsUtils.PRICE);
+                            if (priceField != null) {
+                                if (event.getProperty().getValue() != null && !helperDTO.equals(GeneralCommonUtils.NULL_HELPER_DTO)
+                                        && !"contractprice".equalsIgnoreCase(helperDTO.getDescription().replace(" ", ""))) {
+                                    itemDetailsResultBean.addItem(updateChangedInfoDdlb(itemId));
+                                    priceType.setValue(psDTO.getPriceType());
+                                    priceField.setReadOnly(true);
+                                } else {
+                                    itemDetailsResultBean.addItem(updateChangedInfoDdlb(itemId));
+                                    priceField.setReadOnly(false);
+                                }
                             }
+
                         }
                     });
-                    psDTO.addDTOValue("priceType", priceType);
+                    psDTO.addDTOValue(ConstantsUtils.PRICE_TYPE, priceType);
                 }
                 return priceType;
             } else if ("priceTolerance".equals(propertyId)) {
@@ -229,9 +267,9 @@ public class PSTableGenerator extends DefaultFieldFactory {
                     }
                 });
                 return frequency;
-            } else if ("price".equals(propertyId)) {
+            } else if (ConstantsUtils.PRICE.equals(propertyId)) {
                 final TextField price;
-                Field tempField = psDTO.getDTOValue("price");
+                Field tempField = psDTO.getDTOValue(ConstantsUtils.PRICE);
                 if (tempField != null && tempField instanceof TextField) {
                     price = (TextField) tempField;
                 } else {
@@ -245,18 +283,17 @@ public class PSTableGenerator extends DefaultFieldFactory {
                     } else {
                         price.setReadOnly(true);
                     }
-                    
 
                     price.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
-                            Field priceField = psDTO.getDTOValue("priceType");
+                            Field priceField = psDTO.getDTOValue(ConstantsUtils.PRICE_TYPE);
                             if (priceField != null) {
                                 if (event.getProperty().getValue() != null && (!ConstantsUtils.ZERO.equals(event.getProperty().getValue()) && !"".equals(event.getProperty().getValue()))) {
-                                 ((ComboBox)priceField).setPageLength(NumericConstants.FIFTEEN);
-                                  priceField.setValue(priceTypeList.get(0));
-                                  priceField.setReadOnly(true);
+                                    ((ComboBox) priceField).setPageLength(NumericConstants.FIFTEEN);
+                                    priceField.setValue(priceTypeList.get(0));
+                                    priceField.setReadOnly(true);
                                 } else {
-                                    ((ComboBox)priceField).setPageLength(NumericConstants.SEVEN);
+                                    ((ComboBox) priceField).setPageLength(NumericConstants.SEVEN);
                                     priceField.setReadOnly(false);
                                     priceField.setValue(new HelperDTO(0, Constants.SELECT_ONE));
                                     price.setReadOnly(false);
@@ -271,7 +308,7 @@ public class PSTableGenerator extends DefaultFieldFactory {
                             updateChangedInfo(userId, itemId);
                         }
                     });
-                    psDTO.addDTOValue("price", price);
+                    psDTO.addDTOValue(ConstantsUtils.PRICE, price);
                 }
                 return price;
             } else if ("contractPrice".equals(propertyId)) {
@@ -326,36 +363,19 @@ public class PSTableGenerator extends DefaultFieldFactory {
                      * Method used for formulaNo
                      */
                     public void click(final CustomTextField.ClickEvent event) {
+                        nepFormulaClickListener(itemId,nepFormula);
 
-                        try {
-
-                            final NEPFormulaLookUp nepFormulaLookup = new NEPFormulaLookUp("NEP");
-                            UI.getCurrent().addWindow(nepFormulaLookup);
-
-                            nepFormulaLookup.addCloseListener(new Window.CloseListener() {
-                                @Override
-                                public void windowClose(Window.CloseEvent e) {
-
-                                    PSNepFormulaDTO dto = nepFormulaLookup.getNepFormulaDTO();
-                                    ((PSIFPDTO) itemId).setNepFormulaSid(dto.getNepFormulaSystemID());
-                                    itemDetailsResultBean.addItem(itemId);
-                                    nepFormula.setValue(dto.getNepFormulaName());
-                                }
-                            });
-                        } catch (Exception ex) {
-                            LOGGER.error(ex);
-                        }
                     }
                 });
                 return nepFormula;
             } else if ("netBasePriceFormulaName".equals(propertyId) || "netSubsequentPriceFormulaName".equals(propertyId)
-                    || ConstantsUtils.NET_RESET_PRICE_FORMULA_NAME.equals(propertyId) || "netPriceTypeFormulaName".equals(propertyId)) {
+                    || ConstantsUtils.NET_RESET_PRICE_FORMULA_NAME.equals(propertyId) || ConstantsUtils.NET_PRICE_TYPE_FORMULA_NAME.equals(propertyId)) {
                 final CustomTextField formulaLookup = new CustomTextField();
                 formulaLookup.setImmediate(true);
                 formulaLookup.setValue("");
                 formulaLookup.addStyleName(ConstantsUtils.SEARCH_SYLENAME);
                 formulaLookup.setValue(psDTO.getNepFormula());
-                if ("netPriceTypeFormulaName".equals(propertyId)) {
+                if (ConstantsUtils.NET_PRICE_TYPE_FORMULA_NAME.equals(propertyId)) {
                     formulaLookup.setValue(psDTO.getNetPriceTypeFormulaName());
                 }
                 formulaLookup.addClickListener(new CustomTextField.ClickListener() {
@@ -364,48 +384,7 @@ public class PSTableGenerator extends DefaultFieldFactory {
                      */
                     public void click(final CustomTextField.ClickEvent event) {
 
-                        try {
-
-                            final NEPFormulaLookUp nepFormulaLookup = new NEPFormulaLookUp("");
-                            UI.getCurrent().addWindow(nepFormulaLookup);
-
-                            nepFormulaLookup.addCloseListener(new Window.CloseListener() {
-                                @Override
-                                public void windowClose(Window.CloseEvent e) {
-
-                                    PSNepFormulaDTO dto = nepFormulaLookup.getNepFormulaDTO();
-                                    switch (String.valueOf(propertyId)) {
-                                        case "netBasePriceFormulaName":
-                                            psDTO.setNetBasePriceFormulaId(dto.getNepFormulaSystemID());
-                                            psDTO.setNetBasePriceFormulaName(dto.getNepFormulaName());
-                                            break;
-                                        case "netSubsequentPriceFormulaName":
-                                            psDTO.setNetSubsequentPriceFormulaId(dto.getNepFormulaSystemID());
-                                            psDTO.setNetSubsequentPriceFormulaName(dto.getNepFormulaName());
-                                            break;
-                                        case ConstantsUtils.NET_RESET_PRICE_FORMULA_NAME:
-                                            psDTO.setNetResetPriceFormulaId(dto.getNepFormulaSystemID());
-                                            psDTO.setNetResetPriceFormulaName(dto.getNepFormulaName());
-                                            break;
-
-                                        case "netPriceTypeFormulaName":
-                                            psDTO.setNetPriceTypeFormula(String.valueOf(dto.getNepFormulaSystemID()));
-                                            psDTO.setNetPriceTypeFormulaName(dto.getNepFormulaName());
-                                            break;
-                                    }
-                                    itemDetailsResultBean.addItem(itemId);
-                                    if (ConstantsUtils.NET_RESET_PRICE_FORMULA_NAME.equals(propertyId)) {
-                                        formulaLookup.setReadOnly(false);
-                                        formulaLookup.setValue(dto.getNepFormulaName());
-                                        formulaLookup.setReadOnly(Constants.NO.equals(psDTO.getResetEligible()));
-                                    } else {
-                                        formulaLookup.setValue(dto.getNepFormulaName());
-                                    }
-                                }
-                            });
-                        } catch (Exception ex) {
-                            LOGGER.error(ex);
-                        }
+                        formulaLookUpClickListner(psDTO, itemId, propertyId,formulaLookup);
                     }
                 });
                 return formulaLookup;
@@ -532,7 +511,7 @@ public class PSTableGenerator extends DefaultFieldFactory {
                                 reset = false;
                             } else if ("No".equalsIgnoreCase(resetProperty)) {
                                 reset = true;
-                            } else if(ConstantsUtils.SELECT_ONE.equalsIgnoreCase(resetProperty)){
+                            } else if (ConstantsUtils.SELECT_ONE.equalsIgnoreCase(resetProperty)) {
                                 reset = true;
                             }
                             container.getContainerProperty(itemId, ConstantsUtils.RESET_DATE).setReadOnly(reset);
@@ -668,7 +647,7 @@ public class PSTableGenerator extends DefaultFieldFactory {
                     }
                 });
                 return netPriceType;
-            } else if ("createdDate".equals(propertyId) || "attachedDate".equals(propertyId) || ConstantsUtils.RESET_DATE.equals(propertyId)) {
+            } else if (ConstantsUtils.CREATEDDATE.equals(propertyId) || ConstantsUtils.ATTACHED_DATE_PROPERTY.equals(propertyId) || ConstantsUtils.RESET_DATE.equals(propertyId)) {
                 final PopupDateField startDate = new PopupDateField();
                 startDate.setDescription(ConstantsUtils.DATE_DES);
                 startDate.setImmediate(true);
@@ -681,15 +660,15 @@ public class PSTableGenerator extends DefaultFieldFactory {
                         itemDetailsResultBean.addItem(itemId);
                     }
                 });
-                startDate.setValue("createdDate".equals(propertyId)
-                        ? psDTO.getCreatedDate() : "attachedDate".equals(propertyId) ? psDTO.getAttachedDate() : psDTO.getResetDate());
+                startDate.setValue(ConstantsUtils.CREATEDDATE.equals(propertyId)
+                        ? psDTO.getCreatedDate() : ConstantsUtils.ATTACHED_DATE_PROPERTY.equals(propertyId) ? psDTO.getAttachedDate() : psDTO.getResetDate());
                 startDate.addStyleName("datefieldcentered");
-                if ("createdDate".equals(propertyId) || "attachedDate".equals(propertyId)) {
-                startDate.setReadOnly(true);
+                if (ConstantsUtils.CREATEDDATE.equals(propertyId) || ConstantsUtils.ATTACHED_DATE_PROPERTY.equals(propertyId)) {
+                    startDate.setReadOnly(true);
                 } else {
                     startDate.setReadOnly(false);
                 }
-                    
+
                 return startDate;
             } else if ("basePriceType".equals(propertyId)) {
                 final ComboBox comboBox = new ComboBox();
@@ -813,10 +792,6 @@ public class PSTableGenerator extends DefaultFieldFactory {
                 return comboBox;
             }
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException portException) {
-            LOGGER.error(portException);
         } catch (Exception exception) {
             LOGGER.error(exception);
 
@@ -860,4 +835,69 @@ public class PSTableGenerator extends DefaultFieldFactory {
         return itemId;
     }
 
+    public void nepFormulaClickListener(final Object itemId,final CustomTextField nepFormula) {
+        try {
+
+            final NEPFormulaLookUp nepFormulaLookup = new NEPFormulaLookUp("NEP");
+            UI.getCurrent().addWindow(nepFormulaLookup);
+
+            nepFormulaLookup.addCloseListener(new Window.CloseListener() {
+                @Override
+                public void windowClose(Window.CloseEvent e) {
+
+                    PSNepFormulaDTO dto = nepFormulaLookup.getNepFormulaDTO();
+                    ((PSIFPDTO) itemId).setNepFormulaSid(dto.getNepFormulaSystemID());
+                    itemDetailsResultBean.addItem(itemId);
+                    nepFormula.setValue(dto.getNepFormulaName());
+                }
+            });
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
+
+    public void formulaLookUpClickListner(final PSIFPDTO psDTO, final Object itemId, final Object propertyId,final CustomTextField formulaLookup) {
+        try {
+
+            final NEPFormulaLookUp nepFormulaLookup = new NEPFormulaLookUp("");
+            UI.getCurrent().addWindow(nepFormulaLookup);
+
+            nepFormulaLookup.addCloseListener(new Window.CloseListener() {
+                @Override
+                public void windowClose(Window.CloseEvent e) {
+
+                    PSNepFormulaDTO dto = nepFormulaLookup.getNepFormulaDTO();
+                    switch (String.valueOf(propertyId)) {
+                        case "netBasePriceFormulaName":
+                            psDTO.setNetBasePriceFormulaId(dto.getNepFormulaSystemID());
+                            psDTO.setNetBasePriceFormulaName(dto.getNepFormulaName());
+                            break;
+                        case "netSubsequentPriceFormulaName":
+                            psDTO.setNetSubsequentPriceFormulaId(dto.getNepFormulaSystemID());
+                            psDTO.setNetSubsequentPriceFormulaName(dto.getNepFormulaName());
+                            break;
+                        case ConstantsUtils.NET_RESET_PRICE_FORMULA_NAME:
+                            psDTO.setNetResetPriceFormulaId(dto.getNepFormulaSystemID());
+                            psDTO.setNetResetPriceFormulaName(dto.getNepFormulaName());
+                            break;
+
+                        case ConstantsUtils.NET_PRICE_TYPE_FORMULA_NAME:
+                            psDTO.setNetPriceTypeFormula(String.valueOf(dto.getNepFormulaSystemID()));
+                            psDTO.setNetPriceTypeFormulaName(dto.getNepFormulaName());
+                            break;
+                    }
+                    itemDetailsResultBean.addItem(itemId);
+                    if (ConstantsUtils.NET_RESET_PRICE_FORMULA_NAME.equals(propertyId)) {
+                        formulaLookup.setReadOnly(false);
+                        formulaLookup.setValue(dto.getNepFormulaName());
+                        formulaLookup.setReadOnly(Constants.NO.equals(psDTO.getResetEligible()));
+                    } else {
+                        formulaLookup.setValue(dto.getNepFormulaName());
+                    }
+                }
+            });
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
 }

@@ -69,11 +69,12 @@ public class TPContractHolderLookUp extends Window {
     private ComboBox contractHolderStatus;
     @UiField("contractHolderType")
     private ComboBox contractHolderType;
-    private BeanItemContainer<ContractHolderDTO> resultContainer = new BeanItemContainer<ContractHolderDTO>(ContractHolderDTO.class);
+    private BeanItemContainer<ContractHolderDTO> resultContainer = new BeanItemContainer<>(ContractHolderDTO.class);
     private ContractHolderDTO selectedChHolderHierarchy;
     List<CompanyMaster> filteredCompanies;
     PromoteTPLogic logic = new PromoteTPLogic();
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    public static final String CONTRACT_HOLDER = "Contract Holder";
 
     public List<CompanyMaster> getFilteredCompanies() {
         return filteredCompanies;
@@ -91,11 +92,11 @@ public class TPContractHolderLookUp extends Window {
         this.selectedChHolderHierarchy = selectedChHolderHierarchy;
     }
 
-    public TPContractHolderLookUp(final String indicator, final TextField groupLookup, final String sidQuery) {
+    public TPContractHolderLookUp(final String indicator, final TextField groupLookup) {
         super("Contract Holder Lookup");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
 
         this.indicator = indicator;
         this.groupLookup = groupLookup;
@@ -112,8 +113,8 @@ public class TPContractHolderLookUp extends Window {
 
     private ExtFilterTable addContractTable() {
         resultTable.setContainerDataSource(resultContainer);
-        resultTable.setVisibleColumns(TableHeaderColumnsUtil.CH_HOLDER_VISIBLE_COLUMN);
-        resultTable.setColumnHeaders(TableHeaderColumnsUtil.CH_HOLDER_COLUMN_HEADER);
+        resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().chHolderVisibleColumn);
+        resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().chHolderColumnHeader);
         resultTable.setSelectable(true);
         resultTable.setImmediate(true);
         resultTable.setHeight("330px");
@@ -143,12 +144,7 @@ public class TPContractHolderLookUp extends Window {
         contractHolderType.setNullSelectionItemId(ddlbDefaultValue);
 
         loadContractHolderType();
-
-        searchBtn.addClickListener(new Button.ClickListener() {
-            public void buttonClick(Button.ClickEvent event) {
-                btnSearchLogic();
-            }
-        });
+        
         selectBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 btnLookupSelectLogic();
@@ -177,6 +173,7 @@ public class TPContractHolderLookUp extends Window {
                         contractHolderName.setValue(StringUtils.EMPTY);
                         contractHolderStatus.setValue(Constants.SELECT_ONE);
                         contractHolderType.setValue(ddlbDefaultValue);
+                        loadContractHolderType();                        
                     }
                 }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the page to default/previous values?");
 
@@ -195,7 +192,8 @@ public class TPContractHolderLookUp extends Window {
         close();
     }
 
-    protected void btnSearchLogic() {
+    @UiHandler("searchBtnCHL")
+    public void searchButtonLogic(Button.ClickEvent event) {
         LOGGER.debug("btnSearchLogic called");
         try {
             if ((!StringUtils.EMPTY.equals(contractHolderId.getValue()) || !Constants.NULL.equals(String.valueOf(contractHolderId.getValue())))
@@ -205,8 +203,8 @@ public class TPContractHolderLookUp extends Window {
                     && (!StringUtils.EMPTY.equals(String.valueOf(contractHolderType.getValue())) || !Constants.NULL.equals(String.valueOf(contractHolderType.getValue())))) {
 
                 resultContainer.removeAllItems();
-                List<ContractHolderDTO> resultList = new ArrayList<ContractHolderDTO>();
-                if ("Contract Holder".equals(indicator)) {
+                List<ContractHolderDTO> resultList = new ArrayList<>();
+                if (CONTRACT_HOLDER.equals(indicator)) {
                     resultList = logic.getContractHolder(contractHolderId.getValue(), contractHolderNo.getValue(), contractHolderName.getValue(),
                             String.valueOf(contractHolderStatus.getValue()), String.valueOf(contractHolderType.getValue()));
 
@@ -218,7 +216,7 @@ public class TPContractHolderLookUp extends Window {
                     CommonUIUtils.getMessageNotification("Search Completed");
                 } else {
                     resultContainer.removeAllItems();
-                    if ("Contract Holder".equals(indicator)) {
+                    if (CONTRACT_HOLDER.equals(indicator)) {
                         AbstractNotificationUtils.getErrorNotification("No Records Found", "There are no Contract Holder that match the search criteria.");
                     }
                 }
@@ -228,7 +226,6 @@ public class TPContractHolderLookUp extends Window {
            LOGGER.error(ex);
         }
         LOGGER.debug("btnSearchLogic ends");
-
     }
 
     private void loadContractHolderType() {
@@ -238,7 +235,7 @@ public class TPContractHolderLookUp extends Window {
     @UiHandler("selectBtnCHL")
     protected void btnLookupSelectLogic() {
         if (resultTable != null && resultTable.getValue() != null) {
-            if ("Contract Holder".equals(indicator)) {
+            if (CONTRACT_HOLDER.equals(indicator)) {
                 setSelectedChHolderHierarchy((ContractHolderDTO) resultTable.getValue());
                 groupLookup.setValue(String.valueOf(selectedChHolderHierarchy.getContractHolderName()));
                 groupLookup.setData(String.valueOf(selectedChHolderHierarchy.getContractHolderId()));

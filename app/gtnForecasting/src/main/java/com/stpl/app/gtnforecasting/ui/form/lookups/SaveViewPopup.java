@@ -73,7 +73,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      * The view binder.
      */
-    private final CustomFieldGroup viewBinder = new CustomFieldGroup(new BeanItem<SaveViewDTO>(saveViewDTO));
+    private final CustomFieldGroup viewBinder = new CustomFieldGroup(new BeanItem<>(saveViewDTO));
 
     final ErrorLabel errorMsg = new ErrorLabel();
     private TextField viewId = new TextField();
@@ -125,7 +125,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * @param availableProducts the available products
      * @param selectedProducts the selected products
      */
-    public SaveViewPopup(final String windowName, final CustomFieldGroup dataSelectionBinder, final BeanItemContainer<Leveldto> availableCustomers, final BeanItemContainer<Leveldto> selectedCustomers,
+    public SaveViewPopup(final String windowName, final BeanItemContainer<Leveldto> availableCustomers, final BeanItemContainer<Leveldto> selectedCustomers,
             final BeanItemContainer<Leveldto> availableProducts, final BeanItemContainer<Leveldto> selectedProducts, List<String> customerListEndSids, List<String> productListEndSids) {
         super(windowName);
         LOGGER.debug("Entering saveViewPopup");
@@ -377,7 +377,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
 
     private CustomFieldGroup getViewBinder() {
         viewBinder.bindMemberFields(this);
-        viewBinder.setItemDataSource(new BeanItem<SaveViewDTO>(saveViewDTO));
+        viewBinder.setItemDataSource(new BeanItem<>(saveViewDTO));
         viewBinder.setBuffered(true);
         viewBinder.setErrorDisplay(errorMsg);
         return viewBinder;
@@ -412,7 +412,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-
+        return;
     }
 
 }

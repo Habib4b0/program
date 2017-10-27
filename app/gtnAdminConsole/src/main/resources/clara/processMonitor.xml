@@ -17,19 +17,19 @@ and open the template in the editor.
 
                     <GridLayout id="monitorInformation" spacing="true" margin="true" immediate="true" columns="2" rows="5">
 
-                        <Label id="processNameLabel" caption="Process Name:" contentMode="HTML" spacing="true" />
+                        <Label id="processNameLabel" value="Process Name:" contentMode="HTML" styleName="mandatory" spacing="true"/>
                         <TextField id="processName"  immediate="true" width="197px" />
 
-                        <Label id="processTypeLabel" caption="Process Type:" contentMode="HTML" spacing="true" />
+                        <Label id="processTypeLabel" value="Process Type:" contentMode="HTML" styleName="mandatory" spacing="true"/>
                         <ComboBox multiSelect="false" id="processType"  immediate="true" enable="true" styleName = "horizontal" width="207px"/>
 
-                        <Label id="calendarLabel" caption="Calendar:" contentMode="HTML" spacing="true" />
+                        <Label id="calendarLabel" value="Calendar:" contentMode="HTML" styleName="mandatory" spacing="true"/>
                         <ComboBox id="calendar" immediate="true" width="207px"/>
                             
-                        <Label id="startDateLabel" caption="Start Date:" contentMode="HTML" spacing="true" />
+                        <Label id="startDateLabel" value="Start Date:" contentMode="HTML" styleName="mandatory" spacing="true"/>
                         <PopupDateField id="startDate" immediate="true" dateFormat="dd/mm/yyyy" />
                             
-                        <Label id="endDateLabel" caption="End Date:" contentMode="HTML" spacing="true" />
+                        <Label id="endDateLabel" value="End Date:" contentMode="HTML" styleName="mandatory" spacing="true"/>
                         <PopupDateField id="endDate" immediate="true" dateFormat="dd/mm/yyyy" />
 
                     </GridLayout>  
@@ -39,23 +39,23 @@ and open the template in the editor.
 
                     <GridLayout id="RunTimes" spacing="true" margin="true" immediate="true" columns="5" rows="3" height="292px">
 
-                        <Label id="hours1Label" caption="Run 1:"/>
+                        <Label id="hours1Label" value="Run 1:" styleName="mandatory" spacing="true"/>
                         <ComboBox multiSelect="false" id="hours1" immediate="true"/>
-                        <Label id="minutes1Label" caption="Hours"/>
+                        <Label id="minutes1Label" value="Hours"/>
                         <ComboBox multiSelect="false" id="minutes1" immediate="true"/>
-                        <Label caption="Minutes"/>
+                        <Label value="Minutes"/>
 
-                        <Label id="hours2Label" caption="Run 2:"/>
+                        <Label id="hours2Label" value="Run 2:"/>
                         <ComboBox multiSelect="false" id="hours2" immediate="true"/>
-                        <Label id="minutes2Label" caption="Hours"/>
+                        <Label id="minutes2Label" value="Hours"/>
                         <ComboBox multiSelect="false" id="minutes2" immediate="true"/>
-                        <Label caption="Minutes"/>
+                        <Label value="Minutes"/>
 
-                        <Label id="hours3Label" caption="Run 3:"/>
+                        <Label id="hours3Label" value="Run 3:"/>
                         <ComboBox multiSelect="false" id="hours3" immediate="true"/>
-                        <Label id="minutes3Label" caption="Hours"/>
+                        <Label id="minutes3Label" value="Hours"/>
                         <ComboBox multiSelect="false" id="minutes3" immediate="true"/>
-                        <Label caption="Minutes"/>
+                        <Label value="Minutes"/>
                     </GridLayout>
 
                 </Panel>  

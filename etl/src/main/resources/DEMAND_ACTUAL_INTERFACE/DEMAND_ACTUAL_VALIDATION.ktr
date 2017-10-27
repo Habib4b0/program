@@ -42,7 +42,7 @@
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
-    <size_rowset>10000</size_rowset>
+    <size_rowset>1000</size_rowset>
     <sleep_time_empty>50</sleep_time_empty>
     <sleep_time_full>50</sleep_time_full>
     <unique_connections>N</unique_connections>
@@ -115,7 +115,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>BRAND_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>BRAND_MASTER</from><to>Invalid Reason 6</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 7</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6 2</from><to>INVALID TABLE 8 2</to><enabled>N</enabled> </hop>  <hop> <from>BRAND_MASTER</from><to>COMPANY_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER</from><to>Invalid Reason 6 2</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3 3 2</from><to>ADD Audit update 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2</from><to>Add constants 3 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 3 2 2</from><to>ADD Audit update 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2 2</from><to>Add constants 3 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL</from><to>Memory Group by 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 3</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_MASTER</from><to>Filter rows</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>DEMAND_ACTUAL 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2</from><to>Delete Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2</from><to>Change Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2 2</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2</from><to>D-INVALID2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>DEMAND_ACTUAL 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2 2</from><to>Delete Reason 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 7 2</from><to>DEMAND_ACTUAL 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 3</from><to>Invalid Reason 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 3</from><to>Invalid Reason 7</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2 2 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>DEMAND_ACTUAL</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL</from><to>Invalid Reason 7 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 7 2 2</from><to>DEMAND_ACTUAL 3</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Filter rows</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>BRAND_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>BRAND_MASTER</from><to>Invalid Reason 6</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 7</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6 2</from><to>INVALID TABLE 8 2</to><enabled>N</enabled> </hop>  <hop> <from>BRAND_MASTER</from><to>COMPANY_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER</from><to>Invalid Reason 6 2</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3 3 2</from><to>ADD Audit update 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2</from><to>Add constants 3 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 3 2 2</from><to>ADD Audit update 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2 2</from><to>Add constants 3 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL</from><to>Memory Group by 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 3</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_MASTER</from><to>Filter rows</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>DEMAND_ACTUAL 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2</from><to>Delete Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2</from><to>Change Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2 2</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2</from><to>D-INVALID2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>DEMAND_ACTUAL 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2 2</from><to>Delete Reason 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 7 2</from><to>DEMAND_ACTUAL 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 3</from><to>Invalid Reason 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 3</from><to>Invalid Reason 7</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL 2 2 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>DEMAND_ACTUAL</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_ACTUAL</from><to>Invalid Reason 7 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 7 2 2</from><to>DEMAND_ACTUAL 3</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>Sort rows</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
@@ -144,6 +144,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -191,6 +197,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>UNITS</name>
         <rename>MARKET_SIZE_UNITS</rename>
@@ -232,6 +244,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -306,6 +324,17 @@
         <length>5</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>DEMAND_ACTUAL_INTERFACE</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -373,8 +402,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>970</xloc>
-      <yloc>370</yloc>
+      <xloc>967</xloc>
+      <yloc>270</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -399,6 +428,17 @@
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>DEMAND_ACTUAL_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -432,6 +472,17 @@
         <length>5</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>DEMAND_ACTUAL_INTERFACE</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -463,6 +514,17 @@
         <length>10</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>DEMAND_ACTUAL_INTERFACE</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -492,6 +554,17 @@
         <group/>
         <nullif>R</nullif>
         <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>DEMAND_ACTUAL_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -613,6 +686,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -1145,6 +1224,14 @@
         <name>MODIFIED_BY</name>
         <rename>CREATED_BY</rename>
         </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        </value>
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1318,6 +1405,14 @@
       <value>
         <name>TOTAL_DEMAND_UNITS</name>
         <rename>TOTAL_DEMAND_UNITS</rename>
+        </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
         </value>
       </lookup>
      <cluster_schema/>
@@ -1493,6 +1588,14 @@
         <name>TOTAL_DEMAND_UNITS</name>
         <rename>TOTAL_DEMAND_UNITS</rename>
         </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        </value>
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1616,6 +1719,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>DELETE_COUNT</name>
         <rename>DELETE_COUNT</rename>
@@ -1703,8 +1812,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>824</xloc>
-      <yloc>333</yloc>
+      <xloc>821</xloc>
+      <yloc>233</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1721,8 +1830,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1100</xloc>
-      <yloc>320</yloc>
+      <xloc>1097</xloc>
+      <yloc>220</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1930,8 +2039,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>556</xloc>
-      <yloc>180</yloc>
+      <xloc>553</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2775,8 +2884,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>687</xloc>
-      <yloc>161</yloc>
+      <xloc>684</xloc>
+      <yloc>61</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3139,6 +3248,68 @@
     </step>
 
   <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <sort_size>5000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>FORECAST_TYPE</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>FORECAST_YEAR</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>FORECAST_MONTH</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ITEM_ID</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>COUNTRY</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ORGANIZATION_KEY</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>SOURCE</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1072</xloc>
+      <yloc>379</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Switch &#47; Case</name>
     <type>SwitchCase</type>
     <description/>
@@ -3163,8 +3334,8 @@
 <target_step>Dummy (do nothing) 3</target_step>
 </case></cases>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>972</xloc>
-      <yloc>244</yloc>
+      <xloc>969</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3271,8 +3442,8 @@ inner join #BRAND  D
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>975</xloc>
-      <yloc>134</yloc>
+      <xloc>972</xloc>
+      <yloc>34</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

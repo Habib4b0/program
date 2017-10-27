@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
 /**
@@ -102,7 +101,7 @@ public class AbstractFilter {
                             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
-                            String value = StringUtils.EMPTY;
+                            String value;
                             if (((Integer) stringFilter.getValue()) == 0) {
                                 value = String.valueOf(stringFilter.getValue());
                             } else {

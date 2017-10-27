@@ -16,7 +16,7 @@ import org.jboss.logging.Logger;
 public abstract class CommonUI extends UI {
 
     public static final Logger LOGGER = Logger.getLogger(CommonUI.class);
-    public boolean excelFlag = Boolean.TRUE;
+    private boolean excelFlag = Boolean.TRUE;
 
     public boolean isExcelFlag() {
         return excelFlag;
@@ -32,18 +32,27 @@ public abstract class CommonUI extends UI {
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
-                String cause = "The Exception occured because of: ";
+                StringBuilder cause = new StringBuilder("The Exception occured because of: ");
                 for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
                     if (t.getCause() == null) {
-
-                        cause += t.getClass().getName();
+                        cause.append(t.getClass().getName());
                     }
-                    t.printStackTrace();
-                }
+
+    }
                 LOGGER.error(cause);
             }
         });
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

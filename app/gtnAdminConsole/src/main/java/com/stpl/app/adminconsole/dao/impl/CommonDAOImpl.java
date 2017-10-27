@@ -58,7 +58,7 @@ public class CommonDAOImpl implements CommonDAO {
      * @throws PortalException
      * @throws Exception
      */
-    public Object executeSelectQuery(String query) throws SystemException, PortalException {
+    public Object executeSelectQuery(String query) {
 
         return CompanyMasterLocalServiceUtil.executeSelectQuery(query, null, null);
     }

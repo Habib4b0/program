@@ -46,13 +46,13 @@ public class ArchiveIndex extends CustomComponent implements View {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveIndex.class);
 
-    public static final Object[] ARCHIVE_TABLE = new Object[]{"fieldName"};
+    public final Object[] archiveTable = new Object[]{"fieldName"};
 
-    public static final String[] ARCHIVE_HEADER = new String[]{"Field Name"};
+    public final String[] archiveHeader = new String[]{"Field Name"};
 
-    public static final Object[] ARCHIVE_COLUMNS = new Object[]{"value"};
+    public final Object[] archiveColumns = new Object[]{"value"};
 
-    public static final String[] ARCHIVE_HEADER1 = new String[]{"Value"};
+    public final String[] archiveHeader1 = new String[]{"Value"};
 
     private final ErrorLabel errorMsg = new ErrorLabel();
 
@@ -74,10 +74,10 @@ public class ArchiveIndex extends CustomComponent implements View {
 
     private final Button reset = new Button("RESET");
 
-    private final BeanItemContainer<ArchiveDTO> resultsBean = new BeanItemContainer<ArchiveDTO>(ArchiveDTO.class);
+    private final BeanItemContainer<ArchiveDTO> resultsBean = new BeanItemContainer<>(ArchiveDTO.class);
 
-    private final BeanItemContainer<ArchiveDTO> valueBean = new BeanItemContainer<ArchiveDTO>(ArchiveDTO.class);
-    Map<String, String> tableMap = new HashMap<String, String>();
+    private final BeanItemContainer<ArchiveDTO> valueBean = new BeanItemContainer<>(ArchiveDTO.class);
+    Map<String, String> tableMap = new HashMap<>();
 
     public PopupDateField getFrom() {
         return from;
@@ -115,20 +115,20 @@ public class ArchiveIndex extends CustomComponent implements View {
         return LOGGER;
     }
 
-    public static Object[] getArchiveTable() {
-        return ARCHIVE_TABLE;
+    public Object[] getArchiveTable() {
+        return archiveTable;
     }
 
-    public static String[] getArchiveHeader() {
-        return ARCHIVE_HEADER;
+    public String[] getArchiveHeader() {
+        return archiveHeader;
     }
 
-    public static Object[] getArchiveColumns() {
-        return ARCHIVE_COLUMNS;
+    public Object[] getArchiveColumns() {
+        return archiveColumns;
     }
 
-    public static String[] getArchiveHeader1() {
-        return ARCHIVE_HEADER1;
+    public String[] getArchiveHeader1() {
+        return archiveHeader1;
     }
 
     public ErrorLabel getErrorMsg() {
@@ -232,8 +232,8 @@ public class ArchiveIndex extends CustomComponent implements View {
         fieldTable.setFilterBarVisible(true);
         fieldTable.setFilterDecorator(new ExtDemoFilterDecorator());
         fieldTable.setContainerDataSource(resultsBean);
-        fieldTable.setVisibleColumns(ARCHIVE_TABLE);
-        fieldTable.setColumnHeaders(ARCHIVE_HEADER);
+        fieldTable.setVisibleColumns(archiveTable);
+        fieldTable.setColumnHeaders(archiveHeader);
         fieldTable.setPageLength(NumericConstants.FIVE);
         fieldTable.setWidth("450px");
         fieldTable.setImmediate(true);
@@ -273,8 +273,8 @@ public class ArchiveIndex extends CustomComponent implements View {
         resultsColumnTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsColumnTable.setContainerDataSource(valueBean);
 
-        resultsColumnTable.setVisibleColumns(ARCHIVE_COLUMNS);
-        resultsColumnTable.setColumnHeaders(ARCHIVE_HEADER1);
+        resultsColumnTable.setVisibleColumns(archiveColumns);
+        resultsColumnTable.setColumnHeaders(archiveHeader1);
         resultsColumnTable.setPageLength(NumericConstants.FIVE);
         resultsColumnTable.sinkItemPerPageWithPageLength(false);
         resultsColumnTable.setWidth("450px");
@@ -509,6 +509,6 @@ public class ArchiveIndex extends CustomComponent implements View {
      */
     @Override
     public void enter(final ViewChangeEvent event) {
-
+        return;
     }
 }

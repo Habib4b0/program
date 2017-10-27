@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = {
         "org.r2.etl.common"
 })
-//@Import({PersistenceContext.class})
+
 @PropertySource("classpath:application.properties")
 
 public class AppContext extends WebMvcConfigurerAdapter {

@@ -11,4 +11,11 @@
                 <goal>-Dmaven.wagon.http.ssl.allowall=true</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-Sonar</actionName>
+            <displayName>Sonar</displayName>
+            <goals>
+                <goal>org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar</goal>
+            </goals>
+        </action>
     </actions>

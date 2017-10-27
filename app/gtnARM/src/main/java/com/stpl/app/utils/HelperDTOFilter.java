@@ -118,11 +118,8 @@ public class HelperDTOFilter implements Container.Filter {
         if (filterId != o.filterId) {
             return false;
         }
-        if (filterDescription != o.filterDescription && o.filterDescription != null
-                && !o.filterDescription.equals(filterDescription)) {
-            return false;
-        }
-        return true;
+        return !(filterDescription != o.filterDescription && o.filterDescription != null
+                && !o.filterDescription.equals(filterDescription));
     }
 
     @Override

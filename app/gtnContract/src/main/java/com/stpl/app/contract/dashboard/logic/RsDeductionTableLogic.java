@@ -34,15 +34,11 @@ public class RsDeductionTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         int count = 0;
-        try {
-            if (isFirstLoad) {
-                count = (Integer) searchLogic.getDeductionCount(binder, this.getFilters());
-            }
-            isResultsEmpty = count == 0;
-            count = isReset ? 0 : count;
-        } catch (ParseException ex) {
-            LOGGER.error(ex);
+        if (isFirstLoad) {
+            count = (Integer) searchLogic.getDeductionCount(binder, this.getFilters());
         }
+        isResultsEmpty = count == 0;
+        count = isReset ? 0 : count;
         return count;
     }
 
@@ -50,11 +46,7 @@ public class RsDeductionTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         List list = new ArrayList();
         if (isFirstLoad) {
-            try {
-                list = (List) searchLogic.loadDeductionResults(binder, start, offset, this.getSortByColumns(), this.getFilters());
-            } catch (ParseException ex) {
-                LOGGER.error(ex);
-            }
+            list = (List) searchLogic.loadDeductionResults(binder, start, offset, this.getSortByColumns(), this.getFilters());
         }
         return list;
     }

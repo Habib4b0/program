@@ -13,6 +13,7 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -60,7 +61,7 @@ public class RebateSetupTableLogic extends PageTableLogic{
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     /**

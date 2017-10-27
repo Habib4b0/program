@@ -17,46 +17,51 @@ import org.jboss.logging.Logger;
  * @author Abhiram.Giri
  * @param <T>
  */
-public abstract class AbstractSummarySearchResults<T extends AbstractSelectionDTO> extends AbstractSearchResults<AbstractSelectionDTO>{
+public abstract class AbstractSummarySearchResults<T extends AbstractSelectionDTO> extends AbstractSearchResults<AbstractSelectionDTO> {
+
     /**
-	 * The Constant LOGGER.
-	 */
-	public static final Logger LOGGER = Logger.getLogger(AbstractSummarySearchResults.class);
+     * The Constant LOGGER.
+     */
+    public static final Logger LOGGER = Logger.getLogger(AbstractSummarySearchResults.class);
+
     public AbstractSummarySearchResults(LogicAble logic, AbstractSelectionDTO selection) {
         super(logic, selection);
     }
+
     /**
      * Field ddlb.
      *
-     * @return 
+     * @return
      */
     @Override
     protected boolean calculateLogic() {
         LOGGER.debug("CalculateBtn value change listener starts");
-         boolean calculateFlag = false;
-        try {           
-            getLogic().updateOverrideColumn(selection.getSessionDTO());
-            getLogic().updatecalculateOverride(selection.getSessionDTO(),selection.getDataSelectionDTO().getAdjustmentType());
+        boolean calculateFlag = false;
+        try {
+            getSummaryLogic().updateOverrideColumn(selection.getSessionDTO());
+            getSummaryLogic().updatecalculateOverride(selection.getSessionDTO(), selection.getDataSelectionDTO().getAdjustmentType());
             for (Object dto : resultBeanContainer.getItemIds()) {
                 AdjustmentDTO adjusDTO = (AdjustmentDTO) dto;
                 if (adjusDTO.getLevelNo() == NumericConstants.FIVE && adjusDTO.getCalculateFlag()) {
-                    calculateFlag=true;
+                    calculateFlag = true;
                     adjusDTO.setCalculateFlag(Boolean.FALSE);
                     break;
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in calculateLogic :"+ex);
         }
         return calculateFlag;
     }
+
     @Override
-    public AbstractSummaryLogic getLogic() {
-        return (AbstractSummaryLogic) super.getLogic();
+    public AbstractSummaryLogic getSummaryLogic() {
+        return (AbstractSummaryLogic) super.getSummaryLogic();
     }
-        @Override
-     protected void cancelOverrideLogic(){
-        getLogic().updateTempOverrideColumn(selection.getSessionDTO());
+
+    @Override
+    protected void cancelOverrideLogic() {
+        getSummaryLogic().updateTempOverrideColumn(selection.getSessionDTO());
         super.cancelOverrideLogic();
     }
 }

@@ -43,7 +43,7 @@ public class DeductionCalendarView extends VerticalLayout implements View {
     DeductionCalendarDTO dto = new DeductionCalendarDTO();
     ErrorfulFieldGroup binder;
 
-    public DeductionCalendarView(final SessionDTO sessionDTO) throws PortalException, SystemException {
+    public DeductionCalendarView(final SessionDTO sessionDTO) {
         super();
         this.sessionDTO = sessionDTO;
         setStyleName("bootstrap-company");
@@ -75,7 +75,7 @@ public class DeductionCalendarView extends VerticalLayout implements View {
                 if (!(ConstantsUtils.COPY).equals(mode)) {
                     dto = deductionCalendarLogic.getDeductionCalendarById(sessionDTO.getSystemId(), dto);
                 }
-                binder = new ErrorfulFieldGroup(new BeanItem<DeductionCalendarDTO>(dto));
+                binder = new ErrorfulFieldGroup(new BeanItem<>(dto));
                 dto.setMasterTableSid(sessionDTO.getSystemId());
                 sessionDTO.setAdditionalNotes(dto.getInternalNotes());
                 deductionCalendarLogic.insertToTempSelectionForCust(sessionDTO.getUserId(), sessionDTO.getUiSessionId(), sessionDTO.getSystemId());

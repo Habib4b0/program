@@ -38,7 +38,7 @@ public class QueryUtils {
      * @param tableDTO
      * @return
      */
-    public String getDeductionCountQuery(DeductionDetailsDTO deductionDTO, TableDTO tableDTO,SessionDTO sessionDTO) {     
+    public String getDeductionCountQuery(DeductionDetailsDTO deductionDTO, TableDTO tableDTO) {     
         String query = "";
         if (deductionDTO.getDataView().equals(ConstantsUtils.CUSTOMER)) {
             if (deductionDTO.getFilterDdlb() != null && !ConstantsUtils.NULL.equals(deductionDTO.getFilterDdlb())) {
@@ -46,7 +46,7 @@ public class QueryUtils {
                     query = CustomSQLUtil.get("customercount")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FILTER"," AND COMPANY_MASTER_SID='"+deductionDTO.getFilterDdlb()+"' ");
+                            .replace(ConstantsUtils.QUESTION_FILTER," AND COMPANY_MASTER_SID='"+deductionDTO.getFilterDdlb()+"' ");
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
                    query = CustomSQLUtil.get("brandcount")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
@@ -56,7 +56,7 @@ public class QueryUtils {
                     query = CustomSQLUtil.get("cust-brand-item-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?CMID", "'"+tableDTO.getCompanySid()+"'")
+                            .replace(ConstantsUtils.CMID, "'"+tableDTO.getCompanySid()+"'")
                             .replace("?BMID", "'"+tableDTO.getBrandSid()+"'");
                 }
             } else {
@@ -66,7 +66,7 @@ public class QueryUtils {
                     query = CustomSQLUtil.get("customercount")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FILTER"," ");
+                            .replace(ConstantsUtils.QUESTION_FILTER," ");
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
                     query = CustomSQLUtil.get("brandcount")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
@@ -76,7 +76,7 @@ public class QueryUtils {
                     query = CustomSQLUtil.get("cust-brand-item-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?CMID", "'"+tableDTO.getCompanySid()+"'")
+                            .replace(ConstantsUtils.CMID, "'"+tableDTO.getCompanySid()+"'")
                             .replace("?BMID", "'"+tableDTO.getBrandSid()+"'");
                 }
             }
@@ -87,20 +87,20 @@ public class QueryUtils {
                     query = CustomSQLUtil.get("prod-level1-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FILTER"," AND IM.ITEM_MASTER_SID= "+deductionDTO.getFilterDdlb());
+                            .replace(ConstantsUtils.QUESTION_FILTER,ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
                     query = CustomSQLUtil.get("prod-level2-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?BMSID",  "'"+tableDTO.getBrandSid()+"'")
-                            .replace("?FILTER"," AND IM.ITEM_MASTER_SID= "+deductionDTO.getFilterDdlb());
+                            .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
+                            .replace(ConstantsUtils.QUESTION_FILTER,ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
                     query = CustomSQLUtil.get("prod-level3-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?BMSID",  "'"+tableDTO.getBrandSid()+"'")
-                            .replace("?CMID",  "'"+tableDTO.getCompanySid()+"'")
-                            .replace("?FILTER"," AND IM.ITEM_MASTER_SID= "+deductionDTO.getFilterDdlb());
+                            .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
+                            .replace(ConstantsUtils.CMID,  "'"+tableDTO.getCompanySid()+"'")
+                            .replace(ConstantsUtils.QUESTION_FILTER,ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb());
                 }
                 
             } else {
@@ -110,20 +110,20 @@ public class QueryUtils {
                     query = CustomSQLUtil.get("prod-level1-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FILTER"," ");
+                            .replace(ConstantsUtils.QUESTION_FILTER," ");
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
                     query = CustomSQLUtil.get("prod-level2-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?BMSID",  "'"+tableDTO.getBrandSid()+"'")
-                            .replace("?FILTER"," ");
+                            .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
+                            .replace(ConstantsUtils.QUESTION_FILTER," ");
                 } else if (deductionDTO.getLevelNo() == NumericConstants.FOUR) {
                     query = CustomSQLUtil.get("prod-level3-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?BMSID",  "'"+tableDTO.getBrandSid()+"'")
-                            .replace("?CMID",  "'"+tableDTO.getCompanySid()+"'")
-                            .replace("?FILTER"," ");
+                            .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
+                            .replace(ConstantsUtils.CMID,  "'"+tableDTO.getCompanySid()+"'")
+                            .replace(ConstantsUtils.QUESTION_FILTER," ");
                 }
             }
         }
@@ -148,21 +148,21 @@ public class QueryUtils {
                             .replace("?columnlist", CustomSQLUtil.get("customerlevelcolumns"))
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM",fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM,fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset))
-                            .replace("?FILTER"," AND COMPANY_MASTER_SID='"+deductionDTO.getFilterDdlb()+"' ");
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset))
+                            .replace(ConstantsUtils.QUESTION_FILTER," AND COMPANY_MASTER_SID='"+deductionDTO.getFilterDdlb()+"' ");
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
                     query=SQLUtil.getQuery("customerlevel3")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?CMID", String.valueOf(tableDTO.getCompanySid()))
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset));
+                            .replace(ConstantsUtils.CMID, String.valueOf(tableDTO.getCompanySid()))
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset));
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                     
                     
@@ -170,12 +170,12 @@ public class QueryUtils {
                     query=SQLUtil.getQuery("customerlevel4")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?CMID", String.valueOf(tableDTO.getCompanySid()))
-                            .replace("?BMSID", String.valueOf(tableDTO.getBrandSid()))
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset));
+                            .replace(ConstantsUtils.CMID, String.valueOf(tableDTO.getCompanySid()))
+                            .replace(ConstantsUtils.QUESTION_BMSID, String.valueOf(tableDTO.getBrandSid()))
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset));
                    
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 }
@@ -188,32 +188,32 @@ public class QueryUtils {
                             .replace("?columnlist", CustomSQLUtil.get("customerlevelcolumns"))
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM",fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM,fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset))
-                            .replace("?FILTER"," ");
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset))
+                            .replace(ConstantsUtils.QUESTION_FILTER," ");
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
                     query=SQLUtil.getQuery("customerlevel3")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?CMID", String.valueOf(tableDTO.getCompanySid()))
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset));
+                            .replace(ConstantsUtils.CMID, String.valueOf(tableDTO.getCompanySid()))
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset));
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.FOUR) {
                     query=SQLUtil.getQuery("customerlevel4")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?CMID", String.valueOf(tableDTO.getCompanySid()))
-                            .replace("?BMSID", String.valueOf(tableDTO.getBrandSid()))
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset));
+                            .replace(ConstantsUtils.CMID, String.valueOf(tableDTO.getCompanySid()))
+                            .replace(ConstantsUtils.QUESTION_BMSID, String.valueOf(tableDTO.getBrandSid()))
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset));
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 }
             }
@@ -223,34 +223,34 @@ public class QueryUtils {
                     query=SQLUtil.getQuery("prod-level1-data")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset))
-                            .replace("?FILTER", " AND im.ITEM_MASTER_SID = "+deductionDTO.getFilterDdlb());
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset))
+                            .replace(ConstantsUtils.QUESTION_FILTER, ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb());
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
                     query=SQLUtil.getQuery("prod-level2-data")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset))
-                            .replace("?BMSID",  "'"+tableDTO.getBrandSid()+"'")
-                            .replace("?FILTER", " AND im.ITEM_MASTER_SID = "+deductionDTO.getFilterDdlb());
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset))
+                            .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
+                            .replace(ConstantsUtils.QUESTION_FILTER, ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb());
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
                     query=SQLUtil.getQuery("prod-level3-data")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset))
-                            .replace("?BMSID",  "'"+tableDTO.getBrandSid()+"'")
-                            .replace("?CMID",  "'"+tableDTO.getCompanySid()+"'")
-                            .replace("?FILTER", " AND im.ITEM_MASTER_SID = "+deductionDTO.getFilterDdlb());
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset))
+                            .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
+                            .replace(ConstantsUtils.CMID,  "'"+tableDTO.getCompanySid()+"'")
+                            .replace(ConstantsUtils.QUESTION_FILTER, ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb());
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 }
                 
@@ -262,34 +262,34 @@ public class QueryUtils {
                     query=SQLUtil.getQuery("prod-level1-data")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset))
-                            .replace("?FILTER", "");
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset))
+                            .replace(ConstantsUtils.QUESTION_FILTER, "");
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
                     query=SQLUtil.getQuery("prod-level2-data")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset))
-                            .replace("?BMSID",  "'"+tableDTO.getBrandSid()+"'")
-                            .replace("?FILTER", "");
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset))
+                            .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
+                            .replace(ConstantsUtils.QUESTION_FILTER, "");
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.FOUR) {
                     query=SQLUtil.getQuery("prod-level3-data")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
-                            .replace("?FROM", fromDate[0])
+                            .replace(ConstantsUtils.QUESTION_FROM, fromDate[0])
                             .replace("?TO", toDate[0])
-                            .replace("?START",String.valueOf(start))
-                            .replace("?OFFSET",String.valueOf(offset))
-                            .replace("?BMSID",  "'"+tableDTO.getBrandSid()+"'")
-                            .replace("?CMID",  "'"+tableDTO.getCompanySid()+"'")
-                            .replace("?FILTER", "");
+                            .replace(ConstantsUtils.QUESTION_START,String.valueOf(start))
+                            .replace(ConstantsUtils.QUESTION_OFFSET,String.valueOf(offset))
+                            .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
+                            .replace(ConstantsUtils.CMID,  "'"+tableDTO.getCompanySid()+"'")
+                            .replace(ConstantsUtils.QUESTION_FILTER, "");
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 }
             }
@@ -303,7 +303,7 @@ public class QueryUtils {
      * @param levelNo
      * @return
      */
-    public String getItemCount(int sid, int levelNo,DeductionDetailsDTO deductionDTO) {
+    public String getItemCount(int sid, int levelNo) {
         String query = "";
         if (levelNo == NumericConstants.TWO) {
             query = SQLUtil.getQuery("getItemCountForCustomer")
@@ -328,29 +328,29 @@ public class QueryUtils {
         String query = "";
         if (levelNo == (isFiltered ? 1 : NumericConstants.TWO)) {
             query = SQLUtil.getQuery("getLineLevelUpdateForCust")
-           .replace("?VALUE", value)
+           .replace(ConstantsUtils.QUESTION_VALUE, value)
            .replace(ConstantsUtils.SID, String.valueOf(dto.getCompanySid()))
-           .replace("@YEAR", String.valueOf(obj[NumericConstants.TWO]))
-           .replace("@MONTH", String.valueOf(obj[0]))
+           .replace(ConstantsUtils.AT_YEAR, String.valueOf(obj[NumericConstants.TWO]))
+           .replace(ConstantsUtils.AT_MONTH, String.valueOf(obj[0]))
            .replace(ConstantsUtils.USERID_AT, deductionDTO.getUserId())
            .replace(ConstantsUtils.SESSION_ID_AT, deductionDTO.getSessionId());
         } else if (levelNo == (isFiltered ? NumericConstants.TWO : NumericConstants.THREE)) {
             query = SQLUtil.getQuery("getLineLevelUpdateForBrand")
-            .replace("?VALUE", value)
+            .replace(ConstantsUtils.QUESTION_VALUE, value)
             .replace(ConstantsUtils.SID, String.valueOf(dto.getBrandSid()))
-            .replace("@COMPANY_SID", String.valueOf(dto.getCompanySid()))
-            .replace("@YEAR", String.valueOf(obj[NumericConstants.TWO]))
-            .replace("@MONTH", String.valueOf(obj[0]))
+            .replace(ConstantsUtils.AT_COMPANY_SID, String.valueOf(dto.getCompanySid()))
+            .replace(ConstantsUtils.AT_YEAR, String.valueOf(obj[NumericConstants.TWO]))
+            .replace(ConstantsUtils.AT_MONTH, String.valueOf(obj[0]))
             .replace(ConstantsUtils.USERID_AT, deductionDTO.getUserId())
             .replace(ConstantsUtils.SESSION_ID_AT, deductionDTO.getSessionId());
         } else {
             query = SQLUtil.getQuery("getLineLevelUpdateForItem")
-            .replace("?VALUE", value)
+            .replace(ConstantsUtils.QUESTION_VALUE, value)
             .replace(ConstantsUtils.SID, String.valueOf(dto.getItemSid()))
-            .replace("@BRAND_SID", String.valueOf(dto.getBrandSid()))
-            .replace("@COMPANY_SID", String.valueOf(dto.getCompanySid()))
-            .replace("@YEAR", String.valueOf(obj[NumericConstants.TWO]))
-            .replace("@MONTH", String.valueOf(obj[0]))
+            .replace(ConstantsUtils.AT_BRAND_SID, String.valueOf(dto.getBrandSid()))
+            .replace(ConstantsUtils.AT_COMPANY_SID, String.valueOf(dto.getCompanySid()))
+            .replace(ConstantsUtils.AT_YEAR, String.valueOf(obj[NumericConstants.TWO]))
+            .replace(ConstantsUtils.AT_MONTH, String.valueOf(obj[0]))
             .replace(ConstantsUtils.USERID_AT, deductionDTO.getUserId())
             .replace(ConstantsUtils.SESSION_ID_AT, deductionDTO.getSessionId());
         }
@@ -370,32 +370,32 @@ public class QueryUtils {
         String query = "";
         if (levelNo == (isFiltered ? 1 : NumericConstants.TWO)) {
             query = SQLUtil.getQuery("getLineLevelUpdateForBrandinProd")
-            .replace("?VALUE", value)
+            .replace(ConstantsUtils.QUESTION_VALUE, value)
             .replace(ConstantsUtils.SID, String.valueOf(dto.getBrandSid()))
-            .replace("@COMPANY_SID", StringUtils.EMPTY)
-            .replace("@YEAR", String.valueOf(obj[NumericConstants.TWO]))
-            .replace("@MONTH", String.valueOf(obj[0]))
+            .replace(ConstantsUtils.AT_COMPANY_SID, StringUtils.EMPTY)
+            .replace(ConstantsUtils.AT_YEAR, String.valueOf(obj[NumericConstants.TWO]))
+            .replace(ConstantsUtils.AT_MONTH, String.valueOf(obj[0]))
             .replace(ConstantsUtils.USERID_AT, deductionDTO.getUserId())
             .replace(ConstantsUtils.SESSION_ID_AT, deductionDTO.getSessionId())
-            .replace("?FILTER",isFiltered ? " AND im.ITEM_MASTER_SID = "+deductionDTO.getFilterDdlb() : " ");
+            .replace(ConstantsUtils.QUESTION_FILTER,isFiltered ? ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb() : " ");
         } else if (levelNo == (isFiltered ? NumericConstants.TWO : NumericConstants.THREE)) {
             query = SQLUtil.getQuery("getLineLevelUpdateForCustinProd")
-            .replace("?VALUE", value)
+            .replace(ConstantsUtils.QUESTION_VALUE, value)
             .replace(ConstantsUtils.SID, String.valueOf(dto.getCompanySid()))
-            .replace("@BRAND_SID", String.valueOf(dto.getBrandSid()))
-            .replace("@YEAR", String.valueOf(obj[NumericConstants.TWO]))
-            .replace("@MONTH", String.valueOf(obj[0]))
+            .replace(ConstantsUtils.AT_BRAND_SID, String.valueOf(dto.getBrandSid()))
+            .replace(ConstantsUtils.AT_YEAR, String.valueOf(obj[NumericConstants.TWO]))
+            .replace(ConstantsUtils.AT_MONTH, String.valueOf(obj[0]))
             .replace(ConstantsUtils.USERID_AT, deductionDTO.getUserId())
             .replace(ConstantsUtils.SESSION_ID_AT, deductionDTO.getSessionId())
-            .replace("?FILTER", isFiltered ? " AND im.ITEM_MASTER_SID = "+deductionDTO.getFilterDdlb() : " ");
+            .replace(ConstantsUtils.QUESTION_FILTER, isFiltered ? ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb() : " ");
         } else {
             query = SQLUtil.getQuery("getLineLevelUpdateForItem")
-            .replace("?VALUE", value)
+            .replace(ConstantsUtils.QUESTION_VALUE, value)
             .replace(ConstantsUtils.SID, String.valueOf(dto.getItemSid()))
-            .replace("@BRAND_SID", String.valueOf(dto.getBrandSid()))
-            .replace("@COMPANY_SID", String.valueOf(dto.getCompanySid()))
-            .replace("@YEAR", String.valueOf(obj[NumericConstants.TWO]))
-            .replace("@MONTH", String.valueOf(obj[0]))
+            .replace(ConstantsUtils.AT_BRAND_SID, String.valueOf(dto.getBrandSid()))
+            .replace(ConstantsUtils.AT_COMPANY_SID, String.valueOf(dto.getCompanySid()))
+            .replace(ConstantsUtils.AT_YEAR, String.valueOf(obj[NumericConstants.TWO]))
+            .replace(ConstantsUtils.AT_MONTH, String.valueOf(obj[0]))
             .replace(ConstantsUtils.USERID_AT, deductionDTO.getUserId())
             .replace(ConstantsUtils.SESSION_ID_AT, deductionDTO.getSessionId());
         }
@@ -410,7 +410,7 @@ public class QueryUtils {
      * @param check
      * @return 
      */
-    public String getCheckQueryForCustomer(DeductionDetailsDTO deductionDTO, TableDTO dto, boolean check,String filterValue) {
+    public String getCheckQueryForCustomer(TableDTO dto, boolean check,String filterValue) {
         String query = "";
         String value = "";
         if (check) {
@@ -419,19 +419,19 @@ public class QueryUtils {
             value = "0";
         }
         if (dto.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.TWO : 1)) {
-            query = SQLUtil.getQuery("checkTempTable")
-            .replace("@CHECK", value)
-            .replace("@JOIN", StringUtils.EMPTY)
-            .replace("@WHERE", " WHERE CD.COMPANY_MASTER_SID = " + String.valueOf(dto.getCompanySid()));
+            query = SQLUtil.getQuery(ConstantsUtils.CHECK_TEMP_TABLE)
+            .replace(ConstantsUtils.AT_CHECK, value)
+            .replace(ConstantsUtils.AT_JOIN, StringUtils.EMPTY)
+            .replace(ConstantsUtils.AT_WHERE, ConstantsUtils.WHERE_COMPANY_MASTER_SID + String.valueOf(dto.getCompanySid()));
         } else if (dto.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.THREE : NumericConstants.TWO)) {
             query = SQLUtil.getQuery("checkTempTableBrand")
-            .replace("@CHECK", value)
-            .replace("@WHERE", " WHERE IM.BRAND_MASTER_SID =" + dto.getBrandSid() + " AND CD.COMPANY_MASTER_SID =" + dto.getCompanySid());
+            .replace(ConstantsUtils.AT_CHECK, value)
+            .replace(ConstantsUtils.AT_WHERE, " WHERE IM.BRAND_MASTER_SID =" + dto.getBrandSid() + " AND CD.COMPANY_MASTER_SID =" + dto.getCompanySid());
         } else {
-            query = SQLUtil.getQuery("checkTempTable")
-            .replace("@CHECK", value)
-            .replace("@JOIN", StringUtils.EMPTY)
-            .replace("@WHERE", " WHERE CD.COMPANY_MASTER_SID = " + String.valueOf(dto.getCompanySid()) + " AND CD.ITEM_MASTER_SID = " + String.valueOf(dto.getItemSid()));
+            query = SQLUtil.getQuery(ConstantsUtils.CHECK_TEMP_TABLE)
+            .replace(ConstantsUtils.AT_CHECK, value)
+            .replace(ConstantsUtils.AT_JOIN, StringUtils.EMPTY)
+            .replace(ConstantsUtils.AT_WHERE, ConstantsUtils.WHERE_COMPANY_MASTER_SID + String.valueOf(dto.getCompanySid()) + " AND CD.ITEM_MASTER_SID = " + String.valueOf(dto.getItemSid()));
         }
         return query;
     }
@@ -444,7 +444,7 @@ public class QueryUtils {
      * @param check
      * @return
      */
-    public String getCheckQueryForProduct(DeductionDetailsDTO deductionDTO, TableDTO dto, boolean check, String filterValue) {
+    public String getCheckQueryForProduct(TableDTO dto, boolean check, String filterValue) {
         String query = "";
         String value = "";
         if (check) {
@@ -454,18 +454,18 @@ public class QueryUtils {
         }
         if (dto.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.TWO : 1)) {
             query = SQLUtil.getQuery("checkTempTableBrand");
-            query = query.replace("@CHECK", value);
-            query = query.replace("@WHERE", " WHERE IM.BRAND_MASTER_SID = " + dto.getBrandSid());
+            query = query.replace(ConstantsUtils.AT_CHECK, value);
+            query = query.replace(ConstantsUtils.AT_WHERE, " WHERE IM.BRAND_MASTER_SID = " + dto.getBrandSid());
         } else if (dto.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.THREE : NumericConstants.TWO)) {
-            query = SQLUtil.getQuery("checkTempTable");
-            query = query.replace("@CHECK", value);
-            query = query.replace("@JOIN", " JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID");
-            query = query.replace("@WHERE", " WHERE CD.COMPANY_MASTER_SID = " + String.valueOf(dto.getCompanySid()) + " AND IM.BRAND_MASTER_SID ="+String.valueOf(dto.getBrandSid()));
+            query = SQLUtil.getQuery(ConstantsUtils.CHECK_TEMP_TABLE);
+            query = query.replace(ConstantsUtils.AT_CHECK, value);
+            query = query.replace(ConstantsUtils.AT_JOIN, " JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID");
+            query = query.replace(ConstantsUtils.AT_WHERE,ConstantsUtils.WHERE_COMPANY_MASTER_SID + String.valueOf(dto.getCompanySid()) + " AND IM.BRAND_MASTER_SID ="+String.valueOf(dto.getBrandSid()));
         } else {
-            query = SQLUtil.getQuery("checkTempTable");
-            query = query.replace("@CHECK", value);
-            query = query.replace("@JOIN", " JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID= CD.ITEM_MASTER_SID");
-            query = query.replace("@WHERE", " WHERE CD.COMPANY_MASTER_SID = " + String.valueOf(dto.getCompanySid()) + " AND IM.BRAND_MASTER_SID ="+String.valueOf(dto.getBrandSid())+" AND IM.ITEM_MASTER_SID = " + String.valueOf(dto.getItemSid()));
+            query = SQLUtil.getQuery(ConstantsUtils.CHECK_TEMP_TABLE);
+            query = query.replace(ConstantsUtils.AT_CHECK, value);
+            query = query.replace(ConstantsUtils.AT_JOIN, " JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID= CD.ITEM_MASTER_SID");
+            query = query.replace(ConstantsUtils.AT_WHERE, ConstantsUtils.WHERE_COMPANY_MASTER_SID + String.valueOf(dto.getCompanySid()) + " AND IM.BRAND_MASTER_SID ="+String.valueOf(dto.getBrandSid())+" AND IM.ITEM_MASTER_SID = " + String.valueOf(dto.getItemSid()));
         }
         return query;
     }
@@ -476,12 +476,12 @@ public class QueryUtils {
      * @param check
      * @return
      */
-    public String getCheckAllQuery(DeductionDetailsDTO deductionDTO,boolean check) {
+    public String getCheckAllQuery(boolean check) {
         String query = SQLUtil.getQuery("checkAllTemp");
         if (check) {
-            query = query.replace("@CHECK", "1");
+            query = query.replace(ConstantsUtils.AT_CHECK, "1");
         } else {
-            query = query.replace("@CHECK", "0");
+            query = query.replace(ConstantsUtils.AT_CHECK, "0");
         }
         return query;
     }
@@ -529,7 +529,7 @@ public class QueryUtils {
      * @param selectedOption
      * @return 
      */
-    public String getAdjustQuery(DeductionDetailsDTO dto, String type, String basis, String variable, String amount, String method, String periodQuery, String selectedOption, SessionDTO sessionDTO) {
+    public String getAdjustQuery(String type, String basis, String variable, String amount, String method, String periodQuery, String selectedOption) {
         String query = "UPDATE ST_DEDUCTION_CALENDAR_DETAILS SET ADJUSTMENT_TYPE = '" + type + "', ADJUSTMENT_BASIS = '" + basis + "',ADJUSTMENT_VARIABLE = '" + variable + "',"
                 + "ADJUSTMENT_VALUE = '" + amount + "', ADJUSTMENT_ALLOCATION_METHODOLOGY = '" + method + "'";
         if ("Select".equals(selectedOption)) {
@@ -548,16 +548,16 @@ public class QueryUtils {
 
         switch (freq) {
             case "Annual":
-                query = query.replace("?FREQ", CustomSQLUtil.get("annualdisc"));
+                query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("annualdisc"));
                 break;
             case "Quarterly":
-                query = query.replace("?FREQ", CustomSQLUtil.get("quarterlydisc"));
+                query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("quarterlydisc"));
                 break;
             case "Semi-Annual":
-                query = query.replace("?FREQ", CustomSQLUtil.get("semidisc"));
+                query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("semidisc"));
                 break;
             case "Monthly":
-                query = query.replace("?FREQ", CustomSQLUtil.get("monthlydisc"));
+                query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("monthlydisc"));
                 break;
         }
         return query;

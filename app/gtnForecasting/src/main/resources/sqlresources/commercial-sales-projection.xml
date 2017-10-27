@@ -183,14 +183,14 @@ and open the template in the editor.
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
                 CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
-
+    
 
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,
                 CCP_DETAILS_SID)
                 SELECT DISTINCT CUST_HIERARCHY_NO,CH.CCP_DETAILS_SID
                 FROM  ST_CCP_HIERARCHY CH 
-                WHERE CUST_HIERARCHY_NO like '[?CustomerParent]%' AND PROD_HIERARCHY_NO like '[?ProductParent]%'
+                WHERE CUST_HIERARCHY_NO like '[?CustomerParent]%' AND PROD_HIERARCHY_NO= '[?ProductParent]'
                 
             ]]>
         </query>
@@ -252,7 +252,8 @@ SELECT DISTINCT B.ID,
                 FORECAST_NAME,
                 VERSION AS FILE_VERSION
 INTO   #FILE_INFO
-FROM   PROJECTION_FILE_DETAILS A
+FROM   (SELECT PROJECTION_MASTER_SID,FILE_MANAGEMENT_SID,FILE_TYPE,SCREEN_NAME,FLAG 
+            FROM (SELECT *,ROW_NUMBER() over(PARTITION BY PROJECTION_MASTER_SID, FILE_TYPE ORDER BY FLAG DESC ) rn FROM PROJECTION_FILE_DETAILS ) a where a.rn=1 ) A
        INNER JOIN #PROJECTION_MASTER B
                ON A.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID
        LEFT JOIN HELPER_TABLE C
@@ -463,7 +464,7 @@ FROM   (VALUES [?Hierarchy-Combination]
                        COUNT(DISTINCT SHN.CCP_DETAILS_SID) AS ROW_COUNT INTO #ST_NM_SALES_PROJECTION
                 FROM #SELECTED_HIERARCHY_NO SHN
                 JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
-                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID 
+                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID    
                 GROUP BY SHN.HIERARCHY_NO,
                          SHN.SEC_HIERARCHYNO,
                          SHN.INSTTR,
@@ -483,7 +484,7 @@ FROM   (VALUES [?Hierarchy-Combination]
                        Sum(NMSP.ACTUAL_UNITS) AS ACTUAL_UNITS INTO #ST_NM_ACTUAL_SALES
                 FROM #SELECTED_HIERARCHY_NO SHN
                 JOIN ST_NM_ACTUAL_SALES NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
-                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID
+                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID    
                 GROUP BY SHN.HIERARCHY_NO,
                         SHN.SEC_HIERARCHYNO,
                         SHN.INSTTR,
@@ -539,7 +540,7 @@ FROM   (VALUES [?Hierarchy-Combination]
                        MAINQ.ccpcount,
                        MAINQ.HIERARCHY_INDICATOR,
                        MAINQ.user_group,
-                        MAINQ.SEC_HIERARCHYNO
+                       MAINQ.SEC_HIERARCHYNO
                 FROM
                   (SELECT Q.account_growth,
                           Q.product_growth,
@@ -675,7 +676,7 @@ FROM   (VALUES [?Hierarchy-Combination]
                 INSERT INTO #SELECTED_HIERARCHY_NO 
                 (HIERARCHY_NO,
                 CCP_DETAILS_SID)
-                SELECT HIERARCHY_NO,CH.CCP_DETAILS_SID
+                SELECT DISTINCT HIERARCHY_NO,CH.CCP_DETAILS_SID
                 FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
                 JOIN ST_CCP_HIERARCHY CH ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
                 [?TAB_BASED_JOIN]
@@ -760,15 +761,12 @@ FROM   (VALUES [?Hierarchy-Combination]
 
             UPDATE SPM
                 SET METHODOLOGY = '@METHODOLOGY',
-                CALCULATION_PERIODS = '@CALCULATION_PERIODS',
-                CALCULATION_BASED = '@CALCULATION_BASED',
-                FORECAST_START_PERIOD_SID = @startperiod,
-                FORECAST_END_PERIOD_SID = @endperiod,
-                ALLOCATION_BASIS = @allocationbasis
+                CALCULATION_PERIODS = '@CALCULATION_PERIODS'
                 FROM @MASTER_TABLE SPM                
                 WHERE 
                 @USERID_ADD
                 CHECK_RECORD = 1; 
+              
       ]]>
         </query>
     </entity>
@@ -801,6 +799,7 @@ FROM   (VALUES [?Hierarchy-Combination]
     <entity id="save-adjustment-selection">
         <query>
             <![CDATA[
+            
                 UPDATE 
                     SP
                 SET 
@@ -844,12 +843,12 @@ FROM   (VALUES [?Hierarchy-Combination]
 
   CREATE TABLE #SELECTED_REBATE
     (
-       rs_model_sid int
+       RS_CONTRACT_SID int
     )
 
   INSERT INTO #SELECTED_REBATE
-              (RS_MODEL_sid)
-  SELECT RS_MODEL_sid
+              (RS_CONTRACT_SID)
+  SELECT RS_CONTRACT_SID
                      FROM   RS_CONTRACT where RS_CONTRACT_SID in ( [?RS_MODEL_SID]);
   
                    IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
@@ -859,29 +858,29 @@ FROM   (VALUES [?Hierarchy-Combination]
                        (
                           HIERARCHY_NO    VARCHAR(50),
                           CCP_DETAILS_SID INT,
-                          RS_MODEL_SID INT
+                          RS_CONTRACT_SID INT
                        )
 
                      INSERT INTO #SELECTED_HIERARCHY_NO
                      (CCP_DETAILS_SID,
-                RS_MODEL_SID,
+                RS_CONTRACT_SID,
                          HIERARCHY_NO
                          )
                  SELECT A.CCP_DETAILS_SID,
-                        SR.RS_MODEL_SID,
+                        SR.RS_CONTRACT_SID,
                                       HIERARCHY_NO
 
                                    FROM   #SELECTED_REBATE SR
-                              JOIN (SELECT MAS.CCP_DETAILS_SID,RS_MODEL_SID,a.HIERARCHY_NO
+                              JOIN (SELECT MAS.CCP_DETAILS_SID,RS_CONTRACT_SID,a.HIERARCHY_NO
                                                      FROM   ST_NM_DISCOUNT_PROJ_MASTER    MAS
                                                                  JOIN ST_CCP_HIERARCHY    CH
                                                                          ON MAS.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
                  JOIN (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
                 ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
-               )A ON SR.RS_MODEL_SID=A.RS_MODEL_SID
+               )A ON SR.RS_CONTRACT_SID=A.RS_CONTRACT_SID
 
                         JOIN ST_NM_DISCOUNT_PROJ_MASTER    DPM
-                              ON DPM.RS_MODEL_SID = SR.RS_MODEL_SID
+                              ON DPM.RS_CONTRACT_SID = SR.RS_CONTRACT_SID
                                                  AND DPM.CCP_DETAILS_SID=A.CCP_DETAILS_SID
 
                 SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO
@@ -904,14 +903,15 @@ FROM   (VALUES [?Hierarchy-Combination]
 
   CREATE TABLE #SELECTED_REBATE
     (
-       rs_model_sid int
+       RS_CONTRACT_SID INT
     )
 
-  INSERT INTO #SELECTED_REBATE
-              (RS_MODEL_sid)
-  SELECT RS_MODEL_sid
-                     FROM   RS_CONTRACT where RS_CONTRACT_SID in ( [?RS_MODEL_SID]);
-  
+
+      INSERT INTO #SELECTED_REBATE (RS_CONTRACT_SID)
+      SELECT RS_CONTRACT_SID
+      FROM RS_CONTRACT
+      where RS_CONTRACT_SID in ( [?RS_MODEL_SID]);
+
        IF Object_id('TEMPDB..#PARENT_HIERARCHY') IS NOT NULL
          DROP TABLE #PARENT_HIERARCHY
 
@@ -988,7 +988,7 @@ WHERE
 			1
 		FROM
 			ST_NM_DISCOUNT_PROJ_MASTER PPA join #SELECTED_REBATE r on
-			r.RS_MODEL_SID = PPA.RS_MODEL_SID
+			r.RS_CONTRACT_SID = PPA.RS_CONTRACT_SID
 		WHERE
 			PPA.CCP_DETAILS_SID = s.CCP_DETAILS_SID
 	)

@@ -12,6 +12,7 @@ import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.ProjectionVarianceTableLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.model.CustomViewMaster;
@@ -223,7 +224,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected PVSelectionDTO pvSelectionDTO = new PVSelectionDTO();
     protected int customIdToSelect = 0;
     protected boolean generated = false;
-    protected List<CustomViewMaster> customViewList = new ArrayList<CustomViewMaster>();
+    protected List<CustomViewMaster> customViewList = new ArrayList<>();
     protected int customId = 0;
     /**
      * Logger for ForecastProjectionVariance
@@ -240,7 +241,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     /**
      * Result container
      */
-    protected ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<ProjectionVarianceDTO>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * Excel export result container
      */
@@ -335,14 +336,17 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         toDate.setNullSelectionItemId(SELECT_ONE);
         toDate.select(SELECT_ONE);
         
-        comparisonBasis.addItem("Actuals");
+        comparisonBasis.addItem(Constant.ACTUALS);
         comparisonBasis.addItem("Current Projection");
+        if(CommonUtil.isValueEligibleForLoading()){
+            comparisonBasis.addItem(Constant.ACCRUALS);
+        }
         comparisonBasis.select("Current Projection");
 
         view.addStyleName(Constant.HORIZONTAL);
         view.addItem(Constant.CUSTOMER_SMALL);
-        view.addItem(Constant.PRODUCT);
-        view.addItem(Constant.CUSTOM);
+        view.addItem(Constant.PRODUCT_LABEL);
+        view.addItem(Constant.CUSTOM_LABEL);
         view.setValue(Constant.CUSTOMER_SMALL);
 
         pivotView.addItem(Constant.PERIOD);
@@ -366,10 +370,6 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         customDdlb.setNullSelectionItemId(SELECT_ONE);
         customDdlb.select(SELECT_ONE);
 
-//        variableCategory.addStyleName(Constant.HORIZONTAL);
-//        variableCategory.addItem(CommonUtils.COL_VALUE);
-//        variableCategory.addItem(CommonUtils.COL_VARIANCE);
-//        variableCategory.addItem(CommonUtils.COL_PERCENTAGE);
 
         comparison.setReadOnly(true);
         comparison.focus();
@@ -399,16 +399,10 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     }
 
     public void configureExcelTable() {
-        resultExcelContainer = new ExtTreeContainer<ProjectionVarianceDTO>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultExcelContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
         resultExcelContainer.setColumnProperties(leftHeader.getProperties());
         resultExcelContainer.setColumnProperties(rightHeader.getProperties());
         excelTable.setContainerDataSource(resultExcelContainer);
-        excelTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
-        excelTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
-        excelTable.setDoubleHeaderVisible(true);
-        excelTable.setDoubleHeaderVisibleColumns(fullHeader.getDoubleColumns().toArray());
-        excelTable.setDoubleHeaderColumnHeaders(fullHeader.getDoubleHeaders().toArray(new String[fullHeader.getDoubleHeaders().size()]));
-        excelTable.setDoubleHeaderMap(fullHeader.getDoubleHeaderMaps());
     }
 
     /**
@@ -510,7 +504,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     }
 
     @UiHandler("generateBtn")
-    public void generate(Button.ClickEvent event) throws SystemException, PortalException {
+    public void generate(Button.ClickEvent event)  {
         try {
 
             LOGGER.debug("------ Inside generate security Projection Variance Tab and generate Button");
@@ -604,7 +598,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
     protected void customTreeViewLogic() {
         LOGGER.debug("projection variance customTreeViewLogic initiated ");
-        final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(Constant.ADD_FULL_SMALL, sessionDTO);
+        final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO);
         customerTreeLookup.addCloseListener(new Window.CloseListener() {
 
             public void windowClose(Window.CloseEvent e) {
@@ -622,7 +616,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
     public void editHierarchyLogic() {
         if (CommonLogic.editButtonValidation(customDdlb, customViewList)) {
-            final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(Constant.EDIT, sessionDTO, customId);
+            final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO, customId);
             customerTreeLookup.addCloseListener(new Window.CloseListener() {
 
                 public void windowClose(Window.CloseEvent e) {
@@ -647,7 +641,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         levelFilter.setNullSelectionItemId(SELECT_ONE);
         levelFilter.setValue(SELECT_ONE);
         if (pvSelectionDTO.isIsCustomHierarchy()) {
-            Utility.loadLevelValueForResult(levelDdlb, null, null, sessionDTO.getCustomHierarchyMap().get(customId), Constant.CUSTOM);
+            Utility.loadLevelValueForResult(levelDdlb, null, null, sessionDTO.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
             Utility.loadLevelValueForResult(levelDdlb, levelFilter, null, sessionDTO.getCustomerHierarchyList(), view.getValue().toString());
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
@@ -664,7 +658,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         List<Leveldto> hierarchy = null;
        String view = StringUtils.EMPTY;
         if (pvSelectionDTO.isIsCustomHierarchy()) {
-            view=Constant.CUSTOM;
+            view=Constant.CUSTOM_LABEL;
            if(sessionDTO.getCustomHierarchyMap().containsKey(customId)){
             hierarchy = sessionDTO.getCustomHierarchyMap().get(customId);
             }
@@ -673,7 +667,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
             hierarchy = sessionDTO.getProductHierarchyList();
         }
-         Utility.loadLevelDDlbValue(levelDdlb, levelFilter, null, hierarchy, view);
+         Utility.loadLevelDDlbValue(levelDdlb, levelFilter, hierarchy);
 
         LOGGER.debug("loadLevelFilter ends ");
         }
@@ -685,7 +679,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      */
     protected String getCheckedValues() {
         if (customMenuItem != null && customMenuItem.getSize() > 0) {
-            List<String> result = new ArrayList<String>();
+            List<String> result = new ArrayList<>();
             List<CustomMenuBar.CustomMenuItem> items = customMenuItem.getChildren();
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
@@ -711,7 +705,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      */
     protected String getCheckedVariableCategoryValues() {
         if (variableCategoryCustomMenuItem != null && variableCategoryCustomMenuItem.getSize() > 0) {
-            List<String> results = new ArrayList<String>();
+            List<String> results = new ArrayList<>();
             List<CustomMenuBar.CustomMenuItem> items = variableCategoryCustomMenuItem.getChildren();
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
@@ -752,8 +746,8 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         toDate.removeAllItems();
         toDate.addItem(Constant.SELECT_ONE);
         int start = 0;
-        Map<String, String> listMap = new HashMap<String, String>();
-        List<String> periodList = new ArrayList<String>(pvSelectionDTO.getPeriodHeaderList());
+        Map<String, String> listMap = new HashMap<>();
+        List<String> periodList = new ArrayList<>(pvSelectionDTO.getPeriodHeaderList());
         if (String.valueOf(pvSelectionDTO.getProjectionPeriodOrder()).equals("Descending") && CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
             Collections.reverse(periodList);
         }
@@ -779,8 +773,8 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      public void loadFromPeriod(String fromDateVal) {
          fromDate.removeAllItems();
          fromDate.addItem(Constant.SELECT_ONE);
-         Map<String, String> listMap = new HashMap<String, String>();
-         List<String> periodList = new ArrayList<String>(pvSelectionDTO.getPeriodHeaderList());
+         Map<String, String> listMap = new HashMap<>();
+         List<String> periodList = new ArrayList<>(pvSelectionDTO.getPeriodHeaderList());
          if (String.valueOf(projectionPeriodOrder.getValue()).equals("Descending")&& CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
              Collections.reverse(periodList);
          }

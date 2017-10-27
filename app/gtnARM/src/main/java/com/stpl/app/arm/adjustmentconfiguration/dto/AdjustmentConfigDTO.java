@@ -74,7 +74,6 @@ public class AdjustmentConfigDTO {
         this.redemptionPeriod = redemptionPeriod;
     }
 
-
     public String getCreatedBy() {
         return createdBy;
     }
@@ -82,7 +81,6 @@ public class AdjustmentConfigDTO {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
-
 
     public String getModifiedBy() {
         return modifiedBy;
@@ -116,6 +114,4 @@ public class AdjustmentConfigDTO {
         this.modifiedDate = modifiedDate;
     }
 
-    
-    
 }

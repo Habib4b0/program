@@ -279,16 +279,7 @@ public class SPRChart {
         return chart;
          }
     }
-     private boolean checkForNullValues(Object object){
-        boolean isNull = false;
-        if(object == null){
-            isNull = true;
-        }else{
-            isNull = StringUtils.isBlank(String.valueOf(object));
-        }        
-        return isNull;
-    }
-    
+
     
     public Component configureFields() {
 try{
@@ -423,7 +414,10 @@ try{
 //            toPeriod.addItem(key);
 //        }
 //        
-        }catch(Exception e){e.printStackTrace();}
+        }catch(Exception e)
+        {
+         LOGGER.info(e);
+        }
         return mainLayout;
     }
 }

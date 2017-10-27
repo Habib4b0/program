@@ -1,6 +1,7 @@
 package com.stpl.app.adminconsole.itemgroup.ui.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.abstractsearch.ui.AbstractSearchForm;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
@@ -194,12 +195,24 @@ public class ItemGroupInfo extends CustomComponent implements View {
 
     @UiField("excludeButtonLayout1")
     private HorizontalLayout excludeButtonLayout1;
+    
+      @UiField("itemGroupNameLabel")
+    private Label itemGroupNameLabel;
+
+    @UiField("itemGroupNoLabel")
+    private Label itemGroupNoLabel;
+
+    @UiField("itemGroupDescLabel")
+    private Label itemGroupDescLabel;
+
+    @UiField("companyDdlbLabel")
+    private Label companyDdlbLabel;
 
     private String userId;
 
-    private BeanItemContainer<ItemDetailsDTO> availableResultsBean = new BeanItemContainer<ItemDetailsDTO>(ItemDetailsDTO.class);
+    private BeanItemContainer<ItemDetailsDTO> availableResultsBean = new BeanItemContainer<>(ItemDetailsDTO.class);
 
-    private BeanItemContainer<ItemDetailsDTO> selectedResultsBean = new BeanItemContainer<ItemDetailsDTO>(ItemDetailsDTO.class);
+    private BeanItemContainer<ItemDetailsDTO> selectedResultsBean = new BeanItemContainer<>(ItemDetailsDTO.class);
 
     CommonUtil commonUtil = new CommonUtil();
 
@@ -546,14 +559,14 @@ public class ItemGroupInfo extends CustomComponent implements View {
      * @throws PortalException
      * @throws SystemException
      */
-    public final void init() throws SystemException, PortalException, Exception {
+    public final void init() throws Exception {
         LOGGER.debug("Init method started");
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/itemGroupMaster.xml"), this));
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = sessionDTO.getUserId();
         final Map<String, AppPermission> fieldItemHM = stplSecurity
-                .getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_GROUP_MASTER + "," + "Functional Screen", false);
-        final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.ITEM_GROUP_MASTER + "," + "Functional Screen");
+                .getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_GROUP_MASTER + "," + FUNCTIONAL_SCREEN, false);
+        final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.ITEM_GROUP_MASTER + "," + FUNCTIONAL_SCREEN);
         getResponsiveFirstTab(fieldItemHM);
         configureFields();
         getItemGroupBinder();
@@ -561,9 +574,13 @@ public class ItemGroupInfo extends CustomComponent implements View {
         getButtonPermission(functionCompanyHM);
         addItemAvailableResults();
         addItemSelectedResults();
+        if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
+            save.setCaption("UPDATE");
+        }
 
         LOGGER.debug("Init method started");
     }
+    public static final String FUNCTIONAL_SCREEN = "Functional Screen";
 
     /**
      * Gets the item group binder.
@@ -576,7 +593,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
     private ErrorfulFieldGroup getItemGroupBinder() {
         LOGGER.debug("getItemGroupBinder method started");
         itemGroupBinder.bindMemberFields(this);
-        itemGroupBinder.setItemDataSource(new BeanItem<ItemGroupDTO>(itemGroupDTO));
+        itemGroupBinder.setItemDataSource(new BeanItem<>(itemGroupDTO));
         itemGroupBinder.setBuffered(true);
         itemGroupBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getItemGroupBinder method started");
@@ -595,7 +612,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
         LOGGER.debug("getItemBinder method started");
         itemBinder.bindMemberFields(this);
 
-        itemBinder.setItemDataSource(new BeanItem<ItemDetailsDTO>(itemDetailsDTO));
+        itemBinder.setItemDataSource(new BeanItem<>(itemDetailsDTO));
         itemBinder.setBuffered(true);
         itemBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getItemBinder method Ended");
@@ -623,7 +640,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
             String mode = sessionDTO.getMode();
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_GROUP_MASTER, false);
             List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.ITEM_GROUP_MASTER, "Functional List view");
-            Object[] objColumn = CommonUIUtil.ITEM_RESULTS_COLUMNS;
+            Object[] objColumn = CommonUIUtil.getInstance().itemResultColumns;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
 
             availableResults.setMultiSelect(true);
@@ -700,7 +717,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
             String mode = sessionDTO.getMode();
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_GROUP_MASTER, false);
             List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.ITEM_GROUP_MASTER, "Functional List view");
-            Object[] objColumn = CommonUIUtil.ITEM_RESULTS_COLUMNS;
+            Object[] objColumn = CommonUIUtil.getInstance().itemResultColumns;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
 
             selectedResults.setMultiSelect(true);
@@ -832,6 +849,12 @@ public class ItemGroupInfo extends CustomComponent implements View {
         brandDdlb.setImmediate(true);
         formDdlb.setImmediate(true);
         strength.setImmediate(true);
+        if ("add".equalsIgnoreCase(sessionDTO.getMode()) || "copy".equalsIgnoreCase(sessionDTO.getMode())) {
+            itemGroupNameLabel.addStyleName(StringConstantUtils.MANDATORY);
+            itemGroupNoLabel.addStyleName(StringConstantUtils.MANDATORY);
+            itemGroupDescLabel.addStyleName(StringConstantUtils.MANDATORY);
+            companyDdlbLabel.addStyleName(StringConstantUtils.MANDATORY);
+        }
 
         availableResultsExcelExport.setIcon(excelImage);
         availableResultsExcelExport.setStyleName("link");
@@ -950,7 +973,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
                 itemGroupDesc.setRequiredError("Please enter Item Group Description");
                 saveFlag = true;
             }
-            if (itemGroupBinder.getField("companyDdlb").getValue() == null || ConstantsUtils.SELECTONE.equals(companyDdlb.getDescription())) {
+            if (itemGroupBinder.getField("companyDdlb").getValue() == null || ConstantsUtils.SELECT_ONE.equals(companyDdlb.getDescription())) {
                 if (saveFlag) {
                     errorMessage.append(" ,");
                 }
@@ -969,10 +992,6 @@ public class ItemGroupInfo extends CustomComponent implements View {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
             LOGGER.error(e);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-        } catch (PortalException e) {
-            saveFlag = false;
-            LOGGER.error(e);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
         } catch (Exception e) {
             saveFlag = false;
             LOGGER.error(e);
@@ -1011,6 +1030,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
                 sessionDTO.setFromViewPage("Edit");
                 sessionDTO.setVersionNo(idList.get(1));
                 sessionDTO.setLogic("edit");
+                sessionDTO.setMode(ConstantsUtils.EDIT);
                 getUI().getNavigator().navigateTo(ItemGroupView.NAME);
             }
             final Notification notif = new Notification(
@@ -1113,7 +1133,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void searchButtonClickLogic(final Button.ClickEvent event) throws SystemException, PortalException, Exception {
+    protected void searchButtonClickLogic(final Button.ClickEvent event) throws Exception {
 
         itemBinder.commit();
         availableResultsBean.removeAllItems();
@@ -1175,10 +1195,10 @@ public class ItemGroupInfo extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void resetAllButtonClickLogic() throws SystemException, PortalException, Exception {
+    protected void resetAllButtonClickLogic() throws Exception {
         LOGGER.debug("resetAllButtonClickLogic method started");
         final String fromViewPage = sessionDTO.getFromViewPage();
-        List<ItemDetailsDTO> availableContainer = new ArrayList<ItemDetailsDTO>();
+        List<ItemDetailsDTO> availableContainer = new ArrayList<>();
         final int version = sessionDTO.getVersionNo();
         itemGroupDTO = new ItemGroupLogic().getHistoryItemGroupInfo(version, sessionDTO);
         if (!StringUtils.isEmpty(itemGroupDTO.getItemFilter())) {
@@ -1364,7 +1384,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    protected List<Integer> saveButtonClick() throws SystemException, PortalException, Exception {
+    protected List<Integer> saveButtonClick() throws Exception {
         LOGGER.debug("saveButtonClick method started");
         final List selectedItems = selectedResultsBean.getItemIds();
         List<Integer> idList = logic.saveItemGroup(itemGroupBinder, selectedItems, searchCriteria, sessionDTO);
@@ -1379,7 +1399,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     public void entry(final Boolean flag) {
@@ -1404,7 +1424,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
                 companyDTO.setId(itemGroupDTO.getCompanyDdlb().getId());
                 companyDTO.setDescription(itemGroupDTO.getCompanyDdlb().getDescription());
                 companyDdlb.setValue(companyDTO);
-                itemGroupBinder.setItemDataSource(new BeanItem<ItemGroupDTO>(itemGroupDTO));
+                itemGroupBinder.setItemDataSource(new BeanItem<>(itemGroupDTO));
                 availableResults.removeAllItems();
             }
             final String fromViewPage = sessionDTO.getFromViewPage();
@@ -1501,7 +1521,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
      * @param resultsBean
      */
     public void addResponsiveSearchTableCollapse(final ExtFilterTable table, final BeanItemContainer<ItemDetailsDTO> resultsBean) {
-        final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+        final Map<Integer, Boolean> reloadMap = new HashMap<>();
         reloadMap.put(ConstantsUtils.PX_1516, true);
         reloadMap.put(NumericConstants.NINE_SEVEN_EIGHT, true);
         reloadMap.put(NumericConstants.SIX_HUNDRED, true);
@@ -1626,7 +1646,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumnsDefault(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         for (int i = 0; i < NumericConstants.TEN && !list.isEmpty(); i++) {
             list.remove(propertyIds[i]);
@@ -1643,7 +1663,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumnsDefault1515Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1661,7 +1681,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumns600Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1677,7 +1697,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumns480Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1693,7 +1713,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumns978Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1781,7 +1801,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1802,7 +1822,7 @@ public class ItemGroupInfo extends CustomComponent implements View {
         LOGGER.debug("Entering getFirstTab1");
         try {
             String mode = sessionDTO.getMode();
-            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.ITEM_GROUP_MASTER, "Functional Screen");
+            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.ITEM_GROUP_MASTER, FUNCTIONAL_SCREEN);
 
             commonSecurity.removeComponentOnPermission(resultList, isCssLayout, fieldItemHM, mode);
             commonSecurity.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);

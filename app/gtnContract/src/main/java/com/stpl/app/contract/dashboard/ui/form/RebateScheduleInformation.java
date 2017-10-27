@@ -3,6 +3,7 @@
  */
 package com.stpl.app.contract.dashboard.ui.form;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.common.util.HelperListUtil;
@@ -378,7 +379,7 @@ public class RebateScheduleInformation extends CustomComponent {
     @UiField("hlayout2")
     private HorizontalLayout hlayout2;
 
-    private BeanItemContainer<RuleDTO> availableBean = new BeanItemContainer<RuleDTO>(RuleDTO.class);
+    private BeanItemContainer<RuleDTO> availableBean = new BeanItemContainer<>(RuleDTO.class);
 
     Object[] visibleColumns = {"ruleNo", "ruleName", Constants.RULE_VERSION};
     String[] headers = {"Rule No", "Rule Name", Constants.VERSION};
@@ -386,7 +387,7 @@ public class RebateScheduleInformation extends CustomComponent {
     @UiField("table")
     private ExtPagedFilterTable table;
 
-    private BeanItemContainer<RsItemDetailsDTO> container = new BeanItemContainer<RsItemDetailsDTO>(RsItemDetailsDTO.class);
+    private BeanItemContainer<RsItemDetailsDTO> container = new BeanItemContainer<>(RsItemDetailsDTO.class);
 
     ParentLookUP2 lookUp = null;
     ParentLookUp parentLookUp = null;
@@ -463,7 +464,7 @@ public class RebateScheduleInformation extends CustomComponent {
      * @param rsDetailsResultsBean the rs details results bean
      */
     public RebateScheduleInformation(final RsItemDetailsDTO rsItemDetailsDTO, final CustomFieldGroup rebateBinder, final BeanItemContainer<TempRebateDTO> rsDetailsResultsBean,
-            final CustomFieldGroup contractBinder, final boolean isEditable, final SessionDTO sessionDTO) throws SystemException, PortalException {
+            final CustomFieldGroup contractBinder, final boolean isEditable, final SessionDTO sessionDTO) {
         super();
         LOGGER.debug("Entering RebateScheduleAddForm");
         this.rsItemDetailsDTO = rsItemDetailsDTO;
@@ -477,7 +478,7 @@ public class RebateScheduleInformation extends CustomComponent {
         if (rebateSetup == null) {
             LOGGER.debug("Initialising RebateSetup");
             try {
-                rebateSetup = new RebateSetup(rsItemDetailsDTO, rebateBinder, this.rsDetailsResultsBean, this.contractBinder, isEditable, this.sessionDTO);
+                rebateSetup = new RebateSetup(rebateBinder, this.rsDetailsResultsBean, this.contractBinder, isEditable, this.sessionDTO);
             } catch (Exception ex) {
               LOGGER.error(ex);
             }
@@ -498,6 +499,8 @@ public class RebateScheduleInformation extends CustomComponent {
             configureProcessingOption();
             configureBinder();
             configureTable();
+            rebateScheduleTransRefName.setReadOnly(true);
+            parentRebateScheduleId.setEnabled(false);
             valueChange = true;
         } catch (Exception ex) {
                LOGGER.error(ex);
@@ -520,7 +523,7 @@ public class RebateScheduleInformation extends CustomComponent {
     private void configureBinder() {
         LOGGER.debug("Entering getBinder method");
         rebateBinder.bindMemberFields(this);
-        rebateBinder.setItemDataSource(new BeanItem<RsItemDetailsDTO>(rsItemDetailsDTO));
+        rebateBinder.setItemDataSource(new BeanItem<>(rsItemDetailsDTO));
         rebateBinder.setBuffered(true);
         rebateScheduleTransRefNo.setValue(Constants.NULL.equalsIgnoreCase(rsItemDetailsDTO.getRebateScheduleTransRefNo()) ? StringUtils.EMPTY : rsItemDetailsDTO.getRebateScheduleTransRefNo());
         LOGGER.debug("End of getBinder method");
@@ -700,8 +703,10 @@ public class RebateScheduleInformation extends CustomComponent {
                 }
             });
 
-            parentRebateScheduleName.setImmediate(true);
-            parentRebateScheduleName.setReadOnly(true);
+             parentRebateScheduleName.setImmediate(true);
+             parentRebateScheduleName.setReadOnly(true);
+             rebateScheduleTransRefName.setImmediate(true);
+             rebateScheduleTransRefName.setReadOnly(true);
 
             rebateScheduleId.setImmediate(true);
             rebateScheduleId.setValidationVisible(true);
@@ -755,11 +760,11 @@ public class RebateScheduleInformation extends CustomComponent {
             commonUtil.loadComboBox(paymentLevel, "PAYMENT_LEVEL", false);
             commonUtil.loadComboBox(interestBearingIndicator, "INTEREST_BEARING_INDICATOR", false);
             commonUtil.loadComboBox(interestBearingIndicatorddlb, "INTEREST_BEARING_INDICATOR", false);
-            commonUtil.loadComboBox(interestBearingBasisInfo, "INTEREST_BEARING_BASIS", false);
+            commonUtil.loadComboBox(interestBearingBasisInfo, ConstantUtil.INTEREST_BEARING_BASIS, false);
             commonUtil.loadComboBox(rebateRuleType, "REBATE_RULE_TYPE", false);
             commonUtil.loadComboBox(deductionInclusion, "LOCKED_STATUS", false);
             commonUtil.loadComboBox(validationProfile, "RS_VALIDATION_PROFILE", false);
-            commonUtil.loadComboBox(interestBearingBasisDDLB, "INTEREST_BEARING_BASIS", false);
+            commonUtil.loadComboBox(interestBearingBasisDDLB, ConstantUtil.INTEREST_BEARING_BASIS, false);
             commonUtil.loadComboBox(rebateProcessingType, "REBATE_PROCESSING_TYPE", false);
 
             commonUtil.loadComboBox(rebateScheduleStatus, CommonUtils.STATUS, false);
@@ -788,8 +793,6 @@ public class RebateScheduleInformation extends CustomComponent {
             try {
 
                 commonUtil.loadComboBox(calendar, CommonUtils.CALENDAR, false);
-                calendar.setRequired(true);
-                calendar.setRequiredError("Calendar should be selected on Rebate tab");
             } catch (Exception e) {
                  LOGGER.error(e);
             }
@@ -854,7 +857,7 @@ public class RebateScheduleInformation extends CustomComponent {
             commonUtil.loadComboBox(tradeClass, CommonUtils.TRADE_CLASS, false);
 
             commonUtil.loadComboBox(rebateScheduleDesignation, CommonUtils.RS_DESIGNATION, false);
-
+            
             rebateScheduleDesignation.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
                  * Method used to click textfield and its listener.
@@ -897,30 +900,24 @@ public class RebateScheduleInformation extends CustomComponent {
                  * Method used to click text field and its listener.
                  */
                 public void click(CustomTextField.ClickEvent event) {
-                    try {
-                        if (lookUp == null) {
-                            lookUp = new ParentLookUP2(parentRebateScheduleId, parentRebateScheduleName);
-                            UI.getCurrent().addWindow(lookUp);
-                            lookUp.addCloseListener(new Window.CloseListener() {
-                                @Override
-                                /**
-                                 * Method used to click text field lookUp logic
-                                 * and its listener.
-                                 */
-                                @SuppressWarnings("PMD")
-                                public void windowClose(final Window.CloseEvent e) {
-                                    parentRebateScheduleName.focus();
-                                    parentRebateScheduleName.setReadOnly(false);
-                                    parentRebateScheduleId.setDescription(parentRebateScheduleId.getValue());
-                                    parentRebateScheduleName.setReadOnly(true);
-                                    lookUp = null;
-                                }
-                            });
-                        }
-                    } catch (SystemException ex) {
-                        final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                        LOGGER.error(errorMsg);
-                        AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                    if (lookUp == null) {
+                        lookUp = new ParentLookUP2(parentRebateScheduleId, parentRebateScheduleName);
+                        UI.getCurrent().addWindow(lookUp);
+                        lookUp.addCloseListener(new Window.CloseListener() {
+                            @Override
+                            /**
+                             * Method used to click text field lookUp logic
+                             * and its listener.
+                             */
+                            @SuppressWarnings("PMD")
+                            public void windowClose(final Window.CloseEvent e) {
+                                parentRebateScheduleName.focus();
+                                parentRebateScheduleName.setReadOnly(false);
+                                parentRebateScheduleId.setDescription(parentRebateScheduleId.getValue());
+                                parentRebateScheduleName.setReadOnly(true);
+                                lookUp = null;
+                            }
+                        });
                     } 
 
                 }
@@ -945,36 +942,32 @@ public class RebateScheduleInformation extends CustomComponent {
                  */
                 public void click(CustomTextField.ClickEvent event) {
 
-                    try {
-                        /**
-                         * if(value.equals("child")) {
-                         */
-                        if (parentLookUp == null) {
-                            parentLookUp = new ParentLookUp(rebateScheduleTransRefNo, rebateScheduleTransRefName);
-                            UI.getCurrent().addWindow(parentLookUp);
-                            parentLookUp.addCloseListener(new Window.CloseListener() {
-                                @Override
-                                /**
-                                 * Method used to click the text field and its
-                                 * listener.
-                                 */
-                                @SuppressWarnings("PMD")
-                                public void windowClose(final Window.CloseEvent e) {
-                                    rebateScheduleTransRefName.focus();
-                                    parentLookUp = null;
-                                }
-                            });
-                        }
-                    } catch (SystemException ex) {
-                        final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                        LOGGER.error(errorMsg);
-                        AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                    /**
+                     * if(value.equals("child")) {
+                     */
+                    if (parentLookUp == null) {
+                        parentLookUp = new ParentLookUp(rebateScheduleTransRefNo, rebateScheduleTransRefName);
+                        UI.getCurrent().addWindow(parentLookUp);
+                        parentLookUp.addCloseListener(new Window.CloseListener() {
+                            @Override
+                            /**
+                             * Method used to click the text field and its
+                             * listener.
+                             */
+                            @SuppressWarnings("PMD")
+                            public void windowClose(final Window.CloseEvent e) {
+                                rebateScheduleTransRefName.focus();
+                                rebateScheduleTransRefName.setImmediate(true);
+                                rebateScheduleTransRefName.setReadOnly(true);
+                                parentLookUp = null;
+                            }
+                        });
                     } 
 
                 }
             });
 
-            commonUtil.loadComboBox(interestBearingBasis, "INTEREST_BEARING_BASIS", false);
+            commonUtil.loadComboBox(interestBearingBasis, ConstantUtil.INTEREST_BEARING_BASIS, false);
             itemRebateStartDate.setDescription(Constants.DATE);
             itemRebateEndDate.setDescription(Constants.DATE);
             commonUtil.loadComboBox(calculationType, CommonUtils.CALCULATION_TYPE, false);
@@ -983,6 +976,8 @@ public class RebateScheduleInformation extends CustomComponent {
             commonUtil.loadComboBox(calculationRuleLevel, "RULE_LEVEL", false);
             commonUtil.loadComboBox(evaluationRuleLevel, "RULE_LEVEL", false);
             evaluationRuleAssociation.addStyleName(Constants.SEARCH_ICON_STYLE);
+            rebateScheduleTransRefName.setImmediate(true);
+            rebateScheduleTransRefName.setReadOnly(true);
             evaluationRuleAssociation.setImmediate(true);
             evaluationRuleAssociation.setDescription(evaluationRuleAssociation.getValue());
             evaluationRuleAssociation.addValueChangeListener(new Property.ValueChangeListener() {
@@ -1124,7 +1119,7 @@ public class RebateScheduleInformation extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method");
 
             if (itemRebateStartDate.getValue() != null && itemRebateEndDate.getValue() != null) {
@@ -1339,7 +1334,7 @@ public class RebateScheduleInformation extends CustomComponent {
                      */
                     @SuppressWarnings("PMD")
                     public void buttonClicked(final ButtonId buttonId) {
-
+                        return;
                     }
                 }, ButtonId.OK);
             }
@@ -1360,7 +1355,7 @@ public class RebateScheduleInformation extends CustomComponent {
      * @throws InvocationTargetException
      * @throws Exception
      */
-    private void createWorkSheet() throws PortalException, SystemException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void createWorkSheet() throws PortalException, SystemException,  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         int recordCount = 0;
         ExcelExportforBB.createWorkSheet(table.getColumnHeaders(), recordCount, this, getUI(), "Rebate");
@@ -1375,7 +1370,7 @@ public class RebateScheduleInformation extends CustomComponent {
      * @throws PortalException
      * @throws SystemException
      */
-    public void createWorkSheetContent() throws PortalException, SystemException {
+    public void createWorkSheetContent() {
         LOGGER.debug("Entering createWorkSheetContent");
 
         LOGGER.debug("Ending createWorkSheetContent");

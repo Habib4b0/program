@@ -73,9 +73,9 @@ public class ExclusionDetailsLookup extends Window {
     @UiField("feildName")
     private ComboBox fieldName;
 
-     @UiField("rightAligned")
+    @UiField("rightAligned")
     private HorizontalLayout rightAligned;
-     
+
     private final BeanItemContainer<ExclusionLookupDTO> availableResultsContainer = new BeanItemContainer<>(ExclusionLookupDTO.class);
     private final BeanItemContainer<ExclusionLookupDTO> selectedResultsContainer = new BeanItemContainer<>(ExclusionLookupDTO.class);
 
@@ -94,9 +94,9 @@ public class ExclusionDetailsLookup extends Window {
     SaveViewPopup viewPopup;
     SessionDTO sessionDTO;
     String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
-    List<String> companyIdList = Collections.EMPTY_LIST;
+    List<String> companyIdList = Collections.emptyList();
     ViewLookupDTO viewDTO = new ViewLookupDTO();
-    List<ExclusionLookupDTO> dumbyResultsContainer = Collections.EMPTY_LIST;
+    List<ExclusionLookupDTO> dumbyResultsContainer = Collections.emptyList();
     StringBuilder accountId = new StringBuilder();
     StringBuilder accountName = new StringBuilder();
     StringBuilder accountContractId = new StringBuilder();
@@ -153,11 +153,11 @@ public class ExclusionDetailsLookup extends Window {
 
     private void configureTable() {
         availableCustomers.setContainerDataSource(availableResultsContainer);
-        availableCustomers.setVisibleColumns(ARMUtils.EXCLUSION_LOOKUP_AVIALABLE_COLUMNS);
-        availableCustomers.setColumnHeaders(ARMUtils.EXCLUSION_LOOKUP_AVIALABLE_HEADERS);
+        availableCustomers.setVisibleColumns(ARMUtils.getExclusionLookupAvialableColumns());
+        availableCustomers.setColumnHeaders(ARMUtils.getExclusionLookupAvialableHeaders());
         selectedCustomer.setContainerDataSource(selectedResultsContainer);
-        selectedCustomer.setVisibleColumns(ARMUtils.EXCLUSION_LOOKUP_SELECTED_COLUMNS);
-        selectedCustomer.setColumnHeaders(ARMUtils.EXCLUSION_LOOKUP_SELECTED_HEADERS);
+        selectedCustomer.setVisibleColumns(ARMUtils.getExclusionLookupSelectedColumns());
+        selectedCustomer.setColumnHeaders(ARMUtils.getExclusionLookupSelectedHeaders());
         availableCustomers.setFilterBarVisible(true);
         availableCustomers.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedCustomer.setFilterBarVisible(true);
@@ -166,13 +166,13 @@ public class ExclusionDetailsLookup extends Window {
     CustomTextField.ClickListener viewListener = new CustomTextField.ClickListener() {
         @Override
         public void click(CustomTextField.ClickEvent event) {
-            publicOrPrivateView=(CustomTextField)event.getComponent();
+            publicOrPrivateView = (CustomTextField) event.getComponent();
             try {
-               int userIdValue= CommonLogic.parseStringToInteger(userId);
+                int userIdValue = CommonLogic.parseStringToInteger(userId);
                 if (viewLookUp == null) {
-                    viewLookUp = new PrivatePublicLookup(publicOrPrivateView.getCaption(),userIdValue,StringUtils.EMPTY,publicOrPrivateView.getId(),"");
+                    viewLookUp = new PrivatePublicLookup(publicOrPrivateView.getCaption(), userIdValue, StringUtils.EMPTY, publicOrPrivateView.getId(), "");
                 } else {
-                    viewLookUp.reloadScreen(publicOrPrivateView.getCaption(),userIdValue,StringUtils.EMPTY,publicOrPrivateView.getId());
+                    viewLookUp.reloadScreen(publicOrPrivateView.getCaption(), userIdValue, StringUtils.EMPTY, publicOrPrivateView.getId());
                 }
                 getUI().addWindow(viewLookUp);
 
@@ -184,7 +184,7 @@ public class ExclusionDetailsLookup extends Window {
                             privateView.setValue(StringUtils.EMPTY);
                             publicView.setValue(StringUtils.EMPTY);
                             publicOrPrivateView.setImmediate(true);
-                            publicOrPrivateView.setValue(viewLookUp.getDtoValue().getViewName());                            
+                            publicOrPrivateView.setValue(viewLookUp.getDtoValue().getViewName());
                             setViewDTO(viewLookUp.getDtoValue());
                             fieldName.select(viewLookUp.getDtoValue().getFieldName());
                             selectedResultsContainer.removeAllItems();
@@ -194,7 +194,7 @@ public class ExclusionDetailsLookup extends Window {
                 });
 
             } catch (Exception ex) {
-                 LOGGER.error(ex);
+                LOGGER.error("Error in viewListener"+ex);
             }
         }
     };
@@ -206,6 +206,7 @@ public class ExclusionDetailsLookup extends Window {
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside CustomNotification NO Method");
         }
 
         @Override
@@ -214,9 +215,9 @@ public class ExclusionDetailsLookup extends Window {
             if (null != buttonName) {
                 switch (buttonName) {
                     case "reset":
-                          getIntialLoad();
-                          getFieldValue();
-                          break;
+                        getIntialLoad();
+                        getFieldValue();
+                        break;
                     case "delete":
                         // delete logic
                         arLogic.deleteViewLogic(viewDTO.getViewSid());
@@ -229,6 +230,7 @@ public class ExclusionDetailsLookup extends Window {
                         privateView.setValue(StringUtils.EMPTY);
                         publicView.setValue(StringUtils.EMPTY);
                         break;
+                    default:
                 }
             }
         }
@@ -255,7 +257,7 @@ public class ExclusionDetailsLookup extends Window {
             }
 
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in moveLeftButtonClick"+e);
         }
     }
 
@@ -277,7 +279,7 @@ public class ExclusionDetailsLookup extends Window {
             }
 
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in moveRightButtonClick"+e);
         }
     }
 
@@ -300,7 +302,7 @@ public class ExclusionDetailsLookup extends Window {
                 setFieldValues();
             }
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in moveAllButtonClick"+e);
         }
     }
 
@@ -315,11 +317,11 @@ public class ExclusionDetailsLookup extends Window {
             }
             if (!selectedResultsContainer.getItemIds().isEmpty()) {
                 setFieldValues();
-                arLogic.saveORUpdate_Exclusion_Details_LookUp(dataSelection.getProjectionId(), selectedResultsContainer.getItemIds(), accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO);
+                arLogic.saveORUpdateExclusionDetailsLookUp(dataSelection.getProjectionId(), selectedResultsContainer.getItemIds(), accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO);
                 this.close();
             }
         } catch (Exception e) {
-           LOGGER.error(e);
+            LOGGER.error("Error in submitButtonClick"+e);
         }
     }
 
@@ -328,7 +330,7 @@ public class ExclusionDetailsLookup extends Window {
         try {
             this.close();
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in closeButtonClick"+e);
         }
     }
 
@@ -338,7 +340,7 @@ public class ExclusionDetailsLookup extends Window {
             notifier.setButtonName("reset");
             notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessage_exclusion());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in resetButtonClick"+e);
         }
     }
 
@@ -349,21 +351,22 @@ public class ExclusionDetailsLookup extends Window {
             notifier.setButtonName("delete");
             notifier.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in deleteButtonClick"+e);
         }
     }
 
     public void getFieldValue() {
         try {
-            List<ExclusionLookupDTO> fieldValueList = Collections.EMPTY_LIST;
+            List<ExclusionLookupDTO> fieldValueList;
+            String value = ARMConstants.getAccountName().equalsIgnoreCase(String.valueOf(fieldName.getValue())) ? accountName.toString() : accountContractId.toString();
             fieldValueList = arLogic.getFieldListValue(String.valueOf(fieldName.getValue()),
-                    ARMConstants.getAccountId().equalsIgnoreCase(String.valueOf(fieldName.getValue())) ? accountId.toString() : ARMConstants.getAccountName().equalsIgnoreCase(String.valueOf(fieldName.getValue())) ? accountName.toString() : accountContractId.toString());
+                    ARMConstants.getAccountId().equalsIgnoreCase(String.valueOf(fieldName.getValue())) ? accountId.toString() : value);
             availableResultsContainer.removeAllItems();
             if (!fieldValueList.isEmpty()) {
                 availableResultsContainer.addAll(fieldValueList);
             }
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in getFieldValue"+e);
         }
     }
 
@@ -398,7 +401,7 @@ public class ExclusionDetailsLookup extends Window {
             viewPopup = new SaveViewPopup(saveViewDTO);
             getUI().addWindow(viewPopup);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in saveViewButtonClick"+e);
         }
 
     }
@@ -411,24 +414,24 @@ public class ExclusionDetailsLookup extends Window {
         availableResultsContainer.removeAllItems();
         List input = new ArrayList(); // Added for GAL-7235
         input.add(dataSelection.getCompanyMasterSid());
-        input.add(dataSelection.getBu_companyMasterSid());
+        input.add(dataSelection.getBucompanyMasterSid());
         input.add(dataSelection.getAdjustmentId());
         input.add(dataSelection.getFromPeriod().split("-")[1]);
         List<Object[]> rawList = QueryUtils.getItemData(input, "getViewName", null);
-        if(rawList!=null&& !rawList.isEmpty()){
-        if("Public".equals(String.valueOf(rawList.get(0)[1]))) {
-            publicView.setValue(String.valueOf(rawList.get(0)[0]));
-            viewDTO.setViewSid(String.valueOf(rawList.get(0)[NumericConstants.TWO]));
-            privateView.setValue(StringUtils.EMPTY);
-        } else {
-            privateView.setValue(String.valueOf(rawList.get(0)[0]));
-            viewDTO.setViewSid(String.valueOf(rawList.get(0)[NumericConstants.TWO]));
-            publicView.setValue(StringUtils.EMPTY);
-        }
+        if (rawList != null && !rawList.isEmpty()) {
+            if ("Public".equals(String.valueOf(rawList.get(0)[1]))) {
+                publicView.setValue(String.valueOf(rawList.get(0)[0]));
+                viewDTO.setViewSid(String.valueOf(rawList.get(0)[NumericConstants.TWO]));
+                privateView.setValue(StringUtils.EMPTY);
+            } else {
+                privateView.setValue(String.valueOf(rawList.get(0)[0]));
+                viewDTO.setViewSid(String.valueOf(rawList.get(0)[NumericConstants.TWO]));
+                publicView.setValue(StringUtils.EMPTY);
+            }
         }
         List<ExclusionLookupDTO> list = arLogic.getListInitialInsertFromARC(input);
         setFieldValuesOnInitialLoad(list);
-        arLogic.saveORUpdate_Exclusion_Details_LookUp(dataSelection.getProjectionId(), list, accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO); // Ends here for GAL-7235
+        arLogic.saveORUpdateExclusionDetailsLookUp(dataSelection.getProjectionId(), list, accountId.toString(), accountName.toString(), accountContractId.toString(), sessionDTO); // Ends here for GAL-7235
         selectedResultsContainer.addAll(dataSelection.getProjectionId() != 0 ? arLogic.getIntialLoadValue(dataSelection.getProjectionId()) : dumbyResultsContainer);
     }
 
@@ -475,7 +478,7 @@ public class ExclusionDetailsLookup extends Window {
             sb.append("''");
         }
     }
-    
+
     public void setFieldValuesOnInitialLoad(List<ExclusionLookupDTO> list) {
         accountId = new StringBuilder(StringUtils.EMPTY);
         accountName = new StringBuilder(StringUtils.EMPTY);
@@ -495,5 +498,15 @@ public class ExclusionDetailsLookup extends Window {
         check(accountId);
         check(accountName);
         check(accountContractId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

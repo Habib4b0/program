@@ -3,8 +3,8 @@ IF EXISTS (SELECT 'X'
            WHERE  ROUTINE_NAME = 'PRC_MASTER_FCP_WORKSHEET'
                   AND ROUTINE_SCHEMA = 'DBO')
   BEGIN
-      DROP PROCEDURE [DBO].[PRC_MASTER_FCP_WORKSHEET]
-  END
+      DROP PROCEDURE [DBO].[PRC_MASTER_FCP_WORKSHEET];
+  END;
 
 GO
 
@@ -14,10 +14,10 @@ CREATE PROCEDURE [dbo].[PRC_MASTER_FCP_WORKSHEET] (@NA_PROJ_MASTER_SID INT,
                                                   @SESSION_ID         VARCHAR(100))
 AS
   BEGIN
-      SET NOCOUNT ON
- 
-      BEGIN TRY
-               DECLARE @ACTUAL_START_DATE     DATETIME,
+      SET NOCOUNT ON;
+  BEGIN TRY
+          
+DECLARE @ACTUAL_START_DATE     DATETIME,
                   @PROJECTION_START_DATE DATETIME,
                   @PROJECTION_END_DATE   DATETIME,
                   @ACTUAL_END_DATE       DATETIME,
@@ -28,27 +28,28 @@ AS
                   @ACT_PERIOD_END_SID    INT,
                              @BUSINESS_UNIT INT   , --------------------GAL-808
                              @COMPANY_ID INT,----GAL-808
-                     @NA_NDC11_WAC                 VARCHAR(100) = Concat('ST_NA_NDC11_WAC_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
-          SET @BUSINESS_PROCESS_TYPE ='NATIONAL ASSUMPTIONS'
+                     @NA_NDC11_WAC                 VARCHAR(100) = Concat('ST_NA_NDC11_WAC_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''));
+          SET @BUSINESS_PROCESS_TYPE ='NATIONAL ASSUMPTIONS';
  
           SELECT @ACTUAL_START_DATE = ACTUAL_START_DATE,
                  @ACTUAL_END_DATE = ACTUAL_END_DATE,
                  @PROJECTION_START_DATE = PROJECTION_START_DATE,
                  @PROJECTION_END_DATE = PROJECTION_END_DATE
-          FROM   [DBO].[UDF_NA_PROJ_DATES](@BUSINESS_PROCESS_TYPE)
+          FROM   [DBO].[UDF_NA_PROJ_DATES](@BUSINESS_PROCESS_TYPE);
                
           --------------------------GL COMPANY ID-------------------
                 IF OBJECT_ID('TEMPDB..#PERIOD_QUARTER') IS NOT NULL
-            DROP TABLE #PERIOD_QUARTER
- 
+				BEGIN
+            DROP TABLE #PERIOD_QUARTER;
+			END;
           CREATE TABLE #PERIOD_QUARTER
             (
-               PERIOD_SID     INT PRIMARY KEY,
-               PERIOD_YEAR    INT,
-               PERIOD_QUARTER INT,
-               SEMI_ANNUAL    INT,
-               PERIOD_DATE    DATETIME
-            )
+               PERIOD_SID     INT NOT NULL PRIMARY KEY,
+               PERIOD_YEAR    INT NULL,
+               PERIOD_QUARTER INT NULL,
+               SEMI_ANNUAL    INT NULL,
+               PERIOD_DATE    DATETIME NULL
+            );
  
           INSERT INTO #PERIOD_QUARTER
                       (PERIOD_SID,
@@ -61,66 +62,68 @@ AS
                  [QUARTER],
                  SEMI_ANNUAL,
                  MIN(PERIOD_DATE)
-          FROM   PERIOD
+          FROM   dbo.PERIOD
           GROUP  BY [YEAR],
                     [QUARTER],
-                    SEMI_ANNUAL
+                    SEMI_ANNUAL;
  
           SELECT @ACT_PERIOD_START_SID = MAX(CASE
                                                WHEN PERIOD_DATE = DATEADD(QQ, DATEDIFF(QQ, 0, @ACTUAL_START_DATE), 0) THEN PERIOD_SID
-                                             END),
+                                             ELSE NULL END),
                  @ACT_PERIOD_END_SID = MAX(CASE
                                              WHEN PERIOD_DATE = DATEADD(QQ, DATEDIFF(QQ, 0, @ACTUAL_END_DATE), 0) THEN PERIOD_SID
-                                           END),
+                                           ELSE NULL END),
                  @PROJ_PERIOD_START_SID = MAX(CASE
                                                 WHEN PERIOD_DATE = DATEADD(QQ, DATEDIFF(QQ, 0, @PROJECTION_START_DATE), 0) THEN PERIOD_SID
-                                              END),
+                                              ELSE NULL END),
                  @PROJ_PERIOD_END_SID = MAX(CASE
                                               WHEN PERIOD_DATE = DATEADD(QQ, DATEDIFF(QQ, 0, @PROJECTION_END_DATE), 0) THEN PERIOD_SID
-                                            END)
+                                            ELSE NULL END)
           FROM   (SELECT PERIOD_SID,
                          PERIOD_DATE
                   FROM   #PERIOD_QUARTER
-                  WHERE  PERIOD_DATE IN ( DATEADD(QQ, DATEDIFF(QQ, 0, @ACTUAL_START_DATE), 0), DATEADD(QQ, DATEDIFF(QQ, 0, @ACTUAL_END_DATE), 0), DATEADD(QQ, DATEDIFF(QQ, 0, @PROJECTION_START_DATE), 0), DATEADD(QQ, DATEDIFF(QQ, 0, @PROJECTION_END_DATE), 0) )) A
+                  WHERE  PERIOD_DATE IN ( DATEADD(QQ, DATEDIFF(QQ, 0, @ACTUAL_START_DATE), 0), DATEADD(QQ, DATEDIFF(QQ, 0, @ACTUAL_END_DATE), 0), DATEADD(QQ, DATEDIFF(QQ, 0, @PROJECTION_START_DATE), 0), DATEADD(QQ, DATEDIFF(QQ, 0, @PROJECTION_END_DATE), 0) )) A;
  
           ------------------------------------------ SELECTED ITEM BASED ON PROJECTION_DETAILS_SID
                IF OBJECT_ID('TEMPDB..#PROJECTION_DETAILS') IS NOT NULL
-            DROP TABLE #PROJECTION_DETAILS
- 
+			   BEGIN
+            DROP TABLE #PROJECTION_DETAILS;
+			END;
           CREATE TABLE #PROJECTION_DETAILS
             (
-               NA_PROJ_DETAILS_SID INT,
-               ITEM_MASTER_SID     INT,
-               NA_PROJ_MASTER_SID  INT,
-               ITEM_ID             VARCHAR(50),
-               UPPS                NUMERIC(22, 6)
-            )
+               NA_PROJ_DETAILS_SID INT NOT NULL,
+               ITEM_MASTER_SID     INT NULL,
+               NA_PROJ_MASTER_SID  INT NULL,
+               ITEM_ID             VARCHAR(50) NULL,
+               UPPS                NUMERIC(22, 6) NULL
+            );
  
           INSERT INTO #PROJECTION_DETAILS(NA_PROJ_DETAILS_SID,ITEM_MASTER_SID,NA_PROJ_MASTER_SID,ITEM_ID,UPPS)
-          SELECT NA_PROJ_DETAILS_SID,
+          SELECT NPD.NA_PROJ_DETAILS_SID,
                  IM.ITEM_MASTER_SID,
-                 NA_PROJ_MASTER_SID,
-                 ITEM_ID,
-                 UPPS
-          FROM   NA_PROJ_DETAILS NPD
-                 INNER JOIN ITEM_MASTER IM
+                 NPD.NA_PROJ_MASTER_SID,
+                 IM.ITEM_ID,
+                 IM.UPPS
+          FROM   dbo.NA_PROJ_DETAILS NPD
+                 INNER JOIN dbo.ITEM_MASTER IM
                          ON IM.ITEM_MASTER_SID = NPD.ITEM_MASTER_SID
-          WHERE  NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+          WHERE  NPD.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID;
  
  
-                DECLARE @NA_ASS1_TABLE     VARCHAR(200) = CONCAT('ST_NATIONAL_ASSUMPTIONS_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
-                DECLARE @SQL_NM_AS NVARCHAR(MAX)
+                DECLARE @NA_ASS1_TABLE     VARCHAR(200) = CONCAT('ST_NATIONAL_ASSUMPTIONS_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''));
+                DECLARE @SQL_NM_AS NVARCHAR(MAX);
                               
  
               IF OBJECT_ID('TEMPDB..#EFFECTIVE_PERIOD') IS NOT NULL
-                DROP TABLE #EFFECTIVE_PERIOD
- 
+			  BEGIN
+                DROP TABLE #EFFECTIVE_PERIOD;
+ END;
               CREATE TABLE #EFFECTIVE_PERIOD
                 (
-                     NA_PROJ_DETAILS_SID INT,
-                     START_PERIOD        INT,
-                     END_PERIOD          INT
-                )
+                     NA_PROJ_DETAILS_SID INT NOT NULL,
+                     START_PERIOD        INT NULL,
+                     END_PERIOD          INT NULL
+                );
  
               SET @SQL_NM_AS =CONCAT('INSERT INTO #EFFECTIVE_PERIOD
                                   (NA_PROJ_DETAILS_SID,
@@ -140,10 +143,10 @@ AS
               WHERE  PRICE_TYPE =''AFSS''
                         AND NA.NA_PROJ_MASTER_SID = ',@NA_PROJ_MASTER_SID ,'
  
-   GROUP BY NP.NA_PROJ_DETAILS_SID')
+   GROUP BY NP.NA_PROJ_DETAILS_SID');
  
  
-  EXEC sp_executesql @SQL_NM_AS
+  EXEC sp_executesql @SQL_NM_AS;
     
  
     
@@ -151,29 +154,32 @@ AS
                 -----------------------------------------------808 -BUSINESS_UNIT CHG---------------------------------------
                 SELECT @BUSINESS_UNIT=BUSINESS_UNIT,
                 @COMPANY_ID=NA.COMPANY_MASTER_SID
-                FROM NA_PROJ_MASTER NA
-                WHERE NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+                FROM dbo.NA_PROJ_MASTER NA
+                WHERE NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID;
  
  
               DECLARE  @FCP_ACTUAL_TABLE     VARCHAR(200) = CONCAT('ST_FCP_ACTUALS_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
         @FCP_PROJECTION_TABLE VARCHAR(200) = CONCAT('ST_FCP_PROJ_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
               @NA_ACTUAL_TABLE     VARCHAR(200) = CONCAT('ST_NATIONAL_ASSUMPTIONS_ACTUALS_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
-        @NA_PROJECTION_TABLE VARCHAR(200) = CONCAT('ST_NATIONAL_ASSUMPTIONS_PROJ_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+        @NA_PROJECTION_TABLE VARCHAR(200) = CONCAT('ST_NATIONAL_ASSUMPTIONS_PROJ_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''));
  
           -------------------------------------------------------------------------------------------- WAC CALCULATION PRIORITY FORECAST WAC
                   IF OBJECT_ID('TEMPDB..#I_PRICING') IS NOT NULL
-            DROP TABLE #I_PRICING
+				  BEGIN
+            DROP TABLE #I_PRICING;
+			END;
           IF OBJECT_ID('TEMPDB..#ITEM_PRICING') IS NOT NULL
-            TRUNCATE TABLE #ITEM_PRICING
-          ELSE
+		  BEGIN
+            DROP TABLE #ITEM_PRICING;
+          END;
             CREATE TABLE #ITEM_PRICING
               (
-                 ITEM_MASTER_SID INT,
-                 PRICE_TYPE      VARCHAR(25),
-                 PERIOD_SID      INT,
-                 ITEM_PRICE      NUMERIC(22, 6),
-                 WAC_INCREASE    NUMERIC(22, 6)
-              )
+                 ITEM_MASTER_SID INT NOT NULL,
+                 PRICE_TYPE      VARCHAR(25) NULL,
+                 PERIOD_SID      INT NULL,
+                 ITEM_PRICE      NUMERIC(22, 6) NULL,
+                 WAC_INCREASE    NUMERIC(22, 6) NULL
+              );
  
           INSERT INTO #ITEM_PRICING
                       (ITEM_MASTER_SID,
@@ -185,23 +191,23 @@ AS
           FROM   #PERIOD_QUARTER PQ
                  CROSS JOIN #PROJECTION_DETAILS PD
           WHERE  PQ.PERIOD_SID BETWEEN @ACT_PERIOD_START_SID - 15 AND @ACT_PERIOD_END_SID
-                  OR PQ.PERIOD_SID BETWEEN @PROJ_PERIOD_START_SID AND @PROJ_PERIOD_END_SID
+                  OR PQ.PERIOD_SID BETWEEN @PROJ_PERIOD_START_SID AND @PROJ_PERIOD_END_SID;
  
           DECLARE @ITEMID   [DBO].[UDT_ITEM],
-                  @ITEM_UOM VARCHAR(50) = 'UN'
+                  @ITEM_UOM VARCHAR(50) = 'UN';
  
           INSERT INTO @ITEMID
           SELECT ITEM_MASTER_SID
-          FROM   NA_PROJ_DETAILS
-          WHERE  NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+          FROM   dbo.NA_PROJ_DETAILS
+          WHERE  NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID;
  
           DECLARE @FORECAST_NAME    VARCHAR(50),
-                  @FORECAST_VERSION VARCHAR(15)
+                  @FORECAST_VERSION VARCHAR(15);
  
           SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME,
                        @FORECAST_VERSION = FT.[VERSION]
-          FROM   FILE_MANAGEMENT FT
-                 INNER JOIN HELPER_TABLE HT
+          FROM   dbo.FILE_MANAGEMENT FT
+                 INNER JOIN dbo.HELPER_TABLE HT
                          ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
           WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, GETDATE())
                    AND FT.FROM_PERIOD IS NOT NULL )
@@ -211,63 +217,65 @@ AS
                  AND HT.DESCRIPTION = 'EX-FACTORY SALES'
                            AND FT.BUSINESS_UNIT=@BUSINESS_UNIT -------------GAL-808
                            AND FT.COMPANY=@COMPANY_ID
-          ORDER  BY FT.FROM_PERIOD DESC
+          ORDER  BY FT.FROM_PERIOD DESC;
  
-          SELECT ITEM_MASTER_SID,
-                 PRICING_QUALIFIER AS PRICE_TYPE,
+          SELECT IP.ITEM_MASTER_SID,
+                 IP.PRICING_QUALIFIER AS PRICE_TYPE,
                  PQ.PERIOD_SID,
-                 ISNULL(ITEM_PRICE,0) AS ACTUAL_PRICE
-          INTO   #I_PRICING
+                 ISNULL(IP.ITEM_PRICE,0) AS ACTUAL_PRICE
+          INTO   #I_PRICING 
           FROM   UDF_ITEM_PRICING(@ITEMID, 'ANON-FAMP,FCP,TRI-CARE,QFSS,QNON-FAMP,'
                                            + @PRICE_BASIS, @ACT_PERIOD_START_SID - 15, @PROJ_PERIOD_END_SID+2, @ITEM_UOM) IP
                  INNER JOIN #PERIOD_QUARTER PQ
-                         ON IP.PERIOD_SID = PQ.PERIOD_SID
+                         ON IP.PERIOD_SID = PQ.PERIOD_SID;
                                         
                      IF Object_id('TEMPDB..#AFSS') IS NOT NULL
-                       DROP TABLE #AFSS
+					 BEGIN
+                       DROP TABLE #AFSS;
+					   END;
                      CREATE TABLE #AFSS
                        (
-                           ITEM_MASTER_SID INT,
-                           PRICE_TYPE      VARCHAR(25),
-                           PERIOD_SID      INT,
-                           ITEM_PRICE      NUMERIC(22, 6),
+                           ITEM_MASTER_SID INT NOT NULL,
+                           PRICE_TYPE      VARCHAR(25) NULL,
+                           PERIOD_SID      INT NOT NULL,
+                           ITEM_PRICE      NUMERIC(22, 6) NULL,
  
-                       )
+                       );
  
       ;WITH DATA
-          AS (SELECT ITEM_MASTER_SID,
-                      TOKEN AS PRICING_QUALIFIER,
-                      PERIOD_SID,
-                      [YEAR] AS PERIOD_YEAR,
-                      [QUARTER] AS PERIOD_QUARTER,
-                      [MONTH] AS PERIOD_MONTH
-               FROM   @ITEMID
-                      CROSS JOIN PERIOD
-                      CROSS JOIN DBO.UDF_SPLITSTRING('AFSS', ',')
-               WHERE  PERIOD_SID BETWEEN  @ACT_PERIOD_START_SID - 12 AND  @PROJ_PERIOD_END_SID+2),
+          AS (SELECT I.ITEM_MASTER_SID,
+                      UDF.TOKEN AS PRICING_QUALIFIER,
+                      P.PERIOD_SID,
+                      P.[YEAR] AS PERIOD_YEAR,
+                      P.[QUARTER] AS PERIOD_QUARTER,
+                      P.[MONTH] AS PERIOD_MONTH
+               FROM   @ITEMID I
+                      CROSS JOIN dbo.PERIOD P
+                      CROSS JOIN DBO.UDF_SPLITSTRING('AFSS', ',') UDF
+               WHERE  P.PERIOD_SID BETWEEN  @ACT_PERIOD_START_SID - 12 AND  @PROJ_PERIOD_END_SID+2),
            ITEM_PRICING_DATA
-           AS (SELECT ITEM_MASTER_SID,
-                      ITEM_PRICE,
-                      PRICING_QUALIFIER,
-                      PERIOD_SID,
-                                    YEAR(START_DATE) AS START_YEAR,
+           AS (SELECT A.ITEM_MASTER_SID,
+                      A.ITEM_PRICE,
+                      A.PRICING_QUALIFIER,
+                      P.PERIOD_SID,
+                                    YEAR(A.START_DATE) AS START_YEAR,
                       ROW_NUMBER()
                             OVER(
-                              PARTITION BY ITEM_MASTER_SID, PRICING_QUALIFIER,YEAR(START_DATE)
-                              ORDER BY START_DATE DESC,CREATED_DATE DESC) AS RN -- Based on GALUAT-123 (also this considers there will be WAC price at first day of month)
+                              PARTITION BY A.ITEM_MASTER_SID, A.PRICING_QUALIFIER,YEAR(A.START_DATE)
+                              ORDER BY A.START_DATE DESC,A.CREATED_DATE DESC) AS RN -- Based on GALUAT-123 (also this considers there will be WAC price at first day of month)
                FROM   (SELECT IP.ITEM_MASTER_SID,
                               IP.ITEM_PRICE,
                               IPQ.PRICING_QUALIFIER,
-                              START_DATE,
-                              ISNULL(END_DATE, LEAD(DATEADD(DD, -1, START_DATE), 1, NULL)
+                              IP.START_DATE,
+                              ISNULL(IP.END_DATE, LEAD(DATEADD(DD, -1, IP.START_DATE), 1, NULL)
                                                             OVER(
                                                               PARTITION BY IP.ITEM_MASTER_SID,IPQ.PRICING_QUALIFIER
-                                                              ORDER BY [START_DATE])) AS END_DATE,
+                                                              ORDER BY IP.[START_DATE])) AS END_DATE,
                                                                                                          ip.CREATED_DATE
                        FROM   DBO.ITEM_PRICING IP
                               JOIN DBO.ITEM_PRICING_QUALIFIER IPQ
                                 ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
-                              INNER JOIN HELPER_TABLE HT
+                              INNER JOIN dbo.HELPER_TABLE HT
                                       ON HT.HELPER_TABLE_SID = IP.ITEM_UOM
                                          AND HT.LIST_NAME = 'UOM'
                        WHERE  EXISTS (SELECT 1
@@ -278,11 +286,11 @@ AS
                                           FROM   @ITEMID ID
                                           WHERE  ID.ITEM_MASTER_SID = IP.ITEM_MASTER_SID)
                               AND IP.INBOUND_STATUS <> 'D') A
-                      JOIN PERIOD P
+                      JOIN dbo.PERIOD P
                         ON A.START_DATE <= P.PERIOD_DATE
                            AND ( A.END_DATE >= P.PERIOD_DATE
                                   OR A.END_DATE IS NULL )
-               WHERE  PERIOD_SID BETWEEN @ACT_PERIOD_START_SID - 12 AND  @PROJ_PERIOD_END_SID+2)
+               WHERE  P.PERIOD_SID BETWEEN @ACT_PERIOD_START_SID - 12 AND  @PROJ_PERIOD_END_SID+2)
                        
                      INSERT INTO #AFSS
                                          (ITEM_MASTER_SID,
@@ -295,13 +303,13 @@ AS
              (D.PRICING_QUALIFIER),
              COALESCE(MAX(IPD.ITEM_PRICE), 0) AS ITEM_PRICE
       FROM   DATA D
-                JOIN PERIOD P ON P.PERIOD_SID=D.PERIOD_SID
+                JOIN dbo.PERIOD P ON P.PERIOD_SID=D.PERIOD_SID
           LEFT OUTER JOIN ITEM_PRICING_DATA IPD
                           ON IPD.ITEM_MASTER_SID = D.ITEM_MASTER_SID
                            AND IPD.PRICING_QUALIFIER = D.PRICING_QUALIFIER
                           AND IPD.PERIOD_SID = D.PERIOD_SID
-                      and RN = 1
-                     GROUP BY D.ITEM_MASTER_SID,D.PRICING_QUALIFIER,PERIOD_YEAR
+                      and ipd.RN = 1
+                     GROUP BY D.ITEM_MASTER_SID,D.PRICING_QUALIFIER,D.PERIOD_YEAR;
  
  
                            INSERT INTO #I_PRICING
@@ -320,8 +328,8 @@ AS
                                      FROM
                                      
                                      
-                                     #AFSS WHERE  PRICE_TYPE='AFSS'
-DECLARE @SQL NVARCHAR(MAX)
+                                     #AFSS WHERE  PRICE_TYPE='AFSS';
+DECLARE @SQL NVARCHAR(MAX);
  
      IF @PRICE_BASIS IN( 'EQWAC', 'BQWAC', 'MQWAC', 'AVGQWAC' )
         BEGIN
@@ -334,11 +342,11 @@ DECLARE @SQL NVARCHAR(MAX)
                + ') A
                                ON IP.ITEM_MASTER_SID = A.ITEM_MASTER_SID
                                   AND IP.PERIOD_SID = A.PERIOD_SID
-                                  AND IP.PRICE_TYPE = A.PRICE_TYPE'
+                                  AND IP.PRICE_TYPE = A.PRICE_TYPE';
    
-    EXEC sp_executesql @sql
+    EXEC sp_executesql @sql;
    
-        END
+        END;
  
       ELSE IF @PRICE_BASIS = 'DAY WEIGHTED WAC'
         BEGIN
@@ -351,12 +359,12 @@ DECLARE @SQL NVARCHAR(MAX)
                + ') A
                                ON IP.ITEM_MASTER_SID = A.ITEM_MASTER_SID
                                   AND IP.PERIOD_SID = A.PERIOD_SID
-                                  AND IP.PRICE_TYPE = A.PRICE_TYPE'
+                                  AND IP.PRICE_TYPE = A.PRICE_TYPE';
              
  
-                                                  EXEC sp_executesql @sql
+                                                  EXEC sp_executesql @sql;
  
-        END
+        END;
       ELSE IF @PRICE_BASIS = 'SALES WEIGHTED WAC'
         BEGIN
  
@@ -368,10 +376,10 @@ DECLARE @SQL NVARCHAR(MAX)
                + ') A
                                ON IP.ITEM_MASTER_SID = A.ITEM_MASTER_SID
                                   AND IP.PERIOD_SID = A.PERIOD_SID
-                                  AND IP.PRICE_TYPE = A.PRICE_TYPE'
+                                  AND IP.PRICE_TYPE = A.PRICE_TYPE';
                                                
-                                                  EXEC sp_executesql @sql
-        END
+                                                  EXEC sp_executesql @sql;
+        END;
  
           ;WITH WAC_INCREASE_UPDATE_CTE
                AS (SELECT ROW_NUMBER()
@@ -397,17 +405,17 @@ DECLARE @SQL NVARCHAR(MAX)
                                                  ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
                                                     AND A.RN = B.RN + 1) D
                          ON C.ITEM_MASTER_SID = D.ITEM_MASTER_SID
-                            AND C.PERIOD_SID = D.PERIOD_SID
+                            AND C.PERIOD_SID = D.PERIOD_SID;
  
           ---------------------------------------------------------------------------- REMOVE ALL PRODUCT FROM ACTUAL TABLE
-                DECLARE @DEL NVARCHAR(MAX)=''
-          SET @DEL=CONCAT('TRUNCATE TABLE ',@FCP_ACTUAL_TABLE,'')
-                EXEC sp_executesql @DEL
+                DECLARE @DEL NVARCHAR(MAX)='';
+          SET @DEL=CONCAT('TRUNCATE TABLE ',@FCP_ACTUAL_TABLE,'');
+                EXEC sp_executesql @DEL;
          
  
           ------------------------------------------------------------------------  RE-INSERT EXISTING PRODUCT WITH NEW PRODUCT IN ACTUAL TABLE QUARTERLY 
-                SET @SQL =''
-                
+                SET @SQL ='';              
+                --------405
           SET @SQL=CONCAT('INSERT INTO ',@FCP_ACTUAL_TABLE,'
                       (NA_PROJ_DETAILS_SID,
                        PERIOD_SID,
@@ -424,24 +432,26 @@ DECLARE @SQL NVARCHAR(MAX)
                                            (''QFSS''),
                                            (''QNON-FAMP''),
                                            (''WAC INCREASE %''),
-                                           (''CMS UNITS''))V(PRICE_TYPE)) PT
-          WHERE  P.PERIOD_SID BETWEEN ',@ACT_PERIOD_START_SID,' AND ',@ACT_PERIOD_END_SID,'')
+                                           (''CMS UNITS''),
+                                           (''WAC-FSS''),
+                                           (''WAC-FCP''))V(PRICE_TYPE)) PT
+          WHERE  P.PERIOD_SID BETWEEN ',@ACT_PERIOD_START_SID,' AND ',@ACT_PERIOD_END_SID,'');
               -- select @SQL
  
-                EXEC sp_executesql @sql
+                EXEC sp_executesql @sql;
  
-                 DECLARE @SQL_FCP_UPD NVARCHAR(MAX)=''
+                 DECLARE @SQL_FCP_UPD NVARCHAR(MAX)='';
           SET @SQL_FCP_UPD=CONCAT('UPDATE FA
           SET    ACTUAL_PRICE = ISNULL(UPPS,0)
           FROM   ',@FCP_ACTUAL_TABLE,' FA
                  INNER JOIN #PROJECTION_DETAILS PD
                          ON FA.NA_PROJ_DETAILS_SID = PD.NA_PROJ_DETAILS_SID
-          WHERE  FA.PRICE_TYPE = ''CMS UNITS''')
+          WHERE  FA.PRICE_TYPE = ''CMS UNITS''');
        --select @SQL_FCP_UPD
  
-              EXEC sp_executesql @SQL_FCP_UPD
+              EXEC sp_executesql @SQL_FCP_UPD;
           ------------------------------------------------------------------------  RE-INSERT EXISTING PRODUCT WITH NEW PRODUCT IN ACTUAL TABLE YEARLY 
-          DECLARE @SQL1 NVARCHAR(MAX)=''
+          DECLARE @SQL1 NVARCHAR(MAX)='';
  
                 SET @SQL1=CONCAT('INSERT INTO ',@FCP_ACTUAL_TABLE,'
                       (NA_PROJ_DETAILS_SID,
@@ -468,11 +478,11 @@ DECLARE @SQL NVARCHAR(MAX)
           GROUP  BY NA_PROJ_DETAILS_SID,
                     PT.PRICE_TYPE,
                     P.PERIOD_YEAR'
-                                  )
+                                  );
                                   ---select @SQL1
-                                  EXEC sp_executesql @SQL1
+                                  EXEC sp_executesql @SQL1;
           --------------------------------------------------------------------------------------------- QUARTER WISE ACTUAL PRICE FOR PRICE_TYPE('WAC'),('FSS'),('NON-FAMP') AND ('WAC INCREASE %')
-             DECLARE @SQL_ITEM_NA NVARCHAR(MAX)=''
+             DECLARE @SQL_ITEM_NA NVARCHAR(MAX)='';
  
                 SET @SQL_ITEM_NA=CONCAT('INSERT INTO #ITEM_PRICING
                       (ITEM_MASTER_SID,
@@ -504,11 +514,11 @@ DECLARE @SQL NVARCHAR(MAX)
                  ACTUAL_PRICE
           FROM   #I_PRICING
           WHERE  PRICE_TYPE IN ( ''QFSS'', ''QNON-FAMP'' )
-                 AND PERIOD_SID BETWEEN ',@ACT_PERIOD_START_SID,' - 15 AND ',@ACT_PERIOD_START_SID,' - 3')
+                 AND PERIOD_SID BETWEEN ',@ACT_PERIOD_START_SID,' - 15 AND ',@ACT_PERIOD_START_SID,' - 3');
                            ---select @SQL_ITEM_NA
-                           EXEC sp_executesql @SQL_ITEM_NA
+                           EXEC sp_executesql @SQL_ITEM_NA;
  
-              DECLARE @SQL_FCP_UPD1 NVARCHAR(MAX)
+              DECLARE @SQL_FCP_UPD1 NVARCHAR(MAX);
  
         SET @SQL_FCP_UPD1=CONCAT('UPDATE FA
           SET    FA.ACTUAL_PRICE = IP.ITEM_PRICE
@@ -519,11 +529,11 @@ DECLARE @SQL NVARCHAR(MAX)
                          ON IP.ITEM_MASTER_SID = PD.ITEM_MASTER_SID
                             AND IP.PRICE_TYPE = FA.PRICE_TYPE
                             AND IP.PERIOD_SID = FA.PERIOD_SID
-          WHERE  FA.PRICE_TYPE IN ( ''QFSS'', ''QNON-FAMP'', ''WAC'' )')
+          WHERE  FA.PRICE_TYPE IN ( ''QFSS'', ''QNON-FAMP'', ''WAC'' )');
               --- select @SQL_FCP_UPD1
-                EXEC sp_executesql @SQL_FCP_UPD1
+                EXEC sp_executesql @SQL_FCP_UPD1;
  
-                DECLARE @SQL_FCP_UPD2 NVARCHAR(MAX)
+                DECLARE @SQL_FCP_UPD2 NVARCHAR(MAX);
  
          SET @SQL_FCP_UPD2=CONCAT('UPDATE FA
           SET    FA.ACTUAL_PRICE = IP.WAC_INCREASE
@@ -539,12 +549,13 @@ DECLARE @SQL NVARCHAR(MAX)
                                     AND PERIOD_SID BETWEEN ',@ACT_PERIOD_START_SID,' AND ',@ACT_PERIOD_END_SID,')IP
                          ON IP.ITEM_MASTER_SID = PD.ITEM_MASTER_SID
                             AND IP.PRICE_TYPE = FA.PRICE_TYPE
-                            AND IP.PERIOD_SID = FA.PERIOD_SID')
+                            AND IP.PERIOD_SID = FA.PERIOD_SID');
                                                 ---select @SQL_FCP_UPD2
-                                                EXEC sp_executesql @SQL_FCP_UPD2
+                                                EXEC sp_executesql @SQL_FCP_UPD2;
           ---------------------------------------------------------------------------------------------------------- TO FETCH EACH PRODUCT AND PERIOD WHICH IS NOT EXISTS IN PROJECTION TABLE AND INSERT NEW PRODUCT IN PROJECTION TABLE(QUARTERLY)
-            DECLARE @SQL2 NVARCHAR(MAX)
+            DECLARE @SQL2 NVARCHAR(MAX);
                
+               ----------cel-405
                 SET @SQL2=CONCAT('INSERT INTO ',@FCP_PROJECTION_TABLE,'
                       (NA_PROJ_DETAILS_SID,
                        PERIOD_SID,
@@ -564,7 +575,9 @@ DECLARE @SQL NVARCHAR(MAX)
                                                    (''QFSS''),
                                                    (''QNON-FAMP''),
                                                    (''WAC INCREASE %''),
-                                                   (''CMS UNITS''))V(PRICE_TYPE)) PT
+                                                   (''CMS UNITS''),
+                                                   (''WAC-FSS''),
+                                                   (''WAC-FCP''))V(PRICE_TYPE)) PT
                   WHERE  PQ.PERIOD_SID BETWEEN ',@PROJ_PERIOD_START_SID,' AND ',@PROJ_PERIOD_END_SID,'
                   EXCEPT
                   SELECT FP.NA_PROJ_DETAILS_SID,
@@ -610,24 +623,24 @@ DECLARE @SQL NVARCHAR(MAX)
                          ON FP.NA_PROJ_DETAILS_SID = PD.NA_PROJ_DETAILS_SID
           WHERE  PD.NA_PROJ_MASTER_SID = ',@NA_PROJ_MASTER_SID,'
                  AND PRICE_TYPE IN ( ''ANON-FAMP'', ''CPI-U'', ''FCP'', ''TRI-CARE'',
-                                     ''AVGY'', ''CPI-URA'', ''AFSS'', ''CPI-U ADJUSTMENT'', ''MAX FSS'',''FSS (OGA) Discount'',''FCP Discount'' )')
+                                     ''AVGY'', ''CPI-URA'', ''AFSS'', ''CPI-U ADJUSTMENT'', ''MAX FSS'',''FSS (OGA) Discount'',''FCP Discount'' )');
                                                               ---select @SQL2
-       EXEC sp_executesql @SQL2
+       EXEC sp_executesql @SQL2;
  
-       DECLARE @SQL2_FCP_PROJ_UPD NVARCHAR(MAX)=''
+       DECLARE @SQL2_FCP_PROJ_UPD NVARCHAR(MAX)='';
  
         SET @SQL2_FCP_PROJ_UPD=CONCAT('UPDATE FA
           SET    PROJECTION_PRICE = ISNULL(UPPS,0)
           FROM   ',@FCP_PROJECTION_TABLE,' FA
                  INNER JOIN #PROJECTION_DETAILS PD
                          ON FA.NA_PROJ_DETAILS_SID = PD.NA_PROJ_DETAILS_SID
-          WHERE  FA.PRICE_TYPE = ''CMS UNITS''')
+          WHERE  FA.PRICE_TYPE = ''CMS UNITS''');
               --select @SQL2_FCP_PROJ_UPD
-                EXEC sp_executesql @SQL2_FCP_PROJ_UPD
+                EXEC sp_executesql @SQL2_FCP_PROJ_UPD;
  
           ------------------------------------------------------------------------------------------------------------ FETCHING PROJECTION PRICE FROM NATIONAL ASSUMPTION PROJECTION TABLE AND INSERTING INTO FCP PROJECTION TABLE
         
-               DECLARE @SQL_MERGE_NA NVARCHAR(MAX)=''
+               DECLARE @SQL_MERGE_NA NVARCHAR(MAX)='';
               SET @SQL_MERGE_NA=CONCAT('MERGE #ITEM_PRICING AS TARGET
           USING (SELECT ITEM_MASTER_SID,
                         PRICE_TYPE= CASE
@@ -657,11 +670,11 @@ DECLARE @SQL NVARCHAR(MAX)
                     SOURCE.PRICE_TYPE,
                     SOURCE.PERIOD_SID,
                     SOURCE.PROJECTION_PRICE)
-                                  ;')
+                                  ;');
                                   ---select @SQL_MERGE_NA
-                                  EXEC sp_executesql @SQL_MERGE_NA
+                                  EXEC sp_executesql @SQL_MERGE_NA;
                                  
-     DECLARE @SQL2_FCP_PROJ_UPD1 NVARCHAR(MAX)=''
+     DECLARE @SQL2_FCP_PROJ_UPD1 NVARCHAR(MAX)='';
           SET @SQL2_FCP_PROJ_UPD1=CONCAT('UPDATE FP
           SET    FP.PROJECTION_PRICE = IP.ITEM_PRICE
           FROM   ',@FCP_PROJECTION_TABLE,' FP
@@ -671,11 +684,11 @@ DECLARE @SQL NVARCHAR(MAX)
                          ON IP.ITEM_MASTER_SID = PD.ITEM_MASTER_SID
                             AND IP.PRICE_TYPE = FP.PRICE_TYPE
                             AND IP.PERIOD_SID = FP.PERIOD_SID
-          WHERE  FP.PRICE_TYPE IN ( ''QFSS'', ''QNON-FAMP'', ''WAC'' )')
+          WHERE  FP.PRICE_TYPE IN ( ''QFSS'', ''QNON-FAMP'', ''WAC'' )');
               ---select @SQL2_FCP_PROJ_UPD1
-              EXEC sp_executesql @SQL2_FCP_PROJ_UPD1
+              EXEC sp_executesql @SQL2_FCP_PROJ_UPD1;
  
-       DECLARE @SQL2_FCP_PROJ_UPD2 NVARCHAR(MAX)='' 
+       DECLARE @SQL2_FCP_PROJ_UPD2 NVARCHAR(MAX)=''; 
               
                 SET @SQL2_FCP_PROJ_UPD2=CONCAT('UPDATE FP
           SET    FP.PROJECTION_PRICE = ISNULL(IP.WAC_INCREASE,0)
@@ -691,41 +704,42 @@ DECLARE @SQL NVARCHAR(MAX)
                                     AND PERIOD_SID BETWEEN ',@PROJ_PERIOD_START_SID,' AND ',@PROJ_PERIOD_END_SID,')IP
                          ON IP.ITEM_MASTER_SID = PD.ITEM_MASTER_SID
                             AND IP.PRICE_TYPE = FP.PRICE_TYPE
-                            AND IP.PERIOD_SID = FP.PERIOD_SID')
+                            AND IP.PERIOD_SID = FP.PERIOD_SID');
                                          --select @SQL2_FCP_PROJ_UPD2
-                                                EXEC sp_executesql @SQL2_FCP_PROJ_UPD2
+                                                EXEC sp_executesql @SQL2_FCP_PROJ_UPD2;
           ----------------------------------------------------- CPI-U PERCENTAGE INCREASE ONLY FOR THIRD QUARTER
           ------IF((((THIRD QUARTER CPI-U)-(PREVIOUS YEAR THIRD QUARTER))/(PREVIOUS YEAR THIRD QUARTER))<0 THEN 0 ELSE ((G14-B14)/B14))
           ---------------------------FETCH PRICE FROM EACH YEAR 3RD QUARTER AND CALCULATE CPI_U_INCREASE_%
           IF OBJECT_ID('TEMPDB..#QUARTER_PRICE') IS NOT NULL
-            TRUNCATE TABLE #QUARTER_PRICE
-          ELSE
+		  BEGIN
+            DROP TABLE #QUARTER_PRICE;
+          END;
             CREATE TABLE #QUARTER_PRICE
               (
-                 NA_PROJ_DETAILS_SID          INT,
-                 PERIOD_SID                   INT,
-                 CPI_U_THIRD_QUARTER_PRICE    NUMERIC(22, 6),
-                 CPI_INCREASE_PERCENT         NUMERIC(22, 6),
-                 NON_FAMP_THIRD_QUARTER_PRICE NUMERIC(22, 6),
-                 ADDITIONAL_DISCOUNT          NUMERIC(22, 6),
-                 PERIOD_DATE                  DATETIME
-              )
+                 NA_PROJ_DETAILS_SID          INT NOT NULL,
+                 PERIOD_SID                   INT NOT NULL,
+                 CPI_U_THIRD_QUARTER_PRICE    NUMERIC(22, 6) NULL,
+                 CPI_INCREASE_PERCENT         NUMERIC(22, 6) NULL,
+                 NON_FAMP_THIRD_QUARTER_PRICE NUMERIC(22, 6) NULL,
+                 ADDITIONAL_DISCOUNT          NUMERIC(22, 6) NULL,
+                 PERIOD_DATE                  DATETIME		 NULL
+              );
  
           INSERT INTO #QUARTER_PRICE
                       (NA_PROJ_DETAILS_SID,
                        PERIOD_SID,
                        PERIOD_DATE,
                        CPI_U_THIRD_QUARTER_PRICE)
-          SELECT NA_PROJ_DETAILS_SID,
-                 PERIOD_SID,
+          SELECT PD.NA_PROJ_DETAILS_SID,
+                 PQ.PERIOD_SID,
                  PQ.PERIOD_DATE,
                  0
           FROM   #PERIOD_QUARTER PQ
                  CROSS JOIN #PROJECTION_DETAILS PD
-          WHERE  PERIOD_SID BETWEEN @ACT_PERIOD_START_SID - 6 AND @PROJ_PERIOD_END_SID
-                 AND PERIOD_QUARTER = 3
+          WHERE  PQ.PERIOD_SID BETWEEN @ACT_PERIOD_START_SID - 6 AND @PROJ_PERIOD_END_SID
+                 AND PQ.PERIOD_QUARTER = 3
                            ;
-                           DECLARE @SQL_CTE_NA NVARCHAR(MAX)=''
+                           DECLARE @SQL_CTE_NA NVARCHAR(MAX)='';
  
         SET @SQL_CTE_NA=CONCAT(' WITH CTE
                AS (SELECT ROW_NUMBER()
@@ -787,9 +801,9 @@ DECLARE @SQL NVARCHAR(MAX)
                          ON QP.NA_PROJ_DETAILS_SID = C.NA_PROJ_DETAILS_SID
                             AND QP.PERIOD_SID = C.PERIOD_SID
           WHERE  RN = 1'
-                )
+                );
               ---select @SQL_CTE_NA
-              EXEC sp_executesql @SQL_CTE_NA
+              EXEC sp_executesql @SQL_CTE_NA;
                 ;
                     
                 WITH CPI_U_INCREASE
@@ -817,11 +831,11 @@ DECLARE @SQL NVARCHAR(MAX)
                                                  ON A.NA_PROJ_DETAILS_SID = B.NA_PROJ_DETAILS_SID
                                                     AND A.RN = B.RN + 1) D
                          ON CUI.NA_PROJ_DETAILS_SID = D.NA_PROJ_DETAILS_SID
-                            AND CUI.PERIOD_SID = D.PERIOD_SID
+                            AND CUI.PERIOD_SID = D.PERIOD_SID;
           ---------------------------------------------------------------- ADDITIONAL DISCOUNT ONLY FOR THIRD QUARTER
           ----IF(((SAME YEAR THIRD QUARTER NON-FAMP)-((PREVIOUS YEAR THIRD QUARTER NON-FAMP)*(1+(SAME YEAR CPI-U PERCENTAGE INCREASE))))<0,0,(L10-(G10*(1+L15))))
-          ;
-                 DECLARE @SQL_CTE_NA_1 NVARCHAR(MAX)=''
+          
+                 DECLARE @SQL_CTE_NA_1 NVARCHAR(MAX)='';
         
           SET @SQL_CTE_NA_1=CONCAT('WITH CTE
                AS (SELECT ROW_NUMBER()
@@ -876,7 +890,7 @@ DECLARE @SQL NVARCHAR(MAX)
                          ON PPT.NA_PROJ_DETAILS_SID = P.NA_PROJ_DETAILS_SID
                             AND PPT.PERIOD_SID = P.PERIOD_SID
           WHERE  RN = 1'
-                )
+                );
               -- SELECT @SQL_CTE_NA_1
               EXEC sp_executesql @SQL_CTE_NA_1
                 ;
@@ -908,53 +922,54 @@ DECLARE @SQL NVARCHAR(MAX)
                                                  ON A.NA_PROJ_DETAILS_SID = B.NA_PROJ_DETAILS_SID
                                                     AND A.RN = B.RN + 1) D
                          ON AD.NA_PROJ_DETAILS_SID = D.NA_PROJ_DETAILS_SID
-                            AND AD.PERIOD_SID = D.PERIOD_SID
+                            AND AD.PERIOD_SID = D.PERIOD_SID;
  
           ------------- GROSS TRADE SALES FOR PROJECTION = FORECASTING MASTER SUM OF 3 MONTHS AND FOR HISTORICAL = FUNCTION BASED ON GL_BALANCE_MASTER
-          DECLARE @FROM_DATE DATETIME
-          DECLARE @TO_DATE DATETIME
+          DECLARE @FROM_DATE DATETIME;
+          DECLARE @TO_DATE DATETIME;
  
           --SET @FROM_DATE =@ACTUAL_START_DATE
-          SET @TO_DATE=@PROJECTION_END_DATE
+          SET @TO_DATE=@PROJECTION_END_DATE;
  
           SELECT @FROM_DATE = CASE
                                 WHEN DATEPART(QQ, @PROJECTION_START_DATE) IN ( 1, 2, 3 ) THEN CONVERT(DATE, CONVERT(VARCHAR(30), YEAR(@PROJECTION_START_DATE) - 2)
                                                                                                             + '-10-01')
                                 ELSE @PROJECTION_START_DATE
-                              END
+                              END;
  
-          DECLARE @FROM_PERIOD_SID INT
+          DECLARE @FROM_PERIOD_SID INT;
  
           SELECT @FROM_PERIOD_SID = PERIOD_SID
-          FROM   PERIOD
-          WHERE  PERIOD_DATE = @FROM_DATE
+          FROM   dbo.PERIOD
+          WHERE  PERIOD_DATE = @FROM_DATE;
  
           IF OBJECT_ID('TEMPDB..#GROSS_TRADE_SALES') IS NOT NULL
-            TRUNCATE TABLE #GROSS_TRADE_SALES
-          ELSE
+		  BEGIN
+            DROP TABLE #GROSS_TRADE_SALES;
+          END;
             CREATE TABLE #GROSS_TRADE_SALES
               (
-                 GROSS_TRADE_SALES       NUMERIC(22, 6),
-                 GROSS_TRADE_UNITS       NUMERIC(22, 6),
-                 PERIOD_SID              INT,
-                 ITEM_MASTER_SID         INT,
-                 PERIOD_DATE             DATETIME,
-                 PERCENT_OF_BUSINESS     NUMERIC(22, 6),
-                 SALES_WEIGHTED_NON_FAMP NUMERIC(22, 6)
+                 GROSS_TRADE_SALES       NUMERIC(22, 6) NULL,
+                 GROSS_TRADE_UNITS       NUMERIC(22, 6) NULL,
+                 PERIOD_SID              INT NOT NULL,
+                 ITEM_MASTER_SID         INT NOT NULL,
+                 PERIOD_DATE             DATETIME NULL,
+                 PERCENT_OF_BUSINESS     NUMERIC(22, 6) NULL,
+                 SALES_WEIGHTED_NON_FAMP NUMERIC(22, 6) NULL
               );
  
           WITH GTS
-               AS (SELECT SUM(COALESCE(FORECAST_GTS_SALES, ACTUAL_GTS_SALES)) AS GROSS_TRADE_SALES,
-                          SUM(COALESCE(FORECAST_GTS_UNITS, ACTUAL_GTS_UNITS)) AS GROSS_TRADE_UNITS,
-                          QUARTER AS [QUARTER],
-                          YEAR AS [YEAR],
-                          ITEM_MASTER_SID
+               AS (SELECT SUM(COALESCE(GTS.FORECAST_GTS_SALES, GTS.ACTUAL_GTS_SALES)) AS GROSS_TRADE_SALES,
+                          SUM(COALESCE(GTS.FORECAST_GTS_UNITS, GTS.ACTUAL_GTS_UNITS)) AS GROSS_TRADE_UNITS,
+                          PQ.QUARTER AS [QUARTER],
+                          PQ.YEAR AS [YEAR],
+                          GTS.ITEM_MASTER_SID
                    FROM   [DBO].[UDF_GTS_WAC] (@ITEMID, @FROM_PERIOD_SID, @PROJ_PERIOD_END_SID+12, @FORECAST_NAME, @FORECAST_VERSION) GTS
-                          INNER JOIN PERIOD PQ
+                          INNER JOIN dbo.PERIOD PQ
                                   ON PQ.PERIOD_SID = GTS.PERIOD_SID
-                   GROUP  BY ITEM_MASTER_SID,
-                             QUARTER,
-                             YEAR)
+                   GROUP  BY GTS.ITEM_MASTER_SID,
+                             PQ.QUARTER,
+                             PQ.YEAR)
           INSERT INTO #GROSS_TRADE_SALES
                       (ITEM_MASTER_SID,
                        PERIOD_SID,
@@ -963,24 +978,24 @@ DECLARE @SQL NVARCHAR(MAX)
                        PERIOD_DATE)
           SELECT C.ITEM_MASTER_SID,
                  C.PERIOD_SID,
-                 COALESCE(GROSS_TRADE_SALES, 0) AS GROSS_TRADE_SALES,
-                 COALESCE(GROSS_TRADE_UNITS, 0),
+                 COALESCE(GP.GROSS_TRADE_SALES, 0) AS GROSS_TRADE_SALES,
+                 COALESCE(GP.GROSS_TRADE_UNITS, 0),
                  C.PERIOD_DATE
           FROM   GTS GP
-                 RIGHT JOIN (SELECT ITEM_MASTER_SID,
-                                    PERIOD_QUARTER,
-                                    PERIOD_YEAR,
-                                    PERIOD_DATE,
-                                    PERIOD_SID
-                             FROM   #PROJECTION_DETAILS
-                                    CROSS JOIN #PERIOD_QUARTER
-                             WHERE  PERIOD_DATE BETWEEN @FROM_DATE AND dateadd(MONTH,12,@TO_DATE)) C
+                 RIGHT JOIN (SELECT PD.ITEM_MASTER_SID,
+                                    PQ.PERIOD_QUARTER,
+                                    PQ.PERIOD_YEAR,
+                                    PQ.PERIOD_DATE,
+                                    PQ.PERIOD_SID
+                             FROM   #PROJECTION_DETAILS PD
+                                    CROSS JOIN #PERIOD_QUARTER PQ
+                             WHERE  PQ.PERIOD_DATE BETWEEN @FROM_DATE AND dateadd(MONTH,12,@TO_DATE)) C
                          ON GP.ITEM_MASTER_SID = C.ITEM_MASTER_SID
                             AND GP.[QUARTER] = C.PERIOD_QUARTER
-                            AND GP.[YEAR] = C.PERIOD_YEAR
+                            AND GP.[YEAR] = C.PERIOD_YEAR;
  
           ------------------------------------- % OF BUSINESS FOR Q1 2015 = GROSS TRADE SALES OF Q1 2015/SUM(GROSS TRADE SALES OF Q4 2014,Q1 2015,Q2 2015,Q3 2015)
-          DECLARE @GTS_START_PERIOD_DATE DATETIME
+          DECLARE @GTS_START_PERIOD_DATE DATETIME;
  
           SELECT @GTS_START_PERIOD_DATE = CASE
                                             WHEN DATEPART(QQ, @PROJECTION_START_DATE) IN ( 1, 2, 3 ) THEN CONVERT(DATE, CONVERT(VARCHAR(30), YEAR(@PROJECTION_START_DATE) - 2)
@@ -991,7 +1006,7 @@ DECLARE @SQL NVARCHAR(MAX)
           WITH PERCENT_BUSINESS
                AS (SELECT ( ( ROW_NUMBER()
                                 OVER (
-                                  PARTITION BY NA_PROJ_DETAILS_SID
+                                  PARTITION BY PD.NA_PROJ_DETAILS_SID
                                   ORDER BY GTS.PERIOD_SID) - 1 ) / 4 ) + 1 RN,
                           PD.NA_PROJ_DETAILS_SID,
                           GTS.PERIOD_SID,
@@ -1015,7 +1030,7 @@ DECLARE @SQL NVARCHAR(MAX)
                          ON GTS.ITEM_MASTER_SID = PD.ITEM_MASTER_SID
                  JOIN PER_BUSINESS T
                    ON GTS.PERIOD_SID = T.PERIOD_SID
-                      AND PD.NA_PROJ_DETAILS_SID = T.NA_PROJ_DETAILS_SID
+                      AND PD.NA_PROJ_DETAILS_SID = T.NA_PROJ_DETAILS_SID;
  
           ----------------------------------------------------------------- SALES WEIGHTED NON-FAMP FOR EACH QUARTER = NON-FAMP OF EACH QUARTER * % OF BUSINESS
           UPDATE GTS
@@ -1024,34 +1039,35 @@ DECLARE @SQL NVARCHAR(MAX)
                  INNER JOIN #ITEM_PRICING IP
                          ON GTS.PERIOD_SID = IP.PERIOD_SID
                             AND GTS.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
-          WHERE  IP.PRICE_TYPE = 'QNON-FAMP'
+          WHERE  IP.PRICE_TYPE = 'QNON-FAMP';
  
           ---------------------------------------------------  YEAR WISE NON-FAMP FOR 2014 = (SUM OF SALES WEIGHTED NON-FAMP OF Q4 2012,Q1 2013,Q2 2013,Q3 2013)
-          DECLARE @NFAMP_START_PERIOD_DATE DATETIME
+          DECLARE @NFAMP_START_PERIOD_DATE DATETIME;
  
           SELECT @NFAMP_START_PERIOD_DATE = CASE
                                               WHEN DATEPART(QQ, @PROJECTION_START_DATE) IN ( 1, 2, 3 ) THEN CONVERT(DATE, CONVERT(VARCHAR(30), YEAR(@PROJECTION_START_DATE) - 2)
                                                                                                                           + '-10-01')
                                               ELSE @PROJECTION_START_DATE
-                                            END
+                                            END;
  
           IF OBJECT_ID('TEMPDB..#YEAR_PRICE') IS NOT NULL
-            TRUNCATE TABLE #YEAR_PRICE
-          ELSE
+		  BEGIN
+            DROP TABLE #YEAR_PRICE;
+          END;
             CREATE TABLE #YEAR_PRICE
               (
-                 NON_FAMP_PRICE      NUMERIC(22, 6),
-                 PERIOD_SID          INT,
-                 NA_PROJ_DETAILS_SID INT,
-                 PERIOD_DATE         DATETIME,
-                 CALCULATED_CEILING  NUMERIC(22, 6),
-                 FSS_YEAR_PRICE      NUMERIC(22, 6),
-                 MAX_FSS_PRICE       NUMERIC(22, 6),
-                 FORECAST_CPI_U      NUMERIC(22, 6),
-                 FORECAST_FCP        NUMERIC(22, 6),
-                 MANDATED_DISCOUNT   NUMERIC(22, 6),
-                 WAC_YEAR_PRICE      NUMERIC(22, 6),
-                 CPI_URA_YEAR_PRICE  NUMERIC(22, 6)
+                 NON_FAMP_PRICE      NUMERIC(22, 6) NULL,
+                 PERIOD_SID          INT NOT NULL,
+                 NA_PROJ_DETAILS_SID INT NOT NULL,
+                 PERIOD_DATE         DATETIME NULL,
+                 CALCULATED_CEILING  NUMERIC(22, 6) NULL,
+                 FSS_YEAR_PRICE      NUMERIC(22, 6) NULL,
+                 MAX_FSS_PRICE       NUMERIC(22, 6) NULL,
+                 FORECAST_CPI_U      NUMERIC(22, 6) NULL,
+                 FORECAST_FCP        NUMERIC(22, 6) NULL,
+                 MANDATED_DISCOUNT   NUMERIC(22, 6) NULL,
+                 WAC_YEAR_PRICE      NUMERIC(22, 6) NULL,
+                 CPI_URA_YEAR_PRICE  NUMERIC(22, 6) NULL
               )
           ------------------------------------------------------------------------------- NON-FAMP YEARLY CALCULATION
           ;
@@ -1059,7 +1075,7 @@ DECLARE @SQL NVARCHAR(MAX)
           WITH NON_FAMP
                AS (SELECT ( ( ROW_NUMBER()
                                 OVER (
-                                  PARTITION BY NA_PROJ_DETAILS_SID
+                                  PARTITION BY PD.NA_PROJ_DETAILS_SID
                                   ORDER BY GTS.PERIOD_SID) - 1 ) / 4 ) + 1 RN,
                           PD.NA_PROJ_DETAILS_SID,
                           GTS.PERIOD_SID,
@@ -1093,53 +1109,54 @@ DECLARE @SQL NVARCHAR(MAX)
                  PERIOD_SID,
                  NA_PROJ_DETAILS_SID,
                  PERIOD_DATE
-          FROM   N_FAMP
+          FROM   N_FAMP;
           ------------------------------------------------------------------------------- WAC YEARLY CALCULATION
        
               
               if object_id('tempdb..#WAC_YEAR') is not null
-              drop table #WAC_YEAR
-               
+			  BEGIN
+              drop table #WAC_YEAR;
+               END;
  
           DECLARE @BACK_ACT_SID INT = (SELECT PERIOD_SID
-             FROM   PERIOD
+             FROM   dbo.PERIOD
              WHERE  PERIOD_DATE = DATEADD(QQ, -5, @ACTUAL_START_DATE));
  
           WITH CTE
-               AS (SELECT FORECAST_GTS_SALES,
-                          ACTUAL_GTS_SALES,
-                          FORECAST_GTS_UNITS,
-                          ACTUAL_GTS_UNITS,
-                          ITEM_MASTER_SID,
+               AS (SELECT GTS.FORECAST_GTS_SALES,
+                          GTS.ACTUAL_GTS_SALES,
+                          GTS.FORECAST_GTS_UNITS,
+                          GTS.ACTUAL_GTS_UNITS,
+                          GTS.ITEM_MASTER_SID,
                           P.MONTH,
                           P.QUARTER,
                           P.[YEAR],
                           P.PERIOD_SID,
                           P.PERIOD_DATE
                    FROM   [DBO].[UDF_GTS_WAC] (@ITEMID, @BACK_ACT_SID, @PROJ_PERIOD_END_SID, @FORECAST_NAME, @FORECAST_VERSION) GTS
-                          INNER JOIN PERIOD P
+                          INNER JOIN dbo.PERIOD P
                                   ON GTS.PERIOD_SID = P.PERIOD_SID),
                CTE1
                AS (SELECT ID.NA_PROJ_DETAILS_SID,
-                          [YEAR],
-                          MIN(PERIOD_SID) AS PERIOD_SID,
+                          C.[YEAR],
+                          MIN(C.PERIOD_SID) AS PERIOD_SID,
                           'AVGY' AS PRICE_TYPE,
                           ( SUM(CASE
-                                                 WHEN PERIOD_DATE < CAST(DATEADD(DD, -( DAY(GETDATE()) - 1 ), GETDATE()) AS DATE) THEN ACTUAL_GTS_SALES
-                                                 ELSE FORECAST_GTS_SALES
+                                                 WHEN C.PERIOD_DATE < CAST(DATEADD(DD, -( DAY(GETDATE()) - 1 ), GETDATE()) AS DATE) THEN C.ACTUAL_GTS_SALES
+                                                 ELSE C.FORECAST_GTS_SALES
                                                END) / SUM(CASE
-                                                            WHEN PERIOD_DATE < CAST(DATEADD(DD, -( DAY(GETDATE()) - 1 ), GETDATE()) AS DATE) THEN NULLIF(ACTUAL_GTS_UNITS, 0)
-                                                            ELSE NULLIF(FORECAST_GTS_UNITS, 0)
-                                                          END) ) / NULLIF(UPPS, 0) AS WAC_YEAR_PRICE
+                                                            WHEN C.PERIOD_DATE < CAST(DATEADD(DD, -( DAY(GETDATE()) - 1 ), GETDATE()) AS DATE) THEN NULLIF(C.ACTUAL_GTS_UNITS, 0)
+                                                            ELSE NULLIF(C.FORECAST_GTS_UNITS, 0)
+                                                          END) ) / NULLIF(ID.UPPS, 0) AS WAC_YEAR_PRICE
                    FROM   CTE C
                           INNER JOIN #PROJECTION_DETAILS ID
                                   ON C.ITEM_MASTER_SID = ID.ITEM_MASTER_SID
                    GROUP  BY ID.NA_PROJ_DETAILS_SID,
-                             [YEAR],
-                             UPPS)
+                             C.[YEAR],
+                             ID.UPPS)
           SELECT NA_PROJ_DETAILS_SID,YEAR,PERIOD_SID,PRICE_TYPE,WAC_YEAR_PRICE
           INTO   #WAC_YEAR
-          FROM   CTE1
+          FROM   CTE1;
  
           ------------------------------------------------------------------------------- CPI-URA YEARLY CALCULATION
           UPDATE YP
@@ -1147,7 +1164,7 @@ DECLARE @SQL NVARCHAR(MAX)
           FROM   #YEAR_PRICE YP
                  LEFT OUTER JOIN #QUARTER_PRICE PT
                               ON YEAR(YP.PERIOD_DATE) = YEAR(PT.PERIOD_DATE) + 1
-                                 AND YP.NA_PROJ_DETAILS_SID = PT.NA_PROJ_DETAILS_SID
+                                 AND YP.NA_PROJ_DETAILS_SID = PT.NA_PROJ_DETAILS_SID;
  
           -------------------------------------------------------------- CALCULATED CEILING
           --(NON-FAMP*0.76)-PREVIOUS YEAR THIRD QUARTER ADDITIONAL DISCOUNT
@@ -1179,7 +1196,7 @@ DECLARE @SQL NVARCHAR(MAX)
               FROM   #YEAR_PRICE yp
                         JOIN cte c
                            ON yp.NA_PROJ_DETAILS_SID = c.NA_PROJ_DETAILS_SID
-                                  AND yp.PERIOD_SID = c.PERIOD_SID
+                                  AND yp.PERIOD_SID = c.PERIOD_SID;
  
  
           ------------ FSS = AVERAGE(Q4 OF BEFORE PREVIOUS YEAR,E9:G9) FOR EACH YEAR
@@ -1233,17 +1250,19 @@ DECLARE @SQL NVARCHAR(MAX)
                          period_sid,
                          PERIOD_DATE
                          )
-                         select na_proj_details_sid,max(period_sid)+12,dateadd(year,1,max(period_date)) from #QUARTER_PRICE group by na_proj_details_sid
+                         select na_proj_details_sid,max(period_sid)+12,dateadd(year,1,max(period_date)) from #QUARTER_PRICE group by na_proj_details_sid;
  
    IF OBJECT_ID('TEMPDB..#FSS_ELIGIBLE') IS NOT NULL
-       DROP TABLE #FSS_ELIGIBLE
+   BEGIN
+       DROP TABLE #FSS_ELIGIBLE;
+	   END;
                 CREATE TABLE #FSS_ELIGIBLE
                 (
-                NA_PROJ_DETAILS_SID INT,
-                PERIOD_SID    INT,
-                ITEM_PRICE NUMERIC(22,6),
-                ID INT
-                )
+                NA_PROJ_DETAILS_SID INT NOT NULL,
+                PERIOD_SID    INT NOT NULL,
+                ITEM_PRICE NUMERIC(22,6) NULL ,
+                ID INT NOT NULL
+                );
  
                 SET @SQL ='
                 INSERT INTO #FSS_ELIGIBLE
@@ -1278,30 +1297,27 @@ DECLARE @SQL NVARCHAR(MAX)
 					  
 					 
                      WHERE RNO=1
-                 '
-                 EXEC sp_executesql @SQL
+                 ';
+                 EXEC sp_executesql @SQL;
       
 
-	  
-				 DECLARE @SQL_NA_CR VARCHAR(MAX)
+	 ---- DECLARE @VAR INT=(SELECT DISTINCT PERIOD_SID FROM #FSS_ELIGIBLE WHERE ID=0 )-------cel-411
+	--------			 DECLARE @VAR1 INT=(SELECT DISTINCT PERIOD_SID FROM #FSS_ELIGIBLE WHERE ID=1 )-------cel-411
+
+				 DECLARE @SQL_NA_CR VARCHAR(MAX);
 				SET @SQL_NA_CR= 'UPDATE FSS1 SET ITEM_PRICE=ISNULL(NULLIF(B.PROJECTION_PRICE,0),ITEM_PRICE) FROM #FSS_ELIGIBLE FSS1
 				JOIN
 				(SELECT FSS.NA_PROJ_DETAILS_SID,FP.PROJECTION_PRICE FROM #FSS_ELIGIBLE FSS JOIN '+@FCP_PROJECTION_TABLE +' FP ON FP.NA_PROJ_DETAILS_SID=FSS.NA_PROJ_DETAILS_SID WHERE FP.PRICE_TYPE=''QFSS'' AND
 				  FSS.PERIOD_SID-3=FP.PERIOD_SID AND ID=1)B
 				  ON B.NA_PROJ_DETAILS_SID=FSS1.NA_PROJ_DETAILS_SID AND FSS1.ID=0
-				  '
+				  ';
 				 
-				  EXEC(@SQL_NA_CR)
-
-
-
-
-
-              ;WITH FSS_YEAR_PRICE
+				  EXEC(@SQL_NA_CR);
+			;WITH FSS_YEAR_PRICE
                            AS (SELECT PD.NA_PROJ_DETAILS_SID,
                                          PQ.PERIOD_DATE,
                                          pq.period_year,
-                                         ID,
+                                         FS.ID,
                                          Lag(FS.ITEM_PRICE)
                                                                            OVER(
                                                                                   partition BY pd.NA_PROJ_DETAILS_SID
@@ -1344,20 +1360,22 @@ DECLARE @SQL NVARCHAR(MAX)
                            JOIN FSS_YEAR_PRICE T
                                   ON Year(YP.PERIOD_DATE) = Year(T.PERIOD_DATE)
                                   AND YP.NA_PROJ_DETAILS_SID = T.NA_PROJ_DETAILS_SID
-                                         OPTION (MAXRECURSION 0)
+                                         OPTION (MAXRECURSION 0);
              
  
 ----------  --------------------------------Max FSS----------------------------
  
    IF OBJECT_ID('TEMPDB..#MAXFSS_ELIGIBLE') IS NOT NULL
-       DROP TABLE #MAXFSS_ELIGIBLE
+   BEGIN
+       DROP TABLE #MAXFSS_ELIGIBLE;
+	   END;
                 CREATE TABLE #MAXFSS_ELIGIBLE
                 (
-                NA_PROJ_DETAILS_SID INT,
-                PERIOD_SID    INT,
-                ITEM_PRICE NUMERIC(22,6),
-                ID INT
-                )
+                NA_PROJ_DETAILS_SID INT NOT NULL,
+                PERIOD_SID    INT NOT NULL,
+                ITEM_PRICE NUMERIC(22,6) NULL,
+                ID INT NOT NULL
+                );
  
                 SET @SQL ='
                 INSERT INTO #MAXFSS_ELIGIBLE
@@ -1395,15 +1413,15 @@ DECLARE @SQL NVARCHAR(MAX)
                               WHERE ITEM_PRICE<>0)A
                      JOIN #PROJECTION_DETAILS PFR ON PFR.ITEM_MASTER_SID=A.ITEM_MASTER_SID
                      WHERE RNO=1
-                 '
+                 ';
 				-- SELECT @SQL
-                 EXEC sp_executesql @SQL
+                 EXEC sp_executesql @SQL;
  
     ;WITH MAXFSS_YEAR_PRICE
                            AS (SELECT PD.NA_PROJ_DETAILS_SID,
                                          PQ.PERIOD_DATE,
                                          pq.period_year,
-                                         ID,
+                                         FS.ID,
                                          Lag(FS.ITEM_PRICE)
                                                                            OVER(
                                                                                   partition BY pd.NA_PROJ_DETAILS_SID
@@ -1448,26 +1466,28 @@ DECLARE @SQL NVARCHAR(MAX)
                            JOIN MAXFSS_YEAR_PRICE T
                                   ON Year(YP.PERIOD_DATE) = Year(T.PERIOD_DATE)
                                   AND YP.NA_PROJ_DETAILS_SID = T.NA_PROJ_DETAILS_SID
-                                         OPTION (MAXRECURSION 0)
+                                         OPTION (MAXRECURSION 0);
  
  
  
           -------------------------------------------------------------------------------------------------- YEAR WISE ACTUAL PRICE
  
                      IF OBJECT_ID('TEMPDB..#ACTUAL_YEAR_PRICE') IS NOT NULL
-              DROP TABLE #ACTUAL_YEAR_PRICE
-;
+					 BEGIN
+              DROP TABLE #ACTUAL_YEAR_PRICE;
+			  END;
+
 WITH CTE
 AS (
        SELECT *
        FROM (
-              SELECT NA_PROJ_DETAILS_SID
-                     ,PERIOD_SID
-                     ,ACTUAL_PRICE AS ACTUAL_YEAR_PRICE
-                     ,PRICE_TYPE
+              SELECT PD.NA_PROJ_DETAILS_SID
+                     ,IP.PERIOD_SID
+                     ,IP.ACTUAL_PRICE AS ACTUAL_YEAR_PRICE
+                     ,IP.PRICE_TYPE
               FROM #I_PRICING IP
               INNER JOIN #PROJECTION_DETAILS PD ON IP.ITEM_MASTER_SID = PD.ITEM_MASTER_SID
-              WHERE PRICE_TYPE IN (
+              WHERE IP.PRICE_TYPE IN (
                            'ANON-FAMP'
                            ,'FCP'
                            ,'AFSS'
@@ -1481,20 +1501,20 @@ AS (
        )
        ,CTE2
 AS (
-       SELECT NA_PROJ_DETAILS_SID
+       SELECT A.NA_PROJ_DETAILS_SID
               ,MIN(P.PERIOD_SID) PERIOD_SID
-              ,MAX([ANON-FAMP]) AS ANON_FAMP
-              ,MAX([FCP]) FCP
-              ,max([AFSS]) AFSS
+              ,MAX(A.[ANON-FAMP]) AS ANON_FAMP
+              ,MAX(A.[FCP]) FCP
+              ,max(A.[AFSS]) AFSS
        FROM CTE A
-       JOIN PERIOD P ON P.PERIOD_SID = A.PERIOD_SID
-       GROUP BY NA_PROJ_DETAILS_SID
+       JOIN dbo.PERIOD P ON P.PERIOD_SID = A.PERIOD_SID
+       GROUP BY A.NA_PROJ_DETAILS_SID
               ,P.YEAR
        )
-SELECT NA_PROJ_DETAILS_SID
-       ,PERIOD_SID
-       ,ACTUAL_YEAR_PRICE 
-       ,PRICE_TYPE
+SELECT A.NA_PROJ_DETAILS_SID
+       ,A.PERIOD_SID
+       ,CS.ACTUAL_YEAR_PRICE 
+       ,CS.PRICE_TYPE
        INTO #ACTUAL_YEAR_PRICE
 FROM (
        SELECT NA_PROJ_DETAILS_SID
@@ -1507,13 +1527,13 @@ FROM (
                            ), 0) - ISNULL(FCP, 0) AS MANDATED_DISCOUNT
        FROM CTE2
        ) A
-   CROSS APPLY (VALUES (ANON_FAMP, 'ANON-FAMP'),
-                        (FCP,'FCP' ),
-                        (MANDATED_DISCOUNT,'TRI-CARE'),
-                        (AFSS,'AFSS')) CS (ACTUAL_YEAR_PRICE, PRICE_TYPE)
+   CROSS APPLY (VALUES (A.ANON_FAMP, 'ANON-FAMP'),
+                        (A.FCP,'FCP' ),
+                        (A.MANDATED_DISCOUNT,'TRI-CARE'),
+                        (A.AFSS,'AFSS')) CS (ACTUAL_YEAR_PRICE, PRICE_TYPE);
  
  
-                DECLARE @SQL_FCP_UPD3 NVARCHAR(MAX)=''
+                DECLARE @SQL_FCP_UPD3 NVARCHAR(MAX)='';
           --SET @SQL_FCP_UPD3=CONCAT('UPDATE FA
           --SET    FA.ACTUAL_PRICE = ACTUAL_YEAR_PRICE
           --FROM   ',@FCP_ACTUAL_TABLE,' FA
@@ -1536,24 +1556,24 @@ FROM (
                  INNER JOIN #ACTUAL_YEAR_PRICE A
                          ON FA.NA_PROJ_DETAILS_SID = A.NA_PROJ_DETAILS_SID
                             AND FA.PRICE_TYPE = A.PRICE_TYPE
-                            AND FA.PERIOD_SID = A.PERIOD_SID')
-                                                EXEC sp_executesql @SQL_FCP_UPD3
+                            AND FA.PERIOD_SID = A.PERIOD_SID');
+                                                EXEC sp_executesql @SQL_FCP_UPD3;
  
-         DECLARE @SQL_FCP_UPD4 NVARCHAR(MAX)=''
+         DECLARE @SQL_FCP_UPD4 NVARCHAR(MAX)='';
           SET @SQL_FCP_UPD4=CONCAT('UPDATE  FA
           SET    FA.ACTUAL_PRICE = isnull(WAC_YEAR_PRICE,0)
           FROM   ',@FCP_ACTUAL_TABLE,' FA
                  INNER JOIN #WAC_YEAR YP
                          ON YP.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
                             AND YP.PERIOD_SID = FA.PERIOD_SID
-                            AND YP.PRICE_TYPE = FA.PRICE_TYPE')
+                            AND YP.PRICE_TYPE = FA.PRICE_TYPE');
 --SELECT @SQL_FCP_UPD4
-                                  EXEC sp_executesql @SQL_FCP_UPD4
+                                  EXEC sp_executesql @SQL_FCP_UPD4;
  
 -- CEL 357 change  start
  
  
-DECLARE @SQL_FCP_UPD5 NVARCHAR(MAX)=''
+DECLARE @SQL_FCP_UPD5 NVARCHAR(MAX)='';
  
 set @SQL_FCP_UPD5 = 'UPDATE fa
 SET    fa.ACTUAL_PRICE = a.price
@@ -1576,17 +1596,17 @@ FROM   '+@FCP_ACTUAL_TABLE+' fa
                          AND wc.PERIOD_SID = ip.PERIOD_SID) a
          ON a.NA_PROJ_DETAILS_SID = fa.NA_PROJ_DETAILS_SID
             AND a.PERIOD_SID = fa.PERIOD_SID
-            AND a.price_type = fa.price_type '
+            AND a.price_type = fa.price_type ';
  
-              EXEC sp_executesql @SQL_FCP_UPD5
+              EXEC sp_executesql @SQL_FCP_UPD5;
  
 -- CEL 357 change  start
  
  
  
           -------------------------------------------------------- MAXIMUM FSS PRICE (OGA) FOR EACH YEAR = FSS(PREVIOUS YEAR)*(1 + CPI-U PERCENTAGE INCREASE(THIRD QUARTER OF PREVIOUS YEAR))
-          ;
-                DECLARE @SQL_FCP_CTE NVARCHAR(MAX)=''
+         
+                DECLARE @SQL_FCP_CTE NVARCHAR(MAX)='';
           SET @SQL_FCP_CTE=CONCAT(
                         
                          '
@@ -1663,20 +1683,20 @@ FROM   '+@FCP_ACTUAL_TABLE+' fa
                            COALESCE(LAG (NON_FAMP_PRICE,1) OVER(PARTITION BY NA_PROJ_DETAILS_SID ORDER BY  PERIOD_SID),0) PRIOR_NON_FAMP_PRICE,
                  PERIOD_SID          ,
                  FORECAST_FCP        ,
-                 MANDATED_DISCOUNT    FROM #YEAR_PRICE) YP')
+                 MANDATED_DISCOUNT    FROM #YEAR_PRICE) YP');
               --SELECT @SQL_FCP_CTE
-                EXEC SP_EXECUTESQL @SQL_FCP_CTE
+                EXEC SP_EXECUTESQL @SQL_FCP_CTE;
  
  
-DECLARE @SQL_FCP_PRJ_UPDD4 NVARCHAR(MAX)=''
+DECLARE @SQL_FCP_PRJ_UPDD4 NVARCHAR(MAX)='';
                
 SET @SQL_FCP_PRJ_UPDD4 = 'UPDATE B SET PROJECTION_PRICE=A.ITEM_PRICE
 FROM
  
 '+@FCP_PROJECTION_TABLE+' B   JOIN #PROJECTION_DETAILS PD ON PD.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID JOIN  #AFSS A
-ON A.ITEM_MASTER_SID=PD.ITEM_MASTER_SID AND A.PERIOD_SID=B.PERIOD_SID WHERE B.PRICE_TYPE=''AFSS'''
+ON A.ITEM_MASTER_SID=PD.ITEM_MASTER_SID AND A.PERIOD_SID=B.PERIOD_SID WHERE B.PRICE_TYPE=''AFSS''';
  
-EXEC sp_executesql @SQL_FCP_PRJ_UPDD4
+EXEC sp_executesql @SQL_FCP_PRJ_UPDD4;
  
  
  
@@ -1684,7 +1704,7 @@ EXEC sp_executesql @SQL_FCP_PRJ_UPDD4
              
  
                           
-                DECLARE @SQL_FCP_PRJ_UPDD2 NVARCHAR(MAX)=''
+                DECLARE @SQL_FCP_PRJ_UPDD2 NVARCHAR(MAX)='';
           SET @SQL_FCP_PRJ_UPDD2=CONCAT('UPDATE FP
           SET    FP.PROJECTION_PRICE = ISNULL(FORECAST_YEAR_PRICE,0)
           FROM   ',@FCP_PROJECTION_TABLE,' FP
@@ -1709,20 +1729,20 @@ EXEC sp_executesql @SQL_FCP_PRJ_UPDD4
                                                 ''MAX FSS'' )) CS (FORECAST_YEAR_PRICE, PRICE_TYPE)) A
                          ON FP.NA_PROJ_DETAILS_SID = A.NA_PROJ_DETAILS_SID
                             AND FP.PRICE_TYPE = A.PRICE_TYPE
-                            AND FP.PERIOD_SID = A.PERIOD_SID AND A.FORECAST_YEAR_PRICE<>0')
+                            AND FP.PERIOD_SID = A.PERIOD_SID AND A.FORECAST_YEAR_PRICE<>0');
                                                 --SELECT @SQL_FCP_PRJ_UPDD2
-                                                EXEC sp_executesql @SQL_FCP_PRJ_UPDD2
+                                                EXEC sp_executesql @SQL_FCP_PRJ_UPDD2;
  
-DECLARE @SQL_FCP_PRJ_UPDD3 NVARCHAR(MAX)=''
+DECLARE @SQL_FCP_PRJ_UPDD3 NVARCHAR(MAX)='';
         SET @SQL_FCP_PRJ_UPDD3=CONCAT('UPDATE FP
           SET    FP.PROJECTION_PRICE = ISNULL(WY.WAC_YEAR_PRICE,0)
           FROM   ',@FCP_PROJECTION_TABLE,' FP
                  INNER JOIN #WAC_YEAR WY
                          ON FP.NA_PROJ_DETAILS_SID = WY.NA_PROJ_DETAILS_SID
                             AND FP.PRICE_TYPE = WY.PRICE_TYPE
-                            AND WY.PERIOD_SID = FP.PERIOD_SID')
+                            AND WY.PERIOD_SID = FP.PERIOD_SID');
                                                 --sELECT  @SQL_FCP_PRJ_UPDD3
-                                                EXEC sp_executesql @SQL_FCP_PRJ_UPDD3
+                                                EXEC sp_executesql @SQL_FCP_PRJ_UPDD3;
  
 -- CEL 357 change  start
  
@@ -1749,9 +1769,9 @@ FROM   '+@FCP_PROJECTION_TABLE+' fa
                          AND wc.PERIOD_SID = ip.PERIOD_SID) a
          ON a.NA_PROJ_DETAILS_SID = fa.NA_PROJ_DETAILS_SID
             AND a.PERIOD_SID = fa.PERIOD_SID
-            AND a.price_type = fa.price_type '
+            AND a.price_type = fa.price_type ';
  
-              EXEC sp_executesql @SQL_FCP_PRJ_UPDD4
+              EXEC sp_executesql @SQL_FCP_PRJ_UPDD4;
  
  
  
@@ -1768,10 +1788,10 @@ ON
 C.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID
 JOIN PERIOD P
 ON P.PERIOD_SID=B.PERIOD_SID   AND P.YEAR=C.YEAR
-WHERE B.PRICE_TYPE=''QFSS'''
+WHERE B.PRICE_TYPE=''QFSS''';
  
  
-EXEC sp_executesql @SQL_FCP_PRJ_UPDD4
+EXEC sp_executesql @SQL_FCP_PRJ_UPDD4;
  
 SET @SQL_FCP_PRJ_UPDD4 = 'UPDATE B SET ACTUAL_PRICE=C.ACTUAL_PRICE
 FROM
@@ -1784,13 +1804,449 @@ ON
 C.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID
 JOIN PERIOD P
 ON P.PERIOD_SID=B.PERIOD_SID   AND P.YEAR=C.YEAR
-WHERE B.PRICE_TYPE=''QFSS'''
+WHERE B.PRICE_TYPE=''QFSS''';
  
-EXEC sp_executesql @SQL_FCP_PRJ_UPDD4
+EXEC sp_executesql @SQL_FCP_PRJ_UPDD4;
  
  
 -- CEL 357 change  end  
  
+ ----------------cel-405
+  
+set @SQL_FCP_UPD5 = 'UPDATE fa
+SET    fa.ACTUAL_PRICE = a.price
+FROM   '+@FCP_ACTUAL_TABLE+ N' fa
+       JOIN (select a.NA_PROJ_DETAILS_SID,pq.PERIOD_SID,a.PRICE_TYPE,(isnull(ip.ITEM_PRICE,0)-isnull(a.ACTUAL_PRICE,0)) price from (select ACT.NA_PROJ_DETAILS_SID,
+                                 ACT.ACTUAL_PRICE,
+                                 ACT.PERIOD_SID,
+								 pq.period_year,
+                                 CASE WHEN ACT.PRICE_TYPE=''AFSS'' THEN ''WAC-FSS'' ELSE ''WAC-FCP'' END  PRICE_TYPE 
+								 ,det.ITEM_MASTER_SID
+								 from '+@FCP_ACTUAL_TABLE+ ' ACT
+join #PERIOD_QUARTER pq on pq.PERIOD_SID=ACT.PERIOD_SID
+JOIN NA_PROJ_DETAILS DET ON ACT.NA_PROJ_DETAILS_SID=DET.NA_PROJ_DETAILS_SID AND DET.NA_PROJ_MASTER_SID='+ CAST(@NA_PROJ_MASTER_SID AS VARCHAR(50))+ '
+ WHERE  act.price_type IN ( ''AFSS'', ''FCP'' )) a join #PERIOD_QUARTER pq on pq.PERIOD_YEAR=a.PERIOD_YEAR
+ left join #ITEM_PRICING ip on ip.ITEM_MASTER_SID=a.ITEM_MASTER_SID and pq.PERIOD_SID=ip.PERIOD_SID and ip.PRICE_TYPE=''WAC'')a
+         ON a.NA_PROJ_DETAILS_SID = fa.NA_PROJ_DETAILS_SID
+            AND a.PERIOD_SID = fa.PERIOD_SID
+            AND a.price_type = fa.price_type ';
+
+			EXEC sp_executesql @SQL_FCP_UPD5;
+/*
+set @SQL_FCP_UPD5 = 'UPDATE B SET PROJECTION_PRICE=A.price
+FROM
+ '+@FCP_PROJECTION_TABLE+' B
+JOIN 
+ (select a.NA_PROJ_DETAILS_SID,pq.PERIOD_SID,a.PRICE_TYPE,(isnull(ip.ITEM_PRICE,0)-isnull(a.PROJECTION_PRICE,0)) price from (select ACT.NA_PROJ_DETAILS_SID,
+                                 ACT.PROJECTION_PRICE,
+                                 ACT.PERIOD_SID,
+								 pq.period_year,
+                                 CASE WHEN ACT.PRICE_TYPE=''AFSS'' THEN ''WAC-FSS'' ELSE ''WAC-FCP'' END  PRICE_TYPE 
+								 ,det.ITEM_MASTER_SID
+								 from '+@FCP_PROJECTION_TABLE+' ACT
+join #PERIOD_QUARTER pq on pq.PERIOD_SID=ACT.PERIOD_SID
+JOIN NA_PROJ_DETAILS DET ON ACT.NA_PROJ_DETAILS_SID=DET.NA_PROJ_DETAILS_SID AND DET.NA_PROJ_MASTER_SID='+ CAST(@NA_PROJ_MASTER_SID AS VARCHAR(50))+ '
+ WHERE  act.price_type IN ( ''AFSS'', ''FCP'' )) a join #PERIOD_QUARTER pq on pq.PERIOD_YEAR=a.PERIOD_YEAR
+ left join #ITEM_PRICING ip on ip.ITEM_MASTER_SID=a.ITEM_MASTER_SID and pq.PERIOD_SID=ip.PERIOD_SID and ip.PRICE_TYPE=''WAC'')a
+         ON a.NA_PROJ_DETAILS_SID = B.NA_PROJ_DETAILS_SID
+            AND a.PERIOD_SID = B.PERIOD_SID
+            AND a.price_type = B.price_type '
+		---	SELECT @SQL_FCP_UPD5
+			EXEC sp_executesql @SQL_FCP_UPD5
+			*/
+
+
+
+			SET @SQL_FCP_UPD5 = ' IF EXISTS (SELECT 1 FROM '+@FCP_PROJECTION_TABLE+' WHERE  PRICE_TYPE IN ( ''WAC-FSS'' , ''WAC-FCP''  ) )
+			BEGIN
+			DELETE FROM '+@FCP_PROJECTION_TABLE+' WHERE  PRICE_TYPE IN ( ''WAC-FSS'' , ''WAC-FCP''  )
+			END ';
+			EXEC SP_EXECUTESQL @SQL_FCP_UPD5;
+
+
+			SET @SQL_FCP_UPD5 = ' INSERT INTO  '+@FCP_PROJECTION_TABLE+' (NA_PROJ_DETAILS_SID,PERIOD_SID,PRICE_TYPE,PROJECTION_PRICE)
+
+ SELECT A.NA_PROJ_DETAILS_SID,PQ.PERIOD_SID,A.PRICE_TYPE,(ISNULL(IP.ITEM_PRICE,0)-ISNULL(A.PROJECTION_PRICE,0)) PRICE FROM (SELECT ACT.NA_PROJ_DETAILS_SID,
+                                 ACT.PROJECTION_PRICE,
+                                 ACT.PERIOD_SID,
+								 PQ.PERIOD_YEAR,
+                                 CASE WHEN ACT.PRICE_TYPE=''AFSS'' THEN ''WAC-FSS'' ELSE ''WAC-FCP'' END  PRICE_TYPE 
+								 ,DET.ITEM_MASTER_SID
+								 FROM '+@FCP_PROJECTION_TABLE+ ' ACT
+JOIN #PERIOD_QUARTER PQ ON PQ.PERIOD_SID=ACT.PERIOD_SID
+JOIN NA_PROJ_DETAILS DET ON ACT.NA_PROJ_DETAILS_SID=DET.NA_PROJ_DETAILS_SID AND DET.NA_PROJ_MASTER_SID='+ CAST(@NA_PROJ_MASTER_SID AS VARCHAR(50))+ '
+ WHERE  ACT.PRICE_TYPE IN ( ''AFSS'', ''FCP'' )) A JOIN #PERIOD_QUARTER PQ ON PQ.PERIOD_YEAR=A.PERIOD_YEAR
+ LEFT JOIN #ITEM_PRICING IP ON IP.ITEM_MASTER_SID=A.ITEM_MASTER_SID AND PQ.PERIOD_SID=IP.PERIOD_SID AND IP.PRICE_TYPE=''WAC''';
+
+ EXEC SP_EXECUTESQL @SQL_FCP_UPD5;
+ --------------CEL-316
+IF OBJECT_ID('TEMPDB..#FORECAST_PRICE_PERIOD') IS NOT NULL
+BEGIN
+       DROP TABLE #FORECAST_PRICE_PERIOD;
+       END;
+DECLARE @ITEM_MASTER_SID INT; 
+SELECT @ITEM_MASTER_SID=  ITEM_MASTER_SID FROM  #PROJECTION_DETAILS;
+/*
+CREATE TABLE #FORECAST_PRICE_PERIOD (
+       PRICE_TYPE VARCHAR(100) NULL
+       ,PERIOD_SID INT NULL
+       );
+
+SET @SQL_FCP_UPD5 ='';
+SET @SQL_FCP_UPD5 =CONCAT('
+WITH CTE
+AS (
+       SELECT DISTINCT  PRICE_TYPE 
+                       ,CASE PRICE_TYPE WHEN ''CPI-U'' THEN ''CPI''
+                                                              WHEN  ''CPI-U ADJUSTMENT''  THEN ''CPI'' 
+                                                               WHEN ''FCP DISCOUNT'' THEN ''FCP''
+                                                              WHEN ''FSS (OGA) DISCOUNT'' THEN ''AFSS''
+                                                              WHEN ''MAX FSS'' THEN ''AFSS''
+                                                              WHEN ''WAC INCREASE %'' THEN ''WAC'' 
+                                                               WHEN ''WAC-FCP'' THEN ''WAC''
+                                                              WHEN ''WAC-FSS'' THEN ''WAC''
+                                                              WHEN ''AVGY'' THEN ''WAC'' ELSE PRICE_TYPE END PRICE_TYPE1
+                                  ,CASE PRICE_TYPE WHEN ''CPI-U'' THEN ''CPI''
+                                                                WHEN  ''CPI-U ADJUSTMENT''  THEN ''CPI'' 
+                                                                WHEN ''FCP DISCOUNT'' THEN ''FCP''
+                                                                WHEN ''FSS (OGA) DISCOUNT'' THEN ''AFSS''
+                                                                WHEN ''MAX FSS'' THEN ''AFSS''
+                                                                WHEN ''WAC INCREASE %'' THEN ''WAC'' 
+                                                                WHEN ''WAC-FCP'' THEN ''FCP''
+                                                                WHEN ''WAC-FSS'' THEN ''AFSS''
+                                                                WHEN ''AVGY'' THEN ''WAC'' ELSE PRICE_TYPE END  PRICE_TYPE2
+FROM '+@FCP_PROJECTION_TABLE+ '  WHERE PRICE_TYPE NOT IN (''WAC INCREASE %'' , ''WAC'')
+
+       )
+       ,CTE2 AS (
+       SELECT PRICE_TYPE
+              ,PRICE_TYPE1
+              ,PRICE_TYPE2
+              ,PERIOD_SID PERIOD_SID1
+       FROM CTE A
+       OUTER APPLY (
+              SELECT TOP 1 P.PERIOD_SID
+              FROM ITEM_PRICING IP
+              JOIN ITEM_PRICING_QUALIFIER IPQ ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+                     AND CASE 
+                           WHEN IPQ.PRICING_QUALIFIER = ''CPIURA''
+                                  THEN ''CPI-URA''
+                           ELSE IPQ.PRICING_QUALIFIER
+                           END = A.PRICE_TYPE1
+              JOIN PERIOD P ON P.PERIOD_DATE = CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(COALESCE(END_DATE, START_DATE), 0))))
+              WHERE ITEM_MASTER_SID =  ',@ITEM_MASTER_SID,'
+              ORDER BY COALESCE(END_DATE, START_DATE) DESC
+              ) B
+       )
+       ,CTE3
+AS (
+       SELECT PRICE_TYPE
+              ,PRICE_TYPE1
+              ,PRICE_TYPE2
+              ,PERIOD_SID PERIOD_SID2
+       FROM CTE A
+       OUTER APPLY (
+              SELECT TOP 1 P.PERIOD_SID
+              FROM ITEM_PRICING IP
+              JOIN ITEM_PRICING_QUALIFIER IPQ ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+                     AND CASE 
+                           WHEN IPQ.PRICING_QUALIFIER = ''CPIURA''
+                                  THEN ''CPI-URA''
+                           ELSE IPQ.PRICING_QUALIFIER
+                           END = A.PRICE_TYPE2
+              JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=IP.ITEM_UOM
+              AND HT.DESCRIPTION='''+@ITEM_UOM+'''
+              JOIN PERIOD P ON P.PERIOD_DATE = CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(COALESCE(END_DATE, START_DATE), 0))))
+              WHERE ITEM_MASTER_SID =  ',@ITEM_MASTER_SID,'
+              ORDER BY COALESCE(END_DATE, START_DATE) DESC
+              ) B
+       )
+       INSERT INTO #FORECAST_PRICE_PERIOD(PRICE_TYPE,PERIOD_SID)
+
+SELECT A.PRICE_TYPE
+       ,IIF(CASE 
+                     WHEN A.PRICE_TYPE1 = INDEX_TYPE
+                           THEN C.PERIOD_SID
+                     ELSE A.PERIOD_SID1
+                     END <= CASE 
+                     WHEN A.PRICE_TYPE1 = INDEX_TYPE
+                           THEN C.PERIOD_SID
+                     ELSE B.PERIOD_SID2
+                     END, CASE 
+                     WHEN A.PRICE_TYPE1 = INDEX_TYPE
+                           THEN C.PERIOD_SID
+                     ELSE A.PERIOD_SID1
+                     END, CASE 
+                     WHEN A.PRICE_TYPE1 = INDEX_TYPE
+                           THEN C.PERIOD_SID
+                     ELSE B.PERIOD_SID2
+                     END) PERIOD_SID
+FROM CTE2 A
+JOIN CTE3 B ON A.PRICE_TYPE = B.PRICE_TYPE
+OUTER APPLY (
+       SELECT TOP 1 PERIOD_SID
+              ,INDEX_TYPE
+       FROM CPI_INDEX_MASTER A
+       JOIN PERIOD P ON P.PERIOD_DATE = CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(EFFECTIVE_DATE, 0))))
+       WHERE INDEX_TYPE = B.PRICE_TYPE1
+              AND INBOUND_STATUS <> ''D''
+       ORDER BY EFFECTIVE_DATE DESC
+       ) C');	   
+	   */------cel-1895--------
+CREATE TABLE #FORECAST_PRICE_PERIOD (
+       PRICE_TYPE VARCHAR(100) NULL
+       ,PERIOD_SID INT NULL
+	   ,ITEM_MASTER_SID INT
+	   ,NA_PROJ_DETAILS_SID INT
+       );
+
+SET @SQL_FCP_UPD5 ='';
+SET @SQL_FCP_UPD5 =CONCAT('
+WITH CTE
+AS (
+       SELECT DISTINCT P.NA_PROJ_DETAILS_SID,
+                           P.ITEM_MASTER_SID,
+                           PRICE_TYPE
+                       ,CASE PRICE_TYPE WHEN ''CPI-U'' THEN ''CPI''
+                                                              WHEN  ''CPI-U ADJUSTMENT''  THEN ''CPI'' 
+                                                               WHEN ''FCP DISCOUNT'' THEN ''FCP''
+                                                              WHEN ''FSS (OGA) DISCOUNT'' THEN ''AFSS''
+                                                              WHEN ''MAX FSS'' THEN ''AFSS''
+                                                              WHEN ''WAC INCREASE %'' THEN ''WAC'' 
+                                                               WHEN ''WAC-FCP'' THEN ''WAC''
+                                                              WHEN ''WAC-FSS'' THEN ''WAC''
+                                                              WHEN ''AVGY'' THEN ''WAC'' ELSE PRICE_TYPE END PRICE_TYPE1
+                                  ,CASE PRICE_TYPE WHEN ''CPI-U'' THEN ''CPI''
+                                                                WHEN  ''CPI-U ADJUSTMENT''  THEN ''CPI'' 
+                                                                WHEN ''FCP DISCOUNT'' THEN ''FCP''
+                                                                WHEN ''FSS (OGA) DISCOUNT'' THEN ''AFSS''
+                                                                WHEN ''MAX FSS'' THEN ''AFSS''
+                                                                WHEN ''WAC INCREASE %'' THEN ''WAC'' 
+                                                                WHEN ''WAC-FCP'' THEN ''FCP''
+                                                                WHEN ''WAC-FSS'' THEN ''AFSS''
+                                                                WHEN ''AVGY'' THEN ''WAC'' ELSE PRICE_TYPE END  PRICE_TYPE2
+FROM ',@FCP_PROJECTION_TABLE, ' F
+                  JOIN #PROJECTION_DETAILS P
+                    ON P.NA_PROJ_DETAILS_SID = F.NA_PROJ_DETAILS_SID  WHERE PRICE_TYPE NOT IN (''WAC INCREASE %'' , ''WAC'')
+
+       )
+       ,CTE2 AS (
+       SELECT A.NA_PROJ_DETAILS_SID,
+                  A.ITEM_MASTER_SID,
+                  PRICE_TYPE,
+                  PRICE_TYPE1,
+                  PRICE_TYPE2,
+                  PERIOD_SID PERIOD_SID1
+           FROM   CTE A
+                  OUTER APPLY (SELECT TOP 1 P.PERIOD_SID,
+                                            IP.ITEM_MASTER_SID
+                               FROM   ITEM_PRICING IP
+                                      JOIN ITEM_PRICING_QUALIFIER IPQ
+                                        ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+                     AND CASE 
+                           WHEN IPQ.PRICING_QUALIFIER = ''CPIURA''
+                                  THEN ''CPI-URA''
+                           ELSE IPQ.PRICING_QUALIFIER
+                           END = A.PRICE_TYPE1
+						    AND A.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+              JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=IP.ITEM_UOM
+              AND HT.DESCRIPTION=''',@ITEM_UOM,'''
+              JOIN PERIOD P ON P.PERIOD_DATE = CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(COALESCE(END_DATE, START_DATE), 0))))
+              ORDER BY COALESCE(END_DATE, START_DATE) DESC
+              ) B
+       )
+       ,CTE3
+AS (SELECT A.NA_PROJ_DETAILS_SID,
+                  A.ITEM_MASTER_SID,
+                  PRICE_TYPE,
+                  PRICE_TYPE1,
+                  PRICE_TYPE2,
+                  PERIOD_SID PERIOD_SID2
+           FROM   CTE A
+                  OUTER APPLY (SELECT TOP 1 P.PERIOD_SID,
+                                            IP.ITEM_MASTER_SID
+                               FROM   ITEM_PRICING IP
+                                      JOIN ITEM_PRICING_QUALIFIER IPQ
+                                        ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+                     AND CASE 
+                           WHEN IPQ.PRICING_QUALIFIER = ''CPIURA''
+                                  THEN ''CPI-URA''
+                           ELSE IPQ.PRICING_QUALIFIER
+                           END = A.PRICE_TYPE2
+						    AND A.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+              JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=IP.ITEM_UOM
+              AND HT.DESCRIPTION=''',@ITEM_UOM,'''
+              JOIN PERIOD P ON P.PERIOD_DATE = CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(COALESCE(END_DATE, START_DATE), 0))))
+              ORDER BY COALESCE(END_DATE, START_DATE) DESC
+              ) B
+       )
+       INSERT INTO #FORECAST_PRICE_PERIOD(NA_PROJ_DETAILS_SID,ITEM_MASTER_SID,PRICE_TYPE,PERIOD_SID)
+
+  SELECT A.NA_PROJ_DETAILS_SID,
+         A.ITEM_MASTER_SID,
+         A.PRICE_TYPE,
+         Iif(CASE
+               WHEN A.PRICE_TYPE1 = INDEX_TYPE THEN C.PERIOD_SID
+               ELSE A.PERIOD_SID1
+             END <= CASE
+                      WHEN A.PRICE_TYPE1 = INDEX_TYPE THEN C.PERIOD_SID
+                      ELSE B.PERIOD_SID2
+                    END, CASE
+                           WHEN A.PRICE_TYPE1 = INDEX_TYPE THEN C.PERIOD_SID
+                           ELSE A.PERIOD_SID1
+                         END, CASE
+                                WHEN A.PRICE_TYPE1 = INDEX_TYPE THEN C.PERIOD_SID
+                                ELSE B.PERIOD_SID2
+                              END) PERIOD_SID
+  FROM   CTE2 A
+         JOIN CTE3 B
+           ON A.PRICE_TYPE = B.PRICE_TYPE
+              AND A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+              AND A.NA_PROJ_DETAILS_SID = B.NA_PROJ_DETAILS_SID
+         OUTER APPLY (SELECT TOP 1 PERIOD_SID,
+                                   INDEX_TYPE
+                      FROM   CPI_INDEX_MASTER A
+                             JOIN PERIOD P
+                               ON P.PERIOD_DATE = CONVERT(DATETIME, Dateadd(MM, -1, Dateadd(DD, 1, Eomonth(EFFECTIVE_DATE, 0))))
+                      WHERE  INDEX_TYPE = B.PRICE_TYPE1
+                             AND INBOUND_STATUS <> ''D''
+       ORDER BY EFFECTIVE_DATE DESC
+       ) C  where b.PRICE_TYPE2 <>''WAC''');------cel-1895
+/*
+SET @SQL_FCP_UPD5 =CONCAT('
+WITH CTE
+AS (
+       SELECT DISTINCT P.NA_PROJ_DETAILS_SID,
+                           P.ITEM_MASTER_SID,
+                           PRICE_TYPE
+                       ,CASE PRICE_TYPE WHEN ''CPI-U'' THEN ''CPI''
+                                                              WHEN  ''CPI-U ADJUSTMENT''  THEN ''CPI'' 
+                                                               WHEN ''FCP DISCOUNT'' THEN ''FCP''
+                                                              WHEN ''FSS (OGA) DISCOUNT'' THEN ''AFSS''
+                                                              WHEN ''MAX FSS'' THEN ''AFSS''
+                                                              WHEN ''WAC INCREASE %'' THEN ''WAC'' 
+                                                               WHEN ''WAC-FCP'' THEN ''WAC''
+                                                              WHEN ''WAC-FSS'' THEN ''WAC''
+                                                              WHEN ''AVGY'' THEN ''WAC'' ELSE PRICE_TYPE END PRICE_TYPE1
+                                  ,CASE PRICE_TYPE WHEN ''CPI-U'' THEN ''CPI''
+                                                                WHEN  ''CPI-U ADJUSTMENT''  THEN ''CPI'' 
+                                                                WHEN ''FCP DISCOUNT'' THEN ''FCP''
+                                                                WHEN ''FSS (OGA) DISCOUNT'' THEN ''AFSS''
+                                                                WHEN ''MAX FSS'' THEN ''AFSS''
+                                                                WHEN ''WAC INCREASE %'' THEN ''WAC'' 
+                                                                WHEN ''WAC-FCP'' THEN ''FCP''
+                                                                WHEN ''WAC-FSS'' THEN ''AFSS''
+                                                                WHEN ''AVGY'' THEN ''WAC'' ELSE PRICE_TYPE END  PRICE_TYPE2
+FROM ',@FCP_PROJECTION_TABLE, ' F
+                  JOIN #PROJECTION_DETAILS P
+                    ON P.NA_PROJ_DETAILS_SID = F.NA_PROJ_DETAILS_SID  WHERE PRICE_TYPE NOT IN (''WAC INCREASE %'' , ''WAC'')
+
+       )
+       ,CTE2 AS (
+       SELECT A.NA_PROJ_DETAILS_SID,
+                  B.ITEM_MASTER_SID,
+                  PRICE_TYPE,
+                  PRICE_TYPE1,
+                  PRICE_TYPE2,
+                  PERIOD_SID PERIOD_SID1
+           FROM   CTE A
+                  OUTER APPLY (SELECT TOP 1 P.PERIOD_SID,
+                                            IP.ITEM_MASTER_SID
+                               FROM   ITEM_PRICING IP
+                                      JOIN ITEM_PRICING_QUALIFIER IPQ
+                                        ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+                     AND CASE 
+                           WHEN IPQ.PRICING_QUALIFIER = ''CPIURA''
+                                  THEN ''CPI-URA''
+                           ELSE IPQ.PRICING_QUALIFIER
+                           END = A.PRICE_TYPE1
+						    AND A.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+              JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=IP.ITEM_UOM
+              AND HT.DESCRIPTION=''',@ITEM_UOM,'''
+              JOIN PERIOD P ON P.PERIOD_DATE = CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(COALESCE(END_DATE, START_DATE), 0))))
+              ORDER BY COALESCE(END_DATE, START_DATE) DESC
+              ) B
+       )
+       ,CTE3
+AS (SELECT A.NA_PROJ_DETAILS_SID,
+                  B.ITEM_MASTER_SID,
+                  PRICE_TYPE,
+                  PRICE_TYPE1,
+                  PRICE_TYPE2,
+                  PERIOD_SID PERIOD_SID2
+           FROM   CTE A
+                  OUTER APPLY (SELECT TOP 1 P.PERIOD_SID,
+                                            IP.ITEM_MASTER_SID
+                               FROM   ITEM_PRICING IP
+                                      JOIN ITEM_PRICING_QUALIFIER IPQ
+                                        ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+                     AND CASE 
+                           WHEN IPQ.PRICING_QUALIFIER = ''CPIURA''
+                                  THEN ''CPI-URA''
+                           ELSE IPQ.PRICING_QUALIFIER
+                           END = A.PRICE_TYPE2
+						    AND A.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+              JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=IP.ITEM_UOM
+              AND HT.DESCRIPTION=''',@ITEM_UOM,'''
+              JOIN PERIOD P ON P.PERIOD_DATE = CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(COALESCE(END_DATE, START_DATE), 0))))
+              ORDER BY COALESCE(END_DATE, START_DATE) DESC
+              ) B
+       )
+       INSERT INTO #FORECAST_PRICE_PERIOD(NA_PROJ_DETAILS_SID,ITEM_MASTER_SID,PRICE_TYPE,PERIOD_SID)
+
+  SELECT A.NA_PROJ_DETAILS_SID,
+         A.ITEM_MASTER_SID,
+         A.PRICE_TYPE,
+         Iif(CASE
+               WHEN A.PRICE_TYPE1 = INDEX_TYPE THEN C.PERIOD_SID
+               ELSE A.PERIOD_SID1
+             END <= CASE
+                      WHEN A.PRICE_TYPE1 = INDEX_TYPE THEN C.PERIOD_SID
+                      ELSE B.PERIOD_SID2
+                    END, CASE
+                           WHEN A.PRICE_TYPE1 = INDEX_TYPE THEN C.PERIOD_SID
+                           ELSE A.PERIOD_SID1
+                         END, CASE
+                                WHEN A.PRICE_TYPE1 = INDEX_TYPE THEN C.PERIOD_SID
+                                ELSE B.PERIOD_SID2
+                              END) PERIOD_SID
+  FROM   CTE2 A
+         JOIN CTE3 B
+           ON A.PRICE_TYPE = B.PRICE_TYPE
+              AND A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+              AND A.NA_PROJ_DETAILS_SID = B.NA_PROJ_DETAILS_SID
+         OUTER APPLY (SELECT TOP 1 PERIOD_SID,
+                                   INDEX_TYPE
+                      FROM   CPI_INDEX_MASTER A
+                             JOIN PERIOD P
+                               ON P.PERIOD_DATE = CONVERT(DATETIME, Dateadd(MM, -1, Dateadd(DD, 1, Eomonth(EFFECTIVE_DATE, 0))))
+                      WHERE  INDEX_TYPE = B.PRICE_TYPE1
+                             AND INBOUND_STATUS <> ''D''
+       ORDER BY EFFECTIVE_DATE DESC
+       ) C');*/
+EXEC SP_EXECUTESQL @SQL_FCP_UPD5;
+/*
+SET @SQL_FCP_UPD5 =''
+       SET @SQL_FCP_UPD5 = 'UPDATE SFP
+       SET PROJECTION_PRICE=0
+       FROM '+@FCP_PROJECTION_TABLE+'  SFP
+       JOIN #FORECAST_PRICE_PERIOD FPP
+       ON SFP.PRICE_TYPE=FPP.PRICE_TYPE
+       AND FPP.PERIOD_SID IS NOT NULL
+       AND SFP.PERIOD_SID<= CASE WHEN SFP.PRICE_TYPE =''WAC INCREASE %'' then FPP.PERIOD_SID+3 ELSE FPP.PERIOD_SID END';
+*/------cel-1895--------
+	   SET @SQL_FCP_UPD5 = CONCAT('UPDATE SFP
+       SET PROJECTION_PRICE=0
+       FROM ',@FCP_PROJECTION_TABLE,'  SFP
+       JOIN #FORECAST_PRICE_PERIOD FPP
+       ON SFP.PRICE_TYPE=FPP.PRICE_TYPE
+	   AND SFP.NA_PROJ_DETAILS_SID = FPP.NA_PROJ_DETAILS_SID
+       AND FPP.PERIOD_SID IS NOT NULL
+       AND SFP.PERIOD_SID<= CASE WHEN SFP.PRICE_TYPE =''WAC INCREASE %'' THEN FPP.PERIOD_SID+3 ELSE FPP.PERIOD_SID END');
+EXEC SP_EXECUTESQL @SQL_FCP_UPD5;
+
+
+ ------------cel-405
       END TRY
  
       BEGIN CATCH
@@ -1801,14 +2257,14 @@ EXEC sp_executesql @SQL_FCP_PRJ_UPDD4
           DECLARE @ERRORPROCEDURE VARCHAR(200);
           DECLARE @ERRORLINE INT;
  
-          EXEC USPERRORCOLLECTOR
+          EXEC dbo.USPERRORCOLLECTOR;
  
           SELECT @ERRORMESSAGE = ERROR_MESSAGE(),
                  @ERRORSEVERITY = ERROR_SEVERITY(),
                  @ERRORSTATE = ERROR_STATE(),
                  @ERRORPROCEDURE = ERROR_PROCEDURE(),
                  @ERRORLINE = ERROR_LINE(),
-                 @ERRORNUMBER = ERROR_NUMBER()
+                 @ERRORNUMBER = ERROR_NUMBER();
  
           RAISERROR (@ERRORMESSAGE,-- MESSAGE TEXT.
                      @ERRORSEVERITY,-- SEVERITY.
@@ -1816,11 +2272,8 @@ EXEC sp_executesql @SQL_FCP_PRJ_UPDD4
                      @ERRORPROCEDURE,-- PROCEDURE_NAME.
                      @ERRORNUMBER,-- ERRORNUMBER
                      @ERRORLINE -- ERRORLINE
-          )
-      END CATCH
-  END
-
-
-
+          );
+      END CATCH;
+  END;
 
   GO

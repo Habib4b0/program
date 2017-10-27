@@ -275,10 +275,10 @@ public final class FieldNameUtils {
 	public static final String PRICINGCODESTATUS= "pricingCodeStatus";
 	
 	/** The Constant pricingStartDate. */
-	public static final String pricingStartDate= "pricingStartDate";
+	public static final String PRICING_STRAT_DATE= "pricingStartDate";
 	
 	/** The Constant pricingEndDate. */
-	public static final String pricingEndDate= "pricingEndDate";
+	public static final String PRICING_END_DATE= "pricingEndDate";
 	
 	/** The Constant priceEntityCode. */
 	public static final String PRICEENTITYCODE= "entityCode";

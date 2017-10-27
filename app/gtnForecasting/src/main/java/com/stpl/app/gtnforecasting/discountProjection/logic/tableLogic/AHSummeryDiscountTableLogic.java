@@ -43,8 +43,8 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     String actualsOrProjections;
     String projectionPeriodorder;
     boolean isProgram;
-    List<String> discountList = new ArrayList<String>();
-    List<Integer> startAndEndPeriods = new ArrayList<Integer>();
+    List<String> discountList = new ArrayList<>();
+    List<Integer> startAndEndPeriods = new ArrayList<>();
     String year;
     int levelNo;
     boolean isParent;
@@ -140,7 +140,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
         GtnSmallHashMap map = new GtnSmallHashMap();
-        List<DiscountProjectionDTO> list = new ArrayList<DiscountProjectionDTO>();
+        List<DiscountProjectionDTO> list;
         list = loadLevelData(getLastParent(), start, offset);
         int i = start;
         for (DiscountProjectionDTO dto : list) {
@@ -172,7 +172,6 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
                 LOGGER.debug(" dto.getLevelNo() " + dto.getTreeLevelNo() + "    dto.getLevelName()= " + dto.getLevelName());
                 if (!alternateProjectionSelection.isIsFilter()) {
-                    isParentChecked = (Boolean) dto.getPropertyValue(Constant.CHECKRECORD);
                     Leveldto levelDto = CommonLogic.getNextLevel(dto.getTreeLevelNo() + 1, currentHierarchy);
                     if (levelDto != null) {
                         if (isCustomHierarchy) {
@@ -197,7 +196,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                         }
                     }
                 }
-                if ("Variable".equalsIgnoreCase(alternateProjectionSelection.getVariableView())) {
+                if (Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView())) {
                     alternateProjectionSelection.setAlternatePivotList(dto.getAlternatePivotList().size() > 0 ? dto.getAlternatePivotList() : Collections.EMPTY_LIST);
                 }
                 alternateProjectionSelection.setIsTotal(false);
@@ -231,7 +230,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             customDetailsList.add(hierarchyNo);
             customDetailsList.add(treeLevelNo);
 
-            List<String> customViewDetails = new ArrayList<String>();
+            List<String> customViewDetails = new ArrayList<>();
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
@@ -340,7 +339,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                         }
                     }
                 }
-                alternatePivotFlag = "Variable".equalsIgnoreCase(alternateProjectionSelection.getVariableView());
+                alternatePivotFlag = Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView());
                 alternateProjectionSelection.setIsTotal(false);
             } else {
                 // For parent
@@ -366,7 +365,6 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                 alternateProjectionSelection.setIsTotal(true);
             }
             alternatePivotCount = alternatePivotFlag ? alternateProjectionSelection.getPeriodList().size() : 0;
-            alternatePivotFlag = false;
             customDetailsList.add(levelNumber);
             customDetailsList.add(hierarchyNo);
             customDetailsList.add(treeLevelNo);
@@ -375,7 +373,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             LOGGER.debug(" Hierarchy indicator ===" + tempHierarchyIndicator);
             LOGGER.debug(" customTreeLevelNo ===" + treeLevelNo);
 
-            List<String> customViewDetails = new ArrayList<String>();
+            List<String> customViewDetails = new ArrayList<>();
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
@@ -478,7 +476,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             for (int j = 0; j < size; j++) {
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) (list.get(j));
                 String customTreeLevel = treeLevel + (index + j) + ".";
-                boolean checkFlag = "Pivot".equals(dto.getParentAlternatePivot()) ? true :((alternateProjectionSelection.isIsFilter() && "Variable".equalsIgnoreCase(alternateProjectionSelection.getVariableView()))||"Variable".equalsIgnoreCase(alternateProjectionSelection.getVariableView()))? false : dto.getTreeLevelNo() == lastLevelNo;
+                boolean checkFlag = "Pivot".equals(dto.getParentAlternatePivot()) ? true :((alternateProjectionSelection.isIsFilter() && Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))||Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))? false : dto.getTreeLevelNo() == lastLevelNo;
                 if(!checkFlag){
                     addExpandedTreeList(customTreeLevel, dto);
                     recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
@@ -499,7 +497,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
 
         DiscountProjectionDTO dto = (DiscountProjectionDTO) object;
         ((ExtTreeContainer<DiscountProjectionDTO>) datasource).addBean(dto);
-        boolean checkFlag = "Pivot".equals(dto.getParentAlternatePivot()) ? true :((alternateProjectionSelection.isIsFilter() && "Variable".equalsIgnoreCase(alternateProjectionSelection.getVariableView()))||"Variable".equalsIgnoreCase(alternateProjectionSelection.getVariableView()))? false : dto.getTreeLevelNo() == lastLevelNo;
+        boolean checkFlag = "Pivot".equals(dto.getParentAlternatePivot()) ? true :((alternateProjectionSelection.isIsFilter() && Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))||Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView()))? false : dto.getTreeLevelNo() == lastLevelNo;
         if (checkFlag) {
             ((ExtTreeContainer<DiscountProjectionDTO>) datasource).setChildrenAllowed(dto, false);
         } else {
@@ -559,10 +557,10 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     @Override
     public GtnSmallHashMap loadBulkData(GtnSmallHashMap bulkDataMap) {
         GtnSmallHashMap tempMap = new GtnSmallHashMap();
-        List<String> hiearchyNoList = new ArrayList<String>();
+        List<String> hiearchyNoList = new ArrayList<>();
 
         for (int i = 0; i < bulkDataMap.size(); i++) {
-            String tempLevelValue = StringUtils.EMPTY;
+            String tempLevelValue;
             DiscountProjectionDTO dto = (DiscountProjectionDTO) bulkDataMap.getIndex(i).getValue();
             tempLevelValue = dto.getHierarchyNo();
             tempMap.put(tempLevelValue, bulkDataMap.getIndex(i).getKey());
@@ -571,7 +569,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
 
         String hierarchyNumbers = CommonUtils.CollectionToString(hiearchyNoList, true);
 
-        List<String> customViewDetails = new ArrayList<String>();
+        List<String> customViewDetails = new ArrayList<>();
         List customDetailsList = new ArrayList();
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);

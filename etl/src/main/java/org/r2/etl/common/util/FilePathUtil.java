@@ -1,6 +1,6 @@
 package org.r2.etl.common.util;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * This file contains all interface file path.
  *
@@ -14,14 +14,17 @@ public final class FilePathUtil {
 	/** The variable used for logger. */
 	public static final String VIEW_RESOL_SUFF = ".jsp";
 
+        /** The Constant BACKSLASH. */
+	public static final String BACKSLASH="/";
+                
 	/** The Constant TEMP_PATH. */
-	public static final String TEMP_PATH="/temp";
-	
+	public static final String TEMP_PATH=BACKSLASH+"temp";
+	        
 	/** The Constant LOG_PATH. */
-	public static final String LOG_PATH="/log.txt";
+	public static final String LOG_PATH=BACKSLASH+"log.txt";
 	
 	/** The Constant ERROR_LOG_PATH. */
-	public static final String ERROR_LOG_PATH="/Error_Log.txt";
+	public static final String ERROR_LOG_PATH=BACKSLASH+"Error_Log.txt";
 	
 	/** The Constant LOG_FILE_NAME. */
 	public static final String LOG_FILE_NAME="Error_Log.txt";
@@ -33,7 +36,7 @@ public final class FilePathUtil {
 	public static final String ERROR_MAIL_FILE_NAME="MailConfiguration.properties";
 	
 	/** The Constant DATABASE_CONFIGURATION_FILE_NAME. */
-	public static final String DATABASE_CONFIGURATION_FILE_NAME="/DatabaseConfiguration.properties";
+	public static final String DATABASE_CONFIGURATION_FILE_NAME="/EtlConfiguration.properties";
 	
 	/** The Constant CONTENT_CONFIGURATION_FILE_NAME. */
 	public static final String CONTENT_CONFIGURATION_FILE_NAME="/ContentConfiguration.properties";
@@ -205,30 +208,35 @@ public final class FilePathUtil {
 	/** The Constant INVENTORY_WITHDRAWAL_PROJECTED_SUMMARY_INTERFACE. */
 	public static final String INVENTORY_WITHDRAWAL_PROJECTED_SUMMARY_INTERFACE="/INVENTORY_WITHDRAWAL_PROJECTED_SUMMARY_INTERFACE/INVENTORY_WITHDRAWAL_PROJECTED_SUMMARY.kjb";
 	/** The Constant RETURNS_INTERFACE. */
-	public static final String RETURNS_INTERFACE="/RETURNS_INTERFACE/RETURNS_MASTER_INTERFACE.kjb";
+	public static final String RETURNS_INTERFACE1="/RETURNS_INTERFACE/RETURNS_MASTER_INTERFACE.kjb";
 	
-	/** The Constant RETURNS_INTERFACE. */
-	public static final String ADJUSTED_DEMAND_ACTUAL_INTERFACE="/ADJUSTED_DEMAND_ACTUAL_INTERFACE/ADJUSTED_DEMAND_ACTUAL_INTERFACE.kjb";
-	/** The Constant RETURNS_INTERFACE. */
-	public static final String ADJUSTED_DEMAND_FORECASTINTERFACE="/ADJUSTED_DEMAND_FORECAST_INTERFACE/ADJUSTED_DEMAND_FORECAST_INTERFACE.kjb";
-	/** The Constant RETURNS_INTERFACE. */
-	public static final String CUSTOMER_GTS_ACTUAL_INTERFACE="/CUSTOMER_GTS_ACTUAL_INTERFACE/CUSTOMER_GTS_ACTUAL.kjb";
-	/** The Constant RETURNS_INTERFACE. */
-	public static final String CUSTOMER_GTS_FORECAST_INTERFACE="/CUSTOMER_GTS_FORECAST_INTERFACE/CUSTOMER_GTS_FORECAST.kjb";
+	/** The Constant ADJUSTED_DEMAND_ACTUAL_INTERFACE. */
+	public static final String ADJUSTED_DEMAND_ACTUAL_INTERFACE1="/ADJUSTED_DEMAND_ACTUAL_INTERFACE/ADJUSTED_DEMAND_ACTUAL_INTERFACE.kjb";
+	/** The Constant ADJUSTED_DEMAND_FORECASTINTERFACE. */
+	public static final String ADJUSTED_DEMAND_FORECASTINTERFACE1="/ADJUSTED_DEMAND_FORECAST_INTERFACE/ADJUSTED_DEMAND_FORECAST_INTERFACE.kjb";
+	/** The Constant CUSTOMER_GTS_ACTUAL_INTERFACE. */
+	public static final String CUSTOMER_GTS_ACTUAL_INTERFACE1="/CUSTOMER_GTS_ACTUAL_INTERFACE/CUSTOMER_GTS_ACTUAL.kjb";
+	/** The Constant CUSTOMER_GTS_FORECAST_INTERFACE. */
+	public static final String CUSTOMER_GTS_FORECAST_INTERFACE1="/CUSTOMER_GTS_FORECAST_INTERFACE/CUSTOMER_GTS_FORECAST.kjb";
 	
 	/** The Constant RETURN_RESERVE_INTERFACE. */
-	public static final String RETURN_RESERVE_INTERFACE="/RETURN_RESERVE_INTERFACE/RETURN_RESERVE_INTERFACE.kjb";
+	public static final String RETURN_RESERVE_INTERFACE1="/RETURN_RESERVE_INTERFACE/RETURN_RESERVE_INTERFACE.kjb";
 	/** The Constant CFF_OUTBOUND_INTERFACE. */
-	public static final String CFF_OUTBOUND_INTERFACE="/CFF_OUTBOUND_INTERFACE/CFF_OUTBOUND_INTERFACE.kjb";
+	public static final String CFF_OUTBOUND_INTERFACE1="/CFF_OUTBOUND_INTERFACE/CFF_OUTBOUND_INTERFACE.kjb";
 	
 	/** The Constant ARP_OUTBOUND_INTERFACE. */
-	public static final String ARP_OUTBOUND_INTERFACE="/ARP_OUTBOUND_INTERFACE/ARP_OUTBOUND_INTERFACE.kjb";
+	public static final String ARP_OUTBOUND_INTERFACE1="/ARP_OUTBOUND_INTERFACE/ARP_OUTBOUND_INTERFACE.kjb";
 	
 	
-	/** The Constant ARP_OUTBOUND_INTERFACE. */
-	public static final String ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE="/ADJUSTMENT_GTN_DETAIL_INTERFACE/ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE.kjb";
-	/** The Constant ARP_OUTBOUND_INTERFACE. */
-	public static final String ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE="/ADJUSTMENT_RESERVE_DETAIL_INTERFACE/ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE.kjb";
+	/** The Constant ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE. */
+	public static final String ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE1="/ADJUSTMENT_GTN_DETAIL_INTERFACE/ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE.kjb";
+	/** The Constant ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE. */
+	public static final String ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE1="/ADJUSTMENT_RESERVE_DETAIL_INTERFACE/ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE.kjb";
 
-	
+        /** The Constant ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE. */
+	public static final String ITEM_UOM_INTERFACE="/ITEM_UOM_INTERFACE/ITEM_UOM_INTERFACE.kjb";
+
+        
+	private FilePathUtil(){
+        }
 }

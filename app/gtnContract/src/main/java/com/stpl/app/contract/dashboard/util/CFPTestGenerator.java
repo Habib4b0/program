@@ -124,8 +124,6 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 return comboBox;
             }
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -134,10 +132,12 @@ public class CFPTestGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

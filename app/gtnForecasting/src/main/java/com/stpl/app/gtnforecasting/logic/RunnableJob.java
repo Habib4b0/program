@@ -61,7 +61,7 @@ public class RunnableJob implements Runnable {
                 savedto.setTable(table);
                 group = group.equals(Constant.ALL_GROUP) ? Constant.PERCENT : group;
                 savedto.setGroup(group);
-                PPAProjectionLogic.savePPAProjection(projectionId, session, savedto, selection);
+                PPAProjectionLogic.savePPAProjection(projectionId, savedto, selection);
                 
             }
         }

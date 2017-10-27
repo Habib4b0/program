@@ -46,7 +46,7 @@ public abstract class AbstractHierarchyLookup extends AbstractLookup {
      */
     private OptionGroup hierarchyType;
 
-    public AbstractHierarchyLookup(final String indicator, final String windowName, final String moduleIndicator) {
+    public AbstractHierarchyLookup(final String windowName) {
         super(windowName);
         setWidth(NumericConstants.THOUSAND, Unit.PIXELS);
         setHeight(NumericConstants.EIGHT_FOUR_FIVE, Unit.PIXELS);
@@ -156,8 +156,8 @@ public abstract class AbstractHierarchyLookup extends AbstractLookup {
      */
     @Override
     protected void configureResultTable(final ExtFilterTable results, final String indicator) {
-        results.setVisibleColumns(TableHeaderColumnsUtil.HIERARCHY_LOOKUP_COLUMNS);
-        results.setColumnHeaders(TableHeaderColumnsUtil.HIERARCHY_LOOKUP_HEADERS);
+        results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().hierarchyLookupColumns);
+        results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().hierarchyLookupHeaders);
         results.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
     }
 

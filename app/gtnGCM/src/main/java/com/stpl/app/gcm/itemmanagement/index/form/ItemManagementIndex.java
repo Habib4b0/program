@@ -6,6 +6,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.index.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
@@ -21,6 +22,7 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
+import static com.stpl.app.gcm.util.Constants.MessageConstants.NO_TP_SELECTED_BODY;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.CustomFieldGroup;
@@ -133,26 +135,25 @@ public class ItemManagementIndex extends CustomComponent {
     public Button tableReset;
     TabSheet mainTab = new TabSheet();
     public static final Logger LOGGER = Logger.getLogger(ItemManagementIndex.class);
-    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<ItemIndexDto>(ItemIndexDto.class);
+    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
     ItemLogic logic = new ItemLogic();
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     ItemIndexDto binderDto = new ItemIndexDto();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ItemIndexDto>(binderDto));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     boolean resetFlag = false;
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
     public ExtPagedTable itemResults = new ExtPagedTable(tableLogic);
-    List<ItemIndexDto> selecteditemList = new ArrayList<ItemIndexDto>();
+    List<ItemIndexDto> selecteditemList = new ArrayList<>();
     final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     Integer internalSessionId = 0;
     Long sessionId;
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     VerticalLayout contractDashboardLay = new VerticalLayout();
     final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    Map<String, AppPermission> functionHM = new HashMap<>();
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
 
     public ItemManagementIndex(SelectionDTO selection) {
         this.selection = selection;
@@ -222,8 +223,8 @@ public class ItemManagementIndex extends CustomComponent {
         tableLogic.setContainerDataSource(searchContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        itemResults.setVisibleColumns(CommonUtils.visibleColumnItemSearch);
-        itemResults.setColumnHeaders(CommonUtils.columnHeaderItemSearch);
+        itemResults.setVisibleColumns(UiUtils.getInstance().visibleColumnItemSearch);
+        itemResults.setColumnHeaders(UiUtils.getInstance().columnHeaderItemSearch);
         itemResults.setSizeUndefined();
         itemResults.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         itemResults.setEditable(Boolean.TRUE);
@@ -279,9 +280,11 @@ public class ItemManagementIndex extends CustomComponent {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -388,7 +391,7 @@ public class ItemManagementIndex extends CustomComponent {
                     && (binderDto.getItemCategory() == null || Constants.SELECT_ONE.equals(binderDto.getItemCategory()) || StringUtils.EMPTY.equals(binderDto.getItemCategory().trim()))
                     && (binderDto.getItemType() == null || Constants.SELECT_ONE.equals(binderDto.getItemType()) || StringUtils.EMPTY.equals(binderDto.getItemType().trim()))) {
 
-                MessageBox.showPlain(Icon.INFO, "Error", "Please Enter Search Criteria.", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, Constants.ERROR, "Please Enter Search Criteria.", ButtonId.OK);
             } else {
                 Date sessionDate = new Date();
                 selection.setInternalSessionid(Integer.valueOf(fmtID.format(sessionDate)).toString());
@@ -418,7 +421,7 @@ public class ItemManagementIndex extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         List<String> visibleList = Arrays.asList(itemResults.getColumnHeaders()).subList(1, itemResults.getVisibleColumns().length);
         if (resultTable.size() != 0) {
@@ -461,6 +464,7 @@ public class ItemManagementIndex extends CustomComponent {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the Item Search?");
 
@@ -479,6 +483,7 @@ public class ItemManagementIndex extends CustomComponent {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the page to default/previous values?");
     }
@@ -494,18 +499,19 @@ public class ItemManagementIndex extends CustomComponent {
                     final ItemManagementLookup addWindow = new ItemManagementLookup(selecteditemList, selection);
                     createWindow(addWindow);
                 } else {
-                    MessageBox.showPlain(Icon.INFO, "Error", "Please select one item to proceed.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constants.ERROR, "Please select one item to proceed.", ButtonId.OK);
                 }
 
             } else {
-                MessageBox.showPlain(Icon.INFO, "Error", "For the selected Update Type, this operation is not valid ", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.FOR_THE_SELECTED_UPDATE_TYPE_THIS, ButtonId.OK);
 
             }
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("Error", "Please select a value in the Results list view then try again.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, StringConstantsUtil.PLEASE_SELECT_A_VALUE_IN_THE_RESULTS);
         }
     }
+
 
     @UiHandler("transferBtn")
     public void transferButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
@@ -524,7 +530,7 @@ public class ItemManagementIndex extends CustomComponent {
                         final ItemManagementLookup projectionTransferWindow = new ItemManagementLookup(selecteditemList, selection);
                         createWindow(projectionTransferWindow);
                     } else {
-                        MessageBox.showPlain(Icon.INFO, "Error", "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
+                        MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.SELECTED_ITEMS_NOT_BELONG_SAME_CONTRACT, ButtonId.OK);
                     }
                 } else {
                     if (checkOneContract()) {
@@ -532,17 +538,17 @@ public class ItemManagementIndex extends CustomComponent {
                         final ItemManagementLookup itemTransferWindow = new ItemManagementLookup(selecteditemList, selection);
                         createWindow(itemTransferWindow);
                     } else {
-                        MessageBox.showPlain(Icon.INFO, "Error", "The selected Item do not belong to any Contract. \n"
+                        MessageBox.showPlain(Icon.INFO, Constants.ERROR, "The selected Item do not belong to any Contract. \n"
                                 + "Please refine your selection to only include a Item that is attached to a Contract.", ButtonId.OK);
                     }
                 }
             } else {
-                MessageBox.showPlain(Icon.INFO, "Error", "For the selected Update Type, this operation is not valid ", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.FOR_THE_SELECTED_UPDATE_TYPE_NOT_VALID, ButtonId.OK);
 
             }
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("Error", "Please select a value in the Results list view then try again.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, NO_TP_SELECTED_BODY.getConstant());
         }
         LOGGER.debug("Ending Transfer Button");
     }
@@ -557,16 +563,16 @@ public class ItemManagementIndex extends CustomComponent {
                     final ItemManagementLookup editWindow = new ItemManagementLookup(selecteditemList, selection);
                     createWindow(editWindow);
                 } else {
-                    MessageBox.showPlain(Icon.INFO, "Error", "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constants.ERROR, "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
                 }
 
             } else {
-                MessageBox.showPlain(Icon.INFO, "Error", "For the selected Update Type, this operation is not valid ", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, Constants.ERROR, "For the selected Update Type, this operation is not valid ", ButtonId.OK);
 
             }
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("Error", "Please select a value in the Results list view then try again.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, NO_TP_SELECTED_BODY.getConstant());
         }
     }
 
@@ -580,15 +586,15 @@ public class ItemManagementIndex extends CustomComponent {
                     final ItemManagementLookup removeWidow = new ItemManagementLookup(selecteditemList, selection);
                     createWindow(removeWidow);
                 } else {
-                    MessageBox.showPlain(Icon.INFO, "Error", "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constants.ERROR, "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
                 }
             } else {
-                MessageBox.showPlain(Icon.INFO, "Error", "For the selected Update Type, this operation is not valid ", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, Constants.ERROR, "For the selected Update Type, this operation is not valid ", ButtonId.OK);
 
             }
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("Error", "Please select a value in the Results list view then try again.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, NO_TP_SELECTED_BODY.getConstant());
         }
     }
 
@@ -616,16 +622,16 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadItemType() {
-        commonUtil.loadComboBox(itemType, UIUtils.ITEM_TYPE, false);
+        commonUtil.loadComboBox(itemType, UiUtils.ITEM_TYPE, false);
 
     }
 
     private void loadItemTherapeuticClass() {
-        commonUtil.loadComboBox(therapeuticClass, UIUtils.THERAPEUTIC_CLASS, false);
+        commonUtil.loadComboBox(therapeuticClass, UiUtils.THERAPEUTIC_CLASS, false);
     }
 
     private void loadCategory() {
-        commonUtil.loadComboBox(itemCategory, UIUtils.ITEM_CATEGORY, false);
+        commonUtil.loadComboBox(itemCategory, UiUtils.ITEM_CATEGORY, false);
     }
 
     private void loadCompany() {
@@ -633,8 +639,8 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadPlaceHolder(ComboBox placeHolder_DTO, boolean isFilter) {
-        BeanItemContainer<HelperDTO> container = new BeanItemContainer<HelperDTO>(HelperDTO.class);
-        List<HelperDTO> placeHolderList = new ArrayList<HelperDTO>();
+        BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
+        List<HelperDTO> placeHolderList = new ArrayList<>();
         HelperDTO dto = new HelperDTO(NumericConstants.ELEVEN, Constants.SELECT_ONE);
         HelperDTO showAll = new HelperDTO(NumericConstants.ELEVEN, Constants.SHOW_ALL);
         HelperDTO yesDto = new HelperDTO(1, "Yes");
@@ -661,7 +667,7 @@ public class ItemManagementIndex extends CustomComponent {
 
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<ItemIndexDto>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }

@@ -43,7 +43,7 @@ public class ForecastDashboardDAOImpl implements ForecastDashboardDAO{
           HelperTable helperTable = resultList.get(0);
           businessSid = helperTable.getHelperTableSid();
         } catch (Exception ex) {
-            LOGGER.error("Exception at FC getBusinessProcessTypeHelperTableSid");
+            LOGGER.error(ex);
         }
         
         return businessSid;
@@ -59,7 +59,7 @@ public class ForecastDashboardDAOImpl implements ForecastDashboardDAO{
         try {
             resultList = ForecastConfigLocalServiceUtil.dynamicQuery(dynamicQuery);
         } catch (Exception ex) {
-            LOGGER.error("Exception at FC getForecastConfigurationModuleURL");
+            LOGGER.error(ex);
         }
         ForecastConfig forecastConfig = null;
         if (resultList != null && !resultList.isEmpty()) {

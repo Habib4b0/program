@@ -264,22 +264,22 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 
         results.setFilterBarVisible(true);
         if (BRAND.getConstant().equals(indicator)) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.HISTORY_LOOKUP_BRAND_COLUMNS);
-            results.setColumnHeaders(TableHeaderColumnsUtil.HISTORY_LOOKUP_BRAND_HEADERS);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().historyLookupBrandColumns);
+            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().historyLookupBrandHeaders);
             results.setWidth("300px");
-            results.setHeight("481px");
+            results.setHeight(Constant.FOUR_EIGHT_ONE_PX);
 
         } else if (CONTRACT.getConstant().equals(indicator)) {
             if (INDICATOR_MODULE_NON_MANDATED.getConstant().equals(moduleIndicator)) {
-                results.setVisibleColumns(TableHeaderColumnsUtil.HISTORY_LOOKUP_CONTRACT_COLUMNS_NM);
-                results.setColumnHeaders(TableHeaderColumnsUtil.HISTORY_LOOKUP_CONTRACT_HEADERS_NM);
+                results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().historyLookupContractColumnsNm);
+                results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().historyLookupcontractHeadersNm);
                 results.setWidth("400px");
-                results.setHeight("481px");
+                results.setHeight(Constant.FOUR_EIGHT_ONE_PX);
             } else {
-                results.setVisibleColumns(TableHeaderColumnsUtil.HISTORY_LOOKUP_CONTRACT_COLUMNS);
-                results.setColumnHeaders(TableHeaderColumnsUtil.HISTORY_LOOKUP_CONTRACT_HEADERS);
+                results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().historyLookupContractColumns);
+                results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().historyLookupcontractHeaders);
                 results.setWidth("400px");
-                results.setHeight("481px");
+                results.setHeight(Constant.FOUR_EIGHT_ONE_PX);
             }
         }
     }
@@ -324,7 +324,7 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
                     public void noMethod() {
-                      
+                        return;
                     }
 
                     @Override
@@ -373,7 +373,7 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 
                 new AbstractNotificationUtils() {
                     public void noMethod() {
-                        
+                        return;
                     }
 
                     @Override

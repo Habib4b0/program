@@ -248,8 +248,10 @@ public class FcpResults extends CustomComponent implements View {
      * The price type.
      */
     private final OptionGroup priceType = new OptionGroup();
+    
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
     Property.ValueChangeListener ndcValueChange = getNDCFilterValueChangeListener();
+    
     SessionDTO sessionDTO;
 
     /**
@@ -280,8 +282,8 @@ public class FcpResults extends CustomComponent implements View {
             ndcFilterDdlb.select(ndcFilterDTO);
             levelDdlb.select(levelDTO);
             historyDdlb.setContainerDataSource(new IndexedContainer(CommonUtils.loadHistory(ANNUAL.getConstant())));
-            if (historyDdlb.containsId("2 Years")) {
-                historyDdlb.setValue("2 Years");
+            if (historyDdlb.containsId(Constant.TWO_YEARS_LABEL)) {
+                historyDdlb.setValue(Constant.TWO_YEARS_LABEL);
             } else {
                 historyDdlb.addItem(Constant.SELECT_ONE);
                 historyDdlb.select(Constant.SELECT_ONE);
@@ -522,7 +524,7 @@ public class FcpResults extends CustomComponent implements View {
                 } else {
                     brandDdlb.select(brandDto);
                     therapeuticDdlb.select(therapyDto);
-                    historyDdlb.select("2 Years");
+                    historyDdlb.select(Constant.TWO_YEARS_LABEL);
                     historyDdlb.focus();
                     variables.setValue(PERCENTAGE.getConstant());
                     periodOrder.setValue(ASCENDING.getConstant());
@@ -560,7 +562,7 @@ public class FcpResults extends CustomComponent implements View {
             if (resultBeanContainer.size() > 0) {
                 loadExcelResultTable();
             }
-            ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "FCP Results", "FCP Results", "FCP_Results.xls", false);
+            ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.FCP_RESULTS, Constant.FCP_RESULTS, "FCP_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
         } catch (Exception e) {
@@ -623,9 +625,9 @@ public class FcpResults extends CustomComponent implements View {
                 .getRightFreezeAsTable();
         leftTable.setImmediate(true);
         rightTable.setImmediate(true);
-        periodTableId.setHeight("390px");
-        leftTable.setHeight("390px");
-        rightTable.setHeight("390px");
+        periodTableId.setHeight(Constant.PX_390);
+        leftTable.setHeight(Constant.PX_390);
+        rightTable.setHeight(Constant.PX_390);
         leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
         leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
         rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
@@ -717,15 +719,15 @@ public class FcpResults extends CustomComponent implements View {
                 projectionDTO.setHistory(hist.toString());
                 historyNum = Integer.valueOf(String.valueOf(hist).substring(0, 1));
             }
-       if (histFlag) {
+        if (histFlag) {
             flag = true;
             Object[] itemIds = priceType.getItemIds().toArray();
-            List<String> selectedPrice = new ArrayList<String>();
+            List<String> selectedPrice = new ArrayList<>();
             for (Object itemId : itemIds) {
                 if (priceType.isSelected(itemId)) {
-                   selectedPrice.add(String.valueOf(itemId));
-               }
-           }
+                    selectedPrice.add(String.valueOf(itemId));
+                }
+            }
            selectedPrice.add(Constant.FCP_DISCOUNT);
            for (int i = 0; i < selectedPrice.size(); i++) {
                if (selectedPrice.get(i).contentEquals(Constant.FSS)) {
@@ -777,7 +779,7 @@ public class FcpResults extends CustomComponent implements View {
      */
 
     public void enter(ViewChangeEvent event) {
-
+        return;
     }
 
     public void generateLogic() {
@@ -862,7 +864,7 @@ public class FcpResults extends CustomComponent implements View {
         if (id instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) id;
         } else if (id instanceof TableDTO) {
-            targetItem = new BeanItem<TableDTO>(
+            targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
         return (TableDTO) targetItem.getBean();
@@ -1112,7 +1114,7 @@ public class FcpResults extends CustomComponent implements View {
     private void configureTableFilter(final ExtPagedTreeTable leftTable) {
         leftTable.setFilterBarVisible(true);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        leftTable.setFilterGenerator(new NationalAssumptionsFilterGenerator(projectionDTO, "FCP Results"));
+        leftTable.setFilterGenerator(new NationalAssumptionsFilterGenerator(projectionDTO, Constant.FCP_RESULTS));
     }
 
     public void tabOrder() {

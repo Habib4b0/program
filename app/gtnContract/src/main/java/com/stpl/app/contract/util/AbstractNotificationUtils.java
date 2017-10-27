@@ -67,7 +67,7 @@ public abstract class AbstractNotificationUtils {
             @Override
             @SuppressWarnings("PMD")
             public void buttonClicked(ButtonId buttonId) {
-              
+                return;
             }
         }, ButtonId.OK);
         msg.getButton(ButtonId.OK).focus();
@@ -94,7 +94,7 @@ public abstract class AbstractNotificationUtils {
              */
             @SuppressWarnings("PMD")
             public void buttonClicked(ButtonId buttonId) {
-             
+                return;
             }
         }, ButtonId.OK);
         msg.getButton(ButtonId.OK).focus();
@@ -121,7 +121,7 @@ public abstract class AbstractNotificationUtils {
              */
             @SuppressWarnings("PMD")
             public void buttonClicked(ButtonId buttonId) {
-              
+                return;
             }
         }, ButtonId.OK);
         msg.getButton(ButtonId.OK).focus();

@@ -1,6 +1,7 @@
 
 package com.stpl.app.contract.dashboard.ui.form;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.bpm.dto.WorkflowMasterDTO;
 import com.stpl.app.contract.bpm.logic.BPMLogic;
 import com.stpl.app.contract.bpm.logic.WorkflowLogic;
@@ -60,7 +61,6 @@ import com.stpl.portal.service.UserLocalServiceUtil;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
@@ -134,24 +134,24 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
     /**
      * The item map.
      */
-    private final Map<String, String> itemMap = new HashMap<String, String>();
+    private final Map<String, String> itemMap = new HashMap<>();
     /**
      * The item details map.
      */
-    private final Map<String, String> itemDetailsMap = new HashMap<String, String>();
+    private final Map<String, String> itemDetailsMap = new HashMap<>();
     /**
      * The company details map.
      */
-    private final Map<String, String> companyDetailsMap = new HashMap<String, String>();
+    private final Map<String, String> companyDetailsMap = new HashMap<>();
     /**
      * The company map.
      */
-    private final Map<String, String> companyMap = new HashMap<String, String>();
+    private final Map<String, String> companyMap = new HashMap<>();
 
     /**
      * The rebate map.
      */
-    private final Map<String, String> rebateMap = new HashMap<String, String>();
+    private final Map<String, String> rebateMap = new HashMap<>();
     /**
      * The contract master.
      */
@@ -493,9 +493,9 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
         dashBoardLogic = new DashBoardLogic(this.sessionDTO);
         cfpLogic = new CFPSearchLogic(this.sessionDTO);
         ifpLogic = new IfpLogic(this.sessionDTO);
-        this.contractInfoTab = new ContractInfoTab(contractMaster, contractBinder, isEditable);
-        this.itemAdditionTab = new ItemAdditionTab(availableIRBean, selectedIRBean, saveIFPContainer, itemDRBean, itemMap, isEditable, this.sessionDTO);
-        this.itemPricing = new ItemPricing(availableIRBean, selectedIRBean, saveIFPContainer, itemDRBean, itemMap, isEditable, this.sessionDTO, savePSContainer, pricingBinderEdit, priceScheduleMaster);
+        this.contractInfoTab = new ContractInfoTab(contractMaster, contractBinder);
+        this.itemAdditionTab = new ItemAdditionTab(saveIFPContainer, itemDRBean, itemMap, isEditable, this.sessionDTO);
+        this.itemPricing = new ItemPricing(selectedIRBean, saveIFPContainer, itemDRBean, itemMap, isEditable, this.sessionDTO, savePSContainer, pricingBinderEdit, priceScheduleMaster);
         this.companyAdditionTab = new CompanyAdditionTab(availableBean, selectedComBean, cfpResultsBean, saveContainer, companyMap, contractBinder, isEditable, this.sessionDTO);
         this.companiesTab = new CompaniesTab(availableBean, selectedComBean, cfpResultsBean, saveContainer, companyMap, cfpContractBinder, isEditable, this.sessionDTO, this.cfpCompanyDTO, contractBinder);
         this.aliasTab = new AliasTab(contractBinder, aliasMRBeans, isEditable);
@@ -530,7 +530,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
      * @throws PortalException
      *
      */
-    private void configureTabSheet() throws PortalException, SystemException {
+    private void configureTabSheet() {
 
 
         final int contractSystemId = (Integer) (sessionDTO.getContractSystemId());
@@ -579,13 +579,6 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
             }
 
     }
-
-    /**
-     * Method used for Adds to content.
-     */
-    public void addToContent() throws SystemException, PortalException {
-    }
-
     /**
      * Gets the binder.
      *
@@ -594,7 +587,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
     private CustomFieldGroup configureBinder() {
         LOGGER.debug("Entering getBinder method");
         contractMasterBinder.bindMemberFields(this);
-        contractMasterBinder.setItemDataSource(new BeanItem<ContractMasterDTO>(contractMaster));
+        contractMasterBinder.setItemDataSource(new BeanItem<>(contractMaster));
         contractMasterBinder.setBuffered(true);
         contractMasterBinder.setErrorDisplay(errorLabel);
         rebateBinder.setErrorDisplay(errorLabel);
@@ -610,7 +603,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
      *
      * @return the tab sheet
      */
-    public void addToTabbar() throws SystemException, PortalException {
+    public void addToTabbar() {
 
         LOGGER.debug("Entering addToTabbar method");
 
@@ -619,30 +612,30 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
         tabsheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabsheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
 
-        contractInfoTab.setCaption("Contract Information");
-        tabsheet.addTab(contractInfoTab, "Contract Information");
+        contractInfoTab.setCaption(ConstantUtil.CONTRACT_INFORMATION);
+        tabsheet.addTab(contractInfoTab, ConstantUtil.CONTRACT_INFORMATION);
 
-        aliasTab.setCaption("Alias");
-        tabsheet.addTab(aliasTab, "Alias");
+        aliasTab.setCaption(ConstantUtil.ALIAS);
+        tabsheet.addTab(aliasTab, ConstantUtil.ALIAS);
 
-        companyAdditionTab.setCaption("Company Addition");
-        tabsheet.addTab(companyAdditionTab, "Company Addition");
+        companyAdditionTab.setCaption(ConstantUtil.COMPANY_ADDITION);
+        tabsheet.addTab(companyAdditionTab, ConstantUtil.COMPANY_ADDITION);
 
-        companiesTab.setCaption("Companies");
-        tabsheet.addTab(companiesTab, "Companies");
+        companiesTab.setCaption(ConstantUtil.COMPANIES);
+        tabsheet.addTab(companiesTab, ConstantUtil.COMPANIES);
 
-        itemAdditionTab.setCaption("Item Addition");
-        tabsheet.addTab(itemAdditionTab, "Item Addition");
+        itemAdditionTab.setCaption(ConstantUtil.ITEM_ADDITION);
+        tabsheet.addTab(itemAdditionTab, ConstantUtil.ITEM_ADDITION);
 
         itemsTab.setCaption(Constants.ITEMS);
         tabsheet.addTab(itemsTab, Constants.ITEMS);
-        itemPricing.setCaption("Pricing");
-        tabsheet.addTab(itemPricing, "Pricing");
-        rebateScheduleInformation.setCaption("Rebate");
-        tabsheet.addTab(rebateScheduleInformation, "Rebate");
+        itemPricing.setCaption(ConstantUtil.PRICING);
+        tabsheet.addTab(itemPricing, ConstantUtil.PRICING);
+        rebateScheduleInformation.setCaption(ConstantUtil.REBATE);
+        tabsheet.addTab(rebateScheduleInformation, ConstantUtil.REBATE);
 
-        notesTabForm.setCaption("Notes");
-        tabsheet.addTab(notesTabForm, "Notes");
+        notesTabForm.setCaption(ConstantUtil.NOTES);
+        tabsheet.addTab(notesTabForm, ConstantUtil.NOTES);
         notesTabForm.refreshTable();
 
         tabsheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -657,16 +650,17 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                     if ("contractInfo".equals(tabname)) {
                         contractMasterBinder.getField("contractId").focus();
                     }
-                    if ("Alias".equals(tabname)) {
+                    if (ConstantUtil.ALIAS.equals(tabname)) {
                         aliasTab.getTpCompanyMasterSid().focus();
                     }
                     if ((Integer) sessionDTO.getCfpSystemId() != Constants.ZERO) {
 
-                        if ("Company Addition".equals(tabname)) {
+                        if (ConstantUtil.COMPANY_ADDITION.equals(tabname)) {
                             companyAdditionTab.focusSearchFields();
+                            companyAdditionTab.refreshTable();
                         }
 
-                        if ("Companies".equals(tabname)) {
+                        if (ConstantUtil.COMPANIES.equals(tabname)) {
                             if (isEditable) {
                                 loadEffectiveDates("CFP");
                                 companiesTab.focusMassCheck();
@@ -681,8 +675,9 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                         }
                     }
                     if ((Integer) sessionDTO.getIfpSystemId() != 0 || (Integer) sessionDTO.getPsSystemId() != 0) {
-                        if ("ItemAddition".equals(tabname)) {
+                        if (ConstantUtil.ITEM_ADDITION.equals(tabname)) {
                             itemAdditionTab.focusSearchField();
+                            itemAdditionTab.refreshTable();
                         }
                         if (Constants.ITEMS.equals(tabname)) {
                             if (isEditable) {
@@ -698,7 +693,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                                 pricingBinderEdit.getField("tradeClass").setReadOnly(true);
                             }
                         }
-                        if ("Pricing".equals(tabname)) {
+                        if (ConstantUtil.PRICING.equals(tabname)) {
                             itemPricing.focusMassCheck();
                             itemPricing.removeItemsFromSaveContainer();
                             itemPricing.loadTempIfp();
@@ -707,14 +702,14 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                         }
                         
                     }
-                    if ((Integer) sessionDTO.getRsSystemId() != Constants.ZERO && "Rebate".equals(tabname)) {
+                    if ((Integer) sessionDTO.getRsSystemId() != Constants.ZERO && ConstantUtil.REBATE.equals(tabname)) {
                             if (Constants.DETAILS.equals((rebateScheduleInformation.level).getValue().toString())) {
                                 rebateScheduleInformation.loadRebateSetupTab();
                             }
                             loadEffectiveDates("RS");
                     }
 
-                    if ("Notes".equals(tabname)) {
+                    if (ConstantUtil.NOTES.equals(tabname)) {
                         notesTabForm.callJavaScriptForButton();
                         notesTabForm.focusNewNote();
                         notesTabForm.setUploaderValue(StringUtils.EMPTY);
@@ -734,8 +729,8 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
             Date endDate;
             switch (value) {
                 case "CFP":
-                    startDate = (Date) contractMasterBinder.getField("startDate").getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField("startDate").getValue()));
-                    endDate = (Date) contractMasterBinder.getField("endDate").getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField("endDate").getValue()));
+                    startDate = (Date) contractMasterBinder.getField(Constants.START_DATE).getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField(Constants.START_DATE).getValue()));
+                    endDate = (Date) contractMasterBinder.getField(Constants.END_DATE).getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField(Constants.END_DATE).getValue()));
                     companiesTab.loadDates(startDate, endDate);
                     break;
                 case "IFP":
@@ -744,8 +739,8 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                         endDate = companiesTab.getCompanyFamilyPlanEndDate().getValue() == null ? null : fmt.parse(fmt.format(companiesTab.getCompanyFamilyPlanEndDate().getValue()));
                         itemsTab.loadDates(startDate, endDate);
                     } else {
-                        startDate = (Date) contractMasterBinder.getField("startDate").getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField("startDate").getValue()));
-                        endDate = (Date) contractMasterBinder.getField("endDate").getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField("endDate").getValue()));
+                        startDate = (Date) contractMasterBinder.getField(Constants.START_DATE).getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField(Constants.START_DATE).getValue()));
+                        endDate = (Date) contractMasterBinder.getField(Constants.END_DATE).getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField(Constants.END_DATE).getValue()));
                         itemsTab.loadDates(startDate, endDate);
                     }
                     break;
@@ -759,8 +754,8 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                         endDate = companiesTab.getCompanyFamilyPlanEndDate().getValue() == null ? null : fmt.parse(fmt.format(companiesTab.getCompanyFamilyPlanEndDate().getValue()));
                         itemPricing.loadDates(startDate, endDate);
                     } else {
-                        startDate = (Date) contractMasterBinder.getField("startDate").getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField("startDate").getValue()));
-                        endDate = (Date) contractMasterBinder.getField("endDate").getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField("endDate").getValue()));
+                        startDate = (Date) contractMasterBinder.getField(Constants.START_DATE).getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField(Constants.START_DATE).getValue()));
+                        endDate = (Date) contractMasterBinder.getField(Constants.END_DATE).getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField(Constants.END_DATE).getValue()));
                         itemPricing.loadDates(startDate, endDate);
                     }
                     break;
@@ -778,8 +773,8 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                         endDate = companiesTab.getCompanyFamilyPlanEndDate().getValue() == null ? null : fmt.parse(fmt.format(companiesTab.getCompanyFamilyPlanEndDate().getValue()));
                         rebateScheduleInformation.loadDates(startDate, endDate);
                     } else {
-                        startDate = (Date) contractMasterBinder.getField("startDate").getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField("startDate").getValue()));
-                        endDate = (Date) contractMasterBinder.getField("endDate").getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField("endDate").getValue()));
+                        startDate = (Date) contractMasterBinder.getField(Constants.START_DATE).getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField(Constants.START_DATE).getValue()));
+                        endDate = (Date) contractMasterBinder.getField(Constants.END_DATE).getValue() == null ? null : fmt.parse(fmt.format((Date) contractMasterBinder.getField(Constants.END_DATE).getValue()));
                         rebateScheduleInformation.loadDates(startDate, endDate);
                     }
                     break;
@@ -798,7 +793,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
         LOGGER.debug("End of configureFields method");
     }
 
-    public void configureButtons() throws PortalException, SystemException {
+    public void configureButtons() {
         LOGGER.debug("Entering  DashboardEditActionButtonLayout init method");
         btnUpdate.setVisible(false); // it will not visible in screen (as per issue GAL-2906)
         resetButton.setVisible(false);
@@ -900,7 +895,13 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                         contractMasterBinder.getErrorDisplay().setError("Start Date should be entered on Contract Header tab");
                         return false;
 
-                    } else {
+                    } else if (contractMasterBinder.getField(Constants.TRADING_PARTNER_NAME).getValue() == null || contractMasterBinder.getField(Constants.TRADING_PARTNER_NAME).getValue().equals(StringUtils.EMPTY)) {
+                        contractMasterBinder.getErrorDisplay().setError("Trading Partner should be selected on Contract Information tab");
+                        return false;
+
+                    }
+                    
+                    else {
                         cfpSearchLogic.saveToTempCFP(saveContainer.getItemIds());
 
                         String contractID = contractMasterBinder.getField(Constants.CONTRACT_ID).getValue().toString().trim();
@@ -925,7 +926,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                             return false;
                         }
 
-                        String errMsg = StringUtils.EMPTY;
+                        String errMsg;
                 if ((Integer) sessionDTO.getCfpSystemId() != Constants.ZERO) {
                     errMsg = companiesTab.textFieldEmptyChecks();
                     if (!errMsg.isEmpty()) {
@@ -1017,7 +1018,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                             contractMasterBinder.getErrorDisplay().setError("Item Family Plan Status is mandatory in Item  Tab.");
                             return false;
                         }
-                        if (itemsTab.getBinder().getField("startDate").getValue() == null) {
+                        if (itemsTab.getBinder().getField(Constants.START_DATE).getValue() == null) {
                             contractMasterBinder.getErrorDisplay().setError("Start Date is mandatory in Items Tab.");
                             return false;
                         }
@@ -1061,20 +1062,58 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                             return false;
                         }
 
-                        IfpLogic.saveToTempTable(savePSContainer.getItemIds(), isEditable);
+                        IfpLogic.saveToTempTable(savePSContainer.getItemIds(), isEditable,sessionDTO);
                     }
 
                 }
 
                 if ((Integer) sessionDTO.getRsSystemId() != Constants.ZERO) {
                     errMsg = rebateScheduleInformation.textFieldEmptyChecks();
+                     if (rebateBinder.getField(Constants.REBATE_SCHEDULE_STATUS).getValue() == null ||rebateBinder.getField(Constants.REBATE_SCHEDULE_STATUS).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.REBATE_SCHEDULE_STATUS).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Rebate Schedule Status is mandatory in Rebate Tab.");
+                        return false;
+                    }
+                    if (rebateBinder.getField(Constants.REBATE_SCHEDULE_TYPE).getValue() == null ||rebateBinder.getField(Constants.REBATE_SCHEDULE_TYPE).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.REBATE_SCHEDULE_TYPE).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Rebate Schedule Type is mandatory in Rebate Tab.");
+                        return false;
+                    }if (rebateBinder.getField(Constants.REBATE_PROGRAM_TYPE).getValue() == null ||rebateBinder.getField(Constants.REBATE_PROGRAM_TYPE).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.REBATE_PROGRAM_TYPE).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Rebate Program Type is mandatory in Rebate Tab.");
+                        return false;
+                    }if (rebateBinder.getField(Constants.RS_CATEGORY).getValue() == null ||rebateBinder.getField(Constants.RS_CATEGORY).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.RS_CATEGORY).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Rebate Schedule Category is mandatory in Rebate Tab.");
+                        return false;
+                    }
+                     if (rebateBinder.getField(Constants.ITEM_REBATE_START_DATE).getValue() == null ) {
+                        contractMasterBinder.getErrorDisplay().setError("RS Start Date is mandatory in Rebate Tab.");
+                        return false;
+                    }if (rebateBinder.getField(ConstantUtil.DEDUCTION_INCLUSION).getValue() == null ||rebateBinder.getField(ConstantUtil.DEDUCTION_INCLUSION).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(ConstantUtil.DEDUCTION_INCLUSION).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Deduction Inclusion is mandatory in Rebate Tab.");
+                        return false;
+                    }if (rebateBinder.getField(Constants.REBATE_FREQUENCY).getValue() == null ||rebateBinder.getField(Constants.REBATE_FREQUENCY).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.REBATE_FREQUENCY).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Rebate Frequency is mandatory in Rebate Tab.");
+                        return false;
+                    }if (rebateBinder.getField(Constants.PAYMENT_FREQUENCY).getValue() == null ||rebateBinder.getField(Constants.PAYMENT_FREQUENCY).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.PAYMENT_FREQUENCY).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Payment Frequency is mandatory in Rebate Tab.");
+                        return false;
+                    }if (rebateBinder.getField(Constants.PAYMENT_METHOD).getValue() == null ||rebateBinder.getField(Constants.PAYMENT_METHOD).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.PAYMENT_METHOD).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Payment Method is mandatory in Rebate Tab.");
+                        return false;
+                    }
+                    if (rebateBinder.getField(Constants.CALCULATION_TYPE).getValue() == null ||rebateBinder.getField(Constants.CALCULATION_TYPE).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.CALCULATION_TYPE).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Calculation Type is mandatory in Rebate Tab.");
+                        return false;
+                    }
+                    if (rebateBinder.getField(Constants.CALCULATION_LEVEL).getValue() == null ||rebateBinder.getField(Constants.CALCULATION_LEVEL).getValue().equals(Constants.SELECT_ONE) || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.CALCULATION_LEVEL).getValue()).getDescription()))) {
+                        contractMasterBinder.getErrorDisplay().setError("Calculation Level is mandatory in Rebate Tab.");
+                        return false;
+                    }
                     if (!errMsg.isEmpty()) {
                         contractMasterBinder.getErrorDisplay().setError(errMsg);
                         return false;
                     }
                     rebateBinder.getErrorDisplay().clearError();
                     rebateBinder.commit();
-                    if (rebateBinder.getField("deductionInclusion").getValue() == null || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField("deductionInclusion").getValue()).getDescription()))) {
+                    if (rebateBinder.getField(ConstantUtil.DEDUCTION_INCLUSION).getValue() == null || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(ConstantUtil.DEDUCTION_INCLUSION).getValue()).getDescription()))) {
                         contractMasterBinder.getErrorDisplay().setError("Deduction Inclusion is mandatory in Rebate Tab.");
                         return false;
                     }
@@ -1114,7 +1153,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
 
                         }
                         ifpLogic.saveToTempRebate(rsDetailsResultsBean.getItemIds(), false);
-                        if (rebateBinder.getField("deductionInclusion").getValue() == null || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField("deductionInclusion").getValue()).getDescription()))) {
+                        if (rebateBinder.getField(ConstantUtil.DEDUCTION_INCLUSION).getValue() == null || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(ConstantUtil.DEDUCTION_INCLUSION).getValue()).getDescription()))) {
                             contractMasterBinder.getErrorDisplay().setError("Payment Method is mandatory in Rebate Tab.");
                             return false;
                         }
@@ -1123,12 +1162,24 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                             contractMasterBinder.getErrorDisplay().setError("Payment Method is mandatory in Rebate Tab.");
                             return false;
                         }
+                         // cel-211
+                        if (rebateBinder.getField(Constants.REBATE_FREQUENCY).getValue() == null || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.REBATE_FREQUENCY).getValue()).getDescription()))) {
+                            contractMasterBinder.getErrorDisplay().setError("Rebate Frequency is mandatory in Rebate Tab.");
+                            return false;
+                        }
 
                         if (rebateBinder.getField(Constants.PAYMENT_FREQUENCY).getValue() == null || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.PAYMENT_FREQUENCY).getValue()).getDescription()))) {
                             contractMasterBinder.getErrorDisplay().setError("Payment Frequency is mandatory in Rebate Tab.");
                             return false;
                         }
-
+                         if (rebateBinder.getField(Constants.CALCULATION_TYPE).getValue() == null || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.CALCULATION_TYPE).getValue()).getDescription()))) {
+                            contractMasterBinder.getErrorDisplay().setError("Calculation Type is mandatory in Rebate Tab.");
+                            return false;
+                        }
+                         if (rebateBinder.getField(Constants.CALCULATION_LEVEL).getValue() == null || (Constants.SELECT_ONE).equals(String.valueOf(((HelperDTO) rebateBinder.getField(Constants.CALCULATION_LEVEL).getValue()).getDescription()))) {
+                            contractMasterBinder.getErrorDisplay().setError("Calculation level is mandatory in Rebate Tab.");
+                            return false;
+                        }
                         if (ifpLogic.itemNullVerification("ITEM_REBATE_START_DATE")) {
                             contractMasterBinder.getErrorDisplay().setError("Start Date  is mandatory in Rebate Setup Tab");
                             return false;
@@ -1175,15 +1226,9 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constants.YES)) {
 
-                            try {
-                                cfpLogic.clearTempCFP();
-                                ifpLogic.clearTempIFP();
-                                getUI().getNavigator().navigateTo(DashboardView.NAME);
-                            } catch (SystemException ex) {
-                                final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                                LOGGER.error(errorMsg);
-                                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                            }
+                            cfpLogic.clearTempCFP();
+                            ifpLogic.clearTempIFP();
+                            getUI().getNavigator().navigateTo(DashboardView.NAME);
                         }
                     }
                 }, ButtonId.YES, ButtonId.NO);
@@ -1195,11 +1240,11 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
              * Invoked when an error occurs.
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         LOGGER.debug("End of backButton method");
     }
-
     private void excelExport() {
         LOGGER.debug("Entering excelExport method");
 
@@ -1215,24 +1260,21 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
             @SuppressWarnings("PMD")
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug("Entering excelExport buttonClick");
-                if ("Companies".equals(tabsheet.getSelectedTab().getCaption())) {
+                if (ConstantUtil.COMPANIES.equals(tabsheet.getSelectedTab().getCaption())) {
                     if ((companiesTab.getLevel().getValue().toString().equals("Header") && companiesTab.getView().getValue().toString().equals("History")) || companiesTab.getLevel().getValue().toString().equals("Detail")) {
                         try {
                             companiesTab.btnExportLogic();
-                        }catch (SystemException e) {
-                            final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                            LOGGER.error(errorMsg);
                         } catch (Exception ex) {
                             LOGGER.error(ex);
                         }
                     } else {
-                        MessageBox.showPlain(Icon.INFO, "Excel Export", "Excel is not supported for Companies tab", new MessageBoxListener() {
+                        MessageBox.showPlain(Icon.INFO, ConstantUtil.EXCEL_EXPORT_HEAD, "Excel is not supported for Companies tab", new MessageBoxListener() {
                             /**
                              * After clicking button, function will be executed.
                              */
                             @SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
-
+                                return;
                             }
                         }, ButtonId.OK);
 
@@ -1243,36 +1285,22 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                         } else {
                             itemsTab.btnExportLogic();
                         }
-                    } catch (PortalException pe) {
-
-                        LOGGER.error(pe);
-                    } catch (SystemException e) {
-
-                        final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                        LOGGER.error(errorMsg);
                     } catch (Exception ex) {
 
                         LOGGER.error(ex);
                     }
-                } else if ("Pricing".equals(tabsheet.getSelectedTab().getCaption())) {
+                } else if (ConstantUtil.PRICING.equals(tabsheet.getSelectedTab().getCaption())) {
                     try {
                         itemPricing.btnExportLogic();
-                    } catch (PortalException pe) {
-
-                        LOGGER.error(pe);
-                    } catch (SystemException e) {
-
-                        final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                        LOGGER.error(errorMsg);
                     } catch (Exception ex) {
 
                         LOGGER.error(ex);
                     }
-                } else if ("Rebate".equals(tabsheet.getSelectedTab().getCaption())) {
+                } else if (ConstantUtil.REBATE.equals(tabsheet.getSelectedTab().getCaption())) {
                     rebateScheduleInformation.btnExportLogic();
-                } else if ("Contract Information".equals(tabsheet.getSelectedTab().getCaption())) {
+                } else if (ConstantUtil.CONTRACT_INFORMATION.equals(tabsheet.getSelectedTab().getCaption())) {
                     contractInfoTab.excelExportLogic();
-                } else if ("Alias".equals(tabsheet.getSelectedTab().getCaption())) {
+                } else if (ConstantUtil.ALIAS.equals(tabsheet.getSelectedTab().getCaption())) {
                     try {
                         aliasTab.excelExportLogic();
                     } catch (PortalException pe) {
@@ -1283,67 +1311,62 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
-                } else if ("Company Addition".equals(tabsheet.getSelectedTab().getCaption())) {
-                    MessageBox.showPlain(Icon.INFO, "Excel Export", "Excel is not supported for Company Addition tab", new MessageBoxListener() {
+                } else if (ConstantUtil.COMPANY_ADDITION.equals(tabsheet.getSelectedTab().getCaption())) {
+                    MessageBox.showPlain(Icon.INFO, ConstantUtil.EXCEL_EXPORT_HEAD, "Excel is not supported for Company Addition tab", new MessageBoxListener() {
                         /**
                          * After clicking button, function will be executed.
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-
+                            return;
                         }
                     }, ButtonId.OK);
-                } else if ("Item Addition".equals(tabsheet.getSelectedTab().getCaption())) {
-                    MessageBox.showPlain(Icon.INFO, "Excel Export", "Excel is not supported for Item Addition tab", new MessageBoxListener() {
+                } else if (ConstantUtil.ITEM_ADDITION.equals(tabsheet.getSelectedTab().getCaption())) {
+                    MessageBox.showPlain(Icon.INFO, ConstantUtil.EXCEL_EXPORT_HEAD, "Excel is not supported for Item Addition tab", new MessageBoxListener() {
                         /**
                          * After clicking button, function will be executed.
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-
+                            return;
                         }
                     }, ButtonId.OK);
                 } else if ("Rebate Schedule Information".equals(tabsheet.getSelectedTab().getCaption())) {
-                    MessageBox.showPlain(Icon.INFO, "Excel Export", "Excel is not supported for Rebate Schedule Information tab", new MessageBoxListener() {
+                    MessageBox.showPlain(Icon.INFO, ConstantUtil.EXCEL_EXPORT_HEAD, "Excel is not supported for Rebate Schedule Information tab", new MessageBoxListener() {
                         /**
                          * After clicking button, function will be executed.
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-
+                            return;
                         }
                     }, ButtonId.OK);
-                } else if ("Notes".equals(tabsheet.getSelectedTab().getCaption())) {
-                    MessageBox.showPlain(Icon.INFO, "Excel Export", "Excel is not supported for Notes tab", new MessageBoxListener() {
+                } else if (ConstantUtil.NOTES.equals(tabsheet.getSelectedTab().getCaption())) {
+                    MessageBox.showPlain(Icon.INFO, ConstantUtil.EXCEL_EXPORT_HEAD, "Excel is not supported for Notes tab", new MessageBoxListener() {
                         /**
                          * After clicking button, function will be executed.
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-
+                            return;
                         }
                     }, ButtonId.OK);
                 }
 
             }
+
         });
         excelExport.setErrorHandler(new ErrorHandler() {
             /**
              * Invoked when an error occurs.
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         LOGGER.debug("End of excel export method");
     }
 
-    /**
-     * This method is always called before the view is shown on screen.
-     *
-     * @param event the event
-     */
-    public void enter(final ViewChangeEvent event) {
-    }
 
     @Override
     public void editLogic() {
@@ -1497,15 +1520,15 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                         int userIdInt = Integer.parseInt(sessionDTO.getUserId());
                         int workflowId = sessionDTO.getWorkflow().getWorkflowMasterSid();
                      
-                        String workflowIdUpdate = StringUtils.EMPTY;
+                        String workflowIdUpdate;
                         WorkflowMasterDTO wfMasterDto = WORKFLOW_LOGIC.setWorkflowMasterDTO(contractSid, workflowId, userIdInt, WorkflowConstants.getApprovedStatus(), StringUtils.EMPTY, sessionDTO.getWorkflow().getApprovalLevel());
                         workflowIdUpdate = WORKFLOW_LOGIC.updateWorkflow(wfMasterDto, contractStructure);
                         if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(Constants.WORKFLOW_NOT_SAVED)) {
                             Map<String, Object> params = new HashMap();
-                            params.put("approveFlag", "approve");
+                            params.put(ConstantUtil.APPROVE_FLAG, "approve");
                             BPMLogic.submitWorkflow(userModel, sessionDTO.getProcessIntanceId(), params,"approve");
                             callWorkflowInboxRefresh();
-                            AbstractNotificationUtils.getInfoNotification("Approved Information", "Workflow Id " + workflowIdUpdate + " approved successfully");
+                            AbstractNotificationUtils.getInfoNotification("Approved Information", ConstantUtil.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
                             approveButton.setEnabled(false);
                             rejectButton.setEnabled(false);
                             cancelButton.setEnabled(false);
@@ -1535,10 +1558,10 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
 //                                Are you sure you want to Reject this Workflow?
                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(Constants.WORKFLOW_NOT_SAVED)) {
                         Map<String, Object> params = new HashMap();
-                        params.put("approveFlag", "Reject-RC");
+                        params.put(ConstantUtil.APPROVE_FLAG, "Reject-RC");
                         BPMLogic.submitWorkflow(userModel, sessionDTO.getProcessIntanceId(), params,"reject");
                         callWorkflowInboxRefresh();
-                        AbstractNotificationUtils.getInfoNotification("Rejected Information ", "Workflow Id " + workflowIdUpdate + " rejected successfully");
+                        AbstractNotificationUtils.getInfoNotification("Rejected Information ", ConstantUtil.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
                         approveButton.setEnabled(false);
                         rejectButton.setEnabled(false);
                         cancelButton.setEnabled(false);
@@ -1565,10 +1588,10 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                     String workflowIdUpdate = WORKFLOW_LOGIC.updateWorkflow(wfMasterDto, contractStructure);
                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(Constants.WORKFLOW_NOT_SAVED)) {
                         Map<String, Object> params = new HashMap();
-                        params.put("approveFlag", "Cancel-RC");
+                        params.put(ConstantUtil.APPROVE_FLAG, "Cancel-RC");
                         BPMLogic.submitWorkflow(userModel, sessionDTO.getProcessIntanceId(), params,"cancel");
                         callWorkflowInboxRefresh();
-                        AbstractNotificationUtils.getInfoNotification("Cancel Information", "Workflow Id " + workflowIdUpdate + " cancelled successfully");
+                        AbstractNotificationUtils.getInfoNotification("Cancel Information", ConstantUtil.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
                         approveButton.setEnabled(false);
                         rejectButton.setEnabled(false);
                         cancelButton.setEnabled(false);
@@ -1588,6 +1611,7 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
          * Invoked when an error occurs.
          */
         public void error(final com.vaadin.server.ErrorEvent event) {
+            return;
         }
     };
 
@@ -1612,11 +1636,11 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                     String workflowIdUpdate = WORKFLOW_LOGIC.updateWorkflow(wfMasterDto, contractStructure);
                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(Constants.WORKFLOW_NOT_SAVED)) {
                         Map<String, Object> params = new HashMap();
-                        params.put("approveFlag", "Withdraw-RC"); 
+                        params.put(ConstantUtil.APPROVE_FLAG, "Withdraw-RC"); 
                         BPMLogic.submitWorkflow(userModel, sessionDTO.getProcessIntanceId(), params, "withdraw");
                         callWorkflowInboxRefresh();
                       
-                        AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", "Workflow Id " + workflowIdUpdate + " withdrawn successfully");
+                        AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", ConstantUtil.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
                         approveButton.setEnabled(false);
                         rejectButton.setEnabled(false);
                         cancelButton.setEnabled(false);
@@ -1627,6 +1651,11 @@ public final class ContractDashboardEditForm extends CustomComponent implements 
                 }
             }
         }, ButtonId.YES, ButtonId.NO);
+    }
+
+    @Override
+    public void addToContent() throws SystemException, PortalException {
+        return;
     }
 }
 

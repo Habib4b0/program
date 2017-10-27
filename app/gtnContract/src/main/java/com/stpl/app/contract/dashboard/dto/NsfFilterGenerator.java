@@ -5,8 +5,10 @@
  */
 package com.stpl.app.contract.dashboard.dto;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.contractheader.util.UIUtils;
+import com.stpl.app.security.impl.StplSecurity;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.data.Container;
@@ -16,10 +18,10 @@ import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.jboss.logging.Logger;
@@ -53,7 +55,11 @@ public class NsfFilterGenerator implements ExtFilterGenerator {
     public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
       if (originatingField instanceof ComboBox) {
           if(originatingField.getValue()!=null){
-            return new SimpleStringFilter(propertyId, String.valueOf(((HelperDTO)originatingField.getValue()).getId()), false, false);    
+              if (ConstantsUtils.CREATEDBY.equals(propertyId) || ConstantsUtils.MODIFIEDBY.equals(propertyId)) {
+                   return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
+              } else {
+                  return new SimpleStringFilter(propertyId, String.valueOf(((HelperDTO) originatingField.getValue()).getId()), false, false);
+              }
           }
           else{
              return null;  
@@ -81,7 +87,7 @@ public class NsfFilterGenerator implements ExtFilterGenerator {
                 commonUtil.loadComboBox(netSalesFormulaType, UIUtils.NS_FORMULA_TYPE, true);
                 return netSalesFormulaType;
             }
-            if ("ruleType".equals(propertyId)) {
+            if (ConstantUtil.RULE_TYPE.equals(propertyId)) {
                 final ComboBox ruleType = new ComboBox();
                 final HelperDTO defaultValue = new HelperDTO(0, ConstantsUtils.SHOW_ALL);
                 ruleType.setValidationVisible(true);
@@ -90,9 +96,9 @@ public class NsfFilterGenerator implements ExtFilterGenerator {
                 ruleType.setNullSelectionItemId(defaultValue);
                 ruleType.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
 
-                List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+                List<HelperDTO> helperList = new ArrayList<>();
                 helperList.add(defaultValue);
-                BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+                BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
                 helperList.add(rtDto);
 
                 resultContainer.addAll(helperList);
@@ -122,22 +128,7 @@ public class NsfFilterGenerator implements ExtFilterGenerator {
                 commonUtil.loadComboBox(marketType, UIUtils.CONTRACT_TYPE, true);
                 return marketType;
             }
-            if ("createdDate".equals(propertyId)) {
-                final DateField createdDate = new DateField();
-                createdDate.setDescription(ConstantsUtils.DATE_DES);
-                createdDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
-                createdDate.setImmediate(true);
-                createdDate.setEnabled(false);
-                return createdDate;
-            }
-            if ("modifiedDate".equals(propertyId)) {
-                final DateField modifiedDate = new DateField();
-                modifiedDate.setDescription(ConstantsUtils.DATE_DES);
-                modifiedDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
-                modifiedDate.setImmediate(true);
-                modifiedDate.setEnabled(false);
-                return modifiedDate;
-            }
+           
             if ("lineType".equals(propertyId)) {
                 ComboBox lineType = new ComboBox();
                 commonUtil.loadComboBox(lineType, UIUtils.LINE_TYPE, true);
@@ -168,6 +159,22 @@ public class NsfFilterGenerator implements ExtFilterGenerator {
                 commonUtil.loadComboBox(logicalOperator, UIUtils.LOGICAL_OPERATOR, true);
                 return logicalOperator;
             }
+           
+              
+        if (ConstantsUtils.CREATEDBY.equals(propertyId) || ConstantsUtils.MODIFIEDBY.equals(propertyId)) {
+            Map<Integer, String> userMap = StplSecurity.userMap;
+            ComboBox comboBox = new ComboBox();
+            comboBox.addItem(0);
+            comboBox.setItemCaption(0, ConstantsUtils.SHOW_ALL);
+            for (Map.Entry<Integer, String> entry : userMap.entrySet()) {
+                comboBox.addItem(entry.getKey());
+                comboBox.setItemCaption(entry.getKey(), entry.getValue());
+            }
+            comboBox.setNullSelectionAllowed(true);
+            comboBox.setNullSelectionItemId(0);
+            return comboBox;
+
+        } 
             
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -177,11 +184,13 @@ public class NsfFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
 
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
 
     }
 

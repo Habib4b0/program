@@ -6,6 +6,7 @@
 package com.stpl.app.global.item.ui.form;
 
 import com.stpl.app.global.common.util.CommonUtil;
+import com.stpl.app.global.common.util.HelperListUtil;
 import com.stpl.app.global.ifp.logic.IFPLogic;
 import com.stpl.app.global.item.dto.ItemMasterDTO;
 import com.stpl.app.global.item.logic.ItemSearchLogic;
@@ -50,14 +51,16 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger; 
+import org.jboss.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.asi.ui.custommenubar.CustomMenuBar;
 
 /**
  *
@@ -161,7 +164,7 @@ public class ItemInformation extends CustomComponent implements View {
      */
     @UiField("brand")
     private ComboBox brandDdlb;
-    
+
     @UiField("brandIdLB")
     private Label brandIdLB;
     /**
@@ -437,33 +440,39 @@ public class ItemInformation extends CustomComponent implements View {
     /**
      * The item logic.
      */
-    
     private final ItemSearchLogic itemLogic = new ItemSearchLogic();
-     IFPLogic ifpLogic = new IFPLogic();    
-CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    IFPLogic ifpLogic = new IFPLogic();
+    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
     ErrorfulFieldGroup binder;
     CommonUIUtils commonUiUtil = new CommonUIUtils();
     CommonUtil util = CommonUtil.getInstance();
     String mode;
-      /**
+    /**
      * The item master dto.
      */
     private ItemMasterDTO itemMasterDTO = new ItemMasterDTO();
-    /** The common util. */
+    /**
+     * The common util.
+     */
     private CommonUtil commonUtil = CommonUtil.getInstance();
-    
-    public ItemInformation(final ErrorfulFieldGroup binder, final String mode) {
+    @UiField("udcVariables")
+    public CustomMenuBar udcVariables;
+    @UiField("udcVariablesView")
+    public TextField udcVariablesView;
+    public CustomMenuBar.CustomMenuItem customMenuItem;
+    int udcSid;
+
+    public ItemInformation(final ErrorfulFieldGroup binder, final String mode, int udcSid) {
         this.binder = binder;
-        this.mode=mode;
+        this.mode = mode;
+        this.udcSid = udcSid;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarativeui/itemmaster/iteminformation.xml"), this));
         init();
-        
 
-     
     }
 
-    private void init()  {
+    private void init() {
 
         try {
             final StplSecurity stplSecurity = new StplSecurity();
@@ -479,7 +488,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
             }
             final Map<String, AppPermission> fieldItemHM = stplSecurity
-                    .getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER+","+"Item Information",false);
+                    .getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER + "," + "Item Information", false);
             getResponsiveFirstTab(fieldItemHM);
         } catch (PortalException ex) {
             LOGGER.error(ex);
@@ -490,19 +499,20 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     private void getResponsiveFirstTab(final Map<String, AppPermission> fieldItemHM) {
-             LOGGER.debug("Entering getFirstTab1");
+        LOGGER.debug("Entering getFirstTab1");
         try {
-        
-        List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_MASTER,"Item Information");
-       commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
-        }catch(Exception ex){
+
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_MASTER, "Item Information");
+            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
+        } catch (Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("Ending getFirstTab1");
-        
+
     }
 
     private void configureFields() {
@@ -512,10 +522,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             itemStartDate.setDescription(ConstantsUtils.DATE_DES);
             itemEndDate.setDescription(ConstantsUtils.DATE_DES);
             createdDate.setDescription(ConstantsUtils.DATE_DES);
-            
+
             createdDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
             modifiedDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
-            
+
             packageSizeIntroDate.setDescription(ConstantsUtils.DATE_DES);
 
             itemId.setImmediate(true);
@@ -534,14 +544,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                     itemId.setDescription(itemId.getValue());
                 }
             });
-            
-
-            
-            
 
             itemNo.setImmediate(true);
             itemNo.setValidationVisible(true);
-              itemNo.setData("maxlengthvalidationfifty,maxlengthvalidationitemno,null,null");
+            itemNo.setData("maxlengthvalidationfifty,maxlengthvalidationitemno,null,null");
             itemNo.setDescription(itemNo.getValue());
             itemNo.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -584,11 +590,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                     itemDesc.setDescription(itemDesc.getValue());
                 }
             });
-            
 
             itemStartDate.setImmediate(true);
             itemStartDate.addValidator(new ItemInformation.DateValidatorItem(
-                    "End date should be greater than start date"));
+                    ConstantsUtils.END_DATE_SHOULD_BE_GREATER));
             itemStartDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
             itemStartDate.setId("itemStartDate");
             itemStartDate.addValueChangeListener(new Property.ValueChangeListener() {
@@ -598,31 +603,14 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                  * @param event
                  */
                 public void valueChange(final Property.ValueChangeEvent event) {
-                    try {
-                        itemStartDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(itemStartDate.getValue()));
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {   
-                            /**          
-                             * The method is triggered when a button of the message box is    
-                             * pressed .  
-                             *             
-                             * @param buttonId The buttonId of the pressed button.  
-                             */           
-                            @SuppressWarnings("PMD")  
-                            public void buttonClicked(final ButtonId buttonId) {     
-                                // Do Nothing        
-                            }          
-                        }, ButtonId.OK);    
-                        msg.getButton(ButtonId.OK).focus();
-                    }
+                    itemStartDateYesmethod();
                 }
             });
 
             itemEndDate.setValidationVisible(true);
             itemEndDate.setImmediate(true);
             itemEndDate.addValidator(new ItemInformation.DateValidatorItem(
-                    "End date should be greater than start date"));
+                    ConstantsUtils.END_DATE_SHOULD_BE_GREATER));
             itemEndDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
             itemEndDate.setId("itemEndDate");
             itemEndDate.addValueChangeListener(new Property.ValueChangeListener() {
@@ -632,32 +620,50 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                  * @param event
                  */
                 public void valueChange(final Property.ValueChangeEvent event) {
-                    try {
-                        itemEndDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(itemEndDate.getValue()));
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {       
-                            /**           
-                             * The method is triggered when a button of the message box is           
-                             * pressed .         
-                             *                
-                             * @param buttonId The buttonId of the pressed button.            
-                             */        
-                            @SuppressWarnings("PMD")         
-                            public void buttonClicked(final ButtonId buttonId) {     
-                                // Do Nothing    
-                            }         
-                        }, ButtonId.OK);     
-                        msg.getButton(ButtonId.OK).focus();
-                    }
+                    itemEndDateYesMethod();
                 }
             });
-            
+            if (CommonUtils.GALDERMA.equals(System.getProperty(CommonUtils.CLIENT_NAME))) {
+                udc1.setVisible(false);
+                udcVariables.setVisible(true);
+                udcVariablesView.setVisible(false);
+                customMenuItem = udcVariables.addItem("-Select one-", null);
+                commonUtil.loadCustomMenu(customMenuItem, UIUtils.ARM_UDC1);
+                commonUtil.loadComboBox(udc2, UIUtils.ARM_UDC2, false);
+                if (ConstantsUtils.EDIT.equals(mode)) {
+                    if (udcSid != 0) {
+                        com.stpl.ifs.util.HelperDTO helper = HelperListUtil.getInstance().getIdHelperDTOMap().get(udcSid);
+                        String desc = helper.getDescription();
+                        String[] description = desc.split(",");
+                        for (String des : description) {
+                            int sid = HelperListUtil.getInstance().getIdByDesc(UIUtils.ARM_UDC1, des.trim());
+                            CommonUtils.checkMenuBarItem(customMenuItem, sid);
+                        }
+                    }
+                    udcVariablesView.setVisible(false);
+                } else if (ConstantsUtils.VIEW.equals(mode)) {
+                    udcVariablesView.setVisible(true);
+                    String desc = StringUtils.EMPTY;
+                    if (udcSid != 0) {
+                        com.stpl.ifs.util.HelperDTO helper = HelperListUtil.getInstance().getIdHelperDTOMap().get(udcSid);
+                        desc = helper.getDescription();
+                        udcVariablesView.setValue(desc);
+                    }
+                    udcVariablesView.setValue(desc);
+                    udcVariablesView.setReadOnly(true);
+                    udcVariables.setVisible(false);
+
+                }
+            } else {
+                udc1.setVisible(true);
+                udcVariables.setVisible(false);
+                udcVariablesView.setVisible(false);
+                commonUtil.loadComboBox(udc2, UIUtils.UDC2, false);
+            }
             commonUtil.loadComboBox(itemStatus, UIUtils.STATUS, false);
             commonUtil.loadComboBox(itemType, UIUtils.ITEM_TYPE, false);
             commonUtil.loadComboBox(therapeuticClass, UIUtils.THERAPEUTIC_CLASS, false);
             commonUtil.loadComboBox(udc1, UIUtils.UDC1, false);
-            commonUtil.loadComboBox(udc2, UIUtils.UDC2, false);
             commonUtil.loadComboBox(udc3, UIUtils.UDC3, false);
             commonUtil.loadComboBox(udc4, UIUtils.UDC4, false);
             commonUtil.loadComboBox(udc5, UIUtils.UDC5, false);
@@ -670,11 +676,11 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             commonUtil.loadComboBox(packageSize, UIUtils.PACKAGE_SIZE, false);
             commonUtil.loadComboBox(itemTypeIndication, UIUtils.ITEM_TYPE_INDICATION, false);
             commonUtil.loadComboBox(itemCategory, UIUtils.ITEM_CATEGORY, false);
-            
+
             brandId.setValue(StringUtils.EMPTY);
             displayBrand.setValue(StringUtils.EMPTY);
             displayBrand.setReadOnly(true);
-            
+
             brandDdlb.setPageLength(NumericConstants.SEVEN);
             brandDdlb.setImmediate(true);
             brandDdlb.setNullSelectionAllowed(true);
@@ -684,7 +690,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             brandDdlb.markAsDirty();
             itemMasterDTO = getBeanFromId(binder.getItemDataSource());
             final LazyContainer identifierTypeDescContainer = new LazyContainer(
-            HelperDTO.class, new BrandContainer(itemMasterDTO.getBrandDdlb()), new BrandCriteria());
+                    HelperDTO.class, new BrandContainer(itemMasterDTO.getBrandDdlb()), new BrandCriteria());
             identifierTypeDescContainer.setMinFilterLength(0);
             brandDdlb.setContainerDataSource(identifierTypeDescContainer);
             brandDdlb.select(dto);
@@ -697,29 +703,8 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          *
                          * @param event
                          */
-                       public void valueChange(final Property.ValueChangeEvent event) {
-                            try {
-                                brandDdlb.setValue(brandDdlb.getValue());
-                                brandDdlb.setItemCaption(((HelperDTO)brandDdlb.getValue()).getId(),String.valueOf(brandDdlb.getValue()));
-                                brandDdlb.setDescription(String.valueOf(brandDdlb.getValue()));
-                                if (brandDdlb.getValue() == null || ConstantsUtils.SELECT_ONE.equals(brandDdlb.getDescription())) {
-                                    brandId.setReadOnly(false);
-                                    displayBrand.setReadOnly(false);
-                                    brandId.setValue(StringUtils.EMPTY);
-                                    displayBrand.setValue(StringUtils.EMPTY);
-                                    displayBrand.setReadOnly(true);
-                                    brandId.setReadOnly(true);
-                                } else {
-                                    brandId.setReadOnly(false);
-                                    brandId.setValue(itemLogic.getBrandId(brandDdlb.getValue().toString()));
-                                    brandId.setReadOnly(true);
-                                    displayBrand.setReadOnly(false);
-                                    displayBrand.setValue(itemLogic.getDisplayBrand(brandDdlb.getValue().toString()));
-                                    displayBrand.setReadOnly(true);
-                                }
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
-                            }
+                        public void valueChange(final Property.ValueChangeEvent event) {
+                            brandDdlbValueChangeListener();
                         }
                     });
 
@@ -748,10 +733,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * will be executed.
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                firstSaleDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(firstSaleDate
-                                                .getValue()));
-                           
+                            firstSaleDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(firstSaleDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -760,7 +745,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             ndc8.setImmediate(true);
             ndc8.setValidationVisible(true);
             ndc8.setRequired(true);
-           ndc8.setData("maxlengthvalidation100,maxlengthvalidationndc8,alphaNumericCharsWithoutStar,specialcharvalidationndc8");
+            ndc8.setData("maxlengthvalidation100,maxlengthvalidationndc8,alphaNumericCharsWithoutStar,specialcharvalidationndc8");
             ndc8.setDescription(ndc8.getValue());
             ndc8.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -776,7 +761,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             ndc9.setImmediate(true);
             ndc9.setValidationVisible(true);
             ndc9.setRequired(true);
-                       ndc9.setData("maxlengthvalidation9,maxlengthvalidationndc9,alphaNumericCharsWithoutStar,specialcharvalidationndc9");
+            ndc9.setData("maxlengthvalidation9,maxlengthvalidationndc9,alphaNumericCharsWithoutStar,specialcharvalidationndc9");
 
             ndc9.setDescription(ndc9.getValue());
             ndc9.addValueChangeListener(new Property.ValueChangeListener() {
@@ -792,7 +777,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
             labelerCode.setImmediate(true);
             labelerCode.setValidationVisible(true);
-          labelerCode.setData("maxlengthvalidationtwentyfive,maxlengthvalidationlabelercode,alphaNumericCharsWithoutStar,specialcharvalidationlabelercode");
+            labelerCode.setData("maxlengthvalidationtwentyfive,maxlengthvalidationlabelercode,alphaNumericCharsWithoutStar,specialcharvalidationlabelercode");
             labelerCode.setDescription(labelerCode.getValue());
             labelerCode.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -818,12 +803,11 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                 }
             });
 
-
             packageSizeCode.setImmediate(true);
             packageSizeCode.setValidationVisible(true);
             packageSizeCode
                     .addValidator(new RegexpValidator(ValidationUtils.SPECIAL_CHAR,
-                                    ValidationUtils.SPECIAL_CHAR_MSG));
+                            ValidationUtils.SPECIAL_CHAR_MSG));
             packageSizeCode.addValidator(new StringLengthValidator(
                     "Package Size Code should be less than 25 characters", 0, NumericConstants.TWENTY_FIVE,
                     true));
@@ -840,40 +824,19 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                         }
                     });
 
-            itemTypeIndication.setNullSelectionAllowed(true);
-            itemTypeIndication.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
-             itemTypeIndication.setImmediate(true);
-            commonsUtil.getComboBox(itemTypeIndication,
-                    itemLogic.getItemType(UIUtils.ITEM_TYPE_INDICATION));
-            itemTypeIndication.setImmediate(true);
-            itemTypeIndication.setDescription(itemTypeIndication.getItemCaption(itemTypeIndication.getValue()));
-
             itemTypeIndication
                     .addValueChangeListener(new Property.ValueChangeListener() {
-                        /**
-                         * After changing the value in itemTypeIndication,
-                         * function will be executed.
-                         *
-                         * @param event
-                         */
+
                         public void valueChange(final Property.ValueChangeEvent event) {
                             itemTypeIndication.setDescription(String
                                     .valueOf(itemTypeIndication.getValue()));
                         }
                     });
 
-            commonsUtil.getComboBox(itemCategory,
-                    itemLogic.getItemType(UIUtils.ITEM_CATEGORY));
-            itemCategory.setNullSelectionAllowed(true);
-            itemCategory.setNullSelectionItemId(ConstantsUtils.ZERO_INT);
-            itemCategory.setValue(ConstantsUtils.ZERO_INT);
-            itemCategory.setImmediate(true);
-            itemCategory.setDescription((String) itemCategory.getValue());
-
             upps.setData("maxlengthvalidationfifty,maxlengthvalidationdra,pricevalidation,numvalidationupps");
             upps.setValidationVisible(true);
             upps.setImmediate(true);
-           
+
             upps.setDescription(upps.getValue());
             upps.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -896,19 +859,18 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                packageSizeIntroDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(packageSizeIntroDate
-                                                .getValue()));
-                            
+                            packageSizeIntroDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(packageSizeIntroDate
+                                            .getValue()));
+
                         }
                     });
-            
-            
+
             organizationKey.setPageLength(NumericConstants.SEVEN);
             organizationKey.setImmediate(true);
             organizationKey.addItem(0);
             organizationKey.setItemCaption(0, ConstantsUtils.SELECT_ONE);
-            organizationKey.setNullSelectionAllowed(false);            
+            organizationKey.setNullSelectionAllowed(false);
             organizationKey.setInputPrompt(ConstantsUtils.SELECT_ONE);
             organizationKey.markAsDirty();
 
@@ -945,99 +907,23 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                            try {
-                                if (event.getProperty().getValue() == null
-                                || String.valueOf(
-                                        event.getProperty().getValue())
-                                .equals(ConstantsUtils.SELECT_ONE)) {
-                                    manufacturerName.setReadOnly(false);
-                                    manufacturerName.setValue(StringUtils.EMPTY);
-                                    manufacturerName.setReadOnly(true);
-                                } else {
-                                    final CompanyMaster company = itemLogic.getManufacturerDetails(Integer
-                                            .valueOf(((HelperDTO) manufacturerIdDDLB
-                                                    .getValue()).getId()));
-                                    manufacturerName.setReadOnly(false);
-                                    manufacturerName.setValue(company
-                                            .getCompanyName());
-                                    manufacturerName.setReadOnly(true);
-
-                                }
-                                manufacturerIdDDLB
-                                .setDescription(manufacturerIdDDLB
-                                        .getValue().toString());
-                            } catch (SystemException ex) {
-                                final String errorMsg = ErrorCodeUtil
-                                .getErrorMessage(ex);
-                                LOGGER.error(errorMsg);
-                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {   
-                                    /**         
-                                     * The method is triggered when a button of the message box is     
-                                     * pressed .        
-                                     *             
-                                     * @param buttonId The buttonId of the pressed button.  
-                                     */           
-                                    @SuppressWarnings("PMD")  
-                                    public void buttonClicked(final ButtonId buttonId) {   
-                                        // Do Nothing   
-                                    }        
-                                }, ButtonId.OK);    
-                                msg.getButton(ButtonId.OK).focus();
-                            } catch (PortalException portException) {
-                                LOGGER.error(portException.getMessage());
-                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {   
-                                    /**         
-                                     * The method is triggered when a button of the message box is     
-                                     * pressed .        
-                                     *             
-                                     * @param buttonId The buttonId of the pressed button.  
-                                     */           
-                                    @SuppressWarnings("PMD")  
-                                    public void buttonClicked(final ButtonId buttonId) {   
-                                        // Do Nothing   
-                                    }        
-                                }, ButtonId.OK);    
-                                msg.getButton(ButtonId.OK).focus();
-                                LOGGER.error(portException);
-                            } catch (Exception exception) {
-                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {   
-                                    /**         
-                                     * The method is triggered when a button of the message box is     
-                                     * pressed .        
-                                     *             
-                                     * @param buttonId The buttonId of the pressed button.  
-                                     */           
-                                    @SuppressWarnings("PMD")  
-                                    public void buttonClicked(final ButtonId buttonId) {   
-                                        // Do Nothing   
-                                    }        
-                                }, ButtonId.OK);    
-                                msg.getButton(ButtonId.OK).focus();
-                                LOGGER.error(exception);
-
-                            }
+                            manufacturerIdDDLBValueChangeListener(event);
                         }
                     });
 
             manufacturerName.setReadOnly(true);
-   
-        } catch (PortalException ex) {
-             LOGGER.error(ex);
-        } catch (SystemException ex) {
-             LOGGER.error(ex);
+
         } catch (Exception ex) {
-          LOGGER.error(ex);
+            LOGGER.error(ex);
         }
 
- if (!String.valueOf(mode).equals(ConstantsUtils.ADD)) {
+        if (!String.valueOf(mode).equals(ConstantsUtils.ADD)) {
             modifiedBy.setValue(IFPLogic.getUseName());
             modifiedDate.setValue(new Date());
         }
 
         createdBy.setValue(IFPLogic.getUseName());
         createdDate.setValue(new Date());
-
-
 
         createdBy.setImmediate(true);
         createdBy.setReadOnly(true);
@@ -1046,7 +932,6 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
         createdDate.setImmediate(true);
         createdDate.setReadOnly(true);
         createdDate.setEnabled(false);
-
 
         modifiedBy.setImmediate(true);
         modifiedBy.setReadOnly(true);
@@ -1090,12 +975,12 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
          */
         @Override
         public void validate(final Object value)
-                throws Validator.InvalidValueException {
+                 {
             if (itemStartDate.getValue() != null
                     && itemEndDate.getValue() != null) {
                 if (itemStartDate.getValue().after(itemEndDate.getValue())) {
                     throw new Validator.InvalidValueException(
-                            "End date should be greater than start date");
+                            ConstantsUtils.END_DATE_SHOULD_BE_GREATER);
                 } else if (itemStartDate.getValue().getTime() == itemEndDate
                         .getValue().getTime()) {
 
@@ -1137,7 +1022,6 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             return null;
         }
     }
-    
 
     public ItemMasterDTO getBeanFromId(Object obj) {
 
@@ -1150,5 +1034,149 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
         }
         return (ItemMasterDTO) targetItem.getBean();
     }
-    
+
+    public void manufacturerIdDDLBValueChangeListener(final Property.ValueChangeEvent event) {
+        try {
+            if (event.getProperty().getValue() == null
+                    || String.valueOf(
+                            event.getProperty().getValue())
+                    .equals(ConstantsUtils.SELECT_ONE)) {
+                manufacturerName.setReadOnly(false);
+                manufacturerName.setValue(StringUtils.EMPTY);
+                manufacturerName.setReadOnly(true);
+            } else {
+                final CompanyMaster company = itemLogic.getManufacturerDetails(Integer
+                        .valueOf(((HelperDTO) manufacturerIdDDLB
+                                .getValue()).getId()));
+                manufacturerName.setReadOnly(false);
+                manufacturerName.setValue(company
+                        .getCompanyName());
+                manufacturerName.setReadOnly(true);
+
+            }
+            manufacturerIdDDLB
+                    .setDescription(manufacturerIdDDLB
+                            .getValue().toString());
+        } catch (SystemException ex) {
+            final String errorMsg = ErrorCodeUtil
+                    .getErrorMessage(ex);
+            LOGGER.error(errorMsg);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing   
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        } catch (PortalException portException) {
+            LOGGER.error(portException.getMessage());
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing   
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+            LOGGER.error(portException);
+        } catch (Exception exception) {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing   
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+            LOGGER.error(exception);
+
+        }
+    }
+
+    public void brandDdlbValueChangeListener() {
+        try {
+            brandDdlb.setValue(brandDdlb.getValue());
+            brandDdlb.setItemCaption(((HelperDTO) brandDdlb.getValue()).getId(), String.valueOf(brandDdlb.getValue()));
+            brandDdlb.setDescription(String.valueOf(brandDdlb.getValue()));
+            if (brandDdlb.getValue() == null || ConstantsUtils.SELECT_ONE.equals(brandDdlb.getDescription())) {
+                brandId.setReadOnly(false);
+                displayBrand.setReadOnly(false);
+                brandId.setValue(StringUtils.EMPTY);
+                displayBrand.setValue(StringUtils.EMPTY);
+                displayBrand.setReadOnly(true);
+                brandId.setReadOnly(true);
+            } else {
+                brandId.setReadOnly(false);
+                brandId.setValue(itemLogic.getBrandId(brandDdlb.getValue().toString()));
+                brandId.setReadOnly(true);
+                displayBrand.setReadOnly(false);
+                displayBrand.setValue(itemLogic.getDisplayBrand(brandDdlb.getValue().toString()));
+                displayBrand.setReadOnly(true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
+
+    public void itemStartDateYesmethod() {
+        try {
+            itemStartDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(itemStartDate.getValue()));
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing        
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
+
+    public void itemEndDateYesMethod() {
+        try {
+            itemEndDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(itemEndDate.getValue()));
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing    
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
+
+    public CustomMenuBar.CustomMenuItem getCustomMenuItem() {
+        return customMenuItem;
+    }
 }

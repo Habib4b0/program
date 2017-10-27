@@ -51,7 +51,7 @@ public class RelationshipDdlbDao implements DAO<RelationshipDdlbDto> {
 
     @Override
     public List<RelationshipDdlbDto> find(SearchCriteria criteria, int startIndex, int offset, List<OrderByColumn> columns) {
-        List<RelationshipDdlbDto> resultList = new ArrayList<RelationshipDdlbDto>();
+        List<RelationshipDdlbDto> resultList = new ArrayList<>();
         try {
             resultList = logic.getRelationshipSidLazy(startIndex, startIndex + offset, defaultRelationshipDdlbDto, criteria.getFilter(), hierarchyDefinitionSid, selectedRelationshipDdlbDto);
         } catch (PortalException ex) {

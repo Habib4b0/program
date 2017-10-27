@@ -129,8 +129,8 @@
       <zip_limit_size>0</zip_limit_size>
       <use_auth>N</use_auth>
       <use_secure_auth>N</use_secure_auth>
-      <auth_user>SENDER_ADDRESS</auth_user>
-      <auth_password>Encrypted 2becbea862ee2a0bb9b389d43e9bd9dfe</auth_password>
+      <auth_user>newhost</auth_user>
+      <auth_password>Encrypted 2be98afc86aa7f2e4cb79ce10ce93bcc9</auth_password>
       <only_comment>Y</only_comment>
       <use_HTML>Y</use_HTML>
       <use_Priority>N</use_Priority>
@@ -198,8 +198,7 @@ var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;There was error
            <schema_name/>
            </partitioning>
     <connection>DB</connection>
-    <sql>--failure
-DECLARE @CONTENT VARCHAR(max)= &apos;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;There was error during the validation process.&lt;br&gt;&lt;br&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&apos;
+    <sql>DECLARE @CONTENT VARCHAR(max)= &apos;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;There was error during the validation process.&lt;br&gt;&lt;br&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&apos;
 SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,
              A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,
              A.PASSWORD                      AS SENDER_PASSWORD,
@@ -209,6 +208,8 @@ SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,
              B.FAILURE_MAIL_SUBJECT        AS SUBJECT,
             -- B.FAILURE_MAIL_BODY + @CONTENT  AS CONTENT,
 			 stuff(@CONTENT,charindex(&apos;Hi,&apos;,@CONTENT)+3,0,&apos;&lt;br&gt;&lt;br&gt;&apos;+B.FAILURE_MAIL_BODY) as CONTENT
+			
+
 FROM   WF_MAIL_CONFIG A
        JOIN WORKFLOW_PROFILE B
          ON 1 = 1

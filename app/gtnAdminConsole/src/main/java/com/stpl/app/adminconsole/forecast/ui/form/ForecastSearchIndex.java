@@ -165,16 +165,16 @@ public class ForecastSearchIndex extends CustomComponent implements View {
     /**
      * The results bean.
      */
-    public BeanItemContainer<ForecastDTO> resultsBean = new BeanItemContainer<ForecastDTO>(ForecastDTO.class);
+    public BeanItemContainer<ForecastDTO> resultsBean = new BeanItemContainer<>(ForecastDTO.class);
     /**
      * The Constant DISCOUNT_TABLE_COLUMNS.
      */
-    public static final Object[] FORECAST_TABLE_COLUMNS = new Object[]{
+    public final Object[] forecastTableColumns = new Object[]{
         "businessProcess", "processType", "mode", "fromDateSearch", "toDateSearch", "historicalInterval", "historicalValue", "futureInterval", "futureValue", "versionNo", "fromPeriod", "toPeriod", "createdBy", "activeFlag"};
     /**
      * The Constant DISCOUNT_TABLE_HEADER.
      */
-    public static final String[] FORECAST_TABLE_HEADER = new String[]{
+    public final String[] forecastTableHeader = new String[]{
         "Business Process", "Process Type", "Process Mode", "From Date", "To Date", "Historic Interval", "Historic Period", "Future Interval", "Future Period", "Version", "From Period", "To Period", "Created By", "Active Flag"};
     @UiField("tableLayout")
     VerticalLayout tableLayout;
@@ -483,8 +483,8 @@ public class ForecastSearchIndex extends CustomComponent implements View {
      *
      * @return the forecast table columns
      */
-    public static Object[] getForecastTableColumns() {
-        return FORECAST_TABLE_COLUMNS;
+    public Object[] getForecastTableColumns() {
+        return forecastTableColumns;
     }
 
     /**
@@ -492,8 +492,8 @@ public class ForecastSearchIndex extends CustomComponent implements View {
      *
      * @return the forecast table header
      */
-    public static String[] getForecastTableHeader() {
-        return FORECAST_TABLE_HEADER;
+    public String[] getForecastTableHeader() {
+        return forecastTableHeader;
     }
 
     /**
@@ -504,10 +504,10 @@ public class ForecastSearchIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public ForecastSearchIndex(final ErrorfulFieldGroup forecastBinder) throws SystemException, PortalException {
+    public ForecastSearchIndex(final ErrorfulFieldGroup forecastBinder) throws SystemException {
 
         super();
-        this.forecastBinder = new ErrorfulFieldGroup(new BeanItem<ForecastDTO>(forecastDTO));
+        this.forecastBinder = new ErrorfulFieldGroup(new BeanItem<>(forecastDTO));
         try {
             init();
             configureFields();
@@ -524,7 +524,7 @@ public class ForecastSearchIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void init() throws SystemException, PortalException {
+    private void init() {
         LOGGER.debug("ForecastSearchIndex init method is started");
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/forecastConfiguration.xml"), this));
         configureTable();
@@ -541,7 +541,7 @@ public class ForecastSearchIndex extends CustomComponent implements View {
     private ErrorfulFieldGroup getBinder() {
         LOGGER.debug("getBinder method started");
         forecastBinder.bindMemberFields(this);
-        forecastBinder.setItemDataSource(new BeanItem<ForecastDTO>(forecastDTO));
+        forecastBinder.setItemDataSource(new BeanItem<>(forecastDTO));
         forecastBinder.setBuffered(true);
         forecastBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getBinder method returns getBinder");
@@ -556,7 +556,7 @@ public class ForecastSearchIndex extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -975,7 +975,7 @@ public class ForecastSearchIndex extends CustomComponent implements View {
         tableLogic.setPageLength(NumericConstants.FIFTEEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         setTableDefaultConfig();
-        Object[] objColumn = FORECAST_TABLE_COLUMNS;
+        Object[] objColumn = forecastTableColumns;
         for (Object objColumn1 : objColumn) {
             String value = objColumn1.toString();
             if (value.endsWith("Date") || value.contains("fromPeriod") || value.contains("toPeriod")) {
@@ -998,8 +998,8 @@ public class ForecastSearchIndex extends CustomComponent implements View {
 
     public void setTableDefaultConfig()  {
         try {
-            results.setVisibleColumns(FORECAST_TABLE_COLUMNS);
-            results.setColumnHeaders(FORECAST_TABLE_HEADER);
+            results.setVisibleColumns(forecastTableColumns);
+            results.setColumnHeaders(forecastTableHeader);
             results.markAsDirtyRecursive();
             results.setImmediate(true);
             results.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -1018,8 +1018,8 @@ public class ForecastSearchIndex extends CustomComponent implements View {
         tableLayout.addComponent(excelTable);
         excelTable.setVisible(false);
         excelTable.setContainerDataSource(excelTableBean);
-        excelTable.setVisibleColumns(FORECAST_TABLE_COLUMNS);
-        excelTable.setColumnHeaders(FORECAST_TABLE_HEADER);
+        excelTable.setVisibleColumns(forecastTableColumns);
+        excelTable.setColumnHeaders(forecastTableHeader);
         excelTable.markAsDirtyRecursive();
 
     }
@@ -1106,7 +1106,6 @@ public class ForecastSearchIndex extends CustomComponent implements View {
                             } catch (Exception e) {
 
                                 LOGGER.error(e);
-//                                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
                             }
                         }
                     }
@@ -1198,6 +1197,7 @@ public class ForecastSearchIndex extends CustomComponent implements View {
                              * No method
                              */
                             public void noMethod() {
+                                return;
                             }
 
                             @Override

@@ -69,21 +69,20 @@ public class IfpLookUp extends Window {
     public PopupDateField ifpEndDate;
     LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<LookupDTO>(LookupDTO.class);
-    private BeanItemContainer<String> ifpStatusBean = new BeanItemContainer<String>(String.class);
+    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
+    private BeanItemContainer<String> ifpStatusBean = new BeanItemContainer<>(String.class);
     private CustomFieldGroup binder;
     private CustomTextField parentIfpName;
     boolean flag;
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
 
     public IfpLookUp(CustomTextField parentIfpName, boolean flag) {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/ifp.xml"), this));
         this.parentIfpName = parentIfpName;
         this.flag = flag;
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(true);
         setModal(true);
         setCaption(" IFP Lookup ");
@@ -104,8 +103,8 @@ public class IfpLookUp extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setSelectable(true);
         resultsTable.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(Constants.IFP_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(Constants.IFP_SEARCH_HEADERS);
+        resultsTable.setVisibleColumns(Constants.getInstance().ifpSearchColumns);
+        resultsTable.setColumnHeaders(Constants.getInstance().ifpSearchHeaders);
         resultsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
         resultsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
         resultsTable.setConverter(Constants.IFP_START_DATE, new DateToStringConverter());
@@ -115,7 +114,7 @@ public class IfpLookUp extends Window {
         for (Object propertyId : resultsTable.getVisibleColumns()) {
             resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_TWO_ZERO);
         }
-        Object[] objColumn = Constants.IFP_SEARCH_COLUMNS;
+        Object[] objColumn = Constants.getInstance().ifpSearchColumns;
         for (Object objColumn1 : objColumn) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
@@ -144,25 +143,25 @@ public class IfpLookUp extends Window {
                     if (propertyId.equals("ifpType")) {
                         CustomComboBox ifpType = new CustomComboBox();
                         ifpType.setImmediate(true);
-                        commonUtil.loadComboBox(ifpType, UIUtils.IFP_TYPE, true);
+                        commonUtil.loadComboBox(ifpType, UiUtils.IFP_TYPE, true);
                         return ifpType;
                     }
                     if (propertyId.equals("ifpCategory")) {
                         CustomComboBox ifpCategory = new CustomComboBox();
                         ifpCategory.setImmediate(true);
-                        commonUtil.loadComboBox(ifpCategory, UIUtils.IFP_CATEGORY, true);
+                        commonUtil.loadComboBox(ifpCategory, UiUtils.IFP_CATEGORY, true);
                         return ifpCategory;
                     }
                     if (propertyId.equals("ifpDesignation")) {
                         CustomComboBox ifpDesignation = new CustomComboBox();
                         ifpDesignation.setImmediate(true);
-                        commonUtil.loadComboBox(ifpDesignation, UIUtils.IFP_DESIGNATION, true);
+                        commonUtil.loadComboBox(ifpDesignation, UiUtils.IFP_DESIGNATION, true);
                         return ifpDesignation;
                     }
                     if (propertyId.equals("ifpStatus")) {
                         CustomComboBox ifpStatus = new CustomComboBox();
                         ifpStatus.setImmediate(true);
-                        commonUtil.loadComboBox(ifpStatus, UIUtils.STATUS, true);
+                        commonUtil.loadComboBox(ifpStatus, UiUtils.STATUS, true);
                         return ifpStatus;
                     }
 
@@ -173,9 +172,11 @@ public class IfpLookUp extends Window {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -186,14 +187,14 @@ public class IfpLookUp extends Window {
         resultsTable.addStyleName("filterbar");
         ifpStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         ifpStatus.setImmediate(true);
-        BeanItemContainer<HelperDTO> temp = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList(Constants.STATUS, Constants.HELPER_DTO));
         ifpStatus.setContainerDataSource(temp);
         ifpStatus.setNullSelectionItemId(Constants.HELPER_DTO);
         ifpStatus.setValue(Constants.HELPER_DTO);
         ifpStatus.setItemCaptionPropertyId("description");
         ifpType.setImmediate(true);
-        temp = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList("IFP_TYPE", Constants.HELPER_DTO));
         ifpType.setContainerDataSource(temp);
         ifpType.setNullSelectionItemId(Constants.HELPER_DTO);
@@ -202,21 +203,21 @@ public class IfpLookUp extends Window {
         ifpEndDate.setImmediate(true);
         ifpEndDate.setDateFormat(Constants.DATE_FORMAT);
         ifpEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-        ifpEndDate.addStyleName("datefieldcentered");
+        ifpEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
         ifpStartDate.setImmediate(true);
         ifpStartDate.setDateFormat(Constants.DATE_FORMAT);
         ifpStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-        ifpStartDate.addStyleName("datefieldcentered");
+        ifpStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
         ifpNo.focus();
         try {
-            commonUtil.loadComboBoxForGCM(ifpCategory, UIUtils.IFP_CATEGORY, false);
+            commonUtil.loadComboBoxForGCM(ifpCategory, UiUtils.IFP_CATEGORY, false);
         } catch (Exception ex) {
             Logger.getLogger(IfpLookUp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<LookupDTO>(new LookupDTO()));
+        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;
@@ -263,7 +264,7 @@ public class IfpLookUp extends Window {
             @Override
             public void yesMethod() {
                 resultsTable.resetFilters();
-                binder.setItemDataSource(new BeanItem<LookupDTO>(new LookupDTO()));
+                binder.setItemDataSource(new BeanItem<>(new LookupDTO()));
             }
         }.getConfirmationMessage("Reset confirmation", "Are you sure you want to reset the page to default/previous values? ");
 

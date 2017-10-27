@@ -39,7 +39,6 @@ public class BaseRateView  extends VerticalLayout{
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(BaseRateView.class);
   /**
      * Default constructor.
      */

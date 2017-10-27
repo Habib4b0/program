@@ -5,6 +5,7 @@
  */
 package com.stpl.app.global.deductioncalendar.ui.util;
 
+import com.stpl.app.global.abstractsearch.util.ConstantUtil;
 import com.stpl.app.global.deductioncalendar.dto.DeductionDetailsDTO;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -49,13 +50,13 @@ public class CommonUtil {
         int startPeriod = 0;
         int endPeriod = 0;
         int startYearLoop = Integer.valueOf(String.valueOf(fullFromDateArr[0]));
-        if ("Quarterly".equalsIgnoreCase(detailsDto.getFrequency())) {
+        if (ConstantsUtils.QUARTERLY.equalsIgnoreCase(detailsDto.getFrequency())) {
             endPeriod = NumericConstants.FOUR;
             startPeriod = QUATER_VALUE[Integer.valueOf(String.valueOf(fullFromDateArr[1])) - 1];
-        } else if ("Semi-Annual".equalsIgnoreCase(detailsDto.getFrequency())) {
+        } else if (ConstantsUtils.SEMI_ANNUAL.equalsIgnoreCase(detailsDto.getFrequency())) {
             endPeriod = NumericConstants.TWO;
             startPeriod = SEMI_VALUE[Integer.valueOf(String.valueOf(fullFromDateArr[1])) - 1];
-        } else if ("Monthly".equalsIgnoreCase(detailsDto.getFrequency())) {
+        } else if (ConstantsUtils.MONTHLY.equalsIgnoreCase(detailsDto.getFrequency())) {
             endPeriod = NumericConstants.TWELVE;
             startPeriod = Integer.valueOf(String.valueOf(fullFromDateArr[1]));
         }
@@ -67,11 +68,11 @@ public class CommonUtil {
                 list.add(StringUtils.EMPTY + startYearLoop);
             } else {
                 for (int j = startPeriod; j <= endPeriod; j++) {
-                    if ("Quarterly".equalsIgnoreCase(detailsDto.getFrequency())) {
+                    if (ConstantsUtils.QUARTERLY.equalsIgnoreCase(detailsDto.getFrequency())) {
                         list.add("Q" + j + " " + startYearLoop);
-                    } else if ("Semi-Annual".equalsIgnoreCase(detailsDto.getFrequency())) {
+                    } else if (ConstantsUtils.SEMI_ANNUAL.equalsIgnoreCase(detailsDto.getFrequency())) {
                         list.add("S" + j + " " + startYearLoop);
-                    } else if ("Monthly".equalsIgnoreCase(detailsDto.getFrequency())) {
+                    } else if (ConstantsUtils.MONTHLY.equalsIgnoreCase(detailsDto.getFrequency())) {
                         list.add(StringUtils.EMPTY + CURRENT_MONTH_HEADER[j - 1] + " " + startYearLoop);
                     }
                 }
@@ -87,11 +88,11 @@ public class CommonUtil {
         if ("Annual".equalsIgnoreCase(detailsDto.getFrequency())) {
             column = String.valueOf(year);
         } else {
-            if ("Quarterly".equalsIgnoreCase(detailsDto.getFrequency())) {
+            if (ConstantsUtils.QUARTERLY.equalsIgnoreCase(detailsDto.getFrequency())) {
                 column = "q" + month + StringUtils.EMPTY + String.valueOf(year);
-            } else if ("Semi-Annual".equalsIgnoreCase(detailsDto.getFrequency())) {
+            } else if (ConstantsUtils.SEMI_ANNUAL.equalsIgnoreCase(detailsDto.getFrequency())) {
                 column = "s" + month + StringUtils.EMPTY + String.valueOf(year);
-            } else if ("Monthly".equalsIgnoreCase(detailsDto.getFrequency())) {
+            } else if (ConstantsUtils.MONTHLY.equalsIgnoreCase(detailsDto.getFrequency())) {
                 column = StringUtils.EMPTY + CURRENT_MONTH[month - 1] + "~" + String.valueOf(year);
             }
         }
@@ -99,7 +100,7 @@ public class CommonUtil {
     }
 
     public static int getMonth(String month) {
-        Map<String, Integer> map = new HashMap<String, Integer>();
+        Map<String, Integer> map = new HashMap<>();
         int j = 1;
         for (int i = 0; i < CURRENT_MONTH_HEADER.length; i++) {
             map.put(CURRENT_MONTH_HEADER[i], j);
@@ -127,7 +128,7 @@ public class CommonUtil {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
-        List<Object[]> objectList = new ArrayList<Object[]>();
+        List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
@@ -135,29 +136,29 @@ public class CommonUtil {
                 connection = datasource.getConnection();
             }
             if (connection != null) {
-                String procedureToCall = "{call " + procedureName;
+                StringBuilder procedureToCall = new StringBuilder("{call ");
+                procedureToCall.append(procedureName);
                 int noOfArgs = orderedArgs.length;
                 for (int i = 0; i < noOfArgs; i++) {
                     if (i == 0) {
-                        procedureToCall += "(";
+                        procedureToCall.append("(");
                     }
-                    procedureToCall += "?,";
+                    procedureToCall.append("?,");
                     if (i == noOfArgs - 1) {
-                        procedureToCall += ")";
+                        procedureToCall.append(ConstantsUtils.CLOSE_PARENTHESIS);
                     }
                 }
-                procedureToCall = procedureToCall.replace(",)", ")");
-                procedureToCall += "}";
-                statement = connection.prepareCall(procedureToCall);
-                for (int i = 0; i < noOfArgs; i++) {
-                    LOGGER.debug(orderedArgs[i]);
+                procedureToCall.replace(procedureToCall.lastIndexOf(ConstantUtil.COMMA), procedureToCall.lastIndexOf(ConstantUtil.COMMA) + 1, StringUtils.EMPTY);
+                procedureToCall.append("}");
+                statement = connection.prepareCall(procedureToCall.toString());
+                for (int i = 0; i < noOfArgs; i++) {                    
+                    LOGGER.info(orderedArgs[i]);
+                    
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
-                try {
+          
                  statement.execute();
-                } catch (Exception e) {
-                    LOGGER.error(e);
-                }
+                
             }
         } catch (NamingException ex) {
             LOGGER.error(ex);

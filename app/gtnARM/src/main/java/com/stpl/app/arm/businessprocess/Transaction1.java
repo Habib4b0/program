@@ -9,14 +9,12 @@ import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import com.stpl.app.arm.supercode.AbstractTransaction;
-import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
-import java.util.Map;
 import org.jboss.logging.Logger;
 
 /**
@@ -60,7 +58,7 @@ public class Transaction1 extends AbstractTransaction {
             Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in initializeTabs"+e);
         }
     }
 
@@ -92,12 +90,12 @@ public class Transaction1 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        return "Transaction_1_Adjustment_details_Insert_GTN";
+        return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        return "Transaction_1_Adjustment_details_Insert_Reserve";
+        return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
     @Override
@@ -112,6 +110,11 @@ public class Transaction1 extends AbstractTransaction {
         rates.configurePermission(userId, stplSecurity);
         summary.configurePermission(userId, stplSecurity);
         details.configurePermission(userId, stplSecurity);
+    }
+
+    @Override
+    public String getTableName() {
+        return "ARM_PIPELINE_RATE";
     }
 
 }

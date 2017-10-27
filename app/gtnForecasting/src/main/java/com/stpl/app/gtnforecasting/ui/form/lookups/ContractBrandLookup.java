@@ -145,7 +145,7 @@ public class ContractBrandLookup extends Window {
     
     private SessionDTO session;
     String screenName;    
-
+    CommonUtils commonUtils = new CommonUtils();
     /**
      * Instantiates a new contract brand lookup.
      *
@@ -154,7 +154,7 @@ public class ContractBrandLookup extends Window {
      * @param type
      * @param hierarchyNo
      */
-    public ContractBrandLookup(final String windowName, final SessionDTO sessionDTO, final String type, final String hierarchyNo, String screenName) {
+    public ContractBrandLookup(final SessionDTO sessionDTO, final String type, final String hierarchyNo, String screenName) {
         super(StringUtils.EMPTY);
         LOGGER.debug("ContractBrandLookup Constructor initiated ");
         addStyleName(Constant.BOOTSTRAP_UI);
@@ -185,7 +185,7 @@ public class ContractBrandLookup extends Window {
         LOGGER.debug("Entering getBinder");
         final ContractBrandDTO bean = new ContractBrandDTO();
 
-        searchBinder = new CustomFieldGroup(new BeanItem<ContractBrandDTO>(bean));
+        searchBinder = new CustomFieldGroup(new BeanItem<>(bean));
         searchBinder.setBuffered(true);
         searchBinder.bindMemberFields(this);
         searchBinder.setErrorDisplay(errorMsg);
@@ -202,16 +202,16 @@ public class ContractBrandLookup extends Window {
             if (lookupType.equals(Constant.BRAND)) {
                 brandName.focus();
             }
-            contractContainer = new BeanItemContainer<ContractBrandDTO>(ContractBrandDTO.class);
-            brandContainer = new BeanItemContainer<ContractBrandDTO>(ContractBrandDTO.class);
-            nmContractContainer = new BeanItemContainer<ContractBrandDTO>(ContractBrandDTO.class);
+            contractContainer = new BeanItemContainer<>(ContractBrandDTO.class);
+            brandContainer = new BeanItemContainer<>(ContractBrandDTO.class);
+            nmContractContainer = new BeanItemContainer<>(ContractBrandDTO.class);
             brandResultsTable.setSelectable(true);
             brandResultsTable.setFilterBarVisible(true);
             brandResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             brandResultsTable.setStyleName(Constant.FILTER_TABLE);
             brandResultsTable.setContainerDataSource(brandContainer);
-            brandResultsTable.setVisibleColumns(CommonUtils.HISTORY_LOOKUP_BRAND_COLUMNS);
-            brandResultsTable.setColumnHeaders(CommonUtils.HISTORY_LOOKUP_BRAND_HEADERS);
+            brandResultsTable.setVisibleColumns(commonUtils.historyLookupBrandColumns);
+            brandResultsTable.setColumnHeaders(commonUtils.historyLookupBrandHeaders);
             contractResultsTable.setPageLength(NumericConstants.FIVE);
             brandResultsTable.setPageLength(NumericConstants.FIVE);
             contractResultsTable.setSizeFull();
@@ -307,7 +307,7 @@ public class ContractBrandLookup extends Window {
     public void editCustomertree(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
             public void noMethod() {
-               
+               return;
             }
 
             @Override
@@ -334,7 +334,7 @@ public class ContractBrandLookup extends Window {
             java.util.logging.Logger.getLogger(AlternateHistoryLookup.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (StringUtils.isEmpty(getContractHolder().getValue()) && StringUtils.isEmpty(getCustomerId().getValue())) {
-            com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils.getErrorNotification("No Search Value Entered", "There is no search value entered. Please enter a search value and try again.");
+            com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils.getErrorNotification(Constant.NO_SEARCH_VALUE_ENTERED, Constant.NO_SEARCH_VALUE_ENTERED_MSG);
 
         } else {
             try {
@@ -343,11 +343,11 @@ public class ContractBrandLookup extends Window {
                 final AlternateLookupSource alternate = logic.searchAlternateCustomerAndBrand(searchBinder, Constant.TP, false);
                 final List<ContractBrandDTO> tpResult = alternate.getContractcustomersList();
                 if (tpResult.isEmpty()) {
-                    com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils.getInfoNotification("No Results", "There were no results found that match the entered search criteria. \nPlease try again.");
+                    com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils.getInfoNotification(Constant.NO_RESULTS_FOUND, Constant.NO_RESULT_FOUND_MSG);
 
                 } else {
                     nmContractContainer.addAll(tpResult);
-                    CommonUIUtils.getMessageNotification("Search Completed");
+                    CommonUIUtils.getMessageNotification(Constant.SEARCH_COMPLETED_HEAD);
                 }
 
             } catch (SystemException sysException) {
@@ -377,11 +377,11 @@ public class ContractBrandLookup extends Window {
 
         if (StringUtils.isEmpty(contractName.getValue()) && StringUtils.isEmpty(contractNo.getValue()) && StringUtils.isEmpty(String.valueOf(customerDdlb.getValue()))) {
 
-            AbstractNotificationUtils.getErrorNotification("No Search Value Entered", "There is no search value entered. Please enter a search value and try again.");
+            AbstractNotificationUtils.getErrorNotification(Constant.NO_SEARCH_VALUE_ENTERED, Constant.NO_SEARCH_VALUE_ENTERED_MSG);
 
         } else if (StringUtils.isEmpty(contractName.getValue()) && StringUtils.isEmpty(contractNo.getValue())) {
 
-            AbstractNotificationUtils.getErrorNotification("No Search Value Entered", "There is no search value entered. Please enter a search value and try again.");
+            AbstractNotificationUtils.getErrorNotification(Constant.NO_SEARCH_VALUE_ENTERED, Constant.NO_SEARCH_VALUE_ENTERED_MSG);
 
         } else {
 
@@ -390,11 +390,11 @@ public class ContractBrandLookup extends Window {
             }
             final List alternate = logic.searchAlternateContract(contractBrandDTO);
             if (alternate.isEmpty()) {
-                AbstractNotificationUtils.getInfoNotification("No Results", "There were no results found that match the entered search criteria. \nPlease try again.");
+                AbstractNotificationUtils.getInfoNotification(Constant.NO_RESULTS_FOUND, Constant.NO_RESULT_FOUND_MSG);
             } else {
 
                 contractContainer.addAll(alternate);
-                CommonUIUtils.getMessageNotification("Search Completed");
+                CommonUIUtils.getMessageNotification(Constant.SEARCH_COMPLETED_HEAD);
             }
         }
         LOGGER.debug("Ending the Mandated Contract Search Logic");
@@ -417,7 +417,7 @@ public class ContractBrandLookup extends Window {
         customerDDLB.addItem(Constant.SELECT_ONE);
         customerDDLB.setNullSelectionAllowed(true);
         customerDDLB.setNullSelectionItemId(Constant.SELECT_ONE);
-        List<Object[]> list = logic.loadAlternateCustomer(sessionDTO.getMarketType());
+        List<Object[]> list = logic.loadAlternateCustomer();
         for (Object[] obj : list) {
             customerDDLB.addItem(obj[0]);
             customerDDLB.setItemCaption(obj[0], String.valueOf(obj[1]));
@@ -439,20 +439,20 @@ public class ContractBrandLookup extends Window {
             tempbrandName = Constant.PERCENT;
         }
         if (StringUtils.isEmpty(tempbrandName)) {
-            AbstractNotificationUtils.getErrorNotification("No Search Value Entered", "There is no search value entered. Please enter a search value and try again.");
+            AbstractNotificationUtils.getErrorNotification(Constant.NO_SEARCH_VALUE_ENTERED, Constant.NO_SEARCH_VALUE_ENTERED_MSG);
         } else {
             List<ContractBrandDTO> brandResult = logic.loadAlternateBrand(tempbrandName);
 
             if (brandResult.isEmpty()) {
 
-                AbstractNotificationUtils.getInfoNotification("No Results", "There were no results found that match the entered search criteria. \nPlease try again.");
+                AbstractNotificationUtils.getInfoNotification(Constant.NO_RESULTS_FOUND, Constant.NO_RESULT_FOUND_MSG);
 
             } else {
                 if (brandContainer.size() != 0) {
                     brandContainer.removeAllItems();
                 }
                 brandContainer.addAll(brandResult);
-                CommonUIUtils.getMessageNotification("Search Completed");
+                CommonUIUtils.getMessageNotification(Constant.SEARCH_COMPLETED_HEAD);
             }
         }
         LOGGER.debug("Ending the Brand Search Logic");
@@ -535,7 +535,7 @@ public class ContractBrandLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof ContractBrandDTO) {
-            targetItem = new BeanItem<ContractBrandDTO>(
+            targetItem = new BeanItem<>(
                     (ContractBrandDTO) obj);
         }
 
@@ -560,8 +560,8 @@ public class ContractBrandLookup extends Window {
             contractResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             contractResultsTable.setStyleName(Constant.FILTER_TABLE);
             contractResultsTable.setContainerDataSource(nmContractContainer);
-            contractResultsTable.setVisibleColumns(CommonUtils.HISTORY_LOOKUP_CONTRACT_COLUMNS_NONMANDATED);
-            contractResultsTable.setColumnHeaders(CommonUtils.HISTORY_LOOKUP_CONTRACT_HEADERS_NONMANDATED);
+            contractResultsTable.setVisibleColumns(commonUtils.historyLookupContractColumnsNonMandated);
+            contractResultsTable.setColumnHeaders(commonUtils.historyLookupContractHeaderNonMandated);
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
             contractHolder.setVisible(false);
             customerId.setVisible(false);
@@ -572,8 +572,8 @@ public class ContractBrandLookup extends Window {
             contractResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             contractResultsTable.setStyleName(Constant.FILTER_TABLE);
             contractResultsTable.setContainerDataSource(contractContainer);
-            contractResultsTable.setVisibleColumns(CommonUtils.HISTORY_LOOKUP_CONTRACT_COLUMNS_MANDATED);
-            contractResultsTable.setColumnHeaders(CommonUtils.HISTORY_LOOKUP_CONTRACT_HEADERS_MANDATED);
+            contractResultsTable.setVisibleColumns(commonUtils.historyLookupContractColumnsMandated);
+            contractResultsTable.setColumnHeaders(commonUtils.historyLookupContractHeadersMandated);
         }
         LOGGER.debug("Ending Configure Based On ScreenName");
     }

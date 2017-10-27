@@ -16,7 +16,7 @@ import com.vaadin.ui.Component;
  *
  * @author Karthikeyan.Subraman
  */
-public interface Rates extends View,Component,GenerateAble,DefaultFocusable,LeaveConfirmMessageAble,LeaveCheckAble{
+public interface Rates extends View, Component, GenerateAble, DefaultFocusable, LeaveConfirmMessageAble, LeaveCheckAble {
 
     public boolean saveAssets();
 }

@@ -40,6 +40,7 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
     private int _itemPricingSid;
     private String _pricingCodeStatus;
     private String _pricingCodeQualifierName;
+    private int _itemPriceprecision;
     private BaseModel<?> _vwItemPricingRemoteModel;
 
     public VwItemPricingClp() {
@@ -98,6 +99,7 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
         attributes.put("itemPricingSid", getItemPricingSid());
         attributes.put("pricingCodeStatus", getPricingCodeStatus());
         attributes.put("pricingCodeQualifierName", getPricingCodeQualifierName());
+        attributes.put("itemPriceprecision", getItemPriceprecision());
 
         return attributes;
     }
@@ -219,6 +221,13 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
 
         if (pricingCodeQualifierName != null) {
             setPricingCodeQualifierName(pricingCodeQualifierName);
+        }
+
+        Integer itemPriceprecision = (Integer) attributes.get(
+                "itemPriceprecision");
+
+        if (itemPriceprecision != null) {
+            setItemPriceprecision(itemPriceprecision);
         }
     }
 
@@ -645,6 +654,29 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
         }
     }
 
+    @Override
+    public int getItemPriceprecision() {
+        return _itemPriceprecision;
+    }
+
+    @Override
+    public void setItemPriceprecision(int itemPriceprecision) {
+        _itemPriceprecision = itemPriceprecision;
+
+        if (_vwItemPricingRemoteModel != null) {
+            try {
+                Class<?> clazz = _vwItemPricingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setItemPriceprecision",
+                        int.class);
+
+                method.invoke(_vwItemPricingRemoteModel, itemPriceprecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getVwItemPricingRemoteModel() {
         return _vwItemPricingRemoteModel;
     }
@@ -732,6 +764,7 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
         clone.setItemPricingSid(getItemPricingSid());
         clone.setPricingCodeStatus(getPricingCodeStatus());
         clone.setPricingCodeQualifierName(getPricingCodeQualifierName());
+        clone.setItemPriceprecision(getItemPriceprecision());
 
         return clone;
     }
@@ -777,7 +810,7 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(39);
+        StringBundler sb = new StringBundler(41);
 
         sb.append("{pricingCodeQualifier=");
         sb.append(getPricingCodeQualifier());
@@ -817,6 +850,8 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
         sb.append(getPricingCodeStatus());
         sb.append(", pricingCodeQualifierName=");
         sb.append(getPricingCodeQualifierName());
+        sb.append(", itemPriceprecision=");
+        sb.append(getItemPriceprecision());
         sb.append("}");
 
         return sb.toString();
@@ -824,7 +859,7 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(61);
+        StringBundler sb = new StringBundler(64);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.parttwo.model.VwItemPricing");
@@ -905,6 +940,10 @@ public class VwItemPricingClp extends BaseModelImpl<VwItemPricing>
         sb.append(
             "<column><column-name>pricingCodeQualifierName</column-name><column-value><![CDATA[");
         sb.append(getPricingCodeQualifierName());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>itemPriceprecision</column-name><column-value><![CDATA[");
+        sb.append(getItemPriceprecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -25,7 +25,7 @@ public class QueryUtils {
     public static List getAppData(List input, String queryName, String queryName2) {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(SQLUtil.getQuery(queryName));

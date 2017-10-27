@@ -169,7 +169,7 @@ public class CompanyContainerParentNoLookUp implements BeanDAO<SearchCompanyForm
 			}
 		}
 		
-		return new ArrayList<SearchCompanyForm>();
+		return new ArrayList<>();
 	}
 
 	/**

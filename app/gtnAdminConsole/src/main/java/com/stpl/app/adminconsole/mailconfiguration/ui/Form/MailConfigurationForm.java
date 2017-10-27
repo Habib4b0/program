@@ -68,7 +68,7 @@ public class MailConfigurationForm extends CustomComponent {
 
     private static MailConfigurationDTO mailconfigurationdto = new MailConfigurationDTO();
 
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<MailConfigurationDTO>(mailconfigurationdto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(mailconfigurationdto));
     CommonUtil commonUtil = new CommonUtil();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
@@ -158,6 +158,7 @@ public class MailConfigurationForm extends CustomComponent {
 
                                 @Override
                                 public void noMethod() {
+                                    return;
                                 }
                             }.getConfirmationMessage("Confirmation", "Are you sure you want to Save the Configuration?");
                         } else {
@@ -192,7 +193,7 @@ public class MailConfigurationForm extends CustomComponent {
         binder.setErrorDisplay(errorMsg);
         errorMsg.setId("ErrorMessage");
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<MailConfigurationDTO>(mailconfigurationdto));
+        binder.setItemDataSource(new BeanItem<>(mailconfigurationdto));
         binder.setBuffered(true);
 
         return binder;

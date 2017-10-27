@@ -111,7 +111,7 @@ if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
 
        
         try {
-            mailNotificationMaster = dao.saveMailNotificationMaster(mailNotificationMaster);
+            dao.saveMailNotificationMaster(mailNotificationMaster);
 
            
            
@@ -163,7 +163,7 @@ if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
 
        
         try {
-            mailNotificationMaster = dao.updateMailNotificationMaster(mailNotificationMaster);
+            dao.updateMailNotificationMaster(mailNotificationMaster);
             
            
            

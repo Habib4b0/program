@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.salesprojection.utils;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.Property;
 import java.util.Date;
@@ -74,7 +75,7 @@ public class ExportSalesAllocation extends ExcelExport {
                 sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
 
                 Double cellValue = d;
-                if (formatter.get("percentTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("percentTwoDecimal"))) {
+                if (formatter.get(Constant.PERCENT_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_TWO_DECIMAL))) {
 
                     cellValue = cellValue / NumericConstants.HUNDRED;
 
@@ -87,7 +88,7 @@ public class ExportSalesAllocation extends ExcelExport {
                 style2.setAlignment(CellStyle.ALIGN_RIGHT);
                 if (formatter.get("currencyTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("currencyTwoDecimal"))) {
                     sheetCell.setCellStyle(style1);
-                } else if (formatter.get("percentTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("percentTwoDecimal"))) {
+                } else if (formatter.get(Constant.PERCENT_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_TWO_DECIMAL))) {
                     sheetCell.setCellStyle(style2);
                 }
 

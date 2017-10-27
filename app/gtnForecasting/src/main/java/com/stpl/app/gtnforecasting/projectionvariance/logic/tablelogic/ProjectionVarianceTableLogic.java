@@ -29,7 +29,7 @@ import org.asi.container.ExtTreeContainer;
  */
 public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
 
-    List<Leveldto> currentHierarchy = new ArrayList<Leveldto>();
+    List<Leveldto> currentHierarchy = new ArrayList<>();
     PVSelectionDTO projSelDTO = new PVSelectionDTO();
     PVSelectionDTO baseVariables = new PVSelectionDTO();
     int levelNo;
@@ -52,7 +52,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         if (firstGenerated && offset > 0) {
-            List<String> indexList = new ArrayList<String>();
+            List<String> indexList = new ArrayList<>();
             for (int i = 0; i < getNonFetchableData().size(); i++) {
                 indexList.add(getNonFetchableData().getIndex(i).getKey().toString());
             }
@@ -135,7 +135,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
      * @param hierarchyNo
      * @param baseVariables
      */
-    public void setProjectionResultsData(List<Leveldto> currentHierarchy, PVSelectionDTO projSelDTO, int levelNo, String hierarchyNo, PVSelectionDTO baseVariables) {
+    public void setProjectionResultsData(List<Leveldto> currentHierarchy, PVSelectionDTO projSelDTO, int levelNo,PVSelectionDTO baseVariables) {
         this.currentHierarchy = currentHierarchy;
         this.projSelDTO = projSelDTO;
         this.levelNo = levelNo;
@@ -153,7 +153,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
      * @param levelNo
      * @param hierarchyNo
      */
-    public void setProjectionResultsData(List<Leveldto> currentHierarchy, PVSelectionDTO projSelDTO, int levelNo, String hierarchyNo) {
+    public void setProjectionResultsData(List<Leveldto> currentHierarchy, PVSelectionDTO projSelDTO, int levelNo) {
         LOGGER.debug("setProjectionResultsData Starts");
         this.currentHierarchy = currentHierarchy;
         this.projSelDTO = projSelDTO;

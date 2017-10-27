@@ -21,21 +21,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *
  * @author Abishek.Ram
  */
 public class SalesProjectionTree {
+    
+     /**
+     * The Constant LOGGER.
+     */
+    public static final Logger logger = Logger.getLogger(SalesProjectionTree.class);
 
     private SalesBaseNode apex;
-//    private Map<String, TreeNode> dataMap;
 
     public SalesBaseNode getApex() {
         return this.apex;
     }
 
     public SalesProjectionTree() {
+        logger.debug("Inside Constructor");
     }
 
     public void buildtree(ProjectionSelectionDTO projSelDTO) {
@@ -73,7 +79,6 @@ public class SalesProjectionTree {
             CommonLogic cmLogic = new CommonLogic();
             String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO)
                     + " Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO";
-            String level = projSelDTO.getSessionDTO().getCustomerLevelNumber();
             return (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames()));
         }
     }
@@ -89,7 +94,7 @@ public class SalesProjectionTree {
     }
 
     private SalesBaseNode generateCustomTree(List<Object[]> hierarchyList) {
-       SalesProjectionNodeCustom apexNode = new SalesProjectionNodeCustom("");
+        SalesProjectionNodeCustom apexNode = new SalesProjectionNodeCustom("");
         apexNode.setApex(true);
         HashMap buildMap = new HashMap<>(hierarchyList.size());
         for (Object[] object : hierarchyList) {
@@ -102,12 +107,19 @@ public class SalesProjectionTree {
                 salesNode.setLevel(Integer.valueOf(String.valueOf(object[2])));
                 buildMap.put(hiearachy, salesNode);
             } else {
-                SalesProjectionNodeCustom parent = (SalesProjectionNodeCustom) buildMap.get(parentHierarchy);
+                String[] parentHierarrchy = parentHierarchy.split("~");
+                SalesProjectionNodeCustom parent;
+                String secondParent = "";
+                if (parentHierarrchy.length > 1) {
+                    secondParent = parentHierarrchy[parentHierarrchy.length - 2];
+                }
+
+                parent = (SalesProjectionNodeCustom) buildMap.get(parentHierarrchy[parentHierarrchy.length - 1]+secondParent);
                 salesNode.addParentNode(parent);
                 parent.addChild(salesNode);
-                salesNode.setHierarchyIndicator(String .valueOf(object[3]));
+                salesNode.setHierarchyIndicator(String.valueOf(object[3]));
                 salesNode.setLevel(Integer.valueOf(String.valueOf(object[2])));
-                buildMap.put(parentHierarchy+"~"+hiearachy, salesNode);
+                buildMap.put(hiearachy + salesNode.getParentNode().getHierachyNo(), salesNode);
             }
         }
         return apexNode;
@@ -140,14 +152,13 @@ public class SalesProjectionTree {
                     }
                     if (level < currentLevel) {
                         parent = (SalesProjectionNodeCP) getParent(hierarchy, dataMap, currentLevel, startLevel, apex);
-//                        (SalesProjectionNodeCP) dataMap.get(hierarchy);
                     }
                     child = new ArrayList<>();
                     child.add(hierarchy);
                     currentLevel = level;
                 }
             }
-            parent = addChildrenToParent(parent, child, currentLevel, dataMap);
+            addChildrenToParent(parent, child, currentLevel, dataMap);
         }
         return apex;
     }
@@ -174,17 +185,14 @@ public class SalesProjectionTree {
         if (parent == null) {
             if (startLevel == currentLevel) {
                 parent = apex;
-//                addChildrenToParent((SalesProjectionNodeCP) parent, Arrays.asList(new String[]{hierarchy}), currentLevel, dataMap);
                 return parent;
             }
             String[] istParent = hierarchy.split("\\.");
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < istParent.length - 1; i++) {
-//            System.out.println("" + istParent[i]);
                 builder.append(istParent[i]).append(".");
             }
             parent = getParent(builder.toString(), dataMap, currentLevel - 1, startLevel, apex);
-//            addChildrenToParent((SalesProjectionNodeCP) parent, Arrays.asList(new String[]{hierarchy}), currentLevel, dataMap);
         }
         return parent;
     }

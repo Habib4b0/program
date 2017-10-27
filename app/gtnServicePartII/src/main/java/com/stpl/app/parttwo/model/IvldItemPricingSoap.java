@@ -39,6 +39,7 @@ public class IvldItemPricingSoap implements Serializable {
     private String _itemPrice;
     private Date _intfInsertedDate;
     private boolean _checkRecord;
+    private String _itemPriceprecision;
 
     public IvldItemPricingSoap() {
     }
@@ -72,6 +73,7 @@ public class IvldItemPricingSoap implements Serializable {
         soapModel.setItemPrice(model.getItemPrice());
         soapModel.setIntfInsertedDate(model.getIntfInsertedDate());
         soapModel.setCheckRecord(model.getCheckRecord());
+        soapModel.setItemPriceprecision(model.getItemPriceprecision());
 
         return soapModel;
     }
@@ -332,5 +334,13 @@ public class IvldItemPricingSoap implements Serializable {
 
     public void setCheckRecord(boolean checkRecord) {
         _checkRecord = checkRecord;
+    }
+
+    public String getItemPriceprecision() {
+        return _itemPriceprecision;
+    }
+
+    public void setItemPriceprecision(String itemPriceprecision) {
+        _itemPriceprecision = itemPriceprecision;
     }
 }

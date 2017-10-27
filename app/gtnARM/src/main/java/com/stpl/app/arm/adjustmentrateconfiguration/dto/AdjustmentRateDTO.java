@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  *
- * @author 
+ * @author
  */
 public class AdjustmentRateDTO implements Serializable {
 
@@ -35,9 +35,8 @@ public class AdjustmentRateDTO implements Serializable {
     private int viewMasterSid;
     private final Map<String, Object> components = new HashMap<>();
     private String invenCust = StringUtils.EMPTY;
-    
-    
-  // excel  
+
+    // excel  
     private Integer excelrateConfigDetailsSid;
     private String excelinventoryCustomer = StringUtils.EMPTY;
     private String excelinventoryCalculation = StringUtils.EMPTY;
@@ -49,7 +48,7 @@ public class AdjustmentRateDTO implements Serializable {
     private String excelratePeriod = StringUtils.EMPTY;
     private String excelmonth = StringUtils.EMPTY;
     private String exceldateType = StringUtils.EMPTY;
-    private Boolean excelcheckRecord = false;
+    private Boolean excelcheckRecord;
     private String excelinventoryDetails = StringUtils.EMPTY;
     private String exceladjustmentPrice = StringUtils.EMPTY;
     private String excelbaseLinePrice = StringUtils.EMPTY;
@@ -81,6 +80,7 @@ public class AdjustmentRateDTO implements Serializable {
         this.viewMasterSid = viewMasterSid;
     }
 //"inventoryDetails", "baselinePrice", "adjustedPrice"
+
     public AdjustmentRateDTO(int rateConfigDetailsSid, String month, int inventoryCustomer, String inventoryCalculation, String price, int reserveDate, int rateBasis, int rateFrequency, Integer ratePeriod, int inventoryDetails, int viewMasterSid, String baseLinePrice, String adjustedPrice, String exclusionDetails, int dateType) {
         this.rateConfigDetailsSid = rateConfigDetailsSid;
         this.month = month;

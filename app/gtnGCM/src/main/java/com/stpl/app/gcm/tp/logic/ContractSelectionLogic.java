@@ -48,7 +48,7 @@ public class ContractSelectionLogic {
 
     public List getComponentInformation(String componentSelectionValue, String[] id, int start, int end, Set<Container.Filter> filters) {
         List<Object[]> componentInformationList = getComponentInformationData(componentSelectionValue, id, true, false, start, end, filters);
-        List<ComponentInformationDTO> componentInfoList = new ArrayList<ComponentInformationDTO>();
+        List<ComponentInformationDTO> componentInfoList = new ArrayList<>();
         if (componentInformationList != null && !componentInformationList.isEmpty()) {
 
             ComponentInformationDTO dto;
@@ -144,7 +144,7 @@ public class ContractSelectionLogic {
 
     public void insertDataIntoTempTable(String userId, String sessionId, List<String> companyMasterSids, String screenName, boolean isInverse) {
 
-        String CompanyMasterSid = CommonUtils.CollectionToString(companyMasterSids, true);
+        String CompanyMasterSid = CommonUtils.CollectionToString(companyMasterSids, false);
         List input = new ArrayList();
         input.add(CompanyMasterSid);
         input.add(companyMasterSids.size());
@@ -178,7 +178,7 @@ public class ContractSelectionLogic {
     }
 
     public List<String> getSubmitValidationData(String userId, String sessionId, String screenName, String validationType) {
-        List<String> validationData = new ArrayList<String>();
+        List<String> validationData = new ArrayList<>();
         List<Object[]> list = getSubmitValidation(userId, sessionId, screenName, validationType);
         if (list != null && !list.isEmpty()) {
 
@@ -210,7 +210,7 @@ public class ContractSelectionLogic {
     }
 
     public List<String> getSelectedCompaniesList(String searchSessionId) {
-        List<String> resultList = new ArrayList<String>();
+        List<String> resultList = new ArrayList<>();
 
         String query = " SELECT COMPANY_MASTER_SID FROM GCM_COMPANY_DETAILS where CHECK_RECORD = '1' AND SESSION_ID = '" + searchSessionId + "'";
         List list = (List) DAO.executeSelect(query);
@@ -224,7 +224,7 @@ public class ContractSelectionLogic {
     }
 
     public static boolean isStartDateGreaterThanEndDate(String userId, String sessionId, String date) {
-        String query = "select count(*) from GCM_GLOBAL_DETAILS TEMP where  TEMP.USER_ID='" + userId + "' and TEMP.SESSION_ID='" + sessionId + "' and TEMP.CHECK_RECORD = '1' and TEMP.START_DATE > '" + date + "'";
+        String query = "select count(*) from GCM_GLOBAL_DETAILS TEMP where  TEMP.USER_ID ='" + userId + "' and TEMP.SESSION_ID  = '" + sessionId + "' and TEMP.CHECK_RECORD = '1' and TEMP.START_DATE > '" + date + "'";
 
         int count = CommonUtils.convertToInteger(String.valueOf(((List) DAO.executeSelect(query)).get(0)));
         return count > 0;
@@ -262,7 +262,7 @@ public class ContractSelectionLogic {
     }
 
     public boolean isAnyDataSubmitted(String userId, String sessionId, String moduleName, String screenName) {
-        String udc = StringUtils.EMPTY;
+        String udc;
         if (ADD_TRADING_PARTNER.getConstant().equals(moduleName) || TAB_TRANSFER_CONTRACT.getConstant().equals(screenName)) {
             udc = "2";
         } else {
@@ -276,9 +276,9 @@ public class ContractSelectionLogic {
 
     public boolean isHavingAnyCommonProducts(List<String> sourceCompanySids, List<String> destinationCompanySids, int sourceProjectionId, int destProjectionId, int sourceContractId, int destContractId) {
         LOGGER.debug("Inside isHavingAnyCommonProducts");
-        List<String> customersWithUncommonProducts = new ArrayList<String>(sourceCompanySids);
-        List<String> newSourceCustomerSids = new ArrayList<String>(sourceCompanySids);
-        List<String> newDestinationCompanySids = new ArrayList<String>(destinationCompanySids);
+        List<String> customersWithUncommonProducts = new ArrayList<>(sourceCompanySids);
+        List<String> newSourceCustomerSids = new ArrayList<>(sourceCompanySids);
+        List<String> newDestinationCompanySids = new ArrayList<>(destinationCompanySids);
 
         String customerMappings = CommmonLogic.generateCustomerMappings(sourceCompanySids, destinationCompanySids);
         List<String> customersList = dao.getCustomersHavingCommonItems(sourceProjectionId, destProjectionId, sourceContractId, destContractId, customerMappings);

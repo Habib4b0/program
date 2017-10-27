@@ -11,24 +11,30 @@ package com.stpl.app.utils;
  */
 public class ConstantsUtils {
 
-    public final static String LANDING_SCREEN = "Landing screen";
+    public static final String LANDING_SCREEN = "Landing screen";
 
     /**
      * The comma.
      */
-    public final static String COMMA = ",";
+    public static final String COMMA = ",";
     /**
      * The user id.
      */
-    public final static String USER_ID = "userId";
-    public final static String SUMMARY = "Summary";
-    public final static String DATA_SELECTION = "Data Selection";
+    public static final String USER_ID = "userId";
+    public static final String SUMMARY = "Summary";
+    public static final String DATA_SELECTION = "Data Selection";
     public static final String BALANCE_SUMMARY_REPORT = "Balance Summary Report";
-    public final static String SALES = "Sales";
+    public static final String SALES = "Sales";
 
-    public final static String RATES = "Rates";
-    public final static String ADJUSTMENT_DETAILS = "Adjustment Details";
-    public final static String ADJUSTMENT_SUMMARY = "Adjustment Summary";
-    public final static String INVENTORY = "Inventory";
+    public static final String RATES = "Rates";
+    public static final String ADJUSTMENT_DETAILS = "Adjustment Details";
+    public static final String ADJUSTMENT_SUMMARY = "Adjustment Summary";
+    public static final String INVENTORY = "Inventory";
+
+    private ConstantsUtils() {
+        /*
+        Empty Constructor
+         */
+    }
 
 }

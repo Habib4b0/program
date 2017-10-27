@@ -69,7 +69,7 @@ public class DiscountProjectionDTO extends ExtMapDTO {
 
     private String actualdiscount = StringUtils.EMPTY;
 
-    private List<String> ccpDetailIds = new ArrayList<String>();
+    private List<String> ccpDetailIds = new ArrayList<>();
 
     private Integer companyID = 0;
 
@@ -99,9 +99,8 @@ public class DiscountProjectionDTO extends ExtMapDTO {
 
     private String parityCommentary = StringUtils.EMPTY;
 
-//    private List<String> ccpDetailIdList = new ArrayList<String>();
 
-    private List<String> parentCcpDetailIdList = new ArrayList<String>();
+    private List<String> parentCcpDetailIdList = new ArrayList<>();
 
     private String companyIdForNdcLevel = StringUtils.EMPTY;
 
@@ -594,13 +593,6 @@ public class DiscountProjectionDTO extends ExtMapDTO {
         this.parityCommentary = parityCommentary;
     }
 
-//    public List<String> getCcpDetailIdList() {
-//        return ccpDetailIdList;
-//    }
-//
-//    public void setCcpDetailIdList(List<String> ccpDetailIdList) {
-//        this.ccpDetailIdList = ccpDetailIdList;
-//    }
 
     public List<String> getParentCcpDetailIdList() {
         return parentCcpDetailIdList;

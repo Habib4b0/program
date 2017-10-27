@@ -9,7 +9,6 @@ package com.stpl.app.adminconsole.processscheduler.dto;
  * @author satheesh.n
  */
 public class FtpProperties {
-    public static final String FTP_CONFIGURATION_PATH = "/opt/bpigtn/conf/BPI Configuration/FTPConfiguration.properties";
     private String scripts;
     private String interfaceName;
 

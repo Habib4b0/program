@@ -111,7 +111,7 @@ FROM   COMPANY_MASTER CM
 
  SELECT distinct IM.item_Id,IM.item_No,IM.item_Code,IM.item_Name,IM.item_Desc,IM.item_Start_Date,IM.item_End_Date,HT_IS.description AS ITEM_STATUS,HT_TC.description AS THERAPAUTIC_CLASS,
 BM.brand_Name,HT_F.description AS FORM,
-         IM.strength,IM.package_Size_Code,IM.package_Size_Intro_Date,IM.upps,IM.labeler_Code,IM.organization_Key,
+         HT_STRENGTH.description as strength,IM.package_Size_Code,IM.package_Size_Intro_Date,IM.upps,IM.labeler_Code,IM.organization_Key,
          IM.acquisition_Date,IM.authorized_Generic,IM.authorized_Generic_Start_Date,IM.authorized_Generic_End_Date,IM.first_Sale_Date,
 IM.item_Type_Indication,HT_CL.description AS ITEM_CLASS,HT_IT.description AS ITEM_TYPE,
 IM.market_Termination_Date,IM.new_Formulation_Indicator,IM.new_Formulation,IM.new_Formulation_Start_Date,
@@ -157,6 +157,8 @@ IM.doses_Per_Unit,IM.discontinuation_Date,IM.last_Lot_Expiration_Date,IM.ndc9,IM
               ON UDC.UDC5 = HT_UDC5.HELPER_TABLE_SID
        LEFT JOIN HELPER_TABLE HT_UDC6
               ON UDC.UDC6 = HT_UDC6.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_STRENGTH
+              ON IM.STRENGTH = HT_STRENGTH.HELPER_TABLE_SID
               
 
 ]]>

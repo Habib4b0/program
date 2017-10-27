@@ -44,6 +44,7 @@ public class WorkflowLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(WorkflowLogic.class);
     private final WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
+    public static final String CANCELLED="Cancelled";
     /**
      * 0==="Approved", 1==="Cancelled", 2==="Pending", 3==="Rejected"
      */
@@ -89,12 +90,12 @@ public class WorkflowLogic {
      * @return Status as Saved or Not Saved
      * @throws IOException
      */
-    public String saveWorkflow(int contractMasterSid, String userId, String notes, int noOfLevels, Integer[] contractStructure, boolean isNewSubmit, long processIntanceId,int workflowMasterSid, String submittedWorkflowId) throws IOException, SAXException, ParserConfigurationException, TransformerException, SystemException, PortalException {
+    public String saveWorkflow(int contractMasterSid, String userId, String notes, int noOfLevels, Integer[] contractStructure, boolean isNewSubmit, long processIntanceId,int workflowMasterSid, String submittedWorkflowId) {
         String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
                 ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
         String filePath1 = "/../../../WorkflowXML/BPIGeneratorIDs.xml";
         String moduleName = "CM";
-        String workflowId = StringUtils.EMPTY;
+        String workflowId;
         if (isNewSubmit) {
             workflowId = new BPIWorkFlowGeneratorXML().generateId(path + filePath1, moduleName);
         } else {
@@ -180,7 +181,7 @@ public class WorkflowLogic {
      * @param userId
      * @return WorkflowMasterDTO Object
      */
-    public WorkflowMasterDTO setWorkflowMasterDTO(int contractMasterSid, String workflowId, String userId, String notes, int noOfLevels) throws SystemException {
+    public WorkflowMasterDTO setWorkflowMasterDTO(int contractMasterSid, String workflowId, String userId, String notes, int noOfLevels) {
         WorkflowMasterDTO workflowMasterDTO = new WorkflowMasterDTO();
         int userIdInt = Integer.parseInt(userId);
         workflowMasterDTO.setWorkflowId(workflowId);
@@ -245,7 +246,8 @@ public class WorkflowLogic {
 
         try {
             if (workflowMaster != null) {
-                workflowMaster.setWorkflowStatusId(getCodeFromHelperTable(workflowMasterDTO.getWorkflowStatusStr(), Constants.WORKFLOW_STATUS));
+                String statusForCancel = CANCELLED.equalsIgnoreCase(workflowMasterDTO.getWorkflowStatusStr()) ? "Canceled" : workflowMasterDTO.getWorkflowStatusStr();
+                workflowMaster.setWorkflowStatusId(getCodeFromHelperTable(statusForCancel, Constants.WORKFLOW_STATUS));
                 workflowMaster.setModifiedBy(workflowMasterDTO.getModifiedBy());
                 workflowMaster.setModifiedDate(workflowMasterDTO.getModifiedDate());
                 if (WorkflowConstants.getApprovedStatus().equalsIgnoreCase(workflowMasterDTO.getWorkflowStatusStr())) {

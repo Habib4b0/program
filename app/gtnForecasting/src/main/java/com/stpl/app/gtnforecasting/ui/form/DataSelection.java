@@ -93,10 +93,10 @@ public class DataSelection extends ForecastDataSelection {
     private LazyContainer discountDdlbLazyContainer;
     CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE, true);
     CompanyDdlbDto discountDTO = null;
-    List<Integer> customerBeanList = new ArrayList<Integer>();
-    List<Integer> productBeanList = new ArrayList<Integer>();
-    static List<Integer> productBeanLisTemp = new ArrayList<Integer>();
-    List<String> productHierarchyNos = new ArrayList<String>();
+    List<Integer> customerBeanList = new ArrayList<>();
+    List<Integer> productBeanList = new ArrayList<>();
+    static List<Integer> productBeanLisTemp = new ArrayList<>();
+    List<String> productHierarchyNos = new ArrayList<>();
     DataSelectionLogic dsLogic = new DataSelectionLogic();
 
     ExecutorService service = ThreadPool.getInstance().getService();
@@ -115,6 +115,7 @@ public class DataSelection extends ForecastDataSelection {
         productDescriptionMap = session.getProductDescription();
         customerGroup.setValue(dataSelectionDTO.getCustomerGroup());
         productGroup.setValue(dataSelectionDTO.getProductGroup());
+        LOGGER.debug("Inside Constructor"+form);
     }
 
     /**
@@ -146,7 +147,7 @@ public class DataSelection extends ForecastDataSelection {
      * @param dataSelectionForm
      */
     public DataSelection(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session, String screenName,
-            final DataSelectionForm dataSelectionForm) throws ParseException {
+            final DataSelectionForm dataSelectionForm)  {
         super(dataSelectionBinder, screenName, false);
         this.session = session;
         this.dataSelectionDTO = dataSelectionDTO;
@@ -168,7 +169,7 @@ public class DataSelection extends ForecastDataSelection {
 
     }
 
-    private void configureDdlb() throws ParseException {
+    private void configureDdlb()  {
         String from = DataSelectionUtil.getTimePeriod(dataSelectionDTO.getFromDate());
         String to = DataSelectionUtil.getTimePeriod(dataSelectionDTO.getToDate());
         fromPeriod.select(from);
@@ -554,7 +555,7 @@ public class DataSelection extends ForecastDataSelection {
      */
     private void initializeCustomerHierarchy(final int projectionId, final String customerLevel) {
         LOGGER.debug("Initializing Customer Hierarchy...");
-        List<Leveldto> initialCustomerHierarchy = getInitialHierarchy(projectionId, "customer", customerLevel, session.getCustomerDescription());
+        List<Leveldto> initialCustomerHierarchy = getInitialHierarchy(projectionId, Constant.CUSTOMER1_SMALL, customerLevel, session.getCustomerDescription());
         int forecastLevel = 0;
         forecastLevel = UiUtils.parseStringToInteger(customerLevel);
         customerBeanList.removeAll(customerBeanList);
@@ -604,7 +605,7 @@ public class DataSelection extends ForecastDataSelection {
             }
         }
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-        selectedCustomer.setVisibleColumns(new Object[]{"displayValue"});
+        selectedCustomer.setVisibleColumns(new Object[]{Constant.DISPLAY_VALUE_PROPERTY});
         selectedCustomer.setColumnHeaders(new String[]{"Customer Hierarchy Group Builder"});
         for (Leveldto ddo : selectedCustomerContainer.getItemIds()) {
             selectedCustomer.setCollapsed(ddo, false);
@@ -670,7 +671,7 @@ public class DataSelection extends ForecastDataSelection {
             }
         }
         selectedProduct.setContainerDataSource(selectedProductContainer);
-        selectedProduct.setVisibleColumns(new Object[]{"displayValue"});
+        selectedProduct.setVisibleColumns(new Object[]{Constant.DISPLAY_VALUE_PROPERTY});
         selectedProduct.setColumnHeaders(new String[]{"Product Hierarchy Group Builder"});
         for (Leveldto ddo : selectedProductContainer.getItemIds()) {
             selectedProduct.setCollapsed(ddo, false);
@@ -721,8 +722,7 @@ public class DataSelection extends ForecastDataSelection {
                     customerHierarchy.setValue(customerHierarchyDto.getHierarchyName());
                     loadCustomerLevel(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
                     if (!StringUtils.isBlank(dataSelectionDTO.getCustomerHierarchyInnerLevel()) && !Constants.CommonConstants.NULL.getConstant().equals(dataSelectionDTO.getCustomerHierarchyInnerLevel())) {
-                        loadInnerCustomerLevel(UiUtils.parseStringToInteger(dataSelectionDTO.getCustomerHierarchyLevel()), UiUtils.parseStringToInteger(dataSelectionDTO.getCustomerHierarchyInnerLevel()),
-                                UiUtils.parseStringToInteger(dataSelectionDTO.getCustomerHierSid()));
+                        loadInnerCustomerLevel(UiUtils.parseStringToInteger(dataSelectionDTO.getCustomerHierarchyLevel()), UiUtils.parseStringToInteger(dataSelectionDTO.getCustomerHierarchyInnerLevel()));
                     }
                 }
                 if (dataSelectionDTO.getProdHierSid() != null && !StringUtils.EMPTY.equals(String.valueOf(dataSelectionDTO.getProdHierSid()))
@@ -743,8 +743,7 @@ public class DataSelection extends ForecastDataSelection {
                     productHierarchy.setValue(productHierarchyDto.getHierarchyName());
                     loadProductLevel(String.valueOf(dataSelectionDTO.getProdHierSid()));
                     if (!StringUtils.isBlank(dataSelectionDTO.getProductHierarchyInnerLevel()) && !Constants.CommonConstants.NULL.getConstant().equals(dataSelectionDTO.getProductHierarchyInnerLevel())) {
-                        loadInnerProductLevel(UiUtils.parseStringToInteger(dataSelectionDTO.getProductHierarchyLevel()), UiUtils.parseStringToInteger(dataSelectionDTO.getProductHierarchyInnerLevel()),
-                                UiUtils.parseStringToInteger(dataSelectionDTO.getProdHierSid()));
+                        loadInnerProductLevel(UiUtils.parseStringToInteger(dataSelectionDTO.getProductHierarchyLevel()), UiUtils.parseStringToInteger(dataSelectionDTO.getProductHierarchyInnerLevel()));
                     }
                 }
 
@@ -798,10 +797,10 @@ public class DataSelection extends ForecastDataSelection {
             if (!StringUtils.isBlank(customerGrpSid) && !NULL.equalsIgnoreCase(customerGrpSid)) {
                 companySids = DataSelectionUtil.getCustomerSidFromHierarchy(getCustomersFromHierarchy());
                 if (companySids != null) {
-                    List<String> finalCompanySids = new ArrayList<String>(companySids);
+                    List<String> finalCompanySids = new ArrayList<>(companySids);
                     customerSidsFromDetails = logic.getCustomerGroupDetails(Integer.parseInt(customerGrpSid));
                     finalCompanySids.retainAll(customerSidsFromDetails);
-                    groupFilteredCompanies = new ArrayList<String>(finalCompanySids);
+                    groupFilteredCompanies = new ArrayList<>(finalCompanySids);
                 }
                 if (filter) {
                     filterCustomerOnGroupSelect();
@@ -844,13 +843,13 @@ public class DataSelection extends ForecastDataSelection {
                 DataSelectionLogic logic = new DataSelectionLogic();
                 itemSids = DataSelectionUtil.getItemSidFromHierarchy(getItemSidFromHierarchy());
                 if (itemSids != null) {
-                    List<String> finalItemSids = new ArrayList<String>(itemSids);
+                    List<String> finalItemSids = new ArrayList<>(itemSids);
                     itemSidsFromDetails = logic.getItemGroupDetails(Integer.parseInt(productGrpSid));
                     finalItemSids.retainAll(itemSidsFromDetails);
-                    groupFilteredItems = new ArrayList<String>(finalItemSids);
+                    groupFilteredItems = new ArrayList<>(finalItemSids);
                 }
                 if (filter && productlevelDdlb.getValue() != null && !String.valueOf(SELECT_ONE).equalsIgnoreCase(String.valueOf(productlevelDdlb.getValue()))) {
-                    loadFilteredProductSelection(String.valueOf(productlevelDdlb.getValue()), false);
+                    loadFilteredProductSelection(String.valueOf(productlevelDdlb.getValue()));
                 }
             }
         } catch (Exception ex) {
@@ -858,7 +857,7 @@ public class DataSelection extends ForecastDataSelection {
         }
     }
 
-    private void loadInnerCustomerLevel(int forecastLevel, int innerLevel, int hierarchyId) {
+    private void loadInnerCustomerLevel(int forecastLevel, int innerLevel) {
         String selectedLevelName = StringUtils.EMPTY;
         customerInnerLevelContainer.removeAllItems();
         for (int i = 1; i <= forecastLevel; i++) {
@@ -872,7 +871,7 @@ public class DataSelection extends ForecastDataSelection {
         level.select(Constant.LEVEL + innerLevel + " - " + selectedLevelName);
     }
 
-    private void loadInnerProductLevel(int forecastLevel, int innerLevel, int hierarchyId) {
+    private void loadInnerProductLevel(int forecastLevel, int innerLevel) {
         String selectedLevelName = StringUtils.EMPTY;
         productInnerLevelContainer.removeAllItems();
         for (int i = 1; i <= forecastLevel; i++) {
@@ -1157,11 +1156,11 @@ public class DataSelection extends ForecastDataSelection {
 
     public void updateDataSelectionProjectionTables(final String propertyName) throws SystemException {
         DataSelectionLogic dsLogic = new DataSelectionLogic();
-        List<Leveldto> initialCustomerHierarchy = getInitialHierarchy(session.getProjectionId(), "customer", dataSelectionDTO.getCustomerHierarchyLevel(), customerDescriptionMap);
+        List<Leveldto> initialCustomerHierarchy = getInitialHierarchy(session.getProjectionId(), Constant.CUSTOMER1_SMALL, dataSelectionDTO.getCustomerHierarchyLevel(), customerDescriptionMap);
         List<Leveldto> initialProductHierarchy = getInitialHierarchy(session.getProjectionId(), "product", dataSelectionDTO.getProductHierarchyLevel(), productDescriptionMap);
         List<String> customerRemovedLevels = DataSelectionUtil.getRemovedLevelsHno(initialCustomerHierarchy, getSelectedCustomers());
         List<String> productRemovedLevels = DataSelectionUtil.getRemovedLevelsHno(initialProductHierarchy, getSelectedProducts());
-        List<Integer> projectionDetailsSid = new ArrayList<Integer>();
+        List<Integer> projectionDetailsSid = new ArrayList<>();
         if (!customerRemovedLevels.isEmpty()) {
             projectionDetailsSid.addAll((List<Integer>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("getProjectionDetailsQuery").replace("@HIERARCHY_TABLE", "PROJECTION_CUST_HIERARCHY")
                     .replace("@PROJECTION_SID", String.valueOf(session.getProjectionId()))
@@ -1172,10 +1171,10 @@ public class DataSelection extends ForecastDataSelection {
                     .replace("@PROJECTION_SID", String.valueOf(session.getProjectionId()))
                     .replace("@HIERARCHYNO", CommonUtils.CollectionToString(productRemovedLevels, true))));
         }
-        if (customerRemovedLevels != null && !customerRemovedLevels.isEmpty()) {
+        if ( !customerRemovedLevels.isEmpty()) {
             dsLogic.deleteTempOnUpdate("PROJECTION_CUST_HIERARCHY", session.getProjectionId(), UiUtils.stringListToString(customerRemovedLevels));
         }
-        if (productRemovedLevels != null && !productRemovedLevels.isEmpty()) {
+        if (!productRemovedLevels.isEmpty()) {
             dsLogic.deleteTempOnUpdate("PROJECTION_PROD_HIERARCHY", session.getProjectionId(), UiUtils.stringListToString(productRemovedLevels));
         }
 
@@ -1188,7 +1187,7 @@ public class DataSelection extends ForecastDataSelection {
         dsLogic.custCCPMAPInsert(String.valueOf(customerRelation.getValue()), dataSelectionDTO.getCustomerHierSid(), "INSERTCCPMAPCUST");
         dsLogic.custCCPMAPInsert(String.valueOf(productRelation.getValue()), dataSelectionDTO.getProdHierSid(), "INSERTCCPMAPPROD");
 
-        dsLogic.updateCcpLogic(dataSelectionForm.getCustomerHierarchyEndLevels(selectedCustomerContainer), dataSelectionForm.getProductHierarchyEndLevelsHierNo(selectedProductContainer), "customer", session.getProjectionId());
+        dsLogic.updateCcpLogic(dataSelectionForm.getCustomerHierarchyEndLevels(selectedCustomerContainer), dataSelectionForm.getProductHierarchyEndLevelsHierNo(selectedProductContainer), Constant.CUSTOMER1_SMALL, session.getProjectionId());
 
         if (!projectionDetailsSid.isEmpty()) {
             deleteProjectionDetailstable(CommonUtils.CollectionToString(projectionDetailsSid, true), propertyName);
@@ -1208,7 +1207,7 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void productLevelDdlbValueChange(String selectedLevel, boolean flag) {
-        loadFilteredProductSelection(selectedLevel, false);
+        loadFilteredProductSelection(selectedLevel);
     }
 
     private List<Leveldto> getItemSidFromHierarchy() {
@@ -1242,7 +1241,7 @@ public class DataSelection extends ForecastDataSelection {
                     String dedLevel = StringUtils.EMPTY;
                     String dedValue = StringUtils.EMPTY;
                     if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-                        dedLevel = "Deduction Program Type".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? "REBATE_PROGRAM_TYPE" : "Deduction Category".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? "RS_CATEGORY" : "Deduction Schedule Type".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_TYPE : StringUtils.EMPTY;
+                        dedLevel = Constant.DEDUCTION_PROGRAM_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.REBATE_PROGRAM_TYPE1 : Constant.DEDUCTION_CATEGORY1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_CATEGORY1 : Constant.DEDUCTION_SCHEDULE_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_TYPE : StringUtils.EMPTY;
                         dedValue = String.valueOf(deductionValue.getValue());
                     }
                     innerLevelValues = logic.loadInnerLevel(ndcLevel.getLevel(), productHierarchyDto.getHierarchyId(),
@@ -1349,13 +1348,13 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void customerLevelValueChange(Property.ValueChangeEvent event, boolean flag) {
-
+        return;
     }
 
     @Override
     protected void levelValueChangeListener(Object value) {
         availableCustomerContainer.removeAllItems();
-        String levelName = "Level";
+        String levelName = Constant.LEVEL_LABEL;
         try {
             if (!session.isGenerateFlag()) {
 
@@ -1391,19 +1390,19 @@ public class DataSelection extends ForecastDataSelection {
                         if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
                             discountDTO = (CompanyDdlbDto) discount.getValue();
                         }
-                        ExtTreeContainer<Leveldto> dumbyCustomerContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+                        ExtTreeContainer<Leveldto> dumbyCustomerContainer = new ExtTreeContainer<>(Leveldto.class);
 
                         String dedLevel = StringUtils.EMPTY;
                         String dedValue = StringUtils.EMPTY;
                         if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-                            dedLevel = "Deduction Program Type".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? "REBATE_PROGRAM_TYPE" : "Deduction Category".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? "RS_CATEGORY" : "Deduction Schedule Type".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_TYPE : StringUtils.EMPTY;
+                            dedLevel = Constant.DEDUCTION_PROGRAM_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.REBATE_PROGRAM_TYPE1 : Constant.DEDUCTION_CATEGORY1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_CATEGORY1 : Constant.DEDUCTION_SCHEDULE_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_TYPE : StringUtils.EMPTY;
                             dedValue = String.valueOf(deductionValue.getValue());
                         }
                         custVlues = logic.loadInnerLevel(tempDto.getLevel(), hierarchyId,
                                 DataSelectionUtil.getSelectedRelationshipLevelSids(dumbyCustomerContainer.getItemIds()), isNdc, tempDto.getFieldName(), relationshipSid, customerDescriptionMap, DataSelectionUtil.identifyLevel(tempDto), screenName, discountDTO != null ? discountDTO.getRsModelSid() : 0, tempDto.getLevelNo(), dedValue, dedLevel, company.getValue(), businessUnit.getValue());
                         if (groupFilteredCompanies != null && Constant.COMPANY_MASTER.equalsIgnoreCase(String.valueOf(tempDto.getTableName()))
                                 && (Constant.TRADING_PARTNER.equals(levelName) || Constant.COMPANY_SMALL.equals(levelName) || Constant.CUSTOMER_SMALL.equals(levelName))) {
-                            List<Leveldto> filteredValues = new ArrayList<Leveldto>();
+                            List<Leveldto> filteredValues = new ArrayList<>();
                             if (!groupFilteredCompanies.isEmpty()) {
                                 try {
                                     for (Leveldto leveldto : custVlues) {
@@ -1423,11 +1422,11 @@ public class DataSelection extends ForecastDataSelection {
                     }
                 }
                 availableCustomer.setContainerDataSource(availableCustomerContainer);
-                availableCustomer.setVisibleColumns(new Object[]{"displayValue"});
+                availableCustomer.setVisibleColumns(new Object[]{Constant.DISPLAY_VALUE_PROPERTY});
                 availableCustomer.setColumnHeaders(new String[]{levelName});
                 availableCustomer.setFilterBarVisible(true);
                 availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
-                availableCustomer.setStyleName("filtertable");
+                availableCustomer.setStyleName(Constant.FILTER_TABLE);
             }
         } catch (Exception ex) {
 
@@ -1438,11 +1437,23 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void productLevelValueChange(Object value, boolean flag) {
+        return;
     }
 
     @Override
     protected void customerRelationValueChange(Object value) {
-        if (value != null) {
+        if (value == null || (SELECT_ONE.equals(String.valueOf(value)))) {
+            customerInnerLevelContainer.removeAllItems();
+            availableCustomer.removeAllItems();
+            availableCustomerContainer.removeAllItems();
+            selectedCustomer.removeAllItems();
+            selectedCustomerContainer.removeAllItems();
+            setCustomerForecastLevelNullSelection();
+            setCustomerLevelNullSelection();
+            if (!isFirstTimeLoad()) {
+                customerDescriptionMap = null;
+            }
+        } else {
             try {
                 DataSelectionLogic logic = new DataSelectionLogic();
                 if (!firstTimeLoad) {
@@ -1459,18 +1470,7 @@ public class DataSelection extends ForecastDataSelection {
             } catch (Exception ex) {
                 LOGGER.error(ex + " in customerRelation value change");
             }
-        } else if (value == null || (value != null && SELECT_ONE.equals(String.valueOf(value)))) {
-            customerInnerLevelContainer.removeAllItems();
-            availableCustomer.removeAllItems();
-            availableCustomerContainer.removeAllItems();
-            selectedCustomer.removeAllItems();
-            selectedCustomerContainer.removeAllItems();
-            setCustomerForecastLevelNullSelection();
-            setCustomerLevelNullSelection();
-            if (!isFirstTimeLoad()) {
-                customerDescriptionMap = null;
-            }
-        }
+        }  
         if (!isFirstTimeLoad()) {
             customerGroup.setValue(StringUtils.EMPTY);
             selectedCustomerGroupDTO = new GroupDTO();
@@ -1485,7 +1485,19 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void productRelationValueChange(Object value) {
-        if (value != null) {
+        if (value == null || (SELECT_ONE.equals(String.valueOf(value)))) {
+            availableProduct.removeAllItems();
+            availableProductContainer.removeAllItems();
+            selectedProduct.removeAllItems();
+            selectedProductContainer.removeAllItems();
+            productInnerLevelContainer.removeAllItems();
+            setProductForecastLevelNullSelection();
+            setProductLevelNullSelection();
+            if (!isFirstTimeLoad()) {
+                productDescriptionMap = null;
+            }
+
+        } else  {
             try {
                 DataSelectionLogic logic = new DataSelectionLogic();
                 if (!firstTimeLoad) {
@@ -1502,18 +1514,6 @@ public class DataSelection extends ForecastDataSelection {
             } catch (Exception ex) {
                 LOGGER.error(ex + " in productRelation value change");
             }
-
-        } else if (value == null || (value != null && SELECT_ONE.equals(String.valueOf(value)))) {
-            availableProduct.removeAllItems();
-            availableProductContainer.removeAllItems();
-            selectedProduct.removeAllItems();
-            selectedProductContainer.removeAllItems();
-            productInnerLevelContainer.removeAllItems();
-            setProductForecastLevelNullSelection();
-            setProductLevelNullSelection();
-            if (!isFirstTimeLoad()) {
-                productDescriptionMap = null;
-            }
         }
         if (!isFirstTimeLoad()) {
             dataSelectionDTO.setProdGrpSid(null);
@@ -1526,27 +1526,27 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void generateButtonLogic() {
-
+        return;
     }
 
     @Override
     protected void searchButtonLogic() {
-
+        return;
     }
 
     @Override
     protected void editButtonLogic() {
-
+        return;
     }
 
     @Override
     protected void viewButtonLogic() {
-
+        return;
     }
 
     @Override
     protected void deleteButtonLogic() {
-
+        return;
     }
 
     @Override
@@ -1560,12 +1560,12 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void loadPublicView() {
-
+        return;
     }
 
     @Override
     protected void loadPrivateView() {
-
+        return;
     }
 
     @Override
@@ -1581,21 +1581,21 @@ public class DataSelection extends ForecastDataSelection {
                     selectedProductGroupDTO = productGroupLookupWindow.getSelectedProdHierarchy();
                     groupFilteredItems = productGroupLookupWindow.getFilteredSids();
                     if (productlevelDdlb.getValue() != null && !String.valueOf(SELECT_ONE).equalsIgnoreCase(String.valueOf(productlevelDdlb.getValue()))) {
-                        loadFilteredProductSelection(String.valueOf(productlevelDdlb.getValue()), false);
+                        loadFilteredProductSelection(String.valueOf(productlevelDdlb.getValue()));
                     }
                 }
             }
         });
     }
 
-    public void loadFilteredProductSelection(final String selectedLevel, final boolean companyDdlbFlag) {
+     public void loadFilteredProductSelection(final String selectedLevel) {
         try {
             if (!session.isGenerateFlag()) {
                 availableProductContainer.removeAllItems();
                 int forecastLevel = 0;
                 boolean isNdc = false;
                 List<Leveldto> innerLevelValues = null;
-                String levelName = "Level";
+                String levelName = Constant.LEVEL_LABEL;
                 if ((selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel) && !SELECT_ONE.equals(selectedLevel)
                         && productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue())) && (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
 
@@ -1608,7 +1608,7 @@ public class DataSelection extends ForecastDataSelection {
                         levelName = tempDto.getLevel();
                     }
 
-                    if ((tempDto.getLevel() != null && (Constant.NDC.equalsIgnoreCase(tempDto.getLevel()) || "Item".equalsIgnoreCase(tempDto.getLevel()) || Constant.PRODUCT.equalsIgnoreCase(tempDto.getLevel()))) && Constant.ITEM_MASTER.equals(tempDto.getTableName())) {
+                    if ((tempDto.getLevel() != null && (Constant.NDC.equalsIgnoreCase(tempDto.getLevel()) || "Item".equalsIgnoreCase(tempDto.getLevel()) || Constant.PRODUCT_LABEL.equalsIgnoreCase(tempDto.getLevel()))) && Constant.ITEM_MASTER.equals(tempDto.getTableName())) {
 
                         isNdc = true;
                     } else {
@@ -1617,30 +1617,30 @@ public class DataSelection extends ForecastDataSelection {
                     if (CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(screenName)) {
                         discountDTO = (CompanyDdlbDto) discount.getValue();
                     }
-                    List<Integer> dumbyProductList = new ArrayList<Integer>();
+                    List<Integer> dumbyProductList = new ArrayList<>();
                     String dedLevel = StringUtils.EMPTY;
                     String dedValue = StringUtils.EMPTY;
                     if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-                        dedLevel = "Deduction Program Type".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? "REBATE_PROGRAM_TYPE" : "Deduction Category".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? "RS_CATEGORY" : "Deduction Schedule Type".equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_TYPE : StringUtils.EMPTY;
+                        dedLevel = Constant.DEDUCTION_PROGRAM_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.REBATE_PROGRAM_TYPE1 : Constant.DEDUCTION_CATEGORY1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_CATEGORY1 : Constant.DEDUCTION_SCHEDULE_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue())) ? Constant.RS_TYPE : StringUtils.EMPTY;
                         dedValue = String.valueOf(deductionValue.getValue());
                     }
                     innerLevelValues = logic.loadInnerLevel(tempDto.getLevel(), productHierarchyDto.getHierarchyId(),
                             dumbyProductList, isNdc, tempDto.getFieldName(), relationshipSid, productDescriptionMap, DataSelectionUtil.identifyLevel(tempDto), screenName, discountDTO != null ? discountDTO.getRsModelSid() : 0, tempDto.getLevelNo(), dedValue, dedLevel, company.getValue(), businessUnit.getValue());
-                    List<Leveldto> groupFilteredValues = new ArrayList<Leveldto>();
-                    List<Leveldto> brandFilteredValues = new ArrayList<Leveldto>();
+                    List<Leveldto> groupFilteredValues = new ArrayList<>();
+                    List<Leveldto> brandFilteredValues = new ArrayList<>();
                     List<Leveldto> tempLevelValues;
-                    List<Leveldto> filteredValues = new ArrayList<Leveldto>(innerLevelValues);
+                    List<Leveldto> filteredValues = new ArrayList<>(innerLevelValues);
                     productFilterContainer.removeAllItems();
                     productFilterContainer.addAll(innerLevelValues);
 
-                    if (!tempDto.isFromItem() && (Constant.NDC.equalsIgnoreCase(tempDto.getLevel()) || "Items".equalsIgnoreCase(tempDto.getLevel()) || Constant.PRODUCT.equalsIgnoreCase(tempDto.getLevel()))) {
+                    if (!tempDto.isFromItem() && (Constant.NDC.equalsIgnoreCase(tempDto.getLevel()) || "Items".equalsIgnoreCase(tempDto.getLevel()) || Constant.PRODUCT_LABEL.equalsIgnoreCase(tempDto.getLevel()))) {
                         List<String> itemSidsFromCcCombo = null;
                         List<String> itemSidsFromBrandType = null;
                         /* Contains the items from product hierarchy. For filtering using company ddlb */
                         List<String> filteredItemsFromBrandType = null;
                         if (selectedCustomerContainer != null && !selectedCustomerContainer.getItemIds().isEmpty()) {
                             Leveldto currentDto;
-                            List<Leveldto> ccList = new ArrayList<Leveldto>();
+                            List<Leveldto> ccList = new ArrayList<>();
                             for (Object item : selectedCustomerContainer.getItemIds()) {
                                 currentDto = DataSelectionUtil.getBeanFromId(item);
                                 if (currentDto != null && !StringUtils.isBlank(currentDto.getTableName())
@@ -1663,7 +1663,7 @@ public class DataSelection extends ForecastDataSelection {
                                 itemSidsFromCcCombo = logic.executeQuery(DataSelectionUtil.getCcpWithCC(ccList));
                             }
                             if (innerLevelValues != null) {
-                                itemSidsFromBrandType = new ArrayList<String>();
+                                itemSidsFromBrandType = new ArrayList<>();
                                 for (Leveldto leveldto : innerLevelValues) {
                                     if (leveldto.isFromItem()) {
                                         itemSidsFromBrandType.add(leveldto.getRelationshipLevelValue());
@@ -1672,9 +1672,9 @@ public class DataSelection extends ForecastDataSelection {
                             }
                             if (itemSidsFromCcCombo != null && itemSidsFromBrandType != null
                                     && !itemSidsFromBrandType.isEmpty()) {
-                                List<String> tempStringList = new ArrayList<String>(itemSidsFromBrandType);
+                                List<String> tempStringList = new ArrayList<>(itemSidsFromBrandType);
                                 tempStringList.retainAll(itemSidsFromCcCombo);
-                                filteredItemsFromBrandType = new ArrayList<String>(tempStringList);
+                                filteredItemsFromBrandType = new ArrayList<>(tempStringList);
                             }
                             if (filteredItemsFromBrandType != null) {
                                 try {
@@ -1695,7 +1695,7 @@ public class DataSelection extends ForecastDataSelection {
                         productFilterContainer.addAll(filteredValues);
                     }
 
-                    if ((groupFilteredItems != null && !groupFilteredItems.isEmpty()) && (Constant.ITEM_MASTER.equalsIgnoreCase(String.valueOf(tempDto.getTableName())) && ("Item".equals(tempDto.getLevel()) || Constant.NDC.equals(tempDto.getLevel()) || Constant.PRODUCT.equalsIgnoreCase(tempDto.getLevel())))) {
+                    if ((groupFilteredItems != null && !groupFilteredItems.isEmpty()) && (Constant.ITEM_MASTER.equalsIgnoreCase(String.valueOf(tempDto.getTableName())) && ("Item".equals(tempDto.getLevel()) || Constant.NDC.equals(tempDto.getLevel()) || Constant.PRODUCT_LABEL.equalsIgnoreCase(tempDto.getLevel())))) {
                         try {
                             tempLevelValues = productFilterContainer.getItemIds();
                             for (Leveldto leveldto : tempLevelValues) {
@@ -1718,15 +1718,15 @@ public class DataSelection extends ForecastDataSelection {
                 }
                 availableProduct.setContainerDataSource(availableProductContainer);
                 if (isNdc) {
-                    availableProduct.setVisibleColumns(new Object[]{"displayValue", "form", "strength"});
+                    availableProduct.setVisibleColumns(new Object[]{Constant.DISPLAY_VALUE_PROPERTY, "form", "strength"});
                     availableProduct.setColumnHeaders(new String[]{Constant.NDC, "Form", "Strength"});
                 } else {
-                    availableProduct.setVisibleColumns(new Object[]{"displayValue"});
+                    availableProduct.setVisibleColumns(new Object[]{Constant.DISPLAY_VALUE_PROPERTY});
                     availableProduct.setColumnHeaders(new String[]{levelName});
                 }
                 availableProduct.setFilterBarVisible(true);
                 availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
-                availableProduct.setStyleName("filtertable");
+                availableProduct.setStyleName(Constant.FILTER_TABLE);
             }
         } catch (Exception ex) {
             LOGGER.error(ex + " - in loadFilteredProductSelection");
@@ -1791,7 +1791,7 @@ public class DataSelection extends ForecastDataSelection {
 
     private void filterCustomerOnGroupSelect() {
         availableCustomerContainer.removeAllItems();
-        String levelName = "Level";
+        String levelName = Constant.LEVEL_LABEL;
         try {
             int forecastLevel = 0;
             List<Leveldto> custVlues = null;
@@ -1829,7 +1829,7 @@ public class DataSelection extends ForecastDataSelection {
                             DataSelectionUtil.getSelectedRelationshipLevelSids(selectedCustomerContainer.getItemIds()), isNdc, tempDto.getFieldName(), relationshipSid, customerDescriptionMap, DataSelectionUtil.identifyLevel(tempDto), screenName, discountDTO != null ? discountDTO.getRsModelSid() : 0, tempDto.getLevelNo(), StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(), businessUnit.getValue());
 
                     if (groupFilteredCompanies != null && Constant.COMPANY_MASTER.equalsIgnoreCase(String.valueOf(tempDto.getTableName())) && (Constant.TRADING_PARTNER.equals(levelName) || Constant.COMPANY_SMALL.equals(levelName))) {
-                        List<Leveldto> filteredValues = new ArrayList<Leveldto>();
+                        List<Leveldto> filteredValues = new ArrayList<>();
                         if (!groupFilteredCompanies.isEmpty()) {
                             try {
                                 for (Leveldto leveldto : custVlues) {
@@ -1849,11 +1849,11 @@ public class DataSelection extends ForecastDataSelection {
                 }
             }
             availableCustomer.setContainerDataSource(availableCustomerContainer);
-            availableCustomer.setVisibleColumns(new Object[]{"displayValue"});
+            availableCustomer.setVisibleColumns(new Object[]{Constant.DISPLAY_VALUE_PROPERTY});
             availableCustomer.setColumnHeaders(new String[]{levelName});
             availableCustomer.setFilterBarVisible(true);
             availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
-            availableCustomer.setStyleName("filtertable");
+            availableCustomer.setStyleName(Constant.FILTER_TABLE);
         } catch (Exception ex) {
             LOGGER.error(ex + " filterCustomerOnGroupSelect ");
         }
@@ -1862,7 +1862,7 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void saveViewButtonlogic() {
-
+        return;
     }
 
     @Override
@@ -1884,7 +1884,7 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                         }
                         String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                        List<String> hierarchyNos = new ArrayList<String>();
+                        List<String> hierarchyNos = new ArrayList<>();
                         List<Leveldto> newParentLevels = null;
                         List<Leveldto> newChildLevels = null;
                         hierarchyNos.add(hierarchyNo + ".");
@@ -1897,14 +1897,14 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNos.add(hierarchyNo + ".");
                         }
                         Collections.reverse(hierarchyNos);
-                        List<String> selectedHierarchyNos = new ArrayList<String>();
+                        List<String> selectedHierarchyNos = new ArrayList<>();
                         for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
                             if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                 selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                             }
                         }
                         List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                        List<String> removeValues = new ArrayList<String>();
+                        List<String> removeValues = new ArrayList<>();
                         for (String uncommonHierValue : uncommonValues) {
                             if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                 removeValues.add(uncommonHierValue);
@@ -1999,7 +1999,7 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                         }
                         String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                        List<String> hierarchyNos = new ArrayList<String>();
+                        List<String> hierarchyNos = new ArrayList<>();
                         List<Leveldto> newParentLevels = null;
                         List<Leveldto> newChildLevels = null;
                         hierarchyNos.add(hierarchyNo + ".");
@@ -2014,14 +2014,14 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNos.add(hierarchyNo + ".");
                         }
                         Collections.reverse(hierarchyNos);
-                        List<String> selectedHierarchyNos = new ArrayList<String>();
+                        List<String> selectedHierarchyNos = new ArrayList<>();
                         for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
                             if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                 selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                             }
                         }
                         List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                        List<String> removeValues = new ArrayList<String>();
+                        List<String> removeValues = new ArrayList<>();
                         for (String uncommonHierValue : uncommonValues) {
                             if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                 removeValues.add(uncommonHierValue);
@@ -2118,7 +2118,7 @@ public class DataSelection extends ForecastDataSelection {
                         hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                     }
                     String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                    List<String> hierarchyNos = new ArrayList<String>();
+                    List<String> hierarchyNos = new ArrayList<>();
                     List<Leveldto> newParentLevels = null;
                     List<Leveldto> newChildLevels = null;
                     hierarchyNos.add(hierarchyNo + ".");
@@ -2288,7 +2288,7 @@ public class DataSelection extends ForecastDataSelection {
                 if (customerLevel.getValue() != null) {
                     forecastLevel = UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]);
                 }
-                List<Leveldto> iteams = new ArrayList<Leveldto>(availableCustomerContainer.getItemIds());
+                List<Leveldto> iteams = new ArrayList<>(availableCustomerContainer.getItemIds());
                 Object selectedItem = null;
                 if (selectedCustomerContainer.size() > 0) {
                     if (selectedCustomer.getValue() != null) {
@@ -2301,7 +2301,7 @@ public class DataSelection extends ForecastDataSelection {
                                     hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                                 }
                                 String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                                List<String> hierarchyNos = new ArrayList<String>();
+                                List<String> hierarchyNos = new ArrayList<>();
                                 List<Leveldto> newParentLevels = null;
                                 List<Leveldto> newChildLevels = null;
                                 hierarchyNos.add(hierarchyNo + ".");
@@ -2314,14 +2314,14 @@ public class DataSelection extends ForecastDataSelection {
                                     hierarchyNos.add(hierarchyNo + ".");
                                 }
                                 Collections.reverse(hierarchyNos);
-                                List<String> selectedHierarchyNos = new ArrayList<String>();
+                                List<String> selectedHierarchyNos = new ArrayList<>();
                                 for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
                                     if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                         selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                                     }
                                 }
                                 List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                                List<String> removeValues = new ArrayList<String>();
+                                List<String> removeValues = new ArrayList<>();
                                 for (String uncommonHierValue : uncommonValues) {
                                     if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                         removeValues.add(uncommonHierValue);
@@ -2418,7 +2418,7 @@ public class DataSelection extends ForecastDataSelection {
                                 hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                             }
                             String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                            List<String> hierarchyNos = new ArrayList<String>();
+                            List<String> hierarchyNos = new ArrayList<>();
                             List<Leveldto> newParentLevels = null;
                             List<Leveldto> newChildLevels = null;
                             hierarchyNos.add(hierarchyNo + ".");
@@ -2433,14 +2433,14 @@ public class DataSelection extends ForecastDataSelection {
                                 hierarchyNos.add(hierarchyNo + ".");
                             }
                             Collections.reverse(hierarchyNos);
-                            List<String> selectedHierarchyNos = new ArrayList<String>();
+                            List<String> selectedHierarchyNos = new ArrayList<>();
                             for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
                                 if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                     selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                                 }
                             }
                             List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                            List<String> removeValues = new ArrayList<String>();
+                            List<String> removeValues = new ArrayList<>();
                             for (String uncommonHierValue : uncommonValues) {
                                 if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                     removeValues.add(uncommonHierValue);
@@ -2607,7 +2607,7 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                         }
                         String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                        List<String> hierarchyNos = new ArrayList<String>();
+                        List<String> hierarchyNos = new ArrayList<>();
                         List<Leveldto> newParentLevels = null;
                         List<Leveldto> newChildLevels = null;
                         hierarchyNos.add(hierarchyNo + ".");
@@ -2622,7 +2622,7 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNos.add(hierarchyNo + ".");
                         }
                         Collections.reverse(hierarchyNos);
-                        List<String> selectedHierarchyNos = new ArrayList<String>();
+                        List<String> selectedHierarchyNos = new ArrayList<>();
                         for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
                             if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                 selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
@@ -2630,7 +2630,7 @@ public class DataSelection extends ForecastDataSelection {
                         }
 
                         List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                        List<String> removeValues = new ArrayList<String>();
+                        List<String> removeValues = new ArrayList<>();
                         for (String uncommonHierValue : uncommonValues) {
                             if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                 removeValues.add(uncommonHierValue);
@@ -2740,7 +2740,7 @@ public class DataSelection extends ForecastDataSelection {
             }
 
             if (availableProductContainer.size() > 0) {
-                List<Leveldto> iteams = new ArrayList<Leveldto>(availableProductContainer.getItemIds());
+                List<Leveldto> iteams = new ArrayList<>(availableProductContainer.getItemIds());
                 Object selectedItem = null;
                 if (selectedProductContainer.size() > 0) {
                     if (selectedProduct.getValue() != null) {
@@ -2753,7 +2753,7 @@ public class DataSelection extends ForecastDataSelection {
                                     hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                                 }
                                 String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                                List<String> hierarchyNos = new ArrayList<String>();
+                                List<String> hierarchyNos = new ArrayList<>();
                                 List<Leveldto> newParentLevels = null;
                                 List<Leveldto> newChildLevels = null;
                                 hierarchyNos.add(hierarchyNo + ".");
@@ -2766,14 +2766,14 @@ public class DataSelection extends ForecastDataSelection {
                                     hierarchyNos.add(hierarchyNo + ".");
                                 }
                                 Collections.reverse(hierarchyNos);
-                                List<String> selectedHierarchyNos = new ArrayList<String>();
+                                List<String> selectedHierarchyNos = new ArrayList<>();
                                 for (Leveldto selectedLevel : selectedProductContainer.getItemIds()) {
                                     if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                         selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                                     }
                                 }
                                 List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                                List<String> removeValues = new ArrayList<String>();
+                                List<String> removeValues = new ArrayList<>();
                                 for (String uncommonHierValue : uncommonValues) {
                                     if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                         removeValues.add(uncommonHierValue);
@@ -2868,7 +2868,7 @@ public class DataSelection extends ForecastDataSelection {
                                 hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                             }
                             String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                            List<String> hierarchyNos = new ArrayList<String>();
+                            List<String> hierarchyNos = new ArrayList<>();
                             List<Leveldto> newParentLevels = null;
                             List<Leveldto> newChildLevels = null;
                             hierarchyNos.add(hierarchyNo + ".");
@@ -2883,14 +2883,14 @@ public class DataSelection extends ForecastDataSelection {
                                 hierarchyNos.add(hierarchyNo + ".");
                             }
                             Collections.reverse(hierarchyNos);
-                            List<String> selectedHierarchyNos = new ArrayList<String>();
+                            List<String> selectedHierarchyNos = new ArrayList<>();
                             for (Leveldto selectedLevel : selectedProductContainer.getItemIds()) {
                                 if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                     selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                                 }
                             }
                             List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                            List<String> removeValues = new ArrayList<String>();
+                            List<String> removeValues = new ArrayList<>();
                             for (String uncommonHierValue : uncommonValues) {
                                 if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                     removeValues.add(uncommonHierValue);
@@ -3058,7 +3058,7 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                         }
                         String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                        List<String> hierarchyNos = new ArrayList<String>();
+                        List<String> hierarchyNos = new ArrayList<>();
                         List<Leveldto> newParentLevels = null;
                         List<Leveldto> newChildLevels = null;
                         hierarchyNos.add(hierarchyNo + ".");
@@ -3072,14 +3072,14 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNos.add(hierarchyNo + ".");
                         }
                         Collections.reverse(hierarchyNos);
-                        List<String> selectedHierarchyNos = new ArrayList<String>();
+                        List<String> selectedHierarchyNos = new ArrayList<>();
                         for (Leveldto selectedLevel : selectedProductContainer.getItemIds()) {
                             if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                 selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                             }
                         }
                         List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                        List<String> removeValues = new ArrayList<String>();
+                        List<String> removeValues = new ArrayList<>();
                         for (String uncommonHierValue : uncommonValues) {
                             if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                 removeValues.add(uncommonHierValue);
@@ -3258,7 +3258,7 @@ public class DataSelection extends ForecastDataSelection {
     protected void moveRigthProductButtonLogic() {
         try {
             if (selectedProduct.getValue() != null) {
-                List<Leveldto> listValue = new ArrayList<Leveldto>();
+                List<Leveldto> listValue;
                 Object selectedItem = selectedProduct.getValue();
                 Leveldto selectedLevel = (Leveldto) DataSelectionUtil.getBeanFromId(selectedItem);
                 String levelInString = DASH;
@@ -3322,7 +3322,7 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                         }
                         String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                        List<String> hierarchyNos = new ArrayList<String>();
+                        List<String> hierarchyNos = new ArrayList<>();
                         List<Leveldto> newParentLevels = null;
                         List<Leveldto> newChildLevels = null;
                         hierarchyNos.add(hierarchyNo + ".");
@@ -3335,14 +3335,14 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNos.add(hierarchyNo + ".");
                         }
                         Collections.reverse(hierarchyNos);
-                        List<String> selectedHierarchyNos = new ArrayList<String>();
+                        List<String> selectedHierarchyNos = new ArrayList<>();
                         for (Leveldto selectedLevel : selectedProductContainer.getItemIds()) {
                             if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                 selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                             }
                         }
                         List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                        List<String> removeValues = new ArrayList<String>();
+                        List<String> removeValues = new ArrayList<>();
                         for (String uncommonHierValue : uncommonValues) {
                             if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                 removeValues.add(uncommonHierValue);
@@ -3437,7 +3437,7 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                         }
                         String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                        List<String> hierarchyNos = new ArrayList<String>();
+                        List<String> hierarchyNos = new ArrayList<>();
                         List<Leveldto> newParentLevels = null;
                         List<Leveldto> newChildLevels = null;
                         hierarchyNos.add(hierarchyNo + ".");
@@ -3452,14 +3452,14 @@ public class DataSelection extends ForecastDataSelection {
                             hierarchyNos.add(hierarchyNo + ".");
                         }
                         Collections.reverse(hierarchyNos);
-                        List<String> selectedHierarchyNos = new ArrayList<String>();
+                        List<String> selectedHierarchyNos = new ArrayList<>();
                         for (Leveldto selectedLevel : selectedProductContainer.getItemIds()) {
                             if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
                                 selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
                             }
                         }
                         List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos, selectedHierarchyNos);
-                        List<String> removeValues = new ArrayList<String>();
+                        List<String> removeValues = new ArrayList<>();
                         for (String uncommonHierValue : uncommonValues) {
                             if (selectedHierarchyNos.contains(uncommonHierValue)) {
                                 removeValues.add(uncommonHierValue);
@@ -3555,7 +3555,7 @@ public class DataSelection extends ForecastDataSelection {
                         hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
                     }
                     String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-                    List<String> hierarchyNos = new ArrayList<String>();
+                    List<String> hierarchyNos = new ArrayList<>();
                     List<Leveldto> newParentLevels = null;
                     List<Leveldto> newChildLevels = null;
                     hierarchyNos.add(hierarchyNo + ".");
@@ -3718,17 +3718,17 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void deleteViewButtonLogic() {
-
+        return;
     }
 
     @Override
     protected void resetButtonLogic() {
-
-    }
+        return;
+    }   
 
    
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     private void configureFields() {
@@ -3738,7 +3738,7 @@ public class DataSelection extends ForecastDataSelection {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 String selectedLevel = String.valueOf(event.getProperty().getValue());
-                loadFilteredProductSelection(selectedLevel, false);
+                loadFilteredProductSelection(selectedLevel);
             }
 
         });
@@ -3790,14 +3790,14 @@ public class DataSelection extends ForecastDataSelection {
 
     @Override
     protected void resetTwo() {
-
+        return;
     }
 
     public String getProjectionName() {
         return projectionName.getValue();
     }
 
-    public void updateDataSelectionSelectedProducts(List<Integer> selectedProductIds) throws SystemException {
+    public void updateDataSelectionSelectedProducts()  {
         LOGGER.debug("updateDataSelectionSelectedProducts starts");
         StringBuilder prodUpdateQuery = new StringBuilder();
         prodUpdateQuery.append(" Delete FROM PROJECTION_PROD_HIERARCHY where PROJECTION_MASTER_SID=" + session.getProjectionId() + "; ");
@@ -3822,7 +3822,7 @@ public class DataSelection extends ForecastDataSelection {
         StringBuilder queryBuilder = new StringBuilder();
         String[] tables = tableName.getString(propertyName).split(",");
         for (String tableNames : tables) {
-            queryBuilder.append(SQlUtil.getQuery("deleteTemplate").replace("@TABLE_NAME", tableNames).replace("@PD_SID", CollectionToString));
+            queryBuilder.append(SQlUtil.getQuery("deleteTemplate").replace(Constant.AT_TABLE_NAME, tableNames).replace("@PD_SID", CollectionToString));
         }
         queryBuilder.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (" + CollectionToString + ")");
 
@@ -3836,7 +3836,7 @@ public class DataSelection extends ForecastDataSelection {
      * @return
      */
     private List<String> getRelationshipSid(List<Leveldto> leveldtos) {
-        List<String> relationshipSids = new ArrayList<String>();
+        List<String> relationshipSids = new ArrayList<>();
         for (Leveldto dto : leveldtos) {
             relationshipSids.add(String.valueOf(dto.getRelationshipLevelSid()));
         }

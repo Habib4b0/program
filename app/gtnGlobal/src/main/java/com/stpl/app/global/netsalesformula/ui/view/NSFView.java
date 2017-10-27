@@ -63,7 +63,7 @@ public class NSFView extends VerticalLayout implements View{
        * @throws Exception 
        */
 
-    public NSFView(SessionDTO sessionDTO) throws PortalException, SystemException {
+    public NSFView(SessionDTO sessionDTO) {
         super();
         setStyleName("bootstrap-company");
         this.removeAllComponents();
@@ -98,7 +98,7 @@ public class NSFView extends VerticalLayout implements View{
                         final int systemId = Integer.valueOf(idValue);
                  
                         nsfDto = nsfLogic.getNsfMasterById(systemId);
-                        if ("Contract".equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) {
+                        if (ConstantsUtils.CONTRACT.equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) {
                             nsfLogic.nsfInsert(sessionDTO, "tempDeductionInsertContract",nsfDto.isIsSelected(),ConstantsUtils.TEMP_SB_INSERT);
                         } else {
                             nsfLogic.nsfInsert(sessionDTO, "tempDeductionInsert",nsfDto.isIsSelected(),ConstantsUtils.TEMP_SB_INSERT);
@@ -118,7 +118,7 @@ public class NSFView extends VerticalLayout implements View{
                         final int systemId = Integer.valueOf(idValue);
                  
                         nsfDto = nsfLogic.getNsfMasterById(systemId);
-                        if ("Contract".equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) {
+                        if (ConstantsUtils.CONTRACT.equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) {
                             nsfLogic.nsfInsert(sessionDTO, "tempDeductionInsertContract",nsfDto.isIsSelected(),ConstantsUtils.TEMP_SB_INSERT);
                         } else {
                             nsfLogic.nsfInsert(sessionDTO, "tempDeductionInsert",nsfDto.isIsSelected(),ConstantsUtils.TEMP_SB_INSERT); 
@@ -137,7 +137,7 @@ public class NSFView extends VerticalLayout implements View{
                         final int systemId = Integer.valueOf(idValue);
                  
                         nsfDto = nsfLogic.getNsfMasterById(systemId);
-                        if ("Contract".equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) { 
+                        if (ConstantsUtils.CONTRACT.equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) { 
                             nsfLogic.nsfInsert(sessionDTO, "copyTempDeductionContractInsert",nsfDto.isIsSelected(),"copyTempSbInsert");
                         } else {
                             nsfLogic.nsfInsert(sessionDTO, "copyTempDeductionInsert",nsfDto.isIsSelected(),"copyTempSbInsert"); 

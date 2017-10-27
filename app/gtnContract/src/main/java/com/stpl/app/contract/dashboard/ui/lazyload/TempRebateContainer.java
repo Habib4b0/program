@@ -52,37 +52,20 @@ public class TempRebateContainer implements BeanDAO<TempRebateDTO> {
         ifpLogic = new IfpLogic(this.sessionDTO);
     }
     public int count(BeanSearchCriteria sc) {
-        try {
-            List list = ifpLogic.getLazyItemRebateDeatils(0,0,sc,true,getRecord(), Boolean.FALSE);
-            if(list!=null && !list.isEmpty()){
-                count = Integer.valueOf(String.valueOf(list.get(0)));
-            }
-            return list==null ? 0 : count;
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
+        List list = ifpLogic.getLazyItemRebateDeatils(0,0,sc,true,getRecord(), Boolean.FALSE,null);
+        if(list!=null && !list.isEmpty()){
+            count = Integer.valueOf(String.valueOf(list.get(0)));
         }
-        return 0;
+        return list==null ? 0 : count;
     }
 
     public List<TempRebateDTO> find(BeanSearchCriteria sc, int i, int i1, List<OrderByColumn> list) {
         try {
-            final int currentPage=table.getCurrentPage()-1;
-            final int pageLength=table.getPageLength();
-            int offset=i1;
-            if(count<currentPage*pageLength+offset){
-                offset=(currentPage*pageLength+offset)-count;
-            }
             if(saveContainer.size()>0){
                 ifpLogic.saveToTempRebate(saveContainer.getItemIds(), rpLevelChangeFlag);
                 saveContainer.removeAllItems();
             }
-            
-            List<Object[]> returnList =  ifpLogic.getLazyItemRebateDeatils(i,i1,sc,false,getRecord(), Boolean.FALSE);
+            List<Object[]> returnList =  ifpLogic.getLazyItemRebateDeatils(i,i1,sc,false,getRecord(), Boolean.FALSE,list);
             return ifpLogic.getCustomizedRebateDTO(returnList,getRecord());
         } catch (SystemException ex) {
             LOGGER.error(ex);
@@ -92,7 +75,7 @@ public class TempRebateContainer implements BeanDAO<TempRebateDTO> {
             LOGGER.error(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
         }
-         return new ArrayList<TempRebateDTO>(1);
+         return new ArrayList<>(1);
     }
 
     public String getRecord() {

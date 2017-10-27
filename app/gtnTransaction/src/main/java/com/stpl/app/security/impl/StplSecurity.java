@@ -64,7 +64,7 @@ public class StplSecurity {
 	 * @return the user group id
 	 */
 	public Collection<Object> getUserGroupId(final long userId) throws SystemException, PortalException {
-		final Collection<Object> userGroupId = new ArrayList<Object>();
+		final Collection<Object> userGroupId = new ArrayList<>();
 
 		LOGGER.debug("Entering getUserGroupId with userId value :::: " + userId);
 		final User user = dao.getUser(userId);
@@ -125,7 +125,7 @@ public class StplSecurity {
 	 * @return the business tab permission
 	 */
 	public Map<String, AppPermission> getBusinessTabPermission(final String userId, final String moduleName) throws SystemException, PortalException {
-		LOGGER.debug("Entering getBusinessTabPermission with userId value :::: " + userId + " and moduleName value :::: " + moduleName);
+		LOGGER.debug("Entering getBusinessTabPermission with userId value :::: " + userId + MODULE_NAME_VALUE + moduleName);
 
 		final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
 		final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -135,6 +135,7 @@ public class StplSecurity {
 		return businessTabPerm;
 
 	}
+    public static final String MODULE_NAME_VALUE = " and moduleName value :::: ";
 
 	/**
 	 * Gets the business function permission.
@@ -146,7 +147,7 @@ public class StplSecurity {
 	 * @return the business function permission
 	 */
 	public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName) throws SystemException, PortalException {
-		LOGGER.debug("Entering getBusinessFunctionPermission with userId value :::: " + userId + " and moduleName value :::: " + moduleName);
+		LOGGER.debug("Entering getBusinessFunctionPermission with userId value :::: " + userId + MODULE_NAME_VALUE + moduleName);
 
 		final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
 		final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -167,7 +168,7 @@ public class StplSecurity {
 	 * @return the business field permission
 	 */
 	   public Map<String, AppPermission> getBusinessFieldPermission(final String userId, final String moduleName) throws SystemException, PortalException {
-        LOGGER.debug("Entering getBusinessFieldPermission with userId value :::: " + userId + " and moduleName value :::: " + moduleName);
+        LOGGER.debug("Entering getBusinessFieldPermission with userId value :::: " + userId + MODULE_NAME_VALUE + moduleName);
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -188,7 +189,7 @@ public class StplSecurity {
 	 * @return the hash map< string, app permission>
 	 */
 	public Map<String, AppPermission> listToAppPermissionMap(final List permissionList, final int type)  {
-		final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+		final Map<String, AppPermission> permissionHm = new HashMap<>();
 
 		LOGGER.debug("Entering listToAppPermissionMap with permissionList size :::: " + permissionList.size() + " and type value :::: " + type);
 
@@ -240,10 +241,10 @@ public class StplSecurity {
 	}
       public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName ,final boolean column) throws PortalException, SystemException {
         LOGGER.debug("Enters getBusinessColumnPermission()");
-         List tabPermissionList = new ArrayList();
-         Set addPermission = new HashSet();
-         Set viewPermission = new HashSet();
-         Set editPermission = new HashSet();
+         List tabPermissionList;
+         Set addPermission;
+         Set viewPermission;
+         Set editPermission;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
         if(column){
@@ -263,23 +264,20 @@ public class StplSecurity {
     }
   public Map<String, AppPermission> listOfFieldAppPermissionMap(final List permissionList,final Set addpermission,final Set viewpermission ,final Set editpermission, final int type)  {
         LOGGER.debug("Entering listToAppPermissionMap()");
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
         if (type == Constants.ZERO || type == Constants.ONE || type == Constants.TWO) {
             final int listSize = permissionList.size();
             for (; counter < listSize; counter++) {
                 final Object[] obj = (Object[]) permissionList.get(counter);
                 final String propertyName = String.valueOf(obj[0]);
-                final String addFlag =  "";
-                final String editFlag = "";
-                final String viewFlag = "" ;
                 final AppPermission appPermission = new AppPermission();
                 appPermission.setPropertyName(propertyName);
                 
-                appPermission.setAddFlag(addFlag != null && addpermission.contains(propertyName) ? true : false);
+                appPermission.setAddFlag(addpermission.contains(propertyName) ? true : false);
              
-                appPermission.setEditFlag(editFlag != null && editpermission.contains(propertyName) ? true : false);
-                appPermission.setViewFlag(viewFlag != null && viewpermission.contains(propertyName) ? true : false);
+                appPermission.setEditFlag(editpermission.contains(propertyName) ? true : false);
+                appPermission.setViewFlag(viewpermission.contains(propertyName) ? true : false);
                 appPermission.setSearchFlag(appPermission.isAddFlag() || appPermission.isEditFlag() || appPermission.isViewFlag() ? true : false);
                 permissionHm.put(propertyName, appPermission);
 
@@ -289,9 +287,9 @@ public class StplSecurity {
         return permissionHm;
     }
   private List getBuisnessColumn(String businessRoleIds, String moduleName) {
-        List columnList = new ArrayList();
+        List columnList;
 
-        String query = StringUtils.EMPTY;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(",")) {
@@ -323,7 +321,7 @@ public class StplSecurity {
     }
 
     public List fetchColumnForSecurity(String moduleName, String tabName) {
-        List columnList = new ArrayList();
+        List columnList;
         String query = "SELECT DISPLAY_NAME, PROPERTY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '" + moduleName + "' "
                 + " AND TAB_NAME = '" + tabName + "' AND CATEGORY_NAME IN ('List view Header') ";
         columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -332,8 +330,8 @@ public class StplSecurity {
 
     private Set getModePermission(String businessRoleIds, String moduleName , boolean add ,boolean view ,boolean edit,boolean column) {
        Set field = new HashSet();
-        List columnList = new ArrayList();
-        String query = StringUtils.EMPTY;
+        List columnList;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(",")) {
@@ -373,7 +371,8 @@ public class StplSecurity {
         else if(edit==true){
              query+="AND bmm.EDIT_FLAG = '1' ";
         }
-          query=(("Demand".equalsIgnoreCase(moduleName)) || ("Returns".equalsIgnoreCase(moduleName))|| ("Inventory".equalsIgnoreCase(moduleName))
+        
+          query=(("GlobalFilesCompanyIdentifier".equalsIgnoreCase(moduleName)) || ("Demand".equalsIgnoreCase(moduleName)) || ("Returns".equalsIgnoreCase(moduleName))|| ("Inventory".equalsIgnoreCase(moduleName))
               || ("Item Hierarchy".equalsIgnoreCase(moduleName)) || ("IvldReturns".equalsIgnoreCase(moduleName)) || ("IvldCompanyMaster".equalsIgnoreCase(moduleName)) || ("IvldCompanyIdentifier".equalsIgnoreCase(moduleName)) || ("IvldCompanyParent".equalsIgnoreCase(moduleName)) ||  ("IvldCompanyTradeClass".equalsIgnoreCase(moduleName)) ||  ("IvldItemMaster".equalsIgnoreCase(moduleName)) || ("IvldItemPricing".equalsIgnoreCase(moduleName)) || ("IvldItemIdentifier".equalsIgnoreCase(moduleName)) ||   ("Customer Sales".equalsIgnoreCase(moduleName)) || ("IvldCustomerGtsForecast".equalsIgnoreCase(moduleName))|| ("IvldCustomerGtsActual".equalsIgnoreCase(moduleName))|| ("IvldInventoryWithdrawalSummary".equalsIgnoreCase(moduleName))  ||("Sales Master".equalsIgnoreCase(moduleName)) || ("Cpi Index".equalsIgnoreCase(moduleName)) || ("IvldActualMaster".equalsIgnoreCase(moduleName)) || ("Actual Master".equalsIgnoreCase(moduleName))) ?query.replace("distinct", ""):query;
 
          query=(("Demand".equalsIgnoreCase(moduleName)) || ("Returns".equalsIgnoreCase(moduleName))|| ("Inventory".equalsIgnoreCase(moduleName))
@@ -383,11 +382,11 @@ public class StplSecurity {
                  ||("IvldCompanyIdentifier".equalsIgnoreCase(moduleName)) || ("IvldCompanyParent".equalsIgnoreCase(moduleName)) ||  ("IvldCompanyTradeClass".equalsIgnoreCase(moduleName))
                  || ("IvldCustomerGtsForecast".equalsIgnoreCase(moduleName))|| ("IvldCustomerGtsActual".equalsIgnoreCase(moduleName))
                  || ("IvldInventoryWithdrawalSummary".equalsIgnoreCase(moduleName))  
-                 ||("GlobalFilesCompanyMaster".equalsIgnoreCase(moduleName))|| ("GlobalFilesItemMaster".equalsIgnoreCase(moduleName)) 
-                 || ("GlobalFilesCompanyTradeClass".equalsIgnoreCase(moduleName))
-                || ("Actual GTS Customer Product".equalsIgnoreCase(moduleName)) || ("Cpi Index".equalsIgnoreCase(moduleName)) || ("IvldActualMaster".equalsIgnoreCase(moduleName)) || ("Actual Master".equalsIgnoreCase(moduleName))) ?query.replace("distinct", ""):query;
-        columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        field.addAll(columnList);
+                 ||("GlobalFilesCompanyMaster".equalsIgnoreCase(moduleName))|| ("GlobalFilesItemMaster".equalsIgnoreCase(moduleName))  
+                 || ("GlobalFilesCompanyTradeClass".equalsIgnoreCase(moduleName)) || ("GlobalFilesCompanyIdentifier".equalsIgnoreCase(moduleName)) 
+                || ("Actual GTS Customer Product".equalsIgnoreCase(moduleName)) || ("Cpi Index".equalsIgnoreCase(moduleName)) || ("IvldActualMaster".equalsIgnoreCase(moduleName)) || ("Audit Inbound".equalsIgnoreCase(moduleName)) || ("GlobalFilesCompanyParent".equalsIgnoreCase(moduleName)) || ("Forecast Sales".equalsIgnoreCase(moduleName)) || ("Actual Master".equalsIgnoreCase(moduleName))) ?query.replace("distinct", ""):query;
+         columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+         field.addAll(columnList);
         return field;
     }
     /**

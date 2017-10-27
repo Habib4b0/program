@@ -44,6 +44,7 @@ import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -139,7 +140,7 @@ public class DeductionsLogic {
                     filterCriteria = getFilterValues(filterSet, filterCriteria);
                 }
 
-                String column = "cm.CONTRACT_NO";
+                String column = ConstantsUtils.CM_CONTRACT_NO;
                 String orderBy = "ASC";
                 if (columns != null) {
                     for (final Iterator<SortByColumn> iterator = columns.iterator(); iterator.hasNext();) {
@@ -159,7 +160,7 @@ public class DeductionsLogic {
                                 column = "cm.CONTRACT_TYPE ";
                                 break;
                             case ConstantsUtils.CONTRACT_NO:
-                                column = "cm.CONTRACT_NO";
+                                column = ConstantsUtils.CM_CONTRACT_NO;
                                 break;
                             case ConstantsUtils.CONTRACT_NAME:
                                 column = "cm.CONTRACT_NAME";
@@ -186,10 +187,10 @@ public class DeductionsLogic {
                                 column = "ifpm.IFP_NAME";
                                 break;
                             case ConstantsUtils.PS_NO:
-                                column = "psm.PS_NO ";
+                                column = "PS.PS_NO ";
                                 break;
                             case ConstantsUtils.PS_NAME:
-                                column = "psm.PS_NAME";
+                                column = "PS.PS_NAME";
                                 break;
                             case ConstantsUtils.START_DATE:
                                 column = "cm.START_DATE";
@@ -235,7 +236,7 @@ public class DeductionsLogic {
             }
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
 
         }
     }
@@ -305,11 +306,11 @@ public class DeductionsLogic {
             sql += ConstantsUtils.PERCENCTAGE + String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CATEGORY_TABLE)) + "%' ";
         }
         if (!isCount) {
-            sql += " ORDER BY " + column + " " + orderBy;
-            sql = sql + " " + "OFFSET ";
+            sql += ConstantsUtils.ORDER_BY + column + " " + orderBy;
+            sql = sql + " " + ConstantsUtils.OFFSET;
             sql = sql + start;
-            sql = sql + " ROWS FETCH NEXT " + offset;
-            sql = sql + " ROWS ONLY;";
+            sql = sql + ConstantsUtils.ROW_FETCH_NEXT + offset;
+            sql = sql + ConstantsUtils.ROWS_FETCH_ONLY;
         } else {
             sql += " ) A";
         }
@@ -318,7 +319,7 @@ public class DeductionsLogic {
 
     }
 
-    List<DeductionDto> getCustomizedDto(List list, boolean isSelected) throws PortalException, SystemException {
+    List<DeductionDto> getCustomizedDto(List list, boolean isSelected) {
         final List<DeductionDto> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -355,7 +356,7 @@ public class DeductionsLogic {
         String sql;
         if (isCount) {
             sql = "select count(*) from (SELECT DISTINCT  CM.CONTRACT_NO,CM.CONTRACT_NAME,RSC.RS_NO,RSC.RS_NAME,RSC.RS_TYPE as RSTYPE,RSC.REBATE_PROGRAM_TYPE as RPTYPE,\n"
-                    + "RSC.RS_CATEGORY as RCAT,CM.CONTRACT_TYPE as CTYPE,CM.START_DATE,CM.END_DATE,\n"
+                    + "RSC.RS_CATEGORY as RCAT,CM.CONTRACT_TYPE as CTYPE,CM.START_DATE,CM.END_DATE, \n"
                     + "COMP.COMPANY_NAME,CFPM.CFP_NO,CFPM.CFP_NAME,IFPM.IFP_NO,IFPM.IFP_NAME,PS.PS_NO,PS.PS_NAME,CM.CONTRACT_MASTER_SID,RSC.RS_CONTRACT_SID \n"
                     + "\n"
                     + "FROM   CONTRACT_MASTER CM\n"
@@ -379,7 +380,7 @@ public class DeductionsLogic {
                     + "                 AND PSC.CFP_CONTRACT_SID = CFC.CFP_CONTRACT_SID\n"
                     + "                 AND PSC.IFP_CONTRACT_SID = iFC.IFP_CONTRACT_SID\n"
                     + "                 AND PSC.INBOUND_STATUS <> 'D'\n"
-                    + "            JOIN PS_MODEL PS \n"
+                    + "            LEFT JOIN PS_MODEL PS \n"
                     + "              ON ps.PS_MODEL_SID=PSC.PS_MODEL_SID\n"
                     + "       LEFT JOIN RS_CONTRACT RSC\n"
                     + "              ON RSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
@@ -390,7 +391,7 @@ public class DeductionsLogic {
                     + "WHERE  CM.PROCESS_STATUS = 1  ";
         } else {
             sql = "SELECT DISTINCT  CM.CONTRACT_NO,CM.CONTRACT_NAME,RSC.RS_NO,RSC.RS_NAME,RSC.RS_TYPE as RSTYPE,RSC.REBATE_PROGRAM_TYPE as RPTYPE,\n"
-                    + "RSC.RS_CATEGORY as RCAT,CM.CONTRACT_TYPE as CTYPE,CM.START_DATE,CM.END_DATE,\n"
+                    + " RSC.RS_CATEGORY as RCAT,CM.CONTRACT_TYPE as CTYPE,CM.START_DATE,CM.END_DATE,\n"
                     + "COMP.COMPANY_NAME,CFPM.CFP_NO,CFPM.CFP_NAME,IFPM.IFP_NO,IFPM.IFP_NAME,PS.PS_NO,PS.PS_NAME,CM.CONTRACT_MASTER_SID,RSC.RS_CONTRACT_SID \n"
                     + "\n"
                     + "FROM   CONTRACT_MASTER CM\n"
@@ -414,7 +415,7 @@ public class DeductionsLogic {
                     + "                 AND PSC.CFP_CONTRACT_SID = CFC.CFP_CONTRACT_SID\n"
                     + "                 AND PSC.IFP_CONTRACT_SID = iFC.IFP_CONTRACT_SID\n"
                     + "                 AND PSC.INBOUND_STATUS <> 'D'\n"
-                    + "            JOIN PS_MODEL PS \n"
+                    + "            LEFT JOIN PS_MODEL PS \n"
                     + "              ON ps.PS_MODEL_SID=PSC.PS_MODEL_SID\n"
                     + "       LEFT JOIN RS_CONTRACT RSC\n"
                     + "              ON RSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
@@ -534,43 +535,43 @@ public class DeductionsLogic {
             sql += ConstantsUtils.PERCENCTAGE + String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_NAME)) + "%' ";
         }
         if (parameters.get(ConstantsUtils.END_DATE + ConstantsUtils.FROM) != null) {
-            sql += " AND CM.END_DATE  ";
+            sql += ConstantsUtils.CM_END_DATE;
             sql += String.valueOf(parameters.get(ConstantsUtils.END_DATE + ConstantsUtils.FROM));
         }
         if (parameters.get(ConstantsUtils.END_DATE + ConstantsUtils.TO) != null) {
-            sql += " AND CM.END_DATE  ";
+            sql += ConstantsUtils.CM_END_DATE;
             sql += String.valueOf(parameters.get(ConstantsUtils.END_DATE + ConstantsUtils.TO));
         }
         if (parameters.get(ConstantsUtils.END_DATE) != null) {
-            sql += " AND CM.END_DATE  ";
+            sql += ConstantsUtils.CM_END_DATE;
             sql += String.valueOf(parameters.get(ConstantsUtils.END_DATE));
         }
         if (parameters.get(ConstantsUtils.START_DATE + ConstantsUtils.FROM) != null) {
-            sql += " AND CM.START_DATE  ";
+            sql += ConstantsUtils.AND_START_DATE;
             sql += String.valueOf(parameters.get(ConstantsUtils.START_DATE + ConstantsUtils.FROM));
         }
         if (parameters.get(ConstantsUtils.START_DATE + ConstantsUtils.TO) != null) {
-            sql += " AND CM.START_DATE  ";
+            sql += ConstantsUtils.AND_START_DATE;
             sql += String.valueOf(parameters.get(ConstantsUtils.START_DATE + ConstantsUtils.TO));
         }
         if (parameters.get(ConstantsUtils.START_DATE) != null) {
-            sql += " AND CM.START_DATE  ";
+            sql += ConstantsUtils.AND_START_DATE;
             sql += String.valueOf(parameters.get(ConstantsUtils.START_DATE));
         }
                   
         if (!isCount) {
-            sql += " ORDER BY " + column + " " + orderBy;
-            sql = sql + " " + "OFFSET ";
+            sql += ConstantsUtils.ORDER_BY + column + " " + orderBy;
+            sql = sql + " " + ConstantsUtils.OFFSET;
             sql = sql + start;
-            sql = sql + " ROWS FETCH NEXT " + offset;
-            sql = sql + " ROWS ONLY;";
+            sql = sql + ConstantsUtils.ROW_FETCH_NEXT + offset;
+            sql = sql + ConstantsUtils.ROWS_FETCH_ONLY;
         } else {
             sql += " ) a";
         }
         return sql;
     }
 
-    private List<DeductionDto> getCustomizedDtoForContract(List list, boolean isSelected) throws PortalException, SystemException, ParseException {
+    private List<DeductionDto> getCustomizedDtoForContract(List list, boolean isSelected) throws ParseException {
         final List<DeductionDto> searchItemList = new ArrayList<>();
         if (list != null) {
 
@@ -621,7 +622,7 @@ public class DeductionsLogic {
         return searchItemList;
     }
 
-    public void addToTempTable(DeductionDto item, SessionDTO sessionDTO, boolean isContract,StringBuilder insertQuery) throws SystemException, PortalException, ParseException {
+    public void addToTempTable(DeductionDto item, SessionDTO sessionDTO, boolean isContract,StringBuilder insertQuery) {
 
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         int user = Integer.valueOf(userId);
@@ -663,7 +664,7 @@ public class DeductionsLogic {
             Map<String, Object> filterCriteria = new HashMap<>();
 
             if (!isContract) {
-                String rssql = StringUtils.EMPTY;
+                String rssql;
                 if (isCount) {
                     rssql = "select count(*) from (select IMD.DEDUCTION_TYPE,IMD.DEDUCTION_SUB_TYPE,IMD.DEDUCTION_CATEGORY,IMD.IMTD_DEDUCTION_DETAILS_SID,\n"
                             + "IMD.INDICATOR,IMD.CDR_MODEL_SID,IMD.CHECK_RECORD,NS.RULE_NO,NS.RULE_NAME\n"
@@ -763,11 +764,11 @@ public class DeductionsLogic {
                 }
                 rssql += " and IMD.Operation <> 'D' and IMD.INBOUND_STATUS  <> 'D'  ";
                 if (!isCount) {
-                    rssql += " ORDER BY " + column + " " + orderBy;
-                    rssql = rssql + " " + "OFFSET ";
+                    rssql += ConstantsUtils.ORDER_BY + column + " " + orderBy;
+                    rssql = rssql + " " + ConstantsUtils.OFFSET;
                     rssql = rssql + start;
-                    rssql = rssql + " ROWS FETCH NEXT " + offset;
-                    rssql = rssql + " ROWS ONLY;";
+                    rssql = rssql + ConstantsUtils.ROW_FETCH_NEXT + offset;
+                    rssql = rssql + ConstantsUtils.ROWS_FETCH_ONLY;
                 } else {
                     rssql += " ) a";
                 }
@@ -821,7 +822,7 @@ public class DeductionsLogic {
                 sql += " AND IMD.SESSION_ID like '" + sessionId + ConstantsUtils.SINGLE_QUOTE;
                 filterCriteria = getFilterValues(filterSet, filterCriteria);
 
-                String column = "cm.CONTRACT_NO";
+                String column = ConstantsUtils.CM_CONTRACT_NO;
                 String orderBy = "ASC";
                 if (columns != null) {
                     for (final Iterator<SortByColumn> iterator = columns.iterator(); iterator.hasNext();) {
@@ -841,7 +842,7 @@ public class DeductionsLogic {
                                 column = "cm.CONTRACT_TYPE ";
                                 break;
                             case ConstantsUtils.CONTRACT_NO:
-                                column = "cm.CONTRACT_NO";
+                                column = ConstantsUtils.CM_CONTRACT_NO;
                                 break;
                             case ConstantsUtils.CONTRACT_NAME:
                                 column = "cm.CONTRACT_NAME";
@@ -868,10 +869,10 @@ public class DeductionsLogic {
                                 column = "ifpm.IFP_NAME";
                                 break;
                             case ConstantsUtils.PS_NO:
-                                column = "psm.PS_NO ";
+                                column = "PS.PS_NO ";
                                 break;
                             case ConstantsUtils.PS_NAME:
-                                column = "psm.PS_NAME";
+                                column = "PS.PS_NAME";
                                 break;
                             case ConstantsUtils.START_DATE:
                                 column = "cm.START_DATE";
@@ -891,7 +892,8 @@ public class DeductionsLogic {
                 }
 
                 if (filterCriteria.get(ConstantsUtils.DEDUCTION_TYPE) != null && !filterCriteria.get(ConstantsUtils.DEDUCTION_TYPE).equals(ConstantsUtils.ZERO)) {
-                    sql += " AND  RSC.RS_TYPE like '";
+                    sql += " AND  RSC.RS_TYPE "
+                            + " '";
                     sql += ConstantsUtils.PERCENCTAGE + String.valueOf(filterCriteria.get(ConstantsUtils.DEDUCTION_TYPE)) + "%' ";
                 }
                 if (filterCriteria.get(ConstantsUtils.DEDUCTION_SUB_TYPE) != null && !filterCriteria.get(ConstantsUtils.DEDUCTION_SUB_TYPE).equals(ConstantsUtils.ZERO)) {
@@ -952,27 +954,27 @@ public class DeductionsLogic {
                 }
                 
                 if (filterCriteria.get(ConstantsUtils.END_DATE+ConstantsUtils.FROM) != null) {
-                    sql += " AND CM.END_DATE  ";
+                    sql += ConstantsUtils.CM_END_DATE;
                     sql +=  String.valueOf(filterCriteria.get(ConstantsUtils.END_DATE+ConstantsUtils.FROM)) ;
                 }
                  if (filterCriteria.get(ConstantsUtils.END_DATE+ConstantsUtils.TO) != null) {
-                    sql += " AND CM.END_DATE  ";
+                    sql += ConstantsUtils.CM_END_DATE;
                     sql +=  String.valueOf(filterCriteria.get(ConstantsUtils.END_DATE+ConstantsUtils.TO)) ;
                 }
                   if (filterCriteria.get(ConstantsUtils.END_DATE) != null) {
-                    sql += " AND CM.END_DATE  ";
+                    sql += ConstantsUtils.CM_END_DATE;
                     sql +=  String.valueOf(filterCriteria.get(ConstantsUtils.END_DATE)) ;
                 }
                 if (filterCriteria.get(ConstantsUtils.START_DATE+ConstantsUtils.FROM) != null) {  
-                    sql += " AND CM.START_DATE  ";
+                    sql += ConstantsUtils.AND_START_DATE;
                     sql += String.valueOf(filterCriteria.get(ConstantsUtils.START_DATE+ConstantsUtils.FROM)) ;
                 }
                  if (filterCriteria.get(ConstantsUtils.START_DATE+ConstantsUtils.TO) != null) {  
-                    sql += " AND CM.START_DATE  ";
+                    sql += ConstantsUtils.AND_START_DATE;
                     sql += String.valueOf(filterCriteria.get(ConstantsUtils.START_DATE+ConstantsUtils.TO)) ;
                 }
                   if (filterCriteria.get(ConstantsUtils.START_DATE) != null) {  
-                    sql += " AND CM.START_DATE  ";
+                    sql += ConstantsUtils.AND_START_DATE;
                     sql += String.valueOf(filterCriteria.get(ConstantsUtils.START_DATE)) ;
                 }
                 if (filterCriteria.get("contractMasterSId") != null) {
@@ -997,11 +999,11 @@ public class DeductionsLogic {
                 if (isCount) {
                     sql += " ) a";
                 } else {
-                    sql += " ORDER BY " + column + " " + orderBy;
-                    sql = sql + " " + "OFFSET ";
+                    sql += ConstantsUtils.ORDER_BY + column + " " + orderBy;
+                    sql = sql + " " + ConstantsUtils.OFFSET;
                     sql = sql + start;
-                    sql = sql + " ROWS FETCH NEXT " + offset;
-                    sql = sql + " ROWS ONLY;";
+                    sql = sql + ConstantsUtils.ROW_FETCH_NEXT + offset;
+                    sql = sql + ConstantsUtils.ROWS_FETCH_ONLY;
                 }
                 List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(sql);
                 if (isCount) {
@@ -1013,11 +1015,11 @@ public class DeductionsLogic {
         } catch (Exception e) {
 
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
-    public void removeFromTempTable(SessionDTO sessDto) throws SystemException, PortalException {
+    public void removeFromTempTable(SessionDTO sessDto) {
 //
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("UPDATE IMTD_DEDUCTION_DETAILS SET \"OPERATION\" = 'D',INBOUND_STATUS = 'D'");
@@ -1028,7 +1030,7 @@ public class DeductionsLogic {
 
     }
 
-    public void updateTempTable(boolean checkValue, DeductionDto dto) throws PortalException, SystemException {
+    public void updateTempTable(boolean checkValue, DeductionDto dto) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("UPDATE IMTD_DEDUCTION_DETAILS SET CHECK_RECORD = ").append(checkValue ? 1 : 0);
         query.append(" WHERE IMTD_DEDUCTION_DETAILS_SID = ").append(dto.getTempItemSystemId());
@@ -1177,7 +1179,7 @@ public class DeductionsLogic {
 
     }
 
-        public void removeAll(SessionDTO sessDto) throws SystemException, PortalException {
+        public void removeAll(SessionDTO sessDto) {
 //
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("DELETE FROM IMTD_DEDUCTION_DETAILS ");
@@ -1227,7 +1229,7 @@ public class DeductionsLogic {
             LOGGER.error(e);
         }
     }
-    public boolean addDuplicateValidation(final DeductionDto deductionDto, final SessionDTO dto) throws SystemException, PortalException {
+    public boolean addDuplicateValidation(final DeductionDto deductionDto, final SessionDTO dto) throws SystemException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdDeductionDetails.class);
         if (deductionDto.getRsContractSid() != 0) {
@@ -1248,7 +1250,7 @@ public class DeductionsLogic {
     }
      private static Date parsetDate(String value) throws ParseException {
         Date date = null;
-        String tempDate = StringUtils.EMPTY;
+        String tempDate;
         SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         if (value != null && !StringUtils.EMPTY.equals(value) && !ConstantsUtils.NULL.equals(value)) {
@@ -1279,7 +1281,7 @@ public class DeductionsLogic {
         return date;
     }
         
-     public void deleteSelectedFromTemp(SessionDTO sessDto) throws SystemException, PortalException {
+     public void deleteSelectedFromTemp(SessionDTO sessDto) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("UPDATE IMTD_DEDUCTION_DETAILS SET \"OPERATION\" = 'D',INBOUND_STATUS = 'D'");
         query.append(" WHERE SESSION_ID = '").append(sessDto.getUiSessionId()).append(ConstantsUtils.SINGLE_QUOTE);

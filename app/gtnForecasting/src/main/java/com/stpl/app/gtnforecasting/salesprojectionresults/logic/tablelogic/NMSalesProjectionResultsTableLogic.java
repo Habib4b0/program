@@ -112,11 +112,11 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
         return dto;
     }
 
-    public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, String spr) {
+    public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO) {
         setBulkDataLoadAllowed(true);
         setFullBulkDataLoadAllowed(true);
         this.projSelDTO = projSelDTO;
-        sprLogic.projectionTotalList = new ArrayList<SalesProjectionResultsDTO>();
+        sprLogic.projectionTotalList = new ArrayList<>();
         firstGenerated = true;
         getLevelMapList().clear();
         clearAll();
@@ -126,27 +126,25 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     @Override
     public GtnSmallHashMap loadBulkData(GtnSmallHashMap bulkDataMap) {
         Set<TreeNode> neededNodeSet = new TreeSet<>();
-        Set<String> dataFetchable = getExpandedTreeDataFetchable();
         for (int i = 0; i < bulkDataMap.size(); i++) {
             String treeLevel = (String) bulkDataMap.getIndex(i).getKey();
             TreeNode parentNode = tree.getHierarchy(tree.getApex(), treeLevel);
             neededNodeSet.add(parentNode);
             getCurrentPageData().remove(treeLevel);
-//            neededNodeSet.addAll(parentNode.getChildNodeMap().values());
         }
         loadData(neededNodeSet);
         createCurrentPageStart();
         return new GtnSmallHashMap();
     }
 
-    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
+    protected void recursivelyLoadExpandData(int expandLevelNo) {
         getLevelMapList().clear();
+        getCount();
         clearAll();
         findRequiredHierarchies(tree.getApex(), expandLevelNo);
     }
 
     private void findRequiredHierarchies(TreeNode apex, int expandLevelNo) {
-        int forecastlevel = Integer.valueOf(projSelDTO.getHierarchyIndicator().equals("C") ? projSelDTO.getSessionDTO().getCustomerLevelNumber() : projSelDTO.getSessionDTO().getProductLevelNumber());
         Set<TreeNode> hierarchySet = getHierarchyNodes(apex, expandLevelNo);
         int i = 0;
         int initial = hierarchySet.size() % getItemsPerPage() == 0 ? (hierarchySet.size() / getItemsPerPage()) - 1 : hierarchySet.size() / getItemsPerPage();
@@ -220,7 +218,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     }
 
     public void loadExpandData(int levelNo) {
-        recursivelyLoadExpandData(new Object(), StringUtils.EMPTY, levelNo);
+        recursivelyLoadExpandData(levelNo);
         setRecordCount(getCalculatedTotalRecordCount());
         setCurrentPage(getTotalAmountOfPages());
     }
@@ -275,7 +273,6 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
                     loadDataMap.put(cpNode.getHierarchyForTable(), tree.getStaticData(cpNode.getPositiontoParent() - 1));
                 } else {
                     dbLoadedSalesPRNode.add(cpNode.getParentNode());
-//                    loadDataMap.put(cpNode.getHierarchyForTable(), new SalesProjectionResultsDTO());
                 }
             } else if (expandedMap.containsKey(cpNode.getHierarchyForTable())) {
                 SalesProjectionResultsDTO prData = new SalesProjectionResultsDTO();

@@ -52,6 +52,7 @@ public class UpdateItem extends CustomComponent {
 
     public Component getContent() {
         configureFields();
+        componentDetails.replaceComponent();
         return mainLayout;
     }
 

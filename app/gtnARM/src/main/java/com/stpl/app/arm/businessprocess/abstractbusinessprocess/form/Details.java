@@ -14,7 +14,7 @@ import com.vaadin.ui.Component;
  *
  * @author Karthikeyan.Subraman
  */
-public interface Details extends View,Component,GenerateAble,DefaultFocusable {
+public interface Details extends View, Component, GenerateAble, DefaultFocusable {
 
     public boolean saveAssets();
 }

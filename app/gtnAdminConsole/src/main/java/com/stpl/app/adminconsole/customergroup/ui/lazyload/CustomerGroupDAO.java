@@ -53,7 +53,7 @@ public class CustomerGroupDAO implements DAO<CustomerGroupDTO> {
         try {
             if (customerGroupForm != null) {
                 customerGroupForm.commit();
-                List<CustomerGroupDTO> resultList = new ArrayList<CustomerGroupDTO>();
+                List<CustomerGroupDTO> resultList = new ArrayList<>();
 
                 return resultList;
             }
@@ -62,7 +62,7 @@ public class CustomerGroupDAO implements DAO<CustomerGroupDTO> {
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
             LOGGER.error(e);
         }
-        return new ArrayList<CustomerGroupDTO>();
+        return new ArrayList<>();
 
     }
 }

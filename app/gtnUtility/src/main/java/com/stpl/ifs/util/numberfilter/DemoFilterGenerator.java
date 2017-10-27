@@ -69,13 +69,13 @@ public class DemoFilterGenerator implements ExtFilterGenerator , Serializable{
 
     @Override
     public void filterRemoved(Object propertyId) {
-      
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId,
             Class<? extends Filter> filterType, Object value) {
-       
+       return;
     }
 
     @Override

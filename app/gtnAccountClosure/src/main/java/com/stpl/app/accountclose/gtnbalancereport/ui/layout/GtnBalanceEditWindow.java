@@ -23,7 +23,6 @@ public class GtnBalanceEditWindow extends CustomWindow {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(GtnBalanceEditWindow.class);
 
     public GtnBalanceEditWindow(final SessionDTO session) throws Exception {
         super("GTN Balance Report");

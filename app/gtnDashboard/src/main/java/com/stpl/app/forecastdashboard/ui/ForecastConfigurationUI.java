@@ -28,8 +28,7 @@ public class ForecastConfigurationUI extends UI {
         try {
             navigator.addView("", new ForecastConfigurationForm());
         } catch (Exception ex) {
-            ex.printStackTrace();
-            LOGGER.error(" Exception occured at FC UI");
+            LOGGER.error(ex);
         }
     }
 //    @Override

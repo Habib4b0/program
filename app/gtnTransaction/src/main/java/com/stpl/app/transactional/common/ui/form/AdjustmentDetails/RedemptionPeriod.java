@@ -6,7 +6,6 @@
 package com.stpl.app.transactional.common.ui.form.AdjustmentDetails;
 
 import com.stpl.app.util.CommonUtils;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.InlineDateField;
@@ -86,9 +85,6 @@ public class RedemptionPeriod extends Window {
         closeButton();
     }
 
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-    }
-
     private Button closeButton() {
         closeBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -122,7 +118,7 @@ public class RedemptionPeriod extends Window {
 
             private String formatDate(Date date, boolean setAsLastDate) {
                 final SimpleDateFormat format = new SimpleDateFormat(CommonUtils.MMDDYYYY);
-                String formattedDate = StringUtils.EMPTY;
+                String formattedDate;
                 if (!setAsLastDate) {
                     formattedDate = format.format(creationDateFrom.getValue());
                 } else {

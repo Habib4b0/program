@@ -42,7 +42,7 @@
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
-    <size_rowset>10000</size_rowset>
+    <size_rowset>1000</size_rowset>
     <sleep_time_empty>50</sleep_time_empty>
     <sleep_time_full>50</sleep_time_full>
     <unique_connections>N</unique_connections>
@@ -138,7 +138,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>RETURNS_MASTER</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 2 2</from><to>INVALID TABLE 7 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>RETURNS_MASTER</from><to>Invalid Reason 5 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Filter rows</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 3</from><to>INVALID TABLE 7 3</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP 3</from><to>Invalid Reason 5 3</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP 3</from><to>Filter rows 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>ITEM MASTER LOOKUP 3</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>Filter rows 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 3 2</from><to>INVALID TABLE 7 3 2</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP 3 2</from><to>Invalid Reason 5 3 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 3 2 2</from><to>INVALID TABLE 7 3 2 2</to><enabled>N</enabled> </hop>  <hop> <from>BUSINESS_UNIT</from><to>Invalid Reason 5 3 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 3 2 2 2</from><to>INVALID TABLE 7 3 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>GL_COMPANY</from><to>Invalid Reason 5 3 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 2 3</from><to>D-INVALID 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>RETURN_RESERVE DELETE</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE DELETE</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DELETE INSERT WAIT </from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3 2 2</from><to>DEL UNIQUE</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD UNIQUE </to><enabled>Y</enabled> </hop>  <hop> <from>ADD UNIQUE </from><to>DELETE INSERT WAIT </to><enabled>Y</enabled> </hop>  <hop> <from>ADD UNIQUE </from><to>INVALID TABLE 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEL UNIQUE</from><to>D-INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>DEL UNIQUE</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE DELETE</from><to>Add constants 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 4</from><to>change Audit update </to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 3</from><to>Add constants 4</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE UPDATE</from><to>Memory Group by 3</to><enabled>Y</enabled> </hop>  <hop> <from>UDC1 2</from><to>UDC2 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC2 2</from><to>UDC3 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC3 2</from><to>UDC4 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC4 2</from><to>UDC5 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC5 2</from><to>UDC6 2</to><enabled>N</enabled> </hop>  <hop> <from>RETURNS_MASTER</from><to>Filter rows 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>Filter rows 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 2</from><to>Filter rows 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3</from><to>Filter rows 2 4</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4</from><to>Filter rows 2 5</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5</from><to>Filter rows 2 6</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6</from><to>Filter rows 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>UDCS</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE UPDATE</from><to>Update 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE</from><to>Add constants 5</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 5</from><to>RETURN_RESERVE UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 4</from><to>RETURNS_MASTER</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 5 2 2 2</from><to>INVALID TABLE 7 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE UPDATE</from><to>Invalid Reason 5 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>UDC6 2</from><to>Filter rows 4</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 4</from><to>RETURN_RESERVE</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>ITEM MASTER LOOKUP 3 2</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP 3 2</from><to>BUSINESS_UNIT</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>BUSINESS_UNIT</to><enabled>N</enabled> </hop>  <hop> <from>BUSINESS_UNIT</from><to>GL_COMPANY</to><enabled>N</enabled> </hop>  <hop> <from>GL_COMPANY</from><to>COMPANY</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY</from><to>BRAND</to><enabled>N</enabled> </hop>  <hop> <from>BRAND</from><to>UDC1 2</to><enabled>N</enabled> </hop>  <hop> <from>DELETE INSERT WAIT </from><to>Filter rows 4</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>RETURNS_MASTER</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 2 2</from><to>INVALID TABLE 7 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>RETURNS_MASTER</from><to>Invalid Reason 5 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Filter rows</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 3</from><to>INVALID TABLE 7 3</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP 3</from><to>Invalid Reason 5 3</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP 3</from><to>Filter rows 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>ITEM MASTER LOOKUP 3</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>Filter rows 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 3 2</from><to>INVALID TABLE 7 3 2</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP 3 2</from><to>Invalid Reason 5 3 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 3 2 2</from><to>INVALID TABLE 7 3 2 2</to><enabled>N</enabled> </hop>  <hop> <from>BUSINESS_UNIT</from><to>Invalid Reason 5 3 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 3 2 2 2</from><to>INVALID TABLE 7 3 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>GL_COMPANY</from><to>Invalid Reason 5 3 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 2 3</from><to>D-INVALID 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>RETURN_RESERVE DELETE</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE DELETE</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DELETE INSERT WAIT </from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>ADD UNIQUE </from><to>DELETE INSERT WAIT </to><enabled>Y</enabled> </hop>  <hop> <from>ADD UNIQUE </from><to>INVALID TABLE 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEL UNIQUE</from><to>D-INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>DEL UNIQUE</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE DELETE</from><to>Add constants 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 4</from><to>change Audit update </to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 3</from><to>Add constants 4</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE UPDATE</from><to>Memory Group by 3</to><enabled>Y</enabled> </hop>  <hop> <from>UDC1 2</from><to>UDC2 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC2 2</from><to>UDC3 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC3 2</from><to>UDC4 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC4 2</from><to>UDC5 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC5 2</from><to>UDC6 2</to><enabled>N</enabled> </hop>  <hop> <from>RETURNS_MASTER</from><to>Filter rows 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>Filter rows 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 2</from><to>Filter rows 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3</from><to>Filter rows 2 4</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4</from><to>Filter rows 2 5</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5</from><to>Filter rows 2 6</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6</from><to>Filter rows 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>UDCS</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE UPDATE</from><to>Update 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE</from><to>Add constants 5</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 5</from><to>RETURN_RESERVE UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 4</from><to>RETURNS_MASTER</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 5 2 2 2</from><to>INVALID TABLE 7 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RESERVE UPDATE</from><to>Invalid Reason 5 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>UDC6 2</from><to>Filter rows 4</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 4</from><to>RETURN_RESERVE</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>ITEM MASTER LOOKUP 3 2</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP 3 2</from><to>BUSINESS_UNIT</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>BUSINESS_UNIT</to><enabled>N</enabled> </hop>  <hop> <from>BUSINESS_UNIT</from><to>GL_COMPANY</to><enabled>N</enabled> </hop>  <hop> <from>GL_COMPANY</from><to>COMPANY</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY</from><to>BRAND</to><enabled>N</enabled> </hop>  <hop> <from>BRAND</from><to>UDC1 2</to><enabled>N</enabled> </hop>  <hop> <from>DELETE INSERT WAIT </from><to>Filter rows 4</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2 2</from><to>Sort rows</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows</from><to>DEL UNIQUE</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows 2</from><to>ADD UNIQUE </to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
@@ -167,6 +167,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -235,6 +241,17 @@
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>RETURN_RESERVE_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -463,8 +480,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>432</xloc>
-      <yloc>799</yloc>
+      <xloc>427</xloc>
+      <yloc>726</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -489,6 +506,17 @@
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>RETURN_RESERVE_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -551,6 +579,17 @@
         <group/>
         <nullif>R</nullif>
         <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>RETURN_RESERVE_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -1131,6 +1170,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -3841,6 +3886,14 @@
         <name>MODIFIED_BY</name>
         <rename>CREATED_BY</rename>
         </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        </value>
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -3876,142 +3929,246 @@
         <name2/>
         </key>
       <value>
-        <name>INBOUND_STATUS</name>
-        <rename>STATUS_C</rename>
-        </value>
-      <value>
-        <name>AMOUNT</name>
-        <rename>AMOUNT</rename>
-        </value>
-      <value>
-        <name>BATCH_ID</name>
-        <rename>BATCH_ID</rename>
-        </value>
-      <value>
-        <name>BRAND_ID</name>
-        <rename>BRAND_ID</rename>
-        </value>
-      <value>
-        <name>BRAND_NAME</name>
-        <rename>BRAND_NAME</rename>
-        </value>
-      <value>
-        <name>BUSINESS_UNIT</name>
-        <rename>BUSINESS_UNIT</rename>
-        </value>
-      <value>
-        <name>BU_COMPANY_MASTER_SID</name>
-        <rename>BUSINESS_UNIT_COMPANY_MASTER_SID</rename>
-        </value>
-      <value>
-        <name>COUNTRY</name>
-        <rename>COUNTRY</rename>
-        </value>
-      <value>
-        <name>CREATED_BY</name>
-        <rename>CREATED_BY</rename>
-        </value>
-      <value>
-        <name>CREATED_DATE</name>
-        <rename>CREATED_DATE</rename>
-        </value>
-      <value>
-        <name>GL_COMPANY</name>
-        <rename>GL_COMPANY</rename>
-        </value>
-      <value>
-        <name>GL_COMPANY_MASTER_SID</name>
-        <rename>GL_COMPANY_COMPANY_MASTER_SID</rename>
-        </value>
-      <value>
-        <name>ITEM_ID</name>
-        <rename>ITEM_ID</rename>
-        </value>
-      <value>
-        <name>ITEM_MASTER_SID</name>
-        <rename>ITEM_MASTER_SID</rename>
-        </value>
-      <value>
-        <name>ITEM_NAME</name>
-        <rename>ITEM_NAME</rename>
-        </value>
-      <value>
-        <name>ITEM_NO</name>
-        <rename>ITEM_NO</rename>
-        </value>
-      <value>
-        <name>MODIFIED_BY</name>
-        <rename>MODIFIED_BY</rename>
-        </value>
-      <value>
-        <name>MODIFIED_DATE</name>
-        <rename>MODIFIED_DATE</rename>
-        </value>
-      <value>
-        <name>MONTH</name>
-        <rename>MONTH</rename>
-        </value>
-      <value>
-        <name>SOURCE</name>
-        <rename>SOURCE</rename>
+        <name>YEAR</name>
+        <rename>YEAR</rename>
         </value>
       <value>
         <name>UNITS</name>
         <rename>UNITS</rename>
         </value>
       <value>
-        <name>YEAR</name>
-        <rename>YEAR</rename>
+        <name>SOURCE</name>
+        <rename>SOURCE</rename>
         </value>
       <value>
         <name>RETURN_RESERVE_INTF_ID</name>
         <rename>RETURN_RESERVE_INTF_ID</rename>
         </value>
       <value>
-        <name>COMPANY_NO</name>
-        <rename>COMPANY_NO</rename>
-        </value>
-      <value>
-        <name>DIVISION</name>
-        <rename>DIVISION</rename>
-        </value>
-      <value>
-        <name>COST_CENTER</name>
-        <rename>COST_CENTER</rename>
-        </value>
-      <value>
-        <name>ACCOUNT</name>
-        <rename>ACCOUNT</rename>
-        </value>
-      <value>
         <name>PROJECT</name>
         <rename>PROJECT</rename>
         </value>
       <value>
-        <name>FUTURE1</name>
-        <rename>FUTURE1</rename>
+        <name>MONTH</name>
+        <rename>MONTH</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_BY</name>
+        <rename>MODIFIED_BY</rename>
+        </value>
+      <value>
+        <name>ITEM_NO</name>
+        <rename>ITEM_NO</rename>
+        </value>
+      <value>
+        <name>ITEM_NAME</name>
+        <rename>ITEM_NAME</rename>
+        </value>
+      <value>
+        <name>ITEM_MASTER_SID</name>
+        <rename>ITEM_MASTER_SID</rename>
+        </value>
+      <value>
+        <name>ITEM_ID</name>
+        <rename>ITEM_ID</rename>
+        </value>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>STATUS_C</rename>
+        </value>
+      <value>
+        <name>GL_COMPANY_MASTER_SID</name>
+        <rename>GL_COMPANY_COMPANY_MASTER_SID</rename>
+        </value>
+      <value>
+        <name>GL_COMPANY</name>
+        <rename>GL_COMPANY</rename>
         </value>
       <value>
         <name>FUTURE2</name>
         <rename>FUTURE2</rename>
         </value>
       <value>
+        <name>FUTURE1</name>
+        <rename>FUTURE1</rename>
+        </value>
+      <value>
+        <name>DIVISION</name>
+        <rename>DIVISION</rename>
+        </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>CREATED_BY</name>
+        <rename>CREATED_BY</rename>
+        </value>
+      <value>
+        <name>COUNTRY</name>
+        <rename>COUNTRY</rename>
+        </value>
+      <value>
+        <name>COST_CENTER</name>
+        <rename>COST_CENTER</rename>
+        </value>
+      <value>
+        <name>COMPANY_NO</name>
+        <rename>COMPANY_NO</rename>
+        </value>
+      <value>
+        <name>COMPANY_NAME</name>
+        <rename>NEW_COMPANY_NAME</rename>
+        </value>
+      <value>
+        <name>BU_COMPANY_MASTER_SID</name>
+        <rename>BUSINESS_UNIT_COMPANY_MASTER_SID</rename>
+        </value>
+      <value>
         <name>BUSINESS_UNIT_NAME</name>
         <rename>BUSINESS_UNIT_COMPANY_NAME</rename>
+        </value>
+      <value>
+        <name>BUSINESS_UNIT</name>
+        <rename>BUSINESS_UNIT</rename>
+        </value>
+      <value>
+        <name>BRAND_NAME</name>
+        <rename>BRAND_NAME</rename>
         </value>
       <value>
         <name>BRAND_MASTER_SID</name>
         <rename>BRAND_MASTER_SID</rename>
         </value>
       <value>
-        <name>COMPANY_NAME</name>
-        <rename>NEW_COMPANY_NAME</rename>
+        <name>BRAND_ID</name>
+        <rename>BRAND_ID</rename>
+        </value>
+      <value>
+        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        </value>
+      <value>
+        <name>AMOUNT</name>
+        <rename>AMOUNT</rename>
+        </value>
+      <value>
+        <name>ACCOUNT</name>
+        <rename>ACCOUNT</rename>
         </value>
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>829</xloc>
       <yloc>2130</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <sort_size>5000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>YEAR</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>MONTH</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ITEM_ID</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>GL_COMPANY</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>457</xloc>
+      <yloc>805</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <sort_size>5000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>YEAR</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>MONTH</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ITEM_ID</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>GL_COMPANY</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1228</xloc>
+      <yloc>678</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4058,39 +4215,40 @@
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>
-IF OBJECT_ID(&apos;TEMPDB..#ITEM&apos;) IS NOT NULL
-DROP TABLE #ITEM
-	SELECT a.ITEM_ID,
-		    ITEM_MASTER_SID
+    <sql>IF Object_id(&apos;TEMPDB..#ITEM&apos;) IS NOT NULL
+  DROP TABLE #ITEM
+
+SELECT a.ITEM_ID,
+       ITEM_MASTER_SID
 INTO   #ITEM
-	FROM   (SELECT DISTINCT ITEM_ID
-			FROM   STAG_RETURN_RESERVE) a
-		   JOIN ITEM_MASTER im
-			 ON im.ITEM_ID = a.ITEM_ID 
+FROM   (SELECT DISTINCT ITEM_ID
+        FROM   STAG_RETURN_RESERVE) a
+       JOIN ITEM_MASTER im
+         ON im.ITEM_ID = a.ITEM_ID
 
+IF Object_id(&apos;TEMPDB..#COMPANY&apos;) IS NOT NULL
+  DROP TABLE #COMPANY
 
-IF OBJECT_ID(&apos;TEMPDB..#COMPANY&apos;) IS NOT NULL
-DROP TABLE #COMPANY
-	SELECT a.BUSINESS_UNIT,im.COMPANY_NAME,
-		   COMPANY_MASTER_SID
+SELECT a.BUSINESS_UNIT,
+       im.COMPANY_NAME,
+       COMPANY_MASTER_SID
 INTO   #COMPANY
-	FROM   (SELECT DISTINCT BUSINESS_UNIT
-			FROM   STAG_RETURN_RESERVE) a
-		   JOIN COMPANY_MASTER im
-			 ON im.COMPANY_ID = a.BUSINESS_UNIT
+FROM   (SELECT DISTINCT BUSINESS_UNIT
+        FROM   STAG_RETURN_RESERVE) a
+       JOIN COMPANY_MASTER im
+         ON im.COMPANY_ID = a.BUSINESS_UNIT
 
-IF OBJECT_ID(&apos;TEMPDB..#COMPANY1&apos;) IS NOT NULL
-DROP TABLE #COMPANY1
-	SELECT a.GL_COMPANY,IM.COMPANY_NAME,
-		   COMPANY_MASTER_SID
+IF Object_id(&apos;TEMPDB..#COMPANY1&apos;) IS NOT NULL
+  DROP TABLE #COMPANY1
+
+SELECT a.GL_COMPANY,
+       IM.COMPANY_NAME,
+       COMPANY_MASTER_SID
 INTO   #COMPANY1
-	FROM   (SELECT DISTINCT GL_COMPANY
-			FROM   STAG_RETURN_RESERVE) a
-		   JOIN COMPANY_MASTER im
-			 ON im.COMPANY_ID = a.GL_COMPANY
-
-
+FROM   (SELECT DISTINCT GL_COMPANY
+        FROM   STAG_RETURN_RESERVE) a
+       JOIN COMPANY_MASTER im
+         ON im.COMPANY_ID = a.GL_COMPANY
 
 IF Object_id(&apos;TEMPDB..#ITEM_NO&apos;) IS NOT NULL
   DROP TABLE #ITEM_NO
@@ -4103,10 +4261,7 @@ FROM   (SELECT DISTINCT ITEM_NO
        LEFT JOIN ITEM_MASTER im
               ON im.ITEM_NO = a.ITEM_NO
 WHERE  im.ITEM_NO IS NOT NULL
-        OR a.ITEM_NO IS NULL 
-
-
-
+        OR a.ITEM_NO IS NULL
 
 IF Object_id(&apos;TEMPDB..#ITEM_NAME&apos;) IS NOT NULL
   DROP TABLE #ITEM_NAME
@@ -4117,115 +4272,110 @@ INTO   #ITEM_NAME
 FROM   (SELECT DISTINCT ITEM_NAME
         FROM   STAG_RETURN_RESERVE) a
        LEFT JOIN ITEM_MASTER im
-              ON im.ITEM_NO = a.ITEM_NAME
+              ON im.ITEM_NAME = a.ITEM_NAME
 WHERE  im.ITEM_NAME IS NOT NULL
-        OR a.ITEM_NAME IS NULL 
+        OR a.ITEM_NAME IS NULL
 
+IF Object_id(&apos;TEMPDB..#COMPANY_NO&apos;) IS NOT NULL
+  DROP TABLE #COMPANY_NO
 
-IF OBJECT_ID(&apos;TEMPDB..#COMPANY_NO&apos;) IS NOT NULL
-DROP TABLE #COMPANY_NO
-	SELECT A.COMPANY_NO,IM.COMPANY_ID,IM.COMPANY_NAME,
-		   COMPANY_MASTER_SID
+SELECT A.COMPANY_NO,
+       IM.COMPANY_ID,
+       IM.COMPANY_NAME,
+       COMPANY_MASTER_SID
 INTO   #COMPANY_NO
-	FROM   (SELECT DISTINCT COMPANY_NO
-			FROM   STAG_RETURN_RESERVE) a
-		   JOIN COMPANY_MASTER im
-			 ON im.COMPANY_ID = a.COMPANY_NO
+FROM   (SELECT DISTINCT COMPANY_NO
+        FROM   STAG_RETURN_RESERVE) a
+       JOIN COMPANY_MASTER im
+         ON im.COMPANY_NO = a.COMPANY_NO
 
-
-
-
-SELECT
-  A.RETURN_RESERVE_INTF_ID
-, A.&quot;YEAR&quot;
-, A.&quot;MONTH&quot;
-, A.BRAND_ID
-, A.BRAND_NAME
-, A.ITEM_ID
-, A.ITEM_NO
-, A.ITEM_NAME
-, A.UNITS
-, A.AMOUNT
-, A.COUNTRY
-, A.BUSINESS_UNIT
-, A.GL_COMPANY
-, A.COMPANY_NO
-, A.DIVISION
-, A.COST_CENTER
-, A.ACCOUNT
-, A.PROJECT
-, A.FUTURE1
-, A.FUTURE2
-, A.UDC1
-, A.UDC2
-, A.UDC3
-, A.UDC4
-, A.UDC5
-, A.UDC6
-, A.ADD_CHG_DEL_INDICATOR
-, A.CREATED_BY
-, A.CREATED_DATE
-, A.MODIFIED_BY
-, A.MODIFIED_DATE
-, A.BATCH_ID
-, A.SOURCE
-,B.ITEM_MASTER_SID
-,C.COMPANY_MASTER_SID AS BUSINESS_UNIT_COMPANY_MASTER_SID
-,C.COMPANY_NAME AS BUSINESS_UNIT_COMPANY_NAME
-,E.COMPANY_MASTER_SID AS GL_COMPANY_COMPANY_MASTER_SID
-,E.COMPANY_NAME AS GL_COMPANY_COMPANY_NAME
---,D.ITEM_MASTER_SID
---,F.ITEM_MASTER_SID
-,G.COMPANY_ID AS NEW_COMPANY_ID
-,G.COMPANY_NAME AS NEW_COMPANY_NAME
-,BM.BRAND_MASTER_SID
-
-,U1.HELPER_TABLE_SID AS new_udc1_code
-,U2.HELPER_TABLE_SID AS new_udc2_code
-,U3.HELPER_TABLE_SID AS new_udc3_code
-,U4.HELPER_TABLE_SID AS new_udc4_code
-,U5.HELPER_TABLE_SID AS new_udc5_code
-,U6.HELPER_TABLE_SID AS new_udc6_code
-
-
-FROM STAG_RETURN_RESERVE A
-inner join #ITEM  B 
-           ON A.ITEM_ID=B.ITEM_ID
-inner join #COMPANY  C 
-           ON A.BUSINESS_UNIT=C.BUSINESS_UNIT
-inner join #COMPANY1  E 
-           ON A.GL_COMPANY=E.GL_COMPANY
-inner join #ITEM_NO  D 
-           ON A.ITEM_NO=D.ITEM_NO OR D.ITEM_NO IS NULL
-
-inner join #ITEM_NAME  F
-           ON A.ITEM_NAME=F.ITEM_NAME OR F.ITEM_NAME IS NULL
-
-LEFT JOIN  #COMPANY_NO  G 
-           ON A.COMPANY_NO=G.COMPANY_NO
-
-LEFT JOIN  BRAND_MASTER  BM
-           ON A.BRAND_ID=BM.BRAND_ID
-
-     left join HELPER_TABLE U1
-	          ON U1.DESCRIPTION=A.UDC1
-	   	      AND U1.LIST_NAME=&apos;RETURN_RESERVE_UDC1&apos;
-		left join HELPER_TABLE U2
-	          ON U2.DESCRIPTION=A.UDC2
-	   	      AND U2.LIST_NAME=&apos;RETURN_RESERVE_UDC2&apos;
-		left join HELPER_TABLE U3
-	          ON U3.DESCRIPTION=A.UDC3
-	   	      AND U3.LIST_NAME=&apos;RETURN_RESERVE_UDC3&apos;
-		left join HELPER_TABLE U4
-	          ON U4.DESCRIPTION=A.UDC4
-	   	      AND U4.LIST_NAME=&apos;RETURN_RESERVE_UDC4&apos;
-		left join HELPER_TABLE U5
-	          ON U5.DESCRIPTION=A.UDC5
-	   	      AND U5.LIST_NAME=&apos;RETURN_RESERVE_UDC5&apos;
-		left join HELPER_TABLE U6
-	          ON U6.DESCRIPTION=A.UDC6
-	   	      AND U6.LIST_NAME=&apos;RETURN_RESERVE_UDC6&apos;
-
+SELECT A.RETURN_RESERVE_INTF_ID,
+       A.&quot;YEAR&quot;,
+       A.&quot;MONTH&quot;,
+       A.BRAND_ID,
+       A.BRAND_NAME,
+       A.ITEM_ID,
+       A.ITEM_NO,
+       A.ITEM_NAME,
+       A.UNITS,
+       A.AMOUNT,
+       A.COUNTRY,
+       A.BUSINESS_UNIT,
+       A.GL_COMPANY,
+       A.COMPANY_NO,
+       A.DIVISION,
+       A.COST_CENTER,
+       A.ACCOUNT,
+       A.PROJECT,
+       A.FUTURE1,
+       A.FUTURE2,
+       A.UDC1,
+       A.UDC2,
+       A.UDC3,
+       A.UDC4,
+       A.UDC5,
+       A.UDC6,
+       A.ADD_CHG_DEL_INDICATOR,
+       A.CREATED_BY,
+       A.CREATED_DATE,
+       A.MODIFIED_BY,
+       A.MODIFIED_DATE,
+       A.BATCH_ID,
+       A.SOURCE,
+       B.ITEM_MASTER_SID,
+       C.COMPANY_MASTER_SID AS BUSINESS_UNIT_COMPANY_MASTER_SID,
+       C.COMPANY_NAME       AS BUSINESS_UNIT_COMPANY_NAME,
+       E.COMPANY_MASTER_SID AS GL_COMPANY_COMPANY_MASTER_SID,
+       E.COMPANY_NAME       AS GL_COMPANY_COMPANY_NAME
+       --,D.ITEM_MASTER_SID
+       --,F.ITEM_MASTER_SID
+       ,
+       G.COMPANY_ID         AS NEW_COMPANY_ID,
+       G.COMPANY_NAME       AS NEW_COMPANY_NAME,
+       BM.BRAND_MASTER_SID,
+       U1.HELPER_TABLE_SID  AS new_udc1_code,
+       U2.HELPER_TABLE_SID  AS new_udc2_code,
+       U3.HELPER_TABLE_SID  AS new_udc3_code,
+       U4.HELPER_TABLE_SID  AS new_udc4_code,
+       U5.HELPER_TABLE_SID  AS new_udc5_code,
+       U6.HELPER_TABLE_SID  AS new_udc6_code
+FROM   STAG_RETURN_RESERVE A
+       INNER JOIN #ITEM B
+               ON A.ITEM_ID = B.ITEM_ID
+       INNER JOIN #COMPANY C
+               ON A.BUSINESS_UNIT = C.BUSINESS_UNIT
+       INNER JOIN #COMPANY1 E
+               ON A.GL_COMPANY = E.GL_COMPANY
+       LEFT JOIN #COMPANY_NO G
+              ON A.COMPANY_NO = G.COMPANY_NO
+       LEFT JOIN BRAND_MASTER BM
+              ON A.BRAND_ID = BM.BRAND_ID
+       LEFT JOIN HELPER_TABLE U1
+              ON U1.DESCRIPTION = A.UDC1
+                 AND U1.LIST_NAME = &apos;RETURN_RESERVE_UDC1&apos;
+       LEFT JOIN HELPER_TABLE U2
+              ON U2.DESCRIPTION = A.UDC2
+                 AND U2.LIST_NAME = &apos;RETURN_RESERVE_UDC2&apos;
+       LEFT JOIN HELPER_TABLE U3
+              ON U3.DESCRIPTION = A.UDC3
+                 AND U3.LIST_NAME = &apos;RETURN_RESERVE_UDC3&apos;
+       LEFT JOIN HELPER_TABLE U4
+              ON U4.DESCRIPTION = A.UDC4
+                 AND U4.LIST_NAME = &apos;RETURN_RESERVE_UDC4&apos;
+       LEFT JOIN HELPER_TABLE U5
+              ON U5.DESCRIPTION = A.UDC5
+                 AND U5.LIST_NAME = &apos;RETURN_RESERVE_UDC5&apos;
+       LEFT JOIN HELPER_TABLE U6
+              ON U6.DESCRIPTION = A.UDC6
+                 AND U6.LIST_NAME = &apos;RETURN_RESERVE_UDC6&apos;
+WHERE  EXISTS (SELECT 1
+               FROM   #ITEM_NAME F
+               WHERE  A.ITEM_NAME = F.ITEM_NAME
+                       OR F.ITEM_NAME IS NULL)
+       AND EXISTS (SELECT 1
+                   FROM   #ITEM_NO D
+                   WHERE  A.ITEM_NO = D.ITEM_NO
+                           OR D.ITEM_NO IS NULL)
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -4677,6 +4827,12 @@ LEFT JOIN  BRAND_MASTER  BM
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>

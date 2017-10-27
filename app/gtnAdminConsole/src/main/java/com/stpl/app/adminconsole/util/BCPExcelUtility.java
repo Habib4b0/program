@@ -38,11 +38,9 @@ public class BCPExcelUtility {
     public static String excelExport_bcpUtility(String moduleName, String[] header, String query, String outputFilePath) {
         String os_name = System.getProperty("os.name");
         boolean isWindows = os_name.startsWith("Windows");
-        LOGGER.debug("os_name :" + os_name);
-//        Path dataPath = Paths.get("tableData.csv");
-//        File data = dataPath.toFile();
-        File data = new File(System.getProperty("java.io.stpl.excel.dir") + "tableData.csv");
-        System.out.println("Table data file path = " + data);
+        System.out.println("os_name :" + os_name);
+        Path dataPath = Paths.get("tableData.csv");
+        File data = dataPath.toFile();
         if (!data.exists()) {
             try {
                 data.createNewFile();
@@ -57,7 +55,7 @@ public class BCPExcelUtility {
             outputFilePath = "default.csv";
         }
         StandaloneParser credentials = StandaloneParser.getInstance();
-        LOGGER.debug("outputFilePath---" + outputFilePath);
+        System.out.println("outputFilePath---" + outputFilePath);
         Path path = Paths.get(outputFilePath);
         String timeStamp = new Timestamp(new Date().getTime()).toString().replace("-", "").replace(":", "").replace(" ", "").replace(".", "");
         moduleName = moduleName.replace(" ", "") + timeStamp;
@@ -84,9 +82,9 @@ public class BCPExcelUtility {
             Path headerPath = Paths.get(folderName + File.separator + "header.csv");
             File headerFile = headerPath.toFile();
 
-            FileOutputStream out = new FileOutputStream(headerFile);
-            out.write((Arrays.toString(header).replace("[", "").replace("]", "") + "\n").getBytes());
-            out.close();
+            try (FileOutputStream out = new FileOutputStream(headerFile)) {
+                out.write((Arrays.toString(header).replace("[", "").replace("]", "") + "\n").getBytes());
+            }
             headerFile.setExecutable(true, false);
             headerFile.setWritable(true, false);
             headerFile.setReadable(true, false);
@@ -95,7 +93,7 @@ public class BCPExcelUtility {
             if (isWindows) {
                 String command = "cmd.exe /c bcp \"[$QUERY]\" queryout [$OUT_PATH] -c -d [$DATABASE] -t , -S [$SERVER] -U [$USER] -P \"[$PASSWORD]\" > log.log";
                 command = command.replace("[$QUERY]", query);
-                command = command.replace("[$OUT_PATH]", data.toString());
+                command = command.replace("[$OUT_PATH]", dataPath.toString());
                 command = command.replace("[$DATABASE]", credentials.getSchema());
                 command = command.replace("[$SERVER]", credentials.getServer());
                 command = command.replace("[$USER]", credentials.getUser());
@@ -105,11 +103,10 @@ public class BCPExcelUtility {
                 
             } else {
                 StringBuilder strb = new StringBuilder();
-                strb.append(System.getProperty("bcp.location"));
-                strb.append(" ");
+                strb.append("bcp ");
                 strb.append("\"").append(query).append("\"");
                 strb.append(" queryout ");
-                strb.append(data.toString());
+                strb.append(dataPath.toString());
                 strb.append(" -c ");
                 strb.append("-d ");
                 strb.append(credentials.getSchema());
@@ -134,11 +131,10 @@ public class BCPExcelUtility {
                 builder = new ProcessBuilder(shellFile.getAbsolutePath());
                 builder.directory(dir);
                 exec = builder.start();
-                LOGGER.debug("BCP command :" + builder.command());
+                System.out.println("BCP command :" + builder.command());
             }
-            int errors = exec.waitFor();
+            int errors =exec.waitFor();
             System.out.println("BCP process completed : with errors :" + errors);
-            LOGGER.debug("BCP process completed : with errors :" + errors);
             Path headerFile2 = Paths.get("header.csv");
             List<String> val = new ArrayList();
             if (os_name.startsWith("Windows")) {
@@ -148,7 +144,7 @@ public class BCPExcelUtility {
                 val.add("/b");
                 val.add(headerPath.toString());
                 val.add("+");
-                val.add(data.toString());
+                val.add(dataPath.toString());
                 val.add(path.toString());
                 if (builder == null) {
                     builder = new ProcessBuilder(val);
@@ -160,7 +156,7 @@ public class BCPExcelUtility {
                 StringBuilder strb = new StringBuilder();
                 strb.append("cat ");
                 strb.append(headerFile2.toString()).append(" ");
-                strb.append(data.toString());
+                strb.append(dataPath.toString());
                 strb.append(" > ");
                 strb.append(path.toString());
 
@@ -178,8 +174,7 @@ public class BCPExcelUtility {
             }
             System.out.println("Concat Command :" + builder.command());
              errors = builder.start().waitFor();
-            System.out.println("\"Concat process completed : with errors :" + errors);
-            LOGGER.debug("Concat process completed : with errors :" + errors);
+            System.out.println("Concat process completed : with errors :" + errors);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -188,9 +183,8 @@ public class BCPExcelUtility {
     
     /**
      * This method will return decrypted password
-     *
      * @param secret
-     * @return
+     * @return decrypted value
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
      * @throws InvalidKeyException

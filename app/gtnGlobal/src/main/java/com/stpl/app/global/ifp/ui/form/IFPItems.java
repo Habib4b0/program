@@ -197,7 +197,7 @@ public class IFPItems extends CustomComponent {
     /**
      * The ifp item list.
      */
-    private final List<IFPItemDTO> ifpItemList = new ArrayList<IFPItemDTO>();
+    private final List<IFPItemDTO> ifpItemList = new ArrayList<>();
 
     /**
      * The field mass.
@@ -211,9 +211,9 @@ public class IFPItems extends CustomComponent {
 
     TempItemCriteria tempItemCriteria = new TempItemCriteria();
 
-    private BeanItemContainer<IFPItemDTO> saveContainer = new BeanItemContainer<IFPItemDTO>(IFPItemDTO.class);
+    private BeanItemContainer<IFPItemDTO> saveContainer = new BeanItemContainer<>(IFPItemDTO.class);
 
-    private final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
 CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     CommonUIUtils commonUiUtil = new CommonUIUtils();
     
@@ -222,12 +222,13 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     /**
      * The map.
      */
-    private final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
+    private final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
-    private final BeanItemContainer<IFPItemDTO> emptyCont = new BeanItemContainer<IFPItemDTO>(IFPItemDTO.class);
+    private final BeanItemContainer<IFPItemDTO> emptyCont = new BeanItemContainer<>(IFPItemDTO.class);
     
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png"); 
     
+    private final IfpUtils ifpUtils = new IfpUtils();
     public IFPItems(final ErrorfulFieldGroup binder, final SessionDTO sessionDTO)  {
         this.binder = binder;
         this.sessionDTO = sessionDTO;
@@ -269,7 +270,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
         LOGGER.debug("Ending configurePermission");
     }
 
-    private void init() throws SystemException {
+    private void init() {
         
         record.addItems("Current", "History", "Future");
         record.addValueChangeListener(new Property.ValueChangeListener() {
@@ -292,17 +293,13 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
         excel.setIconAlternateText("Excel export");
         excel.setHtmlContentAllowed(true);
         
-        if (mode.equals(ConstantsUtils.VIEW_BTN)) {
+        if (mode.equalsIgnoreCase(ConstantsUtils.VIEW_BTN)) {
 
             hLayout.setVisible(false);
                     viewLayout.addComponent(hLayout2, 0);
                     viewLayout.addComponent(pageCreater,2);
             addResultsTable();
-
         } else {
-            if(mode.equals("Add")){
-                record.setReadOnly(true);
-            }
             viewLayout.setVisible(false);
             addItemDetailsTable();
             configureFields();
@@ -641,8 +638,8 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.ITEMS,false);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_FAMILY_PLAN, ConstantsUtils.ITEMS);
-            Object[] obj = IfpUtils.ITEM_DETAILS_COL;
-            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
+            Object[] obj = ifpUtils.itemDetailsColumn;
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
             itemDetailsTable.setContainerDataSource(itemDetlsLzyContnr);
              if(tableResultCustom.getObjResult().length > 0){
             itemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -654,7 +651,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             itemDetailsTable.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, false);
             itemDetailsTable.setFilterBarVisible(true);
             itemDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-            itemDetailsTable.setTableFieldFactory(new TableGenerator(saveContainer));
+            itemDetailsTable.setTableFieldFactory(new TableGenerator(saveContainer,itemDetailsTable,sessionDTO));
             itemDetailsTable.setEditable(true);
             itemDetailsTable.setPageLength(NumericConstants.SEVEN);
             itemDetailsTable.sinkItemPerPageWithPageLength(false);
@@ -755,7 +752,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
     }
 
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         massDate.setDescription(ConstantsUtils.DATE_DES);
 
         map.put(ConstantsUtils.IFP_STARTDATE, ConstantsUtils.IFP_START_DATE);
@@ -946,7 +943,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }
@@ -966,7 +963,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     private static Object[] getCollapsibleColumns480Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -985,7 +982,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     private static String[] getCollapsibleColumns600Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -995,7 +992,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     private static String[] getCollapsibleColumnsDefault1515Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1007,7 +1004,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     private static Object[] getCollapsibleColumns978Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1044,7 +1041,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.ITEMS,false);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_FAMILY_PLAN, ConstantsUtils.ITEMS);
-            Object[] obj = IfpUtils.ITEM_DETAILS_COL;
+            Object[] obj = ifpUtils.itemDetailsColumn;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
             itemDetailsTable.setContainerDataSource(emptyCont);
                 if(tableResultCustom.getObjResult().length > 0){
@@ -1198,7 +1195,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.ITEMS,false);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_FAMILY_PLAN, ConstantsUtils.ITEMS);
-            Object[] obj = IfpUtils.ITEM_DETAILS_COL;
+            Object[] obj = ifpUtils.itemDetailsColumn;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
             itemDetailsTable.setContainerDataSource(itemDetlsLzyContnr);
                 if(tableResultCustom.getObjResult().length > 0){
@@ -1236,7 +1233,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.ITEMS);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_FAMILY_PLAN, ConstantsUtils.ITEMS);
-            Object[] obj = IfpUtils.ITEM_DETAILS_COL_VIEW;            
+            Object[] obj = ifpUtils.itemDetailsColumnView;            
             viewItemContainer = new DetailsViewContainer(binder, viewResultsTable,sessionDTO);
             itemDetlsLzyContnr = new LazyBeanItemContainer(IFPItemDTO.class, viewItemContainer, tempItemCriteria);            
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM,"view");
@@ -1248,6 +1245,11 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             viewResultsTable.setSizeFull();
             viewResultsTable.setWidth("99%");
             viewResultsTable.setImmediate(true);
+            viewResultsTable.addStyleName(ConstantsUtils.FILTER_BAR);
+            viewResultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
+            viewResultsTable.setFilterBarVisible(true);
+            viewResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
+            viewResultsTable.setFilterGenerator(new IFPFilterGenerator());
             ResponsiveUtils.getResponsiveControls(viewResultsTable.createControls(), pageCreater);
             pageCreater.addComponent(excel);
             viewResultsTable.setErrorHandler(new ErrorHandler() {
@@ -1293,11 +1295,11 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
         LOGGER.debug("Ending excelExportLogic");
         }
     
-    private void createWorkSheet() throws PortalException, SystemException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void createWorkSheet() throws PortalException, SystemException,  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         int recordCount =0;
         if(mode.equals(ConstantsUtils.VIEW_BTN))        {
-            recordCount = ifpLogic.ifpViewCount(String.valueOf(record.getValue()),false);
+            recordCount = ifpLogic.ifpViewCount(String.valueOf(record.getValue()),false,null);
             ExcelExportforBB.createWorkSheet(viewResultsTable.getColumnHeaders(), recordCount, this, getUI(), ConstantsUtils.ITEMS);
         }else{
             recordCount = ifpLogic.getResultTableCount(null);
@@ -1306,17 +1308,17 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
         LOGGER.debug("Ending createWorkSheet");
         }
     
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws PortalException, SystemException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  SystemException {
         LOGGER.debug("Entering createWorkSheetContent");
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ExcelExportUtil.DATE_FORMAT, Locale.getDefault());
         if (itemDetailsTable.size() > 0) {
             IFPItemDTO resultList;
-            final List<OrderByColumn> columns = new ArrayList<OrderByColumn>();
+            final List<OrderByColumn> columns = new ArrayList<>();
             List<IFPItemDTO> items = null;
             if (mode.equals(ConstantsUtils.VIEW_BTN)) {
-                items = ifpLogic.getViewTableResult(start, end, binder, columns,String.valueOf(record.getValue()));
+                items = ifpLogic.getViewTableResult(start, end, binder, columns,String.valueOf(record.getValue()),null);
             } else {
-                List<Object[]> returnList = ifpLogic.getResultTableResult(start, end, binder, columns, null,false,String.valueOf(record.getValue()));
+                List<Object[]> returnList = ifpLogic.getResultTableResult(start, end, columns, null,false,String.valueOf(record.getValue()));
                 items = ifpLogic.getCoustomizedResult(returnList, binder, sessionDTO);
             }
             for (int rowCount = 0; rowCount < items.size(); rowCount++) {

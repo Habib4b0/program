@@ -49,6 +49,7 @@ public class WfMailConfigWrapper implements WfMailConfig,
         attributes.put("portNumber", getPortNumber());
         attributes.put("modifiedDate", getModifiedDate());
         attributes.put("inboundStatus", getInboundStatus());
+        attributes.put("testMailAddress", getTestMailAddress());
 
         return attributes;
     }
@@ -119,6 +120,12 @@ public class WfMailConfigWrapper implements WfMailConfig,
 
         if (inboundStatus != null) {
             setInboundStatus(inboundStatus);
+        }
+
+        String testMailAddress = (String) attributes.get("testMailAddress");
+
+        if (testMailAddress != null) {
+            setTestMailAddress(testMailAddress);
         }
     }
 
@@ -360,6 +367,26 @@ public class WfMailConfigWrapper implements WfMailConfig,
     @Override
     public void setInboundStatus(java.lang.String inboundStatus) {
         _wfMailConfig.setInboundStatus(inboundStatus);
+    }
+
+    /**
+    * Returns the test mail address of this wf mail config.
+    *
+    * @return the test mail address of this wf mail config
+    */
+    @Override
+    public java.lang.String getTestMailAddress() {
+        return _wfMailConfig.getTestMailAddress();
+    }
+
+    /**
+    * Sets the test mail address of this wf mail config.
+    *
+    * @param testMailAddress the test mail address of this wf mail config
+    */
+    @Override
+    public void setTestMailAddress(java.lang.String testMailAddress) {
+        _wfMailConfig.setTestMailAddress(testMailAddress);
     }
 
     @Override

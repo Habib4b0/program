@@ -33,7 +33,7 @@ class RSSearchDTO implements BeanDAO {
     }
 
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
-        List<RsIfpDto> resultList = new ArrayList<RsIfpDto>();
+        List<RsIfpDto> resultList = new ArrayList<>();
         return resultList;
     }
 }

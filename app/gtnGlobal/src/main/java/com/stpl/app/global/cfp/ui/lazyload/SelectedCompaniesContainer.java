@@ -13,6 +13,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.BeanDAO;
@@ -77,7 +78,7 @@ public class SelectedCompaniesContainer implements BeanDAO<CompanyMasterDTO> {
         try {
             LOGGER.debug("Entering SelCompanyAddition find method :");
             if (dto == null) {
-                    return null;
+                    return Collections.emptyList();
             } else {
                 if (dto.getSearchFlag()) {
                 return CFPSearchLogic.getSelectedCompaniesDeatils(dto, startIndex,offset,  list,searchCriteria,"search");
@@ -86,6 +87,6 @@ public class SelectedCompaniesContainer implements BeanDAO<CompanyMasterDTO> {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 }

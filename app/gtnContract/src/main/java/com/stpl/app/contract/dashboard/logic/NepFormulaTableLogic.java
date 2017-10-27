@@ -45,12 +45,8 @@ public class NepFormulaTableLogic extends PageTableLogic{
 
     @Override
     public List loadData(int start, int offset) {
-        List<NepFormulaLookUpDTO> resultList=new ArrayList<NepFormulaLookUpDTO>();
-        try {
-            resultList = (List<NepFormulaLookUpDTO>) ifpLogic.loadNsfResults(binder,start,offset,this.getSortByColumns(),this.getFilters());
-        } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(NepFormulaTableLogic.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        List<NepFormulaLookUpDTO> resultList=new ArrayList<>();
+        resultList = (List<NepFormulaLookUpDTO>) ifpLogic.loadNsfResults(binder,start,offset,this.getSortByColumns(),this.getFilters());
         return resultList;
     }
 

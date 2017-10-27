@@ -44,7 +44,7 @@ public class MedicaidQueryUtils {
     public List loadMedicaidResultsTable(int projMasterId, int brandSid, String queryName, String ndc9Level, int therapeuticSid) {
         List medicaidList = new ArrayList();
         try {
-            Map<String, Object> input = new HashMap<String, Object>();
+            Map<String, Object> input = new HashMap<>();
             ndc9Level = "'" + ndc9Level + "'";
             input.put("?PID", projMasterId);
             if (brandSid == 0) {
@@ -57,7 +57,7 @@ public class MedicaidQueryUtils {
             } else {
                 input.put("?TID", therapeuticSid);
             }
-            input.put("?NDC9", ndc9Level);
+            input.put(Constant.NDC_NINE_QUESTION, ndc9Level);
 
             String customSql = CustomSQLUtil
                     .get(queryName);
@@ -72,7 +72,7 @@ public class MedicaidQueryUtils {
     }
 
     public List loadMedicaidResultsChild(SessionDTO session, String parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         List medicaidList;
         String customSql;
         String priceType = StringUtils.EMPTY;
@@ -87,7 +87,7 @@ public class MedicaidQueryUtils {
         }
 
         input.put("?PID", session.getProjectionId());
-        input.put("?NDC9", "'" + parentSid + "'");
+        input.put(Constant.NDC_NINE_QUESTION, "'" + parentSid + "'");
         input.put("?PT", priceType);
 
         if (percentFlag) {
@@ -106,7 +106,7 @@ public class MedicaidQueryUtils {
     }
 
     public void saveNotes(Map<String, String> editedValues, SessionDTO  session, String ndc9, String pricetype) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
@@ -122,7 +122,7 @@ public class MedicaidQueryUtils {
 
                 int year = Integer.parseInt(yearValue);
                 int quarter = Integer.parseInt(qValue);
-                Double finalvalue = 0.0;
+                Double finalvalue;
 
                 if (rowId.equals(Constant.ADJUSTMENT)) {
                     formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
@@ -132,7 +132,7 @@ public class MedicaidQueryUtils {
                         Double value = Double.valueOf(formatedValue);
                         finalvalue = value;
                         if (value == 0) {
-                            queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
+                            queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT =").append(Constant.NULL_CAPS);
                         } else {
                             queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
                         }
@@ -145,15 +145,15 @@ public class MedicaidQueryUtils {
 
                 }
 
-                queryBuilder1.append(" where NA_PROJ_DETAILS_SID ");
+                queryBuilder1.append(" where NA_PROJ_DETAILS_SID  ");
 
                 queryBuilder1.append("  in ( ");
 
-                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
+                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID =" + session.getProjectionId());
 
-                queryBuilder1.append("  AND NDC9='" + ndc9.trim());
+                queryBuilder1.append("  AND NDC9 = '" + ndc9.trim());
 
-                queryBuilder1.append("') AND PRICE_TYPE='" + pricetype + "'");
+                queryBuilder1.append("') AND PRICE_TYPE ='" + pricetype + "'");
 
                 queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
 
@@ -168,7 +168,7 @@ public class MedicaidQueryUtils {
     }
 
     public String[] getTextValue(String propertyId,SessionDTO session, int itemSid, String pricetype) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
 
         queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
@@ -181,7 +181,7 @@ public class MedicaidQueryUtils {
 
         queryBuilder1.append(" SELECT ADJUSTMENT,NOTES from ST_MEDICAID_URA_PROJ");
 
-        queryBuilder1.append(" where NA_PROJ_DETAILS_SID ");
+        queryBuilder1.append(" where NA_PROJ_DETAILS_SID  ");
 
         queryBuilder1.append("  in ( ");
 
@@ -216,7 +216,7 @@ public class MedicaidQueryUtils {
     }
 
     public void saveBaseYearNotes(Map<String, String> editedValues, SessionDTO session, String ndc9, String pricetype) throws PortalException, SystemException{
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
@@ -226,7 +226,7 @@ public class MedicaidQueryUtils {
 
                 String tempValue[] = values.split("~");
                 String rowId = tempValue[1];
-                Double finalvalue = 0.0;
+                Double finalvalue;
 
                 if (rowId.equals(Constant.ADJUSTMENT)) {
                     formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
@@ -235,21 +235,21 @@ public class MedicaidQueryUtils {
                     if (StringUtils.isNotBlank(formatedValue)) {
                         Double value = Double.valueOf(formatedValue);
                         finalvalue = value;
-                        queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET ALT_BASE_YEAR='").append(finalvalue).append("' ");
+                        queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
                     } else {
-                        queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET ALT_BASE_YEAR=").append(0);
+                        queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT=").append(0);
                     }
                 } else if (rowId.equals(Constant.NOTES)) {
 
-                    queryBuilder1.append("UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET NOTES='").append(formatedValue).append("' ");
+                    queryBuilder1.append("UPDATE dbo.ST_MEDICAID_URA_PROJ SET NOTES='").append(formatedValue).append("' ");
 
                 }
 
                 queryBuilder1.append(" where NA_PROJ_DETAILS_SID ");
 
-                queryBuilder1.append("  in ( ");
+                queryBuilder1.append("  in  ( ");
 
-                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
+                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER  IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
 
                 queryBuilder1.append("  AND NDC9='" + ndc9.trim());
 
@@ -275,9 +275,9 @@ public class MedicaidQueryUtils {
         } else {
             queryName = Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidWorkSheetForView" : "getMedicaidWorkSheet";
         }
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
-        input.put("?NDC9", ndc9);
+        input.put(Constant.NDC_NINE_QUESTION, ndc9);
         String customSql = CustomSQLUtil.get(queryName);
 
         for (String key : input.keySet()) {
@@ -291,7 +291,7 @@ public class MedicaidQueryUtils {
 
     public List loadMedicaidParent(int projMasterId, int brandSid, String ndc9LevelFilter, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws PortalException, SystemException {
         List medicaidList;
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
         if (brandSid == 0) {
             input.put("?BID", Constant.NULL_CAPS);
@@ -329,10 +329,10 @@ public class MedicaidQueryUtils {
     }
 
     public void updateAdjustment(String ndc9, String queryName,SessionDTO session) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
-        Map<String, Object> input = new HashMap<String, Object>();
+        List<StringBuilder> queryList = new ArrayList<>();
+        Map<String, Object> input = new HashMap<>();
         ndc9 = "'" + ndc9 + "'";
-        input.put("?NDC9", ndc9);
+        input.put(Constant.NDC_NINE_QUESTION, ndc9);
 
         String customSql = CustomSQLUtil.get(queryName);
 
@@ -345,7 +345,7 @@ public class MedicaidQueryUtils {
 
     public List loadMedicaidDdlb(int projMasterId, int brandSid, int therapeuticSid, String filterText, int start, int end) throws PortalException, SystemException {
         List medicaidList;
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
         if (brandSid == 0) {
             input.put("?BID", Constant.NULL_CAPS);
@@ -368,9 +368,9 @@ public class MedicaidQueryUtils {
         medicaidList = (List) DAO.executeSelectQuery(customSql);
         return medicaidList;
     }
-    
-    public void saveBaseYear(Map<String, String> editedValues, SessionDTO session, String ndc9) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+
+    public void saveBaseYear(Map<String, String> editedValues, SessionDTO session, String ndc9,String priceType) throws PortalException, SystemException {
+        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
@@ -378,7 +378,7 @@ public class MedicaidQueryUtils {
                 String formatedValue = editedValues.get(values);
                 String tempValue[] = values.split("~");
                 String rowId = tempValue[1];
-                Double finalvalue = 0.0;
+                Double finalvalue;
 
                 if (rowId.equals(Constant.ADJUSTMENT)) {
                     formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
@@ -390,7 +390,7 @@ public class MedicaidQueryUtils {
                         queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET ALT_BASE_YEAR='").append(finalvalue).append("' ");
                     } else {
                         queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET ALT_BASE_YEAR=").append(0);
-                    }
+}
                 } else if (rowId.equals(Constant.NOTES)) {
 
                     queryBuilder1.append("UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET NOTES='").append(formatedValue).append("' ");
@@ -399,13 +399,13 @@ public class MedicaidQueryUtils {
 
                 queryBuilder1.append(" where NA_PROJ_DETAILS_SID ");
 
-                queryBuilder1.append("  in ( ");
+                queryBuilder1.append("  in  ( ");
 
-                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
+                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID =  IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID= " + session.getProjectionId());
 
                 queryBuilder1.append("  AND NDC9='" + ndc9.trim());
 
-                queryBuilder1.append("') AND PRICE_TYPE='" + tempValue[2] + "'");
+                queryBuilder1.append("') AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[2] : priceType) + "'");
 
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);

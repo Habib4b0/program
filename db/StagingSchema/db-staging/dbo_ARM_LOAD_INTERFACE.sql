@@ -1,0 +1,70 @@
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_LOAD_INTERFACE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+BEGIN 
+
+CREATE TABLE ARM_LOAD_INTERFACE
+  (
+     GL_COMPANY_MASTER_ID   VARCHAR(200),
+     BUSINESS_UNIT          VARCHAR(200),
+     DEDUCTION_CATEGORY     VARCHAR(200),
+     DEDUCTION_TYPE         VARCHAR(200),
+     DEDUCTION_PROGRAM_TYPE VARCHAR(200),
+     METHODOLOGY            VARCHAR(200),
+     ADJUSTMENT_TYPE        VARCHAR(200),
+     REDEMPTION_PERIOD      VARCHAR(200),
+     GL_DATE                VARCHAR(200),
+     ACCOUNT                VARCHAR(200),
+     DEDUCTION_RATE         VARCHAR(200),
+     DEDUCTION_AMOUNT       VARCHAR(200),
+     CONFIGURATION_TYPE     VARCHAR(200),
+     ADJUSTMENT_LEVEL       VARCHAR(200),
+     ACCOUNT_CATEGORY       VARCHAR(200),
+     ACCOUNT_TYPE           VARCHAR(200),
+     ACCOUNT_DESCRIPTION    VARCHAR(200),
+     COST_CENTER            VARCHAR(200),
+     PROJECT                VARCHAR(200),
+     FUTURE_1               VARCHAR(200),
+     FUTURE_2               VARCHAR(200),
+     BALANCE_TYPE           VARCHAR(200),
+     [DATABASE]             VARCHAR(200),
+     DATA_ACCESS_SET        VARCHAR(200),
+     CHART_OF_ACCOUNTS      VARCHAR(200),
+     LEDGER                 VARCHAR(200),
+     CATEGORY               VARCHAR(200),
+     SOURCE                 VARCHAR(200),
+     CURRENCY               VARCHAR(200),
+     JOURNAL_NAME           VARCHAR(200),
+     JOURNAL_DESCRIPTION    VARCHAR(200),
+     REVERSE_JOURNAL        VARCHAR(200),
+     REVERSAL_PERIOD        VARCHAR(200),
+     LINE_DESCRIPTION       VARCHAR(200),
+     UDC_1                  VARCHAR(200),
+     UDC_2                  VARCHAR(200),
+     UDC_3                  VARCHAR(200),
+     UDC_4                  VARCHAR(200),
+     UDC_5                  VARCHAR(200),
+     UDC_6                  VARCHAR(200),
+     BRAND_NAME             VARCHAR(200),
+     SKU                    VARCHAR(200),
+     BRAND_ID               VARCHAR(200),
+     ITEM_ID                VARCHAR(200),
+     CONTRACT_ID            VARCHAR(200),
+     COMPANY_ID             VARCHAR(200),
+     DEDUCTION_ID           VARCHAR(200),
+     DEDUCTION_INCLUSION    VARCHAR(200),
+     DEDUCTION_UDC_1        VARCHAR(200),
+     DEDUCTION_UDC_2        VARCHAR(200),
+     DEDUCTION_UDC_3        VARCHAR(200),
+     DEDUCTION_UDC_4        VARCHAR(200),
+     DEDUCTION_UDC_5        VARCHAR(200),
+     DEDUCTION_UDC_6        VARCHAR(200),
+     ACCOUNT_INDICATOR      VARCHAR(200),
+     CALCULATION_PERIOD     VARCHAR(200),
+     WORKFLOW_ID            VARCHAR(200)
+  )
+
+END
+
+GO

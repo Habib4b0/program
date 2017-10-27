@@ -238,7 +238,7 @@ public class ContractsDetailsDto implements Serializable {
     private String companyNo = StringUtils.EMPTY;
     private String companyName = StringUtils.EMPTY;
     private Map<String, List<ContractsDetailsDto>> relation = new HashMap();
-    private List<String> attachedList = new ArrayList<String>();
+    private List<String> attachedList = new ArrayList<>();
     private List<Object> removedRsList = new ArrayList<>();
     private String searchSessionId = StringUtils.EMPTY;
 
@@ -270,7 +270,7 @@ public class ContractsDetailsDto implements Serializable {
         this.contractId = memberId;
         this.contractNo = memberNo;
         this.childrenAllowed = childrenAllowed;
-        this.sub = new ArrayList<ContractsDetailsDto>();
+        this.sub = new ArrayList<>();
     }
 
     /**

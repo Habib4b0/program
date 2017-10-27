@@ -23,7 +23,7 @@ public class AssumptionDAOImpl implements AssumptionDAO{
 	 */
     @Override
     public List<?> getCIDTResults() {
-        return new ArrayList<Object>();
+        return new ArrayList<>();
     }
 
     /**
@@ -39,7 +39,7 @@ public class AssumptionDAOImpl implements AssumptionDAO{
      */
     @Override
     public List<?>  getPVResults() {
-        return new ArrayList<Object>();
+        return new ArrayList<>();
     }
 
     /**
@@ -49,7 +49,7 @@ public class AssumptionDAOImpl implements AssumptionDAO{
      */
     @Override
     public void saveNewLinePVS(AssumptionPVDTO parent) {
-        
+        return;
     }
 
     /**
@@ -59,7 +59,7 @@ public class AssumptionDAOImpl implements AssumptionDAO{
      */
     @Override
     public void deleteLinePVS(AssumptionPVDTO child) {
-        
+        return;
     }
     
 }

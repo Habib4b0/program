@@ -45,24 +45,15 @@ public class ForecastMainView extends VerticalLayout implements View {
     /**
      * Binder for DataSelection.
      */
-    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<DataSelectionDTO>(dataSelectionDTO));
+    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
 
     /**
      * Default constructor.
      */
     public ForecastMainView() throws Exception {
-//        String screenName = (String)VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME); // commented for GAL-9838
-//        LOGGER.debug(" Screen Name --> "+screenName);
-//        if (screenName.equals(getCommercialConstant())) {
-//            HelperListUtil.getInstance().loadValuesWithListName(getCommercialConstant());
-//            screenName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED;
-//        } else if (screenName.equals(getGovernmentConstant())) {
-//            screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
-//        } else if (screenName.equals("Returns")) {
-//             screenName = CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS;       
-//        } 
-//        addComponent(new DataSelectionForm(dataSelectionBinder, dataSelectionDTO,screenName));
-
+        /**
+         * CONSTRUCTOR.
+         */
     }
 
     /**
@@ -73,7 +64,7 @@ public class ForecastMainView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         dataSelectionDTO = new DataSelectionDTO();
-        dataSelectionBinder = new CustomFieldGroup(new BeanItem<DataSelectionDTO>(dataSelectionDTO));
+        dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
         this.removeAllComponents(); // Added for GAL-9838
         String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
         LOGGER.debug(" Screen Name --> " + screenName);

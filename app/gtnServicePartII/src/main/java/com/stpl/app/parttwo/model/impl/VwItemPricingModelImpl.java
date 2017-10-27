@@ -59,9 +59,10 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
             { "ITEM_NO", Types.VARCHAR },
             { "ITEM_PRICING_SID", Types.INTEGER },
             { "PRICING_CODE_STATUS", Types.VARCHAR },
-            { "PRICING_CODE_QUALIFIER_NAME", Types.VARCHAR }
+            { "PRICING_CODE_QUALIFIER_NAME", Types.VARCHAR },
+            { "ITEM_PRICE_PRECISION", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table VW_ITEM_PRICING (PRICING_CODE_QUALIFIER VARCHAR(75) null,ITEM_PRICE VARCHAR(75) null,END_DATE DATE null,ITEM_ID VARCHAR(75) null,MODIFIED_DATE DATE null,ENTITY_CODE VARCHAR(75) null,START_DATE DATE null,CREATED_DATE DATE null,CREATED_BY VARCHAR(75) null,SOURCE VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ADD_CHG_DEL_INDICATOR VARCHAR(75) null,ITEM_NAME VARCHAR(75) null,ITEM_UOM VARCHAR(75) null,MODIFIED_BY VARCHAR(75) null,ITEM_NO VARCHAR(75) null,ITEM_PRICING_SID INTEGER not null primary key,PRICING_CODE_STATUS VARCHAR(75) null,PRICING_CODE_QUALIFIER_NAME VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table VW_ITEM_PRICING (PRICING_CODE_QUALIFIER VARCHAR(75) null,ITEM_PRICE VARCHAR(75) null,END_DATE DATE null,ITEM_ID VARCHAR(75) null,MODIFIED_DATE DATE null,ENTITY_CODE VARCHAR(75) null,START_DATE DATE null,CREATED_DATE DATE null,CREATED_BY VARCHAR(75) null,SOURCE VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ADD_CHG_DEL_INDICATOR VARCHAR(75) null,ITEM_NAME VARCHAR(75) null,ITEM_UOM VARCHAR(75) null,MODIFIED_BY VARCHAR(75) null,ITEM_NO VARCHAR(75) null,ITEM_PRICING_SID INTEGER not null primary key,PRICING_CODE_STATUS VARCHAR(75) null,PRICING_CODE_QUALIFIER_NAME VARCHAR(75) null,ITEM_PRICE_PRECISION INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table VW_ITEM_PRICING";
     public static final String ORDER_BY_JPQL = " ORDER BY vwItemPricing.itemPricingSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY VW_ITEM_PRICING.ITEM_PRICING_SID ASC";
@@ -100,6 +101,7 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
     private int _itemPricingSid;
     private String _pricingCodeStatus;
     private String _pricingCodeQualifierName;
+    private int _itemPriceprecision;
     private VwItemPricing _escapedModel;
 
     public VwItemPricingModelImpl() {
@@ -158,6 +160,7 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
         attributes.put("itemPricingSid", getItemPricingSid());
         attributes.put("pricingCodeStatus", getPricingCodeStatus());
         attributes.put("pricingCodeQualifierName", getPricingCodeQualifierName());
+        attributes.put("itemPriceprecision", getItemPriceprecision());
 
         return attributes;
     }
@@ -279,6 +282,13 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
 
         if (pricingCodeQualifierName != null) {
             setPricingCodeQualifierName(pricingCodeQualifierName);
+        }
+
+        Integer itemPriceprecision = (Integer) attributes.get(
+                "itemPriceprecision");
+
+        if (itemPriceprecision != null) {
+            setItemPriceprecision(itemPriceprecision);
         }
     }
 
@@ -529,6 +539,16 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
     }
 
     @Override
+    public int getItemPriceprecision() {
+        return _itemPriceprecision;
+    }
+
+    @Override
+    public void setItemPriceprecision(int itemPriceprecision) {
+        _itemPriceprecision = itemPriceprecision;
+    }
+
+    @Override
     public VwItemPricing toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (VwItemPricing) ProxyUtil.newProxyInstance(_classLoader,
@@ -561,6 +581,7 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
         vwItemPricingImpl.setItemPricingSid(getItemPricingSid());
         vwItemPricingImpl.setPricingCodeStatus(getPricingCodeStatus());
         vwItemPricingImpl.setPricingCodeQualifierName(getPricingCodeQualifierName());
+        vwItemPricingImpl.setItemPriceprecision(getItemPriceprecision());
 
         vwItemPricingImpl.resetOriginalValues();
 
@@ -762,12 +783,14 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
             vwItemPricingCacheModel.pricingCodeQualifierName = null;
         }
 
+        vwItemPricingCacheModel.itemPriceprecision = getItemPriceprecision();
+
         return vwItemPricingCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(39);
+        StringBundler sb = new StringBundler(41);
 
         sb.append("{pricingCodeQualifier=");
         sb.append(getPricingCodeQualifier());
@@ -807,6 +830,8 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
         sb.append(getPricingCodeStatus());
         sb.append(", pricingCodeQualifierName=");
         sb.append(getPricingCodeQualifierName());
+        sb.append(", itemPriceprecision=");
+        sb.append(getItemPriceprecision());
         sb.append("}");
 
         return sb.toString();
@@ -814,7 +839,7 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(61);
+        StringBundler sb = new StringBundler(64);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.parttwo.model.VwItemPricing");
@@ -895,6 +920,10 @@ public class VwItemPricingModelImpl extends BaseModelImpl<VwItemPricing>
         sb.append(
             "<column><column-name>pricingCodeQualifierName</column-name><column-value><![CDATA[");
         sb.append(getPricingCodeQualifierName());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>itemPriceprecision</column-name><column-value><![CDATA[");
+        sb.append(getItemPriceprecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

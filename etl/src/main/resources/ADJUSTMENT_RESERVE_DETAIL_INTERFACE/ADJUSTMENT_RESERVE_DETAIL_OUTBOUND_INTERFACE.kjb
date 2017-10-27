@@ -88,8 +88,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>924</xloc>
-      <yloc>460</yloc>
+      <xloc>994</xloc>
+      <yloc>442</yloc>
       </entry>
     <entry>
       <name>START</name>
@@ -243,7 +243,10 @@
       <name>ST_ADJUSTMENT_RESERVE_DETAILWHERE</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE ETL_CHECK_RECORD=1</sql>
+      <sql>DELETE FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE ETL_CHECK_RECORD=1
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -323,7 +326,7 @@
       <name>SQL 2 2 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update ST_ADJUSTMENT_GTN_DETAIL set created_date=getdate()</sql>
+      <sql>UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -333,7 +336,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>214</xloc>
-      <yloc>92</yloc>
+      <yloc>91</yloc>
       </entry>
     <entry>
       <name>SQL 2 2 2 2</name>
@@ -373,17 +376,26 @@ WHERE  A.etl_check_record = 1 </sql>
       <xloc>413</xloc>
       <yloc>226</yloc>
       </entry>
+    <entry>
+      <name>ST_ADJUSTMENT_RESERVE_DETAILWHERE 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>792</xloc>
+      <yloc>443</yloc>
+      </entry>
   </entries>
   <hops>
-    <hop>
-      <from>TEMP_RESERVE_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
     <hop>
       <from>AUDIT_RESERVE_ENTRY</from>
       <to>ARM_RESERVE_TEMP_TO_MASTER</to>
@@ -439,15 +451,6 @@ WHERE  A.etl_check_record = 1 </sql>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>RESERVE_VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>ARM_RESERVE_TEMP_TO_MASTER</from>
       <to>ARM_RESERVE_CHECK_EMPTY</to>
       <from_nr>0</from_nr>
@@ -479,7 +482,7 @@ WHERE  A.etl_check_record = 1 </sql>
       <to>SQL 2 2 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
     </hop>
@@ -488,7 +491,7 @@ WHERE  A.etl_check_record = 1 </sql>
       <to>AUDIT_RESERVE_ENTRY</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
@@ -497,7 +500,7 @@ WHERE  A.etl_check_record = 1 </sql>
       <to>AUDIT_RESERVE_ENTRY</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
     </hop>
@@ -526,6 +529,33 @@ WHERE  A.etl_check_record = 1 </sql>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>RESERVE_VALIDATION_FAIL_MAIL</from>
+      <to>ST_ADJUSTMENT_RESERVE_DETAILWHERE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TEMP_RESERVE_TABLE_TRUNCATION_FAIL</from>
+      <to>ST_ADJUSTMENT_RESERVE_DETAILWHERE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ST_ADJUSTMENT_RESERVE_DETAILWHERE 2</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

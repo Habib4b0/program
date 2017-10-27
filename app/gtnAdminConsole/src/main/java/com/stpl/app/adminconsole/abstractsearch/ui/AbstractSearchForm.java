@@ -251,7 +251,7 @@ public class AbstractSearchForm extends CustomComponent {
     AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<SearchResultsDTO> resultBean = new BeanItemContainer<>(SearchResultsDTO.class);
-    final Map<String, String> SecuritymoduleName = new HashMap<String, String>();
+    final Map<String, String> SecuritymoduleName = new HashMap<>();
     CommonUtils commonUtil = CommonUtils.getInstance();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private static final Logger LOGGER = Logger.getLogger(AbstractSearchForm.class);
@@ -267,6 +267,7 @@ public class AbstractSearchForm extends CustomComponent {
     public static final String NAME = ConstantsUtils.EMPTY;
     public static final String ERROR_MSG = "No Record has been selected.  Please select a Record and try again.";
     CommonUtil common = new CommonUtil();
+    private RelationBuilderLogic logic = new RelationBuilderLogic();
     /**
      * The ErrorLabel.
      */
@@ -280,7 +281,6 @@ public class AbstractSearchForm extends CustomComponent {
     private String searchCriteria = ConstantsUtils.EMPTY;
     CommonUtil commonUtilSecurity = new CommonUtil();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    private RelationBuilderLogic logic = new RelationBuilderLogic();
     /**
      * The Excel table.
      */
@@ -309,7 +309,7 @@ public class AbstractSearchForm extends CustomComponent {
      */
     public ErrorfulFieldGroup getBinder() {
         final SearchCriteriaDTO bean = new SearchCriteriaDTO();
-        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<SearchCriteriaDTO>(bean));
+        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -468,7 +468,7 @@ public class AbstractSearchForm extends CustomComponent {
         editBtn.setEnabled(true);
         copyBtn.setEnabled(true);
         deleteBtn.setEnabled(true);
-        List<Object> collapsedColumns = new ArrayList<Object>();
+        List<Object> collapsedColumns = new ArrayList<>();
         for (Object item : resultTable.getVisibleColumns()) {
             if (resultTable.isColumnCollapsed(item)) {
                 collapsedColumns.add(item);
@@ -481,7 +481,7 @@ public class AbstractSearchForm extends CustomComponent {
             try {
                 binder.commit();
                 searchCriteria = ConstantsUtils.SEARCH;
-                tableLogic.configureSearchData(binder, this.moduleName, this, searchCriteria, versionNo);
+                tableLogic.configureSearchData(binder, this.moduleName, searchCriteria);
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                 resultTable.setImmediate(true);
                 resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -523,7 +523,7 @@ public class AbstractSearchForm extends CustomComponent {
     @UiHandler("auditSearchBtn")
     public void auditSearchBtnLogic(Button.ClickEvent event) {
         binder.getErrorDisplay().clearError();
-        List<Object> collapsedColumns = new ArrayList<Object>();
+        List<Object> collapsedColumns = new ArrayList<>();
         for (Object item : resultTable.getVisibleColumns()) {
             if (resultTable.isColumnCollapsed(item)) {
                 collapsedColumns.add(item);
@@ -536,7 +536,7 @@ public class AbstractSearchForm extends CustomComponent {
             try {
                 binder.commit();
                 searchCriteria = "auditSearch";
-                tableLogic.configureSearchData(binder, this.moduleName, this, searchCriteria, versionNo);
+                tableLogic.configureSearchData(binder, this.moduleName, searchCriteria);
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                 resultTable.setImmediate(true);
                 resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -682,7 +682,7 @@ public class AbstractSearchForm extends CustomComponent {
             processTrackingBtn.setVisible(false);
             saveBtn.setVisible(false);
             resetButton.setVisible(false);
-            copyBtn.setVisible(false);
+            copyBtn.setVisible(true);
         } else if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
             label4.setVisible(false);
             combo1.setVisible(false);
@@ -721,20 +721,20 @@ public class AbstractSearchForm extends CustomComponent {
         }
     }
 
-    public void btnAddLogic(Button.ClickEvent event) {
+    public void btnAddLogic() {
         try {
             sessionDTO.setMode(ConstantsUtils.ADD);
             if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
                 sessionDTO.setSystemId(0);
                 sessionDTO.setFromViewPage(ConstantsUtils.ADD);
-                sessionDTO.setLogic(ConstantsUtils.Add);
+                sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
                 getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
             }
             if (ConstantsUtils.ITEM_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
                 sessionDTO.setSystemId(0);
                 sessionDTO.setFromViewPage(ConstantsUtils.ADD);
                 sessionDTO.setMode(ConstantsUtils.ADD);
-                sessionDTO.setLogic(ConstantsUtils.Add);
+                sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
                 sessionDTO.setVersionNo(versionNo);
                 getUI().getNavigator().navigateTo(ItemGroupView.NAME);
             }
@@ -751,7 +751,7 @@ public class AbstractSearchForm extends CustomComponent {
                 getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
             }
             if (ConstantsUtils.DEDUCTION_GROUPING.equalsIgnoreCase(moduleName)) {
-                sessionDTO.setLogic(ConstantsUtils.Add);
+                sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
                 getUI().getNavigator().navigateTo(DiscountAddView.NAME);
             }
         } catch (Exception e) {
@@ -868,7 +868,7 @@ public class AbstractSearchForm extends CustomComponent {
 
     }
 
-    public void deleteBtnLogic(Button.ClickEvent event) {
+    public void deleteBtnLogic() {
         LOGGER.debug("deleteButtonClickLogic method Started ");
         if (resultTable.getValue() == null) {
             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, ERROR_MSG, ButtonId.OK);
@@ -971,7 +971,7 @@ public class AbstractSearchForm extends CustomComponent {
                 if (buttonId.name().equalsIgnoreCase("YES")) {
                     LOGGER.debug("Entering Reset operation");
                     binder.getErrorDisplay().clearError();
-                    binder.setItemDataSource(new BeanItem<SearchCriteriaDTO>(new SearchCriteriaDTO()));
+                    binder.setItemDataSource(new BeanItem<>(new SearchCriteriaDTO()));
                     editBtn.setEnabled(true);
                     copyBtn.setEnabled(true);
                     deleteBtn.setEnabled(true);
@@ -999,7 +999,7 @@ public class AbstractSearchForm extends CustomComponent {
                 if (buttonId.name().equalsIgnoreCase("YES")) {
                     LOGGER.debug("Entering Reset operation");
                     binder.getErrorDisplay().clearError();
-                    binder.setItemDataSource(new BeanItem<SearchCriteriaDTO>(new SearchCriteriaDTO()));
+                    binder.setItemDataSource(new BeanItem<>(new SearchCriteriaDTO()));
                     tableLogic.clearAll();
                     tableLogic.setReset(true);
                     tableLogic.setRequiredCount(true);
@@ -1054,6 +1054,7 @@ public class AbstractSearchForm extends CustomComponent {
             if (ValidationUtil.getLabel(key) != null && StringUtils.isNotEmpty(ValidationUtil.getLabel(key))) {
                 excelName = ValidationUtil.getLabel(key);
             }
+            excelName = excelName.replaceAll(" ", StringUtils.EMPTY);
             VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, "true");
             ExcelExport excelExport = new ExcelExport(new ExtCustomTableHolder(excelTable), excelName, excelName, excelName + ".xls", false);
             excelExport.export();
@@ -1148,7 +1149,7 @@ public class AbstractSearchForm extends CustomComponent {
                         sessionDTO.setSystemId(0);
                         sessionDTO.setSelectedItems(new ArrayList());
                         sessionDTO.setFromViewPage(ConstantsUtils.ADD);
-                        sessionDTO.setLogic(ConstantsUtils.Add);
+                        sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
                         sessionDTO.setVersionNo(versionNo);
                         getUI().getNavigator().navigateTo(ItemGroupView.NAME);
                     }
@@ -1166,7 +1167,7 @@ public class AbstractSearchForm extends CustomComponent {
                     }
                     if (ConstantsUtils.DEDUCTION_GROUPING.equalsIgnoreCase(moduleName)) {
                         sessionDTO.setSystemId(0);
-                        sessionDTO.setLogic(ConstantsUtils.Add);
+                        sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
                         getUI().getNavigator().navigateTo(DiscountAddView.NAME);
                     }
                 } catch (Exception e) {
@@ -1185,6 +1186,7 @@ public class AbstractSearchForm extends CustomComponent {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
+
                     if (resultTable.getValue() == null) {
                         AbstractNotificationUtils.getErrorNotification("Edit Error", "Please select a record to edit");
                     } else {
@@ -1195,7 +1197,12 @@ public class AbstractSearchForm extends CustomComponent {
                         if (ConstantsUtils.RELATIONSHIP_BUILDER.equalsIgnoreCase(moduleName)) {
                             final int systemId = sessionDTO.getSystemId();
                             boolean flag = relationBuilderLogic.relationshipIsUsed(systemId);
-                            if(!flag){
+                            boolean isRelationCurrentlyUsing = relationBuilderLogic.relationshipIsCurentlyInUse(sessionDTO.getSystemId());
+                            if(flag) {
+                                MessageBox.showPlain(Icon.ERROR, "Edit", "Cannot Edit the relationship which is already associated with existing projection", ButtonId.OK);
+                            } else if (isRelationCurrentlyUsing) {
+                                MessageBox.showPlain(Icon.ERROR, "Edit", "This relationship is currently being used in a projection. Please try again after sometime.", ButtonId.OK);
+                            } else {
                                 if (searchForm.isRecordLockStatus()) {
                                     if (itemStatusCheck()) {
                                         editLogic();
@@ -1207,9 +1214,8 @@ public class AbstractSearchForm extends CustomComponent {
                                     editLogic();
                                     resultTable.unselect(resultTable.getValue());
                                 }
-                            } else {
-                                MessageBox.showPlain(Icon.ERROR, "Edit", "Cannot Edit the relationship which is already associated with existing projection", ButtonId.OK);
-                            }
+
+                            } 
                         } else {
                             if (searchForm.isRecordLockStatus()) {
                                 if (itemStatusCheck()) {
@@ -1270,8 +1276,8 @@ public class AbstractSearchForm extends CustomComponent {
                     MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, ERROR_MSG, ButtonId.OK);
                 } else {
                     final SearchResultsDTO searchForm = (SearchResultsDTO) resultTable.getValue();
-                    MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Are you sure you want to copy the selected record"
-                            + ConstantsUtils.QUESTION_MARK, new MessageBoxListener() {
+                    MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Are you sure you want to copy record " + searchForm.getRelationshipName() +
+                             ConstantsUtils.QUESTION_MARK, new MessageBoxListener() {
                                 /**
                                  * Adds the button click listener.
                                  *
@@ -1295,6 +1301,17 @@ public class AbstractSearchForm extends CustomComponent {
                                                 sessionDTO.setFromViewPage("copy");
                                                 getUI().getNavigator().navigateTo(ItemGroupView.NAME);
                                             }
+                                              if (ConstantsUtils.RELATIONSHIP_BUILDER.equalsIgnoreCase(moduleName)) {
+                                                  SearchResultsDTO event = (SearchResultsDTO) resultTable.getValue();
+            versionNo = event.getVersionNo();
+            sessionDTO.setFromViewPage(ConstantsUtils.EDIT);
+            sessionDTO.setMode(ConstantsUtils.COPY);
+            sessionDTO.setSystemId(event.getRbSystemId());
+            sessionDTO.setVersionNo(versionNo);
+            VaadinSession.getCurrent().setAttribute("hierarchyVersion", event.getHierarchyVersionNo());
+            sessionDTO.setHierarchyVersion(event.getHierarchyVersionNo());
+            getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
+        }
 
                                         } catch (Exception e) {
                                             LOGGER.error(e);
@@ -1324,7 +1341,7 @@ public class AbstractSearchForm extends CustomComponent {
                         boolean flag = logic.relationshipIsUsed(Integer.valueOf(searchForm.getSystemID()));
                         boolean isRelationCurrentlyUsing = logic.relationshipIsCurentlyInUse(sessionDTO.getSystemId());
                         if(flag){
-                           MessageBox.showPlain(Icon.ERROR, "Delete", "Cannot Delete the relationship which is already associated with existing projection", ButtonId.OK); 
+                            MessageBox.showPlain(Icon.ERROR, "Delete", "Cannot Delete the relationship which is already associated with existing projection", ButtonId.OK); 
                         } else if (isRelationCurrentlyUsing) {
                             MessageBox.showPlain(Icon.ERROR, "Delete", "This relationship is currently being used in a projection. Please try again after sometime.", ButtonId.OK);
                         } else {
@@ -1356,69 +1373,71 @@ public class AbstractSearchForm extends CustomComponent {
 
         MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, message
                 + ConstantsUtils.QUESTION_MARK, new MessageBoxListener() {
-                    /**
-                     * Adds the button click listener.
-                     *
-                     *
-                     */
-                    @SuppressWarnings("PMD")
-                    public void buttonClicked(final ButtonId buttonId) {
+            /**
+             * Adds the button click listener.
+             *
+             *
+             */
+            @SuppressWarnings("PMD")
+            public void buttonClicked(final ButtonId buttonId) {
 
-                        if (buttonId.name().equals(ConstantsUtils.YES)) {
-                            try {
+                if (buttonId.name().equals(ConstantsUtils.YES)) {
+                    try {
 
-                                sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
-                                int systemId = sessionDTO.getSystemId();
+                        sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
+                        int systemId = sessionDTO.getSystemId();
 
-                                if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equals(moduleName)) {
-                                    SearchResultsDTO event = (SearchResultsDTO) resultTable.getValue();
-                                    versionNo = event.getVersionNo();
-                                    final String deletedCustomerGroupName = customerGroupLogic.deleteCustomerGroup(systemId, versionNo);
-                                    if (deletedCustomerGroupName != null && !ConstantsUtils.EMPTY.equals(deletedCustomerGroupName)) {
-                                        /*GAL-802*/ CommonUIUtils.getMessageNotification(searchForm.getCompanyGroupName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                    }
+                        if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equals(moduleName)) {
+                            SearchResultsDTO event = (SearchResultsDTO) resultTable.getValue();
+                            versionNo = event.getVersionNo();
+                            final String deletedCustomerGroupName = customerGroupLogic.deleteCustomerGroup(systemId, versionNo);
+                            if (deletedCustomerGroupName != null && !ConstantsUtils.EMPTY.equals(deletedCustomerGroupName)) {
+                                /*GAL-802*/ CommonUIUtils.getMessageNotification(searchForm.getCompanyGroupName() + CommonUtils.SUCCESSFULLY_DELETED);
+                            }
 
-                                }
-                                if (ConstantsUtils.ITEM_GROUP_MASTER.equals(moduleName)) {
-                                    final String deletedItemGroupName = itemGroupLogic.deleteItemGroup(systemId);
+                        }
+                        if (ConstantsUtils.ITEM_GROUP_MASTER.equals(moduleName)) {
+                            final String deletedItemGroupName = itemGroupLogic.deleteItemGroup(systemId);
 
-                                    if (deletedItemGroupName != null && !ConstantsUtils.EMPTY.equals(deletedItemGroupName)) {
-                                        CommonUIUtils.getMessageNotification(searchForm.getItemGroupName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                    }
-                                }
-                                if (ConstantsUtils.HIERARCHY_DEF.equals(moduleName)) {
-                                    final String deletedHrName = hierarchyBuilderLogic.deleteHierarchy(systemId);
-                                    if (deletedHrName != null && !ConstantsUtils.EMPTY.equals(deletedHrName)) {
-                                        CommonUIUtils.getMessageNotification(searchForm.getHierarchyName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                    }
-                                }
-                                if (ConstantsUtils.RELATIONSHIP_BUILDER.equals(moduleName)) {
-                                    final String deletedRbName = relationBuilderLogic.deleteRelationship(systemId);
-                                    if (deletedRbName != null && !ConstantsUtils.EMPTY.equals(deletedRbName)) {
-                                        /*GAL-808*/ CommonUIUtils.getMessageNotification(searchForm.getRelationshipName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                    }
-                                }
-                                if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
-                                    final String deletedDeductionGroupName = discountLogic.deletedeductionGroup(systemId);
-                                    if (deletedDeductionGroupName != null && !ConstantsUtils.EMPTY.equals(deletedDeductionGroupName)) {
-                                        CommonUIUtils.getMessageNotification(searchForm.getDiscountName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                    }
-                                }
-
-                                resultTable.removeItem(resultTable.getValue());
-                                resultTable.unselect(resultTable.getValue());
-                            } catch (SystemException e) {
-                                LOGGER.error(errorMsg);
-                            } catch (PortalException e) {
-                                LOGGER.error(e);
-                            } catch (Exception e) {
-                                LOGGER.error(e);
+                            if (deletedItemGroupName != null && !ConstantsUtils.EMPTY.equals(deletedItemGroupName)) {
+                                CommonUIUtils.getMessageNotification(searchForm.getItemGroupName() + CommonUtils.SUCCESSFULLY_DELETED);
                             }
                         }
+                        if (ConstantsUtils.HIERARCHY_DEF.equals(moduleName)) {
+                            final String deletedHrName = hierarchyBuilderLogic.deleteHierarchy(systemId);
+                            if (deletedHrName != null && !ConstantsUtils.EMPTY.equals(deletedHrName)) {
+                                CommonUIUtils.getMessageNotification(searchForm.getHierarchyName() + CommonUtils.SUCCESSFULLY_DELETED);
+                            }
+                        }
+                        if (ConstantsUtils.RELATIONSHIP_BUILDER.equals(moduleName)) {
+                            final String deletedRbName = relationBuilderLogic.deleteRelationship(systemId);
+                            if (deletedRbName != null && !ConstantsUtils.EMPTY.equals(deletedRbName)) {
+                                /*GAL-808*/ CommonUIUtils.getMessageNotification(searchForm.getRelationshipName() + CommonUtils.SUCCESSFULLY_DELETED);
+                            }
+                        }
+                        if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
+                            final String deletedDeductionGroupName = discountLogic.deletedeductionGroup(systemId);
+                            if (deletedDeductionGroupName != null && !ConstantsUtils.EMPTY.equals(deletedDeductionGroupName)) {
+                                CommonUIUtils.getMessageNotification(searchForm.getDiscountName() + CommonUtils.SUCCESSFULLY_DELETED);
+                            }
+                        }
+
+                        resultTable.removeItem(resultTable.getValue());
+                        resultTable.unselect(resultTable.getValue());
+                    } catch (SystemException e) {
+                        LOGGER.error(errorMsg);
+                    } catch (PortalException e) {
+                        LOGGER.error(e);
+                    } catch (Exception e) {
+                        LOGGER.error(e);
                     }
-                }, ButtonId.YES, ButtonId.NO);
-    }        
-    
+
+                }
+            }
+        }, ButtonId.YES, ButtonId.NO);
+    }
+                
+
     void checkSecurity() throws PortalException, SystemException {
         try {
             final StplSecurity stplSecurity = new StplSecurity();

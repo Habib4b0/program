@@ -27,7 +27,7 @@ public class SummaryTableLogic extends PageTreeTableLogic {
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         removeDiscountDto.setStartIndex(start);
         removeDiscountDto.setOffSet(offset);
         List<DiscountDTO> list = itemLogic.getConfigureSales(getLastParent(), removeDiscountDto);

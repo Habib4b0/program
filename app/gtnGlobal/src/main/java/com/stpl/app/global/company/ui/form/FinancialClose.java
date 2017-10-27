@@ -125,11 +125,11 @@ public final class FinancialClose extends CustomComponent {
     /**
      * The Bean Item Container for Financial Close Results Table
      */
-    private final BeanItemContainer<FinancialCloseDTO> availableResultsContainer = new BeanItemContainer<FinancialCloseDTO>(FinancialCloseDTO.class);
+    private final BeanItemContainer<FinancialCloseDTO> availableResultsContainer = new BeanItemContainer<>(FinancialCloseDTO.class);
     /**
      * The Months List for Drop downs
      */
-    List<String> months = new ArrayList<String>();
+    List<String> months = new ArrayList<>();
     /**
      * Binder dto
      */
@@ -164,7 +164,7 @@ public final class FinancialClose extends CustomComponent {
     /**
      * Fields Configuration for Financial Close
      */
-    private void configureFields() throws SystemException, PortalException, SQLException {
+    private void configureFields() throws SystemException, PortalException {
         modeDdlb.setNullSelectionAllowed(true);
         commonsUtil.loadComboBox(modeDdlb, "ARM_MODE");
         modeDdlb.setNullSelectionAllowed(true);
@@ -303,6 +303,7 @@ public final class FinancialClose extends CustomComponent {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Reset", "Are you sure you want to reset the fields to default values?"); //Changed for GAL-7248
     }
@@ -355,8 +356,8 @@ public final class FinancialClose extends CustomComponent {
         resultTable.setMultiSelect(true);
         financialCloseTableLogic.setPageLength(NumericConstants.TEN);
         financialCloseTableLogic.sinkItemPerPageWithPageLength(false);
-        resultTable.setVisibleColumns(UIUtils.FINANCIAL_CLOSE_COLUMNS);
-        resultTable.setColumnHeaders(UIUtils.FINANCIAL_CLOSE_HEADERS);
+        resultTable.setVisibleColumns(UIUtils.getInstance().FINANCIAL_CLOSE_COLUMNS);
+        resultTable.setColumnHeaders(UIUtils.getInstance().FINANCIAL_CLOSE_HEADERS);
         resultTable.setFilterBarVisible(true);
         resultTable.setSizeFull();
         resultTable.setImmediate(true);
@@ -411,6 +412,7 @@ public final class FinancialClose extends CustomComponent {
 
                 @Override
                 public void noMethod() {
+                    return;
                 }
             }.getConfirmationMessage(status, "Are you sure you want to " + status + " the Month selected?");
         } else {
@@ -506,6 +508,7 @@ public final class FinancialClose extends CustomComponent {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Close", "Are you sure you want to Close the Month selected?");
     }
@@ -513,7 +516,7 @@ public final class FinancialClose extends CustomComponent {
     /**
      * Method to pre populate the Ddlbs values on Edit and view
      */
-    private void setDdlbOnEdit(final int companyMasterSid) throws SQLException, SystemException {
+    private void setDdlbOnEdit(final int companyMasterSid) {
         List<FinancialCloseDTO> list = null;
         try {
             list = logic.getDdlbValuesOnEdit(companyMasterSid);
@@ -565,16 +568,18 @@ public final class FinancialClose extends CustomComponent {
 
     public void resetLogic() {
         try {
-            modeDdlb.setValue(new HelperDTO(ConstantsUtils.SELECT_ONE));
-            monthCalculation();
-            businessDayDdlb.setValue(null);
-            hourDdlb.setValue(null);
-            minuteDdlb.setValue(new HelperDTO(ConstantsUtils.SELECT_ONE));
-            calenderDdlb.setValue(null);
-            yearDdlb.setValue(year - 1);
-            yearDdlb.setEnabled(Boolean.TRUE);
-            binderDto.setReset(true);
-            financialCloseTableLogic.loadSetData(binderDto);
+            if (ConstantsUtils.EDIT.equals(sessionDTO.getMode())) {
+                setDdlbOnEdit(sessionDTO.getSystemId());
+            } else {
+                modeDdlb.setValue(new HelperDTO(ConstantsUtils.SELECT_ONE));
+                monthCalculation();
+                businessDayDdlb.setValue(null);
+                hourDdlb.setValue(null);
+                minuteDdlb.setValue(new HelperDTO(ConstantsUtils.SELECT_ONE));
+                calenderDdlb.setValue(null);
+                yearDdlb.setValue(year - 1);
+                yearDdlb.setEnabled(Boolean.TRUE);
+            }
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

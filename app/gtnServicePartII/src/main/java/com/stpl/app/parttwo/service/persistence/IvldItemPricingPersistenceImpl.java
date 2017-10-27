@@ -85,7 +85,8 @@ public class IvldItemPricingPersistenceImpl extends BasePersistenceImpl<IvldItem
                 "pricingCodeStatus", "createdBy", "itemId", "errorField",
                 "startDate", "itemUom", "modifiedDate", "reasonForFailure",
                 "source", "pricingCodeQualifier", "addChgDelIndicator",
-                "entityCode", "itemPrice", "intfInsertedDate", "checkRecord"
+                "entityCode", "itemPrice", "intfInsertedDate", "checkRecord",
+                "itemPriceprecision"
             });
     private static IvldItemPricing _nullIvldItemPricing = new IvldItemPricingImpl() {
             @Override
@@ -364,6 +365,7 @@ public class IvldItemPricingPersistenceImpl extends BasePersistenceImpl<IvldItem
         ivldItemPricingImpl.setItemPrice(ivldItemPricing.getItemPrice());
         ivldItemPricingImpl.setIntfInsertedDate(ivldItemPricing.getIntfInsertedDate());
         ivldItemPricingImpl.setCheckRecord(ivldItemPricing.isCheckRecord());
+        ivldItemPricingImpl.setItemPriceprecision(ivldItemPricing.getItemPriceprecision());
 
         return ivldItemPricingImpl;
     }

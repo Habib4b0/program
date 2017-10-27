@@ -39,8 +39,7 @@ public class DataFormatConverter implements Converter<String, String> {
 
     @Override
     public String convertToModel(String value,
-            Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            Class<? extends String> targetType, Locale locale) {
         if (targetType != getModelType()) {
             throw new Converter.ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
@@ -64,14 +63,13 @@ public class DataFormatConverter implements Converter<String, String> {
 
     @Override
     public String convertToPresentation(String value,
-            Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            Class<? extends String> targetType, Locale locale) {
         if (value == null) {
             return null;
         }
         try {
-            String stringValue = StringUtils.EMPTY;
-            String tempValue = StringUtils.EMPTY;
+            String stringValue;
+            String tempValue;
             tempValue = value.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
             if (!StringUtils.EMPTY.equals(tempValue) && !ConstantsUtils.NULL.equals(tempValue)

@@ -22,7 +22,7 @@ public interface WorkFlowLogicDao {
  * @param workflowMaster
  * @throws Exception 
  */
-    void addWorkflowMaster(WorkflowMaster workflowMaster) throws SystemException,SystemException;
+    void addWorkflowMaster(WorkflowMaster workflowMaster) throws SystemException;
 /**
  * 
  * @param workflowMaster

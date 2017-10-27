@@ -103,12 +103,12 @@ public class CFPCompanyAddition extends CustomComponent {
     /**
      * the search map is used to get the column for life ray service
      */
-    final Map<String, String> searchMap = new ConcurrentHashMap<String, String>();
+    final Map<String, String> searchMap = new ConcurrentHashMap<>();
     /**
      * the searchMapAvailable map is used to get the column for database
      */
-    final Map<String, String> searchMapAvailable = new ConcurrentHashMap<String, String>();
-    private final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    final Map<String, String> searchMapAvailable = new ConcurrentHashMap<>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
     /**
      * The cfp logic.
      */
@@ -181,6 +181,8 @@ public class CFPCompanyAddition extends CustomComponent {
     @UiField("selectedTableLayout")
     private VerticalLayout selectedTableLayout;
     CFPCompanyDTO cfpMaster;
+    @UiField("hlayout2")
+    private HorizontalLayout hlayout2;
     
     private CommonUtil commonUtil = CommonUtil.getInstance();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
@@ -348,8 +350,9 @@ public class CFPCompanyAddition extends CustomComponent {
                         }, ButtonId.OK);
                         msg.getButton(ButtonId.OK).focus();
                         return;
-                    }
-                    if ((StringUtils.isEmpty(searchValueObject.toString().trim()) && searchValue.isVisible()) || ((HelperDTO) searchDdlb.getValue() == null && searchDdlb.isVisible())) {
+                    } 
+                   
+                    if (searchValueObject != null && (StringUtils.isEmpty(searchValueObject.toString().trim()) && searchValue.isVisible()) || ((HelperDTO) searchDdlb.getValue() == null && searchDdlb.isVisible())) {
                         final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Please enter a value to search", new MessageBoxListener() {
                             /**
                              * The method is triggered when a button of the message box is
@@ -365,56 +368,55 @@ public class CFPCompanyAddition extends CustomComponent {
                         msg.getButton(ButtonId.OK).focus();
                         return;
                     }
-                    if (searchFieldObject != null && searchValueObject != null) {
+                    
+                    if (searchValueObject != null) {
                         loadMap();
                         if (ConstantsUtils.COMPANYTYPE.equals(searchFieldObject.toString())) {
-                            if (searchDdlb.getValue() == null && Constants.SELECT_ONE.equals(searchDdlb.getValue())) {
-                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Select Company type", new MessageBoxListener() {
-                                    /**
-                                     * The method is triggered when a button of the message box is
-                                     * pressed .
-                                     *
-                                     * @param buttonId The buttonId of the pressed button.
-                                     */
-                                    @SuppressWarnings("PMD")
-                                    public void buttonClicked(final ButtonId buttonId) {
-                                        // Do Nothing
-                                    }
-                                }, ButtonId.OK);
-                                msg.getButton(ButtonId.OK).focus();
-                            } else {
-                                lazyUtilDTO.setSearchFields(searchMapAvailable.get(searchFieldObject.toString().trim()));
-                                lazyUtilDTO.setSearchFieldsCompany(searchMap.get(searchFieldObject.toString().trim()));
-                                lazyUtilDTO.setSearchValue(String.valueOf(((HelperDTO) searchDdlb.getValue()).getDescription()));
+                                if (searchDdlb.getValue() == null && Constants.SELECT_ONE.equals(searchDdlb.getValue())) {
+                                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Select Company type", new MessageBoxListener() {
+                                        /**
+                                         * The method is triggered when a button of the message box is
+                                         * pressed .
+                                         *
+                                         * @param buttonId The buttonId of the pressed button.
+                                         */
+                                        @SuppressWarnings("PMD")
+                                        public void buttonClicked(final ButtonId buttonId) {
+                                            // Do Nothing
+                                        }
+                                    }, ButtonId.OK);
+                                    msg.getButton(ButtonId.OK).focus();
+                                } else {
+                                    lazyUtilDTO.setSearchFields(searchMapAvailable.get(searchFieldObject.toString().trim()));
+                                    lazyUtilDTO.setSearchFieldsCompany(searchMap.get(searchFieldObject.toString().trim()));
+                                    lazyUtilDTO.setSearchValue(String.valueOf(((HelperDTO) searchDdlb.getValue()).getDescription()));
                             }
                         } else if (ConstantsUtils.COMPANYSTATUS.equals(searchFieldObject.toString())) {
-                            if (searchDdlb.getValue() == null && Constants.SELECT_ONE.equals(searchDdlb.getValue())) {
-                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Select Company Status", new MessageBoxListener() {
-                                    /**
-                                     * The method is triggered when a button of the message box is
-                                     * pressed .
-                                     *
-                                     * @param buttonId The buttonId of the pressed button.
-                                     */
-                                    @SuppressWarnings("PMD")
-                                    public void buttonClicked(final ButtonId buttonId) {
-                                        // Do Nothing
-                                    }
-                                }, ButtonId.OK);
-                                msg.getButton(ButtonId.OK).focus();
-                            } else {
-                                lazyUtilDTO.setSearchFields(searchMapAvailable.get(searchFieldObject.toString().trim()));
-                                lazyUtilDTO.setSearchFieldsCompany(searchMap.get(searchFieldObject.toString().trim()));
-                                lazyUtilDTO.setSearchValue(String.valueOf(((HelperDTO) searchDdlb.getValue()).getDescription()));
-                                lazyUtilDTO.setHelperTableSid(String.valueOf(((HelperDTO) searchDdlb.getValue()).getId()));
+                                if (searchDdlb.getValue() == null && Constants.SELECT_ONE.equals(searchDdlb.getValue())) {
+                                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Select Company Status", new MessageBoxListener() {
+                                        /**
+                                         * The method is triggered when a button of the message box is
+                                         * pressed .
+                                         *
+                                         * @param buttonId The buttonId of the pressed button.
+                                         */
+                                        @SuppressWarnings("PMD")
+                                        public void buttonClicked(final ButtonId buttonId) {
+                                            // Do Nothing
+                                        }
+                                    }, ButtonId.OK);
+                                    msg.getButton(ButtonId.OK).focus();
+                                } else {
+                                    lazyUtilDTO.setSearchFields(searchMapAvailable.get(searchFieldObject.toString().trim()));
+                                    lazyUtilDTO.setSearchFieldsCompany(searchMap.get(searchFieldObject.toString().trim()));
+                                    lazyUtilDTO.setSearchValue(String.valueOf(((HelperDTO) searchDdlb.getValue()).getDescription()));
+                                    lazyUtilDTO.setHelperTableSid(String.valueOf(((HelperDTO) searchDdlb.getValue()).getId()));
                             }
                         } else {
-                            lazyUtilDTO.setSearchFields(searchMapAvailable.get(searchFieldObject.toString().trim()));
-                            lazyUtilDTO.setSearchFieldsCompany(searchMap.get(searchFieldObject.toString().trim()));
-                            lazyUtilDTO.setSearchValue(com.stpl.ifs.util.CommonUtil.buildSearchCriteria(searchValueObject.toString().trim()));
+                                lazyUtilDTO.setSearchFields(searchMapAvailable.get(searchFieldObject.toString().trim()));
+                                lazyUtilDTO.setSearchFieldsCompany(searchMap.get(searchFieldObject.toString().trim()));
+                                lazyUtilDTO.setSearchValue(com.stpl.ifs.util.CommonUtil.buildSearchCriteria(searchValueObject.toString().trim()));
                         }
-                        // here we are setting the lazyUtilDTO and getting inside the AvailableCompaniesContainer
-                        // that is used to pass the  used id , sessionid, serach field and search value
                         }
                         availableTable.setData(lazyUtilDTO);
                         loadAvailbleTable();
@@ -491,9 +493,11 @@ public class CFPCompanyAddition extends CustomComponent {
                 
                 List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPANY_FAMILY_PLAN, TabNameUtil.CFP_COMPANY_ADDITION);
                 Object[] obj = UIUtils.SELECTED_COL;
-                TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
-                if(tableResultCustom.getObjResult().length == 0){
-              selectedTable.setVisible(false);
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
+            if (tableResultCustom.getObjResult().length == 0) {
+                selectedTable.setVisible(false);
+                hlayout2.setVisible(false);
+
             }
             selectedTable.setContainerDataSource(selectedItemResultLazyBean);
             selectedTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -608,22 +612,7 @@ public class CFPCompanyAddition extends CustomComponent {
 
                     loadSelectedTable();
                     LOGGER.debug("Ending  MOVE_LEFT Method ");
-                } catch (PortalException ex) {
-                    LOGGER.error(ex);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004), new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message box is
-                         * pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (SystemException ex) {
+                }catch (SystemException ex) {
                     LOGGER.error(ex);
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),errorMsg, new MessageBoxListener() {
@@ -639,7 +628,15 @@ public class CFPCompanyAddition extends CustomComponent {
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-                } catch (Exception ex) {
+                }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                 catch (Exception ex) {
                     java.util.logging.Logger.getLogger(CFPCompanyAddition.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -671,7 +668,7 @@ public class CFPCompanyAddition extends CustomComponent {
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering inside  MOVE_ALL_RIGHT Method ");
                 binder.getErrorDisplay().clearError();
-                addAllCompanyButtonClick(event);
+                addAllCompanyButtonClick();
                 LOGGER.debug("ENDING  MOVE_ALL_RIGHT Method ");
             }
         });
@@ -684,7 +681,7 @@ public class CFPCompanyAddition extends CustomComponent {
      * @param event the event
      * @throws StplR2Exception the stpl r2 exception
      */
-    protected void addAllCompanyButtonClick(final Button.ClickEvent event) {
+    protected void addAllCompanyButtonClick() {
         try {
             cfpLogic.addToTempTable(lazyUtilDTO);
             // here we are setting the lazyUtilDTO and getting inside the SelectedCompaniesContainer
@@ -749,7 +746,7 @@ public class CFPCompanyAddition extends CustomComponent {
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering inside  MOVE_ALL_LEFT Method ");
                 binder.getErrorDisplay().clearError();
-                removeAllCompanyButtonClick(event);
+                removeAllCompanyButtonClick();
                 LOGGER.debug("Ending inside  MOVE_ALL_LEFT Method ");
             }
         });
@@ -762,7 +759,7 @@ public class CFPCompanyAddition extends CustomComponent {
      * @param event the event
      * @throws StplR2Exception the stpl r2 exception
      */
-    public void removeAllCompanyButtonClick(final Button.ClickEvent event) {
+    public void removeAllCompanyButtonClick() {
         try {
             LOGGER.debug("Entering removeAllCompanyButtonClick");
 
@@ -770,27 +767,17 @@ public class CFPCompanyAddition extends CustomComponent {
 
             loadSelectedTable();
             LOGGER.debug("Ending removeAllCompanyButtonClick");
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-            final String error = ErrorCodeUtil.getErrorMessage(ex);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), error, new MessageBoxListener() {
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-            	@SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                    // Do Nothing
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             java.util.logging.Logger.getLogger(CFPCompanyAddition.class.getName()).log(Level.SEVERE, null, ex);
         }
+        /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */
+        // Do Nothing
+        
     }
 
     /**
@@ -805,13 +792,12 @@ public class CFPCompanyAddition extends CustomComponent {
              final StplSecurity stplSecurity = new StplSecurity();
                 userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
                 final Map<String, AppPermission> fieldCfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_FAMILY_PLAN+ConstantsUtils.COMMA+TabNameUtil.CFP_COMPANY_ADDITION,false);
-                  HorizontalLayout layout = ResponsiveUtils.getResponsiveControls(availableTable.createControls(), true);
                 List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPANY_FAMILY_PLAN, TabNameUtil.CFP_COMPANY_ADDITION);
                 Object[] obj = UIUtils.AVAILABLE_COL;
                 TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldCfpHM, mode);
                 if(tableResultCustom.getObjResult().length == 0){
               availableTable.setVisible(false);
-              layout.setVisible(false);
+                hlayout2.setVisible(false);
             }
                  availableItemResultLazyBean = new LazyBeanItemContainer(CompanyMasterDTO.class, new AvailableCompaniesContainer(availableTable), new AvailableCompaniesCriteria());
                 availableTable.setContainerDataSource(availableItemResultLazyBean);
@@ -837,8 +823,10 @@ public class CFPCompanyAddition extends CustomComponent {
             availableTable.setFilterDecorator(new ExtDemoFilterDecorator());
             availableTable.setFilterGenerator(new CFPTestGenerator());
             availableTableLayout.addComponent(availableTable);
+            HorizontalLayout layout = ResponsiveUtils.getResponsiveControls(availableTable.createControls(), true);
+
             availableTableLayout.addComponent(layout);
-            } catch (PortalException ex) {
+        } catch (PortalException ex) {
                 LOGGER.error(ex);
             java.util.logging.Logger.getLogger(CFPCompanyAddition.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SystemException ex) {
@@ -853,6 +841,7 @@ public class CFPCompanyAddition extends CustomComponent {
                  */
                 @Override
                 public void itemClick(ItemClickEvent event) {
+                    return;
                 }
             });
             availableTable.setErrorHandler(new ErrorHandler() {
@@ -879,13 +868,12 @@ public class CFPCompanyAddition extends CustomComponent {
              final StplSecurity stplSecurity = new StplSecurity();
                 userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
                 final Map<String, AppPermission> fieldCfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_FAMILY_PLAN+ConstantsUtils.COMMA+TabNameUtil.CFP_COMPANY_ADDITION,false);
-                HorizontalLayout layout = ResponsiveUtils.getResponsiveControls(selectedTable.createControls(), true);
                 List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPANY_FAMILY_PLAN, TabNameUtil.CFP_COMPANY_ADDITION);
                 Object[] obj = UIUtils.SELECTED_COL;
                 TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldCfpHM, mode);
                if(tableResultCustom.getObjResult().length == 0){
               selectedTable.setVisible(false);
-              layout.setVisible(false);
+              hlayout2.setVisible(false);
             }
             selectedTable.markAsDirty();
             if (mode.equals("Edit")) {
@@ -916,6 +904,8 @@ public class CFPCompanyAddition extends CustomComponent {
             selectedTable.setFilterDecorator(new ExtDemoFilterDecorator());
             selectedTable.setFilterGenerator(new CFPTestGenerator());
             selectedTableLayout.addComponent(selectedTable);
+            HorizontalLayout layout = ResponsiveUtils.getResponsiveControls(selectedTable.createControls(), true);
+
             selectedTableLayout.addComponent(layout);
             selectedTable.setErrorHandler(new ErrorHandler() {
                 /**
@@ -937,7 +927,7 @@ public class CFPCompanyAddition extends CustomComponent {
 
     void resetAvailableTable() {
         try {
-            BeanItemContainer<CFPCompanyDTO> emptyContainer = new BeanItemContainer<CFPCompanyDTO>(CFPCompanyDTO.class);
+            BeanItemContainer<CFPCompanyDTO> emptyContainer = new BeanItemContainer<>(CFPCompanyDTO.class);
                       final StplSecurity stplSecurity = new StplSecurity();
                     userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
                     final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_FAMILY_PLAN+ConstantsUtils.COMMA+TabNameUtil.CFP_COMPANY_ADDITION,false);
@@ -1137,7 +1127,7 @@ public class CFPCompanyAddition extends CustomComponent {
     private static String[] getCollapsibleColumns600Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1147,7 +1137,7 @@ public class CFPCompanyAddition extends CustomComponent {
     private static String[] getCollapsibleColumns480Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1157,7 +1147,7 @@ public class CFPCompanyAddition extends CustomComponent {
     private static String[] getCollapsibleColumns978Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1169,7 +1159,7 @@ public class CFPCompanyAddition extends CustomComponent {
     private static String[] getCollapsibleColumnsDefault1515Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1181,7 +1171,7 @@ public class CFPCompanyAddition extends CustomComponent {
     private static String[] getCollapsibleColumnsDefault(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         for (int i = 0; i < NumericConstants.TEN && !list.isEmpty(); i++) {
             list.remove(propertyIds[i]);
         }
@@ -1266,7 +1256,7 @@ public class CFPCompanyAddition extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }

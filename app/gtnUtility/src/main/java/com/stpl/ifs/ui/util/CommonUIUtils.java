@@ -12,6 +12,10 @@ import com.vaadin.shared.Position;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import de.steinwedel.messagebox.ButtonId;
+import de.steinwedel.messagebox.Icon;
+import de.steinwedel.messagebox.MessageBox;
+import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.List;
 import java.util.Map;
 import org.jboss.logging.Logger;
@@ -26,67 +30,67 @@ public class CommonUIUtils {
 		
 	}
 
-	public static final Object[] REBATE_PLAN_COLUMNS = new Object[] {
+	public final Object[] rebatePlanColumns = new Object[] {
 			"companyFamilyplanSystemId", "selfGrowthIndicator",
 			"rebateStructure", "marketShareFrom", HeaderUtils.REBATE_SCHEDULE_ID,
 			"secondaryRebatePlanNo", "rebateRangeBasedOn",
 			"itemFamilyplanSystemId", "rebateRule", "rebateBasedOn",
 			"rebatePlanType", "rebatePlanId" };
 	
-	public static final String[] REBATE_PLAN_HEADER = new String[] {
+	public final String[] rebatePlanHeader = new String[] {
 			"companyFamilyplanSystemId", "selfGrowthIndicator",
 			"rebateStructure", "marketShareFrom", HeaderUtils.REBATE_SCHEDULE_ID,
 			"secondaryRebatePlanNo", "rebateRangeBasedOn",
 			"itemFamilyplanSystemId", "rebateRule", "rebateBasedOn",
 			"rebatePlanType", "rebatePlanId" };
         
-	public static final Object[] REBATE_TIER_COLUMNS = new Object[] {
+	public final Object[] rebateTierColumns = new Object[] {
 			"tierFrom", "tierTo", "tierValue", "tierOperator" };
         
-	public static final String[] REBATE_TIER_HEADER = new String[] {
+	public final String[] rebateTierHeader = new String[] {
 			"tierFrom", "tierTo", "tierValue", "tierOperator" };
         
-	public static final Object[] REBATE_SCHEDULE_COLUMNS = new Object[] {
+	public final Object[] rebateScheduleColumns = new Object[] {
 			HeaderUtils.REBATE_SCHEDULE_ID, "rebateScheduleSystemId", "rebateScheduleName",
 			"rebateScheduleNo", "rebateScheduleStatus", "rebateScheduleType",
 			"rebateProgramType" };
         
-	public static final String[] REBATE_SCHEDULE_HEADER = new String[] {
+	public final String[] rebateScheduleHeader = new String[] {
 			"rebate Schedule Id", "rebate Schedule SystemId", "rebate Schedule Name",
 			"rebate Schedule No", "rebate Schedule Status", "rebate Schedule Type",
 			"rebate Program Type" };
         
-	public static final Object[] IFP_COLUMNS_IN_RS = new Object[] {
+	public final Object[] ifpColumnsInRs = new Object[] {
 			"itemFamilyplanNo", "itemFamilyplanName", "itemFamilyplanType" };
         
-	public static final String[] IFP_HEADER_IN_RS = new String[] {
+	public final String[] ifpHeaderInRs = new String[] {
 			"Item Familyplan No", "Item Familyplan Name",
 			"Item Familyplan Type" };
         
-	public static final Object[] ITEM_DETAILS_COLUMNS_IN_RS = new Object[] {
+	public final Object[] itemDetailsColumnsInRs = new Object[] {
 			HeaderUtils.CHECK_BOX, "recordType",HeaderUtils.ITEM_NO, HeaderUtils.ITEM_NAME, HeaderUtils.ITEM_TYPE,"formulaId","formulaName", "rebatePlanName",
 			 "rebateStartDate", "rebateEndDate", "rebateRevisionDate" };
         
-	public static final String[] ITEM_DETAILS_HEADER_IN_RS = new String[] {
+	public final String[] itemDetailsHeaderInRs = new String[] {
 			HeaderUtils.CHECK_BOX, "item No", "item Name", "item Type","formula Id","formula Name", "rebate Plan Name",
 			 "start Date", "End Date", "revision Date" };
         
-        public static final Object[] ITEM_DETAILS_COLUMNS_IN_RS_WITH_BUNDLE = new Object[] {
+        public final Object[] itemDetailsColumnsInRsWithBundle = new Object[] {
 			HeaderUtils.CHECK_BOX, HeaderUtils.ITEM_NO, HeaderUtils.ITEM_NAME, HeaderUtils.ITEM_TYPE,"formulaId","formulaName", "bundleNo","rebatePlanName",
 			 "rebateStartDate", "rebateEndDate", "rebateRevisionDate" };
         
-	public static final String[] ITEM_DETAILS_HEADER_IN_RS_WITH_BUNDLE = new String[] {
+	public final String[] itemDetailsHeaderInRsWithBundle = new String[] {
 			HeaderUtils.CHECK_BOX, "item No", "item Name", "item Type","formula Id","formula Name", "Bundle No","rebate Plan Name",
 			 "start Date", "end Date", "revision Date" };
 
         
-        public static final Object[] ITEM_GROUP_RESULTS_COLUMNS = new Object[] {
+        public final Object[] itemGroupResultsColumns = new Object[] {
 			 "itemGroupName","itemGroupDesc", "itemGroupNo", "company","createdDate","modifiedDate","createdBy" };
 
-	public static final String[] ITEM_GROUP_RESULTS_HEADER = new String[] {
+	public final String[] itemGroupResultsHeader = new String[] {
 			"Item Group Name","Item Group Description", "Item Group #", "Company","Creation Date","Modified Date","Created By" };        
         
-        public static final Object[] ITEM_RESULTS_COLUMNS = new Object[] {
+        public final Object[] itemResultsColumns = new Object[] {
 			 "itemId",HeaderUtils.ITEM_NO,"itemCode",HeaderUtils.ITEM_NAME,"itemDesc","itemStartDate","itemEndDate","itemStatus",
                          "therapeuticClass","brand","form","strength","packageSizeCode","packageSizeIntroDate","upps",
                          "manufacturerId","manufacturerNo","manufacturerName","labelerCode","organizationKey",
@@ -99,7 +103,7 @@ public class CommonUIUtils {
                          "dosesPerUnit","discontinuationDate","lastLotExpirationDate","ndc9","ndc8","displayBrand","innovatorCode",
                          "baselineAmp","baseYearCpi" };
 
-	public static final String[] ITEM_RESULTS_HEADER = new String[] {
+	public final String[] itemResultsHeader = new String[] {
 			"Item ID","Item #","Item Code","Item Name","Item Desc","Item Start Date","Item End Date",
                         "Item Status","Therapeutic Class","Brand","Form","Strength","Package Size Code",
                         "Package Size Intro Date","UPPS","Manufacturer ID","Manufacturer No","Manufacturer Name",
@@ -113,20 +117,20 @@ public class CommonUIUtils {
                         "Acquired BAMP","OBRA BAMP","DRA","Doses per Unit","Discontinuation Date","Last Lot Expiration Date",
                         "NDC9","NDC8","Display Brand","Innovator Code","Baseline AMP","Base Year CPI" };        
         
-        public static final Object[] CUSTOMER_GROUP_RESULTS_COLUMNS = new Object[] {
+        public final Object[] customerGroupResultsColumns = new Object[] {
 			 "customerGroupName","customerGroupDesc", "customerGroupNo","createdDate","modifiedDate","createdBy" };
 
-	public static final String[] CUSTOMER_GROUP_RESULTS_HEADER = new String[] {
+	public final String[] customerGroupResultsHeader = new String[] {
 			"Customer Group Name","Customer Group Description", "Customer Group #","Creation Date","Modified Date","Created By"  };        
         
-        public static final Object[] CUSTOMER_RESULTS_COLUMNS = new Object[] {
+        public final Object[] customerResultsColumns = new Object[] {
 			 "organizationKey","customerId","customerNo","customerName","tradeClass","tradeClassStartDate",
                          "tradeClassEndDate","customerType","customerStatus","lives","customerEndDate","udc1","udc2",
                          "udc3","udc4","udc5","udc6","customerGroup","financialSystem","address1","address2","city",
                          "state","zipCode","country","regionCode","parentCustomerNo","parentStartDate","parentEndDate",
                          "customerStartDate","priorParentStartDate","priorParentCustomerNo" };
 
-	public static final String[] CUSTOMER_RESULTS_HEADER = new String[] {
+	public final String[] customerResultsHeader = new String[] {
 			"Organization Key ","Customer ID","Customer No ","Customer Name ","Trade Class ",
                         "Trade Class Start Date ","Trade Class End Date","Customer Type","Customer Status",
                         "Lives","Customer End Date","UDC1","UDC2","UDC3","UDC4","UDC5","UDC6","Customer Group",
@@ -176,7 +180,23 @@ public class CommonUIUtils {
            
         }
     }
-public static String getDBinput(String identifier) {
-        return identifier.replace(DataFormatConverter.INDICATOR_PERCENT, "[%]").replace("*", DataFormatConverter.INDICATOR_PERCENT).replace("_", "[_]");
+    public static String getDBinput(String identifier) {
+            return identifier.replace(DataFormatConverter.INDICATOR_PERCENT, "[%]").replace("*", DataFormatConverter.INDICATOR_PERCENT).replace("_", "[_]");
+        }
+    public static void getSelectErrorMessage(){
+        final MessageBox msg = MessageBox.showPlain(Icon.WARN, "Select error", "Please select a record.", new MessageBoxListener() {
+
+            /**
+             * The method is triggered when a button of the message box is
+             * pressed .
+             *
+             * @param buttonId The buttonId of the pressed button.
+             */
+            @SuppressWarnings("PMD")
+            public void buttonClicked(final ButtonId buttonId) {
+                return;
+            }
+        }, ButtonId.OK);
+        msg.getButton(ButtonId.OK).focus();
     }
 }

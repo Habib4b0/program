@@ -22,6 +22,7 @@ import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.app.service.WorkflowMasterLocalServiceUtil;
+import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMConstants;
@@ -57,7 +58,7 @@ public class WorkflowLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(WorkflowLogic.class);
-    private final String SUCCESS = ARMUtils.SUCCESS;
+    private final String success = ARMUtils.SUCCESS;
     WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
     DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
 
@@ -84,7 +85,7 @@ public class WorkflowLogic {
         try {
             workFlowLogicDao.addWorkflowMaster(workflowMaster);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in saveWorkflowMaster :"+ex);
             return ARMUtils.WORKFLOW_NOT_SAVED;
         }
         return workflowMaster.getWorkflowId();
@@ -117,13 +118,15 @@ public class WorkflowLogic {
             moduleName = "ARM_TRX6";
         } else if (screenName.equals(ARMConstants.getTransaction7())) {
             moduleName = "ARM_TRX7";
-        } 
-        
+        } else if (screenName.equals(ARMConstants.getTransaction8())) {
+            moduleName = "ARM_TRX8";
+        }
+
         String workflowId = new BPIWorkFlowGeneratorXML().generateId(path + filePath1, moduleName);
         String docDetailsSid = saveDocDetails(getUploadedData);
         WorkflowMasterDTO workflowMasterDTO = setWorkflowMasterDTO(projectionId, workflowId, userId, notes, noOfLevels, docDetailsSid, description);
         return saveWorkflowMaster(workflowMasterDTO);
-        }
+    }
 
     /**
      * Method to updateWorkflowMaster From Forecast
@@ -142,7 +145,7 @@ public class WorkflowLogic {
             workFlowLogicDao.updateWorkflowMaster(workflowMaster);
             workflowId = workflowMaster.getWorkflowId();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in updateWorkflowFromForecast :"+ex);
         }
         return workflowId;
     }
@@ -206,7 +209,7 @@ public class WorkflowLogic {
      * @return WorkflowMasterDTO Object
      */
     public WorkflowMasterDTO setWorkflowMasterDTO(int projectionId, String workflowId, String userId, String notes, int noOfLevels, String getUploadedData, String description) throws SystemException {
-      
+
         WorkflowMasterDTO workflowMasterDTO = new WorkflowMasterDTO();
         int userIdInt = Integer.parseInt(userId);
         workflowMasterDTO.setWorkflowId(workflowId);
@@ -236,7 +239,7 @@ public class WorkflowLogic {
             workflowMaster = workFlowLogicDao.getWorkflowMaster(workflowMasterSystemId);
             return workflowMaster;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getWorkflowMaster :"+ex);
         }
         return null;
     }
@@ -257,7 +260,7 @@ public class WorkflowLogic {
             resultList = workFlowLogicDao.getWorkflowMasterByProjectionId(workflowMasterDynamicQuery);
             return resultList.get(0);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getWorkflowMasterByProjectionId :"+ex);
         }
         return null;
     }
@@ -285,15 +288,15 @@ public class WorkflowLogic {
 
                 workFlowLogicDao.updateWorkflowMaster(workflowMaster);
                 String projectionUpdated = updateProjectionMaster(workflowMasterDTO);
-                if (!projectionUpdated.equals(SUCCESS)) {
+                if (!projectionUpdated.equals(success)) {
                     return ARMUtils.WORKFLOW_NOT_SAVED;
                 }
             } else {
                 LOGGER.error("workflowMaster not created");
             }
-
+            LOGGER.debug(workflowMaster.getWorkflowId());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in updateWorkflow :"+ex);
             return ARMUtils.WORKFLOW_NOT_SAVED;
         }
         return workflowMaster.getWorkflowId();
@@ -327,7 +330,7 @@ public class WorkflowLogic {
      * @return - Status as Saved or Not Saved
      */
     public String updateProjectionMaster(WorkflowMasterDTO workflowMasterDTO) {
-         ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
+        ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
         try {
             String isApproved = StringUtils.EMPTY;
             if (workflowMasterDTO.getWorkflowStatusStr().equals(WorkflowConstants.getRejectedStatus())) {
@@ -339,10 +342,10 @@ public class WorkflowLogic {
             } else if (workflowMasterDTO.getWorkflowStatusStr().equals(WorkflowConstants.getWithdrawnStatus())) {
                 isApproved = "W";
             }
-            QueryUtils.itemUpdate(Arrays.asList(new String[]{isApproved,String.valueOf(workflowMasterDTO.getModifiedBy()),String.valueOf(workflowMasterDTO.getProjectionId())}), QueryUtils.QueryName.UPDATE_PROJECTION_MASTER_APPROVE_FLAG);
-            return SUCCESS;
+            QueryUtils.itemUpdate(Arrays.asList(new String[]{isApproved, String.valueOf(workflowMasterDTO.getModifiedBy()), String.valueOf(workflowMasterDTO.getProjectionId())}), QueryUtils.QueryName.UPDATE_PROJECTION_MASTER_APPROVE_FLAG);
+            return success;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in updateProjectionMaster :"+ex);
             return ARMUtils.WORKFLOW_NOT_SAVED;
         }
     }
@@ -353,7 +356,7 @@ public class WorkflowLogic {
      * @param workflowId - workflowId to be sent
      * @param approveORsubmit - Approve or Rejected Status
      */
-    public void mailNotificationArchive(String workflowId, String approveORsubmit) throws NamingException, SQLException  {
+    public void mailNotificationArchive(String workflowId, String approveORsubmit) throws NamingException, SQLException {
         Connection con = getConnection();
         String toEmailId = null;
         String ccEmailId = null;
@@ -370,7 +373,7 @@ public class WorkflowLogic {
         try {
             resultList = workFlowLogicDao.getMailNotificationMaster(mailDynamicQuery);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE+e);
         }
         for (MailNotificationMaster object : resultList) {
 
@@ -399,17 +402,17 @@ public class WorkflowLogic {
             st.setString(NumericConstants.SIX, null);
             st.execute();
         } catch (SQLException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE+ex);
         } finally {
             try {
                 st.close();
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE+e);
             }
             try {
                 con.close();
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(VariableConstants.ERROR_IN_MAIL_NOTIFICATION_ARCHIVE+e);
             }
         }
 
@@ -420,7 +423,7 @@ public class WorkflowLogic {
      *
      * @return
      */
-    public Connection getConnection() throws NamingException, SQLException  {
+    public Connection getConnection() throws NamingException, SQLException {
         DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
 
         return dataSourceConnection.getConnection();
@@ -440,16 +443,16 @@ public class WorkflowLogic {
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ARMUtils.LIST_NAME,
                 listName));
 
-        List<HelperTable> resultList = new ArrayList<HelperTable>();
+        List<HelperTable> resultList = new ArrayList<>();
         try {
             resultList = HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
 
-            if (resultList.size() > 0) {
+            if (!resultList.isEmpty()) {
                 HelperTable helperTable = resultList.get(0);
                 helperTableId = helperTable.getHelperTableSid();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getCodeFromHelperTable :"+ex);
         }
         return helperTableId;
     }
@@ -464,30 +467,32 @@ public class WorkflowLogic {
     public String saveDocDetails(List<NotesDTO> getUploadedData) {
         LOGGER.debug("saveDocDetails");
         StringBuilder docdetailsSids = new StringBuilder();
-        for (NotesDTO attached : getUploadedData) {
-            DocDetails docDetails = DocDetailsLocalServiceUtil.createDocDetails(0);
-            String fileName = attached.getDocumentName();
-            if (fileName.indexOf('.') == -1) {
-                docDetails.setFileName(fileName);
-                docDetails.setFileType(StringUtils.EMPTY);
-            } else {
-                docDetails.setFileName(fileName.substring(0, fileName.indexOf('.')));
-                docDetails.setFileType(fileName.substring(fileName.lastIndexOf('.') + 1));
-            }
-            docDetails.setUploadedDate(new Date());
-            docDetails.setUploadedBy(attached.getUserName());
+        try {
+            for (NotesDTO attached : getUploadedData) {
+                DocDetails docDetails = DocDetailsLocalServiceUtil.createDocDetails(0);
+                String fileName = attached.getDocumentName();
+                if (fileName.indexOf('.') == -1) {
+                    docDetails.setFileName(fileName);
+                    docDetails.setFileType(StringUtils.EMPTY);
+                } else {
+                    docDetails.setFileName(fileName.substring(0, fileName.indexOf('.')));
+                    docDetails.setFileType(fileName.substring(fileName.lastIndexOf('.') + 1));
+                }
+                docDetails.setUploadedDate(new Date());
+                docDetails.setUploadedBy(attached.getUserName());
 
-            try {
                 DocDetails id = workFlowLogicDao.addDocDetails(docDetails);
                 docdetailsSids.append(id.getDocDetailsId()).append(",");
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-                return ARMUtils.WORKFLOW_NOT_SAVED;
-            }
-        }
 
-        if (docdetailsSids.length() > 0) {
-            docdetailsSids.deleteCharAt(docdetailsSids.length() - 1);
+            }
+
+            if (docdetailsSids.length() > 0) {
+                docdetailsSids.deleteCharAt(docdetailsSids.length() - 1);
+            }
+            LOGGER.debug("Doc details Id's --->>" + docdetailsSids.toString());
+        } catch (Exception ex) {
+            LOGGER.error("Error in saveDocDetails :"+ex);
+            return ARMUtils.WORKFLOW_NOT_SAVED;
         }
         return String.valueOf(docdetailsSids);
     }

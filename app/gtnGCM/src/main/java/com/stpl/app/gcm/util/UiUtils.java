@@ -49,36 +49,36 @@ public class UiUtils {
     public static final String FORM = "FORM";
     public static final String STRENGTH = "STRENGTH";
     public static final String REBATE_PLAN_TYPE = "REBATE_PLAN_TYPE";
-    public static final Object NEW_COMPANY_DETAILS_COLUMNS[] = new Object[]{
-        "companyId", "companyName", "companyNo", Constants.START_DATE, Constants.END_DATE, "companyStatusValue", "tradeClass", "attachedDate"};
-   public static final Object CC_COMPANY_DETAILS_COLUMNS[] = new Object[]{
-        "tpNo", "companyName", "companyNo", "companyStartDate", "companyEndDate", "companyStatus", "tradeClass", "attachedDate"};
-    public static final String NEW_COMPANY_DETAILS_HEADERS[] = new String[]{
-        "Trading Partner No ", "Trading Partner Name", "Trading Partner Contract No", "Start Date", "End Date", "Status", Constants.TRADECLASS, "Attached Date"};
-    public static final Object NEW_IFP_DETAILS_COLUMNS[] = new Object[]{
-        "itemNo", "itemName", "brand", "itemStatus", Constants.START_DATE, Constants.END_DATE, "attachedDate"};
-    
-     public static final Object CC_IFP_DETAILS_COLUMNS[] = new Object[]{
-        "itemNo", "itemName", "brand", "ifpStatus", Constants.IFP_START_DATE, Constants.IFP_END_DATE, "attachedDate"};
-    public static final String NEW_IFP_DETAILS_HEADERS[] = new String[]{
-        Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, "Status", "Start Date", "End Date", "Attached Date"};
-    public static final Object CC_PS_DETAILS_COLUMNS[] = new Object[]{
-        "itemNo", "itemName", "brand", "ifpStatus", Constants.IFP_START_DATE, Constants.IFP_END_DATE, "priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "ppStartDate", "priceProtectionEndDate",
+    public final Object newCompanyDetailsColumns[] = new Object[]{
+        "companyId", "companyName", "companyNo", Constants.START_DATE, Constants.END_DATE, "companyStatusValue", "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
+    public final Object ccCompanyDetailsColumns[] = new Object[]{
+        "tpNo", "companyName", "companyNo", "companyStartDate", "companyEndDate", "companyStatus", "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
+    public final String newCompanyDetailsHeaders[] = new String[]{
+        "Trading Partner No ", "Trading Partner Name", "Trading Partner Contract No", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD};
+    public final Object newIfpDetailsColumns[] = new Object[]{
+        Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY};
+
+    public final Object ccIfpDetailsColumns[] = new Object[]{
+        Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE, Constants.ATTACHED_DATE_PROPERTY};
+    public final String newIfpDetailsHeaders[] = new String[]{
+        Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ATTACHED_DATE_FIELD};
+    public final Object ccPsDetailsColumns[] = new Object[]{
+        Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE, "priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "ppStartDate", "priceProtectionEndDate",
         "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency", "priceToleranceType", "maxIncrementalChange", "priceTolerance", "reset", "eligibility", "resetType",
-        "resetDate", "resetIntervel", "resetFrequency", "attachedDate"};
-    public static final Object NEW_PS_DETAILS_COLUMNS[] = new Object[]{
-        "itemNo", "itemName", "brand", "itemStatus", Constants.START_DATE, Constants.END_DATE, "priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "priceProtectionStartDate", "priceProtectionEndDate",
+        "resetDate", "resetIntervel", "resetFrequency", Constants.ATTACHED_DATE_PROPERTY};
+    public final Object newPsDetailsColumns[] = new Object[]{
+        Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE, "priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "priceProtectionStartDate", "priceProtectionEndDate",
         "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency", "priceToleranceType", "maxIncrementalChange", "priceTolerance", "reset", "eligibility", "resetType",
-        "resetDate", "resetIntervel", "resetFrequency", "attachedDate"};
-    public static final Object CC_RS_DETAILS_COLUMNS[] = new Object[]{
-        "itemNo", "itemName", "brand", "ifpStatus", Constants.IFP_START_DATE, Constants.IFP_END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", "attachedDate"};
-    public static final String NEW_PS_DETAILS_HEADERS[] = new String[]{
-        Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, "Status", "Start Date", "End Date", "Price Type", "Price Plan No", "Price Plan Name", "Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
-        "Price Protection Price Type", "Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Max Incremental Change", "Price Tolerance", "Reset", "Eligibility", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", "Attached Date"};
-    public static final Object NEW_RS_DETAILS_COLUMNS[] = new Object[]{
-        "itemNo", "itemName", "brand", "itemStatus", Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", "attachedDate"};
-    public static final String NEW_RS_DETAILS_HEADERS[] = new String[]{
-        Constants.IFP_NO, Constants.IfpNAME, Constants.BRAND, "Status", "Start Date", "End Date", "Formula Type", "Formula ID", "Formula Name", "Rebate Plan ID", "Rebate Plan Name", "Rebate Amount", "Bundle No", "Attached Date"};
+        "resetDate", "resetIntervel", "resetFrequency", Constants.ATTACHED_DATE_PROPERTY};
+    public final Object ccRsDetailsColumns[] = new Object[]{
+        Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.IFP_STATUS_PROPERTY, Constants.IFP_START_DATE, Constants.IFP_END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
+    public final String newPsDetailsHeaders[] = new String[]{
+        Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Price Type", "Price Plan No", "Price Plan Name", "Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
+        "Price Protection Price Type", "Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Max Incremental Change", "Price Tolerance", "Reset", "Eligibility", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", Constants.ATTACHED_DATE_FIELD};
+    public final Object newRsDetailsColumns[] = new Object[]{
+        Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
+    public final String newRsDetailsHeaders[] = new String[]{
+        Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "Rebate Plan ID", "Rebate Plan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
 
     public static AbstractOrderedLayout getLayout(Class<?> theClass) {
         resourceBundle = ResourceBundle.getBundle("configurations/default");
@@ -97,5 +97,30 @@ public class UiUtils {
             LOGGER.error(ex);
         }
         return layout;
+    }
+    
+    private static UiUtils object;
+    public final Object[] visibleColumnItemSearch = {"checkRecord", Constants.SYSTEM_ID_PROPERTY, Constants.COMPANY_PROPERTY, Constants.ITEM_ID_PROPERTY, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.ITEM_DESC_PROPERTY, CommonUtils.THERAPEUTIC_CLASS_PROPERTY, Constants.BRAND_PROPERTY, "form", Constants.STRENGTH_PROPERTY, Constants.PLACE_HOLDER_PROPERTY, "ndc9", Constants.ITEM_CATEGORY_PROPERTY, Constants.ITEM_TYPE_PROPERTY};
+    public final String[] transferHeader = {"", "Item ID - From", "Item No - From", "Item Name - From", "Item ID - To", "Item No - To", "Item Name - To"};
+    public final String[] columnHeaderItemSearch = {"", Constants.SYSTEM_ID_LABEL, Constants.COMPANY_LABEL, Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.ITEM_DESC_LABEL, Constants.THERAPEUTIC_CLASS_LABEL, Constants.BRAND, Constants.FORM, Constants.STRENGTH, Constants.PLACE_HOLDER_LABEL, "NDC9", Constants.ITEM_CATEGORY_LABEL, Constants.ITEM_TYPE};
+    public final String[] excelColumnHeaderItemSearch = {Constants.SYSTEM_ID_LABEL, Constants.COMPANY_LABEL, Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.ITEM_DESC_LABEL, Constants.THERAPEUTIC_CLASS_LABEL, Constants.BRAND, Constants.FORM, Constants.STRENGTH, Constants.PLACE_HOLDER_LABEL, "NDC9", Constants.ITEM_CATEGORY_LABEL, Constants.ITEM_TYPE};
+    public final Object[] visibleColumnItem = {Constants.SYSTEM_ID_PROPERTY, Constants.COMPANY_PROPERTY, Constants.ITEM_ID_PROPERTY, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.ITEM_DESC_PROPERTY, CommonUtils.THERAPEUTIC_CLASS_PROPERTY, Constants.BRAND_PROPERTY, "form", Constants.STRENGTH_PROPERTY, Constants.PLACE_HOLDER_PROPERTY, "ndc9", Constants.ITEM_CATEGORY_PROPERTY, Constants.ITEM_TYPE_PROPERTY};
+    public final String[] columnHeaderItem = {Constants.SYSTEM_ID_LABEL, Constants.COMPANY_LABEL, Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.ITEM_DESC_LABEL, Constants.THERAPEUTIC_CLASS_LABEL, Constants.BRAND, Constants.FORM, Constants.STRENGTH, Constants.PLACE_HOLDER_LABEL, "NDC9", Constants.ITEM_CATEGORY_LABEL, Constants.ITEM_TYPE};
+    public final Object[] excelVisibleColumnItemSearch = {Constants.SYSTEM_ID_PROPERTY, Constants.COMPANY_PROPERTY, Constants.ITEM_ID_PROPERTY, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.ITEM_DESC_PROPERTY, CommonUtils.THERAPEUTIC_CLASS_PROPERTY, Constants.BRAND_PROPERTY, "form", Constants.STRENGTH_PROPERTY, Constants.PLACE_HOLDER_PROPERTY, "ndc9", Constants.ITEM_CATEGORY_PROPERTY, Constants.ITEM_TYPE_PROPERTY};
+    public final Object[] transferVisible = {Constants.CHECK_RECORD, Constants.ITEM_ID_PROPERTY, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, "itemIdTo", "itemNoTo", "itemNameTo"};
+    /**
+     * Constructor
+     */
+    private UiUtils() {
+        /*
+            Constructor
+        */
+    }
+
+    public static UiUtils getInstance() {
+        if (object == null) {
+            object = new UiUtils();
+        }
+        return object;
     }
 }

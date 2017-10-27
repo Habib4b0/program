@@ -78,14 +78,14 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     public Button transferRemove;
 
     SessionDTO session;
-    ContractSelectionLogic logic = new ContractSelectionLogic();
-    CommmonLogic commonLogic = new CommmonLogic();
+    transient ContractSelectionLogic logic = new ContractSelectionLogic();
+    transient CommmonLogic commonLogic = new CommmonLogic();
     public ExtPagedFilterTable currentTradingPartnerDetailsTable = new ExtPagedFilterTable();
     public ExtPagedFilterTable transferTradingPartnerDetailsTable = new ExtPagedFilterTable();
 
     TransferTPForm transferTpForm;
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    final transient  StplSecurity stplSecurity = new StplSecurity();
+    transient Map<String, AppPermission>  functionHM = new HashMap<>();
 
     private BeanItemContainer<ContractResultDTO> currentTPDetailsContainer;
     private BeanItemContainer<ContractResultDTO> transferTPDetailsContainer;
@@ -96,8 +96,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private boolean csvTransferFlag = false;
 
-    CommonUtil commonUtil=CommonUtil.getInstance();
-    List<IdDescriptionDTO> statusResultList = new ArrayList<IdDescriptionDTO>();
+    transient CommonUtil commonUtil=CommonUtil.getInstance();
+    transient List<IdDescriptionDTO> statusResultList = new ArrayList<>();
 
     /**
      * The Constant LOGGER.
@@ -133,14 +133,15 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
 
         currentTradingPartnerDetailsTable.setPageLength(NumericConstants.FIVE);
         currentTradingPartnerDetailsTable.setContainerDataSource(currentTPDetailsContainer);
-        currentTradingPartnerDetailsTable.setVisibleColumns(Constants.SUMMARY_TRANSFER_TP_COLUMNS);
-        currentTradingPartnerDetailsTable.setColumnHeaders(Constants.SUMMARY_CONTRACT_SELECTION_HEADERS);
+        currentTradingPartnerDetailsTable.setVisibleColumns(Constants.getInstance().summaryTransferTpColumns);
+        currentTradingPartnerDetailsTable.setColumnHeaders(Constants.getInstance().summaryContractSelectionHeaders);
+        currentTradingPartnerDetailsTable.sinkItemPerPageWithPageLength(false);
         currentTradingPartnerDetailsTable.setEditable(true);
         currentTradingPartnerDetailsTable.setFilterGenerator(new TransferPDFilterGenerator());
         currentTradingPartnerDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         currentTradingPartnerDetailsTable.setFilterBarVisible(true);
 
-        HorizontalLayout currentTpControlLayout = new HorizontalLayout();
+        HorizontalLayout currentTpControlLayout;
         currentTpControlLayout = currentTradingPartnerDetailsTable.createControls();
         currentTradingPartnerTableLayout.addComponent(currentTpControlLayout);
 
@@ -150,20 +151,21 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
 
         transferTradingPartnerDetailsTable.setPageLength(NumericConstants.FIVE);
         transferTradingPartnerDetailsTable.setContainerDataSource(transferTPDetailsContainer);
-        transferTradingPartnerDetailsTable.setVisibleColumns(Constants.SUMMARY_TRANSFER_TP_COLUMNS);
-        transferTradingPartnerDetailsTable.setColumnHeaders(Constants.SUMMARY_CONTRACT_SELECTION_HEADERS);
+        transferTradingPartnerDetailsTable.sinkItemPerPageWithPageLength(false);
+        transferTradingPartnerDetailsTable.setVisibleColumns(Constants.getInstance().summaryTransferTpColumns);
+        transferTradingPartnerDetailsTable.setColumnHeaders(Constants.getInstance().summaryContractSelectionHeaders);
         transferTradingPartnerDetailsTable.setEditable(true);
         transferTradingPartnerDetailsTable.setFilterBarVisible(true);
         transferTradingPartnerDetailsTable.setFilterGenerator(new TransferPDFilterGenerator());
         transferTradingPartnerDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
      
-        HorizontalLayout transferTpControlLayout = new HorizontalLayout();
+        HorizontalLayout transferTpControlLayout;
         transferTpControlLayout = transferTradingPartnerDetailsTable.createControls();
         transferTradingPartnerTableLayout.addComponent(transferTpControlLayout);
 
         currentTradingPartnerDetailsTable.setTableFieldFactory(new TableFieldFactory() {
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
-                if (propertyId.equals("checkRecord")) {
+                if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -176,9 +178,9 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
 
                 if (propertyId.equals("compEndDate")) {
                     final PopupDateField compEndDate = new PopupDateField();
-                    compEndDate.setDateFormat("MM/dd/yyyy");
-                    compEndDate.setStyleName("dateFieldCenter");
-                    compEndDate.addStyleName("datefieldcentered");
+                    compEndDate.setDateFormat(Constants.MM_DD_YYYY);
+                    compEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    compEndDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
                     compEndDate.setEnabled(false);
 
                     return compEndDate;
@@ -186,9 +188,9 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
 
                 if (propertyId.equals("compStartDate")) {
                     final PopupDateField compStartDate = new PopupDateField();
-                    compStartDate.setDateFormat("MM/dd/yyyy");
-                    compStartDate.setStyleName("dateFieldCenter");
-                    compStartDate.addStyleName("datefieldcentered");
+                    compStartDate.setDateFormat(Constants.MM_DD_YYYY);
+                    compStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    compStartDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
                     compStartDate.setEnabled(false);
                     return compStartDate;
                 }
@@ -196,9 +198,9 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                 if (propertyId.equals(
                         "contEndDate")) {
                     final PopupDateField contEndDate = new PopupDateField();
-                    contEndDate.setDateFormat("MM/dd/yyyy");
-                    contEndDate.setStyleName("dateFieldCenter");
-                    contEndDate.addStyleName("datefieldcentered");
+                    contEndDate.setDateFormat(Constants.MM_DD_YYYY);
+                    contEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    contEndDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
                     contEndDate.setEnabled(false);
 
                     return contEndDate;
@@ -207,9 +209,9 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                 if (propertyId.equals(
                         "contStartDate")) {
                     final PopupDateField contStartDate = new PopupDateField();
-                    contStartDate.setDateFormat("MM/dd/yyyy");
-                    contStartDate.setStyleName("dateFieldCenter");
-                    contStartDate.addStyleName("datefieldcentered");
+                    contStartDate.setDateFormat(Constants.MM_DD_YYYY);
+                    contStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    contStartDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
                     contStartDate.setEnabled(false);
                     return contStartDate;
                 }
@@ -220,7 +222,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
 
         transferTradingPartnerDetailsTable.setTableFieldFactory(new TableFieldFactory() {
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
-                if (propertyId.equals("checkRecord")) {
+                if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -233,18 +235,18 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
               
                 if (propertyId.equals("compEndDate")) {
                     final PopupDateField compEndDate = new PopupDateField();
-                    compEndDate.setDateFormat("MM/dd/yyyy");
-                    compEndDate.setStyleName("dateFieldCenter");
-                    compEndDate.addStyleName("datefieldcentered");
+                    compEndDate.setDateFormat(Constants.MM_DD_YYYY);
+                    compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compEndDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
                     compEndDate.setEnabled(false);
                     return compEndDate;
                 }
 
                 if (propertyId.equals("compStartDate")) {
                     final PopupDateField compStartDate = new PopupDateField();
-                    compStartDate.setDateFormat("MM/dd/yyyy");
-                    compStartDate.setStyleName("dateFieldCenter");
-                    compStartDate.addStyleName("datefieldcentered");
+                    compStartDate.setDateFormat(Constants.MM_DD_YYYY);
+                    compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compStartDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
                     compStartDate.setEnabled(false);
                     return compStartDate;
                 }
@@ -252,9 +254,9 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                 if (propertyId.equals(
                         "contEndDate")) {
                     final PopupDateField contEndDate = new PopupDateField();
-                    contEndDate.setDateFormat("MM/dd/yyyy");
-                    contEndDate.setStyleName("dateFieldCenter");
-                    contEndDate.addStyleName("datefieldcentered");
+                    contEndDate.setDateFormat(Constants.MM_DD_YYYY);
+                    contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contEndDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
                     contEndDate.setEnabled(false);
 
                     return contEndDate;
@@ -263,9 +265,9 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                 if (propertyId.equals(
                         "contStartDate")) {
                     final PopupDateField contStartDate = new PopupDateField();
-                    contStartDate.setDateFormat("MM/dd/yyyy");
-                    contStartDate.setStyleName("dateFieldCenter");
-                    contStartDate.addStyleName("datefieldcentered");
+                    contStartDate.setDateFormat(Constants.MM_DD_YYYY);
+                    contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contStartDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
                     contStartDate.setEnabled(false);
                     return contStartDate;
                 }
@@ -273,6 +275,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                 return null;
             }
         });
+        currentTradingPartnerDetailsTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
+        transferTradingPartnerDetailsTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
         }catch(Exception ex){
           LOGGER.error(ex);       
         }      
@@ -324,7 +328,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     }
 
     private void removeCheckedItems(BeanItemContainer<ContractResultDTO> tpDetailsContainer, String tableName) {
-        List<ContractResultDTO> checkedContracts = new ArrayList<ContractResultDTO>();
+        List<ContractResultDTO> checkedContracts = new ArrayList<>();
         List<ContractResultDTO> tableRecords = tpDetailsContainer.getItemIds();
         String contractName = StringUtils.EMPTY;
         String cfpName = StringUtils.EMPTY;
@@ -407,7 +411,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         LOGGER.info("Entering createWorkSheetContent with start " + start + " end " + end);
         try {
 
-            List tempVisibleColumns = new ArrayList();
+            List tempVisibleColumns;
 
             String screenName;
             if (csvTransferFlag) {

@@ -1,6 +1,5 @@
 package com.stpl.app.testbench;
 
-import java.util.List;
 
 import junit.framework.Assert;
 
@@ -8,14 +7,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.NotificationElement;
-import com.vaadin.testbench.elements.TableElement;
 import com.vaadin.testbench.elements.TextFieldElement;
 import com.vaadin.testbench.elements.WindowElement;
 
@@ -27,7 +24,6 @@ public class AuditInbound extends TestBenchTestCase{
 			
 		setDriver(new FirefoxDriver());		
 		getDriver().get("https://galderma-test.sysbiz.org/");
-		//driver.get("http://localhost:8081/c/portal/login?p_l_id=17401");		
 		driver.manage().window().maximize();
 		findElement(By.id("_58_login")).sendKeys("admin");
 		findElement(By.id("_58_password")).sendKeys("admin");

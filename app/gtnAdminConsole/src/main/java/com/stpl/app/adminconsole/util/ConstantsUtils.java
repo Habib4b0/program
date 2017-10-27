@@ -26,6 +26,20 @@ public final class ConstantsUtils {
     public static final String EMPTY = "";
 
     public static final String NULL = "null";
+    
+    public static final String AND = " and ";
+    
+    public static final String FROM = " FROM ";
+    
+    public static final String JOIN = " JOIN " ;
+    
+    public static final String IS_NOT_NULL = " IS NOT NULL " ;
+    
+    public static final String WHERE = " WHERE " ;
+    
+    public static final String PATH_COM_BPM = "com.stpl.app.bpm";
+    
+    public static final String CALENDER_CONFIG = "Calender Configuration";
 
     public static final String TILTE = "~";
 
@@ -78,7 +92,7 @@ public final class ConstantsUtils {
     public static final String SMALL_YES = "Yes";
 
     public static final String ADD = "Add";
-    public static final String Add = "add";
+    public static final String ADD_LOWER_CASE = "add";
 
     public static final String COPY = "Copy";
 
@@ -246,7 +260,6 @@ public final class ConstantsUtils {
 
     public static final String RESET = "Reset Confirmation";
 
-    public static final String RESET_ = "Reset";
 
     public static final String LEVEL_VALUES = "levelValues";
 
@@ -481,7 +494,7 @@ public final class ConstantsUtils {
     public static final String UDC2 = "RS_UDC2";
 
     public static final String DEDUCTION_GROUP_SYS_ID = "DeductionGroupSid";
-    public static String[] MANUAL_PROCESS_SCHEDULAR_HEADER = {"isSelected", "processName", "lastRunDate"};
+    public static String[] manualProcessShedularHeader = {"isSelected", "processName", "lastRunDate"};
     public static String ASTERISK = "*";
     public static String PERCENT = "%";
     public static String ADJ_RESERVER_DETAIL_INTERFACE = "ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE";
@@ -494,8 +507,6 @@ public final class ConstantsUtils {
     public static final String RELATIONSHIP_LEVEL_SID = "relationshipLevelSid";
 
     public static final String RESPONSIVE_TAB_GRID = "responsiveTabGrid";
-
-    public static final String SELECTONE = "-Select One-";
 
     public static final String NDC8 = "ndc8";
 
@@ -594,7 +605,7 @@ public final class ConstantsUtils {
 
     public final static String WORKFLOW_STATUS = "WorkFlowStatus";
 
-    public static final String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
+    public static final String ALPHA_NUMERIC_CHARS = "([0-9|a-z|A-Z|\\ |\\*])*";
 
     public static final String CFF_TYPE = "CFF_TYPE";
 
@@ -637,10 +648,10 @@ public final class ConstantsUtils {
 
     public static final String NATIONAL_ASSUMPTIONS = "National Assumptions";
 
-    public static final Object PROCESS_MONITOR_COLUMNS[] = new Object[]{
-        "processName", "processType", "calender", "modifiedDate", "modifiedBy"};
+    public final Object[] processMonitorColumns = new Object[]{
+        PROCESS_NAME, "processType", "calender", "modifiedDate", "modifiedBy"};
 
-    public static final String PROCESS_MONITOR_HEADER[] = new String[]{
+    public final String[] processMonitorHeader = new String[]{
         "Monitor Name", "Process Type", "Calendar", "Modified Date", "Modified By"};
 
     public static final String CUST_RELATIONSHIP_BUILDER = "custRelationshipBuilderSid";
@@ -664,7 +675,7 @@ public final class ConstantsUtils {
     public static final String BUSINESS_PROCESS_TYPE_RETURNS = "Returns";
     public static final String BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION = "AccrualRateProjection";
     
-    public static final String Save_criteria = "Save criteria";
+    public static final String SAVE_CRITERIA = "Save criteria";
     
     public static final String STATUS = "STATUS";
     public final static String SYS_SCHEMA = "sys.schema.jndi.name";
@@ -714,7 +725,7 @@ public final class ConstantsUtils {
         NDC10("NDC10"),
         NDC11("NDC11"),
         BRAND("Brand"),
-        NDCs("NDC"),
+        NDCS("NDC"),
         DEMAND("Demand"),
         PIPELINE("Pipeline"),
         AUTO_RECONCILE("Auto Reconcile"),
@@ -733,9 +744,9 @@ public final class ConstantsUtils {
         INDICATOR_PRIVATE_VIEW("Private View"),
         PROJECTIONS("Projections"),
         ITEM("Item"),
-        MMddyyyy("MM/dd/yyyy"),
-        yyyyMMddhhmmssSSS("yyyy-MM-dd hh:mm:ss.SSS"),
-        MMddyyyyhhmmss("MM/dd/yyyy hh:mm:ss"),
+        MMDDYYYY("MM/dd/yyyy"),
+        YYYYMMDDHHMMSSSSS("yyyy-MM-dd hh:mm:ss.SSS"),
+        MMDDYYYYHHMMSS("MM/dd/yyyy hh:mm:ss"),
         HOUR("24");
 
         private String constant;
@@ -754,4 +765,12 @@ public final class ConstantsUtils {
         }
     }
 
+    private static ConstantsUtils object;
+
+    public static ConstantsUtils getInstance() {
+        if (object == null) {
+            object = new ConstantsUtils();
+        }
+        return object;
+    }
 }

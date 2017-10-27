@@ -81,9 +81,9 @@ public class FileMananagementResultDTO implements Serializable {
 
     private String hiddenUnits;
 
-    private String fromDate = DEFAULT;
+    private Date fromDate = null;
 
-    private String toDate = DEFAULT;
+    private Date toDate = null;
 
     private String forecastType = DEFAULT;
     private String forcastYear = DEFAULT;
@@ -658,19 +658,19 @@ public class FileMananagementResultDTO implements Serializable {
         this.hiddenUnits = hiddenUnits;
     }
 
-    public String getFromDate() {
+    public Date getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(String fromDate) {
+    public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
     }
 
-    public String getToDate() {
+    public Date getToDate() {
         return toDate;
     }
 
-    public void setToDate(String toDate) {
+    public void setToDate(Date toDate) {
         this.toDate = toDate;
     }
 

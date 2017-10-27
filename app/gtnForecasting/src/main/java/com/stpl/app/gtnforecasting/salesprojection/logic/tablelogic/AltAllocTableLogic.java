@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.vaadin.data.Container;
+import java.util.Collections;
 import java.util.List;
 import org.asi.container.ExtContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -55,7 +56,7 @@ public class AltAllocTableLogic extends PageTableLogic {
             return logic.getAlloc(altHistoryDTO, session, addToQueue, getFilters(), start, offset, Boolean.FALSE);
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 

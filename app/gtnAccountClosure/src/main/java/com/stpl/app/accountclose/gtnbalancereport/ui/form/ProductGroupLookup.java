@@ -89,7 +89,6 @@ public class ProductGroupLookup extends Window {
      * The result container.
      */
     private BeanItemContainer<GroupDTO> resultContainer = new BeanItemContainer<GroupDTO>(GroupDTO.class);
-    private GroupDTO selectedCustHierarchy;
     ProductLookupResultTable resultTableLogic = new ProductLookupResultTable();
     public ExtPagedTable resultTable = new ExtPagedTable(resultTableLogic);
     GroupDTO groupDTO = new GroupDTO();

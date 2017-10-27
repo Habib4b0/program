@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
@@ -100,28 +101,28 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
     public PopupDateField endDate;
     ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<ComponentLookUpDTO>(ComponentLookUpDTO.class);
-    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<String>(String.class);
-    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<String>(String.class);
+    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
+    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
+    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     private String component = StringUtils.EMPTY;
     ComponentLookUpDTO componentDto;
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ComponentLookUpDTO>(binderDto));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection = new SelectionDTO();
     AbstractLogic logic = AbstractLogic.getInstance();
-    List<String> countFlag = new ArrayList<String>();
-    List<String> loadDataFlag = new ArrayList<String>();
+    List<String> countFlag = new ArrayList<>();
+    List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
     Object CFP_SEARCH_COLUMNS[] = new Object[]{
-        "componentId", "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", "tradeClass", Constants.START_DATE, Constants.END_DATE};
+        "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, "tradeClass", Constants.START_DATE, Constants.END_DATE};
     String CFP_SEARCH_HEADERS[] = new String[]{
         "CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan Id", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
     Object IFP_SEARCH_COLUMNS[] = new Object[]{
-        "componentId", "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
+        "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE};
     String IFP_SEARCH_HEADERS[] = new String[]{
-        Constants.IFP_ID, Constants.IFP_NO, Constants.IfpNAME, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan Id", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
+        Constants.IFP_ID, Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan Id", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
     Object PS_SEARCH_COLUMNS[] = new Object[]{
-        "componentNo", "componentName", "componentType", "category", "tradeClass", "designation", "parentPsId", "parentPsName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
+        StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, "tradeClass", StringConstantsUtil.DESIGNATION_PROPERTY, "parentPsId", "parentPsName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE};
     String PS_SEARCH_HEADERS[] = new String[]{
         "PS No", "PS Name", "PS Type", "PS Category", "PS Trade Class", "PS Designation", "Parent PS Id", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
 
@@ -131,8 +132,8 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
         setContent(Clara.create(getClass().getResourceAsStream("/item/componentSearchLookup.xml"), this));
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(true);
         setModal(true);
         getBinder();
@@ -204,9 +205,11 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -214,7 +217,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
             }
 
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if ("componentStatus".equals(propertyId)) {
+                if (StringConstantsUtil.COMPONENT_STATUS_PROPERTY.equals(propertyId)) {
                     final ComboBox componentStatusDdlb = new ComboBox();
                     logic.LazyLoadDdlb(componentStatusDdlb, countFlag.get(0), loadDataFlag.get(0), true);
                     return componentStatusDdlb;
@@ -237,7 +240,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
 
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<ComponentLookUpDTO>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }
@@ -292,6 +295,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset?");
 

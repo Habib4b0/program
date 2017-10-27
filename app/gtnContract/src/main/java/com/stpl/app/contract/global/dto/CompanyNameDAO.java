@@ -99,7 +99,7 @@ public class CompanyNameDAO implements BeanDAO<CompanySearchDto> {
                 LOGGER.debug("End of find()");
                 return salesList;
             } else {
-                salesList = new ArrayList<CompanySearchDto>();
+                salesList = new ArrayList<>();
             }
             LOGGER.debug("End of find()");
             return salesList;
@@ -108,7 +108,7 @@ public class CompanyNameDAO implements BeanDAO<CompanySearchDto> {
             LOGGER.error(errorMsg);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
         }
-        return new ArrayList<CompanySearchDto>();
+        return new ArrayList<>();
     }
 
     /**

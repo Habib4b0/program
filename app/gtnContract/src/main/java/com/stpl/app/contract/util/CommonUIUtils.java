@@ -117,7 +117,7 @@ public final class CommonUIUtils {
         }
     }    
                
-    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode) throws SystemException, PortalException {
+    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode)  {
 
         TableResultCustom tblResultCustom = new TableResultCustom();
         boolean appPerm = false;
@@ -237,35 +237,28 @@ public final class CommonUIUtils {
    */
     public static TableResultCustom getTableColumnsPermission(List<Object> resultList, Object[] obj, Map<String, AppPermission> fieldIfpHM, String mode) {
         TableResultCustom tableResultCustom = new TableResultCustom();
-        try {
-            List<Object> strList = Arrays.asList(obj);
-            List<String> columnList = new ArrayList<String>();
-            List<Object> columnList1 = new ArrayList<Object>();
-            List<String> headerList = new ArrayList<String>();
-            List<String> headerList2 = new ArrayList<String>();
-            for (int i = 0; i < resultList.size(); i++) {
-                Object[] objResult = (Object[]) resultList.get(i);
-                String value = objResult[1].toString();
-                if (strList.contains(value)) {
-                    columnList.add(value.toString());
-                    headerList.add(objResult[0].toString());
-                }
+        List<Object> strList = Arrays.asList(obj);
+        List<String> columnList = new ArrayList<>();
+        List<Object> columnList1 = new ArrayList<>();
+        List<String> headerList = new ArrayList<>();
+        List<String> headerList2 = new ArrayList<>();
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] objResult = (Object[]) resultList.get(i);
+            String value = objResult[1].toString();
+            if (strList.contains(value)) {
+                columnList.add(value.toString());
+                headerList.add(objResult[0].toString());
             }
-            for (Object headerList1 : strList) {
-                if (columnList.contains(headerList1.toString())) {
-                    columnList1.add(headerList1);
-                    headerList2.add(headerList.get(columnList.indexOf(headerList1.toString())));
-                }
-            }
-            String[] headerArray = new String[headerList2.size()];
-            headerArray = headerList2.toArray(headerArray);
-            tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
-
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
         }
+        for (Object headerList1 : strList) {
+            if (columnList.contains(headerList1.toString())) {
+                columnList1.add(headerList1);
+                headerList2.add(headerList.get(columnList.indexOf(headerList1.toString())));
+            }
+        }
+        String[] headerArray = new String[headerList2.size()];
+        headerArray = headerList2.toArray(headerArray);
+        tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
         return tableResultCustom;
     }
     /**
@@ -310,7 +303,7 @@ public static String convertStringToDate(String stringDate, String inputFormat, 
         try {
             SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
             SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
-            Date date = new Date();
+            Date date;
             date = inputDateFormatter.parse(stringDate);
             return outputDateFormatter.format(date);
         } catch (ParseException ex) {

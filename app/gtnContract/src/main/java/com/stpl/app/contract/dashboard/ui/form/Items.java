@@ -47,6 +47,7 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
@@ -210,7 +211,7 @@ public class Items extends CustomComponent {
     private PopupDateField modifiedDate;
     LazyLoadCriteria lazyLoadCriteria = new LazyLoadCriteria();
     List ifpItemList = new ArrayList<>();
-    private BeanItemContainer<TempPricingDTO> saveContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private BeanItemContainer<TempPricingDTO> saveContainer = new BeanItemContainer<>(TempPricingDTO.class);
     SessionDTO sessionDTO;
     boolean isEditable;
     Map<Integer, String> priceType = new HashMap<>();
@@ -230,9 +231,9 @@ public class Items extends CustomComponent {
     
     boolean valueChange = false;
     
-    SimpleDateFormat format = new SimpleDateFormat("MM/dd/YYYY");
+    SimpleDateFormat format = new SimpleDateFormat(ConstantUtil.DATE_FORMAT);
     
-    List<Integer> pageLength = new ArrayList<Integer>();
+    List<Integer> pageLength = new ArrayList<>();
     
     @UiField("excelBtn")
     private Button excelExport;
@@ -240,7 +241,7 @@ public class Items extends CustomComponent {
     /**
      * Dummy lazy bean container to clear the Table
      */
-    private final BeanItemContainer<TempPricingDTO> tableContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private final BeanItemContainer<TempPricingDTO> tableContainer = new BeanItemContainer<>(TempPricingDTO.class);
 
     public Items(final BeanItemContainer<TempPricingDTO> saveContainer,
             final BeanItemContainer<VwContractPriceInfoDTO> itemDetailsResultsBean,final boolean isEditable, final SessionDTO sessionDTO) {
@@ -262,8 +263,8 @@ public class Items extends CustomComponent {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + Constants.ITEMS, false);
-            final Map<String, AppPermission> funContractDashboard = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Items Detail");
-            if ((funContractDashboard.get(CHFunctionNameUtils.Remove) == null) || !((AppPermission) funContractDashboard.get(CHFunctionNameUtils.Remove)).isFunctionFlag()) {
+            final Map<String, AppPermission> funContractDashboard = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.ITEMS_DETAIL);
+            if ((funContractDashboard.get(CHFunctionNameUtils.REMOVE) == null) || !((AppPermission) funContractDashboard.get(CHFunctionNameUtils.REMOVE)).isFunctionFlag()) {
                 remove.setVisible(false);
             }
             securityLogic(contractDashboard);
@@ -525,7 +526,7 @@ public class Items extends CustomComponent {
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Items History", false);
             List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Items History");
-            Object[] obj = ContractUtils.IFP_ITEMS_COL;
+            Object[] obj = ContractUtils.getInstance().ifpItemsCol;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard,Constants.EDIT);
             if (tableResultCustom.getObjResult().length > 0) {
                 table.setVisibleColumns(tableResultCustom.getObjResult());
@@ -554,9 +555,9 @@ public class Items extends CustomComponent {
            
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-            final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Items Detail", false);
-            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Items Detail");
-            Object[] obj = ContractUtils.IFP_ITEM_DETAILS_COL;
+            final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.ITEMS_DETAIL, false);
+            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.ITEMS_DETAIL);
+            Object[] obj = ContractUtils.getInstance().ifpitemDetailsCol;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.EDIT);
             tempDate = new HashMap<>();
             resultsTableLayout.addComponent(itemDetailsTable);
@@ -584,7 +585,7 @@ public class Items extends CustomComponent {
             itemDetailsTable.setFilterBarVisible(true);
             itemDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
              tempDate = new HashMap<>();
-            itemDetailsTable.setTableFieldFactory(new IFPItemsTableGenerator(saveContainer,fieldFactoryDates,tempDate, isEditable));
+            itemDetailsTable.setTableFieldFactory(new IFPItemsTableGenerator(saveContainer,fieldFactoryDates,tempDate, isEditable,itemDetailsTable,sessionDTO));
             itemDetailsTable.setValidationVisible(false);
             itemDetailsTable.addStyleName(Constants.FILTER_BAR);
             itemDetailsTable.setColumnCheckBox(Constants.CHECK_BOX, true, false);
@@ -652,7 +653,7 @@ public class Items extends CustomComponent {
         }
     }
 
-    private void configureFieldsForInfoTab() throws SystemException {
+    private void configureFieldsForInfoTab() {
         endDate.setDescription(ConstantsUtils.DATE_DES);
         startDate.setDescription(ConstantsUtils.DATE_DES);
         itemFamilyplanId.setImmediate(true);
@@ -705,12 +706,14 @@ public class Items extends CustomComponent {
         startDate.setImmediate(true);
         startDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
         startDate.setId("IFPStartDate");
+        startDate.addValidator(new DateValidator("Start Date"));
         attachListeners(startDate,Constants.START_DATE_CAPS);
 
         endDate.setImmediate(true);
         endDate.setValidationVisible(true);
         endDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
         endDate.setId("IFPEndDate");
+        endDate.addValidator(new DateValidator("End Date"));
         attachListeners(endDate,Constants.END_DATE_CAPS);
 
         if (Constants.CHILD.equalsIgnoreCase(itemFamilyplanDesignation.getItemCaption(itemFamilyplanDesignation.getValue()))) {
@@ -778,29 +781,25 @@ public class Items extends CustomComponent {
              * @param event
              */
             public void click(final CustomTextField.ClickEvent event) {
-                try {
-                    if (lookUp == null) {
-                        LOGGER.debug("Entering parent Item Family plan Id look up");
-                        lookUp = new ParentIFPIdLookup(parentItemFamilyplanId, parentItemFamilyplanName);
-                        UI.getCurrent().addWindow(lookUp);
-                    }
-                    lookUp.addCloseListener(new Window.CloseListener() {
-                        /**
-                         * Called when the user closes a window.
-                         *
-                         * @param e Event containing
-                         */
-                        @SuppressWarnings("PMD")
-                        public void windowClose(final Window.CloseEvent e) {
-                            parentItemFamilyplanId.setReadOnly(true);
-                            parentItemFamilyplanName.setReadOnly(true);
-                            lookUp = null;
-                            LOGGER.debug("Ending parent Item Family plan Id look up");
-                        }
-                    });
-                } catch (SystemException exception) {
-                    LOGGER.error(exception);
+                if (lookUp == null) {
+                    LOGGER.debug("Entering parent Item Family plan Id look up");
+                    lookUp = new ParentIFPIdLookup(parentItemFamilyplanId, parentItemFamilyplanName);
+                    UI.getCurrent().addWindow(lookUp);
                 }
+                lookUp.addCloseListener(new Window.CloseListener() {
+                    /**
+                     * Called when the user closes a window.
+                     *
+                     * @param e Event containing
+                     */
+                    @SuppressWarnings("PMD")
+                    public void windowClose(final Window.CloseEvent e) {
+                        parentItemFamilyplanId.setReadOnly(true);
+                        parentItemFamilyplanName.setReadOnly(true);
+                        lookUp = null;
+                        LOGGER.debug("Ending parent Item Family plan Id look up");
+                    }
+                });
 
             }
         });
@@ -864,7 +863,6 @@ public class Items extends CustomComponent {
 
         createdDate.setReadOnly(false);
         createdDate.setEnabled(true);
-//        createdDate.setValue(new Date());
         createdDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
         createdDate.setImmediate(true);
         createdDate.setReadOnly(true);
@@ -919,7 +917,7 @@ public class Items extends CustomComponent {
 
     public Button addAllBtnPopulate() {
         LOGGER.debug("Entering addAllBtnPopulate method");
-        btnAllPopulate.setReadOnly(true);
+        btnAllPopulate.setEnabled(false);
         btnAllPopulate.setErrorHandler(new ErrorHandler() {
             /**
              * Method used to populate all button logic and its listener.
@@ -942,32 +940,32 @@ public class Items extends CustomComponent {
                     try {
                         if (Constants.IFP_START_DATE_SP.equals(String.valueOf(massField.getValue()))) {
                             if(startDate.getValue()==null){
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide IFP Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_IFP_START_DATE_AND_TRY_AGAIN);
                                 return;
                             } else if (massDate.getValue() == null) {
-                                 AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide date and try again.");
+                                 AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                return;
                             } else if (massDate.getValue().before(startDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(startDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(startDate.getValue()));
                                 return;
                             } else if (endDate.getValue() != null && massDate.getValue().after(endDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(endDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(endDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
                             }
                         }else if (Constants.IFP_END_DATE_CAPS.equals(String.valueOf(massField.getValue()))){
                             if(startDate.getValue()==null){
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide IFP Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_IFP_START_DATE_AND_TRY_AGAIN);
                                 return;
                             } else if (massDate.getValue() == null) {
-                              AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide date and try again.");
+                              AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                return;
                             } else if (endDate.getValue() != null && massDate.getValue().after(endDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(endDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(endDate.getValue()));
                                 return;
                             } else if (massDate.getValue().before(startDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(startDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(startDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
@@ -1014,7 +1012,7 @@ public class Items extends CustomComponent {
     public Button addBtnPopulate() {
         LOGGER.debug("Entering addBtnPopulate method");
 
-        btnPopulate.setReadOnly(true);
+        btnPopulate.setEnabled(false);
         btnPopulate.setErrorHandler(new ErrorHandler() {
             /**
              * Method used for populate button logic and its listener.
@@ -1039,16 +1037,16 @@ public class Items extends CustomComponent {
                       if (Constants.IFP_START_DATE_SP.equals(String.valueOf(massField.getValue()))) {
 
                             if(startDate.getValue()==null){
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide IFP Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_IFP_START_DATE_AND_TRY_AGAIN);
                                 return;
                             } else if (massDate.getValue() == null) {
-                               AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide date and try again.");
+                               AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR,  ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                return;
                             }else if (massDate.getValue().before(startDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(startDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(startDate.getValue()));
                                 return;
                             } else if (endDate.getValue() != null && massDate.getValue().after(endDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(endDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(endDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
@@ -1056,16 +1054,16 @@ public class Items extends CustomComponent {
 
                         }else if (Constants.IFP_END_DATE_CAPS.equals(String.valueOf(massField.getValue()))){
                             if(startDate.getValue()==null){
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide IFP Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_IFP_START_DATE_AND_TRY_AGAIN);
                                 return;
                             } else if (massDate.getValue() == null) {
-                               AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide date and try again.");
+                               AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR,  ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                return;
                             } else if (endDate.getValue() != null && massDate.getValue().after(endDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(endDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(endDate.getValue()));
                                 return;
                             } else if (massDate.getValue().before(startDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(startDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(startDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
@@ -1105,7 +1103,7 @@ public class Items extends CustomComponent {
         LOGGER.debug("End of addBtnPopulate method");
         return btnPopulate;
     }
-     public void btnExportLogic() throws SystemException, PortalException {
+     public void btnExportLogic() {
         LOGGER.debug("Entering btnExportLogic method");
             excelExport.addClickListener(new ClickListener() {
             /**
@@ -1122,23 +1120,17 @@ public class Items extends CustomComponent {
                 }
                 
                  if (String.valueOf(level.getValue()).equals(Constants.DETAILS)) {
-                     try {
-                         List list = logic.getLazyItemPricingDeatils(0, 0, null, true, itemDetailsTableLogic.getRecord(), false, Boolean.FALSE);
-                         int recordCount = 0;
-                         if (list != null && !list.isEmpty()) {
-                             recordCount = Integer.valueOf(String.valueOf(list.get(0)));
+                     List list = logic.getLazyItemPricingDeatils(0, 0, null, true, itemDetailsTableLogic.getRecord(), false, Boolean.FALSE,null);
+                     int recordCount = 0;
+                     if (list != null && !list.isEmpty()) {
+                         recordCount = Integer.valueOf(String.valueOf(list.get(0)));
+                     }
+                     if (recordCount > 0) {
+                         try {
+                             createWorkSheet("Items_Details", itemDetailsTable, recordCount);
+                         } catch (Exception ex) {
+                             java.util.logging.Logger.getLogger(Items.class.getName()).log(Level.SEVERE, null, ex);
                          }
-                         if (recordCount > 0) {
-                             try {
-                                 createWorkSheet("Items_Details", itemDetailsTable, recordCount);
-                             } catch (Exception ex) {
-                                 java.util.logging.Logger.getLogger(Items.class.getName()).log(Level.SEVERE, null, ex);
-                             }
-                         }
-                     } catch (PortalException ex) {
-                         java.util.logging.Logger.getLogger(Items.class.getName()).log(Level.SEVERE, null, ex);
-                     } catch (SystemException ex) {
-                         java.util.logging.Logger.getLogger(Items.class.getName()).log(Level.SEVERE, null, ex);
                      }
 
          } else {
@@ -1165,17 +1157,17 @@ public class Items extends CustomComponent {
         
     }
     
-     public void createWorkSheet(String moduleName, ExtCustomTable resultTable,int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+     public void createWorkSheet(String moduleName, ExtCustomTable resultTable,int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException  {
          String[] header=resultTable.getColumnHeaders();
          header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY); 
          header = (String[]) ArrayUtils.removeElement(header, ConstantUtil.BLANK_SPACE); 
          ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.toUpperCase());
     }
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  NoSuchFieldException,  IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         LOGGER.debug("Entering createWorkSheetContent method");   
         if (String.valueOf(level.getValue()).equals(Constants.DETAILS)) {
-            List<Object[]> returnList = logic.getLazyItemPricingDeatils(start, end, null, false, itemDetailsTableLogic.getRecord(), true, Boolean.FALSE);
+            List<Object[]> returnList = logic.getLazyItemPricingDeatils(start, end, null, false, itemDetailsTableLogic.getRecord(), true, Boolean.FALSE,null);
             List exportCompany = logic.getCustomizedPricingDTO(returnList, true, itemDetailsTableLogic.getRecord());
 
             Object[] columns = itemDetailsTable.getVisibleColumns();
@@ -1219,7 +1211,7 @@ public class Items extends CustomComponent {
                         public void buttonClicked(final ButtonId buttonId) {
                             if (ButtonId.YES.equals(buttonId)) {
                                 try {
-                                     List<Object[]> returnList = logic.getLazyItemPricingDeatils(0, count, null, false, itemDetailsTableLogic.getRecord(), true, Boolean.TRUE);
+                                     List<Object[]> returnList = logic.getLazyItemPricingDeatils(0, count, null, false, itemDetailsTableLogic.getRecord(), true, Boolean.TRUE,null);
                                      List<TempPricingDTO> list = logic.getCustomizedPricingDTO(returnList, true, itemDetailsTableLogic.getRecord());
                                     for (TempPricingDTO temp : list) {
                                         if (logic.validateCCPActuals(temp.getItemSystemId()) != 0) {
@@ -1269,11 +1261,11 @@ public class Items extends CustomComponent {
         }
     }
     
-    public void loadDates(final Date startDate, final Date endDate) {
-        dates[0] = startDate;
-        dates[1] = endDate;
-        this.startDate.validate();
-        this.endDate.validate();
+    public void loadDates(final Date sdate, final Date edate) {
+        dates[0] = sdate;
+        dates[1] = edate;
+        startDate.validate();
+        endDate.validate();
     }
     
     public void attachListeners(final AbstractField field, final String component) {
@@ -1382,7 +1374,7 @@ public class Items extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method");
 
             if (startDate.getValue() != null && endDate.getValue() != null) {
@@ -1393,14 +1385,14 @@ public class Items extends CustomComponent {
                 }
             }
             if (dates.length > 0) {
-                if ("StartDate".equals(field) && startDate.getValue() != null) {
+                if ("Start Date".equals(field) && startDate.getValue() != null) {
                     if (dates[0] != null && startDate.getValue().before((Date) dates[0])) {
                         throw new Validator.InvalidValueException("Select IFP Start date after " + format.format(dates[0]));
                     } else if (dates[1] != null && startDate.getValue().after((Date) dates[1])) {
                         throw new Validator.InvalidValueException("Select IFP Start date before " + format.format(dates[1]));
                     }
                 }
-                if ("EndDate".equals(field) && endDate.getValue() != null && dates[1] != null && endDate.getValue().after((Date) dates[1])) {
+                if ("End Date".equals(field) && endDate.getValue() != null && dates[1] != null && endDate.getValue().after((Date) dates[1])) {
                         throw new Validator.InvalidValueException("Select IFP End date before " + format.format(dates[1]));
                     }
                 }

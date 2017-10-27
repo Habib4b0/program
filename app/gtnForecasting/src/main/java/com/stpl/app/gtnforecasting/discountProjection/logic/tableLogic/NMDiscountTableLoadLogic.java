@@ -45,8 +45,8 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     String actualsOrProjections;
     String projectionPeriodorder;
     boolean isProgram;
-    List<String> discountList = new ArrayList<String>();
-    List<Integer> startAndEndPeriods = new ArrayList<Integer>();
+    List<String> discountList = new ArrayList<>();
+    List<Integer> startAndEndPeriods = new ArrayList<>();
     String year;
     int levelNo;
     boolean isParent;
@@ -148,7 +148,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
         GtnSmallHashMap map = new GtnSmallHashMap();
-        List<DiscountProjectionDTO> list = new ArrayList<DiscountProjectionDTO>();
+        List<DiscountProjectionDTO> list;
         list = loadLevelData(getLastParent(), start, offset);
 
         int i = start;
@@ -229,7 +229,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             customDetailsList.add(hierarchyNo);
             customDetailsList.add(treeLevelNo);
 
-            List<String> customViewDetails = new ArrayList<String>();
+            List<String> customViewDetails = new ArrayList<>();
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
@@ -357,7 +357,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             LOGGER.debug(" Hierarchy indicator ===" + tempHierarchyIndicator);
             LOGGER.debug(" customTreeLevelNo ===" + treeLevelNo);
 
-            List<String> customViewDetails = new ArrayList<String>();
+            List<String> customViewDetails = new ArrayList<>();
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
@@ -387,7 +387,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             if (levelNumber != 0 && treeLevelNo != 0) {
                 setMaxExpandLevelNo(treeLevelNo);
                 if (isCustomHierarchy) {
-                    return logic.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, customId, customerHierarchyNo, productHierarchyNo, discountList, isProgram, userGroup);
+                    return logic.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, customerHierarchyNo, productHierarchyNo, discountList, isProgram, userGroup);
                 } else {
                     return logic.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup);
             }
@@ -528,9 +528,9 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     @Override
     public GtnSmallHashMap loadBulkData(GtnSmallHashMap bulkDataMap) {
         GtnSmallHashMap tempMap = new GtnSmallHashMap();
-        List<String> hiearchyNoList = new ArrayList<String>();
+        List<String> hiearchyNoList = new ArrayList<>();
         for (int i = 0; i < bulkDataMap.size(); i++) {
-            String tempLevelValue = StringUtils.EMPTY;
+            String tempLevelValue;
             DiscountProjectionDTO dto = (DiscountProjectionDTO) bulkDataMap.getIndex(i).getValue();
             tempLevelValue = dto.getHierarchyNo();
             tempMap.put(tempLevelValue, bulkDataMap.getIndex(i).getKey());
@@ -539,7 +539,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
 
         String hierarchyNumbers = CommonUtils.CollectionToString(hiearchyNoList, true);
 
-        List<String> customViewDetails = new ArrayList<String>();
+        List<String> customViewDetails = new ArrayList<>();
         List customDetailsList = new ArrayList();
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);
@@ -633,7 +633,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
      * @param tableLevelNo
      * @param b
      */
-    public void setRefreshHierarchyNo(String hierarchyNo, boolean isrefresh) {
+    public void setRefreshHierarchyNo(String hierarchyNo) {
         this.refreshHierarchyNumbers = hierarchyNo;
     }
     

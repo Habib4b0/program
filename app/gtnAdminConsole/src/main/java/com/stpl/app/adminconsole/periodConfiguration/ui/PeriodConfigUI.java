@@ -86,6 +86,7 @@ public class PeriodConfigUI extends UI implements VaadinPortletSession.PortletLi
             final String sessionId = request.getWrappedSession().getId();
             VaadinSession.getCurrent().setAttribute(ConstantsUtils.SESSION_ID, sessionId);
             sessionDTO.setUserId(userId);
+            sessionDTO.setSessionId(sessionId);
             LOGGER.info("USER_ID: " + userId);
             LOGGER.info("SESSION_ID: " + sessionId);
             HelperListUtil helperListUtil = HelperListUtil.getInstance();
@@ -131,11 +132,14 @@ public class PeriodConfigUI extends UI implements VaadinPortletSession.PortletLi
     }
 
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
+        return;
     }
 
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
+        return;
     }
 
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
+        return;
     }
 }

@@ -17,9 +17,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.ValoTheme;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -60,8 +58,8 @@ public class TabSheetForm extends CustomComponent {
 
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        List<Object> tabList = new ArrayList<>();
-        String tableName = StringUtils.EMPTY;
+        List<Object> tabList;
+        String tableName;
 
         if (!ConstantUtil.INVALID_RECORD_COUNT.equalsIgnoreCase((String) VaadinSession.getCurrent().getAttribute(ConstantUtil.SCREEN_NAME))) {
             tabList = logic.getTabName((String) VaadinSession.getCurrent().getAttribute(ConstantUtil.SCREEN_NAME));

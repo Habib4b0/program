@@ -30,7 +30,7 @@ public class LoadDropdownListDAO implements DAO<HelperDTO> {
     }
 
     public int count(SearchCriteria criteria) {
-        List<String> filterTextList = new ArrayList<String>();
+        List<String> filterTextList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";
         filterTextList.add(filterText);
         int count = logic.getDdlbCount(countFlag, filterTextList);
@@ -38,7 +38,7 @@ public class LoadDropdownListDAO implements DAO<HelperDTO> {
     }
 
     public List<HelperDTO> find(SearchCriteria criteria, int startIndex, int offset, List<OrderByColumn> columns) {
-        List<String> offSetList = new ArrayList<String>();
+        List<String> offSetList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";
         if (startIndex != 0 && offset != 0) {
             offSetList.add(filterText);
@@ -47,7 +47,7 @@ public class LoadDropdownListDAO implements DAO<HelperDTO> {
             List<HelperDTO> resultLList = logic.getDdlbList(findFlag, offSetList);
             return resultLList;
         } else {
-            List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+            List<HelperDTO> resultList = new ArrayList<>();
             HelperDTO defaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
             resultList.add(defaultValue);
             return resultList;

@@ -12,6 +12,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -20,12 +21,13 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 public class ComponentLookUpLogic extends PageTableLogic {
 
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    List<ComponentLookUpDTO> componentList = new ArrayList<ComponentLookUpDTO>();
+    List<ComponentLookUpDTO> componentList = new ArrayList<>();
     ItemLogic logic = new ItemLogic();
     SelectionDTO selection;
     boolean isGenerated = false;
-
+    public static final Logger LOGGER = Logger.getLogger(ComponentLookUpLogic.class);
     public ComponentLookUpLogic() {
+        LOGGER.debug("Inside Constructor");
     }
 
     @Override

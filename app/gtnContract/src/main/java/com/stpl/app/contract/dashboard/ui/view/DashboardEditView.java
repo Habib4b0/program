@@ -1,5 +1,6 @@
 package com.stpl.app.contract.dashboard.ui.view;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,51 +71,51 @@ public class DashboardEditView extends VerticalLayout implements View {
      * The contract master.
      */
     private ContractMasterDTO contractMaster = new ContractMasterDTO();
-    private CustomFieldGroup cfpContractBinderedit = new CustomFieldGroup(new BeanItem<CFPCompanyDTO>(cfpCompanyDTO));
+    private CustomFieldGroup cfpContractBinderedit = new CustomFieldGroup(new BeanItem<>(cfpCompanyDTO));
     /**
      * The contract master binder edit.
      */
-    private CustomFieldGroup contractMasterBinderEdit = new CustomFieldGroup(new BeanItem<ContractMasterDTO>(contractMaster));
+    private CustomFieldGroup contractMasterBinderEdit = new CustomFieldGroup(new BeanItem<>(contractMaster));
     /**
      * The alias master results beans.
      */
-    private final BeanItemContainer<ContractAliasMasterDTO> aliasMasterResultsBeans = new BeanItemContainer<ContractAliasMasterDTO>(ContractAliasMasterDTO.class);
+    private final BeanItemContainer<ContractAliasMasterDTO> aliasMasterResultsBeans = new BeanItemContainer<>(ContractAliasMasterDTO.class);
     /**
      * The available company result bean.
      */
-    private final BeanItemContainer<CompanyMasterDTO> availableCompanyResultBean = new BeanItemContainer<CompanyMasterDTO>(CompanyMasterDTO.class);
+    private final BeanItemContainer<CompanyMasterDTO> availableCompanyResultBean = new BeanItemContainer<>(CompanyMasterDTO.class);
     /**
      * The selected company result bean.
      */
-    private final BeanItemContainer<CompanyMasterDTO> selectedCompanyResultBean = new BeanItemContainer<CompanyMasterDTO>(CompanyMasterDTO.class);
+    private final BeanItemContainer<CompanyMasterDTO> selectedCompanyResultBean = new BeanItemContainer<>(CompanyMasterDTO.class);
     /**
      * The cfp results bean.
      */
-    private final BeanItemContainer<CFPCompanyDTO> cfpResultsBean = new BeanItemContainer<CFPCompanyDTO>(CFPCompanyDTO.class);
+    private final BeanItemContainer<CFPCompanyDTO> cfpResultsBean = new BeanItemContainer<>(CFPCompanyDTO.class);
 
-    private final BeanItemContainer<CFPCompanyDTO> saveContainer = new BeanItemContainer<CFPCompanyDTO>(CFPCompanyDTO.class);
-    private final BeanItemContainer<TempPricingDTO> saveIFPContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
-    private final BeanItemContainer<TempPricingDTO> savePSContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private final BeanItemContainer<CFPCompanyDTO> saveContainer = new BeanItemContainer<>(CFPCompanyDTO.class);
+    private final BeanItemContainer<TempPricingDTO> saveIFPContainer = new BeanItemContainer<>(TempPricingDTO.class);
+    private final BeanItemContainer<TempPricingDTO> savePSContainer = new BeanItemContainer<>(TempPricingDTO.class);
     /**
      * The available item result bean.
      */
-    private final BeanItemContainer<ItemMasterDTO> availableItemResultBean = new BeanItemContainer<ItemMasterDTO>(ItemMasterDTO.class);
+    private final BeanItemContainer<ItemMasterDTO> availableItemResultBean = new BeanItemContainer<>(ItemMasterDTO.class);
     /**
      * The selected item result bean.
      */
-    private final BeanItemContainer<ItemMasterDTO> selectedItemResultBean = new BeanItemContainer<ItemMasterDTO>(ItemMasterDTO.class);
+    private final BeanItemContainer<ItemMasterDTO> selectedItemResultBean = new BeanItemContainer<>(ItemMasterDTO.class);
     /**
      * The item details results bean.
      */
-    private final BeanItemContainer<VwContractPriceInfoDTO> itemDetailsResultsBean = new BeanItemContainer<VwContractPriceInfoDTO>(VwContractPriceInfoDTO.class);
+    private final BeanItemContainer<VwContractPriceInfoDTO> itemDetailsResultsBean = new BeanItemContainer<>(VwContractPriceInfoDTO.class);
     /**
      * The rs details results bean.
      */
-    private final BeanItemContainer<TempRebateDTO> rsDetailsResultsBean = new BeanItemContainer<TempRebateDTO>(TempRebateDTO.class);
+    private final BeanItemContainer<TempRebateDTO> rsDetailsResultsBean = new BeanItemContainer<>(TempRebateDTO.class);
     /**
      * The rebate binder.
      */
-    private CustomFieldGroup rebateBinder = new CustomFieldGroup(new BeanItem<RsItemDetailsDTO>(rsItemDetailsDTO));
+    private CustomFieldGroup rebateBinder = new CustomFieldGroup(new BeanItem<>(rsItemDetailsDTO));
 
     private boolean isEditable;
     private Date tempDate;
@@ -127,7 +128,7 @@ public class DashboardEditView extends VerticalLayout implements View {
     /**
      * The priceScheduleMaster binder edit.
      */
-    private CustomFieldGroup pricingBinderEdit = new CustomFieldGroup(new BeanItem<PriceScheduleDto>(priceScheduleMaster));
+    private CustomFieldGroup pricingBinderEdit = new CustomFieldGroup(new BeanItem<>(priceScheduleMaster));
 
     /**
      * Gets the cfp company dto.
@@ -329,7 +330,7 @@ public class DashboardEditView extends VerticalLayout implements View {
     /**
      * Instantiates a new dashboard edit view.
      */
-    public DashboardEditView(final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public DashboardEditView(final SessionDTO sessionDTO) {
         super();
         LOGGER.debug("Entering DashboardEditView ");
         addStyleName("bootstrap");
@@ -349,11 +350,11 @@ public class DashboardEditView extends VerticalLayout implements View {
         try {
             LOGGER.debug("Entering  DashboardEditView enter method");
             this.removeAllComponents();
-            contractMasterBinderEdit = new CustomFieldGroup(new BeanItem<ContractMasterDTO>(contractMaster));
-            pricingBinderEdit = new CustomFieldGroup(new BeanItem<PriceScheduleDto>(priceScheduleMaster));
-            cfpContractBinderedit = new CustomFieldGroup(new BeanItem<CFPCompanyDTO>(cfpCompanyDTO));
+            contractMasterBinderEdit = new CustomFieldGroup(new BeanItem<>(contractMaster));
+            pricingBinderEdit = new CustomFieldGroup(new BeanItem<>(priceScheduleMaster));
+            cfpContractBinderedit = new CustomFieldGroup(new BeanItem<>(cfpCompanyDTO));
 
-            rebateBinder = new CustomFieldGroup(new BeanItem<RsItemDetailsDTO>(rsItemDetailsDTO));
+            rebateBinder = new CustomFieldGroup(new BeanItem<>(rsItemDetailsDTO));
             isEditable = "Y".equals(sessionDTO.getEdit());
 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
@@ -381,10 +382,10 @@ public class DashboardEditView extends VerticalLayout implements View {
 
             contractMaster = dashBoardLogic.getContractMasterById(contractSystemId);
             priceScheduleMaster = dashBoardLogic.getPriceScheduleMasterById(psSystemId);
-            contractMasterBinderEdit.setItemDataSource(new BeanItem<ContractMasterDTO>(contractMaster));
-            pricingBinderEdit.setItemDataSource(new BeanItem<PriceScheduleDto>(priceScheduleMaster));
+            contractMasterBinderEdit.setItemDataSource(new BeanItem<>(contractMaster));
+            pricingBinderEdit.setItemDataSource(new BeanItem<>(priceScheduleMaster));
             cfpCompanyDTO = dashBoardLogic.getCfpContract();
-            cfpContractBinderedit.setItemDataSource(new BeanItem<CFPCompanyDTO>(cfpCompanyDTO));
+            cfpContractBinderedit.setItemDataSource(new BeanItem<>(cfpCompanyDTO));
 
             if (cfpContractSId != Constants.ZERO) {
                 CfpContract cfpContract = CfpContractLocalServiceUtil.getCfpContract(cfpContractSId);
@@ -403,7 +404,7 @@ public class DashboardEditView extends VerticalLayout implements View {
                 rsDetailsResultsBean.removeAllItems();
             }
             aliasMasterResultsBeans.addAll(dashBoardLogic.getContractAliasMasterById(contractSystemId));
-            rebateBinder.setItemDataSource(new BeanItem<RsItemDetailsDTO>(rsItemDetailsDTO));
+            rebateBinder.setItemDataSource(new BeanItem<>(rsItemDetailsDTO));
             sessionDTO.setUserId(userId);
             addComponent(new ContractDashboardEditForm(contractMaster, contractMasterBinderEdit, cfpCompanyDTO, cfpContractBinderedit, aliasMasterResultsBeans, availableCompanyResultBean, selectedCompanyResultBean, cfpResultsBean, saveContainer,
                     availableItemResultBean, selectedItemResultBean, saveIFPContainer, savePSContainer, itemDetailsResultsBean, rsItemDetailsDTO, rebateBinder, rsDetailsResultsBean, isEditable, sessionDTO, pricingBinderEdit, priceScheduleMaster));
@@ -417,8 +418,8 @@ public class DashboardEditView extends VerticalLayout implements View {
             pricingBinderEdit.getField("priceScheduleId").setReadOnly(true);
             pricingBinderEdit.getField("priceScheduleNo").setReadOnly(false);
             pricingBinderEdit.getField("priceScheduleName").setReadOnly(false);
-            pricingBinderEdit.getField("parentPriceScheduleName").setReadOnly(true);
-            pricingBinderEdit.getField("parentPriceScheduleId").setReadOnly(true);
+            pricingBinderEdit.getField(ConstantUtil.PARENT_PRICE_SCHEDULE_NAME).setReadOnly(true);
+            pricingBinderEdit.getField(ConstantUtil.PARENT_PRICE_SCHEDULE_ID).setReadOnly(true);
             pricingBinderEdit.getField("modifiedDate").setReadOnly(true);
             pricingBinderEdit.getField("createdDate").setReadOnly(true);
             pricingBinderEdit.getField("createdBy").setReadOnly(true);
@@ -433,20 +434,20 @@ public class DashboardEditView extends VerticalLayout implements View {
             String caption = String.valueOf(pricingBinderEdit.getField("priceScheduleDesignation").getValue());
             String parentcaption = String.valueOf(cfpContractBinderedit.getField("cfpDesignation").getValue());
             if ("child".equalsIgnoreCase(caption)) {
-                pricingBinderEdit.getField("parentPriceScheduleName").setEnabled(true);
-                pricingBinderEdit.getField("parentPriceScheduleId").setEnabled(true);
+                pricingBinderEdit.getField(ConstantUtil.PARENT_PRICE_SCHEDULE_NAME).setEnabled(true);
+                pricingBinderEdit.getField(ConstantUtil.PARENT_PRICE_SCHEDULE_ID).setEnabled(true);
             } else {
-                pricingBinderEdit.getField("parentPriceScheduleName").setEnabled(false);
-                pricingBinderEdit.getField("parentPriceScheduleId").setEnabled(false);
+                pricingBinderEdit.getField(ConstantUtil.PARENT_PRICE_SCHEDULE_NAME).setEnabled(false);
+                pricingBinderEdit.getField(ConstantUtil.PARENT_PRICE_SCHEDULE_ID).setEnabled(false);
             }
 
             if ("child".equalsIgnoreCase(parentcaption)) {
-                cfpContractBinderedit.getField("parentCfp").setEnabled(true);
-                cfpContractBinderedit.getField("parentCfpName").setEnabled(true);
+                cfpContractBinderedit.getField(ConstantUtil.PARENT_CFP).setEnabled(true);
+                cfpContractBinderedit.getField(ConstantUtil.PARENT_CFP_NAME).setEnabled(true);
 
             } else {
-                cfpContractBinderedit.getField("parentCfp").setEnabled(false);
-                cfpContractBinderedit.getField("parentCfpName").setEnabled(false);
+                cfpContractBinderedit.getField(ConstantUtil.PARENT_CFP).setEnabled(false);
+                cfpContractBinderedit.getField(ConstantUtil.PARENT_CFP_NAME).setEnabled(false);
             }
             if (!isEditable) {
                 contractMasterBinderEdit.getField("companyLabel").setEnabled(false);
@@ -456,8 +457,8 @@ public class DashboardEditView extends VerticalLayout implements View {
                 cfpContractBinderedit.getField("cfpStatus").setEnabled(false);
                 cfpContractBinderedit.getField("cfpDesignation").setEnabled(false);
                 cfpContractBinderedit.getField("cfpCategory").setEnabled(false);
-                cfpContractBinderedit.getField("parentCfp").setEnabled(false);
-                cfpContractBinderedit.getField("parentCfpName").setEnabled(false);
+                cfpContractBinderedit.getField(ConstantUtil.PARENT_CFP).setEnabled(false);
+                cfpContractBinderedit.getField(ConstantUtil.PARENT_CFP_NAME).setEnabled(false);
                 cfpContractBinderedit.getField("salesInclusion").setEnabled(false);
                 cfpContractBinderedit.getField("companyFamilyPlanStartDate").setEnabled(false);
                 cfpContractBinderedit.getField("companyFamilyPlanEndDate").setEnabled(false);

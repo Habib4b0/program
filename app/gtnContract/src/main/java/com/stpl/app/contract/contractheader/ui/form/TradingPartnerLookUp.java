@@ -2,7 +2,6 @@ package com.stpl.app.contract.contractheader.ui.form;
 
 import com.stpl.app.contract.contractheader.dto.CompanyResultsDTO;
 import com.stpl.app.contract.contractheader.dto.TradingPartnerLookupGenerator;
-import com.stpl.app.contract.contractheader.util.CommonUtils;
 import com.stpl.app.contract.contractheader.util.UIUtils;
 import com.stpl.app.contract.global.dto.CompanyCriteria;
 import com.stpl.app.contract.global.dto.CompanyDAO;
@@ -11,10 +10,12 @@ import com.stpl.app.contract.global.lazyload.CompanyTypeCriteria;
 import com.stpl.app.contract.global.lazyload.CompanyTypeDAO;
 import com.stpl.app.contract.ui.ErrorfulFieldGroup;
 import com.stpl.app.contract.util.Constants;
+import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.serviceUtils.ErrorCodeUtil;
 import com.stpl.app.serviceUtils.ErrorCodes;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.ValidationUtils;
 import com.stpl.portal.kernel.exception.SystemException;
@@ -27,12 +28,13 @@ import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
-import com.vaadin.shared.ui.label.ContentMode;
+import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
@@ -146,18 +148,16 @@ public final class TradingPartnerLookUp extends Window {
      */
     private HelperDTO dto = new HelperDTO(Constants.SELECT_ONE);
     private ErrorfulFieldGroup binder;
-    private final CommonUtils commonsUtil = new CommonUtils();
     CompanyCriteria searchCriteria = new CompanyCriteria();
     
     private String tpRefName = StringUtils.EMPTY;
     
-    private final Label space = new Label(Constants.SPACE, ContentMode.HTML);
 
 	/** The search resultbeans. */
 	private LazyBeanItemContainer searchResultbeans;
         
         /** The dummy search resultbeans. */
-	private final BeanItemContainer<CompanyResultsDTO> dummySearchResultbeans = new BeanItemContainer<CompanyResultsDTO>(CompanyResultsDTO.class);
+	private final BeanItemContainer<CompanyResultsDTO> dummySearchResultbeans = new BeanItemContainer<>(CompanyResultsDTO.class);
    
     /** The common util. */
     private com.stpl.app.contract.abstractsearch.util.CommonUtils commonUtil = com.stpl.app.contract.abstractsearch.util.CommonUtils.getInstance();
@@ -287,7 +287,7 @@ public final class TradingPartnerLookUp extends Window {
      * @param tpSystemId - Textfield
      * @param tpName - Textfield
      */
-    public TradingPartnerLookUp(final TextField tpSystemId, final TextField tpName) throws SystemException {
+    public TradingPartnerLookUp(final TextField tpSystemId, final TextField tpName) {
         super("Trading Partner Look Up");
         LOGGER.debug("Entering SearchResults constructor ");
         this.tpSystemId = tpSystemId;
@@ -300,7 +300,7 @@ public final class TradingPartnerLookUp extends Window {
     /**
      * Adds the entire form to the UI and make initial configuration.
      */
-    private void init() throws SystemException {
+    private void init() {
         LOGGER.debug("Entering init method ");
         center();
         setClosable(true);
@@ -320,7 +320,7 @@ public final class TradingPartnerLookUp extends Window {
      */
     private ErrorfulFieldGroup getBinder() {
         LOGGER.debug("Entering getBinder method ");
-        binder = new ErrorfulFieldGroup(new BeanItem<CompanySearchDto>(new CompanySearchDto()));
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new CompanySearchDto()));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -339,18 +339,19 @@ public final class TradingPartnerLookUp extends Window {
      */
     private void configureTable() {
         LOGGER.debug("Entering addToTable method ");
-        table.setCaption("Results");
-		table.setContainerDataSource(dummySearchResultbeans);
-        table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-        table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
-        table.setPageLength(7);
+         table.setCaption("Results");
+        table.setContainerDataSource(dummySearchResultbeans);
+        table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+        table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
+        table.setPageLength(NumericConstants.SEVEN);
         table.addStyleName("filterbar");
         table.setFilterBarVisible(true);
         table.setFilterGenerator(new TradingPartnerLookupGenerator());
         table.setFilterDecorator(new ExtDemoFilterDecorator());
         table.setImmediate(true);
         table.setSelectable(true);
-        table.setWidth(98, UNITS_PERCENTAGE);
+        table.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
+        table.addStyleName("table-header-normal");
         table.addItemClickListener(new ItemClickListener() {
             /**
              * Sets the value for tradingPartnerSystem Id and Name on button
@@ -376,7 +377,8 @@ public final class TradingPartnerLookUp extends Window {
                                  * @param buttonId The buttonId of the pressed button.         
                                  */             
                                 @SuppressWarnings("PMD")  
-                                public void buttonClicked(final ButtonId buttonId) {       
+                                public void buttonClicked(final ButtonId buttonId) {   
+                                    return;
                                 }       
                             }, ButtonId.OK);  
                             msg.getButton(ButtonId.OK).focus();
@@ -418,7 +420,7 @@ public final class TradingPartnerLookUp extends Window {
             public void buttonClick(final ClickEvent event) {
                 try {
                     LOGGER.debug("Enters btnSearch buttonClick method");
-                    List<Object> collapsedColumns = new ArrayList<Object>();
+                    List<Object> collapsedColumns = new ArrayList<>();
                     for (Object item : table.getVisibleColumns()) {
                         if (table.isColumnCollapsed(item)) {
                             collapsedColumns.add(item);
@@ -430,25 +432,25 @@ public final class TradingPartnerLookUp extends Window {
                             && (binder.getField(Constants.COMPANY_STATUS).getValue() == null || ((HelperDTO)binder.getField(Constants.COMPANY_STATUS).getValue()).getId()==0)
                             && (binder.getField(Constants.COMPANY_TYPE).getValue() == null || ((HelperDTO)binder.getField(Constants.COMPANY_TYPE).getValue()).getId()==0)) {
                         
-                        MessageBox.showPlain(Icon.ERROR, "Search Error", "Please enter Search Criteria", ButtonId.OK);
+                        MessageBox.showPlain(Icon.ERROR, ConstantsUtils.SEARCH_ERROR, ConstantsUtils.ENTER_SEARCH_CRITERIA, ButtonId.OK);
                         
                     }else{
                       searchCriteria.setCustomDirty(true);
 					searchResultbeans = new LazyBeanItemContainer(CompanyResultsDTO.class, new CompanyDAO(binder), searchCriteria);
 					table.setContainerDataSource(searchResultbeans);
 					if (searchResultbeans.size() > (Constants.ZERO)) {
-                        CommonUIUtils.successNotification("Search Completed");
+                        CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
                     } else {
-                        CommonUIUtils.successNotification("No results found");
+                        CommonUIUtils.successNotification(ConstantsUtils.NO_RESULTS_COMPLETED);
                     }
-                    table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-                    table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
+                    table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+                    table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
                     
                     if (StringUtils.isBlank(binder.getField(Constants.COMPANY_ID).getValue().toString()) && StringUtils.isBlank(binder.getField(Constants.COMPANY_NO).getValue().toString())
                             && StringUtils.isBlank(binder.getField(Constants.COMPANY_NAME).getValue().toString()) && binder.getField(Constants.COMPANY_TYPE).getValue()==null
                             && (binder.getField(Constants.COMPANY_STATUS).getValue() == null || ((HelperDTO)binder.getField(Constants.COMPANY_STATUS).getValue()).getId()==0)) {
                         
-                        MessageBox.showPlain(Icon.ERROR, "Search Error", "Please enter Search Criteria", ButtonId.OK);
+                        MessageBox.showPlain(Icon.ERROR, ConstantsUtils.SEARCH_ERROR, ConstantsUtils.ENTER_SEARCH_CRITERIA, ButtonId.OK);
                         
                     }else{
                         
@@ -456,12 +458,12 @@ public final class TradingPartnerLookUp extends Window {
                         searchResultbeans = new LazyBeanItemContainer(CompanyResultsDTO.class, new CompanyDAO(binder), searchCriteria);
                         table.setContainerDataSource(searchResultbeans);
                         if (searchResultbeans.size() > (Constants.ZERO)) {
-                            CommonUIUtils.successNotification("Search Completed");
+                            CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
                         } else {
-                            CommonUIUtils.successNotification("No results found");
+                            CommonUIUtils.successNotification(ConstantsUtils.NO_RESULTS_COMPLETED);
                         }
-                        table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-                        table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
+                        table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+                        table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
 
                         searchCriteria.setCustomDirty(false);
                         for (Object propertyId : collapsedColumns) {
@@ -518,20 +520,20 @@ public final class TradingPartnerLookUp extends Window {
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constants.YES)) {
                             LOGGER.debug("Entering btnReset buttonClick() ");
-                            List<Object> collapsedColumns = new ArrayList<Object>();
+                            List<Object> collapsedColumns = new ArrayList<>();
                             for (Object item : table.getVisibleColumns()) {
                                 if (table.isColumnCollapsed(item)) {
                                    
                                     collapsedColumns.add(item);
                                 }
                             }
-                            binder.setItemDataSource(new BeanItem<CompanySearchDto>(new CompanySearchDto()));
+                            binder.setItemDataSource(new BeanItem<>(new CompanySearchDto()));
                             binder.getErrorDisplay().clearError();
 
                             table.setContainerDataSource(dummySearchResultbeans);
 
-                            table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-                            table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
+                            table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+                            table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
 
                             binder.getErrorDisplay().clearError();
                             searchCriteria.setCustomDirty(false);
@@ -554,7 +556,7 @@ public final class TradingPartnerLookUp extends Window {
     /**
      * Configures the fields in that page.
      */
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         LOGGER.debug("Entering configureFields method ");
         try{   
         addStyleName("bootstrap");
@@ -621,29 +623,29 @@ public final class TradingPartnerLookUp extends Window {
     public void setSearchResultbeans(final LazyBeanItemContainer searchResultbeans) {
         this.searchResultbeans = searchResultbeans;
     }        
-  private void setDefaultTableColumns() {
+ private void setDefaultTableColumns() {
         table.setColumnCollapsingAllowed(true);
         int browserWidth = Page.getCurrent().getBrowserWindowWidth();
         try {
-            
-            if (browserWidth > 850 ) {
-                
+
+            if (browserWidth > NumericConstants.EIGHT_FIVE_ZERO) {
+
                 for (Object propertyId : table.getVisibleColumns()) {
                     table.setColumnCollapsed(propertyId, false);
-}
+                }
                 for (Object propertyId : getCollapsibleColumnsDefault(table)) {
                     table.setColumnCollapsed(propertyId, true);
                 }
-            } else if (browserWidth < 850 && browserWidth > 450) {
-                
+            } else if (browserWidth < NumericConstants.EIGHT_FIVE_ZERO && browserWidth > NumericConstants.FOUR_FIVE_ZERO) {
+
                 for (Object propertyId : table.getVisibleColumns()) {
                     table.setColumnCollapsed(propertyId, false);
                 }
                 for (Object propertyId : getCollapsibleColumns850Px(table)) {
                     table.setColumnCollapsed(propertyId, true);
                 }
-            } else if (browserWidth < 450) {
-                
+            } else if (browserWidth < NumericConstants.FOUR_FIVE_ZERO) {
+
                 for (Object propertyId : table.getVisibleColumns()) {
                     table.setColumnCollapsed(propertyId, false);
                 }
@@ -659,30 +661,44 @@ public final class TradingPartnerLookUp extends Window {
         private static String[] getCollapsibleColumnsDefault(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
-        list.remove(propertyIds[0]);
-        list.remove(propertyIds[1]);
-        list.remove(propertyIds[2]);
-        list.remove(propertyIds[3]);
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
+        list.remove(propertyIds[Constants.ZERO]);
+        list.remove(propertyIds[NumericConstants.ONE]);
+        list.remove(propertyIds[NumericConstants.TWO]);
+        list.remove(propertyIds[NumericConstants.THREE]);
+        list.remove(propertyIds[NumericConstants.FOUR]);
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
 }
         private static String[] getCollapsibleColumns450Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
 }
 
+    private static String[] getCollapsibleColumns850Px(Table table) {
+        Object[] visibleColumns = table.getVisibleColumns();
+        String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
+        list.remove(propertyIds[Constants.ZERO]);
+        list.remove(propertyIds[NumericConstants.ONE]);
+        list.remove(propertyIds[NumericConstants.TWO]);
+        list.remove(propertyIds[NumericConstants.THREE]);
+        propertyIds = list.toArray(new String[list.size()]);
+        return propertyIds;
+    }
+
     private static String[] getCollapsibleColumns850Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
-        list.remove(propertyIds[0]);
-        list.remove(propertyIds[1]);
-        list.remove(propertyIds[2]);
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
+        list.remove(propertyIds[Constants.ZERO]);
+        list.remove(propertyIds[NumericConstants.ONE]);
+        list.remove(propertyIds[NumericConstants.TWO]);
+        list.remove(propertyIds[NumericConstants.THREE]);
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
     }
@@ -703,7 +719,7 @@ public final class TradingPartnerLookUp extends Window {
     public void searchButtonLogic() {
         try {
             LOGGER.debug("Enters btnSearch buttonClick method");
-            List<Object> collapsedColumns = new ArrayList<Object>();
+            List<Object> collapsedColumns = new ArrayList<>();
             for (Object item : table.getVisibleColumns()) {
                 if (table.isColumnCollapsed(item)) {
                     collapsedColumns.add(item);
@@ -715,25 +731,25 @@ public final class TradingPartnerLookUp extends Window {
                     && (binder.getField(Constants.COMPANY_STATUS).getValue() == null || ((HelperDTO) binder.getField(Constants.COMPANY_STATUS).getValue()).getId() == 0)
                     && (binder.getField(Constants.COMPANY_TYPE).getValue() == null || ((HelperDTO) binder.getField(Constants.COMPANY_TYPE).getValue()).getId() == 0)) {
 
-                MessageBox.showPlain(Icon.ERROR, "Search Error", "Please enter Search Criteria", ButtonId.OK);
+                MessageBox.showPlain(Icon.ERROR, ConstantsUtils.SEARCH_ERROR, ConstantsUtils.ENTER_SEARCH_CRITERIA, ButtonId.OK);
 
             } else {
                 searchCriteria.setCustomDirty(true);
                 searchResultbeans = new LazyBeanItemContainer(CompanyResultsDTO.class, new CompanyDAO(binder), searchCriteria);
                 table.setContainerDataSource(searchResultbeans);
                 if (searchResultbeans.size() > (Constants.ZERO)) {
-                    CommonUIUtils.successNotification("Search Completed");
+                    CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
                 } else {
-                    CommonUIUtils.successNotification("No results found");
+                    CommonUIUtils.successNotification(ConstantsUtils.NO_RESULTS_COMPLETED);
                 }
-                table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-                table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
+                table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+                table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
 
                 if (StringUtils.isBlank(binder.getField(Constants.COMPANY_ID).getValue().toString()) && StringUtils.isBlank(binder.getField(Constants.COMPANY_NO).getValue().toString())
                         && StringUtils.isBlank(binder.getField(Constants.COMPANY_NAME).getValue().toString()) && binder.getField(Constants.COMPANY_TYPE).getValue() == null
                         && (binder.getField(Constants.COMPANY_STATUS).getValue() == null || ((HelperDTO) binder.getField(Constants.COMPANY_STATUS).getValue()).getId() == 0)) {
 
-                    MessageBox.showPlain(Icon.ERROR, "Search Error", "Please enter Search Criteria", ButtonId.OK);
+                    MessageBox.showPlain(Icon.ERROR, ConstantsUtils.SEARCH_ERROR, ConstantsUtils.ENTER_SEARCH_CRITERIA, ButtonId.OK);
 
                 } else {
 
@@ -741,12 +757,12 @@ public final class TradingPartnerLookUp extends Window {
                     searchResultbeans = new LazyBeanItemContainer(CompanyResultsDTO.class, new CompanyDAO(binder), searchCriteria);
                     table.setContainerDataSource(searchResultbeans);
                     if (searchResultbeans.size() > (Constants.ZERO)) {
-                        CommonUIUtils.successNotification("Search Completed");
+                        CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
                     } else {
-                        CommonUIUtils.successNotification("No results found");
+                        CommonUIUtils.successNotification(ConstantsUtils.NO_RESULTS_COMPLETED);
                     }
-                    table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-                    table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
+                    table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+                    table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
 
                     searchCriteria.setCustomDirty(false);
                     for (Object propertyId : collapsedColumns) {

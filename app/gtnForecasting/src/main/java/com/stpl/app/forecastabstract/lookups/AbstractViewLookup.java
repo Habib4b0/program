@@ -57,7 +57,7 @@ public abstract class AbstractViewLookup extends Window {
     public VerticalLayout buildViewLookup(final TextField viewName, final Button btnSearch, final Button btnReset, final Button btnSelect, final Button btnClose, final ExtFilterTable results) {
         VerticalLayout mainLayout = (VerticalLayout) UiUtils.getLayout(VerticalLayout.class);
         mainLayout.addComponent(addSearchCriteria(viewName));
-        mainLayout.addComponent(addSearchButtons(btnSearch, btnReset, viewName));
+        mainLayout.addComponent(addSearchButtons(btnSearch, btnReset));
         mainLayout.addComponent(addResultSection(results));
         mainLayout.addComponent(addFooterButtons(btnSelect, btnClose));
         return mainLayout;
@@ -93,7 +93,7 @@ public abstract class AbstractViewLookup extends Window {
      * @param btnReset The search criteria reset button
      * @return The layout containing both the buttons
      */
-    private HorizontalLayout addSearchButtons(final Button btnSearch, final Button btnReset, final TextField viewName) {
+    private HorizontalLayout addSearchButtons(final Button btnSearch, final Button btnReset) {
         HorizontalLayout searchButtonsLayout = (HorizontalLayout) UiUtils.getLayout(HorizontalLayout.class);
         btnSearch.addClickListener(new Button.ClickListener() {
 

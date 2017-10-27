@@ -10,5 +10,5 @@ package com.stpl.app.arm.businessprocess.abstractbusinessprocess.form;
  * @author Asha.Ravi
  */
 public class AbstractDemandResults {
-    
+
 }

@@ -47,23 +47,23 @@ public class AllCustomers extends Window {
 
     CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
-    final private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
-    ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
-    List<TradingPartnerDTO> resultList = new ArrayList<TradingPartnerDTO>();
+    final private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<>(TradingPartnerDTO.class);
+    List<TradingPartnerDTO> resultList = new ArrayList<>();
     /**
      * The excel export image.
      */
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private ExtCustomTable companyViewTable;
-    private ExtTreeContainer<TradingPartnerDTO> companyExcelResultBean = new ExtTreeContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
+    private ExtTreeContainer<TradingPartnerDTO> companyExcelResultBean = new ExtTreeContainer<>(TradingPartnerDTO.class);
     List<String> companyMasterSids;
 
     public AllCustomers(List<String> companyMasterSids) {
         this.companyMasterSids = companyMasterSids;
         setContent(Clara.create(getClass().getResourceAsStream("/TradingPartner/allCustomers.xml"), this));
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(false);
         setResizable(false);
         setCaption(" All Customers ");
@@ -86,8 +86,8 @@ public class AllCustomers extends Window {
         companySearchResultsTable.setPageLength(NumericConstants.FIVE);
         companyLogic.setContainerDataSource(companyResultsContainer);
 
-        companySearchResultsTable.setVisibleColumns(Constants.TP_COMPANY_SEARCH_COLUMNS);
-        companySearchResultsTable.setColumnHeaders(Constants.TP_COMPANY_SEARCH_HEADERS);
+        companySearchResultsTable.setVisibleColumns(Constants.getInstance().tpCompanySearchColumns);
+        companySearchResultsTable.setColumnHeaders(Constants.getInstance().tpCompanySearchHeaders);
         companySearchResultsTable.setSelectable(false);
         companySearchResultsTable.focus();
         loadResultTable();
@@ -126,7 +126,7 @@ public class AllCustomers extends Window {
     }
 
     private void configureCompanyExcelResultTable() {
-        companyExcelResultBean = new ExtTreeContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
+        companyExcelResultBean = new ExtTreeContainer<>(TradingPartnerDTO.class);
         companyViewTable = new ExtCustomTable();
         tradingPartnerTableLayout.addComponent(companyViewTable);
         companyViewTable.setRefresh(Boolean.FALSE);

@@ -41,6 +41,11 @@ public class ExtStringFilter implements Container.Filter {
         if (propertyValue == null) {
             return false;
         }
+        return passesFilterValue(propertyValue);
+
+    }
+
+    private boolean passesFilterValue(Object propertyValue) {
         final String value = ignoreCase ? propertyValue.toString()
                 .toLowerCase() : propertyValue.toString();
         if (formSearch) {
@@ -91,11 +96,7 @@ public class ExtStringFilter implements Container.Filter {
         if (ignoreCase != o.ignoreCase) {
             return false;
         }
-        if (onlyMatchPrefix != o.onlyMatchPrefix) {
-            return false;
-        }
-
-        return true;
+        return onlyMatchPrefix == o.onlyMatchPrefix;
     }
 
     @Override
@@ -155,5 +156,5 @@ public class ExtStringFilter implements Container.Filter {
     public boolean isFormSearch() {
         return formSearch;
     }
-    
+
 }

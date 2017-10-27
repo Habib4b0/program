@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Maheshj
  */
 public class PMPYRowDto {
-    private Map<String, String> properties = new HashMap<String, String>();
+    private Map<String, String> properties = new HashMap<>();
    
     String type=StringUtils.EMPTY;
 

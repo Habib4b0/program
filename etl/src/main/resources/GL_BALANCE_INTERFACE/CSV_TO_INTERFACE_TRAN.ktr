@@ -169,6 +169,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>RECEIVED_RECORD_COUNT</name>
         <rename>received_record_count</rename>
@@ -266,6 +272,17 @@
         <group/>
         <nullif>R</nullif>
         <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>GL_BALANCE_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -567,6 +584,111 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>265</xloc>
       <yloc>158</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>GL_BALANCE_INTERFACE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>staging</connection>
+    <schema/>
+    <table>GL_BALANCE_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NO</column_name>
+          <stream_name>ACCOUNT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BALANCE</column_name>
+          <stream_name>BALANCE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CLOSE_INDICATOR</column_name>
+          <stream_name>CLOSE_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>userid</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>GL_BALANCE_INTERFACE_ID</column_name>
+          <stream_name>GL_BALANCE_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>INSERTED_DATE</column_name>
+          <stream_name>INSERTED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>IS_ACTIVE</column_name>
+          <stream_name>IS_ACTIVE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PERIOD</column_name>
+          <stream_name>PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>UPLOAD_DATE</column_name>
+          <stream_name>UPLOAD_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>YEAR</column_name>
+          <stream_name>YEAR</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>271</xloc>
+      <yloc>572</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2267,111 +2389,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </GUI>
     </step>
 
-  <step>
-    <name>GL_BALANCE_INTERFACE</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>staging</connection>
-    <schema/>
-    <table>GL_BALANCE_INTERFACE</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>ACCOUNT_ID</column_name>
-          <stream_name>ACCOUNT_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ACCOUNT_NO</column_name>
-          <stream_name>ACCOUNT_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>BALANCE</column_name>
-          <stream_name>BALANCE</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CLOSE_INDICATOR</column_name>
-          <stream_name>CLOSE_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>userid</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>GL_BALANCE_INTERFACE_ID</column_name>
-          <stream_name>GL_BALANCE_INTERFACE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>INSERTED_DATE</column_name>
-          <stream_name>INSERTED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>IS_ACTIVE</column_name>
-          <stream_name>IS_ACTIVE</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>PERIOD</column_name>
-          <stream_name>PERIOD</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>UPLOAD_DATE</column_name>
-          <stream_name>UPLOAD_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>YEAR</column_name>
-          <stream_name>YEAR</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>271</xloc>
-      <yloc>572</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step_error_handling>
       <error>
         <source_step>Data Validator</source_step>
@@ -2381,6 +2398,18 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <descriptions_valuename/>
         <fields_valuename>Invalid Field Type__</fields_valuename>
         <codes_valuename>error_code_fieldname</codes_valuename>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>GL_BALANCE_INTERFACE</source_step>
+        <target_step>Data Validator</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
         <max_errors/>
         <max_pct_errors/>
         <min_pct_rows/>
@@ -2417,18 +2446,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <descriptions_valuename/>
         <fields_valuename>Invalid Field Type__</fields_valuename>
         <codes_valuename>error_code_fieldname</codes_valuename>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
-        <source_step>GL_BALANCE_INTERFACE</source_step>
-        <target_step>Data Validator</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
         <max_errors/>
         <max_pct_errors/>
         <min_pct_rows/>

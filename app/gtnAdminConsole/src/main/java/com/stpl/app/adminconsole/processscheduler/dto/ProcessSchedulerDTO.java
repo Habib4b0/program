@@ -60,7 +60,7 @@ public class ProcessSchedulerDTO {
     private Integer startIndex = 0;
     private Integer endIndex = 0;
     private boolean count = false;
-    private List<SortByColumn> orderByColumns = new ArrayList<SortByColumn>();
+    private List<SortByColumn> orderByColumns = new ArrayList<>();
     private Set<Container.Filter> filters;
     
     private String scriptName = StringUtils.EMPTY;

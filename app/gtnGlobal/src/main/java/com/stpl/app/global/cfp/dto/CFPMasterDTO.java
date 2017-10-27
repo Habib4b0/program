@@ -549,6 +549,7 @@ public class CFPMasterDTO implements Serializable {
     
     
     public CFPMasterDTO(){
+        //constructor
         
     }
     

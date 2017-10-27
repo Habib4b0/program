@@ -55,7 +55,7 @@ public class TradingPartnerDTO implements Serializable {
     private String identifierType = StringUtils.EMPTY;
     private Boolean check = false;
     private Boolean reset = false;
-    private List<String> companyMasterSids = new ArrayList<String>();
+    private List<String> companyMasterSids = new ArrayList<>();
     private String companyRestrictionSessionId = StringUtils.EMPTY;
 
     public String getSystemId() {

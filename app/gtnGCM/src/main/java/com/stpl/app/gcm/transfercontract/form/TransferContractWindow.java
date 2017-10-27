@@ -33,8 +33,8 @@ public class TransferContractWindow extends CustomWindow {
         setPositionX(Constants.ZERO);
         setPositionY(Constants.ZERO);
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(false);
         setContent(new TransferSelectionForm(resultList, this));
     }

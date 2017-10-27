@@ -87,7 +87,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
         projectionSelectionDTO.setDiscountProgramsList(pcNameList);
         loadFrequencyDdlb();
         frequencyDdlb.focus();
-        historyDdlb.setValue("4 Quarters");
+        historyDdlb.setValue(Constant.FOUR_QUARTERS);
         groupDdlb.setVisible(false);
         groupDdlbLabel.setVisible(false);
         initializeResultTable();
@@ -242,7 +242,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
         List<Integer> pagelength = CommonLogic.getPageNumber();
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         fullHeader = new CustomTableHeaderDTO();
-        leftHeader = HeaderUtils.getProjectionResultsLeftTableColumns(projectionSelectionDTO, fullHeader);
+        leftHeader = HeaderUtils.getProjectionResultsLeftTableColumns( fullHeader);
         rightHeader = HeaderUtils.getProjectionResultsRightTableColumns(projectionSelectionDTO, fullHeader);
         resultBeanContainer = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
@@ -254,9 +254,9 @@ public final class MProjectionResults extends ForecastProjectionResults {
                 .getRightFreezeAsTable();
         leftTable.setImmediate(true);
         rightTable.setImmediate(true);
-        periodTableId.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        periodTableId.setHeight(Constant.SIX_FIFTY_PX);
+        leftTable.setHeight(Constant.SIX_FIFTY_PX);
+        rightTable.setHeight(Constant.SIX_FIFTY_PX);
         leftTable.setColumnWidth("relationshipLevelName", NumericConstants.THREE_HUNDRED);
         leftTable.setDoubleHeaderColumnWidth("relationshipLevelName", NumericConstants.THREE_HUNDRED);
 
@@ -274,12 +274,12 @@ public final class MProjectionResults extends ForecastProjectionResults {
                 .setDoubleHeaderVisibleColumns(leftHeader.getDoubleColumns().toArray());
         leftTable
                 .setDoubleHeaderColumnHeaders(leftHeader.getDoubleHeaders().toArray(new String[leftHeader.getDoubleHeaders().size()]));
-        if (Constant.CUSTOM.equalsIgnoreCase(projectionSelectionDTO.getView())) {
-            leftTable.setDoubleHeaderColumnHeader("group1", projectionSelectionDTO.getView());
+        if (Constant.CUSTOM_LABEL.equalsIgnoreCase(projectionSelectionDTO.getView())) {
+            leftTable.setDoubleHeaderColumnHeader(Constant.GROUP1_SMALL, projectionSelectionDTO.getView());
         } else {
-            leftTable.setDoubleHeaderColumnHeader("group1", projectionSelectionDTO.getView() + Constant.S_SMALL);
+            leftTable.setDoubleHeaderColumnHeader(Constant.GROUP1_SMALL, projectionSelectionDTO.getView() + Constant.S_SMALL);
         }
-        leftTable.setDoubleHeaderColumnAlignment("group1", ExtCustomTable.Align.CENTER);
+        leftTable.setDoubleHeaderColumnAlignment(Constant.GROUP1_SMALL, ExtCustomTable.Align.CENTER);
         rightTable
                 .setDoubleHeaderVisibleColumns(rightHeader.getDoubleColumns().toArray());
         rightTable
@@ -372,8 +372,8 @@ public final class MProjectionResults extends ForecastProjectionResults {
         if (viewOpg.getValue() != null) {
             if (CUSTOM.getConstant().equals(String.valueOf(viewOpg.getValue()))) {
                 if (leftTable != null) {
-                    leftTable.setDoubleHeaderColumnHeader("group1", String.valueOf(viewOpg.getValue()));
-                    leftTable.setDoubleHeaderColumnAlignment("group1", ExtCustomTable.Align.CENTER);
+                    leftTable.setDoubleHeaderColumnHeader(Constant.GROUP1_SMALL, String.valueOf(viewOpg.getValue()));
+                    leftTable.setDoubleHeaderColumnAlignment(Constant.GROUP1_SMALL, ExtCustomTable.Align.CENTER);
                 }
                 levelDdlb.setEnabled(customId != 0);
                 levelFilterDdlb.setEnabled(false);
@@ -386,8 +386,8 @@ public final class MProjectionResults extends ForecastProjectionResults {
                 loadCustomDDLB();
             } else {
                 if (leftTable != null) {
-                    leftTable.setDoubleHeaderColumnHeader("group1", String.valueOf(viewOpg.getValue()) + Constant.S_SMALL);
-                    leftTable.setDoubleHeaderColumnAlignment("group1", ExtCustomTable.Align.CENTER);
+                    leftTable.setDoubleHeaderColumnHeader(Constant.GROUP1_SMALL, String.valueOf(viewOpg.getValue()) + Constant.S_SMALL);
+                    leftTable.setDoubleHeaderColumnAlignment(Constant.GROUP1_SMALL, ExtCustomTable.Align.CENTER);
                 }
                 levelDdlb.setEnabled(true);
                 levelFilterDdlb.setEnabled(true);
@@ -443,7 +443,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
         ForecastUI.EXCEL_CLOSE = true;
-        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Projection Results", "Projection Results", "Projection_Results.xls", false);
+        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PROJECTION_RESULTS, Constant.PROJECTION_RESULTS, "Projection_Results.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);
     }

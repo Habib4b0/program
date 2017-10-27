@@ -72,7 +72,7 @@ public interface ContractBuilderLogic {
 			final List<VwContractPriceInfoDTO> itemDRB,
 			final CustomFieldGroup rebateBinder,
 			final List<RsItemDetailsDTO> rsDRB) throws SystemException,
-			PortalException, ParseException, java.text.ParseException;
+			ParseException, java.text.ParseException;
 
 	/** 
 	 * <!-- begin-UML-doc -->

@@ -581,7 +581,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
             String sss = s.replace(".", "");
             int len = s.length() - sss.length();
             int count = 0;
-            int demoCount = totalCount;
+            int demoCount;
             int treeIndex = treeIndexMapList.getInt(s);
             int cond = 0;
             if (len >= (len1)) {

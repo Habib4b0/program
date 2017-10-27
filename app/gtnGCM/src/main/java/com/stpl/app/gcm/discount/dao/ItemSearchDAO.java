@@ -45,7 +45,7 @@ public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
     }
 
     public List<ContractsDetailsDto> find(SearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list) {
-        List<ContractsDetailsDto> resultList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> resultList = new ArrayList<>();
         try {
             LOGGER.debug("find--> " + startIndex + "     " + offset);
             resultList = logic.getItemSearch(removeDiscountDto);

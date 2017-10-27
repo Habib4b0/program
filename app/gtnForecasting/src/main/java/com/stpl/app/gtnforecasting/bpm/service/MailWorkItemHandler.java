@@ -1,6 +1,7 @@
 package com.stpl.app.gtnforecasting.bpm.service;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.ifs.util.constants.GlobalConstants;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -70,7 +71,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
         }
 
         final String fromAddress = props.getProperty("fromAddress", "support@bpitechnologies.com");
-        final String password = props.getProperty("password", "MyVibes$$$");
+        final String password = props.getProperty(GlobalConstants.getPassword(), GlobalConstants.getSupportPassword());
 
         String toAddress = toAdd;
         String delims = "[,]";

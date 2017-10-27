@@ -31,6 +31,7 @@ public class ViewFilterGenerator implements ExtFilterGenerator {
     private static final Logger LOGGER = Logger.getLogger(ViewFilterGenerator.class);
 
     public ViewFilterGenerator() {
+        LOGGER.debug("inside VireFiltergenerator Constructor");
 
     }
 
@@ -43,7 +44,7 @@ public class ViewFilterGenerator implements ExtFilterGenerator {
     @Override
     public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
         if ((originatingField instanceof ComboBox) && (originatingField.getValue() != null)) {
-                return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
+            return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
         }
         if (originatingField instanceof NumberFilterPopup) {
             NumberFilterPopup popup = (NumberFilterPopup) originatingField;
@@ -57,8 +58,8 @@ public class ViewFilterGenerator implements ExtFilterGenerator {
                 return new Compare.Greater(propertyId, popup.getValue().getGreaterThanValue());
             }
         }
-                return null;
-            }
+        return null;
+    }
 
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
@@ -82,19 +83,21 @@ public class ViewFilterGenerator implements ExtFilterGenerator {
                 CustomComboBox itemStatus = new CustomComboBox();
                 CommonUtils.loadComboBoxWithInteger(itemStatus, "DEDUCTION_LEVELS", true);
                 return itemStatus;
-            }           
+            }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in getCustomFilterComponent :"+e);
         }
         return null;
     }
 
     @Override
     public void filterRemoved(Object propertyId) {
+        LOGGER.debug("Inside filterRemoved Method");
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        LOGGER.debug("Inside filterAdded Method");
     }
 
     @Override

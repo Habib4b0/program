@@ -63,7 +63,7 @@ public class HierarchyBuilderLevelDTO implements Serializable {
 	/**  The Version Number. */
 	private int versionNo;
 	/** The level list. */
-	private List<LevelDTO> levelList = new ArrayList<LevelDTO>();
+	private List<LevelDTO> levelList = new ArrayList<>();
 	
 	/**
 	 * Gets the version no.

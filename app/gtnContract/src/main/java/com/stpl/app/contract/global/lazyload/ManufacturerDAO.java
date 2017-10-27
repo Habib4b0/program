@@ -11,6 +11,7 @@ import com.stpl.app.contract.util.ErrorCodes;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -41,9 +42,6 @@ public class ManufacturerDAO implements DAO<HelperDTO> {
         try {
             LOGGER.debug("Entering CompanyQualifierNameDAO Count method :");
             return logic.getLazyManufacturerCount(searchCriteria.getFilter())+1;
-        } catch (PortalException ex) {
-             LOGGER.debug(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
         } catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
@@ -58,14 +56,11 @@ public class ManufacturerDAO implements DAO<HelperDTO> {
         try {
             LOGGER.debug("Entering CompanyQualifierNameDAO find method :");
             return logic.getLazyManufacturerResults(startIndex, startIndex + offset, searchCriteria.getFilter(), manufactureId);
-        } catch (PortalException ex) {
-             LOGGER.debug(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
         } catch (SystemException ex) {
             LOGGER.error(ex);
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
         }
-        return null;
+        return  Collections.emptyList();
     }
 }

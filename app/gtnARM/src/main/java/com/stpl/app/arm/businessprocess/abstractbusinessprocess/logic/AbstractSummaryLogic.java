@@ -44,14 +44,14 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
         return column;
     }
 
-     public Date getGlImpactDate(final SelectionDTO selectionDto) throws ParseException {
+    public Date getGlImpactDate(final SelectionDTO selectionDto) throws ParseException {
         Date today = null;
-            List input = new ArrayList();
-            input.add(selectionDto.getProjectionMasterSid());
-            List<Object> list = QueryUtils.getItemData(input, "glImpactdate", null);
-            if (list != null && !list.isEmpty()) {
-                today = (Date)list.get(0);
-            }
+        List input = new ArrayList();
+        input.add(selectionDto.getProjectionMasterSid());
+        List<Object> list = QueryUtils.getItemData(input, "glImpactdate", null);
+        if (list != null && !list.isEmpty()) {
+            today = (Date) list.get(0);
+        }
         return today;
 
     }
@@ -77,7 +77,6 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
 
     protected abstract int getSummaryCount(List<Object> inputs, Criteria criteria);
 
-    
     public boolean saveGLImpact(Date glImpactDate, int configLevelId, int projectionId) {
         List input = new ArrayList();
         input.add(new Timestamp(glImpactDate.getTime()));
@@ -93,18 +92,18 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
             QueryUtils.itemUpdate(input, getUpdateOverrideQueryName());
 
         } catch (Exception e) {
-           LOGGER.error(e);
+            LOGGER.error("Error in updateOverride"+e);
             return false;
         }
         return true;
     }
-    
+
     public boolean updateOverrideColumn(SessionDTO sessionDTO) {
         try {
             QueryUtils.itemUpdate(getQueryTableinput(sessionDTO), "update_Override");
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in updateOverrideColumn"+e);
             return false;
         }
         return true;
@@ -115,12 +114,12 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
             QueryUtils.itemUpdate(getQueryTableinput(sessionDTO), "update_TempOverride");
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in updateTempOverrideColumn"+e);
             return false;
         }
         return true;
     }
-    
+
     public void updatecalculateOverride(SessionDTO sessionDTO, String screenName) {
         try {
             if (ARMConstants.getPipelineAccrual().equals(screenName)) {
@@ -137,18 +136,22 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
                 QueryUtils.itemUpdate(getQueryTableinputparameter(sessionDTO), "update_transaction6_overridecolumn");
             } else if (ARMConstants.getTransaction7().equals(screenName)) {
                 QueryUtils.itemUpdate(getQueryTableinputparameter(sessionDTO), "update_transaction7_overridecolumn");
+            } else if (ARMConstants.getTransaction8().equals(screenName)) {
+                QueryUtils.itemUpdate(getQueryTableinputparameter(sessionDTO), "update_transaction8_overridecolumn");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in updatecalculateOverride"+e);
         }
     }
 
     protected abstract String getUpdateOverrideQueryName();
 
     protected abstract List getQueryTableinput(SessionDTO sessionDTO);
+
     public abstract List getQueryTableinputparameter(SessionDTO sessionDTO);
+
     public abstract List getTableInput(SessionDTO sessionDTO);
-    
+
     public String getView(String deduction, String viewType) {
         Map<String, String> viewMap = ARMUtils.getViewName();
         String selectedView = viewMap.get(viewType);
@@ -202,7 +205,7 @@ public abstract class AbstractSummaryLogic<T extends AdjustmentDTO> extends Abst
         List resultlist = QueryUtils.executeSelect(query);
 
         for (int i = 0; i < resultlist.size(); i++) {
-            Object obj[] = (Object[]) resultlist.get(i);
+            Object[] obj = (Object[]) resultlist.get(i);
             int j = 0;
             if (obj[0] instanceof Integer) {
                 j = (Integer) obj[0];

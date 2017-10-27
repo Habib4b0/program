@@ -63,8 +63,6 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                 return typeDdlb;
             } catch (SystemException ex) {
                 LOGGER.error(ex);
-            } catch (PortalException ex) {
-                LOGGER.error(ex);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
@@ -90,11 +88,11 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
     }
 
     public void filterRemoved(Object propertyId) {
-
+        return;
     }
 
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-
+        return;
     }
 
     public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {

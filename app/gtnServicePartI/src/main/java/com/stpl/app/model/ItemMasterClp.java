@@ -90,6 +90,8 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
     private Date _clottingFactorStartDate;
     private Date _nonFederalExpirationDate;
     private String _internalNotes;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
     private BaseModel<?> _itemMasterRemoteModel;
 
     public ItemMasterClp() {
@@ -202,6 +204,8 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
         attributes.put("clottingFactorStartDate", getClottingFactorStartDate());
         attributes.put("nonFederalExpirationDate", getNonFederalExpirationDate());
         attributes.put("internalNotes", getInternalNotes());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -637,6 +641,19 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
 
         if (internalNotes != null) {
             setInternalNotes(internalNotes);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -2189,6 +2206,51 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
         }
     }
 
+    @Override
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+
+        if (_itemMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _itemMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBaseCpiPrecision", int.class);
+
+                method.invoke(_itemMasterRemoteModel, baseCpiPrecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
+
+        if (_itemMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _itemMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBaselineAmpPrecision",
+                        int.class);
+
+                method.invoke(_itemMasterRemoteModel, baselineAmpPrecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getItemMasterRemoteModel() {
         return _itemMasterRemoteModel;
     }
@@ -2325,6 +2387,8 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
         clone.setClottingFactorStartDate(getClottingFactorStartDate());
         clone.setNonFederalExpirationDate(getNonFederalExpirationDate());
         clone.setInternalNotes(getInternalNotes());
+        clone.setBaseCpiPrecision(getBaseCpiPrecision());
+        clone.setBaselineAmpPrecision(getBaselineAmpPrecision());
 
         return clone;
     }
@@ -2370,7 +2434,7 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(139);
+        StringBundler sb = new StringBundler(143);
 
         sb.append("{itemStatus=");
         sb.append(getItemStatus());
@@ -2510,6 +2574,10 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
         sb.append(getNonFederalExpirationDate());
         sb.append(", internalNotes=");
         sb.append(getInternalNotes());
+        sb.append(", baseCpiPrecision=");
+        sb.append(getBaseCpiPrecision());
+        sb.append(", baselineAmpPrecision=");
+        sb.append(getBaselineAmpPrecision());
         sb.append("}");
 
         return sb.toString();
@@ -2517,7 +2585,7 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(211);
+        StringBundler sb = new StringBundler(217);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ItemMaster");
@@ -2798,6 +2866,14 @@ public class ItemMasterClp extends BaseModelImpl<ItemMaster>
         sb.append(
             "<column><column-name>internalNotes</column-name><column-value><![CDATA[");
         sb.append(getInternalNotes());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baseCpiPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaseCpiPrecision());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baselineAmpPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaselineAmpPrecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

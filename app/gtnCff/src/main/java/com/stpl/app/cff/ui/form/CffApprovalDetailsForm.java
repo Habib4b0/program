@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.ui.form;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.bpm.logic.VarianceCalculationLogic;
 import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
@@ -125,7 +126,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     /**
      * The updateCycleBean bean.
      */
-    public List<ApprovalDetailsDTO> updateCycleBean = new ArrayList<ApprovalDetailsDTO>();
+    public List<ApprovalDetailsDTO> updateCycleBean = new ArrayList<>();
     CustomFieldGroup cffSearchBinder;
     boolean flag = false;
     CFFLogic cffLogic = new CFFLogic();
@@ -141,13 +142,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
      */
     public CffApprovalDetailsForm(CustomFieldGroup cffSearchBinder, CFFSearchDTO dto, BeanItemContainer<ApprovalDetailsDTO> approvalDetailsBean, BeanItemContainer<CFFResultsDTO> resultsBean, final SessionDTO sessionDTO, final DataSelectionDTO dataSelectiondto) {
 
-        super("Consolidated Financial Forecast");
+        super(StringConstantsUtil.CONSOLIDATED_FINANCIAL_FORECAST);
         try {
             LOGGER.debug("Enters CffApprovalDetailsForm Constructor");
-            addStyleName(Constants.bootstrap);
-            addStyleName(Constants.bootstrap_ui);
+            addStyleName(Constants.BOOTSTRAP);
+            addStyleName(Constants.BOOTSTRAP_UI);
             addStyleName("valo-theme-customwindow");
-            addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+            addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
             this.approvalDetailsBean = approvalDetailsBean;
             this.resultsBean = resultsBean;
             this.sessionDTO = sessionDTO;
@@ -163,9 +164,9 @@ public class CffApprovalDetailsForm extends CustomWindow {
             setMinimizeToTray();
             setHeight("800px");
             addStyleName(CustomWindowConstant.VALO_THEME_CUSTOMWINDOW);
-            addStyleName(Constants.bootstrap_ui);
-            addStyleName(Constants.bootstrap);
-            addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+            addStyleName(Constants.BOOTSTRAP_UI);
+            addStyleName(Constants.BOOTSTRAP);
+            addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
             setContent(Clara.create(getClass().getResourceAsStream("/cff/CffApprovalDetailsForm.xml"), this));
             configureFields();
             if (sessionDTO.getAction().equals("view")) {
@@ -193,25 +194,25 @@ public class CffApprovalDetailsForm extends CustomWindow {
             fileSelection = new FileSelection(sessionDTO, dataSelection.businessUnit);
             projectionResults = new ProjectionResults(sessionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED, dataSelectionDTO);
             projectionVariance = new ProjectionVariance(sessionDTO, dataSelectionDTO);
-            notestab = new NotesTabForm(sessionDTO, cffSearchBinder, "Consolidated Financial Forecast", this);
+            notestab = new NotesTabForm(sessionDTO, cffSearchBinder, StringConstantsUtil.CONSOLIDATED_FINANCIAL_FORECAST, this);
             approvalTab = new ApprovalTab(dto, approvalDetailsBean, resultsBean, notestab, sessionDTO);
             configurePermission();
-            dataSelection.setCaption("Data Selection");
-            tabSheet.addTab(dataSelection, "Data Selection");
+            dataSelection.setCaption(StringConstantsUtil.DATA_SELECTION_LABEL);
+            tabSheet.addTab(dataSelection, StringConstantsUtil.DATA_SELECTION_LABEL, null, NumericConstants.ZERO);
             fileSelection.setCaption("File Selection");
-            tabSheet.addTab(fileSelection, "File Selection");
+            tabSheet.addTab(fileSelection, "File Selection", null, NumericConstants.ONE);
             approvalTab.setCaption("Approval Details");
-            tabSheet.addTab(approvalTab, "Approval Details");
+            tabSheet.addTab(approvalTab, "Approval Details", null, NumericConstants.TWO);
             projectionResults.setCaption("Results");
-            tabSheet.addTab(projectionResults, "Results");
+            tabSheet.addTab(projectionResults, "Results", null, NumericConstants.THREE);
             projectionVariance.setCaption("Variance");
-            tabSheet.addTab(projectionVariance, "Variance");
+            tabSheet.addTab(projectionVariance, "Variance", null, NumericConstants.FOUR);
             notestab.setCaption("Additional Information");
-            tabSheet.addTab(notestab, "Additional Information");
-            if (tabSheet.getTab(0).getCaption().contentEquals("Data Selection")) {
+            tabSheet.addTab(notestab, "Additional Information", null, NumericConstants.FIVE);
+            if (tabSheet.getTab(0).getCaption().contentEquals(StringConstantsUtil.DATA_SELECTION_LABEL)) {
                 BottomBtnLayout.setVisible(false);
             }
-
+            setTabSecurity();
             tabSheet.addListener(new TabSheet.SelectedTabChangeListener() {
                 @Override
                 public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
@@ -252,13 +253,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
                     }
 
-                    if (tabPosition == NumericConstants.THREE) {
+                    if (tabPosition == NumericConstants.THREE || (!tabSheet.getTab(NumericConstants.THREE).isVisible() && tabPosition == NumericConstants.FOUR)) {
                         String projId = String.valueOf(sessionDTO.getProjectionId());
                         Object[] obj = {projId};
                         CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
                     }
 
-                    if (event.getTabSheet().getSelectedTab().getCaption().contentEquals("Data Selection")) {
+                    if (event.getTabSheet().getSelectedTab().getCaption().contentEquals(StringConstantsUtil.DATA_SELECTION_LABEL)) {
                         BottomBtnLayout.setVisible(false);
                     } else {
                         BottomBtnLayout.setVisible(true);
@@ -337,7 +338,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         approveBtn.setEnabled(false);
                         rejectBtn.setEnabled(false);
                         deleteBtn.setEnabled(false);
-                        cancelBtn.setEnabled(false);
+                        cancelBtn.setEnabled(true);
                         submitBtn.setEnabled(false);
                     } else {
                         approveBtn.setEnabled(true);
@@ -353,7 +354,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                     deleteBtn.setEnabled(true);
                     cancelBtn.setEnabled(true);
                     submitBtn.setEnabled(true);
-                } else if ("Cancelled".equals(dto.getStatusDesc())) {
+                } else if ("Cancelled".equals(dto.getStatusDesc()) || "Canceled".equals(dto.getStatusDesc())) {
 
                     approveBtn.setEnabled(false);
                     rejectBtn.setEnabled(false);
@@ -396,11 +397,11 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 final int cffMasterSystemId = dto.getCffMasterSid();
                 final String userId = sessionDTO.getUserId();
 
-                result = cffLogic.approveCffInformation(cffMasterSystemId, userId);
+                cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                 result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_REJECTED).get(0).toString();
-                Map<String, Object> params = new HashMap<String, Object>();
-                params.put("approveFlag", "reject-RWC");
+                Map<String, Object> params = new HashMap<>();
+                params.put(StringConstantsUtil.APPROVE_FLAG, "reject-RWC");
                 VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
                 if (!result.equals(CommonUtils.FAIL)) {
                     notestab.getApprovalWindow().close();
@@ -438,11 +439,11 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 final int cffMasterSystemId = dto.getCffMasterSid();
                 final String userId = sessionDTO.getUserId();
 
-                result = cffLogic.approveCffInformation(cffMasterSystemId, userId);
+                cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                 result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_CANCELLED).get(0).toString();
-                Map<String, Object> params = new HashMap<String, Object>();
-                params.put("approveFlag", "cancel-RWC");
+                Map<String, Object> params = new HashMap<>();
+                params.put(StringConstantsUtil.APPROVE_FLAG, "cancel-RWC");
                 VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
                 if (!result.equals(CommonUtils.FAIL)) {
                     notestab.getApprovalWindow().close();
@@ -471,7 +472,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
              * @param buttonId The buttonId of the pressed button.
              */
             public void yesMethod() {
-                String result = StringUtils.EMPTY;
+                String result;
                 final int cffMasterSystemId = sessionDTO.getProjectionId();
                 cffLogic.deleteCff(cffMasterSystemId, ConstantsUtil.CFF_MASTER);
                 cffLogic.deleteCff(cffMasterSystemId, ConstantsUtil.CFF_APPROVE_MASTER);
@@ -507,12 +508,12 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         final int cffMasterSystemId = dto.getCffMasterSid();
                         final String userId = sessionDTO.getUserId();
 
-                        result = cffLogic.approveCffInformation(cffMasterSystemId, userId);
+                        cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                         List<Object> resultList = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_APPROVED);
                         result = resultList.get(0).toString();
-                        Map<String, Object> params = new HashMap<String, Object>();
-                        params.put("approveFlag", "approve");
+                        Map<String, Object> params = new HashMap<>();
+                        params.put(StringConstantsUtil.APPROVE_FLAG, "approve");
                         VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
                         if (!result.equals(CommonUtils.FAIL)) {
                             if ((Boolean) resultList.get(1)) {
@@ -550,7 +551,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Consolidated Financial Forecast" + "," + "Variance Tab");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, StringConstantsUtil.CONSOLIDATED_FINANCIAL_FORECAST + "," + "Variance Tab");
             if (functionHM.get("approveBtn") != null && !((AppPermission) functionHM.get("approveBtn")).isFunctionFlag()) {
                 approveBtn.setVisible(false);
             } else {
@@ -580,6 +581,24 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 closeBtn.setVisible(false);
             } else {
                 closeBtn.setVisible(true);
+            }
+        } catch (PortalException ex) {
+            LOGGER.error(ex);
+        } catch (SystemException ex) {
+            LOGGER.error(ex);
+        }
+    }
+    
+    private void setTabSecurity() {
+        try {
+            final StplSecurity stplSecurity = new StplSecurity();
+            final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessTabPermission(userId, "Consolidated Financial Forecast");
+            if (functionHM.get("resultsTab") != null && !((AppPermission) functionHM.get("resultsTab")).isTabFlag()) {
+                tabSheet.getTab(NumericConstants.THREE).setVisible(Boolean.FALSE);
+            }
+            if (functionHM.get("varianceTab") != null && !((AppPermission) functionHM.get("varianceTab")).isTabFlag()) {
+                tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
             }
         } catch (PortalException ex) {
             LOGGER.error(ex);

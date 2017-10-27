@@ -1,5 +1,5 @@
 <Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui">
-    <VerticalLayout margin="true" spacing = "true" width="100%" height="100%">
+    <VerticalLayout margin="true" id="mainVerticalLayout" spacing = "true" width="100%" height="100%">
         <Panel caption = "Selection Criteria" width="100%" height="100%">
             <HorizontalLayout spacing="true" margin="true" immediate="true">
                 <GridLayout spacing="true" id="searchLayout" immediate="true" columns="6" rows="2">
@@ -24,7 +24,8 @@
             <Button id="resetBtnRes" caption="RESET" />
             <Button id="searchBtnRes" caption="SEARCH" />
         </HorizontalLayout>
-        <Panel caption="Configuration Details" width="100%" height="100%">
+        <VerticalLayout id="tabSheetLayout"> </VerticalLayout>
+        <Panel caption="Configuration Details" id="configurationDetailsPanel" width="100%" height="100%">
             <VerticalLayout spacing="true">
                 <Panel id="addPanelRes" width="100%" height="100%" >
                     <HorizontalLayout spacing="true" margin="true">
@@ -67,5 +68,28 @@
             <Button id="closeBtnRes" caption="CLOSE" />
             <Button id="exportBtnRes" caption="" styleName="rightalignbutton"/>
         </HorizontalLayout>
+       <VerticalLayout id="adjustmentSummaryConfigurationLayout">
+            <VerticalLayout>
+                <HorizontalLayout id="methodologyLayout" spacing="true" margin="true">
+                    <Label id="methodologyLabel" value="Methodology :" immediate="true"   /> 
+                    <ComboBox id="methodologyDdlb" enable="true" immediate="true" width="205px"></ComboBox>
+                </HorizontalLayout>
+                <Panel id = "adjSummaryPanel">
+                    <VerticalLayout id="adjSummaryTableLayout" width= "2000px" ></VerticalLayout>
+                </Panel>
+            </VerticalLayout>
+        </VerticalLayout>
+        <VerticalLayout id="balanceSummaryConfigurationLayout"> 
+            <VerticalLayout>
+
+                <HorizontalLayout id="reportTypeLayout" spacing="true" margin="true">
+                    <Label id="reportTypeLabel" value="Report Type :" immediate="true"   /> 
+                    <ComboBox id="reportTypeDdlb" enable="true" immediate="true" width="205px"></ComboBox>
+                </HorizontalLayout>
+                <Panel id = "balSummaryPanel">
+                    <VerticalLayout id="balsummaryTableLayout" width= "2000px"></VerticalLayout>
+                </Panel>
+            </VerticalLayout>
+        </VerticalLayout> 
     </VerticalLayout>
 </Panel>

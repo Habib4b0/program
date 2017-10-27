@@ -272,7 +272,7 @@ public class ContractMasterDTO implements Serializable {
     /**
      * Contract Alias Master List Object.
      */
-    private List<ContractAliasMasterDTO> contracAliasMasterList = new ArrayList<ContractAliasMasterDTO>();
+    private List<ContractAliasMasterDTO> contracAliasMasterList = new ArrayList<>();
 
     /**
      * The companyGroup.

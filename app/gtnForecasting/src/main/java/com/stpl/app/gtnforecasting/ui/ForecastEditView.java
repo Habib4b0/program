@@ -10,7 +10,6 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.VerticalLayout;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -36,7 +35,7 @@ public class ForecastEditView extends VerticalLayout {
     /**
      * Binder for DataSelection.
      */
-    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<DataSelectionDTO>(dataSelectionDTO));
+    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
 
     ForecastForm forecastName;
     ForecastEditWindow editWindow;

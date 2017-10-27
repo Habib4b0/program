@@ -21,8 +21,8 @@ import org.jboss.logging.Logger;
  */
 public class CustomUserCallBack implements UserGroupCallback {
 
-    Map<String, User> userMap = new HashMap<String, User>();
-    Map<String, Role> roleMap = new HashMap<String, Role>();
+    Map<String, User> userMap = new HashMap<>();
+    Map<String, Role> roleMap = new HashMap<>();
     private static final Logger LOGGER = Logger.getLogger(CustomUserCallBack.class);
 
     public CustomUserCallBack() {
@@ -55,7 +55,7 @@ public class CustomUserCallBack implements UserGroupCallback {
     }
 
     public List<String> getGroupsForUser(String userId, List<String> roleIds, List<String> allExistingGroupIds) {
-        List<String> userRoles = new ArrayList<String>();
+        List<String> userRoles = new ArrayList<>();
         List<Role> roles = null;
         if (userMap.containsKey(userId)) {
             try {

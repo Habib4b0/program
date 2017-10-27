@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.discountProjection.form;
 
 import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItem;
@@ -15,10 +16,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import de.steinwedel.messagebox.ButtonId;
-import de.steinwedel.messagebox.Icon;
-import de.steinwedel.messagebox.MessageBox;
-import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
@@ -46,7 +43,7 @@ public class MethodologyLookUp extends Window {
      *
      * @throws Exception
      */
-    public MethodologyLookUp(Object formulaList) throws SystemException{
+    public MethodologyLookUp(Object formulaList) {
       this.formulaList=formulaList;
         init();
     }
@@ -54,7 +51,7 @@ public class MethodologyLookUp extends Window {
     /**
      * Configures the Window
      */
-    private void init() throws SystemException {
+    private void init()  {
         this.setModal(true);
         this.setClosable(true);
         this.center();
@@ -69,14 +66,14 @@ public class MethodologyLookUp extends Window {
     /**
      * Configures the table logic and result table.
      */
-    private void configureTable() throws SystemException {
+    private void configureTable() {
         resultsTable.setContainerDataSource(resultsContainer);
         resultsTable.setImmediate(true);
         resultsTable.setWidth("434px");
-        resultsTable.setVisibleColumns("formulaName");
+        resultsTable.setVisibleColumns(Constant.FORMULA_NAME);
         resultsTable.setColumnHeaders("Methodology Name");
-        resultsTable.setColumnAlignment("formulaName", Table.Align.LEFT);
-        resultsTable.setColumnWidth("formulaName", NumericConstants.FOUR_THREE_FOUR);
+        resultsTable.setColumnAlignment(Constant.FORMULA_NAME, Table.Align.LEFT);
+        resultsTable.setColumnWidth(Constant.FORMULA_NAME, NumericConstants.FOUR_THREE_FOUR);
         resultsTable.setSelectable(true);
         tableLayout.setWidth("434px");
         tableLayout.addComponent(resultsTable);
@@ -104,31 +101,8 @@ public class MethodologyLookUp extends Window {
         if (null != resultsTable.getValue()) {
             this.close();
         } else {
-            final MessageBox msg = MessageBox.showPlain(Icon.WARN, "Select error", "Please select a record.", new MessageBoxListener() {
-
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-                @SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                  
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
+            CommonUIUtils.getSelectErrorMessage();            
         }
-    }
-
-    /**
-     * Closes the window.
-     *
-     * @param event
-     */
-    @UiHandler("closeBtn")
-    public void closeLogic(Button.ClickEvent event) {
-        this.close();
     }
 
     /**
@@ -154,10 +128,20 @@ public class MethodologyLookUp extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof FormulaDTO) {
-            targetItem = new BeanItem<FormulaDTO>(
+            targetItem = new BeanItem<>(
                     (FormulaDTO) obj);
         }
         return (FormulaDTO) targetItem.getBean();
+    }
+    
+    /**
+     * Closes the window.
+     *
+     * @param event
+     */
+    @UiHandler("closeBtn")
+    public void closeLogic(Button.ClickEvent event) {
+        this.close();
     }
 
 }

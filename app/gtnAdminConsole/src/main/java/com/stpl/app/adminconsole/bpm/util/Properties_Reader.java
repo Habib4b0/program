@@ -14,11 +14,12 @@ public class Properties_Reader {
     public static void main(String[] args) {
         try {
             File file = new File("src/main/resources/com.stpl.app.bpm/bpm.properties");
-            FileInputStream fileInput = new FileInputStream(file);
-            Properties_Reader.class.getResource("Test").getFile();
-            Properties properties = new Properties();
-            properties.load(fileInput);
-            fileInput.close();
+            Properties properties;
+            try (FileInputStream fileInput = new FileInputStream(file)) {
+                Properties_Reader.class.getResource("Test").getFile();
+                properties = new Properties();
+                properties.load(fileInput);
+            }
             String hd_group = properties.getProperty("hierarchy_definition-group_id");
             String hd_artifact_id = properties.getProperty("hierarchy_definition-artifact_id");
             String hd_version = properties.getProperty("hierarchy_definition-version");

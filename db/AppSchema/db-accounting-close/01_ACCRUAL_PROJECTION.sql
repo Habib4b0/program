@@ -1,4 +1,4 @@
---------------------------------------   ACCRUAL_PROJ_DETAILS -----------------------------------------------
+--------------------------------------ACCRUAL_PROJ_DETAILS -----------------------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   INFORMATION_SCHEMA.TABLES
                WHERE  TABLE_NAME = 'ACCRUAL_PROJ_DETAILS'
@@ -14,7 +14,6 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
-
 ---------------PRIMARY KEY CONSTRAINTS
 IF NOT EXISTS(SELECT 1
               FROM   SYS.KEY_CONSTRAINTS

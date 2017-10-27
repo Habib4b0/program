@@ -6,6 +6,7 @@ import com.stpl.app.gtnworkflow.dto.WorkFlowHistoryLookupDTO;
 import com.stpl.app.gtnworkflow.logic.tablelogic.WorkflowHistoryTableLogic;
 import com.stpl.app.gtnworkflow.logic.WorkflowLogic;
 import com.stpl.app.gtnworkflow.util.CommonUtils;
+import com.stpl.app.gtnworkflow.util.ConstantUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -117,10 +118,6 @@ public class WorkFlowHistoryLookup extends Window {
     private Label workflowDesLb;
     @UiField("workflowDes")
     private TextField workflowDes;
-    @UiField("workflowDesLb1")
-    private Label workflowDesLb1;
-    @UiField("workflowDes1")
-    private TextField workflowDes1;
     protected Object tableBeanId = null;
 
     WorkflowHistoryTableLogic tableLogic = new WorkflowHistoryTableLogic();
@@ -186,11 +183,11 @@ public class WorkFlowHistoryLookup extends Window {
         resultslayout.addComponent(controlLayout);
         tableLogic.setContainerDataSource(wfHistoryLookupitemBean);
         if ("ARM".equals(businessProcess.getValue())) {
-            results.setVisibleColumns(CommonUtils.WF_HISTORY_LOOKUP_COLUMNS_ARM);
-            results.setColumnHeaders(CommonUtils.WF_HISTORY_LOOKUP_HEADER_ARM);
+            results.setVisibleColumns(ConstantUtils.getInstance().wfHistoryLookupColumnsArm);
+            results.setColumnHeaders(ConstantUtils.getInstance().wfHistoryLookupHeaderArm);
         } else {
-            results.setVisibleColumns(CommonUtils.WF_HISTORY_LOOKUP_COLUMNS);
-            results.setColumnHeaders(CommonUtils.WF_HISTORY_LOOKUP_HEADER);
+            results.setVisibleColumns(ConstantUtils.getInstance().wfHistoryLookupColumns);
+            results.setColumnHeaders(ConstantUtils.getInstance().wfHistoryLookupHeader);
         }
         tableLogic.setPageLength(NumericConstants.FIVE);
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -225,8 +222,8 @@ public class WorkFlowHistoryLookup extends Window {
         table.setContainerDataSource(attachmentsListBean);
         table.setSelectable(true);
         results.setValidationVisible(false);
-        table.setVisibleColumns(CommonUtils.WF_HISTORY_LOOKUP_ATTACHMENTS_COLUMNS);
-        table.setColumnHeaders(CommonUtils.WF_HISTORY_LOOKUP_ATTACHMENTS_HEADER);
+        table.setVisibleColumns(ConstantUtils.getInstance().wfHistoryLookupAttachmentsColumns);
+        table.setColumnHeaders(ConstantUtils.getInstance().wfHistoryLookupAttachmentsHeader);
 
     }
 
@@ -243,9 +240,7 @@ public class WorkFlowHistoryLookup extends Window {
         businessNameLb.setVisible(false);
         businessUnitName.setVisible(false);
         workflowDesLb.setVisible(false);
-        workflowDesLb1.setVisible(false);
         workflowDes.setVisible(false);
-        workflowDes1.setVisible(false);
 
         businessUnitId.setEnabled(false);
         companyId.setEnabled(false);        
@@ -278,9 +273,7 @@ public class WorkFlowHistoryLookup extends Window {
             businessNoLb.setVisible(true);
             businessUnitNo.setVisible(true);
              workflowDesLb.setVisible(true);
-             workflowDesLb1.setVisible(true);
             workflowDes.setVisible(true);
-            workflowDes1.setVisible(true);
             businessNameLb.setVisible(true);
             businessUnitName.setVisible(true);
            
@@ -293,7 +286,6 @@ public class WorkFlowHistoryLookup extends Window {
             businessUnitNo.setEnabled(false);
             businessUnitName.setEnabled(false);
             workflowDes.setEnabled(false);
-            workflowDes1.setEnabled(false);
         } else {
             tablepanel1.setVisible(true);
             detailsTable.setWidth("50%");
@@ -305,10 +297,7 @@ public class WorkFlowHistoryLookup extends Window {
             businessUnitNo.setVisible(false);
             businessNameLb.setVisible(false);
             businessUnitName.setVisible(false);
-            workflowDesLb.setVisible(false);
-            workflowDesLb1.setVisible(false);
             workflowDes.setVisible(false);
-            workflowDes1.setVisible(false);    
                         if (!CommonUtils.CONTRACT_MANAGEMENT.equals(businessProcess.getValue())) {
                 businessIdLb.setVisible(true);
                 businessUnitId.setVisible(true);
@@ -497,7 +486,7 @@ public class WorkFlowHistoryLookup extends Window {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter)  {
         WorkFlowHistoryLookupDTO dto;
         final List<WorkFlowHistoryLookupDTO> searchList = workFlowLogic.workFlowHistorySearch(workFlowMasterSystemId, tableLogic.getFilters(), tableLogic.getSortByColumns());
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);

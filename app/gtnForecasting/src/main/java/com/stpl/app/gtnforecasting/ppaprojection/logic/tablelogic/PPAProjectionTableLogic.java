@@ -112,7 +112,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
 
-        Map<Integer, Object> finalMap = new HashMap<Integer, Object>();
+        Map<Integer, Object> finalMap = new HashMap<>();
         List<PPAProjectionDTO> list = null;
         Object lp = getLastParent();
         try {
@@ -136,7 +136,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
         int count = 0;
         if (isGenerated) {
             PPAProjection.waitForSave();
-            count = logic.getPPAProjectionResultsCount(selection, getLastParent(), session, 0, 1, rightDto);
+            count = logic.getPPAProjectionResultsCount(selection, getLastParent(), session);
         }
         return count;
     }
@@ -204,7 +204,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
         PPAProjection.setValueChangeAllowed(Boolean.FALSE);
-        int count = logic.getPPAProjectionResultsCount(selection, parentId, session, 0, 1, rightDto);
+        int count = logic.getPPAProjectionResultsCount(selection, parentId, session);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
         int levelNo = selection.getLevelNo();

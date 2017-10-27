@@ -5,6 +5,7 @@
  */
 package com.stpl.app.arm.security;
 
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -45,12 +46,12 @@ public class StplSecurity {
     /**
      * UserMap - Contains User System ID and User Name
      */
-    public static Map<Integer, String> userMap = new ConcurrentHashMap<Integer, String>();
+    protected static Map<Integer, String> userMap = new ConcurrentHashMap<>();
 
     /**
      * The dao.
      */
-    final private StplSecurityDAO dao = new StplSecurityDAOImpl();
+    private final StplSecurityDAO dao = new StplSecurityDAOImpl();
 
     /**
      * Gets the dao.
@@ -72,7 +73,7 @@ public class StplSecurity {
      */
     public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName) throws PortalException, SystemException {
         LOGGER.debug(StringUtils.EMPTY + userId);
-        Map<String, AppPermission> functionHm = new HashMap<String, AppPermission>();
+        Map<String, AppPermission> functionHm;
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -81,7 +82,8 @@ public class StplSecurity {
         return functionHm;
 
     }
-/**
+
+    /**
      * Gets the Business Function Permission based on the userId and moduleName.
      *
      * @param userId - String
@@ -90,12 +92,12 @@ public class StplSecurity {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName,final String subModuleName, final String tabName) throws PortalException, SystemException {
-        Map<String, AppPermission> functionHm = new HashMap<>();
+    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName, final String subModuleName, final String tabName) throws PortalException, SystemException {
+        Map<String, AppPermission> functionHm;
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
-        List<Object[]> tabPermissionList = QueryUtils.getItemData(getInput(businessRoleIds, moduleName,subModuleName, tabName), "buttonSecurity", null);
+        List<Object[]> tabPermissionList = QueryUtils.getItemData(getInput(businessRoleIds, moduleName, subModuleName, tabName), "buttonSecurity", null);
         functionHm = listToAppPermissionMap(tabPermissionList, FUNCTION_VALUE);
         return functionHm;
     }
@@ -108,7 +110,7 @@ public class StplSecurity {
      * @return HashMap<String, AppPermission>
      */
     public Map<String, AppPermission> listToAppPermissionMap(final List permissionList, final int type) {
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
         final int listSize = permissionList.size();
         AppPermission appPermission;
@@ -167,7 +169,7 @@ public class StplSecurity {
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
-            userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            userMap.put(Integer.valueOf((int) user.getUserId()), user.getFullName());
         }
         LOGGER.debug("End of getUserName method");
         return userMap;
@@ -182,7 +184,7 @@ public class StplSecurity {
      * @throws SystemException the system exception
      */
     public Collection<Object> getUserGroupId(final long userId) throws PortalException, SystemException {
-        final Collection<Object> userGroupId = new ArrayList<Object>();
+        final Collection<Object> userGroupId = new ArrayList<>();
         final User user = dao.getUserByUserId(userId);
         for (int i = 0; i < user.getUserGroups().size(); i++) {
             final Long userGroup = user.getUserGroups().get(i).getUserGroupId();
@@ -207,11 +209,11 @@ public class StplSecurity {
         final List<UsergroupBusinessrole> list = dao.getUsergroupBusinessroleMasterList(ugBusRoleDynamicQuery);
         UsergroupBusinessrole usergroupBusinessroleMaster;
         for (int i = 0; i < list.size(); i++) {
-            usergroupBusinessroleMaster = (UsergroupBusinessrole) list.get(i);
+            usergroupBusinessroleMaster = list.get(i);
             if (StringUtils.EMPTY.equals(businessRoleIds)) {
                 businessRoleIds = String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
             } else {
-                final StringBuffer tempStringBuffer = new StringBuffer();
+                final StringBuilder tempStringBuffer = new StringBuilder();
                 businessRoleIds = tempStringBuffer.append(businessRoleIds).append(ConstantsUtils.COMMA).append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                 tempStringBuffer.delete(0, tempStringBuffer.length());
             }
@@ -224,22 +226,23 @@ public class StplSecurity {
     }
 
     public Map<String, AppPermission> getBusinessFieldPermission(final String userId, final String moduleName) throws PortalException, SystemException {
-        Map<String, AppPermission> fieldHm = new HashMap<String, AppPermission>();
+        Map<String, AppPermission> fieldHm;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
         final List tabPermissionList = dao.getBusinessroleModuleMasterFieldList(businessRoleIds, moduleName);
         fieldHm = listToAppPermissionMap(tabPermissionList, FIELD_VALUE);
         return fieldHm;
     }
+
     public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName, final boolean column) throws PortalException, SystemException {
         LOGGER.debug("Enters getBusinessColumnPermission()");
-        List tabPermissionList = new ArrayList();
-        Set addPermission = new HashSet();
-        Set viewPermission = new HashSet();
-        Set editPermission = new HashSet();
+        List tabPermissionList;
+        Set addPermission;
+        Set viewPermission;
+        Set editPermission;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
-        if (column == true) {
+        if (column) {
             tabPermissionList = getBuisnessColumn(businessRoleIds, moduleName);
             addPermission = getModePermission(businessRoleIds, moduleName, true, false, false, true);
             viewPermission = getModePermission(businessRoleIds, moduleName, false, true, false, true);
@@ -254,10 +257,11 @@ public class StplSecurity {
         LOGGER.debug("End of getBusinessFieldPermission() with fieldHm value size=" + fieldHm.size());
         return fieldHm;
     }
-    private List getBuisnessColumn(String businessRoleIds, String moduleName) {
-        List columnList = new ArrayList();
 
-        String query = StringUtils.EMPTY;
+    private List getBuisnessColumn(String businessRoleIds, String moduleName) {
+        List columnList;
+
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(",")) {
@@ -274,7 +278,7 @@ public class StplSecurity {
                 + "            (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') \n"
                 + "            and spm.CATEGORY_NAME IN ('List view Header')";
         if (businessRoleIds.length() != 0) {
-            query += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+            query += CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
                     + businessRoleIds + ")";
         }
         if (mod.length() != 0) {
@@ -287,10 +291,11 @@ public class StplSecurity {
         return columnList;
 
     }
+
     private Set getModePermission(String businessRoleIds, String moduleName, boolean add, boolean view, boolean edit, boolean column) {
         Set field = new HashSet();
-        List columnList = new ArrayList();
-        String query = StringUtils.EMPTY;
+        List columnList;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(",")) {
@@ -304,13 +309,13 @@ public class StplSecurity {
                 + "        MODULE_PROPERTIES as spm where \n"
                 + "        ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and \n"
                 + "        (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') \n";
-        if (column == true) {
+        if (column) {
             query += "  and spm.CATEGORY_NAME IN ('List view Header')";
         } else {
             query += " and spm.CATEGORY_NAME NOT IN ('Button','Tab') ";
         }
         if (businessRoleIds.length() != 0) {
-            query += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+            query += CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
                     + businessRoleIds + ")";
         }
 
@@ -321,20 +326,21 @@ public class StplSecurity {
             query += " AND spm.TAB_NAME like ('" + str[1] + "') ";
         }
 
-        if (add == true) {
+        if (add) {
             query += "AND bmm.ADD_FLAG = '1' ";
-        } else if (view == true) {
+        } else if (view) {
             query += "AND bmm.VIEW_FLAG = '1' ";
-        } else if (edit == true) {
+        } else if (edit) {
             query += "AND bmm.EDIT_FLAG = '1' ";
         }
         columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         field.addAll(columnList);
         return field;
     }
+
     public Map<String, AppPermission> listOfFieldAppPermissionMap(final List permissionList, final Set addpermission, final Set viewpermission, final Set editpermission, final int type) {
         LOGGER.debug("Entering listToAppPermissionMap()");
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
 
         if (type == Constants.ZERO || type == Constants.ONE || type == Constants.TWO) {
@@ -360,14 +366,15 @@ public class StplSecurity {
         LOGGER.debug("End of listToAppPermissionMap() with permissionHm value size=" + permissionHm.size());
         return permissionHm;
     }
-       private List getInput(final String businessRoleId, final String moduleName,final String subModuleName, final String tabName) {
+
+    private List getInput(final String businessRoleId, final String moduleName, final String subModuleName, final String tabName) {
         List input = new ArrayList();
         input.add("Button");
         input.add(moduleName);
         input.add(subModuleName);
         input.add(tabName);
         if (businessRoleId.length() != 0) {
-            String sql = " AND ubm.BUSINESSROLE_MASTER_SID in ("
+            String sql = CommonConstant.AND_UBM_BUSINESSROLE_MASTER_SID_IN
                     + businessRoleId + ")";
             input.add(sql);
         } else {

@@ -349,14 +349,7 @@ public class BaseRateIndex extends CustomComponent implements View {
      *
      * @return
      */
-    private CustomFieldGroup getBinder() {
-        baseRateBinder.bindMemberFields(this);
-        baseRateBinder.setItemDataSource(new BeanItem<BaseRateDTO>(baseRateDTO));
-        baseRateBinder.setBuffered(true);
-        baseRateBinder.setErrorDisplay(errorMsg);
-        return baseRateBinder;
-    }
-
+    
     /**
      * Configures the components.
      */

@@ -35,6 +35,7 @@ import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.HelperDTO;
 import com.stpl.app.util.NotesTabLogic;
 import com.stpl.app.util.ValidationUtils;
+import com.stpl.app.util.xmlparser.SQLUtil;
 import com.stpl.domain.global.company.CompanyMasterDAO;
 import com.stpl.domain.global.itemfamilyplan.ItemFamilyplanDAO;
 import com.stpl.domain.global.itemfamilyplan.ItemFamilyplanLogic;
@@ -101,6 +102,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
     //SQL date format
     public static String DEFAULT_SQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     SessionDTO sessionDTO;
+    public Map<String,String> IMTD_IFP_DETAILS_COLUMN = null;
 
     /**
      * Parameter List
@@ -197,7 +199,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      */
     @SuppressWarnings({"unchecked", ConstantsUtils.NULL})
     public List<ItemMasterDTO> getItemForIFP(final String searchField, final String value) throws SystemException, PortalException {
-        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
+        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
         LOGGER.debug("Entering getItemForIFP ");
         map.put(ConstantsUtils.ITEMS_ID, ConstantsUtils.ITEM_ID);
         map.put(ConstantsUtils.ITEMS_NO, ConstantsUtils.ITEM_NO);
@@ -225,7 +227,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             LOGGER.debug("return ItemMaster size -" + ((itemMasterDTOList == null) ? itemMasterDTOList : itemMasterDTOList.size()));
             return itemMasterDTOList;
         }
-        return new ArrayList<ItemMasterDTO>();
+        return new ArrayList<>();
     }
 
     /**
@@ -236,7 +238,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      * @throws Exception the exception
      */
     public static List<ItemMasterDTO> getCustomizedItemData(final List<ItemMaster> itemMasterList) {
-        final List<ItemMasterDTO> itemDTO = new ArrayList<ItemMasterDTO>();
+        final List<ItemMasterDTO> itemDTO = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedItemData p1: size -" + ((itemMasterList == null) ? itemMasterList : itemMasterList.size()));
 
         for (int i = 0; i < itemMasterList.size(); i++) {
@@ -286,7 +288,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             final List<OrderByColumn> orderByColumns, final BeanSearchCriteria sc) throws SystemException,
             PortalException {
 
-        LOGGER.debug("Entering searchIFP , p1:" + start + ", p2:" + end + ", p3: " + ((orderByColumns == null) ? orderByColumns : orderByColumns.size()));
+        LOGGER.debug("Entering searchIFP p1:" + start + ", searchIFP p2:" + end + ", searchIFP p3: " + ((orderByColumns == null) ? orderByColumns : orderByColumns.size()));
         String ifpId;
         String ifpNo;
         String ifpName;
@@ -295,7 +297,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         String itemName;
         int ifpType = 0;
         int ifpStatus = 0;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.YMD_FORMAT);
 
         if (searchItemForm.getField(ConstantsUtils.TEXT1).getValue() == null) {
@@ -495,7 +497,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         }
         List result = ImtdIfpDetailsLocalServiceUtil.getIFPSearchList(ifpId, ifpNo, ifpName, ifpType, ifpStatus, itemId, itemNo, itemName, start, end, column, orderby, false, parameters);
 
-        LOGGER.debug("return ifp list ,size = " + ((result == null) ? result : result.size()));
+        LOGGER.debug("return list,size = " + ((result == null) ? result : result.size()));
         return getCustomizedObjectModel(result);
     }
 
@@ -511,9 +513,9 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
         LOGGER.debug("Entering getCustomizedModel p1: " + ((list == null) ? list : list.size()));
         if (list == null) {
-            return new ArrayList<ItemFamilyplanSearchDTO>();
+            return new ArrayList<>();
         } else {
-            final List<ItemFamilyplanSearchDTO> ifpDTOlist = new ArrayList<ItemFamilyplanSearchDTO>();
+            final List<ItemFamilyplanSearchDTO> ifpDTOlist = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 final IfpModel itemFamilyplanMaster = list.get(i);
                 final ItemFamilyplanSearchDTO ifpDTO = new ItemFamilyplanSearchDTO();
@@ -525,7 +527,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 ifpDTO.setCreatedDate(itemFamilyplanMaster.getCreatedDate());
                 Date date = itemFamilyplanMaster.getIfpEndDate();
                 Date startDate = itemFamilyplanMaster.getIfpStartDate();
-                DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
                 if (date != null) {
                     ifpDTO.setIfpEndDate(dateFormat.format(date));
                 }
@@ -565,19 +567,19 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
     private List<SearchResultsDTO> getCustomizedObjectModel(
             final List list) throws SystemException {
 
-        LOGGER.debug("Entering getCustomizedModel p1: " + ((list == null) ? list : list.size()));
+        LOGGER.debug("Entering getCustomizedObjectModel p1: " + ((list == null) ? list : list.size()));
         Map<Integer, String> userMap = StplSecurity.getUserName();
         if (list == null) {
-            return new ArrayList<SearchResultsDTO>();
+            return new ArrayList<>();
         } else {
 
-            final List<SearchResultsDTO> ifpDTOlist = new ArrayList<SearchResultsDTO>();
+            final List<SearchResultsDTO> ifpDTOlist = new ArrayList<>();
             try {
                 for (int i = 0; i < list.size(); i++) {
                     final Object[] itemFamilyplanMaster = (Object[]) list.get(i);
                     int j = 0;
                     final SearchResultsDTO ifpDTO = new SearchResultsDTO();
-                    ifpDTO.setItemFamilyplanSystemId(Integer.valueOf(String.valueOf(itemFamilyplanMaster[j])));
+                    ifpDTO.setItemFamilyplanSystemId(String.valueOf(itemFamilyplanMaster[j]));
                     ifpDTO.setSystemID(String.valueOf(ifpDTO.getItemFamilyplanSystemId()));
                     ifpDTO.setIfpId(String.valueOf(itemFamilyplanMaster[++j]));
                     ifpDTO.setIfpNo(String.valueOf(itemFamilyplanMaster[++j]));
@@ -586,11 +588,11 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                     ++j;
                     ++j;
                     Object sDate = itemFamilyplanMaster[++j];
-                    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
                     if (sDate != null) {
                         ifpDTO.setItemFamilyplanStartDate((Date) sDate);
                         ifpDTO.setIfpStartDate(dateFormat.format((Date) sDate));
-                        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
                         sDate = df.parse(ifpDTO.getIfpStartDate());
                         ifpDTO.setItemFamilyplanStartDate((Date) sDate);
                     }
@@ -598,7 +600,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                     if (eDate != null) {
                         ifpDTO.setItemFamilyplanEndDate((Date) eDate);
                         ifpDTO.setIfpEndDate(dateFormat.format((Date) eDate));
-                        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
                         eDate = df.parse(ifpDTO.getIfpEndDate());
                         ifpDTO.setItemFamilyplanEndDate((Date) eDate);
                     }
@@ -633,7 +635,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                     ifpDTO.setIfpcreatedBy(userMap.get(Integer.valueOf(String.valueOf(createdBy))));
                     Object createdDate = itemFamilyplanMaster[++j];
                     ifpDTO.setIfpcreatedDate((Date) createdDate);
-                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                    DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
                     createdDate = df.parse(CommonUtils.convertDateToString((Date) createdDate));
                     ifpDTO.setIfpcreatedDate((Date) createdDate);
                     String ifpType = String.valueOf(itemFamilyplanMaster[++j]);
@@ -660,7 +662,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             } catch (Exception e) {
                 LOGGER.error(e);
             }
-            LOGGER.debug("return ifpDTOlist,size = " + ((ifpDTOlist == null) ? ifpDTOlist : ifpDTOlist.size()));
+            LOGGER.debug("return getCustomizedObjectModel,size =  " + ((ifpDTOlist == null) ? ifpDTOlist : ifpDTOlist.size()));
             return ifpDTOlist;
         }
     }
@@ -674,8 +676,8 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public int getLookUpSearchCount(final ErrorfulFieldGroup searchItemForm, final BeanSearchCriteria sc) throws SystemException, PortalException {
-        LOGGER.debug("Entering getSearchCount");
+    public int getLookUpSearchCount(final ErrorfulFieldGroup searchItemForm, final Set<Container.Filter> sc) throws SystemException, PortalException {
+        LOGGER.debug("Entering getLookUpSearchCount");
 
         String ifpId;
         String ifpNo;
@@ -688,7 +690,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.YMD_FORMAT);
 
         try {
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             if (searchItemForm.getField(ConstantsUtils.IFP_ID).getValue() == null) {
 
                 ifpId = StringUtils.EMPTY;
@@ -806,8 +808,8 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
 
             }
 
-            if (sc != null && sc.getFilters() != null) {
-                for (Container.Filter filter : sc.getFilters()) {
+            if (sc != null ) {
+                for (Container.Filter filter : sc) {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = stringFilter.getFilterString().replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
@@ -864,13 +866,164 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                     }
                 }
             }
-            List resultList = ImtdIfpDetailsLocalServiceUtil.getIFPSearchList(ifpId, ifpNo, ifpName, ifpType, ifpStatus, itemId, itemNo, itemName, 0, 0, null, null, true, parameters);
+            List paramData = new ArrayList<>();
+            paramData.add(ifpId);
+            paramData.add(ifpNo);
 
+            paramData.add(ifpName);
+
+            paramData.add(ifpType);
+            paramData.add(ifpStatus);
+            paramData.add(itemId);
+            paramData.add(itemNo);
+            paramData.add(itemName);
+            paramData.add(0);
+            paramData.add(0);
+            paramData.add(null);
+            paramData.add(null);
+            paramData.add(true);
+
+            paramData.add(parameters);
+
+            List resultList = getIFPSearchList(paramData);
             return resultList.size();
         } catch (Exception e) {
             LOGGER.error(e);
             return 0;
         }
+    }
+    
+    public List getIFPSearchList(List<Object> paramData){
+        String sql = "";
+        String ifpId = (String) paramData.get(0);
+        String ifpNo = (String) paramData.get(1);
+        String ifpName = (String) paramData.get(2);
+        int ifpType = (int) paramData.get(3);
+        int ifpStatus = (int) paramData.get(4);
+        String itemId = (String) paramData.get(5);
+        String itemNo = (String) paramData.get(6);
+        String itemName = (String) paramData.get(7);
+        int start = (int) paramData.get(8);
+        int offset = (int) paramData.get(9);
+        String column = (String) paramData.get(10);
+
+        String orderBy = (String) paramData.get(11);
+        boolean countFlag = (boolean) paramData.get(12);
+        Map<String, Object> parameters = (Map<String, Object>) paramData.get(13);
+
+        sql = SQLUtil.getQuery("getifpParentdataQuery");
+
+        if (StringUtils.isNotBlank(ifpId) && StringUtils.isNotEmpty(ifpId)) {
+            sql += " AND ifp.IFP_ID LIKE '" + ifpId + "'";
+        }
+        if ((parameters.get(ConstantsUtils.IFP_MODEL_ID) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_ID))))) {
+            sql += " AND ifp.IFP_ID LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_ID)) + "%'";
+        }
+        if (StringUtils.isNotBlank(ifpNo) && StringUtils.isNotEmpty(ifpNo)) {
+            sql += " AND ifp.IFP_NO LIKE '" + ifpNo + "'";
+        }
+        if ((parameters.get(ConstantsUtils.IFP_MODEL_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_NO))))) {
+            sql += " AND ifp.IFP_NO LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_NO)) + "%'";
+        }
+        if (StringUtils.isNotBlank(ifpName) && StringUtils.isNotEmpty(ifpName)) {
+            sql += " AND ifp.IFP_NAME LIKE '" + ifpName + "'";
+        }
+        if ((parameters.get(ConstantsUtils.IFPNAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFPNAME))))) {
+            sql += " AND ifp.IFP_NAME LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.IFPNAME)) + "%'";
+        }
+        if (parameters.get(ConstantsUtils.IFP_MODEL_STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_STATUS))) && !ConstantsUtils.SHOW_ALL.equalsIgnoreCase(String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_STATUS)))) {
+            sql += " AND ifp.IFP_STATUS = " + String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_STATUS));
+        }
+        if (parameters.get(ConstantsUtils.IFP_MODEL_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_TYPE))) && !ConstantsUtils.SHOW_ALL.equalsIgnoreCase(String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_TYPE)))) {
+            sql += " AND ifp.IFP_TYPE = " + String.valueOf(parameters.get(ConstantsUtils.IFP_MODEL_TYPE));
+        }
+        if (parameters.get(ConstantsUtils.IFP_CATEGORY1) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_CATEGORY1))) && !ConstantsUtils.SHOW_ALL.equalsIgnoreCase(String.valueOf(parameters.get(ConstantsUtils.IFP_CATEGORY1)))) {
+            sql += " AND ifp.IFP_CATEGORY = " + String.valueOf(parameters.get(ConstantsUtils.IFP_CATEGORY1));
+        }
+        if (parameters.get(ConstantsUtils.IFP_DESIGNATION) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_DESIGNATION))) && !ConstantsUtils.SHOW_ALL.equalsIgnoreCase(String.valueOf(parameters.get(ConstantsUtils.IFP_CATEGORY1)))) {
+            sql += " AND ifp.IFP_DESIGNATION = " + String.valueOf(parameters.get(ConstantsUtils.IFP_DESIGNATION));
+        }
+        if ((parameters.get(ConstantsUtils.IFP_SYSTEM_ID) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_SYSTEM_ID))))) {
+            sql += " AND ifp.IFP_MODEL_SID = " + String.valueOf(parameters.get(ConstantsUtils.IFP_SYSTEM_ID));
+        }
+        if ((parameters.get(ConstantsUtils.PARENT_IFP_ID) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_IFP_ID))))) {
+            sql += " AND ifp.PARENT_IFP_ID LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.PARENT_IFP_ID)) + "%'";
+        }
+        if ((parameters.get(ConstantsUtils.PARENT_IFP_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_IFP_NAME))))) {
+            sql += " AND ifp.PARENT_IFP_NAME LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.PARENT_IFP_NAME)) + "%'";
+        }
+        if ((parameters.get(ConstantsUtils.TOTAL_DOLLAR_COMMITMENT) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TOTAL_DOLLAR_COMMITMENT))))) {
+            sql += " AND ifp.TOTAL_DOLLAR_COMMITMENT LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.TOTAL_DOLLAR_COMMITMENT)) + "%'";
+        }
+        if ((parameters.get(ConstantsUtils.COMMITMENT_PERIOD) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.COMMITMENT_PERIOD))))) {
+            sql += " AND ifp.COMMITMENT_PERIOD LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.COMMITMENT_PERIOD)) + "%'";
+        }
+        if ((parameters.get(ConstantsUtils.TOTAL_VOLUME_COMMITMENT) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TOTAL_VOLUME_COMMITMENT))))) {
+            sql += " AND ifp.TOTAL_VOLUME_COMMITMENT LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.TOTAL_VOLUME_COMMITMENT)) + "%'";
+        }
+        if ((parameters.get(ConstantsUtils.TOTAL_MARKET_SHARE_COMMITMENT) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TOTAL_MARKET_SHARE_COMMITMENT))))) {
+            sql += " AND ifp.TOTAL_MARKETSHARE_COMMITMENT LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.TOTAL_MARKET_SHARE_COMMITMENT)) + "%'";
+        }
+        if ((parameters.get(ConstantsUtils.CREATEDBY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATEDBY))))) {
+            sql += " AND ifp.CREATED_BY =" + String.valueOf(parameters.get(ConstantsUtils.CREATEDBY));
+        }
+        if ((parameters.get(ConstantsUtils.CREATED_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATED_DATE_FROM))))) {
+            sql += " AND ifp.CREATED_DATE >='" + String.valueOf(parameters.get(ConstantsUtils.CREATED_DATE_FROM) + "'");
+        }
+
+        if ((parameters.get(ConstantsUtils.CREATED_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATED_DATE_TO))))) {
+            sql += " AND ifp.CREATED_DATE <='" + String.valueOf(parameters.get(ConstantsUtils.CREATED_DATE_TO) + "'");
+
+        }
+        if ((parameters.get(ConstantsUtils.IFP_STARTDATE_FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_STARTDATE_FORM))))) {
+            sql += " AND ifp.IFP_START_DATE >='" + String.valueOf(parameters.get(ConstantsUtils.IFP_STARTDATE_FORM) + "'");
+        }
+        if ((parameters.get(ConstantsUtils.IFP_STARTDATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_STARTDATE_TO))))) {
+            sql += " AND ifp.IFP_START_DATE <='" + String.valueOf(parameters.get(ConstantsUtils.IFP_STARTDATE_TO) + "'");
+        }
+        if ((parameters.get(ConstantsUtils.IFP_STARTDATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_STARTDATE_FROM))))) {
+            sql += " AND ifp.IFP_END_DATE >='" + String.valueOf(parameters.get(ConstantsUtils.IFP_STARTDATE_FROM) + "'");
+        }
+        if ((parameters.get(ConstantsUtils.IFP_ENDDATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_ENDDATE_TO))))) {
+            sql += " AND ifp.IFP_END_DATE <='" + String.valueOf(parameters.get(ConstantsUtils.IFP_ENDDATE_TO) + "'");
+        }
+        if ((parameters.get(ConstantsUtils.IFP_SYSTEM_ID_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_SYSTEM_ID_FROM))))) {
+            sql += " AND ifp.IFP_MODEL_SID >'" + String.valueOf(parameters.get(ConstantsUtils.IFP_SYSTEM_ID_FROM) + "'");
+        }
+        if ((parameters.get(ConstantsUtils.IFP_SYSTEM_ID_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_SYSTEM_ID_TO))))) {
+            sql += " AND ifp.IFP_MODEL_SID <'" + String.valueOf(parameters.get(ConstantsUtils.IFP_SYSTEM_ID_TO) + "'");
+        }
+        if ((parameters.get(ConstantsUtils.IFP_SYSTEM_ID_EQUAL) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_SYSTEM_ID_EQUAL))))) {
+            sql += " AND ifp.IFP_MODEL_SID ='" + String.valueOf(parameters.get(ConstantsUtils.IFP_SYSTEM_ID_EQUAL) + "'");
+        }
+        if ((parameters.get(ConstantsUtils.IFP_CREATED_BY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_CREATED_BY))))) {
+            sql += " AND ifp.CREATED_BY =" + String.valueOf(parameters.get(ConstantsUtils.IFP_CREATED_BY));
+        }
+
+        if (ifpStatus != 0) {
+            sql += " AND ifp.IFP_STATUS = " + ifpStatus;
+        }
+
+        if (ifpType != 0) {
+            sql += " AND ifp.IFP_TYPE LIKE " + ifpType;
+
+        }
+        if (StringUtils.isNotBlank(itemId) && StringUtils.isNotEmpty(itemId)) {
+            sql += " AND im.ITEM_ID LIKE '" + itemId + "'";
+        }
+        if (StringUtils.isNotBlank(itemNo) && StringUtils.isNotEmpty(itemNo)) {
+            sql += " AND im.ITEM_NO LIKE '" + itemNo + "'";
+        }
+        if (StringUtils.isNotBlank(itemName) && StringUtils.isNotEmpty(itemName)) {
+            sql += " AND im.ITEM_NAME LIKE '" + itemName + "'";
+        }
+
+        if (!countFlag) {
+            sql += " ORDER BY " + column + " " + orderBy + " OFFSET " + start + " ROWS FETCH NEXT  " + offset + " ROWS ONLY";
+        }
+            
+        List ResultList = HelperTableLocalServiceUtil.executeSelectQuery(sql);
+        return ResultList;
     }
 
     /**
@@ -888,10 +1041,10 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
     @SuppressWarnings("unchecked")
     public List<ItemFamilyplanSearchDTO> lookupSearchIFP(
             final ErrorfulFieldGroup searchItemForm, final int start, final int end,
-            final List<OrderByColumn> orderByColumns, final BeanSearchCriteria sc) throws SystemException,
+            final List<SortByColumn> orderByColumns,final Set<Container.Filter>  sc) throws SystemException,
             PortalException {
 
-        LOGGER.debug("Entering searchIFP , p1:" + start + ", p2:" + end + ", p3: " + ((orderByColumns == null) ? orderByColumns : orderByColumns.size()));
+        LOGGER.debug("Entering lookupSearchIFP , p1:" + start + ",lookupSearchIFP p2:" + end + ", p3: " + ((orderByColumns == null) ? orderByColumns : orderByColumns.size()));
         String ifpId;
         String ifpNo;
         String ifpName;
@@ -900,7 +1053,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         String itemName;
         int ifpType;
         int ifpStatus;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.YMD_FORMAT);
 
         if (searchItemForm.getField(ConstantsUtils.IFP_ID).getValue() == null) {
@@ -1005,9 +1158,9 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
 
         String orderby = ConstantsUtils.ASC;
         String column = ConstantsUtils.IFP_MODEL_SID_DB;
-        for (final Iterator<OrderByColumn> iterator = orderByColumns.iterator(); iterator
+        for (final Iterator<SortByColumn> iterator = orderByColumns.iterator(); iterator
                 .hasNext();) {
-            final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
+            final SortByColumn orderByColumn = (SortByColumn) iterator.next();
             String columnName = orderByColumn.getName();
             if (ConstantsUtils.IFP_SYSTEM_ID.equals(columnName)) {
                 column = ConstantsUtils.IFP_MODEL_SID_DB;
@@ -1015,7 +1168,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 column = "IFP_ID";
             } else if (ConstantsUtils.IFPNO.equals(columnName)) {
                 column = "IFP_NO";
-            } else if ("ifpName".equals(columnName)) {
+            } else if (ConstantsUtils.IFPNAME.equals(columnName)) {
                 column = "IFP_NAME";
             } else if ("ifpType".equals(columnName)) {
                 column = "IFP_TYPE";
@@ -1027,7 +1180,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 column = "IFP_START_DATE";
             } else if (ConstantsUtils.IFP_END_DATE.equals(columnName)) {
                 column = "IFP_END_DATE";
-            } else if ("ifpDesignation".equals(columnName)) {
+            } else if (ConstantsUtils.IFP_DESIGNATION.equals(columnName)) {
                 column = "IFP_DESIGNATION";
             } else if (ConstantsUtils.PARENT_IFP_ID.equals(columnName)) {
                 column = "PARENT_IFP_ID";
@@ -1035,15 +1188,15 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 column = "PARENT_IFP_NAME";
             }
 
-            if (orderByColumn.getType() == OrderByColumn.Type.ASC) {
+             if (orderByColumn.getType() == SortByColumn.Type.ASC) {
                 orderby = ConstantsUtils.ASC;
             } else {
                 orderby = ConstantsUtils.DESC;
             }
         }
 
-        if (sc != null && sc.getFilters() != null) {
-            for (Container.Filter filter : sc.getFilters()) {
+        if (sc != null ) {
+            for (Container.Filter filter : sc) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = stringFilter.getFilterString().replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
@@ -1094,22 +1247,40 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 }
             }
         }
-        List result = ImtdIfpDetailsLocalServiceUtil.getIFPSearchList(ifpId, ifpNo, ifpName, ifpType, ifpStatus, itemId, itemNo, itemName, start, end, column, orderby, false, parameters);
+        List paramData = new ArrayList<>();
+        paramData.add(ifpId);
+        paramData.add(ifpNo);
 
-        LOGGER.debug("return ifp list ,size = " + ((result == null) ? result : result.size()));
+        paramData.add(ifpName);
+
+        paramData.add(ifpType);
+        paramData.add(ifpStatus);
+        paramData.add(itemId);
+        paramData.add(itemNo);
+        paramData.add(itemName);
+        paramData.add(start);
+        paramData.add(end);
+        paramData.add(column);
+        paramData.add(orderby);
+        paramData.add(false);
+
+        paramData.add(parameters);
+
+        List result = getIFPSearchList(paramData);
+        LOGGER.debug("return ifp list size = " + ((result == null) ? result : result.size()));
         return getLookUpCustomizedObjectModel(result);
     }
 
     private List<ItemFamilyplanSearchDTO> getLookUpCustomizedObjectModel(
             final List list) throws SystemException {
 
-        LOGGER.debug("Entering getCustomizedModel p1: " + ((list == null) ? list : list.size()));
+        LOGGER.debug("Entering getLookUpCustomizedObjectModel1 p1: " + ((list == null) ? list : list.size()));
         Map<Integer, String> userMap = StplSecurity.getUserName();
         if (list == null) {
-            return new ArrayList<ItemFamilyplanSearchDTO>();
+            return new ArrayList<>();
         } else {
 
-            final List<ItemFamilyplanSearchDTO> ifpDTOlist = new ArrayList<ItemFamilyplanSearchDTO>();
+            final List<ItemFamilyplanSearchDTO> ifpDTOlist = new ArrayList<>();
             try {
                 for (int i = 0; i < list.size(); i++) {
                     final Object[] itemFamilyplanMaster = (Object[]) list.get(i);
@@ -1123,7 +1294,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                     ++j;
                     ++j;
                     Object sDate = itemFamilyplanMaster[++j];
-                    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
                     if (sDate != null) {
                         ifpDTO.setItemFamilyplanStartDate((Date) sDate);
                         ifpDTO.setIfpStartDate(dateFormat.format((Date) sDate));
@@ -1213,7 +1384,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         try {
 
             String systemId = ifpForm.getField(ConstantsUtils.IFP_SYSTEM_ID).getValue() == null && ConstantsUtils.NULL.equals(String.valueOf(ifpForm.getField(ConstantsUtils.IFP_SYSTEM_ID).getValue())) ? StringUtils.EMPTY : String.valueOf(ifpForm.getField(ConstantsUtils.IFP_SYSTEM_ID).getValue()).replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
-            if (ConstantsUtils.NULL.equals(systemId) || ConstantsUtils.ZERO.equals(systemId)) {
+            if (ConstantsUtils.NULL.equals(systemId) || ConstantsUtils.ZERO.equals(systemId) ||(ConstantsUtils.COPY).equals(sessionDTO.getMode())) {
                 final DynamicQuery query = DynamicQueryFactoryUtil.forClass(IfpModel.class);
                 ifpForm.commit();
 
@@ -1236,7 +1407,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 }
             }
             IfpModel item;
-            if (ConstantsUtils.NULL.equals(systemId) || ConstantsUtils.ZERO.equals(systemId)) {
+            if (ConstantsUtils.NULL.equals(systemId) || ConstantsUtils.ZERO.equals(systemId)||(ConstantsUtils.COPY).equals(sessionDTO.getMode())) {
                 item = IfpModelLocalServiceUtil.createIfpModel(0);
                 item.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
                 item.setSource(ConstantsUtils.GTN);
@@ -1260,7 +1431,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
 
             item.setIfpDesignation(ifpForm.getField("itemFamilyplanDesignation").getValue() != null ? String.valueOf(((com.stpl.ifs.util.HelperDTO) ifpForm.getField("itemFamilyplanDesignation").getValue()).getId()) : StringUtils.EMPTY);
 
-            if (ConstantsUtils.NULL.equals(systemId) || ConstantsUtils.ZERO.equals(systemId)) {
+            if (ConstantsUtils.NULL.equals(systemId) || ConstantsUtils.ZERO.equals(systemId) ||(ConstantsUtils.COPY).equals(sessionDTO.getMode())) {
                 LOGGER.debug("Entering Save operation");
 
                 item.setIfpId(String.valueOf(ifpForm.getField(ConstantsUtils.IFP_ID).getValue()).trim());
@@ -1473,7 +1644,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         LOGGER.debug("Ending updateDetailsList");
     }
 
-    private void updateFlagDetailsList(final IfpModel itemFamilyPlanMaster) throws SystemException, PortalException {
+    private void updateFlagDetailsList(final IfpModel itemFamilyPlanMaster) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String createdDate = String.valueOf(sessionDTO.getSessionDate());
@@ -1496,7 +1667,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             return null;
         } else {
             final DateFormat inputFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-            LOGGER.debug("return formatDate" + inputFormat.parse(inputFormat.format(date)));
+            LOGGER.debug("return formatDate1" + inputFormat.parse(inputFormat.format(date)));
             return inputFormat.parse(inputFormat.format(date));
         }
     }
@@ -1558,8 +1729,8 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         final IFPItemDTO ifpDetails = new IFPItemDTO();
         final List<IfpDetails> list = DAO.getItemFamilyplanDetailsListByItemFamilyplanSystemId(ifpId);
         if (list != null) {
-            final List<IFPItemDTO> itemDetailsList = new ArrayList<IFPItemDTO>();
-            final List<ItemMasterDTO> itemListDTO = new ArrayList<ItemMasterDTO>();
+            final List<IFPItemDTO> itemDetailsList = new ArrayList<>();
+            final List<ItemMasterDTO> itemListDTO = new ArrayList<>();
             final IfpModel itemFamilyplanMaster = DAO.getItemFamilyplanMasterBySystemId(ifpId);
 
             for (int i = 0; i < list.size(); i++) {
@@ -1656,7 +1827,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      */
     public List<HelperDTO> getItemType(final String listType) throws SystemException, PortalException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("Entering getItemType p1: " + listType);
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(listType);
@@ -1724,7 +1895,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         LOGGER.debug("convertDateToDate1 p1:date " + date);
 
         final DateFormat inputFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT, Locale.getDefault());
-        LOGGER.debug("return formatDate" + inputFormat.parse(inputFormat.format(date)));
+        LOGGER.debug("return formatDate " + inputFormat.parse(inputFormat.format(date)));
         return inputFormat.parse(inputFormat.format(date));
 
     }
@@ -1792,7 +1963,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
     public List<HelperDTO> getDropDownList(final String listName) throws SystemException, PortalException {
         LOGGER.debug("getDropDownList p1: " + listName);
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(listName);
         if (list != null) {
@@ -1809,9 +1980,9 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         return helperList;
     }
 
-    public List<HelperDTO> getBrandDropDown() throws SystemException, PortalException {
+    public List<HelperDTO> getBrandDropDown() throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
                 .forClass(BrandMaster.class);
         dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.BRAND_NAME));
@@ -1853,7 +2024,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.YMD_FORMAT);
 
         try {
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             if (searchItemForm.getField(ConstantsUtils.TEXT1).getValue() == null) {
 
                 ifpId = StringUtils.EMPTY;
@@ -2135,18 +2306,18 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
     @SuppressWarnings({"unchecked", ConstantsUtils.NULL})
     public static int getItemForIFPCount(final String searchField, final String value, final BeanSearchCriteria sc, final SessionDTO sessionDTO) {
         if (searchField != null && value != null) {
-            final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
-            List<Integer> resultList = new ArrayList<Integer>();
+            final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+            List<Integer> resultList = new ArrayList<>();
             LOGGER.debug("Entering getItemForIFPCount ");
             map.put(ConstantsUtils.ITEMS_ID, ConstantsUtils.ITEM_ID_CAPS);
             map.put(ConstantsUtils.ITEMS_NO, ConstantsUtils.ITEM_NO_CAPS);
             map.put(ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEM_NAME_CAPS);
             map.put(ConstantsUtils.ITEMSTATUS, ConstantsUtils.ITEM_STATUS_CAPS);
-            map.put(ConstantsUtils.UOM, ConstantsUtils.PRIMARY_UOM);
+            map.put(ConstantsUtils.UOM, ConstantsUtils.PRIMARY_UOM_COLUMN);
             map.put(ConstantsUtils.THERAPEUTIC_CLASS1, ConstantsUtils.THERAPEUTIC_CLASS_CAPS);
             map.put(ConstantsUtils.BRAND1, ConstantsUtils.BRAND_MASTER_SID_CAPS);
             map.put(ConstantsUtils.FORM1, ConstantsUtils.FORM_CAPS);
-            map.put(ConstantsUtils.STRENGTH, ConstantsUtils.STRENGTH_UPPERCASE);
+            map.put("Strength", ConstantsUtils.STRENGTH_UPPERCASE);
 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
             final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
@@ -2161,7 +2332,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                     java.util.logging.Logger.getLogger(IFPLogic.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             getParameterList(parameters, sc);
             Object object = ImtdIfpDetailsLocalServiceUtil.updateOperation(userId, sessionId, userId, sessionId, map.get(searchField), query, resultList, userId, parameters);
             return Integer.parseInt(String.valueOf(object));
@@ -2173,22 +2344,22 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
 
     @SuppressWarnings({"unchecked", ConstantsUtils.NULL})
     public static List<ItemMasterDTO> getItemForIFPResults(final int start, final int end, final String searchField, final String value, final List<OrderByColumn> orderByColumns, final BeanSearchCriteria sc, final SessionDTO sessionDTO) {
-        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
-        List<Integer> resultList = new ArrayList<Integer>();
-        LOGGER.debug("Entering getItemForIFP ");
+        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+        List<Integer> resultList = new ArrayList<>();
+        LOGGER.debug("Entering getItemForIFP Results");
         map.put(ConstantsUtils.ITEMS_ID, ConstantsUtils.ITEM_ID_CAPS);
         map.put(ConstantsUtils.ITEMS_NO, ConstantsUtils.ITEM_NO_CAPS);
         map.put(ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEM_NAME_CAPS);
         map.put(ConstantsUtils.ITEMSTATUS, ConstantsUtils.ITEM_STATUS_CAPS);
-        map.put(ConstantsUtils.UOM, ConstantsUtils.PRIMARY_UOM);
+        map.put(ConstantsUtils.UOM, ConstantsUtils.PRIMARY_UOM_COLUMN);
         map.put(ConstantsUtils.THERAPEUTIC_CLASS1, ConstantsUtils.THERAPEUTIC_CLASS_CAPS);
         map.put(ConstantsUtils.BRAND1, ConstantsUtils.BRAND_MASTER_SID_CAPS);
         map.put(ConstantsUtils.FORM1, ConstantsUtils.FORM_CAPS);
-        map.put(ConstantsUtils.STRENGTH, ConstantsUtils.STRENGTH_UPPERCASE);
+        map.put("Strength", ConstantsUtils.STRENGTH_UPPERCASE);
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         List<Object[]> itemMasterList;
-        List<String> list = new ArrayList<String>(NumericConstants.TWO);
+        List<String> list = new ArrayList<>(NumericConstants.TWO);
         list.add(userId);
         list.add(sessionId);
         String query = CommonUtil.buildSearchCriteria(value);
@@ -2227,7 +2398,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 orderBy = ConstantsUtils.DESC;
             }
         }
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         getParameterList(parameters, sc);
         itemMasterList = ImtdIfpDetailsLocalServiceUtil.getItemLazyList(start, end, list, map.get(searchField), query, resultList, column, orderBy, null, null, parameters);
         return getCustomizedData(itemMasterList);
@@ -2243,7 +2414,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public void loadTempTable(final int ifpId) throws PortalException, SystemException {
+    public void loadTempTable(final int ifpId) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String tempCreatedDate = String.valueOf(sessionDTO.getSessionDate());
@@ -2259,13 +2430,13 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      */
     public void addAllToTempTable(final String searchField, final String value) {
         final String sysId = String.valueOf(sessionDTO.getSystemId());
-        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
-        LOGGER.debug("Entering getItemForIFP ");
+        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+        LOGGER.debug("Entering addAllToTempTable ");
         map.put(ConstantsUtils.ITEMS_ID, ConstantsUtils.ITEM_ID_CAPS);
         map.put(ConstantsUtils.ITEMS_NO, ConstantsUtils.ITEM_NO_CAPS);
         map.put(ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEM_NAME_CAPS);
         map.put(ConstantsUtils.ITEMSTATUS, ConstantsUtils.ITEM_STATUS_CAPS);
-        map.put(ConstantsUtils.UOM, ConstantsUtils.PRIMARY_UOM);
+        map.put(ConstantsUtils.UOM, ConstantsUtils.PRIMARY_UOM_COLUMN);
         map.put(ConstantsUtils.THERAPEUTIC_CLASS1, ConstantsUtils.THERAPEUTIC_CLASS_CAPS);
         map.put(ConstantsUtils.BRAND1, ConstantsUtils.BRAND_NAME_DB);
         map.put(ConstantsUtils.FORM1, ConstantsUtils.FORM_CAPS);
@@ -2329,7 +2500,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public void addToTempTable(final ItemMasterDTO itemId, final int ifpId) throws PortalException, SystemException {
+    public void addToTempTable(final ItemMasterDTO itemId, final int ifpId) throws SystemException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         if (tempTableItemValidation(Integer.parseInt(itemId.getItemSystemId())) == ConstantsUtils.ZERO_INT) {
@@ -2387,7 +2558,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      * @param removeAllFlag
      * @throws SystemException
      */
-    public void removeAllFromTempTable(Boolean removeAllFlag) throws SystemException, PortalException {
+    public void removeAllFromTempTable(Boolean removeAllFlag) {
         LOGGER.debug("Entering removeAllFromTempTable()");
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
@@ -2435,7 +2606,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.SESSION_ID, sessionId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.OPERATION, ConstantsUtils.D));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.OPERATION, ConstantsUtils.F));
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             getParameterList(parameters, sc);
             if (parameters.get(ConstantsUtils.ITEM_ID) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ITEM_ID)))) {
                 ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_ID, ConstantsUtils.PERCENCTAGE + String.valueOf(parameters.get(ConstantsUtils.ITEM_ID)) + ConstantsUtils.PERCENCTAGE));
@@ -2505,8 +2676,9 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         projList.add(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_BRAND));
         projList.add(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_DESC));
         ifpDynamicQuery.setProjection(projList);
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         getParameterList(parameters, sc);
+        loadImtdIfpDetailsMap();
         if (parameters.get(ConstantsUtils.ITEM_ID) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ITEM_ID)))) {
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_ID, ConstantsUtils.PERCENCTAGE + String.valueOf(parameters.get(ConstantsUtils.ITEM_ID)) + ConstantsUtils.PERCENCTAGE));
         }
@@ -2537,13 +2709,12 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         for (final Iterator<OrderByColumn> iterator = list.iterator(); iterator
                 .hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
-
-            if (orderByColumn.getType() == OrderByColumn.Type.ASC) {
-                ifpDynamicQuery.addOrder(OrderFactoryUtil.asc(orderByColumn
-                        .getName()));
-            } else {
-                ifpDynamicQuery.addOrder(OrderFactoryUtil.desc(orderByColumn
-                        .getName()));
+            if (IMTD_IFP_DETAILS_COLUMN.get(orderByColumn.getName()) != null) {
+                if (orderByColumn.getType() == OrderByColumn.Type.ASC) {
+                    ifpDynamicQuery.addOrder(OrderFactoryUtil.asc(IMTD_IFP_DETAILS_COLUMN.get(orderByColumn.getName())));
+                } else {
+                    ifpDynamicQuery.addOrder(OrderFactoryUtil.desc(IMTD_IFP_DETAILS_COLUMN.get(orderByColumn.getName())));
+                }
             }
         }
         return getCustomizedDTO(ImtdIfpDetailsLocalServiceUtil.dynamicQuery(ifpDynamicQuery), "selected");
@@ -2557,7 +2728,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      * @return
      */
     public static List<TempItemDTO> getCustomizedDTO(List<Object[]> result, String selected) {
-        List<TempItemDTO> resultlist = new ArrayList<TempItemDTO>();
+        List<TempItemDTO> resultlist = new ArrayList<>();
         try {
             for (Iterator<Object[]> temp = result.iterator(); temp.hasNext();) {
                 Object[] item = temp.next();
@@ -2651,7 +2822,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      */
     public static List<ItemMasterDTO> getCustomizedData(final List<Object[]> itemMasterList) {
         try {
-            final List<ItemMasterDTO> itemDTO = new ArrayList<ItemMasterDTO>();
+            final List<ItemMasterDTO> itemDTO = new ArrayList<>();
             LOGGER.debug("Entering getCustomizedItemData p1: size -" + ((itemMasterList == null) ? itemMasterList : itemMasterList.size()));
             for (int i = 0; i < itemMasterList.size(); i++) {
                 final Object[] item = itemMasterList.get(i);
@@ -2664,7 +2835,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 itemDTOObj.setItemEndDate((Date) item[NumericConstants.FIVE]);
                 itemDTOObj.setDisplayPackageSize(item[NumericConstants.SIX] == null || ConstantsUtils.NULL.equals(String.valueOf(item[NumericConstants.SIX])) || Integer.valueOf(String.valueOf(item[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : String.valueOf(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(item[NumericConstants.SIX])))));
                 itemDTOObj.setPrimaryUom(item[NumericConstants.SEVEN] == null || StringUtils.isBlank(item[NumericConstants.SEVEN].toString()) ? new com.stpl.ifs.util.HelperDTO(StringUtils.EMPTY) : helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(item[NumericConstants.SEVEN]))));
-                itemDTOObj.setTherapeuticClass(item[NumericConstants.EIGHT] == null || ConstantsUtils.NULL.equals(String.valueOf(item[NumericConstants.SIX])) || StringUtils.isBlank(item[NumericConstants.EIGHT].toString()) ? new com.stpl.ifs.util.HelperDTO(StringUtils.EMPTY) : helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(item[NumericConstants.EIGHT]))));
+                itemDTOObj.setTherapeuticClass(item[NumericConstants.EIGHT] == null || ConstantsUtils.NULL.equals(String.valueOf(item[NumericConstants.EIGHT])) || StringUtils.isBlank(item[NumericConstants.EIGHT].toString()) || ConstantsUtils.ZERO.equals(String.valueOf(item[NumericConstants.EIGHT])) ? new com.stpl.ifs.util.HelperDTO(StringUtils.EMPTY) : helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(item[NumericConstants.EIGHT]))));
                 itemDTOObj.setStrength(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(item[NumericConstants.NINE]))));
                 itemDTOObj.setForm(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(item[NumericConstants.TEN]))));
                 itemDTOObj.setDisplayForm(itemDTOObj.getForm().getDescription());
@@ -2682,7 +2853,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             return itemDTO;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -2704,7 +2875,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.OPERATION, ConstantsUtils.F));
 
         ifpDynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_MASTER_SID));
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         getParameterList(parameters, sc);
         if (parameters.get(ConstantsUtils.ITEM_ID) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ITEM_ID)))) {
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_ID, ConstantsUtils.PERCENCTAGE + String.valueOf(parameters.get(ConstantsUtils.ITEM_NO)) + ConstantsUtils.PERCENCTAGE));
@@ -2749,10 +2920,10 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_BRAND, String.valueOf(parameters.get(ConstantsUtils.BRAND))));
         }
         if (parameters.get(ConstantsUtils.ATTACHED_DATE_FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ATTACHED_DATE_FORM)))) {
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.ge("ifpDetailsAttachedDate", parameters.get(ConstantsUtils.ATTACHED_DATE_FORM)));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.IFP_DETAILS_ATTACHED_DATE, parameters.get(ConstantsUtils.ATTACHED_DATE_FORM)));
         }
         if (parameters.get(ConstantsUtils.ATTACHED_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ATTACHED_DATE_TO)))) {
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.le("ifpDetailsAttachedDate", parameters.get(ConstantsUtils.ATTACHED_DATE_TO)));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.IFP_DETAILS_ATTACHED_DATE, parameters.get(ConstantsUtils.ATTACHED_DATE_TO)));
         }
         if (parameters.get(ConstantsUtils.MODIFIED_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.MODIFIED_DATE_FROM)))) {
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.MODIFIEDDATE, parameters.get(ConstantsUtils.MODIFIED_DATE_FROM)));
@@ -2767,7 +2938,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             ifpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.CREATEDDATE, parameters.get(ConstantsUtils.CREATED_DATE_TO)));
         }
         if (parameters.get(ConstantsUtils.CREATEDBY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATEDBY)))) {
-            List<String> userList = new ArrayList<String>();
+            List<String> userList = new ArrayList<>();
             DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
             List<User> result = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
             if (result != null && !result.isEmpty()) {
@@ -2783,7 +2954,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             }
         }
         if (parameters.get(ConstantsUtils.MODIFIEDBY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.MODIFIEDBY)))) {
-            List<String> userList = new ArrayList<String>();
+            List<String> userList = new ArrayList<>();
             DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
             List<User> result = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
             if (result != null && !result.isEmpty()) {
@@ -2794,7 +2965,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                     }
                 }
                 if (!userList.isEmpty()) {
-                    ifpDynamicQuery.add(RestrictionsFactoryUtil.in("ifpDetailsModifiedBy", userList));
+                    ifpDynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.IFP_DETAILS_MODIFIEDBY, userList));
                 }
             }
         }
@@ -2802,7 +2973,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         return count;
     }
 
-    public List<Object[]> getResultTableResult(int start, int end, final ErrorfulFieldGroup binder, List<OrderByColumn> list, BeanSearchCriteria sc, Boolean isCount, String record) throws SystemException {
+    public List<Object[]> getResultTableResult(int start, int end, List<OrderByColumn> list, BeanSearchCriteria sc, Boolean isCount, String record) throws SystemException {
         LOGGER.debug("Entering getResultTableResult");
         try {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -2820,7 +2991,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             String coulmnName = ConstantsUtils.ITEM_NO_CAPS;
             String orderBy = ConstantsUtils.ASC;
 
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             getParameterList(parameters, sc);
             if (parameters.get(ConstantsUtils.ITEM_ID) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ITEM_ID)))) {
                 ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_ID, ConstantsUtils.PERCENCTAGE + String.valueOf(parameters.get(ConstantsUtils.ITEM_ID)) + ConstantsUtils.PERCENCTAGE));
@@ -2865,10 +3036,10 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_BRAND, String.valueOf(parameters.get(ConstantsUtils.BRAND))));
             }
             if (parameters.get(ConstantsUtils.ATTACHED_DATE_FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ATTACHED_DATE_FORM)))) {
-                ifpDynamicQuery.add(RestrictionsFactoryUtil.ge("ifpDetailsAttachedDate", parameters.get(ConstantsUtils.ATTACHED_DATE_FORM)));
+                ifpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.IFP_DETAILS_ATTACHED_DATE, parameters.get(ConstantsUtils.ATTACHED_DATE_FORM)));
             }
             if (parameters.get(ConstantsUtils.ATTACHED_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ATTACHED_DATE_TO)))) {
-                ifpDynamicQuery.add(RestrictionsFactoryUtil.le("ifpDetailsAttachedDate", parameters.get(ConstantsUtils.ATTACHED_DATE_TO)));
+                ifpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.IFP_DETAILS_ATTACHED_DATE, parameters.get(ConstantsUtils.ATTACHED_DATE_TO)));
             }
             if (parameters.get(ConstantsUtils.MODIFIED_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.MODIFIED_DATE_FROM)))) {
                 ifpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.MODIFIEDDATE, parameters.get(ConstantsUtils.MODIFIED_DATE_FROM)));
@@ -2883,7 +3054,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 ifpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.CREATEDDATE, parameters.get(ConstantsUtils.CREATED_DATE_TO)));
             }
             if (parameters.get(ConstantsUtils.CREATEDBY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATEDBY)))) {
-                List<String> userList = new ArrayList<String>();
+                List<String> userList = new ArrayList<>();
                 DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
                 List<User> result = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
                 if (result != null && !result.isEmpty()) {
@@ -2899,7 +3070,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 }
             }
             if (parameters.get(ConstantsUtils.MODIFIEDBY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.MODIFIEDBY)))) {
-                List<String> userList = new ArrayList<String>();
+                List<String> userList = new ArrayList<>();
                 DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
                 List<User> result = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
                 if (result != null && !result.isEmpty()) {
@@ -2910,29 +3081,29 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                         }
                     }
                     if (!userList.isEmpty()) {
-                        ifpDynamicQuery.add(RestrictionsFactoryUtil.in("ifpDetailsModifiedBy", userList));
+                        ifpDynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.IFP_DETAILS_MODIFIEDBY, userList));
                     }
                 }
             }
             
-            if (parameters.get("ifpcreatedBy") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifpcreatedBy")))) {
-                List<String> userList = new ArrayList<String>();
+            if (parameters.get(ConstantsUtils.IFP_CREATED_BY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.IFP_CREATED_BY)))) {
+                List<String> userList = new ArrayList<>();
                 DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
                 List<User> result = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
                 if (result != null && !result.isEmpty()) {
                     for (User user1 : result) {
                         String name = user1.getFullName();
-                        if (name.toLowerCase().contains(String.valueOf(parameters.get("ifpcreatedBy")).toLowerCase())) {
+                        if (name.toLowerCase().contains(String.valueOf(parameters.get(ConstantsUtils.IFP_CREATED_BY)).toLowerCase())) {
                             userList.add(String.valueOf(user1.getUserId()));
                         }
                     }
                     if (!userList.isEmpty()) {
-                        ifpDynamicQuery.add(RestrictionsFactoryUtil.in("ifpDetailsModifiedBy", userList));
+                        ifpDynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.IFP_DETAILS_MODIFIEDBY, userList));
                     }
                 }
             }
 
-            Map<String, String> columnMap = new HashMap<String, String>();
+            Map<String, String> columnMap = new HashMap<>();
             columnMap.put(ConstantsUtils.IFP_STATUS, "IFP_DETAILS_ATTACHED_STATUS");
             columnMap.put(ConstantsUtils.IFP_START_DATE, "IFP_DETAILS_START_DATE");
             columnMap.put(ConstantsUtils.IFP_END_DATE, "IFP_DETAILS_END_DATE");
@@ -2953,7 +3124,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             columnMap.put(ConstantsUtils.MODIFIEDBY, "IFP_DETAILS_MODIFIED_BY");
             columnMap.put(ConstantsUtils.MODIFIEDDATE, "IFP_DETAILS_MODIFIED_DATE");
             columnMap.put("attachedDate", "IFP_DETAILS_ATTACHED_DATE");
-            columnMap.put("ifpcreatedBy", "CREATED_BY");
+            columnMap.put(ConstantsUtils.IFP_CREATED_BY, "CREATED_BY");
             columnMap.put("checkbox", "CHECK_BOX");
 
             if (list != null) {
@@ -3026,8 +3197,8 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             if (parameters.get(ConstantsUtils.ITEM_STATUS) != null && !StringUtils.isBlank(String.valueOf(parameters.get(ConstantsUtils.ITEM_STATUS)))) {
                 sql.append(" AND ITEM_STATUS LIKE '").append(String.valueOf(parameters.get(ConstantsUtils.ITEM_STATUS))).append("' ");
             }
-            if (parameters.get(ConstantsUtils.FORM1) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.FORM1)))) {
-                sql.append(" AND ITEM_FORM LIKE '").append(String.valueOf(parameters.get(ConstantsUtils.FORM1))).append("' ");
+            if (parameters.get(ConstantsUtils.FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.FORM)))) {
+                sql.append(" AND ITEM_FORM LIKE '").append(String.valueOf(parameters.get(ConstantsUtils.FORM))).append("' ");
             }
             if (parameters.get(ConstantsUtils.STRENGTH) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.STRENGTH)))) {
                 sql.append(" AND ITEM_STRENGTH LIKE '").append(String.valueOf(parameters.get(ConstantsUtils.STRENGTH))).append("' ");
@@ -3060,7 +3231,10 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 sql.append(" AND IFP_DETAILS_CREATED_BY = ").append(String.valueOf(parameters.get(ConstantsUtils.CREATEDBY)));
             }
             if (parameters.get(ConstantsUtils.MODIFIEDBY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.MODIFIEDBY)))) {
-                List<String> userList = new ArrayList<String>();
+                sql.append(" AND IFP_DETAILS_MODIFIED_BY = ").append(String.valueOf(parameters.get(ConstantsUtils.MODIFIEDBY)));
+            }
+            if (parameters.get(ConstantsUtils.MODIFIEDBY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.MODIFIEDBY)))) {
+                List<String> userList = new ArrayList<>();
                 DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
                 List<User> result = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
                 if (result != null && !result.isEmpty()) {
@@ -3085,25 +3259,25 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             }
 
             if (parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.HISTORY) != null && parameters.get(ConstantsUtils.FUTURE) != null) {
-                sql.append(" AND ( '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFP_DETAILS_START_DATE AND ISNULL(IFP_DETAILS_END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') ");
-                sql.append(" OR ").append(" IFP_DETAILS_END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("' ");
+                sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFP_DETAILS_START_DATE AND ISNULL(IFP_DETAILS_END_DATE, '").append(parameters.get(ConstantsUtils.CURRENT)).append("') ");
+                sql.append(" OR ").append(ConstantsUtils.IFP_DETAILS_END_DATE_GREATER).append(parameters.get(ConstantsUtils.HISTORY)).append("' ");
                 sql.append(" OR ").append(" IFP_DETAILS_START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("' )");
             } else if ((parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.HISTORY) != null) || (parameters.get(ConstantsUtils.HISTORY) != null && parameters.get(ConstantsUtils.CURRENT) != null)) {
-                sql.append(" AND ( '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFP_DETAILS_START_DATE AND ISNULL(IFP_DETAILS_END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') OR IFP_DETAILS_END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("') ");
+                sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFP_DETAILS_START_DATE AND ISNULL(IFP_DETAILS_END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') OR IFP_DETAILS_END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("') ");
             } else if ((parameters.get(ConstantsUtils.HISTORY) != null && parameters.get(ConstantsUtils.FUTURE) != null) || (parameters.get(ConstantsUtils.FUTURE) != null && parameters.get(ConstantsUtils.HISTORY) != null)) {
-                sql.append(" AND (").append(" IFP_DETAILS_END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("' OR IFP_DETAILS_START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("') ");
+                sql.append(" AND (").append(ConstantsUtils.IFP_DETAILS_END_DATE_GREATER).append(parameters.get(ConstantsUtils.HISTORY)).append("' OR IFP_DETAILS_START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("') ");
             } else if ((parameters.get(ConstantsUtils.FUTURE) != null && parameters.get(ConstantsUtils.CURRENT) != null) || (parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.FUTURE) != null)) {
-                sql.append(" AND ( '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFP_DETAILS_START_DATE AND ISNULL(IFP_DETAILS_END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') OR IFP_DETAILS_START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("') ");
+                sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFP_DETAILS_START_DATE AND ISNULL(IFP_DETAILS_END_DATE, '").append(parameters.get(ConstantsUtils.CURRENT)).append("') OR IFP_DETAILS_START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("') ");
             } else if (parameters.get(ConstantsUtils.CURRENT) != null) {
-                sql.append(" AND '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFP_DETAILS_START_DATE AND ISNULL(IFP_DETAILS_END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') ");
+                sql.append(" AND  '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFP_DETAILS_START_DATE AND ISNULL(IFP_DETAILS_END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') ");
             } else if (parameters.get(ConstantsUtils.HISTORY) != null) {
-                sql.append(ConstantsUtils.AND).append(" IFP_DETAILS_END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("' ");
+                sql.append(ConstantsUtils.AND).append(ConstantsUtils.IFP_DETAILS_END_DATE_GREATER).append(parameters.get(ConstantsUtils.HISTORY)).append("' ");
             } else if (parameters.get(ConstantsUtils.FUTURE) != null) {
                 sql.append(ConstantsUtils.AND).append(" IFP_DETAILS_START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("' ");
             }
 
             if (!isCount) {
-                sql.append(" ORDER BY ").append(coulmnName).append(" " + orderBy + " ").append(" OFFSET " + start + " ROWS FETCH NEXT " + end + " ROWS ONLY");
+                sql.append(" ORDER BY  ").append(coulmnName).append(" " + orderBy + " ").append(" OFFSET " + start + " ROWS FETCH NEXT " + end + " ROWS ONLY");
             }
             List resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
 
@@ -3111,14 +3285,14 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             return resultList;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
     public static List<IFPItemDTO> getCoustomizedResult(List<Object[]> list, final ErrorfulFieldGroup binder, SessionDTO sessionDTO) {
         try {
 
-            List<IFPItemDTO> resultList = new ArrayList<IFPItemDTO>();
+            List<IFPItemDTO> resultList = new ArrayList<>();
             for (Iterator<Object[]> temp = (Iterator<Object[]>) list.iterator(); temp.hasNext();) {
                 Object[] item = temp.next();
                 IFPItemDTO resultDTO = new IFPItemDTO();
@@ -3181,13 +3355,13 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             return resultList;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
     public static List<IFPItemDTO> getCoustomizedResultDTO(List<ImtdIfpDetails> list, final ErrorfulFieldGroup binder) {
         try {
-            List<IFPItemDTO> resultList = new ArrayList<IFPItemDTO>();
+            List<IFPItemDTO> resultList = new ArrayList<>();
             for (Iterator<ImtdIfpDetails> temp = (Iterator<ImtdIfpDetails>) list.iterator(); temp.hasNext();) {
                 ImtdIfpDetails item = temp.next();
                 IFPItemDTO resultDTO = new IFPItemDTO();
@@ -3234,7 +3408,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             return resultList;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -3309,7 +3483,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         ImtdIfpDetailsLocalServiceUtil.deleteAll(null, null, null, "IFPDetails", ifpSystemId, null, null, null);
     }
 
-    public int ifpViewCount(String record, Boolean selected) throws SystemException {
+    public int ifpViewCount(String record, Boolean selected,BeanSearchCriteria sc) throws SystemException {
 
         final String ifpSystemId = String.valueOf(sessionDTO.getSystemId());
         int temp = 0;
@@ -3322,7 +3496,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.ITEM_MASTER_SID));
                 temp = Integer.parseInt(String.valueOf(IfpDetailsLocalServiceUtil.dynamicQuery(ifpDynamicQuery).get(0)));
             } else {
-                Map<String, Object> parameters = new HashMap<String, Object>();
+                Map<String, Object> parameters = new HashMap<>();
                 if (!StringUtils.isBlank(record)) {
                     if (record.contains(ConstantsUtils.CURRENT)) {
                         parameters.put(ConstantsUtils.CURRENT, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
@@ -3336,27 +3510,86 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 }
                 StringBuilder sql = new StringBuilder();
                 sql.append(CustomSQLUtil.get("ifpViewTempTableCount"));
-                sql.append(" AND IFP_MODEL_SID ='").append(ifpSystemId).append("' ");
+                sql.append(" AND A.IFP_MODEL_SID ='").append(ifpSystemId).append("' ");
                 if (!parameters.isEmpty()) {
                     if (parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.HISTORY) != null && parameters.get(ConstantsUtils.FUTURE) != null) {
-                        sql.append(" AND ( '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') ");
-                        sql.append(" OR ").append(" END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("' ");
+                        sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(parameters.get(ConstantsUtils.CURRENT)).append(ConstantsUtils.BETWEEN_START_DATE_AND_ENDATE_ISNULL).append(parameters.get(ConstantsUtils.CURRENT)).append("') ");
+                        sql.append(" OR ").append(" END_DATE <  '").append(parameters.get(ConstantsUtils.HISTORY)).append("' ");
                         sql.append(" OR ").append(" START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("' )");
                     } else if ((parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.HISTORY) != null) || (parameters.get(ConstantsUtils.HISTORY) != null && parameters.get(ConstantsUtils.CURRENT) != null)) {
-                        sql.append(" AND ( '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') OR END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("') ");
+                        sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(parameters.get(ConstantsUtils.CURRENT)).append(ConstantsUtils.BETWEEN_START_DATE_AND_ENDATE_ISNULL).append(parameters.get(ConstantsUtils.CURRENT)).append("') OR END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("') ");
                     } else if ((parameters.get(ConstantsUtils.HISTORY) != null && parameters.get(ConstantsUtils.FUTURE) != null) || (parameters.get(ConstantsUtils.FUTURE) != null && parameters.get(ConstantsUtils.HISTORY) != null)) {
                         sql.append(" AND (").append(" END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("' OR START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("') ");
                     } else if ((parameters.get(ConstantsUtils.FUTURE) != null && parameters.get(ConstantsUtils.CURRENT) != null) || (parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.FUTURE) != null)) {
-                        sql.append(" AND ( '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') OR START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("') ");
+                        sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(parameters.get(ConstantsUtils.CURRENT)).append(ConstantsUtils.BETWEEN_START_DATE_AND_ENDATE_ISNULL).append(parameters.get(ConstantsUtils.CURRENT)).append("') OR START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("') ");
                     } else if (parameters.get(ConstantsUtils.CURRENT) != null) {
-                        sql.append(" AND '").append(parameters.get(ConstantsUtils.CURRENT)).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get(ConstantsUtils.CURRENT)).append("') ");
+                        sql.append(" AND '").append(parameters.get(ConstantsUtils.CURRENT)).append(ConstantsUtils.BETWEEN_START_DATE_AND_ENDATE_ISNULL).append(parameters.get(ConstantsUtils.CURRENT)).append("') ");
                     } else if (parameters.get(ConstantsUtils.HISTORY) != null) {
                         sql.append(ConstantsUtils.AND).append(" END_DATE < '").append(parameters.get(ConstantsUtils.HISTORY)).append("' ");
                     } else if (parameters.get(ConstantsUtils.FUTURE) != null) {
                         sql.append(ConstantsUtils.AND).append(" START_DATE > '").append(parameters.get(ConstantsUtils.FUTURE)).append("' ");
                     }
                 }
+                
+                       String filterQuery = StringUtils.EMPTY;
+        HashMap<String, String> detailsColumn = new HashMap<>();
+        detailsColumn.put("itemNo", "ITEM_NO");
+        detailsColumn.put("itemName", "ITEM_NAME");
+        detailsColumn.put("itemDesc", "ITEM_DESC");
+        detailsColumn.put("itemFamilyplanStartDate", "START_DATE");
+        detailsColumn.put("itemFamilyplanEndDate", "END_DATE");
+        detailsColumn.put("itemStatus", "ITEM_STATUS");
+        detailsColumn.put("form", "FORM");
+        detailsColumn.put("strength", "STRENGTH");
+        detailsColumn.put("therapeuticClass", "THERAPEUTIC_CLASS");
+        detailsColumn.put("brand", "BRAND");
+        detailsColumn.put("attachedDate", "ITEM_IFP_ATTACHED_DATE");
+        detailsColumn.put("modifiedDate", "MODIFIED_DATE");
+        detailsColumn.put("modifiedBy", "MODIFIED_BY");
+        detailsColumn.put("createdDate", "CREATED_DATE");
+        detailsColumn.put("createdBy", "CREATED_BY");
+      
+        if (sc.getFilters() != null) {
+            for (Container.Filter filter : sc.getFilters()) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
 
+                    if (!filterString.contains(ConstantsUtils.SHOW_ALL)) {
+                        filterQuery = filterQuery + ConstantsUtils.AND + "B." + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    }
+
+                } else if (filter instanceof Between) {
+                    Between stringFilter = (Between) filter;
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String filterString = formatter.format(stringFilter.getStartValue());
+                    String filterString1 = formatter.format(stringFilter.getEndValue());
+                    if (ConstantsUtils.IFP_START_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + ConstantsUtils.IFP_START_DATE_FROM + filterString + "' ";
+                        filterQuery = filterQuery + ConstantsUtils.IFP_START_DATE_TO + filterString1 + "' ";
+                    }
+                    if (ConstantsUtils.ITEM_END_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_TO + filterString + "' ";
+                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_FROM + filterString1 + "' ";
+                    }
+                    if (ConstantsUtils.PACKAGE_SIZE_INTRO_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + " AND IM.package_Size_Intro_Date >= '" + filterString + "' ";
+                        filterQuery = filterQuery + " AND IM.package_Size_Intro_Date <= '" + filterString1 + "' ";
+                    }
+                    if (ConstantsUtils.ACQUISISTION_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + " AND IM.acquisition_Date >= '" + filterString + "' ";
+                        filterQuery = filterQuery + " AND IM.acquisition_Date <= '" + filterString1 + "' ";
+                    }
+                    if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + " AND IM.pediatric_Exclusive_Start_Date >= '" + filterString + "' ";
+                        filterQuery = filterQuery + " AND IM.pediatric_Exclusive_Start_Date <= '" + filterString1 + "' ";
+                    }
+                    
+                }
+            }
+        }
+        sql.append(filterQuery).append(" ;");
+        
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
                 temp = Integer.valueOf(String.valueOf(list.get(0)));
             }
@@ -3366,10 +3599,10 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         return temp;
     }
 
-    public List<IFPItemDTO> getViewTableResult(int start, int end, final ErrorfulFieldGroup binder, List<OrderByColumn> list, String record) throws SystemException {
+    public List<IFPItemDTO> getViewTableResult(int start, int end, final ErrorfulFieldGroup binder, List<OrderByColumn> list, String record,BeanSearchCriteria sc) {
         final String ifpSystemId = String.valueOf(sessionDTO.getSystemId());
 
-        Map<String, String> columnMap = new HashMap<String, String>();
+        Map<String, String> columnMap = new HashMap<>();
         columnMap.put("displayIFPStatus", "ITEM_IFP_ATTACHED_STATUS");
         columnMap.put(ConstantsUtils.IFP_START_DATE, "START_DATE");
         columnMap.put(ConstantsUtils.IFP_END_DATE, "END_DATE");
@@ -3426,22 +3659,86 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         sql.append(ifpSystemId);
         sql.append(" and IFD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID and IFD.INBOUND_STATUS != 'D'");
         if (columnMap.get(ConstantsUtils.CURRENT) != null && columnMap.get(ConstantsUtils.HISTORY) != null && columnMap.get(ConstantsUtils.FUTURE) != null) {
-            sql.append(" AND ( '").append(columnMap.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFD.START_DATE AND ISNULL(IFD.END_DATE,'").append(columnMap.get(ConstantsUtils.CURRENT)).append("') ");
-            sql.append(" OR ").append(" IFD.END_DATE < '").append(columnMap.get(ConstantsUtils.HISTORY)).append("' ");
+            sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(columnMap.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFD.START_DATE AND ISNULL(IFD.END_DATE,'").append(columnMap.get(ConstantsUtils.CURRENT)).append("') ");
+            sql.append(" OR ").append(ConstantsUtils.IFP_END_DATE_GREATER).append(columnMap.get(ConstantsUtils.HISTORY)).append("' ");
             sql.append(" OR ").append(" IFD.START_DATE > '").append(columnMap.get(ConstantsUtils.FUTURE)).append("' )");
         } else if ((columnMap.get(ConstantsUtils.CURRENT) != null && columnMap.get(ConstantsUtils.HISTORY) != null) || (columnMap.get(ConstantsUtils.HISTORY) != null && columnMap.get(ConstantsUtils.CURRENT) != null)) {
-            sql.append(" AND ( '").append(columnMap.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFD.START_DATE AND ISNULL(IFD.END_DATE,'").append(columnMap.get(ConstantsUtils.CURRENT)).append("') OR IFD.END_DATE < '").append(columnMap.get(ConstantsUtils.HISTORY)).append("') ");
+            sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(columnMap.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFD.START_DATE  AND ISNULL(IFD.END_DATE,'").append(columnMap.get(ConstantsUtils.CURRENT)).append("') OR IFD.END_DATE < '").append(columnMap.get(ConstantsUtils.HISTORY)).append("') ");
         } else if ((columnMap.get(ConstantsUtils.HISTORY) != null && columnMap.get(ConstantsUtils.FUTURE) != null) || (columnMap.get(ConstantsUtils.FUTURE) != null && columnMap.get(ConstantsUtils.HISTORY) != null)) {
-            sql.append(" AND (").append(" IFD.END_DATE < '").append(columnMap.get(ConstantsUtils.HISTORY)).append("' OR IFD.START_DATE > '").append(columnMap.get(ConstantsUtils.FUTURE)).append("') ");
+            sql.append(" AND  (").append(ConstantsUtils.IFP_END_DATE_GREATER).append(columnMap.get(ConstantsUtils.HISTORY)).append("' OR IFD.START_DATE > '").append(columnMap.get(ConstantsUtils.FUTURE)).append("') ");
         } else if ((columnMap.get(ConstantsUtils.FUTURE) != null && columnMap.get(ConstantsUtils.CURRENT) != null) || (columnMap.get(ConstantsUtils.CURRENT) != null && columnMap.get(ConstantsUtils.FUTURE) != null)) {
-            sql.append(" AND ( '").append(columnMap.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFD.START_DATE AND ISNULL(IFD.END_DATE,'").append(columnMap.get(ConstantsUtils.CURRENT)).append("') OR IFD.START_DATE > '").append(columnMap.get(ConstantsUtils.FUTURE)).append("') ");
+            sql.append(ConstantsUtils.AND_OPEN_BRACE_QUOTE).append(columnMap.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFD.START_DATE AND  ISNULL(IFD.END_DATE,'").append(columnMap.get(ConstantsUtils.CURRENT)).append("') OR IFD.START_DATE > '").append(columnMap.get(ConstantsUtils.FUTURE)).append("') ");
         } else if (columnMap.get(ConstantsUtils.CURRENT) != null) {
             sql.append(" AND '").append(columnMap.get(ConstantsUtils.CURRENT)).append("' BETWEEN IFD.START_DATE AND ISNULL(IFD.END_DATE,'").append(columnMap.get(ConstantsUtils.CURRENT)).append("') ");
         } else if (columnMap.get(ConstantsUtils.HISTORY) != null) {
-            sql.append(ConstantsUtils.AND).append(" IFD.END_DATE < '").append(columnMap.get(ConstantsUtils.HISTORY)).append("' ");
+            sql.append(ConstantsUtils.AND).append(ConstantsUtils.IFP_END_DATE_GREATER).append(columnMap.get(ConstantsUtils.HISTORY)).append("' ");
         } else if (columnMap.get(ConstantsUtils.FUTURE) != null) {
             sql.append(ConstantsUtils.AND).append(" IFD.START_DATE > '").append(columnMap.get(ConstantsUtils.FUTURE)).append("' ");
         }
+        
+        
+        
+                     String filterQuery = StringUtils.EMPTY;
+        HashMap<String, String> detailsColumn = new HashMap<>();
+        detailsColumn.put("itemNo", "ITEM_NO");
+        detailsColumn.put("itemName", "ITEM_NAME");
+        detailsColumn.put("itemDesc", "ITEM_DESC");
+        detailsColumn.put("itemFamilyplanStartDate", "START_DATE");
+        detailsColumn.put("itemFamilyplanEndDate", "END_DATE");
+        detailsColumn.put("itemStatus", "ITEM_STATUS");
+        detailsColumn.put("form", "FORM");
+        detailsColumn.put("strength", "STRENGTH");
+        detailsColumn.put("therapeuticClass", "THERAPEUTIC_CLASS");
+        detailsColumn.put("brand", "BRAND");
+        detailsColumn.put("attachedDate", "ITEM_IFP_ATTACHED_DATE");
+        detailsColumn.put("modifiedDate", "MODIFIED_DATE");
+        detailsColumn.put("modifiedBy", "MODIFIED_BY");
+        detailsColumn.put("createdDate", "CREATED_DATE");
+        detailsColumn.put("createdBy", "CREATED_BY");
+      
+        if (sc.getFilters() != null) {
+            for (Container.Filter filter : sc.getFilters()) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
+
+                    if (!filterString.contains(ConstantsUtils.SHOW_ALL)) {
+                        filterQuery = filterQuery + ConstantsUtils.AND + "B." + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    }
+
+                } else if (filter instanceof Between) {
+                    Between stringFilter = (Between) filter;
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String filterString = formatter.format(stringFilter.getStartValue());
+                    String filterString1 = formatter.format(stringFilter.getEndValue());
+                    if (ConstantsUtils.IFP_START_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + ConstantsUtils.IFP_START_DATE_FROM + filterString + "' ";
+                        filterQuery = filterQuery + ConstantsUtils.IFP_START_DATE_TO + filterString1 + "' ";
+                    }
+                    if (ConstantsUtils.ITEM_END_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_TO + filterString + "' ";
+                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_FROM + filterString1 + "' ";
+                    }
+                    if (ConstantsUtils.PACKAGE_SIZE_INTRO_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + " AND IM.package_Size_Intro_Date >= '" + filterString + "' ";
+                        filterQuery = filterQuery + " AND IM.package_Size_Intro_Date <= '" + filterString1 + "' ";
+                    }
+                    if (ConstantsUtils.ACQUISISTION_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + " AND IM.acquisition_Date >= '" + filterString + "' ";
+                        filterQuery = filterQuery + " AND IM.acquisition_Date <= '" + filterString1 + "' ";
+                    }
+                    if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + " AND IM.pediatric_Exclusive_Start_Date >= '" + filterString + "' ";
+                        filterQuery = filterQuery + " AND IM.pediatric_Exclusive_Start_Date <= '" + filterString1 + "' ";
+                    }
+                    
+                }
+            }
+        }
+       
+        
+        
+        
 
         if (!coulmnName.toString().equals(StringUtils.EMPTY) && !orderBy.toString().equals(StringUtils.EMPTY)) {
             sql.append(" ORDER BY ").append(coulmnName).append(" ").append(orderBy).append(" " + "OFFSET ");
@@ -3457,7 +3754,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
 
     public static List<IFPItemDTO> getCoustomizedViewDTO(List<Object[]> list, final ErrorfulFieldGroup binder) {
         try {
-            List<IFPItemDTO> resultList = new ArrayList<IFPItemDTO>();
+            List<IFPItemDTO> resultList = new ArrayList<>();
             Map<Integer, String> userMap = StplSecurity.getUserName();
             for (Iterator<Object[]> temp = list.iterator(); temp.hasNext();) {
                 Object[] item = temp.next();
@@ -3501,12 +3798,11 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             return resultList;
         } catch (Exception e) {
             LOGGER.error(e);
-
-            return null;
+            return Collections.emptyList();
         }
     }
 
-    public List<TempItemDTO> getSelectedTableResult(int start, int end, List<OrderByColumn> list) throws SystemException {
+    public List<TempItemDTO> getSelectedTableResult(int start, int end, List<OrderByColumn> list) {
         final String ifpSystemId = String.valueOf(sessionDTO.getSystemId());
         String column = ConstantsUtils.ITEM_NO_CAPS;
         String orderBy = ConstantsUtils.ASC;
@@ -3546,7 +3842,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
 
     public static int getIdByDescription(final String desc) {
         try {
-            final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+            final List<HelperDTO> helperList = new ArrayList<>();
             LOGGER.debug("Entering getDropDownList by Name");
             final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                     .forClass(HelperTable.class);
@@ -3638,7 +3934,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
     }
 
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
@@ -3656,7 +3952,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
      * @throws PortalException
      */
     public int getIFPCountForSearch(final ErrorfulFieldGroup searchItemForm, final Set<Container.Filter> filterSet) throws SystemException, PortalException {
-        LOGGER.debug("Entering getSearchCount");
+        LOGGER.debug("Entering getIFPCountForSearch");
 
         String ifpId;
         String ifpNo;
@@ -3669,7 +3965,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.YMD_FORMAT);
 
         try {
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             if (searchItemForm.getField(ConstantsUtils.TEXT1).getValue() == null) {
 
                 ifpId = StringUtils.EMPTY;
@@ -3792,7 +4088,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 if (itemNo.contains(GlobalConstants.getPercent())) {
                     itemNo = itemNo.replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
                 }
-                itemNo = ifpName.replace(CommonUtils.CHAR_ASTERISK,
+                itemNo = itemNo.replace(CommonUtils.CHAR_ASTERISK,
                         CommonUtils.CHAR_PERCENT);
 
             }
@@ -3911,7 +4207,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) throws SystemException,
             PortalException {
 
-        LOGGER.debug("Entering searchIFP , p1:" + start + ", p2:" + end + ", p3: " + ((sortByColumns == null) ? sortByColumns : sortByColumns.size()));
+        LOGGER.debug("Entering getResultsForIFP , p1:" + start + ",getResultsForIFP p2:" + end + ",getResultsForIFP p3: " + ((sortByColumns == null) ? sortByColumns : sortByColumns.size()));
         String ifpId;
         String ifpNo;
         String ifpName;
@@ -3922,7 +4218,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         int ifpStatus = 0;
         String orderBy = ConstantsUtils.ASC;
         String column = ConstantsUtils.IFP_MODEL_SID_DB;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.YMD_FORMAT);
 
         if (searchItemForm.getField(ConstantsUtils.TEXT1).getValue() == null) {
@@ -4083,7 +4379,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 column = "IFP_ID";
             } else if (ConstantsUtils.IFPNO.equals(columnName)) {
                 column = "IFP_NO";
-            } else if ("ifpName".equals(columnName)) {
+            } else if (ConstantsUtils.IFPNAME.equals(columnName)) {
                 column = "IFP_NAME";
             } else if ("ifpType".equals(columnName)) {
                 column = "IFP_TYPE";
@@ -4095,7 +4391,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
                 column = "IFP_START_DATE";
             } else if (ConstantsUtils.IFP_END_DATE.equals(columnName)) {
                 column = "IFP_END_DATE";
-            } else if ("ifpDesignation".equals(columnName)) {
+            } else if (ConstantsUtils.IFP_DESIGNATION.equals(columnName)) {
                 column = "IFP_DESIGNATION";
             } else if (ConstantsUtils.PARENT_IFP_ID.equals(columnName)) {
                 column = "PARENT_IFP_ID";
@@ -4164,7 +4460,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
         }
         List result = ImtdIfpDetailsLocalServiceUtil.getIFPSearchList(ifpId, ifpNo, ifpName, ifpType, ifpStatus, itemId, itemNo, itemName, start, end, column, orderBy, false, parameters);
 
-        LOGGER.debug("return ifp list ,size = " + ((result == null) ? result : result.size()));
+        LOGGER.debug("return ifp result list ,size = " + ((result == null) ? result : result.size()));
         return getCustomizedObjectModel(result);
     }
 
@@ -4179,7 +4475,7 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
     }
 
     public static String getBrandName(Object obj) {
-        List<Object> list = new ArrayList<>();
+        List<Object> list;
         String sql = "SELECT BRAND_NAME FROM BRAND_MASTER WHERE BRAND_MASTER_SID = " + String.valueOf(obj);
         list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
         String brandName = String.valueOf(list.get(0));
@@ -4189,4 +4485,19 @@ public class IFPLogic extends BeanItemContainer<SearchItemForm> implements ItemF
             return brandName;
         }
     }
+    
+    private void loadImtdIfpDetailsMap() {
+        if (IMTD_IFP_DETAILS_COLUMN == null) {
+            IMTD_IFP_DETAILS_COLUMN = new HashMap<>();
+            IMTD_IFP_DETAILS_COLUMN.put("itemNo", ConstantsUtils.ITEM_NO);
+            IMTD_IFP_DETAILS_COLUMN.put("itemName", ConstantsUtils.ITEM_NAME);
+            IMTD_IFP_DETAILS_COLUMN.put("itemDesc", ConstantsUtils.ITEM_DESC);
+            IMTD_IFP_DETAILS_COLUMN.put("itemStatus", ConstantsUtils.ITEM_STATUS);
+            IMTD_IFP_DETAILS_COLUMN.put("displayForm", ConstantsUtils.ITEM_FORM);
+            IMTD_IFP_DETAILS_COLUMN.put("strength", ConstantsUtils.ITEM_STRENGTH);
+            IMTD_IFP_DETAILS_COLUMN.put("therapeuticClass", ConstantsUtils.ITEM_THERAPAUTICCLASS);
+            IMTD_IFP_DETAILS_COLUMN.put("brand", ConstantsUtils.ITEM_BRAND);
+        }
+    }
+    
 }

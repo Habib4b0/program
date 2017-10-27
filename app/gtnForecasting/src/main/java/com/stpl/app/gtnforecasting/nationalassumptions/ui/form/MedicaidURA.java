@@ -201,7 +201,7 @@ public class MedicaidURA extends CustomComponent implements View {
     LazyContainer ndcFilterContainer;
 
     LazyContainer brandContainer;
-
+    public static final String MEDICAID_URA_RESULTS = "Medicaid URA Results";
     LazyContainer ndcLevelContainer;
 
     ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
@@ -213,13 +213,13 @@ public class MedicaidURA extends CustomComponent implements View {
     CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
 
     MedicaidURAResultsLogic medResLogic = new MedicaidURAResultsLogic();
 
     ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
 
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
 
     /**
      *
@@ -291,7 +291,7 @@ public class MedicaidURA extends CustomComponent implements View {
     public String getCaption() {
         LOGGER.debug("Inside MedicaidURA getCaption");
 
-        return "Medicaid URA Results";
+        return MEDICAID_URA_RESULTS;
 
     }
 
@@ -302,8 +302,8 @@ public class MedicaidURA extends CustomComponent implements View {
         CommonUtils.defaultLoad(therapeuticDdlb, brandDdlb, ndcFilterDdlb, levelDdlb);
         CommonUtils.defaultSelect(therapeuticDdlb, brandDdlb, ndcFilterDdlb, levelDdlb);
         historyDdlb.setContainerDataSource(new IndexedContainer(CommonUtils.loadHistory(QUARTERLY.getConstant())));
-        if (historyDdlb.containsId("2 Quarters")) {
-            historyDdlb.select("2 Quarters");
+        if (historyDdlb.containsId(Constant.TWO_QUARTERS)) {
+            historyDdlb.select(Constant.TWO_QUARTERS);
         } else {
             historyDdlb.addItem(Constant.SELECT_ONE);
             historyDdlb.select(Constant.SELECT_ONE);
@@ -330,7 +330,7 @@ public class MedicaidURA extends CustomComponent implements View {
 
         priceType.addItem(Constant.WAC);
         priceType.addItem(Constant.AMP);
-        priceType.addItem(Constant.Best_Price);
+        priceType.addItem(Constant.BEST_PRICE_LOWERCASE);
         priceType.addItem("Lowest Commercial Net Price");
         priceType.addItem("Basic URA");
         priceType.addItem(Constant.CPIURA);
@@ -539,7 +539,7 @@ public class MedicaidURA extends CustomComponent implements View {
                 } else {
                     brandDdlb.select(brandDto);
                     therapeuticDdlb.select(therapyDto);
-                    historyDdlb.setValue("2 Quarters");
+                    historyDdlb.setValue(Constant.TWO_QUARTERS);
                     historyDdlb.focus();
                     variables.setValue(PERCENTAGE.getConstant());
                     periodOrder.setValue(ASCENDING.getConstant());
@@ -582,7 +582,7 @@ public class MedicaidURA extends CustomComponent implements View {
         if (histFlag) {
             flag = true;
             Object[] itemIds = priceType.getItemIds().toArray();
-            List<String> selectedPrice = new ArrayList<String>();
+            List<String> selectedPrice = new ArrayList<>();
             for (Object itemId : itemIds) {
                 if (priceType.isSelected(itemId)) {
                     selectedPrice.add(String.valueOf(itemId));
@@ -660,7 +660,7 @@ public class MedicaidURA extends CustomComponent implements View {
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
         rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader);
-        resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
         tableLogic.setTreeNodeMultiClick(false);
@@ -670,9 +670,9 @@ public class MedicaidURA extends CustomComponent implements View {
                 .getRightFreezeAsTable();
         leftTable.setImmediate(true);
         rightTable.setImmediate(true);
-        periodTableId.setHeight("390px");
-        leftTable.setHeight("390px");
-        rightTable.setHeight("390px");
+        periodTableId.setHeight(Constant.PX_390);
+        leftTable.setHeight(Constant.PX_390);
+        rightTable.setHeight(Constant.PX_390);
         leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
         leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
         rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
@@ -708,8 +708,9 @@ public class MedicaidURA extends CustomComponent implements View {
                             worksheetProjDto.setNdc9(tableDto.getNdc9());
                             worksheetProjDto.setAdjust(false);
                             HelperDTO ndcDto = new HelperDTO();
-
-                            ndcDto.setDescription(tableDto.getGroup());
+                            ndcDto.setId(tableDto.getItemMasterSid());
+                            ndcDto.setDescription(tableDto.getGroup());                            
+                            worksheetProjDto.setNdcSid(ndcDto);
                             worksheetProjDto.setNdcWSdto(ndcDto);
                             HelperDTO brandResultsDto = (HelperDTO) brandDdlb.getValue();
                             if (Constant.SELECT_ONE.equals(brandResultsDto.getDescription())) {
@@ -786,7 +787,7 @@ public class MedicaidURA extends CustomComponent implements View {
         if (id instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) id;
         } else if (id instanceof TableDTO) {
-            targetItem = new BeanItem<TableDTO>(
+            targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
         return (TableDTO) targetItem.getBean();
@@ -837,10 +838,10 @@ public class MedicaidURA extends CustomComponent implements View {
             configureExcelResultTable();
             if (resultBeanContainer.size() > 0) {
 
-                loadExcelResultTable(projectionDTO.getLevelNo());
+                loadExcelResultTable();
 
             }
-            ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Medicaid URA Results", "Medicaid URA Results", "Medicaid_URA_Results.xls", false);
+            ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), MEDICAID_URA_RESULTS, MEDICAID_URA_RESULTS, "Medicaid_URA_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
         } catch (Exception e) {
@@ -850,7 +851,7 @@ public class MedicaidURA extends CustomComponent implements View {
     }
 
     private void configureExcelResultTable() {
-        excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
         exceltable = new ExtCustomTreeTable();
         tableVerticalLayout.addComponent(exceltable);
@@ -869,12 +870,12 @@ public class MedicaidURA extends CustomComponent implements View {
         exceltable.setRefresh(true);
     }
 
-    private void loadExcelResultTable(int parentLevelId)  {
+    private void loadExcelResultTable()  {
         excelResultBeanContainer.removeAllItems();
-        int count = medResLogic.getConfiguredMedicaidResultsCount(null, projectionDTO, null);
+        int count = medResLogic.getConfiguredMedicaidResultsCount(null, projectionDTO);
         projectionDTO.setPageStart(0);
         projectionDTO.setPageOffSet(count);
-        List<TableDTO> resultList = medResLogic.getMedicaid(projectionDTO, parentLevelId);
+        List<TableDTO> resultList = medResLogic.getMedicaid(projectionDTO);
         loadDataToContainer(resultList, null);
     }
 
@@ -906,6 +907,7 @@ public class MedicaidURA extends CustomComponent implements View {
      */
 
     public void enter(ViewChangeEvent event) {
+        return;
     }
 
     public void saveMedicaidSelections() throws PortalException {

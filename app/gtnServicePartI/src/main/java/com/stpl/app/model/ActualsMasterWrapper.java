@@ -101,7 +101,7 @@ public class ActualsMasterWrapper implements ActualsMaster,
             setQuantityInclusion(quantityInclusion);
         }
 
-        Double mandatedDiscountAmount = (Double) attributes.get(
+        String mandatedDiscountAmount = (String) attributes.get(
                 "mandatedDiscountAmount");
 
         if (mandatedDiscountAmount != null) {
@@ -276,7 +276,7 @@ public class ActualsMasterWrapper implements ActualsMaster,
             setSettlementNo(settlementNo);
         }
 
-        Double price = (Double) attributes.get("price");
+        String price = (String) attributes.get("price");
 
         if (price != null) {
             setPrice(price);
@@ -440,7 +440,7 @@ public class ActualsMasterWrapper implements ActualsMaster,
     * @return the mandated discount amount of this actuals master
     */
     @Override
-    public double getMandatedDiscountAmount() {
+    public java.lang.String getMandatedDiscountAmount() {
         return _actualsMaster.getMandatedDiscountAmount();
     }
 
@@ -450,7 +450,8 @@ public class ActualsMasterWrapper implements ActualsMaster,
     * @param mandatedDiscountAmount the mandated discount amount of this actuals master
     */
     @Override
-    public void setMandatedDiscountAmount(double mandatedDiscountAmount) {
+    public void setMandatedDiscountAmount(
+        java.lang.String mandatedDiscountAmount) {
         _actualsMaster.setMandatedDiscountAmount(mandatedDiscountAmount);
     }
 
@@ -1003,7 +1004,7 @@ public class ActualsMasterWrapper implements ActualsMaster,
     * @return the price of this actuals master
     */
     @Override
-    public double getPrice() {
+    public java.lang.String getPrice() {
         return _actualsMaster.getPrice();
     }
 
@@ -1013,7 +1014,7 @@ public class ActualsMasterWrapper implements ActualsMaster,
     * @param price the price of this actuals master
     */
     @Override
-    public void setPrice(double price) {
+    public void setPrice(java.lang.String price) {
         _actualsMaster.setPrice(price);
     }
 

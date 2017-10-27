@@ -19,11 +19,11 @@ public class CommonUIUtils {
     public static final String STARTDATE = "StartDate";
     public static final String ATTACHED_STATUS = "Attached Status";
 
-        public static final Object[] NOTIFICATION_COLUMNS = new Object[]{
+        public final Object[] notificationColumns = new Object[]{
             "businessProcess","fromMailId","toMailId","ccMailId","subject","body","creationDate","modifiedDate"
             
         };
-        public static final String[] NOTIFICATION_HEADERS= new String[]{
+        public final String[] notificationHeaders= new String[]{
             "business Process","from Mail-Id","to Mail-Id","cc Mail-Id","subject","body","creation Date","modified Date"
             };
     

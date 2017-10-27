@@ -24,7 +24,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
-import com.stpl.ifs.util.constants.GlobalConstants;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
@@ -68,6 +67,7 @@ import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.jboss.logging.Logger;
+import org.jboss.logging.MDC;
 
 /**
  *
@@ -82,6 +82,7 @@ public class WorkflowLogic {
     final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
     private static String bpSystemProperty = System.getProperty("businessProcess");
+    private static String nullValue = "null";
 
     public static List<HelperDTO> loadCompany() {
 
@@ -124,9 +125,9 @@ public class WorkflowLogic {
      */
     public String getWorkflowSearchQuery(InboxDashboardDTO inboxdto, final int start, final int offset, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, boolean isCount) {
         LOGGER.debug("Inside Search results");
-        String workflowId = StringUtils.EMPTY;
-        String workflowName = StringUtils.EMPTY;
-        String workflowDescription = StringUtils.EMPTY;
+        String workflowId;
+        String workflowName;
+        String workflowDescription;
         String workflowIdBinder = inboxdto.getWorkflowId();
         String workflowDescriptionBinder = inboxdto.getWorkflowDescription();
         String workflowNameBinder = inboxdto.getWorkflowName();
@@ -163,6 +164,10 @@ public class WorkflowLogic {
         List adjustmentTypeBinder = inboxdto.getAdjustmentType();
 
         StringBuilder query = new StringBuilder();
+        
+         Map<String, String> queryMap = new HashMap<>();
+                 queryMap.put("creationDate", "WM.CREATED_DATE");
+                 queryMap.put("approvedDate", "WM.MODIFIED_DATE");
 
         if (isCount) {
             query.append("SELECT count (*) from (");
@@ -195,7 +200,7 @@ public class WorkflowLogic {
             } else {
                 sql = query.toString().replace(CommonUtils.WFNAME, "PM.PROJECTION_NAME");
             }            
-            query = new StringBuilder(sql.toString().replace("WM.WORKFLOW_DESCRPTION", "PM.PROJECTION_DESCRIPTION"));
+            query = new StringBuilder(sql.toString().replace("WM.WORKFLOW_DESCRPTION", CommonUtils.PM_PROJECTION_DESCRIPTION));
             query.append(" JOIN PROJECTION_MASTER PM on WM.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID ");
         }
         if ("ARM".equals(businessProcessBinder)) {
@@ -342,7 +347,7 @@ public class WorkflowLogic {
             }
         }
 
-        if (StringUtils.isNotEmpty(inboxdto.getBusinessUnitName())) {
+        if ( StringUtils.isNotEmpty(inboxdto.getBusinessUnitName())) {
             query.append(" AND BU_COMp.COMPANY_NAME like '").append(inboxdto.getBusinessUnitName().replace("*", "%")).append("'");
         }
 
@@ -350,7 +355,7 @@ public class WorkflowLogic {
             query.append(" AND BU_COMp.COMPANY_NO like '").append(inboxdto.getBusinessUnitNo().replace("*", "%")).append("'");
         }
 
-        if (StringUtils.isNotEmpty(inboxdto.getBusinessUnitId())) {
+        if (StringUtils.isNotEmpty(inboxdto.getBusinessUnitId()))  {
             query.append(" AND BU_COMp.COMPANY_ID like '").append(inboxdto.getBusinessUnitId().replace("*", "%")).append("'");
         }
         
@@ -569,7 +574,31 @@ public class WorkflowLogic {
 
                     }
 
-                } else if (filter instanceof Between) {
+                }else if (filter instanceof Compare) {
+
+                        Compare stringFilter = (Compare) filter;
+                        Compare.Operation operation = stringFilter.getOperation();
+                        if ((!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) && (stringFilter.getValue() instanceof Date)) {
+                            DateFormat dbDate = new SimpleDateFormat("yyyy-MM-dd");
+                            String filterString = dbDate.format(stringFilter.getValue());
+                            if (!String.valueOf(stringFilter.getValue()).isEmpty()) {
+                                if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                                    if (query.length() == 0) {
+                                        query.append("WHERE (( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" >= '").append(filterString).append("')");
+                                    } else {
+                                        query.append("AND ( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" >= '").append(filterString).append("')");
+                                    }
+                                } else {
+                                    if (query.length() == 0) {
+                                        query.append("WHERE (( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" <= '").append(filterString).append("')");
+                                    } else {
+                                        query.append("AND ( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" <= '").append(filterString).append("')");
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
                     Date startValue = betweenFilter.getStartValue() != null ? (Date) betweenFilter.getStartValue() : null;
                     Date endValue = betweenFilter.getEndValue() != null ? (Date) betweenFilter.getEndValue() : null;
@@ -591,8 +620,8 @@ public class WorkflowLogic {
                         }
                     }
                 }
-            }
-        }
+                        }
+                        }
 
         if (!isCount) {
 
@@ -853,7 +882,6 @@ public class WorkflowLogic {
         }
         return wFlowHistoryLookupDTOs;
     }
-
     /**
      * To get workflow history
      *
@@ -929,7 +957,7 @@ public class WorkflowLogic {
 
     private static Date parsetDate(String value) throws ParseException {
         Date date = null;
-        String tempDate = StringUtils.EMPTY;
+        String tempDate;
         SimpleDateFormat parse = new SimpleDateFormat(ConstantsUtils.LONGDATEFORMAT);
         SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         if (value != null && !StringUtils.EMPTY.equals(value) && !"null".equals(value)) {
@@ -997,10 +1025,10 @@ public class WorkflowLogic {
     public List<UserViewDTO> UserSearch(UserViewDTO userdto) {
         DynamicQuery userSearchDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
         List<UserViewDTO> userSearchresults = new ArrayList<UserViewDTO>();
-        String firstName = StringUtils.EMPTY;
-        String lastName = StringUtils.EMPTY;
+        String firstName;
+        String lastName;
 
-        String fullName = StringUtils.EMPTY;
+        String fullName;
         String firstNameBinder = userdto.getFirstName();
         String lastNameBinder = userdto.getLastName();
         String fullNameBinder = userdto.getFullName();
@@ -1032,7 +1060,6 @@ public class WorkflowLogic {
         try {
             resultList = UserLocalServiceUtil.dynamicQuery(userSearchDynamicQuery);
             userSearchresults = getCustomizedProjectionResults(resultList);
-            resultList = null;
         } catch (SystemException e) {
             LOGGER.error(e);
         }
@@ -1260,6 +1287,7 @@ public class WorkflowLogic {
         Map<String, String> viewsearchColumn = new HashMap<>();
         viewsearchColumn.put(StringUtils.EMPTY, "WORKFLOW_INBOX_SID");
         viewsearchColumn.put("viewName", "VIEW_NAME");
+        viewsearchColumn.put("viewType", "VIEW_TYPE");
         viewsearchColumn.put("workflowId", "WORKFLOW_ID");
         viewsearchColumn.put("workflowName", "WORKFLOW_NAME");
         viewsearchColumn.put(CommonUtils.STATUS, "WORKFLOW_STATUS");
@@ -1453,9 +1481,9 @@ public class WorkflowLogic {
             case "workflowId":
                 return "WM.WORKFLOW_ID";
             case "workflowName":
-                return isContract ? "CM.CONTRACT_NAME" : "PM.PROJECTION_DESCRIPTION";
+                return isContract ? "CM.CONTRACT_NAME" : CommonUtils.PM_PROJECTION_DESCRIPTION;
             case "workflowDescription":
-                return isContract ? "WM.WORKFLOW_ID" : "PM.PROJECTION_DESCRIPTION";
+                return isContract ? "WM.WORKFLOW_ID" : CommonUtils.PM_PROJECTION_DESCRIPTION;
             case "company":
                 return "GL_COMp.COMPANY_NAME";
             case CommonUtils.BUSINESS_UNIT:
@@ -1490,16 +1518,7 @@ public class WorkflowLogic {
     }
 
 
-    private boolean AddKeyword(final StringBuilder query, boolean isWhereAdded) {
-        if (isWhereAdded) {
-            query.append(" AND ");
-        } else {
-            query.append(" WHERE ");
-            isWhereAdded = true;
-        }
-        return isWhereAdded;
-    }
-
+    
         public List getDetailsForHistory(int workflowSystemId) {
         String sql = SQlUtil.getQuery("history-popup-others").toString();
         sql = sql.replace("[?WORKFLOW_MASTER_SID]", StringUtils.EMPTY + workflowSystemId);        
@@ -1555,8 +1574,8 @@ public class WorkflowLogic {
                 if (isValidRole(r.getName(), WorkflowConstants.getForecastRoles())) {
                     select.addItems(WorkflowConstants.getBusinessProcess(bpSystemProperty));
                 }
+                }
             }
-        }
         LOGGER.debug(" Ending Loading Business Process Values ");
     }
 

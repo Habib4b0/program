@@ -15,6 +15,7 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -45,7 +46,7 @@ public class PSPricingTableLogic extends PageTableLogic{
                     psLogic.saveToTemp(itemDetailsResultBean.getItemIds(), binder);
                     itemDetailsResultBean.removeAllItems();
                 }
-                list = psLogic.getItemPriceDetails(this.getFilters(), 0, 0, binder, this.getSortByColumns(), mode, psMaster,true);
+                list = psLogic.getItemPriceDetails(this.getFilters(), 0, 0, this.getSortByColumns(), mode, psMaster,true);
             } catch (SystemException ex) {
                 LOGGER.error(ex);
             } catch(PortalException ex){
@@ -58,12 +59,12 @@ public class PSPricingTableLogic extends PageTableLogic{
     @Override
     public List loadData(int start, int offset) {
         try {            
-            List<Object[]> list = psLogic.getItemPriceDetails(this.getFilters(), start, offset, binder, this.getSortByColumns(), mode, psMaster,false);
+            List<Object[]> list = psLogic.getItemPriceDetails(this.getFilters(), start, offset, this.getSortByColumns(), mode, psMaster,false);
             return getCustomizedItemPriceDTO(list, mode, psMaster);
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

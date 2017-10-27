@@ -3,6 +3,7 @@ package com.stpl.app.service;
 import com.stpl.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.stpl.portal.kernel.util.ReferenceRegistry;
 import com.stpl.portal.service.InvokableLocalService;
+import org.jboss.logging.Logger;
 
 /**
  * Provides the local service utility for HelperTable. This utility wraps
@@ -20,7 +21,8 @@ import com.stpl.portal.service.InvokableLocalService;
  */
 public class HelperTableLocalServiceUtil {
     private static HelperTableLocalService _service;
-
+    private static final Logger LOGGER = Logger.getLogger(HelperTableLocalServiceUtil.class);
+    
     /*
      * NOTE FOR DEVELOPERS:
      *
@@ -275,6 +277,7 @@ public class HelperTableLocalServiceUtil {
     * @return List<Object[]> result list
     */
     public static java.util.List executeSelectQuery(java.lang.String query) {
+        LOGGER.debug(query);
         return getService().executeSelectQuery(query);
     }
 
@@ -284,10 +287,12 @@ public class HelperTableLocalServiceUtil {
     * @param query
     */
     public static void executeUpdateQuery(java.lang.String query) {
+        LOGGER.debug(query);
         getService().executeUpdateQuery(query);
     }
 
     public static int executeUpdateQueryCount(java.lang.String query) {
+        LOGGER.debug(query);
         return getService().executeUpdateQueryCount(query);
     }
 

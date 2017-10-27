@@ -10,6 +10,7 @@ import com.stpl.app.gtnworkflow.filtergenerator.ViewTableGenerator;
 import com.stpl.app.gtnworkflow.logic.WorkflowLogic;
 import com.stpl.app.gtnworkflow.logic.tablelogic.ViewLookuptablelogic;
 import com.stpl.app.gtnworkflow.util.CommonUtils;
+import com.stpl.app.gtnworkflow.util.ConstantUtils;
 import com.stpl.app.gtnworkflow.util.NotificationUtils;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.DateToStringConverter;
@@ -20,6 +21,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
@@ -108,7 +110,7 @@ public class ViewSearchLookup extends Window {
         tableLayout.setWidth("100%");
         if (WorkflowConstants.getBusinessProcessNameArm().equalsIgnoreCase(businessProcess)) {
             selectBtn.setEnabled(true);
-            deleteBtn.setVisible(false);
+            deleteBtn.setVisible(true);
         } else {
             selectBtn.setEnabled(false);
             deleteBtn.setVisible(true);
@@ -144,11 +146,11 @@ public class ViewSearchLookup extends Window {
         resultTable.setFilterGenerator(new ViewTableGenerator());
         tablelogic.setContainerDataSource(viewLookupItemBean);
         if (!WorkflowConstants.getBusinessProcessNameArm().equalsIgnoreCase(businessProcess)) {
-            resultTable.setVisibleColumns(CommonUtils.VIEW_SEARCH_LOOKUP_COLUMNS);
-            resultTable.setColumnHeaders(CommonUtils.VIEW_SEARCH_LOOKUP_HEADER);
+            resultTable.setVisibleColumns(ConstantUtils.getInstance().viewSearchLookupColumns);
+            resultTable.setColumnHeaders(ConstantUtils.getInstance().viewSearchLookupHeader);
         } else {
-           resultTable.setVisibleColumns(CommonUtils.VIEW_SEARCH_LOOKUP_COLUMNS_ARM);
-            resultTable.setColumnHeaders(CommonUtils.VIEW_SEARCH_LOOKUP_HEADER_ARM);
+           resultTable.setVisibleColumns(ConstantUtils.getInstance().viewSearchLookupColumnsArm);
+            resultTable.setColumnHeaders(ConstantUtils.getInstance().viewSearchLookupHeaderArm);
         }
         resultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultTable.setPageLength(NumericConstants.TEN);
@@ -162,7 +164,9 @@ public class ViewSearchLookup extends Window {
         resultTable.setValidationVisible(false);
         resultTable.addStyleName("filterbar");
         resultTable.setConverter("creationDate", new DateToStringConverter()); 
-        resultTable.setConverter("modifiedDate", new DateToStringConverter()); 
+        resultTable.setConverter("modifiedDate", new DateToStringConverter());
+        resultTable.setColumnAlignment("creationDate",  ExtCustomTable.Align.CENTER);
+        resultTable.setColumnAlignment("modifiedDate",  ExtCustomTable.Align.CENTER);
         resultTable.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
@@ -179,6 +183,7 @@ public class ViewSearchLookup extends Window {
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     public Button searchButton() {
@@ -247,12 +252,13 @@ public class ViewSearchLookup extends Window {
                         @Override
                         public void yesMethod() {
                             viewName.setValue(StringUtils.EMPTY);
-                            resultTable.setVisibleColumns(CommonUtils.VIEW_SEARCH_LOOKUP_COLUMNS_ARM);
-                            resultTable.setColumnHeaders(CommonUtils.VIEW_SEARCH_LOOKUP_HEADER_ARM);
+                            resultTable.setVisibleColumns(ConstantUtils.getInstance().viewSearchLookupColumnsArm);
+                            resultTable.setColumnHeaders(ConstantUtils.getInstance().viewSearchLookupHeaderArm);
                         }
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
                     }.getConfirmationMessage("Confirm Reset",
                             "Are you sure you want to reset the search criteria to its default state?");
@@ -262,13 +268,14 @@ public class ViewSearchLookup extends Window {
                         public void yesMethod() {
                             viewName.setValue(StringUtils.EMPTY);
                             resultTable.removeAllItems();
-                            resultTable.setVisibleColumns(CommonUtils.VIEW_SEARCH_LOOKUP_COLUMNS);
-                            resultTable.setColumnHeaders(CommonUtils.VIEW_SEARCH_LOOKUP_HEADER);
+                            resultTable.setVisibleColumns(ConstantUtils.getInstance().viewSearchLookupColumns);
+                            resultTable.setColumnHeaders(ConstantUtils.getInstance().viewSearchLookupHeader);
                             selectBtn.setEnabled(false);
                         }
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
                     }.getOkCancelMessage("Reset Confirmation",
                             "Are you sure you want to reset?");
@@ -307,6 +314,7 @@ public class ViewSearchLookup extends Window {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
                     }.getOkCancelMessage("Delete confirmation",
                             "Are you sure that you want to delete this view?");

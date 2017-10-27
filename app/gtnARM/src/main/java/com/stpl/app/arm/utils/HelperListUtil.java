@@ -91,6 +91,7 @@ public class HelperListUtil {
      */
     public void loadValuesWithListName(String moduleName) {
         List<String> listNames = Arrays.asList(listNameBundle.getString(moduleName).split(","));
+        LOGGER.info("list  --------  " + listNames);
         idHelperDTOMap.put(0, new HelperDTO(0, ConstantsUtils.SELECT_ONE));
         if (listNames != null && !listNames.isEmpty()) {
             try {
@@ -105,7 +106,7 @@ public class HelperListUtil {
                 if (list != null) {
                     String currentListName = StringUtils.EMPTY;
                     for (int i = 0; i < list.size(); i++) {
-                        final HelperTable helperTable = (HelperTable) list.get(i);
+                        final HelperTable helperTable = list.get(i);
 
                         if (StringUtils.isEmpty(currentListName) || !helperTable.getListName().equals(currentListName)) {
                             if (helperList != null) {
@@ -127,7 +128,7 @@ public class HelperListUtil {
                     }
                 }
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in loadValuesWithListName :"+ex);
             }
         }
     }
@@ -213,13 +214,13 @@ public class HelperListUtil {
                 if (list != null) {
                     String currentListName = StringUtils.EMPTY;
                     for (int i = 0; i < list.size(); i++) {
-                        final HelperTable helperTable = (HelperTable) list.get(i);
+                        final HelperTable helperTable = list.get(i);
 
                         if (StringUtils.isEmpty(currentListName) || !helperTable.getListName().equals(currentListName)) {
                             if (helperList != null) {
                                 listNameMap.put(currentListName, helperList);
                             }
-                            helperList = new ArrayList<HelperDTO>();
+                            helperList = new ArrayList<>();
                         }
                         helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
                                 .getDescription()));
@@ -235,7 +236,7 @@ public class HelperListUtil {
                     }
                 }
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in loadValuesWithid :"+ex);
             }
         }
     }
@@ -243,7 +244,7 @@ public class HelperListUtil {
     public int getIdByDesc(String listName, String desc) {
         int value = 0;
         if (!StringUtils.isBlank(listName) && !StringUtils.isBlank(desc)) {
-            List<HelperDTO> helperList = (List) getListNameMap().get(listName);
+            List<HelperDTO> helperList = getListNameMap().get(listName);
             for (int i = 0; i < helperList.size(); i++) {
                 HelperDTO dto = helperList.get(i);
                 if (desc.trim().equalsIgnoreCase(dto.getDescription().trim())) {

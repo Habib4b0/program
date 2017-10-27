@@ -7,9 +7,12 @@ package com.stpl.app.arm.businessprocess.pipelineinventory.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractRatesSearchResults;
+import com.stpl.app.arm.businessprocess.pipelineinventory.logic.PipelineInventoryRatelogic;
 import com.stpl.app.arm.supercode.ExcelInterface;
 import com.stpl.app.arm.supercode.LogicAble;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.utils.CommonUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMConstants;
 import java.util.List;
 
@@ -33,16 +36,20 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getLogic();
+        return (ExcelInterface) getSummaryLogic();
     }
 
     @Override
     public Object[] getExcelHierarchy() {
         Object[] value = null;
-        if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getRate_DeductionLevelName().equals(ARMConstants.getDeduction())) {
+        if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "T", "C", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
             value = new Object[]{"T", "C", "B", "I"};
+        }else if (customerProductView.getValue().equals(ARMConstants.getDeductionContractCustomer()) && getSelection().getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
+            value = new Object[]{"D", "C", "T", "B", "I"};
+        }else if (customerProductView.getValue().equals(ARMConstants.getDeductionContractCustomer())) {
+            value = new Object[]{ "C", "T", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomer())) {
             value = new Object[]{"T", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionProduct())) {
@@ -53,7 +60,7 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public List getExcelExportVisibleColumn() {
-        return selection.getRate_ColumnList().get(0);
+        return selection.getRateColumnList().get(0);
     }
 
     @Override
@@ -83,19 +90,41 @@ public class InventoryRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
+        logger.debug("inside valueDdlbValueChange Method");
 
     }
-    
+
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-     
+        logger.debug("inside loadLevelFilterValueDdlb Method");
+    }
+
+    @Override
+    public void rateProcedureCall(AbstractSelectionDTO selectionDTO) {
+        Object[] orderedArgs = {selectionDTO.getDataSelectionDTO().getProjectionId(), selectionDTO.getRateBasisName(),
+            selectionDTO.getRatePeriodValue(), selectionDTO.getRateFrequencyName(), selectionDTO.getModuleName(), selectionDTO.getInventoryDetails(),
+            selectionDTO.getSessionDTO().getUserId(), selectionDTO.getSessionDTO().getSessionId()};
+        selectionDTO.setRatesOverrideFlag(NumericConstants.ZERO);
+        CommonUtils.callInsertProcedure("PRC_ARM_PIPELINE_RATE", orderedArgs);
     }
     
     @Override
-    public void rateProcedureCall(AbstractSelectionDTO selectionDTO) {
-        Object[] orderedArgs = {selectionDTO.getDataSelectionDTO().getProjectionId(), selectionDTO.getRate_BasisName(),
-            selectionDTO.getRate_Period(), selectionDTO.getRate_FrequencyName(), selectionDTO.getModuleName(),selectionDTO.getInventory_Details(),
-            selectionDTO.getSessionDTO().getUserId(), selectionDTO.getSessionDTO().getSessionId()};
-        CommonUtils.callInsertProcedure("PRC_ARM_PIPELINE_RATE", orderedArgs);
+    public PipelineInventoryRatelogic getSummaryLogic() {
+        return (PipelineInventoryRatelogic) super.getSummaryLogic();
+    }
+    
+     private static final Object[] searchResult = {ARMConstants.getDeductionProduct(),
+        ARMConstants.getDeductionCustomer(), ARMConstants.getDeductionCustomerContract(),ARMConstants.getDeductionContractCustomer()};
+     
+    @Override
+    protected void configureOnRatesSearchResults() {
+        calculateBtn.setVisible(false);
+        cancelOverride.setVisible(false);
+        panelCaption.setCaption("Rate Results");
+        valueDdlb.setVisible(false);
+        bbExport.setPrimaryStyleName("link");
+        bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
+        customerProductView.addItems(searchResult);
+        customerProductView.setValue(ARMConstants.getDeductionProduct());
     }
 }

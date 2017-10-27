@@ -1,5 +1,6 @@
 package com.stpl.app.arm.bpm.service;
 
+import com.stpl.ifs.util.constants.GlobalConstants;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -20,6 +21,7 @@ import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 
 import com.vaadin.server.VaadinService;
+import org.apache.commons.io.FilenameUtils;
 
 public class MailWorkItemHandler implements WorkItemHandler {
 
@@ -28,6 +30,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(MailWorkItemHandler.class);
 
+    @Override
     public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
         Map<String, Object> map = workItem.getParameters();
         String to = (String) map.get("To");
@@ -40,7 +43,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
         manager.completeWorkItem(workItem.getId(), null);
     }
 
-    public static void sendMail(String toAdd, String subject, StringBuffer text) {
+    public static void sendMail(String toAdd, String subject, StringBuilder text) {
         String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
                 ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
         String filePath1 = "/../../../mailconfig/mailConfiguration.properties";
@@ -49,10 +52,10 @@ public class MailWorkItemHandler implements WorkItemHandler {
 
         // First try loading from the current directory
         try {
-            File f = new File(path + filePath1);
+            File f = new File(FilenameUtils.getName(path + filePath1));
             is = new FileInputStream(f);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in sendMail :"+e);
             is = null;
         }
 
@@ -65,11 +68,11 @@ public class MailWorkItemHandler implements WorkItemHandler {
             // Try loading properties from the file (if found)
             props.load(is);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in MailWorkItemHandler :"+e);
         }
 
         final String fromAddress = props.getProperty("fromAddress", "support@bpitechnologies.com");
-        final String password = props.getProperty("password", "MyVibes$$$");
+        final String password = props.getProperty(GlobalConstants.getPassword(), GlobalConstants.getSupportPassword());
 
         String toAddress = toAdd;
         String delims = "[,]";
@@ -89,11 +92,11 @@ public class MailWorkItemHandler implements WorkItemHandler {
 
         Session session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(fromAddress, password);
-                    }
-                });
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(fromAddress, password);
+            }
+        });
 
         try {
 
@@ -120,13 +123,13 @@ public class MailWorkItemHandler implements WorkItemHandler {
             Transport.send(message);
 
         } catch (MessagingException e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in session :"+e);
         }
     }
 
     public static void setMessage(String text, String subject, String emailId) {
         String by = "BPI Workflow";
-        StringBuffer bodyText = new StringBuffer();
+        StringBuilder bodyText = new StringBuilder();
         bodyText.append("Hi,<br>");
         bodyText.append("<br>");
         bodyText.append(text);
@@ -138,6 +141,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
         }
     }
 
+    @Override
     public void abortWorkItem(WorkItem workItem, WorkItemManager manager) {
         manager.abortWorkItem(workItem.getId());
     }

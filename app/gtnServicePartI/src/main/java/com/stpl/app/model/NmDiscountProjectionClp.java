@@ -21,16 +21,10 @@ import java.util.Map;
 
 public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
     implements NmDiscountProjection {
-    private String _adjustmentMethodology;
-    private String _adjustmentBasis;
     private int _periodSid;
     private double _projectionRate;
     private int _projectionDetailsSid;
-    private boolean _adjustmentVariable;
-    private double _adjustmentValue;
-    private String _adjustmentType;
     private double _projectionSales;
-    private double _discountRate;
     private BaseModel<?> _nmDiscountProjectionRemoteModel;
 
     public NmDiscountProjectionClp() {
@@ -71,35 +65,16 @@ public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("adjustmentMethodology", getAdjustmentMethodology());
-        attributes.put("adjustmentBasis", getAdjustmentBasis());
         attributes.put("periodSid", getPeriodSid());
         attributes.put("projectionRate", getProjectionRate());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("adjustmentVariable", getAdjustmentVariable());
-        attributes.put("adjustmentValue", getAdjustmentValue());
-        attributes.put("adjustmentType", getAdjustmentType());
         attributes.put("projectionSales", getProjectionSales());
-        attributes.put("discountRate", getDiscountRate());
 
         return attributes;
     }
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        String adjustmentMethodology = (String) attributes.get(
-                "adjustmentMethodology");
-
-        if (adjustmentMethodology != null) {
-            setAdjustmentMethodology(adjustmentMethodology);
-        }
-
-        String adjustmentBasis = (String) attributes.get("adjustmentBasis");
-
-        if (adjustmentBasis != null) {
-            setAdjustmentBasis(adjustmentBasis);
-        }
-
         Integer periodSid = (Integer) attributes.get("periodSid");
 
         if (periodSid != null) {
@@ -119,82 +94,10 @@ public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
             setProjectionDetailsSid(projectionDetailsSid);
         }
 
-        Boolean adjustmentVariable = (Boolean) attributes.get(
-                "adjustmentVariable");
-
-        if (adjustmentVariable != null) {
-            setAdjustmentVariable(adjustmentVariable);
-        }
-
-        Double adjustmentValue = (Double) attributes.get("adjustmentValue");
-
-        if (adjustmentValue != null) {
-            setAdjustmentValue(adjustmentValue);
-        }
-
-        String adjustmentType = (String) attributes.get("adjustmentType");
-
-        if (adjustmentType != null) {
-            setAdjustmentType(adjustmentType);
-        }
-
         Double projectionSales = (Double) attributes.get("projectionSales");
 
         if (projectionSales != null) {
             setProjectionSales(projectionSales);
-        }
-
-        Double discountRate = (Double) attributes.get("discountRate");
-
-        if (discountRate != null) {
-            setDiscountRate(discountRate);
-        }
-    }
-
-    @Override
-    public String getAdjustmentMethodology() {
-        return _adjustmentMethodology;
-    }
-
-    @Override
-    public void setAdjustmentMethodology(String adjustmentMethodology) {
-        _adjustmentMethodology = adjustmentMethodology;
-
-        if (_nmDiscountProjectionRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmDiscountProjectionRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setAdjustmentMethodology",
-                        String.class);
-
-                method.invoke(_nmDiscountProjectionRemoteModel,
-                    adjustmentMethodology);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public String getAdjustmentBasis() {
-        return _adjustmentBasis;
-    }
-
-    @Override
-    public void setAdjustmentBasis(String adjustmentBasis) {
-        _adjustmentBasis = adjustmentBasis;
-
-        if (_nmDiscountProjectionRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmDiscountProjectionRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setAdjustmentBasis",
-                        String.class);
-
-                method.invoke(_nmDiscountProjectionRemoteModel, adjustmentBasis);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
         }
     }
 
@@ -268,81 +171,6 @@ public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
     }
 
     @Override
-    public boolean getAdjustmentVariable() {
-        return _adjustmentVariable;
-    }
-
-    @Override
-    public boolean isAdjustmentVariable() {
-        return _adjustmentVariable;
-    }
-
-    @Override
-    public void setAdjustmentVariable(boolean adjustmentVariable) {
-        _adjustmentVariable = adjustmentVariable;
-
-        if (_nmDiscountProjectionRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmDiscountProjectionRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setAdjustmentVariable",
-                        boolean.class);
-
-                method.invoke(_nmDiscountProjectionRemoteModel,
-                    adjustmentVariable);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public double getAdjustmentValue() {
-        return _adjustmentValue;
-    }
-
-    @Override
-    public void setAdjustmentValue(double adjustmentValue) {
-        _adjustmentValue = adjustmentValue;
-
-        if (_nmDiscountProjectionRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmDiscountProjectionRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setAdjustmentValue",
-                        double.class);
-
-                method.invoke(_nmDiscountProjectionRemoteModel, adjustmentValue);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public String getAdjustmentType() {
-        return _adjustmentType;
-    }
-
-    @Override
-    public void setAdjustmentType(String adjustmentType) {
-        _adjustmentType = adjustmentType;
-
-        if (_nmDiscountProjectionRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmDiscountProjectionRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setAdjustmentType",
-                        String.class);
-
-                method.invoke(_nmDiscountProjectionRemoteModel, adjustmentType);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
     public double getProjectionSales() {
         return _projectionSales;
     }
@@ -359,28 +187,6 @@ public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
                         double.class);
 
                 method.invoke(_nmDiscountProjectionRemoteModel, projectionSales);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public double getDiscountRate() {
-        return _discountRate;
-    }
-
-    @Override
-    public void setDiscountRate(double discountRate) {
-        _discountRate = discountRate;
-
-        if (_nmDiscountProjectionRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmDiscountProjectionRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setDiscountRate", double.class);
-
-                method.invoke(_nmDiscountProjectionRemoteModel, discountRate);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -456,16 +262,10 @@ public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
     public Object clone() {
         NmDiscountProjectionClp clone = new NmDiscountProjectionClp();
 
-        clone.setAdjustmentMethodology(getAdjustmentMethodology());
-        clone.setAdjustmentBasis(getAdjustmentBasis());
         clone.setPeriodSid(getPeriodSid());
         clone.setProjectionRate(getProjectionRate());
         clone.setProjectionDetailsSid(getProjectionDetailsSid());
-        clone.setAdjustmentVariable(getAdjustmentVariable());
-        clone.setAdjustmentValue(getAdjustmentValue());
-        clone.setAdjustmentType(getAdjustmentType());
         clone.setProjectionSales(getProjectionSales());
-        clone.setDiscountRate(getDiscountRate());
 
         return clone;
     }
@@ -505,28 +305,16 @@ public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(21);
+        StringBundler sb = new StringBundler(9);
 
-        sb.append("{adjustmentMethodology=");
-        sb.append(getAdjustmentMethodology());
-        sb.append(", adjustmentBasis=");
-        sb.append(getAdjustmentBasis());
-        sb.append(", periodSid=");
+        sb.append("{periodSid=");
         sb.append(getPeriodSid());
         sb.append(", projectionRate=");
         sb.append(getProjectionRate());
         sb.append(", projectionDetailsSid=");
         sb.append(getProjectionDetailsSid());
-        sb.append(", adjustmentVariable=");
-        sb.append(getAdjustmentVariable());
-        sb.append(", adjustmentValue=");
-        sb.append(getAdjustmentValue());
-        sb.append(", adjustmentType=");
-        sb.append(getAdjustmentType());
         sb.append(", projectionSales=");
         sb.append(getProjectionSales());
-        sb.append(", discountRate=");
-        sb.append(getDiscountRate());
         sb.append("}");
 
         return sb.toString();
@@ -534,20 +322,12 @@ public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(34);
+        StringBundler sb = new StringBundler(16);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.NmDiscountProjection");
         sb.append("</model-name>");
 
-        sb.append(
-            "<column><column-name>adjustmentMethodology</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentMethodology());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>adjustmentBasis</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentBasis());
-        sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>periodSid</column-name><column-value><![CDATA[");
         sb.append(getPeriodSid());
@@ -561,24 +341,8 @@ public class NmDiscountProjectionClp extends BaseModelImpl<NmDiscountProjection>
         sb.append(getProjectionDetailsSid());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>adjustmentVariable</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentVariable());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>adjustmentValue</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentValue());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>adjustmentType</column-name><column-value><![CDATA[");
-        sb.append(getAdjustmentType());
-        sb.append("]]></column-value></column>");
-        sb.append(
             "<column><column-name>projectionSales</column-name><column-value><![CDATA[");
         sb.append(getProjectionSales());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>discountRate</column-name><column-value><![CDATA[");
-        sb.append(getDiscountRate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

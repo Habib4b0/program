@@ -50,7 +50,7 @@ public class ComparisonTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<ComparisonLookupDTO> resultList = new ArrayList<ComparisonLookupDTO>();
+        List<ComparisonLookupDTO> resultList = new ArrayList<>();
         try {
            comparisonLookup.setStart(start);
            comparisonLookup.setOffset(offset);

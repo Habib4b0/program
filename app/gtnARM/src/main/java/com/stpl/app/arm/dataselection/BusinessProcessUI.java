@@ -5,32 +5,6 @@
  */
 package com.stpl.app.arm.dataselection;
 
-import com.stpl.app.arm.bpm.persistance.WorkflowPersistance;
-import com.stpl.app.arm.common.dto.SessionDTO;
-import com.stpl.app.arm.dataselection.view.DataSelectionView;
-import com.stpl.app.arm.utils.HelperListUtil;
-import com.stpl.app.arm.bpm.service.BPMManagerBean;
-import com.stpl.app.arm.common.CommonLogic;
-import com.stpl.app.arm.common.SessionUtil;
-import com.stpl.app.arm.dao.DataSelectionDAO;
-import com.stpl.app.arm.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
-import com.stpl.app.arm.dataselection.ui.form.BussinessProcessForm;
-import com.stpl.app.arm.dataselection.view.ArmWorkflowView;
-import com.stpl.app.arm.supercode.CommonUI;
-import com.stpl.app.serviceUtils.ConstantsUtils;
-import com.stpl.app.utils.CommonUtils;
-import com.vaadin.navigator.Navigator;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinSession;
-import java.util.concurrent.ExecutorService;
-import com.stpl.app.arm.utils.ARMUtils;
-import com.stpl.app.arm.utils.QueryUtils;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.util.service.thread.ThreadPool;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.constants.WorkflowConstants;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -38,13 +12,42 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
+
+import com.stpl.app.arm.bpm.persistance.WorkflowPersistance;
+import com.stpl.app.arm.bpm.service.BPMManagerBean;
+import com.stpl.app.arm.common.CommonLogic;
+import com.stpl.app.arm.common.SessionUtil;
+import com.stpl.app.arm.common.dto.SessionDTO;
+import com.stpl.app.arm.dao.DataSelectionDAO;
+import com.stpl.app.arm.dao.impl.DataSelectionDAOImpl;
+import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
+import com.stpl.app.arm.dataselection.ui.form.BussinessProcessForm;
+import com.stpl.app.arm.dataselection.view.ArmWorkflowView;
+import com.stpl.app.arm.dataselection.view.DataSelectionView;
+import com.stpl.app.arm.supercode.CommonUI;
+import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.HelperListUtil;
+import com.stpl.app.arm.utils.QueryUtils;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.util.service.thread.ThreadPool;
+import com.stpl.app.utils.CommonUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.ARMConstants;
+import com.stpl.ifs.util.constants.WorkflowConstants;
+import com.vaadin.navigator.Navigator;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class BusinessProcessUI extends CommonUI {
 
@@ -52,7 +55,7 @@ public class BusinessProcessUI extends CommonUI {
     private SessionDTO sessionDTO;
     private DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
     DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(BusinessProcessUI.class);
+    public static final org.jboss.logging.Logger LOGGERVALUE = org.jboss.logging.Logger.getLogger(BusinessProcessUI.class);
 
     @Override
     protected void init(VaadinRequest request) {
@@ -83,23 +86,23 @@ public class BusinessProcessUI extends CommonUI {
         String configType = null;
         SessionUtil sessionUtil = new SessionUtil();
         BussinessProcessForm editWindow = null;
-        LOGGER.info("Inside BusinessProcessUI :");
-        LOGGER.info("USER_ID :"+userId);
-        LOGGER.info("SESSION_ID :"+sessionId);
+        LOGGERVALUE.info("Inside BusinessProcessUI :");
+        LOGGERVALUE.info("USER_ID :" + userId);
+        LOGGERVALUE.info("SESSION_ID :" + sessionId);
         if (pageParameters != null) {
-            pageParameters=pageParameters.contains("///&")?pageParameters.replace("///&","///"):pageParameters;
+            pageParameters = pageParameters.contains("///&") ? pageParameters.replace("///&", "///") : pageParameters;
             String[] parameters = pageParameters.split("&");
-            String parametersFromProjection[] = null;
-            String parametersFromWorkflow[] = null;
-            String parametersWorkflowStatus[] = null;
-            String parametersWorkflowApprove[] = null;
-            String parametersCanApprove[] = null;
-            String noOfApproval[] = null;
-            String approvalLevel[] = null;
-            String portletName[] = null;
-            String adjustmentType[] = null;
-            String selectedAdjustmentType[] = null;
-            String configurationType[] = null;
+            String[] parametersFromProjection = null;
+            String[] parametersFromWorkflow = null;
+            String[] parametersWorkflowStatus = null;
+            String[] parametersWorkflowApprove = null;
+            String[] parametersCanApprove = null;
+            String[] noOfApproval = null;
+            String[] approvalLevel = null;
+            String[] portletName = null;
+            String[] adjustmentType = null;
+            String[] selectedAdjustmentType = null;
+            String[] configurationType = null;
             parametersFromProjection = parameters[0].split(ARMUtils.EQUAL);
             parametersFromWorkflow = parameters[1].split(ARMUtils.EQUAL);
             parametersWorkflowStatus = parameters[NumericConstants.TWO].split(ARMUtils.EQUAL);
@@ -112,13 +115,13 @@ public class BusinessProcessUI extends CommonUI {
             selectedAdjustmentType = parameters[NumericConstants.NINE].split(ARMUtils.EQUAL);
             configurationType = parameters[NumericConstants.TEN].split(ARMUtils.EQUAL);
 
-            HashMap<String, String> hm = new HashMap<String, String>();
+            HashMap<String, String> hm = new HashMap<>();
             hm.put(parametersFromProjection[0], parametersFromProjection[1]);
             hm.put(parametersWorkflowStatus[0], parametersWorkflowStatus[1]);
             hm.put(parametersFromWorkflow[0], parametersFromWorkflow[1]);
             hm.put(parametersWorkflowApprove[0], parametersWorkflowApprove[1]);
             hm.put(parametersCanApprove[0], parametersCanApprove[1]);
-            hm.put(noOfApproval[0], noOfApproval[1].contains("///")?noOfApproval[1].replace("///","&"):noOfApproval[1]);
+            hm.put(noOfApproval[0], noOfApproval[1].contains("///") ? noOfApproval[1].replace("///", "&") : noOfApproval[1]);
             hm.put(approvalLevel[0], approvalLevel[1]);
             hm.put(portletName[0], portletName[1]);
             hm.put(adjustmentType[0], adjustmentType[1]);
@@ -153,7 +156,7 @@ public class BusinessProcessUI extends CommonUI {
             try {
                 CommonLogic.getDataSelectionForWorkFlow(dataSelectionDto);
             } catch (Exception ex) {
-                LOGGER.error(ex.getMessage());
+                LOGGERVALUE.error("Error in getDataSelectionForWorkFlow :"+ex);
             }
             sessionDTO.setWorkflowId(Integer.valueOf(workflowId));
             sessionDTO.setWorkflowUserType(userType);
@@ -181,7 +184,7 @@ public class BusinessProcessUI extends CommonUI {
                 dataSelectionDto.setAdjustmentId(Integer.parseInt(String.valueOf(id.get(0))));
                 editWindow = new BussinessProcessForm(adjType.replace("~", " "), dataSelectionDto, sessionDTO);
             } catch (Exception ex) {
-                LOGGER.error(ex.getMessage());
+                LOGGERVALUE.error("Error in editWindow :"+ex);
             }
         }
         navigator = new Navigator(this, this);
@@ -189,7 +192,7 @@ public class BusinessProcessUI extends CommonUI {
             try {
                 navigator.addView(ArmWorkflowView.NAME, new ArmWorkflowView(editWindow));
             } catch (Exception ex) {
-              LOGGER.error(ex.getMessage());
+                LOGGERVALUE.error("Error in navigator addview :"+ex);
             }
         }
         ExecutorService service = ThreadPool.getInstance().getService();
@@ -212,19 +215,20 @@ public class BusinessProcessUI extends CommonUI {
      * @return String
      */
     private String getTransactionName(String adjType) {
-        if (adjType.equals("TRANSACTION~1")) {
+        String adjustType = adjType.replace("~", " ");
+        if (adjustType.equals(ARMConstants.getPipelineAccrual())) {
             return "ARM_Txt_1";
-        } else if (adjType.equals("TRANSACTION~2")) {
+        } else if (adjustType.equals(ARMConstants.getDemandAccrual())) {
             return "ARM_Txt_2";
-        } else if (adjType.equals("TRANSACTION~3")) {
+        } else if (adjustType.equals(ARMConstants.getPipelineInventoryTrueUp())) {
             return "ARM_Txt_3";
-        } else if (adjType.equals("TRANSACTION~4")) {
+        } else if (adjustType.equals(ARMConstants.getDemandPaymentsRecon())) {
             return "ARM_Txt_4";
-        } else if (adjType.equals("TRANSACTION~5")) {
+        } else if (adjustType.equals(ARMConstants.getDemandReforecastTrueUp())) {
             return "ARM_Txt_5";
-        } else if (adjType.equals("TRANSACTION~6")) {
+        } else if (adjustType.equals(ARMConstants.getTransaction6())) {
             return "ARM_Txt_6";
-        } else if (adjType.equals("TRANSACTION~7")) {
+        } else if (adjustType.equals(ARMConstants.getTransaction7())) {
             return "ARM_Txt_7";
         }
         return StringUtils.EMPTY;

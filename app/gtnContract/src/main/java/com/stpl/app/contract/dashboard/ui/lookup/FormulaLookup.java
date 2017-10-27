@@ -111,7 +111,7 @@ public class FormulaLookup extends Window {
 
     private final ExtFilterTable detailsTable = new ExtFilterTable();
 
-    private BeanItemContainer<PriceProtectionFormulaDTO> detailsContainer = new BeanItemContainer<PriceProtectionFormulaDTO>(PriceProtectionFormulaDTO.class);
+    private BeanItemContainer<PriceProtectionFormulaDTO> detailsContainer = new BeanItemContainer<>(PriceProtectionFormulaDTO.class);
 
     @UiField("formulaType")
     private ComboBox formulaType;
@@ -138,7 +138,7 @@ public class FormulaLookup extends Window {
         init();
     }
 
-    public FormulaLookup(CustomTextField tierFormula) throws SystemException {
+    public FormulaLookup(CustomTextField tierFormula) {
         this.tierFormula = tierFormula;
     }
 
@@ -158,7 +158,7 @@ public class FormulaLookup extends Window {
     /**
      * Configures the Window
      */
-    private void init() throws SystemException {
+    private void init() {
         this.setModal(true);
         this.setClosable(true);
         this.center();
@@ -182,14 +182,14 @@ public class FormulaLookup extends Window {
     /**
      * Configures the table logic and result table.
      */
-    private void configureTable() throws SystemException {
+    private void configureTable() {
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(ContractUtils.FORMULA_LOOKUP);
-        resultsTable.setColumnHeaders(ContractUtils.FORMULA_LOOKUP_HEADER);
+        resultsTable.setVisibleColumns(ContractUtils.getInstance().formulaLookup);
+        resultsTable.setColumnHeaders(ContractUtils.getInstance().formulaLookupHeader);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSelectable(true);
         tableLayout.addComponent(resultsTable);
@@ -320,31 +320,8 @@ public class FormulaLookup extends Window {
             isSelected = true;
             this.close();
         } else {
-            final MessageBox msg = MessageBox.showPlain(Icon.WARN, "Select error", "Please select a record.", new MessageBoxListener() {
-
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-                @SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                    
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
+            com.stpl.ifs.ui.util.CommonUIUtils.getSelectErrorMessage();      
         }
-    }
-
-    /**
-     * Closes the window.
-     *
-     * @param event
-     */
-    @UiHandler("closeBtn")
-    public void closeLogic(Button.ClickEvent event) {
-        this.close();
     }
 
     /**
@@ -367,10 +344,20 @@ public class FormulaLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof PriceProtectionFormulaDTO) {
-            targetItem = new BeanItem<PriceProtectionFormulaDTO>(
+            targetItem = new BeanItem<>(
                     (PriceProtectionFormulaDTO) obj);
         }
         return (PriceProtectionFormulaDTO) targetItem.getBean();
+    }
+    
+    /**
+     * Closes the window.
+     *
+     * @param event
+     */
+    @UiHandler("closeBtn")
+    public void closeLogic(Button.ClickEvent event) {
+        this.close();
     }
 
     /**

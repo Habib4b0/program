@@ -9,6 +9,7 @@ import com.stpl.app.arm.dataselection.dto.ViewDTO;
 import com.stpl.app.arm.dataselection.dto.ViewFilterGenerator;
 import com.stpl.app.arm.dataselection.logic.tablelogic.PrivatePublicViewtableLogic;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.utils.CommonUtils;
 import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.DateToStringConverter;
@@ -114,6 +115,7 @@ public class ViewSearchLookUp extends Window {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase("yes")) {
                     LOGGER.debug("Entering Reset operation");
@@ -133,7 +135,7 @@ public class ViewSearchLookUp extends Window {
                 close();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in selectButtonLogic"+ex);
         }
 
     }
@@ -149,10 +151,10 @@ public class ViewSearchLookUp extends Window {
         tableLogic.setItemsPerPage(10);
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableLogic.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(new Object[]{"viewName", "createdDate", "modifiedDate", "createdByString"});
+        resultsTable.setVisibleColumns(new Object[]{"viewName", CommonConstant.CREATED_DATE, CommonConstant.MODIFIED_DATE, "createdByString"});
         resultsTable.setColumnHeaders(new String[]{"View Name", "Created Date", "Modified Date", "Created By"});
         for (Object propertyId : resultsTable.getVisibleColumns()) {
-            if (propertyId.equals("createdDate") || propertyId.equals("modifiedDate")) {
+            if (propertyId.equals(CommonConstant.CREATED_DATE) || propertyId.equals(CommonConstant.MODIFIED_DATE)) {
                 resultsTable.setColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
             }
         }
@@ -164,8 +166,8 @@ public class ViewSearchLookUp extends Window {
         resultsTable.setFilterGenerator(new ViewFilterGenerator());
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setConverter("createdDate", new DateToStringConverter());
-        resultsTable.setConverter("modifiedDate", new DateToStringConverter());
+        resultsTable.setConverter(CommonConstant.CREATED_DATE, new DateToStringConverter());
+        resultsTable.setConverter(CommonConstant.MODIFIED_DATE, new DateToStringConverter());
         resultsTable.setConverter("fromPeriod", new DateToStringConverter());
         resultsTable.setConverter("toPeriod", new DateToStringConverter());
         selectBtn.setEnabled(false);

@@ -53,8 +53,8 @@ public class TransferTPForm extends CustomWindow {
         setPositionX(Constants.ZERO);
         setPositionY(Constants.ZERO);
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-fe");
         setClosable(true);
@@ -65,7 +65,8 @@ public class TransferTPForm extends CustomWindow {
         addContent();
     }
 
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
+    public void enter() {
+        return;
     }
 
     /**

@@ -1652,7 +1652,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
                 String selectedLevel = String.valueOf(event.getProperty().getValue());
                 LOGGER.debug("product inner Level - ValueChangeListener selectedLevel " + selectedLevel);
                 productLevelDdlbValueChange(selectedLevel, false);
-            }
+                }
         });
 
         productRelation.addValueChangeListener(new Property.ValueChangeListener() {

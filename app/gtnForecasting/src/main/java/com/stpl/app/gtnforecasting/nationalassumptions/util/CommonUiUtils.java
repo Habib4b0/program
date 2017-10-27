@@ -28,95 +28,95 @@ public class CommonUiUtils {
     /**
      * The Constant ATTACHMENT_COLUMNS.
      */
-    public static final Object[] ATTACHMENT_COLUMNS = new Object[]{DOCUMENT_NAME.getConstant(), DATE_ADDED.getConstant(), USER_NAME.getConstant()};
+    public final Object[] attachmentColumns = new Object[]{DOCUMENT_NAME.getConstant(), DATE_ADDED.getConstant(), USER_NAME.getConstant()};
     /**
      * The Constant ATTACHMENT_HEADER.
      */
-    public static final String[] ATTACHMENT_HEADER = new String[]{"Document Name", "Date Added", "User Name"};
+    public final String[] attachmentHeader = new String[]{"Document Name", "Date Added", "User Name"};
 
     /**
      * The Constant VISIBLECOLUMN.
      */
-    public static final Object VISIBLECOLUMN[] = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
+    public final Object[] visibleColumn = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
 
     /**
      * The Constant VISIBLEHEADER.
      */
-    public static final String VISIBLEHEADER[] = new String[]{"Product No", "Product Name"};
+    public final String[] visibleHeader = new String[]{"Product No", "Product Name"};
 
     /**
      * The Constant VISIBLESEARCHCOLUMN.
      */
-    public static final Object VISIBLESEARCHCOLUMN[] = new Object[]{Constant.PROJECTION_NAME, "company", "productGroup", "therapeuticClass", "createdDateSearch", "modifiedDateSearch", "createdBy","businessUnitName"};
+    public final Object[] visibleSearchColumn = new Object[]{Constant.PROJECTION_NAME, "company", "productGroup", "therapeuticClass", "createdDateSearch", "modifiedDateSearch", "createdBy","businessUnitName"};
 
     /**
      * The Constant VISIBLESEARCHHEADER.
      */
-    public static final String VISIBLESEARCHHEADER[] = new String[]{"Name", Constant.COMPANY_SMALL, "Product Group", "Therapeutic Class", "Created Date", "Modified Date", "Created By","Business Unit"};
+    public final String[] visibleSearchHeader = new String[]{"Name", Constant.COMPANY_SMALL, "Product Group", "Therapeutic Class", "Created Date", "Modified Date", "Created By","Business Unit"};
 
     /**
      * The Constant PRODUCTGROUPCOLUMN.
      */
-    public static final Object PRODUCTGROUPCOLUMN[] = new Object[]{"productGroupName", "productGroup", "productGroupDescription", "company"};
+    public final Object[] productGroupColumn = new Object[]{"productGroupName", "productGroup", "productGroupDescription", "company"};
 
     /**
      * The PRODUCTGROUPHEADER.
      */
-    public static String PRODUCTGROUPHEADER[] = new String[]{"Product Group Name", "Product Group No", "Product Group Description", Constant.COMPANY_SMALL};
+    public String[] productGroupHeader = new String[]{"Product Group Name", "Product Group No", "Product Group Description", Constant.COMPANY_SMALL};
 
     /**
      * The Constant BASELINE_PERIOD_COLUMNS.
      */
-    public static final Object[] BASELINE_PERIOD_COLUMNS = new Object[]{Constant.CHECK, "period", "type"};
+    public final Object[] baselinePeriodColumns = new Object[]{Constant.CHECK, "period", "type"};
 
     /**
      * The Constant BASELINE_PERIOD_HEADER.
      */
-    public static final String[] BASELINE_PERIOD_HEADER = new String[]{StringUtils.EMPTY, "Period", StringUtils.EMPTY};
+    public final String[] baselinePeriodHeader = new String[]{StringUtils.EMPTY, "Period", StringUtils.EMPTY};
 
     /**
      * The Constant PERIOD_TYPES_COLUMNS.
      */
-    public static final Object[] PERIOD_TYPES_COLUMNS = new Object[]{"priceType", "baselineMethodology", "basePeriod", "forecastMethodology", "priceBasis", "growthRate", "rollingPeriod", "startPeriod",
+    public final Object[] periodTypeColumns = new Object[]{"priceType", "baselineMethodology", "basePeriod", "forecastMethodology", "priceBasis", "growthRate", "rollingPeriod", "startPeriod",
         "endPeriod", "symbol"};
 
     /**
      * The Constant PERIOD_TYPES_HEADER.
      */
-    public static final String[] PERIOD_TYPES_HEADER = new String[]{"Price Type", "Baseline Methodology", "Actuals Period", "Forecast Methodology", "Price Basis", "Growth Rate", "Actuals Period", "Start Period",
+    public final String[] periodTypesHeader = new String[]{"Price Type", "Baseline Methodology", "Actuals Period", "Forecast Methodology", "Price Basis", "Growth Rate", "Actuals Period", "Start Period",
         "End Period", StringUtils.EMPTY};
 
     /**
      * The Constant CPI_COLUMNS.
      */
-    public static final Object[] CPI_COLUMNS = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME, "productDescription"};
+    public final Object[] cpiColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME, "productDescription"};
 
     /**
      * The Constant CPI_HEADER.
      */
-    public static final String[] CPI_HEADER = new String[]{"Product#", "Product Name", "Product Description"};
+    public final String[] cpiHeader = new String[]{"Product#", "Product Name", "Product Description"};
 
     /**
      * The Constant NEW_NDC_COLUMNS.
      */
-    public static final Object[] NEW_NDC_COLUMNS = new Object[]{"ndc9", "wac", "baseYearAMP", "baseYearCPI", "forecastAMP",
+    public final Object[] newNdcColumns = new Object[]{"ndc9", "wac", "baseYearAMP", "baseYearCPI", "forecastAMP",
         "forecastBestPrice"};
 
     /**
      * The Constant NEW_NDC_HEADER.
      */
-    public static final String[] NEW_NDC_HEADER = new String[]{"NDC Number", Constant.WAC, "Base Year AMP", "Base Year CPI", "Forecast AMP",
+    public final String[] newNdcHeader = new String[]{"NDC Number", Constant.WAC, "Base Year AMP", "Base Year CPI", "Forecast AMP",
         "Forecast Best Price"};
 
     /**
      * The Constant NEW_NDC_COLUMNS.
      */
-    public static final Object[] FEDERAL_NDC_COLUMNS = new Object[]{Constant.ITEM_NO, "wac", "nonFamp", "fssOGA"};
+    public final Object[] federalNDCColumns = new Object[]{Constant.ITEM_NO, "wac", "nonFamp", "fssOGA"};
 
     /**
      * The Constant NEW_NDC_HEADER.
      */
-    public static final String[] FEDERAL_NDC_HEADER = new String[]{"NDC Number", Constant.WAC, "Non-FAMP", "FSS(OGA)"};
+    public final String[] federalNdcHeader = new String[]{"NDC Number", Constant.WAC, "Non-FAMP", "FSS(OGA)"};
 
     public static String getMonthForInt(int num) {
         String month = "wrong";
@@ -171,7 +171,7 @@ public class CommonUiUtils {
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {
-        List<String> common = new ArrayList<String>();
+        List<String> common = new ArrayList<>();
         String commonColumn = StringUtils.EMPTY;
         String commonHeader = StringUtils.EMPTY;
         if (frequencyDivision == 1) {
@@ -243,27 +243,6 @@ public class CommonUiUtils {
     }
 
     static ProjectionSelectionDTO getProjectionDetail(ProjectionSelectionDTO projSelDTO) {
-        int endYear = projSelDTO.getCurrentYear();
-        int currentPeriod = projSelDTO.getCurrentPeriod();
-        int projectionNum = projSelDTO.getProjectionNum();
-        int frequencyDivision = projSelDTO.getFrequencyDivision();
-        int endFreq = currentPeriod + 1;
-        int tmpFrq = projectionNum - (frequencyDivision - endFreq);
-
-        if (tmpFrq > 0) {
-            endYear = endYear + (tmpFrq / frequencyDivision);
-            if (tmpFrq % frequencyDivision > 0) {
-                endFreq = tmpFrq % frequencyDivision;
-                endYear = endYear + 1;
-            } else {
-                endFreq = frequencyDivision;
-            }
-        } else {
-            endFreq = endFreq + projectionNum;
-        }
-        if (frequencyDivision == 1) {
-            endYear = currentPeriod + projectionNum;
-        }
         Calendar ob = Calendar.getInstance();
         ob.set(projSelDTO.getEndYear(), projSelDTO.getEndMonth() - 1, 1);
         int daysInMonth = ob.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -335,8 +314,8 @@ public class CommonUiUtils {
                 String commonHeader = String.valueOf(priceTypeColumns.get(i));
                 String commonColumn = String.valueOf(priceTypeColumns.get(i)).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY).toLowerCase();
 
-                List<Object> dmap = new ArrayList<Object>();
-                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("actuals") || projections.contains(ACTUALS.getConstant())) {
+                List<Object> dmap = new ArrayList<>();
+                if (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();
                     dmap.add(singleColumn);
 
@@ -358,9 +337,9 @@ public class CommonUiUtils {
                 }
             }
 
-            List<String> periodList = new ArrayList<String>();
-            List<String> pivotList = new ArrayList<String>();
-            Map<String, String> periodListMap = new HashMap<String, String>();
+            List<String> periodList = new ArrayList<>();
+            List<String> pivotList = new ArrayList<>();
+            Map<String, String> periodListMap = new HashMap<>();
             if (projectionOrder == 1) {
                 int startPr = startPeriod;
                 int lastPr = frequencyDivision;
@@ -433,11 +412,11 @@ public class CommonUiUtils {
                             hist = false;
                             proj = true;
                         }
-                        List<Object> dmap = new ArrayList<Object>();
+                        List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
-                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("actuals") || projections.contains(ACTUALS.getConstant()))) {
+                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant()))) {
                                 Object singleColumn = commonColumn + ACTUALS.getConstant();
                                 dmap.add(singleColumn);
                                 tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
@@ -495,11 +474,11 @@ public class CommonUiUtils {
                             descend = true;
                         }
 
-                        List<Object> dmap = new ArrayList<Object>();
+                        List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
-                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("actuals") || projections.contains(ACTUALS.getConstant()))) {
+                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant()))) {
                                 Object singleColumn = commonColumn + ACTUALS.getConstant();
                                 dmap.add(singleColumn);
                                 tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
@@ -617,8 +596,7 @@ public class CommonUiUtils {
             int startPr = startPeriod;
             int lastPr = frequencyDivision;
             hist = true;
-            proj = false;
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
 
             for (int yr = startYear; yr <= endYear; yr++) {
                 if (yr == endYear) {
@@ -628,7 +606,6 @@ public class CommonUiUtils {
                 for (int pr = startPr; pr <= lastPr; pr++) {
                     if (pr == currentPeriod && yr == currentYear) {
                         hist = false;
-                        proj = true;
                     }
 
                     List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
@@ -668,7 +645,6 @@ public class CommonUiUtils {
             /// Projection  
             startPr = histProjPeriod;
             lastPr = frequencyDivision;
-            hist = true;
             proj = true;
 
             for (int yr = histProjYear; yr <= endYear; yr++) {
@@ -718,9 +694,8 @@ public class CommonUiUtils {
         } else {
             int startPr = endPeriod;
             int lastPr = 1;
-            proj = true;
             hist = false;
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
 
             boolean descend = false;
 
@@ -735,7 +710,6 @@ public class CommonUiUtils {
                 for (int pr = startPr; pr >= lastPr; pr--) {
                     if (descend) {
                         hist = true;
-                        proj = false;
                     }
                     if (pr == currentPeriod && yr == currentYear) {
                         descend = true;
@@ -778,7 +752,6 @@ public class CommonUiUtils {
             startPr = endPeriod;
             lastPr = 1;
             proj = true;
-            hist = false;
 
             for (int yr = endYear; yr >= histProjYear; yr--) {
                 if (yr == histProjYear) {
@@ -913,8 +886,7 @@ public class CommonUiUtils {
             int startPr = startPeriod;
             int lastPr = frequencyDivision;
             hist = true;
-            proj = false;
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
 
             for (int yr = startYear; yr <= endYear; yr++) {
                 if (yr == endYear) {
@@ -927,7 +899,6 @@ public class CommonUiUtils {
                 for (int pr = startPr; pr <= lastPr; pr++) {
                     if (pr == currentPeriod && yr == currentYear) {
                         hist = false;
-                        proj = true;
                     }
 
                     List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
@@ -957,7 +928,6 @@ public class CommonUiUtils {
             /// Projection  
             startPr = histProjPeriod;
             lastPr = frequencyDivision;
-            hist = true;
             proj = true;
 
             for (int yr = histProjYear; yr <= endYear; yr++) {
@@ -997,9 +967,8 @@ public class CommonUiUtils {
         } else {
             int startPr = endPeriod;
             int lastPr = 1;
-            proj = true;
             hist = false;
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             boolean descend = false;
 
             for (int yr = endYear; yr >= startYear; yr--) {
@@ -1013,7 +982,6 @@ public class CommonUiUtils {
                 for (int pr = startPr; pr >= lastPr; pr--) {
                     if (descend) {
                         hist = true;
-                        proj = false;
                     }
                     if (pr == currentPeriod && yr == currentYear) {
                         descend = true;
@@ -1048,7 +1016,6 @@ public class CommonUiUtils {
             startPr = endPeriod;
             lastPr = 1;
             proj = true;
-            hist = false;
 
             for (int yr = endYear; yr >= histProjYear; yr--) {
                 if (yr == histProjYear) {
@@ -1164,8 +1131,7 @@ public class CommonUiUtils {
             int startPr = startPeriod;
             int lastPr = frequencyDivision;
             hist = true;
-            proj = false;
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
 
             for (int yr = startYear; yr <= endYear; yr++) {
                 if (yr == endYear) {
@@ -1178,7 +1144,6 @@ public class CommonUiUtils {
                 for (int pr = startPr; pr <= lastPr; pr++) {
                     if (pr == currentPeriod && yr == currentYear) {
                         hist = false;
-                        proj = true;
                     }
 
                     List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
@@ -1210,7 +1175,6 @@ public class CommonUiUtils {
             /// Projection  
             startPr = histProjPeriod;
             lastPr = frequencyDivision;
-            hist = true;
             proj = true;
 
             for (int yr = histProjYear; yr <= endYear; yr++) {
@@ -1251,9 +1215,8 @@ public class CommonUiUtils {
         } else {
             int startPr = endPeriod;
             int lastPr = 1;
-            proj = true;
             hist = false;
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             boolean descend = false;
 
             for (int yr = endYear; yr >= startYear; yr--) {
@@ -1267,7 +1230,6 @@ public class CommonUiUtils {
                 for (int pr = startPr; pr >= lastPr; pr--) {
                     if (descend) {
                         hist = true;
-                        proj = false;
                     }
                     if (pr == currentPeriod && yr == currentYear) {
                         descend = true;
@@ -1303,7 +1265,6 @@ public class CommonUiUtils {
             startPr = endPeriod;
             lastPr = 1;
             proj = true;
-            hist = false;
 
             for (int yr = endYear; yr >= histProjYear; yr--) {
                 if (yr == histProjYear) {

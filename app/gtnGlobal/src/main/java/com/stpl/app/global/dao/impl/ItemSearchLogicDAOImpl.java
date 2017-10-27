@@ -470,7 +470,7 @@ public class ItemSearchLogicDAOImpl implements ItemDAO {
     }
 
     public Map<Integer, Udcs> getUDCS(String type) throws SystemException {
-        Map<Integer,Udcs> udcMap = new HashMap<Integer,Udcs>();
+        Map<Integer,Udcs> udcMap = new HashMap<>();
         final DynamicQuery udcsDynamicQuery = DynamicQueryFactoryUtil.forClass(Udcs.class);
         udcsDynamicQuery.add(RestrictionsFactoryUtil.eq("udcType", type));
         List<Udcs> udcsList = UdcsLocalServiceUtil.dynamicQuery(udcsDynamicQuery);

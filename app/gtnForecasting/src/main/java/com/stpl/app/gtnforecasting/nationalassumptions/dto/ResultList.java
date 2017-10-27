@@ -13,10 +13,10 @@ import java.util.Set;
  */
 public class ResultList {
     private DataSelectionDTO dataSelectionDTO;
-	private Set<DataSelectionDTO> availableCustomersAndContracts = new HashSet<DataSelectionDTO>();
-	private Set<DataSelectionDTO> availableProducts = new HashSet<DataSelectionDTO>();
-	private Set<DataSelectionDTO> selectedCustomersAndContracts = new HashSet<DataSelectionDTO>();
-	private Set<DataSelectionDTO> selectedProducts = new HashSet<DataSelectionDTO>();
+	private Set<DataSelectionDTO> availableCustomersAndContracts = new HashSet<>();
+	private Set<DataSelectionDTO> availableProducts = new HashSet<>();
+	private Set<DataSelectionDTO> selectedCustomersAndContracts = new HashSet<>();
+	private Set<DataSelectionDTO> selectedProducts = new HashSet<>();
 	private String flag = "fail";
 
     public DataSelectionDTO getDataSelectionDTO() {

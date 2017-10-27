@@ -107,7 +107,6 @@ public class BaseRateCalculationLogic {
     /**
      * The Constant RATE.
      */
-    private static final DecimalFormat RATE = new DecimalFormat("#,##0.0");
 
     /**
      *

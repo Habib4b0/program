@@ -29,7 +29,7 @@ public class HistAdjustmentTableLogic extends PageTableLogic {
             try {
                 return logic.getAdjustmentConfigCountForHistory(getFilters(), binder);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in getcount :"+ex);
             }
         }
         return 0;
@@ -40,9 +40,9 @@ public class HistAdjustmentTableLogic extends PageTableLogic {
         try {
             return logic.getAdjustmentConfigDataForHistory(start, offset, getFilters(), getSortByColumns(), binder);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in LoadData"+ex);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override

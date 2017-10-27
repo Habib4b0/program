@@ -4,6 +4,7 @@
  */
 package com.stpl.app.transactional.common.util;
 
+import com.stpl.app.util.ConstantUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
@@ -18,7 +19,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.jboss.logging.Logger;
 
@@ -70,8 +70,8 @@ public class AbstractFilterLogic {
                 }
                 if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
-                    StringBuilder dateStartstr = new StringBuilder("AND ( * >=''?'')");
-                    StringBuilder dateEndstr = new StringBuilder("AND ( * <=''?'')");
+                    StringBuilder dateStartstr = new StringBuilder(ConstantUtil.DATE_START_STRING);
+                    StringBuilder dateEndstr = new StringBuilder(ConstantUtil.DATE_END_STRING);
                     if (!queryMap.get(betweenFilter.getPropertyId().toString()).isEmpty()) {
                         Date startValue = (Date) betweenFilter.getStartValue();
                         Date endValue = (Date) betweenFilter.getEndValue();
@@ -109,7 +109,7 @@ public class AbstractFilterLogic {
                             StringBuilder Startstr = new StringBuilder("AND ( * =''?'')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = ''?'' )");
                             StringBuilder tempStart;
-                            String value = StringUtils.EMPTY;
+                            String value;
                             if (((Integer) stringFilter.getValue()) == 0) {
                                 value = String.valueOf(stringFilter.getValue());
                             } else {
@@ -184,7 +184,7 @@ public class AbstractFilterLogic {
                                 if (sql.length() == 0) {
                                     tempStart = new StringBuilder("where ( ( * >= ''?'')");
                                 } else {
-                                    tempStart = new StringBuilder("AND ( * >=''?'')");
+                                    tempStart = new StringBuilder(" AND ( * >=''?'')");
                                 }
                             } else if (sql.length() == 0) {
                                 tempStart = new StringBuilder("where ( ( * <=''?'')");
@@ -312,7 +312,7 @@ public class AbstractFilterLogic {
                                 StringBuilder Startstr = new StringBuilder("AND ( * =''?''" + getYear(stringFilter.getPropertyId().toString()) + ")");
                                 StringBuilder intStartstr = new StringBuilder("where ( ( * = ''?'' " + getYear(stringFilter.getPropertyId().toString()) + ")");
                                 StringBuilder tempStart;
-                                String value = StringUtils.EMPTY;
+                                String value;
                                 if (((Double) stringFilter.getValue()) == 0) {
                                     value = String.valueOf(stringFilter.getValue());
                                 } else {
@@ -427,7 +427,6 @@ public class AbstractFilterLogic {
                             if (filter1 instanceof Compare.Greater) {
 
                                 Compare.Greater greater = (Compare.Greater) filter1;
-                                propertyId = greater.getPropertyId();
                                 String fromValue = String.valueOf(greater.getValue());
                                 if (!countFlag) {
                                     tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, fromValue);

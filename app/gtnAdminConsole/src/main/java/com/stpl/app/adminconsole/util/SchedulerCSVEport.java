@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SchedulerCSVEport {
 
-    private static final String createWorkSheetContent = "createWorkSheetContent";
+    private static final String CREATE_WORK_SHEET_CONTENT = "createWorkSheetContent";
     final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
     public final static String QUOTE = "\"";
     private static final Logger LOGGER = Logger.getLogger(SchedulerCSVEport.class);
@@ -49,7 +49,7 @@ public class SchedulerCSVEport {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException
      */
-    public static void createWorkSheet(long recordCount, Object obj, String serverPath, String csvName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public static void createWorkSheet(long recordCount, Object obj, String serverPath, String csvName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         int maxRecords = ExcelExportUtil.maxRecords;
         FileOutputStream fileOut = null;
         int worksheetCount = (int) (recordCount / maxRecords);
@@ -105,7 +105,7 @@ public class SchedulerCSVEport {
                         break;
                     }
                     Method method;
-                    method = obj.getClass().getMethod(createWorkSheetContent, Integer.class, Integer.class, PrintWriter.class);
+                    method = obj.getClass().getMethod(CREATE_WORK_SHEET_CONTENT, Integer.class, Integer.class, PrintWriter.class);
                     method.invoke(obj, start, end, pw);
                     remainingCount = remainingCount - (end - start);
                     start = end;
@@ -126,7 +126,7 @@ public class SchedulerCSVEport {
         }
     }
 
-    public static void createFileContent(Object[] visibleColumns, List searchList, PrintWriter printWriter) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    public static void createFileContent(Object[] visibleColumns, List searchList, PrintWriter printWriter) throws NoSuchFieldException,  IllegalAccessException {
         for (Object value : searchList) {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < visibleColumns.length; i++) {
@@ -150,7 +150,7 @@ public class SchedulerCSVEport {
         }
     }
 
-    private static Object getFieldValue(Object myDTO, String variable) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    private static Object getFieldValue(Object myDTO, String variable) throws NoSuchFieldException, IllegalAccessException {
         Field field = myDTO.getClass().getDeclaredField(variable);
         field.setAccessible(true);
         Object value = field.get(myDTO);

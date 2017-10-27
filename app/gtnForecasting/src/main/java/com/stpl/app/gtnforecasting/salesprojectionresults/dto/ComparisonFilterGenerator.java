@@ -99,7 +99,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-        if ("marketType".equals(propertyId)) {
+        if (Constant.MARKET_TYPE.equals(propertyId)) {
             //PV Comparision
             ComboBox contractType = new ComboBox();
             utils.getNativeSelect(contractType, commonLogic.getDropDownList("CONTRACT_TYPE"));
@@ -110,10 +110,10 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             return contractType;
         }
 
-        if ("relationshipLevelName".equals(propertyId) && pvFlag) {
+        if (Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId) && pvFlag) {
             //This block is for PROJECTION Variance
 
-            if (Constant.PRODUCT.equals(pvSelectionDTO.getView())) {
+            if (Constant.PRODUCT_LABEL.equals(pvSelectionDTO.getView())) {
                 indicator = "P";
                 pvSelectionDTO.setLevelName("'Product','Ndc','NDC'");
                 levelNo = pvSelectionDTO.getProductLevelNo();
@@ -127,7 +127,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             contractType.setNullSelectionItemId(SELECT_ONE);
             contractType.setImmediate(true);
             contractType.addStyleName(Constant.FILTER_COMBOBOX);
-            if (detailFlag && !Constant.CUSTOM.equals(pvSelectionDTO.getView())) {
+            if (detailFlag && !Constant.CUSTOM_LABEL.equals(pvSelectionDTO.getView())) {
 
                 contractType.addItem(ZERO);
                 contractType.setItemCaption(ZERO, SELECT_ONE);
@@ -166,9 +166,9 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             return contractType;
         }
 
-        if ("relationshipLevelName".equals(propertyId) && prFlag) {
+        if (Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId) && prFlag) {
 
-            if (Constant.PRODUCT.equals(sprProjectionDTO.getView())) {
+            if (Constant.PRODUCT_LABEL.equals(sprProjectionDTO.getView())) {
                 indicator = "P";
                 sprProjectionDTO.setLevelName("'Product','Ndc','NDC'");
                 levelNo = sprProjectionDTO.getProductLevelNo();
@@ -183,7 +183,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             contractType.setImmediate(true);
             contractType.addStyleName(Constant.FILTER_COMBOBOX);
             contractType.setValue(SELECT_ONE);
-            if (!Constant.CUSTOM.equals(sprProjectionDTO.getView())) {
+            if (!Constant.CUSTOM_LABEL.equals(sprProjectionDTO.getView())) {
                 contractType.addItem(ZERO);
                 contractType.setItemCaption(ZERO, SELECT_ONE);
                 List<Leveldto> list = SPRCommonLogic.getAllHierarchyLevels(levelNo, sprProjectionDTO.getProjectionId(), indicator);
@@ -213,10 +213,10 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 contractType.addStyleName(Constant.FILTER_COMBOBOX);
                 contractType.setValue(SELECT_ONE);
 
-                String str = logic.getCheckValue(StringUtils.EMPTY, StringUtils.EMPTY, String.valueOf(psDTO.getProjectionId()));
+                String str = logic.getCheckValue(String.valueOf(psDTO.getProjectionId()));
                 if (str.length() > 0) {
                     MMDPRLogic mmLogic = new MMDPRLogic();
-                    List list = mmLogic.loadCustomerDdlb(psDTO, contractType, str);
+                    List list = mmLogic.loadCustomerDdlb(psDTO, str);
                     contractType.addItem(0);
                     contractType.setItemCaption(0, SELECT_ONE);
                     if (list != null && list.size() > 0) {
@@ -241,7 +241,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             }
 
         }
-        if ("relationshipLevelName".equals(propertyId) && sprFlag) {
+        if (Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId) && sprFlag) {
 
             //This block is for SALES PROJECTION RESULTS
             return getfilterBox();
@@ -252,12 +252,12 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
-
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-
+        return;
     }
 
     @Override
@@ -273,8 +273,8 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             filterBox.setNullSelectionItemId(SELECT_ONE);
             filterBox.setImmediate(true);
             filterBox.addStyleName(Constant.FILTER_COMBOBOX);
-            if (!Constant.CUSTOM.equals(sprProjectionDTO.getView())) {
-                if (Constant.PRODUCT.equals(sprProjectionDTO.getView())) {
+            if (!Constant.CUSTOM_LABEL.equals(sprProjectionDTO.getView())) {
+                if (Constant.PRODUCT_LABEL.equals(sprProjectionDTO.getView())) {
                     indicator = "P";
                     pvSelectionDTO.setLevelName("'Brand'");
                     sprProjectionDTO.setLevelName("'Brand'");

@@ -126,6 +126,8 @@
         <column db-name="CLOTTING_FACTOR_START_DATE" name="clottingFactorStartDate" primary="false" type="Date"/>
         <column db-name="NON_FEDERAL_EXPIRATION_DATE" name="nonFederalExpirationDate" primary="false" type="Date"/>
         <column db-name="INTERNAL_NOTES" name="internalNotes" primary="false" type="String"/>
+        <column db-name="BASE_CPI_PRECISION" name="baseCpiPrecision" primary="false" type="int"/>
+        <column db-name="BASELINE_AMP_PRECISION" name="baselineAmpPrecision" primary="false" type="int"/>
         <finder name="ItemNo" return-type="Collection">
             <finder-column name="itemNo"></finder-column>
         </finder>
@@ -193,6 +195,7 @@
         <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
         <column db-name="ITEM_PRICING_SID" id-type="identity" name="itemPricingSid" primary="true" type="int"/>
         <column db-name="PRICING_CODE_STATUS" name="pricingCodeStatus" primary="false" type="int"/>
+        <column db-name="ITEM_PRICE_PRECISION" name="itemPricePrecision" primary="false" type="int"/>
         <finder name="ItemPricing" return-type="Collection">
             <finder-column name="itemMasterSid"></finder-column>
             <finder-column name="itemUom"></finder-column>
@@ -1536,7 +1539,7 @@
     <!--Actuals Master Starts -->
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="ActualsMaster" remote-service="false" session-factory="appSessionFactory" table="ACTUALS_MASTER" tx-manager="appTransactionManager">
         <column db-name="QUANTITY_INCLUSION" name="quantityInclusion" primary="false" type="String"/>
-        <column db-name="MANDATED_DISCOUNT_AMOUNT" name="mandatedDiscountAmount" primary="false" type="double"/>
+        <column db-name="MANDATED_DISCOUNT_AMOUNT" name="mandatedDiscountAmount" primary="false" type="String"/>
         <column db-name="ITEM_NO" name="itemNo" primary="false" type="String"/>
         <column db-name="ANALYSIS_CODE" name="analysisCode" primary="false" type="String"/>
         <column db-name="RECORD_SEQUENCE" name="recordSequence" primary="false" type="String"/>
@@ -1564,7 +1567,7 @@
         <column db-name="SALES_AMOUNT" name="salesAmount" primary="false" type="String"/>
         <column db-name="ACCRUAL_ACTUAL_START_DATE" name="accrualActualStartDate" primary="false" type="Date"/>
         <column db-name="SETTLEMENT_NO" name="settlementNo" primary="false" type="String"/>
-        <column db-name="PRICE" name="price" primary="false" type="double"/>
+        <column db-name="PRICE" name="price" primary="false" type="String"/>
         <column db-name="UPLOAD_DATE" name="uploadDate" primary="false" type="Date"/>
         <column db-name="CLAIM_INDICATOR" name="claimIndicator" primary="false" type="String"/>
         <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
@@ -3386,16 +3389,11 @@
     </entity>
   
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="NmSalesProjection" remote-service="false" session-factory="appSessionFactory" table="NM_SALES_PROJECTION" tx-manager="appTransactionManager">
-        <column db-name="ADJUSTMENT_METHODOLOGY" name="adjustmentMethodology" primary="false" type="String"/>
-        <column db-name="ADJUSTMENT_BASIS" name="adjustmentBasis" primary="false" type="String"/>
         <column db-name="PERIOD_SID" id-type="identity" name="periodSid" primary="true" type="int"/>
         <column db-name="PRODUCT_GROWTH" name="productGrowth" primary="false" type="double"/>
         <column db-name="PROJECTION_DETAILS_SID" id-type="identity" name="projectionDetailsSid" primary="true" type="int"/>
-        <column db-name="ADJUSTMENT_VALUES" name="adjustmentValues" primary="false" type="double"/>
-        <column db-name="ADJUSTMENT_VARIABLE" name="adjustmentVariable" primary="false" type="boolean"/>
         <column db-name="ACCOUNT_GROWTH" name="accountGrowth" primary="false" type="double"/>
         <column db-name="PROJECTION_UNITS" name="projectionUnits" primary="false" type="double"/>
-        <column db-name="ADJUSTMENT_TYPE" name="adjustmentType" primary="false" type="String"/>
         <column db-name="PROJECTION_SALES" name="projectionSales" primary="false" type="double"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="NmSalesProjectionMaster" remote-service="false" session-factory="appSessionFactory" table="NM_SALES_PROJECTION_MASTER" tx-manager="appTransactionManager">
@@ -3404,7 +3402,6 @@
         <column db-name="USER_GROUP" name="userGroup" primary="false" type="String"/>
         <column db-name="PROJECTION_DETAILS_SID" id-type="identity" name="projectionDetailsSid" primary="true" type="int"/>
         <column db-name="METHODOLOGY" name="methodology" primary="false" type="String"/>
-        <column db-name="CALCULATION_BASED" name="calculationBased" primary="false" type="String"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="NmPpaProjectionMaster" remote-service="false" session-factory="appSessionFactory" table="NM_PPA_PROJECTION_MASTER" tx-manager="appTransactionManager">
         <column db-name="CHECK_RECORD" name="checkRecord" primary="false" type="boolean"/>
@@ -3430,11 +3427,7 @@
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="NmActualPpa" remote-service="false" session-factory="appSessionFactory" table="NM_ACTUAL_PPA" tx-manager="appTransactionManager">
         <column db-name="ACTUAL_RATE" name="actualRate" primary="false" type="double"/>
         <column db-name="PERIOD_SID" id-type="identity" name="periodSid" primary="true" type="int"/>
-        <column db-name="ACTUAL_PROJ_DISCOUNT_DOLLAR" name="actualProjDiscountDollar" primary="false" type="double"/>
-        <column db-name="ACTUAL_PROJECTION_SALES" name="actualProjectionSales" primary="false" type="double"/>
         <column db-name="PROJECTION_DETAILS_SID" id-type="identity" name="projectionDetailsSid" primary="true" type="int"/>
-        <column db-name="ACTUAL_PROJECTION_RATE" name="actualProjectionRate" primary="false" type="double"/>
-        <column db-name="ACTUAL_PROJ_DISCOUNT_UNITS" name="actualProjDiscountUnits" primary="false" type="double"/>
         <column db-name="ACTUAL_DISCOUNT_DOLLAR" name="actualDiscountDollar" primary="false" type="double"/>
         <column db-name="ACTUAL_DISCOUNT_UNITS" name="actualDiscountUnits" primary="false" type="double"/>
         <column db-name="ACTUAL_SALES" name="actualSales" primary="false" type="double"/>
@@ -3450,23 +3443,16 @@
         <column db-name="DISCOUNT_NAME" name="discountName" primary="false" type="String"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="NmDiscountProjection" remote-service="false" session-factory="appSessionFactory" table="NM_DISCOUNT_PROJECTION" tx-manager="appTransactionManager">
-        <column db-name="ADJUSTMENT_METHODOLOGY" name="adjustmentMethodology" primary="false" type="String"/>
-        <column db-name="ADJUSTMENT_BASIS" name="adjustmentBasis" primary="false" type="String"/>
+        
         <column db-name="PERIOD_SID" id-type="identity" name="periodSid" primary="true" type="int"/>
         <column db-name="PROJECTION_RATE" name="projectionRate" primary="false" type="double"/>
         <column db-name="PROJECTION_DETAILS_SID" id-type="identity" name="projectionDetailsSid" primary="true" type="int"/>
-        <column db-name="ADJUSTMENT_VARIABLE" name="adjustmentVariable" primary="false" type="boolean"/>
-        <column db-name="ADJUSTMENT_VALUE" name="adjustmentValue" primary="false" type="double"/>
-        <column db-name="ADJUSTMENT_TYPE" name="adjustmentType" primary="false" type="String"/>
         <column db-name="PROJECTION_SALES" name="projectionSales" primary="false" type="double"/>
-        <column db-name="DISCOUNT_RATE" name="discountRate" primary="false" type="double"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="NmActualDiscount" remote-service="false" session-factory="appSessionFactory" table="NM_ACTUAL_DISCOUNT" tx-manager="appTransactionManager">
         <column db-name="ACTUAL_RATE" name="actualRate" primary="false" type="double"/>
         <column db-name="PERIOD_SID" id-type="identity" name="periodSid" primary="true" type="int"/>
-        <column db-name="ACTUAL_PROJECTION_SALES" name="actualProjectionSales" primary="false" type="double"/>
         <column db-name="PROJECTION_DETAILS_SID" id-type="identity" name="projectionDetailsSid" primary="true" type="int"/>
-        <column db-name="ACTUAL_PROJECTION_RATE" name="actualProjectionRate" primary="false" type="double"/>
         <column db-name="ACTUAL_SALES" name="actualSales" primary="false" type="double"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="Period" remote-service="false" session-factory="appSessionFactory" table="PERIOD" tx-manager="appTransactionManager">
@@ -3947,6 +3933,7 @@
         <column db-name="PORT_NUMBER" name="portNumber" primary="false" type="String"/>
         <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
         <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="TEST_MAIL_ADDRESS" name="testMailAddress" primary="false" type="String"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="IvldForecastSales" remote-service="false" session-factory="appSessionFactory" table="IVLD_FORECAST_SALES" tx-manager="appTransactionManager">
         <column db-name="PRICE" name="price" primary="false" type="String"/>

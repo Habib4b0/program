@@ -6,9 +6,11 @@
 package com.stpl.app.arm.adjustmentrateconfiguration.dto;
 
 import com.stpl.app.arm.businessprocess.pipelineinventory.dto.CustomerGroupDTO;
+import com.stpl.ifs.ui.util.NumericConstants;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -19,7 +21,7 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
 
     private String values = StringUtils.EMPTY;
     private String excludedField = StringUtils.EMPTY;
-    private String company_Master_Sid = StringUtils.EMPTY;
+    private String companyMasterSid = StringUtils.EMPTY;
     private List<ExclusionLookupDTO> fieldList = new ArrayList<>();
     private String viewName = StringUtils.EMPTY;
     private String viewType = StringUtils.EMPTY;
@@ -31,7 +33,7 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
     private String viewMasterSid = StringUtils.EMPTY;
     private List<String> companyIDList = new ArrayList();
     private List<CustomerGroupDTO> custGrpList = new ArrayList();
-    private boolean screenFlag=false;
+    private boolean screenFlag = false;
     private Integer sessionUserID = 0;
 
     /**
@@ -43,6 +45,54 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
     @Override
     public int compareTo(ExclusionLookupDTO o) {
         return this.excludedField.compareTo(o.getExcludedField());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = NumericConstants.THIRTY_SEVEN * hash + Objects.hashCode(this.values);
+        hash = NumericConstants.THIRTY_SEVEN * hash + Objects.hashCode(this.excludedField);
+        hash = NumericConstants.THIRTY_SEVEN * hash + Objects.hashCode(this.companyMasterSid);
+        hash = NumericConstants.THIRTY_SEVEN * hash + Objects.hashCode(this.fieldList);
+        hash = NumericConstants.THIRTY_SEVEN * hash + Objects.hashCode(this.viewName);
+        hash = NumericConstants.THIRTY_SEVEN * hash + Objects.hashCode(this.viewType);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ExclusionLookupDTO other = (ExclusionLookupDTO) obj;
+        if (!Objects.equals(this.values, other.values)) {
+            return false;
+        }
+        if (!Objects.equals(this.excludedField, other.excludedField)) {
+            return false;
+        }
+        if (!Objects.equals(this.companyMasterSid, other.companyMasterSid)) {
+            return false;
+        }
+        if (!Objects.equals(this.viewName, other.viewName)) {
+            return false;
+        }
+        if (!Objects.equals(this.viewType, other.viewType)) {
+            return false;
+        }
+        if (!Objects.equals(this.fieldName, other.fieldName)) {
+            return false;
+        }
+        if (!Objects.equals(this.fieldList, other.fieldList)) {
+            return false;
+        }
+        return true;
     }
 
     public String getValues() {
@@ -61,12 +111,12 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
         this.excludedField = excludedField;
     }
 
-    public String getCompany_Master_Sid() {
-        return company_Master_Sid;
+    public String getCompanyMasterSid() {
+        return companyMasterSid;
     }
 
-    public void setCompany_Master_Sid(String company_Master_Sid) {
-        this.company_Master_Sid = company_Master_Sid;
+    public void setCompanyMasterSid(String companyMasterSid) {
+        this.companyMasterSid = companyMasterSid;
     }
 
     public List<ExclusionLookupDTO> getFieldList() {
@@ -173,5 +223,4 @@ public class ExclusionLookupDTO implements Serializable, Comparable<ExclusionLoo
         this.sessionUserID = sessionUserID;
     }
 
-    
 }

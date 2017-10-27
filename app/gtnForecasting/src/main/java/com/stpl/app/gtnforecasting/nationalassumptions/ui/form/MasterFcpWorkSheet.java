@@ -42,7 +42,6 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.FieldEvents;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
@@ -182,14 +181,14 @@ public class MasterFcpWorkSheet extends Window {
     CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     FcpResultsLogic fcpLogic = new FcpResultsLogic();
     ProjectionSelectionDTO projectionDTO;
     LazyContainer ndcContainer;
     LazyContainer brandContainer;
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
     ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     Property.ValueChangeListener valueChangeListener = null;
     Property.ValueChangeListener valueChangeListenerTA = null;
@@ -197,10 +196,10 @@ public class MasterFcpWorkSheet extends Window {
     private boolean valueTAChange = false;
     public User user;
     String description = StringUtils.EMPTY;
-    Map<String, String> fssAdjustedValues = new HashMap<String, String>();
-    Map<String, String> fssEditedNotes = new HashMap<String, String>();
-    Map<String, String> ovrAdjustedValues = new HashMap<String, String>();
-    Map<String, String> ovrEditedNotes = new HashMap<String, String>();
+    Map<String, String> fssAdjustedValues = new HashMap<>();
+    Map<String, String> fssEditedNotes = new HashMap<>();
+    Map<String, String> ovrAdjustedValues = new HashMap<>();
+    Map<String, String> ovrEditedNotes = new HashMap<>();
     FcpQueryUtils queryUtil = new FcpQueryUtils();
     boolean submitFlag = false;
     boolean submitMsg = false;
@@ -211,9 +210,10 @@ public class MasterFcpWorkSheet extends Window {
      * Instantiates a new master fcp work sheet.
      *
      * @param projSelection
+     * @param sessionDTO
      */
     public MasterFcpWorkSheet(ProjectionSelectionDTO projSelection,SessionDTO sessionDTO) {
-        super("Master FCP Worksheet");
+        super(Constant.MASTER_FCP_WORKSHEET);
         LOGGER.debug("MasterFcpWorkSheet Constructor initiated ");
         this.projectionDTO = projSelection;
         this.ndcResultdto = projSelection.getNdcWSdto();
@@ -258,7 +258,7 @@ public class MasterFcpWorkSheet extends Window {
             initializeResultTable();
             configureResultTable();
             addResultTable();
-            loadResultTable(0, StringUtils.EMPTY, true);
+            loadResultTable(true);
 
             brandDdlb.setPageLength(NumericConstants.SEVEN);
             brandDdlb.setImmediate(true);
@@ -419,7 +419,7 @@ public class MasterFcpWorkSheet extends Window {
             public void yesMethod() {
                 clearMap();
                 closeLogic();
-                loadResultTable(0, StringUtils.EMPTY, true);
+                loadResultTable(true);
             }
         }.getConfirmationMessage(RESET_CONFIRMATION.getConstant(), "Are you sure you want to reset the page to default/previous values?");
     }
@@ -490,42 +490,42 @@ public class MasterFcpWorkSheet extends Window {
                 boolean notesFlag = false;
                 boolean adjustFlag = false;
                 if (!fssAdjustedValues.isEmpty()) {
-                    queryUtil.saveNotes(fssAdjustedValues, projectionDTO.getProjectionId(), projectionDTO.getNdcSid().getId(), "QFSS",sessionDTO);
+                    queryUtil.saveNotes(fssAdjustedValues, projectionDTO.getProjectionId(), projectionDTO.getNdcSid().getId(), "QFSS", sessionDTO);
                     pricetype = "QFSS";
                     adjustFlag = true;
                     fssAdjustedValues.clear();
                 }
                 if (!fssEditedNotes.isEmpty()) {
-                    queryUtil.saveNotes(fssEditedNotes, projectionDTO.getProjectionId(), projectionDTO.getNdcSid().getId(), "QFSS",sessionDTO);
+                    queryUtil.saveNotes(fssEditedNotes, projectionDTO.getProjectionId(), projectionDTO.getNdcSid().getId(), "QFSS", sessionDTO);
                     pricetype = "QFSS";
                     notesFlag = true;
                     fssEditedNotes.clear();
                 }
                 if (!ovrAdjustedValues.isEmpty()) {
-                    queryUtil.saveNotes(ovrAdjustedValues, projectionDTO.getProjectionId(), projectionDTO.getNdcSid().getId(), "QNON-FAMP",sessionDTO);
-                    pricetype = "QNON-FAMP";
+                    queryUtil.saveNotes(ovrAdjustedValues, projectionDTO.getProjectionId(), projectionDTO.getNdcSid().getId(), Constant.QNON_FAMP, sessionDTO);
+                    pricetype = Constant.QNON_FAMP;
                     adjustFlag = true;
                     ovrAdjustedValues.clear();
                 }
                 if (!ovrEditedNotes.isEmpty()) {
-                    queryUtil.saveNotes(ovrEditedNotes, projectionDTO.getProjectionId(), projectionDTO.getNdcSid().getId(), "QNON-FAMP",sessionDTO);
-                    pricetype = "QNON-FAMP";
+                    queryUtil.saveNotes(ovrEditedNotes, projectionDTO.getProjectionId(), projectionDTO.getNdcSid().getId(), Constant.QNON_FAMP, sessionDTO);
+                    pricetype = Constant.QNON_FAMP;
                     notesFlag = true;
                     ovrEditedNotes.clear();
                 }
-                if (adjustFlag || notesFlag) {                    
+                if (adjustFlag || notesFlag) {
                     if (adjustFlag) {
-                        if((pricetype.equals("QFSS") && qValue.equals("4")) || pricetype.equals("QNON-FAMP")) { // Added restriction for CEL-370 CR
+                        if ((pricetype.equals("QFSS") && qValue.equals("4")) || pricetype.equals(Constant.QNON_FAMP)) { // Added restriction for CEL-370 CR
                             callAdjustmentProcedure();
                         }
                         projectionDTO.setAdjust(true);
                         submitMsg = true;
                     }
-                        loadResultTable(0, StringUtils.EMPTY, true);
-                        final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);
-                        notif.setPosition(Position.TOP_CENTER);
-                        notif.setStyleName(ConstantsUtils.MY_STYLE);
-                        notif.show(Page.getCurrent());
+                    loadResultTable( true);
+                    final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);
+                    notif.setPosition(Position.TOP_CENTER);
+                    notif.setStyleName(ConstantsUtils.MY_STYLE);
+                    notif.show(Page.getCurrent());
                 }
             }
         } catch (Exception e) {
@@ -585,7 +585,7 @@ public class MasterFcpWorkSheet extends Window {
             initializeResultTable();
             configureResultTable();
             addResultTable();
-            loadResultTable(0, StringUtils.EMPTY, true);
+            loadResultTable(true);
 
         } else {
             AbstractNotificationUtils.getErrorNotification("Generate Error ", "You must select an NDC from the drop down list box.");
@@ -625,7 +625,7 @@ public class MasterFcpWorkSheet extends Window {
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getWorkSheetLeftTableColumns(fullHeader);
         rightHeader = CommonUiUtils.getWorkSheetRightTableColumns(projectionDTO, fullHeader);
-        resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
         tableLogic.setTreeNodeMultiClick(false);
@@ -644,9 +644,9 @@ public class MasterFcpWorkSheet extends Window {
         }
 
         periodTableId.setDoubleHeaderVisible(true);
-        periodTableId.setHeight("353px");
-        leftTable.setHeight("353px");
-        rightTable.setHeight("353px");
+        periodTableId.setHeight(Constant.THREE_FIFTY_THREE_PX);
+        leftTable.setHeight(Constant.THREE_FIFTY_THREE_PX);
+        rightTable.setHeight(Constant.THREE_FIFTY_THREE_PX);
         leftTable
                 .setDoubleHeaderVisibleColumns(leftHeader.getDoubleColumns().toArray());
         leftTable
@@ -683,16 +683,16 @@ public class MasterFcpWorkSheet extends Window {
                         notesField.addStyleName(Constant.ALIGN_RIGHT);
                         notesField.setWidth(NumericConstants.THIRTY_FIVE, Sizeable.Unit.PERCENTAGE);
                         notesField.setTextData(adjustPropId);
-                        Map<String, String[]> notesMap = new HashMap<String, String[]>();
+                        Map<String, String[]> notesMap = new HashMap<>();
 
                         String adjustValue = StringUtils.EMPTY;
                         String notesValue = StringUtils.EMPTY;
-                        if (tableDto.getGroup().startsWith("Adjustment FSS")) {
+                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_FSS)) {
                             notesMap = projectionDTO.getNotesMap();
                             adjustValue = fssAdjustedValues.get(adjustPropId);
                             notesValue = fssEditedNotes.get(notesPropId);
                         }
-                        if (tableDto.getGroup().startsWith("Adjustment Non-FAMP")) {
+                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_NON_FAMP)) {
                             notesMap = projectionDTO.getSecondRowNotesMap();
                             adjustValue = ovrAdjustedValues.get(adjustPropId);
                             notesValue = ovrEditedNotes.get(notesPropId);
@@ -722,11 +722,11 @@ public class MasterFcpWorkSheet extends Window {
 
                                 if (valueChange) {
                                     try {
-                                        if (tableDto.getGroup().startsWith("Adjustment FSS")) {
+                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_FSS)) {
                                             fssAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
 
-                                        if (tableDto.getGroup().startsWith("Adjustment Non-FAMP")) {
+                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_NON_FAMP)) {
                                             ovrAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
                                         valueChange = false;
@@ -773,10 +773,10 @@ public class MasterFcpWorkSheet extends Window {
                                         DateFormat dateTimeFormat = new SimpleDateFormat(NOTES_DATE.getConstant());
                                         String formattedValue = String.valueOf(((TextArea) event.getComponent()).getValue()) + dateTimeFormat.format(new Date()) + " ,<" + CommonUtils.getUserNameById(sessionDTO.getUserId()) + ">";
                                         description = formattedValue;
-                                        if (tableDto.getGroup().startsWith("Adjustment FSS")) {
+                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_FSS)) {
                                             fssEditedNotes.put(String.valueOf(((TextArea) event.getComponent()).getData()), formattedValue);
                                         }
-                                        if (tableDto.getGroup().startsWith("Adjustment Non-FAMP")) {
+                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_NON_FAMP)) {
                                             ovrEditedNotes.put(String.valueOf(((TextArea) event.getComponent()).getData()), formattedValue);
                                         }
                                         valueTAChange = false;
@@ -830,12 +830,12 @@ public class MasterFcpWorkSheet extends Window {
         return flag;
     }
 
-    private void loadResultTable(int levelNo, String hierarchyNo, boolean flag) {
+    private void loadResultTable(boolean flag) {
         try {
             tableLogic.clearAll();
             tableLogic.setRefresh(false);
             projectionDTO.clearNonFetchableIndex();
-            tableLogic.setProjectionResultsData(projectionDTO, levelNo, hierarchyNo, flag,sessionDTO);
+            tableLogic.setProjectionResultsData(projectionDTO, flag,sessionDTO);
             tableLogic.setRefresh(true);
 
         } catch (Exception e) {
@@ -854,7 +854,7 @@ public class MasterFcpWorkSheet extends Window {
         if (id instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) id;
         } else if (id instanceof TableDTO) {
-            targetItem = new BeanItem<TableDTO>(
+            targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
         return (TableDTO) targetItem.getBean();
@@ -884,14 +884,14 @@ public class MasterFcpWorkSheet extends Window {
         LOGGER.debug("excelBtn click listener started");
         configureExcelResultTable();
         loadExcelResultTable();
-        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Master FCP Worksheet", "Master FCP Worksheet", "Master_FCP_Worksheet.xls", false);
+        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.MASTER_FCP_WORKSHEET, Constant.MASTER_FCP_WORKSHEET, "Master_FCP_Worksheet.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);
         LOGGER.debug("excelBtn click listener ends");
     }
 
     private void configureExcelResultTable() {
-        excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
         exceltable = new ExtCustomTreeTable();
         tableVerticalLayout.addComponent(exceltable);
@@ -935,7 +935,7 @@ public class MasterFcpWorkSheet extends Window {
 
     public void addLowerLevelsForExport(TableDTO id) {
         projectionDTO.setGroup(id.getGroup());
-        List<TableDTO> resultList = fcpLogic.getFcpWorksheetChild(projectionDTO, id.getItemMasterSid(),sessionDTO);
+        List<TableDTO> resultList = fcpLogic.getFcpWorksheetChild(projectionDTO,sessionDTO);
         loadDataToContainer(resultList, id);
     }
 
@@ -948,14 +948,6 @@ public class MasterFcpWorkSheet extends Window {
         calculate.setEnabled(false);
         tableReset.setEnabled(false);
         submit.setEnabled(false);
-    }
-
-    /**
-     * Enter.
-     *
-     * @param event the event
-     */
-    public void enter(ViewChangeEvent event) {
     }
 
     private void attachValueChangeListener(AbstractField component) {

@@ -386,12 +386,12 @@ public class ItemMasterDTO implements Serializable {
     /**
      * The item identifier list.
      */
-    private List<ItemIrtIdentifierDTO> itemIdentifierList = new ArrayList<ItemIrtIdentifierDTO>();
+    private List<ItemIrtIdentifierDTO> itemIdentifierList = new ArrayList<>();
 
     /**
      * The pricing identifier list.
      */
-    private List<ItemPricingDTO> pricingIdentifierList = new ArrayList<ItemPricingDTO>();
+    private List<ItemPricingDTO> pricingIdentifierList = new ArrayList<>();
 
     /**
      * The record lock status.

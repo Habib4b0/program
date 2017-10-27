@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.stpl.app.gtnforecasting.salesprojection.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
@@ -67,7 +63,7 @@ public class MSalesProjection extends ForecastSalesProjection {
     boolean firstGenerated = false;
     List<String> projectedPeriodList = new ArrayList();
     SalesRowDto salesPMPYDTO = new SalesRowDto();
-    Set<String> tableHirarechyNos = new HashSet<String>();
+    Set<String> tableHirarechyNos = new HashSet<>();
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
@@ -111,7 +107,7 @@ public class MSalesProjection extends ForecastSalesProjection {
             excelTable.setRefresh(Boolean.TRUE);
             if (excelTable.size() > 0) {
                 ForecastUI.EXCEL_CLOSE = true;
-                ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), "Sales Projection", "Sales Projection", "Sales_Projection.xls", false);
+                ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
                 exp.export();
             }
         } catch (Exception e) {
@@ -121,6 +117,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void enableDisableFields() {
+        return;
     }
 
     @Override
@@ -130,6 +127,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void adjustmentLogic() {
+        return;
     }
 
     @Override
@@ -187,6 +185,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void viewChangeOption() {
+        return;
     }
 
     @Override
@@ -367,9 +366,9 @@ public class MSalesProjection extends ForecastSalesProjection {
         }
 
         loadPeriods();
-        resultsTable.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        resultsTable.setHeight(Constant.SIX_FIFTY_PX);
+        leftTable.setHeight(Constant.SIX_FIFTY_PX);
+        rightTable.setHeight(Constant.SIX_FIFTY_PX);
         leftTable.setSortEnabled(false);
         rightTable.setSortEnabled(false);
         configureTableFieldFactory();
@@ -494,7 +493,7 @@ public class MSalesProjection extends ForecastSalesProjection {
      * @param moduleAndTabName
      * @throws Exception
      */
-    public void setButtonSecurity() throws PortalException, SystemException  {
+    public void setButtonSecurity() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SALES_PROJECTION);
@@ -504,8 +503,16 @@ public class MSalesProjection extends ForecastSalesProjection {
             collapse.setVisible(Boolean.FALSE);
             newBtn.setVisible(Boolean.FALSE);
             editBtn.setVisible(Boolean.FALSE);
-            pmpy.setVisible(Boolean.FALSE);
-
+        }
+        if (functionPsHM.get(CommonUtils.PMPY) != null && ((AppPermission) functionPsHM.get(CommonUtils.PMPY)).isFunctionFlag()) {
+            pmpy.setVisible(true);
+        } else {
+            pmpy.setVisible(false);
+        }
+        if (functionPsHM.get(CommonUtils.ALT_HISTORY_BTN) != null && ((AppPermission) functionPsHM.get(CommonUtils.ALT_HISTORY_BTN)).isFunctionFlag()) {
+            altHistoryBtn.setVisible(true);
+        } else {
+            altHistoryBtn.setVisible(false);
         }
         if (functionPsHM.get(FunctionNameUtil.CALCULATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.CALCULATE)).isFunctionFlag()) {
             calculate.setVisible(Boolean.FALSE);
@@ -514,3 +521,4 @@ public class MSalesProjection extends ForecastSalesProjection {
         }
     }
 }
+

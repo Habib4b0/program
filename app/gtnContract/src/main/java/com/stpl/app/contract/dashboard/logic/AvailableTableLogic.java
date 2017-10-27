@@ -64,7 +64,7 @@ public class AvailableTableLogic extends PageTableLogic {
             return dto;
     }
 
-    public void configureSearchData(final String searchFields, String searchValue, String tableName, SessionDTO sessionDTO) {
+    public void configureSearchData(final String searchFields, String searchValue, SessionDTO sessionDTO) {
         LOGGER.debug("Table Logic Called-->>>");
         isFirstLoad = true;
         ifpLogic = new IfpLogic(sessionDTO);

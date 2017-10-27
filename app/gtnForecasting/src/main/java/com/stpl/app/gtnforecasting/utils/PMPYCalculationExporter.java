@@ -9,11 +9,15 @@ import com.stpl.app.gtnforecasting.dto.PMPYCalculationExporterDTO;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculatorDTO;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
+import static com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic.FILE_NAME;
+import static com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic.LOGGER;
+import static com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic.XLS_FORMAT;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Page;
 import com.vaadin.ui.UI;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -74,11 +78,9 @@ public class PMPYCalculationExporter {
      * @throws SystemException the system exception
      */
     public void export(final PMPYCalculationExporterDTO exporterDto) throws SystemException {
-        try {
+        File tempFile = getFile();
+        try (FileOutputStream fileOut = new FileOutputStream(tempFile);) {
             LOGGER.debug("Entering export method ");
-
-            final File tempFile = File.createTempFile(FILE_NAME, XLS_FORMAT);
-            final FileOutputStream fileOut = new FileOutputStream(tempFile);
             final HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFCell cellA1;
             HSSFRow dataRow;
@@ -122,7 +124,7 @@ public class PMPYCalculationExporter {
 
                         cellA1.setCellValue(exporterDto.getSales());
                     } else {
-                        changeValue = changeValue.replaceAll(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY);
+                        changeValue = changeValue.replaceAll(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
                         final double value = Double.parseDouble(changeValue);
                         if (String.valueOf(exporterDto.getVariable()).equals(Constant.SALES)) {
                             cellStyleCurrency.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
@@ -177,7 +179,7 @@ public class PMPYCalculationExporter {
                     if (changeValue.isEmpty()) {
                         cellA1.setCellValue(exporterDto.getValuePerLife());
                     } else {
-                        changeValue = changeValue.replaceAll(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY);
+                        changeValue = changeValue.replaceAll(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
                         final double value = Double.parseDouble(changeValue);
                         cellStyleCurrency.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
                         cellA1.setCellStyle(cellStyleCurrency);
@@ -226,7 +228,7 @@ public class PMPYCalculationExporter {
                     if (changeValue.isEmpty()) {
                         cellA1.setCellValue(exporterDto.getTotalSales());
                     } else {
-                        changeValue = changeValue.replaceAll(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY);
+                        changeValue = changeValue.replaceAll(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
                         final double value = Double.parseDouble(changeValue);
                         if (String.valueOf(exporterDto.getVariable()).equals(Constant.SALES)) {
                             cellStyleCurrency.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
@@ -248,7 +250,7 @@ public class PMPYCalculationExporter {
                     if (changeValue.isEmpty()) {
                         cellA1.setCellValue(exporterDto.getProjectionPeriodTotal());
                     } else {
-                        changeValue = changeValue.replaceAll(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY);
+                        changeValue = changeValue.replaceAll(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
                         final double value = Double.parseDouble(changeValue);
                         cellStyleCurrency.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 
@@ -268,5 +270,14 @@ public class PMPYCalculationExporter {
         } catch (Exception e) {
             throw new SystemException(e);
         }
+    }
+        private File getFile() {
+        try {
+            File tempFile = File.createTempFile(FILE_NAME, XLS_FORMAT);
+            return tempFile;
+        } catch (IOException ex) {
+            LOGGER.error(ex);
+        }
+        return null;
     }
 }

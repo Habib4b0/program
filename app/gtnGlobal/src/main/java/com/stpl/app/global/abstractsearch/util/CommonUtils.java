@@ -120,7 +120,7 @@ public class CommonUtils {
         final HelperDTO defaultValue=new HelperDTO(ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
-        BeanItemContainer<HelperDTO> resultContainer= new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer= new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> helperList=getHelperResults(listName);
         resultContainer.addAll(helperList);
         select.setContainerDataSource(resultContainer);
@@ -175,7 +175,7 @@ public class CommonUtils {
      */
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
@@ -224,7 +224,7 @@ public class CommonUtils {
        final HelperDTO defaultValue=new HelperDTO( 0, isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
-        BeanItemContainer<HelperDTO> resultContainer= new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer= new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> helperList=getHelperResult(listName);
         helperList.add(defaultValue);
         resultContainer.addAll(helperList);
@@ -244,7 +244,7 @@ public class CommonUtils {
     }
           public List<HelperDTO> getHelperResult(final String listType) throws SystemException, PortalException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,

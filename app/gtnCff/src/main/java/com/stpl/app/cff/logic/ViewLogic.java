@@ -148,7 +148,6 @@ public class ViewLogic {
             CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);
             try {
                 viewMaster = dataSelection.getForecastingViewMaster(viewId);
-                dataSelection.deleteForecastingViewMaster(viewId);
             } catch (PortalException ex) {
                 java.util.logging.Logger.getLogger(ViewLogic.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SystemException ex) {
@@ -167,7 +166,7 @@ public class ViewLogic {
             viewMaster.setModifiedBy(userId);
             viewMaster.setModifiedDate(new Date());
 
-            updatedViewMaster = dataSelection.addForecastingViewMaster(viewMaster);
+            updatedViewMaster = dataSelection.updateForecastingViewMaster(viewMaster);
             return updatedViewMaster;
 
         } catch (Exception e) {

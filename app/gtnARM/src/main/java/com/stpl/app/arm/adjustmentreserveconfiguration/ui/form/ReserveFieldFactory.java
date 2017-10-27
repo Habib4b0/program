@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
 
 /**
  * This class is used to configure the field factory for reserve configuration.
@@ -34,6 +35,8 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  * @author srithar
  */
 public class ReserveFieldFactory implements TableFieldFactory {
+
+    private static final Logger LOGGER = Logger.getLogger(ReserveFieldFactory.class);
 
     AdjustmentReserveLogic logic = AdjustmentReserveLogic.getInstance();
     ExtPagedTable resultsTable;
@@ -65,34 +68,60 @@ public class ReserveFieldFactory implements TableFieldFactory {
     Property.ValueChangeListener valueChange = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
-            if (event.getProperty() instanceof ComboBox) {
-                ComboBox combo = (ComboBox) event.getProperty();
-                combo.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
-                Map map = (Map) combo.getData();
-                Object value = event.getProperty().getValue();
-                if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(map.get(ARMUtils.PROPERTY_ID)) 
-                        || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString().equals(map.get(ARMUtils.PROPERTY_ID))) {
-                    switch ((int) value) {
-                        // value = 0 for positive and value = 1 for negative
-                        case 0:
-                            value = null;
-                            break;
-                        case -1:
-                            value = 0;
-                            break;
-                        case 1:
-                            value = 1;
-                            break;
+            if (isValueChange) {
+                try {
+                    if (event.getProperty() instanceof ComboBox) {
+                        ComboBox combo = (ComboBox) event.getProperty();
+                        combo.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
+                        Map map = (Map) combo.getData();
+                        Container container = (Container) map.get(ARMUtils.CONTAINER);
+                        Object value = event.getProperty().getValue();
 
+                        if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(map.get(ARMUtils.PROPERTY_ID))
+                                || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString().equals(map.get(ARMUtils.PROPERTY_ID))
+                                || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.toString().equals(map.get(ARMUtils.PROPERTY_ID))) {
+                            Object oppositValue = 0;
+                            Object oppositValueToBeUpdated = null;
+                            switch ((int) value) {
+                                // value = 0 for positive and value = 1 for negative
+                                case 0:
+                                    value = null;
+                                    break;
+                                case -1:
+                                    value = 0;
+                                    oppositValue = 1;
+                                    oppositValueToBeUpdated = 1;
+                                    break;
+                                case 1:
+                                    value = 1;
+                                    oppositValue = -1;
+                                    oppositValueToBeUpdated = 0;
+                                    break;
+                                default:
+                                    break;
+
+                            }
+                            if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.toString().equals(map.get(ARMUtils.PROPERTY_ID))) {
+                                String property = ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(map.get(ARMUtils.PROPERTY_ID))
+                                        ? ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString() : ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString();
+                                isValueChange = Boolean.FALSE;
+                                container.getContainerProperty(map.get(ARMUtils.ITEM_ID), property).setValue(oppositValue);
+                                logic.updateTableValues(oppositValueToBeUpdated, property, map.get(ARMUtils.ITEM_ID), selection);
+                                isValueChange = Boolean.TRUE;
+                            }
+                        }
+                        logic.updateTableValues(value, map.get(ARMUtils.PROPERTY_ID), map.get(ARMUtils.ITEM_ID), selection);
+
+                    } else {
+                        TextField text = (TextField) event.getProperty();
+                        text.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
+                        Map map = (Map) text.getData();
+                        Object value = event.getProperty().getValue();
+                        logic.updateTableValues(value, map.get(ARMUtils.PROPERTY_ID), map.get(ARMUtils.ITEM_ID), selection);
                     }
+                } catch (Exception ex) {
+                    LOGGER.error("Error in valueChange :"+ex);
                 }
-                logic.updateTableValues(value, map.get(ARMUtils.PROPERTY_ID), map.get(ARMUtils.ITEM_ID), selection);
-            } else {
-                TextField text = (TextField) event.getProperty();
-                text.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
-                Map map = (Map) text.getData();
-                Object value = event.getProperty().getValue();
-                logic.updateTableValues(value, map.get(ARMUtils.PROPERTY_ID), map.get(ARMUtils.ITEM_ID), selection);
             }
         }
     };
@@ -127,7 +156,7 @@ public class ReserveFieldFactory implements TableFieldFactory {
                 });
             }
             return check;
-        } else if (ArrayUtils.contains(ARMUtils.ADJUSTMENT_RESERVE_TEXT_BOX, propertyId.toString())) {
+        } else if (ArrayUtils.contains(ARMUtils.getAdjustmentReserveTextBox(), propertyId.toString())) {
             final TextField text = new TextField();
             Map map = new HashMap<>();
             map.put(ARMUtils.PROPERTY_ID, propertyId);
@@ -141,30 +170,36 @@ public class ReserveFieldFactory implements TableFieldFactory {
             }
             text.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
             return text;
-        } else if (ArrayUtils.contains(ARMUtils.ADJUSTMENT_RESERVE_COMBOBOX, propertyId.toString())) {
-            final ComboBox combo = new ComboBox();
-            if (selection.isIsGTNDetails() && propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
-                CommonUtils.loadComboBoxWithIntegerForComboBox(combo, "ARM_GTN_ADJUSTMENT_LEVEL", Boolean.FALSE);
-            } else if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
-                CommonUtils.loadComboBoxWithIntegerForComboBox(combo, "ARM_RES_ADJUSTMENT_LEVEL", Boolean.FALSE);
-            } else {
-                CommonUtils.loadComboBoxWithIntegerForComboBox(combo, ARMUtils.getDropDownMap().get(propertyId.toString()), Boolean.FALSE);
-            }
-
-            Map map = new HashMap<>();
-            map.put(ARMUtils.PROPERTY_ID, propertyId);
-            map.put(ARMUtils.ITEM_ID, itemId);
-            combo.setData(map);
-
-            if (selection.isIsViewMode() || !selection.isIsCurrent()) {
-                combo.setEnabled(Boolean.FALSE);
-            } else {
-                combo.addFocusListener(focus);
-                combo.setEnabled(Boolean.TRUE);
-            }
-            combo.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
+        } else if (ArrayUtils.contains(ARMUtils.getAdjustmentReserveCombobox(), propertyId.toString())) {
+            ComboBox combo = new ComboBox();
+            combo = loadComboForAdjReserve(combo, propertyId, itemId, container);
             return combo;
         }
         return null;
+    }
+
+    private ComboBox loadComboForAdjReserve(ComboBox combo, final Object propertyId, final Object itemId, Container container) {
+        if (selection.isIsGTNDetails() && propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
+            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, "ARM_GTN_ADJUSTMENT_LEVEL", Boolean.FALSE);
+        } else if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
+            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, "ARM_RES_ADJUSTMENT_LEVEL", Boolean.FALSE);
+        } else {
+            CommonUtils.loadComboBoxWithIntegerForComboBox(combo, ARMUtils.getDropDownMap().get(propertyId.toString()), Boolean.FALSE);
+        }
+
+        Map map = new HashMap<>();
+        map.put(ARMUtils.PROPERTY_ID, propertyId);
+        map.put(ARMUtils.ITEM_ID, itemId);
+        map.put(ARMUtils.CONTAINER, container);
+        combo.setData(map);
+
+        if (selection.isIsViewMode() || !selection.isIsCurrent()) {
+            combo.setEnabled(Boolean.FALSE);
+        } else {
+            combo.addFocusListener(focus);
+            combo.setEnabled(Boolean.TRUE);
+        }
+        combo.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
+        return combo;
     }
 }

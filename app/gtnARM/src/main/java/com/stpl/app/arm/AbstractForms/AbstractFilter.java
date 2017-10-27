@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.arm.AbstractForms;
+package com.stpl.app.arm.abstractforms;
 
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -11,7 +11,6 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,7 +26,6 @@ import org.jboss.logging.Logger;
  */
 public class AbstractFilter {
 
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private final Map<String, String> queryMap = new HashMap<>();
     private final Map<String, String> filterCustomerMap = new HashMap<>();
     private final Map<String, String> filterReserve = new HashMap<>();
@@ -59,7 +57,7 @@ public class AbstractFilter {
         filterCustomerMap.put("deductionCategory", "rs_c.DESCRIPTION");
         filterCustomerMap.put("deductionType", "rs_t.DESCRIPTION");
         filterCustomerMap.put("deductionProgram", "RS_P.DESCRIPTION");
-        filterCustomerMap.put("createdBy", "adj.CREATED_BY");
+        filterCustomerMap.put("createdBy", "(crt.lastName+' '+crt.firstName)");
         filterCustomerMap.put("createdDate", "adj.CREATED_DATE");
         filterCustomerMap.put("modifiedDate", "adj.MODIFIED_DATE");
         filterCustomerMap.put("source", "adj.SOURCE");
@@ -88,7 +86,7 @@ public class AbstractFilter {
             boolean[] value = new boolean[sortByColumns.size()];
             int i = 0;
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+                final SortByColumn sortByColumn = iterator.next();
                 String columnName = sortByColumn.getName();
                 propIds[i] = columnName;
                 if (sortByColumn.getType() == SortByColumn.Type.ASC) {
@@ -157,24 +155,24 @@ public class AbstractFilter {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         if (queryMap.get(stringFilter.getPropertyId().toString()) != null && !queryMap.get(stringFilter.getPropertyId().toString()).isEmpty() && !stringFilter.getFilterString().isEmpty()) {
                             if (sql.length() == 0) {
-                                String initial = StringUtils.EMPTY;
-                                if(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(stringFilter.getPropertyId().toString())) {
+                                String initial;
+                                if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(stringFilter.getPropertyId().toString())) {
                                     initial = "where ( ( * = '?' )";
                                 } else {
-                                    initial = "where ( ( * LIKE '?' )";                                    
+                                    initial = "where ( ( * LIKE '?' )";
                                 }
                                 StringBuilder temp = new StringBuilder(initial);
-                                String filterStr = StringUtils.EMPTY;
+                                String filterStr;
                                 if (stringFilter.getFilterString().contains("%")) {
                                     filterStr = "[" + stringFilter.getFilterString() + "]";
                                 } else {
                                     filterStr = stringFilter.getFilterString();
                                 }
-                                 String filterString = StringUtils.EMPTY;
-                                if(ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString()) 
+                                String filterString;
+                                if (ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString())
                                         && "0".equals(filterStr)) {
-                                    filterString = "%"; 
-                                } else if(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(stringFilter.getPropertyId().toString())){
+                                    filterString = "%";
+                                } else if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(stringFilter.getPropertyId().toString())) {
                                     filterString = filterStr;
                                 } else {
                                     filterString = "%" + filterStr + "%";
@@ -183,16 +181,16 @@ public class AbstractFilter {
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, filterString);
                                 sql.append(temp);
                             } else {
-                                String filterStr = StringUtils.EMPTY;
+                                String filterStr;
                                 if (stringFilter.getFilterString().contains("%")) {
                                     filterStr = "[" + stringFilter.getFilterString() + "]";
                                 } else {
                                     filterStr = stringFilter.getFilterString();
                                 }
-                                 String filterString = StringUtils.EMPTY;
-                                if(ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString()) 
+                                String filterString;
+                                if (ARMUtils.ADJUSTMENT_CONFIG_CONSTANTS.METHODOLOGY.getPropertyId().equals(stringFilter.getPropertyId().toString())
                                         && "0".equals(filterStr)) {
-                                    filterString = "%"; 
+                                    filterString = "%";
                                 } else {
                                     filterString = "%" + filterStr + "%";
                                 }
@@ -222,7 +220,7 @@ public class AbstractFilter {
                                     tempStart = new StringBuilder(dateStartstr);
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(startValue));
+                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
                                 sql.append(tempStart);
                             }
                             if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -234,35 +232,33 @@ public class AbstractFilter {
                                 }
 
                                 tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDate.format(endValue));
+                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
                                 sql.append(tempEnd);
                             }
-                        } else {
                         }
-                    }  
-                   else if (filter instanceof Compare) {
-                       
+                    } else if (filter instanceof Compare) {
+
                         Compare stringFilter = (Compare) filter;
                         Compare.Operation operation = stringFilter.getOperation();
                         if ((!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) && (stringFilter.getValue() instanceof Date)) {
-                                String filterString = DBDate.format(stringFilter.getValue());
-                                if (!String.valueOf(stringFilter.getValue()).isEmpty()) {
-                                    if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                                        if (sql.length() == 0) {
-                                            sql.append("WHERE (( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" >= '").append(filterString).append("')");
-                                        } else {
-                                            sql.append("AND ( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" >= '").append(filterString).append("')");
-                                        }
+                            String filterString = ARMUtils.getInstance().getDbDate().format(stringFilter.getValue());
+                            if (!String.valueOf(stringFilter.getValue()).isEmpty()) {
+                                if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                                    if (sql.length() == 0) {
+                                        sql.append("WHERE (( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" >= '").append(filterString).append("')");
                                     } else {
-                                        if (sql.length() == 0) {
-                                            sql.append("WHERE (( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" <= '").append(filterString).append("')");
-                                        } else {
-                                            sql.append("AND ( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" <= '").append(filterString).append("')");
-                                        }
+                                        sql.append("AND ( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" >= '").append(filterString).append("')");
+                                    }
+                                } else {
+                                    if (sql.length() == 0) {
+                                        sql.append("WHERE (( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" <= '").append(filterString).append("')");
+                                    } else {
+                                        sql.append("AND ( ").append(queryMap.get(stringFilter.getPropertyId().toString())).append(" <= '").append(filterString).append("')");
                                     }
                                 }
+                            }
                         }
-                   }
+                    }
 
                 }
                 if (sql.length() != 0) {
@@ -270,17 +266,17 @@ public class AbstractFilter {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in filterQueryGenerator :"+ex);
         }
         return sql;
     }
- 
+
     public StringBuilder orderByQueryGenerator(List<SortByColumn> sortByColumns, Map<String, String> queryMap) {
         boolean asc = false;
         StringBuilder tempStart = new StringBuilder("ORDER BY * ?");
         if (sortByColumns != null && !sortByColumns.isEmpty()) {
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+                final SortByColumn sortByColumn = iterator.next();
                 String columnName = sortByColumn.getName();
                 if (sortByColumn.getType() == SortByColumn.Type.ASC) {
                     asc = false;

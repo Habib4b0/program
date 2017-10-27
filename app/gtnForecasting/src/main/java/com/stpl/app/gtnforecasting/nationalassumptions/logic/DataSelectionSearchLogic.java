@@ -44,7 +44,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<DataSelectionDTO> resultList = new ArrayList<DataSelectionDTO>();
+        List<DataSelectionDTO> resultList = new ArrayList<>();
         try {
             resultList = new DataSelectionLogic().getProjectionResults(projectionName, selectedProducts, companyValueId, thearupeticValueId, productGroupId, start, offset, getFilters(), getSortByColumns(),businessUnit);
         } catch (Exception ex) {
@@ -85,6 +85,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
 
     @Override
     public void saveCurrentPage() {
+        return;
     }
 
     @Override

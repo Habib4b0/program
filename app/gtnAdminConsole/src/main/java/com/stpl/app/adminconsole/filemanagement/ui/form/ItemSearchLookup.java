@@ -95,10 +95,10 @@ public class ItemSearchLookup extends Window {
     TextField itemNumber;
     TextField itemLookupName;
     ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
-    private ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<ItemSearchDTO>(itemSearchDTO));
+    private ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<>(itemSearchDTO));
     private final ErrorLabel errorMsg = new ErrorLabel();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSearchLookup.class);
-    private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<ItemSearchDTO>(ItemSearchDTO.class);
+    private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<>(ItemSearchDTO.class);
     @UiField("tableLayout")
     VerticalLayout tableLayout;
     private HorizontalLayout controlLayout = new HorizontalLayout();
@@ -156,7 +156,7 @@ public class ItemSearchLookup extends Window {
     private ErrorfulFieldGroup getBinder() {
         LOGGER.debug("getBinder method started");
         itemSearchBinder.bindMemberFields(this);
-        itemSearchBinder.setItemDataSource(new BeanItem<ItemSearchDTO>(itemSearchDTO));
+        itemSearchBinder.setItemDataSource(new BeanItem<>(itemSearchDTO));
         itemSearchBinder.setBuffered(true);
         itemSearchBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getBinder method returns getBinder");
@@ -331,7 +331,7 @@ public class ItemSearchLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof ItemSearchDTO) {
-            targetItem = new BeanItem<ItemSearchDTO>((ItemSearchDTO) obj);
+            targetItem = new BeanItem<>((ItemSearchDTO) obj);
         }
         return (ItemSearchDTO) targetItem.getBean();
     }

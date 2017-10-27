@@ -173,7 +173,7 @@ public class IFPInformation extends CustomComponent {
     private CommonUtil commonUtil = CommonUtil.getInstance();
     ParentIFPIdLookup lookUp =null;
     private ItemFamilyplanMasterDTO ifpDTO = new ItemFamilyplanMasterDTO();
-    ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<ItemFamilyplanMasterDTO>(ifpDTO));
+    ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(ifpDTO));
     private String mode;
 
     /**
@@ -196,8 +196,15 @@ public class IFPInformation extends CustomComponent {
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+","+"IFP Information",false);
             configurePermission(fieldIfpHM);
             configureFields();
-            if (ConstantsUtils.EDIT.equals(mode) || ConstantsUtils.VIEW_BTN.equals(mode)) {
+            if (ConstantsUtils.EDIT.equals(mode) || ConstantsUtils.VIEW_BTN.equals(mode) || ConstantsUtils.COPY.equals(mode)) {
                 getBinder();
+                if(ConstantsUtils.COPY.equals(mode))
+                {
+                    System.out.println("ifpDTO"+ifpDTO.getIfpId());
+                     ifpDTO.setIfpId(StringUtils.EMPTY);
+                    ifpDTO.setIfpName(StringUtils.EMPTY);
+                    ifpDTO.setIfpNo(StringUtils.EMPTY);
+                }
             
             }
             validateFields();
@@ -225,7 +232,7 @@ public class IFPInformation extends CustomComponent {
         LOGGER.debug("Ending configurePermission");
     }
 
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         itemFamilyplanSystemId.setImmediate(Boolean.TRUE);
         itemFamilyplanEndDate.setDescription(ConstantsUtils.DATE_DES);
         itemFamilyplanStartDate.setDescription(ConstantsUtils.DATE_DES);
@@ -429,38 +436,15 @@ public class IFPInformation extends CustomComponent {
                             LOGGER.debug("Ending parent Item Family plan Id look up");
                         }
                     });
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message box is
-                         * pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (PortalException portException) {
-                    LOGGER.error(portException);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() { 
-                        /**          
-                         * The method is triggered when a button of the message box is         
-                         * pressed .            
-                         *          
-                         * @param buttonId The buttonId of the pressed button.      
-                         */             
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {  
-                            // Do Nothing  
-                        }         
-                    }, ButtonId.OK);    
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (Exception exception) {
+                }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                 catch (Exception exception) {
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {   
                         /**       
                          * The method is triggered when a button of the message box is   
@@ -476,6 +460,14 @@ public class IFPInformation extends CustomComponent {
                     msg.getButton(ButtonId.OK).focus();
                     LOGGER.error(exception);
                 }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                
 
             }
         });
@@ -508,38 +500,15 @@ public class IFPInformation extends CustomComponent {
                         }
                     });
 
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message box is
-                         * pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (PortalException portException) {
-                    LOGGER.error(portException);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() { 
-                        /**             
-                         * The method is triggered when a button of the message box is  
-                         * pressed .     
-                         *             
-                         * @param buttonId The buttonId of the pressed button. 
-                         */             	
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing
-                        } 
-                    }, ButtonId.OK); 
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (Exception exception) {
+                }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                 catch (Exception exception) {
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {     
                         /**     
                          * The method is triggered when a button of the message box is 
@@ -555,6 +524,14 @@ public class IFPInformation extends CustomComponent {
                     msg.getButton(ButtonId.OK).focus();
                     LOGGER.error(exception);
                 }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                
 
             }
         });
@@ -595,7 +572,7 @@ public class IFPInformation extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
 
             if (itemFamilyplanStartDate.getValue() != null && itemFamilyplanEndDate.getValue() != null) {
                 if (itemFamilyplanStartDate.getValue().after(itemFamilyplanEndDate.getValue())) {
@@ -664,7 +641,7 @@ public class IFPInformation extends CustomComponent {
             modifiedDate.setImmediate(true);
             modifiedDate.setReadOnly(true);
             modifiedDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
-        } else if (ConstantsUtils.EDIT.equals(mode)) {
+        } else if (ConstantsUtils.EDIT.equals(mode)||ConstantsUtils.COPY.equals(mode)) {
                 parentItemFamilyplanId.setReadOnly(true);
                 parentItemFamilyplanName.setReadOnly(true);
             if ("child".equalsIgnoreCase(caption)) {
@@ -706,7 +683,7 @@ public class IFPInformation extends CustomComponent {
 
         binder.bindMemberFields(this);
 
-        binder.setItemDataSource(new BeanItem<ItemFamilyplanMasterDTO>(ifpDTO));
+        binder.setItemDataSource(new BeanItem<>(ifpDTO));
         if (ConstantsUtils.VIEW_BTN.equals(mode)) {
        binder.setReadOnly(true);
         }
@@ -717,7 +694,7 @@ public class IFPInformation extends CustomComponent {
     public void resetBinder(ItemFamilyplanMasterDTO dto) {
 
         this.binder.bindMemberFields(this);
-        this.binder.setItemDataSource(new BeanItem<ItemFamilyplanMasterDTO>(dto));
+        this.binder.setItemDataSource(new BeanItem<>(dto));
         this.binder.setBuffered(true);
     }
 

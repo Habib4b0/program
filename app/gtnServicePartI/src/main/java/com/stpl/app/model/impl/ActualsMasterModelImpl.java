@@ -42,7 +42,7 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
     public static final String TABLE_NAME = "ACTUALS_MASTER";
     public static final Object[][] TABLE_COLUMNS = {
             { "QUANTITY_INCLUSION", Types.VARCHAR },
-            { "MANDATED_DISCOUNT_AMOUNT", Types.DOUBLE },
+            { "MANDATED_DISCOUNT_AMOUNT", Types.VARCHAR },
             { "ITEM_NO", Types.VARCHAR },
             { "ANALYSIS_CODE", Types.VARCHAR },
             { "RECORD_SEQUENCE", Types.VARCHAR },
@@ -70,7 +70,7 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
             { "SALES_AMOUNT", Types.VARCHAR },
             { "ACCRUAL_ACTUAL_START_DATE", Types.TIMESTAMP },
             { "SETTLEMENT_NO", Types.VARCHAR },
-            { "PRICE", Types.DOUBLE },
+            { "PRICE", Types.VARCHAR },
             { "UPLOAD_DATE", Types.TIMESTAMP },
             { "CLAIM_INDICATOR", Types.VARCHAR },
             { "ITEM_ID", Types.VARCHAR },
@@ -90,7 +90,7 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
             { "COM_DIV_MKT_BRAND_PROD_KEY", Types.VARCHAR },
             { "INBOUND_STATUS", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table ACTUALS_MASTER (QUANTITY_INCLUSION VARCHAR(75) null,MANDATED_DISCOUNT_AMOUNT DOUBLE,ITEM_NO VARCHAR(75) null,ANALYSIS_CODE VARCHAR(75) null,RECORD_SEQUENCE VARCHAR(75) null,MODIFIED_BY INTEGER,SETTLEMENT_METHOD_NO VARCHAR(75) null,QUANTITY VARCHAR(75) null,ACCOUNT_ID VARCHAR(75) null,CREATED_DATE DATE null,PROVISION_CLAIM_INDICATOR VARCHAR(75) null,DISPENSED_DATE DATE null,IS_ACTIVE VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ACCRUAL_ACTUAL_END_DATE DATE null,MARKET_ID VARCHAR(75) null,BRAND_ID VARCHAR(75) null,ACCOUNT_NAME VARCHAR(75) null,AMOUNT VARCHAR(75) null,ACTUALS_MASTER_SID INTEGER not null primary key IDENTITY,ACCT_IDENTIFIER_CODE_QUALIFIER VARCHAR(75) null,ORGANIZATION_KEY VARCHAR(75) null,CREATED_BY INTEGER,ACCRUAL_PROCESSED VARCHAR(75) null,PARENTCOM_DIVMKT_BRAND_PRODKEY VARCHAR(75) null,CASH_PAID_DATE DATE null,SALES_AMOUNT VARCHAR(75) null,ACCRUAL_ACTUAL_START_DATE DATE null,SETTLEMENT_NO VARCHAR(75) null,PRICE DOUBLE,UPLOAD_DATE DATE null,CLAIM_INDICATOR VARCHAR(75) null,ITEM_ID VARCHAR(75) null,PRICE_ADJUSTMENT_NAME VARCHAR(75) null,CONTRACT_ID VARCHAR(75) null,MODIFIED_DATE DATE null,ACTUAL_ID VARCHAR(75) null,PROVISION_ID VARCHAR(75) null,SENT_OUT VARCHAR(75) null,RECORD_LOCK_STATUS BOOLEAN,DIVISION_ID VARCHAR(75) null,ITEM_IDENTIFIER_CODE_QUALIFIER VARCHAR(75) null,PROGRAM_STATE_CODE VARCHAR(75) null,SOURCE VARCHAR(75) null,INVOICE_LINE_NO VARCHAR(75) null,ACCOUNT_NO VARCHAR(75) null,COM_DIV_MKT_BRAND_PROD_KEY VARCHAR(75) null,INBOUND_STATUS VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table ACTUALS_MASTER (QUANTITY_INCLUSION VARCHAR(75) null,MANDATED_DISCOUNT_AMOUNT VARCHAR(75) null,ITEM_NO VARCHAR(75) null,ANALYSIS_CODE VARCHAR(75) null,RECORD_SEQUENCE VARCHAR(75) null,MODIFIED_BY INTEGER,SETTLEMENT_METHOD_NO VARCHAR(75) null,QUANTITY VARCHAR(75) null,ACCOUNT_ID VARCHAR(75) null,CREATED_DATE DATE null,PROVISION_CLAIM_INDICATOR VARCHAR(75) null,DISPENSED_DATE DATE null,IS_ACTIVE VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ACCRUAL_ACTUAL_END_DATE DATE null,MARKET_ID VARCHAR(75) null,BRAND_ID VARCHAR(75) null,ACCOUNT_NAME VARCHAR(75) null,AMOUNT VARCHAR(75) null,ACTUALS_MASTER_SID INTEGER not null primary key IDENTITY,ACCT_IDENTIFIER_CODE_QUALIFIER VARCHAR(75) null,ORGANIZATION_KEY VARCHAR(75) null,CREATED_BY INTEGER,ACCRUAL_PROCESSED VARCHAR(75) null,PARENTCOM_DIVMKT_BRAND_PRODKEY VARCHAR(75) null,CASH_PAID_DATE DATE null,SALES_AMOUNT VARCHAR(75) null,ACCRUAL_ACTUAL_START_DATE DATE null,SETTLEMENT_NO VARCHAR(75) null,PRICE VARCHAR(75) null,UPLOAD_DATE DATE null,CLAIM_INDICATOR VARCHAR(75) null,ITEM_ID VARCHAR(75) null,PRICE_ADJUSTMENT_NAME VARCHAR(75) null,CONTRACT_ID VARCHAR(75) null,MODIFIED_DATE DATE null,ACTUAL_ID VARCHAR(75) null,PROVISION_ID VARCHAR(75) null,SENT_OUT VARCHAR(75) null,RECORD_LOCK_STATUS BOOLEAN,DIVISION_ID VARCHAR(75) null,ITEM_IDENTIFIER_CODE_QUALIFIER VARCHAR(75) null,PROGRAM_STATE_CODE VARCHAR(75) null,SOURCE VARCHAR(75) null,INVOICE_LINE_NO VARCHAR(75) null,ACCOUNT_NO VARCHAR(75) null,COM_DIV_MKT_BRAND_PROD_KEY VARCHAR(75) null,INBOUND_STATUS VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table ACTUALS_MASTER";
     public static final String ORDER_BY_JPQL = " ORDER BY actualsMaster.actualsMasterSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY ACTUALS_MASTER.ACTUALS_MASTER_SID ASC";
@@ -124,7 +124,7 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
             ActualsMaster.class
         };
     private String _quantityInclusion;
-    private double _mandatedDiscountAmount;
+    private String _mandatedDiscountAmount;
     private String _itemNo;
     private String _originalItemNo;
     private String _analysisCode;
@@ -156,7 +156,7 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
     private String _salesAmount;
     private Date _accrualActualStartDate;
     private String _settlementNo;
-    private double _price;
+    private String _price;
     private Date _uploadDate;
     private String _claimIndicator;
     private String _itemId;
@@ -284,7 +284,7 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
             setQuantityInclusion(quantityInclusion);
         }
 
-        Double mandatedDiscountAmount = (Double) attributes.get(
+        String mandatedDiscountAmount = (String) attributes.get(
                 "mandatedDiscountAmount");
 
         if (mandatedDiscountAmount != null) {
@@ -459,7 +459,7 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
             setSettlementNo(settlementNo);
         }
 
-        Double price = (Double) attributes.get("price");
+        String price = (String) attributes.get("price");
 
         if (price != null) {
             setPrice(price);
@@ -592,12 +592,16 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
     }
 
     @Override
-    public double getMandatedDiscountAmount() {
-        return _mandatedDiscountAmount;
+    public String getMandatedDiscountAmount() {
+        if (_mandatedDiscountAmount == null) {
+            return StringPool.BLANK;
+        } else {
+            return _mandatedDiscountAmount;
+        }
     }
 
     @Override
-    public void setMandatedDiscountAmount(double mandatedDiscountAmount) {
+    public void setMandatedDiscountAmount(String mandatedDiscountAmount) {
         _mandatedDiscountAmount = mandatedDiscountAmount;
     }
 
@@ -990,12 +994,16 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
     }
 
     @Override
-    public double getPrice() {
-        return _price;
+    public String getPrice() {
+        if (_price == null) {
+            return StringPool.BLANK;
+        } else {
+            return _price;
+        }
     }
 
     @Override
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         _price = price;
     }
 
@@ -1457,6 +1465,13 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
 
         actualsMasterCacheModel.mandatedDiscountAmount = getMandatedDiscountAmount();
 
+        String mandatedDiscountAmount = actualsMasterCacheModel.mandatedDiscountAmount;
+
+        if ((mandatedDiscountAmount != null) &&
+                (mandatedDiscountAmount.length() == 0)) {
+            actualsMasterCacheModel.mandatedDiscountAmount = null;
+        }
+
         actualsMasterCacheModel.itemNo = getItemNo();
 
         String itemNo = actualsMasterCacheModel.itemNo;
@@ -1659,6 +1674,12 @@ public class ActualsMasterModelImpl extends BaseModelImpl<ActualsMaster>
         }
 
         actualsMasterCacheModel.price = getPrice();
+
+        String price = actualsMasterCacheModel.price;
+
+        if ((price != null) && (price.length() == 0)) {
+            actualsMasterCacheModel.price = null;
+        }
 
         Date uploadDate = getUploadDate();
 

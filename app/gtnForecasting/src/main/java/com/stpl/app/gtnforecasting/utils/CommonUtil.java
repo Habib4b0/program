@@ -47,6 +47,10 @@ public class CommonUtil {
      * The object.
      */
     private static CommonUtil object;
+    public static final String OPEN_PARANTHESIS = "(";
+    public static final String CLOSE_PARANTHESIS = ")";
+    public static final String BUSINESS_PROCESS = "businessProcess";
+    public static final String BP_NAME = "ALLERGAN";
 
     /**
      * The helper list util.
@@ -93,7 +97,7 @@ public class CommonUtil {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
         BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
@@ -522,5 +526,10 @@ public class CommonUtil {
         };
         return runnable;
     }
+    
+    public static boolean isValueEligibleForLoading() {
+        return System.getProperty(BUSINESS_PROCESS).equals(BP_NAME);
+    }
+        
 }
 

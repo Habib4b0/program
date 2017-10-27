@@ -67,7 +67,7 @@ public class ConstantUtil {
     /**
      * The Constant INVALID_CUSTOMER_GTS_ACTUAL .
      */
-    public static final String INVALID_CUSTOMER_GTS_ACTUAL = "IvldCustomerGtsActual";
+    public static final String INVALID_CUSTOMER_GTS_ACTUAL = "IvldCustomerGtsActual"; 
     /**
      * The Constant INVENTORYVIEW_TABLE .
      */
@@ -262,7 +262,7 @@ public class ConstantUtil {
      * The brandid.
      */
     public static final String BRAND = "brand";
-
+    
     /**
      * The brandid.
      */
@@ -317,10 +317,6 @@ public class ConstantUtil {
      */
     public static final String STATUS = "status";
 
-    /**
-     * The status.
-     */
-    public static final String STATUS_DUP = "STATUS";
     /**
      * The STRIN g_ ze r0_ decimal.
      */
@@ -497,7 +493,7 @@ public class ConstantUtil {
 
     public static final String INVALID_TO_DATE = "invalidToDate_Date";
 
-    public static final String INVALID_FROM_DATE = "invalidFromDate_Date";
+    public static final String INVALID_FROM_DATE_DATE = "invalidFromDate_Date";
 
     public static final String RS_UDC2 = "RS_UDC2";
 
@@ -669,16 +665,16 @@ public class ConstantUtil {
 
     public static final String HELPER_TABLE_SID = "helperTableSid";
 
-    public static final String ACCOUNT_TYPE = "accountType";
+    public static final String ACCOUNT_TYPE_COL = "accountType";
     public static final String ACCOUNT_CATEGORY = "ACCOUNT_CATEGORY";
     public static final String ARM_ACCOUNT_TYPE = "ARM_ACCOUNT_TYPE";
 
     public static final String ARP_OUTBOUND = "ArpOutbound";
     public static final String ARP_ACCOUNT = "account";
     public static final String COLUMN = "Column";
-    public static final String TextField = "TextField";
-    public static final String PopupDateField = "PopupDateField";
-    public static final String Button = "Button";
+    public static final String TEXT_FIELD = "TextField";
+    public static final String POP_UP_DATE_FIELD = "PopupDateField";
+    public static final String BUTTON = "Button";
     public static final String PROPERTY_NAME = "propertyName";
     public static final String CATEGORY_NAME = "categoryName";
     public static final String DISPLAY_NAME = "displayName";
@@ -767,7 +763,7 @@ public class ConstantUtil {
     public static final String CHECK_RECORD = "checkRecord";
     public static final String POSTING_STATUS = "postingStatus";
     public static final String INVENTORY_WITHDRAWAL_SUMMARY = "InventoryWithdrawalSummary";
-    public static final String ACCRUAL_MASTER = "Accrual Master";
+    public static final String ACCRUAL_MASTER_UPPER = "Accrual Master";
     public static final String CPI_INDEX = "Cpi Index";
     public static final String CFF = "Consolidated Financial Forecast";
     public static final String GL_SPACE_BALANCE = "GL Balance";
@@ -781,6 +777,7 @@ public class ConstantUtil {
     public static final String ORGANIZATION_KEY = "organizationKey";
     public static final String RETURNS = "Returns";
     public static final String CUSTOMERSALES = "CustomerSales";
+    public static final String GTS_FORECAST = "GTS Forecast";
     public static final String ACTUALGTSCUSTOMERSALES = "ActualGTSCustomerProduct";
     public static final String FORECASTVERSION = "forecastVersion";
     public static final String FORECASTING_NAME = "Forecast Name";
@@ -805,9 +802,9 @@ public class ConstantUtil {
 
     public static final String SESSIONID_ARP = "sessionId_Arp";
 
-    public static final String ARP_CREATION_DATE = "arpCreationDate_Date";
+    public static final String ARP_CREATION_DATE_DATE = "arpCreationDate_Date";
     public static final String DATE_FORMAT = "yyyy-MM-dd";
-	public static final String REPROCESS = "REPROCESS";
+	public static final String REPROCESS_UPPER = "REPROCESS";
 
     public static final String FORECAST_SALES = "Forecast Sales";
     public static final String ACTUAL_MASTER = "Actual Master";
@@ -855,14 +852,14 @@ public class ConstantUtil {
     public static final String RETURN_RESERVE="VwReturnReserve";
     public static final String RETURN_RESERVE_ACTUAL="ReturnReserveActual";
     public static final String IVLD_RETURN_RESERVE="VwIvldReturnReserve";
-    public static final String CustomTextField = "CustomTextField";
-    public static final String CustomMenuBar = "CustomMenuBar";
+    public static final String CUSTOM_TEXT_FIELD = "CustomTextField";
+    public static final String CUSTOM_MENU_BAR = "CustomMenuBar";
     public static final String PRIVATE = "Private";
     public static final String PUBLIC = "Public";
     public static final String ST_ADJUSTMENT_GTN_DETAIL = "StAdjustmentGtnDetail"; 
     public static final String ST_ADJUSTMENT_RESERVE_DETAIL = "StAdjustmentReserveDetail";
-    public static final String ADJUSTMENT_TYPE = "ARM_ADJUSTMENT_TYPE";
-    public static final String DEDUCTION_LEVEL = "DEDUCTION_LEVELS";
+    public static final String ARM_ADJUSTMENT_TYPE = "ARM_ADJUSTMENT_TYPE";
+    public static final String DEDUCTION_LEVEL_UPPER = "DEDUCTION_LEVELS";
     public static final String SaveBtn = "btnSaveView";
     public static final String SAVE_VIEW = "Save View";
     public static final String PRIVATE_VIEW = "privateView";
@@ -873,8 +870,8 @@ public class ConstantUtil {
     public static final String TOTAL = "Total";
     public static final String ITEM = "Item";
     
-    public static final String PRIVATE_VIEW_Lookup = "Private View";
-    public static final String PUBLIC_VIEW_Lookup = "Public View";
+    public static final String PRIVATE_VIEW_LOOK_UP = "Private View";
+    public static final String PUBLIC_VIEW_LOOK_UP = "Public View";
     public static final String NULL = "null";
     public static final String STRING_PERCENT = "%";
     
@@ -883,9 +880,9 @@ public class ConstantUtil {
     public static final String TRANSCATION_LEVEL_GTN = "ARM_GTN_ADJUSTMENT_LEVEL";
     public static final String BUSINESS_UNIT = "businessUnitId";
     public static final String GL_COMP = "glCompanyName";
-    public static final String POSTING_INDICATOR_ddlb = "LOCKED_STATUS";
+    public static final String POSTING_INDICATOR_DDLD = "LOCKED_STATUS";
     public static final String ARM_POSTING_INDICATOR = "ARM_POSTING_INDICATOR";
-    public static final String primaryKey = "primaryKey.";
+    public static final String PRIMARY_KEY_SMALL = "primaryKey.";
     public static final String MANDATORY_ERROR = "Mandatory Error";
     
     
@@ -896,6 +893,7 @@ public class ConstantUtil {
     public static final String PERCENT = "[%]";
     public static final String AND_MODULENAME_VALUE = " and moduleName value :::: ";
     public static final String IVLD_CUSTOMER_GTS_FORECAST = "IVLD_CUSTOMER_GTS_FORECAST";
+     public static final String VW_ITEM_PRICING_CAPS = "VW_ITEM_PRICING";
     public static final String VW_ITEM_MASTER_CAPS = "VW_ITEM_MASTER";
     public static final String TRANSACTOIN_LEVEL = "transactionLevel";
     public static final String DEDUCTIONLEVEL = "deductionLevel";
@@ -919,7 +917,7 @@ public class ConstantUtil {
     public static final String IVID_ITEM_PRICING = "IvldItemPricing";
     public static final String IVID_SALES_MASTER = "IvldSalesMaster";
     public static final String IVID_ACTUAL_MASTER = "IvldActualMaster";
-    public static final String ADJUSTMENT_LEVEL = "Adjustment Level";
+    public static final String ADJUSTMENT_LEVEL_UPPER = "Adjustment Level";
     public static final String TOTAL_DEMAND_UNITS = "totalDemandUnits";
     public static final String ADJUSTMENTS_TYPE = "adjustmentType";
     public static final String LAST_UPDATEED_DATE = "lastUpdatedDate";
@@ -948,4 +946,156 @@ public class ConstantUtil {
     public static final String TRANSACTION = " Transaction ";
     public static final String ST_ARP_OUTBOUND = "StArpOutbound";    
     public final static String DEDUCTION_ID = "deductionId";
+    public final static String INACTIVE_USER = "InActive User";
+    public static final String BASE_CPI_PRECISION = "baseCpiPrecision";
+    public static final String BASELINE_AMP_PRECISION = "baseAmpPrecision";
+    public static final String ITEM_PRICE_PRECISION = "itemPricePrecision";
+    public static final String IVLD_RETURNS = "IvldReturns";
+    public static final String IVLD_INVENTORY_WD_ACTUAL_MAS = "IVLD_INVENTORY_WD_ACTUAL_MAS";
+    public static final String IVLD_INVENTORY_WD_PROJ_MAS = "IVLD_INVENTORY_WD_PROJ_MAS";
+    public static final String VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS = "VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS";
+    public static final String IVLD_DEMAND_ACTUAL = "IVLD_DEMAND_ACTUAL";
+    public static final String IVLD_DEMAND_FORECAST = "IVLD_DEMAND_FORECAST";
+    public static final String UPDATE = " UPDATE ";
+    public static final String VW_IVLD_ADJ_DEMAND_FORE_ACTUAL = "VW_IVLD_ADJ_DEMAND_FORE_ACTUAL";
+    public static final String IVLD_ACTUAL_MASTER1 = "IVLD_ACTUAL_MASTER";
+    public static final String WHERE = " WHERE ";
+    public static final String IVLD_ADJUSTED_DEMAND_FORECAST = "IVLD_ADJUSTED_DEMAND_FORECAST";
+    public static final String IVLD_ADJUSTED_DEMAND_ACTUAL = "IVLD_ADJUSTED_DEMAND_ACTUAL";
+    
+    public static final String PRIMARY_KEYREDEMPTION_PERIOD = "primaryKey.redemptionPeriod";
+    public static final String FINANCIAL_FORECAST_APPROVAL_DATE = "financialForecastApprovalDate";
+    public static final String FINANCIAL_FORECAST_CREATION_DATE = "financialForecastCreationDate";
+    public static final String UNDERSCORE_DATE = "_Date";
+    public static final String UNDERSCORE_BOOLEAN = "_boolean";
+    public static final String BUSINESS_UNIT_ID = "businessUnitId";
+    public static final String REPROCESSED_FLAG = "reprocessedFlag";
+    public static final String DEDUCTION_PROGRAM = "deductionProgram";
+    public static final String IVLD_COMPANY_TRADE_CLASS = "IvldCompanyTradeClass";
+    public static final String N = "N";
+    public static final String INVALID_TO_DATE1 = "invalidToDate";
+    public static final String ACCOUNT_TYPE1 = "accountType";
+    public static final String GL_COMPANY_ID = "glCompanyId";
+    public static final String RS_CATEGORY1 = "RS_CATEGORY";
+    public static final String CONTRACT_ID = "contractId";
+    public static final String DEDUCTION_INCLUSION = "deductionInclusion";
+        public static final String ITEM_ID = "itemId";
+        public static final String ROWS_ONLY = " ROWS ONLY ";
+    public static final String UN_PARSEABLE_DATE = "Un parseable Date";
+    public static final String MMM_DD_YYYY_H_HMM = "MMM dd yyyy HH:mm";
+    public static final String ROWS_FETCH_NEXT = " ROWS FETCH NEXT ";
+    public static final String MODIFIED_BY_REGEX = "\\-?\\d+";
+    public static final String ACTUAL_INTFID = "actualIntfid";
+    public static final String IVLD_ACTUAL_MASTER = "IvldActualMaster";
+    public static final String MM_DD_YYYY = "MM/dd/yyyy";
+    public static final String FILTER_QUOTES_SPACE = "' ";
+    public static final String ITEM_NO = "ITEM_NO";
+    public static final String ITEM_NO1 = "itemNo";
+    public static final String COUNT = "count";
+    public static final String CONTRACT_NO1 = "CONTRACT_NO";
+    public static final String ACCRUAL_RATE = "Accrual Rate";
+    public static final String COMPANY_ID1 = "COMPANY_ID";
+    public static final String GREATER_THAN_EQUAL_TO = " >= '";
+    public static final String BATCH_ID1 = "BATCH_ID";
+    public static final String LESS_THAN_EQUAL_TO = " <= '";
+    public static final String ACCRUAL_DOLLARS = "Accrual Dollars";
+    public static final String AND = " AND ";
+    public static final String ITEM_ID1 = "ITEM_ID";
+    public static final String FILTER_QUOTES = "'";
+    public static final String CURRENT_YEAR_1_JULY = "current_Year_1_July";
+    public static final String DEDUCTION_ID1 = "DEDUCTION_ID";
+    public static final String CURRENT_YEAR_1_APR = "current_Year_1_Apr";
+    public static final String CURRENT_YEAR_2_APR = "current_Year_2_Apr";
+    public static final String DEDUCTION_RATE = "deductionRate";
+    public static final String CURRENT_YEAR_1_FEB = "current_Year_1_Feb";
+    public static final String ORIGINAL_BATCH_ID2 = "ORIGINAL_BATCH_ID";
+    public static final String CURRENT_YEAR_1_NOV = "current_Year_1_Nov";
+    public static final String CURRENT_YEAR_2_MAR = "current_Year_2_Mar";
+    public static final String CURRENT_YEAR_1_DEC = "current_Year_1_Dec";
+    public static final String CURRENT_YEAR_2_FEB = "current_Year_2_Feb";
+    public static final String CURRENT_YEAR_1_AUG = "current_Year_1_Aug";
+    public static final String LIKE = " like '";
+    public static final String CURRENT__YEAR_2__DEC = "current_Year_2_Dec";
+    public static final String CURRENT_YEAR_2_JULY = "current_Year_2_July";
+    public static final String DEDUCTION_RATE1 = "DEDUCTION_RATE";
+    public static final String CURRENT_YEAR_2_AUG = "current_Year_2_Aug";
+    public static final String CURRENT_YEAR_1_JAN = "current_Year_1_Jan";
+    public static final String ARPFEB = "ARP.FEB";
+    public static final String ARPJUN = "ARP.JUN";
+    public static final String CURRENT_YEAR_APR = "current_Year_Apr";
+    public static final String ARPAPR = "ARP.APR";
+    public static final String CURRENT_YEAR_JUNE = "current_Year_June";
+    public static final String ARPDEC = "ARP.DEC";
+    public static final String ARPNOV = "ARP.NOV";
+    public static final String OUTBOUND_STATUS = "outbound_Status";
+    public static final String CURRENT_YEAR_JULY = "current_Year_July";
+    public static final String CURRENT_YEAR_JAN = "current_Year_Jan";
+    
+    public static final String ARPJUL = "ARP.JUL";
+    public static final String ARPJAN = "ARP.JAN";
+    public static final String ARPSEP = "ARP.SEP";
+    public static final String CURRENT_YEAR_AUG = "current_Year_Aug";
+    public static final String CURRENT_YEAR_NOV = "current_Year_Nov";
+    public static final String CURRENT__YEAR__DEC = "current_Year_Dec";
+    public static final String AND_ETL_CHECK_RECORD1 = " AND ETL_CHECK_RECORD = 1";
+    public static final String AND_SESSION_ID_ = " AND SESSION_ID = ";
+    public static final String CURRENT_YEAR_FEB = "current_Year_Feb";
+    public static final String CURRENT_YEAR_2_SEP = "current_Year_2_Sep";
+    public static final String ORIGINAL_BATCH_ID = "original_Batch_ID";
+    public static final String TRANSACTION_LEVEL = "transactionLevel";
+    public static final String ORIGINAL_BATCH_ID1 = "originalBatchId";
+    public static final String AND_SESSION_ID_WITH_QUTES = "' AND SESSION_ID = '";
+    public static final String ARP_MAY = "ARP.MAY";
+    public static final String CURRENT_YEAR_SEP = "current_Year_Sep";
+    public static final String CURRENT_YEAR_OCT = "current_Year_Oct";
+    public static final String CURRENT_YEAR_MAR = "current_Year_Mar";
+    public static final String CURRENT_YEAR_2_MAY = "current_Year_2_May";
+    public static final String CURRENT_YEAR_1_MAY = "current_Year_1_May";
+    public static final String ARP_AUG = "ARP.AUG";
+    public static final String CURRENT_YEAR_MAY = "current_Year_May";
+    public static final String WORKFLOW_NAME = "workflowName";
+    public static final String CURRENT_YEAR_2_OCT = "current_Year_2_Oct";
+    public static final String AND_CHECK_RECORD_1 = "' AND CHECK_RECORD = 1";
+    public static final String CURRENT_YEAR_2_JAN = "current_Year_2_Jan";
+        
+    public static final String CURRENT_YEAR_1_MAR = "current_Year_1_Mar";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String CURRENT_YEAR_2_NOV = "current_Year_2_Nov";
+    public static final String REDEMPTION_PERIOD_TO_DATE = "redemptionPeriodToDate";
+    public static final String CURRENT_YEAR_1_OCT = "current_Year_1_Oct";
+    public static final String ARP_OCT = "ARP.OCT";
+    public static final String CURRENT_YEAR_1_SEP = "current_Year_1_Sep";
+    public static final String ARP_MAR = "ARP.MAR";
+    
+    public static final String CURRENT__YEAR_1__JUNE = "current_Year_1_June";
+    public static final String A_ACCOUNT = "A.ACCOUNT";
+    public static final String CURRENT_YEAR_2_JUNE = "current_Year_2_June";
+    public static final String AND_SESSION_ID_WITH_QUOTES = "' AND SESSION_ID = ";
+    public static final String ATTACHED_STATUS = "Attached Status";
+    public static final String CASE1 = "    CASE\n";
+    public static final String THEN_NULL = "        THEN NULL\n";
+    public static final String DESC = "~DESC~";
+    public static final String CASE = "CASE\n";
+    public static final String JOIN_2 = "~JOIN2~";
+    public static final String DATE_START_STRING = "AND ( * >=''?'')";
+    public static final String DATE_END_STRING = "AND ( * <=''?'')";
+    public static final String IVLD_ITEM_PRICING = "IvldItemPricing";
+    
+    public static final String IVLD_ITEM_MASTER = "IvldItemMaster";
+    public static final String IVLD_ITEM_IDENTIFIER = "IvldItemIdentifier";
+    public static final String AND_USER_ID = " AND USER_ID='";
+    public static final String AND_SESSION_ID = "' AND SESSION_ID=";
+    public static final String USER_ID_EQ_TO = " USER_ID=";
+    public static final String CONFIRMATION = "Confirmation";
+    public static final String AND_WITH_QUOTES = "' AND ";
+    public static final String AND_SESSION_ID_WITH_QUOTES1 = " AND SESSION_ID ='";
+    public static final String ACCRUAL_MASTER = "AccrualMaster";
+    public static final String ADJUSTMENT_LEVEL = "adjustmentLevel";
+    public static final String INVALID_FROM_DATE = "invalidFromDate";
+    public static final String ADJUSTMENT_TYPE = "adjustmentType";
+    public static final String DEDUCTION_LEVEL = "deductionLevel";
+    public static final String ACCOUNT_TYPE = "account_Type";
+    public static final String REPROCESS = "Reprocess";
+    
+    public static final String ARP_CREATION_DATE = "arp_Creation_Date";
 }

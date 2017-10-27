@@ -9,7 +9,6 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Upload;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
 import org.apache.commons.lang.StringUtils;
@@ -19,8 +18,9 @@ import org.jboss.logging.Logger;
  *
  * @author Porchelvi.Gunasekara
  */
-public class FileUploader implements Upload.Receiver{
-     /**
+public class FileUploader implements Upload.Receiver {
+
+    /**
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 1L;
@@ -39,14 +39,15 @@ public class FileUploader implements Upload.Receiver{
     /**
      * The module name.
      */
-    String moduleName=StringUtils.EMPTY;
+    String moduleName = StringUtils.EMPTY;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
-    public static final String FILE_PATH="../../../../var/Attachments/";
+    public static String FILE_PATH = getFilePath();
     final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
-    public  boolean upload=true;
+    public boolean upload = true;
+
     /**
      * The Constructor.
      *
@@ -55,7 +56,7 @@ public class FileUploader implements Upload.Receiver{
      */
     public FileUploader(final String filePath, final String moduleName) {
         this.basepath = filePath;
-        this.moduleName = moduleName;       
+        this.moduleName = moduleName;
     }
 
     /**
@@ -68,8 +69,8 @@ public class FileUploader implements Upload.Receiver{
     @Override
     public OutputStream receiveUpload(final String filename, final String mimeType) {
         LOGGER.debug("Entering receiveUpload method ");
-        try {           
-            final File dir = new File(FILE_PATH+moduleName);
+        try {
+             final File dir = new File(FILE_PATH + moduleName);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
@@ -83,10 +84,10 @@ public class FileUploader implements Upload.Receiver{
                 return outputStream;
             }
         } catch (final java.io.FileNotFoundException e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in receiveUpload :"+e);
             return NULL_OUTPUT_STREAM;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in receiveUpload :"+ex);
             return NULL_OUTPUT_STREAM;
         }
         LOGGER.debug("End of receiveUpload method");
@@ -98,21 +99,6 @@ public class FileUploader implements Upload.Receiver{
      *
      * @throws Throwable the throwable
      */
-    protected void finalize() throws Throwable {
-        LOGGER.debug("Entering finalize method ");
-
-        try {
-
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        } catch (IOException ex) {
-            LOGGER.error(ex);
-        }
-        LOGGER.debug("End of finalize method");
-        super.finalize();
-    }
-
     /**
      * Gets the output stream.
      *
@@ -191,6 +177,15 @@ public class FileUploader implements Upload.Receiver{
 
     public void setUpload(boolean upload) {
         this.upload = upload;
-    }      
+    }
     
+    public static String getFilePath() {
+        String path = "";
+        String jbossHome = System.getProperty("jboss.home.dir");
+        String ftppath[] = jbossHome.split("jboss-7.1.1");
+        path = ftppath[0];
+        return path;
+    }
+    
+
 }

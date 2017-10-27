@@ -34,6 +34,7 @@ import org.jboss.logging.Logger;
 public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySelection {
 
     public static final Logger LOGGER = Logger.getLogger(AdjustmentSummaryDemandReforecast.class);
+
     public AdjustmentSummaryDemandReforecast(DRSelectionDTO selection) throws InvocationTargetException {
         super(selection, new DRSummaryLogic());
         configureWorkFlow();
@@ -41,21 +42,20 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        LOGGER.debug("Inside Enter Method of AdjustmentSummaryDemandReforecast Class");
 
     }
-
-   
 
     @Override
     public void configureSummary() {
         view.select(ARMConstants.getMultiplePeriod());
-        variableHeader = new String[]{VariableConstants.DemandSummaryVariables.DemandAccrual.toString(), VariableConstants.DemandSummaryVariables.DemandAccrualReforecast.toString(),
-            VariableConstants.DemandSummaryVariables.TotalDemandAccrual.toString(),
-            VariableConstants.DemandSummaryVariables.ProjectedTotalDemandAccrual.toString(), VariableConstants.DemandSummaryVariables.DemandAccuralRatio.toString(),
-            VariableConstants.DemandSummaryVariables.Variance.toString()};
-        variableHeader_deduction = VariableConstants.DemandSummaryVariables.names();
-        variableVisibleColumns_deduction = VariableConstants.VISIBLE_COLUMN_DEMAND_ACCRUAL_DEDUCTION;
-        variableVisibleColumns = VariableConstants.VISIBLE_COLUMN_DEMAND_ACCRUAL;
+        variableHeader = new String[]{VariableConstants.DemandSummaryVariables.DEMANDACCRUAL.toString(), VariableConstants.DemandSummaryVariables.DEMANDACCRUALREFORECAST.toString(),
+            VariableConstants.DemandSummaryVariables.TOTALDEMANDACCRUAL.toString(),
+            VariableConstants.DemandSummaryVariables.PROJECTEDTOTALDEMANDACCRUAL.toString(), VariableConstants.DemandSummaryVariables.DEMANDACCRUALRATIO.toString(),
+            VariableConstants.DemandSummaryVariables.VARIANCE.toString()};
+        variableHeaderDeduction = VariableConstants.DemandSummaryVariables.names();
+        variableVisibleColumnsDeduction = VariableConstants.getVisibleColumnDemandAccrualDeduction();
+        variableVisibleColumns = VariableConstants.getVisibleColumnDemandAccrual();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
 
     @Override
     public ExtTreeContainer<AdjustmentDTO> getResultBeanContainer() {
-        return adjustmentResults.getResultBeanContainer();
+        return adjustmentResults.getResultBeanContainerVal();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
 
     @Override
     protected String[] getTableColumns() {
-        return VariableConstants.VISIBLE_COLUMN_DEMAND_ACCRUAL_DEDUCTION;
+        return VariableConstants.getVisibleColumnDemandAccrualDeduction();
     }
 
     public void configureWorkFlow() throws InvocationTargetException {
@@ -92,9 +92,9 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
     public void loadDetails() throws InvocationTargetException {
         List<Object[]> list = CommonLogic.loadPipelineAccrual(selectionDTO.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
-            Object[] obj = (Object[]) list.get(i);           
-            if ("summary_deductionValues".equals(String.valueOf(obj[0]))) {
-                 deductionLevelDdlb.setValue(selectionDTO.getSummary_deductionLevel());
+            Object[] obj = list.get(i);
+            if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(obj[0]))) {
+                deductionLevelDdlb.setValue(selectionDTO.getSummarydeductionLevel());
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -102,7 +102,7 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(getDeductionCustomMenuItem(), str3);
                 }
-            } else if ("summary_variables".equals(String.valueOf(obj[0]))) {
+            } else if (VariableConstants.SUMMARY_VARIABLES.equals(String.valueOf(obj[0]))) {
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -110,17 +110,13 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(customMenuItem, str3);
                 }
-            } else if (!"detail_variables".equals(String.valueOf(obj[0])) && !"detail_reserveAcount".equals(String.valueOf(obj[0]))
-                    && !"sales_variables".equals(String.valueOf(obj[0]))
-                    && !"rate_DeductionValue".equals(String.valueOf(obj[0])) && !VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0]))) {
+            } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
                     BeanUtils.setProperty(selectionDTO, String.valueOf(obj[0]), obj[1]);
-                } catch (IllegalAccessException ex) {
-                    LOGGER.error(ex);
-                } catch (InvocationTargetException ex) {
-                    LOGGER.error(ex);
+                } catch (IllegalAccessException | InvocationTargetException ex) {
+                    LOGGER.error("Error in loadDetails :"+ex);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in loadDetails :"+ex);
                 }
 
             }
@@ -134,17 +130,17 @@ public class AdjustmentSummaryDemandReforecast extends AbstractDemandSummarySele
 
     private void loadSelection() {
         try {
-            frequencyDdlb.select(Integer.valueOf(selectionDTO.getSummary_demand_frequency()));
-            selectionDTO.setSummary_demand_frequency((descriptionMap.get((int) frequencyDdlb.getValue())).getDescription());
-            fromDate.setValue(selectionDTO.getSummary_demand_fromDate());
-            toDate.setValue(selectionDTO.getSummary_demand_toDate());
+            frequencyDdlb.select(Integer.valueOf(selectionDTO.getSummarydemandfrequency()));
+            selectionDTO.setSummarydemandfrequency((descriptionMap.get((int) frequencyDdlb.getValue())).getDescription());
+            fromDate.setValue(selectionDTO.getSummarydemandfromDate());
+            toDate.setValue(selectionDTO.getSummarydemandtoDate());
             glImpactDate.removeValueChangeListener(glListener);
-            defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummary_glDate());
+            defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummaryglDate());
             resetWorkFlowDate = defaultWorkFlowDate;
             glImpactDate.setValue(resetWorkFlowDate);
             glImpactDate.addValueChangeListener(glWorkflowListener);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in loadSelection :"+ex);
         }
     }
 

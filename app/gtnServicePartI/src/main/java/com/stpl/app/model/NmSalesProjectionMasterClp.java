@@ -25,7 +25,6 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
     private String _userGroup;
     private int _projectionDetailsSid;
     private String _methodology;
-    private String _calculationBased;
     private BaseModel<?> _nmSalesProjectionMasterRemoteModel;
 
     public NmSalesProjectionMasterClp() {
@@ -70,7 +69,6 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
         attributes.put("userGroup", getUserGroup());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
         attributes.put("methodology", getMethodology());
-        attributes.put("calculationBased", getCalculationBased());
 
         return attributes;
     }
@@ -107,12 +105,6 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
 
         if (methodology != null) {
             setMethodology(methodology);
-        }
-
-        String calculationBased = (String) attributes.get("calculationBased");
-
-        if (calculationBased != null) {
-            setCalculationBased(calculationBased);
         }
     }
 
@@ -235,30 +227,6 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
         }
     }
 
-    @Override
-    public String getCalculationBased() {
-        return _calculationBased;
-    }
-
-    @Override
-    public void setCalculationBased(String calculationBased) {
-        _calculationBased = calculationBased;
-
-        if (_nmSalesProjectionMasterRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmSalesProjectionMasterRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setCalculationBased",
-                        String.class);
-
-                method.invoke(_nmSalesProjectionMasterRemoteModel,
-                    calculationBased);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
     public BaseModel<?> getNmSalesProjectionMasterRemoteModel() {
         return _nmSalesProjectionMasterRemoteModel;
     }
@@ -333,7 +301,6 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
         clone.setUserGroup(getUserGroup());
         clone.setProjectionDetailsSid(getProjectionDetailsSid());
         clone.setMethodology(getMethodology());
-        clone.setCalculationBased(getCalculationBased());
 
         return clone;
     }
@@ -379,7 +346,7 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(11);
 
         sb.append("{checkRecord=");
         sb.append(getCheckRecord());
@@ -391,8 +358,6 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
         sb.append(getProjectionDetailsSid());
         sb.append(", methodology=");
         sb.append(getMethodology());
-        sb.append(", calculationBased=");
-        sb.append(getCalculationBased());
         sb.append("}");
 
         return sb.toString();
@@ -400,7 +365,7 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.NmSalesProjectionMaster");
@@ -425,10 +390,6 @@ public class NmSalesProjectionMasterClp extends BaseModelImpl<NmSalesProjectionM
         sb.append(
             "<column><column-name>methodology</column-name><column-value><![CDATA[");
         sb.append(getMethodology());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>calculationBased</column-name><column-value><![CDATA[");
-        sb.append(getCalculationBased());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

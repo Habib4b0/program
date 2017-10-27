@@ -87,6 +87,9 @@ public class NMProjectionResults extends ForecastProjectionResults {
     boolean configureFlag = Boolean.TRUE;
 
     private String pivotView = StringUtils.EMPTY;
+    public static final String ALL_DISCOUNT_GROUP = "All Discount Group";
+    public static final String ALL_SALES_GROUP = "All Sales Group";
+    public static final String TOTAL = "Total ";
 
     /**
      * Constructors calls the super class to load and configure the common
@@ -108,7 +111,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
         generated = true;
         firstGenerated = true;
         int pageNo = tableLogic.getItemsPerPage();
-        loadGroupFilter(sessionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionId(), false);
+        loadGroupFilter(false);
         if (loadProjectionSelection()) {
             loadGroupFilterOntabChange();
             tableVerticalLayout.removeAllComponents();
@@ -165,7 +168,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 String discountType = form.getDiscountProjection().getDiscountType();
                 projectionSelectionDTO.setDiscountType(discountType);
                 if (form.getDiscountProjection().isDiscountGenerated() && discountType != null && session.isDiscountRSlistUpdated()) {
-                    discountlist = new ArrayList<List<String>>();
+                    discountlist = new ArrayList<>();
                     discountlist = session.getDiscountRSlist();
                 }
             }
@@ -292,10 +295,10 @@ public class NMProjectionResults extends ForecastProjectionResults {
     }
 
     public void loadGroupFilterOntabChange() {
-        loadGroupFilter(sessionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionId(), projectionSelectionDTO.isPpa());
+        loadGroupFilter(projectionSelectionDTO.isPpa());
     }
 
-    public void loadGroupFilter(int projId, int userId, int sessionId, boolean isPPA) {
+    public void loadGroupFilter(boolean isPPA) {
         LOGGER.debug("loadGroupFilter initiated ");
         groupDdlb.removeAllItems();
         groupDdlb.setNullSelectionAllowed(false);
@@ -319,7 +322,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             List<Integer> pagelength = CommonLogic.getPageNumber();
             tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
             fullHeader = new CustomTableHeaderDTO();
-            leftHeader = HeaderUtils.getProjectionResultsLeftTableColumns(projectionSelectionDTO, fullHeader);
+            leftHeader = HeaderUtils.getProjectionResultsLeftTableColumns( fullHeader);
             rightHeader = HeaderUtils.getProjectionResultsRightTableColumns(projectionSelectionDTO, fullHeader);
             resultBeanContainer = new ExtTreeContainer<>(ProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
             resultBeanContainer.setColumnProperties(fullHeader.getProperties());
@@ -335,9 +338,9 @@ public class NMProjectionResults extends ForecastProjectionResults {
             rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
 
             rightTable.setColumnHeaders(rightHeader.getSingleHeaders().toArray(new String[rightHeader.getSingleHeaders().size()]));
-            periodTableId.setHeight("650px");
-            leftTable.setHeight("650px");
-            rightTable.setHeight("650px");
+            periodTableId.setHeight(Constant.SIX_FIFTY_PX);
+            leftTable.setHeight(Constant.SIX_FIFTY_PX);
+            rightTable.setHeight(Constant.SIX_FIFTY_PX);
             for (Object propertyId : rightTable.getVisibleColumns()) {
                 rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
             }
@@ -437,7 +440,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             }
             exceltable.setRefresh(Boolean.TRUE);
             ForecastUI.EXCEL_CLOSE = true;
-            ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Projection Results", "Projection Results", "Projection_Results.xls", false);
+            ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PROJECTION_RESULTS, Constant.PROJECTION_RESULTS, "Projection_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
         } catch (Exception e) {
@@ -463,7 +466,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             Map<Object, Object> map = CommonLogic.getNMProjectionSelection(session.getProjectionId(), TabNameUtil.DISCOUNT_PROJECTION);
             if (map != null && !map.isEmpty()) {
                 String discountType = String.valueOf(map.get("Level"));
-                List<String> discountNames = new LinkedList<String>(Arrays.asList(String.valueOf(map.get("Selected Discounts")).split("\\s*,\\s*")));
+                List<String> discountNames = new LinkedList<>(Arrays.asList(String.valueOf(map.get("Selected Discounts")).split("\\s*,\\s*")));
                 discountlist = CommonLogic.getDiscountNoList(discountNames, "Program".equals(discountType), session);
             }
         } catch (Exception e) {
@@ -478,15 +481,15 @@ public class NMProjectionResults extends ForecastProjectionResults {
     private void excelInputForProcedure() {
 
         if (StringUtils.isBlank(projectionSelectionDTO.getGroupFilter())) {
-            projectionSelectionDTO.setGroupFilter("All Sales Group");
+            projectionSelectionDTO.setGroupFilter(ALL_SALES_GROUP);
         }
 
-        String splitarr[] = ("All Sales Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())
-                || "All Discount Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())
-                || "All PPA Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()))
+        String splitarr[] = (ALL_SALES_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())
+                || ALL_DISCOUNT_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())
+                || Constant.ALL_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()))
                 ? projectionSelectionDTO.getGroupFilter().split(" ") : projectionSelectionDTO.getGroupFilter().split("-");
-        String groupFilter = ("All Sales Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()) || "All Discount Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()) || "All PPA Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())) ? splitarr[1] : splitarr[0];
-        String groupFilterValue = ("All Sales Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()) || "All Discount Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()) || "All PPA Group".equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())) ? "All" : splitarr[1];
+        String groupFilter = (ALL_SALES_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()) || ALL_DISCOUNT_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()) || Constant.ALL_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())) ? splitarr[1] : splitarr[0];
+        String groupFilterValue = (ALL_SALES_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()) || ALL_DISCOUNT_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter()) || Constant.ALL_GROUP.equalsIgnoreCase(projectionSelectionDTO.getGroupFilter())) ? "All" : splitarr[1];
         String discountLevelValue = "Program";
 
         parameterDto.setUserId(sessionDTO.getUserId());
@@ -527,9 +530,9 @@ public class NMProjectionResults extends ForecastProjectionResults {
                     excelResultBean.addBean(itemId);
                     excelResultBean.setChildrenAllowed(itemId, false);
                     if (!Constants.LabelConstants.TOTAL_DISCOUNT.toString().equals(projectionSelectionDTO.getDiscountLevel())) {
-                        if (itemId.getGroup().startsWith("Total " + Constants.LabelConstants.DISCOUNT.toString())
+                        if (itemId.getGroup().startsWith(TOTAL + Constants.LabelConstants.DISCOUNT.toString())
                                 || itemId.getGroup().startsWith(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER)
-                                || itemId.getGroup().startsWith("Total " + Constant.PVVariables.VAR_RPU.toString())) {
+                                || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU.toString())) {
                             if (itemId.getGroup().startsWith("Total Discount $")) {
                                 excelResultBean.setChildrenAllowed(itemId, true);
                                 List<ProjectionResultsDTO> discountDollarList = resultMap.get("D$value");
@@ -620,7 +623,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                             if (parentKey.lastIndexOf('.') >= 0) {
                                 parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
                             }
-                            String groupParentKey = StringUtils.EMPTY;
+                            String groupParentKey;
                             if (tpAsParent) {
                                 groupParentKey = parentKey + projectionSelectionDTO.getGroupFilter();
                                 parentItemId = excelParentRecords.get(parentKey);
@@ -661,7 +664,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                             excelResultBean.setParent(itemId, parentItemId);
 
                             if ((!Constants.LabelConstants.TOTAL_DISCOUNT.toString().equals(projectionSelectionDTO.getDiscountLevel())) && (itemId.getGroup().startsWith(Constants.LabelConstants.TOTAL_DISCOUNT.toString())
-                                    || itemId.getGroup().startsWith("Total " + Constant.PVVariables.VAR_RPU.toString()))
+                                    || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU.toString()))
                                     || itemId.getGroup().equals(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER)) {
                                 excelResultBean.setChildrenAllowed(itemId, true);
                                 excelParentRecords.put(newKey + itemId.getGroup(), itemId);
@@ -695,7 +698,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                             excelResultBean.setParent(itemId, parentItemId);
                             excelResultBean.setChildrenAllowed(itemId, false);
                             if ((!Constants.LabelConstants.TOTAL_DISCOUNT.toString().equals(projectionSelectionDTO.getDiscountLevel())) && (itemId.getGroup().startsWith(Constants.LabelConstants.TOTAL_DISCOUNT.toString())
-                                    || itemId.getGroup().startsWith("Total " + Constant.PVVariables.VAR_RPU.toString())
+                                    || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU.toString())
                                     || itemId.getGroup().equals(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER))) {
                                 excelResultBean.setChildrenAllowed(itemId, true);
                                 excelParentRecords.put(newKey + itemId.getGroup(), itemId);
@@ -748,6 +751,9 @@ public class NMProjectionResults extends ForecastProjectionResults {
         }
     }
 
+     public void defaultFocus() {
+        frequencyDdlb.focus();
+    }
     private String getParentKeyforCustom(ProjectionResultsDTO itemId, String key, String parentKey) {
         if (itemId.getParentHierarchyNo() == null) {
             parentKey = key.substring(0, key.lastIndexOf('.'));

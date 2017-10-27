@@ -54,7 +54,6 @@ public class HeaderLookUP extends Window {
     public VerticalLayout tableLayout;
     CustomTableHeaderDTO headerDTO = new CustomTableHeaderDTO();
     private ExtContainer<BaseRateDTO> baseRateCalcContainer = new ExtContainer<BaseRateDTO>(BaseRateDTO.class,DataStructureMode.MAP);
-    private OptionGroup variables = new OptionGroup();
     public ExtFilterTable baseRateCalcTable = new ExtFilterTable();
     List<String> headerList;
     Map<String, Integer> salesMap = new HashMap<String, Integer>();

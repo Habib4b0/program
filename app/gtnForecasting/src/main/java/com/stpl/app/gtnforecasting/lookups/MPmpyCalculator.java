@@ -189,9 +189,9 @@ public class MPmpyCalculator extends Window {
     @UiField("allBtn")
     public Button allBtn;
 
-    private BeanItemContainer<MPmpyDTO> availableProductsBean = new BeanItemContainer<MPmpyDTO>(MPmpyDTO.class);
+    private BeanItemContainer<MPmpyDTO> availableProductsBean = new BeanItemContainer<>(MPmpyDTO.class);
 
-    private BeanItemContainer<MPmpyDTO> selectedProductsBean = new BeanItemContainer<MPmpyDTO>(MPmpyDTO.class);
+    private BeanItemContainer<MPmpyDTO> selectedProductsBean = new BeanItemContainer<>(MPmpyDTO.class);
 
     /**
      * The excel export image.
@@ -207,7 +207,7 @@ public class MPmpyCalculator extends Window {
 
     private SessionDTO sessionDTO;
 
-    private ExtTreeContainer<MPmpyDTO> pmpyContainer = new ExtTreeContainer<MPmpyDTO>(MPmpyDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<MPmpyDTO> pmpyContainer = new ExtTreeContainer<>(MPmpyDTO.class,ExtContainer.DataStructureMode.MAP);
 
     private Object itemId;
     
@@ -264,10 +264,10 @@ public class MPmpyCalculator extends Window {
      */
     public boolean isSalesOrUnits = true;
     
-    List<MPmpyDTO> pmpyList = new ArrayList<MPmpyDTO>();
+    List<MPmpyDTO> pmpyList = new ArrayList<>();
     
-    Map<String,Double> pmpySalesMap = new HashMap<String, Double>();
-    Map<String,Integer> pmpyUnitsMap = new HashMap<String, Integer>();
+    Map<String,Double> pmpySalesMap = new HashMap<>();
+    Map<String,Integer> pmpyUnitsMap = new HashMap<>();
     
     DecimalFormat doubleDecimalFormat = new DecimalFormat("#0.00");
     
@@ -279,7 +279,7 @@ public class MPmpyCalculator extends Window {
      * The df sales.
      */
 
-    List<String> projectedPeriodList = new ArrayList<String>();
+    List<String> projectedPeriodList = new ArrayList<>();
     
     @UiField("resetCalcBtn")
     private Button resetCalcBtn;
@@ -303,7 +303,7 @@ public class MPmpyCalculator extends Window {
     
     int projectionDetailsId = 0;
     
-    private Map<Object, Boolean> chtCheckBoxMap = new HashMap<Object, Boolean>();    
+    private Map<Object, Boolean> chtCheckBoxMap = new HashMap<>();    
     
     String updateValue;
     
@@ -315,7 +315,7 @@ public class MPmpyCalculator extends Window {
      * @param salesRowDTO
      */
     public MPmpyCalculator(SessionDTO sessionDTO,List<String> projectedPeriodList) {
-        super("PMPY Calculator");
+        super(Constant.PMPY_CALCULATOR);
         LOGGER.debug("PmpyCalculator Constructor initiated ");
         addStyleName(Constant.BOOTSTRAP_UI);
         addStyleName(Constant.BOOTSTRAP);
@@ -386,17 +386,17 @@ public class MPmpyCalculator extends Window {
             selectedProductsTable.markAsDirty();          
 
             availableProductsTable.setContainerDataSource(availableProductsBean);
-            availableProductsTable.setVisibleColumns(HeaderUtils.PMPY_PRODUCT_COLUMNS);
-            availableProductsTable.setColumnHeaders(HeaderUtils.PMPY_PRODUCT_HEADER);
-            availableProductsTable.setColumnAlignment(HeaderUtils.PMPY_PRODUCT_COLUMNS[0], ExtCustomTable.Align.RIGHT);
+            availableProductsTable.setVisibleColumns(HeaderUtils.getInstance().pmpyProductColumns);
+            availableProductsTable.setColumnHeaders(HeaderUtils.getInstance().pmpyProductHeader);
+            availableProductsTable.setColumnAlignment(HeaderUtils.getInstance().pmpyProductColumns[0], ExtCustomTable.Align.RIGHT);
             availableProductsTable.setFilterBarVisible(true);
             availableProductsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             availableProductsTable.setStyleName(Constant.FILTER_TABLE);
 
             selectedProductsTable.setContainerDataSource(selectedProductsBean);
-            selectedProductsTable.setVisibleColumns(HeaderUtils.PMPY_PRODUCT_COLUMNS);
-            selectedProductsTable.setColumnHeaders(HeaderUtils.PMPY_PRODUCT_HEADER);
-            selectedProductsTable.setColumnAlignment(HeaderUtils.PMPY_PRODUCT_COLUMNS[0], ExtCustomTable.Align.RIGHT);
+            selectedProductsTable.setVisibleColumns(HeaderUtils.getInstance().pmpyProductColumns);
+            selectedProductsTable.setColumnHeaders(HeaderUtils.getInstance().pmpyProductHeader);
+            selectedProductsTable.setColumnAlignment(HeaderUtils.getInstance().pmpyProductColumns[0], ExtCustomTable.Align.RIGHT);
             selectedProductsTable.setFilterBarVisible(true);
             selectedProductsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             selectedProductsTable.setStyleName(Constant.FILTER_TABLE);
@@ -441,7 +441,7 @@ public class MPmpyCalculator extends Window {
                             chartList.add(dto);                        
                     }
                     final MandatedChartUtils chart = new MandatedChartUtils(chartList, String.valueOf(frequencyDDLB.getValue()), StringUtils.EMPTY, headerDTO, "PMPYCalculator", projectionDTO);
-                    final MandatedGraphWindow pmpyGraphWindow = new MandatedGraphWindow(chart.getChart(), "PMPY Calculator");
+                    final MandatedGraphWindow pmpyGraphWindow = new MandatedGraphWindow(chart.getChart(), Constant.PMPY_CALCULATOR);
                     UI.getCurrent().addWindow(pmpyGraphWindow);
                     pmpyGraphWindow.focus();
 
@@ -474,6 +474,7 @@ public class MPmpyCalculator extends Window {
                     new AbstractNotificationUtils() {
                         @Override
                         public void noMethod() {
+                            return;
                         }
                         @Override
                         public void yesMethod() {
@@ -560,7 +561,6 @@ public class MPmpyCalculator extends Window {
             generateBtn.addClickListener(new Button.ClickListener() {
 
                 public void buttonClick(Button.ClickEvent event) {
-                    try {
                         if(checkSelection()){
                         tableLayout.removeAllComponents();
                         pmpyTable=new ExtFilterTable();
@@ -572,11 +572,6 @@ public class MPmpyCalculator extends Window {
                         pmpySalesMap.clear();
                         pmpyUnitsMap.clear();
                         }
-                    } catch (SystemException ex) {
-                        LOGGER.error(ex);
-                    } catch (SQLException ex) {
-                        LOGGER.error(ex);
-                    }
                 }
             });
             importBtn.addClickListener(new Button.ClickListener() {
@@ -584,15 +579,7 @@ public class MPmpyCalculator extends Window {
                  * Default method.
                  */
                 public void buttonClick(final Button.ClickEvent event) {
-                    try {
                         importButtonLogic();
-                    } catch (IllegalAccessException e) {                       
-                        LOGGER.error(e);
-                    } catch (InvocationTargetException e) {                       
-                        LOGGER.error(e);
-                    } catch (NoSuchMethodException e) {                     
-                        LOGGER.error(e);
-                    }
 
                 }
             });
@@ -641,7 +628,7 @@ public class MPmpyCalculator extends Window {
                     new AbstractNotificationUtils() {
                         @Override
                         public void noMethod() {
-
+                            return;
                         }
 
                         @Override
@@ -690,7 +677,7 @@ public class MPmpyCalculator extends Window {
                     new AbstractNotificationUtils() {
                         @Override
                         public void noMethod() {
-
+                            return;
                         }
 
                         @Override
@@ -713,11 +700,10 @@ public class MPmpyCalculator extends Window {
 
                 public void buttonClick(Button.ClickEvent event) {
 
-                    try {
                         ExtFilterTable excelTable = new ExtFilterTable();
                         excelTable.setVisible(false);
                         tableLayout.addComponent(excelTable);
-                        final ExtTreeContainer<MPmpyDTO> tempPMPYContainer = new ExtTreeContainer<MPmpyDTO>(MPmpyDTO.class,ExtContainer.DataStructureMode.MAP);
+                        final ExtTreeContainer<MPmpyDTO> tempPMPYContainer = new ExtTreeContainer<>(MPmpyDTO.class,ExtContainer.DataStructureMode.MAP);
                         
                         String frequency = String.valueOf(frequencyDDLB.getValue());
                         
@@ -738,15 +724,10 @@ public class MPmpyCalculator extends Window {
                         excelTable.setVisibleColumns(excelHeaderDTO.getSingleColumns().toArray());
                         excelTable.setColumnHeaders(excelHeaderDTO.getSingleHeaders().toArray(new String[excelHeaderDTO.getSingleHeaders().size()]));
                         ForecastUI.EXCEL_CLOSE=true;
-                        ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), "PMPY Calculator", "PMPY Calculator", "PMPYCalculator.xls", false);
+                        ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.PMPY_CALCULATOR, Constant.PMPY_CALCULATOR, "PMPYCalculator.xls", false);
                         export.export();
                         tableLayout.removeComponent(excelTable);
 
-                    } catch (SystemException ex) {
-                        LOGGER.error(ex);
-                    } catch (SQLException ex) {
-                        LOGGER.error(ex);
-                    }
                     
                 }
             });
@@ -762,7 +743,7 @@ public class MPmpyCalculator extends Window {
         customerDDLB.addItem(Constant.SELECT_ONE);
         customerDDLB.setNullSelectionAllowed(true);
         customerDDLB.setNullSelectionItemId(Constant.SELECT_ONE);
-        List list = pmpyLogic.loadCustomer(sessionDTO.getCustomerHierarchyId(), sessionDTO.getProductHierarchyId());
+        List list = pmpyLogic.loadCustomer();
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = (Object[]) list.get(i);            
             customerDDLB.addItem(String.valueOf(obj[0]));
@@ -775,7 +756,7 @@ public class MPmpyCalculator extends Window {
         contractDDLB.addItem(Constant.SELECT_ONE);
         contractDDLB.setNullSelectionAllowed(true);
         contractDDLB.setNullSelectionItemId(Constant.SELECT_ONE);
-        List list = pmpyLogic.loadContract(sessionDTO.getCustomerHierarchyId(), sessionDTO.getProductHierarchyId(), customerSid);
+        List list = pmpyLogic.loadContract(customerSid);
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = (Object[]) list.get(i);            
             contractDDLB.addItem(String.valueOf(obj[0]));
@@ -784,7 +765,7 @@ public class MPmpyCalculator extends Window {
     }
 
     public List<MPmpyDTO> loadProductsTable(int customerSid, int contractSid) throws PortalException, SystemException  {
-        List list = pmpyLogic.loadProduct(sessionDTO.getCustomerHierarchyId(), sessionDTO.getProductHierarchyId(), customerSid, contractSid);
+        List list = pmpyLogic.loadProduct( customerSid, contractSid);
         return list;
     }
 
@@ -848,7 +829,7 @@ public class MPmpyCalculator extends Window {
         pmpyTable.setWidth("800px");
         pmpyTable.setPageLength(NumericConstants.FIVE);
         
-        pmpyContainer = new ExtTreeContainer<MPmpyDTO>(MPmpyDTO.class,ExtContainer.DataStructureMode.MAP);
+        pmpyContainer = new ExtTreeContainer<>(MPmpyDTO.class,ExtContainer.DataStructureMode.MAP);
         pmpyContainer.setColumnProperties(headerDTO.getProperties());        
         pmpyTable.setContainerDataSource(pmpyContainer);
         
@@ -991,14 +972,14 @@ public class MPmpyCalculator extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof MPmpyDTO) {
-            targetItem = new BeanItem<MPmpyDTO>(
+            targetItem = new BeanItem<>(
                     (MPmpyDTO) obj);
         }
 
         return (MPmpyDTO) targetItem.getBean();
     }
 
-    public void loadPMPYTable(boolean isExcelExport, ExtTreeContainer<MPmpyDTO> excelContainer) throws SystemException, SQLException {
+    public void loadPMPYTable(boolean isExcelExport, ExtTreeContainer<MPmpyDTO> excelContainer)  {
 
         String productIds = StringUtils.EMPTY;
         String customerId = StringUtils.EMPTY.equals(String.valueOf(customerDDLB.getValue())) || Constant.NULL.equals(String.valueOf(customerDDLB.getValue())) ? DASH : String.valueOf(customerDDLB.getValue());
@@ -1023,9 +1004,9 @@ public class MPmpyCalculator extends Window {
         String procedureName = "M_SALES_PMPY";
         List<Object[]> list = CommonLogic.callProcedure(procedureName, selection);
         if (isExcelExport) {
-            excelContainer.addAll(pmpyLogic.convertPMPYResults(list, String.valueOf(frequencyDDLB.getValue()), true));
+            excelContainer.addAll(pmpyLogic.convertPMPYResults(list, String.valueOf(frequencyDDLB.getValue())));
         } else {
-            pmpyContainer.addAll(pmpyLogic.convertPMPYResults(list, String.valueOf(frequencyDDLB.getValue()), false));
+            pmpyContainer.addAll(pmpyLogic.convertPMPYResults(list, String.valueOf(frequencyDDLB.getValue())));
         }
 
     }
@@ -1181,9 +1162,7 @@ public class MPmpyCalculator extends Window {
             exporterDto.setProjectionPeriodTotal(String.valueOf(SalesUtils.currencyToValue(projPeriodTotalField.getValue())));
             pmpyLogic.export(exporterDto);
             LOGGER.debug("End of exportCalculatedExcel method");
-        } catch (SystemException e) {
-            LOGGER.error(e);
-        } catch (Exception e) {
+        }  catch (Exception e) {
             LOGGER.error(e);
         }
     }
@@ -1195,7 +1174,7 @@ public class MPmpyCalculator extends Window {
      * @throws InvocationTargetException the invocation target exception
      * @throws NoSuchMethodException the no such method exception
      */
-    public void importButtonLogic() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public void importButtonLogic()  {
 
         LOGGER.debug("Entering of importButtonLogic method");
         String tempUpdateValue = String.valueOf(projPeriodTotalField.getData());

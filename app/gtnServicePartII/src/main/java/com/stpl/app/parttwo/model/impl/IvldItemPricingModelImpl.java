@@ -66,9 +66,10 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
             { "ENTITY_CODE", Types.VARCHAR },
             { "ITEM_PRICE", Types.VARCHAR },
             { "INTF_INSERTED_DATE", Types.TIMESTAMP },
-            { "CHECK_RECORD", Types.BOOLEAN }
+            { "CHECK_RECORD", Types.BOOLEAN },
+            { "ITEM_PRICE_PRECISION", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table IVLD_ITEM_PRICING (ITEM_NO VARCHAR(75) null,MODIFIED_BY VARCHAR(75) null,PRICING_CODE_QUALIFIER_NAME VARCHAR(75) null,CREATED_DATE DATE null,END_DATE VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ITEM_NAME VARCHAR(75) null,ERROR_CODE VARCHAR(75) null,REPROCESSED_FLAG VARCHAR(75) null,ITEM_PRICING_INTFID VARCHAR(75) null,IVLD_ITEM_PRICING_SID INTEGER not null primary key IDENTITY,PRICING_CODE_STATUS VARCHAR(75) null,CREATED_BY VARCHAR(75) null,ITEM_ID VARCHAR(75) null,ERROR_FIELD VARCHAR(75) null,START_DATE VARCHAR(75) null,ITEM_UOM VARCHAR(75) null,MODIFIED_DATE DATE null,REASON_FOR_FAILURE VARCHAR(75) null,SOURCE VARCHAR(75) null,PRICING_CODE_QUALIFIER VARCHAR(75) null,ADD_CHG_DEL_INDICATOR VARCHAR(75) null,ENTITY_CODE VARCHAR(75) null,ITEM_PRICE VARCHAR(75) null,INTF_INSERTED_DATE DATE null,CHECK_RECORD BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table IVLD_ITEM_PRICING (ITEM_NO VARCHAR(75) null,MODIFIED_BY VARCHAR(75) null,PRICING_CODE_QUALIFIER_NAME VARCHAR(75) null,CREATED_DATE DATE null,END_DATE VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ITEM_NAME VARCHAR(75) null,ERROR_CODE VARCHAR(75) null,REPROCESSED_FLAG VARCHAR(75) null,ITEM_PRICING_INTFID VARCHAR(75) null,IVLD_ITEM_PRICING_SID INTEGER not null primary key IDENTITY,PRICING_CODE_STATUS VARCHAR(75) null,CREATED_BY VARCHAR(75) null,ITEM_ID VARCHAR(75) null,ERROR_FIELD VARCHAR(75) null,START_DATE VARCHAR(75) null,ITEM_UOM VARCHAR(75) null,MODIFIED_DATE DATE null,REASON_FOR_FAILURE VARCHAR(75) null,SOURCE VARCHAR(75) null,PRICING_CODE_QUALIFIER VARCHAR(75) null,ADD_CHG_DEL_INDICATOR VARCHAR(75) null,ENTITY_CODE VARCHAR(75) null,ITEM_PRICE VARCHAR(75) null,INTF_INSERTED_DATE DATE null,CHECK_RECORD BOOLEAN,ITEM_PRICE_PRECISION VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table IVLD_ITEM_PRICING";
     public static final String ORDER_BY_JPQL = " ORDER BY ivldItemPricing.ivldItemPricingSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY IVLD_ITEM_PRICING.IVLD_ITEM_PRICING_SID ASC";
@@ -114,6 +115,7 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
     private String _itemPrice;
     private Date _intfInsertedDate;
     private boolean _checkRecord;
+    private String _itemPriceprecision;
     private IvldItemPricing _escapedModel;
 
     public IvldItemPricingModelImpl() {
@@ -179,6 +181,7 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
         attributes.put("itemPrice", getItemPrice());
         attributes.put("intfInsertedDate", getIntfInsertedDate());
         attributes.put("checkRecord", getCheckRecord());
+        attributes.put("itemPriceprecision", getItemPriceprecision());
 
         return attributes;
     }
@@ -343,6 +346,13 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
 
         if (checkRecord != null) {
             setCheckRecord(checkRecord);
+        }
+
+        String itemPriceprecision = (String) attributes.get(
+                "itemPriceprecision");
+
+        if (itemPriceprecision != null) {
+            setItemPriceprecision(itemPriceprecision);
         }
     }
 
@@ -696,6 +706,20 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
     }
 
     @Override
+    public String getItemPriceprecision() {
+        if (_itemPriceprecision == null) {
+            return StringPool.BLANK;
+        } else {
+            return _itemPriceprecision;
+        }
+    }
+
+    @Override
+    public void setItemPriceprecision(String itemPriceprecision) {
+        _itemPriceprecision = itemPriceprecision;
+    }
+
+    @Override
     public IvldItemPricing toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (IvldItemPricing) ProxyUtil.newProxyInstance(_classLoader,
@@ -735,6 +759,7 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
         ivldItemPricingImpl.setItemPrice(getItemPrice());
         ivldItemPricingImpl.setIntfInsertedDate(getIntfInsertedDate());
         ivldItemPricingImpl.setCheckRecord(getCheckRecord());
+        ivldItemPricingImpl.setItemPriceprecision(getItemPriceprecision());
 
         ivldItemPricingImpl.resetOriginalValues();
 
@@ -986,12 +1011,20 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
 
         ivldItemPricingCacheModel.checkRecord = getCheckRecord();
 
+        ivldItemPricingCacheModel.itemPriceprecision = getItemPriceprecision();
+
+        String itemPriceprecision = ivldItemPricingCacheModel.itemPriceprecision;
+
+        if ((itemPriceprecision != null) && (itemPriceprecision.length() == 0)) {
+            ivldItemPricingCacheModel.itemPriceprecision = null;
+        }
+
         return ivldItemPricingCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(53);
+        StringBundler sb = new StringBundler(55);
 
         sb.append("{itemNo=");
         sb.append(getItemNo());
@@ -1045,6 +1078,8 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
         sb.append(getIntfInsertedDate());
         sb.append(", checkRecord=");
         sb.append(getCheckRecord());
+        sb.append(", itemPriceprecision=");
+        sb.append(getItemPriceprecision());
         sb.append("}");
 
         return sb.toString();
@@ -1052,7 +1087,7 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(82);
+        StringBundler sb = new StringBundler(85);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.parttwo.model.IvldItemPricing");
@@ -1161,6 +1196,10 @@ public class IvldItemPricingModelImpl extends BaseModelImpl<IvldItemPricing>
         sb.append(
             "<column><column-name>checkRecord</column-name><column-value><![CDATA[");
         sb.append(getCheckRecord());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>itemPriceprecision</column-name><column-value><![CDATA[");
+        sb.append(getItemPriceprecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

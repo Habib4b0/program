@@ -108,8 +108,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>989</xloc>
-      <yloc>1018</yloc>
+      <xloc>1291</xloc>
+      <yloc>1356</yloc>
       </entry>
     <entry>
       <name>TRUNCATE STAG TABLE</name>
@@ -126,8 +126,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>994</xloc>
-      <yloc>1339</yloc>
+      <xloc>1296</xloc>
+      <yloc>1677</yloc>
       </entry>
     <entry>
       <name>TRUNCATE INTERFACE TABLE</name>
@@ -144,8 +144,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>994</xloc>
-      <yloc>1446</yloc>
+      <xloc>1296</xloc>
+      <yloc>1784</yloc>
       </entry>
     <entry>
       <name>DATAFETCH</name>
@@ -176,8 +176,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>986</xloc>
-      <yloc>696</yloc>
+      <xloc>1284</xloc>
+      <yloc>880</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS</name>
@@ -187,8 +187,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1487</xloc>
-      <yloc>369</yloc>
+      <xloc>2047</xloc>
+      <yloc>359</yloc>
       </entry>
     <entry>
       <name>START</name>
@@ -207,8 +207,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>140</xloc>
-      <yloc>213</yloc>
+      <xloc>350</xloc>
+      <yloc>320</yloc>
       </entry>
     <entry>
       <name>FILE CHECKING</name>
@@ -216,7 +216,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;FULL_JOB.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -237,8 +237,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>990</xloc>
-      <yloc>312</yloc>
+      <xloc>1288</xloc>
+      <yloc>496</yloc>
       </entry>
     <entry>
       <name>CSV_TO_INTERFACE</name>
@@ -267,8 +267,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>988</xloc>
-      <yloc>395</yloc>
+      <xloc>1286</xloc>
+      <yloc>579</yloc>
       </entry>
     <entry>
       <name>ERROR CODE</name>
@@ -283,8 +283,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>993</xloc>
-      <yloc>1244</yloc>
+      <xloc>1295</xloc>
+      <yloc>1582</yloc>
       </entry>
     <entry>
       <name>MAIL</name>
@@ -292,7 +292,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -315,8 +315,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1210</xloc>
-      <yloc>727</yloc>
+      <xloc>1508</xloc>
+      <yloc>911</yloc>
       </entry>
     <entry>
       <name>MAIL (2)</name>
@@ -324,7 +324,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -347,8 +347,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1200</xloc>
-      <yloc>946</yloc>
+      <xloc>1536</xloc>
+      <yloc>1212</yloc>
       </entry>
     <entry>
       <name>MAIL (3)</name>
@@ -356,7 +356,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -379,8 +379,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1203</xloc>
-      <yloc>1335</yloc>
+      <xloc>1505</xloc>
+      <yloc>1673</yloc>
       </entry>
     <entry>
       <name>MAIL (4)</name>
@@ -388,7 +388,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -411,8 +411,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1204</xloc>
-      <yloc>1444</yloc>
+      <xloc>1506</xloc>
+      <yloc>1782</yloc>
       </entry>
     <entry>
       <name>REPROCESSING_INVALID_DATA</name>
@@ -443,14 +443,17 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>684</xloc>
-      <yloc>255</yloc>
+      <xloc>848</xloc>
+      <yloc>397</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -459,14 +462,17 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>294</xloc>
-      <yloc>224</yloc>
+      <xloc>588</xloc>
+      <yloc>116</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS AUDIT (2)</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -475,14 +481,17 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>991</xloc>
-      <yloc>1548</yloc>
+      <xloc>1293</xloc>
+      <yloc>1886</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS AUDIT (3)</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -491,8 +500,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1397</xloc>
-      <yloc>1066</yloc>
+      <xloc>1715</xloc>
+      <yloc>1180</yloc>
       </entry>
     <entry>
       <name>HANDLING_NEW_AUDIT</name>
@@ -523,8 +532,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>991</xloc>
-      <yloc>466</yloc>
+      <xloc>1289</xloc>
+      <yloc>650</yloc>
       </entry>
     <entry>
       <name>VALIDATIONS 2</name>
@@ -555,8 +564,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>988</xloc>
-      <yloc>1110</yloc>
+      <xloc>1290</xloc>
+      <yloc>1448</yloc>
       </entry>
     <entry>
       <name>STAG</name>
@@ -588,9 +597,9 @@ ITEM_ID_TYPE
 ,ITEM_ID
 ,AVG_SHELF_LIFE
 ,MODIFIED_BY
-,MODIFIED_DATE
+,isnull(MODIFIED_DATE,getdate())
 ,CREATED_BY
-,CREATED_DATE
+,isnull(CREATED_DATE,getdate())
 ,ADD_CHG_DEL_INDICATOR
 ,SOURCE
 ,AVERAGE_SHELF_LIFE_INTERFACE_ID
@@ -608,8 +617,8 @@ ITEM_ID_TYPE
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>988</xloc>
-      <yloc>616</yloc>
+      <xloc>1286</xloc>
+      <yloc>800</yloc>
       </entry>
     <entry>
       <name>ITEM TYPE VALIDATION</name>
@@ -668,8 +677,8 @@ a.ITEM_ID_TYPE
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>874</xloc>
-      <yloc>718</yloc>
+      <xloc>1298</xloc>
+      <yloc>1096</yloc>
       </entry>
     <entry>
       <name>ITEM TYPE VALIDATION 2</name>
@@ -727,8 +736,8 @@ WHERE A.ITEM_ID_TYPE=&apos;ITEM&apos; AND  NOT EXISTS (SELECT 1 FROM ITEM_MASTER
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>870</xloc>
-      <yloc>798</yloc>
+      <xloc>1294</xloc>
+      <yloc>1176</yloc>
       </entry>
     <entry>
       <name>ITEM TYPE VALIDATION 2 2</name>
@@ -786,8 +795,8 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>870</xloc>
-      <yloc>885</yloc>
+      <xloc>1294</xloc>
+      <yloc>1263</yloc>
       </entry>
     <entry>
       <name>SNAP</name>
@@ -818,8 +827,8 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>988</xloc>
-      <yloc>542</yloc>
+      <xloc>1286</xloc>
+      <yloc>726</yloc>
       </entry>
     <entry>
       <name>RETENTION_LOGIC</name>
@@ -827,7 +836,7 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${MAIL_FILE_PATH}&#47;new&#47;ZIP_FILE.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -848,8 +857,8 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1209</xloc>
-      <yloc>1554</yloc>
+      <xloc>1511</xloc>
+      <yloc>1892</yloc>
       </entry>
     <entry>
       <name>Check if a folder is empty</name>
@@ -862,8 +871,8 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>605</xloc>
-      <yloc>1463</yloc>
+      <xloc>749</xloc>
+      <yloc>1899</yloc>
       </entry>
     <entry>
       <name>GETTING_FILE_NAME</name>
@@ -871,7 +880,7 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;GETTING_FILE_NAME.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -894,8 +903,8 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1000</xloc>
-      <yloc>193</yloc>
+      <xloc>1298</xloc>
+      <yloc>377</yloc>
       </entry>
     <entry>
       <name>SET_STAG_COUNT</name>
@@ -903,7 +912,7 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SET_STAG_COUNT.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -926,8 +935,8 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>472</xloc>
-      <yloc>237</yloc>
+      <xloc>716</xloc>
+      <yloc>337</yloc>
       </entry>
     <entry>
       <name>TRUNCATE STAG TABLE 2</name>
@@ -944,8 +953,684 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>834</xloc>
-      <yloc>188</yloc>
+      <xloc>1075</xloc>
+      <yloc>260</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT (3) 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1551</xloc>
+      <yloc>518</yloc>
+      </entry>
+    <entry>
+      <name>FULL LOAD</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+----UPDATE A SET INBOUND_STATUS = &apos;D&apos; FROM   AVERAGE_SHELF_LIFE_MASTER A
+----WHERE NOT EXISTS(SELECT * FROM   STAG_AVERAGE_SHELF_LIFE SID WHERE SID.ITEM_ID_TYPE = A.ITEM_ID_TYPE AND SID.ITEM_ID = A.ITEM_ID)
+
+--DECLARE @sql nvarchar(max)
+--DECLARE @sql1 nvarchar(max)
+--DECLARE @TABLE_NAME varchar(100),@columnName varchar(100)=&apos;a&apos;,@columnName1 varchar(100)=&apos;b&apos;
+--SET @TABLE_NAME =(SELECT CONCAT(&apos;AVERAGE_SHELF_LIFE_MASTER&apos;, &apos;_&apos;, YEAR(GETDATE()), &apos;_&apos;, CASE
+--    WHEN MONTH(GETDATE()) &lt;=6 THEN &apos;SEMI_ANNUAL_1&apos;
+--    ELSE &apos;SEMI_ANNUAL_2&apos;
+--  END))
+-- -- select @TABLE_NAME
+
+--  IF NOT EXISTS (SELECT &apos;X&apos;
+--               FROM   INFORMATION_SCHEMA.TABLES
+--               WHERE  TABLE_NAME = @TABLE_NAME
+--                      AND TABLE_SCHEMA = &apos;dbo&apos;)
+--  BEGIN
+--  -- select 1
+
+   
+----DECLARE @TABLE_NAME varchar(100)
+----SET @TABLE_NAME =(SELECT CONCAT(&apos;A&apos;, &apos;_&apos;, YEAR(GETDATE()), &apos;_&apos;, CASE
+----    WHEN MONTH(GETDATE()) &lt;=6 THEN &apos;SEMI_ANNUAL_1&apos;
+----    ELSE &apos;SEMI_ANNUAL_2&apos;
+----  END))
+
+--  --DECLARE  @SQL NVARCHAR(MAX), @SQL1 NVARCHAR(MAX)
+--  set @sql1=&apos;
+
+--	[AVERAGE_SHELF_LIFE_MASTER_SID] [int]  NOT NULL,
+--	[ITEM_ID_TYPE] [varchar](10) NOT NULL,
+--	[ITEM_ID] [varchar](50) NOT NULL,
+--	[AVG_SHELF_LIFE] [numeric](22, 6) NOT NULL,
+--	[INBOUND_STATUS] [char](1) NULL,
+--	[RECORD_LOCK_STATUS] [bit] NOT NULL,
+--	[BATCH_ID] [varchar](50) NOT NULL,
+--	[SOURCE] [varchar](50) NULL,
+--	[CREATED_BY] [int] NOT NULL,
+--	[CREATED_DATE] [datetime] NOT NULL,
+--	[MODIFIED_BY] [int] NOT NULL,
+--	[MODIFIED_DATE] [datetime] NOT NULL
+--        &apos;
+--SET @SQL =&apos;CREATE TABLE &apos;  + @TABLE_NAME + &apos;( &apos;+@sql1+&apos; )&apos;
+--exec(  @SQL)
+
+
+
+
+
+--	  set @sql= &apos;insert into &apos; +@TABLE_NAME+ 
+--   &apos; select * from AVERAGE_SHELF_LIFE_MASTER&apos;
+
+--  exec (@sql)
+--   end
+
+--   else
+
+--   begin
+----select 3
+--	  set @sql= &apos;insert into &apos; +@TABLE_NAME+ 
+--   &apos; select * from AVERAGE_SHELF_LIFE_MASTER&apos;
+
+--    exec (@sql)
+
+--   end
+
+
+
+DECLARE @SQL NVARCHAR(MAX)
+       ,@SQL1 NVARCHAR(MAX)
+       ,@TABLE_NAME VARCHAR(100)
+       ,@SQL2 NVARCHAR(MAX)
+
+SELECT @TABLE_NAME = (SELECT CONCAT (&apos;AVERAGE_SHELF_LIFE_MASTER&apos;,&apos;_&apos;,YEAR(GETDATE()),&apos;_&apos;,CASE WHEN MONTH(GETDATE()) &lt;= 6 THEN &apos;SEMI_ANNUAL_1&apos; ELSE &apos;SEMI_ANNUAL_2&apos; END))
+
+
+IF NOT EXISTS (
+              SELECT &apos;X&apos;
+              FROM INFORMATION_SCHEMA.TABLES
+              WHERE TABLE_NAME = @TABLE_NAME
+                     AND TABLE_SCHEMA = &apos;DBO&apos;
+              )
+BEGIN
+       SET @SQL1 = &apos;
+SELECT @SQL2=STUFF((
+            SELECT &apos;&apos;,&apos;&apos; + CONCAT(COLUMN_NAME,&apos;&apos; &apos;&apos; ,DATA_TYPE ,CASE  WHEN DATA_TYPE IN ( &apos;&apos;char&apos;&apos; ,&apos;&apos;VARCHAR&apos;&apos; )
+                                                THEN CONCAT (
+                                                              &apos;&apos;(&apos;&apos;
+                                                              ,CHARACTER_MAXIMUM_LENGTH
+                                                              ,&apos;&apos;)&apos;&apos;
+                                                              )
+                                         WHEN DATA_TYPE = &apos;&apos;numeric&apos;&apos;
+                                                THEN CONCAT (
+                                                              &apos;&apos;(&apos;&apos;
+                                                              ,NUMERIC_PRECISION
+                                                              ,&apos;&apos;,&apos;&apos;,NUMERIC_SCALE
+                                                              ,&apos;&apos;)&apos;&apos;
+                                                              )
+                                         ELSE &apos;&apos;&apos;&apos;
+                                         END
+                                  ,&apos;&apos; &apos;&apos; ,CASE WHEN IS_NULLABLE=&apos;&apos;NO&apos;&apos; THEN &apos;&apos;NOT NULL&apos;&apos; ELSE &apos;&apos;NULL&apos;&apos; END )
+            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME =&apos;&apos;AVERAGE_SHELF_LIFE_MASTER&apos;&apos;
+                     order by ORDINAL_POSITION 
+            FOR XML PATH(&apos;&apos;&apos;&apos;)
+            ), 1, 1, &apos;&apos;&apos;&apos;) 
+&apos;
+
+       EXEC SP_EXECUTESQL @SQL1
+              ,N&apos;@SQL2 NVARCHAR(MAX) OUTPUT&apos;
+              ,@SQL2 OUTPUT
+       SET @SQL = &apos;CREATE TABLE &apos; + @TABLE_NAME + &apos;( &apos; + @SQL2 + &apos; )&apos;
+
+       EXEC (@SQL)
+
+       SET @SQL = &apos;INSERT INTO &apos; + @TABLE_NAME + &apos; SELECT * FROM AVERAGE_SHELF_LIFE_MASTER&apos;
+
+       EXEC (@SQL)
+END
+ELSE
+BEGIN
+       SET @SQL = &apos;INSERT INTO  &apos; + @TABLE_NAME + &apos; SELECT * FROM AVERAGE_SHELF_LIFE_MASTER&apos;
+
+       EXEC (@SQL)
+         
+END
+
+
+
+
+</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1150</xloc>
+      <yloc>1106</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${FULLLOAD}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>Y</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1069</xloc>
+      <yloc>1016</yloc>
+      </entry>
+    <entry>
+      <name>TRUNCATE AVERAGE_SHELF_LIFE_MASTER</name>
+      <description/>
+      <type>TRUNCATE_TABLES</type>
+      <connection>BPI DB</connection>
+      <arg_from_previous>N</arg_from_previous>
+      <fields>
+        <field>
+          <name>AVERAGE_SHELF_LIFE_MASTER</name>
+          <schemaname/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1068</xloc>
+      <yloc>1185</yloc>
+      </entry>
+    <entry>
+      <name>FULL LOAD 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+      INSERT INTO HIST_AVERAGE_SHELF_LIFE_MASTER
+                  (AVERAGE_SHELF_LIFE_MASTER_SID,
+                   ITEM_ID_TYPE,
+                   ITEM_ID,
+                   AVG_SHELF_LIFE,
+                   BATCH_ID,
+                   SOURCE,
+                   INBOUND_STATUS,
+                   RECORD_LOCK_STATUS,
+                   ACTION_FLAG,
+                   CREATED_BY,
+                   CREATED_DATE,
+                   MODIFIED_BY,
+                   MODIFIED_DATE)
+      SELECT AVERAGE_SHELF_LIFE_MASTER_SID,
+             ITEM_ID_TYPE,
+             ITEM_ID,
+             AVG_SHELF_LIFE,
+             BATCH_ID,
+             SOURCE,
+             INBOUND_STATUS,
+             RECORD_LOCK_STATUS,
+             &apos;D&apos;,
+             CREATED_BY,
+             CREATED_DATE,
+             MODIFIED_BY,
+             MODIFIED_DATE
+      FROM   AVERAGE_SHELF_LIFE_MASTER</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>955</xloc>
+      <yloc>1111</yloc>
+      </entry>
+    <entry>
+      <name>FULL LOAD PURGE DAYS</name>
+      <description/>
+      <type>SQL</type>
+      <sql>DECLARE @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
+DELETE FROM HIST_AVERAGE_SHELF_LIFE_MASTER
+WHERE  CONVERT(DATE, ACTION_DATE) &lt;= CONVERT(DATE, Getdate() - @NO_OF_DAYS)</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1751</xloc>
+      <yloc>1885</yloc>
+      </entry>
+    <entry>
+      <name>SNAP TABLE PURGE</name>
+      <description/>
+      <type>SQL</type>
+      <sql>DECLARE @SQL        VARCHAR(MAX),
+        @TABLE_NAME VARCHAR(100)=&apos;SNAP_AVERAGE_SHELF_LIFE&apos;,
+        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
+		,@var1 varchar(2)=&apos;&lt;&apos;
+
+
+SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
+          FROM   SYS.TABLES
+          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
+          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
+
+SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
+
+
+exec( @SQL)
+
+SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
+          FROM   SYS.TABLES
+          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
+          FOR XML PATH(&apos;&apos;))
+
+exec( @SQL) 
+
+</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>T</sendOneStatement>
+      <connection>STAGING DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1976</xloc>
+      <yloc>1913</yloc>
+      </entry>
+    <entry>
+      <name>SET_ENVIROIMENTAL_VARIABLE</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>476</xloc>
+      <yloc>356</yloc>
+      </entry>
+    <entry>
+      <name>Check if a folder is empty 2</name>
+      <description/>
+      <type>FOLDER_IS_EMPTY</type>
+      <foldername>${INBOUND_FILE_PATH}&#47;AVERAGE_SHELF_LIFE_INTERFACE&#47;Input&#47;</foldername>
+      <include_subfolders>N</include_subfolders>
+      <specify_wildcard>N</specify_wildcard>
+      <wildcard/>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1700</xloc>
+      <yloc>164</yloc>
+      </entry>
+    <entry>
+      <name>FULLLOAD</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;FULLLOAD.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logext>txt</logext>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Error</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>691</xloc>
+      <yloc>220</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${FULLLOAD}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>Y</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>858</xloc>
+      <yloc>281</yloc>
+      </entry>
+    <entry>
+      <name>TRUNCATE STAG TABLE 2 2</name>
+      <description/>
+      <type>TRUNCATE_TABLES</type>
+      <connection>BPI DB</connection>
+      <arg_from_previous>N</arg_from_previous>
+      <fields>
+        <field>
+          <name>IVLD_AVERAGE_SHELF_LIFE</name>
+          <schemaname/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1075</xloc>
+      <yloc>173</yloc>
+      </entry>
+    <entry>
+      <name>PRECISION</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>2097</xloc>
+      <yloc>1947</yloc>
+      </entry>
+    <entry>
+      <name>TRUNCATE INTERFACE TABLE 2</name>
+      <description/>
+      <type>TRUNCATE_TABLES</type>
+      <connection>STAGING DB</connection>
+      <arg_from_previous>N</arg_from_previous>
+      <fields>
+        <field>
+          <name>AVERAGE_SHELF_LIFE_INTERFACE</name>
+          <schemaname/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1245</xloc>
+      <yloc>239</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${SOURCE_MODE}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1079</xloc>
+      <yloc>337</yloc>
+      </entry>
+    <entry>
+      <name>DATABASE FETCH</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1083</xloc>
+      <yloc>525</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>Y</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1075</xloc>
+      <yloc>422</yloc>
+      </entry>
+    <entry>
+      <name>MAIL (2) 2</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1469</xloc>
+      <yloc>364</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2 3</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${SOURCE_MODE}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>992</xloc>
+      <yloc>1798</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2 3 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${SOURCE_MODE}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1879</xloc>
+      <yloc>561</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT (3) 3</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1977</xloc>
+      <yloc>870</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT (3) 3 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AVERAGE_SHELF_LIFE_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>2025</xloc>
+      <yloc>496</yloc>
+      </entry>
+    <entry>
+      <name>Check if a folder is empty 3</name>
+      <description/>
+      <type>FOLDER_IS_EMPTY</type>
+      <foldername>${INBOUND_FILE_PATH}&#47;${INTERFACE_NAME_INPUT}</foldername>
+      <include_subfolders>N</include_subfolders>
+      <specify_wildcard>N</specify_wildcard>
+      <wildcard/>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>863</xloc>
+      <yloc>175</yloc>
       </entry>
   </entries>
   <hops>
@@ -1022,33 +1707,6 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>FILE CHECKING</from>
-      <to>STOP PROCESS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>START</from>
-      <to>STOP PROCESS AUDIT</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
-    </hop>
-    <hop>
       <from>MAIL</from>
       <to>STOP PROCESS AUDIT (3)</to>
       <from_nr>0</from_nr>
@@ -1078,15 +1736,6 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
     <hop>
       <from>MAIL (4)</from>
       <to>STOP PROCESS AUDIT (3)</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>STOP PROCESS AUDIT (3)</from>
-      <to>STOP PROCESS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1139,24 +1788,6 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>REPROCESSING_INVALID_DATA</from>
-      <to>ITEM TYPE VALIDATION</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>DATAFETCH</from>
-      <to>ITEM TYPE VALIDATION</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>ITEM TYPE VALIDATION</from>
       <to>ITEM TYPE VALIDATION 2</to>
       <from_nr>0</from_nr>
@@ -1168,15 +1799,6 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
     <hop>
       <from>ITEM TYPE VALIDATION 2</from>
       <to>ITEM TYPE VALIDATION 2 2</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>ITEM TYPE VALIDATION 2 2</from>
-      <to>VALIDATIONS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1265,15 +1887,6 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>TRUNCATE INTERFACE TABLE</from>
-      <to>Check if a folder is empty</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>Check if a folder is empty</from>
       <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
@@ -1301,15 +1914,6 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT</from>
-      <to>SET_STAG_COUNT</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>SET_STAG_COUNT</from>
       <to>REPROCESSING_INVALID_DATA</to>
       <from_nr>0</from_nr>
@@ -1319,7 +1923,178 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <unconditional>N</unconditional>
     </hop>
     <hop>
+      <from>FILE CHECKING</from>
+      <to>STOP PROCESS AUDIT (3) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CSV_TO_INTERFACE</from>
+      <to>STOP PROCESS AUDIT (3) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ITEM TYPE VALIDATION 2 2</from>
+      <to>VALIDATIONS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4</from>
+      <to>FULL LOAD</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FULL LOAD</from>
+      <to>TRUNCATE AVERAGE_SHELF_LIFE_MASTER</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE AVERAGE_SHELF_LIFE_MASTER</from>
+      <to>ITEM TYPE VALIDATION</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4</from>
+      <to>ITEM TYPE VALIDATION</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
       <from>REPROCESSING_INVALID_DATA</from>
+      <to>ITEM TYPE VALIDATION</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4</from>
+      <to>FULL LOAD 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FULL LOAD 2</from>
+      <to>TRUNCATE AVERAGE_SHELF_LIFE_MASTER</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>RETENTION_LOGIC</from>
+      <to>FULL LOAD PURGE DAYS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FULL LOAD PURGE DAYS</from>
+      <to>SNAP TABLE PURGE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>START</from>
+      <to>SET_ENVIROIMENTAL_VARIABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>SET_ENVIROIMENTAL_VARIABLE</from>
+      <to>STOP PROCESS AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check if a folder is empty 2</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check if a folder is empty 2</from>
+      <to>STOP PROCESS AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT</from>
+      <to>FULLLOAD</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FULLLOAD</from>
+      <to>SET_STAG_COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>Simple evaluation 2 4 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE STAG TABLE 2 2</from>
       <to>TRUNCATE STAG TABLE 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1328,12 +2103,264 @@ WHERE A.ITEM_ID_TYPE=&apos;BRAND&apos; AND  NOT EXISTS (SELECT 1 FROM BRAND_MAST
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>TRUNCATE STAG TABLE 2</from>
-      <to>GETTING_FILE_NAME</to>
+      <from>Simple evaluation 2 4 2</from>
+      <to>TRUNCATE STAG TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DATAFETCH</from>
+      <to>Simple evaluation 2 4</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SNAP TABLE PURGE</from>
+      <to>PRECISION</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE STAG TABLE 2</from>
+      <to>TRUNCATE INTERFACE TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE INTERFACE TABLE 2</from>
+      <to>Simple evaluation 2 4 2 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2</from>
+      <to>Simple evaluation 2 4 2 2 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 2</from>
+      <to>DATABASE FETCH</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2</from>
+      <to>GETTING_FILE_NAME</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 2</from>
+      <to>GETTING_FILE_NAME</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DATABASE FETCH</from>
+      <to>HANDLING_NEW_AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DATABASE FETCH</from>
+      <to>MAIL (2) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE INTERFACE TABLE</from>
+      <to>Simple evaluation 2 4 2 2 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 3</from>
+      <to>STOP PROCESS AUDIT (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 3</from>
+      <to>Check if a folder is empty</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (2) 2</from>
+      <to>STOP PROCESS AUDIT (3) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (3) 2</from>
+      <to>Simple evaluation 2 4 2 2 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (3)</from>
+      <to>Simple evaluation 2 4 2 2 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (2) 2</from>
+      <to>STOP PROCESS AUDIT (3) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL</from>
+      <to>STOP PROCESS AUDIT (3) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (2)</from>
+      <to>STOP PROCESS AUDIT (3) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (3)</from>
+      <to>STOP PROCESS AUDIT (3) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (4)</from>
+      <to>STOP PROCESS AUDIT (3) 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (3) 3</from>
+      <to>Simple evaluation 2 4 2 2 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 3 2</from>
+      <to>STOP PROCESS AUDIT (3) 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (3) 3 2</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 3 2</from>
+      <to>Check if a folder is empty 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2</from>
+      <to>Check if a folder is empty 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check if a folder is empty 3</from>
+      <to>TRUNCATE STAG TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check if a folder is empty 3</from>
+      <to>TRUNCATE STAG TABLE 2 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

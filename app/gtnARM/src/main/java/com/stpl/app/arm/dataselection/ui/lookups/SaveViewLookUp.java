@@ -12,6 +12,7 @@ import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Property;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.OptionGroup;
@@ -27,7 +28,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
- * @author 
+ * @author
  */
 public class SaveViewLookUp extends Window {
 
@@ -43,6 +44,8 @@ public class SaveViewLookUp extends Window {
     DataSelectionLogic logic = new DataSelectionLogic();
     DataSelectionDTO dataSelectionDTO;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    String tempViewName = StringUtils.EMPTY;
+    String tempViewType = StringUtils.EMPTY;
 
     public SaveViewLookUp(DataSelectionDTO dataSelectionDTO) {
         super("Save View");
@@ -81,14 +84,16 @@ public class SaveViewLookUp extends Window {
             updateBtn.setEnabled(false);
             viewType.setEnabled(true);
         } else {
-            addBtn.setEnabled(false);
             updateBtn.setEnabled(true);
             viewType.select(dataSelectionDTO.getViewType());
-            viewType.setEnabled(false);
             viewName.setValue(dataSelectionDTO.getViewName());
+            tempViewName = dataSelectionDTO.getViewName();
+            tempViewType = dataSelectionDTO.getViewType();
         }
         addBtn.setImmediate(true);
         updateBtn.setImmediate(true);
+        viewName.addValueChangeListener(valueChange);
+        viewType.addValueChangeListener(valueChange);
     }
 
     @UiHandler("addBtn")
@@ -96,7 +101,7 @@ public class SaveViewLookUp extends Window {
         try {
             if (StringUtils.isBlank(viewName.getValue()) || ARMUtils.NULL.equals(String.valueOf(viewName.getValue()))) {
                 AbstractNotificationUtils.getErrorNotification("Invalid view name", "Enter the view name");
-            } else if (isDuplicateView(viewName.getValue())) {
+            } else if (isDuplicateView(viewName.getValue(),viewType.getValue())) {
                 if (ARMUtils.PRIVATE.equals(viewType.getValue())) {
                     AbstractNotificationUtils.getErrorNotification("Duplicate View Name",
                             "The Private View name you have attempted to save is a duplicate of an existing view name. "
@@ -107,7 +112,7 @@ public class SaveViewLookUp extends Window {
                             + "\nPlease enter a different view name");
                 }
             } else {
-                int projectionIdValue = logic.saveProjection(dataSelectionDTO);
+                int projectionIdValue = logic.saveProjectionForView(dataSelectionDTO);
                 logic.saveAdjustmentMaster(projectionIdValue, dataSelectionDTO);
                 saveSelectionValue(dataSelectionDTO, projectionIdValue);
                 SaveViewDTO viewDTO = new SaveViewDTO();
@@ -125,9 +130,9 @@ public class SaveViewLookUp extends Window {
                 this.close();
             }
         } catch (SystemException sysException) {
-            LOGGER.error(sysException);
+            LOGGER.error("Error in addButtonLogic :" + sysException);
         } catch (Exception exception) {
-            LOGGER.error(exception);
+            LOGGER.error("Error in addButtonLogic :" + exception);
         }
     }
 
@@ -139,15 +144,14 @@ public class SaveViewLookUp extends Window {
     @UiHandler("updateBtn")
     public void updateButtonLogic(Button.ClickEvent event) {
 
-               
         try {
             if (StringUtils.isBlank(viewName.getValue()) || ARMUtils.NULL.equals(String.valueOf(viewName.getValue()))) {
                 AbstractNotificationUtils.getErrorNotification("Invalid view name", "Enter the view name");
-            } else if (dataSelectionDTO.getViewCreatedBy()!=dataSelectionDTO.getCreatedBy()) {
+            } else if (dataSelectionDTO.getViewCreatedBy() != dataSelectionDTO.getCreatedBy()) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update public view", "You cannot update Public View (" + viewName.getValue() + ") because it was created by another user.You can choose to save a new profile under a different profile name");
             } else if (!String.valueOf(viewName.getValue()).equals(dataSelectionDTO.getViewName())) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update view name", "View  name can't be Changed");
-            } else if (isDuplicateView(viewName.getValue())) {
+            } else if (isDuplicateView(viewName.getValue(),viewType.getValue())) {
                 close();
                 logic.updateSavedViewProjection(dataSelectionDTO);
                 logic.updateSaveViewLogic(dataSelectionDTO);
@@ -163,9 +167,9 @@ public class SaveViewLookUp extends Window {
         }
     }
 
-    private boolean isDuplicateView(final String viewName) throws SystemException {
+    private boolean isDuplicateView(final String viewName,Object viewType) throws SystemException {
         LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
-        return logic.isDuplicateView(viewName);
+        return logic.isDuplicateView(viewName, String.valueOf(viewType),dataSelectionDTO);
     }
 
     public void saveSelectionValue(DataSelectionDTO dataSelectionDTO, int projectionIdValue) {
@@ -174,7 +178,18 @@ public class SaveViewLookUp extends Window {
             logic.saveProductHierarchyLogic(dataSelectionDTO.getProductList(), dataSelectionDTO.getProductEndLevelList(), projectionIdValue, null, ARMUtils.SAVE);
             logic.saveDeductionLogic(new HashSet(dataSelectionDTO.getRsContractSidList()), projectionIdValue);
         } catch (Exception ex) {
-            LOGGER.error("Error in Save Selection View " + projectionIdValue +ex);
+            LOGGER.error("Error in Save Selection View " + projectionIdValue + ex);
         }
     }
+    Property.ValueChangeListener valueChange = new Property.ValueChangeListener() {
+        @Override
+        public void valueChange(Property.ValueChangeEvent event) {
+            if (dataSelectionDTO.getViewName().equals(String.valueOf(viewName.getValue()))
+                    && dataSelectionDTO.getViewType().equals(String.valueOf(viewType.getValue()))) {
+                updateBtn.setEnabled(true);
+            } else {
+                updateBtn.setEnabled(false);
+            }
+        }
+    };
 }

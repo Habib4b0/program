@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.ui.fileSelection.logic;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.dao.FileManagementLogicDAO;
 import com.stpl.app.cff.dao.impl.FileManagementLogicDAOImpl;
@@ -103,16 +104,18 @@ public class FileManagementLogic {
      */
     public final static String ITEM_QUALIFIER_SID = "itemQualifierSid";
     
-    Map<String, String> monthMap = new HashMap<String, String>();
+    Map<String, String> monthMap = new HashMap<>();
     
-    HashMap<String, String> columnNames = new HashMap<String, String>();
+    HashMap<String, String> columnNames = new HashMap<>();
       String DOLLAR ="$";
      DecimalFormat dollarFormat = new DecimalFormat("#,##0.00");
      DecimalFormat unitsFormat = new DecimalFormat("#0.0");
     static DecimalFormat priceFormat = new DecimalFormat("#0.00");
     final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     final DateFormat dateFormatToParse = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
-      public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
+      
+    public static final String ITEM_IDENTIFIER = "ITEM_IDENTIFIER";
     /**
      * Gets the foecast year count.
      *
@@ -208,7 +211,7 @@ public class FileManagementLogic {
                 }
             }
         } else if (ConstantsUtils.DEMAND.equals(fileType)) {
-            sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM DEMAND_FORECAST DF WHERE FORECAST_NAME like '" + fileName + "' AND COUNTRY like '" + country + "' AND FORECAST_VER like '" + version + "'";
+            sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM DEMAND_FORECAST DF WHERE FORECAST_NAME like '" + fileName + "' AND COUNTRY like '" + country + "' AND FORECAST_VER like  '" + version + "'";
             List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
             if (!resultsLists.isEmpty()) {
                 for (Object resultsList1 : resultsLists) {
@@ -252,7 +255,7 @@ public class FileManagementLogic {
                 }
             }
         } else if (ConstantsUtils.ADJUSTED_DEMAND.equals(fileType)) {
-            sqlString = "SELECT FORECAST_NAME, FORECAST_VER, CREATED_DATE FROM dbo.ADJUSTED_DEMAND_FORECAST WHERE FORECAST_NAME like '" + fileName + "' AND COUNTRY like '" + country + "' AND FORECAST_VER like '" + version + "'";
+            sqlString = "SELECT FORECAST_NAME, FORECAST_VER, CREATED_DATE FROM dbo.ADJUSTED_DEMAND_FORECAST WHERE FORECAST_NAME like '" + fileName + "' AND  COUNTRY like '" + country + "' AND FORECAST_VER like '" + version + "'";
             List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
             if (!resultsLists.isEmpty()) {
                 for (Object resultsList1 : resultsLists) {
@@ -295,7 +298,7 @@ public class FileManagementLogic {
         final Order defaultOrder = OrderFactoryUtil.desc(ConstantsUtils.CREATE_DATE);
         dynamicQuery.addOrder(defaultOrder);
         Criterion criterion;
-        final Criterion Criteria = RestrictionsFactoryUtil.eq("fileType", fileType.getId());
+        final Criterion Criteria = RestrictionsFactoryUtil.eq(StringConstantsUtil.FILE_TYPE, fileType.getId());
         if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
             final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
             final Criterion criterion2 = RestrictionsFactoryUtil.or(criterion1, RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT));
@@ -343,7 +346,7 @@ public class FileManagementLogic {
         dynamicQuery.addOrder(defaultOrder);
         Criterion criterion;
         
-        Criterion criteria = RestrictionsFactoryUtil.eq("fileType", fileType.getId());
+        Criterion criteria = RestrictionsFactoryUtil.eq(StringConstantsUtil.FILE_TYPE, fileType.getId());
         if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
             final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
             criterion = RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.or(criterion1, RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT)), criteria);
@@ -374,7 +377,7 @@ public class FileManagementLogic {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public static int getForecastYearCount(final String filterText) throws PortalException, SystemException {
+    public static int getForecastYearCount(final String filterText) throws SystemException {
         final String filter = StringUtils.trimToEmpty(filterText);
         LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filter);
         List<Object[]> qualifierList;
@@ -399,8 +402,8 @@ public class FileManagementLogic {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public static List<HelperDTO> getForecastYearResults(final int startIndex, final int end, final String filter) throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+    public static List<HelperDTO> getForecastYearResults(final int startIndex, final int end, final String filter) throws SystemException {
+        final List<HelperDTO> list = new ArrayList<>();
         final String filterText = StringUtils.trimToEmpty(filter) + "%";
         LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :" + filterText);
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
@@ -424,7 +427,7 @@ public class FileManagementLogic {
     }
     
     public List<FileMananagementResultDTO> getItemSearchtrsults(final String itemName, final String itemNo) throws SystemException {
-        List<FileMananagementResultDTO> resultList = new ArrayList<FileMananagementResultDTO>();
+        List<FileMananagementResultDTO> resultList = new ArrayList<>();
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
         if (itemName.length() > 0) {
             String name = itemName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
@@ -469,7 +472,7 @@ public class FileManagementLogic {
     
     public String saveForecastDetails(List<FileMananagementResultDTO> itemIds, String source, String country, String version, String forecastName, String fileType) throws SystemException {
         LOGGER.debug("Entering Save Forecast Details with File Name" + forecastName + "File Type" + fileType.equals(ConstantsUtils.EX_FACTORY_SALES)
-                + "source" + source + "Country" + country);
+                + "source   " + source + "Country" + country);
         Boolean flag = false;
         for (int i = 0; i < itemIds.size(); i++) {
             
@@ -597,28 +600,28 @@ public class FileManagementLogic {
                     } else {
                         query += "'" + beanItem.getYear() + "'";
                     }
-                    query += ",NULL".equals(buildQuery(beanItem.getMonth())) ? "," + 0 : buildQuery(beanItem.getMonth());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getMonth())) ? "," + 0 : buildQuery(beanItem.getMonth());
                     query += buildQuery(beanItem.getDay());
                     query += buildQuery(beanItem.getWeek());
-                    query += ",NULL".equals(buildQuery(beanItem.getCompanyId())) ? "," + 0 : buildQuery(beanItem.getCompanyId());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? "," + 0 : buildQuery(beanItem.getCompanyId());
                     query += buildQuery(beanItem.getIdentifierCodeQualifier());
                     query += buildQuery(beanItem.getCompanyIdentifier());
-                    query += ",NULL".equals(buildQuery(beanItem.getItemId())) ? "," + 0 : buildQuery(beanItem.getItemId());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemId())) ? "," + 0 : buildQuery(beanItem.getItemId());
                     query += buildQuery(beanItem.getItemIdentifierCodeQualifier());
-                    query += ",NULL".equals(buildQuery(beanItem.getItemIdentifier())) ? ",'" + 0 + "'" : buildQuery(beanItem.getItemIdentifier());
-                    query += ",NULL".equals(buildQuery(beanItem.getUnitsWithdrawn())) ? "," + 0 : buildQuery(beanItem.getUnitsWithdrawn());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemIdentifier())) ? ",'" + 0 + "'" : buildQuery(beanItem.getItemIdentifier());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getUnitsWithdrawn())) ? "," + 0 : buildQuery(beanItem.getUnitsWithdrawn());
                     query += buildQuery(beanItem.getAmountWithdrawn());
                     query += buildQuery(beanItem.getPrice());
                     query += ",'" + convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT) + "'";
                     query += ",'" + convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT) + "'";
-                    query += ",NULL".equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'" : buildQuery(beanItem.getBatchId());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getBatchId())) ? ",'" + 0 + "'" : buildQuery(beanItem.getBatchId());
                     query += ",'" + source + "'";
                     query += ",'" + forecastName + "'";
                     query += ",'" + version + "'";
                     query += ",'" + country + "'";
-                    query += ",NULL".equals(buildQuery(beanItem.getOrganizationKey())) ? ",'" + 0 + "'" : buildQuery(beanItem.getOrganizationKey());
-                    query += ",NULL".equals(buildQuery(beanItem.getCompanyId())) ? ",'" + 0 + "'" : buildQuery(beanItem.getCompanyId());
-                    query += ",NULL".equals(buildQuery(beanItem.getItemId())) ? ",'" + 0 + "'" : buildQuery(beanItem.getItemId());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getOrganizationKey())) ? ",'" + 0 + "'" : buildQuery(beanItem.getOrganizationKey());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getCompanyId())) ? ",'" + 0 + "'" : buildQuery(beanItem.getCompanyId());
+                    query += StringConstantsUtil.A_NULL.equals(buildQuery(beanItem.getItemId())) ? ",'" + 0 + "'" : buildQuery(beanItem.getItemId());
                     query += ");";
                     HelperTableLocalServiceUtil.executeUpdateQuery(query);
                     flag = true;
@@ -637,7 +640,7 @@ public class FileManagementLogic {
     private String buildQuery(String value) {
         String query = "";
         if (value == null || "".equals(value)) {
-            query += ",NULL";
+            query += StringConstantsUtil.A_NULL;
         } else {
             query += ",'" + value + "'";
         }
@@ -676,7 +679,7 @@ public class FileManagementLogic {
      */
     public List<HelperDTO> getItemType(final String listType) throws SystemException {
         
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         
         LOGGER.debug("Entering getItemType P1:" + listType);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
@@ -710,7 +713,7 @@ public class FileManagementLogic {
      * @throws SystemException
      */
     public List<HelperDTO> getItemQualifierNameResults() throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemQualifier.class);
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
         projectionList.add(ProjectionFactoryUtil.property(ITEM_QUALIFIER_SID));
@@ -747,7 +750,7 @@ public class FileManagementLogic {
      */
     public List<HelperDTO> getBrandResults() throws PortalException, SystemException {
         List<Object[]> qualifierList;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
         
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
@@ -804,12 +807,12 @@ public class FileManagementLogic {
         
         LOGGER.debug("Entering getFileHistoryResults ");
         DynamicQuery projectionDynamicQuery = null;
-        Object object = new Object();
+        Object object;
         Criterion criterion = null;
         List<FileManagement> resultsList;
         
         projectionDynamicQuery = DynamicQueryFactoryUtil.forClass(FileManagement.class);
-        Criterion criteria = RestrictionsFactoryUtil.eq("fileType", fileType.getId());
+        Criterion criteria = RestrictionsFactoryUtil.eq(StringConstantsUtil.FILE_TYPE, fileType.getId());
         if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription()) && ConstantsUtils.COUNTRY_US.equals(country)) {
             final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
             criterion = RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.or(criterion1, RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT)), criteria);
@@ -830,27 +833,27 @@ public class FileManagementLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     if ("file".equals(stringFilter.getPropertyId())) {
-                        projectionDynamicQuery.add(RestrictionsFactoryUtil.ilike("forecastName", filterString));
+                        projectionDynamicQuery.add(RestrictionsFactoryUtil.ilike(StringConstantsUtil.FORECAST_NAME, filterString));
                     }
                     if ("type".equals(stringFilter.getPropertyId())) {
                         projectionDynamicQuery.add(RestrictionsFactoryUtil.ilike("forecastSource", filterString));
                     }
-                    if ("version".equals(stringFilter.getPropertyId())) {
-                        projectionDynamicQuery.add(RestrictionsFactoryUtil.ilike("version", filterString));
+                    if (StringConstantsUtil.VERSION.equals(stringFilter.getPropertyId())) {
+                        projectionDynamicQuery.add(RestrictionsFactoryUtil.ilike(StringConstantsUtil.VERSION, filterString));
                     }
                     
                 } else if (filter instanceof Compare) {
                     
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
-                    if ("version".equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
+                    if (StringConstantsUtil.VERSION.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
                         int value = Integer.valueOf(String.valueOf(compare.getValue()));
                         if (operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
-                            projectionDynamicQuery.add(RestrictionsFactoryUtil.ge("version", value));
+                            projectionDynamicQuery.add(RestrictionsFactoryUtil.ge(StringConstantsUtil.VERSION, value));
                         } else if (operation.LESS.toString().equalsIgnoreCase(operation.name())) {
-                            projectionDynamicQuery.add(RestrictionsFactoryUtil.le("version", value));
+                            projectionDynamicQuery.add(RestrictionsFactoryUtil.le(StringConstantsUtil.VERSION, value));
                         } else if (operation.EQUAL.toString().equalsIgnoreCase(operation.name())) {
-                            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq("version", value));
+                            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.VERSION, value));
                         }
                     }
                 } else if (filter instanceof Between) {
@@ -862,13 +865,13 @@ public class FileManagementLogic {
                         projectionDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CREATED_DATE, filterString));
                         projectionDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.CREATED_DATE, filterString1));
                     }
-                    if ("fromPeriod".equals(stringFilter.getPropertyId())) {
-                        projectionDynamicQuery.add(RestrictionsFactoryUtil.ge("fromPeriod", filterString));
-                        projectionDynamicQuery.add(RestrictionsFactoryUtil.lt("fromPeriod", filterString1));
+                    if (StringConstantsUtil.FROM_PERIOD.equals(stringFilter.getPropertyId())) {
+                        projectionDynamicQuery.add(RestrictionsFactoryUtil.ge(StringConstantsUtil.FROM_PERIOD, filterString));
+                        projectionDynamicQuery.add(RestrictionsFactoryUtil.lt(StringConstantsUtil.FROM_PERIOD, filterString1));
                     }
-                    if ("toPeriod".equals(stringFilter.getPropertyId())) {
-                        projectionDynamicQuery.add(RestrictionsFactoryUtil.ge("toPeriod", filterString));
-                        projectionDynamicQuery.add(RestrictionsFactoryUtil.lt("toPeriod", filterString1));
+                    if (StringConstantsUtil.TO_PERIOD.equals(stringFilter.getPropertyId())) {
+                        projectionDynamicQuery.add(RestrictionsFactoryUtil.ge(StringConstantsUtil.TO_PERIOD, filterString));
+                        projectionDynamicQuery.add(RestrictionsFactoryUtil.lt(StringConstantsUtil.TO_PERIOD, filterString1));
                     }
                     
                 }
@@ -908,7 +911,7 @@ public class FileManagementLogic {
             }
             
         }
-        final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<FileMananagementResultDTO>();
+        final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<>();
         
         if (isCount) {
             object = (Integer) DAO.getFileManagementCount(projectionDynamicQuery);
@@ -939,12 +942,12 @@ public class FileManagementLogic {
     }
     
     public HashMap<String, String> loadFMColumnName() {
-        columnNames.put("file", "forecastName");
+        columnNames.put("file", StringConstantsUtil.FORECAST_NAME);
         columnNames.put("type", "forecastSource");
-        columnNames.put("version", "version");
+        columnNames.put(StringConstantsUtil.VERSION, StringConstantsUtil.VERSION);
         columnNames.put("effectiveDate", ConstantsUtils.CREATED_DATE);
-        columnNames.put("fromPeriod", "fromPeriod");
-        columnNames.put("toPeriod", "toPeriod");
+        columnNames.put(StringConstantsUtil.FROM_PERIOD, StringConstantsUtil.FROM_PERIOD);
+        columnNames.put(StringConstantsUtil.TO_PERIOD, StringConstantsUtil.TO_PERIOD);
         
         return columnNames;
     }
@@ -963,8 +966,8 @@ public class FileManagementLogic {
     public Object getFileResults(FileMananagementResultDTO resultDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
         Object object = new Object();
         try {
-            List resultsList = new ArrayList();
-            final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<FileMananagementResultDTO>();
+            List resultsList;
+            final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<>();
             String fileName = resultDTO.getFileName();
             String type = resultDTO.getType();
             String version = resultDTO.getVersion();
@@ -985,35 +988,35 @@ public class FileManagementLogic {
                         + " CROSS APPLY(SELECT Min(Cast(( Cast(FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(FORECAST_MONTH AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE FROM   FORECASTING_MASTER "
                         + "  WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS "
                         + "    JOIN ITEM_MASTER IM ON IM.ITEM_ID = FM.NDC AND IM.INBOUND_STATUS <> 'D'\n"
-                        + "    JOIN GL_COST_CENTER_MASTER GLC ON IM.NDC8 = GLC.NDC8 \n"
-                        + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
+                        + "    JOIN GL_COST_CENTER_MASTER GLC ON IM.NDC8 =  GLC.NDC8 \n"
+                        + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND  CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
                         + "WHERE ";
                 query = query1 + query2;
                 condition = "(FM.SOURCE in('FORESIGHT','LE_FORESIGHT'))";
-                condition = condition + " AND FM.COUNTRY='" + resultDTO.getCountry() + "'";
-                 condition = condition + " AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
+                condition = condition + " AND FM.COUNTRY ='" + resultDTO.getCountry() + "'";
+                 condition = condition + " AND  FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
             } else if (ConstantsUtils.EX_FACTORY_SALES.equals(resultDTO.getHelperType()) && ConstantsUtils.COUNTRY_PR.equals(resultDTO.getCountry())) {
                 query2 = " Year(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR FROM  FORECASTING_MASTER FM "
                         + " CROSS APPLY(SELECT Min(Cast(( Cast(FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(FORECAST_MONTH AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE FROM   FORECASTING_MASTER  "
                         + "  WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS "
                         + "    JOIN ITEM_MASTER IM ON IM.ITEM_ID = FM.NDC AND IM.INBOUND_STATUS <> 'D'\n"
                         + "    JOIN GL_COST_CENTER_MASTER GLC ON IM.NDC8 = GLC.NDC8 \n"
-                        + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
+                        + "    JOIN COMPANY_MASTER CM  ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
                         + "WHERE ";
                 query = query1 + query2;
                 condition = "(FM.SOURCE in('FF_SALES'))";
-                condition = condition + " AND FM.COUNTRY='" + resultDTO.getCountry() + "'";
-                 condition = condition + " AND FM.BUSINESS_UNIT='" +resultDTO.getBusinessUnit() + "'";
+                condition = condition + " AND FM.COUNTRY = '" + resultDTO.getCountry() + "'";
+                 condition = condition + " AND  FM.BUSINESS_UNIT='" +resultDTO.getBusinessUnit() + "'";
             } else if (ConstantsUtils.DEMAND.equals(resultDTO.getFileType()) && ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
                 query2 = " Year(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR FROM  DEMAND_FORECAST FM "
                         + " CROSS APPLY(SELECT Min(Cast(( Cast(FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(FORECAST_MONTH AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE FROM DEMAND_FORECAST "
-                        + "  WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS"
+                        + "  WHERE   FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS"
                         + "    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
                         + "    JOIN GL_COST_CENTER_MASTER GLC ON IM.NDC8 = GLC.NDC8 \n"
-                        + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
+                        + "    JOIN COMPANY_MASTER CM  ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
                         + " WHERE ";
                 query = query1 + query2;
-                condition = "FM.COUNTRY='" + resultDTO.getCountry() + "'";
+                condition = "FM.COUNTRY ='" + resultDTO.getCountry() + "'";
                  condition = condition + " AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
             }
             else if (ConstantsUtils.ADJUSTED_DEMAND.equals(resultDTO.getFileType()) && ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
@@ -1024,12 +1027,12 @@ public class FileManagementLogic {
                         + " CROSS APPLY(SELECT Min(Cast(( Cast(YEAR AS VARCHAR(4)) + '-'+ Cast(MONTH AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE FROM ADJUSTED_DEMAND_FORECAST "
                         + "  WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS"
                         + "    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
-                        + "    JOIN GL_COST_CENTER_MASTER GLC ON IM.NDC8 = GLC.NDC8 \n"
-                        + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
+                        + "    JOIN GL_COST_CENTER_MASTER GLC ON  IM.NDC8 = GLC.NDC8 \n"
+                        + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID =  GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
                         + " WHERE ";
                 query = query2;
                 condition = "FM.COUNTRY='" + resultDTO.getCountry() + "'";
-                 condition = condition + " AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
+                 condition = condition + "  AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
             }
             else if (ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(resultDTO.getFileType()) && ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
                 query = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, \n"
@@ -1041,12 +1044,12 @@ public class FileManagementLogic {
                         + "CROSS APPLY(SELECT Min(Cast(( Cast(\"YEAR\" AS VARCHAR(4)) + '-'+ Cast(\"MONTH\" AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE \n"
                         + "FROM INVENTORY_WD_PROJ_MAS   \n"
                         + "WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS \n"
-                        + "    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
-                        + "    JOIN GL_COST_CENTER_MASTER GLC ON IM.NDC8 = GLC.NDC8 \n"
-                        + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
-                        + "WHERE ";
+                        + "    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID =  FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
+                        + "    JOIN GL_COST_CENTER_MASTER GLC ON  IM.NDC8 = GLC.NDC8 \n"
+                        + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE  AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
+                        + " WHERE  ";
                 condition = "FM.COUNTRY LIKE '" + resultDTO.getCountry() + "%'";
-                 condition = condition + " AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
+                 condition = condition + " AND FM.BUSINESS_UNIT = '" + resultDTO.getBusinessUnit() + "'";
             } else if (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(resultDTO.getFileType()) && ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
                 query = "SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.\"SOURCE\",FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, \n"
                         + "Max(Cast(( Cast(fm.\"YEAR\" AS VARCHAR(4)) + '-' + Cast(fm.\"MONTH\" AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE,  \n"
@@ -1057,23 +1060,23 @@ public class FileManagementLogic {
                         + "CROSS APPLY(SELECT Min(Cast(( Cast(\"YEAR\" AS VARCHAR(4)) + '-'+ Cast(\"MONTH\" AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE \n"
                         + "FROM INVENTORY_WD_PROJ_DT   \n"
                         + "WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS \n"
-                        + "    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
-                        + "    JOIN GL_COST_CENTER_MASTER GLC ON IM.NDC8 = GLC.NDC8 \n"
+                        + "    JOIN ITEM_MASTER  IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
+                        + "    JOIN GL_COST_CENTER_MASTER  GLC ON IM.NDC8 = GLC.NDC8 \n"
                         + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
-                        + "WHERE ";
+                        + " WHERE    ";
                 condition = "FM.COUNTRY LIKE '" + resultDTO.getCountry() + "%'";
                 condition = condition + " AND FM.BUSINESS_UNIT='" + resultDTO.getBusinessUnit() + "'";
             } else if (ConstantsUtils.CUSTOMERGTS.equals(resultDTO.getFileType()) && ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
                 query2 = " Year(Max(Cast(( Cast(fm.FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(fm.FORECAST_MONTH AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR FROM  CUSTOMER_GTS_FORECAST FM "
                         + " CROSS APPLY(SELECT Min(Cast(( Cast(FORECAST_YEAR AS VARCHAR(4)) + '-'+ Cast(FORECAST_MONTH AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE FROM CUSTOMER_GTS_FORECAST "
                         + "  WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS"
-                        + "    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
-                        + "    JOIN GL_COST_CENTER_MASTER GLC ON IM.NDC8 = GLC.NDC8 \n"
+                        + "    JOIN ITEM_MASTER  IM ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID AND IM.INBOUND_STATUS <> 'D'\n"
+                        + "    JOIN GL_COST_CENTER_MASTER  GLC ON IM.NDC8 = GLC.NDC8 \n"
                         + "    JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = GLC.COMPANY_CODE AND CM.INBOUND_STATUS <> 'D' AND CM.COMPANY_MASTER_SID = "+resultDTO.getCompany()+" "
-                        + " WHERE ";
+                        + " WHERE    ";
                 query = query1 + query2;
                 condition = "FM.COUNTRY='" + resultDTO.getCountry() + "'";
-                condition = condition + " AND FM.BUSINESS_UNIT='" +resultDTO.getBusinessUnit() + "'";
+                condition = condition + " AND  FM.BUSINESS_UNIT = '" +resultDTO.getBusinessUnit() + "'";
             }
             
             if (!ConstantsUtils.EMPTY.equals(fileName)) {
@@ -1113,14 +1116,14 @@ public class FileManagementLogic {
             }
             
             
-            HashMap<String, String> resultsColumn = new HashMap<String, String>();
-            resultsColumn.put("fileSource", "FM.SOURCE");
-            resultsColumn.put("country", "FM.COUNTRY");
+            HashMap<String, String> resultsColumn = new HashMap<>();
+            resultsColumn.put(StringConstantsUtil.FILE_TYPE, "FM.SOURCE");
+            resultsColumn.put(StringConstantsUtil.COUNTRY, "FM.COUNTRY");
             resultsColumn.put("fileName", "FM.FORECAST_NAME");
             resultsColumn.put("type", "FM.SOURCE");
-            resultsColumn.put("version", "FM.FORECAST_VER");
-            resultsColumn.put("fromDate", "FT_MIN_DATE");
-            resultsColumn.put("toDate", "FT_MAX_DATE");
+            resultsColumn.put(StringConstantsUtil.VERSION, "FM.FORECAST_VER");
+            resultsColumn.put(StringConstantsUtil.FROM_DATE, "FT_MIN_DATE");
+            resultsColumn.put(StringConstantsUtil.TO_DATE, "FT_MAX_DATE");
             resultsColumn.put("businessUnit","FM.BUSINESS_UNIT");
             String filterHaving="";
             if (filterSet != null) {
@@ -1128,7 +1131,7 @@ public class FileManagementLogic {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = "";
-                        if (("fromDate".equals(stringFilter.getPropertyId()) || "toDate".equals(stringFilter.getPropertyId())) && !stringFilter.equals("")) {
+                        if ((StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId()) || StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) && !stringFilter.equals("")) {
                             DateFormat formatter1 = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
                             Date date = (Date) formatter1.parse(stringFilter.getFilterString().toString());
                             Calendar cal = Calendar.getInstance();
@@ -1138,21 +1141,21 @@ public class FileManagementLogic {
                         } else {
                             filterString = "%" + stringFilter.getFilterString() + "%";
                         }
-                        if ("fromDate".equals(stringFilter.getPropertyId()) || "toDate".equals(stringFilter.getPropertyId())) {
-                            condition = condition + " AND " + resultsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " = '" + filterString + "'";
+                        if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId()) || StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
+                            condition = condition + StringConstantsUtil.SPACE_AND_SPACE + resultsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " = '" + filterString + "'";
                         } else {
-                            condition = condition + " AND " + resultsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                            condition = condition + StringConstantsUtil.SPACE_AND_SPACE + resultsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
                             }
 
                     } else if (filter instanceof Between) {
                         Between stringFilter = (Between) filter;
                         Date filterString = (Date) stringFilter.getStartValue();
                         Date filterString1 = (Date) stringFilter.getEndValue();
-                        if ("fromDate".equals(stringFilter.getPropertyId())) {
+                        if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
 
                             condition = condition + " AND FT_MIN_DATE >= '" + DB_DATE.format(filterString) + "' ";
                             condition = condition + " AND FT_MIN_DATE <= '" + DB_DATE.format(filterString1) + "' ";
-                        } else if ("toDate".equals(stringFilter.getPropertyId())) {
+                        } else if (StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
                             filterHaving = filterHaving + " AND  FT_MAX_DATE >= '" + DB_DATE.format(filterString) + "' ";
                             filterHaving = filterHaving + " AND  FT_MAX_DATE <= '" + DB_DATE.format(filterString1) + "' ";
                         }
@@ -1164,16 +1167,16 @@ public class FileManagementLogic {
                             String filterString = DB_DATE.format(stringFilter.getValue());
 
                             if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                                if ("fromDate".equals(stringFilter.getPropertyId())) {
+                                if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
                                     condition = condition + " AND FT_MIN_DATE >= '" + filterString + "' ";
-                                } else if ("toDate".equals(stringFilter.getPropertyId())) {
+                                } else if (StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
                                     filterHaving = filterHaving + " AND  FT_MAX_DATE >= '" + filterString + "' ";
                                 }
 
                             } else {
-                                if ("fromDate".equals(stringFilter.getPropertyId())) {
+                                if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
                                     condition = condition + " AND FT_MIN_DATE <= '" + filterString+ "' ";
-                                } else if ("toDate".equals(stringFilter.getPropertyId())) {
+                                } else if (StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
                                     filterHaving = filterHaving + " AND  FT_MAX_DATE <= '" +filterString + "' ";
                                 }
                                 
@@ -1204,14 +1207,14 @@ public class FileManagementLogic {
                 }
                 
                 if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
-                    order = order + " ORDER BY " + " FORECAST_NAME ASC";
+                    order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + " FORECAST_NAME ASC";
                 } else {
-                    order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                    order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
                 }
                 
-                order = order + " " + "OFFSET ";
+                order = order + " " + StringConstantsUtil.OFFSET;
                 order = order + startIndex;
-                order = order + " ROWS FETCH NEXT " + endIndex;
+                order = order + StringConstantsUtil.ROWS_FETCH_NEXT + endIndex;
                 order = order + " ROWS ONLY";
                 
             }
@@ -1228,8 +1231,8 @@ public class FileManagementLogic {
             String finalQuery = query + condition + GroupBy + having + order;
             if (!filterHaving.isEmpty()) {
                 finalQuery = query + condition + GroupBy + having;
-                finalQuery=" SELECT FM.FORECAST_NAME,FM.FORECAST_VER,FM.SOURCE,FM.COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE,MAX(FT_MAX_DATE),MIN_YEAR,MAX_MONTH,MAX_YEAR from ("+finalQuery+") T  WHERE  FORECAST_VER = Floor(T.FORECAST_VER)"+filterHaving+
-                        "GROUP BY FM.FORECAST_NAME, FM.FORECAST_VER,FM.SOURCE,FM.COUNTRY,MIN_YEAR,MAX_MONTH,MAX_YEAR "+order;
+                finalQuery=" SELECT FORECAST_NAME,FORECAST_VER,SOURCE,COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE,MAX(FT_MAX_DATE),MIN_YEAR,MAX_MONTH,MAX_YEAR from ("+finalQuery+") T  WHERE  FORECAST_VER = Floor(T.FORECAST_VER)"+filterHaving+
+                        "GROUP BY FORECAST_NAME, FORECAST_VER,SOURCE,COUNTRY,MIN_YEAR,MAX_MONTH,MAX_YEAR "+order;
             }
             
             resultsList = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
@@ -1290,8 +1293,8 @@ public class FileManagementLogic {
     public Object getDetailsResults(FileMananagementResultDTO detailsResultDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) throws ParseException {
         Object detailsObj = null;
         List resultsList;
-        final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<FileMananagementResultDTO>();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
         LOGGER.debug("getDetailsResults started with P1:String fileName=" + detailsResultDTO.getFileName() + " P2:String version=" + detailsResultDTO.getVersion() + " P3:String fileType=" + detailsResultDTO.getHelperType() + " P4:String country=" + detailsResultDTO.getCountry() + " startIndex=" + startIndex + " endIndex=" + endIndex);
         if (detailsResultDTO.getHelperType().equals(ConstantsUtils.DEMAND)) {
             resultsList = getDemandDetailsResults(detailsResultDTO, startIndex, endIndex, sortByColumns, filterSet, isCount);
@@ -1392,7 +1395,7 @@ public class FileManagementLogic {
                 fmDTO.setItemIdentifier(obj[NumericConstants.SIX] != null ? String.valueOf(obj[NumericConstants.SIX]) : "");
                 fmDTO.setUnitsWithdrawn(obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : "");
                 fmDTO.setAmountWithdrawn(obj[NumericConstants.EIGHT] != null ? String.valueOf(obj[NumericConstants.EIGHT]) : "");
-                fmDTO.setPrice(obj[NumericConstants.FIVE] == null ? " " : DOLLAR+priceFormat.format(obj[NumericConstants.FIVE]));
+                fmDTO.setPrice(obj[NumericConstants.NINE] == null ? " " : DOLLAR+priceFormat.format(obj[NumericConstants.NINE]));
                 fmDTO.setBatchId(obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN]) : "");
                 fmDTO.setHiddenbatchId(obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN]) : "");
                 fmDTO.setOrganizationKey(obj[NumericConstants.ELEVEN] != null ? String.valueOf(obj[NumericConstants.ELEVEN]) : "");
@@ -1528,13 +1531,13 @@ public class FileManagementLogic {
         }else {
             detailsObj = resultsList.get(0);
             LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> detailsObj=" + detailsObj);
-        }
+    }
         return detailsObj;
     }
-    
+
     public List getForecastDetails(FileMananagementResultDTO detailsResultDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
         LOGGER.debug("Entering getForecastDetails ");
-        List list = new ArrayList();
+        List list;
         String sqlString;
         if (isCount) {
             sqlString = "SELECT count( * ) \n"
@@ -1551,26 +1554,26 @@ public class FileManagementLogic {
         } else if ("Vaccine Segmentation".equals(detailsResultDTO.getHelperType())) {
             sqlString = sqlString.concat(" AND (FM.SOURCE LIKE 'FF_VACCINE')");
         }
-        sqlString = sqlString.concat(" AND FM.COUNTRY='").concat(detailsResultDTO.getCountry()).concat("'");
+        sqlString = sqlString.concat(" AND FM.COUNTRY =  '").concat(detailsResultDTO.getCountry()).concat("'");
         
         if (detailsResultDTO.getVersion().contains("~")) {
             String[] versionArray = detailsResultDTO.getVersion().split("~");
-            sqlString = sqlString.concat(" AND ").concat(" (FM.FORECAST_VER='").concat(versionArray[0]).concat("' or FM.FORECAST_VER='").concat(versionArray[1]).concat("')");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" (FM.FORECAST_VER='").concat(versionArray[0]).concat("' or FM.FORECAST_VER='").concat(versionArray[1]).concat("')");
         } else {
-            sqlString = sqlString.concat(" AND ").concat(" FM.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" FM.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
         }
         
         String filterQuery = "";
         
-        HashMap<String, String> detailsColumn = new HashMap<String, String>();
+        HashMap<String, String> detailsColumn = new HashMap<>();
         detailsColumn.put("year", "FORECAST_YEAR");
-        detailsColumn.put("month", "FORECAST_MONTH");
-        detailsColumn.put("itemNo", "ITEM_NO");
-        detailsColumn.put("itemName", "ITEM_NAME");
-        detailsColumn.put("price", "PRICE");
-        detailsColumn.put("units", "UNITS");
+        detailsColumn.put(StringConstantsUtil.MONTH_PROPERTY, "FORECAST_MONTH");
+        detailsColumn.put(StringConstantsUtil.ITEM_NO_PROPERTY, "ITEM_NO");
+        detailsColumn.put(StringConstantsUtil.ITEM_NAME_PROPERTY, StringConstantsUtil.ITEM_NAME_LABEL);
+        detailsColumn.put(StringConstantsUtil.PRICE_PROPERTY, "PRICE");
+        detailsColumn.put(StringConstantsUtil.UNITS_PROPERTY, "UNITS");
         detailsColumn.put("dollars", "DOLLARS");
-        detailsColumn.put("startDate", "FORECAST_DATE");
+        detailsColumn.put(StringConstantsUtil.START_DATE_PROPERTY, "FORECAST_DATE");
         
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -1578,14 +1581,14 @@ public class FileManagementLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     
-                    filterQuery = filterQuery + " AND " + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
                     
                 } else if (filter instanceof Between) {
                     Between stringFilter = (Between) filter;
-                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
                     String filterString = formatter.format(stringFilter.getStartValue());
                     String filterString1 = formatter.format(stringFilter.getEndValue());
-                    if ("startDate".equals(stringFilter.getPropertyId())) {
+                    if (StringConstantsUtil.START_DATE_PROPERTY.equals(stringFilter.getPropertyId())) {
                         filterQuery = filterQuery + " AND FORECAST_DATE >= '" + filterString + "' ";
                         filterQuery = filterQuery + " AND FORECAST_DATE <= '" + filterString1 + "' ";
                     }
@@ -1617,13 +1620,13 @@ public class FileManagementLogic {
             if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
                 order = order + " ORDER BY FM.FORECAST_YEAR ASC, FM.FORECAST_MASTER_SID ASC";
             } else {
-                order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
             }
             
-            order = order + " " + "OFFSET ";
+            order = order + " " + StringConstantsUtil.OFFSET;
             order = order + startIndex;
-            order = order + " ROWS FETCH NEXT " + endIndex;
-            order = order + " ROWS ONLY;";
+            order = order + StringConstantsUtil.ROWS_FETCH_NEXT + endIndex;
+            order = order + StringConstantsUtil.ROWS_ONLY;
             
         }
         
@@ -1640,7 +1643,7 @@ public class FileManagementLogic {
     
     public Object getItemSearchResults(final ItemSearchDTO itemSearchDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) throws SystemException {
         Object itemObject;
-        List<ItemSearchDTO> resultList = new ArrayList<ItemSearchDTO>();
+        List<ItemSearchDTO> resultList = new ArrayList<>();
         String sql = findItemMaster(itemSearchDTO, startIndex, endIndex, sortByColumns, filterSet, isCount);
         List<Object[]> resulList = (List<Object[]>) DAO.executeSelectQuery(sql, null, null);
         if (!isCount) {
@@ -1741,15 +1744,15 @@ public class FileManagementLogic {
 
 //    Query for filter in table
             String filterQuery = "";
-            HashMap<String, String> itemColumn = new HashMap<String, String>();
+            HashMap<String, String> itemColumn = new HashMap<>();
             itemColumn.put("systemId", "im.item_Master_Sid");
-            itemColumn.put("itemNo", "im.item_No");
-            itemColumn.put("itemName", "im.item_Name");
+            itemColumn.put(StringConstantsUtil.ITEM_NO_PROPERTY, "im.item_No");
+            itemColumn.put(StringConstantsUtil.ITEM_NAME_PROPERTY, "im.item_Name");
             itemColumn.put("itemDesc", "im.item_Desc");
             itemColumn.put("itemType", "im.item_Type");
             itemColumn.put("itemStatus", "im.item_Status");
             itemColumn.put("therapyClass", "im.THERAPEUTIC_CLASS");
-            itemColumn.put("brand", "im.brand_Master_Sid");
+            itemColumn.put(StringConstantsUtil.BRAND_PROPERTY, "im.brand_Master_Sid");
             itemColumn.put("ndc9", "im.ndc9");
             itemColumn.put("ndc8", "im.ndc8");
             itemColumn.put("identifierType", "irt.item_Qualifier_Sid");
@@ -1760,12 +1763,12 @@ public class FileManagementLogic {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = "%" + stringFilter.getFilterString() + "%";
-                        if (("brand").equals(stringFilter.getPropertyId()) || "identifierType".equals(stringFilter.getPropertyId())) {
+                        if ((StringConstantsUtil.BRAND_PROPERTY).equals(stringFilter.getPropertyId()) || "identifierType".equals(stringFilter.getPropertyId())) {
                             if (stringFilter.getFilterString() != null && !"null".equals(stringFilter.getFilterString())) {
-                                filterQuery = filterQuery + " AND " + itemColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                                filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + itemColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
                             }
                         } else {
-                            filterQuery = filterQuery + " AND " + itemColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                            filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + itemColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
                         }
                     }
                 }
@@ -1793,13 +1796,13 @@ public class FileManagementLogic {
                 if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
                     order = order + " ORDER BY im.item_Master_Sid ";
                 } else {
-                    order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                    order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
                 }
                 
-                order = order + " " + "OFFSET ";
+                order = order + " " + StringConstantsUtil.OFFSET;
                 order = order + startIndex;
-                order = order + " ROWS FETCH NEXT " + endIndex;
-                order = order + " ROWS ONLY;";
+                order = order + StringConstantsUtil.ROWS_FETCH_NEXT + endIndex;
+                order = order + StringConstantsUtil.ROWS_ONLY;
                 
             }
             
@@ -1815,7 +1818,7 @@ public class FileManagementLogic {
     
     public List getDemandDetailsResults(FileMananagementResultDTO detailsResultDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
         LOGGER.debug("Entering Demand Details Results");
-        List list = new ArrayList();
+        List list;
         String sqlString = "";
         
         if (isCount) {
@@ -1832,10 +1835,10 @@ public class FileManagementLogic {
                     + "FROM DEMAND_FORECAST DF WHERE DF.FORECAST_NAME =";
         }
         sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
-        sqlString = sqlString.concat(" AND DF.COUNTRY='").concat(detailsResultDTO.getCountry()).concat("'");
+        sqlString = sqlString.concat(" AND DF.COUNTRY = '").concat(detailsResultDTO.getCountry()).concat("'");
         if (detailsResultDTO.getVersion().contains("~")) {
             String[] versionArray = detailsResultDTO.getVersion().split("~");
-            sqlString = sqlString.concat(" AND ").concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
             String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
             String[] InnerArray = tempversionArray.split("~");
             int outerSize = Integer.parseInt(InnerArray[0]);
@@ -1857,33 +1860,33 @@ public class FileManagementLogic {
             }
             
         } else {
-            sqlString = sqlString.concat(" AND ").concat(" DF.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" DF.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
         }
         String filterQuery = "";
-        HashMap<String, String> detailsColumn = new HashMap<String, String>();
+        HashMap<String, String> detailsColumn = new HashMap<>();
         detailsColumn.put("forecastType", "DF.FORECAST_TYPE");
-        detailsColumn.put("forcastYear", "DF.FORECAST_YEAR");
-        detailsColumn.put("forecastMonth", "DF.FORECAST_MONTH");
-        detailsColumn.put("itemId", "DF.ITEM_ID");
-        detailsColumn.put("itemIdentifierCodeQualifier", "DF.ITEM_IDENTIFIER_CODE_QUALIFIER");
-        detailsColumn.put("itemIdentifier", "DF.ITEM_IDENTIFIER");
-        detailsColumn.put("brandId", "DF.BRAND_ID");
-        detailsColumn.put("segment", "DF.SEGMENT");
-        detailsColumn.put("marketSizeUnits", "DF.MARKET_SIZE_UNITS");
-        detailsColumn.put("marketShareRatio", "DF.MARKET_SHARE_RATIO");
-        detailsColumn.put("marketShareUnits", "DF.MARKET_SHARE_UNITS");
-        detailsColumn.put("uncapturedUnits", "DF.UNCAPTURED_UNITS");
-        detailsColumn.put("uncapturedUnitsRatio", "DF.UNCAPTURED_UNITS_RATIO");
-        detailsColumn.put("totalDemandUnits", "DF.TOTAL_DEMAND_UNITS");
-        detailsColumn.put("totalDemandAmount", "DF.TOTAL_DEMAND_AMOUNT");
-        detailsColumn.put("inventoryUnitChange", "DF.INVENTORY_UNIT_CHANGE");
-        detailsColumn.put("grossUnits", "DF.GROSS_UNITS");
-        detailsColumn.put("grossPrice", "DF.GROSS_PRICE");
-        detailsColumn.put("grossAmount", "DF.GROSS_AMOUNT");
-        detailsColumn.put("netSalesPrice", "DF.NET_SALES_PRICE");
-        detailsColumn.put("netSalesAmount", "DF.NET_SALES_AMOUNT");
-        detailsColumn.put("batchId", "DF.BATCH_ID");
-        detailsColumn.put("organizationKey", "DF.ORGANIZATION_KEY");
+        detailsColumn.put(StringConstantsUtil.FORCAST_YEAR_PROPERTY, StringConstantsUtil.DFFORECAST_YEAR);
+        detailsColumn.put(StringConstantsUtil.FORECAST_MONTH, StringConstantsUtil.DFFORECAST_MONTH);
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.DFITEM_ID);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER, "DF.ITEM_IDENTIFIER_CODE_QUALIFIER");
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER, StringConstantsUtil.DFITEM_IDENTIFIER);
+        detailsColumn.put(StringConstantsUtil.BRAND_ID, StringConstantsUtil.DFBRAND_ID);
+        detailsColumn.put(StringConstantsUtil.SEGMENT, StringConstantsUtil.DFSEGMENT);
+        detailsColumn.put(StringConstantsUtil.MARKET_SIZE_UNITS, StringConstantsUtil.DFMARKET_SIZE_UNITS);
+        detailsColumn.put(StringConstantsUtil.MARKET_SHARE_RATIO, StringConstantsUtil.DFMARKET_SHARE_RATIO);
+        detailsColumn.put(StringConstantsUtil.MARKET_SHARE_UNITS_PROPERTY, StringConstantsUtil.DFMARKET_SHARE_UNITS);
+        detailsColumn.put(StringConstantsUtil.UNCAPTURED_UNITS, StringConstantsUtil.DFUNCAPTURED_UNITS);
+        detailsColumn.put(StringConstantsUtil.UNCAPTURED_UNITS_RATIO, StringConstantsUtil.DFUNCAPTURED_UNITS_RATIO);
+        detailsColumn.put(StringConstantsUtil.TOTAL_DEMAND_UNITS, StringConstantsUtil.DFTOTAL_DEMAND_UNITS);
+        detailsColumn.put(StringConstantsUtil.TOTAL_DEMAND_AMOUNT, StringConstantsUtil.DFTOTAL_DEMAND_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.INVENTORY_UNIT_CHANGE, StringConstantsUtil.DFINVENTORY_UNIT_CHANGE);
+        detailsColumn.put(StringConstantsUtil.GROSS_UNITS, StringConstantsUtil.DFGROSS_UNITS);
+        detailsColumn.put(StringConstantsUtil.GROSS_PRICE, StringConstantsUtil.DFGROSS_PRICE);
+        detailsColumn.put(StringConstantsUtil.GROSS_AMOUNT, StringConstantsUtil.DFGROSS_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.NET_SALES_PRICE, StringConstantsUtil.DFNET_SALES_PRICE);
+        detailsColumn.put(StringConstantsUtil.NET_SALES_AMOUNT, StringConstantsUtil.DFNET_SALES_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.DFBATCH_ID);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.DFORGANIZATION_KEY);
         
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -1891,7 +1894,7 @@ public class FileManagementLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     
-                    filterQuery = filterQuery + " AND " + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
                     
                 }
             }
@@ -1899,7 +1902,7 @@ public class FileManagementLogic {
         String finalQuery = "";
         String order = "";
         if (!isCount) {
-            String sortOrder=" ASC ";
+            String sortOrder=StringConstantsUtil.SPACE_ASC_SPACE;
             String columnName = null;
             String orderByColumn = null;
             if (sortByColumns != null) {
@@ -1910,27 +1913,27 @@ public class FileManagementLogic {
                     orderByColumn = detailsColumn.get(columnName);
                     
                     if (sortByColumn.getType() != SortByColumn.Type.ASC) {
-                        sortOrder = " DESC ";
+                        sortOrder = StringConstantsUtil.SPACE_DESC_SPACE;
                     }
                 }
             }
             String extraOrder="";
-            String extraSortOrder=" ASC ";
-            String extraSortOrderMonth=" ASC ";
+            String extraSortOrder=StringConstantsUtil.SPACE_ASC_SPACE;
+            String extraSortOrderMonth=StringConstantsUtil.SPACE_ASC_SPACE;
             if (orderByColumn != null && !StringUtils.EMPTY.equals(orderByColumn)) {
-                if("DF.FORECAST_YEAR".equalsIgnoreCase(orderByColumn)){
+                if(StringConstantsUtil.DFFORECAST_YEAR.equalsIgnoreCase(orderByColumn)){
                    extraSortOrder=sortOrder;
-                }else if("DF.FORECAST_MONTH".equalsIgnoreCase(orderByColumn)){
+                }else if(StringConstantsUtil.DFFORECAST_MONTH.equalsIgnoreCase(orderByColumn)){
                    extraSortOrderMonth=sortOrder;
                 }else{
                   extraOrder=", "+ orderByColumn + sortOrder;
                 }               
             }
-            order += " ORDER BY DF.FORECAST_YEAR "+extraSortOrder+ ",DF.FORECAST_MONTH  "+extraSortOrderMonth+", DF.DEMAND_FORECAST_SID ASC "+extraOrder;
-            order += " " + "OFFSET ";
+            order += " ORDER BY DF.FORECAST_YEAR  "+extraSortOrder+ ",DF.FORECAST_MONTH  "+extraSortOrderMonth+", DF.DEMAND_FORECAST_SID ASC "+extraOrder;
+            order += " " + StringConstantsUtil.OFFSET;
             order += startIndex;
-            order += " ROWS FETCH NEXT " + endIndex;
-            order += " ROWS ONLY;";
+            order += StringConstantsUtil.ROWS_FETCH_NEXT + endIndex;
+            order += StringConstantsUtil.ROWS_ONLY;
         }
         if (isCount) {
             finalQuery = sqlString + filterQuery;
@@ -1938,13 +1941,13 @@ public class FileManagementLogic {
             finalQuery = sqlString + filterQuery + order;
         }
         list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
-        LOGGER.debug("Ending Demand Details Results");
+        LOGGER.debug("Ending Demand  Details Results");
         return list;
     }
     
     public List getInventorySummaryResults(FileMananagementResultDTO detailsResultDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
-        LOGGER.debug("Entering Demand Details Results");
-        List list = new ArrayList();
+        LOGGER.debug("Entering getInventorySummaryResults Details Results");
+        List list;
         String sqlString = "";
         
         if (isCount) {
@@ -1967,7 +1970,7 @@ public class FileManagementLogic {
                 x = Integer.valueOf(versionArray[0]);
                 y = 0;
             }
-            sqlString = sqlString.concat(" AND ").concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
             String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
             String[] InnerArray = tempversionArray.split("~");
             int outerSize = Integer.parseInt(InnerArray[0]);
@@ -1987,22 +1990,22 @@ public class FileManagementLogic {
                 }
             }
         } else {
-            sqlString = sqlString.concat(" AND ").concat(" INW.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" INW.FORECAST_VER ='").concat(detailsResultDTO.getVersion()).concat("'");
         }
         String filterQuery = "";
         String finalQuery = "";
-        HashMap<String, String> detailsColumn = new HashMap<String, String>();
+        HashMap<String, String> detailsColumn = new HashMap<>();
         detailsColumn.put("year", "YEAR");
-        detailsColumn.put("month", "MONTH");
+        detailsColumn.put(StringConstantsUtil.MONTH_PROPERTY, StringConstantsUtil.MONTH_LABEL);
         detailsColumn.put("week", "WEEK");
         detailsColumn.put("day", "DAY");
-        detailsColumn.put("itemId", "ITEM_ID");
-        detailsColumn.put("itemIdentifierCodeQualifier", "ITEM_IDENTIFIER_CODE_QUALIFIER");
-        detailsColumn.put("itemIdentifier", "ITEM_IDENTIFIER");
-        detailsColumn.put("unitsWithdrawn", "UNITS_WITHDRAWN");
-        detailsColumn.put("amountWithdrawn", "AMOUNT_WITHDRAWN");
-        detailsColumn.put("batchId", "BATCH_ID");
-        detailsColumn.put("organizationKey", "ORGANIZATION_KEY");
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.ITEM_ID_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER, StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER, ITEM_IDENTIFIER);
+        detailsColumn.put(StringConstantsUtil.UNITS_WITHDRAWN, StringConstantsUtil.UNITS_WITHDRAWN_COLUMN);
+        detailsColumn.put(StringConstantsUtil.AMOUNT_WITHDRAWN, StringConstantsUtil.AMOUNT_WITHDRAWN_COLUMN);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.BATCH_ID_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.ORGANIZATION_KEY_COLUMN);
         
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -2010,7 +2013,7 @@ public class FileManagementLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     
-                    filterQuery = filterQuery + " AND " + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
                     
                 }
             }
@@ -2037,12 +2040,12 @@ public class FileManagementLogic {
             if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
                 order = order + " ORDER BY INW.YEAR ASC ,INW.\"MONTH\" ASC ,INW.INVENTORY_WD_PROJ_MAS_SID ASC ";
             } else {
-                order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
             }
-            order = order + " " + "OFFSET ";
+            order = order + " " + StringConstantsUtil.OFFSET;
             order = order + startIndex;
-            order = order + " ROWS FETCH NEXT " + endIndex;
-            order = order + " ROWS ONLY;";
+            order = order + StringConstantsUtil.ROWS_FETCH_NEXT + endIndex;
+            order = order + StringConstantsUtil.ROWS_ONLY;
         }
         if (isCount) {
             finalQuery = sqlString + filterQuery;
@@ -2050,19 +2053,19 @@ public class FileManagementLogic {
             finalQuery = sqlString + filterQuery + order;
         }
         list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
-        LOGGER.debug("Ending Demand Details Results");
+        LOGGER.debug("Ending  Demand Details Results");
         return list;
     }
     
     public List getInventoryDetailsResults(FileMananagementResultDTO detailsResultDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
         LOGGER.debug("Entering getInventory Details Results");
-        List list = new ArrayList();
+        List list;
         String sqlString = "";
         
         if (isCount) {
             sqlString = "SELECT COUNT(INW.INVENTORY_WD_PROJ_DT_SID) FROM INVENTORY_WD_PROJ_DT INW WHERE INW.FORECAST_NAME =";
         } else {
-            sqlString = "SELECT\n"
+            sqlString = "SELECT \n"
                     + "    DISTINCT INW.\"YEAR\",\n"
                     + "    INW.\"MONTH\",\n"
                     + "    INW.\"DAY\",\n"
@@ -2097,7 +2100,7 @@ public class FileManagementLogic {
                 x = Integer.valueOf(versionArray[0]);
                 y = 0;
             }
-            sqlString = sqlString.concat(" AND ").concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat("  INW.FORECAST_VER in ('" + versionArray[0] + "',");
             String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
             String[] InnerArray = tempversionArray.split("~");
             int outerSize = Integer.parseInt(InnerArray[0]);
@@ -2117,22 +2120,22 @@ public class FileManagementLogic {
                 }
             }
         } else {
-            sqlString = sqlString.concat(" AND ").concat(" INW.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" INW.FORECAST_VER = ' ").concat(detailsResultDTO.getVersion()).concat("'");
         }
         String filterQuery = "";
         String finalQuery = "";
-        HashMap<String, String> detailsColumn = new HashMap<String, String>();
+        HashMap<String, String> detailsColumn = new HashMap<>();
         detailsColumn.put("year", "YEAR");
-        detailsColumn.put("month", "MONTH");
+        detailsColumn.put(StringConstantsUtil.MONTH_PROPERTY, StringConstantsUtil.MONTH_LABEL);
         detailsColumn.put("week", "WEEK");
         detailsColumn.put("day", "DAY");
-        detailsColumn.put("itemId", "ITEM_ID");
-        detailsColumn.put("itemIdentifierCodeQualifier", "ITEM_IDENTIFIER_CODE_QUALIFIER");
-        detailsColumn.put("itemIdentifier", "ITEM_IDENTIFIER");
-        detailsColumn.put("unitsWithdrawn", "UNITS_WITHDRAWN");
-        detailsColumn.put("amountWithdrawn", "AMOUNT_WITHDRAWN");
-        detailsColumn.put("batchId", "BATCH_ID");
-        detailsColumn.put("organizationKey", "ORGANIZATION_KEY");
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.ITEM_ID_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER, StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER, ITEM_IDENTIFIER);
+        detailsColumn.put(StringConstantsUtil.UNITS_WITHDRAWN, StringConstantsUtil.UNITS_WITHDRAWN_COLUMN);
+        detailsColumn.put(StringConstantsUtil.AMOUNT_WITHDRAWN, StringConstantsUtil.AMOUNT_WITHDRAWN_COLUMN);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.BATCH_ID_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.ORGANIZATION_KEY_COLUMN);
         
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -2140,7 +2143,7 @@ public class FileManagementLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     
-                    filterQuery = filterQuery + " AND " + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
                     
                 }
             }
@@ -2165,14 +2168,14 @@ public class FileManagementLogic {
                 }
             }
             if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
-                order = order + " ORDER BY INW.YEAR ";
+                order = order + "  ORDER BY INW.YEAR ";
             } else {
-                order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
             }
-            order = order + " " + "OFFSET ";
+            order = order + " " + StringConstantsUtil.OFFSET;
             order = order + startIndex;
-            order = order + " ROWS FETCH NEXT " + endIndex;
-            order = order + " ROWS ONLY;";
+            order = order + StringConstantsUtil.ROWS_FETCH_NEXT + endIndex;
+            order = order + StringConstantsUtil.ROWS_ONLY;
         }
         if (isCount) {
             finalQuery = sqlString + filterQuery;
@@ -2214,7 +2217,7 @@ public class FileManagementLogic {
     }
     
     public static List getInventoryDemandValidationQuery(final List<String> query) {
-        List<FileMananagementResultDTO> resultsListDTO = new ArrayList<FileMananagementResultDTO>();
+        List<FileMananagementResultDTO> resultsListDTO = new ArrayList<>();
         String sqlString = "SELECT\n"
                 + "    DISTINCT INW.\"YEAR\",\n"
                 + "    INW.\"MONTH\",\n"
@@ -2276,7 +2279,7 @@ public class FileManagementLogic {
         try {
             SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
             SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
-            Date date = new Date();
+            Date date;
             date = inputDateFormatter.parse(stringDate);
             return outputDateFormatter.format(date);
         } catch (ParseException ex) {
@@ -2287,7 +2290,7 @@ public class FileManagementLogic {
     
     public List getCustomerSalesResults(FileMananagementResultDTO detailsResultDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
         LOGGER.debug("Entering Demand Details Results");
-        List list = new ArrayList();
+        List list;
         String sqlString = "";
         
         if (isCount) {
@@ -2305,10 +2308,10 @@ public class FileManagementLogic {
                     + "FROM CUSTOMER_GTS_FORECAST DF WHERE DF.FORECAST_NAME =";
         }
         sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
-        sqlString = sqlString.concat(" AND DF.COUNTRY='").concat(detailsResultDTO.getCountry()).concat("'");
+        sqlString = sqlString.concat(" AND DF.COUNTRY= '").concat(detailsResultDTO.getCountry()).concat("'");
         if (detailsResultDTO.getVersion().contains("~")) {
             String[] versionArray = detailsResultDTO.getVersion().split("~");
-            sqlString = sqlString.concat(" AND ").concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
             String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
             String[] InnerArray = tempversionArray.split("~");
             int outerSize = Integer.parseInt(InnerArray[0]);
@@ -2330,17 +2333,17 @@ public class FileManagementLogic {
             }
             
         } else {
-            sqlString = sqlString.concat(" AND ").concat(" DF.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat("  DF.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
         }
         String filterQuery = "";
-        HashMap<String, String> detailsColumn = new HashMap<String, String>();
-        detailsColumn.put("forcastYear", "DF.FORECAST_YEAR");
-        detailsColumn.put("forecastMonth", "DF.FORECAST_MONTH");
-        detailsColumn.put("itemId", "DF.ITEM_ID");
+        HashMap<String, String> detailsColumn = new HashMap<>();
+        detailsColumn.put(StringConstantsUtil.FORCAST_YEAR_PROPERTY, StringConstantsUtil.DFFORECAST_YEAR);
+        detailsColumn.put(StringConstantsUtil.FORECAST_MONTH, StringConstantsUtil.DFFORECAST_MONTH);
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.DFITEM_ID);
         detailsColumn.put("companyId", "DF.COMPANY_ID");
-        detailsColumn.put("units", "DF.UNITS");
+        detailsColumn.put(StringConstantsUtil.UNITS_PROPERTY, "DF.UNITS");
         detailsColumn.put("priceType", "DF.PRICE_TYPE");
-        detailsColumn.put("price", "DF.PRICE");
+        detailsColumn.put(StringConstantsUtil.PRICE_PROPERTY, "DF.PRICE");
         detailsColumn.put("salesAmount", "DF.SALES_AMOUNT");
         detailsColumn.put("salesInclusion", "DF.SALES_INCLUSION");
         detailsColumn.put("deductionId", "DF.DEDUCTION_ID");
@@ -2352,13 +2355,13 @@ public class FileManagementLogic {
         detailsColumn.put("deductionAmount", "DF.DEDUCTION_AMOUNT");
         detailsColumn.put("deductionInclusion", "DF.DEDUCTION_INCLUSION");
         detailsColumn.put("forecastValueType", "DF.FORECAST_VALUE_TYPE");
-        detailsColumn.put("brand", "DF.BRAND");
-        detailsColumn.put("segment", "DF.SEGMENT");
-        detailsColumn.put("batchId", "DF.BATCH_ID");
-        detailsColumn.put("organizationKey", "DF.SOURCE");
-        detailsColumn.put("forecastVersion", "DF.FORECAST_VER");
-        detailsColumn.put("country", "DF.COUNTRY");
-        detailsColumn.put("forecastName", "DF.FORECAST_NAME");
+        detailsColumn.put(StringConstantsUtil.BRAND_PROPERTY, "DF.BRAND");
+        detailsColumn.put(StringConstantsUtil.SEGMENT, StringConstantsUtil.DFSEGMENT);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.DFBATCH_ID);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.DFSOURCE);
+        detailsColumn.put(StringConstantsUtil.FORECAST_VERSION, "DF.FORECAST_VER");
+        detailsColumn.put(StringConstantsUtil.COUNTRY, "DF.COUNTRY");
+        detailsColumn.put(StringConstantsUtil.FORECAST_NAME, "DF.FORECAST_NAME");
         detailsColumn.put("forecastDate", "DF.FORECAST_DATE");
         
         if (filterSet != null) {
@@ -2367,7 +2370,7 @@ public class FileManagementLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     
-                    filterQuery = filterQuery + " AND " + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
                     
                 }
             }
@@ -2395,12 +2398,12 @@ public class FileManagementLogic {
             if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
                 order = order + " ORDER BY DF.FORECAST_YEAR , DF.CUSTOMER_GTS_FORECAST_SID ASC ";
             } else {
-                order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
             }
-            order = order + " " + "OFFSET ";
+            order = order + " " + StringConstantsUtil.OFFSET;
             order = order + startIndex;
-            order = order + " ROWS FETCH NEXT " + endIndex;
-            order = order + " ROWS ONLY;";
+            order = order + StringConstantsUtil.ROWS_FETCH_NEXT + endIndex;
+            order = order + StringConstantsUtil.ROWS_ONLY;
         }
         if (isCount) {
             finalQuery = sqlString + filterQuery;
@@ -2423,12 +2426,12 @@ public class FileManagementLogic {
         return result;
     }
     public List getAdjustedDemandDetailsResults(FileMananagementResultDTO detailsResultDTO, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) {
-        LOGGER.debug("Entering Demand Details Results");
-        List list = new ArrayList();
-        String sqlString = ConstantsUtils.EMPTY;
+        LOGGER.debug("Entering getAdjustedDemandDetailsResults Details Results");
+        List list;
+        String sqlString;
 
         if (isCount) {
-            sqlString = "SELECT Count(DF.ADJUSTED_DEMAND_FORECAST_SID) FROM ADJUSTED_DEMAND_FORECAST DF WHERE DF.FORECAST_NAME = ";
+            sqlString = "SELECT Count(DF.ADJUSTED_DEMAND_FORECAST_SID) ";
         } else {
             sqlString = "SELECT DISTINCT DF.ITEM_ID,IM.ITEM_NAME ,\n"
                     + "DF.BRAND_ID,BM.BRAND_NAME ,\n"
@@ -2436,18 +2439,18 @@ public class FileManagementLogic {
                     + "DF.UNCAPTURED_UNITS,DF.UNCAPTURED_UNITS_RATIO,DF.TOTAL_DEMAND_UNITS,\n"
                     + "DF.TOTAL_DEMAND_AMOUNT,DF.INVENTORY_UNIT_CHANGE,DF.GROSS_UNITS,DF.GROSS_PRICE,\n"
                     + "DF.GROSS_AMOUNT,DF.NET_SALES_PRICE,DF.NET_SALES_AMOUNT,DF.BATCH_ID,DF.SOURCE,DF.ORGANIZATION_KEY,\n"
-                    + "DF.FORECAST_NAME,DF.FORECAST_VER,DF.COUNTRY,DF.RECORD_LOCK_STATUS , DF.ADJUSTED_DEMAND_FORECAST_SID\n"
-                    + "FROM ADJUSTED_DEMAND_FORECAST  DF \n"
-                    + " LEFT JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = DF.ITEM_MASTER_SID\n"
-                    + " LEFT JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID \n"
-                    + "AND IM.BRAND_MASTER_SID = DF.BRAND_MASTER_SID WHERE DF.FORECAST_NAME =  ";
-
+                    + "DF.FORECAST_NAME,DF.FORECAST_VER,DF.COUNTRY,DF.RECORD_LOCK_STATUS , DF.ADJUSTED_DEMAND_FORECAST_SID\n";
         }
-        sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
-        sqlString = sqlString.concat(" AND DF.COUNTRY='").concat(detailsResultDTO.getCountry()).concat("'");
+
+        sqlString += " FROM ADJUSTED_DEMAND_FORECAST  DF \n"
+                + " LEFT JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = DF.ITEM_MASTER_SID\n"
+                + " LEFT JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID \n"
+                + " AND IM.BRAND_MASTER_SID = DF.BRAND_MASTER_SID WHERE DF.FORECAST_NAME = '" + detailsResultDTO.getFileName() + "' \n"
+                + " AND  DF.COUNTRY='" + detailsResultDTO.getCountry() + "' ";
+
         if (detailsResultDTO.getVersion().contains("~")) {
             String[] versionArray = detailsResultDTO.getVersion().split("~");
-            sqlString = sqlString.concat(" AND ").concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" DF.FORECAST_VER  in ('" + versionArray[0] + "',");
             String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
             String[] InnerArray = tempversionArray.split("~");
             int outerSize = Integer.parseInt(InnerArray[0]);
@@ -2469,35 +2472,35 @@ public class FileManagementLogic {
             }
 
         } else {
-            sqlString = sqlString.concat(" AND ").concat(" DF.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat("  DF.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
         }
         String filterQuery = ConstantsUtils.EMPTY;
-        HashMap<String, String> detailsColumn = new HashMap<String, String>();
+        HashMap<String, String> detailsColumn = new HashMap<>();
 
-        detailsColumn.put("Year", "DF.YEAR");
-        detailsColumn.put("Month", "DF.MONTH");
-        detailsColumn.put("itemId", "DF.ITEM_ID");
-        detailsColumn.put("itemName", "IM.ITEM_NAME");
+        detailsColumn.put(StringConstantsUtil.FORCAST_YEAR_PROPERTY, "DF.YEAR");
+        detailsColumn.put(StringConstantsUtil.FORECAST_MONTH, "DF.MONTH");
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.DFITEM_ID);
+        detailsColumn.put(StringConstantsUtil.ITEM_NAME_PROPERTY, "IM.ITEM_NAME");
 
-        detailsColumn.put("source", "DF.SOURCE");
-        detailsColumn.put("brandId", "DF.BRAND_ID");
+        detailsColumn.put(StringConstantsUtil.SOURCE_PROPERTY, StringConstantsUtil.DFSOURCE);
+        detailsColumn.put(StringConstantsUtil.BRAND_ID, StringConstantsUtil.DFBRAND_ID);
         detailsColumn.put("brandName", "BM.BRAND_NAME");
-        detailsColumn.put("segment", "DF.SEGMENT");
-        detailsColumn.put("marketSizeUnits", "DF.MARKET_SIZE_UNITS");
-        detailsColumn.put("marketShareRatio", "DF.MARKET_SHARE_RATIO");
-        detailsColumn.put("marketShareUnits", "DF.MARKET_SHARE_UNITS");
-        detailsColumn.put("uncapturedUnits", "DF.UNCAPTURED_UNITS");
-        detailsColumn.put("uncapturedUnitsRatio", "DF.UNCAPTURED_UNITS_RATIO");
-        detailsColumn.put("totalDemandUnits", "DF.TOTAL_DEMAND_UNITS");
-        detailsColumn.put("totalDemandAmount", "DF.TOTAL_DEMAND_AMOUNT");
-        detailsColumn.put("inventoryUnitChange", "DF.INVENTORY_UNIT_CHANGE");
-        detailsColumn.put("grossUnits", "DF.GROSS_UNITS");
-        detailsColumn.put("grossPrice", "DF.GROSS_PRICE");
-        detailsColumn.put("grossAmount", "DF.GROSS_AMOUNT");
-        detailsColumn.put("netSalesPrice", "DF.NET_SALES_PRICE");
-        detailsColumn.put("netSalesAmount", "DF.NET_SALES_AMOUNT");
-        detailsColumn.put("batchId", "DF.BATCH_ID");
-        detailsColumn.put("organizationKey", "DF.ORGANIZATION_KEY");
+        detailsColumn.put(StringConstantsUtil.SEGMENT, StringConstantsUtil.DFSEGMENT);
+        detailsColumn.put(StringConstantsUtil.MARKET_SIZE_UNITS, StringConstantsUtil.DFMARKET_SIZE_UNITS);
+        detailsColumn.put(StringConstantsUtil.MARKET_SHARE_RATIO, StringConstantsUtil.DFMARKET_SHARE_RATIO);
+        detailsColumn.put(StringConstantsUtil.MARKET_SHARE_UNITS_PROPERTY, StringConstantsUtil.DFMARKET_SHARE_UNITS);
+        detailsColumn.put(StringConstantsUtil.UNCAPTURED_UNITS, StringConstantsUtil.DFUNCAPTURED_UNITS);
+        detailsColumn.put(StringConstantsUtil.UNCAPTURED_UNITS_RATIO, StringConstantsUtil.DFUNCAPTURED_UNITS_RATIO);
+        detailsColumn.put(StringConstantsUtil.TOTAL_DEMAND_UNITS, StringConstantsUtil.DFTOTAL_DEMAND_UNITS);
+        detailsColumn.put(StringConstantsUtil.TOTAL_DEMAND_AMOUNT, StringConstantsUtil.DFTOTAL_DEMAND_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.INVENTORY_UNIT_CHANGE, StringConstantsUtil.DFINVENTORY_UNIT_CHANGE);
+        detailsColumn.put(StringConstantsUtil.GROSS_UNITS, StringConstantsUtil.DFGROSS_UNITS);
+        detailsColumn.put(StringConstantsUtil.GROSS_PRICE, StringConstantsUtil.DFGROSS_PRICE);
+        detailsColumn.put(StringConstantsUtil.GROSS_AMOUNT, StringConstantsUtil.DFGROSS_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.NET_SALES_PRICE, StringConstantsUtil.DFNET_SALES_PRICE);
+        detailsColumn.put(StringConstantsUtil.NET_SALES_AMOUNT, StringConstantsUtil.DFNET_SALES_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.DFBATCH_ID);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.DFORGANIZATION_KEY);
 
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -2505,13 +2508,13 @@ public class FileManagementLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
 
-                    filterQuery = filterQuery + " AND " + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
 
                 }
 
             }
         }
-        String finalQuery = ConstantsUtils.EMPTY;
+        String finalQuery;
         String order = ConstantsUtils.EMPTY;
         if (!isCount) {
             boolean sortOrder = false;
@@ -2534,12 +2537,12 @@ public class FileManagementLogic {
             if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
                 order = order + " ORDER BY DF.YEAR ";
             } else {
-                order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
             }
-            order = order + " " + "OFFSET ";
+            order = order + " " + StringConstantsUtil.OFFSET;
             order = order + startIndex;
-            order = order + " ROWS FETCH NEXT " + endIndex;
-            order = order + " ROWS ONLY;";
+            order = order + StringConstantsUtil.ROWS_FETCH_NEXT + endIndex;
+            order = order + StringConstantsUtil.ROWS_ONLY;
         }
         if (isCount) {
             finalQuery = sqlString + filterQuery;
@@ -2556,5 +2559,688 @@ public class FileManagementLogic {
           String query="Select BUSINESS_UNIT FROM dbo.CFF_MASTER where CFF_MASTER_SID ="+projId;
           List list=HelperTableLocalServiceUtil.executeSelectQuery(query);
            return  list==null||list.isEmpty() ?"":String.valueOf(list.get(0));
+    }
+
+    public String getCustomerSalesResults_Excel(FileMananagementResultDTO detailsResultDTO, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) {
+        String sqlString = "SELECT DISTINCT DF.FORECAST_YEAR,DF.FORECAST_MONTH,"
+                    + "DF.ITEM_ID,DF.COMPANY_ID,DF.UNITS,"
+                    + "DF.PRICE_TYPE,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.PRICE)) as PRICE,"
+                + "DF.SALES_AMOUNT,DF.SALES_INCLUSION,"
+                    + "DF.DEDUCTION_ID,DF.DEDUCTION_CATEGORY,DF.DEDUCTION_TYPE,"
+                    + "DF.DEDUCTION_PROGRAM_TYPE,DF.ADJUSTMENT_CODE,DF.DEDUCTION_RATE,"
+                    + "DF.DEDUCTION_AMOUNT,DF.DEDUCTION_INCLUSION,DF.FORECAST_VALUE_TYPE,"
+                    + "DF.BRAND,DF.SEGMENT,DF.BATCH_ID,DF.SOURCE,"
+                    + "DF.FORECAST_VER,DF.COUNTRY,DF.FORECAST_NAME,CONVERT(VARCHAR(10),DF.FORECAST_DATE,101)  AS FORECAST_DATE"
+                    + " FROM CUSTOMER_GTS_FORECAST DF WHERE DF.FORECAST_NAME =";
+        sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
+        sqlString = sqlString.concat(" AND  DF.COUNTRY = '").concat(detailsResultDTO.getCountry()).concat("'");
+        if (detailsResultDTO.getVersion().contains("~")) {
+            String[] versionArray = detailsResultDTO.getVersion().split("~");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" DF.FORECAST_VER  in ('" + versionArray[0] + "',");
+            String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+            String[] InnerArray = tempversionArray.split("~");
+            int outerSize = Integer.parseInt(InnerArray[0]);
+            int innerSize;
+            for (int i = 1; i <= outerSize; i++) {
+                if (Integer.parseInt(versionArray[0]) > outerSize) {
+                    innerSize = NumericConstants.NINE;
+                } else {
+                    innerSize = Integer.parseInt(InnerArray[1]);
+                }
+                for (int j = 0; j <= innerSize; j++) {
+
+                    if (j == innerSize && j != NumericConstants.NINE) {
+                        sqlString = sqlString.concat(" '" + i + "." + j + "')");
+                    } else {
+                        sqlString = sqlString.concat(" '" + i + "." + j + "',");
+                    }
+                }
+            }
+
+        } else {
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" DF.FORECAST_VER = '").concat(detailsResultDTO.getVersion()).concat("'");
+        }
+        String filterQuery = "";
+        HashMap<String, String> detailsColumn = new HashMap<>();
+        detailsColumn.put(StringConstantsUtil.FORCAST_YEAR_PROPERTY, StringConstantsUtil.DFFORECAST_YEAR);
+        detailsColumn.put(StringConstantsUtil.FORECAST_MONTH, StringConstantsUtil.DFFORECAST_MONTH);
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.DFITEM_ID);
+        detailsColumn.put("companyId", "DF.COMPANY_ID");
+        detailsColumn.put(StringConstantsUtil.UNITS_PROPERTY, "DF.UNITS");
+        detailsColumn.put("priceType", "DF.PRICE_TYPE");
+        detailsColumn.put(StringConstantsUtil.PRICE_PROPERTY, "DF.PRICE");
+        detailsColumn.put("salesAmount", "DF.SALES_AMOUNT");
+        detailsColumn.put("salesInclusion", "DF.SALES_INCLUSION");
+        detailsColumn.put("deductionId", "DF.DEDUCTION_ID");
+        detailsColumn.put("deductionCategory", "DF.DEDUCTION_CATEGORY");
+        detailsColumn.put("deductionType", "DF.DEDUCTION_TYPE");
+        detailsColumn.put("deductionProgramType", "DF.DEDUCTION_PROGRAM_TYPE");
+        detailsColumn.put("adjustmentCode", "DF.ADJUSTMENT_CODE");
+        detailsColumn.put("deductionRate", "DF.DEDUCTION_RATE");
+        detailsColumn.put("deductionAmount", "DF.DEDUCTION_AMOUNT");
+        detailsColumn.put("deductionInclusion", "DF.DEDUCTION_INCLUSION");
+        detailsColumn.put("forecastValueType", "DF.FORECAST_VALUE_TYPE");
+        detailsColumn.put(StringConstantsUtil.BRAND_PROPERTY, "DF.BRAND");
+        detailsColumn.put(StringConstantsUtil.SEGMENT, StringConstantsUtil.DFSEGMENT);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.DFBATCH_ID);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.DFSOURCE);
+        detailsColumn.put(StringConstantsUtil.FORECAST_VERSION, "DF.FORECAST_VER");
+        detailsColumn.put(StringConstantsUtil.COUNTRY, "DF.COUNTRY");
+        detailsColumn.put(StringConstantsUtil.FORECAST_NAME, "DF.FORECAST_NAME");
+        detailsColumn.put("forecastDate", "DF.FORECAST_DATE");
+        detailsColumn.put("customerGtsForecastIntfId", "DF.CUSTOMER_GTS_FORECAST_INTF_ID");
+
+        if (filterSet != null) {
+            for (Container.Filter filter : filterSet) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    String filterString = "%" + stringFilter.getFilterString() + "%";
+
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
+
+                }
+
+            }
+        }
+        String finalQuery;
+        String order = ConstantsUtils.EMPTY;
+            boolean sortOrder = false;
+            String columnName = null;
+            String orderByColumn = null;
+            if (sortByColumns != null) {
+                for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+                    final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+
+                    columnName = sortByColumn.getName();
+                    orderByColumn = detailsColumn.get(columnName);
+
+                    if (sortByColumn.getType() == SortByColumn.Type.ASC) {
+                        sortOrder = false;
+                    } else {
+                        sortOrder = true;
+                    }
+                }
+            }
+        if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+            order = order + " ORDER BY DF.FORECAST_YEAR ";
+        } else {
+            order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
+        }
+        String whereQuery = ConstantsUtils.EMPTY;
+        if (detailsResultDTO.getItemId() != null && !StringUtils.isEmpty(detailsResultDTO.getItemId())) {
+            whereQuery = "AND DF.ITEM_ID like '" + detailsResultDTO.getItemId().replace("*", "%") + "'";
+        }
+        if (detailsResultDTO.getCompanyId() != null && !StringUtils.isEmpty(detailsResultDTO.getCompanyId())) {
+            whereQuery = "AND DF.COMPANY_ID like '" + detailsResultDTO.getCompanyId().replace("*", "%") + "'";
+        }
+        if (detailsResultDTO.getForcastYear() != null && !StringUtils.isEmpty(detailsResultDTO.getForcastYear())) {
+            whereQuery = "AND DF.FORECAST_YEAR like '" + detailsResultDTO.getForcastYear().replace("*", "%") + "'";
+        }
+        if (detailsResultDTO.getForecastMonth() != null && !StringUtils.isEmpty(detailsResultDTO.getForecastMonth())) {
+            whereQuery = "AND DF.FORECAST_MONTH like '" + detailsResultDTO.getForecastMonth().replace("*", "%") + "'";
+        }
+
+        if (detailsResultDTO.getDeductionId() != null && !StringUtils.isEmpty(detailsResultDTO.getDeductionId())) {
+            whereQuery = "AND DF.DEDUCTION_ID like '" + detailsResultDTO.getDeductionId().replace("*", "%") + "'";
+        }
+        if (detailsResultDTO.getDeductionCategory() != null && !StringUtils.isEmpty(detailsResultDTO.getDeductionCategory()) && !StringConstantsUtil.SELECT_ONE.equals(detailsResultDTO.getDeductionCategory())) {
+            whereQuery = "AND DF.DEDUCTION_CATEGORY like '" + detailsResultDTO.getDeductionCategory().replace("*", "%") + "'";
+        }
+        if (detailsResultDTO.getDeductionType() != null && !StringUtils.isEmpty(detailsResultDTO.getDeductionType()) && !StringConstantsUtil.SELECT_ONE.equals(detailsResultDTO.getDeductionType())) {
+            whereQuery = "AND DF.DEDUCTION_TYPE like '" + detailsResultDTO.getDeductionType().replace("*", "%") + "'";
+        }
+        if (detailsResultDTO.getDeductionProgramType() != null && !StringUtils.isEmpty(detailsResultDTO.getDeductionProgramType()) && !StringConstantsUtil.SELECT_ONE.equals(detailsResultDTO.getDeductionProgramType())) {
+            whereQuery = "AND DF.DEDUCTION_PROGRAM_TYPE like '" + detailsResultDTO.getDeductionProgramType().replace("*", "%") + "'";
+        }
+        if (detailsResultDTO.getBatchId() != null && !StringUtils.isEmpty(detailsResultDTO.getBatchId())) {
+            whereQuery = "AND DF.BATCH_ID like '" + detailsResultDTO.getBatchId().replace("*", "%") + "'";
+        }
+        finalQuery = sqlString + whereQuery + filterQuery + order;
+        return finalQuery;
+    }
+
+    public String getAdjustedDemandDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) {
+        LOGGER.debug("Entering getAdjustedDemandDetailsResults_Excel Details Results");
+        String sqlString = "SELECT DISTINCT DF.ITEM_ID,IM.ITEM_NAME ,\n"
+                + "DF.BRAND_ID,BM.BRAND_NAME ,\n"
+                + "DF.SEGMENT,DF.YEAR,DF.MONTH,DF.MARKET_SIZE_UNITS,DF.MARKET_SHARE_RATIO,DF.MARKET_SHARE_UNITS,\n"
+                + "DF.UNCAPTURED_UNITS,DF.UNCAPTURED_UNITS_RATIO,DF.TOTAL_DEMAND_UNITS,\n"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.TOTAL_DEMAND_AMOUNT)) as TOTAL_DEMAND_AMOUNT,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.INVENTORY_UNIT_CHANGE)) as INVENTORY_UNIT_CHANGE,DF.GROSS_UNITS,DF.GROSS_PRICE,\n"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.GROSS_AMOUNT)) as GROSS_AMOUNT,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.NET_SALES_PRICE)) as NET_SALES_PRICE,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.NET_SALES_AMOUNT)) as NET_SALES_AMOUNT,"
+                + "DF.BATCH_ID,DF.SOURCE,DF.ORGANIZATION_KEY\n"
+                + "FROM ADJUSTED_DEMAND_FORECAST  DF \n"
+                + " LEFT JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = DF.ITEM_MASTER_SID\n"
+                + " LEFT JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID \n"
+                + "AND IM.BRAND_MASTER_SID = DF.BRAND_MASTER_SID WHERE DF.FORECAST_NAME =  ";
+
+        sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
+        sqlString = sqlString.concat(" AND DF.COUNTRY='").concat(detailsResultDTO.getCountry()).concat("'");
+        if (detailsResultDTO.getVersion().contains("~")) {
+            String[] versionArray = detailsResultDTO.getVersion().split("~");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat("  DF.FORECAST_VER in ('" + versionArray[0] + "',");
+            String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+            String[] InnerArray = tempversionArray.split("~");
+            int outerSize = Integer.parseInt(InnerArray[0]);
+            int innerSize;
+            for (int i = 1; i <= outerSize; i++) {
+                if (Integer.parseInt(versionArray[0]) > outerSize) {
+                    innerSize = NumericConstants.NINE;
+                } else {
+                    innerSize = Integer.parseInt(InnerArray[1]);
+                }
+                for (int j = 0; j <= innerSize; j++) {
+
+                    if (j == innerSize && j != NumericConstants.NINE) {
+                        sqlString = sqlString.concat(" '" + i + "." + j + "')");
+                    } else {
+                        sqlString = sqlString.concat(" '" + i + "." + j + "',");
+                    }
+                }
+            }
+
+        } else {
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" DF.FORECAST_VER = '").concat(detailsResultDTO.getVersion()).concat("'");
+        }
+        String filterQuery = ConstantsUtils.EMPTY;
+        HashMap<String, String> detailsColumn = new HashMap<String, String>();
+
+        detailsColumn.put("Year", "DF.YEAR");
+        detailsColumn.put("Month", "DF.MONTH");
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.DFITEM_ID);
+        detailsColumn.put(StringConstantsUtil.ITEM_NAME_PROPERTY, "IM.ITEM_NAME");
+
+        detailsColumn.put(StringConstantsUtil.SOURCE_PROPERTY, StringConstantsUtil.DFSOURCE);
+        detailsColumn.put(StringConstantsUtil.BRAND_ID, StringConstantsUtil.DFBRAND_ID);
+        detailsColumn.put("brandName", "DF.BRAND_NAME");
+        detailsColumn.put(StringConstantsUtil.SEGMENT, StringConstantsUtil.DFSEGMENT);
+        detailsColumn.put(StringConstantsUtil.MARKET_SIZE_UNITS, StringConstantsUtil.DFMARKET_SIZE_UNITS);
+        detailsColumn.put(StringConstantsUtil.MARKET_SHARE_RATIO, StringConstantsUtil.DFMARKET_SHARE_RATIO);
+        detailsColumn.put(StringConstantsUtil.MARKET_SHARE_UNITS_PROPERTY, StringConstantsUtil.DFMARKET_SHARE_UNITS);
+        detailsColumn.put(StringConstantsUtil.UNCAPTURED_UNITS, StringConstantsUtil.DFUNCAPTURED_UNITS);
+        detailsColumn.put(StringConstantsUtil.UNCAPTURED_UNITS_RATIO, StringConstantsUtil.DFUNCAPTURED_UNITS_RATIO);
+        detailsColumn.put(StringConstantsUtil.TOTAL_DEMAND_UNITS, StringConstantsUtil.DFTOTAL_DEMAND_UNITS);
+        detailsColumn.put(StringConstantsUtil.TOTAL_DEMAND_AMOUNT, StringConstantsUtil.DFTOTAL_DEMAND_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.INVENTORY_UNIT_CHANGE, StringConstantsUtil.DFINVENTORY_UNIT_CHANGE);
+        detailsColumn.put(StringConstantsUtil.GROSS_UNITS, StringConstantsUtil.DFGROSS_UNITS);
+        detailsColumn.put(StringConstantsUtil.GROSS_PRICE, StringConstantsUtil.DFGROSS_PRICE);
+        detailsColumn.put(StringConstantsUtil.GROSS_AMOUNT, StringConstantsUtil.DFGROSS_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.NET_SALES_PRICE, StringConstantsUtil.DFNET_SALES_PRICE);
+        detailsColumn.put(StringConstantsUtil.NET_SALES_AMOUNT, StringConstantsUtil.DFNET_SALES_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.DFBATCH_ID);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.DFORGANIZATION_KEY);
+
+        if (filterSet != null) {
+            for (Container.Filter filter : filterSet) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    String filterString = "%" + stringFilter.getFilterString() + "%";
+
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
+
+                }
+
+            }
+        }
+        String finalQuery;
+        String order = ConstantsUtils.EMPTY;
+        boolean sortOrder = false;
+        String columnName = null;
+        String orderByColumn = null;
+        if (sortByColumns != null) {
+            for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+
+                columnName = sortByColumn.getName();
+                orderByColumn = detailsColumn.get(columnName);
+
+                if (sortByColumn.getType() == SortByColumn.Type.ASC) {
+                    sortOrder = false;
+                } else {
+                    sortOrder = true;
+                }
+            }
+        }
+        if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+            order = order + " ORDER BY DF.YEAR ";
+        } else {
+            order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
+        }
+
+        finalQuery = sqlString + filterQuery + order;
+
+        return finalQuery;
+
+    }
+
+    public String getDemandDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) {
+        LOGGER.debug("Entering getDemandDetailsResults_Excel Details Results");
+        String sqlString = "SELECT DISTINCT DF.FORECAST_TYPE,DF.FORECAST_YEAR,DF.FORECAST_MONTH,"
+                + "DF.ITEM_ID,DF.ITEM_IDENTIFIER_CODE_QUALIFIER,DF.ITEM_IDENTIFIER,"
+                + "DF.BRAND_ID,DF.SEGMENT,DF.MARKET_SIZE_UNITS,"
+                + "DF.MARKET_SHARE_RATIO,DF.MARKET_SHARE_UNITS,DF.UNCAPTURED_UNITS,"
+                + "DF.UNCAPTURED_UNITS_RATIO,DF.TOTAL_DEMAND_UNITS,'$'+CONVERT(varchar(20),"
+                + " CONVERT(DECIMAL(10,2),DF.TOTAL_DEMAND_AMOUNT)) as TOTAL_DEMAND_AMOUNT,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.INVENTORY_UNIT_CHANGE)) as INVENTORY_UNIT_CHANGE,"
+                + "DF.GROSS_UNITS,DF.GROSS_PRICE,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.GROSS_AMOUNT)) as GROSS_AMOUNT,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.NET_SALES_PRICE)) as NET_SALES_PRICE"
+                + ",'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),DF.NET_SALES_AMOUNT)) as NET_SALES_AMOUNT,DF.BATCH_ID,"
+                + "DF.ORGANIZATION_KEY "
+                + "FROM DEMAND_FORECAST DF WHERE DF.FORECAST_NAME =";
+
+        sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
+        sqlString = sqlString.concat(" AND DF.COUNTRY='").concat(detailsResultDTO.getCountry()).concat("'");
+        if (detailsResultDTO.getVersion().contains("~")) {
+            String[] versionArray = detailsResultDTO.getVersion().split("~");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat("  DF.FORECAST_VER in ('" + versionArray[0] + "',");
+            String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+            String[] InnerArray = tempversionArray.split("~");
+            String outerSize = String.valueOf(InnerArray[0]);
+            int innerSize;
+            for (int i = 1; i <= Integer.parseInt(outerSize); i++) {
+                if (Integer.parseInt(versionArray[0]) > Integer.parseInt(outerSize)) {
+                    innerSize = NumericConstants.NINE;
+                } else {
+                    innerSize = Integer.parseInt(InnerArray[1]);
+                }
+                for (int j = 0; j <= innerSize; j++) {
+                    String version = String.valueOf(i);
+                    if (outerSize.contains("0")) {
+                        version = "0" + String.valueOf(i);
+                    }
+                    if (j == innerSize && j != NumericConstants.NINE) {
+                        sqlString = sqlString.concat(" '" + version + "." + j + "',");
+                    } else {
+                        sqlString = sqlString.concat(" '" + version + "." + j + "',");
+                    }
+                }
+            }
+            if (sqlString.endsWith(",")) {
+                sqlString = sqlString.substring(0, sqlString.length() - 1);
+            }
+            sqlString += ")";
+        } else {
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" DF.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+        }
+        String filterQuery = ConstantsUtils.EMPTY;
+        HashMap<String, String> detailsColumn = new HashMap<>();
+        detailsColumn.put("forecastType", "DF.FORECAST_TYPE");
+        detailsColumn.put(StringConstantsUtil.FORCAST_YEAR_PROPERTY, StringConstantsUtil.DFFORECAST_YEAR);
+        detailsColumn.put(StringConstantsUtil.FORECAST_MONTH, StringConstantsUtil.DFFORECAST_MONTH);
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.DFITEM_ID);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER, "DF.ITEM_IDENTIFIER_CODE_QUALIFIER");
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER, StringConstantsUtil.DFITEM_IDENTIFIER);
+        detailsColumn.put(StringConstantsUtil.BRAND_ID, StringConstantsUtil.DFBRAND_ID);
+        detailsColumn.put(StringConstantsUtil.SEGMENT, StringConstantsUtil.DFSEGMENT);
+        detailsColumn.put(StringConstantsUtil.MARKET_SIZE_UNITS, StringConstantsUtil.DFMARKET_SIZE_UNITS);
+        detailsColumn.put(StringConstantsUtil.MARKET_SHARE_RATIO, StringConstantsUtil.DFMARKET_SHARE_RATIO);
+        detailsColumn.put(StringConstantsUtil.MARKET_SHARE_UNITS_PROPERTY, StringConstantsUtil.DFMARKET_SHARE_UNITS);
+        detailsColumn.put(StringConstantsUtil.UNCAPTURED_UNITS, StringConstantsUtil.DFUNCAPTURED_UNITS);
+        detailsColumn.put(StringConstantsUtil.UNCAPTURED_UNITS_RATIO, StringConstantsUtil.DFUNCAPTURED_UNITS_RATIO);
+        detailsColumn.put(StringConstantsUtil.TOTAL_DEMAND_UNITS, StringConstantsUtil.DFTOTAL_DEMAND_UNITS);
+        detailsColumn.put(StringConstantsUtil.TOTAL_DEMAND_AMOUNT, StringConstantsUtil.DFTOTAL_DEMAND_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.INVENTORY_UNIT_CHANGE, StringConstantsUtil.DFINVENTORY_UNIT_CHANGE);
+        detailsColumn.put(StringConstantsUtil.GROSS_UNITS, StringConstantsUtil.DFGROSS_UNITS);
+        detailsColumn.put(StringConstantsUtil.GROSS_PRICE, StringConstantsUtil.DFGROSS_PRICE);
+        detailsColumn.put(StringConstantsUtil.GROSS_AMOUNT, StringConstantsUtil.DFGROSS_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.NET_SALES_PRICE, StringConstantsUtil.DFNET_SALES_PRICE);
+        detailsColumn.put(StringConstantsUtil.NET_SALES_AMOUNT, StringConstantsUtil.DFNET_SALES_AMOUNT);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.DFBATCH_ID);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.DFORGANIZATION_KEY);
+
+        if (filterSet != null) {
+            for (Container.Filter filter : filterSet) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    String filterString = "%" + stringFilter.getFilterString() + "%";
+
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
+
+                }
+
+            }
+        }
+        String finalQuery;
+        String order = ConstantsUtils.EMPTY;
+        boolean sortOrder = false;
+        String columnName = null;
+        String orderByColumn = null;
+        if (sortByColumns != null) {
+            for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+
+                columnName = sortByColumn.getName();
+                orderByColumn = detailsColumn.get(columnName);
+
+                if (sortByColumn.getType() == SortByColumn.Type.ASC) {
+                    sortOrder = false;
+                } else {
+                    sortOrder = true;
+                }
+            }
+        }
+        if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+            order = order + " ORDER BY DF.FORECAST_YEAR ";
+        } else {
+            order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
+        }
+
+        finalQuery = sqlString + filterQuery + order;
+        return finalQuery;
+    }
+
+    public String getForecastDetails_Excel(FileMananagementResultDTO detailsResultDTO, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) {
+        LOGGER.info("Entering getForecastDetails ");
+        String sqlString;
+        sqlString = "SELECT DISTINCT FM.FORECAST_YEAR,FM.FORECAST_MONTH,IM.ITEM_NO,QUOTENAME(IM.ITEM_NAME, CHAR(34)),\n"
+                + "      CONVERT(VARCHAR(10),FM.FORECAST_DATE,101)  AS FORECAST_DATE,\n"
+                + "      '$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),FM.PRICE)) as PRICE,"
+                + "FM.UNITS,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),FM.DOLLARS)) as DOLLARS \n"
+                + "      FROM FORECASTING_MASTER FM,ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID \n"
+                + "      AND FORECAST_NAME=  ";
+        sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
+        if (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType()) && "US".equals(detailsResultDTO.getCountry())) {
+            sqlString = sqlString.concat(" AND (FM.SOURCE LIKE 'FORESIGHT' OR FM.SOURCE LIKE 'LE_FORESIGHT')");
+        } else if (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType()) && "PR".equals(detailsResultDTO.getCountry())) {
+            sqlString = sqlString.concat(" AND (FM.SOURCE LIKE 'FF_SALES')");
+        } else if ("Vaccine Segmentation".equals(detailsResultDTO.getHelperType())) {
+            sqlString = sqlString.concat(" AND (FM.SOURCE LIKE 'FF_VACCINE')");
+        }
+        sqlString = sqlString.concat(" AND FM.COUNTRY= '").concat(detailsResultDTO.getCountry()).concat("'");
+
+        if (detailsResultDTO.getVersion().contains("~")) {
+            String[] versionArray = detailsResultDTO.getVersion().split("~");
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" (FM.FORECAST_VER='").concat(versionArray[0]).concat("' or FM.FORECAST_VER='").concat(versionArray[1]).concat("')");
+        } else {
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" FM.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+        }
+        String filterQuery = ConstantsUtils.EMPTY;
+        HashMap<String, String> detailsColumn = new HashMap<>();
+        detailsColumn.put("year", "FORECAST_YEAR");
+        detailsColumn.put(StringConstantsUtil.MONTH_PROPERTY, "FORECAST_MONTH");
+        detailsColumn.put(StringConstantsUtil.ITEM_NO_PROPERTY, "ITEM_NO");
+        detailsColumn.put(StringConstantsUtil.ITEM_NAME_PROPERTY, StringConstantsUtil.ITEM_NAME_LABEL);
+        detailsColumn.put(StringConstantsUtil.PRICE_PROPERTY, "PRICE");
+        detailsColumn.put(StringConstantsUtil.UNITS_PROPERTY, "UNITS");
+        detailsColumn.put("dollars", "DOLLARS");
+        detailsColumn.put(StringConstantsUtil.START_DATE_PROPERTY, "FORECAST_DATE");
+
+        if (filterSet != null) {
+            for (Container.Filter filter : filterSet) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    String filterString = "%" + stringFilter.getFilterString() + "%";
+
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
+
+                } else if (filter instanceof Between) {
+                    Between stringFilter = (Between) filter;
+                    SimpleDateFormat formatter = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                    String filterString = formatter.format(stringFilter.getStartValue());
+                    String filterString1 = formatter.format(stringFilter.getEndValue());
+                    if (StringConstantsUtil.START_DATE_PROPERTY.equals(stringFilter.getPropertyId())) {
+                        filterQuery = filterQuery + " AND FORECAST_DATE >= '" + filterString + "' ";
+                        filterQuery = filterQuery + " AND FORECAST_DATE <= '" + filterString1 + "' ";
+                    }
+
+                }
+            }
+        }
+
+        String order = ConstantsUtils.EMPTY;
+
+        boolean sortOrder = false;
+        String columnName = null;
+        String orderByColumn = null;
+        if (sortByColumns != null) {
+            for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+
+                columnName = sortByColumn.getName();
+                orderByColumn = detailsColumn.get(columnName);
+
+                if (sortByColumn.getType() == SortByColumn.Type.ASC) {
+                    sortOrder = false;
+                } else {
+                    sortOrder = true;
+                }
+            }
+        }
+        if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+            order = order + " ORDER BY FM.FORECAST_YEAR ";
+        } else {
+            order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
+        }
+
+        return sqlString + filterQuery + order;
+
+    }
+
+    public String getInventoryDetailsResults_Excel(FileMananagementResultDTO detailsResultDTO, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) throws Exception {
+
+        LOGGER.info("Entering getInventory Details Results");
+        String sqlString;
+
+        sqlString = "SELECT\n"
+                + "    DISTINCT INW.YEAR,\n"
+                + " INW.MONTH,\n"
+                + " INW.DAY,\n"
+                + " INW.WEEK,\n"
+                + " INW.COMPANY_ID,\n"
+                + " INW.IDENTIFIER_CODE_QUALIFIER,\n"
+                + " INW.COMPANY_IDENTIFIER,\n"
+                + " INW.ITEM_ID,\n"
+                + " INW.ITEM_IDENTIFIER_CODE_QUALIFIER,\n"
+                + " INW.ITEM_IDENTIFIER,\n"
+                + " INW.UNITS_WITHDRAWN,\n"
+                + " INW.AMOUNT_WITHDRAWN,\n"
+                + " INW.PRICE,\n"
+                + " INW.BATCH_ID,\n"
+                + " INW.ORGANIZATION_KEY\n"
+                + " FROM\n"
+                + "    INVENTORY_WD_PROJ_DT INW "
+                + "    LEFT JOIN dbo.COMPANY_MASTER Cm On cm.COMPANY_MASTER_SID=inw.COMPANY_MASTER_SID "
+                + "    LEFT JOIN dbo.ITEM_MASTER im On im.ITEM_MASTER_SID=inw.ITEM_MASTER_SID "
+                + "    WHERE INW.FORECAST_NAME =";
+
+        sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
+        sqlString = sqlString.concat(" AND  INW.COUNTRY LIKE'").concat(detailsResultDTO.getCountry()).concat("%'");
+        if (detailsResultDTO.getVersion().contains("~")) {
+            String[] versionArray = detailsResultDTO.getVersion().split("~");
+            int x = 0, y = 0;
+            String[] version2Array;
+            if (versionArray[0].contains(".")) {
+                String tmpString = versionArray[0].replace(".", "~");
+                version2Array = tmpString.split("~");
+                y = Integer.valueOf(version2Array[1]);
+            } else {
+                x = Integer.valueOf(versionArray[0]);
+                y = 0;
+            }
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" INW.FORECAST_VER  in ('" + versionArray[0] + "',");
+            String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+            String[] InnerArray = tempversionArray.split("~");
+            int outerSize = Integer.parseInt(InnerArray[0]);
+            int innerSize;
+            for (int i = x; i <= outerSize; i++) {
+                if (Integer.parseInt(versionArray[0]) > outerSize) {
+                    innerSize = NumericConstants.NINE;
+                } else {
+                    innerSize = Integer.parseInt(InnerArray[1]);
+                }
+                for (int j = y; j <= innerSize; j++) {
+                    if (j == innerSize && j != NumericConstants.NINE) {
+                        sqlString = sqlString.concat(" '" + i + "." + j + "')");
+                    } else {
+                        sqlString = sqlString.concat(" '" + i + "." + j + "',");
+                    }
+                }
+            }
+        } else {
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" INW.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+        }
+        String filterQuery = ConstantsUtils.EMPTY;
+        String finalQuery;
+        HashMap<String, String> detailsColumn = new HashMap<>();
+        detailsColumn.put("year", "YEAR");
+        detailsColumn.put(StringConstantsUtil.MONTH_PROPERTY, StringConstantsUtil.MONTH_LABEL);
+        detailsColumn.put("week", "WEEK");
+        detailsColumn.put("day", "DAY");
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.ITEM_ID_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER, StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER, ITEM_IDENTIFIER);
+        detailsColumn.put(StringConstantsUtil.UNITS_WITHDRAWN, StringConstantsUtil.UNITS_WITHDRAWN_COLUMN);
+        detailsColumn.put(StringConstantsUtil.AMOUNT_WITHDRAWN, StringConstantsUtil.AMOUNT_WITHDRAWN_COLUMN);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.BATCH_ID_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.ORGANIZATION_KEY_COLUMN);
+        detailsColumn.put(StringConstantsUtil.COUNTRY, "COUNTRY");
+        detailsColumn.put(StringConstantsUtil.FORECAST_VERSION, "FORECAST_VER");
+        detailsColumn.put(StringConstantsUtil.FORECAST_NAME, "FORECAST_NAME");
+        detailsColumn.put(StringConstantsUtil.SOURCE_PROPERTY, "SOURCE");
+        detailsColumn.put("inboundStatus", "INBOUND_STATUS");
+        detailsColumn.put("modifiedDate", "MODIFIED_DATE");
+        detailsColumn.put("createdDate", "CREATED_DATE");
+        detailsColumn.put("companyName", "COMPANY_NAME");
+        detailsColumn.put(StringConstantsUtil.ITEM_NAME_PROPERTY, StringConstantsUtil.ITEM_NAME_LABEL);
+
+        if (filterSet != null) {
+            for (Container.Filter filter : filterSet) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    String filterString = "%" + stringFilter.getFilterString() + "%";
+
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
+
+                }
+
+            }
+        }
+        String order = ConstantsUtils.EMPTY;
+        boolean sortOrder = false;
+        String columnName = null;
+        String orderByColumn = null;
+        if (sortByColumns != null) {
+            for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+
+                columnName = sortByColumn.getName();
+                orderByColumn = detailsColumn.get(columnName);
+
+                if (sortByColumn.getType() == SortByColumn.Type.ASC) {
+                    sortOrder = false;
+                } else {
+                    sortOrder = true;
+                }
+            }
+        }
+        if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+            order = order + " ORDER BY INW.YEAR ";
+        } else {
+            order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
+        }
+
+        finalQuery = sqlString + filterQuery + order;
+        return finalQuery;
+    }
+
+    public String getInventorySummaryResults_Excel(FileMananagementResultDTO detailsResultDTO, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) {
+        LOGGER.debug("Entering getInventorySummaryResults_Excel Details Results");
+        String sqlString = "SELECT DISTINCT INW.\"YEAR\",INW.\"MONTH\",INW.\"DAY\",INW.WEEK,INW.ITEM_ID,INW.ITEM_IDENTIFIER_CODE_QUALIFIER,INW.ITEM_IDENTIFIER\n"
+                + ",INW.UNITS_WITHDRAWN,INW.AMOUNT_WITHDRAWN,"
+                + "'$'+CONVERT(varchar(20), CONVERT(DECIMAL(10,2),INW.PRICE)) as PRICE,INW.BATCH_ID,INW.ORGANIZATION_KEY FROM INVENTORY_WD_PROJ_MAS INW WHERE INW.FORECAST_NAME =";
+
+        sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
+        sqlString = sqlString.concat(" AND  INW.COUNTRY LIKE'").concat(detailsResultDTO.getCountry()).concat("%'");
+        if (detailsResultDTO.getVersion().contains("~")) {
+            String[] versionArray = detailsResultDTO.getVersion().split("~");
+            int x = 0, y = 0;
+            String[] version2Array;
+            if (versionArray[0].contains(".")) {
+                String tmpString = versionArray[0].replace(".", "~");
+                version2Array = tmpString.split("~");
+                y = Integer.valueOf(version2Array[1]);
+            } else {
+                x = Integer.valueOf(versionArray[0]);
+                y = 0;
+            }
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat("  INW.FORECAST_VER in ('" + versionArray[0] + "',");
+            String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+            String[] InnerArray = tempversionArray.split("~");
+            int outerSize = Integer.parseInt(InnerArray[0]);
+            int innerSize;
+            for (int i = x; i <= outerSize; i++) {
+                if (Integer.parseInt(versionArray[0]) > outerSize) {
+                    innerSize = NumericConstants.NINE;
+                } else {
+                    innerSize = Integer.parseInt(InnerArray[1]);
+                }
+                for (int j = y; j <= innerSize; j++) {
+                    if (j == innerSize && j != NumericConstants.NINE) {
+                        sqlString = sqlString.concat(" '" + i + "." + j + "')");
+                    } else {
+                        sqlString = sqlString.concat(" '" + i + "." + j + "',");
+                    }
+                }
+            }
+        } else {
+            sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE).concat(" INW.FORECAST_VER='").concat(detailsResultDTO.getVersion()).concat("'");
+        }
+        String filterQuery = ConstantsUtils.EMPTY;
+        String finalQuery;
+        HashMap<String, String> detailsColumn = new HashMap<>();
+        detailsColumn.put("year", "YEAR");
+        detailsColumn.put(StringConstantsUtil.MONTH_PROPERTY, StringConstantsUtil.MONTH_LABEL);
+        detailsColumn.put("week", "WEEK");
+        detailsColumn.put("day", "DAY");
+        detailsColumn.put(StringConstantsUtil.ITEM_ID, StringConstantsUtil.ITEM_ID_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER, StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ITEM_IDENTIFIER, ITEM_IDENTIFIER);
+        detailsColumn.put(StringConstantsUtil.UNITS_WITHDRAWN, StringConstantsUtil.UNITS_WITHDRAWN_COLUMN);
+        detailsColumn.put(StringConstantsUtil.AMOUNT_WITHDRAWN, StringConstantsUtil.AMOUNT_WITHDRAWN_COLUMN);
+        detailsColumn.put(StringConstantsUtil.BATCH_ID, StringConstantsUtil.BATCH_ID_COLUMN);
+        detailsColumn.put(StringConstantsUtil.ORGANIZATION_KEY, StringConstantsUtil.ORGANIZATION_KEY_COLUMN);
+
+        if (filterSet != null) {
+            for (Container.Filter filter : filterSet) {
+                if (filter instanceof SimpleStringFilter) {
+                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                    String filterString = "%" + stringFilter.getFilterString() + "%";
+
+                    filterQuery = filterQuery + StringConstantsUtil.SPACE_AND_SPACE + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + StringConstantsUtil.LIKE_QUOTE + filterString + "'";
+
+                }
+
+            }
+        }
+        String order = ConstantsUtils.EMPTY;
+        boolean sortOrder = false;
+        String columnName = null;
+        String orderByColumn = null;
+        if (sortByColumns != null) {
+            for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+
+                columnName = sortByColumn.getName();
+                orderByColumn = detailsColumn.get(columnName);
+
+                if (sortByColumn.getType() == SortByColumn.Type.ASC) {
+                    sortOrder = false;
+                } else {
+                    sortOrder = true;
+                }
+            }
+        }
+        if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+            order = order + " ORDER BY INW.YEAR ";
+        } else {
+            order = order + StringConstantsUtil.SPACE_ORDER_BY_SPACE + orderByColumn + ((!sortOrder) ? StringConstantsUtil.SPACE_ASC_SPACE : StringConstantsUtil.SPACE_DESC_SPACE);
+        }
+        finalQuery = sqlString + filterQuery + order;
+        return finalQuery;
     }
 }

@@ -8,7 +8,7 @@
     <portlet>
         <description>Item Group portlet</description>
         <portlet-name>ItemGroup</portlet-name>
-        <display-name>Item Group Master</display-name>
+        <display-name>Item Groups</display-name>
 
         <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
 
@@ -26,8 +26,8 @@
 
 
         <portlet-info>
-            <title>Item Group Master</title>
-            <short-title>Item Group Master</short-title>
+            <title>Item Groups</title>
+            <short-title>Item Groups</short-title>
             <keywords>put keywords here</keywords>
         </portlet-info>
     </portlet>
@@ -35,7 +35,7 @@
     <portlet>
         <description>Customer Group portlet</description>
         <portlet-name>CustomerGroup</portlet-name>
-        <display-name>Customer Group Master</display-name>
+        <display-name>Customer Groups</display-name>
 
         <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
 
@@ -53,8 +53,8 @@
 
 
         <portlet-info>
-            <title>Customer Group Master</title>
-            <short-title>Customer Group Master</short-title>
+            <title>Customer Groups</title>
+            <short-title>Customer Groups</short-title>
             <keywords>put keywords here</keywords>
         </portlet-info>
     </portlet>
@@ -209,7 +209,7 @@
 
 
         <portlet-info>
-            <title>Forecast Master</title>
+            <title>Forecast Configuration</title>
             <short-title>Forecast Master</short-title>
             <keywords>put keywords here</keywords>
         </portlet-info>

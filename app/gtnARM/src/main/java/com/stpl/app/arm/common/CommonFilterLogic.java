@@ -5,19 +5,18 @@
  */
 package com.stpl.app.arm.common;
 
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.utils.HelperDTOFilter;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
 /**
@@ -26,7 +25,6 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class CommonFilterLogic {
 
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static CommonFilterLogic instance;
 
     private CommonFilterLogic() {
@@ -39,7 +37,7 @@ public class CommonFilterLogic {
         return instance;
     }
 
-   public StringBuilder filterQueryGenerator(java.util.Set<Container.Filter> filterSet, Map<String, String> queryMap) {
+    public StringBuilder filterQueryGenerator(java.util.Set<Container.Filter> filterSet, Map<String, String> queryMap) {
         StringBuilder str = new StringBuilder("AND ( * LIKE '?' OR * IS NULL )");
         StringBuilder sql = new StringBuilder();
         if (filterSet != null && !filterSet.isEmpty()) {
@@ -80,7 +78,7 @@ public class CommonFilterLogic {
                                 tempStart = new StringBuilder(dateStartstr);
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(startValue));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
                             sql.append(tempStart);
                         }
                         if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -92,7 +90,7 @@ public class CommonFilterLogic {
                             }
 
                             tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDate.format(endValue));
+                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
                             sql.append(tempEnd);
                         }
                     }
@@ -100,11 +98,11 @@ public class CommonFilterLogic {
                     Compare stringFilter = (Compare) filter;
                     if (!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         Compare.Operation operation = stringFilter.getOperation();
-                        if (operation.EQUAL.toString().equals(operation.name())) {
-                            StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
+                        if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
+                            StringBuilder startStr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
-                            String value = StringUtils.EMPTY;
+                            String value;
                             if (((Integer) stringFilter.getValue()) == 0) {
                                 value = String.valueOf(stringFilter.getValue());
                             } else {
@@ -115,22 +113,22 @@ public class CommonFilterLogic {
                                 if (sql.length() == 0) {
                                     tempStart = new StringBuilder(intStartstr);
                                 } else {
-                                    tempStart = new StringBuilder(Startstr);
+                                    tempStart = new StringBuilder(startStr);
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);
                                 sql.append(tempStart);
                             }
                         }
-                        if (operation.GREATER.toString().equals(operation.name())) {
+                        if (Compare.Operation.GREATER.toString().equals(operation.name())) {
                             StringBuilder tempStart;
                             int val = (Integer) stringFilter.getValue();
-                            String value=String.valueOf(val);
+                            String value = String.valueOf(val);
                             if (val < 0) {
                                 if (sql.length() == 0) {
-                                  tempStart = new StringBuilder("where ( ( * > '?' or * = '0')");
+                                    tempStart = new StringBuilder("where ( ( * > '?' or * = '0')");
                                 } else {
-                                  tempStart = new StringBuilder("AND ( * >'?' or * = '0')");
+                                    tempStart = new StringBuilder("AND ( * >'?' or * = '0')");
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
@@ -147,10 +145,10 @@ public class CommonFilterLogic {
                                 sql.append(tempStart);
                             }
                         }
-                        if (operation.LESS.toString().equals(operation.name())) {
+                        if (Compare.Operation.LESS.toString().equals(operation.name())) {
                             int val = (Integer) stringFilter.getValue();
                             StringBuilder tempStart;
-                            String value=String.valueOf(val);
+                            String value = String.valueOf(val);
                             if (val > 0) {
                                 if (sql.length() == 0) {
                                     tempStart = new StringBuilder("where ( ( * < '?' or * = '0')");
@@ -163,9 +161,9 @@ public class CommonFilterLogic {
                                 sql.append(tempStart);
                             } else {
                                 if (sql.length() == 0) {
-                                  tempStart = new StringBuilder("where ( ( * < '?')");
+                                    tempStart = new StringBuilder("where ( ( * < '?')");
                                 } else {
-                                  tempStart = new StringBuilder("AND ( * <'?')");
+                                    tempStart = new StringBuilder("AND ( * <'?')");
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
@@ -176,7 +174,7 @@ public class CommonFilterLogic {
                         if (stringFilter.getValue() instanceof Date) {
                             Date value = (Date) stringFilter.getValue();
                             StringBuilder tempStart;
-                            if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
                                 if (sql.length() == 0) {
                                     tempStart = new StringBuilder("where ( ( * >= '?')");
                                 } else {
@@ -190,16 +188,16 @@ public class CommonFilterLogic {
                                 }
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(value));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(value));
                             sql.append(tempStart);
                         }
                     }
                 } else if (filter instanceof And) {
-                    
+
                     And stringFilter = (And) filter;
                     Collection<Container.Filter> value = stringFilter.getFilters();
                     for (Container.Filter filter1 : value) {
-                        Object propertyId = StringUtils.EMPTY;
+                        Object propertyId;
                         if (filter1 instanceof Compare.Less) {
 
                             Compare.Less less = (Compare.Less) filter1;
@@ -235,7 +233,7 @@ public class CommonFilterLogic {
                             sql.append(tempStart);
                         }
                     }
-                } else if(filter instanceof HelperDTOFilter) {
+                } else if (filter instanceof HelperDTOFilter) {
                     HelperDTOFilter dtoFilter = (HelperDTOFilter) filter;
                     if (queryMap.get(dtoFilter.getPropertyId().toString()) != null && !queryMap.get(dtoFilter.getPropertyId().toString()).isEmpty()) {
                         if (sql.length() == 0) {
@@ -262,12 +260,12 @@ public class CommonFilterLogic {
         return sql;
     }
 
-    public StringBuilder orderByQueryGenerator(List<SortByColumn> sortByColumns, Map<String, String> queryMap,String defaultSort) {
+    public StringBuilder orderByQueryGenerator(List<SortByColumn> sortByColumns, Map<String, String> queryMap, String defaultSort) {
         boolean asc = false;
         StringBuilder tempStart = new StringBuilder("ORDER BY * ?");
         if (sortByColumns != null && !sortByColumns.isEmpty()) {
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+                final SortByColumn sortByColumn = iterator.next();
                 String columnName = sortByColumn.getName();
                 if (sortByColumn.getType() == SortByColumn.Type.ASC) {
                     asc = false;
@@ -311,7 +309,7 @@ public class CommonFilterLogic {
             boolean[] value = new boolean[sortByColumns.size()];
             int i = 0;
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+                final SortByColumn sortByColumn = iterator.next();
                 String columnName = sortByColumn.getName();
                 propIds[i] = columnName;
                 if (sortByColumn.getType() == SortByColumn.Type.ASC) {

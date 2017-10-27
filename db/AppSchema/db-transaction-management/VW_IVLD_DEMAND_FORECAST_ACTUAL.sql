@@ -47,8 +47,8 @@ AS
          DF.REASON_FOR_FAILURE,
          DF.ERROR_CODE,
          DF.ERROR_FIELD,
-         DF.REPROCESSED_FLAG
-		 ,DF.CHECK_RECORD
+         DF.REPROCESSED_FLAG,
+		 DF.CHECK_RECORD
   FROM   IVLD_DEMAND_FORECAST DF
          LEFT JOIN ITEM_MASTER IM
                 ON IM.ITEM_ID = DF.ITEM_ID
@@ -89,7 +89,7 @@ AS
          CM.COMPANY_NO   BUSINESS_UNIT_NO,
          CM.COMPANY_NAME BUSINESS_UNIT_NAME,
          CASE
-           WHEN IM.ITEM_ID IN (SELECT NDC
+           WHEN EXISTS (SELECT NDC
                                FROM   FORECASTING_MASTER FM
                                       JOIN (SELECT TOP 1 FT.FORECAST_NAME,
                                                          FT.[VERSION]
@@ -100,7 +100,7 @@ AS
                                                           OR FT.TO_PERIOD IS NULL )
                                             ORDER  BY FT.FROM_PERIOD DESC) F
                                         ON FM.FORECAST_NAME = F.FORECAST_NAME
-                                           AND FM.FORECAST_VER IN ( F.[VERSION], FLOOR(F.[VERSION]) )) THEN 1
+                                           AND FM.FORECAST_VER IN ( F.[VERSION], FLOOR(F.[VERSION]) )WHERE FM.NDC=IM.ITEM_ID) THEN 1
            ELSE 0
          END             IS_ACTIVE,
          0               AS IS_FORECAST,

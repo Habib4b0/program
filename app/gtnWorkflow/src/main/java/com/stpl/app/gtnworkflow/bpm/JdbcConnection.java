@@ -17,16 +17,12 @@ public class JdbcConnection {
     private static final Logger LOGGER = LogManager.getLogger(JdbcConnection.class);
 
     public List<String> getGetRoleForCurrentTask(long processInstance) {
-        Connection connection;
-        ResultSet results;
         List<String> roleList = new ArrayList<>();
-        try {
-            connection = getAppConnection();
-            Statement statement = connection.createStatement();
-            StringBuilder query = new StringBuilder("select pp.task_id,pp.entity_id from task t join PeopleAssignments_PotOwners pp on pp.task_id=t.id ");
-            query.append(" where t.processInstanceId = ").append(processInstance).append(" order by t.id desc");
-
-            results = statement.executeQuery(query.toString());
+        StringBuilder query = new StringBuilder("select pp.task_id,pp.entity_id from task t join PeopleAssignments_PotOwners pp on pp.task_id=t.id ");
+        query.append(" where t.processInstanceId = ").append(processInstance).append(" order by t.id desc");
+        try (Connection connection = getAppConnection();
+                Statement statement = connection.createStatement();
+                ResultSet results = statement.executeQuery(query.toString());) {
             if (results != null) {
                 while (results.next()) {
                     roleList.add(results.getString(NumericConstants.TWO));

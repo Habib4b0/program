@@ -1,5 +1,6 @@
 package com.stpl.app.adminconsole.hierarchybuilder.logic;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class HierarchyBuilderLogic {
     /**
      * The map user.
      */
-    public static Map<String, String> mapUser = new HashMap<String, String>();
+    public Map<String, String> mapUser = new HashMap<String, String>();
 
     private static final Logger LOGGER = Logger.getLogger(HierarchyBuilderLogic.class);
 
@@ -87,7 +88,7 @@ public class HierarchyBuilderLogic {
     SessionDTO sessionDTO;
 
    
-    public static Map<String, String> getMapUser() {
+    public Map<String, String> getMapUser() {
         return mapUser;
     }
 
@@ -116,7 +117,7 @@ public class HierarchyBuilderLogic {
 
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
 
-        final List<HelperDTO> results = new ArrayList<HelperDTO>();
+        final List<HelperDTO> results = new ArrayList<>();
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         LOGGER.debug("getHierachyCategory started with P1:String listName=" + listName);
         companyDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.LIST_NAME, listName));
@@ -162,45 +163,45 @@ public class HierarchyBuilderLogic {
             hierarchyCategory = CommonUtil.getIDFromHelper(hierarchycate);
         }
         if (hierarchyCategory != 0) {
-            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq("hierarchyCategory", hierarchyCategory));
+            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantUtils.HIERARCHY_CATEGORY, hierarchyCategory));
         }
-        if (hierarchyBuilderForm.getField("text1").getValue() != null
-                && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text1").getValue().toString())) {
-            final String hierarchyName1 = hierarchyBuilderForm.getField("text1").getValue().toString().trim();
+        if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT1).getValue() != null
+                && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT1).getValue().toString())) {
+            final String hierarchyName1 = hierarchyBuilderForm.getField(StringConstantUtils.TEXT1).getValue().toString().trim();
             final String hierarchyName = hierarchyName1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.HIERARCHY_NAME, hierarchyName));
         }
-        if (hierarchyBuilderForm.getField("option1").getValue() != null
-                && StringUtils.isNotBlank(hierarchyBuilderForm.getField("option1").getValue().toString())) {
-            final String hierarchyType = hierarchyBuilderForm.getField("option1").getValue().toString();
+        if (hierarchyBuilderForm.getField(StringConstantUtils.OPTION1).getValue() != null
+                && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.OPTION1).getValue().toString())) {
+            final String hierarchyType = hierarchyBuilderForm.getField(StringConstantUtils.OPTION1).getValue().toString();
             hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HIERARCHY_TYPE, CommonUtil.getIDFromHelper(hierarchyType)));
 
         }
-        if (hierarchyBuilderForm.getField("date1").getValue() == null || hierarchyBuilderForm.getField("date2").getValue() == null) {
+        if (hierarchyBuilderForm.getField(StringConstantUtils.DATE1).getValue() == null || hierarchyBuilderForm.getField(StringConstantUtils.DATE2).getValue() == null) {
 
-            if (hierarchyBuilderForm.getField("date1").getValue() != null) {
-                final Date from = (Date) hierarchyBuilderForm.getField("date1").getValue();
+            if (hierarchyBuilderForm.getField(StringConstantUtils.DATE1).getValue() != null) {
+                final Date from = (Date) hierarchyBuilderForm.getField(StringConstantUtils.DATE1).getValue();
                 hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CREATED_DATE, from));
 
             }
-            if (hierarchyBuilderForm.getField("date2").getValue() != null) {
-                final Date toDate = (Date) hierarchyBuilderForm.getField("date2").getValue();
+            if (hierarchyBuilderForm.getField(StringConstantUtils.DATE2).getValue() != null) {
+                final Date toDate = (Date) hierarchyBuilderForm.getField(StringConstantUtils.DATE2).getValue();
                 hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.CREATED_DATE, toDate));
             }
         } else {
-            final Date from = (Date) hierarchyBuilderForm.getField("date1").getValue();
-            final Date toDate = (Date) hierarchyBuilderForm.getField("date2").getValue();
+            final Date from = (Date) hierarchyBuilderForm.getField(StringConstantUtils.DATE1).getValue();
+            final Date toDate = (Date) hierarchyBuilderForm.getField(StringConstantUtils.DATE2).getValue();
             hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantsUtils.CREATED_DATE, from, toDate));
         }
-        if (hierarchyBuilderForm.getField("text4").getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text4").getValue().toString())) {
-            final String levelName1 = hierarchyBuilderForm.getField("text4").getValue().toString().trim();
+        if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString())) {
+            final String levelName1 = hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString().trim();
             final String levelName = levelName1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             hierarchyLevelDefenitionDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LEVEL_NAME, levelName));
             hierarchyLevelDefenitionDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.HIERARCHY_DEFINITION_ID)));
 
         }
-        if (hierarchyBuilderForm.getField("text5").getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text5").getValue().toString())) {
-            final String levelValues1 = hierarchyBuilderForm.getField("text5").getValue().toString().trim();
+        if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue().toString())) {
+            final String levelValues1 = hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue().toString().trim();
             final String levelValues = levelValues1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             hierarchyLevelValuesDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LEVEL_VALUES, levelValues));
             hierarchyLevelValuesDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.LEVEL_SYS_ID)));
@@ -220,11 +221,11 @@ public class HierarchyBuilderLogic {
                             hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.HIERARCHY_TYPE, resultList));
                         }
                     }
-                    if ("hierarchyCategory".equals(stringFilter.getPropertyId())) {
+                    if (StringConstantUtils.HIERARCHY_CATEGORY.equals(stringFilter.getPropertyId())) {
 
                         List resultList = commonUtils.getFilterValueFromHelper( filterString);
                         if (!resultList.isEmpty()) {
-                            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.in("hierarchyCategory", resultList));
+                            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantUtils.HIERARCHY_CATEGORY, resultList));
                         }
                     }
 
@@ -241,14 +242,14 @@ public class HierarchyBuilderLogic {
                             hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.VERSION_NO, value));
                         }
                     }
-                    if ("noOfLevels".equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
+                    if (StringConstantUtils.NO_OF_LEVELS.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
                         int value = Integer.valueOf(String.valueOf(compare.getValue()));
                         if (operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
-                            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.ge("noOfLevels", value));
+                            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.ge(StringConstantUtils.NO_OF_LEVELS, value));
                         } else if (operation.LESS.toString().equalsIgnoreCase(operation.name())) {
-                            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.le("noOfLevels", value));
+                            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.le(StringConstantUtils.NO_OF_LEVELS, value));
                         } else if (operation.EQUAL.toString().equalsIgnoreCase(operation.name())) {
-                            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq("noOfLevels", value));
+                            hierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantUtils.NO_OF_LEVELS, value));
                         }
                     }
                     if (compare.getValue() instanceof Date) {
@@ -291,13 +292,13 @@ public class HierarchyBuilderLogic {
         List<SearchResultsDTO> hierarchyBuilderDTO;
         List<HierarchyDefinition> resultList;
         List<HierarchyLevelDefinition> levelDefinitionList;
-        if (hierarchyBuilderForm.getField("text5").getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text5").getValue().toString())) {
+        if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue().toString())) {
             resultList = dao.getHierachyDefinitionList(hierarchyBuilderDynamicQuery);
 
             final List<SearchResultsDTO> list = getCustomizedResults(resultList);
             final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyLevelDefinition.class);
-            if (hierarchyBuilderForm.getField("text4").getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text4").getValue().toString())) {
-                final String levelName1 = hierarchyBuilderForm.getField("text4").getValue().toString().trim();
+            if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString())) {
+                final String levelName1 = hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString().trim();
                 final String levelName = levelName1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
                 dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LEVEL_NAME, levelName));
 
@@ -311,7 +312,7 @@ public class HierarchyBuilderLogic {
             } else {
                 defSys = getdefSysList(defList);
             }
-            final List<HierarchyBuilderLevelDTO> levelDTOList = new ArrayList<HierarchyBuilderLevelDTO>();
+            final List<HierarchyBuilderLevelDTO> levelDTOList = new ArrayList<>();
             for (int i = 0; i < levelList.size(); i++) {
                 for (int j = 0; j < defSys.length; j++) {
                     final HierarchyBuilderLevelDTO defObj = levelList.get(i);
@@ -322,7 +323,7 @@ public class HierarchyBuilderLogic {
                 }
             }
 
-            hierarchyBuilderDTO = new ArrayList<SearchResultsDTO>();
+            hierarchyBuilderDTO = new ArrayList<>();
             for (int k = 0; k < list.size(); k++) {
                 for (int l = 0; l < levelDTOList.size(); l++) {
                     if (list.get(k).getHierarchyDefinitionSystemId() == levelDTOList.get(l).getHierarchyDefinitionSystemId()) {
@@ -331,8 +332,8 @@ public class HierarchyBuilderLogic {
                 }
             }
 
-        } else if (hierarchyBuilderForm.getField("text4").getValue() != null
-                && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text4").getValue().toString())) {
+        } else if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue() != null
+                && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString())) {
             resultList = dao.getHierachyDefinitionList(hierarchyBuilderDynamicQuery);
             final List<SearchResultsDTO> list = getCustomizedResults(resultList);
 
@@ -342,7 +343,7 @@ public class HierarchyBuilderLogic {
                 defSys = getdefSysList(defSysList);
             }
 
-            hierarchyBuilderDTO = new ArrayList<SearchResultsDTO>();
+            hierarchyBuilderDTO = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 for (int j = 0; j < defSys.length; j++) {
                     final SearchResultsDTO defObj = list.get(i);
@@ -370,8 +371,8 @@ public class HierarchyBuilderLogic {
 
         columnNames.put("hierarchyName", "hierarchyName");
         columnNames.put("hierarchyType", "hierarchyType");
-        columnNames.put("hierarchyCategory", "hierarchyCategory");
-        columnNames.put("noOfLevels", "noOfLevels");
+        columnNames.put(StringConstantUtils.HIERARCHY_CATEGORY, StringConstantUtils.HIERARCHY_CATEGORY);
+        columnNames.put(StringConstantUtils.NO_OF_LEVELS, StringConstantUtils.NO_OF_LEVELS);
         columnNames.put("versionNo", "versionNo");
         columnNames.put("createdDate", "createdDate");
         columnNames.put("modifiedDate", "modifiedDate");
@@ -403,7 +404,7 @@ public class HierarchyBuilderLogic {
             hierarchyCategory = CommonUtil.getIDFromHelper(hierarchycate);
         }
         if (hierarchyCategory != 0) {
-            histHierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq("hierarchyCategory", hierarchyCategory));
+            histHierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantUtils.HIERARCHY_CATEGORY, hierarchyCategory));
         }
         if (hierarchyBuilderForm.getField(ConstantsUtils.TEXT1).getValue() != null
                 && StringUtils.isNotBlank(hierarchyBuilderForm.getField(ConstantsUtils.TEXT1).getValue().toString())) {
@@ -418,37 +419,37 @@ public class HierarchyBuilderLogic {
             histHierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HIERARCHY_TYPE, CommonUtil.getIDFromHelper(hierarchyType)));
         }
 
-        if (hierarchyBuilderForm.getField("date1").getValue() == null || hierarchyBuilderForm.getField("date2").getValue() == null) {
+        if (hierarchyBuilderForm.getField(StringConstantUtils.DATE1).getValue() == null || hierarchyBuilderForm.getField(StringConstantUtils.DATE2).getValue() == null) {
 
-            if (hierarchyBuilderForm.getField("date1").getValue() != null) {
-                final Date from = (Date) hierarchyBuilderForm.getField("date1").getValue();
+            if (hierarchyBuilderForm.getField(StringConstantUtils.DATE1).getValue() != null) {
+                final Date from = (Date) hierarchyBuilderForm.getField(StringConstantUtils.DATE1).getValue();
                 histHierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CREATED_DATE, from));
 
             }
-            if (hierarchyBuilderForm.getField("date2").getValue() != null) {
-                final Date toDate = (Date) hierarchyBuilderForm.getField("date2").getValue();
+            if (hierarchyBuilderForm.getField(StringConstantUtils.DATE2).getValue() != null) {
+                final Date toDate = (Date) hierarchyBuilderForm.getField(StringConstantUtils.DATE2).getValue();
                 histHierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.CREATED_DATE, toDate));
 
             }
 
         } else {
 
-            final Date from = (Date) hierarchyBuilderForm.getField("date1").getValue();
-            final Date toDate = (Date) hierarchyBuilderForm.getField("date2").getValue();
+            final Date from = (Date) hierarchyBuilderForm.getField(StringConstantUtils.DATE1).getValue();
+            final Date toDate = (Date) hierarchyBuilderForm.getField(StringConstantUtils.DATE2).getValue();
 
             histHierarchyBuilderDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantsUtils.CREATED_DATE, from, toDate));
 
         }
 
-        if (hierarchyBuilderForm.getField("text4").getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text4").getValue().toString())) {
-            final String levelName1 = hierarchyBuilderForm.getField("text4").getValue().toString().trim();
+        if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString())) {
+            final String levelName1 = hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString().trim();
             final String levelName = levelName1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             histHierarchyLevelDefnDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LEVEL_NAME, levelName));
             histHierarchyLevelDefnDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.HIERARCHY_DEFINITION_ID)));
         }
 
-        if (hierarchyBuilderForm.getField("text5").getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text5").getValue().toString())) {
-            final String levelValues1 = hierarchyBuilderForm.getField("text5").getValue().toString().trim();
+        if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue().toString())) {
+            final String levelValues1 = hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue().toString().trim();
             final String levelValues = levelValues1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             hierarchyLevelValuesDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LEVEL_VALUES, levelValues));
             hierarchyLevelValuesDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.LEVEL_SYS_ID)));
@@ -457,13 +458,13 @@ public class HierarchyBuilderLogic {
         List<SearchResultsDTO> hierarchyBuilderDTO;
         List<HistHierarchyDefinition> resultList;
         List<HierarchyLevelDefinition> levelDefinitionList;
-        if (hierarchyBuilderForm.getField("text5").getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text5").getValue().toString())) {
+        if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT5).getValue().toString())) {
             resultList = dao.getHistHierachyDefinitionList(histHierarchyBuilderDynamicQuery);
 
             final List<SearchResultsDTO> list = getCustomizedHistoryResults(resultList);
             final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyLevelDefinition.class);
-            if (hierarchyBuilderForm.getField("text4").getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text4").getValue().toString())) {
-                final String levelName1 = hierarchyBuilderForm.getField("text4").getValue().toString().trim();
+            if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue() != null && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString())) {
+                final String levelName1 = hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString().trim();
                 final String levelName = levelName1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
                 dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LEVEL_NAME, levelName));
 
@@ -477,7 +478,7 @@ public class HierarchyBuilderLogic {
             } else {
                 defSys = getdefSysList(defList);
             }
-            final List<HierarchyBuilderLevelDTO> levelDTOList = new ArrayList<HierarchyBuilderLevelDTO>();
+            final List<HierarchyBuilderLevelDTO> levelDTOList = new ArrayList<>();
             for (int i = 0; i < levelList.size(); i++) {
                 for (int j = 0; j < defSys.length; j++) {
                     final HierarchyBuilderLevelDTO defObj = levelList.get(i);
@@ -488,7 +489,7 @@ public class HierarchyBuilderLogic {
                 }
             }
 
-            hierarchyBuilderDTO = new ArrayList<SearchResultsDTO>();
+            hierarchyBuilderDTO = new ArrayList<>();
             for (int k = 0; k < list.size(); k++) {
                 for (int l = 0; l < levelDTOList.size(); l++) {
                     if (list.get(k).getHierarchyDefinitionSystemId() == levelDTOList.get(l).getHierarchyDefinitionSystemId()) {
@@ -497,8 +498,8 @@ public class HierarchyBuilderLogic {
                 }
             }
 
-        } else if (hierarchyBuilderForm.getField("text4").getValue() != null
-                && StringUtils.isNotBlank(hierarchyBuilderForm.getField("text4").getValue().toString())) {
+        } else if (hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue() != null
+                && StringUtils.isNotBlank(hierarchyBuilderForm.getField(StringConstantUtils.TEXT4).getValue().toString())) {
 
             resultList = dao.getHierachyDefinitionList(histHierarchyBuilderDynamicQuery);
             final List<SearchResultsDTO> list = getCustomizedHistoryResults(resultList);
@@ -509,7 +510,7 @@ public class HierarchyBuilderLogic {
                 defSys = getdefSysList(defSysList);
             }
 
-            hierarchyBuilderDTO = new ArrayList<SearchResultsDTO>();
+            hierarchyBuilderDTO = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 for (int j = 0; j < defSys.length; j++) {
                     final SearchResultsDTO defObj = list.get(i);
@@ -612,7 +613,7 @@ public class HierarchyBuilderLogic {
         LOGGER.debug("saveHierarchy started with P1:CustomFieldGroup hierarchyBuilderBinder and BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean");
         int versionNo = 0;
         int user = Integer.valueOf(sessionDTO.getUserId());
-        final List<HierarchyBuilderLevelDTO> list = new ArrayList<HierarchyBuilderLevelDTO>();
+        final List<HierarchyBuilderLevelDTO> list = new ArrayList<>();
         if (hierarchyBuilderLevelDTOBean != null) {
 
             for (int i = 0; i < hierarchyBuilderLevelDTOBean.size(); i++) {
@@ -809,9 +810,9 @@ public class HierarchyBuilderLogic {
      * @throws Exception the exception
      */
     private List<SearchResultsDTO> getCustomizedResults(final List<HierarchyDefinition> resultList) throws SystemException, ParseException, PortalException {
-        LOGGER.debug("getCustomizedResults started with P1:List<HierarchyDefinition> resultList size" + resultList.size());
+        LOGGER.debug("getCustomizedResults started with P1:List<HierarchyDefinition>" + resultList.size());
         final HashMap<String, String> userInfoMap = (HashMap<String, String>) CommonUtil.getCreatedByUser();
-        final List<SearchResultsDTO> hierarchyDefinitionList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> hierarchyDefinitionList = new ArrayList<>();
 
         for (final Iterator<HierarchyDefinition> iterator = resultList.iterator(); iterator.hasNext();) {
             final HierarchyDefinition hierarchyDefinition = iterator.next();
@@ -834,7 +835,7 @@ public class HierarchyBuilderLogic {
             hierarchyBuilderDTO.setSystemID(String.valueOf(hierarchyBuilderDTO.getHierarchyDefinitionSystemId()));
             hierarchyDefinitionList.add(hierarchyBuilderDTO);
         }
-        LOGGER.debug("getCustomizedResults return List<HierarchyBuilderDTO> hierarchyDefinitionList");
+        LOGGER.debug("getCustomizedResults return List<HierarchyBuilderDTO> hierarchyDefinitionList ");
         return hierarchyDefinitionList;
     }
 
@@ -849,7 +850,7 @@ public class HierarchyBuilderLogic {
     private List<SearchResultsDTO> getCustomizedHistoryResults(final List<HistHierarchyDefinition> resultList) throws SystemException, PortalException {
         LOGGER.debug("getCustomizedResults started with P1:List<HierarchyDefinition> resultList size" + resultList.size());
         final HashMap<String, String> userInfoMap = (HashMap<String, String>) CommonUtil.getCreatedByUser();
-        final List<SearchResultsDTO> hierarchyDefinitionList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> hierarchyDefinitionList = new ArrayList<>();
 
         for (final Iterator<HistHierarchyDefinition> iterator = resultList.iterator(); iterator.hasNext();) {
             final HistHierarchyDefinition hierarchyDefinition = iterator.next();
@@ -886,7 +887,7 @@ public class HierarchyBuilderLogic {
     private List<HierarchyBuilderDTO> getCustomizedResults1(final List<HierarchyDefinition> resultList) throws SystemException, PortalException {
         LOGGER.debug("getCustomizedResults started with P1:List<HierarchyDefinition> resultList size" + resultList.size());
         final HashMap<String, String> userInfoMap = (HashMap<String, String>) CommonUtil.getCreatedByUser();
-        final List<HierarchyBuilderDTO> hierarchyDefinitionList = new ArrayList<HierarchyBuilderDTO>();
+        final List<HierarchyBuilderDTO> hierarchyDefinitionList = new ArrayList<>();
 
         for (final Iterator<HierarchyDefinition> iterator = resultList.iterator(); iterator.hasNext();) {
             final HierarchyDefinition hierarchyDefinition = iterator.next();
@@ -917,7 +918,7 @@ public class HierarchyBuilderLogic {
      * @throws Exception the exception
      */
     private List<HierarchyBuilderLevelDTO> getCustomizedLevelDefenition(final List<HierarchyLevelDefinition> resultList) throws SystemException {
-        final List<HierarchyBuilderLevelDTO> hierarchyLevelDefinitionList = new ArrayList<HierarchyBuilderLevelDTO>();
+        final List<HierarchyBuilderLevelDTO> hierarchyLevelDefinitionList = new ArrayList<>();
         LOGGER.debug("getCustomizedLevelDefenition started with P1:List<HierarchyLevelDefinition> resultList size:" + resultList.size());
 
         final Map hashMap = CommonUtil.getCreatedByUser();
@@ -953,7 +954,7 @@ public class HierarchyBuilderLogic {
      * @throws Exception the exception
      */
     private List<HierarchyBuilderLevelDTO> getCustomizedHistLevelDefn(final List<HistHierarchyLevelDefn> resultList) throws SystemException {
-        final List<HierarchyBuilderLevelDTO> hierarchyLevelDefinitionList = new ArrayList<HierarchyBuilderLevelDTO>();
+        final List<HierarchyBuilderLevelDTO> hierarchyLevelDefinitionList = new ArrayList<>();
         LOGGER.debug("getCustomizedLevelDefenition started with P1:List<HierarchyLevelDefinition> resultList size:" + resultList.size());
 
         final Map hashMap = CommonUtil.getCreatedByUser();
@@ -1033,8 +1034,8 @@ public class HierarchyBuilderLogic {
         final HashMap<String, String> userInfoMap = (HashMap<String, String>) CommonUtil.getCreatedByUser();
         final DynamicQuery hierarchydefinitionQuery = DynamicQueryFactoryUtil.forClass(HistHierarchyDefinition.class);
         hierarchydefinitionQuery.add(RestrictionsFactoryUtil.eq("primaryKey.hierarchyDefinitionSid", systemId));
-        hierarchydefinitionQuery.add(RestrictionsFactoryUtil.eq("primaryKey.versionNo", version));
-        hierarchydefinitionQuery.add(RestrictionsFactoryUtil.ne("primaryKey.actionFlag", "D"));
+        hierarchydefinitionQuery.add(RestrictionsFactoryUtil.eq(PRIMARY_KEYVERSION_NO, version));
+        hierarchydefinitionQuery.add(RestrictionsFactoryUtil.ne(PRIMARY_KEYACTION_FLAG, "D"));
         final List<HistHierarchyDefinition> resultsList = HistHierarchyDefinitionLocalServiceUtil.dynamicQuery(hierarchydefinitionQuery);
         for (final Iterator<HistHierarchyDefinition> iterator = resultsList.iterator(); iterator.hasNext();) {
             final HistHierarchyDefinition hierarchyDefinition = iterator.next();
@@ -1058,6 +1059,8 @@ public class HierarchyBuilderLogic {
         LOGGER.debug("gethierarchyBuilderDTO return HierarchyBuilderDTO objDTO");
         return objDTO;
     }
+    public static final String PRIMARY_KEYACTION_FLAG = "primaryKey.actionFlag";
+    public static final String PRIMARY_KEYVERSION_NO = "primaryKey.versionNo";
 
     /**
      * Gets the hierarchy builder level dto.
@@ -1098,7 +1101,7 @@ public class HierarchyBuilderLogic {
      */
     public List<HierarchyBuilderLevelDTO> getHierarchyLevelDTOByDefinitionSystemId(final int systemId) throws SystemException {
         LOGGER.debug("getHierarchyLevelDTOByDefinitionSystemId started with P1:int systemId=" + systemId);
-        final List<HierarchyBuilderLevelDTO> finalList = new ArrayList<HierarchyBuilderLevelDTO>();
+        final List<HierarchyBuilderLevelDTO> finalList = new ArrayList<>();
         final DynamicQuery hierarchyLevelDefenitionDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyLevelDefinition.class);
         hierarchyLevelDefenitionDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HIERARCHY_DEFINITION_ID, systemId));
         hierarchyLevelDefenitionDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LEVEL_NO));
@@ -1125,11 +1128,11 @@ public class HierarchyBuilderLogic {
      */
     public List<HierarchyBuilderLevelDTO> getHistHierarchyLevelDTO(final int systemId, final int version) throws SystemException {
         LOGGER.debug("getHistHierarchyLevelDTO started with P1:int systemId=" + systemId + " version=" + version);
-        final List<HierarchyBuilderLevelDTO> finalList = new ArrayList<HierarchyBuilderLevelDTO>();
+        final List<HierarchyBuilderLevelDTO> finalList = new ArrayList<>();
         final DynamicQuery HistHierarchyLevelDefenDynamicQuery = DynamicQueryFactoryUtil.forClass(HistHierarchyLevelDefn.class);
         HistHierarchyLevelDefenDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HIERARCHY_DEFINITION_ID, systemId));
-        HistHierarchyLevelDefenDynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey.versionNo", version));
-        HistHierarchyLevelDefenDynamicQuery.add(RestrictionsFactoryUtil.ne("primaryKey.actionFlag", "D"));
+        HistHierarchyLevelDefenDynamicQuery.add(RestrictionsFactoryUtil.eq(PRIMARY_KEYVERSION_NO, version));
+        HistHierarchyLevelDefenDynamicQuery.add(RestrictionsFactoryUtil.ne(PRIMARY_KEYACTION_FLAG, "D"));
         HistHierarchyLevelDefenDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LEVEL_NO));
 
         final List<HistHierarchyLevelDefn> levelDefenitionList = dao.getHistHierarchylevelDefnList(HistHierarchyLevelDefenDynamicQuery);
@@ -1152,7 +1155,7 @@ public class HierarchyBuilderLogic {
      * @throws Exception the exception
      */
     public List<LevelDTO> getLevels(final int systemId) throws SystemException {
-        final List<LevelDTO> list = new ArrayList<LevelDTO>();
+        final List<LevelDTO> list = new ArrayList<>();
         LevelDTO objDTO;
         LOGGER.debug("getLevels started with P1:int systemId=" + systemId);
         final DynamicQuery hierarchyLevelValuesDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyLevelValues.class);
@@ -1185,7 +1188,7 @@ public class HierarchyBuilderLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public String deleteHierarchy(final int systemId) throws SystemException, PortalException {
+    public String deleteHierarchy(final int systemId) throws SystemException {
         LOGGER.debug("deleteHierarchy started with P1:int id=" + systemId);
 
         final DynamicQuery rbDynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipBuilder.class);
@@ -1260,7 +1263,7 @@ public class HierarchyBuilderLogic {
      */
     public List<TableFieldLookUpDTO> getTableAndField(final TextField tableName, final TextField fieldName) throws SystemException {
         LOGGER.debug("getTableAndField started with P1:TextField tableName and P2:TextField fieldName");
-        final List<TableFieldLookUpDTO> lookUpList = new ArrayList<TableFieldLookUpDTO>();
+        final List<TableFieldLookUpDTO> lookUpList = new ArrayList<>();
         final DynamicQuery vwUserTablesDynamicQuery = DynamicQueryFactoryUtil.forClass(VwUserTables.class);
         TableFieldLookUpDTO lookUp;
 
@@ -1297,18 +1300,18 @@ public class HierarchyBuilderLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public List<TableFieldLookUpDTO> getTableName(final String tableName, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws PortalException, SystemException {
+    public List<TableFieldLookUpDTO> getTableName(final String tableName, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws SystemException {
         LOGGER.debug("getTableName started with P1:String tableName=" + tableName + " StartIndex --> " + startIndex + "  Offset-->>  " + offset);
-        final List<TableFieldLookUpDTO> lookUpList = new ArrayList<TableFieldLookUpDTO>();
+        final List<TableFieldLookUpDTO> lookUpList = new ArrayList<>();
         TableFieldLookUpDTO lookUp;
         final DynamicQuery vwUserTablesDynamicQuery = configureDynamicQueryForFieldName(tableName, filters);
         if (sortByColumns != null) {
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 final SortByColumn orderByColumn = (SortByColumn) iterator.next();
                 if (orderByColumn.getType() == SortByColumn.Type.ASC) {
-                    vwUserTablesDynamicQuery.addOrder(OrderFactoryUtil.asc("columnName"));
+                    vwUserTablesDynamicQuery.addOrder(OrderFactoryUtil.asc(COLUMN_NAME));
                 } else {
-                    vwUserTablesDynamicQuery.addOrder(OrderFactoryUtil.desc("columnName"));
+                    vwUserTablesDynamicQuery.addOrder(OrderFactoryUtil.desc(COLUMN_NAME));
                 }
             }
         }
@@ -1325,6 +1328,7 @@ public class HierarchyBuilderLogic {
         LOGGER.debug("getTableName return List<TableFieldLookUpDTO> lookUpList=" + lookUpList.size());
         return lookUpList;
     }
+    public static final String COLUMN_NAME = "columnName";
 
     public int getFieldNameCount(final String tableName, Set<Container.Filter> filters) throws SystemException {
         final DynamicQuery vwUserTablesDynamicQuery = configureDynamicQueryForFieldName(tableName, filters);
@@ -1340,9 +1344,9 @@ public class HierarchyBuilderLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public List<TableFieldLookUpDTO> getUniqueTable(final TableFieldLookUpDTO tableFieldLookUpDTO, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws PortalException, SystemException {
+    public List<TableFieldLookUpDTO> getUniqueTable(final TableFieldLookUpDTO tableFieldLookUpDTO, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws SystemException {
         LOGGER.debug("getUniqueTable started with P1:TextField tableName  start " + startIndex + "--- offset  " + (startIndex + offset));
-        final List<TableFieldLookUpDTO> lookUpList = new ArrayList<TableFieldLookUpDTO>();
+        final List<TableFieldLookUpDTO> lookUpList = new ArrayList<>();
         TableFieldLookUpDTO lookUp;
         final DynamicQuery vwUserTablesDynamicQuery = configureDynamicQuery(tableFieldLookUpDTO, filters);
         if (sortByColumns != null) {
@@ -1384,7 +1388,7 @@ public class HierarchyBuilderLogic {
      */
     public List<LevelDTO> getLevelList(final int levelNo) throws SystemException, PortalException {
         LOGGER.debug("getLevelList started with P1:int levelNo=" + levelNo);
-        final List<LevelDTO> list = new ArrayList<LevelDTO>();
+        final List<LevelDTO> list = new ArrayList<>();
         LevelDTO levelDTO;
         final DynamicQuery tempDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdLevelValues.class);
         tempDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.LEVEL_NO, levelNo));
@@ -1436,9 +1440,9 @@ public class HierarchyBuilderLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public List<TableFieldLookUpDTO> getLevelValues(String tableName, String fieldName, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws SystemException {
+    public List<TableFieldLookUpDTO> getLevelValues(String tableName, String fieldName, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
         LOGGER.debug("getLevelValues started with P1:String tableName=" + tableName + " P2:String fieldName=" + fieldName + " P3:List hierDTO");
-        final List<TableFieldLookUpDTO> levelList = new ArrayList<TableFieldLookUpDTO>();
+        final List<TableFieldLookUpDTO> levelList = new ArrayList<>();
         TableFieldLookUpDTO dto;
         String order = StringUtils.EMPTY;
         String filterValue = StringUtils.EMPTY;
@@ -1503,7 +1507,7 @@ public class HierarchyBuilderLogic {
         return levelList;
     }
 
-    public int getLevelValuesCount(String tableName, String fieldName, Set<Container.Filter> filters) throws SystemException {
+    public int getLevelValuesCount(String tableName, String fieldName, Set<Container.Filter> filters) {
         List resultList = getLevelValuesResultList(tableName, fieldName);
         String filterValue = StringUtils.EMPTY;
         if (resultList != null && resultList.size() > 0) {
@@ -1580,16 +1584,16 @@ public class HierarchyBuilderLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public int getExistingVersion(final int systemId) throws SystemException, PortalException {
+    public int getExistingVersion(final int systemId) throws SystemException {
         LOGGER.debug("getExistingItemgroupNames started");
         int version = 0;
         final DynamicQuery hdHistoryDynamicQuery = DynamicQueryFactoryUtil.forClass(HistHierarchyDefinition.class);
         hdHistoryDynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey.hierarchyDefinitionSid", systemId));
-        hdHistoryDynamicQuery.add(RestrictionsFactoryUtil.ne("primaryKey.actionFlag", "D"));
+        hdHistoryDynamicQuery.add(RestrictionsFactoryUtil.ne(PRIMARY_KEYACTION_FLAG, "D"));
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
-        projList.add(ProjectionFactoryUtil.property("primaryKey.versionNo"));
+        projList.add(ProjectionFactoryUtil.property(PRIMARY_KEYVERSION_NO));
         hdHistoryDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
-        final List<Integer> finalList = new ArrayList<Integer>();
+        final List<Integer> finalList = new ArrayList<>();
         final List<Integer> historyList = dao.getHierachyDefinitionHistoryList(hdHistoryDynamicQuery);
         finalList.addAll(historyList);
         final int size = finalList.size();
@@ -1652,7 +1656,7 @@ public class HierarchyBuilderLogic {
                     String filterString = "%" + stringFilter.getFilterString() + "%";
                     if ("fieldName".equals(stringFilter.getPropertyId())) {
 
-                        vwUserTablesDynamicQuery.add(RestrictionsFactoryUtil.ilike("columnName", filterString));
+                        vwUserTablesDynamicQuery.add(RestrictionsFactoryUtil.ilike(COLUMN_NAME, filterString));
                     }
                 }
             }

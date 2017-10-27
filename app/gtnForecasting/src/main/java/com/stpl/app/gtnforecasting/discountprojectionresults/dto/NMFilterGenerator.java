@@ -60,11 +60,13 @@ public class NMFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
 
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
 
     }
 
@@ -81,6 +83,7 @@ public class NMFilterGenerator implements ExtFilterGenerator {
             groupDdlb.setNullSelectionItemId(Constant.DASH);
             IndexedContainer con = new IndexedContainer();
             con.removeAllItems();
+            con.addItem(Constant.ALL_DISCOUNT_GROUP);
                 GroupFilter.initdiscountMap(session);
             Set<String> list = session.getDiscountgroupSet();
             if (list != null && list.size() > 0) {
@@ -89,6 +92,7 @@ public class NMFilterGenerator implements ExtFilterGenerator {
                 }
             }
             groupDdlb.setContainerDataSource(con);
+            groupDdlb.select(Constant.ALL_DISCOUNT_GROUP);
             groupDdlb.addStyleName(Constant.FILTER_COMBOBOX);
             groupDdlb.setPageLength(NumericConstants.SEVEN);
             groupDdlb.setImmediate(true);

@@ -4,6 +4,7 @@
 package com.stpl.app.contract.dashboard.ui.form;
 
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.common.util.HelperListUtil;
@@ -28,7 +29,6 @@ import com.stpl.app.contract.global.dto.RSItemTableGenerator;
 import com.stpl.app.contract.global.dto.RebatePlanNameContainer;
 import com.stpl.app.contract.global.dto.RebatePlanNameCriteria;
 import com.stpl.app.contract.global.dto.RsDeductionLookupDto;
-import com.stpl.app.contract.global.dto.RsItemDetailsDTO;
 import com.stpl.app.contract.global.logic.IfpLogic;
 import com.stpl.app.contract.global.util.CommonUtils;
 import com.stpl.app.contract.util.AbstractNotificationUtils;
@@ -191,7 +191,7 @@ public class RebateSetup extends CustomComponent {
     /**
      * The map.
      */
-    private final Map<String, String> map = new HashMap<String, String>();
+    private final Map<String, String> map = new HashMap<>();
 
     /**
      * The ifp logic.
@@ -213,7 +213,7 @@ public class RebateSetup extends CustomComponent {
     
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
     
-    private final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
     
     TempViewRebateContainer viewRebateContainer;
     TempRebateContainer rebateContainer;
@@ -225,7 +225,7 @@ public class RebateSetup extends CustomComponent {
     /**
      * The rebate list.
      */
-    private final List<TempRebateDTO> rebateList = new ArrayList<TempRebateDTO>();
+    private final List<TempRebateDTO> rebateList = new ArrayList<>();
     
     List<Object> resultList;
     Map<String, AppPermission> contractDashboard;
@@ -248,8 +248,8 @@ public class RebateSetup extends CustomComponent {
      * @param rebateBinder the rebate binder
      * @param rsDetailsResultsBean the rs details results bean
      */
-    public RebateSetup(final RsItemDetailsDTO rsItemDetailsDTO, final CustomFieldGroup rebateBinder, final BeanItemContainer<TempRebateDTO> rsDetailsResultsBean, final CustomFieldGroup contractBinder,
-            final boolean isEditable, final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public RebateSetup(final CustomFieldGroup rebateBinder, final BeanItemContainer<TempRebateDTO> rsDetailsResultsBean, final CustomFieldGroup contractBinder,
+            final boolean isEditable, final SessionDTO sessionDTO) {
         super();
         this.contractBinder = contractBinder;
         this.rsDetailsResultsBean = rsDetailsResultsBean;
@@ -288,7 +288,7 @@ public class RebateSetup extends CustomComponent {
             });
             
             final StplSecurity stplSecurity = new StplSecurity();
-            contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Rebate Setup", false);
+            contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.REBATE_SETUP, false);
             addResponsiveGrid(contractDashboard);
             if (isEditable) {
                 mode = ConstantsUtils.EDIT;
@@ -314,24 +314,23 @@ public class RebateSetup extends CustomComponent {
     private void configureButton() throws PortalException, SystemException {
         
         final StplSecurity stplSecurity = new StplSecurity();
-        final Map<String, AppPermission> funContractHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Rebate Setup");
-        if ((funContractHM.get(CHFunctionNameUtils.RebatePopulate) != null) && !((AppPermission) funContractHM.get(CHFunctionNameUtils.RebatePopulate)).isFunctionFlag()) {
+        final Map<String, AppPermission> funContractHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.REBATE_SETUP);
+        if ((funContractHM.get(CHFunctionNameUtils.REBATE_POPULATE) != null) && !((AppPermission) funContractHM.get(CHFunctionNameUtils.REBATE_POPULATE)).isFunctionFlag()) {
             btnPopulate.setVisible(false);
         } else {
             addBtnPopulate();
         }
-        if ((funContractHM.get(CHFunctionNameUtils.RebatePopulateAll) != null) && !((AppPermission) funContractHM.get(CHFunctionNameUtils.RebatePopulateAll)).isFunctionFlag()) {
+        if ((funContractHM.get(CHFunctionNameUtils.REBATE_POPULATE_ALL) != null) && !((AppPermission) funContractHM.get(CHFunctionNameUtils.REBATE_POPULATE_ALL)).isFunctionFlag()) {
             btnAllPopulate.setVisible(false);
         } else {
             addBtnAllPopulate();
         }
         
     }
-
     /**
      * Configure fields.
      */
-    public void configureFields() throws SystemException {
+    public void configureFields() {
         LOGGER.debug("Entering configureFields method");
         try {
             
@@ -345,8 +344,8 @@ public class RebateSetup extends CustomComponent {
             massField.setNullSelectionItemId(Constants.SELECT_ONE);
             
             massField.addItem("Rebate Plan Name");
-            massField.addItem("Start Date");
-            massField.addItem("End Date");
+            massField.addItem(Constants.START_DATE_SP);
+            massField.addItem(Constants.END_DATE_SP);
             massField.setImmediate(true);
             massField.select(Constants.SELECT_ONE);
             massField.setEnabled(false);
@@ -392,7 +391,8 @@ public class RebateSetup extends CustomComponent {
             });
             massValue.setImmediate(true);
             massValue.setVisible(false);
-            
+            massLookup.setVisible(false);
+            valueLB.setVisible(false);
             massField.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
                  * Method used massField for value change listener
@@ -402,7 +402,7 @@ public class RebateSetup extends CustomComponent {
                         final String value = String.valueOf(massField.getValue());
                         CommonUtil commonUtil = new CommonUtil();
                         massField.setDescription(value);
-                        if (ContractUtils.REBATE_AMOUNT.equals(value) || "Bundle No".equals(value) || ContractUtils.EVALUATION_RULE_BUNDLE.equals(value) || ContractUtils.CALCULATION_RULE_BUNDLE.equals(value)) {
+                        if (ContractUtils.REBATE_AMOUNT.equals(value) || ConstantUtil.BUNDLE_NO.equals(value) || ContractUtils.EVALUATION_RULE_BUNDLE.equals(value) || ContractUtils.CALCULATION_RULE_BUNDLE.equals(value)) {
                             valueLB.setVisible(true);
                             massValue.setValue("");
                             massValue.setVisible(true);
@@ -420,7 +420,7 @@ public class RebateSetup extends CustomComponent {
                             massLookup.setVisible(false);
                             btnPopulate.setEnabled(true);
                             
-                        } else if ("RS Status".equals(value)) {
+                        } else if (ConstantUtil.RS_STATUS.equals(value)) {
                             massLookup.setVisible(false);
                             massValue.setVisible(false);
                             massDate.setVisible(false);
@@ -438,7 +438,7 @@ public class RebateSetup extends CustomComponent {
                             valueLB.setVisible(true);
                             btnPopulate.setEnabled(true);
                             btnAllPopulate.setEnabled(true);
-                        } else if ("Rebate Plan No".equals(value) || "Formula No".equals(value) || ContractUtils.NET_SALES_FORMULA.equals(value) || "Deduction Calendar No".equals(value)
+                        } else if (ConstantUtil.REBATE_PLAN_NO.equals(value) || ConstantUtil.FORMULA_NO.equals(value) || ContractUtils.NET_SALES_FORMULA.equals(value) || ConstantUtil.DEDUCTION_CALENDAR_NO.equals(value)
                                 || ContractUtils.NET_SALES_RULE.equals(value) || ContractUtils.EVALUATION_RULE.equals(value) || ContractUtils.CALCULATION_RULE.equals(value)) {
                             massValue.setVisible(false);
                             massDate.setVisible(false);
@@ -465,7 +465,7 @@ public class RebateSetup extends CustomComponent {
                 public void click(CustomTextField.ClickEvent event) {
                     try {
                         
-                        if ("Rebate Plan No".equals(massField.getValue().toString())) {
+                        if (ConstantUtil.REBATE_PLAN_NO.equals(massField.getValue().toString())) {
                             if (rebatePlanLookup == null) {
                                 rebatePlanLookup = new RebatePlanLookup();
                                 UI.getCurrent().addWindow(rebatePlanLookup);
@@ -498,7 +498,7 @@ public class RebateSetup extends CustomComponent {
                                             massLookup.setValue(rebatePlanDTO.getNepFormulaNo());
                                             final Map<String, String> map = new HashMap<>();
                                             map.put("netSalesFormulaNo", rebatePlanDTO.getNepFormulaNo());
-                                            map.put("systemID", String.valueOf(rebatePlanDTO.getNepFormulaSystemID()));
+                                            map.put(ConstantUtil.SYSTEM_ID, String.valueOf(rebatePlanDTO.getNepFormulaSystemID()));
                                             map.put("netSalesFormulaName", rebatePlanDTO.getNepFormulaName());
                                             massLookup.setData(map);
                                         }
@@ -506,7 +506,7 @@ public class RebateSetup extends CustomComponent {
                                     }
                                 });
                             }
-                        } else if ("Deduction Calendar No".equals(massField.getValue().toString())) {
+                        } else if (ConstantUtil.DEDUCTION_CALENDAR_NO.equals(massField.getValue().toString())) {
                             if (rsDeductionLookup == null) {
                                 rsDeductionLookup = new RsDeductionLookup(massLookup);
                                 UI.getCurrent().addWindow(rsDeductionLookup);
@@ -558,13 +558,13 @@ public class RebateSetup extends CustomComponent {
                                         final Map<String, String> map = new HashMap<>();
                                         if (ContractUtils.NET_SALES_RULE.equals(massField.getValue().toString())) {
                                             map.put(Constants.NET_SALES_RULE, searchDTO.getRuleName());
-                                            map.put("systemID", searchDTO.getRuleSystemId());
+                                            map.put(ConstantUtil.SYSTEM_ID, searchDTO.getRuleSystemId());
                                         } else if (ContractUtils.CALCULATION_RULE.equals(massField.getValue().toString())) {
                                             map.put(Constants.CALCULATION_RULE, searchDTO.getRuleName());
-                                            map.put("systemID", searchDTO.getRuleSystemId());
+                                            map.put(ConstantUtil.SYSTEM_ID, searchDTO.getRuleSystemId());
                                         } else if (ContractUtils.EVALUATION_RULE.equals(massField.getValue().toString())) {
                                             map.put(Constants.EVALUATION_RULE, searchDTO.getRuleName());
-                                            map.put("systemID", searchDTO.getRuleSystemId());
+                                            map.put(ConstantUtil.SYSTEM_ID, searchDTO.getRuleSystemId());
                                         }
                                         massLookup.setData(map);
                                         calculationLookup.setData(searchDTO.getRuleSystemId());
@@ -609,21 +609,21 @@ public class RebateSetup extends CustomComponent {
                 }
             });
             
-            map.put("Start Date", Constants.START_DATE);
-            map.put("End Date", Constants.END_DATE);
-            map.put("Bundle No", Constants.Bundle_No);
+            map.put(Constants.START_DATE_SP, Constants.START_DATE);
+            map.put(Constants.END_DATE_SP, Constants.END_DATE);
+            map.put(ConstantUtil.BUNDLE_NO, Constants.BUNDLE_NO);
             map.put("Rebate Plan Name", Constants.RP_NAME);
-            map.put("RS Status", "attachedStatus");
+            map.put(ConstantUtil.RS_STATUS, ConstantUtil.ATTACHED_STATUS);
             map.put("Formula Type", Constants.FORMULA_TYPE);
-            map.put("Rebate Plan No", "Rebate Plan No");
-            map.put("Formula No", "Formula No");
+            map.put(ConstantUtil.REBATE_PLAN_NO, ConstantUtil.REBATE_PLAN_NO);
+            map.put(ConstantUtil.FORMULA_NO, ConstantUtil.FORMULA_NO);
             map.put("Net Sales Formula", ContractUtils.NET_SALES_FORMULA);
             map.put("Net Sales Rule", ContractUtils.NET_SALES_RULE);
             map.put("Evaluation Rule", ContractUtils.EVALUATION_RULE);
             map.put("Evaluation Rule Bundle", ContractUtils.EVALUATION_RULE_BUNDLE);
             map.put("Calculation Rule", ContractUtils.CALCULATION_RULE);
             map.put("Calculation Rule Bundle", ContractUtils.CALCULATION_RULE_BUNDLE);
-            map.put("Deduction Calendar No", "Deduction Calendar No");
+            map.put(ConstantUtil.DEDUCTION_CALENDAR_NO, ConstantUtil.DEDUCTION_CALENDAR_NO);
             
             massDate.setDescription(Constants.DATE);
             valueLB.setPrimaryStyleName("labelsize");
@@ -641,7 +641,7 @@ public class RebateSetup extends CustomComponent {
     public Button addBtnPopulate() {
         LOGGER.debug("Entering addBtnPopulate method");
         
-        btnPopulate.setReadOnly(true);
+        btnPopulate.setEnabled(false);
         btnPopulate.setErrorHandler(new ErrorHandler() {
             /**
              * Method used to click populate button logic and its listener.
@@ -670,9 +670,9 @@ public class RebateSetup extends CustomComponent {
                             final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
                             IfpLogic.saveToTempRebate(rsDetailsResultsBean.getItemIds(), false);
                             fieldMass = map.get(massField.getValue());
-                            if (fieldMass.equals(Constants.Bundle_No)) {
+                            if (fieldMass.equals(Constants.BUNDLE_NO)) {
                                 if (StringUtils.isEmpty(massValue.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Enter a value and try again. ");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_ENTER_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else if (!massValue.getValue().matches(Constants.alphaNumericChars)) {
                                     contractBinder.getErrorDisplay().setError("Bundle No can contain only Alphanumeric values");
@@ -682,7 +682,7 @@ public class RebateSetup extends CustomComponent {
                                 }
                             } else if (fieldMass.equals(Constants.REBATE_AMOUNT)) {
                                 if (StringUtils.isEmpty(massValue.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Enter a value and try again. ");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_ENTER_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     value = massValue.getValue();
@@ -690,16 +690,16 @@ public class RebateSetup extends CustomComponent {
                                 
                             } else if (fieldMass.equals(Constants.START_DATE)) {
                                 if (massDate.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please provide date and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                     return;
                                 }
                                 if (massDate.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please provide date and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                 } else if (massDate.getValue().before((Date) dates[0])) {
-                                    AbstractNotificationUtils.getErrorNotification("Populate Error", "Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format((Date) dates[0]));
+                                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format((Date) dates[0]));
                                     return;
                                 } else if (dates[1] != null && massDate.getValue().after((Date) dates[1])) {
-                                    AbstractNotificationUtils.getErrorNotification("Populate Error", "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format((Date) dates[1]));
+                                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format((Date) dates[1]));
                                     return;
                                 } else {
                                     value = fmt.format(massDate.getValue());
@@ -707,41 +707,41 @@ public class RebateSetup extends CustomComponent {
                                 
                             } else if (fieldMass.equals(Constants.END_DATE)) {
                                 if (massDate.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please provide date and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                     return;
                                 } else if (dates[1] != null && massDate.getValue().after((Date) dates[1])) {
-                                    AbstractNotificationUtils.getErrorNotification("Populate Error", "End date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format((Date) dates[1]));
+                                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format((Date) dates[1]));
                                     return;
                                 } else if (massDate.getValue().before((Date) dates[0])) {
-                                    AbstractNotificationUtils.getErrorNotification("Populate Error", "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format((Date) dates[0]));
+                                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format((Date) dates[0]));
                                     return;
                                 } else {
                                     value = fmt.format(massDate.getValue());
                                 }
                             } else if (fieldMass.equals(Constants.RP_NAME)) {
                                 if (rebatePlanNameDdlb.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please Select a value and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_SELECT_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     value = String.valueOf(((HelperDTO) rebatePlanNameDdlb.getValue()).getId());
                                 }
                             } else if (fieldMass.equals(Constants.FORMULA_TYPE)) {
                                 if (rebatePlanNameDdlb.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please Select a value and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_SELECT_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     value = String.valueOf(((HelperDTO) rebatePlanNameDdlb.getValue()).getId());
                                 }
-                            } else if (fieldMass.equals("Rebate Plan No") || fieldMass.equals("Formula No")) {
+                            } else if (fieldMass.equals(ConstantUtil.REBATE_PLAN_NO) || fieldMass.equals(ConstantUtil.FORMULA_NO)) {
                                 if (StringUtils.isEmpty(massLookup.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Select a value and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_SELECT_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     IfpLogic.saveToTempRebate(rsDetailsResultsBean.getItemIds(), false);
                                     ifpLogic.massPopulateForLookUp(fieldMass, massLookup.getData(), Boolean.FALSE);
                                     tempflag = false;
                                 }
-                            } else if ("Deduction Calendar No".equals(fieldMass)) {
+                            } else if (ConstantUtil.DEDUCTION_CALENDAR_NO.equals(fieldMass)) {
                                 Map<String, String> deductionMap = (Map) massLookup.getData();
                                 ifpLogic.massPopulateDeductionLookUp(deductionMap, true);
                                 massLookup.setReadOnly(false);
@@ -760,27 +760,27 @@ public class RebateSetup extends CustomComponent {
                                 tempflag = false;
                             } else if (ContractUtils.EVALUATION_RULE_BUNDLE.equalsIgnoreCase(massField.getValue().toString())) {
                                 if (StringUtils.isEmpty(massValue.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Enter a value and try again. ");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_ENTER_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else if (!massValue.getValue().matches(Constants.DOUBLE_CHECK)) {
-                                    contractBinder.getErrorDisplay().setError(ContractUtils.EVALUATION_RULE_BUNDLE + " can contain only numeric values");
+                                    contractBinder.getErrorDisplay().setError(ContractUtils.EVALUATION_RULE_BUNDLE + ConstantUtil.CAN_CONTAIN_ONLY_NUMERIC_VALUES);
                                     return;
                                 } else {
                                     value = massValue.getValue();
                                 }
                             } else if (ContractUtils.CALCULATION_RULE_BUNDLE.equals(massField.getValue().toString())) {
                                 if (StringUtils.isEmpty(massValue.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Enter a value and try again. ");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_ENTER_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else if (!massValue.getValue().matches(Constants.DOUBLE_CHECK)) {
-                                    contractBinder.getErrorDisplay().setError(ContractUtils.CALCULATION_RULE_BUNDLE + " can contain only numeric values");
+                                    contractBinder.getErrorDisplay().setError(ContractUtils.CALCULATION_RULE_BUNDLE + ConstantUtil.CAN_CONTAIN_ONLY_NUMERIC_VALUES);
                                     return;
                                 } else {
                                     value = massValue.getValue();
                                 }
-                            } else if (fieldMass.equals("attachedStatus")) {
+                            } else if (fieldMass.equals(ConstantUtil.ATTACHED_STATUS)) {
                                 if (rebatePlanNameDdlb.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please Select a value and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_SELECT_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     value = String.valueOf(((HelperDTO) rebatePlanNameDdlb.getValue()).getId());
@@ -805,7 +805,7 @@ public class RebateSetup extends CustomComponent {
                         
                     } else {
                         
-                        AbstractNotificationUtils.getErrorNotification("Populate Error", Constants.POPULATE_MSG);
+                        AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, Constants.POPULATE_MSG);
                     }
                     LOGGER.debug("End of btnPopulate buttonClick method");
                 } catch (Exception ex) {
@@ -825,7 +825,7 @@ public class RebateSetup extends CustomComponent {
      */
     public Button addBtnAllPopulate() {
         LOGGER.debug("Entering addBtnAllPopulate method");
-        btnAllPopulate.setReadOnly(true);
+        btnAllPopulate.setEnabled(false);
         btnAllPopulate.setErrorHandler(new ErrorHandler() {
             /**
              * Method used to click text field and its listener.
@@ -852,9 +852,9 @@ public class RebateSetup extends CustomComponent {
                             String value = StringUtils.EMPTY;
                             final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
                             fieldMass = map.get(massField.getValue());
-                            if (fieldMass.equals(Constants.Bundle_No)) {
+                            if (fieldMass.equals(Constants.BUNDLE_NO)) {
                                 if (StringUtils.isEmpty(massValue.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Enter a value and try again. ");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_ENTER_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else if (!massValue.getValue().matches(Constants.alphaNumericChars)) {
                                     contractBinder.getErrorDisplay().setError("Bundle# can contain only Alphanumeric values");
@@ -864,7 +864,7 @@ public class RebateSetup extends CustomComponent {
                                 }
                             } else if (fieldMass.equals(Constants.REBATE_AMOUNT)) {
                                 if (StringUtils.isEmpty(massValue.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Enter a value and try again. ");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_ENTER_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else if (!massValue.getValue().matches(Constants.DOUBLE_CHECK)) {
                                     contractBinder.getErrorDisplay().setError("Rebate Amount can contain only numeric values");
@@ -875,16 +875,16 @@ public class RebateSetup extends CustomComponent {
                                 
                             } else if (fieldMass.equals(Constants.START_DATE)) {
                                 if (massDate.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please provide date and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                     return;
                                 }
                                 if (massDate.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please provide date and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                 } else if (massDate.getValue().before((Date) dates[0])) {
-                                    AbstractNotificationUtils.getErrorNotification("Populate Error", "Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format((Date) dates[0]));
+                                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format((Date) dates[0]));
                                     return;
                                 } else if (dates[1] != null && massDate.getValue().after((Date) dates[1])) {
-                                    AbstractNotificationUtils.getErrorNotification("Populate Error", "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format((Date) dates[1]));
+                                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format((Date) dates[1]));
                                     return;
                                 } else {
                                     value = fmt.format(massDate.getValue());
@@ -892,34 +892,34 @@ public class RebateSetup extends CustomComponent {
                                 
                             } else if (fieldMass.equals(Constants.END_DATE)) {
                                 if (massDate.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please provide date and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                     return;
                                 } else if (dates[1] != null && massDate.getValue().after((Date) dates[1])) {
-                                    AbstractNotificationUtils.getErrorNotification("Populate Error", "End date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format((Date) dates[1]));
+                                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format((Date) dates[1]));
                                     return;
                                 } else if (massDate.getValue().before((Date) dates[0])) {
-                                    AbstractNotificationUtils.getErrorNotification("Populate Error", "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format((Date) dates[0]));
+                                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format((Date) dates[0]));
                                     return;
                                 } else {
                                     value = fmt.format(massDate.getValue());
                                 }
                             } else if (fieldMass.equals(Constants.RP_NAME)) {
                                 if (rebatePlanNameDdlb.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please Select a value and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_SELECT_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     value = String.valueOf(((HelperDTO) rebatePlanNameDdlb.getValue()).getId());
                                 }
                             } else if (fieldMass.equals(Constants.FORMULA_TYPE)) {
                                 if (rebatePlanNameDdlb.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please Select a value and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_SELECT_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     value = String.valueOf(((HelperDTO) rebatePlanNameDdlb.getValue()).getId());
                                 }
-                            } else if (fieldMass.equals("Rebate Plan No") || fieldMass.equals("Formula No")) {
+                            } else if (fieldMass.equals(ConstantUtil.REBATE_PLAN_NO) || fieldMass.equals(ConstantUtil.FORMULA_NO)) {
                                 if (StringUtils.isEmpty(massLookup.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Select a value and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_SELECT_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     ifpLogic.massPopulateForLookUp(fieldMass, massLookup.getData(), Boolean.TRUE);
@@ -937,32 +937,32 @@ public class RebateSetup extends CustomComponent {
                                 tempFlag = false;
                             } else if (ContractUtils.EVALUATION_RULE_BUNDLE.equals(massField.getValue().toString())) {
                                 if (StringUtils.isEmpty(massValue.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Enter a value and try again. ");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_ENTER_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else if (!massValue.getValue().matches(Constants.DOUBLE_CHECK)) {
-                                    contractBinder.getErrorDisplay().setError(ContractUtils.EVALUATION_RULE_BUNDLE + " can contain only numeric values");
+                                    contractBinder.getErrorDisplay().setError(ContractUtils.EVALUATION_RULE_BUNDLE + ConstantUtil.CAN_CONTAIN_ONLY_NUMERIC_VALUES);
                                     return;
                                 } else {
                                     value = massValue.getValue().trim();
                                 }
                             } else if (ContractUtils.CALCULATION_RULE_BUNDLE.equals(massField.getValue().toString())) {
                                 if (StringUtils.isEmpty(massValue.getValue())) {
-                                    contractBinder.getErrorDisplay().setError("Please Enter a value and try again. ");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_ENTER_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else if (!massValue.getValue().matches(Constants.DOUBLE_CHECK)) {
-                                    contractBinder.getErrorDisplay().setError(ContractUtils.CALCULATION_RULE_BUNDLE + " can contain only numeric values");
+                                    contractBinder.getErrorDisplay().setError(ContractUtils.CALCULATION_RULE_BUNDLE + ConstantUtil.CAN_CONTAIN_ONLY_NUMERIC_VALUES);
                                     return;
                                 } else {
                                     value = massValue.getValue().trim();
                                 }
-                            } else if (fieldMass.equals("attachedStatus")) {
+                            } else if (fieldMass.equals(ConstantUtil.ATTACHED_STATUS)) {
                                 if (rebatePlanNameDdlb.getValue() == null) {
-                                    contractBinder.getErrorDisplay().setError("Please Select a value and try again.");
+                                    contractBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_SELECT_A_VALUE_AND_TRY_AGAIN);
                                     return;
                                 } else {
                                     value = String.valueOf(((HelperDTO) rebatePlanNameDdlb.getValue()).getId());
                                 }
-                            } else if ("Deduction Calendar No".equals(fieldMass)) {
+                            } else if (ConstantUtil.DEDUCTION_CALENDAR_NO.equals(fieldMass)) {
                                 Map<String, String> deductionMap = (Map) massLookup.getData();
                                 ifpLogic.massPopulateDeductionLookUp(deductionMap, true);
                                 massLookup.setReadOnly(false);
@@ -988,7 +988,7 @@ public class RebateSetup extends CustomComponent {
                         
                     } else {
                         
-                        AbstractNotificationUtils.getErrorNotification("Populate Error", Constants.POPULATE_MSG);
+                        AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, Constants.POPULATE_MSG);
                     }
                     LOGGER.debug("End of btnAllPopulate buttonClick method");
                 } catch (Exception ex) {
@@ -1007,15 +1007,15 @@ public class RebateSetup extends CustomComponent {
             final StplSecurity stplSecurity = new StplSecurity();
             tempLazyContainer = new LazyBeanItemContainer(TempRebateDTO.class, new TempRebateContainer(itemDetailsTable, rsDetailsResultsBean, false, sessionDTO),
                     lazyLoadCriteria);
-            final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Rebate Setup", false);
+            final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.REBATE_SETUP, false);
             
-            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Rebate Setup");
-            Object[] obj = CommonUIUtils.ITEM_DETAILS_COLUMNS_IN_RS;
+            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.REBATE_SETUP);
+            Object[] obj = new CommonUIUtils().itemDetailsColumnsInRs;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.EDIT);
             itemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
             itemDetailsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
             rsDetailsResultsBean.removeAllItems();
-            tempDate = new HashMap<String, List>();
+            tempDate = new HashMap<>();
             loadBasedOnCalculationType(String.valueOf(rebateBinder.getField("calculationType").getValue()));
             itemDetailsTable.setTableFieldFactory(new RSItemTableGenerator(itemDetailsTable, rsDetailsResultsBean, sessionDTO, tempDate, dates));
             itemDetailsTable.setEditable(true);
@@ -1036,9 +1036,9 @@ public class RebateSetup extends CustomComponent {
         LOGGER.debug("Entering addItemDetailsTable method");
         try {
             final StplSecurity stplSecurity = new StplSecurity();
-            contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Rebate Setup", false);
-            resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Rebate Setup");
-            Object[] obj = CommonUIUtils.ITEM_DETAILS_COLUMNS_IN_RS;
+            contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.REBATE_SETUP, false);
+            resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.REBATE_SETUP);
+            Object[] obj = new CommonUIUtils().itemDetailsColumnsInRs;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.EDIT);
             itemDetailsTable.markAsDirty();
             rebateContainer = new TempRebateContainer(itemDetailsTable, rsDetailsResultsBean, false, sessionDTO);
@@ -1047,7 +1047,7 @@ public class RebateSetup extends CustomComponent {
             itemDetailsTable.setContainerDataSource(tempLazyContainer);
             itemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
             itemDetailsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
-            itemDetailsTable.setColumnCheckBox("checkbox", true, false);
+            itemDetailsTable.setColumnCheckBox(Constants.CHECK_BOX, true, false);
             itemDetailsTable.setPageLength(NumericConstants.FIVE);
             itemDetailsTable.sinkItemPerPageWithPageLength(false);
             itemDetailsTable.setImmediate(true);
@@ -1055,12 +1055,12 @@ public class RebateSetup extends CustomComponent {
             itemDetailsTable.addStyleName("valo-theme-extfiltertable");
             itemDetailsTable.setSelectable(true);
             itemDetailsTable.setSizeFull();
-            tempDate = new HashMap<String, List>();
+            tempDate = new HashMap<>();
             itemDetailsTable.setTableFieldFactory(new RSItemTableGenerator(itemDetailsTable, rsDetailsResultsBean, sessionDTO, tempDate, dates));
             itemDetailsTable.setFilterBarVisible(true);
             itemDetailsTable.setFilterGenerator(new RebateDetailsGenerator());
             itemDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-            itemDetailsTable.setFilterFieldVisible("checkbox", false);
+            itemDetailsTable.setFilterFieldVisible(Constants.CHECK_BOX, false);
             itemDetailsTable.setEditable(true);
             itemDetailsTable.addStyleName("TableCheckBox");
             itemDetailsTable.setErrorHandler(new ErrorHandler() {
@@ -1079,14 +1079,14 @@ public class RebateSetup extends CustomComponent {
                 
                 @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
-                    if ("checkbox".equals(event.getPropertyId().toString())) {
+                    if (Constants.CHECK_BOX.equals(event.getPropertyId().toString())) {
                         if (event.isChecked()) {
                             try {
                                 IfpLogic.saveToTempRebate(rsDetailsResultsBean.getItemIds(), false);
                                 rsDetailsResultsBean.removeAllItems();
                                 ifpLogic.populateToTempRebate("CheckBox", 1, Boolean.TRUE);
                                 itemDetailsTable.setCurrentPage(itemDetailsTable.getCurrentPage());
-                                itemDetailsTable.setColumnCheckBox("checkbox", true, true);
+                                itemDetailsTable.setColumnCheckBox(Constants.CHECK_BOX, true, true);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
                             } catch (SystemException ex) {
@@ -1099,7 +1099,7 @@ public class RebateSetup extends CustomComponent {
                                 rsDetailsResultsBean.removeAllItems();
                                 ifpLogic.populateToTempRebate("CheckBox", 0, Boolean.TRUE);
                                 itemDetailsTable.setCurrentPage(itemDetailsTable.getCurrentPage());
-                                itemDetailsTable.setColumnCheckBox("checkbox", true, true);
+                                itemDetailsTable.setColumnCheckBox(Constants.CHECK_BOX, true, true);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
                             } catch (SystemException ex) {
@@ -1192,7 +1192,7 @@ public class RebateSetup extends CustomComponent {
     private static Object[] getCollapsibleColumns480Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -1211,7 +1211,7 @@ public class RebateSetup extends CustomComponent {
     private static Object[] getCollapsibleColumns978Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         list.remove(propertyIds[NumericConstants.THREE]);
@@ -1229,7 +1229,7 @@ public class RebateSetup extends CustomComponent {
     private static String[] getCollapsibleColumns600Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1239,7 +1239,7 @@ public class RebateSetup extends CustomComponent {
     private static String[] getCollapsibleColumnsDefault1515Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1253,7 +1253,7 @@ public class RebateSetup extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1406,14 +1406,14 @@ public class RebateSetup extends CustomComponent {
         this.massCheck.focus();
     }
     
-    public void btnExportLogic() throws PortalException, SystemException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, IOException {
+    public void btnExportLogic() throws PortalException, SystemException, NoSuchFieldException,  IllegalAccessException, NoSuchMethodException, InvocationTargetException, IOException {
         LOGGER.debug("Entering btnExportLogic method");
         IfpLogic.saveToTempRebate(rsDetailsResultsBean.getItemIds(), false);
         createWorkSheet();
         LOGGER.debug("End of btnExportLogic method");
     }
     
-    public void createWorkSheet() throws PortalException, SystemException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, IOException  {
+    public void createWorkSheet() throws SystemException, NoSuchFieldException,  IllegalAccessException, NoSuchMethodException, InvocationTargetException, IOException  {
         BufferedWriter writer = null;
         try {
             LOGGER.debug("Entering createWorkSheet method");
@@ -1428,16 +1428,18 @@ public class RebateSetup extends CustomComponent {
             int start = 0;
             int end = 0;
             final File tempFile = File.createTempFile("tmp" + VaadinSession.getCurrent().getAttribute(Constants.SESSION_ID), ExcelExportUtil.CSV);
-            writer = new BufferedWriter(new FileWriter(tempFile, true));
-            PrintWriter pwValue = new PrintWriter(writer);
-            createHeaderRow(pwValue);
+            PrintWriter pwValue;
+            try (FileWriter fWriter = new FileWriter(tempFile, true)) {
+                writer = new BufferedWriter(fWriter);
+                pwValue = new PrintWriter(writer);
+                createHeaderRow(pwValue);
+            }
             pwValue.flush();
             pwValue.close();
             writer.close();
             for (int worksheetNo = 1; worksheetNo <= worksheetCount; worksheetNo++) {
-                try {
-                    
-                    writer = new BufferedWriter(new FileWriter(tempFile, true));
+                try (FileWriter fileWriter = new FileWriter(tempFile, true);) {
+                    writer = new BufferedWriter(fileWriter);
                     pwValue = new PrintWriter(writer);
                     
                     if (recordCount < maxRecords) {
@@ -1468,7 +1470,6 @@ public class RebateSetup extends CustomComponent {
                     pwValue.flush();
                     pwValue.close();
                     writer.close();
-                    
                 }
             }
             sendConvertedFileToUser(getUI(), tempFile, "Rebate_Details" + ExcelExportUtil.CSV);
@@ -1508,9 +1509,9 @@ public class RebateSetup extends CustomComponent {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter pwValue) throws PortalException, SystemException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter pwValue) throws SystemException, NoSuchFieldException,  IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheetContent method");
-        List<Object[]> exportCompany = ifpLogic.getLazyItemRebateDeatils(start, end, null, false, null, Boolean.FALSE);
+        List<Object[]> exportCompany = ifpLogic.getLazyItemRebateDeatils(start, end, null, false, null, Boolean.FALSE,null);
         List<TempRebateDTO> items = ifpLogic.getCustomizedRebateDTO(exportCompany, record.getValue().toString());
         Object[] columns = itemDetailsTable.getVisibleColumns();
         columns = ArrayUtils.removeElement(columns, Constants.CHECK_BOX);
@@ -1556,7 +1557,8 @@ public class RebateSetup extends CustomComponent {
         LOGGER.debug("Entering massCheckOnChangeEvent method");
         
         if (value != null && Constants.ENABLE.equals(value.toString())) {
-            
+            btnPopulate.setEnabled(true);
+            btnAllPopulate.setEnabled(true);
             massField.setEnabled(true);
         } else if (value != null && Constants.DISABLE.equals(value.toString())) {
             
@@ -1597,10 +1599,10 @@ public class RebateSetup extends CustomComponent {
         try {
             LOGGER.debug("Entering addItemDetailsTable method");
             final StplSecurity stplSecurity = new StplSecurity();
-            final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Rebate Setup", false);
-            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Rebate Setup");
-            Object[] obj = ContractUtils.ITEM_DETAILS_VIEW_COLUMNS_IN_RS;
-            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.ViewMode);
+            final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.REBATE_SETUP, false);
+            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.REBATE_SETUP);
+            Object[] obj = ContractUtils.getInstance().itemDetailsViewColumnsInRs;
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.VIEW_MODE);
             viewItemDetailsTable.setVisible(true);
             viewItemDetailsTable.markAsDirty();
             viewItemDetailsTable.setContainerDataSource(rsDetailsResultsBean);
@@ -1635,14 +1637,14 @@ public class RebateSetup extends CustomComponent {
     public void loadTempRs(String value) {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
-            final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Rebate Setup", false);
-            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Rebate Setup");
-            Object[] obj = ContractUtils.ITEM_DETAILS_VIEW_COLUMNS_IN_RS;
+            final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.REBATE_SETUP, false);
+            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.REBATE_SETUP);
+            Object[] obj = ContractUtils.getInstance().itemDetailsViewColumnsInRs;
             viewRebateContainer = new TempViewRebateContainer(sessionDTO);
             viewRebateContainer.setRecord(value);
             tempLazyContainer = new LazyBeanItemContainer(TempRebateDTO.class, viewRebateContainer, new LazyLoadCriteria());
             
-            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.ViewMode);
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.VIEW_MODE);
             
             viewItemDetailsTable.setContainerDataSource(tempLazyContainer);
             viewItemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -1658,7 +1660,7 @@ public class RebateSetup extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new Object[list.size()]);
         
@@ -1677,7 +1679,7 @@ public class RebateSetup extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         list.remove(propertyIds[NumericConstants.THREE]);
@@ -1696,7 +1698,7 @@ public class RebateSetup extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -1725,7 +1727,7 @@ public class RebateSetup extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new Object[list.size()]);
         for (Object propertyId : table.getVisibleColumns()) {
@@ -1744,7 +1746,7 @@ public class RebateSetup extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = NumericConstants.EIGHT; i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1764,7 +1766,7 @@ public class RebateSetup extends CustomComponent {
     private void addResponsiveGrid(Map<String, AppPermission> contractDashboard) {
         LOGGER.debug("Entering configurePermission");
         try {
-            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Rebate Setup");
+            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.REBATE_SETUP);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, contractDashboard, Constants.EDIT);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -1782,10 +1784,10 @@ public class RebateSetup extends CustomComponent {
         TableResultCustom tableResultCustom;
         configureMassField();
         calculationType = calculationType == null || "null".equals(calculationType) ? "default" : calculationType;
-        resultList = resultList != null && !resultList.isEmpty() ? resultList : contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Rebate Setup");
+        resultList = resultList != null && !resultList.isEmpty() ? resultList : contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.REBATE_SETUP);
         switch (calculationType) {
             case ContractUtils.CALC_FORMULA:
-                obj = ContractUtils.REBATE_SETUP_FORMULA;
+                obj = ContractUtils.getInstance().rebateSetupFormula;
                 tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, mode);
                 if (tableResultCustom.getObjResult().length == 0) {
                     itemDetailsTable.setVisible(false);
@@ -1799,7 +1801,7 @@ public class RebateSetup extends CustomComponent {
                 }
                 resultsPanel.setWidth("100%");
                 massField.addItem(ContractUtils.FORMULA_TYPE);
-                massField.addItem("Formula No");
+                massField.addItem(ConstantUtil.FORMULA_NO);
                 massField.addItem(ContractUtils.NET_SALES_FORMULA);
                 massField.addItem(ContractUtils.NET_SALES_RULE);
                 massField.addItem(ContractUtils.EVALUATION_RULE);
@@ -1808,7 +1810,7 @@ public class RebateSetup extends CustomComponent {
                 massField.addItem(ContractUtils.CALCULATION_RULE_BUNDLE);
                 break;
             case ContractUtils.CALC_REBATE_PLAN:
-                obj = ContractUtils.REBATE_SETUP_REBATE_PLAN;
+                obj = ContractUtils.getInstance().rebateSetupRebatePlan;
                 tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, mode);
                 if (tableResultCustom.getObjResult().length == 0) {
                     itemDetailsTable.setVisible(false);
@@ -1821,8 +1823,8 @@ public class RebateSetup extends CustomComponent {
                     viewItemDetailsTable.setColumnHeaders(isEditable ? tableResultCustom.getObjResultHeader() : Arrays.asList(tableResultCustom.getObjResultHeader()).subList(1, tableResultCustom.getObjResultHeader().length).toArray(new String[tableResultCustom.getObjResultHeader().length - 1]));
                 }
                 resultsPanel.setWidth("100%");
-                massField.addItem("Bundle No");
-                massField.addItem("Rebate Plan No");
+                massField.addItem(ConstantUtil.BUNDLE_NO);
+                massField.addItem(ConstantUtil.REBATE_PLAN_NO);
                 massField.addItem(ContractUtils.NET_SALES_FORMULA);
                 massField.addItem(ContractUtils.NET_SALES_RULE);
                 massField.addItem(ContractUtils.EVALUATION_RULE);
@@ -1831,7 +1833,7 @@ public class RebateSetup extends CustomComponent {
                 massField.addItem(ContractUtils.CALCULATION_RULE_BUNDLE);
                 break;
             case ContractUtils.CALC_DEDUCTION_CALENDAR:
-                obj = ContractUtils.REBATE_SETUP_DEDUCTION_CALENDAR;
+                obj = ContractUtils.getInstance().rebateSetupDeductionCalender;
                 tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, mode);
                 if (tableResultCustom.getObjResult().length == 0) {
                     itemDetailsTable.setVisible(false);
@@ -1844,14 +1846,14 @@ public class RebateSetup extends CustomComponent {
                     viewItemDetailsTable.setColumnHeaders(isEditable ? tableResultCustom.getObjResultHeader() : Arrays.asList(tableResultCustom.getObjResultHeader()).subList(1, tableResultCustom.getObjResultHeader().length).toArray(new String[tableResultCustom.getObjResultHeader().length - 1]));
                 }
                 resultsPanel.setWidth("100%");
-                massField.addItem("Deduction Calendar No");
+                massField.addItem(ConstantUtil.DEDUCTION_CALENDAR_NO);
                 massField.addItem(ContractUtils.EVALUATION_RULE);
                 massField.addItem(ContractUtils.CALCULATION_RULE);
                 massField.addItem(ContractUtils.EVALUATION_RULE_BUNDLE);
                 massField.addItem(ContractUtils.CALCULATION_RULE_BUNDLE);
                 break;
             default:
-                obj = ContractUtils.REBATE_SETUP_DEFAULT;
+                obj = ContractUtils.getInstance().rebateSetupDefault;
                 tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, mode);
                 if (tableResultCustom.getObjResult().length == 0) {
                     itemDetailsTable.setVisible(false);
@@ -1877,7 +1879,7 @@ public class RebateSetup extends CustomComponent {
             itemDetailsTable.setVisibleColumns(viewList.toArray());
         }
         itemDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        itemDetailsTable.setFilterFieldVisible("checkbox", false);
+        itemDetailsTable.setFilterFieldVisible(Constants.CHECK_BOX, false);
         
         for (Object object : itemDetailsTable.getVisibleColumns()) {
             if (String.valueOf(object).contains("Date")) {
@@ -1891,9 +1893,9 @@ public class RebateSetup extends CustomComponent {
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         massField.addItem(ConstantsUtils.SELECT_ONE);
-        massField.addItem("RS Status");
-        massField.addItem("Start Date");
-        massField.addItem("End Date");
+        massField.addItem(ConstantUtil.RS_STATUS);
+        massField.addItem(Constants.START_DATE_SP);
+        massField.addItem(Constants.END_DATE_SP);
         massField.select(ConstantsUtils.SELECT_ONE);
         massField.setDescription((String) massField.getValue());
         massDate.setValue(null);
@@ -1928,7 +1930,7 @@ public class RebateSetup extends CustomComponent {
                                 ifpLogic.saveToTempRebate(rsDetailsResultsBean.getItemIds(), false);
                                 rsDetailsResultsBean.removeAllItems();
                             }
-                            List<Object[]> returnList = ifpLogic.getLazyItemRebateDeatils(0, count, null, false, record.getValue().toString(), Boolean.TRUE);
+                            List<Object[]> returnList = ifpLogic.getLazyItemRebateDeatils(0, count, null, false, record.getValue().toString(), Boolean.TRUE,null);
                             List<TempRebateDTO> list = ifpLogic.getCustomizedRebateDTO(returnList, record.getValue().toString());
                             for (TempRebateDTO temp : list) {
                                 if (ifpLogic.validateCCPActuals(temp.getItemSystemId()) != 0) {

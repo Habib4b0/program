@@ -32,6 +32,7 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.app.contract.util.CHFunctionNameUtils;
+import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -76,7 +77,7 @@ import java.util.Collection;
  */
 public final class AliasResults extends CustomComponent {
 
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<>();
     /**
      * The Constant EMPTY.
      */
@@ -381,12 +382,12 @@ public final class AliasResults extends CustomComponent {
             LOGGER.error(ex);
         }
         final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_HEADER+Constants.COMMA+Constants.ALIAS);
-        if (functionHM.get(CHFunctionNameUtils.Add_Alias) != null && ((AppPermission) functionHM.get(CHFunctionNameUtils.Add_Alias)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.ADD_ALIAS) != null && ((AppPermission) functionHM.get(CHFunctionNameUtils.ADD_ALIAS)).isFunctionFlag()) {
             populateButton();
         }else{
             btnAdd.setVisible(false);
         }
-        if (functionHM.get(CHFunctionNameUtils.Remove_Alias) != null && ((AppPermission) functionHM.get(CHFunctionNameUtils.Remove_Alias)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.REMOVE_ALIAS) != null && ((AppPermission) functionHM.get(CHFunctionNameUtils.REMOVE_ALIAS)).isFunctionFlag()) {
             removeButton();
         }else{
              remove.setVisible(false);
@@ -403,7 +404,7 @@ public final class AliasResults extends CustomComponent {
     public CustomFieldGroup getBinder() {
         LOGGER.debug("Entering getBinder method ");
         final ContractAliasMasterDTO bean = new ContractAliasMasterDTO();
-        binder = new CustomFieldGroup(new BeanItem<ContractAliasMasterDTO>(bean));
+        binder = new CustomFieldGroup(new BeanItem<>(bean));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -425,7 +426,7 @@ public final class AliasResults extends CustomComponent {
   List<Object> resultList = contractHL.getFieldsForSecurity(UISecurityUtil.CONTRACT_HEADER, Constants.ALIAS);
 
       
-        Object[] obj = UIUtils.ALIAS_COLUMNS; 
+        Object[] obj = UIUtils.getInstance().aliasColumns; 
     TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldContract, Constants.VIEW.equals(mode)?"view":mode);    
        if(tableResultCustom.getObjResult().length > Constants.ZERO){
             table.markAsDirty();
@@ -480,6 +481,7 @@ public final class AliasResults extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         btnAdd.addClickListener(new ClickListener() {
@@ -543,9 +545,9 @@ public final class AliasResults extends CustomComponent {
 
                     LOGGER.error(ex);
                     systemBinder.getErrorDisplay().setError(ex.getCause().getMessage());
-                    if (ex.getCause().getMessage().equals("End date should be after Start date")) {
+                    if (ex.getCause().getMessage().equals(ConstantsUtils.END_DATE_AFTER_START_DATE)) {
                         binder.getErrorDisplay().clearError();
-                        systemBinder.getErrorDisplay().setError("End date should be after Start date");
+                        systemBinder.getErrorDisplay().setError(ConstantsUtils.END_DATE_AFTER_START_DATE);
                         return;
                     }
                 } catch (Exception ex) {
@@ -618,7 +620,7 @@ public final class AliasResults extends CustomComponent {
     /**
      * Configures the fields in that page.
      */
-    public void configureFields() throws SystemException, PortalException {
+    public void configureFields() {
         LOGGER.debug("Entering configure method ");
         aliasStartDate.setImmediate(true);
         aliasStartDate.setValidationVisible(true);
@@ -706,26 +708,20 @@ public final class AliasResults extends CustomComponent {
              * @param event - ValueChangeEvent
              */
             public void click(final CustomTextField.ClickEvent event) {
-                try {
-                    if(lookUp ==null){
+                if(lookUp ==null){
                     lookUp = new TradingPartnerLookUp(tradingPartner, tpCompanyMasterSid);
                     UI.getCurrent().addWindow(lookUp);
-                    }
-                    lookUp.addCloseListener(new Window.CloseListener() {
-                        /**
-                         * This method listens to close event
-                         */
-                        @SuppressWarnings("PMD")
-                        public void windowClose(final Window.CloseEvent e) {
-                            contractAliasNo.focus();
-                            lookUp =null;
-                        }
-                    });
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                 }
+                lookUp.addCloseListener(new Window.CloseListener() {
+                    /**
+                     * This method listens to close event
+                     */
+                    @SuppressWarnings("PMD")
+                    public void windowClose(final Window.CloseEvent e) {
+                        contractAliasNo.focus();
+                        lookUp =null;
+                    }
+                });
 
             }
         });
@@ -779,13 +775,13 @@ public final class AliasResults extends CustomComponent {
         });
     }
 
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException  {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = table.getContainerDataSource().size();
         ExcelExportforBB.createWorkSheet(table.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.Alias);
@@ -798,11 +794,8 @@ public final class AliasResults extends CustomComponent {
      * @param start the start
      * @param end the end
      * @param printWriter the print writer
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
      */   
-    public void createWorkSheetContent(final Integer start,final Integer end, final PrintWriter printWriter) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void createWorkSheetContent(final Integer start,final Integer end, final PrintWriter printWriter) throws NoSuchFieldException,  IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         final List<ContractAliasMasterDTO> searchList = aliasResultsBean.getItemIds();
             if (end != Constants.ZERO) {
                 ExcelExportforBB.createFileContent(table.getVisibleColumns(), searchList, printWriter);
@@ -835,11 +828,11 @@ public final class AliasResults extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug(" entering validate method  ");
             if (aliasStartDate.getValue() != null && aliasEndDate.getValue() != null) {
                 if (aliasStartDate.getValue().after(aliasEndDate.getValue())) {
-                    throw new InvalidValueException("End date should be after Start date");
+                    throw new InvalidValueException(ConstantsUtils.END_DATE_AFTER_START_DATE);
                 } else if (aliasStartDate.getValue().equals(aliasEndDate.getValue())) {
                     throw new InvalidValueException("Start date and End date are equal");
                 }
@@ -881,7 +874,7 @@ public final class AliasResults extends CustomComponent {
     private static Object[] getCollapsibleColumns480Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[NumericConstants.ONE]);
         propertyIds = list.toArray(new Object[list.size()]);
 
@@ -899,7 +892,7 @@ public final class AliasResults extends CustomComponent {
     private static Object[] getCollapsibleColumns978Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
         list.remove(propertyIds[NumericConstants.THREE]);
@@ -917,7 +910,7 @@ public final class AliasResults extends CustomComponent {
     private static Object[] getCollapsibleColumnsTwoData(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -945,7 +938,7 @@ public final class AliasResults extends CustomComponent {
     private static Object[] getCollapsibleOneColumn(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         propertyIds = list.toArray(new Object[list.size()]);
         for (Object propertyId : table.getVisibleColumns()) {
@@ -964,7 +957,7 @@ public final class AliasResults extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = Constants.ZERO, j = list.size(); i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1103,6 +1096,7 @@ public final class AliasResults extends CustomComponent {
     }
 
     public void reset() {
-        binder.setItemDataSource(new BeanItem<ContractAliasMasterDTO>(new ContractAliasMasterDTO()));
+        binder.setItemDataSource(new BeanItem<>(new ContractAliasMasterDTO()));
+        table.removeAllItems();
     }
 }

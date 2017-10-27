@@ -111,7 +111,7 @@ public final class CompanyNameLookUp extends Window {
     /**
      * The dummy search resultbeans.
      */
-    private final BeanItemContainer<CompanySearchDto> dummySearchResultbeans = new BeanItemContainer<CompanySearchDto>(CompanySearchDto.class);
+    private final BeanItemContainer<CompanySearchDto> dummySearchResultbeans = new BeanItemContainer<>(CompanySearchDto.class);
 
     CompanyCriteria searchCriteria = new CompanyCriteria();
 
@@ -316,7 +316,7 @@ public final class CompanyNameLookUp extends Window {
      */
     private ErrorfulFieldGroup getBinder() {
         LOGGER.debug("entering getBinder method");
-        binder = new ErrorfulFieldGroup(new BeanItem<CompanySearchDto>(new CompanySearchDto()));
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new CompanySearchDto()));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -333,8 +333,8 @@ public final class CompanyNameLookUp extends Window {
         LOGGER.debug("Entering addToTable method ");
         table.setCaption("Results");
         table.setContainerDataSource(dummySearchResultbeans);
-        table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-        table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
+        table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+        table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
         table.setPageLength(NumericConstants.SEVEN);
         table.addStyleName("filterbar");
         table.setFilterBarVisible(true);
@@ -408,7 +408,7 @@ public final class CompanyNameLookUp extends Window {
             public void buttonClick(final ClickEvent event) {
                 try {
                     LOGGER.debug("btnSearch click listener is called");
-                    List<Object> collapsedColumns = new ArrayList<Object>();
+                    List<Object> collapsedColumns = new ArrayList<>();
                     for (Object item : table.getVisibleColumns()) {
                         if (table.isColumnCollapsed(item)) {
                             collapsedColumns.add(item);
@@ -430,8 +430,8 @@ public final class CompanyNameLookUp extends Window {
                         } else {
                             CommonUIUtils.successNotification("No results found");
                         }
-                        table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-                        table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
+                        table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+                        table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
 
                         searchCriteria.setCustomDirty(false);
                         for (Object propertyId : collapsedColumns) {
@@ -483,19 +483,19 @@ public final class CompanyNameLookUp extends Window {
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals("YES")) {
                             LOGGER.debug("Enters btnReset click listener ");
-                            List<Object> collapsedColumns = new ArrayList<Object>();
+                            List<Object> collapsedColumns = new ArrayList<>();
                             for (Object item : table.getVisibleColumns()) {
                                 if (table.isColumnCollapsed(item)) {
 
                                     collapsedColumns.add(item);
                                 }
                             }
-                            binder.setItemDataSource(new BeanItem<CompanySearchDto>(new CompanySearchDto()));
+                            binder.setItemDataSource(new BeanItem<>(new CompanySearchDto()));
                             binder.getErrorDisplay().clearError();
                             table.setContainerDataSource(dummySearchResultbeans);
 
-                            table.setVisibleColumns(UIUtils.TRADING_LOOKUP_COLUMNS);
-                            table.setColumnHeaders(UIUtils.TRADING_LOOKUP_HEADERS);
+                            table.setVisibleColumns(UIUtils.getInstance().tradingLookupColumns);
+                            table.setColumnHeaders(UIUtils.getInstance().tradingLookupHeaders);
 
                             binder.getErrorDisplay().clearError();
 
@@ -612,7 +612,7 @@ public final class CompanyNameLookUp extends Window {
     private static String[] getCollapsibleColumnsDefault(Table table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -625,7 +625,7 @@ public final class CompanyNameLookUp extends Window {
     private static String[] getCollapsibleColumnsDefault(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -638,7 +638,7 @@ public final class CompanyNameLookUp extends Window {
     private static String[] getCollapsibleColumns450Px(Table table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -648,7 +648,7 @@ public final class CompanyNameLookUp extends Window {
     private static String[] getCollapsibleColumns450Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -658,7 +658,7 @@ public final class CompanyNameLookUp extends Window {
     private static String[] getCollapsibleColumns850Px(Table table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -670,7 +670,7 @@ public final class CompanyNameLookUp extends Window {
     private static String[] getCollapsibleColumns850Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);

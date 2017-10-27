@@ -20,23 +20,23 @@ public class SalesRowDto extends ExtMapDTO {
     private String actualLevel = StringUtils.EMPTY;
     private String group = StringUtils.EMPTY;
     String ccpid = "";
-
-    private String customer = "empty";
-    private String contract = "empty";
-    private String product = "empty";
+    public static final String EMPTY_STRING = "empty";
+    private String customer = EMPTY_STRING;
+    private String contract = EMPTY_STRING;
+    private String product = EMPTY_STRING;
 
     private Integer levelNo = new Integer("0");
     private Integer treeLevelNo = new Integer("0");
     private Integer relationLevelSid = new Integer("0");
     private String hierarchyNo = "%";
-    private String hierarchyLevel="empty";
+    private String hierarchyLevel=EMPTY_STRING;
     private String returnDetailsSid = StringUtils.EMPTY;
     private String lastCustomerHierarchyno="%";
     private String lastProductHierarchyno="%";
     
-    private String hierarchyType="empty";
+    private String hierarchyType=EMPTY_STRING;
     
-    private String parentHierarchyType="empty";
+    private String parentHierarchyType=EMPTY_STRING;
     private Integer uncheckCount=new Integer("0");
     private Integer parent = 0;
     private String parentLevelIndicator = StringUtils.EMPTY;

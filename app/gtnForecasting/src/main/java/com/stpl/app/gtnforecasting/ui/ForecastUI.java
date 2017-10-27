@@ -61,7 +61,6 @@ public class ForecastUI extends UI {
     String pageParameters = null;
     final StplSecurity stplSecurity = new StplSecurity();
     DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
-//    SessionDTO sessionDto = null;
     SessionDTO sessionDto = new SessionDTO();
     /**
      * Logger
@@ -125,7 +124,7 @@ public class ForecastUI extends UI {
 
             String[] parameters = pageParameters.split("&");
 
-            HashMap<String, String> hm = new HashMap<String, String>();
+            HashMap<String, String> hm = new HashMap<>();
 
             for (String para : parameters) {
                 String[] paraStr = para.split(Constant.EQUAL);
@@ -138,17 +137,17 @@ public class ForecastUI extends UI {
             userType = hm.get("userType");
             noOfApprovals = hm.get("noOfApprovals");
             approvalLevels = hm.get("approvalLevel");
-            if (getGovernmentConstant().equalsIgnoreCase(hm.get("portletName"))) {
+            if (getGovernmentConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                 screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
                 CommonLogic.setScreenName(screenName);
-            } else if (getCommercialConstant().equalsIgnoreCase(hm.get("portletName"))) {
+            } else if (getCommercialConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                 screenName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED;
                 customerHierSid = hm.get("customerHierSid");
                 customerHierarchyLevel = hm.get("customerHierarchyLevel");
                 custRelationshipBuilderSid = hm.get("custRelationshipBuilderSid");
                 productHierarchyLevel = hm.get("productHierarchyLevel");
                 prodRelationshipBuilderSid = hm.get("prodRelationshipBuilderSid");
-            } else if (getAccrualConstant().equalsIgnoreCase(hm.get("portletName"))) {
+            } else if (getAccrualConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                 screenName = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION;
             }
             sessionDto = sessionUtil.createSession();
@@ -166,7 +165,7 @@ public class ForecastUI extends UI {
             String projectionName = StringUtils.EMPTY;
             try {
                 temp = dataSelectionDao.getProjectionMaster(Integer.valueOf(projectionId));
-                if (!getReturnsConstant().equalsIgnoreCase(hm.get("portletName"))) {
+                if (!getReturnsConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                     sessionDto.setCustomerDescription(logic.getLevelValueMap(temp.getCustRelationshipBuilderSid()));
                 }
                 sessionDto.setProductDescription(logic.getLevelValueMap(temp.getProdRelationshipBuilderSid()));

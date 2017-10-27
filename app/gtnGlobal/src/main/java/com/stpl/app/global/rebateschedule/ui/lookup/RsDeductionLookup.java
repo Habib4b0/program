@@ -277,8 +277,8 @@ public class RsDeductionLookup extends Window {
     public void setTableDefaultConfig() {
         resultTable.setConverter("creationDate", new DateToStringConverter());
         resultTable.setConverter("modifiedDate", new DateToStringConverter());
-        resultTable.setVisibleColumns(RsUtils.DEDUCTION_LOOKUP_COLUMN);
-        resultTable.setColumnHeaders(RsUtils.DEDUCTION_LOOKUP_HEADER);
+        resultTable.setVisibleColumns(RsUtils.getInstance().deductionLookupColumn);
+        resultTable.setColumnHeaders(RsUtils.getInstance().deductionLookupHeader);
         resultTable.markAsDirtyRecursive();
         resultTable.setImmediate(true);
         resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);

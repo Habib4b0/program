@@ -102,7 +102,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  */
 public class CompaniesTab extends CustomComponent {
-
     /**
      *
      */
@@ -141,7 +140,7 @@ public class CompaniesTab extends CustomComponent {
     /**
      * The map.
      */
-    private Map<String, String> map = new HashMap<String, String>();
+    private Map<String, String> map = new HashMap<>();
 
     /**
      * The btn populate.
@@ -245,7 +244,7 @@ public class CompaniesTab extends CustomComponent {
     private TextField parentFlagSID = new TextField();
     LazyLoadCriteria lazyLoadCriteria = new LazyLoadCriteria();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    private final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
     private final ContractHeaderLogic contractHL = new ContractHeaderLogic();
 
     final ContractHeaderLogic contractLogic = new ContractHeaderLogic();
@@ -257,14 +256,14 @@ public class CompaniesTab extends CustomComponent {
     /**
      * The cfpcompany list.
      */
-    private final List<CFPCompanyDTO> cfpcompanyList = new ArrayList<CFPCompanyDTO>();
+    private final List<CFPCompanyDTO> cfpcompanyList = new ArrayList<>();
     /**
      * The common util.
      */
     private CommonUtil commonUtil = CommonUtil.getInstance();
     private com.stpl.app.contract.abstractsearch.util.CommonUtils commonUtils = com.stpl.app.contract.abstractsearch.util.CommonUtils.getInstance();
 
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<>();
 
     /**
      * The cfp logic.
@@ -313,7 +312,7 @@ public class CompaniesTab extends CustomComponent {
     private Map<String, List> tempDate;
 
     boolean valueChange = false;
-    SimpleDateFormat format = new SimpleDateFormat("MM/dd/YYYY");
+    SimpleDateFormat format = new SimpleDateFormat(ConstantUtil.DATE_FORMAT);
     final StplSecurity stplSecurity = new StplSecurity();
     String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
     final Map<String, AppPermission> fieldContract = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Companies Detail", false);
@@ -376,7 +375,7 @@ public class CompaniesTab extends CustomComponent {
     private void configureBinder() {
         LOGGER.debug("Entering getBinder method");
         cfpContractBinder.bindMemberFields(this);
-        cfpContractBinder.setItemDataSource(new BeanItem<CFPCompanyDTO>(cfpCompanyDTO));
+        cfpContractBinder.setItemDataSource(new BeanItem<>(cfpCompanyDTO));
         cfpContractBinder.setBuffered(true);
         companyFamilyPlanNo.setEnabled(true);
         companyFamilyPlanId.setEnabled(false);
@@ -391,8 +390,8 @@ public class CompaniesTab extends CustomComponent {
     }
 
     private void init() throws SystemException , PortalException{
-        final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Companies", false);
-        final Map<String, AppPermission> funContractHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Companies");
+        final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.COMPANIES, false);
+        final Map<String, AppPermission> funContractHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.COMPANIES);
         addResponsiveGrid(contractDashboard);
         configureHeadertable();
         if (isEditable) {
@@ -503,13 +502,7 @@ public class CompaniesTab extends CustomComponent {
                         public void buttonClicked(ButtonId buttonId) {
                             if (ButtonId.YES.equals(buttonId)) {
                                 List<CFPCompanyDTO> removeList = null;
-                                try {
-                                    removeList = cfpLogic.getLazySelectedCompaniesDeatils(0,count,true, null,null,false,TempEditCompanyContainer.getRecord(), Boolean.TRUE);
-                                } catch (PortalException ex) {
-                                    LOGGER.error(ex);
-                                } catch (SystemException ex) {
-                                    LOGGER.error(ex);
-                                }
+                                removeList = cfpLogic.getLazySelectedCompaniesDeatils(0,count,true, null,null,false,TempEditCompanyContainer.getRecord(), Boolean.TRUE);
                                 for (CFPCompanyDTO temp : removeList) {
                                     if (dashBoardLogic.validateCCPActuals(temp.getCompanySystemId()) != 0) {
                                         AbstractNotificationUtils.getErrorNotification("Halt", "The selected record " + temp.getCompanyName() + " cannot be removed as there are Actuals associated to it.");
@@ -575,7 +568,7 @@ public class CompaniesTab extends CustomComponent {
         companyFamilyPlanEndDate.validate();
     }
 
-    private void configureFields() throws SystemException {
+    private void configureFields() {
 
         LOGGER.debug("Entering configureFields method");
 
@@ -583,15 +576,15 @@ public class CompaniesTab extends CustomComponent {
         tablePanel.setVisible(false);
         detailsLayout.setVisible(false);
         massCheck.addItem("Enable");
-        massCheck.addItem("Disable");
-        massCheck.setValue("Disable");
+        massCheck.addItem(ConstantUtil.DISABLE);
+        massCheck.setValue(ConstantUtil.DISABLE);
         massCheck.setImmediate(true);
         massCheck.setMultiSelect(false);
 
         massField.addItem(Constants.SELECT_ONE);
-        massField.addItem("CFP Start Date");
-        massField.addItem("CFP End Date");
-        massField.addItem("CFP Status");
+        massField.addItem(ConstantUtil.CFP_START_DATE);
+        massField.addItem(ConstantUtil.CFP_END_DATE);
+        massField.addItem(ConstantUtil.CFP_STATUS);
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(Constants.SELECT_ONE);
         massField.setImmediate(true);
@@ -620,7 +613,7 @@ public class CompaniesTab extends CustomComponent {
         massValue.addItem(Constants.SELECT_ONE);
         massValue.addItem(Constants.ACTIVE);
         massValue.addItem(Constants.IN_ACTIVE);
-
+        massValue.setEnabled(false);
         btnPopulate.setEnabled(false);
         btnAllPopulate.setEnabled(false);
         massField.addValueChangeListener(new Property.ValueChangeListener() {
@@ -653,6 +646,7 @@ public class CompaniesTab extends CustomComponent {
              * Method used for handling error
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
 
@@ -662,7 +656,7 @@ public class CompaniesTab extends CustomComponent {
              * Method used to mass check and its listener
              */
             public void valueChange(final ValueChangeEvent event) {
-                if ("Disable".equals(massCheck.getValue())) {
+                if (ConstantUtil.DISABLE.equals(massCheck.getValue())) {
                     massValue.setValue(StringUtils.EMPTY);
                     massValue.setVisible(false);
                     massField.setEnabled(false);
@@ -697,9 +691,9 @@ public class CompaniesTab extends CustomComponent {
                 massCheck.focus();
             }
         });
-        map.put("CFP Start Date", Constants.COMPANY_FAMILY_PLAN_START_DATE);
-        map.put("CFP End Date", Constants.CFP_END_DATE);
-        map.put("CFP Status", Constants.CFP_STATUS);
+        map.put(ConstantUtil.CFP_START_DATE, Constants.COMPANY_FAMILY_PLAN_START_DATE);
+        map.put(ConstantUtil.CFP_END_DATE, Constants.CFP_END_DATE);
+        map.put(ConstantUtil.CFP_STATUS, Constants.CFP_STATUS);
         LOGGER.debug("End of configureFields method");
     }
 
@@ -736,31 +730,31 @@ public class CompaniesTab extends CustomComponent {
                             fieldMass = map.get(massField.getValue()).toString();
                             if (Constants.COMPANY_FAMILY_PLAN_START_DATE.equals(fieldMass)) {
                                 if (companyFamilyPlanStartDate.getValue() == null) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide CFP Start date and try again.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_CFP_START_DATE_AND_TRY_AGAIN);
                                     return;
                                 } else if (massDate.getValue() == null) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide date and try again.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                 } else if (massDate.getValue().before(companyFamilyPlanStartDate.getValue())) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "CFP Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(companyFamilyPlanStartDate.getValue()));
+                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "CFP Start date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(companyFamilyPlanStartDate.getValue()));
                                     return;
                                 } else if (companyFamilyPlanEndDate.getValue() != null && massDate.getValue().after(companyFamilyPlanEndDate.getValue())) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(companyFamilyPlanEndDate.getValue()));
+                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(companyFamilyPlanEndDate.getValue()));
                                     return;
                                 } else {
                                     value = fmt.format(massDate.getValue());
                                 }
                             } else if (Constants.CFP_END_DATE.equals(fieldMass)) {
                                 if (companyFamilyPlanStartDate.getValue() == null) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide CFP Start date and try again.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_CFP_START_DATE_AND_TRY_AGAIN);
                                     return;
                                 } else if (massDate.getValue() == null) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide date and try again.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                     return;
                                 } else if (companyFamilyPlanEndDate.getValue() != null && massDate.getValue().after(companyFamilyPlanEndDate.getValue())) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "CFP end date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(companyFamilyPlanEndDate.getValue()));
+                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "CFP end date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(companyFamilyPlanEndDate.getValue()));
                                     return;
                                 } else if (massDate.getValue().before(companyFamilyPlanStartDate.getValue())) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(companyFamilyPlanStartDate.getValue()));
+                                    AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(companyFamilyPlanStartDate.getValue()));
                                     return;
                                 } else {
                                     value = fmt.format(massDate.getValue());
@@ -838,30 +832,30 @@ public class CompaniesTab extends CustomComponent {
                         fieldMass = map.get(massField.getValue()).toString();
                         if (Constants.COMPANY_FAMILY_PLAN_START_DATE.equals(fieldMass)) {
                             if (companyFamilyPlanStartDate.getValue() == null) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide CFP Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_CFP_START_DATE_AND_TRY_AGAIN);
                                 return;
                             } else if (massDate.getValue() == null) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else if (massDate.getValue().before(companyFamilyPlanStartDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "CFP Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(companyFamilyPlanStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "CFP Start date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(companyFamilyPlanStartDate.getValue()));
                                 return;
                             } else if (companyFamilyPlanEndDate.getValue() != null && massDate.getValue().after(companyFamilyPlanEndDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(companyFamilyPlanEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(companyFamilyPlanEndDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
                             }
                         } else if (Constants.CFP_END_DATE.equals(fieldMass)) {
                             if (companyFamilyPlanStartDate.getValue() == null) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide CFP Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_CFP_START_DATE_AND_TRY_AGAIN);
                                 return;
                             } else if (massDate.getValue() == null) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else if (companyFamilyPlanEndDate.getValue() != null && massDate.getValue().after(companyFamilyPlanEndDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "CFP end date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(companyFamilyPlanEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "CFP end date cannot be after " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(companyFamilyPlanEndDate.getValue()));
                                 return;
                             } else if (massDate.getValue().before(companyFamilyPlanStartDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(companyFamilyPlanStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(companyFamilyPlanStartDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
@@ -902,7 +896,7 @@ public class CompaniesTab extends CustomComponent {
         companyDetailsTable.setCurrentPage(companyDetailsTable.getCurrentPage());
     }
 
-    public void btnExportLogic() throws SystemException {
+    public void btnExportLogic() {
             excelExport.addClickListener(new ClickListener() {
             /**
              * Invoked when a button is clicked
@@ -932,7 +926,7 @@ public class CompaniesTab extends CustomComponent {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable)  throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable)  throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
         header = (String[]) ArrayUtils.removeElement(header, ConstantUtil.BLANK_SPACE);
@@ -943,7 +937,7 @@ public class CompaniesTab extends CustomComponent {
         ExcelExportforBB.createWorkSheet(header, recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void createWorkSheetContent(final PrintWriter printWriter) throws  NoSuchFieldException,  IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         LOGGER.debug("Entering createWorkSheetContent method");
         if (String.valueOf(level.getValue()).equals(Constants.DETAILS)) {
@@ -1010,7 +1004,7 @@ public class CompaniesTab extends CustomComponent {
     public void addItemDetailsTable() {
         try {
             LOGGER.debug("Entering addItemDetailsTable method");
-            Object[] objAvail = ContractUtils.CFP_ITEM_DETAILS_COL;
+            Object[] objAvail = ContractUtils.getInstance().cfpItemDetailsCol;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objAvail, fieldContract, Constants.EDIT);
 
             companyDetailsTable.markAsDirty();
@@ -1041,10 +1035,10 @@ public class CompaniesTab extends CustomComponent {
 
             companyDetailsTable.setColumnCheckBox(
                     Constants.CHECK_BOX, true, false);
-            tempDate = new HashMap<String, List>();
+            tempDate = new HashMap<>();
 
             companyDetailsTable.setTableFieldFactory(
-                    new CFPTableGenerator(saveContainer, fieldFactoryDates, tempDate));
+                    new CFPTableGenerator(saveContainer, fieldFactoryDates, tempDate,companyDetailsTable,sessionDTO));
             companyDetailsTable.setFilterBarVisible(
                     true);
             companyDetailsTable.setFilterGenerator(
@@ -1065,6 +1059,7 @@ public class CompaniesTab extends CustomComponent {
                         @SuppressWarnings("PMD")
                         public void error(final com.vaadin.server.ErrorEvent event
                         ) {
+                            return;
                         }
                     });
             companyDetailsTable.addColumnCheckListener(
@@ -1190,7 +1185,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class
         );
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1212,7 +1207,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class
         );
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1233,7 +1228,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class
         );
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[0]);
         list.remove(propertyIds[NumericConstants.ONE]);
@@ -1245,7 +1240,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class
         );
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[0]);
         list.remove(propertyIds[NumericConstants.ONE]);
@@ -1261,7 +1256,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class
         );
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0;
                 i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
@@ -1436,8 +1431,8 @@ public class CompaniesTab extends CustomComponent {
         viewCompanyDetailsTable.setSelectable(true);
         viewCompanyDetailsTable.setSizeFull();
         viewCompanyDetailsTable.setContainerDataSource(cfpResultsBean);
-        Object[] objAvail = ContractUtils.CFP_ITEM_DETAILS_VIEW_COL;
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objAvail, fieldContract, Constants.ViewMode);
+        Object[] objAvail = ContractUtils.getInstance().cfpItemDetailsViewCol;
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objAvail, fieldContract, Constants.VIEW_MODE);
         if (tableResultCustom.getObjResult().length > 0) {
 
             viewCompanyDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -1451,6 +1446,7 @@ public class CompaniesTab extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         addResponsiveVerticalTabThreeLayout();
@@ -1464,9 +1460,9 @@ public class CompaniesTab extends CustomComponent {
         tempLazyContainer
                 = new LazyBeanItemContainer(CFPCompanyDTO.class, tempViewCompanyContainer, new LazyLoadCriteria());
         viewCompanyDetailsTable.setContainerDataSource(tempLazyContainer);
-        Object[] objAvail = ContractUtils.CFP_ITEM_DETAILS_VIEW_COL;
+        Object[] objAvail = ContractUtils.getInstance().cfpItemDetailsViewCol;
 
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objAvail, fieldContract, Constants.ViewMode);
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objAvail, fieldContract, Constants.VIEW_MODE);
 
         if (tableResultCustom.getObjResult().length > 0) {
             viewCompanyDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -1591,7 +1587,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class
         );
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1614,7 +1610,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class
         );
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = NumericConstants.SIX;
                 i < j;
                 i++) {
@@ -1640,7 +1636,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class
         );
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = NumericConstants.TWO;
                 i < j;
                 i++) {
@@ -1666,7 +1662,7 @@ public class CompaniesTab extends CustomComponent {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class
         );
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = NumericConstants.ONE;
                 i < j;
                 i++) {
@@ -1701,7 +1697,7 @@ public class CompaniesTab extends CustomComponent {
         LOGGER.debug("Entering configurePermission");
         try {
 
-            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Companies");
+            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.COMPANIES);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, contractDashboard, Constants.EDIT);
 
         } catch (Exception ex) {
@@ -1743,14 +1739,14 @@ public class CompaniesTab extends CustomComponent {
             companyFamilyPlanStartDate.setDateFormat(Constants.MM_DD_YYYY);
             companyFamilyPlanStartDate.setDescription(Constants.DATE);
             companyFamilyPlanStartDate.addValidator(new DateValidatorContractCFP("StartDate"));
-            attachListeners(companyFamilyPlanStartDate, "START_DATE");
+            attachListeners(companyFamilyPlanStartDate, ConstantUtil.START_DATE);
 
             companyFamilyPlanEndDate.setImmediate(true);
             companyFamilyPlanEndDate.setValidationVisible(true);
             companyFamilyPlanEndDate.setDateFormat(Constants.MM_DD_YYYY);
             companyFamilyPlanEndDate.setDescription(Constants.DATE);
             companyFamilyPlanEndDate.addValidator(new DateValidatorContractCFP("EndDate"));
-            attachListeners(companyFamilyPlanEndDate, "END_DATE");
+            attachListeners(companyFamilyPlanEndDate, ConstantUtil.END_DATE);
 
         } catch (Exception ex) {
 
@@ -1760,6 +1756,7 @@ public class CompaniesTab extends CustomComponent {
         }
 
     }
+    
 
     @SuppressWarnings("rawtypes")
     public class DateValidatorContractCFP extends AbstractValidator {
@@ -1790,7 +1787,7 @@ public class CompaniesTab extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method");
 
             if (companyFamilyPlanStartDate.getValue() != null && companyFamilyPlanEndDate.getValue() != null) {
@@ -1876,10 +1873,10 @@ public class CompaniesTab extends CustomComponent {
             HeaderCompanyDetailsTable.setVisible(false);
             
         }
-        if (String.valueOf(level.getValue()).equals("Header") && String.valueOf(view.getValue()).equals("History")) {
+        if (String.valueOf(level.getValue()).equals(ConstantUtil.HEADER) && String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
             tablePanel.setVisible(true);
         }
-        if (String.valueOf(level.getValue()).equals("Header") && !String.valueOf(view.getValue()).equals("History")) {
+        if (String.valueOf(level.getValue()).equals(ConstantUtil.HEADER) && !String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
             excelExport.setVisible(false);
         }
 
@@ -1900,7 +1897,7 @@ public class CompaniesTab extends CustomComponent {
             infoPanel.setVisible(true);
             tablePanel.setVisible(false);
         }
-        if (String.valueOf(level.getValue()).equals("Header") && !String.valueOf(view.getValue()).equals("History")) {
+        if (String.valueOf(level.getValue()).equals(ConstantUtil.HEADER) && !String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
             excelExport.setVisible(false);
         }
 
@@ -1929,7 +1926,7 @@ public class CompaniesTab extends CustomComponent {
     public
             void configureHeadertable() {
         try {
-            HeadertableBean = new BeanItemContainer<CFPCompanyDTO>(CFPCompanyDTO.class
+            HeadertableBean = new BeanItemContainer<>(CFPCompanyDTO.class
             );
             HeaderCompanyDetailsTable.markAsDirty();
 
@@ -1947,8 +1944,7 @@ public class CompaniesTab extends CustomComponent {
 
             HeaderCompanyDetailsTable.setVisibleColumns(
                     "companyFamilyPlanId", "companyFamilyPlanNo", "companyFamilyPlanName", "cfpStatus", "companyFamilyPlanStartDate", "companyFamilyPlanEndDate", "cfptype", "cfpCategory", "cfptrade", "cfpDesignation", "parentCfp", "parentCfpName", "salesInclusion", "createdBy", "createdDate", "modifiedBy", "modifiedDate");
-            HeaderCompanyDetailsTable.setColumnHeaders(
-                    "CFP ID", "CFP No", "CFP Name", "CFP Status", "CFP Start Date", "CFP End Date", "CFP Type", "CFP Category", "CFP Trade Class", "CFP Designation", "Parent CFP ID", "Parent CFP Name", "Sales Inclusion", "Created By", "Created Date", "Modified By", "Modified Date");
+            HeaderCompanyDetailsTable.setColumnHeaders("CFP ID", "CFP No", "CFP Name", ConstantUtil.CFP_STATUS, ConstantUtil.CFP_START_DATE, ConstantUtil.CFP_END_DATE, "CFP Type", "CFP Category", "CFP Trade Class", "CFP Designation", "Parent CFP ID", "Parent CFP Name", "Sales Inclusion", "Created By", "Created Date", "Modified By", "Modified Date");
             HeaderCompanyDetailsTable.setWidth(
                     "100%");
             HeaderCompanyDetailsTable.setHeight(
@@ -2103,7 +2099,7 @@ public class CompaniesTab extends CustomComponent {
             public void valueChange(ValueChangeEvent event) {
                 try {
                     if (valueChange) {
-                        if (component.equals("START_DATE")) {
+                        if (component.equals(ConstantUtil.START_DATE)) {
                             if (event != null) {
                                 Date contractSD = (Date) dates[0];
                                 if (!((PopupDateField) field).getValue().before(contractSD) && dates[NumericConstants.ONE] == null) {
@@ -2112,17 +2108,17 @@ public class CompaniesTab extends CustomComponent {
                                     AbstractNotificationUtils.getWarningNotification("Start Date", "Start Date cannot be before " + format.format(contractSD));
                                     detachListeners(field);
                                     ((PopupDateField) field).setValue(null);
-                                    attachListeners(field, "START_DATE");
+                                    attachListeners(field, ConstantUtil.START_DATE);
                                 } else if (dates[NumericConstants.ONE] != null && ((PopupDateField) field).getValue().after((Date) dates[NumericConstants.ONE])) {
                                     AbstractNotificationUtils.getWarningNotification("Start Date", "Start Date cannot be after " + format.format((Date) dates[NumericConstants.ONE]));
                                     detachListeners(field);
                                     ((PopupDateField) field).setValue(null);
-                                    attachListeners(field, "START_DATE");
+                                    attachListeners(field, ConstantUtil.START_DATE);
                                 }
                             }
                         }
                        
-                        else if (component.equals("END_DATE") && event != null) {
+                        else if (component.equals(ConstantUtil.END_DATE) && event != null) {
                                 Date contractSD = (Date) dates[0];
                                 if ((Date) dates[NumericConstants.ONE] == null && !((PopupDateField) field).getValue().before(contractSD)) {
                                     ((PopupDateField) field).setDescription(com.stpl.app.contract.global.util.CommonUtils.convertDateToString(((PopupDateField) field).getValue()));
@@ -2130,12 +2126,12 @@ public class CompaniesTab extends CustomComponent {
                                     AbstractNotificationUtils.getWarningNotification("End Date", "End Date cannot be before " + format.format(contractSD));
                                     detachListeners(field);
                                     ((PopupDateField) field).setValue(null);
-                                    attachListeners(field, "END_DATE");
+                                    attachListeners(field, ConstantUtil.END_DATE);
                                 } else if (dates[NumericConstants.ONE] != null && ((PopupDateField) field).getValue().after((Date) dates[NumericConstants.ONE])) {
                                     AbstractNotificationUtils.getWarningNotification("End Date", "End Date cannot be after " + format.format((Date) dates[NumericConstants.ONE]));
                                     detachListeners(field);
                                     ((PopupDateField) field).setValue(null);
-                                    attachListeners(field, "END_DATE");
+                                    attachListeners(field, ConstantUtil.END_DATE);
                                 }
                         }
                     }

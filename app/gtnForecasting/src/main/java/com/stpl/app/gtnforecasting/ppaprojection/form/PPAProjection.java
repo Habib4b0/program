@@ -225,8 +225,8 @@ public class PPAProjection extends CustomComponent implements View {
     @UiField("massLookup")
     private CustomTextField massLookup;
     PPAFormulaLookup formulaLookup = null;
-    Set<String> propertyIdSet = new HashSet<String>();
-    Set<String> hierarchyNoSet = new HashSet<String>();
+    Set<String> propertyIdSet = new HashSet<>();
+    Set<String> hierarchyNoSet = new HashSet<>();
     @UiField("massGroup")
     CustomComboBox massGroup;
     /**
@@ -249,11 +249,12 @@ public class PPAProjection extends CustomComponent implements View {
     /**
      * The map right visible columns.
      */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     /**
      * The map left visible columns.
      */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
+    public static final String FORMULA_SYSTEM_SID1 = "formulaSystemSID";
     final StplSecurity stplSecurity = new StplSecurity();
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     private SessionDTO session;
@@ -262,15 +263,15 @@ public class PPAProjection extends CustomComponent implements View {
     FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     PPAProjectionLogic logic = new PPAProjectionLogic();
     ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
-    List<Leveldto> viewChangeHierarchy = new ArrayList<Leveldto>();
+    List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     IndexedContainer groupContainer = new IndexedContainer();
-    List<SaveDTO> saveList = new CopyOnWriteArrayList<SaveDTO>();
+    List<SaveDTO> saveList = new CopyOnWriteArrayList<>();
     FieldEvents.BlurListener saveValueChangeListener = null;
     ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO leftdto;
-    ExtTreeContainer<PPAProjectionDTO> excelContainer = new ExtTreeContainer<PPAProjectionDTO>(PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
-    private ExtTreeContainer<PPAProjectionDTO> resultBeanContainer = new ExtTreeContainer<PPAProjectionDTO>(
+    ExtTreeContainer<PPAProjectionDTO> excelContainer = new ExtTreeContainer<>(PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
+    private ExtTreeContainer<PPAProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(
             PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
     ExtFilterTreeTable leftTable;
     ExtFilterTreeTable rightTable;
@@ -288,10 +289,10 @@ public class PPAProjection extends CustomComponent implements View {
     private boolean checkedAllRecords;
     static List<Thread> manualSaveRunnableThreads = new ArrayList<>();
     Set<String> tableHirarechyNos = new HashSet<>();
-    List<String> dateList = new ArrayList<String>();
+    List<String> dateList = new ArrayList<>();
     private CustomMenuBar.CustomMenuItem customMenuItem;
     List newList = new ArrayList();
-    List<String> visibleList = new ArrayList<String>();
+    List<String> visibleList = new ArrayList<>();
     String fromDateValue, toDateValue;
     Object visibleColoumns[];
     int startOffset, endOffset;
@@ -386,7 +387,7 @@ public class PPAProjection extends CustomComponent implements View {
                                 savePPAProjection(propertyId.toString(), value, dto.getHirarechyNo(), Constant.LEFT);
                                 try {
                                     updateForTopLevelCheckRecord(value, dto, propertyId);
-                                    updateForChildLevel(0, 0, 0, 0, value, itemId, propertyId.toString(), true);
+                                    updateForChildLevel(value, itemId, propertyId.toString(), true);
                                     if (checkedAllRecords && !value) {
                                         valueChangeForColumnCheckBox = Boolean.TRUE;
                                         leftTable.setColumnCheckBox(Constant.CHECK_RECORD + ".0", true, false);
@@ -698,7 +699,7 @@ public class PPAProjection extends CustomComponent implements View {
                                                     map.put("formulaNo", rSFormulaDTO.getFormulaNo());
                                                     map.put("formulaName", rSFormulaDTO.getFormulaName());
                                                     map.put("formulaID", rSFormulaDTO.getFormulaID());
-                                                    map.put("formulaSystemSID", String.valueOf(rSFormulaDTO.getForectastingFormulaSid()));
+                                                    map.put(FORMULA_SYSTEM_SID1, String.valueOf(rSFormulaDTO.getForectastingFormulaSid()));
                                                     map.put(Constant.FORMULA_TYPE, String.valueOf(rSFormulaDTO.getFormulaType().getId()));
                                                     map.put("formulaTypeDesc", String.valueOf(rSFormulaDTO.getFormulaType().getDescription()));
                                                     lookUpField.setData(map);
@@ -749,7 +750,7 @@ public class PPAProjection extends CustomComponent implements View {
                             }
                             if (lastParent != null) {
                                 try {
-                                    updateRow(0, 0, 0, 0, event.isChecked(), lastParent, event.getPropertyId().toString(), presentFlag);
+                                    updateRow(event.isChecked(), lastParent, event.getPropertyId().toString(), presentFlag);
                                     checkedAllRecords = Boolean.TRUE;
                                     /**
                                      * Clearing the UNCHECKED_RECORDS_SET
@@ -897,11 +898,11 @@ public class PPAProjection extends CustomComponent implements View {
                 }
             }
 
-            if ((map != null && map.containsKey("PPAFromDate")) && (map.get("PPAFromDate") != null)) {
-                    fromDate = map.get("PPAFromDate");
+            if ((map != null && map.containsKey(Constant.PPA_FROM_DATE)) && (map.get(Constant.PPA_FROM_DATE) != null)) {
+                    fromDate = map.get(Constant.PPA_FROM_DATE);
             }
-            if ((map != null && map.containsKey("PPAToDate")) && (map.get("PPAToDate") != null)) {
-                    toDate = map.get("PPAToDate");
+            if ((map != null && map.containsKey(Constant.PPA_TO_DATE)) && (map.get(Constant.PPA_TO_DATE) != null)) {
+                    toDate = map.get(Constant.PPA_TO_DATE);
             }
 
         }
@@ -1035,7 +1036,7 @@ public class PPAProjection extends CustomComponent implements View {
                 Object groupValue = massGroup.getValue();
                 String valueTxtValue = valueTxt.getValue();
                 Date date = massDate.getValue();
-                String lookupValue = massLookup.getData() == null ? StringUtils.EMPTY : ((Map<String, String>) massLookup.getData()).get("formulaSystemSID");
+                String lookupValue = massLookup.getData() == null ? StringUtils.EMPTY : ((Map<String, String>) massLookup.getData()).get(FORMULA_SYSTEM_SID1);
                 Date dateValue = massDate.getValue();
                 String groupFilterValue = String.valueOf(groupFilterDdlb.getValue() == null ? Constant.PERCENT : groupFilterDdlb.getValue()).replace(Constant.PPA, StringUtils.EMPTY);
                 groupFilterValue = groupFilterValue.equals(Constant.ALL_GROUP) ? Constant.PERCENT : groupFilterValue;
@@ -1053,7 +1054,7 @@ public class PPAProjection extends CustomComponent implements View {
                     validationError = Boolean.TRUE;
                 }
                 if (validationError) {
-                    MessageBox.showPlain(Icon.INFO, "Error", alertMsg.getString("PPA_MSG_ID_06").replace(Constant.REPLACE_STRING, fieldValue), ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_06").replace(Constant.REPLACE_STRING, fieldValue), ButtonId.OK);
                     return;
                 }
                 if (!isChecked) {
@@ -1068,7 +1069,7 @@ public class PPAProjection extends CustomComponent implements View {
                     startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
                     startYear = Integer.valueOf(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 } else if (startPeriod.isVisible()) {
-                    MessageBox.showPlain(Icon.INFO, "Error", alertMsg.getString("PPA_MSG_ID_03"), ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_03"), ButtonId.OK);
                     return;
                 }
                 if (endPeriod.getValue() != null) {
@@ -1091,7 +1092,7 @@ public class PPAProjection extends CustomComponent implements View {
                     if (val == null) {
                         return;
                     }
-                    massUpdatePPAProjection(val, fieldValue, dbColumnIdentifier.get(fieldValue), 0, 0, 0, 0, groupFilterValue, selection);
+                    massUpdatePPAProjection(val, fieldValue, dbColumnIdentifier.get(fieldValue), 0, 0, 0, 0, selection);
                     loadMassGroup();
                     if (Constant.GROUPFCAPS.equals(fieldValue)) {
                         groupChangeFlag = Boolean.TRUE;
@@ -1106,21 +1107,21 @@ public class PPAProjection extends CustomComponent implements View {
                      */
                 } else if (populateIdentifier.get(Constant.DDLB_FIELD).contains(fieldValue)) {
 
-                    massUpdatePPAProjection(valueDdlbVal, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear, groupFilterValue, selection);
+                    massUpdatePPAProjection(valueDdlbVal, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear,  selection);
                 } else if (populateIdentifier.get(Constant.TEXT_FIELD).contains(fieldValue)) {
 
-                    massUpdatePPAProjection(valueTxtValue, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear, groupFilterValue, selection);
+                    massUpdatePPAProjection(valueTxtValue, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear, selection);
                 } else if (populateIdentifier.get(Constant.LOOKUP_FIELD).contains(fieldValue)) {
 
-                    massUpdatePPAProjection(lookupValue, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear, groupFilterValue, selection);
+                    massUpdatePPAProjection(lookupValue, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear,  selection);
                 } else if (populateIdentifier.get(Constant.DATE_FEILD).contains(fieldValue)) {
 
-                    massUpdatePPAProjection(dateValue, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear, groupFilterValue, selection);
+                    massUpdatePPAProjection(dateValue, fieldValue, dbColumnIdentifier.get(fieldValue), startQuater, endQuater, startYear, endYear, selection);
                 } else {
 
                 }
             } else {
-                MessageBox.showPlain(Icon.INFO, "Error", alertMsg.getString("PPA_MSG_ID_09"), ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_09"), ButtonId.OK);
             }
             PPAProjection.valueChangeAllowed = Boolean.TRUE;
             valueChangeForColumnCheckBox = Boolean.FALSE;
@@ -1154,7 +1155,7 @@ public class PPAProjection extends CustomComponent implements View {
                 } else {
                     updateValue = parentCount - currentCount;
                 }
-                updateRow(0, 0, 0, 0, updateValue, lastParent, propertyId.toString(), presentFlag);
+                updateRow(updateValue, lastParent, propertyId.toString(), presentFlag);
 
             }
 
@@ -1170,9 +1171,9 @@ public class PPAProjection extends CustomComponent implements View {
         }
     }
 
-    private void updateForChildLevel(int startQuater, int endQuater, int startYear, int endYear, Object value, Object itemId, String propertyId, boolean presentFlag)  {
+    private void updateForChildLevel(Object value, Object itemId, String propertyId, boolean presentFlag)  {
         Object methodItemId = itemId;
-        updateRow(startQuater, endQuater, startYear, endYear, value, methodItemId, propertyId, presentFlag);
+        updateRow(value, methodItemId, propertyId, presentFlag);
         List<String> hierarchyNos = tableLogic.getAllChildLevels(itemId);
         for (String hierarchyNo : hierarchyNos) {
             presentFlag = true;
@@ -1182,12 +1183,12 @@ public class PPAProjection extends CustomComponent implements View {
                 lastParent = tableLogic.getParent(hierarchyNo);
             }
             if (lastParent != null) {
-                updateRow(startQuater, endQuater, startYear, endYear, value, lastParent, propertyId, presentFlag);
+                updateRow(value, lastParent, propertyId, presentFlag);
             }
         }
     }
 
-    private void updateRow(int startQuater, int endQuater, int startYear, int endYear, Object value, Object itemId, String propertyId, boolean presentFlag)  {
+    private void updateRow(Object value, Object itemId, String propertyId, boolean presentFlag)  {
         if (propertyId != null) {
             Boolean result = false;
             PPAProjectionDTO dto = (PPAProjectionDTO) itemId;
@@ -1227,7 +1228,7 @@ public class PPAProjection extends CustomComponent implements View {
      * @throws Exception the exception
      */
     @UiHandler("levelFilterDdlb")
-    public void levelFilter(Property.ValueChangeEvent event) throws SystemException, PortalException {
+    public void levelFilter(Property.ValueChangeEvent event)  {
         if (!valueChangeForColumnCheckBox) {
             waitForSave();
             loadResults(event.getProperty().getValue());
@@ -1243,7 +1244,7 @@ public class PPAProjection extends CustomComponent implements View {
      * @throws Exception the exception
      */
     @UiHandler("collapse")
-    public void collapseLvlBtn(Button.ClickEvent event) throws SystemException, PortalException {
+    public void collapseLvlBtn(Button.ClickEvent event)  {
         waitForSave();
         expandCollapseLevelOption(Boolean.FALSE, level.getValue());
     }
@@ -1257,7 +1258,7 @@ public class PPAProjection extends CustomComponent implements View {
      * @throws Exception the exception
      */
     @UiHandler("expand")
-    public void expandLvlBtn(Button.ClickEvent event) throws SystemException, PortalException{
+    public void expandLvlBtn(Button.ClickEvent event) {
         waitForSave();
         expandCollapseLevelOption(Boolean.TRUE, level.getValue());
     }
@@ -1287,9 +1288,7 @@ public class PPAProjection extends CustomComponent implements View {
             try {
                 loadResults(null);
 
-            } catch (PortalException ex) {
-               LOGGER.error(ex);
-            } catch (Exception ex) {
+            }  catch (Exception ex) {
                LOGGER.error(ex);
             }
         }
@@ -1304,7 +1303,7 @@ public class PPAProjection extends CustomComponent implements View {
      * @throws Exception the exception
      */
     @UiHandler("excelExport")
-    public void excelExportBtn(Button.ClickEvent event) throws SystemException, PortalException{
+    public void excelExportBtn(Button.ClickEvent event) {
         excelExportLogic();
     }
 
@@ -1426,7 +1425,7 @@ public class PPAProjection extends CustomComponent implements View {
                         map.put("formulaNo", rSFormulaDTO.getFormulaNo());
                         map.put("formulaName", rSFormulaDTO.getFormulaName());
                         map.put("formulaID", rSFormulaDTO.getFormulaID());
-                        map.put("formulaSystemSID", String.valueOf(rSFormulaDTO.getForectastingFormulaSid()));
+                        map.put(FORMULA_SYSTEM_SID1, String.valueOf(rSFormulaDTO.getForectastingFormulaSid()));
                         massLookup.setData(map);
                     }
                     formulaLookup.removeCloseListener(this);
@@ -1494,7 +1493,7 @@ public class PPAProjection extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void loadResults(Object filterValue) throws SystemException, PortalException{
+    private void loadResults(Object filterValue) {
         LOGGER.debug("loadResults initiated ");
         selection.setHierarchyNo(StringUtils.EMPTY);
         if (!selection.getPeriodList().isEmpty()) {
@@ -1530,7 +1529,7 @@ public class PPAProjection extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void excelExportLogic() throws SystemException, PortalException {
+    private void excelExportLogic()   {
         excelTable = new ExtCustomTreeTable();
         selection.setExcelExport(Boolean.TRUE);
         excelContainer = new ExtTreeContainer<>(PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
@@ -1567,7 +1566,7 @@ public class PPAProjection extends CustomComponent implements View {
         tableLayout.removeComponent(excelTable);
     }
 
-    public void generateButtonlogicForExcel() throws SystemException, PortalException {
+    public void generateButtonlogicForExcel()  {
         int count = 0;
         excelContainer.removeAllItems();
         if (levelFilter.getValue() == null) {
@@ -1645,9 +1644,10 @@ public class PPAProjection extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
-    private void configureTable(boolean load) throws SystemException, PortalException  {
+    private void configureTable(boolean load)  {
         LOGGER.debug("PPA configureTable");
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultsTable.setFilterBarVisible(Boolean.FALSE);
@@ -1665,7 +1665,7 @@ public class PPAProjection extends CustomComponent implements View {
         leftdto = HeaderUtils.getPPAProjectionLeftTableColumns(fullHeader);
 
         if (generateFlag) {
-            ridhtdto = HeaderUtils.getPPAOnLoadRightColumns(selection, fullHeader);
+            ridhtdto = HeaderUtils.getPPAOnLoadRightColumns(fullHeader);
         } else {
             ridhtdto = HeaderUtils.getPPAProjectionRightTableColumns(selection, fullHeader);
         }
@@ -1682,9 +1682,9 @@ public class PPAProjection extends CustomComponent implements View {
         tableLogic.setContainerDataSource(resultBeanContainer);
         resultBeanContainer.setColumnProperties(leftdto.getProperties());
         resultBeanContainer.setColumnProperties(ridhtdto.getProperties());
-        List<Object> recordHeader = new ArrayList<Object>();
+        List<Object> recordHeader = new ArrayList<>();
         if (!generateFlag) {
-            recordHeader = new ArrayList<Object>(ridhtdto.getSingleColumns());
+            recordHeader = new ArrayList<>(ridhtdto.getSingleColumns());
         }
         recordHeader.add(0, Constant.CHECK_RECORD + ".0");
         resultBeanContainer.setRecordHeader(recordHeader);
@@ -1698,9 +1698,9 @@ public class PPAProjection extends CustomComponent implements View {
         alignCentre();
 
         resultsTable.setDoubleHeaderVisible(true);
-        resultsTable.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        resultsTable.setHeight(Constant.SIX_FIFTY_PX);
+        leftTable.setHeight(Constant.SIX_FIFTY_PX);
+        rightTable.setHeight(Constant.SIX_FIFTY_PX);
         leftTable
                 .setDoubleHeaderVisibleColumns(leftdto.getDoubleColumns().toArray());
         leftTable
@@ -1876,7 +1876,7 @@ public class PPAProjection extends CustomComponent implements View {
         LOGGER.debug("loadGroupFilter ends ");
     }
 
-    public void groupChange(boolean groupChange) {
+    public void groupChange() {
         waitForSave();
         LOGGER.debug("groupChange initiated ");
         try {
@@ -1887,8 +1887,6 @@ public class PPAProjection extends CustomComponent implements View {
             levelFilter.select(SELECT_ONE);
 
             loadResults(null);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -1924,9 +1922,7 @@ public class PPAProjection extends CustomComponent implements View {
                 loadProjectionSelection(false);
                 loadLevelFilterValue();
                 loadResults(null);
-            } catch (PortalException ex) {
-                LOGGER.error(ex);
-            } catch (Exception ex) {
+            }  catch (Exception ex) {
                 LOGGER.error(ex);
             }
         }
@@ -1967,12 +1963,12 @@ public class PPAProjection extends CustomComponent implements View {
         LOGGER.debug("Ending generateButton");
     }
 
-    public void generateButtonLogic() throws SystemException, PortalException  {
+    public void generateButtonLogic()   {
 
         PPAProjection.valueChangeAllowed = Boolean.FALSE;
         List<String> result = getCheckedVariables();
         if (result.isEmpty()) {
-            MessageBox.showPlain(Icon.INFO, "Error", alertMsg.getString("PPA_MSG_ID_08"), ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_08"), ButtonId.OK);
             return;
         }
         fieldDdlb.removeAllItems();
@@ -2051,17 +2047,17 @@ public class PPAProjection extends CustomComponent implements View {
         return width;
     }
 
-    private void massUpdatePPAProjection(Object value, String fieldValue, String columnName, int startQuater, int endQuater, int startYear, int endYear, String group, ProjectionSelectionDTO selection) {
+    private void massUpdatePPAProjection(Object value, String fieldValue, String columnName, int startQuater, int endQuater, int startYear, int endYear, ProjectionSelectionDTO selection) {
 
         waitForSave();
         PPAProjection.valueChangeAllowed = Boolean.FALSE;
 
         List input = null;
         if (populateIdentifier.get(Constant.FROZEN_FIELDS).contains(fieldValue)) {
-            input = logic.getInputForMassUpdateGroup(value, columnName, group, selection);
+            input = logic.getInputForMassUpdateGroup(value, columnName, selection);
             PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-Group");
         } else {
-            input = logic.getInputForMassUpdate(startQuater, endQuater, startYear, endYear, value, columnName, group, selection);
+            input = logic.getInputForMassUpdate(startQuater, endQuater, startYear, endYear, value, columnName, selection);
             if (columnName.equals("NEP") || columnName.equals("PRICE_TOLERANCE") || columnName.equals("MAX_INCREMENTAL_CHANGE")) {
                 PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-Price");
             } else {
@@ -2215,10 +2211,12 @@ public class PPAProjection extends CustomComponent implements View {
 
             @Override
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             @Override
@@ -2253,8 +2251,8 @@ public class PPAProjection extends CustomComponent implements View {
         if (builder.length() > 0) {
             Map map = new HashMap();
             map.put(Constant.VARIABLE, builder);
-            map.put("PPAFromDate", fromDateDdlb.getValue());
-            map.put("PPAToDate", toDateDdlb.getValue());
+            map.put(Constant.PPA_FROM_DATE, fromDateDdlb.getValue());
+            map.put(Constant.PPA_TO_DATE, toDateDdlb.getValue());
             CommonLogic.saveProjectionSelection(map, TAB_PPA_PROJECTION.getConstant(), selection);
 
         }

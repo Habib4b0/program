@@ -115,15 +115,15 @@ public class Summary extends CustomComponent {
     String[] componentHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Status", "Start Date", "End Date", "Rebate Plan", "Formula ID"};
     Object[] contractDashBoardColumn = {"component", "id", "number", "name"};
     String[] contractDashBoardHeader = {"Component", "ID", "Number", "Name"};
-    ExtTreeContainer<ContractDashboardDTO> contractDashBoardContainer = new ExtTreeContainer<ContractDashboardDTO>(ContractDashboardDTO.class);
+    ExtTreeContainer<ContractDashboardDTO> contractDashBoardContainer = new ExtTreeContainer<>(ContractDashboardDTO.class);
     SelectionDTO selection;
     ContractDashboardDTO componentInfoDTO = new ContractDashboardDTO();
     SummaryDTO summaryItem = new SummaryDTO();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     Object dashBoardItemId;
     Object contractItemId;
-    BeanItemContainer<ComponentTableDTO> componentContainer = new BeanItemContainer<ComponentTableDTO>(ComponentTableDTO.class);
-    BeanItemContainer<SummaryDTO> contractContainer = new BeanItemContainer<SummaryDTO>(SummaryDTO.class);
+    BeanItemContainer<ComponentTableDTO> componentContainer = new BeanItemContainer<>(ComponentTableDTO.class);
+    BeanItemContainer<SummaryDTO> contractContainer = new BeanItemContainer<>(SummaryDTO.class);
     ComponentInfo component;
     ExtFilterTreeTable leftTable;
     ExtFilterTreeTable rightTable;
@@ -189,10 +189,11 @@ public class Summary extends CustomComponent {
 
                 @Override
                 public void noMethod() {
+                    return;
                 }
             }.getConfirmationMessage("Confirmation", "Are you sure you want to remove the selected Contract from the Add ITEM process? It will be removed and added back to the Available List of Contracts in the Contract Selection screen");
         } else {
-            MessageBox.showPlain(Icon.INFO, "Error", "Please select a value to remove. Then try again.", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, Constants.ERROR, "Please select a value to remove. Then try again.", ButtonId.OK);
         }
     }
 
@@ -248,9 +249,11 @@ public class Summary extends CustomComponent {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -326,10 +329,11 @@ public class Summary extends CustomComponent {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
                     }.getConfirmationMessage("Confirmation", "Are you sure you want to remove the selected Contract from the Add ITEM process? It will be removed and added back to the Available List of Contracts in the Contract Selection screen.");
                 } else {
-                    MessageBox.showPlain(Icon.INFO, "Error", "Please select a value to remove. Then try again. ", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constants.ERROR, "Please select a value to remove. Then try again. ", ButtonId.OK);
                 }
 
             }
@@ -339,7 +343,7 @@ public class Summary extends CustomComponent {
                 if (leftTable.getValue() != null) {
                     populateBtnLogic();
                 } else {
-                    MessageBox.showPlain(Icon.INFO, "Error", "Please select a value in the Contract structure. Then try again.  ", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constants.ERROR, "Please select a value in the Contract structure. Then try again.  ", ButtonId.OK);
                 }
             }
         });

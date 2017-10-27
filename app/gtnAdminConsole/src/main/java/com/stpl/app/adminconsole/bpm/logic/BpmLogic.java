@@ -60,6 +60,7 @@ import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.bpm.dto.HeirarchyDefinition;
 import com.stpl.app.bpm.dto.HierarchyDefinitionLevelRuleDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.GlobalConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
@@ -70,6 +71,7 @@ import com.thoughtworks.xstream.core.util.Base64Encoder;
 import java.net.MalformedURLException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
 import org.jboss.logging.Logger;
 
 public class BpmLogic {
@@ -106,10 +108,9 @@ public class BpmLogic {
     }
 
     public static List<String> getHierarchies() {
-        JarFile jar;
-        List<String> hierarchies = new ArrayList<String>();
-        try {
-            jar = new JarFile(BPMManagerBean.getEngine().getArtifact().getFile());
+
+        List<String> hierarchies = new ArrayList<>();
+        try (JarFile jar = new JarFile(BPMManagerBean.getEngine().getArtifact().getFile());) {
             Enumeration<JarEntry> sf = jar.entries();
             while (sf.hasMoreElements()) {
                 JarEntry temp = sf.nextElement();
@@ -125,11 +126,10 @@ public class BpmLogic {
     }
 
     public static List<HeirarchyDefinition> getHierarchyLevels(String hierarchyName) {
-        JarFile jar;
-        List<HeirarchyDefinition> hierarchies = new ArrayList<HeirarchyDefinition>();
+
+        List<HeirarchyDefinition> hierarchies = new ArrayList<>();
         String fileName = hierarchyName.replace(" ", "%20") + ".drl";
-        try {
-            jar = new JarFile(BPMManagerBean.getEngine().getArtifact().getFile());
+        try (JarFile jar = new JarFile(BPMManagerBean.getEngine().getArtifact().getFile());){
             Enumeration<JarEntry> sf = jar.entries();
             while (sf.hasMoreElements()) {
                 JarEntry temp = sf.nextElement();
@@ -185,7 +185,7 @@ public class BpmLogic {
                 if ("OR".equals(condition)) {
                     query += " or ";
                 } else {
-                    query += " and ";
+                    query += ConstantsUtils.AND;
                 }
             }
             String subQuery = buildQuery(dto, ruleType);
@@ -203,7 +203,7 @@ public class BpmLogic {
 
     public static List<String> getRuleList(String ruleGroup) {
         try {
-            List<String> ruleList = new ArrayList<String>();
+            List<String> ruleList = new ArrayList<>();
             KieServices ks = KieServices.Factory.get();
             ReleaseId releaseId = ks.newReleaseId(BPMCommonUtils.HR_GROUP, BPMCommonUtils.HR_ARTIFACT_ID, BPMCommonUtils.HR_VERSION);
             Artifact artifact = MavenRepository.getMavenRepository().resolveArtifact(releaseId);
@@ -219,11 +219,11 @@ public class BpmLogic {
 
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
     public static List<String> getFilePath(Artifact artifact) {
-        List<String> fileList = new ArrayList<String>();
+        List<String> fileList = new ArrayList<>();
         JarFile jar = null;
         File file = null;
         InputStream is = null;
@@ -280,7 +280,7 @@ public class BpmLogic {
 
     public static List<HierarchyLevelsDTO> getFilteredValues(int selectedHierarchySysId, int levelNo, List<String> levelValues,
             List<String> primaykeyColumns, List<String> primarykeySID) {
-        List<HierarchyLevelsDTO> filteredValues = new ArrayList<HierarchyLevelsDTO>();
+        List<HierarchyLevelsDTO> filteredValues = new ArrayList<>();
         try {
             levelNo = levelNo + 1;
             String levelName = ConstantsUtils.EMPTY;
@@ -293,22 +293,22 @@ public class BpmLogic {
             String framedQuery = ConstantsUtils.EMPTY;
             String tableQuery = ConstantsUtils.EMPTY;
             String whereQuery = ConstantsUtils.EMPTY;
-            Map<String, String> tableNameMap = new LinkedHashMap<String, String>();
+            Map<String, String> tableNameMap = new LinkedHashMap<>();
             LOGGER.debug("Received Hierarchy with ID: " + selectedHierarchySysId + " with levelNo: " + levelNo + " having " + levelValues);
             boolean flag = false;
             String nextlevelTable = ConstantsUtils.EMPTY;
             for (int i = 0; i < hierarchyLevels.size(); i++) {
                 HierarchyLevelDefinition hd = hierarchyLevels.get(i);
                 if (i == 0 && "User Defined".equals(hd.getLevelValueReference())) {
-                    return null;
+                    return Collections.emptyList();
                 } else {
                     if (i == 0) {
                         levelName = hd.getLevelName();
                         levelSystemId = hd.getHierarchyLevelDefinitionSid();
                     }
                     if (hd.getTableName() != null && StringUtils.isNotBlank(hd.getTableName())) {
-                        String tablealias = tableNameMap.get(hd.getTableName());
-                        String temp = ConstantsUtils.EMPTY;
+                        String tablealias;
+                        String temp;
                         if ("CONTRACT_MASTER".equals(hd.getTableName())) {
                             tablealias = "CM";
                             temp = CommonUtils.CONTRACT;
@@ -335,34 +335,34 @@ public class BpmLogic {
                         if (i == 0) {
                             VwHelperListDto dto = dependenciesMap.get(hd.getTableName() + "|" + hd.getFieldName());
                             if (dto != null) {
-                                framedQuery = "SELECT DISTINCT SUB." + dto.getReferenceColumnName() + ", SUB." + dto.getMappingColumnName() + " FROM " + hd.getTableName() + " " + tablealias + " ";
-                                framedQuery += " JOIN " + dto.getReferenceTableName() + " SUB ON SUB." + dto.getMappingColumnName() + " = " + tablealias + "." + dto.getActualColumnName();
+                                framedQuery = "SELECT DISTINCT SUB." + dto.getReferenceColumnName() + ", SUB." + dto.getMappingColumnName() + ConstantsUtils.FROM + hd.getTableName() + " " + tablealias + " ";
+                                framedQuery += ConstantsUtils.JOIN + dto.getReferenceTableName() + " SUB ON SUB." + dto.getMappingColumnName() + " = " + tablealias + "." + dto.getActualColumnName();
                                 if (StringUtils.isNotBlank(dto.getListName()) && !"null".equals(dto.getListName())) {
                                     framedQuery += " AND SUB.LIST_NAME='" + dto.getListName() + "'";
                                 }
-                                whereQuery = " WHERE SUB." + dto.getReferenceColumnName() + " IS NOT NULL ";
+                                whereQuery = " WHERE SUB." + dto.getReferenceColumnName() + ConstantsUtils.IS_NOT_NULL;
                                 Integer currentLevel = levelNo;
                                 String ruleQuery = inclusionExclusionRules.get(currentLevel);
                                 if (StringUtils.isNotBlank(ruleQuery)) {
                                     ruleQuery = buildFinalQuery(hd.getTableName(), hd.getFieldName(), ruleQuery, tablealias + ".", "SUB." + dto.getReferenceColumnName());
-                                    whereQuery += " and " + ruleQuery + " ";
+                                    whereQuery += ConstantsUtils.AND + ruleQuery + " ";
                                 }
                             } else {
                                 nextlevelTable=hd.getTableName();
-                                framedQuery = "SELECT DISTINCT " + tablealias + "." + hd.getFieldName() + ", " + tablealias + "." + CommonUtils.getTableSystemId(hd.getTableName()) + " FROM " + hd.getTableName() + " " + tablealias + " ";
-                                whereQuery = " WHERE " + tablealias + "." + hd.getFieldName() + " IS NOT NULL ";
+                                framedQuery = "SELECT DISTINCT " + tablealias + "." + hd.getFieldName() + ", " + tablealias + "." + CommonUtils.getTableSystemId(hd.getTableName()) + ConstantsUtils.FROM + hd.getTableName() + " " + tablealias + " ";
+                                whereQuery = ConstantsUtils.WHERE + tablealias + "." + hd.getFieldName() + ConstantsUtils.IS_NOT_NULL;
                                 Integer currentLevel = levelNo;
                                 String ruleQuery = inclusionExclusionRules.get(currentLevel);
                                 if (StringUtils.isNotBlank(ruleQuery)) {
                                    
                                     ruleQuery = buildFinalQuery(hd.getTableName(), hd.getFieldName(), ruleQuery, tablealias + ".", tablealias + "." + hd.getFieldName());
-                                    whereQuery += " and " + ruleQuery + " ";
+                                    whereQuery += ConstantsUtils.AND + ruleQuery + " ";
                                 }
                             }
                         } else {
                             LOGGER.debug("M " + levelName);
                             LOGGER.debug("M1 " + hd.getLevelName());
-                            whereQuery += " AND " + tablealias + "." + hd.getFieldName() + " = " + getDependentJoin(hd.getTableName(), hd.getFieldName(), levelValues.get(i).replaceAll("'", "''"), 
+                            whereQuery += " AND " + tablealias + "." + hd.getFieldName() + " = " + getDependentJoin(hd.getTableName(), hd.getFieldName(), levelValues.get(i), 
                                     tablealias, primaykeyColumns.get(i), primarykeySID.get(i)) + ConstantsUtils.EMPTY;
                         }
                         tableNameMap.put(temp, tablealias);
@@ -396,9 +396,9 @@ public class BpmLogic {
     private static String getDependentJoin(String tableName, String fieldName, String levelValue, String tableAlias, String primarykeyColumn, String primarykeyValue) {
         VwHelperListDto dto = dependenciesMap.get(tableName + "|" + fieldName);
         if (dto != null) {
-            String query = ConstantsUtils.EMPTY;
-            query = "(SELECT TOP 1 " + dto.getMappingColumnName() + " FROM " + dto.getReferenceTableName();
-            query += " WHERE " + dto.getReferenceColumnName() + " = '" + levelValue + "'";
+            String query;
+            query = "(SELECT TOP 1 " + dto.getMappingColumnName() + ConstantsUtils.FROM + dto.getReferenceTableName();
+            query += ConstantsUtils.WHERE + dto.getReferenceColumnName() + " = '" + levelValue + "'";
             if (StringUtils.isNotBlank(dto.getListName()) && !"null".equals(dto.getListName())) {
                 query += " AND LIST_NAME='" + dto.getListName() + "'";
             }
@@ -410,7 +410,7 @@ public class BpmLogic {
     }
 
     private static String getJoinCondition(String currentTable, String currentTablealias, Map<String, String> tableNameMap, String currentMapValue) {
-        String joinCondition = ConstantsUtils.EMPTY;
+        String joinCondition;
         String prevTable = ConstantsUtils.EMPTY;
         for (Iterator<String> it = tableNameMap.keySet().iterator(); it.hasNext();) {
             prevTable = it.next();
@@ -420,11 +420,11 @@ public class BpmLogic {
         String prevTableAlias = tableNameMap.get(prevTable);
         if ((CommonUtils.CONTRACT.equals(currentMapValue)) && (CommonUtils.CONTRACT_HOLDER.equals(prevTable))) {
             LOGGER.debug("yes came 1st inside");
-            joinCondition = " JOIN " + currentTable + " " + currentTablealias + " ON " + currentTablealias + ".CONT_HOLD_COMPANY_MASTER_SID = " + prevTableAlias + ".COMPANY_MASTER_SID";
+            joinCondition = ConstantsUtils.JOIN + currentTable + " " + currentTablealias + " ON " + currentTablealias + ".CONT_HOLD_COMPANY_MASTER_SID = " + prevTableAlias + ".COMPANY_MASTER_SID";
         } else if ((CommonUtils.CONTRACT_HOLDER.equals(currentMapValue)) && (CommonUtils.TRADING_PARTNER.equals(prevTable) || CommonUtils.CUSTOMER.equals(prevTable))) {
-            joinCondition = " JOIN CCP_DETAILS CCPD ON CCPD.COMPANY_MASTER_SID = TP.COMPANY_MASTER_SID";
-            joinCondition += " JOIN CONTRACT_MASTER CM ON CM.CONTRACT_MASTER_SID = CCPD.CONTRACT_MASTER_SID";
-            joinCondition += " JOIN COMPANY_MASTER CH ON CH.COMPANY_MASTER_SID = CM.CONT_HOLD_COMPANY_MASTER_SID";
+            joinCondition = " JOIN CCP_DETAILS CCPD ON CCPD.COMPANY_MASTER_SID = TP.COMPANY_MASTER_SID ";
+            joinCondition += " JOIN CONTRACT_MASTER CM ON CM.CONTRACT_MASTER_SID = CCPD.CONTRACT_MASTER_SID ";
+            joinCondition += " JOIN COMPANY_MASTER CH ON CH.COMPANY_MASTER_SID = CM.CONT_HOLD_COMPANY_MASTER_SID ";
         } else if ((CommonUtils.CONTRACT_HOLDER.equals(currentMapValue)) && (CommonUtils.CONTRACT.equals(prevTable))) {
             joinCondition = " JOIN COMPANY_MASTER CH ON CM.CONT_HOLD_COMPANY_MASTER_SID = CH.COMPANY_MASTER_SID";
         } else if ((CommonUtils.CONTRACT.equals(currentMapValue)) && (CommonUtils.TRADING_PARTNER.equals(prevTable) || CommonUtils.CUSTOMER.equals(prevTable))) {
@@ -458,13 +458,13 @@ public class BpmLogic {
         return joinCondition;
     }
 
-    public static void main7(String[] args) {
+    public static void main7() {
         String test = "HDStPl123rUlECONTRACT_STATUS = '870'";
         LOGGER.debug(test.substring(test.indexOf(BPMCommonUtils.REPLACE_STRING) + BPMCommonUtils.REPLACE_STRING.length(), test.indexOf(" ")));
     }
 
     public static List<HierarchyLevelsDTO> getOldValues(int hierarchySysId, int version, int levelNo) {
-        List<HierarchyLevelsDTO> returnList = new ArrayList<HierarchyLevelsDTO>();
+        List<HierarchyLevelsDTO> returnList = new ArrayList<>();
         try {
             final DynamicQuery levelDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyLevelDefinition.class);
             levelDynamicQuery.add(RestrictionsFactoryUtil.eq("hierarchyDefinitionSid", hierarchySysId));
@@ -474,7 +474,7 @@ public class BpmLogic {
             if (hierarchyLevels != null && !hierarchyLevels.isEmpty()) {
                 HierarchyLevelDefinition currentLevelDef = hierarchyLevels.get(0);
                 if ("User Defined".equals(currentLevelDef.getLevelValueReference())) {
-                    return null;
+                    return Collections.emptyList();
                 }
                 int levelSystemId = currentLevelDef.getHierarchyLevelDefinitionSid();
                 String tableName = currentLevelDef.getTableName();
@@ -515,16 +515,16 @@ public class BpmLogic {
                     }
                 }
             } else {
-                return null;
+                return Collections.emptyList();
             }
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
         return returnList;
     }
 
-    static String finderImplInLogic(String tableName, String columnName, List hierListValues) throws PortalException, SystemException {
+    static String finderImplInLogic(String tableName, String columnName, List hierListValues) {
 
 
         String hierarchyType = hierListValues.get(0).toString();
@@ -534,29 +534,28 @@ public class BpmLogic {
         Map<String, VwHelperListDto> dependenciesMap = (HashMap<String, VwHelperListDto>) hierListValues.get(NumericConstants.FOUR);
 
         VwHelperListDto dto = dependenciesMap.get(tableName + "|" + columnName);
-        String sqlString = ConstantsUtils.EMPTY;
+        String sqlString;
         if (dto != null) {
             String joinCondition = ConstantsUtils.EMPTY;
-            String whereCondition = ConstantsUtils.EMPTY;
-            sqlString = "SELECT DISTINCT SUB." + dto.getReferenceColumnName() + ", SUB." + dto.getMappingColumnName() + " FROM " + tableName + " MAIN ";
-            joinCondition += " JOIN " + dto.getReferenceTableName() + " SUB ON SUB." + dto.getMappingColumnName() + " = MAIN." + dto.getActualColumnName();
+            String whereCondition;
+            sqlString = "SELECT DISTINCT SUB." + dto.getReferenceColumnName() + ", SUB." + dto.getMappingColumnName() + ConstantsUtils.FROM + tableName + " MAIN ";
+            joinCondition += ConstantsUtils.JOIN + dto.getReferenceTableName() + " SUB ON SUB." + dto.getMappingColumnName() + " = MAIN." + dto.getActualColumnName();
             if (StringUtils.isNotBlank(dto.getListName()) && !"null".equals(dto.getListName())) {
                 joinCondition += " AND SUB.LIST_NAME='" + dto.getListName() + "'";
             }
-            whereCondition = " WHERE SUB." + dto.getReferenceColumnName() + " IS NOT NULL ";
-
+            whereCondition = " WHERE SUB." + dto.getReferenceColumnName() + ConstantsUtils.IS_NOT_NULL;
             if (!rule.equals("null") && StringUtils.isNotBlank(rule)) {
 
                 rule = BpmLogic.buildFinalQuery(tableName, columnName, rule, "MAIN.", "SUB." + dto.getReferenceColumnName());
-                whereCondition += " and " + rule + " ";
+                whereCondition += ConstantsUtils.AND + rule + " ";
             }
             sqlString += joinCondition + whereCondition;
         } else {
-            sqlString = "SELECT DISTINCT " + columnName + ", " + CommonUtils.getTableSystemId(tableName) + " FROM " + tableName + " WHERE " + columnName + " IS NOT NULL ";
+            sqlString = "SELECT DISTINCT " + columnName + ", " + CommonUtils.getTableSystemId(tableName) + ConstantsUtils.FROM + tableName + ConstantsUtils.WHERE + columnName + ConstantsUtils.IS_NOT_NULL;
             if (!rule.equals("null") && StringUtils.isNotBlank(rule)) {
 
                 rule = BpmLogic.buildFinalQuery(tableName, columnName, rule, ConstantsUtils.EMPTY, columnName);
-                sqlString += " and " + rule + " ";
+                sqlString += ConstantsUtils.AND + rule + " ";
             }
         }
         if (1 == levelNo && "Data Selection".equals(hierarchyCategory) && "Primary".equals(hierarchyType) && CommonUtils.COMPANY_MASTER.equals(tableName)) {
@@ -621,7 +620,7 @@ public class BpmLogic {
                     otherColumn = otherColumn.replace(BPMCommonUtils.REPLACE_STRING, ConstantsUtils.EMPTY);
                     VwHelperListDto dto = dependenciesMap.get(tableName + "|" + otherColumn);
                     if (dto != null) {
-                        String subQuery = " (" + mainTableAlias + otherColumn + " IN (SELECT " + dto.getMappingColumnName() + " FROM " + dto.getReferenceTableName() + " WHERE " + dto.getReferenceColumnName() + " " + conditionMethod + " " + value + " ";
+                        String subQuery = " (" + mainTableAlias + otherColumn + " IN (SELECT " + dto.getMappingColumnName() + ConstantsUtils.FROM + dto.getReferenceTableName() + ConstantsUtils.WHERE + dto.getReferenceColumnName() + " " + conditionMethod + " " + value + " ";
                         if (StringUtils.isNotBlank(dto.getListName()) && !"null".equals(dto.getListName())) {
                             subQuery += " AND LIST_NAME='" + dto.getListName() + "'";
                         }
@@ -639,7 +638,7 @@ public class BpmLogic {
     }
 
 
-    public static InputStream getSSLConnection(String url) throws KeyManagementException, NoSuchAlgorithmException, MalformedURLException, IOException {
+    public static InputStream getSSLConnection(String url) throws KeyManagementException, NoSuchAlgorithmException, IOException {
 
         TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -647,9 +646,11 @@ public class BpmLogic {
             }
 
             public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                return;
             }
 
             public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                return;
             }
         }};
         // Install the all-trusting trust manager
@@ -667,7 +668,7 @@ public class BpmLogic {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
      
-        String userpassword = BPMCommonUtils.USER_PASSWORD;
+        String userpassword = GlobalConstants.getUserPassword();
         HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
         String authEnc = new Base64Encoder().encode(userpassword.getBytes());
         httpURLConnection.setRequestProperty("Authorization", "Basic " + authEnc);
@@ -677,11 +678,11 @@ public class BpmLogic {
 
     public static Map<Integer, String> getInclusionExclusionRulesWithoutBPM(String hierarchyDefName) {
         inclusionExclusionRules.clear();
-        inclusionExclusionRules = new HashMap<Integer, String>();
+        inclusionExclusionRules = new HashMap<>();
         dependenciesMap.clear();
-        dependenciesMap = new HashMap<String, VwHelperListDto>();
-        List<String> rulesName = new ArrayList<String>();
-        Map<String, Object> ruleMap = new HashMap<String, Object>();
+        dependenciesMap = new HashMap<>();
+        List<String> rulesName = new ArrayList<>();
+        Map<String, Object> ruleMap = new HashMap<>();
         try {
             String query = "select * from dbo.HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID \n"
                     + "in (select HIERARCHY_DEFINITION_SID from dbo.HIERARCHY_DEFINITION where HIERARCHY_NAME='" + hierarchyDefName + "')";
@@ -752,11 +753,11 @@ public class BpmLogic {
                     String exclusionRuleType = String.valueOf(obj[NumericConstants.FOURTEEN]);
                     String exclusionRule = String.valueOf(obj[NumericConstants.FIFTEEN]);
                     String exclusionCondition = String.valueOf(obj[NumericConstants.SEVENTEEN]);
-                    HierarchyDefinitionLevelRuleDTO dto = new HierarchyDefinitionLevelRuleDTO();
+                    HierarchyDefinitionLevelRuleDTO dto;
                     // For Inclusion Rule Group
                     if (CommonUtils.GROUP.equalsIgnoreCase(inclusionRuleType)) {
                         List<String> ruleNameList = getGroupRuleList(inclusionRule);
-                        List<HierarchyDefinitionLevelRuleDTO> inclusionList = new ArrayList<HierarchyDefinitionLevelRuleDTO>();
+                        List<HierarchyDefinitionLevelRuleDTO> inclusionList = new ArrayList<>();
                         for (String ruleName : ruleNameList) {
                             dto = new HierarchyDefinitionLevelRuleDTO();
                             dto.setRuleName(ruleName);
@@ -789,7 +790,7 @@ public class BpmLogic {
                     if (CommonUtils.GROUP.equalsIgnoreCase(exclusionRuleType)) {
                         // Need to code
                         List<String> ruleNameList = getGroupRuleList(exclusionRule);
-                        List<HierarchyDefinitionLevelRuleDTO> exclusionList = new ArrayList<HierarchyDefinitionLevelRuleDTO>();
+                        List<HierarchyDefinitionLevelRuleDTO> exclusionList = new ArrayList<>();
                         for (String ruleName : ruleNameList) {
                             dto = new HierarchyDefinitionLevelRuleDTO();
                             dto.setRuleName(ruleName);
@@ -802,7 +803,7 @@ public class BpmLogic {
                         }
                         if (!exclusionList.isEmpty()) {
                             if (rules.length() > 1) {
-                                rules.append(" and ");
+                                rules.append(ConstantsUtils.AND);
                             }
                             rules.append(buildQuery(exclusionList, CommonUtils.EXCLUSION, exclusionCondition));
                         }
@@ -811,7 +812,7 @@ public class BpmLogic {
                         dto.setRuleName(exclusionRule);
                         if (exclusionRule != null && !exclusionRule.equals("null") && !exclusionRule.equals(ConstantsUtils.EMPTY) && ruleMap.get(exclusionRule) != null) {
                             if (rules.length() > 1) {
-                                rules.append(" and ");
+                                rules.append(ConstantsUtils.AND);
                             }
                             Object[] obje = (Object[]) ruleMap.get(exclusionRule);
                             dto.setCondition1(String.valueOf(obje[NumericConstants.THREE]));
@@ -831,7 +832,7 @@ public class BpmLogic {
     }
 
     public static List<String> getGroupRuleList(String ruleGroup) {
-        List<String> ruleList = new ArrayList<String>();
+        List<String> ruleList = new ArrayList<>();
         try {
             String ruleQuery = "select RULE_NAME from dbo.HIERARCHY_RULES_DEFINITION where RULE_FLOW_GROUP_NAME='" + ruleGroup + "'";
             List ruleNameList = HistRelationshipBuilderLocalServiceUtil.executeQuery(ruleQuery);

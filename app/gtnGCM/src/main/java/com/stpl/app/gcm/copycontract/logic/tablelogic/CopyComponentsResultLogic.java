@@ -23,7 +23,7 @@ import org.jboss.logging.Logger;
 public class CopyComponentsResultLogic extends PageTableLogic {
 
     boolean generate = false;
-    List<ContractSelectionDTO> selectedlist = new ArrayList<ContractSelectionDTO>();
+    List<ContractSelectionDTO> selectedlist = new ArrayList<>();
     CopyContractLogic logic = new CopyContractLogic();
     int count;
     private static final Logger LOGGER = Logger.getLogger(CopyComponentsResultLogic.class);
@@ -45,7 +45,7 @@ public class CopyComponentsResultLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         List<CopyComponentDTO> resultList = null;
         try {
-            resultList = logic.getComponentinfoResults(selectedlist, start, offset);
+            resultList = logic.getComponentinfoResults(selectedlist);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

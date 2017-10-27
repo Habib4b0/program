@@ -16,7 +16,13 @@ CREATE PROCEDURE [dbo].[PRC_GROWTH_CALCULATION]( @PROJECTION        INT,
                                                @FREQUENCY         CHAR(1),
 											   @TABLE_DATE        DATETIME,--Added for resolving time difference issue,
 											   @LEVEL VARCHAR(10)= NULL,
+											   @FORECAST_START_PERIOD_SID  INT=null,
+											   @FORECAST_END_PERIOD_SID  INT=null,
 											   @DISCOUNT VARCHAR(4000)=NULL)
+
+
+
+
 
 AS
 /**********************************************************************************************************
@@ -43,8 +49,12 @@ AS
 **********************************************************************************************************
 ** VER   Date      Ticket No         Author          Description 
 ** ---   --------  ---------        -------------    -----------------------------
+
 ** 
 *********************************************************************************************************/
+
+
+
 BEGIN
   SET NOCOUNT ON
 
@@ -58,19 +68,26 @@ BEGIN
 			  @PRODUCT_FILE        VARCHAR(100)=CONCAT('ST_PRODUCT_FILE_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
 			  
 				@MIN_PERIOD  INT,
-				@MAX_PERIOD  INT
+				@MAX_PERIOD  INT,
+				@FORECASTING_TYPE   VARCHAR(50)
+
  --Variables intialization for dynamic temp tables and Periods Ends here
 
  --Master and Projection temp tables assigning based on screen for sales and discount starts here
 
-  SELECT @MASTER_TABLE = ( CASE
-                                 WHEN @SCREEN_NAME = 'SALES PROJECTION' THEN CONCAT('ST_NM_SALES_PROJECTION_MASTER_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
-                                 WHEN @SCREEN_NAME = 'DISCOUNT PROJECTION ' THEN CONCAT('ST_NM_DISCOUNT_PROJ_MASTER_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+ 	SELECT @FORECASTING_TYPE=FORECASTING_TYPE FROM PROJECTION_MASTER WHERE PROJECTION_MASTER_SID=@PROJECTION
+
+    SELECT @MASTER_TABLE = ( CASE
+                                 WHEN @SCREEN_NAME = 'SALES PROJECTION' AND @FORECASTING_TYPE='NON MANDATED' THEN CONCAT('ST_NM_SALES_PROJECTION_MASTER_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+								  WHEN @SCREEN_NAME = 'SALES PROJECTION' AND @FORECASTING_TYPE='MANDATED' THEN CONCAT('ST_M_SALES_PROJECTION_MASTER_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+                                 WHEN @SCREEN_NAME = 'DISCOUNT PROJECTION' AND @FORECASTING_TYPE='NON MANDATED' THEN CONCAT('ST_NM_DISCOUNT_PROJ_MASTER_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
                                END ),
              @PROJECTION_TABLE = ( CASE
-                                     WHEN @SCREEN_NAME = 'SALES PROJECTION' THEN CONCAT('ST_NM_SALES_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
-                                     WHEN @SCREEN_NAME = 'DISCOUNT PROJECTION ' THEN CONCAT('ST_NM_DISCOUNT_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+                                     WHEN @SCREEN_NAME = 'SALES PROJECTION' AND @FORECASTING_TYPE='NON MANDATED'   THEN CONCAT('ST_NM_SALES_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+									 WHEN @SCREEN_NAME = 'SALES PROJECTION' AND @FORECASTING_TYPE='MANDATED'   THEN CONCAT('ST_M_SALES_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+                                     WHEN @SCREEN_NAME = 'DISCOUNT PROJECTION' AND @FORECASTING_TYPE='NON MANDATED' THEN CONCAT('ST_NM_DISCOUNT_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
                                    END )
+
 
 --Particular Projection End period and making Last date of that to period year Starts here
 
@@ -119,6 +136,8 @@ BEGIN
                            END AS ROLL_PERIOD
       INTO   #PERIOD
       FROM   PERIOD
+ SET @FORECAST_END_PERIOD_SID=ISNULL(@FORECAST_END_PERIOD_SID,@PROJ_END_PERIOD_SID)
+
 
 --taking periods based on frequency selected Ends here
 
@@ -155,13 +174,15 @@ BEGIN
  
  --calculation based(Sales and Units) and taking repective tables based on condition starts here
             
-           SET @VAR1=CASE
+
+            SET @VAR1=CASE
                         WHEN @SCREEN_NAME = 'SALES PROJECTION'
                              AND @CALCULATION_BASED = 'UNITS' THEN '  JOIN ' + @MASTER_TABLE
-                                                                   + ' M ON M.CCP_DETAILS_SID=N.CCP_DETAILS_SID WHERE M.CALCULATION_BASED=''UNITS'' AND M.CHECK_RECORD = 1 GROUP BY N.CCP_DETAILS_SID,C.ITEM_MASTER_SID HAVING MAX(ABS(ACCOUNT_GROWTH))>0 OR MAX(ABS(PRODUCT_GROWTH))>0 '
+                                                                   + ' M ON M.CCP_DETAILS_SID=N.CCP_DETAILS_SID WHERE '''+@CALCULATION_BASED+'''=''UNITS'' AND M.CHECK_RECORD = 1 GROUP BY N.CCP_DETAILS_SID,C.ITEM_MASTER_SID HAVING MAX(ABS(ACCOUNT_GROWTH))>0 OR MAX(ABS(PRODUCT_GROWTH))>0'
                         WHEN @SCREEN_NAME = 'SALES PROJECTION'
                              AND @CALCULATION_BASED = 'SALES' THEN '  AND N.CHECK_RECORD = 1'
                       END
+
 
  --calculation based(Sales and Units) and taking repective tables based on condition starts here
 
@@ -203,16 +224,17 @@ BEGIN
                  CALC_END_PERIOD_SID   INT,
               )
 
+
             SET @SQL=CONCAT('
 
 	   ;WITH CTE AS
 	   (
-                                                  SELECT CH.CCP_DETAILS_SID,COMPANY_MASTER_SID,ITEM_MASTER_SID,CONTRACT_MASTER_SID,CALCULATION_BASED,
-                                           CALC_START_PERIOD_SID = IIF(FORECAST_START_PERIOD_SID>EFFECTIVE_START_PERIOD_SID,
-                                                                           IIF(FORECAST_START_PERIOD_SID>CS.MAX_BASELINE_PERIOD,FORECAST_START_PERIOD_SID,CS.MAX_BASELINE_PERIOD),
+                                                  SELECT CH.CCP_DETAILS_SID,COMPANY_MASTER_SID,ITEM_MASTER_SID,CONTRACT_MASTER_SID,''',@CALCULATION_BASED,''' as calculation_based,
+                                           CALC_START_PERIOD_SID = IIF(',@FORECAST_START_PERIOD_SID,'>EFFECTIVE_START_PERIOD_SID,
+                                                                           IIF(',@FORECAST_START_PERIOD_SID,'>CS.MAX_BASELINE_PERIOD,',@FORECAST_START_PERIOD_SID,',CS.MAX_BASELINE_PERIOD),
                                                                            IIF(EFFECTIVE_START_PERIOD_SID>CS.MAX_BASELINE_PERIOD,EFFECTIVE_START_PERIOD_SID,CS.MAX_BASELINE_PERIOD))
                                          ,
-                 CALC_END_PERIOD_SID =  IIF(COALESCE(FORECAST_END_PERIOD_SID, ', @PROJ_END_PERIOD_SID, ') < EFFECTIVE_END_PERIOD_SID ,COALESCE(FORECAST_END_PERIOD_SID,  ', @PROJ_END_PERIOD_SID, '),EFFECTIVE_END_PERIOD_SID)
+                 CALC_END_PERIOD_SID =  IIF(COALESCE(',@FORECAST_END_PERIOD_SID,', ', @PROJ_END_PERIOD_SID, ') < EFFECTIVE_END_PERIOD_SID ,COALESCE(',@FORECAST_END_PERIOD_SID,',  ', @PROJ_END_PERIOD_SID, '),EFFECTIVE_END_PERIOD_SID)
                            
                              FROM ' + @CCP_HIERARCHY + ' CH
                           JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
@@ -236,6 +258,7 @@ BEGIN
 
 
                                  ')
+							
 
 
             EXEC sp_executesql @SQL
@@ -285,7 +308,7 @@ BEGIN
                WHERE  EXISTS (SELECT 1
                               FROM   #CCP_ELIGIBLE CCP JOIN ',@MASTER_TABLE ,'  NSPM ON CCP.CCP_DETAILS_SID = NSPM.CCP_DETAILS_SID
                               WHERE  CCP.ITEM_MASTER_SID = GW.ITEM_MASTER_SID
-                                     AND NSPM.CALCULATION_BASED = ''SALES'')
+                                     AND ''',@CALCULATION_BASED,''' = ''SALES'')
                GROUP BY ITEM_MASTER_SID,
                          PERIOD),
            WAC_INCREASE
@@ -356,6 +379,7 @@ EXEC sp_executesql @SQL
               (
                  CCP_DETAILS_SID INT,
                  RS_CONTRACT_SID    INT
+
               )
 
             SET @SQL=CONCAT('INSERT INTO #CCP_ELIGIBLE1
@@ -366,7 +390,8 @@ EXEC sp_executesql @SQL
 	 SELECT  P.CCP_DETAILS_SID,P.RS_CONTRACT_SID FROM ', @PROJECTION_TABLE, ' P JOIN ',@MASTER_TABLE,' M ON P.CCP_DETAILS_SID = M.CCP_DETAILS_SID AND 
 	 P.RS_CONTRACT_SID = M.RS_CONTRACT_SID
 	 WHERE M.CHECK_RECORD = 1
-	  GROUP BY P.CCP_DETAILS_SID,P.RS_CONTRACT_SID HAVING MAX(ABS(GROWTH))>0')
+	 GROUP BY P.CCP_DETAILS_SID,P.RS_CONTRACT_SID HAVING MAX(ABS(GROWTH))>0')
+	  ---GROUP BY P.CCP_DETAILS_SID,P.RS_MODEL_SID HAVING MAX(GROWTH)>0')
 --taking CCP+D Combination Ends here
             EXEC sp_executesql @SQL
 
@@ -408,12 +433,12 @@ EXEC sp_executesql @SQL
 	   ;WITH CTE AS
 	   (
 
-                                                  SELECT CH.CCP_DETAILS_SID,COMPANY_MASTER_SID,ITEM_MASTER_SID,CD.CONTRACT_MASTER_SID,CALCULATION_BASED,NSPM.RS_MODEL_SID,NSPM.RS_CONTRACT_SID,
-                                           CALC_START_PERIOD_SID = IIF(FORECAST_START_PERIOD_SID>EFFECTIVE_START_PERIOD_SID,
-                                                                           IIF(FORECAST_START_PERIOD_SID>CS.MAX_BASELINE_PERIOD,FORECAST_START_PERIOD_SID,CS.MAX_BASELINE_PERIOD),
+                                                  SELECT CH.CCP_DETAILS_SID,COMPANY_MASTER_SID,ITEM_MASTER_SID,CD.CONTRACT_MASTER_SID,''',@CALCULATION_BASED,''' as calculation_based,NSPM.RS_MODEL_SID,NSPM.RS_CONTRACT_SID,
+                                           CALC_START_PERIOD_SID = IIF(',@FORECAST_START_PERIOD_SID,'>EFFECTIVE_START_PERIOD_SID,
+                                                                           IIF(',@FORECAST_START_PERIOD_SID,'>CS.MAX_BASELINE_PERIOD,',@FORECAST_START_PERIOD_SID,',CS.MAX_BASELINE_PERIOD),
                                                                            IIF(EFFECTIVE_START_PERIOD_SID>CS.MAX_BASELINE_PERIOD,EFFECTIVE_START_PERIOD_SID,CS.MAX_BASELINE_PERIOD))
                                          ,
-                 CALC_END_PERIOD_SID =  IIF(COALESCE(FORECAST_END_PERIOD_SID, ', @PROJ_END_PERIOD_SID, ') < EFFECTIVE_END_PERIOD_SID ,COALESCE(FORECAST_END_PERIOD_SID,  ', @PROJ_END_PERIOD_SID, '),EFFECTIVE_END_PERIOD_SID)
+                 CALC_END_PERIOD_SID =  IIF(COALESCE(',@FORECAST_END_PERIOD_SID,', ', @PROJ_END_PERIOD_SID, ') < EFFECTIVE_END_PERIOD_SID ,COALESCE(',@FORECAST_END_PERIOD_SID,',  ', @PROJ_END_PERIOD_SID, '),EFFECTIVE_END_PERIOD_SID)
                            
                              FROM ' , @CCP_HIERARCHY , ' CH
                                JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
@@ -446,6 +471,7 @@ EXEC sp_executesql @SQL
 			 AND C.RS_CONTRACT_SID = A.RS_CONTRACT_SID
 
                                  ')
+
 
 --Pulling CCP+D information,Calcuation Periods information based on selected to period Ends here
 
@@ -878,6 +904,9 @@ SALES_WEIGHTED_WAC_GROWTH	numeric(38,15),
 PRICE_TYPE VARCHAR(50)
 )')
 EXEC sp_executesql @SQL
+
+
+
 END
 ELSE
 BEGIN 
@@ -906,8 +935,11 @@ PRICE_TYPE VARCHAR(50)
 EXEC sp_executesql @SQL
 
 
+
+
 END
 --DROPING THE EXISTING AND RECREATING THE NATIONAL ASSUMPTIONS GROWTH TABLE AND INSERTING INTO TEMP TABLE ENDS HERE BASED ON LEVEL SELECTED
+
 
 END
 

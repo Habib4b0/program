@@ -80,8 +80,13 @@ public class UdcHelperForm extends CustomComponent implements View {
     ErrorfulFieldGroup brandBinder;
     private static final Object[] HELPER_COLUMNS = new Object[]{"description", "listName"};
     private static final String[] HELPER_HEADERS = new String[]{"Description", CommonUtils.CASECATEGORY};
-
-    private static final Object[] BRAND_HELPER_COLUMNS = new Object[]{"brandId", "brandName", "displayBrand", "category"};
+    public static final String CATEGORY_LABEL = "category";
+    public static final String BRAND_ID_LABEL = "brandId";
+    public static final String BRAND_NAME_LABEL = "brandName";
+    public static final String DIS_BRAND_LABEL = "displayBrand";
+    public static final String LANDING_SCREEN = "Landing screen";
+    public static final String UDC_CONFIGURATION = "UDC Configuration";
+    private static final Object[] BRAND_HELPER_COLUMNS = new Object[]{BRAND_ID_LABEL, BRAND_NAME_LABEL, DIS_BRAND_LABEL, CATEGORY_LABEL};
     private static final String[] BRAND_HELPER_HEADERS = new String[]{"Brand ID", "Brand Name", "Display Brand", CommonUtils.CASECATEGORY};
 
     Button btnDelete = new Button("Delete");
@@ -178,8 +183,8 @@ public class UdcHelperForm extends CustomComponent implements View {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "UDC Configuration" + ConstantsUtils.COMMA + "Landing screen", false);
-            List<Object> resultList = getFieldsForSecurity("UDC Configuration", "Landing screen");
+            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UDC_CONFIGURATION + ConstantsUtils.COMMA + LANDING_SCREEN, false);
+            List<Object> resultList = getFieldsForSecurity(UDC_CONFIGURATION, LANDING_SCREEN);
             Object[] obj = HELPER_COLUMNS;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, "Add");
             if (tableResultCustom.getObjResult().length == 0) {
@@ -203,7 +208,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                 private static final long serialVersionUID = 1L;
 
                 public void error(com.vaadin.server.ErrorEvent event) {
-
+                    return;
                 }
             });
 
@@ -241,7 +246,7 @@ public class UdcHelperForm extends CustomComponent implements View {
 
             BeanItem<?> targetItem;
             if (obj instanceof BeanItem<?>) {
-                targetItem = (BeanItem<?>) obj;
+                LOGGER.debug("Object is Bean Item");
             } else if (obj instanceof BrandMasterDTO) {
                 targetItem = new BeanItem<BrandMasterDTO>((BrandMasterDTO) obj);
                 masterSid = ((BrandMasterDTO) targetItem.getBean()).getBrandMasterSid();
@@ -249,7 +254,6 @@ public class UdcHelperForm extends CustomComponent implements View {
                 targetItem = new BeanItem<HelperForm>((HelperForm) obj);
                 masterSid = ((HelperForm) targetItem.getBean()).getHelperTableSid();
             } else {
-                targetItem = null;
                 masterSid = 0;
             }
         }
@@ -416,7 +420,7 @@ public class UdcHelperForm extends CustomComponent implements View {
             private static final long serialVersionUID = 1L;
 
             public void error(com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         btnDelete.addClickListener(new ClickListener() {
@@ -493,14 +497,14 @@ public class UdcHelperForm extends CustomComponent implements View {
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     public void configurePermission() {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(sessionDTO.getUserId());
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "UDC Configuration" + "," + "Landing screen");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UDC_CONFIGURATION + "," + LANDING_SCREEN);
             if (functionHM.get("add") != null && !((AppPermission) functionHM.get("add")).isFunctionFlag()) {
                 btnSave1.setVisible(false);
             } else {
@@ -511,7 +515,7 @@ public class UdcHelperForm extends CustomComponent implements View {
             } else {
                 btnDelete.setVisible(true);
             }
-            if (functionHM.get("category") != null && !((AppPermission) functionHM.get("category")).isFunctionFlag()) {
+            if (functionHM.get(CATEGORY_LABEL) != null && !((AppPermission) functionHM.get(CATEGORY_LABEL)).isFunctionFlag()) {
                 category.setVisible(false);
             } else {
                 category.setVisible(true);
@@ -536,7 +540,6 @@ public class UdcHelperForm extends CustomComponent implements View {
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
-            ex.printStackTrace();
             LOGGER.error(ex);
         }
         return resultList;

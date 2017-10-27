@@ -334,6 +334,7 @@ AFTER UPDATE
 AS
   BEGIN
 
+  SET NOCOUNT ON
       INSERT INTO HIST_HELPER_TABLE
                   ([HELPER_TABLE_SID],
                    [DESCRIPTION],
@@ -373,6 +374,7 @@ AFTER INSERT
 AS
   BEGIN
 SET NOCOUNT ON
+
       INSERT INTO HIST_HELPER_TABLE
                   ([HELPER_TABLE_SID],
                    [DESCRIPTION],
@@ -528,6 +530,7 @@ IF NOT EXISTS (SELECT 1
 
 
 SET IDENTITY_INSERT HELPER_TABLE OFF
+
 
 IF NOT EXISTS (SELECT 1
                FROM   HELPER_TABLE
@@ -2381,7 +2384,7 @@ IF EXISTS (SELECT 1
                WHERE  DESCRIPTION = ' Manual'
                       AND LIST_NAME = 'BASE_PRICE_TYPE')
   BEGIN
-      UPDATE HELPER_TABLE SET DESCRIPTION = 'Manual'
+      UPDATE HELPER_TABLE SET LIST_NAME = 'BASE_PRICE_TYPE_1'
                WHERE  DESCRIPTION = ' Manual'
                       AND LIST_NAME = 'BASE_PRICE_TYPE'
   END
@@ -5167,12 +5170,25 @@ BEGIN
 		,REF_COUNT
 		)
 	VALUES (
-		'OPEN'
+		'Open'
 		,'ARM_STATUS'
 		,0
 		)
 END
 GO
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'OPEN' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_STATUS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Open' 
+  WHERE DESCRIPTION='OPEN' AND LIST_NAME='ARM_STATUS'
+
+  END
+
+
 IF NOT EXISTS (
 		SELECT 1
 		FROM HELPER_TABLE
@@ -5186,14 +5202,25 @@ BEGIN
 		,REF_COUNT
 		)
 	VALUES (
-		'CLOSED'
+		'Closed'
 		,'ARM_STATUS'
 		,0
 		)
 END
 GO
 
------------------------------------------------cel-145---------------------------------------
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'CLOSED' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_STATUS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Closed' 
+  WHERE DESCRIPTION='CLOSED' AND LIST_NAME='ARM_STATUS'
+
+ END
+
+-----------------------------------------------cel-145(WHICH Should move to galderma also)---------------------------------------
 
 IF NOT EXISTS (SELECT 1
                FROM   HELPER_TABLE
@@ -5233,6 +5260,7 @@ IF NOT EXISTS (SELECT 1
       VALUES      ( 'Single Rebate Plan','REBATE_PLAN_LEVEL',0 )
   END
 GO
+
 -----------------------------------------------cel-145---------------------------------------
 -----------------------------------------------cel-146---------------------------------------
 IF NOT EXISTS (SELECT 1
@@ -5329,6 +5357,8 @@ IF NOT EXISTS (SELECT 1
 GO
 -----------------------------------------------cel-489 end ---------------------------------------
 
+-----------------------------------------------cel-145 ENDS HERE---------------------------------------
+--------Missing entries
 IF NOT EXISTS (SELECT 1
                FROM   HELPER_TABLE
                WHERE  DESCRIPTION = 'UN'
@@ -5381,6 +5411,9 @@ IF NOT EXISTS (SELECT 1
   END
 GO
 --------------------------cel-673-------
+
+
+--CEL-673 Changes moving to Galderma Starts here
 IF NOT EXISTS (SELECT 1
                FROM   HELPER_TABLE
                WHERE  DESCRIPTION = 'Contract Sales'
@@ -5551,7 +5584,10 @@ IF NOT EXISTS (SELECT 1
       VALUES      ( 'Annual','FORECAST_FREQUENCY','0' )
   END
 GO
-----------------------------cel-703-------------------
+
+--CEL-673 Changes moving to Galderma Ends here
+--cel-703 Starts here
+
 IF NOT EXISTS (SELECT 1
                FROM   HELPER_TABLE
                WHERE  DESCRIPTION = 'Projections'
@@ -5578,4 +5614,3637 @@ IF NOT EXISTS (SELECT 1
       VALUES      ( 'Actuals','FORECAST_TYPE',0 )
   END
 GO
----------------------------------------
+--cel-703 Ends here
+
+------------------------------ALG-596----------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE DESCRIPTION = 'Adjusted Demand'
+			AND LIST_NAME = 'ADJ_DEMAND_TYPE'
+		)
+BEGIN
+	INSERT INTO HELPER_TABLE (
+		DESCRIPTION
+		,LIST_NAME
+		,REF_COUNT
+		)
+	VALUES (
+		'Adjusted Demand'
+		,'ADJ_DEMAND_TYPE'
+		,0
+		)
+END
+GO
+
+
+IF  EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE DESCRIPTION = 'ADJUSTED DEMAND' collate SQL_Latin1_General_CP1_Cs_AS 
+			AND LIST_NAME = 'ADJ_DEMAND_TYPE' 
+			
+		)
+BEGIN
+	UPDATE HELPER_TABLE
+SET DESCRIPTION = 'Adjusted Demand'
+WHERE DESCRIPTION = 'ADJUSTED DEMAND'
+			AND LIST_NAME = 'ADJ_DEMAND_TYPE'
+END
+GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE DESCRIPTION = 'Demand'
+			AND LIST_NAME = 'ADJ_DEMAND_TYPE'
+		)
+BEGIN
+	INSERT INTO helper_table (
+		description
+		,LIST_NAME
+		,REF_COUNT
+		)
+	VALUES (
+		'Demand'
+		,'ADJ_DEMAND_TYPE'
+		,0
+		)
+END
+GO
+-------------------Business_Month Insertion
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Business_Month' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Business_Month', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'January' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('January', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'February' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('February', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'March' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('March', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'April' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('April', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'May' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('May', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'June' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('June', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'July' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('July', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'August' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('August', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'September' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('September', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'October' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('October', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'November' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('November', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'December' 
+                      AND LIST_NAME = 'Business_Month') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('December', 
+                  'Business_Month', 
+                  0) 
+  END 
+
+---------------------------------------------------- ARM HELPER TABLE MAPPINGS------------------------------------
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_DATE_TYPE' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_DATE_TYPE', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'INVOICE_DATE' 
+                      AND LIST_NAME = 'ARM_DATE_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('INVOICE_DATE', 
+                  'ARM_DATE_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CREATED_DATE' 
+                      AND LIST_NAME = 'ARM_DATE_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CREATED_DATE', 
+                  'ARM_DATE_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'MODIFIED_DATE' 
+                      AND LIST_NAME = 'ARM_DATE_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('MODIFIED_DATE', 
+                  'ARM_DATE_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ORDER_RECEIVED_DATE' 
+                      AND LIST_NAME = 'ARM_DATE_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ORDER_RECEIVED_DATE', 
+                  'ARM_DATE_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_INVENTORY_CUSTOMER' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_INVENTORY_CUSTOMER', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CUSTOMER' 
+                      AND LIST_NAME = 'ARM_INVENTORY_CUSTOMER') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CUSTOMER', 
+                  'ARM_INVENTORY_CUSTOMER', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CUSTOMER GROUP' 
+                      AND LIST_NAME = 'ARM_INVENTORY_CUSTOMER') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CUSTOMER GROUP', 
+                  'ARM_INVENTORY_CUSTOMER', 
+                  0) 
+  END 
+
+---------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_RATE_BASIS' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_RATE_BASIS', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ACCRUAL RATE PROJECTION' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Accrual Rate Projection', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'ACCRUAL RATE PROJECTION' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Accrual Rate Projection' 
+  WHERE DESCRIPTION='ACCRUAL RATE PROJECTION' AND LIST_NAME='ARM_RATE_BASIS'
+
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'PRODUCT GROSS TRADE SALES' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Product Gross Trade Sales', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'PRODUCT GROSS TRADE SALES' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Product Gross Trade Sales' 
+  WHERE DESCRIPTION='PRODUCT GROSS TRADE SALES' AND LIST_NAME='ARM_RATE_BASIS'
+
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'DEMAND' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Demand', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+  END 
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEMAND' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Demand' 
+  WHERE DESCRIPTION='DEMAND' AND LIST_NAME='ARM_RATE_BASIS'
+
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ADJUSTED DEMAND' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Adjusted Demand', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+  END
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'ADJUSTED DEMAND' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Adjusted Demand' 
+  WHERE DESCRIPTION='ADJUSTED DEMAND' AND LIST_NAME='ARM_RATE_BASIS'
+
+END
+
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'INVENTORY WITHDRAWAL - FORECAST SUMMARY' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+ BEGIN 
+
+DELETE FROM HELPER_TABLE WHERE DESCRIPTION = 'INVENTORY WITHDRAWAL - FORECAST SUMMARY' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS'
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CUSTOMER GROSS TRADE SALES' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Customer Gross Trade Sales', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+  END 
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'CUSTOMER GROSS TRADE SALES' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Customer Gross Trade Sales' 
+  WHERE DESCRIPTION='Customer Gross Trade Sales' AND LIST_NAME='ARM_RATE_BASIS'
+
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Inventory Withdrawal - Summary' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Inventory Withdrawal - Summary', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+  END 
+---------------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_ADJUSTMENT_TYPE' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_ADJUSTMENT_TYPE', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'PIPELINE ACCRUAL' 
+                      AND LIST_NAME = 'ARM_ADJUSTMENT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('PIPELINE ACCRUAL', 
+                  'ARM_ADJUSTMENT_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'DEMAND ACCRUAL' 
+                      AND LIST_NAME = 'ARM_ADJUSTMENT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('DEMAND ACCRUAL', 
+                  'ARM_ADJUSTMENT_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'PIPELINE INVENTORY TRUE-UP' 
+                      AND LIST_NAME = 'ARM_ADJUSTMENT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('PIPELINE INVENTORY TRUE-UP', 
+                  'ARM_ADJUSTMENT_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'DEMAND REFORECAST TRUE-UP' 
+                      AND LIST_NAME = 'ARM_ADJUSTMENT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('DEMAND REFORECAST TRUE-UP', 
+                  'ARM_ADJUSTMENT_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'DEMAND PAYMENT RECONCILIATION TRUE-UP' 
+                      AND LIST_NAME = 'ARM_ADJUSTMENT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('DEMAND PAYMENT RECONCILIATION TRUE-UP', 
+                  'ARM_ADJUSTMENT_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'INFLATION ADJUSTMENT' 
+                      AND LIST_NAME = 'ARM_ADJUSTMENT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('INFLATION ADJUSTMENT', 
+                  'ARM_ADJUSTMENT_TYPE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'DISTRIBUTION FEES' 
+                      AND LIST_NAME = 'ARM_ADJUSTMENT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('DISTRIBUTION FEES', 
+                  'ARM_ADJUSTMENT_TYPE', 
+                  0) 
+  END 
+--------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ACCOUNT_CATEGORY' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ACCOUNT_CATEGORY', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Balance Sheet' 
+                      AND LIST_NAME = 'ACCOUNT_CATEGORY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Balance Sheet', 
+                  'ACCOUNT_CATEGORY', 
+                  0) 
+END 
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'BALANCE SHEET' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ACCOUNT_CATEGORY') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Balance Sheet' 
+  WHERE DESCRIPTION='Balance Sheet' AND LIST_NAME='ACCOUNT_CATEGORY'
+
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'P&L' 
+                      AND LIST_NAME = 'ACCOUNT_CATEGORY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('P&L', 
+                  'ACCOUNT_CATEGORY', 
+                  0) 
+  END 
+
+-------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_ACCOUNT_TYPE' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_ACCOUNT_TYPE', 
+                  'CATEGORYNAME', 
+                  0) 
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Liability' 
+                      AND LIST_NAME = 'ARM_ACCOUNT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Liability', 
+                  'ARM_ACCOUNT_TYPE', 
+                  0) 
+  END 
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'LIABILITY' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_ACCOUNT_TYPE') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Liability' 
+  WHERE DESCRIPTION='Liability' AND LIST_NAME='ARM_ACCOUNT_TYPE'
+
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Expense' 
+                      AND LIST_NAME = 'ARM_ACCOUNT_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Expense', 
+                  'ARM_ACCOUNT_TYPE', 
+                  0) 
+  END
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'EXPENSE' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_ACCOUNT_TYPE') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Expense' 
+  WHERE DESCRIPTION='Expense' AND LIST_NAME='ARM_ACCOUNT_TYPE'
+
+END
+
+--------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ACCOUNT_INDICTOR' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ACCOUNT_INDICTOR', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Credit' 
+                      AND LIST_NAME = 'ACCOUNT_INDICTOR') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Credit', 
+                  'ACCOUNT_INDICTOR', 
+                  0) 
+  END 
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'CREDIT' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ACCOUNT_INDICTOR') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Credit' 
+  WHERE DESCRIPTION='Credit' AND LIST_NAME='ACCOUNT_INDICTOR'
+
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'DEBIT' 
+                      AND LIST_NAME = 'ACCOUNT_INDICTOR') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Debit', 
+                  'ACCOUNT_INDICTOR', 
+                  0) 
+  END 
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEBIT' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ACCOUNT_INDICTOR') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Debit' 
+  WHERE DESCRIPTION='DEBIT' AND LIST_NAME='ACCOUNT_INDICTOR'
+
+END
+--------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_UDC_1' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_UDC_1', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_UDC_2' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_UDC_2', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_UDC_3' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_UDC_3', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_UDC_4' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_UDC_4', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_UDC_5' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_UDC_5', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_UDC_6' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_UDC_6', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+--------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENCY' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENCY', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'USD' 
+                      AND LIST_NAME = 'CURRENCY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('USD', 
+                  'CURRENCY', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'EURO' 
+                      AND LIST_NAME = 'CURRENCY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('EURO', 
+                  'CURRENCY', 
+                  0) 
+  END 
+
+--------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'REVERSAL_PERIOD' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('REVERSAL_PERIOD', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+--------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_CONFIGURATION_TYPE' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_CONFIGURATION_TYPE', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Reserve Detail' 
+                      AND LIST_NAME = 'ARM_CONFIGURATION_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Reserve Detail', 
+                  'ARM_CONFIGURATION_TYPE', 
+                  0) 
+  END
+
+ IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'RESERVE DETAIL' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_CONFIGURATION_TYPE') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Reserve Detail' 
+  WHERE DESCRIPTION='RESERVE DETAIL' AND LIST_NAME='ARM_CONFIGURATION_TYPE'
+
+END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'GTN DETAIL' 
+                      AND LIST_NAME = 'ARM_CONFIGURATION_TYPE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('GTN Detail', 
+                  'ARM_CONFIGURATION_TYPE', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'GTN DETAIL' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_CONFIGURATION_TYPE') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='GTN Detail' 
+  WHERE DESCRIPTION='GTN DETAIL' AND LIST_NAME='ARM_CONFIGURATION_TYPE'
+
+END
+
+--------------------------------------------------------------------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_PERIOD_BASIS' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_PERIOD_BASIS', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 12' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 12', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 11' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 11', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 10' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 10', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 9' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 9', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 8' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 8', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 7' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 7', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 6' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 6', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 5' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 5', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 4' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 4', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 3' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 3', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 2' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 2', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 1' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 1', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 1' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 1', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 2' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 2', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 3' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 3', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 4' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 4', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 5' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 5', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 6' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 6', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 7' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 7', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 8' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 8', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 9' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 9', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 10' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 10', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 11' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 11', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 12' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 12', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 13' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 13', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 14' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 14', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 15' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 15', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 16' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 16', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 17' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 17', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 18' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 18', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 19' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 19', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 20' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 20', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 21' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 21', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 22' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 22', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 23' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 23', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 24' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 24', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 25' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 25', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 26' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 26', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 27' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 27', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 28' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 28', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 29' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 29', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 30' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 30', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 31' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 31', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 32' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 32', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 33' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 33', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 34' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 34', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 35' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 35', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 36' 
+                      AND LIST_NAME = 'ARM_PERIOD_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 36', 
+                  'ARM_PERIOD_BASIS', 
+                  0) 
+  END 
+
+--------------------------------------------------------------------------------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_MODE' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_MODE', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'MANUAL' 
+                      AND LIST_NAME = 'ARM_MODE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Manual', 
+                  'ARM_MODE', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'MANUAL' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_MODE') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Manual' 
+  WHERE DESCRIPTION='MANUAL' AND LIST_NAME='ARM_MODE'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'AUTO' 
+                      AND LIST_NAME = 'ARM_MODE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Auto', 
+                  'ARM_MODE', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'Auto' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_MODE') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Auto' 
+  WHERE DESCRIPTION='AUTO' AND LIST_NAME='ARM_MODE'
+
+END
+------------------------------------------------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_CALENDAR' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_CALENDAR', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'STANDARD' 
+                      AND LIST_NAME = 'ARM_CALENDAR') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('STANDARD', 
+                  'ARM_CALENDAR', 
+                  0) 
+  END 
+
+---------------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_MINUTE' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_MINUTE', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = '00' 
+                      AND LIST_NAME = 'ARM_MINUTE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('00', 
+                  'ARM_MINUTE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = '15' 
+                      AND LIST_NAME = 'ARM_MINUTE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('15', 
+                  'ARM_MINUTE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = '30' 
+                      AND LIST_NAME = 'ARM_MINUTE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('30', 
+                  'ARM_MINUTE', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = '45' 
+                      AND LIST_NAME = 'ARM_MINUTE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('45', 
+                  'ARM_MINUTE', 
+                  0) 
+  END 
+
+------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_STATUS' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_STATUS', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'OPEN' 
+                      AND LIST_NAME = 'ARM_STATUS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('OPEN', 
+                  'ARM_STATUS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CLOSED' 
+                      AND LIST_NAME = 'ARM_STATUS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CLOSED', 
+                  'ARM_STATUS', 
+                  0) 
+  END 
+
+----------------------------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'DEDUCTION_LEVELS' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('DEDUCTION_LEVELS', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction Category' 
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction Category', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION CATEGORY' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction Category' WHERE DESCRIPTION='DEDUCTION CATEGORY' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction Type' 
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction Type', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION TYPE' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction Type' WHERE DESCRIPTION='Deduction Type' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction Program' 
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction Program', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION PROGRAM' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction Program' WHERE DESCRIPTION='Deduction Program' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction Category 2' 
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction Category 2', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION CATEGORY 2' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction Category 2' WHERE DESCRIPTION='DEDUCTION CATEGORY 2' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction Category 3' 
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction Category 3', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION CATEGORY 3' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction Category 3' WHERE DESCRIPTION='DEDUCTION CATEGORY 3' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction Category 4'
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction Category 4', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION CATEGORY 4' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction Category 4' WHERE DESCRIPTION='DEDUCTION CATEGORY 4' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction Category 5' 
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction Category 5', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION CATEGORY 5' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction Category 5' WHERE DESCRIPTION='DEDUCTION CATEGORY 5' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction Category 6' 
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction Category 6', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION CATEGORY 6' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction Category 6' WHERE DESCRIPTION='DEDUCTION CATEGORY 6' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Deduction' 
+                      AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Deduction', 
+                  'DEDUCTION_LEVELS', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEDUCTION' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'DEDUCTION_LEVELS') 
+  BEGIN 
+
+UPDATE  HELPER_TABLE SET DESCRIPTION='Deduction' WHERE DESCRIPTION='DEDUCTION' AND LIST_NAME='DEDUCTION_LEVELS'
+
+  END
+
+--------------------------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_INVENTORY_DETAILS' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_INVENTORY_DETAILS', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 6' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 6', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 5' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 5', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 4' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 4', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 3' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 3', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 2' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 2', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT - 1' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT - 1', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 1' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 1', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 2' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 2', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'CURRENT + 3' 
+                      AND LIST_NAME = 'ARM_INVENTORY_DETAILS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('CURRENT + 3', 
+                  'ARM_INVENTORY_DETAILS', 
+                  0) 
+  END 
+
+
+  --------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_RES_ADJUSTMENT_LEVEL' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_RES_ADJUSTMENT_LEVEL', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'BRAND' 
+                      AND LIST_NAME = 'ARM_RES_ADJUSTMENT_LEVEL') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Brand', 
+                  'ARM_RES_ADJUSTMENT_LEVEL', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'BRAND' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_RES_ADJUSTMENT_LEVEL') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Brand' 
+  WHERE DESCRIPTION='BRAND' AND LIST_NAME='ARM_RES_ADJUSTMENT_LEVEL'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'TOTAL' 
+                      AND LIST_NAME = 'ARM_RES_ADJUSTMENT_LEVEL') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Total', 
+                  'ARM_RES_ADJUSTMENT_LEVEL', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'TOTAL' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_RES_ADJUSTMENT_LEVEL') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Total' 
+  WHERE DESCRIPTION='TOTAL' AND LIST_NAME='ARM_RES_ADJUSTMENT_LEVEL'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_GTN_ADJUSTMENT_LEVEL' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_GTN_ADJUSTMENT_LEVEL', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ITEM' 
+                      AND LIST_NAME = 'ARM_GTN_ADJUSTMENT_LEVEL') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Item', 
+                  'ARM_GTN_ADJUSTMENT_LEVEL', 
+                  0) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'ITEM' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'ARM_GTN_ADJUSTMENT_LEVEL') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Item' 
+  WHERE DESCRIPTION='ITEM' AND LIST_NAME='ARM_GTN_ADJUSTMENT_LEVEL'
+
+  END
+
+---------------MAHESH 
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'SINGLE' 
+                      AND LIST_NAME = 'PERIODCONFIG_VIEW') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT, 
+                   CREATED_BY, 
+                   CREATED_DATE) 
+      VALUES     ('Single', 
+                  'PERIODCONFIG_VIEW', 
+                  0, 
+                  1, 
+                  GETDATE()) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'SINGLE' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'PERIODCONFIG_VIEW') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Single' 
+  WHERE DESCRIPTION='SINGLE' AND LIST_NAME='PERIODCONFIG_VIEW'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'MULTIPLE' 
+                      AND LIST_NAME = 'PERIODCONFIG_VIEW') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT, 
+                   CREATED_BY, 
+                   CREATED_DATE) 
+      VALUES     ('Multiple', 
+                  'PERIODCONFIG_VIEW', 
+                  0, 
+                  1, 
+                  GETDATE()) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'MULTIPLE' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'PERIODCONFIG_VIEW') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Multiple' 
+  WHERE DESCRIPTION='MULTIPLE' AND LIST_NAME='PERIODCONFIG_VIEW'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM' 
+                      AND LIST_NAME = 'PERIODCONFIG_MODULES') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT, 
+                   CREATED_BY, 
+                   CREATED_DATE) 
+      VALUES     ('ARM', 
+                  'PERIODCONFIG_MODULES', 
+                  0, 
+                  1, 
+                  GETDATE()) 
+  END 
+
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'MONTHLY' 
+                      AND LIST_NAME = 'PERIODCONFIG_FREQUENCY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT, 
+                   CREATED_BY, 
+                   CREATED_DATE) 
+      VALUES     ('Monthly', 
+                  'PERIODCONFIG_FREQUENCY', 
+                  0, 
+                  1, 
+                  GETDATE()) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'MONTHLY' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'PERIODCONFIG_FREQUENCY') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Monthly' 
+  WHERE DESCRIPTION='MONTHLY' AND LIST_NAME='PERIODCONFIG_FREQUENCY'
+
+  END
+
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'AUTO' 
+                      AND LIST_NAME = 'PERIODCONFIG_MODE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT, 
+                   CREATED_BY, 
+                   CREATED_DATE) 
+      VALUES     ('Auto', 
+                  'PERIODCONFIG_MODE', 
+                  0, 
+                  1, 
+                  GETDATE()) 
+  END 
+
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'AUTO' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'PERIODCONFIG_MODE') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Auto' 
+  WHERE DESCRIPTION='AUTO' AND LIST_NAME='PERIODCONFIG_MODE'
+
+  END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'DEFINED' 
+                      AND LIST_NAME = 'PERIODCONFIG_MODE') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT, 
+                   CREATED_BY, 
+                   CREATED_DATE) 
+      VALUES     ('Defined', 
+                  'PERIODCONFIG_MODE', 
+                  0, 
+                  1, 
+                  GETDATE()) 
+  END 
+
+IF EXISTS(SELECT 1   
+          FROM   HELPER_TABLE 
+          WHERE DESCRIPTION   = 'DEFINED' collate SQL_Latin1_General_CP1_CS_AS
+                AND LIST_NAME = 'PERIODCONFIG_MODE') 
+  BEGIN 
+
+  UPDATE  HELPER_TABLE SET DESCRIPTION='Defined' 
+  WHERE DESCRIPTION='DEFINED' AND LIST_NAME='PERIODCONFIG_MODE'
+
+  END
+
+-----------------------GROUP-2 Helper table mappings
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'ARM_TRX_METHDOLOGY' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('ARM_TRX_METHDOLOGY', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+------------------------------newly added--------------------
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Tier 1'
+                      AND LIST_NAME = 'ARM_UDC1') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Tier 1', 
+                  'ARM_UDC1', 
+                  0) 
+  END 
+
+  IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Tier 2'
+                      AND LIST_NAME = 'ARM_UDC1') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Tier 2', 
+                  'ARM_UDC1', 
+                  0) 
+  END 
+
+
+  IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Tier 1,Tier 2'
+                      AND LIST_NAME = 'ARM_UDC1') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Tier 1,Tier 2', 
+                  'ARM_UDC1', 
+                  0) 
+  END 
+  -------------------------------------------
+    IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Tier 1'
+                      AND LIST_NAME = 'ARM_UDC2') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Tier 1', 
+                  'ARM_UDC2', 
+                  0) 
+  END 
+
+
+    IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Tier 2'
+                      AND LIST_NAME = 'ARM_UDC2') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Tier 2', 
+                  'ARM_UDC2', 
+                  0) 
+
+  END 
+
+    IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Natural Rate'
+                      AND LIST_NAME = 'ARM_UDC2') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Natural Rate', 
+                  'ARM_UDC2', 
+                  0) 
+  END 
+---GAL-1059
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Y' 
+                      AND LIST_NAME = 'ARM_POSTING_INDICATOR') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES      ( 'Y', 
+                    'ARM_POSTING_INDICATOR', 
+                    0 ) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'N' 
+                      AND LIST_NAME = 'ARM_POSTING_INDICATOR') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES      ( 'N', 
+                    'ARM_POSTING_INDICATOR', 
+                    0 ) 
+  END 
+-----------------------
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Inventory Withdrawal - Detail' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      DELETE FROM HELPER_TABLE WHERE  DESCRIPTION = 'Inventory Withdrawal - Detail' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS'
+  END
+
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Contract Details' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+ BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Contract Details', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+ END
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Calculated' 
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Calculated', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+  END
+  
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Contract Terms'
+                      AND LIST_NAME = 'ARM_RATE_BASIS') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Contract Terms', 
+                  'ARM_RATE_BASIS', 
+                  0) 
+  END  
+
+  IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Balance_Summary_Report_Type' 
+                      AND LIST_NAME = 'CATEGORYNAME') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Balance_Summary_Report_Type', 
+                  'CATEGORYNAME', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Balance Summary Report - Demand' 
+                      AND LIST_NAME = 'Balance_Summary_Report_Type') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Balance Summary Report - Demand', 
+                  'Balance_Summary_Report_Type', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Balance Summary Report - Pipeline' 
+                      AND LIST_NAME = 'Balance_Summary_Report_Type') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Balance Summary Report - Pipeline', 
+                  'Balance_Summary_Report_Type', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Balance Summary Report - Return Reserve' 
+                      AND LIST_NAME = 'Balance_Summary_Report_Type') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Balance Summary Report - Return Reserve', 
+                  'Balance_Summary_Report_Type', 
+                  0) 
+  END 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Balance Summary Report - Single Liability' 
+                      AND LIST_NAME = 'Balance_Summary_Report_Type') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Balance Summary Report - Single Liability', 
+                  'Balance_Summary_Report_Type', 
+                  0) 
+  END 
+   --------------------update script AND NEW Insertion script
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'TRANSACTION 1' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+UPDATE HELPER_TABLE SET LIST_NAME = 'ARM_TRX_METHDOLOGY_1'  WHERE  DESCRIPTION = 'TRANSACTION 1' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
+  END 
+
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'TRANSACTION 2' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+  UPDATE HELPER_TABLE SET LIST_NAME = 'ARM_TRX_METHDOLOGY_1' WHERE  DESCRIPTION = 'TRANSACTION 2' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
+  END 
+
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'TRANSACTION 3' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+  UPDATE HELPER_TABLE SET LIST_NAME = 'ARM_TRX_METHDOLOGY_1'  WHERE  DESCRIPTION = 'TRANSACTION 3'
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
+  END 
+
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'TRANSACTION 4' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+  UPDATE HELPER_TABLE SET LIST_NAME = 'ARM_TRX_METHDOLOGY_1' WHERE  DESCRIPTION = 'TRANSACTION 4'
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
+  END 
+
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'TRANSACTION 5' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+  UPDATE HELPER_TABLE SET LIST_NAME = 'ARM_TRX_METHDOLOGY_1' WHERE  DESCRIPTION = 'TRANSACTION 5'
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
+  END 
+
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'TRANSACTION 6' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+  UPDATE HELPER_TABLE SET LIST_NAME = 'ARM_TRX_METHDOLOGY_1'  WHERE  DESCRIPTION = 'TRANSACTION 6'
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY' 
+  END 
+
+IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'TRANSACTION 7' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+   UPDATE HELPER_TABLE SET LIST_NAME = 'ARM_TRX_METHDOLOGY_1' WHERE  DESCRIPTION = 'TRANSACTION 7'
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY' 
+  END 
+
+  IF  EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 8' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+   UPDATE HELPER_TABLE SET LIST_NAME = 'ARM_TRX_METHDOLOGY_1' WHERE  DESCRIPTION = 'TRANSACTION 8'
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY' 
+  END 
+
+ IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 1 - Pipeline Accrual' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 1 - Pipeline Accrual' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END 
+
+   IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 2 - Demand Accrual' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 2 - Demand Accrual' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END
+
+     IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 3 - Pipeline Inventory True-up' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 3 - Pipeline Inventory True-up' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END
+
+       IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 4 - Demand Payment Recon' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 4 - Demand Payment Recon' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END
+	
+     IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 4 - Demand Payment Recon' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 4 - Demand Payment Recon' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END	 
+
+  IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 5 - Demand Reforecast True-up' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 5 - Demand Reforecast True-up' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END 
+
+    IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 6 - Inflation Adjustment' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 6 - Inflation Adjustment' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END 
+
+    IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 7 - Distribution Fees' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 7 - Distribution Fees' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END 
+
+    IF NOT EXISTS (SELECT 1 
+               FROM   HELPER_TABLE 
+               WHERE  DESCRIPTION = 'Transaction 8 - Return Reserve' 
+                      AND LIST_NAME = 'ARM_TRX_METHDOLOGY') 
+  BEGIN 
+      INSERT INTO HELPER_TABLE 
+                  (DESCRIPTION, 
+                   LIST_NAME, 
+                   REF_COUNT) 
+      VALUES     ('Transaction 8 - Return Reserve' , 
+                  'ARM_TRX_METHDOLOGY', 
+                  0) 
+  END 
+		 
+
+		 -------------------------------------------------------
+		 IF NOT EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE DESCRIPTION = 'ARM_REPORT_TYPE'
+			AND LIST_NAME = 'CATEGORYNAME'
+		)
+BEGIN
+	INSERT INTO HELPER_TABLE (
+		DESCRIPTION
+		,LIST_NAME
+		,REF_COUNT
+		)
+	VALUES (
+		'ARM_REPORT_TYPE'
+		,'CATEGORYNAME'
+		,0
+		)
+END
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE DESCRIPTION = 'Pipeline Balance Summary'
+			AND LIST_NAME = 'ARM_REPORT_TYPE'
+		)
+BEGIN
+	INSERT INTO HELPER_TABLE (
+		DESCRIPTION
+		,LIST_NAME
+		,REF_COUNT
+		)
+	VALUES (
+		'Pipeline Balance Summary'
+		,'ARM_REPORT_TYPE'
+		,0
+		)
+END
+
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE DESCRIPTION = 'Demand Balance Summary'
+			AND LIST_NAME = 'ARM_REPORT_TYPE'
+		)
+BEGIN
+	INSERT INTO HELPER_TABLE (
+		DESCRIPTION
+		,LIST_NAME
+		,REF_COUNT
+		)
+	VALUES (
+		'Demand Balance Summary'
+		,'ARM_REPORT_TYPE'
+		,0
+		)
+END
+
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE DESCRIPTION = 'Single Liability Balance Summary'
+			AND LIST_NAME = 'ARM_REPORT_TYPE'
+		)
+BEGIN
+	INSERT INTO HELPER_TABLE (
+		DESCRIPTION
+		,LIST_NAME
+		,REF_COUNT
+		)
+	VALUES (
+		'Single Liability Balance Summary'
+		,'ARM_REPORT_TYPE'
+		,0
+		)
+END
+
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM HELPER_TABLE
+		WHERE DESCRIPTION = 'Return Reserve Balance Summary'
+			AND LIST_NAME = 'ARM_REPORT_TYPE'
+		)
+BEGIN
+	INSERT INTO HELPER_TABLE (
+		DESCRIPTION
+		,LIST_NAME
+		,REF_COUNT
+		)
+	VALUES (
+		'Return Reserve Balance Summary'
+		,'ARM_REPORT_TYPE'
+		,0
+		)
+END
+
+GO
+
+----------------------------------'PRECISION_ADJUSTMENT'
+----------------------------------'PRECISION_ADJUSTMENT'
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'PRECISION_ADJUSTMENT'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE [dbo].[PRECISION_ADJUSTMENT]
+        (
+           PRECISION_ADJUSTMENT_SID INT NOT NULL IDENTITY(1,1),
+		   TABLE_NAME				VARCHAR(100)  NOT NULL,
+           TABLE_TYPE               VARCHAR(100)  NOT NULL,
+           MODULE_NAME              VARCHAR(100) NOT NULL,
+           COLUMN_NAME              VARCHAR(100) NOT NULL,
+           PRECISION_VALUE          SMALLINT NOT NULL
+          
+        )
+  END
+
+GO
+
+IF EXISTS(SELECT 1 FROM PRECISION_ADJUSTMENT)
+BEGIN
+	TRUNCATE TABLE PRECISION_ADJUSTMENT
+END
+GO
+
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PRECISION_ADJUSTMENT'
+                      AND COLUMN_NAME = 'MODULE_NAME'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      EXEC sp_rename 'PRECISION_ADJUSTMENT.MODULE_NAME','INTERFACE_NAME','COLUMN'
+  END
+
+GO 
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PRECISION_ADJUSTMENT'
+                      AND COLUMN_NAME = 'LEVEL_VALUE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE PRECISION_ADJUSTMENT
+        ADD LEVEL_VALUE VARCHAR(100) NOT NULL
+  END
+
+GO 
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PRECISION_ADJUSTMENT'
+                      AND COLUMN_NAME = 'CRITERIA_COLUMN_NAME'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE PRECISION_ADJUSTMENT
+        ADD CRITERIA_COLUMN_NAME VARCHAR(100) NOT NULL
+  END
+
+GO 
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PRECISION_ADJUSTMENT'
+                      AND COLUMN_NAME = 'PRECISION_COLUMN_NAME'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE PRECISION_ADJUSTMENT
+        ADD PRECISION_COLUMN_NAME VARCHAR(100) NOT NULL
+  END
+
+GO 
+
+
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'PRECISION_ADJUSTMENT'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_PRECISION_ADJUSTMENT_PRECISION_ADJUSTMENT_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[PRECISION_ADJUSTMENT]
+        ADD CONSTRAINT PK_PRECISION_ADJUSTMENT_PRECISION_ADJUSTMENT_SID PRIMARY KEY(PRECISION_ADJUSTMENT_SID)
+  END
+
+GO
+
+IF EXISTS (SELECT NAME
+           FROM   SYS.TABLES
+           WHERE  NAME = 'PRECISION_ADJUSTMENT') 
+BEGIN
+	IF  EXISTS (SELECT 1
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT'
+                      AND PARENT_OBJECT_ID = Object_id('PRECISION_ADJUSTMENT')
+                      AND NAME = 'UQ_PRECISION_ADJUSTMENT_TABLE_NAME_TABLE_TYPE_MODULE_NAME_COLUMN_NAME_PRECISION')
+  BEGIN
+      ALTER TABLE PRECISION_ADJUSTMENT
+        DROP CONSTRAINT UQ_PRECISION_ADJUSTMENT_TABLE_NAME_TABLE_TYPE_MODULE_NAME_COLUMN_NAME_PRECISION 
+  END
+END
+
+GO
+IF EXISTS (SELECT NAME
+           FROM   SYS.TABLES
+           WHERE  NAME = 'PRECISION_ADJUSTMENT') 
+BEGIN
+	IF NOT EXISTS (SELECT 1
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT'
+                      AND PARENT_OBJECT_ID = Object_id('PRECISION_ADJUSTMENT')
+                      AND NAME = 'TABLE_NAME_TABLE_TYPE_INTERFACE_NAME_COLUMN_NAME_PRECISION_VALUE_LEVEL_VALUE_CRITERIA_COLUMN_NAME_PRECISION_COLUMN_NAME')
+  BEGIN
+      ALTER TABLE PRECISION_ADJUSTMENT
+        ADD CONSTRAINT TABLE_NAME_TABLE_TYPE_INTERFACE_NAME_COLUMN_NAME_PRECISION_VALUE_LEVEL_VALUE_CRITERIA_COLUMN_NAME_PRECISION_COLUMN_NAME UNIQUE(TABLE_NAME,TABLE_TYPE,INTERFACE_NAME,COLUMN_NAME,PRECISION_VALUE,LEVEL_VALUE,CRITERIA_COLUMN_NAME,PRECISION_COLUMN_NAME)
+  END
+END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'PRECISION_ADJUSTMENT'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+
+
+ 
+IF NOT EXISTS (SELECT 1 FROM PRECISION_ADJUSTMENT )
+
+BEGIN
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('ITEM_MASTER', 'Master', 'ITEM_MASTER_INTERFACE', 'BASE_CPI', 3, 'COLUMN_VALUE', 'BASE_CPI', 'BASE_CPI_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('ITEM_MASTER', 'Master', 'ITEM_MASTER_INTERFACE', 'BASELINE_AMP', 6, 'COLUMN_VALUE', 'BASELINE_AMP', 'BASELINE_AMP_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('IVLD_ITEM_MASTER', 'Master', 'ITEM_MASTER_INTERFACE', 'BASE_CPI', 3, 'COLUMN_VALUE', 'BASE_CPI', 'BASE_CPI_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('IVLD_ITEM_MASTER', 'Master', 'ITEM_MASTER_INTERFACE', 'BASELINE_AMP', 6, 'COLUMN_VALUE', 'BASELINE_AMP', 'BASELINE_AMP_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'AMP', 6, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'BP', 6, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'CPI (Alt) URA', 3, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'CPIURA', 3, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'URA', 4, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('IVLD_ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'AMP', 6, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('IVLD_ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'BP', 6, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('IVLD_ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'CPI (Alt) URA', 3, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('IVLD_ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'CPIURA', 3, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+INSERT INTO PRECISION_ADJUSTMENT ([TABLE_NAME], [TABLE_TYPE], [INTERFACE_NAME], [COLUMN_NAME], [PRECISION_VALUE], [LEVEL_VALUE], [CRITERIA_COLUMN_NAME], [PRECISION_COLUMN_NAME]) VALUES ('IVLD_ITEM_PRICING', 'Master', 'ITEM_PRICING_INTERFACE', 'URA', 4, 'ROW_VALUE', 'ITEM_PRICE', 'ITEM_PRICE_PRECISION')
+
+END
+
+GO
+
+IF  EXISTS (
+              SELECT 1
+              FROM PRECISION_ADJUSTMENT
+              WHERE TABLE_NAME = 'ITEM_PRICING'
+                     AND COLUMN_NAME = 'CPIURA'
+              )
+BEGIN
+       UPDATE PRECISION_ADJUSTMENT
+       SET COLUMN_NAME = 'CPI URA'
+       WHERE TABLE_NAME = 'ITEM_PRICING'
+                     AND COLUMN_NAME = 'CPIURA'
+END
+GO
+
+IF  EXISTS (
+              SELECT 1
+              FROM PRECISION_ADJUSTMENT
+              WHERE TABLE_NAME = 'IVLD_ITEM_PRICING'
+                     AND COLUMN_NAME = 'CPIURA'
+              )
+BEGIN
+       UPDATE PRECISION_ADJUSTMENT
+       SET COLUMN_NAME = 'CPI URA'
+       WHERE TABLE_NAME = 'IVLD_ITEM_PRICING'
+                     AND COLUMN_NAME = 'CPIURA'
+END
+GO
+
+-----------------------------------------------CEL-1897---------------------------------------	
+		
+			IF NOT EXISTS (
+              SELECT 1
+              FROM PRECISION_ADJUSTMENT
+              WHERE TABLE_NAME = 'ITEM_PRICING'
+                     AND COLUMN_NAME = 'Average Manufacturers Price'
+              )
+			BEGIN
+						
+				  INSERT INTO PRECISION_ADJUSTMENT (
+											  [TABLE_NAME]
+											  ,[TABLE_TYPE]
+											  ,[INTERFACE_NAME]
+											  ,[COLUMN_NAME]
+											  ,[PRECISION_VALUE]
+											  ,[LEVEL_VALUE]
+											  ,[CRITERIA_COLUMN_NAME]
+											  ,[PRECISION_COLUMN_NAME]
+											  )
+									   VALUES (
+											  'ITEM_PRICING'
+											  ,'Master'
+											  ,'ITEM_PRICING_INTERFACE'
+											  ,'Average Manufacturers Price'
+											  ,6
+											  ,'ROW_VALUE'
+											  ,'ITEM_PRICE'
+											  ,'ITEM_PRICE_PRECISION'
+											  ) 
+				   END
+			GO     
+
+			   IF NOT EXISTS (
+						  SELECT 1
+						  FROM PRECISION_ADJUSTMENT
+						  WHERE TABLE_NAME = 'IVLD_ITEM_PRICING'
+								 AND COLUMN_NAME = 'Average Manufacturers Price'
+						  )
+			BEGIN
+											  
+				   INSERT INTO PRECISION_ADJUSTMENT (
+											  [TABLE_NAME]
+											  ,[TABLE_TYPE]
+											  ,[INTERFACE_NAME]
+											  ,[COLUMN_NAME]
+											  ,[PRECISION_VALUE]
+											  ,[LEVEL_VALUE]
+											  ,[CRITERIA_COLUMN_NAME]
+											  ,[PRECISION_COLUMN_NAME]
+											  )
+									   VALUES (
+											  'IVLD_ITEM_PRICING'
+											  ,'Master'
+											  ,'ITEM_PRICING_INTERFACE'
+											  ,'Average Manufacturers Price'
+											  ,6
+											  ,'ROW_VALUE'
+											  ,'ITEM_PRICE'
+											  ,'ITEM_PRICE_PRECISION'
+											  )      
+				   END
+			GO
+			
+			IF NOT EXISTS (
+					SELECT 1
+					FROM PRECISION_ADJUSTMENT
+					WHERE [TABLE_NAME] = 'ITEM_PRICING'
+						AND TABLE_TYPE = 'Master'
+						AND [INTERFACE_NAME] = 'ITEM_PRICING_INTERFACE'
+						AND [COLUMN_NAME] = 'Best Price'
+						AND PRECISION_VALUE = 6
+						AND LEVEL_VALUE = 'ROW_VALUE'
+						AND CRITERIA_COLUMN_NAME = 'ITEM_PRICE'
+						AND PRECISION_COLUMN_NAME = 'ITEM_PRICE_PRECISION'
+					)
+			BEGIN
+				INSERT INTO PRECISION_ADJUSTMENT (
+					[TABLE_NAME]
+					,[TABLE_TYPE]
+					,[INTERFACE_NAME]
+					,[COLUMN_NAME]
+					,[PRECISION_VALUE]
+					,[LEVEL_VALUE]
+					,[CRITERIA_COLUMN_NAME]
+					,[PRECISION_COLUMN_NAME]
+					)
+				VALUES (
+					'ITEM_PRICING'
+					,'Master'
+					,'ITEM_PRICING_INTERFACE'
+					,'Best Price'
+					,6
+					,'ROW_VALUE'
+					,'ITEM_PRICE'
+					,'ITEM_PRICE_PRECISION'
+					)
+			END
+			GO			
+
+
+			IF NOT EXISTS (
+					SELECT 1
+					FROM PRECISION_ADJUSTMENT
+					WHERE [TABLE_NAME] = 'IVLD_ITEM_PRICING'
+						AND TABLE_TYPE = 'Master'
+						AND [INTERFACE_NAME] = 'ITEM_PRICING_INTERFACE'
+						AND [COLUMN_NAME] = 'Best Price'
+						AND PRECISION_VALUE = 6
+						AND LEVEL_VALUE = 'ROW_VALUE'
+						AND CRITERIA_COLUMN_NAME = 'ITEM_PRICE'
+						AND PRECISION_COLUMN_NAME = 'ITEM_PRICE_PRECISION'
+					)
+			BEGIN
+				INSERT INTO PRECISION_ADJUSTMENT (
+					[TABLE_NAME]
+					,[TABLE_TYPE]
+					,[INTERFACE_NAME]
+					,[COLUMN_NAME]
+					,[PRECISION_VALUE]
+					,[LEVEL_VALUE]
+					,[CRITERIA_COLUMN_NAME]
+					,[PRECISION_COLUMN_NAME]
+					)
+				VALUES (
+					'IVLD_ITEM_PRICING'
+					,'Master'
+					,'ITEM_PRICING_INTERFACE'
+					,'Best Price'
+					,6
+					,'ROW_VALUE'
+					,'ITEM_PRICE'
+					,'ITEM_PRICE_PRECISION'
+					)
+			END 
+			GO
+
+
+			IF NOT EXISTS (
+					SELECT 1
+					FROM PRECISION_ADJUSTMENT
+					WHERE [TABLE_NAME] = 'ITEM_PRICING'
+						AND TABLE_TYPE = 'Master'
+						AND [INTERFACE_NAME] = 'ITEM_PRICING_INTERFACE'
+						AND [COLUMN_NAME] = 'Unit Rebate Amount'
+						AND PRECISION_VALUE = 4
+						AND LEVEL_VALUE = 'ROW_VALUE'
+						AND CRITERIA_COLUMN_NAME = 'ITEM_PRICE'
+						AND PRECISION_COLUMN_NAME = 'ITEM_PRICE_PRECISION'
+					)
+			BEGIN
+				INSERT INTO PRECISION_ADJUSTMENT (
+					[TABLE_NAME]
+					,[TABLE_TYPE]
+					,[INTERFACE_NAME]
+					,[COLUMN_NAME]
+					,[PRECISION_VALUE]
+					,[LEVEL_VALUE]
+					,[CRITERIA_COLUMN_NAME]
+					,[PRECISION_COLUMN_NAME]
+					)
+				VALUES (
+					'ITEM_PRICING'
+					,'Master'
+					,'ITEM_PRICING_INTERFACE'
+					,'Unit Rebate Amount'
+					,4
+					,'ROW_VALUE'
+					,'ITEM_PRICE'
+					,'ITEM_PRICE_PRECISION'
+					)
+			END 
+			GO
+
+			IF NOT EXISTS (
+					SELECT 1
+					FROM PRECISION_ADJUSTMENT
+					WHERE [TABLE_NAME] = 'IVLD_ITEM_PRICING'
+						AND TABLE_TYPE = 'Master'
+						AND [INTERFACE_NAME] = 'ITEM_PRICING_INTERFACE'
+						AND [COLUMN_NAME] = 'Unit Rebate Amount'
+						AND PRECISION_VALUE = 4
+						AND LEVEL_VALUE = 'ROW_VALUE'
+						AND CRITERIA_COLUMN_NAME = 'ITEM_PRICE'
+						AND PRECISION_COLUMN_NAME = 'ITEM_PRICE_PRECISION'
+					)
+			BEGIN
+				INSERT INTO PRECISION_ADJUSTMENT (
+					[TABLE_NAME]
+					,[TABLE_TYPE]
+					,[INTERFACE_NAME]
+					,[COLUMN_NAME]
+					,[PRECISION_VALUE]
+					,[LEVEL_VALUE]
+					,[CRITERIA_COLUMN_NAME]
+					,[PRECISION_COLUMN_NAME]
+					)
+				VALUES (
+					'IVLD_ITEM_PRICING'
+					,'Master'
+					,'ITEM_PRICING_INTERFACE'
+					,'Unit Rebate Amount'
+					,4
+					,'ROW_VALUE'
+					,'ITEM_PRICE'
+					,'ITEM_PRICE_PRECISION'
+					)
+			END 
+			GO
+
+
+	
+
+
+
+
+  
+
+ 
+                     

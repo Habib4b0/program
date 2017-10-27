@@ -22,14 +22,14 @@ public class ProcessMonitorLogic extends PageTableLogic {
     @Override
     public int getCount() {
         int count =0;
-        List list = logic.getSearchResult(true,0,0,true,null);
+        List list = logic.getSearchResult(true,0,0,null);
         count = list.size();
         return count;
     }
 
     @Override
     public List loadData(int start, int offset) {
-        List list = logic.getSearchResult(false, start, offset,true,getSortByColumns());
+        List list = logic.getSearchResult(false, start, offset,getSortByColumns());
         return list;
     }
 

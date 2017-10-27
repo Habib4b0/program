@@ -56,7 +56,7 @@ public interface CompanyFamilyplanLogic {
 	 * @generated "UML to JPA (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
 	 */
 	public CfpModel getCompanyMasterById(final int companyFamilyPlanSystemId)
-			throws SystemException, PortalException, ParseException, ParseException;
+			throws SystemException, PortalException, ParseException;
 
 	/** 
 	 * <!-- begin-UML-doc -->

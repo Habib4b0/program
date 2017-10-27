@@ -52,12 +52,25 @@ public class ProjectionResultsLogic {
      * The Numeric Zero Decimal Places Format.
      */
     private static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<ProjectionResultsDTO>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<ProjectionResultsDTO>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<ProjectionResultsDTO>();
-
+    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    public static final String ISEMI_ANNUAL = ", I.SEMI_ANNUAL";
+    
+    public static final String IMONTH_AS_PERIODS_COMMA = "I.\"MONTH\" as PERIODS, \n";
+    public static final String FUTURE1 = "FUTURE";
+    public static final String HISTORY1 = "HISTORY";
+    public static final String EMI_ANNUAL_AS_PERIODS_COMMA = "I.SEMI_ANNUAL as PERIODS, \n";
+    public static final String IQUARTER_AS_PERIODS_COMMA = "I.QUARTER as PERIODS, \n";
+    public static final String IYEAR_AS_YEARS = "I.\"YEAR\" as YEARS, ";
+    
+    public static final String IS_NULL_PPAPROJECTION_SALES = "+Isnull(PPA.PROJECTION_SALES, 0)";
+    public static final String NULL_PPAACTUAL_SALES_ZERO = "+Isnull(PPA.ACTUAL_SALES, 0)";
+    public static final String TODIS1 = "TODIS";
+    
+    
     public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.RATE);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n";
         if (projSelDTO.isIsTotal()) {
@@ -73,7 +86,7 @@ public class ProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getDiscountDollar(ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n";
         if (projSelDTO.isIsTotal()) {
@@ -115,18 +128,18 @@ public class ProjectionResultsLogic {
         ppaDto.setParent(0);
         return ppaDto;
     }
-    List<String> discountList = new ArrayList<String>();
+    List<String> discountList = new ArrayList<>();
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO, boolean isPPA) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setDiscountIndex(0);
         if (!projSelDTO.isIsTotal() && !isPPA) {
-            discountList = new ArrayList<String>(projSelDTO.getDiscountNameList());
+            discountList = new ArrayList<>(projSelDTO.getDiscountNameList());
             for (String name : projSelDTO.getDiscountNameList()) {
                 ProjectionResultsDTO dto = getCustomisedProjectionResultsDiscount(list, name, projSelDTO);
                 projDTOList.add(dto);
             }
-            List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+            List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             columnList.remove(Constant.GROUP);
             for (String ob : discountList) {
                 ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
@@ -146,7 +159,7 @@ public class ProjectionResultsLogic {
     }
 
     public ProjectionResultsDTO getCustomisedProjectionResultsDiscount(List<Object> list, String discountName, ProjectionSelectionDTO projSelDTO) {
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
         projDTO.setLevelValue(projSelDTO.getLevelValue());
@@ -181,7 +194,7 @@ public class ProjectionResultsLogic {
                     }
                     if (start) {
                         discount = discountRow[NumericConstants.TWO].toString();
-                        String column = StringUtils.EMPTY;
+                        String column;
                         int year = Integer.valueOf(String.valueOf(discountRow[0]));
                         int period = Integer.valueOf(String.valueOf(discountRow[1]));
                         List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
@@ -246,8 +259,8 @@ public class ProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsSales(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDtoList = new ArrayList<ProjectionResultsDTO>();
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<ProjectionResultsDTO> projDtoList = new ArrayList<>();
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO projSalesDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO projUnitDTO = new ProjectionResultsDTO();
@@ -265,7 +278,7 @@ public class ProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = Integer.valueOf(String.valueOf(obj[0]));
                 int period = Integer.valueOf(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -312,7 +325,7 @@ public class ProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getProjectionPivot(ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList;
         String gtsListQuery = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPivotQuery(projSelDTO);
         List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(gtsListQuery, null, null);
         String discountListQuery = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsDiscountsPivotQuery(projSelDTO);
@@ -323,27 +336,27 @@ public class ProjectionResultsLogic {
 
     public List<ProjectionResultsDTO> getCustomizedProjectionPivot(List<Object> list, List<Object> discountList, ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         int discountIndex = 0;
         int col = NumericConstants.TWO;
         int dcol = NumericConstants.TWO;
         for (Object rows : list) {
             final Object[] row = (Object[]) rows;
-            String column = StringUtils.EMPTY;
+            String column;
             int year = Integer.valueOf(String.valueOf(row[0]));
             int period = Integer.valueOf(String.valueOf(row[1]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
-            String commonColumn = StringUtils.EMPTY;
+            String commonColumn;
             if (periodList.contains(pcommonColumn)) {
                 periodList.remove(pcommonColumn);
                 ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
-                List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+                List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
                 columnList.remove(Constant.GROUP);
                 projDTO.setGroup(commonHeader);
-                String value = Constant.NULL;
+                String value;
                 commonColumn = "gts";
                 value = "...";
                 column = commonColumn + ACTUALS.getConstant();
@@ -397,7 +410,7 @@ public class ProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisPer;
+                commonColumn = Constant.TOT_DIS_PER;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.FOUR];
@@ -412,7 +425,7 @@ public class ProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisDol;
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.SIX];
@@ -443,7 +456,7 @@ public class ProjectionResultsLogic {
                     columnList.remove(column);
                 }
                 if (projSelDTO.isPpa()) {
-                    commonColumn = Constant.totDisDol + PPA_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY);
+                    commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR + PPA_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY);
                     column = commonColumn + ACTUALS.getConstant();
                     if (projSelDTO.hasColumn(column)) {
                         value = StringUtils.EMPTY + row[col + NumericConstants.TEN];
@@ -458,7 +471,7 @@ public class ProjectionResultsLogic {
                         projDTO.addStringProperties(column, value);
                         columnList.remove(column);
                     }
-                    commonColumn = Constant.totDisPer + PPA_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY);
+                    commonColumn = Constant.TOT_DIS_PER + PPA_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY);
                     column = commonColumn + ACTUALS.getConstant();
                     if (projSelDTO.hasColumn(column)) {
                         value = StringUtils.EMPTY + row[col + NumericConstants.TWELVE];
@@ -485,8 +498,8 @@ public class ProjectionResultsLogic {
                     if (pcommonColumn.equals(dcommonColumn)) {
                         start = true;
                         String head = String.valueOf(discountRow[dcol]).replace(" ", StringUtils.EMPTY);
-                        String commonColumn1 = Constant.totDisDol + head;
-                        String commonColumn2 = Constant.totDisPer + head;
+                        String commonColumn1 = Constant.TOTAL_DISCOUNT_DOLLAR + head;
+                        String commonColumn2 = Constant.TOT_DIS_PER + head;
                         column = commonColumn1 + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + 1];
@@ -529,7 +542,7 @@ public class ProjectionResultsLogic {
             }
 
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         boolean leftFlag = false;
         for (String ob : periodList) {
@@ -569,7 +582,7 @@ public class ProjectionResultsLogic {
     public void getCustomizedProjectionPivotTotal(List<Object[]> list, List<Object[]> discountList, ProjectionSelectionDTO projSelDTO) {
         projectionTotalList.clear();
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         int discountIndex = 0;
         int col = NumericConstants.FIVE;
         int dcol = NumericConstants.TWO;
@@ -579,20 +592,20 @@ public class ProjectionResultsLogic {
         }
         for (Object[] row : list) {
 
-            String column = StringUtils.EMPTY;
+            String column;
             int year = Integer.valueOf(String.valueOf(row[col - 1]));
             int period = Integer.valueOf(String.valueOf(row[NumericConstants.FOUR]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
-            String commonColumn = StringUtils.EMPTY;
+            String commonColumn;
             if (periodList.contains(pcommonColumn)) {
                 periodList.remove(pcommonColumn);
                 ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
-                List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+                List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
                 columnList.remove(Constant.GROUP);
                 projDTO.setGroup(commonHeader);
-                String value = Constant.NULL;
+                String value;
                 commonColumn = "gts";
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
@@ -653,7 +666,7 @@ public class ProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisPer;
+                commonColumn = Constant.TOT_DIS_PER;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.SIX];
@@ -668,7 +681,7 @@ public class ProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisDol;
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.FOUR];
@@ -699,7 +712,7 @@ public class ProjectionResultsLogic {
                     columnList.remove(column);
                 }
                 if (projSelDTO.isPpa()) {
-                    commonColumn = Constant.totDisDol + PPA_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY);
+                    commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR + PPA_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY);
                     column = commonColumn + ACTUALS.getConstant();
                     if (projSelDTO.hasColumn(column)) {
                         value = StringUtils.EMPTY + row[col + NumericConstants.TEN];
@@ -714,7 +727,7 @@ public class ProjectionResultsLogic {
                         projDTO.addStringProperties(column, value);
                         columnList.remove(column);
                     }
-                    commonColumn = Constant.totDisPer + PPA_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY);
+                    commonColumn = Constant.TOT_DIS_PER + PPA_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY);
                     column = commonColumn + ACTUALS.getConstant();
                     if (projSelDTO.hasColumn(column)) {
                         value = StringUtils.EMPTY + row[col + NumericConstants.TWELVE];
@@ -741,8 +754,8 @@ public class ProjectionResultsLogic {
                     if (pcommonColumn.equals(dcommonColumn)) {
                         start = true;
                         String head = String.valueOf(discountRow[dcol]).replace(" ", StringUtils.EMPTY);
-                        String commonColumn1 = Constant.totDisDol + head;
-                        String commonColumn2 = Constant.totDisPer + head;
+                        String commonColumn1 = Constant.TOTAL_DISCOUNT_DOLLAR + head;
+                        String commonColumn2 = Constant.TOT_DIS_PER + head;
                         column = commonColumn1 + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + 1];
@@ -785,7 +798,7 @@ public class ProjectionResultsLogic {
             }
 
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         boolean leftFlag = false;
         for (String ob : periodList) {
@@ -833,7 +846,7 @@ public class ProjectionResultsLogic {
 
     public void getCustomizedProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         ProjectionResultsDTO gtsDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO perDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO conSaleDTO = new ProjectionResultsDTO();
@@ -876,7 +889,7 @@ public class ProjectionResultsLogic {
             ppaDolDTO.setParent(0);
             ppaDolDTO.setGroup(PPA_DISCOUNT.getConstant());
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
             int col = NumericConstants.FIVE;
@@ -885,7 +898,7 @@ public class ProjectionResultsLogic {
             }
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
 
                 int year = Integer.valueOf(String.valueOf(obj[col - 1]));
                 int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
@@ -989,7 +1002,7 @@ public class ProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getProjectionTotalDiscounts(ProjectionSelectionDTO projSelDTO, Object[] orderedArgs) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if (prjTotalDisDolDtoList.isEmpty() || prjTotalDisPerDtoList.isEmpty()) {
             Object[] orderedArgs1 =  {orderedArgs[0], orderedArgs[1], orderedArgs[NumericConstants.TWO], orderedArgs[NumericConstants.THREE], orderedArgs[NumericConstants.FOUR], orderedArgs[NumericConstants.FIVE], 1};
            List<Object[]> gtsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArgs1);
@@ -997,19 +1010,19 @@ public class ProjectionResultsLogic {
             getCustomizedDiscountsProjectionTotal(gtsList, projSelDTO);
         }
         if (projSelDTO.getGroup().contains("$")) {
-            projDTOList = new ArrayList<ProjectionResultsDTO>(prjTotalDisDolDtoList);
+            projDTOList = new ArrayList<>(prjTotalDisDolDtoList);
         } else if (projSelDTO.getGroup().contains(Constant.PERCENT)) {
-            projDTOList = new ArrayList<ProjectionResultsDTO>(prjTotalDisPerDtoList);
+            projDTOList = new ArrayList<>(prjTotalDisPerDtoList);
         }
         return projDTOList;
     }
 
     public void getCustomizedDiscountsProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDolDTOList = new ArrayList<ProjectionResultsDTO>();
-        List<ProjectionResultsDTO> projPerDTOList = new ArrayList<ProjectionResultsDTO>();
-        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountNameList());
-        String oldDiscountName = "old";
+        List<ProjectionResultsDTO> projDolDTOList = new ArrayList<>();
+        List<ProjectionResultsDTO> projPerDTOList = new ArrayList<>();
+        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountNameList());
+        String oldDiscountName;
         String newDiscountName = "oldDiscountName";
         if (list != null && !list.isEmpty()) {
             ProjectionResultsDTO projDolDTO = new ProjectionResultsDTO();
@@ -1019,11 +1032,11 @@ public class ProjectionResultsLogic {
                 col = col + 1;
             }
             boolean add = false;
-            List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+            List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             columnList.remove(Constant.GROUP);
             for (int i = 0; i < list.size(); i++) {
                 final Object[] obj = (Object[]) list.get(i);
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = Integer.valueOf(String.valueOf(obj[col - 1]));
                 int period = Integer.valueOf(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -1047,7 +1060,7 @@ public class ProjectionResultsLogic {
                             projDolDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
                             projPerDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
                         }
-                        columnList = new ArrayList<String>(projSelDTO.getColumns());
+                        columnList = new ArrayList<>(projSelDTO.getColumns());
                         columnList.remove(Constant.GROUP);
                     }
 
@@ -1077,7 +1090,7 @@ public class ProjectionResultsLogic {
             }
 
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         for (String ob : discountList) {
             ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
@@ -1095,8 +1108,8 @@ public class ProjectionResultsLogic {
             projDolDTOList.add(projDTO);
             projPerDTOList.add(projDTO1);
         }
-        prjTotalDisDolDtoList = new ArrayList<ProjectionResultsDTO>(projDolDTOList);
-        prjTotalDisPerDtoList = new ArrayList<ProjectionResultsDTO>(projPerDTOList);
+        prjTotalDisDolDtoList = new ArrayList<>(projDolDTOList);
+        prjTotalDisPerDtoList = new ArrayList<>(projPerDTOList);
     }
 
     public ProjectionResultsDTO getNetSales(ProjectionSelectionDTO projSelDTO) {
@@ -1117,13 +1130,13 @@ public class ProjectionResultsLogic {
         int started = start;
         int neededRecord = offset;
         int mayBeAdded = 0;
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
         String freq = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == 1) {
             freq = "ANNUAL";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            freq = "SEMI-ANNUAL";
+            freq = Constant.SEMIANNUAL_CAPS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             freq = "QUARTERLY";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
@@ -1131,8 +1144,8 @@ public class ProjectionResultsLogic {
         }
 
         Object[] orderedArgs = {projSelDTO.getProjectionId(), freq, discList, "ASSUMPTIONS", projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId()};
-        if (!projSelDTO.getGroup().startsWith(Constant.All)
-                && !projSelDTO.getGroup().contains(Constant.Sales)
+        if (!projSelDTO.getGroup().startsWith(Constant.ALL)
+                && !projSelDTO.getGroup().contains(Constant.SALES_)
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
                 if ((projSelDTO.isIsTotal()) && (projSelDTO.isIsProjectionTotal())) {
@@ -1297,7 +1310,7 @@ public class ProjectionResultsLogic {
                 } else if (neededRecord > 0) {
                     if (!projSelDTO.getGroup().contains("$")) {
                         if (started < projSelDTO.getDiscountNameList().size()) {
-                            List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<ProjectionResultsDTO>();
+                            List<ProjectionResultsDTO> discountPerDtoList;
                             if (projSelDTO.isIsProjectionTotal()) {
                                 discountPerDtoList = getProjectionTotalDiscounts(projSelDTO, orderedArgs);
                             } else {
@@ -1337,7 +1350,7 @@ public class ProjectionResultsLogic {
                     }
                     if (neededRecord > 0 && !projSelDTO.getGroup().contains(Constant.PERCENT)) {
                         if (started < projSelDTO.getDiscountNameList().size()) {
-                            List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<ProjectionResultsDTO>();
+                            List<ProjectionResultsDTO> discountPerDtoList;
                             if (projSelDTO.isIsProjectionTotal()) {
                                 discountPerDtoList = getProjectionTotalDiscounts(projSelDTO, orderedArgs);
                             } else {
@@ -1384,7 +1397,7 @@ public class ProjectionResultsLogic {
                     mayBeAddedRecord = 0;
                 }
                 if (mayBeAddedRecord < projSelDTO.getPeriodList().size()) {
-                    List<ProjectionResultsDTO> projectionDtoList = new ArrayList<ProjectionResultsDTO>();
+                    List<ProjectionResultsDTO> projectionDtoList;
                     if (projSelDTO.isIsProjectionTotal()) {
                         projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
                     } else {
@@ -1403,8 +1416,8 @@ public class ProjectionResultsLogic {
         }
                 if ((!(projSelDTO.isIsCustomHierarchy() && projSelDTO.getCustomId() == 0)) && ((neededRecord > 0 && projSelDTO.isIsTotal() && !projSelDTO.isIsFilter()) && ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                         && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
-                        && !projSelDTO.getGroup().startsWith(Constant.All)
-                        && !projSelDTO.getGroup().contains(Constant.Sales)
+                        && !projSelDTO.getGroup().startsWith(Constant.ALL)
+                        && !projSelDTO.getGroup().contains(Constant.SALES)
                         && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                         && !projSelDTO.getGroup().contains(Constant.PPA)))) {
 
@@ -1428,9 +1441,6 @@ public class ProjectionResultsLogic {
                         dto.setParent(1);
                         projDTOList.add(dto);
                     }
-                    started++;
-
-                    neededRecord--;
                 } else {
                     int mayBeAddedRecord = started - mayBeAdded;
                     if (mayBeAddedRecord < 0) {
@@ -1444,12 +1454,12 @@ public class ProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> resultList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> resultList;
         if (!projSelDTO.isIsFilter() || (parentId instanceof ProjectionResultsDTO)) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
 
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (parentId instanceof ProjectionResultsDTO) {
                 ProjectionResultsDTO parentDto = (ProjectionResultsDTO) parentId;
@@ -1501,7 +1511,7 @@ public class ProjectionResultsLogic {
 
     public List<ProjectionResultsDTO> configureLevels(int start, int offset, int started, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
-        List<ProjectionResultsDTO> resultList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> resultList = new ArrayList<>();
         if (neededRecord > 0) {
             List<Leveldto> levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), StringUtils.EMPTY, start, offset, projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.isIsFilter(), false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getCustRelationshipBuilderSid(), projSelDTO.getProdRelationshipBuilderSid(), false, true, projSelDTO.getDiscountNoList(),projSelDTO);
             for (int i = 0; i < levelList.size() && neededRecord > 0; i++) {
@@ -1538,10 +1548,10 @@ public class ProjectionResultsLogic {
         int count = 0;
         projSelDTO.setGroupCount(false);
         if (!projSelDTO.isIsFilter() || (parentId instanceof ProjectionResultsDTO)) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
 
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (parentId instanceof ProjectionResultsDTO) {
                 ProjectionResultsDTO parentDto = (ProjectionResultsDTO) parentId;
@@ -1592,8 +1602,8 @@ public class ProjectionResultsLogic {
 
     public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelsCount) {
         int count = 0;
-        if (!projSelDTO.getGroup().startsWith(Constant.All)
-                && !projSelDTO.getGroup().contains(Constant.Sales)
+        if (!projSelDTO.getGroup().startsWith(Constant.ALL)
+                && !projSelDTO.getGroup().contains(Constant.SALES)
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
             if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
@@ -1625,8 +1635,8 @@ public class ProjectionResultsLogic {
             if (projSelDTO.isIsTotal() && isLevelsCount && !projSelDTO.isIsFilter()) {
                 if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                         && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
-                        && !projSelDTO.getGroup().startsWith(Constant.All)
-                        && !projSelDTO.getGroup().contains(Constant.Sales)
+                        && !projSelDTO.getGroup().startsWith(Constant.ALL)
+                        && !projSelDTO.getGroup().contains(Constant.SALES)
                         && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                         && !projSelDTO.getGroup().contains(Constant.PPA)) {
                     count = count + 1;
@@ -1649,35 +1659,35 @@ public class ProjectionResultsLogic {
 
     public String getProjectionResultsDiscountsQuery(ProjectionSelectionDTO projSelDTO, String orderBy) {
 
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String whereClause = StringUtils.EMPTY;
         String groupBy = " I.\"YEAR\" \n";
 
-        String customQuery = StringUtils.EMPTY;
-        String ccpWhereCond = " and CCP.CCP_DETAILS_SID=E.CCP_DETAILS_SID \n";
+        String customQuery;
+        String ccpWhereCond = " and CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID \n";
 
-        selectClause += "I.\"YEAR\" as YEARS, ";
+        selectClause += IYEAR_AS_YEARS;
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
             whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectClause += "I.QUARTER as PERIODS, \n";
+            selectClause += IQUARTER_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.QUARTER";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
+            selectClause += EMI_ANNUAL_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.SEMI_ANNUAL";
+            groupBy += ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
             selectClause += "'0' as PERIODS,\n ";
             whereClause += StringUtils.EMPTY;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
+            selectClause += IMONTH_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.\"MONTH\"";
+            groupBy += Constant.IMONTH;
         }
 
         // To filter the data according to selected period
@@ -1712,7 +1722,7 @@ public class ProjectionResultsLogic {
                 + " and E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + " \n"
                 + ccpWhereCond + "and A.PERIOD_SID = I.PERIOD_SID \n"
                 + periodFilter
-                + whereClause + " group by " + groupBy;
+                + whereClause + "  group by " + groupBy;
 
         String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as ACTUAL_SALES, \n"
                 + " sum(A.ACTUAL_PROJECTION_SALES) as PROJECTION_SALES \n"
@@ -1722,43 +1732,43 @@ public class ProjectionResultsLogic {
                 + " sum(A.PROJECTION_SALES) as PROJECTION_SALES \n"
                 + " from ST_NM_DISCOUNT_PROJECTION A, \n "
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(HISTORY1, FUTURE1, "on");
         String finalWhereCond = list.get(1) + " and HISTORY.DISCOUNTS=FUTURE.DISCOUNTS";
-        String finalSelectClause = "select " + list.get(0) + " Isnull(HISTORY.DISCOUNTS, FUTURE.DISCOUNTS) as DISCOUNTS,\n Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES ";
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond + orderBy;
+        String finalSelectClause = "select  " + list.get(0) + " Isnull(HISTORY.DISCOUNTS, FUTURE.DISCOUNTS) as DISCOUNTS,\n Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES ";
+        customQuery = finalSelectClause + "  from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond + orderBy;
 
         return customQuery;
     }
 
     public String getProjectionResultsPPAQuery(ProjectionSelectionDTO projSelDTO) {
 
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String whereClause = StringUtils.EMPTY;
         String groupBy = " I.\"YEAR\" \n";
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
         String ccpWhereCond = " and CCP.CCP_DETAILS_SID=E.CCP_DETAILS_SID \n";
-        selectClause += "I.\"YEAR\" as YEARS, ";
+        selectClause += IYEAR_AS_YEARS;
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
             whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectClause += "I.QUARTER as PERIODS, \n";
+            selectClause += IQUARTER_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.QUARTER";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
+            selectClause += EMI_ANNUAL_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.SEMI_ANNUAL";
+            groupBy += ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
             selectClause += "'0' as PERIODS, \n";
             whereClause += StringUtils.EMPTY;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
+            selectClause += IMONTH_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.\"MONTH\"";
+            groupBy += Constant.IMONTH;
         }
         selectClause += "'PPA Discount' as DISCOUNTS,\n ";
         // To filter the data according to selected period
@@ -1767,7 +1777,7 @@ public class ProjectionResultsLogic {
         // To handle the scenario where any discount is not selected in program selection lookup
         String customSql = " PROJECTION_DETAILS E ,\n"
                 + " \"PERIOD\" I, \n"
-                + " @CCP CCP "
+                + " @CCP CCP   "
                 + " where A.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID \n"
                 + CommonLogic.getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A")
                 + "and E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
@@ -1785,44 +1795,44 @@ public class ProjectionResultsLogic {
                 + " sum(A.PROJECTION_DISCOUNT_DOLLAR) as PROJECTION_SALES \n"
                 + " from ST_NM_PPA_PROJECTION A,\n "
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(HISTORY1, FUTURE1, "on");
         String finalWhereCond = list.get(1);
         String finalSelectClause = "select " + list.get(0) + "'PPA Discount' as DISCOUNTS,\n Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES ";
 
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+        customQuery = finalSelectClause + " from  (\n" + historyQuery + "\n)  HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
 
         return customQuery;
     }
 
     public String getProjectionResultsSalesQuery(ProjectionSelectionDTO projSelDTO) {
 
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String whereClause = StringUtils.EMPTY;
         String groupBy = " I.\"YEAR\"\n";
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
         String ccpWhereCond = " and CCP.CCP_DETAILS_SID=E.CCP_DETAILS_SID \n";
-        selectClause += "I.\"YEAR\" as YEARS, ";
+        selectClause += IYEAR_AS_YEARS;
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
-            whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
+            whereClause += " and  I.\"YEAR\" = " + projSelDTO.getYear();
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectClause += "I.QUARTER as PERIODS, \n";
+            selectClause += IQUARTER_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.QUARTER";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
+            selectClause += EMI_ANNUAL_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.SEMI_ANNUAL";
+            groupBy += ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
             selectClause += "'0' as PERIODS, \n";
             whereClause += StringUtils.EMPTY;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
+            selectClause += IMONTH_AS_PERIODS_COMMA;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.\"MONTH\"";
+            groupBy += Constant.IMONTH;
         }
 
         // To filter the data according to selected period
@@ -1830,7 +1840,7 @@ public class ProjectionResultsLogic {
 
         String customSql = " PROJECTION_DETAILS E , \n"
                 + " \"PERIOD\" I, \n"
-                + " @CCP CCP "
+                + " @CCP CCP  "
                 + "where A.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID \n"
                 + CommonLogic.getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A")
                 + " and E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
@@ -1851,19 +1861,19 @@ public class ProjectionResultsLogic {
                 + " sum(A.PROJECTION_UNITS) as PROJECTION_UNITS \n"
                 + " from ST_NM_SALES_PROJECTION A,\n"
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(HISTORY1, FUTURE1, "on");
         String finalWhereCond = list.get(1);
         String finalSelectClause = "select " + list.get(0) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES,\n Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES,"
                 + "\n Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) as ACTUAL_UNITS,\n Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) as PROJECTION_UNITS  ";
 
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+        customQuery = finalSelectClause + "  from  (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n)  FUTURE \n" + finalWhereCond;
 
         return customQuery;
     }
 
     public String getProjectionResultsPPAPerQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
         List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.PPA_SMALL, "SALE", "on");
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
@@ -1872,17 +1882,17 @@ public class ProjectionResultsLogic {
                 + " PROJECTION_RATE=Isnull(PPA.PROJECTION_SALES / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + ppaQuery + "\n) PPA LEFT JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + " from (\n " + ppaQuery + "\n) PPA LEFT JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
         return customQuery;
     }
 
     public String getProjectionResultsTotalDiscountDolQuery(ProjectionSelectionDTO projSelDTO) {
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
         if (projSelDTO.isPpa()) {
-            String selectClause = " select ";
+            String selectClause = Constant.SELECT_SMALL_SPACE;
 
-            List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", Constant.PPA_SMALL, "on");
+            List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(TODIS1, Constant.PPA_SMALL, "on");
             selectClause += list.get(0);
             String finalWhereCond = list.get(1);
             selectClause += "'Total Discount $' as DISCOUNTS, \n";
@@ -1890,7 +1900,7 @@ public class ProjectionResultsLogic {
                     + "  PROJECTION_SALES=Isnull(TODIS.PROJECTION_SALES, 0)+Isnull(PPA.PROJECTION_SALES, 0) \n";
 
             String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-            customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond;
+            customQuery = selectClause + " from  (\n " + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond;
 
         } else {
             customQuery = totalDiscountQuery;
@@ -1899,9 +1909,9 @@ public class ProjectionResultsLogic {
     }
 
     public String getProjectionResultsDiscountsPerQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", "on");
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(TODIS1, "SALE", "on");
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "TODIS.DISCOUNTS, \n";
@@ -1909,77 +1919,77 @@ public class ProjectionResultsLogic {
                 + " PROJECTION_RATE=Isnull(TODIS.PROJECTION_SALES / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS LEFT JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond + "\n order by TODIS.DISCOUNTS";
+        customQuery = selectClause + "  from  (\n " + totalDiscountQuery + "\n) TODIS LEFT JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond + "\n order by TODIS.DISCOUNTS";
         return customQuery;
     }
 
     public String getProjectionResultsTotalDiscountPerQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(TODIS1, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "'Total Discount %' as DISCOUNTS, \n";
         selectClause += " ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)";
         if (projSelDTO.isPpa()) {
-            selectClause += "+Isnull(PPA.ACTUAL_SALES, 0)";
+            selectClause += NULL_PPAACTUAL_SALES_ZERO;
         }
         selectClause += ") / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100,\n PROJECTION_RATE=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)";
         if (projSelDTO.isPpa()) {
-            selectClause += "+Isnull(PPA.PROJECTION_SALES, 0)";
+            selectClause += IS_NULL_PPAPROJECTION_SALES;
         }
         selectClause += ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n)  SALE  \n" + finalWhereCond;
         if (projSelDTO.isPpa()) {
             String finalWhereCond1 = list.get(NumericConstants.TWO);
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
+            customQuery += " FULL OUTER JOIN  (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
         }
         return customQuery;
     }
 
     public String getProjectionResultsNetSalesQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(TODIS1, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "'Net Sales' as NETSALES, \n";
         selectClause += " ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)";
         if (projSelDTO.isPpa()) {
-            selectClause += "+Isnull(PPA.ACTUAL_SALES, 0)";
+            selectClause += NULL_PPAACTUAL_SALES_ZERO;
         }
         selectClause += ")),\n PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)";
         if (projSelDTO.isPpa()) {
-            selectClause += "+Isnull(PPA.PROJECTION_SALES, 0)";
+            selectClause += IS_NULL_PPAPROJECTION_SALES;
         }
         selectClause += ")) \n";
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n)  TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE  \n" + finalWhereCond;
         if (projSelDTO.isPpa()) {
             String finalWhereCond1 = list.get(NumericConstants.TWO);
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
+            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n)  PPA \n" + finalWhereCond1;
         }
         return customQuery;
     }
 
     public String getProjectionResultsPivotQuery(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(true);
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
         String ppa_actuals = StringUtils.EMPTY;
         String ppa_projection = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(TODIS1, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         String orderBy = list.get(NumericConstants.THREE);
         if (projSelDTO.isPpa()) {
-            ppa_actuals = "+Isnull(PPA.ACTUAL_SALES, 0)";
-            ppa_projection = "+Isnull(PPA.PROJECTION_SALES, 0)";
+            ppa_actuals = NULL_PPAACTUAL_SALES_ZERO;
+            ppa_projection = IS_NULL_PPAPROJECTION_SALES;
         }
         selectClause += " SALE.SALES_ACTUAL_SALES as CONTRACT_ACTUAL_SALES \n"
                 + ", SALE.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES \n"
@@ -2001,10 +2011,10 @@ public class ProjectionResultsLogic {
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + "   from  (\n  " + totalDiscountQuery + "\n) TODIS  FULL OUTER JOIN (\n" + salesQuery + "\n)  SALE \n" + finalWhereCond;
         if (projSelDTO.isPpa()) {
             String finalWhereCond1 = list.get(NumericConstants.TWO);
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
+            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA  \n" + finalWhereCond1;
         }
         customQuery += " order by " + orderBy;
 
@@ -2013,9 +2023,9 @@ public class ProjectionResultsLogic {
 
     public String getProjectionResultsDiscountsPivotQuery(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(false);
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", "on");
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(TODIS1, "SALE", "on");
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         String orderBy = list.get(NumericConstants.TWO);

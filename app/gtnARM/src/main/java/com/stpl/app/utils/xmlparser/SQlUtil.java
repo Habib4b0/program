@@ -16,10 +16,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import org.jboss.logging.Logger;
 
-
 public class SQlUtil {
 
-    private final Map<String, String> QUERY_MAP = new HashMap<>();
+    private final Map<String, String> queryMap = new HashMap<>();
     private static SQlUtil sqlUtil = null;
     private File[] files = null;
     private static final Logger LOGGER = Logger.getLogger(SQlUtil.class);
@@ -32,7 +31,7 @@ public class SQlUtil {
             this.files = file.listFiles();
             getResources();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in SQLUtil"+e);
         }
     }
 
@@ -57,22 +56,22 @@ public class SQlUtil {
                     Sql que = (Sql) jaxbUnmarshaller.unmarshal(file);
                     List<SqlEntity> list = que.getSqlEntity();
                     for (SqlEntity ans : list) {
-                        QUERY_MAP.put(ans.getSqlID(), ans.getSqlQuery());
+                        queryMap.put(ans.getSqlID(), ans.getSqlQuery());
                     }
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in GetResource :"+e);
         }
 
     }
 
-    private Map<String, String> getQUERY_MAP() {
-        return QUERY_MAP;
+    private Map<String, String> getQueryMap() {
+        return queryMap;
     }
 
     public static String getQuery(String sqlId) {
-        return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
+        return SQlUtil.getContext().getQueryMap().get(sqlId);
     }
 
 }

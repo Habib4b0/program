@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 public class TextFieldConverter implements Converter<String, String> {
 
     @Override
-    public String convertToModel(String value, Class<? extends String> targetType, Locale locale) throws Converter.ConversionException {
+    public String convertToModel(String value, Class<? extends String> targetType, Locale locale) {
         if (value != null && !ConstantsUtils.NULL.equals(value)) {
             return value.trim();
         }
@@ -27,7 +27,7 @@ public class TextFieldConverter implements Converter<String, String> {
     }
 
     @Override
-    public String convertToPresentation(String value, Class<? extends String> targetType, Locale locale) throws Converter.ConversionException {
+    public String convertToPresentation(String value, Class<? extends String> targetType, Locale locale) {
         if (value == null || ConstantsUtils.NULL.equals(value)) {
             return StringUtils.EMPTY;
         } else {

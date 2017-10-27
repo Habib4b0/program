@@ -80,7 +80,7 @@ public class CompanyUI extends UI {
             navigator.addView(CompanyAddView.NAME, companyAddView);
             customMode = new PortletMode("config");
 
-        } catch (SystemException ex) {
+        }catch (SystemException ex) {
             LOGGER.error(ex);
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             LOGGER.error(errorMsg);
@@ -97,22 +97,15 @@ public class CompanyUI extends UI {
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
-        } catch (PortalException pe) {
-            LOGGER.error(pe);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-                @SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                    // Do Nothing
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
-        } catch (Exception e) {
+        }
+        /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */
+        // Do Nothing
+         catch (Exception e) {
             LOGGER.error(e);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
                 /**

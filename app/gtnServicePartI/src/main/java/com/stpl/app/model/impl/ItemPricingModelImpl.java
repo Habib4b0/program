@@ -57,9 +57,10 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
             { "MODIFIED_BY", Types.INTEGER },
             { "INBOUND_STATUS", Types.VARCHAR },
             { "ITEM_PRICING_SID", Types.INTEGER },
-            { "PRICING_CODE_STATUS", Types.INTEGER }
+            { "PRICING_CODE_STATUS", Types.INTEGER },
+            { "ITEM_PRICE_PRECISION", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table ITEM_PRICING (ITEM_MASTER_SID INTEGER,ITEM_PRICING_QUALIFIER_SID INTEGER,ITEM_PRICE DOUBLE,END_DATE DATE null,MODIFIED_DATE DATE null,ENTITY_CODE VARCHAR(75) null,RECORD_LOCK_STATUS BOOLEAN,START_DATE DATE null,CREATED_DATE DATE null,CREATED_BY INTEGER,SOURCE VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ITEM_UOM INTEGER,MODIFIED_BY INTEGER,INBOUND_STATUS VARCHAR(75) null,ITEM_PRICING_SID INTEGER not null primary key IDENTITY,PRICING_CODE_STATUS INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table ITEM_PRICING (ITEM_MASTER_SID INTEGER,ITEM_PRICING_QUALIFIER_SID INTEGER,ITEM_PRICE DOUBLE,END_DATE DATE null,MODIFIED_DATE DATE null,ENTITY_CODE VARCHAR(75) null,RECORD_LOCK_STATUS BOOLEAN,START_DATE DATE null,CREATED_DATE DATE null,CREATED_BY INTEGER,SOURCE VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ITEM_UOM INTEGER,MODIFIED_BY INTEGER,INBOUND_STATUS VARCHAR(75) null,ITEM_PRICING_SID INTEGER not null primary key IDENTITY,PRICING_CODE_STATUS INTEGER,ITEM_PRICE_PRECISION INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table ITEM_PRICING";
     public static final String ORDER_BY_JPQL = " ORDER BY itemPricing.itemPricingSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY ITEM_PRICING.ITEM_PRICING_SID ASC";
@@ -113,6 +114,7 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
     private int _pricingCodeStatus;
     private int _originalPricingCodeStatus;
     private boolean _setOriginalPricingCodeStatus;
+    private int _itemPricePrecision;
     private long _columnBitmask;
     private ItemPricing _escapedModel;
 
@@ -170,6 +172,7 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
         attributes.put("inboundStatus", getInboundStatus());
         attributes.put("itemPricingSid", getItemPricingSid());
         attributes.put("pricingCodeStatus", getPricingCodeStatus());
+        attributes.put("itemPricePrecision", getItemPricePrecision());
 
         return attributes;
     }
@@ -278,6 +281,13 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
 
         if (pricingCodeStatus != null) {
             setPricingCodeStatus(pricingCodeStatus);
+        }
+
+        Integer itemPricePrecision = (Integer) attributes.get(
+                "itemPricePrecision");
+
+        if (itemPricePrecision != null) {
+            setItemPricePrecision(itemPricePrecision);
         }
     }
 
@@ -530,6 +540,16 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
         return _originalPricingCodeStatus;
     }
 
+    @Override
+    public int getItemPricePrecision() {
+        return _itemPricePrecision;
+    }
+
+    @Override
+    public void setItemPricePrecision(int itemPricePrecision) {
+        _itemPricePrecision = itemPricePrecision;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -565,6 +585,7 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
         itemPricingImpl.setInboundStatus(getInboundStatus());
         itemPricingImpl.setItemPricingSid(getItemPricingSid());
         itemPricingImpl.setPricingCodeStatus(getPricingCodeStatus());
+        itemPricingImpl.setItemPricePrecision(getItemPricePrecision());
 
         itemPricingImpl.resetOriginalValues();
 
@@ -721,12 +742,14 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
 
         itemPricingCacheModel.pricingCodeStatus = getPricingCodeStatus();
 
+        itemPricingCacheModel.itemPricePrecision = getItemPricePrecision();
+
         return itemPricingCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(35);
+        StringBundler sb = new StringBundler(37);
 
         sb.append("{itemMasterSid=");
         sb.append(getItemMasterSid());
@@ -762,6 +785,8 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
         sb.append(getItemPricingSid());
         sb.append(", pricingCodeStatus=");
         sb.append(getPricingCodeStatus());
+        sb.append(", itemPricePrecision=");
+        sb.append(getItemPricePrecision());
         sb.append("}");
 
         return sb.toString();
@@ -769,7 +794,7 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(55);
+        StringBundler sb = new StringBundler(58);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ItemPricing");
@@ -842,6 +867,10 @@ public class ItemPricingModelImpl extends BaseModelImpl<ItemPricing>
         sb.append(
             "<column><column-name>pricingCodeStatus</column-name><column-value><![CDATA[");
         sb.append(getPricingCodeStatus());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>itemPricePrecision</column-name><column-value><![CDATA[");
+        sb.append(getItemPricePrecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

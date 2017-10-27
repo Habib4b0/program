@@ -65,6 +65,8 @@ public final class IdenQualifierEditList extends StplWindow {
      * The itemlogic.
      */
     private final ItemSearchLogic itemlogic = new ItemSearchLogic();
+    private static final String RECORD_LOCK_STATUS = "recordLockStatus";
+    private static final String IDENTIFIER_CODE_QUALIFIER = "identifierCodeQualifier";
     /**
      * The qualifier table.
      */
@@ -73,7 +75,7 @@ public final class IdenQualifierEditList extends StplWindow {
     /**
      * The item qualifier.
      */
-    private final BeanItemContainer<ItemIrtIdentifierDTO> itemQualifier = new BeanItemContainer<ItemIrtIdentifierDTO>(
+    private final BeanItemContainer<ItemIrtIdentifierDTO> itemQualifier = new BeanItemContainer<>(
             ItemIrtIdentifierDTO.class);
     /**
      * The identifier dto.
@@ -110,7 +112,7 @@ public final class IdenQualifierEditList extends StplWindow {
      * The binder.
      */
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
-            new BeanItem<ItemIrtIdentifierDTO>(identifierDTO));
+            new BeanItem<>(identifierDTO));
     /**
      * The error msg.
      */
@@ -122,8 +124,9 @@ public final class IdenQualifierEditList extends StplWindow {
     @UiField("panel2")
     private Panel panel2;
 
-    List<String> saveList = new ArrayList<>();
+    private List<String> saveList = new ArrayList<>();
     ItemIrtIdentifierDTO selectedItemiden = new ItemIrtIdentifierDTO();
+    private final UIUtils uiUtils = UIUtils.getInstance();
 
     /**
      * The Constructor.
@@ -139,6 +142,9 @@ public final class IdenQualifierEditList extends StplWindow {
         }
         setContent(Clara.create(getClass().getResourceAsStream("/declarativeui/itemmaster/qualifiereditlist.xml"), this));
         binder.bindMemberFields(this);
+        binder.setItemDataSource(new BeanItem<>(new ItemIrtIdentifierDTO()));
+        binder.setBuffered(true);
+        binder.setErrorDisplay(errorMsg);
         init();
 
     }
@@ -174,7 +180,7 @@ public final class IdenQualifierEditList extends StplWindow {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public void configureFields() throws PortalException, SystemException {
+    public void configureFields() {
         addStyleName(ConstantsUtils.BOOTSTRAP);
         addStyleName(ConstantsUtils.BOOTSTRAP_BB);
         effectiveDates.setNullSelectionAllowed(true);
@@ -190,7 +196,6 @@ public final class IdenQualifierEditList extends StplWindow {
         entityCode.addItem("Yes");
         entityCode.addItem("No");
         entityCode.select(ConstantsUtils.SELECT_ONE);
-        binder.setErrorDisplay(errorMsg);
         notes.setImmediate(true);
         notes.setMaxLength(NumericConstants.THOUSAND);
         notes.addValidator(new StringLengthValidator(" New Note Should be less than 1000 characters", 0, NumericConstants.THOUSAND, true));
@@ -244,11 +249,11 @@ public final class IdenQualifierEditList extends StplWindow {
      * @return the table
      * @throws Exception the exception
      */
-    private ExtFilterTable addToTable()  {
+    private ExtFilterTable addToTable() {
 
         qualifierTable.setContainerDataSource(itemQualifier);
-        qualifierTable.setVisibleColumns(UIUtils.QUALIFIER_ITEM);
-        qualifierTable.setColumnHeaders(UIUtils.QUALIFIER_ITEM_HEADER);
+        qualifierTable.setVisibleColumns(uiUtils.qualifierItem);
+        qualifierTable.setColumnHeaders(uiUtils.qualifierItemHeader);
         qualifierTable.setPageLength(NumericConstants.SIX);
         qualifierTable.setImmediate(true);
         qualifierTable.setSelectable(true);
@@ -257,8 +262,13 @@ public final class IdenQualifierEditList extends StplWindow {
         qualifierTable.addStyleName(ConstantsUtils.FILTER_BAR);
         qualifierTable.setFilterDecorator(new ExtDemoFilterDecorator());
         qualifierTable.setValidationVisible(false);
-        qualifierTable.addItemClickListener(new ItemClickListener() {
+        qualifierTableItemClickListener();
+        return qualifierTable;
+    }
 
+    public void qualifierTableItemClickListener() {
+        qualifierTable.addItemClickListener(new ItemClickListener() {
+            
             /**
              * After clicking the item in qualifierTable, function will be
              * executed.
@@ -271,23 +281,7 @@ public final class IdenQualifierEditList extends StplWindow {
 
                     binder.commit();
                     event.getItemId();
-                    selectedItemiden = itemQualifier.getItem(
-                            event.getItemId()).getBean();
-                    binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(selectedItemiden));
-                    if (selectedItemiden != null) {
-                        if (selectedItemiden.getEffectiveDates() != null && selectedItemiden.getEffectiveDates().isEmpty()) {
-                            effectiveDates.select(ConstantsUtils.SELECT_ONE);
-                        }
-                        if (selectedItemiden.getEntityCode() != null && selectedItemiden.getEntityCode().isEmpty()) {
-                            entityCode.select(ConstantsUtils.SELECT_ONE);
-                        }
-                    }
-                    if (!qualifierTable.isSelected(selectedItemiden)) {
-                        btnSave.setCaption(ConstantsUtils.UPDATE);
-                    } else {
-                        binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(new ItemIrtIdentifierDTO()));
-                        btnSave.setCaption(ConstantsUtils.SAVE);
-                    }
+                    itemClickListener(event);
                 } catch (CommitException commitException) {
                     LOGGER.error(commitException);
                 } catch (Exception exception) {
@@ -308,10 +302,26 @@ public final class IdenQualifierEditList extends StplWindow {
                 }
             }
         });
-        return qualifierTable;
     }
 
-    public void addToForm1(final Map<String, AppPermission> fieldItemHM) {
+    private void itemClickListener(final ItemClickEvent event) {
+        selectedItemiden = itemQualifier.getItem(
+                event.getItemId()).getBean();
+        binder.setItemDataSource(new BeanItem<>(selectedItemiden));
+        if (selectedItemiden != null) {
+            if (selectedItemiden.getEffectiveDates() != null && selectedItemiden.getEffectiveDates().isEmpty()) {
+                effectiveDates.select(ConstantsUtils.SELECT_ONE);
+            }
+            if (selectedItemiden.getEntityCode() != null && selectedItemiden.getEntityCode().isEmpty()) {
+                entityCode.select(ConstantsUtils.SELECT_ONE);
+            }
+        }
+        if (!qualifierTable.isSelected(selectedItemiden)) {
+            btnSave.setCaption(ConstantsUtils.UPDATE);
+        } else {
+            binder.setItemDataSource(new BeanItem<>(new ItemIrtIdentifierDTO()));
+            btnSave.setCaption(ConstantsUtils.SAVE);
+        }
     }
 
     /**
@@ -336,25 +346,10 @@ public final class IdenQualifierEditList extends StplWindow {
                     qualifierTable.commit();
                     binder.commit();
                     binder.getErrorDisplay().clearError();
-                    
-                    if (StringUtils.isEmpty(String.valueOf(binder.getField("identifierCodeQualifier").getValue()))) {
-                        binder.getErrorDisplay().setError("Enter Identifier Code Qualifier ");
-                        return;
-                    }
-                    if (binder.getField("effectiveDates").getValue() == null || effectiveDates.getValue() == null) {
-                        binder.getErrorDisplay().setError("Select Effective Dates");
-                        return;
-                    }
-                    if (StringUtils.isEmpty(String.valueOf(binder.getField("identifierCodeQualifierName").getValue()))) {
-                        binder.getErrorDisplay().setError("Enter Identifier Code Qualifier Name ");
-                        return;
-                    }
-                    if (binder.getField("entityCode").getValue() == null) {
-                        binder.getErrorDisplay().setError("Select Entity Code");
-                        return;
-                    }
-                    
-                    if (!ConstantsUtils.SAVE.equals(btnSave.getCaption()) && itemlogic.checkDifferentQualifier(selectedItemiden.getItemIrtQualifierId(), binder.getField("identifierCodeQualifier").getValue().toString().trim(),pricingFlag)) {
+
+                    if (binderErrorDisplay()) return;
+
+                    if (!ConstantsUtils.SAVE.equals(btnSave.getCaption()) && itemlogic.checkDifferentQualifier(selectedItemiden.getItemIrtQualifierId(), binder.getField(IDENTIFIER_CODE_QUALIFIER).getValue().toString().trim(), pricingFlag)) {
                         final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Error", "Identifier Code Qualifier cannot be edited.", new MessageBoxListener() {
                             /**
                              * The method is triggered when a button of the
@@ -374,7 +369,7 @@ public final class IdenQualifierEditList extends StplWindow {
                         return;
                     }
                     Item item = (Item) binder.getItemDataSource();
-                    Boolean recordLockStatus = (item.getItemProperty("recordLockStatus").getValue() == null) ? false : ((Boolean) item.getItemProperty("recordLockStatus").getValue());
+                    Boolean recordLockStatus = (item.getItemProperty(RECORD_LOCK_STATUS).getValue() == null) ? false : ((Boolean) item.getItemProperty(RECORD_LOCK_STATUS).getValue());
                     if (recordLockStatus) {
                         final MessageBox msg = MessageBox.showPlain(Icon.INFO, "Access Denied", "You do not have the proper permissions to edit this Qualifier.", new MessageBoxListener() {
                             /**
@@ -395,48 +390,7 @@ public final class IdenQualifierEditList extends StplWindow {
 
                         return;
                     }
-                    MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to save the identifiers?", new MessageBoxListener() {
-                        /**
-                         * Called when a Button has been clicked .
-                         *
-                         */
-                        public void buttonClicked(final ButtonId buttonId) {
-                            if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                LOGGER.debug("Entering IdenQualifierEditList save operation");
-                                try {
-                                    int val = 0;
-                                    qualifierTable.addItem(binder.getItemDataSource());
-                                    itemQualifier.removeAllItems();
-
-                                    saveList.add(String.valueOf(binder.getField("identifierCodeQualifier").getValue()));
-                                    if(!ConstantsUtils.SAVE.equals(btnSave.getCaption())){
-                                        val =  selectedItemiden.getItemIrtQualifierId();
-                                    }
-                                    if (pricingFlag) {
-                                        itemQualifier.addAll(itemlogic.savePricingQualifer(binder,val));
-                                    } else {
-                                        itemQualifier.addAll(itemlogic.saveIrtQualifer(binder,val));
-                                    }
-                                    binder.discard();
-                                    binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(new ItemIrtIdentifierDTO() {
-                                        {
-                                            setEffectiveDates(null);
-                                            setEntityCode(null);
-
-                                        }
-                                    }));
-                                    btnSave.setCaption(ConstantsUtils.SAVE);
-                                } catch (SystemException ex) {
-                                    LOGGER.error(ex);
-                                } catch (PortalException portException) {
-                                    LOGGER.error(portException);
-                                } catch (Exception exception) {
-                                    LOGGER.error(exception);
-                                }
-                                LOGGER.debug("Ending IdenQualifierEditList save operation");
-                            }
-                        }
-                    }, ButtonId.YES, ButtonId.NO);
+                    saveConfirmation();
                 } catch (CommitException ex) {
                     LOGGER.error(ex);
                 }
@@ -445,6 +399,42 @@ public final class IdenQualifierEditList extends StplWindow {
         });
 
         return btnSave;
+    }
+
+    public void saveConfirmation() {
+        MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to save the identifiers?", new MessageBoxListener() {
+            /**
+             * Called when a Button has been clicked .
+             *
+             */
+            public void buttonClicked(final ButtonId buttonId) {
+                if (buttonId.name().equals(ConstantsUtils.YES)) {
+                    LOGGER.debug("Entering IdenQualifierEditList save operation");
+                    saveButtonYesMethod();
+                    LOGGER.debug("Ending IdenQualifierEditList save operation");
+                }
+            }
+        }, ButtonId.YES, ButtonId.NO);
+    }
+
+    public boolean binderErrorDisplay() {
+        if (StringUtils.isEmpty(String.valueOf(binder.getField(IDENTIFIER_CODE_QUALIFIER).getValue()))) {
+            binder.getErrorDisplay().setError("Enter Identifier Code Qualifier ");
+            return true;
+        }
+        if (binder.getField("effectiveDates").getValue() == null || effectiveDates.getValue() == null) {
+            binder.getErrorDisplay().setError("Select Effective Dates");
+            return true;
+        }
+        if (StringUtils.isEmpty(String.valueOf(binder.getField("identifierCodeQualifierName").getValue()))) {
+            binder.getErrorDisplay().setError("Enter Identifier Code Qualifier Name ");
+            return true;
+        }
+        if (binder.getField("entityCode").getValue() == null) {
+            binder.getErrorDisplay().setError("Select Entity Code");
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -468,11 +458,11 @@ public final class IdenQualifierEditList extends StplWindow {
                 LOGGER.debug("Entering IdenQualifierEditList delete operation");
                 try {
                     binder.commit();
-                    if (String.valueOf(selectedItemiden.getItemIrtQualifierId()).isEmpty()  || selectedItemiden.getItemIrtQualifierId() == 0){
+                    if (String.valueOf(selectedItemiden.getItemIrtQualifierId()).isEmpty()  || Integer.valueOf(selectedItemiden.getItemIrtQualifierId()) == 0){
                         AbstractNotificationUtils.getErrorNotification(ConstantsUtils.ERROR, "Please select an Identifier from the list view to Delete.");
                     } else {
                         final Item item = (Item) binder.getItemDataSource();
-                        Boolean recordLockStatus = (item.getItemProperty("recordLockStatus").getValue() == null) ? false : ((Boolean) item.getItemProperty("recordLockStatus").getValue());
+                        Boolean recordLockStatus = (item.getItemProperty(RECORD_LOCK_STATUS).getValue() == null) ? false : ((Boolean) item.getItemProperty(RECORD_LOCK_STATUS).getValue());
                         if (recordLockStatus) {
                             final MessageBox msg = MessageBox.showPlain(Icon.INFO, "Access Denied", "You do not have the proper permissions to delete this Qualifier.", new MessageBoxListener() {
                                 /**
@@ -499,6 +489,20 @@ public final class IdenQualifierEditList extends StplWindow {
             }
         });
         return btnDelete;
+    }
+
+    public void deleteConfirmation(final Item item) {
+        MessageBox.showPlain(Icon.QUESTION, "Delete Confirmation", " Are you sure you want to delete the selected identifier?", new MessageBoxListener() {
+            /**
+             * After clicking button, function will be executed.
+             */
+            @SuppressWarnings("PMD")
+            public void buttonClicked(final ButtonId buttonId) {
+                if (buttonId.name().equals(ConstantsUtils.YES)) {
+                    deleteButtonYesMethod(item);
+                }
+            }
+        }, ButtonId.YES, ButtonId.NO);
     }
 
     /**
@@ -535,31 +539,9 @@ public final class IdenQualifierEditList extends StplWindow {
                                         setEntityCode(null);
                                     }
                                 }));
-                                List<ItemIrtIdentifierDTO> qualifierList = new ArrayList<>();
-                                for (String obj : saveList) {
-                                    for (ItemIrtIdentifierDTO dto : itemQualifier.getItemIds()) {
-                                        if (dto.getIdentifierCodeQualifier().equals(obj) && dto.getItemIrtQualifierId() != 0) {
-                                                if (pricingFlag) {
-                                                    qualifierList = itemlogic.deletePricingQualifer(dto.getItemIrtQualifierId());
-                                                } else {
-                                                    qualifierList = itemlogic.deleteIrtQualifer(dto.getItemIrtQualifierId());
-                                                }
-                                        }
-                                    }
-
-                                }
+                                List<ItemIrtIdentifierDTO> qualifierList = deletePricingQualifier();
                                 saveList.clear();
-                                if (!qualifierList.isEmpty()) {
-                                    itemQualifier.removeAllItems();
-                                    itemQualifier.addAll(qualifierList);
-                                    binder.discard();
-                                    binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(new ItemIrtIdentifierDTO() {
-                                        {
-                                            setEffectiveDates(null);
-                                            setEntityCode(null);
-                                        }
-                                    }));
-                                }
+                                setResetValues(qualifierList);
                                 qualifierTable.setValue(null);
                                 btnSave.setCaption(ConstantsUtils.SAVE);
                             } catch (Exception exception) {
@@ -578,22 +560,73 @@ public final class IdenQualifierEditList extends StplWindow {
 
     }
     
-    public void deleteConfirmation(final Item item) {
-        MessageBox.showPlain(Icon.QUESTION, "Delete Confirmation", " Are you sure you want to delete the selected identifier?", new MessageBoxListener() {
-            /**
-             * After clicking button, function will be executed.
-             */
-            @SuppressWarnings("PMD")
-            public void buttonClicked(final ButtonId buttonId) {
-                if (buttonId.name().equals(ConstantsUtils.YES)) {
-                    deleteButtonYesMethod(item);
+    public List<ItemIrtIdentifierDTO> deletePricingQualifier() throws SystemException, PortalException {
+        List<ItemIrtIdentifierDTO> qualifierList = new ArrayList<>();
+        for (String obj : saveList) {
+            for (ItemIrtIdentifierDTO dto : itemQualifier.getItemIds()) {
+                if (dto.getIdentifierCodeQualifier().equals(obj) && dto.getItemIrtQualifierId() != 0) {
+                    if (pricingFlag) {
+                        qualifierList = itemlogic.deletePricingQualifer(dto.getItemIrtQualifierId());
+                    } else {
+                        qualifierList = itemlogic.deleteIrtQualifer(dto.getItemIrtQualifierId());
+                    }
                 }
             }
-        }, ButtonId.YES, ButtonId.NO);
+
+        }
+        return qualifierList;
     }
     
+    public void setResetValues(List<ItemIrtIdentifierDTO> qualifierList) {
+        if (!qualifierList.isEmpty()) {
+            itemQualifier.removeAllItems();
+            itemQualifier.addAll(qualifierList);
+            binder.discard();
+            binder.setItemDataSource(new BeanItem<>(new ItemIrtIdentifierDTO() {
+                {
+                    setEffectiveDates(null);
+                    setEntityCode(null);
+                }
+            }));
+        }
+    }
+
+    public void saveButtonYesMethod() {
+        try {
+            int val = 0;
+            qualifierTable.addItem(binder.getItemDataSource());
+            itemQualifier.removeAllItems();
+
+            saveList.add(String.valueOf(binder.getField(IDENTIFIER_CODE_QUALIFIER).getValue()));
+            if (!ConstantsUtils.SAVE.equals(btnSave.getCaption())) {
+                val = selectedItemiden.getItemIrtQualifierId();
+            }
+            if (pricingFlag) {
+                itemQualifier.addAll(itemlogic.savePricingQualifer(binder, val));
+            } else {
+                itemQualifier.addAll(itemlogic.saveIrtQualifer(binder, val));
+            }
+            binder.discard();
+            binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(new ItemIrtIdentifierDTO() {
+                {
+                    setEffectiveDates(null);
+                    setEntityCode(null);
+
+                }
+            }));
+            btnSave.setCaption(ConstantsUtils.SAVE);
+        } catch (SystemException ex) {
+            LOGGER.error(ex);
+        } catch (PortalException portException) {
+            LOGGER.error(portException);
+        } catch (Exception exception) {
+            LOGGER.error(exception);
+        }
+    }
+
     public void deleteButtonYesMethod(Item item) {
         try {
+
             List<ItemIrtIdentifierDTO> qualifierList = new ArrayList<>();
             if (Integer.valueOf(item.getItemProperty(ConstantsUtils.ITEM_IRT_QUALIFIFIERID).getValue().toString()) != 0) {
                 if (pricingFlag) {
@@ -623,5 +656,6 @@ public final class IdenQualifierEditList extends StplWindow {
         } catch (Exception exception) {
             LOGGER.error(exception);
         }
+
     }
 }

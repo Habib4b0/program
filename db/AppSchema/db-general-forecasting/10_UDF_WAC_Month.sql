@@ -21,6 +21,8 @@ AS
                                                    + Cast(FORECAST_MONTH AS VARCHAR(2)) + '-01' AS DATETIME)) - 1 END_PERIOD,
                                FM.PRICE,
                                P.PERIOD_SID
+
+
                FROM   FORECASTING_MASTER FM
                JOIN   PERIOD P ON P.YEAR = FM.FORECAST_YEAR
                               AND P.MONTH = FORECAST_MONTH

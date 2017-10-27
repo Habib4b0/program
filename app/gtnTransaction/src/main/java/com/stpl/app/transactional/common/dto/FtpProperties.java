@@ -14,7 +14,6 @@ public class FtpProperties {
      * *
      * the Ftp Properties File Path
      */
-    public static final String FTP_CONFIGURATION_PATH = "/opt/bpigtn/conf/BPI Configuration/FTPConfiguration.properties";  
     private String scripts;
     private String interfaceName;
 

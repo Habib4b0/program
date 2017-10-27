@@ -10,5 +10,6 @@ package com.stpl.app.arm.supercode;
  * @author Abhiram.Giri
  */
 public interface HasLogic<T extends InterFaceDTO> {
-    public LogicAble<T> getLogic();
+
+    public LogicAble<T> getSummaryLogic();
 }

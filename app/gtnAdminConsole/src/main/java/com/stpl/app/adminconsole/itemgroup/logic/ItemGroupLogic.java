@@ -4,6 +4,7 @@
  */
 package com.stpl.app.adminconsole.itemgroup.logic;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
@@ -81,7 +82,8 @@ public class ItemGroupLogic {
     private ItemGroupLogicDAO dao = new ItemGroupLogicDAOImpl();
 
     static HashMap<String, String> columnNames = new HashMap<String, String>();
-    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    DateFormat df = new SimpleDateFormat(StringConstantUtils.M_MDDYYYY);
+    
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
@@ -113,7 +115,7 @@ public class ItemGroupLogic {
      * @throws java.lang.Exception
      */
     public Object getSearchResults(final ErrorfulFieldGroup itemGroupForm, final String version, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) throws SystemException {
-        LOGGER.debug("getSearchResults started with P1:CustomFieldGroup itemGroupForm");
+        LOGGER.debug("getSearchResults started with P1:CustomFieldGroup itemGroupForm ");
 
         DynamicQuery itemgroupDynamicQuery = null;
         if (version.equalsIgnoreCase(ConstantsUtils.VERSION_CURRENT)) {
@@ -122,27 +124,27 @@ public class ItemGroupLogic {
             itemgroupDynamicQuery = DynamicQueryFactoryUtil.forClass(HistItemGroup.class);
         }
 
-        if (itemGroupForm.getField("text1").getValue() != null && StringUtils.isNotEmpty(itemGroupForm.getField("text1").getValue().toString())) {
-            final String itemGroupName = itemGroupForm.getField("text1").getValue().toString();
+        if (itemGroupForm.getField(StringConstantUtils.TEXT1).getValue() != null && StringUtils.isNotEmpty(itemGroupForm.getField(StringConstantUtils.TEXT1).getValue().toString())) {
+            final String itemGroupName = itemGroupForm.getField(StringConstantUtils.TEXT1).getValue().toString();
             String itemGroupName1 = itemGroupName.replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
             itemGroupName1 = itemGroupName1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             itemgroupDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_GROUP_NAME, itemGroupName1));
         }
-        if (itemGroupForm.getField("text2").getValue() != null && StringUtils.isNotEmpty(itemGroupForm.getField("text2").getValue().toString())) {
-            final String itemGroupNo = itemGroupForm.getField("text2").getValue().toString();
+        if (itemGroupForm.getField(StringConstantUtils.TEXT2).getValue() != null && StringUtils.isNotEmpty(itemGroupForm.getField(StringConstantUtils.TEXT2).getValue().toString())) {
+            final String itemGroupNo = itemGroupForm.getField(StringConstantUtils.TEXT2).getValue().toString();
             String itemGroupNo1 = itemGroupNo.replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
             itemGroupNo1 = itemGroupNo1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             itemgroupDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_GROUP_NO, itemGroupNo1));
         }
-        if (itemGroupForm.getField("text3").getValue() != null && StringUtils.isNotEmpty(itemGroupForm.getField("text3").getValue().toString())) {
-            final String itemGroupDesc = itemGroupForm.getField("text3").getValue().toString();
+        if (itemGroupForm.getField(StringConstantUtils.TEXT3).getValue() != null && StringUtils.isNotEmpty(itemGroupForm.getField(StringConstantUtils.TEXT3).getValue().toString())) {
+            final String itemGroupDesc = itemGroupForm.getField(StringConstantUtils.TEXT3).getValue().toString();
             String itemGroupDesc1 = itemGroupDesc.replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
             itemGroupDesc1 = itemGroupDesc1.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             itemgroupDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_GROUP_DESCRIPTION, itemGroupDesc1));
         }
-        if (itemGroupForm.getField("combo1").getValue() != null && !(StringUtils.isBlank(itemGroupForm.getField("combo1").getValue().toString()))
-                && ((HelperDTO) itemGroupForm.getField("combo1").getValue()).getId() != 0) {
-            itemgroupDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_SYS_ID, ((HelperDTO) itemGroupForm.getField("combo1").getValue()).getId()));
+        if (itemGroupForm.getField(StringConstantUtils.COMBO1).getValue() != null && !(StringUtils.isBlank(itemGroupForm.getField(StringConstantUtils.COMBO1).getValue().toString()))
+                && ((HelperDTO) itemGroupForm.getField(StringConstantUtils.COMBO1).getValue()).getId() != 0) {
+            itemgroupDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_SYS_ID, ((HelperDTO) itemGroupForm.getField(StringConstantUtils.COMBO1).getValue()).getId()));
         }
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -225,9 +227,9 @@ public class ItemGroupLogic {
                 }
             }
         }
-        List<ItemGroup> resultList = new ArrayList<ItemGroup>();
-        List<HistItemGroup> historyList = new ArrayList<HistItemGroup>();
-        List<SearchResultsDTO> itemGroupList = new ArrayList<SearchResultsDTO>();
+        List<ItemGroup> resultList;
+        List<HistItemGroup> historyList;
+        List<SearchResultsDTO> itemGroupList = new ArrayList<>();
         Object object = new Object();
         if (version.equalsIgnoreCase(ConstantsUtils.VERSION_CURRENT)) {
             if (isCount) {
@@ -259,6 +261,7 @@ public class ItemGroupLogic {
 
         return object;
     }
+    
 
     public static String getDBColumnName(String visibleColumnName) {
         return columnNames.get(visibleColumnName);
@@ -269,7 +272,7 @@ public class ItemGroupLogic {
         columnNames.put("itemGroupName", "itemGroupName");
         columnNames.put("itemGroupDesc", "itemGroupDescription");
         columnNames.put("itemGroupNo", "itemGroupNo");
-        columnNames.put("companyDdlb", "companyName");
+        columnNames.put("companyDdlb", "companyMasterSid");
         columnNames.put("versionNo", "versionNo");
         columnNames.put("createdDate", "createdDate");
         columnNames.put("modifiedDate", "modifiedDate");
@@ -335,13 +338,13 @@ public class ItemGroupLogic {
             itemgroupHistoryDynamicQuery.setLimit(startIndex, endIndex);
         }
         if (ConstantsUtils.SEARCH.equals(flag)) {
-            List<ItemGroup> resultList = new ArrayList<ItemGroup>();
+            List<ItemGroup> resultList;
             resultList = dao.getItemGroupsList(itemgroupDynamicQuery);
             final List<SearchResultsDTO> itemGroupList = getCustomizedResults(resultList);
             return itemGroupList;
         } else {
 
-            List<HistItemGroup> historyList = new ArrayList<HistItemGroup>();
+            List<HistItemGroup> historyList;
             historyList = dao.getItemGroupsHistoryList(itemgroupHistoryDynamicQuery);
             final List<SearchResultsDTO> itemGroupList = getCustomizedHistoryResults(historyList);
             return itemGroupList;
@@ -485,13 +488,13 @@ public class ItemGroupLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private List<SearchResultsDTO> getCustomizedResults(final List<ItemGroup> resultList) throws SystemException, PortalException {
+    private List<SearchResultsDTO> getCustomizedResults(final List<ItemGroup> resultList) throws SystemException {
         LOGGER.debug("getCustomizedResults started with P1:List<ItemGroup> resultList size:" + resultList.size());
-        final List<SearchResultsDTO> itemGroupsList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> itemGroupsList = new ArrayList<>();
         final Map companyInfo = CommonUtils.getCompanyInformation();
         final Map<String, String> userInfoMap = CommonUtil.getCreatedByUser();
         String companyNoName;
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat(StringConstantUtils.M_MDDYYYY);
         try {
             for (final ItemGroup itemGroup : resultList) {
                 final SearchResultsDTO itemGroupDto = new SearchResultsDTO();
@@ -540,13 +543,13 @@ public class ItemGroupLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private List<SearchResultsDTO> getCustomizedHistoryResults(final List<HistItemGroup> resultList) throws SystemException, PortalException {
+    private List<SearchResultsDTO> getCustomizedHistoryResults(final List<HistItemGroup> resultList) throws SystemException {
         LOGGER.debug("getCustomizedResults started with P1:List<ItemGroup> resultList size:" + resultList.size());
-        final List<SearchResultsDTO> itemGroupsList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> itemGroupsList = new ArrayList<>();
         final Map companyInfo = CommonUtils.getCompanyInformation();
         final Map userInfoMap = CommonUtil.getCreatedByUser();
         String companyNoName;
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat(StringConstantUtils.M_MDDYYYY);
         try {
             for (final HistItemGroup itemGroup : resultList) {
                 final SearchResultsDTO itemGroupDto = new SearchResultsDTO();
@@ -639,7 +642,7 @@ public class ItemGroupLogic {
     }
 
     public List<String> getSearchCriteria(final ErrorfulFieldGroup itemForm, final int count) throws SystemException, PortalException {
-        final List<String> criteria = new ArrayList<String>();
+        final List<String> criteria = new ArrayList<>();
         String itemTypeCriteria = ConstantsUtils.EMPTY;
         String itemDescription = ConstantsUtils.EMPTY;
         String brandCriteria = ConstantsUtils.EMPTY;
@@ -651,13 +654,13 @@ public class ItemGroupLogic {
         boolean flagCount = true;
         boolean flag = false;
         if (count > 1) {
-            searchCriteria += " AND ";
+            searchCriteria += StringConstantUtils.AND_SPACE;
         }
         if (null != itemForm.getField(ConstantsUtils.ITEM_TYPE_DDLB).getValue() && StringUtils.isNotEmpty(itemForm.getField(ConstantsUtils.ITEM_TYPE_DDLB).getValue().toString())
                 && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(itemForm.getField(ConstantsUtils.ITEM_TYPE_DDLB).getValue().toString())) {
             itemTypeCriteria = itemForm.getField(ConstantsUtils.ITEM_TYPE_DDLB).getValue().toString();
             if (flag) {
-                searchCriteria += " AND ";
+                searchCriteria += StringConstantUtils.AND_SPACE;
             }
             flag = true;
             searchCriteria += " HT_IT.description = '" + itemTypeCriteria + "' " + " AND IM.ITEM_TYPE = HT_IT.HELPER_TABLE_SID ";
@@ -667,7 +670,7 @@ public class ItemGroupLogic {
             final String itemDesc = itemForm.getField(ConstantsUtils.ITEM_DESC).getValue().toString();
             itemDescription = com.stpl.ifs.util.CommonUtil.buildSearchCriteria(itemDesc);
             if (flag) {
-                searchCriteria += " AND ";
+                searchCriteria += StringConstantUtils.AND_SPACE;
             }
             flag = true;
             searchCriteria += " IM.item_Desc like '" + itemDescription + "'";
@@ -678,7 +681,7 @@ public class ItemGroupLogic {
             brandCriteria = itemForm.getField(ConstantsUtils.BRAND_DDLB).getValue().toString();
 
             if (flag) {
-                searchCriteria += " AND ";
+                searchCriteria += StringConstantUtils.AND_SPACE;
             }
             flag = true;
             searchCriteria += " BM.brand_Name = '" + brandCriteria + "'" + " AND IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID";
@@ -688,7 +691,7 @@ public class ItemGroupLogic {
             final String strength = itemForm.getField(ConstantsUtils.STENGTH).getValue().toString();
             strengthCriteria = com.stpl.ifs.util.CommonUtil.buildSearchCriteria(strength);
             if (flag) {
-                searchCriteria += " AND ";
+                searchCriteria += StringConstantUtils.AND_SPACE;
             }
             flag = true;
             searchCriteria += " IM.strength like '" + strengthCriteria + "'";
@@ -698,7 +701,7 @@ public class ItemGroupLogic {
             final String itemNo = itemForm.getField(ConstantsUtils.ITEM_NO).getValue().toString();
             itemNoCriteria = com.stpl.ifs.util.CommonUtil.buildSearchCriteria(itemNo);
             if (flag) {
-                searchCriteria += " AND ";
+                searchCriteria += StringConstantUtils.AND_SPACE;
             }
             flag = true;
             searchCriteria += " IM.item_No like '" + itemNoCriteria + "'";
@@ -708,7 +711,7 @@ public class ItemGroupLogic {
                 && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(itemForm.getField(ConstantsUtils.THERAPEUTIC_CLASS_DDLB).getValue().toString())) {
             therapeuticCriteria = itemForm.getField(ConstantsUtils.THERAPEUTIC_CLASS_DDLB).getValue().toString();
             if (flag) {
-                searchCriteria += " AND ";
+                searchCriteria += StringConstantUtils.AND_SPACE;
             }
             flag = true;
             searchCriteria += " HT_TC.description ='" + therapeuticCriteria + "'" + " AND IM.THERAPEUTIC_CLASS = HT_TC.HELPER_TABLE_SID";
@@ -719,9 +722,8 @@ public class ItemGroupLogic {
                 && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(itemForm.getField(ConstantsUtils.FORM_DDLB).getValue().toString())) {
             formCriteria = itemForm.getField(ConstantsUtils.FORM_DDLB).getValue().toString();
             if (flag) {
-                searchCriteria += " AND ";
+                searchCriteria += StringConstantUtils.AND_SPACE;
             }
-            flag = true;
             searchCriteria += " HT_F.description = '" + formCriteria + "'" + " AND IM.FORM = HT_F.HELPER_TABLE_SID";
             flagCount = false;
 
@@ -741,6 +743,7 @@ public class ItemGroupLogic {
 
         return criteria;
     }
+    
 
     /**
      * Gets the item search results.
@@ -754,7 +757,7 @@ public class ItemGroupLogic {
     public List<ItemDetailsDTO> getItemSearch(final ErrorfulFieldGroup itemForm, int count,SessionDTO sessionDTO) throws SystemException, PortalException, ParseException {
         LOGGER.debug("getItemSearchResults started with P1:CustomFieldGroup itemForm");
        
-        List<ItemDetailsDTO> itemsList = new ArrayList<ItemDetailsDTO>();
+        List<ItemDetailsDTO> itemsList = new ArrayList<>();
          try{
         String selectedItems=StringUtils.EMPTY;
         List<String> criteria = getSearchCriteria(itemForm, count);
@@ -788,10 +791,10 @@ public class ItemGroupLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public List<ItemDetailsDTO> getCustomizedItemResults(final List resultList) throws SystemException, PortalException, ParseException {
-        LOGGER.debug("getCustomizedItemResults started with P1:List<ItemMaster> resultList" + resultList.size() + "and P2:HashMap resultList1 size");
+    public List<ItemDetailsDTO> getCustomizedItemResults(final List resultList) throws SystemException, ParseException {
+        LOGGER.debug("getCustomizedItemResults started with P1:List<ItemMaster> resultList" + resultList.size() + "and P2:HashMap resultList1 size ");
 
-        final List<ItemDetailsDTO> itemDetailsList = new ArrayList<ItemDetailsDTO>();
+        final List<ItemDetailsDTO> itemDetailsList = new ArrayList<>();
         final Map companyInfo = CommonUtils.getCompanyInfo();
         if (!resultList.isEmpty()) {
             for (int i = 0; i < resultList.size(); i++) {
@@ -838,12 +841,12 @@ public class ItemGroupLogic {
                     Date itemEndDate = df.parse(CommonUtils.convertDateToString(endDate));
                     itemDetailsDto.setItemEndDate(itemEndDate);
                 }
-                if (obj[NumericConstants.SEVEN] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN]))) {
+                if (obj[NumericConstants.SEVEN] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN]))) {
                     itemDetailsDto.setItemStatus(obj[NumericConstants.SEVEN].toString());
                 } else {
                     itemDetailsDto.setItemStatus(ConstantsUtils.EMPTY);
                 }
-                if (obj[NumericConstants.EIGHT] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT]))) {
+                if (obj[NumericConstants.EIGHT] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT]))) {
                     itemDetailsDto.setTherapeuticClass(obj[NumericConstants.EIGHT].toString());
                 } else {
                     itemDetailsDto.setTherapeuticClass(ConstantsUtils.EMPTY);
@@ -854,7 +857,7 @@ public class ItemGroupLogic {
                 } else {
                     itemDetailsDto.setBrand(obj[NumericConstants.NINE].toString());
                 }
-                if (obj[NumericConstants.TEN] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN]))) {
+                if (obj[NumericConstants.TEN] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN]))) {
                     itemDetailsDto.setForm(obj[NumericConstants.TEN].toString());
                 } else {
                     itemDetailsDto.setForm(ConstantsUtils.EMPTY);
@@ -920,12 +923,12 @@ public class ItemGroupLogic {
                     itemDetailsDto.setItemTypeIndicator(obj[NumericConstants.TWENTY_TWO].toString());
                 }
 
-                if (obj[NumericConstants.TWENTY_THREE] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWENTY_THREE]))) {
+                if (obj[NumericConstants.TWENTY_THREE] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWENTY_THREE]))) {
                     itemDetailsDto.setItemClass(obj[NumericConstants.TWENTY_THREE].toString());
                 } else {
                     itemDetailsDto.setItemClass(ConstantsUtils.EMPTY);
                 }
-                if (obj[NumericConstants.TWENTY_FOUR] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWENTY_FOUR]))) {
+                if (obj[NumericConstants.TWENTY_FOUR] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWENTY_FOUR]))) {
                     itemDetailsDto.setItemType(obj[NumericConstants.TWENTY_FOUR].toString());
                 } else {
                     itemDetailsDto.setItemType(ConstantsUtils.EMPTY);
@@ -987,12 +990,12 @@ public class ItemGroupLogic {
                     itemDetailsDto.setClottingFactorEndDate(clottingEndDate);
                 }
 
-                if (obj[NumericConstants.THIRTY_SIX] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.THIRTY_SIX]))) {
+                if (obj[NumericConstants.THIRTY_SIX] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.THIRTY_SIX]))) {
                     itemDetailsDto.setPrimaryUom(obj[NumericConstants.THIRTY_SIX].toString());
                 } else {
                     itemDetailsDto.setPrimaryUom(ConstantsUtils.EMPTY);
                 }
-                if (obj[NumericConstants.THIRTY_SEVEN] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.THIRTY_SEVEN]))) {
+                if (obj[NumericConstants.THIRTY_SEVEN] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.THIRTY_SEVEN]))) {
                     itemDetailsDto.setSecondaryUom(obj[NumericConstants.THIRTY_SEVEN].toString());
                 } else {
                     itemDetailsDto.setSecondaryUom(ConstantsUtils.EMPTY);
@@ -1002,7 +1005,7 @@ public class ItemGroupLogic {
                 } else {
                     itemDetailsDto.setShelfLife(obj[NumericConstants.THIRTY_EIGHT].toString());
                 }
-                if (obj[NumericConstants.THIRTY_NINE] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.THIRTY_NINE]))) {
+                if (obj[NumericConstants.THIRTY_NINE] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.THIRTY_NINE]))) {
                     itemDetailsDto.setShelfLifeType(obj[NumericConstants.THIRTY_NINE].toString());
                 } else {
                     itemDetailsDto.setShelfLifeType(ConstantsUtils.EMPTY);
@@ -1017,32 +1020,32 @@ public class ItemGroupLogic {
                 } else {
                     itemDetailsDto.setItemFamilyId(obj[NumericConstants.FORTY_ONE].toString());
                 }
-                if (obj[NumericConstants.FORTY_TWO] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_TWO]))) {
+                if (obj[NumericConstants.FORTY_TWO] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_TWO]))) {
                     itemDetailsDto.setUdc1(obj[NumericConstants.FORTY_TWO].toString());
                 } else {
                     itemDetailsDto.setUdc1(ConstantsUtils.EMPTY);
                 }
-                if (obj[NumericConstants.FORTY_THREE] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_THREE]))) {
+                if (obj[NumericConstants.FORTY_THREE] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_THREE]))) {
                     itemDetailsDto.setUdc2(obj[NumericConstants.FORTY_THREE].toString());
                 } else {
                     itemDetailsDto.setUdc2(ConstantsUtils.EMPTY);
                 }
-                if (obj[NumericConstants.FORTY_FOUR] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_FOUR]))) {
+                if (obj[NumericConstants.FORTY_FOUR] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_FOUR]))) {
                     itemDetailsDto.setUdc3(obj[NumericConstants.FORTY_FOUR].toString());
                 } else {
                     itemDetailsDto.setUdc3(ConstantsUtils.EMPTY);
                 }
-                if (obj[NumericConstants.FORTY_FIVE] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_FIVE]))) {
+                if (obj[NumericConstants.FORTY_FIVE] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_FIVE]))) {
                     itemDetailsDto.setUdc4(obj[NumericConstants.FORTY_FIVE].toString());
                 } else {
                     itemDetailsDto.setUdc4(ConstantsUtils.EMPTY);
                 }
-                if (obj[NumericConstants.FORTY_SIX] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_SIX]))) {
+                if (obj[NumericConstants.FORTY_SIX] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_SIX]))) {
                     itemDetailsDto.setUdc5(obj[NumericConstants.FORTY_SIX].toString());
                 } else {
                     itemDetailsDto.setUdc5(ConstantsUtils.EMPTY);
                 }
-                if (obj[NumericConstants.FORTY_SEVEN] != null && !ConstantsUtils.SELECTONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_SEVEN]))) {
+                if (obj[NumericConstants.FORTY_SEVEN] != null && !ConstantsUtils.SELECT_ONE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_SEVEN]))) {
                     itemDetailsDto.setUdc6(obj[NumericConstants.FORTY_SEVEN].toString());
                 } else {
                     itemDetailsDto.setUdc6(ConstantsUtils.EMPTY);
@@ -1145,8 +1148,8 @@ public class ItemGroupLogic {
      */
     private List<ItemDetailsDTO> getHistoryCustomizedItemResults(final List resultList, final Map resultList1) throws SystemException, PortalException, ParseException {
         LOGGER.debug("getCustomizedItemResults started with P1:List<ItemMaster> resultList" + resultList.size() + "and P2:HashMap resultList1 size" + resultList1.size());
-        final List<ItemDetailsDTO> itemDetailsList = new ArrayList<ItemDetailsDTO>();
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        final List<ItemDetailsDTO> itemDetailsList = new ArrayList<>();
+        DateFormat df = new SimpleDateFormat(StringConstantUtils.M_MDDYYYY);
         final Map companyInfo = CommonUtils.getCompanyInfo();
         if (!resultList.isEmpty()) {
             for (int i = 0; i < resultList.size(); i++) {
@@ -1208,7 +1211,7 @@ public class ItemGroupLogic {
                     formHelper.setDescription(form);
                     itemDetailsDto.setFormDdlb(formHelper);
                 }
-                itemDetailsDto.setStrength(item[NumericConstants.FOURTEEN] == null ? ConstantsUtils.EMPTY : String.valueOf(item[NumericConstants.FOURTEEN]));
+                itemDetailsDto.setStrength(item[NumericConstants.FOURTEEN] == null ? ConstantsUtils.EMPTY : CommonUtil.getDescriptionFromHelper(Integer.valueOf(String.valueOf(item[NumericConstants.FOURTEEN]))));
                 itemDetailsDto.setPackageSizeCode(item[NumericConstants.FIFTY_NINE] == null ? ConstantsUtils.EMPTY : String.valueOf(item[NumericConstants.FIFTY_NINE]));
                 if (item[NumericConstants.EIGHT] != null) {
                     Date packageDate = df.parse(CommonUtils.convertDateToString((Date) item[NumericConstants.EIGHT]));
@@ -1355,7 +1358,7 @@ public class ItemGroupLogic {
      * @throws Exception the exception
      */
     public List<Integer> saveItemGroup(final ErrorfulFieldGroup itemGroupForm, final List<ItemDetailsDTO> selectedItems, final String searchCriteria, final SessionDTO sessionDTO) throws SystemException, PortalException {
-        List<Integer> sysIdList = new ArrayList<Integer>();
+        List<Integer> sysIdList = new ArrayList<>();
         LOGGER.debug("saveItemGroup started with P1:CustomFieldGroup itemGroupForm and P2:List<ItemDetailsDTO> selectedItems size:" + selectedItems.size());
         final int userId = Integer.valueOf(sessionDTO.getUserId());
         final int itemGroupSystemId = sessionDTO.getSystemId();
@@ -1372,8 +1375,8 @@ public class ItemGroupLogic {
             for (int i = 0; i < itemToRemove.size(); i++) {
                 existingSystemIds.add(itemToRemove.get(i).getItemMasterSid());
             }
-            existingSystemIds = new ArrayList<Integer>(new LinkedHashSet<Integer>(existingSystemIds));
-            currentSystemIds = new ArrayList<Integer>(new LinkedHashSet<Integer>(currentSystemIds));
+            existingSystemIds = new ArrayList<>(new LinkedHashSet<>(existingSystemIds));
+            currentSystemIds = new ArrayList<>(new LinkedHashSet<>(currentSystemIds));
             Collections.sort(currentSystemIds);
             Collections.sort(existingSystemIds);
             if (currentSystemIds.equals(existingSystemIds)) {
@@ -1419,7 +1422,7 @@ public class ItemGroupLogic {
             return sysIdList;
 
         }
-        return new ArrayList<Integer>();
+        return new ArrayList<>();
 
     }
 
@@ -1471,7 +1474,7 @@ public class ItemGroupLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public ItemGroupDTO getHistoryItemGroupInfo(final int versionNo, final SessionDTO sessionDTO) throws SystemException, PortalException, ParseException {
+    public ItemGroupDTO getHistoryItemGroupInfo(final int versionNo, final SessionDTO sessionDTO) throws SystemException,  ParseException {
         LOGGER.debug("getItemGroupInfo started");
         final int itemGroupSystemId = sessionDTO.getSystemId();
         final ItemGroupDTO itemGroupDTO = new ItemGroupDTO();
@@ -1640,7 +1643,7 @@ public class ItemGroupLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public Map getExistingItemgroupNames() throws SystemException, PortalException {
+    public Map getExistingItemgroupNames() throws SystemException {
         LOGGER.debug("getExistingItemgroupNames started");
         final HashMap results = new HashMap();
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemGroup.class);
@@ -1669,7 +1672,7 @@ public class ItemGroupLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public int getExistingVersion(final int itemGroupSystemId) throws SystemException, PortalException {
+    public int getExistingVersion(final int itemGroupSystemId) throws SystemException {
         LOGGER.debug("getExistingVersion started");
         int version = ConstantsUtils.ZERO_NUM;
         final DynamicQuery itemGroupHistoryDynamicQuery = DynamicQueryFactoryUtil.forClass(HistItemGroup.class);
@@ -1678,7 +1681,7 @@ public class ItemGroupLogic {
         projList.add(ProjectionFactoryUtil.property(ConstantsUtils.PRIMARY_KEY + ConstantsUtils.VERSION_NO));
         itemGroupHistoryDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
 
-        final List<Integer> finalList = new ArrayList<Integer>();
+        final List<Integer> finalList = new ArrayList<>();
         final List<Integer> historyList = dao.getItemGroupsHistoryList(itemGroupHistoryDynamicQuery);
 
         finalList.addAll(historyList);
@@ -1732,25 +1735,25 @@ public class ItemGroupLogic {
                     itemGroupDetails.setCreatedBy(userId);
                     itemGroupDetails.setCreatedDate(date);
                     itemGroupDetails.setModifiedDate(date);
-                    itemGroupDetails = dao.addItemGroupDetails(itemGroupDetails);
+                    dao.addItemGroupDetails(itemGroupDetails);
                 } else // Group ADD or EDIT
                 if (savedItemsMap.containsKey(item.getItemSystemId())) {
                     itemGroupDetails = (ItemGroupDetails) savedItemsMap.get(item.getItemSystemId());
                     itemGroupDetails.setModifiedDate(date);
                     itemGroupDetails.setModifiedBy(userId);
                     itemGroupDetails.setVersionNo(itemGroup.getVersionNo());
-                    itemGroupDetails = dao.updateItemGroupDetails(itemGroupDetails);
+                    dao.updateItemGroupDetails(itemGroupDetails);
                     savedItemsMap.remove(item.getItemSystemId());
                 } else {// to save new Item in existing item group
                     itemGroupDetails.setCreatedBy(userId);
                     itemGroupDetails.setCreatedDate(date);
                     itemGroupDetails.setModifiedDate(date);
                     itemGroupDetails.setVersionNo(itemGroup.getVersionNo());
-                    itemGroupDetails = dao.addItemGroupDetails(itemGroupDetails);
+                    dao.addItemGroupDetails(itemGroupDetails);
                 }
             }
             if (!savedItemsMap.isEmpty()) {
-                final List<ItemGroupDetails> itemListToDelete = new ArrayList<ItemGroupDetails>(savedItemsMap.values());
+                final List<ItemGroupDetails> itemListToDelete = new ArrayList<>(savedItemsMap.values());
                 for (final ItemGroupDetails itemToDelete : itemListToDelete) {
                     dao.deleteItemGroupDetails(itemToDelete);
                 }
@@ -1787,10 +1790,10 @@ public class ItemGroupLogic {
         return udc;
     }
 
-    public List<ItemDetailsDTO> getCustomizedItemResultsOnEdit(final List<ItemMaster> resultList) throws SystemException, PortalException, ParseException {
+    public List<ItemDetailsDTO> getCustomizedItemResultsOnEdit(final List<ItemMaster> resultList) throws SystemException, ParseException {
         LOGGER.debug("getCustomizedItemResultsOnEdit started with P1:List<ItemMaster> resultList" + resultList.size() + "and P2:HashMap resultList1 size");
 
-        final List<ItemDetailsDTO> itemDetailsList = new ArrayList<ItemDetailsDTO>();
+        final List<ItemDetailsDTO> itemDetailsList = new ArrayList<>();
         final Map companyInfo = CommonUtils.getCompanyInfo();
         if (!resultList.isEmpty()) {
             for (int i = 0; i < resultList.size(); i++) {
@@ -1859,7 +1862,7 @@ public class ItemGroupLogic {
                 if (master.getStrength() == 0) {
                     itemDetailsDto.setStrength(ConstantsUtils.EMPTY);
                 } else {
-                    itemDetailsDto.setStrength(String.valueOf(master.getStrength()));
+                    itemDetailsDto.setStrength(getFromHelperTable(master.getStrength()));
                 }
                 if (master.getPackageSizeCode() == null) {
                     itemDetailsDto.setPackageSizeCode(ConstantsUtils.EMPTY);
@@ -2113,5 +2116,4 @@ public class ItemGroupLogic {
         }
         return isvalid;
     }
-
                     }

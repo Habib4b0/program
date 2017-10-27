@@ -4,6 +4,7 @@ package com.stpl.ifs.ui.util;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.stpl.ifs.util.constants.GlobalConstants;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,7 +27,6 @@ public class StandaloneParser {
     private String password;
     private static StandaloneParser parser;
     private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
     private static final String NAME = "name";
     private static final String VALUE = "value";
     private static final String SECURITY_DOMAIN = "security-domain";
@@ -118,7 +118,7 @@ public class StandaloneParser {
                 if (USERNAME.equals(nNode.getAttributes().getNamedItem(NAME).getNodeValue())) {
                     user = nNode.getAttributes().getNamedItem(VALUE).getNodeValue();
                 }
-                if (PASSWORD.equals(nNode.getAttributes().getNamedItem(NAME).getNodeValue())) {
+                if (GlobalConstants.getPassword().equals(nNode.getAttributes().getNamedItem(NAME).getNodeValue())) {
                     password = nNode.getAttributes().getNamedItem(VALUE).getNodeValue();
                 }
             }

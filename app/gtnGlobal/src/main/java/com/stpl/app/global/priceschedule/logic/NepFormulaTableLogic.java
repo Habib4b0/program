@@ -27,7 +27,6 @@ public class NepFormulaTableLogic extends PageTableLogic{
     private boolean isGenerate;
     private final PSLogic psLogic = new PSLogic();
     private boolean isReset = false;
-    private boolean isResultsEmpty;
 
    
     
@@ -50,13 +49,9 @@ public class NepFormulaTableLogic extends PageTableLogic{
 
     @Override
     public List loadData(int start, int offset) {
-        List<PSNepFormulaDTO> resultList=new ArrayList<PSNepFormulaDTO>();
+        List<PSNepFormulaDTO> resultList=new ArrayList<>();
         if (isGenerate) {
-        try {
             resultList = (List<PSNepFormulaDTO>) psLogic.loadNsfResults(binder,start,offset,this.getSortByColumns(),this.getFilters());
-        } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(NepFormulaTableLogic.class.getName()).log(Level.SEVERE, null, ex);
-        }
         }
         return resultList;
     }

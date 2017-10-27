@@ -5,6 +5,7 @@
  */
 package com.stpl.app.adminconsole.processscheduler.ui.form;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic;
@@ -69,7 +70,7 @@ public class CFFSearchLookUp extends Window {
 
     ProcessSchedulerDTO psDTO = new ProcessSchedulerDTO();
 
-    public CustomFieldGroup cffSearchBinder = new CustomFieldGroup(new BeanItem<ProcessSchedulerDTO>(psDTO));
+    public CustomFieldGroup cffSearchBinder = new CustomFieldGroup(new BeanItem<>(psDTO));
 
     @UiField("financialForecastId")
     private TextField financialForecastId;
@@ -134,7 +135,7 @@ public class CFFSearchLookUp extends Window {
 
     final ErrorLabel errorMsg = new ErrorLabel();
 
-    private final BeanItemContainer<ProcessSchedulerDTO> resultsContainer = new BeanItemContainer<ProcessSchedulerDTO>(ProcessSchedulerDTO.class);
+    private final BeanItemContainer<ProcessSchedulerDTO> resultsContainer = new BeanItemContainer<>(ProcessSchedulerDTO.class);
     SessionDTO sessionDTO;
     CommonUtils commonutil = new CommonUtils();
     CFFIndexTableLogic tableLogic = new CFFIndexTableLogic();
@@ -149,8 +150,9 @@ public class CFFSearchLookUp extends Window {
     private static final ResourceBundle confirmationMessage = ResourceBundle.getBundle("properties.message");
 
     private final ProcessSchedulerLogic cffLogic = new ProcessSchedulerLogic();
+    public static final String CHECK_RECORD = "checkRecord";
 
-    public static final Object[] RESULT_TABLE_VISIBLE_COLUMN = new Object[]{"checkRecord", "financialForecastId", "financialForecastName", "typeDesc",
+    public final Object[] resultTableVisibleColumn = new Object[]{CHECK_RECORD, "financialForecastId", "financialForecastName", "typeDesc",
         "projectionId", "projectionName", "year", "month", "contractId", "contractNo", "contractName", "contractType", "contractHolderId", "contractHolderNo",
         "contractHolderName", "customerId", "customerNo", "customerName", "itemId", "itemNo", "itemName", "salesDollars", "salesUnits", "salesInclusion",
         "deductionId", "deductionNo", "deductionName", "deductionCategory", "deductionType", "deductionProgram", "deductionInclusion", "deductionCategoryOne",
@@ -159,7 +161,7 @@ public class CFFSearchLookUp extends Window {
         "businessUnitId", "businessUnitNo", "businessUnitName", "financialForecastCreationDate", "financialForecastApprovalDate" //            , "batchId", "source", "createdBy", "createdDate", "modifiedBy", "modifiedDate"
         , "outboundStatus", "originalBatchId"};
 
-    public static final String[] RESULT_TABLE_HEADER = new String[]{ConstantsUtils.EMPTY, "Financial Forecast ID", "Financial Forecast Name", "Type",
+    public final String[] resultTableHeader = new String[]{ConstantsUtils.EMPTY, "Financial Forecast ID", "Financial Forecast Name", "Type",
         "Project ID", "Projection Name", "Year", "Month", "Contract ID", "Contract No", "Contract Name", "Contract Type", "Contract Holder ID", "Contract Holder No",
         "Contract Holder Name", "Customer ID", "Customer No", "Customer Name", "Item ID", "Item No", "Item Name", "Sales Dollars", "Sales Units", "Sales Inclusion",
         "Deduction ID", "Deduction No", "Deduction Name", "Deduction Category", "Deduction Type", "Deduction Program", "Deduction Inclusion", "Deduction Category 1",
@@ -197,7 +199,7 @@ public class CFFSearchLookUp extends Window {
 
     private CustomFieldGroup getBinder() {
         cffSearchBinder.bindMemberFields(this);
-        cffSearchBinder.setItemDataSource(new BeanItem<ProcessSchedulerDTO>(psDTO));
+        cffSearchBinder.setItemDataSource(new BeanItem<>(psDTO));
         cffSearchBinder.setBuffered(true);
         cffSearchBinder.setErrorDisplay(errorMsg);
         return cffSearchBinder;
@@ -210,59 +212,59 @@ public class CFFSearchLookUp extends Window {
             helperListUtil.loadValuesWithListName("CFF");
             financialForecastId.setImmediate(true);
             financialForecastId.addValidator(new StringLengthValidator("Financial Forecast Id should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            financialForecastId.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "CFF Id should be alphanumeric"));
+            financialForecastId.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "CFF Id should be alphanumeric"));
 
             financialForecastName.setImmediate(true);
-            financialForecastName.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            financialForecastName.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "CFF Name should be alphanumeric"));
+            financialForecastName.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            financialForecastName.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "CFF Name should be alphanumeric"));
 
             projectionId.setImmediate(true);
-            projectionId.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            projectionId.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Project Id should be alphanumeric"));
+            projectionId.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            projectionId.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Project Id should be alphanumeric"));
 
             projectionName.setImmediate(true);
-            projectionName.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            projectionName.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Projection Name should be alphanumeric"));
+            projectionName.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            projectionName.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Projection Name should be alphanumeric"));
 
             contractNo.setImmediate(true);
-            contractNo.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            contractNo.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Contract No should be alphanumeric"));
+            contractNo.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            contractNo.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Contract No should be alphanumeric"));
 
             contractName.setImmediate(true);
-            contractName.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            contractName.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Contract Name should be alphanumeric"));
+            contractName.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            contractName.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Contract Name should be alphanumeric"));
 
             customerNo.setImmediate(true);
-            customerNo.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            customerNo.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Customer No should be alphanumeric"));
+            customerNo.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            customerNo.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Customer No should be alphanumeric"));
 
             customerName.setImmediate(true);
-            customerName.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            customerName.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Customer Name should be alphanumeric"));
+            customerName.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            customerName.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Customer Name should be alphanumeric"));
 
             itemNo.setImmediate(true);
-            itemNo.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            itemNo.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Item No should be alphanumeric"));
+            itemNo.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            itemNo.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Item No should be alphanumeric"));
 
             itemName.setImmediate(true);
-            itemName.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            itemName.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Item Name should be alphanumeric"));
+            itemName.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            itemName.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Item Name should be alphanumeric"));
 
             companyNo.setImmediate(true);
-            companyNo.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            companyNo.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Company No should be alphanumeric"));
+            companyNo.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            companyNo.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Company No should be alphanumeric"));
 
             companyName.setImmediate(true);
-            companyName.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            companyName.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Company Name should be alphanumeric"));
+            companyName.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            companyName.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Company Name should be alphanumeric"));
 
             businessUnitNo.setImmediate(true);
-            businessUnitNo.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            businessUnitNo.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Business Unit No should be alphanumeric"));
+            businessUnitNo.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            businessUnitNo.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Business Unit No should be alphanumeric"));
 
             businessUnitName.setImmediate(true);
-            businessUnitName.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            businessUnitName.addValidator(new RegexpValidator(ConstantsUtils.alphaNumericChars, "Business Unit Name should be alphanumeric"));
+            businessUnitName.addValidator(new StringLengthValidator(StringConstantUtils.FINANCIAL_FORECAST_NAME_SHOULD_BE_LESS, 0, NumericConstants.FIFTY, true));
+            businessUnitName.addValidator(new RegexpValidator(ConstantsUtils.ALPHA_NUMERIC_CHARS, "Business Unit Name should be alphanumeric"));
 
             cffCreationDateFrom.setDateFormat(ConstantsUtils.DATE_FORMAT);
             cffCreationDateFrom.setImmediate(true);
@@ -281,9 +283,9 @@ public class CFFSearchLookUp extends Window {
             tableLogic.setContainerDataSource(resultsContainer);
             tableLogic.setPageLength(NumericConstants.TEN);
             tableLogic.sinkItemPerPageWithPageLength(false);
-            resultTable.setVisibleColumns(RESULT_TABLE_VISIBLE_COLUMN);
-            resultTable.setColumnHeaders(RESULT_TABLE_HEADER);
-            resultTable.setColumnCheckBox("checkRecord", true, false);
+            resultTable.setVisibleColumns(resultTableVisibleColumn);
+            resultTable.setColumnHeaders(resultTableHeader);
+            resultTable.setColumnCheckBox(CHECK_RECORD, true, false);
             resultTable.setFilterBarVisible(true);
             resultTable.setSizeFull();
             resultTable.setSelectable(true);
@@ -311,7 +313,7 @@ public class CFFSearchLookUp extends Window {
                  */
                 @Override
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
-                    if (String.valueOf(propertyId).equals("checkRecord")) {
+                    if (String.valueOf(propertyId).equals(CHECK_RECORD)) {
                         final ProcessSchedulerDTO processSchedulerDTO = (ProcessSchedulerDTO) itemId;
                         final ExtCustomCheckBox checkbox = new ExtCustomCheckBox();
                         checkbox.setReadOnly(false);
@@ -345,13 +347,13 @@ public class CFFSearchLookUp extends Window {
                         loadGrid();
 //                      this setCurrentPage is used to refresh the lazy conatiner
                         resultTable.setCurrentPage(resultTable.getCurrentPage());
-                        resultTable.setColumnCheckBox("checkRecord", true, true);
+                        resultTable.setColumnCheckBox(CHECK_RECORD, true, true);
                     } else {
                         cffLogic.updateTempCffOutbound(null, sessionDTO, Boolean.TRUE, Boolean.FALSE);
                         loadGrid();
 //                      this setCurrentPage is used to refresh the lazy conatiner
                         resultTable.setCurrentPage(resultTable.getCurrentPage());
-                        resultTable.setColumnCheckBox("checkRecord", true, false);
+                        resultTable.setColumnCheckBox(CHECK_RECORD, true, false);
                     }
 
                 }
@@ -390,7 +392,7 @@ public class CFFSearchLookUp extends Window {
 
             } else {
                 if (dateValidation()) {
-                    searchButtonClickLogic(event);
+                    searchButtonClickLogic();
                 }
             }
         } catch (Exception e) {
@@ -407,7 +409,7 @@ public class CFFSearchLookUp extends Window {
     public void resetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
             public void noMethod() {
-
+                return;
             }
 
             @Override
@@ -445,7 +447,7 @@ public class CFFSearchLookUp extends Window {
      *
      * @param event
      */
-    protected void searchButtonClickLogic(final Button.ClickEvent event) {
+    protected void searchButtonClickLogic() {
         try {
             cffSearchBinder.commit();
             resultsContainer.removeAllItems();
@@ -459,7 +461,7 @@ public class CFFSearchLookUp extends Window {
             resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
             resultTable.setFilterGenerator(new CFFFilterGenerator());
             resultTable.setImmediate(true);
-            resultTable.setColumnCheckBox("checkRecord", true, false);
+            resultTable.setColumnCheckBox(CHECK_RECORD, true, false);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -506,7 +508,7 @@ public class CFFSearchLookUp extends Window {
                     }
                 }
                 loadGrid();
-                resultTable.setColumnCheckBox("checkRecord", Boolean.TRUE, Boolean.FALSE);
+                resultTable.setColumnCheckBox(CHECK_RECORD, Boolean.TRUE, Boolean.FALSE);
                 Notification notif = new Notification(displayName + confirmationMessage.getString("MSG_ID_045"), Notification.Type.HUMANIZED_MESSAGE);
                 notif.setPosition(Position.MIDDLE_CENTER);
                 notif.setStyleName(ConstantsUtils.MY_STYLE);
@@ -531,22 +533,23 @@ public class CFFSearchLookUp extends Window {
      */
     private Boolean dateValidation() {
         if (cffCreationDateFrom.getValue() == null && cffCreationDateTo.getValue() != null) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Please select CFF Creation From date");
+            AbstractNotificationUtils.getErrorNotification(ERROR, "Please select CFF Creation From date");
             return Boolean.FALSE;
         } else if (cffCreationDateTo.getValue() != null && cffCreationDateFrom.getValue().after(cffCreationDateTo.getValue())) {
-            AbstractNotificationUtils.getErrorNotification("Error", " CFF Creation To date cannot be after CFF Creation From date");
+            AbstractNotificationUtils.getErrorNotification(ERROR, " CFF Creation To date cannot be after CFF Creation From date");
             return Boolean.FALSE;
         }
 
         if (cffApprovalDateFrom.getValue() == null && cffApprovalDateTo.getValue() != null) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Please select CFF Approval From date");
+            AbstractNotificationUtils.getErrorNotification(ERROR, "Please select CFF Approval From date");
             return Boolean.FALSE;
         } else if (cffApprovalDateTo.getValue() != null && cffApprovalDateFrom.getValue().after(cffApprovalDateTo.getValue())) {
-            AbstractNotificationUtils.getErrorNotification("Error", " CFF Approval To date cannot be after CFF Approval From date");
+            AbstractNotificationUtils.getErrorNotification(ERROR, " CFF Approval To date cannot be after CFF Approval From date");
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
     }
+    public static final String ERROR = "Error";
 
     /**
      * Method is for deleting value if it exist for current user and session id

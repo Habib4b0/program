@@ -40,7 +40,7 @@ public class ComponentInfo extends AbstractComponentInfo {
     private void setVisibleContent() {
         itemSearchGrid.removeComponent(0, 0);
         itemSearchGrid.removeComponent(1, 0);
-        List<Component> componentList = new ArrayList<Component>();
+        List<Component> componentList = new ArrayList<>();
         java.util.Iterator<Component> itr = itemSearchGrid.iterator();
         while (itr.hasNext()) {
             componentList.add(itr.next());

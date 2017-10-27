@@ -35,5 +35,4 @@ public interface ARMBusinessProcessTemplate {
      */
     List<AdjustmentDTO> loadData(Object dto, AbstractSelectionDTO selection, int start, int offset);
 
- 
 }

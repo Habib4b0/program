@@ -18,7 +18,7 @@ public class DataFormatConverter implements Converter<String, String> {
 
     private static final long serialVersionUID = 1L;
     /**
-     * The Constant LOGGER
+     * The Constant LOGGER.
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataFormatConverter.class);
 
@@ -41,8 +41,8 @@ public class DataFormatConverter implements Converter<String, String> {
     @Override
     public String convertToModel(String value,
             Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
-        String regex = StringUtils.EMPTY;
+             {
+        String regex;
         if (targetType != getModelType()) {
             throw new Converter.ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
@@ -70,8 +70,8 @@ public class DataFormatConverter implements Converter<String, String> {
     @Override
     public String convertToPresentation(String value,
             Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
-        String regex = StringUtils.EMPTY;
+             {
+        String regex;
         if (value == null) {
             return null;
         }
@@ -84,8 +84,8 @@ public class DataFormatConverter implements Converter<String, String> {
             regex = numericDashRegex;
         }
         try {
-            String stringValue = StringUtils.EMPTY;
-            String tempValue = StringUtils.EMPTY;
+            String stringValue;
+            String tempValue;
             tempValue = value.trim().replaceAll(regex, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
             if (!StringUtils.EMPTY.equals(tempValue) && !CommonConstants.NULL.getConstant().equals(tempValue)

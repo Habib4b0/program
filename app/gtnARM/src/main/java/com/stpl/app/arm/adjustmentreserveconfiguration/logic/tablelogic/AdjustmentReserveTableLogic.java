@@ -15,7 +15,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author
  */
 public class AdjustmentReserveTableLogic extends PageTableLogic {
 

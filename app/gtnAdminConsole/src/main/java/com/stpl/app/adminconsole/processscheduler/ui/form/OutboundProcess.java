@@ -5,6 +5,7 @@
  */
 package com.stpl.app.adminconsole.processscheduler.ui.form;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.processscheduler.dto.FtpProperties;
 import com.stpl.app.adminconsole.processscheduler.dto.OutboundTableDTO;
@@ -59,7 +60,7 @@ public class OutboundProcess {
             LOGGER.debug("__________Entering AutomatedOutbound_____________" + processName);
             this.processName = processName;
             Long startTime = System.currentTimeMillis();
-            if ("RELATIONSHIP_BUILDER_OUTBOUND".equalsIgnoreCase(processName)) {
+            if (StringConstantUtils.RELATIONSHIP_BUILDER_OUTBOUND.equalsIgnoreCase(processName)) {
                 filePath = filePath + "/Relationship_Builder/" + format.format(new Date()) + "/";
                 LOGGER.debug(" Relationship builder filePath=" + filePath);
                 createWorkSheet();
@@ -116,10 +117,10 @@ public class OutboundProcess {
         excelResultBeanContainer.addAll(resultList);
     }
 
-    public void createWorkSheet() throws SystemException, PortalException {
+    public void createWorkSheet() {
         long recordCount;
         try {
-            if ("RELATIONSHIP_BUILDER_OUTBOUND".equalsIgnoreCase(processName)) {
+            if (StringConstantUtils.RELATIONSHIP_BUILDER_OUTBOUND.equalsIgnoreCase(processName)) {
                 String csvName = "Relationship_Builder_Outbound";
                 rbCsvList = outboundLogic.getRelationShipSheduledResults();
                 recordCount = rbCsvList.size();
@@ -131,18 +132,17 @@ public class OutboundProcess {
 
     }
 
-    public void createWorkSheetContent(final Integer start,final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent( final Integer end, final PrintWriter printWriter) {
         try {
-            LOGGER.info("Start index of record is : "+start);
-            if (end != 0 && "RELATIONSHIP_BUILDER_OUTBOUND".equalsIgnoreCase(processName)) {
-                    for (int headerCount = 0; headerCount < CommonUIUtil.RELATIONSHIP_OUTBOUND_EXCEL_HEADER.length; headerCount++) {
-                        if (headerCount < CommonUIUtil.RELATIONSHIP_OUTBOUND_EXCEL_HEADER.length - 1) {
-                            printWriter.print(CommonUIUtil.RELATIONSHIP_OUTBOUND_EXCEL_HEADER[headerCount] + ExcelExportUtil.COMMA);
+            if (end != 0 && StringConstantUtils.RELATIONSHIP_BUILDER_OUTBOUND.equalsIgnoreCase(processName)) {
+                    for (int headerCount = 0; headerCount < CommonUIUtil.getInstance().relationshipOutboundExcelHeader.length; headerCount++) {
+                        if (headerCount < CommonUIUtil.getInstance().relationshipOutboundExcelHeader.length - 1) {
+                            printWriter.print(CommonUIUtil.getInstance().relationshipOutboundExcelHeader[headerCount] + ExcelExportUtil.COMMA);
                         } else {
-                            printWriter.println(CommonUIUtil.RELATIONSHIP_OUTBOUND_EXCEL_HEADER[headerCount]);
+                            printWriter.println(CommonUIUtil.getInstance().relationshipOutboundExcelHeader[headerCount]);
                         }
                     }
-                    SchedulerCSVEport.createFileContent(CommonUIUtil.RELATIONSHIP_OUTBOUND_EXCEL_COLUMNS, rbCsvList, printWriter);
+                    SchedulerCSVEport.createFileContent(CommonUIUtil.getInstance().relationshipOutboundExcelColumns, rbCsvList, printWriter);
             }
         } catch (Exception e) {
             LOGGER.error(e);

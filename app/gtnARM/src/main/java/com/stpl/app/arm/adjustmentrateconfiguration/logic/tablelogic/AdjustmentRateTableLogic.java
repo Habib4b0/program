@@ -12,11 +12,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
 
 /**
  *
- * @author 
+ * @author
  */
 public class AdjustmentRateTableLogic extends PageTreeTableLogic {
 
-  
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         return null;
@@ -31,6 +30,5 @@ public class AdjustmentRateTableLogic extends PageTreeTableLogic {
     public Object configureContainer(Object object, Container datasource) {
         return null;
     }
-    
 
 }

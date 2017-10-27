@@ -61,8 +61,8 @@ public class RemoveDiscountLookUp extends Window {
         this.sessionId = sessionID;
         mainTab = new TabSheet();
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         center();
         setCaption("Remove Discount");
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
@@ -137,6 +137,7 @@ public class RemoveDiscountLookUp extends Window {
 
                     @Override
                     public void noMethod() {
+                        return;
                     }
                 }.getConfirmationMessage("Confirmation", "Are you sure you want to close the window? ");
 
@@ -177,7 +178,7 @@ public class RemoveDiscountLookUp extends Window {
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
                                         close();
-                                        final Notification notif = new Notification("Contract removed Successfully", Notification.Type.HUMANIZED_MESSAGE);
+                                        final Notification notif = new Notification("Discount removed Successfully", Notification.Type.HUMANIZED_MESSAGE);
                                         notif.setPosition(Position.BOTTOM_CENTER);
                                         notif.setDelayMsec(NumericConstants.THREE_THOUSAND);
                                         notif.setStyleName(ConstantsUtils.MY_STYLE);

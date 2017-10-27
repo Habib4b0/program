@@ -31,10 +31,9 @@ public class AccountConfigSearchTableLogic extends PageTableLogic {
             try {
                 binderDto.setCount(true);
                 binderDto.setFilters(getFilters());
-                int count = logic.getAccountConfigCount(binderDto);
-                return count;
+                return logic.getAccountConfigCount(binderDto);
             } catch (Exception ex) {
-                LOGGER.error(ex.getMessage());
+                LOGGER.error("Error in getCount :"+ex);
                 return 0;
             }
         }
@@ -50,7 +49,7 @@ public class AccountConfigSearchTableLogic extends PageTableLogic {
             binderDto.setSortByColumns(getSortByColumns());
             return logic.getAccountConfigData(binderDto);
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("Error in loadData :"+ex);
             return new ArrayList<>();
         }
     }

@@ -21,7 +21,8 @@ import java.util.List;
  * @author Asha.Ravi
  */
 public class WorkFlowLogicDaoImpl implements WorkFlowLogicDao {
-     /**
+
+    /**
      *
      * @param workflowMaster
      * @throws Exception
@@ -38,8 +39,8 @@ public class WorkFlowLogicDaoImpl implements WorkFlowLogicDao {
      */
     @Override
     public void updateWorkflowMaster(WorkflowMaster workflowMaster) throws SystemException {
-            WorkflowMasterLocalServiceUtil.updateWorkflowMaster(workflowMaster);
-        }
+        WorkflowMasterLocalServiceUtil.updateWorkflowMaster(workflowMaster);
+    }
 
     /**
      *
@@ -50,9 +51,9 @@ public class WorkFlowLogicDaoImpl implements WorkFlowLogicDao {
      * @throws Exception
      */
     @Override
-    public WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws SystemException,PortalException {
-            return WorkflowMasterLocalServiceUtil.getWorkflowMaster(workflowMasterSystemId);
-        }
+    public WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws SystemException, PortalException {
+        return WorkflowMasterLocalServiceUtil.getWorkflowMaster(workflowMasterSystemId);
+    }
 
     /**
      *
@@ -75,16 +76,15 @@ public class WorkFlowLogicDaoImpl implements WorkFlowLogicDao {
     public List getMailNotificationMaster(DynamicQuery dynamicQuery) throws SystemException {
         return MailNotificationMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
-    
-    
+
     /**
-     * 
+     *
      * @param docDetails
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
     public DocDetails addDocDetails(DocDetails docDetails) throws SystemException {
-       return DocDetailsLocalServiceUtil.addDocDetails(docDetails);
+        return DocDetailsLocalServiceUtil.addDocDetails(docDetails);
     }
 }

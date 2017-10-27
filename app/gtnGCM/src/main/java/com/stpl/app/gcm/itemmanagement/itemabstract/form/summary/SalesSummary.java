@@ -56,7 +56,7 @@ public class SalesSummary extends Summary {
         configureExcelResultTable();
         loadExcelResultTable();
         exportPeriodViewTable.setRefresh(Boolean.TRUE);
-        Map<String, String> formatter = new HashMap<String, String>();
+        Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");
         VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, Constants.TRUE);

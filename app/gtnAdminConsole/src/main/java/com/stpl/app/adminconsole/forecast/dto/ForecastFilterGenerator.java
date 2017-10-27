@@ -7,6 +7,7 @@ package com.stpl.app.adminconsole.forecast.dto;
 
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
+import com.stpl.app.security.StplSecurity;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.numberfilter.NumberFilterPopup;
 import com.vaadin.data.Container;
@@ -16,6 +17,7 @@ import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.jboss.logging.Logger;
@@ -71,8 +73,8 @@ public class ForecastFilterGenerator implements ExtFilterGenerator {
         if ("historicalInterval".equals(propertyId)) {
             try {
                 ComboBox interval = new ComboBox();
-                commonUtil.loadComboBox(interval, ConstantsUtils.FORECAST_FREQUENCY, true);
-                interval.setDebugId("testing");
+                commonUtil.loadHistoricalAndFutureComboBox(interval, ConstantsUtils.FORECAST_FREQUENCY, true);
+                interval.setDebugId(TESTING);
                 return interval;
             } catch (Exception ex) {
                 LOGGER.error(ex);
@@ -81,18 +83,46 @@ public class ForecastFilterGenerator implements ExtFilterGenerator {
         if ("futureInterval".equals(propertyId)) {
             try {
                 ComboBox interval = new ComboBox();
-                commonUtil.loadComboBox(interval, ConstantsUtils.FORECAST_FREQUENCY, true);
-                interval.setDebugId("testing");
+                commonUtil.loadHistoricalAndFutureComboBox(interval, ConstantsUtils.FORECAST_FREQUENCY, true);
+                interval.setDebugId(TESTING);
                 return interval;
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
         }
+        if ("createdBy".equals(propertyId)) {
+            ComboBox comboBox = new ComboBox();
+            comboBox.addItem(0);
+            comboBox.setItemCaption(0, ConstantsUtils.SHOW_ALL);
+            comboBox.setNullSelectionAllowed(true);
+            comboBox.setNullSelectionItemId(0);
+            try {
+                for (Map.Entry<Integer, String> entry : StplSecurity.getUserName().entrySet()) {
+                    comboBox.addItem(entry.getKey());
+                    String userName[]=entry.getValue().split(" ");
+                    String User="";
+                    if(userName.length>1){
+                     StringBuilder sb=new StringBuilder();
+                     sb.append(userName[1]);
+                     sb.append(" ");
+                     sb.append(userName[0]);
+                     User=sb.toString();
+                    }else{
+                      User=userName[0];
+                    }
+                    comboBox.setItemCaption(entry.getKey() ,User);
+                }
+            } catch (Exception ex) {
+                LOGGER.info(ex);
+            }
+            return comboBox;
+
+        }
         if ("businessProcess".equals(propertyId)) {
             try {
                 ComboBox businessProcess = new ComboBox();
                 commonUtil.loadComboBox(businessProcess, ConstantsUtils.BUSINESS_PROCESS_TYPE, true);
-                businessProcess.setDebugId("testing");
+                businessProcess.setDebugId(TESTING);
                 return businessProcess;
             } catch (Exception ex) {
                 LOGGER.error(ex);
@@ -100,13 +130,16 @@ public class ForecastFilterGenerator implements ExtFilterGenerator {
         }
         return null;
     }
+    public static final String TESTING = "testing";
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

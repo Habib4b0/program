@@ -2,6 +2,7 @@ package com.stpl.app.arm.bpm.logic;
 
 import com.stpl.app.arm.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.arm.bpm.service.BPMProcessBean;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.ifs.util.DroolsProperties;
 import java.util.List;
 import java.util.Properties;
@@ -14,6 +15,12 @@ import com.stpl.portal.model.User;
 import com.stpl.portal.service.RoleLocalServiceUtil;
 
 public class DSCalculationLogic {
+
+    private DSCalculationLogic() {
+        /*
+        Empty Constructor
+         */
+    }
 
     /**
      * The Constant LOGGER.
@@ -33,7 +40,7 @@ public class DSCalculationLogic {
                 return true;
             }
 
-            LOGGER.debug("taskSummary :" + taskSummary.getName());
+            LOGGER.debug(CommonConstant.TASK_SUMMARY + taskSummary.getName());
             List<String> userRoles = BPMProcessBean.getPotentialOwners(taskSummary.getId(), roleList);
             LOGGER.debug("userRoles :" + userRoles);
             List<Role> roles = RoleLocalServiceUtil.getUserRoles(userModel.getUserId());
@@ -47,7 +54,7 @@ public class DSCalculationLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in isValidWorkflowUser :"+e);
         }
 
         return returnflag;
@@ -59,7 +66,7 @@ public class DSCalculationLogic {
             String workflowId = properties.getProperty("ARMWorkflow_WorkflowId", "ARMWorkflow.ARMWorkflow");
             processInstance = BPMProcessBean.startProcess(workflowId, null);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in startWorkflow :"+e);
         }
         return processInstance;
     }
@@ -70,14 +77,14 @@ public class DSCalculationLogic {
             LOGGER.debug("userId :" + userModel.getUserId());
             LOGGER.debug("userName :" + userModel.getScreenName());
             taskSummary = BPMProcessBean.getAvailableTask(processInstanceId);
-            LOGGER.debug("taskSummary :" + taskSummary.getName());
-            LOGGER.debug("taskSummary :" + taskSummary.getId());
+            LOGGER.debug(CommonConstant.TASK_SUMMARY + taskSummary.getName());
+            LOGGER.debug(CommonConstant.TASK_SUMMARY + taskSummary.getId());
             BPMProcessBean.startTask(taskSummary.getId(), userModel.getScreenName());
             BPMProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null);
             WorkflowPersistance.insertWFInstanceInfo(projectionId, processInstanceId);
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error("Error in startAndCompleteTask :"+e);
         }
         return taskSummary;
     }

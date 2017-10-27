@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.stpl.app.arm.businessprocess.demandaccrual.dto;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
@@ -12,6 +11,6 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
  *
  * @author Karthikeyan.Subramanian
  */
-public class DASelectionDTO extends AbstractSelectionDTO{
-    
+public class DASelectionDTO extends AbstractSelectionDTO {
+
 }

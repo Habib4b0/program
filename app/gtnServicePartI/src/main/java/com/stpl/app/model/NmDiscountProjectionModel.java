@@ -2,7 +2,6 @@ package com.stpl.app.model;
 
 import com.stpl.app.service.persistence.NmDiscountProjectionPK;
 
-import com.stpl.portal.kernel.bean.AutoEscape;
 import com.stpl.portal.model.BaseModel;
 import com.stpl.portal.model.CacheModel;
 import com.stpl.portal.service.ServiceContext;
@@ -44,36 +43,6 @@ public interface NmDiscountProjectionModel extends BaseModel<NmDiscountProjectio
      * @param primaryKey the primary key of this nm discount projection
      */
     public void setPrimaryKey(NmDiscountProjectionPK primaryKey);
-
-    /**
-     * Returns the adjustment methodology of this nm discount projection.
-     *
-     * @return the adjustment methodology of this nm discount projection
-     */
-    @AutoEscape
-    public String getAdjustmentMethodology();
-
-    /**
-     * Sets the adjustment methodology of this nm discount projection.
-     *
-     * @param adjustmentMethodology the adjustment methodology of this nm discount projection
-     */
-    public void setAdjustmentMethodology(String adjustmentMethodology);
-
-    /**
-     * Returns the adjustment basis of this nm discount projection.
-     *
-     * @return the adjustment basis of this nm discount projection
-     */
-    @AutoEscape
-    public String getAdjustmentBasis();
-
-    /**
-     * Sets the adjustment basis of this nm discount projection.
-     *
-     * @param adjustmentBasis the adjustment basis of this nm discount projection
-     */
-    public void setAdjustmentBasis(String adjustmentBasis);
 
     /**
      * Returns the period sid of this nm discount projection.
@@ -118,56 +87,6 @@ public interface NmDiscountProjectionModel extends BaseModel<NmDiscountProjectio
     public void setProjectionDetailsSid(int projectionDetailsSid);
 
     /**
-     * Returns the adjustment variable of this nm discount projection.
-     *
-     * @return the adjustment variable of this nm discount projection
-     */
-    public boolean getAdjustmentVariable();
-
-    /**
-     * Returns <code>true</code> if this nm discount projection is adjustment variable.
-     *
-     * @return <code>true</code> if this nm discount projection is adjustment variable; <code>false</code> otherwise
-     */
-    public boolean isAdjustmentVariable();
-
-    /**
-     * Sets whether this nm discount projection is adjustment variable.
-     *
-     * @param adjustmentVariable the adjustment variable of this nm discount projection
-     */
-    public void setAdjustmentVariable(boolean adjustmentVariable);
-
-    /**
-     * Returns the adjustment value of this nm discount projection.
-     *
-     * @return the adjustment value of this nm discount projection
-     */
-    public double getAdjustmentValue();
-
-    /**
-     * Sets the adjustment value of this nm discount projection.
-     *
-     * @param adjustmentValue the adjustment value of this nm discount projection
-     */
-    public void setAdjustmentValue(double adjustmentValue);
-
-    /**
-     * Returns the adjustment type of this nm discount projection.
-     *
-     * @return the adjustment type of this nm discount projection
-     */
-    @AutoEscape
-    public String getAdjustmentType();
-
-    /**
-     * Sets the adjustment type of this nm discount projection.
-     *
-     * @param adjustmentType the adjustment type of this nm discount projection
-     */
-    public void setAdjustmentType(String adjustmentType);
-
-    /**
      * Returns the projection sales of this nm discount projection.
      *
      * @return the projection sales of this nm discount projection
@@ -180,20 +99,6 @@ public interface NmDiscountProjectionModel extends BaseModel<NmDiscountProjectio
      * @param projectionSales the projection sales of this nm discount projection
      */
     public void setProjectionSales(double projectionSales);
-
-    /**
-     * Returns the discount rate of this nm discount projection.
-     *
-     * @return the discount rate of this nm discount projection
-     */
-    public double getDiscountRate();
-
-    /**
-     * Sets the discount rate of this nm discount projection.
-     *
-     * @param discountRate the discount rate of this nm discount projection
-     */
-    public void setDiscountRate(double discountRate);
 
     @Override
     public boolean isNew();

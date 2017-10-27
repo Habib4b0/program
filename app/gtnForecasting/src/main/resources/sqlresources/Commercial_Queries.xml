@@ -15,11 +15,9 @@ and open the template in the editor.
 		METHODOLOGY,
 		USER_GROUP,
 		CALCULATION_PERIODS,
-		CALCULATION_BASED,
-		CHECK_RECORD,
-                FORECAST_START_PERIOD_SID,
-                FORECAST_END_PERIOD_SID,
-                ALLOCATION_BASIS 
+		
+		CHECK_RECORD
+               
 		FROM dbo.ST_NM_SALES_PROJECTION_MASTER MAS
                 JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
                 WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
@@ -31,31 +29,25 @@ and open the template in the editor.
 		TARGET.METHODOLOGY=SOURCE.METHODOLOGY, 
 		TARGET.USER_GROUP=SOURCE.USER_GROUP, 
 		TARGET.CALCULATION_PERIODS=SOURCE.CALCULATION_PERIODS, 
-		TARGET.CALCULATION_BASED=SOURCE.CALCULATION_BASED, 
-		TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD,
-                TARGET.FORECAST_START_PERIOD_SID=SOURCE.FORECAST_START_PERIOD_SID, 
-		TARGET.FORECAST_END_PERIOD_SID=SOURCE.FORECAST_END_PERIOD_SID, 
-		TARGET.ALLOCATION_BASIS=SOURCE.ALLOCATION_BASIS
+		 
+		TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD
+                
 		WHEN NOT MATCHED BY TARGET
 		THEN 
 		INSERT (PROJECTION_DETAILS_SID,
 		METHODOLOGY,
 		USER_GROUP,
 		CALCULATION_PERIODS,
-		CALCULATION_BASED,
-		CHECK_RECORD,
-                FORECAST_START_PERIOD_SID,
-		FORECAST_END_PERIOD_SID,
-		ALLOCATION_BASIS)
+		
+		CHECK_RECORD
+                )
                 VALUES(SOURCE.PROJECTION_DETAILS_SID,
 		SOURCE.METHODOLOGY,
 		SOURCE.USER_GROUP,
 		SOURCE.CALCULATION_PERIODS,
-		SOURCE.CALCULATION_BASED,
-		SOURCE.CHECK_RECORD,
-                SOURCE.FORECAST_START_PERIOD_SID,
-		SOURCE.FORECAST_END_PERIOD_SID,
-		SOURCE.ALLOCATION_BASIS);     
+		
+		SOURCE.CHECK_RECORD
+                );     
  	   ]]>
         </query>
     </entity>   
@@ -70,12 +62,7 @@ and open the template in the editor.
 		PRODUCT_GROWTH,
 		PROJECTION_SALES,
 		PROJECTION_UNITS,
-		PERIOD_SID,
-		ADJUSTMENT_TYPE,
-		ADJUSTMENT_BASIS,
-		ADJUSTMENT_VARIABLE,
-		ADJUSTMENT_METHODOLOGY,
-		ADJUSTMENT_VALUES
+		PERIOD_SID
 		FROM dbo.ST_NM_SALES_PROJECTION PROJ
                 JOIN PROJECTION_DETAILS PD ON PROJ.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
                 WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
@@ -88,12 +75,7 @@ and open the template in the editor.
 		TARGET.PRODUCT_GROWTH=SOURCE.PRODUCT_GROWTH,
 		TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,
 		TARGET.PROJECTION_UNITS=SOURCE.PROJECTION_UNITS,
-		TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
-		TARGET.ADJUSTMENT_TYPE=SOURCE.ADJUSTMENT_TYPE,
-		TARGET.ADJUSTMENT_BASIS=SOURCE.ADJUSTMENT_BASIS,
-		TARGET.ADJUSTMENT_VARIABLE=SOURCE.ADJUSTMENT_VARIABLE,
-		TARGET.ADJUSTMENT_METHODOLOGY=SOURCE.ADJUSTMENT_METHODOLOGY,
-		TARGET.ADJUSTMENT_VALUES=SOURCE.ADJUSTMENT_VALUES
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID
 		WHEN NOT MATCHED BY TARGET
 		THEN 
 		INSERT (PROJECTION_DETAILS_SID,
@@ -101,23 +83,13 @@ and open the template in the editor.
 		PRODUCT_GROWTH,
 		PROJECTION_SALES,
 		PROJECTION_UNITS,
-		PERIOD_SID,
-		ADJUSTMENT_TYPE,
-		ADJUSTMENT_BASIS,
-		ADJUSTMENT_VARIABLE,
-		ADJUSTMENT_METHODOLOGY,
-		ADJUSTMENT_VALUES)
+		PERIOD_SID)
                 VALUES(SOURCE.PROJECTION_DETAILS_SID,
 		SOURCE.ACCOUNT_GROWTH,
 		SOURCE.PRODUCT_GROWTH,
 		SOURCE.PROJECTION_SALES,
 		SOURCE.PROJECTION_UNITS,
-		SOURCE.PERIOD_SID,
-		SOURCE.ADJUSTMENT_TYPE,
-		SOURCE.ADJUSTMENT_BASIS,
-		SOURCE.ADJUSTMENT_VARIABLE,
-		SOURCE.ADJUSTMENT_METHODOLOGY,
-		SOURCE.ADJUSTMENT_VALUES);
+		SOURCE.PERIOD_SID);
 
 	   ]]>
         </query>
@@ -131,9 +103,7 @@ and open the template in the editor.
 		SELECT PD.PROJECTION_DETAILS_SID,
 		PERIOD_SID,
 		ACTUAL_SALES,
-		ACTUAL_UNITS,
-		HISTORY_PROJECTION_SALES,
-		HISTORY_PROJECTION_UNITS
+		ACTUAL_UNITS
 		FROM dbo.ST_NM_ACTUAL_SALES ACTUAL
                 JOIN PROJECTION_DETAILS PD ON ACTUAL.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
                 WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
@@ -143,23 +113,19 @@ and open the template in the editor.
 		THEN 
 		UPDATE SET 
 		TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,
-		TARGET.ACTUAL_UNITS=SOURCE.ACTUAL_UNITS,
-		TARGET.HISTORY_PROJECTION_SALES=SOURCE.HISTORY_PROJECTION_SALES,
-		TARGET.HISTORY_PROJECTION_UNITS=SOURCE.HISTORY_PROJECTION_UNITS
+		TARGET.ACTUAL_UNITS=SOURCE.ACTUAL_UNITS
 		WHEN NOT MATCHED BY TARGET
 		THEN 
 		INSERT (PROJECTION_DETAILS_SID,
 		PERIOD_SID,
 		ACTUAL_SALES,
-		ACTUAL_UNITS,
-		HISTORY_PROJECTION_SALES,
-		HISTORY_PROJECTION_UNITS)
+		ACTUAL_UNITS
+		
+		)
                 VALUES(SOURCE.PROJECTION_DETAILS_SID,
 		SOURCE.PERIOD_SID,
 		SOURCE.ACTUAL_SALES,
-		SOURCE.ACTUAL_UNITS,
-		SOURCE.HISTORY_PROJECTION_SALES,
-		SOURCE.HISTORY_PROJECTION_UNITS);
+		SOURCE.ACTUAL_UNITS);
 		   ]]>
         </query>
     </entity> 
@@ -458,47 +424,6 @@ and open the template in the editor.
 		,ACTUAL_SALES
 		,ACTUAL_DISCOUNT_DOLLAR
 		,ACTUAL_DISCOUNT_UNITS
-		,ACTUAL_PROJECTION_SALES
-		,ACTUAL_PROJECTION_RATE
-		,ACTUAL_PROJ_DISCOUNT_DOLLAR
-		,ACTUAL_PROJ_DISCOUNT_UNITS
-		,ITEM_PRICING_QUALIFIER_SID
-		,NEP
-		,NEP_FORMULA
-		,BASE_PRICE_TYPE
-		,BASE_PRICE_MANUAL
-		,BASE_PRICE_DATE
-		,BASE_PRICE_PRICE_TYPE
-		,NET_BASE_PRICE
-		,NET_BASE_PRICE_FORMULA
-		,SUBSEQUENT_PERIOD_PRICE_TYPE
-		,NET_SUBSEQUENT_PERIOD_PRICE
-		,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
-		,PRICE_TOLERANCE_INTERVAL
-		,PRICE_TOLERANCE_FREQUENCY
-		,PRICE_TOLERANCE_TYPE
-		,PRICE_TOLERANCE
-		,MAX_INCREMENTAL_CHANGE
-		,RESET_ELIGIBLE
-		,RESET_TYPE
-		,RESET_DATE
-		,RESET_INTERVAL
-		,RESET_FREQUENCY
-		,RESET_PRICE_TYPE
-		,NET_RESET_PRICE_TYPE
-		,NET_RESET_PRICE_FORMULA
-		,NET_PRICE_TYPE
-		,NET_PRICE_TYPE_FORMULA
-		,ATTACHED_DATE
-		,Price
-		,PriceChange
-		,TotalDeductions
-		,NetPrice
-		,NetMap
-		,PriceProtectionAmountPerUnit
-		,PriceProtectionPercentage
-		,TotalPriceProtectionDeduction
-                ,DEDUCTION_PER_UNIT
                 ,RS_MODEL_SID
                 ,RS_CONTRACT_SID
                 FROM dbo.ST_NM_ACTUAL_PPA ACTUAL
@@ -518,47 +443,6 @@ and open the template in the editor.
 			,TARGET.ACTUAL_SALES = SOURCE.ACTUAL_SALES
 			,TARGET.ACTUAL_DISCOUNT_DOLLAR = SOURCE.ACTUAL_DISCOUNT_DOLLAR
 			,TARGET.ACTUAL_DISCOUNT_UNITS = SOURCE.ACTUAL_DISCOUNT_UNITS
-			,TARGET.ACTUAL_PROJECTION_SALES = SOURCE.ACTUAL_PROJECTION_SALES
-			,TARGET.ACTUAL_PROJECTION_RATE = SOURCE.ACTUAL_PROJECTION_RATE
-			,TARGET.ACTUAL_PROJ_DISCOUNT_DOLLAR = SOURCE.ACTUAL_PROJ_DISCOUNT_DOLLAR
-			,TARGET.ACTUAL_PROJ_DISCOUNT_UNITS = SOURCE.ACTUAL_PROJ_DISCOUNT_UNITS
-			,TARGET.ITEM_PRICING_QUALIFIER_SID = SOURCE.ITEM_PRICING_QUALIFIER_SID
-			,TARGET.NEP = SOURCE.NEP
-			,TARGET.NEP_FORMULA = SOURCE.NEP_FORMULA
-			,TARGET.BASE_PRICE_TYPE = SOURCE.BASE_PRICE_TYPE
-			,TARGET.BASE_PRICE_MANUAL = SOURCE.BASE_PRICE_MANUAL
-			,TARGET.BASE_PRICE_DATE = SOURCE.BASE_PRICE_DATE
-			,TARGET.BASE_PRICE_PRICE_TYPE = SOURCE.BASE_PRICE_PRICE_TYPE
-			,TARGET.NET_BASE_PRICE = SOURCE.NET_BASE_PRICE
-			,TARGET.NET_BASE_PRICE_FORMULA = SOURCE.NET_BASE_PRICE_FORMULA
-			,TARGET.SUBSEQUENT_PERIOD_PRICE_TYPE = SOURCE.SUBSEQUENT_PERIOD_PRICE_TYPE
-			,TARGET.NET_SUBSEQUENT_PERIOD_PRICE = SOURCE.NET_SUBSEQUENT_PERIOD_PRICE
-			,TARGET.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA = SOURCE.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
-			,TARGET.PRICE_TOLERANCE_INTERVAL = SOURCE.PRICE_TOLERANCE_INTERVAL
-			,TARGET.PRICE_TOLERANCE_FREQUENCY = SOURCE.PRICE_TOLERANCE_FREQUENCY
-			,TARGET.PRICE_TOLERANCE_TYPE = SOURCE.PRICE_TOLERANCE_TYPE
-			,TARGET.PRICE_TOLERANCE = SOURCE.PRICE_TOLERANCE
-			,TARGET.MAX_INCREMENTAL_CHANGE = SOURCE.MAX_INCREMENTAL_CHANGE
-			,TARGET.RESET_ELIGIBLE = SOURCE.RESET_ELIGIBLE
-			,TARGET.RESET_TYPE = SOURCE.RESET_TYPE
-			,TARGET.RESET_DATE = SOURCE.RESET_DATE
-			,TARGET.RESET_INTERVAL = SOURCE.RESET_INTERVAL
-			,TARGET.RESET_FREQUENCY = SOURCE.RESET_FREQUENCY
-			,TARGET.RESET_PRICE_TYPE = SOURCE.RESET_PRICE_TYPE
-			,TARGET.NET_RESET_PRICE_TYPE = SOURCE.NET_RESET_PRICE_TYPE
-			,TARGET.NET_RESET_PRICE_FORMULA = SOURCE.NET_RESET_PRICE_FORMULA
-			,TARGET.NET_PRICE_TYPE = SOURCE.NET_PRICE_TYPE
-			,TARGET.NET_PRICE_TYPE_FORMULA = SOURCE.NET_PRICE_TYPE_FORMULA
-			,TARGET.ATTACHED_DATE = SOURCE.ATTACHED_DATE
-			,TARGET.Price = SOURCE.Price
-			,TARGET.PriceChange = SOURCE.PriceChange
-			,TARGET.TotalDeductions = SOURCE.TotalDeductions
-			,TARGET.NetPrice = SOURCE.NetPrice
-			,TARGET.NetMap = SOURCE.NetMap
-			,TARGET.PriceProtectionAmountPerUnit = SOURCE.PriceProtectionAmountPerUnit
-			,TARGET.PriceProtectionPercentage = SOURCE.PriceProtectionPercentage
-			,TARGET.TotalPriceProtectionDeduction = SOURCE.TotalPriceProtectionDeduction
-                        ,TARGET.DEDUCTION_PER_UNIT = SOURCE.DEDUCTION_PER_UNIT
                         ,TARGET.RS_MODEL_SID = SOURCE.RS_MODEL_SID
                         ,TARGET.RS_CONTRACT_SID=SOURCE.RS_CONTRACT_SID
                         WHEN NOT MATCHED BY TARGET
@@ -570,47 +454,6 @@ and open the template in the editor.
 			,ACTUAL_SALES
 			,ACTUAL_DISCOUNT_DOLLAR
 			,ACTUAL_DISCOUNT_UNITS
-			,ACTUAL_PROJECTION_SALES
-			,ACTUAL_PROJECTION_RATE
-			,ACTUAL_PROJ_DISCOUNT_DOLLAR
-			,ACTUAL_PROJ_DISCOUNT_UNITS
-			,ITEM_PRICING_QUALIFIER_SID
-			,NEP
-			,NEP_FORMULA
-			,BASE_PRICE_TYPE
-			,BASE_PRICE_MANUAL
-			,BASE_PRICE_DATE
-			,BASE_PRICE_PRICE_TYPE
-			,NET_BASE_PRICE
-			,NET_BASE_PRICE_FORMULA
-			,SUBSEQUENT_PERIOD_PRICE_TYPE
-			,NET_SUBSEQUENT_PERIOD_PRICE
-			,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
-			,PRICE_TOLERANCE_INTERVAL
-			,PRICE_TOLERANCE_FREQUENCY
-			,PRICE_TOLERANCE_TYPE
-			,PRICE_TOLERANCE
-			,MAX_INCREMENTAL_CHANGE
-			,RESET_ELIGIBLE
-			,RESET_TYPE
-			,RESET_DATE
-			,RESET_INTERVAL
-			,RESET_FREQUENCY
-			,RESET_PRICE_TYPE
-			,NET_RESET_PRICE_TYPE
-			,NET_RESET_PRICE_FORMULA
-			,NET_PRICE_TYPE
-			,NET_PRICE_TYPE_FORMULA
-			,ATTACHED_DATE
-			,Price
-			,PriceChange
-			,TotalDeductions
-			,NetPrice
-			,NetMap
-			,PriceProtectionAmountPerUnit
-			,PriceProtectionPercentage
-			,TotalPriceProtectionDeduction
-                        ,DEDUCTION_PER_UNIT
                         ,RS_MODEL_SID
                         ,RS_CONTRACT_SID
                         )
@@ -621,47 +464,6 @@ and open the template in the editor.
 			,SOURCE.ACTUAL_SALES
 			,SOURCE.ACTUAL_DISCOUNT_DOLLAR
 			,SOURCE.ACTUAL_DISCOUNT_UNITS
-			,SOURCE.ACTUAL_PROJECTION_SALES
-			,SOURCE.ACTUAL_PROJECTION_RATE
-			,SOURCE.ACTUAL_PROJ_DISCOUNT_DOLLAR
-			,SOURCE.ACTUAL_PROJ_DISCOUNT_UNITS
-			,SOURCE.ITEM_PRICING_QUALIFIER_SID
-			,SOURCE.NEP
-			,SOURCE.NEP_FORMULA
-			,SOURCE.BASE_PRICE_TYPE
-			,SOURCE.BASE_PRICE_MANUAL
-			,SOURCE.BASE_PRICE_DATE
-			,SOURCE.BASE_PRICE_PRICE_TYPE
-			,SOURCE.NET_BASE_PRICE
-			,SOURCE.NET_BASE_PRICE_FORMULA
-			,SOURCE.SUBSEQUENT_PERIOD_PRICE_TYPE
-			,SOURCE.NET_SUBSEQUENT_PERIOD_PRICE
-			,SOURCE.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
-			,SOURCE.PRICE_TOLERANCE_INTERVAL
-			,SOURCE.PRICE_TOLERANCE_FREQUENCY
-			,SOURCE.PRICE_TOLERANCE_TYPE
-			,SOURCE.PRICE_TOLERANCE
-			,SOURCE.MAX_INCREMENTAL_CHANGE
-			,SOURCE.RESET_ELIGIBLE
-			,SOURCE.RESET_TYPE
-			,SOURCE.RESET_DATE
-			,SOURCE.RESET_INTERVAL
-			,SOURCE.RESET_FREQUENCY
-			,SOURCE.RESET_PRICE_TYPE
-			,SOURCE.NET_RESET_PRICE_TYPE
-			,SOURCE.NET_RESET_PRICE_FORMULA
-			,SOURCE.NET_PRICE_TYPE
-			,SOURCE.NET_PRICE_TYPE_FORMULA
-			,SOURCE.ATTACHED_DATE
-			,SOURCE.Price
-			,SOURCE.PriceChange
-			,SOURCE.TotalDeductions
-			,SOURCE.NetPrice
-			,SOURCE.NetMap
-			,SOURCE.PriceProtectionAmountPerUnit
-			,SOURCE.PriceProtectionPercentage
-			,SOURCE.TotalPriceProtectionDeduction
-                        ,SOURCE.DEDUCTION_PER_UNIT
                         ,SOURCE.RS_MODEL_SID
                         ,SOURCE.RS_CONTRACT_SID
 			);
@@ -682,12 +484,8 @@ and open the template in the editor.
 		NET_FLAG,
 		USER_GROUP,
 		CHECK_RECORD,
-		BASELINE_PERIODS,
-		SELECTED_PERIODS,
-                CALCULATION_PERIODS,
-                CALCULATION_BASED,
-                FORECAST_START_PERIOD_SID,
-                FORECAST_END_PERIOD_SID
+                CALCULATION_PERIODS
+                
 		FROM ST_NM_DISCOUNT_PROJ_MASTER MAS
                 JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
                 WHERE PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
@@ -705,12 +503,10 @@ and open the template in the editor.
 		TARGET.NET_FLAG=SOURCE.NET_FLAG,
 		TARGET.USER_GROUP=SOURCE.USER_GROUP,
 		TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD,
-		TARGET.BASELINE_PERIODS=SOURCE.BASELINE_PERIODS,
-		TARGET.SELECTED_PERIODS=SOURCE.SELECTED_PERIODS,
-                TARGET.CALCULATION_PERIODS=SOURCE.CALCULATION_PERIODS,
-		TARGET.CALCULATION_BASED=SOURCE.CALCULATION_BASED,
-		TARGET.FORECAST_START_PERIOD_SID=SOURCE.FORECAST_START_PERIOD_SID,
-		TARGET.FORECAST_END_PERIOD_SID=SOURCE.FORECAST_END_PERIOD_SID
+		
+                TARGET.CALCULATION_PERIODS=SOURCE.CALCULATION_PERIODS
+		
+		
 		WHEN NOT MATCHED BY TARGET
 		THEN 
 		INSERT(PROJECTION_DETAILS_SID,
@@ -721,12 +517,10 @@ and open the template in the editor.
 		NET_FLAG,
 		USER_GROUP,
 		CHECK_RECORD,
-		BASELINE_PERIODS,
-		SELECTED_PERIODS,
-                CALCULATION_PERIODS,
-                CALCULATION_BASED,
-                FORECAST_START_PERIOD_SID,
-                FORECAST_END_PERIOD_SID)
+		
+                CALCULATION_PERIODS
+              
+               )
                 VALUES(SOURCE.PROJECTION_DETAILS_SID,
 		SOURCE.RS_MODEL_SID,
                 SOURCE.RS_CONTRACT_SID,
@@ -735,12 +529,10 @@ and open the template in the editor.
 		SOURCE.NET_FLAG,
 		SOURCE.USER_GROUP,
 		SOURCE.CHECK_RECORD,
-		SOURCE.BASELINE_PERIODS,
-		SOURCE.SELECTED_PERIODS,
-                SOURCE.CALCULATION_PERIODS,
-                SOURCE.CALCULATION_BASED,
-                SOURCE.FORECAST_START_PERIOD_SID,
-                SOURCE.FORECAST_END_PERIOD_SID);
+		
+                SOURCE.CALCULATION_PERIODS
+               
+               );
 		 ]]>
         </query>
     </entity>
@@ -756,15 +548,10 @@ and open the template in the editor.
 		PERIOD_SID,
 		PROJECTION_SALES,
 		PROJECTION_RATE,
-		ADJUSTMENT_TYPE,
-		ADJUSTMENT_BASIS,                
-		ADJUSTMENT_VALUE,
-		ADJUSTMENT_METHODOLOGY,
                 PROJECTION_RPU,
                 GROWTH,
                 REFRESHED_NAME,
-                REFRESHED_VALUE,
-		DISCOUNT_RATE
+                REFRESHED_VALUE
 		FROM ST_NM_DISCOUNT_PROJECTION PROJ
                 JOIN PROJECTION_DETAILS PD ON PROJ.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
                 WHERE PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
@@ -776,13 +563,9 @@ and open the template in the editor.
 		WHEN MATCHED 
 		THEN 
 		UPDATE SET 
-		TARGET.DISCOUNT_RATE=SOURCE.DISCOUNT_RATE,
+		
 		TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,
 		TARGET.PROJECTION_RATE=SOURCE.PROJECTION_RATE,
-		TARGET.ADJUSTMENT_TYPE=SOURCE.ADJUSTMENT_TYPE,
-		TARGET.ADJUSTMENT_BASIS=SOURCE.ADJUSTMENT_BASIS,
-		TARGET.ADJUSTMENT_VALUE=SOURCE.ADJUSTMENT_VALUE,
-		TARGET.ADJUSTMENT_METHODOLOGY=SOURCE.ADJUSTMENT_METHODOLOGY,
                 TARGET.PROJECTION_RPU=SOURCE.PROJECTION_RPU,
 		TARGET.GROWTH=SOURCE.GROWTH,
                 TARGET.REFRESHED_NAME=SOURCE.REFRESHED_NAME,
@@ -795,30 +578,23 @@ and open the template in the editor.
 		PERIOD_SID,
 		PROJECTION_SALES,
 		PROJECTION_RATE,
-		ADJUSTMENT_TYPE,
-		ADJUSTMENT_BASIS,
-		ADJUSTMENT_VALUE,
-		ADJUSTMENT_METHODOLOGY,
                 PROJECTION_RPU,
                 GROWTH,
                 REFRESHED_NAME,
-                REFRESHED_VALUE,
-		DISCOUNT_RATE)
+                REFRESHED_VALUE
+		)
                 VALUES(SOURCE.PROJECTION_DETAILS_SID,
 		SOURCE.RS_MODEL_SID,
                 SOURCE.RS_CONTRACT_SID,
 		SOURCE.PERIOD_SID,
 		SOURCE.PROJECTION_SALES,
 		SOURCE.PROJECTION_RATE,
-		SOURCE.ADJUSTMENT_TYPE,
-		SOURCE.ADJUSTMENT_BASIS,
-		SOURCE.ADJUSTMENT_VALUE,
-		SOURCE.ADJUSTMENT_METHODOLOGY,
+		
                 SOURCE.PROJECTION_RPU,
                 SOURCE.GROWTH,
                 SOURCE.REFRESHED_NAME,
-                SOURCE.REFRESHED_VALUE,
-		SOURCE.DISCOUNT_RATE);
+                SOURCE.REFRESHED_VALUE
+		);
 	 ]]>
         </query>
    </entity>	
@@ -834,10 +610,7 @@ and open the template in the editor.
 		PERIOD_SID,
 		ACTUAL_SALES,
 		ACTUAL_RATE,
-		ACTUAL_PROJECTION_SALES,
-		ACTUAL_PROJECTION_RATE,
-                ACTUAL_RPU,
-                ACTUAL_PROJECTION_RPU
+                ACTUAL_RPU
 		FROM ST_NM_ACTUAL_DISCOUNT ACTUAL
                 JOIN PROJECTION_DETAILS PD ON ACTUAL.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
                 WHERE PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
@@ -851,10 +624,8 @@ and open the template in the editor.
 		UPDATE SET 
 		TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,
 		TARGET.ACTUAL_RATE=SOURCE.ACTUAL_RATE,
-		TARGET.ACTUAL_PROJECTION_SALES=SOURCE.ACTUAL_PROJECTION_SALES,
-		TARGET.ACTUAL_PROJECTION_RATE=SOURCE.ACTUAL_PROJECTION_RATE,
-                TARGET.ACTUAL_RPU=SOURCE.ACTUAL_RPU,
-                TARGET.ACTUAL_PROJECTION_RPU = SOURCE.ACTUAL_PROJECTION_RPU 
+                TARGET.ACTUAL_RPU=SOURCE.ACTUAL_RPU
+               
 		WHEN NOT MATCHED BY TARGET
 		THEN 
 		INSERT(PROJECTION_DETAILS_SID,
@@ -863,20 +634,17 @@ and open the template in the editor.
 		PERIOD_SID,
 		ACTUAL_SALES,
 		ACTUAL_RATE,
-		ACTUAL_PROJECTION_SALES,
-		ACTUAL_PROJECTION_RATE,
-                ACTUAL_RPU,
-                ACTUAL_PROJECTION_RPU)
+                ACTUAL_RPU
+                )
+                
                 VALUES(SOURCE.PROJECTION_DETAILS_SID,
 		SOURCE.RS_MODEL_SID,
                 SOURCE.RS_CONTRACT_SID,
 		SOURCE.PERIOD_SID,
 		SOURCE.ACTUAL_SALES,
 		SOURCE.ACTUAL_RATE,
-		SOURCE.ACTUAL_PROJECTION_SALES,
-		SOURCE.ACTUAL_PROJECTION_RATE,
-                SOURCE.ACTUAL_RPU,
-                SOURCE.ACTUAL_PROJECTION_RPU);
+                SOURCE.ACTUAL_RPU
+                );
 		
 	  ]]>
         </query>
@@ -890,20 +658,13 @@ and open the template in the editor.
 			METHODOLOGY,
 			USER_GROUP,
 			CALCULATION_PERIODS,
-			CALCULATION_BASED,
-			CHECK_RECORD, 
-                        FORECAST_START_PERIOD_SID,
-                        FORECAST_END_PERIOD_SID,
-                        ALLOCATION_BASIS)
+			CHECK_RECORD
+                        )
 		SELECT  B.CCP_DETAILS_SID,
 			A.METHODOLOGY,
 			A.USER_GROUP,
 			A.CALCULATION_PERIODS,
-			A.CALCULATION_BASED,
-			A.CHECK_RECORD, 
-                        A.FORECAST_START_PERIOD_SID,
-                        A.FORECAST_END_PERIOD_SID,
-                        A.ALLOCATION_BASIS
+			A.CHECK_RECORD
 		FROM dbo.NM_SALES_PROJECTION_MASTER A,
 			dbo.PROJECTION_DETAILS B
 		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
@@ -921,23 +682,13 @@ and open the template in the editor.
 			PRODUCT_GROWTH,
 			PROJECTION_SALES,
 			PROJECTION_UNITS,
-			PERIOD_SID,
-			ADJUSTMENT_TYPE,
-			ADJUSTMENT_BASIS,
-			ADJUSTMENT_VARIABLE,
-			ADJUSTMENT_METHODOLOGY,
-			ADJUSTMENT_VALUES )
+			PERIOD_SID )
 		SELECT  B.CCP_DETAILS_SID,
 			A.ACCOUNT_GROWTH,
 			A.PRODUCT_GROWTH,
 			A.PROJECTION_SALES,
 			A.PROJECTION_UNITS,
-			A.PERIOD_SID,
-			A.ADJUSTMENT_TYPE,
-			A.ADJUSTMENT_BASIS,
-			A.ADJUSTMENT_VARIABLE,
-			A.ADJUSTMENT_METHODOLOGY,
-			A.ADJUSTMENT_VALUES
+			A.PERIOD_SID
 		FROM dbo.NM_SALES_PROJECTION A,
 			dbo.PROJECTION_DETAILS B
 		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
@@ -953,15 +704,11 @@ and open the template in the editor.
 			CCP_DETAILS_SID,
 			PERIOD_SID,
 			ACTUAL_SALES,
-			ACTUAL_UNITS,
-			HISTORY_PROJECTION_SALES,
-			HISTORY_PROJECTION_UNITS)
+			ACTUAL_UNITS)
 		SELECT  B.CCP_DETAILS_SID,
 			A.PERIOD_SID,
 			A.ACTUAL_SALES,
-			A.ACTUAL_UNITS,
-			A.HISTORY_PROJECTION_SALES,
-			A.HISTORY_PROJECTION_UNITS
+			A.ACTUAL_UNITS
 		FROM dbo.NM_ACTUAL_SALES A,
 			dbo.PROJECTION_DETAILS B
 		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
@@ -982,12 +729,9 @@ and open the template in the editor.
 			NET_FLAG,
 			USER_GROUP,
 			CHECK_RECORD,
-			BASELINE_PERIODS,
-			SELECTED_PERIODS,
-                        CALCULATION_PERIODS,
-                        CALCULATION_BASED,
-                        FORECAST_START_PERIOD_SID,
-                        FORECAST_END_PERIOD_SID)
+			
+                        CALCULATION_PERIODS
+                       )
 		SELECT  B.CCP_DETAILS_SID,
 			A.RS_MODEL_SID,
                         A.RS_CONTRACT_SID,
@@ -996,12 +740,7 @@ and open the template in the editor.
 			A.NET_FLAG,
 			A.USER_GROUP,
 			A.CHECK_RECORD,
-			A.BASELINE_PERIODS,
-			A.SELECTED_PERIODS,
-                        A.CALCULATION_PERIODS,
-                        A.CALCULATION_BASED,
-                        A.FORECAST_START_PERIOD_SID,
-                        A.FORECAST_END_PERIOD_SID
+                        A.CALCULATION_PERIODS
 		FROM dbo.NM_DISCOUNT_PROJ_MASTER A,
 			dbo.PROJECTION_DETAILS B
 		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
@@ -1020,30 +759,21 @@ and open the template in the editor.
                         PERIOD_SID,
 			PROJECTION_SALES,
 			PROJECTION_RATE,
-			ADJUSTMENT_TYPE,
-			ADJUSTMENT_BASIS,
-			ADJUSTMENT_VALUE,
-			ADJUSTMENT_METHODOLOGY,
                         PROJECTION_RPU,
                         GROWTH,
                         REFRESHED_NAME,
-                        REFRESHED_VALUE,
-                        DISCOUNT_RATE)
+                        REFRESHED_VALUE
+                        )
 		SELECT  B.CCP_DETAILS_SID,
 			A.RS_MODEL_SID,
                         A.RS_CONTRACT_SID,
 			A.PERIOD_SID,
 			A.PROJECTION_SALES,
 			A.PROJECTION_RATE,
-			A.ADJUSTMENT_TYPE,
-			A.ADJUSTMENT_BASIS,
-			A.ADJUSTMENT_VALUE,
-			A.ADJUSTMENT_METHODOLOGY,
                         A.PROJECTION_RPU,
                         A.GROWTH,
                         A.REFRESHED_NAME,
-                        A.REFRESHED_VALUE,
-                        A.DISCOUNT_RATE 
+                        A.REFRESHED_VALUE
 		FROM dbo.NM_DISCOUNT_PROJECTION A,
 			dbo.PROJECTION_DETAILS B
 		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
@@ -1062,8 +792,6 @@ and open the template in the editor.
 			PERIOD_SID,
 			ACTUAL_SALES,
 			ACTUAL_RATE,
-			ACTUAL_PROJECTION_SALES,
-			ACTUAL_PROJECTION_RATE,
                         ACTUAL_RPU)
 		SELECT  B.CCP_DETAILS_SID,
 			A.RS_MODEL_SID,
@@ -1071,8 +799,6 @@ and open the template in the editor.
 			A.PERIOD_SID,
 			A.ACTUAL_SALES,
 			A.ACTUAL_RATE,
-			A.ACTUAL_PROJECTION_SALES,
-			A.ACTUAL_PROJECTION_RATE,
                         A.ACTUAL_RPU 
 		FROM dbo.NM_ACTUAL_DISCOUNT A,
 			dbo.PROJECTION_DETAILS B
@@ -1239,47 +965,6 @@ WHERE A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
        ,ACTUAL_SALES
        ,ACTUAL_DISCOUNT_DOLLAR
        ,ACTUAL_DISCOUNT_UNITS
-       ,ACTUAL_PROJECTION_SALES
-       ,ACTUAL_PROJECTION_RATE
-       ,ACTUAL_PROJ_DISCOUNT_DOLLAR
-       ,ACTUAL_PROJ_DISCOUNT_UNITS
-       ,ITEM_PRICING_QUALIFIER_SID
-       ,NEP
-       ,NEP_FORMULA
-       ,BASE_PRICE_TYPE
-       ,BASE_PRICE_MANUAL
-       ,BASE_PRICE_DATE
-       ,BASE_PRICE_PRICE_TYPE
-       ,NET_BASE_PRICE
-       ,NET_BASE_PRICE_FORMULA
-       ,SUBSEQUENT_PERIOD_PRICE_TYPE
-       ,NET_SUBSEQUENT_PERIOD_PRICE
-       ,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
-       ,PRICE_TOLERANCE_INTERVAL
-       ,PRICE_TOLERANCE_FREQUENCY
-       ,PRICE_TOLERANCE_TYPE
-       ,PRICE_TOLERANCE
-       ,MAX_INCREMENTAL_CHANGE
-       ,RESET_ELIGIBLE
-       ,RESET_TYPE
-       ,RESET_DATE
-       ,RESET_INTERVAL
-       ,RESET_FREQUENCY
-       ,RESET_PRICE_TYPE
-       ,NET_RESET_PRICE_TYPE
-       ,NET_RESET_PRICE_FORMULA
-       ,NET_PRICE_TYPE
-       ,NET_PRICE_TYPE_FORMULA
-       ,ATTACHED_DATE
-       ,Price
-       ,PriceChange
-       ,TotalDeductions
-       ,NetPrice
-       ,NetMap
-       ,PriceProtectionAmountPerUnit
-       ,PriceProtectionPercentage
-       ,TotalPriceProtectionDeduction
-       ,DEDUCTION_PER_UNIT
        ,RS_MODEL_SID
        ,RS_CONTRACT_SID
        )
@@ -1289,47 +974,6 @@ SELECT  B.CCP_DETAILS_SID
        ,a.ACTUAL_SALES
        ,a.ACTUAL_DISCOUNT_DOLLAR
        ,a.ACTUAL_DISCOUNT_UNITS
-       ,a.ACTUAL_PROJECTION_SALES
-       ,a.ACTUAL_PROJECTION_RATE
-       ,a.ACTUAL_PROJ_DISCOUNT_DOLLAR
-       ,a.ACTUAL_PROJ_DISCOUNT_UNITS
-       ,a.ITEM_PRICING_QUALIFIER_SID
-       ,a.NEP
-       ,a.NEP_FORMULA
-       ,a.BASE_PRICE_TYPE
-       ,a.BASE_PRICE_MANUAL
-       ,a.BASE_PRICE_DATE
-       ,a.BASE_PRICE_PRICE_TYPE
-       ,a.NET_BASE_PRICE
-       ,a.NET_BASE_PRICE_FORMULA
-       ,a.SUBSEQUENT_PERIOD_PRICE_TYPE
-       ,a.NET_SUBSEQUENT_PERIOD_PRICE
-       ,a.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
-       ,a.PRICE_TOLERANCE_INTERVAL
-       ,a.PRICE_TOLERANCE_FREQUENCY
-       ,a.PRICE_TOLERANCE_TYPE
-       ,a.PRICE_TOLERANCE
-       ,a.MAX_INCREMENTAL_CHANGE
-       ,a.RESET_ELIGIBLE
-       ,a.RESET_TYPE
-       ,a.RESET_DATE
-       ,a.RESET_INTERVAL
-       ,a.RESET_FREQUENCY
-       ,a.RESET_PRICE_TYPE
-       ,a.NET_RESET_PRICE_TYPE
-       ,a.NET_RESET_PRICE_FORMULA
-       ,a.NET_PRICE_TYPE
-       ,a.NET_PRICE_TYPE_FORMULA
-       ,a.ATTACHED_DATE
-       ,a.Price
-       ,a.PriceChange
-       ,a.TotalDeductions
-       ,a.NetPrice
-       ,a.NetMap
-       ,a.PriceProtectionAmountPerUnit
-       ,a.PriceProtectionPercentage
-       ,a.TotalPriceProtectionDeduction
-       ,a.DEDUCTION_PER_UNIT
        ,A.RS_MODEL_SID
        ,A.RS_CONTRACT_SID
 FROM dbo.NM_ACTUAL_PPA A
@@ -1509,13 +1153,17 @@ EXEC PRC_FILES_DATA
             FROM   PROJECTION_MASTER 
             WHERE  PROJECTION_MASTER_SID = @PROJECTION_ID 
 
+            IF OBJECT_ID('TEMPDB..#TEMP_PFD') IS NOT NULL
+            DROP TABLE #TEMP_PFD
+            
             SELECT CASE 
-                     WHEN B.FILE_MANAGEMENT_SID = A.FILE_MANAGEMENT_SID THEN 1 
-                     ELSE 0 
+                     WHEN B.FILE_MANAGEMENT_SID = A.FILE_MANAGEMENT_SID THEN 0 
+                     ELSE 1 
                    END AS CHANGE_STATUS 
                       ,A.FORECAST_NAME
                       ,A.FILE_TYPE
                       ,A.DESCRIPTION
+                      ,B.FLAG INTO #TEMP_PFD
             FROM   (SELECT A.FILE_MANAGEMENT_SID, 
                            A.FILE_TYPE, 
                            A.FORECAST_NAME, 
@@ -1543,10 +1191,11 @@ EXEC PRC_FILES_DATA
                                    AND FT.BUSINESS_UNIT = @BUSINESSUNIT 
                                    AND FT.COMPANY = @COMPANYID)A 
                     WHERE  RN = 1)A 
-                   JOIN PROJECTION_FILE_DETAILS B 
+                   JOIN ST_PROJECTION_FILE_DETAILS B 
                      ON A.FILE_TYPE = B.FILE_TYPE 
                      AND B.PROJECTION_MASTER_SID = @PROJECTION_ID
 
+                     SELECT DISTINCT * FROM #TEMP_PFD WHERE CHANGE_STATUS = 1 AND FLAG <> 0
 
                 ]]>
             </query>
@@ -1556,7 +1205,7 @@ EXEC PRC_FILES_DATA
         <query> 
             <![CDATA[
             
-
+        
         DECLARE @PROJECTION_STATUS VARCHAR(100) = '[$WORKFLOWSTATUS]' 
 
         IF EXISTS(SELECT 1 
@@ -1565,7 +1214,7 @@ EXEC PRC_FILES_DATA
                          AND DESCRIPTION IN( 'Approved', 'Canceled', 'Pending' ) 
                          AND @PROJECTION_STATUS = DESCRIPTION) 
           BEGIN; 
-              WITH CTE 
+       WITH CTE
                    AS (SELECT DISTINCT FILE_MANAGEMENT_SID = FT.FILE_MANAGEMENT_SID, 
                                        FORECAST_NAME = FT.FORECAST_NAME, 
                                        FORECAST_VERSION = FT.[VERSION], 
@@ -1584,7 +1233,7 @@ EXEC PRC_FILES_DATA
                                       ON HT.HELPER_TABLE_SID = FT.FILE_TYPE 
                               INNER JOIN PROJECTION_MASTER PM 
                                       ON PM.BUSINESS_UNIT = FT.BUSINESS_UNIT 
-                                         AND PM.COMPANY_MASTER_SID = FT.COMPANY 
+                       AND PM.COMPANY_MASTER_SID = FT.COMPANY
                               JOIN COMPANY_MASTER CMP 
                                 ON CMP.COMPANY_MASTER_SID = FT.COMPANY 
                               JOIN COMPANY_MASTER BU 
@@ -1603,7 +1252,7 @@ EXEC PRC_FILES_DATA
                               FT.CREATED_DATE  ACTIVE_FROM, 
                               FT.FROM_PERIOD, 
                               FT.TO_PERIOD 
-                       FROM   PROJECTION_FILE_DETAILS PF 
+                       FROM   (SELECT DISTINCT PROJECTION_MASTER_SID,FILE_MANAGEMENT_SID,FILE_TYPE FROM PROJECTION_FILE_DETAILS) PF 
                               JOIN FILE_MANAGEMENT FT 
                                 ON FT.FILE_MANAGEMENT_SID = PF.FILE_MANAGEMENT_SID 
                               INNER JOIN HELPER_TABLE HT 
@@ -1694,7 +1343,7 @@ EXEC PRC_FILES_DATA
               FROM   CTE
               WHERE  RN = 1 ) A [$RECORD_FILTER]
           END 
-        
+
         ]]>
         </query>
     </entity>
@@ -1750,7 +1399,7 @@ EXEC PRC_FILES_DATA
                                      FT.CREATED_DATE     ACTIVE_FROM, 
                                      FT.FROM_PERIOD, 
                                      FT.TO_PERIOD 
-                          FROM       PROJECTION_FILE_DETAILS PF 
+                          FROM       (SELECT DISTINCT PROJECTION_MASTER_SID,FILE_MANAGEMENT_SID,FILE_TYPE FROM PROJECTION_FILE_DETAILS) PF 
                           JOIN       FILE_MANAGEMENT FT 
                           ON         FT.FILE_MANAGEMENT_SID = PF.FILE_MANAGEMENT_SID 
                           INNER JOIN HELPER_TABLE HT 
@@ -1811,8 +1460,8 @@ EXEC PRC_FILES_DATA
                                              AND    C2.COMPANY = C.COMPANY 
                                              AND    C2.FILE_TYPE = C.FILE_TYPE 
                                              AND    C2.RN = 1 ) ) A 
-               [$RECORD_FILTER] [$ORDER_BY] OFFSET [$START]  ROWS FETCH NEXT  [$END]  ROWS ONLY; 
-
+        [$RECORD_FILTER] [$ORDER_BY] OFFSET [$START]  ROWS FETCH NEXT  [$END]  ROWS ONLY;
+            
              END 
              ELSE 
              BEGIN; 
@@ -1864,9 +1513,246 @@ EXEC PRC_FILES_DATA
         ]]>
         </query>
     </entity>
+   
+    <entity id="getCurrentActiveFiles">
+        <query> 
+            <![CDATA[
+            
+            DECLARE @BUSINESS_UNIT       INT, 
+            @COMPANY_MASTER_SID  INT
+            
+            SELECT @BUSINESS_UNIT = BUSINESS_UNIT, @COMPANY_MASTER_SID = COMPANY_MASTER_SID
+            FROM   PROJECTION_MASTER 
+            WHERE  PROJECTION_MASTER_SID = @PROJECTIONID 
+            
+            SELECT A.FILE_MANAGEMENT_SID, 
+                           A.FILE_TYPE, 
+                           A.FORECAST_NAME, 
+                           A.VERSION
+                           ,A.DESCRIPTION
+                    FROM   (SELECT ROW_NUMBER() 
+                                     OVER( 
+                                       PARTITION BY HT.DESCRIPTION 
+                                       ORDER BY FT.FROM_PERIOD DESC)RN, 
+                                   FT.FILE_MANAGEMENT_SID, 
+                                   FT.FILE_TYPE, 
+                                   FT.FORECAST_NAME, 
+                                   FT.VERSION
+                                   ,ht.DESCRIPTION 
+                            FROM   FILE_MANAGEMENT FT 
+                                   INNER JOIN HELPER_TABLE HT 
+                                           ON HT.HELPER_TABLE_SID = FT.FILE_TYPE 
+                            WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, GETDATE()) 
+                                     AND FT.FROM_PERIOD IS NOT NULL ) 
+                                   AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, GETDATE()) 
+                                          OR FT.TO_PERIOD IS NULL ) 
+                                   AND HT.LIST_NAME = 'FILE_TYPE' 
+                                   AND HT.DESCRIPTION IN ( 'ADJUSTED DEMAND', 'DEMAND', 'INVENTORY WITHDRAWAL - FORECAST DETAIL', 'INVENTORY WITHDRAWAL - FORECAST SUMMARY',
+                                                           'CUSTOMER SALES', 'EX-FACTORY SALES' ) 
+                                   AND FT.BUSINESS_UNIT = @BUSINESS_UNIT 
+                                   AND FT.COMPANY = @COMPANY_MASTER_SID)A 
+                    WHERE  RN = 1
+                            
+            ]]>
+        </query>
+    </entity>
     
+    <entity id="getTempPFD">
+        <query> 
+            <![CDATA[
+            
+                SELECT * FROM ST_PROJECTION_FILE_DETAILS WHERE PROJECTION_MASTER_SID = @PROJECTIONID ORDER BY SCREEN_NAME DESC ;
+                            
+            ]]>
+        </query>
+    </entity>
     
-     <entity id="Product_customer_files_insert_view">
+    <entity id="PFD_MAIN_TO_TEMP">
+        <query> 
+             <![CDATA[  
+             
+	    INSERT INTO ST_PROJECTION_FILE_DETAILS(
+				PROJECTION_MASTER_SID,
+				FILE_MANAGEMENT_SID,
+				FILE_TYPE,
+				SCREEN_NAME,
+				FLAG)
+		SELECT  A.PROJECTION_MASTER_SID,
+				A.FILE_MANAGEMENT_SID,
+				A.FILE_TYPE,
+				A.SCREEN_NAME,
+				ISNULL(A.FLAG,1)
+		FROM dbo.PROJECTION_FILE_DETAILS A 
+		JOIN dbo.PROJECTION_MASTER B ON B.PROJECTION_MASTER_SID=A.PROJECTION_MASTER_SID AND A.PROJECTION_MASTER_SID = @PROJECTIONMASTERSID ;	
+                
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="PFD_TEMP_INSERT">
+        <query> 
+             <![CDATA[  
+            DELETE FROM  ST_PROJECTION_FILE_DETAILS WHERE PROJECTION_MASTER_SID = @PROJECTIONMASTERSID AND SCREEN_NAME IN (@SCREENNAME) ;
+             
+	    INSERT INTO ST_PROJECTION_FILE_DETAILS(
+				PROJECTION_MASTER_SID,
+				FILE_MANAGEMENT_SID,
+				FILE_TYPE,
+				SCREEN_NAME,
+				FLAG)
+	    VALUES (@TEMPVALUES)	;
+                
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="PFD_MAIN_TO_TEMP_INSERT">
+        <query> 
+             <![CDATA[  
+            DELETE FROM  PROJECTION_FILE_DETAILS WHERE PROJECTION_MASTER_SID = @PROJECTIONMASTERSID ;
+             
+	    INSERT INTO PROJECTION_FILE_DETAILS(
+				PROJECTION_MASTER_SID,
+				FILE_MANAGEMENT_SID,
+				FILE_TYPE,
+				SCREEN_NAME,
+				FLAG)
+            SELECT PROJECTION_MASTER_SID,
+				FILE_MANAGEMENT_SID,
+				FILE_TYPE,
+				SCREEN_NAME,
+				FLAG
+            FROM ST_PROJECTION_FILE_DETAILS
+            WHERE PROJECTION_MASTER_SID = @PROJECTIONMASTERSID AND SCREEN_NAME IS NOT NULL ;
+	    	;
+            
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="UPDATE_PFD_DISCOUNT_FLAG">
+        <query> 
+             <![CDATA[  
+            
+                UPDATE ST_PROJECTION_FILE_DETAILS SET FLAG = '0' WHERE PROJECTION_MASTER_SID = @PROJECTIONMASTERSID AND SCREEN_NAME IN ('D', 'C');
+            
+            ]]>
+        </query>
+    </entity>
+    <entity id="QUERY_TO_CHECK_ISSALES_CALCULATED_ALREADY">
+        <query> 
+             <![CDATA[  
+            
+                DECLARE @BUSINESS_UNIT       INT, 
+                    @COMPANY_MASTER_SID  INT, 
+                    @FILE_MANAGEMENT_SID INT 
+
+            SELECT @BUSINESS_UNIT = BUSINESS_UNIT, 
+                   @COMPANY_MASTER_SID = COMPANY_MASTER_SID
+            FROM   PROJECTION_MASTER 
+            WHERE  PROJECTION_MASTER_SID = @PROJECTION_ID 
+            
+            SELECT CASE 
+                     WHEN B.FILE_MANAGEMENT_SID = A.FILE_MANAGEMENT_SID THEN 1 
+                     ELSE 0 
+                   END AS CHANGE_STATUS 
+            FROM   (SELECT A.FILE_MANAGEMENT_SID, 
+                           A.FILE_TYPE, 
+                           A.FORECAST_NAME, 
+                           A.VERSION
+                                    ,A.DESCRIPTION
+                    FROM   (SELECT ROW_NUMBER() 
+                                     OVER( 
+                                       PARTITION BY HT.DESCRIPTION 
+                                       ORDER BY FT.FROM_PERIOD DESC)RN, 
+                                   FT.FILE_MANAGEMENT_SID, 
+                                   FT.FILE_TYPE, 
+                                   FT.FORECAST_NAME, 
+                                   FT.VERSION
+                                                 ,ht.DESCRIPTION 
+                            FROM   FILE_MANAGEMENT FT 
+                                   INNER JOIN HELPER_TABLE HT 
+                                           ON HT.HELPER_TABLE_SID = FT.FILE_TYPE 
+                            WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, GETDATE()) 
+                                     AND FT.FROM_PERIOD IS NOT NULL ) 
+                                   AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, GETDATE()) 
+                                          OR FT.TO_PERIOD IS NULL ) 
+                                   AND HT.LIST_NAME = 'FILE_TYPE' 
+                                   AND HT.DESCRIPTION IN ( 'ADJUSTED DEMAND', 'DEMAND', 'INVENTORY WITHDRAWAL - FORECAST DETAIL', 'INVENTORY WITHDRAWAL - FORECAST SUMMARY',
+                                                           'CUSTOMER SALES', 'EX-FACTORY SALES' ) 
+                                   AND FT.BUSINESS_UNIT = @BUSINESS_UNIT 
+                                   AND FT.COMPANY = @COMPANY_MASTER_SID)A 
+                    WHERE  RN = 1)A 
+                     JOIN ST_PROJECTION_FILE_DETAILS B 
+                     ON A.FILE_TYPE = B.FILE_TYPE 
+                     AND B.PROJECTION_MASTER_SID = @PROJECTION_ID
+                     AND B.SCREEN_NAME = 'S'
+            
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getFileTypeList">
+        <query> 
+            <![CDATA[
+            
+               SELECT HELPER_TABLE_SID,DESCRIPTION FROM HELPER_TABLE where LIST_NAME='FILE_TYPE'
+                            
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="PFD_TEMP_INSERT_WHILE_GENERATE">
+        <query> 
+            <![CDATA[
+            
+               IF Object_id('TEMPDB..#APPROVED_CCP_DETAILS') IS NOT NULL
+                    DROP TABLE #APPROVED_CCP_DETAILS
+
+                  CREATE TABLE #APPROVED_CCP_DETAILS
+                    (
+                       PROJECTION_MASTER_SID  INT,
+                       PROJECTION_DETAILS_SID INT,
+                       CCP_DETAILS_SID        INT
+                    )
+
+                  INSERT INTO #APPROVED_CCP_DETAILS
+                              (PROJECTION_MASTER_SID,
+                               PROJECTION_DETAILS_SID,
+                               CCP_DETAILS_SID)
+                  EXEC Prc_approved_ccp_details
+                    ?,
+                    '?',
+                    ?,
+                    '?'
+
+                  DECLARE @RESULT_PROJ INT
+
+                  SET @RESULT_PROJ=(SELECT TOP 1 PM.PROJECTION_MASTER_SID
+                                    FROM   PROJECTION_MASTER PM
+                                           JOIN #APPROVED_CCP_DETAILS AD
+                                             ON AD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+                                    ORDER  BY COALESCE(PM.MODIFIED_DATE, PM.CREATED_DATE) DESC )
+
+                  INSERT INTO ST_PROJECTION_FILE_DETAILS
+                              (PROJECTION_MASTER_SID,
+                               FILE_MANAGEMENT_SID,
+                               FILE_TYPE,
+                               SCREEN_NAME,
+                               FLAG)
+                  SELECT ?,
+                         FILE_MANAGEMENT_SID,
+                         FILE_TYPE,
+                         SCREEN_NAME,
+                         FLAG
+                  FROM   PROJECTION_FILE_DETAILS
+                  WHERE  PROJECTION_MASTER_SID = @RESULT_PROJ 
+                            
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Product_customer_files_insert_view">
         <query> 
              <![CDATA[ 		
 		DECLARE @FILE_VER       UDT_FILE,
@@ -1941,6 +1827,26 @@ EXEC PRC_FILES_DATA
              ]]>
         </query>
     </entity>
-   
-    
+    <entity id="isAFSS_PriceType_Available">
+        <query> 
+             <![CDATA[ 		
+ if exists (SELECT PRICING_QUALIFIER FROM ITEM_MASTER  IM
+ JOIN ITEM_PRICING IP
+ ON IP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+ JOIN ITEM_PRICING_QUALIFIER IPQ
+ ON IPQ.ITEM_PRICING_QUALIFIER_SID=IP.ITEM_PRICING_QUALIFIER_SID
+ JOIN NA_PROJ_DETAILS PRO
+ ON PRO.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+
+ WHERE PRO.NA_PROJ_MASTER_SID = ?
+ AND PRICING_QUALIFIER = 'AFSS')
+  BEGIN
+  select 1 as CNT
+   END
+   ELSE
+   select 0 as CNT
+             ]]>
+        </query>
+    </entity>
+            
 </sql>

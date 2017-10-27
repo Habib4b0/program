@@ -70,7 +70,7 @@ public final class PricingResults extends CustomComponent {
     
     /** The binder. */
     private  ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
-            new BeanItem<ItemPricingDTO>(pricingFormBean));
+            new BeanItem<>(pricingFormBean));
 
     /** The identifier code qualifier name. */
     private  final NativeSelect identifierCodeQualifierName = new NativeSelect();
@@ -92,6 +92,8 @@ public final class PricingResults extends CustomComponent {
     
     /** The identifier status. */
     private  final NativeSelect identifierStatus = new NativeSelect();
+    
+    private final UIUtils uiUtils = UIUtils.getInstance();
     
     /**
      * Instantiates a new pricing results.
@@ -180,8 +182,8 @@ public final class PricingResults extends CustomComponent {
         final Table pricingTable = new Table();
   
         pricingTable.setContainerDataSource(pricingTableBean);
-        pricingTable.setVisibleColumns(UIUtils.PRICING_FORM_COL_ORDER);
-        pricingTable.setColumnHeaders(UIUtils.PRICING_FORM_COL_ORDER_HEADER);
+        pricingTable.setVisibleColumns(uiUtils.pricingFormColOrder);
+        pricingTable.setColumnHeaders(uiUtils.pricingFormColOrderHeader);
         pricingTable.setPageLength(NumericConstants.SEVEN);
         pricingTable.setImmediate(true);
         pricingTable.setSelectable(true);
@@ -250,7 +252,7 @@ public final class PricingResults extends CustomComponent {
                         pricingTableBean.addBean(identForm);
                         binder.discard();
                         binder = new ErrorfulFieldGroup(
-                                new BeanItem<ItemPricingDTO>(
+                                new BeanItem<>(
                                 new ItemPricingDTO()));
 
                    

@@ -28,7 +28,7 @@
 
 
 		<portlet-info>
-			<title>Item</title>
+			<title>Item Master</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>
@@ -56,7 +56,7 @@
 
 
 		<portlet-info>
-			<title>Company</title>
+			<title>Company Master</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>
@@ -80,7 +80,7 @@
 			<portlet-mode>help</portlet-mode>
 		</supports>
 		<portlet-info>
-			<title>RebatePlan</title>
+			<title>Rebate Plan</title>
 			<short-title>Rebate Plan Master</short-title>
 			<keywords>Rebate Plan Master</keywords>
 		</portlet-info>
@@ -102,7 +102,7 @@
 			<portlet-mode>help</portlet-mode>
 		</supports>
 		<portlet-info>
-			<title>RebateSchedule</title>
+			<title>Rebate Schedule</title>
 			<short-title>Rebate Schedule Master</short-title>
 			<keywords>Rebate Schedule Master</keywords>
 		</portlet-info>
@@ -132,7 +132,7 @@
 
 
 		<portlet-info>
-			<title>CompanyFamilyPlan</title>
+			<title>Company Family Plan</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>
@@ -161,7 +161,7 @@
 
 
 		<portlet-info>
-			<title>ItemFamilyPlan</title>
+			<title>Item Family Plan</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>
@@ -189,7 +189,7 @@
 
 
 		<portlet-info>
-			<title>PriceSchedule</title>
+			<title>Price Schedule</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>
@@ -211,7 +211,7 @@
                 <portlet-mode>help</portlet-mode>
             </supports>
             <portlet-info>
-                <title>NetSalesFormula</title>
+                <title>Net Sales Formula</title>
                 <short-title>Portlet Short Title</short-title>
                 <keywords>put keywords here</keywords>
             </portlet-info>
@@ -233,7 +233,7 @@
                 <portlet-mode>help</portlet-mode>
             </supports>
             <portlet-info>
-                <title>DeductionCalendar</title>
+                <title>Deduction Calendar</title>
                 <short-title>Portlet Short Title</short-title>
                 <keywords>put keywords here</keywords>
             </portlet-info>
@@ -261,7 +261,7 @@
 
 
 		<portlet-info>
-			<title>ComplianceDeductionRules</title>
+			<title>Compliance and Deduction Rules</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>

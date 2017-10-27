@@ -109,9 +109,11 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
             { "ITEM_CODE", Types.VARCHAR },
             { "CLOTTING_FACTOR_START_DATE", Types.TIMESTAMP },
             { "NON_FEDERAL_EXPIRATION_DATE", Types.TIMESTAMP },
-            { "INTERNAL_NOTES", Types.VARCHAR }
+            { "INTERNAL_NOTES", Types.VARCHAR },
+            { "BASE_CPI_PRECISION", Types.INTEGER },
+            { "BASELINE_AMP_PRECISION", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table ITEM_MASTER (ITEM_STATUS INTEGER,ITEM_DESC VARCHAR(75) null,AUTHORIZED_GENERIC_START_DATE DATE null,ACQUIRED_AMP DOUBLE,NEW_FORMULATION_START_DATE DATE null,MARKET_TERMINATION_DATE DATE null,OBRA_BAMP DOUBLE,MODIFIED_DATE DATE null,THERAPEUTIC_CLASS INTEGER,ORGANIZATION_KEY INTEGER,ACQUIRED_BAMP DOUBLE,PEDIATRIC_EXCLUSIVE_END_DATE DATE null,SOURCE VARCHAR(75) null,NEW_FORMULATION VARCHAR(75) null,DIVESTITURE_DATE DATE null,PRIMARY_UOM INTEGER,NEW_FORMULATION_END_DATE DATE null,MODIFIED_BY INTEGER,INBOUND_STATUS VARCHAR(75) null,PACKAGE_SIZE_CODE VARCHAR(75) null,SECONDARY_UOM INTEGER,DISCONTINUATION_DATE DATE null,PACKAGE_SIZE_INTRO_DATE DATE null,MANUFACTURER_ID VARCHAR(75) null,ITEM_END_DATE DATE null,ITEM_FAMILY_ID VARCHAR(75) null,STRENGTH INTEGER,ITEM_CATEGORY INTEGER,UPPS DOUBLE,SHELF_LIFE_TYPE INTEGER,PEDIATRIC_EXCLUSIVE_INDICATOR VARCHAR(75) null,RECORD_LOCK_STATUS BOOLEAN,ITEM_TYPE_INDICATION VARCHAR(75) null,ACQUISITION_DATE DATE null,CLOTTING_FACTOR_INDICATOR VARCHAR(75) null,FORM INTEGER,ITEM_NAME VARCHAR(75) null,SHELF_LIFE VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_START_DATE DATE null,FIRST_SALE_DATE DATE null,ITEM_MASTER_SID INTEGER not null primary key IDENTITY,ITEM_TYPE INTEGER,ITEM_ID VARCHAR(75) null,BRAND_MASTER_SID INTEGER,BASELINE_AMP DOUBLE,DUAL_PRICING_INDICATOR VARCHAR(75) null,DOSES_PER_UNIT VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY INTEGER,AUTHORIZED_GENERIC VARCHAR(75) null,ITEM_START_DATE DATE null,NDC9 VARCHAR(75) null,AUTHORIZED_GENERIC_END_DATE DATE null,ITEM_NO VARCHAR(75) null,PACKAGE_SIZE VARCHAR(75) null,NDC8 VARCHAR(75) null,BASE_CPI DOUBLE,LABELER_CODE VARCHAR(75) null,ITEM_CLASS INTEGER,CLOTTING_FACTOR_END_DATE DATE null,DRA DOUBLE,BASE_CPI_PERIOD DATE null,NEW_FORMULATION_INDICATOR VARCHAR(75) null,LAST_LOT_EXPIRATION_DATE DATE null,BATCH_ID VARCHAR(75) null,ITEM_CODE VARCHAR(75) null,CLOTTING_FACTOR_START_DATE DATE null,NON_FEDERAL_EXPIRATION_DATE DATE null,INTERNAL_NOTES VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table ITEM_MASTER (ITEM_STATUS INTEGER,ITEM_DESC VARCHAR(75) null,AUTHORIZED_GENERIC_START_DATE DATE null,ACQUIRED_AMP DOUBLE,NEW_FORMULATION_START_DATE DATE null,MARKET_TERMINATION_DATE DATE null,OBRA_BAMP DOUBLE,MODIFIED_DATE DATE null,THERAPEUTIC_CLASS INTEGER,ORGANIZATION_KEY INTEGER,ACQUIRED_BAMP DOUBLE,PEDIATRIC_EXCLUSIVE_END_DATE DATE null,SOURCE VARCHAR(75) null,NEW_FORMULATION VARCHAR(75) null,DIVESTITURE_DATE DATE null,PRIMARY_UOM INTEGER,NEW_FORMULATION_END_DATE DATE null,MODIFIED_BY INTEGER,INBOUND_STATUS VARCHAR(75) null,PACKAGE_SIZE_CODE VARCHAR(75) null,SECONDARY_UOM INTEGER,DISCONTINUATION_DATE DATE null,PACKAGE_SIZE_INTRO_DATE DATE null,MANUFACTURER_ID VARCHAR(75) null,ITEM_END_DATE DATE null,ITEM_FAMILY_ID VARCHAR(75) null,STRENGTH INTEGER,ITEM_CATEGORY INTEGER,UPPS DOUBLE,SHELF_LIFE_TYPE INTEGER,PEDIATRIC_EXCLUSIVE_INDICATOR VARCHAR(75) null,RECORD_LOCK_STATUS BOOLEAN,ITEM_TYPE_INDICATION VARCHAR(75) null,ACQUISITION_DATE DATE null,CLOTTING_FACTOR_INDICATOR VARCHAR(75) null,FORM INTEGER,ITEM_NAME VARCHAR(75) null,SHELF_LIFE VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_START_DATE DATE null,FIRST_SALE_DATE DATE null,ITEM_MASTER_SID INTEGER not null primary key IDENTITY,ITEM_TYPE INTEGER,ITEM_ID VARCHAR(75) null,BRAND_MASTER_SID INTEGER,BASELINE_AMP DOUBLE,DUAL_PRICING_INDICATOR VARCHAR(75) null,DOSES_PER_UNIT VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY INTEGER,AUTHORIZED_GENERIC VARCHAR(75) null,ITEM_START_DATE DATE null,NDC9 VARCHAR(75) null,AUTHORIZED_GENERIC_END_DATE DATE null,ITEM_NO VARCHAR(75) null,PACKAGE_SIZE VARCHAR(75) null,NDC8 VARCHAR(75) null,BASE_CPI DOUBLE,LABELER_CODE VARCHAR(75) null,ITEM_CLASS INTEGER,CLOTTING_FACTOR_END_DATE DATE null,DRA DOUBLE,BASE_CPI_PERIOD DATE null,NEW_FORMULATION_INDICATOR VARCHAR(75) null,LAST_LOT_EXPIRATION_DATE DATE null,BATCH_ID VARCHAR(75) null,ITEM_CODE VARCHAR(75) null,CLOTTING_FACTOR_START_DATE DATE null,NON_FEDERAL_EXPIRATION_DATE DATE null,INTERNAL_NOTES VARCHAR(75) null,BASE_CPI_PRECISION INTEGER,BASELINE_AMP_PRECISION INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table ITEM_MASTER";
     public static final String ORDER_BY_JPQL = " ORDER BY itemMaster.itemMasterSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY ITEM_MASTER.ITEM_MASTER_SID ASC";
@@ -226,6 +228,8 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
     private Date _clottingFactorStartDate;
     private Date _nonFederalExpirationDate;
     private String _internalNotes;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
     private long _columnBitmask;
     private ItemMaster _escapedModel;
 
@@ -339,6 +343,8 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
         attributes.put("clottingFactorStartDate", getClottingFactorStartDate());
         attributes.put("nonFederalExpirationDate", getNonFederalExpirationDate());
         attributes.put("internalNotes", getInternalNotes());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -774,6 +780,19 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
 
         if (internalNotes != null) {
             setInternalNotes(internalNotes);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -1673,6 +1692,26 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
         _internalNotes = internalNotes;
     }
 
+    @Override
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+    }
+
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -1760,6 +1799,8 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
         itemMasterImpl.setClottingFactorStartDate(getClottingFactorStartDate());
         itemMasterImpl.setNonFederalExpirationDate(getNonFederalExpirationDate());
         itemMasterImpl.setInternalNotes(getInternalNotes());
+        itemMasterImpl.setBaseCpiPrecision(getBaseCpiPrecision());
+        itemMasterImpl.setBaselineAmpPrecision(getBaselineAmpPrecision());
 
         itemMasterImpl.resetOriginalValues();
 
@@ -2262,12 +2303,16 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
             itemMasterCacheModel.internalNotes = null;
         }
 
+        itemMasterCacheModel.baseCpiPrecision = getBaseCpiPrecision();
+
+        itemMasterCacheModel.baselineAmpPrecision = getBaselineAmpPrecision();
+
         return itemMasterCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(139);
+        StringBundler sb = new StringBundler(143);
 
         sb.append("{itemStatus=");
         sb.append(getItemStatus());
@@ -2407,6 +2452,10 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
         sb.append(getNonFederalExpirationDate());
         sb.append(", internalNotes=");
         sb.append(getInternalNotes());
+        sb.append(", baseCpiPrecision=");
+        sb.append(getBaseCpiPrecision());
+        sb.append(", baselineAmpPrecision=");
+        sb.append(getBaselineAmpPrecision());
         sb.append("}");
 
         return sb.toString();
@@ -2414,7 +2463,7 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(211);
+        StringBundler sb = new StringBundler(217);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ItemMaster");
@@ -2695,6 +2744,14 @@ public class ItemMasterModelImpl extends BaseModelImpl<ItemMaster>
         sb.append(
             "<column><column-name>internalNotes</column-name><column-value><![CDATA[");
         sb.append(getInternalNotes());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baseCpiPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaseCpiPrecision());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baselineAmpPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaselineAmpPrecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

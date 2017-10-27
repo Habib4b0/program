@@ -35,7 +35,7 @@
 		</HorizontalLayout>
 
 	<Label caption=" " />
-      
+        
 	<HorizontalLayout id="hlayout2" spacing="false" margin="false" immediate="true">
 		<CssLayout spacing="true" immediate="true" width="100%" height="100%">
 			<ef:ExtFilterTable id="availableTable" />
@@ -57,8 +57,8 @@
 
 	</HorizontalLayout>
       <Panel id="tablePanel" caption="Results" visible="false" >
-        <Table id="resultsTable" />
-         
+        <ef:ExtFilterTable id="resultsTable" />
+        
     </Panel>
         
         

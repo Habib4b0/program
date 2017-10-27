@@ -73,34 +73,6 @@ public interface NmActualPpaModel extends BaseModel<NmActualPpa> {
     public void setPeriodSid(int periodSid);
 
     /**
-     * Returns the actual proj discount dollar of this nm actual ppa.
-     *
-     * @return the actual proj discount dollar of this nm actual ppa
-     */
-    public double getActualProjDiscountDollar();
-
-    /**
-     * Sets the actual proj discount dollar of this nm actual ppa.
-     *
-     * @param actualProjDiscountDollar the actual proj discount dollar of this nm actual ppa
-     */
-    public void setActualProjDiscountDollar(double actualProjDiscountDollar);
-
-    /**
-     * Returns the actual projection sales of this nm actual ppa.
-     *
-     * @return the actual projection sales of this nm actual ppa
-     */
-    public double getActualProjectionSales();
-
-    /**
-     * Sets the actual projection sales of this nm actual ppa.
-     *
-     * @param actualProjectionSales the actual projection sales of this nm actual ppa
-     */
-    public void setActualProjectionSales(double actualProjectionSales);
-
-    /**
      * Returns the projection details sid of this nm actual ppa.
      *
      * @return the projection details sid of this nm actual ppa
@@ -113,34 +85,6 @@ public interface NmActualPpaModel extends BaseModel<NmActualPpa> {
      * @param projectionDetailsSid the projection details sid of this nm actual ppa
      */
     public void setProjectionDetailsSid(int projectionDetailsSid);
-
-    /**
-     * Returns the actual projection rate of this nm actual ppa.
-     *
-     * @return the actual projection rate of this nm actual ppa
-     */
-    public double getActualProjectionRate();
-
-    /**
-     * Sets the actual projection rate of this nm actual ppa.
-     *
-     * @param actualProjectionRate the actual projection rate of this nm actual ppa
-     */
-    public void setActualProjectionRate(double actualProjectionRate);
-
-    /**
-     * Returns the actual proj discount units of this nm actual ppa.
-     *
-     * @return the actual proj discount units of this nm actual ppa
-     */
-    public double getActualProjDiscountUnits();
-
-    /**
-     * Sets the actual proj discount units of this nm actual ppa.
-     *
-     * @param actualProjDiscountUnits the actual proj discount units of this nm actual ppa
-     */
-    public void setActualProjDiscountUnits(double actualProjDiscountUnits);
 
     /**
      * Returns the actual discount dollar of this nm actual ppa.

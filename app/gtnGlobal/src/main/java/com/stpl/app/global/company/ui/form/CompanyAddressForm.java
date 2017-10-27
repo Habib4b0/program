@@ -158,7 +158,7 @@ public class CompanyAddressForm extends CustomComponent {
     /** The company DTO. */
     CompanyMasterDTO companyMasterDTO = new CompanyMasterDTO();
     /** The binder. */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyMasterDTO>(companyMasterDTO));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(companyMasterDTO));
     private static final Logger LOGGER = Logger.getLogger(CompanyAddView.class);
     CommonUtil commmonUtil=CommonUtil.getInstance();
     CommonUIUtils commonUiUtil = new CommonUIUtils();

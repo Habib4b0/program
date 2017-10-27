@@ -15,6 +15,12 @@ import com.vaadin.ui.HorizontalLayout;
  */
 public class ResponsiveUtils {
 
+    private ResponsiveUtils() {
+        /*
+        Empty Constructor
+         */
+    }
+
     public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout) {
         HorizontalLayout controlBar = new HorizontalLayout();
         controlBar.setStyleName("responsivePagedTable");

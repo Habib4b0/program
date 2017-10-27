@@ -32,7 +32,7 @@ public class QueryUtils {
     public static List querySelect(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         LOGGER.debug("queryName - - >> " + queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {

@@ -43,7 +43,7 @@
         </dependency>
     </dependencies>
 
-            
+   
     <build>
         <finalName>${artifactId}</finalName>
         <resources>
@@ -218,7 +218,7 @@
                         </additionalBuildcommands>
                     </configuration>
                 </plugin>
-             
+              
             </plugins>
         </pluginManagement>
     </build>

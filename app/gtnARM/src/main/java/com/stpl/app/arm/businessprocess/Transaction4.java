@@ -52,7 +52,7 @@ public class Transaction4 extends AbstractTransaction {
             TabSheet.Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in initializeTabs"+e);
         }
     }
 
@@ -84,12 +84,12 @@ public class Transaction4 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        return "Transaction_4_Adjustment_details_Insert_GTN";
+        return "Demand_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        return "Transaction_4_Adjustment_details_Insert_Reserve";
+        return "Demand_Adjustment_details_Insert_Reserve";
     }
 
     @Override
@@ -102,6 +102,11 @@ public class Transaction4 extends AbstractTransaction {
         String userId = String.valueOf(getSessionDTO().getUserId());
         summary.configurePermission(userId, stplSecurity);
         details.configurePermission(userId, stplSecurity);
+    }
+
+    @Override
+    public String getTableName() {
+        return "ARM_DEMAND_RECON_SUMMARY";
     }
 
 }

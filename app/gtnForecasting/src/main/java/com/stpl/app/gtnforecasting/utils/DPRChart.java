@@ -74,14 +74,14 @@ public class DPRChart {
     public Component getChart() {
         LOGGER.debug("Entering getChart method ");
         final Chart chart = new Chart(ChartType.COLUMN);
-        List<String> visibleColumns = new ArrayList<String>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
+        List<String> visibleColumns = new ArrayList<>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
         visibleColumns.remove(Constant.GROUP);
-        List<String> visibleHeaders = new ArrayList<String>(rightDto.getSingleHeaders());
+        List<String> visibleHeaders = new ArrayList<>(rightDto.getSingleHeaders());
         visibleHeaders.remove(Constant.GROUPFCAPS);
         String[] visHeaders = visibleHeaders.toArray(new String[visibleHeaders.size()]);
         final Configuration conf = chart.getConfiguration();
 
-        conf.setTitle("Discount Projection Results");
+        conf.setTitle(Constant.DISCOUNT_PROJECTION_RESULTS);
 
         conf.disableCredits();
         conf.setExporting(Boolean.TRUE);
@@ -137,7 +137,7 @@ public class DPRChart {
 
             }
         } else {
-            List<String> periodList = new ArrayList<String>();
+            List<String> periodList = new ArrayList<>();
             for (DiscountProjectionResultsDTO pDto : dto) {
                 if (projSelDTO.getPeriodListMap().containsValue(pDto.getGroup())) {
                     periodList.add(pDto.getGroup());

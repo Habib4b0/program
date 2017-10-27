@@ -9,11 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractDemandSummaryLogic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
-import com.stpl.app.arm.security.StplSecurity;
-import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
-import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.app.utils.VariableConstants;
@@ -22,11 +18,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.OptionGroup;
@@ -69,9 +62,9 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
     @UiField("glImpactDate")
     protected PopupDateField glImpactDate;
     protected String[] variableHeader;
-    protected String[] variableHeader_deduction;
+    protected String[] variableHeaderDeduction;
     protected String[] variableVisibleColumns;
-    protected String[] variableVisibleColumns_deduction;
+    protected String[] variableVisibleColumnsDeduction;
     protected CustomMenuBar.CustomMenuItem deductionCustomMenuItem;
     protected CustomMenuBar.CustomMenuItem customMenuItem;
     @UiField("deductionLevelDdlb")
@@ -89,7 +82,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
     private Date glDateField;
     protected Date defaultWorkFlowDate;
     protected Date resetWorkFlowDate;
-    private final Logger LOGGER = Logger.getLogger(getClass());
+    private final Logger logger = Logger.getLogger(getClass());
 
     public AbstractDemandSummarySelection(AbstractSelectionDTO selectionDTO, AbstractDemandSummaryLogic logic) {
         this.selectionDTO = selectionDTO;
@@ -120,6 +113,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
@@ -140,23 +134,24 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                             if (selectionDTO.getSessionDTO().isWorkFlow()) {
                                 glImpactDate.removeValueChangeListener(glWorkflowListener);
                                 glImpactDate.setValue(resetWorkFlowDate);
-                                selectionDTO.setSummary_glDate(dateFormat.format(resetWorkFlowDate));
+                                selectionDTO.setSummaryglDate(dateFormat.format(resetWorkFlowDate));
                                 defaultWorkFlowDate = resetWorkFlowDate;
                                 glImpactDate.addValueChangeListener(glWorkflowListener);
                             } else {
                                 glImpactDate.removeValueChangeListener(glListener);
                                 glImpactDate.setValue(glDateField);
-                                selectionDTO.setSummary_glDate(dateFormat.format(glDateField));
+                                selectionDTO.setSummaryglDate(dateFormat.format(glDateField));
                                 glImpactDate.addValueChangeListener(glListener);
                             }
                             customizeResetButtonLogic();
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("Error in reset"+ex);
                         }
                         break;
                     case "save":
                         // save logic
                         break;
+                    default:
                 }
             }
         }
@@ -175,7 +170,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     notifier.setButtonName("reset");
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    logger.error("Error in reset"+e);
                 }
             }
         });
@@ -185,11 +180,11 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
         generate.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                LOGGER.debug("Inside generate ButtonClick Btn in abstractdemandsummaryselection");
+                logger.debug("Inside generate ButtonClick Btn in abstractdemandsummaryselection");
                 try {
                     generateButtonLogic();
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    logger.error("Error in generate"+e);
                 }
             }
         });
@@ -209,7 +204,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
             CommonUtils.loadComboBoxWithIntegerForComboBoxForDemandSummary(frequencyDdlb, "PAYMENT_FREQUENCY", false);
             variables.setScrollable(true);
             configureSummary();
-            selectionDTO.setSummary_demand_view(String.valueOf(view.getValue()));
+            selectionDTO.setSummarydemandview(String.valueOf(view.getValue()));
             variables.setPageLength(variableHeader.length);
             customMenuItem = variables.addItem("-Select Variables-", null);
             CommonUtils.loadCustomMenu(customMenuItem, variableHeader, variableVisibleColumns);
@@ -217,24 +212,24 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
             deductionLevelDdlb.select(HelperListUtil.getInstance().getIdByDesc(VariableConstants.DEDUCTION_LEVELS, VariableConstants.DEDUCTION_PROGRAM));
             glDateField = logic.getGlImpactDate(selectionDTO);
             glImpactDate.setValue(glDateField);
-            selectionDTO.setSummary_glDate(dateFormat.format(glDateField));
+            selectionDTO.setSummaryglDate(dateFormat.format(glDateField));
             toDate.select(ConstantsUtils.SELECT_ONE);
             fromDate.select(ConstantsUtils.SELECT_ONE);
             descriptionMap = HelperListUtil.getInstance().getIdHelperDTOMap();
             frequencyDdlb.addValueChangeListener(new Property.ValueChangeListener() {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
-                    int ddlbVal = Integer.valueOf(String.valueOf(event.getProperty().getValue()));
+                    int ddlbVal = Integer.parseInt(String.valueOf(event.getProperty().getValue()));
                     if (ddlbVal > 0) {
                         String frequency = HelperListUtil.getInstance().getIdDescMap().get(ddlbVal);
                         if (!selectionDTO.getSessionDTO().isWorkFlow()) {
                             if ("Monthly".equalsIgnoreCase(frequency) && deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()).equals(ARMConstants.getDeduction())) {
-                                CommonUtils.loadCustomMenu(customMenuItem, variableHeader_deduction, variableVisibleColumns_deduction);
+                                CommonUtils.loadCustomMenu(customMenuItem, variableHeaderDeduction, variableVisibleColumnsDeduction);
                             } else {
                                 CommonUtils.loadCustomMenu(customMenuItem, variableHeader, variableVisibleColumns);
                             }
                         }
-                        selectionDTO.setSummary_demand_frequency(frequency);
+                        selectionDTO.setSummarydemandfrequency(frequency);
                         List<String> periodValue = CommonUtils.getToAndFromByFrequency(frequency, selectionDTO.getDataSelectionDTO().getFromDate(), selectionDTO.getDataSelectionDTO().getToDate());
                         fromDate.removeAllItems();
                         fromDate.addItems(periodValue);
@@ -247,15 +242,15 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                         if (ARMConstants.getSinglePeriod().equalsIgnoreCase(String.valueOf(view.getValue()))) {
                             toDate.select(periodValue.get(1));
                             toDate.setEnabled(false);
-                            selectionDTO.setSummary_frequencyList(listTolistOfStringArray(new ArrayList(Arrays.asList(String.valueOf(fromDate.getValue())))));
+                            selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(new ArrayList(Arrays.asList(String.valueOf(fromDate.getValue())))));
                         } else {
                             int fromRange = frequencyList.indexOf(String.valueOf(fromDate.getValue()));
                             int toRange = frequencyList.indexOf(String.valueOf(toDate.getValue()));
                             List frequencylist = frequencyList.subList(fromRange, toRange + 1);
-                            selectionDTO.setSummary_frequencyList(listTolistOfStringArray(frequencylist));
+                            selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(frequencylist));
                         }
                     } else {
-                        selectionDTO.setSummary_demand_frequency(StringUtils.EMPTY);
+                        selectionDTO.setSummarydemandfrequency(StringUtils.EMPTY);
                         fromDate.select(ConstantsUtils.SELECT_ONE);
                         toDate.select(ConstantsUtils.SELECT_ONE);
                     }
@@ -267,17 +262,17 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                     String deductionType = String.valueOf(deductionLevelDdlb.getItemCaption(event.getProperty().getValue()));
                     String frequency = StringUtils.EMPTY;
                     if (!selectionDTO.getSessionDTO().isWorkFlow()) {
-                        frequency = selectionDTO.getSummary_demand_frequency();
+                        frequency = selectionDTO.getSummarydemandfrequency();
                     } else if (frequency.matches("^[-+]?\\d+(\\.\\d+)?$")) {
-                        frequency = HelperListUtil.getInstance().getIdDescMap().get(selectionDTO.getSummary_demand_frequency());
+                        frequency = HelperListUtil.getInstance().getIdDescMap().get(selectionDTO.getSummarydemandfrequency());
                     } else {
-                        frequency = selectionDTO.getSummary_demand_frequency();
+                        frequency = selectionDTO.getSummarydemandfrequency();
                     }
                     if (selectionDTO.getSessionDTO().isWorkFlow()) {
-                        frequency = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selectionDTO.getSummary_demand_frequency()));
+                        frequency = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selectionDTO.getSummarydemandfrequency()));
                     }
                     if (deductionType.equals(ARMConstants.getDeduction()) && "Monthly".equalsIgnoreCase(frequency)) {
-                        CommonUtils.loadCustomMenu(customMenuItem, variableHeader_deduction, variableVisibleColumns_deduction);
+                        CommonUtils.loadCustomMenu(customMenuItem, variableHeaderDeduction, variableVisibleColumnsDeduction);
                     } else {
                         variables.setPageLength(variableHeader.length);
                         CommonUtils.loadCustomMenu(customMenuItem, variableHeader, variableVisibleColumns);
@@ -289,11 +284,11 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 public void valueChange(Property.ValueChangeEvent event) {
                     try {
                         String viewType = String.valueOf(event.getProperty().getValue());
-                        selectionDTO.setSummary_demand_view(viewType);
+                        selectionDTO.setSummarydemandview(viewType);
                         if (ARMConstants.getSinglePeriod().equalsIgnoreCase(viewType)) {
                             toDate.select(String.valueOf(fromDate.getValue()));
                             toDate.setEnabled(false);
-                            selectionDTO.setSummary_frequencyList(listTolistOfStringArray(new ArrayList(Arrays.asList(String.valueOf(fromDate.getValue())))));
+                            selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(new ArrayList(Arrays.asList(String.valueOf(fromDate.getValue())))));
                         } else {
                             toDate.setEnabled(true);
                             List<String> list = (List<String>) toDate.getItemIds();
@@ -302,11 +297,11 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                                 int fromRange = frequencyList.indexOf(String.valueOf(fromDate.getValue()));
                                 int toRange = frequencyList.indexOf(String.valueOf(toDate.getValue()));
                                 List frequency = frequencyList.subList(fromRange, toRange + 1);
-                                selectionDTO.setSummary_frequencyList(listTolistOfStringArray(frequency));
+                                selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(frequency));
                             }
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        logger.error("Error in view"+ex);
                     }
                 }
             });
@@ -315,14 +310,14 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 public void valueChange(Property.ValueChangeEvent event) {
                     if (event != null) {
                         String fromValue = String.valueOf(event.getProperty().getValue());
-                        if ((!fromValue.equals(ConstantsUtils.SELECT_ONE) && !fromValue.equals("null")) && (frequencyList != null && frequencyList.contains(fromValue))) {
+                        if ((!fromValue.equals(ConstantsUtils.SELECT_ONE) && !"null".equals(fromValue)) && (frequencyList != null && frequencyList.contains(fromValue))) {
                             int fromRange = frequencyList.indexOf(fromValue);
                             List frequency = frequencyList.subList(fromRange, frequencyList.size());
                             toDate.removeAllItems();
                             toDate.addItem(ConstantsUtils.SELECT_ONE);
                             toDate.addItems(frequency);
                             toDate.select(ConstantsUtils.SELECT_ONE);
-                            selectionDTO.setSummary_frequencyList(listTolistOfStringArray(new ArrayList(Arrays.asList(fromValue))));
+                            selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(new ArrayList(Arrays.asList(fromValue))));
                         }
                         if (ARMConstants.getSinglePeriod().equalsIgnoreCase(String.valueOf(view.getValue()))) {
                             toDate.setEnabled(true);
@@ -338,15 +333,15 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     try {
-                        String ToDate = String.valueOf(event.getProperty().getValue());
-                        if ((!ToDate.equals(ConstantsUtils.SELECT_ONE) && !ToDate.equals("null")) && (ARMConstants.getMultiplePeriod().equalsIgnoreCase(selectionDTO.getSummary_demand_view()))) {
+                        String toDateValue = String.valueOf(event.getProperty().getValue());
+                        if ((!toDateValue.equals(ConstantsUtils.SELECT_ONE) && !"null".equals(toDateValue)) && (ARMConstants.getMultiplePeriod().equalsIgnoreCase(selectionDTO.getSummarydemandview()))) {
                             int fromRange = frequencyList.indexOf(String.valueOf(fromDate.getValue()));
                             int toRange = frequencyList.indexOf(String.valueOf(toDate.getValue()));
                             List frequency = frequencyList.subList(fromRange, toRange + 1);
-                            selectionDTO.setSummary_frequencyList(listTolistOfStringArray(frequency));
+                            selectionDTO.setSummaryfrequencyList(listTolistOfStringArray(frequency));
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        logger.error("Error in todate"+ex);
                     }
                 }
 
@@ -357,7 +352,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
             }
             deductionLevelDdlb.select(HelperListUtil.getInstance().getIdByDesc(VariableConstants.DEDUCTION_LEVELS, VariableConstants.DEDUCTION_PROGRAM));
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error("Error in glimpactdate"+e);
         }
 
     }
@@ -365,17 +360,18 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
     protected abstract void configureSummary();
 
     private List<String[]> listTolistOfStringArray(List frequency) {
-        List<String[]> frequencyList = new ArrayList<>();
+        List<String[]> frequencyListValue = new ArrayList<>();
         for (int i = 0; i < frequency.size(); i++) {
             String strings = (String) frequency.get(i);
             String[] stringArray = new String[NumericConstants.TWO];
             stringArray[0] = strings.replace(" ", StringUtils.EMPTY);
             stringArray[1] = strings;
-            frequencyList.add(stringArray);
+            frequencyListValue.add(stringArray);
         }
-        return frequencyList;
+        return frequencyListValue;
     }
 
+    @Override
     public abstract void enter(ViewChangeListener.ViewChangeEvent event);
 
     protected abstract void customizeResetButtonLogic();
@@ -383,36 +379,36 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
     protected abstract String[] getTableColumns();
 
     public void generateButtonLogic() {
-        selectionDTO.setSummary_deductionVariables(CommonUtils.getCheckedValues(deductionCustomMenuItem));
-        selectionDTO.setSummary_variables(CommonUtils.getCheckedValues(customMenuItem));
-        selectionDTO.setSummary_deductionLevel((int) deductionLevelDdlb.getValue());
-        selectionDTO.setSummary_demand_fromDate(String.valueOf(fromDate.getValue()));
-        selectionDTO.setSummary_demand_toDate(String.valueOf(toDate.getValue()));
-        List<String[]> listSize = selectionDTO.getSummary_deductionVariables();
-        String deductionValues = StringUtils.EMPTY;
+        selectionDTO.setSummarydeductionVariables(CommonUtils.getCheckedValues(deductionCustomMenuItem));
+        selectionDTO.setSummaryvariables(CommonUtils.getCheckedValues(customMenuItem));
+        selectionDTO.setSummarydeductionLevel((int) deductionLevelDdlb.getValue());
+        selectionDTO.setSummarydemandfromDate(String.valueOf(fromDate.getValue()));
+        selectionDTO.setSummarydemandtoDate(String.valueOf(toDate.getValue()));
+        List<String[]> listSize = selectionDTO.getSummarydeductionVariables();
+        StringBuilder deductionValues = new StringBuilder();
         if (!listSize.isEmpty()) {
             for (int i = 0; i < listSize.size(); i++) {
                 String value = listSize.get(i)[0];
                 listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
                 if (i != listSize.size() - 1) {
-                    deductionValues += "'" + value + "',";
+                    deductionValues.append("'").append(value).append("',");
                 } else {
-                    deductionValues += "'" + value + "'";
+                    deductionValues.append("'").append(value).append("'");
                 }
             }
         }
-        selectionDTO.setSummary_deductionValues(deductionValues);
-        selectionDTO.setSummary_deductionLevelDes(String.valueOf(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue())));
+        selectionDTO.setSummarydeductionValues(deductionValues.toString());
+        selectionDTO.setSummarydeductionLevelDes(String.valueOf(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue())));
         String frequencyString = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(String.valueOf(frequencyDdlb.getValue())));
-        selectionDTO.setSummary_demand_frequency(frequencyString);
-        selectionDTO.setSummary_frequency((int) frequencyDdlb.getValue());
+        selectionDTO.setSummarydemandfrequency(frequencyString);
+        selectionDTO.setSummaryfrequency((int) frequencyDdlb.getValue());
         adjustmentResults.configureLevelDDLBs();
         if (!logic.generateButtonCheck(selectionDTO) && !selectionDTO.getSessionDTO().isWorkFlow()) {
             AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_Demand());
             return;
         }
         adjustmentResults.generateButtonLogic(getTableColumns());
-        int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDTO.getDetail_Level());
+        int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDTO.getDetailLevel());
         logic.saveGLImpact(glImpactDate.getValue(), configLevelid, selectionDTO.getProjectionMasterSid());
     }
 
@@ -422,7 +418,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
 
     @Override
     public boolean saveAssets() {
-        int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDTO.getDetail_Level());
+        int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDTO.getDetailLevel());
         return logic.saveGLImpact(glImpactDate.getValue(), configLevelid, selectionDTO.getProjectionMasterSid());
     }
 
@@ -449,17 +445,17 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 Calendar glDateCal = Calendar.getInstance();
                 glDateCal.setTime(glDate);
                 dataSelectionLogic.dateCheckforGLCompAndBu(selectionDTO.getDataSelectionDTO(), false);
-                List closedList = selectionDTO.getDataSelectionDTO().getNewClosedSummary_glList();
+                List closedList = selectionDTO.getDataSelectionDTO().getNewClosedSummaryglList();
                 String selectGlDate = glDateCal.get(Calendar.MONTH) + 1 + "-" + glDateCal.get(Calendar.YEAR);
                 String dateString = dateFormat.format(glDate);
-                if (closedList != null && !closedList.isEmpty() && closedList.contains(selectGlDate) && !(dateString.equals(selectionDTO.getSummary_glDate()))) {
+                if (closedList != null && !closedList.isEmpty() && closedList.contains(selectGlDate) && !(dateString.equals(selectionDTO.getSummaryglDate()))) {
                     AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getGLImpactMessageId001());
-                    glImpactDate.setValue(dateFormat.parse(selectionDTO.getSummary_glDate()));
+                    glImpactDate.setValue(dateFormat.parse(selectionDTO.getSummaryglDate()));
                 } else {
-                    selectionDTO.setSummary_glDate(dateFormat.format(glDate));
+                    selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                logger.error("Error in glListener"+ex);
             }
         }
     };
@@ -472,7 +468,7 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 Calendar glDateCal = Calendar.getInstance();
                 glDateCal.setTime(glDate);
                 dataSelectionLogic.dateCheckforGLCompAndBu(selectionDTO.getDataSelectionDTO(), false);
-                List closedList = selectionDTO.getDataSelectionDTO().getNewClosedSummary_glList();
+                List closedList = selectionDTO.getDataSelectionDTO().getNewClosedSummaryglList();
                 String selectGlDate = glDateCal.get(Calendar.MONTH) + 1 + "-" + glDateCal.get(Calendar.YEAR);
                 String dateString = dateFormat.format(glDate);
                 if (defaultWorkFlowDate != null) {
@@ -481,19 +477,29 @@ public abstract class AbstractDemandSummarySelection extends VerticalLayout impl
                 if (closedList != null && !closedList.isEmpty() && closedList.contains(selectGlDate)) {
                     if (defaultWorkFlowDateString.equals(dateString)) {
                         glImpactDate.setValue(defaultWorkFlowDate);
-                        selectionDTO.setSummary_glDate(dateFormat.format(defaultWorkFlowDate));
+                        selectionDTO.setSummaryglDate(dateFormat.format(defaultWorkFlowDate));
                     } else {
                         AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getGLImpactMessageId001());
-                        glImpactDate.setValue(dateFormat.parse(selectionDTO.getSummary_glDate()));
+                        glImpactDate.setValue(dateFormat.parse(selectionDTO.getSummaryglDate()));
                     }
                 } else {
                     defaultWorkFlowDate = null;
-                    selectionDTO.setSummary_glDate(dateFormat.format(glDate));
+                    selectionDTO.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                logger.error("Error in glWorkflowListener :"+ex);
             }
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
 }

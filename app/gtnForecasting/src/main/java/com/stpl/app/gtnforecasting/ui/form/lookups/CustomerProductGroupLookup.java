@@ -78,7 +78,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
     /**
      * Container for results table.
      */
-    private final BeanItemContainer<GroupDTO> resultBean = new BeanItemContainer<GroupDTO>(GroupDTO.class);
+    private final BeanItemContainer<GroupDTO> resultBean = new BeanItemContainer<>(GroupDTO.class);
 
     /**
      * Constructor for CustomerProductGroupLookup.
@@ -137,16 +137,23 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
      */
     private void configureFields() {
         // Configures all the components here
+        center();
+        setClosable(true);
+        setModal(true);
+        setWidth("980px");
+        setHeight("850px");
         results.setPageLength(NumericConstants.TEN);
         tableLogic.setPageLength(NumericConstants.TEN);
         results.setSelectable(true);
         tableLogic.sinkItemPerPageWithPageLength(false);
-
         results.setFilterBarVisible(true);
         results.setFilterDecorator(new ExtDemoFilterDecorator());
         results.setStyleName(Constant.FILTER_TABLE);
+        results.setSizeFull();
+        results.markAsDirty();
+        results.setImmediate(true);
     }
-
+    
     /**
      * Select button logic.
      */
@@ -160,7 +167,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
                 if (itemsOrCompanySids != null && !itemsOrCompanySids.isEmpty()) {
                     try {
-                        List<String> finalCompanySids = new ArrayList<String>(itemsOrCompanySids);
+                        List<String> finalCompanySids = new ArrayList<>(itemsOrCompanySids);
                         sidsFromDetails = logic.getCustomerGroupDetails(Integer.parseInt(selectedCustHierarchy.getCustomerGroupSid()));
                         finalCompanySids.retainAll(sidsFromDetails);
                         setFilteredSids(finalCompanySids);
@@ -175,7 +182,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
                 setSelectedProdHierarchy((GroupDTO) results.getValue());
                 if (itemsOrCompanySids != null && !itemsOrCompanySids.isEmpty()) {
                     try {
-                        List<String> finalItemSids = new ArrayList<String>(itemsOrCompanySids);
+                        List<String> finalItemSids = new ArrayList<>(itemsOrCompanySids);
                         sidsFromDetails = logic.getItemGroupDetails(Integer.parseInt(selectedProdHierarchy.getProductGroupSid()));
                         finalItemSids.retainAll(sidsFromDetails);
                         setFilteredSids(finalItemSids);
@@ -283,7 +290,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
             @Override
             public void noMethod() {
-
+                return;
             }
         };
         notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");

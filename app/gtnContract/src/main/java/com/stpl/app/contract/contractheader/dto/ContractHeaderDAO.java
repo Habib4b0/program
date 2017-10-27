@@ -176,6 +176,6 @@ public class ContractHeaderDAO implements BeanDAO<SearchResultsDTO> {
             LOGGER.error(e);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_2005));
         }
-        return new ArrayList<SearchResultsDTO>();
+        return new ArrayList<>();
     }
 }

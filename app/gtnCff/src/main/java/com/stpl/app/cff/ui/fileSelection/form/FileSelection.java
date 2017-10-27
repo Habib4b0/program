@@ -5,6 +5,7 @@
 package com.stpl.app.cff.ui.fileSelection.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.lazyLoad.FileSelectionTableLogic;
 import com.stpl.app.cff.logic.CFFLogic;
@@ -71,7 +72,7 @@ public class FileSelection extends CustomComponent {
     }
 
     Component addComponent() {
-        Panel mainPanel = new Panel("File Selection");
+        Panel mainPanel = new Panel(StringConstantsUtil.FILE_SELECTION);
         mainPanel.setContent(addResultTable());
         return mainPanel;
     }
@@ -81,9 +82,9 @@ public class FileSelection extends CustomComponent {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Consolidated Financial Forecast" + ConstantsUtils.COMMA + "File Selection", false);
-            List<Object> resultList = getFieldsForSecurity("Consolidated Financial Forecast", "File Selection");
-            Object[] obj = CommonUtils.visibleColumnItemSearch;
+            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Consolidated Financial Forecast" + ConstantsUtils.COMMA + StringConstantsUtil.FILE_SELECTION, false);
+            List<Object> resultList = getFieldsForSecurity("Consolidated Financial Forecast", StringConstantsUtil.FILE_SELECTION);
+            Object[] obj = CommonUtils.getInstance().visibleColumnItemSearch;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, CommonSecurityLogic.ADD);
             if (tableResultCustom.getObjResult().length == 0) {
                 resultsTable.setVisible(false);
@@ -93,11 +94,11 @@ public class FileSelection extends CustomComponent {
             tableLogic.sinkItemPerPageWithPageLength(false);
             resultsTable.setVisibleColumns(tableResultCustom.getObjResult());
             resultsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
-            resultsTable.setColumnAlignment(CommonUtils.visibleColumnItemSearch[NumericConstants.TWO], ExtCustomTable.Align.CENTER);
-            resultsTable.setColumnAlignment(CommonUtils.visibleColumnItemSearch[NumericConstants.THREE], ExtCustomTable.Align.CENTER);
-            resultsTable.setColumnAlignment(CommonUtils.visibleColumnItemSearch[NumericConstants.FOUR], ExtCustomTable.Align.CENTER);
-            resultsTable.setColumnAlignment(CommonUtils.visibleColumnItemSearch[0], ExtCustomTable.Align.CENTER);
-            resultsTable.setColumnAlignment(CommonUtils.visibleColumnItemSearch[1], ExtCustomTable.Align.CENTER);
+            resultsTable.setColumnAlignment(CommonUtils.getInstance().visibleColumnItemSearch[NumericConstants.TWO], ExtCustomTable.Align.CENTER);
+            resultsTable.setColumnAlignment(CommonUtils.getInstance().visibleColumnItemSearch[NumericConstants.THREE], ExtCustomTable.Align.CENTER);
+            resultsTable.setColumnAlignment(CommonUtils.getInstance().visibleColumnItemSearch[NumericConstants.FOUR], ExtCustomTable.Align.CENTER);
+            resultsTable.setColumnAlignment(CommonUtils.getInstance().visibleColumnItemSearch[0], ExtCustomTable.Align.CENTER);
+            resultsTable.setColumnAlignment(CommonUtils.getInstance().visibleColumnItemSearch[1], ExtCustomTable.Align.CENTER);
 
             resultsTable.setSizeUndefined();
             resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -112,7 +113,7 @@ public class FileSelection extends CustomComponent {
             resultsTable.setWidth("1600");
             resultsTable.markAsDirty();
             resultsTable.setSelectable(false);
-            resultsTable.setTableFieldFactory(new FileSelectionTableGenerator(resultsTable, searchContainer, tableLogic, sessionDTO, String.valueOf(businessUnit.getValue())));
+            resultsTable.setTableFieldFactory(new FileSelectionTableGenerator(searchContainer, sessionDTO, String.valueOf(businessUnit.getValue())));
             tableLogic.setSearchData(sessionDTO, String.valueOf(businessUnit.getValue()));
 
             resultsTable.setConverter("activeFromDate", new StringToDateConverter());
@@ -131,7 +132,7 @@ public class FileSelection extends CustomComponent {
                     try {
                         LOGGER.debug("Entering EXCEL Export Button Click");
                         ConsolidatedFinancialForecastUI.EXCEL_CLOSE = true;
-                        final ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(resultsTable), "File Selection", "File Selection", "FileSelection.xls", false);
+                        final ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(resultsTable), StringConstantsUtil.FILE_SELECTION, StringConstantsUtil.FILE_SELECTION, "FileSelection.xls", false);
                         excel.export();
                         LOGGER.debug(" Ends  EXCEL Export Button Click");
 
@@ -182,22 +183,22 @@ public class FileSelection extends CustomComponent {
 
                         query = query.replace("@CFF_MASTER_SID", projId);
                         if (dto.getFileManagementSid() == null) {
-                            query = query.replace("@FILE_MANAGEMENT_SID", "null");
+                            query = query.replace(StringConstantsUtil.FILE_MANAGEMENT_SID, "null");
                         } else {
-                            query = query.replace("@FILE_MANAGEMENT_SID", "'" + dto.getFileManagementSid() + "'");
+                            query = query.replace(StringConstantsUtil.FILE_MANAGEMENT_SID, "'" + dto.getFileManagementSid() + "'");
                         }
                         query = query.replace("@FILE_NAME", dto.getFileName());
                         query = query.replace("@VERSION", dto.getVersion());
                         if (dto.getActiveFromDate() != null) {
-                            query = query.replace("@ACTIVE_FROM", "'" + DBDate.format(dto.getActiveFromDate()) + "'");
+                            query = query.replace(StringConstantsUtil.ACTIVE_FROM, "'" + DBDate.format(dto.getActiveFromDate()) + "'");
                         } else {
-                            query = query.replace("@ACTIVE_FROM", "null");
+                            query = query.replace(StringConstantsUtil.ACTIVE_FROM, "null");
                         }
                         if (dto.getActiveToDate() != null) {
-                            query = query.replace("@ACTIVE_TO", "'" + DBDate.format(dto.getActiveToDate()) + "'");
+                            query = query.replace(StringConstantsUtil.ACTIVE_TO, "'" + DBDate.format(dto.getActiveToDate()) + "'");
 
                         } else {
-                            query = query.replace("@ACTIVE_TO", "null");
+                            query = query.replace(StringConstantsUtil.ACTIVE_TO, "null");
                         }
                         query = query.replace("@FILE_TYPE", dto.getFileTypeId());
                         LOGGER.debug("--final query--------->>>>>" + query);
@@ -213,22 +214,22 @@ public class FileSelection extends CustomComponent {
                                 + "VERSION=@VERSION,ACTIVE_FROM=@ACTIVE_FROM,ACTIVE_TO=@ACTIVE_TO WHERE CFF_MASTER_SID=@CFF_MASTER_SID AND FILE_TYPE=@FILE_TYPE";
                         query = query.replace("@CFF_MASTER_SID", projId);
                         if (dto.getFileManagementSid() == null) {
-                            query = query.replace("@FILE_MANAGEMENT_SID", "null");
+                            query = query.replace(StringConstantsUtil.FILE_MANAGEMENT_SID, "null");
                         } else {
-                            query = query.replace("@FILE_MANAGEMENT_SID", "'" + dto.getFileManagementSid() + "'");
+                            query = query.replace(StringConstantsUtil.FILE_MANAGEMENT_SID, "'" + dto.getFileManagementSid() + "'");
                         }
                         query = query.replace("@FILE_NAME", dto.getFileName());
                         query = query.replace("@VERSION", dto.getVersion());
                         if (dto.getActiveFromDate() != null) {
-                            query = query.replace("@ACTIVE_FROM", "'" + DBDate.format(dto.getActiveFromDate()) + "'");
+                            query = query.replace(StringConstantsUtil.ACTIVE_FROM, "'" + DBDate.format(dto.getActiveFromDate()) + "'");
                         } else {
-                            query = query.replace("@ACTIVE_FROM", "null");
+                            query = query.replace(StringConstantsUtil.ACTIVE_FROM, "null");
                         }
                         if (dto.getActiveToDate() != null) {
-                            query = query.replace("@ACTIVE_TO", "'" + DBDate.format(dto.getActiveToDate()) + "'");
+                            query = query.replace(StringConstantsUtil.ACTIVE_TO, "'" + DBDate.format(dto.getActiveToDate()) + "'");
 
                         } else {
-                            query = query.replace("@ACTIVE_TO", "null");
+                            query = query.replace(StringConstantsUtil.ACTIVE_TO, "null");
                         }
                         query = query.replace("@FILE_TYPE", dto.getFileTypeId());
                         HelperTableLocalServiceUtil.executeUpdateQuery(query);
@@ -243,7 +244,7 @@ public class FileSelection extends CustomComponent {
     }
 
     public void refreshTable() {
-        resultsTable.setTableFieldFactory(new FileSelectionTableGenerator(resultsTable, searchContainer, tableLogic, sessionDTO, String.valueOf(businessUnit.getValue())));
+        resultsTable.setTableFieldFactory(new FileSelectionTableGenerator(searchContainer, sessionDTO, String.valueOf(businessUnit.getValue())));
         tableLogic.setSearchData(sessionDTO, String.valueOf(businessUnit.getValue()));
     }
 
@@ -254,7 +255,7 @@ public class FileSelection extends CustomComponent {
      * @return object of list or count
      */
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {

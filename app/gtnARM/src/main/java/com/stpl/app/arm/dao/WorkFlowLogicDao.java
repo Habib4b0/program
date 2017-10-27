@@ -17,46 +17,50 @@ import java.util.List;
  * @author Asha.Ravi
  */
 public interface WorkFlowLogicDao {
-    
-      /**
- * 
- * @param workflowMaster
- * @throws Exception 
- */
+
+    /**
+     *
+     * @param workflowMaster
+     * @throws Exception
+     */
     void addWorkflowMaster(WorkflowMaster workflowMaster) throws SystemException;
-/**
- * 
- * @param workflowMaster
- * @throws Exception 
- */
+
+    /**
+     *
+     * @param workflowMaster
+     * @throws Exception
+     */
     void updateWorkflowMaster(WorkflowMaster workflowMaster) throws SystemException;
-/**
- * 
- * @param workflowMasterSystemId
- * @return
- * @throws Exception 
- */
-    WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws SystemException,PortalException ;
-/**
- * 
- * @param dynamicQuery
- * @return
- * @throws Exception 
- */
-    List getWorkflowMasterByProjectionId(DynamicQuery dynamicQuery) throws SystemException ;
-/**
- * 
- * @param dynamicQuery
- * @return
- * @throws Exception 
- */
+
+    /**
+     *
+     * @param workflowMasterSystemId
+     * @return
+     * @throws Exception
+     */
+    WorkflowMaster getWorkflowMaster(int workflowMasterSystemId) throws SystemException, PortalException;
+
+    /**
+     *
+     * @param dynamicQuery
+     * @return
+     * @throws Exception
+     */
+    List getWorkflowMasterByProjectionId(DynamicQuery dynamicQuery) throws SystemException;
+
+    /**
+     *
+     * @param dynamicQuery
+     * @return
+     * @throws Exception
+     */
     List getMailNotificationMaster(DynamicQuery dynamicQuery) throws SystemException;
-    
+
     /**
      *
      * @param docDetails
      * @throws Exception
      */
     DocDetails addDocDetails(DocDetails docDetails) throws SystemException;
-    
+
 }

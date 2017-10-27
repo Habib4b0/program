@@ -65,7 +65,6 @@ public class NotesTabForm extends AbstractNotesTab {
     protected final String mode = StringUtils.EMPTY;
     CommonUIUtils commonUiUtil = new CommonUIUtils();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    private final static String GTNMODULENAME = "BaseRate";
 
     public NotesTabForm(CustomFieldGroup binder, String moduleName) throws Exception {
         super(binder, moduleName);

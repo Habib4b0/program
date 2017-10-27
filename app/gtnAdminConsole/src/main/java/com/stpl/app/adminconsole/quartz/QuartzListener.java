@@ -23,7 +23,6 @@ import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
@@ -47,7 +46,7 @@ public class QuartzListener implements ServletContextListener {
 	static String ACTION_JOB_DATA_MAP_KEY = "jobData";
 	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(QuartzListener.class);
 	static SimpleDateFormat sdf = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
-	private static final String USE_SIMPLE_SCHEDULE = "USESIMPLESCHEDULE";
+
 
 	/**
 	 * This method is used for initialising scheduling process. This method will
@@ -94,7 +93,7 @@ public class QuartzListener implements ServletContextListener {
 			printJobList();
 
 		} catch (Exception e) {
-			LOGGER.error(e, e);
+			e.printStackTrace();
 		}
 	}
 
@@ -132,74 +131,180 @@ public class QuartzListener implements ServletContextListener {
 			if (!"Y".equals(profile.getActiveFlag())) {
 				return;
 			}
-			if ( ( profile.getStartDate() == null) && (profile.getEndDate() == null)) {
+			if ((profile.getStartDate() == null) && (profile.getEndDate() == null)) {
 				return;
-			}			
+			}
 			JobDataMap jobDataMap = new JobDataMap();
 			jobDataMap.put(ACTION_JOB_DATA_MAP_KEY, profile);
 			JobDetail job = JobBuilder.newJob(QuartzJob.class).setJobData(jobDataMap)
-					.withIdentity(generateJobName(profile), "Group").build();
-			String cronStringInterval = generateCronStringInterval(profile);
-			if (cronStringInterval != null) {
+					.withIdentity(generateJobName(profile), GROUP).build();
 
-				if (cronStringInterval.equals(USE_SIMPLE_SCHEDULE)) {
+			List<String> cronStringList = new ArrayList<>();
+			generateCronStringTime(profile, cronStringList);
+			generateCronStringInterval(profile, cronStringList);
 
-					Trigger trigger = createSimpleScheduleJobTrigger(profile);
-					scheduler.scheduleJob(job, trigger);
-					return;
-				}
-				Trigger trigger = getTriggerBuilderWithDate(profile, 1)
-						.withSchedule(CronScheduleBuilder.cronSchedule(cronStringInterval)).build();
-				scheduler.scheduleJob(job, trigger);
-				return;
-
+			if (cronStringList.size() == 0) {
+				System.out.println("No triggers set for job " + profile.getProcessDisplayName());
 			}
 
-			List<String> cronStringList = generateCronStringTime(profile);
-			if (cronStringList == null) {
-				return;
-			}
 			int i = 0;
 			for (String cronString : cronStringList) {
 
 				if (i == 0) {
-					Trigger trigger = getTriggerBuilderWithDate(profile, 1)
-							.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
-					System.out.println("Scheduling trigger " + cronString);
-					scheduler.scheduleJob(job, trigger);
+					try {
+						Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
+								.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
+						System.out
+								.println("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
+						scheduler.scheduleJob(job, trigger);
+						i++;
+					} catch (Exception e) {
+						System.out.println(e);
+					}
 				} else {
-					Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
-							.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
-					System.out.println("Scheduling trigger " + cronString);
-					scheduler.scheduleJob(trigger);
+					try {
+						Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
+								.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
+						System.out
+								.println("- " + profile.getProcessDisplayName() + " Scheduling trigger " + cronString);
+						scheduler.scheduleJob(trigger);
+					} catch (Exception e) {
+						System.out.println(e);
+					}
+					i++;
 				}
-				i++;
 
 			}
-			return;
+
+			if (i == 0) {
+				System.out.println("No triggers set for job " + profile.getProcessDisplayName());
+			}
+
 		} catch (Exception e) {
-			LOGGER.error(e);
+			e.printStackTrace();
+		}
+
+	}
+    public static final String GROUP = "Group";
+
+	public static String generateJobName(WorkflowProfile profile) {
+		return ConstantsUtils.JOB + profile.getProcessSid() + "_" + profile.getProcessDisplayName();
+	}
+
+	public static void generateCronStringInterval(WorkflowProfile profile, List<String> cronStringList) {
+
+		String cronString = null;
+		if (!"Interval".equalsIgnoreCase(profile.getFrequency())) {
+			return;
+		}
+
+		if (profile.getStartHour() == NumericConstants.TWENTY_FOUR
+				&& profile.getStartMinutes() == NumericConstants.SIXTY) {
+			return;
+		}
+
+		if (profile.getStartHour() == 0 && profile.getStartMinutes() == 0) {
+			cronString = "0 0 0 * * ? * ";
+			cronStringList.add(cronString);
+			return;
+		}
+
+		if (profile.getStartMinutes() == 45) {
+			cronStringList.add("0 0,45 0,3,6,9,12,15,18,21 * * ? *");
+			cronStringList.add("0 15 2,5,8,11,14,17,20,23 * * ? *");
+			cronStringList.add("0 30 1,4,7,10,13,16,19,22 * * ? *");
+			return;
+		}
+
+		if ((profile.getStartMinutes() > 0) && (profile.getStartHour() > 0)) {
+			if (profile.getStartHour() == NumericConstants.TWENTY_FOUR) {
+				return;
+			}
+			List<String> generatedCronList = QuartzUtil
+					.calculateCronStringForInterval(profile.getStartHour() * 60 + profile.getStartMinutes());
+			cronStringList.addAll(generatedCronList);
+			return;
+		}
+
+		if (profile.getStartMinutes() > 0) {
+			cronString = "0 0/" + profile.getStartMinutes() + " * * * ? * ";
+			cronStringList.add(cronString);
+			return;
+		}
+
+		if (profile.getStartHour() > 0) {
+			cronString = "0 0 0/" + profile.getStartHour() + "  * * ? * ";
+			cronStringList.add(cronString);
+			return;
 		}
 
 	}
 
-	public static Trigger createSimpleScheduleJobTrigger(WorkflowProfile profile) throws SchedulerException {
+	public static void generateCronStringTime(WorkflowProfile profile, List<String> cronStringList) {
 
-		int intervalInMins = profile.getStartHour() * 60 + profile.getStartMinutes();
-		Trigger trigger = null;
-		if (profile.getStartDate() == null) {
-			trigger = getTriggerBuilderWithDate(profile, 1)
-					.startAt(DateBuilder.futureDate(intervalInMins, IntervalUnit.MINUTE))
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMinutes(intervalInMins)
-							.repeatForever())
-					.build();
-		} else {
-			trigger = getTriggerBuilderWithDate(profile, 1).withSchedule(
-					SimpleScheduleBuilder.simpleSchedule().withIntervalInMinutes(intervalInMins).repeatForever())
-					.build();
+		if ("Time".equalsIgnoreCase(profile.getFrequency())) {
+			if (profile.getStartHour1() != NumericConstants.TWENTY_FOUR
+					&& profile.getStartMinutes1() != NumericConstants.SIXTY) {
+				String str = getCronString(profile.getStartMinutes1(), profile.getStartHour1());
+
+				cronStringList.add(str);
+
+			}
+			if (profile.getStartHour2() != NumericConstants.TWENTY_FOUR
+					&& profile.getStartMinutes2() != NumericConstants.SIXTY) {
+				String str = getCronString(profile.getStartMinutes2(), profile.getStartHour2());
+
+				cronStringList.add(str);
+			}
+			if (profile.getStartHour3() != NumericConstants.TWENTY_FOUR
+					&& profile.getStartMinutes3() != NumericConstants.SIXTY) {
+				String str = getCronString(profile.getStartMinutes3(), profile.getStartHour3());
+
+				cronStringList.add(str);
+
+			}
+
+		}
+	}
+
+	public static String getCronString(int minutes, int hour) {
+		return "0 " + minutes + " " + hour + " * * ? * ";
+	}
+
+	public static TriggerBuilder<Trigger> getTriggerBuilderWithDate(WorkflowProfile profile, int triggerNo)
+			throws SchedulerException {
+		TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
+		triggerBuilder.withIdentity(ConstantsUtils.TRIGGER + triggerNo + "_" + profile.getProcessSid() + "_"
+				+ profile.getProcessDisplayName(), GROUP);
+
+		if (triggerNo > 1) {
+			triggerBuilder.forJob(getJobForJobKey(profile));
+		}
+		if (profile.getEndDate() == null && profile.getStartDate() == null) {
+			return triggerBuilder;
+		}
+                Date startDate = getStartDate(profile.getStartDate());
+                if (startDate.after(profile.getEndDate())) {
+                     return triggerBuilder;
+                }
+		if (profile.getStartDate() != null) {
+			triggerBuilder.startAt(startDate);
 		}
 
-		return trigger;
+		if (profile.getEndDate() != null) {
+			triggerBuilder.endAt(profile.getEndDate());
+		}
+
+		return triggerBuilder;
+	}
+
+	public static Date getStartDate(Date inputDate) {
+		Date current = new Date();
+		if (inputDate.after(current) || inputDate.equals(current)) {
+			return inputDate;
+		}
+		return DateBuilder.futureDate(1, IntervalUnit.MINUTE);
+
 	}
 
 	public static void printJobList() {
@@ -214,13 +319,14 @@ public class QuartzListener implements ServletContextListener {
 					String jobGroup = jobKey.getGroup();
 
 					// get job's trigger
+					@SuppressWarnings("unchecked")
 					List<Trigger> triggers = (List<Trigger>) scheduler.getTriggersOfJob(jobKey);
 
 					for (Trigger trigger : triggers) {
 						Date nextFireTime = trigger.getNextFireTime();
 						printStr.append("[jobName] : " + jobName + " [groupName] : " + jobGroup + " - " + nextFireTime
 								+ " - First Fire time -" + trigger.getStartTime() + " -Final Fire Time- "
-								+ trigger.getFinalFireTime());
+								+ trigger.getEndTime());
 						printStr.append("\n");
 					}
 
@@ -244,13 +350,14 @@ public class QuartzListener implements ServletContextListener {
 
 					if (jobName.equals(jobKeyToSearch.getName())) {
 						// get job's trigger
+						@SuppressWarnings("unchecked")
 						List<Trigger> triggers = (List<Trigger>) scheduler.getTriggersOfJob(jobKey);
 
 						for (Trigger trigger : triggers) {
 							Date nextFireTime = trigger.getNextFireTime();
 							System.out.println("[jobName] : " + jobName + " [groupName] : " + jobGroup + " - "
 									+ nextFireTime + " - First Fire time -" + trigger.getStartTime()
-									+ " -Final Fire Time- " + trigger.getFinalFireTime());
+									+ " -Final Fire Time- " + trigger.getEndTime());
 						}
 					}
 
@@ -278,118 +385,6 @@ public class QuartzListener implements ServletContextListener {
 
 	}
 
-	public static String generateJobName(WorkflowProfile profile) {
-		return ConstantsUtils.JOB + profile.getProcessSid() + "_" + profile.getProcessDisplayName();
-	}
-
-	public static TriggerBuilder<Trigger> getTriggerBuilderWithDate(WorkflowProfile profile, int triggerNo)
-			throws SchedulerException {
-		TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
-		triggerBuilder.withIdentity(ConstantsUtils.TRIGGER + triggerNo + "_" + profile.getProcessSid() + "_"
-				+ profile.getProcessDisplayName(), "Group");
-
-		if (triggerNo > 1) {
-			triggerBuilder.forJob(getJobForJobKey(profile));
-		}
-		if (profile.getEndDate() == null && profile.getStartDate() == null) {
-			return triggerBuilder;
-		}
-                Date startDate  = getStartDate(profile.getStartDate());
-                if(startDate.after(profile.getEndDate())){
-                   return triggerBuilder;
-                }
-		if (profile.getStartDate() != null) {
-                        triggerBuilder.startAt(startDate);
-		}
-
-		if (profile.getEndDate() != null) {
-			triggerBuilder.endAt(profile.getEndDate());
-		}
-
-		return triggerBuilder;
-	}
-
-	public static Date getStartDate(Date inputDate) {
-		Date current = new Date();
-		if (inputDate.after(current) || inputDate.equals(current)) {
-			return inputDate;
-		}
-		return DateBuilder.futureDate(1, IntervalUnit.MINUTE);
-
-	}
-
-	public static String generateCronStringInterval(WorkflowProfile profile) {
-
-		String cronString = null;
-		if (!"Interval".equalsIgnoreCase(profile.getFrequency())) {
-			return null;
-		}
-		if (profile.getStartHour() == 0 && profile.getStartMinutes() == 0) {
-			return null;
-		}
-		if (profile.getStartHour() == NumericConstants.TWENTY_FOUR
-				&& profile.getStartMinutes() == NumericConstants.SIXTY) {
-			return null;
-		}
-
-		if (profile.getStartHour() > 0 && profile.getStartMinutes() > 0) {
-			return USE_SIMPLE_SCHEDULE;
-		}
-
-		if (profile.getStartMinutes() > 0) {
-			cronString = "0 0/" + profile.getStartMinutes() + " * * * ? * ";
-		}
-
-		if (profile.getStartHour() > 0) {
-			cronString = "0 0 0/" + profile.getStartHour() + "  * * ? * ";
-		}
-
-		return cronString;
-	}
-
-	public static List<String> generateCronStringTime(WorkflowProfile profile) {
-
-		List<String> cronStringList = null;
-		if ("Time".equalsIgnoreCase(profile.getFrequency())) {
-			if (profile.getStartHour1() != NumericConstants.TWENTY_FOUR
-					&& profile.getStartMinutes1() != NumericConstants.SIXTY) {
-				String str = getCronString(profile.getStartMinutes1(), profile.getStartHour1());
-				if (cronStringList == null) {
-					cronStringList = new ArrayList<String>();
-				}
-				System.out.println("Tirgger1 " + str);
-				cronStringList.add(str);
-
-			}
-			if (profile.getStartHour2() != NumericConstants.TWENTY_FOUR
-					&& profile.getStartMinutes2() != NumericConstants.SIXTY) {
-				String str = getCronString(profile.getStartMinutes2(), profile.getStartHour2());
-				if (cronStringList == null) {
-					cronStringList = new ArrayList<String>();
-				}
-				System.out.println("Tirgger2 " + str);
-				cronStringList.add(str);
-
-			}
-			if (profile.getStartHour3() != NumericConstants.TWENTY_FOUR
-					&& profile.getStartMinutes3() != NumericConstants.SIXTY) {
-				String str = getCronString(profile.getStartMinutes3(), profile.getStartHour3());
-				if (cronStringList == null) {
-					cronStringList = new ArrayList<String>();
-				}
-				System.out.println("Tirgger3 " + str);
-				cronStringList.add(str);
-
-			}
-
-		}
-		return cronStringList;
-	}
-
-	public static String getCronString(int minutes, int hour) {
-		return "0 " + minutes + " " + hour + " * * ? * ";
-	}
-
 	public static void DeleteSchedule() {
 		try {
 			String time = getTimeConstant();
@@ -398,7 +393,7 @@ public class QuartzListener implements ServletContextListener {
 			JobDataMap jobDataMap = new JobDataMap();
 			jobDataMap.put(ACTION_JOB_DATA_MAP_KEY, "Delete");
 			JobDetail job1 = JobBuilder.newJob(QuartzJob.class).setJobData(jobDataMap)
-					.withIdentity(ConstantsUtils.JOB + "deleteJob", "Group").storeDurably().build();
+					.withIdentity(ConstantsUtils.JOB + "deleteJob", GROUP).storeDurably().build();
 			LOGGER.debug(hrs[0] + "hrs" + hrs[1]);
 			scheduler.addJob(job1, false);
 			Trigger trigger2 = TriggerBuilder.newTrigger().forJob(job1)

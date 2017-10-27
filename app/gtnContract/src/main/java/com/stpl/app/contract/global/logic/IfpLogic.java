@@ -111,10 +111,18 @@ public class IfpLogic implements ItemFamilyplanLogic {
     static HashMap<String, String> criteria = new HashMap<>();
     public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
     static HashMap<String, String> rsFormulaDbMap = new HashMap<>();
-    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-    Map<String, String> map = new HashMap<String, String>();
-
+    public static final String YYYY_M_MDD = "yyyy/MM/dd";
+    DateFormat dateFormat = new SimpleDateFormat(YYYY_M_MDD);
+    Map<String, String> map = new HashMap<>();
+    public static final String ATTACHED_DATETO = "attachedDateto";
     DecimalFormat df = new DecimalFormat("#0.00");
+    
+    public static final String ATTACHED_DATEFROM = "attachedDatefrom";
+    public static final String END_DATETO = "endDateto";
+    public static final String END_DATEFROM = "endDatefrom";
+    
+    public static final String START_DATETO = "startDateto";
+    public static final String START_DATEFROM = "startDatefrom";
     SessionDTO sessionDTO;
     List<TempPricingDTO> pricingResultList=new ArrayList<>();
     List<TempPricingDTO> priceProtectionResultList=new ArrayList<>();
@@ -148,18 +156,18 @@ public class IfpLogic implements ItemFamilyplanLogic {
      */
     public List<ItemMasterDTO> getItemForIFP(final String searchField, final String val, int start, int end, final List<SortByColumn> columns, final Set<Container.Filter> searchCriteria) throws SystemException {
         LOGGER.debug("Entering getItemForIFP method");
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put(Constants.ITEM_NO2, "Item_No");
         map.put(Constants.ITEM_NAME2, "Item_Name");
-        map.put(Constants.IFP_NO1, "IFP_NO");
-        map.put(Constants.IFP_NAME1, "IFP_NAME");
-        map.put("NDC 8", Constants.NDC8);
-        map.put("NDC 9", Constants.NDC9);
-        map.put("Item Description", Constants.ITEM_DESC1);
+        map.put(Constants.IFP_NO1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_NO_LABEL);
+        map.put(Constants.IFP_NAME1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_NAME_LIST);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NDC_8, Constants.NDC8);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NDC_9, Constants.NDC9);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_DESCRIPTION, Constants.ITEM_DESC1);
         map.put("Form", Constants.FORM);
-        map.put("Strength", Constants.STRENGTH);
-        map.put("Therapeutic Class", "THERAPEUTIC_CLASS");
-        map.put("Brand Name", Constants.BRAND_NAME);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.STRENGTH, Constants.STRENGTH);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS_PROPERTY, THERAPEUTIC_CLASS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND_NAME, Constants.BRAND_NAME);
         map.put("Item Desc", Constants.ITEM_DESC1);
         map.put("Item Status", "ITEM_STATUS");
         List<ItemMasterDTO> itemMasterDTOList;
@@ -174,17 +182,17 @@ public class IfpLogic implements ItemFamilyplanLogic {
             if (Constants.ITEM_NO.equals(orderByColumn.getName())) {
                 column = Constants.ITEM_NO_CAPS;
             } else if (Constants.ITEM_NAME.equals(orderByColumn.getName())) {
-                column = "ITEM_NAME";
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_NAME_LIST;
             } else if ("form".equals(orderByColumn.getName())) {
                 column = "hform";
-            } else if ("packageSize".equals(orderByColumn.getName())) {
+            } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE.equals(orderByColumn.getName())) {
                 column = "hpackage";
             } else if (Constants.ITEM_DESC.equals(orderByColumn.getName())) {
                 column = Constants.ITEM_DESC1;
             } else if (Constants.ITEM_STATUS.equals(orderByColumn.getName())) {
                 column = "status";
             } else if (Constants.STRENGTH.equals(orderByColumn.getName())) {
-                column = "strength";
+                column = Constants.STRENGTH;
             } else if (Constants.THERAPEUTIC_CLASS.equals(orderByColumn.getName())) {
                 column = "therapeutic";
             } else if (Constants.BRAND_NAME.equals(orderByColumn.getName())) {
@@ -211,7 +219,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
                }
                 value=value+"' escape '~";
             }
-            List<Integer> resultList = new ArrayList<Integer>();
+            List<Integer> resultList = new ArrayList<>();
             if (Constants.BRAND_NAME.equals(searchVal)) {
                 final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
                 dynamicQuery.add(RestrictionsFactoryUtil.like(searchVal, value));
@@ -219,11 +227,11 @@ public class IfpLogic implements ItemFamilyplanLogic {
                 resultList = BrandMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
             }
 
-            Map<String, Object> filterMap = new HashMap<String, Object>();
-            filterMap.put("itemNo", StringUtils.EMPTY);
-            filterMap.put("itemName", StringUtils.EMPTY);
+            Map<String, Object> filterMap = new HashMap<>();
+            filterMap.put(Constants.ITEM_NO, StringUtils.EMPTY);
+            filterMap.put(Constants.ITEM_NAME, StringUtils.EMPTY);
             filterMap.put("form", StringUtils.EMPTY);
-            filterMap.put("packageSize", StringUtils.EMPTY);
+            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE, StringUtils.EMPTY);
 
             if (searchCriteria != null) {
                 for (Container.Filter filter : searchCriteria) {
@@ -231,36 +239,36 @@ public class IfpLogic implements ItemFamilyplanLogic {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = "%" + stringFilter.getFilterString() + "%";
 
-                        if (stringFilter.getPropertyId().equals("itemNo")) {
-                            filterMap.put("itemNo", filterText);
-                        } else if (stringFilter.getPropertyId().equals("itemName")) {
-                            filterMap.put("itemName", filterText);
+                        if (stringFilter.getPropertyId().equals(Constants.ITEM_NO)) {
+                            filterMap.put(Constants.ITEM_NO, filterText);
+                        } else if (stringFilter.getPropertyId().equals(Constants.ITEM_NAME)) {
+                            filterMap.put(Constants.ITEM_NAME, filterText);
                         } else if (stringFilter.getPropertyId().equals("form")) {
 
                             String form = stringFilter.getFilterString();
                             filterMap.put("form", form);
 
-                        } else if (stringFilter.getPropertyId().equals("packageDesc")) {
+                        } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_DESC)) {
                             String packageSize = stringFilter.getFilterString();
 
-                            filterMap.put("packageSize", packageSize);
-                        } else if (stringFilter.getPropertyId().equals("itemStatus")) {
+                            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE, packageSize);
+                        } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS)) {
 
                             String status = stringFilter.getFilterString();
-                            filterMap.put("itemStatus", status);
+                            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS, status);
 
-                        } else if (stringFilter.getPropertyId().equals("strength")) {
+                        } else if (stringFilter.getPropertyId().equals(ConstantUtil.STRENGTH)) {
                             String strength = stringFilter.getFilterString();
-                            filterMap.put("strength", strength);
-                        } else if (stringFilter.getPropertyId().equals("therapeuticClass")) {
+                            filterMap.put(ConstantUtil.STRENGTH, strength);
+                        } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS)) {
 
                             String therapeutic = stringFilter.getFilterString();
-                            filterMap.put("therapeuticClass", therapeutic);
+                            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS, therapeutic);
 
-                        } else if (stringFilter.getPropertyId().equals("itemDesc")) {
-                            filterMap.put("itemDesc", filterText);
-                        } else if (stringFilter.getPropertyId().equals("brand")) {
-                            filterMap.put("brand", filterText);
+                        } else if (stringFilter.getPropertyId().equals(Constants.ITEM_DESC)) {
+                            filterMap.put(Constants.ITEM_DESC, filterText);
+                        } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND)) {
+                            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND, filterText);
                         }
 
                     }
@@ -271,11 +279,12 @@ public class IfpLogic implements ItemFamilyplanLogic {
             itemMasterDTOList = getCustomizedItem(result);
 
         } else {
-            itemMasterDTOList = new ArrayList<ItemMasterDTO>();
+            itemMasterDTOList = new ArrayList<>();
         }
         LOGGER.debug("End of getItemForIFP method");
         return itemMasterDTOList;
     }
+    public static final String THERAPEUTIC_CLASS = "THERAPEUTIC_CLASS";
 
     /**
      * Returns the List of ItemMasterDTO based on search field.
@@ -287,10 +296,10 @@ public class IfpLogic implements ItemFamilyplanLogic {
      */
     public List<ItemMasterDTO> getItemIFP(final String searchField, final String val) {
         LOGGER.debug("Entering getItemForIFP method");
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put(Constants.ITEM_NO2, Constants.ITEM_NO);
         map.put(Constants.ITEM_NAME2, Constants.ITEM_NAME);
-        List<ItemMasterDTO> itemMasterDTOList = new ArrayList<ItemMasterDTO>();
+        List<ItemMasterDTO> itemMasterDTOList = new ArrayList<>();
 
         if (StringUtils.isNotBlank(val)) {
             final String value = val.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
@@ -306,7 +315,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
             }
 
         } else {
-            itemMasterDTOList = new ArrayList<ItemMasterDTO>();
+            itemMasterDTOList = new ArrayList<>();
         }
         LOGGER.debug("End of getItemForIFP method");
         return itemMasterDTOList;
@@ -322,18 +331,18 @@ public class IfpLogic implements ItemFamilyplanLogic {
      */
     public int getItemAdditionCount(final String searchField, final String val, final Set<Container.Filter> searchCriteria) throws SystemException {
         LOGGER.debug("Entering getItemAdditionCount method");
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put(Constants.ITEM_NO2, "Item_No");
         map.put(Constants.ITEM_NAME2, "Item_Name");
-        map.put(Constants.IFP_NO1, "IFP_NO");
-        map.put(Constants.IFP_NAME1, "IFP_NAME");
-        map.put("NDC 8", Constants.NDC8);
-        map.put("NDC 9", Constants.NDC9);
-        map.put("Item Description", Constants.ITEM_DESC1);
+        map.put(Constants.IFP_NO1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_NO_LABEL);
+        map.put(Constants.IFP_NAME1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_NAME_LIST);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NDC_8, Constants.NDC8);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NDC_9, Constants.NDC9);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_DESCRIPTION, Constants.ITEM_DESC1);
         map.put("Form", Constants.FORM);
-        map.put("Strength", Constants.STRENGTH);
-        map.put("Therapeutic Class", "THERAPEUTIC_CLASS");
-        map.put("Brand Name", Constants.BRAND_NAME);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.STRENGTH, Constants.STRENGTH);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS_PROPERTY, THERAPEUTIC_CLASS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND_NAME, Constants.BRAND_NAME);
         map.put("Item Desc", Constants.ITEM_DESC1);
         map.put("Item Status", "ITEM_STATUS");
         int count = 0;
@@ -349,18 +358,18 @@ public class IfpLogic implements ItemFamilyplanLogic {
                }
                 value=value+"' escape '~";
             }
-            List<Integer> resultList = new ArrayList<Integer>();
+            List<Integer> resultList = new ArrayList<>();
             if (Constants.BRAND_NAME.equals(searchVal)) {
                 final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
                 dynamicQuery.add(RestrictionsFactoryUtil.like(searchVal, value));
                 dynamicQuery.setProjection(ProjectionFactoryUtil.property("brandMasterSid"));
                 resultList = BrandMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
             }
-            Map<String, Object> filterMap = new HashMap<String, Object>();
-            filterMap.put("itemNo", StringUtils.EMPTY);
-            filterMap.put("itemName", StringUtils.EMPTY);
+            Map<String, Object> filterMap = new HashMap<>();
+            filterMap.put(Constants.ITEM_NO, StringUtils.EMPTY);
+            filterMap.put(Constants.ITEM_NAME, StringUtils.EMPTY);
             filterMap.put("form", StringUtils.EMPTY);
-            filterMap.put("packageSize", StringUtils.EMPTY);
+            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE, StringUtils.EMPTY);
 
             if (searchCriteria != null) {
                 for (Container.Filter filter : searchCriteria) {
@@ -368,36 +377,36 @@ public class IfpLogic implements ItemFamilyplanLogic {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = "%" + stringFilter.getFilterString() + "%";
 
-                        if (stringFilter.getPropertyId().equals("itemNo")) {
-                            filterMap.put("itemNo", filterText);
-                        } else if (stringFilter.getPropertyId().equals("itemName")) {
-                            filterMap.put("itemName", filterText);
+                        if (stringFilter.getPropertyId().equals(Constants.ITEM_NO)) {
+                            filterMap.put(Constants.ITEM_NO, filterText);
+                        } else if (stringFilter.getPropertyId().equals(Constants.ITEM_NAME)) {
+                            filterMap.put(Constants.ITEM_NAME, filterText);
                         } else if (stringFilter.getPropertyId().equals("form")) {
 
                             String form = stringFilter.getFilterString();
                             filterMap.put("form", form);
 
-                        } else if (stringFilter.getPropertyId().equals("packageDesc")) {
+                        } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_DESC)) {
                             String packageSize = stringFilter.getFilterString();
 
-                            filterMap.put("packageSize", packageSize);
-                        } else if (stringFilter.getPropertyId().equals("itemStatus")) {
+                            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE, packageSize);
+                        } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS)) {
 
                             String status = stringFilter.getFilterString();
-                            filterMap.put("itemStatus", status);
+                            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS, status);
 
-                        } else if (stringFilter.getPropertyId().equals("strength")) {
+                        } else if (stringFilter.getPropertyId().equals(ConstantUtil.STRENGTH)) {
                             String strength = stringFilter.getFilterString();
-                            filterMap.put("strength", strength);
-                        } else if (stringFilter.getPropertyId().equals("therapeuticClass")) {
+                            filterMap.put(ConstantUtil.STRENGTH, strength);
+                        } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS)) {
 
                             String therapeutic = stringFilter.getFilterString();
-                            filterMap.put("therapeuticClass", therapeutic);
+                            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS, therapeutic);
 
-                        } else if (stringFilter.getPropertyId().equals("itemDesc")) {
-                            filterMap.put("itemDesc", filterText);
-                        } else if (stringFilter.getPropertyId().equals("brand")) {
-                            filterMap.put("brand", filterText);
+                        } else if (stringFilter.getPropertyId().equals(Constants.ITEM_DESC)) {
+                            filterMap.put(Constants.ITEM_DESC, filterText);
+                        } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND)) {
+                            filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND, filterText);
                         }
 
                     }
@@ -421,7 +430,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
      */
     public List<ItemMasterDTO> getCustomizedItemList(final List<ItemMaster> itemMasterList) {
         LOGGER.debug("Entering getCustomizedItemList()");
-        final List<ItemMasterDTO> itemDTOList = new ArrayList<ItemMasterDTO>();
+        final List<ItemMasterDTO> itemDTOList = new ArrayList<>();
         for (int i = 0; i < itemMasterList.size(); i++) {
             final ItemMaster item = itemMasterList.get(i);
             final ItemMasterDTO itemDTOObj = new ItemMasterDTO();
@@ -442,7 +451,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
     }
 
     public static List<ItemMasterDTO> getCustomizedItem(List list) {
-        List<ItemMasterDTO> tempList = new ArrayList<ItemMasterDTO>();
+        List<ItemMasterDTO> tempList = new ArrayList<>();
         if (list != null) {
 
             for (int i = 0; i < list.size(); i++) {
@@ -499,13 +508,13 @@ public class IfpLogic implements ItemFamilyplanLogic {
         return dao;
     }
 
-    public int getLazySelectedItemCount(BeanSearchCriteria searchCriteria) throws PortalException, SystemException {
+    public int getLazySelectedItemCount(BeanSearchCriteria searchCriteria) throws  SystemException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdItemPriceRebateDetails.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.USERS_SID, Integer.parseInt(userId)));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.SESSION_ID, sessionId));
-        cfpDynamicQuery.add(RestrictionsFactoryUtil.ne("operation", "D"));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.OPERATION, "D"));
 
         if (searchCriteria != null && searchCriteria.getFilters() != null) {
             for (Container.Filter filter : searchCriteria.getFilters()) {
@@ -513,27 +522,27 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterText = "%" + stringFilter.getFilterString() + "%";
 
-                    if (stringFilter.getPropertyId().equals("itemNo")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("itemNo", filterText));
-                    } else if (stringFilter.getPropertyId().equals("itemName")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("itemName", filterText));
-                    } else if (stringFilter.getPropertyId().equals("packageSize")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("packageSize", stringFilter.getFilterString()));
-                    } else if (stringFilter.getPropertyId().equals("priceType")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("priceType", stringFilter.getFilterString()));
+                    if (stringFilter.getPropertyId().equals(Constants.ITEM_NO)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.ITEM_NO, filterText));
+                    } else if (stringFilter.getPropertyId().equals(Constants.ITEM_NAME)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.ITEM_NAME, filterText));
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE, stringFilter.getFilterString()));
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TYPE)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TYPE, stringFilter.getFilterString()));
                     } else if (stringFilter.getPropertyId().equals("globalitemstatus")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq("psStatus", Integer.valueOf(stringFilter.getFilterString())));
-                    } else if (stringFilter.getPropertyId().equals("priceToleranceType")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("priceToleranceType", stringFilter.getFilterString()));
-                    } else if (stringFilter.getPropertyId().equals("priceToleranceInterval")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq("priceToleranceInterval", Integer.valueOf(stringFilter.getFilterString())));
-                    } else if (stringFilter.getPropertyId().equals("priceToleranceFrequency")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("priceToleranceFrequency", stringFilter.getFilterString()));
-                    } else if (stringFilter.getPropertyId().equals("attachedStatus")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq("attachedStatus", Integer.valueOf(stringFilter.getFilterString())));
-                    } else if (stringFilter.getPropertyId().equals("itemType")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("itemType", Integer.valueOf(stringFilter.getFilterString())));
-                    } else if (stringFilter.getPropertyId().equals("rebatePlanName")) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PS_STATUS, Integer.valueOf(stringFilter.getFilterString())));
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE, stringFilter.getFilterString()));
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_INTERVAL)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_INTERVAL, Integer.valueOf(stringFilter.getFilterString())));
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY, stringFilter.getFilterString()));
+                    } else if (stringFilter.getPropertyId().equals(ATTACHED_STATUS)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(ATTACHED_STATUS, Integer.valueOf(stringFilter.getFilterString())));
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_TYPE)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_TYPE, Integer.valueOf(stringFilter.getFilterString())));
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NAME)) {
                         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq("rebatePlanSystemId", Integer.valueOf(stringFilter.getFilterString())));
                     }
 
@@ -542,48 +551,48 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     Between betweenFilter = (Between) filter;
                     Date fromDate = (Date) betweenFilter.getStartValue();
                     Date toDate = (Date) betweenFilter.getEndValue();
-                    if (betweenFilter.getPropertyId().equals("startDate")) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("startDate", fromDate, toDate));
+                    if (betweenFilter.getPropertyId().equals(ConstantUtil.START_DATE)) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.START_DATE, fromDate, toDate));
 
-                    } else if (betweenFilter.getPropertyId().equals("endDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(ConstantUtil.END_DATE)) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("endDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.END_DATE, fromDate, toDate));
 
                     } else if (betweenFilter.getPropertyId().equals("cpStartDate")) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("contractPriceStartDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CONTRACT_PRICE_START_DATE, fromDate, toDate));
 
                     } else if (betweenFilter.getPropertyId().equals("cpEndDate")) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("contractPriceEndDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CONTRACT_PRICE_END_DATE, fromDate, toDate));
 
                     } else if (betweenFilter.getPropertyId().equals("ppStartDate")) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("priceProtectionStartDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATE, fromDate, toDate));
 
                     } else if (betweenFilter.getPropertyId().equals("ppEndDate")) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("priceProtectionEndDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE, fromDate, toDate));
 
                     } else if (betweenFilter.getPropertyId().equals("revisionDate")) {
 
                         cfpDynamicQuery.add(RestrictionsFactoryUtil.between("revisionDate", fromDate, toDate));
 
-                    } else if (betweenFilter.getPropertyId().equals("attachedDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE)) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("attachedDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE, fromDate, toDate));
 
                     } else if (betweenFilter.getPropertyId().equals("rebateStartDate")) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("itemRebateStartDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_START_DATE, fromDate, toDate));
 
                     } else if (betweenFilter.getPropertyId().equals("rebateEndDate")) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("itemRebateEndDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_END_DATE, fromDate, toDate));
 
-                    } else if (betweenFilter.getPropertyId().equals("rebateRevisionDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_REVISION_DATE)) {
 
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between("rebateRevisionDate", fromDate, toDate));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.between(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_REVISION_DATE, fromDate, toDate));
 
                     }
                 }
@@ -594,11 +603,12 @@ public class IfpLogic implements ItemFamilyplanLogic {
         LOGGER.debug("selected count :" + count);
         return Integer.parseInt(String.valueOf(count));
     }
+    public static final String ATTACHED_STATUS = "attachedStatus";
 
-    public int getLazySelectedItemsCount(final Set<Container.Filter> searchCriteria, SessionDTO sessionDTO) throws PortalException, SystemException {
+    public int getLazySelectedItemsCount(final Set<Container.Filter> searchCriteria, SessionDTO sessionDTO) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
 
         if (searchCriteria != null) {
             for (Container.Filter filter : searchCriteria) {
@@ -606,37 +616,37 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterText = "%" + stringFilter.getFilterString() + "%";
 
-                    if (stringFilter.getPropertyId().equals("itemNo")) {
+                    if (stringFilter.getPropertyId().equals(Constants.ITEM_NO)) {
                         parameters.put("itemNo~", filterText);
 
-                    } else if (stringFilter.getPropertyId().equals("itemName")) {
+                    } else if (stringFilter.getPropertyId().equals(Constants.ITEM_NAME)) {
                         parameters.put("itemName~", filterText);
                     } else if (stringFilter.getPropertyId().equals("form")) {
 
                         String form = stringFilter.getFilterString();
                         parameters.put("form", form);
 
-                    } else if (stringFilter.getPropertyId().equals("packageDesc")) {
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_DESC)) {
                         String packageSize = stringFilter.getFilterString();
 
-                        parameters.put("packageSize", packageSize);
-                    } else if (stringFilter.getPropertyId().equals("itemStatus")) {
+                        parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE, packageSize);
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS)) {
 
                         String status = stringFilter.getFilterString();
-                        parameters.put("itemStatus", status);
+                        parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS, status);
 
-                    } else if (stringFilter.getPropertyId().equals("strength")) {
+                    } else if (stringFilter.getPropertyId().equals(ConstantUtil.STRENGTH)) {
                         String strength = stringFilter.getFilterString();
-                        parameters.put("strength", strength);
-                    } else if (stringFilter.getPropertyId().equals("therapeuticClass")) {
+                        parameters.put(ConstantUtil.STRENGTH, strength);
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS)) {
 
                         String therapeutic = stringFilter.getFilterString();
-                        parameters.put("therapeuticClass", therapeutic);
+                        parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS, therapeutic);
 
-                    } else if (stringFilter.getPropertyId().equals("itemDesc")) {
-                        parameters.put("itemDesc", filterText);
-                    } else if (stringFilter.getPropertyId().equals("brand")) {
-                        parameters.put("brand", filterText);
+                    } else if (stringFilter.getPropertyId().equals(Constants.ITEM_DESC)) {
+                        parameters.put(Constants.ITEM_DESC, filterText);
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND)) {
+                        parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND, filterText);
                     }
 
                 }
@@ -648,25 +658,25 @@ public class IfpLogic implements ItemFamilyplanLogic {
         return returnList.size();
     }
 
-    public List<IfpItemDTO> getLazySelectedItemDeatils(int start, int end, final List<SortByColumn> orderByColumns, final Set<Container.Filter> searchCriteria, SessionDTO sessionDTO) throws PortalException, SystemException {
+    public List<IfpItemDTO> getLazySelectedItemDeatils(int start, int end, final List<SortByColumn> orderByColumns, final Set<Container.Filter> searchCriteria, SessionDTO sessionDTO) {
         LOGGER.debug("Start- ---> " + start + " and End --->> " + end);
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         String dbColumnName = StringUtils.EMPTY;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdItemPriceRebateDetails.class);
-        final List<IfpItemDTO> itemList = new ArrayList<IfpItemDTO>();
+        final List<IfpItemDTO> itemList = new ArrayList<>();
         ifpDynamicQuery.setLimit(start, end);
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.USERS_SID, Integer.parseInt(userId)));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.SESSION_ID, sessionId));
-        ifpDynamicQuery.add(RestrictionsFactoryUtil.ne("operation", "D"));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.OPERATION, "D"));
         ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("itemMasterSid"));
-        projList.add(ProjectionFactoryUtil.property("itemNo"));
-        projList.add(ProjectionFactoryUtil.property("itemName"));
-        projList.add(ProjectionFactoryUtil.property("psStatus"));
-        projList.add(ProjectionFactoryUtil.property("imtdItemPriceRebateSid"));
+        projList.add(ProjectionFactoryUtil.property(Constants.ITEM_NO));
+        projList.add(ProjectionFactoryUtil.property(Constants.ITEM_NAME));
+        projList.add(ProjectionFactoryUtil.property(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PS_STATUS));
+        projList.add(ProjectionFactoryUtil.property(com.stpl.app.contract.abstractsearch.util.ConstantUtil.IMTD_ITEM_PRICE_REBATE_SID));
         ifpDynamicQuery.setProjection(projList);
         boolean asc = false;
         for (final Iterator<SortByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
@@ -675,17 +685,17 @@ public class IfpLogic implements ItemFamilyplanLogic {
             if (Constants.ITEM_NO.equals(columnName)) {
                 dbColumnName = Constants.ITEM_NO_CAPS;
             } else if (Constants.ITEM_NAME.equals(columnName)) {
-                dbColumnName = "ITEM_NAME";
+                dbColumnName = com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_NAME_LIST;
             } else if ("form".equals(orderByColumn.getName())) {
                 dbColumnName = "form";
-            } else if ("packageSize".equals(orderByColumn.getName())) {
+            } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE.equals(orderByColumn.getName())) {
                 dbColumnName = "package";
             } else if (Constants.ITEM_DESC.equals(orderByColumn.getName())) {
                 dbColumnName = Constants.ITEM_DESC1;
             } else if (Constants.ITEM_STATUS.equals(orderByColumn.getName())) {
                 dbColumnName = "status";
             } else if (Constants.STRENGTH.equals(orderByColumn.getName())) {
-                dbColumnName = "strength";
+                dbColumnName = ConstantUtil.STRENGTH;
             } else if (Constants.THERAPEUTIC_CLASS.equals(orderByColumn.getName())) {
                 dbColumnName = "therapeutic";
             } else if (Constants.BRAND_NAME.equals(orderByColumn.getName())) {
@@ -710,39 +720,39 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterText = "%" + stringFilter.getFilterString() + "%";
 
-                    if (stringFilter.getPropertyId().equals("itemNo")) {
-                        parameters.put("itemNo", filterText);
-                        ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike("itemNo", filterText));
+                    if (stringFilter.getPropertyId().equals(Constants.ITEM_NO)) {
+                        parameters.put(Constants.ITEM_NO, filterText);
+                        ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.ITEM_NO, filterText));
 
-                    } else if (stringFilter.getPropertyId().equals("itemName")) {
-                        parameters.put("itemName", filterText);
-                        ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike("itemName", filterText));
+                    } else if (stringFilter.getPropertyId().equals(Constants.ITEM_NAME)) {
+                        parameters.put(Constants.ITEM_NAME, filterText);
+                        ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.ITEM_NAME, filterText));
                     } else if (stringFilter.getPropertyId().equals("form")) {
 
                         String form = stringFilter.getFilterString();
                         parameters.put("form", form);
 
-                    } else if (stringFilter.getPropertyId().equals("packageDesc")) {
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_DESC)) {
                         String packageSize = stringFilter.getFilterString();
 
-                        parameters.put("packageSize", packageSize);
-                    } else if (stringFilter.getPropertyId().equals("itemStatus")) {
+                        parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE, packageSize);
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS)) {
 
                         String status = stringFilter.getFilterString();
-                        parameters.put("itemStatus", status);
+                        parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS, status);
 
-                    } else if (stringFilter.getPropertyId().equals("strength")) {
+                    } else if (stringFilter.getPropertyId().equals(ConstantUtil.STRENGTH)) {
                         String strength = stringFilter.getFilterString();
-                        parameters.put("strength", strength);
-                    } else if (stringFilter.getPropertyId().equals("therapeuticClass")) {
+                        parameters.put(ConstantUtil.STRENGTH, strength);
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS)) {
 
                         String therapeutic = stringFilter.getFilterString();
-                        parameters.put("therapeuticClass", therapeutic);
+                        parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS, therapeutic);
 
-                    } else if (stringFilter.getPropertyId().equals("itemDesc")) {
-                        parameters.put("itemDesc", filterText);
-                    } else if (stringFilter.getPropertyId().equals("brand")) {
-                        parameters.put("brand", filterText);
+                    } else if (stringFilter.getPropertyId().equals(Constants.ITEM_DESC)) {
+                        parameters.put(Constants.ITEM_DESC, filterText);
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND)) {
+                        parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND, filterText);
                     }
 
                 }
@@ -750,7 +760,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
         }
 
         final List<Object[]> returnList = ImtdItemPriceRebateDetailsLocalServiceUtil.getSelectedItemList(userId, sessionId, start, end, dbColumnName, asc, parameters, true, null, null, null);
-        LOGGER.debug("selected results :" + returnList.size());
+        LOGGER.debug("selected results : " + returnList.size());
         return getCustomizedSelectedItemDTO(returnList, itemList);
     }
 
@@ -779,15 +789,15 @@ public class IfpLogic implements ItemFamilyplanLogic {
             return itemList;
         } catch (Exception e) {
              LOGGER.error(e);
-            return null;
+            return  Collections.emptyList();
         }
     }
 
-    public List<Object[]> getLazyItemPricingDeatils(int start, int end, Set<Container.Filter> searchCriteria, boolean isCount, String record,boolean isIfpItemsTab, boolean isRemove) throws PortalException, SystemException {
+    public List<Object[]> getLazyItemPricingDeatils(int start, int end, Set<Container.Filter> searchCriteria, boolean isCount, String record,boolean isIfpItemsTab, boolean isRemove,List<SortByColumn> sortByColumns) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         StringBuilder sql = new StringBuilder();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         getParameterList(parameters, searchCriteria);
         if (isCount) {
              if (isIfpItemsTab) {
@@ -802,191 +812,225 @@ public class IfpLogic implements ItemFamilyplanLogic {
                 sql.append(CustomSQLUtil.get("contractItemPricingSelectTempTableData"));
             }
         }
-        sql.append(" WHERE USERS_SID ='").append(userId).append("' AND SESSION_ID ='").append(sessionId).append("' AND OPERATION NOT IN ('D','F') ");
+        sql.append(" WHERE USERS_SID = '").append(userId).append("'  AND SESSION_ID ='").append(sessionId).append("' AND OPERATION NOT IN ('D','F')  ");
        
         if(isRemove){
             sql.append(" AND IMTD.CHECK_RECORD = '1' ");
         }
 
-        if (parameters.get("itemNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemNo")))) {
-            sql.append(" AND IMTD.ITEM_NO LIKE '%").append(String.valueOf(parameters.get("itemNo"))).append("%' ");
+        if (parameters.get(Constants.ITEM_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NO)))) {
+            sql.append(" AND IMTD.ITEM_NO LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NO))).append("%' ");
         }
-        if (parameters.get("itemName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemName")))) {
-            sql.append(" AND IMTD.ITEM_NAME LIKE '%").append(String.valueOf(parameters.get("itemName"))).append("%' ");
+        if (parameters.get(Constants.ITEM_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NAME)))) {
+            sql.append(" AND IMTD.ITEM_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NAME))).append("%' ");
         }
-        if (parameters.get("itemId") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemId")))) {
-            sql.append(" AND IMTD.ITEM_ID LIKE '%").append(String.valueOf(parameters.get("itemId"))).append("%' ");
+        if (parameters.get(ConstantUtil.ITEM_ID_M) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantUtil.ITEM_ID_M)))) {
+            sql.append(" AND IMTD.ITEM_ID LIKE '%").append(String.valueOf(parameters.get(ConstantUtil.ITEM_ID_M))).append("%' ");
         }
-        if (parameters.get("startDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDate")))) {
-            sql.append(" AND IMTD.START_DATE >= '").append(String.valueOf(parameters.get("startDate"))).append("' ");
+        if (parameters.get(ConstantUtil.START_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantUtil.START_DATE)))) {
+            sql.append(" AND IMTD.START_DATE >= '").append(String.valueOf(parameters.get(ConstantUtil.START_DATE))).append("' ");
         }
-        if (parameters.get("endDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDate")))) {
-            sql.append(" AND IMTD.END_DATE <= '").append(String.valueOf(parameters.get("endDate"))).append("' ");
+        if (parameters.get(ConstantUtil.END_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantUtil.END_DATE)))) {
+            sql.append(" AND IMTD.END_DATE <= '").append(String.valueOf(parameters.get(ConstantUtil.END_DATE))).append("' ");
         }
-        if (parameters.get("price") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("price")))) {
-            sql.append(" AND IMTD.PRICE LIKE '%").append(String.valueOf(parameters.get("price"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE)))) {
+            sql.append(" AND IMTD.PRICE LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE))).append("%' ");
         }
-        if (parameters.get("priceType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceType")))) {
-            sql.append(" AND IMTD.PRICE_TYPE LIKE '").append(String.valueOf(parameters.get("priceType"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TYPE)))) {
+            sql.append(" AND IMTD.PRICE_TYPE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TYPE))).append("' ");
         }
-        if (parameters.get("contractPrice") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("contractPrice")))) {
-            sql.append(" AND IMTD.CONTRACT_PRICE LIKE '%").append(String.valueOf(parameters.get("contractPrice"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CONTRACT_PRICE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CONTRACT_PRICE)))) {
+            sql.append(" AND IMTD.CONTRACT_PRICE LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CONTRACT_PRICE))).append("%' ");
         }
-        if (parameters.get("contractPriceStartDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("contractPriceStartDate")))) {
-            sql.append(" AND IMTD.CONTRACT_PRICE_START_DATE >= '").append(String.valueOf(parameters.get("contractPriceStartDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_START_DATE_FROM)))) {
+            sql.append(" AND IMTD.CONTRACT_PRICE_START_DATE >= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_START_DATE_FROM))).append("' ");
         }
-        if (parameters.get("contractPriceEndDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("contractPriceEndDate")))) {
-            sql.append(" AND IMTD.CONTRACT_PRICE_END_DATE <= '").append(String.valueOf(parameters.get("contractPriceEndDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_START_DATE_TO)))) {
+            sql.append(" AND CAST(IMTD.CONTRACT_PRICE_START_DATE AS DATE) <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_START_DATE_TO))).append("' ");
         }
-        if (parameters.get("psStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("psStatus")))) {
-            sql.append(" AND IMTD.PS_STATUS LIKE '").append(String.valueOf(parameters.get("psStatus"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_END_DATE_FROM)))) {
+            sql.append(" AND IMTD.CONTRACT_PRICE_END_DATE >= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_END_DATE_FROM))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_END_DATE_TO)))) {
+            sql.append(" AND CAST(IMTD.CONTRACT_PRICE_END_DATE AS DATE) <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CP_END_DATE_TO))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PS_STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PS_STATUS)))) {
+            sql.append(" AND IMTD.PS_STATUS LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PS_STATUS))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS_GLOBAL) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS_GLOBAL)))) {
+            sql.append(" AND IMTD.PS_STATUS LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_STATUS_GLOBAL))).append("' ");
         }
 
-        if (parameters.get("priceTolerance") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceTolerance")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE LIKE '").append(String.valueOf(parameters.get("priceTolerance"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE))).append("' ");
         }
-        if (parameters.get("priceProtectionStartDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionStartDate")))) {
-            sql.append(" AND IMTD.PRICE_PROTECTION_START_DATE >= '").append(String.valueOf(parameters.get("priceProtectionStartDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATE)))) {
+            sql.append(" AND IMTD.PRICE_PROTECTION_START_DATE >= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATE))).append("' ");
         }
-        if (parameters.get("priceProtectionEndDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionEndDate")))) {
-            sql.append(" AND IMTD.PRICE_PROTECTION_END_DATE <= '").append(String.valueOf(parameters.get("priceProtectionEndDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE)))) {
+            sql.append(" AND IMTD.PRICE_PROTECTION_END_DATE <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE))).append("' ");
         }
-        if (parameters.get("priceToleranceType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceToleranceType")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE_TYPE LIKE '").append(String.valueOf(parameters.get("priceToleranceType"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE_TYPE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE))).append("' ");
         }
-        if (parameters.get("priceToleranceInterval") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceToleranceInterval")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE_INTERVAL LIKE '").append(String.valueOf(parameters.get("priceToleranceInterval"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_INTERVAL) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_INTERVAL)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE_INTERVAL LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_INTERVAL))).append("' ");
         }
-        if (parameters.get("priceToleranceFrequency") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceToleranceFrequency")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE_FREQUENCY LIKE '").append(String.valueOf(parameters.get("priceToleranceFrequency"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE_FREQUENCY LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY))).append("' ");
         }
-        if (parameters.get("basePrice") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("basePrice")))) {
-            sql.append(" AND IMTD.BASE_PRICE LIKE '").append(String.valueOf(parameters.get("basePrice"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BASE_PRICE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BASE_PRICE)))) {
+            sql.append(" AND IMTD.BASE_PRICE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BASE_PRICE))).append("' ");
         }
-        if (parameters.get("itemPriceRevisionDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemPriceRevisionDate")))) {
-            sql.append(" AND IMTD.ITEM_PRICE_REVISION_DATE <= '").append(String.valueOf(parameters.get("itemPriceRevisionDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_PRICE_REVISION_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_PRICE_REVISION_DATE)))) {
+            sql.append(" AND IMTD.ITEM_PRICE_REVISION_DATE <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_PRICE_REVISION_DATE))).append("' ");
         }
-        if (parameters.get("attachedStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedStatus")))) {
-            sql.append(" AND IMTD.ATTACHED_STATUS LIKE '").append(String.valueOf(parameters.get("attachedStatus"))).append("' ");
+        if (parameters.get(ATTACHED_STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_STATUS)))) {
+            sql.append(" AND IMTD.ATTACHED_STATUS LIKE '").append(String.valueOf(parameters.get(ATTACHED_STATUS))).append("' ");
         }
-        if (parameters.get("attachedDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDate")))) {
-            sql.append(" AND IMTD.ATTACHED_DATE <= '").append(String.valueOf(parameters.get("attachedDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE)))) {
+            sql.append(" AND IMTD.ATTACHED_DATE <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE))).append("' ");
         }
-        if (parameters.get("rebateRevisionDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("rebateRevisionDate")))) {
-            sql.append(" AND IMTD.REBATE_REVISION_DATE <= '").append(String.valueOf(parameters.get("rebateRevisionDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_REVISION_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_REVISION_DATE)))) {
+            sql.append(" AND IMTD.REBATE_REVISION_DATE <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_REVISION_DATE))).append("' ");
         }
-        if (parameters.get("primaryUom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("primaryUom")))) {
-            sql.append(" AND IMTD.PRIMARY_UOM LIKE '").append(String.valueOf(parameters.get("primaryUom"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRIMARY_UOM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRIMARY_UOM)))) {
+            sql.append(" AND IMTD.PRIMARY_UOM LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRIMARY_UOM))).append("' ");
         }
-        if (parameters.get("packageSize") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("packageSize")))) {
-            sql.append(" AND IMTD.PACKAGE_SIZE LIKE '").append(String.valueOf(parameters.get("packageSize"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE)))) {
+            sql.append(" AND IMTD.PACKAGE_SIZE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PACKAGE_SIZE))).append("' ");
         }
-        if (parameters.get("source") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("source")))) {
-            sql.append(" AND \"IMTD.SOURCE\" LIKE '").append(String.valueOf(parameters.get("source"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SOURCE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SOURCE)))) {
+            sql.append(" AND IMTD.SOURCE LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SOURCE))).append("%' ");
         }
-        if (parameters.get("suggestedPrice") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("suggestedPrice")))) {
-            sql.append(" AND IMTD.SUGGESTED_PRICE LIKE '").append(String.valueOf(parameters.get("suggestedPrice"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SUGGESTED_PRICE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SUGGESTED_PRICE)))) {
+            sql.append(" AND IMTD.SUGGESTED_PRICE LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SUGGESTED_PRICE))).append("%' ");
         }
-        if (parameters.get("ifpStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifpStatus")))) {
-            sql.append(" AND IMTD.ATTACHED_STATUS LIKE '").append(String.valueOf(parameters.get("ifpStatus"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_STATUS)))) {
+            sql.append(" AND IMTD.ATTACHED_STATUS LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_STATUS))).append("' ");
         }
-         if (parameters.get("strength") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("strength")))) {
-            sql.append(" AND  IM.STRENGTH LIKE '").append(String.valueOf(parameters.get("strength"))).append("' ");
+         if (parameters.get(ConstantUtil.STRENGTH) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantUtil.STRENGTH)))) {
+            sql.append(" AND  IM.STRENGTH LIKE '").append(String.valueOf(parameters.get(ConstantUtil.STRENGTH))).append("' ");
         }
           if (parameters.get("form") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("form")))) {
             sql.append(" AND IM.FORM LIKE '").append(String.valueOf(parameters.get("form"))).append("' ");
         }
-           if (parameters.get("brand") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("brand")))) {
-            sql.append(" AND IMTD.BRAND_MASTER_SID LIKE '").append(String.valueOf(parameters.get("brand"))).append("' ");
+           if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND)))) {
+            sql.append(" AND BM.BRAND_NAME LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND))).append("%' ");
         }
-         if (parameters.get("therapyClass") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("therapyClass")))) {
-            sql.append(" AND IM.THERAPEUTIC_CLASS LIKE '").append(String.valueOf(parameters.get("therapyClass"))).append("' ");
+         if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPY_CLASS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPY_CLASS)))) {
+            sql.append(" AND IM.THERAPEUTIC_CLASS LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPY_CLASS))).append("' ");
         }
-        if (parameters.get("itemDesc") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemDesc")))) {
-            sql.append(" AND  IM.ITEM_DESC LIKE '").append(String.valueOf(parameters.get("itemDesc"))).append("' ");
+        if (parameters.get(Constants.ITEM_DESC) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_DESC)))) {
+            sql.append(" AND  IM.ITEM_DESC LIKE '").append(String.valueOf(parameters.get(Constants.ITEM_DESC))).append("' ");
         }
-        if (parameters.get("itemsStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemsStatus")))) {
-            sql.append(" AND IMTD.PS_STATUS LIKE '").append(String.valueOf(parameters.get("itemsStatus"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEMS_STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEMS_STATUS)))) {
+            sql.append(" AND IMTD.PS_STATUS LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEMS_STATUS))).append("' ");
         }
-         if (parameters.get("createdBy") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("createdBy"))))  {
-            sql.append(" AND  IMTD.CREATED_BY LIKE '").append(String.valueOf(parameters.get("createdBy"))).append("' ");
+         if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_BY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_BY))))  {
+            sql.append(" AND  IMTD.CREATED_BY LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_BY))).append("' ");
         }
-       if (parameters.get("modifiedBy") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("modifiedBy")))) {
-            sql.append(" AND IMTD.MODIFIED_BY LIKE '").append(String.valueOf(parameters.get("modifiedBy"))).append("' ");
+       if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_BY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_BY)))) {
+            sql.append(" AND IMTD.MODIFIED_BY LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_BY))).append("' ");
         }
-        if (parameters.get("createdDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("createdDatefrom")))) {
-            sql.append(" AND IMTD.CREATED_DATE  >= '").append(String.valueOf(parameters.get("createdDatefrom"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_DATEFROM)))) {
+            sql.append(" AND IMTD.CREATED_DATE  >= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_DATEFROM))).append("' ");
         }
-         if (parameters.get("createdDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("createdDateto")))) {
-            sql.append(" AND IMTD.CREATED_DATE  <= '").append(String.valueOf(parameters.get("createdDateto"))).append("' ");
+         if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_DATETO)))) {
+            sql.append(" AND CAST(IMTD.CREATED_DATE AS DATE)  <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_DATETO))).append("' ");
         }
-       if (parameters.get("modifiedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("modifiedDatefrom")))) {
-            sql.append(" AND IMTD.MODIFIED_DATE  >= '").append(String.valueOf(parameters.get("modifiedDatefrom"))).append("' ");
+       if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_DATEFROM)))) {
+            sql.append(" AND IMTD.MODIFIED_DATE  >= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_DATEFROM))).append("' ");
         }
-         if (parameters.get("modifiedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("modifiedDateto")))) {
-            sql.append(" AND IMTD.MODIFIED_DATE  <= '").append(String.valueOf(parameters.get("modifiedDateto"))).append("' ");
+         if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_DATETO)))) {
+            sql.append(" AND CAST(IMTD.MODIFIED_DATE AS DATE) <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_DATETO))).append("' ");
         }
-          if (parameters.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDatefrom")))) {
-            sql.append(" AND IMTD.START_DATE  >= '").append(String.valueOf(parameters.get("startDatefrom"))).append("' ");
+          if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
+            sql.append(" AND IMTD.START_DATE  >= '").append(String.valueOf(parameters.get(START_DATEFROM))).append("' ");
         }
-         if (parameters.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDateto")))) {
-            sql.append(" AND IMTD.START_DATE  <= '").append(String.valueOf(parameters.get("startDateto"))).append("' ");
+         if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
+            sql.append(" AND CAST(IMTD.START_DATE AS DATE)  <= '").append(String.valueOf(parameters.get(START_DATETO))).append("' ");
         }
-        if (parameters.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDatefrom")))) {
-            sql.append(" AND IMTD.END_DATE  >= '").append(String.valueOf(parameters.get("endDatefrom"))).append("' ");
+        if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
+            sql.append(" AND IMTD.END_DATE  >= '").append(String.valueOf(parameters.get(END_DATEFROM))).append("' ");
         }
-         if (parameters.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDateto")))) {
-            sql.append(" AND IMTD.END_DATE  <= '").append(String.valueOf(parameters.get("endDateto"))).append("' ");
+         if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
+            sql.append(" AND CAST(IMTD.END_DATE AS DATE)  <= '").append(String.valueOf(parameters.get(END_DATETO))).append("' ");
         }
-        if (parameters.get("attachedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDatefrom")))) {
-            sql.append(" AND IMTD.ATTACHED_DATE  >= '").append(String.valueOf(parameters.get("attachedDatefrom"))).append("' ");
+        if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
+            sql.append(" AND IMTD.ATTACHED_DATE  >= '").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("' ");
         }
-         if (parameters.get("attachedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDateto")))) {
-            sql.append(" AND IMTD.ATTACHED_DATE  <= '").append(String.valueOf(parameters.get("attachedDateto"))).append("' ");
+         if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
+            sql.append(" AND CAST(IMTD.ATTACHED_DATE AS DATE)  <= '").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("' ");
         }
         if (!StringUtils.isBlank(record)) {
-            if (record.contains("Current")) {
-                parameters.put("Current", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)) {
+                parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
-            if (record.contains("History")) {
-                parameters.put("History", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)) {
+                parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
-            if (record.contains("Future")) {
-                parameters.put("Future", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)) {
+                parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
         }
-        if (parameters.get("Current") != null && parameters.get("History") != null && parameters.get("Future") != null) {
-            sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN IMTD.START_DATE AND ISNULL(IMTD.END_DATE,'").append(parameters.get("Current")).append("') ");
-            sql.append(" OR ").append(" END_DATE < '").append(parameters.get("History")).append("' ");
-            sql.append(" OR ").append(" START_DATE > '").append(parameters.get("Future")).append("' )");
-        } else if ((parameters.get("Current") != null && parameters.get("History") != null) || (parameters.get("History") != null && parameters.get("Current") != null)) {
-            sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN IMTD.START_DATE AND ISNULL(IMTD.END_DATE,'").append(parameters.get("Current")).append("') OR IMTD.END_DATE < '").append(parameters.get("History")).append("') ");
-        } else if ((parameters.get("History") != null && parameters.get("Future") != null) || (parameters.get("Future") != null && parameters.get("History") != null)) {
-            sql.append(" AND (").append(" END_DATE < '").append(parameters.get("History")).append("' OR IMTD.START_DATE > '").append(parameters.get("Future")).append("') ");
-        } else if ((parameters.get("Future") != null && parameters.get("Current") != null) || (parameters.get("Current") != null && parameters.get("Future") != null)) {
-            sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN IMTD.START_DATE AND ISNULL(IMTD.END_DATE,'").append(parameters.get("Current")).append("') OR IMTD.START_DATE > '").append(parameters.get("Future")).append("') ");
-        } else if (parameters.get("Current") != null) {
-            sql.append(" AND '").append(parameters.get("Current")).append("' BETWEEN IMTD.START_DATE AND ISNULL(IMTD.END_DATE,'").append(parameters.get("Current")).append("') ");
-        } else if (parameters.get("History") != null) {
-            sql.append(" AND ").append(" IMTD.END_DATE < '").append(parameters.get("History")).append("' ");
-        } else if (parameters.get("Future") != null) {
-            sql.append(" AND ").append(" IMTD.START_DATE > '").append(parameters.get("Future")).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN IMTD.START_DATE  AND ISNULL(IMTD.END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') ");
+            sql.append(" OR ").append(" END_DATE  < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' ");
+            sql.append(" OR ").append(" START_DATE >  '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("' )");
+        } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null)) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN IMTD.START_DATE  AND ISNULL(IMTD.END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') OR IMTD.END_DATE < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("') ");
+        } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null)) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_OPEN).append(" END_DATE < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' OR IMTD.START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("') ");
+        } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null)) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN IMTD.START_DATE AND ISNULL(IMTD.END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') OR IMTD.START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("') ");
+        } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_QUOTE).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN IMTD.START_DATE AND ISNULL(IMTD.END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') ");
+        } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(" IMTD.END_DATE < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' ");
+        } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(" IMTD.START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("' ");
         }
-        if (!isCount) {
-            sql.append(" ORDER BY IMTD.ITEM_MASTER_SID OFFSET ").append(start).append(" ROWS FETCH NEXT ").append(end).append(" ROWS ONLY ");
+        
+         if (!isCount) {
+            boolean sortOrder = false;
+            String columnName = null;
+            String orderByColumn = null;
+            if (sortByColumns != null) {
+                for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+                    final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+                    Map<String,String> coumnMap=loadColumnMap();
+                    columnName = sortByColumn.getName();
+                    orderByColumn = coumnMap.get(columnName);
+
+                    if (sortByColumn.getType() == SortByColumn.Type.ASC) {
+                        sortOrder = false;
+                    } else {
+                        sortOrder = true;
+                    }
+                }
+            }
+            if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+                sql.append(" ORDER BY IMTD.ITEM_MASTER_SID ASC ");
+            } else {
+                sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ORDER_BY).append(orderByColumn).append(((!sortOrder) ? com.stpl.app.contract.abstractsearch.util.ConstantUtil.ASC_SPACE : com.stpl.app.contract.abstractsearch.util.ConstantUtil.DESC_SPACE));
+            }
+            sql.append(" OFFSET ").append(start).append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ROWS_FETCH_NEXT).append(end).append(" ROWS ONLY ");
         }
+        
+        
         LOGGER.debug("==========items sql========" +sql);
         List returnList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
 
-        LOGGER.debug("selected results :" + returnList.size());
+        LOGGER.debug("selected results : " + returnList.size());
         return returnList;
     }
-
+    
 
     public List<TempPricingDTO> getCustomizedPricingDTO(List<Object[]> returnList,boolean isIfpItemsTab,String Record) {
          DecimalFormat PERCENTFORMAT = new DecimalFormat("###0.00");
         TempPricingDTO itemDTO;
-        List<TempPricingDTO> resultList = new ArrayList<TempPricingDTO>();
+        List<TempPricingDTO> resultList = new ArrayList<>();
         Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
         for (Object[] tempifp : returnList) {
             itemDTO = new TempPricingDTO();
@@ -1071,16 +1115,16 @@ public class IfpLogic implements ItemFamilyplanLogic {
            if( itemDTO.getItemsStatus().trim().equalsIgnoreCase(Constants.SELECT_ONE)){
               itemDTO.setItemsStatus(StringUtils.EMPTY); 
            }
-            temp = tempifp[++j];
+            ++j;
             if (!StringUtils.isBlank(Record)) {
-                if (Record.contains("Current")) {
-                    itemDTO.setRecordType("Current");
+                if (Record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)) {
+                    itemDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT);
                 }
-                else if (Record.contains("History")) {
-                    itemDTO.setRecordType("History");
+                else if (Record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)) {
+                    itemDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY);
                 }
-                else if (Record.contains("Future")) {
-                    itemDTO.setRecordType("Future");
+                else if (Record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)) {
+                    itemDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE);
                 } else {
                     itemDTO.setRecordType(StringUtils.EMPTY);
                 }
@@ -1130,12 +1174,12 @@ public class IfpLogic implements ItemFamilyplanLogic {
         return dto.getDescription();
     }
 
-    public List<Object[]> getLazyItemRebateDeatils(int start, int end, BeanSearchCriteria searchCriteria, boolean isCount, String record, Boolean isRemove) throws PortalException, SystemException {
+    public List<Object[]> getLazyItemRebateDeatils(int start, int end, BeanSearchCriteria searchCriteria, boolean isCount, String record, Boolean isRemove, List<OrderByColumn> list) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         
         StringBuilder sql = new StringBuilder();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         getParameterList(parameters, searchCriteria);
         if (isCount) {
             sql.append(CustomSQLUtil.get("contractRebateSelectTempTableCount"));
@@ -1148,119 +1192,143 @@ public class IfpLogic implements ItemFamilyplanLogic {
             sql.append(" AND CHECK_RECORD = '1' " );
         }
 
-        if (parameters.get("itemNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemNo")))) {
-            sql.append(" AND ITEM_NO LIKE '%").append(String.valueOf(parameters.get("itemNo"))).append("%' ");
+        if (parameters.get(Constants.ITEM_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NO)))) {
+            sql.append(" AND ITEM_NO LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NO))).append("%' ");
         }
-        if (parameters.get("itemName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemName")))) {
-            sql.append(" AND ITEM_NAME LIKE '%").append(String.valueOf(parameters.get("itemName"))).append("%' ");
+        if (parameters.get(Constants.ITEM_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NAME)))) {
+            sql.append(" AND ITEM_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NAME))).append("%' ");
         }
-        if (parameters.get("formulaId") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("formulaId")))) {
-            sql.append(" AND FORMULA_ID LIKE '%").append(String.valueOf(parameters.get("formulaId"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_ID_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_ID_PROPERTY)))) {
+            sql.append(" AND FORMULA_ID LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_ID_PROPERTY))).append("%' ");
         }
-        if (parameters.get("formulaName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("formulaName")))) {
-            sql.append(" AND FF.FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get("formulaName"))).append("%' ");
+        if (parameters.get(ContractUtils.FORMULA_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ContractUtils.FORMULA_NAME)))) {
+            sql.append(" AND FF.FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get(ContractUtils.FORMULA_NAME))).append("%' ");
         }
-        if (parameters.get("itemRebateStartDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemRebateStartDate")))) {
-            sql.append(" AND ITEM_REBATE_START_DATE >= '").append(String.valueOf(parameters.get("itemRebateStartDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_START_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_START_DATE)))) {
+            sql.append(" AND ITEM_REBATE_START_DATE >= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_START_DATE))).append("' ");
         }
-        if (parameters.get("itemRebateEndDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemRebateEndDate")))) {
-            sql.append(" AND ITEM_REBATE_END_DATE <= '").append(String.valueOf(parameters.get("itemRebateEndDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_END_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_END_DATE)))) {
+            sql.append(" AND ITEM_REBATE_END_DATE <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_END_DATE))).append("' ");
         }
-        if (parameters.get("rebateRevisionDate") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("rebateRevisionDate")))) {
-            sql.append(" AND REBATE_REVISION_DATE <= '").append(String.valueOf(parameters.get("rebateRevisionDate"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_REVISION_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_REVISION_DATE)))) {
+            sql.append(" AND REBATE_REVISION_DATE <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_REVISION_DATE))).append("' ");
         }
-        if (parameters.get("bundleNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("bundleNo")))) {
-            sql.append(" AND BUNDLE_NO LIKE '%").append(String.valueOf(parameters.get("bundleNo"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BUNDLE_NO_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BUNDLE_NO_PROPERTY)))) {
+            sql.append(" AND BUNDLE_NO LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BUNDLE_NO_PROPERTY))).append("%' ");
         }
-        if (parameters.get("itemType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemType")))) {
-            sql.append(" AND ITEM_TYPE LIKE '%").append(String.valueOf(parameters.get("itemType"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_TYPE)))) {
+            sql.append(" AND ITEM_TYPE LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_TYPE))).append("%' ");
         }
-        if (parameters.get("itemId") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemId")))) {
-            sql.append(" AND ITEM_ID LIKE '%").append(String.valueOf(parameters.get("itemId"))).append("%' ");
+        if (parameters.get(ConstantUtil.ITEM_ID_M) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantUtil.ITEM_ID_M)))) {
+            sql.append(" AND ITEM_ID LIKE '%").append(String.valueOf(parameters.get(ConstantUtil.ITEM_ID_M))).append("%' ");
         }
-        if (parameters.get("formulaNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("formulaNo")))) {
-            sql.append(" AND FF.FORMULA_NO LIKE '%").append(String.valueOf(parameters.get("formulaNo"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_NO_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_NO_PROPERTY)))) {
+            sql.append(" AND FF.FORMULA_NO LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_NO_PROPERTY))).append("%' ");
         }
-        if (parameters.get("netSalesFormulaNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netSalesFormulaNo")))) {
-            sql.append(" AND NSFM.NET_SALES_FORMULA_NO LIKE '%").append(String.valueOf(parameters.get("netSalesFormulaNo"))).append("%' ");
+        if (parameters.get(ContractUtils.NET_SALES_FORMULA_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ContractUtils.NET_SALES_FORMULA_NO)))) {
+            sql.append(" AND NSFM.NET_SALES_FORMULA_NO LIKE '%").append(String.valueOf(parameters.get(ContractUtils.NET_SALES_FORMULA_NO))).append("%' ");
         }
-        if (parameters.get("netSalesRule") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netSalesRule")))) {
-            sql.append(" AND NET.RULE_NAME LIKE '%").append(String.valueOf(parameters.get("netSalesRule"))).append("%' ");
+        if (parameters.get(ContractUtils.NET_SALES_RULE_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ContractUtils.NET_SALES_RULE_PROPERTY)))) {
+            sql.append(" AND NET.RULE_NAME LIKE '%").append(String.valueOf(parameters.get(ContractUtils.NET_SALES_RULE_PROPERTY))).append("%' ");
         }
-        if (parameters.get("evaluationRule") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("evaluationRule")))) {
-            sql.append(" AND EVA.RULE_NAME LIKE '%").append(String.valueOf(parameters.get("evaluationRule"))).append("%' ");
+        if (parameters.get(ContractUtils.EVALUATION_RULE_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ContractUtils.EVALUATION_RULE_PROPERTY)))) {
+            sql.append(" AND EVA.RULE_NAME LIKE '%").append(String.valueOf(parameters.get(ContractUtils.EVALUATION_RULE_PROPERTY))).append("%' ");
         }
-        if (parameters.get("evaluationRuleBundle") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("evaluationRuleBundle")))) {
-            sql.append(" AND IMTD.EVALUATION_RULE_BUNDLE LIKE '%").append(String.valueOf(parameters.get("evaluationRuleBundle"))).append("%' ");
+        if (parameters.get(ContractUtils.EVALUATION_RULE_BUNDLE_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ContractUtils.EVALUATION_RULE_BUNDLE_PROPERTY)))) {
+            sql.append(" AND IMTD.EVALUATION_RULE_BUNDLE LIKE '%").append(String.valueOf(parameters.get(ContractUtils.EVALUATION_RULE_BUNDLE_PROPERTY))).append("%' ");
         }
-        if (parameters.get("calculationRule") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("calculationRule")))) {
-            sql.append(" AND CAL.RULE_NAME LIKE '%").append(String.valueOf(parameters.get("calculationRule"))).append("%' ");
+        if (parameters.get(ContractUtils.CALCULATION_RULE_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ContractUtils.CALCULATION_RULE_PROPERTY)))) {
+            sql.append(" AND CAL.RULE_NAME LIKE '%").append(String.valueOf(parameters.get(ContractUtils.CALCULATION_RULE_PROPERTY))).append("%' ");
         }
-        if (parameters.get("calculationRuleBundle") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("calculationRuleBundle")))) {
-            sql.append(" AND IMTD.CALCULATION_RULE_BUNDLE LIKE '%").append(String.valueOf(parameters.get("calculationRuleBundle"))).append("%' ");
+        if (parameters.get(ContractUtils.CALCULATION_RULE_BUNDLE_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ContractUtils.CALCULATION_RULE_BUNDLE_PROPERTY)))) {
+            sql.append(" AND IMTD.CALCULATION_RULE_BUNDLE LIKE '%").append(String.valueOf(parameters.get(ContractUtils.CALCULATION_RULE_BUNDLE_PROPERTY))).append("%' ");
         }
-        if (parameters.get("rebatePlanNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("rebatePlanNo")))) {
-            sql.append(" AND RPM.REBATE_PLAN_NO LIKE '%").append(String.valueOf(parameters.get("rebatePlanNo"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NO_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NO_PROPERTY)))) {
+            sql.append(" AND RPM.REBATE_PLAN_NO LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NO_PROPERTY))).append("%' ");
         }
-        if (parameters.get("deductionCalendarNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("deductionCalendarNo")))) {
-            sql.append(" AND DC.DEDUCTION_CALENDAR_NO LIKE '%").append(String.valueOf(parameters.get("deductionCalendarNo"))).append("%' ");
+        if (parameters.get(Constants.DEDUCTION_CALENDAR_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.DEDUCTION_CALENDAR_NO)))) {
+            sql.append(" AND DC.DEDUCTION_CALENDAR_NO LIKE '%").append(String.valueOf(parameters.get(Constants.DEDUCTION_CALENDAR_NO))).append("%' ");
         }
-        if (parameters.get("calculationRuleBundle") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("calculationRuleBundle")))) {
-            sql.append(" AND IMTD.CALCULATION_RULE_BUNDLE LIKE '%").append(String.valueOf(parameters.get("calculationRuleBundle"))).append("%' ");
+        if (parameters.get(ContractUtils.CALCULATION_RULE_BUNDLE_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ContractUtils.CALCULATION_RULE_BUNDLE_PROPERTY)))) {
+            sql.append(" AND IMTD.CALCULATION_RULE_BUNDLE LIKE '%").append(String.valueOf(parameters.get(ContractUtils.CALCULATION_RULE_BUNDLE_PROPERTY))).append("%' ");
         }
-        if (parameters.get("rebatePlanName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("rebatePlanName")))) {
-            sql.append(" AND RPM.REBATE_PLAN_NAME LIKE '%").append(String.valueOf(parameters.get("rebatePlanName"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NAME)))) {
+            sql.append(" AND RPM.REBATE_PLAN_NAME LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NAME))).append("%' ");
         }
-        if (parameters.get("attachedStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedStatus")))) {
-            sql.append(" AND IMTD.RS_ATTACHED_STATUS = ").append(String.valueOf(parameters.get("attachedStatus")));
+        if (parameters.get(ATTACHED_STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_STATUS)))) {
+            sql.append(" AND IMTD.RS_ATTACHED_STATUS = ").append(String.valueOf(parameters.get(ATTACHED_STATUS)));
         }
-        if (parameters.get("rebateStartDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("rebateStartDatefrom")))) {
-            sql.append(" AND IMTD.ITEM_REBATE_START_DATE >='").append(String.valueOf(parameters.get("rebateStartDatefrom"))).append("'");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_START_DATEFROM)))) {
+            sql.append(" AND IMTD.ITEM_REBATE_START_DATE >='").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_START_DATEFROM))).append("'");
         }
-        if (parameters.get("rebateStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("rebateStartDateto")))) {
-            sql.append(" AND IMTD.ITEM_REBATE_START_DATE <='").append(String.valueOf(parameters.get("rebateStartDateto"))).append("'");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_START_DATETO)))) {
+            sql.append(" AND IMTD.ITEM_REBATE_START_DATE <='").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_START_DATETO))).append("'");
         }
-        if (parameters.get("rebateEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("rebateEndDatefrom")))) {
-            sql.append(" AND IMTD.ITEM_REBATE_END_DATE >='").append(String.valueOf(parameters.get("rebateEndDatefrom"))).append("'");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_END_DATEFROM)))) {
+            sql.append(" AND IMTD.ITEM_REBATE_END_DATE >='").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_END_DATEFROM))).append("'");
         }
-        if (parameters.get("rebateEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("rebateEndDateto")))) {
-            sql.append(" AND IMTD.ITEM_REBATE_END_DATE <='").append(String.valueOf(parameters.get("rebateEndDateto"))).append("'");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_END_DATETO)))) {
+            sql.append(" AND IMTD.ITEM_REBATE_END_DATE <='").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_END_DATETO))).append("'");
         }
-        if (parameters.get("deductionCalendarName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("deductionCalendarName")))){
-            sql.append(" AND DC.DEDUCTION_CALENDAR_NAME LIKE '%").append(String.valueOf(parameters.get("deductionCalendarName"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.DEDUCTION_CALENDAR_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.DEDUCTION_CALENDAR_NAME)))){
+            sql.append(" AND DC.DEDUCTION_CALENDAR_NAME LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.DEDUCTION_CALENDAR_NAME))).append("%' ");
         }
 
         if (!StringUtils.isBlank(record)) {
-            if (record.contains("Current")) {
-                parameters.put("Current", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)) {
+                parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
-            if (record.contains("History")) {
-                parameters.put("History", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)) {
+                parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
-            if (record.contains("Future")) {
-                parameters.put("Future", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)) {
+                parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
         }
-        if (parameters.get("Current") != null && parameters.get("History") != null && parameters.get("Future") != null) {
-            sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get("Current")).append("') ");
-            sql.append(" OR ").append(" END_DATE < '").append(parameters.get("History")).append("' ");
-            sql.append(" OR ").append(" START_DATE > '").append(parameters.get("Future")).append("' )");
-        } else if ((parameters.get("Current") != null && parameters.get("History") != null) || (parameters.get("History") != null && parameters.get("Current") != null)) {
-            sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get("Current")).append("') OR END_DATE < '").append(parameters.get("History")).append("') ");
-        } else if ((parameters.get("History") != null && parameters.get("Future") != null) || (parameters.get("Future") != null && parameters.get("History") != null)) {
-            sql.append(" AND (").append(" END_DATE < '").append(parameters.get("History")).append("' OR START_DATE > '").append(parameters.get("Future")).append("') ");
-        } else if ((parameters.get("Future") != null && parameters.get("Current") != null) || (parameters.get("Current") != null && parameters.get("Future") != null)) {
-            sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get("Current")).append("') OR START_DATE > '").append(parameters.get("Future")).append("') ");
-        } else if (parameters.get("Current") != null) {
-            sql.append(" AND '").append(parameters.get("Current")).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get("Current")).append("') ");
-        } else if (parameters.get("History") != null) {
-            sql.append(" AND ").append(" END_DATE < '").append(parameters.get("History")).append("' ");
-        } else if (parameters.get("Future") != null) {
-            sql.append(" AND ").append(" START_DATE > '").append(parameters.get("Future")).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN START_DATE AND  ISNULL(END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') ");
+            sql.append(" OR ").append("  END_DATE  < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' ");
+            sql.append(" OR ").append(" START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("' )");
+        } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null)) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN START_DATE  AND ISNULL(END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') OR END_DATE < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("') ");
+        } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null)) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_OPEN).append("  END_DATE < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' OR START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("') ");
+        } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null)) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') OR START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("') ");
+        } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_QUOTE).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN START_DATE AND ISNULL(END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') ");
+        } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(" END_DATE < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' ");
+        } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) {
+            sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(" START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("' ");
         }
-        if (!isCount) {
-            sql.append(" ORDER BY ITEM_MASTER_SID ASC  OFFSET " + start + " ROWS FETCH NEXT " + end + " ROWS ONLY");
+        
+         if (!isCount) {
+            boolean sortOrder = false;
+            String columnName = null;
+            String orderByColumn = null;
+            if (list != null) {
+                for (final Iterator<OrderByColumn> iterator = list.iterator(); iterator.hasNext();) {
+                    final OrderByColumn sortByColumn = (OrderByColumn) iterator.next();
+                    Map<String,String> coumnMap = loadItemRebateColumnMap();
+                    columnName = sortByColumn.getName();
+                    orderByColumn = coumnMap.get(columnName);
+
+                    if (sortByColumn.getType() == OrderByColumn.Type.ASC) {
+                        sortOrder = false;
+                    } else {
+                        sortOrder = true;
+                    }
+                }
+            }
+            if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+                sql.append(" ORDER BY ITEM_MASTER_SID ASC ");
+            } else {
+                sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ORDER_BY).append(orderByColumn).append(((!sortOrder) ? com.stpl.app.contract.abstractsearch.util.ConstantUtil.ASC_SPACE : com.stpl.app.contract.abstractsearch.util.ConstantUtil.DESC_SPACE));
+            }
+            sql.append(" OFFSET ").append(start).append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ROWS_FETCH_NEXT).append(end).append(" ROWS ONLY ");
         }
+        
         List returnList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
         LOGGER.debug("selected results :" + returnList.size());
         return returnList;
@@ -1268,14 +1336,14 @@ public class IfpLogic implements ItemFamilyplanLogic {
 
     public List<TempRebateDTO> getCustomizedRebateDTO(List<Object[]> returnList, String recordType) throws SystemException {
         TempRebateDTO itemDTO;
-        HashMap<Integer, String> hm = new HashMap<Integer, String>();
-        List<TempRebateDTO> itemList = new ArrayList<TempRebateDTO>();
+        HashMap<Integer, String> hm = new HashMap<>();
+        List<TempRebateDTO> itemList = new ArrayList<>();
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(RebatePlanMaster.class);
         ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("rebatePlanMasterSid"));
-        projList.add(ProjectionFactoryUtil.property("rebatePlanName"));
+        projList.add(ProjectionFactoryUtil.property(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NAME));
         ifpDynamicQuery.setProjection(projList);
-        ifpDynamicQuery.add(RestrictionsFactoryUtil.like("rebatePlanName", "%"));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.like(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NAME, "%"));
         final List<Object[]> rpList = ImtdItemPriceRebateDetailsLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
 
         for (Object[] rpObjects : rpList) {
@@ -1289,7 +1357,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
             itemDTO.setItemNo(String.valueOf(tempifp[++j]).equals(Constants.NULL) ? StringUtils.EMPTY : String.valueOf(tempifp[j]));
             itemDTO.setItemName(String.valueOf(tempifp[++j]).equals(Constants.NULL) ? StringUtils.EMPTY : String.valueOf(tempifp[j]));
             itemDTO.setTempItemPriceRebateSystemId(String.valueOf(tempifp[++j]).equals(Constants.NULL) ? StringUtils.EMPTY : String.valueOf(tempifp[j]));
-            String formula = StringUtils.EMPTY;
+            String formula;
             if (tempifp[++j] != null) {
                 formula = String.valueOf(tempifp[j]);
                 itemDTO.setFormulaId(formula);
@@ -1355,16 +1423,16 @@ public class IfpLogic implements ItemFamilyplanLogic {
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(FormulaDetailsMaster.class);
             List<Integer> formulaIdList = getImtdFormulaDescList(Integer.parseInt(itemDTO.getItemSystemId()), sessionDTO);
 
-            List<String> newList = new ArrayList<String>(formulaIdList.size());
+            List<String> newList = new ArrayList<>(formulaIdList.size());
             for (Integer myInt : formulaIdList) {
                 newList.add(String.valueOf(myInt));
             }
 
             if (formulaIdList != null && !formulaIdList.isEmpty()) {
-                query.add(RestrictionsFactoryUtil.in("formulaId", newList));
-                query.add(RestrictionsFactoryUtil.eq("itemId", itemDTO.getItemId()));
-                query.add(RestrictionsFactoryUtil.le("startDate", new Date()));
-                query.addOrder(OrderFactoryUtil.desc("startDate"));
+                query.add(RestrictionsFactoryUtil.in(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_ID_PROPERTY, newList));
+                query.add(RestrictionsFactoryUtil.eq(ConstantUtil.ITEM_ID_M, itemDTO.getItemId()));
+                query.add(RestrictionsFactoryUtil.le(ConstantUtil.START_DATE, new Date()));
+                query.addOrder(OrderFactoryUtil.desc(ConstantUtil.START_DATE));
                 List<FormulaDetailsMaster> companyTradeClass = FormulaDetailsMasterLocalServiceUtil.dynamicQuery(query);
 
                 if (companyTradeClass != null && !companyTradeClass.isEmpty()) {
@@ -1382,11 +1450,11 @@ public class IfpLogic implements ItemFamilyplanLogic {
         return itemList;
     }
 
-    public void loadTempIFP(Integer contractSystemId, Integer cfpContractSId, Integer ifpContractSId, Integer psContractSId, Integer rsContractSId) throws SystemException, PortalException {
+    public void loadTempIFP(Integer contractSystemId, Integer cfpContractSId, Integer ifpContractSId, Integer psContractSId, Integer rsContractSId) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String tempDate = String.valueOf(sessionDTO.getSessionDate());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         input.add(tempDate);
@@ -1400,7 +1468,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
             input.add(contractSystemId);
             input.add((cfpContractSId == 0) ? null : cfpContractSId);
             input.add((ifpContractSId == 0) ? null : ifpContractSId);
-            input.add((psContractSId == 0) ? null : psContractSId);
+            input.add(psContractSId);
             input.add((cfpContractSId == 0) ? null : cfpContractSId);
 
             ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.loadTempPS");
@@ -1418,9 +1486,9 @@ public class IfpLogic implements ItemFamilyplanLogic {
         }
     }
     
-    public void loadImtdItemPriceRebateDetails(Integer contractSystemId, Integer cfpContractSId, Integer ifpContractSId, Integer psContractSId, Integer rsContractSId) throws SystemException, PortalException {
+    public void loadImtdItemPriceRebateDetails(Integer contractSystemId, Integer cfpContractSId, Integer ifpContractSId, Integer psContractSId, Integer rsContractSId) {
 
-        final List<Object> input = new ArrayList<Object>();
+        final List<Object> input = new ArrayList<>();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String tempDate = String.valueOf(sessionDTO.getSessionDate());
@@ -1436,7 +1504,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     input.add(rsContractSId);
                     ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.loadImtdCRS");
                 }
-            } else if (psContractSId != 0) {
+            } else {
                 if (rsContractSId == 0) {
                     input.add((cfpContractSId == 0) ? null : cfpContractSId);
                     input.add(psContractSId);
@@ -1449,7 +1517,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.loadImtdCPSRS");
                 }
             }
-        } else if (ifpContractSId != 0) {
+        } else {
             if (psContractSId == 0) {
                 if (rsContractSId == 0) {
                     loadTempIFP(contractSystemId, cfpContractSId, ifpContractSId, psContractSId, rsContractSId);
@@ -1460,13 +1528,13 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     input.add(ifpContractSId);
                     ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.loadImtdCIFPRS");
                 }
-            } else if (psContractSId != 0) {
+            } else {
                 loadTempIFP(contractSystemId, cfpContractSId, ifpContractSId, psContractSId, rsContractSId);
             }
         }
     }
 
-    public void addToTempIFP(Object searchField, String searchValue) throws SystemException {
+    public void addToTempIFP(Object searchField, String searchValue) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final int contractSystemId = (Integer) sessionDTO.getContractSystemId();
@@ -1475,20 +1543,20 @@ public class IfpLogic implements ItemFamilyplanLogic {
         final int psSystemId = (Integer) sessionDTO.getPsSystemId();
         final int rsSystemId = (Integer) sessionDTO.getRsSystemId();
         final String tempDate = String.valueOf(sessionDTO.getSessionDate());
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put(Constants.ITEM_NO2, Constants.ITEM_NO_CAPS);
-        map.put(Constants.ITEM_NAME2, "ITEM_NAME");
-        map.put(Constants.IFP_NO1, "IFP_NO");
-        map.put(Constants.IFP_NAME1, "IFP_NAME");
-        map.put("NDC 8", Constants.NDC8);
-        map.put("NDC 9", Constants.NDC9);
-        map.put("Item Description", Constants.ITEM_DESC1);
+        map.put(Constants.ITEM_NAME2, com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_NAME_LIST);
+        map.put(Constants.IFP_NO1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_NO_LABEL);
+        map.put(Constants.IFP_NAME1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_NAME_LIST);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NDC_8, Constants.NDC8);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NDC_9, Constants.NDC9);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_DESCRIPTION, Constants.ITEM_DESC1);
         map.put("Form", Constants.FORM);
-        map.put("Strength", Constants.STRENGTH);
-        map.put("Therapeutic Class", "THERAPEUTIC_CLASS");
-        map.put("Brand Name", "BRAND_NAME");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.STRENGTH, Constants.STRENGTH);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.THERAPEUTIC_CLASS_PROPERTY, THERAPEUTIC_CLASS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND_NAME, "BRAND_NAME");
         final SimpleDateFormat tempFromat = new SimpleDateFormat(CommonUtils.MMDDYYYY);
-        final List<Object> input = new ArrayList<Object>(NumericConstants.SIXTEEN);
+        final List<Object> input = new ArrayList<>(NumericConstants.SIXTEEN);
         input.add(userId);
         input.add(sessionId);
         input.add(map.get(searchField));
@@ -1526,7 +1594,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
             input.add(sessionId);
             if (Constants.IFP_NO1.equalsIgnoreCase(String.valueOf(searchField)) || Constants.IFP_NAME1.equalsIgnoreCase(String.valueOf(searchField))) {
                 ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.addTempPSForIfp");
-            } else if ("Brand Name".equalsIgnoreCase(String.valueOf(searchField))) {
+            } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND_NAME.equalsIgnoreCase(String.valueOf(searchField))) {
                 ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.addTempPSForBranch");
             } else {
                 ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.addTempPS");
@@ -1545,7 +1613,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
             input.add(sessionId);
             if (Constants.IFP_NO1.equalsIgnoreCase(String.valueOf(searchField)) || Constants.IFP_NAME1.equalsIgnoreCase(String.valueOf(searchField))) {
                 ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.addTempRSForIfp");
-            } else if ("Brand Name".equalsIgnoreCase(String.valueOf(searchField))) {
+            } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND_NAME.equalsIgnoreCase(String.valueOf(searchField))) {
                 ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.addTempRSForBranch");
             } else {
                 ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "com.contractDashboard.process.addTempRS");
@@ -1553,21 +1621,21 @@ public class IfpLogic implements ItemFamilyplanLogic {
         }
     }
 
-    public void clearTempIFP() throws SystemException {
+    public void clearTempIFP() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdItemPriceRebateDetailsLocalServiceUtil.deleteAll(input, "Back");
         ImtdItemPriceRebateDetailsLocalServiceUtil.deleteTempRsContractTableRecords(0, 0, userId, sessionId);
     }
 
-    public void populateToTempIFP(Object populateField, Object populateValue, Boolean flag) throws SystemException {
+    public void populateToTempIFP(Object populateField, Object populateValue, Boolean flag) {
         final SimpleDateFormat tempFromat = new SimpleDateFormat(CommonUtils.MMDDYYYY);
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put("Status", "Attached_Status");
         map.put("IFP Status", "Attached_Status");
         map.put("IFP Start Date", "Start_Date");
@@ -1588,9 +1656,9 @@ public class IfpLogic implements ItemFamilyplanLogic {
         map.put("Price Tolerance Type", "Price_Tolerance_Type");
         map.put("Price Tolerance Interval", "Price_Tolerance_Interval");
         map.put("Price Tolerance Frequency", "Price_Tolerance_Frequency");
-        map.put("CheckBox", "CHECK_RECORD");
+        map.put(Constants.CHECK_BOX1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_LIST_NAME);
         map.put("Suggested Price", "SUGGESTED_PRICE");
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(map.get(populateField.toString()));
         input.add(populateValue);
         input.add(userId);
@@ -1600,26 +1668,26 @@ public class IfpLogic implements ItemFamilyplanLogic {
         if (flag) {
             ImtdItemPriceRebateDetailsLocalServiceUtil.massPopulateAll(input, null);
         } else {
-            input.add("Check_Record");
+            input.add(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_CAPTION);
             ImtdItemPriceRebateDetailsLocalServiceUtil.massPopulate(input, null);
         }
     }
 
-    public void populateToTempRebate(Object populateField, Object populateValue, Boolean flag) throws SystemException {
+    public void populateToTempRebate(Object populateField, Object populateValue, Boolean flag) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final SimpleDateFormat tempFromat = new SimpleDateFormat(CommonUtils.MMDDYYYY);
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put("Rebate Amount", "Rebate_Amount");
         map.put("Start Date", "Item_Rebate_Start_Date");
         map.put("End Date", "Item_Rebate_End_Date");
-        map.put("CheckBox", "CHECK_RECORD");
+        map.put(Constants.CHECK_BOX1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_LIST_NAME);
         map.put("Bundle No", "BUNDLE_NO");
         map.put("Rebate Plan Name", "REBATE_PLAN_SYSTEM_ID");
         map.put("RS Status", "RS_ATTACHED_STATUS");
         map.put("Evaluation Rule Bundle","EVALUATION_RULE_BUNDLE");
         map.put("Calculation Rule Bundle","CALCULATION_RULE_BUNDLE");
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(map.get(String.valueOf(populateField)));
         input.add(populateValue);
         input.add(userId);
@@ -1629,13 +1697,13 @@ public class IfpLogic implements ItemFamilyplanLogic {
         if (flag) {
             ImtdItemPriceRebateDetailsLocalServiceUtil.massPopulateAll(input, null);
         } else {
-            input.add("Check_Record");
+            input.add(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_CAPTION);
             ImtdItemPriceRebateDetailsLocalServiceUtil.massPopulate(input, null);
         }
     }
 
     public static Boolean saveToTempIFP(List<TempPricingDTO> saveList, boolean isEdit) throws PortalException, SystemException {
-        List<ImtdItemPriceRebateDetails> saveDetailsList = new ArrayList<ImtdItemPriceRebateDetails>();
+        List<ImtdItemPriceRebateDetails> saveDetailsList = new ArrayList<>();
 
         for (TempPricingDTO temp : saveList) {
             ImtdItemPriceRebateDetails tempResult = ImtdItemPriceRebateDetailsLocalServiceUtil.getImtdItemPriceRebateDetails(Integer.parseInt(temp.getTempItemPriceRebateSystemId()));
@@ -1667,13 +1735,13 @@ public class IfpLogic implements ItemFamilyplanLogic {
             tempResult.setModifiedDate(isEdit ? new Date() : temp.getModifiedDate());
             saveDetailsList.add(tempResult);
         }
-        List<Object> input = new ArrayList<Object>(1);
+        List<Object> input = new ArrayList<>(1);
         input.add(saveDetailsList);
         return ImtdItemPriceRebateDetailsLocalServiceUtil.saveItem(input, Constants.SAVE_DETAILS);
     }
 
     public static Boolean saveToTempRebate(List<TempRebateDTO> saveList, Boolean rebateResetFlag) throws PortalException, SystemException {
-        List<ImtdItemPriceRebateDetails> saveDetailsList = new ArrayList<ImtdItemPriceRebateDetails>();
+        List<ImtdItemPriceRebateDetails> saveDetailsList = new ArrayList<>();
 
         for (TempRebateDTO temp : saveList) {
             ImtdItemPriceRebateDetails tempResult = ImtdItemPriceRebateDetailsLocalServiceUtil.getImtdItemPriceRebateDetails(Integer.parseInt(temp.getTempItemPriceRebateSystemId()));
@@ -1743,15 +1811,15 @@ public class IfpLogic implements ItemFamilyplanLogic {
             }
             saveDetailsList.add(tempResult);
         }
-        List<Object> input = new ArrayList<Object>(1);
+        List<Object> input = new ArrayList<>(1);
         input.add(saveDetailsList);
         return ImtdItemPriceRebateDetailsLocalServiceUtil.saveItem(input, Constants.SAVE_DETAILS);
     }
 
-    public void removeAll() throws SystemException {
+    public void removeAll() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdItemPriceRebateDetailsLocalServiceUtil.updateAll(input, "Temp");
@@ -1760,7 +1828,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
     public void removeItem(int tempIfpSystemId) throws SystemException, PortalException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdItemPriceRebateDetails temp = ImtdItemPriceRebateDetailsLocalServiceUtil.getImtdItemPriceRebateDetails(tempIfpSystemId);
@@ -1823,10 +1891,10 @@ public class IfpLogic implements ItemFamilyplanLogic {
         }
     }
 
-    public Boolean itemNullVerification(String field) throws SystemException {
+    public Boolean itemNullVerification(String field) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.SIX);
+        final List<Object> input = new ArrayList<>(NumericConstants.SIX);
         input.add(userId);
         input.add(sessionId);
         input.add(field);
@@ -1841,10 +1909,10 @@ public class IfpLogic implements ItemFamilyplanLogic {
         return result;
     }
 
-    public Boolean priceVerification(String field) throws SystemException {
+    public Boolean priceVerification(String field) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.SIX);
+        final List<Object> input = new ArrayList<>(NumericConstants.SIX);
         input.add(userId);
         input.add(sessionId);
         input.add(field);
@@ -1868,17 +1936,17 @@ public class IfpLogic implements ItemFamilyplanLogic {
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdItemPriceRebateDetails.class);
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.USERS_SID, userId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.SESSION_ID, sessionId));
-        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("checkRecord", true));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CHECK_RECORD, true));
         if ("rebate".equals(indicator)) {
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.geProperty("itemRebateStartDate", "itemRebateEndDate"));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.geProperty(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_START_DATE, com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_REBATE_END_DATE));
         } else if ("item".equals(indicator)) {
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.geProperty("endDate", "startDate"));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.geProperty(ConstantUtil.END_DATE, ConstantUtil.START_DATE));
         } else if ("contract".equals(indicator)) {
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.geProperty("contractPriceEndDate", "contractPriceStartDate"));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.geProperty(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CONTRACT_PRICE_END_DATE, com.stpl.app.contract.abstractsearch.util.ConstantUtil.CONTRACT_PRICE_START_DATE));
         } else if ("PP".equals(indicator)) {
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.geProperty("priceProtectionEndDate", "priceProtectionStartDate"));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.geProperty(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE, com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATE));
         }
-        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count("imtdItemPriceRebateSid"));
+        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(com.stpl.app.contract.abstractsearch.util.ConstantUtil.IMTD_ITEM_PRICE_REBATE_SID));
         List<?> temp = ImtdItemPriceRebateDetailsLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
         int result = Integer.valueOf(temp.get(0).toString());
         return result <= 0;
@@ -1889,7 +1957,7 @@ public class IfpLogic implements ItemFamilyplanLogic {
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final int psSystemId = (Integer) sessionDTO.getPsSystemId();
         final int rsSystemId = (Integer) sessionDTO.getRsSystemId();
-        final List<Object> input = new ArrayList<Object>(NumericConstants.SIX);
+        final List<Object> input = new ArrayList<>(NumericConstants.SIX);
         input.add(userId);
         input.add(sessionId);
         input.add(userId);
@@ -1911,9 +1979,9 @@ public class IfpLogic implements ItemFamilyplanLogic {
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdItemPriceRebateDetails.class);
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.USERS_SID, userId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.SESSION_ID, sessionId));
-        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("checkRecord", true));
-        ifpDynamicQuery.add(RestrictionsFactoryUtil.ne("operation", "D"));
-        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count("imtdItemPriceRebateSid"));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CHECK_RECORD, true));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.OPERATION, "D"));
+        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(com.stpl.app.contract.abstractsearch.util.ConstantUtil.IMTD_ITEM_PRICE_REBATE_SID));
         List<?> temp = ImtdItemPriceRebateDetailsLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
         int imtdItemPriceRebateSid = Integer.valueOf(temp.get(0).toString());
         return imtdItemPriceRebateSid <= 0;
@@ -1925,8 +1993,8 @@ public class IfpLogic implements ItemFamilyplanLogic {
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdItemPriceRebateDetails.class);
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.USERS_SID, userId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.SESSION_ID, sessionId));
-        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("checkRecord", true));
-        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count("imtdItemPriceRebateSid"));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CHECK_RECORD, true));
+        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(com.stpl.app.contract.abstractsearch.util.ConstantUtil.IMTD_ITEM_PRICE_REBATE_SID));
         List<?> temp = ImtdItemPriceRebateDetailsLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
         int imtdItemPriceRebateSid = Integer.valueOf(temp.get(0).toString());
         return imtdItemPriceRebateSid <= 0;
@@ -1940,12 +2008,12 @@ public class IfpLogic implements ItemFamilyplanLogic {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public int getLazyBrandNameCount(String filterText) throws PortalException, SystemException {
+    public int getLazyBrandNameCount(String filterText) throws  SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + "%";
         LOGGER.debug("Entering getBrandMasterCount method with filterText" + filterText);
         int count = 0;
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
-        dynamicQuery.add(RestrictionsFactoryUtil.ilike("brandName", filterText));
+        dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.BRAND_NAME, filterText));
         count = dao.getBrandMasterCount(dynamicQuery);
         LOGGER.debug("Ending getBrandMasterCount method : returning count :" + count);
         return count;
@@ -1959,13 +2027,13 @@ public class IfpLogic implements ItemFamilyplanLogic {
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public List<HelperDTO> getLazyBrandName(String filterText, int start, int end) throws PortalException, SystemException {
+    public List<HelperDTO> getLazyBrandName(String filterText, int start, int end) throws SystemException {
         LOGGER.debug("Entering getBrandMaster method with filterText" + filterText);
-        List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+        List<HelperDTO> resultList = new ArrayList<>();
         filterText = StringUtils.trimToEmpty(filterText) + "%";
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
-        dynamicQuery.add(RestrictionsFactoryUtil.ilike("brandName", filterText));
-        dynamicQuery.addOrder(OrderFactoryUtil.asc("brandName"));
+        dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.BRAND_NAME, filterText));
+        dynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.BRAND_NAME));
         dynamicQuery.setLimit(start, end);
         List<BrandMaster> brandList = dao.getBrandMasterList(dynamicQuery);
         HelperDTO dto = new HelperDTO(0, "-Select One-");
@@ -2012,21 +2080,21 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     Compare stringFilter = (Compare) filter;
                     Compare.Operation operation = stringFilter.getOperation();
                     if (operation.EQUAL.toString().equals(operation.name()) && 
-                            ("priceTolerance".equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
-                                || "maxIncrementalChange".equals(String.valueOf(stringFilter.getPropertyId())))) {
+                            (com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE.equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
+                                || com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGE.equals(String.valueOf(stringFilter.getPropertyId())))) {
                             double value = Double.valueOf(String.valueOf(stringFilter.getValue()));
-                            parameters.put(String.valueOf(stringFilter.getPropertyId()) + "equal", value);
+                            parameters.put(String.valueOf(stringFilter.getPropertyId()) + com.stpl.app.contract.abstractsearch.util.ConstantUtil.EQUAL, value);
                     }
                     if (operation.GREATER.toString().equals(operation.name()) && 
-                            ("priceTolerance".equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
-                                || "maxIncrementalChange".equals(String.valueOf(stringFilter.getPropertyId())))) {
+                            (com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE.equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
+                                || com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGE.equals(String.valueOf(stringFilter.getPropertyId())))) {
                             double value = Double.valueOf(String.valueOf(stringFilter.getValue()));
                             parameters.put(String.valueOf(stringFilter.getPropertyId()) + "from", value);
 
                     }
                     if (operation.LESS.toString().equals(operation.name()) && 
-                            ("priceTolerance".equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
-                                || "maxIncrementalChange".equals(String.valueOf(stringFilter.getPropertyId())))) {
+                            (com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE.equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
+                                || com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGE.equals(String.valueOf(stringFilter.getPropertyId())))) {
 
                             double value = Double.valueOf(String.valueOf(stringFilter.getValue()));
                             parameters.put(String.valueOf(stringFilter.getPropertyId()) + "to", value);
@@ -2077,21 +2145,21 @@ public class IfpLogic implements ItemFamilyplanLogic {
                     Compare stringFilter = (Compare) filter;
                     Compare.Operation operation = stringFilter.getOperation();
                     if (operation.EQUAL.toString().equals(operation.name()) && 
-                            ("priceTolerance".equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
-                                || "maxIncrementalChange".equals(String.valueOf(stringFilter.getPropertyId())))) {
+                            (com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE.equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
+                                || com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGE.equals(String.valueOf(stringFilter.getPropertyId())))) {
                             double value = Double.valueOf(String.valueOf(stringFilter.getValue()));
-                            parameters.put(String.valueOf(stringFilter.getPropertyId()) + "equal", value);
+                            parameters.put(String.valueOf(stringFilter.getPropertyId()) + com.stpl.app.contract.abstractsearch.util.ConstantUtil.EQUAL, value);
                     }
                     if (operation.GREATER.toString().equals(operation.name()) && 
-                            ("priceTolerance".equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
-                                || "maxIncrementalChange".equals(String.valueOf(stringFilter.getPropertyId())))) {
+                            (com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE.equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
+                                || com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGE.equals(String.valueOf(stringFilter.getPropertyId())))) {
                             double value = Double.valueOf(String.valueOf(stringFilter.getValue()));
                             parameters.put(String.valueOf(stringFilter.getPropertyId()) + "from", value);
 
                     }
                     if (operation.LESS.toString().equals(operation.name()) && 
-                            ("priceTolerance".equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
-                                || "maxIncrementalChange".equals(String.valueOf(stringFilter.getPropertyId())))) {
+                            (com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE.equals(String.valueOf(stringFilter.getPropertyId())) || "nep".equals(String.valueOf(stringFilter.getPropertyId()))
+                                || com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGE.equals(String.valueOf(stringFilter.getPropertyId())))) {
 
                             double value = Double.valueOf(String.valueOf(stringFilter.getValue()));
                             parameters.put(String.valueOf(stringFilter.getPropertyId()) + "to", value);
@@ -2110,11 +2178,11 @@ public class IfpLogic implements ItemFamilyplanLogic {
         }
     }
 
-    public List<Object[]> getLazyPriceProtectionDeatils(int start, int end,  Set<Container.Filter> searchCriteria, boolean isCount, String record, final List<SortByColumn> sortByColumns) throws PortalException, SystemException {
+    public List<Object[]> getLazyPriceProtectionDeatils(int start, int end,  Set<Container.Filter> searchCriteria, boolean isCount, String record, final List<SortByColumn> sortByColumns) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         StringBuilder sql = new StringBuilder();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         getParameterList(parameters, searchCriteria);
         if (isCount) {
             sql.append(CustomSQLUtil.get("contractPriceProtectionSelectTempTableCount"));
@@ -2136,172 +2204,172 @@ public class IfpLogic implements ItemFamilyplanLogic {
         if (map.isEmpty()) {
             loadSortMap(map);
         }
-        if (parameters.get("itemID") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemId")))) {
-            sql.append(" AND IMTD.ITEM_ID LIKE '%").append(String.valueOf(parameters.get("itemId"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_ID1) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_ID1)))) {
+            sql.append(" AND IMTD.ITEM_ID LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_ID1))).append("%' ");       
         }
 
-        if (parameters.get("itemNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemNo")))) {
-            sql.append(" AND IMTD.ITEM_NO LIKE '%").append(String.valueOf(parameters.get("itemNo"))).append("%' ");
+        if (parameters.get(Constants.ITEM_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NO)))) {
+            sql.append(" AND IMTD.ITEM_NO LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NO))).append("%' ");
         }
-        if (parameters.get("itemName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemName")))) {
-            sql.append(" AND IMTD.ITEM_NAME LIKE '%").append(String.valueOf(parameters.get("itemName"))).append("%' ");
-        }
-
-        if (parameters.get("brand") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("brand")))) {
-            sql.append(" AND BM.BRAND_NAME LIKE '%").append(String.valueOf(parameters.get("brand"))).append("%' ");
+        if (parameters.get(Constants.ITEM_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NAME)))) {
+            sql.append(" AND IMTD.ITEM_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NAME))).append("%' ");
         }
 
-        if (parameters.get("priceProtectionStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionStatus")))) {
-            sql.append(" AND IMTD.PRICE_PROTECTION_STATUS LIKE '").append(String.valueOf(parameters.get("priceProtectionStatus"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND)))) {
+            sql.append(" AND BM.BRAND_NAME LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND))).append("%' ");
         }
 
-        if (parameters.get("priceProtectionStartDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionStartDatefrom")))) {
-            sql.append(" AND IMTD.PRICE_PROTECTION_START_DATE >= '").append(String.valueOf(dateFormat.format(parameters.get("priceProtectionStartDatefrom")))).append("' ");
-        }
-        if (parameters.get("priceProtectionStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionStartDateto")))) {
-            sql.append(" AND IMTD.PRICE_PROTECTION_START_DATE <= '").append(String.valueOf(dateFormat.format(parameters.get("priceProtectionStartDateto")))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_STATUS)))) {
+            sql.append(" AND IMTD.PRICE_PROTECTION_STATUS LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_STATUS))).append("' ");
         }
 
-        if (parameters.get("priceProtectionEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionEndDatefrom")))) {
-            sql.append(" AND IMTD.PRICE_PROTECTION_END_DATE >= '").append(String.valueOf(dateFormat.format(parameters.get("priceProtectionEndDatefrom")))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATEFROM)))) {
+            sql.append(" AND IMTD.PRICE_PROTECTION_START_DATE >= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATEFROM))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATETO)))) {
+            sql.append(" AND IMTD.PRICE_PROTECTION_START_DATE <= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATETO))).append("' ");
         }
 
-        if (parameters.get("priceProtectionEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionEndDateto")))) {
-            sql.append(" AND IMTD.PRICE_PROTECTION_END_DATE <= '").append(String.valueOf(dateFormat.format(parameters.get("priceProtectionEndDateto")))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATEFROM)))) {
+            sql.append(" AND IMTD.PRICE_PROTECTION_END_DATE >= '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATEFROM))).append("' ");
         }
 
-        if (parameters.get("priceProtectionPriceType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionPriceType")))) {
-            sql.append(" AND IMTD.PRICE_PROTECTION_PRICE_TYPE LIKE '").append(String.valueOf(parameters.get("priceProtectionPriceType"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATETO)))) {
+            sql.append(" AND IMTD.PRICE_PROTECTION_END_DATE <= '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATETO)).append("' ");
         }
 
-        if (parameters.get("nepfrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("nepfrom")))) {
-            sql.append(" AND IMTD.NEP >=").append(String.valueOf(parameters.get("nepfrom"))).append(" ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_PRICE_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_PRICE_TYPE)))) {
+            sql.append(" AND IMTD.PRICE_PROTECTION_PRICE_TYPE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_PRICE_TYPE))).append("' ");
         }
 
-        if (parameters.get("nepto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("nepto")))) {
-            sql.append(" AND IMTD.NEP <=").append(String.valueOf(parameters.get("nepto"))).append(" ");
-        }
-        if (parameters.get("nepequal") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("nepequal")))) {
-            sql.append(" AND IMTD.NEP =").append(String.valueOf(parameters.get("nepequal"))).append(" ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPFROM)))) {
+            sql.append(" AND IMTD.NEP >=").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPFROM))).append(" ");
         }
 
-        if (parameters.get("nepFormula") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("nepFormula")))) {
-            sql.append(" AND HT_NEP_FORMULA.NET_SALES_FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get("nepFormula"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPTO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPTO)))) {
+            sql.append(" AND IMTD.NEP <=").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPTO))).append(" ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPEQUAL) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPEQUAL)))) {
+            sql.append(" AND IMTD.NEP =").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEPEQUAL))).append(" ");
         }
 
-        if (parameters.get("basePriceType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("basePriceType")))) {
-            sql.append(" AND IMTD.BASE_PRICE_TYPE LIKE '").append(String.valueOf(parameters.get("basePriceType"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEP_FORMULA) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEP_FORMULA)))) {
+            sql.append(" AND HT_NEP_FORMULA.NET_SALES_FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEP_FORMULA))).append("%' ");
         }
 
-        if (parameters.get("netBasePrice") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netBasePrice")))) {
-            sql.append(" AND IMTD.NET_BASE_PRICE LIKE '").append(String.valueOf(parameters.get("netBasePrice"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BASE_PRICE_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BASE_PRICE_TYPE)))) {
+            sql.append(" AND IMTD.BASE_PRICE_TYPE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BASE_PRICE_TYPE))).append("' ");
         }
 
-        if (parameters.get("netBasePriceFormulaName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netBasePriceFormulaName")))) {
-            sql.append(" AND HT_NET_BASE_FORMULA.NET_SALES_FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get("netBasePriceFormulaName"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_BASE_PRICE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_BASE_PRICE)))) {
+            sql.append(" AND IMTD.NET_BASE_PRICE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_BASE_PRICE))).append("' ");
         }
 
-        if (parameters.get("subsequentPeriodPriceType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("subsequentPeriodPriceType")))) {
-            sql.append(" AND IMTD." + map.get("subsequentPeriodPriceType") + " LIKE '").append(String.valueOf(parameters.get("subsequentPeriodPriceType"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_BASE_PRICE_FORMULA_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_BASE_PRICE_FORMULA_NAME)))) {
+            sql.append(" AND HT_NET_BASE_FORMULA.NET_SALES_FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_BASE_PRICE_FORMULA_NAME))).append("%' ");
         }
 
-        if (parameters.get("netSubsequentPeriodPrice") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netSubsequentPeriodPrice")))) {
-            sql.append(" AND IMTD." + map.get("netSubsequentPeriodPrice") + " LIKE '").append(String.valueOf(parameters.get("netSubsequentPeriodPrice"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SUBSEQUENT_PERIOD_PRICE_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SUBSEQUENT_PERIOD_PRICE_TYPE)))) {
+            sql.append(" AND IMTD." + map.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SUBSEQUENT_PERIOD_PRICE_TYPE) + " LIKE  '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SUBSEQUENT_PERIOD_PRICE_TYPE))).append("' ");
         }
 
-        if (parameters.get("netSubsequentPriceFormulaName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netSubsequentPriceFormulaName")))) {
-            sql.append(" AND HT_NET_SUB_FORMULA.NET_SALES_FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get("netSubsequentPriceFormulaName"))).append("%' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_SUBSEQUENT_PERIOD_PRICE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_SUBSEQUENT_PERIOD_PRICE)))) {
+            sql.append(" AND IMTD." + map.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_SUBSEQUENT_PERIOD_PRICE) + " LIKE  '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_SUBSEQUENT_PERIOD_PRICE))).append("' ");
         }
 
-        if (parameters.get("ppPriceToleranceInterval") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ppPriceToleranceInterval")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE_INTERVAL LIKE '").append(String.valueOf(parameters.get("ppPriceToleranceInterval"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_SUBSEQUENT_PRICE_FORMULA_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_SUBSEQUENT_PRICE_FORMULA_NAME)))) {
+            sql.append(" AND HT_NET_SUB_FORMULA.NET_SALES_FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_SUBSEQUENT_PRICE_FORMULA_NAME))).append("%' ");
         }
 
-        if (parameters.get("priceToleranceFrequency") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceToleranceFrequency")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE_FREQUENCY LIKE '").append(String.valueOf(parameters.get("priceToleranceFrequency"))).append("' ");
-        }
-        if (parameters.get("priceToleranceType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceToleranceType")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE_TYPE LIKE '").append(String.valueOf(parameters.get("priceToleranceType"))).append("' ");
-        }
-        if (parameters.get("priceTolerancefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceTolerancefrom")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE >=").append(String.valueOf(parameters.get("priceTolerancefrom"))).append(" ");
-        }
-        if (parameters.get("priceToleranceto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceToleranceto")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE <=").append(String.valueOf(parameters.get("priceToleranceto"))).append(" ");
-        }
-        if (parameters.get("priceToleranceequal") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceToleranceequal")))) {
-            sql.append(" AND IMTD.PRICE_TOLERANCE =").append(String.valueOf(parameters.get("priceToleranceequal"))).append(" ");
-        }
-        if (parameters.get("maxIncrementalChangefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("maxIncrementalChangefrom")))) {
-            sql.append(" AND IMTD.MAX_INCREMENTAL_CHANGE >=").append(String.valueOf(parameters.get("maxIncrementalChangefrom"))).append(" ");
-        }
-        if (parameters.get("maxIncrementalChangeto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("maxIncrementalChangeto")))) {
-            sql.append(" AND IMTD.MAX_INCREMENTAL_CHANGE <=").append(String.valueOf(parameters.get("maxIncrementalChangeto"))).append(" ");
-        }
-         if (parameters.get("maxIncrementalChangeequal") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("maxIncrementalChangeequal")))) {
-            sql.append(" AND IMTD.MAX_INCREMENTAL_CHANGE =").append(String.valueOf(parameters.get("maxIncrementalChangeequal"))).append(" ");
-        }
-        if (parameters.get("resetEligible") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("resetEligible")))) {
-            sql.append(" AND IMTD.RESET_ELIGIBLE LIKE '").append(String.valueOf(parameters.get("resetEligible"))).append("' ");
-        }
-        if (parameters.get("resetType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("resetType")))) {
-            sql.append(" AND IMTD.RESET_TYPE LIKE '").append(String.valueOf(parameters.get("resetType"))).append("' ");
-        }
-        if (parameters.get("resetFrequency") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("resetFrequency")))) {
-            sql.append(" AND IMTD.RESET_FREQUENCY LIKE '").append(String.valueOf(parameters.get("resetFrequency"))).append("' ");
-        }
-        if (parameters.get("netResetPriceType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netResetPriceType")))) {
-            sql.append(" AND IMTD.NET_RESET_PRICE_TYPE LIKE '").append(String.valueOf(parameters.get("netResetPriceType"))).append("' ");
-        }
-        if (parameters.get("netResetPriceFormulaName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netResetPriceFormulaName")))) {
-            sql.append(" AND HT_NET_RESET_FORMULA.NET_SALES_FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get("netResetPriceFormulaName"))).append("%' ");
-        }
-        if (parameters.get("netPriceType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("netPriceType")))) {
-            sql.append(" AND IMTD.NET_PRICE_TYPE LIKE '").append(String.valueOf(parameters.get("netPriceType"))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PP_PRICE_TOLERANCE_INTERVAL) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PP_PRICE_TOLERANCE_INTERVAL)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE_INTERVAL LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PP_PRICE_TOLERANCE_INTERVAL))).append("' ");
         }
 
-        if (parameters.get("resetDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("resetDatefrom")))) {
-            sql.append(" AND IMTD.RESET_DATE >= '").append(String.valueOf(dateFormat.format(parameters.get("resetDatefrom")))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE_FREQUENCY LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE_TYPE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCEFROM)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE >=").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCEFROM))).append(" ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCETO)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE <=").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCETO))).append(" ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCEEQUAL) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCEEQUAL)))) {
+            sql.append(" AND IMTD.PRICE_TOLERANCE =").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCEEQUAL))).append(" ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGEFROM)))) {
+            sql.append(" AND IMTD.MAX_INCREMENTAL_CHANGE >=").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGEFROM))).append(" ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGETO)))) {
+            sql.append(" AND IMTD.MAX_INCREMENTAL_CHANGE <=").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGETO))).append(" ");
+        }
+         if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGEEQUAL) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGEEQUAL)))) {
+            sql.append(" AND IMTD.MAX_INCREMENTAL_CHANGE =").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGEEQUAL))).append(" ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_ELIGIBLE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_ELIGIBLE)))) {
+            sql.append(" AND IMTD.RESET_ELIGIBLE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_ELIGIBLE))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_TYPE)))) {
+            sql.append(" AND IMTD.RESET_TYPE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_TYPE))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_FREQUENCY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_FREQUENCY)))) {
+            sql.append(" AND IMTD.RESET_FREQUENCY LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_FREQUENCY))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_RESET_PRICE_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_RESET_PRICE_TYPE)))) {
+            sql.append(" AND IMTD.NET_RESET_PRICE_TYPE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_RESET_PRICE_TYPE))).append("' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_RESET_PRICE_FORMULA_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_RESET_PRICE_FORMULA_NAME)))) {
+            sql.append(" AND HT_NET_RESET_FORMULA.NET_SALES_FORMULA_NAME LIKE '%").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_RESET_PRICE_FORMULA_NAME))).append("%' ");
+        }
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_PRICE_TYPE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_PRICE_TYPE)))) {
+            sql.append(" AND IMTD.NET_PRICE_TYPE LIKE '").append(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_PRICE_TYPE))).append("' ");
         }
 
-        if (parameters.get("resetDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("resetDateto")))) {
-            sql.append(" AND IMTD.RESET_DATE <= '").append(String.valueOf(dateFormat.format(parameters.get("resetDateto")))).append("' ");
-        }
-        if (parameters.get("attachedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDatefrom")))) {
-            sql.append(" AND IMTD.ATTACHED_DATE >= '").append(String.valueOf(dateFormat.format(parameters.get("attachedDatefrom")))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_DATEFROM)))) {
+            sql.append(" AND IMTD.RESET_DATE >= '").append(String.valueOf(dateFormat.format(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_DATEFROM)))).append("' ");
         }
 
-        if (parameters.get("attachedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDateto")))) {
-            sql.append(" AND IMTD.ATTACHED_DATE <= '").append(String.valueOf(dateFormat.format(parameters.get("attachedDateto")))).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_DATETO)))) {
+            sql.append(" AND IMTD.RESET_DATE <= '").append(String.valueOf(dateFormat.format(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_DATETO)))).append("' ");
+        }
+        if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
+            sql.append(" AND IMTD.ATTACHED_DATE >= '").append(String.valueOf(dateFormat.format(parameters.get(ATTACHED_DATEFROM)))).append("' ");
+        }
+
+        if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
+            sql.append(" AND IMTD.ATTACHED_DATE <= '").append(String.valueOf(dateFormat.format(parameters.get(ATTACHED_DATETO)))).append("' ");
         }
 
 if(!StringUtils.isBlank(record)){
-            if(record.contains("Current")){
-                    parameters.put("Current", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if(record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)){
+                    parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
                 }
-                if(record.contains("History")){
-                    parameters.put("History", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+                if(record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)){
+                    parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
                 }
-                if(record.contains("Future")){
-                    parameters.put("Future", CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+                if(record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)){
+                    parameters.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE, CommonUIUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
                 }
         }
-        if (parameters.get("Current") != null && parameters.get("History") != null && parameters.get("Future") != null) {
-                      sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN PRICE_PROTECTION_START_DATE AND ISNULL(PRICE_PROTECTION_END_DATE,'").append(parameters.get("Current")).append("') ");
-                      sql.append(" OR ").append(" PRICE_PROTECTION_END_DATE < '").append(parameters.get("History")).append("' ");
-                      sql.append(" OR ").append(" PRICE_PROTECTION_START_DATE > '").append(parameters.get("Future")).append("' )");
-                  } else if ((parameters.get("Current") != null && parameters.get("History") != null) || (parameters.get("History") != null && parameters.get("Current") != null)) {
-                      sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN PRICE_PROTECTION_START_DATE AND ISNULL(PRICE_PROTECTION_END_DATE,'").append(parameters.get("Current")).append("') OR PRICE_PROTECTION_END_DATE < '").append(parameters.get("History")).append("') ");
-                  } else if ((parameters.get("History") != null && parameters.get("Future") != null) || (parameters.get("Future") != null && parameters.get("History") != null)) {
-                      sql.append(" AND (").append(" PRICE_PROTECTION_END_DATE < '").append(parameters.get("History")).append("' OR PRICE_PROTECTION_START_DATE > '").append(parameters.get("Future")).append("') ");
-                  } else if ((parameters.get("Future") != null && parameters.get("Current") != null) || (parameters.get("Current") != null && parameters.get("Future") != null)) {
-                      sql.append(" AND ( '").append(parameters.get("Current")).append("' BETWEEN PRICE_PROTECTION_START_DATE AND ISNULL(PRICE_PROTECTION_END_DATE,'").append(parameters.get("Current")).append("') OR PRICE_PROTECTION_START_DATE > '").append(parameters.get("Future")).append("') ");
-                  } else if (parameters.get("Current") != null) {
-                      sql.append(" AND '").append(parameters.get("Current")).append("' BETWEEN PRICE_PROTECTION_START_DATE AND ISNULL(PRICE_PROTECTION_END_DATE,'").append(parameters.get("Current")).append("') ");
-                  } else if (parameters.get("History") != null) {
-                      sql.append(" AND ").append(" PRICE_PROTECTION_END_DATE < '").append(parameters.get("History")).append("' ");
-                  } else if (parameters.get("Future") != null) {
-                      sql.append(" AND ").append(" PRICE_PROTECTION_START_DATE > '").append(parameters.get("Future")).append("' ");
+        if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) {
+                      sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN PRICE_PROTECTION_START_DATE AND ISNULL(PRICE_PROTECTION_END_DATE ,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') ");
+                      sql.append(" OR ").append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE_GREATER).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' ");
+                      sql.append(" OR ").append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATE_LESS_THAN).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("' )");
+                  } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null)) {
+                      sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN PRICE_PROTECTION_START_DATE AND ISNULL(PRICE_PROTECTION_END_DATE ,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') OR PRICE_PROTECTION_END_DATE < '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("') ");
+                  } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null)) {
+                      sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_OPEN).append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE_GREATER).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' OR PRICE_PROTECTION_START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("') ");
+                  } else if ((parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null) || (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null && parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null)) {
+                      sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_BRACKET).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN PRICE_PROTECTION_START_DATE AND ISNULL(PRICE_PROTECTION_END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') OR PRICE_PROTECTION_START_DATE > '").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("') ");
+                  } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT) != null) {
+                      sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_QUOTE).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("' BETWEEN PRICE_PROTECTION_START_DATE AND ISNULL(PRICE_PROTECTION_END_DATE,'").append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)).append("') ");
+                  } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY) != null) {
+                      sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE_GREATER).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)).append("' ");
+                  } else if (parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE) != null) {
+                      sql.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATE_LESS_THAN).append(parameters.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)).append("' ");
                   }
         String order = StringUtils.EMPTY;
         if (!isCount) {
@@ -2325,12 +2393,12 @@ if(!StringUtils.isBlank(record)){
             if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
                 order = order + " ORDER BY IMTD.ITEM_MASTER_SID ASC ";
             } else {
-                order = order + " ORDER BY " + orderByColumn + ((!sortOrder) ? " ASC " : " DESC ");
+                order = order + com.stpl.app.contract.abstractsearch.util.ConstantUtil.ORDER_BY + orderByColumn + ((!sortOrder) ? com.stpl.app.contract.abstractsearch.util.ConstantUtil.ASC_SPACE : com.stpl.app.contract.abstractsearch.util.ConstantUtil.DESC_SPACE);
             }
             order = order + " " + "OFFSET ";
             order = order + start;
-            order = order + " ROWS FETCH NEXT " + end;
-            order = order + " ROWS ONLY;";
+            order = order + com.stpl.app.contract.abstractsearch.util.ConstantUtil.ROWS_FETCH_NEXT + end;
+            order = order + com.stpl.app.contract.abstractsearch.util.ConstantUtil.ROWS_ONLY_SEMICOLON;
             sql=sql.append(order);
         }
 
@@ -2342,7 +2410,7 @@ if(!StringUtils.isBlank(record)){
 
     public List<TempPricingDTO> getCustomizedPriceProtectionDTO(List<Object[]> returnList, final Map<Integer, HelperDTO> priceProtectionPriceType, final String record) {
         TempPricingDTO itemDTO;
-        List<TempPricingDTO> resultList = new ArrayList<TempPricingDTO>();
+        List<TempPricingDTO> resultList = new ArrayList<>();
         Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
         for (Object[] tempifp : returnList) {
             itemDTO = new TempPricingDTO();
@@ -2406,14 +2474,14 @@ if(!StringUtils.isBlank(record)){
             }
             itemDTO.setResetPriceType(tempifp[NumericConstants.THIRTY_NINE] != null && StringUtils.isNotBlank(String.valueOf(tempifp[NumericConstants.THIRTY_NINE]))? priceProtectionPriceType.get(Integer.valueOf(tempifp[NumericConstants.THIRTY_NINE].toString())) : priceProtectionPriceType.get(Integer.valueOf(Constants.ZEROSTRING)));            
             if (!StringUtils.isBlank(record)) {
-                if (record.contains("Current")) {
-                    itemDTO.setRecordType("Current");
+                if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)) {
+                    itemDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT);
                 }
-                else if (record.contains("History")) {
-                    itemDTO.setRecordType("History");
+                else if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)) {
+                    itemDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY);
                 }
-                else if (record.contains("Future")) {
-                    itemDTO.setRecordType("Future");
+                else if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)) {
+                    itemDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE);
                 } else {
                     itemDTO.setRecordType(StringUtils.EMPTY);
                 }
@@ -2424,9 +2492,9 @@ if(!StringUtils.isBlank(record)){
         return resultList;
     }
     
-    public int getNsfCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) throws ParseException {
+    public int getNsfCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, true);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
 
@@ -2440,15 +2508,15 @@ if(!StringUtils.isBlank(record)){
     }
 
     public List<NepFormulaLookUpDTO> loadNsfResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws ParseException {
-        List<NepFormulaLookUpDTO> searchList = new ArrayList<>();
-        StringBuilder queryBuilder = new StringBuilder();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<NepFormulaLookUpDTO> searchList;
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, false);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
         queryBuilder = getOrderQuery(queryBuilder, columns, start, end);
 
         queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll("WHERE AND", " WHERE "));
-        queryBuilder = new StringBuilder(queryBuilder.toString().endsWith("WHERE") ? queryBuilder.toString().replace("WHERE", " ") : queryBuilder);
+        queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(com.stpl.app.contract.abstractsearch.util.ConstantUtil.WHERE) ? queryBuilder.toString().replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.WHERE, " ") : queryBuilder);
 
         final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
         searchList = getCustomizedSearchFormToDTO(list);
@@ -2457,30 +2525,41 @@ if(!StringUtils.isBlank(record)){
 
     private void loadCriteriaInMap() {
         criteria.clear();
-        criteria.put("nepFormulaType", "NET_SALES_FORMULA_TYPE");
+        criteria.put(NEP_FORMULA_TYPE, "NET_SALES_FORMULA_TYPE");
         criteria.put("nepFormulaID", "NET_SALES_FORMULA_ID");
         criteria.put("nepFormulaNo", "NET_SALES_FORMULA_NO");
         criteria.put("nepFormulaName", "NET_SALES_FORMULA_NAME");
         criteria.put("createdDate", "CREATED_DATE");
         criteria.put("modifiedDate", "MODIFIED_DATE");
     }
-    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    
+    private Map userPropertyMap() {
+        Map<String, String> userMap = new HashMap<>();
+        userMap.put("createdBy", "CREATED_BY");
+        userMap.put("modifiedBy", "MODIFIED_BY");
+        return userMap;
+    }
+    
+    public static final String NEP_FORMULA_TYPE = "nepFormulaType";
+    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (!(ConstantsUtils.CREATEDBY.equals(stringFilter.getPropertyId()) || ConstantsUtils.MODIFIEDBY.equals(stringFilter.getPropertyId()))) {
-                        stringBuilder.append(" AND ").append(criteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '%").append(stringFilter.getFilterString()).append("%'");
+                        stringBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(criteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '%").append(stringFilter.getFilterString()).append("%'");
+                    }else{
+                        stringBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(userPropertyMap().get(stringFilter.getPropertyId().toString())).append(" = ").append(stringFilter.getFilterString());
                     }
                 } else if (filter instanceof Between) {
                     Between stringFilter = (Between) filter;
                     String startValue = DB_DATE.format(stringFilter.getStartValue());
                     String endValue = DB_DATE.format(stringFilter.getEndValue());
                     if (startValue != null) {
-                        stringBuilder.append(" AND ").append(criteria.get(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
+                        stringBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(criteria.get(stringFilter.getPropertyId().toString())).append(GREATER_THAN_EQUAL).append(startValue).append("' ");
                     }
                     if (endValue != null) {
-                        stringBuilder.append(" AND ").append(criteria.get(stringFilter.getPropertyId().toString())).append(" <= '").append(endValue).append("' ");
+                        stringBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(" cast ( ").append(criteria.get(stringFilter.getPropertyId().toString())).append(" as DATE) ").append(LESS_THAN_EQUAL).append(endValue).append("' ");
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -2488,9 +2567,9 @@ if(!StringUtils.isBlank(record)){
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = DB_DATE.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            stringBuilder.append(" AND ").append(criteria.get(String.valueOf(stringFilter.getPropertyId()))).append(" >= '").append(filterString).append("' ");
+                            stringBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(criteria.get(String.valueOf(stringFilter.getPropertyId()))).append(GREATER_THAN_EQUAL).append(filterString).append("' ");
                         } else {
-                            stringBuilder.append(" AND ").append(criteria.get(String.valueOf(stringFilter.getPropertyId()))).append(" <= '").append(filterString).append("' ");
+                            stringBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(" cast ( ").append(criteria.get(String.valueOf(stringFilter.getPropertyId()))).append(" as DATE) ").append(LESS_THAN_EQUAL).append(filterString).append("' ");
                         }
                     }
                 }
@@ -2498,6 +2577,8 @@ if(!StringUtils.isBlank(record)){
         }
         return stringBuilder;
     }
+    public static final String LESS_THAN_EQUAL = " <= '";
+    public static final String GREATER_THAN_EQUAL = " >= '";
 
     private StringBuilder buildSearchQuery(ErrorfulFieldGroup searchFields, boolean isCount) {
         StringBuilder queryBuilder = new StringBuilder();
@@ -2510,10 +2591,10 @@ if(!StringUtils.isBlank(record)){
         for (String fields : keys) {
 
             if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                if ("nepFormulaType".equalsIgnoreCase(fields)) {
-                    queryBuilder.append(" AND ").append(criteria.get(fields)).append(" = ").append(((HelperDTO) searchFields.getField("nepFormulaType").getValue()).getId());
+                if (NEP_FORMULA_TYPE.equalsIgnoreCase(fields)) {
+                    queryBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(criteria.get(fields)).append(" = ").append(((HelperDTO) searchFields.getField(NEP_FORMULA_TYPE).getValue()).getId());
                 } else {
-                    queryBuilder.append(" AND ").append(criteria.get(fields)).append(" LIKE '").append(searchFields.getField(fields).getValue().toString().trim().replace("*", "%")).append("'");
+                    queryBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE).append(criteria.get(fields)).append(" LIKE '").append(searchFields.getField(fields).getValue().toString().trim().replace("*", "%")).append("'");
                 }
             }
         }
@@ -2525,17 +2606,22 @@ if(!StringUtils.isBlank(record)){
         if (sortByColumns != null) {
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 final SortByColumn sortByColumn = (SortByColumn) iterator.next();
-                orderByColumn = criteria.get(sortByColumn.getName());
-                sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
+                if (!(ConstantsUtils.CREATEDBY.equals(sortByColumn.getName()) || ConstantsUtils.MODIFIEDBY.equals(sortByColumn.getName()))) {
+                    orderByColumn = criteria.get(sortByColumn.getName());
+                    sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
+                } else {
+                    orderByColumn = String.valueOf(userPropertyMap().get(sortByColumn.getName()));
+                    sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
+                }
             }
         }
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY CREATED_DATE ");
         } else {
-            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            stringBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ORDER_BY ).append(orderByColumn).append((!sortOrder) ? com.stpl.app.contract.abstractsearch.util.ConstantUtil.ASC_SPACE : com.stpl.app.contract.abstractsearch.util.ConstantUtil.DESC_SPACE);
         }
         stringBuilder.append(" OFFSET ").append(startIndex);
-        stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(" ROWS ONLY;");
+        stringBuilder.append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ROWS_FETCH_NEXT).append(endIndex).append(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ROWS_ONLY_SEMICOLON);
         return stringBuilder;
     }
 
@@ -2577,7 +2663,7 @@ if(!StringUtils.isBlank(record)){
      * @param isCount
      * @return
      */
-    public Object loadRSFormula(final PriceProtectionFormulaDTO rsFormulaDTO, final int start, final int offset, final boolean isCount, final Set<Container.Filter> filterSet, final List<SortByColumn> columns) throws ParseException {
+    public Object loadRSFormula(final PriceProtectionFormulaDTO rsFormulaDTO, final int start, final int offset, final boolean isCount, final Set<Container.Filter> filterSet, final List<SortByColumn> columns) {
         String query;
 
         if (isCount) {
@@ -2605,8 +2691,8 @@ if(!StringUtils.isBlank(record)){
             query = getRsFormulaOrderQuery(query, columns, start, offset);
         }
 
-        query = new String(query.toString().replaceAll("WHERE AND", " WHERE "));
-        query = new String(query.toString().endsWith("WHERE") ? query.toString().replace("WHERE", " ") : query);
+        query = new String(query.replaceAll("WHERE AND", " WHERE "));
+        query = new String(query.endsWith(com.stpl.app.contract.abstractsearch.util.ConstantUtil.WHERE) ? query.toString().replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.WHERE, " ") : query);
 
         List resultList = (List) RsModelLocalServiceUtil.executeSelectQuery(query, null, null);
         if (isCount) {
@@ -2618,8 +2704,8 @@ if(!StringUtils.isBlank(record)){
 
     }
 
-    private String getRsFormulaFilterQuery(final Set<Container.Filter> filterSet, String string) throws ParseException {
-
+    private String getRsFormulaFilterQuery(final Set<Container.Filter> filterSet, String string) {
+        String condition=string;
         if (rsFormulaDbMap.isEmpty()) {
             loadRsformulaMap();
         }
@@ -2628,7 +2714,7 @@ if(!StringUtils.isBlank(record)){
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    string += (" AND ") + (rsFormulaDbMap.get(stringFilter.getPropertyId().toString())) + (" LIKE '%") + (stringFilter.getFilterString()) + ("%'");
+                    condition = condition +(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE) + (rsFormulaDbMap.get(stringFilter.getPropertyId().toString())) + (" LIKE '%") + (stringFilter.getFilterString()) + ("%'");
                 } else if (filter instanceof Between) {
 
                     Between stringFilter = (Between) filter;
@@ -2636,10 +2722,10 @@ if(!StringUtils.isBlank(record)){
                     String endValue = DB_DATE.format(stringFilter.getEndValue());
 
                     if (startValue != null) {
-                        string += (" AND ") + (rsFormulaDbMap.get(stringFilter.getPropertyId().toString())) + (" >= '") + (startValue) + ("' ");
+                        condition = condition +(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE) + (rsFormulaDbMap.get(stringFilter.getPropertyId().toString())) + (GREATER_THAN_EQUAL) + (startValue) + ("' ");
                     }
                     if (endValue != null) {
-                        string += (" AND ") + (rsFormulaDbMap.get(stringFilter.getPropertyId().toString())) + (" <= '") + (endValue) + ("' ");
+                        condition = condition +(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE) + (rsFormulaDbMap.get(stringFilter.getPropertyId().toString())) + (LESS_THAN_EQUAL) + (endValue) + ("' ");
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -2647,24 +2733,24 @@ if(!StringUtils.isBlank(record)){
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = DB_DATE.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            string += (" AND ") + (rsFormulaDbMap.get(String.valueOf(stringFilter.getPropertyId()))) + (" >= '") + (filterString) + ("' ");
+                            condition = condition +(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE) + (rsFormulaDbMap.get(String.valueOf(stringFilter.getPropertyId()))) + (GREATER_THAN_EQUAL) + (filterString) + ("' ");
                         } else {
-                            string += (" AND ") + (rsFormulaDbMap.get(String.valueOf(stringFilter.getPropertyId()))) + (" <= '") + (filterString) + ("' ");
+                            condition = condition +(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AND_SPACE) + (rsFormulaDbMap.get(String.valueOf(stringFilter.getPropertyId()))) + (LESS_THAN_EQUAL) + (filterString) + ("' ");
                         }
                     }
                 }
             }
         }
 
-        return string;
+        return condition;
     }
 
     private void loadRsformulaMap() {
         rsFormulaDbMap.clear();
         rsFormulaDbMap.put("formulaType", "FORMULA_TYPE");
         rsFormulaDbMap.put("formulaID", "FORECASTING_FORMULA_SID");
-        rsFormulaDbMap.put("formulaNo", "FORMULA_NO");
-        rsFormulaDbMap.put("formulaName", "FORMULA_NAME");
+        rsFormulaDbMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_NO_PROPERTY, "FORMULA_NO");
+        rsFormulaDbMap.put(ContractUtils.FORMULA_NAME, "FORMULA_NAME");
     }
 
     private String getRsFormulaOrderQuery(String string, final List<SortByColumn> sortByColumns, final int startIndex, final int endIndex) {
@@ -2680,11 +2766,11 @@ if(!StringUtils.isBlank(record)){
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             string += (" ORDER BY FORMULA_ID ");
         } else {
-            string += (" ORDER BY ") + (orderByColumn) + ((!sortOrder) ? " ASC " : " DESC ");
+            string += (com.stpl.app.contract.abstractsearch.util.ConstantUtil.ORDER_BY ) + (orderByColumn) + ((!sortOrder) ? com.stpl.app.contract.abstractsearch.util.ConstantUtil.ASC_SPACE : com.stpl.app.contract.abstractsearch.util.ConstantUtil.DESC_SPACE);
         }
 
         string += (" OFFSET ") + (startIndex);
-        string += (" ROWS FETCH NEXT ") + (endIndex) + (" ROWS ONLY;");
+        string += (com.stpl.app.contract.abstractsearch.util.ConstantUtil.ROWS_FETCH_NEXT) + (endIndex) + (com.stpl.app.contract.abstractsearch.util.ConstantUtil.ROWS_ONLY_SEMICOLON);
 
         return string;
     }
@@ -2695,7 +2781,7 @@ if(!StringUtils.isBlank(record)){
      * @return List<RebatePlanDTO>
      */
     private List<PriceProtectionFormulaDTO> convertFormulaList(final List<Object[]> list) {
-        List<PriceProtectionFormulaDTO> resultList = new ArrayList<PriceProtectionFormulaDTO>();
+        List<PriceProtectionFormulaDTO> resultList = new ArrayList<>();
         try{
         for (Object[] object : list) {
             PriceProtectionFormulaDTO rSFormulaDTO = new PriceProtectionFormulaDTO();
@@ -2728,7 +2814,7 @@ if(!StringUtils.isBlank(record)){
      */
     public List<HelperDTO> getHelperIdDetails(final String listType) throws SystemException {
         List<HelperTable> list = null;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("In getHelperDetails P1:listType=" + listType);
         list = dao.getHelperTableDetailsByListName(listType);
@@ -2774,8 +2860,8 @@ if(!StringUtils.isBlank(record)){
         return resultList;
     }
 
-    public static Boolean saveToTempTable(List<TempPricingDTO> saveList, boolean isEdit) throws PortalException, SystemException {
-        List<ImtdItemPriceRebateDetails> saveDetailsList = new ArrayList<ImtdItemPriceRebateDetails>();
+    public static Boolean saveToTempTable(List<TempPricingDTO> saveList, boolean isEdit,SessionDTO sessionDTO) throws PortalException, SystemException {
+        List<ImtdItemPriceRebateDetails> saveDetailsList = new ArrayList<>();
 
         for (TempPricingDTO temp : saveList) {
             ImtdItemPriceRebateDetails tempResult = ImtdItemPriceRebateDetailsLocalServiceUtil.getImtdItemPriceRebateDetails(Integer.parseInt(temp.getTempItemPriceRebateSystemId()));
@@ -2806,6 +2892,7 @@ if(!StringUtils.isBlank(record)){
             tempResult.setNetPriceTypeFormula(temp.getNetPriceTypeFormulaID() != null ? temp.getNetPriceTypeFormulaID() : StringUtils.EMPTY );
             tempResult.setAttachedDate(temp.getAttachedDate());
             tempResult.setModifiedDate(isEdit ? new Date() : temp.getModifiedDate());
+            tempResult.setModifiedBy(sessionDTO != null ? Integer.parseInt(sessionDTO.getUserId()) : 1);
             tempResult.setNetBasePrice(temp.getNetBasePrice() == null || temp.getNetBasePrice().getDescription().equals(Constants.NULL) || StringUtils.isBlank(temp.getNetBasePrice().getDescription()) ? 0 : Integer.valueOf(temp.getNetBasePrice().getId()));
             tempResult.setNetBasePriceFormulaId(temp.getNetBasePriceFormulaID());
             tempResult.setSubsequentPeriodPriceType(temp.getSubsequentPeriodPriceType() == null || temp.getSubsequentPeriodPriceType().getDescription().equals(Constants.NULL) || StringUtils.isBlank(temp.getSubsequentPeriodPriceType().getDescription()) ? 0 : Integer.valueOf(temp.getSubsequentPeriodPriceType().getId()));
@@ -2816,17 +2903,17 @@ if(!StringUtils.isBlank(record)){
             tempResult.setNetResetPriceFormulaId(temp.getNetResetPriceFormulaID());
             saveDetailsList.add(tempResult);
         }
-        List<Object> input = new ArrayList<Object>(1);
+        List<Object> input = new ArrayList<>(1);
         input.add(saveDetailsList);
         return ImtdItemPriceRebateDetailsLocalServiceUtil.saveItem(input, Constants.SAVE_DETAILS);
     }
 
-    public void populateToTempIFPforPP(Object populateField, Object populateValue, Boolean flag) throws SystemException {
+    public void populateToTempIFPforPP(Object populateField, Object populateValue, Boolean flag) {
         LOGGER.debug("PopulateField--> " + populateField + " PopulateValue-->> " + populateValue);
         final SimpleDateFormat tempFromat = new SimpleDateFormat(CommonUtils.MMDDYYYY);
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put("Price Protection Status", "Price_Protection_Status");
         map.put("Price Protection Start Date", "Price_Protection_Start_Date");
         map.put("Price Protection End Date", "Price_Protection_End_Date");
@@ -2846,8 +2933,8 @@ if(!StringUtils.isBlank(record)){
         map.put("Reset Interval", "Reset_Interval");
         map.put("Net Price Type", "Net_Price_Type");
         map.put("Net Price Type Formula", "Net_Price_Type_Formula");
-        map.put("CheckBox", "CHECK_RECORD");
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        map.put(Constants.CHECK_BOX1, com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_LIST_NAME);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         if (populateValue.toString().contains(ContractUtils.DELIMITER)) {
             massPopulateForBasePrice(populateValue,input,flag);
         } else {
@@ -2861,15 +2948,15 @@ if(!StringUtils.isBlank(record)){
             if (flag) {
                 ImtdItemPriceRebateDetailsLocalServiceUtil.massPopulateAll(input, null);
             } else {
-                input.add("Check_Record");
+                input.add(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_CAPTION);
                 ImtdItemPriceRebateDetailsLocalServiceUtil.massPopulate(input, null);
             }
         }
     }
 
     public Map<Integer, HelperDTO> loadPriceProtection() {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
-        Map<Integer, HelperDTO> priceProtectionPriceType = new HashMap<Integer, HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
+        Map<Integer, HelperDTO> priceProtectionPriceType = new HashMap<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemPricingQualifier.class);
         DashboardDAO dao = new DashboardLogicDAOImpl();
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
@@ -2879,7 +2966,7 @@ if(!StringUtils.isBlank(record)){
         cfpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.ITEM_PRICING_QUAL_NAME));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.ITEM_PRICING_QUAL_NAME));
         cfpDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projectionList));
-        List<Object[]> returnList = new ArrayList<Object[]>();
+        List<Object[]> returnList = new ArrayList<>();
         try {
             returnList = dao.getItemPricingTypeList(cfpDynamicQuery);
         } catch (SystemException ex) {
@@ -2917,27 +3004,29 @@ if(!StringUtils.isBlank(record)){
         Map<String, String> map = (Map) data;
         String sql,queryName;
         if ("Rebate Plan No".equals(populateField)) {
-            queryName="com.rsModel.massPopulateContractRebate";
-            if(isPopulateAll)
-            queryName="com.rsModel.massPopulateContractRebate populate All";
-            sql = CustomSQLUtil.get(queryName);
-            sql = sql.replace("@USERS_SID", userId);
-            sql = sql.replace("@SESSION_ID", sessionId);
-            sql = sql.replace("@REBATE_PLAN_MASTER_SID", map.get("rebatePlanSystemId"));
-            sql = sql.replace("@RS_DETAILS_REBATE_PLAN_NAME", map.get("rebatePlanName"));
-            if(!isPopulateAll){
-            sql = sql.replace("CHECK_RECORD", "CHECK_RECORD");
+            queryName = "com.rsModel.massPopulateContractRebate";
+            if (isPopulateAll) {
+                queryName = "com.rsModel.massPopulateContractRebate populate All";
             }
-            
-        } else {
-             queryName="com.rsModel.massPopulateFormulaForContract";
-            if(isPopulateAll)
-            queryName="com.rsModel.massPopulateFormulaForContract populate All";
             sql = CustomSQLUtil.get(queryName);
-            sql = sql.replace("@USERS_SID", userId);
-            sql = sql.replace("@SESSION_ID", sessionId);
-            sql = sql.replace("@RS_DETAILS_FORMULA_NO", map.get("formulaNo"));
-            sql = sql.replace("@RS_DETAILS_FORMULA_NAME", map.get("formulaName"));
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_USERS_SID, userId);
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_SESSION_ID, sessionId);
+            sql = sql.replace("@REBATE_PLAN_MASTER_SID", map.get("rebatePlanSystemId"));
+            sql = sql.replace("@RS_DETAILS_REBATE_PLAN_NAME", map.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.REBATE_PLAN_NAME));
+            if (!isPopulateAll) {
+                sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_LIST_NAME, com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_LIST_NAME);
+            }
+
+        } else {
+            queryName = "com.rsModel.massPopulateFormulaForContract";
+            if (isPopulateAll) {
+                queryName = "com.rsModel.massPopulateFormulaForContract populate All";
+            }
+            sql = CustomSQLUtil.get(queryName);
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_USERS_SID, userId);
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_SESSION_ID, sessionId);
+            sql = sql.replace("@RS_DETAILS_FORMULA_NO", map.get(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FORMULA_NO_PROPERTY));
+            sql = sql.replace("@RS_DETAILS_FORMULA_NAME", map.get(ContractUtils.FORMULA_NAME));
             sql = sql.replace("@RS_DETAILS_FORMULA_ID", map.get("formulaID"));
         }
         RsModelLocalServiceUtil.executeUpdateQuery(sql, null, null);
@@ -2954,16 +3043,17 @@ if(!StringUtils.isBlank(record)){
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         String sql;
         sql = CustomSQLUtil.get("com.rsModel.massPopulateDeductionForContract");
-        sql = sql.replace("@USERS_SID", userId);
-        sql = sql.replace("@SESSION_ID", sessionId);
+        sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_USERS_SID, userId);
+        sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_SESSION_ID, sessionId);
         sql = sql.replace("@DEDUCTION_CALENDAR_MASTER_SID", map.get("deductionSystemId"));
         sql = sql.replace("@RS_DETAILS_DEDUCTION_CALENDAR_NO", map.get(Constants.DEDUCTION_CALENDAR_NO));
         sql = sql.replace("@RS_DETAILS_DEDUCTION_CALENDAR_NAME", map.get(Constants.DEDUCTION_CALENDAR_NAME));
         if (populate) {
-            sql = sql + " AND CHECK_RECORD = 1;";
+            sql = sql + AND_CHECK_RECORD_1;
         }
         RsModelLocalServiceUtil.executeUpdateQuery(sql, null, null);
     }
+    public static final String AND_CHECK_RECORD_1 = " AND CHECK_RECORD = 1;";
 
     /**
      * Mass Update for Formula and Rebate Plan
@@ -2976,16 +3066,17 @@ if(!StringUtils.isBlank(record)){
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         String sql;
         sql = CustomSQLUtil.get("com.rsModel.massPopulateNetSalesForContract");
-        sql = sql.replace("@USERS_SID", userId);
-        sql = sql.replace("@SESSION_ID", sessionId);
-        sql = sql.replace("@NET_SALES_FORMULA_MASTER_SID", map.get("systemID"));
-        sql = sql.replace("@RS_DETAILS_NET_SALES_FORMULA_NO", map.get("netSalesFormulaNo"));
+        sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_USERS_SID, userId);
+        sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_SESSION_ID, sessionId);
+        sql = sql.replace("@NET_SALES_FORMULA_MASTER_SID", map.get(SYSTEM_ID));
+        sql = sql.replace("@RS_DETAILS_NET_SALES_FORMULA_NO", map.get(ContractUtils.NET_SALES_FORMULA_NO));
         sql = sql.replace("@RS_DETAILS_NET_SALES_FORMULA_NAME", map.get("netSalesFormulaName"));
         if (populate) {
-            sql = sql + " AND CHECK_RECORD = 1;";
+            sql = sql + AND_CHECK_RECORD_1;
         }
         RsModelLocalServiceUtil.executeUpdateQuery(sql, null, null);
     }
+    public static final String SYSTEM_ID = "systemID";
 
     /**
      * Mass Update for Formula and Rebate Plan
@@ -2999,66 +3090,71 @@ if(!StringUtils.isBlank(record)){
         String sql = StringUtils.EMPTY;
         if (ContractUtils.NET_SALES_RULE.equals(populateField)) {
             sql = CustomSQLUtil.get("com.rsModel.massPopulateNetSalesRuleForContract");
-            sql = sql.replace("@USERS_SID", userId);
-            sql = sql.replace("@SESSION_ID", sessionId);
-            sql = sql.replace("@NET_SALES_RULE", map.get("systemID"));
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_USERS_SID, userId);
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_SESSION_ID, sessionId);
+            sql = sql.replace("@NET_SALES_RULE", map.get(SYSTEM_ID));
         } else if (ContractUtils.CALCULATION_RULE.equals(populateField)) {
             sql = CustomSQLUtil.get("com.rsModel.massPopulateCalculationRuleForContract");
-            sql = sql.replace("@USERS_SID", userId);
-            sql = sql.replace("@SESSION_ID", sessionId);
-            sql = sql.replace("@CALCULATION_RULE", map.get("systemID"));
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_USERS_SID, userId);
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_SESSION_ID, sessionId);
+            sql = sql.replace("@CALCULATION_RULE", map.get(SYSTEM_ID));
         } else if (ContractUtils.EVALUATION_RULE.equals(populateField)) {
             sql = CustomSQLUtil.get("com.rsModel.massPopulateEvaluationRuleForContract");
-            sql = sql.replace("@USERS_SID", userId);
-            sql = sql.replace("@SESSION_ID", sessionId);
-            sql = sql.replace("@EVALUATION_RULE", map.get("systemID"));
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_USERS_SID, userId);
+            sql = sql.replace(com.stpl.app.contract.abstractsearch.util.ConstantUtil.AT_SESSION_ID, sessionId);
+            sql = sql.replace("@EVALUATION_RULE", map.get(SYSTEM_ID));
         }
         if (populate) {
-            sql = sql + " AND CHECK_RECORD = 1;";
+            sql = sql + AND_CHECK_RECORD_1;
         }
         RsModelLocalServiceUtil.executeUpdateQuery(sql, null, null);
     }
 
     public String getIntegerForSelection(String value) {
-        List<Object> list = new ArrayList<>();
+        List<Object> list;
         String sqlQuery = "SELECT ITEM_PRICING_QUALIFIER_SID FROM ITEM_PRICING_QUALIFIER WHERE ITEM_PRICING_QUALIFIER_NAME LIKE '" + value + "'";
         list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
         return list.get(0).toString();
     }
 
     private void loadSortMap(Map<String, String> map) {
-        map.put("itemID", "IMTD.ITEM_ID");
-        map.put("itemNo", "IMTD.ITEM_NO");
-        map.put("itemName", "IMTD.ITEM_NAME");
-        map.put("brand", "BM.BRAND_NAME");
-        map.put("priceProtectionStatus", "IMTD.PRICE_PROTECTION_STATUS");
-        map.put("priceProtectionStartDate", "IMTD.PRICE_PROTECTION_START_DATE");
-        map.put("priceProtectionEndDate", "IMTD.PRICE_PROTECTION_END_DATE");
-        map.put("priceProtectionPriceType", "IMTD.PRICE_PROTECTION_PRICE_TYPE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_ID1, "IMTD.ITEM_ID");
+        map.put(Constants.ITEM_NO, "IMTD.ITEM_NO");
+        map.put(Constants.ITEM_NAME, "IMTD.ITEM_NAME");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BRAND, "BM.BRAND_NAME");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_STATUS, "IMTD.PRICE_PROTECTION_STATUS");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_START_DATE, "IMTD.PRICE_PROTECTION_START_DATE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_END_DATE, "IMTD.PRICE_PROTECTION_END_DATE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_PROTECTION_PRICE_TYPE, "IMTD.PRICE_PROTECTION_PRICE_TYPE");
         map.put("nep", "IMTD.NEP");
-        map.put("nepFormula", "HT_NEP_FORMULA.NET_SALES_FORMULA_NAME");
-        map.put("basePriceType", "IMTD.BASE_PRICE_TYPE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NEP_FORMULA, "IMTD.NEP_FORMULA");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BASE_PRICE_TYPE, "IMTD.BASE_PRICE_TYPE");
         map.put("basePriceValue", "IMTD.BASE_PRICE_ENTRY");
-        map.put("netBasePrice", "IMTD.NET_BASE_PRICE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_BASE_PRICE, "IMTD.NET_BASE_PRICE");
         map.put("netBasePriceFormulaID", "HT_NET_BASE_FORMULA.NET_SALES_FORMULA_NAME");
-        map.put("subsequentPeriodPriceType", "IMTD.SUBSEQUENT_PERIOD_PRICE_TYPE");
+        map.put("netBasePriceFormula", "IMTD.NEP_FORMULA");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.SUBSEQUENT_PERIOD_PRICE_TYPE, "IMTD.SUBSEQUENT_PERIOD_PRICE_TYPE");
         map.put("netSubsequentPriceFormulaID", "HT_NET_SUB_FORMULA.NET_SALES_FORMULA_NAME");
-        map.put("priceToleranceInterval", "IMTD.PRICE_TOLERANCE_INTERVAL");
-        map.put("priceToleranceFrequency", "IMTD.PRICE_TOLERANCE_FREQUENCY");
-        map.put("priceToleranceType", "IMTD.PRICE_TOLERANCE_TYPE");
-        map.put("priceTolerance", "IMTD.PRICE_TOLERANCE");
-        map.put("maxIncrementalChange", "IMTD.MAX_INCREMENTAL_CHANGE");
-        map.put("resetEligible", "IMTD.RESET_ELIGIBLE");
-        map.put("resetType", "IMTD.RESET_TYPE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_INTERVAL, "IMTD.PRICE_TOLERANCE_INTERVAL");
+        map.put("ppPriceToleranceInterval", "IMTD.PRICE_TOLERANCE_INTERVAL");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_FREQUENCY, "IMTD.PRICE_TOLERANCE_FREQUENCY");
+        map.put("ppPriceToleranceFrequency", "IMTD.PRICE_TOLERANCE_FREQUENCY");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE_TYPE, "IMTD.PRICE_TOLERANCE_TYPE");
+        map.put("ppPriceToleranceType", "IMTD.PRICE_TOLERANCE_TYPE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.PRICE_TOLERANCE, "IMTD.PRICE_TOLERANCE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MAX_INCREMENTAL_CHANGE, "IMTD.MAX_INCREMENTAL_CHANGE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_ELIGIBLE, "IMTD.RESET_ELIGIBLE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_TYPE, "IMTD.RESET_TYPE");
         map.put("resetDate", "IMTD.RESET_DATE");
         map.put("resetInterval", "IMTD.RESET_INTERVAL");
-        map.put("resetFrequency", "IMTD.RESET_FREQUENCY");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RESET_FREQUENCY, "IMTD.RESET_FREQUENCY");
         map.put("resetPriceType", "IMTD.RESET_PRICE_TYPE");
-        map.put("netResetPriceType", "IMTD.NET_RESET_PRICE_TYPE");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_RESET_PRICE_TYPE, "IMTD.NET_RESET_PRICE_TYPE");
         map.put("netResetPriceFormulaID", "HT_NET_RESET_FORMULA.NET_SALES_FORMULA_NAME");
-        map.put("netPriceType", "IMTD.NET_PRICE_TYPE");
-        map.put("netPriceTypeFormula", "HT_NET_PRICE_FORMULA.NET_SALES_FORMULA_NAME");
-        map.put("attachedDate", "IMTD.ATTACHED_DATE");
+        map.put("netResetPriceFormula", "IMTD.NET_RESET_PRICE_FORMULA_ID");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.NET_PRICE_TYPE, "IMTD.NET_PRICE_TYPE");
+        map.put("netPriceTypeFormula", "IMTD.NET_PRICE_TYPE_FORMULA");
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE, "IMTD.ATTACHED_DATE");
     }
     
     /**
@@ -3093,8 +3189,8 @@ if(!StringUtils.isBlank(record)){
     }
     
     public String getFormulaName(int value) {
-        List <Object> list=new ArrayList<>();
-        String sql=StringUtils.EMPTY;
+        List <Object> list;
+        String sql;
         if(value != 0){
         sql="SELECT NET_SALES_FORMULA_NAME FROM NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_MASTER_SID = "+value;
         }else {
@@ -3145,66 +3241,66 @@ if(!StringUtils.isBlank(record)){
         String itemId;
         String itemNo;
         String itemName;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat(YYYY_M_MDD);
 
        try{
             Map<String, Object> parameters = new HashMap<>();
-            if (searchItemForm.getField("itemFamilyplanId").getValue() == null) {
+            if (searchItemForm.getField(ITEM_FAMILYPLAN_ID).getValue() == null) {
                 ifpId = StringUtils.EMPTY;
             } else {
-                ifpId = searchItemForm.getField("itemFamilyplanId").getValue()
+                ifpId = searchItemForm.getField(ITEM_FAMILYPLAN_ID).getValue()
                         .toString().trim();
             }
            
-            if (searchItemForm.getField("itemFamilyplanNo").getValue() == null) {
+            if (searchItemForm.getField(ITEM_FAMILYPLAN_NO).getValue() == null) {
 
                 ifpNo = StringUtils.EMPTY;
             } else {
 
 
-                ifpNo = searchItemForm.getField("itemFamilyplanNo").getValue()
+                ifpNo = searchItemForm.getField(ITEM_FAMILYPLAN_NO).getValue()
 
                         .toString().trim();
             }
 
            
-            if (searchItemForm.getField("itemFamilyplanName").getValue() == null) {
+            if (searchItemForm.getField(ITEM_FAMILYPLAN_NAME).getValue() == null) {
 
                 ifpName = StringUtils.EMPTY;
             } else {
 
-                ifpName = searchItemForm.getField("itemFamilyplanName").getValue()
+                ifpName = searchItemForm.getField(ITEM_FAMILYPLAN_NAME).getValue()
 
                         .toString().trim();
             }
 
            
-            if (searchItemForm.getField("itemFamilyplanType").getValue() == null) {
+            if (searchItemForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_TYPE).getValue() == null) {
 
                 ifpType = 0;
             } else {
-                ifpType = ((com.stpl.ifs.util.HelperDTO)searchItemForm.getField("itemFamilyplanType").getValue()).getId();
+                ifpType = ((com.stpl.ifs.util.HelperDTO)searchItemForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_TYPE).getValue()).getId();
             }
 
             
-            if (searchItemForm.getField("itemFamilyplanStatus").getValue() == null) {
+            if (searchItemForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_STATUS).getValue() == null) {
 
                 ifpStatus = 0;
             } else {
-                ifpStatus = ((com.stpl.ifs.util.HelperDTO)searchItemForm.getField("itemFamilyplanStatus").getValue()).getId();
+                ifpStatus = ((com.stpl.ifs.util.HelperDTO)searchItemForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_STATUS).getValue()).getId();
             }
-            if (searchItemForm.getField("itemId")!=null && searchItemForm.getField("itemId").getValue()!=null) {
+            if (searchItemForm.getField(ConstantUtil.ITEM_ID_M)!=null && searchItemForm.getField(ConstantUtil.ITEM_ID_M).getValue()!=null) {
             
-            itemId = searchItemForm.getField("itemId").getValue()
+            itemId = searchItemForm.getField(ConstantUtil.ITEM_ID_M).getValue()
                     .toString().trim();
             
         } else {
             itemId = StringUtils.EMPTY;
         }
 
-        if (searchItemForm.getField("itemNo")!=null && searchItemForm.getField("itemNo").getValue()!=null) {
+        if (searchItemForm.getField(Constants.ITEM_NO)!=null && searchItemForm.getField(Constants.ITEM_NO).getValue()!=null) {
             
-            itemNo = searchItemForm.getField("itemNo").getValue()
+            itemNo = searchItemForm.getField(Constants.ITEM_NO).getValue()
                     .toString().trim();
             
         } else {
@@ -3212,9 +3308,9 @@ if(!StringUtils.isBlank(record)){
             
         }
 
-        if (searchItemForm.getField("itemName")!=null && searchItemForm.getField("itemName").getValue()!=null) {
+        if (searchItemForm.getField(Constants.ITEM_NAME)!=null && searchItemForm.getField(Constants.ITEM_NAME).getValue()!=null) {
             
-            itemName = searchItemForm.getField("itemName").getValue()
+            itemName = searchItemForm.getField(Constants.ITEM_NAME).getValue()
                     .toString().trim();
             
         } else {
@@ -3261,7 +3357,7 @@ if(!StringUtils.isBlank(record)){
                 
             }
             if (ifpType!=0) {
-                List<HelperDTO> list = getDropDownList("IFP_TYPE");
+                List<HelperDTO> list = getDropDownList(IFP_TYPE_LIST);
                 for (HelperDTO list1 : list) {
                 if (list1.getId()==ifpType){
                         int sysId = list1.getId();
@@ -3287,8 +3383,10 @@ if(!StringUtils.isBlank(record)){
                    if (filter instanceof SimpleStringFilter) {
                        SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                        String filterString = stringFilter.getFilterString();
+                      
+                           parameters.put(String.valueOf(stringFilter.getPropertyId()), filterString);
+                     
 
-                       parameters.put(String.valueOf(stringFilter.getPropertyId()), filterString);
                         } else if (filter instanceof Between) {
                        Between betweenFilter = (Between) filter;
                        
@@ -3305,14 +3403,14 @@ if(!StringUtils.isBlank(record)){
                        Compare compare = (Compare) filter;
                        
                        Compare.Operation operation = compare.getOperation();
-                       if ("itemFamilyplanSystemId".equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
+                       if (ConstantsUtils.IFP_SYSTEM_ID.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
                            String value = String.valueOf(compare.getValue());
                            if (operation.GREATER.toString().equals(operation.name())) {
                                parameters.put(compare.getPropertyId() + "from", value);
                            } else if (operation.LESS.toString().equals(operation.name())) {
                                parameters.put(compare.getPropertyId() + "to", value);
                            } else if (operation.EQUAL.toString().equalsIgnoreCase(operation.name())) {
-                               parameters.put(compare.getPropertyId() + "equal", value);
+                               parameters.put(compare.getPropertyId() + com.stpl.app.contract.abstractsearch.util.ConstantUtil.EQUAL, value);
                            }
                        } else {
                            Date value = (Date) compare.getValue();
@@ -3351,10 +3449,14 @@ if(!StringUtils.isBlank(record)){
             return 0;
         }
     }
-       public List<HelperDTO> getDropDownList(final String listName) throws SystemException, PortalException {
+    public static final String ITEM_FAMILYPLAN_NAME = "itemFamilyplanName";
+    public static final String ITEM_FAMILYPLAN_NO = "itemFamilyplanNo";
+    public static final String ITEM_FAMILYPLAN_ID = "itemFamilyplanId";
+    public static final String IFP_TYPE_LIST = "IFP_TYPE";
+       public List<HelperDTO> getDropDownList(final String listName) throws SystemException {
         LOGGER.debug("getDropDownList p1: " + listName);
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(listName);
         if (list != null) {
@@ -3370,9 +3472,9 @@ if(!StringUtils.isBlank(record)){
         Collections.sort(helperList);
         return helperList;
     }
-        public int getTotalCount() throws SystemException, PortalException {
+        public int getTotalCount() {
         LOGGER.debug("getTotalCount --method ");
-        List list=new ArrayList();
+        List list;
         list=HelperTableLocalServiceUtil.executeSelectQuery("Select count(*) from IFP_MODEL");
         return (int)(list.get(0));
     }
@@ -3392,55 +3494,55 @@ if(!StringUtils.isBlank(record)){
         String itemName;
         int ifpType;
         int ifpStatus;
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Map<String, Object> parameters = new HashMap<>();
+        DateFormat dateFormat = new SimpleDateFormat(YYYY_M_MDD);
       
-        if (searchItemForm.getField("itemFamilyplanId").getValue() == null) {
+        if (searchItemForm.getField(ITEM_FAMILYPLAN_ID).getValue() == null) {
             ifpId = StringUtils.EMPTY;
         } else {
-            ifpId = searchItemForm.getField("itemFamilyplanId").getValue()
+            ifpId = searchItemForm.getField(ITEM_FAMILYPLAN_ID).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("itemFamilyplanNo").getValue() == null) {
+        if (searchItemForm.getField(ITEM_FAMILYPLAN_NO).getValue() == null) {
             ifpNo = StringUtils.EMPTY;
         } else {
 
-            ifpNo = searchItemForm.getField("itemFamilyplanNo").getValue()
+            ifpNo = searchItemForm.getField(ITEM_FAMILYPLAN_NO).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("itemFamilyplanName").getValue() == null) {
+        if (searchItemForm.getField(ITEM_FAMILYPLAN_NAME).getValue() == null) {
             ifpName = StringUtils.EMPTY;
         } else {
-            ifpName = searchItemForm.getField("itemFamilyplanName").getValue()
+            ifpName = searchItemForm.getField(ITEM_FAMILYPLAN_NAME).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("itemFamilyplanType").getValue() == null) {
+        if (searchItemForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_TYPE).getValue() == null) {
             ifpType = 0;
         } else {
-            ifpType = ((com.stpl.ifs.util.HelperDTO)searchItemForm.getField("itemFamilyplanType").getValue()).getId();
+            ifpType = ((com.stpl.ifs.util.HelperDTO)searchItemForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_TYPE).getValue()).getId();
         }
 
-        if (searchItemForm.getField("itemFamilyplanStatus").getValue() == null) {
+        if (searchItemForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_STATUS).getValue() == null) {
             ifpStatus = 0;
         } else {
-            ifpStatus = ((com.stpl.ifs.util.HelperDTO)searchItemForm.getField("itemFamilyplanStatus").getValue()).getId();
+            ifpStatus = ((com.stpl.ifs.util.HelperDTO)searchItemForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_STATUS).getValue()).getId();
         }
         
-        if (searchItemForm.getField("itemId")!=null && searchItemForm.getField("itemId").getValue()!=null) {
+        if (searchItemForm.getField(ConstantUtil.ITEM_ID_M)!=null && searchItemForm.getField(ConstantUtil.ITEM_ID_M).getValue()!=null) {
             
-            itemId = searchItemForm.getField("itemId").getValue()
+            itemId = searchItemForm.getField(ConstantUtil.ITEM_ID_M).getValue()
                     .toString().trim();
             
         } else {
             itemId = StringUtils.EMPTY;
         }
 
-        if (searchItemForm.getField("itemNo")!=null && searchItemForm.getField("itemNo").getValue()!=null) {
+        if (searchItemForm.getField(Constants.ITEM_NO)!=null && searchItemForm.getField(Constants.ITEM_NO).getValue()!=null) {
             
-            itemNo = searchItemForm.getField("itemNo").getValue()
+            itemNo = searchItemForm.getField(Constants.ITEM_NO).getValue()
                     .toString().trim();
             
         } else {
@@ -3448,9 +3550,9 @@ if(!StringUtils.isBlank(record)){
             
         }
 
-        if (searchItemForm.getField("itemName")!=null && searchItemForm.getField("itemName").getValue()!=null) {
+        if (searchItemForm.getField(Constants.ITEM_NAME)!=null && searchItemForm.getField(Constants.ITEM_NAME).getValue()!=null) {
             
-            itemName = searchItemForm.getField("itemName").getValue()
+            itemName = searchItemForm.getField(Constants.ITEM_NAME).getValue()
                     .toString().trim();
             
         } else {
@@ -3490,7 +3592,7 @@ if(!StringUtils.isBlank(record)){
             
         }
             if (ifpType!=0) {
-            List<HelperDTO> list = getDropDownList("IFP_TYPE");
+            List<HelperDTO> list = getDropDownList(IFP_TYPE_LIST);
             for (HelperDTO list1 : list) {
                 if (list1.getId()==ifpType){
                 }
@@ -3512,25 +3614,25 @@ if(!StringUtils.isBlank(record)){
                 .hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
             String columnName = orderByColumn.getName();
-            if ("itemFamilyplanSystemId".equals(columnName)) {
+            if (ConstantsUtils.IFP_SYSTEM_ID.equals(columnName)) {
                 column = "IFP_MODEL_SID";
-            } else if ("itemFamilyplanId".equals(columnName)) {
+            } else if (ITEM_FAMILYPLAN_ID.equals(columnName)) {
                 column = "IFP_ID";
             } else if ("itemFamilyplanpNo".equals(columnName)) {
-                column = "IFP_NO";
-            } else if ("itemFamilyplanName".equals(columnName)) {
-                column = "IFP_NAME";
-            } else if ("itemFamilyplanType".equals(columnName)) {
-                column = "IFP_TYPE";
-            } else if ("itemFamilyplanStatus".equals(columnName)) {
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_NO_LABEL;
+            } else if (ITEM_FAMILYPLAN_NAME.equals(columnName)) {
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.IFP_NAME_LIST;
+            } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_TYPE.equals(columnName)) {
+                column = IFP_TYPE_LIST;
+            } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_STATUS.equals(columnName)) {
                 column = "IFP_STATUS";
-            } else if ("itemFamilyplanCategory".equals(columnName)) {
+            } else if (ITEM_FAMILYPLAN_CATEGORY.equals(columnName)) {
                 column = "IFP_CATEGORY";
-            } else if ("startDate".equals(columnName)) {
+            } else if (ConstantUtil.START_DATE.equals(columnName)) {
                 column = "IFP_START_DATE";
-            } else if ("endDate".equals(columnName)) {
+            } else if (ConstantUtil.END_DATE.equals(columnName)) {
                 column = "IFP_END_DATE";
-            } else if ("itemFamilyplanDesignation".equals(columnName)) {
+            } else if (ITEM_FAMILYPLAN_DESIGNATION.equals(columnName)) {
                 column = "IFP_DESIGNATION";
             } else if ("parentItemFamilyplanId".equals(columnName)) {
                 column = "PARENT_IFP_ID";
@@ -3550,7 +3652,9 @@ if(!StringUtils.isBlank(record)){
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = stringFilter.getFilterString();
-                    parameters.put(String.valueOf(stringFilter.getPropertyId()), filterString);
+                    
+                           parameters.put(String.valueOf(stringFilter.getPropertyId()), filterString);
+                     
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
                    
@@ -3562,14 +3666,14 @@ if(!StringUtils.isBlank(record)){
 
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
-                    if ("itemFamilyplanSystemId".equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
+                    if (ConstantsUtils.IFP_SYSTEM_ID.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
                         String value = String.valueOf(compare.getValue());
                         if (operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
                             parameters.put(compare.getPropertyId() + "from", value);
                         } else if (operation.LESS.toString().equalsIgnoreCase(operation.name())) {
                             parameters.put(compare.getPropertyId() + "to", value);
                         } else if (operation.EQUAL.toString().equalsIgnoreCase(operation.name())) {
-                            parameters.put(compare.getPropertyId() + "equal", value);
+                            parameters.put(compare.getPropertyId() + com.stpl.app.contract.abstractsearch.util.ConstantUtil.EQUAL, value);
                         }
                     } else {
                         Date value = (Date) compare.getValue();
@@ -3603,8 +3707,10 @@ if(!StringUtils.isBlank(record)){
         LOGGER.debug("return ifp list ,size = " + ((result==null)?result:result.size()));
         return getLookUpCustomizedObjectModel(result);
     }
-     public static List<TempPricingDTO> getLookUpCustomizedObjectModel(final List<Object[]> ifplist) throws PortalException, SystemException {
-        final List<TempPricingDTO> ifpDTOlist = new ArrayList<TempPricingDTO>();
+    public static final String ITEM_FAMILYPLAN_DESIGNATION = "itemFamilyplanDesignation";
+    public static final String ITEM_FAMILYPLAN_CATEGORY = "itemFamilyplanCategory";
+     public static List<TempPricingDTO> getLookUpCustomizedObjectModel(final List<Object[]> ifplist) throws  SystemException {
+        final List<TempPricingDTO> ifpDTOlist = new ArrayList<>();
         Map<Integer, String> hm = CommonUtils.getCodeDescription();
         Map<Integer, String> userMap = StplSecurity.getUserName();
         for (Object[] obj : ifplist) {
@@ -3622,10 +3728,10 @@ if(!StringUtils.isBlank(record)){
                 ifpDTO.setItemFamilyplanName(String.valueOf(obj[NumericConstants.THREE]));
             }
             if (obj[NumericConstants.FOUR] != null && StringUtils.isNotBlank(obj[NumericConstants.FOUR].toString()) && (Integer) obj[NumericConstants.FOUR] != 0) {
-                ifpDTO.setIfpType(hm.get(obj[NumericConstants.FOUR]));
+                ifpDTO.setIfPStatus(hm.get(obj[NumericConstants.FOUR]));
             }
             if (obj[NumericConstants.FIVE] != null && StringUtils.isNotBlank(obj[NumericConstants.FIVE].toString()) && (Integer) obj[NumericConstants.FIVE] != 0) {
-                ifpDTO.setIfPStatus(hm.get(obj[NumericConstants.FIVE]));
+                ifpDTO.setIfpType(hm.get(obj[NumericConstants.FIVE]));
             }
             if (obj[NumericConstants.SIX] != null && StringUtils.isNotBlank(obj[NumericConstants.SIX].toString()) && (Integer) obj[NumericConstants.SIX] != 0) {
                 ifpDTO.setIfpCategory(hm.get(obj[NumericConstants.SIX]));
@@ -3677,26 +3783,26 @@ if(!StringUtils.isBlank(record)){
             LOGGER.debug("Entering update operation");
             IfpContract item = IfpContractLocalServiceUtil.getIfpContract(systemId);
 
-            item.setIfpCategory(ifpForm.getField("itemFamilyplanCategory").getValue() != null ? ((com.stpl.ifs.util.HelperDTO) ifpForm.getField("itemFamilyplanCategory").getValue()).getId() : 0);
-            if (ifpForm.getField("itemFamilyplanType").getValue() != null) {
-                item.setIfpType(((com.stpl.ifs.util.HelperDTO) ifpForm.getField("itemFamilyplanType").getValue()).getId());
+            item.setIfpCategory(ifpForm.getField(ITEM_FAMILYPLAN_CATEGORY).getValue() != null ? ((com.stpl.ifs.util.HelperDTO) ifpForm.getField(ITEM_FAMILYPLAN_CATEGORY).getValue()).getId() : 0);
+            if (ifpForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_TYPE).getValue() != null) {
+                item.setIfpType(((com.stpl.ifs.util.HelperDTO) ifpForm.getField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ITEM_FAMILYPLAN_TYPE).getValue()).getId());
             } else {
                 item.setIfpType(0);
             }
-            item.setIfpDesignation(ifpForm.getField("itemFamilyplanDesignation").getValue() != null ? String.valueOf(((com.stpl.ifs.util.HelperDTO) ifpForm.getField("itemFamilyplanDesignation").getValue()).getId()) : StringUtils.EMPTY);
+            item.setIfpDesignation(ifpForm.getField(ITEM_FAMILYPLAN_DESIGNATION).getValue() != null ? String.valueOf(((com.stpl.ifs.util.HelperDTO) ifpForm.getField(ITEM_FAMILYPLAN_DESIGNATION).getValue()).getId()) : StringUtils.EMPTY);
             item.setCreatedBy(Integer.parseInt(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID))));
             item.setModifiedDate(new Date());
-            item.setIfpName(String.valueOf(ifpForm.getField("itemFamilyplanName").getValue()));
-            item.setIfpNo(String.valueOf(ifpForm.getField("itemFamilyplanNo").getValue()));
+            item.setIfpName(String.valueOf(ifpForm.getField(ITEM_FAMILYPLAN_NAME).getValue()));
+            item.setIfpNo(String.valueOf(ifpForm.getField(ITEM_FAMILYPLAN_NO).getValue()));
             item.setParentIfpId(String.valueOf(ifpForm.getField(
                     "parentItemFamilyplanId").getValue()));
             item.setParentIfpName(String.valueOf(ifpForm.getField(
                     "parentItemFamilyplanName").getValue()).trim());
             item.setIfpStatus(((com.stpl.ifs.util.HelperDTO) ifpForm.getField(ConstantsUtils.IFP_STATUS).getValue()).getId());
             item.setIfpStartDate((Date) ifpForm.getField(
-                    "startDate").getValue());
+                    ConstantUtil.START_DATE).getValue());
                 item.setIfpEndDate((Date) ifpForm.getField(
-                        "endDate").getValue());
+                        ConstantUtil.END_DATE).getValue());
             item.setModifiedDate(new Date());
             item.setModifiedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
             IfpContractLocalServiceUtil.updateIfpContract(item);
@@ -3707,12 +3813,12 @@ if(!StringUtils.isBlank(record)){
         }
     }
           
-    public   List<HelperDTO> getBrandDropDown() throws SystemException, PortalException {
+    public   List<HelperDTO> getBrandDropDown() throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         DynamicQuery dynamicQuery  = DynamicQueryFactoryUtil
                         .forClass(BrandMaster.class);
-        dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("brandName"));
+        dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constants.BRAND_NAME));
         final List<BrandMaster> list = BrandMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -3795,7 +3901,7 @@ if(!StringUtils.isBlank(record)){
     }
     public List<TempPricingDTO> getCustomizedPriceOnTabChange(List<Object[]> returnList){
         TempPricingDTO itemDTO;
-        List<TempPricingDTO> resultList = new ArrayList<TempPricingDTO>();
+        List<TempPricingDTO> resultList = new ArrayList<>();
         for (Object[] tempifp : returnList) {
             itemDTO = new TempPricingDTO();
             itemDTO.setCheckbox((Boolean) tempifp[0]);
@@ -3803,7 +3909,7 @@ if(!StringUtils.isBlank(record)){
         }
         return resultList;
     }
-    public static void savePricingCheck(List<TempPricingDTO> saveList) throws PortalException, SystemException  {
+    public static void savePricingCheck(List<TempPricingDTO> saveList) {
         String sql="";
         for (TempPricingDTO temp : saveList) {
             if(temp.getCheckbox()){
@@ -3851,8 +3957,8 @@ if(!StringUtils.isBlank(record)){
 
     }
     
-      public static List<HelperDTO> getCPPriceTypeResults() throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+      public static List<HelperDTO> getCPPriceTypeResults() {
+        final List<HelperDTO> list = new ArrayList<>();
         LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :");
         String query = "select ITEM_PRICING_QUALIFIER_SID,ITEM_PRICING_QUALIFIER_NAME from ITEM_PRICING_QUALIFIER where ITEM_PRICING_QUALIFIER_NAME like 'contract%'\n";
         List returnList = (List) CompanyMasterLocalServiceUtil.executeSelectQuery(query, null, null);
@@ -3931,8 +4037,62 @@ if(!StringUtils.isBlank(record)){
         if (flag) {
             ImtdItemPriceRebateDetailsLocalServiceUtil.massPopulateAll(input, null);
         } else {
-            input.add("Check_Record");
+            input.add(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CHECK_RECORD_CAPTION);
             ImtdItemPriceRebateDetailsLocalServiceUtil.massPopulate(input, null);
         }
     } 
+
+    private Map loadColumnMap() {
+        Map<String,String> columnMap=new HashMap<>();
+        columnMap.put("itemNo", "IMTD.ITEM_NO");
+        columnMap.put("itemName", "IMTD.ITEM_NAME");
+        columnMap.put("itemDesc", "IM.ITEM_DESC");
+        columnMap.put("ifpStatus", "IMTD.ATTACHED_STATUS");
+        columnMap.put("startDate", "IMTD.START_DATE");
+        columnMap.put("endDate", "IMTD.END_DATE");
+        columnMap.put("itemsStatus", "IMTD.ATTACHED_STATUS");
+        columnMap.put("form", "IM.FORM");
+        columnMap.put("strength", "IM.STRENGTH");
+        columnMap.put("therapyClass", "IM.THERAPEUTIC_CLASS");
+        columnMap.put("brand", "IMTD.BRAND_MASTER_SID");
+        columnMap.put("attachedDate", "IMTD.ATTACHED_DATE");
+        columnMap.put("modifiedDate", "IMTD.MODIFIED_DATE");
+        columnMap.put("modifiedBy", "IMTD.MODIFIED_BY");
+        columnMap.put("createdDate", "IMTD.CREATED_DATE");
+        columnMap.put("createdBy", "IMTD.CREATED_BY");
+        columnMap.put("checkbox", "IMTD.CHECK_RECORD");
+        columnMap.put("itemId", "IMTD.ITEM_ID");
+        columnMap.put("globalitemstatus", "IMTD.ATTACHED_STATUS");
+        columnMap.put("cpStartDate", "IMTD.CONTRACT_PRICE_START_DATE");
+        columnMap.put("cpEndDate", "IMTD.CONTRACT_PRICE_END_DATE");
+        columnMap.put("priceType", "IMTD.PRICE_TYPE");
+        columnMap.put("price", "IMTD.PRICE");
+        columnMap.put("suggestedPrice", "IMTD.SUGGESTED_PRICE");
+        columnMap.put("source", "IMTD.\"SOURCE\"");
+        return columnMap;
+     }
+
+    private Map<String, String> loadItemRebateColumnMap() {
+           Map<String,String> itemRebateColumnMap=new HashMap<>();
+           itemRebateColumnMap.put("checkbox", "CHECK_RECORD");
+           itemRebateColumnMap.put("itemNo", "ITEM_NO");
+           itemRebateColumnMap.put("itemName", "ITEM_NAME");
+           itemRebateColumnMap.put("attachedStatus", "IMTD.RS_ATTACHED_STATUS");
+           itemRebateColumnMap.put("rebateStartDate", "ITEM_REBATE_START_DATE");
+           itemRebateColumnMap.put("rebateEndDate", "ITEM_REBATE_END_DATE");
+           itemRebateColumnMap.put("deductionCalendarNo", "DEDUCTION_CALENDAR_NO");
+           itemRebateColumnMap.put("deductionCalendarName", "DEDUCTION_CALENDAR_NAME");
+           itemRebateColumnMap.put("evaluationRule", "EVA.RULE_NAME");
+           itemRebateColumnMap.put("evaluationRuleBundle", "IMTD.EVALUATION_RULE_BUNDLE");
+           itemRebateColumnMap.put("calculationRuleBundle", "IMTD.CALCULATION_RULE_BUNDLE");
+           itemRebateColumnMap.put("attachedDate", "IMTD.ATTACHED_DATE");
+           itemRebateColumnMap.put("formulaType", "IMTD.ITEM_TYPE");
+           itemRebateColumnMap.put("formulaNo", "FF.FORMULA_NO");
+           itemRebateColumnMap.put("formulaName", "FF.FORMULA_NAME");
+           itemRebateColumnMap.put("netSalesFormulaNo", "NSFM.NET_SALES_FORMULA_NO");
+           itemRebateColumnMap.put("netSalesRule", "NET.RULE_NAME");
+           itemRebateColumnMap.put("rebatePlanNo", "RPM.REBATE_PLAN_NO");
+           itemRebateColumnMap.put("rebatePlanName", "RPM.REBATE_PLAN_NAME");
+           return itemRebateColumnMap;
+    }
 }

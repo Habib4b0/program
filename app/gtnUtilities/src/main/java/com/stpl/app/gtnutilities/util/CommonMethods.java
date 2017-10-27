@@ -88,6 +88,7 @@ public abstract class CommonMethods {
              */
             @SuppressWarnings("PMD")
             public void buttonClicked(final ButtonId buttonId) {
+                return;
             }
         }, ButtonId.OK);
     }
@@ -106,6 +107,7 @@ public abstract class CommonMethods {
              */
             @SuppressWarnings("PMD")
             public void buttonClicked(final ButtonId buttonId) {
+                return;
             }
         }, ButtonId.OK);
     }
@@ -124,6 +126,7 @@ public abstract class CommonMethods {
              */
             @SuppressWarnings("PMD")
             public void buttonClicked(final ButtonId buttonId) {
+                return;
             }
         }, ButtonId.OK);
     }
@@ -145,6 +148,7 @@ public abstract class CommonMethods {
                  */
                 @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
+                    return;
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();

@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.dto.CustomTreeBuild;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
@@ -233,12 +234,12 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         pivotViewOpg.addStyleName(ConstantsUtils.HORIZONTAL);
         pivotViewOpg.addStyleName(Constants.OPTION_GROUP_WIDTH);
         pivotViewOpg.addItem(Constants.PERIOD);
-        pivotViewOpg.addItem(Constants.VARIABLE);
+        pivotViewOpg.addItem(Constants.VARIABLE_LABEL);
         pivotViewOpg.setValue(Constants.PERIOD);
         viewOpg.addStyleName("forecast-tab");
         viewOpg.addStyleName(ConstantsUtils.HORIZONTAL);
         viewOpg.addItem(Constants.CommonConstantsForChannels.CUSTOMER.toString());
-        viewOpg.addItem(Constants.PRODUCT);
+        viewOpg.addItem(Constants.PRODUCT_LABEL);
         viewOpg.addItem(Constants.LabelConstants.CUSTOM.toString());
         viewOpg.setValue(Constants.CommonConstantsForChannels.CUSTOMER.toString());
 
@@ -291,7 +292,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     }
 
     @UiHandler("generateBtn")
-    public void generateBtn(Button.ClickEvent event) throws SystemException {
+    public void generateBtn(Button.ClickEvent event)  {
         generateButtonLogic();
     }
 
@@ -304,13 +305,13 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
-             
+             return;
             }
 
             @Override
             public void yesMethod() {
                 frequencyDdlb.setValue(QUARTERLY.getConstant());
-                historyDdlb.setValue("4 Quarters");
+                historyDdlb.setValue(StringConstantsUtil.FOUR_QUARTERS);
                 salesOrUnitsOpg.setValue(SALES.getConstant());
                 actualOrProjectionsOpg.setValue(Constants.LabelConstants.ACTUALS.getConstant());
                 periodOrderOpg.setValue(ASCENDING.getConstant());
@@ -342,7 +343,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                     break;
                 case ConstantsUtil.QUARTERLY:
                     historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
-                    historyConstant = "4 Quarters";
+                    historyConstant = StringConstantsUtil.FOUR_QUARTERS;
                     break;
                 case ConstantsUtil.MONTHLY:
                     historyBean.addAll(loadHistoryDdlb(MONTHLY.getConstant(), MONTHS.getConstant()));
@@ -350,7 +351,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                     break;
                 default:
                     historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
-                    historyConstant = "4 Quarters";
+                    historyConstant = StringConstantsUtil.FOUR_QUARTERS;
                     break;
             }
             historyDdlb.setContainerDataSource(historyBean);

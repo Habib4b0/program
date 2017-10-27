@@ -51,6 +51,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.custommenubar.MenuItemDTO;
 import com.stpl.app.arm.supercode.LeaveCheckAble;
 import com.stpl.app.arm.supercode.LeaveConfirmMessageAble;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.security.permission.model.AppPermission;
 import static com.stpl.ifs.ui.util.AbstractNotificationUtils.LOGGER;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -125,9 +126,8 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         inventoryLevel.addValueChangeListener(frequencyListener);
         inventoryResults.getResults();
         addComponent(inventoryResults);
-//        CommonUtils.loadRatePeriodComboBox(inventoryDetailsDdlb, 1, "ARM_INVENTORY_DETAILS");
-        CommonUtils.loadRatePeriodComboBox(price, 1, "ARM_PERIOD_BASIS");
-//        CommonUtils.loadRatePeriodComboBox(reserveDate, 1, "ARM_PERIOD_BASIS");
+
+        CommonUtils.loadRatePeriodComboBox(price, 1, CommonConstant.ARM_PERIOD_BASIS);
         configureFields();
         configureDblbLoading();
         setDefaultValue();
@@ -138,6 +138,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        LOGGER.debug("Inside Enter Method Of Inventory Class");
 
     }
 
@@ -205,7 +206,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     loadCustomMenuBar(selectionDto.getCustomerGroupList());
                 }
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("Error in frequencyListener :"+e);
             }
         }
     };
@@ -214,10 +215,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         String[] customerSelectionList = new String[listCustomValue.size()];
         customerSelectionList = listCustomValue.toArray(customerSelectionList);
         variableValues = VariableConstants.PipelineInventoryVariables.names();
-        variableVisibleColumns = VariableConstants.VARIABLE_INVENTORY_VISIBLE_COLUMN;
-        List<String> selectionList = new ArrayList<>();
-        String[] stockArr = new String[selectionList.size()];
-        stockArr = selectionList.toArray(stockArr);
+        variableVisibleColumns = VariableConstants.getVariableInventoryVisibleColumn();
         customMenuBar.setScrollable(true);
         if (listCustomValue.size() > NumericConstants.TWENTY) {
             customMenuBar.setPageLength(NumericConstants.TWENTY);
@@ -275,7 +273,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
     }
 
     public void loadMenu(List<CustomerGroupDTO> listCustomValue) {
-        List<String> selectionList = new ArrayList<String>();
+        List<String> selectionList = new ArrayList<>();
         if (inventoryLevel.getValue().equals(VariableConstants.CUSTOMER)) {
             selectionList.add("ESI-RETAIL");
         }
@@ -285,7 +283,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         customMenuBar.setPageLength(NumericConstants.FOUR);
         variableValues = VariableConstants.PipelineInventoryVariables.names();
         customMenuItem = customMenuBar.addItem("-Select Variables-", null);
-        variableVisibleColumns = VariableConstants.VARIABLE_INVENTORY_VISIBLE_COLUMN;
+        variableVisibleColumns = VariableConstants.getVariableInventoryVisibleColumn();
         String[] both = (String[]) ArrayUtils.addAll(stockArr, variableValues);
         String[] both1 = (String[]) ArrayUtils.addAll(stockArr, variableVisibleColumns);
         variableVisibleColumns = both1;
@@ -298,7 +296,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
             customMenuItem.removeChildren();
             CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[variableHeader.length + listCustomValue.size()];
             for (int i = 0; i < listCustomValue.size(); i++) {
-                CustomerGroupDTO dtoValue = (CustomerGroupDTO) listCustomValue.get(i);
+                CustomerGroupDTO dtoValue = listCustomValue.get(i);
                 MenuItemDTO dto = new MenuItemDTO(dtoValue.getCustomerGroupSid(), dtoValue.getCustomerGroupName());
                 customItem[i] = customMenuItem.addItem(dto, null);
                 customItem[i].setCheckable(true);
@@ -321,6 +319,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside CustomNotification NO Method");
         }
 
         @Override
@@ -328,7 +327,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
             LOGGER.debug("buttonName :" + buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
-                    case "reset":
+                    case CommonConstant.RESET:
                         inventoryLevel.select(VariableConstants.CUSTOMER_GROUP);
                         setDefaultValue();
                         if (isReset) {
@@ -347,6 +346,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                         break;
                     case "save":
                         break;
+                    default:
                 }
             }
         }
@@ -362,10 +362,10 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
-                    notifier.setButtonName("reset");
+                    notifier.setButtonName(CommonConstant.RESET);
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("Error in reset :"+e);
                 }
             }
         });
@@ -380,9 +380,9 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
 
                     inventoryResults.setValueChangeAllowed(false);
                     selectionDto.setVariableVisibleColumns(variableVisibleColumns);
-                    selectionDto.setSales_variables(CommonUtils.getCheckedValues(customMenuItem));
-                    selectionDto.setInventory_Details((String) inventoryDetailsDdlb.getValue());
-                    selectionDto.setInventory_reserveDate(reserveDate.getValue().toString());
+                    selectionDto.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
+                    selectionDto.setInventoryDetails((String) inventoryDetailsDdlb.getValue());
+                    selectionDto.setInventoryreserveDate(reserveDate.getValue().toString());
                     selectionDto.setPrice(CommonUtils.getPeriodValue('M', price.getValue().toString()));
                     selectionDto.setInventoryOptionGroup(String.valueOf(inventoryLevel.getValue()));
                     if (validateGenearteButton(selectionDto)) {
@@ -392,18 +392,18 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
                     }
                     inventoryResults.setValueChangeAllowed(true);
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("Error in generate :"+e);
                 }
             }
         });
     }
 
     private boolean validateGenearteButton(AbstractSelectionDTO selectionDto) {
-        if (GlobalConstants.getSelectOne().equals(selectionDto.getInventory_Details())
+        if (GlobalConstants.getSelectOne().equals(selectionDto.getInventoryDetails())
                 || GlobalConstants.getSelectOne().equals(selectionDto.getPrice())
-                || GlobalConstants.getSelectOne().equals(selectionDto.getInventory_reserveDate())
-                || selectionDto.getSales_variables() == null
-                || selectionDto.getSales_variables().isEmpty()) {
+                || GlobalConstants.getSelectOne().equals(selectionDto.getInventoryreserveDate())
+                || selectionDto.getSalesVariables() == null
+                || selectionDto.getSalesVariables().isEmpty()) {
             return true;
         } else if (VariableConstants.CUSTOMER.equals(selectionDto.getInventoryOptionGroup())) {
             if (null == selectionDto.getCustomerList() || selectionDto.getCustomerList().isEmpty()) {
@@ -416,7 +416,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
     }
 
     private void setDefaultValue() {
-        List<String> defaultValues = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBu_companyMasterSid(), dataselection.getAdjustmentId(), StringUtils.isNotBlank(dataselection.getFromPeriodMonth()) ? CommonUtils.getMonthNo(dataselection.getFromPeriodMonth().trim().split(" ")[0]) : 1)));// Changed for GAL-6120
+        List<String> defaultValues = logic.getRateConfigSettings(new ArrayList<>(Arrays.asList(dataselection.getCompanyMasterSid(), dataselection.getBucompanyMasterSid(), dataselection.getAdjustmentId(), StringUtils.isNotBlank(dataselection.getFromPeriodMonth()) ? CommonUtils.getMonthNo(dataselection.getFromPeriodMonth().trim().split(" ")[0]) : 1)));// Changed for GAL-6120
         if (!defaultValues.isEmpty()) {
             getDefaultValues(defaultValues);
             if (!"0".equals(defaultValues.get(NumericConstants.TEN))) {
@@ -468,17 +468,23 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
             int month;
             String quarter;
             String semi;
-            int iterationCount = freq.startsWith("M") ? NumericConstants.TWELVE : freq.startsWith("Q") ? NumericConstants.SIXTEEN
-                    : freq.startsWith("S") ? NumericConstants.EIGHT : NumericConstants.FOUR;
-            int increment = freq.startsWith("M") ? 1 : freq.startsWith("Q") ? NumericConstants.THREE
-                    : freq.startsWith("S") ? NumericConstants.SIX : NumericConstants.TWELVE;
+            int iterationCountWithS = freq.startsWith("S") ? NumericConstants.EIGHT : NumericConstants.FOUR;
+            int iterationCountWithQ = freq.startsWith("Q") ? NumericConstants.SIXTEEN
+                    : iterationCountWithS;
+            int iterationCount = freq.startsWith("M") ? NumericConstants.TWELVE : iterationCountWithQ;
+            int incrementWithS = freq.startsWith("S") ? NumericConstants.SIX : NumericConstants.TWELVE;
+            int incrementWithQ = freq.startsWith("Q") ? NumericConstants.THREE
+                    : incrementWithS;
+            int increment = freq.startsWith("M") ? 1 : incrementWithQ;
             for (int i = 0; i <= iterationCount; i++) {
                 year = String.valueOf(calendar.get(Calendar.YEAR));
                 month = calendar.get(Calendar.MONTH);
                 quarter = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.THREE + 1);
                 semi = String.valueOf(calendar.get(Calendar.MONTH) / NumericConstants.SIX + 1);
-                String period = freq.startsWith("M") ? months[month] + " " + year : freq.startsWith("Q") ? "Q" + quarter + " " + year
-                        : freq.startsWith("S") ? "S" + semi + " " + year : year;
+                String periodWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
+                String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
+                        : periodWithS;
+                String period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
                 calendar.add(Calendar.MONTH, increment);
                 periodList.add(period);
             }
@@ -511,21 +517,19 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
             inventoryResults.setValueChangeAllowed(false);
             List<Object[]> list = CommonLogic.loadPipelineAccrual(projectionId);
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
-                if (!"detail_variables".equals(String.valueOf(obj[0])) && !"detail_reserveAcount".equals(String.valueOf(obj[0]))
-                        && !"summary_deductionValues".equals(String.valueOf(obj[0])) && !"summary_variables".equals(String.valueOf(obj[0]))
-                        && !VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0])) && !"sales_variables".equals(String.valueOf(obj[0]))) {
+                Object[] obj = list.get(i);
+                if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                     try {
                         BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
                     } catch (IllegalAccessException | InvocationTargetException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in configureWorkFlow :"+ex);
                     }
                 }
             }
             List<Object[]> customerList = CommonLogic.loadCustomerOptionGroup(projectionId);
             List<String> customerListValue = new ArrayList();
             for (int i = 0; i < customerList.size(); i++) {
-                Object[] obj = (Object[]) customerList.get(i);
+                Object[] obj = customerList.get(i);
                 customerListValue.add(obj[0] + "~" + obj[1]);
             }
             if (VariableConstants.CUSTOMER_GROUP.equals(selectionDto.getInventoryOptionGroup())) {
@@ -535,8 +539,8 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
             }
             loadCustomMenuBar(customerListValue);
             for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
-                if ("sales_variables".equals(String.valueOf(obj[0]))) {
+                Object[] obj = list.get(i);
+                if ("salesvariables".equals(String.valueOf(obj[0]))) {
                     String str1 = (String) obj[1];
                     String[] str2 = str1.split(",");
                     String str3 = null;
@@ -548,7 +552,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
             }
             loadDetails();
             selectionDto.setVariableVisibleColumns(variableVisibleColumns);
-            selectionDto.setSales_variables(CommonUtils.getCheckedValues(customMenuItem));
+            selectionDto.setSalesVariables(CommonUtils.getCheckedValues(customMenuItem));
             inventoryResults.generateButtonLogic(selectionDto);
             if (ARMUtils.VIEW_SMALL.equals(selectionDto.getSessionDTO().getAction())) {
                 configureFieldsOnViewMode();
@@ -559,24 +563,24 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
 
     private void loadDetails() {
         HelperListUtil.getInstance().loadValuesWithListName("DATA_SELECTION");
-        CommonUtils.loadRatePeriodComboBox(price, 1, "ARM_PERIOD_BASIS");
-        CommonUtils.loadRatePeriodComboBox(reserveDate, 1, "ARM_PERIOD_BASIS");
+        CommonUtils.loadRatePeriodComboBox(price, 1, CommonConstant.ARM_PERIOD_BASIS);
+        CommonUtils.loadRatePeriodComboBox(reserveDate, 1, CommonConstant.ARM_PERIOD_BASIS);
         List<Object> defaultValues = logic.getMonthYear();
         Integer vvalue = Integer.valueOf(String.valueOf(defaultValues.get(1)));
         String month = logic.getMonthName(vvalue);
         String str = month + " " + defaultValues.get(NumericConstants.TWO);
-        List<String> priceddlb = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);
+        List<String> priceddlbList = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);
         price.removeAllItems();
-        price.setContainerDataSource(new IndexedContainer(priceddlb));
+        price.setContainerDataSource(new IndexedContainer(priceddlbList));
         price.setValue(selectionDto.getPrice());
         List<String> reserveDatelist = getPeriodsByFrequencyForMonth();
         reserveDate.removeAllItems();
         reserveDate.setContainerDataSource(new IndexedContainer(reserveDatelist));
-        reserveDate.setValue(selectionDto.getInventory_reserveDate());
+        reserveDate.setValue(selectionDto.getInventoryreserveDate());
         reserveDate.setNullSelectionAllowed(false);
         inventoryDetailsDdlb.removeAllItems();
         inventoryDetailsDdlb.setContainerDataSource(new IndexedContainer(reserveDatelist));
-        inventoryDetailsDdlb.setValue(selectionDto.getInventory_Details());
+        inventoryDetailsDdlb.setValue(selectionDto.getInventoryDetails());
         inventoryDetailsDdlb.setNullSelectionAllowed(false);
         inventoryLevel.removeValueChangeListener(frequencyListener);
         inventoryLevel.setValue(selectionDto.getInventoryOptionGroup());
@@ -644,7 +648,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
     public void loadFixedCustomMenuBar() {
 
         variableValues = VariableConstants.PipelineInventoryVariables.names();
-        variableVisibleColumns = VariableConstants.VARIABLE_INVENTORY_VISIBLE_COLUMN;
+        variableVisibleColumns = VariableConstants.getVariableInventoryVisibleColumn();
         String[] both = (String[]) ArrayUtils.addAll(null, variableValues);
         String[] both1 = (String[]) ArrayUtils.addAll(null, variableVisibleColumns);
         variableVisibleColumns = both1;
@@ -654,12 +658,12 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
     }
 
     public void getDefaultValues(List<String> defaultValues) {
-        if (defaultValues.get(NumericConstants.THREE).equals("0")) {
+        if ("0".equals(defaultValues.get(NumericConstants.THREE))) {
             price.setValue(ConstantsUtils.SELECT_ONE);
         } else {
             price.setValue(logic.getRatePeriod(defaultValues.get(NumericConstants.THREE), "M", dataselection.getFromPeriodMonth(), priceddlb));
         }
-        if (defaultValues.get(NumericConstants.FIVE).equals("0")) {
+        if ("0".equals(defaultValues.get(NumericConstants.FIVE))) {
             reserveDate.setValue(ConstantsUtils.SELECT_ONE);
         } else {
             /**
@@ -671,7 +675,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
              */
             reserveDate.setValue(logic.getRatePeriodFromDS(defaultValues.get(NumericConstants.FIVE), "M", StringUtils.EMPTY, null, dataselection.getFromDate()));
         }
-        if (defaultValues.get(NumericConstants.SIX).equals("0")) {
+        if ("0".equals(defaultValues.get(NumericConstants.SIX))) {
             inventoryDetailsDdlb.setValue(ConstantsUtils.SELECT_ONE);
         } else {
             inventoryDetailsDdlb.setValue(logic.getRatePeriodFromDS(defaultValues.get(NumericConstants.SIX), "M", StringUtils.EMPTY, null, dataselection.getFromDate()));
@@ -680,11 +684,21 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
 
     public void configurePermission(String userId, StplSecurity stplSecurity) throws Exception {
         Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Fixed Dollar Adjustment", "Transaction3", "Inventory");
-        reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
+        reset.setVisible(CommonLogic.isButtonVisibleAccess(CommonConstant.RESET, functionHM));
         generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
         inventoryResults.getExpandbtn().setVisible(CommonLogic.isButtonVisibleAccess("expandbtn", functionHM));
         inventoryResults.getCollapseBtn().setVisible(CommonLogic.isButtonVisibleAccess("collapseBtn", functionHM));
         inventoryResults.getCalculateBtn().setVisible(CommonLogic.isButtonVisibleAccess("calculateBtn", functionHM));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

@@ -40,15 +40,15 @@ public class ContractHolderLookUp extends Window {
 
     RebateTableLogic tableLogic = new RebateTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<LookupDTO>(LookupDTO.class);
-    private BeanItemContainer<String> chStatusBean = new BeanItemContainer<String>(String.class);
-    private BeanItemContainer<String> chTypeBean = new BeanItemContainer<String>(String.class);
+    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
+    private BeanItemContainer<String> chStatusBean = new BeanItemContainer<>(String.class);
+    private BeanItemContainer<String> chTypeBean = new BeanItemContainer<>(String.class);
 
     public ContractHolderLookUp() {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/contractHolder.xml"), this));
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(true);
         setModal(true);
         configureFields();
@@ -61,8 +61,8 @@ public class ContractHolderLookUp extends Window {
         resultsTable.setFilterBarVisible(true);
         resultsTable.setContainerDataSource(resultsContainer);
         resultsTable.setEditable(true);
-        resultsTable.setVisibleColumns(Constants.CH_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(Constants.CH_SEARCH_HEADERS);
+        resultsTable.setVisibleColumns(Constants.getInstance().chSearchColumns);
+        resultsTable.setColumnHeaders(Constants.getInstance().chSearchHeaders);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         for (Object propertyId : resultsTable.getVisibleColumns()) {
             resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_EIGHT_ZERO);

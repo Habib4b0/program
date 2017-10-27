@@ -106,6 +106,8 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
     private String _shelfLife;
     private String _marketTerminationDate;
     private boolean _checkRecord;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
     private BaseModel<?> _ivldItemMasterRemoteModel;
 
     public IvldItemMasterClp() {
@@ -234,6 +236,8 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
         attributes.put("shelfLife", getShelfLife());
         attributes.put("marketTerminationDate", getMarketTerminationDate());
         attributes.put("checkRecord", getCheckRecord());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -768,6 +772,19 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
 
         if (checkRecord != null) {
             setCheckRecord(checkRecord);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -2692,6 +2709,51 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
         }
     }
 
+    @Override
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+
+        if (_ivldItemMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _ivldItemMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBaseCpiPrecision", int.class);
+
+                method.invoke(_ivldItemMasterRemoteModel, baseCpiPrecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
+
+        if (_ivldItemMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _ivldItemMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBaselineAmpPrecision",
+                        int.class);
+
+                method.invoke(_ivldItemMasterRemoteModel, baselineAmpPrecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getIvldItemMasterRemoteModel() {
         return _ivldItemMasterRemoteModel;
     }
@@ -2846,6 +2908,8 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
         clone.setShelfLife(getShelfLife());
         clone.setMarketTerminationDate(getMarketTerminationDate());
         clone.setCheckRecord(getCheckRecord());
+        clone.setBaseCpiPrecision(getBaseCpiPrecision());
+        clone.setBaselineAmpPrecision(getBaselineAmpPrecision());
 
         return clone;
     }
@@ -2891,7 +2955,7 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(171);
+        StringBundler sb = new StringBundler(175);
 
         sb.append("{itemNo=");
         sb.append(getItemNo());
@@ -3063,6 +3127,10 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
         sb.append(getMarketTerminationDate());
         sb.append(", checkRecord=");
         sb.append(getCheckRecord());
+        sb.append(", baseCpiPrecision=");
+        sb.append(getBaseCpiPrecision());
+        sb.append(", baselineAmpPrecision=");
+        sb.append(getBaselineAmpPrecision());
         sb.append("}");
 
         return sb.toString();
@@ -3070,7 +3138,7 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(259);
+        StringBundler sb = new StringBundler(265);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.parttwo.model.IvldItemMaster");
@@ -3415,6 +3483,14 @@ public class IvldItemMasterClp extends BaseModelImpl<IvldItemMaster>
         sb.append(
             "<column><column-name>checkRecord</column-name><column-value><![CDATA[");
         sb.append(getCheckRecord());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baseCpiPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaseCpiPrecision());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baselineAmpPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaselineAmpPrecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

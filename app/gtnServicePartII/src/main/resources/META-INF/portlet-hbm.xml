@@ -797,6 +797,8 @@
 		<property name="shelfLife" type="com.stpl.portal.dao.orm.hibernate.StringType" column="SHELF_LIFE" />
 		<property name="marketTerminationDate" type="com.stpl.portal.dao.orm.hibernate.StringType" column="MARKET_TERMINATION_DATE" />
 		<property name="checkRecord" type="com.stpl.portal.dao.orm.hibernate.BooleanType" column="CHECK_RECORD" />
+		<property name="baseCpiPrecision" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BASE_CPI_PRECISION" />
+		<property name="baselineAmpPrecision" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BASELINE_AMP_PRECISION" />
 	</class>
 	<class name="com.stpl.app.parttwo.model.impl.IvldItemPricingImpl" table="IVLD_ITEM_PRICING">
 		<id name="ivldItemPricingSid" column="IVLD_ITEM_PRICING_SID" type="int">
@@ -827,6 +829,7 @@
 		<property name="itemPrice" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ITEM_PRICE" />
 		<property name="intfInsertedDate" type="org.hibernate.type.TimestampType" column="INTF_INSERTED_DATE" />
 		<property name="checkRecord" type="com.stpl.portal.dao.orm.hibernate.BooleanType" column="CHECK_RECORD" />
+		<property name="itemPriceprecision" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ITEM_PRICE_PRECISION" />
 	</class>
 	<class name="com.stpl.app.parttwo.model.impl.SlaCalendarDetailsImpl" table="SLA_CALENDAR_DETAILS">
 		<id name="slaCalendarDetailsSid" column="SLA_CALENDAR_DETAILS_SID" type="int">
@@ -1387,6 +1390,8 @@
 		<property name="itemCode" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ITEM_CODE" />
 		<property name="clottingFactorStartDate" type="org.hibernate.type.TimestampType" column="CLOTTING_FACTOR_START_DATE" />
 		<property name="nonFederalExpirationDate" type="org.hibernate.type.TimestampType" column="NON_FEDERAL_EXPIRATION_DATE" />
+		<property name="baseCpiPrecision" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BASE_CPI_PRECISION" />
+		<property name="baselineAmpPrecision" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BASELINE_AMP_PRECISION" />
 	</class>
 	<class name="com.stpl.app.parttwo.model.impl.VwItemPricingImpl" table="VW_ITEM_PRICING">
 		<id name="itemPricingSid" column="ITEM_PRICING_SID" type="int">
@@ -1410,6 +1415,7 @@
 		<property name="itemNo" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ITEM_NO" />
 		<property name="pricingCodeStatus" type="com.stpl.portal.dao.orm.hibernate.StringType" column="PRICING_CODE_STATUS" />
 		<property name="pricingCodeQualifierName" type="com.stpl.portal.dao.orm.hibernate.StringType" column="PRICING_CODE_QUALIFIER_NAME" />
+		<property name="itemPriceprecision" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="ITEM_PRICE_PRECISION" />
 	</class>
 	<class name="com.stpl.app.parttwo.model.impl.VwIvldAdjDemandForeActualImpl" table="VW_IVLD_ADJ_DEMAND_FORE_ACTUAL">
 		<id name="ivldAdjustedDemandForecastSid" column="IVLD_ADJUSTED_DEMAND_FORECAST_SID" type="int">

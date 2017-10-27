@@ -32,8 +32,8 @@
             <Button id="addBtn" caption="ADD" />
             <Button id="editBtn" caption="EDIT" />
             <Button id="viewBtn" caption="VIEW" />
-            <Button id="copyBtn" caption="COPY" />
             <Button id="deleteBtn" caption="DELETE" />
+            <Button id="copyBtn" caption="COPY" />
             <Button id="excelBtn" />
         </HorizontalLayout>
     </VerticalLayout>

@@ -28,7 +28,6 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
  * @author shrihariharan
  */
 public class ItemDetailsGenerator implements ExtFilterGenerator {
-
     CommonUtils commonsUtil = new CommonUtils();
     /**
      * The common util.
@@ -67,14 +66,10 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
 
-        ContractUtils tempUtil = new ContractUtils();
         if ("packageSize".equals(propertyId)) {
             ComboBox packageSize = new ComboBox();
             try {
                 commonUtil.loadComboBox(packageSize, "PACKAGE_SIZE", true);
-
-            } catch (SystemException ex) {
-                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
 
             } catch (Exception ex) {
                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,9 +81,6 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
             try {
                 commonUtil.loadComboBox(primaryUom, "UOM", true);
 
-            } catch (SystemException ex) {
-                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
-
             } catch (Exception ex) {
                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -97,7 +89,7 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
         if ("priceType".equals(propertyId)) {
             try {
                 final ComboBox priceType = new ComboBox();
-                List<HelperDTO> list = tempUtil.getFilterPriceType();
+                List<HelperDTO> list = ContractUtils.getInstance().getFilterPriceType();
                 commonsUtil.getNativeSelect(priceType, list);
                 priceType.setImmediate(true);
                 priceType.setNullSelectionAllowed(true);
@@ -114,9 +106,6 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
             try {
                 commonUtil.loadComboBox(itemStatus, UIUtils.STATUS, true);
 
-            } catch (SystemException ex) {
-                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
-
             } catch (Exception ex) {
                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -129,8 +118,6 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
                 final ComboBox priceToleranceType = new ComboBox();
                 commonUtil.loadComboBox(priceToleranceType, ContractUtils.PRICE_TOLERANCE_TYPE, true);
                 return priceToleranceType;
-            } catch (SystemException ex) {
-                Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -140,8 +127,6 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
                 final ComboBox priceToleranceInterval = new ComboBox();
                 commonUtil.loadComboBox(priceToleranceInterval, ContractUtils.PRICE_TOLERANCE_INTERVAL, true);
                 return priceToleranceInterval;
-            } catch (SystemException ex) {
-                Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -152,8 +137,6 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
                 final ComboBox priceToleranceFrequency = new ComboBox();
                 commonUtil.loadComboBox(priceToleranceFrequency, ContractUtils.PRICE_TOLERANCE_FRERQUENCY, true);
                 return priceToleranceFrequency;
-            } catch (SystemException ex) {
-                Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -162,9 +145,6 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
             ComboBox attachedStatus = new ComboBox();
             try {
                 commonUtil.loadComboBox(attachedStatus, UIUtils.STATUS, true);
-
-            } catch (SystemException ex) {
-                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
 
             } catch (Exception ex) {
                 Logger.getLogger(ItemDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
@@ -177,10 +157,12 @@ public class ItemDetailsGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

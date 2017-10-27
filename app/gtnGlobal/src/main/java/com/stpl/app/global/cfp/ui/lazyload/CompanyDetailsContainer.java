@@ -19,6 +19,7 @@ import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
@@ -135,7 +136,13 @@ public class CompanyDetailsContainer implements BeanDAO<CFPCompanyDTO> {
 
     /**
      * Method used for get the results.
+     * @param searchCriteria
+     * @param offset
+     * @param startIndex
+     * @param list
+     * @return 
      */
+    @Override
     public List<CFPCompanyDTO> find(final BeanSearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             LOGGER.debug("Entering AvailableCompanyAddition find method for third tab:");
@@ -155,11 +162,11 @@ public class CompanyDetailsContainer implements BeanDAO<CFPCompanyDTO> {
                     companyDetailsResultSaveBean.removeAllItems();
                 }
                 if (table.getData() == null) {
-                    return null;
+                    return Collections.emptyList();
                 } else {
                     CommonLazyUtilDTO dto = (CommonLazyUtilDTO) table.getData();
                    List<Object[]> list1 = CFPSearchLogic.searchCompanyHelperTableSort(startIndex, offset, dto,list,searchCriteria,getRecord(),false);
-                   List<CFPCompanyDTO> finalList = new ArrayList<CFPCompanyDTO>();
+                   List<CFPCompanyDTO> finalList = new ArrayList<>();
 
                    return CFPSearchLogic.getCustomizedTempCFPCompanyDTO(list1, finalList, dto);
                 }
@@ -196,7 +203,7 @@ public class CompanyDetailsContainer implements BeanDAO<CFPCompanyDTO> {
                 }, ButtonId.OK);
                 msg.getButton(ButtonId.OK).focus();
                 }
-        return null;
+        return Collections.emptyList();
     }
 
     public String getRecord() {

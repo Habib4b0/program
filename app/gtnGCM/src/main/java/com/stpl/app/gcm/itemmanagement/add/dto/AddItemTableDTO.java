@@ -51,7 +51,7 @@ public class AddItemTableDTO {
     private Integer endIndex = 0;
     private boolean isCount = false;
     private Boolean checkRecord = false;
-    private List<ItemIndexDto> selectedItemList = new ArrayList<ItemIndexDto>();
+    private List<ItemIndexDto> selectedItemList = new ArrayList<>();
     private Integer contractSid = 0;
     private Integer companySid = 0;
     private Integer cfpContractSid = 0;

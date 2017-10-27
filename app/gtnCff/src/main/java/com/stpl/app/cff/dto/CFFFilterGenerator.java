@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.dto;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.util.CommonUtils;
@@ -62,11 +63,11 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
 
             try {
                 ComboBox typeDdlb = new ComboBox();
-                typeDdlb.addItem("Show All");
+                typeDdlb.addItem(StringConstantsUtil.SHOW_ALL);
                 typeDdlb = commonUtils.getNativeSelect(typeDdlb, CFFLogic.getDropDownList(ConstantsUtil.CFF_TYPE), StringUtils.EMPTY);
                 typeDdlb.setDebugId("testing");
                 typeDdlb.setImmediate(true);
-                typeDdlb.setNullSelectionItemId("Show All");
+                typeDdlb.setNullSelectionItemId(StringConstantsUtil.SHOW_ALL);
                 return typeDdlb;
             } catch (SystemException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,11 +82,11 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
 
             try {
                 ComboBox statusDdlb = new ComboBox();
-                statusDdlb.addItem("Show All");
+                statusDdlb.addItem(StringConstantsUtil.SHOW_ALL);
                 statusDdlb.addItems(CFFLogic.loadStatusDdlb(CommonUtils.WORKFLOW_STATUS));
                 statusDdlb.setDebugId("testing");
                 statusDdlb.setImmediate(true);
-                statusDdlb.setNullSelectionItemId("Show All");
+                statusDdlb.setNullSelectionItemId(StringConstantsUtil.SHOW_ALL);
                 return statusDdlb;
             } catch (SystemException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);

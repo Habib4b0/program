@@ -35,7 +35,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
     public Button closeBtn = new Button(" CLOSE ");
     WorkFlowLookup workFlowLookup = null;
     private final WorkflowLogic searchLogic = new WorkflowLogic();
-    List<InboxDashboardDTO> inboxSearchResults = new ArrayList<InboxDashboardDTO>();
+    List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(CustomInboxDashBoard.class);
 
     public CustomInboxDashBoard(String projectionId, WorkFlowLookup workFlowLookup) {
@@ -77,7 +77,6 @@ public class CustomInboxDashBoard extends InboxDashBoard {
             inboxSearchResults = CommonUtils.getCustomizedWorkflowInboxResults(resultList, columnsList);
 
         }
-        resultList = null;
         inboxDashboardBean.addAll(inboxSearchResults);
     }
 

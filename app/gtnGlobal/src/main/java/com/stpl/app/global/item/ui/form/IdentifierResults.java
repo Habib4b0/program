@@ -100,7 +100,7 @@ public final class IdentifierResults extends StplCustomComponent {
     CssLayout cssLayout;
     @UiField("hLayout")
     HorizontalLayout hlayout;
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<>();
     /**
      * The logger.
      */
@@ -129,7 +129,7 @@ public final class IdentifierResults extends StplCustomComponent {
     /**
      * The binder.
      */
-    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<ItemIrtIdentifierDTO>(identifierFormBean));
+    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(identifierFormBean));
     /**
      * The identifier results bean.
      */
@@ -201,7 +201,7 @@ public final class IdentifierResults extends StplCustomComponent {
     private final boolean isViewMode;
     /** The common util. */
     private CommonUtil commonUtil = CommonUtil.getInstance();
-    
+    private final UIUtils uiUtils = UIUtils.getInstance();
         CommonUtil util = CommonUtil.getInstance();
   /**
    * The Constructor.
@@ -317,7 +317,7 @@ public final class IdentifierResults extends StplCustomComponent {
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER+ConstantsUtils.COMMA+ ConstantsUtils.IDENTIFIER_HEADER,false);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_MASTER, ConstantsUtils.IDENTIFIER_HEADER);
-            Object[] obj = com.stpl.app.global.item.util.UIUtils.IDEN_FORM_COL_ORDER;
+            Object[] obj = uiUtils.idenFormColOrder;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
           if(tableResultCustom.getObjResult().length > 0){
             table.markAsDirty();
@@ -504,7 +504,7 @@ public final class IdentifierResults extends StplCustomComponent {
                         }
                     }
                     identifierResultsBean.addBean(identForm);
-                    binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(new ItemIrtIdentifierDTO()));
+                    binder.setItemDataSource(new BeanItem<>(new ItemIrtIdentifierDTO()));
                     itemIrtQualifierNameDDLB.select(dto);
 
                     resetBtnLogic();
@@ -685,7 +685,7 @@ public final class IdentifierResults extends StplCustomComponent {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public void configureFields() throws SystemException {
+    public void configureFields() {
         LOGGER.debug("Enters configureFields() ");
 
 
@@ -845,23 +845,7 @@ public final class IdentifierResults extends StplCustomComponent {
                     itemIrtQualifierNameDDLB.markAsDirty();
                     itemIrtQualifierNameDDLB.select(dto);
 
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msgBox = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {   
-                        /**         
-                         * The method is triggered when a button of the message box is     
-                         * pressed .        
-                         *             
-                         * @param buttonId The buttonId of the pressed button.  
-                         */           
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {   
-                            // Do Nothing   
-                        }        
-                    }, ButtonId.OK);    
-                    msgBox.getButton(ButtonId.OK).focus();
-                } catch (Exception exception) {
+                }catch (Exception exception) {
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {  
                         /**         
                          * The method is triggered when a button of the message box is 
@@ -877,6 +861,14 @@ public final class IdentifierResults extends StplCustomComponent {
                     msg.getButton(ButtonId.OK).focus();
                     LOGGER.error(exception);
                 }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                
             }
         });
         excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
@@ -964,13 +956,13 @@ public final class IdentifierResults extends StplCustomComponent {
         });
     }
 
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = table.getContainerDataSource().size();
         ExcelExportforBB.createWorkSheet(table.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.IDENTIFIER);
@@ -987,7 +979,7 @@ public final class IdentifierResults extends StplCustomComponent {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         ItemIrtIdentifierDTO dto;
         final List<ItemIrtIdentifierDTO> searchList = identifierResultsBean.getItemIds();
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ExcelExportUtil.DATE_FORMAT, Locale.getDefault());
@@ -1083,7 +1075,7 @@ public final class IdentifierResults extends StplCustomComponent {
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             if (startDate.getValue() != null && endDate.getValue() != null) {
                 if (startDate.getValue().after(endDate.getValue())) {
                     throw new InvalidValueException("End date should be greater than Start date");
@@ -1147,7 +1139,7 @@ public final class IdentifierResults extends StplCustomComponent {
      *
      * @return the qualifier items
      */
-    private LazyContainer getQualifierItems() throws SystemException {
+    private LazyContainer getQualifierItems() {
 
         final LazyContainer container = new LazyContainer(HelperDTO.class, new ItemQualifierNameContainer(true), new ItemQualifierNameCriteria());
         container.setMinFilterLength(0);
@@ -1160,7 +1152,7 @@ public final class IdentifierResults extends StplCustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = list.size(); i < j; i++) {
             list.remove(propertyIds[i]);
         }

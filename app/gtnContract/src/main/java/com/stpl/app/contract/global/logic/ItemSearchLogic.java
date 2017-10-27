@@ -48,7 +48,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      */
     public List<HelperDTO> getItemType(final String listType) throws SystemException {
         LOGGER.debug("Entering getItemType()");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = dao.findByHelperTableDetails(listType);
 
         if (list != null) {

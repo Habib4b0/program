@@ -7,9 +7,12 @@ package com.stpl.app.arm.businessprocess.abstractbusinessprocess.form;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractPipelineLogic;
+import com.stpl.app.arm.businessprocess.transaction8.tablegenerator.RatesTableGenerator;
 import com.stpl.app.arm.supercode.LogicAble;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.utils.CommonUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.ui.ExtCustomTable;
@@ -21,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -30,8 +34,9 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
 
     Object[] visibleColumns;
     String[] visibleHeaders;
+    protected final Logger logger = Logger.getLogger(getClass());
 
-    private ExtTreeContainer<AdjustmentDTO> resultBeanContainer = new ExtTreeContainer<AdjustmentDTO>(
+    protected ExtTreeContainer<AdjustmentDTO> resultBeanContainerVal = new ExtTreeContainer<>(
             AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
 
     public AbstractRatesSearchResults(LogicAble logic, AbstractSelectionDTO selection) {
@@ -58,19 +63,21 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
         abstractSearchContent.setWidth("100%");
     }
 
-    public ExtTreeContainer<AdjustmentDTO> getResultBeanContainer() {
-        return resultBeanContainer;
+    @Override
+    public ExtTreeContainer<AdjustmentDTO> getResultBeanContainerVal() {
+        return resultBeanContainerVal;
     }
+    private static final Object[] searchResult = {ARMConstants.getDeductionProduct(),
+        ARMConstants.getDeductionCustomer(), ARMConstants.getDeductionCustomerContract()};
 
     protected void configureOnRatesSearchResults() {
         calculateBtn.setVisible(false);
         cancelOverride.setVisible(false);
         panelCaption.setCaption("Rate Results");
         valueDdlb.setVisible(false);
-        BBExport.setPrimaryStyleName("link");
-        BBExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
-        customerProductView.addItems(new Object[]{ARMConstants.getDeductionProduct(),
-            ARMConstants.getDeductionCustomer(), ARMConstants.getDeductionCustomerContract()});
+        bbExport.setPrimaryStyleName("link");
+        bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
+        customerProductView.addItems(searchResult);
         customerProductView.setValue(ARMConstants.getDeductionProduct());
     }
 
@@ -78,8 +85,8 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
         excelTable.setContainerDataSource(excelBeanContainer);
-        excelBeanContainer.setRecordHeader(resultBeanContainer.getRecordHeader());
-        for (Object prop : resultBeanContainer.getRecordHeader().toArray()) {
+        excelBeanContainer.setRecordHeader(resultBeanContainerVal.getRecordHeader());
+        for (Object prop : resultBeanContainerVal.getRecordHeader().toArray()) {
             properties.put(prop, String.class);
         }
         excelBeanContainer.setColumnProperties(properties);
@@ -93,9 +100,9 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
         columnHeader.addAll(headerList2);
         excelTable.setVisibleColumns(visibleColumn.toArray());
         excelTable.setColumnHeaders(columnHeader.toArray(new String[0]));
-        for (Object visibleColumns : excelTable.getVisibleColumns()) {
-            if (!visibleColumns.toString().equals("group")) {
-                excelTable.setConverter(visibleColumns, new DataFormatConverter("#,##0.000", "%"), Boolean.FALSE);
+        for (Object visibleColumnsValue : excelTable.getVisibleColumns()) {
+            if (!"group".equals(visibleColumnsValue.toString())) {
+                excelTable.setConverter(visibleColumnsValue, new DataFormatConverter("#,##0.000", "%"), Boolean.FALSE);
             }
         }
     }
@@ -113,10 +120,10 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
             }
         }
         setDeductionView(selectionDTO);
-        setRespectiveHierarchy(selectionDTO.getRate_DeductionView());
+        setRespectiveHierarchy(selectionDTO.getRateDeductionView());
         configureLevelAndLevelFilter();
         selectionDTO.setLevelNo(1);
-        loadTableHeader(selectionDTO.getRate_ColumnList());
+        loadTableHeader(selectionDTO.getRateColumnList());
         tableLogic.loadSetData(Boolean.FALSE);
     }
 
@@ -124,11 +131,11 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
      *
      * @param columnList
      */
-    private void loadTableHeader(List<List> columnList) {
+    protected void loadTableHeader(List<List> columnList) {
         Map properties = new HashMap();
         if (columnList != null && !columnList.isEmpty()) {
             getTotalHeader(columnList);
-            visibleColumns = ((List) columnList.get(0)).toArray();
+            visibleColumns = (columnList.get(0)).toArray();
             visibleHeaders = Arrays.copyOf(columnList.get(1).toArray(), columnList.get(1).size(), String[].class);
             for (Object visibleColumn : visibleColumns) {
                 properties.put(visibleColumn, String.class);
@@ -138,10 +145,10 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
             visibleHeaders = new String[]{StringUtils.EMPTY};
         }
 
-        tableLogic.setContainerDataSource(resultBeanContainer);
-        resultBeanContainer.setRecordHeader(Arrays.asList(visibleColumns));
-        resultBeanContainer.setColumnProperties(properties);
-        leftTable.setVisibleColumns(ARMUtils.PIPELINE_ACCRUAL_LEFT_COLUMN);
+        tableLogic.setContainerDataSource(resultBeanContainerVal);
+        resultBeanContainerVal.setRecordHeader(Arrays.asList(visibleColumns));
+        resultBeanContainerVal.setColumnProperties(properties);
+        leftTable.setVisibleColumns(ARMUtils.getPipelineAccrualLeftColumn());
         leftTable.setColumnHeaders(ARMConstants.getDeductionProduct().equalsIgnoreCase(String.valueOf(customerProductView.getValue()))
                 ? ARMUtils.PRODUCT : ARMUtils.CUSTOMER_SMALL);
         rightTable.setVisibleColumns(visibleColumns);
@@ -150,13 +157,22 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
             rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
 
         }
+        configureRightTable();
     }
 
     @Override
     protected void configureRightTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RatesTableGenerator fieldFactory = new RatesTableGenerator(getSummaryLogic(), getSelection(), ARMConstants.getDeductionContractCustomer().equals(String.valueOf(customerProductView.getValue()))
+                && ARMConstants.getDeduction().equals(selection.getRateDeductionLevelName()), visibleColumns,tableLogic);
+        rightTable.setEditable(true);
+        rightTable.setTableFieldFactory(fieldFactory);
     }
-
+    
+    @Override
+    public AbstractPipelineLogic getSummaryLogic() {
+        return (AbstractPipelineLogic) super.getSummaryLogic();
+    }
+    
     @Override
     protected boolean calculateLogic() {
         return false;
@@ -164,12 +180,13 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
 
     @Override
     protected void customerProductValueChange() {
-        if (resultBeanContainer != null && resultBeanContainer.size() > 0) {
+        if (resultBeanContainerVal != null && resultBeanContainerVal.size() > 0) {
             leftTable.setColumnHeaders(ARMConstants.getDeductionProduct().equalsIgnoreCase(String.valueOf(customerProductView.getValue()))
                     ? ARMUtils.PRODUCT : ARMUtils.CUSTOMER_SMALL);
             setDeductionView(selection);
-            setRespectiveHierarchy(selection.getRate_DeductionView());
+            setRespectiveHierarchy(selection.getRateDeductionView());
             configureLevelAndLevelFilter();
+            configureRightTable();
             tableLogic.loadSetData(Boolean.FALSE);
         }
     }
@@ -179,17 +196,21 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
      * @param selectionDTO
      */
     public void setDeductionView(AbstractSelectionDTO selectionDTO) {
-        selectionDTO.setRate_DeductionView(String.valueOf(customerProductView.getValue()));
-        selectionDTO.setRate_LevelName(ARMConstants.getDeductionProduct().equals(selectionDTO.getRate_DeductionView())
-                ? "BRAND" : ARMConstants.getDeductionCustomer().equals(selectionDTO.getRate_DeductionView())
-                ? "CUSTOMER" : (ARMConstants.getDeduction().equals(selectionDTO.getRate_DeductionLevelName()) ? "DEDUCTION" : "CUSTOMER"));
+        selectionDTO.setRateDeductionView(String.valueOf(customerProductView.getValue()));
+        String contractVal = ARMConstants.getDeductionCustomerContract().equals(selectionDTO.getRateDeductionView()) ? "CUSTOMER" : "CONTRACT" ; 
+        String value = (ARMConstants.getDeduction().equals(selectionDTO.getRateDeductionLevelName()) ? "DEDUCTION" : contractVal );
+        String deductionCustomer = ARMConstants.getDeductionCustomer().equals(selectionDTO.getRateDeductionView())
+                ? "CUSTOMER" : value;
+        selectionDTO.setRateLevelName(ARMConstants.getDeductionProduct().equals(selectionDTO.getRateDeductionView())
+                ? "BRAND" : deductionCustomer);
     }
 
     protected abstract void getTotalHeader(List<List> columnList);
 
+    @Override
     protected boolean setRespectiveLevelFileterValue(String levelValue, int levelNo) {
-        selection.setRates_levelFilterNo(levelNo);
-        selection.setRate_LevelName(levelValue.toUpperCase());
+        selection.setRateslevelFilterNo(levelNo);
+        selection.setRateLevelName(levelValue.toUpperCase());
         if (levelNo == 0) {
             setDeductionView(selection);
         }
@@ -197,33 +218,51 @@ public abstract class AbstractRatesSearchResults extends AbstractSearchResults {
     }
 
     public void rateProcedureCall(AbstractSelectionDTO selectionDTO) {
-        Object[] orderedArgs = {selectionDTO.getDataSelectionDTO().getProjectionId(), selectionDTO.getRate_BasisName(),
-            selectionDTO.getRate_Period(), selectionDTO.getRate_FrequencyName(), selectionDTO.getModuleName(),selectionDTO.getRate_Period(),
+        Object[] orderedArgs = {selectionDTO.getDataSelectionDTO().getProjectionId(), selectionDTO.getRateBasisName(),
+            selectionDTO.getRatePeriodValue(), selectionDTO.getRateFrequencyName(), selectionDTO.getModuleName(), selectionDTO.getRatePeriodValue(),
             selectionDTO.getSessionDTO().getUserId(), selectionDTO.getSessionDTO().getSessionId()};
+        selectionDTO.setRatesOverrideFlag(NumericConstants.ZERO);
         CommonUtils.callInsertProcedure("PRC_ARM_PIPELINE_RATE", orderedArgs);
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
-        return getSelection().getRates_hierarchy();
+        return getSelection().getRateshierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        if (viewType.equals(ARMConstants.getDeductionCustomerContract()) && !getSelection().getRate_DeductionLevelName().equals(ARMConstants.getDeduction())) {
-            viewType = "non" + ARMConstants.getDeductionCustomerContract();
+        String viewTypeValue;
+        if (viewType.equals(ARMConstants.getDeductionCustomerContract()) && !getSelection().getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
+            viewTypeValue = "non" + ARMConstants.getDeductionCustomerContract();
+        } else if (viewType.equals(ARMConstants.getDeductionContractCustomer()) && !getSelection().getRateDeductionLevelName().equals(ARMConstants.getDeduction())) {
+            viewTypeValue = "non" + ARMConstants.getDeductionContractCustomer();
+
+        } else {
+            viewTypeValue = viewType;
         }
-        getSelection().setRates_hierarchy(ARMUtils.getLevelAndLevelFilter(viewType));
+        getSelection().setRateshierarchy(ARMUtils.getLevelAndLevelFilter(viewTypeValue));
     }
 
     public void trx7RateProcedureCall(AbstractSelectionDTO selectionDTO) {
         Object[] orderedArgs = {selectionDTO.getDataSelectionDTO().getProjectionId(), "Monthly",
             selectionDTO.getSessionDTO().getUserId(), selectionDTO.getSessionDTO().getSessionId()};
         CommonUtils.callInsertProcedure("PRC_ARM_DISTRIBUTION_FEES_RATE", orderedArgs);
+        selectionDTO.setRatesOverrideFlag(NumericConstants.ZERO);
     }
 
     @Override
     protected boolean getIsDemandSreen() {
         return Boolean.FALSE;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

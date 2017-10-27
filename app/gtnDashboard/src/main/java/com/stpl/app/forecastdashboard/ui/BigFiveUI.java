@@ -18,7 +18,6 @@ import org.jboss.logging.Logger;
  */
 public class BigFiveUI extends UI{
       Navigator navi;
-   private static final Logger LOGGER = Logger.getLogger(BigFiveUI.class);
     /**
      * This method is used to register the navigations for different views.
      *

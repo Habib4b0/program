@@ -5,14 +5,7 @@
  */
 package com.stpl.app.adminconsole.mailconfiguration.ui.Form;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
-
-import org.apache.commons.lang.StringUtils;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.mailconfiguration.logic.MailConfigurationLogic;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
@@ -27,6 +20,12 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import java.util.HashMap;
+import java.util.List;
+import java.util.StringTokenizer;
+import org.apache.commons.lang.StringUtils;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
 
 /**
  *
@@ -70,7 +69,7 @@ public class MailNotificationForm extends CustomComponent {
     @UiField("processName")
     private ComboBox processName;
 
-    HashMap<String, ProcessSchedulerDTO> hs = new HashMap<String, ProcessSchedulerDTO>();
+    HashMap<String, ProcessSchedulerDTO> hs = new HashMap<>();
     MailConfigurationLogic maillogic = new MailConfigurationLogic();
     String zero = "0";
     SessionDTO sessionDTO;
@@ -165,10 +164,8 @@ public class MailNotificationForm extends CustomComponent {
                                 dto.setFailCC(emailSeperator(failureCc.getValue()));
                                 dto.setFailSubject(failSubject.getValue());
                                 dto.setFailText(failText.getValue());
-                                WorkflowProfile profile = maillogic.updateEmailDetailsToprocess(userId, dto);
+                                maillogic.updateEmailDetailsToprocess(userId, dto);
 
-//                                QuartzListener.reScheduleJobs(maillogic.updateEmailDetailsToprocess(userId, dto));
-//                                QuartzListener.updateJob(profile);
                                 successEmailTo.setValue("");
                                 successCc.setValue("");
                                 successSubject.setValue("");
@@ -185,7 +182,7 @@ public class MailNotificationForm extends CustomComponent {
 
                         } else {
 
-                            com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please select Process Name ");
+                            com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please select Process Name ");
 
                         }
 
@@ -223,48 +220,48 @@ public class MailNotificationForm extends CustomComponent {
             
             if (!validateEmail(emailSeperator(successEmailTo.getValue()))) {
 
-                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter valid Email Address for " + successToLb.getValue());
+                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, StringConstantUtils.PLEASE_ENTER_VALID_EMAIL_ADDRESS + successToLb.getValue());
                 return false;
             }
         }else{
-           com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter  Email Address for " + successToLb.getValue());
+           com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please enter  Email Address for " + successToLb.getValue());
                 return false;
         }
         if (successCc.getValue() != null && !successCc.getValue().equals(StringUtils.EMPTY) && !validateEmail(emailSeperator(successCc.getValue()))) {
-                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter valid Email Address for " + successCcLb.getValue());
+                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, StringConstantUtils.PLEASE_ENTER_VALID_EMAIL_ADDRESS + successCcLb.getValue());
                 return false;
         }
         if (failureEmailTo.getValue() != null && !failureEmailTo.getValue().equals(StringUtils.EMPTY)) {
             if (!validateEmail(emailSeperator(failureEmailTo.getValue()))) {
 
-                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter valid Email Address for " + failureToLb.getValue());
+                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, StringConstantUtils.PLEASE_ENTER_VALID_EMAIL_ADDRESS + failureToLb.getValue());
                 return false;
             }
         }
         else{
-           com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter  Email Address for " + failureToLb.getValue());
+           com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please enter  Email Address for " + failureToLb.getValue());
                 return false;
         }
         if (failureCc.getValue() != null && !failureCc.getValue().equals(StringUtils.EMPTY) && !validateEmail(emailSeperator(failureCc.getValue()))) {
-                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter valid Email Address for " + failureCcLb.getValue());
+                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, StringConstantUtils.PLEASE_ENTER_VALID_EMAIL_ADDRESS + failureCcLb.getValue());
                 return false;
         }
 
          if (successSubject.getValue().equals(StringUtils.EMPTY)) {
-                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter  Subject in Success Mail Notification ");
+                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please enter  Subject in Success Mail Notification ");
                 return false;
         }
          if ( failSubject.getValue().equals(StringUtils.EMPTY)) {
-                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter Subject in Failure Mail Notification");
+                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please enter Subject in Failure Mail Notification");
                 return false;
         }
         
           if (successText.getValue().equals(StringUtils.EMPTY) ) {
-                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter Email Body in Success Mail Notification ");
+                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please enter Email Body in Success Mail Notification ");
                 return false;
         }
           if ( failText.getValue().equals(StringUtils.EMPTY)) {
-                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification("Error", "Please enter Email Body  in Failure Mail Notification");
+                com.stpl.app.adminconsole.util.AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please enter Email Body  in Failure Mail Notification");
                 return false;
         }
         return true;

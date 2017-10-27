@@ -13,9 +13,11 @@ import java.util.List;
  * @param <T>
  */
 public interface DataResult<T extends InterFaceDTO> {
+
     List<T> getDataResults();
+
     void setDataResults(List<T> dataResults);
-    
+
     Object getMessage();
 
     void setMessage(Object message);

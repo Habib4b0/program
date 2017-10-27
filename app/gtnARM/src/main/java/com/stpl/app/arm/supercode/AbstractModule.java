@@ -13,17 +13,17 @@ import com.vaadin.ui.TabSheet;
  *
  * @author Abhiram.Giri
  */
-public abstract class AbstractModule implements Module,GenerateAble,HasTabs{
-    private TabSheet tabSheet;    
+public abstract class AbstractModule implements Module, GenerateAble, HasTabs {
+
+    private TabSheet tabSheet;
     private String name;
     private int id;
     private DataSelectionDTO dataselectionDTO;
     protected SessionDTO sessionDTO;
-    
 
-    public AbstractModule(TabSheet tabSheet,int id,String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) {
-        this.tabSheet=tabSheet;
-        this.id=id;
+    public AbstractModule(TabSheet tabSheet, int id, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) {
+        this.tabSheet = tabSheet;
+        this.id = id;
         this.name = name;
         this.dataselectionDTO = dataselectionDTO;
         this.sessionDTO = sessionDTO;
@@ -40,7 +40,7 @@ public abstract class AbstractModule implements Module,GenerateAble,HasTabs{
     public int getId() {
         return id;
     }
-    
+
     public DataSelectionDTO getDataselectionDTO() {
         return dataselectionDTO;
     }
@@ -48,6 +48,5 @@ public abstract class AbstractModule implements Module,GenerateAble,HasTabs{
     public SessionDTO getSessionDTO() {
         return sessionDTO;
     }
-    
-    
+
 }

@@ -54,7 +54,7 @@ public class DeleteButtonLayout extends HorizontalLayout {
             private static final long serialVersionUID = 1L;
 
             public void error(com.vaadin.server.ErrorEvent event) {
-                   
+                 return;  
             
 
             }
@@ -86,10 +86,7 @@ public class DeleteButtonLayout extends HorizontalLayout {
 				}catch (SystemException e) {
 					// TODO Auto-generated catch block
 				LOGGER.error(e);
-				} catch (PortalException e) {
-					// TODO Auto-generated catch block
-					LOGGER.error(e);
-				} catch (CommitException e) {
+				}  catch (CommitException e) {
                                      LOGGER.error(e);
 				}
 				binder.getField(CommonUtils.BUSINESS_ROLE_MASTERSID).setReadOnly(true);

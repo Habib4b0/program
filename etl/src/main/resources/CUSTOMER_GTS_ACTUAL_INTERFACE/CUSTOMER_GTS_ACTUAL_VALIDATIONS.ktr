@@ -42,7 +42,7 @@
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
-    <size_rowset>10000</size_rowset>
+    <size_rowset>1000</size_rowset>
     <sleep_time_empty>50</sleep_time_empty>
     <sleep_time_full>50</sleep_time_full>
     <unique_connections>N</unique_connections>
@@ -115,7 +115,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Switch &#47; Case</from><to>ADD SORT</to><enabled>Y</enabled> </hop>  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP</from><to>Filter rows 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>CONTRACT MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM_ID lookup</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM_ID lookup</from><to>Invalid Reason 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 2</from><to>INVALID TABLE 4</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP</from><to>Invalid Reason 3</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 3</from><to>INVALID TABLE 5</to><enabled>N</enabled> </hop>  <hop> <from>CONTRACT MASTER LOOKUP</from><to>Invalid Reason 4</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 4</from><to>INVALID TABLE 6</to><enabled>N</enabled> </hop>  <hop> <from>REBATE SCHEDULE LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT</from><to>Audit Status</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>CUSTOMER_GTS_ACTUAL</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>  <hop> <from>REBATE SCHEDULE LOOKUP</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>N</enabled> </hop>  <hop> <from>CUSTOMER_GTS_ACTUAL</from><to>Invalid Reason 6</to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM_ID lookup</from><to>COMPANY MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 3 2</from><to>INVALID TABLE 5 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP 2</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>REBATE SCHEDULE LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP 2</from><to>Invalid Reason 3 2</to><enabled>N</enabled> </hop>  <hop> <from>CONTRACT MASTER LOOKUP</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP</from><to>Filter rows 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>CONTRACT MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM_ID lookup</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM_ID lookup</from><to>Invalid Reason 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 2</from><to>INVALID TABLE 4</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP</from><to>Invalid Reason 3</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 3</from><to>INVALID TABLE 5</to><enabled>N</enabled> </hop>  <hop> <from>CONTRACT MASTER LOOKUP</from><to>Invalid Reason 4</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 4</from><to>INVALID TABLE 6</to><enabled>N</enabled> </hop>  <hop> <from>REBATE SCHEDULE LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT</from><to>Audit Status</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>CUSTOMER_GTS_ACTUAL</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>  <hop> <from>REBATE SCHEDULE LOOKUP</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>N</enabled> </hop>  <hop> <from>CUSTOMER_GTS_ACTUAL</from><to>Invalid Reason 6</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM_ID lookup</from><to>COMPANY MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 3 2</from><to>INVALID TABLE 5 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP 2</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>REBATE SCHEDULE LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP 2</from><to>Invalid Reason 3 2</to><enabled>N</enabled> </hop>  <hop> <from>CONTRACT MASTER LOOKUP</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>ADD SORT</to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
@@ -144,6 +144,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -208,22 +214,52 @@
            </partitioning>
       <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
-      <sort_size>50000</sort_size>
+      <sort_size>5000</sort_size>
       <free_memory/>
       <compress>N</compress>
       <compress_variable/>
       <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>SALES_ID</name>
-        <ascending>Y</ascending>
+        <name>ITEM_ID</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ORDER_NUMBER</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>INVOICE_NUMBER</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>INVOICE_LINE_NUMBER</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>INVOICE_DATE</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ORGANIZATION_KEY</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ACCOUNT_ID</name>
+        <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>910</xloc>
-      <yloc>315</yloc>
+      <xloc>908</xloc>
+      <yloc>393</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -284,8 +320,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>909</xloc>
-      <yloc>397</yloc>
+      <xloc>907</xloc>
+      <yloc>305</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -310,6 +346,17 @@
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>CUSTOMER_GTS_ACTUAL_INTERFACE</nullif>
+        <length>50</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -2057,7 +2104,7 @@
 <case_value_group/>
 <default_target_step>Invalid Reason</default_target_step>
 <cases><case><value>A</value>
-<target_step>ADD SORT</target_step>
+<target_step>Add constants 3</target_step>
 </case></cases>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>905</xloc>

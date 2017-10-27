@@ -70,21 +70,20 @@ public class PsLookUp extends Window {
 
     LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<LookupDTO>(LookupDTO.class);
-    private BeanItemContainer<String> psStatusBean = new BeanItemContainer<String>(String.class);
+    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
+    private BeanItemContainer<String> psStatusBean = new BeanItemContainer<>(String.class);
     private CustomFieldGroup binder;
     private CustomTextField parentPsName;
     public boolean flag;
     CommonUtil commonUtil=CommonUtil.getInstance();
-    UiUtils UIUtils=new UiUtils();
 
     public PsLookUp(CustomTextField parentPsName, boolean flag) {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/ps.xml"), this));
         this.parentPsName = parentPsName;
         this.flag = flag;
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(true);
         setModal(true);
         setCaption(" PS Lookup ");
@@ -105,8 +104,8 @@ public class PsLookUp extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setSelectable(true);
         resultsTable.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(Constants.PS_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(Constants.PS_SEARCH_HEADERS);
+        resultsTable.setVisibleColumns(Constants.getInstance().psSearchColumns);
+        resultsTable.setColumnHeaders(Constants.getInstance().psSearchHeaders);
         resultsTable.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
         resultsTable.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
         resultsTable.setConverter(Constants.PS_START_DATE, new DateToStringConverter());
@@ -115,7 +114,7 @@ public class PsLookUp extends Window {
         for (Object propertyId : resultsTable.getVisibleColumns()) {
             resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_TWO_ZERO);
         }
-        Object[] objColumn = Constants.PS_SEARCH_COLUMNS;
+        Object[] objColumn = Constants.getInstance().psSearchColumns;
         for (Object objColumn1 : objColumn) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
@@ -145,31 +144,31 @@ public class PsLookUp extends Window {
                 if (propertyId.equals("psType")) {
                     CustomComboBox psType = new CustomComboBox();
                     psType.setImmediate(true);
-                    commonUtil.loadComboBox(psType, UIUtils.PS_TYPE, true);
+                    commonUtil.loadComboBox(psType, UiUtils.PS_TYPE, true);
                     return psType;
                 }
                 if (propertyId.equals("psCategory")) {
                     CustomComboBox psCategory = new CustomComboBox();
                     psCategory.setImmediate(true);
-                    commonUtil.loadComboBox(psCategory, UIUtils.PS_CATEGORY, true);
+                    commonUtil.loadComboBox(psCategory, UiUtils.PS_CATEGORY, true);
                     return psCategory;
                 }
                 if (propertyId.equals("psTradeClass")) {
                     CustomComboBox psTradeClass = new CustomComboBox();
                     psTradeClass.setImmediate(true);
-                    commonUtil.loadComboBox(psTradeClass, UIUtils.PS_TRADE_CLASS, true);
+                    commonUtil.loadComboBox(psTradeClass, UiUtils.PS_TRADE_CLASS, true);
                     return psTradeClass;
                 }
                 if (propertyId.equals("psDesignation")) {
                     CustomComboBox psDesignation = new CustomComboBox();
                     psDesignation.setImmediate(true);
-                    commonUtil.loadComboBox(psDesignation, UIUtils.PS_DESIGNATION, true);
+                    commonUtil.loadComboBox(psDesignation, UiUtils.PS_DESIGNATION, true);
                     return psDesignation;
                 }
                 if (propertyId.equals("psStatus")) {
                     CustomComboBox ifpStatus = new CustomComboBox();
                     ifpStatus.setImmediate(true);
-                    commonUtil.loadComboBox(ifpStatus, UIUtils.STATUS, true);
+                    commonUtil.loadComboBox(ifpStatus, UiUtils.STATUS, true);
                     return ifpStatus;
                 }
                 }catch(Exception ex){
@@ -179,9 +178,11 @@ public class PsLookUp extends Window {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -192,14 +193,14 @@ public class PsLookUp extends Window {
         resultsTable.addStyleName("filterbar");
         psStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         psStatus.setImmediate(true);
-        BeanItemContainer<HelperDTO> temp = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList(Constants.STATUS, Constants.HELPER_DTO));
         psStatus.setContainerDataSource(temp);
         psStatus.setNullSelectionItemId(Constants.HELPER_DTO);
         psStatus.setValue(Constants.HELPER_DTO);
         psStatus.setItemCaptionPropertyId("description");
         psType.setImmediate(true);
-        temp = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList("PS_TYPE", Constants.HELPER_DTO));
         psType.setContainerDataSource(temp);
         psType.setNullSelectionItemId(Constants.HELPER_DTO);
@@ -209,22 +210,22 @@ public class PsLookUp extends Window {
         psEndDate.setImmediate(true);
         psEndDate.setDateFormat(Constants.DATE_FORMAT);
         psEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-        psEndDate.addStyleName("datefieldcentered");
+        psEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
         psStartDate.setImmediate(true);
         psStartDate.setDateFormat(Constants.DATE_FORMAT);
         psStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
          try {
-            commonUtil.loadComboBoxForGCM(psCategory, UIUtils.PS_CATEGORY, false);
+            commonUtil.loadComboBoxForGCM(psCategory, UiUtils.PS_CATEGORY, false);
         } catch (Exception ex) {
             Logger.getLogger(IfpLookUp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        psStartDate.addStyleName("datefieldcentered");
+        psStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
         psNo.focus();
 
     }
 
     private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<LookupDTO>(new LookupDTO()));
+        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;
@@ -271,7 +272,7 @@ public class PsLookUp extends Window {
             @Override
             public void yesMethod() {
                 resultsTable.resetFilters();
-                binder.setItemDataSource(new BeanItem<LookupDTO>(new LookupDTO()));
+                binder.setItemDataSource(new BeanItem<>(new LookupDTO()));
             }
         }.getConfirmationMessage("Reset confirmation", "Are you sure you want to reset the page to default/previous values? ");
     }

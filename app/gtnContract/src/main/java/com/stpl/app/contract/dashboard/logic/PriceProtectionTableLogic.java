@@ -56,7 +56,7 @@ public class PriceProtectionTableLogic extends PageTableLogic {
         if (isFirstLoad) {
             try {
                 if (isEditable && saveContainer.size() > 0) {
-                        IfpLogic.saveToTempTable(saveContainer.getItemIds(), isEditable);
+                        IfpLogic.saveToTempTable(saveContainer.getItemIds(), isEditable,sessionDTO);
                         saveContainer.removeAllItems();
                 }
                 List<Object[]> returnList = ifpLogic.getLazyPriceProtectionDeatils(start, offset, this.getFilters(), false, getRecord(), this.getSortByColumns());

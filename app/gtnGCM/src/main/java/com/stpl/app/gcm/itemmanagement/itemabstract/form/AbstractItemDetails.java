@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.add.dto.SummaryDTO;
@@ -63,21 +64,21 @@ public class AbstractItemDetails extends CustomComponent {
     ItemDetailsTableLogic itemTransferTableLogic = new ItemDetailsTableLogic();
     public ExtPagedTable itemTransferTable = new ExtPagedTable(itemTransferTableLogic);
     Object[] visibleColumn = {Constants.CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs", "rarCategory", "status", "itemstartdate", "itemenddate"};
-    String[] columnHeader = {"", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "CFP Name", Constants.IfpNAME, "PS Name", "RS Name", "RAR Category", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
+    String[] columnHeader = {"", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "CFP Name", Constants.IFP_NAME_LABEL, "PS Name", "RS Name", "RAR Category", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     SelectionDTO selection = new SelectionDTO();
     public AbstractLogic logic = AbstractLogic.getInstance();
     public SummaryLogic summaryLogic = new SummaryLogic();
     Button cancelremove = new Button("CANCEL REMOVE");
     Button cancelremoveForTransfer = new Button("CANCEL REMOVE");
-    List<SummaryDTO> selectedItemList = new ArrayList<SummaryDTO>();
-    List<SummaryDTO> selectedTransferItemList = new ArrayList<SummaryDTO>();
+    List<SummaryDTO> selectedItemList = new ArrayList<>();
+    List<SummaryDTO> selectedTransferItemList = new ArrayList<>();
     ExtCustomTable contractExcelTable;
     BeanItemContainer<SummaryDTO> contractExcelResultBean;
-    BeanItemContainer<SummaryDTO> container = new BeanItemContainer<SummaryDTO>(SummaryDTO.class);
-    BeanItemContainer<SummaryDTO> transferContainer = new BeanItemContainer<SummaryDTO>(SummaryDTO.class);
+    BeanItemContainer<SummaryDTO> container = new BeanItemContainer<>(SummaryDTO.class);
+    BeanItemContainer<SummaryDTO> transferContainer = new BeanItemContainer<>(SummaryDTO.class);
     final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    Map<String, AppPermission> functionHM = new HashMap<>();
     public static final Logger LOGGER = Logger.getLogger(AbstractItemDetails.class);
 
     public AbstractItemDetails(SelectionDTO selection) {
@@ -97,8 +98,9 @@ public class AbstractItemDetails extends CustomComponent {
         }
     }
 
-    Component ConfigureItemTable() throws FieldGroup.CommitException {
+    Component ConfigureItemTable() {
         itemdetailstableLogic.setContainerDataSource(container);
+        itemdetailstableLogic.sinkItemPerPageWithPageLength(false);
         itemdetailstable.setVisibleColumns(visibleColumn);
         itemdetailstable.setColumnHeaders(columnHeader);
         itemdetailstable.setPageLength(NumericConstants.THREE);
@@ -128,11 +130,11 @@ public class AbstractItemDetails extends CustomComponent {
         if (selection.getButtonMode().equals(ConstantsUtil.EDIT)) {
             cancelremove.setCaption("CANCEL UPDATE");
         } else if (selection.getButtonMode().equals(ConstantsUtil.DELETE)) {
-            cancelremove.setCaption("REMOVE");
+            cancelremove.setCaption(StringConstantsUtil.REMOVE_CAPTION);
         } else if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-            cancelremove.setCaption("REMOVE");
+            cancelremove.setCaption(StringConstantsUtil.REMOVE_CAPTION);
         } else if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-            cancelremove.setCaption("REMOVE");
+            cancelremove.setCaption(StringConstantsUtil.REMOVE_CAPTION);
         }
         hlayout.addComponent(cancelremove);
         hlayout.addComponent(export);
@@ -194,6 +196,7 @@ public class AbstractItemDetails extends CustomComponent {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
                     }.getConfirmationMessage("Confirmation", "Are you sure you want to remove the selected Contract from the Transfer Item process? It will be removed and added back to the Available List of Contracts in the Current Contract Selection screen.");
                 } else {
@@ -212,10 +215,11 @@ public class AbstractItemDetails extends CustomComponent {
                 }
             }
         });
+        itemdetailstable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
         return itemdetailstable;
     }
 
-    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) {
 
         List visibleList = Arrays.asList(itemdetailstable.getVisibleColumns()).subList(1, itemdetailstable.getVisibleColumns().length);
         try {
@@ -229,7 +233,7 @@ public class AbstractItemDetails extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         List<String> visibleList = Arrays.asList(itemdetailstable.getColumnHeaders()).subList(1, itemdetailstable.getVisibleColumns().length);
         List<SummaryDTO> list = null;
         if (resultTable.size() != 0) {
@@ -238,7 +242,7 @@ public class AbstractItemDetails extends CustomComponent {
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), list.size(), this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
     }
 
-    Component ConfigureTransferItemTable() throws FieldGroup.CommitException {
+    Component ConfigureTransferItemTable() {
 
         itemTransferTableLogic.setContainerDataSource(transferContainer);
         itemTransferTable.setVisibleColumns(visibleColumn);
@@ -271,12 +275,12 @@ public class AbstractItemDetails extends CustomComponent {
         if (selection.getButtonMode().equals(ConstantsUtil.EDIT)) {
             cancelremoveForTransfer.setCaption("CANCEL UPDATE");
         } else if (selection.getButtonMode().equals(ConstantsUtil.DELETE)) {
-            cancelremoveForTransfer.setCaption("REMOVE");
+            cancelremoveForTransfer.setCaption(StringConstantsUtil.REMOVE_CAPTION);
         } else if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-            cancelremoveForTransfer.setCaption("REMOVE");
+            cancelremoveForTransfer.setCaption(StringConstantsUtil.REMOVE_CAPTION);
         }
         else if(selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)){
-           cancelremoveForTransfer.setCaption("REMOVE"); 
+           cancelremoveForTransfer.setCaption(StringConstantsUtil.REMOVE_CAPTION); 
         }
         hlayout.addComponent(cancelremoveForTransfer);
         hlayout.addComponent(export);
@@ -332,6 +336,7 @@ public class AbstractItemDetails extends CustomComponent {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
                     }.getConfirmationMessage("Confirmation", "Are you sure you want to remove the selected Contract from the Transfer Item process? It will be removed and added back to the Available List of Contracts in the Transfer Contract Selection screen.");
                 } else {
@@ -350,10 +355,11 @@ public class AbstractItemDetails extends CustomComponent {
                 }
             }
         });
+        itemTransferTable.setFilterFieldVisible(ConstantsUtil.CHECK_RECORD, false);
         return itemTransferTable;
     }
 
-    public void loadData() throws FieldGroup.CommitException {
+    public void loadData() {
         if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             selection.setOperation("CURRENT SUMMARY");
         }

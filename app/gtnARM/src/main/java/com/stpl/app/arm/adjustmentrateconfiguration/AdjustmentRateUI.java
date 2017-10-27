@@ -22,7 +22,7 @@ import org.jboss.logging.Logger;
  * The UI Class For Adjustment Rate Configuration which is configured in
  * portlet.xml for UI class trigger and which brings up to screen to portlet.
  *
- * @author 
+ * @author
  */
 public class AdjustmentRateUI extends UI {
 
@@ -45,8 +45,8 @@ public class AdjustmentRateUI extends UI {
      * classes)
      */
     SessionDTO sessionDTO;
-    
-    public static boolean EXCEL_CLOSE =false;
+
+    public static boolean EXCEL_CLOSE = false;
 
     /**
      * The method is used to adding styles, navigator initialization and view
@@ -68,8 +68,8 @@ public class AdjustmentRateUI extends UI {
                 final String sessionId = request.getWrappedSession().getId();
                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.SESSION_ID, sessionId);
                 sessionDTO = new SessionDTO();
-                LOGGER.info("USER_ID :"+userId);
-                LOGGER.info("SESSION_ID :"+sessionId);
+                LOGGER.info("USER_ID :" + userId);
+                LOGGER.info("SESSION_ID :" + sessionId);
                 navigator = new Navigator(this, this);
                 navigator.addView(AdjustmentRateView.NAME, new AdjustmentRateView(sessionDTO));
                 ExecutorService service = Executors.newSingleThreadExecutor();
@@ -94,5 +94,15 @@ public class AdjustmentRateUI extends UI {
             HelperListUtil.getInstance().loadValuesWithListName(moduleName);
         }
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

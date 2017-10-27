@@ -131,8 +131,8 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
 
     private Table addTable() {
         table.setContainerDataSource(notificationIndexBean);
-        table.setVisibleColumns(CommonUIUtils.NOTIFICATION_COLUMNS);
-        table.setColumnHeaders(CommonUIUtils.NOTIFICATION_HEADERS);
+        table.setVisibleColumns(new CommonUIUtils().notificationColumns);
+        table.setColumnHeaders(new CommonUIUtils().notificationHeaders);
         table.setWidth("98%");
         table.setPageLength(NumericConstants.SEVEN);
         table.setImmediate(true);
@@ -494,5 +494,6 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 }

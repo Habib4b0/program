@@ -8,6 +8,7 @@ import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.common.util.HelperListUtil;
 import com.stpl.app.global.company.dto.SearchCompanyForm;
 import com.stpl.app.global.company.util.FiledNameUtils;
+import com.stpl.app.global.company.util.QueryUtils;
 import com.stpl.app.global.dao.impl.CompanySearchLogicDAOImpl;
 import com.stpl.app.global.dao.impl.ItemSearchLogicDAOImpl;
 import com.stpl.app.global.dao.impl.StplSecurityDAOImpl;
@@ -100,6 +101,7 @@ import com.stpl.app.util.xmlparser.SQLUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.util.dao.orm.CustomSQLUtil;
+import java.util.Collections;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -153,7 +155,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     public List<ItemIrtIdentifierDTO> getItemQualifierForEditList() throws PortalException, SystemException {
 
         LOGGER.debug("Entering getItemQualifierForEditList");
-        final List<ItemIrtIdentifierDTO> list = new ArrayList<ItemIrtIdentifierDTO>();
+        final List<ItemIrtIdentifierDTO> list = new ArrayList<>();
 
         final int count = DAO.getItemIrtQualifiersTotalCount();
         final List<ItemQualifier> qualifierList = DAO.getItemIrtQualifiersByLimit(0, count);
@@ -196,7 +198,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     public List<ItemIrtIdentifierDTO> deleteIrtQualifer(final int qualifierId) throws SystemException, PortalException {
 
         LOGGER.debug("Entering deleteIrtQualifer P1: " + qualifierId);
-        List<ItemIrtIdentifierDTO> qualifierList = new ArrayList<ItemIrtIdentifierDTO>();
+        List<ItemIrtIdentifierDTO> qualifierList = new ArrayList<>();
 
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(ItemIdentifier.class);
         query.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_QUALIFIER_SID, qualifierId));
@@ -268,7 +270,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                 LOGGER.debug("entered contraId and ContractNo");
 
             } else if (contractMaster.size() == 1) {
-                binder.getErrorDisplay().setError("Please enter different Qualifier, Since the entered qualifier already exists ");
+                binder.getErrorDisplay().setError(ConstantsUtils.ALREADY_EXISTS_QUALIFIER);
 
             } else {
                 binder.getErrorDisplay().setError("Please enter different Qualifier Name, Since the entered qualifier Name already exists ");
@@ -279,8 +281,8 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             ItemQualifier itemQualifier = ItemQualifierLocalServiceUtil.getItemQualifier(itemIrtQualifierId);// to get created Date & created By
             itemQualifier.setCreatedBy(itemQualifier.getCreatedBy());
             itemQualifier.setCreatedDate(itemQualifier.getCreatedDate());
-                itemQualifier.setModifiedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
-                itemQualifier.setModifiedDate(new Date());
+            itemQualifier.setModifiedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
+            itemQualifier.setModifiedDate(new Date());
             itemQualifier.setItemQualifierName(itemIrtQualifierName);
             itemQualifier.setItemQualifierValue(itemIdentifier);
             itemQualifier.setEffectiveDates(effectiveDates);
@@ -321,11 +323,11 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                     LOGGER.debug("updated successfully");
                     DAO.updateItemIrtQualifier(itemQualifier);
                 } else if (conMaster.size() == 1) {
-                    binder.getErrorDisplay().setError("Please enter different Qualifier, Since the entered qualifier already exists ");
+                    binder.getErrorDisplay().setError(ConstantsUtils.ALREADY_EXISTS_QUALIFIER);
 
-                } else {
-                    binder.getErrorDisplay().setError("Please enter different Qualifier Name, Since the entered qualifier Name already exists");
-                }
+            } else {
+                binder.getErrorDisplay().setError("Please enter different Qualifier Name, Since the entered qualifier Name already exists");
+            }
         }
         LOGGER.debug("Ending saveIrtQualifer");
         return getItemQualifierForEditList();
@@ -341,7 +343,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      */
     public List<ItemIrtIdentifierDTO> getPricingQualifierForEditList() throws SystemException, PortalException {
         LOGGER.debug("Entering getPricingQualifierForEditList");
-        final List<ItemIrtIdentifierDTO> list = new ArrayList<ItemIrtIdentifierDTO>();
+        final List<ItemIrtIdentifierDTO> list = new ArrayList<>();
 
         final int count = DAO.getItemPricingQualifierTotalCount();
         final List<ItemPricingQualifier> qualifierList = DAO.getItemPricingQualifierByLimit(0, count);
@@ -431,7 +433,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                 LOGGER.debug("entered contraId and ContractNo");
 
             } else if (contractMaster.size() == 1) {
-                binder.getErrorDisplay().setError("Please enter different Qualifier, Since the entered qualifier already exists ");
+                binder.getErrorDisplay().setError(ConstantsUtils.ALREADY_EXISTS_QUALIFIER);
 
             } else {
                 binder.getErrorDisplay().setError("Please enter different Qualifier Name, Since the entered qualifier Name already exists ");
@@ -481,7 +483,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                 LOGGER.debug("updated successfully");
                 DAO.updateItemPricingQualifier(identifier1);
             } else if (conMaster.size() == 1) {
-                binder.getErrorDisplay().setError("Please enter different Qualifier, Since the entered qualifier already exists ");
+                binder.getErrorDisplay().setError(ConstantsUtils.ALREADY_EXISTS_QUALIFIER);
 
             } else {
                 binder.getErrorDisplay().setError("Please enter different Qualifier Name, Since the entered qualifier Name already exists");
@@ -500,10 +502,10 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @return the customized search form from object
      */
     public List<SearchResultsDTO> getCustomizedSearchFormFromObject(
-            final List list, final String identifierType) throws PortalException, SystemException{
+            final List list, final String identifierType) throws PortalException, SystemException {
 
         LOGGER.debug("Entering getCustomizedSearchFormFromObject p1: " + ((list == null) ? list : list.size()) + " p2: " + identifierType);
-        final List<SearchResultsDTO> searchItemList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> searchItemList = new ArrayList<>();
 
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -587,7 +589,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     public List<SearchResultsDTO> getCustomizedSearchFormFromModel(
             final List<ItemMaster> list) throws Exception {
 
-        final List<SearchResultsDTO> searchItemList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> searchItemList = new ArrayList<>();
 
         LOGGER.debug("Entering getCustomizedSearchFormFromModel P1:  size " + ((list == null) ? list : list.size()));
         if (list != null) {
@@ -735,6 +737,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         price = price.replace(ConstantsUtils.DOLLAR, StringUtils.EMPTY);
         price = price.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
         pricingForm.setItemPrice(Double.valueOf(price));
+        pricingForm.setItemPricePrecision(form.getItemPricePrecision());
         pricingForm.setPricingCodeStatus(form.getPricingCodeStatus().getId());
         pricingForm.setItemUom(form.getItemUom().getId());
         pricingForm.setEntityCode(form.getEntityCodeSid().trim());
@@ -805,13 +808,25 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @param itemMasterForm the item master form
      * @param identifierList the identifier list
      * @param priceList the price list
+     * @param availableUploadedInformation
+     * @param addedNotes
+     * @param removedDetailsList
+     * @param sessionDTO
+     * @param removedItemPriceList
+     * @param udcList
      * @return the string
+     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.stpl.portal.kernel.exception.PortalException
      */
-    public String saveItemMaster(final ErrorfulFieldGroup itemMasterForm, final List<ItemIrtIdentifierDTO> identifierList, final List<ItemPricingDTO> priceList, final List<NotesDTO> availableUploadedInformation, final String addedNotes, final List<NotesDTO> removedDetailsList, final SessionDTO sessionDTO, final List<ItemPricingDTO> removedItemPriceList) throws SystemException, PortalException {
+    @Override
+    public String saveItemMaster(final ErrorfulFieldGroup itemMasterForm, final List<ItemIrtIdentifierDTO> identifierList,
+            final List<ItemPricingDTO> priceList, final List<NotesDTO> availableUploadedInformation, final String addedNotes,
+            final List<NotesDTO> removedDetailsList, final SessionDTO sessionDTO, final List<ItemPricingDTO> removedItemPriceList,
+            List<List> udcList) throws SystemException, PortalException {
         LOGGER.debug("Entering saveItemMaster P2: size " + ((identifierList == null) ? identifierList : identifierList.size()) + " p3: size " + ((priceList == null) ? priceList : priceList.size()));
         String systemId = itemMasterForm.getField(ConstantsUtils.SYSTEM_ID).getValue() == null || itemMasterForm
                 .getField(ConstantsUtils.SYSTEM_ID).getValue().equals(ConstantsUtils.NULL) ? StringUtils.EMPTY : String
-                        .valueOf(itemMasterForm.getField(ConstantsUtils.SYSTEM_ID).getValue());
+                .valueOf(itemMasterForm.getField(ConstantsUtils.SYSTEM_ID).getValue());
 
         boolean flag = false;
         try {
@@ -920,7 +935,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
 
             if (itemMasterForm.getField(ConstantsUtils.CLOTTING_FACTOR_INDICATOR).getValue() != null
                     && !StringUtils.EMPTY.equals(itemMasterForm.getField(
-                                    ConstantsUtils.CLOTTING_FACTOR_INDICATOR).getValue())) {
+                            ConstantsUtils.CLOTTING_FACTOR_INDICATOR).getValue())) {
                 item.setClottingFactorIndicator(String.valueOf(itemMasterForm
                         .getField(ConstantsUtils.CLOTTING_FACTOR_INDICATOR).getValue()));
             } else {
@@ -929,7 +944,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             if (itemMasterForm.getField(ConstantsUtils.PEDIACTRIC_EXCLUSIVE_INDICATOR)
                     .getValue() != null
                     && !StringUtils.EMPTY.equals(itemMasterForm.getField(
-                                    ConstantsUtils.PEDIACTRIC_EXCLUSIVE_INDICATOR).getValue())) {
+                            ConstantsUtils.PEDIACTRIC_EXCLUSIVE_INDICATOR).getValue())) {
                 item.setPediatricExclusiveIndicator(String
                         .valueOf(itemMasterForm
                                 .getField(ConstantsUtils.PEDIACTRIC_EXCLUSIVE_INDICATOR)
@@ -957,7 +972,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             if (itemMasterForm.getField(ConstantsUtils.THERAPEUTIC_CLASS)
                     .getValue() != null
                     && !StringUtils.EMPTY.equals(itemMasterForm.getField(
-                                    ConstantsUtils.THERAPEUTIC_CLASS).getValue())) {
+                            ConstantsUtils.THERAPEUTIC_CLASS).getValue())) {
 
                 item.setTherapeuticClass(((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.THERAPEUTIC_CLASS).getValue())).getId());
 
@@ -968,7 +983,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             if (itemMasterForm.getField(ConstantsUtils.FIRST_SALE_DATE)
                     .getValue() != null
                     && !StringUtils.EMPTY.equals(itemMasterForm.getField(
-                                    ConstantsUtils.FIRST_SALE_DATE).getValue())) {
+                            ConstantsUtils.FIRST_SALE_DATE).getValue())) {
 
                 item.setFirstSaleDate((Date) itemMasterForm.getField(ConstantsUtils.FIRST_SALE_DATE).getValue());
             } else {
@@ -978,7 +993,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             if (itemMasterForm.getField(ConstantsUtils.BASE_CPI_PERIOD)
                     .getValue() != null
                     && !StringUtils.EMPTY.equals(itemMasterForm.getField(
-                                    ConstantsUtils.BASE_CPI_PERIOD).getValue())) {
+                            ConstantsUtils.BASE_CPI_PERIOD).getValue())) {
 
                 item.setBaseCpiPeriod((Date) itemMasterForm.getField(ConstantsUtils.BASE_CPI_PERIOD).getValue());
             } else {
@@ -1001,18 +1016,22 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             }
 
             if (itemMasterForm.getField(ConstantsUtils.BASE_LINE_AMP).getValue() != null && !StringUtils.EMPTY.equals(itemMasterForm.getField(ConstantsUtils.BASE_LINE_AMP).getValue())) {
-
-                item.setBaselineAmp(Double.valueOf(String.valueOf(itemMasterForm.getField(ConstantsUtils.BASE_LINE_AMP).getValue())));
-
+                String value = String.valueOf(itemMasterForm.getField(ConstantsUtils.BASE_LINE_AMP).getValue());
+                item.setBaselineAmpPrecision(getPrecisionValues(value));
+                item.setBaselineAmp(Double.valueOf(value));
             } else {
+                String value=String.valueOf(Constants.SIX);
+                item.setBaselineAmpPrecision(Integer.valueOf(value));
                 item.setBaselineAmp(0.0);
             }
 
             if (itemMasterForm.getField(ConstantsUtils.BASE_CPI).getValue() != null && !StringUtils.EMPTY.equals(itemMasterForm.getField(ConstantsUtils.BASE_CPI).getValue())) {
-
-                item.setBaseCpi(Double.valueOf(String.valueOf(itemMasterForm.getField(ConstantsUtils.BASE_CPI).getValue())));
-
+                String value = String.valueOf(itemMasterForm.getField(ConstantsUtils.BASE_CPI).getValue());
+                item.setBaseCpiPrecision(getPrecisionValues(value));
+                item.setBaseCpi(Double.valueOf(value));
             } else {
+                String value=String.valueOf(Constants.THREE);
+                item.setBaseCpiPrecision(Integer.valueOf(value));
                 item.setBaseCpi(0.0);
             }
 
@@ -1102,9 +1121,10 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                     ConstantsUtils.DIVESTITURE_DATE).getValue());
 
             item.setInternalNotes(addedNotes);
+
             
-            item.setOrganizationKey(Integer.valueOf(itemMasterForm.getField("organizationKey").getValue().toString()));
-            
+            item.setOrganizationKey(Integer.valueOf(itemMasterForm.getField(ConstantsUtils.ORGANIZATION_KEY).getValue().toString()));
+
             if (itemMasterForm.getField(ConstantsUtils.ITEM_TYPE_INDICATION).getValue() != null
                     && !StringUtils.EMPTY.equals(itemMasterForm.getField(ConstantsUtils.ITEM_TYPE_INDICATION)
                             .getValue())) {
@@ -1167,9 +1187,13 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                     if (result.getItemMasterSid() != 0) {
 
                         udc.setMasterSid(result.getItemMasterSid());
-                        udc.setMasterType("ITEM_MASTER");
-
-                        String udc1 = itemMasterForm.getField(ConstantsUtils.UDC1).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC1).getValue())).getId());
+                        udc.setMasterType(ConstantsUtils.ITEM_MASTER);
+                        String udc1;
+                        if (CommonUtils.GALDERMA.equals(System.getProperty(CommonUtils.CLIENT_NAME))) {
+                            udc1 = getUDC1Value(udcList);
+                        } else {
+                            udc1 = itemMasterForm.getField(ConstantsUtils.UDC1).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC1).getValue())).getId());
+                        }
                         String udc2 = itemMasterForm.getField(ConstantsUtils.UDC2).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC2).getValue())).getId());
                         String udc3 = itemMasterForm.getField(ConstantsUtils.UDC3).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC3).getValue())).getId());
                         String udc4 = itemMasterForm.getField(ConstantsUtils.UDC4).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC4).getValue())).getId());
@@ -1240,7 +1264,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                     }
 
                     saveIdentifiersList(identifierList, priceList, result, removedItemPriceList);
-                    rsLogic.saveUploadedInformation(availableUploadedInformation, "ITEM_MASTER", result.getItemMasterSid());
+                    rsLogic.saveUploadedInformation(availableUploadedInformation, ConstantsUtils.ITEM_MASTER, result.getItemMasterSid());
 
                 } else if (ndcList.size() > 0) {
                     LOGGER.debug(ConstantsUtils.DUPLICATE_NDC);
@@ -1349,8 +1373,14 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
 
                     DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Udcs.class);
                     dynamicQuery.add(RestrictionsFactoryUtil.eq("masterSid", result.getItemMasterSid()));
+                    dynamicQuery.add(RestrictionsFactoryUtil.eq("masterType", ConstantsUtils.ITEM_MASTER));
                     List<Udcs> list = UdcsLocalServiceUtil.dynamicQuery(dynamicQuery);
-                    int udc1 = (itemMasterForm.getField(ConstantsUtils.UDC1).getValue()) == null ? 0 : ((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC1).getValue())).getId();
+                    int udc1;
+                    if (CommonUtils.GALDERMA.equals(System.getProperty(CommonUtils.CLIENT_NAME))) {
+                        udc1 = Integer.valueOf(getUDC1Value(udcList));
+                    } else {
+                        udc1 = (itemMasterForm.getField(ConstantsUtils.UDC1).getValue()) == null ? 0 : ((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC1).getValue())).getId();;
+                    }
                     int udc2 = (itemMasterForm.getField(ConstantsUtils.UDC2).getValue()) == null ? 0 : ((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC2).getValue())).getId();
                     int udc3 = (itemMasterForm.getField(ConstantsUtils.UDC3).getValue()) == null ? 0 : ((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC3).getValue())).getId();
                     int udc4 = (itemMasterForm.getField(ConstantsUtils.UDC4).getValue()) == null ? 0 : ((com.stpl.ifs.util.HelperDTO) (itemMasterForm.getField(ConstantsUtils.UDC4).getValue())).getId();
@@ -1359,7 +1389,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                     if (list == null || list.isEmpty()) {
                         Udcs udcup = UdcsLocalServiceUtil.createUdcs(0);
                         udcup.setMasterSid(result.getItemMasterSid());
-                        udcup.setMasterType("ITEM_MASTER");
+                        udcup.setMasterType(ConstantsUtils.ITEM_MASTER);
                         udcup.setUdc1(udc1);
                         udcup.setUdc2(udc2);
                         udcup.setUdc3(udc3);
@@ -1460,7 +1490,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                             }
                         }
                     }
-                    rsLogic.saveUploadedInformation(availableUploadedInformation, "ITEM_MASTER", result.getItemMasterSid());
+                    rsLogic.saveUploadedInformation(availableUploadedInformation, ConstantsUtils.ITEM_MASTER, result.getItemMasterSid());
                 } else if (ndcList.size() > 0) {
                     LOGGER.debug(ConstantsUtils.DUPLICATE_NDC);
                     return ConstantsUtils.DUPLICATE_NDC;
@@ -1491,7 +1521,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      */
     @Override
     public void saveIdentifiersList(final List<ItemIrtIdentifierDTO> identifierList,
-            final List<ItemPricingDTO> priceList, final ItemMaster result, final List<ItemPricingDTO> removedItemPriceList) throws SystemException, NoSuchItemPricingQualifierException, NoSuchItemQualifierException, PortalException {
+            final List<ItemPricingDTO> priceList, final ItemMaster result, final List<ItemPricingDTO> removedItemPriceList) throws SystemException, PortalException {
 
         LOGGER.debug("Entering saveIdentifiersList P1: size " + ((identifierList == null) ? identifierList : identifierList.size()) + " P2: size" + ((priceList == null) ? priceList : priceList.size()));
         if (identifierList != null) {
@@ -1500,10 +1530,8 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                         .get(i);
                 final ItemIdentifier identifier = getItemIrtIdentifier(identifierForm);
                 identifier.setItemMasterSid(result.getItemMasterSid());
-
                 final ItemQualifier qualif = DAO.getItemIrtQualifierByName(identifierForm.getItemIrtQualifierName());
                 identifier.setItemQualifierSid(qualif.getItemQualifierSid());
-
                 if (identifierForm.getStartDate() != null) {
                     identifier.setStartDate(identifierForm.getStartDate());
                 } else {
@@ -1521,11 +1549,10 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                 itemIdentifierDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_QUALIFIER_SID, identifier.getItemQualifierSid()));
                 itemIdentifierDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
 
-                
                 final List<ItemIdentifier> itemIdentiiferList = DAO.getItemIdentifierList(itemIdentifierDynamicQuery);
-              
+
                 if (itemIdentiiferList.isEmpty()) {
-                     
+
                     if (identifierForm.getIrtIdentifierSystemId() == CommonUtils.ZERO) {
                         identifier.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
                         identifier.setSource(ConstantsUtils.GTN);
@@ -1543,7 +1570,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                         }
                     }
                 } else {
-                   
+
                     ItemIdentifier itemIdentifier = itemIdentiiferList.get(0);
                     itemIdentifier.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
                     itemIdentifier.setSource(ConstantsUtils.GTN);
@@ -1609,6 +1636,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                         ItemPricing itemPricing = itemPricingList.get(0);
                         itemPricing.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
                         itemPricing.setItemPrice(priceForm.getItemPrice());
+                        itemPricing.setItemPricePrecision(priceForm.getItemPricePrecision());
                         itemPricing.setPricingCodeStatus(priceForm.getPricingCodeStatus());
                         itemPricing.setItemUom(priceForm.getItemUom());
                         itemPricing.setEntityCode(priceForm.getEntityCode());
@@ -1626,38 +1654,36 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                         if (pricing.getItemUom() > 0) {
                             UDCIncrementCheck.increment(pricing.getItemUom(), UIUtils.UOM);
                         }
+                    } else if (form.getItemPricingSystemId() == CommonUtils.ZERO) {
+                        priceForm.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
+                        priceForm.setSource(ConstantsUtils.GTN);
+                        final ItemPricing pricing = DAO.saveItemPricing(priceForm);
+                        if (pricing.getPricingCodeStatus() > 0) {
+                            UDCIncrementCheck.increment(String.valueOf(pricing.getPricingCodeStatus()), UIUtils.STATUS);
+                        }
+                        if (pricing.getItemUom() > 0) {
+                            UDCIncrementCheck.increment(pricing.getItemUom(), UIUtils.UOM);
+                        }
                     } else {
-                        if (form.getItemPricingSystemId() == CommonUtils.ZERO) {
-                            priceForm.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
-                            priceForm.setSource(ConstantsUtils.GTN);
-                            final ItemPricing pricing = DAO.saveItemPricing(priceForm);
-                            if (pricing.getPricingCodeStatus() > 0) {
-                                UDCIncrementCheck.increment(String.valueOf(pricing.getPricingCodeStatus()), UIUtils.STATUS);
-                            }
-                            if (pricing.getItemUom() > 0) {
-                                UDCIncrementCheck.increment(pricing.getItemUom(), UIUtils.UOM);
-                            }
-                        } else {
-                            ItemPricing itemPrincingModel = ItemPricingLocalServiceUtil.getItemPricing(priceForm.getItemPricingSid());
-                            itemPrincingModel.setItemMasterSid(priceForm.getItemMasterSid());
-                            itemPrincingModel.setItemPricingQualifierSid(priceForm.getItemPricingQualifierSid());
-                            itemPrincingModel.setItemUom(priceForm.getItemUom());
-                            itemPrincingModel.setItemPrice(priceForm.getItemPrice());
-                            itemPrincingModel.setPricingCodeStatus(priceForm.getPricingCodeStatus());
-                            itemPrincingModel.setEntityCode(priceForm.getEntityCode());
-                            itemPrincingModel.setStartDate(priceForm.getStartDate());
-                            itemPrincingModel.setEndDate(priceForm.getEndDate());
-                            itemPrincingModel.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
-                            itemPrincingModel.setSource(ConstantsUtils.GTN);
-                            itemPrincingModel.setModifiedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
-                            final ItemPricing pricing = DAO.updateItemPricing(itemPrincingModel);
+                        ItemPricing itemPrincingModel = ItemPricingLocalServiceUtil.getItemPricing(priceForm.getItemPricingSid());
+                        itemPrincingModel.setItemMasterSid(priceForm.getItemMasterSid());
+                        itemPrincingModel.setItemPricingQualifierSid(priceForm.getItemPricingQualifierSid());
+                        itemPrincingModel.setItemUom(priceForm.getItemUom());
+                        itemPrincingModel.setItemPrice(priceForm.getItemPrice());
+                        itemPrincingModel.setPricingCodeStatus(priceForm.getPricingCodeStatus());
+                        itemPrincingModel.setEntityCode(priceForm.getEntityCode());
+                        itemPrincingModel.setStartDate(priceForm.getStartDate());
+                        itemPrincingModel.setEndDate(priceForm.getEndDate());
+                        itemPrincingModel.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
+                        itemPrincingModel.setSource(ConstantsUtils.GTN);
+                        itemPrincingModel.setModifiedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
+                        final ItemPricing pricing = DAO.updateItemPricing(itemPrincingModel);
 
-                            if (pricing.getPricingCodeStatus() > 0) {
-                                UDCIncrementCheck.increment(String.valueOf(pricing.getPricingCodeStatus()), UIUtils.STATUS);
-                            }
-                            if (pricing.getItemUom() > 0) {
-                                UDCIncrementCheck.increment(pricing.getItemUom(), UIUtils.UOM);
-                            }
+                        if (pricing.getPricingCodeStatus() > 0) {
+                            UDCIncrementCheck.increment(String.valueOf(pricing.getPricingCodeStatus()), UIUtils.STATUS);
+                        }
+                        if (pricing.getItemUom() > 0) {
+                            UDCIncrementCheck.increment(pricing.getItemUom(), UIUtils.UOM);
                         }
                     }
                 }
@@ -1667,6 +1693,8 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         LOGGER.debug("Ending saveIdentifiersList");
     }
 
+    
+
     /**
      * Gets the item master by id.
      *
@@ -1675,8 +1703,16 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      */
     public ItemMasterDTO getItemMasterById(final int identifier1) throws ParseException, SystemException, PortalException {
 
-
+        /**
+         * CEL-395 (CEL-194 : Item Master - Baseline AMP & CPI) baseCpi text
+         * field it will be rounded upto 3 decimals baseAmp text field it will
+         * be rounded upto 6 decimals
+         *
+         * @param event
+         */
         final DecimalFormat format2 = new DecimalFormat("#");
+        final DecimalFormat format4 = new DecimalFormat();
+
         final ItemMasterDTO itemMasterDTO = new ItemMasterDTO();
 
         LOGGER.debug("getItemMasterById() P1: id " + identifier1);
@@ -1778,18 +1814,30 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         itemMasterDTO.setShelfLife(itemMaster.getShelfLife());
         itemMasterDTO.setDosesPerUnit(itemMaster.getDosesPerUnit());
 
-        if (itemMaster.getBaselineAmp() == CommonUtils.ZERO) {
-            itemMasterDTO.setBaselineAmp(format2.format(itemMaster.getBaselineAmp()));
-
-        } else {
-            itemMasterDTO.setBaselineAmp(format2.format(itemMaster.getBaselineAmp()));
-
+        /**
+         * CEL-395 (CEL-194 : Item Master - Baseline AMP & CPI) baseCpi text
+         * field it will be rounded upto 3 decimals(format3) baseAmp text field
+         * it will be rounded upto 6 decimals (format2)
+         *
+         * @param event
+         */
+        List input = new ArrayList();
+        input.add(ConstantsUtils.ITEM_MASTER_TABLE);
+        input.add(ConstantsUtils.BASE_AMP);
+        List<Object> precisionList = QueryUtils.getAppData(input,ConstantsUtils.PRECISION_SELECTION, null);
+        if (precisionList != null && !precisionList.isEmpty()) {
+            format4.applyPattern(pattern(Integer.valueOf(String.valueOf(precisionList.get(0)))));
+            itemMasterDTO.setBaselineAmp(format4.format(itemMaster.getBaselineAmp()));
         }
-        if (itemMaster.getBaseCpi() == CommonUtils.ZERO) {
-            itemMasterDTO.setBaseCpi(format2.format(itemMaster.getBaseCpi()));
-        } else {
-            itemMasterDTO.setBaseCpi(format2.format(itemMaster.getBaseCpi()));
+        input.clear();
+        input.add(ConstantsUtils.ITEM_MASTER_TABLE);
+        input.add(ConstantsUtils.BASE_CPI_CAPS);
+        precisionList = QueryUtils.getAppData(input, ConstantsUtils.PRECISION_SELECTION, null);
+        if (precisionList != null && !precisionList.isEmpty()) {
+            format4.applyPattern(pattern(Integer.valueOf(String.valueOf(precisionList.get(0)))));
+            itemMasterDTO.setBaseCpi(format4.format(itemMaster.getBaseCpi()));
         }
+        
         if (itemMaster.getObraBamp() == CommonUtils.ZERO) {
             itemMasterDTO.setObraBamp(format2.format(itemMaster
                     .getObraBamp()));
@@ -1833,27 +1881,27 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         if (itemMaster.getPackageSizeIntroDate() != null) {
             itemMasterDTO
                     .setPackageSizeIntroDate(convertDateToDate(itemMaster
-                                    .getPackageSizeIntroDate()));
+                            .getPackageSizeIntroDate()));
         }
         if (itemMaster.getClottingFactorStartDate() != null) {
             itemMasterDTO
                     .setClottingFactorStartDate(convertDateToDate(itemMaster
-                                    .getClottingFactorStartDate()));
+                            .getClottingFactorStartDate()));
         }
         if (itemMaster.getClottingFactorEndDate() != null) {
             itemMasterDTO
                     .setClottingFactorEndDate(convertDateToDate(itemMaster
-                                    .getClottingFactorEndDate()));
+                            .getClottingFactorEndDate()));
         }
         if (itemMaster.getPediatricExclusiveStartDate() != null) {
             itemMasterDTO
                     .setPediatricExclusiveStartDate(convertDateToDate(itemMaster
-                                    .getPediatricExclusiveStartDate()));
+                            .getPediatricExclusiveStartDate()));
         }
         if (itemMaster.getPediatricExclusiveEndDate() != null) {
             itemMasterDTO
                     .setPediatricExclusiveEndDate(convertDateToDate(itemMaster
-                                    .getPediatricExclusiveEndDate()));
+                            .getPediatricExclusiveEndDate()));
         }
 
         if (itemMaster.getNewFormulation() != null) {
@@ -1863,7 +1911,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         if (itemMaster.getAcquisitionDate() != null) {
             itemMasterDTO
                     .setAcquisitionDate(convertDateToDate(itemMaster
-                                    .getAcquisitionDate()));
+                            .getAcquisitionDate()));
         }
 
         if (itemMaster.getNonFederalExpirationDate() != null) {
@@ -1873,55 +1921,55 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         if (itemMaster.getAuthorizedGenericStartDate() != null) {
             itemMasterDTO
                     .setAuthorizedGenericStartDate(convertDateToDate(itemMaster
-                                    .getAuthorizedGenericStartDate()));
+                            .getAuthorizedGenericStartDate()));
         }
 
         if (itemMaster.getAuthorizedGenericEndDate() != null) {
             itemMasterDTO
                     .setAuthorizedGenericEndDate(convertDateToDate(itemMaster
-                                    .getAuthorizedGenericEndDate()));
+                            .getAuthorizedGenericEndDate()));
         }
 
         if (itemMaster.getMarketTerminationDate() != null) {
             itemMasterDTO
                     .setMarketTerminationDate(convertDateToDate(itemMaster
-                                    .getMarketTerminationDate()));
+                            .getMarketTerminationDate()));
         }
 
         if (itemMaster.getNewFormulationStartDate() != null) {
             itemMasterDTO
                     .setNewFormulationStartDate(convertDateToDate(itemMaster
-                                    .getNewFormulationStartDate()));
+                            .getNewFormulationStartDate()));
         }
 
         if (itemMaster.getNewFormulationEndDate() != null) {
             itemMasterDTO
                     .setNewFormulationEndDate(convertDateToDate(itemMaster
-                                    .getNewFormulationEndDate()));
+                            .getNewFormulationEndDate()));
         }
 
         if (itemMaster.getDiscontinuationDate() != null) {
             itemMasterDTO
                     .setDiscontinuationDate(convertDateToDate(itemMaster
-                                    .getDiscontinuationDate()));
+                            .getDiscontinuationDate()));
         }
 
         if (itemMaster.getLastLotExpirationDate() != null) {
             itemMasterDTO
                     .setLastLotExpirationDate(convertDateToDate(itemMaster
-                                    .getLastLotExpirationDate()));
+                            .getLastLotExpirationDate()));
         }
 
         if (itemMaster.getDivestitureDate() != null) {
             itemMasterDTO
                     .setDivestitureDate(convertDateToDate(itemMaster
-                                    .getDivestitureDate()));
+                            .getDivestitureDate()));
         }
 
         if (itemMaster.getNonFederalExpirationDate() != null) {
             itemMasterDTO
                     .setNonFederalExpirationDate(convertDateToDate(itemMaster
-                                    .getNonFederalExpirationDate()));
+                            .getNonFederalExpirationDate()));
         }
 
         if (itemMaster.getBaseCpiPeriod() != null) {
@@ -1945,8 +1993,8 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
 
         final List<ItemPricing> pricingList = DAO.getItemPricingByItemSystemId(identifier1);
 
-        final List<ItemIrtIdentifierDTO> itemIrtIdentifierList = new ArrayList<ItemIrtIdentifierDTO>();
-        final List<ItemPricingDTO> itemPricingIdentifierList = new ArrayList<ItemPricingDTO>();
+        final List<ItemIrtIdentifierDTO> itemIrtIdentifierList = new ArrayList<>();
+        final List<ItemPricingDTO> itemPricingIdentifierList = new ArrayList<>();
         if (!irtList.isEmpty()) {
             for (int i = 0; i < irtList.size(); i++) {
                 final ItemIrtIdentifierDTO identifierDTO = new ItemIrtIdentifierDTO();
@@ -2018,9 +2066,8 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                 final ItemPricingDTO priceDTO = new ItemPricingDTO();
                 final ItemPricing form = (ItemPricing) pricingList.get(i);
                 if (!ConstantsUtils.INBOUND_STATUS_D.equals(form.getInboundStatus())) {
-                    DecimalFormat priceFormat = new DecimalFormat("###,###,###.00##");
-                    priceDTO.setItemPrice(ConstantsUtils.DOLLAR + String.valueOf(priceFormat.format(form.getItemPrice())));
-
+                    format4.applyPattern(pattern(form.getItemPricePrecision()));
+                    priceDTO.setItemPrice(ConstantsUtils.DOLLAR + String.valueOf(format4.format(form.getItemPrice())));
                     priceDTO.setPricingCodeStatus(helperListUtil.getIdHelperDTOMap().get(form.getPricingCodeStatus()));
                     if (priceDTO.getPricingCodeStatus().getId() != 0) {
                         priceDTO.setPricingCodeStatusView(priceDTO.getPricingCodeStatus().getDescription());
@@ -2091,7 +2138,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      */
     public List<HelperDTO> getManufacturer() throws PortalException, SystemException {
         LOGGER.debug("getManufacturer() ");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         HelperDTO helperTable;
 
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
@@ -2227,7 +2274,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     public List<HelperDTO> getItemQualifier() throws SystemException, PortalException {
         LOGGER.debug("Entering getItemQualifier");
 
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
 
         final DynamicQuery itemIrtDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(ItemQualifier.class);
@@ -2271,7 +2318,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     public List<HelperDTO> getPricingQualifier() throws SystemException, PortalException {
         LOGGER.debug("Entering getPricingQualifier");
 
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
 
         final DynamicQuery itemPricingDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(ItemPricingQualifier.class);
@@ -2299,7 +2346,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      */
     public List<HelperDTO> getItemType(final String listType) throws SystemException, PortalException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("Entering getItemType P1:" + listType);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
@@ -2322,7 +2369,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         return helperList;
     }
 
-    public List<ItemMaster> getNdc() throws SystemException, Exception {
+    public List<ItemMaster> getNdc() throws Exception {
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property("ndc8"));
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
@@ -2340,7 +2387,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      */
     public List<HelperDTO> getDropDownList(final String listName) throws PortalException, SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("Entering getDropDownList P1: listName " + listName);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
@@ -2368,9 +2415,9 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      *
      * @return the brands
      */
-    public List<HelperDTO> getBrands() throws SystemException, Exception {
+    public List<HelperDTO> getBrands() throws Exception {
         LOGGER.debug("Enters getBrands() ");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         HelperDTO helperTable;
 
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
@@ -2395,7 +2442,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @param brandName the brand name
      * @return the brand id
      */
-    public String getBrandId(final String brandName) throws SystemException, Exception {
+    public String getBrandId(final String brandName) throws Exception {
 
         final SearchItemForm searchItemForm = new SearchItemForm();
 
@@ -2501,9 +2548,9 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     }
 
     public static List<HelperDTO> getLazyManufactureIdResults(final int startIndex, final int end, final String filter, final HelperDTO manufactureId, final boolean filerGeneraterFlag) throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
         int startValue = startIndex;
-        int endValue = end;
+        int endValue;
         if (startIndex == ConstantsUtils.ZERO_INT) {
             endValue = end - 1;
         } else {
@@ -2600,9 +2647,9 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyBrandCount method with filterText" + filterText);
         List<Object[]> qualifierList;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
-        int startValue = start;
-        int endValue = end;
+        final List<HelperDTO> list = new ArrayList<>();
+        int startValue;
+        int endValue;
         if (start == Constants.ZERO) {
             startValue = start;
             endValue = end - 1;
@@ -2657,7 +2704,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyItemQualifierNameCount(String filterText,boolean isEditList) throws PortalException, SystemException {
+    public static int getLazyItemQualifierNameCount(String filterText, boolean isEditList) throws PortalException, SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText);
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemQualifier.class);
@@ -2689,9 +2736,9 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     public static List<HelperDTO> getLazyItemQualifierNameResults(final int start, final int end, final String filteredText, final boolean editListFlag) throws PortalException, SystemException {
         String filterText = StringUtils.trimToEmpty(filteredText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText);
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
-        int startValue = start;
-        int endValue = end;
+        final List<HelperDTO> list = new ArrayList<>();
+        int startValue;
+        int endValue;
         if (start == Constants.ZERO) {
             startValue = start;
             endValue = end - 1;
@@ -2759,7 +2806,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -2771,7 +2818,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyPriceTypeCount(final String filterText,boolean priceType) throws PortalException, SystemException {
+    public static int getLazyPriceTypeCount(final String filterText, boolean priceType) throws SystemException {
         final String filter = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filter);
         List<Object[]> qualifierList;
@@ -2784,16 +2831,16 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         LOGGER.debug("Ending getLazyPriceTypeCount method with filterText with count :" + qualifierList.get(0));
         itemPricingQualifierNameCount = Integer.parseInt(String.valueOf(qualifierList.get(0)));
         if(itemPricingQualifierNameCount==0 && priceType){
-           itemPricingQualifierNameCount++; 
+            itemPricingQualifierNameCount++;
         }
         LOGGER.debug("Ending getLazyPriceTypeCount method : returning count :" + itemPricingQualifierNameCount);
         return itemPricingQualifierNameCount;
     }
 
-    public static List<HelperDTO> getLazyPriceTypeResults(final int startIndex, final int end, final String filter, final boolean editListFlag) throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+    public static List<HelperDTO> getLazyPriceTypeResults(final int startIndex, final int end, final String filter, final boolean editListFlag) throws SystemException {
+        final List<HelperDTO> list = new ArrayList<>();
         int startValue = startIndex;
-        int endValue = end;
+        int endValue;
         if (startIndex == ConstantsUtils.ZERO_INT) {
             endValue = end - 1;
         } else {
@@ -2850,14 +2897,13 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     }
 
     public static Map<Integer, String> getCodeDescription() throws PortalException, SystemException {
-        Map<Integer, String> helperTableMap = new HashMap<Integer, String>();
+        Map<Integer, String> helperTableMap = new HashMap<>();
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName();
         for (HelperTable helperTable : list) {
             helperTableMap.put(helperTable.getHelperTableSid(), helperTable.getDescription());
         }
         return helperTableMap;
     }
-
 
     public static String getDBColumnName(String visibleColumnName) {
         return columnName.get(visibleColumnName);
@@ -2894,7 +2940,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         return systemId;
     }
 
-    public static int getLazyNdc8Count(String filterText) throws PortalException, SystemException {
+    public static int getLazyNdc8Count(String filterText) throws SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
         query.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.NDC8, filterText));
@@ -2902,10 +2948,10 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         return ndc8Count1.intValue();
     }
 
-    public static List<HelperDTO> getLazyNdc8Results(final int start, final int end, String filterText) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyNdc8Results(final int start, final int end, String filterText) throws SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering ndc8 method with filterText" + filterText);
-        final List<HelperDTO> list1 = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list1 = new ArrayList<>();
         int startValue = start;
         int endValue = end;
 
@@ -2934,7 +2980,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         return list1;
     }
 
-    public static int getLazyNdc9Count(String filterText) throws PortalException, SystemException {
+    public static int getLazyNdc9Count(String filterText) throws SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
         query.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.NDC9, filterText));
@@ -2942,10 +2988,10 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         return ndc9Count.intValue();
     }
 
-    public static List<HelperDTO> getLazyNdc9Results(final int start, final int end, String filterText) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyNdc9Results(final int start, final int end, String filterText) throws SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering ndc8 method with filterText" + filterText);
-        final List<HelperDTO> list1 = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list1 = new ArrayList<>();
         int startValue = start;
         int endValue = end;
 
@@ -2983,12 +3029,12 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public int getSearchCountParentNoLookup(final ErrorfulFieldGroup searchCompanyForm, final BeanSearchCriteria search) throws SystemException, PortalException, Exception {
+    public int getSearchCountParentNoLookup(final ErrorfulFieldGroup searchCompanyForm, final BeanSearchCriteria search) throws Exception {
         LOGGER.debug("getSearchCount p1: SearchCompanyForm");
         int temp = 0;
         final SearchCompanyForm searchForm = new SearchCompanyForm();
         String itemIdentifier = StringUtils.EMPTY;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         int qualifierId = 0;
         String companyId = StringUtils.EMPTY;
         String companyNo = StringUtils.EMPTY;
@@ -3016,8 +3062,8 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         if (searchCompanyForm.getField("identifier") != null && !String.valueOf(searchCompanyForm.getField("identifier").getValue()).equals(ConstantsUtils.NULL)) {
             itemIdentifier = searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue().toString().trim();
         }
-        if (searchCompanyForm.getField("identifierType") != null && !String.valueOf(searchCompanyForm.getField("identifierType").getValue()).equals(ConstantsUtils.NULL)) {
-            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField("identifierType").getValue();
+        if (searchCompanyForm.getField(ConstantsUtils.IDENTIFIER_TYPE) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.IDENTIFIER_TYPE).getValue()).equals(ConstantsUtils.NULL)) {
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.IDENTIFIER_TYPE).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
                 qualifierId = helperDTO.getId();
             }
@@ -3046,18 +3092,18 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             for (Container.Filter filter : search.getFilters()) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    if ("companyStatus".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("companyStatus", Integer.valueOf(stringFilter.getFilterString()));
+                    if (ConstantsUtils.COMPANY_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COMPANY_STATUS, Integer.valueOf(stringFilter.getFilterString()));
 
-                    } else if ("companyType".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("companyType", Integer.valueOf(stringFilter.getFilterString()));
+                    } else if (ConstantsUtils.COMPANY_TYPE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COMPANY_TYPE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.TRADE_CLASS, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if ("companyGroup".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("companyGroup", Integer.valueOf(stringFilter.getFilterString()));
-                    } else if ("companyCategory".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("companyCategory", Integer.valueOf(stringFilter.getFilterString()));
-                    } else if ("organizationKey".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                    } else if (ConstantsUtils.COMPANY_GROUP.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COMPANY_GROUP, Integer.valueOf(stringFilter.getFilterString()));
+                    } else if (ConstantsUtils.COMPANY_CATEGORY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COMPANY_CATEGORY, Integer.valueOf(stringFilter.getFilterString()));
+                    } else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put("orgKey", Integer.valueOf(stringFilter.getFilterString()));
                     } else if ("udc1".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put("udc1", Integer.valueOf(stringFilter.getFilterString()));
@@ -3077,11 +3123,11 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                         parameters.put("udc8", Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.STATE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.STATE, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if ("country".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("country", Integer.valueOf(stringFilter.getFilterString()));
+                    } else if (ConstantsUtils.COUNTRY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COUNTRY, Integer.valueOf(stringFilter.getFilterString()));
                     } else {
                         String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
-                        parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                        parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId(), filterString);
                     }
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
@@ -3094,26 +3140,26 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                     Compare.Operation operation = stringFilter.getOperation();
                     if (operation.EQUAL.toString().equals(operation.name())) {
                         if (((Integer) stringFilter.getValue()) == 0) {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~=", String.valueOf(stringFilter.getValue()) + "--" + ConstantsUtils.ZERO);
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~=", String.valueOf(stringFilter.getValue()) + "--" + ConstantsUtils.ZERO);
                         } else {
                             int val = (Integer) stringFilter.getValue();
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~=", String.valueOf(val) + "--" + "=");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~=", String.valueOf(val) + "--" + "=");
                         }
                     }
                     if (operation.GREATER.toString().equals(operation.name())) {
                         int val = (Integer) stringFilter.getValue();
                         if (val < 0) {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">0");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">0");
                         } else {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">");
                         }
                     }
                     if (operation.LESS.toString().equals(operation.name())) {
                         int val = (Integer) stringFilter.getValue();
                         if (val > 0) {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<0");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<0");
                         } else {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
                         }
                     }
                     if (stringFilter.getValue() instanceof Date) {
@@ -3131,11 +3177,11 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                         if (filter1 instanceof Compare.Less) {
 
                             Compare.Less less = (Compare.Less) filter1;
-                            parameters.put("filter~" + less.getPropertyId() + "~<<", String.valueOf(less.getValue()) + "--" + "<<");
+                            parameters.put(ConstantsUtils.FILTER+ less.getPropertyId() + "~<<", String.valueOf(less.getValue()) + "--" + "<<");
                         }
                         if (filter1 instanceof Compare.Greater) {
                             Compare.Greater greater = (Compare.Greater) filter1;
-                            parameters.put("filter~" + greater.getPropertyId() + "~>>", String.valueOf(greater.getValue()) + "--" + ">>");
+                            parameters.put(ConstantsUtils.FILTER + greater.getPropertyId() + "~>>", String.valueOf(greater.getValue()) + "--" + ">>");
                         }
                     }
                 }
@@ -3179,12 +3225,12 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public List<SearchCompanyForm> searchCompanyParentNoLookup(final ErrorfulFieldGroup searchCompanyForm, final int start, final int end, final List<OrderByColumn> orderByColumns, final BeanSearchCriteria criteria) throws SystemException,
-            PortalException, Exception {
+    public List<SearchCompanyForm> searchCompanyParentNoLookup(final ErrorfulFieldGroup searchCompanyForm, final int start, final int end, final List<OrderByColumn> orderByColumns, final BeanSearchCriteria criteria) throws 
+             Exception {
         LOGGER.debug("searchCompany p1: SearchCompanyForm p2:" + start + " p3:" + end + " p4: List<OrderByColumn> size" + orderByColumns.size());
         FiledNameUtils.loadDbColumnName();
         final SearchCompanyForm searchForm = new SearchCompanyForm();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         String itemIdentifier = StringUtils.EMPTY;
         int qualifierId = 0;
         String companyId = StringUtils.EMPTY;
@@ -3195,11 +3241,11 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         String companyGroup = StringUtils.EMPTY;
         String tradeClass = StringUtils.EMPTY;
         String companyStatus = StringUtils.EMPTY;
-        String columnName = StringUtils.EMPTY;
+        String columnNameField;
         String dbColumnName = StringUtils.EMPTY;
-        List itemMasterList = null;
+        List itemMasterList;
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        List<SearchCompanyForm> searchList = new ArrayList<SearchCompanyForm>();
+        List<SearchCompanyForm> searchList = new ArrayList<>();
         if (searchCompanyForm.getField(ConstantsUtils.COMPANY_ID).getValue().toString() != null) {
             companyId = searchCompanyForm.getField(ConstantsUtils.COMPANY_ID).getValue().toString().trim();
             companyId = CommonUtil.buildSearchCriteria(companyId);
@@ -3213,10 +3259,10 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             companyName = CommonUtil.buildSearchCriteria(companyName);
         }
         if (searchCompanyForm.getField(ConstantsUtils.IDENTIFIER) != null && searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue().toString() != null) {
-                itemIdentifier = searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue().toString().trim();
+            itemIdentifier = searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue().toString().trim();
         }
-        if (searchCompanyForm.getField("identifierType") != null) {
-            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField("identifierType").getValue();
+        if (searchCompanyForm.getField(ConstantsUtils.IDENTIFIER_TYPE) != null) {
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.IDENTIFIER_TYPE).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
                 qualifierId = helperDTO.getId();
@@ -3254,8 +3300,8 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         for (final Iterator<OrderByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
 
-            columnName = orderByColumn.getName();
-            dbColumnName = FiledNameUtils.getDBColumnName(columnName);
+            columnNameField = orderByColumn.getName();
+            dbColumnName = FiledNameUtils.getDBColumnName(columnNameField);
             if (orderByColumn.getType() == OrderByColumn.Type.ASC) {
                 asc = false;
             } else {
@@ -3268,18 +3314,18 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             for (Container.Filter filter : criteria.getFilters()) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    if ("companyStatus".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("companyStatus", Integer.valueOf(stringFilter.getFilterString()));
+                    if (ConstantsUtils.COMPANY_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COMPANY_STATUS, Integer.valueOf(stringFilter.getFilterString()));
 
-                    } else if ("companyType".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("companyType", Integer.valueOf(stringFilter.getFilterString()));
+                    } else if (ConstantsUtils.COMPANY_TYPE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COMPANY_TYPE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.TRADE_CLASS, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if ("companyGroup".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("companyGroup", Integer.valueOf(stringFilter.getFilterString()));
-                    } else if ("companyCategory".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("companyCategory", Integer.valueOf(stringFilter.getFilterString()));
-                    } else if ("organizationKey".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                    } else if (ConstantsUtils.COMPANY_GROUP.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COMPANY_GROUP, Integer.valueOf(stringFilter.getFilterString()));
+                    } else if (ConstantsUtils.COMPANY_CATEGORY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COMPANY_CATEGORY, Integer.valueOf(stringFilter.getFilterString()));
+                    } else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put("orgKey", Integer.valueOf(stringFilter.getFilterString()));
                     } else if ("udc1".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put("udc1", Integer.valueOf(stringFilter.getFilterString()));
@@ -3295,13 +3341,13 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                         parameters.put("udc6", Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.STATE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.STATE, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if ("country".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put("country", Integer.valueOf(stringFilter.getFilterString()));
+                    } else if (ConstantsUtils.COUNTRY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                        parameters.put(ConstantsUtils.COUNTRY, Integer.valueOf(stringFilter.getFilterString()));
                     } else if ("identifierStatus".equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put("identifierStatus", Integer.valueOf(stringFilter.getFilterString()));
                     } else {
                         String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
-                        parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                        parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId(), filterString);
                     }
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
@@ -3314,26 +3360,26 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                     Compare.Operation operation = stringFilter.getOperation();
                     if (operation.EQUAL.toString().equals(operation.name())) {
                         if (((Integer) stringFilter.getValue()) == 0) {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~=", String.valueOf(stringFilter.getValue()) + "--" + ConstantsUtils.ZERO);
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~=", String.valueOf(stringFilter.getValue()) + "--" + ConstantsUtils.ZERO);
                         } else {
                             int val = (Integer) stringFilter.getValue();
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~=", String.valueOf(val) + "--" + "=");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~=", String.valueOf(val) + "--" + "=");
                         }
                     }
                     if (operation.GREATER.toString().equals(operation.name())) {
                         int val = (Integer) stringFilter.getValue();
                         if (val < 0) {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">0");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">0");
                         } else {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">");
+                            parameters.put(ConstantsUtils.FILTER+ stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">");
                         }
                     }
                     if (operation.LESS.toString().equals(operation.name())) {
                         int val = (Integer) stringFilter.getValue();
                         if (val > 0) {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<0");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<0");
                         } else {
-                            parameters.put("filter~" + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
                         }
                     }
                     if (stringFilter.getValue() instanceof Date) {
@@ -3351,11 +3397,11 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                         if (filter1 instanceof Compare.Less) {
 
                             Compare.Less less = (Compare.Less) filter1;
-                            parameters.put("filter~" + less.getPropertyId() + "~<<", String.valueOf(less.getValue()) + "--" + "<<");
+                            parameters.put(ConstantsUtils.FILTER + less.getPropertyId() + "~<<", String.valueOf(less.getValue()) + "--" + "<<");
                         }
                         if (filter1 instanceof Compare.Greater) {
                             Compare.Greater greater = (Compare.Greater) filter1;
-                            parameters.put("filter~" + greater.getPropertyId() + "~>>", String.valueOf(greater.getValue()) + "--" + ">>");
+                            parameters.put(ConstantsUtils.FILTER + greater.getPropertyId() + "~>>", String.valueOf(greater.getValue()) + "--" + ">>");
                         }
                     }
                 }
@@ -3385,7 +3431,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @throws Exception the exception
      */
     public List<SearchCompanyForm> getCustomizedSearchFormFromObjectParentNoLookup(final List list) throws Exception {
-        final List<SearchCompanyForm> searchItemList = new ArrayList<SearchCompanyForm>();
+        final List<SearchCompanyForm> searchItemList = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedSearchFormFromObject p1:" + ((list == null) ? list : list.size()));
 
         if (list != null) {
@@ -3487,7 +3533,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     }
 
     private Map<String, Object> getParametersValue(ErrorfulFieldGroup searchItemForm, BeanSearchCriteria criteria) throws PortalException, SystemException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         String itemIdentifier;
         String itemId;
         String itemNo;
@@ -3551,9 +3597,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             parameters.put("identiferId", itemIdentifier);
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO1).getValue() == null) {
-            itemStatus = StringUtils.EMPTY;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO1).getValue() != null) {
             itemStatus = searchItemForm.getField(ConstantsUtils.COMBO1).getValue().toString();
 
             List<HelperDTO> list = getDropDownList(UIUtils.STATUS);
@@ -3564,9 +3608,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO2).getValue() == null) {
-            itemType = StringUtils.EMPTY;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO2).getValue() != null) {
             itemType = searchItemForm.getField(ConstantsUtils.COMBO2).getValue().toString();
             List<HelperDTO> list = getDropDownList(UIUtils.ITEM_TYPE);
             for (HelperDTO list1 : list) {
@@ -3576,18 +3618,14 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO3).getValue() == null || searchItemForm.getField(ConstantsUtils.COMBO3).getValue().toString().equals(ConstantUtil.SELECT_ONE)) {
-            helperDTO2 = HELPERDTO1;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO3).getValue() != null && !searchItemForm.getField(ConstantsUtils.COMBO3).getValue().toString().equals(ConstantUtil.SELECT_ONE)) {
             helperDTO2 = (HelperDTO) searchItemForm.getField(ConstantsUtils.COMBO3).getValue();
             if (helperDTO2 != null && StringUtils.isNotBlank(helperDTO2.getDescription())) {
                 parameters.put(ConstantUtil.NDC9, helperDTO2.getDescription());
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO4).getValue() == null) {
-            form = StringUtils.EMPTY;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO4).getValue() != null) {
             form = searchItemForm.getField(ConstantsUtils.COMBO4).getValue().toString();
             List<HelperDTO> list = getDropDownList(UIUtils.FORM1);
             for (HelperDTO list1 : list) {
@@ -3596,18 +3634,14 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                 }
             }
         }
-        if (searchItemForm.getField(ConstantsUtils.COMBO5) == null || searchItemForm.getField(ConstantsUtils.COMBO5).getValue() == null) {
-            helperDTO = HELPERDTO1;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO5) != null && searchItemForm.getField(ConstantsUtils.COMBO5).getValue() != null) {
             helperDTO = (HelperDTO) searchItemForm.getField(ConstantsUtils.COMBO5).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription()) && helperDTO.getId() != 0) {
-                    parameters.put("itemQualifier", helperDTO.getId());
+                parameters.put("itemQualifier", helperDTO.getId());
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO6) == null || searchItemForm.getField(ConstantsUtils.COMBO6).getValue() == null || Constants.SELECT_ONE.equals(searchItemForm.getField(ConstantsUtils.COMBO6).getValue().toString())) {
-            brand = StringUtils.EMPTY;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO6) != null && searchItemForm.getField(ConstantsUtils.COMBO6).getValue() != null && !Constants.SELECT_ONE.equals(searchItemForm.getField(ConstantsUtils.COMBO6).getValue().toString())) {
             brand = searchItemForm.getField(ConstantsUtils.COMBO6).getValue().toString();
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
             query.add(RestrictionsFactoryUtil.eq(ConstantsUtils.BRAND_NAME, brand));
@@ -3618,19 +3652,14 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             }
             parameters.put(ConstantsUtils.BRAND_MASTER_SID, Arrays.toString(brandMasterSid).substring(1, Arrays.toString(brandMasterSid).length() - 1));
         }
-        if (searchItemForm.getField(ConstantsUtils.COMBO7).getValue() == null || searchItemForm.getField(ConstantsUtils.COMBO7).getValue().toString().equals(ConstantUtil.SELECT_ONE)) {
-            helperDTO1 = HELPERDTO1;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO7).getValue() != null && !searchItemForm.getField(ConstantsUtils.COMBO7).getValue().toString().equals(ConstantUtil.SELECT_ONE)) {
             helperDTO1 = (HelperDTO) searchItemForm.getField(ConstantsUtils.COMBO7).getValue();
             if (helperDTO1 != null && StringUtils.isNotBlank(helperDTO1.getDescription())) {
                 parameters.put("ndc8", helperDTO1.getDescription());
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO8).getValue() == null) {
-            strength = StringUtils.EMPTY;
-
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO8).getValue() != null) {
             strength = searchItemForm.getField(ConstantsUtils.COMBO8).getValue().toString();
             List<HelperDTO> list = getDropDownList(UIUtils.STRENGTH1);
             for (HelperDTO list1 : list) {
@@ -3784,12 +3813,12 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
     }
 
     private Map<String, Object> getParametersValueForSearch(ErrorfulFieldGroup searchItemForm, final Set<Container.Filter> filterSet) throws PortalException, SystemException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         String itemIdentifier;
         String itemId;
         String itemNo;
         String itemName;
-         String batchId;
+        String batchId;
         String itemType;
         String[] brandMasterSid = null;
         String itemStatus;
@@ -3820,8 +3849,8 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             itemName = searchItemForm.getField(ConstantsUtils.TEXT + NumericConstants.FOUR).getValue().toString().trim();
             parameters.put(ConstantUtil.ITEM_NAME_M, itemName);
         }
-        
-         if (StringUtils.isNotBlank(String.valueOf(searchItemForm.getField(ConstantsUtils.TEXT + NumericConstants.EIGHT).getValue()))) {
+
+        if (StringUtils.isNotBlank(String.valueOf(searchItemForm.getField(ConstantsUtils.TEXT + NumericConstants.EIGHT).getValue()))) {
             batchId = searchItemForm.getField(ConstantsUtils.TEXT + NumericConstants.EIGHT).getValue().toString().trim();
             parameters.put(ConstantUtil.ITEM_BATCH_ID, batchId);
         }
@@ -3831,20 +3860,9 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         }
 
         if (StringUtils.isNotBlank(String.valueOf(searchItemForm.getField(ConstantsUtils.TEXT6).getValue()))) {
-            therapyClass = searchItemForm.getField(ConstantsUtils.TEXT6).getValue().toString();
-            therapyClass = therapyClass.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
-            productProjectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(HelperTable.class);
-            if (therapyClass.equals(String.valueOf(CommonUtils.CHAR_PERCENT))) {
-                query.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME, new Object[]{UIUtils.THERAPEUTIC_CLASS, UIUtils.ALL}));
-            } else {
-                query.add(RestrictionsFactoryUtil.eq(ConstantsUtils.LIST_NAME, UIUtils.THERAPEUTIC_CLASS));
-            }
-            query.add(RestrictionsFactoryUtil.like(ConstantsUtils.DESCRIPTION, therapyClass));
-            query.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
-            List list = HelperTableLocalServiceUtil.dynamicQuery(query);
-            parameters.put("therapyClass", list);
+            therapyClass = searchItemForm.getField(ConstantsUtils.TEXT6).getValue().toString().trim();
+
+            parameters.put("therapyClass", therapyClass);
         }
 
         if (StringUtils.isNotBlank(String.valueOf(searchItemForm.getField(ConstantsUtils.TEXT7).getValue()))) {
@@ -3852,9 +3870,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             parameters.put("identiferId", itemIdentifier);
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO1).getValue() == null) {
-            itemStatus = StringUtils.EMPTY;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO1).getValue() != null) {
             itemStatus = searchItemForm.getField(ConstantsUtils.COMBO1).getValue().toString();
 
             List<HelperDTO> list = getDropDownList(UIUtils.STATUS);
@@ -3865,9 +3881,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO2).getValue() == null) {
-            itemType = StringUtils.EMPTY;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO2).getValue() != null) {
             itemType = searchItemForm.getField(ConstantsUtils.COMBO2).getValue().toString();
             List<HelperDTO> list = getDropDownList(UIUtils.ITEM_TYPE);
             for (HelperDTO list1 : list) {
@@ -3877,18 +3891,14 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO3).getValue() == null || searchItemForm.getField(ConstantsUtils.COMBO3).getValue().toString().equals(ConstantUtil.SELECT_ONE)) {
-            helperDTO2 = HELPERDTO1;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO3).getValue() != null && !searchItemForm.getField(ConstantsUtils.COMBO3).getValue().toString().equals(ConstantUtil.SELECT_ONE)) {
             helperDTO2 = (HelperDTO) searchItemForm.getField(ConstantsUtils.COMBO3).getValue();
             if (helperDTO2 != null && StringUtils.isNotBlank(helperDTO2.getDescription())) {
                 parameters.put(ConstantUtil.NDC9, helperDTO2.getDescription());
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO4).getValue() == null) {
-            form = StringUtils.EMPTY;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO4).getValue() != null) {
             form = searchItemForm.getField(ConstantsUtils.COMBO4).getValue().toString();
 
             List<HelperDTO> list = getDropDownList(UIUtils.FORM1);
@@ -3898,18 +3908,14 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
                 }
             }
         }
-        if (searchItemForm.getField(ConstantsUtils.COMBO5) == null || searchItemForm.getField(ConstantsUtils.COMBO5).getValue() == null) {
-            helperDTO = HELPERDTO1;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO5) != null && searchItemForm.getField(ConstantsUtils.COMBO5).getValue() != null) {
             helperDTO = (HelperDTO) searchItemForm.getField(ConstantsUtils.COMBO5).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription()) && helperDTO.getId() != 0) {
-                    parameters.put("itemQualifier", helperDTO.getId());
+                parameters.put("itemQualifier", helperDTO.getId());
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO6) == null || searchItemForm.getField(ConstantsUtils.COMBO6).getValue() == null || Constants.SELECT_ONE.equals(searchItemForm.getField(ConstantsUtils.COMBO6).getValue().toString())) {
-            brand = StringUtils.EMPTY;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO6) != null && searchItemForm.getField(ConstantsUtils.COMBO6).getValue() != null && !Constants.SELECT_ONE.equals(searchItemForm.getField(ConstantsUtils.COMBO6).getValue().toString())) {
             brand = searchItemForm.getField(ConstantsUtils.COMBO6).getValue().toString();
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
             query.add(RestrictionsFactoryUtil.eq(ConstantsUtils.BRAND_NAME, brand));
@@ -3920,19 +3926,14 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             }
             parameters.put(ConstantsUtils.BRAND_MASTER_SID, Arrays.toString(brandMasterSid).substring(1, Arrays.toString(brandMasterSid).length() - 1));
         }
-        if (searchItemForm.getField(ConstantsUtils.COMBO7).getValue() == null || searchItemForm.getField(ConstantsUtils.COMBO7).getValue().toString().equals(ConstantUtil.SELECT_ONE)) {
-            helperDTO1 = HELPERDTO1;
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO7).getValue() != null && !searchItemForm.getField(ConstantsUtils.COMBO7).getValue().toString().equals(ConstantUtil.SELECT_ONE)) {
             helperDTO1 = (HelperDTO) searchItemForm.getField(ConstantsUtils.COMBO7).getValue();
             if (helperDTO1 != null && StringUtils.isNotBlank(helperDTO1.getDescription())) {
                 parameters.put("ndc8", helperDTO1.getDescription());
             }
         }
 
-        if (searchItemForm.getField(ConstantsUtils.COMBO8).getValue() == null) {
-            strength = StringUtils.EMPTY;
-
-        } else {
+        if (searchItemForm.getField(ConstantsUtils.COMBO8).getValue() != null) {
             strength = searchItemForm.getField(ConstantsUtils.COMBO8).getValue().toString();
             List<HelperDTO> list = getDropDownList(UIUtils.STRENGTH1);
             for (HelperDTO list1 : list) {
@@ -4012,7 +4013,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
      * @param brandName the brand name
      * @return the brand id
      */
-    public String getDisplayBrand(final String brandName) throws SystemException, Exception {
+    public String getDisplayBrand(final String brandName) throws  Exception {
 
         final SearchItemForm searchItemForm = new SearchItemForm();
 
@@ -4048,7 +4049,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         String query = CustomSQLUtil.get("item-CP").replace("?SID", String.valueOf(systemId));
         RsModelLocalServiceUtil.executeUpdateQuery(query, null, null);
     }
-    
+
     /**
      * Method return a list of organization key.
      *
@@ -4062,7 +4063,7 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
             query = query.replace("AND CM.COMPANY_MASTER_SID = @ORGANIZATION_KEY", StringUtils.EMPTY);
         } else {
             query = query.replace("@ORGANIZATION_KEY", StringUtils.EMPTY + organizationKeyId);
-}
+        }
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
         return list;
@@ -4078,5 +4079,42 @@ public class ItemSearchLogic extends BeanItemContainer<SearchItemForm> implement
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         String val = list == null || list.isEmpty() ? StringUtils.EMPTY : list.get(0).toString().trim();
         return val.isEmpty() ? false : !val.equals(itemIdentifier);
+    }
+
+    private String getUDC1Value(List<List> udcList) {
+        return udcList.get(1).isEmpty() ? ConstantUtil.ZERO : getUDC1(udcList);
+    }
+
+    private String getUDC1(List<List> udcList) {
+        String query = SQLUtil.getQuery("ItemUDC1Selection");
+        String basequery = StringUtils.EMPTY;
+        String descquery = SQLUtil.getQuery("ItemUDC1DescriptionSelection");
+        for (Object udcs : udcList.get(1)) {
+            basequery = basequery + descquery.replace("?", udcs + "");
+        }
+        query = query.replace("?", basequery);
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        return list != null && !list.isEmpty() ? String.valueOf(list.get(0)) : ConstantUtil.ZERO;
+    }
+
+    public static int getPrecisionValues(String value) {
+        int val = 0;
+        if (value.contains(".")) {
+            String[] str = value.split(ConstantsUtils.DOT);
+            val = str[1].length();
+        }
+        return val;
+    }
+    public static String pattern(int i) {
+
+        int j = 1;
+        StringBuilder str =new StringBuilder("0");
+        for (j = 1; j <= i; j++) {
+            if (j == 1) {
+                str.append(".");
+            }
+            str.append("0");
+        }
+        return str.toString();
     }
 }

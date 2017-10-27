@@ -286,8 +286,8 @@ public class SearchForm extends CustomComponent {
     private ExtFilterTable addToTable() {
 
         table.setContainerDataSource(searchResultbeans);
-        table.setVisibleColumns(UIUtils.BUSINESS_ROLE_MODULE_MASTER_COL);
-        table.setColumnHeaders(UIUtils.BUSINESS_ROLE_MODULE_MASTER_FUNCTION_HEADER);
+        table.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterCol);
+        table.setColumnHeaders(UIUtils.getInstance().businessRoleModuleMasterFunctionHeader);
         table.setImmediate(true);
         table.setTableFieldFactory(new DefaultFieldFactory() {
             @Override
@@ -333,9 +333,9 @@ public class SearchForm extends CustomComponent {
         
         tableResult.setContainerDataSource(searchFieldResult);
         tableResult
-                .setVisibleColumns(UIUtils.BUSINESS_ROLE_MODULE_MASTER_FIELDS);
+                .setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterFields);
         tableResult
-                .setColumnHeaders(UIUtils.BUSINESS_ROLE_MODULE_MASTER_FIELDS_HEADER);
+                .setColumnHeaders(UIUtils.getInstance().businessRoleModuleMasterFieldsHeader);
         if(first){
         add.setValue(setAddFlag(searchFieldResult));
         tableResult.setEditable(true);

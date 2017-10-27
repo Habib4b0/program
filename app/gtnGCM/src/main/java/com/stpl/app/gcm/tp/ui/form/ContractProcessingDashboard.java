@@ -7,6 +7,7 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
+import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
 
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
@@ -46,11 +47,14 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.Field;
@@ -74,6 +78,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -170,11 +175,11 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     public ExtFilterTable addTradingPartnerTable = new ExtFilterTable();
     public TreeTable contractDashboardTable = new TreeTable();
     final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    Map<String, AppPermission> functionHM = new HashMap<>();
 
-    final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<ComponentInformationDTO>(ComponentInformationDTO.class);
-    private BeanItemContainer<ContractResultDTO> selectedContractContainer = new BeanItemContainer<ContractResultDTO>(ContractResultDTO.class);
-    private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
+    final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
+    private BeanItemContainer<ContractResultDTO> selectedContractContainer = new BeanItemContainer<>(ContractResultDTO.class);
+    private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     boolean contractRefresh;
 
     public List parentList = new ArrayList();
@@ -210,8 +215,8 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     CommmonLogic logic = new CommmonLogic();
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    public List<ComponentInformationDTO> componentInformation = new ArrayList<ComponentInformationDTO>();
-    private ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<ComponentInformationDTO>(ComponentInformationDTO.class);
+    public List<ComponentInformationDTO> componentInformation = new ArrayList<>();
+    private ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
     public String excelName = "Rebate Schedule Information";
     CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
     public ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
@@ -256,10 +261,73 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         componentDetailsTableLayout.addComponent(tablelogic.createControls());
         componentInformationTable.setContainerDataSource(componentInformationContainer);
         componentInformationTable.setFilterBarVisible(true);
-        componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_RS);
-        componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_RS);
+        componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
+        componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
         componentInformationTable.setFilterBarVisible(Boolean.TRUE);
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
+        componentInformationTable.setFilterGenerator(new ExtFilterGenerator() {
+
+            @Override
+            public AbstractField<?> getCustomFilterComponent(Object propertyId) {
+                if (propertyId.equals(Constants.STATUS_S)) {
+                    try {
+                        ComboBox status = new ComboBox();
+                        CommonUtil.loadComboBoxForGCM(status, Constants.STATUS, true);
+                        return status;
+                    } catch (Exception ex) {
+                        LOGGER.error(ex);
+                    }
+
+                } 
+                return null;
+            }
+
+            @Override
+            public void filterRemoved(Object propertyId) {
+                return;
+            }
+
+            @Override
+            public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
+            }
+
+            @Override
+            public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
+                return null;
+            }
+
+            public Container.Filter generateFilter(Object propertyId, Object value) {
+                return null;
+            }
+
+            public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
+                if (originatingField instanceof ComboBox) {
+                    if (originatingField.getValue() != null) {
+                        return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
+                    } else {
+                        return null;
+                    }
+                }
+                return null;
+            }
+        });
+        componentInformationTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
+            public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
+                if (propertyId.equals(Constants.STATUS_S)) {
+                    try {
+                        ComboBox status = new ComboBox();
+                        CommonUtil.loadComboBoxForGCM(status, Constants.STATUS, true);
+                        return status;
+                    } catch (Exception ex) {
+                        LOGGER.error(ex);
+                    }
+
+                } 
+                return null;
+            }
+        });
         for (Object object : componentInformationTable.getVisibleColumns()) {
             if (String.valueOf(object).contains("Date")) {
                 componentInformationTable.setColumnAlignment(object, ExtCustomTable.Align.CENTER);
@@ -270,8 +338,8 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     public void configureAddTradingPartnerTable() {
         addTradingPartnerTable.setContainerDataSource(selectedContractContainer);
 
-        addTradingPartnerTable.setVisibleColumns(Constants.SUMMARY_CONTRACT_SELECTION_COLUMNS);
-        addTradingPartnerTable.setColumnHeaders(Constants.SUMMARY_CONTRACT_SELECTION_HEADERS);
+        addTradingPartnerTable.setVisibleColumns(Constants.getInstance().summaryContractSelectionColumns);
+        addTradingPartnerTable.setColumnHeaders(Constants.getInstance().summaryContractSelectionHeaders);
         addTradingPartnerTable.setImmediate(true);
         addTradingPartnerTable.setWidth(NumericConstants.FIVE_HUNDRED, Unit.PIXELS);
         addTradingPartnerTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -283,7 +351,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         addTradingPartnerTable.setFilterDecorator(new ExtDemoFilterDecorator());
         addTradingPartnerTable.setTableFieldFactory(new TableFieldFactory() {
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
-                if (propertyId.equals("checkRecord")) {
+                if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -297,7 +365,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 if (propertyId.equals("compStartDate")) {
                     final PopupDateField compStartDate = new PopupDateField();
                     compStartDate.setDateFormat(Constants.MM_DD_YYYY);
-                    compStartDate.setStyleName("dateFieldCenter");
+                    compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     compStartDate.setImmediate(true);
 
                     return compStartDate;
@@ -306,7 +374,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 if (propertyId.equals("compEndDate")) {
                     final PopupDateField compEndDate = new PopupDateField();
                     compEndDate.setDateFormat(Constants.MM_DD_YYYY);
-                    compEndDate.setStyleName("dateFieldCenter");
+                    compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
                     compEndDate.setImmediate(true);
 
@@ -315,7 +383,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 if (propertyId.equals("contEndDate")) {
                     final PopupDateField contEndDate = new PopupDateField();
                     contEndDate.setDateFormat(Constants.MM_DD_YYYY);
-                    contEndDate.setStyleName("dateFieldCenter");
+                    contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
                     contEndDate.setEnabled(false);
 
@@ -325,7 +393,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 if (propertyId.equals("contStartDate")) {
                     final PopupDateField contStartDate = new PopupDateField();
                     contStartDate.setDateFormat(Constants.MM_DD_YYYY);
-                    contStartDate.setStyleName("dateFieldCenter");
+                    contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
                     contStartDate.setEnabled(false);
                     return contStartDate;
@@ -348,6 +416,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 tableBeanId = null;
             }
         });
+        addTradingPartnerTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
 
     }
 
@@ -357,8 +426,8 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         contractDashboardTable.setHeight(NumericConstants.THREE_HUNDRED, Unit.PIXELS);
         contractDashboardTable.setPageLength(NumericConstants.SEVEN);
         contractDashboardTable.setContainerDataSource(contractDashboardContainer);
-        contractDashboardTable.setVisibleColumns(Constants.ADDTP_TREE_COLUMNS);
-        contractDashboardTable.setColumnHeaders(Constants.TREE_HEADERS);
+        contractDashboardTable.setVisibleColumns(Constants.getInstance().addtpTreeColumns);
+        contractDashboardTable.setColumnHeaders(Constants.getInstance().treeHeaders);
         contractDashboardTable.markAsDirty();
         contractDashboardTable.setImmediate(true);
         contractDashboardTable.setSizeFull();
@@ -370,7 +439,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         contractDashboardTable.addCollapseListener(collapseListener);
         contractDashboardTable.setSelectable(true);
         contractDashboardTable.setColumnHeaders(new String[]{"Category", "ID", "Number", "Name"});
-        contractDashboardTable.setVisibleColumns(Constants.ADDTP_TREE_COLUMNS);
+        contractDashboardTable.setVisibleColumns(Constants.getInstance().addtpTreeColumns);
 
         contractDashboardTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             /**
@@ -383,7 +452,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 if (tableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) tableBeanId;
                 } else if (tableBeanId instanceof ContractsDetailsDto) {
-                    targetItem = new BeanItem<ContractsDetailsDto>((ContractsDetailsDto) tableBeanId);
+                    targetItem = new BeanItem<>((ContractsDetailsDto) tableBeanId);
                 } else {
                     targetItem = NULL_OBJECT;
                 }
@@ -401,26 +470,17 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     }
 
     private void LoadDashBoardTree() {
-        try {
-
-            LOGGER.debug("Entering getProcessedTree method");
-            contractDashboardContainer.removeAllItems();
-
-            contractDashboardContainer = logic.loadContainerData(logic.getDasboardResults(logic.getLevelOneHierarchy(session.getUserId(), session.getSessionId()), 1, 0, 0, 0, 0, null, null, null, null), contractDashboardContainer, null);
-
-            contractDashboardTable.setContainerDataSource(contractDashboardContainer);
-
-            setProcessedTableHeader();
-
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        }
+        LOGGER.debug("Entering getProcessedTree method");
+        contractDashboardContainer.removeAllItems();
+        contractDashboardContainer = logic.loadContainerData(logic.getDasboardResults(logic.getLevelOneHierarchy(session.getUserId(), session.getSessionId()), 1, 0, 0, 0, 0, null, null, null, null), contractDashboardContainer, null);
+        contractDashboardTable.setContainerDataSource(contractDashboardContainer);
+        setProcessedTableHeader();
     }
 
     private void setProcessedTableHeader() {
         LOGGER.debug("Entering setProcessedTableHeader method");
-        contractDashboardTable.setVisibleColumns(Constants.ADDTP_TREE_COLUMNS);
-        contractDashboardTable.setColumnHeaders(Constants.TREE_HEADERS);
+        contractDashboardTable.setVisibleColumns(Constants.getInstance().addtpTreeColumns);
+        contractDashboardTable.setColumnHeaders(Constants.getInstance().treeHeaders);
         LOGGER.debug("End of setProcessedTableHeader method");
     }
 
@@ -612,17 +672,17 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         componentInformationContainer.removeAllItems();
 
         if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_RS);
-            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_RS);
+            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
+            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
         } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_PS);
-            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_PS);
+            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
         } else if (COMPANY_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_CFP);
-            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_CFP);
+            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsCfp);
+            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersCfp);
         } else if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_IFP);
-            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_IFP);
+            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsIfp);
+            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersIfp);
         }
         componentInformationTable.setFilterBarVisible(Boolean.TRUE);
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -741,7 +801,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     }
 
     private void removeCheckedItems(final BeanItemContainer<ContractResultDTO> tpDetailsContainer) {
-        final List<ContractResultDTO> checkedContracts = new ArrayList<ContractResultDTO>();
+        final List<ContractResultDTO> checkedContracts = new ArrayList<>();
         final ContractSelectionLogic csLogic = new ContractSelectionLogic();
         List<ContractResultDTO> tableRecords = tpDetailsContainer.getItemIds();
         for (ContractResultDTO contract : tableRecords) {
@@ -801,7 +861,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
     @Override
     public void setTransferContractRefresh(boolean transferContractRefresh) {
-
+        return;
     }
 
     @UiHandler("populate")
@@ -825,7 +885,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     public void excelExport(Button.ClickEvent event) {
         try {
 
-            List tempVisibleHeaders = new ArrayList(Arrays.asList(Constants.EXCEL_CONTRACT_SELECTION_HEADERS));
+            List tempVisibleHeaders = new ArrayList(Arrays.asList(Constants.getInstance().excelContractSelectionHeaders));
             tempVisibleHeaders.remove(0);
             tempVisibleHeaders.remove(0);
             String[] visibleHeaders = Arrays.copyOf(tempVisibleHeaders.toArray(), tempVisibleHeaders.size(), String[].class);
@@ -911,7 +971,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
         LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
         try {
-            List tempVisibleColumns = new ArrayList(Arrays.asList(Constants.EXCEL_CONTRACT_SELECTION_COLUMNS));
+            List tempVisibleColumns = new ArrayList(Arrays.asList(Constants.getInstance().excelContractSelectionColumns));
             tempVisibleColumns.remove(0);
             tempVisibleColumns.remove(0);
             Object[] visibleColumns = tempVisibleColumns.toArray();
@@ -933,7 +993,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             removeContract.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
             populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn2", functionHM));
             remove.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn2", functionHM));
-//            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn2", functionHM));
 
         } catch (Exception ex) {
             LOGGER.error(ex);

@@ -116,7 +116,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
     }
 
     
-    public void setProjectionResultsData(ProjectionSelectionDTO selection, boolean isTotal) {
+    public void setProjectionResultsData(ProjectionSelectionDTO selection) {
 
         this.selection = selection;
         firstGenerated = true;

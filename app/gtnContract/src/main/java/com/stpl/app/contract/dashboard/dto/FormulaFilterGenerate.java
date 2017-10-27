@@ -28,9 +28,6 @@ public class FormulaFilterGenerate implements ExtFilterGenerator {
     private static final Logger LOGGER = Logger.getLogger(FormulaFilterGenerate.class);
     
     IfpLogic rebateLogic = new IfpLogic();
-    
-    public FormulaFilterGenerate() {
-    }
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {        
@@ -80,10 +77,12 @@ public class FormulaFilterGenerate implements ExtFilterGenerator {
     
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
     
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
     
     @Override

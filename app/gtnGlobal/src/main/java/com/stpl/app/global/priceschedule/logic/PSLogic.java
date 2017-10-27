@@ -149,7 +149,7 @@ public class PSLogic implements PriceScheduleLogic {
     public List<ItemMaster> getItemMaster(final int systemId) throws SystemException, PortalException {
         LOGGER.debug("Entering getItemMaster " + systemId);
 
-        final List<ItemMaster> itemList = new ArrayList<ItemMaster>();
+        final List<ItemMaster> itemList = new ArrayList<>();
 
         LOGGER.debug(" Entering getItemFamilyplanDetailsListByItemFamilyplanSystemId " + systemId);
         final List<IfpDetails> details = DAO.getItemFamilyplanDetailsListByItemFamilyplanSystemId(systemId);
@@ -175,7 +175,7 @@ public class PSLogic implements PriceScheduleLogic {
     public List<IfpModel> getIfpForPS(final String searchField, final String value) throws SystemException {
         String replacedValue = value;
         LOGGER.debug(" Entering getIfpForPS  searchField=" + searchField);
-        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
+        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
         map.put("IFP No", ConstantsUtils.IFP_NO);
         map.put("IFP Name", "itemFamilyplanName");
 
@@ -195,7 +195,7 @@ public class PSLogic implements PriceScheduleLogic {
             return list;
         }
 
-        return new ArrayList<IfpModel>();
+        return new ArrayList<>();
     }
 
     /**
@@ -206,7 +206,7 @@ public class PSLogic implements PriceScheduleLogic {
     public List<HelperDTO> getPriceScheduleCategory() throws SystemException {
         LOGGER.debug(" getPriceScheduleCategory()");
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         List<HelperTable> list;
         LOGGER.debug(" Entering getPriceScheduleCategory(" + UIUtils.PS_CATEGORY + ConstantsUtils.CLOSE_PARENTHESIS);
@@ -231,7 +231,7 @@ public class PSLogic implements PriceScheduleLogic {
     public List<HelperDTO> getPriceScheduleDesignation() throws SystemException {
         LOGGER.debug(" Enters getPriceScheduleDesignation()");
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(UIUtils.PS_DESIGNATION);
 
@@ -258,16 +258,16 @@ public class PSLogic implements PriceScheduleLogic {
      */
     public List<HelperDTO> getPriceToleranceType() throws SystemException {
         LOGGER.debug("Enter getPriceToleranceType()");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("getHelperTableDetailsByListName(" + UIUtils.PRICE_TOLERANCE_TYPE + ConstantsUtils.CLOSE_PARENTHESIS);
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(UIUtils.PRICE_TOLERANCE_TYPE);
-        LOGGER.debug("List for PRICE_TOLERANCE_TYPE " + list.size());
-
+        
         HelperTable helperTable;
         
         helperList.add(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
         if (list != null) {
+            LOGGER.debug("List for PRICE_TOLERANCE_TYPE " + list.size());
             for (int i = 0; i < list.size(); i++) {
                 helperTable = (HelperTable) list.get(i);
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
@@ -285,7 +285,7 @@ public class PSLogic implements PriceScheduleLogic {
      * @return the price tolerance interval
      */
     public List<HelperDTO> getPriceToleranceInterval() throws SystemException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug(" getHelperTableDetailsByListName (" + UIUtils.PRICE_TOLERANCE_INTERVAL + ConstantsUtils.CLOSE_PARENTHESIS);
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(UIUtils.PRICE_TOLERANCE_INTERVAL);
         
@@ -306,7 +306,7 @@ public class PSLogic implements PriceScheduleLogic {
      * @return the price tolerance frequency
      */
     public List<HelperDTO> getPriceToleranceFrequency() throws SystemException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("getHelperTableDetailsByListName(" + UIUtils.PRICE_TOLERANCE_FRERQUENCY + ConstantsUtils.CLOSE_PARENTHESIS);
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(UIUtils.PRICE_TOLERANCE_FRERQUENCY);
           helperList.add(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
@@ -331,7 +331,7 @@ public class PSLogic implements PriceScheduleLogic {
     private List<SearchPSIFPDTO> getCustomizedIfpSearchFormFromModel(
             final List<IfpModel> list) {
         LOGGER.debug(" Enters getCustomizedIfpSearchFormFromModel()");
-        final List<SearchPSIFPDTO> searchItemList = new ArrayList<SearchPSIFPDTO>();
+        final List<SearchPSIFPDTO> searchItemList = new ArrayList<>();
 
         if (list != null) {
             SearchPSIFPDTO searchActualsDTO;
@@ -368,7 +368,7 @@ public class PSLogic implements PriceScheduleLogic {
                 .forClass(IfpModel.class);
         String replaceValue = value;
 
-        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
+        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
         map.put("IFP No", ConstantsUtils.IFP_NO);
         map.put("IFP Name", "itemFamilyplanName");
         if (StringUtils.isNotBlank(replaceValue)) {
@@ -394,8 +394,8 @@ public class PSLogic implements PriceScheduleLogic {
     public int getDynamicQuerySearch(final ErrorfulFieldGroup searchItemForm,final BeanSearchCriteria search)
             throws SystemException, PortalException {
 
-        LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        LOGGER.debug(" getDynamicQuerySearch(ErrorfulFieldGroup searchItemForm)");
+        SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         String psId;
         String psNo;
         String psName;
@@ -409,7 +409,7 @@ public class PSLogic implements PriceScheduleLogic {
         // Added to check INBOUND_STATUS is A. ETL Soft delete data should not be included, where INBOUND_STATUS is D
         ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.eq(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D)));
 
-        LOGGER.debug("priceScheduleId=" + searchItemForm.getField(ConstantsUtils.PS_ID).getValue());
+        LOGGER.debug("priceScheduleId=  " + searchItemForm.getField(ConstantsUtils.PS_ID).getValue());
         if (searchItemForm.getField(Constants.PS_ID).getValue() == null || searchItemForm.getField(Constants.PS_ID).getValue().toString() == StringUtils.EMPTY) {
             psId = StringUtils.EMPTY;
         } else {
@@ -509,8 +509,8 @@ public class PSLogic implements PriceScheduleLogic {
     public int getSearchPsCount(final ErrorfulFieldGroup searchItemForm,final BeanSearchCriteria search)
             {
 
-        LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-       SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        LOGGER.debug(" getSearchPsCount(ErrorfulFieldGroup searchItemForm)");
+       SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         String psId;
         String psNo;
         String psName;
@@ -522,7 +522,7 @@ public class PSLogic implements PriceScheduleLogic {
         int psStatusID = 0;
 
        
-        LOGGER.debug("priceScheduleId=");
+        LOGGER.debug("getSearchPsCount=");
         if (searchItemForm.getField(ConstantsUtils.TEXT1).getValue() == null || searchItemForm.getField(ConstantsUtils.TEXT1).getValue().toString() == StringUtils.EMPTY) {
             psId = StringUtils.EMPTY;
         } else {
@@ -616,7 +616,7 @@ public class PSLogic implements PriceScheduleLogic {
         
         
         
-        Map<String,Object> filterMap = new HashMap<String,Object>();
+        Map<String,Object> filterMap = new HashMap<>();
         
         if (search != null && search.getFilters() != null) {
                 for (Container.Filter filter : search.getFilters()) {
@@ -653,8 +653,8 @@ public class PSLogic implements PriceScheduleLogic {
     public List<SearchResultsDTO> getSearchPsList(final ErrorfulFieldGroup searchItemForm,int start,int end, final List<OrderByColumn> orderByColumns,final BeanSearchCriteria search) throws ParseException
             {
 
-        LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        LOGGER.debug(" getSearchPsList(ErrorfulFieldGroup searchItemForm)");
+        SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         String psId;
         String psNo;
         String psName;
@@ -759,7 +759,7 @@ public class PSLogic implements PriceScheduleLogic {
         
         
         
-        Map<String,Object> filterMap = new HashMap<String,Object>();
+        Map<String,Object> filterMap = new HashMap<>();
         
         if (search != null && search.getFilters() != null) {
                 for (Container.Filter filter : search.getFilters()) {
@@ -784,36 +784,36 @@ public class PSLogic implements PriceScheduleLogic {
                 }
         }
         
-        String columnName = "ps.PS_MODEL_SID";
+        String columnName = ConstantsUtils.PS_PS_MODEL_SID;
         String orderBy = "ASC";
         for (final Iterator<OrderByColumn> iterator = orderByColumns.iterator(); iterator
                 .hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
             
                         if(ConstantsUtils.PS_SID.equals(orderByColumn.getName())){
-                            columnName="ps.PS_MODEL_SID";
+                            columnName=ConstantsUtils.PS_PS_MODEL_SID;
                         }else if(ConstantsUtils.PS_ID.equals(orderByColumn.getName())){
-                            columnName="ps.PS_ID";
+                            columnName=ConstantsUtils.PS_PS_ID;
                         }else if(ConstantsUtils.PS_NO.equals(orderByColumn.getName())){
-                            columnName="ps.PS_NO";
+                            columnName=ConstantsUtils.PS_PS_NO;
                         }else if(ConstantsUtils.PS_NAME.equals(orderByColumn.getName())){
-                            columnName="ps.PS_NAME";
+                            columnName=ConstantsUtils.PS_PS_NAME;
                         }else if(ConstantsUtils.PS_STATUS.equals(orderByColumn.getName())){
                             columnName=ConstantsUtils.STATUS;
                         }else if(ConstantsUtils.PS_TYPE.equals(orderByColumn.getName())){
                             columnName="type";
                         }else if(ConstantsUtils.PS_CATEGORY.equals(orderByColumn.getName())){
-                            columnName="category";
+                            columnName=ConstantsUtils.CATEGORY;
                         }else if(ConstantsUtils.PS_START_DATE.equals(orderByColumn.getName())){
-                            columnName="ps.PS_START_DATE";
+                            columnName="ps.PS_START_DATE ";
                         }else if(ConstantsUtils.PS_END_DATE.equals(orderByColumn.getName())){
-                            columnName="ps.PS_END_DATE";
+                            columnName="ps.PS_END_DATE ";
                         }else if(ConstantsUtils.PS_DESIGNATION.equals(orderByColumn.getName())){
-                            columnName="designation";
-                        }else if("parentId".equals(orderByColumn.getName())){
-                            columnName="ps.PARENT_PS_ID";
-                        }else if("parentName".equals(orderByColumn.getName())){
-                            columnName="ps.PARENT_PS_NAME";
+                            columnName=ConstantsUtils.DESIGNATION;
+                        }else if(ConstantsUtils.PARENT_ID.equals(orderByColumn.getName())){
+                            columnName=ConstantsUtils.PS_PARENT_PS_SID;
+                        }else if(ConstantsUtils.PARENT_NAME.equals(orderByColumn.getName())){
+                            columnName=ConstantsUtils.PS_PARENT_PS_NAME;
                         }else if(ConstantsUtils.TRADE_CLASS.equals(orderByColumn.getName())){
                             columnName=ConstantsUtils.TRADE;
                         }
@@ -834,7 +834,7 @@ public class PSLogic implements PriceScheduleLogic {
     
     
     List<SearchResultsDTO> getCustomizedSearchPsList(List list) throws ParseException {
-        List<SearchResultsDTO> result = new ArrayList<SearchResultsDTO>();
+        List<SearchResultsDTO> result = new ArrayList<>();
         SearchResultsDTO dto;
         if(list !=null){
         for(int i=0;i<list.size();i++){
@@ -860,14 +860,14 @@ public class PSLogic implements PriceScheduleLogic {
           
           if(obj[NumericConstants.SEVEN]!=null){
             Date startDate = (Date) obj[NumericConstants.SEVEN];
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
             startDate = df.parse(CommonUtils.convertDateToString(startDate));   
             dto.setPriceScheduleStartDate(startDate);
           }
           
           if(obj[NumericConstants.EIGHT]!=null){
             Date endDate = (Date) obj[NumericConstants.EIGHT];
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
             endDate = df.parse(CommonUtils.convertDateToString(endDate));   
             dto.setPriceScheduleEndDate(endDate);
           }
@@ -929,7 +929,7 @@ public class PSLogic implements PriceScheduleLogic {
             final ErrorfulFieldGroup searchItemForm, final int start, final int end,
             final List<OrderByColumn> orderByColumns,final BeanSearchCriteria criteria) throws SystemException {
         LOGGER.debug("Entering searchPs P2: " + start + " P3: " + end + " P4: " + ((orderByColumns == null) ? orderByColumns : orderByColumns.size()));
-        List<SearchResultsDTO> searchList = new ArrayList<SearchResultsDTO>();
+        List<SearchResultsDTO> searchList;
 
         String psId;
         String psNo;
@@ -1069,7 +1069,7 @@ public class PSLogic implements PriceScheduleLogic {
     private List<SearchResultsDTO> getCustomizedSearchFormFromModel(
             final List<PsModel> list) {
         LOGGER.debug(" getCustomizedSearchFormFromModel( List<PriceScheduleMaster> list)");
-        final List<SearchResultsDTO> searchItemList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> searchItemList = new ArrayList<>();
 
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -1168,7 +1168,7 @@ public class PSLogic implements PriceScheduleLogic {
 
                 psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.PS_ID_SEARCH, item.getPsId()));
                 final List<PsModel> list = DAO.getPriceScheduleMasterList(psDynamicQuery);
-                LOGGER.debug("PriceScheduleMaster size -" + ((list == null) ? list : list.size()));
+                LOGGER.debug("PriceScheduleMaster " + ((list == null) ? list : list.size()));
                 if (list.size() < CommonUtils.ONE) {
 
                     final PsModel result = DAO.savePriceScheduleMaster(item);
@@ -1189,16 +1189,16 @@ public class PSLogic implements PriceScheduleLogic {
                         UDCIncrementCheck.increment(result.getPsCategory(), UIUtils.PS_CATEGORY);
                     }
                     saveDetailsList(result, "save");
-                      rsLogic.saveUploadedInformation(availableUploadedInformation, "PS_MODEL", result.getPsModelSid());
+                      rsLogic.saveUploadedInformation(availableUploadedInformation, ConstantsUtils.PS_MODEL, result.getPsModelSid());
                 } else {
-                    returnString = "duplicate";
+                    returnString = ConstantsUtils.DUPLICATE;
                 }
             } else {
                 final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsModel.class);
-                psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.PS_ID_Column, item.getPsId()));
+                psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.PS_ID_COLUMN, item.getPsId()));
                 @SuppressWarnings("unchecked")
                 final List<PsModel> priceScheduleList = DAO.getPriceScheduleMasterList(psDynamicQuery);
-                LOGGER.debug("PriceScheduleMaster size -" + ((priceScheduleList == null) ? priceScheduleList : priceScheduleList.size()));
+                LOGGER.debug("PriceScheduleMaster SIZE" + ((priceScheduleList == null) ? priceScheduleList : priceScheduleList.size()));
                 int count = 0;
                 for (int i = 0; i < priceScheduleList.size(); i++) {
                     if (Integer.parseInt(systemId.replace(",", StringUtils.EMPTY)) == priceScheduleList.get(i).getPsModelSid()) {
@@ -1242,10 +1242,10 @@ public class PSLogic implements PriceScheduleLogic {
                     }
 
                     saveDetailsList(result, "update");
-                    rsLogic.saveUploadedInformation(availableUploadedInformation, "PS_MODEL", result.getPsModelSid());
+                    rsLogic.saveUploadedInformation(availableUploadedInformation, ConstantsUtils.PS_MODEL, result.getPsModelSid());
                 } else {
                     LOGGER.debug(" returns  duplicate");
-                    returnString = "duplicate";
+                    returnString = ConstantsUtils.DUPLICATE;
                 }
             }
 
@@ -1358,7 +1358,7 @@ public class PSLogic implements PriceScheduleLogic {
         Map<Integer, String> userMap= StplSecurity.getUserName();
         LOGGER.debug("getPriceScheduleMasterBySystemId(PriceScheduleMasterBySystemId id=" + systemId + ConstantsUtils.CLOSE_PARENTHESIS);
         final PsModel psMaster = DAO.getPriceScheduleMasterBySystemId(systemId);
-        LOGGER.debug("returns PriceScheduleMaster" + psMaster.getPsId());
+        LOGGER.debug("returns getPriceschedulesById" + psMaster.getPsId());
 
         priceScheduleDto.setPriceScheduleSystemId(psMaster.getPsModelSid());
         priceScheduleDto.setPriceScheduleId(psMaster.getPsId());
@@ -1397,12 +1397,13 @@ public class PSLogic implements PriceScheduleLogic {
     public List<IfpModel> getSelectedIFPItemList(final int ifpId) throws SystemException, PortalException {
         LOGGER.debug("getSelectedItemList(ItemFamilyPlanId ifpId=" + ifpId + ConstantsUtils.CLOSE_PARENTHESIS);
 
-        final List<IfpModel> ifpList = new ArrayList<IfpModel>();
+        final List<IfpModel> ifpList = new ArrayList<>();
 
         LOGGER.debug("getPriceScheduleDetailsByPriceScheduleMasterSystemId(ItemFamilyPlanId ifpId=" + ifpId + ConstantsUtils.CLOSE_PARENTHESIS);
         final List<PsDetails> list = DAO.getPriceScheduleDetailsByPriceScheduleMasterSystemId(ifpId);
-        LOGGER.debug("returns psDetailsList" + list.size());
+        
         if (list != null && !list.isEmpty()) {
+            LOGGER.debug("returns psDetailsList" + list.size());
             final PsDetails details = list.get(0);
             ifpList.add(DAO.getItemFamilyplanMasterBySystemId(details.getIfpModelSid()));
         }
@@ -1438,8 +1439,8 @@ public class PSLogic implements PriceScheduleLogic {
      */
     @SuppressWarnings("rawtypes")
     public List<PSIFPDTO> getCustomizedSearchFormFromObject(final List list)
-            throws ParseException, SystemException {
-        final List<PSIFPDTO> psIfpList = new ArrayList<PSIFPDTO>();
+            throws SystemException {
+        final List<PSIFPDTO> psIfpList = new ArrayList<>();
         if (list != null) {
 
             PSIFPDTO psIfpDTO;
@@ -1554,7 +1555,7 @@ public class PSLogic implements PriceScheduleLogic {
             final int priceScheduleDetails = Integer.valueOf(String.valueOf(detailsList.get(i)));
             HelperTableLocalServiceUtil.executeUpdateQuery("UPDATE PS_DETAILS SET INBOUND_STATUS='D' WHERE PS_DETAILS_SID="+priceScheduleDetails);
         }
-        LOGGER.debug("returns  PriceScheduleMaster");
+        LOGGER.debug("deletPSById  PriceScheduleMaster");
         return psMaster;
 
     }
@@ -1568,13 +1569,13 @@ public class PSLogic implements PriceScheduleLogic {
     public List<HelperDTO> getItemType(final String listType) throws SystemException {
         LOGGER.debug("getItemType(String listType=" + listType);
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         List<HelperTable> list;
         LOGGER.debug("getHelperTableDetailsByListName((String listType=" + listType);
         list = DAO.getHelperTableDetailsByListName(listType);
         LOGGER.debug("returns    List<HelperTable>" + list.size());
-        if (list != null) {
+        if (!ConstantUtil.NULL.equals(String.valueOf(list))) {
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
@@ -1611,7 +1612,7 @@ public class PSLogic implements PriceScheduleLogic {
                 "E MMM dd HH:mm:ss Z yyyy");
 
         final Date date = inputFormat.parse(dateString);
-        LOGGER.debug("returns date=" + date);
+        LOGGER.debug("returns date = " + date);
         return date;
 
     }
@@ -1627,7 +1628,7 @@ public class PSLogic implements PriceScheduleLogic {
         LOGGER.debug("StringToDateForIden(String dateString=" + dateString + ConstantsUtils.CLOSE_PARENTHESIS);
 
         final Date date = inputFormat.parse(dateString);
-        LOGGER.debug("returns date=" + date);
+        LOGGER.debug("returns date= " + date);
         return date;
 
     }
@@ -1643,7 +1644,7 @@ public class PSLogic implements PriceScheduleLogic {
         final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
         final Date date = inputFormat.parse(dateString);
-        LOGGER.debug("returns date=" + date);
+        LOGGER.debug("returns date =" + date);
         return date;
 
     }
@@ -1708,7 +1709,7 @@ public class PSLogic implements PriceScheduleLogic {
         LOGGER.debug("loadAllActualss(int startIndex,int endIndex)");
         LOGGER.debug("getPriceScheduleMasterListByLimit(startIndex, endIndex)");
         final List<PsModel> list = DAO.getPriceScheduleMasterListByLimit(startIndex, endIndex);
-        LOGGER.debug("returns  List<PriceScheduleMaster>=" + list.size());
+        LOGGER.debug("returns  loadAllActualss=" + list.size());
         return getCustomizedSearchFormFromModel(list);
 
     }
@@ -1770,7 +1771,7 @@ public class PSLogic implements PriceScheduleLogic {
 
     }
 
-    public static int getPriceTypeCount(final String filterText, final HelperDTO priceType) throws PortalException, SystemException {
+    public static int getPriceTypeCount(final String filterText, final HelperDTO priceType) throws SystemException {
         final String filter = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filterText);
         List<Object[]> qualifierList;
@@ -1789,8 +1790,8 @@ public class PSLogic implements PriceScheduleLogic {
     
     
     
-    public static List<HelperDTO> getPriceTypeResults(final int startIndex, final int end, final String filter, final HelperDTO priceType) throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+    public static List<HelperDTO> getPriceTypeResults(final int startIndex, final int end, final String filter, final HelperDTO priceType) throws SystemException {
+        final List<HelperDTO> list = new ArrayList<>();
         LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :" + filter);
         final String filterString = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemPricingQualifier.class);
@@ -1978,7 +1979,7 @@ public class PSLogic implements PriceScheduleLogic {
                             And stringFilter = (And) filter;
                         Collection<Container.Filter> value = stringFilter.getFilters();
                         for (Container.Filter filter1 : value) {
-                        Object propertyId = StringUtils.EMPTY;
+                        Object propertyId;
                         if (filter1 instanceof Compare.Less) {
                             Compare.Less less = (Compare.Less) filter1;
                             propertyId = less.getPropertyId();
@@ -2025,7 +2026,7 @@ public class PSLogic implements PriceScheduleLogic {
         return count;
     }
 
-    public List<PSIFPDTO> getResultTableResult(int start, int end, final ErrorfulFieldGroup binder) throws SystemException, PortalException {
+    public List<PSIFPDTO> getResultTableResult(int start, int end) throws SystemException, PortalException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
@@ -2039,10 +2040,10 @@ public class PSLogic implements PriceScheduleLogic {
         return getCustomizedResultDTO(resultList);
     }
     
-    public List<Object[]> getItemPriceDetails(final Set<Container.Filter> filterSet,int start, int end, final ErrorfulFieldGroup binder,List<SortByColumn> orderByColumns, String mode, PSDTO psMaster, Boolean iscount) throws SystemException, PortalException {
+    public List<Object[]> getItemPriceDetails(final Set<Container.Filter> filterSet,int start, int end,List<SortByColumn> orderByColumns, String mode, PSDTO psMaster, Boolean iscount) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         String columnName="ITEM_NAME";
         String orderBy="ASC";
         
@@ -2232,6 +2233,25 @@ public class PSLogic implements PriceScheduleLogic {
                             }
                         }
                     }
+                    if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                        if ("contractPriceStartDate".equals(String.valueOf(stringFilter.getPropertyId()))) {
+                            String startDate = String.valueOf(dateFormat.format(stringFilter.getValue()));
+                            parameters.put("contractPriceStartDatefrom", startDate);
+
+                        } else if ("contractPriceEndDate".equals(String.valueOf(stringFilter.getPropertyId()))) {
+                            String endDate = String.valueOf(dateFormat.format(stringFilter.getValue()));
+                            parameters.put("contractPriceEndDatefrom", endDate);
+
+                        }else if ("createdDate".equals(String.valueOf(stringFilter.getPropertyId()))) {
+                            String createdDate = String.valueOf(dateFormat.format(stringFilter.getValue()));
+                            parameters.put("createdDatefrom", createdDate);
+
+                        }else if ("attachedDate".equals(String.valueOf(stringFilter.getPropertyId()))) {
+                            String attachedDate = String.valueOf(dateFormat.format(stringFilter.getValue()));
+                            parameters.put("attachedDatefrom", attachedDate);
+
+                        }
+                    }
                     if (operation.LESS.toString().equals(operation.name())) {
                         
                         if(ConstantsUtils.PRICE.equals(String.valueOf(stringFilter.getPropertyId())) || ConstantsUtils.NEP.equals(String.valueOf(stringFilter.getPropertyId()))
@@ -2264,7 +2284,7 @@ public class PSLogic implements PriceScheduleLogic {
                     And stringFilter = (And) filter;
                     Collection<Container.Filter> value = stringFilter.getFilters();
                     for (Container.Filter filter1 : value) {
-                        Object propertyId = StringUtils.EMPTY;
+                        Object propertyId;
                         if (filter1 instanceof Compare.Less) {
                             
                             Compare.Less less = (Compare.Less) filter1;
@@ -2310,7 +2330,7 @@ public class PSLogic implements PriceScheduleLogic {
     
     public static List<PSIFPDTO> getCustomizedItemPriceDTO(List<Object[]> list, String mode, PSDTO psMaster) throws PortalException, SystemException {
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
-        List<PSIFPDTO> resultList = new ArrayList<PSIFPDTO>();
+        List<PSIFPDTO> resultList = new ArrayList<>();
         Map<Integer, String> userMap= StplSecurity.getUserName();
        if(list!=null){
         for (Object[] temp : list) {
@@ -2352,13 +2372,21 @@ public class PSLogic implements PriceScheduleLogic {
                 temp[NumericConstants.SEVENTEEN]=ConstantsUtils.ZERO;
             }
             resultDTO.setPriceTolerance(CommonUtils.convertWith2Decimal(String.valueOf(temp[NumericConstants.SEVENTEEN])));
-
-            resultDTO.setPriceToleranceFrequency(temp[NumericConstants.EIGHTEEN]==null || String.valueOf(temp[NumericConstants.EIGHTEEN]).isEmpty() ? helperListUtil.getIdHelperDTOMap().get(0) : helperListUtil.getIdHelperDTOMap().get(Integer.parseInt(String.valueOf(temp[NumericConstants.EIGHTEEN]))));
+            
             resultDTO.setPriceToleranceFrequencyValue(temp[NumericConstants.EIGHTEEN]==null  || String.valueOf(temp[NumericConstants.EIGHTEEN]).isEmpty()|| Integer.parseInt(String.valueOf(temp[NumericConstants.EIGHTEEN]))==0 ? StringUtils.EMPTY : hm.get(Integer.parseInt(String.valueOf(temp[NumericConstants.EIGHTEEN]))));
             helper = temp[NumericConstants.NINETEEN]==null || StringUtils.isEmpty(String.valueOf(temp[NumericConstants.NINETEEN])) || ConstantsUtils.ZERO.equals(String.valueOf(temp[NumericConstants.NINETEEN]))
                     ? new com.stpl.ifs.util.HelperDTO(0,Constants.SELECT_ONE) : new com.stpl.ifs.util.HelperDTO(Integer.valueOf(String.valueOf(temp[NumericConstants.NINETEEN])), CommonUtils.getHelperDescription(Integer.valueOf(String.valueOf(temp[NumericConstants.NINETEEN]))));
-            resultDTO.setPriceToleranceInterval(helper);
-            resultDTO.setPriceToleranceType(temp[NumericConstants.TWENTY]==null  || String.valueOf(temp[NumericConstants.TWENTY]).isEmpty()? helperListUtil.getIdHelperDTOMap().get(0) : helperListUtil.getIdHelperDTOMap().get(Integer.parseInt(String.valueOf(temp[NumericConstants.TWENTY]))));
+            if (ConstantsUtils.VIEW.equals(mode)) {
+                resultDTO.setPriceToleranceFrequency(temp[NumericConstants.EIGHTEEN]!=null && !String.valueOf(temp[NumericConstants.EIGHTEEN]).isEmpty() && Integer.parseInt(String.valueOf(temp[NumericConstants.EIGHTEEN]))!=0 ?  helperListUtil.getIdHelperDTOMap().get(Integer.parseInt(String.valueOf(temp[NumericConstants.EIGHTEEN]))):new HelperDTO());
+                resultDTO.setPriceToleranceInterval(helper.getId()==0?new HelperDTO():helper);
+                resultDTO.setPriceToleranceType(temp[NumericConstants.TWENTY]!=null  && !String.valueOf(temp[NumericConstants.TWENTY]).isEmpty()&& Integer.parseInt(String.valueOf(temp[NumericConstants.EIGHTEEN]))!=0?helperListUtil.getIdHelperDTOMap().get(Integer.parseInt(String.valueOf(temp[NumericConstants.TWENTY]))): new HelperDTO());
+            } else {
+                resultDTO.setPriceToleranceFrequency(temp[NumericConstants.EIGHTEEN]==null || String.valueOf(temp[NumericConstants.EIGHTEEN]).isEmpty() ? helperListUtil.getIdHelperDTOMap().get(0) : helperListUtil.getIdHelperDTOMap().get(Integer.parseInt(String.valueOf(temp[NumericConstants.EIGHTEEN]))));
+                resultDTO.setPriceToleranceInterval(helper);
+                resultDTO.setPriceToleranceType(temp[NumericConstants.TWENTY]==null  || String.valueOf(temp[NumericConstants.TWENTY]).isEmpty()? helperListUtil.getIdHelperDTOMap().get(0) : helperListUtil.getIdHelperDTOMap().get(Integer.parseInt(String.valueOf(temp[NumericConstants.TWENTY]))));
+            }
+            
+            
             resultDTO.setPriceToleranceTypeValue((temp[NumericConstants.TWENTY]==null || Integer.parseInt(String.valueOf(temp[NumericConstants.TWENTY]))==0)?StringUtils.EMPTY:hm.get(Integer.parseInt(String.valueOf(temp[NumericConstants.TWENTY]))));
             if(temp[NumericConstants.TWENTY_ONE]!=null){
             resultDTO.setRevisionDate((Date)temp[NumericConstants.TWENTY_ONE]);
@@ -2390,17 +2418,25 @@ public class PSLogic implements PriceScheduleLogic {
             resultDTO.setBrand(temp[NumericConstants.THIRTY_SEVEN]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.THIRTY_SEVEN])) && !ConstantsUtils.ZERO.equals(String.valueOf(temp[NumericConstants.THIRTY_SEVEN])) ? BrandMasterLocalServiceUtil.getBrandMaster(Integer.valueOf(String.valueOf(temp[NumericConstants.THIRTY_SEVEN]))).getBrandName() : StringUtils.EMPTY);
             helper = temp[NumericConstants.THIRTY_EIGHT]==null || StringUtils.isEmpty(String.valueOf(temp[NumericConstants.THIRTY_EIGHT])) || ConstantsUtils.ZERO.equals(String.valueOf(temp[NumericConstants.THIRTY_EIGHT]))
                     ? new com.stpl.ifs.util.HelperDTO(0,Constants.SELECT_ONE) : new com.stpl.ifs.util.HelperDTO(Integer.valueOf(String.valueOf(temp[NumericConstants.THIRTY_EIGHT])), CommonUtils.getHelperDescription(Integer.valueOf(String.valueOf(temp[NumericConstants.THIRTY_EIGHT]))));
-            resultDTO.setPriceProtectionStatus(helper);
+             if (ConstantsUtils.VIEW.equals(mode)) {
+                 resultDTO.setPriceProtectionStatus(helper.getId()==0?new HelperDTO():helper);
+                 resultDTO.setNetPriceType(temp[NumericConstants.FORTY_SEVEN] != null  && !String.valueOf(temp[NumericConstants.FORTY_SEVEN]).isEmpty() && Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_SEVEN]))!=0? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_SEVEN]))) :new HelperDTO());
+                  resultDTO.setResetEligible(temp[NumericConstants.FORTY_TWO] != null && !String.valueOf(temp[NumericConstants.FORTY_TWO]).isEmpty()&& Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_TWO]))!=0 ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_TWO]))) : new HelperDTO());
+                 resultDTO.setResetType(temp[NumericConstants.FORTY_THREE]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_THREE]))&& Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_THREE]))!=0  ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_THREE].toString())) : new HelperDTO());
+          
+             } else {
+                resultDTO.setPriceProtectionStatus(helper);
+                resultDTO.setNetPriceType(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FORTY_SEVEN] != null  && !String.valueOf(temp[NumericConstants.FORTY_SEVEN]).isEmpty()? Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_SEVEN])) : 0));
+                resultDTO.setResetEligible(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FORTY_TWO] != null && !String.valueOf(temp[NumericConstants.FORTY_TWO]).isEmpty() ? Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_TWO])) : 0));
+                resultDTO.setResetType(temp[NumericConstants.FORTY_THREE]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_THREE])) ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_THREE].toString())) : helperListUtil.getIdHelperDTOMap().get(0));
+          
+             }
+            
             resultDTO.setNep(temp[NumericConstants.THIRTY_NINE]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.THIRTY_NINE])) ? String.valueOf(temp[NumericConstants.THIRTY_NINE]) : StringUtils.EMPTY );
             resultDTO.setItemStatus(temp[NumericConstants.FORTY]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY])) ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY].toString())) : helperListUtil.getIdHelperDTOMap().get(0));
             resultDTO.setMaxIncrementalChange(temp[NumericConstants.FORTY_ONE]!=null ?String.valueOf(temp[NumericConstants.FORTY_ONE]):StringUtils.EMPTY);           
-            resultDTO.setResetEligible(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FORTY_TWO] != null && !String.valueOf(temp[NumericConstants.FORTY_TWO]).isEmpty() ? Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_TWO])) : 0));
-            resultDTO.setResetType(temp[NumericConstants.FORTY_THREE]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_THREE])) ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_THREE].toString())) : helperListUtil.getIdHelperDTOMap().get(0));
-            if(temp[NumericConstants.FORTY_FOUR]!=null) resultDTO.setResetDate((Date)temp[NumericConstants.FORTY_FOUR]);
-            resultDTO.setResetInterval(temp[NumericConstants.FORTY_FIVE]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_FIVE])) ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_FIVE].toString())) : helperListUtil.getIdHelperDTOMap().get(0));
-            resultDTO.setResetFrequency(temp[NumericConstants.FORTY_SIX]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_SIX])) ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_SIX].toString())) : helperListUtil.getIdHelperDTOMap().get(0));
-           
-            resultDTO.setNetPriceType(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FORTY_SEVEN] != null  && !String.valueOf(temp[NumericConstants.FORTY_SEVEN]).isEmpty()? Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_SEVEN])) : 0));
+             if(temp[NumericConstants.FORTY_FOUR]!=null) resultDTO.setResetDate((Date)temp[NumericConstants.FORTY_FOUR]);
+            
             if(temp[NumericConstants.FORTY_EIGHT]!=null)resultDTO.setNetPriceTypeFormula(String.valueOf(temp[NumericConstants.FORTY_EIGHT]));
              if (temp[NumericConstants.FORTY_EIGHT] != null && !ConstantsUtils.ZERO.equals(String.valueOf(temp[NumericConstants.FORTY_EIGHT])) && !ConstantsUtils.NULL.equals(String.valueOf(temp[NumericConstants.FORTY_EIGHT])) && !String.valueOf(temp[NumericConstants.FORTY_EIGHT]).isEmpty()) {
                   String formula = StringUtils.EMPTY;
@@ -2420,7 +2456,11 @@ public class PSLogic implements PriceScheduleLogic {
             } catch (SystemException ex) {
                 java.util.logging.Logger.getLogger(PSLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
-            resultDTO.setPriceProtectionPriceType(helper1);
+            if (ConstantsUtils.VIEW.equals(mode)) {
+                resultDTO.setPriceProtectionPriceType(helper1.getId()==0?new HelperDTO():helper1);
+            } else {
+                resultDTO.setPriceProtectionPriceType(helper1);
+            }
             if(temp[NumericConstants.FIFTY]!=null)resultDTO.setSuggestedPrice(String.valueOf(temp[NumericConstants.FIFTY]));
             if (ConstantsUtils.ADD.equals(mode)) {
                 resultDTO.setSource(ConstantsUtils.GTN);
@@ -2440,11 +2480,27 @@ public class PSLogic implements PriceScheduleLogic {
                 }
                 resultDTO.setNepFormula(formula);
             }
-     
+            if (ConstantsUtils.VIEW.equals(mode)) {
+                resultDTO.setBasePriceType(temp[NumericConstants.FIFTY_TWO] != null  && !String.valueOf(temp[NumericConstants.FIFTY_TWO]).isEmpty() && Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_TWO]))!= 0? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_TWO]))) : new HelperDTO());
+                resultDTO.setNetBasePrice(temp[NumericConstants.FIFTY_FIVE] != null  && !String.valueOf(temp[NumericConstants.FIFTY_FIVE]).isEmpty()&& Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_FIVE]))!= 0 ?helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_FIVE]))) : new HelperDTO());
+                resultDTO.setNetSubsequentPeriodPrice(temp[NumericConstants.FIFTY_EIGHT] != null && !String.valueOf(temp[NumericConstants.FIFTY_EIGHT]).isEmpty()&& Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_EIGHT]))!= 0  ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_EIGHT]))) : new HelperDTO());
+                resultDTO.setNetResetPriceType(temp[NumericConstants.SIXTY_TWO] != null  && !String.valueOf(temp[NumericConstants.SIXTY_TWO]).isEmpty()&& Integer.valueOf(String.valueOf(temp[NumericConstants.SIXTY_TWO]))!= 0? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(temp[NumericConstants.SIXTY_TWO]))) : new HelperDTO());
+                 resultDTO.setResetInterval(temp[NumericConstants.FORTY_FIVE]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_FIVE]))&& Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_FIVE]))!= 0 ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_FIVE].toString())) : new HelperDTO());
+                 resultDTO.setResetFrequency(temp[NumericConstants.FORTY_SIX]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_SIX])) && Integer.valueOf(String.valueOf(temp[NumericConstants.FORTY_SIX]))!= 0 ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_SIX].toString())) : new HelperDTO());
+           
+            } else {
                 resultDTO.setBasePriceType(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FIFTY_TWO] != null  && !String.valueOf(temp[NumericConstants.FIFTY_TWO]).isEmpty()? Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_TWO])) : 0));
+                resultDTO.setNetBasePrice(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FIFTY_FIVE] != null  && !String.valueOf(temp[NumericConstants.FIFTY_FIVE]).isEmpty()? Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_FIVE])) : 0));
+                resultDTO.setNetSubsequentPeriodPrice(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FIFTY_EIGHT] != null && !String.valueOf(temp[NumericConstants.FIFTY_EIGHT]).isEmpty() ? Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_EIGHT])) : 0));
+                resultDTO.setNetResetPriceType(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.SIXTY_TWO] != null  && !String.valueOf(temp[NumericConstants.SIXTY_TWO]).isEmpty()? Integer.valueOf(String.valueOf(temp[NumericConstants.SIXTY_TWO])) : 0));
+                resultDTO.setResetInterval(temp[NumericConstants.FORTY_FIVE]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_FIVE])) ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_FIVE].toString())) : helperListUtil.getIdHelperDTOMap().get(0));
+                resultDTO.setResetFrequency(temp[NumericConstants.FORTY_SIX]!=null && StringUtils.isNotEmpty(String.valueOf(temp[NumericConstants.FORTY_SIX])) ? helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(temp[NumericConstants.FORTY_SIX].toString())) : helperListUtil.getIdHelperDTOMap().get(0));
+           
+            }
+                
                 resultDTO.setBasePriceEntry(PsUtils.checkNullValues(temp[NumericConstants.FIFTY_THREE]) ? 0.00 :  ((BigDecimal)temp[NumericConstants.FIFTY_THREE]).doubleValue()); 
                 resultDTO.setBasePriceDate(PsUtils.checkNullValues(temp[NumericConstants.FIFTY_FOUR]) ? null : (Date) temp[NumericConstants.FIFTY_FOUR]);
-                 resultDTO.setNetBasePrice(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FIFTY_FIVE] != null  && !String.valueOf(temp[NumericConstants.FIFTY_FIVE]).isEmpty()? Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_FIVE])) : 0));
+                 
                 if (!PsUtils.checkNullValues(temp[NumericConstants.FIFTY_SIX])) {
                     HelperDTO helperDTO = new HelperDTO((Integer) temp[NumericConstants.FIFTY_SIX], psMaster.getItemPricingQualifierMap().get((Integer) temp[NumericConstants.FIFTY_SIX]));
                     resultDTO.setBasePriceItemPriceType(helperDTO);
@@ -2460,14 +2516,13 @@ public class PSLogic implements PriceScheduleLogic {
                     HelperDTO helperDTO = new HelperDTO((Integer) temp[NumericConstants.FIFTY_SEVEN], psMaster.getItemPricingQualifierMap().get((Integer) temp[NumericConstants.FIFTY_SEVEN]));
                     resultDTO.setSubsequentPeriodPriceType(helperDTO);
                 }
-                 resultDTO.setNetSubsequentPeriodPrice(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.FIFTY_EIGHT] != null && !String.valueOf(temp[NumericConstants.FIFTY_EIGHT]).isEmpty() ? Integer.valueOf(String.valueOf(temp[NumericConstants.FIFTY_EIGHT])) : 0));
+                 
                 resultDTO.setNetSubsequentPriceFormulaId(PsUtils.checkNullValues(temp[NumericConstants.FIFTY_NINE]) ? 0 : (Integer) temp[NumericConstants.FIFTY_NINE]);
                 resultDTO.setNetSubsequentPriceFormulaName(PsUtils.checkNullValues(temp[NumericConstants.SIXTY]) ? StringUtils.EMPTY : String.valueOf(temp[NumericConstants.SIXTY]));
                 if (!PsUtils.checkNullValues(temp[NumericConstants.SIXTY_ONE])) {
                     HelperDTO helperDTO = new HelperDTO((Integer) temp[NumericConstants.SIXTY_ONE], psMaster.getItemPricingQualifierMap().get((Integer) temp[NumericConstants.SIXTY_ONE]));
                     resultDTO.setResetPriceType(helperDTO);
                 }
-                resultDTO.setNetResetPriceType(helperListUtil.getIdHelperDTOMap().get(temp[NumericConstants.SIXTY_TWO] != null  && !String.valueOf(temp[NumericConstants.SIXTY_TWO]).isEmpty()? Integer.valueOf(String.valueOf(temp[NumericConstants.SIXTY_TWO])) : 0));
                 resultDTO.setNetResetPriceFormulaId(PsUtils.checkNullValues(temp[NumericConstants.SIXTY_THREE]) ? 0 : (Integer) temp[NumericConstants.SIXTY_THREE]);
                 resultDTO.setNetResetPriceFormulaName(PsUtils.checkNullValues(temp[NumericConstants.SIXTY_FOUR]) ? StringUtils.EMPTY : String.valueOf(temp[NumericConstants.SIXTY_FOUR]));
                 resultDTO.setNetBasePriceFormulaId(PsUtils.checkNullValues(temp[NumericConstants.SIXTY_FIVE]) ? 0 : (Integer) temp[NumericConstants.SIXTY_FIVE]);
@@ -2482,7 +2537,7 @@ public class PSLogic implements PriceScheduleLogic {
 
     public static List<PSIFPDTO> getCustomizedResultDTO(List<ImtdPsDetails> list) throws PortalException, SystemException {
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
-        List<PSIFPDTO> resultList = new ArrayList<PSIFPDTO>();
+        List<PSIFPDTO> resultList = new ArrayList<>();
         for (Iterator<ImtdPsDetails> temp = list.iterator(); temp.hasNext();) {
             ImtdPsDetails item = temp.next();
             PSIFPDTO resultDTO = new PSIFPDTO();
@@ -2577,7 +2632,7 @@ public class PSLogic implements PriceScheduleLogic {
      * @throws SystemException
      */
     public static List<PSIFPDTO> getCoustomizedViewDTO(List<Object[]> list, String[] psDetails) throws SystemException {
-        List<PSIFPDTO> resultList = new ArrayList<PSIFPDTO>();
+        List<PSIFPDTO> resultList = new ArrayList<>();
         try {
             for (Iterator<Object[]> temp = list.iterator(); temp.hasNext();) {
                 Object[] item = temp.next();
@@ -2606,6 +2661,7 @@ public class PSLogic implements PriceScheduleLogic {
                 resultDTO.setBasePrice(HelperUtils.getString(item[i++]));
                 resultDTO.setRevisionDate((Date) (item[i++]));
                 resultDTO.setAttachedDate((Date) item[i++]);
+                LOGGER.debug("End of Loop" + i);
                 resultList.add(resultDTO);
             }
         } catch (Exception e) {
@@ -2680,7 +2736,7 @@ public class PSLogic implements PriceScheduleLogic {
         ImtdPsDetails tempPS=null;
         LOGGER.debug("SessionID()..-->>>>"+psDTO.getSessionID());
         LOGGER.debug("getUserID().---.-->>>>"+psDTO.getUserID());
-        if(psDTO.getTempPsDetailsSystemId()==0){
+        if(psDTO.getTempPsDetailsSystemId()==0 ){
             tempPS = ImtdPsDetailsLocalServiceUtil.createImtdPsDetails(0);
         }else{
             tempPS = ImtdPsDetailsLocalServiceUtil.getImtdPsDetails(psDTO.getTempPsDetailsSystemId());
@@ -2839,7 +2895,7 @@ public class PSLogic implements PriceScheduleLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public void populateCheckedRecords(String userId, String sessionId, String createdDate, Object massField, Object value, Date date) throws PortalException, SystemException {
+    public void populateCheckedRecords(String userId, String sessionId, String createdDate, Object massField, Object value, Date date) {
 
         ImtdPsDetailsLocalServiceUtil.updateForPopulate(userId, sessionId, createdDate, null, massField, value, CommonUtils.getDateTime(ConstantsUtils.YMD_FORMAT, date), null);
     }
@@ -2855,7 +2911,7 @@ public class PSLogic implements PriceScheduleLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public void populateAll(String userId, String sessionId, String createdDate, Object massField, Object value, Date date) throws PortalException, SystemException {
+    public void populateAll(String userId, String sessionId, String createdDate, Object massField, Object value, Date date) {
 
         ImtdPsDetailsLocalServiceUtil.updateForPopulateAll(userId, sessionId, createdDate, null, massField, value, CommonUtils.getDateTime(ConstantsUtils.YMD_FORMAT, date), null);
     }
@@ -2869,7 +2925,7 @@ public class PSLogic implements PriceScheduleLogic {
      * @return
      * @throws SystemException
      */
-    public List<Object> validateNull(String userId, String sessionId, String tempCreatedDate, String process) throws SystemException {
+    public List<Object> validateNull(String userId, String sessionId, String tempCreatedDate, String process)  {
         return (List<Object>) ImtdPsDetailsLocalServiceUtil.validateTempPSDeatils(userId, sessionId, tempCreatedDate, process, null, null, null, null);
     }
 
@@ -2891,14 +2947,14 @@ public class PSLogic implements PriceScheduleLogic {
      * @param removeAllFlag
      * @throws SystemException
      */
-    public void removeAllFromTempTable(Boolean removeAllFlag) throws SystemException, PortalException {
+    public void removeAllFromTempTable() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         String tempCreatedDate = String.valueOf(sessionDTO.getSessionDate());
         ImtdPsDetailsLocalServiceUtil.deleteAll(userId, sessionId, tempCreatedDate, null, "Delete", null, null, null);
     }
 
-    public void softDeleteAllFromTempTable() throws SystemException, PortalException {
+    public void softDeleteAllFromTempTable() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         String tempCreatedDate = String.valueOf(sessionDTO.getSessionDate());
@@ -2948,35 +3004,35 @@ public class PSLogic implements PriceScheduleLogic {
 		String returnString = null;
 		PsModel item;
 
-		try {
-			String systemId;
+		          try {
+                String systemId;
 
-			if (psForm.getField(ConstantsUtils.PRICE_SCHEDULE_SYS_ID)
-					.getValue() == null
-					|| psForm.getField(ConstantsUtils.PRICE_SCHEDULE_SYS_ID)
-							.getValue().equals(ConstantsUtils.NULL)) {
-				systemId = StringUtils.EMPTY;
-			} else {
-				systemId = String.valueOf(psForm.getField(
-						ConstantsUtils.PRICE_SCHEDULE_SYS_ID).getValue());
-			}
-			systemId = systemId.replace(",", StringUtils.EMPTY);
+                if (psForm.getField(ConstantsUtils.PRICE_SCHEDULE_SYS_ID)
+                        .getValue() == null
+                        || psForm.getField(ConstantsUtils.PRICE_SCHEDULE_SYS_ID)
+                        .getValue().equals(ConstantsUtils.NULL) || (ConstantsUtils.COPY).equals(sessionDTO.getMode())) {
+                    systemId = StringUtils.EMPTY;
+                } else {
+                    systemId = String.valueOf(psForm.getField(
+                            ConstantsUtils.PRICE_SCHEDULE_SYS_ID).getValue());
+                }
+                systemId = systemId.replace(",", StringUtils.EMPTY);
 
-			LOGGER.debug("priceScheduleSystemId="
-					+ psForm.getField(ConstantsUtils.PRICE_SCHEDULE_SYS_ID)
-							.getValue());
-			if (ConstantsUtils.NULL.equals(systemId)
-					|| ConstantsUtils.ZERO.equals(systemId)) {
-                                item = PsModelLocalServiceUtil.createPsModel(0);
-				item.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
-			} else {
-				LOGGER.debug(" getPriceScheduleMasterBySystemId " + systemId
-						+ ConstantsUtils.CLOSE_PARENTHESIS);
-				item = DAO.getPriceScheduleMasterBySystemId(Integer
-						.parseInt(systemId));
-				item.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
+                LOGGER.debug("priceScheduleSystemId="
+                        + psForm.getField(ConstantsUtils.PRICE_SCHEDULE_SYS_ID)
+                        .getValue());
+                if (ConstantsUtils.NULL.equals(systemId)
+                        || ConstantsUtils.ZERO.equals(systemId) || ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
+                    item = PsModelLocalServiceUtil.createPsModel(0);
+                    item.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
+                } else {
+                    LOGGER.debug(" getPriceScheduleMasterBySystemId " + systemId
+                            + ConstantsUtils.CLOSE_PARENTHESIS);
+                    item = DAO.getPriceScheduleMasterBySystemId(Integer
+                            .parseInt(systemId));
+                    item.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
 
-			}
+                }
 			item.setPsId(String.valueOf(
 					psForm.getField(Constants.PS_ID).getValue()).trim());
 			item.setPsNo(String.valueOf(
@@ -3015,7 +3071,7 @@ public class PSLogic implements PriceScheduleLogic {
 						.trim());
 			}
 
-			if (ConstantsUtils.NULL.equals(systemId)|| ConstantsUtils.ZERO.equals(systemId)) {
+			if (ConstantsUtils.NULL.equals(systemId)|| ConstantsUtils.ZERO.equals(systemId) ||ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
 				final int user = Integer.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString());
 				item.setCreatedDate(new Date());
 				item.setCreatedBy(user);
@@ -3028,7 +3084,7 @@ public class PSLogic implements PriceScheduleLogic {
 				psDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS,ConstantsUtils.INBOUND_STATUS_D));
 				final List<PsModel> list = DAO.getPriceScheduleMasterList(psDynamicQuery);
 				
-				LOGGER.debug("PriceScheduleMaster size -" + ((list == null) ? list : list.size()));
+				LOGGER.debug("PriceScheduleMaster savePS -" + ((list == null) ? list : list.size()));
 				if (list.size() < CommonUtils.ONE) {
 
 				final DynamicQuery query = DynamicQueryFactoryUtil.forClass(PsModel.class);
@@ -3065,7 +3121,7 @@ public class PSLogic implements PriceScheduleLogic {
 						}
 						saveDetailsList(result, "save");
 						rsLogic.saveUploadedInformation(
-								availableUploadedInformation, "PS_MODEL",
+								availableUploadedInformation, ConstantsUtils.PS_MODEL,
 								result.getPsModelSid());
                                                 returnString = ConstantsUtils.SUCCESS;
 						
@@ -3120,19 +3176,19 @@ public class PSLogic implements PriceScheduleLogic {
 						}
 						saveDetailsList(result, "soft");
 						rsLogic.saveUploadedInformation(
-								availableUploadedInformation, "PS_MODEL",
+								availableUploadedInformation, ConstantsUtils.PS_MODEL,
 								result.getPsModelSid());
                                                 returnString = ConstantsUtils.SUCCESS;
 					}
 				} else {
-					returnString = "duplicate";
+					returnString = ConstantsUtils.DUPLICATE;
 					return returnString;
 				}
 			} else {
 				final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil
 						.forClass(PsModel.class);
 				psDynamicQuery.add(RestrictionsFactoryUtil.eq(
-						Constants.PS_ID_Column, item.getPsId()));
+						Constants.PS_ID_COLUMN, item.getPsId()));
 				@SuppressWarnings("unchecked")
 				final List<PsModel> priceScheduleList = DAO
 						.getPriceScheduleMasterList(psDynamicQuery);
@@ -3209,12 +3265,12 @@ public class PSLogic implements PriceScheduleLogic {
                                             }
                                         }
 					rsLogic.saveUploadedInformation(
-							availableUploadedInformation, "PS_MODEL",
+							availableUploadedInformation, ConstantsUtils.PS_MODEL,
 							result.getPsModelSid());
                                         returnString = ConstantsUtils.SUCCESS;
 				} else {
 					LOGGER.debug(" returns  duplicate");
-					returnString = "duplicate";
+					returnString = ConstantsUtils.DUPLICATE;
 				}
 			}
 
@@ -3232,7 +3288,7 @@ public class PSLogic implements PriceScheduleLogic {
         try {
             final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(MasterDataFiles.class);
             dynamicQuery.add(RestrictionsFactoryUtil.eq("masterTableSid", systemId));
-            dynamicQuery.add(RestrictionsFactoryUtil.like("masterTableName", "PS_MODEL"));
+            dynamicQuery.add(RestrictionsFactoryUtil.like("masterTableName", ConstantsUtils.PS_MODEL));
             final List<MasterDataFiles> masterDataFiles = MasterDataFilesLocalServiceUtil.dynamicQuery(dynamicQuery);
             if (!masterDataFiles.isEmpty()) {
                 for (MasterDataFiles masterDataFile : masterDataFiles) {
@@ -3249,8 +3305,8 @@ public class PSLogic implements PriceScheduleLogic {
      public int getSearchPsCountParentLookup(final ErrorfulFieldGroup searchItemForm,final BeanSearchCriteria search)
             {
 
-        LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-       SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        LOGGER.debug(" getSearchPsCountParentLookup(ErrorfulFieldGroup searchItemForm)");
+       SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         String psId;
         String psNo;
         String psName;
@@ -3262,7 +3318,7 @@ public class PSLogic implements PriceScheduleLogic {
         int psStatusID = 0;
 
        
-        LOGGER.debug("priceScheduleId=" + searchItemForm.getField(ConstantsUtils.PS_ID).getValue());
+        LOGGER.debug("getSearchPsCountParentLookup"+ searchItemForm.getField(ConstantsUtils.PS_ID).getValue());
         if (searchItemForm.getField(Constants.PS_ID).getValue() == null || searchItemForm.getField(Constants.PS_ID).getValue().toString() == StringUtils.EMPTY) {
             psId = StringUtils.EMPTY;
         } else {
@@ -3345,7 +3401,7 @@ public class PSLogic implements PriceScheduleLogic {
         
         
         
-        Map<String,Object> filterMap = new HashMap<String,Object>();
+        Map<String,Object> filterMap = new HashMap<>();
         
         if (search != null && search.getFilters() != null) {
                 for (Container.Filter filter : search.getFilters()) {
@@ -3383,7 +3439,7 @@ public class PSLogic implements PriceScheduleLogic {
             {
 
         LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         String psId;
         String psNo;
         String psName;
@@ -3394,7 +3450,7 @@ public class PSLogic implements PriceScheduleLogic {
         int psStatusID = 0;
 
        
-        LOGGER.debug("priceScheduleId=" + searchItemForm.getField(ConstantsUtils.PS_ID).getValue());
+        LOGGER.debug("getSearchPsListParentLookup=" + searchItemForm.getField(ConstantsUtils.PS_ID).getValue());
         if (searchItemForm.getField(Constants.PS_ID).getValue() == null || searchItemForm.getField(Constants.PS_ID).getValue().toString() == StringUtils.EMPTY) {
             psId = StringUtils.EMPTY;
         } else {
@@ -3477,7 +3533,7 @@ public class PSLogic implements PriceScheduleLogic {
         
         
         
-        Map<String,Object> filterMap = new HashMap<String,Object>();
+        Map<String,Object> filterMap = new HashMap<>();
         
         if (search != null && search.getFilters() != null) {
                 for (Container.Filter filter : search.getFilters()) {
@@ -3502,36 +3558,36 @@ public class PSLogic implements PriceScheduleLogic {
                 }
         }
         
-        String columnName = "ps.PS_MODEL_SID";
+        String columnName = ConstantsUtils.PS_PS_MODEL_SID;
         String orderBy = "ASC";
         for (final Iterator<OrderByColumn> iterator = orderByColumns.iterator(); iterator
                 .hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
             
                         if(ConstantsUtils.PS_SID.equals(orderByColumn.getName())){
-                            columnName="ps.PS_MODEL_SID";
+                            columnName=ConstantsUtils.PS_PS_MODEL_SID;
                         }else if(ConstantsUtils.PS_ID.equals(orderByColumn.getName())){
-                            columnName="ps.PS_ID";
+                            columnName=ConstantsUtils.PS_PS_ID;
                         }else if(ConstantsUtils.PS_NO.equals(orderByColumn.getName())){
-                            columnName="ps.PS_NO";
+                            columnName=ConstantsUtils.PS_PS_NO;
                         }else if(ConstantsUtils.PS_NAME.equals(orderByColumn.getName())){
-                            columnName="ps.PS_NAME";
+                            columnName=ConstantsUtils.PS_PS_NAME;
                         }else if(ConstantsUtils.PS_STATUS.equals(orderByColumn.getName())){
                             columnName=ConstantsUtils.STATUS;
                         }else if(ConstantsUtils.PS_TYPE.equals(orderByColumn.getName())){
                             columnName="type";
                         }else if(ConstantsUtils.PS_CATEGORY.equals(orderByColumn.getName())){
-                            columnName="category";
+                            columnName=ConstantsUtils.CATEGORY;
                         }else if(ConstantsUtils.PS_START_DATE.equals(orderByColumn.getName())){
                             columnName="ps.PS_START_DATE";
                         }else if(ConstantsUtils.PS_END_DATE.equals(orderByColumn.getName())){
                             columnName="ps.PS_END_DATE";
                         }else if(ConstantsUtils.PS_DESIGNATION.equals(orderByColumn.getName())){
-                            columnName="designation";
-                        }else if("parentId".equals(orderByColumn.getName())){
-                            columnName="ps.PARENT_PS_ID";
-                        }else if("parentName".equals(orderByColumn.getName())){
-                            columnName="ps.PARENT_PS_NAME";
+                            columnName=ConstantsUtils.DESIGNATION;
+                        }else if(ConstantsUtils.PARENT_ID.equals(orderByColumn.getName())){
+                            columnName=ConstantsUtils.PS_PARENT_PS_SID;
+                        }else if(ConstantsUtils.PARENT_NAME.equals(orderByColumn.getName())){
+                            columnName=ConstantsUtils.PS_PARENT_PS_NAME;
                         }else if(ConstantsUtils.TRADE_CLASS.equals(orderByColumn.getName())){
                             columnName=ConstantsUtils.TRADE;
                         }
@@ -3552,7 +3608,7 @@ public class PSLogic implements PriceScheduleLogic {
     
     
     List<SearchPriceScheduleDTO> getCustomizedSearchPsListParentLookup(List list){
-        List<SearchPriceScheduleDTO> result = new ArrayList<SearchPriceScheduleDTO>();
+        List<SearchPriceScheduleDTO> result = new ArrayList<>();
         SearchPriceScheduleDTO dto;
         for(int i=0;i<list.size();i++){
             dto= new SearchPriceScheduleDTO();
@@ -3624,8 +3680,8 @@ public class PSLogic implements PriceScheduleLogic {
 
     public int getCountForPS(final ErrorfulFieldGroup searchItemForm, final Set<Container.Filter> filterSet) {
 
-        LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        LOGGER.debug(" getCountForPS(ErrorfulFieldGroup searchItemForm)");
+        SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         String psId;
         String psNo;
         String psName;
@@ -3636,7 +3692,7 @@ public class PSLogic implements PriceScheduleLogic {
 
         int psStatusID = 0;
 
-        LOGGER.debug("priceScheduleId=");
+        LOGGER.debug("getCountForPS=");
         if (searchItemForm.getField(ConstantsUtils.TEXT1).getValue() == null || searchItemForm.getField(ConstantsUtils.TEXT1).getValue().toString() == StringUtils.EMPTY) {
             psId = StringUtils.EMPTY;
         } else {
@@ -3750,7 +3806,7 @@ public class PSLogic implements PriceScheduleLogic {
                     CommonUtils.CHAR_PERCENT);
         }
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
 
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -3785,8 +3841,8 @@ public class PSLogic implements PriceScheduleLogic {
 
     public List<SearchResultsDTO> getResultsForPS(final ErrorfulFieldGroup searchItemForm, int start, int end, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) throws ParseException {
 
-        LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        LOGGER.debug(" getResultsForPS(ErrorfulFieldGroup searchItemForm)");
+        SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         String psId;
         String psNo;
         String psName;
@@ -3909,7 +3965,7 @@ public class PSLogic implements PriceScheduleLogic {
                     CommonUtils.CHAR_PERCENT);
         }
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
 
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -3943,36 +3999,36 @@ public class PSLogic implements PriceScheduleLogic {
             }
         }
 
-        String columnName = "ps.PS_MODEL_SID";
+        String columnName = ConstantsUtils.PS_PS_MODEL_SID;
         String orderBy = "ASC";
         for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator
                 .hasNext();) {
             final SortByColumn sortByColumn = (SortByColumn) iterator.next();
 
             if (ConstantsUtils.PS_SID.equals(sortByColumn.getName())) {
-                columnName = "ps.PS_MODEL_SID";
+                columnName = ConstantsUtils.PS_PS_MODEL_SID;
             } else if (ConstantsUtils.PS_ID.equals(sortByColumn.getName())) {
-                columnName = "ps.PS_ID";
+                columnName = ConstantsUtils.PS_PS_ID;
             } else if (ConstantsUtils.PS_NO.equals(sortByColumn.getName())) {
-                columnName = "ps.PS_NO";
+                columnName = ConstantsUtils.PS_PS_NO;
             } else if (ConstantsUtils.PS_NAME.equals(sortByColumn.getName())) {
-                columnName = "ps.PS_NAME";
+                columnName = ConstantsUtils.PS_PS_NAME;
             } else if (ConstantsUtils.PS_STATUS.equals(sortByColumn.getName())) {
                 columnName = ConstantsUtils.STATUS;
             } else if (ConstantsUtils.PS_TYPE.equals(sortByColumn.getName())) {
                 columnName = "type";
             } else if (ConstantsUtils.PS_CATEGORY.equals(sortByColumn.getName())) {
-                columnName = "category";
+                columnName = ConstantsUtils.CATEGORY;
             } else if (ConstantsUtils.PS_START_DATE.equals(sortByColumn.getName())) {
                 columnName = "ps.PS_START_DATE";
             } else if (ConstantsUtils.PS_END_DATE.equals(sortByColumn.getName())) {
                 columnName = "ps.PS_END_DATE";
             } else if (ConstantsUtils.PS_DESIGNATION.equals(sortByColumn.getName())) {
-                columnName = "designation";
-            } else if ("parentId".equals(sortByColumn.getName())) {
-                columnName = "ps.PARENT_PS_ID";
-            } else if ("parentName".equals(sortByColumn.getName())) {
-                columnName = "ps.PARENT_PS_NAME";
+                columnName = ConstantsUtils.DESIGNATION;
+            } else if (ConstantsUtils.PARENT_ID.equals(sortByColumn.getName())) {
+                columnName = ConstantsUtils.PS_PARENT_PS_SID;
+            } else if (ConstantsUtils.PARENT_NAME.equals(sortByColumn.getName())) {
+                columnName = ConstantsUtils.PS_PARENT_PS_NAME;
             } else if (ConstantsUtils.TRADE_CLASS.equals(sortByColumn.getName())) {
                 columnName = ConstantsUtils.TRADE;
             }
@@ -4066,9 +4122,9 @@ public class PSLogic implements PriceScheduleLogic {
         }
         return psContractList;
     }
-    public int getNsfCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) throws ParseException {
+    public int getNsfCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, true);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
 
@@ -4083,9 +4139,9 @@ public class PSLogic implements PriceScheduleLogic {
     }
 
     public List<PSNepFormulaDTO> loadNsfResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws ParseException {
-        List<PSNepFormulaDTO> searchList = new ArrayList<>();
-        StringBuilder queryBuilder = new StringBuilder();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<PSNepFormulaDTO> searchList;
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, false);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
         queryBuilder = getOrderQuery(queryBuilder, columns, start, end);
@@ -4107,23 +4163,23 @@ public class PSLogic implements PriceScheduleLogic {
         criteria.put(ConstantsUtils.CREATEDDATE, "CREATED_DATE");
         criteria.put(ConstantsUtils.MODIFIEDDATE, "MODIFIED_DATE");
     }
-    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (!(ConstantsUtils.CREATEDBY.equals(stringFilter.getPropertyId()) || ConstantsUtils.MODIFIEDBY.equals(stringFilter.getPropertyId()))) {
-                        stringBuilder.append(ConstantsUtils.AND).append(criteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '").append(com.stpl.ifs.util.CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                        stringBuilder.append(ConstantsUtils.AND).append(criteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(com.stpl.ifs.util.CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                     }
                 } else if (filter instanceof Between) {
                     Between stringFilter = (Between) filter;
                     String startValue = DB_DATE.format(stringFilter.getStartValue());
                     String endValue = DB_DATE.format(stringFilter.getEndValue());
                     if (startValue != null) {
-                        stringBuilder.append(ConstantsUtils.AND).append(criteria.get(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(criteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.GREATER_THAN_EQUAL).append(startValue).append("' ");
                     } 
                     if (endValue != null) {
-                        stringBuilder.append(ConstantsUtils.AND).append(criteria.get(stringFilter.getPropertyId().toString())).append(" <= '").append(endValue).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(criteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LESS_THAN_EQUAL).append(endValue).append("' ");
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -4131,9 +4187,9 @@ public class PSLogic implements PriceScheduleLogic {
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = DB_DATE.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            stringBuilder.append(ConstantsUtils.AND).append(criteria.get(String.valueOf(stringFilter.getPropertyId()))).append(" >= '").append(filterString).append("' ");
+                            stringBuilder.append(ConstantsUtils.AND).append(criteria.get(String.valueOf(stringFilter.getPropertyId()))).append(ConstantsUtils.GREATER_THAN_EQUAL).append(filterString).append("' ");
                         } else {
-                            stringBuilder.append(ConstantsUtils.AND).append(criteria.get(String.valueOf(stringFilter.getPropertyId()))).append(" <= '").append(filterString).append("' ");
+                            stringBuilder.append(ConstantsUtils.AND).append(criteria.get(String.valueOf(stringFilter.getPropertyId()))).append(ConstantsUtils.LESS_THAN_EQUAL).append(filterString).append("' ");
                         }
                     }
                 }
@@ -4155,7 +4211,7 @@ public class PSLogic implements PriceScheduleLogic {
                 if (searchFields.getField(ConstantsUtils.NET_FORMULA_TYPE) != null && searchFields.getField(ConstantsUtils.NET_FORMULA_TYPE).getValue() != null && ConstantsUtils.NET_FORMULA_TYPE.equalsIgnoreCase(fields)) {
                     queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = ").append(((HelperDTO) searchFields.getField(ConstantsUtils.NET_FORMULA_TYPE).getValue()).getId());
                 } else if(!ConstantsUtils.NET_FORMULA_TYPE.equalsIgnoreCase(fields)){
-                    queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(com.stpl.ifs.util.CommonUtil.buildSearchCriteria(String.valueOf(searchFields.getField(fields).getValue()).trim())).append("'");
+                    queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(com.stpl.ifs.util.CommonUtil.buildSearchCriteria(String.valueOf(searchFields.getField(fields).getValue()).trim())).append("'");
                 }
             }
         }
@@ -4174,7 +4230,7 @@ public class PSLogic implements PriceScheduleLogic {
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY CREATED_DATE ");
         } else {
-            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         }
         stringBuilder.append(" OFFSET ").append(startIndex);
         stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(" ROWS ONLY;");
@@ -4258,8 +4314,8 @@ public class PSLogic implements PriceScheduleLogic {
         return qualifierMap;
     }
     
-    public static List<HelperDTO> getCPPriceTypeResults() throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+    public static List<HelperDTO> getCPPriceTypeResults() {
+        final List<HelperDTO> list = new ArrayList<>();
         LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :");
         String query = "select ITEM_PRICING_QUALIFIER_SID,ITEM_PRICING_QUALIFIER_NAME from ITEM_PRICING_QUALIFIER where ITEM_PRICING_QUALIFIER_NAME like 'contract%'\n";
         List returnList = (List) CompanyMasterLocalServiceUtil.executeSelectQuery(query, null, null);
@@ -4291,7 +4347,7 @@ public class PSLogic implements PriceScheduleLogic {
         LOGGER.debug("getSelectedItemLis(ItemFamilyPlanId ifpId=" + ifpId + ConstantsUtils.CLOSE_PARENTHESIS);
 
         LOGGER.debug("getPriceScheduleDetailsByPriceScheduleMasterSystemId(ItemFamilyPlanId ifpId=" + ifpId + ConstantsUtils.CLOSE_PARENTHESIS);
-        String query = StringUtils.EMPTY;
+        String query;
         if (isCount) {
             query = "SELECT COUNT (DISTINCT PD.IFP_MODEL_SID) FROM dbo.PS_DETAILS PD \n"
                     + "JOIN PS_MODEL PM ON PM.PS_MODEL_SID = PD.PS_MODEL_SID\n"
@@ -4313,7 +4369,7 @@ public class PSLogic implements PriceScheduleLogic {
 
     private Object getCustomizedPSIFPDTOTable(List<Object[]> returnList) {
         Map<Integer, HelperDTO> helperMap = HelperListUtil.getInstance().getIdHelperDTOMap();
-        final List<PSIFPDTO> dtoList = new ArrayList<PSIFPDTO>();
+        final List<PSIFPDTO> dtoList = new ArrayList<>();
         for (Object[] obj : returnList) {
             final PSIFPDTO dto = new PSIFPDTO();
             dto.setItemFamilyPlanId(obj[0] != null ? obj[0].toString() : StringUtils.EMPTY);
@@ -4357,7 +4413,7 @@ public class PSLogic implements PriceScheduleLogic {
         query.append(" WHERE INBOUND_STATUS <> 'D' ");
         if (StringUtils.isNotBlank(value)) {
             value = com.stpl.ifs.util.CommonUtil.buildSearchCriteria(value);
-            query.append(ConstantsUtils.AND).append(searchField).append(" LIKE '").append(value).append("'");
+            query.append(ConstantsUtils.AND).append(searchField).append(ConstantsUtils.LIKE_QUOTE).append(value).append("'");
         }
         Map<String, String> filterMap = new HashMap<>();
         loadFilterMap(filterMap);
@@ -4366,23 +4422,23 @@ public class PSLogic implements PriceScheduleLogic {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = com.stpl.ifs.util.CommonUtil.buildFilterCriteria(String.valueOf(stringFilter.getFilterString()));
-                    query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId())).append(" LIKE '").append(filterString).append("'");
+                    query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId())).append(ConstantsUtils.LIKE_QUOTE).append(filterString).append("'");
                 } else if (filter instanceof Between) {
                     Between stringFilter = (Between) filter;
                     Date startValue = (Date) stringFilter.getStartValue();
                     Date endValue = (Date) stringFilter.getEndValue();
                     if (startValue != null) {
-                        query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
+                        query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.GREATER_THAN_EQUAL).append(startValue).append("' ");
                     }
                     if (endValue != null) {
-                        query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId().toString())).append(" <= '").append(startValue).append("' ");
+                        query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LESS_THAN_EQUAL).append(startValue).append("' ");
                     }
                 }
             }
         }
         boolean sortOrder = false;
         String columnName = null;
-        String finalQuery = StringUtils.EMPTY;
+        String finalQuery;
         if (orderByColumns != null) {
             for (final Iterator<OrderByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
                 final OrderByColumn orderColumn = (OrderByColumn) iterator.next();
@@ -4400,9 +4456,9 @@ public class PSLogic implements PriceScheduleLogic {
         } else if (columnName.equals(ConstantsUtils.IFP_STATUS1) || columnName.equals(ConstantsUtils.IFP_MODEL_TYPE) || columnName.equals(ConstantsUtils.IFP_CATEGORY1)) {
             finalQuery = query.toString();
             finalQuery = finalQuery.replace(ConstantsUtils.WHERE, " JOIN HELPER_TABLE HT1 ON " + filterMap.get(columnName) + " = HT1.HELPER_TABLE_SID WHERE ");
-            finalQuery += " ORDER BY HT1.DESCRIPTION " + ((!sortOrder) ? " ASC " : " DESC ");
+            finalQuery += " ORDER BY HT1.DESCRIPTION " + ((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         } else {
-            query.append(" ORDER BY ").append(filterMap.get(columnName)).append((!sortOrder) ? " ASC " : " DESC ");
+            query.append(" ORDER BY ").append(filterMap.get(columnName)).append((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
             finalQuery = query.toString();
         }
         finalQuery += " OFFSET " + start + " ROWS FETCH NEXT " + end + " ROWS ONLY ";
@@ -4438,7 +4494,7 @@ public class PSLogic implements PriceScheduleLogic {
         query.append(" WHERE INBOUND_STATUS <> 'D' ");
         if (StringUtils.isNotBlank(value)) {
             value = com.stpl.ifs.util.CommonUtil.buildSearchCriteria(value);
-            query.append("AND ").append(searchField).append(" LIKE '").append(value).append("'");
+            query.append("AND ").append(searchField).append(ConstantsUtils.LIKE_QUOTE).append(value).append("'");
         }
         Map<String, String> filterMap = new HashMap<>();
         loadFilterMap(filterMap);
@@ -4448,16 +4504,16 @@ public class PSLogic implements PriceScheduleLogic {
                 SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                 String filterString = stringFilter.getFilterString();
                 filterString = com.stpl.ifs.util.CommonUtil.buildFilterCriteria(String.valueOf(filterString));
-                query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId()).toString()).append(" LIKE '").append(filterString).append("'");
+                query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId()).toString()).append(ConstantsUtils.LIKE_QUOTE).append(filterString).append("'");
             } else if (filter instanceof Between) {
                 Between stringFilter = (Between) filter;
                 String startValue = DB_DATE.format(stringFilter.getStartValue());
                 String endValue = DB_DATE.format(stringFilter.getEndValue());
                 if (startValue != null) {
-                    query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
+                    query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.GREATER_THAN_EQUAL).append(startValue).append("' ");
                 }
                 if (endValue != null) {
-                    query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId().toString())).append(" <= '").append(startValue).append("' ");
+                    query.append(ConstantsUtils.AND).append(filterMap.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LESS_THAN_EQUAL).append(startValue).append("' ");
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.stpl.app.cff.bpm.service;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +21,8 @@ import org.jboss.logging.Logger;
  */
 public class CustomUserCallBack implements UserGroupCallback {
 
-    Map<String, User> userMap = new HashMap<String, User>();
-    Map<String, Role> roleMap = new HashMap<String, Role>();
+    Map<String, User> userMap = new HashMap<>();
+    Map<String, Role> roleMap = new HashMap<>();
     private static final Logger LOGGER = Logger.getLogger(CustomUserCallBack.class);
 
     public CustomUserCallBack() {
@@ -34,11 +35,11 @@ public class CustomUserCallBack implements UserGroupCallback {
             for (Role role : groupList) {
                 roleMap.put(role.getName(), role);
             }
-            if (userMap.containsKey("Administrator")) {
-                userMap.remove("Administrator");
+            if (userMap.containsKey(StringConstantsUtil.ADMINISTRATOR)) {
+                userMap.remove(StringConstantsUtil.ADMINISTRATOR);
             }
-            if (roleMap.containsKey("Administrator")) {
-                roleMap.remove("Administrator");
+            if (roleMap.containsKey(StringConstantsUtil.ADMINISTRATOR)) {
+                roleMap.remove(StringConstantsUtil.ADMINISTRATOR);
             }
         } catch (SystemException e) {
 
@@ -47,7 +48,7 @@ public class CustomUserCallBack implements UserGroupCallback {
     }
 
     public boolean existsUser(String userId) {
-        return userMap.containsKey(userId) || userId.equals("Administrator");
+        return userMap.containsKey(userId) || userId.equals(StringConstantsUtil.ADMINISTRATOR);
     }
 
     public boolean existsGroup(String groupId) {
@@ -66,7 +67,7 @@ public class CustomUserCallBack implements UserGroupCallback {
     }
 
     public List<String> getGroupsForUser(String userId, List<String> roleIds, List<String> allExistingGroupIds) {
-        List<String> userRoles = new ArrayList<String>();
+        List<String> userRoles = new ArrayList<>();
         List<Role> roles = null;
         if (userMap.containsKey(userId)) {
             try {
@@ -75,7 +76,7 @@ public class CustomUserCallBack implements UserGroupCallback {
                 LOGGER.error(e);
             }
             for (Role role : roles) {
-                if (!"Administrator".equals(role.getName())) {
+                if (!StringConstantsUtil.ADMINISTRATOR.equals(role.getName())) {
                     userRoles.add(role.getName());
                 }
             }

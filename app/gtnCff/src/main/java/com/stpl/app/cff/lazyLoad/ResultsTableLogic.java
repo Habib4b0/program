@@ -136,9 +136,9 @@ public class ResultsTableLogic extends PageTreeTableLogic {
                 addExpandedTreeList(customTreeLevel, dto);
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             } else {
-                List<String> detailsList =Collections.EMPTY_LIST;
+                List<String> detailsList;
                   List<String> hierarchyNoList = Collections.EMPTY_LIST;
-                 String hierarchy=StringUtils.EMPTY;
+                 String hierarchy;
                 String hierarchyIndicator=StringUtils.EMPTY;
                  Map<String, List> relationshipLevelDetailsMap =Collections.EMPTY_MAP ;
                 if(projSelDTO.getLevelCount()!=0){

@@ -32,6 +32,7 @@ import com.stpl.sso.autologin.bean.StpSSOPropertybean;
 import com.stpl.sso.kerberos.spnego.SpnegoHttpFilter.Constants;
 import com.stpl.sso.kerberos.spnego.bean.StplSpnegoPropertyBean;
 import com.stpl.sso.saml.bean.StplSamlPropertyBean;
+import java.util.Arrays;
 
 /**
  *
@@ -111,6 +112,7 @@ public class StplConfigReader {
 		samlPropertyBean.setLogSamlResponse(Boolean.parseBoolean(getData(samlElement, SSOConstants.LOG_SAML_RESPONSE)));
 		samlPropertyBean.setIssuer(getData(samlElement, SSOConstants.ISSUER));
 		samlPropertyBean.setRelayState(getData(samlElement, SSOConstants.RELAYSTATE));
+                samlPropertyBean.setSpecialCharArray(getData(samlElement, Constants.SPECIALCHAR_EMAIL).split(","));
 	}
 
 	private void createPublicKeyCredential(StplSamlPropertyBean samlPropertyBean) {
@@ -132,4 +134,11 @@ public class StplConfigReader {
 		}catch (Exception e) {
 		}
 	}
+        
+        public static void main(String[] args) {
+		new StplConfigReader().readFile();
+		System.out.println("StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBea-->>"
+				+ Arrays.asList(
+						StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().getSpecialCharArray()));
+}
 }

@@ -42,7 +42,7 @@
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
-    <size_rowset>10000</size_rowset>
+    <size_rowset>1000</size_rowset>
     <sleep_time_empty>50</sleep_time_empty>
     <sleep_time_full>50</sleep_time_full>
     <unique_connections>N</unique_connections>
@@ -200,7 +200,7 @@
            </partitioning>
       <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
-      <sort_size>100000</sort_size>
+      <sort_size>5000</sort_size>
       <free_memory/>
       <compress>N</compress>
       <compress_variable/>
@@ -323,6 +323,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>STATUS</name>
         <rename>STATUS_N</rename>
@@ -371,6 +377,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>STATUS</name>
         <rename>STATUS_N</rename>
@@ -408,6 +420,17 @@
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>INVENTORY_WITHDRAWAL_ACTUAL_SUMMARY_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -2087,6 +2110,12 @@ WHERE BATCH_ID=?
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>INVALID_RECORD_COUNT</name>
         <rename>INVALID_COUNT</rename>
@@ -2855,758 +2884,6 @@ var RECENT_CONTENT=&quot;&quot;;</jsScript_script>
     </step>
 
   <step>
-    <name>OUTBOUND_FLAG</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <rowlimit>0</rowlimit>
-    <sql>SELECT OUTBOUND_FLAG FROM WORKFLOW_PROFILE WHERE PROCESS_NAME = &apos;INVENTORY_WITHDRAWAL_ACTUAL_SUMMARY_INTERFACE&apos;</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>576</xloc>
-      <yloc>1069</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>PICK UNIQUE CONTENT</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <count_rows>N</count_rows>
-      <count_field/>
-      <reject_duplicate_row>N</reject_duplicate_row>
-      <error_description/>
-    <fields>      <field>        <name>CONTENT</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>937</xloc>
-      <yloc>1401</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>PICK UNIQUE CONTENT 2</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <count_rows>N</count_rows>
-      <count_field/>
-      <reject_duplicate_row>N</reject_duplicate_row>
-      <error_description/>
-    <fields>      <field>        <name>CONTENT</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2432</xloc>
-      <yloc>1402</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>PICK UNIQUE CONTENT 2 2</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <count_rows>N</count_rows>
-      <count_field/>
-      <reject_duplicate_row>N</reject_duplicate_row>
-      <error_description/>
-    <fields>      <field>        <name>CONTENT</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1594</xloc>
-      <yloc>1761</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>REMOVE FIELDS</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>INVENTORY_WD_ACT_MAS_INTF_ID</name>
-      </remove>      <remove>        <name>YEAR</name>
-      </remove>      <remove>        <name>MONTH</name>
-      </remove>      <remove>        <name>DAY</name>
-      </remove>      <remove>        <name>WEEK</name>
-      </remove>      <remove>        <name>ITEM_ID</name>
-      </remove>      <remove>        <name>ITEM_IDENTIFIER_CODE_QUALIFIER</name>
-      </remove>      <remove>        <name>ITEM_IDENTIFIER</name>
-      </remove>      <remove>        <name>UNITS_WITHDRAWN</name>
-      </remove>      <remove>        <name>AMOUNT_WITHDRAWN</name>
-      </remove>      <remove>        <name>UNITS_ON_HAND</name>
-      </remove>      <remove>        <name>AMOUNT_ON_HAND</name>
-      </remove>      <remove>        <name>QUANTITY_ON_ORDER</name>
-      </remove>      <remove>        <name>AMOUNT_ON_ORDER</name>
-      </remove>      <remove>        <name>QUANTITY_RECEIVED</name>
-      </remove>      <remove>        <name>AMOUNT_RECEIVED</name>
-      </remove>      <remove>        <name>CREATED_BY</name>
-      </remove>      <remove>        <name>CREATED_DATE</name>
-      </remove>      <remove>        <name>MODIFIED_BY</name>
-      </remove>      <remove>        <name>MODIFIED_DATE</name>
-      </remove>      <remove>        <name>SOURCE</name>
-      </remove>      <remove>        <name>COUNTRY</name>
-      </remove>      <remove>        <name>ORGANIZATION_KEY</name>
-      </remove>      <remove>        <name>SENT_COUNT</name>
-      </remove>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>812</xloc>
-      <yloc>557</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>REMOVE FIELDS 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>Batches</name>
-      </remove>      <remove>        <name>InvalidCounts</name>
-      </remove>      <remove>        <name>SentCounts</name>
-      </remove>      <remove>        <name>ReceivedCounts</name>
-      </remove>      <remove>        <name>AddCounts</name>
-      </remove>      <remove>        <name>ChangeCounts</name>
-      </remove>      <remove>        <name>DeleteCounts</name>
-      </remove>      <remove>        <name>batchIds</name>
-      </remove>      <remove>        <name>AddCount</name>
-      </remove>      <remove>        <name>ChangeCount</name>
-      </remove>      <remove>        <name>DeleteCount</name>
-      </remove>      <remove>        <name>InvalidCount</name>
-      </remove>      <remove>        <name>SentCount</name>
-      </remove>      <remove>        <name>ReceivedCount</name>
-      </remove>      <remove>        <name>i</name>
-      </remove>      <remove>        <name>BATCH_ID_SPLIT</name>
-      </remove>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>937</xloc>
-      <yloc>1306</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>REMOVE FIELDS 2 2 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>Batches</name>
-      </remove>      <remove>        <name>InvalidCounts</name>
-      </remove>      <remove>        <name>SentCounts</name>
-      </remove>      <remove>        <name>ReceivedCounts</name>
-      </remove>      <remove>        <name>AddCounts</name>
-      </remove>      <remove>        <name>ChangeCounts</name>
-      </remove>      <remove>        <name>DeleteCounts</name>
-      </remove>      <remove>        <name>batchIds</name>
-      </remove>      <remove>        <name>AddCount</name>
-      </remove>      <remove>        <name>ChangeCount</name>
-      </remove>      <remove>        <name>DeleteCount</name>
-      </remove>      <remove>        <name>InvalidCount</name>
-      </remove>      <remove>        <name>SentCount</name>
-      </remove>      <remove>        <name>ReceivedCount</name>
-      </remove>      <remove>        <name>i</name>
-      </remove>      <remove>        <name>BATCH_ID_SPLIT</name>
-      </remove>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2432</xloc>
-      <yloc>1307</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>REMOVE FIELDS 2 2 2 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>Batches</name>
-      </remove>      <remove>        <name>InvalidCounts</name>
-      </remove>      <remove>        <name>SentCounts</name>
-      </remove>      <remove>        <name>ReceivedCounts</name>
-      </remove>      <remove>        <name>AddCounts</name>
-      </remove>      <remove>        <name>ChangeCounts</name>
-      </remove>      <remove>        <name>DeleteCounts</name>
-      </remove>      <remove>        <name>batchIds</name>
-      </remove>      <remove>        <name>AddCount</name>
-      </remove>      <remove>        <name>ChangeCount</name>
-      </remove>      <remove>        <name>DeleteCount</name>
-      </remove>      <remove>        <name>InvalidCount</name>
-      </remove>      <remove>        <name>SentCount</name>
-      </remove>      <remove>        <name>ReceivedCount</name>
-      </remove>      <remove>        <name>i</name>
-      </remove>      <remove>        <name>BATCH_ID_SPLIT</name>
-      </remove>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1594</xloc>
-      <yloc>1666</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>SET VARIABLES 2</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS_N=&quot;C&quot;;
-var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
-        <rename>STATUS_N</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>STATUS_R</name>
-        <rename>STATUS_R</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
-        <rename>INTERFACE_RUN_END_DATE</rename>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1204</xloc>
-      <yloc>998</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>SET VARIABLES 2 2 2</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS_N=&quot;C&quot;;
-var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
-        <rename>STATUS_N</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>STATUS_R</name>
-        <rename>STATUS_R</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
-        <rename>INTERFACE_RUN_END_DATE</rename>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2754</xloc>
-      <yloc>927</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>SET VARIABLES 2 2 2 2</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS_N=&quot;C&quot;;
-var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
-        <rename>STATUS_N</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>STATUS_R</name>
-        <rename>STATUS_R</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
-        <rename>INTERFACE_RUN_END_DATE</rename>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1848</xloc>
-      <yloc>1356</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>STAGING AUDIT</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>STAGING DB</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>AUDIT_INBOUND_INTERFACE</table>
-      <orderby>AUDIT_ID DESC</orderby>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>BATCH</name>
-        <field>BATCH_ID</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>AUDIT_ID</name>
-        <rename>AUDIT_ID</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1032</xloc>
-      <yloc>937</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>STAGING AUDIT 2</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>STAGING DB</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>AUDIT_INBOUND_INTERFACE</table>
-      <orderby>AUDIT_ID DESC</orderby>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>BATCH</name>
-        <field>BATCH_ID</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>AUDIT_ID</name>
-        <rename>AUDIT_ID</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2557</xloc>
-      <yloc>885</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>STAGING AUDIT 2 2</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>STAGING DB</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>AUDIT_INBOUND_INTERFACE</table>
-      <orderby>AUDIT_ID DESC</orderby>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>BATCH</name>
-        <field>BATCH_ID</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>AUDIT_ID</name>
-        <rename>AUDIT_ID</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1670</xloc>
-      <yloc>1241</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Split field to rows</name>
-    <type>SplitFieldToRows3</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-   <splitfield>Batches</splitfield>
-   <delimiter>,</delimiter>
-   <newfield>BATCH_ID_SPLIT</newfield>
-   <rownum>N</rownum>
-   <rownum_field/>
-   <resetrownumber>Y</resetrownumber>
-   <delimiter_is_regex>Y</delimiter_is_regex>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>937</xloc>
-      <yloc>1114</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Split field to rows 2 2</name>
-    <type>SplitFieldToRows3</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-   <splitfield>Batches</splitfield>
-   <delimiter>,</delimiter>
-   <newfield>BATCH_ID_SPLIT</newfield>
-   <rownum>N</rownum>
-   <rownum_field/>
-   <resetrownumber>Y</resetrownumber>
-   <delimiter_is_regex>Y</delimiter_is_regex>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2432</xloc>
-      <yloc>1115</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Split field to rows 2 2 2</name>
-    <type>SplitFieldToRows3</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-   <splitfield>Batches</splitfield>
-   <delimiter>,</delimiter>
-   <newfield>BATCH_ID_SPLIT</newfield>
-   <rownum>N</rownum>
-   <rownum_field/>
-   <resetrownumber>Y</resetrownumber>
-   <delimiter_is_regex>Y</delimiter_is_regex>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1594</xloc>
-      <yloc>1474</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>TEMP</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <sql>SELECT
-  INVENTORY_WD_ACT_MAS_INTF_ID
-, &quot;YEAR&quot;
-, &quot;MONTH&quot;
-, &quot;DAY&quot;
-, WEEK
-, ITEM_ID
-, ITEM_IDENTIFIER_CODE_QUALIFIER
-, ITEM_IDENTIFIER
-, UNITS_WITHDRAWN
-, AMOUNT_WITHDRAWN
-, UNITS_ON_HAND
-, AMOUNT_ON_HAND
-, QUANTITY_ON_ORDER
-, AMOUNT_ON_ORDER
-, QUANTITY_RECEIVED
-, AMOUNT_RECEIVED
-, CREATED_BY
-, CREATED_DATE
-, MODIFIED_BY
-, MODIFIED_DATE
-, ADD_CHG_DEL_INDICATOR
-, BATCH_ID
-, SOURCE
-, COUNTRY
-, ORGANIZATION_KEY
-FROM STAG_INVENTORY_WD_ACTUAL_MAS
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>527</xloc>
-      <yloc>83</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Update 2</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>STAGING DB</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>N</use_batch>
-    <error_ignored>N</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>AUDIT_INBOUND_INTERFACE</table>
-      <key>
-        <name>AUDIT_ID</name>
-        <field>AUDIT_ID</field>
-        <condition>=</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>RECEIVED_RECORD_COUNT</name>
-        <rename>RECEIVED_RECORD_COUNT</rename>
-        </value>
-      <value>
-        <name>RECEIVED_RECORD_AMOUNT</name>
-        <rename>RECEIVED_RECORD_COUNT</rename>
-        </value>
-      <value>
-        <name>RECEIVED_RECORD_AMOUNT_ATTRIBUTE</name>
-        <rename>RECEIVED_RECORD_AMOUNT_ATTR</rename>
-        </value>
-      </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1123</xloc>
-      <yloc>1061</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Update 2 2 2</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>STAGING DB</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>N</use_batch>
-    <error_ignored>N</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>AUDIT_INBOUND_INTERFACE</table>
-      <key>
-        <name>AUDIT_ID</name>
-        <field>AUDIT_ID</field>
-        <condition>=</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>RECEIVED_RECORD_COUNT</name>
-        <rename>RECEIVED_RECORD_COUNT</rename>
-        </value>
-      </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1769</xloc>
-      <yloc>1306</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Update 3 2</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>STAGING DB</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>N</use_batch>
-    <error_ignored>N</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>AUDIT_INBOUND_INTERFACE</table>
-      <key>
-        <name>AUDIT_ID</name>
-        <field>AUDIT_ID</field>
-        <condition>=</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>RECEIVED_RECORD_COUNT</name>
-        <rename>RECEIVED_RECORD_COUNT</rename>
-        </value>
-      </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2655</xloc>
-      <yloc>938</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>OUTBOUND PROCESSED</name>
     <type>TextFileOutput</type>
     <description/>
@@ -4025,6 +3302,772 @@ FROM STAG_INVENTORY_WD_ACTUAL_MAS
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>699</xloc>
       <yloc>1338</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>OUTBOUND_FLAG</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT OUTBOUND_FLAG FROM WORKFLOW_PROFILE WHERE PROCESS_NAME = &apos;INVENTORY_WITHDRAWAL_ACTUAL_SUMMARY_INTERFACE&apos;</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>576</xloc>
+      <yloc>1069</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>PICK UNIQUE CONTENT</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+      <reject_duplicate_row>N</reject_duplicate_row>
+      <error_description/>
+    <fields>      <field>        <name>CONTENT</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>937</xloc>
+      <yloc>1401</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>PICK UNIQUE CONTENT 2</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+      <reject_duplicate_row>N</reject_duplicate_row>
+      <error_description/>
+    <fields>      <field>        <name>CONTENT</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2432</xloc>
+      <yloc>1402</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>PICK UNIQUE CONTENT 2 2</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+      <reject_duplicate_row>N</reject_duplicate_row>
+      <error_description/>
+    <fields>      <field>        <name>CONTENT</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1594</xloc>
+      <yloc>1761</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>REMOVE FIELDS</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>INVENTORY_WD_ACT_MAS_INTF_ID</name>
+      </remove>      <remove>        <name>YEAR</name>
+      </remove>      <remove>        <name>MONTH</name>
+      </remove>      <remove>        <name>DAY</name>
+      </remove>      <remove>        <name>WEEK</name>
+      </remove>      <remove>        <name>ITEM_ID</name>
+      </remove>      <remove>        <name>ITEM_IDENTIFIER_CODE_QUALIFIER</name>
+      </remove>      <remove>        <name>ITEM_IDENTIFIER</name>
+      </remove>      <remove>        <name>UNITS_WITHDRAWN</name>
+      </remove>      <remove>        <name>AMOUNT_WITHDRAWN</name>
+      </remove>      <remove>        <name>UNITS_ON_HAND</name>
+      </remove>      <remove>        <name>AMOUNT_ON_HAND</name>
+      </remove>      <remove>        <name>QUANTITY_ON_ORDER</name>
+      </remove>      <remove>        <name>AMOUNT_ON_ORDER</name>
+      </remove>      <remove>        <name>QUANTITY_RECEIVED</name>
+      </remove>      <remove>        <name>AMOUNT_RECEIVED</name>
+      </remove>      <remove>        <name>CREATED_BY</name>
+      </remove>      <remove>        <name>CREATED_DATE</name>
+      </remove>      <remove>        <name>MODIFIED_BY</name>
+      </remove>      <remove>        <name>MODIFIED_DATE</name>
+      </remove>      <remove>        <name>SOURCE</name>
+      </remove>      <remove>        <name>COUNTRY</name>
+      </remove>      <remove>        <name>ORGANIZATION_KEY</name>
+      </remove>      <remove>        <name>SENT_COUNT</name>
+      </remove>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>812</xloc>
+      <yloc>557</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>REMOVE FIELDS 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>Batches</name>
+      </remove>      <remove>        <name>InvalidCounts</name>
+      </remove>      <remove>        <name>SentCounts</name>
+      </remove>      <remove>        <name>ReceivedCounts</name>
+      </remove>      <remove>        <name>AddCounts</name>
+      </remove>      <remove>        <name>ChangeCounts</name>
+      </remove>      <remove>        <name>DeleteCounts</name>
+      </remove>      <remove>        <name>batchIds</name>
+      </remove>      <remove>        <name>AddCount</name>
+      </remove>      <remove>        <name>ChangeCount</name>
+      </remove>      <remove>        <name>DeleteCount</name>
+      </remove>      <remove>        <name>InvalidCount</name>
+      </remove>      <remove>        <name>SentCount</name>
+      </remove>      <remove>        <name>ReceivedCount</name>
+      </remove>      <remove>        <name>i</name>
+      </remove>      <remove>        <name>BATCH_ID_SPLIT</name>
+      </remove>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>937</xloc>
+      <yloc>1306</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>REMOVE FIELDS 2 2 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>Batches</name>
+      </remove>      <remove>        <name>InvalidCounts</name>
+      </remove>      <remove>        <name>SentCounts</name>
+      </remove>      <remove>        <name>ReceivedCounts</name>
+      </remove>      <remove>        <name>AddCounts</name>
+      </remove>      <remove>        <name>ChangeCounts</name>
+      </remove>      <remove>        <name>DeleteCounts</name>
+      </remove>      <remove>        <name>batchIds</name>
+      </remove>      <remove>        <name>AddCount</name>
+      </remove>      <remove>        <name>ChangeCount</name>
+      </remove>      <remove>        <name>DeleteCount</name>
+      </remove>      <remove>        <name>InvalidCount</name>
+      </remove>      <remove>        <name>SentCount</name>
+      </remove>      <remove>        <name>ReceivedCount</name>
+      </remove>      <remove>        <name>i</name>
+      </remove>      <remove>        <name>BATCH_ID_SPLIT</name>
+      </remove>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2432</xloc>
+      <yloc>1307</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>REMOVE FIELDS 2 2 2 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>Batches</name>
+      </remove>      <remove>        <name>InvalidCounts</name>
+      </remove>      <remove>        <name>SentCounts</name>
+      </remove>      <remove>        <name>ReceivedCounts</name>
+      </remove>      <remove>        <name>AddCounts</name>
+      </remove>      <remove>        <name>ChangeCounts</name>
+      </remove>      <remove>        <name>DeleteCounts</name>
+      </remove>      <remove>        <name>batchIds</name>
+      </remove>      <remove>        <name>AddCount</name>
+      </remove>      <remove>        <name>ChangeCount</name>
+      </remove>      <remove>        <name>DeleteCount</name>
+      </remove>      <remove>        <name>InvalidCount</name>
+      </remove>      <remove>        <name>SentCount</name>
+      </remove>      <remove>        <name>ReceivedCount</name>
+      </remove>      <remove>        <name>i</name>
+      </remove>      <remove>        <name>BATCH_ID_SPLIT</name>
+      </remove>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1594</xloc>
+      <yloc>1666</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SET VARIABLES 2</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+
+var STATUS_N=&quot;C&quot;;
+var STATUS_R=&quot;R&quot;;
+var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
+        <rename>STATUS_N</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>STATUS_R</name>
+        <rename>STATUS_R</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
+        <rename>INTERFACE_RUN_END_DATE</rename>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1204</xloc>
+      <yloc>998</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SET VARIABLES 2 2 2</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+
+var STATUS_N=&quot;C&quot;;
+var STATUS_R=&quot;R&quot;;
+var INTERFACE_RUN_END_DATE=new Date();
+var APPLICATION_PROCESS=&quot;INVENTORY_WITHDRAWAL_ACTUAL_SUMMARY_INTERFACE&quot;;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
+        <rename>STATUS_N</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>STATUS_R</name>
+        <rename>STATUS_R</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
+        <rename>INTERFACE_RUN_END_DATE</rename>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>APPLICATION_PROCESS</name>
+        <rename>APPLICATION_PROCESS</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2754</xloc>
+      <yloc>927</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SET VARIABLES 2 2 2 2</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+
+var STATUS_N=&quot;C&quot;;
+var STATUS_R=&quot;R&quot;;
+var INTERFACE_RUN_END_DATE=new Date();
+var APPLICATION_PROCESS=&quot;INVENTORY_WITHDRAWAL_ACTUAL_SUMMARY_INTERFACE&quot;;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
+        <rename>STATUS_N</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>STATUS_R</name>
+        <rename>STATUS_R</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
+        <rename>INTERFACE_RUN_END_DATE</rename>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>APPLICATION_PROCESS</name>
+        <rename>APPLICATION_PROCESS</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1848</xloc>
+      <yloc>1356</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>STAGING AUDIT</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>AUDIT_INBOUND_INTERFACE</table>
+      <orderby>AUDIT_ID DESC</orderby>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>BATCH</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>AUDIT_ID</name>
+        <rename>AUDIT_ID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1032</xloc>
+      <yloc>937</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>STAGING AUDIT 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>AUDIT_INBOUND_INTERFACE</table>
+      <orderby>AUDIT_ID DESC</orderby>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>BATCH</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>AUDIT_ID</name>
+        <rename>AUDIT_ID</rename>
+        <default/>
+        <type>BigNumber</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2557</xloc>
+      <yloc>885</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>STAGING AUDIT 2 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>AUDIT_INBOUND_INTERFACE</table>
+      <orderby>AUDIT_ID DESC</orderby>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>BATCH</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>AUDIT_ID</name>
+        <rename>AUDIT_ID</rename>
+        <default/>
+        <type>BigNumber</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1670</xloc>
+      <yloc>1241</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Split field to rows</name>
+    <type>SplitFieldToRows3</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+   <splitfield>Batches</splitfield>
+   <delimiter>,</delimiter>
+   <newfield>BATCH_ID_SPLIT</newfield>
+   <rownum>N</rownum>
+   <rownum_field/>
+   <resetrownumber>Y</resetrownumber>
+   <delimiter_is_regex>Y</delimiter_is_regex>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>937</xloc>
+      <yloc>1114</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Split field to rows 2 2</name>
+    <type>SplitFieldToRows3</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+   <splitfield>Batches</splitfield>
+   <delimiter>,</delimiter>
+   <newfield>BATCH_ID_SPLIT</newfield>
+   <rownum>N</rownum>
+   <rownum_field/>
+   <resetrownumber>Y</resetrownumber>
+   <delimiter_is_regex>Y</delimiter_is_regex>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2432</xloc>
+      <yloc>1115</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Split field to rows 2 2 2</name>
+    <type>SplitFieldToRows3</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+   <splitfield>Batches</splitfield>
+   <delimiter>,</delimiter>
+   <newfield>BATCH_ID_SPLIT</newfield>
+   <rownum>N</rownum>
+   <rownum_field/>
+   <resetrownumber>Y</resetrownumber>
+   <delimiter_is_regex>Y</delimiter_is_regex>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1594</xloc>
+      <yloc>1474</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>TEMP</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <sql>SELECT
+  INVENTORY_WD_ACT_MAS_INTF_ID
+, &quot;YEAR&quot;
+, &quot;MONTH&quot;
+, &quot;DAY&quot;
+, WEEK
+, ITEM_ID
+, ITEM_IDENTIFIER_CODE_QUALIFIER
+, ITEM_IDENTIFIER
+, UNITS_WITHDRAWN
+, AMOUNT_WITHDRAWN
+, UNITS_ON_HAND
+, AMOUNT_ON_HAND
+, QUANTITY_ON_ORDER
+, AMOUNT_ON_ORDER
+, QUANTITY_RECEIVED
+, AMOUNT_RECEIVED
+, CREATED_BY
+, CREATED_DATE
+, MODIFIED_BY
+, MODIFIED_DATE
+, ADD_CHG_DEL_INDICATOR
+, BATCH_ID
+, SOURCE
+, COUNTRY
+, ORGANIZATION_KEY
+FROM STAG_INVENTORY_WD_ACTUAL_MAS
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>527</xloc>
+      <yloc>83</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_INBOUND_INTERFACE</table>
+      <key>
+        <name>AUDIT_ID</name>
+        <field>AUDIT_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>RECEIVED_RECORD_COUNT</name>
+        <rename>RECEIVED_RECORD_COUNT</rename>
+        </value>
+      <value>
+        <name>RECEIVED_RECORD_AMOUNT</name>
+        <rename>RECEIVED_RECORD_COUNT</rename>
+        </value>
+      <value>
+        <name>RECEIVED_RECORD_AMOUNT_ATTRIBUTE</name>
+        <rename>RECEIVED_RECORD_AMOUNT_ATTR</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1123</xloc>
+      <yloc>1061</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update 2 2 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_INBOUND_INTERFACE</table>
+      <key>
+        <name>AUDIT_ID</name>
+        <field>AUDIT_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>RECEIVED_RECORD_COUNT</name>
+        <rename>RECEIVED_RECORD_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1769</xloc>
+      <yloc>1306</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update 3 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_INBOUND_INTERFACE</table>
+      <key>
+        <name>AUDIT_ID</name>
+        <field>AUDIT_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>RECEIVED_RECORD_COUNT</name>
+        <rename>RECEIVED_RECORD_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2655</xloc>
+      <yloc>938</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

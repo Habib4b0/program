@@ -6,14 +6,16 @@
  */
 package com.stpl.app.arm.adjustmentreserveconfiguration.logic;
 
-import com.stpl.app.arm.AbstractForms.AbstractFilter;
+import com.stpl.app.arm.abstractforms.AbstractFilter;
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.utils.CommonUtils.userMap;
+import com.stpl.app.utils.SysDataSourceConnection;
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import static com.stpl.ifs.ui.util.AbstractNotificationUtils.LOGGER;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -24,6 +26,8 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
 import com.vaadin.data.Container;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -32,6 +36,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -63,19 +69,21 @@ public class AdjustmentReserveLogic {
         if (!selection.isIsCurrent()) {
             input.add(selection.getMasterSID());
             StringBuilder sql = AbstractFilter.getInstance().getFilterForReserveEdit(filter);
-            if (!(sql == null)) {
-                input.add(sql);
-            } else {
+            if (sql == null) {
                 input.add(StringUtils.EMPTY);
+
+            } else {
+                input.add(sql);
             }
             queryName = "Load_Reserve_Details_count_Hist";
         } else if (selection.isIsViewMode()) {
             input.add(selection.getMasterSID());
             StringBuilder sql = AbstractFilter.getInstance().getFilterForReserveEdit(filter);
-            if (!(sql == null)) {
-                input.add(sql);
-            } else {
+            if (sql == null) {
                 input.add(StringUtils.EMPTY);
+
+            } else {
+                input.add(sql);
             }
             queryName = "Load_Reserve_Details_count_For_view";
         } else {
@@ -101,10 +109,11 @@ public class AdjustmentReserveLogic {
         if (selection.isIsViewMode()) {
             input.add(selection.getMasterSID());
             StringBuilder sql = AbstractFilter.getInstance().getFilterForReserveEdit(filter);
-            if (!(sql == null)) {
-                input.add(sql);
-            } else {
+            if (sql == null) {
                 input.add(StringUtils.EMPTY);
+
+            } else {
+                input.add(sql);
             }
             input.add(start);
             input.add(offset);
@@ -137,10 +146,11 @@ public class AdjustmentReserveLogic {
         } else {
             input.add(selection.getMasterSID());
             StringBuilder sql = AbstractFilter.getInstance().getFilterForReserveEdit(filter);
-            if (!(sql == null)) {
-                input.add(sql);
-            } else {
+            if (sql == null) {
                 input.add(StringUtils.EMPTY);
+
+            } else {
+                input.add(sql);
             }
             input.add(start);
             input.add(offset);
@@ -214,14 +224,15 @@ public class AdjustmentReserveLogic {
         List input = new ArrayList(NumericConstants.FOUR);
         input.add(selection.getTempTableName());
         input.add(ARMUtils.getVisibleToDBColumnMap().get(propertyId.toString()));
+        String values = null;
         if (value != null) {
             if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COST_CENTER.getConstant().equals(propertyId) && StringUtils.EMPTY.equals(value)) {
-                value = "null";
+                values = "null";
             } else {
-                value = "'" + value + "'";
+                values = "'" + value.toString() + "'";
             }
         }
-        input.add(value);
+        input.add(values);
         input.add(dto.getDetailsId());
         return input;
     }
@@ -229,7 +240,7 @@ public class AdjustmentReserveLogic {
     public int addLineForMaster(ReserveSelection selection, int isGTN) {
         List input = getInputForAddLineForMasterTable(selection, isGTN);
         List dataList = QueryUtils.getItemData(input, "Add_Line_to_Temp_For_Master_Table", null);
-        if (dataList.size() < 1) {
+        if (dataList.isEmpty()) {
             return 0;
         }
         return Integer.valueOf(String.valueOf(dataList.get(0)));
@@ -240,10 +251,11 @@ public class AdjustmentReserveLogic {
         input.add(selection.getTempTableName());
         input.add(selection.getMasterSID());
         StringBuilder sql = AbstractFilter.getInstance().getFilterForReserveEdit(filter);
-        if (!(sql == null)) {
-            input.add(sql);
-        } else {
+        if (sql == null) {
             input.add(StringUtils.EMPTY);
+
+        } else {
+            input.add(sql);
         }
         return input;
     }
@@ -277,34 +289,49 @@ public class AdjustmentReserveLogic {
             dto.setReverseJournal(str[NumericConstants.TWENTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_TWO]));
             dto.setReversalPeriodDate(str[NumericConstants.TWENTY_THREE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_THREE])));
             dto.setLineDescription(str[NumericConstants.TWENTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_FOUR]));
-            dto.setUDC1(str[NumericConstants.TWENTY_FIVE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_FIVE])));
-            dto.setUDC2(str[NumericConstants.TWENTY_SIX] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_SIX])));
-            dto.setUDC3(str[NumericConstants.TWENTY_SEVEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_SEVEN])));
-            dto.setUDC4(str[NumericConstants.TWENTY_EIGHT] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_EIGHT])));
-            dto.setUDC5(str[NumericConstants.TWENTY_NINE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_NINE])));
-            dto.setUDC6(str[NumericConstants.THIRTY] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THIRTY])));
+            dto.setUdc1(str[NumericConstants.TWENTY_FIVE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_FIVE])));
+            dto.setUdc2(str[NumericConstants.TWENTY_SIX] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_SIX])));
+            dto.setUdc3(str[NumericConstants.TWENTY_SEVEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_SEVEN])));
+            dto.setUdc4(str[NumericConstants.TWENTY_EIGHT] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_EIGHT])));
+            dto.setUdc5(str[NumericConstants.TWENTY_NINE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY_NINE])));
+            dto.setUdc6(str[NumericConstants.THIRTY] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THIRTY])));
             dto.setCheckRecord(str[NumericConstants.THIRTY_ONE] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.THIRTY_ONE]);
-            dto.setDebitIndicator(str[NumericConstants.THIRTY_THREE] == null ? 0 : (boolean) str[NumericConstants.THIRTY_THREE] ? 1 : -1);
-            dto.setCreditIndicator(str[NumericConstants.THIRTY_TWO] == null ? 0 : (boolean) str[NumericConstants.THIRTY_TWO] ? 1 : -1);
+            if (str[NumericConstants.THIRTY_THREE] == null) {
+                dto.setDebitIndicator(0);
+            } else {
+                dto.setDebitIndicator((boolean) str[NumericConstants.THIRTY_THREE] ? 1 : -1);
+            }
+            if (str[NumericConstants.THIRTY_TWO] == null) {
+                dto.setCreditIndicator(0);
+            } else {
+                dto.setCreditIndicator((boolean) str[NumericConstants.THIRTY_TWO] ? 1 : -1);
+            }
+
             dto.setCompanyNo(selection.getCompanyNo() == null ? StringUtils.EMPTY : selection.getCompanyNo());
             dto.setDivision(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
+            if (str[NumericConstants.THIRTY_FIVE] == null) {
+                dto.setReportIndicator(0);
+            } else {
+                dto.setReportIndicator((boolean) str[NumericConstants.THIRTY_FIVE] ? 1 : -1);
+            }
             dto.setBusinessUnit(selection.getBusUnit() == null ? StringUtils.EMPTY : selection.getBusUnit());
-            dto.setAdjustmentType_str(CommonLogic.getComboDes(dto.getAdjustmentType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.getConstant()))); // Added for GAL-5382
-            dto.setAdjustmentLevel_str(CommonLogic.getComboDes(dto.getAdjustmentLevel(), "ARM_RES_ADJUSTMENT_LEVEL"));
-            dto.setAccountCategory_str(CommonLogic.getComboDes(dto.getAccountCategory(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_CATEGORY.getConstant())));
-            dto.setAccountType_str(CommonLogic.getComboDes(dto.getAccountType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_TYPE.getConstant())));
-            dto.setAccountIndictor_str(CommonLogic.getComboDes(dto.getAccountIndictor(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNTINDICTOR.getConstant())));
-            dto.setCurrency_str(CommonLogic.getComboDes(dto.getCurrency(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CURRENCY.getConstant())));
-            dto.setReversalPeriodDate_str(CommonLogic.getComboDes(dto.getReversalPeriodDate(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REVERSAL_PERIOD_DATE.getConstant())));
-            dto.setDebitIndicator_str(CommonLogic.getComboDes(dto.getDebitIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant())));
-            dto.setCreditIndicator_str(CommonLogic.getComboDes(dto.getCreditIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant())));
+            dto.setAdjustmentTypestr(CommonLogic.getComboDes(dto.getAdjustmentType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.getConstant()))); // Added for GAL-5382
+            dto.setAdjustmentLevelstr(CommonLogic.getComboDes(dto.getAdjustmentLevel(), "ARM_RES_ADJUSTMENT_LEVEL"));
+            dto.setAccountCategorystr(CommonLogic.getComboDes(dto.getAccountCategory(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_CATEGORY.getConstant())));
+            dto.setAccountTypestr(CommonLogic.getComboDes(dto.getAccountType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_TYPE.getConstant())));
+            dto.setAccountIndictorstr(CommonLogic.getComboDes(dto.getAccountIndictor(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNTINDICTOR.getConstant())));
+            dto.setCurrencystr(CommonLogic.getComboDes(dto.getCurrency(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CURRENCY.getConstant())));
+            dto.setReversalPeriodDatestr(CommonLogic.getComboDes(dto.getReversalPeriodDate(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REVERSAL_PERIOD_DATE.getConstant())));
+            dto.setDebitIndicatorstr(CommonLogic.getComboDes(dto.getDebitIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant())));
+            dto.setCreditIndicatorstr(CommonLogic.getComboDes(dto.getCreditIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant())));
+            dto.setReportIndicatorStr(CommonLogic.getComboDes(dto.getReportIndicator(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.getConstant())));
+            dto.setUdc1Str(CommonLogic.getComboDes(dto.getUdc1(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC1.getConstant())));
+            dto.setUdc2Str(CommonLogic.getComboDes(dto.getUdc2(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC2.getConstant())));
+            dto.setUdc3Str(CommonLogic.getComboDes(dto.getUdc3(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC3.getConstant())));
+            dto.setUdc4Str(CommonLogic.getComboDes(dto.getUdc4(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC4.getConstant())));
+            dto.setUdc5Str(CommonLogic.getComboDes(dto.getUdc5(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC5.getConstant())));
+            dto.setUdc6Str(CommonLogic.getComboDes(dto.getUdc6(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC6.getConstant())));//Ends here
 
-            dto.setUDC1_str(CommonLogic.getComboDes(dto.getUDC1(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC1.getConstant())));
-            dto.setUDC2_str(CommonLogic.getComboDes(dto.getUDC2(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC2.getConstant())));
-            dto.setUDC3_str(CommonLogic.getComboDes(dto.getUDC3(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC3.getConstant())));
-            dto.setUDC4_str(CommonLogic.getComboDes(dto.getUDC4(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC4.getConstant())));
-            dto.setUDC5_str(CommonLogic.getComboDes(dto.getUDC5(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC5.getConstant())));
-            dto.setUDC6_str(CommonLogic.getComboDes(dto.getUDC6(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC6.getConstant())));//Ends here
             finalResult.add(dto);
         }
         return finalResult;
@@ -326,31 +353,31 @@ public class AdjustmentReserveLogic {
             dto.setProject(str[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
             dto.setFuture1(str[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
             dto.setFuture2(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
-            dto.setUDC1(str[NumericConstants.TWELVE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWELVE])));
-            dto.setUDC2(str[NumericConstants.THIRTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THIRTEEN])));
-            dto.setUDC3(str[NumericConstants.FOURTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOURTEEN])));
-            dto.setUDC4(str[NumericConstants.FIFTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FIFTEEN])));
-            dto.setUDC5(str[NumericConstants.SIXTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTEEN])));
-            dto.setUDC6(str[NumericConstants.SEVENTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVENTEEN])));
+            dto.setUdc1(str[NumericConstants.TWELVE] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWELVE])));
+            dto.setUdc2(str[NumericConstants.THIRTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.THIRTEEN])));
+            dto.setUdc3(str[NumericConstants.FOURTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FOURTEEN])));
+            dto.setUdc4(str[NumericConstants.FIFTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FIFTEEN])));
+            dto.setUdc5(str[NumericConstants.SIXTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTEEN])));
+            dto.setUdc6(str[NumericConstants.SEVENTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVENTEEN])));
             dto.setCheckRecord(str[NumericConstants.EIGHTEEN] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.EIGHTEEN]);
             dto.setCompanyNo(selection.getCompanyNo() == null ? StringUtils.EMPTY : selection.getCompanyNo());
             dto.setDivision(str[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINETEEN]));
             dto.setBusinessUnit(selection.getBusUnit() == null ? StringUtils.EMPTY : selection.getBusUnit());
-            dto.setAdjustmentType_str(CommonLogic.getComboDes(dto.getAdjustmentType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.getConstant())));
-            dto.setAdjustmentLevel_str(CommonLogic.getComboDes(dto.getAdjustmentLevel(), "ARM_GTN_ADJUSTMENT_LEVEL"));
-            dto.setAccountCategory_str(CommonLogic.getComboDes(dto.getAccountCategory(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_CATEGORY.getConstant())));
-            dto.setAccountType_str(CommonLogic.getComboDes(dto.getAccountType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_TYPE.getConstant())));
-            dto.setAccountIndictor_str(CommonLogic.getComboDes(dto.getAccountIndictor(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNTINDICTOR.getConstant())));
-            dto.setCurrency_str(CommonLogic.getComboDes(dto.getCurrency(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CURRENCY.getConstant())));
-            dto.setReversalPeriodDate_str(CommonLogic.getComboDes(dto.getReversalPeriodDate(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REVERSAL_PERIOD_DATE.getConstant())));
+            dto.setAdjustmentTypestr(CommonLogic.getComboDes(dto.getAdjustmentType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.getConstant())));
+            dto.setAdjustmentLevelstr(CommonLogic.getComboDes(dto.getAdjustmentLevel(), "ARM_GTN_ADJUSTMENT_LEVEL"));
+            dto.setAccountCategorystr(CommonLogic.getComboDes(dto.getAccountCategory(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_CATEGORY.getConstant())));
+            dto.setAccountTypestr(CommonLogic.getComboDes(dto.getAccountType(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNT_TYPE.getConstant())));
+            dto.setAccountIndictorstr(CommonLogic.getComboDes(dto.getAccountIndictor(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ACCOUNTINDICTOR.getConstant())));
+            dto.setCurrencystr(CommonLogic.getComboDes(dto.getCurrency(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CURRENCY.getConstant())));
+            dto.setReversalPeriodDatestr(CommonLogic.getComboDes(dto.getReversalPeriodDate(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REVERSAL_PERIOD_DATE.getConstant())));
 
             //** This map need to changeed
-            dto.setUDC1_str(CommonLogic.getComboDes(dto.getUDC1(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC1.getConstant())));
-            dto.setUDC2_str(CommonLogic.getComboDes(dto.getUDC2(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC2.getConstant())));
-            dto.setUDC3_str(CommonLogic.getComboDes(dto.getUDC3(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC3.getConstant())));
-            dto.setUDC4_str(CommonLogic.getComboDes(dto.getUDC4(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC4.getConstant())));
-            dto.setUDC5_str(CommonLogic.getComboDes(dto.getUDC5(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC5.getConstant())));
-            dto.setUDC6_str(CommonLogic.getComboDes(dto.getUDC6(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC6.getConstant())));
+            dto.setUdc1Str(CommonLogic.getComboDes(dto.getUdc1(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC1.getConstant())));
+            dto.setUdc2Str(CommonLogic.getComboDes(dto.getUdc2(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC2.getConstant())));
+            dto.setUdc3Str(CommonLogic.getComboDes(dto.getUdc3(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC3.getConstant())));
+            dto.setUdc4Str(CommonLogic.getComboDes(dto.getUdc4(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC4.getConstant())));
+            dto.setUdc5Str(CommonLogic.getComboDes(dto.getUdc5(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC5.getConstant())));
+            dto.setUdc6Str(CommonLogic.getComboDes(dto.getUdc6(), ARMUtils.getDropDownMap().get(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.UDC6.getConstant())));
 
             finalResult.add(dto);
         }
@@ -361,10 +388,11 @@ public class AdjustmentReserveLogic {
         List input = new ArrayList();
         input.add(selection.getTempTableName());
         input.add(ARMUtils.getVisibleToDBColumnMap().get(properyId));
+        String values = null;
         if (value != null) {
-            value = "'" + value + "'";
+            values = "'" + value.toString() + "'";
         }
-        input.add(value);
+        input.add(values);
         input.add(selection.getMasterSID());
         QueryUtils.itemUpdate(input, "MassUpdate_reserve");
 
@@ -414,11 +442,6 @@ public class AdjustmentReserveLogic {
 
     }
 
-    public boolean checkForDuplicates(ReserveSelection selection) {
-        List input = getSessionInput(selection);
-        return CommonLogic.getCount(QueryUtils.getItemData(input, "Check_For_Save_validation", null)) == 1;
-    }
-
     public boolean madatoryCheckReserveANDDetails(ReserveSelection selection, String reserveQuery, String gtnquery) {
 
         Boolean reserveInput = null;
@@ -430,7 +453,6 @@ public class AdjustmentReserveLogic {
             reserveList.add(selection.getTempTableName());
             reserveInput = CommonLogic.getCountValue(QueryUtils.getItemData(reserveList, reserveQuery, null));
             reserveList.clear();
-            reserveList = null;
         }
         if (selection.getGtnDetailsMasterSid() != 0) {
             List gtnList = new ArrayList(NumericConstants.THREE);
@@ -439,7 +461,6 @@ public class AdjustmentReserveLogic {
             gtnList.add(selection.getTempTableName());
             detailsInput = CommonLogic.getCountValue(QueryUtils.getItemData(gtnList, gtnquery, null));
             gtnList.clear();
-            gtnList = null;
         }
 
         if (reserveInput != null && detailsInput != null) {
@@ -450,6 +471,18 @@ public class AdjustmentReserveLogic {
             return detailsInput && reserveInput == null;
         }
         return false;
+    }
+
+    public boolean madatoryForAtleastOneRecordtosave(ReserveSelection selection, String reserveandGtnQuery) {
+        Boolean reserveInput = Boolean.FALSE;
+        if (selection.getReserveMasterSid() != 0) {
+            List reserveList = new ArrayList(NumericConstants.TWO);
+            reserveList.add(selection.getTempTableName());
+            reserveList.add(selection.getReserveMasterSid());
+            reserveInput = CommonLogic.getCountValueForSave(QueryUtils.getItemData(reserveList, reserveandGtnQuery, null));
+            reserveList.clear();
+        }
+        return reserveInput;
     }
 
     public boolean madatoryCheckCreditDebit(ReserveSelection selection, String reserveQuery) {
@@ -472,11 +505,6 @@ public class AdjustmentReserveLogic {
         return reserveInput;
     }
 
-    public boolean uniqueIdCheck(ReserveSelection selection) {
-        List input = getReserveInput(selection);
-        return CommonLogic.getCount(QueryUtils.getItemData(input, "Check_For_Save_validation", null)) == 1;
-    }
-
     private List getReserveInput(ReserveSelection selection) {
         List input = new ArrayList();
         input.add(selection.getTempTableName());
@@ -493,7 +521,11 @@ public class AdjustmentReserveLogic {
 
     public int getSearchCount(AdjustmentReserveDTO binderDto, Set<Container.Filter> filter) {
         List input = getSearchInput(binderDto, filter);
-        return CommonLogic.getCount(QueryUtils.getItemData(input, "Reserve_Details_search_count", null));
+        if (filter.isEmpty()) {
+            return CommonLogic.getCount(QueryUtils.getItemData(input, "Reserve_Details_search_count", null));
+        } else {
+            return CommonLogic.getCount(QueryUtils.getItemData(input, "Reserve_Details_search_count_filter", null));
+        }
 
     }
 
@@ -501,13 +533,13 @@ public class AdjustmentReserveLogic {
         List input = getSearchInput(binderDto, filter);
         if (!sortByColumns.isEmpty()) {
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                SortByColumn orderByColumn = (SortByColumn) iterator.next();
+                SortByColumn orderByColumn = iterator.next();
                 String columnId = orderByColumn.getName();
                 Map<String, String> columnDetails = ARMUtils.getVisibleToDBColumnMap();
                 if (orderByColumn.getType() == SortByColumn.Type.ASC) {
                     input.add(columnDetails.get(columnId) + " asc");
                 } else {
-                    input.add(columnDetails.get(columnId) + " desc");
+                    input.add(columnDetails.get(columnId) + CommonConstant.DESC);
                 }
             }
         } else {
@@ -515,7 +547,11 @@ public class AdjustmentReserveLogic {
         }
         input.add(start);
         input.add(offset);
-        return customizeReserveSearch(QueryUtils.getItemData(input, "Reserve_Details_search_Data", null));
+        if (filter.isEmpty()) {
+            return customizeReserveSearch(QueryUtils.getItemData(input, "Reserve_Details_search_Data", null));
+        } else {
+            return customizeReserveSearch(QueryUtils.getItemData(input, "Reserve_Details_search_Data_Filter", null));
+        }
     }
 
     private List getSearchInput(AdjustmentReserveDTO binderDto, Set<Container.Filter> filter) {
@@ -525,11 +561,19 @@ public class AdjustmentReserveLogic {
         input.add(binderDto.getDeductionCategoryDdlbRes() == 0 ? ARMUtils.CHAR_PERCENT : binderDto.getDeductionCategoryDdlbRes());
         input.add(binderDto.getDeductionTypeDdlbRes() == 0 ? ARMUtils.CHAR_PERCENT : binderDto.getDeductionTypeDdlbRes());
         input.add(binderDto.getDeductionProgramDdlbRes() == 0 ? ARMUtils.CHAR_PERCENT : binderDto.getDeductionProgramDdlbRes());
+        if (!filter.isEmpty()) {
+            try (Connection con = SysDataSourceConnection.getConnection()) {
+                input.add(con.getCatalog());
+            } catch (SQLException ex) {
+                Logger.getLogger(AdjustmentReserveLogic.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         StringBuilder sql = AbstractFilter.getInstance().getFilterCustomerLookUp(filter);
-        if (!(sql == null)) {
-            input.add(sql);
-        } else {
+        if (sql == null) {
             input.add(StringUtils.EMPTY);
+
+        } else {
+            input.add(sql);
         }
         return input;
     }
@@ -538,14 +582,7 @@ public class AdjustmentReserveLogic {
         List<AdjustmentReserveDTO> finalResult = new ArrayList<>();
         for (Object[] str : itemData) {
             AdjustmentReserveDTO dto = new AdjustmentReserveDTO();
-            dto.setSearchMasterSid(str[0] == null ? 0 : Integer.valueOf(String.valueOf(str[0])));
-            dto.setCompanyNo(str[NumericConstants.ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ONE]));
-            dto.setCompanyName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
-            dto.setBusinessUnitNo(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
-            dto.setBusinessUnitName(str[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
-            dto.setDeductionCategory(str[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIVE]));
-            dto.setDeductionType(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
-            dto.setDeductionProgram(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
+            customizeReserveSearch1(str, dto);
             dto.setCreatedBy(CommonLogic.getUser(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT])).getFullName());
             dto.setCreatedDate(str[NumericConstants.NINE] == null ? null : (Date) str[NumericConstants.NINE]);
             dto.setModifiedDate(str[NumericConstants.TEN] == null ? null : (Date) str[NumericConstants.TEN]);
@@ -558,6 +595,17 @@ public class AdjustmentReserveLogic {
             finalResult.add(dto);
         }
         return finalResult;
+    }
+
+    private void customizeReserveSearch1(Object[] str, AdjustmentReserveDTO dto) {
+        dto.setSearchMasterSid(str[0] == null ? 0 : Integer.valueOf(String.valueOf(str[0])));
+        dto.setCompanyNo(str[NumericConstants.ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ONE]));
+        dto.setCompanyName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
+        dto.setBusinessUnitNo(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
+        dto.setBusinessUnitName(str[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
+        dto.setDeductionCategory(str[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIVE]));
+        dto.setDeductionType(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
+        dto.setDeductionProgram(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
     }
 
     public boolean isDuplicateCompany(AdjustmentReserveDTO binderDto) {
@@ -598,6 +646,9 @@ public class AdjustmentReserveLogic {
         if (selection.getTempTableName() == null) {
             selection.getSession().setCurrentTableNames(QueryUtils.createTempTables(selection.getSession().getScreenName(), selection.getSession().getProjectionId(), selection.getSession().getUserId().toString(), selection.getSession().getSessionId().toString()));
             selection.setTempTableName(selection.getSession().getCurrentTableNames().get("ST_ARM_ADJ_RES_CONFIG_DETAIL"));
+            selection.setAdjustmentSummaryTempTableName(selection.getSession().getCurrentTableNames().get("ST_ARM_ADJ_SUMMARY_CONFIG_DETAILS"));
+            selection.setBalanceSummaryTempTableName(selection.getSession().getCurrentTableNames().get("ST_ARM_BALANCE_SUMMARY_CONFIG"));
+            LOGGER.info("Map -------------Edit---- >> " + selection.getSession().getCurrentTableNames());
         }
 
         List input = new ArrayList();
@@ -609,9 +660,21 @@ public class AdjustmentReserveLogic {
         QueryUtils.itemUpdate(input, "InsertMainToTemp");
     }
 
+    /**
+     * This is the method to check the unique valiation of master combinations
+     *
+     * @param binderDto
+     * @return
+     */
     public boolean combinationIsSelected(AdjustmentReserveDTO binderDto) {
-        return binderDto.getCompanyDdlbRes() != 0 && binderDto.getBusinessDdlbRes() != 0 && binderDto.getDeductionCategoryDdlbRes() != 0 && binderDto.getDeductionTypeDdlbRes() != 0
-                && binderDto.getDeductionProgramDdlbRes() != 0;
+        List<Integer> ddlbValues = new ArrayList<>();
+        ddlbValues.add(binderDto.getCompanyDdlbRes());
+        ddlbValues.add(binderDto.getBusinessDdlbRes());
+        ddlbValues.add(binderDto.getDeductionCategoryDdlbRes());
+        ddlbValues.add(binderDto.getDeductionTypeDdlbRes());
+        ddlbValues.add(binderDto.getDeductionProgramDdlbRes());
+        return !ddlbValues.contains(0);
+
     }
 
     public void tempToMainUpdateLogic(ReserveSelection selection) {
@@ -629,6 +692,18 @@ public class AdjustmentReserveLogic {
         input.add(searchMasterSid);
         input.add(searchMasterSid);
         QueryUtils.itemUpdate(input, "Delete Reserve");
+    }
+
+    public void deleteAdjustmentSummary(int reserveMasterSid) {
+        List input = new ArrayList<>();
+        input.add(reserveMasterSid);
+        QueryUtils.itemUpdate(input, "Delete_Adjustment_Summary");
+    }
+
+    public void deleteBalanceSummary(int reserveMasterSid) {
+        List input = new ArrayList<>();
+        input.add(reserveMasterSid);
+        QueryUtils.itemUpdate(input, "Delete_Balance_Summary");
     }
 
     public void updateMasterSid(AdjustmentReserveDTO selectedDto, ReserveSelection selection, int revMas) {
@@ -682,11 +757,11 @@ public class AdjustmentReserveLogic {
         Map<String, String> columnDetails = ARMUtils.getVisibleToDBColumnMap();
         if (!sortByColumns.isEmpty()) {
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                SortByColumn orderByColumn = (SortByColumn) iterator.next();
+                SortByColumn orderByColumn = iterator.next();
                 String columnId = orderByColumn.getName();
                 if (!columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COMPANYNO.getConstant())
                         && !columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.BUSINESS_UNIT.getConstant())) {
-                    if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId) && ArrayUtils.contains(ARMUtils.ADJUSTMENT_RESERVE_COMBOBOX, columnId)) {
+                    if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId) && ArrayUtils.contains(ARMUtils.getAdjustmentReserveCombobox(), columnId)) {
                         input.add(1, " LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID = " + columnDetails.get(columnId));
                         if (orderByColumn.getType() == SortByColumn.Type.ASC) {
                             input.add(i, " HT.DESCRIPTION asc");
@@ -705,7 +780,7 @@ public class AdjustmentReserveLogic {
                         if (orderByColumn.getType() == SortByColumn.Type.ASC) {
                             input.add(i, columnDetails.get(columnId) + " asc");
                         } else {
-                            input.add(i, columnDetails.get(columnId) + " desc");
+                            input.add(i, columnDetails.get(columnId) + CommonConstant.DESC);
                         }
                     }
                 } else {
@@ -715,7 +790,7 @@ public class AdjustmentReserveLogic {
             }
         } else {
             input.add(1, StringUtils.EMPTY);
-            input.add(i, " ADC.TRANSACTION_NAME ");
+            input.add(i, " ARC.ARM_ADJ_RES_CONFIG_DETAIL_SID ASC ");
         }
     }
 
@@ -723,11 +798,11 @@ public class AdjustmentReserveLogic {
         Map<String, String> columnDetails = ARMUtils.getVisibleToDBColumnMap();
         if (!sortByColumns.isEmpty()) {
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                SortByColumn orderByColumn = (SortByColumn) iterator.next();
+                SortByColumn orderByColumn = iterator.next();
                 String columnId = orderByColumn.getName();
                 if (!columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.COMPANYNO.getConstant())
                         && !columnId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.BUSINESS_UNIT.getConstant())) {
-                    if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId) && ArrayUtils.contains(ARMUtils.ADJUSTMENT_RESERVE_COMBOBOX, columnId)) {
+                    if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_TYPE.toString().equals(columnId) && ArrayUtils.contains(ARMUtils.getAdjustmentReserveCombobox(), columnId)) {
                         input.add(0, " LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID = " + columnDetails.get(columnId));
                         if (orderByColumn.getType() == SortByColumn.Type.ASC) {
                             input.add(i, " HT.DESCRIPTION asc");
@@ -746,7 +821,7 @@ public class AdjustmentReserveLogic {
                         if (orderByColumn.getType() == SortByColumn.Type.ASC) {
                             input.add(i, columnDetails.get(columnId) + " asc");
                         } else {
-                            input.add(i, columnDetails.get(columnId) + " desc");
+                            input.add(i, columnDetails.get(columnId) + CommonConstant.DESC);
                         }
                     }
                 } else {
@@ -756,7 +831,7 @@ public class AdjustmentReserveLogic {
             }
         } else {
             input.add(0, StringUtils.EMPTY);
-            input.add(i, " ADC.TRANSACTION_NAME ");
+            input.add(i, " ARC.ARM_ADJ_RES_CONFIG_DETAIL_SID ASC ");
         }
     }
 
@@ -764,7 +839,7 @@ public class AdjustmentReserveLogic {
         List<Object> resultList = new ArrayList<>();
         if (category != 0) {
             String query = SQlUtil.getQuery("adjustmentSummaryLoadRSType");
-            query = query.replace("?", category + "");
+            query = query.replace("?", String.valueOf(category));
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         }
         return resultList;
@@ -774,8 +849,8 @@ public class AdjustmentReserveLogic {
         List<Object> resultList = new ArrayList<>();
         if (category != 0) {
             String query = SQlUtil.getQuery("adjustmentSummaryLoadRebateProgramType");
-            query = query.replaceAll("@RS_CATEGORY", category + "");
-            query = query.replaceAll("@RS_TYPE", type + "");
+            query = query.replaceAll("@RS_CATEGORY", String.valueOf(category));
+            query = query.replaceAll("@RS_TYPE", String.valueOf(type));
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         }
         return resultList;
@@ -800,8 +875,7 @@ public class AdjustmentReserveLogic {
         } else {
             input.add(selection.getReserveMasterSid());
         }
-        List dataList = QueryUtils.getItemData(input, "List_view_items_check_details", null);
-        return dataList;
+        return QueryUtils.getItemData(input, "List_view_items_check_details", null);
     }
 
     public List getCheckedRecords(ReserveSelection selection) {
@@ -812,8 +886,7 @@ public class AdjustmentReserveLogic {
         } else {
             input.add(selection.getReserveMasterSid());
         }
-        List dataList = QueryUtils.getItemData(input, "Checked_Records", null);
-        return dataList;
+        return QueryUtils.getItemData(input, "Checked_Records", null);
     }
 
     public void insertToTempTable(ReserveSelection tempSelection, ReserveSelection selection) { //Added for GAL-7973
@@ -840,31 +913,6 @@ public class AdjustmentReserveLogic {
      * @param duplicateQuery
      * @return
      */
-    public boolean duplicateCheckReserveANDDetails(ReserveSelection selection, String duplicateQuery) {
-        Boolean reserveInput = null;
-        Boolean detailsInput = null;
-
-        if (selection.getReserveMasterSid() != 0) {
-            List input = getReserveInput(selection);
-            int duplicateCount = (int) (QueryUtils.getItemData(input, duplicateQuery, null)).get(0);
-            reserveInput = duplicateCount == 0;
-        }
-        if (selection.getGtnDetailsMasterSid() != 0) {
-            List input = getDetailsInput(selection);
-            int duplicateCount = (int) (QueryUtils.getItemData(input, duplicateQuery, null)).get(0);
-            detailsInput = duplicateCount == 0;
-        }
-        if (reserveInput != null && detailsInput != null) {
-            return reserveInput && detailsInput;
-        } else if (reserveInput != null && detailsInput == null) {
-            return reserveInput;
-        } else if (reserveInput == null && detailsInput != null) {
-            return detailsInput;
-        } else {
-            return false;
-        }
-    }
-
     public boolean deleteAdjustmentDetailsCheck(AdjustmentReserveDTO dto) {
         String query = SQlUtil.getQuery("adjustment_details_check");
         query = query.replace("?", dto.getSearchMasterSid() + StringUtils.EMPTY);
@@ -881,4 +929,120 @@ public class AdjustmentReserveLogic {
         input.add(CommonLogic.stringListToString(inputMasterid));
         QueryUtils.itemUpdate(input, "UpdateMasterModifiedDate");
     }
+
+    /**
+     * This is the method to check that there are exactly two records presents
+     * in Reserve details for the particular adjustment type and for GTN exactly
+     * one record has to be present for the particular record
+     *
+     * @param tableName
+     * @param reserveOrGtnQuery
+     * @return
+     */
+    public boolean isOnlyValidNoOfRecordsAreAvailableForAdjustmentType(String tableName, String reserveOrGtnQuery) {
+        List input = new ArrayList<>();
+        input.add(tableName);
+        input.add(tableName);
+        List resultList = QueryUtils.getItemData(input, reserveOrGtnQuery, null);
+        input.clear();
+        return CommonLogic.getCount(resultList) == 0;
+    }
+
+    /**
+     * This is the method to check that there are exactly two records presents
+     * in Reserve details for the particular adjustment type and for GTN exactly
+     * one record has to be present for the particular record
+     *
+     * @param tableName
+     * @param reserveOrGtnQuery
+     * @return
+     */
+    public boolean isOnlyValidNoOfRecordsAvailableForAdjustmentType(String tableName, String reserveOrGtnQuery) {
+        List input = new ArrayList<>();
+        input.add(tableName);
+        List resultList = QueryUtils.getItemData(input, reserveOrGtnQuery, null);
+        input.clear();
+        return CommonLogic.getCount(resultList) == 0;
+    }
+
+    /**
+     * This is the method to check that there are exactly two records presents
+     * in Reserve details for the particular adjustment type and for GTN exactly
+     * one record has to be present for the particular record
+     *
+     * @param tableName
+     * @param query
+     * @return
+     */
+    public boolean isDuplicateAccount(String tableName, String query) {
+        List input = new ArrayList<>();
+        input.add(tableName);
+        List resultList = QueryUtils.getItemData(input, query, null);
+        input.clear();
+        return CommonLogic.getCount(resultList) == 0;
+    }
+
+    /**
+     * This is the method to check that there are exactly two records presents
+     * in Reserve details for the particular adjustment type and for GTN exactly
+     * one record has to be present for the particular record
+     *
+     * @param tableName
+     * @param query
+     * @return
+     */
+    public boolean isGTNRecordsAreAvailableInReserve(String tableName, String query) {
+        List input = new ArrayList<>();
+        input.add(tableName);
+        input.add(tableName);
+        List resultList = QueryUtils.getItemData(input, query, null);
+        input.clear();
+        return CommonLogic.getCount(resultList) == 0;
+    }
+
+    /**
+     * This is the method to check that there are exactly two records presents
+     * in Reserve details for the particular adjustment type and for GTN exactly
+     * one record has to be present for the particular record
+     *
+     * @param tableName
+     * @param query
+     * @return
+     */
+    public boolean isCreditDebitAreOppositeForSameAdjustmentType(int reserveSid, String tableName, String query) {
+        List input = new ArrayList<>();
+        input.add(tableName);
+        input.add(reserveSid);
+
+        List resultList = QueryUtils.getItemData(input, query, null);
+        input.clear();
+        return CommonLogic.getCount(resultList) == 0;
+    }
+
+    /**
+     * This is the method to check that there are exactly two records presents
+     * in Reserve details for the particular adjustment type and for GTN exactly
+     * one record has to be present for the particular record
+     *
+     * @param tableName
+     * @param query
+     * @return
+     */
+    public boolean isDuplicateReportIndicator(String tableName, String query) {
+        List input = new ArrayList<>();
+        input.add(tableName);
+        List resultList = QueryUtils.getItemData(input, query, null);
+        input.clear();
+        return CommonLogic.getCount(resultList) == 0;
+    }
+
+    public boolean isCheckToContainMorethanOneRecordSameAdjTypeInGTN(String tableName, String reserveOrGtnQuery) {
+        List input = new ArrayList<>();
+        input.add(tableName);
+        input.add(tableName);
+        List resultList = QueryUtils.getItemData(input, reserveOrGtnQuery, null);
+        input.clear();
+        return CommonLogic.getCount(resultList) == 0;
+    }
+
 }

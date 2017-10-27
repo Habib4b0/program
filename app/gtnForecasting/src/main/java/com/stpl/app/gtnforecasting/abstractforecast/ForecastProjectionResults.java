@@ -155,6 +155,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected final float maxSplitPosition = 1000, minSplitPosition = 200, splitPosition = 300;
     protected ExtCustomTreeTable exceltable;
     int tradingPartnerNo = 0;
+    boolean isTabVisible = true;
 
     protected Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override
@@ -174,7 +175,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         this.screenName = screenName;
         projectionSelectionDTO.setSessionDTO(sessionDTO);
         projectionSelectionDTO.setScreenName(screenName);
-        projectionSelectionDTO.setTabName("Projection Results");
+        projectionSelectionDTO.setTabName(Constant.PROJECTION_RESULTS_LABEL);
         projectionId = sessionDTO.getProjectionId();
         init();
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
@@ -238,8 +239,8 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         viewOpg.addStyleName("forecast-tab");
         viewOpg.addStyleName(Constant.HORIZONTAL);
         viewOpg.addItem(Constant.CUSTOMER_SMALL);
-        viewOpg.addItem(Constant.PRODUCT);
-        viewOpg.addItem(Constant.CUSTOM);
+        viewOpg.addItem(Constant.PRODUCT_LABEL);
+        viewOpg.addItem(Constant.CUSTOM_LABEL);
         viewOpg.setValue(Constant.CUSTOMER_SMALL);
 
         levelDdlb.addItem(SELECT_ONE.getConstant());
@@ -291,7 +292,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     }
 
     @UiHandler("generateBtn")
-    public void generateBtn(Button.ClickEvent event) throws SystemException {
+    public void generateBtn(Button.ClickEvent event)  {
         tradingPartnerNo = Utility.getTradingPartnerLevelNo(projectionId, sessionDTO);
         generateButtonLogic();
     }
@@ -309,13 +310,13 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
-
+                return;
             }
 
             @Override
             public void yesMethod() {
                 frequencyDdlb.setValue(QUARTERLY.getConstant());
-                historyDdlb.setValue("4 Quarters");
+                historyDdlb.setValue(Constant.FOUR_QUARTERS);
                 salesOrUnitsOpg.setValue(SALES.getConstant());
                 actualOrProjectionsOpg.setValue(ACTUALS.getConstant());
                 periodOrderOpg.setValue(ASCENDING.getConstant());
@@ -347,7 +348,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                     break;
                 case Constant.QUARTERLY:
                     historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
-                    historyConstant = "4 Quarters";
+                    historyConstant = Constant.FOUR_QUARTERS;
                     break;
                 case Constant.MONTHLY:
                     historyBean.addAll(loadHistoryDdlb(MONTHLY.getConstant(), MONTHS.getConstant()));
@@ -355,7 +356,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                     break;
                 default:
                     historyBean.addAll(loadHistoryDdlb(QUARTERLY.getConstant(), QUARTERS.getConstant()));
-                    historyConstant = "4 Quarters";
+                    historyConstant = Constant.FOUR_QUARTERS;
                     break;
             }
             historyDdlb.setContainerDataSource(historyBean);
@@ -447,7 +448,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             levelDdlb.setEnabled(customId != 0);
             levelFilterDdlb.setEnabled(false);
             hierarchy = sessionDTO.getCustomHierarchyMap().get(customId);
-            Utility.loadLevelValueForResult(levelDdlb, null, null, hierarchy, Constant.CUSTOM);
+            Utility.loadLevelValueForResult(levelDdlb, null, null, hierarchy, Constant.CUSTOM_LABEL);
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projectionSelectionDTO.getHierarchyIndicator())) {
             Utility.loadLevelValueForResult(levelDdlb, levelFilterDdlb, null, sessionDTO.getCustomerHierarchyList(), String.valueOf(viewOpg.getValue()));
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionSelectionDTO.getHierarchyIndicator())) {
@@ -582,7 +583,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      */
     @UiHandler("newBtn")
     public void newHierarchyBtn(Button.ClickEvent event) {
-        final CustomTreeBuild customTree = new CustomTreeBuild(Constant.ADD_SMALL, sessionDTO);
+        final CustomTreeBuild customTree = new CustomTreeBuild(sessionDTO);
         customTree.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
@@ -605,7 +606,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     @UiHandler("editBtn")
     public void editHierarchyBtn(Button.ClickEvent event) {
         if (CommonLogic.editButtonValidation(customDdlb, customViewList)) {
-            final CustomTreeBuild customTree = new CustomTreeBuild(Constant.EDIT, sessionDTO, customId);
+            final CustomTreeBuild customTree = new CustomTreeBuild(sessionDTO, customId);
             customTree.addCloseListener(new Window.CloseListener() {
                 @Override
                 public void windowClose(Window.CloseEvent e) {
@@ -749,22 +750,24 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         }
     }
 
-    public void saveProjectionResultsSelection() throws PortalException, SystemException  {
+    public void saveProjectionResultsSelection() throws PortalException, SystemException {
         LOGGER.debug("save Projection Results method starts");
-        Map map = new HashMap();
-        map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
-        map.put(Constant.HISTORY_CAPS, historyDdlb.getValue().toString());
-        map.put("Sales/Units", salesOrUnitsOpg.getValue().toString());
-        map.put("Actuals/Projections", actualOrProjectionsOpg.getValue().toString());
-        map.put(Constant.PERIOD_ORDER, periodOrderOpg.getValue().toString());
-        map.put("Pivot", pivotViewOpg.getValue().toString());
-        CommonLogic.saveProjectionSelection(map, "Projection Results", projectionSelectionDTO);
+        if (isImmediate()) {
+            Map map = new HashMap();
+            map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
+            map.put(Constant.HISTORY_CAPS, historyDdlb.getValue().toString());
+            map.put("Sales/Units", salesOrUnitsOpg.getValue().toString());
+            map.put("Actuals/Projections", actualOrProjectionsOpg.getValue().toString());
+            map.put(Constant.PERIOD_ORDER, periodOrderOpg.getValue().toString());
+            map.put("Pivot", pivotViewOpg.getValue().toString());
+            CommonLogic.saveProjectionSelection(map, Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
+        }
         LOGGER.debug("save Projection Results method ends");
     }
 
     private void loadOnEdit() throws SystemException, PortalException {
 
-        Map<String, String> resultmap = CommonLogic.editProjectionResults("Projection Results", projectionSelectionDTO);
+        Map<String, String> resultmap = CommonLogic.editProjectionResults(Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
         if (resultmap != null && !resultmap.isEmpty()) {
             String value = resultmap.get(Constant.FREQUENCY_SMALL);
             if (StringUtils.isNotBlank(value) && !Constant.NULL.equals(value)) {
@@ -791,6 +794,14 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                 salesOrUnitsOpg.setValue(value);
             }
         }
+    }
+
+    public boolean isIsTabVisible() {
+        return isTabVisible;
+    }
+
+    public void setIsTabVisible(boolean isTabVisible) {
+        this.isTabVisible = isTabVisible;
     }
 
     protected abstract void excelExportLogic();

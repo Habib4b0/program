@@ -65,7 +65,7 @@ public class IFPItemContainer implements BeanDAO<ItemMasterDTO> {
             msg.getButton(ButtonId.OK).focus();
             LOGGER.error(ex);
         }
-         return new ArrayList<ItemMasterDTO>();
+         return new ArrayList<>();
     }
     
 }

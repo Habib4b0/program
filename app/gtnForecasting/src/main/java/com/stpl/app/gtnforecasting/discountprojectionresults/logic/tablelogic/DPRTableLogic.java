@@ -16,12 +16,10 @@ import com.vaadin.data.Container;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
-import com.stpl.ifs.ui.util.NumericConstants;
 import org.jboss.logging.Logger;
 
 /**
@@ -53,7 +51,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                         if (Constant.MM.equalsIgnoreCase(projSelDTO.getMarketTypeValue())) {                            
                             list = mmdprLogic.getConfiguredMMDicountResults(getLastParent(), start, offset, projSelDTO);
                         } else {
-                            List<String> indexList = new ArrayList<String>();
+                            List<String> indexList = new ArrayList<>();
                             for (int i = 0; i < getNonFetchableData().size(); i++) {
                                 
                                 indexList.add(getNonFetchableData().getIndex(i).getKey().toString());
@@ -90,7 +88,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 switch (screenName) {
                     case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
                         if (Constant.MM.equalsIgnoreCase(projSelDTO.getMarketTypeValue())) {
-                            count = mmdprLogic.getConfiguredMMDiscountResultsCount(getLastParent(), projSelDTO, true);
+                            count = mmdprLogic.getConfiguredMMDiscountResultsCount(getLastParent(), projSelDTO);
                         } else {
                             count = dprLogic.getConfiguredDPResultsCount(getLastParent(), projSelDTO, true, initialProjSelDTO);
                         }
@@ -160,12 +158,12 @@ public class DPRTableLogic extends PageTreeTableLogic {
 
     }
 
-    public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, boolean isTotal, String screenName) {
+    public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, String screenName) {
 
         this.projSelDTO = projSelDTO;
         this.screenName = screenName;
         clearAll();
-         dprLogic.projectionTotalList = new ArrayList<DiscountProjectionResultsDTO>();
+         dprLogic.projectionTotalList = new ArrayList<>();
         if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
             initialProjSelDTO.setCustomerLevelNo(projSelDTO.getCustomerLevelNo());
             initialProjSelDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
@@ -249,7 +247,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                     }
                     dto.setOnExpandTotalRow(1);
                     dto.setParent(1);
-                    DiscountProjectionResultsDTO discountDTO = new DiscountProjectionResultsDTO();
+                    DiscountProjectionResultsDTO discountDTO;
 
                     if (projSelDTO.getPivotView().equalsIgnoreCase(Constant.PERIOD)) {
                         discountDTO = dprLogic.getChildNodeValues(dto, projSelDTO);
@@ -298,59 +296,25 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 addExpandedTreeList(customTreeLevel, dto);
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             } else {
-                List<String> detailsList = Collections.EMPTY_LIST;
                 List<String> hierarchyNoList = Collections.EMPTY_LIST;
-                String hierarchy = StringUtils.EMPTY;
-                String hierarchyIndicator = StringUtils.EMPTY;
-                Map<String, List> relationshipLevelDetailsMap = Collections.EMPTY_MAP;
                 if (projSelDTO.getLevelCount() != 0) {
                     if (projSelDTO.isIsCustomHierarchy()) {
-
-                        hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
-                        relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
                         hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
-
                     } else {
-                        relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
                         hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
-
-                        hierarchyIndicator = projSelDTO.getHierarchyIndicator();
                     }
                 }
                 int size = hierarchyNoList.size();
                 int index = count - size + 1;
+                List<DiscountProjectionResultsDTO> data =commercialDPRLogic.getConfiguredProjectionResults(parentId, index-1, size, projSelDTO);
                 for (int j = 0; j < size; j++) {
-                    hierarchy = hierarchyNoList.get(j);
-                    detailsList = relationshipLevelDetailsMap.get(hierarchy);
                     String customTreeLevel = treeLevel + (index + j) + ".";
-                    DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-                    dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO)));
-                    dto.setTreeLevelNo(levelNo);
-                    dto.setGroup(detailsList.get(0));
-                    dto.setLevelValue(detailsList.get(NumericConstants.THREE));
-                    dto.setHierarchyIndicator(hierarchyIndicator);
-                    dto.setHierarchyNo(hierarchy);
-                    if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                        dto.setCustomerHierarchyNo(dto.getHierarchyNo());
-                        dto.setProductHierarchyNo(productHierarchyNo);
-                    } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                        dto.setProductHierarchyNo(dto.getHierarchyNo());
-                        dto.setCustomerHierarchyNo(customerHierarchyNo);
+                    addExpandedTreeList(customTreeLevel, data.get(j));
+                    recursivelyLoadExpandData(data.get(j), customTreeLevel, expandLevelNo);
                     }
-                    dto.setOnExpandTotalRow(1);
-                    dto.setParent(1);
-                    DiscountProjectionResultsDTO discountDTO = new DiscountProjectionResultsDTO();
-                    if (projSelDTO.getPivotView().equals(Constant.PERIOD)) {
-                        discountDTO = nmDPRLogic.getChildNodeValues(dto, projSelDTO, null);
-                    } else {
-                        discountDTO = nmDPRLogic.getPivotChildNodeValues(dto, projSelDTO);
                     }
-                    addExpandedTreeList(customTreeLevel, discountDTO);
-                    recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
                 }
             }
-        }
-    }
 
     public void groupChange() {
         clearAll();

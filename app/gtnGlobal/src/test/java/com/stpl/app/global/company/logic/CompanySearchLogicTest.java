@@ -43,9 +43,9 @@ public class CompanySearchLogicTest {
     
     @Before
     public void setUp() {
-        positiveDataList=new ArrayList<String>();
+        positiveDataList=new ArrayList<>();
         positiveDataList.add("yyyy-MM-dd hh:mm:ss.S");
-        negativeDataList=new ArrayList<String>();
+        negativeDataList=new ArrayList<>();
  
         negativeDataList.add("10/05/2010");
         negativeDataList.add("Fri Nov 27 14:04:31 IST 2015");

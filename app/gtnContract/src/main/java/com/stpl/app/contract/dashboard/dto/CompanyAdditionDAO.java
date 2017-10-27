@@ -29,7 +29,7 @@ public class CompanyAdditionDAO implements BeanDAO<CompanyMasterDTO> {
     private static final Logger LOGGER = Logger.getLogger(CompanyAdditionDAO.class);
     private final CFPSearchLogic logic = new CFPSearchLogic();
 
-    public CompanyAdditionDAO(String searchFields, String searchValue) throws SystemException {
+    public CompanyAdditionDAO(String searchFields, String searchValue) {
         this.searchFields = searchFields;
         this.searchValue = searchValue;
 
@@ -59,7 +59,7 @@ public class CompanyAdditionDAO implements BeanDAO<CompanyMasterDTO> {
     }
 
     public List<CompanyMasterDTO> find(final BeanSearchCriteria criteria, final int startIndex, final int offset, final List<OrderByColumn> columns) {
-        List<CompanyMasterDTO> companyList = new ArrayList<CompanyMasterDTO>();
+        List<CompanyMasterDTO> companyList = new ArrayList<>();
         try {
             LOGGER.debug("Enters getCompaniesForCFP find method with parameters startIndex=" + startIndex + ", offset=" + offset + ", columns size=" + columns.size());
           

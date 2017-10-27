@@ -43,7 +43,7 @@ public class GroupSearchLogic extends PageTableLogic{
 
     @Override
     public List loadData(int start, int offset) {
-        List<GroupDTO> resultList = new ArrayList<GroupDTO>();
+        List<GroupDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.searchGroup(groupName, groupNo, itemsOrCompanySids, "searchGroup", groupIdentifier, "find", start, offset, getFilters(), getSortByColumns());
         } catch (Exception ex) {
@@ -73,6 +73,7 @@ public class GroupSearchLogic extends PageTableLogic{
 
     @Override
     public void saveCurrentPage() {
+        return;
     }
 
     @Override

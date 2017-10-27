@@ -6847,6 +6847,12 @@
 			<basic name="internalNotes">
 				<column name="INTERNAL_NOTES" />
 			</basic>
+			<basic name="baseCpiPrecision">
+				<column name="BASE_CPI_PRECISION" />
+			</basic>
+			<basic name="baselineAmpPrecision">
+				<column name="BASELINE_AMP_PRECISION" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -6908,6 +6914,9 @@
 			</basic>
 			<basic name="pricingCodeStatus">
 				<column name="PRICING_CODE_STATUS" />
+			</basic>
+			<basic name="itemPricePrecision">
+				<column name="ITEM_PRICE_PRECISION" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -9849,12 +9858,6 @@
 			<basic name="actualRate">
 				<column name="ACTUAL_RATE" />
 			</basic>
-			<basic name="actualProjectionSales">
-				<column name="ACTUAL_PROJECTION_SALES" />
-			</basic>
-			<basic name="actualProjectionRate">
-				<column name="ACTUAL_PROJECTION_RATE" />
-			</basic>
 			<basic name="actualSales">
 				<column name="ACTUAL_SALES" />
 			</basic>
@@ -9874,18 +9877,6 @@
 			</id>
 			<basic name="actualRate">
 				<column name="ACTUAL_RATE" />
-			</basic>
-			<basic name="actualProjDiscountDollar">
-				<column name="ACTUAL_PROJ_DISCOUNT_DOLLAR" />
-			</basic>
-			<basic name="actualProjectionSales">
-				<column name="ACTUAL_PROJECTION_SALES" />
-			</basic>
-			<basic name="actualProjectionRate">
-				<column name="ACTUAL_PROJECTION_RATE" />
-			</basic>
-			<basic name="actualProjDiscountUnits">
-				<column name="ACTUAL_PROJ_DISCOUNT_UNITS" />
 			</basic>
 			<basic name="actualDiscountDollar">
 				<column name="ACTUAL_DISCOUNT_DOLLAR" />
@@ -9910,29 +9901,11 @@
 			<id name="projectionDetailsSid">
 				<column name="PROJECTION_DETAILS_SID" />
 			</id>
-			<basic name="adjustmentMethodology">
-				<column name="ADJUSTMENT_METHODOLOGY" />
-			</basic>
-			<basic name="adjustmentBasis">
-				<column name="ADJUSTMENT_BASIS" />
-			</basic>
 			<basic name="projectionRate">
 				<column name="PROJECTION_RATE" />
 			</basic>
-			<basic name="adjustmentVariable">
-				<column name="ADJUSTMENT_VARIABLE" />
-			</basic>
-			<basic name="adjustmentValue">
-				<column name="ADJUSTMENT_VALUE" />
-			</basic>
-			<basic name="adjustmentType">
-				<column name="ADJUSTMENT_TYPE" />
-			</basic>
 			<basic name="projectionSales">
 				<column name="PROJECTION_SALES" />
-			</basic>
-			<basic name="discountRate">
-				<column name="DISCOUNT_RATE" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -10069,29 +10042,14 @@
 			<id name="projectionDetailsSid">
 				<column name="PROJECTION_DETAILS_SID" />
 			</id>
-			<basic name="adjustmentMethodology">
-				<column name="ADJUSTMENT_METHODOLOGY" />
-			</basic>
-			<basic name="adjustmentBasis">
-				<column name="ADJUSTMENT_BASIS" />
-			</basic>
 			<basic name="productGrowth">
 				<column name="PRODUCT_GROWTH" />
-			</basic>
-			<basic name="adjustmentValues">
-				<column name="ADJUSTMENT_VALUES" />
-			</basic>
-			<basic name="adjustmentVariable">
-				<column name="ADJUSTMENT_VARIABLE" />
 			</basic>
 			<basic name="accountGrowth">
 				<column name="ACCOUNT_GROWTH" />
 			</basic>
 			<basic name="projectionUnits">
 				<column name="PROJECTION_UNITS" />
-			</basic>
-			<basic name="adjustmentType">
-				<column name="ADJUSTMENT_TYPE" />
 			</basic>
 			<basic name="projectionSales">
 				<column name="PROJECTION_SALES" />
@@ -10117,9 +10075,6 @@
 			</basic>
 			<basic name="methodology">
 				<column name="METHODOLOGY" />
-			</basic>
-			<basic name="calculationBased">
-				<column name="CALCULATION_BASED" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -14053,6 +14008,9 @@
 			</basic>
 			<basic name="inboundStatus">
 				<column name="INBOUND_STATUS" />
+			</basic>
+			<basic name="testMailAddress">
+				<column name="TEST_MAIL_ADDRESS" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />

@@ -46,7 +46,7 @@ public class ArchiveLogic {
      */
     public List<ArchiveDTO> getTableName(final String tableName) throws SystemException {
         LOGGER.debug("getTableName started with P1:String tableName=" + tableName);
-        final List<ArchiveDTO> lookUpList = new ArrayList<ArchiveDTO>();
+        final List<ArchiveDTO> lookUpList = new ArrayList<>();
         final DynamicQuery vwUserTablesDynamicQuery = DynamicQueryFactoryUtil.forClass(VwUserTables.class);
         ArchiveDTO lookUp;
         if (tableName != null && StringUtils.isNotEmpty(tableName)) {
@@ -80,7 +80,7 @@ public class ArchiveLogic {
      */
     public List<ArchiveDTO> getLevelValues(final String tableName, final String fieldName) throws SystemException {
         LOGGER.debug("getLevelValues started with P1:String tableName=" + tableName + " P2:String fieldName=" + fieldName + " P3:List hierDTO");
-        final List<ArchiveDTO> levelList = new ArrayList<ArchiveDTO>();
+        final List<ArchiveDTO> levelList = new ArrayList<>();
 
         ArchiveDTO dto;
         final List valueList = dao.getColumnValues(tableName, fieldName);

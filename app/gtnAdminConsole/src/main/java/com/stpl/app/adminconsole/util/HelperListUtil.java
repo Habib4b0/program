@@ -27,11 +27,11 @@ public class HelperListUtil {
 
     private static HelperListUtil object;
 
-    private Map<String, List<HelperDTO>> listNameMap = new HashMap<String, List<HelperDTO>>();
+    private Map<String, List<HelperDTO>> listNameMap = new HashMap<>();
 
-    private Map<Integer, String> idDescMap = new HashMap<Integer, String>();
+    private Map<Integer, String> idDescMap = new HashMap<>();
 
-    private Map<Integer, HelperDTO> idHelperDTOMap = new HashMap<Integer, HelperDTO>();
+    private Map<Integer, HelperDTO> idHelperDTOMap = new HashMap<>();
 
     private static ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
 
@@ -75,7 +75,7 @@ public class HelperListUtil {
                             if (helperList != null) {
                                 listNameMap.put(currentListName, helperList);
                             }
-                            helperList = new ArrayList<HelperDTO>();
+                            helperList = new ArrayList<>();
                         }
                         helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
                                 .getDescription()));

@@ -30,7 +30,7 @@ public class RebateTabTableLogic extends PageTreeTableLogic {
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         List<RebateTabDTO> list = logic.getConfiguredRebateTabResults(getLastParent(), tabSelectionDTO, false);
         int i = start;
         for (RebateTabDTO dto : list) {

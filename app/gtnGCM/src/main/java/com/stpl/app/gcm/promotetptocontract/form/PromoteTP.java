@@ -118,7 +118,7 @@ public class PromoteTP extends VerticalLayout {
      */
     @UiField("errorMsg")
     public ErrorLabel errorMsg;
-    private BeanItemContainer<PromoteTpToChDto> resultsContainer = new BeanItemContainer<PromoteTpToChDto>(PromoteTpToChDto.class);
+    private BeanItemContainer<PromoteTpToChDto> resultsContainer = new BeanItemContainer<>(PromoteTpToChDto.class);
     LazyBeanItemContainer<PromoteTpToChDto> resultsLazyContainer;
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     PromoteTPLogic logic = new PromoteTPLogic();
@@ -129,9 +129,8 @@ public class PromoteTP extends VerticalLayout {
     String searchSessionId = StringUtils.EMPTY;
     CompanySearchTableLogic compLogic = new CompanySearchTableLogic();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(compLogic);
-    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<PromoteTpToChDto>(promoteTpToChDto));
+    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(promoteTpToChDto));
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
     public LazyBeanItemContainer<PromoteTpToChDto> getResultsLazyContainer() {
         return resultsLazyContainer;
     }
@@ -240,7 +239,7 @@ public class PromoteTP extends VerticalLayout {
         identifierType.setNullSelectionAllowed(true);
         identifierType.setNullSelectionItemId(ddlbDefaultValue);
         promoteTpToChDtoTableLayout.addComponent(companySearchResultsTable);
-        HorizontalLayout hLayout = new HorizontalLayout();
+        HorizontalLayout hLayout;
         hLayout = compLogic.createControls();
         promoteTpToChDtoTableLayout.addComponent(hLayout);
         configureCompanySearchResultsTable();
@@ -272,7 +271,7 @@ public class PromoteTP extends VerticalLayout {
                 if ("tradeClass".equals(propertyId)) {
                     try {
                         ComboBox tradeClass = new ComboBox();
-                        commonUtil.loadComboBox(tradeClass, UIUtils.COMPANY_TRADE_CLASS, true);
+                        commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
                         return tradeClass;
                     } catch (Exception ex) {
                         Logger.getLogger(CompanySearch.class.getName()).log(Level.SEVERE, null, ex);
@@ -281,7 +280,7 @@ public class PromoteTP extends VerticalLayout {
                 if ("companyType".equals(propertyId)) {
                     try {
                         ComboBox companyType = new ComboBox();
-                        commonUtil.loadComboBox(companyType, UIUtils.COMPANY_TYPE, true);
+                        commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
                         return companyType;
                     } catch (Exception ex) {
                         Logger.getLogger(CompanySearch.class.getName()).log(Level.SEVERE, null, ex);
@@ -290,7 +289,7 @@ public class PromoteTP extends VerticalLayout {
                 if ("companyCategory".equals(propertyId)) {
                     try {
                         ComboBox companyCategory = new ComboBox();
-                        commonUtil.loadComboBox(companyCategory, UIUtils.COMPANY_CATEGORY, true);
+                        commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
                         return companyCategory;
                     } catch (Exception ex) {
                         Logger.getLogger(CompanySearch.class.getName()).log(Level.SEVERE, null, ex);
@@ -299,7 +298,7 @@ public class PromoteTP extends VerticalLayout {
                 if ("state".equals(propertyId)) {
                     try {
                         ComboBox state = new ComboBox();
-                        commonUtil.loadComboBox(state, UIUtils.STATE, true);
+                        commonUtil.loadComboBox(state, UiUtils.STATE, true);
                         return state;
                     } catch (Exception ex) {
                         Logger.getLogger(CompanySearch.class.getName()).log(Level.SEVERE, null, ex);
@@ -310,11 +309,12 @@ public class PromoteTP extends VerticalLayout {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
 
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -345,7 +345,7 @@ public class PromoteTP extends VerticalLayout {
                     session.setCompanyCategory(tpDTO.getCompanyCategory());
                     session.setTradeClass(tpDTO.getTradeClass());
                     session.setCompanyMasterSid(tpDTO.getCompanySystemId());
-                    List<String> companyMasterSids = new ArrayList<String>();
+                    List<String> companyMasterSids = new ArrayList<>();
                     companyMasterSids.add(session.getCompanyMasterSid());
                     session.setCompanyMasterSids(companyMasterSids);
                     session.setSearchSessionId(searchSessionId);
@@ -354,8 +354,8 @@ public class PromoteTP extends VerticalLayout {
                 }
             }
         });
-        companySearchResultsTable.setVisibleColumns(Constants.PROMOTE_TP_RESULTS_COLUMNS);
-        companySearchResultsTable.setColumnHeaders(Constants.PROMOTE_TP_RESULTS_HEADERS);
+        companySearchResultsTable.setVisibleColumns(Constants.getInstance().promoteTpResultsColumns);
+        companySearchResultsTable.setColumnHeaders(Constants.getInstance().promoteTpResultsHeaders);
         companySearchResultsTable.setSelectable(true);
         companySearchResultsTable.setFilterBarVisible(true);
         companySearchResultsTable.addStyleName("filterbar");
@@ -368,7 +368,7 @@ public class PromoteTP extends VerticalLayout {
      */
     public void companySearchReset() {
          dataSelectionBinder.getErrorDisplay().clearError();
-         dataSelectionBinder.setItemDataSource(new BeanItem<PromoteTpToChDto>(new PromoteTpToChDto()));
+         dataSelectionBinder.setItemDataSource(new BeanItem<>(new PromoteTpToChDto()));
               
     }
 
@@ -419,8 +419,8 @@ public class PromoteTP extends VerticalLayout {
     public void searchBtnLogic(Button.ClickEvent event) {
         resultsContainer.removeAllItems();
         companySearchResultsTable.setContainerDataSource(resultsContainer);
-        companySearchResultsTable.setVisibleColumns(Constants.PROMOTE_TP_RESULTS_COLUMNS);
-        companySearchResultsTable.setColumnHeaders(Constants.PROMOTE_TP_RESULTS_HEADERS);
+        companySearchResultsTable.setVisibleColumns(Constants.getInstance().promoteTpResultsColumns);
+        companySearchResultsTable.setColumnHeaders(Constants.getInstance().promoteTpResultsHeaders);
 
         if (resultsLazyContainer != null) {
             resultsLazyContainer.removeAllItems();
@@ -592,20 +592,20 @@ public class PromoteTP extends VerticalLayout {
     }
     public ErrorfulFieldGroup getBinder() {
         final PromoteTpToChDto bean = new PromoteTpToChDto();
-        final ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<PromoteTpToChDto>(bean));
+        final ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         dataSelectionBinder.setBuffered(true);
         dataSelectionBinder.bindMemberFields(this);
         dataSelectionBinder.setErrorDisplay(errorMsg);
         return dataSelectionBinder;
     }
     
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable,int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable,int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
 
     }
     
     
-      public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+      public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException {
         try {
             if (end != 0) {
               CompanySearchLogic companySearchLogic = new CompanySearchLogic();

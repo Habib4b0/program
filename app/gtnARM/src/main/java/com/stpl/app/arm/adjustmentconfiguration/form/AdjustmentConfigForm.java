@@ -12,6 +12,7 @@ import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.CommonUtils;
 import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
@@ -75,10 +76,10 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
      */
     @UiField("resultsTableLayoutRes")
     private VerticalLayout resultsTableLayoutRes;
-    
+
     @UiField("fieldLayout")
     private HorizontalLayout fieldLayout;
-    
+
     @UiField("resetBtnRes")
     protected Button resetBtnRes;
     @UiField("saveBtnRes")
@@ -155,6 +156,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        LOGGER.debug("Inside Enter Method");
 
     }
 
@@ -166,9 +168,27 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
         loadRedemptionPeriodDDLB();
         loadResultsTable();
         getBinder();
-        CommonUtils.loadComboBoxWithIntegerForComboBox(methodologyDDLB, "ARM_TRX_METHDOLOGY", Boolean.FALSE);
+        CommonUtils.loadComboBoxWithIntegerForComboBox(methodologyDDLB, "ARM_TRX_METHDOLOGY", false);
         excelBtnRes.setPrimaryStyleName("link");
         excelBtnRes.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
+        resultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+
+            @Override
+            public void itemClick(ItemClickEvent event) {
+                if (event.getItemId() != null) {
+                    selectedDTo = ((BeanItem<AdjustmentConfigDTO>) event.getItem()).getBean();
+                    if (modeDdlb.getValue() != null && modeDdlb.getValue().equals(ARMConstants.getEditMode())) {
+                        try {
+                            setValueToBinder(selectedDTo);
+                        } catch (FieldGroup.CommitException ex) {
+                            LOGGER.error("Error in itemClick :"+ex);
+                        }
+                    }
+                } else {
+                    selectedDTo = new AdjustmentConfigDTO();
+                }
+            }
+        });
     }
 
     /**
@@ -177,7 +197,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private void loadModeDDLB() {
         modeDdlb.addItem(GlobalConstants.getSelectOne());
         modeDdlb.addItems(ARMConstants.getAddMode(), ARMConstants.getEditMode());
-        modeDdlb.setNullSelectionAllowed(Boolean.TRUE);
+        modeDdlb.setNullSelectionAllowed(true);
         modeDdlb.setNullSelectionItemId(GlobalConstants.getSelectOne());
         modeDdlb.select(GlobalConstants.getSelectOne());
         modeDdlb.focus();
@@ -190,7 +210,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private void loadRedemptionPeriodDDLB() {
         redemptionPeriod.addItem(GlobalConstants.getSelectOne());
         redemptionPeriod.addItems(ARMConstants.getYes(), ARMConstants.getNo());
-        redemptionPeriod.setNullSelectionAllowed(Boolean.TRUE);
+        redemptionPeriod.setNullSelectionAllowed(true);
         redemptionPeriod.setNullSelectionItemId(GlobalConstants.getSelectOne());
         redemptionPeriod.select(GlobalConstants.getSelectOne());
     }
@@ -213,8 +233,8 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
      * @param event
      */
     @UiHandler("excelBtnRes")
-    public void exportButtonLogic(Button.ClickEvent event) throws PortalException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException, SystemException, IllegalAccessException, SQLException {
-        createWorkSheet("Adjustment Configuration", resultsTable);
+    public void exportButtonLogic(Button.ClickEvent event) throws PortalException, NoSuchMethodException, InvocationTargetException, SystemException, IllegalAccessException, SQLException {
+        createWorkSheet(CommonConstant.ADJUSTMENT_CONFIGURATION, resultsTable);
     }
 
     /**
@@ -233,14 +253,15 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                     binder.commit();
                     modeDdlb.select(ARMConstants.getAddMode());
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in resetSelectionButtonLogic :"+ex);
                 }
             }
 
             @Override
             public void noMethod() {
+                LOGGER.debug("Inside resetSelectionButtonLogic No Method");
             }
-        }.getConfirmationMessage("Confirmation", ARMMessages.getdReset_Conform_1());
+        }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getdReset_Conform_1());
     }
 
     /**
@@ -254,8 +275,8 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
         resultsTable.setMultiSelect(true);
         configTableLogic.setPageLength(NumericConstants.TEN);
         configTableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(ARMUtils.ADJUSTMENT_CONFIG_COLUMN);
-        resultsTable.setColumnHeaders(ARMUtils.ADJUSTMENT_CONFIG_HEADER);
+        resultsTable.setVisibleColumns(ARMUtils.getAdjustmentConfigColumn());
+        resultsTable.setColumnHeaders(ARMUtils.getAdjustmentConfigHeader());
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSizeFull();
         resultsTable.setImmediate(true);
@@ -267,7 +288,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
         resultsTable.setConverter("modifiedDate", new DateToStringConverter());
         resultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);
         resultsTable.setColumnAlignment("modifiedDate", ExtCustomTable.Align.CENTER);
-        configTableLogic.loadsetData(Boolean.TRUE);
+        configTableLogic.loadsetData(true);
         resultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
             @Override
@@ -280,7 +301,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                         try {
                             setValueToBinder(selectedDTo);
                         } catch (FieldGroup.CommitException ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("Error in itemClick :"+ex);
                         }
                     }
                 }
@@ -303,10 +324,12 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
 
             @Override
             public void filterRemoved(Object propertyId) {
+                LOGGER.debug("Inside filterRemoved Method");
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                LOGGER.debug("Inside filterRemoved Method");
             }
 
             @Override
@@ -321,28 +344,29 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                     comboBox.setImmediate(true);
                     switch (propertyId.toString()) {
                         case "methodology":
-                            CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, "ARM_TRX_METHDOLOGY", Boolean.TRUE);
+                            CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, "ARM_TRX_METHDOLOGY", true);
                             return comboBox;
-                        case "redemptionPeriod":
+                        case CommonConstant.REDEMPTION_PERIOD:
                             loadRedemptionPeriodDDLBForFilter(comboBox);
                             return comboBox;
                         default:
                             return null;
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in getCustomFilterComponent :"+ex);
                 }
                 return null;
             }
 
             @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
-                if ((propertyId.toString().equals("createdBy") || propertyId.toString().equals("modifiedBy")) && (value != null)) {
+                if (("createdBy".equals(propertyId.toString()) || "modifiedBy".equals(propertyId.toString())) && (value != null)) {
                     return new SimpleStringFilter(propertyId, String.valueOf(value), false, false);
                 }
                 if ((value instanceof ExtDateInterval) && (value != null)) {
                     ExtDateInterval interval = (ExtDateInterval) value;
-                    Comparable<?> actualFrom = interval.getFrom(), actualTo = interval
+                    Comparable<?> actualFrom = interval.getFrom();
+                    Comparable<?> actualTo = interval
                             .getTo();
                     actualFrom = actualFrom == null ? null : new Timestamp(interval
                             .getFrom().getTime());
@@ -360,7 +384,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                 return null;
             }
         });
-        resultsTable.setFilterBarVisible(Boolean.TRUE);
+        resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
 
     }
@@ -372,7 +396,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
      * @throws com.vaadin.data.fieldgroup.FieldGroup.CommitException
      */
     private void setValueToBinder(AdjustmentConfigDTO selectedDTo) throws FieldGroup.CommitException {
-        transactionName.setEnabled(Boolean.TRUE);
+        transactionName.setEnabled(true);
         binderDto = new AdjustmentConfigDTO();
         binderDto.setAdjustmentConfigSid(selectedDTo.getAdjustmentConfigSid());
         binderDto.setTransactionName(selectedDTo.getTransactionName());
@@ -382,17 +406,14 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
         binderDto.setModeDdlb(ARMConstants.getEditMode());
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.commit();
-        transactionName.setEnabled(Boolean.FALSE);
+        transactionName.setEnabled(false);
     }
 
     /*
      For checking the mandatory fields are selected for save.
      */
     private boolean isMandatoryFieldsAreSelected() {
-        if (binderDto.getModeDdlb() != null && !binderDto.getTransactionName().isEmpty() && !binderDto.getTransactionDesc().isEmpty() && binderDto.getMethodologyDDLB() != 0 && binderDto.getRedemptionPeriod() != null) {
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
+            return (binderDto.getModeDdlb() != null && !binderDto.getTransactionName().isEmpty() && !binderDto.getTransactionDesc().isEmpty() && binderDto.getMethodologyDDLB() != 0 && binderDto.getRedemptionPeriod() != null);
     }
 
     /**
@@ -404,7 +425,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
      * @throws PortalException
      * @throws Exception
      */
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, SQLException {
         long recordCount = 0;
         String[] visibleList = resultsTable.getColumnHeaders();
         if (resultTable.size() != 0) {
@@ -423,7 +444,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
      * @throws PortalException
      * @throws Exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
 
         Object[] visibleList = resultsTable.getVisibleColumns();
         try {
@@ -432,7 +453,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                 ExcelExportforBB.createFileContent(visibleList, searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in createWorkSheetContent :"+e);
         }
     }
 
@@ -444,11 +465,15 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     @UiHandler("deleteBtnRes")
     public void deleteBtnResLogic(Button.ClickEvent event) {
         if (selectedDTo == null) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getdDelete_Conform_1());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getdDelete_Conform_1());
             return;
         }
         if (!logic.deleteVerfication(String.valueOf(selectedDTo.getAdjustmentConfigSid()))) { // Changed for GAL-7379
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getdDelete_Conform_3());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getdDelete_Conform_3());
+            return;
+        }
+        if (logic.adjustmentConfigDelCount(String.valueOf(selectedDTo.getAdjustmentConfigSid())) != 0) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getdDelete_Conform_4());
             return;
         }
         new AbstractNotificationUtils() {
@@ -456,13 +481,14 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
             public void yesMethod() {
                 logic.deleteAdjustmentConfig(selectedDTo.getAdjustmentConfigSid());
                 detailsTableContainer.removeItem(selectedDTo);
-                configTableLogic.loadsetData(Boolean.TRUE);
+                configTableLogic.loadsetData(true);
             }
 
             @Override
             public void noMethod() {
+                LOGGER.debug("Inside the deleteBtnResLogic Listener NO Method");
             }
-        }.getConfirmationMessage("Confirmation", ARMMessages.getdDelete_Conform_2());
+        }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getdDelete_Conform_2());
 
     }
 
@@ -480,27 +506,21 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
                 public void yesMethod() {
                     try {
                         if (modeDdlb.getValue().equals(ARMConstants.getAddMode())) {
-
-                            if (!logic.checkDuplicateTransactionName(binderDto.getTransactionName())) {
-                                logic.saveDataforAddMode(binderDto);
-                            } else {
-                                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getAdjConfigSaveTranNameErrorMsg());
-                            }
-
+                            addModeSaveBtn();
                         } else if (modeDdlb.getValue().equals(ARMConstants.getEditMode())) {
-                            logic.saveDataforEditMode(binderDto);
+                            editModeSaveBtn();
                         }
-                        configTableLogic.loadsetData(Boolean.TRUE);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in saveBtnResLogic :" + ex);
                     }
 
                 }
-
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("Inside the saveBtnResLogic Listener NO Method");
+
                 }
-            }.getConfirmationMessage("Confirmation", ARMMessages.getSave_Msg1());
+            }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getSave_Msg1());
         } else {
             AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getAdjConfigSaveErrorMsg());
         }
@@ -514,10 +534,13 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     @UiHandler("historyBtn")
     public void historyBtnResLogic(Button.ClickEvent event) {
         if (selectedDTo == null) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getHistoryListViewCheck());
             return;
+        } else {
+            AdjustmentConfigHistory historyWQindow = new AdjustmentConfigHistory(selectedDTo);
+            UI.getCurrent().addWindow(historyWQindow);
         }
-        AdjustmentConfigHistory historyWQindow = new AdjustmentConfigHistory(selectedDTo);
-        UI.getCurrent().addWindow(historyWQindow);
+        selectedDTo = null;
     }
 
     /**
@@ -527,17 +550,17 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     public void modeddlbValue(Property.ValueChangeEvent event) throws FieldGroup.CommitException {
         if (modeDdlb.getValue() != null) {
             if (event.getProperty().getValue().equals(ARMConstants.getAddMode())) {
-                transactionName.setEnabled(Boolean.TRUE);
+                transactionName.setEnabled(true);
                 selectedDTo = null;
                 binderDto = new AdjustmentConfigDTO();
                 binderDto.setModeDdlb(ARMConstants.getAddMode());
                 binder.setItemDataSource(new BeanItem<>(binderDto));
                 binder.commit();
             } else {
-                transactionName.setEnabled(Boolean.FALSE);
+                transactionName.setEnabled(false);
             }
         } else {
-            transactionName.setEnabled(Boolean.TRUE);
+            transactionName.setEnabled(true);
         }
     }
 
@@ -550,7 +573,7 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
         redemptionPeriod.setItemCaption(1, ARMConstants.getYes());
         redemptionPeriod.addItem(0);
         redemptionPeriod.setItemCaption(0, ARMConstants.getNo());
-        redemptionPeriod.setNullSelectionAllowed(Boolean.TRUE);
+        redemptionPeriod.setNullSelectionAllowed(true);
         redemptionPeriod.setNullSelectionItemId(GlobalConstants.getShowAll());
         redemptionPeriod.select(GlobalConstants.getShowAll());
     }
@@ -558,28 +581,28 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private void securityForButtons() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Configuration" + "," + "Landing Screen");
-        if (functionHM.get("deleteBtnRes") != null && !((AppPermission) functionHM.get("deleteBtnRes")).isFunctionFlag()) {
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN);
+        if (functionHM.get("deleteBtnRes") != null && !(functionHM.get("deleteBtnRes")).isFunctionFlag()) {
             deleteBtnRes.setVisible(false);
         } else {
             deleteBtnRes.setVisible(true);
         }
-        if (functionHM.get("saveBtnRes") != null && !((AppPermission) functionHM.get("saveBtnRes")).isFunctionFlag()) {
+        if (functionHM.get("saveBtnRes") != null && !(functionHM.get("saveBtnRes")).isFunctionFlag()) {
             saveBtnRes.setVisible(false);
         } else {
             saveBtnRes.setVisible(true);
         }
-        if (functionHM.get("historyBtn") != null && !((AppPermission) functionHM.get("historyBtn")).isFunctionFlag()) {
+        if (functionHM.get("historyBtn") != null && !(functionHM.get("historyBtn")).isFunctionFlag()) {
             historyBtn.setVisible(false);
         } else {
             historyBtn.setVisible(true);
         }
-        if (functionHM.get("excelBtnRes") != null && !((AppPermission) functionHM.get("excelBtnRes")).isFunctionFlag()) {
+        if (functionHM.get("excelBtnRes") != null && !(functionHM.get("excelBtnRes")).isFunctionFlag()) {
             excelBtnRes.setVisible(false);
         } else {
             excelBtnRes.setVisible(true);
         }
-        if (functionHM.get("resetBtnRes") != null && !((AppPermission) functionHM.get("resetBtnRes")).isFunctionFlag()) {
+        if (functionHM.get("resetBtnRes") != null && !(functionHM.get("resetBtnRes")).isFunctionFlag()) {
             resetBtnRes.setVisible(false);
         } else {
             resetBtnRes.setVisible(true);
@@ -587,62 +610,62 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     }
 
     private void securityForFields() throws PortalException, SystemException {
-            final StplSecurity stplSecurity = new StplSecurity();
-            final String userId = String.valueOf(sessionDTO.getUserId());
-            Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, "Adjustment Configuration" + "," + "Landing Screen");
-            configureFieldPermission(functionHMforFields);
-            if (functionHMforFields.get("modeDdlb") != null && !((AppPermission) functionHMforFields.get("modeDdlb")).isFunctionFlag()) {
-                modeDdlb.setVisible(false);
-                labelMode.setVisible(false);
+        final StplSecurity stplSecurity = new StplSecurity();
+        final String userId = String.valueOf(sessionDTO.getUserId());
+        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN);
+        configureFieldPermission(functionHMforFields);
+        if (functionHMforFields.get("modeDdlb") != null && !(functionHMforFields.get("modeDdlb")).isFunctionFlag()) {
+            modeDdlb.setVisible(false);
+            labelMode.setVisible(false);
 
-            } else {
-                modeDdlb.setVisible(true);
-                labelMode.setVisible(true);
+        } else {
+            modeDdlb.setVisible(true);
+            labelMode.setVisible(true);
 
-            }
-            if (functionHMforFields.get("transactionName") != null && !((AppPermission) functionHMforFields.get("transactionName")).isFunctionFlag()) {
-                transactionName.setVisible(false);
-                labelTransName.setVisible(false);
-            } else {
-                transactionName.setVisible(true);
-                labelTransName.setVisible(true);
+        }
+        if (functionHMforFields.get("transactionName") != null && !(functionHMforFields.get("transactionName")).isFunctionFlag()) {
+            transactionName.setVisible(false);
+            labelTransName.setVisible(false);
+        } else {
+            transactionName.setVisible(true);
+            labelTransName.setVisible(true);
 
-            }
-            if (functionHMforFields.get("transactionDesc") != null && !((AppPermission) functionHMforFields.get("transactionDesc")).isFunctionFlag()) {
-                transactionDesc.setVisible(false);
-                labelTransDesc.setVisible(false);
+        }
+        if (functionHMforFields.get("transactionDesc") != null && !(functionHMforFields.get("transactionDesc")).isFunctionFlag()) {
+            transactionDesc.setVisible(false);
+            labelTransDesc.setVisible(false);
 
-            } else {
-                transactionDesc.setVisible(true);
-                labelTransDesc.setVisible(true);
+        } else {
+            transactionDesc.setVisible(true);
+            labelTransDesc.setVisible(true);
 
-            }
-            if (functionHMforFields.get("methodologyDDLB") != null && !((AppPermission) functionHMforFields.get("methodologyDDLB")).isFunctionFlag()) {
-                methodologyDDLB.setVisible(false);
-                labelMethodology.setVisible(false);
+        }
+        if (functionHMforFields.get("methodologyDDLB") != null && !(functionHMforFields.get("methodologyDDLB")).isFunctionFlag()) {
+            methodologyDDLB.setVisible(false);
+            labelMethodology.setVisible(false);
 
-            } else {
-                methodologyDDLB.setVisible(true);
-                labelMethodology.setVisible(true);
+        } else {
+            methodologyDDLB.setVisible(true);
+            labelMethodology.setVisible(true);
 
-            }
-            if (functionHMforFields.get("redemptionPeriod") != null && !((AppPermission) functionHMforFields.get("redemptionPeriod")).isFunctionFlag()) {
-                redemptionPeriod.setVisible(false);
-                labelredemptionPeriod.setVisible(false);
-            } else {
-                redemptionPeriod.setVisible(true);
-                labelredemptionPeriod.setVisible(true);
-            }
-         
+        }
+        if (functionHMforFields.get(CommonConstant.REDEMPTION_PERIOD) != null && !(functionHMforFields.get(CommonConstant.REDEMPTION_PERIOD)).isFunctionFlag()) {
+            redemptionPeriod.setVisible(false);
+            labelredemptionPeriod.setVisible(false);
+        } else {
+            redemptionPeriod.setVisible(true);
+            labelredemptionPeriod.setVisible(true);
+        }
+
     }
 
     private void configureFieldPermission(final Map<String, AppPermission> functionHMforFields) {
         LOGGER.debug("Entering configurePermission");
         try {
-            List<Object> resultList = logic.getFieldsForSecurity("Adjustment Configuration", "Landing Screen");
+            List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ADJUSTMENT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
             commonSecurity.removeComponentOnPermission(resultList, fieldLayout, functionHMforFields, CommonSecurityLogic.SEARCH);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in configureFieldPermission :"+ex);
         }
         LOGGER.debug("Ending configurePermission");
     }
@@ -650,9 +673,9 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
     private void securityForTables() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Adjustment Configuration" + "," + "Landing Screen", false);
-        List<Object> resultList = logic.getFieldsForSecurity("Adjustment Configuration", "Landing Screen");
-        Object[] obj = ARMUtils.ADJUSTMENT_CONFIG_COLUMN;
+        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonConstant.ADJUSTMENT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN, false);
+        List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ADJUSTMENT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
+        Object[] obj = ARMUtils.getAdjustmentConfigColumn();
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, obj, fieldIfpHM, CommonSecurityLogic.ADD);
         if (tableResultCustom.getObjResult().length > 0) {
             resultsTable.markAsDirty();
@@ -664,4 +687,35 @@ public class AdjustmentConfigForm extends VerticalLayout implements View {
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+    
+    public void editModeSaveBtn() {
+        int count = logic.checkAdjustmentTypeExitorNot(binderDto);
+        if (count == 0) {
+            logic.saveDataforEditMode(binderDto);
+            configTableLogic.loadsetData(true);
+            selectedDTo = null;
+        } else {
+            AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getSaveErrorMessage());
+
+        }
+    }
+    
+    public void addModeSaveBtn() {
+        if (!logic.checkDuplicateTransactionName(binderDto.getTransactionName())) {
+            logic.saveDataforAddMode(binderDto);
+        } else {
+            AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getAdjConfigSaveTranNameErrorMsg());
+        }
+        configTableLogic.loadsetData(true);
+        selectedDTo = null;
+    }
 }

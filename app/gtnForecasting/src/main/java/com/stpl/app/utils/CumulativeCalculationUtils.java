@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang.StringUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.service.persistence.HelperTableFinderUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.math.BigInteger;
@@ -42,8 +43,8 @@ public class CumulativeCalculationUtils {
     private String tabName = StringUtils.EMPTY;
     boolean salesFlag = false;
     private StandaloneParser credentials = StandaloneParser.getInstance();
-    private String finalFile = System.getProperty("cumulative.file.path");
-    private String folderName = System.getProperty("cumulative.file.path");
+    private String finalFile = System.getProperty(Constant.CUMULATIVE_FILE_PATH);
+    private String folderName = System.getProperty(Constant.CUMULATIVE_FILE_PATH);
     String methodology = StringUtils.EMPTY;
     private String userId  = StringUtils.EMPTY;
     private String sessionId = StringUtils.EMPTY;
@@ -148,7 +149,7 @@ public class CumulativeCalculationUtils {
         String newTableName = StringUtils.EMPTY;
         String query = StringUtils.EMPTY;
         ProcessBuilder builder = null;
-        List<String> fileList = new ArrayList<String>();
+        List<String> fileList = new ArrayList<>();
         String logPath = folderName + "/Cumulative_Multiplication_" + userId + "_" + sessionId + ".log";
         if (salesFlag) {
             newTableName = tableName + userId + "_" + sessionId + "_" + UiUtils.getDate();
@@ -159,14 +160,11 @@ public class CumulativeCalculationUtils {
             finalFile = finalFile.replace("/", "\\");
             logPath = logPath.replace("/", "\\");
 
-//            LOGGER.info("bcp " + credentials.getSchema() + ".." + newTableName + " IN " + finalFile + " -c -t\\t -S " + credentials.getServer() + " -U " + credentials.getUser() + " -P \"" + credentials.getPassword() + "\" > " + logPath);
             LOGGER.info("bcp "  + newTableName + " IN " + finalFile + " -c -d "+ credentials.getSchema() +" -t , -S " + credentials.getServer() + " -U " + credentials.getUser() + " -P \"" + credentials.getPassword() + "\" > " + logPath);
-//            builder = new ProcessBuilder("cmd.exe", "/c", "bcp " + credentials.getSchema() + ".." + newTableName + " IN " + finalFile + " -c -t, -S " + credentials.getServer() + " -U " + credentials.getUser() + " -P \"" + credentials.getPassword() + "\" > " + logPath);
             builder = new ProcessBuilder("cmd.exe", "/c", "bcp " + newTableName + " IN " + finalFile + " -c -d"+  credentials.getSchema() +" -t , -S " + credentials.getServer() + " -U " + credentials.getUser() + " -P \"" + credentials.getPassword() + "\" > " + logPath);
         } else {
             query = newTableName + " IN ";
             StringBuilder strb = new StringBuilder();
-//            strb.append("bcp ");
             strb.append(System.getProperty("bcp.location"));
             strb.append(" ");
             strb.append(query);
@@ -425,7 +423,7 @@ public class CumulativeCalculationUtils {
             BigDecimal lastValue = new BigDecimal(1.0);
             String lastCCP = StringUtils.EMPTY;
             String lastPeriod = StringUtils.EMPTY;
-            String period = StringUtils.EMPTY;
+            String period;
 
             for (Object[] sourceLine : lineList) {
                 BigDecimal currentValue;
@@ -454,7 +452,8 @@ public class CumulativeCalculationUtils {
                         updatedLine.append(sourceLine[0]).append(",").append(sourceLine[1]).append(",").append(sourceLine[NumericConstants.TWO]).append(",").append(newValue.toPlainString()).append(",").append(sourceLine[5]).append(System.lineSeparator());
                     }
 
-                }else {
+                } else {
+
                     lastValue = BigDecimal.ONE;
                     lastCCP = String.valueOf(sourceLine[0]);
                     lastPeriod = period;
@@ -468,8 +467,8 @@ public class CumulativeCalculationUtils {
                 }
 
                 lastValue = newValue;
+
             }
-            
         }
 
     }
@@ -518,19 +517,15 @@ class ThreadLocalImpl<T extends BufferedWriter> extends ThreadLocal {
 
     @Override
     protected BufferedWriter initialValue() {
-
         try {
-            LOGGER.info(Thread.currentThread().getName());
-
-            String finalPath = System.getProperty("cumulative.file.path")+"/Cumulative_Logic/";
+            String finalPath = System.getProperty(Constant.CUMULATIVE_FILE_PATH) + "/Cumulative_Logic/";
             String fileName = finalPath + "File" + atomicInteger.getAndIncrement() + ".csv";
             fileList.add(fileName);
             FileWriter fileWriter = new FileWriter(fileName);
+            LOGGER.info(Thread.currentThread().getName());
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
             fileOperationList.add(fileWriter);
             fileOperationList.add(bufferedWriter);
-
             return bufferedWriter;
 
         } catch (IOException ex) {

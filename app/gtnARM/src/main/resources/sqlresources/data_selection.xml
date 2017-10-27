@@ -233,14 +233,14 @@ and open the template in the editor.
           SELECT COUNT(*)
    FROM
     PROJECTION_MASTER PM 
-          JOIN ARM_ADJUSTMENT_MASTER AM ON AM.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
-          JOIN HIERARCHY_DEFINITION HD1 ON HD1.HIERARCHY_DEFINITION_SID=PM.CUSTOMER_HIERARCHY_SID
-          JOIN HIERARCHY_DEFINITION HD2 ON HD2.HIERARCHY_DEFINITION_SID=PM.PRODUCT_HIERARCHY_SID
-          JOIN FORECASTING_VIEW_MASTER FVM ON FVM.PROJECTION_ID=PM.PROJECTION_MASTER_SID
-          JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=PM.COMPANY_MASTER_SID
-          JOIN COMPANY_MASTER CM_BU ON CM_BU.COMPANY_MASTER_SID=AM.BU_COMPANY_MASTER_SID
-          JOIN RELATIONSHIP_BUILDER CUST_RB ON CUST_RB.RELATIONSHIP_BUILDER_SID=PM.CUST_RELATIONSHIP_BUILDER_SID
-          JOIN RELATIONSHIP_BUILDER PROD_RB ON PROD_RB.RELATIONSHIP_BUILDER_SID=PM.PROD_RELATIONSHIP_BUILDER_SID
+          LEFT JOIN ARM_ADJUSTMENT_MASTER AM ON AM.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
+          LEFT JOIN HIERARCHY_DEFINITION HD1 ON HD1.HIERARCHY_DEFINITION_SID=PM.CUSTOMER_HIERARCHY_SID
+          LEFT JOIN HIERARCHY_DEFINITION HD2 ON HD2.HIERARCHY_DEFINITION_SID=PM.PRODUCT_HIERARCHY_SID
+          LEFT JOIN FORECASTING_VIEW_MASTER FVM ON FVM.PROJECTION_ID=PM.PROJECTION_MASTER_SID
+          LEFT JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=PM.COMPANY_MASTER_SID
+          LEFT JOIN COMPANY_MASTER CM_BU ON CM_BU.COMPANY_MASTER_SID=AM.BU_COMPANY_MASTER_SID
+          LEFT JOIN RELATIONSHIP_BUILDER CUST_RB ON CUST_RB.RELATIONSHIP_BUILDER_SID=PM.CUST_RELATIONSHIP_BUILDER_SID
+          LEFT JOIN RELATIONSHIP_BUILDER PROD_RB ON PROD_RB.RELATIONSHIP_BUILDER_SID=PM.PROD_RELATIONSHIP_BUILDER_SID
           JOIN ?.dbo.User_ usr
                          ON usr.UserId = FVM.CREATED_BY
 where
@@ -339,10 +339,13 @@ where
         <query> 
             <![CDATA[
                 SELECT
-                    VIEW_NAME
+                    FVM.VIEW_NAME
                 FROM
-                    FORECASTING_VIEW_MASTER
+                    FORECASTING_VIEW_MASTER FVM
+                    JOIN PROJECTION_MASTER PM ON FVM.PROJECTION_ID = PM.PROJECTION_MASTER_SID
+                    AND PM.FORECASTING_TYPE IN(@VIEWMODE)
                 WHERE
+                    VIEW_TYPE LIKE '@VIEW_TYPE' AND
                     VIEW_NAME = '$$$VN$$$'
             ]]>    
         </query>
@@ -456,249 +459,6 @@ where
             ]]>    
         </query>
     </entity>
-    <entity id="getCCPMapQuery_Customer">
-        <query> 
-            <![CDATA[
-                DECLARE @HIERARCHY_DEFINITION_SID INT = @HDSID@,
-                        @RELATIONSHIP_BUILDER_SID INT = @RBSID@,
-                        @LEVEL_NO                 INT
-
-                SELECT @LEVEL_NO = Max(LEVEL_NO)
-                FROM   HIERARCHY_LEVEL_DEFINITION
-                WHERE  HIERARCHY_DEFINITION_sid = @HIERARCHY_DEFINITION_SID
-
-                IF Object_id('TEMPDB..#DETAILS') IS NOT NULL
-                  DROP TABLE #DETAILS
-
-                CREATE TABLE #DETAILS
-                  (
-                     RELATIONSHIP_LEVEL_SID INT,
-                     MASTER_SID             INT,
-                     LEVEL_NO               INT,
-                     PARENT                 INT,
-                     LEVEL_NAME             VARCHAR(50),
-                     CONTRACT_MASTER_SID    INT
-                  )
-
-                IF EXISTS (SELECT 1
-                           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
-                                  JOIN HIERARCHY_LEVEL_DEFINITION HLD
-                                    ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-                           WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
-                                  AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
-                                  AND RLD.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ))
-                  BEGIN
-                      INSERT INTO #DETAILS
-                                  (RELATIONSHIP_LEVEL_SID,
-                                   MASTER_SID,
-                                   LEVEL_NO,
-                                   PARENT,
-                                   LEVEL_NAME)
-                      SELECT RELATIONSHIP_LEVEL_SID,
-                             RELATIONSHIP_LEVEL_VALUES AS COMPANY_MASTER_SID,
-                             RLD.LEVEL_NO,
-                             Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
-                             RLD.LEVEL_NAME
-                      FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
-                             JOIN HIERARCHY_LEVEL_DEFINITION HLD
-                               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-                      WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
-                             AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
-                             AND RLD.LEVEL_NAME IN ( 'Trading Partner', 'Customer' )
-                  END
-
-                IF EXISTS (SELECT 1
-                           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
-                                  JOIN HIERARCHY_LEVEL_DEFINITION HLD
-                                    ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-                           WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
-                                  AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
-                                  AND RLD.LEVEL_NAME IN ( 'Contract' ))
-                  BEGIN
-                      INSERT INTO #DETAILS
-                                  (RELATIONSHIP_LEVEL_SID,
-                                   MASTER_SID,
-                                   LEVEL_NO,
-                                   PARENT,
-                                   LEVEL_NAME)
-                      SELECT RELATIONSHIP_LEVEL_SID,
-                             RELATIONSHIP_LEVEL_VALUES  AS CONTRACT_MASTER_SID,
-                             RLD.LEVEL_NO,
-                             Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
-                             RLD.LEVEL_NAME
-                      FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
-                             JOIN HIERARCHY_LEVEL_DEFINITION HLD
-                               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-                      WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
-                             AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
-                             AND RLD.LEVEL_NAME IN ( 'Contract' )
-                  END
-
-                IF EXISTS (SELECT 1
-                           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
-                                  JOIN HIERARCHY_LEVEL_DEFINITION HLD
-                                    ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-                           WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
-                                  AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
-                                  AND RLD.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ))
-                  BEGIN
-                      INSERT INTO #DETAILS
-                                  (RELATIONSHIP_LEVEL_SID,
-                                   CONTRACT_MASTER_SID,
-                                   MASTER_SID,
-                                   LEVEL_NO,
-                                   PARENT,
-                                   LEVEL_NAME)
-                      SELECT RELATIONSHIP_LEVEL_SID,
-                             CONTRACT_MASTER_SID,
-                             RELATIONSHIP_LEVEL_VALUES                                                             AS MASTER_SID,
-                             RLD.LEVEL_NO,
-                             Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
-                             RLD.LEVEL_NAME
-                      FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
-                             JOIN HIERARCHY_LEVEL_DEFINITION HLD
-                               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-                             JOIN CONTRACT_MASTER CM
-                               ON CM.CONTRACT_TYPE = RLD.RELATIONSHIP_LEVEL_VALUES
-                      WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
-                             AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
-                             AND RLD.LEVEL_NAME IN ( 'Market Type', 'Contract Type' )
-                  END
-
-                IF Object_id('tempdb..#result') IS NOT NULL
-                  DROP TABLE #RESULT;
-
-                WITH CTE
-                     AS (SELECT Dense_rank()
-                                  OVER(
-                                    ORDER BY C.level_no) AS RN,
-                                C.*
-                         FROM   #DETAILS C)
-                SELECT DISTINCT p1.RELATIONSHIP_LEVEL_SID,
-                                CASE
-                                  WHEN P1.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p1.MASTER_SID
-                                  WHEN P2.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p2.MASTER_SID
-                                  WHEN P3.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p3.MASTER_SID
-                                END AS COMPANY_MASTER_SID,
-                                CASE
-                                  WHEN P1.LEVEL_NAME IN ( 'Contract' ) THEN p1.MASTER_SID
-                                  WHEN P2.LEVEL_NAME IN ( 'Contract' ) THEN p2.MASTER_SID
-                                  WHEN P3.LEVEL_NAME IN ( 'Contract' ) THEN p3.MASTER_SID
-                                END AS CONTRACT_MASTER_SID,
-                                CASE
-                                  WHEN P1.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p1.MASTER_SID
-                                  WHEN P2.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p2.MASTER_SID
-                                  WHEN P3.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p3.MASTER_SID
-                                END AS MARKET_TYPE,
-                                P1.LEVEL_NO
-                INTO   #RESULT
-                FROM   CTE P1
-                       LEFT JOIN CTE P2
-                              ON P1.PARENT = P2.MASTER_SID
-                                 AND P1.RN = P2.RN + 1
-                       LEFT JOIN CTE P3
-                              ON P2.PARENT = P3.MASTER_SID
-                                 AND P2.RN = P3.RN + 1
-                WHERE  P1.LEVEL_NO = @LEVEL_NO
-
-                IF EXISTS (SELECT 1
-                           FROM   #result
-                           WHERE  CONTRACT_MASTER_SID IS NOT NULL
-                                  AND COMPANY_MASTER_SID IS NOT NULL)
-                  INSERT INTO @TEMP_CCP_MAP@
-                              (RELATIONSHIP_LEVEL_SID,
-                               CCP_DETAILS_SID)
-                  SELECT RELATIONSHIP_LEVEL_SID,
-                         CCP_DETAILS_SID
-                  FROM   CCP_DETAILS c
-                         JOIN #result r
-                           ON r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
-                              AND r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
-                  WHERE  NOT EXISTS (SELECT 1
-                                     FROM   @TEMP_CCP_MAP@ cm
-                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
-                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
-                ELSE IF EXISTS (SELECT 1
-                           FROM   #result
-                           WHERE  CONTRACT_MASTER_SID IS NULL
-                                  AND COMPANY_MASTER_SID IS NOT NULL)
-                  INSERT INTO @TEMP_CCP_MAP@
-                              (RELATIONSHIP_LEVEL_SID,
-                               CCP_DETAILS_SID)
-                  SELECT RELATIONSHIP_LEVEL_SID,
-                         CCP_DETAILS_SID
-                  FROM   CCP_DETAILS c
-                         JOIN #result r
-                           ON r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
-                  WHERE  NOT EXISTS (SELECT 1
-                                     FROM   @TEMP_CCP_MAP@ cm
-                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
-                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
-                ELSE IF EXISTS (SELECT 1
-                           FROM   #result
-                           WHERE  CONTRACT_MASTER_SID IS NOT NULL
-                                  AND MARKET_TYPE IS NOT NULL
-                                  AND COMPANY_MASTER_SID IS NULL)
-                  INSERT INTO @TEMP_CCP_MAP@
-                              (RELATIONSHIP_LEVEL_SID,
-                               CCP_DETAILS_SID)
-                  SELECT RELATIONSHIP_LEVEL_SID,
-                         CCP_DETAILS_SID
-                  FROM   CCP_DETAILS c
-                         JOIN #result r
-                           ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
-                  WHERE  NOT EXISTS (SELECT 1
-                                     FROM   @TEMP_CCP_MAP@ cm
-                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
-                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
-                ELSE IF EXISTS (SELECT 1
-                           FROM   #result
-                           WHERE  CONTRACT_MASTER_SID IS NULL
-                                  AND MARKET_TYPE IS NOT NULL
-                                  AND COMPANY_MASTER_SID IS NOT NULL)
-                  INSERT INTO @TEMP_CCP_MAP@
-                              (RELATIONSHIP_LEVEL_SID,
-                               CCP_DETAILS_SID)
-                  SELECT RELATIONSHIP_LEVEL_SID,
-                         CCP_DETAILS_SID
-                  FROM   CCP_DETAILS c
-                         JOIN (SELECT RELATIONSHIP_LEVEL_SID,
-                                      cm.contract_master_sid,
-                                      r.COMPANY_MASTER_SID
-                               FROM   #result r
-                                      JOIN contract_master cm
-                                        ON cm.CONTRACT_TYPE = r.MARKET_TYPE) r
-                           ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
-                              AND r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
-                  WHERE  NOT EXISTS (SELECT 1
-                                     FROM   @TEMP_CCP_MAP@ cm
-                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
-                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
-                ELSE IF EXISTS (SELECT 1
-                           FROM   #result
-                           WHERE  CONTRACT_MASTER_SID IS NULL
-                                  AND MARKET_TYPE IS NOT NULL
-                                  AND COMPANY_MASTER_SID IS NULL)
-                  INSERT INTO @TEMP_CCP_MAP@
-                              (RELATIONSHIP_LEVEL_SID,
-                               CCP_DETAILS_SID)
-                  SELECT RELATIONSHIP_LEVEL_SID,
-                         CCP_DETAILS_SID
-                  FROM   CCP_DETAILS c
-                         JOIN (SELECT RELATIONSHIP_LEVEL_SID,
-                                      cm.contract_master_sid
-                               FROM   #result r
-                                      JOIN contract_master cm
-                                        ON cm.CONTRACT_TYPE = r.MARKET_TYPE) r
-                           ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
-                  WHERE  NOT EXISTS (SELECT 1
-                                     FROM   @TEMP_CCP_MAP@ cm
-                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
-                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID) 
-
-            ]]>    
-        </query>
-    </entity>
     <entity id="ccpMergeQuery">
         <query> 
             <![CDATA[
@@ -751,28 +511,68 @@ where
     <entity id="FETCH_SAVED_PROJECTION">
         <query> 
             <![CDATA[
-                    SELECT PM.PROJECTION_DESCRIPTION,AM.TRANSACTION_TYPE,ARC.TRANSACTION_NAME AS ADJUSTMENT_TYPE,PM.COMPANY_MASTER_SID as GL_COMP,AM.BU_COMPANY_MASTER_SID AS BUSINESS_UNIT_SID,
-                AM.DEDUCTION_LEVEL AS DETECTION_LEVEL,PM.CUSTOMER_HIERARCHY_SID CUST_HIEARARCHY_SID,HD1.HIERARCHY_NAME AS CUST_HIERARCHY_NAME,
-                PM.CUST_RELATIONSHIP_BUILDER_SID AS CUST_RERLATION, PM.CUSTOMER_HIERARCHY_LEVEL AS CUST_LEVEL_NO,PM.PRODUCT_HIERARCHY_SID AS PROD_HIERARCHY_SID,
-                HD2.HIERARCHY_NAME AS PROD_HIERARCHY_NAME,PM.PROD_RELATIONSHIP_BUILDER_SID AS PROD_RERLATION, 
-                PM.PRODUCT_HIERARCHY_LEVEL AS PROD_LEVEL_NO,FVM.VIEW_NAME AS VIEW_NAME,CM.COMPANY_NAME,PM.PROJECTION_MASTER_SID,FVM.VIEW_ID,HD1.VERSION_NO,HD1.NO_OF_LEVELS,HD2.VERSION_NO,HD2.NO_OF_LEVELS,
-                FVM.CREATED_BY,FVM.VIEW_TYPE,CM_BU.COMPANY_NAME AS BUSINESS_UNIT,PM.FROM_DATE,PM.TO_DATE, FVM.CREATED_DATE,FVM.MODIFIED_DATE
-                ,CUST_RB.RELATIONSHIP_NAME AS CUST_RELATIONSHIP_NAME, PROD_RB.RELATIONSHIP_NAME AS PROD_RELATIONSHIP_NAME, usr.firstName,AM.CALCULATION_PROFILE_MASTER_SID,CPM.PROFILE_NAME
-                from PROJECTION_MASTER PM
-                JOIN ARM_ADJUSTMENT_MASTER AM ON AM.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
-
-                LEFT JOIN ARM_ADJUSTMENT_CONFIG ARC ON ARC.ARM_ADJUSTMENT_CONFIG_SID=AM.TRANSACTION_TYPE
-                JOIN HIERARCHY_DEFINITION HD1 ON HD1.HIERARCHY_DEFINITION_SID=PM.CUSTOMER_HIERARCHY_SID
-                JOIN HIERARCHY_DEFINITION HD2 ON HD2.HIERARCHY_DEFINITION_SID=PM.PRODUCT_HIERARCHY_SID
-                JOIN FORECASTING_VIEW_MASTER FVM ON FVM.PROJECTION_ID=PM.PROJECTION_MASTER_SID
-                JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=PM.COMPANY_MASTER_SID
-                JOIN COMPANY_MASTER CM_BU ON CM_BU.COMPANY_MASTER_SID=AM.BU_COMPANY_MASTER_SID
-                JOIN RELATIONSHIP_BUILDER CUST_RB ON CUST_RB.RELATIONSHIP_BUILDER_SID=PM.CUST_RELATIONSHIP_BUILDER_SID
-                JOIN RELATIONSHIP_BUILDER PROD_RB ON PROD_RB.RELATIONSHIP_BUILDER_SID=PM.PROD_RELATIONSHIP_BUILDER_SID
-                JOIN ?.dbo.User_ usr
-                         ON usr.UserId = FVM.CREATED_BY
-                LEFT JOIN DBO.CALCULATION_PROFILE_MASTER CPM ON CPM.CALCULATION_PROFILE_MASTER_SID=AM.CALCULATION_PROFILE_MASTER_SID
-                where 
+                    SELECT    PM.PROJECTION_DESCRIPTION, 
+                        AM.TRANSACTION_TYPE, 
+                        ARC.TRANSACTION_NAME             AS ADJUSTMENT_TYPE, 
+                        PM.COMPANY_MASTER_SID            AS GL_COMP, 
+                        AM.BU_COMPANY_MASTER_SID         AS BUSINESS_UNIT_SID, 
+                        AM.DEDUCTION_LEVEL               AS DETECTION_LEVEL, 
+                        PM.CUSTOMER_HIERARCHY_SID           CUST_HIEARARCHY_SID, 
+                        HD1.HIERARCHY_NAME               AS CUST_HIERARCHY_NAME, 
+                        PM.CUST_RELATIONSHIP_BUILDER_SID AS CUST_RERLATION, 
+                        PM.CUSTOMER_HIERARCHY_LEVEL      AS CUST_LEVEL_NO, 
+                        PM.PRODUCT_HIERARCHY_SID         AS PROD_HIERARCHY_SID, 
+                        HD2.HIERARCHY_NAME               AS PROD_HIERARCHY_NAME, 
+                        PM.PROD_RELATIONSHIP_BUILDER_SID AS PROD_RERLATION, 
+                        PM.PRODUCT_HIERARCHY_LEVEL       AS PROD_LEVEL_NO, 
+                        FVM.VIEW_NAME                    AS VIEW_NAME, 
+                        CASE WHEN HT_GL.DESCRIPTION='GLCOMP' THEN CM.COMPANY_NAME ELSE NULL END AS COMPANY_NAME, 
+                        PM.PROJECTION_MASTER_SID, 
+                        FVM.VIEW_ID, 
+                        HD1.VERSION_NO, 
+                        HD1.NO_OF_LEVELS, 
+                        HD2.VERSION_NO, 
+                        HD2.NO_OF_LEVELS, 
+                        FVM.CREATED_BY, 
+                        FVM.VIEW_TYPE, 
+                        CASE WHEN HT_BU.DESCRIPTION='Business Unit' THEN CM_BU.COMPANY_NAME ELSE NULL END AS BUSINESS_UNIT, 
+                        PM.FROM_DATE, 
+                        PM.TO_DATE, 
+                        FVM.CREATED_DATE, 
+                        FVM.MODIFIED_DATE , 
+                        CUST_RB.RELATIONSHIP_NAME AS CUST_RELATIONSHIP_NAME, 
+                        PROD_RB.RELATIONSHIP_NAME AS PROD_RELATIONSHIP_NAME, 
+                        USR.FIRSTNAME, 
+                        AM.CALCULATION_PROFILE_MASTER_SID, 
+                        CPM.PROFILE_NAME 
+                    FROM      PROJECTION_MASTER PM 
+                    LEFT JOIN ARM_ADJUSTMENT_MASTER AM 
+                    ON        AM.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
+                    LEFT JOIN ARM_ADJUSTMENT_CONFIG ARC 
+                    ON        ARC.ARM_ADJUSTMENT_CONFIG_SID=AM.TRANSACTION_TYPE 
+                    LEFT JOIN HIERARCHY_DEFINITION HD1 
+                    ON        HD1.HIERARCHY_DEFINITION_SID=PM.CUSTOMER_HIERARCHY_SID 
+                    LEFT JOIN HIERARCHY_DEFINITION HD2 
+                    ON        HD2.HIERARCHY_DEFINITION_SID=PM.PRODUCT_HIERARCHY_SID 
+                    LEFT JOIN FORECASTING_VIEW_MASTER FVM 
+                    ON        FVM.PROJECTION_ID=PM.PROJECTION_MASTER_SID 
+                    LEFT JOIN COMPANY_MASTER CM 
+                    ON        CM.COMPANY_MASTER_SID=PM.COMPANY_MASTER_SID
+                    LEFT JOIN HELPER_TABLE HT_GL
+                    ON        CM.COMPANY_TYPE=HT_GL.HELPER_TABLE_SID 
+                    LEFT JOIN COMPANY_MASTER CM_BU 
+                    ON        CM_BU.COMPANY_MASTER_SID=AM.BU_COMPANY_MASTER_SID
+                    LEFT JOIN HELPER_TABLE HT_BU
+                    ON        CM_BU.COMPANY_TYPE=HT_BU.HELPER_TABLE_SID
+                    LEFT JOIN RELATIONSHIP_BUILDER CUST_RB 
+                    ON        CUST_RB.RELATIONSHIP_BUILDER_SID=PM.CUST_RELATIONSHIP_BUILDER_SID 
+                    LEFT JOIN RELATIONSHIP_BUILDER PROD_RB 
+                    ON        PROD_RB.RELATIONSHIP_BUILDER_SID=PM.PROD_RELATIONSHIP_BUILDER_SID 
+                    JOIN  ?.DBO.USER_ USR 
+                    ON        USR.USERID = FVM.CREATED_BY 
+                    LEFT JOIN DBO.CALCULATION_PROFILE_MASTER CPM 
+                    ON        CPM.CALCULATION_PROFILE_MASTER_SID=AM.CALCULATION_PROFILE_MASTER_SID 
+                where
             ]]>    
         </query>
     </entity>
@@ -811,9 +611,9 @@ where
         <query> 
             <![CDATA[
                Update Projection_Master 
-Set PROJECTION_DESCRIPTION='@PROJECTION_DESCRIPTION',FORECASTING_TYPE='@FORECASTING_TYPE',COMPANY_MASTER_SID='@COMPANY_MASTER_SID',CUSTOMER_HIERARCHY_SID='@CUSTOMER_HIERARCHY_SID',
-    PRODUCT_HIERARCHY_SID='@PRODUCT_HIERARCHY_SID',CUSTOMER_HIERARCHY_LEVEL='@CUSTOMER_HIERARCHY_LEVEL',PRODUCT_HIERARCHY_LEVEL='@PRODUCT_HIERARCHY_LEVEL',
-    CUST_RELATIONSHIP_BUILDER_SID='@CUST_RELATIONSHIP_BUILDER_SID',PROD_RELATIONSHIP_BUILDER_SID='@PROD_RELATIONSHIP_BUILDER_SID'
+Set PROJECTION_DESCRIPTION=@PROJECTION_DESCRIPTION,FORECASTING_TYPE=@FORECASTING_TYPE,COMPANY_MASTER_SID=@COMPANY_MASTER_SID,CUSTOMER_HIERARCHY_SID=@CUSTOMER_HIERARCHY_SID,
+    PRODUCT_HIERARCHY_SID=@PRODUCT_HIERARCHY_SID,CUSTOMER_HIERARCHY_LEVEL=@CUSTOMER_HIERARCHY_LEVEL,PRODUCT_HIERARCHY_LEVEL=@PRODUCT_HIERARCHY_LEVEL,
+    CUST_RELATIONSHIP_BUILDER_SID=@CUST_RELATIONSHIP_BUILDER_SID,PROD_RELATIONSHIP_BUILDER_SID=@PROD_RELATIONSHIP_BUILDER_SID,FROM_DATE = @FROM_DATE,TO_DATE = @TO_DATE
 where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID  ;
             ]]>    
         </query>
@@ -881,7 +681,7 @@ where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID  ;
      <![CDATA[
      SELECT ADJ.ARM_ADJUSTMENT_CONFIG_SID,HT.DESCRIPTION,ADJ.TRANSACTION_NAME FROM ARM_ADJUSTMENT_CONFIG ADJ
      JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = ADJ.METHODOLGY
-     where HT.DESCRIPTION in ('TRANSACTION 1','TRANSACTION 3','TRANSACTION 6','TRANSACTION 7')
+     where HT.DESCRIPTION in ('Transaction 1 - Pipeline Accrual','Transaction 3 - Pipeline Inventory True-up','Transaction 6 - Inflation Adjustment','Transaction 7 - Distribution Fees','Transaction 8 - Return Reserve')
      ]]>    
         </query>
     </entity>
@@ -890,7 +690,7 @@ where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID  ;
      <![CDATA[
      DECLARE @PROD_RELATION INT = ?,
 @PROD_HIER INT = ?,
-@LEVEL_NO INT = ? 
+@TEST_LEVEL_NO INT = ? 
 
 $$CREATETEMPDEDUCTION$$ 
 
@@ -910,18 +710,18 @@ SELECT
         RLD.LEVEL_NAME AS LEVEL_NAME
         $$SELECTPRODNDC$$
 from
-	@TEMP_CCP_MAP@ CP
+	#ccp_map CP
 $$JOINTEMPCUSTSELECTION$$
 JOIN RELATIONSHIP_LEVEL_DEFINITION RD on
 	CP.RELATIONSHIP_LEVEL_SID = RD.RELATIONSHIP_LEVEL_SID
 	and RD.RELATIONSHIP_BUILDER_SID = @PROD_RELATION
 JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
 	RD.HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
-	AND RLD.LEVEL_NO = @LEVEL_NO
-	AND RLD.RELATIONSHIP_BUILDER_SID = RD.RELATIONSHIP_BUILDER_SID
+                        AND RLD.LEVEL_NO = @TEST_LEVEL_NO
+                        AND RLD.RELATIONSHIP_BUILDER_SID = RD.RELATIONSHIP_BUILDER_SID
 JOIN HIERARCHY_LEVEL_DEFINITION HLD ON
 	HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-	AND HLD.HIERARCHY_DEFINITION_SID = @PROD_HIER 
+                        AND HLD.HIERARCHY_DEFINITION_SID = @PROD_HIER
 JOIN CCP_DETAILS CCP on
 	CCP.CCP_DETAILS_SID = CP.CCP_DETAILS_SID 
 JOIN RS_CONTRACT RS ON
@@ -930,13 +730,13 @@ JOIN RS_CONTRACT_DETAILS R2
          ON R2.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
             AND R2.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
 $$JOINTEMPDEDUCTION$$
-JOIN IFP_CONTRACT_DETAILS IFP ON
-	IFP.IFP_CONTRACT_SID = RS.IFP_CONTRACT_SID
-	AND CCP.ITEM_MASTER_SID = IFP.ITEM_MASTER_SID
-JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
-$$JOINGLCOMP$$	
-$$JOINBUSINESSUNIT$$
-$$JOINPRODNDC$$
+                       JOIN IFP_CONTRACT_DETAILS IFP ON
+                    IFP.IFP_CONTRACT_SID = RS.IFP_CONTRACT_SID
+                    AND CCP.ITEM_MASTER_SID = IFP.ITEM_MASTER_SID
+            JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+                    $$JOINGLCOMP$$
+                    $$JOINBUSINESSUNIT$$
+                    $$JOINPRODNDC$$
 
      ]]>    
         </query>
@@ -1001,7 +801,7 @@ FROM   UDF_SPLITSTRING(@CUST_REL_SID, ',');
 (SELECT
 			CP.*
 		from
-			@TEMP_CCP_MAP@ CP JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on
+			#ccp_map CP JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on
 			RLD.RELATIONSHIP_BUILDER_SID = @CUST_RELATION
 			JOIN #TEMP_CUST_REL TCR on RLD.RELATIONSHIP_LEVEL_SID=TCR.RELATIONSHIP_LEVEL_SID
 			join RELATIONSHIP_LEVEL_DEFINITION RLD1 on
@@ -1029,9 +829,9 @@ FROM   UDF_SPLITSTRING(@CUST_REL_SID, ',');
     <entity id="getCustomerHierarchyInnerLevel">
         <query> 
      <![CDATA[
-    DECLARE @CUST_RELATION INT=?,
+            DECLARE @CUST_RELATION INT=?,
         @CUST_HIER     INT=?, 
-        @LEVEL_NO      INT=?
+                    @TEST_LEVEL_NO     INT=?
 
 $$CREATETEMPDEDUCTION$$
 
@@ -1046,17 +846,17 @@ select
         RLD.RELATIONSHIP_BUILDER_SID AS RELATIONSHIP_BUILDER_SID,
         RLD.LEVEL_NAME AS LEVEL_NAME
 from
-	@TEMP_CCP_MAP@ CP 
+	#ccp_map CP 
 join RELATIONSHIP_LEVEL_DEFINITION RD on
 	CP.RELATIONSHIP_LEVEL_SID = RD.RELATIONSHIP_LEVEL_SID
 	and RD.RELATIONSHIP_BUILDER_SID = @CUST_RELATION
 JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
 	RD.HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
-	AND RLD.LEVEL_NO = @LEVEL_NO
-	AND RLD.RELATIONSHIP_BUILDER_SID = RD.RELATIONSHIP_BUILDER_SID
+                        AND RLD.LEVEL_NO = @TEST_LEVEL_NO
+                        AND RLD.RELATIONSHIP_BUILDER_SID = RD.RELATIONSHIP_BUILDER_SID
 JOIN HIERARCHY_LEVEL_DEFINITION HLD ON
 	HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-	AND HLD.HIERARCHY_DEFINITION_SID = @CUST_HIER
+                        AND HLD.HIERARCHY_DEFINITION_SID = @CUST_HIER
 JOIN CCP_DETAILS CCP on
 	CCP.CCP_DETAILS_SID = CP.CCP_DETAILS_SID 
 JOIN RS_CONTRACT RS ON
@@ -1064,7 +864,7 @@ JOIN RS_CONTRACT RS ON
 $$JOINTEMPDEDUCTION$$
 JOIN CFP_CONTRACT_DETAILS CFP ON
 	CFP.CFP_CONTRACT_SID = RS.CFP_CONTRACT_SID
-	AND CCP.COMPANY_MASTER_SID = CFP.COMPANY_MASTER_SID
+                        AND CCP.COMPANY_MASTER_SID = CFP.COMPANY_MASTER_SID
      ]]>    
         </query>
     </entity>
@@ -1293,123 +1093,7 @@ ORDER  BY RS_MODEL_SID
     </entity>   
     
     
-    <entity id="getRelationshipValuesCustomerView2">
-        <query>  
-         <![CDATA[
-                CTE2 
-     AS (SELECT A.LEVEL_NO, 
-                RELATIONSHIP_LEVEL_VALUES, 
-                PARENT_NODE, 
-                LEVEL_NAME, 
-                A.RELATIONSHIP_LEVEL_SID, 
-                TABLE_NAME, 
-                FIELD_NAME, 
-                HIERARCHY_NO,
-                SID 
-         FROM   CTE A 
-                JOIN @TEMP_CCP_MAP@ CC 
-                  ON A.RELATIONSHIP_LEVEL_SID = CC.RELATIONSHIP_LEVEL_SID 
-                JOIN CCP_DETAILS B 
-                  ON CC.CCP_DETAILS_SID = B.CCP_DETAILS_SID 
-                     AND B.COMPANY_MASTER_SID IN (SELECT CAST(RELATIONSHIP_LEVEL_VALUES AS INT)
-                                                  FROM   CTE 
-                                                  WHERE  LEVEL_NAME = 'TRADING PARTNER') 
-                     AND B.CONTRACT_MASTER_SID IN (SELECT CAST(RELATIONSHIP_LEVEL_VALUES AS INT)
-                                                   FROM   CTE 
-                                                   WHERE  LEVEL_NAME = 'CONTRACT') 
-                JOIN CONTRACT_MASTER CON 
-                  ON CON.CONTRACT_MASTER_SID = B.CONTRACT_MASTER_SID 
-                     AND CON.INBOUND_STATUS <> 'D' 
-                JOIN COMPANY_MASTER COM 
-                  ON COM.COMPANY_MASTER_SID = B.COMPANY_MASTER_SID 
-                     AND COM.INBOUND_STATUS <> 'D'), 
-     CTE3 
-     AS (SELECT LEVEL_NO, 
-                RELATIONSHIP_LEVEL_VALUES, 
-                PARENT_NODE, 
-                LEVEL_NAME, 
-                RELATIONSHIP_LEVEL_SID, 
-                TABLE_NAME, 
-                FIELD_NAME, 
-                HIERARCHY_NO
-         FROM   CTE  A
-         WHERE  TABLE_NAME IS NULL 
-                 OR TABLE_NAME = '' OR (LEVEL_NAME='MARKET TYPE' AND RELATIONSHIP_LEVEL_VALUES IN(SELECT DISTINCT SID FROM CTE2 B WHERE LEVEL_NAME='CONTRACT'))) 
-SELECT * 
-FROM   CTE3 
-UNION ALL 
-SELECT DISTINCT LEVEL_NO, 
-                RELATIONSHIP_LEVEL_VALUES, 
-                PARENT_NODE, 
-                LEVEL_NAME, 
-                RELATIONSHIP_LEVEL_SID, 
-                TABLE_NAME, 
-                FIELD_NAME, 
-                HIERARCHY_NO 
-FROM   CTE2 
-        ]]>
-        </query>
-    </entity>
     
-    
-    
-    <entity id="getRelationshipValuesProductView2">
-        <query>  
-         <![CDATA[
-               CTE2 
-     AS (SELECT A.LEVEL_NO, 
-                RELATIONSHIP_LEVEL_VALUES, 
-                PARENT_NODE, 
-                LEVEL_NAME, 
-                A.RELATIONSHIP_LEVEL_SID, 
-                TABLE_NAME, 
-                FIELD_NAME, 
-                HIERARCHY_NO,
-                SID 
-         FROM   CTE A 
-                JOIN @TEMP_CCP_MAP@ CC 
-                  ON A.RELATIONSHIP_LEVEL_SID = CC.RELATIONSHIP_LEVEL_SID 
-                JOIN CCP_DETAILS B 
-                  ON CC.CCP_DETAILS_SID = B.CCP_DETAILS_SID 
-                     AND B.ITEM_MASTER_SID IN (SELECT CAST(RELATIONSHIP_LEVEL_VALUES AS INT)
-                                                  FROM   CTE 
-                                                  WHERE  LEVEL_NAME = 'NDC') 
-                JOIN ITEM_MASTER IM 
-                  ON IM.ITEM_MASTER_SID = B.ITEM_MASTER_SID 
-                     AND IM.INBOUND_STATUS <> 'D' 
-                JOIN BRAND_MASTER BM 
-                  ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
-				     AND BM.BRAND_MASTER_SID IN (SELECT CAST(RELATIONSHIP_LEVEL_VALUES AS INT)
-                                                  FROM   CTE 
-                                                  WHERE  LEVEL_NAME = 'Brand')  
-                     AND BM.INBOUND_STATUS <> 'D'), 
-     CTE3 
-     AS (SELECT LEVEL_NO, 
-                RELATIONSHIP_LEVEL_VALUES, 
-                PARENT_NODE, 
-                LEVEL_NAME, 
-                RELATIONSHIP_LEVEL_SID, 
-                TABLE_NAME, 
-                FIELD_NAME, 
-                HIERARCHY_NO 
-         FROM   CTE 
-         WHERE  LEVEL_NAME = 'Company' OR (LEVEL_NAME='Brand' AND RELATIONSHIP_LEVEL_VALUES IN (SELECT DISTINCT SID FROM CTE2 B WHERE LEVEL_NAME='NDC'))
-              OR (LEVEL_NAME LIKE 'THERAPEUTIC%' AND RELATIONSHIP_LEVEL_VALUES IN (SELECT SID FROM CTE B WHERE LEVEL_NAME='BRAND' AND SID IN (SELECT DISTINCT SID FROM CTE2 B WHERE LEVEL_NAME='NDC'))))
- SELECT * 
-FROM   CTE3 
-UNION ALL 
-SELECT DISTINCT LEVEL_NO, 
-                RELATIONSHIP_LEVEL_VALUES, 
-                PARENT_NODE, 
-                LEVEL_NAME, 
-                RELATIONSHIP_LEVEL_SID, 
-                TABLE_NAME, 
-                FIELD_NAME, 
-                HIERARCHY_NO 
-FROM   CTE2 
-        ]]>
-        </query>
-    </entity>
     <entity id="loadFromAndToBasedOnPeriodConfig">
         <query>
             <![CDATA[
@@ -1431,7 +1115,7 @@ FROM   CTE2
 	
 FROM
 	HELPER_TABLE HT
-	where HT.LIST_NAME = 'BALANCE_SUMMARY_TYPE'
+	where HT.LIST_NAME = 'ARM_REPORT_TYPE'
      ]]>    
         </query>
     </entity>
@@ -1476,16 +1160,8 @@ JOIN dbo.CALCULATION_PROFILE_VIEW_MASTER FVM ON
      ]]>    
         </query>
     </entity>
-    <entity id="deleteCalculationProfileView">
-        <query> 
-            <![CDATA[
-         DELETE FROM CALCULATION_PROFILE_DETAILS WHERE CALCULATION_PROFILE_MASTER_SID=@PROJECTION_MASTER_SID;
-         DELETE FROM CALCULATION_PROFILE_VIEW_MASTER WHERE CALCULATION_PROFILE_MASTER_SID=@PROJECTION_MASTER_SID;
-         DELETE FROM CALCULATION_PROFILE_MASTER WHERE CALCULATION_PROFILE_MASTER_SID=@PROJECTION_MASTER_SID;
-            ]]>    
-        </query>
-    </entity>    
-     <entity id="LoadAdjustmentType_BSR">
+     
+    <entity id="LoadAdjustmentType_BSR">
         <query> 
      <![CDATA[
      SELECT
@@ -1501,7 +1177,7 @@ JOIN CALCULATION_PROFILE_DETAILS CAD ON
         </query>
     </entity>
     <entity id="buttonSecurity">
-      <query>
+        <query>
     		<![CDATA[
                         select DISTINCT
 				MP.PROPERTY_NAME,
@@ -1521,6 +1197,592 @@ JOIN CALCULATION_PROFILE_DETAILS CAD ON
 			AND MP.TAB_NAME = '?'
                         ?
 		]]>
-      </query>
+        </query>
+    </entity>
+    <entity id="Save Account Config-Data">
+        <query>
+    		<![CDATA[
+                      
+ DECLARE @PROJECTION_MASTER_SID INT =?; 
+
+IF OBJECT_ID('TEMPDB..#TEMP_CCP_PLUS_D') IS NOT NULL 
+  DROP TABLE #TEMP_CCP_PLUS_D 
+
+CREATE TABLE #TEMP_CCP_PLUS_D 
+  ( 
+     ARM_ADJUSTMENT_MASTER_SID  INT, 
+     ARM_ADJUSTMENT_DETAILS_SID INT, 
+     PROJECTION_MASTER_SID      INT, 
+     CCP_DETAILS_SID            INT, 
+     RS_MODEL_SID               INT, 
+     GL_COMPANY_MASTER_SID      INT, 
+     BU_COMPANY_MASTER_SID      INT, 
+     TRANSACTION_TYPE           VARCHAR(50), 
+     BRAND_MASTER_SID           INT 
+     PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, CCP_DETAILS_SID, RS_MODEL_SID ) 
+  ) 
+
+INSERT INTO #TEMP_CCP_PLUS_D 
+            (BU_COMPANY_MASTER_SID, 
+             GL_COMPANY_MASTER_SID, 
+             ARM_ADJUSTMENT_MASTER_SID, 
+             ARM_ADJUSTMENT_DETAILS_SID, 
+             PROJECTION_MASTER_SID, 
+             CCP_DETAILS_SID, 
+             RS_MODEL_SID, 
+             TRANSACTION_TYPE, 
+             BRAND_MASTER_SID) 
+SELECT AM.BU_COMPANY_MASTER_SID, 
+       PM.COMPANY_MASTER_SID AS GL_COMPANY_MASTER_SID, 
+       AM.ARM_ADJUSTMENT_MASTER_SID, 
+       ARM_ADJUSTMENT_DETAILS_SID, 
+       AD.PROJECTION_MASTER_SID, 
+       AD.CCP_DETAILS_SID, 
+       AD.RS_MODEL_SID, 
+       AM.TRANSACTION_TYPE, 
+       IM.BRAND_MASTER_SID 
+FROM   PROJECTION_MASTER PM 
+       INNER JOIN ARM_ADJUSTMENT_MASTER AM 
+               ON PM.PROJECTION_MASTER_SID = AM.PROJECTION_MASTER_SID 
+       INNER JOIN ARM_ADJUSTMENT_DETAILS AD 
+               ON PM.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID 
+       INNER JOIN CCP_DETAILS CD 
+               ON AD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID 
+       INNER JOIN ITEM_MASTER IM 
+               ON CD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID 
+WHERE  PM.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID 
+
+IF OBJECT_ID('TEMPDB..#ACC_CONFIG_TEMP') IS NOT NULL 
+  DROP TABLE #ACC_CONFIG_TEMP 
+
+CREATE TABLE #ACC_CONFIG_TEMP 
+  ( 
+     GL_COMPANY_MASTER_SID INT, 
+     BU_COMPANY_MASTER_SID INT, 
+     ACCOUNT               VARCHAR(50), 
+     BRAND_MASTER_SID      INT, 
+     COST_CENTER           VARCHAR(50) 
+  ) 
+
+INSERT INTO #ACC_CONFIG_TEMP 
+            (GL_COMPANY_MASTER_SID, 
+             BU_COMPANY_MASTER_SID, 
+             ACCOUNT, 
+             BRAND_MASTER_SID, 
+             COST_CENTER) 
+SELECT DISTINCT AAC.GL_COMPANY_MASTER_SID, 
+                AAC.BU_COMPANY_MASTER_SID, 
+                AAC.ACCOUNT, 
+                AAC.BRAND_MASTER_SID, 
+                AAC.COST_CENTER 
+FROM   #TEMP_CCP_PLUS_D TD 
+       JOIN CCP_DETAILS C 
+         ON C.CCP_DETAILS_SID = TD.CCP_DETAILS_SID 
+       JOIN RS_CONTRACT R 
+         ON R.RS_MODEL_SID = TD.RS_MODEL_SID 
+            AND R.CONTRACT_MASTER_SID = C.CONTRACT_MASTER_SID 
+       JOIN ARM_DEDUCTION_SELECTION ADS 
+         ON ADS.PROJECTION_MASTER_SID = TD.PROJECTION_MASTER_SID 
+            AND ADS.RS_CONTRACT_SID = R.RS_CONTRACT_SID 
+       JOIN ARM_ADJ_RES_CONFIG_MASTER AAM 
+         ON AAM.RS_CATEGORY = R.RS_CATEGORY 
+            AND AAM.RS_TYPE = R.RS_TYPE 
+            AND AAM.REBATE_PROGRAM_TYPE = R.REBATE_PROGRAM_TYPE 
+            AND TD.GL_COMPANY_MASTER_SID = AAM.GL_COMPANY_MASTER_SID 
+            AND TD.BU_COMPANY_MASTER_SID = AAM.BU_COMPANY_MASTER_SID 
+       JOIN ARM_ADJ_RES_CONFIG_DETAIL AAD 
+         ON AAD.ADJUSTMENT_TYPE = TD.TRANSACTION_TYPE 
+            AND AAD.ARM_ADJ_RES_CONFIG_MASTER_SID = AAM.ARM_ADJ_RES_CONFIG_MASTER_SID 
+       JOIN HELPER_TABLE HT 
+         ON AAD.ADJUSTMENT_LEVEL = HT.HELPER_TABLE_SID 
+       LEFT JOIN ARM_ACC_CONFIG AAC 
+              ON AAC.GL_COMPANY_MASTER_SID = TD.GL_COMPANY_MASTER_SID 
+                 AND AAC.BU_COMPANY_MASTER_SID = TD.BU_COMPANY_MASTER_SID 
+                 AND AAC.ACCOUNT = AAD.ACCOUNT 
+                 AND AAC.BRAND_MASTER_SID = TD.BRAND_MASTER_SID 
+WHERE  AAC.COST_CENTER IS NOT NULL 
+       AND ( AAC.DELETE_CHECK_RECORD = 0 
+              OR AAC.DELETE_CHECK_RECORD IS NULL ) 
+--Updation of Account Config table for Delete_Record Starts here
+UPDATE AAC 
+SET    AAC.DELETE_CHECK_RECORD = 1 
+FROM   ARM_ACC_CONFIG AAC 
+       JOIN #ACC_CONFIG_TEMP AAT 
+         ON AAC.GL_COMPANY_MASTER_SID = AAT.GL_COMPANY_MASTER_SID 
+            AND AAC.BU_COMPANY_MASTER_SID = AAT.BU_COMPANY_MASTER_SID 
+            AND AAC.ACCOUNT = AAT.ACCOUNT 
+            AND AAC.BRAND_MASTER_SID = AAT.BRAND_MASTER_SID 
+            AND AAC.COST_CENTER = AAT.COST_CENTER 
+		]]>
+        </query>
+    </entity>
+    <entity id="temp-deduction-join">
+        <query>
+    		<![CDATA[
+                    JOIN #TEMP_DEDUCTION TD
+                        ON RS.RS_CONTRACT_SID = TD.RS_CONTRACT_SID
+		]]>
+        </query>
+    </entity>
+    <entity id="ccp_map_insert">
+        <query>
+            <![CDATA[
+                --CUSTOMER
+                DECLARE @HIERARCHY_DEFINITION_SID INT = @Customer_hierarchy,
+                        @RELATIONSHIP_BUILDER_SID INT = @Customer_relation,
+                        @LEVEL_NO                 INT
+                SELECT @LEVEL_NO = Max(LEVEL_NO)
+                FROM   HIERARCHY_LEVEL_DEFINITION
+                WHERE  HIERARCHY_DEFINITION_sid = @HIERARCHY_DEFINITION_SID
+
+                IF Object_id('TEMPDB..#DETAILS') IS NOT NULL
+                  DROP TABLE #DETAILS
+
+                CREATE TABLE #DETAILS
+                  (
+                     RELATIONSHIP_LEVEL_SID INT,
+                     MASTER_SID             INT,
+                     LEVEL_NO               INT,
+                     PARENT                 INT,
+                     LEVEL_NAME             VARCHAR(50),
+                     CONTRACT_MASTER_SID    INT
+                  )
+
+                IF EXISTS (SELECT 1
+                           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                  JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                    ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                           WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                  AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                  AND RLD.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ))
+                  BEGIN
+                      INSERT INTO #DETAILS
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   MASTER_SID,
+                                   LEVEL_NO,
+                                   PARENT,
+                                   LEVEL_NAME)
+                      SELECT RELATIONSHIP_LEVEL_SID,
+                             RELATIONSHIP_LEVEL_VALUES AS COMPANY_MASTER_SID,
+                             RLD.LEVEL_NO,
+                             Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
+                             RLD.LEVEL_NAME
+                      FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                             JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                      WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                             AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                             AND RLD.LEVEL_NAME IN ( 'Trading Partner', 'Customer' )
+                  END
+
+                IF EXISTS (SELECT 1
+                           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                  JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                    ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                           WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                  AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                  AND RLD.LEVEL_NAME IN ( 'Contract' ))
+                  BEGIN
+                      INSERT INTO #DETAILS
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   MASTER_SID,
+                                   LEVEL_NO,
+                                   PARENT,
+                                   LEVEL_NAME)
+                      SELECT RELATIONSHIP_LEVEL_SID,
+                             RELATIONSHIP_LEVEL_VALUES  AS CONTRACT_MASTER_SID,
+                             RLD.LEVEL_NO,
+                             Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
+                             RLD.LEVEL_NAME
+                      FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                             JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                      WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                             AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                             AND RLD.LEVEL_NAME IN ( 'Contract' )
+                  END
+
+                IF EXISTS (SELECT 1
+                           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                  JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                    ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                           WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                  AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                  AND RLD.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ))
+                  BEGIN
+                      INSERT INTO #DETAILS
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CONTRACT_MASTER_SID,
+                                   MASTER_SID,
+                                   LEVEL_NO,
+                                   PARENT,
+                                   LEVEL_NAME)
+                      SELECT RELATIONSHIP_LEVEL_SID,
+                             CONTRACT_MASTER_SID,
+                             RELATIONSHIP_LEVEL_VALUES                                                             AS MASTER_SID,
+                             RLD.LEVEL_NO,
+                             Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
+                             RLD.LEVEL_NAME
+                      FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                             JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                             JOIN CONTRACT_MASTER CM
+                               ON CM.CONTRACT_TYPE = RLD.RELATIONSHIP_LEVEL_VALUES
+                      WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                             AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                             AND RLD.LEVEL_NAME IN ( 'Market Type', 'Contract Type' )
+                  END
+
+                IF Object_id('tempdb..#result') IS NOT NULL
+                  DROP TABLE #RESULT;
+
+                WITH CTE
+                     AS (SELECT Dense_rank()
+                                  OVER(
+                                    ORDER BY C.level_no) AS RN,
+                                C.*
+                         FROM   #DETAILS C)
+                SELECT DISTINCT p1.RELATIONSHIP_LEVEL_SID,
+                                CASE
+                                  WHEN P1.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p1.MASTER_SID
+                                  WHEN P2.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p2.MASTER_SID
+                                  WHEN P3.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p3.MASTER_SID
+                                END AS COMPANY_MASTER_SID,
+                                CASE
+                                  WHEN P1.LEVEL_NAME IN ( 'Contract' ) THEN p1.MASTER_SID
+                                  WHEN P2.LEVEL_NAME IN ( 'Contract' ) THEN p2.MASTER_SID
+                                  WHEN P3.LEVEL_NAME IN ( 'Contract' ) THEN p3.MASTER_SID
+                                END AS CONTRACT_MASTER_SID,
+                                CASE
+                                  WHEN P1.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p1.MASTER_SID
+                                  WHEN P2.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p2.MASTER_SID
+                                  WHEN P3.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p3.MASTER_SID
+                                END AS MARKET_TYPE,
+                                P1.LEVEL_NO
+                INTO   #RESULT
+                FROM   CTE P1
+                       LEFT JOIN CTE P2
+                              ON P1.PARENT = P2.MASTER_SID
+                                 AND P1.RN = P2.RN + 1
+                       LEFT JOIN CTE P3
+                              ON P2.PARENT = P3.MASTER_SID
+                                 AND P2.RN = P3.RN + 1
+                WHERE  P1.LEVEL_NO = @LEVEL_NO
+
+IF Object_id('TEMPDB..#CCP_MAP') IS NOT NULL
+  DROP TABLE #CCP_MAP;
+ 
+CREATE TABLE #CCP_MAP
+  (
+     CCP_MAP_SID            INT IDENTITY(1, 1),
+     CCP_DETAILS_SID        INT,
+     RELATIONSHIP_LEVEL_SID INT
+  )
+
+
+                IF EXISTS (SELECT 1
+                           FROM   #result
+                           WHERE  CONTRACT_MASTER_SID IS NOT NULL
+                                  AND COMPANY_MASTER_SID IS NOT NULL)
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT RELATIONSHIP_LEVEL_SID,
+                         CCP_DETAILS_SID
+                  FROM   CCP_DETAILS c
+                         JOIN #result r
+                           ON r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
+                              AND r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
+                  WHERE  NOT EXISTS (SELECT 1
+                                     FROM   #CCP_MAP cm
+                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
+                ELSE IF EXISTS (SELECT 1
+                           FROM   #result
+                           WHERE  CONTRACT_MASTER_SID IS NULL
+                                  AND COMPANY_MASTER_SID IS NOT NULL)
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT RELATIONSHIP_LEVEL_SID,
+                         CCP_DETAILS_SID
+                  FROM   CCP_DETAILS c
+                         JOIN #result r
+                           ON r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
+                  WHERE  NOT EXISTS (SELECT 1
+                                     FROM   #CCP_MAP cm
+                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
+                ELSE IF EXISTS (SELECT 1
+                           FROM   #result
+                           WHERE  CONTRACT_MASTER_SID IS NOT NULL
+                                  AND MARKET_TYPE IS NOT NULL
+                                  AND COMPANY_MASTER_SID IS NULL)
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT RELATIONSHIP_LEVEL_SID,
+                         CCP_DETAILS_SID
+                  FROM   CCP_DETAILS c
+                         JOIN #result r
+                           ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
+                  WHERE  NOT EXISTS (SELECT 1
+                                     FROM   #CCP_MAP cm
+                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
+                ELSE IF EXISTS (SELECT 1
+                           FROM   #result
+                           WHERE  CONTRACT_MASTER_SID IS NULL
+                                  AND MARKET_TYPE IS NOT NULL
+                                  AND COMPANY_MASTER_SID IS NOT NULL)
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT RELATIONSHIP_LEVEL_SID,
+                         CCP_DETAILS_SID
+                  FROM   CCP_DETAILS c
+                         JOIN (SELECT RELATIONSHIP_LEVEL_SID,
+                                      cm.contract_master_sid,
+                                      r.COMPANY_MASTER_SID
+                               FROM   #result r
+                                      JOIN contract_master cm
+                                        ON cm.CONTRACT_TYPE = r.MARKET_TYPE) r
+                           ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
+                              AND r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
+                  WHERE  NOT EXISTS (SELECT 1
+                                     FROM   #CCP_MAP cm
+                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
+                ELSE IF EXISTS (SELECT 1
+                           FROM   #result
+                           WHERE  CONTRACT_MASTER_SID IS NULL
+                                  AND MARKET_TYPE IS NOT NULL
+                                  AND COMPANY_MASTER_SID IS NULL)
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT RELATIONSHIP_LEVEL_SID,
+                         CCP_DETAILS_SID
+                  FROM   CCP_DETAILS c
+                         JOIN (SELECT RELATIONSHIP_LEVEL_SID,
+                                      cm.contract_master_sid
+                               FROM   #result r
+                                      JOIN contract_master cm
+                                        ON cm.CONTRACT_TYPE = r.MARKET_TYPE) r
+                           ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
+                  WHERE  NOT EXISTS (SELECT 1
+                                     FROM   #CCP_MAP cm
+                                     WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                            AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID) 
+
+--------product relation inserting into #ccp_map
+
+   DECLARE @HIERARCHY_DEFINITION_SID_PRO INT = @Product_hierarchy,
+                @RELATIONSHIP_BUILDER_SID_PRO INT = @Product_relation,
+                @LEVEL_NO_PRO                INT
+
+                SELECT @LEVEL_NO_PRO = Max(LEVEL_NO)
+                FROM   HIERARCHY_LEVEL_DEFINITION
+                WHERE  HIERARCHY_DEFINITION_sid = @HIERARCHY_DEFINITION_SID_PRO
+
+                IF Object_id('TEMPDB..#DETAILS_PRO') IS NOT NULL
+                  DROP TABLE #DETAILS_PRO
+
+                CREATE TABLE #DETAILS_PRO
+                  (
+                     RELATIONSHIP_LEVEL_SID INT,
+                     MASTER_SID             INT,
+                     LEVEL_NAME             VARCHAR(50)
+                  )
+                INSERT INTO #DETAILS_PRO
+                SELECT RELATIONSHIP_LEVEL_SID,
+                       RELATIONSHIP_LEVEL_VALUES AS MASTER_SID,
+                       RLD.LEVEL_NAME
+                FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                       JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                         ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID_PRO
+                       AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID_PRO
+                       AND RLD.LEVEL_NO = @LEVEL_NO_PRO
+
+                IF EXISTS (SELECT 1
+                           FROM   #DETAILS_PRO
+                           WHERE  LEVEL_NAME = 'COMPANY')
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT d.RELATIONSHIP_LEVEL_SID,
+                         cd.CCP_DETAILS_SID
+                  FROM   GL_COST_CENTER_MASTER GL
+                         JOIN COMPANY_MASTER CM
+                           ON GL.COMPANY_CODE = CM.COMPANY_ID
+                         JOIN ITEM_MASTER IM
+                           ON IM.NDC8 = GL.NDC8
+                         JOIN #DETAILS_PRO D
+                           ON D.MASTER_SID = CM.COMPANY_MASTER_SID
+                         JOIN CCP_DETAILS cd
+                           ON cd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+                  WHERE  GL.INBOUND_STATUS <> 'D'
+                         AND NOT EXISTS (SELECT 1
+                                         FROM   #CCP_MAP CC
+                                         WHERE  CC.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID
+                                                AND CC.CCP_DETAILS_SID = CD.CCP_DETAILS_SID)
+
+                IF EXISTS (SELECT 1
+                           FROM   #DETAILS_PRO
+                           WHERE  LEVEL_NAME = 'BRAND')
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT d.RELATIONSHIP_LEVEL_SID,
+                         cd.CCP_DETAILS_SID
+                  FROM   ITEM_MASTER IM
+                         JOIN #DETAILS_PRO D
+                           ON D.MASTER_SID = IM.BRAND_MASTER_SID
+                         JOIN CCP_DETAILS cd
+                           ON cd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+                              AND NOT EXISTS (SELECT 1
+                                              FROM   #CCP_MAP CC
+                                              WHERE  CC.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID
+                                                     AND CC.CCP_DETAILS_SID = CD.CCP_DETAILS_SID)
+
+                IF EXISTS (SELECT 1
+                           FROM   #DETAILS_PRO
+                           WHERE  LEVEL_NAME IN ('NDC','N.D.C.'))
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT d.RELATIONSHIP_LEVEL_SID,
+                         cd.CCP_DETAILS_SID
+                  FROM   #DETAILS_PRO D
+                         JOIN CCP_DETAILS cd
+                           ON cd.ITEM_MASTER_SID = D.MASTER_SID
+                              AND NOT EXISTS (SELECT 1
+                                              FROM   #CCP_MAP CC
+                                              WHERE  CC.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID
+                                                     AND CC.CCP_DETAILS_SID = CD.CCP_DETAILS_SID)
+
+                IF EXISTS (SELECT 1
+                           FROM   #DETAILS_PRO
+                           WHERE  LEVEL_NAME LIKE '%THERAPEUTIC%CLASS%')
+                  INSERT INTO #CCP_MAP
+                              (RELATIONSHIP_LEVEL_SID,
+                               CCP_DETAILS_SID)
+                  SELECT d.RELATIONSHIP_LEVEL_SID,
+                         cd.CCP_DETAILS_SID
+                  FROM   ITEM_MASTER IM
+                         JOIN #DETAILS_PRO D
+                           ON D.MASTER_SID = IM.THERAPEUTIC_CLASS
+                         JOIN CCP_DETAILS cd
+                           ON cd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+                              AND NOT EXISTS (SELECT 1
+                                              FROM   #CCP_MAP CC
+                                              WHERE  CC.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID
+                                                     AND CC.CCP_DETAILS_SID = CD.CCP_DETAILS_SID) ;
+            ]]>    
+        </query>
+    </entity>
+    <entity id="armSummaryInsertCcp">
+        <query>
+    		<![CDATA[
+                DECLARE @PROJECTION_MASTER_SID INT = ? ; 
+
+                IF OBJECT_ID('TEMPDB..#TEMP_CCP_PLUS_D') IS NOT NULL 
+                    DROP TABLE #TEMP_CCP_PLUS_D 
+
+                CREATE TABLE #TEMP_CCP_PLUS_D 
+                  ( 
+                    ARM_ADJUSTMENT_MASTER_SID  INT, 
+                    ARM_ADJUSTMENT_DETAILS_SID INT, 
+                    PROJECTION_MASTER_SID      INT, 
+                    CCP_DETAILS_SID            INT, 
+                    RS_MODEL_SID               INT, 
+                    GL_COMPANY_MASTER_SID      INT, 
+                    BU_COMPANY_MASTER_SID      INT, 
+                    TRANSACTION_TYPE           VARCHAR(50), 
+                    BRAND_MASTER_SID           INT, 
+                    PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, CCP_DETAILS_SID, RS_MODEL_SID ) 
+                  ) 
+
+                INSERT INTO #TEMP_CCP_PLUS_D 
+                            (BU_COMPANY_MASTER_SID, 
+                             GL_COMPANY_MASTER_SID, 
+                             ARM_ADJUSTMENT_MASTER_SID, 
+                             ARM_ADJUSTMENT_DETAILS_SID, 
+                             PROJECTION_MASTER_SID, 
+                             CCP_DETAILS_SID, 
+                             RS_MODEL_SID, 
+                             TRANSACTION_TYPE, 
+                             BRAND_MASTER_SID) 
+                SELECT AM.BU_COMPANY_MASTER_SID, 
+                        PM.COMPANY_MASTER_SID AS GL_COMPANY_MASTER_SID, 
+                        AM.ARM_ADJUSTMENT_MASTER_SID, 
+                        ARM_ADJUSTMENT_DETAILS_SID, 
+                        AD.PROJECTION_MASTER_SID, 
+                        AD.CCP_DETAILS_SID, 
+                        AD.RS_MODEL_SID, 
+                        AM.TRANSACTION_TYPE, 
+                        IM.BRAND_MASTER_SID 
+                FROM   PROJECTION_MASTER PM 
+                        INNER JOIN ARM_ADJUSTMENT_MASTER AM 
+                                ON PM.PROJECTION_MASTER_SID = AM.PROJECTION_MASTER_SID 
+                        INNER JOIN ARM_ADJUSTMENT_DETAILS AD 
+                                ON PM.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID 
+                        INNER JOIN CCP_DETAILS CD 
+                                ON AD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID 
+                        INNER JOIN ITEM_MASTER IM 
+                                ON CD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID 
+                WHERE  PM.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID 
+
+                INSERT INTO ARM_ADJ_SUMMARY_CCP 
+                            (ARM_ADJUSTMENT_DETAILS_SID, 
+                             ARM_ADJ_RES_CONFIG_MASTER_SID, 
+                             ADJUSTMENT_TYPE, 
+                             CURRENT_BALANCE, 
+                             CURRENT_BALANCE_ACC, 
+                             DEMAND_ACCRUAL, 
+                             DEMAND_ACCRUAL_ACC, 
+                             DEMAND_REFORECAST, 
+                             DEMAND_REFORECAST_ACC, 
+                             DEMAND_PAYMENT_RECON, 
+                             DEMAND_PAYMENT_RECON_ACC) 
+                SELECT TD.ARM_ADJUSTMENT_DETAILS_SID, 
+                        AAM.ARM_ADJ_RES_CONFIG_MASTER_SID, 
+                        ASD.ADJUSTMENT_TYPE, 
+                        ASD.CURRENT_BALANCE, 
+                        ASD.CURRENT_BALANCE_ACC, 
+                        ASD.DEMAND_ACCRUAL, 
+                        ASD.DEMAND_ACCRUAL_ACC, 
+                        ASD.DEMAND_REFORECAST, 
+                        ASD.DEMAND_REFORECAST_ACC, 
+                        ASD.DEMAND_PAYMENT_RECON, 
+                        ASD.DEMAND_PAYMENT_RECON_ACC 
+                FROM   #TEMP_CCP_PLUS_D TD 
+                        JOIN CCP_DETAILS C 
+                          ON C.CCP_DETAILS_SID = TD.CCP_DETAILS_SID 
+                        JOIN RS_CONTRACT R 
+                          ON R.RS_MODEL_SID = TD.RS_MODEL_SID 
+                             AND R.CONTRACT_MASTER_SID = C.CONTRACT_MASTER_SID 
+                        JOIN ARM_DEDUCTION_SELECTION ADS 
+                          ON ADS.PROJECTION_MASTER_SID = TD.PROJECTION_MASTER_SID 
+                             AND ADS.RS_CONTRACT_SID = R.RS_CONTRACT_SID 
+                        JOIN ARM_ADJ_RES_CONFIG_MASTER AAM 
+                          ON AAM.RS_CATEGORY = R.RS_CATEGORY 
+                             AND AAM.RS_TYPE = R.RS_TYPE 
+                             AND AAM.REBATE_PROGRAM_TYPE = R.REBATE_PROGRAM_TYPE 
+                             AND TD.GL_COMPANY_MASTER_SID = AAM.GL_COMPANY_MASTER_SID 
+                             AND TD.BU_COMPANY_MASTER_SID = AAM.BU_COMPANY_MASTER_SID 
+                        JOIN ARM_ADJ_SUMMARY_CONFIG_DETAILS ASD 
+                          ON ASD.ADJUSTMENT_TYPE = TD.TRANSACTION_TYPE 
+                             AND ASD.ARM_ADJ_RES_CONFIG_MASTER_SID = AAM.ARM_ADJ_RES_CONFIG_MASTER_SID 
+		]]>
+        </query>
+    </entity>
+    <entity id="checkSelectedAdjustmentType">
+        <query>
+            select ht.DESCRIPTION from ARM_ADJUSTMENT_CONFIG ac 
+            JOIN HELPER_TABLE ht on ht.HELPER_TABLE_SID=ac.METHODOLGY 
+            where ARM_ADJUSTMENT_CONFIG_SID = ?
+        </query>
     </entity>
 </sql>

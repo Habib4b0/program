@@ -87,7 +87,7 @@ public class SearchForm extends AbstractSearch {
 
     CommonLogic commonLogic = new CommonLogic();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    Map<Integer, Boolean> SelectedAccrualsId = new LinkedHashMap<Integer, Boolean>();
+    Map<Integer, Boolean> SelectedAccrualsId = new LinkedHashMap<>();
     SearchLogic searchLogic = new SearchLogic();
 
     final String USERID = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
@@ -113,11 +113,11 @@ public class SearchForm extends AbstractSearch {
             } else if (ConstantUtil.DEMANDVIEW_TABLE.equals(tableName)) {
                 primaryDto.setPropertyName("demandForecastActualSid");
             }
-            if (searchValues != null && searchValues.get("accrualType") != null
-                    && !searchValues.get("accrualType").equals("Other")
+            if (searchValues != null && searchValues.get(ConstantUtil.ACCRUAL_TYPE) != null
+                    && !searchValues.get(ConstantUtil.ACCRUAL_TYPE).equals("Other")
                     && !tableName.equals(ConstantUtil.INVALID_ACCURAL_INBOUND)) {
                 primaryDto.setPropertyName("accrualDetailsSid");
-                VaadinSession.getCurrent().setAttribute("AccrualDetails", "true");
+                VaadinSession.getCurrent().setAttribute(ConstantUtil.ACCRUAL_DETAILS, "true");
             }
 
             if (searchForecastDTO.getItemProperty(primaryDto.getPropertyName()) != null) {
@@ -158,7 +158,7 @@ public class SearchForm extends AbstractSearch {
     @Override
     protected void resetButtonLogic() throws PortalException,ClassNotFoundException{
         LOGGER.debug("Entering btnResetLogic");
-        List<Object> collapsedColumns = new ArrayList<Object>();
+        List<Object> collapsedColumns = new ArrayList<>();
         for (Object item : table.getVisibleColumns()) {
             if (table.isColumnCollapsed(item)) {
                 collapsedColumns.add(item);
@@ -168,7 +168,7 @@ public class SearchForm extends AbstractSearch {
         String[] colHeaders = table.getColumnHeaders();
         if (!tableName.equalsIgnoreCase("InvalidRecordCount")) {
 
-            if (tableName.equals(ConstantUtil.VW_CUSTOMER_GTS_FORECAST) || tableName.equals(ConstantUtil.ADJUSTED_DEMAND_VIEW) || tableName.equals(ConstantUtil.CUSTOMER_GTS_ACTUAL) || tableName.equals("IvldItemMaster") || tableName.equals("IvldItemIdentifier") || tableName.equals("IvldItemPricing") || ConstantUtil.ST_CFF_OUTBOUND.equals(tableName) || ConstantUtil.VW_ITEM_IDENTIFIER.equals(tableName) || ConstantUtil.VW_ITEM_PRICING.equals(tableName) || ConstantUtil.VW_COMPANY_IDENTIFIER.equals(tableName)
+            if (tableName.equals(ConstantUtil.VW_CUSTOMER_GTS_FORECAST) || tableName.equals(ConstantUtil.ADJUSTED_DEMAND_VIEW) || tableName.equals(ConstantUtil.CUSTOMER_GTS_ACTUAL) || tableName.equals(ConstantUtil.IVLD_ITEM_MASTER) || tableName.equals(ConstantUtil.IVLD_ITEM_IDENTIFIER) || tableName.equals(ConstantUtil.IVLD_ITEM_PRICING) || ConstantUtil.ST_CFF_OUTBOUND.equals(tableName) || ConstantUtil.VW_ITEM_IDENTIFIER.equals(tableName) || ConstantUtil.VW_ITEM_PRICING.equals(tableName) || ConstantUtil.VW_COMPANY_IDENTIFIER.equals(tableName)
                     || ConstantUtil.VW_COMPANY_PARENT_DETAILS.equals(tableName) || ConstantUtil.VW_COMPANY_TRADE_CLASS.equals(tableName) || ConstantUtil.VW_ITEM_MASTER.equals(tableName)
                     || ConstantUtil.VW_COMPANY_MASTER.equals(tableName) || ConstantUtil.RETURN_RESERVE.equals(tableName) || ConstantUtil.IVLD_RETURN_RESERVE.equals(tableName)) {
                 tableLogic.setContainerDataSource(new BeanItemContainer(Class.forName(ConstantUtil.TABLE_MODEL_PATH_TWO + tableName)));
@@ -183,7 +183,7 @@ public class SearchForm extends AbstractSearch {
             }else {
                 tableLogic.setContainerDataSource(new BeanItemContainer(AccrualdetailsDTO.class));
             }
-        } else if ((ConstantUtil.IVLD_ADJUSTED_DEMAND_VIEW.equals(invalidTableName)) || ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_MASTER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_IDENTIFIER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_PARENT.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_TRADE_CLASS.equals(invalidTableName) || invalidTableName.equals("IvldItemMaster") || invalidTableName.equals("IvldItemIdentifier") || invalidTableName.equals("IvldItemPricing")
+        } else if ((ConstantUtil.IVLD_ADJUSTED_DEMAND_VIEW.equals(invalidTableName)) || ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_MASTER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_IDENTIFIER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_PARENT.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_TRADE_CLASS.equals(invalidTableName) || invalidTableName.equals(ConstantUtil.IVLD_ITEM_MASTER) || invalidTableName.equals(ConstantUtil.IVLD_ITEM_IDENTIFIER) || invalidTableName.equals(ConstantUtil.IVLD_ITEM_PRICING)
                 || ConstantUtil.INVALID_GTS_CUSTOMER.equals(invalidTableName) || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(invalidTableName) || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(tableName)
                 || ConstantUtil.IVLD_RETURN_RESERVE.equals(invalidTableName)) {
             tableLogic.setContainerDataSource(new BeanItemContainer(Class.forName(ConstantUtil.TABLE_MODEL_PATH_TWO + invalidTableName)));
@@ -245,7 +245,7 @@ public class SearchForm extends AbstractSearch {
             if (demandTypeChange == false) {
                 table.clearFilters();
             }
-            List<Object> collapsedColumns = new ArrayList<Object>();
+            List<Object> collapsedColumns = new ArrayList<>();
             for (Object item : table.getVisibleColumns()) {
                 if (table.isColumnCollapsed(item)) {
                     collapsedColumns.add(item);
@@ -254,17 +254,17 @@ public class SearchForm extends AbstractSearch {
             table.markAsDirty();
             searchCriteria = new SearchCriteria();
             searchCriteria.setCustomDirty(true);
-            if (tableName.equals("AccrualMaster") || tableName.equals("AccrualDetails")) {
-                if (!"Other".equals(String.valueOf(searchValues.get("accrualType")))) {
-                    tableName = "AccrualDetails";
+            if (tableName.equals(ConstantUtil.ACCRUAL_MASTER) || tableName.equals(ConstantUtil.ACCRUAL_DETAILS)) {
+                if (!"Other".equals(String.valueOf(searchValues.get(ConstantUtil.ACCRUAL_TYPE)))) {
+                    tableName = ConstantUtil.ACCRUAL_DETAILS;
                 } else {
-                    tableName = "AccrualMaster";
+                    tableName = ConstantUtil.ACCRUAL_MASTER;
                 }
             }
             if (!tableName.equalsIgnoreCase(ConstantUtil.INVALID_RECORD_COUNT)) {
-                if (tableName.equals("AccrualMaster")) {
+                if (tableName.equals(ConstantUtil.ACCRUAL_MASTER)) {
                     searchResultbeans = new BeanItemContainer(AccrualMaster.class);
-                } else if (tableName.equals("AccrualDetails")){
+                } else if (tableName.equals(ConstantUtil.ACCRUAL_DETAILS)){
                     searchResultbeans = new BeanItemContainer(AccrualdetailsDTO.class);
                 } else if (tableName.equals(ConstantUtil.ARP_OUTBOUND)) {
                     searchResultbeans = new BeanItemContainer(ARPOutboundDTO.class);
@@ -408,7 +408,7 @@ public class SearchForm extends AbstractSearch {
                                 obj.addValueChangeListener(new Property.ValueChangeListener() {
                                     @Override
                                     public void valueChange(Property.ValueChangeEvent event) {
-                                        String check = StringUtils.EMPTY;
+                                        String check;
                                         if(event.getProperty().getValue().equals(true)){
                                             check="1";
                                         } else{
@@ -418,7 +418,7 @@ public class SearchForm extends AbstractSearch {
                                         if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
                                             String account = String.valueOf(table.getContainerProperty(itemId, "account").getValue());
                                             String adjustmentType = String.valueOf(
-                                            HelperListUtil.getInstance().getIdByDesc(ConstantUtil.ADJUSTMENT_TYPE, String.valueOf(table.getContainerProperty(itemId, "adjustmentType").getValue())));
+                                            HelperListUtil.getInstance().getIdByDesc(ConstantUtil.ARM_ADJUSTMENT_TYPE, String.valueOf(table.getContainerProperty(itemId, "adjustmentType").getValue())));
                                             String companyId = String.valueOf(table.getContainerProperty(itemId, "companyId").getValue());
                                             String accountType =String.valueOf(
                                             HelperListUtil.getInstance().getIdByDesc("ARM_ACCOUNT_TYPE", String.valueOf(table.getContainerProperty(itemId, "accountType").getValue())));
@@ -442,7 +442,7 @@ public class SearchForm extends AbstractSearch {
                                         } else if (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
                                             String account = String.valueOf(table.getContainerProperty(itemId, "account").getValue());
                                             String adjustmentType = String.valueOf(
-                                            HelperListUtil.getInstance().getIdByDesc(ConstantUtil.ADJUSTMENT_TYPE, String.valueOf(table.getContainerProperty(itemId, "adjustmentType").getValue())));
+                                            HelperListUtil.getInstance().getIdByDesc(ConstantUtil.ARM_ADJUSTMENT_TYPE, String.valueOf(table.getContainerProperty(itemId, "adjustmentType").getValue())));
                                             String company = String.valueOf(table.getContainerProperty(itemId, "glCompanyName").getValue());
                                             String accountType = String.valueOf(
                                             HelperListUtil.getInstance().getIdByDesc("ARM_ACCOUNT_TYPE", String.valueOf(table.getContainerProperty(itemId, "accountType").getValue())));
@@ -481,21 +481,22 @@ public class SearchForm extends AbstractSearch {
                     }
 
                 }
-                if (tableName.equals(ConstantUtil.ARP_OUTBOUND)) {
-                    table.setEditable(Boolean.TRUE);
-                    searchLogic.deleteTempTable();
-                }
-
-                if (ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                    searchLogic.deleteTempTableValues();
-                } else if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
-                    try {
+                switch (tableName) {
+                    case ConstantUtil.ARP_OUTBOUND:
+                        table.setEditable(Boolean.TRUE);
+                        searchLogic.deleteARPTempTable(); 
+                        break;
+                    case ConstantUtil.ST_CFF_OUTBOUND:
+                        searchLogic.deleteCFFTempTable();
+                        break;
+                    case ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL:
                         commonLogic.dataForAdjustmentGTNoutbound(USERID, SESSIONID);
-                    } catch (Exception e) {
-                        LOGGER.error(e);
-                    }
-                } else if (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
-                    commonLogic.dataForAdjustmentReserveoutbound(USERID, SESSIONID);
+                        break;
+                    case ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL:
+                        commonLogic.dataForAdjustmentReserveoutbound(USERID, SESSIONID);
+                        break;
+                    default:
+                        break;
                 }
                 tableLogic.setIsFirstSearch(Boolean.TRUE);
                 tableLogic.setIsFirstTimeSearch(Boolean.TRUE);
@@ -506,14 +507,14 @@ public class SearchForm extends AbstractSearch {
             if (tableName.equalsIgnoreCase(ConstantUtil.INVALID_RECORD_COUNT)) {
 
                 if (invalidTableName.equals("IvldCustomerGtsForecast") || ConstantUtil.IVLD_ADJUSTED_DEMAND_VIEW.equals(invalidTableName) || ConstantUtil.IVLD_RETURN_RESERVE.equals(invalidTableName)
-                        || ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL.equals(invalidTableName) || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_MASTER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_IDENTIFIER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_PARENT.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_TRADE_CLASS.equals(invalidTableName) || invalidTableName.equals("IvldItemMaster") || invalidTableName.equals("IvldItemIdentifier") || invalidTableName.equals("IvldItemPricing")
+                        || ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL.equals(invalidTableName) || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_MASTER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_IDENTIFIER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_PARENT.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_TRADE_CLASS.equals(invalidTableName) || invalidTableName.equals(ConstantUtil.IVLD_ITEM_MASTER) || invalidTableName.equals(ConstantUtil.IVLD_ITEM_IDENTIFIER) || invalidTableName.equals("IvldItemPricing")
                         || ConstantUtil.IVLD_RETURN_RESERVE.equals(invalidTableName)) {
                     tableLogic.setContainerDataSource(new BeanItemContainer(Class.forName(ConstantUtil.TABLE_MODEL_PATH_TWO + invalidTableName)));
                 } else {
                     tableLogic.setContainerDataSource(new BeanItemContainer(Class.forName(ConstantUtil.TABLE_MODEL_PATH + invalidTableName)));
                 }
                 if (invalidTableName.equalsIgnoreCase(ConstantUtil.INVALID_GTS_CUSTOMER) || ConstantUtil.IVLD_ADJUSTED_DEMAND_VIEW.equals(invalidTableName) || ConstantUtil.IVLD_RETURN_RESERVE.equals(invalidTableName)
-                        || ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL.equals(invalidTableName) || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_MASTER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_IDENTIFIER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_PARENT.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_TRADE_CLASS.equals(invalidTableName) || invalidTableName.equals("IvldItemMaster") || invalidTableName.equals("IvldItemIdentifier") || invalidTableName.equals("IvldItemPricing")) {
+                        || ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL.equals(invalidTableName) || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_MASTER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_IDENTIFIER.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_PARENT.equals(invalidTableName) || ConstantUtil.INVALID_COMPANY_TRADE_CLASS.equals(invalidTableName) || invalidTableName.equals(ConstantUtil.IVLD_ITEM_MASTER) || invalidTableName.equals(ConstantUtil.IVLD_ITEM_IDENTIFIER) || invalidTableName.equals(ConstantUtil.IVLD_ITEM_PRICING)) {
                     searchResultbeans = new BeanItemContainer(Class.forName(ConstantUtil.TABLE_MODEL_PATH_TWO + invalidTableName));
 
                 } else {
@@ -527,8 +528,13 @@ public class SearchForm extends AbstractSearch {
                         searchResultbeans.removeContainerProperty(ConstantUtil.MODEL_PROPERTY_ID);
                 }
                 //This line is added to check whether all the records is unchecked before loading the screen\
-                commonLogic.updateAllInInvalidTable(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME)), "0");
+                String invalidTableDemand = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME));
+                if (invalidTableName.equals(ConstantUtil.IVLD_ADJUSTED_DEMAND_VIEW)) {
+                    invalidTableDemand = ConstantUtil.INVALID_ADJUST_DEMAND_VIEW;
+                }
                 
+                commonLogic.updateAllInInvalidTable(invalidTableDemand, "0");
+               
                 tableLogic.configureSearchData(searchValues, invalidTableName, moduleDetails, SelectedAccrualsId, false, false);
             }
 
@@ -551,11 +557,11 @@ public class SearchForm extends AbstractSearch {
                 Object[] tableColumnArr1 = null;
                 String[] tableHeaderArr1 = null;
                 if (invalidTableName.equalsIgnoreCase("IvldActualMaster")) {
-                    List<Object> list = new ArrayList<Object>(Arrays.asList(tableColumnArr));
+                    List<Object> list = new ArrayList<>(Arrays.asList(tableColumnArr));
                     list.removeAll(Arrays.asList("actualsMasterSid"));
                     tableColumnArr1 = list.toArray();
 
-                    List<String> list1 = new ArrayList<String>(Arrays.asList(tableHeaderArr));
+                    List<String> list1 = new ArrayList<>(Arrays.asList(tableHeaderArr));
                     list1.removeAll(Arrays.asList("Actuals Master ID"));
                     tableHeaderArr1 = list1.toArray(new String[list1.size()]);
                     table.setVisibleColumns(tableColumnArr1);
@@ -604,7 +610,8 @@ public class SearchForm extends AbstractSearch {
                                         && !"LotMaster".equals(VaadinSession.getCurrent().getAttribute(ConstantUtil.DDLB_NAME))
                                         && !ConstantUtil.RETURN_RESERVE_ACTUAL.equals(VaadinSession.getCurrent().getAttribute(ConstantUtil.DDLB_NAME))) {
                                     VaadinSession.getCurrent().setAttribute(ConstantUtil.VIEW_SID_NAME, viewNameSid);
-                                    InformationPopup infoPopup = new InformationPopup(systemId, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.DDLB_NAME)));
+                                    String tableName = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.DDLB_NAME)).equals(ConstantUtil.CUSTOMERSALES) ? ConstantUtil.GTS_FORECAST : String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.DDLB_NAME));
+                                    InformationPopup infoPopup = new InformationPopup(systemId, tableName);
                                     UI.getCurrent().addWindow(infoPopup);
                                 }
                             }
@@ -648,16 +655,16 @@ public class SearchForm extends AbstractSearch {
             table.setImmediate(true);
             
             // Unchecks CFF check all checkbox after search
-            table.setFilterFieldVisible(ConstantUtil.CHECK_RECORD, false);
+                 table.setFilterFieldVisible(ConstantUtil.CHECK_RECORD, false);
             table.setColumnCheckBox(ConstantUtil.CHECK_RECORD, true, false);
-            
+                
             // Unchecks ARP check all checkbox after search
             if (ConstantUtil.ARP_OUTBOUND.equals(tableName)) {
             table.setFilterFieldVisible(ConstantUtil.CHECKED_RECORD, false);
             table.setColumnCheckBox(ConstantUtil.CHECKED_RECORD, true, false);
             }
-            if (primaryDto.getValidation().equals(ConstantUtil.GL_SPACE_BALANCE) || primaryDto.getValidation().equals(ConstantUtil.ACCRUAL_MASTER) || primaryDto.getValidation().equals(ConstantUtil.CPI_INDEX)) {
-                table.setFilterGenerator(new FilterGenerator());
+            if (primaryDto.getValidation().equals(ConstantUtil.GL_SPACE_BALANCE) || primaryDto.getValidation().equals(ConstantUtil.ACCRUAL_MASTER_UPPER) || primaryDto.getValidation().equals(ConstantUtil.CPI_INDEX)) {
+                table.setFilterGenerator(new FilterGenerator(tableName));
             }
             LOGGER.debug("Ends btnSearchLogic");
         } catch (Exception e) {
@@ -670,7 +677,7 @@ public class SearchForm extends AbstractSearch {
 
      @UiHandler("reprocessBtn")
     public void reprocessBtn(Button.ClickEvent event) {
-
+         
         if (!tableName.equalsIgnoreCase(ConstantUtil.ST_CFF_OUTBOUND) && !tableName.equalsIgnoreCase(ConstantUtil.ARP_OUTBOUND) && !tableName.equalsIgnoreCase(ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL) && !tableName.equalsIgnoreCase(ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL)) {
             if (commonLogic.isRecordChecked(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME)))) {
                 String reasonForFailure = "";
@@ -691,7 +698,7 @@ public class SearchForm extends AbstractSearch {
                             field.setAccessible(true);
                             reasonForFailure = String.valueOf(field.get(se));
                             if (StringUtils.isNotBlank(reasonForFailure) && reasonForFailure.equalsIgnoreCase(ConstantUtil.MISSING_REQUIRED_FIELD)) {
-                                AbstractNotificationUtils.getErrorNotification("Reprocess", "The selected lines cannot be re-processed as they are missing required fields");
+                                AbstractNotificationUtils.getErrorNotification(ConstantUtil.REPROCESS, "The selected lines cannot be re-processed as they are missing required fields");
                                 isNotMissing = false;
                                 break;
                             }
@@ -704,7 +711,7 @@ public class SearchForm extends AbstractSearch {
 
                 }
                 if (isNotMissing) {
-                    MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to Reprocess the selected record(s) " + " ?", new MessageBoxListener() {
+                    MessageBox.showPlain(Icon.QUESTION, ConstantUtil.CONFIRMATION, "Are you sure you want to Reprocess the selected record(s) " + " ?", new MessageBoxListener() {
                         /**
                          * Called when a Button has been clicked .
                          *
@@ -730,7 +737,7 @@ public class SearchForm extends AbstractSearch {
                     }, ButtonId.YES, ButtonId.NO);
                 }
             } else {
-                AbstractNotificationUtils.getErrorNotification("Reprocess", "Please select at least one row from the Results list view");
+                AbstractNotificationUtils.getErrorNotification(ConstantUtil.REPROCESS, "Please select at least one row from the Results list view");
             }
             table.setValue(null);
         } else if (tableName.equalsIgnoreCase(ConstantUtil.ARP_OUTBOUND) || tableName.equalsIgnoreCase(ConstantUtil.ST_CFF_OUTBOUND) || tableName.equalsIgnoreCase(ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL) || tableName.equalsIgnoreCase(ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL)) {
@@ -747,7 +754,7 @@ public class SearchForm extends AbstractSearch {
                     checkRecord = noCheckedRecordReserveDetails().size();
                 }
                 if (checkRecord == 0) {
-                    AbstractNotificationUtils.getErrorNotification("Reprocess", "Please select a record to Reprocess");
+                    AbstractNotificationUtils.getErrorNotification(ConstantUtil.REPROCESS, "Please select a record to Reprocess");
                     isNotMissing = false;
 
                 }
@@ -755,7 +762,7 @@ public class SearchForm extends AbstractSearch {
                 LOGGER.error(ex);
             }
             if (isNotMissing) {
-                MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to Reprocess the selected record(s) " + " ?", new MessageBoxListener() {
+                MessageBox.showPlain(Icon.QUESTION, ConstantUtil.CONFIRMATION, "Are you sure you want to Reprocess the selected record(s) " + " ?", new MessageBoxListener() {
                     /**
                      * Called when a Button has been clicked .
                      *
@@ -772,29 +779,28 @@ public class SearchForm extends AbstractSearch {
                                     tableLogic.configureSearchData(searchValues, tableName, moduleDetails, SelectedAccrualsId, false, false);
                                 } else if (ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
                                     commonLogic.reprocessSelectedRecords(ConstantUtil.ST_CFF_OUTBOUND,stagingTable,selectedRecords,viewNameSid);
-                                    searchLogic.deleteTempTableValues();
                                     table.setColumnCheckBox(ConstantUtil.CHECK_RECORD, true, false);
                                     tableLogic.configureSearchData(searchValues, tableName, moduleDetails, SelectedAccrualsId, false, false);
                                 } else if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
                                     commonLogic.reprocessSelectedRecords(ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL,stagingTable,selectedRecords,viewNameSid);
-                                     searchValues.put("transactionLevel", NumericConstants.ONE);
+                                    searchValues.put("transactionLevel", NumericConstants.ONE);
                                     commonLogic.dataForAdjustmentGTNoutbound(USERID, SESSIONID);
                                     table.setColumnCheckBox(ConstantUtil.CHECK_RECORD, true, false);
-                                     tableLogic.setIsFirstTimeSearch(Boolean.TRUE);
+                                    tableLogic.setIsFirstTimeSearch(Boolean.TRUE);
                                     tableLogic.configureSearchData(searchValues, tableName, moduleDetails, SelectedAccrualsId, false, false);
-                                     tableLogic.setIsFirstTimeSearch(Boolean.FALSE);
-                                      searchLogic.adjustmentDetailsSearchRestriction(tableName, searchValues);
+                                    tableLogic.setIsFirstTimeSearch(Boolean.FALSE);
+                                    searchLogic.adjustmentDetailsSearchRestriction(tableName, searchValues);
                                 } else if (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
                                     commonLogic.reprocessSelectedRecords(ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL,stagingTable,selectedRecords,viewNameSid);
-                                   searchValues.put("transactionLevel", 0);
+                                    searchValues.put("transactionLevel", 0);
                                     commonLogic.dataForAdjustmentReserveoutbound(USERID, SESSIONID);
                                     table.setColumnCheckBox(ConstantUtil.CHECK_RECORD, true, false);
-                                   tableLogic.setIsFirstTimeSearch(Boolean.TRUE);
+                                    tableLogic.setIsFirstTimeSearch(Boolean.TRUE);
                                     tableLogic.configureSearchData(searchValues, tableName, moduleDetails, SelectedAccrualsId, false, false);
-                                     tableLogic.setIsFirstTimeSearch(Boolean.FALSE);
-                                     searchLogic.adjustmentDetailsSearchRestriction(tableName, searchValues);
+                                    tableLogic.setIsFirstTimeSearch(Boolean.FALSE);
+                                    searchLogic.adjustmentDetailsSearchRestriction(tableName, searchValues);
                                 }
-                                final Notification notif = new Notification("Selected records have been successfully Reprocessed", Notification.Type.HUMANIZED_MESSAGE);
+                                final Notification notif = new Notification(" has been successfully Reprocessed", Notification.Type.HUMANIZED_MESSAGE);
                                 notif.setPosition(Position.MIDDLE_CENTER);
                                 notif.setStyleName(ConstantsUtils.MY_STYLE);
                                 notif.show(Page.getCurrent());
@@ -809,12 +815,14 @@ public class SearchForm extends AbstractSearch {
             }
 
         }
-    }
+    } 
 
     public void reprocessButtonLogic() {
-//        long selectedRecordSid = Long.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.VIEW_NAME)));
         String invalidTable = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME));
-        commonLogic.reprocessSelectedRecords(invalidTable,stagingTable,selectedRecords,viewNameSid);
+        if ((ConstantUtil.VW_IVLD_DEMAND_FPRECAST).equals(invalidTable)) {
+            invalidTable = ConstantUtil.INVALID_ADJUST_DEMAND_VIEW;
+        }
+        commonLogic.reprocessSelectedRecords(invalidTable, stagingTable, selectedRecords, viewNameSid);
     }
     public List getItemId() {
         List Item_id = searchResultbeans.getItemIds(0, searchResultbeans.size());
@@ -823,7 +831,7 @@ public class SearchForm extends AbstractSearch {
 
     @UiHandler("reset")
     public void resetListview(Button.ClickEvent event) {
-        MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to reset the page to default/previous values " + " ?", new MessageBoxListener() {
+        MessageBox.showPlain(Icon.QUESTION, ConstantUtil.CONFIRMATION, "Are you sure you want to reset the page to default/previous values " + " ?", new MessageBoxListener() {
             /**
              *
              * Called when a Button has been clicked .
@@ -892,27 +900,27 @@ public class SearchForm extends AbstractSearch {
      }
     
  private void updateAllGTNCheckRecord(String check,String userId) {
-     String query = "UPDATE ST_ADJUSTMENT_GTN_DETAIL SET CHECK_RECORD="+check+" WHERE "
-             + " USER_ID="+userId+" AND SESSION_ID='"+SESSIONID+"'";
+     String query = "UPDATE ST_ADJUSTMENT_GTN_DETAIL SET CHECK_RECORD="+check+ConstantUtil.WHERE
+             + ConstantUtil.USER_ID_EQ_TO+userId+ConstantUtil.AND_SESSION_ID_WITH_QUOTES1+SESSIONID+"'";
            HelperTableLocalServiceUtil.executeUpdateQuery(query);
-                                    }
+        }
  private void updateGTNCheckRecord(String check, String account,
             String adjustmentType, String companyId, String accountType, String itemIdProperty, String workflowId,
             String accountCategory, String contractId, String glCompanyId, String calculationPeriod, String businessUnitId,String deductionId) {
         String query = "UPDATE ST_ADJUSTMENT_GTN_DETAIL SET CHECK_RECORD=" + check + " WHERE"
-                + " ACCOUNT='" + account + "' AND "
-                + " ADJUSTMENT_TYPE='" + adjustmentType + "' AND "
-                + " COMPANY_ID='" + companyId + "' AND "
-                + " ACCOUNT_TYPE='" + accountType + "' AND "
-                + " ITEM_ID='" + itemIdProperty + "' AND "
-                + " WORKFLOW_ID='" + workflowId + "' AND "
-                + " ACCOUNT_CATEGORY='" + accountCategory + "' AND "
-                + " CONTRACT_ID='" + contractId + "' AND "
-                + " GL_COMPANY_ID='" + glCompanyId + "' AND "
-                + " DEDUCTION_ID='" + deductionId + "' AND "
-                + " CALCULATION_PERIOD >='" + calculationPeriod + "' AND "
-                + " BUSINESS_UNIT_ID='" + businessUnitId + "' AND "
-                + " USER_ID=" + USERID + " AND SESSION_ID='" + SESSIONID + "'";
+                + " ACCOUNT='" + account + ConstantUtil.AND_WITH_QUOTES
+                + " ADJUSTMENT_TYPE='" + adjustmentType + ConstantUtil.AND_WITH_QUOTES
+                + " COMPANY_ID='" + companyId + ConstantUtil.AND_WITH_QUOTES
+                + " ACCOUNT_TYPE='" + accountType + ConstantUtil.AND_WITH_QUOTES
+                + " ITEM_ID='" + itemIdProperty + ConstantUtil.AND_WITH_QUOTES
+                + " WORKFLOW_ID='" + workflowId + ConstantUtil.AND_WITH_QUOTES
+                + " ACCOUNT_CATEGORY='" + accountCategory + ConstantUtil.AND_WITH_QUOTES
+                + " CONTRACT_ID='" + contractId + ConstantUtil.AND_WITH_QUOTES
+                + " GL_COMPANY_ID='" + glCompanyId + ConstantUtil.AND_WITH_QUOTES
+                + " DEDUCTION_ID='" + deductionId + ConstantUtil.AND_WITH_QUOTES
+                + " CALCULATION_PERIOD >='" + calculationPeriod + ConstantUtil.AND_WITH_QUOTES
+                + " BUSINESS_UNIT_ID='" + businessUnitId + ConstantUtil.AND_WITH_QUOTES
+                + ConstantUtil.USER_ID_EQ_TO + USERID + ConstantUtil.AND_SESSION_ID_WITH_QUOTES1 + SESSIONID + "'";
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
  
@@ -922,24 +930,24 @@ public class SearchForm extends AbstractSearch {
             String workflowId, String accountCategory,
             String businessUnit, String company) {
 
-        String query = "UPDATE ST_ADJUSTMENT_RESERVE_DETAIL SET CHECK_RECORD=" + check + " WHERE "
-                + " ACCOUNT='" + account + "' AND "
-                + " ADJUSTMENT_TYPE='" + adjustmentType + "' AND "
-                + " CALCULATION_PERIOD='" + calculationPeriod + "' AND "
-                + " ACCOUNT_TYPE='" + accountType + "' AND "
-                + " BRAND='" + brand + "' AND "
-                + " WORKFLOW_ID='" + workflowId + "' AND "
-                + " ACCOUNT_CATEGORY='" + accountCategory + "' AND "
-                + " BUSINESS_UNIT='" + businessUnit + "' AND "
-                + " COMPANY='" + company + "' AND "
-                + " USER_ID=" + USERID + " AND SESSION_ID='" + SESSIONID + "'";
+        String query = "UPDATE ST_ADJUSTMENT_RESERVE_DETAIL SET CHECK_RECORD=" + check + ConstantUtil.WHERE
+                + " ACCOUNT='" + account + ConstantUtil.AND_WITH_QUOTES
+                + " ADJUSTMENT_TYPE='" + adjustmentType + ConstantUtil.AND_WITH_QUOTES
+                + " CALCULATION_PERIOD='" + calculationPeriod + ConstantUtil.AND_WITH_QUOTES
+                + " ACCOUNT_TYPE='" + accountType + ConstantUtil.AND_WITH_QUOTES
+                + " BRAND='" + brand + ConstantUtil.AND_WITH_QUOTES
+                + " WORKFLOW_ID='" + workflowId + ConstantUtil.AND_WITH_QUOTES
+                + " ACCOUNT_CATEGORY='" + accountCategory + ConstantUtil.AND_WITH_QUOTES
+                + " BUSINESS_UNIT='" + businessUnit + ConstantUtil.AND_WITH_QUOTES
+                + " COMPANY='" + company + ConstantUtil.AND_WITH_QUOTES
+                + ConstantUtil.USER_ID_EQ_TO + USERID + ConstantUtil.AND_SESSION_ID_WITH_QUOTES1 + SESSIONID + "'";
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
     }
 
     private void updateAllReserveCheckRecord(String check, String userId) {
-        String query = "UPDATE ST_ADJUSTMENT_RESERVE_DETAIL SET CHECK_RECORD=" + check + " WHERE "
-                + " USER_ID=" + userId + " AND SESSION_ID='" + SESSIONID + "'";
+        String query = "UPDATE ST_ADJUSTMENT_RESERVE_DETAIL SET CHECK_RECORD=" + check + ConstantUtil.WHERE
+                + ConstantUtil.USER_ID_EQ_TO + userId + ConstantUtil.AND_SESSION_ID_WITH_QUOTES1 + SESSIONID + "'";
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
     
@@ -949,7 +957,7 @@ public class SearchForm extends AbstractSearch {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID_ARP));
         String query = "SELECT COUNT(1) FROM ST_ARP_OUTBOUND WHERE CHECK_RECORD=1"
-                + " AND USER_ID='" + userId + "' AND SESSION_ID=" + sessionId + "";
+                + ConstantUtil.AND_USER_ID + userId + ConstantUtil.AND_SESSION_ID + sessionId + "";
         List<Object> result = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (result != null && result.size() > 0) {
             size = Integer.valueOf(String.valueOf(result.get(0)));
@@ -959,21 +967,21 @@ public class SearchForm extends AbstractSearch {
 
     private List<Object> noCheckedRecord() {
         String query = "SELECT * FROM ST_CFF_OUTBOUND_MASTER WHERE CHECK_RECORD=1"
-                + " AND USER_ID='" + USERID + "' AND SESSION_ID='" + SESSIONID + "'";
+                + ConstantUtil.AND_USER_ID + USERID + "' AND SESSION_ID = '" + SESSIONID + "'";
         List<Object> result = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return result;
     }
 
     private List<Object> noCheckedRecordReserveDetails() {
         String query = "SELECT WORKFLOW_ID FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE CHECK_RECORD=1"
-                + " AND USER_ID='" + USERID + "' AND SESSION_ID='" + SESSIONID + "'";
+                + ConstantUtil.AND_USER_ID + USERID + "' AND SESSION_ID='" + SESSIONID + "'";
         List<Object> result = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return result;
     }
 
     private List<Object> noCheckedRecordGTN() {
         String query = "SELECT WORKFLOW_ID FROM ST_ADJUSTMENT_GTN_DETAIL WHERE CHECK_RECORD=1"
-                + " AND USER_ID='" + USERID + "' AND SESSION_ID='" + SESSIONID + "'";
+                + ConstantUtil.AND_USER_ID + USERID + "' AND SESSION_ID='" + SESSIONID + "'";
         List<Object> result = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return result;
     }

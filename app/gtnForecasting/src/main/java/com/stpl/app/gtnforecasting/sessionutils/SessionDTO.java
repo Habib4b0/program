@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gtnforecasting.sessionutils;
 
+import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.model.CustomViewDetails;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,12 +60,12 @@ public class SessionDTO implements Serializable {
     private Boolean assumptionDiscount;
     private Boolean assumptionPPA;
     private GtnSmallHashMap projectionPeriod = new GtnSmallHashMap();
-    private Map<String, List> FrequencyAndQuater = new HashMap<String, List>();
-    private Map<String, Date> HistoryAndStartDate = new HashMap<String, Date>();
+    private Map<String, List> FrequencyAndQuater = new HashMap<>();
+    private Map<String, Date> HistoryAndStartDate = new HashMap<>();
     private ForecastDTO forecastDTO;
     private Date currentDate;
-    private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<String, Map<String, Integer>>();
-    private Map<String, Integer> projectionDetails = new HashMap<String, Integer>();
+    private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<>();
+    private Map<String, Integer> projectionDetails = new HashMap<>();
     private boolean fromDateChanged = false;
     private String custRelationshipBuilderSid = StringUtils.EMPTY;
     private String prodRelationshipBuilderSid = StringUtils.EMPTY;
@@ -92,7 +92,7 @@ public class SessionDTO implements Serializable {
     private String totalDiscountCount = StringUtils.EMPTY;
     //Added for persisting freq value in session for calc and adj prc
     private String frequency = StringUtils.EMPTY;
-    private Map<String, String> returnsDetailsMap = new HashMap<String, String>();
+    private Map<String, String> returnsDetailsMap = new HashMap<>();
     private String detailsSID = StringUtils.EMPTY;
     private int noOfApproval;
     private int approvalLevel;
@@ -115,8 +115,8 @@ public class SessionDTO implements Serializable {
     private int tradingPartner = 0;
     private List<Leveldto> productHierarchyList;
     private List<Leveldto> customerHierarchyList;
-    private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<Integer, List<Leveldto>>();
-    private Map<Integer, List<CustomViewDetails>> customDetailMap = new HashMap<Integer, List<CustomViewDetails>>();
+    private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<>();
+    private Map<Integer, List<CustomViewDetails>> customDetailMap = new HashMap<>();
     private String screenName = StringUtils.EMPTY;
     private int customId;
     private Set<String> salesgroupSet;
@@ -142,10 +142,15 @@ public class SessionDTO implements Serializable {
     private String currentActiveFile = null;
     private String fileName = StringUtils.EMPTY;
     private String fileType = StringUtils.EMPTY;
+    private int fileStatus ;
     private boolean newFileAtivated = false;
     private boolean isSalesCalculated = false;
+    private boolean isDiscountCalculated = false;
         private int ccpDetailsSid ;
     private boolean isSPCalculationDoneAgain = false;
+    private Map<String,Object[]> latestProjectionFileDetails = new HashMap<>();
+    private String fileNameUsedInSales = StringUtils.EMPTY;
+    private DataAssumptionsLogic dataAssumptionLogic;
                 
     public String getAltFromPeriod() {
         return altFromPeriod;
@@ -1204,4 +1209,48 @@ public class SessionDTO implements Serializable {
         this.isSPCalculationDoneAgain = isSPCalculationDoneAgain;
     }
 
+    public boolean isIsDiscountCalculated() {
+        return isDiscountCalculated;
+    }
+
+    public void setIsDiscountCalculated(boolean isDiscountCalculated) {
+        this.isDiscountCalculated = isDiscountCalculated;
+    }
+
+    public Map<String, Object[]> getLatestProjectionFileDetails() {
+        return latestProjectionFileDetails;
+    }
+
+    public void setLatestProjectionFileDetails(Map<String, Object[]> latestProjectionFileDetails) {
+        this.latestProjectionFileDetails = latestProjectionFileDetails;
+    }
+
+    public String getFileNameUsedInSales() {
+        return fileNameUsedInSales;
+    }
+
+    public void setFileNameUsedInSales(String fileNameUsedInSales) {
+        this.fileNameUsedInSales = fileNameUsedInSales;
+    }
+
+    public DataAssumptionsLogic getDataAssumptionLogic() {
+        return dataAssumptionLogic;
+    }
+
+    public void setDataAssumptionLogic(DataAssumptionsLogic dataAssumptionLogic) {
+        this.dataAssumptionLogic = dataAssumptionLogic;
+    }
+    
+    public boolean getDiscountCanBeCalculated(Object[] obj){
+        return dataAssumptionLogic.discountCanbeCalculated(obj);
+    }
+
+    public int getFileStatus() {
+        return fileStatus;
+    }
+
+    public void setFileStatus(int fileStatus) {
+        this.fileStatus = fileStatus;
+    }
+    
 }

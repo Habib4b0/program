@@ -119,10 +119,10 @@ public class AdjustmentConfigHistory extends Window {
         methodologyDDLB.setValue(binderDTO.getMethodology());
         redemptionPeriod.setValue(binderDTO.getRedemptionPeriod());
 
-        transactionName.setEnabled(Boolean.FALSE);
-        transactionDesc.setEnabled(Boolean.FALSE);
-        methodologyDDLB.setEnabled(Boolean.FALSE);
-        redemptionPeriod.setEnabled(Boolean.FALSE);
+        transactionName.setEnabled(false);
+        transactionDesc.setEnabled(false);
+        methodologyDDLB.setEnabled(false);
+        redemptionPeriod.setEnabled(false);
 
     }
 
@@ -134,8 +134,8 @@ public class AdjustmentConfigHistory extends Window {
         resultsTable.setMultiSelect(true);
         configTableLogic.setPageLength(NumericConstants.TEN);
         configTableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(ARMUtils.ADJUSTMENT_CONFIG_COLUMN);
-        resultsTable.setColumnHeaders(ARMUtils.ADJUSTMENT_CONFIG_HEADER);
+        resultsTable.setVisibleColumns(ARMUtils.getAdjustmentConfigColumn());
+        resultsTable.setColumnHeaders(ARMUtils.getAdjustmentConfigHeader());
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSizeFull();
         resultsTable.setImmediate(true);
@@ -143,37 +143,39 @@ public class AdjustmentConfigHistory extends Window {
         resultsTable.addStyleName(ARMUtils.FILTERCOMBOBOX);
         resultsTable.addStyleName("table-header-normal");
         resultsTable.addStyleName(ARMUtils.CENTER_CHECK);
-        
+
         resultsTable.setConverter("createdDate", new DateToStringConverter());
         resultsTable.setConverter("modifiedDate", new DateToStringConverter());
-        
+
         resultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);
         resultsTable.setColumnAlignment("modifiedDate", ExtCustomTable.Align.CENTER);
-        
-        configTableLogic.loadsetData(Boolean.TRUE, binderDTO);
+
+        configTableLogic.loadsetData(true, binderDTO);
 
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
-                if ((propertyId.toString().equals("createdBy")||propertyId.toString().equals("modifiedBy")) && (value != null)) {
-                        return new SimpleStringFilter(propertyId, String.valueOf(value), false, false);
+                if (("createdBy".equals(propertyId.toString()) || "modifiedBy".equals(propertyId.toString())) && (value != null)) {
+                    return new SimpleStringFilter(propertyId, String.valueOf(value), false, false);
                 }
-                if ((value instanceof ExtDateInterval ) && (value != null) ) {
-                        ExtDateInterval interval = (ExtDateInterval) value;
-                        Comparable<?> actualFrom = interval.getFrom(), actualTo = interval
-                                .getTo();
-                        actualFrom = actualFrom == null ? null : new Timestamp(interval
-                                .getFrom().getTime());
-                        actualTo = actualTo == null ? null : new Timestamp(interval
-                                .getTo().getTime());
+                if ((value instanceof ExtDateInterval) && (value != null)) {
+                    ExtDateInterval interval = (ExtDateInterval) value;
+                    Comparable<?> actualFrom = interval.getFrom();
+                    Comparable<?> actualTo = interval
+                            .getTo();
+                    actualFrom = actualFrom == null ? null : new Timestamp(interval
+                            .getFrom().getTime());
+                    actualTo = actualTo == null ? null : new Timestamp(interval
+                            .getTo().getTime());
 
-                        if (actualFrom != null && actualTo != null) {
-                            return new Between(propertyId, actualFrom, actualTo);
-                        } else if (actualFrom != null) {
-                            return new Compare.GreaterOrEqual(propertyId, actualFrom);
-                        } else {
-                            return new Compare.LessOrEqual(propertyId, actualTo);
-                        }
+                    if (actualFrom != null && actualTo != null) {
+                        return new Between(propertyId, actualFrom, actualTo);
+                    } else if (actualFrom != null) {
+                        return new Compare.GreaterOrEqual(propertyId, actualFrom);
+                    } else {
+                        return new Compare.LessOrEqual(propertyId, actualTo);
+                    }
                 }
                 return null;
             }
@@ -181,7 +183,7 @@ public class AdjustmentConfigHistory extends Window {
             @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if ((originatingField instanceof ComboBox) && (originatingField.getValue() != null)) {
-                        return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
+                    return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
 
                 }
                 return generateFilter(propertyId, originatingField.getValue());
@@ -189,10 +191,12 @@ public class AdjustmentConfigHistory extends Window {
 
             @Override
             public void filterRemoved(Object propertyId) {
+                LOGGER.debug("Inside filterRemoved Method");
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                LOGGER.debug("Inside filterAdded Method");
             }
 
             @Override
@@ -207,7 +211,7 @@ public class AdjustmentConfigHistory extends Window {
                     comboBox.setImmediate(true);
                     switch (propertyId.toString()) {
                         case "methodology":
-                            CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, "ARM_TRX_METHDOLOGY", Boolean.TRUE);
+                            CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, "ARM_TRX_METHDOLOGY", true);
                             return comboBox;
                         case "redemptionPeriod":
                             loadRedemptionPeriodDDLB(comboBox);
@@ -216,12 +220,12 @@ public class AdjustmentConfigHistory extends Window {
                             return null;
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in getCustomFilterComponent :"+ex);
                 }
                 return null;
             }
         });
-        resultsTable.setFilterBarVisible(Boolean.TRUE);
+        resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
     }
 
@@ -244,7 +248,7 @@ public class AdjustmentConfigHistory extends Window {
         ExcelExportforBB.createWorkSheet(visibleList, recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
 
         Object[] visibleList = resultsTable.getVisibleColumns();
         try {
@@ -253,7 +257,7 @@ public class AdjustmentConfigHistory extends Window {
                 ExcelExportforBB.createFileContent(visibleList, searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in createWorkSheetContent :"+e);
         }
     }
 
@@ -263,7 +267,7 @@ public class AdjustmentConfigHistory extends Window {
      * @param event
      */
     @UiHandler("closeBtnRes")
-    public void closeButtonLogic(Button.ClickEvent event) throws PortalException {
+    public void closeButtonLogic(Button.ClickEvent event) {
         close();
     }
 
@@ -276,9 +280,19 @@ public class AdjustmentConfigHistory extends Window {
         redemptionPeriod.setItemCaption(1, ARMConstants.getYes());
         redemptionPeriod.addItem(0);
         redemptionPeriod.setItemCaption(0, ARMConstants.getNo());
-        redemptionPeriod.setNullSelectionAllowed(Boolean.TRUE);
+        redemptionPeriod.setNullSelectionAllowed(true);
         redemptionPeriod.setNullSelectionItemId(GlobalConstants.getShowAll());
         redemptionPeriod.select(GlobalConstants.getShowAll());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

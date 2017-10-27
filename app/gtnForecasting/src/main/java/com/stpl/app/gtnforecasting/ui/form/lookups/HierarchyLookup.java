@@ -20,6 +20,7 @@ import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Button;
@@ -78,7 +79,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
     /**
      * Container for results table.
      */
-    private final BeanItemContainer<HierarchyLookupDTO> resultBean = new BeanItemContainer<HierarchyLookupDTO>(HierarchyLookupDTO.class);
+    private final BeanItemContainer<HierarchyLookupDTO> resultBean = new BeanItemContainer<>(HierarchyLookupDTO.class);
 
     /**
      * Hierarchy DTO.
@@ -94,7 +95,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
      * @param hierarchyDto to return the selected hierarchy information
      */
     public HierarchyLookup(final String indicator, final String windowName, final TextField hierarchyLookup, HierarchyLookupDTO hierarchyDto) {
-        super(indicator, windowName, INDICATOR_MODULE_NON_MANDATED.getConstant());
+        super(windowName);
         this.indicator = indicator;
         this.hierarchyLookup = hierarchyLookup;
         this.hierarchyDto = hierarchyDto;
@@ -121,22 +122,17 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
         results.setPageLength(NumericConstants.TEN);
         selectBtn.setEnabled(false);
 
-        results.addItemClickListener(new ItemClickEvent.ItemClickListener() {
-
+        results.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
-            public void itemClick(ItemClickEvent event) {
-                if (results.getValue() != null) {
-                    if (event.getItem() != null) {
-                        selectBtn.setEnabled(false);
-                       
-                    }
+            public void valueChange(Property.ValueChangeEvent event) {
+                if(results.getValue() != null) {
+                    selectBtn.setEnabled(true);
                 } else {
-                     selectBtn.setEnabled(true);
+                    selectBtn.setEnabled(false);
                 }
             }
         });
     }
-
     /**
      * Configures all the components.
      */
@@ -181,7 +177,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
 
             @Override
             public void noMethod() {
-
+                return;
             }
         };
         notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");
@@ -275,6 +271,6 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-
+        return;
     }
 }

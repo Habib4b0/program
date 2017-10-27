@@ -16,14 +16,17 @@ import com.stpl.app.cff.ui.fileSelection.logic.tableLogic.FileDetailsTableLogic;
 import com.stpl.app.cff.ui.fileSelection.logic.tableLogic.FileResultsTableLogic;
 import com.stpl.app.cff.ui.fileSelection.lazyload.ForecastYearContainer;
 import com.stpl.app.adminconsole.filemanagement.ui.lazyload.ForecastYearCriteria;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.cff.util.BCPExcelUtility;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ErrorCodeUtil;
 import com.stpl.app.cff.util.ErrorCodes;
+import com.stpl.app.cff.util.OnDemandFileDownloader;
 import com.stpl.app.cff.util.ValidationUtils;
 import com.stpl.app.cff.util.converters.DataFormatConverter;
 import com.stpl.app.model.DemandForecast;
@@ -100,6 +103,12 @@ import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.server.VaadinSession;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 
 /**
@@ -201,8 +210,6 @@ public class FileManagementLookup extends Window {
     @UiField("summaryPanel")
     private Panel summaryPanel;
 
-  //  @UiField("cssLayout")
- //   CssLayout cssLayout;
 
     @UiField("cssLayoutForecastSection")
     CssLayout cssLayoutForecastSection;
@@ -251,6 +258,8 @@ public class FileManagementLookup extends Window {
     VerticalLayout detailsTable;
     @UiField("horizLayout")
     private HorizontalLayout horizLayout;
+    public static final String SEARCH_ERROR = "Search Error";
+    public static final String FORCAST_YEAR = "forcastYear";
     /**
      * The excel image.
      */
@@ -258,11 +267,11 @@ public class FileManagementLookup extends Window {
     /**
      * The results bean.
      */
-    private final BeanItemContainer<FileMananagementResultDTO> resultsBean = new BeanItemContainer<FileMananagementResultDTO>(FileMananagementResultDTO.class);
+    private final BeanItemContainer<FileMananagementResultDTO> resultsBean = new BeanItemContainer<>(FileMananagementResultDTO.class);
     /**
      * The details bean.
      */
-    private BeanItemContainer<FileMananagementResultDTO> detailsBean = new BeanItemContainer<FileMananagementResultDTO>(FileMananagementResultDTO.class);
+    private BeanItemContainer<FileMananagementResultDTO> detailsBean = new BeanItemContainer<>(FileMananagementResultDTO.class);
     /**
      * The file mgt dto.
      */
@@ -320,7 +329,8 @@ public class FileManagementLookup extends Window {
     DataFormatConverter priceFormat = new DataFormatConverter("#0.00", DataFormatConverter.INDICATOR_DOLLAR);
     DataFormatConverter unitsFormat = new DataFormatConverter("#0.0");
     DataFormatConverter dollarsFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
-    List<FileMananagementResultDTO> addlineList = new ArrayList<FileMananagementResultDTO>();
+    private DataFormatConverter zeroDecimalFormat = new DataFormatConverter("#0");
+    List<FileMananagementResultDTO> addlineList = new ArrayList<>();
     ComboBox fmFileType;
     String fmCountry;
     FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
@@ -336,11 +346,13 @@ public class FileManagementLookup extends Window {
     BeanItemContainer searchContainer;
     SessionDTO sessionDTO;
     boolean isdetails;
+    public static final String REGEX = "([0-9|a-z|A-Z|*\\\\ ])*";
     FileSelectionDTO fileselectiondto = new FileSelectionDTO();
     String FileType;
     String Country;
     Object itemId;
     String businessUnit;
+    public static final String UNIQUE_COMBINATION_ERROR = "Unique combination error";
     /**
      * Instantiates a new file management lookup.
      *
@@ -730,7 +742,7 @@ public class FileManagementLookup extends Window {
         try {
             LOGGER.debug("init Method initiated");
 
-            addStyleName(Constants.bootstrap);
+            addStyleName(Constants.BOOTSTRAP);
             addStyleName("bootstrap-bb");
             addStyleName("fileMgmt");
             addStyleName("popupwinwidth");
@@ -776,7 +788,7 @@ public class FileManagementLookup extends Window {
             if (objectid instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) objectid;
             } else if (objectid instanceof FileMananagementResultDTO) {
-                targetItem = new BeanItem<FileMananagementResultDTO>((FileMananagementResultDTO) objectid);
+                targetItem = new BeanItem<>((FileMananagementResultDTO) objectid);
             } else {
                 targetItem = NULLITEM;
             }
@@ -862,13 +874,13 @@ public class FileManagementLookup extends Window {
             fileType.setReadOnly(true);
             type.addValidator(new StringLengthValidator("Type length should be less than 50 characters", 0, NumericConstants.FIFTY, true));
             type.setValidationVisible(true);
-            type.addValidator(new RegexpValidator("([0-9|a-z|A-Z|*\\\\ ])*", "Type can only be Alphanumeric"));
+            type.addValidator(new RegexpValidator(REGEX, "Type can only be Alphanumeric"));
             fileName.addValidator(new StringLengthValidator("FileName length should be less than 50 characters", 0, NumericConstants.FIFTY, true));
             fileName.setValidationVisible(true);
-            fileName.addValidator(new RegexpValidator("([0-9|a-z|A-Z|*\\\\ ])*", "FileName can only be Alphanumeric"));
+            fileName.addValidator(new RegexpValidator(REGEX, "FileName can only be Alphanumeric"));
             version.addValidator(new StringLengthValidator("Version length should be less than 50 characters", 0, NumericConstants.FIFTY, true));
             version.setValidationVisible(true);
-            version.addValidator(new RegexpValidator("([0-9|a-z|A-Z|*\\\\ ])*", "Version can only be Alphanumeric"));
+            version.addValidator(new RegexpValidator(REGEX, "Version can only be Alphanumeric"));
 
             getForecastYear();
             searchButton();
@@ -882,6 +894,15 @@ public class FileManagementLookup extends Window {
         toDate.addValidator(new FileManagementLookup.DateValidator("Created Date From should be before Created Date To"));
         fromDate.setValidationVisible(true);
         toDate.setValidationVisible(true);
+        
+        Downloader downloader = new Downloader(null, "",detailstableLogic);
+        OnDemandFileDownloader ondfd;
+        try {
+            ondfd = new OnDemandFileDownloader(downloader);
+            ondfd.extend(excelExportDetail);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(FileManagementLookup.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         LOGGER.debug("configureFields ended ");
         LOGGER.debug("Ending addItemDetailsTable");
@@ -920,7 +941,7 @@ public class FileManagementLookup extends Window {
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In searchButton searchButtonClickLogic started");
                 try {
-                    searchButtonClickLogic(event);
+                    searchButtonClickLogic();
                 } catch (Exception e) {
                     LOGGER.error(e);
                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
@@ -938,7 +959,7 @@ public class FileManagementLookup extends Window {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void searchButtonClickLogic(final Button.ClickEvent event) throws ParseException {
+    protected void searchButtonClickLogic() throws ParseException {
         LOGGER.debug("entering searchButtonClickLogic");
         resultsBean.removeAllItems();
         detailsBean.removeAllItems();
@@ -962,7 +983,7 @@ public class FileManagementLookup extends Window {
             SearchforecastYear = SearchForecastddlb.getValue().toString();
         }
         if (StringUtils.isEmpty(fileName.getValue().trim()) && StringUtils.isEmpty(type.getValue().trim()) && StringUtils.isEmpty(version.getValue().trim()) && (forcaste == null || forcaste.equals(ConstantsUtils.EMPTY)) && fromDate.getValue() == null && toDate.getValue() == null && SearchforecastYear.equals("")) {
-            MessageBox.showPlain(Icon.ERROR, "Search Error", "Please Enter a value within text boxes of the Search Criteria", ButtonId.OK);
+            MessageBox.showPlain(Icon.ERROR, SEARCH_ERROR, "Please Enter a value within text boxes of the Search Criteria", ButtonId.OK);
         } 
         else {
             resultDTO.setFileType(String.valueOf(fileType.getValue()));
@@ -1001,7 +1022,7 @@ public class FileManagementLookup extends Window {
                 LOGGER.debug("In detailsButton detailsButtonClickLogic started");
                 try {
                     if (ConstantsUtils.EMPTY.equals(fileNameList.getValue())) {
-                        AbstractNotificationUtils.getErrorNotification("Details Error", "Please click on a record within the results list view");
+                        AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR, "Please click on a record within the results list view");
                     } else {
                         addlineList.clear();
                         detailsButtonClickLogic();
@@ -1030,14 +1051,13 @@ public class FileManagementLookup extends Window {
         try {
             final FileManagementLogic fmLogic = new FileManagementLogic();
             String finalVersion;
-            String etlVersion = ConstantsUtils.EMPTY;
+            String etlVersion;
             String selectedVersion = versionList.getValue();
             if (selectedVersion.contains(".")) {
                 String[] array = selectedVersion.split("\\.");
                 etlVersion = array[0];
                 finalVersion = etlVersion + "~" + selectedVersion;
             } else {
-                etlVersion = selectedVersion;
                 finalVersion = selectedVersion;
             }
             detailsBean.removeAllItems();
@@ -1176,26 +1196,6 @@ public class FileManagementLookup extends Window {
                 LOGGER.debug("In configureFields excelExportResult.addClickListener Ended");
             }
         });
-        excelExportDetail.addClickListener(new ClickListener() {
-            /**
-             * Method is called when available excel export button is clicked
-             */
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                LOGGER.debug("In configureFields excelExportDetail.addClickListener started");
-                try {
-                     ConsolidatedFinancialForecastUI.EXCEL_CLOSE=true;
-                    configureExcelDetailsTable();
-                    loadExcelDetailsTable(detailsResultDTO);
-                    ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelDetailsTable), "File Management Details", "File Management Details", "FileManagemenDetails.xls", false);
-                    excel.export();
-                    detailsTable.removeComponent(excelDetailsTable);
-                } catch (Exception ex) {
-                    LOGGER.error(ex);
-                }
-                LOGGER.debug("In configureFields excelExportDetail.addClickListener Ended");
-            }
-        });
         LOGGER.debug("excelExport method Ended");
     }
 
@@ -1231,12 +1231,12 @@ public class FileManagementLookup extends Window {
                                     if (buttonId.name().equals(ConstantsUtils.YES)) {
                                              try {
                                                  saveButtonLogic();
-                                                 searchContainer.getContainerProperty(itemId, "fileName").setValue(fileNameList.getValue());
+                                                 searchContainer.getContainerProperty(itemId, StringConstantsUtil.FILE_NAME).setValue(fileNameList.getValue());
                                                  searchContainer.getContainerProperty(itemId, "activeFromDate").setValue(df.format(fileMgtDTO.getFromDate()));
                                                  searchContainer.getContainerProperty(itemId, "activeToDate").setValue(df.format(fileMgtDTO.getToDate()));
                                                  searchContainer.getContainerProperty(itemId, "fileManagementSid").setValue(null);
                                                  searchContainer.getContainerProperty(itemId, "fileChanged").setValue(true);
-                                                 searchContainer.getContainerProperty(itemId, "version").setValue(fileMgtDTO.getVersion());
+                                                 searchContainer.getContainerProperty(itemId, StringConstantsUtil.VERSION).setValue(fileMgtDTO.getVersion());
                                                  fileMgtIndexDTO.setVersion(fileMgtDTO.getVersion());
                                                  fileMgtIndexDTO.setFileName(fileMgtDTO.getFileName());
                                                  fileMgtIndexDTO.setFileType(fileMgtDTO.getFileType());
@@ -1254,12 +1254,12 @@ public class FileManagementLookup extends Window {
 
                         } else {
 
-                            searchContainer.getContainerProperty(itemId, "fileName").setValue(fileNameList.getValue());
+                            searchContainer.getContainerProperty(itemId, StringConstantsUtil.FILE_NAME).setValue(fileNameList.getValue());
                             searchContainer.getContainerProperty(itemId, "activeFromDate").setValue(fileMgtDTO.getFromDate());
                             searchContainer.getContainerProperty(itemId, "activeToDate").setValue(fileMgtDTO.getToDate());
                             searchContainer.getContainerProperty(itemId, "fileManagementSid").setValue(null);
                             searchContainer.getContainerProperty(itemId, "fileChanged").setValue(true);
-                            searchContainer.getContainerProperty(itemId, "version").setValue(fileMgtDTO.getVersion());
+                            searchContainer.getContainerProperty(itemId, StringConstantsUtil.VERSION).setValue(fileMgtDTO.getVersion());
                             selectFile.setValue(String.valueOf(fileNameList.getValue()));
                             fileMgtIndexDTO.setVersion(fileMgtDTO.getVersion());
                             fileMgtIndexDTO.setFileName(fileMgtDTO.getFileName());
@@ -1311,6 +1311,7 @@ public class FileManagementLookup extends Window {
                                         fromDate.setValue(null);
                                         toDate.setValue(null);
                                         SearchForecastddlb.select(ConstantsUtils.SELECT_ONE);
+                                        country.select(ConstantsUtils.COUNTRY_US);
                                     } catch (Exception e) {
                                         LOGGER.error(e);
                                         AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4006));
@@ -1372,7 +1373,7 @@ public class FileManagementLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof FileMananagementResultDTO) {
-            targetItem = new BeanItem<FileMananagementResultDTO>((FileMananagementResultDTO) obj);
+            targetItem = new BeanItem<>((FileMananagementResultDTO) obj);
         }
         LOGGER.debug("End of getBeanFromId method");
         return (FileMananagementResultDTO) targetItem.getBean();
@@ -1409,16 +1410,16 @@ public class FileManagementLookup extends Window {
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("validate Method started");
             if (fromDate.getValue() != null && toDate.getValue() != null) {
                 if (fromDate.getValue().after(toDate.getValue())) {
                     toDate.setValue(null);
-                    AbstractNotificationUtils.getErrorNotification("Search Error", "Created Date To should be greater than Created Date From");
+                    AbstractNotificationUtils.getErrorNotification(SEARCH_ERROR, "Created Date To should be greater than Created Date From");
 
                 } else if (fromDate.getValue().equals(toDate.getValue())) {
                     toDate.setValue(null);
-                    AbstractNotificationUtils.getErrorNotification("Search Error", "Created Date To should be greater than Created Date From");
+                    AbstractNotificationUtils.getErrorNotification(SEARCH_ERROR, "Created Date To should be greater than Created Date From");
                 }
             }
             LOGGER.debug("validate Method Ended");
@@ -1461,8 +1462,8 @@ public class FileManagementLookup extends Window {
         LOGGER.debug("Enters Inside Save Button Logic");
         Boolean changeFlag = false;
         final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
-        final List<FileMananagementResultDTO> insertionItemIds = new ArrayList<FileMananagementResultDTO>();
-        List<Integer> currentSystemId = new ArrayList<Integer>();
+        final List<FileMananagementResultDTO> insertionItemIds = new ArrayList<>();
+        List<Integer> currentSystemId = new ArrayList<>();
         try {
             for (int i = 0; i < itemIds.size(); i++) {
                 final FileMananagementResultDTO beanItem = itemIds.get(i);
@@ -1493,22 +1494,22 @@ public class FileManagementLookup extends Window {
                     String currentWeek = dto.getWeek();
                     String currentDay = dto.getDay();
                     if (year.equals(currentYear) && (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) && month.equals(currentMonth) && itemName.equals(currentItemName)) {
-                                AbstractNotificationUtils.getErrorNotification("Details Error", "Unique combination error");
+                                AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR, UNIQUE_COMBINATION_ERROR);
                                 return;
                     }
                     if ((currentForecastType.equals(forecastType) &&((FileType.equals(ConstantsUtils.DEMAND)) || (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) ))
                             && currentForecastYear.equals(forecastYear) && currentForecastMonth.equals(forecastMonth) && currentItemId.equals(itemId) && currentOrganisationKey.equals(organisationKey)) {
-                                        AbstractNotificationUtils.getErrorNotification("Details Error", "Unique combination error");
+                                        AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR, UNIQUE_COMBINATION_ERROR);
                                         return;
                     }
                     if (currentYear.equals(forecastType) && FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY) && currentMonth.equals(month) &&
                             currentDay.equals(day) && currentWeek.equals(week) && currentItemId.equals(itemId) && currentBatchId.equals(batchId) && currentOrganisationKey.equals(organisationKey)) {
-                                                AbstractNotificationUtils.getErrorNotification("Details Error", "Unique combination error");
+                                                AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR, UNIQUE_COMBINATION_ERROR);
                                                 return;
                     }
                     if (currentYear.equals(forecastType) && FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL) && currentMonth.equals(month)
                             && currentDay.equals(day) && currentWeek.equals(week) && currentCompanyId.equals(companyId) && currentItemId.equals(itemId) && currentBatchId.equals(batchId) && currentOrganisationKey.equals(organisationKey)) {
-                                                    AbstractNotificationUtils.getErrorNotification("Details Error", "Unique combination error");
+                                                    AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR, UNIQUE_COMBINATION_ERROR);
                                                     return;
                                                 }
                 }
@@ -1546,7 +1547,7 @@ public class FileManagementLookup extends Window {
             DynamicQuery dynamicQuery;
 
             final HashMap savedForecast = new HashMap();
-            List<Integer> existingSystemId = new ArrayList<Integer>();
+            List<Integer> existingSystemId = new ArrayList<>();
 
             if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
                 dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class
@@ -1591,7 +1592,7 @@ public class FileManagementLookup extends Window {
                     savedForecast.put(itemDetail.getAdjustedDemandForecastSid(), itemDetail);
                 }
             } else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-                List<String> query = new ArrayList<String>();
+                List<String> query = new ArrayList<>();
                 query.add(selectedFile);
                 query.add(country.getValue().toString());
                 query.add(versionList.getValue().toString());
@@ -1732,7 +1733,7 @@ public class FileManagementLookup extends Window {
                     }
                 }, ButtonId.YES, ButtonId.NO);
             } else {
-                AbstractNotificationUtils.getErrorNotification("Details Error", "No changed has done From Source version");
+                AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR, "No changed has done From Source version");
                 return;
             }
             LOGGER.debug("Ending Save Button Logic");
@@ -1821,7 +1822,7 @@ public class FileManagementLookup extends Window {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class
         );
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0;
                 i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
@@ -1850,7 +1851,7 @@ public class FileManagementLookup extends Window {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class
         );
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
@@ -1868,7 +1869,7 @@ public class FileManagementLookup extends Window {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class
         );
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
@@ -1886,7 +1887,7 @@ public class FileManagementLookup extends Window {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class
         );
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
@@ -1906,7 +1907,7 @@ public class FileManagementLookup extends Window {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class
         );
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
@@ -1964,22 +1965,22 @@ public class FileManagementLookup extends Window {
         }
 
     public void setTableDefaultConfig(ExtPagedTable resultsTable) {
-        resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_RESULT_COLUMNS);
-        resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_RESULT_HEADER);
+        resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupResultColumns);
+        resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupResultHeader);
         resultsTable.markAsDirtyRecursive();
         resultsTable.setImmediate(true);
         resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
         resultsTable.setHeight("450px");
-        resultsTable.setColumnAlignment("version", ExtCustomTable.Align.CENTER);
-        resultsTable.setColumnAlignment("fromDate", ExtCustomTable.Align.CENTER);
-        resultsTable.setColumnAlignment("toDate", ExtCustomTable.Align.CENTER);
-        resultsTable.setColumnWidth("fromDate", NumericConstants.ONE_NINE_EIGHT);
-        resultsTable.setColumnWidth("toDate", NumericConstants.ONE_NINE_EIGHT);
+        resultsTable.setColumnAlignment(StringConstantsUtil.VERSION, ExtCustomTable.Align.CENTER);
+        resultsTable.setColumnAlignment(StringConstantsUtil.FROM_DATE, ExtCustomTable.Align.CENTER);
+        resultsTable.setColumnAlignment(StringConstantsUtil.TO_DATE, ExtCustomTable.Align.CENTER);
+        resultsTable.setColumnWidth(StringConstantsUtil.FROM_DATE, NumericConstants.ONE_NINE_EIGHT);
+        resultsTable.setColumnWidth(StringConstantsUtil.TO_DATE, NumericConstants.ONE_NINE_EIGHT);
 		resultsTable.setColumnWidth("fileType", NumericConstants.ONE_NINE_EIGHT);
-        resultsTable.setColumnWidth("country", NumericConstants.ONE_NINE_EIGHT);
-        resultsTable.setColumnWidth("fileName", NumericConstants.ONE_NINE_EIGHT);
+        resultsTable.setColumnWidth(StringConstantsUtil.COUNTRY, NumericConstants.ONE_NINE_EIGHT);
+        resultsTable.setColumnWidth(StringConstantsUtil.FILE_NAME, NumericConstants.ONE_NINE_EIGHT);
         resultsTable.setColumnWidth("type", NumericConstants.ONE_NINE_EIGHT);
-        resultsTable.setColumnWidth("version", NumericConstants.ONE_NINE_EIGHT);
+        resultsTable.setColumnWidth(StringConstantsUtil.VERSION, NumericConstants.ONE_NINE_EIGHT);
     }
 
     private void configureDetailsTable() {
@@ -2004,70 +2005,70 @@ public class FileManagementLookup extends Window {
 
             fileselectiondto.getHelperfileType();
             if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-                detailsFilterTable.setColumnAlignment("month", ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.MONTH_PROPERTY, ExtCustomTable.Align.LEFT);
                 detailsFilterTable.setColumnAlignment("year", ExtCustomTable.Align.LEFT);
                 detailsFilterTable.setColumnAlignment("itemNo", ExtCustomTable.Align.LEFT);
                 detailsFilterTable.setColumnAlignment("itemName", ExtCustomTable.Align.LEFT);
                 detailsFilterTable.setColumnAlignment("startDate", ExtCustomTable.Align.CENTER);
-                detailsFilterTable.setColumnAlignment("price", ExtCustomTable.Align.RIGHT);
-                detailsFilterTable.setColumnAlignment("units", ExtCustomTable.Align.RIGHT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.PRICE_PROPERTY, ExtCustomTable.Align.RIGHT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.UNITS_PROPERTY, ExtCustomTable.Align.RIGHT);
                 detailsFilterTable.setColumnAlignment("dollars", ExtCustomTable.Align.RIGHT);
                 
                 
               detailsFilterTable.setConverter("startDate", new DateToStringConverter());
 
             } else if (FileType.toString().equals(ConstantsUtils.DEMAND)) {
-                detailsFilterTable.setColumnAlignment("forecastType", ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_TYPE, ExtCustomTable.Align.LEFT);
                 detailsFilterTable.setColumnAlignment("forecastYear", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("forecastMonth", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("itemId", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("itemIdentifierCodeQualifier", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("itemIdentifier", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("brandId", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("segment", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("marketSizeUnits", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("marketShareRatio", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("marketShareUnits", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("uncapturedUnits", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("uncapturedUnitsRatio", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("totalDemandUnits", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("totalDemandAmount", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("inventoryUnitChange", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("grossUnits", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("grossPrice", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("grossAmount", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("netSalesPrice", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("netSalesAmount", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("batchId", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("source", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("forecastName", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("forecastVersion", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("country", ExtCustomTable.Align.LEFT);
-                detailsFilterTable.setColumnAlignment("organizationKey", ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_MONTH, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.ITEM_ID, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.ITEM_IDENTIFIER, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.BRAND_ID, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.SEGMENT, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.MARKET_SIZE_UNITS, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.MARKET_SHARE_RATIO, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.MARKET_SHARE_UNITS, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.UNCAPTURED_UNITS, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.UNCAPTURED_UNITS_RATIO, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.TOTAL_DEMAND_UNITS, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.TOTAL_DEMAND_AMOUNT, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.INVENTORY_UNIT_CHANGE, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.GROSS_UNITS, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.GROSS_PRICE, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.GROSS_AMOUNT, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.NET_SALES_PRICE, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.NET_SALES_AMOUNT, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.BATCH_ID, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.SOURCE_PROPERTY, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_NAME, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_VERSION, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.COUNTRY, ExtCustomTable.Align.LEFT);
+                detailsFilterTable.setColumnAlignment(StringConstantsUtil.ORGANIZATION_KEY, ExtCustomTable.Align.LEFT);
             }
             else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 
-            detailsFilterTable.setColumnAlignment("itemId", ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.ITEM_ID, ExtCustomTable.Align.LEFT);
             detailsFilterTable.setColumnAlignment("itemName", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("brandId", ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.BRAND_ID, ExtCustomTable.Align.LEFT);
             detailsFilterTable.setColumnAlignment("brandName", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("segment", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("marketSizeUnits", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("marketShareRatio", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("marketShareUnits", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("uncapturedUnits", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("uncapturedUnitsRatio", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("totalDemandUnits", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("totalDemandAmount", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("inventoryUnitChange", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("grossUnits", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("grossPrice", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("grossAmount", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("netSalesPrice", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("netSalesAmount", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("batchId", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("source", ExtCustomTable.Align.LEFT);
-            detailsFilterTable.setColumnAlignment("organizationKey", ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.SEGMENT, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.MARKET_SIZE_UNITS, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.MARKET_SHARE_RATIO, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.MARKET_SHARE_UNITS, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.UNCAPTURED_UNITS, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.UNCAPTURED_UNITS_RATIO, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.TOTAL_DEMAND_UNITS, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.TOTAL_DEMAND_AMOUNT, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.INVENTORY_UNIT_CHANGE, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.GROSS_UNITS, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.GROSS_PRICE, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.GROSS_AMOUNT, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.NET_SALES_PRICE, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.NET_SALES_AMOUNT, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.BATCH_ID, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.SOURCE_PROPERTY, ExtCustomTable.Align.LEFT);
+            detailsFilterTable.setColumnAlignment(StringConstantsUtil.ORGANIZATION_KEY, ExtCustomTable.Align.LEFT);
 
         }
             if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
@@ -2104,29 +2105,29 @@ public class FileManagementLookup extends Window {
         try {
             resultsTable.removeAllItems();
             if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-                resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_DETAILS_COLUMNS);
-                resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_DETAILS_HEADER);
+                resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupDetailsColumns);
+                resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDetailsHeader);
             } else if (fileType.equals(ConstantsUtils.DEMAND)) {
-                resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_DEMAND_DETAILS_COLUMNS);
-                resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_DEMAND_DETAILS_HEADER);
+                resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsColumns);
+                resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeader);
             } else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-                resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_INVENTORY_DETAILS_SUMMARY_COLUMNS);
-                resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_INVENTORY_DETAILS_SUMMARY_HEADER);
+                resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsSummaryColumns);
+                resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsSummaryHeader);
             } else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-                resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_INVENTORY_DETAILS_DETAILS_COLUMNS);
-                resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_INVENTORY_DETAILS_DETAILS_HEADER);
+                resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsColumns);
+                resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsDetailsHeader);
             } else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-                resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_CUSTOMER_COLUMNS);
-                resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_CUSTOMER_HEADER);
+                resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupCustomerColumns);
+                resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupCustomerHeader);
             } else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-                resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_COLUMNS);
-                resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_HEADER);
+                resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsColumns);
+                resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsHeader);
             } 
             resultsTable.markAsDirtyRecursive();
             resultsTable.setImmediate(true);
             resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
             resultsTable.setHeight("579px");
-            resultsTable.setColumnAlignment("version", ExtCustomTable.Align.CENTER);
+            resultsTable.setColumnAlignment(StringConstantsUtil.VERSION, ExtCustomTable.Align.CENTER);
 
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(FileManagementLookup.class
@@ -2138,8 +2139,8 @@ public class FileManagementLookup extends Window {
         LOGGER.debug("Entering Load Results Table");
         resultsFilterTable.addStyleName(Constants.FILTER_TABLE);
         resultsFilterTable.addStyleName("table-header-normal");
-        resultsFilterTable.setConverter("fromDate", new DateToStringConverter());
-        resultsFilterTable.setConverter("toDate", new DateToStringConverter());
+        resultsFilterTable.setConverter(StringConstantsUtil.FROM_DATE, new DateToStringConverter());
+        resultsFilterTable.setConverter(StringConstantsUtil.TO_DATE, new DateToStringConverter());
         resultDTO.setBusinessUnit(businessUnit);
         resultDTO.setCompany(sessionDTO.getCompanySystemId());        
         tableLogic.configureSearchData(resultDTO);
@@ -2163,8 +2164,8 @@ public class FileManagementLookup extends Window {
         tableLayout.addComponent(excelTable);
         excelTable.setVisible( false);
         excelTable.setContainerDataSource(excelTableBean);
-        excelTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_RESULT_COLUMNS);
-        excelTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_RESULT_HEADER);
+        excelTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupResultColumns);
+        excelTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupResultHeader);
         excelTable.markAsDirtyRecursive();
     }
 
@@ -2200,23 +2201,23 @@ public class FileManagementLookup extends Window {
         excelDetailsTable.setContainerDataSource(excelDetailsBean);
            
         if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-            excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_DETAILS_COLUMNS_EXCEL);
-            excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_DETAILS_HEADER_EXCEL);
+            excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupDetailsColumnsExcel);
+            excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeaderExcel);
         } else if (FileType.equals(ConstantsUtils.DEMAND)) {
-            excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_DEMAND_DETAILS_COLUMNS_EXCEL);
-            excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_DEMAND_DETAILS_HEADER_EXCEL);
+            excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsColumnsExcel);
+            excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeaderExcel);
         } else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-            excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_INVENTORY_DETAILS_SUMMARY_COLUMNS_EXCEL);
-            excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_INVENTORY_DETAILS_SUMMARY_HEADER_EXCEL);
+            excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtInventoryDetailsSummaryColumnsExcel);
+            excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsSummaryHeaderExcel);
         } else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-            excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_INVENTORY_DETAILS_DETAILS_COLUMNS_EXCEL);
-            excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_INVENTORY_DETAILS_DETAILS_HEADER_EXCEL);
+            excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsDetailsColumnsExcel);
+            excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsDetailsHeaderExcel);
         } else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-            excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_COLUMNS);
-            excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_HEADER);
+            excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsColumns);
+            excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsHeader);
         } else if (FileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-            excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGT_LOOKUP_CUSTOMER_COLUMNS);
-            excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGT_LOOKUP_CUSTOMER_HEADER);
+            excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupCustomerColumns);
+            excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupCustomerHeader);
         }
         excelDetailsTable.markAsDirtyRecursive();
         LOGGER.debug("Configure ExcelDetailsTable ends");
@@ -2276,11 +2277,11 @@ public class FileManagementLookup extends Window {
                             unit.setImmediate(true);
                             unit.addBlurListener(new FieldEvents.BlurListener() {
                                 public void blur(FieldEvents.BlurEvent event) {
-                                    LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
+                                    LOGGER.debug("In configureFields levelValueReference.addBlurListener started ");
 
                                     String unitValue = unit.getValue();
                                     if (!unitValue.matches(ValidationUtils.PRICE)) {
-                                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, "Only Numbers are allowed");
+                                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, StringConstantsUtil.ONLY_NUMBERS_ARE_ALLOWED);
                                         unit.setValue(ConstantsUtils.EMPTY);
                                         return;
                                     }
@@ -2307,7 +2308,7 @@ public class FileManagementLookup extends Window {
                                     String priceValue = price.getValue();
                                     String priceWithoutDollar = priceValue.replace("$", ConstantsUtils.EMPTY);
                                     if (!priceWithoutDollar.matches(ValidationUtils.PRICE)) {
-                                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, "Only Numbers are allowed");
+                                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, StringConstantsUtil.ONLY_NUMBERS_ARE_ALLOWED);
                                         price.setValue(ConstantsUtils.EMPTY);
                                         return;
                                     }
@@ -2338,11 +2339,11 @@ public class FileManagementLookup extends Window {
                         unit.setImmediate(true);
                         unit.addBlurListener(new FieldEvents.BlurListener() {
                             public void blur(FieldEvents.BlurEvent event) {
-                                LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
+                                LOGGER.debug("In configureFields levelValueReference.addBlurListener  started");
 
                                 String unitValue = unit.getValue();
                                 if (!unitValue.matches(ValidationUtils.PRICE)) {
-                                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, "Only Numbers are allowed");
+                                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, StringConstantsUtil.ONLY_NUMBERS_ARE_ALLOWED);
                                     unit.setValue(ConstantsUtils.EMPTY);
                                     return;
                                 }
@@ -2364,12 +2365,12 @@ public class FileManagementLookup extends Window {
                         price.setImmediate(true);
                         price.addBlurListener(new FieldEvents.BlurListener() {
                             public void blur(FieldEvents.BlurEvent event) {
-                                LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
+                                LOGGER.debug("In configureFields  levelValueReference.addBlurListener started");
 
                                 String priceValue = price.getValue();
                                 String priceWithoutDollar = priceValue.replace("$", ConstantsUtils.EMPTY);
                                 if (!priceWithoutDollar.matches(ValidationUtils.PRICE)) {
-                                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, "Only Numbers are allowed");
+                                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, StringConstantsUtil.ONLY_NUMBERS_ARE_ALLOWED);
                                     price.setValue(ConstantsUtils.EMPTY);
                                     return;
                                 }
@@ -2397,7 +2398,7 @@ public class FileManagementLookup extends Window {
                                 String year = year1.getValue();
                                 year = year.replace("$", ConstantsUtils.EMPTY);
                                 if (!year.matches(ValidationUtils.NUMERIC_VALIDATION)) {
-                                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, "Only Numbers are allowed");
+                                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, StringConstantsUtil.ONLY_NUMBERS_ARE_ALLOWED);
                                     year1.setValue(ConstantsUtils.EMPTY);
                                     return;
                                 }
@@ -2416,7 +2417,7 @@ public class FileManagementLookup extends Window {
                                 String enteredMonth = month.getValue();
                                 enteredMonth = enteredMonth.replace("$", ConstantsUtils.EMPTY);
                                 if (!enteredMonth.matches(ValidationUtils.NUMERIC_VALIDATION)) {
-                                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, "Only Numbers are allowed");
+                                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, StringConstantsUtil.ONLY_NUMBERS_ARE_ALLOWED);
                                     month.setValue(ConstantsUtils.EMPTY);
                                     return;
                                 } else {
@@ -2475,6 +2476,7 @@ public class FileManagementLookup extends Window {
                    if (propertyId.equals(ConstantsUtils.START_DATE)) {
                         final PopupDateField startDate = new PopupDateField();
                         startDate.setImmediate(true);
+                        startDate.setReadOnly(true);
                         startDate.setDateFormat("MM/dd/yyyy");
                         return startDate;
                     }
@@ -2500,49 +2502,49 @@ public class FileManagementLookup extends Window {
                             select.setEnabled(false);
                             return select;
                         }
-                        if (propertyId.equals("forecastType")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_TYPE)) {
                             final TextField forecastType = new TextField();
                             forecastType.setImmediate(true);
                             forecastType.setReadOnly(true);
                             forecastType.setEnabled(false);
                             return forecastType;
                         }
-                        if (propertyId.equals("forcastYear")) {
+                        if (propertyId.equals(FORCAST_YEAR)) {
                             final TextField forecastYear = new TextField();
                             forecastYear.setImmediate(true);
                             forecastYear.setReadOnly(true);
                             forecastYear.setEnabled(false);
                             return forecastYear;
                         }
-                        if (propertyId.equals("forecastMonth")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_MONTH)) {
                             final TextField forecastMonth = new TextField();
                             forecastMonth.setImmediate(true);
                             forecastMonth.setReadOnly(true);
                             forecastMonth.setEnabled(false);
                             return forecastMonth;
                         }
-                        if (propertyId.equals("itemId")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                             final TextField itemIde = new TextField();
                             itemIde.setImmediate(true);
                             itemIde.setReadOnly(true);
                             itemIde.setEnabled(false);
                             return itemIde;
                         }
-                        if (propertyId.equals("itemIdentifierCodeQualifier")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER)) {
                             final TextField itemIdentifierCodeQualifier = new TextField();
                             itemIdentifierCodeQualifier.setImmediate(true);
                             itemIdentifierCodeQualifier.setReadOnly(true);
                             itemIdentifierCodeQualifier.setEnabled(false);
                             return itemIdentifierCodeQualifier;
                         }
-                        if (propertyId.equals("itemIdentifier")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER)) {
                             final TextField itemIdentifier = new TextField();
                             itemIdentifier.setImmediate(true);
                             itemIdentifier.setReadOnly(true);
                             itemIdentifier.setEnabled(false);
                             return itemIdentifier;
                         }
-                        if (propertyId.equals("brandId")) {
+                        if (propertyId.equals(StringConstantsUtil.BRAND_ID)) {
                             final TextField brandId = new TextField();
 
                             brandId.setImmediate(true);
@@ -2550,14 +2552,14 @@ public class FileManagementLookup extends Window {
                             brandId.setEnabled(false);
                             return brandId;
                         }
-                        if (propertyId.equals("segment")) {
+                        if (propertyId.equals(StringConstantsUtil.SEGMENT)) {
                             final TextField segment = new TextField();
                             segment.setImmediate(true);
                             segment.setReadOnly(true);
                             segment.setEnabled(false);
                             return segment;
                         }
-                        if (propertyId.equals("marketSizeUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.MARKET_SIZE_UNITS)) {
                             final TextField marketSizeUnits = new TextField();
                             marketSizeUnits.setConverter(unitsFormat);
                             marketSizeUnits.setImmediate(true);
@@ -2565,45 +2567,45 @@ public class FileManagementLookup extends Window {
                             marketSizeUnits.setEnabled(false);
                             return marketSizeUnits;
                         }
-                        if (propertyId.equals("marketShareRatio")) {
+                        if (propertyId.equals(StringConstantsUtil.MARKET_SHARE_RATIO)) {
                             final TextField marketShareRatio = new TextField();
                             marketShareRatio.setImmediate(true);
                             marketShareRatio.setReadOnly(true);
                             marketShareRatio.setEnabled(false);
                             return marketShareRatio;
                         }
-                        if (propertyId.equals("marketShareUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.MARKET_SHARE_UNITS)) {
                             final TextField marketShareUnits = new TextField();
                             marketShareUnits.setImmediate(true);
-                            marketShareUnits.setConverter(unitsFormat);
+                            marketShareUnits.setConverter(zeroDecimalFormat);
                             marketShareUnits.setReadOnly(true);
                             marketShareUnits.setEnabled(false);
                             return marketShareUnits;
                         }
-                        if (propertyId.equals("uncapturedUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.UNCAPTURED_UNITS)) {
                             final TextField uncapturedUnits = new TextField();
                             uncapturedUnits.setImmediate(true);
-                            uncapturedUnits.setConverter(unitsFormat);
+                            uncapturedUnits.setConverter(zeroDecimalFormat);
                             uncapturedUnits.setReadOnly(true);
                             uncapturedUnits.setEnabled(false);
                             return uncapturedUnits;
                         }
-                        if (propertyId.equals("uncapturedUnitsRatio")) {
+                        if (propertyId.equals(StringConstantsUtil.UNCAPTURED_UNITS_RATIO)) {
                             final TextField uncapturedUnitsRatio = new TextField();
                             uncapturedUnitsRatio.setImmediate(true);
                             uncapturedUnitsRatio.setReadOnly(true);
                             uncapturedUnitsRatio.setEnabled(false);
                             return uncapturedUnitsRatio;
                         }
-                        if (propertyId.equals("totalDemandUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.TOTAL_DEMAND_UNITS)) {
                             final TextField totalDemandUnits = new TextField();
                             totalDemandUnits.setImmediate(true);
-                            totalDemandUnits.setConverter(unitsFormat);
+                            totalDemandUnits.setConverter(zeroDecimalFormat);
                             totalDemandUnits.setReadOnly(true);
                             totalDemandUnits.setEnabled(false);
                             return totalDemandUnits;
                         }
-                        if (propertyId.equals("totalDemandAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.TOTAL_DEMAND_AMOUNT)) {
                             final TextField totalDemandAmount = new TextField();
                             totalDemandAmount.setImmediate(true);
                             totalDemandAmount.setConverter(priceFormat);
@@ -2611,31 +2613,31 @@ public class FileManagementLookup extends Window {
                             totalDemandAmount.setEnabled(false);
                             return totalDemandAmount;
                         }
-                        if (propertyId.equals("inventoryUnitChange")) {
+                        if (propertyId.equals(StringConstantsUtil.INVENTORY_UNIT_CHANGE)) {
                             final TextField inventoryUnitChange = new TextField();
                             inventoryUnitChange.setImmediate(true);
-                            inventoryUnitChange.setConverter(priceFormat);
+                            inventoryUnitChange.setConverter(zeroDecimalFormat);
                             inventoryUnitChange.setReadOnly(true);
                             inventoryUnitChange.setEnabled(false);
                             return inventoryUnitChange;
                         }
-                        if (propertyId.equals("grossUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.GROSS_UNITS)) {
                             final TextField grossUnits = new TextField();
                             grossUnits.setImmediate(true);
-                            grossUnits.setConverter(unitsFormat);
+                            grossUnits.setConverter(zeroDecimalFormat);
                             grossUnits.setReadOnly(true);
                             grossUnits.setEnabled(false);
                             return grossUnits;
                         }
-                        if (propertyId.equals("grossPrice")) {
+                        if (propertyId.equals(StringConstantsUtil.GROSS_PRICE)) {
                             final TextField grossPrice = new TextField();
                             grossPrice.setImmediate(true);
-                            grossPrice.setConverter(unitsFormat);
+                            grossPrice.setConverter(dollarsFormat);
                             grossPrice.setReadOnly(true);
                             grossPrice.setEnabled(false);
                             return grossPrice;
                         }
-                        if (propertyId.equals("grossAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.GROSS_AMOUNT)) {
                             final TextField grossAmount = new TextField();
                             grossAmount.setImmediate(true);
                             grossAmount.setConverter(priceFormat);
@@ -2643,7 +2645,7 @@ public class FileManagementLookup extends Window {
                             grossAmount.setEnabled(false);
                             return grossAmount;
                         }
-                        if (propertyId.equals("netSalesPrice")) {
+                        if (propertyId.equals(StringConstantsUtil.NET_SALES_PRICE)) {
                             final TextField netSalesPrice = new TextField();
                             netSalesPrice.setImmediate(true);
                             netSalesPrice.setConverter(priceFormat);
@@ -2651,7 +2653,7 @@ public class FileManagementLookup extends Window {
                             netSalesPrice.setEnabled(false);
                             return netSalesPrice;
                         }
-                        if (propertyId.equals("netSalesAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.NET_SALES_AMOUNT)) {
                             final TextField netSalesAmount = new TextField();
                             netSalesAmount.setImmediate(true);
                             netSalesAmount.setConverter(priceFormat);
@@ -2659,42 +2661,42 @@ public class FileManagementLookup extends Window {
                             netSalesAmount.setEnabled(false);
                             return netSalesAmount;
                         }
-                        if (propertyId.equals("batchId")) {
+                        if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                             final TextField batchId = new TextField();
                             batchId.setImmediate(true);
                             batchId.setReadOnly(true);
                             batchId.setEnabled(false);
                             return batchId;
                         }
-                        if (propertyId.equals("source")) {
+                        if (propertyId.equals(StringConstantsUtil.SOURCE_PROPERTY)) {
                             final TextField source = new TextField();
                             source.setImmediate(true);
                             source.setReadOnly(true);
                             source.setEnabled(false);
                             return source;
                         }
-                        if (propertyId.equals("forecastName")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
                             final TextField forecastName = new TextField();
                             forecastName.setImmediate(true);
                             forecastName.setReadOnly(true);
                             forecastName.setEnabled(false);
                             return forecastName;
                         }
-                        if (propertyId.equals("forecastVersion")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
                             final TextField forecastVersion = new TextField();
                             forecastVersion.setImmediate(true);
                             forecastVersion.setReadOnly(true);
                             forecastVersion.setEnabled(false);
                             return forecastVersion;
                         }
-                        if (propertyId.equals("country")) {
+                        if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
                             final TextField country = new TextField();
                             country.setImmediate(true);
                             country.setReadOnly(true);
                             country.setEnabled(false);
                             return country;
                         }
-                        if (propertyId.equals("organizationKey")) {
+                        if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                             final TextField organizationKey = new TextField();
                             organizationKey.setImmediate(true);
                             organizationKey.setReadOnly(true);
@@ -2709,49 +2711,49 @@ public class FileManagementLookup extends Window {
                             select.setEnabled(true);
                             return select;
                         }
-                        if (propertyId.equals("forecastType")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_TYPE)) {
                             final TextField forecastType = new TextField();
                             forecastType.setImmediate(true);
                             forecastType.setReadOnly(true);
                             forecastType.setEnabled(false);
                             return forecastType;
                         }
-                        if (propertyId.equals("forcastYear")) {
+                        if (propertyId.equals(FORCAST_YEAR)) {
                             final TextField forecastYear = new TextField();
                             forecastYear.setImmediate(true);
                             forecastYear.setReadOnly(true);
                             forecastYear.setEnabled(false);
                             return forecastYear;
                         }
-                        if (propertyId.equals("forecastMonth")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_MONTH)) {
                             final TextField forecastMonth = new TextField();
                             forecastMonth.setImmediate(true);
                             forecastMonth.setReadOnly(true);
                             forecastMonth.setEnabled(false);
                             return forecastMonth;
                         }
-                        if (propertyId.equals("itemId")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                             final TextField itemIde = new TextField();
                             itemIde.setImmediate(true);
                             itemIde.setReadOnly(true);
                             itemIde.setEnabled(false);
                             return itemIde;
                         }
-                        if (propertyId.equals("itemIdentifierCodeQualifier")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER)) {
                             final TextField itemIdentifierCodeQualifier = new TextField();
                             itemIdentifierCodeQualifier.setImmediate(true);
                             itemIdentifierCodeQualifier.setReadOnly(true);
                             itemIdentifierCodeQualifier.setEnabled(false);
                             return itemIdentifierCodeQualifier;
                         }
-                        if (propertyId.equals("itemIdentifier")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER)) {
                             final TextField itemIdentifier = new TextField();
                             itemIdentifier.setImmediate(true);
                             itemIdentifier.setReadOnly(true);
                             itemIdentifier.setEnabled(false);
                             return itemIdentifier;
                         }
-                        if (propertyId.equals("brandId")) {
+                        if (propertyId.equals(StringConstantsUtil.BRAND_ID)) {
                             final TextField brandId = new TextField();
 
                             brandId.setImmediate(true);
@@ -2759,14 +2761,14 @@ public class FileManagementLookup extends Window {
                             brandId.setEnabled(false);
                             return brandId;
                         }
-                        if (propertyId.equals("segment")) {
+                        if (propertyId.equals(StringConstantsUtil.SEGMENT)) {
                             final TextField segment = new TextField();
                             segment.setImmediate(true);
                             segment.setReadOnly(true);
                             segment.setEnabled(false);
                             return segment;
                         }
-                        if (propertyId.equals("marketSizeUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.MARKET_SIZE_UNITS)) {
                             final TextField marketSizeUnits = new TextField();
                             marketSizeUnits.setImmediate(true);
                             marketSizeUnits.setConverter(unitsFormat);
@@ -2774,14 +2776,14 @@ public class FileManagementLookup extends Window {
                             marketSizeUnits.setEnabled(false);
                             return marketSizeUnits;
                         }
-                        if (propertyId.equals("marketShareRatio")) {
+                        if (propertyId.equals(StringConstantsUtil.MARKET_SHARE_RATIO)) {
                             final TextField marketShareRatio = new TextField();
                             marketShareRatio.setImmediate(true);
                             marketShareRatio.setReadOnly(true);
                             marketShareRatio.setEnabled(false);
                             return marketShareRatio;
                         }
-                        if (propertyId.equals("marketShareUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.MARKET_SHARE_UNITS)) {
                             final TextField marketShareUnits = new TextField();
                             marketShareUnits.setImmediate(true);
                             marketShareUnits.setConverter(unitsFormat);
@@ -2789,7 +2791,7 @@ public class FileManagementLookup extends Window {
                             marketShareUnits.setEnabled(false);
                             return marketShareUnits;
                         }
-                        if (propertyId.equals("uncapturedUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.UNCAPTURED_UNITS)) {
                             final TextField uncapturedUnits = new TextField();
                             uncapturedUnits.setImmediate(true);
                             uncapturedUnits.setConverter(unitsFormat);
@@ -2797,14 +2799,14 @@ public class FileManagementLookup extends Window {
                             uncapturedUnits.setEnabled(false);
                             return uncapturedUnits;
                         }
-                        if (propertyId.equals("uncapturedUnitsRatio")) {
+                        if (propertyId.equals(StringConstantsUtil.UNCAPTURED_UNITS_RATIO)) {
                             final TextField uncapturedUnitsRatio = new TextField();
                             uncapturedUnitsRatio.setImmediate(true);
                             uncapturedUnitsRatio.setReadOnly(true);
                             uncapturedUnitsRatio.setEnabled(false);
                             return uncapturedUnitsRatio;
                         }
-                        if (propertyId.equals("totalDemandUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.TOTAL_DEMAND_UNITS)) {
                             final TextField totalDemandUnits = new TextField();
                             totalDemandUnits.setImmediate(true);
                             totalDemandUnits.setConverter(unitsFormat);
@@ -2812,7 +2814,7 @@ public class FileManagementLookup extends Window {
                             totalDemandUnits.setEnabled(false);
                             return totalDemandUnits;
                         }
-                        if (propertyId.equals("totalDemandAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.TOTAL_DEMAND_AMOUNT)) {
                             final TextField totalDemandAmount = new TextField();
                             totalDemandAmount.setImmediate(true);
                             totalDemandAmount.setConverter(priceFormat);
@@ -2820,7 +2822,7 @@ public class FileManagementLookup extends Window {
                             totalDemandAmount.setEnabled(false);
                             return totalDemandAmount;
                         }
-                        if (propertyId.equals("inventoryUnitChange")) {
+                        if (propertyId.equals(StringConstantsUtil.INVENTORY_UNIT_CHANGE)) {
                             final TextField inventoryUnitChange = new TextField();
                             inventoryUnitChange.setImmediate(true);
                             inventoryUnitChange.setConverter(unitsFormat);
@@ -2828,7 +2830,7 @@ public class FileManagementLookup extends Window {
                             inventoryUnitChange.setEnabled(false);
                             return inventoryUnitChange;
                         }
-                        if (propertyId.equals("grossUnits")) {
+                        if (propertyId.equals(StringConstantsUtil.GROSS_UNITS)) {
                             final TextField grossUnits = new TextField();
                             grossUnits.setImmediate(true);
                             grossUnits.setConverter(unitsFormat);
@@ -2836,7 +2838,7 @@ public class FileManagementLookup extends Window {
                             grossUnits.setEnabled(false);
                             return grossUnits;
                         }
-                        if (propertyId.equals("grossPrice")) {
+                        if (propertyId.equals(StringConstantsUtil.GROSS_PRICE)) {
                             final TextField grossPrice = new TextField();
                             grossPrice.setImmediate(true);
                             grossPrice.setConverter(priceFormat);
@@ -2844,7 +2846,7 @@ public class FileManagementLookup extends Window {
                             grossPrice.setEnabled(false);
                             return grossPrice;
                         }
-                        if (propertyId.equals("grossAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.GROSS_AMOUNT)) {
                             final TextField grossAmount = new TextField();
                             grossAmount.setImmediate(true);
                             grossAmount.setConverter(priceFormat);
@@ -2852,7 +2854,7 @@ public class FileManagementLookup extends Window {
                             grossAmount.setEnabled(false);
                             return grossAmount;
                         }
-                        if (propertyId.equals("netSalesPrice")) {
+                        if (propertyId.equals(StringConstantsUtil.NET_SALES_PRICE)) {
                             final TextField netSalesPrice = new TextField();
                             netSalesPrice.setImmediate(true);
                             netSalesPrice.setConverter(priceFormat);
@@ -2860,7 +2862,7 @@ public class FileManagementLookup extends Window {
                             netSalesPrice.setEnabled(false);
                             return netSalesPrice;
                         }
-                        if (propertyId.equals("netSalesAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.NET_SALES_AMOUNT)) {
                             final TextField netSalesAmount = new TextField();
                             netSalesAmount.setImmediate(true);
                             netSalesAmount.setConverter(priceFormat);
@@ -2868,42 +2870,42 @@ public class FileManagementLookup extends Window {
                             netSalesAmount.setEnabled(false);
                             return netSalesAmount;
                         }
-                        if (propertyId.equals("batchId")) {
+                        if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                             final TextField batchId = new TextField();
                             batchId.setImmediate(true);
                             batchId.setReadOnly(true);
                             batchId.setEnabled(false);
                             return batchId;
                         }
-                        if (propertyId.equals("source")) {
+                        if (propertyId.equals(StringConstantsUtil.SOURCE_PROPERTY)) {
                             final TextField source = new TextField();
                             source.setImmediate(true);
                             source.setReadOnly(true);
                             source.setEnabled(false);
                             return source;
                         }
-                        if (propertyId.equals("forecastName")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
                             final TextField forecastName = new TextField();
                             forecastName.setImmediate(true);
                             forecastName.setReadOnly(true);
                             forecastName.setEnabled(false);
                             return forecastName;
                         }
-                        if (propertyId.equals("forecastVersion")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
                             final TextField forecastVersion = new TextField();
                             forecastVersion.setImmediate(true);
                             forecastVersion.setReadOnly(true);
                             forecastVersion.setEnabled(false);
                             return forecastVersion;
                         }
-                        if (propertyId.equals("country")) {
+                        if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
                             final TextField country = new TextField();
                             country.setImmediate(true);
                             country.setReadOnly(true);
                             country.setEnabled(false);
                             return country;
                         }
-                        if (propertyId.equals("organizationKey")) {
+                        if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                             final TextField organizationKey = new TextField();
                             organizationKey.setImmediate(true);
                             organizationKey.setReadOnly(true);
@@ -2918,163 +2920,163 @@ public class FileManagementLookup extends Window {
                         select.setEnabled(true);
                         return select;
                     }
-                    if (propertyId.equals("forecastType")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_TYPE)) {
                         final TextField forecastType = new TextField();
                         forecastType.setImmediate(true);
                         forecastType.setEnabled(true);
                         return forecastType;
                     }
-                    if (propertyId.equals("forcastYear")) {
+                    if (propertyId.equals(FORCAST_YEAR)) {
                         final TextField forecastYear = new TextField();
                         forecastYear.setEnabled(true);
                         forecastYear.setImmediate(true);
                         return forecastYear;
                     }
-                    if (propertyId.equals("forecastMonth")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_MONTH)) {
                         final TextField forecastMonth = new TextField();
                         forecastMonth.setEnabled(true);
                         forecastMonth.setImmediate(true);
                         return forecastMonth;
                     }
-                    if (propertyId.equals("itemId")) {
+                    if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                         final TextField itemIde = new TextField();
                         itemIde.setEnabled(true);
                         itemIde.setImmediate(true);
                         return itemIde;
                     }
-                    if (propertyId.equals("itemIdentifierCodeQualifier")) {
+                    if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER)) {
                         final TextField itemIdentifierCodeQualifier = new TextField();
                         itemIdentifierCodeQualifier.setEnabled(true);
                         itemIdentifierCodeQualifier.setImmediate(true);
                         return itemIdentifierCodeQualifier;
                     }
-                    if (propertyId.equals("itemIdentifier")) {
+                    if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER)) {
                         final TextField itemIdentifier = new TextField();
                         itemIdentifier.setEnabled(true);
                         itemIdentifier.setImmediate(true);
                         return itemIdentifier;
                     }
-                    if (propertyId.equals("brandId")) {
+                    if (propertyId.equals(StringConstantsUtil.BRAND_ID)) {
                         final TextField brandId = new TextField();
                         brandId.setEnabled(true);
                         brandId.setImmediate(true);
                         return brandId;
                     }
-                    if (propertyId.equals("segment")) {
+                    if (propertyId.equals(StringConstantsUtil.SEGMENT)) {
                         final TextField segment = new TextField();
                         segment.setEnabled(true);
                         segment.setImmediate(true);
                         return segment;
                     }
-                    if (propertyId.equals("marketSizeUnits")) {
+                    if (propertyId.equals(StringConstantsUtil.MARKET_SIZE_UNITS)) {
                         final TextField marketSizeUnits = new TextField();
                         marketSizeUnits.setEnabled(true);
                         marketSizeUnits.setImmediate(true);
                         return marketSizeUnits;
                     }
-                    if (propertyId.equals("marketShareRatio")) {
+                    if (propertyId.equals(StringConstantsUtil.MARKET_SHARE_RATIO)) {
                         final TextField marketShareRatio = new TextField();
                         marketShareRatio.setEnabled(true);
                         marketShareRatio.setImmediate(true);
                         return marketShareRatio;
                     }
-                    if (propertyId.equals("marketShareUnits")) {
+                    if (propertyId.equals(StringConstantsUtil.MARKET_SHARE_UNITS)) {
                         final TextField marketShareUnits = new TextField();
                         marketShareUnits.setEnabled(true);
                         marketShareUnits.setImmediate(true);
                         return marketShareUnits;
                     }
-                    if (propertyId.equals("uncapturedUnits")) {
+                    if (propertyId.equals(StringConstantsUtil.UNCAPTURED_UNITS)) {
                         final TextField uncapturedUnits = new TextField();
                         uncapturedUnits.setEnabled(true);
                         uncapturedUnits.setImmediate(true);
                         return uncapturedUnits;
                     }
-                    if (propertyId.equals("uncapturedUnitsRatio")) {
+                    if (propertyId.equals(StringConstantsUtil.UNCAPTURED_UNITS_RATIO)) {
                         final TextField uncapturedUnitsRatio = new TextField();
                         uncapturedUnitsRatio.setEnabled(true);
                         uncapturedUnitsRatio.setImmediate(true);
                         return uncapturedUnitsRatio;
                     }
-                    if (propertyId.equals("totalDemandUnits")) {
+                    if (propertyId.equals(StringConstantsUtil.TOTAL_DEMAND_UNITS)) {
                         final TextField totalDemandUnits = new TextField();
                         totalDemandUnits.setEnabled(true);
                         totalDemandUnits.setImmediate(true);
                         return totalDemandUnits;
                     }
-                    if (propertyId.equals("totalDemandAmount")) {
+                    if (propertyId.equals(StringConstantsUtil.TOTAL_DEMAND_AMOUNT)) {
                         final TextField totalDemandAmount = new TextField();
                         totalDemandAmount.setEnabled(true);
                         totalDemandAmount.setImmediate(true);
                         return totalDemandAmount;
                     }
-                    if (propertyId.equals("inventoryUnitChange")) {
+                    if (propertyId.equals(StringConstantsUtil.INVENTORY_UNIT_CHANGE)) {
                         final TextField inventoryUnitChange = new TextField();
                         inventoryUnitChange.setEnabled(true);
                         inventoryUnitChange.setImmediate(true);
                         return inventoryUnitChange;
                     }
-                    if (propertyId.equals("grossUnits")) {
+                    if (propertyId.equals(StringConstantsUtil.GROSS_UNITS)) {
                         final TextField grossUnits = new TextField();
                         grossUnits.setEnabled(true);
                         grossUnits.setImmediate(true);
                         return grossUnits;
                     }
-                    if (propertyId.equals("grossPrice")) {
+                    if (propertyId.equals(StringConstantsUtil.GROSS_PRICE)) {
                         final TextField grossPrice = new TextField();
                         grossPrice.setEnabled(true);
                         grossPrice.setImmediate(true);
                         return grossPrice;
                     }
-                    if (propertyId.equals("grossAmount")) {
+                    if (propertyId.equals(StringConstantsUtil.GROSS_AMOUNT)) {
                         final TextField grossAmount = new TextField();
                         grossAmount.setEnabled(true);
                         grossAmount.setImmediate(true);
                         return grossAmount;
                     }
-                    if (propertyId.equals("netSalesPrice")) {
+                    if (propertyId.equals(StringConstantsUtil.NET_SALES_PRICE)) {
                         final TextField netSalesPrice = new TextField();
                         netSalesPrice.setEnabled(true);
                         netSalesPrice.setImmediate(true);
                         return netSalesPrice;
                     }
-                    if (propertyId.equals("netSalesAmount")) {
+                    if (propertyId.equals(StringConstantsUtil.NET_SALES_AMOUNT)) {
                         final TextField netSalesAmount = new TextField();
                         netSalesAmount.setEnabled(true);
                         netSalesAmount.setImmediate(true);
                         return netSalesAmount;
                     }
-                    if (propertyId.equals("batchId")) {
+                    if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                         final TextField batchId = new TextField();
                         batchId.setEnabled(true);
                         batchId.setImmediate(true);
                         return batchId;
                     }
-                    if (propertyId.equals("source")) {
+                    if (propertyId.equals(StringConstantsUtil.SOURCE_PROPERTY)) {
                         final TextField source = new TextField();
                         source.setEnabled(true);
                         source.setImmediate(true);
                         return source;
                     }
-                    if (propertyId.equals("forecastName")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
                         final TextField forecastName = new TextField();
                         forecastName.setEnabled(true);
                         forecastName.setImmediate(true);
                         return forecastName;
                     }
-                    if (propertyId.equals("forecastVersion")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
                         final TextField forecastVersion = new TextField();
                         forecastVersion.setEnabled(true);
                         forecastVersion.setImmediate(true);
                         return forecastVersion;
                     }
-                    if (propertyId.equals("country")) {
+                    if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
                         final TextField country = new TextField();
                         country.setEnabled(true);
                         country.setImmediate(true);
                         return country;
                     }
-                    if (propertyId.equals("organizationKey")) {
+                    if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                         final TextField organizationKey = new TextField();
                         organizationKey.setEnabled(true);
                         organizationKey.setImmediate(true);
@@ -3112,7 +3114,7 @@ public class FileManagementLookup extends Window {
                             year.setEnabled(false);
                             return year;
                         }
-                        if (propertyId.equals("month")) {
+                        if (propertyId.equals(StringConstantsUtil.MONTH_PROPERTY)) {
                             final TextField month = new TextField();
                             month.setImmediate(true);
                             month.setReadOnly(true);
@@ -3133,56 +3135,56 @@ public class FileManagementLookup extends Window {
                             day.setEnabled(false);
                             return day;
                         }
-                        if (propertyId.equals("itemId")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                             final TextField itemIde = new TextField();
                             itemIde.setImmediate(true);
                             itemIde.setReadOnly(true);
                             itemIde.setEnabled(false);
                             return itemIde;
                         }
-                        if (propertyId.equals("unitsWithdrawn")) {
+                        if (propertyId.equals(StringConstantsUtil.UNITS_WITHDRAWN)) {
                             final TextField unitsWithdrawn = new TextField();
                             unitsWithdrawn.setImmediate(true);
                             unitsWithdrawn.setReadOnly(true);
                             unitsWithdrawn.setEnabled(false);
                             return unitsWithdrawn;
                         }
-                        if (propertyId.equals("itemIdentifier")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER)) {
                             final TextField itemIdentifier = new TextField();
                             itemIdentifier.setImmediate(true);
                             itemIdentifier.setReadOnly(true);
                             itemIdentifier.setEnabled(false);
                             return itemIdentifier;
                         }
-                        if (propertyId.equals("itemIdentifierCodeQualifier")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER)) {
                             final TextField itemIdentifierCodeQualifier = new TextField();
                             itemIdentifierCodeQualifier.setImmediate(true);
                             itemIdentifierCodeQualifier.setReadOnly(true);
                             itemIdentifierCodeQualifier.setEnabled(false);
                             return itemIdentifierCodeQualifier;
                         }
-                        if (propertyId.equals("amountWithdrawn")) {
+                        if (propertyId.equals(StringConstantsUtil.AMOUNT_WITHDRAWN)) {
                             final TextField amountWithdrawn = new TextField();
                             amountWithdrawn.setImmediate(true);
                             amountWithdrawn.setReadOnly(true);
                             amountWithdrawn.setEnabled(false);
                             return amountWithdrawn;
                         }
-                        if (propertyId.equals("batchId")) {
+                        if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                             final TextField batchId = new TextField();
                             batchId.setImmediate(true);
                             batchId.setReadOnly(true);
                             batchId.setEnabled(false);
                             return batchId;
                         }
-                        if (propertyId.equals("organizationKey")) {
+                        if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                             final TextField organizationKey = new TextField();
                             organizationKey.setImmediate(true);
                             organizationKey.setReadOnly(true);
                             organizationKey.setEnabled(false);
                             return organizationKey;
                         }
-                        if (propertyId.equals("price")) {
+                        if (propertyId.equals(StringConstantsUtil.PRICE_PROPERTY)) {
                             final TextField price = new TextField();
                             price.setImmediate(true);
                             price.setReadOnly(true);
@@ -3190,21 +3192,21 @@ public class FileManagementLookup extends Window {
                             return price;
                         }
                         if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-                            if (propertyId.equals("companyId")) {
+                            if (propertyId.equals(StringConstantsUtil.COMPANY_ID_PROPERTY)) {
                                 final TextField companyId = new TextField();
                                 companyId.setImmediate(true);
                                 companyId.setReadOnly(true);
                                 companyId.setEnabled(false);
                                 return companyId;
                             }
-                            if (propertyId.equals("identifierCodeQualifier")) {
+                            if (propertyId.equals(StringConstantsUtil.IDENTIFIER_CODE_QUALIFIER)) {
                                 final TextField identifierCodeQualifier = new TextField();
                                 identifierCodeQualifier.setImmediate(true);
                                 identifierCodeQualifier.setReadOnly(true);
                                 identifierCodeQualifier.setEnabled(false);
                                 return identifierCodeQualifier;
                             }
-                            if (propertyId.equals("companyIdentifier")) {
+                            if (propertyId.equals(StringConstantsUtil.COMPANY_IDENTIFIER)) {
                                 final TextField companyIdentifier = new TextField();
                                 companyIdentifier.setImmediate(true);
                                 companyIdentifier.setReadOnly(true);
@@ -3227,7 +3229,7 @@ public class FileManagementLookup extends Window {
                             year.setEnabled(false);
                             return year;
                         }
-                        if (propertyId.equals("month")) {
+                        if (propertyId.equals(StringConstantsUtil.MONTH_PROPERTY)) {
                             final TextField month = new TextField();
                             month.setImmediate(true);
                             month.setReadOnly(true);
@@ -3248,56 +3250,56 @@ public class FileManagementLookup extends Window {
                             day.setEnabled(false);
                             return day;
                         }
-                        if (propertyId.equals("itemId")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                             final TextField itemIde = new TextField();
                             itemIde.setImmediate(true);
                             itemIde.setReadOnly(true);
                             itemIde.setEnabled(false);
                             return itemIde;
                         }
-                        if (propertyId.equals("unitsWithdrawn")) {
+                        if (propertyId.equals(StringConstantsUtil.UNITS_WITHDRAWN)) {
                             final TextField unitsWithdrawn = new TextField();
                             unitsWithdrawn.setImmediate(true);
                             unitsWithdrawn.setReadOnly(true);
                             unitsWithdrawn.setEnabled(false);
                             return unitsWithdrawn;
                         }
-                        if (propertyId.equals("itemIdentifier")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER)) {
                             final TextField itemIdentifier = new TextField();
                             itemIdentifier.setImmediate(true);
                             itemIdentifier.setReadOnly(true);
                             itemIdentifier.setEnabled(false);
                             return itemIdentifier;
                         }
-                        if (propertyId.equals("itemIdentifierCodeQualifier")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER)) {
                             final TextField itemIdentifierCodeQualifier = new TextField();
                             itemIdentifierCodeQualifier.setImmediate(true);
                             itemIdentifierCodeQualifier.setReadOnly(true);
                             itemIdentifierCodeQualifier.setEnabled(false);
                             return itemIdentifierCodeQualifier;
                         }
-                        if (propertyId.equals("amountWithdrawn")) {
+                        if (propertyId.equals(StringConstantsUtil.AMOUNT_WITHDRAWN)) {
                             final TextField amountWithdrawn = new TextField();
                             amountWithdrawn.setImmediate(true);
                             amountWithdrawn.setReadOnly(true);
                             amountWithdrawn.setEnabled(false);
                             return amountWithdrawn;
                         }
-                        if (propertyId.equals("batchId")) {
+                        if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                             final TextField batchId = new TextField();
                             batchId.setImmediate(true);
                             batchId.setReadOnly(true);
                             batchId.setEnabled(false);
                             return batchId;
                         }
-                        if (propertyId.equals("organizationKey")) {
+                        if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                             final TextField organizationKey = new TextField();
                             organizationKey.setImmediate(true);
                             organizationKey.setReadOnly(true);
                             organizationKey.setEnabled(false);
                             return organizationKey;
                         }
-                        if (propertyId.equals("price")) {
+                        if (propertyId.equals(StringConstantsUtil.PRICE_PROPERTY)) {
                             final TextField price = new TextField();
                             price.setImmediate(true);
                             price.setReadOnly(true);
@@ -3305,21 +3307,21 @@ public class FileManagementLookup extends Window {
                             return price;
                         }
                         if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-                            if (propertyId.equals("companyId")) {
+                            if (propertyId.equals(StringConstantsUtil.COMPANY_ID_PROPERTY)) {
                                 final TextField companyId = new TextField();
                                 companyId.setImmediate(true);
                                 companyId.setReadOnly(true);
                                 companyId.setEnabled(false);
                                 return companyId;
                             }
-                            if (propertyId.equals("identifierCodeQualifier")) {
+                            if (propertyId.equals(StringConstantsUtil.IDENTIFIER_CODE_QUALIFIER)) {
                                 final TextField identifierCodeQualifier = new TextField();
                                 identifierCodeQualifier.setImmediate(true);
                                 identifierCodeQualifier.setReadOnly(true);
                                 identifierCodeQualifier.setEnabled(false);
                                 return identifierCodeQualifier;
                             }
-                            if (propertyId.equals("companyIdentifier")) {
+                            if (propertyId.equals(StringConstantsUtil.COMPANY_IDENTIFIER)) {
                                 final TextField companyIdentifier = new TextField();
                                 companyIdentifier.setImmediate(true);
                                 companyIdentifier.setReadOnly(true);
@@ -3342,7 +3344,7 @@ public class FileManagementLookup extends Window {
                         year.setEnabled(true);
                         return year;
                     }
-                    if (propertyId.equals("month")) {
+                    if (propertyId.equals(StringConstantsUtil.MONTH_PROPERTY)) {
                         final TextField month = new TextField();
                         month.setImmediate(true);
                         month.setReadOnly(false);
@@ -3363,56 +3365,56 @@ public class FileManagementLookup extends Window {
                         day.setEnabled(true);
                         return day;
                     }
-                    if (propertyId.equals("itemId")) {
+                    if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                         final TextField itemIde = new TextField();
                         itemIde.setImmediate(true);
                         itemIde.setReadOnly(false);
                         itemIde.setEnabled(true);
                         return itemIde;
                     }
-                    if (propertyId.equals("unitsWithdrawn")) {
+                    if (propertyId.equals(StringConstantsUtil.UNITS_WITHDRAWN)) {
                         final TextField unitsWithdrawn = new TextField();
                         unitsWithdrawn.setImmediate(true);
                         unitsWithdrawn.setReadOnly(false);
                         unitsWithdrawn.setEnabled(true);
                         return unitsWithdrawn;
                     }
-                    if (propertyId.equals("itemIdentifier")) {
+                    if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER)) {
                         final TextField itemIdentifier = new TextField();
                         itemIdentifier.setImmediate(true);
                         itemIdentifier.setReadOnly(false);
                         itemIdentifier.setEnabled(true);
                         return itemIdentifier;
                     }
-                    if (propertyId.equals("itemIdentifierCodeQualifier")) {
+                    if (propertyId.equals(StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER)) {
                         final TextField itemIdentifierCodeQualifier = new TextField();
                         itemIdentifierCodeQualifier.setImmediate(true);
                         itemIdentifierCodeQualifier.setReadOnly(false);
                         itemIdentifierCodeQualifier.setEnabled(true);
                         return itemIdentifierCodeQualifier;
                     }
-                    if (propertyId.equals("amountWithdrawn")) {
+                    if (propertyId.equals(StringConstantsUtil.AMOUNT_WITHDRAWN)) {
                         final TextField amountWithdrawn = new TextField();
                         amountWithdrawn.setImmediate(true);
                         amountWithdrawn.setReadOnly(false);
                         amountWithdrawn.setEnabled(true);
                         return amountWithdrawn;
                     }
-                    if (propertyId.equals("batchId")) {
+                    if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                         final TextField batchId = new TextField();
                         batchId.setImmediate(true);
                         batchId.setReadOnly(false);
                         batchId.setEnabled(true);
                         return batchId;
                     }
-                    if (propertyId.equals("organizationKey")) {
+                    if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                         final TextField organizationKey = new TextField();
                         organizationKey.setImmediate(true);
                         organizationKey.setReadOnly(false);
                         organizationKey.setEnabled(true);
                         return organizationKey;
                     }
-                    if (propertyId.equals("price")) {
+                    if (propertyId.equals(StringConstantsUtil.PRICE_PROPERTY)) {
                         final TextField price = new TextField();
                         price.setImmediate(true);
                         price.setReadOnly(false);
@@ -3420,21 +3422,21 @@ public class FileManagementLookup extends Window {
                         return price;
                     }
                     if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-                        if (propertyId.equals("companyId")) {
+                        if (propertyId.equals(StringConstantsUtil.COMPANY_ID_PROPERTY)) {
                             final TextField companyId = new TextField();
                             companyId.setImmediate(true);
                             companyId.setReadOnly(false);
                             companyId.setEnabled(true);
                             return companyId;
                         }
-                        if (propertyId.equals("identifierCodeQualifier")) {
+                        if (propertyId.equals(StringConstantsUtil.IDENTIFIER_CODE_QUALIFIER)) {
                             final TextField identifierCodeQualifier = new TextField();
                             identifierCodeQualifier.setImmediate(true);
                             identifierCodeQualifier.setReadOnly(false);
                             identifierCodeQualifier.setEnabled(true);
                             return identifierCodeQualifier;
                         }
-                        if (propertyId.equals("companyIdentifier")) {
+                        if (propertyId.equals(StringConstantsUtil.COMPANY_IDENTIFIER)) {
                             final TextField companyIdentifier = new TextField();
                             companyIdentifier.setImmediate(true);
                             companyIdentifier.setReadOnly(false);
@@ -3465,82 +3467,82 @@ public class FileManagementLookup extends Window {
                             select.setEnabled(false);
                             return select;
                         }
-                        if (propertyId.equals("forcastYear")) {
+                        if (propertyId.equals(FORCAST_YEAR)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastMonth")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_MONTH)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("itemId")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("companyId")) {
+                        if (propertyId.equals(StringConstantsUtil.COMPANY_ID_PROPERTY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("units")) {
+                        if (propertyId.equals(StringConstantsUtil.UNITS_PROPERTY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("priceType")) {
+                        if (propertyId.equals(StringConstantsUtil.PRICE_TYPE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("price")) {
+                        if (propertyId.equals(StringConstantsUtil.PRICE_PROPERTY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("salesAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.SALES_AMOUNT)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("salesInclusion")) {
+                        if (propertyId.equals(StringConstantsUtil.SALES_INCLUSION)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionId")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_ID)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionCategory")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_CATEGORY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionType")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_TYPE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionProgramType")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_PROGRAM_TYPE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("adjustmentCode")) {
+                        if (propertyId.equals(StringConstantsUtil.ADJUSTMENT_CODE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionRate")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_RATE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_AMOUNT)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionInclusion")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_INCLUSION)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastValueType")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_VALUE_TYPE)) {
                             return createCustField(true);
                         }
                         if (propertyId.equals("brand")) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("segment")) {
+                        if (propertyId.equals(StringConstantsUtil.SEGMENT)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("batchId")) {
+                        if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("organizationKey")) {
+                        if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastVersion")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("country")) {
+                        if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastName")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastDate")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_DATE)) {
                             return createCustField(true);
                         }
 
@@ -3551,82 +3553,82 @@ public class FileManagementLookup extends Window {
                             select.setEnabled(false);
                             return select;
                         }
-                        if (propertyId.equals("forcastYear")) {
+                        if (propertyId.equals(FORCAST_YEAR)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastMonth")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_MONTH)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("itemId")) {
+                        if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("companyId")) {
+                        if (propertyId.equals(StringConstantsUtil.COMPANY_ID_PROPERTY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("units")) {
+                        if (propertyId.equals(StringConstantsUtil.UNITS_PROPERTY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("priceType")) {
+                        if (propertyId.equals(StringConstantsUtil.PRICE_TYPE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("price")) {
+                        if (propertyId.equals(StringConstantsUtil.PRICE_PROPERTY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("salesAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.SALES_AMOUNT)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("salesInclusion")) {
+                        if (propertyId.equals(StringConstantsUtil.SALES_INCLUSION)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionId")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_ID)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionCategory")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_CATEGORY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionType")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_TYPE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionProgramType")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_PROGRAM_TYPE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("adjustmentCode")) {
+                        if (propertyId.equals(StringConstantsUtil.ADJUSTMENT_CODE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionRate")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_RATE)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionAmount")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_AMOUNT)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("deductionInclusion")) {
+                        if (propertyId.equals(StringConstantsUtil.DEDUCTION_INCLUSION)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastValueType")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_VALUE_TYPE)) {
                             return createCustField(true);
                         }
                         if (propertyId.equals("brand")) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("segment")) {
+                        if (propertyId.equals(StringConstantsUtil.SEGMENT)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("batchId")) {
+                        if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("organizationKey")) {
+                        if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastVersion")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("country")) {
+                        if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastName")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
                             return createCustField(true);
                         }
-                        if (propertyId.equals("forecastDate")) {
+                        if (propertyId.equals(StringConstantsUtil.FORECAST_DATE)) {
                             return createCustField(true);
                         }
                     }
@@ -3637,82 +3639,82 @@ public class FileManagementLookup extends Window {
                         select.setEnabled(true);
                         return select;
                     }
-                    if (propertyId.equals("forcastYear")) {
+                    if (propertyId.equals(FORCAST_YEAR)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("forecastMonth")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_MONTH)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("itemId")) {
+                    if (propertyId.equals(StringConstantsUtil.ITEM_ID)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("companyId")) {
+                    if (propertyId.equals(StringConstantsUtil.COMPANY_ID_PROPERTY)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("units")) {
+                    if (propertyId.equals(StringConstantsUtil.UNITS_PROPERTY)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("priceType")) {
+                    if (propertyId.equals(StringConstantsUtil.PRICE_TYPE)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("price")) {
+                    if (propertyId.equals(StringConstantsUtil.PRICE_PROPERTY)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("salesAmount")) {
+                    if (propertyId.equals(StringConstantsUtil.SALES_AMOUNT)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("salesInclusion")) {
+                    if (propertyId.equals(StringConstantsUtil.SALES_INCLUSION)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("deductionId")) {
+                    if (propertyId.equals(StringConstantsUtil.DEDUCTION_ID)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("deductionCategory")) {
+                    if (propertyId.equals(StringConstantsUtil.DEDUCTION_CATEGORY)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("deductionType")) {
+                    if (propertyId.equals(StringConstantsUtil.DEDUCTION_TYPE)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("deductionProgramType")) {
+                    if (propertyId.equals(StringConstantsUtil.DEDUCTION_PROGRAM_TYPE)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("adjustmentCode")) {
+                    if (propertyId.equals(StringConstantsUtil.ADJUSTMENT_CODE)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("deductionRate")) {
+                    if (propertyId.equals(StringConstantsUtil.DEDUCTION_RATE)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("deductionAmount")) {
+                    if (propertyId.equals(StringConstantsUtil.DEDUCTION_AMOUNT)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("deductionInclusion")) {
+                    if (propertyId.equals(StringConstantsUtil.DEDUCTION_INCLUSION)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("forecastValueType")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_VALUE_TYPE)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("brandId")) {
+                    if (propertyId.equals(StringConstantsUtil.BRAND_ID)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("segment")) {
+                    if (propertyId.equals(StringConstantsUtil.SEGMENT)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("batchId")) {
+                    if (propertyId.equals(StringConstantsUtil.BATCH_ID)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("organizationKey")) {
+                    if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("forecastVersion")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("country")) {
+                    if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("forecastName")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
                         return createCustField(false);
                     }
-                    if (propertyId.equals("forecastDate")) {
+                    if (propertyId.equals(StringConstantsUtil.FORECAST_DATE)) {
                         return createCustField(false);
                     }
                 }
@@ -3762,4 +3764,108 @@ public class FileManagementLookup extends Window {
         return isContainsSC;
     }
     
+    class Downloader implements OnDemandFileDownloader.OnDemandStreamResource {
+
+        String fileName;
+        String[] header;
+        String query=null;
+        File file; 
+        FileDetailsTableLogic detTableLogic;
+        
+        public Downloader(String[] header, String query, FileDetailsTableLogic detTableLogic) {
+            this.header = header;
+            this.query = query;
+            this.detTableLogic = detTableLogic;
         }
+
+        public void setHeader(String[] header) {
+            this.header = header;
+        }
+
+        public void setQuery(String query) {
+            this.query = query;
+        }
+
+        @Override
+        public String getFilename() {
+            String dirName = StringUtils.EMPTY;
+            String outputFilePath = StringUtils.EMPTY;
+            try {
+                if (ConstantsUtils.CUSTOMERGTS.equals(detailsResultDTO.getHelperType())) {
+                    query = String.valueOf(logic.getCustomerSalesResults_Excel(detailsResultDTO, detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
+                } else if (ConstantsUtils.ADJUSTED_DEMAND.equals(detailsResultDTO.getHelperType())) {
+                    query =  String.valueOf(logic.getAdjustedDemandDetailsResults_Excel(detailsResultDTO, detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
+                } else if (ConstantsUtils.DEMAND.equals(detailsResultDTO.getHelperType())) {
+                    query =  String.valueOf(logic.getDemandDetailsResults_Excel(detailsResultDTO, detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
+                } else if (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType())) {
+                    query =  String.valueOf(logic.getForecastDetails_Excel(detailsResultDTO, detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
+                } else if (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(detailsResultDTO.getHelperType())) {
+                    query =  String.valueOf(logic.getInventoryDetailsResults_Excel(detailsResultDTO, detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
+                } else  {
+                    query =  String.valueOf(logic.getInventorySummaryResults_Excel(detailsResultDTO, detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
+                }
+                dirName = "FILE_MANAGEMENT_DIR";
+                outputFilePath = "FileManagementDetails.csv";
+                long exportBeginTime = System.currentTimeMillis();
+                String[] bcpHeader = configureExcelDetailsTableBCP();
+                fileName = BCPExcelUtility.excelExport_bcpUtility("FILE_MANAGEMENT", bcpHeader, query, outputFilePath);
+                System.out.println("fileName = " + fileName);
+                long exportEndTime = System.currentTimeMillis();
+                System.out.println("BCP Export took " + (exportEndTime - exportBeginTime) + " milliseconds");
+                file = new File(fileName);
+                List<String> fileList = (List) VaadinSession.getCurrent().getAttribute(dirName);
+                if (fileList == null) {
+                    fileList = new ArrayList<>();
+                }
+                String tempFileName = file.getAbsolutePath();
+                tempFileName = tempFileName.substring(0, tempFileName.lastIndexOf(File.separator) + NumericConstants.ONE);
+                fileList.add(tempFileName);
+                VaadinSession.getCurrent().setAttribute(dirName, fileList);
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+            return file.getName();
+        }
+
+        @Override
+        public InputStream getStream() {
+
+            System.out.println("Getting Stream to Export :");
+            try {
+
+                if (file != null) {
+                    return new FileInputStream(file);
+                } else {
+                    return null;
+                }
+            } catch (FileNotFoundException ex) {
+                LOGGER.error(ex);
+            }
+            return null;
+        }
+
+    }
+    
+    /**
+     * To configure Excel Details Results Table
+     */
+    private String[] configureExcelDetailsTableBCP() {
+        String[] bcpHeader;
+        if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+            bcpHeader = CommonUIUtil.getInstance().fileMgtLookupDetailsHeaderExcel;
+        } else if (FileType.equals(ConstantsUtils.DEMAND)) {
+            bcpHeader = CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeaderExcel;
+        } else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+            bcpHeader = CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsHeader;
+        } else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
+            bcpHeader = CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsSummaryHeaderExcel;
+        } else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+            bcpHeader = CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsDetailsHeaderExcel;
+        } else if (FileType.equals(ConstantsUtils.CUSTOMERGTS)) {
+            bcpHeader = CommonUIUtil.getInstance().fileMgtLookupCustomerHeader;
+        } else {
+            bcpHeader = new String[1];
+        }
+        return bcpHeader;
+    }
+}

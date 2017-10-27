@@ -300,23 +300,12 @@ public class ForeCastVsActualsLogic {
 //            }
             list = (List<Object[]>) dao.getResultList(sql.toString());
         } catch (Exception ex) {
-
-            ex.printStackTrace();
             LOGGER.error(ex.getMessage());
+            LOGGER.info(ex);
         }
 
         return list;
     }
 
-    private List getInputForProjection() {
-        List input = new ArrayList<String>();
-        Date sDate = new Date();
-        sDate.setDate(1);
-        sDate.setMonth(1);
-        Date eDate = new Date();
-        input.add(DBDate.format(sDate));
-        input.add(DBDate.format(eDate));
-        return input;
-    }
 
 }

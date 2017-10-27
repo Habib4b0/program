@@ -437,6 +437,21 @@ public interface IvldItemPricingModel extends BaseModel<IvldItemPricing> {
      */
     public void setCheckRecord(boolean checkRecord);
 
+    /**
+     * Returns the item priceprecision of this ivld item pricing.
+     *
+     * @return the item priceprecision of this ivld item pricing
+     */
+    @AutoEscape
+    public String getItemPriceprecision();
+
+    /**
+     * Sets the item priceprecision of this ivld item pricing.
+     *
+     * @param itemPriceprecision the item priceprecision of this ivld item pricing
+     */
+    public void setItemPriceprecision(String itemPriceprecision);
+
     @Override
     public boolean isNew();
 

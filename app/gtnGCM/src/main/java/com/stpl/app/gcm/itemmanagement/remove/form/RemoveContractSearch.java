@@ -43,7 +43,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
     SelectionDTO selection = new SelectionDTO();
     final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    Map<String, AppPermission> functionHM = new HashMap<>();
     public static final Logger LOGGER = Logger.getLogger(RemoveContractSearch.class);
 
     public RemoveContractSearch(SelectionDTO selection, List selectedItemList) {

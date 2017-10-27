@@ -53,19 +53,19 @@ public class CustomTrees extends Window {
     /** The available levels bean list. */
     
     /** The customer container. */
-    private final BeanItemContainer<SalesProjectionDTO> customerContainer = new BeanItemContainer<SalesProjectionDTO>(SalesProjectionDTO.class);
+    private final BeanItemContainer<SalesProjectionDTO> customerContainer = new BeanItemContainer<>(SalesProjectionDTO.class);
     
     /** The product container. */
-    private final BeanItemContainer<SalesProjectionDTO> productContainer = new BeanItemContainer<SalesProjectionDTO>(SalesProjectionDTO.class);
+    private final BeanItemContainer<SalesProjectionDTO> productContainer = new BeanItemContainer<>(SalesProjectionDTO.class);
   
     /** The bean container. */
-    private ExtTreeContainer<SalesProjectionDTO> beanContainer = new ExtTreeContainer<SalesProjectionDTO>(SalesProjectionDTO.class);
+    private ExtTreeContainer<SalesProjectionDTO> beanContainer = new ExtTreeContainer<>(SalesProjectionDTO.class);
     
     /** The Constant CUST_ID_TRANSF_COLUMNS. */
-    public static final Object[] CUST_ID_TRANSF_COLUMNS = new Object[]{"level"};
+    public final Object[] custIdTransfColumns = new Object[]{"level"};
     
     /** The Constant CUST_ID_TRANSF_HEADER. */
-    public static final String[] CUST_ID_TRANSF_HEADER = new String[]{"LEVEL"};
+    public final String[] custIdTransfHeader = new String[]{"LEVEL"};
     
     /** The add customer. */
     private final Button addCustomer = new Button(ADD_TO_SELECTED.getConstant());
@@ -134,17 +134,6 @@ public class CustomTrees extends Window {
         init();
     }
     
-    /**
-     * Instantiates a new custom trees.
-     *
-     * @param indicator the indicator
-     * @param projectionId the projection id
-     */
-    public CustomTrees(String indicator, int projectionId) {
-        super("Custom Tree look Up");
-        init();
-    }
-
     /**
      * Instantiates a new custom trees.
      *
@@ -328,8 +317,8 @@ public class CustomTrees extends Window {
         treeTable.setCaption("Tree Structure");
 
         treeTable.setContainerDataSource(beanContainer);
-        treeTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        treeTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        treeTable.setVisibleColumns(custIdTransfColumns);
+        treeTable.setColumnHeaders(custIdTransfHeader);
         treeTable.setSizeFull();
         treeTable.setSizeUndefined();
         treeTable.setHeight("491px");
@@ -338,8 +327,8 @@ public class CustomTrees extends Window {
        treeTable.setSortEnabled(false);
 
         productTable.setContainerDataSource(productContainer);
-        productTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        productTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        productTable.setVisibleColumns(custIdTransfColumns);
+        productTable.setColumnHeaders(custIdTransfHeader);
         productTable.setSizeFull();
         productTable.setSizeUndefined();
         productTable.setPageLength(NumericConstants.TEN);
@@ -348,8 +337,8 @@ public class CustomTrees extends Window {
         productTable.setSelectable(true);
         
         customerTable.setContainerDataSource(customerContainer);
-        customerTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        customerTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        customerTable.setVisibleColumns(custIdTransfColumns);
+        customerTable.setColumnHeaders(custIdTransfHeader);
         customerTable.setSizeFull();
         customerTable.setSizeUndefined();
         customerTable.setPageLength(NumericConstants.TEN);
@@ -453,7 +442,7 @@ public class CustomTrees extends Window {
         if (obj instanceof BeanItem<?>) {
            targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof SalesProjectionDTO) {
-           targetItem = new BeanItem<SalesProjectionDTO>((SalesProjectionDTO) obj);
+           targetItem = new BeanItem<>((SalesProjectionDTO) obj);
         }
         return (SalesProjectionDTO)targetItem.getBean();
     }

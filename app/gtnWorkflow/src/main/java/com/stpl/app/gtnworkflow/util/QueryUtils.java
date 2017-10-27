@@ -35,7 +35,7 @@ public class QueryUtils {
     public static List getServiceData(List input, String queryName, String queryName2) {
         LOGGER.debug("Inside getServiceData");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 LOGGER.debug(CommonUtils.QUERY_NAME + queryName + " List size" + input.size());
@@ -123,7 +123,7 @@ public class QueryUtils {
     public static List getAppData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside getAppData");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         LOGGER.debug("queryName - - >> " + queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {

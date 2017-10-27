@@ -47,17 +47,17 @@ public class PSView extends VerticalLayout implements View {
     /**
      * The available item result bean.
      */
-    private final BeanItemContainer<PSIFPDTO> availableItemResultBean = new BeanItemContainer<PSIFPDTO>(PSIFPDTO.class);
+    private final BeanItemContainer<PSIFPDTO> availableItemResultBean = new BeanItemContainer<>(PSIFPDTO.class);
 
     /**
      * The selected item result bean.
      */
-    private final BeanItemContainer<PSIFPDTO> selectedItemResultBean = new BeanItemContainer<PSIFPDTO>(PSIFPDTO.class);
+    private final BeanItemContainer<PSIFPDTO> selectedItemResultBean = new BeanItemContainer<>(PSIFPDTO.class);
 
     /**
      * The item details results bean.
      */
-    private final BeanItemContainer<PSIFPDTO> itemDetailsResultsBean = new BeanItemContainer<PSIFPDTO>(PSIFPDTO.class);
+    private final BeanItemContainer<PSIFPDTO> itemDetailsResultsBean = new BeanItemContainer<>(PSIFPDTO.class);
 
     /**
      * The ps master.
@@ -67,7 +67,7 @@ public class PSView extends VerticalLayout implements View {
     /**
      * The binder.
      */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<PSDTO>(psMaster));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(psMaster));
 
     /**
      * The Constant NAME.
@@ -138,7 +138,7 @@ public class PSView extends VerticalLayout implements View {
     /**
      * The Constructor.
      */
-    public PSView(final SessionDTO sessionDTO) throws PortalException, SystemException {
+    public PSView(final SessionDTO sessionDTO) {
         super();
         setStyleName("bootstrap-company");
         this.removeAllComponents();
@@ -163,7 +163,7 @@ public class PSView extends VerticalLayout implements View {
             sessionDTO.setUiSessionId(fmtID.format(tempDate));
             
             this.removeAllComponents();
-            binder = new ErrorfulFieldGroup(new BeanItem<PSDTO>(new PSDTO()));
+            binder = new ErrorfulFieldGroup(new BeanItem<>(new PSDTO()));
             String mode = (String) sessionDTO.getMode();
             
             
@@ -180,7 +180,7 @@ public class PSView extends VerticalLayout implements View {
                 psMaster = new PSDTO();
                 psMaster.setItemPricingQualifierMap(psLogic.getItemPricingQualifiers());
                 addPS = new PSTabsheetForm(psMaster, binder, availableItemResultBean, selectedItemResultBean, itemDetailsResultsBean, mode, sessionDTO);
-                binder.setItemDataSource(new BeanItem<PSDTO>(new PSDTO()));
+                binder.setItemDataSource(new BeanItem<>(new PSDTO()));
                 binder.getField(FieldNameUtils.PRICE_SCHEDULE_ID).focus();
                 binder.getField(FieldNameUtils.INTERNAL_NOTES).setReadOnly(true);
                 binder.getField("record").setReadOnly(true);
@@ -188,16 +188,19 @@ public class PSView extends VerticalLayout implements View {
                 availableItemResultBean.removeAllItems();
                 itemDetailsResultsBean.removeAllItems();
 
-            } else if (ConstantsUtils.EDIT.equals(mode)) {
+            } else if (ConstantsUtils.EDIT.equals(mode)|| (ConstantsUtils.COPY).equals(mode)) {
                 final int systemId = (Integer) sessionDTO.getSystemId();
                 psMaster = psLogic.getPriceschedulesById(systemId);
                 psMaster.setItemPricingQualifierMap(psLogic.getItemPricingQualifiers());
-                binder.setItemDataSource(new BeanItem<PSDTO>(psMaster));
+                binder.setItemDataSource(new BeanItem<>(psMaster));
                 psLogic.addToTempPSDetailsEdit(psMaster.getPriceScheduleSystemId());
                 availableItemResultBean.removeAllItems();
                 selectedItemResultBean.addAll((List<PSIFPDTO>)psLogic.getSelectedItemListTable(systemId, false));
                 addPS = new PSTabsheetForm(psMaster, binder, availableItemResultBean, selectedItemResultBean, itemDetailsResultsBean, mode, sessionDTO);
                 addPS.editModeConfig();
+                if ((ConstantsUtils.COPY).equals(mode)) {
+                    addPS.copyModeConfig();
+                }
                 binder.getField(FieldNameUtils.PRICE_SCHEDULE_ID).focus();
                 binder.getField(FieldNameUtils.INTERNAL_NOTES).setReadOnly(true);
             } else if (ConstantsUtils.VIEW.equals(mode)) {
@@ -205,7 +208,7 @@ public class PSView extends VerticalLayout implements View {
                 final int systemId = (Integer) sessionDTO.getSystemId();
                 psMaster = psLogic.getPriceschedulesById(systemId);
                 psMaster.setItemPricingQualifierMap(psLogic.getItemPricingQualifiers());
-                binder.setItemDataSource(new BeanItem<PSDTO>(psMaster));
+                binder.setItemDataSource(new BeanItem<>(psMaster));
                 selectedItemResultBean.addAll((List<PSIFPDTO>)psLogic.getSelectedItemListTable(systemId, false));
                 psLogic.addToTempPSDetailsEdit(psMaster.getPriceScheduleSystemId());
                 addPS = new PSTabsheetForm(psMaster, binder, availableItemResultBean, selectedItemResultBean, itemDetailsResultsBean, mode, sessionDTO);

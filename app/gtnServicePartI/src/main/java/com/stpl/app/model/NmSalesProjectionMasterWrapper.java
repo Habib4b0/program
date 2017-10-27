@@ -43,7 +43,6 @@ public class NmSalesProjectionMasterWrapper implements NmSalesProjectionMaster,
         attributes.put("userGroup", getUserGroup());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
         attributes.put("methodology", getMethodology());
-        attributes.put("calculationBased", getCalculationBased());
 
         return attributes;
     }
@@ -80,12 +79,6 @@ public class NmSalesProjectionMasterWrapper implements NmSalesProjectionMaster,
 
         if (methodology != null) {
             setMethodology(methodology);
-        }
-
-        String calculationBased = (String) attributes.get("calculationBased");
-
-        if (calculationBased != null) {
-            setCalculationBased(calculationBased);
         }
     }
 
@@ -217,26 +210,6 @@ public class NmSalesProjectionMasterWrapper implements NmSalesProjectionMaster,
     @Override
     public void setMethodology(java.lang.String methodology) {
         _nmSalesProjectionMaster.setMethodology(methodology);
-    }
-
-    /**
-    * Returns the calculation based of this nm sales projection master.
-    *
-    * @return the calculation based of this nm sales projection master
-    */
-    @Override
-    public java.lang.String getCalculationBased() {
-        return _nmSalesProjectionMaster.getCalculationBased();
-    }
-
-    /**
-    * Sets the calculation based of this nm sales projection master.
-    *
-    * @param calculationBased the calculation based of this nm sales projection master
-    */
-    @Override
-    public void setCalculationBased(java.lang.String calculationBased) {
-        _nmSalesProjectionMaster.setCalculationBased(calculationBased);
     }
 
     @Override

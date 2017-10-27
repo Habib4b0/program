@@ -34,7 +34,7 @@ public class RelationshipBuilderView extends VerticalLayout implements View {
 
     private RelationshipBuilderDTO relationshipBuilderDTO = new RelationshipBuilderDTO();
 
-    private CustomFieldGroup relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<RelationshipBuilderDTO>(relationshipBuilderDTO));
+    private CustomFieldGroup relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<>(relationshipBuilderDTO));
 
     private RelationshipBuilderTree relationBuilderInfo;
 
@@ -92,20 +92,20 @@ public class RelationshipBuilderView extends VerticalLayout implements View {
         try {
             this.removeAllComponents();
             relationshipBuilderDTO = new RelationshipBuilderDTO();
-            relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<RelationshipBuilderDTO>(relationshipBuilderDTO));
+            relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<>(relationshipBuilderDTO));
             relationBuilderInfo = new RelationshipBuilderTree(relationshipBuilderBinder, relationshipBuilderDTO, sessionDTO);
             addComponent(relationBuilderInfo);
         } catch (Exception e) {
             LOGGER.error(e);
         }
         if (rbSystemId == ConstantsUtils.ZERO_NUM) {
-            relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<RelationshipBuilderDTO>(relationshipBuilderDTO));
+            relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<>(relationshipBuilderDTO));
 
         } else {
 
             try {
                 relationshipBuilderDTO = new RelationBuilderLogic().getRelationBuilderInfo(sessionDTO);
-                relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<RelationshipBuilderDTO>(relationshipBuilderDTO));
+                relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<>(relationshipBuilderDTO));
             } catch (SystemException ex) {
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);

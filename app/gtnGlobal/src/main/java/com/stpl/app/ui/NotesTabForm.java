@@ -87,13 +87,13 @@ public class NotesTabForm extends AbstractNotesTab {
 		this.isViewMode = "View".equalsIgnoreCase(mode);
                 final StplSecurity stplSecurity = new StplSecurity();
                 final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-                final Map<String, AppPermission> fieldNotesHM = stplSecurity.getFieldOrColumnPermission(userId, moduleName+","+"Notes",false);
+                final Map<String, AppPermission> fieldNotesHM = stplSecurity.getFieldOrColumnPermission(userId, moduleName+","+ConstantsUtils.NOTES,false);
 
-                final Map<String, AppPermission> functionNotesHM = stplSecurity.getBusinessFunctionPermission(userId,  moduleName+","+"Notes");
+                final Map<String, AppPermission> functionNotesHM = stplSecurity.getBusinessFunctionPermission(userId,  moduleName+","+ConstantsUtils.NOTES);
                 getNotesTab(fieldNotesHM,functionNotesHM);
                 
-                final Map<String, AppPermission> fieldNotesTableHM = stplSecurity.getFieldOrColumnPermission(userId, moduleName+","+"Notes",false);
-              List<Object> resultList = ifpLogic.getFieldsForSecurity(moduleName, "Notes");
+                final Map<String, AppPermission> fieldNotesTableHM = stplSecurity.getFieldOrColumnPermission(userId, moduleName+","+ConstantsUtils.NOTES,false);
+              List<Object> resultList = ifpLogic.getFieldsForSecurity(moduleName, ConstantsUtils.NOTES);
             Object[] obj = new Object[]{"documentName", "dateAdded", "userName"};
             String[] objHeaders = new String[]{"Document Name", "Date Added", "User Name"};
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldNotesTableHM, mode.equals("Copy")?"Edit":mode);
@@ -244,14 +244,15 @@ public class NotesTabForm extends AbstractNotesTab {
     public void removeButtonLogic(ClickEvent event) {
         try {
             if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
-                AbstractNotificationUtils.getErrorNotification("Remove Attachment", "Please select an attachment to remove ");
+                AbstractNotificationUtils.getErrorNotification(ConstantsUtils.REMOVE_ATTACHEMENT, "Please select an attachment to remove ");
             } else {
                 if (!tableBean.getUserName().equalsIgnoreCase(userName)) {
-                   AbstractNotificationUtils.getInfoNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+                   AbstractNotificationUtils.getInfoNotification(ConstantsUtils.REMOVE_ATTACHEMENT, "You can only remove attachments that you have uploaded.");
                 } else {
                     AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                         @Override
                         public void noMethod() {
+                            return;
                         }
 
                         @Override
@@ -265,7 +266,7 @@ public class NotesTabForm extends AbstractNotesTab {
                             tableBean = null;
                         }
                     };
-                    notification.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
+                    notification.getConfirmationMessage(ConstantsUtils.REMOVE_ATTACHEMENT, "Are you sure you want to delete this Attachment?");
 
                 }
             }
@@ -281,7 +282,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		if (tableBeanId instanceof BeanItem<?>) {
 			targetItem = (BeanItem<?>) tableBeanId;
 		} else if (tableBeanId instanceof NotesDTO) {
-			targetItem = new BeanItem<NotesDTO>((NotesDTO) tableBeanId);
+			targetItem = new BeanItem<>((NotesDTO) tableBeanId);
 		}
 		tableBean = (NotesDTO) targetItem.getBean();
 		if (event.isDoubleClick()) {
@@ -297,7 +298,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	@Override
 	public void refreshTable() {
 		try{
-                    String masterTableSidValue = StringUtils.EMPTY;
+                    String masterTableSidValue;
                     binder.commit();
                     if ("Compliance Deduction Rules".equals(this.moduleName)) {
                         masterTableSidValue = masterTableSid;
@@ -319,7 +320,7 @@ public class NotesTabForm extends AbstractNotesTab {
         LOGGER.debug("Entering getFirstTab1");
         try {
 
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(moduleName, "Notes");
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(moduleName, ConstantsUtils.NOTES);
 
             commonUiUtil.removeComponentOnPermission(resultList, cssLayout1, fieldCompanyHM, mode, binder);
 

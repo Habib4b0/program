@@ -42,7 +42,7 @@ public class FcpQueryUtils {
 
     public List loadFcpResultsTable(int projMasterId, int brandSid, String queryName, int parentLevelId, int itemMasterSID, int therapeuticSid) {
         List fcpList = new ArrayList();
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
 
         if (brandSid == 0) {
@@ -75,7 +75,7 @@ public class FcpQueryUtils {
     }
 
     public List loadFcpResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         List fcpList;
         String customSql;
         String priceType = StringUtils.EMPTY;
@@ -90,7 +90,7 @@ public class FcpQueryUtils {
         }
 
         input.put("?PID", session.getProjectionId());
-        input.put("?IMID", parentSid);
+        input.put(Constant.IMID1, parentSid);
         input.put("?PT", priceType);
 
         if (percentFlag) {
@@ -109,7 +109,7 @@ public class FcpQueryUtils {
 
     public List getNonFamp(SessionDTO session, int brandMasterSid, int therapeuticSid, int parentLevelId, boolean percentFlag) throws PortalException, SystemException {
         List fcpList;
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         String customSql;
         String query;
         if (parentLevelId == 0) {
@@ -136,7 +136,7 @@ public class FcpQueryUtils {
     }
 
     public void saveNotes(Map<String, String> editedValues, int projId, int itemSid, String pricetype,SessionDTO session) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
@@ -152,7 +152,7 @@ public class FcpQueryUtils {
 
                 int year = Integer.parseInt(yearValue);
                 int quarter = Integer.parseInt(qValue);
-                Double finalvalue = 0.0;
+                Double finalvalue;
 
                 if (rowId.equals(Constant.ADJUSTMENT)) {
                     formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
@@ -164,25 +164,25 @@ public class FcpQueryUtils {
                         if (value == 0) {
                             // Added for CEL-370 CR
                             if(pricetype.equals("QFSS")){
-                                queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS).append(" , ADJUSTMENT_PRICE=").append(Constant.NULL_CAPS);
+                                queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT =").append(Constant.NULL_CAPS).append(" , ADJUSTMENT_PRICE=").append(Constant.NULL_CAPS);
                             } else {
-                                queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
+                            queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT= ").append(Constant.NULL_CAPS);
                             }
                         } else {
                             if(pricetype.equals("QFSS")){
                                 queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ")
                                         .append(" , ADJUSTMENT_PRICE=ISNULL(PROJECTION_PRICE,0)+'").append(finalvalue).append("' ");
                             } else {
-                                queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
-                            }
+                            queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
+                        }
                         }
                     } else {
                         if(pricetype.equals("QFSS")){
                             queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS)
                                     .append(" , ADJUSTMENT_PRICE=ISNULL(PROJECTION_PRICE,0)+").append(Constant.NULL_CAPS);
                         } else {
-                            queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
-                        }                        
+                        queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
+                    }
                     }
                 } else if (rowId.equals(Constant.NOTES)) {
 
@@ -212,7 +212,7 @@ public class FcpQueryUtils {
     }
 
     public String[] getTextValue(String propertyId, int itemSid, String pricetype,SessionDTO session) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
 
         queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
@@ -260,10 +260,10 @@ public class FcpQueryUtils {
 
     public List loadFCPWorksheet(SessionDTO session, int ndcSid, boolean annualFlag, boolean adjustFlag) throws PortalException, SystemException {
         List fcpList;
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
-        input.put("?IMID", ndcSid);
-        String customSql = StringUtils.EMPTY;
+        input.put(Constant.IMID1, ndcSid);
+        String customSql;
 
         if (annualFlag) {
             customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetYearValuesForView" : "getFcpWorkSheetYearValues");
@@ -284,7 +284,7 @@ public class FcpQueryUtils {
     public List loadFcpParent(int projMasterId, int brandSid, int parentLevelId, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws PortalException, SystemException {
 
         List fcpList;
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
         if (brandSid == 0) {
             input.put("?BID", Constant.NULL_CAPS);
@@ -319,10 +319,10 @@ public class FcpQueryUtils {
     }
 
     public void updateAdjustment(int itemSid, String queryName,SessionDTO sessionDTO) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
-        Map<String, Object> input = new HashMap<String, Object>();
+        List<StringBuilder> queryList = new ArrayList<>();
+        Map<String, Object> input = new HashMap<>();
 
-        input.put("?IMID", itemSid);
+        input.put(Constant.IMID1, itemSid);
 
         String customSql = CustomSQLUtil.get(queryName);
 

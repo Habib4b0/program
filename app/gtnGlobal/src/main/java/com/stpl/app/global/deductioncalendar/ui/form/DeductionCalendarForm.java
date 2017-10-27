@@ -55,7 +55,7 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 
 /**
  *
- * @author rohitvignesh.s
+ * @author rohit vignesh.s
  */
 public class DeductionCalendarForm extends StplCustomComponent implements AddBaseForm {
 
@@ -110,7 +110,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
     DeductionCalendarLogic deductionCalendarLogic = new DeductionCalendarLogic();
     DeductionCalendarDTO dto = new DeductionCalendarDTO();
 
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<DeductionCalendarDTO>(dto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(dto));
     /**
      * variable to check whether details tab is seek for refresh
      */
@@ -163,6 +163,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
 
     @Override
     public void addLogic() {
+        return;
     }
 
     @Override
@@ -234,19 +235,18 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                     tabName = event.getTabSheet().getSelectedTab().getCaption();
                     if (TabNameUtil.DEDUCTION_DETAILS.equals(tabName)) {
                         if (isNeedRefresh()) {
-                            if("Add".equals(sessionDTO.getMode())){
-                            detailsDto = logic.getForecastConfig(detailsDto);
-                            selectionLogic.saveToTempDeductionDetails(sessionDTO, detailsDto);
-                            deductiondetails.loadFilterDdlb();
-                            setNeedRefresh(false);
-                            }
-                            else{
-                            detailsDto = logic.getForecastConfig(detailsDto);
-                            selectionLogic.saveToTempDeductionDetails(sessionDTO, detailsDto);
-                            deductiondetails.loadFilterDdlb();  
-                            deductiondetails.loadDetailsOnTabChange();
-                            detailsDto.setGenerated((deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, true)) && (deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, false)));
-                            setNeedRefresh(false);
+                            if ("Add".equals(sessionDTO.getMode())) {
+                                detailsDto = logic.getForecastConfig(detailsDto);
+                                selectionLogic.saveToTempDeductionDetails(sessionDTO, detailsDto);
+                                deductiondetails.loadFilterDdlb();
+                                setNeedRefresh(false);
+                            } else {
+                                detailsDto = logic.getForecastConfig(detailsDto);
+                                selectionLogic.saveToTempDeductionDetails(sessionDTO, detailsDto);
+                                deductiondetails.loadFilterDdlb();
+                                deductiondetails.loadDetailsOnTabChange();
+                                detailsDto.setGenerated((deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, true)) && (deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, false)));
+                                setNeedRefresh(false);
                             }
                         }
                     } else if (TabNameUtil.ADDITIONAL_INFO.equals(tabName)) {
@@ -365,7 +365,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         flag = true;
 
                     }
-                      if (sessionDTO.getMode().equalsIgnoreCase("Add")) {
+                    if (sessionDTO.getMode().equalsIgnoreCase("Add")) {
                         if (deductiondetails.getResultBeanContainer().size() == 0) {
                             if (flag) {
                                 errorMessage.append(ConstantsUtils.BREAK);
@@ -373,7 +373,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                             errorMessage.append("Please Generate ListView In Deduction Details Tab");
                             flag = true;
                         }
-                      }
+                    }
                     if (!sessionDTO.getMode().equalsIgnoreCase("Edit")) {
                         if (deductionCalendarLogic.deductionNoAndNameDuplicateCheck(deductionCalendarDTO.getDeductionCalendarNo(), false, sessionDTO)) {
                             if (flag) {
@@ -403,25 +403,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                try {
-                                    String msg = ConstantsUtils.SUCCESS;
-                                    msg = deductionCalendarLogic.saveDeductionCalendarMaster(deductionCalendarDTO, sessionDTO, notesTabForm.getUploadedData(), notesTabForm.getAddedNotes(), notesTabForm.removeDetailsList());
-                                    deductionCalendarLogic.saveDeductionDetails(sessionDTO);
-                                    if (msg.equals(ConstantsUtils.SUCCESS)) {
-                                        deductionCalendarLogic.deleteTempSeletionTable(sessionDTO);
-                                        deductionCalendarLogic.deleteTempDeductionDetails(sessionDTO);
-                                        final Notification notif = new Notification(commonMsg.getSavedSuccessfulMessage(String.valueOf(binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NO).getValue()), String.valueOf(binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NAME).getValue())), Notification.Type.HUMANIZED_MESSAGE);
-                                        notif.setPosition(Position.MIDDLE_CENTER);
-                                        notif.setStyleName(ConstantsUtils.MY_STYLE);
-                                        notif.show(Page.getCurrent());
-                                        notif.setDelayMsec(NumericConstants.TWO_THOUSAND);
-                                        sessionDTO.setMode(ConstantsUtils.EDIT);
-                                        getUI().getNavigator().navigateTo(DeductionCalendarView.NAME);
-                                    }
-
-                                } catch (Exception ex) {
-                                    java.util.logging.Logger.getLogger(DeductionCalendarForm.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+                                saveButtonyesMethod(deductionCalendarDTO);
                             }
                         }
                     }, ButtonId.YES, ButtonId.NO);
@@ -559,5 +541,27 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
 
     public void setNeedRefresh(boolean needRefresh) {
         this.needRefresh = needRefresh;
+    }
+
+    public void saveButtonyesMethod(final DeductionCalendarDTO deductionCalendarDTO) {
+        try {
+            String msg;
+            msg = deductionCalendarLogic.saveDeductionCalendarMaster(deductionCalendarDTO, sessionDTO, notesTabForm.getUploadedData(), notesTabForm.getAddedNotes(), notesTabForm.removeDetailsList());
+            deductionCalendarLogic.saveDeductionDetails(sessionDTO);
+            if (msg.equals(ConstantsUtils.SUCCESS)) {
+                deductionCalendarLogic.deleteTempSeletionTable(sessionDTO);
+                deductionCalendarLogic.deleteTempDeductionDetails(sessionDTO);
+                final Notification notif = new Notification(commonMsg.getSavedSuccessfulMessage(String.valueOf(binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NO).getValue()), String.valueOf(binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NAME).getValue())), Notification.Type.HUMANIZED_MESSAGE);
+                notif.setPosition(Position.MIDDLE_CENTER);
+                notif.setStyleName(ConstantsUtils.MY_STYLE);
+                notif.show(Page.getCurrent());
+                notif.setDelayMsec(NumericConstants.TWO_THOUSAND);
+                sessionDTO.setMode(ConstantsUtils.EDIT);
+                getUI().getNavigator().navigateTo(DeductionCalendarView.NAME);
+            }
+
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(DeductionCalendarForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

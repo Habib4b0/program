@@ -84,6 +84,7 @@ public class NEPFormulaLookUp extends Window {
     /** The common util. */
     private CommonUtil commonUtil = CommonUtil.getInstance();
      HelperListUtil helperListUtil = HelperListUtil.getInstance();
+     private final PsUtils psUtils = PsUtils.getInstance();
      boolean flag = false;
      
     /**
@@ -143,8 +144,8 @@ if("NEP".equals(itemId)){
         tableLogic.sinkItemPerPageWithPageLength(false);    
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(PsUtils.NEP_FORMULA_LOOKUP);
-        resultsTable.setColumnHeaders(PsUtils.NEP_FORMULA_LOOKUP_HEADER);
+        resultsTable.setVisibleColumns(psUtils.nepFormulaLookup);
+        resultsTable.setColumnHeaders(psUtils.nepFormulaLookupHeader);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.setFilterGenerator(new NsfFilterGenerator());
@@ -183,7 +184,7 @@ if("NEP".equals(itemId)){
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof PSNepFormulaDTO) {
-            targetItem = new BeanItem<PSNepFormulaDTO>(
+            targetItem = new BeanItem<>(
                     (PSNepFormulaDTO) obj);
         }
         return (PSNepFormulaDTO) targetItem.getBean();

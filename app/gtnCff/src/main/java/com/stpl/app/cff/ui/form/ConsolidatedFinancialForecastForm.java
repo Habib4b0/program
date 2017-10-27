@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.ui.form;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
 import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
@@ -221,20 +222,20 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
     /**
      * Bean container for result table.
      */
-    private final BeanItemContainer<CFFSearchDTO> resultsContainer = new BeanItemContainer<CFFSearchDTO>(CFFSearchDTO.class);
+    private final BeanItemContainer<CFFSearchDTO> resultsContainer = new BeanItemContainer<>(CFFSearchDTO.class);
     /**
      * The approval details bean.
      */
-    public BeanItemContainer<ApprovalDetailsDTO> approvalDetailsBean = new BeanItemContainer<ApprovalDetailsDTO>(
+    public BeanItemContainer<ApprovalDetailsDTO> approvalDetailsBean = new BeanItemContainer<>(
             ApprovalDetailsDTO.class);
     /**
      * The updateCycleBean bean.
      */
-    public List<ApprovalDetailsDTO> updateCycleBean = new ArrayList<ApprovalDetailsDTO>();
+    public List<ApprovalDetailsDTO> updateCycleBean = new ArrayList<>();
     /**
      * The results bean.
      */
-    public BeanItemContainer<CFFResultsDTO> resultsBean = new BeanItemContainer<CFFResultsDTO>(
+    public BeanItemContainer<CFFResultsDTO> resultsBean = new BeanItemContainer<>(
             CFFResultsDTO.class);
     CFFSearchDTO dto;
     @UiField("excelExport")
@@ -248,6 +249,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
     DataSelectionLogic dataLogic = new DataSelectionLogic();
     int projectionid;
     private String topLevelName = StringUtils.EMPTY;
+    public static final String NO_RECORD_SELECTED = "No Record Selected.";
 
     /**
      * ConsolidatedFinancialForecastForm constructor
@@ -286,21 +288,21 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
             financialForecastId.setImmediate(true);
             financialForecastId.addValidator(new StringLengthValidator("Financial Forecast Id should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            financialForecastId.addValidator(new RegexpValidator(ConstantsUtil.alphaNumericChars, "Financial Forecast Id should be alphanumeric"));
+            financialForecastId.addValidator(new RegexpValidator(ConstantsUtil.ALPHA_NUM_CHARS, "Financial Forecast Id should be alphanumeric"));
 
             financialForecastName.setImmediate(true);
             financialForecastName.addValidator(new StringLengthValidator("Financial Forecast Name should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-            financialForecastName.addValidator(new RegexpValidator(ConstantsUtil.alphaNumericChars, "Financial Forecast Name should be alphanumeric"));
+            financialForecastName.addValidator(new RegexpValidator(ConstantsUtil.ALPHA_NUM_CHARS, "Financial Forecast Name should be alphanumeric"));
 
             creationFromDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             creationToDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             approvalFromDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             approvalToDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
 
-            creationFrom.addStyleName("fromTo");
-            creationTo.addStyleName("fromTo");
-            approvalFrom.addStyleName("fromTo");
-            approvalTo.addStyleName("fromTo");
+            creationFrom.addStyleName(StringConstantsUtil.FROM_TO);
+            creationTo.addStyleName(StringConstantsUtil.FROM_TO);
+            approvalFrom.addStyleName(StringConstantsUtil.FROM_TO);
+            approvalTo.addStyleName(StringConstantsUtil.FROM_TO);
 
             typeDdlb.focus();
             commonutil.loadComboBox(typeDdlb, ConstantsUtil.CFF_TYPE, false);
@@ -308,9 +310,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
             tableLogic.setContainerDataSource(resultsContainer);
             tableLogic.setPageLength(NumericConstants.TEN);
             tableLogic.sinkItemPerPageWithPageLength(false);
-            resultTable.setVisibleColumns(TableHeaderUtils.RESULT_TABLE_VISIBLE_COLUMN);
-            resultTable.setColumnHeaders(TableHeaderUtils.RESULT_TABLE_HEADER);
-            resultTable.setColumnAlignment(TableHeaderUtils.RESULT_TABLE_VISIBLE_COLUMN[NumericConstants.FOUR], ExtCustomTable.Align.CENTER);
+            resultTable.setVisibleColumns(TableHeaderUtils.getInstance().resultTableVisibleColumn);
+            resultTable.setColumnHeaders(TableHeaderUtils.getInstance().resultTableHeader);
+            resultTable.setColumnAlignment(TableHeaderUtils.getInstance().resultTableVisibleColumn[NumericConstants.FOUR], ExtCustomTable.Align.CENTER);
             resultTable.setFilterBarVisible(true);
             resultTable.setSizeFull();
             resultTable.setSelectable(true);
@@ -325,19 +327,19 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
             resultTable.setConverter("finalApprovalDate", new StringToDateConverter() {
                 @Override
                 public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY");
+                    return new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY);
                 }
             });
             resultTable.setConverter("activeFromDate", new StringToDateConverter() {
                 @Override
                 public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY");
+                    return new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY);
                 }
             });
             resultTable.setConverter("activeToDate", new StringToDateConverter() {
                 @Override
                 public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY");
+                    return new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY);
                 }
             });
 
@@ -362,7 +364,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                     try {
                         LOGGER.debug("Entering EXCEL Export Button Click");
                         ConsolidatedFinancialForecastUI.EXCEL_CLOSE = true;
-                        CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(), TableHeaderUtils.RESULT_TABLE_VISIBLE_COLUMN_EXCEL, tableLogic, "Consolidated_Financial_Forecast");
+                        CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(), TableHeaderUtils.getInstance().resultTableVisibleColumnExcel, tableLogic, "Consolidated_Financial_Forecast");
                         LOGGER.debug(" Ends  EXCEL Export Button Click");
 
                     } catch (Exception exception) {
@@ -386,9 +388,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
     public void addBtnClickLogic(Button.ClickEvent event) {
         try {
             dto = new CFFSearchDTO();
-            approvalDetailsBean = new BeanItemContainer<ApprovalDetailsDTO>(
+            approvalDetailsBean = new BeanItemContainer<>(
                     ApprovalDetailsDTO.class);
-            resultsBean = new BeanItemContainer<CFFResultsDTO>(
+            resultsBean = new BeanItemContainer<>(
                     CFFResultsDTO.class);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -412,8 +414,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                     approvalToDate.setValue(null);
                     resultTable.removeAllItems();
                     resultTable.setContainerDataSource(resultsContainer);
-                    resultTable.setVisibleColumns(TableHeaderUtils.RESULT_TABLE_VISIBLE_COLUMN);
-                    resultTable.setColumnHeaders(TableHeaderUtils.RESULT_TABLE_HEADER);
+                    resultTable.setVisibleColumns(TableHeaderUtils.getInstance().resultTableVisibleColumn);
+                    resultTable.setColumnHeaders(TableHeaderUtils.getInstance().resultTableHeader);
                 }
             });
         }
@@ -430,7 +432,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
             if (dto != null) {
                 int projectionIdValue = dto.getCffMasterSid();
                 Long processId = 0L;
-                List<String> roleList = new ArrayList<String>();
+                List<String> roleList = new ArrayList<>();
                 List processIdList = WorkflowPersistance.selectWFInstanceInfo(projectionIdValue);
                 if (processIdList != null && !processIdList.isEmpty()) {
                     processId = Long.valueOf(processIdList.get(0).toString());
@@ -448,7 +450,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                     List<Object[]> dsList = CommonQueryUtils.getAppData(list, "searchDS", null);
                     Object[] resultList = dsList.get(0);
 
-                    VaadinSession.getCurrent().setAttribute("projectionId", projectionIdValue);
+                    VaadinSession.getCurrent().setAttribute(StringConstantsUtil.PROJECTION_ID, projectionIdValue);
                     sessionDto.setProjectionId(projectionIdValue);
                     sessionDto.setAction(Constants.CommonConstants.ACTION_EDIT.getConstant());
                     DataSelectionLogic logic = new DataSelectionLogic();
@@ -478,9 +480,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                             cffLogic.getCustandProdSelection(sessionDto.getProjectionId(), "EDIT_MODE_PROJECTION_PROD_SELECTION"), topLevelName, Boolean.FALSE);
                     sessionDto.setCustomerLevelDetails(logic.getLevelValueDetails(sessionDto, dataSelectionDto.getCustRelationshipBuilderSid(), true));
                     sessionDto.setProductLevelDetails(logic.getLevelValueDetails(sessionDto, dataSelectionDto.getProdRelationshipBuilderSid(), false));
-                    approvalDetailsBean = new BeanItemContainer<ApprovalDetailsDTO>(
+                    approvalDetailsBean = new BeanItemContainer<>(
                             ApprovalDetailsDTO.class);
-                    resultsBean = new BeanItemContainer<CFFResultsDTO>(
+                    resultsBean = new BeanItemContainer<>(
                             CFFResultsDTO.class);
                     loadSessionDTO();
                     resultsBean.addAll(cffLogic.loadCffDetails(dto.getCffMasterSid()));
@@ -500,17 +502,17 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                             approvalToDate.setValue(null);
                             resultTable.removeAllItems();
                             resultTable.setContainerDataSource(resultsContainer);
-                            resultTable.setVisibleColumns(TableHeaderUtils.RESULT_TABLE_VISIBLE_COLUMN);
-                            resultTable.setColumnHeaders(TableHeaderUtils.RESULT_TABLE_HEADER);
+                            resultTable.setVisibleColumns(TableHeaderUtils.getInstance().resultTableVisibleColumn);
+                            resultTable.setColumnHeaders(TableHeaderUtils.getInstance().resultTableHeader);
                         }
                     });
                 } else if (dto != null && dto.getStatusDesc() != null && Constants.APPROVED.equals(dto.getStatusDesc())) {
                     AbstractNotificationUtils.getErrorNotification("Cannot Edit Approved Forecasts.", "You cannot edit an Approved forecast package.");
                 } else if (dto == null) {
-                    AbstractNotificationUtils.getErrorNotification("No Record Selected.", "Please select a record to edit.");
+                    AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to edit.");
                 }
             } else {
-                AbstractNotificationUtils.getErrorNotification("No Record Selected.", "Please select a record to EDIT.");
+                AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to EDIT.");
             }
 
         } catch (Exception ex) {
@@ -520,11 +522,11 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
     private void loadSessionDTO() {
         int projectionId = dto.getCffMasterSid();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         DataSelectionLogic logic = new DataSelectionLogic();
         if (projectionId != 0) {
             try {
-                parameters.put("projectionId", projectionId);
+                parameters.put(StringConstantsUtil.PROJECTION_ID, projectionId);
                 List list = logic.getProjection(projectionId);
                 for (Object list1 : list) {
                     Object[] temp = (Object[]) list1;
@@ -552,7 +554,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
             if (dto != null) {
                 int projectionIdValue = dto.getCffMasterSid();
                 sessionDTO.setProjectionId(dto.getCffMasterSid());
-                VaadinSession.getCurrent().setAttribute("projectionId", projectionIdValue);
+                VaadinSession.getCurrent().setAttribute(StringConstantsUtil.PROJECTION_ID, projectionIdValue);
                 sessionDTO.setProjectionId(projectionIdValue);
                 List list = new ArrayList();
                 list.add(dto.getCffMasterSid());
@@ -593,9 +595,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                         cffLogic.getCustandProdSelection(sessionDTO.getProjectionId(), "EDIT_MODE_PROJECTION_PROD_SELECTION"), topLevelName, Boolean.FALSE);
                 sessionDTO.setCustomerLevelDetails(logic.getLevelValueDetails(sessionDTO, dataSelectionDto.getCustRelationshipBuilderSid(), true));
                 sessionDTO.setProductLevelDetails(logic.getLevelValueDetails(sessionDTO, dataSelectionDto.getProdRelationshipBuilderSid(), false));
-                approvalDetailsBean = new BeanItemContainer<ApprovalDetailsDTO>(
+                approvalDetailsBean = new BeanItemContainer<>(
                         ApprovalDetailsDTO.class);
-                resultsBean = new BeanItemContainer<CFFResultsDTO>(
+                resultsBean = new BeanItemContainer<>(
                         CFFResultsDTO.class);
                 loadSessionDTO();
                 resultsBean.addAll(cffLogic.loadCffDetails(dto.getCffMasterSid()));
@@ -615,12 +617,12 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                         approvalToDate.setValue(null);
                         resultTable.removeAllItems();
                         resultTable.setContainerDataSource(resultsContainer);
-                        resultTable.setVisibleColumns(TableHeaderUtils.RESULT_TABLE_VISIBLE_COLUMN);
-                        resultTable.setColumnHeaders(TableHeaderUtils.RESULT_TABLE_HEADER);
+                        resultTable.setVisibleColumns(TableHeaderUtils.getInstance().resultTableVisibleColumn);
+                        resultTable.setColumnHeaders(TableHeaderUtils.getInstance().resultTableHeader);
                     }
                 });
             } else {
-                AbstractNotificationUtils.getErrorNotification("No Record Selected.", "Please select a record to view.");
+                AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to view.");
             }
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -650,7 +652,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
             }
         }
         if (pass) {
-            searchButtonClickLogic(event);
+            searchButtonClickLogic();
         }
     }
 
@@ -690,7 +692,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
      *
      * @param event the event
      */
-    protected void searchButtonClickLogic(final Button.ClickEvent event) {
+    protected void searchButtonClickLogic() {
         try {
             cffSearchBinder.commit();
             resultsContainer.removeAllItems();

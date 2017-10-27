@@ -49,7 +49,7 @@ public class AbstractSearchView extends AbstractView{
 	/**
 	 * The Constructor.
 	 */
-	public AbstractSearchView(String moduleName) throws PortalException, SystemException {
+	public AbstractSearchView(String moduleName) throws SystemException {
         super();
         this.moduleName = moduleName;
         setSpacing(true);
@@ -60,7 +60,7 @@ public class AbstractSearchView extends AbstractView{
         addComponent(new AbstractSearchForm(moduleName));
 
     }
-    public AbstractSearchView(String moduleName, final SessionDTO sessionDTO) throws PortalException, SystemException {
+    public AbstractSearchView(String moduleName, final SessionDTO sessionDTO) throws  SystemException {
         super();
         this.moduleName = moduleName;
         this.sessionDTO=sessionDTO;

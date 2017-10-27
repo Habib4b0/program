@@ -243,33 +243,7 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
         return dto;
     }
 
-    private List getCustomizedSchedulerProcessing(List list) throws Exception {
-        List<ProcessMonitorDTO> returnList = new ArrayList<ProcessMonitorDTO>();
-        SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
-        if (list != null && list.size() != 0) {
-            for (int i = 0; i < list.size(); i++) {
-                Object[] obj = (Object[]) list.get(i);
-                ProcessMonitorDTO dto = new ProcessMonitorDTO();
-                dto.setProcessName(String.valueOf(obj[1]));
-                dto.setModifiedBy(String.valueOf(obj[9]));
-                dto.setCalender(String.valueOf(obj[10]));
-                dto.setSid(Integer.valueOf(String.valueOf(obj[0])));
-                if (obj[3] != null && obj[3] != "null") {
-                    dto.setStartDate(new Date(date.format((Date) obj[3])));
-                } else {
-                    dto.setStartDate(null);
-                }
-                if (obj[4] != null && obj[4] != "null") {
-                    dto.setEndDate(new Date(date.format((Date) obj[4])));
-                } else {
-                    dto.setEndDate(null);
-                }
-                returnList.add(dto);
-            }
-        }
-        return returnList;
-    }
-
+    
     public ProcessMonitorDTO getProcessScheduleByID(int sid) {
         ProcessMonitorDTO dto = new ProcessMonitorDTO();
         try {

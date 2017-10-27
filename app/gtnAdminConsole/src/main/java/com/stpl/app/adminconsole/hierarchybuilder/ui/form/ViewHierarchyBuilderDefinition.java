@@ -1,5 +1,6 @@
 package com.stpl.app.adminconsole.hierarchybuilder.ui.form;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,9 +96,9 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
 
     private final OptionGroup levelValueReference = new OptionGroup();
 
-    public BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<HierarchyBuilderLevelDTO>(HierarchyBuilderLevelDTO.class);
+    public BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<>(HierarchyBuilderLevelDTO.class);
 
-    private final BeanItemContainer<LevelDTO> levelDTOBean = new BeanItemContainer<LevelDTO>(LevelDTO.class);
+    private final BeanItemContainer<LevelDTO> levelDTOBean = new BeanItemContainer<>(LevelDTO.class);
 
     private final Button btnLevAdd = new Button("ADD");
 
@@ -312,7 +313,7 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
      * @throws Exception the exception
      */
     private CustomFieldGroup getBinder() {
-        hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+        hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<>(hierarchyBuilderDTO));
         hierarchyBuilderBinder.setBuffered(true);
         hierarchyBuilderBinder.bindMemberFields(this);
         hierarchyBuilderBinder.setErrorDisplay(errorMsg);
@@ -502,7 +503,7 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
 
         content.setMargin(true);
         content.setSpacing(true);
-        final Panel tablePanel = new Panel("Results");
+        final Panel tablePanel = new Panel(StringConstantUtils.RESULTS);
         tablePanel.setContent(levelDefinitionListTable());
         content.addComponent(tablePanel);
         content.addComponent(addButtons());
@@ -781,9 +782,6 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
                         final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                         AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                         LOGGER.error(ex);
-                    } catch (PortalException ex) {
-                        AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
-                        LOGGER.error(ex);
                     } catch (Exception ex) {
                         AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
                         LOGGER.error(ex);
@@ -856,7 +854,7 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
                 LOGGER.debug("In addUpdateLevelButton btnUpdateLevel.addClickListener Started");
                 if (event != null) {
                     hierarchyBuilderBinder.getErrorDisplay().clearError();
-                    final List<HierarchyBuilderLevelDTO> list = new ArrayList<HierarchyBuilderLevelDTO>();
+                    final List<HierarchyBuilderLevelDTO> list = new ArrayList<>();
                     for (int i = 0; i < hierarchyBuilderLevelDTOBean.size(); i++) {
                         final HierarchyBuilderLevelDTO dto = hierarchyBuilderLevelDTOBean.getIdByIndex(i);
                         if (dto.getLevelNo() == lvlDefDTO.getLevelNo()) {
@@ -959,7 +957,7 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
                         levelDTOBean.addBean(dto);
                     } else {
                         final List<LevelDTO> tempList = levelDTOBean.getItemIds();
-                        final List<LevelDTO> list = new ArrayList<LevelDTO>();
+                        final List<LevelDTO> list = new ArrayList<>();
                         for (int i = 0; i < tempList.size(); i++) {
 
                             if (tempList.get(i).getLevelValues() == null && ConstantsUtils.EMPTY.equals(tempList.get(i).getLevelValues())) {
@@ -1014,9 +1012,9 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
     public Table levelDefinitionListTable() {
         levelDefinitionTable.markAsDirty();
         levelDefinitionTable.setContainerDataSource(hierarchyBuilderLevelDTOBean);
-        levelDefinitionTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_DEFINITION_COLUMNS);
-        levelDefinitionTable.setCaption("Results");
-        levelDefinitionTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_DEFINITION_HEADER);
+        levelDefinitionTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelDefnitionColumns);
+        levelDefinitionTable.setCaption(StringConstantUtils.RESULTS);
+        levelDefinitionTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelDefnitionHeader);
         levelDefinitionTable.setPageLength(NumericConstants.SEVEN);
         levelDefinitionTable.setImmediate(true);
         levelDefinitionTable.setSelectable(true);
@@ -1053,7 +1051,7 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
              * Invoked when an error occurs.
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         levelDefinitionTable.addValueChangeListener(new Property.ValueChangeListener() {
@@ -1079,9 +1077,9 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
     public Table levelValuesListTable() {
         levelValuesTable.markAsDirty();
         levelValuesTable.setContainerDataSource(levelDTOBean);
-        levelValuesTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_VALUES_COLUMNS);
-        levelValuesTable.setCaption("Results");
-        levelValuesTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_VALUES_HEADER);
+        levelValuesTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelValuesColumns);
+        levelValuesTable.setCaption(StringConstantUtils.RESULTS);
+        levelValuesTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelValuesHeader);
         levelValuesTable.setPageLength(NumericConstants.SEVEN);
         levelValuesTable.setImmediate(true);
         levelValuesTable.setSelectable(true);
@@ -1090,7 +1088,7 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
 
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         return levelValuesTable;
@@ -1102,6 +1100,6 @@ public final class ViewHierarchyBuilderDefinition extends CustomComponent implem
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 }

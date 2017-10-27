@@ -242,22 +242,22 @@ public class DiscountAddForm extends CustomComponent implements View {
     /**
      * The Constant DISCOUNT_TABLE_COLUMNS.
      */
-    public static final Object[] DISCOUNT_TABLE_COLUMNS = new Object[]{
+    public final Object[] discountTableColumns = new Object[]{
         "rebateName", "rebateNo", "rebateScheduleType", "rebateProgramType", "rebateScheduleCategory", "rebatePlanLevel"};
     /**
      * The Constant DISCOUNT_TABLE_HEADER.
      */
-    public static final String[] DISCOUNT_TABLE_HEADER = new String[]{
+    public final String[] discountTableHeader = new String[]{
         "Rebate Name", "Rebate No", "Rebate Schedule Type", "Rebate Program Type", "Rebate Schedule Category", "Rebate Plan Level"};
     /**
      * The Constant AVAILABLE LIST COLUMN.
      */
-    public static final Object[] AVAILABLE_LIST_COLUMN = new Object[]{
+    public final Object[] availableListColumn = new Object[]{
         "rebateName", "rebateNo", "rebateScheduleType", "rebateProgramType", "rebateScheduleCategory", "rebatePlanLevel"};
     /**
      * The Constant AVAILABLE LIST HEADER.
      */
-    public static final String[] AVAILABLE_LIST_HEADER = new String[]{
+    public final String[] availableListHeader = new String[]{
         "Rebate Name", "Rebate No", "Rebate Schedule Type", "Rebate Program Type", "Rebate Schedule Category", "Rebate Plan Level"};
     /**
      *
@@ -275,11 +275,11 @@ public class DiscountAddForm extends CustomComponent implements View {
     /**
      * The available availableRebate bean.
      */
-    private BeanItemContainer<DiscountSearchDTO> availableResultsBean = new BeanItemContainer<DiscountSearchDTO>(DiscountSearchDTO.class);
+    private BeanItemContainer<DiscountSearchDTO> availableResultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
     /**
      * The availableRebate bean.
      */
-    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<DiscountSearchDTO>(DiscountSearchDTO.class);
+    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
     /**
      * The record selected flag.
      */
@@ -467,8 +467,8 @@ public class DiscountAddForm extends CustomComponent implements View {
      *
      * @return the discount table columns
      */
-    public static Object[] getDiscountTableColumns() {
-        return DISCOUNT_TABLE_COLUMNS;
+    public Object[] getDiscountTableColumns() {
+        return discountTableColumns;
     }
 
     /**
@@ -476,8 +476,8 @@ public class DiscountAddForm extends CustomComponent implements View {
      *
      * @return the discount table header
      */
-    public static String[] getDiscountTableHeader() {
-        return DISCOUNT_TABLE_HEADER;
+    public String[] getDiscountTableHeader() {
+        return discountTableHeader;
     }
 
     /**
@@ -485,8 +485,8 @@ public class DiscountAddForm extends CustomComponent implements View {
      *
      * @return the available list column
      */
-    public static Object[] getAvailableListColumn() {
-        return AVAILABLE_LIST_COLUMN;
+    public Object[] getAvailableListColumn() {
+        return availableListColumn;
     }
 
     /**
@@ -494,8 +494,8 @@ public class DiscountAddForm extends CustomComponent implements View {
      *
      * @return the available list header
      */
-    public static String[] getAvailableListHeader() {
-        return AVAILABLE_LIST_HEADER;
+    public String[] getAvailableListHeader() {
+        return availableListHeader;
     }
 
     /**
@@ -513,7 +513,7 @@ public class DiscountAddForm extends CustomComponent implements View {
     public DiscountAddForm(final BeanItemContainer selectedRebateBean, final BeanItemContainer availableRebateBean, final SessionDTO sessionDTO)  {
         super();
         discountSearchDTO = new DiscountSearchDTO();
-        discountBinder = new CustomFieldGroup(new BeanItem<DiscountSearchDTO>(discountSearchDTO));
+        discountBinder = new CustomFieldGroup(new BeanItem<>(discountSearchDTO));
         this.resultsBean = selectedRebateBean;
         this.availableResultsBean = availableRebateBean;
         this.sessionDTO = sessionDTO;
@@ -572,7 +572,7 @@ public class DiscountAddForm extends CustomComponent implements View {
         final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.DEDUCTION_GROUPING);
         String mode = sessionDTO.getMode();
         List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.DEDUCTION_GROUPING, "Functional  List view");
-        Object[] objColumn = AVAILABLE_LIST_COLUMN;
+        Object[] objColumn = availableListColumn;
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
         availableRebate.setVisibleColumns(tableResultCustom.getObjResult());
         availableRebate.setColumnHeaders(tableResultCustom.getObjResultHeader());
@@ -602,7 +602,7 @@ public class DiscountAddForm extends CustomComponent implements View {
             public void itemClick(final ItemClickEvent event) {
                 if (event.isDoubleClick()) {
                     LOGGER.debug("In addItemAvailableResults availableResults.addItemClickListener started");
-                    addItemsDoubleClick(event);
+                    addItemsDoubleClick();
                     LOGGER.debug("In addItemAvailableResults availableResults.addItemClickListener Ended");
                 }
             }
@@ -633,7 +633,7 @@ public class DiscountAddForm extends CustomComponent implements View {
         final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.DEDUCTION_GROUPING);
         String mode = sessionDTO.getMode();
         List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.DEDUCTION_GROUPING, "Functional  List view");
-        Object[] objColumn = AVAILABLE_LIST_COLUMN;
+        Object[] objColumn = availableListColumn;
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
         selectedRebate.setVisibleColumns(tableResultCustom.getObjResult());
         selectedRebate.setColumnHeaders(tableResultCustom.getObjResultHeader());
@@ -663,7 +663,7 @@ public class DiscountAddForm extends CustomComponent implements View {
             public void itemClick(final ItemClickEvent event) {
                 if (event.isDoubleClick()) {
                     LOGGER.debug("In addItemSelectedResults selectedResults.addItemClickListener started");
-                    removeItemsDoubleClick(event);
+                    removeItemsDoubleClick();
                     LOGGER.debug("In addItemSelectedResults selectedResults.addItemClickListener  Ended");
                 }
             }
@@ -782,6 +782,7 @@ public class DiscountAddForm extends CustomComponent implements View {
              * Method is called when available excel export button is clicked
              */
             public void buttonClick(final ClickEvent event) {
+                return;
             }
         });
 
@@ -790,6 +791,7 @@ public class DiscountAddForm extends CustomComponent implements View {
              * Method is called when available excel export button is clicked
              */
             public void buttonClick(final ClickEvent event) {
+                return;
             }
         });
 
@@ -920,7 +922,7 @@ public class DiscountAddForm extends CustomComponent implements View {
     public void addBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("addBtnLogic started");
         if (recordSelectedFlag) {
-            addItemsButtonClick(event);
+            addItemsButtonClick();
             recordSelectedFlag = false;
         } else {
             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "No rebate was selected in the Results list view.  Please select at least one rebate and try again.", ButtonId.OK);
@@ -932,7 +934,7 @@ public class DiscountAddForm extends CustomComponent implements View {
     public void addallBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("addallBtnLogic started");
         if (availableResultsBean.size() > ConstantsUtils.ZERO_NUM) {
-            addAllItemsButtonClick(event);
+            addAllItemsButtonClick();
         } else {
             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "No rebates are available in Available rebate list view.", ButtonId.OK);
         }
@@ -943,7 +945,7 @@ public class DiscountAddForm extends CustomComponent implements View {
     public void removeBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("removeBtnLogic");
         if (recordSelectedFlag) {
-            removeItemsButtonClick(event);
+            removeItemsButtonClick();
             recordSelectedFlag = false;
         } else {
             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "No rebate was selected in the Results list view.  Please select at least one rebate and try again", ButtonId.OK);
@@ -955,7 +957,7 @@ public class DiscountAddForm extends CustomComponent implements View {
     public void removeallBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("removeallBtn started");
         if (resultsBean.size() > ConstantsUtils.ZERO_NUM) {
-            removeAllItemsButtonClick(event);
+            removeAllItemsButtonClick();
         } else {
             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "No rebates are available in selected Rebate list view.", ButtonId.OK);
         }
@@ -994,7 +996,7 @@ public class DiscountAddForm extends CustomComponent implements View {
 
         LOGGER.debug("getBinder method Started ");
         discountBinder.bindMemberFields(this);
-        discountBinder.setItemDataSource(new BeanItem<DiscountSearchDTO>(discountSearchDTO));
+        discountBinder.setItemDataSource(new BeanItem<>(discountSearchDTO));
         discountBinder.setBuffered(true);
         discountBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getBinder method RETURNS DiscountBinder - Binder ");
@@ -1009,7 +1011,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @throws Exception the exception
      */
     protected List<Integer> saveButtonClick() throws SystemException, PortalException {
-        List<Integer> idList = new ArrayList<Integer>();
+        List<Integer> idList = new ArrayList<>();
         try {
             LOGGER.debug("Entering saveButtonClick method");
 
@@ -1034,7 +1036,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * The button click
      */
     public void enter(final ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -1045,7 +1047,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void addItemsDoubleClick(final ItemClickEvent event) {
+    protected void addItemsDoubleClick() {
         LOGGER.debug("addItemsDoubleClick method started");
         final Object itemId = availableRebate.getValue();
         selectedRebate.addItem(itemId);
@@ -1077,7 +1079,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void addItemsButtonClick(final ClickEvent event) {
+    protected void addItemsButtonClick() {
         LOGGER.debug("addItemsButtonClick method started");
         DiscountSearchDTO itemMasterDetailsList = (DiscountSearchDTO) availableRebate.getValue();
         resultsBean.addBean(itemMasterDetailsList);
@@ -1093,7 +1095,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void addAllItemsButtonClick(final ClickEvent event) {
+    protected void addAllItemsButtonClick() {
         LOGGER.debug("addAllItemsButtonClick method started");
         for (int i = 0; i < availableResultsBean.size(); i++) {
             resultsBean.addItem(availableResultsBean.getIdByIndex(i));
@@ -1109,7 +1111,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void removeItemsButtonClick(final ClickEvent event) {
+    protected void removeItemsButtonClick() {
         LOGGER.debug("addAllItemsButtonClick method started");
         final Object itemId = selectedRebate.getValue();
         resultsBean.removeItem(itemId);
@@ -1127,7 +1129,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    protected void removeItemsDoubleClick(final ItemClickEvent event) {
+    protected void removeItemsDoubleClick() {
         LOGGER.debug("removeItemsDoubleClick method started");
         final Object itemId = selectedRebate.getValue();
         availableResultsBean.addItem(itemId);
@@ -1143,7 +1145,7 @@ public class DiscountAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void removeAllItemsButtonClick(final ClickEvent event) {
+    protected void removeAllItemsButtonClick() {
         LOGGER.debug("removeAllItemsButtonClick method started");
         for (int i = 0; i < resultsBean.size(); i++) {
             availableResultsBean.addItem(resultsBean.getIdByIndex(i));

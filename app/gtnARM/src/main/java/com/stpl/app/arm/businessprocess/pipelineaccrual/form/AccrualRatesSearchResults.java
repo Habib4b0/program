@@ -8,8 +8,10 @@ package com.stpl.app.arm.businessprocess.pipelineaccrual.form;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractRatesSearchResults;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractBPLogic;
+import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.PipelineAccrualRateLogic;
 import com.stpl.app.arm.supercode.ExcelInterface;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.ifs.util.constants.ARMConstants;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +27,13 @@ public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     protected void getTotalHeader(List<List> columnList) {
+        return;
 
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getLogic();
+        return (ExcelInterface) getSummaryLogic();
     }
 
     @Override
@@ -46,7 +49,7 @@ public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     public List getExcelExportVisibleColumn() {
-        return getSelection().getRate_ColumnList().get(0);
+        return getSelection().getRateColumnList().get(0);
     }
 
     @Override
@@ -76,11 +79,29 @@ public class AccrualRatesSearchResults extends AbstractRatesSearchResults {
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
-
+        return;
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
-     
+        return;
+    }
+    private static final Object[] searchResult = {ARMConstants.getDeductionProduct(),
+        ARMConstants.getDeductionCustomer(), ARMConstants.getDeductionCustomerContract(), ARMConstants.getDeductionContractCustomer()};
+
+    @Override
+    protected void configureOnRatesSearchResults() {
+        calculateBtn.setVisible(false);
+        cancelOverride.setVisible(false);
+        panelCaption.setCaption("Rate Results");
+        valueDdlb.setVisible(false);
+        bbExport.setPrimaryStyleName("link");
+        bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
+        customerProductView.addItems(searchResult);
+        customerProductView.setValue(ARMConstants.getDeductionProduct());
+    }
+    @Override
+    public PipelineAccrualRateLogic getSummaryLogic() {
+        return (PipelineAccrualRateLogic) super.getSummaryLogic();
     }
 }

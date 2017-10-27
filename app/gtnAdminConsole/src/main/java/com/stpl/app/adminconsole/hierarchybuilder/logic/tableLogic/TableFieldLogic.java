@@ -54,7 +54,7 @@ public class TableFieldLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<TableFieldLookUpDTO> resultList = new ArrayList<TableFieldLookUpDTO>();
+        List<TableFieldLookUpDTO> resultList = new ArrayList<>();
         try {
             if (ConstantsUtils.FIELD.equals(indicator)) {
                 resultList = new HierarchyBuilderLogic().getTableName(tableFieldLookUpDTO.getTableName(), start, offset, getFilters(), getSortByColumns());

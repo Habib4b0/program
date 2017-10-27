@@ -13,7 +13,7 @@ import com.stpl.app.arm.common.dto.SessionDTO;
  *
  * @author srithar
  */
-public class ReserveSelection implements Cloneable {
+public class ReserveSelection {
 
     SessionDTO session;
     AdjustmentReserveDTO searchBinderDTO;
@@ -29,6 +29,14 @@ public class ReserveSelection implements Cloneable {
     boolean isViewMode;
     boolean isCurrent;
     String tempTableName;
+    String adjustmentSummaryTempTableName;
+    String balanceSummaryTempTableName;
+    int methodology;
+    String methodologyDescription;
+    String tabNameForExcel;
+    int reportType;
+    int tabIndex;
+    boolean resetLine = false;
 
     public boolean isIsCurrent() {
         return isCurrent;
@@ -142,9 +150,71 @@ public class ReserveSelection implements Cloneable {
         this.tempTableName = tempTableName;
     }
 
-    @Override
-    public ReserveSelection clone() throws CloneNotSupportedException { // Added for GAL-7973
-        ReserveSelection selection = (ReserveSelection) super.clone();
+    public String getAdjustmentSummaryTempTableName() {
+        return adjustmentSummaryTempTableName;
+    }
+
+    public void setAdjustmentSummaryTempTableName(String adjustmentSummaryTempTableName) {
+        this.adjustmentSummaryTempTableName = adjustmentSummaryTempTableName;
+    }
+
+    public int getMethodology() {
+        return methodology;
+    }
+
+    public void setMethodology(int methodology) {
+        this.methodology = methodology;
+    }
+
+    public String getMethodologyDescription() {
+        return methodologyDescription;
+    }
+
+    public void setMethodologyDescription(String methodologyDescription) {
+        this.methodologyDescription = methodologyDescription;
+    }
+
+    public String getBalanceSummaryTempTableName() {
+        return balanceSummaryTempTableName;
+    }
+
+    public void setBalanceSummaryTempTableName(String balanceSummaryTempTableName) {
+        this.balanceSummaryTempTableName = balanceSummaryTempTableName;
+    }
+
+    public String getTabNameForExcel() {
+        return tabNameForExcel;
+    }
+
+    public void setTabNameForExcel(String tabNameForExcel) {
+        this.tabNameForExcel = tabNameForExcel;
+    }
+
+    public int getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(int reportType) {
+        this.reportType = reportType;
+    }
+
+    public int getTabIndex() {
+        return tabIndex;
+    }
+
+    public void setTabIndex(int tabIndex) {
+        this.tabIndex = tabIndex;
+    }
+
+    public boolean isResetLine() {
+        return resetLine;
+    }
+
+    public void setResetLine(boolean resetLine) {
+        this.resetLine = resetLine;
+    }
+
+    public ReserveSelection clone(ReserveSelection selection) { // Added for GAL-7973
         selection.setSearchBinderDTO(searchBinderDTO);
         selection.setBusUnit(busUnit);
         selection.setCompanyNo(companyNo);
@@ -159,6 +229,10 @@ public class ReserveSelection implements Cloneable {
         selection.setSession(session);
         selection.setWindowBinderDTO(windowBinderDTO);
         selection.setTempTableName(tempTableName);
+        selection.setAdjustmentSummaryTempTableName(adjustmentSummaryTempTableName);
+        selection.setMethodology(methodology);
+        selection.setMethodologyDescription(methodologyDescription);
+        selection.setBalanceSummaryTempTableName(balanceSummaryTempTableName);
         return selection;
     }
 }

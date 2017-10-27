@@ -3,6 +3,7 @@ package com.stpl.app.global.item.ui.form;
 import com.stpl.app.NoSuchItemPricingQualifierException;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.common.util.CommonUtil;
+import com.stpl.app.global.company.util.QueryUtils;
 import com.stpl.app.global.ifp.logic.IFPLogic;
 import com.stpl.app.global.item.dto.IdentifierPricingGenerater;
 import com.stpl.app.global.item.dto.ItemPricingDTO;
@@ -39,6 +40,8 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.ErrorHandler;
@@ -106,14 +109,14 @@ public final class PricingResults extends StplCustomComponent {
     /**
      * The item logic.
      */
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<>();
     private final ItemSearchLogic itemLogic = new ItemSearchLogic();
     /**
      * The pricing table bean.
      */
     private BeanItemContainer<ItemPricingDTO> pricingTableBean;
-    
-    private BeanItemContainer<ItemPricingDTO> tempPricing = new BeanItemContainer<ItemPricingDTO>(ItemPricingDTO.class);
+
+    private BeanItemContainer<ItemPricingDTO> tempPricing = new BeanItemContainer<>(ItemPricingDTO.class);
     /**
      * The pricing form bean.
      */
@@ -121,14 +124,14 @@ public final class PricingResults extends StplCustomComponent {
     /**
      * The binder.
      */
-    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<ItemPricingDTO>(pricingFormBean));
-     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-     IFPLogic ifpLogic = new IFPLogic(); 
-     CommonUIUtils commonUiUtil = new CommonUIUtils();
+    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(pricingFormBean));
+    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    IFPLogic ifpLogic = new IFPLogic();
+    CommonUIUtils commonUiUtil = new CommonUIUtils();
 
-      @UiField("BtnLayout")
+    @UiField("BtnLayout")
     private HorizontalLayout BtnLayout;
-      /**
+    /**
      * The attachBtnLayout Layout.
      */
     @UiField("attachBtnLayout")
@@ -225,6 +228,7 @@ public final class PricingResults extends StplCustomComponent {
     private final HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
     final ItemPricingDTO identForm = new ItemPricingDTO();
     final List removedItemPriceList;
+    private final UIUtils uiUtils = UIUtils.getInstance();
 
     /**
      * Gets the pricing table bean.
@@ -238,22 +242,25 @@ public final class PricingResults extends StplCustomComponent {
      * Purposely for Error Display
      */
     private ErrorfulFieldGroup systemBinder;
-     /** The common util. */
+    /**
+     * The common util.
+     */
     private CommonUtil commonUtil = CommonUtil.getInstance();
-     
-      SessionDTO sessionDTO;
+
+    SessionDTO sessionDTO;
+    DecimalFormat precision = new DecimalFormat();
     /**
      * The Constructor.
-     * 
+     *
      * @param systemBinder
      * @param pricingTableBean
      * @param mode
      * @throws SystemException
      * @throws PortalException
-     * @throws Exception 
+     * @throws Exception
      */
     public PricingResults(final ErrorfulFieldGroup systemBinder,
-            final BeanItemContainer<ItemPricingDTO> pricingTableBean,final List<ItemPricingDTO> removedItemPriceList, String mode, SessionDTO sessionDTO) throws SystemException, PortalException {
+            final BeanItemContainer<ItemPricingDTO> pricingTableBean, final List<ItemPricingDTO> removedItemPriceList, String mode, SessionDTO sessionDTO) throws SystemException, PortalException {
         super();
         this.systemBinder = systemBinder;
         this.pricingTableBean = pricingTableBean;
@@ -261,7 +268,7 @@ public final class PricingResults extends StplCustomComponent {
         this.removedItemPriceList = removedItemPriceList;
         this.isEditMode = ConstantsUtils.EDIT.equals(mode);
         this.isViewMode = ConstantsUtils.VIEW.equals(mode);
-        this.sessionDTO=sessionDTO;
+        this.sessionDTO = sessionDTO;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarativeui/itemmaster/pricing.xml"), this));
         init();
     }
@@ -277,36 +284,32 @@ public final class PricingResults extends StplCustomComponent {
         space.setHeight(ConstantsUtils.HEIGHT);
         binder.setBuffered(true);
         binder.setErrorDisplay(errorMsg);
-        binder.setItemDataSource(new BeanItem<ItemPricingDTO>(pricingFormBean));
+        binder.setItemDataSource(new BeanItem<>(pricingFormBean));
         binder.bindMemberFields(this);
 
-      
-        
-if( isEditMode || isViewMode)  {
-              addToContent();
-              configureFields();
-              getBinder();
+        if (isEditMode || isViewMode) {
+            addToContent();
+            configureFields();
+            getBinder();
 
         } else {
             getBinder();
             addToContent();
             configureFields();
-               
 
-     
-        }   
-  if (isViewMode) {
+        }
+        if (isViewMode) {
             LOGGER.debug("removing panel for view mode :");
             priceInfoLayout.setVisible(false);
             btnPopulate.setVisible(false);
             removeBtn.setVisible(false);
-  }
+        }
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> fieldItemHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER+ConstantsUtils.COMMA+"Pricing",false);
-         final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId,UISecurityUtil.ITEM_MASTER);
-        addResponsiveGrid(fieldItemHM,functionHM);
-        
+        final Map<String, AppPermission> fieldItemHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER + ConstantsUtils.COMMA + "Pricing", false);
+        final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.ITEM_MASTER);
+        addResponsiveGrid(fieldItemHM, functionHM);
+
     }
 
     /**
@@ -318,31 +321,28 @@ if( isEditMode || isViewMode)  {
      */
     private void addToContent() throws SystemException, PortalException {
 
-        
         addToTable();
         addResponsiveVerticalTabThreeLayout();
     }
 
-    private void addResponsiveGrid(final Map<String, AppPermission> fieldCompanyHM,final Map<String, AppPermission> functionHM) {
-          LOGGER.debug("Entering getFirstTab1");
+    private void addResponsiveGrid(final Map<String, AppPermission> fieldCompanyHM, final Map<String, AppPermission> functionHM) {
+        LOGGER.debug("Entering getFirstTab1");
         try {
-            
-        List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_MASTER,"Pricing");
-           commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldCompanyHM, mode);
+
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_MASTER, "Pricing");
+            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldCompanyHM, mode);
             if (functionHM.get(FieldNameUtils.ATTACH_PRICING) != null && ((AppPermission) functionHM.get(FieldNameUtils.ATTACH_PRICING)).isFunctionFlag()) {
                 populateButton();
-            }else{
-            attachBtnLayout.removeComponent(btnPopulate);
-        
+            } else {
+                attachBtnLayout.removeComponent(btnPopulate);
             }
             if (functionHM.get(FieldNameUtils.REMOVE_PRICING) != null && ((AppPermission) functionHM.get(FieldNameUtils.REMOVE_PRICING)).isFunctionFlag()) {
                 removeButton();
-            }else{
-            BtnLayout.removeComponent(removeBtn);
+            } else {
+                BtnLayout.removeComponent(removeBtn);
             }
 
-
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LOGGER.error(ex);
         }
 
@@ -358,10 +358,10 @@ if( isEditMode || isViewMode)  {
 
         final StplSecurity stplSecurity = new StplSecurity();
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER+ConstantsUtils.COMMA+"Pricing Header",false);
+        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER + ConstantsUtils.COMMA + "Pricing Header", false);
         List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_MASTER, "Pricing Header");
-        Object[] obj = UIUtils.PRICING_FORM_COL_ORDER;
-        LOGGER.debug("mode--------------------"+mode);
+        Object[] obj = uiUtils.pricingFormColOrder;
+        LOGGER.debug("mode--------------------" + mode);
         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
         pricingTable.markAsDirty();
         List<ItemPricingDTO> dtos = pricingTableBean.getItemIds();
@@ -463,11 +463,11 @@ if( isEditMode || isViewMode)  {
                     final ItemPricingDTO identForm = new ItemPricingDTO();
                     final String qualifier = String.valueOf(binder.getField(ConstantsUtils.ITEM_PRICING_QUALIFIER_NAME).getValue());
                     String itemPrice = String.valueOf(binder.getField(ConstantsUtils.ITEM_PRICE).getValue());
-                    final String strPrice;
                     final String source = "GTN";
-                    
-                    final DecimalFormat decimalFormat = new DecimalFormat("###,###,###.00");
-
+                    final List input = new ArrayList();
+                    input.add(ConstantsUtils.ITEM_PRICE_TABLE);
+                    input.add(qualifier);
+                    List<Object> precisionList = QueryUtils.getAppData(input, ConstantsUtils.PRECISION_SELECTION, null);
                     boolean flag = false;
                     binder.getErrorDisplay().clearError();
                     systemBinder.getErrorDisplay().clearError();
@@ -484,21 +484,8 @@ if( isEditMode || isViewMode)  {
                         int qualifierId = helperDTO.getId();
                         identForm.setItemPricingQualifierId(qualifierId);
                     }
-                    if (!StringUtil.isBlank(itemPrice)) {
-                        try {
-                            if (itemPrice.contains(ConstantsUtils.DOLLAR) || itemPrice.contains(ConstantsUtils.COMMA)) {
-                                itemPrice = itemPrice.replace(ConstantsUtils.DOLLAR, StringUtils.EMPTY);
-                                itemPrice = itemPrice.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
-                            }
-                            if (Double.isNaN(Double.valueOf(itemPrice))) {
-                                systemBinder.getErrorDisplay().setError("Item Price should be numeric.");
-                                return;
-                            }
-                        } 
-                        catch (Exception ex) {
-                            systemBinder.getErrorDisplay().setError("Item Price should be numeric.");
-                            return;
-                        }
+                    if (!StringUtil.isBlank(itemPrice) && !itemPriceCheck(itemPrice)) {
+                        return;
                     }
 
                     if (StringUtil.isBlank(itemPrice) || Double.valueOf(itemPrice) == 0) {
@@ -508,7 +495,7 @@ if( isEditMode || isViewMode)  {
                         errorMessage.append("Item Price");
                         flag = true;
                     }
-                     if (binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue() == null || ((com.stpl.ifs.util.HelperDTO) binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue()).getId() == 0) {
+                    if (binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue() == null || ((com.stpl.ifs.util.HelperDTO) binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue()).getId() == 0) {
                         if (flag) {
                             errorMessage.append(ConstantsUtils.COMMA);
                         }
@@ -525,17 +512,17 @@ if( isEditMode || isViewMode)  {
                         flag = true;
                     }
                     if (!StringUtil.isBlank(itemPrice)) {
-                        if (qualifier.equals("AMP") || qualifier.equals("BP")) {
-                            final DecimalFormat decfor = new DecimalFormat("###,###,###.0000");
-                            strPrice = ConstantsUtils.DOLLAR + decfor.format(Double.valueOf(itemPrice));
-                            identForm.setItemPrice(strPrice);
-                        } else {
-                            strPrice = ConstantsUtils.DOLLAR + decimalFormat.format(Double.valueOf(itemPrice));
-                            identForm.setItemPrice(strPrice);
+                        if (precisionList != null && !precisionList.isEmpty()) {
+                            precision.applyPattern(ItemSearchLogic.pattern(Integer.valueOf(String.valueOf(precisionList.get(0)))));
+                            identForm.setItemPrice(ConstantsUtils.DOLLAR + precision.format(Double.valueOf(itemPrice)));
+                            identForm.setItemPricePrecision(Integer.valueOf(String.valueOf(precisionList.get(0))));
                         }
+                        identForm.setItemPrice(ConstantsUtils.DOLLAR + itemPrice);
+                        String value1 = String.valueOf(itemPrice);
+                        identForm.setItemPricePrecision(ItemSearchLogic.getPrecisionValues(value1));
                     }
-                    identForm.setEntityCode(String.valueOf(binder.getField(ConstantsUtils.ENTITY_CODE).getValue()));
-                    identForm.setEntityCodeSid(String.valueOf(binder.getField(ConstantsUtils.ENTITY_CODE_SID).getValue()));
+                        identForm.setEntityCode(String.valueOf(binder.getField(ConstantsUtils.ENTITY_CODE).getValue()));
+                        identForm.setEntityCodeSid(String.valueOf(binder.getField(ConstantsUtils.ENTITY_CODE_SID).getValue()));
                     if (binder.getField(ConstantsUtils.ITEM_UOM).getValue() == null || ((com.stpl.ifs.util.HelperDTO) binder.getField(ConstantsUtils.ITEM_UOM).getValue()).getId() == 0) {
                         if (flag) {
                             errorMessage.append(ConstantsUtils.COMMA);
@@ -578,7 +565,7 @@ if( isEditMode || isViewMode)  {
                     if (identForm.getEndDate() != null) {
                         identForm.setPricingEndDate(identForm.getEndDate());
                     }
-                    String query = StringUtils.EMPTY;
+                    String query;
                     if (isEditMode) {
                         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
                         query = "select COUNT(ITEM_PRICING_SID) from ITEM_PRICING where ITEM_MASTER_SID = " + sessionDTO.getSystemId() + " and ITEM_PRICING_QUALIFIER_SID = " + identForm.getItemPricingQualifierId() + " "
@@ -588,23 +575,20 @@ if( isEditMode || isViewMode)  {
                             Object ob = list.get(0);
                             int i = Integer.valueOf(String.valueOf(ob));
                             if (i != 0) {
-                                systemBinder.getErrorDisplay().setError("Item Pricing combination already exists for this Item");
+                                systemBinder.getErrorDisplay().setError(ConstantsUtils.PRICE_COMBINATION_ALREADY_EXIST);
                                 return;
                             }
                         }
                         if (!validateBean(tempPricing, identForm)) {
-                            systemBinder.getErrorDisplay().setError("Item Pricing combination already exists for this Item");
+                            systemBinder.getErrorDisplay().setError(ConstantsUtils.PRICE_COMBINATION_ALREADY_EXIST);
                             return;
                         }
                         tempPricing.addBean(identForm);
-                    } else {
-
-                        if (!validateBean(pricingTableBean, identForm)) {
-                            systemBinder.getErrorDisplay().setError("Item Pricing combination already exists for this Item");
-                            return;
-                        }
+                    } else if (!validateBean(pricingTableBean, identForm)) {
+                        systemBinder.getErrorDisplay().setError(ConstantsUtils.PRICE_COMBINATION_ALREADY_EXIST);
+                        return;
                     }
-                   
+
                     pricingTableBean.addBean(identForm);
                     binder.setItemDataSource(new BeanItem<>(new ItemPricingDTO()));
                     itemPricingQualifierNameDDLB.select(dto);
@@ -613,7 +597,7 @@ if( isEditMode || isViewMode)  {
                     boolean flag = false;
                     final String qualifier = String.valueOf(binder.getField(ConstantsUtils.ITEM_PRICING_QUALIFIER_NAME).getValue());
                     String itemPrice = String.valueOf(binder.getField(ConstantsUtils.ITEM_PRICE).getValue());
-                    String strPrice = StringUtils.EMPTY;
+                    String strPrice;
                     final DecimalFormat decimalFormat = new DecimalFormat("###,###,###.00");
                     StringBuilder errorMessage = new StringBuilder("Information for the following Mandatory fields need to be provided:" + "<br>");
                     if (e.getCause().getMessage().equals("Date format not recognized")) {
@@ -632,12 +616,12 @@ if( isEditMode || isViewMode)  {
                         try {
                             if (e.getCause().getMessage().equals("Could not convert value to Double")) {
                                 binder.getErrorDisplay().clearError();
-                                systemBinder.getErrorDisplay().setError("Item Price should be numeric.");
+                                systemBinder.getErrorDisplay().setError(ConstantsUtils.PRICE_SHOULD_BE_NUMERIC);
                                 return;
                             }
                         } catch (Exception ex) {
                             LOGGER.error("Exception in populateButton - buttonClick - itemPrice -" + ex);
-                            systemBinder.getErrorDisplay().setError("Item Price should be numeric.");
+                            systemBinder.getErrorDisplay().setError(ConstantsUtils.PRICE_SHOULD_BE_NUMERIC);
                             return;
                         }
                     }
@@ -658,14 +642,14 @@ if( isEditMode || isViewMode)  {
                         errorMessage.append("Item Price");
                         flag = true;
                     }
-                  if(binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue()==null || ((com.stpl.ifs.util.HelperDTO)binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue()).getId()==0){ 
+                    if (binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue() == null || ((com.stpl.ifs.util.HelperDTO) binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue()).getId() == 0) {
                         if (flag) {
                             errorMessage.append(ConstantsUtils.COMMA);
                         }
                         errorMessage.append("Pricing Status");
                         flag = true;
                     } else {
-                          identForm.setPricingCodeStatus( (com.stpl.ifs.util.HelperDTO)binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue());  
+                        identForm.setPricingCodeStatus((com.stpl.ifs.util.HelperDTO) binder.getField(ConstantsUtils.PRICING_CODE_STATUS).getValue());
                     }
 
                     if (binder.getField(ConstantsUtils.START_DATE).getValue() == null) {
@@ -684,14 +668,14 @@ if( isEditMode || isViewMode)  {
                         identForm.setItemPrice(strPrice);
                     }
                     identForm.setEntityCode(String.valueOf(binder.getField(ConstantsUtils.ENTITY_CODE).getValue()));
-                   if(binder.getField(ConstantsUtils.ITEM_UOM).getValue()==null || ((com.stpl.ifs.util.HelperDTO)binder.getField(ConstantsUtils.ITEM_UOM).getValue()).getId()==0){ 
+                    if (binder.getField(ConstantsUtils.ITEM_UOM).getValue() == null || ((com.stpl.ifs.util.HelperDTO) binder.getField(ConstantsUtils.ITEM_UOM).getValue()).getId() == 0) {
                         if (flag) {
                             errorMessage.append(ConstantsUtils.COMMA);
                         }
                         errorMessage.append("Item Uom");
                         flag = true;
                     } else {
-                      identForm.setItemUom(  (com.stpl.ifs.util.HelperDTO)binder.getField(ConstantsUtils.ITEM_UOM).getValue());  
+                        identForm.setItemUom((com.stpl.ifs.util.HelperDTO) binder.getField(ConstantsUtils.ITEM_UOM).getValue());
                     }
 
                     if (flag) {
@@ -703,48 +687,48 @@ if( isEditMode || isViewMode)  {
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     LOGGER.error(ex);
                     LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {   
-                        /**         
-                         * The method is triggered when a button of the message box is     
-                         * pressed .        
-                         *             
-                         * @param buttonId The buttonId of the pressed button.  
-                         */           
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {   
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing   
-                        }        
-                    }, ButtonId.OK);    
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                 } catch (PortalException portException) {
                     LOGGER.error(portException);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1002), new MessageBoxListener() {   
-                        /**         
-                         * The method is triggered when a button of the message box is     
-                         * pressed .        
-                         *             
-                         * @param buttonId The buttonId of the pressed button.  
-                         */           
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {   
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1002), new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing   
-                        }        
-                    }, ButtonId.OK);    
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                 } catch (Exception exception) {
                     LOGGER.error(exception);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1002), new MessageBoxListener() {   
-                        /**         
-                         * The method is triggered when a button of the message box is     
-                         * pressed .        
-                         *             
-                         * @param buttonId The buttonId of the pressed button.  
-                         */           
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {   
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1002), new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing   
-                        }        
-                    }, ButtonId.OK);    
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                     LOGGER.error(exception);
                 }
@@ -810,18 +794,18 @@ if( isEditMode || isViewMode)  {
                     }
                     pricingTable.setValue(null);
                 } catch (Exception exception) {
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1013), new MessageBoxListener() {   
-                        /**         
-                         * The method is triggered when a button of the message box is     
-                         * pressed .        
-                         *             
-                         * @param buttonId The buttonId of the pressed button.  
-                         */           
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {   
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1013), new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing   
-                        }        
-                    }, ButtonId.OK);    
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                     LOGGER.error(exception);
 
@@ -835,15 +819,15 @@ if( isEditMode || isViewMode)  {
     public void setDefaultFocus() {
         itemPricingQualifierNameDDLB.focus();
     }
+
     /**
      * Configure fields.
      *
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void configureFields() throws SystemException {
-       
-        
+    private void configureFields() {
+
         startDate.setDescription(ConstantsUtils.DATE_DES);
         endDate.setDescription(ConstantsUtils.DATE_DES);
 
@@ -889,18 +873,18 @@ if( isEditMode || isViewMode)  {
                     itemPricingQualifierNameDDLB.select(dto);
 
                 } catch (Exception exception) {
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {    
-                        /**           
-                         * The method is triggered when a button of the message box is     
-                         * pressed .           
-                         *        
-                         * @param buttonId The buttonId of the pressed button.    
-                         */            
-                        @SuppressWarnings("PMD")       
-                        public void buttonClicked(final ButtonId buttonId) {      
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing    
-                        }         
-                    }, ButtonId.OK);      
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                     LOGGER.error(exception);
                 }
@@ -927,20 +911,24 @@ if( isEditMode || isViewMode)  {
         itemPrice.setNullRepresentation(StringUtils.EMPTY);
         itemPrice.setValidationVisible(true);
         itemPrice.setDescription((String) itemPrice.getValue());
-        itemPrice.addValueChangeListener(new Property.ValueChangeListener() {
-            /**
-             * After changing the value in itemPrice, function will be executed.
-             *
-             * @param event
-             */
-            public void valueChange(final ValueChangeEvent event) {
-
-                itemPrice.setDescription((String) itemPrice.getValue());
-
+        itemPrice.addBlurListener(new FieldEvents.BlurListener() {
+            @Override
+            public void blur(FieldEvents.BlurEvent event) {
+                final String value = String.valueOf(itemPricingQualifierNameDDLB.getValue());
+                List input = new ArrayList();
+                input.add(ConstantsUtils.ITEM_PRICE_TABLE);
+                input.add(value);
+                List<Object> list = QueryUtils.getAppData(input,ConstantsUtils.PRECISION_SELECTION, null);
+                if(list !=null && !list.isEmpty())
+                {
+                precision.applyPattern(ItemSearchLogic.pattern(Integer.valueOf(String.valueOf(list.get(0)))));
+                itemPrice.setValue(precision.format(Double.valueOf(itemPrice.getValue())));
+                itemPrice.setId(precision.toString());
+                }
             }
         });
 
-          commonUtil.loadComboBox(pricingCodeStatus, UIUtils.STATUS, false);
+        commonUtil.loadComboBox(pricingCodeStatus, UIUtils.STATUS, false);
 
         entityCodeName.setReadOnly(true);
         entityCodeName.setImmediate(true);
@@ -971,9 +959,9 @@ if( isEditMode || isViewMode)  {
              */
             public void click(final CustomTextField.ClickEvent event) {
                 try {
-                    if(lookUp == null){
-                    lookUp = new ParentCompanyNo(entityCodeName, entityCode, entityCodeSid);
-                    UI.getCurrent().addWindow(lookUp);
+                    if (lookUp == null) {
+                        lookUp = new ParentCompanyNo(entityCodeName, entityCode, entityCodeSid);
+                        UI.getCurrent().addWindow(lookUp);
                     }
                     lookUp.addCloseListener(new Window.CloseListener() {
                         /**
@@ -997,7 +985,7 @@ if( isEditMode || isViewMode)  {
              * After changing the value, function will be executed.
              */
             public void valueChange(final Property.ValueChangeEvent event) {
-                    startDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(startDate.getValue()));
+                startDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(startDate.getValue()));
             }
         });
         startDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
@@ -1010,12 +998,11 @@ if( isEditMode || isViewMode)  {
              * After changing the value, function will be executed.
              */
             public void valueChange(final Property.ValueChangeEvent event) {
-                    endDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(endDate.getValue()));
+                endDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(endDate.getValue()));
             }
         });
-     
 
-       commonUtil.loadComboBox(itemUom, UIUtils.UOM, false);
+        commonUtil.loadComboBox(itemUom, UIUtils.UOM, false);
         excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
         excelExport.setStyleName("link");
         excelExport.setDescription("Export to excel");
@@ -1049,49 +1036,49 @@ if( isEditMode || isViewMode)  {
 
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(sysException);
                     LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {   
-                        /**         
-                         * The method is triggered when a button of the message box is     
-                         * pressed .        
-                         *             
-                         * @param buttonId The buttonId of the pressed button.  
-                         */           
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {   
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing   
-                        }        
-                    }, ButtonId.OK);    
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                 } catch (PortalException portException) {
 
                     LOGGER.error(portException);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {   
-                        /**         
-                         * The method is triggered when a button of the message box is     
-                         * pressed .        
-                         *             
-                         * @param buttonId The buttonId of the pressed button.  
-                         */           
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {   
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing   
-                        }        
-                    }, ButtonId.OK);    
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                 } catch (Exception exception) {
 
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {   
-                        /**         
-                         * The method is triggered when a button of the message box is     
-                         * pressed .        
-                         *             
-                         * @param buttonId The buttonId of the pressed button.  
-                         */           
-                        @SuppressWarnings("PMD")  
-                        public void buttonClicked(final ButtonId buttonId) {   
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing   
-                        }        
-                    }, ButtonId.OK);    
+                        }
+                    }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                     LOGGER.error(exception);
 
@@ -1100,13 +1087,13 @@ if( isEditMode || isViewMode)  {
         });
     }
 
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException,IllegalAccessException, InvocationTargetException, IllegalArgumentException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException{
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = pricingTable.getContainerDataSource().size();
         ExcelExportforBB.createWorkSheet(pricingTable.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.PRICING);
@@ -1119,11 +1106,8 @@ if( isEditMode || isViewMode)  {
      * @param start the start
      * @param end the end
      * @param printWriter the print writer
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         ItemPricingDTO dto;
         final List<ItemPricingDTO> searchList = pricingTableBean.getItemIds();
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ExcelExportUtil.DATE_FORMAT);
@@ -1133,8 +1117,8 @@ if( isEditMode || isViewMode)  {
             dto = searchList.get(rowCount);
 
             printWriter.print(ConstantsUtils.QUOTE + dto.getIdentifierCodeQualifierName() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemPrice() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            
+            printWriter.print(ConstantsUtils.QUOTE + ConstantsUtils.TAB + ExcelExportUtil.replaceDoubleQuotes(dto.getItemPrice()) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
 
             String status = dto.getPricingCodeStatus().getId() != 0 ? dto.getPricingCodeStatus().getDescription() : StringUtils.EMPTY;
             printWriter.print(ConstantsUtils.QUOTE + status + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
@@ -1224,7 +1208,7 @@ if( isEditMode || isViewMode)  {
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             if (startDate.getValue() != null && endDate.getValue() != null) {
                 if (startDate.getValue().after(endDate.getValue())) {
                     throw new InvalidValueException("End date should be greater than Start date");
@@ -1265,13 +1249,12 @@ if( isEditMode || isViewMode)  {
         }
     }
 
-
     private static Object[] getCollapsibleColumnsDefault(ExtFilterTable table) {
         table.setColumnCollapsingAllowed(true);
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = list.size(); i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1388,13 +1371,14 @@ if( isEditMode || isViewMode)  {
             }
         });
     }
+
     private ErrorfulFieldGroup getBinder() {
 
         binder.bindMemberFields(this);
         return binder;
     }
-    
-    private boolean validateBean(BeanItemContainer<ItemPricingDTO> tempPricing,final ItemPricingDTO identForm) throws SystemException, NoSuchItemPricingQualifierException {
+
+    private boolean validateBean(BeanItemContainer<ItemPricingDTO> tempPricing, final ItemPricingDTO identForm) throws SystemException, NoSuchItemPricingQualifierException {
         for (int i = 0; i < tempPricing.size(); i++) {
             if (tempPricing.getIdByIndex(i).getItemUom() == (identForm.getItemUom())
                     && tempPricing.getIdByIndex(i).getStartDate().equals(identForm.getStartDate())
@@ -1403,14 +1387,32 @@ if( isEditMode || isViewMode)  {
                 final ItemPricingQualifier qual = itemLogic.getItemPricingQualifierByCodeQualifierName(identForm.getIdentifierCodeQualifierName());
                 final ItemPricingQualifier qualBean = itemLogic.getItemPricingQualifierByCodeQualifierName(tempPricing.getIdByIndex(i).getIdentifierCodeQualifierName());
                 if (qual.getItemPricingQualifierSid() == qualBean.getItemPricingQualifierSid() && tempPricing.getIdByIndex(i).getPricingCodeStatus() == (identForm.getPricingCodeStatus())) {
-                        return false;
+                    return false;
                 }
             }
         }
         return true;
     }
+
     public void clearFilters() {
         pricingTable.clearFilters();
     }
 
+    public boolean itemPriceCheck(String itemPrice) {
+        try {
+            if (itemPrice.contains(ConstantsUtils.DOLLAR) || itemPrice.contains(ConstantsUtils.COMMA)) {
+                itemPrice = itemPrice.replace(ConstantsUtils.DOLLAR, StringUtils.EMPTY);
+                itemPrice = itemPrice.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
+            }
+            if (!String.valueOf(itemPrice).matches("^\\d+(\\.\\d+)*$")) {
+                systemBinder.getErrorDisplay().setError(ConstantsUtils.PRICE_SHOULD_BE_NUMERIC);
+                return false;
+            }
+
+            return true;
+        } catch (Exception ex) {
+            systemBinder.getErrorDisplay().setError(ConstantsUtils.PRICE_SHOULD_BE_NUMERIC);
+            return false;
+        }
+    }
 }

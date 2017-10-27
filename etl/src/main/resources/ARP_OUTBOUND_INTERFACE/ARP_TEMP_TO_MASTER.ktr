@@ -115,7 +115,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Table input</from><to>Detect empty stream</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Detect empty stream</from><to>Database join</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>Mail</from><to>Abort</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Table input</from><to>Detect empty stream</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Detect empty stream</from><to>Database join</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>Mail</from><to>Abort</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>Abort</to><enabled>N</enabled> </hop>  </order>
   <step>
     <name>Abort</name>
     <type>Abort</type>
@@ -126,8 +126,8 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <row_threshold>0</row_threshold>
-      <message/>
+      <row_threshold/>
+      <message>completed</message>
       <always_log_rows>N</always_log_rows>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -262,8 +262,8 @@ WHERE  b.PROCESS_NAME = &apos;ACCRUAL_RATE_PROJECTION_INTERFACE&apos;
       </embeddedimages>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>632</xloc>
-      <yloc>449</yloc>
+      <xloc>758</xloc>
+      <yloc>446</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

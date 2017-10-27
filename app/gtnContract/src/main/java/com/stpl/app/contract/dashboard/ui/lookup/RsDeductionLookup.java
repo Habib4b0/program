@@ -6,6 +6,7 @@ package com.stpl.app.contract.dashboard.ui.lookup;
 
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.contractheader.util.UIUtils;
+import com.stpl.app.contract.dashboard.dto.RsDeductionFilterGenerator;
 import com.stpl.app.contract.dashboard.logic.RsDeductionTableLogic;
 import com.stpl.app.contract.dashboard.util.ContractUtils;
 import com.stpl.app.contract.global.dto.RsDeductionLookupDto;
@@ -120,14 +121,10 @@ public class RsDeductionLookup extends Window {
     }
 
     public void init() {
-        try {
-            setContent(Clara.create(getClass().getResourceAsStream("/declarative-ui/contract-dashboard/rs-deduction-lookup.xml"), this));
-            binder = getBinder();
-            configureFields();
-            configureTable();
-        } catch (SystemException e) {
-            LOGGER.error(e);
-    }
+        setContent(Clara.create(getClass().getResourceAsStream("/declarative-ui/contract-dashboard/rs-deduction-lookup.xml"), this));
+        binder = getBinder();
+        configureFields();
+        configureTable();
     }
 
     /**
@@ -147,7 +144,7 @@ public class RsDeductionLookup extends Window {
     /**
      * Configure fields.
      */
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         deductionNo.setValidationVisible(true);
         deductionName.setValidationVisible(true);
         deductionNo.setImmediate(true);
@@ -161,11 +158,11 @@ public class RsDeductionLookup extends Window {
                 itemselectLogic(event);
             }
         });
-
+        
         CommonUtil commonUtil = CommonUtil.getInstance();
         commonUtil.loadComboBox(category, UIUtils.DEDUCTION_CALENDAR_CATEGORY, false);
-
-    }
+        
+                }
 
     @UiHandler("searchBtn")
     public void btnSearchLogic(Button.ClickEvent event) {
@@ -218,9 +215,10 @@ public class RsDeductionLookup extends Window {
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase("YES")) {
                     LOGGER.debug("Entering Reset operation");
-                    binder.getErrorDisplay().clearError();
+                    if (null != binder.getErrorDisplay()) {
+                        binder.getErrorDisplay().clearError();
+                    }
                     binder.setItemDataSource(new BeanItem<>(new RsDeductionLookupDto()));
-
                     tableLogic.clearAll();
                     tableLogic.setReset(true);
                     tableLogic.setRequiredCount(true);
@@ -259,6 +257,7 @@ public class RsDeductionLookup extends Window {
 
         resultTable.setComponentError(null);
         resultTable.setFilterBarVisible(true);
+        resultTable.setFilterGenerator(new RsDeductionFilterGenerator());
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setValidationVisible(false);
         resultTable.addStyleName("filterbar");
@@ -268,8 +267,8 @@ public class RsDeductionLookup extends Window {
     public void setTableDefaultConfig() {
         resultTable.setConverter("creationDate", new DateToStringConverter());
         resultTable.setConverter("modifiedDate", new DateToStringConverter());
-        resultTable.setVisibleColumns(ContractUtils.DEDUCTION_LOOKUP_COLUMN);
-        resultTable.setColumnHeaders(ContractUtils.DEDUCTION_LOOKUP_HEADER);
+        resultTable.setVisibleColumns(ContractUtils.getInstance().deductionLookupColumn);
+        resultTable.setColumnHeaders(ContractUtils.getInstance().deductionLookUpHeader);
         resultTable.markAsDirtyRecursive();
         resultTable.setImmediate(true);
         resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -283,6 +282,7 @@ public class RsDeductionLookup extends Window {
     private void loadGrid() {
         try {
             tableLogic.configureSearchData(binder);
+            resultTable.setFilterGenerator(new RsDeductionFilterGenerator());
             resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
             resultTable.setImmediate(true);
             resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -340,7 +340,7 @@ public class RsDeductionLookup extends Window {
                  */
                 @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
-                 
+                    return;
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();

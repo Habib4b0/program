@@ -11,6 +11,6 @@ import java.io.Serializable;
  *
  * @author Abhiram.Giri
  */
-public interface InterFaceDTO extends Serializable{
-    
+public interface InterFaceDTO extends Serializable {
+
 }

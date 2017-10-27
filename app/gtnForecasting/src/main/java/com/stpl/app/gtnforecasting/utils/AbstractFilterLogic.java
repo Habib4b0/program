@@ -103,7 +103,7 @@ public class AbstractFilterLogic {
                             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
-                            String value = StringUtils.EMPTY;
+                            String value;
                             if (((Integer) stringFilter.getValue()) == 0) {
                                 value = String.valueOf(stringFilter.getValue());
                             } else {
@@ -312,7 +312,7 @@ public class AbstractFilterLogic {
                             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
-                            String value = StringUtils.EMPTY;
+                            String value;
                             if (((Integer) stringFilter.getValue()) == 0) {
                                 value = String.valueOf(stringFilter.getValue());
                             } else {

@@ -61,21 +61,21 @@ public class HeaderUtils {
     /**
      * The comparison columns.
      */
-    public static Object[] COMPARISON_COLUMNS = new Object[]{"projectionName", "projectionDescription",
+    public final Object[] COMPARISON_COLUMNS = new Object[]{"projectionName", "projectionDescription",
         "marketType", "customer", "contract", "brand", "ndcNo", "ndcName", "createdDate", "createdBy"};
     /**
      * The parity header.
      */
-    public static String[] COMPARISON_HEADER = new String[]{"Projection Name", "Description",
+    public final String[] COMPARISON_HEADER = new String[]{"Projection Name", "Description",
         "Market Type", "Customer", "Contract", "Brand", "NDC #", "NDC Name", "Created Date", "Created By"};
 
     public static CustomTableHeaderDTO getLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO, String group) {
 
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
-        tableHeaderDTO.addSingleColumn("relationshipLevelName", group, String.class);
-        fullHeaderDTO.addSingleColumn("relationshipLevelName", group, String.class);
-        fullHeaderDTO.addDoubleColumn("relationshipLevelName", " ");
-        fullHeaderDTO.addDoubleHeaderMap("relationshipLevelName", new Object[]{"relationshipLevelName"});
+        tableHeaderDTO.addSingleColumn(StringConstantsUtil.RELATIONSHIP_LEVEL_NAME, group, String.class);
+        fullHeaderDTO.addSingleColumn(StringConstantsUtil.RELATIONSHIP_LEVEL_NAME, group, String.class);
+        fullHeaderDTO.addDoubleColumn(StringConstantsUtil.RELATIONSHIP_LEVEL_NAME, " ");
+        fullHeaderDTO.addDoubleHeaderMap(StringConstantsUtil.RELATIONSHIP_LEVEL_NAME, new Object[]{StringConstantsUtil.RELATIONSHIP_LEVEL_NAME});
         return tableHeaderDTO;
     }
 
@@ -195,7 +195,7 @@ public class HeaderUtils {
     }
 
     public static List<String> getCommonColumnHeaderForPV(int frequencyDivision, int year, int period) {
-        List<String> common = new ArrayList<String>();
+        List<String> common = new ArrayList<>();
         String commonColumn = "";
         String commonHeader = "";
         if (frequencyDivision == 1) {
@@ -224,17 +224,24 @@ public class HeaderUtils {
         Map<Integer, String> priorMap = selection.getProjectionMap();
         boolean disc = true;
         while (disc) {
-            List<Object> dmap = new ArrayList<Object>();
-             if(variableCategory.contains("Actuals")){
-            tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(), "Actuals", String.class);
-            excelHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(), commonHeader + " " + "Actuals", String.class);
+            List<Object> dmap = new ArrayList<>();
+            if(variableCategory.contains(StringConstantsUtil.ACTUALS1)){
+            tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(), StringConstantsUtil.ACTUALS1, String.class);
+            excelHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(), commonHeader + " " + StringConstantsUtil.ACTUALS1, String.class);
             }
-            tableHeaderDTO.addSingleColumn(commonColumn + "Current" + selection.getCurrentProjId(), currentProjName, String.class);
-            excelHeaderDTO.addSingleColumn(commonColumn + "Current" + selection.getCurrentProjId(), currentProjName + " " + commonHeader, String.class);
-            if(variableCategory.contains("Actuals")){
+            if(variableCategory.contains(StringConstantsUtil.ACCRUALS)){
+            tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACCRUAL + selection.getCurrentProjId(), StringConstantsUtil.ACCRUALS, String.class);
+            excelHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACCRUAL + selection.getCurrentProjId(), commonHeader + " " + StringConstantsUtil.ACCRUALS, String.class);
+            }
+            tableHeaderDTO.addSingleColumn(commonColumn + StringConstantsUtil.CURRENT_LABEL + selection.getCurrentProjId(), currentProjName, String.class);
+            excelHeaderDTO.addSingleColumn(commonColumn + StringConstantsUtil.CURRENT_LABEL + selection.getCurrentProjId(), currentProjName + " " + commonHeader, String.class);
+            if(variableCategory.contains(StringConstantsUtil.ACTUALS1)){
             dmap.add(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId());
             }
-            dmap.add(commonColumn + "Current" + selection.getCurrentProjId());
+             if(variableCategory.contains(StringConstantsUtil.ACCRUALS)){
+            dmap.add(commonColumn + ConstantsUtil.ACCRUAL + selection.getCurrentProjId());
+            }
+            dmap.add(commonColumn + StringConstantsUtil.CURRENT_LABEL + selection.getCurrentProjId());
             if (!projList.isEmpty()) {
                 for (int j = 0; j < projList.size(); j++) {
                     tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
@@ -243,9 +250,11 @@ public class HeaderUtils {
                 }
             }
             disc = false;
-            if (!dmap.isEmpty() && dmap != null) {
+            if (!dmap.isEmpty()) {
                 tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
                 tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
+                excelHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
+                excelHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
             }
         }
         return tableHeaderDTO;
@@ -283,8 +292,8 @@ public class HeaderUtils {
      */
     public static CustomTableHeaderDTO getVarianceLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
-        Object doubleCol = "group";
-        Object[] singleCol = {"group"};
+        Object doubleCol = StringConstantsUtil.GROUP_PROPERTY;
+        Object[] singleCol = {StringConstantsUtil.GROUP_PROPERTY};
         tableHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
         tableHeaderDTO.addDoubleColumn(doubleCol, " ");
         tableHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
@@ -372,30 +381,37 @@ public class HeaderUtils {
             List<String> periodList = projSelDTO.getPeriodList();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
             for (int i = 0; i < periodList.size(); i++) {
-                List<Object> dmap = new ArrayList<Object>();
+                List<Object> dmap = new ArrayList<>();
                 String commonColumn1 = periodList.get(i);
                 String commonHeader = periodListMap.get(commonColumn1);
                 String commonColumn = commonColumn1;
                 if (frequencyDivision != NumericConstants.TWELVE) {
                     commonColumn = commonColumn1.toUpperCase();
                 }
-                if(variableCategory.contains("Actuals")){
-                tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + projSelDTO.getCurrentProjId(), "Actuals", String.class);
-                fullHeader.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + projSelDTO.getCurrentProjId(), commonHeader + " " + "Actuals", String.class);
+                if(variableCategory.contains(StringConstantsUtil.ACTUALS1)){
+                tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + projSelDTO.getCurrentProjId(), StringConstantsUtil.ACTUALS1, String.class);
+                fullHeader.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + projSelDTO.getCurrentProjId(), commonHeader + " " + StringConstantsUtil.ACTUALS1, String.class);
                 }
-                tableHeaderDTO.addSingleColumn(commonColumn + "Current" + projSelDTO.getCurrentProjId(), currentProjName, String.class);
-                tableHeaderDTO.addSingleProjectedColumn(commonColumn + "Current" + projSelDTO.getCurrentProjId(), "Current");
-                fullHeader.addSingleColumn(commonColumn + "Current" + projSelDTO.getCurrentProjId(), commonHeader + " " + currentProjName, String.class);
-                if(variableCategory.contains("Actuals")){
+                if(variableCategory.contains(StringConstantsUtil.ACCRUALS)){
+                tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACCRUAL + projSelDTO.getCurrentProjId(), StringConstantsUtil.ACCRUALS, String.class);
+                fullHeader.addSingleColumn(commonColumn + ConstantsUtil.ACCRUAL + projSelDTO.getCurrentProjId(), commonHeader + " " + StringConstantsUtil.ACCRUALS, String.class);
+                }
+                tableHeaderDTO.addSingleColumn(commonColumn + StringConstantsUtil.CURRENT_LABEL + projSelDTO.getCurrentProjId(), currentProjName, String.class);
+                tableHeaderDTO.addSingleProjectedColumn(commonColumn + StringConstantsUtil.CURRENT_LABEL + projSelDTO.getCurrentProjId(), StringConstantsUtil.CURRENT_LABEL);
+                fullHeader.addSingleColumn(commonColumn + StringConstantsUtil.CURRENT_LABEL + projSelDTO.getCurrentProjId(),  commonHeader + " " +currentProjName, String.class);
+                if(variableCategory.contains(StringConstantsUtil.ACTUALS1)){
                 dmap.add(commonColumn + ConstantsUtil.ACTUAL + projSelDTO.getCurrentProjId());
                 }
-                dmap.add(commonColumn + "Current" + projSelDTO.getCurrentProjId());
+                if(variableCategory.contains(StringConstantsUtil.ACCRUALS)){
+                dmap.add(commonColumn + ConstantsUtil.ACCRUAL + projSelDTO.getCurrentProjId());
+                }
+                dmap.add(commonColumn + StringConstantsUtil.CURRENT_LABEL + projSelDTO.getCurrentProjId());
 
                 if (!projList.isEmpty()) {
                     for (int j = 0; j < projList.size(); j++) {
                         tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
                         tableHeaderDTO.addSingleProjectedColumn(commonColumn + projList.get(j), "" + projList.get(j));
-                        fullHeader.addSingleColumn(commonColumn + projList.get(j), commonHeader + " " + priorMap.get(projList.get(j)), String.class);
+                        fullHeader.addSingleColumn(commonColumn + projList.get(j),  commonHeader + " " + priorMap.get(projList.get(j)), String.class);
                         dmap.add(commonColumn + projList.get(j));
                     }
                 }
@@ -403,11 +419,14 @@ public class HeaderUtils {
                     tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
                     tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
                     tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
+                    fullHeader.addDoubleColumn(commonColumn, commonHeader);
+                    fullHeader.addDoubleHeaderMap(commonColumn, dmap.toArray());
+                    fullHeader.addDoubleProjectedColumn(commonColumn, commonHeader);
                 }
             }
         } else {
             setBaseVariables(variableCategory, variable, projSelDTO);
-            Map<String, Object> headerMap = new HashMap<String, Object>();
+            Map<String, Object> headerMap = new HashMap<>();
             String commonColumn = "";
 
             String commonHeader = "";
@@ -825,6 +844,46 @@ public class HeaderUtils {
                     tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
                 }
             }
+            if (ConstantsUtil.DETAIL.equals(projSelDTO.getLevel()) && (projSelDTO.getView().equals(Constants.PRODUCT_LABEL) || projSelDTO.getView().equals(Constants.LabelConstants.CUSTOM.toString()))) {
+                if (projSelDTO.isNetExFactorySales()) {
+                    if (projSelDTO.isColValue()) {
+                        commonColumn = ConstantsUtil.NET_EXFACT_SALES_COLUMN_VALUE;
+                        commonHeader = ConstantsUtil.NET_EXFACT_SALES_HEADER_VALUE;
+                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
+
+                    }
+                    if (projSelDTO.isColVariance()) {
+                        commonColumn = ConstantsUtil.NET_EXFACT_SALES_COLUMN_VARIANCE;
+                        commonHeader = ConstantsUtil.NET_EXFACT_SALES_HEADER_VARIANCE;
+                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
+
+                    }
+                    if (projSelDTO.isColPercentage()) {
+                        commonColumn = ConstantsUtil.NET_EXFACT_SALES_COLUMN_PER_CHANGE;
+                        commonHeader = ConstantsUtil.NET_EXFACT_SALES_HEADER_PER_CHANGE;
+                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
+                    }
+                }
+                if (projSelDTO.isNetExFactorySalesPerExFactory()) {
+                    if (projSelDTO.isColValue()) {
+                        commonColumn = ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VALUE;
+                        commonHeader = ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_HEADER_VALUE;
+                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
+
+                    }
+                    if (projSelDTO.isColVariance()) {
+                        commonColumn = ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VARIANCE;
+                        commonHeader = ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_HEADER_VARIANCE;
+                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
+
+                    }
+                    if (projSelDTO.isColPercentage()) {
+                        commonColumn = ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_PER_CHANGE;
+                        commonHeader = ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_HEADER_PER_CHANGE;
+                        tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
+                    }
+                }
+            }
             if (projSelDTO.isVarCOGC()) {
                 if (projSelDTO.isColValue()) {
                     commonColumn = "COGCValue";
@@ -863,11 +922,11 @@ public class HeaderUtils {
                     tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
                 }
             }
-            List<String> pivotList = new ArrayList<String>();
+            List<String> pivotList = new ArrayList<>();
             List<String> periodList = projSelDTO.getPeriodList();
-            List<String> periodListUpper = new ArrayList<String>();
+            List<String> periodListUpper = new ArrayList<>();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
-            Map<String, String> periodListMapUpper = new HashMap<String, String>();
+            Map<String, String> periodListMapUpper = new HashMap<>();
             for (int i = 0; i < periodList.size(); i++) {
                 String commonColumn1 = periodList.get(i);
                 String comHeader = periodListMap.get(commonColumn1);
@@ -885,7 +944,7 @@ public class HeaderUtils {
             projSelDTO.setRightHeader(tableHeaderDTO);
         }
         projSelDTO.setPeriodHeaderList(projSelDTO.getPeriodList());
-        List<Object> headerContents = new ArrayList<Object>();
+        List<Object> headerContents = new ArrayList<>();
         headerContents.add(tableHeaderDTO);
         projSelDTO.setColumns(CommonUtils.objectListToStringList(tableHeaderDTO.getSingleColumns()));
         return headerContents;
@@ -909,8 +968,8 @@ public class HeaderUtils {
         int historyEndIndex = -1;
         int projectionEndIndex = -1;
         int forecastEndIndex = -1;
-        List<String> periodList = new ArrayList<String>();
-        Map<String, String> periodListMap = new HashMap<String, String>();
+        List<String> periodList = new ArrayList<>();
+        Map<String, String> periodListMap = new HashMap<>();
         int startPr = 1;
         int lastPr = frequencyDivision;
         if (year != 0) {
@@ -949,8 +1008,8 @@ public class HeaderUtils {
                 periodListMap.put(commonColumn, commonHeader);
             }
         } else {
-            List<String> projectionColumnList = new ArrayList<String>();
-            List<String> projectionHeaderList = new ArrayList<String>();
+            List<String> projectionColumnList = new ArrayList<>();
+            List<String> projectionHeaderList = new ArrayList<>();
 
             startPr = projSelDTO.getProjectionStartPeriod() == 0 ? 1 : projSelDTO.getProjectionStartPeriod();
             for (int yr = projSelDTO.getProjectionStartYear(); yr <= projSelDTO.getForecastDTO().getProjectionEndYear(); yr++) {
@@ -1124,7 +1183,7 @@ public class HeaderUtils {
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {
-        List<String> common = new ArrayList<String>();
+        List<String> common = new ArrayList<>();
         String commonColumn = "";
         String commonHeader = "";
         if (frequencyDivision == 1) {
@@ -1149,11 +1208,11 @@ public class HeaderUtils {
     static CustomTableHeaderDTO loadSingleDiscountHeader(String commonColumn, String commonHeader, final PVSelectionDTO selection, final CustomTableHeaderDTO tableHeaderDTO, Map<String, Object> headerMap,final CustomTableHeaderDTO excelHeaderDTO) {
         String column = commonColumn;
         String variableCategory = selection.getVariableCategory() != null ? selection.getVariableCategory() : StringUtils.EMPTY;
-        List<String> discountNames = new ArrayList<String>(selection.getDiscountLevel().equals("Program") ? selection.getDiscountNameList() : selection.getDiscountNameCFF());
+        List<String> discountNames = new ArrayList<>(selection.getDiscountLevel().equals("Program") ? selection.getDiscountNameList() : selection.getDiscountNameCFF());
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
-        List<String> commonColumnList = new ArrayList<String>();
-        List<Object> dmap = new ArrayList<Object>();
+        List<String> commonColumnList = new ArrayList<>();
+        List<Object> dmap = new ArrayList<>();
         if (!discountNames.isEmpty()) {
 
             for (int i = 0; i < discountNames.size(); i++) {
@@ -1161,14 +1220,19 @@ public class HeaderUtils {
                 String disCommonHeader = discountNames.get(i);
                 commonColumn = column + disCommonHeader.replace(" ", "") + i;
                 
-                if(variableCategory.contains("Actuals")){
-                tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(), "Actuals", String.class);
-                excelHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(),  disCommonHeader+" "+"Actuals" , String.class);
+                if(variableCategory.contains(StringConstantsUtil.ACTUALS1)){
+                tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(), StringConstantsUtil.ACTUALS1, String.class);
+                excelHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId(),  disCommonHeader+" "+StringConstantsUtil.ACTUALS1 , String.class);
                 dmap.add(commonColumn + ConstantsUtil.ACTUAL + selection.getCurrentProjId());
                 }
-                tableHeaderDTO.addSingleColumn(commonColumn + "Current" + selection.getCurrentProjId(), selection.getCurrentProjectionName(), String.class);
-                excelHeaderDTO.addSingleColumn(commonColumn + "Current" + selection.getCurrentProjId(), disCommonHeader+ " "+selection.getCurrentProjectionName()+" "+commonHeader, String.class);
-                dmap.add(commonColumn + "Current" + selection.getCurrentProjId());
+                if(variableCategory.contains(StringConstantsUtil.ACCRUALS)){
+                tableHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACCRUAL + selection.getCurrentProjId(), StringConstantsUtil.ACCRUALS, String.class);
+                excelHeaderDTO.addSingleColumn(commonColumn + ConstantsUtil.ACCRUAL + selection.getCurrentProjId(),  disCommonHeader+" "+StringConstantsUtil.ACCRUALS , String.class);
+                dmap.add(commonColumn + ConstantsUtil.ACCRUAL + selection.getCurrentProjId());
+                }
+                tableHeaderDTO.addSingleColumn(commonColumn + StringConstantsUtil.CURRENT_LABEL + selection.getCurrentProjId(), selection.getCurrentProjectionName(), String.class);
+                excelHeaderDTO.addSingleColumn(commonColumn + StringConstantsUtil.CURRENT_LABEL + selection.getCurrentProjId(), disCommonHeader+ " "+selection.getCurrentProjectionName()+" "+commonHeader, String.class);
+                dmap.add(commonColumn + StringConstantsUtil.CURRENT_LABEL + selection.getCurrentProjId());
                 if (!projList.isEmpty()) {
                     for (int j = 0; j < projList.size(); j++) {
                         tableHeaderDTO.addSingleColumn(commonColumn + projList.get(j), priorMap.get(projList.get(j)), String.class);
@@ -1179,6 +1243,8 @@ public class HeaderUtils {
                 if (!dmap.isEmpty()) {
                     tableHeaderDTO.addDoubleColumn(commonColumn, disCommonHeader);
                     tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
+                    excelHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
+                    excelHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
                 }
                 commonColumnList.add(commonColumn);
                 headerMap.put(column, commonColumnList);
@@ -1214,6 +1280,8 @@ public class HeaderUtils {
         projSelDTO.setVarPerAdjDemand(false);
         projSelDTO.setVarIwDetails(false);
         projSelDTO.setVarPerIwDetails(false);
+        projSelDTO.setNetExFactorySales(false);
+        projSelDTO.setNetExFactorySalesPerExFactory(false);
 
         columns = columns.substring(1, columns.length() - 1);
         varriables = varriables.substring(1, varriables.length() - 1);
@@ -1274,6 +1342,10 @@ public class HeaderUtils {
                 projSelDTO.setVarIwDetails(true);
             } else if (value.equalsIgnoreCase(StringUtils.trim(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString()))) {
                 projSelDTO.setVarPerIwDetails(true);
+            } else if (value.equalsIgnoreCase(StringUtils.trim(ConstantsUtil.PVVariables.NET_EX_FACTORY_SALES.toString()))) {
+                projSelDTO.setNetExFactorySales(true);
+            } else if (value.equalsIgnoreCase(StringUtils.trim(ConstantsUtil.PVVariables.NET_EX_FACTORY_SALES_PER_EX_FACTORY.toString()))) {
+                projSelDTO.setNetExFactorySalesPerExFactory(true);
             }
         }
 
@@ -1283,7 +1355,7 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getProjectionResultsLeftTableColumns(final ProjectionSelectionDTO projSelDTO, final CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         Object doubleCol = "group1";
-        Object[] singleCol = {"group"};
+        Object[] singleCol = {StringConstantsUtil.GROUP_PROPERTY};
         tableHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
         tableHeaderDTO.addDoubleColumn(doubleCol, projSelDTO.getView());
         tableHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
@@ -1351,12 +1423,12 @@ public class HeaderUtils {
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         prepareCommonColumnHeaders(projSelDTO);
         Map<Integer, List> periodListMapForExcel = new HashMap<>();
-        List<Object> singleColumnForExcel = new ArrayList<Object>();
-        List<String> singleHeaderForExcel = new ArrayList<String>();
-        List<Object> doubleColumnForExcel = new ArrayList<Object>();
-        List<String> doubleHeaderForExcel = new ArrayList<String>();
-        Map<Object, Object[]> doubleHeaderMap = new HashMap<Object, Object[]>();
-        List headerListForExcel = new ArrayList();
+        List<Object> singleColumnForExcel = new ArrayList<>();
+        List<String> singleHeaderForExcel = new ArrayList<>();
+        List<Object> doubleColumnForExcel = new ArrayList<>();
+        List<String> doubleHeaderForExcel = new ArrayList<>();
+        Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
+        List headerListForExcel;
         int tempYear, j = 0, k = 0;
         if (pivotView.contains(VARIABLE.getConstant())) {
 
@@ -1379,12 +1451,12 @@ public class HeaderUtils {
                 tempYear = excelTab ? projSelDTO.getFrequencyDivision() == NumericConstants.FOUR ? Integer.parseInt(commonColumn.substring(NumericConstants.TWO, commonColumn.length()))
                         : Integer.parseInt(commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY)) : 0;
                 if (k != tempYear) {
-                    singleColumnForExcel = new ArrayList<Object>();
-                    singleHeaderForExcel = new ArrayList<String>();
+                    singleColumnForExcel = new ArrayList<>();
+                    singleHeaderForExcel = new ArrayList<>();
                     headerListForExcel = new ArrayList();
-                    doubleColumnForExcel = new ArrayList<Object>();
-                    doubleHeaderForExcel = new ArrayList<String>();
-                    doubleHeaderMap = new HashMap<Object, Object[]>();
+                    doubleColumnForExcel = new ArrayList<>();
+                    doubleHeaderForExcel = new ArrayList<>();
+                    doubleHeaderMap = new HashMap<>();
                     headerListForExcel.add(singleColumnForExcel);
                     headerListForExcel.add(singleHeaderForExcel);
                     headerListForExcel.add(tempYear);
@@ -1536,7 +1608,7 @@ public class HeaderUtils {
             int j = -1;
             boolean disc = true;
             while (disc) {
-                List<Object> dmap = new ArrayList<Object>();
+                List<Object> dmap = new ArrayList<>();
                 if (projections.contains(BOTH) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();
                     dmap.add(singleColumn);

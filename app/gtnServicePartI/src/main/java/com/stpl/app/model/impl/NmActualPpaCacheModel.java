@@ -21,33 +21,21 @@ public class NmActualPpaCacheModel implements CacheModel<NmActualPpa>,
     Externalizable {
     public double actualRate;
     public int periodSid;
-    public double actualProjDiscountDollar;
-    public double actualProjectionSales;
     public int projectionDetailsSid;
-    public double actualProjectionRate;
-    public double actualProjDiscountUnits;
     public double actualDiscountDollar;
     public double actualDiscountUnits;
     public double actualSales;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(21);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{actualRate=");
         sb.append(actualRate);
         sb.append(", periodSid=");
         sb.append(periodSid);
-        sb.append(", actualProjDiscountDollar=");
-        sb.append(actualProjDiscountDollar);
-        sb.append(", actualProjectionSales=");
-        sb.append(actualProjectionSales);
         sb.append(", projectionDetailsSid=");
         sb.append(projectionDetailsSid);
-        sb.append(", actualProjectionRate=");
-        sb.append(actualProjectionRate);
-        sb.append(", actualProjDiscountUnits=");
-        sb.append(actualProjDiscountUnits);
         sb.append(", actualDiscountDollar=");
         sb.append(actualDiscountDollar);
         sb.append(", actualDiscountUnits=");
@@ -65,11 +53,7 @@ public class NmActualPpaCacheModel implements CacheModel<NmActualPpa>,
 
         nmActualPpaImpl.setActualRate(actualRate);
         nmActualPpaImpl.setPeriodSid(periodSid);
-        nmActualPpaImpl.setActualProjDiscountDollar(actualProjDiscountDollar);
-        nmActualPpaImpl.setActualProjectionSales(actualProjectionSales);
         nmActualPpaImpl.setProjectionDetailsSid(projectionDetailsSid);
-        nmActualPpaImpl.setActualProjectionRate(actualProjectionRate);
-        nmActualPpaImpl.setActualProjDiscountUnits(actualProjDiscountUnits);
         nmActualPpaImpl.setActualDiscountDollar(actualDiscountDollar);
         nmActualPpaImpl.setActualDiscountUnits(actualDiscountUnits);
         nmActualPpaImpl.setActualSales(actualSales);
@@ -83,11 +67,7 @@ public class NmActualPpaCacheModel implements CacheModel<NmActualPpa>,
     public void readExternal(ObjectInput objectInput) throws IOException {
         actualRate = objectInput.readDouble();
         periodSid = objectInput.readInt();
-        actualProjDiscountDollar = objectInput.readDouble();
-        actualProjectionSales = objectInput.readDouble();
         projectionDetailsSid = objectInput.readInt();
-        actualProjectionRate = objectInput.readDouble();
-        actualProjDiscountUnits = objectInput.readDouble();
         actualDiscountDollar = objectInput.readDouble();
         actualDiscountUnits = objectInput.readDouble();
         actualSales = objectInput.readDouble();
@@ -98,11 +78,7 @@ public class NmActualPpaCacheModel implements CacheModel<NmActualPpa>,
         throws IOException {
         objectOutput.writeDouble(actualRate);
         objectOutput.writeInt(periodSid);
-        objectOutput.writeDouble(actualProjDiscountDollar);
-        objectOutput.writeDouble(actualProjectionSales);
         objectOutput.writeInt(projectionDetailsSid);
-        objectOutput.writeDouble(actualProjectionRate);
-        objectOutput.writeDouble(actualProjDiscountUnits);
         objectOutput.writeDouble(actualDiscountDollar);
         objectOutput.writeDouble(actualDiscountUnits);
         objectOutput.writeDouble(actualSales);

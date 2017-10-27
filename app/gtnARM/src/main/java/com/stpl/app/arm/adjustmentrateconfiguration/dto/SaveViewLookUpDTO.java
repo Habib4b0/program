@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Gopinath.Mathiyalaga
  */
 public class SaveViewLookUpDTO {
+
     private String viewName = StringUtils.EMPTY;
     private String viewType = StringUtils.EMPTY;
     private String fieldName = StringUtils.EMPTY;
@@ -87,6 +88,4 @@ public class SaveViewLookUpDTO {
         this.viewMasterSid = viewMasterSid;
     }
 
-
-    
 }

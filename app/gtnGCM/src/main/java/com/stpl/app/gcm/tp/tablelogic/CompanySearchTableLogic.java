@@ -9,6 +9,7 @@ import com.stpl.app.gcm.tp.dto.TradingPartnerDTO;
 import com.stpl.app.gcm.tp.logic.CompanySearchLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -49,7 +50,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
             return logic.searchCompaniesLazy(tpDTo, start, offset, this.getSortByColumns(), parentCompanyNo, parentCompanyName, getFilters(), recordLockStatus, searchSessionid, isProjSelected);
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
 
     }

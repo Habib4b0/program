@@ -164,7 +164,7 @@ public class ImtdIfpDetailsFinderImpl extends BasePersistenceImpl<ImtdIfpDetails
             SQLQuery sqlQuery = session.createSQLQuery(countQuery.toString());
             result=sqlQuery.list().get(0);
          } catch (ORMException e) {
-            LOGGER.error(e);
+             LOGGER.error(e);
             LOGGER.error(countQuery.toString());
         }catch (Exception e) {
             LOGGER.error(e);
@@ -817,8 +817,8 @@ public class ImtdIfpDetailsFinderImpl extends BasePersistenceImpl<ImtdIfpDetails
             if ((parameters.get("ifpName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifpName"))))) {
                sql += " AND ifp.IFP_NAME LIKE '%"+String.valueOf(parameters.get("ifpName"))+"%'"; 
             }
-            if (parameters.get("ifpStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifpStatus"))) && !"Show all".equalsIgnoreCase(String.valueOf(parameters.get("ifpStatus")))) {
-               sql += " AND ifp.IFP_STATUS = "+String.valueOf(parameters.get("ifpStatus"));
+            if (parameters.get("ifPStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifPStatus"))) && !"Show all".equalsIgnoreCase(String.valueOf(parameters.get("ifPStatus")))) {
+               sql += " AND ifp.IFP_STATUS = "+String.valueOf(parameters.get("ifPStatus"));
             }
             if (parameters.get("ifpType") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifpType"))) && !"Show all".equalsIgnoreCase(String.valueOf(parameters.get("ifpType")))) {
                sql += " AND ifp.IFP_TYPE = "+String.valueOf(parameters.get("ifpType"));
@@ -830,7 +830,7 @@ public class ImtdIfpDetailsFinderImpl extends BasePersistenceImpl<ImtdIfpDetails
                sql += " AND ifp.IFP_DESIGNATION = "+String.valueOf(parameters.get("ifpDesignation"));
             }
             if ((parameters.get("itemFamilyplanSystemId") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanSystemId"))))) {
-               sql += " AND ifp.IFP_MODEL_SID = "+String.valueOf(parameters.get("itemFamilyplanSystemId"));
+               sql += " AND ifp.IFP_MODEL_SID like '%"+String.valueOf(parameters.get("itemFamilyplanSystemId"))+"%'";
             }
             if ((parameters.get("parentItemFamilyplanId") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("parentItemFamilyplanId"))))) {
                sql += " AND ifp.PARENT_IFP_ID LIKE '%"+String.valueOf(parameters.get("parentItemFamilyplanId"))+"%'"; 
@@ -856,20 +856,38 @@ public class ImtdIfpDetailsFinderImpl extends BasePersistenceImpl<ImtdIfpDetails
             if ((parameters.get("ifpcreatedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifpcreatedDatefrom"))))) {
                sql += " AND ifp.CREATED_DATE >='"+String.valueOf(parameters.get("ifpcreatedDatefrom")+"'"); 
             }
+            if ((parameters.get("createdDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("createdDatefrom"))))) {
+               sql += " AND ifp.CREATED_DATE >='"+String.valueOf(parameters.get("createdDatefrom")+"'"); 
+            }
             if ((parameters.get("ifpcreatedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifpcreatedDateto"))))) {
-               sql += " AND ifp.CREATED_DATE <='"+String.valueOf(parameters.get("ifpcreatedDateto")+"'"); 
+               sql += " AND CAST(ifp.CREATED_DATE AS DATE) <='"+String.valueOf(parameters.get("ifpcreatedDateto")+"'"); 
+            }
+            if ((parameters.get("createdDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("createdDateto"))))) {
+               sql += " AND CAST(ifp.CREATED_DATE AS DATE) <='"+String.valueOf(parameters.get("createdDateto")+"'"); 
             }
             if ((parameters.get("itemFamilyplanStartDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanStartDatefrom"))))) {
                sql += " AND ifp.IFP_START_DATE >='"+String.valueOf(parameters.get("itemFamilyplanStartDatefrom")+"'"); 
             }
+            if ((parameters.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDatefrom"))))) {
+               sql += " AND ifp.IFP_START_DATE >='"+String.valueOf(parameters.get("startDatefrom")+"'"); 
+            }
             if ((parameters.get("itemFamilyplanStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanStartDateto"))))) {
-               sql += " AND ifp.IFP_START_DATE <='"+String.valueOf(parameters.get("itemFamilyplanStartDateto")+"'"); 
+               sql += " AND CAST(ifp.IFP_START_DATE  AS DATE) <='"+String.valueOf(parameters.get("itemFamilyplanStartDateto")+"'"); 
+            }
+            if ((parameters.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDateto"))))) {
+               sql += " AND CAST(ifp.IFP_START_DATE  AS DATE) <='"+String.valueOf(parameters.get("startDateto")+"'"); 
             }
             if ((parameters.get("itemFamilyplanEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanEndDatefrom"))))) {
                sql += " AND ifp.IFP_END_DATE >='"+String.valueOf(parameters.get("itemFamilyplanEndDatefrom")+"'"); 
             }
+            if ((parameters.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDatefrom"))))) {
+               sql += " AND CAST(ifp.IFP_END_DATE  AS DATE) >='"+String.valueOf(parameters.get("endDatefrom")+"'"); 
+            }
             if ((parameters.get("itemFamilyplanEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanEndDateto"))))) {
-               sql += " AND ifp.IFP_END_DATE <='"+String.valueOf(parameters.get("itemFamilyplanEndDateto")+"'"); 
+               sql += " AND CAST(ifp.IFP_END_DATE AS DATE) <='"+String.valueOf(parameters.get("itemFamilyplanEndDateto")+"'"); 
+            }
+            if ((parameters.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDateto"))))) {
+               sql += " AND CAST(ifp.IFP_END_DATE AS DATE) <='"+String.valueOf(parameters.get("endDateto")+"'"); 
             }
             if ((parameters.get("itemFamilyplanSystemIdfrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanSystemIdfrom"))))) {
                sql += " AND ifp.IFP_MODEL_SID >'"+String.valueOf(parameters.get("itemFamilyplanSystemIdfrom")+"'"); 
@@ -883,13 +901,23 @@ public class ImtdIfpDetailsFinderImpl extends BasePersistenceImpl<ImtdIfpDetails
              if ((parameters.get("ifpcreatedBy") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("ifpcreatedBy"))))) {
                sql += " AND ifp.CREATED_BY ="+String.valueOf(parameters.get("ifpcreatedBy")); 
             }
+             
+             if ((parameters.get("itemFamilyplanId") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanId"))))) {
+                sql += " AND ifp.IFP_ID LIKE '%"+String.valueOf(parameters.get("itemFamilyplanId"))+"%'"; 
+            }
+             if ((parameters.get("itemFamilyplanNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanNo"))))) {
+              sql += " AND ifp.IFP_NO LIKE '%"+String.valueOf(parameters.get("itemFamilyplanNo"))+"%'"; 
+            }
+             if ((parameters.get("itemFamilyplanName") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemFamilyplanName"))))) {
+              sql += " AND ifp.IFP_NAME LIKE '%"+String.valueOf(parameters.get("itemFamilyplanName"))+"%'"; 
+            }
             
             if(ifpStatus != 0) {
                sql += " AND ifp.IFP_STATUS = "+ifpStatus;
             }
             
             if(ifpType != 0) {
-               sql += " AND ifp.IFP_TYPE LIKE "+ifpType;
+               sql += " AND ifp.IFP_TYPE = "+ifpType;
                         
             }
             if(StringUtils.isNotBlank(itemId)&&StringUtils.isNotEmpty(itemId)){

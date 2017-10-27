@@ -8,6 +8,7 @@ package com.stpl.app.gtnworkflow.ui.lookup;
 import com.stpl.app.gtnworkflow.dto.UserViewDTO;
 import com.stpl.app.gtnworkflow.logic.WorkflowLogic;
 import com.stpl.app.gtnworkflow.util.CommonUtils;
+import com.stpl.app.gtnworkflow.util.ConstantUtils;
 import com.stpl.app.gtnworkflow.util.NotificationUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -181,16 +182,16 @@ public final class UsersLookup extends Window {
      * @throws SystemException
      * @throws PortalException
      */
-    public void addToTable() throws SystemException, PortalException {
+    public void addToTable()  {
         LOGGER.debug("Entering addToTable ");
         table.markAsDirty();
         table.setContainerDataSource(userLookupitemBean);
         if (WorkflowConstants.getBusinessProcessNameArm().equalsIgnoreCase(businessProcess)) {
-            table.setVisibleColumns(CommonUtils.VIEW_VISIBLE_COLUMN_ARM);
-            table.setColumnHeaders(CommonUtils.VIEW_HEADER_ARM);
+            table.setVisibleColumns(ConstantUtils.getInstance().viewVisibleColumnArm);
+            table.setColumnHeaders(ConstantUtils.getInstance().viewHeaderArm);
         } else {
-            table.setVisibleColumns(CommonUtils.VIEW_VISIBLE_COLUMN);
-            table.setColumnHeaders(CommonUtils.VIEW_HEADER);
+            table.setVisibleColumns(ConstantUtils.getInstance().viewVisibleColumn);
+            table.setColumnHeaders(ConstantUtils.getInstance().viewHeader);
         }
         table.setPageLength(NumericConstants.SIX);
         table.setWidth("100%");
@@ -377,11 +378,11 @@ public final class UsersLookup extends Window {
                                 table.removeAllItems();
                                 table.setContainerDataSource(userLookupitemBean);
                                 if (WorkflowConstants.getBusinessProcessNameArm().equalsIgnoreCase(businessProcess)) {
-                                    table.setVisibleColumns(CommonUtils.VIEW_VISIBLE_COLUMN_ARM);
-                                    table.setColumnHeaders(CommonUtils.VIEW_HEADER_ARM);
+                                    table.setVisibleColumns(ConstantUtils.getInstance().viewVisibleColumnArm);
+                                    table.setColumnHeaders(ConstantUtils.getInstance().viewHeaderArm);
                                 } else {
-                                    table.setVisibleColumns(CommonUtils.VIEW_VISIBLE_COLUMN);
-                                    table.setColumnHeaders(CommonUtils.VIEW_HEADER);
+                                    table.setVisibleColumns(ConstantUtils.getInstance().viewVisibleColumn);
+                                    table.setColumnHeaders(ConstantUtils.getInstance().viewHeader);
                                 }
                                 selectBtn.setEnabled(false);
                             }

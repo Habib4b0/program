@@ -38,8 +38,8 @@ public class CompanyFilterGeneratorTest {
     
     @Before
     public void setUp() {
-        positiveDataList=new ArrayList<Object>();
-        negativeDataList=new ArrayList<Object>();
+        positiveDataList=new ArrayList<>();
+        negativeDataList=new ArrayList<>();
         positiveDataList.add("10/10/1995");
         positiveDataList.add("20/05/2000");
         positiveDataList.add("10-10-1996");

@@ -62,7 +62,8 @@ import org.jboss.logging.Logger;
 public class PPAProjectionResultsLogic {
 
     private static final DecimalFormat TWO_DECIMAL = new DecimalFormat("#,##0.00");
-    private static final DecimalFormat ZERO_DECIMAL = new DecimalFormat("#,##0");
+    public static final String STRING_FORMAT_TWO = "#,##0";
+    private static final DecimalFormat ZERO_DECIMAL = new DecimalFormat(STRING_FORMAT_TWO);
     private static final String CURRENCY = "$";
     private static final String PERCENTAGE = "%";
     private static final String Q = "Q";
@@ -75,8 +76,8 @@ public class PPAProjectionResultsLogic {
     CustomTableHeaderDTO groupListForPivot;
     private static final Logger LOGGER = Logger.getLogger(PPAProjectionResultsLogic.class);
     private List chartList;
-    DataFormatConverter salesFormat = new DataFormatConverter("#,##0", DataFormatConverter.INDICATOR_DOLLAR);
-    DataFormatConverter growthFormat = new DataFormatConverter("#,##0", DataFormatConverter.INDICATOR_PERCENT);
+    DataFormatConverter salesFormat = new DataFormatConverter(STRING_FORMAT_TWO, DataFormatConverter.INDICATOR_DOLLAR);
+    DataFormatConverter growthFormat = new DataFormatConverter(STRING_FORMAT_TWO, DataFormatConverter.INDICATOR_PERCENT);
     ExecutorService service = ThreadPool.getInstance().getService();
     List<Object[]> periodTableList=null;
     List<Object[]> wacTableList=null;
@@ -103,12 +104,12 @@ public class PPAProjectionResultsLogic {
     int neededRecord;
     int dataIndex;
 
-    public void savePPAResultsView(String save, String projectionId) throws PortalException,SystemException{
+    public void savePPAResultsView(String projectionId) throws PortalException,SystemException{
         PPAPrjectionResultsDAO dao = new PPAProjectionResultsDAOImpl();
         dao.savePPAProjectionView(indicater, projectionId);
     }
 
-    public List ppaProjecetionResults(int start, int offset,boolean isProjectionTotal, ProjectionSelectionDTO selection, SessionDTO session) {
+    public List ppaProjecetionResults(boolean isProjectionTotal, ProjectionSelectionDTO selection, SessionDTO session) {
 
         List inputForList = new ArrayList<>();
         selection.setProjectionHeaderList(CommonUtils.prepareProjectionPeriodList(selection));
@@ -145,7 +146,7 @@ public class PPAProjectionResultsLogic {
 
     private List getCustomizedList(List<Object[]> list, ProjectionSelectionDTO selection) {
         String frequency = selection.getFrequency();
-        List<PPAProjectionResultsDTO> list1 = new ArrayList<PPAProjectionResultsDTO>();
+        List<PPAProjectionResultsDTO> list1 = new ArrayList<>();
         PPAProjectionResultsDTO discountDoller = new PPAProjectionResultsDTO();
         PPAProjectionResultsDTO discountPercent = new PPAProjectionResultsDTO();
         PPAProjectionResultsDTO unitVolume = new PPAProjectionResultsDTO();
@@ -180,7 +181,7 @@ public class PPAProjectionResultsLogic {
             year = str[yearInt].toString();
 
             String header = isColumn(selection, quater, year, Constant.PROJECTIONS, frequency);
-            String vis = isProjColumn(selection, quater, year, frequency);
+            String vis = isProjColumn(quater, year, frequency);
             if (header != null && actulOrProjection == 1) {
                 Boolean isProj = CommonUtils.setProjectionZero(selection, vis);
                 discountDoller.addStringProperties(header,
@@ -229,7 +230,7 @@ public class PPAProjectionResultsLogic {
         return null;
     }
 
-    private String isProjColumn(ProjectionSelectionDTO selection, String quater, String year, String frequency) {
+    private String isProjColumn(String quater, String year, String frequency) {
         String constant = StringUtils.EMPTY;
         if (frequency.equals(Constant.QUARTERLY)) {
             constant = Constant.Q_SMALL + quater + year;
@@ -249,22 +250,20 @@ public class PPAProjectionResultsLogic {
     private List getCustomizedListForPivot(List<Object[]> list, ProjectionSelectionDTO selection) {
         String frequency = selection.getFrequency();
         List result = new ArrayList();
-        List<String> dtoList = getFrequencyList(frequency, selection);
+        List<String> dtoList = getFrequencyList(selection);
         List<String> tempList = new ArrayList<>();
         tempList.addAll(dtoList);
 
-        int yearInt;
         final int totalDiscountNo = 2;
         final int discountPercentNo = NumericConstants.THREE;
         final int unitVolumeNo = NumericConstants.FOUR;
         final int discountDollerNo = NumericConstants.FIVE;
-        PPAProjectionResultsDTO dto = new PPAProjectionResultsDTO();
+        PPAProjectionResultsDTO dto;
         Map<String, PPAProjectionResultsDTO> dtoMap = new TreeMap<>();
         for (int i = 0; i < list.size(); i++) {
 
-            yearInt = 1;
             Object[] str = list.get(i);
-            String year = str[yearInt].toString();
+            String year;
             int actulOrProjection = str[NumericConstants.SIX] != null ? Integer.valueOf(str[NumericConstants.SIX].toString()) : -1;
             String freq = null;
             String constant = null;
@@ -332,7 +331,7 @@ public class PPAProjectionResultsLogic {
         return result;
     }
 
-    public List getFrequencyList(String frequency, ProjectionSelectionDTO selection) {
+    public List getFrequencyList(ProjectionSelectionDTO selection) {
         selection.setPivotView(Constant.PERIOD);
         groupListForPivot = HeaderUtils.getCalculatedPPAProjectionResultsColumns(selection, new CustomTableHeaderDTO());
         selection.setPivotView(Constant.VARIABLE);
@@ -399,9 +398,9 @@ public class PPAProjectionResultsLogic {
     public int getConfiguredPPAProjectionResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelCount) {
         int count = 0;
         if (!projSelDTO.isIsFilter() || (parentId instanceof PPAProjectionResultsDTO)) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
             if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
-                projSelDTO.setActualsOrProjections("Actuals and Projections");
+                projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
             }
 
             if (parentId instanceof PPAProjectionResultsDTO) {
@@ -465,7 +464,7 @@ public class PPAProjectionResultsLogic {
     public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelCount) {
         int count = 0;
         projSelDTO.setGroupCount(false);
-        if (!projSelDTO.getGroup().startsWith(Constant.All)
+        if (!projSelDTO.getGroup().startsWith(Constant.ALL)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
             if (projSelDTO.getPivotView().contains(Constant.PERIOD)) {
 
@@ -485,7 +484,7 @@ public class PPAProjectionResultsLogic {
         if (isLevelCount && !projSelDTO.isIsFilter()) {
             if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                     && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
-                    && !projSelDTO.getGroup().startsWith(Constant.All)
+                    && !projSelDTO.getGroup().startsWith(Constant.ALL)
                     && !projSelDTO.getGroup().contains(Constant.PPA)) {
                 count = count + 1;
                 projSelDTO.setLevelCount(1);
@@ -501,12 +500,12 @@ public class PPAProjectionResultsLogic {
     }
 
     public List<PPAProjectionResultsDTO> getConfiguredPPAProjectionResults1(Object parentId, int start, int offset, ProjectionSelectionDTO selection, SessionDTO session) {
-        List<PPAProjectionResultsDTO> resultList = new ArrayList<>();
+        List<PPAProjectionResultsDTO> resultList;
         if (!selection.isIsFilter() || (parentId instanceof PPAProjectionResultsDTO)) {
-            selection.setYear(Constant.All);
+            selection.setYear(Constant.ALL);
 
             if (selection.getActualsOrProjections().equals(Constant.BOTH)) {
-                selection.setActualsOrProjections("Actuals and Projections");
+                selection.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
             }
 
             if (parentId instanceof PPAProjectionResultsDTO) {
@@ -515,7 +514,7 @@ public class PPAProjectionResultsLogic {
                 selection.setLevelNo(parentDto.getLevelNo());
                 selection.setTreeLevelNo(parentDto.getTreeLevelNo());
                 selection.setHierarchyNo(parentDto.getHirarechyNo());
-                if (!parentDto.getGroup().startsWith(Constant.All)
+                if (!parentDto.getGroup().startsWith(Constant.ALL)
                         && !parentDto.getGroup().contains(Constant.PPA) && !selection.isIsCustomHierarchy()) {
                     if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equalsIgnoreCase(parentDto.getHirarechyIndicater())) {
                         selection.setCustomerHierarchyNo(selection.getHierarchyNo());
@@ -559,13 +558,13 @@ public class PPAProjectionResultsLogic {
     }
 
     public List<PPAProjectionResultsDTO> getConfiguredPPAProjectionResultsTotal(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
-        List<PPAProjectionResultsDTO> resultList = new ArrayList<PPAProjectionResultsDTO>();
+        List<PPAProjectionResultsDTO> resultList = new ArrayList<>();
         projSelDTO.setIsProjectionTotal(true);
         if (!projSelDTO.isIsFilter()) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
 
             if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
-                projSelDTO.setActualsOrProjections("Actuals and Projections");
+                projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
             }
 
             resultList = getPPAProjectionResultsTotal(start, offset, projSelDTO, session);
@@ -638,7 +637,7 @@ public class PPAProjectionResultsLogic {
         } else {
             maxRecord = selection.getPeriodList().size() + 1;
         }
-        List<PPAProjectionResultsDTO> resultList = new ArrayList<PPAProjectionResultsDTO>();
+        List<PPAProjectionResultsDTO> resultList = new ArrayList<>();
         if (start < 1) {
             PPAProjectionResultsDTO dto = new PPAProjectionResultsDTO();
             dto.setGroup(Constant.PROJECTION_TOTAL);
@@ -652,7 +651,7 @@ public class PPAProjectionResultsLogic {
 
         if (neededRecord > 0) {
             List<PPAProjectionResultsDTO> totalList;
-            totalList = ppaProjecetionResults(start, offset,selection.isIsProjectionTotal(), selection, session);
+            totalList = ppaProjecetionResults(selection.isIsProjectionTotal(), selection, session);
             setChartList(totalList);
             if (started < maxRecord) {
                 for (int k = started; k < totalList.size() && neededRecord > 0; k++) {
@@ -668,7 +667,7 @@ public class PPAProjectionResultsLogic {
         neededRecord = offset;
         int started = start;
         int maxRecord = 0;
-        if (!selection.getGroup().startsWith(Constant.All)
+        if (!selection.getGroup().startsWith(Constant.ALL)
                 && !selection.getGroup().contains(Constant.PPA)) {
             if (selection.getPivotView().equals(Constant.PERIOD)) {
                 maxRecord = NumericConstants.FOUR;
@@ -679,18 +678,18 @@ public class PPAProjectionResultsLogic {
         if (selection.isIsProjectionTotal()) {
             maxRecord++;
         }
-        List<PPAProjectionResultsDTO> projDTOList = new ArrayList<PPAProjectionResultsDTO>();
-        if ((!selection.isIsProjectionTotal()) && ((neededRecord > 0) && (!selection.getGroup().startsWith(Constant.All)
+        List<PPAProjectionResultsDTO> projDTOList = new ArrayList<>();
+        if ((!selection.isIsProjectionTotal()) && ((neededRecord > 0) && (!selection.getGroup().startsWith(Constant.ALL)
                 && !selection.getGroup().contains(Constant.PPA)))) {
-            List<PPAProjectionResultsDTO> resultList = new ArrayList<PPAProjectionResultsDTO>();
+            List<PPAProjectionResultsDTO> resultList = new ArrayList<>();
             if (selection.getPivotView().contains(Constant.PERIOD)) {
                 try {
-                            resultList = ppaProjecetionResults(start, offset, selection.isIsProjectionTotal(),selection, session);
+                            resultList = ppaProjecetionResults(selection.isIsProjectionTotal(),selection, session);
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
             } else {
-                resultList = getProjectionPivotTotal(start, offset, selection, session);
+                resultList = getProjectionPivotTotal(selection, session);
             }
             setChartList(resultList);
             if (started < maxRecord) {
@@ -704,7 +703,7 @@ public class PPAProjectionResultsLogic {
         if (neededRecord > 0 && !selection.isIsFilter()) {
             if ((selection.getTreeLevelNo() + 1) == selection.getTpLevel()
                     && ((selection.isIsCustomHierarchy()) || (!selection.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
-                    && !selection.getGroup().startsWith(Constant.All)
+                    && !selection.getGroup().startsWith(Constant.ALL)
                     && !selection.getGroup().contains(Constant.PPA)) {
                 PPAProjectionResultsDTO dto = new PPAProjectionResultsDTO();
                 if (selection.getLevelNo() != 0) {
@@ -726,7 +725,7 @@ public class PPAProjectionResultsLogic {
                 projDTOList.add(dto);
                 neededRecord--;
             } else {
-                int resultStart = start;
+                int resultStart;
                 resultStart = (start <= maxRecord) ? 0 : start - maxRecord;
                 selection.setTreeLevelNo(selection.getTreeLevelNo() + 1);
                 int maxLevelNo = selection.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY) ? session.getMaximumCustomerLevel() : session.getMaximumProductLevel();
@@ -740,10 +739,10 @@ public class PPAProjectionResultsLogic {
         return projDTOList;
     }
 
-    public List<PPAProjectionResultsDTO> getProjectionPivotTotal(int start, int offset, ProjectionSelectionDTO selection, SessionDTO session) {
-        List<PPAProjectionResultsDTO> projDTOList = new ArrayList<PPAProjectionResultsDTO>();
+    public List<PPAProjectionResultsDTO> getProjectionPivotTotal(ProjectionSelectionDTO selection, SessionDTO session) {
+        List<PPAProjectionResultsDTO> projDTOList = new ArrayList<>();
         try {
-            projDTOList = ppaProjecetionResults(start, offset, selection.isIsProjectionTotal(), selection, session);
+            projDTOList = ppaProjecetionResults(selection.isIsProjectionTotal(), selection, session);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -756,39 +755,39 @@ public class PPAProjectionResultsLogic {
      * @param dto
      * @return
      */
-    public int getPPADetailsDDLBCount(String filter, HelperDTO dto, final String ddlbType,
+    public int getPPADetailsDDLBCount(String filter, final String ddlbType,
             final int projectionId, PPADetailsDTO ppaDetailsDTO) {
         String query = StringUtils.EMPTY;
-        String value = StringUtils.EMPTY;
+        String value;
         switch (ddlbType) {
-            case "contract":
+            case Constant.CONTRACT:
                 query = CustomSQLUtil.get("contract-ddlb");
                 break;
-            case "customer":
+            case Constant.CUSTOMER1_SMALL:
                 query = CustomSQLUtil.get("customer-ddlb");
                 break;
-            case "brand":
+            case Constant.BRAND:
                 query = CustomSQLUtil.get("brand-ddlb");
                 break;
 
         }
-        query = query.replace("@projid", String.valueOf(projectionId));
-        query = query.replace("@contractsid", String.valueOf(ppaDetailsDTO.getSelectedContract()));
-        query = query.replace("@compsid", String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
-        query = query.replace("@brandsid", String.valueOf(ppaDetailsDTO.getSelectedBrand()));
+        query = query.replace(Constant.PROJID_AT_SMALL, String.valueOf(projectionId));
+        query = query.replace(Constant.CONTRACTSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedContract()));
+        query = query.replace(Constant.COMPSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
+        query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
         if (filter != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
             if (!filter.isEmpty()) {
                 switch (ddlbType) {
-                    case "contract":
+                    case Constant.CONTRACT:
                         value = Constant.PERCENT + filter + Constant.PERCENT;
                         query = query.replace(Constant.FILTERR, "'" + value + "'");
                         break;
-                    case "customer":
+                    case Constant.CUSTOMER1_SMALL:
                         value = Constant.PERCENT + filter + Constant.PERCENT;
                         query = query.replace(Constant.FILTERR, "'" + value + "'");
                         break;
-                    case "brand":
+                    case Constant.BRAND:
                         value = Constant.PERCENT + filter + Constant.PERCENT;
                         query = query.replace(Constant.FILTERR, "'" + value + "'");
                         break;
@@ -797,13 +796,13 @@ public class PPAProjectionResultsLogic {
             }
         } else {
             switch (ddlbType) {
-                case "contract":
+                case Constant.CONTRACT:
                     query = query.replace("AND CM.CONTRACT_NO LIKE @FILTER", StringUtils.EMPTY);
                     break;
-                case "customer":
+                case Constant.CUSTOMER1_SMALL:
                     query = query.replace("AND COM.COMPANY_NO LIKE @FILTER", StringUtils.EMPTY);
                     break;
-                case "brand":
+                case Constant.BRAND:
                     query = query.replace("AND BM.BRAND_NAME LIKE @FILTER", StringUtils.EMPTY);
                     break;
             }
@@ -822,39 +821,39 @@ public class PPAProjectionResultsLogic {
     public List<HelperDTO> getPPADetailsDDLBResult(int startIndex, int end, String filter, HelperDTO dto,
             final String ddlbType, final int projectionId, PPADetailsDTO ppaDetailsDTO) {
         String query = StringUtils.EMPTY;
-        String searchFilter = StringUtils.EMPTY;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        String searchFilter;
+        final List<HelperDTO> list = new ArrayList<>();
         switch (ddlbType) {
 
-            case "contract":
+            case Constant.CONTRACT:
                 query = CustomSQLUtil.get("contract-ddlb");
                 break;
-            case "customer":
+            case Constant.CUSTOMER1_SMALL:
                 query = CustomSQLUtil.get("customer-ddlb");
                 break;
-            case "brand":
+            case Constant.BRAND:
                 query = CustomSQLUtil.get("brand-ddlb");
                 break;
 
         }
-        query = query + "OFFSET " + startIndex + " ROWS FETCH NEXT " + end + " ROWS ONLY";
-        query = query.replace("@projid", String.valueOf(projectionId));
-        query = query.replace("@contractsid", String.valueOf(ppaDetailsDTO.getSelectedContract()));
-        query = query.replace("@compsid", String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
-        query = query.replace("@brandsid", String.valueOf(ppaDetailsDTO.getSelectedBrand()));
+        query = query + "OFFSET " + startIndex + Constant.ROWS_FETCH_NEXT_SPACE + end + Constant.ROWS_ONLY_SPACE;
+        query = query.replace(Constant.PROJID_AT_SMALL, String.valueOf(projectionId));
+        query = query.replace(Constant.CONTRACTSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedContract()));
+        query = query.replace(Constant.COMPSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
+        query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
         if (filter != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
             if (!filter.isEmpty()) {
                 switch (ddlbType) {
-                    case "contract":
+                    case Constant.CONTRACT:
                         searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
                         break;
-                    case "customer":
+                    case Constant.CUSTOMER1_SMALL:
                         searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
                         break;
-                    case "brand":
+                    case Constant.BRAND:
                         searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
                         break;
@@ -863,13 +862,13 @@ public class PPAProjectionResultsLogic {
             }
         } else {
             switch (ddlbType) {
-                case "contract":
+                case Constant.CONTRACT:
                     query = query.replace("AND CM.CONTRACT_NO LIKE @FILTER", StringUtils.EMPTY);
                     break;
-                case "customer":
+                case Constant.CUSTOMER1_SMALL:
                     query = query.replace("AND COM.COMPANY_NO LIKE @FILTER", StringUtils.EMPTY);
                     break;
-                case "brand":
+                case Constant.BRAND:
                     query = query.replace("AND BM.BRAND_NAME LIKE @FILTER", StringUtils.EMPTY);
                     break;
             }
@@ -898,22 +897,22 @@ public class PPAProjectionResultsLogic {
     }
 
     public int getPPAItemCount(PPADetailsDTO ppaDetailsDTO, final String filterText, String ddlbtype) {
-        String query = CustomSQLUtil.get("itemno-ddlb");
-        String searchFilter = StringUtils.EMPTY;
+        String query = CustomSQLUtil.get(Constant.ITEMNO_DDLB);
+        String searchFilter;
         if (ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId() != 0) {
-            query = query.replace("@itemsid", StringUtils.EMPTY + ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId());
+            query = query.replace(Constant.ITEMSID_AT, StringUtils.EMPTY + ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId());
         } else {
             query = query.replace("AND IM.ITEM_MASTER_SID NOT IN (@itemsid)", StringUtils.EMPTY);
         }
         if (filterText != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText)))) {
             if (!filterText.isEmpty()) {
                 switch (ddlbtype) {
-                    case "itemNo":
+                    case Constant.ITEM_NO:
                         searchFilter = Constant.PERCENT + filterText + Constant.PERCENT;
                         query = query.replace("AND IM.ITEM_NAME LIKE @FILTER", StringUtils.EMPTY);
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
                         break;
-                    case "itemName":
+                    case Constant.ITEM_NAME_SMALL_PROPERY:
                         searchFilter = Constant.PERCENT + filterText + Constant.PERCENT;
                         query = query.replace("AND IM.ITEM_NO LIKE @FILTER", StringUtils.EMPTY);
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
@@ -923,20 +922,20 @@ public class PPAProjectionResultsLogic {
             }
         } else {
             switch (ddlbtype) {
-                case "itemNo":
-                    query = query.replace("AND IM.ITEM_NO LIKE @FILTER AND IM.ITEM_NAME LIKE @FILTER", StringUtils.EMPTY);
+                case Constant.ITEM_NO:
+                    query = query.replace(Constant.AND_IMITEM_NO_LIKE_FILTER_AND_IMITEM_NAME, StringUtils.EMPTY);
                     break;
-                case "itemName":
-                    query = query.replace("AND IM.ITEM_NO LIKE @FILTER AND IM.ITEM_NAME LIKE @FILTER", StringUtils.EMPTY);
+                case Constant.ITEM_NAME_SMALL_PROPERY:
+                    query = query.replace(Constant.AND_IMITEM_NO_LIKE_FILTER_AND_IMITEM_NAME, StringUtils.EMPTY);
                     break;
 
             }
 
         }
-        query = query.replace("@projid", String.valueOf(ppaDetailsDTO.getProjectionID()));
-        query = query.replace("@contractsid", String.valueOf(ppaDetailsDTO.getSelectedContract()));
-        query = query.replace("@compsid", String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
-        query = query.replace("@brandsid", String.valueOf(ppaDetailsDTO.getSelectedBrand()));
+        query = query.replace(Constant.PROJID_AT_SMALL, String.valueOf(ppaDetailsDTO.getProjectionID()));
+        query = query.replace(Constant.CONTRACTSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedContract()));
+        query = query.replace(Constant.COMPSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
+        query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list.isEmpty() ? 0 : list.size();
@@ -945,31 +944,31 @@ public class PPAProjectionResultsLogic {
     public List<PPAHelperDTO> getPPAItemDDLBResult(int startIndex, int end, PPADetailsDTO ppaDetailsDTO, String ddlbtype, final String filterText)  {
         LOGGER.debug("Inside Item Load" + startIndex + "END INDEX" + end + "ppaDetailsDTO" + ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId());
         String query = StringUtils.EMPTY;
-        String searchFilter = StringUtils.EMPTY;
-        final List<PPAHelperDTO> list = new ArrayList<PPAHelperDTO>();
+        String searchFilter;
+        final List<PPAHelperDTO> list = new ArrayList<>();
         switch (ddlbtype) {
-            case "itemNo":
-                query = CustomSQLUtil.get("itemno-ddlb");
+            case Constant.ITEM_NO:
+                query = CustomSQLUtil.get(Constant.ITEMNO_DDLB);
                 break;
-            case "itemName":
-                query = CustomSQLUtil.get("itemno-ddlb");
+            case Constant.ITEM_NAME_SMALL_PROPERY:
+                query = CustomSQLUtil.get(Constant.ITEMNO_DDLB);
                 break;
         }
 
         if (ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId() != 0) {
-            query = query.replace("@itemsid", String.valueOf(ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId()));
+            query = query.replace(Constant.ITEMSID_AT, String.valueOf(ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId()));
         } else {
             query = query.replace("AND IM.ITEM_MASTER_SID NOT IN (@itemsid)", StringUtils.EMPTY);
         }
         if (filterText != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText)))) {
             if (!filterText.isEmpty()) {
                 switch (ddlbtype) {
-                    case "itemNo":
+                    case Constant.ITEM_NO:
                         searchFilter = Constant.PERCENT + filterText + Constant.PERCENT;
                         query = query.replace("AND IM.ITEM_NAME LIKE @FILTER", StringUtils.EMPTY);
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
                         break;
-                    case "itemName":
+                    case Constant.ITEM_NAME_SMALL_PROPERY:
                         searchFilter = Constant.PERCENT + filterText + Constant.PERCENT;
                         query = query.replace("AND IM.ITEM_NO LIKE @FILTER", StringUtils.EMPTY);
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
@@ -978,22 +977,22 @@ public class PPAProjectionResultsLogic {
             }
         } else {
             switch (ddlbtype) {
-                case "itemNo":
-                    query = query.replace("AND IM.ITEM_NO LIKE @FILTER AND IM.ITEM_NAME LIKE @FILTER", StringUtils.EMPTY);
+                case Constant.ITEM_NO:
+                    query = query.replace(Constant.AND_IMITEM_NO_LIKE_FILTER_AND_IMITEM_NAME, StringUtils.EMPTY);
                     break;
-                case "itemName":
-                    query = query.replace("AND IM.ITEM_NO LIKE @FILTER AND IM.ITEM_NAME LIKE @FILTER", StringUtils.EMPTY);
+                case Constant.ITEM_NAME_SMALL_PROPERY:
+                    query = query.replace(Constant.AND_IMITEM_NO_LIKE_FILTER_AND_IMITEM_NAME, StringUtils.EMPTY);
                     break;
 
             }
 
         }
 
-        query = query + "OFFSET " + startIndex + " ROWS FETCH NEXT " + end + " ROWS ONLY";
-        query = query.replace("@projid", String.valueOf(ppaDetailsDTO.getProjectionID()));
-        query = query.replace("@contractsid", String.valueOf(ppaDetailsDTO.getSelectedContract()));
-        query = query.replace("@compsid", String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
-        query = query.replace("@brandsid", String.valueOf(ppaDetailsDTO.getSelectedBrand()));
+        query = query + "OFFSET " + startIndex + Constant.ROWS_FETCH_NEXT_SPACE + end + Constant.ROWS_ONLY_SPACE;
+        query = query.replace(Constant.PROJID_AT_SMALL, String.valueOf(ppaDetailsDTO.getProjectionID()));
+        query = query.replace(Constant.CONTRACTSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedContract()));
+        query = query.replace(Constant.COMPSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
+        query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
         List<Object[]> returnList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(query);
 
         PPAHelperDTO helperTable;
@@ -1028,9 +1027,9 @@ public class PPAProjectionResultsLogic {
     public Object loadPPADetails(PPADetailsDTO ppaDetailsDTO, SessionDTO sessionDTO, boolean isCount, int start, int offset, List<SortByColumn> sortByColumns) {
         String query = SQlUtil.getQuery(isCount ? "ppa-details-count" : "ppa-details-generate");
         String asc = StringUtils.EMPTY;
-        query = query.replace("@contractsid", String.valueOf(ppaDetailsDTO.getSelectedContract()));
-        query = query.replace("@compsid", String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
-        query = query.replace("@itemsid", String.valueOf(ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId()));
+        query = query.replace(Constant.CONTRACTSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedContract()));
+        query = query.replace(Constant.COMPSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
+        query = query.replace(Constant.ITEMSID_AT, String.valueOf(ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId()));
         query = query.replace("@from", String.valueOf(ppaDetailsDTO.getStartPeriod()));
         query = query.replace("@to", String.valueOf(ppaDetailsDTO.getEndPeriod()));
         query = query.replace("@start", String.valueOf(start));
@@ -1063,11 +1062,10 @@ public class PPAProjectionResultsLogic {
      * @return
      */
     private Object convertPPADetailsList(final List<Object[]> list, SessionDTO sessionDTO) {
-        List<PPADetailsDTO> resultList = new ArrayList<PPADetailsDTO>();
+        List<PPADetailsDTO> resultList = new ArrayList<>();
         SimpleDateFormat myFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
         if (list != null && !list.isEmpty()) {
-            load_Wac_Tables(String.valueOf(list.get(0)[NumericConstants.THIRTY_ONE]),
-                    String.valueOf(list.get(0)[NumericConstants.THIRTY_TWO]), sessionDTO);
+            load_Wac_Tables(String.valueOf(list.get(0)[NumericConstants.THIRTY_ONE]), sessionDTO);
         }
         for (Object[] object : list) {
             try {
@@ -1106,12 +1104,11 @@ public class PPAProjectionResultsLogic {
                 detailsDTO.setNetPriceTypeFormula(object[NumericConstants.TWENTY_SEVEN] != null ? String.valueOf(object[NumericConstants.TWENTY_SEVEN]) : StringUtils.EMPTY);
                 detailsDTO.setRebateScheduleName(object[NumericConstants.TWENTY_EIGHT] != null ? String.valueOf(object[NumericConstants.TWENTY_EIGHT]) : StringUtils.EMPTY);
 
-                String frquency = getFrequencyForWacReset(String.valueOf(object[NumericConstants.THIRTY_ONE]),
-                        String.valueOf(object[NumericConstants.THIRTY_TWO]), sessionDTO);
+                String frquency = getFrequencyForWacReset(String.valueOf(object[NumericConstants.THIRTY_TWO]));
                 String frquencyValue = getFrequencyValue(frquency, object);
 
                 String[] wacPriceArray = calcWacPriceChange(String.valueOf(object[NumericConstants.THIRTY_TWO]), String.valueOf(object[NumericConstants.TWENTY_NINE]),
-                        String.valueOf(object[NumericConstants.ZERO]), frquencyValue, frquency);
+                        String.valueOf(object[NumericConstants.ZERO]), frquencyValue);
 
                 detailsDTO.setPrice(getFormatValue(TWO_DECIMAL, wacPriceArray[NumericConstants.ZERO], StringUtils.EMPTY));
                 detailsDTO.setPriceChange(getFormatValue(TWO_DECIMAL, wacPriceArray[NumericConstants.ONE], PERCENTAGE));
@@ -1144,7 +1141,7 @@ public class PPAProjectionResultsLogic {
      * @throws Exception
      */
     public ExtTreeContainer<PPAProjectionResultsDTO> getLoadedExcelContainer(ProjectionSelectionDTO selection, ExtTreeContainer<PPAProjectionResultsDTO> container) throws IllegalAccessException, InvocationTargetException  {
-        List<PPAProjectionResultsDTO> totalList = ppaProjecetionResults(0, 0, selection.isIsProjectionTotal(), selection, selection.getSessionDTO());
+        List<PPAProjectionResultsDTO> totalList = ppaProjecetionResults(selection.isIsProjectionTotal(), selection, selection.getSessionDTO());
         ExcelUtils.setExcelData(getExcelProcedureList(selection), totalList, selection, container);
         return container;
     }
@@ -1198,8 +1195,8 @@ public class PPAProjectionResultsLogic {
         return runnable;
     }
     @SuppressWarnings({"unchecked"})
-    void load_Wac_Tables(String ccpId, String rsId, SessionDTO sessionDTO) {
-        String query = StringUtils.EMPTY;
+    void load_Wac_Tables(String ccpId,  SessionDTO sessionDTO) {
+        String query;
        
         query = String.format("select * from ST_NM_PPA_PROJECTION where ccp_details_sid= %s ", ccpId);
         query = QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames());
@@ -1212,7 +1209,7 @@ public class PPAProjectionResultsLogic {
         wacPriceTableList = HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
-    String getFrequencyForWacReset(String ccpId, String rsId, SessionDTO sessionDTO) {
+    String getFrequencyForWacReset(String rsId) {
 
         String frquency = StringUtils.EMPTY;
         try {
@@ -1251,7 +1248,7 @@ public class PPAProjectionResultsLogic {
 
     @SuppressWarnings("unchecked")
     void loadPeriodTable(PPADetailsDTO ppaDetailsDTO) {
-        String query = StringUtils.EMPTY;
+        String query;
         if (periodTableList == null) {
             query = "select PERIOD_SID,YEAR,QUARTER,MONTH,SEMI_ANNUAL from PERIOD WHERE PERIOD_SID BETWEEN %s AND %s ";
             query = String.format(query, ppaDetailsDTO.getStartPeriod(), ppaDetailsDTO.getEndPeriod());
@@ -1259,15 +1256,15 @@ public class PPAProjectionResultsLogic {
         }
     }
 
-    String[] calcWacPriceChange(String rsId, String periodSid, String year, String frequencyValue, String frquency) {
-        long start = System.currentTimeMillis();
+    String[] calcWacPriceChange(String rsId, String periodSid, String year, String frequencyValue) {
+        long start;
         String[] wac_price = new String[]{ConstantsUtils.ZERO, ConstantsUtils.ZERO};
 
         try {
             String periodIds[] = fetchPeriod_Sids(year, frequencyValue);
             List<String> periodList = Arrays.asList(periodIds);
 
-            int i = NumericConstants.ZERO;
+            int i;
             // finding wac price 
             wac_price[NumericConstants.ZERO] = searchWacPrice(rsId, periodSid);
 

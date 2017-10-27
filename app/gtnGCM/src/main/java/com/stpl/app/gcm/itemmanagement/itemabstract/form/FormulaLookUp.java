@@ -17,12 +17,12 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.customwindow.CustomWindow;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.vaadin.teemu.clara.Clara;
@@ -33,7 +33,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author mohamed.hameed
  */
-public class FormulaLookUp extends CustomWindow {
+public class FormulaLookUp extends Window {
 
     @UiField("formulaTableLayout")
     public VerticalLayout formulaTableLayout;
@@ -54,10 +54,10 @@ public class FormulaLookUp extends CustomWindow {
     FormulaIdTableLogic tableLogic = new FormulaIdTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     public CustomTextField componentTextField;
-    private BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<FormulaDTO>(FormulaDTO.class);
-    public static final Object FORMULA_SEARCH_COLUMNS[] = new Object[]{
+    private BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
+    public final Object formulaSearchColumns[] = new Object[]{
         "formulaId", "formulaNo", "formulaName"};
-    public static final String FORMULA_SEARCH_HEADERS[] = new String[]{
+    public final String formulaSearchHeaders[] = new String[]{
         "Formula Id", "Formula No", "Formula Name"};
     SelectionDTO selection = new SelectionDTO();
 
@@ -66,8 +66,8 @@ public class FormulaLookUp extends CustomWindow {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/formulaIdpopup.xml"), this));
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         this.componentTextField = componentTextField;
         setClosable(true);
         setModal(true);
@@ -79,8 +79,8 @@ public class FormulaLookUp extends CustomWindow {
         resultsTable.setPageLength(NumericConstants.TEN);
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(FORMULA_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(FORMULA_SEARCH_HEADERS);
+        resultsTable.setVisibleColumns(formulaSearchColumns);
+        resultsTable.setColumnHeaders(formulaSearchHeaders);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultsTable.setSelectable(true);
         for (Object propertyId : resultsTable.getVisibleColumns()) {
@@ -141,6 +141,7 @@ public class FormulaLookUp extends CustomWindow {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the values in the Formula Search?");
     }

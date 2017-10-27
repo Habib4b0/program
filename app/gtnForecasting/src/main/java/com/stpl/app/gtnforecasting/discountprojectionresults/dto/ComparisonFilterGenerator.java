@@ -68,10 +68,10 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 contractType.addStyleName(Constant.FILTER_COMBOBOX);
                 contractType.setValue(SELECT_ONE);
 
-                String str = logic.getCheckValue(StringUtils.EMPTY, StringUtils.EMPTY, String.valueOf(mmProjectionDTO.getProjectionId()));
+                String str = logic.getCheckValue(String.valueOf(mmProjectionDTO.getProjectionId()));
                 if (str.length() > 0) {
                     MMDPRLogic mmLogic = new MMDPRLogic();
-                    List list = mmLogic.loadCustomerDdlb(mmProjectionDTO, contractType, str);
+                    List list = mmLogic.loadCustomerDdlb(mmProjectionDTO, str);
                     contractType.addItem(0);
                     contractType.setItemCaption(0, SELECT_ONE);
                     contractType.setValue(SELECT_ONE);
@@ -101,10 +101,12 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

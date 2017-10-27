@@ -6,6 +6,8 @@
 package com.stpl.app.arm.balancesummaryreport.ui;
 
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
+import com.stpl.app.arm.balancesummaryreport.returnreserve.logic.ReturnReserveLogic;
+import com.stpl.app.arm.balancesummaryreport.returnreserve.ui.ReturnReserve;
 import com.stpl.app.arm.balancesummaryreport.logic.BSummaryDemandLogic;
 import com.stpl.app.arm.balancesummaryreport.logic.BSummaryPipelineLogic;
 import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
@@ -16,6 +18,7 @@ import com.stpl.app.arm.dataselection.ui.form.BalanceSummaryReportDataSelectionT
 import com.stpl.app.arm.dataselection.view.DataSelectionView;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.app.utils.ConstantsUtils;
@@ -33,6 +36,8 @@ import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
@@ -57,8 +62,6 @@ public class BalanceSummaryReportWindow extends Window {
     @UiField("previousBtn")
     private Button previousBtn;
 
-    private BalanceSummaryReportDataSelectionTab bsrDataSelection;
-    private AbstractBSummaryReportSummary bsrSummary;
     int tabPosition = 0;
     AdjustmentReserveDTO binderDto = new AdjustmentReserveDTO();
     /**
@@ -77,9 +80,11 @@ public class BalanceSummaryReportWindow extends Window {
         configureWindow();
         configurePermission();
         initializeTabs();
+        insertIntoCCP();
     }
 
     private void initializeTabs() {
+        BalanceSummaryReportDataSelectionTab bsrDataSelection;
         try {
             tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
             tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
@@ -88,16 +93,15 @@ public class BalanceSummaryReportWindow extends Window {
             selection.setDataSelectionDTO(dataSelectionDTO);
             selection.setBalanceSummaryDataSelectionTab(bsrDataSelection);
             selection.setProjectionMasterSid(selection.getDataSelectionDTO().getProjectionId());
-            bsrSummary = getSummaryObject(dataSelectionDTO.getAdjustmentCaption());
+            AbstractBSummaryReportSummary bsrSummary = getSummaryObject(dataSelectionDTO.getAdjustmentCaption());
 
             tabSheet.addTab(bsrDataSelection, "Data Selection");
             Tab sumTab = tabSheet.addTab(bsrSummary, "Summary");
             sumTab.setDefaultFocusComponent(bsrSummary.getDefaultFocusComponent());
-//            tab.setDefaultFocusComponent(bsrSummary.getDefaultFocusComponent());
-            if (tabSheet.getTab(0).getCaption().equals("Data Selection")) {
+            if ("Data Selection".equals(tabSheet.getTab(0).getCaption())) {
                 nextBtn.setVisible(true);
                 previousBtn.setVisible(false);
-            } else if (tabSheet.getTab(1).getCaption().equals("Summary")) {
+            } else if ("Summary".equals(tabSheet.getTab(1).getCaption())) {
                 nextBtn.setVisible(false);
                 previousBtn.setVisible(true);
             } else {
@@ -108,7 +112,7 @@ public class BalanceSummaryReportWindow extends Window {
                 @Override
                 public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                     try {
-                        final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
+                        final TabSheet.Tab tab = event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                         tabPosition = event.getTabSheet().getTabPosition(tab);
                         if (tabPosition == 0) {
                             nextBtn.setVisible(true);
@@ -116,15 +120,14 @@ public class BalanceSummaryReportWindow extends Window {
                         } else if (tabPosition == 1) {
                             nextBtn.setVisible(false);
                             previousBtn.setVisible(true);
-                            bsrSummary.setCalculationProfile();
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in tabSheet Listner :"+ex);
                     }
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in tabSheet Listner :"+ex);
         }
 
     }
@@ -133,15 +136,22 @@ public class BalanceSummaryReportWindow extends Window {
 
     private AbstractBSummaryReportSummary getSummaryObject(String summaryTypes) {
 
-        if (summaryTypes.equals("Demand")) {
+        if ("Demand".equals(summaryTypes)) {
             BSummaryDemandLogic demandLogic = new BSummaryDemandLogic();
-            BSummaryDemandSummary summary = new BSummaryDemandSummary(selection, demandLogic);
-            return summary;
+            return new BSummaryDemandSummary(selection, demandLogic);
+        } else if ("Return Reserve".equals(summaryTypes)) {
+            ReturnReserveLogic rrLogic = new ReturnReserveLogic();
+            return new ReturnReserve(selection, rrLogic);
+        } else {
+            BSummaryPipelineLogic pipelineLogic = new BSummaryPipelineLogic();
+            return new BSummaryPipelineSummary(selection, pipelineLogic);
         }
-        BSummaryPipelineLogic pipelineLogic = new BSummaryPipelineLogic();
-        BSummaryPipelineSummary pipelineSummary = new BSummaryPipelineSummary(selection, pipelineLogic);
-        return pipelineSummary;
+    }
 
+    private void insertIntoCCP() {
+        List input = new ArrayList();
+        input.add(dataSelectionDTO.getProjectionId());
+        QueryUtils.itemUpdate(input, "insertBalanceSummaryCCP");
     }
 
     class CustomNotification extends AbstractNotificationUtils {
@@ -150,6 +160,7 @@ public class BalanceSummaryReportWindow extends Window {
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
@@ -164,6 +175,7 @@ public class BalanceSummaryReportWindow extends Window {
                         break;
                     case "save":
                         break;
+                    default:
                 }
             }
         }
@@ -186,7 +198,7 @@ public class BalanceSummaryReportWindow extends Window {
             }
             notifier.getConfirmationMessage(ARMMessages.getCloseMessageName_001(), closeMsg);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in closeButtonClick  :"+e);
         }
     }
 
@@ -224,22 +236,30 @@ public class BalanceSummaryReportWindow extends Window {
                     .getAttribute(ConstantsUtils.USER_ID));
 
             final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.BALANCE_SUMMARY_REPORT + ConstantUtil.COMMA + ConstantsUtils.SUMMARY);
-            if (functionCfpHM.get("previousBtn") != null && !((AppPermission) functionCfpHM.get("previousBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get("previousBtn") != null && !(functionCfpHM.get("previousBtn")).isFunctionFlag()) {
                 previousBtn.setVisible(false);
 
             }
-            if (functionCfpHM.get("closeBtn") != null && !((AppPermission) functionCfpHM.get("closeBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get("closeBtn") != null && !(functionCfpHM.get("closeBtn")).isFunctionFlag()) {
                 closeBtn.setVisible(false);
 
             }
-            if (functionCfpHM.get("nextBtn") != null && !((AppPermission) functionCfpHM.get("nextBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get("nextBtn") != null && !(functionCfpHM.get("nextBtn")).isFunctionFlag()) {
                 nextBtn.setVisible(false);
 
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
+        } catch (SystemException | PortalException ex) {
+            LOGGER.error("Error in configurePermission :"+ex);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

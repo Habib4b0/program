@@ -73,9 +73,9 @@ public class PRChart {
     public Component getChart() {
         LOGGER.debug("Entering getChart method ");
         final Chart chart = new Chart(ChartType.COLUMN);
-        List<String> visibleColumns = new ArrayList<String>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
+        List<String> visibleColumns = new ArrayList<>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
         visibleColumns.remove("group");
-        List<String> visibleHeaders = new ArrayList<String>(rightDto.getSingleHeaders());
+        List<String> visibleHeaders = new ArrayList<>(rightDto.getSingleHeaders());
         visibleHeaders.remove("Group");
         String[] visHeaders = visibleHeaders.toArray(new String[visibleHeaders.size()]);
         final Configuration conf = chart.getConfiguration();
@@ -135,7 +135,7 @@ public class PRChart {
                 }
             }
         } else {
-            List<String> periodList = new ArrayList<String>();
+            List<String> periodList = new ArrayList<>();
             for (ProjectionResultsDTO pDto : dto) {
                 if (projSelDTO.getPeriodListMap().containsValue(pDto.getGroup())) {
                     periodList.add(pDto.getGroup());

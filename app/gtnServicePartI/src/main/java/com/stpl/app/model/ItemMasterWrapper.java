@@ -110,6 +110,8 @@ public class ItemMasterWrapper implements ItemMaster, ModelWrapper<ItemMaster> {
         attributes.put("clottingFactorStartDate", getClottingFactorStartDate());
         attributes.put("nonFederalExpirationDate", getNonFederalExpirationDate());
         attributes.put("internalNotes", getInternalNotes());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -545,6 +547,19 @@ public class ItemMasterWrapper implements ItemMaster, ModelWrapper<ItemMaster> {
 
         if (internalNotes != null) {
             setInternalNotes(internalNotes);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -1966,6 +1981,46 @@ public class ItemMasterWrapper implements ItemMaster, ModelWrapper<ItemMaster> {
     @Override
     public void setInternalNotes(java.lang.String internalNotes) {
         _itemMaster.setInternalNotes(internalNotes);
+    }
+
+    /**
+    * Returns the base cpi precision of this item master.
+    *
+    * @return the base cpi precision of this item master
+    */
+    @Override
+    public int getBaseCpiPrecision() {
+        return _itemMaster.getBaseCpiPrecision();
+    }
+
+    /**
+    * Sets the base cpi precision of this item master.
+    *
+    * @param baseCpiPrecision the base cpi precision of this item master
+    */
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _itemMaster.setBaseCpiPrecision(baseCpiPrecision);
+    }
+
+    /**
+    * Returns the baseline amp precision of this item master.
+    *
+    * @return the baseline amp precision of this item master
+    */
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _itemMaster.getBaselineAmpPrecision();
+    }
+
+    /**
+    * Sets the baseline amp precision of this item master.
+    *
+    * @param baselineAmpPrecision the baseline amp precision of this item master
+    */
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _itemMaster.setBaselineAmpPrecision(baselineAmpPrecision);
     }
 
     @Override

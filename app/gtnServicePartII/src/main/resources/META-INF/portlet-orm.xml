@@ -2153,6 +2153,12 @@
 			<basic name="checkRecord">
 				<column name="CHECK_RECORD" />
 			</basic>
+			<basic name="baseCpiPrecision">
+				<column name="BASE_CPI_PRECISION" />
+			</basic>
+			<basic name="baselineAmpPrecision">
+				<column name="BASELINE_AMP_PRECISION" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -2240,6 +2246,9 @@
 			</basic>
 			<basic name="checkRecord">
 				<column name="CHECK_RECORD" />
+			</basic>
+			<basic name="itemPriceprecision">
+				<column name="ITEM_PRICE_PRECISION" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -3926,6 +3935,12 @@
 				<column name="NON_FEDERAL_EXPIRATION_DATE" />
 				<temporal>TIMESTAMP</temporal>
 			</basic>
+			<basic name="baseCpiPrecision">
+				<column name="BASE_CPI_PRECISION" />
+			</basic>
+			<basic name="baselineAmpPrecision">
+				<column name="BASELINE_AMP_PRECISION" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -3993,6 +4008,9 @@
 			</basic>
 			<basic name="pricingCodeQualifierName">
 				<column name="PRICING_CODE_QUALIFIER_NAME" />
+			</basic>
+			<basic name="itemPriceprecision">
+				<column name="ITEM_PRICE_PRECISION" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />

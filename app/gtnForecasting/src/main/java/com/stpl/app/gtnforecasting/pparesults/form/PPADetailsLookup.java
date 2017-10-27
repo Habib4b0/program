@@ -149,8 +149,9 @@ public class PPADetailsLookup extends Window {
     private final ExtCustomTable excelTable = new ExtCustomTable();
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     SessionDTO sessionDTO;
-    List<String> forecastPeriods = new ArrayList<String>();
+    List<String> forecastPeriods = new ArrayList<>();
     CommonUtil commonUtil = CommonUtil.getInstance();
+    private final HeaderUtils headerUtils = new HeaderUtils();
 
     final HelperDTO defaultValue = new HelperDTO(0, Constant.SELECT_ONE);
 
@@ -198,10 +199,10 @@ public class PPADetailsLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable = resultsTable.getLeftFreezeAsTable();
-        rightTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COLUMN_RIGHT);
-        leftTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COLUMN_LEFT);
-        rightTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VISIBLE_HEADER_RIGHT);
-        leftTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VISIBLE_HEADER_LEFT);
+        rightTable.setVisibleColumns(headerUtils.ppaDetailsVisibleColumnRight);
+        leftTable.setVisibleColumns(headerUtils.ppaDetailsVisibleColumnLeft);
+        rightTable.setColumnHeaders(headerUtils.ppaDetailsVisibleHeaderRight);
+        leftTable.setColumnHeaders(headerUtils.ppaDetailsVisibleHeaderLeft);
         resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -312,7 +313,7 @@ public class PPADetailsLookup extends Window {
                  */
                 @SuppressWarnings("PMD")
                 public void error(final com.vaadin.server.ErrorEvent event) {
-                  
+                    return;
                 }
             });
             closeLogic();
@@ -334,14 +335,14 @@ public class PPADetailsLookup extends Window {
             if ((contract.getValue() != null && contract.getValue() != defaultValue) && (customer.getValue() != null && customer.getValue() != defaultValue) && (brand.getValue() != null && brand.getValue() != defaultValue)
                     && (itemNo.getValue() != null && itemNo.getValue() != itemDefaultValue) && (itemName.getValue() != null && itemName.getValue() != itemDefaultValue)) {
                 if (Integer.valueOf(ppaDetailsDTO.getStartPeriod()) >= Integer.valueOf(ppaDetailsDTO.getEndPeriod())) {
-                    MessageBox.showPlain(Icon.ERROR, "Error", "The selected To Time Period must come after the From Time Period", ButtonId.OK);
+                    MessageBox.showPlain(Icon.ERROR, Constant.ERROR, "The selected To Time Period must come after the From Time Period", ButtonId.OK);
                 } else {
                     ppaDetailsDTO.setProjectionID(projectionId);
                     tableLogic.setSearchData(ppaDetailsDTO, sessionDTO);
                     tableLogic.setCurrentPage(1);
                 }
             } else {
-                MessageBox.showPlain(Icon.ERROR, "Error", "Please Select a Value from each of the following dropdowns Contract,Customer,Brand,Item", ButtonId.OK);
+                MessageBox.showPlain(Icon.ERROR, Constant.ERROR, "Please Select a Value from each of the following dropdowns Contract,Customer,Brand,Item", ButtonId.OK);
             }
         } catch (Exception ex) {
            LOGGER.error(ex);
@@ -434,11 +435,9 @@ public class PPADetailsLookup extends Window {
                     excelExportLogic();
                     LOGGER.debug(" Ends  EXCEL Export Button Click ::::  ");
 
-                } catch (SystemException sysException) {
+                }   catch (Exception exception) {
 
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(sysException);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Error", errorMsg, new MessageBoxListener() {
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, Constant.ERROR, "Export Operation Failed", new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message
                          * box is pressed .
@@ -447,38 +446,7 @@ public class PPADetailsLookup extends Window {
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-                          
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (PortalException portException) {
-
-                    LOGGER.error(portException);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Error", "Export Operation Failed", new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message
-                         * box is pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                           
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (Exception exception) {
-
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Error", "Export Operation Failed", new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message
-                         * box is pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                           
+                            return;
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
@@ -489,17 +457,17 @@ public class PPADetailsLookup extends Window {
         });
     }
 
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             LOGGER.debug("Entering createWorkSheet");
             excelTable.setContainerDataSource(excelResultsContainer);
-            excelTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COLUMN_EXCEL);
-            excelTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VISIBLE_HEADER_EXCEL);
+            excelTable.setVisibleColumns(headerUtils.ppaDetailsVisibleColumnExcel);
+            excelTable.setColumnHeaders(headerUtils.ppaDetailsVisibleHeadersExcel);
             List<PPADetailsDTO> resultList = (List<PPADetailsDTO>) logic.loadPPADetails(ppaDetailsDTO, sessionDTO, false, 0, NumericConstants.TEN_THOUSAND, null);
             excelResultsContainer.addAll(resultList);
             final long recordCount = excelResultsContainer.size();
@@ -518,7 +486,7 @@ public class PPADetailsLookup extends Window {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final PrintWriter printWriter)  {
         PPADetailsDTO dto;
         final List<PPADetailsDTO> searchList = excelResultsContainer.getItemIds();
         for (int rowCount = 0; rowCount < searchList.size(); rowCount++) {

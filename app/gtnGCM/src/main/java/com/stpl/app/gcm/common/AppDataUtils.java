@@ -33,7 +33,7 @@ public class AppDataUtils {
     public static List getAppData(List input, String queryName, String queryName2) {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
@@ -44,7 +44,6 @@ public class AppDataUtils {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-//                System.out.println("Name: ======  "+queryName+"Query - > "+sql.toString());
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error(ex);

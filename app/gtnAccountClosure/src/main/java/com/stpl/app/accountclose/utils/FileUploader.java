@@ -44,7 +44,6 @@ public class FileUploader implements Upload.Receiver{
     /**
      * The move back.
      */
-    private final static String MOVEBACK = "../";
     /**
      * The Constant LOGGER.
      */
@@ -88,8 +87,11 @@ public class FileUploader implements Upload.Receiver{
                 return outputStream;
             }
         } catch (final java.io.FileNotFoundException e) {
+            LOGGER.info(e);
             return NULL_OUTPUT_STREAM;
+            
         } catch (Exception ex) {
+             LOGGER.info(ex);
             new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
             return NULL_OUTPUT_STREAM;
         }

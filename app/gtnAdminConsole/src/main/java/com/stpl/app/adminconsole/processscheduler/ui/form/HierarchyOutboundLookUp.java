@@ -106,11 +106,12 @@ public final class HierarchyOutboundLookUp extends Window {
     }
 
     public HierarchyOutboundLookUp() {
-        super("Hierarchy Definition Outbound Process");
+        super(HIERARCHY_DEFINITION_OUTBOUND_PROCESS);
         LOGGER.debug(" HierarchyOutboundLookUp constructor started");
         init();
         LOGGER.debug("HierarchyOutboundLookUp constructor Ended");
     }
+    public static final String HIERARCHY_DEFINITION_OUTBOUND_PROCESS = "Hierarchy Definition Outbound Process";
 
     public void init() {
         LOGGER.debug("init method started");
@@ -156,8 +157,8 @@ public final class HierarchyOutboundLookUp extends Window {
         resultTable.setEditable(true);
         tableLogic.setPageLength(NumericConstants.FIVE);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultTable.setVisibleColumns(CommonUIUtil.HIERARCHY_OUTBOUND_SEARCH_COLUMNS);
-        resultTable.setColumnHeaders(CommonUIUtil.HIERARCHY_OUTBOUND_SEARCH_HEADER);
+        resultTable.setVisibleColumns(CommonUIUtil.getInstance().hierarchyOutboundSearchColumns);
+        resultTable.setColumnHeaders(CommonUIUtil.getInstance().hierarchyOutboundSearchHeader);
         resultTable.setFilterBarVisible(true);
         resultTable.setSizeFull();
         resultTable.setImmediate(true);
@@ -166,8 +167,8 @@ public final class HierarchyOutboundLookUp extends Window {
         resultTable.setFilterGenerator(new OutboundFilterGenerator());
         resultTable.addStyleName("filtertable");
         resultTable.addStyleName("table-header-normal");
-        resultTable.setColumnCheckBox("check", true);
-        resultTable.getFilterField("check").setVisible(false);
+        resultTable.setColumnCheckBox(CHECK, true);
+        resultTable.getFilterField(CHECK).setVisible(false);
         resultTable.setTableFieldFactory(new DefaultFieldFactory() {
 
             private static final long serialVersionUID = 1L;
@@ -178,7 +179,7 @@ public final class HierarchyOutboundLookUp extends Window {
                     final Component uiContext) {
                 try {
                     final HierarchyDefinitionDTO tableDto = (HierarchyDefinitionDTO) itemId;
-                    if ("check".equals(propertyId)) {
+                    if (CHECK.equals(propertyId)) {
                         final CheckBox check = new CheckBox();
                         if (checkedHierarchy.get(tableDto.getHierarchyDefinitionSystemId()) != null) {
                             check.setValue(true);
@@ -213,19 +214,19 @@ public final class HierarchyOutboundLookUp extends Window {
         resultTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
             @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
-                if ("check".equals(event.getPropertyId().toString())) {
+                if (CHECK.equals(event.getPropertyId().toString())) {
                     if (event.isChecked()) {
                         checkedHierarchy.clear();
                         loadGrid(true);
                         // this setCurrentPage is used to refresh the lazy conatiner
                         resultTable.setCurrentPage(resultTable.getCurrentPage());
-                        resultTable.setColumnCheckBox("check", true, true);
+                        resultTable.setColumnCheckBox(CHECK, true, true);
                     } else {
                         checkedHierarchy.clear();
                         loadGrid(false);
                         // this setCurrentPage is used to refresh the lazy conatiner
                         resultTable.setCurrentPage(resultTable.getCurrentPage());
-                        resultTable.setColumnCheckBox("check", true, false);
+                        resultTable.setColumnCheckBox(CHECK, true, false);
 
                     }
                 }
@@ -236,6 +237,7 @@ public final class HierarchyOutboundLookUp extends Window {
         tableLayout.addComponent(controlLayout);
         LOGGER.debug("addTable method returns table");
     }
+    public static final String CHECK = "check";
 
     
     public void configureFields() {
@@ -261,7 +263,7 @@ public final class HierarchyOutboundLookUp extends Window {
 
             checkedHierarchy.clear();
             binder.commit();
-            resultTable.setColumnCheckBox("check", true, false);
+            resultTable.setColumnCheckBox(CHECK, true, false);
             loadGrid(false);
 
             if (tableLogic.isResultsEmpty()) {
@@ -285,8 +287,8 @@ public final class HierarchyOutboundLookUp extends Window {
             resultTable.setImmediate(true);
             resultTable.setWidth("798px");
             resultTable.addStyleName("TableCheckBox");
-            resultTable.setColumnCheckBox("check", true);
-            resultTable.getFilterField("check").setVisible(false);
+            resultTable.setColumnCheckBox(CHECK, true);
+            resultTable.getFilterField(CHECK).setVisible(false);
             resultTable.setCurrentPage(resultTable.getCurrentPage());
             resultTable.markAsDirtyRecursive();
         } catch (Exception ex) {
@@ -305,7 +307,7 @@ public final class HierarchyOutboundLookUp extends Window {
 
             String checkedIds=StringUtils.EMPTY;
             boolean checkedAll=false;
-            if (resultTable.getColumnCheckBox("check")) {    
+            if (resultTable.getColumnCheckBox(CHECK)) {    
                 checkedAll=true;
 
             } else if (!checkedHierarchy.isEmpty()) {
@@ -385,7 +387,7 @@ public final class HierarchyOutboundLookUp extends Window {
         configureExcelResultTable(checkedIds, isCheckAll);
         loadExcelResultTable(checkedIds, isCheckAll);
         VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, "true");
-        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Hierarchy Definition Outbound Process", "Hierarchy Definition Outbound Process", "Hierarchy_Definition_Outbound_Process.xls", false);
+        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), HIERARCHY_DEFINITION_OUTBOUND_PROCESS, HIERARCHY_DEFINITION_OUTBOUND_PROCESS, "Hierarchy_Definition_Outbound_Process.xls", false);
         exp.export();
         tableLayout.removeComponent(exceltable);
     }

@@ -85,4 +85,3 @@ AS
       RETURN
   END
 
-GO

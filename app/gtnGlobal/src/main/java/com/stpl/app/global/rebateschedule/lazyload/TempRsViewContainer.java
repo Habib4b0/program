@@ -63,12 +63,6 @@ public class TempRsViewContainer implements BeanDAO<ItemDetailsDTO>{
 
     public List<ItemDetailsDTO> find(BeanSearchCriteria sc, int i, int i1, List<OrderByColumn> list) {
         try {
-            final int currentPage=table.getCurrentPage()-1;
-            final int pageLength=table.getPageLength();
-            int offset=i1;
-            if(count<currentPage*pageLength+offset){
-                offset=(currentPage*pageLength+offset)-count;
-            }
             return rebateScheduleLogic.getViewTableResult(i,i1, list);
         } catch (Exception ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
@@ -86,6 +80,6 @@ public class TempRsViewContainer implements BeanDAO<ItemDetailsDTO>{
             }, ButtonId.OK);      
             msg.getButton(ButtonId.OK).focus();
         }
-         return new ArrayList<ItemDetailsDTO>();
+         return new ArrayList<>();
     }    
 }

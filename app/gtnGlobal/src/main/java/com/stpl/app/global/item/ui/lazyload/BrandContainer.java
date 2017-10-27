@@ -16,6 +16,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -126,7 +127,7 @@ public class BrandContainer implements DAO<HelperDTO> {
             }, ButtonId.OK);    
             msg.getButton(ButtonId.OK).focus();
         }
-        return null;
+        return Collections.emptyList();
     }
     
 }

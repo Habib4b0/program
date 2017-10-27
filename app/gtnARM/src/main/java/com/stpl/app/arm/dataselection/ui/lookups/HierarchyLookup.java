@@ -117,8 +117,8 @@ public class HierarchyLookup extends Window {
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(ARMUtils.HIERARCHY_LOOKUP_COLUMNS);
-        resultsTable.setColumnHeaders(ARMUtils.HIERARCHY_LOOKUP_HEADERS);
+        resultsTable.setVisibleColumns(ARMUtils.getHierarchyLookupColumns());
+        resultsTable.setColumnHeaders(ARMUtils.getHierarchyLookupHeaders());
         for (Object objColumn1 : resultsTable.getVisibleColumns()) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
@@ -171,7 +171,7 @@ public class HierarchyLookup extends Window {
         hierarchyDto.setLookupSearchName(lookupName);
         tableLogic.configureSearchData(hierarchyDto, true);
         if (tableLogic.isResultsEmpty()) {
-            AbstractNotificationUtils.getErrorNotification("Error","There are no Hierarchies that match the search criteria.");
+            AbstractNotificationUtils.getErrorNotification("Error", "There are no Hierarchies that match the search criteria.");
         } else {
             CommonUtils.successNotification("Search Completed");
         }
@@ -185,6 +185,7 @@ public class HierarchyLookup extends Window {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase("yes")) {
                     LOGGER.debug("Entering Reset operation");
@@ -200,10 +201,6 @@ public class HierarchyLookup extends Window {
         if (resultsTable.getValue() != null) {
             hierarchyDto = (HierarchyLookupDTO) resultsTable.getValue();
             ((CustomTextField) ctfEvent.getComponent()).setValue(hierarchyDto.getHierarchyName());
-            try {
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
             close();
         }
     }
@@ -216,6 +213,7 @@ public class HierarchyLookup extends Window {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase("yes")) {
                     LOGGER.debug("Entering Reset operation");
@@ -255,5 +253,5 @@ public class HierarchyLookup extends Window {
     public TextField getHierarchyNameDS() {
         return hierarchyNameDS;
     }
-    
+
 }

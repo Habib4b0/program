@@ -1357,7 +1357,7 @@ SELECT count(1)
     <entity id="mandated-sales-query">
         <query> 
                             <![CDATA[                                                                
-                                IF Object_id('TEMPDB..#ST_M_SALES_PROJECTION') IS NOT NULL DROP
+                              IF Object_id('TEMPDB..#ST_M_SALES_PROJECTION') IS NOT NULL DROP
                                 TABLE
                                     #ST_M_SALES_PROJECTION 
                                     SELECT
@@ -1370,7 +1370,7 @@ SELECT count(1)
                                         PRODUCT_GROWTH = AVG(PRODUCT_GROWTH) INTO
                                             #ST_M_SALES_PROJECTION
                                         FROM
-                                            [$TABLE_NAME] S JOIN #SELECTED_HIERARCHY_NO  C
+                                              [$TABLE_NAME] S JOIN #SELECTED_HIERARCHY_NO  C
                                                 ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID JOIN PERIOD P
                                                 ON P.PERIOD_SID = S.PERIOD_SID
                                         GROUP BY
@@ -1391,7 +1391,7 @@ SELECT count(1)
                                                 SUM(S.ACTUAL_PROJECTION_UNITS) AS HISTORY_PROJECTION_UNITS INTO
                                                     #ST_M_ACTUAL_SALES
                                                 FROM
-                                                    [$ACTUAL_TABLE_NAME] S JOIN #SELECTED_HIERARCHY_NO C
+                                                   [$ACTUAL_TABLE_NAME] S JOIN #SELECTED_HIERARCHY_NO C
                                                         ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID JOIN PERIOD P
                                                         ON P.PERIOD_SID = S.PERIOD_SID
                                                 
@@ -1436,7 +1436,7 @@ SELECT count(1)
                                                                     #ST_M_SALES_PROJECTION_MASTER
                                                                 FROM
                                                                     #SELECTED_HIERARCHY_NO CCP  JOIN [$MASTER_TABLE_NAME] MSPM
-                                                                        ON CCP.CCP_DETAILS_SID = MSPM.CCP_DETAILS_SID                                                                            
+                                                                        ON CCP.CCP_DETAILS_SID = MSPM.CCP_DETAILS_SID                                                                                                                                  
                                                               
                                                                 GROUP BY
                                                                     CCP.HIERARCHY_NO
@@ -1903,10 +1903,10 @@ SELECT count(1)
         </query>
     </entity>
     
-     <entity id="get-helper-table-query">
+    <entity id="get-helper-table-query">
         <query>
             <![CDATA[
-               select HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION = '?';
+                select HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION = '?' AND LIST_NAME = '?';
             ]]>
         </query>
     </entity>

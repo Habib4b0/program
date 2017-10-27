@@ -20,12 +20,18 @@ import org.asi.container.ExtListDTO;
  */
 public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
 
-    private String dateType, price, exclusionDetails, rateBasis, rateFrequency, ratePeriod, month;
+    private String dateType;
+    private String price;
+    private String exclusionDetails;
+    private String rateBasis;
+    private String rateFrequency;
+    private String ratePeriod;
+    private String month;
     private String group = StringUtils.EMPTY;
-    private String brand_item_no;
-    private String brand_item_name;
-    private String brand_item_masterSid;
-    private String customer_masterSid;
+    private String branditemno;
+    private String branditemname;
+    private String branditemmasterSid;
+    private String customermasterSid;
     private Integer parent;
     private String totalUnits;
     private String totalSales;
@@ -49,7 +55,9 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
     private String levelName = StringUtils.EMPTY;
     private Integer brandSID = 0;
     private Integer[] masterSids = new Integer[NumericConstants.FIVE];
-    private Integer deductionSID, customerSID, contractSID = 0;
+    private Integer deductionSID = 0;
+    private Integer customerSID;
+    private Integer contractSID = 0;
     private TreeMap<String, Integer> masterIds;
     private String treeLevelNo = StringUtils.EMPTY;
     private Integer visibleColumnIndex = 0;
@@ -71,12 +79,68 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
     private Double excelTotalpipelineRatio = 0.0;
 
     private Boolean calculateFlag = false;
-    private Integer demand_summary_indexAdd = 0;
+    private Integer demandsummaryindexAdd = 0;
 
     private Integer companySid = 0;
     private String levelNames;
     private String compSids;
     private String brandSids;
+
+    private String brand;
+    private String estimatedReturnUnits;
+    private String actualEstimatedReturnUnits;
+    private String adjEstimatedReturnUnits;
+    private String valueatOriginalASP;
+    private String adjValueatOriginalASP;
+    private String deductionName = StringUtils.EMPTY;
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getEstimatedReturnUnits() {
+        return estimatedReturnUnits;
+    }
+
+    public void setEstimatedReturnUnits(String estimatedReturnUnits) {
+        this.estimatedReturnUnits = estimatedReturnUnits;
+    }
+
+    public String getActualEstimatedReturnUnits() {
+        return actualEstimatedReturnUnits;
+    }
+
+    public void setActualEstimatedReturnUnits(String actualEstimatedReturnUnits) {
+        this.actualEstimatedReturnUnits = actualEstimatedReturnUnits;
+    }
+
+    public String getAdjEstimatedReturnUnits() {
+        return adjEstimatedReturnUnits;
+    }
+
+    public void setAdjEstimatedReturnUnits(String adjEstimatedReturnUnits) {
+        this.adjEstimatedReturnUnits = adjEstimatedReturnUnits;
+    }
+
+    public String getValueatOriginalASP() {
+        return valueatOriginalASP;
+    }
+
+    public void setValueatOriginalASP(String valueatOriginalASP) {
+        this.valueatOriginalASP = valueatOriginalASP;
+    }
+
+    public String getAdjValueatOriginalASP() {
+        return adjValueatOriginalASP;
+    }
+
+    public void setAdjValueatOriginalASP(String adjValueatOriginalASP) {
+        this.adjValueatOriginalASP = adjValueatOriginalASP;
+    }
 
     public String getLevelNames() {
         return levelNames;
@@ -270,28 +334,28 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
         this.parent = parent;
     }
 
-    public String getBrand_item_no() {
-        return brand_item_no;
+    public String getBranditemno() {
+        return branditemno;
     }
 
-    public void setBrand_item_no(String brand_item_no) {
-        this.brand_item_no = brand_item_no;
+    public void setBranditemno(String branditemno) {
+        this.branditemno = branditemno;
     }
 
-    public String getBrand_item_name() {
-        return brand_item_name;
+    public String getBranditemname() {
+        return branditemname;
     }
 
-    public void setBrand_item_name(String brand_item_name) {
-        this.brand_item_name = brand_item_name;
+    public void setBranditemname(String branditemname) {
+        this.branditemname = branditemname;
     }
 
-    public String getBrand_item_masterSid() {
-        return brand_item_masterSid;
+    public String getBranditemmasterSid() {
+        return branditemmasterSid;
     }
 
-    public void setBrand_item_masterSid(String brand_item_masterSid) {
-        this.brand_item_masterSid = brand_item_masterSid;
+    public void setBranditemmasterSid(String branditemmasterSid) {
+        this.branditemmasterSid = branditemmasterSid;
     }
 
     public Boolean getChildrenAllowed() {
@@ -382,12 +446,12 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
         this.treeLevelNo = treeLevelNo;
     }
 
-    public String getCustomer_masterSid() {
-        return customer_masterSid;
+    public String getCustomermasterSid() {
+        return customermasterSid;
     }
 
-    public void setCustomer_masterSid(String customer_masterSid) {
-        this.customer_masterSid = customer_masterSid;
+    public void setCustomermasterSid(String customermasterSid) {
+        this.customermasterSid = customermasterSid;
     }
 
     public String getTotalColumn() {
@@ -534,12 +598,12 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
         this.calculateFlag = calculateFlag;
     }
 
-    public Integer getDemand_summary_indexAdd() {
-        return demand_summary_indexAdd;
+    public Integer getDemandsummaryindexAdd() {
+        return demandsummaryindexAdd;
     }
 
-    public void setDemand_summary_indexAdd(Integer demand_summary_indexAdd) {
-        this.demand_summary_indexAdd = demand_summary_indexAdd;
+    public void setDemandsummaryindexAdd(Integer demandsummaryindexAdd) {
+        this.demandsummaryindexAdd = demandsummaryindexAdd;
     }
 
     public Double getExcelTotalcPipelineAccrual() {
@@ -568,10 +632,17 @@ public class AdjustmentDTO extends ExtListDTO implements InterFaceDTO {
 
     public void setDTOValues(Map<Object, String> headerValueMap, String headerKey, Object list1, DecimalFormat decimalformat) {
 
-
         if (headerValueMap.get(headerKey) != null) {
             addStringProperties(headerValueMap.get(headerKey), list1 == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(list1))));
         }
     }
 
+    public String getDeductionName() {
+        return deductionName;
+    }
+
+    public void setDeductionName(String deductionSet1) {
+        this.deductionName = deductionSet1;
+    }
+    
 }

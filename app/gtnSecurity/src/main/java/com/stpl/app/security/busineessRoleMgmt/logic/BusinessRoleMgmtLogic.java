@@ -29,8 +29,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
     }
  BusinessRoleMgmtLogicDAO dao = new BusinessRoleMgmtLogicDAOImpl();
 
-    public List<BusinessroleMasterDTO> getAllBusinessroles() throws SystemException,
-            PortalException {
+    public List<BusinessroleMasterDTO> getAllBusinessroles() throws SystemException {
     	DynamicQuery businessroleMasterDynamicQuery = DynamicQueryFactoryUtil
 				.forClass(BusinessroleMaster.class);
     	Criterion criterion = RestrictionsFactoryUtil.eq("isActive", "Y");
@@ -38,7 +37,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
     	businessroleMasterDynamicQuery.add(criterion);
 		@SuppressWarnings("unchecked")
 		List<BusinessroleMaster> list = dao.getBusinessroleMasterList(businessroleMasterDynamicQuery);                
-        List<BusinessroleMasterDTO> searchList = new ArrayList<BusinessroleMasterDTO>();
+        List<BusinessroleMasterDTO> searchList;
         searchList = getCustomizedListFromModel(list);
 
         return searchList;

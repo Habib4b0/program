@@ -50,7 +50,7 @@ public class PPAProjectionDTO extends ExtListDTO implements Cloneable {
 
     private Date priceProtectionStartDate;
     private Date priceProtectionEndDate;
-    private List<String> helperList=new ArrayList<String>();
+    private List<String> helperList=new ArrayList<>();
     
     public List<String> getHelperList() {
         return helperList;

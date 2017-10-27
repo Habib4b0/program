@@ -41,7 +41,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         if (firstGenerated && offset > 0) {
-            List<String> indexList = new ArrayList<String>();  
+            List<String> indexList = new ArrayList<>();  
             for (int i = 0; i < getNonFetchableData().size(); i++) {
                 indexList.add(getNonFetchableData().getIndex(i).getKey().toString());
             }      

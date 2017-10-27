@@ -60,7 +60,7 @@ public class DeductionDetailsLookup extends Window {
             sessionDTO.setSystemId(systemId);
             sessionDTO.setFlagForDeduction("RS");
             dto = deductionCalendarLogic.getDeductionCalendarById(sessionDTO.getSystemId(), dto);
-            binder = new ErrorfulFieldGroup(new BeanItem<DeductionCalendarDTO>(dto));
+            binder = new ErrorfulFieldGroup(new BeanItem<>(dto));
             dto.setMasterTableSid(sessionDTO.getSystemId());
             deductionCalendarLogic.insertToTempSelectionForCust(sessionDTO.getUserId(), sessionDTO.getUiSessionId(), sessionDTO.getSystemId());
             deductionCalendarLogic.insertToTempSelectionForProd(sessionDTO.getUserId(), sessionDTO.getUiSessionId(), sessionDTO.getSystemId());

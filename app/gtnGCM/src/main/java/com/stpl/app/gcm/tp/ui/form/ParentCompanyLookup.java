@@ -75,14 +75,13 @@ public class ParentCompanyLookup extends Window {
     TradingPartnerDTO tpDTO;
     int parentCompanySid;
     TradingPartnerDTO tpDto = new TradingPartnerDTO();
-    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
+    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
     LazyBeanItemContainer<TradingPartnerDTO> resultsLazyContainer;
     CommonUtil commonUtil=CommonUtil.getInstance();
-    UiUtils UIUtils=new UiUtils();
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<TradingPartnerDTO>(tpDto));
+    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
     final ErrorLabel errorMsg = new ErrorLabel();
 
     /**
@@ -136,18 +135,18 @@ public class ParentCompanyLookup extends Window {
     protected void configureFields() {
         try {
             addStyleName("bootstrap-ui");
-            addStyleName(Constants.bootstrap);
+            addStyleName(Constants.BOOTSTRAP);
             addStyleName("bootstrap-forecast");
             addStyleName("bootstrap-nm");
             addStyleName("bootstrap-fe");
             companyId.focus();
-            commonUtil.loadComboBox(companyType, UIUtils.COMPANY_TYPE, false);
-            commonUtil.loadComboBox(companyStatus, UIUtils.STATUS, false);
+            commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, false);
+            commonUtil.loadComboBox(companyStatus, UiUtils.STATUS, false);
 
             
             configureTable();
             companySearchTableLayout.addComponent(resultTable);
-            HorizontalLayout hLayout = new HorizontalLayout();
+            HorizontalLayout hLayout;
             hLayout = companyLogic.createControls();
             companySearchTableLayout.addComponent(hLayout);
         } catch (Exception ex) {
@@ -162,8 +161,8 @@ public class ParentCompanyLookup extends Window {
         resultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         resultTable.setPageLength(NumericConstants.FIVE);
         companyLogic.setContainerDataSource(companyResultsContainer);
-        resultTable.setVisibleColumns(Constants.PARENT_COMPANY_SEARCH_COLUMNS);
-        resultTable.setColumnHeaders(Constants.PARENT_COMPANY_SEARCH_HEADERS);
+        resultTable.setVisibleColumns(Constants.getInstance().parentCompanySearchColumns);
+        resultTable.setColumnHeaders(Constants.getInstance().parentCompanySearchHeaders);
         resultTable.setSelectable(true);
         resultTable.addStyleName("filterbar");
         resultTable.setFilterBarVisible(true);
@@ -189,14 +188,14 @@ public class ParentCompanyLookup extends Window {
                  try {
                 if ("companyStatus".equals(propertyId)) {
                     ComboBox companyStatus = new ComboBox();
-                    commonUtil.loadComboBox(companyStatus, UIUtils.STATUS, true);
+                    commonUtil.loadComboBox(companyStatus, UiUtils.STATUS, true);
 
                     return companyStatus;
                 }
                 if ("companyType".equals(propertyId)) {
                    
                         ComboBox companyType = new ComboBox();
-                        commonUtil.loadComboBox(companyType, UIUtils.COMPANY_TYPE, true);
+                        commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
 
                         return companyType;
                     }
@@ -208,11 +207,11 @@ public class ParentCompanyLookup extends Window {
             }
 
             public void filterRemoved(Object propertyId) {
-
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -225,8 +224,8 @@ public class ParentCompanyLookup extends Window {
     public void searchBtnLogic(Button.ClickEvent event) {
         companyResultsContainer.removeAllItems();
         resultTable.setContainerDataSource(companyResultsContainer);
-        resultTable.setVisibleColumns(Constants.PARENT_COMPANY_SEARCH_COLUMNS);
-        resultTable.setColumnHeaders(Constants.PARENT_COMPANY_SEARCH_HEADERS);
+        resultTable.setVisibleColumns(Constants.getInstance().parentCompanySearchColumns);
+        resultTable.setColumnHeaders(Constants.getInstance().parentCompanySearchHeaders);
         if (resultsLazyContainer != null) {
             resultsLazyContainer.removeAllItems();
         }
@@ -253,7 +252,7 @@ public class ParentCompanyLookup extends Window {
 
     private CustomFieldGroup getBinder() {
         dataSelectionBinder.bindMemberFields(this);
-        dataSelectionBinder.setItemDataSource(new BeanItem<TradingPartnerDTO>(tpDto));
+        dataSelectionBinder.setItemDataSource(new BeanItem<>(tpDto));
         dataSelectionBinder.setBuffered(true);
         dataSelectionBinder.setErrorDisplay(errorMsg);
         return dataSelectionBinder;

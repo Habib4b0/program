@@ -81,7 +81,7 @@ public class CommonUtils {
             final String descr = helperList.get(i);
             select.addItem(descr);
         }
-        LOGGER.debug("method getNativeSelect ends and returns select");
+        LOGGER.debug("method getNativeSelect ends ");
         return select;
     }
     
@@ -196,7 +196,7 @@ public class CommonUtils {
      * @return NativeSelect
      */
     public ComboBox getComboBox(final ComboBox select, final List<HelperDTO> helperList) {
-        LOGGER.debug("enters getNativeSelect()");
+        LOGGER.debug("enters getComboBox()");
 
         for (int i = Constants.ZERO; i < helperList.size(); i++) {
             select.addItem(String.valueOf(helperList.get(i).getId()));
@@ -269,9 +269,9 @@ public class CommonUtils {
         return helperTable.getDescription();
         }
 
-    public List<HelperDTO> getBrandDropDown() throws SystemException, PortalException {
+    public List<HelperDTO> getBrandDropDown() throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         DynamicQuery dynamicQuery  = DynamicQueryFactoryUtil
                         .forClass(BrandMaster.class);
         dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("brandName"));

@@ -9,6 +9,7 @@ import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
@@ -51,7 +52,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
             return logic.getSelectedTPContractResults(logic.getContractQuery(currConDTO, session.getUserId(), session.getSessionId(), start, offset, true));
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 

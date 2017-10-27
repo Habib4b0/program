@@ -331,7 +331,11 @@ public class ImtdRsDetailsFinderImpl extends BasePersistenceImpl<ImtdRsDetails> 
             session = openSession();
             insertQuery.append("INSERT INTO dbo.IMTD_RS_DETAILS (RS_MODEL_SID, RS_DETAILS_SID, RS_ID, IFP_MODEL_SID, ITEM_MASTER_SID, ITEM_ID, ITEM_NO,ITEM_NAME, RS_DETAILS_ATTACHED_STATUS, RS_DETAILS_ATTACHED_DATE, RS_DETAILS_MODIFIED_DATE, ITEM_REBATE_START_DATE, ITEM_REBATE_END_DATE,RS_DETAILS_REBATE_AMOUNT,REBATE_PLAN_MASTER_SID,RS_DETAILS_BUNDLE_NO,\"Operation\", SESSION_ID, IMTD_CREATED_DATE, USERS_SID,CHECK_RECORD,DEDUCTION_CALENDAR_MASTER_SID,NET_SALES_FORMULA_MASTER_SID,NET_SALES_RULE,EVALUATION_RULE,CALCULATION_RULE,EVALUATION_RULE_BUNDLE,CALCULATION_RULE_BUNDLE,RS_DETAILS_FORMULA_ID,RS_DETAILS_FORMULA_NAME,RS_DETAILS_FORMULA_NO)");
             insertQuery.append("SELECT RSD.RS_MODEL_SID, RSD.RS_DETAILS_SID, '").append(rebateScheduleId).append("' as REBATE_SCHEDULE_ID, RSD.IFP_MODEL_SID,IM.ITEM_MASTER_SID, IM.ITEM_ID, IM.ITEM_NO, IM.ITEM_NAME,RSD.ITEM_RS_ATTACHED_STATUS, RSD.ITEM_RS_ATTACHED_DATE, RSD.MODIFIED_DATE, RSD.ITEM_REBATE_START_DATE,RSD.ITEM_REBATE_END_DATE, RSD.REBATE_AMOUNT, RSD.REBATE_PLAN_MASTER_SID,RSD.BUNDLE_NO,");
-            insertQuery.append("'U' as \"Operation\",'");
+            if ("Edit".equals(future4.toString())) {
+                insertQuery.append("'U' as \"Operation\",'");
+            } else {
+                insertQuery.append("'A' as \"Operation\",'");
+            }
             insertQuery.append(sessionId);
             insertQuery.append("'as SessionId,'");
             insertQuery.append(createdDate);

@@ -109,12 +109,12 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      */
     public List<CompanyMasterDTO> getCompaniesForCFP(final String searchField, final String val, int start, int end, List<OrderByColumn> columns, final BeanSearchCriteria searchCriteria) throws SystemException {
         LOGGER.debug("Entering CFPSearchLogic getCompaniesForCFP");
-        final Map<String, String> map = new HashMap<String, String>();
-        map.put("Company ID", "COMPANY_ID");
-        map.put("Company No", Constants.COMPANY_NO_CAPS);
-        map.put("Company Name", Constants.COMPANY_NAME_CAPS);
-        map.put("Company Type", Constants.COMP_TYPE);
-        map.put("Company Status", Constants.COMPANY_STATUS_CAPS);
+        final Map<String, String> map = new HashMap<>();
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LABEL, com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LIST);
+        map.put(ContractUtils.COMPANY_NO_LABEL, Constants.COMPANY_NO_CAPS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_NAME_LABEL, Constants.COMPANY_NAME_CAPS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_TYPE_LABEL, Constants.COMP_TYPE);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_STATUS_LABEL, Constants.COMPANY_STATUS_CAPS);
 
         String column = Constants.COMPANY_NO_CAPS;
         String orderBy = Constants.ASC;
@@ -123,15 +123,15 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
 
             if (Constants.COMPANY_ID.equals(orderByColumn.getName())) {
-                column = "COMPANY_ID";
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LIST;
             } else if (Constants.COMPANY_NO.equals(orderByColumn.getName())) {
                 column = Constants.COMPANY_NO_CAPS;
             } else if (Constants.COMPANY_NAME.equals(orderByColumn.getName())) {
                 column = Constants.COMPANY_NAME_CAPS;
             } else if (Constants.DISPLAY_COM_STATUS.equals(orderByColumn.getName())) {
-                column = "cstatus";
-            } else if ("displayCompanyType".equals(orderByColumn.getName())) {
-                column = "ctype";
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.CSTATUS;
+            } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.DISPLAY_COMPANY_TYPE.equals(orderByColumn.getName())) {
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.CTYPE;
             }
 
             if (orderByColumn.getType() == OrderByColumn.Type.ASC) {
@@ -145,13 +145,13 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             value = val.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
         List<String> returnList = null;
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put(Constants.COMPANY_ID, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NO, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_STATUS, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_TYPE, StringUtils.EMPTY);
-        filterMap.put("companyGroup", StringUtils.EMPTY);
+        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_GROUP, StringUtils.EMPTY);
         filterMap.put("", StringUtils.EMPTY);
 
         if (searchCriteria != null && searchCriteria.getFilters() != null) {
@@ -172,7 +172,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
                         filterMap.put(Constants.COMPANY_NAME, filterText);
 
-                    } else if (stringFilter.getPropertyId().equals("displayCompanyType")) {
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.DISPLAY_COMPANY_TYPE)) {
 
                         filterMap.put(Constants.COMPANY_TYPE, filterText);
 
@@ -203,11 +203,11 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      */
     public List<CompanyMasterDTO> getCompaniesCFP(final String searchField, final String val) throws SystemException {
         LOGGER.debug("Entering CFPSearchLogic getCompaniesForCFP");
-        final Map<String, String> map = new HashMap<String, String>();
-        map.put("Company No", Constants.COMPANY_NO);
-        map.put("Company Name", Constants.COMPANY_NAME);
-        map.put("Company Type", Constants.COMPANY_TYPE);
-        map.put("Company Status", Constants.COMPANY_STATUS);
+        final Map<String, String> map = new HashMap<>();
+        map.put(ContractUtils.COMPANY_NO_LABEL, Constants.COMPANY_NO);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_NAME_LABEL, Constants.COMPANY_NAME);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_TYPE_LABEL, Constants.COMPANY_TYPE);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_STATUS_LABEL, Constants.COMPANY_STATUS);
 
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         if (StringUtils.isNotBlank(val)) {
@@ -229,20 +229,20 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @return List of CompanyMasterDTO.
      * @throws SystemException
      */
-    public int getCompanyAddtionCount(final String searchField, final String val, final BeanSearchCriteria searchCriteria) throws SystemException {
+    public int getCompanyAddtionCount(final String searchField, final String val, final BeanSearchCriteria searchCriteria) {
         LOGGER.debug("Entering CFPSearchLogic getCompanyAddtionCount");
-        final Map<String, String> map = new HashMap<String, String>();
-        map.put("Company ID", "COMPANY_ID");
-        map.put("Company No", Constants.COMPANY_NO_CAPS);
-        map.put("Company Name", Constants.COMPANY_NAME_CAPS);
-        map.put("Company Type", Constants.COMP_TYPE);
-        map.put("Company Status", Constants.COMPANY_STATUS_CAPS);
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        final Map<String, String> map = new HashMap<>();
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LABEL, com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LIST);
+        map.put(ContractUtils.COMPANY_NO_LABEL, Constants.COMPANY_NO_CAPS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_NAME_LABEL, Constants.COMPANY_NAME_CAPS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_TYPE_LABEL, Constants.COMP_TYPE);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_STATUS_LABEL, Constants.COMPANY_STATUS_CAPS);
+        Map<String, Object> filterMap = new HashMap<>();
         String value = Constants.PERCENT;
         if (StringUtils.isNotBlank(val)) {
             value = val.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
-        List<Integer> returnList = new ArrayList<Integer>();
+        List<Integer> returnList = new ArrayList<>();
         filterMap.put(Constants.COMPANY_ID, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NO, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME, StringUtils.EMPTY);
@@ -266,7 +266,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
                         filterMap.put(Constants.COMPANY_NAME, filterText);
 
-                    } else if (stringFilter.getPropertyId().equals("displayCompanyType")) {
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.DISPLAY_COMPANY_TYPE)) {
 
                         filterMap.put(Constants.COMPANY_TYPE, filterText);
 
@@ -290,7 +290,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      */
     public List<CompanyMasterDTO> getCustomizedCompanyData(final List companyMasterList) {
         LOGGER.debug("Entering getCustomizedCompanyData()");
-        final List<CompanyMasterDTO> companyDTO = new ArrayList<CompanyMasterDTO>();
+        final List<CompanyMasterDTO> companyDTO = new ArrayList<>();
         try {
 
             for (int i = 0; i < companyMasterList.size(); i++) {
@@ -349,7 +349,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         LOGGER.debug("Entering getDropDownList()");
         List<CompanyMaster> list;
         List<HelperTable> helperTableList;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         HelperDTO helperTable;
 
         helperTableList = getHelperTableByListTypeAndDescription(Constants.COMP_TYPE, Constants.MANUFACTURER.toUpperCase());
@@ -358,10 +358,10 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.COMPANY_TYPE, manufacturerCode));
         LOGGER.debug("getCompanyMasterList(cfpDynamicQuery)");
         list = dao.getCompanyMasterList(cfpDynamicQuery);
-        LOGGER.debug("returns List<CompanyMaster> size=" + list.size());
+        
 
         if (list != null) {
-
+            LOGGER.debug("returns List<CompanyMaster> size=" + list.size());
             for (int i = 0; i < list.size(); i++) {
                 helperTable = new HelperDTO(list.get(i).getCompanyMasterSid(), list.get(i).getCompanyId());
                 helperList.add(helperTable);
@@ -380,12 +380,13 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     public List<HelperDTO> getCompanyType() throws SystemException {
         LOGGER.debug("Entering getCompanyType()");
         List<HelperTable> list;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("findByHelperTableDetails(CompanyType)");
         list = dao.findByHelperTableDetails(UIUtils.COMPANY_TYPE);
-        LOGGER.debug("returns  List<HelperTable> size=" + list.size());
+        
 
         if (list != null) {
+            LOGGER.debug("returns  List<HelperTable> size=" + list.size());
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
@@ -459,7 +460,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             companyDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.COMPANY_TYPE, companyType));
         }
 
-        companyDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.eq("inboundStatus", "D")));
+        companyDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.eq(com.stpl.app.contract.abstractsearch.util.ConstantUtil.INBOUND_STATUS, "D")));
 
         if (companyStatus != 0) {
             companyDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.COMPANY_STATUS, companyStatus));
@@ -590,9 +591,9 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         }
 
         companyDynamicQuery.setLimit(start, end);
-        LOGGER.debug("getCompanyMasterList(companyDynamicQuery)");
+        LOGGER.debug("getCompanyMasterList(companyDynamicQuery )");
         final List<CompanyMaster> list = dao.getCompanyMasterList(companyDynamicQuery);
-        LOGGER.debug("returns  List<CompanyMaster> size=" + list.size());
+        LOGGER.debug("returns  List<CompanyMaster> size" + list.size());
         final List<CompanySearchDto> searchList = getCustomizedSearchFormFromModel(list);
         LOGGER.debug("End of searchCompany() with searchList size=" + searchList.size());
         return searchList;
@@ -657,7 +658,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             companyDynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.COMPANY_TYPE, helperTableList.get(0).getHelperTableSid()));
         }
 
-        String column = "COMPANY_ID";
+        String column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LIST;
         String orderBy = Constants.ASC;
 
         for (final Iterator<OrderByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
@@ -666,13 +667,13 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             if (orderByColumn.getName() == Constants.COMPANY_NO) {
                 column = Constants.COMPANY_NO_CAPS;
             } else if (orderByColumn.getName() == Constants.COMPANY_ID) {
-                column = "COMPANY_ID";
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LIST;
             } else if (orderByColumn.getName() == Constants.COMPANY_NAME) {
                 column = Constants.COMPANY_NAME_CAPS;
             } else if (orderByColumn.getName() == Constants.COMPANY_STATUS) {
-                column = "cstatus";
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.CSTATUS;
             } else if (orderByColumn.getName() == Constants.COMPANY_TYPE) {
-                column = "ctype";
+                column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.CTYPE;
             }
 
             if (orderByColumn.getType() == OrderByColumn.Type.ASC) {
@@ -681,7 +682,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                 orderBy = "DESC";
             }
         }
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put(Constants.COMPANY_ID, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NO, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME, StringUtils.EMPTY);
@@ -722,8 +723,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
         List list = ContractMasterLocalServiceUtil.getTradingPartnerList(companyId, companyNo, companyName, companyStatus, companyType, filterMap, start, end, column, orderBy);
 
-        LOGGER.debug("getCompanyMasterList(companyDynamicQuery)");
-        LOGGER.debug("returns  List<CompanyMaster> size=" + list.size());
+        LOGGER.debug("getCompanyMasterList(companyDynamicQuery ) ");
+        LOGGER.debug("returns  List<CompanyMaster> size= " + list.size());
         final List<CompanyResultsDTO> searchList = getCustomizedSearchForHelper(list);
         LOGGER.debug("End of searchCompany() with searchList size=" + searchList.size());
         return searchList;
@@ -796,7 +797,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
             companyDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.COMPANY_TYPE, companyType));
         }
-        companyDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+        companyDynamicQuery.add(RestrictionsFactoryUtil.ne(com.stpl.app.contract.abstractsearch.util.ConstantUtil.INBOUND_STATUS, "D"));
         if (searchCriteria != null && searchCriteria.getFilters() != null) {
             for (Container.Filter filter : searchCriteria.getFilters()) {
                 if (filter instanceof SimpleStringFilter) {
@@ -892,7 +893,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
             companyDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.COMPANY_TYPE, companyType));
         }
-        companyDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+        companyDynamicQuery.add(RestrictionsFactoryUtil.ne(com.stpl.app.contract.abstractsearch.util.ConstantUtil.INBOUND_STATUS, "D"));
         for (final Iterator<OrderByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
 
@@ -927,7 +928,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         companyDynamicQuery.setLimit(start, end);
         LOGGER.debug("getCompanyMasterList(companyDynamicQuery)");
         final List<CompanyMaster> list = dao.getCompanyMasterList(companyDynamicQuery);
-        LOGGER.debug("returns  List<CompanyMaster> size=" + list.size());
+        LOGGER.debug("returns  List<CompanyMaster> size =" + list.size());
         final List<CompanySearchDto> searchList = getCustomizedSearchFormFromModel(list);
         LOGGER.debug("End of searchCompanyName method");
         return searchList;
@@ -941,7 +942,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      */
     public List<CompanySearchDto> getCustomizedSearchFormFromModel(final List<CompanyMaster> list) {
         LOGGER.debug("Entering getCustomizedSearchFormFromModel()");
-        final List<CompanySearchDto> searchItemList = new ArrayList<CompanySearchDto>();
+        final List<CompanySearchDto> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final CompanySearchDto searchCompanyForm = new CompanySearchDto();
@@ -964,7 +965,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
     public List<CompanyResultsDTO> getCustomizedSearchForHelper(final List list) {
         LOGGER.debug("Entering getCustomizedSearchForHelper()");
-        final List<CompanyResultsDTO> searchItemList = new ArrayList<CompanyResultsDTO>();
+        final List<CompanyResultsDTO> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final CompanyResultsDTO searchCompanyForm = new CompanyResultsDTO();
@@ -1018,16 +1019,17 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     public List<HelperDTO> getTradingCompanyType() throws SystemException {
         LOGGER.debug("Entering getTradingCompanyType()");
         List<CompanyMaster> list;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.COMPANY_TYPE, Constants.MANUFACTURER));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.COMPANY_TYPE, Constants.BUNIT));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.COMPANY_TYPE));
         LOGGER.debug("getCompanyMasterList(companyDynamicQuery)");
         list = dao.getCompanyMasterList(cfpDynamicQuery);
-        LOGGER.debug("returns  List<CompanyMaster> size=" + list.size());
+        
 
         if (list != null) {
+            LOGGER.debug("returns  List<CompanyMaster> size=" + list.size());
             for (int i = 0; i < list.size(); i++) {
                 final CompanyMaster companyMaster = list.get(i);
                 helperList.add(new HelperDTO(companyMaster.getCompanyMasterSid(), String.valueOf(companyMaster.getCompanyType())));
@@ -1054,7 +1056,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public int getLazyCompanyTypeCount(String filterText) throws PortalException, SystemException {
+    public int getLazyCompanyTypeCount(String filterText) throws  SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + Constants.PERCENT;
         LOGGER.debug("Entering getLazyManufacturerCount method with filterText" + filterText);
         long count = 0;
@@ -1081,10 +1083,10 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public List<HelperDTO> getLazyCompanyTypeResults(final int start, final int end, String filterText) throws PortalException, SystemException {
+    public List<HelperDTO> getLazyCompanyTypeResults(final int start, final int end, String filterText) throws  SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + Constants.PERCENT;
         LOGGER.debug("Entering getLazyManufacturerResults method with start= " + start + " , end= " + end + " and filterText" + filterText);
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery helperTableDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         helperTableDynamicQuery.setLimit(start, end);
 
@@ -1134,11 +1136,11 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public int getLazyManufacturerCount(String filterText) throws PortalException, SystemException {
+    public int getLazyManufacturerCount(String filterText) throws SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + Constants.PERCENT;
         LOGGER.debug("Entering getLazyManufacturerCount method with filterText" + filterText);
         final DynamicQuery manufacturerDynamicQuery = getManufacturerDynamicQuery(filterText);
-        manufacturerDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+        manufacturerDynamicQuery.add(RestrictionsFactoryUtil.ne(com.stpl.app.contract.abstractsearch.util.ConstantUtil.INBOUND_STATUS, "D"));
         manufacturerDynamicQuery.setProjection(ProjectionFactoryUtil.count(Constants.COMPANY_MASTER_SID));
         List<CompanyMaster> list = dao.getCompanyMasterList(manufacturerDynamicQuery);
         LOGGER.debug("Ending getLazyManufacturerCount method : returning count :" + String.valueOf(list.get(0)));
@@ -1156,13 +1158,13 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public List<HelperDTO> getLazyManufacturerResults(final int start, final int end, String filterText, HelperDTO manufactureId) throws PortalException, SystemException {
+    public List<HelperDTO> getLazyManufacturerResults(final int start, final int end, String filterText, HelperDTO manufactureId) throws  SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + Constants.PERCENT;
         LOGGER.debug("Entering getLazyManufacturerResults method with start= " + start + " , end= " + end + " and filterText" + filterText);
         List<CompanyMaster> list;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         int startValue = start;
-        int endValue = end;
+        int endValue;
         if (start == Constants.ZERO) {
             endValue = end - 1;
         } else {
@@ -1171,7 +1173,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         }
         final DynamicQuery manufacturerDynamicQuery = getManufacturerDynamicQuery(filterText);
         manufacturerDynamicQuery.setLimit(startValue, endValue);
-        manufacturerDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+        manufacturerDynamicQuery.add(RestrictionsFactoryUtil.ne(com.stpl.app.contract.abstractsearch.util.ConstantUtil.INBOUND_STATUS, "D"));
         manufacturerDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.COMPANY_ID));
         if (manufactureId != null && manufactureId.getId() != 0) {
             manufacturerDynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.COMPANY_MASTER_SID, manufactureId.getId()));
@@ -1208,10 +1210,10 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.COMPANY_MASTER_SID, companySysId));
         LOGGER.debug("getCompanyMasterList(cfpDynamicQuery)");
         list = dao.getCompanyMasterList(cfpDynamicQuery);
-        LOGGER.debug("returns List<CompanyMaster> size=" + list.size());
-
+        
+        
         if (list != null && list.size() > 0) {
-
+                LOGGER.debug("returns List<CompanyMaster> size=" + list.size());
                 helperTable = new HelperDTO(list.get(0).getCompanyMasterSid(), list.get(0).getCompanyId());
 
 
@@ -1220,11 +1222,11 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return helperTable;
     }
 
-    public int getLazySelectedCompaniesCount(final BeanSearchCriteria searchCriteria, String record) throws PortalException, SystemException {
+    public int getLazySelectedCompaniesCount(final BeanSearchCriteria searchCriteria, String record) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put(Constants.COMPANY_NO, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_STATUS, StringUtils.EMPTY);
@@ -1261,17 +1263,16 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                         String cfpstatus = stringFilter.getFilterString();
                         filterMap.put(Constants.CFP_STATUS, cfpstatus);
 
-                    } else if (stringFilter.getPropertyId().equals(Constants.TRADE_CLASS)) {
-                        String tradeClass = stringFilter.getFilterString();
-                        filterMap.put(Constants.TRADE_CLASS, tradeClass);
+                    } else if (stringFilter.getPropertyId().equals("cfpDetailsTradeClass")) {
+                        filterMap.put(Constants.TRADE_CLASS, filterText);
 
-                    } else if (stringFilter.getPropertyId().equals("companyCategory")) {
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_CATEGORY)) {
                         String category = stringFilter.getFilterString();
-                        filterMap.put("companyCategory", category);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_CATEGORY, category);
 
-                    } else if (stringFilter.getPropertyId().equals("companyGroup")) {
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_GROUP)) {
                         String group = stringFilter.getFilterString();
-                        filterMap.put("companyGroup", group);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_GROUP, group);
                     } else {
                         filterMap.put(stringFilter.getPropertyId().toString(), filterText);
                     }
@@ -1280,29 +1281,39 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     Between betweenFilter = (Between) filter;
                     Date fromDate = (Date) betweenFilter.getStartValue();
                     Date toDate = (Date) betweenFilter.getEndValue();
-                    if (betweenFilter.getPropertyId().equals("companyStartDate")) {
-                        filterMap.put("companyStartDate-from", fromDate);
-                        filterMap.put("companyStartDate-to", toDate);
+                    if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATE)) {
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyEndDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATE)) {
 
-                        filterMap.put("companyEndDate-from", fromDate);
-                        filterMap.put("companyEndDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyFamilyPlanStartDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATE)) {
 
-                        filterMap.put("companyFamilyPlanStartDate-from", fromDate);
-                        filterMap.put("companyFamilyPlanStartDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyFamilyPlanEndDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATE)) {
 
-                        filterMap.put("companyFamilyPlanEndDate-from", fromDate);
-                        filterMap.put("companyFamilyPlanEndDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("attachedDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE)) {
 
-                        filterMap.put("attachedDate-from", fromDate);
-                        filterMap.put("attachedDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATETO, toDate);
+
+                    }else if (betweenFilter.getPropertyId().equals("modifiedDate")) {
+
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.MODIFIED_DATETO, toDate);
+
+                    }else if (betweenFilter.getPropertyId().equals("createdDate")) {
+
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CREATED_DATETO, toDate);
 
                     }
                 }
@@ -1310,14 +1321,14 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             }
         }
         if (!StringUtils.isBlank(record)) {
-            if (record.contains("Current")) {
-                filterMap.put("Current", ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)) {
+                filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT, ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
-            if (record.contains("History")) {
-                filterMap.put("History", ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)) {
+                filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY, ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
-            if (record.contains("Future")) {
-                filterMap.put("Future", ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)) {
+                filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE, ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
         }
 
@@ -1325,7 +1336,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return Integer.valueOf(String.valueOf(returnList.get(0)));
     }
 
-    public List<CFPCompanyDTO> getLazySelectedCompaniesDeatils(int start, int end, Boolean flag, final List<OrderByColumn> list, final BeanSearchCriteria searchCriteria, boolean isCount, String record, boolean remove) throws PortalException, SystemException {
+    public List<CFPCompanyDTO> getLazySelectedCompaniesDeatils(int start, int end, Boolean flag, final List<OrderByColumn> list, final BeanSearchCriteria searchCriteria, boolean isCount, String record, boolean remove) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
 
@@ -1341,16 +1352,16 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                 } else if (Constants.COMPANY_NAME.equals(orderByColumn.getName())) {
                     column = Constants.COMPANY_NAME_CAPS;
                 } else if (Constants.COMPANY_STATUS.equals(orderByColumn.getName())) {
-                    column = "cstatus";
+                    column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.CSTATUS;
                 } else if (Constants.COMPANY_TYPE.equals(orderByColumn.getName())) {
-                    column = "ctype";
+                    column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.CTYPE;
                 } else if (Constants.COMPANY_ID.equals(orderByColumn.getName())) {
-                    column = "COMPANY_ID";
+                    column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LIST;
                 } else if (Constants.TRADE_CLASS.equals(orderByColumn.getName())) {
                     column = "ctrade";
-                } else if ("companyCategory".equals(orderByColumn.getName())) {
+                } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_CATEGORY.equals(orderByColumn.getName())) {
                     column = "ccategory";
-                } else if ("companyGroup".equals(orderByColumn.getName())) {
+                } else if (com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_GROUP.equals(orderByColumn.getName())) {
                     column = "cgroup";
                 }
 
@@ -1363,7 +1374,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
         }
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put(Constants.COMPANY_NO, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_STATUS, StringUtils.EMPTY);
@@ -1404,13 +1415,13 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                         String tradeClass = stringFilter.getFilterString();
                         filterMap.put(Constants.TRADE_CLASS, tradeClass);
 
-                    } else if (stringFilter.getPropertyId().equals("companyCategory")) {
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_CATEGORY)) {
                         String category = stringFilter.getFilterString();
-                        filterMap.put("companyCategory", category);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_CATEGORY, category);
 
-                    } else if (stringFilter.getPropertyId().equals("companyGroup")) {
+                    } else if (stringFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_GROUP)) {
                         String group = stringFilter.getFilterString();
-                        filterMap.put("companyGroup", group);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_GROUP, group);
                     } else {
                         filterMap.put(stringFilter.getPropertyId().toString(), filterText);
                     }
@@ -1419,29 +1430,29 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     Between betweenFilter = (Between) filter;
                     Date fromDate = (Date) betweenFilter.getStartValue();
                     Date toDate = (Date) betweenFilter.getEndValue();
-                    if (betweenFilter.getPropertyId().equals("companyStartDate")) {
-                        filterMap.put("companyStartDate-from", fromDate);
-                        filterMap.put("companyStartDate-to", toDate);
+                    if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATE)) {
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyEndDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATE)) {
 
-                        filterMap.put("companyEndDate-from", fromDate);
-                        filterMap.put("companyEndDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyFamilyPlanStartDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATE)) {
 
-                        filterMap.put("companyFamilyPlanStartDate-from", fromDate);
-                        filterMap.put("companyFamilyPlanStartDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyFamilyPlanEndDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATE)) {
 
-                        filterMap.put("companyFamilyPlanEndDate-from", fromDate);
-                        filterMap.put("companyFamilyPlanEndDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("attachedDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE)) {
 
-                        filterMap.put("attachedDate-from", fromDate);
-                        filterMap.put("attachedDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATETO, toDate);
 
                     }
                 }
@@ -1449,14 +1460,14 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             }
         }
         if (!StringUtils.isBlank(record)) {
-            if (record.contains("Current")) {
-                filterMap.put("Current", ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)) {
+                filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT, ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
-            if (record.contains("History")) {
-                filterMap.put("History", ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)) {
+                filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY, ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
-            if (record.contains("Future")) {
-                filterMap.put("Future", ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
+            if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)) {
+                filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE, ContractUtils.convertStringToDate(new Date().toString(), DEFAULT_JAVA_DATE_FORMAT, DEFAULT_SQL_DATE_FORMAT));
             }
         }
         if (remove) {
@@ -1464,7 +1475,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         }
         final List<Object[]> returnList = ImtdCfpDetailsLocalServiceUtil.getSelectedCompanies(userId, sessionId, start, end, column, orderBy, flag, null, filterMap, isCount);
 
-        List<CFPCompanyDTO> companyList = new ArrayList<CFPCompanyDTO>();
+        List<CFPCompanyDTO> companyList = new ArrayList<>();
         LOGGER.debug("selected results :" + returnList.size());
         return getCustomizedCompanyMasterDTO(returnList, companyList, flag, record);
     }
@@ -1539,14 +1550,15 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                         companyDTO.setAttachedDate((Date) attached);
                     }
                     companyDTO.setCheckbox((Boolean) tempCfp[j++]);
+                    LOGGER.debug("End of method" + j);
                 }
                 if (!StringUtils.isBlank(record)) {
-                    if (record.contains("Current")) {
-                        companyDTO.setRecordType("Current");
-                    } else if (record.contains("History")) {
-                        companyDTO.setRecordType("History");
-                    } else if (record.contains("Future")) {
-                        companyDTO.setRecordType("Future");
+                    if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT)) {
+                        companyDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.CURRENT);
+                    } else if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY)) {
+                        companyDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.HISTORY);
+                    } else if (record.contains(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE)) {
+                        companyDTO.setRecordType(com.stpl.app.contract.abstractsearch.util.ConstantUtil.FUTURE);
                     } else {
                         companyDTO.setRecordType(StringUtils.EMPTY);
                     }
@@ -1554,19 +1566,19 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     companyDTO.setRecordType(StringUtils.EMPTY);
                 }
                 companyList.add(companyDTO);
-            }
+            }            
         } catch (Exception e) {
             LOGGER.error(e);
         }
         return companyList;
     } 
 
-    public void loadTempCFP(Object cfpModelSId, Object contractSystemId) throws SystemException {
+    public void loadTempCFP(Object cfpModelSId, Object contractSystemId) {
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String tempDate = String.valueOf(sessionDTO.getSessionDate());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         input.add(tempDate);
@@ -1576,7 +1588,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         ImtdCfpDetailsLocalServiceUtil.loadTempCompanydetails(input, StringUtils.EMPTY);
     }
 
-    public void addToTempCFP(Object searchField, String searchValue) throws SystemException {
+    public void addToTempCFP(Object searchField, String searchValue) {
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
@@ -1587,15 +1599,15 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdCfpDetails.class);
         dynamicQuery.add(RestrictionsFactoryUtil.eq("usersSid", userId));
         dynamicQuery.add(RestrictionsFactoryUtil.eq("sessionId", sessionId));
-        dynamicQuery.add(RestrictionsFactoryUtil.ne("operation", "D"));
+        dynamicQuery.add(RestrictionsFactoryUtil.ne(com.stpl.app.contract.abstractsearch.util.ConstantUtil.OPERATION, "D"));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property("companyMasterSid"));
-        final Map<String, String> map = new HashMap<String, String>();
-        map.put("Company ID", Constants.COMPANY_ID_CAPS);
-        map.put("Company No", Constants.COMPANY_NO_CAPS);
-        map.put("Company Name", Constants.COMPANY_NAME_CAPS);
-        map.put("Company Type", Constants.COMP_TYPE);
-        map.put("Company Status", Constants.COMPANY_STATUS_CAPS);
-        final List<Object> input = new ArrayList<Object>(NumericConstants.THIRTEEN);
+        final Map<String, String> map = new HashMap<>();
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_ID_LABEL, Constants.COMPANY_ID_CAPS);
+        map.put(ContractUtils.COMPANY_NO_LABEL, Constants.COMPANY_NO_CAPS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_NAME_LABEL, Constants.COMPANY_NAME_CAPS);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_TYPE_LABEL, Constants.COMP_TYPE);
+        map.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_STATUS_LABEL, Constants.COMPANY_STATUS_CAPS);
+        final List<Object> input = new ArrayList<>(NumericConstants.THIRTEEN);
         input.add(String.valueOf(map.get(searchField)));
         input.add(searchValue.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT));
         input.add(cfpSystemId);
@@ -1611,27 +1623,27 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         ImtdCfpDetailsLocalServiceUtil.loadTempCompanydetails(input, "Add");
     }
 
-    public void clearTempCFP() throws SystemException {
+    public void clearTempCFP() {
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdCfpDetailsLocalServiceUtil.deleteAll(input, "Back");
     }
 
-    public void populateToTempCFP(Object populateField, Object populateValue, Boolean flag) throws SystemException {
+    public void populateToTempCFP(Object populateField, Object populateValue, Boolean flag) {
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final SimpleDateFormat tempFormat = new SimpleDateFormat(CommonUtils.MMDDYYYY);
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put("CFP Start Date", "CFP_DETAILS_START_DATE");
         map.put("CFP End Date", "CFP_DETAILS_END_DATE");
         map.put("CFP Status", "CFP_DETAILS_ATTACHED_STATUS");
         map.put("CheckBox", "CHECK_RECORD");
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(map.get(populateField.toString()));
         input.add(populateValue);
         input.add(userId);
@@ -1647,7 +1659,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
     public static Boolean saveToTempCFP(List<CFPCompanyDTO> saveList) throws PortalException, SystemException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-        List<ImtdCfpDetails> saveDetailsList = new ArrayList<ImtdCfpDetails>();
+        List<ImtdCfpDetails> saveDetailsList = new ArrayList<>();
 
         for (CFPCompanyDTO temp : saveList) {
             ImtdCfpDetails tempResult = ImtdCfpDetailsLocalServiceUtil.getImtdCfpDetails(Integer.parseInt(temp.getTempCFPSystemID()));
@@ -1661,7 +1673,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             tempResult.setModifiedDate(new Date());
             saveDetailsList.add(tempResult);
         }
-        List<Object> input = new ArrayList<Object>(1);
+        List<Object> input = new ArrayList<>(1);
         input.add(saveDetailsList);
         return ImtdCfpDetailsLocalServiceUtil.saveCompany(input, "SaveDetails");
     }
@@ -1683,11 +1695,11 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         }
     }
 
-    public void removeAll() throws SystemException {
+    public void removeAll() {
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdCfpDetailsLocalServiceUtil.updateAll(input, "Temp");
@@ -1697,7 +1709,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdCfpDetails temp = ImtdCfpDetailsLocalServiceUtil.getImtdCfpDetails(tempCfpSystemId);
@@ -1721,7 +1733,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             dynamicQuery.add(RestrictionsFactoryUtil.eq("companyMasterSid", Integer.valueOf(companyDto.getCompanySystemId())));
             dynamicQuery.add(RestrictionsFactoryUtil.eq("usersSid", userId));
             dynamicQuery.add(RestrictionsFactoryUtil.eq("sessionId", sessionId));
-            dynamicQuery.add(RestrictionsFactoryUtil.ne("operation", "D"));                       
+            dynamicQuery.add(RestrictionsFactoryUtil.ne(com.stpl.app.contract.abstractsearch.util.ConstantUtil.OPERATION, "D"));                       
             final List<ImtdCfpDetails> list = ImtdCfpDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
             if (list.isEmpty()) {
                 ImtdCfpDetails temp = ImtdCfpDetailsLocalServiceUtil.createImtdCfpDetails(0);
@@ -1759,11 +1771,11 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         }
     }
 
-    public Boolean companyNullVerification(String field) throws SystemException {
+    public Boolean companyNullVerification(String field) {
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.SIX);
+        final List<Object> input = new ArrayList<>(NumericConstants.SIX);
         input.add(userId);
         input.add(sessionId);
         input.add(field);
@@ -1789,7 +1801,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.SIX);
+        final List<Object> input = new ArrayList<>(NumericConstants.SIX);
         input.add(userId);
         input.add(sessionId);
         input.add(userId);
@@ -1807,7 +1819,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.USERS_SID, userId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.SESSION_ID, sessionId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CHECK_RECORD, true));
-        ifpDynamicQuery.add(RestrictionsFactoryUtil.ne("operation", "D"));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(com.stpl.app.contract.abstractsearch.util.ConstantUtil.OPERATION, "D"));
         ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count("imtdCfpDetailsSid"));
         List<?> temp = ImtdCfpDetailsLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
         int imtdCfpDetailsSid = Integer.valueOf(temp.get(0).toString());
@@ -1825,8 +1837,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return dao.getHelperTable(htDynamicQuery);
     }
 
-    public Map<Integer, String> getCodeDescription(final String listName) throws PortalException, SystemException {
-        Map<Integer, String> helperTableMap = new HashMap<Integer, String>();
+    public Map<Integer, String> getCodeDescription(final String listName) throws SystemException {
+        Map<Integer, String> helperTableMap = new HashMap<>();
         final List<HelperTable> list = dao.findByHelperTableDetails(listName);
         for (HelperTable helperTable : list) {
             helperTableMap.put(helperTable.getHelperTableSid(), helperTable.getDescription());
@@ -1834,8 +1846,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return helperTableMap;
     }
 
-    public static Map<Integer, String> getCodeDescription() throws PortalException, SystemException {
-        Map<Integer, String> helperTableMap = new HashMap<Integer, String>();
+    public static Map<Integer, String> getCodeDescription() throws SystemException {
+        Map<Integer, String> helperTableMap = new HashMap<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName();
         for (HelperTable helperTable : list) {
             helperTableMap.put(helperTable.getHelperTableSid(), helperTable.getDescription());
@@ -1843,7 +1855,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return helperTableMap;
     }
 
-    public int getLazySelectedCompaniesDetailsCount(int start, int end, Boolean flag, final List<OrderByColumn> list, final BeanSearchCriteria searchCriteria, boolean isCount) throws PortalException, SystemException {
+    public int getLazySelectedCompaniesDetailsCount(int start, int end, Boolean flag, final List<OrderByColumn> list, final BeanSearchCriteria searchCriteria, boolean isCount) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
 
@@ -1859,9 +1871,9 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                 } else if (Constants.COMPANY_NAME.equals(orderByColumn.getName())) {
                     column = Constants.COMPANY_NAME_CAPS;
                 } else if (Constants.COMPANY_STATUS.equals(orderByColumn.getName())) {
-                    column = "cstatus";
+                    column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.CSTATUS;
                 } else if (Constants.COMPANY_TYPE.equals(orderByColumn.getName())) {
-                    column = "ctype";
+                    column = com.stpl.app.contract.abstractsearch.util.ConstantUtil.CTYPE;
                 }
 
                 if (orderByColumn.getType() == OrderByColumn.Type.ASC) {
@@ -1873,7 +1885,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
         }
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put(Constants.COMPANY_NO, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_STATUS, StringUtils.EMPTY);
@@ -1911,29 +1923,29 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     Between betweenFilter = (Between) filter;
                     Date fromDate = (Date) betweenFilter.getStartValue();
                     Date toDate = (Date) betweenFilter.getEndValue();
-                    if (betweenFilter.getPropertyId().equals("companyStartDate")) {
-                        filterMap.put("companyStartDate-from", fromDate);
-                        filterMap.put("companyStartDate-to", toDate);
+                    if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATE)) {
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_START_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyEndDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATE)) {
 
-                        filterMap.put("companyEndDate-from", fromDate);
-                        filterMap.put("companyEndDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_END_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyFamilyPlanStartDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATE)) {
 
-                        filterMap.put("companyFamilyPlanStartDate-from", fromDate);
-                        filterMap.put("companyFamilyPlanStartDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_START_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("companyFamilyPlanEndDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATE)) {
 
-                        filterMap.put("companyFamilyPlanEndDate-from", fromDate);
-                        filterMap.put("companyFamilyPlanEndDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.COMPANY_FAMILY_PLAN_END_DATETO, toDate);
 
-                    } else if (betweenFilter.getPropertyId().equals("attachedDate")) {
+                    } else if (betweenFilter.getPropertyId().equals(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATE)) {
 
-                        filterMap.put("attachedDate-from", fromDate);
-                        filterMap.put("attachedDate-to", toDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATEFROM, fromDate);
+                        filterMap.put(com.stpl.app.contract.abstractsearch.util.ConstantUtil.ATTACHED_DATETO, toDate);
 
                     }
                 }
@@ -1955,9 +1967,9 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         String companyId = StringUtils.EMPTY;
         String companyNo = StringUtils.EMPTY;
         String companyName = StringUtils.EMPTY;
-        Map<Object, Object> parameters = new HashMap<Object, Object>();
+        Map<Object, Object> parameters = new HashMap<>();
         List cfpList = null;
-        Map<Object, Object> cfp = new HashMap<Object, Object>();
+        Map<Object, Object> cfp = new HashMap<>();
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         if (companyFamilyplanMaster.getField(FieldNameUtils.COMPANYFAMILYPLANID).getValue() == null) {
             cfp.put(ConstantsUtils.CFP_ID, StringUtils.EMPTY);
@@ -2039,9 +2051,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     if (ConstantsUtils.CFP_NAME.equals(stringFilter.getPropertyId())) {
                         parameters.put(FieldNameUtils.COMPANYFAMILYPLANNAME_SEARCH, filterString);
                     }
-                    if (ConstantsUtils.CFP_DESIGNATION.equals(stringFilter.getPropertyId())) {
-                        parameters.put(ConstantsUtils.CFP_DESIGNATION_DUP, filterString);
-                    }
+                   
                     if (ConstantsUtils.PARENT_CFP_NAME.equals(stringFilter.getPropertyId())) {
                         parameters.put(ConstantsUtils.PARENT_CFP_NAME_DUP, filterString);
                     }
@@ -2052,8 +2062,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
 
-                    if (stringFilter.getValue() instanceof Integer) {
-                        Integer filterValue = (Integer) stringFilter.getValue();
+                    if (stringFilter.getValue() instanceof HelperDTO) {
+                        Integer filterValue = ((HelperDTO)stringFilter.getValue()).getId();
                         if (ConstantsUtils.CFP_STATUS.equals(stringFilter.getPropertyId()) && filterValue != 0) {
                                 parameters.put(FieldNameUtils.COMPANYFAMILYPLANSTATUS_SEARCH, filterValue);
                         }
@@ -2066,14 +2076,21 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                         if (ConstantsUtils.CFP_CATEGORY.equals(stringFilter.getPropertyId()) && filterValue != 0) {
                                 parameters.put(ConstantsUtils.CFP_CATEGORY_DUP, filterValue);
                         }
+                         if (ConstantsUtils.CFP_DESIGNATION.equals(stringFilter.getPropertyId())) {
+                                parameters.put(ConstantsUtils.CFP_DESIGNATION_DUP, filterValue);
+                        }
+                        
+                    } else if (stringFilter.getValue() instanceof Integer) {
+                        Integer filterValue = (Integer) stringFilter.getValue();
                         if (ConstantsUtils.CREATEDBY.equals(stringFilter.getPropertyId()) && filterValue != 0) {
-                                parameters.put(ConstantsUtils.CREATEDBY, filterValue);
+                            parameters.put(ConstantsUtils.CREATEDBY, filterValue);
                         }
 
                         if (ConstantsUtils.MODIFIEDBY.equals(stringFilter.getPropertyId()) && filterValue != 0) {
-                                parameters.put(ConstantsUtils.MODIFIEDBY, filterValue);
+                            parameters.put(ConstantsUtils.MODIFIEDBY, filterValue);
                         }
-                    } else if (stringFilter.getValue() instanceof Date) {
+
+                    }else if (stringFilter.getValue() instanceof Date) {
                         Date filterString = (Date) stringFilter.getValue();
                         if (ConstantsUtils.CFP_START_DATE.equals(stringFilter.getPropertyId())) {
                             if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
@@ -2112,11 +2129,6 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     }
 
                     if (ConstantsUtils.CFP_END_DATE.equals(stringFilter.getPropertyId())) {
-                        parameters.put(ConstantsUtils.CFP_END_DATE_FROM, String.valueOf(dateFormat.format(filterString)));
-                        parameters.put(ConstantsUtils.CFP_END_DATE_TO, String.valueOf(dateFormat.format(filterString1)));
-                    }
-
-                    if (ConstantsUtils.CREATEDDATE.equals(stringFilter.getPropertyId())) {
                         parameters.put(ConstantsUtils.CFP_END_DATE_FROM, String.valueOf(dateFormat.format(filterString)));
                         parameters.put(ConstantsUtils.CFP_END_DATE_TO, String.valueOf(dateFormat.format(filterString1)));
                     }
@@ -2170,7 +2182,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         //To load column in hashMap
         CommonUtils.loadColumnName();
         boolean asc = false;
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         String dbColumnName = StringUtils.EMPTY;
 
         CommonUtils.loadColumnNames();
@@ -2191,8 +2203,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return cfpDTO;
     }
 
-    public static List<CFPSearchDTO> getCustomizedSearchFormModelForParentLookUp(final List<Object[]> cfpMasterList) throws PortalException, SystemException {
-        final List<CFPSearchDTO> companyDTO = new ArrayList<CFPSearchDTO>();
+    public static List<CFPSearchDTO> getCustomizedSearchFormModelForParentLookUp(final List<Object[]> cfpMasterList) throws  SystemException {
+        final List<CFPSearchDTO> companyDTO = new ArrayList<>();
         Map<Integer, String> hm = CommonUtils.getCodeDescription();
         Map<Integer, String> userMap = StplSecurity.getUserName();
         for (Object[] obj : cfpMasterList) {
@@ -2224,8 +2236,9 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             if (obj[NumericConstants.EIGHT] != null && StringUtils.isNotBlank(obj[NumericConstants.EIGHT].toString()) && (Integer) obj[NumericConstants.EIGHT] != 0) {
                 cfpDTOObj.setCompanyFamilyPlanCategory(hm.get(obj[NumericConstants.EIGHT]));
             }
-            if (obj[NumericConstants.NINE] != null) {
-                cfpDTOObj.setCompanyFamilyPlanDesignation(String.valueOf(obj[NumericConstants.NINE]));
+            if (obj[NumericConstants.NINE] != null && !"null".equals(String.valueOf(obj[NumericConstants.NINE]))) {
+                int desi = String.valueOf(obj[NumericConstants.NINE]).isEmpty() ? NumericConstants.ZERO : (Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
+                cfpDTOObj.setCompanyFamilyPlanDesignation(HelperListUtil.getInstance().getIdDescMap().get(desi));
             }
             if (obj[NumericConstants.TEN] != null) {
                 cfpDTOObj.setParentCompanyFamilyPlanName(String.valueOf(obj[NumericConstants.TEN]));
@@ -2268,7 +2281,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         sql += " WHERE USERS_SID = " + user;
 
         sql += " AND CHECK_RECORD = 1";
-        sql += " AND SESSION_ID like '" + sessDto.getUiSessionId() + "' AND \"OPERATION\" <> 'D' ";
+        sql += " AND SESSION_ID = '" + sessDto.getUiSessionId() + "' AND \"OPERATION\" <> 'D' ";
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(sql);
         int val = resultList == null ? 0 : Integer.valueOf(String.valueOf(resultList.get(0)));
         return val;

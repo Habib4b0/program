@@ -9,7 +9,6 @@ import com.stpl.app.global.abstractsearch.util.ValidationUtil;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.common.util.CommonUtil;
 import com.stpl.app.global.common.util.HelperListUtil;
-import com.stpl.app.global.company.util.FiledNameUtils;
 import com.stpl.app.global.compliancededuction.dto.CDRDto;
 import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.ifp.logic.IFPLogic;
@@ -34,7 +33,6 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -56,7 +54,6 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -112,7 +109,9 @@ public class RuleInformation extends CustomComponent {
     private BeanItemContainer<CDRDto> resultsContainer = new BeanItemContainer(CDRDto.class);
     public Object RULE_DETAILS_COLUMNS[] = new Object[]{
         "lineTypeDdlb", "itemGroupDdlb", "keywordDdlb", "operatorDdlb", "valueText", "comparisonDdlb", "logicalOperatorDdlb"};
-    public String RULE_DETAILS_HEADERS[] = new String[]{"Line Type", "Item/Group/Association", "Keyword", "Operator", ConstantsUtils.VALUE, "Comparison", "Operator"};
+    
+    public final String RULE_DETAILS_HEADERS[] = new String[]{ConstantsUtils.LINE_TYPE_LABEL, "Item/Group/Association", ConstantsUtils.KEYWORD, ConstantsUtils.OPERATOR, ConstantsUtils.VALUE, "Comparison", ConstantsUtils.OPERATOR};
+    
     final CDRDto cdrBinerDto = new CDRDto();
     String noteshistory = new String();
     DecimalFormat percentFormat = new DecimalFormat("###,###,##0.00");
@@ -175,10 +174,10 @@ public class RuleInformation extends CustomComponent {
      * Configure Fields
      */
     public void configureFields() {
-        ruleNoLb.addStyleName("nameAlign");
-        ruleNameLb.addStyleName("nameAlign");
-        ruleTypeLb.addStyleName("nameAlign");
-        ruleCategoryLb.addStyleName("nameAlign");
+        ruleNoLb.addStyleName(ConstantsUtils.NAME_ALIGN);
+        ruleNameLb.addStyleName(ConstantsUtils.NAME_ALIGN);
+        ruleTypeLb.addStyleName(ConstantsUtils.NAME_ALIGN);
+        ruleCategoryLb.addStyleName(ConstantsUtils.NAME_ALIGN);
         resultsTable.setWidth("100%");
         resultsTable.setSizeFull();
         resultsTable.setContainerDataSource(resultsContainer);
@@ -348,11 +347,11 @@ public class RuleInformation extends CustomComponent {
     }
 
     public boolean requiredFieldCheck() {
-        String fieldName = StringUtils.isBlank(cdrBinerDto.getLineTypeDdlb_DTO() != null ? cdrBinerDto.getLineTypeDdlb_DTO().toString() : StringUtils.EMPTY) ? "Line Type"
+        String fieldName = StringUtils.isBlank(cdrBinerDto.getLineTypeDdlb_DTO() != null ? cdrBinerDto.getLineTypeDdlb_DTO().toString() : StringUtils.EMPTY) ? ConstantsUtils.LINE_TYPE_LABEL
                 : (cdrBinerDto.getItemGroupDdlb().getId() == 0) ? "Item/Group/MS Association"
-                        : StringUtils.isBlank(cdrBinerDto.lineTypeDdlb_DTO != null ? cdrBinerDto.lineTypeDdlb_DTO.toString() : StringUtils.EMPTY) ? "Line Type"
-                        : StringUtils.isBlank(cdrBinerDto.getKeywordDdlb_DTO() != null ? cdrBinerDto.getKeywordDdlb_DTO().toString() : StringUtils.EMPTY) ? "Keyword"
-                        : StringUtils.isBlank(cdrBinerDto.getOperatorDdlb_DTO() != null ? cdrBinerDto.getOperatorDdlb_DTO().toString() : StringUtils.EMPTY) ? "Operator"
+                        : StringUtils.isBlank(cdrBinerDto.lineTypeDdlb_DTO != null ? cdrBinerDto.lineTypeDdlb_DTO.toString() : StringUtils.EMPTY) ? ConstantsUtils.LINE_TYPE_LABEL
+                        : StringUtils.isBlank(cdrBinerDto.getKeywordDdlb_DTO() != null ? cdrBinerDto.getKeywordDdlb_DTO().toString() : StringUtils.EMPTY) ? ConstantsUtils.KEYWORD
+                        : StringUtils.isBlank(cdrBinerDto.getOperatorDdlb_DTO() != null ? cdrBinerDto.getOperatorDdlb_DTO().toString() : StringUtils.EMPTY) ?ConstantsUtils.OPERATOR
                         : StringUtils.isBlank(cdrBinerDto.valueText != null ? cdrBinerDto.valueText : StringUtils.EMPTY) ? ConstantsUtils.VALUE
                         : StringUtils.EMPTY;
         if (!fieldName.isEmpty()) {
@@ -367,11 +366,11 @@ public class RuleInformation extends CustomComponent {
      * Fields Validations
      */
     public void fieldValidation() {
-        lineTypeDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage("emptyFieldCheck"), ValidationUtil.getMessage("emptyFieldValidationMsg").replace("<>", "Line Type")));
-        itemGroupDdlb.addValidator(new RegexpValidator(ValidationUtil.getMessage("emptyFieldCheck"), ValidationUtil.getMessage("emptyFieldValidationMsg").replace("<>", "Item/Group/MS Association")));
-        keywordDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage("emptyFieldCheck"), ValidationUtil.getMessage("emptyFieldValidationMsg").replace("<>", "Keyword")));
-        operatorDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage("emptyFieldCheck"), ValidationUtil.getMessage("emptyFieldValidationMsg").replace("<>", "Operator")));
-        valueText.addValidator(new RegexpValidator(ValidationUtil.getMessage("emptyFieldCheck"), ValidationUtil.getMessage("emptyFieldValidationMsg").replace("<>", ConstantsUtils.VALUE)));
+        lineTypeDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>",ConstantsUtils.LINE_TYPE_LABEL)));
+        itemGroupDdlb.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", "Item/Group/MS Association")));
+        keywordDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", ConstantsUtils.KEYWORD)));
+        operatorDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", ConstantsUtils.OPERATOR)));
+        valueText.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", ConstantsUtils.VALUE)));
     }
 
     private void loadDdlb() {

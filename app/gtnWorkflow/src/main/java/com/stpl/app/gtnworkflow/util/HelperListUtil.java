@@ -76,7 +76,7 @@ public class HelperListUtil {
      * Instantiates a new helper list util.
      */
     public HelperListUtil() {
-
+        LOGGER.debug("HelperListUtil");
     }
 
     /**

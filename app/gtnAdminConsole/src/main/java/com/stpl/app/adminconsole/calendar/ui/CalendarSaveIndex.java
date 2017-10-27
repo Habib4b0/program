@@ -157,7 +157,7 @@ public class CalendarSaveIndex extends CalendarAbstractIndex {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-
+                        return;
                     }
 
                     @Override
@@ -220,7 +220,7 @@ public class CalendarSaveIndex extends CalendarAbstractIndex {
     private void loadHolidays() {
         List holidays = clLogic.getHolidaysForCalendar(calendarDetailsDTO.getId());
         List<Date> forCalendarField = new ArrayList();
-        Set<WeekDay> selectedList = new HashSet<WeekDay>();
+        Set<WeekDay> selectedList = new HashSet<>();
         for (Object holiday : holidays) {
             forCalendarField.add(new Date(((java.sql.Timestamp) holiday).getTime()));
             if (defaultHoliday.getValue() && (((java.sql.Timestamp) holiday).getDay() == 0 || ((java.sql.Timestamp) holiday).getDay() == NumericConstants.SIX)) {
@@ -282,7 +282,7 @@ public class CalendarSaveIndex extends CalendarAbstractIndex {
                     new AbstractNotificationUtils() {
                         @Override
                         public void noMethod() {
-
+                            return;
                         }
 
                         @Override
@@ -355,7 +355,7 @@ public class CalendarSaveIndex extends CalendarAbstractIndex {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-
+                        return;
                     }
 
                     @Override

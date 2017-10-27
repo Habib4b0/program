@@ -181,13 +181,13 @@ public class DeductionCalendarLogic {
     public Object getCountAndResultsForDeductionCalendar(final ErrorfulFieldGroup rebateSchForm, int start, int offset, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, boolean isCount)
             throws SystemException {
         LOGGER.debug("In getSearchCount P1:rebateScheduleForm");
-        Map<String, Object> filterCriteria = new HashMap<String, Object>();
-        Map<String, String> searchCriteria = new HashMap<String, String>();
+        Map<String, Object> filterCriteria = new HashMap<>();
+        Map<String, String> searchCriteria = new HashMap<>();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        searchCriteria.put("deductionCalendarno", checkEmptyDataFromFields(ConstantsUtils.TEXT1, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT1).getValue().toString()).trim());
-        searchCriteria.put("deductionCalendarname", checkEmptyDataFromFields(ConstantsUtils.TEXT2, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT2).getValue().toString()).trim());
-        searchCriteria.put("deductionCalendardesc", checkEmptyDataFromFields(ConstantsUtils.TEXT3, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT3).getValue().toString()).trim());
-        searchCriteria.put("category", checkEmptyDataFromFields(ConstantsUtils.COMBO1, rebateSchForm) ? ConstantsUtils.ZERO : String.valueOf(((com.stpl.app.util.HelperDTO) rebateSchForm.getField(ConstantsUtils.COMBO1).getValue()).getId()));
+        searchCriteria.put(ConstantsUtils.DEDUCTION_CAL_NO, checkEmptyDataFromFields(ConstantsUtils.TEXT1, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT1).getValue().toString()).trim());
+        searchCriteria.put(ConstantsUtils.DEDUCTION_CAL_NAME, checkEmptyDataFromFields(ConstantsUtils.TEXT2, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT2).getValue().toString()).trim());
+        searchCriteria.put(ConstantsUtils.DEDUCTION_CAL_DESC, checkEmptyDataFromFields(ConstantsUtils.TEXT3, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT3).getValue().toString()).trim());
+        searchCriteria.put(ConstantsUtils.CATEGORY, checkEmptyDataFromFields(ConstantsUtils.COMBO1, rebateSchForm) ? ConstantsUtils.ZERO : String.valueOf(((com.stpl.app.util.HelperDTO) rebateSchForm.getField(ConstantsUtils.COMBO1).getValue()).getId()));
 
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -227,14 +227,14 @@ public class DeductionCalendarLogic {
                 final SortByColumn sortByColumn = (SortByColumn) iterator.next();
                 String columnName = sortByColumn.getName();
 
-                if ("deductionCalendarno".equals(columnName)) {
+                if (ConstantsUtils.DEDUCTION_CAL_NO.equals(columnName)) {
                     column = "DSM.DEDUCTION_CALENDAR_NO";
-                } else if ("deductionCalendarname".equals(columnName)) {
+                } else if (ConstantsUtils.DEDUCTION_CAL_NAME.equals(columnName)) {
                     column = "DSM.DEDUCTION_CALENDAR_NAME";
-                } else if ("deductionCalendardesc".equals(columnName)) {
+                } else if (ConstantsUtils.DEDUCTION_CAL_DESC.equals(columnName)) {
                     column = "DSM.DEDUCTION_CALENDAR_DESC";
-                } else if ("category".equals(columnName)) {
-                    column = "category";
+                } else if (ConstantsUtils.CATEGORY.equals(columnName)) {
+                    column = ConstantsUtils.CATEGORY;
                 } else if ("dcCreationDate".equals(columnName)) {
                     column = "DSM.CREATED_DATE";
                 } else if ("dcModifiedDate".equals(columnName)) {
@@ -277,41 +277,41 @@ public class DeductionCalendarLogic {
         }
         sql += " FROM DEDUCTION_CALENDAR_MASTER DSM LEFT JOIN HELPER_TABLE catHelper on catHelper.HELPER_TABLE_SID=DSM.CATEGORY WHERE DSM.INBOUND_STATUS <> 'D'";
 
-        if (StringUtils.isNotBlank(searchCriteria.get("deductionCalendarno")) && StringUtils.isNotEmpty(searchCriteria.get("deductionCalendarno"))) {
-                sql += " AND DSM.DEDUCTION_CALENDAR_NO LIKE '" + searchCriteria.get("deductionCalendarno") + "'";
+        if (StringUtils.isNotBlank(searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_NO)) && StringUtils.isNotEmpty(searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_NO))) {
+                sql += " AND DSM.DEDUCTION_CALENDAR_NO LIKE '" + searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_NO) + "'";
             }
 
-        if (StringUtils.isNotBlank(searchCriteria.get("deductionCalendarname")) && StringUtils.isNotEmpty(searchCriteria.get("deductionCalendarname"))) {
-                sql += " AND DSM.DEDUCTION_CALENDAR_NAME LIKE '" + searchCriteria.get("deductionCalendarname") + "'";
+        if (StringUtils.isNotBlank(searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_NAME)) && StringUtils.isNotEmpty(searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_NAME))) {
+                sql += " AND DSM.DEDUCTION_CALENDAR_NAME LIKE '" + searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_NAME) + "'";
 
         }
-        if (StringUtils.isNotBlank(searchCriteria.get("deductionCalendardesc")) && StringUtils.isNotEmpty(searchCriteria.get("deductionCalendardesc"))) {
-                sql += " AND DSM.DEDUCTION_CALENDAR_DESC LIKE '" + searchCriteria.get("deductionCalendardesc") + "'";
+        if (StringUtils.isNotBlank(searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_DESC)) && StringUtils.isNotEmpty(searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_DESC))) {
+                sql += " AND DSM.DEDUCTION_CALENDAR_DESC LIKE '" + searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_DESC) + "'";
             
         }
-        if (searchCriteria.get("category") != null && Integer.valueOf(searchCriteria.get("category")) != 0) {
-            sql += " AND DSM.CATEGORY = " + Integer.valueOf(searchCriteria.get("category"));
+        if (searchCriteria.get(ConstantsUtils.CATEGORY) != null && Integer.valueOf(searchCriteria.get(ConstantsUtils.CATEGORY)) != 0) {
+            sql += " AND DSM.CATEGORY = " + Integer.valueOf(searchCriteria.get(ConstantsUtils.CATEGORY));
 
         }
 
-        if (parameters.get("deductionCalendarno") != null) {
+        if (parameters.get(ConstantsUtils.DEDUCTION_CAL_NO) != null) {
             sql += " AND DSM.DEDUCTION_CALENDAR_NO like '";
-            sql += String.valueOf(parameters.get("deductionCalendarno")) + "' ";
+            sql += String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CAL_NO)) + "' ";
         }
 
-        if (parameters.get("deductionCalendarname") != null) {
+        if (parameters.get(ConstantsUtils.DEDUCTION_CAL_NAME) != null) {
             sql += " AND DSM.DEDUCTION_CALENDAR_NAME like '";
-            sql += String.valueOf(parameters.get("deductionCalendarname")) + "' ";
+            sql += String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CAL_NAME)) + "' ";
         }
 
-        if (parameters.get("deductionCalendardesc") != null) {
+        if (parameters.get(ConstantsUtils.DEDUCTION_CAL_DESC) != null) {
             sql += " AND DSM.DEDUCTION_CALENDAR_DESC like '";
-            sql += String.valueOf(parameters.get("deductionCalendardesc")) + "' ";
+            sql += String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CAL_DESC)) + "' ";
         }
 
-        if (parameters.get("category") != null) {
+        if (parameters.get(ConstantsUtils.CATEGORY) != null) {
             sql += " AND category like '";
-            sql += String.valueOf(parameters.get("category")) + "' ";
+            sql += String.valueOf(parameters.get(ConstantsUtils.CATEGORY)) + "' ";
         }
         if (parameters.get("dcCreatedBy") != null) {
             sql += " AND DSM.CREATED_BY = '";
@@ -370,11 +370,11 @@ public class DeductionCalendarLogic {
     }
 
     public List<SearchResultsDTO> getCustomizedDeductionResults(List list) {
-        List<SearchResultsDTO> resultList = new ArrayList<SearchResultsDTO>();
+        List<SearchResultsDTO> resultList = new ArrayList<>();
         try {
             Map<Integer, String> userMap = StplSecurity.getUserName();
             SearchResultsDTO record;
-            try {
+           
                 for (Object obj : list) {
                     Object[] result = (Object[]) obj;
                     record = new SearchResultsDTO();
@@ -398,9 +398,7 @@ public class DeductionCalendarLogic {
                     } 
                     resultList.add(record);
                 }
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
+           
             return resultList;
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -420,7 +418,7 @@ public class DeductionCalendarLogic {
         String query = CustomSQLUtil.get("insertToTempForCust");
         query = query.replace("?UID", userId);
         query = query.replace("?SID", "'" + sessionId + "'");
-        query = query.replace("?DCID", String.valueOf(detailMasterSid));
+        query = query.replace(ConstantsUtils.DCID_QUESTION, String.valueOf(detailMasterSid));
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
@@ -428,7 +426,7 @@ public class DeductionCalendarLogic {
         String query = CustomSQLUtil.get("insertToTempForProd");
         query = query.replace("?UID", userId);
         query = query.replace("?SID", "'" + sessionId + "'");
-        query = query.replace("?DCID", String.valueOf(detailMasterSid));
+        query = query.replace(ConstantsUtils.DCID_QUESTION, String.valueOf(detailMasterSid));
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
@@ -460,7 +458,7 @@ public class DeductionCalendarLogic {
 
     public void sameToTemp(SessionDTO session, int detailSid) {
         String query = SQLUtil.getQuery("insertToTempForDetails");
-        query = query.replace("?DCID", String.valueOf(detailSid));
+        query = query.replace(ConstantsUtils.DCID_QUESTION, String.valueOf(detailSid));
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,session.getCurrentTableNames()));
     }
 
@@ -482,7 +480,7 @@ public class DeductionCalendarLogic {
         }
     }
 
-    public String parseDateLogic(Object object) throws ParseException {
+    public String parseDateLogic(Object object) {
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         String date = formatter.format(object);
         return date;
@@ -490,7 +488,7 @@ public class DeductionCalendarLogic {
 
     public void saveDeductionDetails(SessionDTO sessionDTO) {
         String query = SQLUtil.getQuery(("Add".equals(sessionDTO.getMode()) || "Copy".equals(sessionDTO.getMode())) ? "savedeductiondetails" : "updatedeductiondetails");
-        query = query.replace("?DCID", String.valueOf(sessionDTO.getSystemId()));
+        query = query.replace(ConstantsUtils.DCID_QUESTION, String.valueOf(sessionDTO.getSystemId()));
         query = query.replace("?UID", sessionDTO.getUserId());
         query = query.replace("?SID", "'" + sessionDTO.getUiSessionId() + "'");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));

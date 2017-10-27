@@ -179,7 +179,7 @@ public final class ParentCFPIdLookup extends Window {
      * A dummy BeanItemContainer to avoid load issue in empty lazy bean
      * container.
      */
-    private BeanItemContainer<CFPDTO> dummySearchResulbeans = new BeanItemContainer<CFPDTO>(CFPDTO.class);
+    private BeanItemContainer<CFPDTO> dummySearchResulbeans = new BeanItemContainer<>(CFPDTO.class);
 
     /**
      * The parent company family plan name.
@@ -203,7 +203,7 @@ public final class ParentCFPIdLookup extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public ParentCFPIdLookup(final TextField parentCompanyFamilyPlanId, final TextField parentCompanyFamilyPlanName, final int companyFamilyPlanSystemId, final TextField parentFlagSID, final SessionDTO sessionDTO) throws SystemException {
+    public ParentCFPIdLookup(final TextField parentCompanyFamilyPlanId, final TextField parentCompanyFamilyPlanName, final int companyFamilyPlanSystemId, final TextField parentFlagSID, final SessionDTO sessionDTO) {
         super();
         addStyleName("bootstrap");
         addStyleName("bootstrap-bb");
@@ -223,7 +223,7 @@ public final class ParentCFPIdLookup extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void init() throws SystemException {
+    private void init() {
         LOGGER.debug("Entering ParentCFPIdLookup init");
         center();
         setClosable(true);
@@ -262,7 +262,7 @@ public final class ParentCFPIdLookup extends Window {
     private ErrorfulFieldGroup getBinder() {
         LOGGER.debug("Entering ParentCFPIdLookup getBinder");
         binder = new ErrorfulFieldGroup(
-                new BeanItem<CFPDTO>(new CFPDTO()));
+                new BeanItem<>(new CFPDTO()));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         LOGGER.debug("Ending ParentCFPIdLookup getBinder");
@@ -316,13 +316,13 @@ public final class ParentCFPIdLookup extends Window {
         resultTable.setSelectable(true);
         resultTable.setWidth(NumericConstants.NINETY_EIGHT, Sizeable.Unit.PERCENTAGE);
         resultTable.setContainerDataSource(dummySearchResulbeans);
-        resultTable.setVisibleColumns(UIUtils.CFP_SEARCH);
-        resultTable.setColumnHeaders(UIUtils.CFP_SEARCH_HEADER);
+        resultTable.setVisibleColumns(UIUtils.getInstance().cfpSearch);
+        resultTable.setColumnHeaders(UIUtils.getInstance().cfpSearchHeader);
         resultTable.setFilterBarVisible(true);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setFilterGenerator(new CFPTestGenerator());
         selectBtn.setEnabled(false);
-        closeBtn.setEnabled(false);
+        closeBtn.setEnabled(true);
         resultTable.addItemClickListener(new ItemClickListener() {
             /**
              * Called when a item has been clicked.
@@ -343,6 +343,7 @@ public final class ParentCFPIdLookup extends Window {
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
+                            return;
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
@@ -364,7 +365,7 @@ public final class ParentCFPIdLookup extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    protected void configureFields() throws SystemException {
+    protected void configureFields() {
         LOGGER.debug("Entering ParentCFPIdLookup configureFields");
         companyFamilyPlanId.setData("maxlengthvalidation,maxlengthvalidationcompanyfamilyplanid,null,null");
         companyFamilyPlanNo.setData("maxlengthvalidationfifty,maxlengthvalidationcompanyfamilyplanno,null,null");
@@ -419,8 +420,8 @@ public final class ParentCFPIdLookup extends Window {
                         }
 
                     }
-                         resultTable.setVisibleColumns(UIUtils.CFP_SEARCH);
-                    resultTable.setColumnHeaders(UIUtils.CFP_SEARCH_HEADER);
+                         resultTable.setVisibleColumns(UIUtils.getInstance().cfpSearch);
+                    resultTable.setColumnHeaders(UIUtils.getInstance().cfpSearchHeader);
                     resultTable.setFilterBarVisible(true);
                     resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     resultTable.setFilterGenerator(new CFPTestGenerator());
@@ -448,22 +449,20 @@ public final class ParentCFPIdLookup extends Window {
                         if (buttonId.name().equals("YES")) {
                             try {
                                 LOGGER.debug("Entering inside  RESET  method ");
-                                binder.setItemDataSource(new BeanItem<CFPDTO>(new CFPDTO()));
+                                binder.setItemDataSource(new BeanItem<>(new CFPDTO()));
                                 if (searchResults != null) {
                                     searchResults.removeAllItems();
                                 }
-                                binder.getErrorDisplay().clearError();
-                                final BeanItemContainer<CFPDTO> searchResultbeans = new BeanItemContainer<CFPDTO>(CFPDTO.class);
+                                final BeanItemContainer<CFPDTO> searchResultbeans = new BeanItemContainer<>(CFPDTO.class);
                                 resultTable.setContainerDataSource(searchResultbeans);
 
-                                resultTable.setVisibleColumns(UIUtils.CFP_SEARCH);
-                                resultTable.setColumnHeaders(UIUtils.CFP_SEARCH_HEADER);
+                                resultTable.setVisibleColumns(UIUtils.getInstance().cfpSearch);
+                                resultTable.setColumnHeaders(UIUtils.getInstance().cfpSearchHeader);
                                 resultTable.setFilterBarVisible(true);
                                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                                 resultTable.setFilterGenerator(new CFPTestGenerator());
-                                binder.getErrorDisplay().clearError();
                                 selectBtn.setEnabled(false);
-                                closeBtn.setEnabled(false);
+                                closeBtn.setEnabled(true);
 
                             } catch (Exception ex) {
                                 LOGGER.error(ex);

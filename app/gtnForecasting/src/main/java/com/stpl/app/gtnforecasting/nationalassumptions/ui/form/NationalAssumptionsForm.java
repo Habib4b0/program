@@ -74,7 +74,7 @@ public class NationalAssumptionsForm extends CustomComponent {
     /**
      * The tabSheet map.
      */
-    Map<Integer, Boolean> tabSheetMap = new HashMap<Integer, Boolean>();
+    Map<Integer, Boolean> tabSheetMap = new HashMap<>();
     /**
      * The button layout.
      */
@@ -141,7 +141,7 @@ public class NationalAssumptionsForm extends CustomComponent {
     /**
      * The tabsheet map.
      */
-    Map<Integer, Boolean> tabsheetMap = new HashMap<Integer, Boolean>();
+    Map<Integer, Boolean> tabsheetMap = new HashMap<>();
 
     CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem(DataSelectionDTO.class));
 
@@ -182,6 +182,9 @@ public class NationalAssumptionsForm extends CustomComponent {
      *
      * @param dtoValue the dto value
      * @param mode the mode
+     * @param sessionDTO
+     * @throws SystemException
+     * @throws PortalException
      */
     public NationalAssumptionsForm(DataSelectionDTO dtoValue, OptionGroup mode,SessionDTO sessionDTO) throws SystemException, PortalException  {
         LOGGER.info("NationalAssumptionsForm Constructor initiated ");
@@ -197,12 +200,12 @@ public class NationalAssumptionsForm extends CustomComponent {
         }
         this.dtoValue = dtoValue;
         this.mode = mode;
-        this.dataSelection = new DataSelection(dtoValue, mode, dataSelectionBinder,sessionDTO);
+        this.dataSelection = new DataSelection(dataSelectionBinder,sessionDTO);
         this.nationalAssumptions = new NationalAssumptions(sessionDTO);
         this.medicaidURA = new MedicaidURA(this,sessionDTO);
         this.fcpResults = new FcpResults(this,sessionDTO);
         this.phsResults = new PhsResults(this,sessionDTO);
-        this.additionalInformation = new AdditionalInformationForm("National Assumption", "National Assumption", dtoValue.getProjectionId(), String.valueOf(mode.getValue()));
+        this.additionalInformation = new AdditionalInformationForm(Constant.NATIONAL_ASSUMPTION_SCREEN_NAME, dtoValue.getProjectionId(), String.valueOf(mode.getValue()));
         
         if (Constant.EDIT_SMALL.equalsIgnoreCase(getmode) || Constant.VIEW.equalsIgnoreCase(getmode)) {
             CommonLogic logic = new CommonLogic();
@@ -250,7 +253,7 @@ public class NationalAssumptionsForm extends CustomComponent {
         tabSheet.markAsDirty();
         tabSheet.markAsDirtyRecursive();
         tabSheet.addTab(dataSelection, "Data Selection", null, 0);
-        tabSheet.addTab(nationalAssumptions, "National Assumptions", null, 1);
+        tabSheet.addTab(nationalAssumptions, Constant.NATIONAL_ASSUMPTIONS_SCREEN, null, 1);
         tabSheet.addTab(medicaidURA, "Medicaid URA Results", null, NumericConstants.TWO);
         tabSheet.addTab(fcpResults, "FCP Results", null, NumericConstants.THREE);
         tabSheet.addTab(phsResults, "PHS Results", null, NumericConstants.FOUR);
@@ -361,12 +364,12 @@ public class NationalAssumptionsForm extends CustomComponent {
                         public void noMethod() {
                             Tab tabToReset = tabSheet.getTab(1);
                             tabSheet.removeTab(tabToReset);
-                            tabSheet.addTab(nationalAssumptions, "National Assumptions", null, 1);
+                            tabSheet.addTab(nationalAssumptions, Constant.NATIONAL_ASSUMPTIONS_SCREEN, null, 1);
                             dsFlag = true;
                             /*Relaod the Default Value(Previously stored in DB) for Available & Selected Table in Data Selection Tab*/
                              dataSelection.setValues();
                         }
-                    }.getConfirmationMessage("Update confirmation", "You have added/removed NDC's from the current Projection. Are you sure you want to continue?");
+                    }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.ADDEDREMOVED_NDCS_ALERT);
                  naTabChange = true;
                  isDataSelectionupdateforFcp= true;
                  isDataSelectionupdatedforMedicaid= true;
@@ -441,7 +444,6 @@ public class NationalAssumptionsForm extends CustomComponent {
             LOGGER.error(ex);
         }
     }
-
     /**
      * Close btn.
      *
@@ -508,7 +510,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                             public void noMethod() {
                                 tabSheet.setSelectedTab(0);
                             }
-                        }.getConfirmationMessage("Update confirmation", "You have added/removed NDC's from the current Projection. Are you sure you want to continue?");
+                        }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.ADDEDREMOVED_NDCS_ALERT);
                         naTabChange = true;
                         isDataSelectionupdateforFcp = true;
                         isDataSelectionupdatedforMedicaid = true;
@@ -575,7 +577,7 @@ public class NationalAssumptionsForm extends CustomComponent {
      * @param event the event
      */
     @UiHandler("saveBtn")
-    public void saveBtn(Button.ClickEvent event) throws PortalException {
+    public void saveBtn(Button.ClickEvent event)  {
         final String projName = sessionDTO.getProjectionName();
         boolean updateflag = dataSelection.isChanged();
         if (updateflag) {
@@ -592,8 +594,9 @@ public class NationalAssumptionsForm extends CustomComponent {
 
                 @Override
                 public void noMethod() {
+                    return;
                 }
-            }.getConfirmationMessage("Update confirmation", "You have added/removed NDC's from the current Projection. Are you sure you want to continue?");
+            }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.ADDEDREMOVED_NDCS_ALERT);
         }
 
         if (!updateflag) {
@@ -623,7 +626,7 @@ public class NationalAssumptionsForm extends CustomComponent {
         UI.getCurrent().setFocusedComponent(UI.getCurrent());
     }
 
-    private void callTempTableActivities() throws SystemException {
+    private void callTempTableActivities()  {
         CommonLogic logic = new CommonLogic();
         logic.clearTemp(sessionDTO);
         if(!Constant.VIEW.equalsIgnoreCase(viewMode)){
@@ -664,14 +667,14 @@ public class NationalAssumptionsForm extends CustomComponent {
         medicaidURA.saveMedicaidSelections();
         fcpResults.saveFcpSelections();
         phsResults.savePhsSelections();
-        additionalInformation.saveNotesInformation(projectionId, "National Assumption");
+        additionalInformation.saveNotesInformation(projectionId, Constant.NATIONAL_ASSUMPTION_SCREEN_NAME);
         CommonLogic logic = new CommonLogic();
         logic.saveTempToMain(sessionDTO);
         logic.saveBaseYeaToItemMaster(sessionDTO);
         logic.saveTempNDCToMain(sessionDTO);
         nationalAssumptions.saveDeletedPrice();
         nationalAssumptions.saveNationalAssumptions(false);
-        CommonUIUtils.getMessageNotification(projName + " has been successfully saved");
+        CommonUIUtils.getMessageNotification(projectionId + "," + projName + " has been successfully saved");
         saveBtn.setCaption("UPDATE");
     }
         catch(Exception e){
@@ -693,7 +696,7 @@ public class NationalAssumptionsForm extends CustomComponent {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId =  sessionDTO.getUserId();
 
-        Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessTabPermission(userId, "National Assumptions");
+        Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessTabPermission(userId, Constant.NATIONAL_ASSUMPTIONS_SCREEN);
         if (functionPsHM.get(FunctionNameUtil.NM_DATA_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_DATA_TAB)).isTabFlag()) {
             tabSheet.getTab(0).setVisible(Boolean.FALSE);
 
@@ -729,4 +732,5 @@ public class NationalAssumptionsForm extends CustomComponent {
             sessionDTO.addFutureMap(Constant.NA_FILE_INSERT, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NA_WAC_DATA, sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(),NATIONAL_ASSUMPTIONS.getConstant()))
         });
 }
+
 }

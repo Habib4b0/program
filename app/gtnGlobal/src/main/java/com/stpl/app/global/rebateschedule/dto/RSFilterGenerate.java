@@ -36,6 +36,7 @@ public class RSFilterGenerate implements ExtFilterGenerator {
     RebateScheduleLogic rebateLogic = new RebateScheduleLogic();
     
     public RSFilterGenerate() {
+        //constructor
     }
 
     @Override
@@ -56,7 +57,8 @@ public class RSFilterGenerate implements ExtFilterGenerator {
                 }
             } else if (originatingField instanceof ComboBox) {
                 if (originatingField.getValue() != null) {
-                        return new SimpleStringFilter(propertyId, String.valueOf(((HelperDTO) originatingField.getValue()).getId()), false, false);
+                        String value = String.valueOf(((HelperDTO) originatingField.getValue()).getId());
+                        return new SimpleStringFilter(propertyId, value, false, false);
                 } else {
                     return null;
                 }

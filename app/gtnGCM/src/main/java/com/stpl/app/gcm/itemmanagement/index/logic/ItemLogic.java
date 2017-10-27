@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.index.logic;
 
-import com.stpl.app.gcm.common.AppDataUtils;
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
+import static com.stpl.app.gcm.util.Constants.IndicatorConstants.CONTRACT;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.ComboBox;
@@ -45,21 +45,21 @@ public class ItemLogic {
 
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
-    Map<String, String> componentMap = new HashMap<String, String>();
-    Map<String, String> ifpMap = new HashMap<String, String>();
-    Map<String, String> psMap = new HashMap<String, String>();
-     Map<Integer, String> users = new HashMap<Integer, String>();
+    Map<String, String> componentMap = new HashMap<>();
+    Map<String, String> ifpMap = new HashMap<>();
+    Map<String, String> psMap = new HashMap<>();
+     Map<Integer, String> users = new HashMap<>();
         String userid= "";
 
     public void setCfpSearch() {
-        componentMap = new HashMap<String, String>();
-        componentMap.put("componentId", "CM.CFP_ID");
-        componentMap.put("componentNo", " CM.CFP_NO");
-        componentMap.put("componentName", "CM.CFP_NAME");
-        componentMap.put("componentType", "TYP.DESCRIPTION");
-        componentMap.put("category", "CAT.DESCRIPTION");
-        componentMap.put("designation", "CM.CFP_DESIGNATION");
-        componentMap.put("componentStatus", "ST.HELPER_TABLE_SID");
+        componentMap = new HashMap<>();
+        componentMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.CFP_ID");
+        componentMap.put(StringConstantsUtil.COMPONENT_NO, " CM.CFP_NO");
+        componentMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.CFP_NAME");
+        componentMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYPDESCRIPTION);
+        componentMap.put(Constants.CATEGORY, StringConstantsUtil.CATDESCRIPTION);
+        componentMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "CM.CFP_DESIGNATION");
+        componentMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.STHELPER_TABLE_SID);
         componentMap.put("tradeClass", "TC.DESCRIPTION");
         componentMap.put(Constants.START_DATE, "CM.CFP_START_DATE");
         componentMap.put(Constants.END_DATE, "CM.CFP_END_DATE");
@@ -67,30 +67,30 @@ public class ItemLogic {
     }
 
     public void setIfpSearch() {
-        ifpMap = new HashMap<String, String>();
-        ifpMap.put("componentId", "CM.IFP_ID");
-        ifpMap.put("componentNo", "CM.IFP_NO");
-        ifpMap.put("componentName", "CM.IFP_NAME");
-        ifpMap.put("componentType", "TYP.DESCRIPTION");
-        ifpMap.put("category", "CAT.DESCRIPTION");
+        ifpMap = new HashMap<>();
+        ifpMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.IFP_ID");
+        ifpMap.put(StringConstantsUtil.COMPONENT_NO, "CM.IFP_NO");
+        ifpMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.IFP_NAME");
+        ifpMap.put(StringConstantsUtil.COMPONENT_TYPE, "TYP.DESCRIPTION");
+        ifpMap.put(Constants.CATEGORY, "CAT.DESCRIPTION");
         ifpMap.put("designation", "CM.IFP_DESIGNATION");
-        ifpMap.put("componentStatus", "ST.HELPER_TABLE_SID");
-        ifpMap.put(Constants.START_DATE, "CM.IFP_START_DATE");
+        ifpMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.STHELPER_TABLE_SID);
+        ifpMap.put(Constants.START_DATE, StringConstantsUtil.CMIFP_START_DATE);
         ifpMap.put(Constants.END_DATE, "CM.IFP_START_DATE");
 
     }
 
     public void setPsSearch() {
-        psMap = new HashMap<String, String>();
-        psMap.put("componentId", "PS.PS_ID");
-        psMap.put("componentNo", "PS.PS_NO");
-        psMap.put("componentName", "PS.PS_NAME");
-        psMap.put("componentType", "TYP.DESCRIPTION");
-        psMap.put("category", "CAT.DESCRIPTION");
+        psMap = new HashMap<>();
+        psMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "PS.PS_ID");
+        psMap.put(StringConstantsUtil.COMPONENT_NO, "PS.PS_NO");
+        psMap.put(StringConstantsUtil.COMPONENT_NAME, "PS.PS_NAME");
+        psMap.put(StringConstantsUtil.COMPONENT_TYPE, "TYP.DESCRIPTION");
+        psMap.put(Constants.CATEGORY, "CAT.DESCRIPTION");
         psMap.put("designation", "desig.HELPER_TABLE_SID");
         psMap.put("parentPsId", "PS.PARENT_PS_ID");
-        psMap.put("PS.PARENT_PS_NAME", "ST.HELPER_TABLE_SID");
-        psMap.put("componentStatus", "ST.HELPER_TABLE_SID");
+        psMap.put("PS.PARENT_PS_NAME", StringConstantsUtil.STHELPER_TABLE_SID);
+        psMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.STHELPER_TABLE_SID);
         psMap.put("tradeClass", "TC.DESCRIPTION");
         psMap.put(Constants.START_DATE, "PS.PS_START_DATE");
         psMap.put(Constants.END_DATE, "PS.PS_END_DATE ");
@@ -127,7 +127,7 @@ public class ItemLogic {
 
     public List<HelperDTO> getDdlbList(String QueryName, final List<String> input) {
         List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
-        List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+        List<HelperDTO> resultList = new ArrayList<>();
         if (Integer.valueOf(String.valueOf(input.get(1))) == 0) {
             HelperDTO defaultValue = new HelperDTO(0, IndicatorConstants.SELECT_ONE.getConstant());
             resultList.add(defaultValue);
@@ -222,10 +222,10 @@ public class ItemLogic {
             input.add("%");
         }
         if ("No".equals(binderDto.getPlaceHolderValue())) {
-            input.add("LIKE '%'");
+            input.add(StringConstantsUtil.LIKE_PER);
         } else {
             if (binderDto.getPlaceHolder_DTO() != null && binderDto.getPlaceHolder_DTO().getId() != NumericConstants.ELEVEN) {
-                String placehold = String.valueOf(binderDto.getPlaceHolder_DTO().getId());
+                 String placehold = String.valueOf(binderDto.getPlaceHolder_DTO().getId());
                 if(placehold.contains("0"))
                 {
                     input.add("! = '"+userid+"'");
@@ -263,8 +263,8 @@ public class ItemLogic {
             } else {
                 input.add("%");
             }
-            if (filterMap.get("itemNo") != null) {
-                input.add(CommonUtils.getDBinputForFilter(filterMap.get("itemNo")));
+            if (filterMap.get(Constants.ITEM_NO_PROPERTY) != null) {
+                input.add(CommonUtils.getDBinputForFilter(filterMap.get(Constants.ITEM_NO_PROPERTY)));
             } else {
                 input.add("%");
             }
@@ -283,8 +283,8 @@ public class ItemLogic {
             } else {
                 input.add("%");
             }
-            if (filterMap.get("brand") != null) {
-                input.add(filterMap.get("brand"));
+            if (filterMap.get(Constants.BRAND_PROPERTY) != null) {
+                input.add(filterMap.get(Constants.BRAND_PROPERTY));
             } else {
                 input.add("%");
             }
@@ -298,17 +298,17 @@ public class ItemLogic {
             } else {
                 input.add("%");
             }
-            if (filterMap.get("placeHolder") != null) {
-                if (!filterMap.get("placeHolder").equals("NumericConstants.ELEVEN")) {
-                    String placehold = String.valueOf(filterMap.get("placeHolder"));
+            if (filterMap.get(Constants.PLACE_HOLDER_PROPERTY) != null) {
+                if (!filterMap.get(Constants.PLACE_HOLDER_PROPERTY).equals(NumericConstants.ELEVEN)) {
+                    String placehold = String.valueOf(filterMap.get(Constants.PLACE_HOLDER_PROPERTY));
                     if (placehold.contains("0")) {
-                        input.add("! = '" + userid + "'");
+                        input.add(" != " + userid + " ");
                     } else {
-                        input.add("= '" + userid + "'");
+                        input.add(" = " + userid + " ");
                     }
                 }
             } else {
-                input.add("LIKE '%'");
+                 input.add("LIKE '%'");
             }
             if (filterMap.get("ndc9") != null) {
                 input.add(CommonUtils.getDBinputForFilter(filterMap.get("ndc9")));
@@ -370,31 +370,31 @@ public class ItemLogic {
 
     public int configureLevelCount(SelectionDTO projSelDTO) {
         List input = new ArrayList();
-        Map<Integer, Map<String, String>> idMainMap = new HashMap<Integer, Map<String, String>>(projSelDTO.getIdMainMap());
+        Map<Integer, Map<String, String>> idMainMap = new HashMap<>(projSelDTO.getIdMainMap());
         Map<String, String> idMap = idMainMap.get(projSelDTO.getLevelNo());
         if (projSelDTO.getLevelNo() == 1) {
             input.add(projSelDTO.getProjectionId());
         } else if (projSelDTO.getLevelNo() == NumericConstants.TWO) {
-            input.add(idMap.get("Contract"));
+            input.add(idMap.get(CONTRACT.getConstant()));
             input.add(projSelDTO.getProjectionId());
         } else if (projSelDTO.getLevelNo() == NumericConstants.THREE) {
-            input.add(idMap.get("Company"));
-            input.add(idMap.get("Contract"));
+            input.add(idMap.get(Constants.COMPANY_LABEL));
+            input.add(idMap.get(CONTRACT.getConstant()));
             input.add(projSelDTO.getProjectionId());
         } else if (projSelDTO.getLevelNo() == NumericConstants.FOUR) {
-            input.add(idMap.get("Company"));
-            input.add(idMap.get("Contract"));
+            input.add(idMap.get(Constants.COMPANY_LABEL));
+            input.add(idMap.get(CONTRACT.getConstant()));
             if (projSelDTO.getSummaryScreen().equals("SalesSummary")) {
                 input.add(projSelDTO.getProjectionId());
-                input.add(idMap.get("brand"));
+                input.add(idMap.get(Constants.BRAND_PROPERTY));
             } else {
-                input.add(idMap.get("brand"));
+                input.add(idMap.get(Constants.BRAND_PROPERTY));
                 input.add(projSelDTO.getProjectionId());
             }
         } else if (projSelDTO.getLevelNo() == NumericConstants.FIVE) {
-            input.add(idMap.get("Company"));
-            input.add(idMap.get("Contract"));
-            input.add(idMap.get("brand"));
+            input.add(idMap.get(Constants.COMPANY_LABEL));
+            input.add(idMap.get(CONTRACT.getConstant()));
+            input.add(idMap.get(Constants.BRAND_PROPERTY));
             input.add(projSelDTO.getProjectionId());
 
         }
@@ -440,7 +440,7 @@ public class ItemLogic {
     }
 
     public int getComponentCount(final ComponentLookUpDTO binderDto, final SelectionDTO selection, Set<Container.Filter> filters) {
-        List inputList = new ArrayList();
+        List inputList;
         if (selection.getComponentScreen().equalsIgnoreCase("Component Lookup")) {
             inputList = getComponentLookUpSelection(binderDto, filters);
         } else {
@@ -452,7 +452,7 @@ public class ItemLogic {
 
     public List<ComponentLookUpDTO> getComponentResults(final ComponentLookUpDTO binderDto, final SelectionDTO selection, Set<Container.Filter> filters) {
         List<Object[]> list = ItemQueries.getItemData(getComponentLookUpSelection(binderDto, filters), selection.getComponentLoad(), null);
-        List<ComponentLookUpDTO> finalResult = new ArrayList<ComponentLookUpDTO>();
+        List<ComponentLookUpDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -468,7 +468,7 @@ public class ItemLogic {
 
     public List<ComponentLookUpDTO> getComponentSearchResults(final ComponentLookUpDTO binderDto, final SelectionDTO selection) {
         List<Object[]> list = ItemQueries.getItemData(getComponentSearchSelection(binderDto, selection), selection.getComponentLoad(), null);
-        List<ComponentLookUpDTO> finalResult = new ArrayList<ComponentLookUpDTO>();
+        List<ComponentLookUpDTO> finalResult = new ArrayList<>();
         if (selection.getComponent().equalsIgnoreCase(Constants.CFP)) {
             finalResult = getCustomizedCFP(list);
         } else if (selection.getComponent().equals(Constants.IFP)) {
@@ -480,7 +480,7 @@ public class ItemLogic {
     }
 
     public List<ComponentLookUpDTO> getCustomizedCFP(final List<Object[]> list) {
-        List<ComponentLookUpDTO> finalResult = new ArrayList<ComponentLookUpDTO>();
+        List<ComponentLookUpDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -501,7 +501,7 @@ public class ItemLogic {
     }
 
     public List<ComponentLookUpDTO> getCustomizedIFP(final List<Object[]> list) {
-        List<ComponentLookUpDTO> finalResult = new ArrayList<ComponentLookUpDTO>();
+        List<ComponentLookUpDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -521,7 +521,7 @@ public class ItemLogic {
     }
 
     public List<ComponentLookUpDTO> getCustomizedPS(final List<Object[]> list) {
-        List<ComponentLookUpDTO> finalResult = new ArrayList<ComponentLookUpDTO>();
+        List<ComponentLookUpDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ComponentLookUpDTO dto = new ComponentLookUpDTO();
             dto.setComponentId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -572,31 +572,31 @@ public class ItemLogic {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    if (stringFilter.getPropertyId().equals("componentId")) {
+                    if (stringFilter.getPropertyId().equals(StringConstantsUtil.COMPONENT_ID_PROPERTY)) {
                         String filterString = "%" + stringFilter.getFilterString() + "%";
                         input.add(filterString);
                     } else {
                         input.add("%");
                     }
-                    if (stringFilter.getPropertyId().equals("componentNo")) {
+                    if (stringFilter.getPropertyId().equals(StringConstantsUtil.COMPONENT_NO)) {
                         String filterString = "%" + stringFilter.getFilterString() + "%";
                         input.add(filterString);
                     } else {
                         input.add("%");
                     }
-                    if (stringFilter.getPropertyId().equals("componentName")) {
+                    if (stringFilter.getPropertyId().equals(StringConstantsUtil.COMPONENT_NAME)) {
                         String filterString = "%" + stringFilter.getFilterString() + "%";
                         input.add(filterString);
                     } else {
                         input.add("%");
                     }
-                    if (stringFilter.getPropertyId().equals("componentStatus")) {
+                    if (stringFilter.getPropertyId().equals(StringConstantsUtil.COMPONENT_STATUS_PROPERTY)) {
                         String filterString = stringFilter.getFilterString();
                         input.add(filterString);
                     } else {
                         input.add("%");
                     }
-                    if (stringFilter.getPropertyId().equals("componentType")) {
+                    if (stringFilter.getPropertyId().equals(StringConstantsUtil.COMPONENT_TYPE)) {
                         String filterString = stringFilter.getFilterString();
                         input.add(filterString);
                     } else {
@@ -718,7 +718,7 @@ public class ItemLogic {
         final List input = new ArrayList();
         input.add(selection.getSessionId());
         input.add(selection.getInternalSessionid());
-        final List<Integer> finalList = new ArrayList<Integer>();
+        final List<Integer> finalList = new ArrayList<>();
         List<Object[]> list = ItemQueries.getItemData(input, "contractTempValidations", null);
         if (!list.isEmpty()) {
             Object[] obj = list.get(0);
@@ -729,12 +729,16 @@ public class ItemLogic {
             finalList.add(cpStartDateCount);
             finalList.add(priceType);
         }
-        return new ArrayList<Integer>();
+        return new ArrayList<>();
     }
 
     private void addList(List input, Integer size) {
         for (int i = 0; i < size; i++) {
-            input.add("%");
+            if(i == 10){
+                input.add(" LIKE '%'");
+            } else {
+                input.add("%");
+            }
         }
     }
 
@@ -742,7 +746,7 @@ public class ItemLogic {
         String queryName;
         queryName = "Load Search Results";
         List<Object[]> list = ItemQueries.getItemData(getSearchSelection(binderDto, selection), queryName, null);
-        List<ItemIndexDto> finalResult = new ArrayList<ItemIndexDto>();
+        List<ItemIndexDto> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ItemIndexDto dto = new ItemIndexDto();
             dto.setSystemId(str[0].toString());

@@ -18,11 +18,11 @@ public class VarianceCalculationLogic {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(VarianceCalculationLogic.class);
 
-    public static void submitWorkflow(final String userId, final Long processInstanceId, final Map<String, Object> params, final String state) {
+    public static void submitWorkflow(final String userId, final Long processInstanceId, final Map<String, Object> params) {
         try {
             User user = UserLocalServiceUtil.getUser(Long.parseLong(userId));
 
-            TaskSummary task = BPMProcessBean.getAvailableTask(processInstanceId, user.getScreenName());
+            TaskSummary task = BPMProcessBean.getAvailableTask(processInstanceId);
             LOGGER.info("task.getName() :" + task.getName());
             LOGGER.info("task.getId() :" + task.getId());
             LOGGER.info("task.getActualOwnerId() :" + task.getActualOwnerId());

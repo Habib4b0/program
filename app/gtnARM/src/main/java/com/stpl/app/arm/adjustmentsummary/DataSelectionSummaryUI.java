@@ -31,7 +31,7 @@ public class DataSelectionSummaryUI extends CommonUI {
 
     private Navigator navigator;
     private SessionDTO sessionDTO;
-    private static final Logger LOGGER = Logger.getLogger(DataSelectionSummaryUI.class);
+    private static final Logger dataSelectionSummaryUILogger = Logger.getLogger(DataSelectionSummaryUI.class);
 
     @Override
     protected void init(VaadinRequest request) {
@@ -48,8 +48,8 @@ public class DataSelectionSummaryUI extends CommonUI {
         sessionDTO.setSessionId(Integer.valueOf(sessionId));
         CommonUtils.beforeUnloadCloseUi(this);
         CommonUtils.getUserName();
-        LOGGER.info("USER_ID :"+userId);
-        LOGGER.info("SESSION_ID :"+sessionId);
+        dataSelectionSummaryUILogger.info("USER_ID :" + userId);
+        dataSelectionSummaryUILogger.info("SESSION_ID :" + sessionId);
         navigator = new Navigator(this, this);
         navigator.addView(DataSelectionView.NAME, new DataSelectionView(sessionDTO, ARMConstants.getAdjustmentSummary()));
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -71,6 +71,16 @@ public class DataSelectionSummaryUI extends CommonUI {
             HelperListUtil.getInstance().loadValuesWithListName(listName);
         }
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

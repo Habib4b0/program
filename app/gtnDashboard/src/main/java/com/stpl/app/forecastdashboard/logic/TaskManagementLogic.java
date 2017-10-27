@@ -35,13 +35,12 @@ import org.apache.commons.lang.StringUtils;
  */
 public class TaskManagementLogic {
 
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(TaskManagementLogic.class);
     /**
      * The dao.
      */
     private ForecastDashboardDAO dao = new ForecastDashboardDAOImpl();
     Map<String, String> userMap = new HashMap<String, String>();
-
+   
     public List<TaskManagementDTO> getRecentApprovedProjection(String type) throws SystemException {
 //        List<ProjectionMaster> list = new ArrayList<ProjectionMaster>();
 //        List<TaskManagementDTO> resultslist = new ArrayList<TaskManagementDTO>();
@@ -109,16 +108,16 @@ public class TaskManagementLogic {
         List<TaskManagementDTO> resultslist = new ArrayList<TaskManagementDTO>();
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
         if(!type.equals("'CFF'")){
-         pendingProj = "SELECT TOP 7 pm.PROJECTION_NAME,pm.PROJECTION_DESCRIPTION,hd_cust.HIERARCHY_NAME,pm.CUSTOMER_HIERARCHY_LEVEL, "
-                + " hd_prod.HIERARCHY_NAME AS prod_name, pm.PRODUCT_HIERARCHY_LEVEL,pm.CREATED_DATE,pm.MODIFIED_DATE,pm.CREATED_BY,pm.PROJECTION_MASTER_SID , HT.DESCRIPTION, pm.MODIFIED_BY, pm.FORECASTING_TYPE "
-                + " FROM   PROJECTION_MASTER pm JOIN WORKFLOW_MASTER wm ON pm.PROJECTION_MASTER_SID = wm.PROJECTION_MASTER_SID"
-//                + " AND wm.WORKFLOW_STATUS_ID in (SELECT HELPER_TABLE_SID FROM   HELPER_TABLE WHERE  LIST_NAME = 'WorkFlowStatus'  AND DESCRIPTION in ("+status+"))"
+            pendingProj = "SELECT TOP 7 pm.PROJECTION_NAME,pm.PROJECTION_DESCRIPTION,hd_cust.HIERARCHY_NAME,pm.CUSTOMER_HIERARCHY_LEVEL, "
+                    + " hd_prod.HIERARCHY_NAME AS prod_name, pm.PRODUCT_HIERARCHY_LEVEL,pm.CREATED_DATE,pm.MODIFIED_DATE,pm.CREATED_BY,pm.PROJECTION_MASTER_SID , HT.DESCRIPTION, pm.MODIFIED_BY, pm.FORECASTING_TYPE "
+                    + " FROM   PROJECTION_MASTER pm JOIN WORKFLOW_MASTER wm ON pm.PROJECTION_MASTER_SID = wm.PROJECTION_MASTER_SID"
+                    //                + " AND wm.WORKFLOW_STATUS_ID in (SELECT HELPER_TABLE_SID FROM   HELPER_TABLE WHERE  LIST_NAME = 'WorkFlowStatus'  AND DESCRIPTION in ("+status+"))"
                 + " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=wm.WORKFLOW_STATUS_ID AND  HT.LIST_NAME = 'WorkFlowStatus' AND HT.DESCRIPTION in ("+status+") "
-                + " LEFT JOIN HIERARCHY_DEFINITION hd_cust ON hd_cust.HIERARCHY_DEFINITION_SID = pm.CUSTOMER_HIERARCHY_SID"
-                + " LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = pm.PRODUCT_HIERARCHY_SID"
+                    + " LEFT JOIN HIERARCHY_DEFINITION hd_cust ON hd_cust.HIERARCHY_DEFINITION_SID = pm.CUSTOMER_HIERARCHY_SID"
+                    + " LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = pm.PRODUCT_HIERARCHY_SID"
                 + " WHERE pm.CREATED_BY='" + userId + "'  and pm.FORECASTING_TYPE in ("+ type +") ORDER  BY wm.MODIFIED_DATE DESC";
-        list = dao.getResultList(pendingProj);
-        totalList.addAll(list);
+            list = dao.getResultList(pendingProj);
+            totalList.addAll(list);
         }
         if(type.contains("CFF") || type.equals("'CFF'")){
             String cff=StringUtils.EMPTY;
@@ -128,21 +127,21 @@ public class TaskManagementLogic {
                   cff="TOP 3";
             }
          pendingProj="Select "+ cff +" CM.CFF_NAME AS PROJECTION_NAME , '' AS PROJECTION_DESCRIPTION,hd_cust.HIERARCHY_NAME AS HIERARCHY_NAME,CM.CUSTOMER_HIERARCHY_LEVEL,\n"
-                + "                hd_prod.HIERARCHY_NAME AS prod_name, CM.PRODUCT_HIERARCHY_LEVEL,\n"
-                + "CM.CREATED_DATE,CM.MODIFIED_DATE AS MODIFIED_DATE,CM.CREATED_BY AS CREATED_BY,CM.CFF_MASTER_SID AS PROJECTION_MASTER_SID, HT.DESCRIPTION,CM.MODIFIED_BY ,'CFF' AS FORECASTING_TYPE from CFF_MASTER CM join CFF_APPROVAL_DETAILS CAD ON CM.CFF_MASTER_SID=CAD.CFF_MASTER_SID\n"
+                    + "                hd_prod.HIERARCHY_NAME AS prod_name, CM.PRODUCT_HIERARCHY_LEVEL,\n"
+                    + "CM.CREATED_DATE,CM.MODIFIED_DATE AS MODIFIED_DATE,CM.CREATED_BY AS CREATED_BY,CM.CFF_MASTER_SID AS PROJECTION_MASTER_SID, HT.DESCRIPTION,CM.MODIFIED_BY ,'CFF' AS FORECASTING_TYPE from CFF_MASTER CM join CFF_APPROVAL_DETAILS CAD ON CM.CFF_MASTER_SID=CAD.CFF_MASTER_SID\n"
                + " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CAD.APPROVAL_STATUS AND  HT.LIST_NAME = 'WorkFlowStatus' AND HT.DESCRIPTION in ("+status+") "
-                 + "                LEFT JOIN HIERARCHY_DEFINITION hd_cust ON hd_cust.HIERARCHY_DEFINITION_SID = CM.CUSTOMER_HIERARCHY_SID\n"
-                + "                LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = CM.PRODUCT_HIERARCHY_SID"
-                + " WHERE CM.CREATED_BY='" + userId + "'  ORDER  BY CM.MODIFIED_DATE DESC";
-         list = dao.getResultList(pendingProj);
-        totalList.addAll(list);
+                    + "                LEFT JOIN HIERARCHY_DEFINITION hd_cust ON hd_cust.HIERARCHY_DEFINITION_SID = CM.CUSTOMER_HIERARCHY_SID\n"
+                    + "                LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = CM.PRODUCT_HIERARCHY_SID"
+                    + " WHERE CM.CREATED_BY='" + userId + "'  ORDER  BY CM.MODIFIED_DATE DESC";
+            list = dao.getResultList(pendingProj);
+            totalList.addAll(list);
         }
         if (!totalList.isEmpty()) {
             resultslist = getCustomizedResults(totalList);
         }
         return resultslist;
     }
-  
+
     public List<TaskManagementDTO> getProjectionsStatus(String status,String type,String subittedStatus) throws SystemException {
         List<ProjectionMaster> list = new ArrayList<ProjectionMaster>();
         List<ProjectionMaster> totalList = new ArrayList<ProjectionMaster>();
@@ -157,8 +156,8 @@ public class TaskManagementLogic {
 "                  LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = pm.PRODUCT_HIERARCHY_SID\n" +
 "                  WHERE  pm.FORECASTING_TYPE in ("+type+") and pm.IS_APPROVED='"+status+"' ORDER  BY pm.MODIFIED_DATE DESC;";
 //            System.out.println("pendingProj:====123=======================>"+pendingProj);
-        list = dao.getResultList(pendingProj);
-        totalList.addAll(list);
+            list = dao.getResultList(pendingProj);
+            totalList.addAll(list);
         }
         if(type.contains("CFF") || type.equals("'CFF'")){
             String cff=StringUtils.EMPTY;
@@ -174,36 +173,36 @@ public class TaskManagementLogic {
 "                                LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = CM.PRODUCT_HIERARCHY_SID\n" +
 "                                WHERE CM.INBOUND_STATUS='"+status+"'  ORDER  BY CM.MODIFIED_DATE DESC;";
 //            System.out.println("pendingProj:====1234================================>"+pendingProj);
-         list = dao.getResultList(pendingProj);
-        totalList.addAll(list);
+            list = dao.getResultList(pendingProj);
+            totalList.addAll(list);
         }
         if (!totalList.isEmpty()) {
             resultslist = getCustomizedResults(totalList);
         }
         return resultslist;
     }
-    
+
     
     
     public List<TaskManagementDTO> getForecastCFFRecentlySavedProjection(String status) throws SystemException {
         List<TaskManagementDTO> resultslist = new ArrayList<TaskManagementDTO>();
         List<ProjectionMaster> list = new ArrayList<ProjectionMaster>();
-          List<ProjectionMaster> totalList = new ArrayList<ProjectionMaster>();
+        List<ProjectionMaster> totalList = new ArrayList<ProjectionMaster>();
            String pendingProj=StringUtils.EMPTY;
-             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
+        String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
           if(!status.equals("'CFF'")){
-           pendingProj = "SELECT TOP 7  pm.PROJECTION_NAME,pm.PROJECTION_DESCRIPTION AS PROJECTION_DESCRIPTION,hd_cust.HIERARCHY_NAME ,pm.CUSTOMER_HIERARCHY_LEVEL  ,\n"
-                + "                hd_prod.HIERARCHY_NAME AS prod_name, pm.PRODUCT_HIERARCHY_LEVEL ,pm.CREATED_DATE AS CREATED_DATE,pm.MODIFIED_DATE AS MODIFIED_DATE,pm.CREATED_BY AS CREATED_BY,pm.PROJECTION_MASTER_SID,STATUS='', pm.MODIFIED_BY, pm.FORECASTING_TYPE \n"
-                + "                FROM   PROJECTION_MASTER pm \n"
-                + "                LEFT JOIN HIERARCHY_DEFINITION hd_cust ON hd_cust.HIERARCHY_DEFINITION_SID = pm.CUSTOMER_HIERARCHY_SID\n"
-                + "                LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = pm.PRODUCT_HIERARCHY_SID\n"
-//               pm.SAVE_FLAG = 1 AND
-                   + "                WHERE  pm.CREATED_BY='" + userId + "' and \n"
+            pendingProj = "SELECT TOP 7  pm.PROJECTION_NAME,pm.PROJECTION_DESCRIPTION AS PROJECTION_DESCRIPTION,hd_cust.HIERARCHY_NAME ,pm.CUSTOMER_HIERARCHY_LEVEL  ,\n"
+                    + "                hd_prod.HIERARCHY_NAME AS prod_name, pm.PRODUCT_HIERARCHY_LEVEL ,pm.CREATED_DATE AS CREATED_DATE,pm.MODIFIED_DATE AS MODIFIED_DATE,pm.CREATED_BY AS CREATED_BY,pm.PROJECTION_MASTER_SID,STATUS='', pm.MODIFIED_BY, pm.FORECASTING_TYPE \n"
+                    + "                FROM   PROJECTION_MASTER pm \n"
+                    + "                LEFT JOIN HIERARCHY_DEFINITION hd_cust ON hd_cust.HIERARCHY_DEFINITION_SID = pm.CUSTOMER_HIERARCHY_SID\n"
+                    + "                LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = pm.PRODUCT_HIERARCHY_SID\n"
+                    //               pm.SAVE_FLAG = 1 AND
+                    + "                WHERE  pm.CREATED_BY='" + userId + "' and \n"
                 + "pm.FORECASTING_TYPE in ("+status+") \n"
-          + " ORDER  BY isnull(pm.MODIFIED_DATE,pm.CREATED_DATE) DESC ";
-            list = dao.getResultList(pendingProj);    
-              totalList.addAll(list);
-          }
+                    + " ORDER  BY isnull(pm.MODIFIED_DATE,pm.CREATED_DATE) DESC ";
+            list = dao.getResultList(pendingProj);
+            totalList.addAll(list);
+        }
                if(status.contains("CFF") || status.equals("'CFF'")){
             String cff=StringUtils.EMPTY;
             if(status.equals("'CFF'")){
@@ -212,23 +211,23 @@ public class TaskManagementLogic {
                   cff="TOP 3";
             }
          pendingProj = "Select "+cff+" CM.CFF_NAME AS PROJECTION_NAME,'' AS PROJECTION_DESCRIPTION , hd_cust.HIERARCHY_NAME AS HIERARCHY_NAME,CM.CUSTOMER_HIERARCHY_LEVEL,\n"
-                + "                hd_prod.HIERARCHY_NAME AS prod_name, CM.PRODUCT_HIERARCHY_LEVEL,\n"
-                + "CM.CREATED_DATE,CM.MODIFIED_DATE ,CM.CREATED_BY ,CM.CFF_MASTER_SID AS PROJECTION_MASTER_SID,STATUS='',CM.MODIFIED_BY ,'CFF' AS FORECASTING_TYPE from CFF_MASTER CM"
-//                + " join CFF_APPROVAL_DETAILS CAD ON CM.CFF_MASTER_SID=CAD.CFF_MASTER_SID\n"
+                    + "                hd_prod.HIERARCHY_NAME AS prod_name, CM.PRODUCT_HIERARCHY_LEVEL,\n"
+                    + "CM.CREATED_DATE,CM.MODIFIED_DATE ,CM.CREATED_BY ,CM.CFF_MASTER_SID AS PROJECTION_MASTER_SID,STATUS='',CM.MODIFIED_BY ,'CFF' AS FORECASTING_TYPE from CFF_MASTER CM"
+                    //                + " join CFF_APPROVAL_DETAILS CAD ON CM.CFF_MASTER_SID=CAD.CFF_MASTER_SID\n"
 
-                + "                LEFT JOIN HIERARCHY_DEFINITION hd_cust ON hd_cust.HIERARCHY_DEFINITION_SID = CM.CUSTOMER_HIERARCHY_SID\n"
-                + "                LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = CM.PRODUCT_HIERARCHY_SID"
-                + " WHERE CM.CREATED_BY='" + userId + "' "
-                + " ORDER  BY isnull(CM.MODIFIED_DATE,CM.CREATED_DATE) DESC ";
-         list = dao.getResultList(pendingProj);    
-              totalList.addAll(list);  
-               }
+                    + "                LEFT JOIN HIERARCHY_DEFINITION hd_cust ON hd_cust.HIERARCHY_DEFINITION_SID = CM.CUSTOMER_HIERARCHY_SID\n"
+                    + "                LEFT JOIN HIERARCHY_DEFINITION hd_prod ON hd_prod.HIERARCHY_DEFINITION_SID = CM.PRODUCT_HIERARCHY_SID"
+                    + " WHERE CM.CREATED_BY='" + userId + "' "
+                    + " ORDER  BY isnull(CM.MODIFIED_DATE,CM.CREATED_DATE) DESC ";
+            list = dao.getResultList(pendingProj);
+            totalList.addAll(list);
+        }
         if (!totalList.isEmpty()) {
             resultslist = getCustomizedResults(totalList);
         }
         return resultslist;
     }
-    
+
 
     private List<TaskManagementDTO> getCustomizedResults(List list) {
         try {
@@ -318,6 +317,7 @@ public class TaskManagementLogic {
                 userMap.put(String.valueOf(array[0]), (String.valueOf(array[2]) + ", " + String.valueOf(array[1])));
             }
         } catch (Exception ex) {
+            Logger.getLogger(TaskManagementLogic.class.getName()).log(Level.SEVERE, null, ex);
             userList = null;
 
         }

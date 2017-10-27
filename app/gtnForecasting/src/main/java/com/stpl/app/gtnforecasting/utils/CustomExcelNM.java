@@ -91,7 +91,7 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                 
                 Double cellValue = d;
-                if ((formatter.get("percentThreeDecimal") != null && String.valueOf(propId).endsWith(formatter.get("percentThreeDecimal"))) && (d > 0)) {
+                if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
                         cellValue = cellValue / NumericConstants.HUNDRED;
                 }
                 sheetCell.setCellValue(cellValue);
@@ -102,7 +102,7 @@ public class CustomExcelNM extends ExcelExport {
                     sheetCell.setCellStyle(style2);
                 } else if (formatter.get("percentTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("percentTwoDecimal"))) {
                     sheetCell.setCellStyle(style3);
-                } else if (formatter.get("percentThreeDecimal") != null && String.valueOf(propId).endsWith(formatter.get("percentThreeDecimal"))) {
+                } else if (formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) {
                     sheetCell.setCellStyle(style4);
                 } else if (formatter.get("currencyTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("currencyTwoDecimal"))) {
                     sheetCell.setCellStyle(style5);

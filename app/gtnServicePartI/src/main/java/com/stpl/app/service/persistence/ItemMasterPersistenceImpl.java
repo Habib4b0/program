@@ -294,7 +294,7 @@ public class ItemMasterPersistenceImpl extends BasePersistenceImpl<ItemMaster>
                 "dra", "baseCpiPeriod", "newFormulationIndicator",
                 "lastLotExpirationDate", "batchId", "itemCode",
                 "clottingFactorStartDate", "nonFederalExpirationDate",
-                "internalNotes"
+                "internalNotes", "baseCpiPrecision", "baselineAmpPrecision"
             });
     private static ItemMaster _nullItemMaster = new ItemMasterImpl() {
             @Override
@@ -4966,6 +4966,8 @@ public class ItemMasterPersistenceImpl extends BasePersistenceImpl<ItemMaster>
         itemMasterImpl.setClottingFactorStartDate(itemMaster.getClottingFactorStartDate());
         itemMasterImpl.setNonFederalExpirationDate(itemMaster.getNonFederalExpirationDate());
         itemMasterImpl.setInternalNotes(itemMaster.getInternalNotes());
+        itemMasterImpl.setBaseCpiPrecision(itemMaster.getBaseCpiPrecision());
+        itemMasterImpl.setBaselineAmpPrecision(itemMaster.getBaselineAmpPrecision());
 
         return itemMasterImpl;
     }

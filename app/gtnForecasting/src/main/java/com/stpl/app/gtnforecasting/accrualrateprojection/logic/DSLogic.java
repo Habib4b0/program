@@ -30,6 +30,7 @@ import com.vaadin.ui.ComboBox;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +66,7 @@ public class DSLogic {
     public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName) throws SystemException, ParseException {
         String fromDateValue = "01-01-2016";
         String toDateValue = "01-01-2018";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT_DD_MM);
 
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
@@ -114,7 +115,7 @@ public class DSLogic {
 
         String fromDateValue = "01-01-2016";
         String toDateValue = "01-01-2018";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT_DD_MM);
         final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
         LOGGER.debug("Entering updateProjection ");
@@ -194,11 +195,11 @@ public class DSLogic {
             }
 
             HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());
-            return null;
+            return Collections.emptyList();
 
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug("End of getCcpMap method");
         }
@@ -210,7 +211,7 @@ public class DSLogic {
             String filter = " AND R1." + dedLevel + " = " + dtoValue.getDeductionValueId();
             Map<String, Object> parameters;
             for (Leveldto dto : customerEndLevels) {
-                parameters = new HashMap<String, Object>();
+                parameters = new HashMap<>();
                 parameters.put(Constant.PROJECTION_ID, projectionId);
                 parameters.put(Constant.INDICATOR, indicator);
                 parameters.put("relationshipLevelSid", dto.getRelationshipLevelSid());
@@ -226,7 +227,7 @@ public class DSLogic {
     public void getExecuteQuery(Map<String, Object> parameters) {
         try {
             String insertQuery = SQlUtil.getQuery("InsertAccrualCCPValue");
-            insertQuery = insertQuery.replace("@PROJECTION_MASTER_SID", String.valueOf(parameters.get(Constant.PROJECTION_ID)));
+            insertQuery = insertQuery.replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(parameters.get(Constant.PROJECTION_ID)));
             insertQuery = insertQuery.replace("@HIERARCHY_NO", String.valueOf(parameters.get(Constant.HIERARACHY_NO)));
             insertQuery = insertQuery.replace("@SELECTION", String.valueOf(parameters.get("SELECTION")));
             HelperTableLocalServiceUtil.executeUpdateQuery(insertQuery);
@@ -237,7 +238,7 @@ public class DSLogic {
 
     public void loadDDLBValue(ComboBox deductionLevel, ComboBox deductionValue, String projectionId) {
         try {
-            List<Object> list = new ArrayList<Object>();
+            List<Object> list;
             StringBuilder insertQuery = new StringBuilder(StringUtils.EMPTY);
             insertQuery.append("select FIELD_NAME,FIELD_VALUES from ACCRUAL_PROJ_SELECTION \n"
                     + "where PROJECTION_MASTER_SID=" + projectionId + "\n"
@@ -294,7 +295,7 @@ public class DSLogic {
 
             @Override
             public void run() {
-                String saveQuery = SQlUtil.getQuery(queryId).replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+                String saveQuery = SQlUtil.getQuery(queryId).replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
                 saveQuery = QueryUtil.replaceTableNames(saveQuery, session.getCurrentTableNames());
                 HelperTableLocalServiceUtil.executeUpdateQuery(saveQuery);
                 latch.countDown();
@@ -352,8 +353,8 @@ public class DSLogic {
     }
 
     public void submitLogic(int projectionId) {
-        String submitQuery = StringUtils.EMPTY;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String submitQuery;
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT_DD_MM);
         submitQuery = "\n"
                 + "Update PROJECTION_MASTER\n"
                 + "set  IS_APPROVED='Y',MODIFIED_DATE='" + dateFormat.format(new Date()) + "' \n"
@@ -362,9 +363,9 @@ public class DSLogic {
     }
 
     public static Map<Object, Object> getProjectionSelection(final int projectionId, final String screenName) {
-        List list = new ArrayList<>();
-        String query = StringUtils.EMPTY;
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        List list;
+        String query;
+        Map<Object, Object> map = new HashMap<>();
 
         query = "select Field_Name,Field_Values from ACCRUAL_PROJ_SELECTION\n"
                 + "where Projection_Master_Sid=" + projectionId + " AND    SCREEN_NAME = '" + screenName + "'" + ";";
@@ -404,7 +405,7 @@ public class DSLogic {
                 + "delete from ACCRUAL_PROJ_DETAILS where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;\n"
                 + "delete from ACCRUAL_PROJ_SELECTION where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;\n"
                 + "delete from PROJECTION_MASTER where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;";
-        deleteQuery = deleteQuery.replace("@PROJECTION_MASTER_SID", StringUtils.EMPTY + projId);
+        deleteQuery = deleteQuery.replace(Constant.AT_PROJECTION_MASTER_SID, StringUtils.EMPTY + projId);
 
         HelperTableLocalServiceUtil.executeUpdateQuery(deleteQuery);
 
@@ -426,10 +427,10 @@ public class DSLogic {
                 + "                   AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())\n"
                 + "                          OR FT.TO_PERIOD IS NULL )\n"
                 + "                   AND HT.LIST_NAME = 'FILE_TYPE'\n"
-                + "                   AND HT.[DESCRIPTION] IN ('Demand', 'Inventory Withdrawal - Forecast Summary','Ex-Factory Sales', 'Adjusted Demand')\n"
+                + "                   AND HT.[DESCRIPTION] IN ('Demand', 'Inventory Withdrawal - Forecast Summary','Ex-Factory Sales', 'Adjusted Demand' ,'Inventory Withdrawal - Forecast Summary', 'Customer Sales')\n"
                 + ")A\n"
                 + "WHERE  RN = 1";
-        saveFileQuery = saveFileQuery.replace("@PROJECTION_MASTER_SID", StringUtils.EMPTY + projId);
+        saveFileQuery = saveFileQuery.replace(Constant.AT_PROJECTION_MASTER_SID, StringUtils.EMPTY + projId);
 
         HelperTableLocalServiceUtil.executeUpdateQuery(saveFileQuery);
     }
@@ -437,7 +438,7 @@ public class DSLogic {
     public static boolean getFileStatus(int projId) {
         try {
             boolean fileFlag = false;
-            List<Object> list = new ArrayList<Object>();
+            List<Object> list;
             String saveFileQuery = "SELECT projID,FM,FILE_TYPE,FILE_MANAGEMENT_SID\n"
                     + "FROM   (SELECT     @PROJECTION_MASTER_SID AS ProjID,'File Management' AS FM,FT.FORECAST_NAME,FT.[VERSION],FILE_MANAGEMENT_SID,\n"
                     + "		   HT.[DESCRIPTION] AS FILE_TYPE,\n"
@@ -452,12 +453,12 @@ public class DSLogic {
                     + "                   AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())\n"
                     + "                          OR FT.TO_PERIOD IS NULL )\n"
                     + "                   AND HT.LIST_NAME = 'FILE_TYPE'\n"
-                    + "                   AND HT.[DESCRIPTION] IN ('Demand', 'Inventory Withdrawal - Forecast Detail', 'Ex-Factory Sales', 'Adjusted Demand')\n"
+                    + "                   AND HT.[DESCRIPTION] IN ('Demand', 'Inventory Withdrawal - Forecast Summary','Ex-Factory Sales', 'Adjusted Demand' ,'Inventory Withdrawal - Forecast Summary', 'Customer Sales')\n"
                     + ")A\n"
                     + "WHERE  RN = 1 \n"
                     + "AND FILE_MANAGEMENT_SID NOT IN(select FIELD_VALUES from ACCRUAL_PROJ_SELECTION where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID  "
                     + "  AND SCREEN_NAME='File Management' );";
-            saveFileQuery = saveFileQuery.replace("@PROJECTION_MASTER_SID", StringUtils.EMPTY + projId);
+            saveFileQuery = saveFileQuery.replace(Constant.AT_PROJECTION_MASTER_SID, StringUtils.EMPTY + projId);
 
             list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(saveFileQuery);
 
@@ -489,7 +490,7 @@ public class DSLogic {
     private String accrualMainToTemp(GtnSmallHashMap tableNames, String projectionId, String queryName) {
 
         return QueryUtil.replaceTableNames(SQlUtil.getQuery(queryName), tableNames)
-                .replace("@PROJECTION_MASTER_SID", projectionId);
+                .replace(Constant.AT_PROJECTION_MASTER_SID, projectionId);
     }
 
     /**

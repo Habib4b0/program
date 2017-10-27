@@ -47,29 +47,12 @@ public class TempCompanyContainer implements BeanDAO<CFPCompanyDTO> {
         cfpSearchLogic=new CFPSearchLogic(this.sessionDTO);
     }
     public int count(BeanSearchCriteria sc) {
-        try {
-            count = cfpSearchLogic.getLazySelectedCompaniesCount(sc,getRecord());
-            
-            
-            return count;
-        } catch (SystemException ex) {
-            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
-        }
-        return 0;
+        count = cfpSearchLogic.getLazySelectedCompaniesCount(sc,getRecord());
+        return count;
     }
 
     public List<CFPCompanyDTO> find(BeanSearchCriteria sc, int i, int i1, List<OrderByColumn> list) {
         try {
-            final int currentPage=table.getCurrentPage()-1;
-            final int pageLength=table.getPageLength();
-            int offset=i1;
-            if(count<currentPage*pageLength+offset){
-                offset=(currentPage*pageLength+offset)-count;
-            }
             if(saveContainer.size()>0){
                 cfpSearchLogic.saveToTempCFP(saveContainer.getItemIds());
                 saveContainer.removeAllItems();
@@ -83,7 +66,7 @@ public class TempCompanyContainer implements BeanDAO<CFPCompanyDTO> {
             LOGGER.error(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
         }
-         return new ArrayList<CFPCompanyDTO>(1);
+         return new ArrayList<>(1);
     }
 
     public String getRecord() {

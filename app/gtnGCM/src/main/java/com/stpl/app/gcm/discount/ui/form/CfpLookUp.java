@@ -68,10 +68,9 @@ public class CfpLookUp extends Window {
     @UiField("cfpCategory")
     public ComboBox cfpCategory;
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtil = new UiUtils();
     LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<LookupDTO>(LookupDTO.class);
+    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private CustomTextField parentCfpName;
     boolean flag;
 
@@ -80,20 +79,16 @@ public class CfpLookUp extends Window {
         this.parentCfpName = parentCfpName;
         this.flag = flag;
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(true);
         setModal(true);
         setCaption("CFP Lookup");
         getBinder();
-        try {
-            configureFields();
-        } catch (SystemException ex) {
-             LOGGER.error(ex);
-        }
+        configureFields();
     }
 
-    public void configureFields() throws SystemException {
+    public void configureFields() {
         try {
             cfpId.focus();
             cfpTableLayout.addComponent(resultsTable);
@@ -103,8 +98,8 @@ public class CfpLookUp extends Window {
             tableLogic.sinkItemPerPageWithPageLength(false);
             resultsTable.setSelectable(true);
             resultsTable.setContainerDataSource(resultsContainer);
-            resultsTable.setVisibleColumns(Constants.CFP_SEARCH_COLUMNS);
-            resultsTable.setColumnHeaders(Constants.CFP_SEARCH_HEADERS);
+            resultsTable.setVisibleColumns(Constants.getInstance().cfpSearchColumns);
+            resultsTable.setColumnHeaders(Constants.getInstance().cfpSearchHeaders);
             resultsTable.setColumnAlignment(Constants.CFP_START_DATE, ExtCustomTable.Align.CENTER);
             resultsTable.setColumnAlignment(Constants.CFP_END_DATE, ExtCustomTable.Align.CENTER);
             resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -114,7 +109,7 @@ public class CfpLookUp extends Window {
             for (Object propertyId : resultsTable.getVisibleColumns()) {
                 resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_TWO_ZERO);
             }
-            Object[] objColumn = Constants.CFP_SEARCH_COLUMNS;
+            Object[] objColumn = Constants.getInstance().cfpSearchColumns;
             for (Object objColumn1 : objColumn) {
                 String value = objColumn1.toString();
                 if (value.endsWith("Date")) {
@@ -142,7 +137,7 @@ public class CfpLookUp extends Window {
                         try {
                             CustomComboBox cfpType = new CustomComboBox();
                             cfpType.setImmediate(true);
-                            commonUtil.loadComboBox(cfpType, UIUtil.CFP_TYPE, true);
+                            commonUtil.loadComboBox(cfpType, UiUtils.CFP_TYPE, true);
                             return cfpType;
                         } catch (Exception ex) {
                             LOGGER.error(ex);
@@ -152,7 +147,7 @@ public class CfpLookUp extends Window {
                         try {
                             CustomComboBox cfpCategory = new CustomComboBox();
                             cfpCategory.setImmediate(true);
-                            commonUtil.loadComboBox(cfpCategory, UIUtil.CFP_CATEGORY, true);
+                            commonUtil.loadComboBox(cfpCategory, UiUtils.CFP_CATEGORY, true);
                             return cfpCategory;
                         } catch (Exception ex) {
                             LOGGER.error(ex);
@@ -162,7 +157,7 @@ public class CfpLookUp extends Window {
                          try {
                     CustomComboBox cfpDesignation = new CustomComboBox();
                     cfpDesignation.setImmediate(true);
-                            commonUtil.loadComboBox(cfpDesignation, UIUtil.CFP_DESIGNATION, true);                          
+                            commonUtil.loadComboBox(cfpDesignation, UiUtils.CFP_DESIGNATION, true);                          
                              return cfpDesignation;
                              } catch (Exception ex) {
                             LOGGER.error(ex);
@@ -173,7 +168,7 @@ public class CfpLookUp extends Window {
                         try {
                             CustomComboBox cfpStatus = new CustomComboBox();
                             cfpStatus.setImmediate(true);
-                            commonUtil.loadComboBox(cfpStatus, UIUtil.STATUS, true);
+                            commonUtil.loadComboBox(cfpStatus, UiUtils.STATUS, true);
                             return cfpStatus;
                         } catch (Exception ex) {
                             LOGGER.error(ex);
@@ -183,7 +178,7 @@ public class CfpLookUp extends Window {
                         try {
                             CustomComboBox cfpTradeClass = new CustomComboBox();
                             cfpTradeClass.setImmediate(true);
-                            commonUtil.loadComboBox(cfpTradeClass, UIUtil.CFP_TRADE_CLASS, true);
+                            commonUtil.loadComboBox(cfpTradeClass, UiUtils.CFP_TRADE_CLASS, true);
                             return cfpTradeClass;
                         } catch (Exception ex) {
                             LOGGER.error(ex);
@@ -206,17 +201,17 @@ public class CfpLookUp extends Window {
             });
             resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             resultsTable.addStyleName("filterbar");
-            commonUtil.loadComboBoxForGCM(cfpStatus, UIUtil.STATUS, false);
-            commonUtil.loadComboBoxForGCM(cfpType, UIUtil.CFP_TYPE, false);
-            commonUtil.loadComboBoxForGCM(cfpCategory, UIUtil.CFP_CATEGORY, false);
+            commonUtil.loadComboBoxForGCM(cfpStatus, UiUtils.STATUS, false);
+            commonUtil.loadComboBoxForGCM(cfpType, UiUtils.CFP_TYPE, false);
+            commonUtil.loadComboBoxForGCM(cfpCategory, UiUtils.CFP_CATEGORY, false);
             cfpEndDate.setImmediate(true);
             cfpEndDate.setDateFormat(Constants.DATE_FORMAT);
             cfpEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-            cfpEndDate.addStyleName("datefieldcentered");
+            cfpEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
             cfpStartDate.setImmediate(true);
             cfpStartDate.setDateFormat(Constants.DATE_FORMAT);
             cfpStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-            cfpStartDate.addStyleName("datefieldcentered");
+            cfpStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
             cfpId.focus();
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -224,7 +219,7 @@ public class CfpLookUp extends Window {
     }
 
     private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<LookupDTO>(new LookupDTO()));
+        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;
@@ -270,7 +265,7 @@ public class CfpLookUp extends Window {
 
             @Override
             public void yesMethod() {
-                binder.setItemDataSource(new BeanItem<LookupDTO>(new LookupDTO()));
+                binder.setItemDataSource(new BeanItem<>(new LookupDTO()));
                 resultsTable.resetFilters();
             }
         }.getConfirmationMessage("Reset confirmation", "Are you sure you want to reset the page to default/previous values? ");

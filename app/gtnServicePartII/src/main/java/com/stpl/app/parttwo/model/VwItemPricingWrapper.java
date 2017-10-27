@@ -57,6 +57,7 @@ public class VwItemPricingWrapper implements VwItemPricing,
         attributes.put("itemPricingSid", getItemPricingSid());
         attributes.put("pricingCodeStatus", getPricingCodeStatus());
         attributes.put("pricingCodeQualifierName", getPricingCodeQualifierName());
+        attributes.put("itemPriceprecision", getItemPriceprecision());
 
         return attributes;
     }
@@ -178,6 +179,13 @@ public class VwItemPricingWrapper implements VwItemPricing,
 
         if (pricingCodeQualifierName != null) {
             setPricingCodeQualifierName(pricingCodeQualifierName);
+        }
+
+        Integer itemPriceprecision = (Integer) attributes.get(
+                "itemPriceprecision");
+
+        if (itemPriceprecision != null) {
+            setItemPriceprecision(itemPriceprecision);
         }
     }
 
@@ -580,6 +588,26 @@ public class VwItemPricingWrapper implements VwItemPricing,
     public void setPricingCodeQualifierName(
         java.lang.String pricingCodeQualifierName) {
         _vwItemPricing.setPricingCodeQualifierName(pricingCodeQualifierName);
+    }
+
+    /**
+    * Returns the item priceprecision of this vw item pricing.
+    *
+    * @return the item priceprecision of this vw item pricing
+    */
+    @Override
+    public int getItemPriceprecision() {
+        return _vwItemPricing.getItemPriceprecision();
+    }
+
+    /**
+    * Sets the item priceprecision of this vw item pricing.
+    *
+    * @param itemPriceprecision the item priceprecision of this vw item pricing
+    */
+    @Override
+    public void setItemPriceprecision(int itemPriceprecision) {
+        _vwItemPricing.setItemPriceprecision(itemPriceprecision);
     }
 
     @Override

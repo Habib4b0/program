@@ -26,6 +26,7 @@ public class DeductionsFilterGenerator implements ExtFilterGenerator
     private static final Logger LOGGER = Logger.getLogger(com.stpl.app.global.rebateschedule.dto.RSFilterGenerate.class);
     
     public DeductionsFilterGenerator() {
+        //constructor
     }
 
     @Override
@@ -55,18 +56,22 @@ public class DeductionsFilterGenerator implements ExtFilterGenerator
         try {
             switch (propertyId.toString()) {
                 case "deductionTypeTable":
+                case "deductionType":
                     ComboBox deductionType = new ComboBox();
                     commonUtil.loadComboBox(deductionType, com.stpl.app.global.abstractsearch.util.UIUtils.DEDUCTION_TYPE, true);
                     return deductionType;
                 case "deductionSubTypeTable":
+                case "deductionSubType":
                     ComboBox deductionSubType = new ComboBox();
                     commonUtil.loadComboBox(deductionSubType, com.stpl.app.global.abstractsearch.util.UIUtils.DEDUCTION_SUB_TYPE, true);
                     return deductionSubType;
                 case "marketTypeTable":
+                case "marketType" :
                      ComboBox marketType = new ComboBox();
                     commonUtil.loadComboBox(marketType, com.stpl.app.global.abstractsearch.util.UIUtils.CONTRACT_TYPE, true);
                     return marketType;
                 case "deductionCategoryTable":
+                case "deductionCategory" :
                      ComboBox deductionCategory = new ComboBox();
                     commonUtil.loadComboBox(deductionCategory, com.stpl.app.global.abstractsearch.util.UIUtils.DEDUCTION_CATEGORY, true);
                     return deductionCategory;
@@ -86,10 +91,12 @@ public class DeductionsFilterGenerator implements ExtFilterGenerator
     
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
     
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
     
     @Override

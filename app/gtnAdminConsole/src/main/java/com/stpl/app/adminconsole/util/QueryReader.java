@@ -31,9 +31,9 @@ public class QueryReader {
     }
 
     public static Object executeSelectQuery(Map<String, Object> input, String query) {
-        List<Object[]> returnList = new ArrayList<Object[]>();
+        List<Object[]> returnList = new ArrayList<>();
         try {
-            StringBuilder queryString = new StringBuilder();
+            StringBuilder queryString;
             if (query != null && !query.isEmpty()) {
                 queryString = new StringBuilder(query);
                 if (input != null) {
@@ -57,10 +57,10 @@ public class QueryReader {
     public static List getAppData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside getAppData");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
             try {
-                sql = new StringBuilder(SQlUtil.getQuery(queryName));
+                    sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
                     sql.append(" ");
                     sql.append(SQlUtil.getQuery(quaryName2));
@@ -68,8 +68,8 @@ public class QueryReader {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                LOGGER.debug("queryName = = " + queryName);
-                LOGGER.debug("sql = = " + sql);
+                LOGGER.debug("queryName = " + queryName);
+                LOGGER.debug("sql = " + sql);
                 list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error(ex);

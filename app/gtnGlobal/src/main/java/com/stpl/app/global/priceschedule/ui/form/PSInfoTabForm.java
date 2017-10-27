@@ -315,7 +315,7 @@ public class PSInfoTabForm extends CustomComponent implements View {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public PSInfoTabForm(final ErrorfulFieldGroup binder, final PSLogic psLogic, final ErrorLabel errorMsg, final PSDTO psMaster, Map<String, AppPermission> fieldPsHM, final String mode) throws SystemException {
+    public PSInfoTabForm(final ErrorfulFieldGroup binder, final PSLogic psLogic, final ErrorLabel errorMsg, final PSDTO psMaster, Map<String, AppPermission> fieldPsHM, final String mode) {
         this.psLogic = psLogic;
         this.binder = binder;
         this.errorMsg = errorMsg;
@@ -353,7 +353,7 @@ public class PSInfoTabForm extends CustomComponent implements View {
     private ErrorfulFieldGroup getBinder() {
 
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<PSDTO>(psMaster));
+        binder.setItemDataSource(new BeanItem<>(psMaster));
         binder.setBuffered(true);
         binder.setErrorDisplay(errorMsg);
         errorMsg.setId("ErrorMessage");
@@ -366,7 +366,7 @@ public class PSInfoTabForm extends CustomComponent implements View {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         priceScheduleSystemId.setImmediate(Boolean.TRUE);
         priceScheduleName.setImmediate(true);
         priceScheduleName.setValidationVisible(true);
@@ -397,6 +397,7 @@ public class PSInfoTabForm extends CustomComponent implements View {
              * Value Change listener
              */
             public void valueChange(final ValueChangeEvent event) {
+                return;
 
             }
         });
@@ -410,6 +411,7 @@ public class PSInfoTabForm extends CustomComponent implements View {
              * Notifies this listener that the Property's value has changed.
              */
             public void valueChange(final ValueChangeEvent event) {
+                return;
 
             }
         });
@@ -709,7 +711,7 @@ public class PSInfoTabForm extends CustomComponent implements View {
             modifiedDate.setImmediate(true);
             modifiedDate.setReadOnly(true);
             modifiedDate.setEnabled(false);
-        } else if (ConstantsUtils.EDIT.equals(mode)) {
+        } else if (ConstantsUtils.EDIT.equals(mode) || ConstantsUtils.COPY.equals(mode)) {
             priceScheduleId.focus();
             String caption = priceScheduleDesignation.getItemCaption(priceScheduleDesignation.getValue());
             priceScheduleDesignation.setDescription(caption);
@@ -930,6 +932,7 @@ public class PSInfoTabForm extends CustomComponent implements View {
      */
     @Override
     public void enter(ViewChangeEvent event) {
+        return;
 
     }
 

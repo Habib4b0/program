@@ -11,7 +11,6 @@ import com.stpl.app.global.dao.impl.ItemSearchLogicDAOImpl;
 import com.stpl.app.global.priceschedule.util.UIUtils;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.ConstantsUtils;
-import com.stpl.app.util.GeneralCommonUtils;
 import com.stpl.domain.global.item.ItemDAO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -32,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.MenuItemDTO;
 import org.jboss.logging.Logger;
 
 /**
@@ -81,12 +82,46 @@ public class CommonUtil {
     /**
      * To get the combo box select.
      *
-     * @param select the select
+     * @param customMenuItem
      * @param listName the list name
-     * @param isFilter the is filter
-     * @return the native select
-     * @throws Exception the exception
      */
+    public void loadCustomMenu(CustomMenuBar.CustomMenuItem customMenuItem, String listName) {
+        List<HelperDTO> helperList = new ArrayList<>();
+        
+        if (helperListUtil.getListNameMap().get(listName) != null) {
+            helperList.addAll(helperListUtil.getListNameMap().get(listName));
+        }  
+        
+        if (!helperList.isEmpty()) {
+            CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[helperList.size()];
+            for (int i = 0; i < helperList.size(); i++) {
+                if (!helperList.get(i).getDescription().contains(",")) {
+                    MenuItemDTO dto = new MenuItemDTO(helperList.get(i).getId(), helperList.get(i).getDescription());
+                    customItem[i] = customMenuItem.addItem(dto, null);
+                    customItem[i].setCheckable(true);
+                    customItem[i].setItemClickable(true);
+                    customItem[i].setItemClickNotClosable(true);
+                }
+            }
+        }
+    }
+    public static List<List> getSelectedVariables(CustomMenuBar.CustomMenuItem customMenuItem) {
+        List<List> list = new ArrayList<>();
+        List<Object> id = new ArrayList();
+        List<String> description = new ArrayList();
+        if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
+            for (CustomMenuBar.CustomMenuItem menuItem : customMenuItem.getChildren()) {
+                if (menuItem.isChecked()) {
+                    id.add(menuItem.getMenuItem().getId());
+                    description.add(menuItem.getMenuItem().getCaption());
+                }
+            }
+            list.add(id);
+            list.add(description);
+        }
+        return list;
+    }
+    
     public ComboBox loadComboBox(final ComboBox select,
             String listName, boolean isFilter)  {
         select.removeAllItems();
@@ -97,9 +132,9 @@ public class CommonUtil {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
         }
@@ -110,13 +145,6 @@ public class CommonUtil {
         resultContainer.removeItem(helperListUtil.getIdHelperDTOMap().get(hsid));
         }
         select.select(defaultValue);
-        if (listName.equals(GeneralCommonUtils.CALENDAR) && helperList.size() > 1) {
-            select.setNullSelectionAllowed(false);
-            select.setValue(helperList.get(1));
-            select.select(helperList.get(1));
-            select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : ((HelperDTO) select.getValue()).getDescription()));
-
-        }
         select.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
@@ -290,9 +318,9 @@ public class CommonUtil {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
         }
@@ -315,7 +343,7 @@ public class CommonUtil {
 
     public List<HelperDTO> getHelperResult(final String listType) throws SystemException, PortalException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,

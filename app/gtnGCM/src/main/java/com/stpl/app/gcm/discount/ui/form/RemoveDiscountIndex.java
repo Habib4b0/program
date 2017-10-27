@@ -6,6 +6,7 @@
  */
 package com.stpl.app.gcm.discount.ui.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
@@ -41,6 +42,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.TextField;
@@ -114,30 +116,29 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     public Button searchBtn;
     RebateTableLogic tableLogic = new RebateTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    final List<RemoveDiscountDto> selecteditemList = new ArrayList<RemoveDiscountDto>();
+    final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(RemoveDiscountIndex.class);
     public String screenName = StringUtils.EMPTY;
     /* The bean used to load Start Period */
-    final private BeanItemContainer<String> marketTypeBean = new BeanItemContainer<String>(String.class);
+    final private BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
     DiscountLogic discountLogic = new DiscountLogic();
     RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
     public boolean checkAllFlag = false;
     /**
      * Binder for DataSelection.
      */
-    final private CustomFieldGroup discountChBinder = new CustomFieldGroup(new BeanItem<RemoveDiscountDto>(removeDiscountDto));
+    final private CustomFieldGroup discountChBinder = new CustomFieldGroup(new BeanItem<>(removeDiscountDto));
     /**
      * Bean container for result table.
      */
-    private BeanItemContainer<RemoveDiscountDto> resultsContainer = new BeanItemContainer<RemoveDiscountDto>(RemoveDiscountDto.class);
+    private BeanItemContainer<RemoveDiscountDto> resultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
 
     /**
      * The results lazy container.
      */
     QueryUtils queryUtils = new QueryUtils();
-    List<String> marketTypeList = new ArrayList<String>();
+    List<String> marketTypeList = new ArrayList<>();
 
     public RemoveDiscountIndex(String screenName, SessionDTO session) {
         this.screenName = screenName;
@@ -156,7 +157,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     private CustomFieldGroup getBinder() {
         LOGGER.debug("Entering getBinder");
         discountChBinder.bindMemberFields(this);
-        discountChBinder.setItemDataSource(new BeanItem<RemoveDiscountDto>(new RemoveDiscountDto()));
+        discountChBinder.setItemDataSource(new BeanItem<>(new RemoveDiscountDto()));
         discountChBinder.setBuffered(true);
         LOGGER.debug("Ending getBinder");
         return discountChBinder;
@@ -183,11 +184,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
             marketType.setNullSelectionAllowed(true);
             marketType.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             marketType.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            promoteTpToChDtoTableLayout.addComponent(resultsTable);
-            promoteTpToChDtoTableLayout.addComponent(tableLogic.createControls());
-            tableLogic.setContainerDataSource(resultsContainer);
-            tableLogic.setPageLength(NumericConstants.TEN);
-            tableLogic.sinkItemPerPageWithPageLength(false);
+            promoteTpToChDtoTableLayout.addComponent(resultsTable); // Removed below lines for CEL-810
             contractstartDate.setImmediate(true);
             contractstartDate.setValidationVisible(true);
             contractstartDate.setDateFormat(Constants.DATE_FORMAT);
@@ -225,15 +222,18 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     public void configureAccrualResultsTable() {
         resultsTable.setContainerDataSource(resultsContainer);
         resultsTable.setEditable(true);
-        resultsTable.setVisibleColumns(Constants.DISCOUNT_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(Constants.DISCOUNT_SEARCH_HEADERS);
+        resultsTable.setVisibleColumns(Constants.getInstance().discountSearchColumns);
+        resultsTable.setColumnHeaders(Constants.getInstance().discountSearchHeaders);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
+        tableLogic.setPageLength(NumericConstants.TEN);
+        tableLogic.sinkItemPerPageWithPageLength(false);
+        promoteTpToChDtoTableLayout.addComponent(tableLogic.createControls());
         resultsTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
         for (Object propertyId : resultsTable.getVisibleColumns()) {
             resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_SIX_EIGHT);
         }
 
-        Object[] objColumn = Constants.DISCOUNT_SEARCH_COLUMNS;
+        Object[] objColumn = Constants.getInstance().discountSearchColumns;
         for (Object objColumn1 : objColumn) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
@@ -268,20 +268,19 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                 }
 
                 if (propertyId.equals("checkRecord")) {
-                    TextField checkRec = new TextField();
-                    checkRec.setEnabled(false);
-                    checkRec.setWidth(String.valueOf(NumericConstants.HUNDRED));
+                    CheckBox checkRec = new CheckBox();
+                    checkRec.setVisible(false);
                     return checkRec;
                 }
                 return null;
             }
 
             public void filterRemoved(Object propertyId) {
-
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -317,7 +316,6 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                             }
                         }
                     });
-                    boolean val = check.getValue();
                     return check;
                 }
                 return null;
@@ -375,7 +373,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
             }
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("No Records Selected",
+            AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SELECTED_HEADER,
                     "Please checkmark a Contract to continue.");
         }
         LOGGER.debug("Ending remove method");
@@ -392,7 +390,10 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
 
         if (isSearch(discountChBinder)) {
             selecteditemList.removeAll(selecteditemList.subList(0, selecteditemList.size()));
-            removeDiscountDto.setReset(Boolean.FALSE);
+            removeDiscountDto.setSearch(Boolean.TRUE);
+            tableLogic.setContainerDataSource(resultsContainer);
+            resultsTable.setVisibleColumns(Constants.getInstance().discountSearchColumns);
+            resultsTable.setColumnHeaders(Constants.getInstance().discountSearchHeaders);
             if (!tableLogic.loadSetData(removeDiscountDto, discountChBinder)) {
                 AbstractNotificationUtils.getErrorNotification("No Matching Records",
                         "There were no records matching the search criteria.  Please try again.");
@@ -422,18 +423,19 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                 AddDiscountWindow addDiscount = new AddDiscountWindow(session, selecteditemList);
                 UI.getCurrent().addWindow(addDiscount);
             } else {
-                AbstractNotificationUtils.getErrorNotification("No Records Selected",
+                AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SELECTED_HEADER,
                         "Please ensure all checked Contracts have the same Contract Number.");
             }
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("No Records Selected",
+            AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SELECTED_HEADER,
                     "Please checkmark a Contract to continue.");
         }
 
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /**
@@ -448,7 +450,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         cfpLookup.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-
+                return;
             }
         });
 
@@ -468,7 +470,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         ifpLookup.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-
+                return;
             }
         });
 
@@ -488,7 +490,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         ifpLookup.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-
+                return;
             }
         });
 
@@ -508,7 +510,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         ifpLookup.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-
+                return;
             }
         });
 
@@ -611,7 +613,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
              */
             public void yesMethod() {
                 try {
-                    removeDiscountDto.setReset(Boolean.TRUE);
+                      removeDiscountDto.setSearch(Boolean.FALSE);
                     tableLogic.loadSetData(removeDiscountDto, discountChBinder);
                 } catch (Exception ex) {
                     LOGGER.error(ex);
@@ -644,7 +646,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
              * @param buttonId The buttonId of the pressed button.
              */
             public void yesMethod() {
-                discountChBinder.setItemDataSource(new BeanItem<RemoveDiscountDto>(new RemoveDiscountDto()));
+                discountChBinder.setItemDataSource(new BeanItem<>(new RemoveDiscountDto()));
             }
         }.getConfirmationMessage("Reset Conformation", "Are you sure you want to reset the page to default/previous values?");
 
@@ -746,7 +748,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     }
 
     public List<Object> getCheckedRecord(RemoveDiscountDto dto) {
-        List<Object> contractList = new ArrayList<>();
+        List<Object> contractList;
         String query = SQlUtil.getQuery("remove_discount_get_checkRecord_value");
         query = query.replace("@CONTRACT_MASTER_SID", dto.getContractSid() + StringUtils.EMPTY);
         query = query.replace("@USER_ID", removeDiscountDto.getUserId() + StringUtils.EMPTY);

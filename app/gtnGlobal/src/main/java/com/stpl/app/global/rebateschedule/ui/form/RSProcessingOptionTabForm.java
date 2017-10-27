@@ -85,7 +85,7 @@ public class RSProcessingOptionTabForm extends CustomComponent implements View {
 
     private final String mode;
     private final boolean isViewMode;
-    private BeanItemContainer<RulesDTO> availableBean = new BeanItemContainer<RulesDTO>(RulesDTO.class);
+    private BeanItemContainer<RulesDTO> availableBean = new BeanItemContainer<>(RulesDTO.class);
 
     public RSProcessingOptionTabForm(final ErrorfulFieldGroup binder, String mode) {
         this.binder = binder;
@@ -98,7 +98,7 @@ public class RSProcessingOptionTabForm extends CustomComponent implements View {
             configureFields();
             final StplSecurity stplSecurity = new StplSecurity();
             userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Processing Option",false);
+            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.PROCESSING_OPTION,false);
             addResponsiveness(fieldRsHM);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -119,8 +119,8 @@ public class RSProcessingOptionTabForm extends CustomComponent implements View {
     private void addResponsiveness(final Map<String, AppPermission> fieldRsHM) {
         LOGGER.debug("Entering configurePermission");
         try {
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, "Processing Option");
-            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, mode);
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, ConstantsUtils.PROCESSING_OPTION);
+            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
         } catch (Exception ex) {
             LOGGER.error(ex);
             
@@ -133,10 +133,10 @@ public class RSProcessingOptionTabForm extends CustomComponent implements View {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Processing Option",false);
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, "Processing Option");
-            Object[] obj = {"ruleNo", "ruleName", "ruleVersion"};
-            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
+            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.PROCESSING_OPTION,false);
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, ConstantsUtils.PROCESSING_OPTION);
+            Object[] obj = {"ruleNo", "ruleName", ConstantsUtils.RULE_VERSION};
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
             if (tableResultCustom.getObjResult().length == 0) {
                 availableRulesTable.setVisible(false);
                 selectedRulesTable.setVisible(false);
@@ -167,8 +167,8 @@ public class RSProcessingOptionTabForm extends CustomComponent implements View {
             selectedRulesTable.setCaption("Selected Rules");
             hlayout2.setComponentAlignment(verticalButtonLayout, Alignment.MIDDLE_CENTER);
             
-            availableRulesTable.setColumnHeader("ruleVersion", "Version");
-            selectedRulesTable.setColumnHeader("ruleVersion", "Version");
+            availableRulesTable.setColumnHeader(ConstantsUtils.RULE_VERSION, "Version");
+            selectedRulesTable.setColumnHeader(ConstantsUtils.RULE_VERSION, "Version");
             
         } catch (Exception e) {
             LOGGER.error(e);
@@ -176,7 +176,7 @@ public class RSProcessingOptionTabForm extends CustomComponent implements View {
         }
     }
 
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         
         // TODO Auto-generated method stub
         moveRight.setCaption(">");

@@ -11,19 +11,35 @@ package com.stpl.app.arm.dataselection.dto;
  */
 public class LevelDTO {
 
-    String level, levelValueReference, tableName, fieldName;
-    boolean fromCompany, fromContract, fromItem;
-    int levelNo, relationshipLevelSid;
+    String level;
+    String levelValueReference;
+    String tableName;
+    String fieldName;
+    boolean fromCompany;
+    boolean fromContract;
+    boolean fromItem;
+    int levelNo;
+    int relationshipLevelSid;
     private String ndc;
     private String form;
     private String strength;
     private String displayValue;
     private String actualValue;
     private String rsModelSID;
-    private String rsName, rsId;
+    private String rsName;
+    private String rsId;
     private String relationshipLevelValue;
-    private String rsCategory, rsType, rsProg, udc2, udc3, udc4, udc5, udc6;
-    private String parentNode, hierarchyNo, relationShipBuilderId;
+    private String rsCategory;
+    private String rsType;
+    private String rsProg;
+    private String udc2;
+    private String udc3;
+    private String udc4;
+    private String udc5;
+    private String udc6;
+    private String parentNode;
+    private String hierarchyNo;
+    private String relationShipBuilderId;
 
     public String getLevel() {
         return level;

@@ -6,6 +6,7 @@
 package com.stpl.app.cff.ui.projectionresults.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.abstractCff.ForecastProjectionResults;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.dto.SessionDTO;
@@ -29,7 +30,7 @@ import static com.stpl.app.cff.util.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.ACTION_EDIT;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.ACTION_VIEW;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.CUSTOM;
-import static com.stpl.app.cff.util.Constants.VARIABLE;
+import static com.stpl.app.cff.util.Constants.VARIABLE_LABEL;
 import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.MONTHLY;
 import static com.stpl.app.cff.util.ConstantsUtil.QUARTERLY;
@@ -80,7 +81,7 @@ public class ProjectionResults extends ForecastProjectionResults {
     private final List<String> tradingPartnerKeys = new ArrayList();
     private final List<String> discountKeys = new ArrayList();
     protected PVParameters parameterDto = new PVParameters();
-    private final Map<String, List<List<ProjectionResultsDTO>>> discountMap = new HashMap<String, List<List<ProjectionResultsDTO>>>();
+    private final Map<String, List<List<ProjectionResultsDTO>>> discountMap = new HashMap<>();
     private final PRExcelLogic excelLogic = new PRExcelLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto, discountMap);
     DataSelectionDTO dataSelectionDTO;
 
@@ -302,9 +303,9 @@ public class ProjectionResults extends ForecastProjectionResults {
             leftTable.setColumnHeaders("");
             rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
             rightTable.setColumnHeaders(rightHeader.getSingleHeaders().toArray(new String[rightHeader.getSingleHeaders().size()]));
-            periodTableId.setHeight("680px");
-            leftTable.setHeight("680px");
-            rightTable.setHeight("680px");
+            periodTableId.setHeight(StringConstantsUtil.SIX_EIGHTY_PX);
+            leftTable.setHeight(StringConstantsUtil.SIX_EIGHTY_PX);
+            rightTable.setHeight(StringConstantsUtil.SIX_EIGHTY_PX);
             for (Object propertyId : rightTable.getVisibleColumns()) {
                 rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
             }
@@ -325,7 +326,7 @@ public class ProjectionResults extends ForecastProjectionResults {
             leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
             projectionSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
             int chk = projectionSelectionDTO.getDiscountNameCFF().size();
-            if (chk > 0 && projectionSelectionDTO.getPivotView().equals(VARIABLE)) {
+            if (chk > 0 && projectionSelectionDTO.getPivotView().equals(VARIABLE_LABEL)) {
                 rightTable.setColumnCollapsingAllowed(true);
                 int st = NumericConstants.THIRTEEN;
                 if (projectionSelectionDTO.getSalesOrUnit().equals(BOTH)) {
@@ -372,7 +373,7 @@ public class ProjectionResults extends ForecastProjectionResults {
      * @return
      */
     private ForecastDTO getHistoricalPeriods(DataSelectionDTO dataSelectionDTO) {
-        Date dbDateTO = new Date();
+        Date dbDateTO;
         SimpleDateFormat format = new SimpleDateFormat(Constants.CommonConstants.DATE_FORMAT.getConstant());
         if (dataSelectionDTO == null) {
             dataSelectionDTO = new DataSelectionDTO();
@@ -387,7 +388,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                 + "    AND DESCRIPTION LIKE 'Consolidated Financial Forecast'\n"
                 + "    ORDER BY FG.VERSION_NO DESC";
 
-        List list = new ArrayList();
+        List list;
         list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
@@ -445,7 +446,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                 exceltable.setRefresh(true);
                 String sheetName = "Year " + String.valueOf(projectionSelectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                 if (i == 0) {
-                    exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, "Projection Results", "ProjectionResults.xls", false);
+                    exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, StringConstantsUtil.PROJECTION_RESULTS, "ProjectionResults.xls", false);
                 } else {
                     exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
                 }
@@ -456,7 +457,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                 }
             }
         } else {
-            exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Projection Results", "Projection Results", "ProjectionResults.xls", false);
+            exp = new ExcelExport(new ExtCustomTableHolder(exceltable), StringConstantsUtil.PROJECTION_RESULTS, StringConstantsUtil.PROJECTION_RESULTS, "ProjectionResults.xls", false);
             exp.export();
         }
         tableVerticalLayout.removeComponent(exceltable);
@@ -490,12 +491,8 @@ public class ProjectionResults extends ForecastProjectionResults {
         map.put("Period Order", periodOrderOpg.getValue().toString());
         map.put("Pivot", pivotViewOpg.getValue().toString());
 
-        CommonLogic.saveProjectionSelection(map, "Projection Results", sessionDTO.getProjectionId());
+        CommonLogic.saveProjectionSelection(map, StringConstantsUtil.PROJECTION_RESULTS, sessionDTO.getProjectionId());
         LOGGER.debug("save Projection Results method ends");
-    }
-
-    public void saveSelectiononEdit(int projectionid, String screenName) {
-
     }
 
     public void excelForCommercial() {
@@ -505,16 +502,16 @@ public class ProjectionResults extends ForecastProjectionResults {
             excelParentRecords.clear();
             List<ProjectionResultsDTO> varibaleList = resultMap.get(Constants.LabelConstants.TOTAL.toString());
 
-            String totalKey = "Total";
+            String totalKey = StringConstantsUtil.TOTAL;
             if (varibaleList != null) {
                 for (Iterator<ProjectionResultsDTO> it1 = varibaleList.listIterator(); it1.hasNext();) {
                     ProjectionResultsDTO itemId = it1.next();
                     excelResultBean.addBean(itemId);
-                    if (itemId.getGroup().startsWith("Total Discount $") || itemId.getGroup().startsWith("Total Discount %") || itemId.getGroup().startsWith("Total RPU") || itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
+                    if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_DOLLAR) || itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_PERCENT) || itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_RPU) || itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                         excelResultBean.setChildrenAllowed(itemId, true);
-                        if (itemId.getGroup().startsWith("Total") || itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
+                        if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL) || itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                             excelResultBean.setChildrenAllowed(itemId, true);
-                            if (itemId.getGroup().startsWith("Total Discount $")) {
+                            if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_DOLLAR)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(totalKey);
                                 if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(0);
@@ -529,7 +526,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                                     }
                                 }
                             }
-                            if (itemId.getGroup().startsWith("Total Discount %")) {
+                            if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_PERCENT)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(totalKey);
                                 if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(1);
@@ -544,7 +541,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                                     }
                                 }
                             }
-                            if (itemId.getGroup().startsWith("Total RPU")) {
+                            if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_RPU)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(totalKey);
                                 if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(NumericConstants.TWO);
@@ -581,7 +578,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                     }
                 }
             }
-            hierarchyKeys.remove("Total");
+            hierarchyKeys.remove(StringConstantsUtil.TOTAL);
             if (!projectionSelectionDTO.getView().equals(CUSTOM.getConstant())) {
                 Collections.sort(hierarchyKeys);
             }
@@ -593,12 +590,6 @@ public class ProjectionResults extends ForecastProjectionResults {
                 resultMap.remove(key);
                 Object parentItemId = null;
                 int index = 0;
-//                String key;
-//                if (newKey.contains("$")) {
-//                    key = (newKey.split("\\$"))[0];
-//                } else {
-//                    key = newKey;
-//                }
                 for (Iterator<ProjectionResultsDTO> it1 = varibaleListDetails.listIterator(); it1.hasNext();) {
                     ProjectionResultsDTO itemId = it1.next();
                     it1.remove();
@@ -623,8 +614,8 @@ public class ProjectionResults extends ForecastProjectionResults {
                         index = 1;
                     } else {
                         excelResultBean.setParent(itemId, parentItemId);
-                        if (itemId.getGroup().startsWith("Total Discount $") || itemId.getGroup().startsWith("Total Discount %") || itemId.getGroup().startsWith("Total RPU") || itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
-                            if (itemId.getGroup().startsWith("Total Discount $")) {
+                        if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_DOLLAR) || itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_PERCENT) || itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_RPU) || itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
+                            if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_DOLLAR)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(key);
                                 if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(0);
@@ -639,7 +630,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                                     }
                                 }
                             }
-                            if (itemId.getGroup().startsWith("Total Discount %")) {
+                            if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_PERCENT)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(key);
                                 if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(1);
@@ -654,7 +645,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                                     }
                                 }
                             }
-                            if (itemId.getGroup().startsWith("Total RPU")) {
+                            if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_RPU)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(key);
                                 if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(NumericConstants.TWO);

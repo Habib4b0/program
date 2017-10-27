@@ -37,7 +37,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
     String discountType;
     String projectionType;
     int discountList = 0;
-    List<Integer> startAndEndPeriods = new ArrayList<Integer>();
+    List<Integer> startAndEndPeriods = new ArrayList<>();
     String year;
     int levelNo;
     boolean isParent;
@@ -55,7 +55,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(DiscountTableLoadLogic.class);
 
-    public void setDiscountVariablesForLogic(SessionDTO session, ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods, int discountList,
+    public void setDiscountVariablesForLogic(SessionDTO session, ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods,
             int levelNo, boolean isParent, CustomTableHeaderDTO rightDto, String hierarchyIndicator, List<Leveldto> currentHierarchy,
             boolean isCustomHierarchy, int customId) {
         clearAll();
@@ -101,14 +101,14 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
     }
 
     public DiscountTableLoadLogic() {
-
+        return;
     }
 
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
         LOGGER.debug("inside loadData method ------------------------------------------------------");
         GtnSmallHashMap retmap = new GtnSmallHashMap();
-        List list = getLevelData(getLastParent(), start, offset);
+        List list = getLevelData(getLastParent());
         int i = start;
         for (Object dto : list) {
             retmap.put(i, dto);
@@ -117,7 +117,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
         return retmap;
     }
 
-    private List getLevelData(Object parentId, int start, int offset) {
+    private List getLevelData(Object parentId) {
         List list = new ArrayList();
 
         try {
@@ -184,7 +184,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             customDetailsList.add(hierarchyNo);
             customDetailsList.add(treeLevelNo);
 
-            List<String> customViewDetails = new ArrayList<String>();
+            List<String> customViewDetails = new ArrayList<>();
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
@@ -301,7 +301,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             LOGGER.debug(" Hierarchy indicator ===" + tempHierarchyIndicator);
             LOGGER.debug(" customTreeLevelNo ===" + treeLevelNo);
 
-            List<String> customViewDetails = new ArrayList<String>();
+            List<String> customViewDetails = new ArrayList<>();
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
@@ -366,7 +366,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
 
             }
             if (neededRecord > 0) {
-                List list1 = getLevelData(parentId, count - neededRecord, neededRecord);
+                List list1 = getLevelData(parentId);
                 list.addAll(list1);
             }
 
@@ -420,9 +420,9 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
     @Override
     public GtnSmallHashMap loadBulkData(GtnSmallHashMap bulkDataMap) {
         GtnSmallHashMap tempMap = new GtnSmallHashMap();
-        List<String> hiearchyNoList = new ArrayList<String>();
+        List<String> hiearchyNoList = new ArrayList<>();
         for (int i = 0; i < bulkDataMap.size(); i++) {
-            String tempLevelValue = StringUtils.EMPTY;
+            String tempLevelValue;
             DiscountProjectionDTO dto = (DiscountProjectionDTO) bulkDataMap.getIndex(i).getValue();
             tempLevelValue = dto.getHierarchyNo();
             tempMap.put(tempLevelValue, bulkDataMap.getIndex(i).getKey());

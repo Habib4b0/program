@@ -5,11 +5,21 @@
  */
 package com.stpl.app.arm.balancesummaryreport.ui;
 
-import com.stpl.app.arm.adjustmentsummary.form.AdjustmentSummaryResults;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.stpl.app.arm.balancesummaryreport.logic.AbstractBSummaryLogic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractSummarySearchResults;
 import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.utils.ExcelUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.constants.ARMConstants;
@@ -17,17 +27,7 @@ import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.data.Property;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.Label;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+import org.drools.core.util.StringUtils;
 
 /**
  *
@@ -35,32 +35,29 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearchResults {
 
-    String[] righttablesingleheaders = {"Actual Payments", "Period Balance", "Payment Ratio"};
+    String[] righttablesingleheaders = {StringUtils.EMPTY};
     Object[] doubleheadercolumns = {"rate"};
 
     Object[] rightcolumns = {"month"};
-    Object[] singleheader = {"dateType", "price", "exclusionDetails"};
+    Object[] singleheader = {"dateType"};
 
-    String[] doubleheader = {"Cumulative Balance"};
+    String[] doubleheader = {StringUtils.EMPTY};
     @UiField("valueLabel")
     private Label valueLabel;
-    SummarySelection selection;
-    private final Label labelStatus = new Label("Calculation Profile");
+    private SummarySelection summarySelection;
 
-    protected final CustomTextField calculationProfile = new CustomTextField();
-  
     boolean isValueChange;
-    String leftHeader = "Customer";
-    AbstractBSummaryLogic logic;
+    String leftHeader = CommonConstant.CUSTOMER;
+    AbstractBSummaryLogic abstractBSummaryLogic;
     /**
      * The Constant LOGGER.
      */
-    protected final Logger LOGGER = Logger.getLogger(getClass());
+    protected final Logger loggerBal = Logger.getLogger(getClass());
 
     public AbstractBalanceSummaryResutls(AbstractBSummaryLogic logic, SummarySelection selection) {
         super(logic, selection);
-        this.selection = selection;
-        this.logic = logic;
+        this.summarySelection = selection;
+        this.abstractBSummaryLogic = logic;
     }
 
     public void init() {
@@ -70,15 +67,14 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     protected void loadSelection() {
         calculateBtn.setVisible(Boolean.FALSE);
-
-        selection.setStatus("Pending");
-        selection.setSummaryLevel(ARMUtils.getADJ_SummaryLevel(String.valueOf(customerProductView.getValue())));
+        summarySelection.setStatus("Pending");
+        summarySelection.setSummaryDeductionView(String.valueOf(customerProductView.getValue()));
+        summarySelection.setSummaryLevel(ARMUtils.getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
     }
 
-    
     @Override
     public void setVisibleColumnsAndHeaders() {
-        Object[] list = getLogic().getLeftTableHeaders();
+        Object[] list = getSummaryLogic().getLeftTableHeaders();
         leftTable.setVisibleColumns((Object[]) (list[0]));
         leftTable.setColumnHeaders((String[]) (list[1]));
         leftTable.setDoubleHeaderVisibleColumns((Object[]) (list[2]));
@@ -100,7 +96,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         rightTable.setColumnHeaders(righttablesingleheaders);
         rightTable.setDoubleHeaderVisibleColumns(doubleheadercolumns);
         rightTable.setDoubleHeaderColumnHeaders(doubleheader);
-        rightTable.setDoubleHeaderMap(configure_RightDoubleHeaderMap());
+        rightTable.setDoubleHeaderMap(configureRightDoubleHeaderMap());
         abstractSearchContent.setWidth("100%");
     }
 
@@ -108,7 +104,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     protected void customerProductValueChange() {
         if (isValueChange) {
             String viewType = String.valueOf(customerProductView.getValue());
-            leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? "Product" : "Customer";
+            leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? "Product" : CommonConstant.CUSTOMER;
             leftTable.setColumnHeaders(leftHeader);
             setRespectiveHierarchy(viewType);
             configureLevelAndLevelFilter();
@@ -124,9 +120,9 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     protected boolean setRespectiveLevelFileterValue(String levelValue, int levelNo) {
-        selection.setSummary_levelFilterNo(levelNo);
-        selection.setSummary_levelFilterValue(levelValue);
-        selection.setSummary_valueSid(0);
+        summarySelection.setSummarylevelFilterNo(levelNo);
+        summarySelection.setSummarylevelFilterValue(levelValue);
+        summarySelection.setSummaryvalueSid(0);
         return true;
     }
 
@@ -137,7 +133,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         for (int i = 0; i < hierarchy.size(); i++) {
             String val = hierarchy.get(i + 1);
             if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
-                val = getSelection().getSummary_deductionLevelDes().toUpperCase();
+                val = getSelection().getSummarydeductionLevelDes().toUpperCase();
             }
             value[i] = ARMUtils.getLevelExcelQueryName(val);
         }
@@ -149,7 +145,6 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     public List getExcelExportVisibleColumn() {
         return getSelection().getExcelVisibleColumn();
     }
-
 
     @Override
     public boolean getisFixedColumns() {
@@ -177,17 +172,19 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
         @Override
         public void noMethod() {
+            loggerBal.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            loggerBal.debug("buttonName :" + buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "reset":
                         break;
                     case "save":
                         break;
+                    default:
                 }
             }
         }
@@ -202,14 +199,9 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     public void configureFields() {
         super.configureFields();
         valueLabel.setCaption("Value:");
-        BBExport.setPrimaryStyleName("link");
-        BBExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
+        bbExport.setPrimaryStyleName("link");
+        bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
         cancelOverride.setVisible(false);
-        searchResultsGrid.addComponent(labelStatus);
-        searchResultsGrid.addComponent(calculationProfile);
-        calculationProfile.setImmediate(true);
-        calculationProfile.addStyleName("menuleft");
-        calculationProfile.addStyleName("searchText");
     }
 
     @Override
@@ -229,10 +221,10 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
     }
 
     private void loadTableHeaderForGenerate() {
-        Object[] list = getLogic().getLeftTableHeaders();
+        Object[] list = getSummaryLogic().getLeftTableHeaders();
         leftTable.setVisibleColumns((Object[]) (list[0]));
         String viewType = String.valueOf(customerProductView.getValue());
-        leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? "Product" : "Customer";
+        leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? "Product" : CommonConstant.CUSTOMER;
         leftTable.setColumnHeaders(leftHeader);
         leftTable.setDoubleHeaderVisibleColumns((Object[]) (list[2]));
         leftTable.setDoubleHeaderColumnHeaders((String[]) list[3]);
@@ -242,38 +234,34 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
 
     @Override
     public void configureRightTable() {
-        try {
-            table.constructRightFreeze(true);
-            List rightList = getLogic().getRightTableHeaders(selection);
-            Map<Object, Class> properties = new HashMap<>();
-            if (!rightList.isEmpty()) {
-                for (Object obj : (List) rightList.get(0)) {
-                    properties.put(obj, String.class);
-                }
+        table.constructRightFreeze(true);
+        List rightList = getSummaryLogic().getRightTableHeaders(summarySelection);
+        Map<Object, Class> properties = new HashMap<>();
+        if (!rightList.isEmpty()) {
+            for (Object obj : (List) rightList.get(0)) {
+                properties.put(obj, String.class);
             }
-            rightTable = table.getRightFreezeAsTable();
-            rightTable.setImmediate(true);
-            rightTable.setDoubleHeaderVisible(Boolean.TRUE);
-            rightTable.setContainerDataSource(resultBeanContainer);
-            resultBeanContainer.setColumnProperties(properties);
-            rightTable.setVisibleColumns(((List) rightList.get(0)).toArray());
-            resultBeanContainer.setRecordHeader((List) rightList.get(0));
-            rightTable.setColumnHeaders(Arrays.copyOf(((List) rightList.get(1)).toArray(), ((List) rightList.get(1)).toArray().length, String[].class));
-            rightTable.setDoubleHeaderVisibleColumns(((List) rightList.get(2)).toArray());
-            rightTable.setDoubleHeaderColumnHeaders(Arrays.copyOf(((List) rightList.get(3)).toArray(), ((List) rightList.get(3)).toArray().length, String[].class));
-            rightTable.setDoubleHeaderMap((Map) rightList.get(4));
-            for (Object propertyId : rightTable.getVisibleColumns()) {
-                rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
-            }
-             for (Object propertyId : rightTable.getDoubleHeaderVisibleColumns()) {
-              rightTable.setDoubleHeaderColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
-            }
-
-            setConverter(rightTable, rightTable.getVisibleColumns());
-
-        } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(AdjustmentSummaryResults.class.getName()).log(Level.SEVERE, null, ex);
         }
+        rightTable = table.getRightFreezeAsTable();
+        rightTable.setImmediate(true);
+        rightTable.setDoubleHeaderVisible(Boolean.TRUE);
+        rightTable.setContainerDataSource(resultBeanContainer);
+        resultBeanContainer.setColumnProperties(properties);
+        rightTable.setVisibleColumns(((List) rightList.get(0)).toArray());
+        resultBeanContainer.setRecordHeader((List) rightList.get(0));
+        rightTable.setColumnHeaders(Arrays.copyOf(((List) rightList.get(1)).toArray(), ((List) rightList.get(1)).toArray().length, String[].class));
+        rightTable.setDoubleHeaderVisibleColumns(((List) rightList.get(2)).toArray());
+        rightTable.setDoubleHeaderColumnHeaders(Arrays.copyOf(((List) rightList.get(3)).toArray(), ((List) rightList.get(3)).toArray().length, String[].class));
+        rightTable.setDoubleHeaderMap((Map) rightList.get(4));
+        for (Object propertyId : rightTable.getVisibleColumns()) {
+            rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
+        }
+        for (Object propertyId : rightTable.getDoubleHeaderVisibleColumns()) {
+            rightTable.setDoubleHeaderColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
+        }
+
+        setConverter(rightTable, rightTable.getVisibleColumns());
+
     }
 
     /**
@@ -283,30 +271,30 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
      */
     @UiHandler("valueDdlb")
     public void valueDdlb(Property.ValueChangeEvent event) {
-        LOGGER.debug("valueDdlb value change listener starts");
+        loggerBal.debug("valueDdlb value change listener starts");
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
-        return getSelection().getSummery_hierarchy();
+        return getSelection().getSummeryhierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        selection.setSummery_hierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        summarySelection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override
     protected void valueDdlbValueChange(int masterSid) {
         if (isLevelFilterValueDdlbEnable()) {
-            getSelection().setSummary_valueSid(masterSid);
+            getSelection().setSummaryvalueSid(masterSid);
             tableLogic.loadSetData(Boolean.FALSE);
         }
     }
 
     @Override
     protected void callExcelCustomization(List list, Object[] excelHierarchy) throws IllegalAccessException, InvocationTargetException {
-        List excelMapList = logic.bsExcelCustomizer(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getisFixedColumns(), getInterval(), discountColumnNeeded(), getSelection());
+        List excelMapList = abstractBSummaryLogic.bsExcelCustomizer(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getisFixedColumns(), getInterval(), discountColumnNeeded(), getSelection());
         ExcelUtils.setExcelHierarchyData(excelMapList, getExcelContainer());
     }
 
@@ -316,7 +304,7 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         getLevelFilterValueDdlb().addItem(0);
         getLevelFilterValueDdlb().setItemCaption(0, GlobalConstants.getSelectOne());
         if (!levelValue.equals(GlobalConstants.getSelectOne())) {
-            Map<Integer, String> levelVal = getLogic().getLevelFilterValueData(levelValue, selection.getProjectionMasterSid(), selection.getSummary_deductionLevel(), selection.getSummary_deductionValues());
+            Map<Integer, String> levelVal = getSummaryLogic().getLevelFilterValueData(levelValue, summarySelection.getProjectionMasterSid(), summarySelection.getSummarydeductionLevel(), summarySelection.getSummarydeductionValues());
             for (Map.Entry<Integer, String> entry : levelVal.entrySet()) {
                 getLevelFilterValueDdlb().addItem(entry.getKey());
                 getLevelFilterValueDdlb().setItemCaption(entry.getKey(), entry.getValue());
@@ -330,22 +318,38 @@ public abstract class AbstractBalanceSummaryResutls extends AbstractSummarySearc
         return Boolean.FALSE;
     }
 
-    protected Map<Object, Object[]> configure_RightDoubleHeaderMap() {
+    protected Map<Object, Object[]> configureRightDoubleHeaderMap() {
         Map<Object, Object[]> headerMap = new HashMap<>();
         headerMap.put("rate", singleheader);
         return headerMap;
     }
-    
-     @Override
-    public AbstractBSummaryLogic getLogic() {
-        return (AbstractBSummaryLogic) super.getLogic();
+
+    @Override
+    public AbstractBSummaryLogic getSummaryLogic() {
+        return (AbstractBSummaryLogic) super.getSummaryLogic();
     }
-    
-    protected boolean isPercentageColumn_2_Decimal(String column) {
-       return column.contains("PaymentRatio");
+
+    @Override
+    protected boolean isPercentageColumn2Decimal(String column) {
+        return column.contains("PaymentRatio");
     }
-    
-    protected boolean isPercentageColumn_3_Decimal(String column) {
+
+    @Override
+    protected boolean isPercentageColumn3Decimal(String column) {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public SummarySelection getSummarySelection() {
+        return summarySelection;
     }
 }

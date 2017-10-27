@@ -93,7 +93,7 @@ public class AbstractSearchLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void excelExportLogic(String moduleName, ExtFilterTable resultTable, AbstractSearchForm obj,ErrorfulFieldGroup binder) throws PortalException, ParseException, NoSuchMethodException, SystemException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void excelExportLogic(String moduleName, ExtFilterTable resultTable, AbstractSearchForm obj,ErrorfulFieldGroup binder) throws PortalException, ParseException, NoSuchMethodException, SystemException, IllegalAccessException,  InvocationTargetException {
         createWorkSheet(moduleName,resultTable, obj, binder);
     }
     
@@ -108,7 +108,7 @@ public class AbstractSearchLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void createWorkSheet(String moduleName,ExtFilterTable resultTable, AbstractSearchForm obj, ErrorfulFieldGroup binder) throws SystemException, PortalException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet(String moduleName,ExtFilterTable resultTable, AbstractSearchForm obj, ErrorfulFieldGroup binder) throws SystemException, PortalException, ParseException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
 
         long recordCount = 0;
         if (resultTable.size() != 0) {
@@ -131,7 +131,7 @@ public class AbstractSearchLogic {
      * @throws Exception the exception
      */
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
-        final List<SortByColumn> columns = new ArrayList<SortByColumn>();
+        final List<SortByColumn> columns = new ArrayList<>();
 
         try {
             if (end != 0) {
@@ -652,7 +652,7 @@ public class AbstractSearchLogic {
         Object object;
         RebatePlanSearchLogic rebatePlanSearchLogic = new RebatePlanSearchLogic();
         if (isCount) {
-            object = rebatePlanSearchLogic.getRebatePlanResultsCount(binder, 0,0, columns, filterSet);
+            object = rebatePlanSearchLogic.getRebatePlanResultsCount(binder, filterSet);
 
         } else {            
             object = rebatePlanSearchLogic.getRebatePlanResults(binder, start, start + offset, columns, filterSet);
@@ -662,7 +662,7 @@ public class AbstractSearchLogic {
         return object;
     }
 
-    private Object loadCDRLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException {
+    private Object loadCDRLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) {
         Object object;
         CDRLogic cdrLogic = new CDRLogic();
         if (isCount) {
@@ -689,7 +689,7 @@ public class AbstractSearchLogic {
 
         return object;
     }
-    private Object loadNsfLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException, ParseException  {
+    private Object loadNsfLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) {
         Object object;
         NsfLogic nsfLogic = new NsfLogic();
         if (isCount) {

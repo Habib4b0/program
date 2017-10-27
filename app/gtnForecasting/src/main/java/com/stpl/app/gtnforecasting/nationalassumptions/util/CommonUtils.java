@@ -94,9 +94,9 @@ public class CommonUtils {
    public static final String PERCENT = "%";
     public static final String DOLLAR = "$";
     /** UserMap - Contains User System ID and User Name */
-    public static Map<Integer,String> userMap=new ConcurrentHashMap<Integer,String>();  
+    public static Map<Integer,String> userMap=new ConcurrentHashMap<>();  
     /** UserMap - Contains User Name and User System ID  */
-    public static Map<String,Integer> userIdMap=new ConcurrentHashMap<String,Integer>(); 
+    public static Map<String,Integer> userIdMap=new ConcurrentHashMap<>(); 
     public static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
     public static String GROWTH ="([0-9|\\.|\\,])*";
     
@@ -238,18 +238,18 @@ public class CommonUtils {
             if (priceTypeValue.equals(Constant.ANNUAL_FSS)) {
                 select.addItem(year);
             } else {
-                if (year == endYear) {
-                       lastPr = endPeriod;
-                   }
-                for (int j = startPeriod; j <= lastPr; j++) {
-                   select.addItem(Constant.Q + j + " " + year);
+             if (year == endYear) {
+                    lastPr = endPeriod;
                 }
-                startPeriod=1; 
+            for (int j = startPeriod; j <= lastPr; j++) {
+                select.addItem(Constant.Q + j + " " + year);
             }
+            startPeriod=1;
+        }
         }
         return select;
     }
-      
+
     public static boolean isEndDateGreater(String startDate, String endDate) {
         int startYear = Integer.parseInt(startDate.substring(startDate.length() - NumericConstants.FOUR));
         int endYear = Integer.parseInt(endDate.substring(endDate.length() - NumericConstants.FOUR));
@@ -259,7 +259,7 @@ public class CommonUtils {
 
                 status = (Integer.parseInt(String.valueOf(startDate.charAt(1))) < Integer.parseInt(String.valueOf(endDate.charAt(1)))) ? true : false;
 
-            } else if (startYear < endYear) {
+            } else {
                 status = true;
             }
         }
@@ -288,7 +288,7 @@ public class CommonUtils {
     @SuppressWarnings("unchecked")
     public static List<HelperDTO> getManufacturesWithIds() {
         LOGGER.debug("getManufacturesWithIds() starts");
-        List<HelperDTO> results = new ArrayList<HelperDTO>();
+        List<HelperDTO> results = new ArrayList<>();
         try {
             DynamicQuery helper = DynamicQueryFactoryUtil.forClass(HelperTable.class);
             final ProjectionList helperProjectionList = ProjectionFactoryUtil.projectionList();
@@ -310,7 +310,7 @@ public class CommonUtils {
         projList.add(ProjectionFactoryUtil.property(Constant.COMPANYMASTERSID));
         projList.add(ProjectionFactoryUtil.property(Constant.COMPANY_NAME));
         companyDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
-        List<Object[]> resultList = new ArrayList<Object[]>();
+        List<Object[]> resultList;
         
             resultList = CompanyMasterLocalServiceUtil.dynamicQuery(companyDynamicQuery);
        int i=0;
@@ -368,11 +368,11 @@ public class CommonUtils {
     @SuppressWarnings("unchecked")
     public static List<HelperDTO> getTherapeuticClass() {
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
-        dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("therapeuticClass"));
-        dynamicQuery.add(RestrictionsFactoryUtil.ne("therapeuticClass",0));
-        dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("therapeuticClass")));
+        dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.THERAPEUTIC_CLASS));
+        dynamicQuery.add(RestrictionsFactoryUtil.ne(Constant.THERAPEUTIC_CLASS,0));
+        dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constant.THERAPEUTIC_CLASS)));
         List<Integer> resultList = Collections.EMPTY_LIST;
-        List<HelperDTO> finalList = new ArrayList<HelperDTO>();
+        List<HelperDTO> finalList = new ArrayList<>();
         try {
             resultList = ItemMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
         } catch (SystemException e) {
@@ -520,8 +520,8 @@ public class CommonUtils {
         return userMap;
     } 
        public static String filterUser(String filter) {
-        List<String> keys = new ArrayList<String>();
-        String userIds = StringUtils.EMPTY;
+        List<String> keys = new ArrayList<>();
+        String userIds;
         
         if (userMap != null) {
             for (Map.Entry<Integer, String> entry : userMap.entrySet()) {
@@ -567,7 +567,9 @@ public class CommonUtils {
     }
      public static String getFormattedValue(DecimalFormat FORMAT, String value) {
         if (value.contains(Constant.NULL) || StringUtils.isBlank(value)) {
-            value = StringUtils.EMPTY;
+            String newValue = "0";
+            Double nullValue = Double.valueOf(newValue);
+            value = FORMAT.format(nullValue);
         } else if (value.contains("- -")){
              value = "- -";
         }else {

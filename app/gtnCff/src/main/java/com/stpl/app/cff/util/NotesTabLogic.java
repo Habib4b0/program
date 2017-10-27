@@ -39,7 +39,7 @@ public class NotesTabLogic {
 
 	@SuppressWarnings("unchecked")
 	public List<NotesDTO> getAttachmentDTOList(int masterTableSid, String moduleName, String filepath) {
-		List<NotesDTO> attachmentDTOList = new ArrayList<NotesDTO>();
+		List<NotesDTO> attachmentDTOList = new ArrayList<>();
 		DynamicQuery docDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(MasterDataFiles.class);
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq("masterTableSid", masterTableSid));
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.ilike("masterTableName", moduleName));
@@ -88,7 +88,7 @@ public class NotesTabLogic {
 					masterDataFiles.setFilePath(uploadDetails.getDocumentFullPath());
 					masterDataFiles.setCreatedBy(uploadDetails.getUserId());
 					masterDataFiles.setCreatedDate(new Date());
-					masterDataFiles = MasterDataFilesLocalServiceUtil.addMasterDataFiles(masterDataFiles);					
+					MasterDataFilesLocalServiceUtil.addMasterDataFiles(masterDataFiles);					
 				} else {
 					masterDataFiles = MasterDataFilesLocalServiceUtil.getMasterDataFiles(uploadDetails.getDocDetailsId());
                                         masterDataFiles.setMasterTableName(moduleName);

@@ -49,11 +49,11 @@ public class SelectionDTO implements Cloneable {
     private boolean isIFP;
     private String buttonMode = StringUtils.EMPTY;
     private String componentScreen = StringUtils.EMPTY;
-    Set<ItemContractSelectionDTO> contractList = new HashSet<ItemContractSelectionDTO>();
+    Set<ItemContractSelectionDTO> contractList = new HashSet<>();
     private Integer projectionId = 0;
     private ForecastDTO forecastDTO;
-    private Map<String, List> FrequencyAndQuater = new HashMap<String, List>();
-    private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<String, Map<String, Integer>>();
+    private Map<String, List> FrequencyAndQuater = new HashMap<>();
+    private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<>();
     private Integer levelNo = 0;
     private String tableName = StringUtils.EMPTY;
     private Integer itemMasterSid = 0;
@@ -61,7 +61,7 @@ public class SelectionDTO implements Cloneable {
     private Integer startIndex = 0;
     private Integer offSet = 0;
     private String countFlag = StringUtils.EMPTY;
-    private Map<Integer, Map<String, String>> idMainMap = new HashMap<Integer, Map<String, String>>();
+    private Map<Integer, Map<String, String>> idMainMap = new HashMap<>();
     private String comapnyMasterSid = StringUtils.EMPTY;
     private String contractMasterSid = StringUtils.EMPTY;
     private String brandMasterSid = StringUtils.EMPTY;
@@ -73,7 +73,7 @@ public class SelectionDTO implements Cloneable {
     private String forecastUnits = StringUtils.EMPTY;
     private String forecastRate = StringUtils.EMPTY;
     private String forecastAmount = StringUtils.EMPTY;
-    private Set<ItemComponentDetailsDTO> selectedItemList = new HashSet<ItemComponentDetailsDTO>();
+    private Set<ItemComponentDetailsDTO> selectedItemList = new HashSet<>();
     private Integer sessionId = 0;
     private Date sessionDate;
     private Integer userId;
@@ -96,8 +96,8 @@ public class SelectionDTO implements Cloneable {
     private boolean isSubmitted;
     private Set<Container.Filter> filters;
     private String operation = StringUtils.EMPTY;
-    List<ItemIndexDto> transferItemList = new ArrayList<ItemIndexDto>();
-    List<ItemIndexDto> itemList = new ArrayList<ItemIndexDto>();
+    List<ItemIndexDto> transferItemList = new ArrayList<>();
+    List<ItemIndexDto> itemList = new ArrayList<>();
     private String windowName = StringUtils.EMPTY;
     private boolean isTransfer;
     private Integer summaryProjectionId = 0;
@@ -787,7 +787,7 @@ public class SelectionDTO implements Cloneable {
         selection.setIsEditMode(isEditMode);
         selection.setIsDeleteMode(isDeleteMode);
         selection.setIsIFP(isIFP);
-        selection.setContractList(new HashSet<ItemContractSelectionDTO>(contractList));
+        selection.setContractList(new HashSet<>(contractList));
         selection.setProjectionId(projectionId);
         selection.setLevelNo(levelNo);
         selection.setTableName(tableName);
@@ -796,7 +796,7 @@ public class SelectionDTO implements Cloneable {
         selection.setStartIndex(startIndex);
         selection.setOffSet(offSet);
         selection.setCountFlag(countFlag);
-        selection.setIdMainMap(new HashMap<Integer, Map<String, String>>(idMainMap));
+        selection.setIdMainMap(new HashMap<>(idMainMap));
         selection.setComapnyMasterSid(comapnyMasterSid);
         selection.setContractMasterSid(contractMasterSid);
         selection.setBrandMasterSid(brandMasterSid);
@@ -808,7 +808,7 @@ public class SelectionDTO implements Cloneable {
         selection.setForecastUnits(forecastUnits);
         selection.setForecastAmount(forecastAmount);
         selection.setForecastRate(forecastRate);
-        selection.setSelectedItemList(new HashSet<ItemComponentDetailsDTO>(selectedItemList));
+        selection.setSelectedItemList(new HashSet<>(selectedItemList));
         selection.setSessionId(sessionId);
         selection.setUserId(userId);
         selection.setSessionDate(sessionDate);

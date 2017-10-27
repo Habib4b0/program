@@ -80,7 +80,7 @@ public class NmSalesProjectionMasterPersistenceImpl extends BasePersistenceImpl<
     private static Log _log = LogFactoryUtil.getLog(NmSalesProjectionMasterPersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
                 "checkRecord", "calculationPeriods", "userGroup",
-                "projectionDetailsSid", "methodology", "calculationBased"
+                "projectionDetailsSid", "methodology"
             });
     private static NmSalesProjectionMaster _nullNmSalesProjectionMaster = new NmSalesProjectionMasterImpl() {
             @Override
@@ -345,7 +345,6 @@ public class NmSalesProjectionMasterPersistenceImpl extends BasePersistenceImpl<
         nmSalesProjectionMasterImpl.setUserGroup(nmSalesProjectionMaster.getUserGroup());
         nmSalesProjectionMasterImpl.setProjectionDetailsSid(nmSalesProjectionMaster.getProjectionDetailsSid());
         nmSalesProjectionMasterImpl.setMethodology(nmSalesProjectionMaster.getMethodology());
-        nmSalesProjectionMasterImpl.setCalculationBased(nmSalesProjectionMaster.getCalculationBased());
 
         return nmSalesProjectionMasterImpl;
     }

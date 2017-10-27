@@ -5,7 +5,7 @@
  */
 package com.stpl.app.arm.supercode;
 
-import com.stpl.app.arm.AbstractForms.NotesTabForm;
+import com.stpl.app.arm.abstractforms.NotesTabForm;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
 import com.stpl.app.arm.dataselection.ui.form.DataSelectionTab;
@@ -31,7 +31,7 @@ public abstract class AbstractTransaction extends AbstractModule implements Subm
     private CustomFieldGroup binder;
     int tabPosition = 0;
 
-    protected AbstractTransaction(TabSheet tabSheet, CustomFieldGroup binder, int id, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException  {
+    protected AbstractTransaction(TabSheet tabSheet, CustomFieldGroup binder, int id, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
         super(tabSheet, id, name, dataselectionDTO, sessionDTO);
         this.binder = binder;
         dataSelectionWF = new DataSelectionTab(dataselectionDTO, sessionDTO);
@@ -133,6 +133,7 @@ public abstract class AbstractTransaction extends AbstractModule implements Subm
     public void setTabPosition(int tabPosition) {
         this.tabPosition = tabPosition;
     }
+
     public abstract void configurePermission() throws Exception;
 
 }

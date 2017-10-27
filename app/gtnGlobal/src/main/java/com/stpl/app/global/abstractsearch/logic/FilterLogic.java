@@ -104,7 +104,7 @@ public class FilterLogic {
                             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
-                            String value = StringUtils.EMPTY;
+                            String value;
                             if (((Integer) stringFilter.getValue()) == 0) {
                                 value = String.valueOf(stringFilter.getValue());
                             } else {
@@ -196,7 +196,7 @@ public class FilterLogic {
                     And stringFilter = (And) filter;
                     Collection<Container.Filter> value = stringFilter.getFilters();
                     for (Container.Filter filter1 : value) {
-                        Object propertyId = StringUtils.EMPTY;
+                        Object propertyId;
                         if (filter1 instanceof Compare.Less) {
 
                             Compare.Less less = (Compare.Less) filter1;

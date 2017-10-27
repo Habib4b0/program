@@ -52,7 +52,7 @@ public class AssumptionLogic {
      * @return
      */
     public List<AssumptionCIDTDTO> getCIDTResults() {
-        return getCustomizedCIDT(assumptionDAO.getCIDTResults());
+        return getCustomizedCIDT();
     }
 
     /**
@@ -61,8 +61,8 @@ public class AssumptionLogic {
      * @param result
      * @return
      */
-    private List<AssumptionCIDTDTO> getCustomizedCIDT(List result) {
-        return new ArrayList<AssumptionCIDTDTO>();
+    private List<AssumptionCIDTDTO> getCustomizedCIDT() {
+        return new ArrayList<>();
     }
 
     /**
@@ -72,8 +72,8 @@ public class AssumptionLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public void getPVResults(final SessionDTO session) throws PortalException, SystemException {
-        List<Object> input = new ArrayList<Object>();
+    public void getPVResults(final SessionDTO session)  {
+        List<Object> input = new ArrayList<>();
         input.add(Constant.UPDATE);
         input.add(session.getUserId());
         input.add(session.getUserId());
@@ -112,7 +112,7 @@ public class AssumptionLogic {
      * @throws PortalException
      */
     private List<AssumptionPVDTO> getCustomizedPV(List result) throws PortalException, SystemException {
-        List<AssumptionPVDTO> retList = new ArrayList<AssumptionPVDTO>();
+        List<AssumptionPVDTO> retList = new ArrayList<>();
         for (Object[] temp : (List<Object[]>) result) {
             AssumptionPVDTO tempDto = new AssumptionPVDTO();
             tempDto.setParent((Boolean) temp[NumericConstants.TWO]);
@@ -188,7 +188,7 @@ public class AssumptionLogic {
      * @return
      */
     public List<AssumptionSalesDTO> getSalesResults(final SessionDTO session) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(session.getForecastDTO().getProjectionStartMonth());
         input.add(session.getForecastDTO().getProjectionStartYear());
         input.add(session.getForecastDTO().getForecastEndMonth());
@@ -210,7 +210,7 @@ public class AssumptionLogic {
     private List<AssumptionSalesDTO> getCustomizedSales(List result) {
 
         LOGGER.debug("custom Logger Sales");
-        List<AssumptionSalesDTO> retList = new ArrayList<AssumptionSalesDTO>();
+        List<AssumptionSalesDTO> retList = new ArrayList<>();
         for (Object[] temp : (List<Object[]>) result) {
             AssumptionSalesDTO tempDto = new AssumptionSalesDTO();
             tempDto.setProjectionPeriod(String.valueOf(temp[0]));
@@ -233,7 +233,7 @@ public class AssumptionLogic {
      * @return
      */
     public List<AssumptionDiscountDTO> getDiscountResults(final SessionDTO session) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(session.getForecastDTO().getProjectionStartMonth());
         input.add(session.getForecastDTO().getProjectionStartYear());
         input.add(session.getForecastDTO().getForecastEndMonth());
@@ -253,7 +253,7 @@ public class AssumptionLogic {
      * @return
      */
     private List<AssumptionDiscountDTO> getCustomizedDiscount(List result) {
-        List<AssumptionDiscountDTO> retList = new ArrayList<AssumptionDiscountDTO>();
+        List<AssumptionDiscountDTO> retList = new ArrayList<>();
         for (Object[] temp : (List<Object[]>) result) {
             AssumptionDiscountDTO tempDto = new AssumptionDiscountDTO();
             tempDto.setProjectionPeriod(String.valueOf(temp[0]));
@@ -272,7 +272,7 @@ public class AssumptionLogic {
      * @return
      */
     public List<AssumptionPPADTO> getPPAResults(final SessionDTO session) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(session.getForecastDTO().getProjectionStartMonth());
         input.add(session.getForecastDTO().getProjectionStartYear());
         input.add(session.getForecastDTO().getForecastEndMonth());
@@ -292,7 +292,7 @@ public class AssumptionLogic {
      * @return
      */
     private List<AssumptionPPADTO> getCustomizedPPA(List result) {
-        List<AssumptionPPADTO> retList = new ArrayList<AssumptionPPADTO>();
+        List<AssumptionPPADTO> retList = new ArrayList<>();
         for (Object[] temp : (List<Object[]>) result) {
             AssumptionPPADTO tempDto = new AssumptionPPADTO();
             tempDto.setProjectionPeriod(String.valueOf(temp[0]));
@@ -319,8 +319,8 @@ public class AssumptionLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public void removeLinePVS(final SessionDTO session, AssumptionPVDTO child) throws PortalException, SystemException {
-            List<Object> input = new ArrayList<Object>();
+    public void removeLinePVS(final SessionDTO session, AssumptionPVDTO child)  {
+            List<Object> input = new ArrayList<>();
             input.add(Constant.UPDATE);
             
             input.add(child.getChildPeriod());
@@ -329,12 +329,12 @@ public class AssumptionLogic {
             input.add(session.getSessionId());
             input.add(child.getChildCamId());
             input.add(child.getSegmentId());
-            input.add(Constant.NULL.equals(String.valueOf(child.getOldReasonCode()))?"AND NMA.REASON_CODES is null":"AND NMA.REASON_CODES='"+child.getOldReasonCode()+"'");
-            input.add(Constant.NULL.equals(String.valueOf(child.getOldReasonCode()))?"AND NMA.COMMENTARY is null":"AND NMA.COMMENTARY='"+child.getOldCommentary()+"'");
+            input.add(Constant.NULL.equals(String.valueOf(child.getOldReasonCode()))?"AND NMA.REASON_CODES is null ":"AND NMA.REASON_CODES = '"+child.getOldReasonCode()+"'");
+            input.add(Constant.NULL.equals(String.valueOf(child.getOldReasonCode()))?"AND NMA.COMMENTARY is null ":"AND NMA.COMMENTARY = '"+child.getOldCommentary()+"'");
             input.add(child.getBrandSid());
             input.add(child.getCompanySid());
             input.add(child.getMatketTypeSid());
-            input.add(child.getContractHolderSid()==0?"AND CTM.CONT_HOLD_COMPANY_MASTER_SID is null":"AND CTM.CONT_HOLD_COMPANY_MASTER_SID ='"+child.getContractHolderSid()+"'");
+            input.add(child.getContractHolderSid()==0?"AND CTM.CONT_HOLD_COMPANY_MASTER_SID is null ":"AND CTM.CONT_HOLD_COMPANY_MASTER_SID = '"+child.getContractHolderSid()+"'");
             
             
             input.add(child.getChildPeriod());
@@ -360,7 +360,7 @@ public class AssumptionLogic {
      * @return
      */
     public void deleteChilds(final SessionDTO session) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(Constant.UPDATE);
         input.add(session.getUserId());
         input.add(session.getSessionId());
@@ -374,9 +374,9 @@ public class AssumptionLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public void savePVS(final SessionDTO session, final BeanItemContainer<AssumptionPVDTO> pvsContainer) throws SystemException, PortalException {
+    public void savePVS(final SessionDTO session, final BeanItemContainer<AssumptionPVDTO> pvsContainer)  {
         for (AssumptionPVDTO dto : pvsContainer.getItemIds()) {
-            List<Object> input = new ArrayList<Object>();
+            List<Object> input = new ArrayList<>();
             input.add(Constant.UPDATE);
             input.add(dto.getPvCheck() ? 1 : 0);
             input.add(dto.getReasonCodePV());
@@ -409,7 +409,7 @@ public class AssumptionLogic {
      * @return
      */
     public void checkAll(final SessionDTO session, final Boolean check) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(Constant.UPDATE);
         input.add(check ? 1 : 0);
         input.add(session.getUserId());
@@ -423,7 +423,7 @@ public class AssumptionLogic {
      * @return
      */
     public void populateCommentry(final SessionDTO session, final Object value) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(Constant.UPDATE);
         input.add(value);
         input.add(session.getUserId());
@@ -437,7 +437,7 @@ public class AssumptionLogic {
      * @return
      */
     public void populateReasonCode(final SessionDTO session, final Object value) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(Constant.UPDATE);
         input.add(value);
         input.add(session.getUserId());
@@ -451,7 +451,7 @@ public class AssumptionLogic {
      * @return
      */
     public void addLine(final SessionDTO session, final Boolean value) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(Constant.UPDATE);
         input.add(value ? 1 : 0);
         input.add(session.getUserId());
@@ -466,8 +466,8 @@ public class AssumptionLogic {
      * @throws SystemException
      * @throws NumberFormatException
      */
-    public Integer getLineCount(final SessionDTO session) throws SystemException {
-        List<Object> input = new ArrayList<Object>();
+    public Integer getLineCount(final SessionDTO session)  {
+        List<Object> input = new ArrayList<>();
         input.add(session.getProjectionId());
         input.add(session.getUserId());
         input.add(session.getSessionId());
@@ -483,7 +483,7 @@ public class AssumptionLogic {
      * @throws PortalException
      */
     public List<AssumptionPVDTO> getPVSResult(final SessionDTO session, final Integer startIndex, final Integer offset) throws SystemException, PortalException {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(session.getProjectionId());
         input.add(session.getUserId());
         input.add(session.getSessionId());
@@ -500,7 +500,7 @@ public class AssumptionLogic {
      * @return
      */
     public Integer checkedCount(final SessionDTO session) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(session.getUserId());
         input.add(session.getSessionId());
         return Integer.parseInt(String.valueOf(assumptionDAO.getAssumptionResults(input, "assumption.checkedCount").get(0)));
@@ -512,7 +512,7 @@ public class AssumptionLogic {
      * @return
      */
     public Integer childCheckedCount(final SessionDTO session) {
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(session.getUserId());
         input.add(session.getSessionId());
         return Integer.parseInt(String.valueOf(assumptionDAO.getAssumptionResults(input, "assumption.childCheckForAddLine").get(0)));

@@ -43,7 +43,7 @@ public class StplAutoLogin implements AutoLogin {
 		if (emailAddress == null) {
 			return null;
 		}
-		String username = emailAddress.substring(0, emailAddress.indexOf("@"));
+		String username = getUserName(emailAddress);
 		User user = null;
 		try {
 			user = getLiferayUser(request, response, emailAddress, username);
@@ -162,6 +162,15 @@ public class StplAutoLogin implements AutoLogin {
 		cookie.setMaxAge(days ? 1 * 24 * 60 * 60 * 1000 : -1);
 		cookie.setPath("/");
 		return cookie;
+	}
+
+        private String getUserName(String emailAddress) {
+		String username = emailAddress.substring(0, emailAddress.indexOf("@"));
+		for (String iterable_element : StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean()
+				.getSpecialCharArray()) {
+			username = username.replace(iterable_element, ".");
+}
+		return username;
 	}
 
 }

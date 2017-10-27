@@ -16,7 +16,7 @@ import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.utils.ARMUtils;
-import static com.stpl.app.arm.utils.ARMUtils.MONTHS;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -29,6 +29,7 @@ import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
+import com.stpl.ifs.util.constants.Trx8Constants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
@@ -78,7 +79,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  * Messages are from Property files in GALGTNProperties.'Rate'is appended in
  * each of the fields to represent unique combination of property Id.
  *
- * @author
  */
 public class AdjustmentRateForm extends CustomComponent {
 
@@ -135,7 +135,7 @@ public class AdjustmentRateForm extends CustomComponent {
      */
     @UiField("resetBtnRate")
     Button resetBtn;
-    
+
     @UiField("populateBtnRate")
     Button populateBtnRate;
     /**
@@ -168,7 +168,9 @@ public class AdjustmentRateForm extends CustomComponent {
     /**
      * The Split Positions between the left and right table
      */
-    private final float maxSplitPosition = 1000, minSplitPosition = 200, splitPosition = 300;
+    private static final float MAXSPLITPOSITION = 1000;
+    private static final float MINSPLITPOSITION = 200;
+    private static final float SPLITPOSITION = 300;
     /**
      * The Container For the Results Table.
      */
@@ -233,10 +235,10 @@ public class AdjustmentRateForm extends CustomComponent {
      * Configuring Fields for the Adjustment Rate Configuration.
      */
     private void configureFields() {
-        CommonLogic.configureDropDowns(companyDdlbRate, "getCompanyQuery", Boolean.TRUE);
-        CommonLogic.configureDropDowns(businessDdlbRate, "getBusinessQuery", Boolean.TRUE);
+        CommonLogic.configureDropDowns(companyDdlbRate, "getCompanyQuery", true);
+        CommonLogic.configureDropDowns(businessDdlbRate, "getBusinessQuery", true);
         resultsTableLayout.addComponent(resultsTable);
-        CommonLogic.setComboBoxItemIDAndCaption(adjustmentTypeDdlbRate, "LoadAdjustmentTypeForRateConfig", Collections.EMPTY_LIST);
+        CommonLogic.setComboBoxItemIDAndCaption(adjustmentTypeDdlbRate, "LoadAdjustmentTypeForRateConfig", Collections.emptyList());
         setImmediate(true);
         frequencyDdlbRate.addItem(ARMConstants.getMonthly());
         frequencyDdlbRate.select(ARMConstants.getMonthly());
@@ -245,8 +247,6 @@ public class AdjustmentRateForm extends CustomComponent {
         fieldDdlbRate.setNullSelectionItemId(GlobalConstants.getSelectOne());
         fieldDdlbRate.addItem(GlobalConstants.getSelectOne());
         fieldDdlbRate.select(GlobalConstants.getSelectOne());
-        valueDdlbRate.setNullSelectionAllowed(true);
-        valueDdlbRate.setNullSelectionItemId(GlobalConstants.getSelectOne());
         valueDdlbRate.addItem(GlobalConstants.getSelectOne());
         valueDdlbRate.select(GlobalConstants.getSelectOne());
         valueTxt.setValue(StringUtils.EMPTY);
@@ -266,9 +266,9 @@ public class AdjustmentRateForm extends CustomComponent {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
         resultsTable.setImmediate(true);
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLITPOSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MINSPLITPOSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAXSPLITPOSITION, Sizeable.Unit.PIXELS);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultsTable.addStyleName(ARMUtils.CENTER_CHECK);
     }
@@ -284,18 +284,18 @@ public class AdjustmentRateForm extends CustomComponent {
             leftTable.setImmediate(true);
             rightTable.setImmediate(true);
             resultsTable.setDoubleHeaderVisible(true);
-            leftTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_LEFT_COLUMNS);
-            leftTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_LEFT_HEADERS);
-            leftTable.setVisibleColumns(ARMUtils.SECOND_ROW_LEFT_COLUMNS);
-            leftTable.setColumnHeaders(ARMUtils.SECOND_ROW_LEFT_HEADERS);
-            rightTable.setVisibleColumns(ARMUtils.SECOND_ROW_SALES_RATE_RIGHT_COLUMNS);
-            rightTable.setColumnHeaders(ARMUtils.SECOND_ROW_SALES_RATE_RIGHT_HEADERS);
+            leftTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowLeftColumns());
+            leftTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowLeftHeaders());
+            leftTable.setVisibleColumns(ARMUtils.getSecondRowLeftColumns());
+            leftTable.setColumnHeaders(ARMUtils.getSecondRowLeftHeaders());
+            rightTable.setVisibleColumns(ARMUtils.getSecondRowSalesRateRightColumns());
+            rightTable.setColumnHeaders(ARMUtils.getSecondRowSalesRateRightHeaders());
             leftTable.setColumnCheckBox(VariableConstants.CHECK_RECORD, true, false);
-            rightTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_SALES_RATE_RIGHT_COLUMNS);
-            rightTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_SALES_RATE_RIGHT_HEADERS);
+            rightTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowSalesRateRightColumns());
+            rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowSalesRateRightHeaders());
             reLoadTable(ARMConstants.getPipelineAccrual());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in configureResultTable :" + ex);
         }
     }
 
@@ -309,9 +309,9 @@ public class AdjustmentRateForm extends CustomComponent {
         final ExtCustomTable rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.setImmediate(true);
         rightTable.setImmediate(true);
-        resultsTable.setHeight("555px");
-        leftTable.setHeight("555px");
-        rightTable.setHeight("555px");
+        resultsTable.setHeight(CommonConstant.PX);
+        leftTable.setHeight(CommonConstant.PX);
+        rightTable.setHeight(CommonConstant.PX);
         leftTable.setColumnWidth(VariableConstants.CHECK_RECORD, NumericConstants.SEVENTY_FIVE);
         leftTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
             @Override
@@ -335,8 +335,8 @@ public class AdjustmentRateForm extends CustomComponent {
         leftTable.setEditable(true);
         rightTable.setTableFieldFactory(resetTableFeildFactory);
         leftTable.setTableFieldFactory(resetTableFeildFactory);
-        rightTable.setDoubleHeaderMap(configure_RightDoubleHeaderMap(doubleHeaderMapValue));
-        leftTable.setDoubleHeaderMap(configure_LeftDoubleHeaderMap());
+        rightTable.setDoubleHeaderMap(configureRightDoubleHeaderMap(doubleHeaderMapValue));
+        leftTable.setDoubleHeaderMap(configureLeftDoubleHeaderMap());
     }
 
     /**
@@ -345,34 +345,38 @@ public class AdjustmentRateForm extends CustomComponent {
      *
      * @return
      */
-    private Map<Object, Object[]> configure_RightDoubleHeaderMap(String tabName) {
+    private Map<Object, Object[]> configureRightDoubleHeaderMap(String tabName) {
         Map<Object, Object[]> headerMap = new HashMap<>();
         if (ARMConstants.getPipelineAccrual().equals(tabName)) {
-            headerMap.put(VariableConstants.SALES, ARMUtils.SECOND_ROW_SALES_COLUMNS);
-            headerMap.put(VariableConstants.RATE, ARMUtils.SECOND_ROW_RATE_COLUMNS);
+            headerMap.put(VariableConstants.SALES, ARMUtils.getSecondRowSalesColumns());
+            headerMap.put(VariableConstants.RATE, ARMUtils.getSecondRowRateColumns());
         } else if (ARMConstants.getPipelineInventoryTrueUp().equals(tabName)) {
-            headerMap.put(VariableConstants.INVENTORY, ARMUtils.SECOND_ROW_INVENTORY_COLUMNS);
-            headerMap.put(VariableConstants.RATE, ARMUtils.SECOND_ROW_RATE_COLUMNS);
+            headerMap.put(VariableConstants.INVENTORY, ARMUtils.getSecondRowInventoryColumns());
+            headerMap.put(VariableConstants.RATE, ARMUtils.getSecondRowRateColumns());
         } else if (ARMConstants.getTransaction6().equals(tabName)) {
-            headerMap.put(VariableConstants.INVENTORY, ARMUtils.SECOND_ROW_INVENTORY_RATE_RIGHT_COLUMNS_FOR_TRX6);
+            headerMap.put(VariableConstants.INVENTORY, ARMUtils.getSecondRowInventoryRateRightColumnsForTrx6());
         } else if (ARMConstants.getTransaction7().equals(tabName)) {
-            headerMap.put(VariableConstants.SALES, ARMUtils.SECOND_ROW_INVENTORY_RATE_RIGHT_COLUMNS_FOR_TRX7);
+            headerMap.put(VariableConstants.SALES, ARMUtils.getSecondRowInventoryRateRightColumnsForTrx7());
+        } else if (Trx8Constants.getTransaction8().equals(tabName)) {
+            headerMap.put(VariableConstants.RATE, ARMUtils.getSecondRowRateRightColumnsForTrx8());
         }
         return headerMap;
     }
 
-    private Map<Object, Object[]> configure_EXCELDoubleHeaderMap(String tabName) {
+    private Map<Object, Object[]> configureEXCELDoubleHeaderMap(String tabName) {
         Map<Object, Object[]> headerMap = new HashMap<>();
         if (ARMConstants.getPipelineAccrual().equals(tabName)) {
-            headerMap.put(VariableConstants.SALES, ARMUtils.EXCEL_ROW_SALES_COLUMNS);
-            headerMap.put(VariableConstants.RATE, ARMUtils.SECOND_ROW_RATE_COLUMNS);
+            headerMap.put(VariableConstants.SALES, ARMUtils.getExcelRowSalesColumns());
+            headerMap.put(VariableConstants.RATE, ARMUtils.getSecondRowRateColumns());
         } else if (ARMConstants.getPipelineInventoryTrueUp().equals(tabName)) {
-            headerMap.put(VariableConstants.INVENTORY, ARMUtils.EXCEL_ROW_INVENTORY_COLUMNS);
-            headerMap.put(VariableConstants.RATE, ARMUtils.SECOND_ROW_RATE_COLUMNS);
+            headerMap.put(VariableConstants.INVENTORY, ARMUtils.getExcelRowInventoryColumns());
+            headerMap.put(VariableConstants.RATE, ARMUtils.getSecondRowRateColumns());
         } else if (ARMConstants.getTransaction6().equals(tabName)) {
-            headerMap.put(VariableConstants.INVENTORY, ARMUtils.EXCEL_ROW_Trx6_SINGLE_COLUMNS);
+            headerMap.put(VariableConstants.INVENTORY, ARMUtils.getExcelRowTrx6SingleColumns());
         } else if (ARMConstants.getTransaction7().equals(tabName)) {
-            headerMap.put(VariableConstants.SALES, ARMUtils.EXCEL_ROW_Trx7_SINGLE_COLUMNS);
+            headerMap.put(VariableConstants.SALES, ARMUtils.getExcelRowTrx7SingleColumns());
+        } else if (Trx8Constants.getTransaction8().equals(tabName)) {
+            headerMap.put(VariableConstants.RATE, ARMUtils.getExcelRowRateSingleColumnsTrx8());
         }
         return headerMap;
     }
@@ -383,7 +387,7 @@ public class AdjustmentRateForm extends CustomComponent {
      *
      * @return
      */
-    private Map<Object, Object[]> configure_LeftDoubleHeaderMap() {
+    private Map<Object, Object[]> configureLeftDoubleHeaderMap() {
         Map<Object, Object[]> headerMap = new HashMap<>();
         headerMap.put(VariableConstants.MONTH, new String[]{VariableConstants.CHECK_RECORD, VariableConstants.MONTH});
         return headerMap;
@@ -393,7 +397,7 @@ public class AdjustmentRateForm extends CustomComponent {
     public void generateBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Inside Generate Btn");
         try {
-            if (selection.getAdjustmentType().isEmpty() || selection.getBu_companyMasterSid() == 0 || selection.getGl_companyMasterSid() == 0) {
+            if (selection.getAdjustmentType().isEmpty() || selection.getBucompanyMasterSid() == 0 || selection.getGlcompanyMasterSid() == 0) {
                 AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getGenerateMessageID001());
             } else {
                 resultsTable.getLeftFreezeAsTable().setColumnCheckBox(VariableConstants.CHECK_RECORD, true, false);
@@ -402,25 +406,30 @@ public class AdjustmentRateForm extends CustomComponent {
                 final ExtCustomTable rightTable = resultsTable.getRightFreezeAsTable();
                 rightTable.setContainerDataSource(resultBeanContainer);
                 if (ARMConstants.getPipelineAccrual().equals(selection.getAdjustmentType())) {
-                    rightTable.setVisibleColumns(ARMUtils.SECOND_ROW_SALES_RATE_RIGHT_COLUMNS);
-                    rightTable.setColumnHeaders(ARMUtils.SECOND_ROW_SALES_RATE_RIGHT_HEADERS);
-                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_SALES_RATE_RIGHT_COLUMNS);
-                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_SALES_RATE_RIGHT_HEADERS);
+                    rightTable.setVisibleColumns(ARMUtils.getSecondRowSalesRateRightColumns());
+                    rightTable.setColumnHeaders(ARMUtils.getSecondRowSalesRateRightHeaders());
+                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowSalesRateRightColumns());
+                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowSalesRateRightHeaders());
                 } else if (ARMConstants.getPipelineInventoryTrueUp().equals(selection.getAdjustmentType())) {
-                    rightTable.setVisibleColumns(ARMUtils.SECOND_ROW_INVENTORY_RATE_RIGHT_COLUMNS);
-                    rightTable.setColumnHeaders(ARMUtils.SECOND_ROW_INVENTORY_RATE_RIGHT_HEADERS);
-                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_INVENTORY_RATE_RIGHT_COLUMNS);
-                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_INVENTORY_RATE_RIGHT_HEADERS);
+                    rightTable.setVisibleColumns(ARMUtils.getSecondRowInventoryRateRightColumns());
+                    rightTable.setColumnHeaders(ARMUtils.getSecondRowInventoryRateRightHeaders());
+                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowInventoryRateRightColumns());
+                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowInventoryRateRightHeaders());
                 } else if (ARMConstants.getTransaction6().equals(selection.getAdjustmentType())) {
-                    rightTable.setVisibleColumns(ARMUtils.SECOND_ROW_INVENTORY_RATE_RIGHT_COLUMNS_FOR_TRX6);
-                    rightTable.setColumnHeaders(ARMUtils.SECOND_ROW_INVENTORY_RATE_RIGHT_HEADERS_FOR_TRX6);
-                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_INVENTORY_RATE_RIGHT_COLUMNS_FOR_TRX6);
-                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_INVENTORY_RATE_RIGHT_HEADERS_FOR_TRX6);
+                    rightTable.setVisibleColumns(ARMUtils.getSecondRowInventoryRateRightColumnsForTrx6());
+                    rightTable.setColumnHeaders(ARMUtils.getSecondRowInventoryRateRightHeadersForTrx6());
+                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowInventoryRateRightColumnsForTrx6());
+                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowInventoryRateRightHeadersForTrx6());
                 } else if (ARMConstants.getTransaction7().equals(selection.getAdjustmentType())) {
-                    rightTable.setVisibleColumns(ARMUtils.SECOND_ROW_INVENTORY_RATE_RIGHT_COLUMNS_FOR_TRX7);
-                    rightTable.setColumnHeaders(ARMUtils.SECOND_ROW_INVENTORY_RATE_RIGHT_HEADERS_FOR_TRX7);
-                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_INVENTORY_RATE_RIGHT_COLUMNS_FOR_TRX7);
-                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_INVENTORY_RATE_RIGHT_HEADERS_FOR_TRX7);
+                    rightTable.setVisibleColumns(ARMUtils.getSecondRowInventoryRateRightColumnsForTrx7());
+                    rightTable.setColumnHeaders(ARMUtils.getSecondRowInventoryRateRightHeadersForTrx7());
+                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowInventoryRateRightColumnsForTrx7());
+                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowInventoryRateRightHeadersForTrx7());
+                } else if (Trx8Constants.getTransaction8().equals(selection.getAdjustmentType())) {
+                    rightTable.setVisibleColumns(ARMUtils.getSecondRowRateRightColumnsForTrx8());
+                    rightTable.setColumnHeaders(ARMUtils.getSecondRowRateRightHeadersForTrx8());
+                    rightTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowRateRightColumnsForTrx8());
+                    rightTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowRateRightHeadersForTrx8());
                 }
                 reLoadTable(selection.getAdjustmentType());
                 accrualList.clear();
@@ -435,16 +444,15 @@ public class AdjustmentRateForm extends CustomComponent {
 
                 accrualList.addAll(tempList);
                 tempList.clear();
-                tempList = null;
 
                 resultBeanContainer.addAll(accrualList);
-                rightTable.setDoubleHeaderMap(configure_RightDoubleHeaderMap(selection.getAdjustmentType()));
+                rightTable.setDoubleHeaderMap(configureRightDoubleHeaderMap(selection.getAdjustmentType()));
                 configureMassUpdateSection();
                 rightTable.setColumnCheckBox(VariableConstants.CHECK_RECORD, true, false);
                 generatedSelection.setInternal(selection);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in generateBtnClick :" + e);
         }
     }
 
@@ -499,6 +507,9 @@ public class AdjustmentRateForm extends CustomComponent {
             fieldDdlbRate.setItemCaption(VariableConstants.PRICE, ARMConstants.getPrice());
             fieldDdlbRate.addItem(VariableConstants.EXCLUSION_DETAILS);
             fieldDdlbRate.setItemCaption(VariableConstants.EXCLUSION_DETAILS, ARMConstants.getExclusionDetails());
+        } else if (Trx8Constants.getTransaction8().equals(selection.getAdjustmentType())) {
+            fieldDdlbRate.addItem(VariableConstants.RATE_BASIS);
+            fieldDdlbRate.setItemCaption(VariableConstants.RATE_BASIS, ARMConstants.getRateBasis());
         }
         fieldDdlbRate.select(GlobalConstants.getSelectOne());
     }
@@ -520,9 +531,9 @@ public class AdjustmentRateForm extends CustomComponent {
     public void companyDdlbVlaueChange(Property.ValueChangeEvent event) {
         Object val = event.getProperty().getValue();
         if (val == null) {
-            selection.setGl_companyMasterSid(0);
+            selection.setGlcompanyMasterSid(0);
         } else {
-            selection.setGl_companyMasterSid((int) val);
+            selection.setGlcompanyMasterSid((int) val);
         }
 
     }
@@ -531,9 +542,9 @@ public class AdjustmentRateForm extends CustomComponent {
     public void businessDdlbVlaueChange(Property.ValueChangeEvent event) {
         Object val = event.getProperty().getValue();
         if (val == null) {
-            selection.setBu_companyMasterSid(0);
+            selection.setBucompanyMasterSid(0);
         } else {
-            selection.setBu_companyMasterSid((int) val);
+            selection.setBucompanyMasterSid((int) val);
         }
 
     }
@@ -577,19 +588,15 @@ public class AdjustmentRateForm extends CustomComponent {
             } else if (VariableConstants.PRICE.equals(val)) {
                 valueTxt.setVisible(false);
                 valueDdlbRate.setVisible(true);
-                CommonUtils.loadPriceComboBox(valueDdlbRate, priceList);
-            } else if (VariableConstants.ADJUSTED_PRICE.equals(val)) {
+                CommonUtils.loadPriceComboBox(valueDdlbRate, priceList, -NumericConstants.TWELVE);
+            } else if (VariableConstants.ADJUSTED_PRICE.equals(val) || VariableConstants.BASELINE_PRICE.equals(val)) {
                 valueTxt.setVisible(false);
                 valueDdlbRate.setVisible(true);
-                CommonUtils.loadPriceComboBox(valueDdlbRate, priceList);
-            } else if (VariableConstants.BASELINE_PRICE.equals(val)) {
-                valueTxt.setVisible(false);
-                valueDdlbRate.setVisible(true);
-                CommonUtils.loadPriceComboBox(valueDdlbRate, priceList);
+                CommonUtils.loadPriceComboBox(valueDdlbRate, priceList, -NumericConstants.TWELVE);
             } else {
                 valueTxt.setVisible(false);
                 valueDdlbRate.setVisible(true);
-                CommonUtils.loadComboBoxWithInteger(valueDdlbRate, listNameMapper.get(val.toString()), false);
+                CommonUtils.loadComboBoxWithIntegerRateBasis(valueDdlbRate, listNameMapper.get(val.toString()), false, selection.getAdjustmentType());
                 if (VariableConstants.RATE_FREQUENCY.equals((String) fieldDdlbRate.getValue())) {
                     lastPopulatedFrequency = valueDdlbRate.getValue() == null ? 0 : (int) valueDdlbRate.getValue();
                 }
@@ -607,70 +614,70 @@ public class AdjustmentRateForm extends CustomComponent {
 
     }
 
-//    @UiHandler("populateBtnRate")
-//    public void populateButtonClick(Button.ClickEvent event) {
-     public void populateBtnRate() {
+    public void populateBtnRate() {
         populateBtnRate.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-        LOGGER.debug("Inside populateButtonClick Btn :" + fieldDdlbRate.getValue());
-        LOGGER.debug("Inside populateButtonClick Btn :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()));
-        try {
+                LOGGER.debug("Inside populateButtonClick Btn :" + fieldDdlbRate.getValue());
+                LOGGER.debug("Inside populateButtonClick Btn :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()));
+                try {
 
-            Object val;
-            boolean mandatory = false;
-            if (VariableConstants.EXCLUSION_DETAILS.equals(fieldDdlbRate.getValue()) || VariableConstants.INVENTORYCAL_CULATION.equals(fieldDdlbRate.getValue())) {
-                val = valueTxt.getValue();
-                mandatory = val.equals(StringUtils.EMPTY);
-            } else if (VariableConstants.PRICE.equals(fieldDdlbRate.getValue()) || VariableConstants.ADJUSTED_PRICE.equals(fieldDdlbRate.getValue()) || VariableConstants.BASELINE_PRICE.equals(fieldDdlbRate.getValue())) {
-                val = valueDdlbRate.getValue();
-                mandatory = val == null || "-Select One-".equals(val.toString());
-            } else {
-                val = valueDdlbRate.getValue();
-                mandatory = val == null || ((int) val == 0);
-            }
-            if (mandatory) {
-                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getPropertyMessage003());
-            } else {
-
-                List<AdjustmentRateDTO> list = resultBeanContainer.getItemIds();
-                boolean checkFlag = true;
-                for (AdjustmentRateDTO adjustmentRateDTO : list) {
-                    if (adjustmentRateDTO.getCheckRecord()) {
-                        checkFlag = false;
+                    Object val;
+                    boolean mandatory = false;
+                    if (VariableConstants.EXCLUSION_DETAILS.equals(fieldDdlbRate.getValue()) || VariableConstants.INVENTORYCAL_CULATION.equals(fieldDdlbRate.getValue())) {
+                        val = valueTxt.getValue();
+                        mandatory = val.equals(StringUtils.EMPTY);
+                    } else if (VariableConstants.PRICE.equals(fieldDdlbRate.getValue()) || VariableConstants.ADJUSTED_PRICE.equals(fieldDdlbRate.getValue()) || VariableConstants.BASELINE_PRICE.equals(fieldDdlbRate.getValue())) {
+                        val = valueDdlbRate.getValue();
+                        mandatory = val == null || "-Select One-".equals(val.toString());
+                    } else {
+                        val = valueDdlbRate.getValue();
+                        mandatory = val == null || ((int) val == 0);
                     }
-                }
-                if (checkFlag) {
-                    AbstractNotificationUtils.getErrorNotification("Populate Error", "Please select at least one item to populate. Please try again.");
-                    return;
-                }
+                    if (mandatory) {
+                        AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateErrorHeaderMessage(), ARMMessages.getPropertyMessage003());
+                    } else {
 
-                for (AdjustmentRateDTO adjustmentRateDTO : list) {
-                    boolean checkAll = resultsTable.getLeftFreezeAsTable().getColumnCheckBox(VariableConstants.CHECK_RECORD);
-                    if (checkAll || adjustmentRateDTO.getCheckRecord()) {
-
-                        if (VariableConstants.RATE_FREQUENCY.equals((String) fieldDdlbRate.getValue())) {
-                            if ((int) val > 0) {
-                                CommonUtils.loadRatePeriodComboBox((CustomComboBox) adjustmentRateDTO.getComponent(VariableConstants.RATE_PERIOD), findFrequency(val == null ? 0 : (int) val), listNameMapper.get(VariableConstants.RATE_PERIOD));
+                        List<AdjustmentRateDTO> list = resultBeanContainer.getItemIds();
+                        boolean checkFlag = true;
+                        for (AdjustmentRateDTO adjustmentRateDTO : list) {
+                            if (adjustmentRateDTO.getCheckRecord()) {
+                                checkFlag = false;
                             }
-                        } else if (VariableConstants.EXCLUSION_DETAILS.equals((String) fieldDdlbRate.getValue()) || VariableConstants.INVENTORYCAL_CULATION.equals((String) fieldDdlbRate.getValue())) {
-                            LookUpDTO viewSidDTO = (LookUpDTO) valueTxt.getData();
-                            adjustmentRateDTO.setViewMasterSid(viewSidDTO.getViewMasterSid());
-                        } else if (VariableConstants.INVENTORY_CUSTOMER.equals((String) fieldDdlbRate.getValue())) {
-                            resultBeanContainer.getContainerProperty(adjustmentRateDTO, "inventoryCalculation").setValue(StringUtils.EMPTY);
-                        } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getPrice())) {
-                            val = String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
                         }
-                        resultBeanContainer.getContainerProperty(adjustmentRateDTO, fieldDdlbRate.getValue()).setValue(val);
+                        if (checkFlag) {
+                            AbstractNotificationUtils.getErrorNotification("Populate Error", "Please select at least one item to populate. Please try again.");
+                            return;
+                        }
+
+                        for (AdjustmentRateDTO adjustmentRateDTO : list) {
+                            boolean checkAll = resultsTable.getLeftFreezeAsTable().getColumnCheckBox(VariableConstants.CHECK_RECORD);
+                            if (checkAll || adjustmentRateDTO.getCheckRecord()) {
+
+                                if (VariableConstants.RATE_FREQUENCY.equals((String) fieldDdlbRate.getValue())) {
+                                    if ((int) val > 0) {
+                                        CommonUtils.loadRatePeriodComboBox((CustomComboBox) adjustmentRateDTO.getComponent(VariableConstants.RATE_PERIOD), findFrequency(val == null ? 0 : (int) val), listNameMapper.get(VariableConstants.RATE_PERIOD));
+                                    }
+                                } else if (VariableConstants.EXCLUSION_DETAILS.equals((String) fieldDdlbRate.getValue()) || VariableConstants.INVENTORYCAL_CULATION.equals((String) fieldDdlbRate.getValue())) {
+                                    LookUpDTO viewSidDTO = (LookUpDTO) valueTxt.getData();
+                                    adjustmentRateDTO.setViewMasterSid(viewSidDTO.getViewMasterSid());
+                                } else if (VariableConstants.INVENTORY_CUSTOMER.equals((String) fieldDdlbRate.getValue())) {
+                                    resultBeanContainer.getContainerProperty(adjustmentRateDTO, "inventoryCalculation").setValue(StringUtils.EMPTY);
+                                } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getPrice())) {
+                                    val = String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
+                                } else if (String.valueOf(fieldDdlbRate.getValue()).equalsIgnoreCase(ARMConstants.getRateBasis())) {
+                                    val = String.valueOf(valueDdlbRate.getItemCaption(valueDdlbRate.getValue()));
+                                }
+                                resultBeanContainer.getContainerProperty(adjustmentRateDTO, fieldDdlbRate.getValue()).setValue(val);
+                            }
+                        }
                     }
+                } catch (Exception e) {
+                    LOGGER.error("Error While Mass populate for the feild :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()) + " With Exception :" + e);
                 }
             }
-        } catch (Exception e) {
-            LOGGER.error("Error While Mass populate for the feild :" + fieldDdlbRate.getItemCaption(fieldDdlbRate.getValue()) + " With Exception :" + e);
-        }
-    }
         });
-     }
+    }
 
     public boolean checkValidFrequency() {
         LOGGER.debug("Inside Check Valid Frequency");
@@ -694,7 +701,7 @@ public class AdjustmentRateForm extends CustomComponent {
             notifier.setButtonName("reset");
             notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getResetMessageID002());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in resetButtonClick :" + e);
         }
     }
 
@@ -710,10 +717,35 @@ public class AdjustmentRateForm extends CustomComponent {
             if (!selection.equals(generatedSelection)) {
                 return;
             }
-            notifier.setButtonName("save");
-            notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getSaveMessageID004());
+            List<HelperDTO> rateBasisList = HelperListUtil.getInstance().getListNameMap().get("ARM_RATE_BASIS");
+
+            List<AdjustmentRateDTO> list = resultBeanContainer.getItemIds();
+            LOGGER.debug("resultBeanContainer.getItemIds()-------------" + resultBeanContainer.getItemIds());
+            if (list.isEmpty()) {
+                AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getRateSaveErrorMsg());
+            } else {
+                if (Trx8Constants.getTransaction8().equals(selection.getAdjustmentType())) {
+                    Map<Integer, String> rateBasisMap = new HashMap<>();
+                    if (rateBasisList != null && !rateBasisList.isEmpty()) {
+                        for (HelperDTO helperDTO : rateBasisList) {
+                            rateBasisMap.put(helperDTO.getId(), helperDTO.getDescription());
+                            LOGGER.debug("helperDTO.getId()----" + helperDTO.getId());
+                            LOGGER.debug("helperDTO.getId()----" + helperDTO.getDescription());
+
+                        }
+                    }
+                    for (AdjustmentRateDTO dto : list) {
+                        if (dto.getRateBasis() != 0 && !"Calculated".equals(rateBasisMap.get(dto.getRateBasis()))) {
+                            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSaveErrorMsg());
+                            return;
+                        }
+                    }
+                }
+                notifier.setButtonName("save");
+                notifier.getOkCancelMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getSaveMessageID004());
+            }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in saveButtonClick :" + e);
         }
     }
 
@@ -723,7 +755,7 @@ public class AdjustmentRateForm extends CustomComponent {
         try {
             final ExtCustomTable excelTable = new ExtCustomTable();
             resultsTableLayout.addComponent(excelTable);
-            final BeanItemContainer<AdjustmentRateDTO> excelContainer = new BeanItemContainer<AdjustmentRateDTO>(AdjustmentRateDTO.class);
+            final BeanItemContainer<AdjustmentRateDTO> excelContainer = new BeanItemContainer<>(AdjustmentRateDTO.class);
             configureAndLoadDataForExcel(excelTable, excelContainer);
             if (excelTable.size() > 0) {
                 AdjustmentRateUI.EXCEL_CLOSE = true;
@@ -732,7 +764,7 @@ public class AdjustmentRateForm extends CustomComponent {
             }
             resultsTableLayout.removeComponent(excelTable);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in exportButtonClick :" + e);
         }
     }
 
@@ -749,34 +781,39 @@ public class AdjustmentRateForm extends CustomComponent {
 
             excelTable.setContainerDataSource(excelContainer);
             if (ARMConstants.getPipelineAccrual().equals(selection.getAdjustmentType())) {
-                excelTable.setVisibleColumns(ARMUtils.EXCEL_ROW_SALES_RATE_SINGLE_COLUMNS);
-                excelTable.setColumnHeaders(ARMUtils.EXCEL_ROW_SALES_RATE_SINGLE_HEADERS);
-                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_SALES_RATE_RIGHT_COLUMNS);
-                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_SALES_RATE_RIGHT_HEADERS);
+                excelTable.setVisibleColumns(ARMUtils.getExcelRowSalesRateSingleColumns());
+                excelTable.setColumnHeaders(ARMUtils.getExcelRowSalesRateSingleHeaders());
+                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowSalesRateRightColumns());
+                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowSalesRateRightHeaders());
             } else if (ARMConstants.getPipelineInventoryTrueUp().equals(selection.getAdjustmentType())) {
-                excelTable.setVisibleColumns(ARMUtils.EXCEL_ROW_INVENTORY_RATE_SINGLE_COLUMNS);
-                excelTable.setColumnHeaders(ARMUtils.EXCEL_ROW_INVENTORY_RATE_SINGLE_HEADERS);
-                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_INVENTORY_RATE_RIGHT_COLUMNS);
-                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_INVENTORY_RATE_RIGHT_HEADERS);
+                excelTable.setVisibleColumns(ARMUtils.getExcelRowInventoryRateSingleColumns());
+                excelTable.setColumnHeaders(ARMUtils.getExcelRowInventoryRateSingleHeaders());
+                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowInventoryRateRightColumns());
+                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowInventoryRateRightHeaders());
             } else if (ARMConstants.getTransaction6().equals(selection.getAdjustmentType())) {
-                excelTable.setVisibleColumns(ARMUtils.EXCEL_ROW_Trx6_SINGLE_COLUMNS);
-                excelTable.setColumnHeaders(ARMUtils.EXCEL_ROW_Trx6_RATE_SINGLE_HEADERS);
-                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_Trx6_RATE_RIGHT_COLUMNS);
-                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_Trx6_RATE_RIGHT_HEADERS);
+                excelTable.setVisibleColumns(ARMUtils.getExcelRowTrx6SingleColumns());
+                excelTable.setColumnHeaders(ARMUtils.getExcelRowTrx6RateSingleHeaders());
+                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowTrx6RateRightColumns());
+                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowTrx6RateRightHeaders());
             } else if (ARMConstants.getTransaction7().equals(selection.getAdjustmentType())) {
-                excelTable.setVisibleColumns(ARMUtils.EXCEL_ROW_Trx7_SINGLE_COLUMNS);
-                excelTable.setColumnHeaders(ARMUtils.EXCEL_ROW_Trx7_RATE_SINGLE_HEADERS);
-                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.FIRST_ROW_Trx7_RATE_RIGHT_COLUMNS);
-                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.FIRST_ROW_Trx7_RATE_RIGHT_HEADERS);
+                excelTable.setVisibleColumns(ARMUtils.getExcelRowTrx7SingleColumns());
+                excelTable.setColumnHeaders(ARMUtils.getExcelRowTrx7RateSingleHeaders());
+                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowTrx7RateRightColumns());
+                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowTrx7RateRightHeaders());
+            } else if (Trx8Constants.getTransaction8().equals(selection.getAdjustmentType())) {
+                excelTable.setVisibleColumns(ARMUtils.getExcelRowRateSingleColumnsTrx8());
+                excelTable.setColumnHeaders(ARMUtils.getExcelRowRateSingleHeadersTrx8());
+                excelTable.setDoubleHeaderVisibleColumns(ARMUtils.getFirstRowRateRightColumnsForTrx8());
+                excelTable.setDoubleHeaderColumnHeaders(ARMUtils.getFirstRowRateRightHeadersForTrx8());
             }
 
-            excelTable.setDoubleHeaderMap(configure_EXCELDoubleHeaderMap(selection.getAdjustmentType()));
+            excelTable.setDoubleHeaderMap(configureEXCELDoubleHeaderMap(selection.getAdjustmentType()));
             excelTable.setDoubleHeaderVisible(true);
             excelTable.setRefresh(true);
-            List<AdjustmentRateDTO> dtoList = (List<AdjustmentRateDTO>) resultBeanContainer.getItemIds();
-            excelContainer.addAll(logic.customizeExcel(dtoList, priceList,selection));
+            List<AdjustmentRateDTO> dtoList = resultBeanContainer.getItemIds();
+            excelContainer.addAll(logic.customizeExcel(dtoList, priceList, selection));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in configureAndLoadDataForExcel :" + e);
         }
     }
     private final CustomNotification notifier = new CustomNotification();
@@ -787,6 +824,7 @@ public class AdjustmentRateForm extends CustomComponent {
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
@@ -806,6 +844,7 @@ public class AdjustmentRateForm extends CustomComponent {
                         logic.updateRateConfig(resultBeanContainer.getItemIds());
                         Notification.show(ARMMessages.getSaveSuccessfulMessage());
                         break;
+                    default:
                 }
             }
         }
@@ -817,9 +856,9 @@ public class AdjustmentRateForm extends CustomComponent {
     }
 
     private void createMonths() {
-        for (int i = 0; i < MONTHS.length - 1; i++) {
+        for (int i = 0; i < ARMUtils.getMONTHS().length - 1; i++) {
             AdjustmentRateDTO rate = new AdjustmentRateDTO();
-            rate.setMonth(MONTHS[i]);
+            rate.setMonth(ARMUtils.getMONTHS()[i]);
             accrualList.add(rate);
         }
     }
@@ -844,7 +883,7 @@ public class AdjustmentRateForm extends CustomComponent {
             }
             if (VariableConstants.PRICE.equals(propertyId.toString())) {
                 CustomComboBox price = new CustomComboBox();
-                CommonUtils.loadPriceComboBox(price, priceList);
+                CommonUtils.loadPriceComboBox(price, priceList, -NumericConstants.TWELVE);
                 return price;
 
             }
@@ -861,7 +900,7 @@ public class AdjustmentRateForm extends CustomComponent {
             }
             if (VariableConstants.RATE_BASIS.equals(propertyId.toString())) {
                 CustomComboBox price = new CustomComboBox();
-                CommonUtils.loadComboBoxWithInteger(price, listNameMapper.get(propertyId.toString()), false);
+                CommonUtils.loadComboBoxWithIntegerRateBasis(price, listNameMapper.get(propertyId.toString()), false, selection.getAdjustmentType());
                 return price;
             }
             if (VariableConstants.RATE_FREQUENCY.equals(propertyId.toString())) {
@@ -889,7 +928,7 @@ public class AdjustmentRateForm extends CustomComponent {
                 CustomComboBox price = new CustomComboBox();
                 CommonUtils.loadComboBoxWithInteger(price, listNameMapper.get(propertyId.toString()), false);
                 price.setData(itemId);
-                price.addValueChangeListener(inventory_CustomerListener);
+                price.addValueChangeListener(inventoryCustomerListener);
                 return price;
             }
             if (VariableConstants.INVENTORY_DETAILS.equals(propertyId.toString())) {
@@ -904,7 +943,7 @@ public class AdjustmentRateForm extends CustomComponent {
                 inventoryCalculation.setStyleName(VariableConstants.SEARCH_ICON);
                 inventoryCalculation.setData(itemId);
                 dto.setComponent(VariableConstants.INVENTORYCAL_CULATION, inventoryCalculation);
-                inventoryCalculation.addClickListener(inventory_CalculationListener);
+                inventoryCalculation.addClickListener(inventoryCalculationListener);
                 return inventoryCalculation;
             }
             if (VariableConstants.RESERVE_DATE.equals(propertyId.toString())) {
@@ -914,12 +953,12 @@ public class AdjustmentRateForm extends CustomComponent {
             }
             if (VariableConstants.ADJUSTED_PRICE.equals(propertyId.toString())) {
                 CustomComboBox adjustedPrice = new CustomComboBox();
-                CommonUtils.loadPriceComboBox(adjustedPrice, priceList);
+                CommonUtils.loadPriceComboBox(adjustedPrice, priceList, -NumericConstants.TWELVE);
                 return adjustedPrice;
             } else if (VariableConstants.BASELINE_PRICE.equals(propertyId.toString())) {
-                CustomComboBox baseLine_Price = new CustomComboBox();
-                CommonUtils.loadPriceComboBox(baseLine_Price, priceList);
-                return baseLine_Price;
+                CustomComboBox baseLinePrice = new CustomComboBox();
+                CommonUtils.loadPriceComboBox(baseLinePrice, priceList, -NumericConstants.TWELVE);
+                return baseLinePrice;
             }
             return null;
         }
@@ -963,18 +1002,18 @@ public class AdjustmentRateForm extends CustomComponent {
                         CommonUtils.loadRatePeriodComboBox(ratePeriod, findFrequency(frequency), listNameMapper.get(VariableConstants.RATE_PERIOD));
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("Error in frequencyListener Value Change :" + e);
                 }
             }
         };
-        Property.ValueChangeListener inventory_CustomerListener = new Property.ValueChangeListener() {
+        Property.ValueChangeListener inventoryCustomerListener = new Property.ValueChangeListener() {
 
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 try {
-
+                    LOGGER.debug("Enter inventoryCustomerListener");
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("Error in inventoryCustomerListener Value Change :" + e);
                 }
             }
         };
@@ -1054,13 +1093,13 @@ public class AdjustmentRateForm extends CustomComponent {
 
         }
     };
-    CustomTextField.ClickListener inventory_CalculationListener = new CustomTextField.ClickListener() {
+    CustomTextField.ClickListener inventoryCalculationListener = new CustomTextField.ClickListener() {
 
         @Override
         public void click(CustomTextField.ClickEvent event) {
             final CustomTextField exclusionDetails = (CustomTextField) event.getComponent();
             final AdjustmentRateDTO exclusionDetailsDto = (AdjustmentRateDTO) exclusionDetails.getData();
-            String invenCalculationValue = StringUtils.EMPTY;
+            String invenCalculationValue;
             int inventoryCusHelpValue = resultBeanContainer.getContainerProperty(exclusionDetailsDto, VariableConstants.INVENTORY_CUSTOMER).getValue() == null ? 0 : (int) resultBeanContainer.getContainerProperty(exclusionDetailsDto, VariableConstants.INVENTORY_CUSTOMER).getValue();
             invenCalculationValue = HelperListUtil.getInstance().getIdDescMap().get(inventoryCusHelpValue);
 
@@ -1134,39 +1173,47 @@ public class AdjustmentRateForm extends CustomComponent {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Rate Configuration" + "," + "Landing screen");
-            if (functionHM.get("resetBtn") != null && !((AppPermission) functionHM.get("resetBtn")).isFunctionFlag()) {
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ADJUSTMENT_RATE_CONFIGURATION + "," + "Landing screen");
+            if (functionHM.get("resetBtn") != null && !(functionHM.get("resetBtn")).isFunctionFlag()) {
                 resetBtn.setVisible(false);
             } else {
                 resetBtn.setVisible(true);
             }
-            if (functionHM.get("generateBtn") != null && !((AppPermission) functionHM.get("generateBtn")).isFunctionFlag()) {
+            if (functionHM.get("generateBtn") != null && !(functionHM.get("generateBtn")).isFunctionFlag()) {
                 generateBtn.setVisible(false);
             } else {
                 generateBtn.setVisible(true);
             }
-            if (functionHM.get("saveBtn") != null && !((AppPermission) functionHM.get("saveBtn")).isFunctionFlag()) {
+            if (functionHM.get("saveBtn") != null && !(functionHM.get("saveBtn")).isFunctionFlag()) {
                 saveBtn.setVisible(false);
             } else {
                 saveBtn.setVisible(true);
             }
-            if (functionHM.get("exportBtn") != null && !((AppPermission) functionHM.get("exportBtn")).isFunctionFlag()) {
+            if (functionHM.get("exportBtn") != null && !(functionHM.get("exportBtn")).isFunctionFlag()) {
                 exportBtn.setVisible(false);
             } else {
                 exportBtn.setVisible(true);
             }
-            if (functionHM.get("populateBtnRate") != null && ((AppPermission) functionHM.get("populateBtnRate")).isFunctionFlag()) {
+            if (functionHM.get("populateBtnRate") != null && (functionHM.get("populateBtnRate")).isFunctionFlag()) {
                 populateBtnRate();
             } else {
                 populateBtnRate.setVisible(false);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
+        } catch (PortalException | SystemException  ex) {
+            LOGGER.error("Error in  configurePermission :" + ex);
         }
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

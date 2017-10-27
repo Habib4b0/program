@@ -65,6 +65,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
       /** To reduce unwanted DB hits **/
     Map<MultiKey,List> contractTypeList;
     private PVSelectionDTO pvSelectionDTO;
+    private final HeaderUtils headerUtils = new HeaderUtils();
 
     /**
      * Instantiates a new Comparison lookUp.
@@ -157,6 +158,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      * @param event the event
      */
     public void closeBtnLogic() {
+        return;
     }
 
     /**
@@ -167,7 +169,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
     public void projectionResetBtnLogic() {
         new AbstractNotificationUtils() {
             public void noMethod() {
-               
+               return;
             }
 
             @Override
@@ -202,7 +204,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
                         projectionTable.setValue(null);
                     } else {
                         List<ComparisonLookupDTO> itemIds = selectedResultsBean.getItemIds();
-                        Map<String, Object> projectionMap = new HashMap<String, Object>();
+                        Map<String, Object> projectionMap = new HashMap<>();
 
                         for (ComparisonLookupDTO lookUpDTO : itemIds) {
                             projectionMap.put(String.valueOf(lookUpDTO.getProjectionId()), lookUpDTO);
@@ -236,7 +238,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      */
     public void removeBtnLogic(Button.ClickEvent event) {
         if (removeFlag) {
-            removeItemsButtonClick(event);
+            removeItemsButtonClick();
             removeFlag = false;
         } else {
             AbstractNotificationUtils.getErrorNotification("No Value Selected", "Please select a Projection to remove. ");
@@ -250,7 +252,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void removeItemsButtonClick(final Button.ClickEvent event) {
+    protected void removeItemsButtonClick() {
         final Object itemId = projectionTable.getValue();
         selectedResultsBean.removeItem(itemId);
         resultsTable.addItem(itemId);
@@ -313,8 +315,8 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
 
 
             tableLogic.setContainerDataSource(resultsBean);
-            resultsTable.setVisibleColumns(HeaderUtils.COMPARISON_COLUMNS);
-            resultsTable.setColumnHeaders(HeaderUtils.COMPARISON_HEADER);
+            resultsTable.setVisibleColumns(headerUtils.comparisonColumns);
+            resultsTable.setColumnHeaders(headerUtils.comparisonHeader);
 
             if (lookUpDTO.getCreatedDateFrom() != null && lookUpDTO.getCreatedDateTo() != null && lookUpDTO.getCreatedDateFrom().equals(lookUpDTO.getCreatedDateTo())) {
                 AbstractNotificationUtils.getErrorNotification("Date Range Error", "Start date and End date should not be equal");
@@ -343,7 +345,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof ComparisonLookupDTO) {
-            targetItem = new BeanItem<ComparisonLookupDTO>(
+            targetItem = new BeanItem<>(
                     (ComparisonLookupDTO) obj);
         }
         return (ComparisonLookupDTO) targetItem.getBean();

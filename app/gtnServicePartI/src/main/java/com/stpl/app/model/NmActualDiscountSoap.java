@@ -16,9 +16,7 @@ import java.util.List;
 public class NmActualDiscountSoap implements Serializable {
     private double _actualRate;
     private int _periodSid;
-    private double _actualProjectionSales;
     private int _projectionDetailsSid;
-    private double _actualProjectionRate;
     private double _actualSales;
 
     public NmActualDiscountSoap() {
@@ -29,9 +27,7 @@ public class NmActualDiscountSoap implements Serializable {
 
         soapModel.setActualRate(model.getActualRate());
         soapModel.setPeriodSid(model.getPeriodSid());
-        soapModel.setActualProjectionSales(model.getActualProjectionSales());
         soapModel.setProjectionDetailsSid(model.getProjectionDetailsSid());
-        soapModel.setActualProjectionRate(model.getActualProjectionRate());
         soapModel.setActualSales(model.getActualSales());
 
         return soapModel;
@@ -100,28 +96,12 @@ public class NmActualDiscountSoap implements Serializable {
         _periodSid = periodSid;
     }
 
-    public double getActualProjectionSales() {
-        return _actualProjectionSales;
-    }
-
-    public void setActualProjectionSales(double actualProjectionSales) {
-        _actualProjectionSales = actualProjectionSales;
-    }
-
     public int getProjectionDetailsSid() {
         return _projectionDetailsSid;
     }
 
     public void setProjectionDetailsSid(int projectionDetailsSid) {
         _projectionDetailsSid = projectionDetailsSid;
-    }
-
-    public double getActualProjectionRate() {
-        return _actualProjectionRate;
-    }
-
-    public void setActualProjectionRate(double actualProjectionRate) {
-        _actualProjectionRate = actualProjectionRate;
     }
 
     public double getActualSales() {

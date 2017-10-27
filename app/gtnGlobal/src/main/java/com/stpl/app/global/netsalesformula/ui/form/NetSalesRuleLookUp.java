@@ -147,9 +147,9 @@ public class NetSalesRuleLookUp extends Window {
         this.tabName=tabName;
         configureHelperDto();
         setModal(true);
-        addStyleName("bootstrap-ui");
+        addStyleName(ConstantsUtils.BOOSTRAP_UI);
         addStyleName(ConstantsUtils.BOOTSTRAP);
-        addStyleName("bootstrap-forecast bootstrap-nm");
+        addStyleName(ConstantsUtils.BOOSTRAP_FORECAST_NM);
         setWidth(NumericConstants.FLOAT_SEVENTY, Sizeable.Unit.PERCENTAGE);
         setHeight(NumericConstants.FLOAT_THIRTY_THREE, Sizeable.Unit.PERCENTAGE);
         init();
@@ -164,9 +164,9 @@ public class NetSalesRuleLookUp extends Window {
         this.helperDto=helperDto;
         this.moduleName=moduleName;
         setModal(true);
-        addStyleName("bootstrap-ui");
+        addStyleName(ConstantsUtils.BOOSTRAP_UI);
         addStyleName(ConstantsUtils.BOOTSTRAP);
-        addStyleName("bootstrap-forecast bootstrap-nm");
+        addStyleName(ConstantsUtils.BOOSTRAP_FORECAST_NM);
         setWidth(NumericConstants.FLOAT_SEVENTY, Sizeable.Unit.PERCENTAGE);
         setHeight(NumericConstants.FLOAT_SIXTY, Sizeable.Unit.PERCENTAGE);
         init();
@@ -180,9 +180,9 @@ public class NetSalesRuleLookUp extends Window {
         this.helperDto=helperDto;
         this.moduleName=moduleName;
         setModal(true);
-        addStyleName("bootstrap-ui");
+        addStyleName(ConstantsUtils.BOOSTRAP_UI);
         addStyleName(ConstantsUtils.BOOTSTRAP);
-        addStyleName("bootstrap-forecast bootstrap-nm");
+        addStyleName(ConstantsUtils.BOOSTRAP_FORECAST_NM);
         setWidth(NumericConstants.FLOAT_SEVENTY, Sizeable.Unit.PERCENTAGE);
         setHeight(NumericConstants.FLOAT_SIXTY, Sizeable.Unit.PERCENTAGE);
         init();
@@ -326,9 +326,7 @@ public class NetSalesRuleLookUp extends Window {
                     binder.getErrorDisplay().clearError();
                     binder.setItemDataSource(new BeanItem<>(new NetSalesRuleLookupDto()));
                     
-                    ruleType.setEnabled(true);
                     ruleType.setValue(helperDto);
-                    ruleType.setEnabled(false);
                     tableLogic.clearAll();
                     tableLogic.setReset(true);
                     tableLogic.setRequiredCount(true);
@@ -386,7 +384,7 @@ public class NetSalesRuleLookUp extends Window {
             resultTable.setImmediate(true);
             resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
             resultTable.setHeight("250px");
-            resultTable.addStyleName("LeftAlignImportant");
+            resultTable.addStyleName(ConstantsUtils.LEFT_ALIGN_IMPORTANT);
     }
   /**
      * TO load the grid
@@ -430,7 +428,7 @@ public class NetSalesRuleLookUp extends Window {
         detailsTable.setFilterGenerator(new NsfFilterGenerator(rtDto));
         detailsTable.setValidationVisible(false);
         detailsTable.addStyleName(ConstantsUtils.FILTER_BAR);
-        detailsTable.addStyleName("LeftAlignImportant");
+        detailsTable.addStyleName(ConstantsUtils.LEFT_ALIGN_IMPORTANT);
 
     }
 
@@ -455,7 +453,7 @@ public class NetSalesRuleLookUp extends Window {
             detailsTable.setImmediate(true);
             detailsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
             detailsTable.addStyleName(ConstantsUtils.TABLE_CHECK_BOX);
-            detailsTable.addStyleName("LeftAlignImportant");
+            detailsTable.addStyleName(ConstantsUtils.LEFT_ALIGN_IMPORTANT);
             detailsTable.setSelectable(true);
             detailsTable.markAsDirtyRecursive();
         } catch (Exception ex) {
@@ -623,7 +621,7 @@ public class NetSalesRuleLookUp extends Window {
             if (obj instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) obj;
             } else if (obj instanceof NetSalesRuleLookupDto) {
-                targetItem = new BeanItem<NetSalesRuleLookupDto>(
+                targetItem = new BeanItem<>(
                         (NetSalesRuleLookupDto) obj);
             }
         }

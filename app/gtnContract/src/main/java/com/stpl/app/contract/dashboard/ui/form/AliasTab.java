@@ -1,5 +1,6 @@
 package com.stpl.app.contract.dashboard.ui.form;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.util.CommonUtil;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -110,7 +111,7 @@ public final class AliasTab extends CustomComponent implements View {
     /**
      * The binder.
      */
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ContractAliasMasterDTO>(new ContractAliasMasterDTO()));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(new ContractAliasMasterDTO()));
     /**
      * The alias results bean.
      */
@@ -428,7 +429,7 @@ public final class AliasTab extends CustomComponent implements View {
     private CustomFieldGroup getBinder() {
         LOGGER.debug("Entering getBinder method");
         final ContractAliasMasterDTO bean = new ContractAliasMasterDTO();
-        final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ContractAliasMasterDTO>(bean));
+        final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(bean));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -459,7 +460,7 @@ public final class AliasTab extends CustomComponent implements View {
         final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + Constants.CONTRACT_ALAIS, false);
         final Map<String, AppPermission> funContractDashboard = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + Constants.CONTRACT_ALAIS);
         addResponsiveGrid(contractDashboard);
-        if (!(funContractDashboard.get(CHFunctionNameUtils.AliasPopulate) != null) && !((AppPermission) funContractDashboard.get(CHFunctionNameUtils.AliasPopulate)).isFunctionFlag()) {
+        if (!(funContractDashboard.get(CHFunctionNameUtils.ALIAS_POPULATE) != null) && !((AppPermission) funContractDashboard.get(CHFunctionNameUtils.ALIAS_POPULATE)).isFunctionFlag()) {
             btnAdd.setVisible(false);
         } else {
             populateButton();
@@ -497,7 +498,7 @@ public final class AliasTab extends CustomComponent implements View {
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + Constants.CONTRACT_ALAIS, false);
             List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, Constants.CONTRACT_ALAIS);
-            Object[] obj = UIUtils.DASHBOARD_ALIAS_COLUMNS;
+            Object[] obj = UIUtils.getInstance().dashboardAliasColumns;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.EDIT);
             if (tableResultCustom.getObjResult().length > 0) {
 
@@ -540,7 +541,7 @@ public final class AliasTab extends CustomComponent implements View {
 
     }
 
-    private void configureFields() throws SystemException{
+    private void configureFields() {
         LOGGER.debug("Entering configureFields method");
 
         startDate.setValidationVisible(true);
@@ -623,25 +624,19 @@ public final class AliasTab extends CustomComponent implements View {
              */
             @Override
             public void click(final CustomTextField.ClickEvent event) {
-                try {
-                    if (lookUp == null) {
-                        lookUp = new TradingPartnerLookUp(tradingPartner, tradingName);
-                        UI.getCurrent().addWindow(lookUp);
-                        lookUp.addCloseListener(new Window.CloseListener() {
-                            /**
-                             * Method used to Trading name and its listener
-                             */
-                            @SuppressWarnings("PMD")
-                            public void windowClose(final Window.CloseEvent e) {
-                                contractAliasName.focus();
-                                lookUp = null;
-                            }
-                        });
-                    }
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                if (lookUp == null) {
+                    lookUp = new TradingPartnerLookUp(tradingPartner, tradingName);
+                    UI.getCurrent().addWindow(lookUp);
+                    lookUp.addCloseListener(new Window.CloseListener() {
+                        /**
+                         * Method used to Trading name and its listener
+                         */
+                        @SuppressWarnings("PMD")
+                        public void windowClose(final Window.CloseEvent e) {
+                            contractAliasName.focus();
+                            lookUp = null;
+                        }
+                    });
                 }
 
             }
@@ -666,6 +661,7 @@ public final class AliasTab extends CustomComponent implements View {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         excelIcon.addClickListener(new ClickListener() {
@@ -698,13 +694,13 @@ public final class AliasTab extends CustomComponent implements View {
 
     }
 
-    public void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    public void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+    public void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException  {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = table.getContainerDataSource().size();
         ExcelExportforBB.createWorkSheet(table.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.Alias);
@@ -721,7 +717,7 @@ public final class AliasTab extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final PrintWriter printWriter) {
         ContractAliasMasterDTO dto;
         final List<ContractAliasMasterDTO> searchList = aliasResultsBean.getItemIds();
         for (int rowCount = 0; rowCount < searchList.size(); rowCount++) {
@@ -761,6 +757,7 @@ public final class AliasTab extends CustomComponent implements View {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         btnAdd.addClickListener(new ClickListener() {
@@ -798,7 +795,7 @@ public final class AliasTab extends CustomComponent implements View {
                     identForm.setContractAliasNo(String.valueOf(binder.getField(Constants.CONTRACT_ALIAS_NO).getValue()).trim());
                     identForm.setContractAliasName(String.valueOf(binder.getField(Constants.CONTRACT_ALIAS_NAME).getValue()).trim());
                     if (binder.getField(Constants.START_DATE).getValue() == null) {
-                        systemBinder.getErrorDisplay().setError("Alias Start Date should  be selected in Alias tab");
+                        systemBinder.getErrorDisplay().setError(ConstantUtil.ALIAS_START_DATE_SHOULD_BE_SELECTED);
                         return;
                     } else {
                         identForm.setStartDate(String.valueOf(dateFormat.format((Date) binder.getField(Constants.START_DATE).getValue())));
@@ -850,9 +847,9 @@ public final class AliasTab extends CustomComponent implements View {
                         systemBinder.getErrorDisplay().setError("Contract ID allows Special Characters like *,:,.,(,),',;,-,/,_ in Alias Tab");
                         return;
                     }
-                    if (ex.getCause().getMessage().equals("Alias Start Date should  be selected in Alias tab")) {
+                    if (ex.getCause().getMessage().equals(ConstantUtil.ALIAS_START_DATE_SHOULD_BE_SELECTED)) {
                         binder.getErrorDisplay().clearError();
-                        systemBinder.getErrorDisplay().setError("Alias Start Date should  be selected in Alias tab");
+                        systemBinder.getErrorDisplay().setError(ConstantUtil.ALIAS_START_DATE_SHOULD_BE_SELECTED);
                         return;
                     }
                     if (ex.getCause().getMessage().equals("Contract Alias Type should be selected on Alias tab")) {
@@ -862,6 +859,7 @@ public final class AliasTab extends CustomComponent implements View {
                     }
                 }
             }
+            
         });
         LOGGER.debug("End of populateButton method");
     }
@@ -882,6 +880,7 @@ public final class AliasTab extends CustomComponent implements View {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         btnRemove.addClickListener(new ClickListener() {
@@ -948,7 +947,7 @@ public final class AliasTab extends CustomComponent implements View {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method");
 
             if (startDate.getValue() != null && endDate.getValue() != null) {
@@ -995,6 +994,7 @@ public final class AliasTab extends CustomComponent implements View {
      */
     @Override
     public void enter(final ViewChangeEvent event) {
+        return;
     }
 
     private void setDefaultResolution(CustomePagedFilterTable table) {
@@ -1032,7 +1032,7 @@ public final class AliasTab extends CustomComponent implements View {
     private static Object[] getCollapsibleColumns480Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[NumericConstants.ONE]);
         propertyIds = list.toArray(new Object[list.size()]);
 
@@ -1050,7 +1050,7 @@ public final class AliasTab extends CustomComponent implements View {
     private static Object[] getCollapsibleColumns978Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
         list.remove(propertyIds[NumericConstants.THREE]);
@@ -1068,7 +1068,7 @@ public final class AliasTab extends CustomComponent implements View {
     private static Object[] getCollapsibleColumnsTwoData(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -1096,7 +1096,7 @@ public final class AliasTab extends CustomComponent implements View {
     private static Object[] getCollapsibleOneColumn(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new Object[list.size()]);
         for (Object propertyId : table.getVisibleColumns()) {
@@ -1115,7 +1115,7 @@ public final class AliasTab extends CustomComponent implements View {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = list.size(); i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1131,5 +1131,4 @@ public final class AliasTab extends CustomComponent implements View {
 
         return propertyIds;
     }
-
 }

@@ -42,13 +42,13 @@
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
-    <size_rowset>10000</size_rowset>
+    <size_rowset>1000</size_rowset>
     <sleep_time_empty>50</sleep_time_empty>
     <sleep_time_full>50</sleep_time_full>
     <unique_connections>N</unique_connections>
     <feedback_shown>Y</feedback_shown>
     <feedback_size>50000</feedback_size>
-    <using_thread_priorities>N</using_thread_priorities>
+    <using_thread_priorities>Y</using_thread_priorities>
     <shared_objects_file/>
     <capture_step_performance>N</capture_step_performance>
     <step_performance_capturing_delay>1000</step_performance_capturing_delay>
@@ -115,7 +115,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>ADD SORT</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>COMPANY_MASTER LOOKUP 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER LOOKUP 2</from><to>Invalid Reason 6</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 7</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Invalid Reason 7</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 6 2</from><to>INVALID TABLE 8 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER LOOKUP 2</from><to>COMPANY_MASTER LOOKUP 2 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER LOOKUP 2 2</from><to>Table output</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER LOOKUP 2 2</from><to>Invalid Reason 6 2</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3 3 2</from><to>ADD Audit update 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2</from><to>Add constants 3 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 3 2 2</from><to>ADD Audit update 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2 2</from><to>Add constants 3 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Table output</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>COMPANY_MASTER LOOKUP 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER LOOKUP 2</from><to>Invalid Reason 6</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 7</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Invalid Reason 7</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 6 2</from><to>INVALID TABLE 8 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER LOOKUP 2</from><to>COMPANY_MASTER LOOKUP 2 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER LOOKUP 2 2</from><to>Table output</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER LOOKUP 2 2</from><to>Invalid Reason 6 2</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3 3 2</from><to>ADD Audit update 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2</from><to>Add constants 3 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 3 2 2</from><to>ADD Audit update 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2 2</from><to>Add constants 3 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Table output</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD SORT</to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
@@ -144,6 +144,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -191,6 +197,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>UNITS</name>
         <rename>UNITS_WITHDRAWN</rename>
@@ -232,6 +244,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -300,22 +318,62 @@
            </partitioning>
       <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
-      <sort_size>100000</sort_size>
+      <sort_size>5000</sort_size>
       <free_memory/>
       <compress>N</compress>
       <compress_variable/>
       <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>INVENTORY_WD_ACTUAL_DT_INTF_ID</name>
-        <ascending>Y</ascending>
+        <name>YEAR</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>MONTH</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>DAY</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>WEEK</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>COMPANY_ID</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ITEM_ID</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>COUNTRY</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>SOURCE</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>ORGANIZATION_KEY</name>
+        <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>955</xloc>
-      <yloc>345</yloc>
+      <xloc>880</xloc>
+      <yloc>403</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -340,6 +398,17 @@
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>INVENTORY_WITHDRAWAL_ACTUAL_DETAIL_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -387,8 +456,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>960</xloc>
-      <yloc>413</yloc>
+      <xloc>959</xloc>
+      <yloc>351</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -413,6 +482,17 @@
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>INVENTORY_WITHDRAWAL_ACTUAL_DETAIL_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -444,6 +524,17 @@
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>INVENTORY_WITHDRAWAL_ACTUAL_DETAIL_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -1784,7 +1875,7 @@
 <case_value_group/>
 <default_target_step>Invalid Reason</default_target_step>
 <cases><case><value>A</value>
-<target_step>ADD SORT</target_step>
+<target_step>Add constants 3 2</target_step>
 </case></cases>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>962</xloc>

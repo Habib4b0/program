@@ -44,7 +44,7 @@ public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<SelectionDTO> resultList = new ArrayList<SelectionDTO>();
+        List<SelectionDTO> resultList = new ArrayList<>();
         try {
             resultList=selectionLogic.getAvailableTableResult(binder, start, start + offset,this.getSortByColumns(),this.getFilters());
         } catch (Exception ex) {
@@ -71,6 +71,7 @@ public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
 
     @Override
     public void saveCurrentPage() {
+        return;
     }
 
     @Override

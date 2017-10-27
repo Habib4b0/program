@@ -14,6 +14,7 @@ import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.CommonUtils;
@@ -150,9 +151,11 @@ public class SearchAccountConfig extends CustomComponent {
      * The Constructor for Search Screen in Adjustment Reserve Configuration.
      *
      * @param sessionDTO
+     * @throws SystemException 
+     * @throws PortalException 
      * @throws java.lang.Exception
      */
-    public SearchAccountConfig(SessionDTO sessionDTO) throws Exception {
+    public SearchAccountConfig(SessionDTO sessionDTO) throws PortalException, SystemException  {
         this.sessionDTO = sessionDTO;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/account_config/search-account-config.xml"), this));
         init();
@@ -160,10 +163,12 @@ public class SearchAccountConfig extends CustomComponent {
 
     /**
      * Inital Method invocation on Index search class load
+     * @throws SystemException 
+     * @throws PortalException 
      *
      * @throws Exception
      */
-    private void init() throws Exception {
+    private void init() throws PortalException, SystemException  {
         configureFields();
         securityForButtons();
         securityForFields();
@@ -173,10 +178,11 @@ public class SearchAccountConfig extends CustomComponent {
 
     /**
      * Configuring all UI components and its properties
+     * @throws SystemException 
      *
      * @throws Exception
      */
-    private void configureFields() throws Exception {
+    private void configureFields() throws SystemException  {
         getBinder();
         userMap = AccountConfigLogic.getUserName();
         excelBtn.setPrimaryStyleName("link");
@@ -208,12 +214,12 @@ public class SearchAccountConfig extends CustomComponent {
         resultsTable.setFilterGenerator(new SearchResultsTableGenerator());
         resultsTableLayout.addComponent(getResponsiveControls(accountConfigSearchTableLogic.createControls()));
         accountConfigSearchTableLogic.setContainerDataSource(resultsContainer);
-        resultsTable.setSelectable(Boolean.TRUE);
-        resultsTable.setMultiSelect(Boolean.FALSE);
+        resultsTable.setSelectable(true);
+        resultsTable.setMultiSelect(false);
         accountConfigSearchTableLogic.setPageLength(NumericConstants.TEN);
-        accountConfigSearchTableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
-        resultsTable.setVisibleColumns(ARMUtils.ACCOUNT_CONFIG_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(ARMUtils.ACCOUNT_CONFIG_SEARCH_HEADERS);
+        accountConfigSearchTableLogic.sinkItemPerPageWithPageLength(false);
+        resultsTable.setVisibleColumns(ARMUtils.getAccountConfigSearchColumns());
+        resultsTable.setColumnHeaders(ARMUtils.getAccountConfigSearchHeaders());
         for (Object visibleColumns : resultsTable.getVisibleColumns()) {
             String value = visibleColumns.toString();
             if (value.endsWith("Date")) {
@@ -221,7 +227,7 @@ public class SearchAccountConfig extends CustomComponent {
             }
         }
         resultsTable.setSizeFull();
-        resultsTable.setImmediate(Boolean.TRUE);
+        resultsTable.setImmediate(true);
         resultsTable.setPageLength(NumericConstants.TEN);
 
         resultsTable.addStyleName(ARMUtils.FILTERCOMBOBOX);
@@ -245,12 +251,14 @@ public class SearchAccountConfig extends CustomComponent {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in resetButtonLogic : "+ex);
                 }
             }
 
             @Override
             public void noMethod() {
+                LOGGER.debug("Inside the resetButtonLogic Listener NO Method");
+
             }
         }.getConfirmationMessage("Confirmation", ARMMessages.getResetMessageID003());
 
@@ -262,9 +270,9 @@ public class SearchAccountConfig extends CustomComponent {
      *
      */
     private void loadingDropDown() {
-        CommonLogic.configureDropDowns(companyDdlb, "getCompanyQuery", Boolean.TRUE);
-        CommonLogic.configureDropDowns(businessDdlb, "getBusinessQuery", Boolean.TRUE);
-        CommonLogic.configureDropDowns(brandDdlb, "loadBrand", Boolean.TRUE);
+        CommonLogic.configureDropDowns(companyDdlb, "getCompanyQuery",true);
+        CommonLogic.configureDropDowns(businessDdlb, "getBusinessQuery", true);
+        CommonLogic.configureDropDowns(brandDdlb, "loadBrand", true);
     }
 
     /**
@@ -295,7 +303,7 @@ public class SearchAccountConfig extends CustomComponent {
      * @throws com.vaadin.data.fieldgroup.FieldGroup.CommitException
      */
     @UiHandler("searchBtn")
-    public void searchBtnLogic(Button.ClickEvent event) throws CloneNotSupportedException, FieldGroup.CommitException {
+    public void searchBtnLogic(Button.ClickEvent event) throws  FieldGroup.CommitException {
         binder.commit();
         if (binderDto.getCompanyDdlb() != 0 || binderDto.getBusinessDdlb() != 0 || binderDto.getBrandDdlb() != 0 || !binderDto.getCostCentre().isEmpty()
                 || !binderDto.getAccount().isEmpty()) {
@@ -304,7 +312,7 @@ public class SearchAccountConfig extends CustomComponent {
             }
             resultsTable.setValue(null);
         } else {
-            AbstractNotificationUtils.getErrorNotification("No Search Criteria", ARMMessages.getSearchMsg_001());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.NO_SEARCH_CRITERIA, ARMMessages.getSearchMsg_001());
             accountConfigSearchTableLogic.loadsetData(Boolean.FALSE, binderDto);
             accountConfigSearchTableLogic.getFilters().clear();
         }
@@ -315,9 +323,11 @@ public class SearchAccountConfig extends CustomComponent {
      *
      * @param event
      * @throws java.lang.CloneNotSupportedException
+     * @throws SystemException 
+     * @throws PortalException 
      */
     @UiHandler("addBtn")
-    public void addButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException,Exception {
+    public void addButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException, PortalException, SystemException  {
         sessionDTO.setMode(ARMUtils.ADD);
         SessionDTO selection = createSessionId();
         accSelection = new AccountConfigSelection();
@@ -328,15 +338,16 @@ public class SearchAccountConfig extends CustomComponent {
     }
 
     /**
+     * @throws Exception 
      * Add Button Listener For Sear
      *
      * @param event
-     * @throws java.lang.CloneNotSupportedException
+     * @throws  
      */
     @UiHandler("editBtn")
-    public void editButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException,Exception {
+    public void editButtonLogic(Button.ClickEvent event) throws Exception   {
         if (resultsTable.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("No Search Criteria", ARMMessages.getSelect_Msg_002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.NO_SEARCH_CRITERIA, ARMMessages.getSelect_Msg_002());
         } else {
             sessionDTO.setMode(ARMUtils.EDIT);
             SessionDTO selection = createSessionId();
@@ -346,7 +357,7 @@ public class SearchAccountConfig extends CustomComponent {
             initializeTempTables(selection, accSelection);
             AccountConfigDTO searchAccConfigDto = (AccountConfigDTO) resultsTable.getValue();
             accSelection.setSearchAccConfigDTO(searchAccConfigDto);
-            createWindow(new EditAccountConfig("Account Configuration", selection, accSelection));
+            createWindow(new EditAccountConfig(CommonConstant.ACCOUNT_CONFIGURATION, selection, accSelection));
         }
     }
 
@@ -357,9 +368,9 @@ public class SearchAccountConfig extends CustomComponent {
      * @throws java.lang.CloneNotSupportedException
      */
     @UiHandler("viewBtn")
-    public void viewButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException,Exception {
+    public void viewButtonLogic(Button.ClickEvent event) throws Exception {
         if (resultsTable.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("No Search Criteria", ARMMessages.getSelect_Msg_002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.NO_SEARCH_CRITERIA, ARMMessages.getSelect_Msg_002());
         } else {
             sessionDTO.setMode(ARMUtils.VIEW);
             SessionDTO selection = createSessionId();
@@ -368,7 +379,7 @@ public class SearchAccountConfig extends CustomComponent {
             selection.setScreenName("VIEW");
             AccountConfigDTO searchAccConfigDto = (AccountConfigDTO) resultsTable.getValue();
             accSelection.setSearchAccConfigDTO(searchAccConfigDto);
-            createWindow(new ViewAccountConfig("Account Configuration", selection, accSelection, ((AccountConfigDTO) resultsTable.getValue())));
+            createWindow(new ViewAccountConfig(CommonConstant.ACCOUNT_CONFIGURATION, selection, accSelection, ((AccountConfigDTO) resultsTable.getValue())));
         }
     }
 
@@ -376,12 +387,13 @@ public class SearchAccountConfig extends CustomComponent {
      * Add Button Listener For Search
      *
      * @param event
+     * @throws Exception 
      * @throws java.lang.CloneNotSupportedException
      */
     @UiHandler("copyBtn")
-    public void copyButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException,Exception {
+    public void copyButtonLogic(Button.ClickEvent event) throws Exception  {
         if (resultsTable.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("No Search Criteria", ARMMessages.getSelect_Msg_002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.NO_SEARCH_CRITERIA, ARMMessages.getSelect_Msg_002());
         } else {
             sessionDTO.setMode(ARMUtils.COPY);
             SessionDTO selection = createSessionId();
@@ -391,7 +403,7 @@ public class SearchAccountConfig extends CustomComponent {
             initializeTempTables(selection, accSelection);
             AccountConfigDTO searchAccConfigDto = (AccountConfigDTO) resultsTable.getValue();
             accSelection.setSearchAccConfigDTO(searchAccConfigDto);
-            createWindow(new CopyAccountConfig("Account Configuration", selection, accSelection));
+            createWindow(new CopyAccountConfig(CommonConstant.ACCOUNT_CONFIGURATION, selection, accSelection));
         }
     }
 
@@ -402,11 +414,10 @@ public class SearchAccountConfig extends CustomComponent {
      * @throws java.lang.CloneNotSupportedException
      */
     @UiHandler("deleteBtn")
-    public void deleteButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
+    public void deleteButtonLogic(Button.ClickEvent event)  {
         if (resultsTable.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("No Search Criteria", ARMMessages.getSelect_Msg_002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.NO_SEARCH_CRITERIA, ARMMessages.getSelect_Msg_002());
         } else {
-            AccountConfigDTO searchAccConfigDto = (AccountConfigDTO) resultsTable.getValue();
 
             new AbstractNotificationUtils() {
                 @Override
@@ -420,12 +431,13 @@ public class SearchAccountConfig extends CustomComponent {
                             CommonUtils.successNotification("The Record is deleted");
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in deleteButtonLogic :"+ex);
                     }
                 }
 
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("Inside the deleteButtonLogic Listener NO Method");
                 }
             }.getConfirmationMessage("Confirmation", "Are you sure you want to delete record ? ");
         }
@@ -435,12 +447,12 @@ public class SearchAccountConfig extends CustomComponent {
      *
      * @return @throws CloneNotSupportedException
      */
-    private SessionDTO createSessionId() throws CloneNotSupportedException {
-        SessionDTO selection = this.sessionDTO.clone();
+    private SessionDTO createSessionId(){
+        SessionDTO selection = sessionDTO.getSessionDTO(this.sessionDTO);
         Date sessionDate = new Date();
-        selection.setSessionId(Integer.valueOf(ARMUtils.FMT_ID.format(sessionDate)));
+        selection.setSessionId(Integer.valueOf(ARMUtils.getInstance().getFmtID().format(sessionDate)));
         selection.setSessionDate(sessionDate);
-        LOGGER.info("UserId-->>" + String.valueOf(VaadinSession.getCurrent().getAttribute("userId")));
+        LOGGER.info("UserId-->>" + VaadinSession.getCurrent().getAttribute("userId").toString());
         selection.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
         return selection;
     }
@@ -511,12 +523,10 @@ public class SearchAccountConfig extends CustomComponent {
     @UiHandler("excelBtn")
     public void excelExport(Button.ClickEvent event) {
         try {
-            if (resultsContainer.size() > 0) {
                 createWorkSheet("Account Config", resultsTable);
-            }
 
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("Error in excelExport :"+e);
         }
     }
 
@@ -531,7 +541,7 @@ public class SearchAccountConfig extends CustomComponent {
             }
             ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("Error in createWorkSheet :"+ex);
         }
     }
 
@@ -547,62 +557,62 @@ public class SearchAccountConfig extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("Error in createWorkSheetContent :"+e);
         }
     }
 
-    private void securityForButtons() throws Exception {
-            final StplSecurity stplSecurity = new StplSecurity();
-            final String userId = String.valueOf(sessionDTO.getUserId());
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Account Configuration" + "," + "Landing screen");
-            if (functionHM.get("addBtn") != null && !((AppPermission) functionHM.get("addBtn")).isFunctionFlag()) {
-                addBtn.setVisible(false);
-            } else {
-                addBtn.setVisible(true);
-            }
-            if (functionHM.get("editBtn") != null && !((AppPermission) functionHM.get("editBtn")).isFunctionFlag()) {
-                editBtn.setVisible(false);
-            } else {
-                editBtn.setVisible(true);
-            }
-            if (functionHM.get("viewBtn") != null && !((AppPermission) functionHM.get("viewBtn")).isFunctionFlag()) {
-                viewBtn.setVisible(false);
-            } else {
-                viewBtn.setVisible(true);
-            }
-            if (functionHM.get("copyBtn") != null && !((AppPermission) functionHM.get("copyBtn")).isFunctionFlag()) {
-                copyBtn.setVisible(false);
-            } else {
-                copyBtn.setVisible(true);
-            }
-            if (functionHM.get("deleteBtn") != null && !((AppPermission) functionHM.get("deleteBtn")).isFunctionFlag()) {
-                deleteBtn.setVisible(false);
-            } else {
-                deleteBtn.setVisible(true);
-            }
-            if (functionHM.get("excelBtn") != null && !((AppPermission) functionHM.get("excelBtn")).isFunctionFlag()) {
-                excelBtn.setVisible(false);
-            } else {
-                excelBtn.setVisible(true);
-            }
-            if (functionHM.get("resetBtn") != null && !((AppPermission) functionHM.get("resetBtn")).isFunctionFlag()) {
-                resetBtn.setVisible(false);
-            } else {
-                resetBtn.setVisible(true);
-            }
-            if (functionHM.get("searchBtn") != null && !((AppPermission) functionHM.get("searchBtn")).isFunctionFlag()) {
-                searchBtn.setVisible(false);
-            } else {
-                searchBtn.setVisible(true);
-            }
-    }
-
-    private void securityForFields() throws Exception {
+    private void securityForButtons() throws PortalException, SystemException  {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, "Account Configuration" + "," + "Landing Screen");
+        Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + "Landing screen");
+        if (functionHM.get("addBtn") != null && !(functionHM.get("addBtn")).isFunctionFlag()) {
+            addBtn.setVisible(false);
+        } else {
+            addBtn.setVisible(true);
+        }
+        if (functionHM.get("editBtn") != null && !(functionHM.get("editBtn")).isFunctionFlag()) {
+            editBtn.setVisible(false);
+        } else {
+            editBtn.setVisible(true);
+        }
+        if (functionHM.get("viewBtn") != null && !(functionHM.get("viewBtn")).isFunctionFlag()) {
+            viewBtn.setVisible(false);
+        } else {
+            viewBtn.setVisible(true);
+        }
+        if (functionHM.get("copyBtn") != null && !(functionHM.get("copyBtn")).isFunctionFlag()) {
+            copyBtn.setVisible(false);
+        } else {
+            copyBtn.setVisible(true);
+        }
+        if (functionHM.get("deleteBtn") != null && !(functionHM.get("deleteBtn")).isFunctionFlag()) {
+            deleteBtn.setVisible(false);
+        } else {
+            deleteBtn.setVisible(true);
+        }
+        if (functionHM.get("excelBtn") != null && !(functionHM.get("excelBtn")).isFunctionFlag()) {
+            excelBtn.setVisible(false);
+        } else {
+            excelBtn.setVisible(true);
+        }
+        if (functionHM.get("resetBtn") != null && !(functionHM.get("resetBtn")).isFunctionFlag()) {
+            resetBtn.setVisible(false);
+        } else {
+            resetBtn.setVisible(true);
+        }
+        if (functionHM.get("searchBtn") != null && !(functionHM.get("searchBtn")).isFunctionFlag()) {
+            searchBtn.setVisible(false);
+        } else {
+            searchBtn.setVisible(true);
+        }
+    }
+
+    private void securityForFields() throws PortalException, SystemException {
+        final StplSecurity stplSecurity = new StplSecurity();
+        final String userId = String.valueOf(sessionDTO.getUserId());
+        Map<String, AppPermission> functionHMforFields = stplSecurity.getBusinessFieldPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN);
         configureFieldPermission(functionHMforFields);
-        if (functionHMforFields.get("companyDdlb") != null && !((AppPermission) functionHMforFields.get("companyDdlb")).isFunctionFlag()) {
+        if (functionHMforFields.get("companyDdlb") != null && !(functionHMforFields.get("companyDdlb")).isFunctionFlag()) {
             companyDdlb.setVisible(false);
             labelCompanyRes.setVisible(false);
 
@@ -612,7 +622,7 @@ public class SearchAccountConfig extends CustomComponent {
             labelCompanyRes.setVisible(true);
 
         }
-        if (functionHMforFields.get("businessDdlb") != null && !((AppPermission) functionHMforFields.get("businessDdlb")).isFunctionFlag()) {
+        if (functionHMforFields.get("businessDdlb") != null && !(functionHMforFields.get("businessDdlb")).isFunctionFlag()) {
             businessDdlb.setVisible(false);
             labelBusinessRes.setVisible(false);
         } else {
@@ -620,7 +630,7 @@ public class SearchAccountConfig extends CustomComponent {
             labelBusinessRes.setVisible(true);
 
         }
-        if (functionHMforFields.get("accountDdlb") != null && !((AppPermission) functionHMforFields.get("accountDdlb")).isFunctionFlag()) {
+        if (functionHMforFields.get("accountDdlb") != null && !(functionHMforFields.get("accountDdlb")).isFunctionFlag()) {
             accountDdlb.setVisible(false);
             labelAccount.setVisible(false);
 
@@ -629,7 +639,7 @@ public class SearchAccountConfig extends CustomComponent {
             labelAccount.setVisible(true);
 
         }
-        if (functionHMforFields.get("brandDdlb") != null && !((AppPermission) functionHMforFields.get("brandDdlb")).isFunctionFlag()) {
+        if (functionHMforFields.get("brandDdlb") != null && !(functionHMforFields.get("brandDdlb")).isFunctionFlag()) {
             brandDdlb.setVisible(false);
             labelbrandDdlb.setVisible(false);
 
@@ -638,7 +648,7 @@ public class SearchAccountConfig extends CustomComponent {
             labelbrandDdlb.setVisible(true);
 
         }
-        if (functionHMforFields.get("costCentre") != null && !((AppPermission) functionHMforFields.get("costCentre")).isFunctionFlag()) {
+        if (functionHMforFields.get("costCentre") != null && !(functionHMforFields.get("costCentre")).isFunctionFlag()) {
             costCentre.setVisible(false);
             labelcostCentre.setVisible(false);
         } else {
@@ -651,10 +661,10 @@ public class SearchAccountConfig extends CustomComponent {
     private void configureFieldPermission(Map<String, AppPermission> functionHMforFields) {
         LOGGER.debug("Entering configurePermission");
         try {
-            List<Object> resultList = logic.getFieldsForSecurity("Account Configuration", "Landing Screen");
+            List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ACCOUNT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
             commonSecurity.removeComponentOnPermission(resultList, resultsTableLayout, functionHMforFields, CommonSecurityLogic.ADD);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in configureFieldPermission:"+ex);
         }
         LOGGER.debug("Ending configurePermission");
 
@@ -663,9 +673,9 @@ public class SearchAccountConfig extends CustomComponent {
     private void securityForTables() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
-        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Account Configuration" + "," + "Landing Screen", false);
-        List<Object> resultList = logic.getFieldsForSecurity("Account Configuration", "Landing Screen");
-        Object[] obj = ARMUtils.ACCOUNT_CONFIG_SEARCH_COLUMNS;
+        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonConstant.ACCOUNT_CONFIGURATION + "," + CommonConstant.LANDING_SCREEN, false);
+        List<Object> resultList = logic.getFieldsForSecurity(CommonConstant.ACCOUNT_CONFIGURATION, CommonConstant.LANDING_SCREEN);
+        Object[] obj = ARMUtils.getAccountConfigSearchColumns();
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, obj, fieldIfpHM, CommonSecurityLogic.ADD);
         if (tableResultCustom.getObjResult().length > 0) {
             resultsTable.markAsDirty();
@@ -677,4 +687,13 @@ public class SearchAccountConfig extends CustomComponent {
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

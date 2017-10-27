@@ -235,8 +235,8 @@ public class NetSalesFormulaLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);    
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(RsUtils.NET_SALES_LOOKUP);
-        resultsTable.setColumnHeaders(RsUtils.NET_SALES_LOOKUP_HEADER);    
+        resultsTable.setVisibleColumns(RsUtils.getInstance().NET_SALES_LOOKUP);
+        resultsTable.setColumnHeaders(RsUtils.getInstance().NET_SALES_LOOKUP_HEADER);    
         resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName(ConstantsUtils.FILTER_BAR);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -263,6 +263,7 @@ public class NetSalesFormulaLookup extends Window {
                              */
                             @SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
+                                return;
 
                             }
                         }, ButtonId.OK);
@@ -367,7 +368,7 @@ public class NetSalesFormulaLookup extends Window {
             if (obj instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) obj;
             } else if (obj instanceof NetSalesFormulaDTO) {
-                targetItem = new BeanItem<NetSalesFormulaDTO>(
+                targetItem = new BeanItem<>(
                         (NetSalesFormulaDTO) obj);
             }
         }
@@ -400,20 +401,20 @@ public class NetSalesFormulaLookup extends Window {
         this.netSalesDTO = netSalesDTO;
     }
     
-    protected void excelExportLogic() throws SystemException, PortalException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException,  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount =  (Integer) new RebateScheduleLogic().getNsfCount(binder, null);
         ExcelExportforBB.createWorkSheet(resultsTable.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.RS_REBATE_SETUP);
         LOGGER.debug("Ending createWorkSheet");
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, ParseException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         NetSalesFormulaDTO dto;
         final List<SortByColumn> columns = new ArrayList<>();
         final List<NetSalesFormulaDTO> nsfList = new RebateScheduleLogic().loadNsfResults(binder, start, end, columns, null);
@@ -451,8 +452,8 @@ public class NetSalesFormulaLookup extends Window {
     public void setTableDefaultConfig() {
         resultsTable.setConverter("nsfcreatedDate", new DateToStringConverter());
         resultsTable.setConverter("nsfmodifiedDate", new DateToStringConverter());
-        resultsTable.setVisibleColumns(RsUtils.NET_SALES_LOOKUP);
-        resultsTable.setColumnHeaders(RsUtils.NET_SALES_LOOKUP_HEADER);
+        resultsTable.setVisibleColumns(RsUtils.getInstance().NET_SALES_LOOKUP);
+        resultsTable.setColumnHeaders(RsUtils.getInstance().NET_SALES_LOOKUP_HEADER);
         resultsTable.markAsDirtyRecursive();
         resultsTable.setImmediate(true);
 

@@ -170,9 +170,9 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         LOGGER.debug("Entering getLazyBrandCount method ");
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         List<Object[]> qualifierList;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
-        int startValue = start;
-        int endValue = end;
+        final List<HelperDTO> list = new ArrayList<>();
+        int startValue;
+        int endValue;
         if (start == Constants.ZERO) {
             startValue = start;
             endValue = end - 1;
@@ -239,8 +239,8 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     }
     
     public List<SearchResultsDTO> getCustomizedSearchForHelper(final List list) {
-        LOGGER.debug("Entering getCustomizedSearchFormFromModel()");
-        final List<SearchResultsDTO> searchItemList = new ArrayList<SearchResultsDTO>();
+        LOGGER.debug("Entering getCustomizedSearchForHelper()");
+        final List<SearchResultsDTO> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final SearchResultsDTO searchRSForm = new SearchResultsDTO();
@@ -284,7 +284,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                 searchItemList.add(searchRSForm);
             }
         }
-        LOGGER.debug("End of getCustomizedSearchFormFromModel method");
+        LOGGER.debug("End of getCustomizedSearchForml method");
         return searchItemList;
     }
 
@@ -303,7 +303,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
        try{
         LOGGER.debug("Entering saveRS P2: -" + ((itemDetails == null) ? itemDetails : itemDetails.size()));
         RsModel rebateSchedule;
-         SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+         SimpleDateFormat date = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         String systemId = rebateSchForm.getField(ConstantsUtils.REBATE_SCHEDULE_SYSTEM_ID).getValue() == null && rebateSchForm.getField(ConstantsUtils.REBATE_SCHEDULE_SYSTEM_ID).getValue().equals(ConstantsUtils.NULL) ? StringUtils.EMPTY : String.valueOf(rebateSchForm.getField(ConstantsUtils.REBATE_SCHEDULE_SYSTEM_ID).getValue());
         String sysId = systemId.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
         String rsID = String.valueOf(rebateSchForm.getField(ConstantsUtils.REBATE_SCHEDULE_ID).getValue()).trim();
@@ -313,7 +313,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         rsQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
         final List<RsModel> rebateMaster = DAO.getRebateScheduleMasterList(rsQuery);
         
-        if ((sysId.equals(ConstantsUtils.NULL) || sysId.equals(ConstantsUtils.ZERO)) && rebateMaster.isEmpty()
+        if ((sysId.equals(ConstantsUtils.NULL) || sysId.equals(ConstantsUtils.ZERO) ||(ConstantsUtils.COPY).equals(sessionDTO.getMode())) && rebateMaster.isEmpty()
                 ) {
             rebateSchedule = RsModelLocalServiceUtil.createRsModel(0);
             rebateSchedule.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
@@ -386,11 +386,11 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         rebateSchedule.setCalculationRuleLevel(checkEmptyDataFromFields(ConstantsUtils.CALCULATION_RULE_LEVEL,rebateSchForm) ? ConstantsUtils.ZERO :  String.valueOf(((HelperDTO)rebateSchForm.getField(ConstantsUtils.CALCULATION_RULE_LEVEL).getValue()).getId()));
          
         
-        if(!ConstantsUtils.ZERO.equals(String.valueOf(rebateSchForm.getField("evaluationSystemId").getValue()).trim())&&!(String.valueOf(rebateSchForm.getField("evaluationSystemId").getValue()).trim()).isEmpty()){
-        rebateSchedule.setEvaluationRuleOrAssociation(String.valueOf(rebateSchForm.getField("evaluationSystemId").getValue()).trim());
+        if(!ConstantsUtils.ZERO.equals(String.valueOf(rebateSchForm.getField(ConstantsUtils.EVALUATION_SYSTEM_ID).getValue()).trim())&&!(String.valueOf(rebateSchForm.getField(ConstantsUtils.EVALUATION_SYSTEM_ID).getValue()).trim()).isEmpty()){
+        rebateSchedule.setEvaluationRuleOrAssociation(String.valueOf(rebateSchForm.getField(ConstantsUtils.EVALUATION_SYSTEM_ID).getValue()).trim());
         }
-        if(!ConstantsUtils.ZERO.equals(String.valueOf(rebateSchForm.getField("calculationSystemId").getValue()).trim())&&!(String.valueOf(rebateSchForm.getField("calculationSystemId").getValue()).trim()).isEmpty()){
-        rebateSchedule.setCalculationRule(String.valueOf(rebateSchForm.getField("calculationSystemId").getValue()).trim());
+        if(!ConstantsUtils.ZERO.equals(String.valueOf(rebateSchForm.getField(ConstantsUtils.CALCULATION_SID).getValue()).trim())&&!(String.valueOf(rebateSchForm.getField(ConstantsUtils.CALCULATION_SID).getValue()).trim()).isEmpty()){
+        rebateSchedule.setCalculationRule(String.valueOf(rebateSchForm.getField(ConstantsUtils.CALCULATION_SID).getValue()).trim());
          }
         
        
@@ -401,7 +401,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                rebateSchedule.setRsEndDate(new Date(date.format((Date) rebateSchForm.getField(ConstantsUtils.END_DATE).getValue()).trim()));
            }
         final String user = VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString();
-        if (systemId.equals(ConstantsUtils.NULL) || systemId.equals(ConstantsUtils.ZERO)) {
+        if (systemId.equals(ConstantsUtils.NULL) || systemId.equals(ConstantsUtils.ZERO) ||(ConstantsUtils.COPY).equals(sessionDTO.getMode())) {
             rebateSchedule.setCreatedDate(new Date());
             rebateSchedule.setModifiedDate(new Date());
             rebateSchedule.setCreatedBy(Integer.valueOf(user));
@@ -419,13 +419,13 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
             final List<RsModel> rebateSchMasterNo = DAO.getRebateScheduleMasterList(rebateSchNoQuery);
             
             final DynamicQuery rebateSchNameQuery = DynamicQueryFactoryUtil.forClass(RsModel.class);
-            rebateSchNameQuery.add(RestrictionsFactoryUtil.eq("rsName", rebateSchedule.getRsName()));
+            rebateSchNameQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RS_NAME, rebateSchedule.getRsName()));
             rebateSchNameQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
             final List<RsModel> rebateSchMasterName = DAO.getRebateScheduleMasterList(rebateSchNameQuery);
             
-            LOGGER.debug("In saveRS  rebateScheduleMasterSize=" + ((rebateSchMaster == null) ? rebateSchMaster : rebateSchMaster.size()));                                             
-            LOGGER.debug("In saveRS  rebateScheduleMasterSize=" + ((rebateSchMasterNo == null) ? rebateSchMasterNo : rebateSchMasterNo.size()));                                             
-            LOGGER.debug("In saveRS  rebateScheduleMasterSize=" + ((rebateSchMasterName == null) ? rebateSchMasterName : rebateSchMasterName.size()));                                             
+            LOGGER.debug("In  rebateScheduleMasterSize=" + ((rebateSchMaster == null) ? rebateSchMaster : rebateSchMaster.size()));                                             
+            LOGGER.debug("In saveRS  rebateSchMasterNo" + ((rebateSchMasterNo == null) ? rebateSchMasterNo : rebateSchMasterNo.size()));                                             
+            LOGGER.debug("In saveRS  rebateSchMasterName=" + ((rebateSchMasterNo == null) ? rebateSchMasterName : rebateSchMasterName.size()));                                             
           
              
                   if (rebateSchMaster.isEmpty() && rebateSchMasterNo.isEmpty() && rebateSchMasterName.isEmpty()) {
@@ -437,8 +437,8 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                       if (rebateSchedule.getRsModelSid() != 0) {
 
                           DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Udcs.class);
-                          dynamicQuery.add(RestrictionsFactoryUtil.eq("masterSid", rebateSchedule.getRsModelSid()));
-                          dynamicQuery.add(RestrictionsFactoryUtil.eq("masterType", "RS_MODEL"));
+                          dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.MASTER_SID, rebateSchedule.getRsModelSid()));
+                          dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.MASTER_TYPE, ConstantsUtils.RS_MODEL));
                           List<Udcs> list = UdcsLocalServiceUtil.dynamicQuery(dynamicQuery);
                           Udcs udc;
                           if (list.size() > 0) {
@@ -446,7 +446,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                           } else {
                               udc = UdcsLocalServiceUtil.createUdcs(0);
                               udc.setMasterSid(rebateSchedule.getRsModelSid());
-                              udc.setMasterType("RS_MODEL");
+                              udc.setMasterType(ConstantsUtils.RS_MODEL);
                           }
 
                           if (rebateSchForm.getField(ConstantsUtils.UDC1).getValue()!=null && ((HelperDTO) rebateSchForm.getField(ConstantsUtils.UDC1).getValue()).getId() != 0) {
@@ -477,7 +477,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                 
                 LOGGER.debug("In saveRS itemDetailsSize=" + ((itemDetails == null) ? itemDetails : itemDetails.size()));
                 saveRebateScheduleDetails(itemDetails, rebateSchedule);
-                saveUploadedInformation(availableUploadedInformation, "RS_MODEL", rebateSchedule.getRsModelSid());
+                saveUploadedInformation(availableUploadedInformation,ConstantsUtils.RS_MODEL, rebateSchedule.getRsModelSid(),ConstantsUtils.COPY.equals(sessionDTO.getMode()));
             } else if(!rebateSchMaster.isEmpty()) {
                 LOGGER.debug(ConstantsUtils.DUPLICATE);
                 return ConstantsUtils.DUPLICATE;
@@ -493,7 +493,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
             final DynamicQuery rebateSchQuery = DynamicQueryFactoryUtil.forClass(RsModel.class);
             rebateSchQuery.add(RestrictionsFactoryUtil.eq("rsId", rebateSchedule.getRsId()));
             rebateSchQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
-            LOGGER.debug("In saveRS Entering getRebateScheduleMasterList");
+            LOGGER.debug("In saveRS");
             final List<RsModel> rebateSchList = DAO.getRebateScheduleMasterList(rebateSchQuery);
             int count = 0;
             for (int i = 0; i < rebateSchList.size(); i++) {
@@ -506,7 +506,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
             final DynamicQuery rebateSchNoQuery = DynamicQueryFactoryUtil.forClass(RsModel.class);
             rebateSchNoQuery.add(RestrictionsFactoryUtil.eq("rsNo", rebateSchedule.getRsNo()));
             rebateSchNoQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
-            LOGGER.debug("In saveRS Entering getRebateScheduleMasterList");
+            LOGGER.debug("In saveRS Entering rebateSchNoQuery");
             final List<RsModel> rebateSchNoList = DAO.getRebateScheduleMasterList(rebateSchNoQuery);
             int countNo = 0;
             for (int i = 0; i < rebateSchNoList.size(); i++) {
@@ -517,7 +517,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
             }
             
             final DynamicQuery rebateSchNameQuery = DynamicQueryFactoryUtil.forClass(RsModel.class);
-            rebateSchNameQuery.add(RestrictionsFactoryUtil.eq("rsName", rebateSchedule.getRsName()));
+            rebateSchNameQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RS_NAME, rebateSchedule.getRsName()));
             rebateSchNameQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
             LOGGER.debug("In saveRS Entering getRebateScheduleMasterList");
             final List<RsModel> rebateSchNameList = DAO.getRebateScheduleMasterList(rebateSchNameQuery);
@@ -538,8 +538,8 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                 if (rebateSchedule.getRsModelSid() != 0) {
 
                     DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Udcs.class);
-                    dynamicQuery.add(RestrictionsFactoryUtil.eq("masterSid", result.getRsModelSid()));
-                    dynamicQuery.add(RestrictionsFactoryUtil.eq("masterType", "RS_MODEL"));
+                    dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.MASTER_SID, result.getRsModelSid()));
+                    dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.MASTER_TYPE, ConstantsUtils.RS_MODEL));
                     List<Udcs> list = UdcsLocalServiceUtil.dynamicQuery(dynamicQuery);                    
                     if (list.size() > 0) {
                         Udcs udc = list.get(0);
@@ -592,13 +592,13 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                 
                 rebateSchedule.setRsModelSid(Integer.valueOf(systemId.replaceAll("\\,", StringUtils.EMPTY)));
                 saveRebateScheduleDetails(itemDetails, result);
-                saveUploadedInformation(availableUploadedInformation, "RS_MODEL", rebateSchedule.getRsModelSid());
+                saveUploadedInformation(availableUploadedInformation, ConstantsUtils.RS_MODEL, rebateSchedule.getRsModelSid(),ConstantsUtils.COPY.equals(sessionDTO.getMode()));
 
             } else if(count>0) {
-                LOGGER.debug("saveRS Return duplicate");
+                LOGGER.debug("saveRS  Return duplicate");
                 return ConstantsUtils.DUPLICATE;
             } else if(countNo>0) {
-                LOGGER.debug("saveRS Return duplicate");
+                LOGGER.debug("saveRS Return countNo>0");
                 return ConstantsUtils.DUPLICATENO;
             } else if(countName>0) {
                 LOGGER.debug("saveRS Return duplicate");
@@ -631,7 +631,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String createdDate = String.valueOf(sessionDTO.getSessionDate());
-        final String flag = String.valueOf(sessionDTO.getMode());
+        final String flag = String.valueOf(sessionDTO.getMode().equalsIgnoreCase("COPY")  ? "Add" : sessionDTO.getMode());
         ImtdRsDetailsLocalServiceUtil.updateToRsDetails(rebateSchedule.getRsModelSid(), userId, sessionId, createdDate, flag, user, user, user, user);
         
 
@@ -659,8 +659,8 @@ try{
        
         if(rebateSchMaster!=null){            
             DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Udcs.class);
-            dynamicQuery.add(RestrictionsFactoryUtil.eq("masterSid", idValue));
-            dynamicQuery.add(RestrictionsFactoryUtil.eq("masterType", "RS_MODEL"));
+            dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.MASTER_SID, idValue));
+            dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.MASTER_TYPE, ConstantsUtils.RS_MODEL));
             List<Udcs> list = UdcsLocalServiceUtil.dynamicQuery(dynamicQuery);
             
             Udcs udcs = UdcsLocalServiceUtil.createUdcs(0);
@@ -755,7 +755,7 @@ LOGGER.error(ex);
         LOGGER.debug("Entering deleteRebateScheduleDetails P1: " + rebateSchSysId);
         
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(RsDetails.class);
-        query.add(RestrictionsFactoryUtil.eq("rsModelSid", rebateSchSysId));
+        query.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RS_MODEL_SID, rebateSchSysId));
         query.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS,ConstantsUtils.INBOUND_STATUS_D));
         List<RsDetails> details = RsDetailsLocalServiceUtil.dynamicQuery(query);
         
@@ -781,7 +781,7 @@ LOGGER.error(ex);
         final List<String> returnList = new ArrayList<>();
         final List<HelperDTO> helperList = new ArrayList<>();
 
-        LOGGER.debug("In getHelperDetails P1:listType=" + listType);
+        LOGGER.debug("In getHelperDetails" + listType);
         List<HelperTable> list = DAO.getHelperTableDetailsByListName(listType);
         returnList.add(ConstantsUtils.SELECT_ONE);
         if (list != null) {
@@ -805,7 +805,7 @@ LOGGER.error(ex);
      */
     public List<HelperDTO> getHelperIdDetails(final String listType) throws SystemException {
         List<HelperTable> list = null;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("In getHelperDetails P1:listType=" + listType);
         list = DAO.getHelperTableDetailsByListName(listType);
@@ -832,7 +832,7 @@ LOGGER.error(ex);
     public List<IFPDetailsDTO> getIfpMasters(final String ifpNumber,
             final String ifpName, final Object ifpType, final Date ifpStartDate, final Date ifpEndStart) throws SystemException {
         LOGGER.debug("Entering getIfpMasters");
-        List<IFPDetailsDTO> tempList = new ArrayList<IFPDetailsDTO>();
+        List<IFPDetailsDTO> tempList = new ArrayList<>();
 
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(IfpModel.class);
@@ -905,12 +905,12 @@ LOGGER.error(ex);
     public List<IFPDetailsDTO> getItemFamilyPlanFromRSID(final int systemId) throws SystemException {
 
         LOGGER.debug("In getItemFamilyPlanFromRSID P1:systemId=" + systemId);
-        final List<IfpModel> returnList = new ArrayList<IfpModel>();
-        List<IFPDetailsDTO> tempList = new ArrayList<IFPDetailsDTO>();
+        final List<IfpModel> returnList = new ArrayList<>();
+        List<IFPDetailsDTO> tempList = new ArrayList<>();
         final DynamicQuery rebateSchQuery = DynamicQueryFactoryUtil
                 .forClass(RsDetails.class);
         rebateSchQuery.add(RestrictionsFactoryUtil.eq(
-                "rsModelSid", systemId));
+                ConstantsUtils.RS_MODEL_SID, systemId));
         rebateSchQuery.setLimit(0, 1);
         rebateSchQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
         final List<RsDetails> rebateDetails = DAO.getRebateScheduleDetailsList(rebateSchQuery);
@@ -949,7 +949,7 @@ LOGGER.error(ex);
 
         LOGGER.debug("In getItemDetails P1:systemId=" + systemId);
         
-        Map<String,Object> parameters = new HashMap<String,Object>();
+        Map<String,Object> parameters = new HashMap<>();
         
         if(!StringUtils.isBlank(record)){
             if(record.contains(ConstantsUtils.CURRENT)){
@@ -981,7 +981,7 @@ LOGGER.error(ex);
     private List<ItemDetailsDTO> getcustomizedListfromRebateDetails(
             @SuppressWarnings(ConstantsUtils.RAWTYPES) final List collectedList) throws SystemException, PortalException {
         LOGGER.debug("In getcustomizedListfromRebateDetails P1:collectedList=" + collectedList.size());
-        final List<ItemDetailsDTO> itemDetails = new ArrayList<ItemDetailsDTO>();
+        final List<ItemDetailsDTO> itemDetails = new ArrayList<>();
         if (collectedList != null && collectedList.size() != 0) {
 
             for (int i = 0; i < collectedList.size(); i++) {
@@ -1062,9 +1062,9 @@ LOGGER.error(ex);
      */
     public Object getRSResults(final ErrorfulFieldGroup rebateSchForm, int start, int offset, final List<OrderByColumn> columns, final boolean fieldFlag, final BeanSearchCriteria criteria, boolean isCount)
             throws SystemException {
-        LOGGER.debug("In getSearchCount P1:rebateScheduleForm");
-        Map<String, Object> filterCriteria = new HashMap<String, Object>();
-        Map<String, String> searchCriteria = new HashMap<String, String>();
+        LOGGER.debug("In getSearchCount");
+        Map<String, Object> filterCriteria = new HashMap<>();
+        Map<String, String> searchCriteria = new HashMap<>();
 
         searchCriteria.put(ConstantsUtils.REBATE_ID, checkEmptyDataFromFields(ConstantsUtils.TEXT1, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT1).getValue().toString()).trim());
         searchCriteria.put(ConstantsUtils.REBATE_NO, checkEmptyDataFromFields(ConstantsUtils.TEXT2, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT2).getValue().toString()).trim());
@@ -1137,7 +1137,7 @@ LOGGER.error(ex);
                 }
             }
         }
-        String column = "RS_ID";
+        String column = ConstantsUtils.RS_ID_COLUMN;
         String orderBy = "ASC";
         if (columns != null) {
             for (final Iterator<OrderByColumn> iterator = columns.iterator(); iterator.hasNext();) {
@@ -1145,23 +1145,23 @@ LOGGER.error(ex);
                 String columnName = orderByColumn.getName();
                 
                 if (ConstantsUtils.REBATE_SCHEDULE_NO.equals(columnName)) {
-                    column = "RS_NO";
+                    column = ConstantsUtils.RS_NO_COLUMN;
                 } else if (ConstantsUtils.REBATE_SCHEDULE_ID.equals(columnName)) {
-                    column = "RS_ID";
+                    column =ConstantsUtils.RS_ID_COLUMN;
                 } else if (ConstantsUtils.REBATE_SCHEDULE_NAME.equals(columnName)) {
-                    column = "RS_NAME";
+                    column = ConstantsUtils.RS_NAME_LIST;
                 } else if (ConstantsUtils.REBATE_SCHEDULE_STATUS.equals(columnName)) {
-                    column = "rstatus";
+                    column = ConstantsUtils.RS_STATUS1;
                 } else if (ConstantsUtils.REBATE_SCHEDULE_TYPE.equals(columnName)) {
-                    column = "rtype";
+                    column = ConstantsUtils.R_TYPE;
                 } else if (ConstantsUtils.REBATE_PROGRAM_TYPE.equals(columnName) || ConstantsUtils.RS_PROGRAM_TYPE.equals(columnName)) {
-                    column = "rptype";
+                    column = ConstantsUtils.RP_TYPE;
                 } else if (columnName != null && columnName.contains("udc")) {
                     column = columnName.toUpperCase();
                 } else if (ConstantsUtils.RS_CATEGORY.equals(columnName)) {
-                    column = "rscategory";
+                    column = ConstantsUtils.RS_CATEGORY1;
                 } else if (ConstantsUtils.RS_DESIGNATION.equals(columnName)) {
-                    column = "rsdesignation";
+                    column = ConstantsUtils.RS_DESIGNATION1;
                 } else if (ConstantsUtils.RS_TRADE_CLASS.equals(columnName)) {
                     column = "RS_TRADE_CLASS";
                 } else if (ConstantsUtils.REBATE_FREQ.equals(columnName)) {
@@ -1184,9 +1184,9 @@ LOGGER.error(ex);
                 } else if (ConstantsUtils.INTEREST_BEARING_BASIS.equals(columnName)) {
                     column = "INTEREST_BEARING_BASIS";
                 } else if (ConstantsUtils.RS_PARENT_ID.equals(columnName)) {
-                    column = "PARENT_RS_ID";
+                    column =ConstantsUtils.PARENT_RS_SID;
                 } else if (ConstantsUtils.RS_PARENT_NAME.equals(columnName)) {
-                    column = "PARENT_RS_NAME";
+                    column = ConstantsUtils.PARENT_RS_NAME;
                 } else if (ConstantsUtils.RS_REFERENCE_ID.equals(columnName)) {
                     column = "RS_TRANS_REF_ID";
                 } else if (ConstantsUtils.RS_REFERENCE_NAME.equals(columnName)) {
@@ -1233,7 +1233,7 @@ LOGGER.error(ex);
      */
     public List<HelperDTO> getFormulaIdList() throws SystemException {
         List<RsDetails> list = null;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         HelperDTO helperTable;
 
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
@@ -1267,7 +1267,7 @@ LOGGER.error(ex);
 
     }
 
-    public static int getLazyTierFormulaIdCount(String filter, final HelperDTO helper) throws PortalException, SystemException {
+    public static int getLazyTierFormulaIdCount(String filter, final HelperDTO helper) throws SystemException {
 
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyTierFormulaIdCount method with filterText :" + filter);
@@ -1288,11 +1288,11 @@ LOGGER.error(ex);
         return Integer.parseInt(String.valueOf(list.get(0)));
     }
 
-    public static List<HelperDTO> getLazyTierFormulaIdResults(final int startIndex, final int end, String filter, final HelperDTO helper) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyTierFormulaIdResults(final int startIndex, final int end, String filter, final HelperDTO helper) throws SystemException {
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyTierFormulaIdResults method with filterText" + filter);
         List<String> qualifierList;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
 
         final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
         rsDynamicQuery.setLimit(startIndex, end);
@@ -1344,11 +1344,11 @@ LOGGER.error(ex);
     @SuppressWarnings(ConstantsUtils.UNCHECK)
     public List<IFPDetailsDTO> getIfpMastersResult(final int start, final int end, String ifpNumber,
             String ifpName, final Object ifpType, final Date ifpStartDate, final Date ifpEndStart, String itemName,
-            String itemNo,final List<OrderByColumn> columns,final BeanSearchCriteria criteria,String count,String ifpCategory,String ifpStatus) throws SystemException{
-        LOGGER.debug("Entering getIfpMasters");
+            String itemNo,final List<OrderByColumn> columns,final BeanSearchCriteria criteria,String count,String ifpCategory,String ifpStatus) {
+        LOGGER.debug("Entering getIfpMastersResult");
        
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        List<IFPDetailsDTO> searchList=new ArrayList<IFPDetailsDTO>();
+        Map<String, Object> parameters = new HashMap<>();
+        List<IFPDetailsDTO> searchList=new ArrayList<>();
         int flag=0;     
          try{
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
@@ -1410,14 +1410,14 @@ LOGGER.error(ex);
         }
 
         
-        String column = "IFP_NO";
+        String column = ConstantsUtils.IFP_NO_COLUMN;
         String orderBy = "ASC";
        if(columns!=null){ 
         for (final Iterator<OrderByColumn> iterator = columns.iterator(); iterator.hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
             
             if(orderByColumn.getName()=="ifpNo"){
-                column = "IFP_NO";
+                column = ConstantsUtils.IFP_NO_COLUMN;
                }else if(orderByColumn.getName()=="ifpId"){
                 column = "IFP_ID";
                 }else if(orderByColumn.getName()==ConstantsUtils.IFP_MODEL_STATUS){
@@ -1505,10 +1505,10 @@ LOGGER.error(ex);
     @SuppressWarnings(ConstantsUtils.UNCHECK)
     public int getIfpMastersCount(final int start, final int end, String ifpNumber,
             String ifpName, final Object ifpType, final Date ifpStartDate, final Date ifpEndStart, String itemName,
-            String itemNo,final List<OrderByColumn> columns,final BeanSearchCriteria criteria,String count,String ifpCategory,String ifpStatus) throws SystemException{
+            String itemNo,final List<OrderByColumn> columns,final BeanSearchCriteria criteria,String count,String ifpCategory,String ifpStatus) {
         LOGGER.debug("Entering getIfpMasters");
       
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
          try{
 
             if (ifpNumber != null && !StringUtils.EMPTY.equals(ifpNumber)) {
@@ -1560,14 +1560,14 @@ LOGGER.error(ex);
         }
 
         
-        String column = "IFP_NO";
+        String column = ConstantsUtils.IFP_NO_COLUMN;
         String orderBy = "ASC";
        if(columns!=null){ 
         for (final Iterator<OrderByColumn> iterator = columns.iterator(); iterator.hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
             
             if(orderByColumn.getName()=="ifpNo"){
-                column = "IFP_NO";
+                column = ConstantsUtils.IFP_NO_COLUMN;
                }else if(orderByColumn.getName()=="ifpId"){
                 column = "IFP_ID";
                 }else if(orderByColumn.getName()==ConstantsUtils.IFP_MODEL_STATUS){
@@ -1648,7 +1648,7 @@ LOGGER.error(ex);
 
     public static List<IFPDetailsDTO> getCustomizedSearchForHelperTable(final List list) {
         LOGGER.debug("Entering getCustomizedSearchFormFromModel()");
-        final List<IFPDetailsDTO> searchItemList = new ArrayList<IFPDetailsDTO>();
+        final List<IFPDetailsDTO> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final IFPDetailsDTO searchCompanyForm = new IFPDetailsDTO();
@@ -1692,7 +1692,7 @@ LOGGER.error(ex);
     }
        
     public static List<IFPDetailsDTO> ifpDTOConfig(List<IfpModel> reault) {
-        List<IFPDetailsDTO> tempList = new ArrayList<IFPDetailsDTO>();
+        List<IFPDetailsDTO> tempList = new ArrayList<>();
         for (IfpModel object : reault) {
             IFPDetailsDTO tempDTO = new IFPDetailsDTO();
             tempDTO.setIfpNo(object.getIfpNo().trim());
@@ -1708,7 +1708,7 @@ LOGGER.error(ex);
     }
     
     public static List<IFPDetailsDTO> getCustomizedIFP(List list) {
-        List<IFPDetailsDTO> tempList = new ArrayList<IFPDetailsDTO>();
+        List<IFPDetailsDTO> tempList = new ArrayList<>();
         if (list != null) {
 
             for (int i = 0; i < list.size(); i++) {
@@ -1728,7 +1728,7 @@ LOGGER.error(ex);
         return tempList;
     }
 
-    public int getLazyAvailableItemsCount(final Set<Filter> filterSet) throws PortalException, SystemException {
+    public int getLazyAvailableItemsCount(final Set<Filter> filterSet) throws SystemException {
 
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdRsDetails.class);
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -1750,13 +1750,13 @@ LOGGER.error(ex);
                     if (ConstantsUtils.ITEM_NAME.equals(stringFilter.getPropertyId())) {
                         ifpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.ITEM_NAME, filterString));
                     }
-                    if ("attachedStatus".equals(stringFilter.getPropertyId())) {
+                    if (ConstantsUtils.ATTACHED_STATUS.equals(stringFilter.getPropertyId())) {
                             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("rsDetailsAttachedStatus", Integer.valueOf(stringFilter.getFilterString())));
                     }
-                    if ("rebatePlanName".equals(stringFilter.getPropertyId())) {
+                    if (ConstantsUtils.REBATE_PLAN_NAME.equals(stringFilter.getPropertyId())) {
                         ifpDynamicQuery.add(RestrictionsFactoryUtil.like("rebatePlanMasterSid",stringFilter.getFilterString()));
                     }
-                    if ("bundleNo".equals(stringFilter.getPropertyId())) {
+                    if (ConstantsUtils.REBATE_BUNDLE_NO.equals(stringFilter.getPropertyId())) {
                             ifpDynamicQuery.add(RestrictionsFactoryUtil.like("rsDetailsBundleNo", filterString));
                     }
                     
@@ -1797,10 +1797,10 @@ LOGGER.error(ex);
                         }
                     } else {
                         Integer filterValue = (Integer) stringFilter.getValue();
-                        if ("attachedStatus".equals(stringFilter.getPropertyId()) && filterValue != 0) {
+                        if (ConstantsUtils.ATTACHED_STATUS.equals(stringFilter.getPropertyId()) && filterValue != 0) {
                                 ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("rsDetailsAttachedStatus", filterValue));
                         }
-                        if ("rebatePlanName".equals(stringFilter.getPropertyId()) && filterValue != 0) {
+                        if (ConstantsUtils.REBATE_PLAN_NAME.equals(stringFilter.getPropertyId()) && filterValue != 0) {
                                 ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("rebatePlanMasterSid", filterValue));
                         }
                     }
@@ -1882,7 +1882,7 @@ LOGGER.error(ex);
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = stringFilter.getFilterString();                    
                     Object propertyId = stringFilter.getPropertyId();
-                    if ("attachedStatus".equals(propertyId)) {                        
+                    if (ConstantsUtils.ATTACHED_STATUS.equals(propertyId)) {                        
                         parameters.put(String.valueOf(stringFilter.getPropertyId()), stringFilter.getFilterString());
                     } else {
                         filterString = (filterString != null) ? CommonUtil.buildFilterCriteria(filterString) : filterString;
@@ -1938,7 +1938,7 @@ LOGGER.error(ex);
 
     public List<ItemDetailsDTO> getLazyResults(List list) throws SystemException, PortalException {
         
-        final List<ItemDetailsDTO> returnList = new ArrayList<ItemDetailsDTO>();      
+        final List<ItemDetailsDTO> returnList = new ArrayList<>();      
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final Object[] obj = (Object[]) list.get(i);
@@ -1979,7 +1979,7 @@ LOGGER.error(ex);
                 itemDetailsDTO.setAttachedDate((Date) value);
                 value=obj[j++];
                 itemDetailsDTO.setRevisionDate((Date) value);
-                value=obj[j++];
+                j++;
                 value=obj[j++];
                 itemDetailsDTO.setCheckbox((Boolean) value);
                 
@@ -1997,8 +1997,8 @@ LOGGER.error(ex);
                 
                 
                 itemDetailsDTO.setRebatePlanName(helper.getDescription());
-                value=obj[j++];
-                value=obj[j++];
+                j++;
+                j++;
                 value =obj[j++];
                 itemDetailsDTO.setItemId(value==null?StringUtils.EMPTY:value.toString());
                 String tempRebatePlanNo = String.valueOf(obj[j++]);
@@ -2085,7 +2085,7 @@ LOGGER.error(ex);
         final String createdDate = String.valueOf(sessionDTO.getSessionDate());
         RebateScheduleMasterDTO rsMasterDto = getRebateScheduleMasterById(Integer.valueOf(rsSystemId));
         
-        ImtdRsDetailsLocalServiceUtil.insertTempRsDetailsInEdit(userId, sessionId, createdDate, rsSystemId, rsMasterDto.getRebateScheduleId(), null, null, null);
+        ImtdRsDetailsLocalServiceUtil.insertTempRsDetailsInEdit(userId, sessionId, createdDate, rsSystemId, rsMasterDto.getRebateScheduleId(), null, null, sessionDTO.getMode());
 
 
     }
@@ -2105,7 +2105,7 @@ LOGGER.error(ex);
      * @param removeAllFlag
      * @throws SystemException
      */
-    public void removeAllFromTempTable(Boolean removeAllFlag) throws SystemException, PortalException {
+    public void removeAllFromTempTable(Boolean removeAllFlag) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String tempCreatedDate = String.valueOf(sessionDTO.getSessionDate());
@@ -2187,7 +2187,6 @@ LOGGER.error(ex);
             
             ImtdRsDetailsLocalServiceUtil.updateImtdRsDetails(tempModel);            
         }
-        tempList = null;
     }
 
     public void populateLogic(String populateField, String PopulateValue, Boolean populateAll, String populate, String rebatePlanLevel) {
@@ -2236,7 +2235,7 @@ LOGGER.error(ex);
     public int rsViewCount() throws SystemException {
         final String rsSystemId = String.valueOf(sessionDTO.getSystemId());
         final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
-        rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", Integer.parseInt(rsSystemId)));
+        rsDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RS_MODEL_SID, Integer.parseInt(rsSystemId)));
         rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
         rsDynamicQuery.setProjection(ProjectionFactoryUtil.count("ifpModelSid"));
         return Integer.parseInt(String.valueOf(RsDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery).get(0)));
@@ -2263,7 +2262,7 @@ LOGGER.error(ex);
     }
 
     public  List<ItemDetailsDTO> getCoustomizedViewDTO(List<Object[]> list) throws SystemException, PortalException {
-        List<ItemDetailsDTO> resultList = new ArrayList<ItemDetailsDTO>();
+        List<ItemDetailsDTO> resultList = new ArrayList<>();
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
         for (Iterator<Object[]> temp = list.iterator(); temp.hasNext();) {
             Object[] item = temp.next();
@@ -2281,7 +2280,8 @@ LOGGER.error(ex);
             i++;
             resultDTO.setFormulaType(HelperUtils.getString(item[i++]));
             resultDTO.setFormulaMethodId(HelperUtils.getString(item[i++]));
-            resultDTO.setFormulaNo(HelperUtils.getString(item[i++]));
+            int end = i++;
+            resultDTO.setFormulaNo(HelperUtils.getString(item[end]));
             HelperDTO helper = null;
             int sysId = item[NumericConstants.TWELVE]!=null?(Integer) item[NumericConstants.TWELVE]:0;
             helper = new HelperDTO(sysId, getRebatePlanNameByID(sysId));
@@ -2446,7 +2446,7 @@ LOGGER.error(ex);
 	@SuppressWarnings("unchecked")
 	public List<ItemDetailsDTO> getAttachmentDTOList(int masterTableSid,
 			String moduleName,String filepath,String id) {
-		List<ItemDetailsDTO> attachmentDTOList = new ArrayList<ItemDetailsDTO>();
+		List<ItemDetailsDTO> attachmentDTOList = new ArrayList<>();
 		DynamicQuery docDetailsDynamicQuery = DynamicQueryFactoryUtil
 				.forClass(MasterDataFiles.class);
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq("masterTableSid",
@@ -2499,7 +2499,7 @@ LOGGER.error(ex);
 		DynamicQuery additionalNotesDynamicQuery = DynamicQueryFactoryUtil
 				.forClass(RsModel.class);
 		additionalNotesDynamicQuery.add(RestrictionsFactoryUtil.eq(
-				"rsModelSid", projectionId));
+				ConstantsUtils.RS_MODEL_SID, projectionId));
 		List<RsModel> additionalNotesList = null;
 		try {
 			additionalNotesList = RsModelLocalServiceUtil
@@ -2546,13 +2546,14 @@ LOGGER.error(ex);
 	}
  
     
-    public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName, int moduleSystemId) throws SystemException, PortalException {
+    public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName, int moduleSystemId,boolean isCopy) throws SystemException, PortalException {
 
         if (availableUploadedInformation != null && availableUploadedInformation.size() > 0) {
 
-            List<Integer> uploadedDetailsId = new ArrayList<Integer>();
+            List<Integer> uploadedDetailsId = new ArrayList<>();
             for (NotesDTO uploadDetails : availableUploadedInformation) {
-                if (uploadDetails.getDocDetailsId() == 0) {
+            
+                if (uploadDetails.getDocDetailsId() == 0 || isCopy) {
                     MasterDataFiles masterDataFiles = MasterDataFilesLocalServiceUtil.createMasterDataFiles(0);
                     masterDataFiles.setMasterTableName(moduleName);
                     masterDataFiles.setMasterTableSid(moduleSystemId);
@@ -2584,7 +2585,7 @@ LOGGER.error(ex);
     public static List<HelperDTO> getManufacturer() {
         List list;
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
 
         dynamicQuery.add(PropertyFactoryUtil.forName("companyType").in(
@@ -2658,7 +2659,7 @@ LOGGER.error(ex);
      * @return
      * @throws SystemException
      */
-    public List<Object> validateNull(String userId, String sessionId, String tempCreatedDate, String process) throws SystemException {
+    public List<Object> validateNull(String userId, String sessionId, String tempCreatedDate, String process) {
         return (List<Object>) ImtdRsDetailsLocalServiceUtil.validateTempRSDeatils(userId, sessionId, tempCreatedDate, process, null, null, null,null);
 }
     
@@ -2670,8 +2671,8 @@ LOGGER.error(ex);
      */
     public List<String> getHelperDetailsForFilter(final String listType) throws SystemException {
         List<HelperTable> list = null;
-        final List<String> returnList = new ArrayList<String>();
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<String> returnList = new ArrayList<>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("In getHelperDetails P1:listType=" + listType);
         list = DAO.getHelperTableDetailsByListName(listType);
@@ -2704,7 +2705,7 @@ LOGGER.error(ex);
     
      public List<RSFormulaDTO> getForecastingFormula(int start, int end){
         
-         List<RSFormulaDTO> resultList = new ArrayList<RSFormulaDTO>();
+         List<RSFormulaDTO> resultList = new ArrayList<>();
          
          final DynamicQuery forecastingFormula = DynamicQueryFactoryUtil.forClass(ForecastingFormula.class);
          forecastingFormula.setLimit(start, end);
@@ -2721,7 +2722,7 @@ LOGGER.error(ex);
     
     public List<RSFormulaDTO> getLoadForecastingFormula(){
         
-         List<RSFormulaDTO> resultList = new ArrayList<RSFormulaDTO>();
+         List<RSFormulaDTO> resultList = new ArrayList<>();
          
          final DynamicQuery forecastingFormula = DynamicQueryFactoryUtil.forClass(ForecastingFormula.class);
          
@@ -2737,7 +2738,7 @@ LOGGER.error(ex);
     } 
      
     public List<RSFormulaDTO> getCustomisedForecastingFormula(List<ForecastingFormula> list){
-        List<RSFormulaDTO> resultList = new ArrayList<RSFormulaDTO>();
+        List<RSFormulaDTO> resultList = new ArrayList<>();
             RSFormulaDTO dto;
             try{
                 if(list!=null){
@@ -2781,7 +2782,7 @@ LOGGER.error(ex);
              }else{
                  final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                         .forClass(ImtdRsDetailsFr.class);
-                ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("itemMasterSid",itemSid));
+                ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_MASTER_SID,itemSid));
                 ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORMULA_ID,formula.getFormulaId()));
                 ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.USERS_SID, userId));
                 ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SESSION_ID, sessionId));
@@ -2842,7 +2843,7 @@ LOGGER.error(ex);
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(ImtdRsDetailsFr.class);
-        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("itemMasterSid",itemSid));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_MASTER_SID,itemSid));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORMULA_ID,formulaId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.USERS_SID, userId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SESSION_ID, sessionId));
@@ -2860,7 +2861,7 @@ LOGGER.error(ex);
             
             final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                     .forClass(ImtdRsDetailsFr.class);
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("itemMasterSid",itemMasterId));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_MASTER_SID,itemMasterId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.USERS_SID, userId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.SESSION_ID, sessionId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.OPERATION, ConstantsUtils.INBOUND_STATUS_D));
@@ -2876,7 +2877,7 @@ LOGGER.error(ex);
     }
     
      public List<ImtdRsDetailsFrDTO> getImtdRsDetailsFr(int itemMasterId,int start,int offset){
-          List<ImtdRsDetailsFrDTO> resultList = new ArrayList<ImtdRsDetailsFrDTO>();
+          List<ImtdRsDetailsFrDTO> resultList = new ArrayList<>();
         try {
            
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -2885,7 +2886,7 @@ LOGGER.error(ex);
             
             final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                     .forClass(ImtdRsDetailsFr.class);
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("itemMasterSid",itemMasterId));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_MASTER_SID,itemMasterId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.USERS_SID, userId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.SESSION_ID, sessionId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.OPERATION, ConstantsUtils.INBOUND_STATUS_D));
@@ -2902,7 +2903,7 @@ LOGGER.error(ex);
     }
      
     public List<ImtdRsDetailsFrDTO> getLoadImtdRsDetailsFr(int itemMasterId){
-          List<ImtdRsDetailsFrDTO> resultList = new ArrayList<ImtdRsDetailsFrDTO>();
+          List<ImtdRsDetailsFrDTO> resultList = new ArrayList<>();
         try {
            
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -2911,7 +2912,7 @@ LOGGER.error(ex);
             
             final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                     .forClass(ImtdRsDetailsFr.class);
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("itemMasterSid",itemMasterId));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_MASTER_SID,itemMasterId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.USERS_SID, userId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.SESSION_ID, sessionId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.OPERATION, ConstantsUtils.INBOUND_STATUS_D));
@@ -2927,7 +2928,7 @@ LOGGER.error(ex);
     } 
      
      public List<Integer> getImtdFormulaDescList(int itemMasterId){
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         try {
            
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -2936,7 +2937,7 @@ LOGGER.error(ex);
             
             final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                     .forClass(ImtdRsDetailsFr.class);
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("itemMasterSid",itemMasterId));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_MASTER_SID,itemMasterId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.USERS_SID, userId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.SESSION_ID, sessionId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.OPERATION, ConstantsUtils.INBOUND_STATUS_D));
@@ -2956,7 +2957,7 @@ LOGGER.error(ex);
     } 
      
      public List<ImtdRsDetailsFrDTO> getCustomisedImtdRsDetailsFr(List<ImtdRsDetailsFr> list){
-         List<ImtdRsDetailsFrDTO> resultList = new ArrayList<ImtdRsDetailsFrDTO>();
+         List<ImtdRsDetailsFrDTO> resultList = new ArrayList<>();
          ImtdRsDetailsFrDTO dto;
          for(ImtdRsDetailsFr bean : list){
              try {
@@ -3009,7 +3010,7 @@ LOGGER.error(ex);
          final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
          final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil
                     .forClass(ImtdRsDetailsFr.class);
-            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq("itemMasterSid",itemSid));
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.ITEM_MASTER_SID,itemSid));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.USERS_SID, userId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.SESSION_ID, sessionId));
             ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.OPERATION, ConstantsUtils.INBOUND_STATUS_D));
@@ -3030,7 +3031,7 @@ LOGGER.error(ex);
                 final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
                 final String createdDate = String.valueOf(sessionDTO.getSessionDate());
                 DynamicQuery query = DynamicQueryFactoryUtil.forClass(RsDetails.class);
-                query.add(RestrictionsFactoryUtil.eq("rsModelSid", rsSysId));
+                query.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RS_MODEL_SID, rsSysId));
                 query.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
                 List<RsDetails> list = RsDetailsLocalServiceUtil.dynamicQuery(query);
         
@@ -3071,7 +3072,7 @@ LOGGER.error(ex);
       public int RSLookUpSearchCount(final ErrorfulFieldGroup rebateSchForm,final boolean fieldFlag,final Set<Filter> filterSet)
             throws SystemException {
         LOGGER.debug("In getSearchCount P1:rebateScheduleForm");
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         String rebateSchId;
         String rebateSchNo;
         String rebateSchName;
@@ -3210,7 +3211,7 @@ LOGGER.error(ex);
               if(filter instanceof SimpleStringFilter){   
                  SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                  String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
-                 String dbColumnName = StringUtils.EMPTY;
+                 String dbColumnName ;
                   dbColumnName = RsUtils.getRsDBColumnName(stringFilter.getPropertyId().toString());
                  if (ConstantsUtils.REBATE_SCHEDULE_STATUS.equals(stringFilter.getPropertyId())) {
                      rebateSchQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RS_STATUS, Integer.valueOf(stringFilter.getFilterString())));
@@ -3232,7 +3233,7 @@ LOGGER.error(ex);
              
               }else if (filter instanceof Between) { 
                 
-                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                 SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
                     Between betweenFilter = (Between) filter; 
                     Date startValue = (Date) betweenFilter.getStartValue(); 
                     Date endValue = (Date) betweenFilter.getEndValue(); 
@@ -3277,7 +3278,7 @@ LOGGER.error(ex);
   */     
  public List<RebateScheduleSearchDTO> searchRSLookup(
             final ErrorfulFieldGroup rebateSchForm, final int start, final int end, final List<SortByColumn> columns, final boolean fieldFlag,final Set<Filter> filterSet) throws SystemException {
-Map<String, Object> parameters = new HashMap<String, Object>();
+Map<String, Object> parameters = new HashMap<>();
         String rebateSchId;
         String rebateSchNo;
         String rebateSchName;
@@ -3287,10 +3288,10 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         String itemId;
         String itemNo;
         String itemName;
-        String columnName = StringUtils.EMPTY;
-        String dbColumnName = StringUtils.EMPTY;        
+        String columnName;
+        String dbColumnName;        
         int flag=0;
-        List<RebateScheduleSearchDTO> searchList = new ArrayList<RebateScheduleSearchDTO>();
+        List<RebateScheduleSearchDTO> searchList = new ArrayList<>();
         RsUtils.loadRsColumnName();
 
         LOGGER.debug("In searchRebateScheduleMaster P1:rebateScheduleForm P2:start=" + start + " P3:end=" + end );
@@ -3416,7 +3417,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             flag = 1;
         }
         
-        String column = "RS_ID";
+        String column = ConstantsUtils.RS_ID_COLUMN;
         String orderBy = "ASC";
         
         for (final Iterator<SortByColumn> iterator = columns.iterator(); iterator.hasNext();) {
@@ -3426,29 +3427,29 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             if(columnName == "systemId"){                
                 column = "RS_MODEL_SID";
                 }else if(dbColumnName=="rsNo"){
-                column = "RS_NO";
+                column = ConstantsUtils.RS_NO_COLUMN;
                 }else if(dbColumnName=="rsId"){
-                column = "RS_ID";
-                }else if(dbColumnName=="rsName"){
-                    column = "RS_NAME";
+                column = ConstantsUtils.RS_ID_COLUMN;
+                }else if(dbColumnName==ConstantsUtils.RS_NAME){
+                    column = ConstantsUtils.RS_NAME_LIST;
                 }else if(dbColumnName=="rsStatus"){
-                    column = "rstatus";
+                    column = ConstantsUtils.RS_STATUS1;
                 }else if(dbColumnName=="rsType"){
-                    column = "rtype";
+                    column = ConstantsUtils.R_TYPE;
                 }else if(dbColumnName==ConstantsUtils.REBATE_PROGRAM_TYPE){
-                    column = "rptype";
+                    column = ConstantsUtils.RP_TYPE;
                 }else if(columnName == ConstantsUtils.START_DATE){                
                     column = "RS_START_DATE";
                 }else if(columnName == ConstantsUtils.END_DATE){                
                     column = "RS_END_DATE";
                 }else if(columnName == ConstantsUtils.RS_DESIGNATION){                
-                    column = "rsdesignation";
-                }else if(columnName == "parentId"){                
-                    column = "PARENT_RS_ID";
-                }else if(columnName == "parentName"){                
-                    column = "PARENT_RS_NAME";
+                    column = ConstantsUtils.RS_DESIGNATION1;
+                }else if(columnName == ConstantsUtils.PARENT_ID){                
+                    column = ConstantsUtils.PARENT_RS_SID;
+                }else if(columnName == ConstantsUtils.PARENT_NAME){                
+                    column = ConstantsUtils.PARENT_RS_NAME;
                 }else if(columnName == ConstantsUtils.RS_CATEGORY){
-                    column = "rscategory";
+                    column = ConstantsUtils.RS_CATEGORY1;
                 }
             
             if (orderByColumn.getType() == SortByColumn.Type.ASC) {
@@ -3463,7 +3464,6 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                  if (filter instanceof SimpleStringFilter) { 
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
-                    dbColumnName = RsUtils.getRsDBColumnName(stringFilter.getPropertyId().toString());  
                   
                     if (ConstantsUtils.REBATE_SCHEDULE_STATUS.equals(stringFilter.getPropertyId())) {
                         parameters.put(stringFilter.getPropertyId().toString(),stringFilter.getFilterString());
@@ -3480,7 +3480,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                      }
                     
                    }else if (filter instanceof Between) { 
-                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                 SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
                  
                     
                     Between betweenFilter = (Between) filter; 
@@ -3508,7 +3508,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
     }
   public List<RebateScheduleSearchDTO> getCustomizedSearchForLookUp(final List list) {
         LOGGER.debug("Entering getCustomizedSearchFormFromModel()");
-        final List<RebateScheduleSearchDTO> searchItemList = new ArrayList<RebateScheduleSearchDTO>();
+        final List<RebateScheduleSearchDTO> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final RebateScheduleSearchDTO searchCompanyForm = new RebateScheduleSearchDTO();
@@ -3576,9 +3576,8 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             orderBy = "ASC";
         }
         String sql = CustomSQLUtil.get("com.rsModel.searchRSModel.tempDeclareRsModel");
-        
-        sql = sql.replace("?ITEM_NO", StringUtils.isNotBlank(searchCriteria.get(ConstantsUtils.ITEM_NO)) && !ConstantsUtils.NULL.equals(searchCriteria.get(ConstantsUtils.ITEM_NO)) ? searchCriteria.get(ConstantsUtils.ITEM_NO).contains(GlobalConstants.getSlashPercent()) ? searchCriteria.get(ConstantsUtils.ITEM_NO) : searchCriteria.get(ConstantsUtils.ITEM_NO) + " " + GlobalConstants.getEscapeSlash() : ConstantsUtils.PERCENCTAGE);
-        sql = sql.replace("?ITEM_NAME", StringUtils.isNotBlank(searchCriteria.get(ConstantsUtils.ITEM_NAME)) && !ConstantsUtils.NULL.equals(searchCriteria.get(ConstantsUtils.ITEM_NAME)) ? searchCriteria.get(ConstantsUtils.ITEM_NAME).contains(GlobalConstants.getSlashPercent()) ? searchCriteria.get(ConstantsUtils.ITEM_NAME) : searchCriteria.get(ConstantsUtils.ITEM_NO) + " " + GlobalConstants.getEscapeSlash() : ConstantsUtils.PERCENCTAGE);
+        sql = sql.replace("?ITEM_NO", StringUtils.isNotBlank(searchCriteria.get(ConstantsUtils.ITEM_NO)) && !ConstantsUtils.NULL.equals(searchCriteria.get(ConstantsUtils.ITEM_NO)) ? searchCriteria.get(ConstantsUtils.ITEM_NO).contains(GlobalConstants.getSlashPercent()) ?  searchCriteria.get(ConstantsUtils.ITEM_NO) + ConstantsUtils.PERCENCTAGE: searchCriteria.get(ConstantsUtils.ITEM_NO) : ConstantsUtils.PERCENCTAGE);
+        sql = sql.replace("?ITEM_NAME", StringUtils.isNotBlank(searchCriteria.get(ConstantsUtils.ITEM_NAME)) && !ConstantsUtils.NULL.equals(searchCriteria.get(ConstantsUtils.ITEM_NAME)) ? searchCriteria.get(ConstantsUtils.ITEM_NAME).contains(GlobalConstants.getSlashPercent()) ? searchCriteria.get(ConstantsUtils.ITEM_NAME) + ConstantsUtils.PERCENCTAGE : searchCriteria.get(ConstantsUtils.ITEM_NAME)  : ConstantsUtils.PERCENCTAGE);
         if (isCount) {
             sql += "SELECT COUNT(DISTINCT rs.RS_MODEL_SID) ";
         } else {
@@ -3671,14 +3670,14 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             sql += String.valueOf(parameters.get(ConstantsUtils.REBATE_SCHEDULE_TYPE)) + "' ";
         }
 
-        if (parameters.get("parentId") != null) {
+        if (parameters.get(ConstantsUtils.PARENT_ID) != null) {
             sql += " AND rs.PARENT_RS_ID like '";
-            sql += String.valueOf(parameters.get("parentId")) + "' ";
+            sql += String.valueOf(parameters.get(ConstantsUtils.PARENT_ID)) + "' ";
         }
 
-        if (parameters.get("parentName") != null) {
+        if (parameters.get(ConstantsUtils.PARENT_NAME) != null) {
             sql += " AND rs.PARENT_RS_NAME like '";
-            sql += String.valueOf(parameters.get("parentName")) + "' ";
+            sql += String.valueOf(parameters.get(ConstantsUtils.PARENT_NAME)) + "' ";
         }
 
         if (parameters.get(ConstantsUtils.RS_CATEGORY) != null) {
@@ -3809,20 +3808,20 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         }
 
         
-        if (parameters.get("startDatefrom") != null && parameters.get(ConstantsUtils.STATUS_DATE_TO) != null) {
-            String from = String.valueOf(parameters.get("startDatefrom"));
+        if (parameters.get(ConstantsUtils.START_DATE_FROM) != null && parameters.get(ConstantsUtils.STATUS_DATE_TO) != null) {
+            String from = String.valueOf(parameters.get(ConstantsUtils.START_DATE_FROM));
             String to = String.valueOf(parameters.get(ConstantsUtils.STATUS_DATE_TO));
             sql += " AND RS_START_DATE BETWEEN '" + from + "' AND '" + to + ConstantsUtils.SINGLE_QUOTE;
         }
 
-        if (parameters.get("endDatefrom") != null && parameters.get("endDateto") != null) {
-            String from = String.valueOf(parameters.get("endDatefrom"));
-            String to = String.valueOf(parameters.get("endDateto"));
+        if (parameters.get(ConstantsUtils.END_DATE_FROM) != null && parameters.get(ConstantsUtils.END_DATE_TO) != null) {
+            String from = String.valueOf(parameters.get(ConstantsUtils.END_DATE_FROM));
+            String to = String.valueOf(parameters.get(ConstantsUtils.END_DATE_TO));
             sql += " AND RS_END_DATE BETWEEN '" + from + "' AND '" + to + ConstantsUtils.SINGLE_QUOTE;
         }
 
         if (!isCount) {
-            sql += " ORDER BY " + column + " " + orderBy + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+            sql += ConstantsUtils.ORDER_BY + column + " " + orderBy + ConstantsUtils.OFFSET_SPACE + start + ConstantsUtils.ROW_FETCH_NEXT + offset + " ROWS ONLY ";
         }
        
        
@@ -3902,7 +3901,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             String rebatePlanNoFilter = StringUtils.EMPTY;
             String rebatePlanNameFilter = StringUtils.EMPTY;
             int rebatePlanStatus = rebatePlanDTO.getRebatePlanStatus() != null ? rebatePlanDTO.getRebatePlanStatus().getId() : 0;
-            int rebatePlanType = rebatePlanDTO.getRebatePlanType() != null ? rebatePlanDTO.getRebatePlanType().getId() : 0;
+             int rebatePlanType = rebatePlanDTO.getRebatePlanType() != null ? rebatePlanDTO.getRebatePlanType().getId() : 0;
             String netSalesFormula = rebatePlanDTO.getNetSalesFormula();
             String netSalesRule = rebatePlanDTO.getNetSalesRule();
             int createdBy =0;
@@ -3939,10 +3938,10 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                             rebatePlanIDFilter = RsUtils.PERCENCTAGE + ((filterString != null && filterString.contains("*")) ? filterString.replace("*", RsUtils.PERCENCTAGE) : filterString) + RsUtils.PERCENCTAGE;
 
                             break;
-                        case "rebatePlanNo":
+                        case ConstantsUtils.REBATE_PLAN_NO:
                             rebatePlanNoFilter = RsUtils.PERCENCTAGE + ((filterString != null && filterString.contains("*")) ? filterString.replace("*", RsUtils.PERCENCTAGE) : filterString) + RsUtils.PERCENCTAGE;
                             break;
-                        case "rebatePlanName":
+                        case ConstantsUtils.REBATE_PLAN_NAME:
                             rebatePlanNameFilter = RsUtils.PERCENCTAGE + ((filterString != null && filterString.contains("*")) ? filterString.replace("*", RsUtils.PERCENCTAGE) : filterString) + RsUtils.PERCENCTAGE;
                             break;
                         case "rebatePlanStatus":
@@ -3980,10 +3979,10 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     String startValue = DB_DATE.format(stringFilter.getStartValue());
                     String endValue = DB_DATE.format(stringFilter.getEndValue());
                     if (startValue != null) {
-                        filterCriteria.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, " >= '" + startValue + ConstantsUtils.SINGLE_QUOTE);
+                        filterCriteria.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, ConstantsUtils.GREATER_THAN_EQUAL + startValue + ConstantsUtils.SINGLE_QUOTE);
                     }
                     if (endValue != null) {
-                        filterCriteria.put(stringFilter.getPropertyId() + ConstantsUtils.TO, " <= '" + endValue + ConstantsUtils.SINGLE_QUOTE);
+                        filterCriteria.put(stringFilter.getPropertyId() + ConstantsUtils.TO, ConstantsUtils.LESS_THAN_EQUAL + endValue + ConstantsUtils.SINGLE_QUOTE);
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -3991,9 +3990,9 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = DB_DATE.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            filterCriteria.put(stringFilter.getPropertyId().toString(), " >= '" + filterString + ConstantsUtils.SINGLE_QUOTE);
+                            filterCriteria.put(stringFilter.getPropertyId().toString(), ConstantsUtils.GREATER_THAN_EQUAL  + filterString + ConstantsUtils.SINGLE_QUOTE);
                         } else {
-                            filterCriteria.put(stringFilter.getPropertyId().toString(), " <= '" + filterString + ConstantsUtils.SINGLE_QUOTE);
+                            filterCriteria.put(stringFilter.getPropertyId().toString(), ConstantsUtils.LESS_THAN_EQUAL + filterString + ConstantsUtils.SINGLE_QUOTE);
                         }
                     }
                 }
@@ -4063,7 +4062,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                 query += String.valueOf(filterCriteria.get(ConstantsUtils.CREATEDDATE));
             }
             if (filterCriteria.get(ConstantsUtils.MODIFIEDDATE + ConstantsUtils.FROM) != null) {
-                query += " AND  RP.MODIFIED_DATE  ";
+                query += " AND  RP.MODIFIED_DATE   ";
                 query += String.valueOf(filterCriteria.get(ConstantsUtils.MODIFIEDDATE + ConstantsUtils.FROM));
             }
             if (filterCriteria.get(ConstantsUtils.MODIFIEDDATE + ConstantsUtils.TO) != null) {
@@ -4076,7 +4075,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             }
             if (!isCount) {
             query += "ORDER BY " + column + " " + orderBy + " \n"
-                        + "OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+                        + "OFFSET " + start + ConstantsUtils.ROW_FETCH_NEXT + offset + " ROWS ONLY";
             }
 
             LOGGER.debug("Sec REbate  Query------>"+query);
@@ -4097,7 +4096,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
      */
     private List<RebatePlanDTO> convertRebatePlanList(final List<Object[]> list){
 
-        List<RebatePlanDTO> resultList = new ArrayList<RebatePlanDTO>();
+        List<RebatePlanDTO> resultList = new ArrayList<>();
         for(Object[] object : list) {
             try {
                 Map<Integer, String> userMap= StplSecurity.getUserName();
@@ -4106,13 +4105,13 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                 rebatePlanDTO.setRebatePlanId(object[1]==null ? StringUtils.EMPTY:String.valueOf(object[1]));
                 rebatePlanDTO.setRebatePlanNo(object[NumericConstants.TWO]==null ? StringUtils.EMPTY:String.valueOf(object[NumericConstants.TWO]));
                 rebatePlanDTO.setRebatePlanName(object[NumericConstants.THREE]==null ? StringUtils.EMPTY:String.valueOf(object[NumericConstants.THREE]));
-                rebatePlanDTO.setRebatePlanStatus(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.FOUR]));
-                rebatePlanDTO.setRebatePlanType(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.FIVE]));
-                rebatePlanDTO.setRebateStructure(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.SIX]));
-                rebatePlanDTO.setRangeBasedOn(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.SEVEN]));
+                rebatePlanDTO.setRebatePlanStatus(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(object[NumericConstants.FOUR]))));
+                rebatePlanDTO.setRebatePlanType(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(object[NumericConstants.FIVE]))));
+                rebatePlanDTO.setRebateStructure(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(object[NumericConstants.SIX]))));
+                rebatePlanDTO.setRangeBasedOn(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(object[NumericConstants.SEVEN]))));
                 rebatePlanDTO.setNetSalesFormula(object[NumericConstants.EIGHT]==null ? StringUtils.EMPTY:String.valueOf(object[NumericConstants.EIGHT]));
                 rebatePlanDTO.setNetSalesRule(object[NumericConstants.NINE]==null ? StringUtils.EMPTY:String.valueOf(object[NumericConstants.NINE]));
-                rebatePlanDTO.setRebateBasedOn(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.TEN]));
+                rebatePlanDTO.setRebateBasedOn(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(object[NumericConstants.TEN]))));
                 rebatePlanDTO.setCreatedDateString(formatDate(convertNullToEmpty(String.valueOf(object[NumericConstants.ELEVEN]))));
                 rebatePlanDTO.setCreatedDate(parsetDate(convertNullToEmpty(String.valueOf(object[NumericConstants.ELEVEN]))));
                 rebatePlanDTO.setModifiedDateString(formatDate(convertNullToEmpty(String.valueOf(object[NumericConstants.THIRTEEN]))));
@@ -4136,7 +4135,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
      * @param isCount
      * @return
      */
-    public Object loadRSFormula(final RSFormulaDTO rsFormulaDTO, final int start, final int offset, final boolean isCount, final Set<Container.Filter> filterSet, final List<SortByColumn> columns) throws ParseException {
+    public Object loadRSFormula(final RSFormulaDTO rsFormulaDTO, final int start, final int offset, final boolean isCount, final Set<Container.Filter> filterSet, final List<SortByColumn> columns) {
         String query;
         
         if (isCount) {
@@ -4172,8 +4171,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
 
     }
     
-    private String getRsFormulaFilterQuery(final Set<Container.Filter> filterSet, String string) throws ParseException {
-      
+    private String getRsFormulaFilterQuery(final Set<Container.Filter> filterSet, String string) {
         if (rsFormulaDbMap.isEmpty()) {
         loadRsformulaMap();
         }
@@ -4182,7 +4180,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    string += (ConstantsUtils.AND) + (rsFormulaDbMap.get(stringFilter.getPropertyId().toString())) + (" LIKE '") + (CommonUtil.buildFilterCriteria(stringFilter.getFilterString())) + ("'");
+                    string += (ConstantsUtils.AND) + (rsFormulaDbMap.get(stringFilter.getPropertyId().toString())) + (ConstantsUtils.LIKE_QUOTE) + (CommonUtil.buildFilterCriteria(stringFilter.getFilterString())) + ("'");
                 } 
                     else if (filter instanceof Between) {
 
@@ -4191,10 +4189,10 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     String endValue = DB_DATE.format(stringFilter.getEndValue());
 
                     if (startValue != null) {
-                        string+=(ConstantsUtils.AND)+(rsFormulaDbMap.get(stringFilter.getPropertyId().toString()))+(" >= '")+(startValue)+("' ");
+                        string+=(ConstantsUtils.AND)+(rsFormulaDbMap.get(stringFilter.getPropertyId().toString()))+(ConstantsUtils.GREATER_THAN_EQUAL )+(startValue)+("' ");
                     }
                     if (endValue != null) {
-                        string+=(ConstantsUtils.AND)+(rsFormulaDbMap.get(stringFilter.getPropertyId().toString()))+(" <= '")+(endValue)+("' ");
+                        string+=(ConstantsUtils.AND)+(rsFormulaDbMap.get(stringFilter.getPropertyId().toString()))+(ConstantsUtils.LESS_THAN_EQUAL)+(endValue)+("' ");
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -4202,9 +4200,9 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = DB_DATE.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            string+=(ConstantsUtils.AND)+(rsFormulaDbMap.get(String.valueOf(stringFilter.getPropertyId())))+(" >= '")+(filterString)+("' ");
+                            string+=(ConstantsUtils.AND)+(rsFormulaDbMap.get(String.valueOf(stringFilter.getPropertyId())))+(ConstantsUtils.GREATER_THAN_EQUAL )+(filterString)+("' ");
                         } else {
-                            string+=(ConstantsUtils.AND)+(rsFormulaDbMap.get(String.valueOf(stringFilter.getPropertyId())))+(" <= '")+(filterString)+("' ");
+                            string+=(ConstantsUtils.AND)+(rsFormulaDbMap.get(String.valueOf(stringFilter.getPropertyId())))+(ConstantsUtils.LESS_THAN_EQUAL)+(filterString)+("' ");
                         }
     }
     }
@@ -4218,8 +4216,8 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         rsFormulaDbMap.clear();
         rsFormulaDbMap.put("formulaType", "FORMULA_TYPE");
         rsFormulaDbMap.put("formulaID", "FORECASTING_FORMULA_SID");
-        rsFormulaDbMap.put("formulaNo", "FORMULA_NO");
-        rsFormulaDbMap.put("formulaName", "FORMULA_NAME");
+        rsFormulaDbMap.put(ConstantsUtils.FORMULA_NO, "FORMULA_NO");
+        rsFormulaDbMap.put(ConstantsUtils.FORMULA_NAME, "FORMULA_NAME");
     }
     
     private String getRsFormulaOrderQuery(String string, final List<SortByColumn> sortByColumns, final int startIndex, final int endIndex) {
@@ -4235,11 +4233,11 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             string+=(" ORDER BY FORMULA_ID ");
         } else {
-            string+=(" ORDER BY ")+(orderByColumn)+((!sortOrder) ? " ASC " : " DESC ");
+            string+=(ConstantsUtils.ORDER_BY)+(orderByColumn)+((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         }
 
-        string+=(" OFFSET ")+(startIndex);
-        string+=(" ROWS FETCH NEXT ")+(endIndex)+(" ROWS ONLY;");
+        string+=(ConstantsUtils.OFFSET_SPACE)+(startIndex);
+        string+=(ConstantsUtils.ROW_FETCH_NEXT)+(endIndex)+(" ROWS ONLY ;");
 
         return string;
     }
@@ -4250,7 +4248,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
      * @return List<RebatePlanDTO>
      */
     private List<RSFormulaDTO> convertFormulaList(final List<Object[]> list){
-        List<RSFormulaDTO> resultList = new ArrayList<RSFormulaDTO>();
+        List<RSFormulaDTO> resultList = new ArrayList<>();
         for(Object[] object : list) {
             HelperDTO dto = new HelperDTO();
             RSFormulaDTO rSFormulaDTO = new RSFormulaDTO();
@@ -4304,8 +4302,8 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                 + "' AND cm.\"OPERATION\" <> 'D'";  
         }         
 
-        if (parameters.get("bundleNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("bundleNo")))) {
-            sql += " AND cm.RS_DETAILS_BUNDLE_NO LIKE '%" + String.valueOf(parameters.get("bundleNo")) + "%'";
+        if (parameters.get(ConstantsUtils.REBATE_BUNDLE_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.REBATE_BUNDLE_NO)))) {
+            sql += " AND cm.RS_DETAILS_BUNDLE_NO LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.REBATE_BUNDLE_NO)) + "%'";
         }
         if (parameters.get(ConstantsUtils.ITEM_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ITEM_NO)))) {
             sql += " AND cm.ITEM_NO LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.ITEM_NO)) + "%'";
@@ -4313,57 +4311,57 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         if (parameters.get(ConstantsUtils.ITEM_NAME) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ITEM_NAME)))) {
             sql += " AND cm.ITEM_NAME LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.ITEM_NAME)) + "%'";
         }
-        if (parameters.get("attachedStatus") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedStatus"))) && !ConstantsUtils.ZERO.equalsIgnoreCase(String.valueOf(parameters.get("attachedStatus")))) {
+        if (parameters.get(ConstantsUtils.ATTACHED_STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ATTACHED_STATUS))) && !ConstantsUtils.ZERO.equalsIgnoreCase(String.valueOf(parameters.get(ConstantsUtils.ATTACHED_STATUS)))) {
 
-            sql += " AND cm.RS_DETAILS_ATTACHED_STATUS = " + String.valueOf(parameters.get("attachedStatus"));
+            sql += " AND cm.RS_DETAILS_ATTACHED_STATUS = " + String.valueOf(parameters.get(ConstantsUtils.ATTACHED_STATUS));
         }        
-        if (parameters.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDatefrom")))) {
-            sql += " AND cm.ITEM_REBATE_START_DATE >='" + String.valueOf(parameters.get("startDatefrom") + ConstantsUtils.SINGLE_QUOTE);
+        if (parameters.get(ConstantsUtils.START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.START_DATE_FROM)))) {
+            sql += " AND cm.ITEM_REBATE_START_DATE >='" + String.valueOf(parameters.get(ConstantsUtils.START_DATE_FROM) + ConstantsUtils.SINGLE_QUOTE);
         }
         if (parameters.get(ConstantsUtils.STATUS_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.STATUS_DATE_TO)))) {
             sql += " AND cm.ITEM_REBATE_START_DATE <='" + String.valueOf(parameters.get(ConstantsUtils.STATUS_DATE_TO) + ConstantsUtils.SINGLE_QUOTE);
         }
-        if (parameters.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDatefrom")))) {
-            sql += " AND cm.ITEM_REBATE_END_DATE >='" + String.valueOf(parameters.get("endDatefrom") + ConstantsUtils.SINGLE_QUOTE);
+        if (parameters.get(ConstantsUtils.END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.END_DATE_FROM)))) {
+            sql += " AND cm.ITEM_REBATE_END_DATE >='" + String.valueOf(parameters.get(ConstantsUtils.END_DATE_FROM) + ConstantsUtils.SINGLE_QUOTE);
         }
-        if (parameters.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDateto")))) {
-            sql += " AND cm.ITEM_REBATE_END_DATE <='" + String.valueOf(parameters.get("endDateto") + ConstantsUtils.SINGLE_QUOTE);
+        if (parameters.get(ConstantsUtils.END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.END_DATE_TO)))) {
+            sql += " AND cm.ITEM_REBATE_END_DATE <='" + String.valueOf(parameters.get(ConstantsUtils.END_DATE_TO) + ConstantsUtils.SINGLE_QUOTE);
         }
-        if (parameters.get("attachedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDatefrom")))) {
-            sql += " AND cm.RS_DETAILS_ATTACHED_DATE >='" + String.valueOf(parameters.get("attachedDatefrom") + ConstantsUtils.SINGLE_QUOTE);
+        if (parameters.get(ConstantsUtils.ATTACHED_DATE_FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ATTACHED_DATE_FORM)))) {
+            sql += " AND cm.RS_DETAILS_ATTACHED_DATE >='" + String.valueOf(parameters.get(ConstantsUtils.ATTACHED_DATE_FORM) + ConstantsUtils.SINGLE_QUOTE);
         }
-        if (parameters.get("attachedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDateto")))) {
-            sql += " AND cm.RS_DETAILS_ATTACHED_DATE <='" + String.valueOf(parameters.get("attachedDateto") + ConstantsUtils.SINGLE_QUOTE);
+        if (parameters.get(ConstantsUtils.ATTACHED_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.ATTACHED_DATE_TO)))) {
+            sql += " AND cm.RS_DETAILS_ATTACHED_DATE <='" + String.valueOf(parameters.get(ConstantsUtils.ATTACHED_DATE_TO) + ConstantsUtils.SINGLE_QUOTE);
         }
-        if (parameters.get("revisionDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("revisionDatefrom")))) {
-            sql += " AND cm.RS_DETAILS_MODIFIED_DATE >='" + String.valueOf(parameters.get("revisionDatefrom") + ConstantsUtils.SINGLE_QUOTE);
+        if (parameters.get(ConstantsUtils.REVISION_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.REVISION_DATE_FROM)))) {
+            sql += " AND cm.RS_DETAILS_MODIFIED_DATE >='" + String.valueOf(parameters.get(ConstantsUtils.REVISION_DATE_FROM) + ConstantsUtils.SINGLE_QUOTE);
         }
-        if (parameters.get("revisionDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("revisionDateto")))) {
-            sql += " AND cm.RS_DETAILS_MODIFIED_DATE <='" + String.valueOf(parameters.get("revisionDateto") + ConstantsUtils.SINGLE_QUOTE);
+        if (parameters.get(ConstantsUtils.REVISION_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.REVISION_DATE_TO)))) {
+            sql += " AND cm.RS_DETAILS_MODIFIED_DATE <='" + String.valueOf(parameters.get(ConstantsUtils.REVISION_DATE_TO) + ConstantsUtils.SINGLE_QUOTE);
         }
-        if(StringUtils.isNotBlank(String.valueOf(parameters.get("rebatePlanNo")))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get("rebatePlanNo")))){            
-            sql += " AND rp.REBATE_PLAN_NO LIKE '%" + String.valueOf(parameters.get("rebatePlanNo") + "%'");
+        if(StringUtils.isNotBlank(String.valueOf(parameters.get(ConstantsUtils.REBATE_PLAN_NO)))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ConstantsUtils.REBATE_PLAN_NO)))){            
+            sql += " AND rp.REBATE_PLAN_NO LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.REBATE_PLAN_NO) + "%'");
         }
-        if(StringUtils.isNotBlank(String.valueOf(parameters.get("rebatePlanName")))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get("rebatePlanName")))){
-            sql += " AND cm.RS_DETAILS_REBATE_PLAN_NAME LIKE '%" + String.valueOf(parameters.get("rebatePlanName") + "%'");
+        if(StringUtils.isNotBlank(String.valueOf(parameters.get(ConstantsUtils.REBATE_PLAN_NAME)))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ConstantsUtils.REBATE_PLAN_NAME)))){
+            sql += " AND cm.RS_DETAILS_REBATE_PLAN_NAME LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.REBATE_PLAN_NAME) + "%'");
         }
-        if(StringUtils.isNotBlank(String.valueOf(parameters.get("formulaNo")))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get("formulaNo")))){
-            sql += " AND cm.RS_DETAILS_FORMULA_NO LIKE '%" + String.valueOf(parameters.get("formulaNo") + "%'");
+        if(StringUtils.isNotBlank(String.valueOf(parameters.get(ConstantsUtils.FORMULA_NO)))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ConstantsUtils.FORMULA_NO)))){
+            sql += " AND cm.RS_DETAILS_FORMULA_NO LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.FORMULA_NO) + "%'");
         }
-        if(StringUtils.isNotBlank(String.valueOf(parameters.get("formulaName")))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get("formulaName")))){
-            sql += " AND cm.RS_DETAILS_FORMULA_NAME LIKE '%" + String.valueOf(parameters.get("formulaName") + "%'");
+        if(StringUtils.isNotBlank(String.valueOf(parameters.get(ConstantsUtils.FORMULA_NAME)))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ConstantsUtils.FORMULA_NAME)))){
+            sql += " AND cm.RS_DETAILS_FORMULA_NAME LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.FORMULA_NAME) + "%'");
         }   
-         if(StringUtils.isNotBlank(String.valueOf(parameters.get("deductionCalendarName")))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get("deductionCalendarName")))){
-            sql += " AND dc.DEDUCTION_CALENDAR_NAME LIKE '%" + String.valueOf(parameters.get("deductionCalendarName") + "%'");
+         if(StringUtils.isNotBlank(String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CALENDAR_NAME)))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CALENDAR_NAME)))){
+            sql += " AND dc.DEDUCTION_CALENDAR_NAME LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CALENDAR_NAME) + "%'");
         }   
-          if(StringUtils.isNotBlank(String.valueOf(parameters.get("deductionCalendarNo")))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get("deductionCalendarNo")))){
-            sql += " AND dc.DEDUCTION_CALENDAR_NO LIKE '%" + String.valueOf(parameters.get("deductionCalendarNo") + "%'");
+          if(StringUtils.isNotBlank(String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CALENDAR_NO)))&& ! ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CALENDAR_NO)))){
+            sql += " AND dc.DEDUCTION_CALENDAR_NO LIKE '%" + String.valueOf(parameters.get(ConstantsUtils.DEDUCTION_CALENDAR_NO) + "%'");
         }   
           
         
         if (parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.HISTORY) != null && parameters.get(ConstantsUtils.FUTURE) != null) {
-                sql+=" AND ( '"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"' BETWEEN cm.ITEM_REBATE_START_DATE AND ISNULL(cm.ITEM_REBATE_END_DATE,'"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"') ";
-                sql+=" OR "+" cm.ITEM_REBATE_END_DATE < '"+parameters.get(ConstantsUtils.HISTORY)+"' ";
+                sql+=" AND (  '"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"' BETWEEN cm.ITEM_REBATE_START_DATE AND ISNULL(cm.ITEM_REBATE_END_DATE ,'"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"') ";
+                sql+=" OR "+" cm.ITEM_REBATE_END_DATE <  '"+parameters.get(ConstantsUtils.HISTORY)+"' ";
                 sql+=" OR "+" cm.ITEM_REBATE_START_DATE > '"+parameters.get(ConstantsUtils.FUTURE)+"' )";
             } else if ((parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.HISTORY) != null) || (parameters.get(ConstantsUtils.HISTORY) != null && parameters.get(ConstantsUtils.CURRENT) != null)) {
                 sql+=" AND ( '"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"' BETWEEN cm.ITEM_REBATE_START_DATE AND ISNULL(cm.ITEM_REBATE_END_DATE,'"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"') OR cm.ITEM_REBATE_END_DATE < '"+String.valueOf(parameters.get(ConstantsUtils.HISTORY))+"') ";
@@ -4372,7 +4370,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             } else if ((parameters.get(ConstantsUtils.FUTURE) != null && parameters.get(ConstantsUtils.CURRENT) != null) || (parameters.get(ConstantsUtils.CURRENT) != null && parameters.get(ConstantsUtils.FUTURE) != null)) {
                 sql+=" AND ( '"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"' BETWEEN cm.ITEM_REBATE_START_DATE AND ISNULL(cm.ITEM_REBATE_END_DATE,'"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"') OR cm.ITEM_REBATE_START_DATE > '"+String.valueOf(parameters.get(ConstantsUtils.FUTURE))+"') ";
             } else if (parameters.get(ConstantsUtils.CURRENT) != null) {
-                sql+=" AND '"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"' BETWEEN cm.ITEM_REBATE_START_DATE AND ISNULL(cm.ITEM_REBATE_END_DATE,'"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"') ";
+                sql+=" AND '"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"' BETWEEN cm.ITEM_REBATE_START_DATE AND ISNULL(cm.ITEM_REBATE_END_DATE ,'"+String.valueOf(parameters.get(ConstantsUtils.CURRENT))+"') ";
             } else if (parameters.get(ConstantsUtils.HISTORY) != null) {
                 sql+=ConstantsUtils.AND+" cm.ITEM_REBATE_END_DATE < '"+String.valueOf(parameters.get(ConstantsUtils.HISTORY))+"' ";
             } else if (parameters.get(ConstantsUtils.FUTURE) != null) {
@@ -4380,7 +4378,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             }
         
         if(!isCount){
-        sql += " ORDER BY " + column + " " + orderBy + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+        sql += ConstantsUtils.ORDER_BY + column + " " + orderBy + ConstantsUtils.OFFSET_SPACE + start + ConstantsUtils.ROW_FETCH_NEXT + offset + " ROWS ONLY";
         }
         return sql;
     }
@@ -4402,15 +4400,15 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             } else {
                 sql = CustomSQLUtil.get("com.rsModel.massPopulateRebateForAll");
             }
-            sql = sql.replace("@USERS_SID", userId);
-            sql = sql.replace("@SESSION_ID", sessionId);
+            sql = sql.replace(ConstantsUtils.AT_USER_SID, userId);
+            sql = sql.replace(ConstantsUtils.AT_SESSION_ID, sessionId);
             sql = sql.replace("@REBATE_PLAN_MASTER_SID", map.get("rebatePlanSystemId"));
-            sql = sql.replace("@RS_DETAILS_REBATE_PLAN_NAME", map.get("rebatePlanName"));
+            sql = sql.replace("@RS_DETAILS_REBATE_PLAN_NAME", map.get(ConstantsUtils.REBATE_PLAN_NAME));
         } else {
             sql = CustomSQLUtil.get("com.rsModel.massPopulateFormula");
-            sql = sql.replace("@USERS_SID", userId);
-            sql = sql.replace("@SESSION_ID", sessionId);
-            sql = sql.replace("@RS_DETAILS_FORMULA_NO", map.get("formulaNo"));
+            sql = sql.replace(ConstantsUtils.AT_USER_SID, userId);
+            sql = sql.replace(ConstantsUtils.AT_SESSION_ID, sessionId);
+            sql = sql.replace("@RS_DETAILS_FORMULA_NO", map.get(ConstantsUtils.FORMULA_NO));
             sql = sql.replace("@RS_DETAILS_FORMULA_NAME", map.get("formulaName"));
             sql = sql.replace("@RS_DETAILS_FORMULA_ID", map.get("formulaID"));
         }
@@ -4451,8 +4449,8 @@ Map<String, Object> parameters = new HashMap<String, Object>();
     public Object getCountAndResultsForRS(final ErrorfulFieldGroup rebateSchForm, int start, int offset, final List<SortByColumn> columns, final boolean fieldFlag, final Set<Container.Filter> filterSet, boolean isCount)
             throws SystemException {
         LOGGER.debug("In getSearchCount P1:rebateScheduleForm");
-        Map<String, Object> filterCriteria = new HashMap<String, Object>();
-        Map<String, String> searchCriteria = new HashMap<String, String>();
+        Map<String, Object> filterCriteria = new HashMap<>();
+        Map<String, String> searchCriteria = new HashMap<>();
 
         searchCriteria.put(ConstantsUtils.REBATE_ID, checkEmptyDataFromFields(ConstantsUtils.TEXT1, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT1).getValue().toString()).trim());
         searchCriteria.put(ConstantsUtils.REBATE_NO, checkEmptyDataFromFields(ConstantsUtils.TEXT2, rebateSchForm) ? StringUtils.EMPTY : replaceForWildCardSearch(rebateSchForm.getField(ConstantsUtils.TEXT2).getValue().toString()).trim());
@@ -4525,7 +4523,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                 }
             }
         }
-        String column = "RS_ID";
+        String column = ConstantsUtils.RS_ID_COLUMN;
         String orderBy = "ASC";
         if (columns != null) {
             for (final Iterator<SortByColumn> iterator = columns.iterator(); iterator.hasNext();) {
@@ -4533,23 +4531,23 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                 String columnName = sortByColumn.getName();
                 
                 if (ConstantsUtils.REBATE_SCHEDULE_NO.equals(columnName)) {
-                    column = "RS_NO";
+                    column = ConstantsUtils.RS_NO_COLUMN;
                 } else if (ConstantsUtils.REBATE_SCHEDULE_ID.equals(columnName)) {
-                    column = "RS_ID";
+                    column = ConstantsUtils.RS_ID_COLUMN;
                 } else if (ConstantsUtils.REBATE_SCHEDULE_NAME.equals(columnName)) {
-                    column = "RS_NAME";
+                    column = ConstantsUtils.RS_NAME_LIST;
                 } else if (ConstantsUtils.REBATE_SCHEDULE_STATUS.equals(columnName)) {
-                    column = "rstatus";
+                    column = ConstantsUtils.RS_STATUS1;
                 } else if (ConstantsUtils.REBATE_SCHEDULE_TYPE.equals(columnName)) {
-                    column = "rtype";
+                    column = ConstantsUtils.R_TYPE;
                 } else if (ConstantsUtils.REBATE_PROGRAM_TYPE.equals(columnName) || ConstantsUtils.RS_PROGRAM_TYPE.equals(columnName)) {
-                    column = "rptype";
+                    column = ConstantsUtils.RP_TYPE;
                 } else if (columnName != null && columnName.contains("udc")) {
                     column = columnName.toUpperCase();
                 } else if (ConstantsUtils.RS_CATEGORY.equals(columnName)) {
-                    column = "rscategory";
+                    column = ConstantsUtils.RS_CATEGORY1;
                 } else if (ConstantsUtils.RS_DESIGNATION.equals(columnName)) {
-                    column = "rsdesignation";
+                    column = ConstantsUtils.RS_DESIGNATION1;
                 } else if (ConstantsUtils.RS_TRADE_CLASS.equals(columnName)) {
                     column = "TRADE_CLASS";
                 } else if (ConstantsUtils.REBATE_FREQ.equals(columnName)) {
@@ -4572,9 +4570,9 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                 } else if (ConstantsUtils.INTEREST_BEARING_BASIS.equals(columnName)) {
                     column = "INTEREST_BEARING_BASIS";
                 } else if (ConstantsUtils.RS_PARENT_ID.equals(columnName)) {
-                    column = "PARENT_RS_ID";
+                    column = ConstantsUtils.PARENT_RS_SID;
                 } else if (ConstantsUtils.RS_PARENT_NAME.equals(columnName)) {
-                    column = "PARENT_RS_NAME";
+                    column = ConstantsUtils.PARENT_RS_NAME;
                 } else if (ConstantsUtils.RS_REFERENCE_ID.equals(columnName)) {
                     column = "RS_TRANS_REF_ID";
                 } else if (ConstantsUtils.RS_REFERENCE_NAME.equals(columnName)) {
@@ -4624,8 +4622,8 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                 query = CustomSQLUtil.get("com.rsModel.updateRebateSetupOnDefault");
                 break;
         }
-        query = query.replace("@USERS_SID",userID);
-        query = query.replace("@SESSION_ID",sessionID);        
+        query = query.replace(ConstantsUtils.AT_USER_SID,userID);
+        query = query.replace(ConstantsUtils.AT_SESSION_ID,sessionID);        
         
         RsModelLocalServiceUtil.executeUpdateQuery(query, null, null);
     }
@@ -4643,7 +4641,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         List rsContractList = new ArrayList<>();
         try {
             final DynamicQuery contractDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
-            contractDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", systemId));
+            contractDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RS_MODEL_SID, systemId));
             contractDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
             rsContractList = RsContractLocalServiceUtil.dynamicQuery(contractDynamicQuery);
           } catch (SystemException e) {
@@ -4652,9 +4650,9 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         return rsContractList;
     }
        
-    public int getNsfCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) throws ParseException {
+    public int getNsfCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, true);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
 
@@ -4671,9 +4669,9 @@ Map<String, Object> parameters = new HashMap<String, Object>();
     private void loadNetSalesLookupColumnMap() {
         criteria.clear();
         criteria.put("netSalesFormulaId", "NET_SALES_FORMULA_ID");
-        criteria.put("netSalesFormulaNo", "NET_SALES_FORMULA_NO");
-        criteria.put("netSalesFormulaName", "NET_SALES_FORMULA_NAME");
-        criteria.put("netSalesFormulaType", "NET_SALES_FORMULA_TYPE");
+        criteria.put(ConstantsUtils.NET_SALES_FORMULA_NO, "NET_SALES_FORMULA_NO");
+        criteria.put(ConstantsUtils.NET_SALES_FORMULA_NAME, "NET_SALES_FORMULA_NAME");
+        criteria.put(ConstantsUtils.NET_SALES_FORMULA_TYPE, "NET_SALES_FORMULA_TYPE");
     }
     
     private StringBuilder buildSearchQuery(ErrorfulFieldGroup searchFields, boolean isCount) {
@@ -4687,22 +4685,22 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         for (String fields : keys) {
 
             if (searchFields.getField(fields).getValue() != null && searchFields.getField(fields).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchFields.getField(fields).getValue())) && !String.valueOf(searchFields.getField(fields).getValue()).trim().isEmpty()) {
-                if ("netSalesFormulaType".equalsIgnoreCase(fields)) {
+                if (ConstantsUtils.NET_SALES_FORMULA_TYPE.equalsIgnoreCase(fields)) {
                     queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(checkEmptyDataFromFields(fields, searchFields) ? Constants.ZERO : ((HelperDTO) searchFields.getField(fields).getValue()).getId()).append(ConstantsUtils.SINGLE_QUOTE);
                 } else {
-                    queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString().trim())).append(ConstantsUtils.SINGLE_QUOTE);
+                    queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString().trim())).append(ConstantsUtils.SINGLE_QUOTE);
                 }
             }
         }
         return queryBuilder;
     }
     
-    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
           HashMap<String, String> filterCriteria = new HashMap<>();
         filterCriteria.put("netSalesFormulaId", "NET_SALES_FORMULA_ID");
-        filterCriteria.put("netSalesFormulaNo", "NET_SALES_FORMULA_NO");
-        filterCriteria.put("netSalesFormulaName", "NET_SALES_FORMULA_NAME");
-        filterCriteria.put("netSalesFormulaType", "NET_SALES_FORMULA_TYPE");
+        filterCriteria.put(ConstantsUtils.NET_SALES_FORMULA_NO, "NET_SALES_FORMULA_NO");
+        filterCriteria.put(ConstantsUtils.NET_SALES_FORMULA_NAME, "NET_SALES_FORMULA_NAME");
+        filterCriteria.put(ConstantsUtils.NET_SALES_FORMULA_TYPE, "NET_SALES_FORMULA_TYPE");
         filterCriteria.put("nsfcreatedDate", "CREATED_DATE");
         filterCriteria.put("nsfcreatedBy", "CREATED_BY");
         filterCriteria.put("nsfmodifiedDate", "MODIFIED_DATE");
@@ -4712,7 +4710,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                    stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
               
                 
                 } else if (filter instanceof Between) {
@@ -4722,10 +4720,10 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     String endValue = DB_DATE.format(stringFilter.getEndValue());
 
                     if (startValue != null) {
-                        stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.GREATER_THAN_EQUAL ).append(startValue).append("' ");
                     }
                     if (endValue != null) {
-                        stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(stringFilter.getPropertyId().toString())).append(" <= '").append(endValue).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LESS_THAN_EQUAL).append(endValue).append("' ");
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -4733,9 +4731,9 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = DB_DATE.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(String.valueOf(stringFilter.getPropertyId()))).append(" >= '").append(filterString).append("' ");
+                            stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(String.valueOf(stringFilter.getPropertyId()))).append(ConstantsUtils.GREATER_THAN_EQUAL ).append(filterString).append("' ");
                         } else {
-                            stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(String.valueOf(stringFilter.getPropertyId()))).append(" <= '").append(filterString).append("' ");
+                            stringBuilder.append(ConstantsUtils.AND).append(filterCriteria.get(String.valueOf(stringFilter.getPropertyId()))).append(ConstantsUtils.LESS_THAN_EQUAL).append(filterString).append("' ");
                         }
     }
     }
@@ -4746,10 +4744,10 @@ Map<String, Object> parameters = new HashMap<String, Object>();
     }
 
     public List<NetSalesFormulaDTO> loadNsfResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException, ParseException {
-        List<NetSalesFormulaDTO> searchList = new ArrayList<>();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<NetSalesFormulaDTO> searchList;
         LOGGER.debug("Entering loadNsfResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, false);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
         queryBuilder = getOrderQuery(queryBuilder, columns, start, end);
@@ -4776,11 +4774,11 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY CREATED_DATE ");
         } else {
-            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            stringBuilder.append(ConstantsUtils.ORDER_BY).append(orderByColumn).append((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         }
 
-        stringBuilder.append(" OFFSET ").append(startIndex);
-        stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(" ROWS ONLY;");
+        stringBuilder.append(ConstantsUtils.OFFSET_SPACE).append(startIndex);
+        stringBuilder.append(ConstantsUtils.ROW_FETCH_NEXT).append(endIndex).append(" ROWS ONLY;");
 
         return stringBuilder;
     }
@@ -4825,9 +4823,9 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         }
         return searchResultsList;
     }
-        public int getDeductionCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) throws ParseException {
+        public int getDeductionCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet)  {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildDeductionSearchQuery(searchFields, true);
         queryBuilder = getDeductionFilterQuery(filterSet, queryBuilder);
 
@@ -4841,10 +4839,10 @@ Map<String, Object> parameters = new HashMap<String, Object>();
     }
 
     public List<RsDeductionLookupDto> loadDeductionResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException, ParseException {
-        List<RsDeductionLookupDto> searchList = new ArrayList<>();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<RsDeductionLookupDto> searchList;
         LOGGER.debug("Entering loadDeductionResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildDeductionSearchQuery(searchFields, false);
         queryBuilder = getDeductionFilterQuery(filterSet, queryBuilder);
         queryBuilder = getDeductionOrderQuery(queryBuilder, columns, start, end);
@@ -4877,7 +4875,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     if ("category".equalsIgnoreCase(fields)) {
                         queryBuilder.append(ConstantsUtils.AND).append(deductionCriteria.get(fields)).append(" = '").append(checkEmptyDataFromFields(fields, searchFields) ? Constants.ZERO : ((HelperDTO) searchFields.getField(fields).getValue()).getId()).append(ConstantsUtils.SINGLE_QUOTE);
                     } else {
-                        queryBuilder.append(ConstantsUtils.AND).append(deductionCriteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(String.valueOf(searchFields.getField(fields).getValue()).trim())).append(ConstantsUtils.SINGLE_QUOTE);
+                        queryBuilder.append(ConstantsUtils.AND).append(deductionCriteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(String.valueOf(searchFields.getField(fields).getValue()).trim())).append(ConstantsUtils.SINGLE_QUOTE);
                     }
                 }
         }
@@ -4930,7 +4928,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         return searchResultsList;
     }
 
-    private StringBuilder getDeductionFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getDeductionFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         if (deductionFilter.isEmpty()) {
             deductionFilter.clear();
             deductionFilter.put(ConstantsUtils.DEDUCTION_NO, "DEDUCTION_CALENDAR_NO");
@@ -4949,7 +4947,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                 if (filter instanceof SimpleStringFilter) {
                    
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                    stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                
                 } else if (filter instanceof Between) {
 
@@ -4958,10 +4956,10 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     String endValue = dbDateFormat.format(stringFilter.getEndValue());
 
                     if (startValue != null) {
-                        stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.GREATER_THAN_EQUAL).append(startValue).append("' ");
                     }
                     if (endValue != null) {
-                        stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(stringFilter.getPropertyId().toString())).append(" <= '").append(endValue).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LESS_THAN_EQUAL).append(endValue).append("' ");
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -4969,9 +4967,9 @@ Map<String, Object> parameters = new HashMap<String, Object>();
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = dbDateFormat.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" >= '").append(filterString).append("' ");
+                            stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(ConstantsUtils.GREATER_THAN_EQUAL ).append(filterString).append("' ");
                         } else {
-                            stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" <= '").append(filterString).append("' ");
+                            stringBuilder.append(ConstantsUtils.AND).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(ConstantsUtils.LESS_THAN_EQUAL).append(filterString).append("' ");
                         }
                     }
                 }
@@ -4994,11 +4992,11 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY CREATED_DATE ");
         } else {
-            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            stringBuilder.append(ConstantsUtils.ORDER_BY).append(orderByColumn).append((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         }
 
-        stringBuilder.append(" OFFSET ").append(startIndex);
-        stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(" ROWS ONLY;");
+        stringBuilder.append(ConstantsUtils.OFFSET_SPACE).append(startIndex);
+        stringBuilder.append(ConstantsUtils.ROW_FETCH_NEXT).append(endIndex).append(" ROWS ONLY;");
 
         return stringBuilder;
     }
@@ -5014,13 +5012,13 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         String sql;
         
            sql = CustomSQLUtil.get("com.rsModel.massPopulateDeduction");            
-           sql = sql.replace("@USERS_SID",userId);
-           sql = sql.replace("@SESSION_ID",sessionId);
+           sql = sql.replace(ConstantsUtils.AT_USER_SID,userId);
+           sql = sql.replace(ConstantsUtils.AT_SESSION_ID,sessionId);
            sql = sql.replace("@DEDUCTION_CALENDAR_MASTER_SID",map.get("deductionSystemId"));
            sql = sql.replace("@RS_DETAILS_DEDUCTION_CALENDAR_NO",map.get(ConstantsUtils.DEDUCTION_CALENDAR_NO));  
            sql = sql.replace("@RS_DETAILS_DEDUCTION_CALENDAR_NAME",map.get(ConstantsUtils.DEDUCTION_CALENDAR_NAME));            
           if(populate){
-           sql =sql+" AND CHECK_RECORD = 1;";
+           sql =sql+" AND CHECK_RECORD = 1 ;";
           }
         RsModelLocalServiceUtil.executeUpdateQuery(sql, null, null);        
     }
@@ -5036,11 +5034,11 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         String sql;
         sql = CustomSQLUtil.get("com.rsModel.massPopulateNetSales");
-        sql = sql.replace("@USERS_SID", userId);
-        sql = sql.replace("@SESSION_ID", sessionId);
+        sql = sql.replace(ConstantsUtils.AT_USER_SID, userId);
+        sql = sql.replace(ConstantsUtils.AT_SESSION_ID, sessionId);
         sql = sql.replace("@NET_SALES_FORMULA_MASTER_SID", map.get(ConstantsUtils.SYS_ID));
-        sql = sql.replace("@RS_DETAILS_NET_SALES_FORMULA_NO", map.get("netSalesFormulaNo"));
-        sql = sql.replace("@RS_DETAILS_NET_SALES_FORMULA_NAME", map.get("netSalesFormulaName"));
+        sql = sql.replace("@RS_DETAILS_NET_SALES_FORMULA_NO", map.get(ConstantsUtils.NET_SALES_FORMULA_NO));
+        sql = sql.replace("@RS_DETAILS_NET_SALES_FORMULA_NAME", map.get(ConstantsUtils.NET_SALES_FORMULA_NAME));
         if(populate){
            sql =sql+" AND CHECK_RECORD = 1;";
           }
@@ -5060,8 +5058,8 @@ Map<String, Object> parameters = new HashMap<String, Object>();
         String sql=StringUtils.EMPTY;
         if (RsUtils.NET_SALES_RULE.equals(populateField)) {
           sql = CustomSQLUtil.get("com.rsModel.massPopulateNetSalesRule");
-        sql = sql.replace("@USERS_SID", userId);
-        sql = sql.replace("@SESSION_ID", sessionId);
+        sql = sql.replace(ConstantsUtils.AT_USER_SID, userId);
+        sql = sql.replace(ConstantsUtils.AT_SESSION_ID, sessionId);
             LOGGER.debug("sql___________________________________________________________________"+sql);
         
         sql = sql.replace("@NET_SALES_RULE", map.get(ConstantsUtils.SYS_ID));
@@ -5069,15 +5067,15 @@ Map<String, Object> parameters = new HashMap<String, Object>();
 
         } else if (RsUtils.CALCULATION_RULE.equals(populateField)) {
             sql = CustomSQLUtil.get("com.rsModel.massPopulateCalculationRule");
-        sql = sql.replace("@USERS_SID", userId);
-        sql = sql.replace("@SESSION_ID", sessionId);
+        sql = sql.replace(ConstantsUtils.AT_USER_SID, userId);
+        sql = sql.replace(ConstantsUtils.AT_SESSION_ID, sessionId);
         sql = sql.replace("@CALCULATION_RULE", map.get(ConstantsUtils.SYS_ID));
        
             
         } else if (RsUtils.EVALUATION_RULE.equals(populateField)) {
             sql = CustomSQLUtil.get("com.rsModel.massPopulateEvaluationRule");
-        sql = sql.replace("@USERS_SID", userId);
-        sql = sql.replace("@SESSION_ID", sessionId);
+        sql = sql.replace(ConstantsUtils.AT_USER_SID, userId);
+        sql = sql.replace(ConstantsUtils.AT_SESSION_ID, sessionId);
         sql = sql.replace("@EVALUATION_RULE", map.get(ConstantsUtils.SYS_ID));
         
         }
@@ -5122,7 +5120,7 @@ Map<String, Object> parameters = new HashMap<String, Object>();
     }
       private static Date parsetDate(String value) throws ParseException {
         Date date = null;
-        String tempDate = StringUtils.EMPTY;
+        String tempDate;
         SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         if (value != null && !StringUtils.EMPTY.equals(value) && !ConstantsUtils.NULL.equals(value)) {

@@ -53,8 +53,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author Jayaram.LeelaRam
  */
-
-
 public abstract class AbstractAdjustmentDetails extends VerticalLayout implements Details, DefaultFocusable {
 
     /**
@@ -154,7 +152,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         level.addItem(GlobalConstants.getReserveDetail());
         level.addItem(GlobalConstants.getGTNDetail());
         level.select(GlobalConstants.getReserveDetail());
-        selection.setDetail_Level(level.getValue().toString());
+        selection.setDetailLevel(level.getValue().toString());
         variables.setScrollable(true);
         variables.setPageLength(NumericConstants.TWENTY);
         reserveAccount.setScrollable(true);
@@ -201,18 +199,14 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
         public void yesMethod() {
             LOGGER.debug("buttonName :" + buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
-                    case "reset":
-                        // Reset Logic
-                        resetBtn();
-                        break;
-                }
+            if (null != buttonName && "reset".equals(buttonName)) {
+                resetBtn();
             }
         }
 
@@ -226,16 +220,14 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         reset.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                {
-                    LOGGER.debug(" Inside Reset Button ");
-                    try {
-                        notifier.setButtonName("reset");
-                        notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
-                    } catch (Exception e) {
-                        LOGGER.error(e);
-                    }
-                    LOGGER.debug(" Ending Reset Button ");
+                LOGGER.debug(" Inside Reset Button ");
+                try {
+                    notifier.setButtonName("reset");
+                    notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
+                } catch (Exception e) {
+                    LOGGER.error("Error in reset"+e);
                 }
+                LOGGER.debug(" Ending Reset Button ");
             }
         });
     }
@@ -250,7 +242,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                     generateFlag = true;
                     generateBtn();
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("Error in generate"+e);
                 }
                 LOGGER.debug(" Ending Generate Button ");
             }
@@ -266,7 +258,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         LOGGER.debug(" Inside setTableHeader ");
         Map properties = new HashMap();
         List<List> columns = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
-        visibleColumns = ((List) columns.get(0)).toArray();
+        visibleColumns = (columns.get(0)).toArray();
         visibleHeaders = Arrays.copyOf(columns.get(1).toArray(), columns.get(1).size(), String[].class);
         for (int i = 0; i < visibleColumns.length; i++) {
             properties.put(visibleColumns[i], String.class);
@@ -338,10 +330,10 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
 
         List<Object[]> list = CommonLogic.loadPipelineAccrual(selection.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
-            Object[] obj = (Object[]) list.get(i);
-            if ("detail_Level".equals(String.valueOf(obj[0]))) {
+            Object[] obj = list.get(i);
+            if (VariableConstants.DETAIL_LEVEL.equals(String.valueOf(obj[0]))) {
                 level.setValue(String.valueOf(obj[1]));
-            } else if ("detail_variables".equals(String.valueOf(obj[0]))) {
+            } else if (VariableConstants.DETAIL_VARIABLE.equals(String.valueOf(obj[0]))) {
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -349,8 +341,8 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(customMenuItem, str3);
                 }
-                selection.setSave_detail_variables(Arrays.asList(str2));
-            } else if ("detail_reserveAcount".equals(String.valueOf(obj[0]))) {
+                selection.setSavedetailvariables(Arrays.asList(str2));
+            } else if (VariableConstants.DETAIL_RESERVER_ACCOUNT.equals(String.valueOf(obj[0]))) {
                 reserveMenuItem.removeChildren();
 
                 loadReserveAccount();
@@ -361,7 +353,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(reserveMenuItem, str3);
                 }
-                selection.setDetail_reserveAcount(Arrays.asList(str2));
+                selection.setDetailreserveAcount(Arrays.asList(str2));
 
             } else if (VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0]))) {
                 amountFilterItem.removeChildren();
@@ -374,16 +366,14 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                     str3 = strings;
                     CommonUtils.checkMenuBarItemCaption(amountFilterItem, str3);
                 }
-                selection.setDetail_amountFilter(Arrays.asList(str2));
+                selection.setDetailamountFilter(Arrays.asList(str2));
 
-            } else if (!"sales_variables".equals(String.valueOf(obj[0])) && !"summary_deductionValues".equals(String.valueOf(obj[0]))
-                    && !"summary_variables".equals(String.valueOf(obj[0])) && !"rate_DeductionValue".equals(String.valueOf(obj[0]))) {
+            } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
                     BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in loaddetail"+ex);
                 }
-
             }
         }
 
@@ -406,11 +396,11 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
      * @param event
      */
     @UiHandler("export")
-    public void exportButtonLogic(Button.ClickEvent event) throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void exportButtonLogic(Button.ClickEvent event) throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         createWorkSheet("Adjustment Detail", resultsTable);
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         long recordCount = 0;
         List<String> visibleList = Arrays.asList(visibleHeaders);
         if (resultTable.size() != 0) {
@@ -421,7 +411,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
 
         List visibleList = Arrays.asList(visibleColumns);
         try {
@@ -434,7 +424,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in createWorkSheetContent"+e);
         }
     }
 
@@ -456,10 +446,10 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
      * method for default selection on Menu
      */
     protected void loadAmountFilter() {
-        CommonUtils.loadCustomMenu(amountFilterItem, Arrays.asList(VariableConstants.AMOUNT_FILTER_OPTIONS));
+        CommonUtils.loadCustomMenu(amountFilterItem, Arrays.asList(VariableConstants.getAmountfilteroptions()));
         List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
-                ? VariableConstants.AMOUNT_FILTER_OPTIONS_RESERVE
-                : VariableConstants.AMOUNT_FILTER_OPTIONS_GTN);
+                ? VariableConstants.getAmountFilterOptionsReserve()
+                : VariableConstants.getAmountFilterOptionsGtn());
         for (CustomMenuBar.CustomMenuItem object : amountFilterItem.getChildren()) {
             if (list.contains(object.getMenuItem().getCaption())) {
                 object.setChecked(Boolean.TRUE);
@@ -477,6 +467,7 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
             loadAmountFilter();
         }
     };
+
     public Button getGenerate() {
         return generate;
     }
@@ -487,5 +478,15 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
 
     public Button getExport() {
         return export;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

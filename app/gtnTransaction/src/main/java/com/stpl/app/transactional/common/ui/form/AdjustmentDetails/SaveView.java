@@ -10,7 +10,6 @@ import com.stpl.app.transactional.common.logic.SearchLogic;
 import com.stpl.app.util.ConstantUtil;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.OptionGroup;
@@ -71,9 +70,6 @@ public class SaveView extends Window {
         setWidth("480px");
         setHeight("215px");
         setCaption("Save View Popup");
-    }
-
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
     }
 
     private void configureFields() {

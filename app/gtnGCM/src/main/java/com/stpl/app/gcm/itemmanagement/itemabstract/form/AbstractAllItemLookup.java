@@ -9,6 +9,7 @@ import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.index.logic.ItemIndexTableLogic;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.data.util.BeanItemContainer;
@@ -36,14 +37,14 @@ public class AbstractAllItemLookup extends CustomWindow {
     VerticalLayout layout = new VerticalLayout();
     ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
     public ExtPagedTable itemResults = new ExtPagedTable(tableLogic);
-    List<ItemIndexDto> selecteditemList = new ArrayList<ItemIndexDto>();
-    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<ItemIndexDto>(ItemIndexDto.class);
+    List<ItemIndexDto> selecteditemList = new ArrayList<>();
+    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
     Button close = new Button("CLOSE");
     Button export = new Button(StringUtils.EMPTY);
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private ExtCustomTable exportPeriodViewTable;
     String excelName = "All Item Information";
-    private BeanItemContainer<ItemIndexDto> excelResultBean = new BeanItemContainer<ItemIndexDto>(ItemIndexDto.class);
+    private BeanItemContainer<ItemIndexDto> excelResultBean = new BeanItemContainer<>(ItemIndexDto.class);
 
     public AbstractAllItemLookup() {
     }
@@ -57,8 +58,8 @@ public class AbstractAllItemLookup extends CustomWindow {
         setModal(Boolean.TRUE);
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         configurefields();
     }
 
@@ -91,8 +92,8 @@ public class AbstractAllItemLookup extends CustomWindow {
         tableLogic.setContainerDataSource(searchContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        itemResults.setVisibleColumns(CommonUtils.visibleColumnItem);
-        itemResults.setColumnHeaders(CommonUtils.columnHeaderItem);
+        itemResults.setVisibleColumns(UiUtils.getInstance().visibleColumnItem);
+        itemResults.setColumnHeaders(UiUtils.getInstance().columnHeaderItem);
         itemResults.setSizeFull();
         itemResults.setEditable(Boolean.FALSE);
         itemResults.markAsDirty();
@@ -110,13 +111,13 @@ public class AbstractAllItemLookup extends CustomWindow {
     }
 
     private void configureExcelResultTable() {
-        excelResultBean = new BeanItemContainer<ItemIndexDto>(ItemIndexDto.class);
+        excelResultBean = new BeanItemContainer<>(ItemIndexDto.class);
         exportPeriodViewTable = new ExtCustomTable();
         layout.addComponent(exportPeriodViewTable);
         exportPeriodViewTable.setRefresh(Boolean.FALSE);
         exportPeriodViewTable.setVisible(false);
         exportPeriodViewTable.setContainerDataSource(excelResultBean);
-        exportPeriodViewTable.setVisibleColumns(CommonUtils.excelVisibleColumnItemSearch);
-        exportPeriodViewTable.setColumnHeaders(CommonUtils.excelColumnHeaderItemSearch);
+        exportPeriodViewTable.setVisibleColumns(UiUtils.getInstance().excelVisibleColumnItemSearch);
+        exportPeriodViewTable.setColumnHeaders(UiUtils.getInstance().excelColumnHeaderItemSearch);
     }
 }

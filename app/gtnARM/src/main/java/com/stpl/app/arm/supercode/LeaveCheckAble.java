@@ -10,6 +10,8 @@ package com.stpl.app.arm.supercode;
  * @author Abhiram.Giri
  */
 public interface LeaveCheckAble {
+
     public abstract boolean checkLeave();
+
     public abstract boolean isRestrict();
 }

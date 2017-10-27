@@ -4,6 +4,8 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.cff.logic.CFFLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
@@ -24,6 +26,7 @@ public class AbstractFilterLogic {
 
     public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static AbstractFilterLogic instance;
+    private CFFLogic cffLogic = new CFFLogic();
 
     private AbstractFilterLogic() {
     }
@@ -44,18 +47,35 @@ public class AbstractFilterLogic {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (queryMap.get(stringFilter.getPropertyId().toString()) != null && !queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         if (sql.length() == 0) {
-                            StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
-                            StringBuilder temp = new StringBuilder(initial);
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
-                            sql.append(temp);
+                            if (StringConstantsUtil.CREATED_BY1.equals(stringFilter.getPropertyId())) {
+                                StringBuilder initial = new StringBuilder("where ( ( * LIKE ? )");
+                                StringBuilder temp = new StringBuilder(initial);
+                                temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, cffLogic.filterUser(stringFilter.getFilterString()));
+                                sql.append(temp);
+                    }else{
+                                StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
+                                StringBuilder temp = new StringBuilder(initial);
+                                temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
+                                sql.append(temp);
+                        }
 
                         } else {
-                            StringBuilder temp = new StringBuilder(str);
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
-                            sql.append(temp);
+                            if (StringConstantsUtil.CREATED_BY1.equals(stringFilter.getPropertyId())) {
+                                str = new StringBuilder("AND ( * LIKE ? OR * IS NULL )");
+                                StringBuilder temp = new StringBuilder(str);
+                                temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, cffLogic.filterUser(stringFilter.getFilterString()));
+                                sql.append(temp);
+                    }else{
+                                StringBuilder temp = new StringBuilder(str);
+                                temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
+                                temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, "%".concat(stringFilter.getFilterString()).concat("%"));
+                                sql.append(temp);
+                        }
                         }
                     }
                 }
@@ -100,7 +120,7 @@ public class AbstractFilterLogic {
                             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
-                            String value = StringUtils.EMPTY;
+                            String value;
                             if (((Integer) stringFilter.getValue()) == 0) {
                                 value = String.valueOf(stringFilter.getValue());
                             } else {

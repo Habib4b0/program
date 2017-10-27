@@ -31,8 +31,8 @@ public class QueryUtils {
         if (searchValues.containsKey(ConstantUtil.ACCOUNT)) {
             value = searchValues.get(ConstantUtil.ACCOUNT).toString();
         }
-        if (searchValues.containsKey(ConstantUtil.ACCOUNT_TYPE)) {
-            value = searchValues.get(ConstantUtil.ACCOUNT_TYPE).toString();
+        if (searchValues.containsKey(ConstantUtil.ACCOUNT_TYPE_COL)) {
+            value = searchValues.get(ConstantUtil.ACCOUNT_TYPE_COL).toString();
         }
         if (!value.equals("null")) {
             if (value.contains("Sales Dollars")) {
@@ -70,9 +70,9 @@ public class QueryUtils {
                 + "    QUOTENAME(CONTRACT_ID,CHAR(34)) as CONTRACT_ID,\n"
                 + "    QUOTENAME(CONTRACT_NO,CHAR(34)) as CONTRACT_NO,\n"
                 + "    QUOTENAME(CONTRACT_NAME,CHAR(34)) as CONTRACT_NAME,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT1.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT1.DESCRIPTION\n"
                 + "    END AS CONTRACT_TYPE,\n"
                 + "    QUOTENAME(CONTRACT_HOLDER_ID,CHAR(34)) as CONTRACT_HOLDER_ID,\n"
@@ -90,54 +90,54 @@ public class QueryUtils {
                 + "    QUOTENAME(DEDUCTION_ID,CHAR(34)) as DEDUCTION_ID,\n"
                 + "    QUOTENAME(DEDUCTION_NO,CHAR(34)) as DEDUCTION_NO,\n"
                 + "    QUOTENAME(DEDUCTION_NAME,CHAR(34)) as DEDUCTION_NAME,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT2.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + "        THEN NULL \n"
                 + "        ELSE HT2.DESCRIPTION\n"
                 + "    END AS DEDUCTION_CATEGORY,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT3.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT3.DESCRIPTION\n"
                 + "    END AS DEDUCTION_TYPE,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT4.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT4.DESCRIPTION\n"
                 + "    END AS DEDUCTION_PROGRAM,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT5.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT5.DESCRIPTION\n"
                 + "    END AS DEDUCTION_INCLUSION,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT6.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT6.DESCRIPTION\n"
                 + "    END AS DEDUCTION_CATEGORY1,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT7.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT7.DESCRIPTION\n"
                 + "    END AS DEDUCTION_CATEGORY2,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT8.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT8.DESCRIPTION\n"
                 + "    END AS DEDUCTION_CATEGORY3,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT9.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT9.DESCRIPTION\n"
                 + "    END AS DEDUCTION_CATEGORY4,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT10.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT10.DESCRIPTION\n"
                 + "    END AS DEDUCTION_CATEGORY5,\n"
-                + "    CASE\n"
+                + ConstantUtil.CASE1
                 + "        WHEN HT11.DESCRIPTION = '-Select One-'\n"
-                + "        THEN NULL\n"
+                + ConstantUtil.THEN_NULL
                 + "        ELSE HT11.DESCRIPTION\n"
                 + "    END AS DEDUCTION_CATEGORY6,\n"
                 + "    DEDUCTION_DOLLARS,\n"
@@ -154,8 +154,8 @@ public class QueryUtils {
                 + "    QUOTENAME(BUSINESS_UNIT_ID,CHAR(34)) as BUSINESS_UNIT_ID,\n"
                 + "    QUOTENAME(BUSINESS_UNIT_NO,CHAR(34)) as BUSINESS_UNIT_NO,\n"
                 + "    QUOTENAME(BUSINESS_UNIT_NAME,CHAR(34)) as BUSINESS_UNIT_NAME,\n"
-                + "    FINANCIAL_FORECAST_CREATION_DATE,\n"
-                + "    FINANCIAL_FORECAST_APPROVAL_DATE,\n"
+                + "    FORMAT(FINANCIAL_FORECAST_CREATION_DATE, 'MM/dd/yyyy') as FINANCIAL_FORECAST_CREATION_DATE ,\n" 
+                + "    FORMAT(FINANCIAL_FORECAST_APPROVAL_DATE, 'MM/dd/yyyy') as FINANCIAL_FORECAST_APPROVAL_DATE ,\n"
                 + "    OUTBOUND_STATUS,\n"
                 + "    ORIGINAL_BATCH_ID\n"
                 + "    FROM\n"
@@ -187,13 +187,13 @@ public class QueryUtils {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 for (Object temp : input) {
-                    if (sql.toString().contains("~JOIN2~")) {
+                    if (sql.toString().contains(ConstantUtil.JOIN_2)) {
                         if (temp instanceof String && "A.RS_ID".equals(temp)) {
-                            sql.replace(sql.indexOf("~DESC~"), sql.indexOf("~DESC~") + "~DESC~".length() + 1, " A.RS_MODEL_SID, A.RS_ID ");
-                            sql.replace(sql.indexOf("~JOIN2~"), sql.indexOf("~JOIN2~") + "~JOIN2~".length() + 1, "");
+                            sql.replace(sql.indexOf(ConstantUtil.DESC), sql.indexOf(ConstantUtil.DESC) + ConstantUtil.DESC.length() + 1, " A.RS_MODEL_SID, A.RS_ID ");
+                            sql.replace(sql.indexOf(JOIN_N2), sql.indexOf(JOIN_N2) + JOIN_N2.length() + 1, "");
                         } else {
-                            sql.replace(sql.indexOf("~DESC~"), sql.indexOf("~DESC~") + "~DESC~".length() + 1, " ?, HT.DESCRIPTION ");
-                            sql.replace(sql.indexOf("~JOIN2~"), sql.indexOf("~JOIN2~") + "~JOIN2~".length() + 1, String.valueOf(query2));
+                            sql.replace(sql.indexOf(ConstantUtil.DESC), sql.indexOf(ConstantUtil.DESC) + ConstantUtil.DESC.length() + 1, " ?, HT.DESCRIPTION ");
+                            sql.replace(sql.indexOf(JOIN_N2), sql.indexOf(JOIN_N2) + JOIN_N2.length() + 1, String.valueOf(query2));
                         }
                     }
                     if (sql.toString().contains("?")) {
@@ -211,6 +211,7 @@ public class QueryUtils {
 
         return list;
     }
+    public static final String JOIN_N2 = "~JOIN2~";
 
     public static String splitter(String input) {
         String splitted = "";
@@ -233,20 +234,20 @@ public class QueryUtils {
                 "ITEM_ID,\n" +
                 "COMPANY_ID,\n" +
                 "DEDUCTION_ID,\n" +
-                "CASE\n" +
+                ConstantUtil.CASE +
                 "    WHEN HT1.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT1.DESCRIPTION\n" +
                 "END AS DEDUCTION_CATEGORY,\n" +
                 "BRAND,\n" +
-                "CASE\n" +
+                ConstantUtil.CASE+
                 "    WHEN HT2.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT2.DESCRIPTION\n" +
                 "END AS DEDUCTION_TYPE,\n" +
-                "CASE\n" +
+                ConstantUtil.CASE+
                 "    WHEN HT3.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT3.DESCRIPTION\n" +
                 "END AS DEDUCTION_PROGRAM_TYPE,\n" +
                 "UNITS,\n" +
@@ -264,37 +265,37 @@ public class QueryUtils {
                 "GTS.BATCH_ID,\n" +
                 "ADD_CHG_DEL_INDICATOR,\n" +
                 "CONCAT(US.FIRSTNAME,' ',US.LASTNAME)  as CREATED_BY,\n" +
-                "CASE\n" +
+                ConstantUtil.CASE+
                 "    WHEN HT4.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT4.DESCRIPTION\n" +
                 "END AS UDC1,\n" +
-                "CASE\n" +
+                ConstantUtil.CASE+
                 "    WHEN HT5.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT5.DESCRIPTION\n" +
                 "END AS UDC2,\n" +
                 "CONVERT(varchar(20),GTS.CREATED_DATE,110) as CREATED_DATE,\n" +
                 "CASE WHEN CONVERT(VARCHAR(20),GTS.MODIFIED_BY)='1' then '' ELSE CONVERT(VARCHAR(20),GTS.MODIFIED_BY) END as MODIFIED_BY,\n" +
-                "CASE\n" +
+                ConstantUtil.CASE+
                 "    WHEN HT6.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT6.DESCRIPTION\n" +
                 "END AS UDC3,\n" +
-                "CASE\n" +
+                ConstantUtil.CASE+
                 "    WHEN HT7.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT7.DESCRIPTION\n" +
                 "END AS UDC4,\n" +
                 "CONVERT(varchar(20),GTS.MODIFIED_DATE,110)as MODIFIED_DATE,\n"+
-                "CASE\n" +
+                ConstantUtil.CASE+
                 "    WHEN HT8.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT8.DESCRIPTION\n" +
                 "END AS UDC5,\n" +
-                "CASE\n" +
+                ConstantUtil.CASE+
                 "    WHEN HT9.DESCRIPTION = '-Select One-'\n" +
-                "    THEN NULL\n" +
+                ConstantUtil.THEN_NULL +
                 "    ELSE HT9.DESCRIPTION\n" +
                 "END AS UDC6,\n" +
                 "CONVERT(varchar(20),GTS.FORECAST_DATE,110)as FORECAST_DATE,\n" +

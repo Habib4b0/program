@@ -60,7 +60,7 @@ public class InventoryCustomerLookup extends Window {
     @UiField("resetBtn")
     private Button resetBtn;
     private ExtFilterTable customerTable = new ExtFilterTable();
-    private final BeanItemContainer<CustomerGroupDTO> resultsContainer = new BeanItemContainer<CustomerGroupDTO>(CustomerGroupDTO.class);
+    private final BeanItemContainer<CustomerGroupDTO> resultsContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     Object[] visibleColumns = {"customerName", "include", "indicator"};
     String[] visibleHeaders = {"Customer", "Include", "+/-Indicator"};
     private PrivatePublicLookup viewLookUp;
@@ -70,14 +70,14 @@ public class InventoryCustomerLookup extends Window {
     ViewLookupDTO viewDTO = new ViewLookupDTO();
     InventoryCustomerFeildFactory inventoryCustomer = new InventoryCustomerFeildFactory();
     PipelineInventoryLookupLogic pipelineLogic = new PipelineInventoryLookupLogic();
-    List<CustomerGroupDTO> cusomerList = new ArrayList<CustomerGroupDTO>();
+    List<CustomerGroupDTO> cusomerList = new ArrayList<>();
     List<String> customerGroupList = new ArrayList<>();
     AbstractSelectionDTO selectionDto;
     CustomerGrpSelectedTableLogic inventoryCalculationLogic = new CustomerGrpSelectedTableLogic();
-    private final static Logger LOGGER = Logger.getLogger(InventoryCustomerLookup.class);
+    private static final Logger LOGGER = Logger.getLogger(InventoryCustomerLookup.class);
     String viewType = "";
     boolean submitted = Boolean.FALSE;
-    Window instance=null;
+    Window instance = null;
 
     public InventoryCustomerLookup(int projectionId, AbstractSelectionDTO selectionDto) {
         super("");
@@ -87,7 +87,7 @@ public class InventoryCustomerLookup extends Window {
         addStyleName("bootstrap-bb");
         setContent(Clara.create(getClass().getResourceAsStream("/bussinessprocess/Inventory/customerLookup.xml"), this));
         configureFields();
-        instance=this;
+        instance = this;
     }
 
     private void configureFields() {
@@ -115,7 +115,7 @@ public class InventoryCustomerLookup extends Window {
             try {
                 int userIdValue = userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY));
                 if (viewLookUp == null) {
-                    viewLookUp = new PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId(),"Customer");
+                    viewLookUp = new PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId(), "Customer");
                 } else {
                     viewLookUp.reloadScreen(event.getComponent().getCaption(), userIdValue, "C", event.getComponent().getId());
                 }
@@ -126,7 +126,7 @@ public class InventoryCustomerLookup extends Window {
                     @Override
                     public void windowClose(CloseEvent e) {
                         if (viewLookUp.isSelectFlag()) {
-                               lookupLoadLogic(viewLookUp.getDtoValue());                
+                            lookupLoadLogic(viewLookUp.getDtoValue());
                         } else {
                             publicView.setValue("");
                             privateView.setValue("");
@@ -137,7 +137,7 @@ public class InventoryCustomerLookup extends Window {
                 });
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in viewListener :"+ex);
             }
         }
     };
@@ -191,26 +191,26 @@ public class InventoryCustomerLookup extends Window {
             Object nullItem = indicator.addItem();
             indicator.setNullSelectionItemId(nullItem);
             indicator.addItem(true);
-            indicator.addItem(false);            
+            indicator.addItem(false);
             indicator.setItemCaption(nullItem, ConstantsUtils.SELECT_ONE);
             indicator.setItemCaption(true, "+");
             indicator.setItemCaption(false, "-");
             indicator.select(nullItem);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in loadIndicatorDDLB :"+e);
         }
         return indicator;
     }
 
     public boolean checkValidField() {
-        boolean ret=false;
-        List<CustomerGroupDTO> list=resultsContainer.getItemIds();
-        if (!list.isEmpty()) {                        
+        boolean ret = false;
+        List<CustomerGroupDTO> list = resultsContainer.getItemIds();
+        if (!list.isEmpty()) {
             for (CustomerGroupDTO dtoValue : list) {
                 if (dtoValue.isInclude()) {
-                    ret=true;
+                    ret = true;
                     if ((Boolean) "null".equalsIgnoreCase(String.valueOf(dtoValue.getIndicator()))) {
-                        ret=false;
+                        ret = false;
                         break;
                     }
                 }
@@ -224,7 +224,7 @@ public class InventoryCustomerLookup extends Window {
             resultsContainer.removeAllItems();
             resultsContainer.addAll(pipelineLogic.getPipelineInventory(projectionId, selectionDto));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in loadResultTable :"+ex);
         }
 
     }
@@ -236,19 +236,20 @@ public class InventoryCustomerLookup extends Window {
             new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-                    
+                    LOGGER.debug("inside btnSubmitLogic  No Method");
+
                 }
 
                 @Override
                 public void yesMethod() {
                     loadCustomerGroupList();
-            pipelineLogic.saveCustomerGroupValue(resultsContainer.getItemIds(), projectionId, selectionDto);
-            submitted = Boolean.TRUE;
-            instance.close();
+                    pipelineLogic.saveCustomerGroupValue(resultsContainer.getItemIds(), projectionId, selectionDto);
+                    submitted = Boolean.TRUE;
+                    instance.close();
                 }
             }.getConfirmationMessage("Confirm Submit", ARMMessages.getCLookUpSubmitConfirmTransaction3());
-            
-        }else{
+
+        } else {
             AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getLookUpSubmitErrorTransaction3());
         }
 
@@ -299,7 +300,7 @@ public class InventoryCustomerLookup extends Window {
             viewPopup = new SaveViewPopup(saveViewDTO);
             getUI().addWindow(viewPopup);
         } catch (Exception e) {
-           LOGGER.error(e);
+            LOGGER.error("Error in btnSaveViewLogic :"+e);
         }
     }
 
@@ -326,7 +327,7 @@ public class InventoryCustomerLookup extends Window {
             privateView.setValue(StringUtils.EMPTY);
             /*delete view*/
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in deleteButtonClick :"+e);
         }
     }
 
@@ -346,8 +347,9 @@ public class InventoryCustomerLookup extends Window {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
-                if (buttonId.name().equalsIgnoreCase("yes")) {
+                if ("yes".equalsIgnoreCase(buttonId.name())) {
                     LOGGER.debug("Entering Close operation");
                     close();
                     LOGGER.debug("Ending Close operation");
@@ -373,8 +375,9 @@ public class InventoryCustomerLookup extends Window {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
-                if (buttonId.name().equalsIgnoreCase("yes")) {
+                if ("yes".equalsIgnoreCase(buttonId.name())) {
                     LOGGER.debug("Entering Reset operation");
                     resetFields();
                     LOGGER.debug("Ending Reset operation");
@@ -415,6 +418,16 @@ public class InventoryCustomerLookup extends Window {
         if (viewLookupDTO != null && !viewLookupDTO.isEmpty()) {
             lookupLoadLogic(viewLookupDTO.get(0));
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

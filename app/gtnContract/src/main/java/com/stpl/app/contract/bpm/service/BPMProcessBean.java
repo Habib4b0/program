@@ -67,7 +67,7 @@ public class BPMProcessBean {
 	public static TaskSummary getAvailableTask(Long processInstanceId) {
 		TaskSummary taskSummary = null;
 		TaskService taskService = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService();
-		List<Status> status = new ArrayList<Status>();
+		List<Status> status = new ArrayList<>();
 		try {
 			status.add(Status.Ready);
 			status.add(Status.Reserved);

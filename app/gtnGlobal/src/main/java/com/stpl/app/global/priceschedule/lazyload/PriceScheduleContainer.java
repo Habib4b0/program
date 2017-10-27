@@ -77,7 +77,7 @@ public class PriceScheduleContainer implements BeanDAO<PSIFPDTO> {
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
         }
-        return new ArrayList<PSIFPDTO>();
+        return new ArrayList<>();
     }
 
 }

@@ -42,7 +42,7 @@ public class Converters {
      * @throws com.stpl.portal.kernel.exception.SystemException
      */
     public static List<ViewDTO> getCustomizedViews(final List list) throws ParseException, PortalException, SystemException {
-        final List<ViewDTO> results = new ArrayList<ViewDTO>();
+        final List<ViewDTO> results = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedViews method with list size  " + list.size());
         try{
         for (int i = 0; i < list.size(); i++) {
@@ -82,9 +82,10 @@ public class Converters {
             result.setProductInnerLevel(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FOUR])));
             result.setCustRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FIVE])));
             result.setProdRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SIX])));
-            if (String.valueOf(obj[NumericConstants.TWENTY_SEVEN]) != null && !String.valueOf(obj[NumericConstants.TWENTY_SEVEN]).isEmpty()) {
+            if (String.valueOf(obj[NumericConstants.TWENTY_SEVEN]) != null && !String.valueOf(obj[NumericConstants.TWENTY_SEVEN]).isEmpty() && !"null".equals(String.valueOf(obj[NumericConstants.TWENTY_SEVEN]))) {
                 result.setBusinessUnitSystemId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
             }
+            result.setBusinessUnitSystemName(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])));
             
             results.add(result);
         }
@@ -102,7 +103,7 @@ public class Converters {
      * @return list of GroupDTO
      */
     public static List<GroupDTO> convertCustomerGroupList(final List resultList) {
-        List<GroupDTO> returnList = new ArrayList<GroupDTO>();
+        List<GroupDTO> returnList = new ArrayList<>();
         GroupDTO groupDTO;
         for (int loop = 0, limit = resultList.size(); loop < limit; loop++) {
             groupDTO = new GroupDTO();
@@ -124,7 +125,7 @@ public class Converters {
      * @return list of GroupDTO
      */
     public static List<GroupDTO> convertItemGroupList(final List resultList) {
-        List<GroupDTO> returnList = new ArrayList<GroupDTO>();
+        List<GroupDTO> returnList = new ArrayList<>();
         GroupDTO groupDTO;
         for (int loop = 0, limit = resultList.size(); loop < limit; loop++) {
             groupDTO = new GroupDTO();
@@ -147,7 +148,7 @@ public class Converters {
      * @return list of GroupDTO
      */
     public static List<GroupDTO> convertAllCustomerGroupList(final List<CompanyGroup> resultList) {
-        List<GroupDTO> returnList = new ArrayList<GroupDTO>();
+        List<GroupDTO> returnList = new ArrayList<>();
         GroupDTO groupDTO;
         for (CompanyGroup companyGroup : resultList) {
             groupDTO = new GroupDTO();
@@ -160,9 +161,9 @@ public class Converters {
         return returnList;
     }
     
-    public static List<DataSelectionDTO> searchDsProjection(List resultList, boolean channelsFlag) throws ParseException, PortalException, SystemException {
+    public static List<DataSelectionDTO> searchDsProjection(List resultList, boolean channelsFlag) throws ParseException {
         
-        List<DataSelectionDTO> dataSelectionDTOs = new ArrayList<DataSelectionDTO>();
+        List<DataSelectionDTO> dataSelectionDTOs = new ArrayList<>();
         DataSelectionDTO dataSelectionDTO;
         for (int loop = 0, limit = resultList.size(); loop < limit; loop++) {
             dataSelectionDTO = new DataSelectionDTO();
@@ -200,7 +201,7 @@ public class Converters {
         return dataSelectionDTOs;
     }
     
-    public static DataSelectionDTO getProjection(List resultList) throws ParseException, PortalException, SystemException {
+    public static DataSelectionDTO getProjection(List resultList) throws ParseException {
         DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
         Object objects[] = (Object[]) resultList.get(0);
         dataSelectionDTO.setProjectionId(Integer.parseInt(String.valueOf(objects[0])));
@@ -270,8 +271,8 @@ public class Converters {
     
     private static String formatDate(String value) throws ParseException {
         String date = StringUtils.EMPTY;
-        SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.yyyyMMddhhmmssSSS.getConstant());
-        SimpleDateFormat format = new SimpleDateFormat(DateFormatConstants.MMddyyyyhhmmss.getConstant());
+        SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.YYYYMMDDHHMMSSSSS.getConstant());
+        SimpleDateFormat format = new SimpleDateFormat(DateFormatConstants.MMDDYYYYHHMMSS.getConstant());
         if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
             date = format.format(parse.parse(value));
         }
@@ -280,9 +281,9 @@ public class Converters {
     
     private static Date parsetDate(String value) throws ParseException {
         Date date = null;
-        String tempDate = StringUtils.EMPTY;
-        SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.yyyyMMddhhmmssSSS.getConstant());
-        SimpleDateFormat format = new SimpleDateFormat(DateFormatConstants.MMddyyyyhhmmss.getConstant());
+        String tempDate;
+        SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.YYYYMMDDHHMMSSSSS.getConstant());
+        SimpleDateFormat format = new SimpleDateFormat(DateFormatConstants.MMDDYYYYHHMMSS.getConstant());
         if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
             tempDate = format.format(parse.parse(value));
             date = format.parse(tempDate);
@@ -302,7 +303,7 @@ public class Converters {
     public static Date parseDate(String value) throws ParseException {
         Date date = null;
         value = convertNullToEmpty(value);
-        SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.yyyyMMddhhmmssSSS.getConstant());
+        SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.YYYYMMDDHHMMSSSSS.getConstant());
         if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
             date = parse.parse(value);
         }

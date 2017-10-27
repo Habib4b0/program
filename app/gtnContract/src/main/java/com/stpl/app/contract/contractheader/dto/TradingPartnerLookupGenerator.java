@@ -64,9 +64,6 @@ public class TradingPartnerLookupGenerator implements ExtFilterGenerator{
             try {
                 commonUtil.loadComboBox(companyStatus, UIUtils.STATUS, true);
 
-            } catch (SystemException ex) {
-                 Logger.getLogger(TradingPartnerLookupGenerator.class.getName()).log(Level.SEVERE, null, ex);
-
             } catch (Exception ex) {
                 Logger.getLogger(TradingPartnerLookupGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -78,8 +75,6 @@ public class TradingPartnerLookupGenerator implements ExtFilterGenerator{
             try {
                 commonUtil.loadComboBox(companyType, UIUtils.COMP_TYPE, true);
 
-            } catch (SystemException ex) {
-                Logger.getLogger(TradingPartnerLookupGenerator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(TradingPartnerLookupGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -91,10 +86,12 @@ public class TradingPartnerLookupGenerator implements ExtFilterGenerator{
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

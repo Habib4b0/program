@@ -106,11 +106,11 @@ public class CFPCompanyDTO implements Serializable {
     /**
      * The cfpcompany list.
      */
-    private List<CFPCompanyDTO> cfpcompanyList = new ArrayList<CFPCompanyDTO>();
+    private List<CFPCompanyDTO> cfpcompanyList = new ArrayList<>();
     /**
      * The company list.
      */
-    private List<CompanyMasterDTO> companyList = new ArrayList<CompanyMasterDTO>();
+    private List<CompanyMasterDTO> companyList = new ArrayList<>();
     /**
      * The trading partner contract no.
      */

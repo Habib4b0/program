@@ -40,7 +40,7 @@ public class ProjNameConfigLogic {
 
     
     public List<ProjectionNameDTO> getBusinessProcessAttributes() {
-         final List<ProjectionNameDTO> nameDTOs = new ArrayList<ProjectionNameDTO>();
+         final List<ProjectionNameDTO> nameDTOs = new ArrayList<>();
     
             LOGGER.debug("getBusinessProcessAttributes method started ");
            
@@ -65,7 +65,7 @@ public class ProjNameConfigLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public String saveProjNameConfigDetails(final String finalTemplateName)throws SystemException, PortalException  {       
+    public String saveProjNameConfigDetails(final String finalTemplateName)throws SystemException  {       
          LOGGER.debug("saveProjNameConfigDetails method started ");
          final int userId = Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
          
@@ -78,7 +78,7 @@ public class ProjNameConfigLogic {
             config.setCreatedDate(new Date());
             config.setModifiedBy(userId);
             config.setModifiedDate(new Date());
-            config=ProjectionNameConfigLocalServiceUtil.addProjectionNameConfig(config);
+            ProjectionNameConfigLocalServiceUtil.addProjectionNameConfig(config);
           LOGGER.debug("saveProjNameConfigDetails method ended ");
         return "success";
     }
@@ -92,11 +92,11 @@ public class ProjNameConfigLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public List<ProjectionNameDTO> getAvailableNameTemplate(final String businessProcess)throws SystemException, PortalException  {
+    public List<ProjectionNameDTO> getAvailableNameTemplate(final String businessProcess)throws SystemException  {
         LOGGER.debug("getAvailableNameTemplate method started ");
         final DynamicQuery nameDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionNameConfig.class);
          final Map userInfoMap = (HashMap) CommonUtil.getCreatedByUser();
-         final List<ProjectionNameDTO> nameDTOs = new ArrayList<ProjectionNameDTO>();
+         final List<ProjectionNameDTO> nameDTOs = new ArrayList<>();
          nameDynamicQuery.add(RestrictionsFactoryUtil.ilike("businessProcessType", businessProcess));
          List<ProjectionNameConfig> nameConfigs=ProjectionNameConfigLocalServiceUtil.dynamicQuery(nameDynamicQuery);
          for (ProjectionNameConfig nameConfig : nameConfigs) {
@@ -125,7 +125,7 @@ public class ProjNameConfigLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public boolean duplicateCheck(final String businessProcess,final String finalName)throws SystemException, PortalException  {
+    public boolean duplicateCheck(final String businessProcess,final String finalName)throws SystemException  {
          LOGGER.debug("duplicateCheck method started ");
         int count=0;
         final DynamicQuery nameDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionNameConfig.class);

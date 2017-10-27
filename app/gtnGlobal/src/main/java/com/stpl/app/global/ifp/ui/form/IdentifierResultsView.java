@@ -41,21 +41,21 @@ public class IdentifierResultsView extends CustomComponent {
      * The binder.
      */
     private  final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
-            new BeanItem<ItemIrtIdentifierDTO>(identifierFormBean));
+            new BeanItem<>(identifierFormBean));
     
     /** Constants LOGGER. */
      private static final Logger LOGGER = Logger.getLogger(IdentifierResults.class);
     /**
      * The identifier results bean.
      */
-    private BeanItemContainer<ItemIrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<ItemIrtIdentifierDTO>(
+    private BeanItemContainer<ItemIrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<>(
             ItemIrtIdentifierDTO.class);
 
 	/**
      * The table.
      */
     private   final Table table = new Table();
-
+    private final UIUtils uiUtils = UIUtils.getInstance();
     
     /**
      * Instantiates a new identifier results view.
@@ -111,8 +111,8 @@ public class IdentifierResultsView extends CustomComponent {
 
 
         table.setContainerDataSource(identifierResultsBean);
-        table.setVisibleColumns(UIUtils.IDEN_FORM_COL_ORDER);
-        table.setColumnHeaders(UIUtils.IDEN_FORM_COL_ORDER_HEADER);
+        table.setVisibleColumns(uiUtils.idenFormColOrder);
+        table.setColumnHeaders(uiUtils.idenFormColOrderHeader);
         table.setPageLength(NumericConstants.SEVEN);
         table.setImmediate(true);
         table.setSelectable(true);

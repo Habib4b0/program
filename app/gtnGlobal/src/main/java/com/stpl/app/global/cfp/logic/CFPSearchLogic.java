@@ -34,6 +34,7 @@ import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.HelperDTO;
 import com.stpl.app.util.NotesTabLogic;
 import com.stpl.app.util.QueryUtils;
+import com.stpl.app.util.xmlparser.SQLUtil;
 import com.stpl.domain.global.companyfamilyplan.CompanyFamilyplanDAO;
 import com.stpl.domain.global.companyfamilyplan.CompanyFamilyplanLogic;
 import com.stpl.ifs.ui.NotesDTO;
@@ -145,7 +146,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         //To load column in hashMap
         CommonUtils.loadColumnName();
         boolean asc = false;
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         String dbColumnName = StringUtils.EMPTY;
 
 
@@ -180,9 +181,9 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         String companyId = StringUtils.EMPTY;
         String companyNo = StringUtils.EMPTY;
         String companyName = StringUtils.EMPTY;
-        Map<Object, Object> parameters = new HashMap<Object, Object>();
+        Map<Object, Object> parameters = new HashMap<>();
         List cfpList = null;
-        Map<Object, Object> cfp = new HashMap<Object, Object>();
+        Map<Object, Object> cfp = new HashMap<>();
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
 
@@ -460,7 +461,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @return list of CompanyMasterDTO object
      * @throws StplR2Exception the stpl r2 exception
      */
-    public List<CompanyMasterDTO> getCompaniesForCFP(final String searchField, String value) throws PortalException, SystemException {
+    public List<CompanyMasterDTO> getCompaniesForCFP(final String searchField, String value) throws SystemException {
 
 
         LOGGER.debug("Entering getCompaniesForCFP p1:" + searchField);
@@ -491,7 +492,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @throws StplR2Exception the stpl r2 exception
      */
     public List<CompanyMasterDTO> getCustomizedCompanyData(final List<CompanyMaster> companyMasterList) {
-        final List<CompanyMasterDTO> companyDTO = new ArrayList<CompanyMasterDTO>();
+        final List<CompanyMasterDTO> companyDTO = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedCompanyData p1: " + ((companyMasterList == null) ? companyMasterList : companyMasterList.size()));
         for (int i = 0; i < companyMasterList.size(); i++) {
             final CompanyMaster company = companyMasterList.get(i);
@@ -810,7 +811,6 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         inputList.add(sessionDTO.getUiSessionId());
         inputList.add(sessionDTO.getSessionDate());
         QueryUtils.itemUpdate(inputList, "updateCfpDetailsAttched");
-        
         LOGGER.debug("Ending saveCompaniesList");
     }
 
@@ -875,11 +875,11 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @return the CFP type
      * @throws StplR2Exception the stpl r2 exception
      */
-    public List<HelperDTO> getCFPType() throws SystemException, PortalException {
+    public List<HelperDTO> getCFPType() throws SystemException {
         LOGGER.debug("Entering getCFPType");
         final List<HelperTable> list = CFPSEARCHLOGICDAO.getHelperTableDetailsByListName(UIUtils.CFP_TYPE);
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
@@ -897,11 +897,11 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @return the trade class
      * @throws StplR2Exception the stpl r2 exception
      */
-    public List<HelperDTO> getTradeClass() throws SystemException, PortalException {
+    public List<HelperDTO> getTradeClass() throws SystemException {
 
         List<HelperTable> list;
         LOGGER.debug("Entering getTradeClass");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         list = CFPSEARCHLOGICDAO.getHelperTableDetailsByListName(UIUtils.TRADE_CLASS);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -924,7 +924,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         LOGGER.debug("Entering getState");
         List<HelperTable> list;
         list = CFPSEARCHLOGICDAO.getHelperTableDetailsByListName(UIUtils.STATE);
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
@@ -945,7 +945,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     public List<HelperDTO> getCountry() throws SystemException {
         LOGGER.debug("Entering getCountry");
         final List<HelperTable> list = CFPSEARCHLOGICDAO.getHelperTableDetailsByListName(UIUtils.COUNTRY);
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
@@ -965,7 +965,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      */
     public List<HelperDTO> getCFPType(final String listType) throws SystemException {
         LOGGER.debug("Entering getCFPType by Type");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = CFPSEARCHLOGICDAO.getHelperTableDetailsByListName(listType);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -985,8 +985,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @param listName the list name
      * @return the drop down list
      */
-    public List<HelperDTO> getDropDownList(final String listName) throws SystemException, PortalException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+    public List<HelperDTO> getDropDownList(final String listName) throws SystemException {
+        final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Entering getDropDownList by Name");
         final List<HelperTable> list = CFPSEARCHLOGICDAO.getHelperTableDetailsByListName(listName);
         if (list != null) {
@@ -1001,7 +1001,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return helperList;
     }
 
-    public static int getParentCfpCount() throws PortalException, SystemException {
+    public static int getParentCfpCount() throws  SystemException {
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText :" );
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpModel.class);
         long count =   CfpModelLocalServiceUtil.dynamicQueryCount(cfpDynamicQuery);
@@ -1009,14 +1009,14 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return Integer.parseInt(String.valueOf(count));
     }
 
-    public static List<HelperDTO> getParentCfpResult(final int startIndex, final int end) throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+    public static List<HelperDTO> getParentCfpResult(final int startIndex, final int end) throws  SystemException {
+        final List<HelperDTO> list = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpModel.class);
         cfpDynamicQuery.setLimit(startIndex, end);
         List<CfpModel> result = CfpModelLocalServiceUtil.dynamicQuery(cfpDynamicQuery);
 
         if(startIndex==0){
-            list.add(new HelperDTO(0,ConstantsUtils.Show_All));
+            list.add(new HelperDTO(0,ConstantsUtils.SHOW_ALL_CAPS));
         }
         for(CfpModel model :result ){
 
@@ -1087,11 +1087,11 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      */
     public List<CompanyMasterDTO> getSelectedCompanyList(final int cfpId) throws PortalException, SystemException {
 
-        List<CompanyMasterDTO> companyListDTO = new ArrayList<CompanyMasterDTO>();
+        List<CompanyMasterDTO> companyListDTO = new ArrayList<>();
         LOGGER.debug("Entering getSelectedCompanyList p1:" + cfpId);
         final List<CfpDetails> list = CFPSEARCHLOGICDAO.getCompanyFamilyplanDetailsListByCFPSystemId(cfpId);
         if (list != null) {
-            final List<CompanyMaster> companyList = new ArrayList<CompanyMaster>();
+            final List<CompanyMaster> companyList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 final CfpDetails details = list.get(i);
 
@@ -1115,7 +1115,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      */
     private List<CFPSearchDTO> getCustomizedSearchFormFromModel(final List<CfpModel> cfpMasterList) throws PortalException, SystemException {
 
-        final List<CFPSearchDTO> resultList = new ArrayList<CFPSearchDTO>();
+        final List<CFPSearchDTO> resultList = new ArrayList<>();
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
         LOGGER.debug("Entering getCustomizedSearchFormFromModel p1: size " + ((cfpMasterList == null) ? cfpMasterList : cfpMasterList.size()));
         CFPSearchDTO cFPDTO;
@@ -1163,7 +1163,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     }
 
     public static List<SearchResultsDTO> getCustomizedSearchFormModel(final List<Object[]> cfpMasterList) throws PortalException, SystemException, ParseException {
-        final List<SearchResultsDTO> companyDTO = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> companyDTO = new ArrayList<>();
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
         Map<Integer, String> userMap= StplSecurity.getUserName();
         for (Object[] obj : cfpMasterList) {
@@ -1201,7 +1201,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             if (obj[NumericConstants.EIGHT] != null && StringUtils.isNotBlank(obj[NumericConstants.EIGHT].toString()) && (Integer) obj[NumericConstants.EIGHT] != 0) {
                 cfpDTOObj.setCompanyFamilyPlanCategory(hm.get(obj[NumericConstants.EIGHT]));
             }
-            if (obj[NumericConstants.NINE] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.NINE]))) {
+            if (obj[NumericConstants.NINE] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.NINE])) && !Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])).equals(0)) {
                 String CHILD="Child";
                 String PARENT="Parent";
                 if(CHILD.equals(String.valueOf(obj[NumericConstants.NINE]))){
@@ -1219,7 +1219,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                 cfpDTOObj.setParentCompanyFamilyPlanId(String.valueOf(obj[NumericConstants.ELEVEN]));
             }
             if (obj[NumericConstants.SIXTEEN] !=null){
-                cfpDTOObj.setCompanyFamilyPlanSystemId(Integer.valueOf(String.valueOf(obj[NumericConstants.SIXTEEN])));
+                cfpDTOObj.setCompanyFamilyPlanSystemId(String.valueOf(obj[NumericConstants.SIXTEEN]));
                 cfpDTOObj.setSystemID(String.valueOf(cfpDTOObj.getCompanyFamilyPlanSystemId()));
             }
             if (obj[NumericConstants.SEVENTEEN] !=null){
@@ -1335,7 +1335,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     }
 
     public static List<CompanyMasterDTO> getCustomizedCompanyLazyData(final List<Object[]> companyMasterList) throws PortalException, SystemException {
-        final List<CompanyMasterDTO> companyDTO = new ArrayList<CompanyMasterDTO>();
+        final List<CompanyMasterDTO> companyDTO = new ArrayList<>();
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
         for (Object[] obj : companyMasterList) {
             final CompanyMasterDTO companyDTOObj = new CompanyMasterDTO();
@@ -1364,7 +1364,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return companyDTO;
     }
 
-    public static List<CFPCompanyDTO> getLazyCompanyDetailsResults(final int start, final int end) throws PortalException, SystemException {
+    public static List<CFPCompanyDTO> getLazyCompanyDetailsResults(final int start, final int end) throws  SystemException {
         LOGGER.debug("Entering getLazyCompanyDetailsResults method with filterText  start----" + start + " --- end ----" + end);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         // Added to check INBOUND_STATUS is A. ETL Soft delete data should not be included, where INBOUND_STATUS is D
@@ -1377,7 +1377,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     }
 
     public static List<CFPCompanyDTO> getCustomizedCompanyDetailsData(final List<CompanyMaster> companyMasterList) {
-        final List<CFPCompanyDTO> companyDTO = new ArrayList<CFPCompanyDTO>();
+        final List<CFPCompanyDTO> companyDTO = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedCompanyData p1: " + ((companyMasterList == null) ? companyMasterList : companyMasterList.size()));
         for (int i = 0; i < companyMasterList.size(); i++) {
             final CompanyMaster company = companyMasterList.get(i);
@@ -1395,7 +1395,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return companyDTO;
     }
 
-    public static List<CFPCompanyDTO> getCompanyDetailsResults() throws PortalException, SystemException {
+    public static List<CFPCompanyDTO> getCompanyDetailsResults() throws  SystemException {
 
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.eq(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D)));
@@ -1412,7 +1412,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return true;
     }
 
-    public boolean moveToRightDuplicateValidation(final CompanyMasterDTO company, final CommonLazyUtilDTO dto) throws SystemException, PortalException {
+    public boolean moveToRightDuplicateValidation(final CompanyMasterDTO company, final CommonLazyUtilDTO dto) throws SystemException {
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdCfpDetails.class);
         dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_MASTER_ID, Integer.valueOf(company.getCompanySystemId())));
         dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.USERS_ID, dto.getUserId()));
@@ -1434,7 +1434,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         }
     }
 
-    public void moveAndSaveToTempTable(final CompanyMasterDTO company, final CommonLazyUtilDTO dto) throws SystemException, PortalException {
+    public void moveAndSaveToTempTable(final CompanyMasterDTO company, final CommonLazyUtilDTO dto) throws SystemException {
         if (company != null) {
             final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdCfpDetails.class);
             dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_MASTER_ID, Integer.valueOf(company.getCompanySystemId())));
@@ -1585,7 +1585,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return tempCFP;
     }
 
-    public void deleteTempCFPDetails(CompanyMasterDTO deleteCompany, final CommonLazyUtilDTO dto) throws PortalException, SystemException {
+    public void deleteTempCFPDetails(CompanyMasterDTO deleteCompany, final CommonLazyUtilDTO dto) throws  SystemException {
         LOGGER.debug("Entering delete temp cfp details");
         try {
             if (deleteCompany != null) {
@@ -1611,7 +1611,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         }
     }
 
-    public Object deleteAllTempCFPDetails(final CommonLazyUtilDTO dto) throws PortalException, SystemException {
+    public Object deleteAllTempCFPDetails(final CommonLazyUtilDTO dto) {
         final String sysId = String.valueOf(sessionDTO.getSystemId());
         return ImtdCfpDetailsLocalServiceUtil.updateAll(dto.getUserId(), dto.getSessionId(), null, null, sysId, null, null, null);
     }
@@ -1641,9 +1641,9 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public static int getLazySelectedCompaniesCount(final CommonLazyUtilDTO dto, final BeanSearchCriteria searchCriteria) throws PortalException, SystemException {
+    public static int getLazySelectedCompaniesCount(final CommonLazyUtilDTO dto, final BeanSearchCriteria searchCriteria) {
 
-        List<Object[]> returnList = new ArrayList<>();
+        List<Object[]> returnList;
         returnList = CFPSEARCHLOGICDAO.getSelectedCompanies(0, 0, dto.getUserId(), dto.getSessionId(), null, null, getFilterMapForAvailableCompanies(searchCriteria), ConstantsUtils.COUNT);
         if (returnList != null && !returnList.isEmpty()) {
             LOGGER.debug("selected count :" + Integer.valueOf(String.valueOf(returnList.get(0))));
@@ -1667,7 +1667,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     public static List<CompanyMasterDTO> getLazySelectedCompaniesDeatils(final CommonLazyUtilDTO dto, int start, int end) throws PortalException, SystemException {
 
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdCfpDetails.class);
-        List<CompanyMasterDTO> companyList = new ArrayList<CompanyMasterDTO>();
+        List<CompanyMasterDTO> companyList = new ArrayList<>();
         cfpDynamicQuery.setLimit(start, end);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.USERS_ID, dto.getUserId()));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.SESSION_ID, dto.getSessionId()));
@@ -1715,7 +1715,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             }}
 
         
-        List<Object[]> returnList = new ArrayList<>();
+        List<Object[]> returnList;
         returnList = CFPSEARCHLOGICDAO.getSelectedCompanies(start, end, dto.getUserId(), dto.getSessionId(), columnName, orberBy, getFilterMapForAvailableCompanies(searchCriteria), operation);
         LOGGER.debug("selected results :" + returnList.size());
         return getCustomizedSelectedCompanies(returnList);
@@ -1740,7 +1740,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
     private static List<CompanyMasterDTO> getCustomizedSelectedCompanies(List<Object[]> returnList) throws PortalException, SystemException {
         CompanyMasterDTO companyDTO;
-        List<CompanyMasterDTO> companyList = new ArrayList<CompanyMasterDTO>();
+        List<CompanyMasterDTO> companyList = new ArrayList<>();
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
         for (Object[] tempCfp : returnList) {
             companyDTO = new CompanyMasterDTO();
@@ -1853,33 +1853,33 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                         Date filterString = (Date) stringFilter.getValue();
                         if (ConstantsUtils.CFP_START_DATE.equals(stringFilter.getPropertyId())) {
                             if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Cfp_Start_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CFP_START_DATE_LOWER, filterString));
                             } else if (stringFilter.getOperation().equals(stringFilter.getOperation().LESS_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.Cfp_Start_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.CFP_START_DATE_LOWER, filterString));
                             }
                         } else if (ConstantsUtils.CFP_END_DATE.equals(stringFilter.getPropertyId())) {
                             if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Cfp_End_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CFP_END_DATE_LOWER, filterString));
                             } else if (stringFilter.getOperation().equals(stringFilter.getOperation().LESS_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.Cfp_End_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.CFP_END_DATE_LOWER, filterString));
                             }
-                        }else if (ConstantsUtils.Cfp_Company_Start_Date.equals(stringFilter.getPropertyId())) {
+                        }else if (ConstantsUtils.CFP_COMPANY_START_DATE_COL.equals(stringFilter.getPropertyId())) {
                             if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Company_Start_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.COMPANY_START_DATE_COL, filterString));
                             } else if (stringFilter.getOperation().equals(stringFilter.getOperation().LESS_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.Company_Start_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.COMPANY_START_DATE_COL, filterString));
                             }
-                        }else if (ConstantsUtils.Cfp_Company_End_Date.equals(stringFilter.getPropertyId())) {
+                        }else if (ConstantsUtils.CFP_COMPANY_END_DATE_COL.equals(stringFilter.getPropertyId())) {
                             if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Company_End_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.COMPANY_END_DATE_COL, filterString));
                             } else if (stringFilter.getOperation().equals(stringFilter.getOperation().LESS_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.Company_End_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.COMPANY_END_DATE_COL, filterString));
                             }
-                        }else if (ConstantsUtils.Cfp_Attached_Date.equals(stringFilter.getPropertyId())) {
+                        }else if (ConstantsUtils.CFP_ATTACHED_DATE_COL.equals(stringFilter.getPropertyId())) {
                             if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Cfp_Details_Attached_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CFP_DETAILS_ATTACHED_DATE_COL, filterString));
                             } else if (stringFilter.getOperation().equals(stringFilter.getOperation().LESS_OR_EQUAL)) {
-                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.Cfp_Details_Attached_Date, filterString));
+                                cfpDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.CFP_DETAILS_ATTACHED_DATE_COL, filterString));
                             }
                         }
                     } else if (stringFilter.getValue() instanceof String) {
@@ -1911,28 +1911,28 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     Date filterString1 = (Date) stringFilter.getEndValue();
 
                     if (ConstantsUtils.CFP_START_DATE.equals(stringFilter.getPropertyId())) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Cfp_Start_Date, filterString));
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.Cfp_Start_Date, filterString1));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CFP_START_DATE_LOWER, filterString));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.CFP_START_DATE_LOWER, filterString1));
                     }
 
                     if (ConstantsUtils.CFP_END_DATE.equals(stringFilter.getPropertyId())) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Cfp_End_Date, filterString));
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.Cfp_End_Date, filterString1));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CFP_END_DATE_LOWER, filterString));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.CFP_END_DATE_LOWER, filterString1));
                     }
 
-                    if (ConstantsUtils.Cfp_Company_Start_Date.equals(stringFilter.getPropertyId())) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Company_Start_Date, filterString));
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.Company_Start_Date, filterString1));
+                    if (ConstantsUtils.CFP_COMPANY_START_DATE_COL.equals(stringFilter.getPropertyId())) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.COMPANY_START_DATE_COL, filterString));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.COMPANY_START_DATE_COL, filterString1));
                     }
 
-                    if (ConstantsUtils.Cfp_Company_End_Date.equals(stringFilter.getPropertyId())) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Company_End_Date, filterString));
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.Company_End_Date, filterString1));
+                    if (ConstantsUtils.CFP_COMPANY_END_DATE_COL.equals(stringFilter.getPropertyId())) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.COMPANY_END_DATE_COL, filterString));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.COMPANY_END_DATE_COL, filterString1));
                     }
 
-                    if (ConstantsUtils.Cfp_Attached_Date.equals(stringFilter.getPropertyId())) {
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.Cfp_Details_Attached_Date, filterString));
-                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.Cfp_Details_Attached_Date, filterString1));
+                    if (ConstantsUtils.CFP_ATTACHED_DATE_COL.equals(stringFilter.getPropertyId())) {
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CFP_DETAILS_ATTACHED_DATE_COL, filterString));
+                        cfpDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantsUtils.CFP_DETAILS_ATTACHED_DATE_COL, filterString1));
                     }
 
                 }
@@ -1954,7 +1954,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         cfpDynamicQuery.setLimit(start, end);
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.COMPANY_MASTER_ID));
         final List<ImtdCfpDetails> modelList = CFPSEARCHLOGICDAO.getTempCfpDetails(cfpDynamicQuery);
-        List<CFPCompanyDTO> finalList = new ArrayList<CFPCompanyDTO>();
+        List<CFPCompanyDTO> finalList = new ArrayList<>();
         final List<CFPCompanyDTO> tempCfpList = getCustomizedCFPCompanyDTO(modelList, finalList, dto);
         LOGGER.debug("return results on tempCfpDetails size " + ((tempCfpList == null) ? tempCfpList : tempCfpList.size()));
         return tempCfpList;
@@ -2087,7 +2087,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             }
         }
         final List<Object[]> modelList = CFPSEARCHLOGICDAO.getTempCfpDetails(String.valueOf(start), String.valueOf(end), cfpMasterSystemId, searchresults,column,orderBy,getFilterMapForCompanyDetails(searchCriteria));
-        List<CFPCompanyDTO> finalList = new ArrayList<CFPCompanyDTO>();
+        List<CFPCompanyDTO> finalList = new ArrayList<>();
         final List<CFPCompanyDTO> tempCfpList = getCustomizedCFPCompanyDTO(modelList, finalList, cfpdetails);
         LOGGER.debug("available results in view mode :" + ((tempCfpList == null) ? tempCfpList : tempCfpList.size()));
         return tempCfpList;
@@ -2181,7 +2181,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             LOGGER.error(e);
         }
     }
-    public static List<Object[]> searchCompanyHelperTableSort(final int start, final int end, final CommonLazyUtilDTO dto, final List<OrderByColumn> orderByColumns,final BeanSearchCriteria searchCriteria,String record,Boolean iscount) throws PortalException, SystemException {
+    public static List<Object[]> searchCompanyHelperTableSort(final int start, final int end, final CommonLazyUtilDTO dto, final List<OrderByColumn> orderByColumns,final BeanSearchCriteria searchCriteria,String record,Boolean iscount) {
         LOGGER.debug("Entering searchCompany()");
         try {
 
@@ -2228,7 +2228,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return  Collections.emptyList();
         }
     }
 
@@ -2320,7 +2320,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
 
     public static Map getFilterMapForAvailableCompanies(final BeanSearchCriteria searchCriteria) {
 
-        Map<Object, Object> filterMap = new HashMap<Object, Object>();
+        Map<Object, Object> filterMap = new HashMap<>();
 
         if (searchCriteria != null && searchCriteria.getFilters() != null) {
             for (Container.Filter filter : searchCriteria.getFilters()) {
@@ -2386,7 +2386,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     
     public static Map getFilterMapForCompanyDetails(final BeanSearchCriteria searchCriteria) {
 
-        Map<Object, Object> filterMap = new HashMap<Object, Object>();
+        Map<Object, Object> filterMap = new HashMap<>();
 
         if (searchCriteria != null && searchCriteria.getFilters() != null) {
             for (Container.Filter filter : searchCriteria.getFilters()) {
@@ -2454,8 +2454,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                         }
 
                         if (ConstantsUtils.CFP_START_DATE.equals(stringFilter.getPropertyId()) || ConstantsUtils.CFP_END_DATE.equals(stringFilter.getPropertyId())
-                                || ConstantsUtils.Cfp_Company_Start_Date.equals(stringFilter.getPropertyId()) || ConstantsUtils.Cfp_Company_End_Date.equals(stringFilter.getPropertyId())
-                                || ConstantsUtils.Cfp_Attached_Date.equals(stringFilter.getPropertyId())) {
+                                || ConstantsUtils.CFP_COMPANY_START_DATE_COL.equals(stringFilter.getPropertyId()) || ConstantsUtils.CFP_COMPANY_END_DATE_COL.equals(stringFilter.getPropertyId())
+                                || ConstantsUtils.CFP_ATTACHED_DATE_COL.equals(stringFilter.getPropertyId())) {
 
                             String property = String.valueOf(stringFilter.getPropertyId());
                             if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
@@ -2480,8 +2480,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     }
 
                     if (ConstantsUtils.CFP_START_DATE.equals(stringFilter.getPropertyId()) || ConstantsUtils.CFP_END_DATE.equals(stringFilter.getPropertyId())
-                            || ConstantsUtils.Cfp_Company_Start_Date.equals(stringFilter.getPropertyId()) || ConstantsUtils.Cfp_Company_End_Date.equals(stringFilter.getPropertyId())
-                            || ConstantsUtils.Cfp_Attached_Date.equals(stringFilter.getPropertyId())) {
+                            || ConstantsUtils.CFP_COMPANY_START_DATE_COL.equals(stringFilter.getPropertyId()) || ConstantsUtils.CFP_COMPANY_END_DATE_COL.equals(stringFilter.getPropertyId())
+                            || ConstantsUtils.CFP_ATTACHED_DATE_COL.equals(stringFilter.getPropertyId())) {
 
                         String property = String.valueOf(stringFilter.getPropertyId());
 
@@ -2510,7 +2510,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         return StringUtils.EMPTY;
     }
 
-     public List<Object> getListForParentLookUp(final ErrorfulFieldGroup companyFamilyplanMaster,final BeanSearchCriteria searchCriteria, final String dbColumnName,final Boolean asc, final int start, final int end,String results) throws PortalException, SystemException {
+     public List<Object> getListForParentLookUp(final ErrorfulFieldGroup companyFamilyplanMaster,final Set<Container.Filter> searchCriteria, final String dbColumnName,final Boolean asc, final int start, final int end,String results) throws PortalException, SystemException {
         LOGGER.debug("Entering getListForParentLookUp getDynamicQuery");
         String companyFamilyPlanId = StringUtils.EMPTY;
         String companyFamilyPlanNo = StringUtils.EMPTY;
@@ -2518,9 +2518,9 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         String companyId = StringUtils.EMPTY;
         String companyNo = StringUtils.EMPTY;
         String companyName = StringUtils.EMPTY;
-        Map<Object, Object> parameters = new HashMap<Object, Object>();
+        Map<Object, Object> parameters = new HashMap<>();
         List cfpList = null;
-        Map<Object, Object> cfp = new HashMap<Object, Object>();
+        Map<Object, Object> cfp = new HashMap<>();
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
 
@@ -2597,8 +2597,8 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
              companyName = companyName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
              cfp.put(ConstantsUtils.COMPANY_NAME, companyName);
          }
-        if (searchCriteria != null && searchCriteria.getFilters() != null) {
-            for (Container.Filter filter : searchCriteria.getFilters()) {
+        if (searchCriteria != null ) {
+            for (Container.Filter filter : searchCriteria) {
 
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
@@ -2740,28 +2740,27 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
      * @param orderByColumns - columns going to get sorted
      * @return list of CFPDTO objects
      */
-    public List<CFPSearchDTO> searchCFPForParentLookUp(final ErrorfulFieldGroup companyFamilyplanMaster, final int start, final int end, final List<OrderByColumn> orderByColumns,final BeanSearchCriteria criteria) throws PortalException, SystemException {
+    public List<CFPSearchDTO> searchCFPForParentLookUp(final ErrorfulFieldGroup companyFamilyplanMaster, final int start, final int end, final List<SortByColumn> orderByColumns,final Set<Container.Filter> criteria) throws PortalException, SystemException {
         LOGGER.debug("Entering searchCFPForParentLookUp b2:" + start + " b3:" + end + " b4: " + ((orderByColumns == null) ? orderByColumns : orderByColumns.size()));
 
         //To load column in hashMap
         CommonUtils.loadColumnName();
         boolean asc = false;
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         String dbColumnName = StringUtils.EMPTY;
 
         CommonUtils.loadColumnNames();
-        for (final Iterator<OrderByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
-            final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
+        for (final Iterator<SortByColumn> iterator = orderByColumns.iterator(); iterator.hasNext();) {
+            final SortByColumn orderByColumn = (SortByColumn) iterator.next();
             columnName = orderByColumn.getName();
             dbColumnName = CommonUtils.getDbColumnNames(columnName);
-            if (orderByColumn.getType() == OrderByColumn.Type.ASC) {
+            if (orderByColumn.getType() == SortByColumn.Type.ASC) {
                 asc = false;
             } else {
                 asc = true;
             }
         }
          final List cfpList = getListForParentLookUp(companyFamilyplanMaster,criteria,dbColumnName, asc, start, end,searchresults);
-
 
         final List<CFPSearchDTO> cfpDTO = getCustomizedSearchFormModelForParentLookUp(cfpList);
         LOGGER.debug("return customized searchCFPForParentLookUp size :" + ((cfpDTO == null) ? cfpDTO : cfpDTO.size()));
@@ -2770,7 +2769,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
     
 
     public static List<CFPSearchDTO> getCustomizedSearchFormModelForParentLookUp(final List<Object[]> cfpMasterList) throws PortalException, SystemException {
-        final List<CFPSearchDTO> companyDTO = new ArrayList<CFPSearchDTO>();
+        final List<CFPSearchDTO> companyDTO = new ArrayList<>();
         Map<Integer, String> hm = com.stpl.app.util.GeneralCommonUtils.getCodeDescription();
         Map<Integer, String> userMap= StplSecurity.getUserName();
         for (Object[] obj : cfpMasterList) {
@@ -2849,9 +2848,9 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         String companyId = StringUtils.EMPTY;
         String companyNo = StringUtils.EMPTY;
         String companyName = StringUtils.EMPTY;
-        Map<Object, Object> parameters = new HashMap<Object, Object>();
+        Map<Object, Object> parameters = new HashMap<>();
         List cfpList = null;
-        Map<Object, Object> cfp = new HashMap<Object, Object>();
+        Map<Object, Object> cfp = new HashMap<>();
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
 
@@ -2962,8 +2961,10 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
+                        System.out.println("stringFilter.getPropertyId() = " + stringFilter.getPropertyId());
+                        System.out.println("stringFilter.getFilterString() = " + stringFilter.getFilterString());
                         if (ConstantsUtils.CFP_SYSTEM_ID.equals(stringFilter.getPropertyId())) {
-                            parameters.put(ConstantsUtils.CFP_SYSTEM_ID, stringFilter.getFilterString());
+                            parameters.put(ConstantsUtils.CFP_SYSTEM_ID, filterString);
                         }
                         if (ConstantsUtils.CFP_NO.equals(stringFilter.getPropertyId())) {
                             parameters.put(FieldNameUtils.COMPANYFAMILYPLANNO_SEARCH, filterString);
@@ -3107,7 +3108,7 @@ public class CFPSearchLogic extends BeanItemContainer<SearchCFPForm> implements 
         //To load column in hashMap
         CommonUtils.loadColumnName();
         boolean asc = false;
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         String dbColumnName = StringUtils.EMPTY;
 
         CommonUtils.loadColumnNames();

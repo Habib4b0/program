@@ -53,10 +53,10 @@ public class BPMProcessBean {
         taskService.delegate(taskId, actualUserId, targetUserId);
     }
 
-    public static TaskSummary getAvailableTask(Long processInstanceId, String userId) {
+    public static TaskSummary getAvailableTask(Long processInstanceId) {
         TaskSummary taskSummary = null;
         TaskService taskService = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService();
-        List<Status> status = new ArrayList<Status>();
+        List<Status> status = new ArrayList<>();
         try {
             status.add(Status.Ready);
             status.add(Status.Reserved);
@@ -85,7 +85,7 @@ public class BPMProcessBean {
 
     public static List<String> getPotentialOwners(long taskId, List<String> roleList) {
         if (roleList == null) {
-            roleList = new ArrayList<String>();
+            roleList = new ArrayList<>();
         }
         List<OrganizationalEntity> list = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService().getTaskById(taskId).getPeopleAssignments().getPotentialOwners();
         LOGGER.debug("OrganizationalEntity list  :" + list);

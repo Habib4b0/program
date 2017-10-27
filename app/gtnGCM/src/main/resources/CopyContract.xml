@@ -62,6 +62,7 @@ and open the template in the editor.
               
             
         </Panel>
+        <Button id="excelBtn" immediate="true" caption="" />
         <HorizontalLayout>
             <Button id="btnreset" caption="RESET" alignment="BOTTOM_LEFT" />
             <Button id="copyBtn" caption="COPY" alignment="BOTTOM_LEFT" /> 

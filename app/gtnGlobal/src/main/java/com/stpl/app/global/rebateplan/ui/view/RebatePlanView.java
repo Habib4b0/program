@@ -51,11 +51,11 @@ public class RebatePlanView extends VerticalLayout implements View {
     /**
      * The binder.
      */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<RebatePlanMasterDTO>(new RebatePlanMasterDTO()));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(new RebatePlanMasterDTO()));
     /**
      * The rebate plan tier results.
      */
-    private final BeanItemContainer<RebatePlanTierResults> rebatePlanTierResults = new BeanItemContainer<RebatePlanTierResults>(RebatePlanTierResults.class);
+    private final BeanItemContainer<RebatePlanTierResults> rebatePlanTierResults = new BeanItemContainer<>(RebatePlanTierResults.class);
     /**
      * The rebate plan master dto.
      */
@@ -76,7 +76,7 @@ public class RebatePlanView extends VerticalLayout implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public RebatePlanView(final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public RebatePlanView(final SessionDTO sessionDTO) {
         super();
         setStyleName("bootstrap-company");
         setSpacing(true);
@@ -92,7 +92,7 @@ public class RebatePlanView extends VerticalLayout implements View {
         try {            
             LOGGER.debug("Enter Method");
             this.removeAllComponents();
-            binder = new ErrorfulFieldGroup(new BeanItem<RebatePlanMasterDTO>(new RebatePlanMasterDTO()));
+            binder = new ErrorfulFieldGroup(new BeanItem<>(new RebatePlanMasterDTO()));
             if ((ConstantsUtils.VIEW).equals(sessionDTO.getMode())) {
                 LOGGER.debug("View Module");
                 final RebatePlanSearchLogic rebatePlanLogic = new RebatePlanSearchLogic();
@@ -100,11 +100,11 @@ public class RebatePlanView extends VerticalLayout implements View {
                 final int systemId = Integer.valueOf(idValue.replaceAll("\\,", ""));
                 LOGGER.debug("getRebatePlanMasterById method Initiated, systemId= " + systemId);
                 rebatePlanMasterDTO = rebatePlanLogic.getRebatePlanMasterById(systemId);
-                binder.setItemDataSource(new BeanItem<RebatePlanMasterDTO>(rebatePlanMasterDTO));
+                binder.setItemDataSource(new BeanItem<>(rebatePlanMasterDTO));
                 rebatePlanMasterDTO.setItemPricingQualifierMap(RebatePlanSearchLogic.getItemPricingQualifiers());
                 rebatePlanTierResults.removeAllItems();
                 rebatePlanTierResults.addAll(rebatePlanLogic.getRebatePlanTiersfromId(rebatePlanMasterDTO.getRebatePlanSystemId(),rebatePlanMasterDTO));
-                if (rebatePlanTierResults != null && rebatePlanTierResults.lastItemId() != null && rebatePlanTierResults.lastItemId().getTierTo() != null) {
+                if (rebatePlanTierResults.lastItemId() != null && rebatePlanTierResults.lastItemId().getTierTo() != null) {
                     BigDecimal tierToValue = rebatePlanTierResults.lastItemId().getTierTo();
                     rebatePlanMasterDTO.setTierFrom((tierToValue.add(BigDecimal.valueOf(NumericConstants.DOUBLE_ZERO_ZERO_ONE))).setScale(NumericConstants.TWO, RoundingMode.HALF_UP).toPlainString());
                 }
@@ -121,30 +121,30 @@ public class RebatePlanView extends VerticalLayout implements View {
                     rebatePlanMasterDTO.setFormulaType("Simple");
                 }
                 if (ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
-                    rebatePlanMasterDTO.setRebatePlanSystemId(ConstantsUtils.ZERO_INT);
+                    rebatePlanMasterDTO.setRebatePlanSystemId(sessionDTO.getSystemId());
                     rebatePlanMasterDTO.setRebatePlanId(StringUtils.EMPTY);
                     rebatePlanMasterDTO.setRebatePlanStatus(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
                     rebatePlanMasterDTO.setRebatePlanName(StringUtils.EMPTY);
                     rebatePlanMasterDTO.setRebatePlanNo(StringUtils.EMPTY);
                     rebatePlanMasterDTO.setFormulaType("Simple");
                 }
-                binder.setItemDataSource(new BeanItem<RebatePlanMasterDTO>(rebatePlanMasterDTO));
+                binder.setItemDataSource(new BeanItem<>(rebatePlanMasterDTO));
                 rebatePlanMasterDTO.setItemPricingQualifierMap(RebatePlanSearchLogic.getItemPricingQualifiers());
                 rebatePlanTierResults.removeAllItems();
                 rebatePlanTierResults.addAll(rebatePlanLogic.getRebatePlanTiersfromId(rebatePlanMasterId,rebatePlanMasterDTO));
-                if (rebatePlanTierResults != null && rebatePlanTierResults.lastItemId() != null && rebatePlanTierResults.lastItemId().getTierTo() != null) {
+                if (rebatePlanTierResults.lastItemId() != null && rebatePlanTierResults.lastItemId().getTierTo() != null) {
                     BigDecimal tierToValue = rebatePlanTierResults.lastItemId().getTierTo();
                     rebatePlanMasterDTO.setTierFrom((tierToValue.add(BigDecimal.valueOf(NumericConstants.DOUBLE_ZERO_ZERO_ONE))).setScale(NumericConstants.TWO, RoundingMode.HALF_UP).toPlainString());
                 }
                 value = rebatePlanTierResults.size() + 1;
-                binder = new ErrorfulFieldGroup(new BeanItem<RebatePlanMasterDTO>(rebatePlanMasterDTO));
+                binder = new ErrorfulFieldGroup(new BeanItem<>(rebatePlanMasterDTO));
                 rebatePlanMasterDTO.setTierLevel(value);
                 rebatePlanAddForm = new RebatePlanForm(rebatePlanMasterDTO, binder, rebatePlanTierResults,sessionDTO);
                 addComponent(rebatePlanAddForm);
                 rebatePlanAddForm.setDefaultFocus();
             } else {
                 rebatePlanTierResults.removeAllItems();
-                binder.setItemDataSource(new BeanItem<RebatePlanMasterDTO>(new RebatePlanMasterDTO()));
+                binder.setItemDataSource(new BeanItem<>(new RebatePlanMasterDTO()));
                 RebatePlanMasterDTO dto = new RebatePlanMasterDTO();
                 dto.setItemPricingQualifierMap(RebatePlanSearchLogic.getItemPricingQualifiers());
                 rebatePlanAddForm = new RebatePlanForm(dto, binder, rebatePlanTierResults,sessionDTO);

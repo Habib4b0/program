@@ -36,7 +36,6 @@ public class AddDiscountWindow extends CustomWindow {
     }
 
     private void init() throws SystemException {
-        loadSessionDTO();
         setContent(new AddDiscountAddView(this, session, removeList));
         center();
         setCaption("Add Discount");
@@ -46,11 +45,8 @@ public class AddDiscountWindow extends CustomWindow {
         setMinimizeToTray();
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
     }
 
-    private void loadSessionDTO() {
-
-    }
 }

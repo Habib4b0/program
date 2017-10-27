@@ -79,7 +79,7 @@ public class WfMailConfigPersistenceImpl extends BasePersistenceImpl<WfMailConfi
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
                 "smtpFlag", "createdBy", "emailAddress", "password",
                 "modifiedBy", "wfMailConfigSid", "hostName", "createdDate",
-                "portNumber", "modifiedDate", "inboundStatus"
+                "portNumber", "modifiedDate", "inboundStatus", "testMailAddress"
             });
     private static WfMailConfig _nullWfMailConfig = new WfMailConfigImpl() {
             @Override
@@ -339,6 +339,7 @@ public class WfMailConfigPersistenceImpl extends BasePersistenceImpl<WfMailConfi
         wfMailConfigImpl.setPortNumber(wfMailConfig.getPortNumber());
         wfMailConfigImpl.setModifiedDate(wfMailConfig.getModifiedDate());
         wfMailConfigImpl.setInboundStatus(wfMailConfig.getInboundStatus());
+        wfMailConfigImpl.setTestMailAddress(wfMailConfig.getTestMailAddress());
 
         return wfMailConfigImpl;
     }

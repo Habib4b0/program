@@ -15,6 +15,7 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
+import static com.stpl.ifs.ui.util.AbstractNotificationUtils.LOGGER;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.stpl.ifs.util.constants.WorkflowMessages;
@@ -29,6 +30,8 @@ import org.asi.ui.custommenubar.CustomMenuBar;
  */
 public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
 
+    private boolean creditFlag;
+
     public AdjustmentDetailInventory(AbstractSelectionDTO selectionDto) {
         super(new PIDetailsLogic(), selectionDto);
         init();
@@ -38,22 +41,26 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetail_Level(level.getValue().toString());
-        selection.setDetail_variables(Arrays.asList(variableValue));
+        selection.setDetailLevel(level.getValue().toString());
+        selection.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetail_reserveAcount(account.size() > 0 ? account.get(0) : null);
+        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetail_amountFilter(amtFilter.size() > 0 ? amtFilter : null);
+        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
-        selection.setSave_detail_variables(selectedVariable.size() > 0 ? selectedVariable.get(0) : null);
+
+        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        creditFlag = logic.cerditDebitEqualCheck(selection);
     }
 
     @Override
     protected void generateBtn() {
         setSelection();
-        if (logic.generateButtonCheck(selection)) {
+        if (logic.generateButtonCheck(selection) && !creditFlag) {
             super.generateBtn();
             tableLogic.loadSetData(Boolean.TRUE);
+        } else if (creditFlag && isGenerateFlag()) {
+            AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageMsgHeader003(), ARMMessages.getGenerateMessageMsgId006());
         } else if (isGenerateFlag()) {
             AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
         }
@@ -69,21 +76,23 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
         List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
                 Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
-        CommonUtils.CheckAllMenuBarItem(reserveMenuItem);
+        CommonUtils.checkAllMenuBarItem(reserveMenuItem);
     }
 
+    @Override
     protected void loadVariable() {
-        variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE_COMBOBOX : ARMUtils.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE_COMBOBOX;
-        variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE : VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE;
+        variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.getAdjustmentDemandPipelineReserveVariableCombobox() : ARMUtils.getAdjustmentDemandPipelineGtnVariableCombobox();
+        variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.getAdjustmentDemandPipelineReserveVariable() : VariableConstants.getAdjustmentDemandPipelineGtnVariable();
     }
 
     /**
      * This method is used for selecting the variables in the Variable menu bar
      */
+    @Override
     protected void variableDefaultSelection() {
         List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
-                ? VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE_DEFAULT_SELECTION
-                : VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE_DEFAULT_SELECTION);
+                ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
+                : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
             if (list.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(Boolean.TRUE);
@@ -98,6 +107,8 @@ public class AdjustmentDetailInventory extends AbstractAdjustmentDetails {
 
     @Override
     protected void columnAlignmentChanges() {
+        LOGGER.debug("Inside columnAlignmentChanges  Method");
+
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) throws Exception {

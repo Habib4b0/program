@@ -17,7 +17,7 @@ import java.util.Map;
  * @author Asha.Ravi
  */
 public interface DataSelectionDAO {
-    
+
     /**
      * Gets the projection master.
      *
@@ -28,7 +28,7 @@ public interface DataSelectionDAO {
      * @throws Exception the exception
      */
     public List<ProjectionMaster> getProjectionMaster(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
-    
+
     /**
      * Update projection master.
      *
@@ -39,7 +39,7 @@ public interface DataSelectionDAO {
      * @throws Exception the exception
      */
     ProjectionMaster updateProjectionMaster(ProjectionMaster projectionMaster) throws PortalException, SystemException;
-    
+
     /**
      * Gets the projection master.
      *
@@ -50,6 +50,6 @@ public interface DataSelectionDAO {
      * @throws Exception the exception
      */
     ProjectionMaster getProjectionMaster(int systemId) throws PortalException, SystemException;
-    
+
     public Object tempOperation(final Map<String, Object> input, final String queryName) throws SystemException;
 }

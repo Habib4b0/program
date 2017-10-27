@@ -75,6 +75,7 @@ public class NotesTextField extends CustomField {
 
             @Override
             public void textChange(FieldEvents.TextChangeEvent event) {
+                return;
             }
         });
         txtArea.addBlurListener(new FieldEvents.BlurListener() {

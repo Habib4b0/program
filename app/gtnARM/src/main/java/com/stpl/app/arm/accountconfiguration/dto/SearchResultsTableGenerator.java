@@ -18,10 +18,10 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.jboss.logging.Logger;
 
@@ -39,10 +39,10 @@ public class SearchResultsTableGenerator implements ExtFilterGenerator {
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
-        if ((propertyId.toString().equals("createdBy")) && (value != null)) {
+        if (("createdBy".equals(propertyId.toString())) && (value != null)) {
             return new SimpleStringFilter(propertyId, String.valueOf(value), false, false);
         }
-        if ((propertyId.toString().equals("brand")) && (value != null)) {
+        if (("brand".equals(propertyId.toString())) && (value != null)) {
             return new SimpleStringFilter(propertyId, String.valueOf(value), false, false);
         }
         return null;
@@ -52,7 +52,7 @@ public class SearchResultsTableGenerator implements ExtFilterGenerator {
     public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
         String value = null;
         if (((originatingField instanceof ComboBox) && (originatingField.getValue() != null))) {
-            if ((originatingField.getValue() != null) && ((propertyId.toString().equals("companyNoHelperDto")) || (propertyId.toString().equals("companyNo")) || (propertyId.toString().equals("businessNoHelperDto"))) || (propertyId.toString().equals("businessUnitNo"))) {
+            if ((originatingField.getValue() != null) && (("companyNoHelperDto".equals(propertyId.toString())) || ("companyNo".equals(propertyId.toString())) || ("businessNoHelperDto".equals(propertyId.toString()))) || ("businessUnitNo".equals(propertyId.toString()))) {
                 HelperDTO helperDto = (HelperDTO) originatingField.getValue();
                 return new HelperDTOFilter(propertyId, helperDto.getId());
             }
@@ -63,10 +63,12 @@ public class SearchResultsTableGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        LOGGER.debug("Inside filterRemoved");
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        LOGGER.debug("Inside filterAdded Override Method");
     }
 
     @Override
@@ -96,11 +98,10 @@ public class SearchResultsTableGenerator implements ExtFilterGenerator {
                     comboBox.setNullSelectionItemId(NumericConstants.ZERO);
                     return comboBox;
                 case "brand":
-                    logic.loadBrandDdlb(comboBox, new ArrayList<Object[]>(), Boolean.FALSE, Boolean.TRUE);
-                    return comboBox;
                 case "brandDdlb":
                     logic.loadBrandDdlb(comboBox, new ArrayList<Object[]>(), Boolean.FALSE, Boolean.TRUE);
                     return comboBox;
+
                 case "account":
                     comboBox.addItem(ConstantsUtils.SHOW_ALL);
                     comboBox.setItemCaption(ConstantsUtils.SHOW_ALL, ConstantsUtils.SHOW_ALL);
@@ -115,22 +116,19 @@ public class SearchResultsTableGenerator implements ExtFilterGenerator {
                     comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL);
                     return comboBox;
                 case "companyNoHelperDto":
-                    logic.loadCompanyOrBusinessUnitDdlb(comboBox, new ArrayList<Object[]>(), "getCompanyQuery", Boolean.FALSE, Boolean.TRUE);
-                    return comboBox;
-                case "businessNoHelperDto":
-                    logic.loadCompanyOrBusinessUnitDdlb(comboBox, new ArrayList<Object[]>(), "getBusinessQuery", Boolean.FALSE, Boolean.TRUE);
-                    return comboBox;
                 case "companyNo":
                     logic.loadCompanyOrBusinessUnitDdlb(comboBox, new ArrayList<Object[]>(), "getCompanyQuery", Boolean.FALSE, Boolean.TRUE);
                     return comboBox;
+                case "businessNoHelperDto":
                 case "businessUnitNo":
                     logic.loadCompanyOrBusinessUnitDdlb(comboBox, new ArrayList<Object[]>(), "getBusinessQuery", Boolean.FALSE, Boolean.TRUE);
                     return comboBox;
+
                 default:
                     return null;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getCustomFilterComponent"+ex);
         }
         return null;
     }

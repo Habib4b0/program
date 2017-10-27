@@ -57,11 +57,11 @@ public class ItemGroupDAO implements BeanDAO<ItemGroupDTO> {
      */
     public List<ItemGroupDTO> find(BeanSearchCriteria criteria, int startIndex, int offset, List<OrderByColumn> columns) {
         try {
-            final List<ItemGroupDTO> searchResults = new ArrayList<ItemGroupDTO>();
+            final List<ItemGroupDTO> searchResults = new ArrayList<>();
             return searchResults;
         } catch (Exception e) {
             LOGGER.error(e);
         }
-        return new ArrayList<ItemGroupDTO>();
+        return new ArrayList<>();
     }
 }

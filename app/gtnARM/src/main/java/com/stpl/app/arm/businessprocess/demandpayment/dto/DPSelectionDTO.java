@@ -12,6 +12,5 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
  * @author Karthikeyan.Subraman
  */
 public class DPSelectionDTO extends AbstractSelectionDTO {
-  
-    
+
 }

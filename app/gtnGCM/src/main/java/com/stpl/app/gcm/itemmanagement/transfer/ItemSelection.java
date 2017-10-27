@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.transfer;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
@@ -15,6 +16,7 @@ import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
@@ -133,13 +135,13 @@ public class ItemSelection extends CustomComponent {
     SelectionDTO selection;
     ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
     public ExtPagedTable itemFromLS = new ExtPagedTable(tableLogic);
-    public List<ItemIndexDto> selecteditemList = new ArrayList<ItemIndexDto>();
-    List<ItemIndexDto> selectedToBeTransferredList = new ArrayList<ItemIndexDto>();
-    BeanItemContainer<ItemIndexDto> itemViewContainer = new BeanItemContainer<ItemIndexDto>(ItemIndexDto.class);
-    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<ItemIndexDto>(ItemIndexDto.class);
-    BeanItemContainer<ItemIndexDto> transferContainer = new BeanItemContainer<ItemIndexDto>(ItemIndexDto.class);
+    public List<ItemIndexDto> selecteditemList = new ArrayList<>();
+    List<ItemIndexDto> selectedToBeTransferredList = new ArrayList<>();
+    BeanItemContainer<ItemIndexDto> itemViewContainer = new BeanItemContainer<>(ItemIndexDto.class);
+    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
+    BeanItemContainer<ItemIndexDto> transferContainer = new BeanItemContainer<>(ItemIndexDto.class);
     ItemIndexDto binderDto = new ItemIndexDto();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ItemIndexDto>(binderDto));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     AbstractLogic logic = AbstractLogic.getInstance();
     ItemIndexTableLogic resultTableLogic = new ItemIndexTableLogic();
     public ExtPagedTable itemResult = new ExtPagedTable(resultTableLogic);
@@ -147,15 +149,16 @@ public class ItemSelection extends CustomComponent {
     public static final Logger LOGGER = Logger.getLogger(ItemSelection.class);
     public ExtFilterTable transferTable = new ExtFilterTable();
     VerticalLayout contractDashboardLay = new VerticalLayout();
-    final List<ItemIndexDto> excelList = new ArrayList<ItemIndexDto>();
-    final List<String> sidList = new ArrayList<String>();
+    final List<ItemIndexDto> excelList = new ArrayList<>();
+    final List<String> sidList = new ArrayList<>();
     final List<String> fromList = new ArrayList<>();
     final List<String> toList = new ArrayList<>();
     CommmonLogic comLogic = new CommmonLogic();
     final List<String> tranferredCount = new ArrayList<>();
-    final List<String> fromLsSidList = new ArrayList<String>();
+    final List<String> fromLsSidList = new ArrayList<>();
     String excelName = StringUtils.EMPTY;
-
+    public static final String EXCEL_EXPORT = "Excel Export";
+    
     public ItemSelection(SelectionDTO selection, List<ItemIndexDto> itemList) {
         this.selecteditemList = itemList;
         this.selection = selection;
@@ -177,39 +180,40 @@ public class ItemSelection extends CustomComponent {
 
     private void configurefields() {
         exportBtncur.addStyleName("link");
-        exportBtncur.setIcon(excelExportImage, "Excel Export");
+        exportBtncur.setIcon(excelExportImage, EXCEL_EXPORT);
         exportBtncurr.addStyleName("link");
-        exportBtncurr.setIcon(excelExportImage, "Excel Export");
+        exportBtncurr.setIcon(excelExportImage, EXCEL_EXPORT);
         export.addStyleName("link");
-        export.setIcon(excelExportImage, "Excel Export");
+        export.setIcon(excelExportImage, EXCEL_EXPORT);
     }
 
     @UiHandler("export")
     public void exportButtonLogic(Button.ClickEvent event) {        
         try {
             if (itemViewContainer.size() > 0) {
-                createWorkSheet("Selected Items");
+                createWorkSheet(StringConstantsUtil.SELECTED_ITEMS);
             }
         } catch (Exception e) {
             LOGGER.error(e);
         }
     }
-    public void createWorkSheet(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    
+    public void createWorkSheet(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = selecteditemList.size();
         List<String> visibleList = Arrays.asList(itemFromLS.getColumnHeaders()).subList(1, itemFromLS.getVisibleColumns().length);
-        excelName = "Selected Items";
+        excelName = StringConstantsUtil.SELECTED_ITEMS;
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_"));        
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException, NoSuchFieldException {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(end);
         binderDto.setIsCount(true);
-        if(excelName.equals("Selected Items")){
+        if(excelName.equals(StringConstantsUtil.SELECTED_ITEMS)){
             List visibleList = Arrays.asList(itemFromLS.getVisibleColumns()).subList(1, itemFromLS.getVisibleColumns().length);        
             ExcelExportforBB.createFileContent(visibleList.toArray(), selecteditemList, printWriter);
         } 
-        if(excelName.equals("Item Results")){
+        if(excelName.equals(StringConstantsUtil.ITEM_RESULTS)){
             ItemLogic logic = new ItemLogic();
             List<ItemIndexDto> list = null;
             if (!selection.isReset()) {
@@ -218,7 +222,7 @@ public class ItemSelection extends CustomComponent {
             List visibleList = Arrays.asList(itemResult.getVisibleColumns()).subList(1, itemResult.getVisibleColumns().length);        
             ExcelExportforBB.createFileContent(visibleList.toArray(), list, printWriter);
         }
-        if(excelName.equals("Transfer Items")){
+        if(excelName.equals(StringConstantsUtil.TRANSFER_ITEMS)){
             List<ItemIndexDto> list = transferContainer.getItemIds();
             List visibleList = Arrays.asList(transferTable.getVisibleColumns()).subList(1, transferTable.getVisibleColumns().length);        
             ExcelExportforBB.createFileContent(visibleList.toArray(), list, printWriter);
@@ -237,6 +241,7 @@ public class ItemSelection extends CustomComponent {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the Search Criteria?");
 
@@ -258,6 +263,7 @@ public class ItemSelection extends CustomComponent {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the Results list view?");
     }
@@ -266,7 +272,7 @@ public class ItemSelection extends CustomComponent {
     public void transferBtncurButtonLogic(Button.ClickEvent event) {
         setFromItemSid();
         if (itemFromLS.getValue() != null && itemResult.getValue() != null) {
-            final List<ItemIndexDto> list = new ArrayList<ItemIndexDto>();
+            final List<ItemIndexDto> list = new ArrayList<>();
             ItemIndexDto fromDTO = (ItemIndexDto) itemFromLS.getValue();
             ItemIndexDto toDTO = (ItemIndexDto) itemResult.getValue();
             ItemIndexDto transferDTO = new ItemIndexDto();
@@ -296,13 +302,13 @@ public class ItemSelection extends CustomComponent {
     public void exportBtncurrButtonLogic(Button.ClickEvent event) {        
         try {
             if (searchContainer.size() > 0) {
-                createWorkSheetItemResults("Item Results");
+                createWorkSheetItemResults(StringConstantsUtil.ITEM_RESULTS);
             }
         } catch (Exception e) {
             LOGGER.error(e);
         }
     }
-    public void createWorkSheetItemResults(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheetItemResults(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         binderDto.setIsCount(false);
         ItemLogic logic = new ItemLogic();
@@ -310,7 +316,7 @@ public class ItemSelection extends CustomComponent {
            recordCount = logic.getSearchCount(binderDto, selection);           
         }
         List<String> visibleList = Arrays.asList(itemResult.getColumnHeaders()).subList(1, itemResult.getVisibleColumns().length);
-        excelName = "Item Results";
+        excelName = StringConstantsUtil.ITEM_RESULTS;
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());        
     }
 
@@ -322,7 +328,7 @@ public class ItemSelection extends CustomComponent {
                 @Override
                 public void yesMethod() {
                     Collection object = transferTable.getItemIds();
-                    List<ItemIndexDto> toBeRemoved = new ArrayList<ItemIndexDto>();
+                    List<ItemIndexDto> toBeRemoved = new ArrayList<>();
                     for (Object itemId : object) {
                         ItemIndexDto dto = (ItemIndexDto) itemId;
                         if (dto.getCheckRecord()) {
@@ -339,6 +345,7 @@ public class ItemSelection extends CustomComponent {
 
                 @Override
                 public void noMethod() {
+                    return;
                 }
             }.getConfirmationMessage("Remove Confirmation", "Are you sure you want to undo these selected Item links? Items will be returned to their respective list views. ");
         } else {
@@ -351,19 +358,19 @@ public class ItemSelection extends CustomComponent {
         
         try {
             if (transferContainer.size() > 0) {
-                createWorkSheetTransferItem("Transfer Items");
+                createWorkSheetTransferItem(StringConstantsUtil.TRANSFER_ITEMS);
             }
         } catch (Exception e) {
             LOGGER.error(e);
         }
     }
-    public void createWorkSheetTransferItem(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheetTransferItem(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         
         List<ItemIndexDto> list = transferContainer.getItemIds();
         recordCount = list.size();
         List<String> visibleList = Arrays.asList(transferTable.getColumnHeaders()).subList(1, transferTable.getVisibleColumns().length);
-        excelName = "Transfer Items";
+        excelName = StringConstantsUtil.TRANSFER_ITEMS;
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());        
     }
 
@@ -411,8 +418,8 @@ public class ItemSelection extends CustomComponent {
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableLogic.setPageLength(NumericConstants.FIVE);
         itemFromLS.setSizeFull();
-        itemFromLS.setVisibleColumns(CommonUtils.visibleColumnItem);
-        itemFromLS.setColumnHeaders(CommonUtils.columnHeaderItem);
+        itemFromLS.setVisibleColumns(UiUtils.getInstance().visibleColumnItem);
+        itemFromLS.setColumnHeaders(UiUtils.getInstance().columnHeaderItem);
         itemFromLS.setEditable(Boolean.FALSE);
         itemFromLS.setSelectable(true);
         itemFromLS.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -425,8 +432,8 @@ public class ItemSelection extends CustomComponent {
         transferTable.setContainerDataSource(transferContainer);
         transferTable.setSizeFull();
         transferTable.setPageLength(NumericConstants.FIVE);
-        transferTable.setVisibleColumns(CommonUtils.TRANSFER_VISBLE);
-        transferTable.setColumnHeaders(CommonUtils.TRANSFER_HEADER);
+        transferTable.setVisibleColumns(UiUtils.getInstance().transferVisible);
+        transferTable.setColumnHeaders(UiUtils.getInstance().transferHeader);
         transferTable.setEditable(Boolean.TRUE);
         transferTable.setSelectable(Boolean.FALSE);
         transferTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -556,8 +563,8 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadPlaceHolder(ComboBox placeHolder_DTO, boolean isFilter) {
-        BeanItemContainer<HelperDTO> container = new BeanItemContainer<HelperDTO>(HelperDTO.class);
-        List<HelperDTO> placeHolderList = new ArrayList<HelperDTO>();
+        BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
+        List<HelperDTO> placeHolderList = new ArrayList<>();
         HelperDTO dto = new HelperDTO(NumericConstants.ELEVEN, Constants.SELECT_ONE);
         HelperDTO showAll = new HelperDTO(NumericConstants.ELEVEN, Constants.SHOW_ALL);
         HelperDTO yesDto = new HelperDTO(1, "Yes");
@@ -600,7 +607,7 @@ public class ItemSelection extends CustomComponent {
 
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<ItemIndexDto>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }
@@ -611,8 +618,8 @@ public class ItemSelection extends CustomComponent {
         resultTableLogic.setPageLength(NumericConstants.FIVE);
         resultTableLogic.sinkItemPerPageWithPageLength(false);
         itemResult.setSizeFull();
-        itemResult.setVisibleColumns(CommonUtils.visibleColumnItem);
-        itemResult.setColumnHeaders(CommonUtils.columnHeaderItem);
+        itemResult.setVisibleColumns(UiUtils.getInstance().visibleColumnItem);
+        itemResult.setColumnHeaders(UiUtils.getInstance().columnHeaderItem);
         itemResult.setEditable(Boolean.FALSE);
         itemResult.setSelectable(true);
         itemResult.addStyleName(VALO_THEME_EXTFILTERING_TABLE);

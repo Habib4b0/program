@@ -9,6 +9,7 @@ package com.stpl.app.arm.supercode;
  *
  * @author Abhiram.Giri
  */
-public interface HasTableLogic{
+public interface HasTableLogic {
+
     public TableLogicAble getTableLogic();
 }

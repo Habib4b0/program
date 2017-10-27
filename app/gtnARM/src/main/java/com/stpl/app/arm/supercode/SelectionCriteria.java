@@ -14,18 +14,24 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  *
  * @author Abhiram.Giri
  */
-public class SelectionCriteria implements Criteria{
-    /** The sort by columns. */
-    private List<SortByColumn> sortByColumns=null;
-    
-    /** The added filters. */
-    private Set<Container.Filter> filters=null;
-    private SelectionDTO selectionDto=null;
-    private int start=0;
-    private int offset=0;
-    private Object parent=null;
-    private int currentPage,lastPage;
+public class SelectionCriteria implements Criteria {
+
+    /**
+     * The sort by columns.
+     */
+    private List<SortByColumn> sortByColumns = null;
+
+    /**
+     * The added filters.
+     */
+    private Set<Container.Filter> filters = null;
+    private SelectionDTO selectionDto = null;
+    private int start = 0;
+    private int offset = 0;
+    private Object parent = null;
+    private int currentPage, lastPage;
     private int siblingCount;
+
     @Override
     public List<SortByColumn> getSortByColumns() {
         return sortByColumns;
@@ -80,6 +86,7 @@ public class SelectionCriteria implements Criteria{
         this.parent = parent;
     }
 
+    @Override
     public int getCurrentPage() {
         return currentPage;
     }
@@ -88,6 +95,7 @@ public class SelectionCriteria implements Criteria{
         this.currentPage = currentPage;
     }
 
+    @Override
     public int getLastPage() {
         return lastPage;
     }
@@ -96,6 +104,7 @@ public class SelectionCriteria implements Criteria{
         this.lastPage = lastPage;
     }
 
+    @Override
     public int getSiblingCount() {
         return siblingCount;
     }
@@ -103,5 +112,5 @@ public class SelectionCriteria implements Criteria{
     public void setSiblingCount(int siblingCount) {
         this.siblingCount = siblingCount;
     }
-    
+
 }

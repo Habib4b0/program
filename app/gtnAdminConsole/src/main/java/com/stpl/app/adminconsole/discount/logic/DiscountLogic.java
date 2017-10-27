@@ -71,7 +71,7 @@ public class DiscountLogic {
     }
 
     public List<DiscountSearchDTO> getSearchResults(final DiscountSearchDTO searchDto) throws SystemException {
-        List<DiscountSearchDTO> searchList = new ArrayList<DiscountSearchDTO>();
+        List<DiscountSearchDTO> searchList = new ArrayList<>();
         String deductionQuery = getDeductionQuery(searchDto);
         List<Object[]> resulList = (List<Object[]>) FMDAO.executeSelectQuery(deductionQuery, null, null);
         if (!resulList.isEmpty()) {
@@ -103,8 +103,8 @@ public class DiscountLogic {
      * @throws SystemException the system exception
      */
     public List<SearchResultsDTO> getDeductionGroup(final ErrorfulFieldGroup binder, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) throws SystemException {
-        List<DeductionGroup> list = new ArrayList<DeductionGroup>();
-        List<SearchResultsDTO> searchList = new ArrayList<SearchResultsDTO>();
+        List<DeductionGroup> list;
+        List<SearchResultsDTO> searchList;
 
         final DynamicQuery discountgroupDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroup.class);
         if (binder.getField(ConstantsUtils.TEXT1).getValue() != null && StringUtils.isNotEmpty(binder.getField(ConstantsUtils.TEXT1).getValue().toString())) {
@@ -240,7 +240,7 @@ public class DiscountLogic {
      */
     public List<DiscountSearchDTO> getSearchcustomizedResults(final List<RsModel> resultsList) throws SystemException {
         LOGGER.debug("Entering insdie getSearchcustomizedResults method with resultList");
-        final List<DiscountSearchDTO> list = new ArrayList<DiscountSearchDTO>();
+        final List<DiscountSearchDTO> list = new ArrayList<>();
         for (int i = 0; i < resultsList.size(); i++) {
             try {
                 DiscountSearchDTO dto = new DiscountSearchDTO();
@@ -278,7 +278,7 @@ public class DiscountLogic {
      */
     public List<SearchResultsDTO> getcustomizedResults(final List<DeductionGroup> resultsList) throws SystemException {
         LOGGER.debug("Entering insdie getcustomizedResults method with resultList");
-        final List<SearchResultsDTO> list = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> list = new ArrayList<>();
         final Map<String, String> userInfoMap = CommonUtil.getCreatedByUser();
         for (int i = 0; i < resultsList.size(); i++) {
             SearchResultsDTO dto = new SearchResultsDTO();
@@ -306,7 +306,7 @@ public class DiscountLogic {
      * @throws Exception the exception
      */
     public List<Integer> saveDiscount(final CustomFieldGroup binder, final List<DiscountSearchDTO> selectedRebates, final int version, final SessionDTO sessionDTO) throws SystemException, PortalException {
-        final List<Integer> idList = new ArrayList<Integer>();
+        final List<Integer> idList = new ArrayList<>();
         final int userId = Integer.valueOf(sessionDTO.getUserId());
         int versionNo = version + 1;
         final int deductionGroupSystemId = sessionDTO.getSystemId();
@@ -349,11 +349,12 @@ public class DiscountLogic {
      */
     public List<HelperDTO> getDropDownList(final String listName) throws SystemException {
         List<HelperTable> list = null;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("getDropDownList listName=" + listName);
         list = DAO.getHelperTableDetailsByListName(listName);
-        LOGGER.debug("getDropDownList listSize=" + list.size());
+        
         if (list != null) {
+            LOGGER.debug("getDropDownList listSize=" + list.size());
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
@@ -393,7 +394,7 @@ public class DiscountLogic {
                     deductionGroupDetails.setCreatedBy(NumericConstants.TWO_NINE_FIVE);
                     deductionGroupDetails.setCreatedDate(date);
                     deductionGroupDetails.setModifiedDate(date);
-                    deductionGroupDetails = DAO.addDeductionGroupDetails(deductionGroupDetails);
+                    DAO.addDeductionGroupDetails(deductionGroupDetails);
                 } else {
                     // Group ADD or EDIT
                     if (savedItemsMap.containsKey(rebate.getRebateScheduleSid())) {
@@ -401,19 +402,19 @@ public class DiscountLogic {
                         deductionGroupDetails.setModifiedDate(date);
                         deductionGroupDetails.setModifiedBy(NumericConstants.TWO_NINE_FIVE);
                         deductionGroupDetails.setVersionNo(version);
-                        deductionGroupDetails = DAO.updateDeductionGroupDetails(deductionGroupDetails);
+                        DAO.updateDeductionGroupDetails(deductionGroupDetails);
                         savedItemsMap.remove(rebate.getRebateScheduleSid());
                     } else {// to save new rebate in existing item group
                         deductionGroupDetails.setCreatedBy(NumericConstants.TWO_NINE_FIVE);
                         deductionGroupDetails.setCreatedDate(date);
                         deductionGroupDetails.setModifiedDate(date);
                         deductionGroupDetails.setVersionNo(version);
-                        deductionGroupDetails = DAO.addDeductionGroupDetails(deductionGroupDetails);
+                        DAO.addDeductionGroupDetails(deductionGroupDetails);
                     }
                 }
             }
             if (!savedItemsMap.isEmpty()) {
-                final List<DeductionGroupDetails> itemListToDelete = new ArrayList<DeductionGroupDetails>(savedItemsMap.values());
+                final List<DeductionGroupDetails> itemListToDelete = new ArrayList<>(savedItemsMap.values());
                 for (final DeductionGroupDetails itemToDelete : itemListToDelete) {
                     DAO.deleteDeductionGroupDetails(itemToDelete);
                 }
@@ -437,7 +438,7 @@ public class DiscountLogic {
      */
     private List<DiscountSearchDTO> getCustomizedDetailsResults(final List<RsModel> resultList, final Map resultList1) throws SystemException, PortalException {
         LOGGER.debug("getCustomizedItemResults started with P1:List<ItemMaster> resultList" + resultList.size() + "and P2:HashMap resultList1 size" + resultList1.size());
-        final List<DiscountSearchDTO> rebateDetailsList = new ArrayList<DiscountSearchDTO>();
+        final List<DiscountSearchDTO> rebateDetailsList = new ArrayList<>();
         if (!resultList.isEmpty()) {
             for (int i = 0; i < resultList.size(); i++) {
                 final DiscountSearchDTO rebateDTO = new DiscountSearchDTO();
@@ -469,7 +470,7 @@ public class DiscountLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public DiscountSearchDTO getDeductionGroupInfo(final int deductionGroupSystemId) throws SystemException, PortalException {
+    public DiscountSearchDTO getDeductionGroupInfo(final int deductionGroupSystemId) throws SystemException {
         LOGGER.debug("getItemGroupInfo started");
         final DynamicQuery deductionGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroup.class);
         deductionGroupDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSystemId));
@@ -491,7 +492,7 @@ public class DiscountLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public Map getExistingItemgroupNames() throws SystemException, PortalException {
+    public Map getExistingItemgroupNames() throws SystemException {
         LOGGER.debug("getExistingItemgroupNames started");
         final HashMap results = new HashMap();
         final DynamicQuery deductionGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroup.class);
@@ -519,7 +520,7 @@ public class DiscountLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public int getExistingVersion(final int deductionGroupSystemId) throws SystemException, PortalException {
+    public int getExistingVersion(final int deductionGroupSystemId) throws SystemException {
         LOGGER.debug("getExistingVersion started");
         int version = ConstantsUtils.ZERO_NUM;
         final DynamicQuery deductionGroupHistoryDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroup.class);
@@ -528,7 +529,7 @@ public class DiscountLogic {
         projList.add(ProjectionFactoryUtil.property(CommonUtil.VERSION_NO));
         deductionGroupHistoryDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
 
-        final List<Integer> finalList = new ArrayList<Integer>();
+        final List<Integer> finalList = new ArrayList<>();
         final List<Integer> historyList = DeductionGroupLocalServiceUtil.dynamicQuery(deductionGroupHistoryDynamicQuery);
         finalList.addAll(historyList);
         final int size = finalList.size();

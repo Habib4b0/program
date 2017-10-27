@@ -36,7 +36,7 @@ public class CustomerGroupDTO implements Comparable<CustomerGroupDTO> {
 
     private boolean include = false;
     List<SortByColumn> sortedColumns;
-    Set<Container.Filter> filters=new HashSet<Container.Filter>();
+    Set<Container.Filter> filters = new HashSet<>();
 
     Boolean selectedFlag = false;
     private int projectionId = 0;
@@ -136,12 +136,15 @@ public class CustomerGroupDTO implements Comparable<CustomerGroupDTO> {
     public Set<Container.Filter> getFilters() {
         return filters;
     }
+
     public void clearFilters() {
         filters.clear();
     }
+
     public void addFilter(Container.Filter filter) {
         this.filters.add(filter);
     }
+
     public void removeFilter(Container.Filter filter) {
         this.filters.remove(filter);
     }
@@ -158,6 +161,16 @@ public class CustomerGroupDTO implements Comparable<CustomerGroupDTO> {
         if (StringUtils.EMPTY.equals(this.customerGroupSid)) {
             return this.customerGroupSid.compareTo(o.getCustomerGroupSid());
         }
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
         return 0;
     }
 

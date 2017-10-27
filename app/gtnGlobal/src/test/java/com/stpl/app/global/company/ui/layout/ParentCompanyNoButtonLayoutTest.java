@@ -56,7 +56,7 @@ public class ParentCompanyNoButtonLayoutTest {
         if (identifier instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) identifier;
         } else if (identifier instanceof SearchDTO) {
-            targetItem = new BeanItem<SearchDTO>((SearchDTO) identifier);
+            targetItem = new BeanItem<>((SearchDTO) identifier);
         }
         result=(SearchDTO) targetItem.getBean();
         assertEquals(expResult, result);
@@ -73,7 +73,7 @@ public class ParentCompanyNoButtonLayoutTest {
         if (identifier instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) identifier;
         } else if (identifier instanceof SearchDTO) {
-            targetItem = new BeanItem<SearchDTO>((SearchDTO) identifier);
+            targetItem = new BeanItem<>((SearchDTO) identifier);
         }
         result=(SearchDTO) targetItem.getBean();
         assertEquals(expResult, result);

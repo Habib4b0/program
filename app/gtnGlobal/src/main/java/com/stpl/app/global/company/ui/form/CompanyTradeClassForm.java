@@ -155,10 +155,10 @@ public class CompanyTradeClassForm extends StplCustomComponent {
     /** The Company Master DTO */
     CompanyMasterDTO companyMasterDTO = new CompanyMasterDTO();
     /** The binder */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyMasterDTO>(companyMasterDTO));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(companyMasterDTO));
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanyAddView.class);
     private Object selectedId;
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabFourMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabFourMap = new HashMap<>();
     CommonUIUtils commonUiUtil = new CommonUIUtils();
     IFPLogic ifpLogic = new IFPLogic();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
@@ -197,7 +197,7 @@ public class CompanyTradeClassForm extends StplCustomComponent {
             
             vLayout.addComponent(Clara.create(getClass().getResourceAsStream("/clara/companyMaster/CompanyTradeClassForm.xml"), this));
 
-            addResponsiveVerticalTabFourLayout(vLayout);
+            addResponsiveVerticalTabFourLayout();
             getBinder();
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -338,7 +338,7 @@ public class CompanyTradeClassForm extends StplCustomComponent {
 
         String mode = sessionDTO.getMode();
         List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPANY_MASTER, "Company Trade Class Header");
-        Object[] obj = UIUtils.TRADE_CLASS_COLUMNS;
+        Object[] obj = UIUtils.getInstance().tradeClassColumns;
         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
             if(tableResultCustom.getObjResult().length == 0){
               resultTable.setVisible(false);
@@ -434,8 +434,8 @@ public class CompanyTradeClassForm extends StplCustomComponent {
 
                         List<CompanyMasterDTO> tradeClassList = tradeClassResultsBean.getItemIds();
                         if (tradeClassList != null) {
-                            List<Integer> tradeClassNoList = new ArrayList<Integer>();
-                            List<Date> tradeClassStartDateList = new ArrayList<Date>();
+                            List<Integer> tradeClassNoList = new ArrayList<>();
+                            List<Date> tradeClassStartDateList = new ArrayList<>();
                             for (CompanyMasterDTO tradeClass : tradeClassList) {
                                 tradeClassNoList.add(tradeClass.getTradeClass1().getId());
                                 tradeClassStartDateList.add(tradeClass.getTradeClassSDate());
@@ -579,20 +579,20 @@ public class CompanyTradeClassForm extends StplCustomComponent {
         }
     }
 
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = resultTable.getContainerDataSource().size();
         ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.TRADE_CLASS_EXP);
         LOGGER.debug("Ending createWorkSheet");
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final PrintWriter printWriter) {
         CompanyMasterDTO dto;
         final List<CompanyMasterDTO> searchList;
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
@@ -638,7 +638,7 @@ public class CompanyTradeClassForm extends StplCustomComponent {
 
     }
 
-    public void addResponsiveVerticalTabFourLayout(final VerticalLayout verticalLayout) {
+    public void addResponsiveVerticalTabFourLayout() {
         reloadVerticalLayoutTabFourMap.put(NumericConstants.ONE_FIVE_ONE_SIX, true);
         reloadVerticalLayoutTabFourMap.put(NumericConstants.THOUSAND_THREE_HUNDRED, true);
         reloadVerticalLayoutTabFourMap.put(NumericConstants.ONE_ZERO_TWO_FOUR, true);
@@ -743,7 +743,7 @@ public class CompanyTradeClassForm extends StplCustomComponent {
     private static Object[] getCollapsibleOneColumn(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new Object[list.size()]);
 
@@ -755,7 +755,7 @@ public class CompanyTradeClassForm extends StplCustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = list.size(); i < j; i++) {
             list.remove(propertyIds[i]);
         }

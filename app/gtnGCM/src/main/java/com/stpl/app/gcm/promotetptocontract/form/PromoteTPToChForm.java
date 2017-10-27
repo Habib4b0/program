@@ -43,7 +43,6 @@ import java.util.Map;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.vaadin.teemu.clara.Clara;
@@ -73,7 +72,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
     /**
      * The tab lazy load map.
      */
-    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<Integer, Boolean>();
+    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
     /**
      * The close.
      */
@@ -103,7 +102,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
      * @param custom
      * @throws Exception
      */
-    public PromoteTPToChForm(CustomFieldGroup promoteTpToChBinder, PromoteTpToChDto promoteTpToChDto, SessionDTO session, PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
+    public PromoteTPToChForm(CustomFieldGroup promoteTpToChBinder, SessionDTO session, PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/PromoteTPToChForm.xml"), this));
         this.promoteTpBinder = promoteTpToChBinder;
         this.resultTable = resultTable;
@@ -230,7 +229,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         String sessionId = String.valueOf(session.getSessionId());
                         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
                         CommonLogic logic = new CommonLogic();
-                        List<String> masterids = new ArrayList<String>();
+                        List<String> masterids = new ArrayList<>();
                         masterids.add(session.getCompanyMasterSid());
                         List<Object[]> projCOntractIds = CommonLogic.getProjectionIdForPromoteCustomer(session.getSessionId(), session.getUserId());
                         int selectedProjectionId = Integer.parseInt(String.valueOf(projCOntractIds.get(0)[0]));
@@ -244,8 +243,8 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         CommonLogic.callPromoteProcedure(sessionId);
                         String query = "select PROJECTION_NAME from PROJECTION_MASTER where PROJECTION_MASTER_SID in (" + copiedFromProjId + "," + copiedToProjId + ")";
                         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                        String projName = StringUtils.EMPTY;
-                        String copiedProjection = StringUtils.EMPTY;
+                        String projName;
+                        String copiedProjection;
                         if (list != null && list.size() > 0) {
                             projName = String.valueOf(list.get(0));
                             copiedProjection = String.valueOf(list.get(1));
@@ -280,6 +279,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
 
                 @Override
                 public void noMethod() {
+                    return;
                 }
             }.getConfirmationMessage("Save", "Do You Want to Save Contract?");
 
@@ -307,6 +307,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Update confirmation", "Customer values have changed. All other tabs will be updated \n and unsaved data will be lost. Continue?");
     }
@@ -334,7 +335,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
 
     private void insertDataToTempTable() {
         ContractSelectionLogic logic = new ContractSelectionLogic();
-        List<String> companyMasterSid = new ArrayList<String>();
+        List<String> companyMasterSid = new ArrayList<>();
         companyMasterSid.add(session.getCompanyMasterSid());
         logic.insertDataIntoTempTable(session.getUserId(), session.getSessionId(), companyMasterSid, TAB_CURRENT_CONTRACT.getConstant(), false);
     }
@@ -358,7 +359,9 @@ public class PromoteTPToChForm extends CustomComponent implements View {
             if (connection != null) {
 
                 LOGGER.debug("Got Connection " + connection.toString() + ", ");
-                statement = connection.prepareCall("{call PRC_CCP_POPULATION('" + sessionIdValue + "')}");
+                StringBuilder statementBuilder = new StringBuilder("{call PRC_CCP_POPULATION('");
+                statementBuilder.append(sessionIdValue).append("')}");
+                statement = connection.prepareCall(statementBuilder.toString());
                 statement.execute();
             }
         } catch (Exception ex) {

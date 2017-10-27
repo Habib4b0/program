@@ -11,6 +11,7 @@ import com.stpl.app.gcm.itemmanagement.add.dto.SummaryDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import static com.stpl.app.gcm.itemmanagement.index.form.ItemManagementLookup.LOGGER;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
+import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil.FrequencyConstants;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentInfoDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
@@ -61,9 +62,11 @@ public class AbstractLogic {
 
     static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
-    public static final Map<String, List> ddlbMap = new HashMap<String, List>();
+    public static final Map<String, List> ddlbMap = new HashMap<>();
+    public static final String DESCRIPTION = "description";
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private static final AbstractLogic logic = new AbstractLogic();
+    private static final String COMMA = ",";
     /**
      * The helper list util.
      */
@@ -91,7 +94,7 @@ public class AbstractLogic {
         }
         comboBox.setNullSelectionAllowed(true);
         comboBox.setImmediate(true);
-        comboBox.setItemCaptionPropertyId("description");
+        comboBox.setItemCaptionPropertyId(DESCRIPTION);
         containerData.setMinFilterLength(0);
     }
 
@@ -107,7 +110,7 @@ public class AbstractLogic {
 
     public List<HelperDTO> getDdlbList(String QueryName, final List<String> input, final Boolean isFilter) {
         List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
-        List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+        List<HelperDTO> resultList = new ArrayList<>();
         if (Integer.valueOf(String.valueOf(input.get(1))) == 0) {
             if (isFilter) {
                 HelperDTO defaultValue = new HelperDTO(0, Constants.SHOW_ALL);
@@ -146,7 +149,7 @@ public class AbstractLogic {
     }
 
     private List<AbstractContractSearchDTO> setContractDetailsData(List<Object[]> list, SelectionDTO selection, String screenName) {
-        List<AbstractContractSearchDTO> resultList = new ArrayList<AbstractContractSearchDTO>();
+        List<AbstractContractSearchDTO> resultList = new ArrayList<>();
 
         for (Object[] str : list) {
             AbstractContractSearchDTO dto = new AbstractContractSearchDTO();
@@ -278,9 +281,9 @@ public class AbstractLogic {
     public static Object getItemIdsAsString(List<ItemIndexDto> itemList) {
         StringBuilder result = new StringBuilder();
         for (ItemIndexDto dto : itemList) {
-            result.append(dto.getSystemId() + ",");
+            result.append(dto.getSystemId() + COMMA);
         }
-          result.deleteCharAt(result.length() - 1);
+        result.deleteCharAt(result.length() - 1);
         return result.toString();
     }
 
@@ -292,7 +295,7 @@ public class AbstractLogic {
 
     public List<ComponentInfoDTO> getComponentInfoResults(final ComponentInfoDTO binderDto, final SelectionDTO selection) {
         List<Object[]> list = ItemQueries.getItemData(getComponentInfoSelection(binderDto, selection), selection.getComponentLoad(), null);
-        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        List<ComponentInfoDTO> finalResult = new ArrayList<>();
         if (selection.getComponent().equalsIgnoreCase(Constants.CFP)) {
             finalResult = getCustomizedCFPComponentInfo(list);
         } else if (selection.getComponent().equals(Constants.IFP)) {
@@ -306,7 +309,7 @@ public class AbstractLogic {
     }
 
     public List<ComponentInfoDTO> getCustomizedCFPComponentInfo(final List<Object[]> list) {
-        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        List<ComponentInfoDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ComponentInfoDTO dto = new ComponentInfoDTO();
             dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -323,7 +326,7 @@ public class AbstractLogic {
     }
 
     public List<ComponentInfoDTO> getCustomizedIFPComponentInfo(final List<Object[]> list) {
-        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        List<ComponentInfoDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ComponentInfoDTO dto = new ComponentInfoDTO();
             dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -340,7 +343,7 @@ public class AbstractLogic {
     }
 
     public List<ComponentInfoDTO> getCustomizedPSComponentInfo(final List<Object[]> list) {
-        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        List<ComponentInfoDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ComponentInfoDTO dto = new ComponentInfoDTO();
             dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -373,7 +376,7 @@ public class AbstractLogic {
     }
 
     public List<ComponentInfoDTO> getCustomizedRSComponentInfo(final List<Object[]> list) {
-        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        List<ComponentInfoDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             ComponentInfoDTO dto = new ComponentInfoDTO();
             dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -460,11 +463,7 @@ public class AbstractLogic {
     public ComponentInfoDTO getComponentTextFields(final String componentFlag,Integer systemid,boolean isItemAddTab) {
         List input = new ArrayList();
         ComponentInfoDTO dto = new ComponentInfoDTO();
-        if (isItemAddTab) {
-            input.add(systemid);
-        } else {
-            input.add(1);
-        }
+        input.add(systemid);
         List<Object[]> list = ItemQueries.getItemData(input, componentFlag, null);
         for (Object[] str : list) {
             dto.setComponenId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
@@ -475,12 +474,18 @@ public class AbstractLogic {
             dto.setComponentStartDate(str[NumericConstants.FIVE] == null ? null : (Date) str[NumericConstants.FIVE]);
             dto.setComponentEndDate(str[NumericConstants.SIX] == null ? null : (Date) str[NumericConstants.SIX]);
             if (componentFlag.equals("RS text")) {
-                dto.setRsType_Value(str[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
-                dto.setRebateFrequency_Value(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
-                dto.setRsProgramType_Value(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-                dto.setRsCategory_Value(str[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-                dto.setPaymentFrequency_Value(str[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
-                dto.setRebatePlanLevel_Value(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
+                dto.setRsType_Value((str[NumericConstants.FOUR] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                        ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
+                dto.setRebateFrequency_Value((str[NumericConstants.SEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                        ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
+                dto.setRsProgramType_Value((str[NumericConstants.EIGHT] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                        StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
+                dto.setRsCategory_Value((str[NumericConstants.NINE] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                        ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
+                dto.setPaymentFrequency_Value((str[NumericConstants.TEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                        StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
+                dto.setRebatePlanLevel_Value((str[NumericConstants.ELEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                        StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
             }
         }
         return dto;
@@ -494,7 +499,7 @@ public class AbstractLogic {
     }
 
     public List<FormulaDTO> getFormulaIdRecords(FormulaDTO binderDto, SelectionDTO selection) {
-        List<FormulaDTO> finalResult = new ArrayList<FormulaDTO>();
+        List<FormulaDTO> finalResult = new ArrayList<>();
         List<Object[]> list = ItemQueries.getItemData(getFormulaIdInput(binderDto), selection.getDataQueryName(), null);
         for (Object[] str : list) {
             FormulaDTO dto = new FormulaDTO();
@@ -541,8 +546,7 @@ public class AbstractLogic {
         comboBox.setNullSelectionItemId(ddlbDefaultValue);
         comboBox.setNullSelectionAllowed(true);
         comboBox.setImmediate(true);
-        comboBox.setItemCaptionPropertyId("description");
-        containerData.setMinFilterLength(0);
+        comboBox.setItemCaptionPropertyId(DESCRIPTION);
     }
 
     public Boolean getEditedItemDetails(final AbstractContractSearchDTO compDTO, final SelectionDTO selection) {
@@ -1196,7 +1200,7 @@ public class AbstractLogic {
      */
     public List getLookUpSearchResults(ComponentLookUpDTO binderDto, SelectionDTO selection) {
         List<Object[]> list = getLookUpRecords(binderDto, selection, selection.getDataQueryName());
-        List<ComponentLookUpDTO> resultList = new ArrayList<ComponentLookUpDTO>();
+        List<ComponentLookUpDTO> resultList = new ArrayList<>();
         if (selection.getOperation().equals(Constants.CFP)) {
             resultList = setCFPLookUpData(list);
         } else if (selection.getOperation().equals(Constants.IFP)) {
@@ -1349,7 +1353,7 @@ public class AbstractLogic {
 
     public static void loaDDLB(final ComboBox comboBox, String columnName, String tableName, Boolean isFilter, String queryName) {
         comboBox.setPageLength(NumericConstants.SEVEN);
-        BeanItemContainer<HelperDTO> container = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         comboBox.setContainerDataSource(container);
         if (isFilter) {
             comboBox.setNullSelectionItemId(ddlbShowAllValue);
@@ -1358,7 +1362,7 @@ public class AbstractLogic {
         }
         comboBox.setNullSelectionAllowed(true);
         comboBox.setImmediate(true);
-        comboBox.setItemCaptionPropertyId("description");
+        comboBox.setItemCaptionPropertyId(DESCRIPTION);
         comboBox.addItems(getDDLBList(columnName, tableName, isFilter, queryName));
     }
 
@@ -1369,7 +1373,7 @@ public class AbstractLogic {
             input.add(tableName);
             input.add(columnName);
             List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
-            List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+            List<HelperDTO> resultList = new ArrayList<>();
             if (isFilter) {
                 HelperDTO defaultValue = new HelperDTO(0, Constants.SHOW_ALL);
                 resultList.add(defaultValue);
@@ -1407,7 +1411,7 @@ public class AbstractLogic {
         DataSource datasource;
         CallableStatement statement = null;
         ResultSet rs = null;
-        List<Object[]> objectList = new ArrayList<Object[]>();
+        List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
@@ -1415,20 +1419,21 @@ public class AbstractLogic {
                 connection = datasource.getConnection();
             }
             if (connection != null) {
-                String procedureToCall = "{call " + procedureName;
+                StringBuilder procedureToCall = new StringBuilder("{call ");
+                procedureToCall.append(procedureName);
                 int noOfArgs = orderedArgs.length;
                 for (int i = 0; i < noOfArgs; i++) {
                     if (i == 0) {
-                        procedureToCall += "(";
+                        procedureToCall.append("(");
                     }
-                    procedureToCall += "?,";
+                    procedureToCall.append("?,");
                     if (i == noOfArgs - 1) {
-                        procedureToCall += ")";
+                        procedureToCall.append(")");
                     }
                 }
-                procedureToCall = procedureToCall.replace(",)", ")");
-                procedureToCall += "}";
-                statement = connection.prepareCall(procedureToCall);
+                procedureToCall.replace(procedureToCall.lastIndexOf(COMMA), procedureToCall.lastIndexOf(COMMA) + 1, StringUtils.EMPTY);
+                procedureToCall.append("}");
+                statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
@@ -1459,17 +1464,13 @@ public class AbstractLogic {
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
-            try {
-                System.gc();
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
+           
         }
         return objectList;
     }
 
     private static List<Object[]> convertResultSetToList(ResultSet rs) {
-        List<Object[]> objList = new ArrayList<Object[]>();
+        List<Object[]> objList = new ArrayList<>();
 
         try {
             ResultSetMetaData rsMetaData = rs.getMetaData();
@@ -1536,7 +1537,7 @@ public class AbstractLogic {
      * @return the list
      */
     public static final List<String> loadHistory(String frequency, String period) {
-        List<String> history = new ArrayList<String>();
+        List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {
@@ -1578,9 +1579,9 @@ public class AbstractLogic {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
         }

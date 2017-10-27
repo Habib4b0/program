@@ -62,7 +62,7 @@ public class Transaction3 extends AbstractTransaction {
             TabSheet.Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in initializeTabs"+e);
         }
     }
 
@@ -94,12 +94,12 @@ public class Transaction3 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        return "Transaction_3_Adjustment_details_Insert_GTN";
+        return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        return "Transaction_3_Adjustment_details_Insert_Reserve";
+        return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
     @Override
@@ -114,5 +114,10 @@ public class Transaction3 extends AbstractTransaction {
         rates.configurePermission(userId, stplSecurity);
         summary.configurePermission(userId, stplSecurity);
         details.configurePermission(userId, stplSecurity);
+    }
+
+    @Override
+    public String getTableName() {
+        return "ARM_INVENTORY_RATE";
     }
 }

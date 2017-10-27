@@ -1,5 +1,6 @@
 package com.stpl.app.contract.dashboard.logic;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import java.io.File;
 import java.sql.SQLException;
@@ -271,7 +272,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
     public List<ContractMasterDTO> getCustomizedSearchFormFromModel(final List<ContractMaster> list) {
         LOGGER.debug("Entering getCustomizedSearchFormFromModel method");
         
-        final List<ContractMasterDTO> searchItemList = new ArrayList<ContractMasterDTO>();
+        final List<ContractMasterDTO> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = Constants.ZERO; i < list.size(); i++) {
                 final ContractMasterDTO searchItemForm = new ContractMasterDTO();
@@ -445,7 +446,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
      * @throws SystemException
      * @throws PortalException
      */
-    public PriceScheduleDto getPriceScheduleMasterById(final int idValue) throws SystemException, PortalException, java.text.ParseException {
+    public PriceScheduleDto getPriceScheduleMasterById(final int idValue) throws SystemException, PortalException {
         LOGGER.debug("Entering getPriceScheduleMasterById method");
         final PriceScheduleDto psDTO = new PriceScheduleDto();
         if (idValue != Constants.ZERO) {
@@ -487,7 +488,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
     public List<ContractAliasMasterDTO> getContractAliasMasterById(final int idValue) throws SystemException, PortalException {
         LOGGER.debug("Entering getContractAliasMasterById method");
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        final List<ContractAliasMasterDTO> aliasListDTO = new ArrayList<ContractAliasMasterDTO>();
+        final List<ContractAliasMasterDTO> aliasListDTO = new ArrayList<>();
         final List<ContractAliasMaster> aliasList = dao.findByContractSystemId(idValue);
         ContractAliasMasterDTO aliasMasterDTO;
         for (int i = Constants.ZERO; i < aliasList.size(); i++) {
@@ -549,9 +550,9 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
             cfpCompanyDTO.setCfpStatus(helperListUtil.getIdHelperDTOMap().get(cfpContract.getCfpStatus()));
             cfpCompanyDTO.setCompanyFamilyPlanStartDate(cfpContract.getCfpStartDate());
             cfpCompanyDTO.setCompanyFamilyPlanEndDate(cfpContract.getCfpEndDate());
-            cfpCompanyDTO.setCreatedDate(new SimpleDateFormat("MM/dd/YYYY").format(cfpContract.getCreatedDate()));
+            cfpCompanyDTO.setCreatedDate(new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(cfpContract.getCreatedDate()));
             cfpCompanyDTO.setCreatedBy(getUserFLName(String.valueOf(cfpContract.getCreatedBy())));
-            cfpCompanyDTO.setModifiedDate(new SimpleDateFormat("MM/dd/YYYY").format(cfpContract.getModifiedDate()));
+            cfpCompanyDTO.setModifiedDate(new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(cfpContract.getModifiedDate()));
             cfpCompanyDTO.setModifiedBy(getUserFLName(String.valueOf(cfpContract.getModifiedBy())));
             cfpCompanyDTO.setCfptype(helperListUtil.getIdHelperDTOMap().get(cfpContract.getCfpType()));
             cfpCompanyDTO.setCfpCategory(helperListUtil.getIdHelperDTOMap().get(cfpContract.getCfpCategory()));
@@ -578,24 +579,11 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
     
     public CFPCompanyDTO getCfpDetails(final int contractSystemId, final int cfpId) throws PortalException, SystemException {
         LOGGER.debug("Entering getCfpDetails method contractSystemId=" + contractSystemId + " cfpId=" + cfpId);
-        DateFormat df=new SimpleDateFormat("MM/dd/YYYY");
+        DateFormat df=new SimpleDateFormat(ConstantUtil.DATE_FORMAT);
         final CFPCompanyDTO cfpCompanyDTO = new CFPCompanyDTO();
         Map<Integer, String> userMap = StplSecurity.getUserName();
-        final List<CFPCompanyDTO> cfpList = new ArrayList<CFPCompanyDTO>();
-        final List<CompanyMasterDTO> companyList = new ArrayList<CompanyMasterDTO>();
-   //     int cfpModelSid = 0;
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
-        dynamicQuery.add(RestrictionsFactoryUtil.eq("cfpContractSid", cfpId));
-        dynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
-        ProjectionList projectonList = ProjectionFactoryUtil.projectionList();
-        projectonList.add(ProjectionFactoryUtil.property("cfpModelSid"));
-        dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projectonList));
-        List<Integer> listInt = CfpContractLocalServiceUtil.dynamicQuery(dynamicQuery);
-//        if (!listInt.isEmpty()) {
-//            for (int i = 0; i < listInt.size(); i++) {
-//                cfpModelSid = listInt.get(0);
-//            }
-//        }
+        final List<CFPCompanyDTO> cfpList = new ArrayList<>();
+        final List<CompanyMasterDTO> companyList = new ArrayList<>();
         final DynamicQuery itemDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdCfpDetails.class);
         itemDynamicQuery.add(RestrictionsFactoryUtil.eq("sessionId", String.valueOf(sessionDTO.getUiSessionId())));
         itemDynamicQuery.add(RestrictionsFactoryUtil.eq("usersSid", String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID))));
@@ -650,11 +638,11 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
     
     public List<RsItemDetailsDTO> getRsSetupViewDetails(final int rsId) throws SystemException, PortalException {
         LOGGER.debug("Entering getRsSetupViewDetails method");
-        final List<RsItemDetailsDTO> rsList = new ArrayList<RsItemDetailsDTO>();
+        final List<RsItemDetailsDTO> rsList = new ArrayList<>();
         final RsItemDetailsDTO rsItemDetailsDTO = new RsItemDetailsDTO();
         try {
             final DynamicQuery itemDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);// need to check
-            itemDynamicQuery.add(RestrictionsFactoryUtil.eq("rsContractSid", rsId));
+            itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RS_CONTRACT_SID, rsId));
             itemDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
             final List<RsContractDetails> resultList = dao.rsDetailsDynamicQuery(itemDynamicQuery);
             
@@ -711,21 +699,21 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
             final DynamicQuery itemDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
             itemDynamicQuery.add(RestrictionsFactoryUtil.eq("contractMasterSid", contractSystemId));
             if (cfpId == Constants.ZERO) {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull("cfpContractSid"));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull(ConstantUtil.CFP_CONTRACT_SID));
             } else {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.eq("cfpContractSid", String.valueOf(cfpId)));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.CFP_CONTRACT_SID, String.valueOf(cfpId)));
             }
             if (ifpId == Constants.ZERO) {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull("ifpContractSid"));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull(ConstantUtil.IFP_CONTRACT_SID));
             } else {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.eq("ifpContractSid", String.valueOf(ifpId)));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.IFP_CONTRACT_SID, String.valueOf(ifpId)));
             }
             if (psId == Constants.ZERO) {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull("psContractSid"));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull(ConstantUtil.PS_CONTRACT_SID));
             } else {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.eq("psContractSid", String.valueOf(psId)));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.PS_CONTRACT_SID, String.valueOf(psId)));
             }
-            itemDynamicQuery.add(RestrictionsFactoryUtil.eq("rsContractSid", rsId));
+            itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RS_CONTRACT_SID, rsId));
             final List<RsContract> rebateSM = dao.rsMasterDynamicQuery(itemDynamicQuery);
             
             RsContract rtsContract = rebateSM.get(Constants.ZERO);
@@ -837,8 +825,8 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         LOGGER.debug("Entering getContractPriceDetails method");
         
         final VwContractPriceInfoDTO contractPIDTO = new VwContractPriceInfoDTO();
-        final List<VwContractPriceInfoDTO> contractpriceList = new ArrayList<VwContractPriceInfoDTO>();
-        final List<ItemMasterDTO> itemList = new ArrayList<ItemMasterDTO>();
+        final List<VwContractPriceInfoDTO> contractpriceList = new ArrayList<>();
+        final List<ItemMasterDTO> itemList = new ArrayList<>();
         final List contractPrice = dao.getContractPriceInfo(contractSystemId, cfpId, ifpId, psId);
         for (int i = Constants.ZERO; i < contractPrice.size(); i++) {
             final Object[] obj = (Object[]) contractPrice.get(i);
@@ -908,8 +896,8 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
      * @throws PortalException
      */
     public String saveContractDashBoard(final CustomFieldGroup contractMB, final List<ContractAliasMasterDTO> aliasMRB, 
-            final CustomFieldGroup rebateBinder, final List<NotesDTO> availableUploadedInformation, final String addedNotes, final CustomFieldGroup pricingBinderEdit, final CustomFieldGroup cfPContract, CustomFieldGroup ifpItemsBinder) throws SystemException, PortalException, ParseException,
-            java.text.ParseException {
+            final CustomFieldGroup rebateBinder, final List<NotesDTO> availableUploadedInformation, final String addedNotes, final CustomFieldGroup pricingBinderEdit, final CustomFieldGroup cfPContract, CustomFieldGroup ifpItemsBinder) throws SystemException, PortalException, java.text.ParseException
+           {
         LOGGER.debug("Entering saveContractDashBoard method");
         final int rsSystemId = (Integer) sessionDTO.getRsSystemId();
         final int psSystemId = (Integer) sessionDTO.getPsSystemId();
@@ -963,6 +951,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         ContractDashboardLogic logic = new ContractDashboardLogic();
         try {
             logic.callCcpProcedure();
+            logic.callActualsDetailsProcedure();
         } catch (SQLException e) {
             LOGGER.error(e);
         }
@@ -1187,21 +1176,21 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
             final DynamicQuery itemDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
             itemDynamicQuery.add(RestrictionsFactoryUtil.eq("contractMasterSid", contractSystemId));
             if (cfpSystemId == Constants.ZERO) {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull("cfpContractSid"));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull(ConstantUtil.CFP_CONTRACT_SID));
             } else {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.eq("cfpContractSid", String.valueOf(cfpSystemId)));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.CFP_CONTRACT_SID, String.valueOf(cfpSystemId)));
             }
             if (ifpSystemId == Constants.ZERO) {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull("ifpContractSid"));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull(ConstantUtil.IFP_CONTRACT_SID));
             } else {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.eq("ifpContractSid", String.valueOf(ifpSystemId)));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.IFP_CONTRACT_SID, String.valueOf(ifpSystemId)));
             }
             if (psSystemId == Constants.ZERO) {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull("psContractSid"));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.isNull(ConstantUtil.PS_CONTRACT_SID));
             } else {
-                itemDynamicQuery.add(RestrictionsFactoryUtil.eq("psContractSid", String.valueOf(psSystemId)));
+                itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.PS_CONTRACT_SID, String.valueOf(psSystemId)));
             }
-            itemDynamicQuery.add(RestrictionsFactoryUtil.eq("rsContractSid", rsSystemId));
+            itemDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RS_CONTRACT_SID, rsSystemId));
             
             final List<RsContract> rebateSM = dao.rsMasterDynamicQuery(itemDynamicQuery);
             
@@ -1299,7 +1288,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
     }
     
     @SuppressWarnings("unchecked")
-    private void savePSDetails() throws SystemException {
+    private void savePSDetails() {
         LOGGER.debug("Entering savePSDetails method");
     }
 
@@ -1319,7 +1308,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         
         if (ifpSystemId != Constants.ZERO) {
-            final List<Object> input = new ArrayList<Object>(NumericConstants.NINE);
+            final List<Object> input = new ArrayList<>(NumericConstants.NINE);
             input.add(userId);
             input.add(sessionId);
             input.add(userId);
@@ -1333,7 +1322,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         }
         
         if (psSystemId != Constants.ZERO) {
-            final List<Object> psMap = new ArrayList<Object>(NumericConstants.NINE);
+            final List<Object> psMap = new ArrayList<>(NumericConstants.NINE);
             psMap.add(userId);
             psMap.add(sessionId);
             psMap.add(userId);
@@ -1345,7 +1334,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
             ImtdItemPriceRebateDetailsLocalServiceUtil.saveItem(psMap, "com.contractDashboard.process.savePS");
         }
         if (rsSystemId != Constants.ZERO) {
-            final List<Object> input = new ArrayList<Object>(NumericConstants.NINE);
+            final List<Object> input = new ArrayList<>(NumericConstants.NINE);
             input.add(userId);
             input.add(sessionId);
             input.add(userId);
@@ -1358,7 +1347,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
             input.add(sessionId);
             ImtdItemPriceRebateDetailsLocalServiceUtil.saveItem(input, "com.contractDashboard.process.saveRS");
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
-            query.add(RestrictionsFactoryUtil.eq("rsContractSid", rsSystemId));
+            query.add(RestrictionsFactoryUtil.eq(ConstantUtil.RS_CONTRACT_SID, rsSystemId));
             query.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
             
             List<RsContractDetails> list = RsContractDetailsLocalServiceUtil.dynamicQuery(query);
@@ -1381,13 +1370,13 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
      * @throws ParseException
      * @throws java.text.ParseException
      */
-    public void saveCFPDetails(final int cfpContractSId) throws SystemException, ParseException, java.text.ParseException {
+    public void saveCFPDetails(final int cfpContractSId) {
         LOGGER.debug("Entering saveCFPDetails method");
         
         final VaadinSession current = VaadinSession.getCurrent();
         final String userId = String.valueOf(current.getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+        final List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
         input.add(userId);
         input.add(sessionId);
         input.add(userId);
@@ -1411,7 +1400,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
      * @return the overlapped company list
      * @throws SystemException
      */
-    public List getOverlappedCompanyList(final List<CFPCompanyDTO> selectedCL, final int contractSystemId) throws SystemException {
+    public List getOverlappedCompanyList(final List<CFPCompanyDTO> selectedCL, final int contractSystemId) {
         LOGGER.debug("Entering getOverlappedCompanyList method with contractSystemId=" + contractSystemId);
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
@@ -1425,7 +1414,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         final DynamicQuery cfpQuery = DynamicQueryFactoryUtil.forClass(CfpContractDetails.class);
         cfpQuery.add(RestrictionsFactoryUtil.ne(Constants.CONTRACT_SYSTEM_ID, contractSystemId));
         cfpQuery.add(RestrictionsFactoryUtil.in(Constants.TRADING_PARTNER_SYS_ID, companyList));
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         input.add(userId);
         input.add(sessionId);
         final List<CfpContractDetails> delList = getCustomizedCFP((List<Object[]>) ImtdCfpDetailsLocalServiceUtil.getOverlapedCompanies(input, null));
@@ -1577,7 +1566,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
     }
     
     private List<CfpContractDetails> getCustomizedCFP(List<Object[]> resultList) {
-        List<CfpContractDetails> retList = new ArrayList<CfpContractDetails>();
+        List<CfpContractDetails> retList = new ArrayList<>();
         for (Object[] temp : resultList) {
             CfpContractDetails tempCfp = CfpContractDetailsLocalServiceUtil.createCfpContractDetails(Constants.ZERO);
             tempCfp.setCompanyMasterSid((Integer) temp[Constants.ZERO]);
@@ -1625,13 +1614,13 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
             
             final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
             if (!filter.isEmpty()) {
-                rsDynamicQuery.add(RestrictionsFactoryUtil.eq("formulaId", Integer.parseInt(filter)));
+                rsDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.FORMULA_ID, Integer.parseInt(filter)));
             }
-            rsDynamicQuery.setProjection(ProjectionFactoryUtil.countDistinct("formulaId"));
-            rsDynamicQuery.add(RestrictionsFactoryUtil.ne("formulaId", Constants.ZERO));
-            rsDynamicQuery.add(RestrictionsFactoryUtil.isNotNull("formulaId"));
+            rsDynamicQuery.setProjection(ProjectionFactoryUtil.countDistinct(ConstantUtil.FORMULA_ID));
+            rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.FORMULA_ID, Constants.ZERO));
+            rsDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantUtil.FORMULA_ID));
             if (helper != null && helper.getId() != Constants.ZERO) {
-                rsDynamicQuery.add(RestrictionsFactoryUtil.ne("formulaId", helper.getId()));
+                rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.FORMULA_ID, helper.getId()));
             }
             list = RsContractDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
             formulaIdCount = Integer.parseInt(String.valueOf(list.get(Constants.ZERO)));
@@ -1643,24 +1632,25 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         return Integer.parseInt(String.valueOf(list.get(Constants.ZERO)));
     }
     
+    
     public static List<HelperDTO> getLazyTierFormulaIdResults(final int startIndex, final int end, String filter, final HelperDTO helper) {
         List<String> qualifierList;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
         try {
             filter = StringUtils.trimToEmpty(filter);
             LOGGER.debug("Entering getLazyTierFormulaIdResults method with filterText" + filter);
             final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
             rsDynamicQuery.setLimit(startIndex, end);
-            rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("formulaId")));
-            rsDynamicQuery.addOrder(OrderFactoryUtil.asc("formulaId"));
+            rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantUtil.FORMULA_ID)));
+            rsDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantUtil.FORMULA_ID));
             if (!filter.isEmpty()) {
-                rsDynamicQuery.add(RestrictionsFactoryUtil.eq("formulaId", Integer.parseInt(filter)));
+                rsDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.FORMULA_ID, Integer.parseInt(filter)));
             }
             if (helper != null && helper.getId() != Constants.ZERO) {
-                rsDynamicQuery.add(RestrictionsFactoryUtil.ne("formulaId", helper.getId()));
+                rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.FORMULA_ID, helper.getId()));
             }
-            rsDynamicQuery.add(RestrictionsFactoryUtil.ne("formulaId", Constants.ZERO));
-            rsDynamicQuery.add(RestrictionsFactoryUtil.isNotNull("formulaId"));
+            rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.FORMULA_ID, Constants.ZERO));
+            rsDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantUtil.FORMULA_ID));
             
             qualifierList = RsContractDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
             
@@ -1746,7 +1736,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         return validateResult;
     }
     
-    public static int getPriceTypeCount(final String filterText, final HelperDTO priceType) throws PortalException, SystemException {
+    public static int getPriceTypeCount(final String filterText, final HelperDTO priceType) throws SystemException {
         final String filter = StringUtils.trimToEmpty(filterText) + "%";
         LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filterText);
         List<Object[]> qualifierList;
@@ -1763,8 +1753,8 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         return Integer.parseInt(String.valueOf(qualifierList.get(Constants.ZERO)));
     }
     
-    public static List<HelperDTO> getPriceTypeResults(final int startIndex, final int end, final String filter, final HelperDTO priceType) throws PortalException, SystemException {
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+    public static List<HelperDTO> getPriceTypeResults(final int startIndex, final int end, final String filter, final HelperDTO priceType) throws  SystemException {
+        final List<HelperDTO> list = new ArrayList<>();
         LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :" + filter);
         final String filterString = StringUtils.trimToEmpty(filter) + "%";
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemPricingQualifier.class);
@@ -1959,29 +1949,29 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
         if (modifiedBy != Constants.ZERO) {
             query += "AND  RP.MODIFIED_BY LIKE '" + modifiedBy + "'\n";
         }
-        if (filterCriteria.get("createdDate" + Constants.FROM) != null) {
+        if (filterCriteria.get(ConstantsUtils.CREATEDDATE + Constants.FROM) != null) {
             query += " AND RP.CREATED_DATE ";
-            query += String.valueOf(filterCriteria.get("createdDate" + Constants.FROM));
+            query += String.valueOf(filterCriteria.get(ConstantsUtils.CREATEDDATE + Constants.FROM));
         }
-        if (filterCriteria.get("createdDate" + Constants.TO) != null) {
+        if (filterCriteria.get(ConstantsUtils.CREATEDDATE + Constants.TO) != null) {
             query += " AND  RP.CREATED_DATE ";
-            query += String.valueOf(filterCriteria.get("createdDate" + Constants.TO));
+            query += String.valueOf(filterCriteria.get(ConstantsUtils.CREATEDDATE + Constants.TO));
         }
-        if (filterCriteria.get("createdDate") != null) {
+        if (filterCriteria.get(ConstantsUtils.CREATEDDATE) != null) {
             query += " AND  RP.CREATED_DATE  ";
-            query += String.valueOf(filterCriteria.get("createdDate"));
+            query += String.valueOf(filterCriteria.get(ConstantsUtils.CREATEDDATE));
         }
-        if (filterCriteria.get("modifiedDate" + Constants.FROM) != null) {
-            query += " AND  RP.MODIFIED_DATE  ";
-            query += String.valueOf(filterCriteria.get("modifiedDate" + Constants.FROM));
+        if (filterCriteria.get(ConstantsUtils.MODIFIEDDATE + Constants.FROM) != null) {
+            query += ConstantUtil.AND_MODIFIED_DATE;
+            query += String.valueOf(filterCriteria.get(ConstantsUtils.MODIFIEDDATE + Constants.FROM));
         }
-        if (filterCriteria.get("modifiedDate" + Constants.TO) != null) {
-            query += " AND  RP.MODIFIED_DATE  ";
-            query += String.valueOf(filterCriteria.get("modifiedDate" + Constants.TO));
+        if (filterCriteria.get(ConstantsUtils.MODIFIEDDATE + Constants.TO) != null) {
+            query += ConstantUtil.AND_MODIFIED_DATE;
+            query += String.valueOf(filterCriteria.get(ConstantsUtils.MODIFIEDDATE + Constants.TO));
         }
-        if (filterCriteria.get("modifiedDate") != null) {
-            query += " AND  RP.MODIFIED_DATE  ";
-            query += String.valueOf(filterCriteria.get("modifiedDate"));
+        if (filterCriteria.get(ConstantsUtils.MODIFIEDDATE) != null) {
+            query += ConstantUtil.AND_MODIFIED_DATE;
+            query += String.valueOf(filterCriteria.get(ConstantsUtils.MODIFIEDDATE));
         }
         if (!isCount) {
             query += "ORDER BY " + column + " " + orderBy + " \n"
@@ -2013,7 +2003,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
      */
     private List<RebatePlanDTO> convertRebatePlanList(final List<Object[]> list) {
         
-        List<RebatePlanDTO> resultList = new ArrayList<RebatePlanDTO>();
+        List<RebatePlanDTO> resultList = new ArrayList<>();
         for (Object[] object : list) {
             try {
                 Map<Integer, String> userMap = StplSecurity.getUserName();
@@ -2055,7 +2045,7 @@ public class DashBoardLogic extends BeanItemContainer<ContractMaster> {
     
     private static Date parsetDate(String value) throws java.text.ParseException {
         Date date = null;
-        String tempDate = StringUtils.EMPTY;
+        String tempDate;
         SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         if (value != null && !StringUtils.EMPTY.equals(value) && !"null".equals(value)) {

@@ -104,7 +104,8 @@ public class IvldItemMasterPersistenceImpl extends BasePersistenceImpl<IvldItemM
                 "pediatricExclusiveIndicator", "packageSizeCode", "displayBrand",
                 "dra", "reasonForFailure", "packageSizeIntroDate", "upps",
                 "ivldItemMasterSid", "packageSize", "shelfLife",
-                "marketTerminationDate", "checkRecord"
+                "marketTerminationDate", "checkRecord", "baseCpiPrecision",
+                "baselineAmpPrecision"
             });
     private static IvldItemMaster _nullIvldItemMaster = new IvldItemMasterImpl() {
             @Override
@@ -441,6 +442,8 @@ public class IvldItemMasterPersistenceImpl extends BasePersistenceImpl<IvldItemM
         ivldItemMasterImpl.setShelfLife(ivldItemMaster.getShelfLife());
         ivldItemMasterImpl.setMarketTerminationDate(ivldItemMaster.getMarketTerminationDate());
         ivldItemMasterImpl.setCheckRecord(ivldItemMaster.isCheckRecord());
+        ivldItemMasterImpl.setBaseCpiPrecision(ivldItemMaster.getBaseCpiPrecision());
+        ivldItemMasterImpl.setBaselineAmpPrecision(ivldItemMaster.getBaselineAmpPrecision());
 
         return ivldItemMasterImpl;
     }

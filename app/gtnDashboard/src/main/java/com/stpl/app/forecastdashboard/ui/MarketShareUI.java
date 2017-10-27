@@ -28,8 +28,7 @@ public class MarketShareUI extends UI {
         try {
             navigator.addView("", new MarketShareForm());
         } catch (Exception ex) {
-            ex.printStackTrace();
-            LOGGER.error(" Exception occured at MS UI");
+            LOGGER.error(ex);
         }
     }
 }

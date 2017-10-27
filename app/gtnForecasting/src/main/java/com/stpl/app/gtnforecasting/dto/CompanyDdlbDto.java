@@ -6,19 +6,25 @@
 package com.stpl.app.gtnforecasting.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *
  * @author soundarrajan.l
  */
 public class CompanyDdlbDto {
-
+     /**
+     * The Constant LOGGER.
+     */
+    private static final Logger LOGGER = Logger.getLogger(CompanyDdlbDto.class);
+    
     private String companyName = StringUtils.EMPTY;
     private int companyMasterSid;
   private String rsNo;
     private int rsModelSid;
     
      public CompanyDdlbDto(int rsModelSid, String rsNo,boolean flag) {
+         LOGGER.debug(flag);
          this.rsNo = rsNo;
          this.rsModelSid = rsModelSid;
     }

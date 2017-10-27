@@ -6,11 +6,11 @@
  */
 package com.stpl.app.arm.businessprocess;
 
-import com.stpl.app.arm.businessprocess.transaction_7.dto.Trx7SelectionDTO;
-import com.stpl.app.arm.businessprocess.transaction_7.form.Trx7AdjustmentDetail;
-import com.stpl.app.arm.businessprocess.transaction_7.form.Trx7AdjustmentSummary;
-import com.stpl.app.arm.businessprocess.transaction_7.form.Trx7RatesTab;
-import com.stpl.app.arm.businessprocess.transaction_7.form.Trx7SalesTab;
+import com.stpl.app.arm.businessprocess.transaction7.dto.Trx7SelectionDTO;
+import com.stpl.app.arm.businessprocess.transaction7.form.Trx7AdjustmentDetail;
+import com.stpl.app.arm.businessprocess.transaction7.form.Trx7AdjustmentSummary;
+import com.stpl.app.arm.businessprocess.transaction7.form.Trx7RatesTab;
+import com.stpl.app.arm.businessprocess.transaction7.form.Trx7SalesTab;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
@@ -68,7 +68,7 @@ public class Transaction7 extends AbstractTransaction {
             Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in initializeTabs"+e);
         }
     }
 
@@ -100,12 +100,12 @@ public class Transaction7 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        return "Transaction_7_Adjustment_details_Insert_GTN";
+        return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        return "Transaction_7_Adjustment_details_Insert_Reserve";
+        return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
     @Override
@@ -120,6 +120,11 @@ public class Transaction7 extends AbstractTransaction {
         trx7RatesTab.configurePermission(userId, stplSecurity);
         summary.configurePermission(userId, stplSecurity);
         details.configurePermission(userId, stplSecurity);
+    }
+
+    @Override
+    public String getTableName() {
+        return "ARM_DISTRIBUTION_FEES_RATE";
     }
 
 }

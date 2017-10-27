@@ -39,7 +39,9 @@
             <Button id="prevColumn" caption="&lt;&lt;" styleName="prev-column-button"></Button>
             <Button id="nextColumn" caption="&gt;&gt;" styleName="next-column-button"></Button>
         </HorizontalLayout>
-        <customTable:ExtFilterTable id="resultTable" immediate="true" /> 
+        <VerticalLayout id="tableLayout">
+            <HorizontalLayout id="controlLayout"/>
+        </VerticalLayout>
          <HorizontalLayout immediate="true" spacing="true">
             <Button id="selectBtn" caption="SELECT" immediate="true" width="80" />
             <Button id="closeBtn" caption="CLOSE" immediate="true" width="80" />

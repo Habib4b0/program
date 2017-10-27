@@ -172,11 +172,11 @@ public abstract class ForecastPVComparisonLookup extends Window{
     /**
      * Visible columns for the tables
      */
-    public static final Object[] COMPARISON_RESULTS_COLUMNS = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION, "marketType", "customer", Constant.CONTRACT, Constant.BRAND, "createdDateFrom", "createdBy"};
+    public final Object[] comparisonResultsColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION, Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "createdDateFrom", "createdBy"};
     /**
      * The Constant COMPARISON_RESULTS_HEADER.
      */
-    public static final String[] COMPARISON_RESULTS_HEADER = new String[]{"Projection Name", "Description", "Market Type", "Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By"};
+    public final String[] comparisonResultsHeader = new String[]{"Projection Name", "Description", "Market Type", "Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By"};
     /**
      * Logger
      */
@@ -184,11 +184,11 @@ public abstract class ForecastPVComparisonLookup extends Window{
     /**
      * Resultbean
      */
-    protected final BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<ComparisonLookupDTO>(ComparisonLookupDTO.class);
+    protected final BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
     /**
      * Selected result bean
      */
-    protected final BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<ComparisonLookupDTO>(ComparisonLookupDTO.class);
+    protected final BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
     /**
      * Screen Name
      */
@@ -197,6 +197,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
      * Comparison custom text field
      */
     protected CustomTextField comparison;
+    private final HeaderUtils headerUtils = new HeaderUtils();
     /**
      * 
      * @param screenName 
@@ -298,21 +299,21 @@ public abstract class ForecastPVComparisonLookup extends Window{
      */
     private void loadAvailableHeader(){
         if(screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)){
-            resultsTable.setVisibleColumns(HeaderUtils.COMPARISON_COLUMNS);
-            resultsTable.setColumnHeaders(HeaderUtils.COMPARISON_HEADER);
+            resultsTable.setVisibleColumns(headerUtils.comparisonColumns);
+            resultsTable.setColumnHeaders(headerUtils.comparisonHeader);
         }else{
-            resultsTable.setVisibleColumns(COMPARISON_RESULTS_COLUMNS);
-            resultsTable.setColumnHeaders(COMPARISON_RESULTS_HEADER);
+            resultsTable.setVisibleColumns(comparisonResultsColumns);
+            resultsTable.setColumnHeaders(comparisonResultsHeader);
         }
     }
     
     private void loadSelectedHeader(){
         if(screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)){
-            projectionTable.setVisibleColumns(HeaderUtils.COMPARISON_COLUMNS);
-            projectionTable.setColumnHeaders(HeaderUtils.COMPARISON_HEADER);
+            projectionTable.setVisibleColumns(headerUtils.comparisonColumns);
+            projectionTable.setColumnHeaders(headerUtils.comparisonHeader);
         }else{
-            projectionTable.setVisibleColumns(COMPARISON_RESULTS_COLUMNS);
-            projectionTable.setColumnHeaders(COMPARISON_RESULTS_HEADER);
+            projectionTable.setVisibleColumns(comparisonResultsColumns);
+            projectionTable.setColumnHeaders(comparisonResultsHeader);
         }
     }
     
@@ -406,7 +407,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
     protected void resetBtnLogic(){
         new AbstractNotificationUtils() {
             public void noMethod() {
-               
+               return;
             }
 
             @Override
@@ -437,7 +438,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
     protected void submitBtnLogic(){
         try{
         if (!projectionTable.getItemIds().isEmpty()) {
-        List<ComparisonLookupDTO> selected = new ArrayList<ComparisonLookupDTO>();
+        List<ComparisonLookupDTO> selected = new ArrayList<>();
         ComparisonLookupDTO lookUpDTO = new ComparisonLookupDTO();
         Object[] itemIds = projectionTable.getItemIds().toArray();
         for (Object item : itemIds) {

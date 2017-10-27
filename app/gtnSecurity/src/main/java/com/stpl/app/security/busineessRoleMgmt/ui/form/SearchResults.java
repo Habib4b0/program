@@ -46,7 +46,6 @@ public class SearchResults extends CustomComponent {
 	private void init() {
 		space.setHeight("20");
 		addToContent();
-		configureFields();
 	}
 
 	private void addToContent() {
@@ -78,7 +77,7 @@ public class SearchResults extends CustomComponent {
 
             public void error(com.vaadin.server.ErrorEvent event) {
                    
-            
+            return;
 
             }
     });
@@ -109,10 +108,6 @@ public class SearchResults extends CustomComponent {
 			}
 		});
 		return table;
-	}
-	
-	private void configureFields() {
-		
 	}
 
 }

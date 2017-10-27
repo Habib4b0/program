@@ -22,6 +22,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.common.util.HelperListUtil;
@@ -329,7 +330,7 @@ public class ItemPricing extends CustomComponent {
     @UiField("basePriceDdlb")
     private ComboBox ppBasePriceDdlb;
 
-    private BeanItemContainer<TempPricingDTO> ppSaveContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private BeanItemContainer<TempPricingDTO> ppSaveContainer = new BeanItemContainer<>(TempPricingDTO.class);
     private boolean listenerflag = false;
     /**
      * The binder.
@@ -338,7 +339,7 @@ public class ItemPricing extends CustomComponent {
 
     LazyLoadCriteria ppLazyLoadCriteria = new LazyLoadCriteria();
 
-    private Map<String, String> listValueMap = new HashMap<String, String>();
+    private Map<String, String> listValueMap = new HashMap<>();
 
     private static final Logger logger = Logger.getLogger(ItemPricing.class.getName());
 
@@ -346,7 +347,7 @@ public class ItemPricing extends CustomComponent {
     private String ppFieldMass = StringUtils.EMPTY;
 
     NetPriceTypeFormulaLookup formulaLookup;
-    Map<Integer, HelperDTO> priceProtectionPriceType = new HashMap<Integer, HelperDTO>();
+    Map<Integer, HelperDTO> priceProtectionPriceType = new HashMap<>();
 
     /**
      * The available item result bean.
@@ -364,7 +365,7 @@ public class ItemPricing extends CustomComponent {
      */
     private Map<String, String> itemMap;
 
-    private BeanItemContainer<TempPricingDTO> saveContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private BeanItemContainer<TempPricingDTO> saveContainer = new BeanItemContainer<>(TempPricingDTO.class);
 
     private LazyBeanItemContainer tempLazyContainer;
 
@@ -397,25 +398,25 @@ public class ItemPricing extends CustomComponent {
     /**
      * The map.
      */
-    private final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
+    private final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
-    private final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
 
     /**
      * The ifp item list.
      */
-    private final List<VwContractPriceInfoDTO> ifpItemList = new ArrayList<VwContractPriceInfoDTO>();
+    private final List<VwContractPriceInfoDTO> ifpItemList = new ArrayList<>();
 
     private final DashBoardLogic dashBoardLogic;
 
-    final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Item Pricing", false);
+    final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.ITEM_PRICING, false);
 
-    List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Item Pricing");
+    List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.ITEM_PRICING);
     List<Object> resultListHistory = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Item Pricing History");
     final Map<String, AppPermission> contractDashboardHistory = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Item Pricing History", false);
-    Object[] obj = ContractUtils.ITEM_DETAILS_COL;
-    Object[] objView = ContractUtils.ITEM_DETAILS_VEIW_COL;
-    Object[] objViewHistory = ContractUtils.PRICE_PROTECTION_HISTORY;
+    Object[] obj = ContractUtils.getInstance().itemDetailsCol;
+    Object[] objView = ContractUtils.getInstance().itemDetailsViewCol;
+    Object[] objViewHistory = ContractUtils.getInstance().priceProtectionHistory;
     /**
      * The contract price info dto.
      */
@@ -432,12 +433,12 @@ public class ItemPricing extends CustomComponent {
 
     Map<Integer, String> priceType = new HashMap<>();
 
-    private BeanItemContainer<PricingHistoryDto> historyLazyContainer = new BeanItemContainer<PricingHistoryDto>(PricingHistoryDto.class);
+    private BeanItemContainer<PricingHistoryDto> historyLazyContainer = new BeanItemContainer<>(PricingHistoryDto.class);
 
     /**
      * UserMap - Contains User System ID and User Name
      */
-    public static Map<Integer, String> userMap = new ConcurrentHashMap<Integer, String>();
+    public static final Map<Integer, String> USER_MAP = new ConcurrentHashMap<Integer, String>();
 
     /**
      * The contract master binder.
@@ -455,17 +456,17 @@ public class ItemPricing extends CustomComponent {
     /**
      * Date format
      */
-    SimpleDateFormat format = new SimpleDateFormat("MM/dd/YYYY");
+    SimpleDateFormat format = new SimpleDateFormat(ConstantUtil.DATE_FORMAT);
 
     /**
      * Dummy lazy bean container to clear the Table
      */
-    private final BeanItemContainer<TempPricingDTO> tableContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private final BeanItemContainer<TempPricingDTO> tableContainer = new BeanItemContainer<>(TempPricingDTO.class);
 
     /**
      * Dummy lazy bean container to clear the Table
      */
-    private final BeanItemContainer<TempPricingDTO> ppTableContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private final BeanItemContainer<TempPricingDTO> ppTableContainer = new BeanItemContainer<>(TempPricingDTO.class);
 
     public PopupDateField getPriceScheduleStartDate() {
         return priceScheduleStartDate;
@@ -493,7 +494,7 @@ public class ItemPricing extends CustomComponent {
 
     @UiField("excelBtn")
     private Button excelExport;
-    List<Integer> pageLength = new ArrayList<Integer>();
+    List<Integer> pageLength = new ArrayList<>();
 
     /**
      * The Constructor.
@@ -503,7 +504,7 @@ public class ItemPricing extends CustomComponent {
      * @param itemDetailsResultsBean the item details results bean
      * @param itemMap the item map
      */
-    public ItemPricing(final BeanItemContainer<ItemMasterDTO> availableItemResultBean, final BeanItemContainer<ItemMasterDTO> selectedItemResultBean, final BeanItemContainer<TempPricingDTO> saveContainer,
+    public ItemPricing(final BeanItemContainer<ItemMasterDTO> selectedItemResultBean, final BeanItemContainer<TempPricingDTO> saveContainer,
             final BeanItemContainer<VwContractPriceInfoDTO> itemDetailsResultsBean, final Map<String, String> itemMap, final boolean isEditable, final SessionDTO sessionDTO, final BeanItemContainer<TempPricingDTO> ppSaveContainer, final CustomFieldGroup pricingBinderEdit, final PriceScheduleDto priceScheduleMaster) throws SystemException, PortalException {
         super();
         LOGGER.debug("Entering ItemsAndPricingTab");
@@ -555,7 +556,7 @@ public class ItemPricing extends CustomComponent {
             }
         });
 
-        final Map<String, AppPermission> fieldContractDashboardHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Item Pricing", false);
+        final Map<String, AppPermission> fieldContractDashboardHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.ITEM_PRICING, false);
 
         addResponsiveGrid(fieldContractDashboardHM);
         if (isEditable) {
@@ -592,12 +593,12 @@ public class ItemPricing extends CustomComponent {
     private void configureBinder() {
         LOGGER.debug("Entering getBinder method");
         pricingBinderEdit.bindMemberFields(this);
-        pricingBinderEdit.setItemDataSource(new BeanItem<PriceScheduleDto>(priceScheduleMaster));
+        pricingBinderEdit.setItemDataSource(new BeanItem<>(priceScheduleMaster));
         pricingBinderEdit.setBuffered(true);
         LOGGER.debug("End of getBinder method");
     }
 
-    private void configureFieldsOnView() throws PortalException ,SystemException {
+    private void configureFieldsOnView() {
         hLayout.setVisible(false);
         level.addItem(Constants.HEADER);
         level.addItem(Constants.DETAILS);
@@ -690,7 +691,7 @@ public class ItemPricing extends CustomComponent {
                     header.setVisible(false);
                     priceProtection.setVisible(true);
                 }
-                if (String.valueOf(level.getValue()).equals("Header") && !String.valueOf(view.getValue()).equals("History")) {
+                if (String.valueOf(level.getValue()).equals(ConstantUtil.HEADER) && !String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
                     excelExport.setVisible(false);
                 }
             }
@@ -712,7 +713,7 @@ public class ItemPricing extends CustomComponent {
                     history.setVisible(false);
                     header.setVisible(true);
                 }
-                if (String.valueOf(level.getValue()).equals("Header") && !String.valueOf(view.getValue()).equals("History")) {
+                if (String.valueOf(level.getValue()).equals(ConstantUtil.HEADER) && !String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
                     excelExport.setVisible(false);
                 }
             }
@@ -736,14 +737,14 @@ public class ItemPricing extends CustomComponent {
      */
     private void configureButtons() throws PortalException, SystemException {
 
-        final Map<String, AppPermission> functionContractDashboardHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Item Pricing");
+        final Map<String, AppPermission> functionContractDashboardHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.ITEM_PRICING);
 
-        if (functionContractDashboardHM.get(CHFunctionNameUtils.ItemPopulate) != null && ((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.ItemPopulate)).isFunctionFlag()) {
+        if (functionContractDashboardHM.get(CHFunctionNameUtils.ITEM_POPULATE) != null && ((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.ITEM_POPULATE)).isFunctionFlag()) {
             addBtnPopulate();
         } else {
             btnPopulate.setVisible(false);
         }
-        if (functionContractDashboardHM.get(CHFunctionNameUtils.ItemPopulateAll) != null && ((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.ItemPopulateAll)).isFunctionFlag()) {
+        if (functionContractDashboardHM.get(CHFunctionNameUtils.ITEM_POPULATE_ALL) != null && ((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.ITEM_POPULATE_ALL)).isFunctionFlag()) {
             addAllBtnPopulate();
         } else {
             btnAllPopulate.setVisible(false);
@@ -759,7 +760,7 @@ public class ItemPricing extends CustomComponent {
     public Button addBtnPopulate() {
         LOGGER.debug("Entering addBtnPopulate method");
 
-        btnPopulate.setReadOnly(true);
+        btnPopulate.setEnabled(false);
         btnPopulate.setErrorHandler(new ErrorHandler() {
             /**
              * Method used for populate button logic and its listener.
@@ -778,37 +779,37 @@ public class ItemPricing extends CustomComponent {
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug("Entering btnPopulate buttonClick method");
                 String value = StringUtils.EMPTY;
-                final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                final SimpleDateFormat fmt = new SimpleDateFormat(ConstantUtil.YYYY_M_MDD);
                 if (massField.getValue() != null) {
                     try {
                         fieldMass = map.get(massField.getValue());
                         if (Constants.PRICE_START_DATE.equals(fieldMass)) {
                             if (massDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else {
                                 value = fmt.format(massDate.getValue());
                             }
 
                         } else if (Constants.PRICE_END_DATE.equals(fieldMass)) {
                             if (massDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else {
                                 value = fmt.format(massDate.getValue());
                             }
                         } else if (Constants.CP_START_DATE.equals(fieldMass)) {
                             if (priceScheduleStartDate.getValue() == null) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide Price Schedule Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_PRICE_SCHEDULE_START_DATE);
 
                                 return;
                             } else if (massDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else if (massDate.getValue().before(priceScheduleStartDate.getValue())) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.START_DATE_CANNOT_BE_BEFORE + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleStartDate.getValue()));
                                 return;
                             } else if (priceScheduleEndDate.getValue() != null && massDate.getValue().after(priceScheduleEndDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.START_DATE_CANNOT_BE_AFTER + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleEndDate.getValue()));
 
                                 return;
                             } else {
@@ -818,17 +819,17 @@ public class ItemPricing extends CustomComponent {
                         } else if (Constants.CP_END_DATE.equals(fieldMass)) {
                             if (priceScheduleStartDate.getValue() == null) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide Price Schedule Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_PRICE_SCHEDULE_START_DATE);
 
                                 return;
                             } else if (massDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else if (priceScheduleEndDate.getValue() != null && massDate.getValue().after(priceScheduleEndDate.getValue())) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.END_DATE_CANNOT_BE_AFTER + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleEndDate.getValue()));
                                 return;
                             } else if (massDate.getValue().before(priceScheduleStartDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.END_DATE_CANNOT_BE_BEFORE + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleStartDate.getValue()));
 
                                 return;
                             } else {
@@ -914,10 +915,10 @@ public class ItemPricing extends CustomComponent {
 
                     AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, Constants.POPULATE_MSG);
                 }
-                LOGGER.debug("End of btnPopulate buttonClick method");
+                LOGGER.debug("End of btnPopulate buttonClick method ");
             }
         });
-        LOGGER.debug("End of addBtnPopulate method");
+        LOGGER.debug("End of addBtnPopulate method ");
         return btnPopulate;
     }
 
@@ -960,7 +961,7 @@ public class ItemPricing extends CustomComponent {
      */
     public Button addAllBtnPopulate() {
         LOGGER.debug("Entering addAllBtnPopulate method");
-        btnAllPopulate.setReadOnly(true);
+        btnAllPopulate.setEnabled(false);
         btnAllPopulate.setErrorHandler(new ErrorHandler() {
             /**
              * Method used to populate all button logic and its listener.
@@ -977,13 +978,13 @@ public class ItemPricing extends CustomComponent {
              */
             public void buttonClick(final ClickEvent event) {
                 String value = StringUtils.EMPTY;
-                final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                final SimpleDateFormat fmt = new SimpleDateFormat(ConstantUtil.YYYY_M_MDD);
                 if (massField.getValue() != null) {
                     try {
                         fieldMass = map.get(massField.getValue());
                         if (fieldMass.equals(Constants.PRICE_START_DATE)) {
                             if (massDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
@@ -991,7 +992,7 @@ public class ItemPricing extends CustomComponent {
 
                         } else if (fieldMass.equals(Constants.PRICE_END_DATE)) {
                             if (massDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
@@ -999,17 +1000,17 @@ public class ItemPricing extends CustomComponent {
                         } else if (fieldMass.equals(Constants.CP_START_DATE)) {
                             if (priceScheduleStartDate.getValue() == null) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide Price Schedule Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_PRICE_SCHEDULE_START_DATE);
                                 return;
                             } else if (massDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                 return;
                             } else if (massDate.getValue().before(priceScheduleStartDate.getValue())) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.START_DATE_CANNOT_BE_BEFORE + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleStartDate.getValue()));
                                 return;
                             } else if (priceScheduleEndDate.getValue() != null && massDate.getValue().after(priceScheduleEndDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.START_DATE_CANNOT_BE_AFTER + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleEndDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(massDate.getValue());
@@ -1018,18 +1019,18 @@ public class ItemPricing extends CustomComponent {
                         } else if (fieldMass.equals(Constants.CP_END_DATE)) {
                             if (priceScheduleStartDate.getValue() == null) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please provide Price Schedule Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_PRICE_SCHEDULE_START_DATE);
 
                                 return;
                             } else if (massDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                 return;
                             } else if (priceScheduleEndDate.getValue() != null && massDate.getValue().after(priceScheduleEndDate.getValue())) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.END_DATE_CANNOT_BE_AFTER + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleEndDate.getValue()));
                                 return;
                             } else if (massDate.getValue().before(priceScheduleStartDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.END_DATE_CANNOT_BE_BEFORE + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleStartDate.getValue()));
 
                                 return;
                             } else {
@@ -1128,7 +1129,7 @@ public class ItemPricing extends CustomComponent {
      *
      * @throws SystemException
      */
-    public void configureFields() throws SystemException, PortalException{
+    public void configureFields() {
         LOGGER.debug("Entering configureFields method");
 
         priceScheduleStartDate.setValidationVisible(true);
@@ -1140,7 +1141,7 @@ public class ItemPricing extends CustomComponent {
         modifiedDate.setDateFormat(Constants.MM_DD_YYYY);
         createdDate.setDateFormat(Constants.MM_DD_YYYY);
         priceScheduleEndDate.setDateFormat(Constants.MM_DD_YYYY);
-        attachListeners(priceScheduleStartDate, "START_DATE");
+        attachListeners(priceScheduleStartDate, Constants.START_DATE_CAPS);
 
         priceScheduleEndDate.setValidationVisible(true);
         priceScheduleEndDate.setImmediate(true);
@@ -1180,7 +1181,7 @@ public class ItemPricing extends CustomComponent {
         massDate.setDateFormat(Constants.MM_DD_YYYY);
         massDate.setDescription(Constants.DATE);
         massDate.setId("ItemMassDate");
-
+        ppBasePriceDdlb.setVisible(false);
         excelExport.setIcon(new ThemeResource(ExcelExportUtil.EXCEL_EXPORT_IMAGE));
         excelExport.setStyleName("link");
         excelExport.setDescription(Constants.EXCEL_EXPORT);
@@ -1254,7 +1255,7 @@ public class ItemPricing extends CustomComponent {
                             priceTypeContainer.setMinFilterLength(0);
                             massValue.setContainerDataSource(priceTypeContainer);
                             massValue.select(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
-                            new ContractUtils().getComboBox(massValue, new ContractUtils().getPriceType());
+                            ContractUtils.getInstance().getComboBox(massValue, ContractUtils.getInstance().getPriceType());
                             massValue.select(0);
 
                         } else if (Constants.PRICE_TOLERANCE_TYPE_VALUE.equals(value)) {
@@ -1282,7 +1283,7 @@ public class ItemPricing extends CustomComponent {
                             massValue.setItemCaption(0, Constants.SELECT_ONE);
                             massValue.setNullSelectionAllowed(true);
                             massValue.setNullSelectionItemId(0);
-                            new ContractUtils().getComboBox(massValue, new ContractUtils().getItemStatus());
+                            ContractUtils.getInstance().getComboBox(massValue, ContractUtils.getInstance().getItemStatus());
                             massValue.select(0);
                         } else if (Constants.PRICE_TOLERANCE_INTERVAL_VALUE.equals(value)) {
                             massText.setVisible(false);
@@ -1394,7 +1395,7 @@ public class ItemPricing extends CustomComponent {
         map.put(Constants.CP_START_DATE_SP, Constants.CP_START_DATE);
         map.put(Constants.CP_END_DATE_SP, Constants.CP_END_DATE);
         map.put(Constants.START_DATE_SP, Constants.START_DATE);
-        map.put("End Date", Constants.END_DATE);
+        map.put(Constants.END_DATE_SP, Constants.END_DATE);
         map.put("Attached Date", "attachedDate");
         map.put(Constants.ATTACHED_STATUS1, Constants.ATTACHED_STATUS);
         map.put(Constants.ITEM_STATUS1, Constants.ITEM_STATUS);
@@ -1494,7 +1495,7 @@ public class ItemPricing extends CustomComponent {
                     psDates[0] = priceScheduleStartDate.getValue();
                     psDates[1] = priceScheduleEndDate.getValue();
                 }
-                if (String.valueOf(level.getValue()).equals("Header") && !String.valueOf(view.getValue()).equals("History")) {
+                if (String.valueOf(level.getValue()).equals(ConstantUtil.HEADER) && !String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
                     excelExport.setVisible(false);
                 }
             }
@@ -1516,7 +1517,7 @@ public class ItemPricing extends CustomComponent {
                     history.setVisible(false);
                     header.setVisible(true);
                 }
-                if (String.valueOf(level.getValue()).equals("Header") && !String.valueOf(view.getValue()).equals("History")) {
+                if (String.valueOf(level.getValue()).equals(ConstantUtil.HEADER) && !String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
                     excelExport.setVisible(false);
                 }
             }
@@ -1643,7 +1644,7 @@ public class ItemPricing extends CustomComponent {
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-
+                            return;
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
@@ -1658,8 +1659,8 @@ public class ItemPricing extends CustomComponent {
         ppMassField.setInputPrompt(ConstantsUtils.SELECT_ONE);
         ppMassField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         ppMassField.addItem(ConstantsUtils.SELECT_ONE);
-        String[] massFieldOptions = new String[]{Constants.MASS_PRICE_PROTECTION_STATUS, Constants.MASS_PRICE_PROTECTION_START_DATE, Constants.MASS_PRICE_PROTECTION_END_DATE, Constants.MASS_PRICE_PROTECTION_PRICE_TYPE, Constants.MASS_NEP_FORMULA, Constants.MASS_BASE_PRICE, Constants.MASS_PRICE_TOLERANCE_INTERVAL,
-            Constants.MASS_PRICE_TOLERANCE_FREQUENCY, Constants.MASS_PRICE_TOLERANCE_TYPE, Constants.MASS_MAX_INCREMENTAL_CHANGE, Constants.MASS_PRICE_TOLERENCE, Constants.MASS_RESET_ELIGIBLE, Constants.MASS_RESET_TYPE, Constants.MASS_RESET_DATE, Constants.MASS_RESET_INTERVAL, Constants.MASS_RESET_FREQUENCY, Constants.MASS_NET_PRICE_TYPE, Constants.MASS_NET_PRICE_TYPE_FORMULA
+        String[] massFieldOptions = new String[]{Constants.MASS_PRICE_PROTECTION_STATUS, Constants.PRICE_PROTECTION_START_DATE_VALUE, Constants.MASS_PRICE_PROTECTION_END_DATE, Constants.MASS_PRICE_PROTECTION_PRICE_TYPE, Constants.MASS_NEP_FORMULA, Constants.MASS_BASE_PRICE, Constants.MASS_PRICE_TOLERANCE_INTERVAL,
+            Constants.MASS_PRICE_TOLERANCE_FREQUENCY, Constants.MASS_PRICE_TOLERANCE_TYPE, Constants.MASS_MAX_INCREMENTAL_CHANGE, Constants.PRICE_TOLERENCE, Constants.MASS_RESET_ELIGIBLE, Constants.MASS_RESET_TYPE, Constants.MASS_RESET_DATE, Constants.MASS_RESET_INTERVAL, Constants.MASS_RESET_FREQUENCY, Constants.MASS_NET_PRICE_TYPE, Constants.MASS_NET_PRICE_TYPE_FORMULA
         };
         for (int i = 0; i < massFieldOptions.length; i++) {
             ppMassField.addItem(massFieldOptions[i]);
@@ -1695,7 +1696,7 @@ public class ItemPricing extends CustomComponent {
                     } catch (Exception ex) {
                         logger.error(ex);
                     }
-                } else if (Constants.MASS_PRICE_PROTECTION_START_DATE.equals(value) || Constants.MASS_PRICE_PROTECTION_END_DATE.equals(value)
+                } else if (Constants.PRICE_PROTECTION_START_DATE_VALUE.equals(value) || Constants.MASS_PRICE_PROTECTION_END_DATE.equals(value)
                         || Constants.MASS_RESET_DATE.equals(value)) {
                     priceProtectionMassDate.setValue(null);
                     priceProtectionMassValue.setVisible(false);
@@ -1738,17 +1739,13 @@ public class ItemPricing extends CustomComponent {
                     massSelect.setContainerDataSource(priceTypeContainer);
                     massSelect.select(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
                 } else if (Constants.MASS_BASE_PRICE.equals(value)) {
-                    try {
-                        ppBasePriceDdlb.setVisible(true);
-                        commonUtil.loadComboBox(ppBasePriceDdlb, UIUtils.BASE_PRICE_TYPE, false);
-                        ppBasePriceDdlb.addValueChangeListener(listener);
-                        priceProtectionMassDate.setVisible(false);
-                        massSelect.setVisible(false);
-                        massLookup.setVisible(false);
-                        priceProtectionMassValue.setVisible(false);
-                    } catch (SystemException ex) {
-                        LOGGER.error(ex);
-                    }
+                    ppBasePriceDdlb.setVisible(true);
+                    commonUtil.loadComboBox(ppBasePriceDdlb, UIUtils.BASE_PRICE_TYPE, false);
+                    ppBasePriceDdlb.addValueChangeListener(listener);
+                    priceProtectionMassDate.setVisible(false);
+                    massSelect.setVisible(false);
+                    massLookup.setVisible(false);
+                    priceProtectionMassValue.setVisible(false);
                 }
             }
         });
@@ -1766,14 +1763,17 @@ public class ItemPricing extends CustomComponent {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
                             NepFormulaLookUpDTO psNepFormulaDTO = netSalesFormulaLookup.getNepFormulaDTO();
-                            massLookup.setValue(psNepFormulaDTO.getNepFormulaNo());
-                            final Map<String, String> map = new HashMap<>();
-                            map.put("formulaNo", psNepFormulaDTO.getNepFormulaNo());
-                            map.put("formulaName", psNepFormulaDTO.getNepFormulaName());
-                            map.put("formulaID", psNepFormulaDTO.getNepFormulaID());
+                            if (netSalesFormulaLookup.isSelected()) {
+                                final Map<String, String> map = new HashMap<>();
+                                massLookup.setValue(psNepFormulaDTO.getNepFormulaNo());
+                                map.put("formulaNo", psNepFormulaDTO.getNepFormulaNo());
+                                map.put("formulaName", psNepFormulaDTO.getNepFormulaName());
+                                map.put("formulaID", psNepFormulaDTO.getNepFormulaID());
 
-                            map.put(Constants.FORMULA_SYSTEM_SID, String.valueOf(psNepFormulaDTO.getNepFormulaSystemID()));
-                            massLookup.setData(map);
+                                map.put(Constants.FORMULA_SYSTEM_SID, String.valueOf(psNepFormulaDTO.getNepFormulaSystemID()));
+
+                                massLookup.setData(map);
+                            }
                             netSalesFormulaLookup = null;
                         }
                     });
@@ -1792,7 +1792,7 @@ public class ItemPricing extends CustomComponent {
 
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-
+                return;
             }
         });
 
@@ -1864,7 +1864,7 @@ public class ItemPricing extends CustomComponent {
             if (isEditable) {
                 tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, contractDashboard, Constants.EDIT);
             } else {
-                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objView, contractDashboard, Constants.ViewMode);
+                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objView, contractDashboard, Constants.VIEW_MODE);
             }
             itemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
             itemDetailsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
@@ -1877,7 +1877,7 @@ public class ItemPricing extends CustomComponent {
             itemDetailsTable.setSizeFull();
             if (isEditable) {
                 itemDetailsTable.setSelectable(true);
-                tempDate = new HashMap<String, List>();
+                tempDate = new HashMap<>();
                 itemDetailsTable.setTableFieldFactory(new ItemPricingGenerator(saveContainer, dates, psDates, tempDate,sessionDTO, itemDetailsTable));
                 itemDetailsTable.setEditable(true);
                 itemDetailsTable.setFilterBarVisible(true);
@@ -1891,7 +1891,7 @@ public class ItemPricing extends CustomComponent {
                      */
                     @SuppressWarnings("PMD")
                     public void error(final com.vaadin.server.ErrorEvent event) {
-
+                        return;
                     }
                 });
                 itemDetailsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
@@ -2149,7 +2149,7 @@ public class ItemPricing extends CustomComponent {
     private static Object[] getCollapsibleColumns480Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -2168,7 +2168,7 @@ public class ItemPricing extends CustomComponent {
     private static Object[] getCollapsibleColumns978Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         list.remove(propertyIds[NumericConstants.THREE]);
@@ -2186,7 +2186,7 @@ public class ItemPricing extends CustomComponent {
     private static String[] getCollapsibleColumns600Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -2196,7 +2196,7 @@ public class ItemPricing extends CustomComponent {
     private static String[] getCollapsibleColumnsDefault1515Px(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -2210,7 +2210,7 @@ public class ItemPricing extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }
@@ -2230,7 +2230,7 @@ public class ItemPricing extends CustomComponent {
     /**
      * Btn export logic.
      */
-    public void btnExportLogic() throws SystemException, PortalException {
+    public void btnExportLogic() {
         LOGGER.debug("Entering btnExportLogic method");
         excelExport.addClickListener(new ClickListener() {
             /**
@@ -2240,7 +2240,7 @@ public class ItemPricing extends CustomComponent {
             public void buttonClick(final ClickEvent event) {
                 try {
                     IfpLogic.saveToTempIFP(saveContainer.getItemIds(), isEditable);
-                    IfpLogic.saveToTempTable(ppSaveContainer.getItemIds(), isEditable);
+                    IfpLogic.saveToTempTable(ppSaveContainer.getItemIds(), isEditable,sessionDTO);
                 } catch (PortalException ex) {
                     java.util.logging.Logger.getLogger(ItemPricing.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SystemException ex) {
@@ -2248,7 +2248,7 @@ public class ItemPricing extends CustomComponent {
                 }
                 if (Constants.DETAILS.equals(level.getValue())) {
                     try {
-                        List list = ifpLogic.getLazyItemPricingDeatils(0, 0, null, true, itemDetailsTableLogic.getRecord(), false, Boolean.FALSE);
+                        List list = ifpLogic.getLazyItemPricingDeatils(0, 0, null, true, itemDetailsTableLogic.getRecord(), false, Boolean.FALSE,null);
                         int recordCount = 0;
                         if (list != null && !list.isEmpty()) {
                             recordCount = Integer.valueOf(String.valueOf(list.get(0)));
@@ -2287,7 +2287,7 @@ public class ItemPricing extends CustomComponent {
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-
+                            return;
                         }
                     }, ButtonId.OK);
                 }
@@ -2297,19 +2297,19 @@ public class ItemPricing extends CustomComponent {
         LOGGER.debug("End of btnExportLogic method");
     }
 
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
 
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
         ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.toUpperCase());
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  NoSuchFieldException,  IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         LOGGER.debug("Entering createWorkSheetContent method");
 
         if (Constants.DETAILS.equals(level.getValue())) {
-            List<Object[]> returnList = ifpLogic.getLazyItemPricingDeatils(start, end, null, false, itemDetailsTableLogic.getRecord(), false, Boolean.FALSE);
+            List<Object[]> returnList = ifpLogic.getLazyItemPricingDeatils(start, end, null, false, itemDetailsTableLogic.getRecord(), false, Boolean.FALSE,null);
             ifpLogic.setExcel(true);
             List exportCompany = ifpLogic.getCustomizedPricingDTO(returnList, false, itemDetailsTableLogic.getRecord());
             ifpLogic.setExcel(false);
@@ -2348,7 +2348,7 @@ public class ItemPricing extends CustomComponent {
                 }
             }
         } else if (Constants.PRICE_PROTECTION.equals(level.getValue())) {
-            final String[] header = ContractUtils.PRICE_PROTECTION_COL_HEADER;
+            final String[] header = ContractUtils.getInstance().priceProtectionColHeader;
             for (int headerCount = 1; headerCount < header.length; headerCount++) {
                 if (headerCount < header.length - 1) {
                     pwValue.print(header[headerCount] + ExcelExportUtil.COMMA);
@@ -2407,7 +2407,7 @@ public class ItemPricing extends CustomComponent {
     public void addItemDetailsTableForView() {
 
         LOGGER.debug("Entering addItemDetailsTable method");
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objView, contractDashboard, Constants.ViewMode);
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objView, contractDashboard, Constants.VIEW_MODE);
         viewItemDetailsTable.setVisible(true);
         resultsTableLayout.addComponent(viewItemDetailsTable);
         HorizontalLayout tempLayout = ResponsiveUtils.getResponsiveControls(itemDetailsViewTableLogic.createControls());
@@ -2426,7 +2426,7 @@ public class ItemPricing extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         LOGGER.debug("End of addItemDetailsTable method");
@@ -2436,7 +2436,7 @@ public class ItemPricing extends CustomComponent {
     public void loadTempIfpOnView(String value) {
         itemDetailsViewTableLogic.setRecord(value);
         itemDetailsViewTableLogic.configureSearchData(sessionDTO, priceType);
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objView, contractDashboard, Constants.ViewMode);
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objView, contractDashboard, Constants.VIEW_MODE);
         viewItemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
         viewItemDetailsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
     }
@@ -2445,7 +2445,7 @@ public class ItemPricing extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new Object[list.size()]);
 
@@ -2464,7 +2464,7 @@ public class ItemPricing extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         list.remove(propertyIds[NumericConstants.THREE]);
@@ -2483,7 +2483,7 @@ public class ItemPricing extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -2511,7 +2511,7 @@ public class ItemPricing extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new Object[list.size()]);
         for (Object propertyId : table.getVisibleColumns()) {
@@ -2530,7 +2530,7 @@ public class ItemPricing extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = NumericConstants.EIGHT; i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -2550,7 +2550,7 @@ public class ItemPricing extends CustomComponent {
     private void addResponsiveGrid(Map<String, AppPermission> fieldContractDashboardHM) {
         try {
 
-            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Item Pricing");
+            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.ITEM_PRICING);
             List<Object> resultList1 = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Item Pricing Header");
 
             final Map<String, AppPermission> fieldContractDashboardHM1 = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Item Pricing Header", false);
@@ -2574,11 +2574,11 @@ public class ItemPricing extends CustomComponent {
         priceProtectionTable.setSizeFull();
         ppTableLogic.configureSearchData(ppSaveContainer, sessionDTO, priceProtectionPriceType, isEditable);
         if (isEditable) {
-            priceProtectionTable.setVisibleColumns(ContractUtils.PRICE_PROTECTION_COL);
-            priceProtectionTable.setColumnHeaders(ContractUtils.PRICE_PROTECTION_COL_HEADER);
+            priceProtectionTable.setVisibleColumns(ContractUtils.getInstance().priceProtectionCol);
+            priceProtectionTable.setColumnHeaders(ContractUtils.getInstance().priceProtectionColHeader);
         } else {
-            priceProtectionTable.setVisibleColumns(ContractUtils.PRICE_PROTECTION_COL_VIEW);
-            priceProtectionTable.setColumnHeaders(ContractUtils.PRICE_PROTECTION_COL_HEADER_VIEW);
+            priceProtectionTable.setVisibleColumns(ContractUtils.getInstance().priceProtectionColView);
+            priceProtectionTable.setColumnHeaders(ContractUtils.getInstance().priceProtectionColHeaderView);
         }
          boolean isCheckedAll = IfpLogic.checkTempCheckedAll(sessionDTO);
         priceProtectionTable.setColumnCheckBox(Constants.CHECK_BOX, true, isCheckedAll);
@@ -2593,7 +2593,7 @@ public class ItemPricing extends CustomComponent {
             priceProtectionTable.setFilterGenerator(new PSFilterGenerator(priceProtectionPriceType));
             priceProtectionTable.setSelectable(true);
             priceProtectionTable.setEditable(true);
-            ppTempDate = new HashMap<String, List>();
+            ppTempDate = new HashMap<>();
             priceProtectionTable.setTableFieldFactory(new PriceProtectionFieldFactory(priceProtectionTable, ppSaveContainer, psDates, ppTempDate, sessionDTO, pricingBinderEdit));
             priceProtectionTable.setFilterBarVisible(true);
             priceProtectionTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -2608,8 +2608,9 @@ public class ItemPricing extends CustomComponent {
                     if (Constants.CHECK_BOX.equals(event.getPropertyId().toString())) {
                         if (event.isChecked()) {
                             try {
-                                    IfpLogic.saveToTempIFP(ppSaveContainer.getItemIds(), isEditable);
-                                    ppSaveContainer.removeAllItems();
+                                IfpLogic.saveToTempIFP(ppSaveContainer.getItemIds(), isEditable);
+                                IfpLogic.saveToTempTable(ppSaveContainer.getItemIds(), isEditable,sessionDTO);
+                                ppSaveContainer.removeAllItems();
 
                                 ifpLogic.populateToTempIFPforPP(Constants.CHECK_BOX1, 1, Boolean.TRUE);
                                 ppTableLogic.configureSearchData(ppSaveContainer, sessionDTO, priceProtectionPriceType, isEditable);
@@ -2621,8 +2622,9 @@ public class ItemPricing extends CustomComponent {
 
                         } else {
                             try {
-                                    IfpLogic.saveToTempIFP(ppSaveContainer.getItemIds(), isEditable);
-                                    ppSaveContainer.removeAllItems();
+                                IfpLogic.saveToTempIFP(ppSaveContainer.getItemIds(), isEditable);
+                                IfpLogic.saveToTempTable(ppSaveContainer.getItemIds(), isEditable,sessionDTO);
+                                ppSaveContainer.removeAllItems();
 
                                 ifpLogic.populateToTempIFPforPP(Constants.CHECK_BOX1, 0, Boolean.TRUE);
                                 ppTableLogic.configureSearchData(ppSaveContainer, sessionDTO, priceProtectionPriceType, isEditable);
@@ -2650,8 +2652,8 @@ public class ItemPricing extends CustomComponent {
         ppTableLogic.setContainerDataSource(ppTableContainer);
         priceProtectionTable.setSizeFull();
         ppTableLogic.configureSearchData(ppSaveContainer, sessionDTO, priceProtectionPriceType, isEditable);
-        priceProtectionTable.setVisibleColumns(ContractUtils.PRICE_PROTECTION_COL_VIEW);
-        priceProtectionTable.setColumnHeaders(ContractUtils.PRICE_PROTECTION_COL_HEADER_VIEW);
+        priceProtectionTable.setVisibleColumns(ContractUtils.getInstance().priceProtectionColView);
+        priceProtectionTable.setColumnHeaders(ContractUtils.getInstance().priceProtectionColHeaderView);
         priceProtectionTable.setPageLength(NumericConstants.SEVEN);
         priceProtectionTable.setImmediate(true);
         priceProtectionTable.setSelectable(true);
@@ -2662,8 +2664,8 @@ public class ItemPricing extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-
-            }
+                return;
+            }   
         });
         LOGGER.debug("End of configurePriceProtectionViewTable method");
     }
@@ -2674,7 +2676,7 @@ public class ItemPricing extends CustomComponent {
         if (isEditable) {
             tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultListHistory, objViewHistory, contractDashboardHistory, Constants.EDIT);
         } else {
-            tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultListHistory, objViewHistory, contractDashboardHistory, Constants.ViewMode);
+            tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultListHistory, objViewHistory, contractDashboardHistory, Constants.VIEW_MODE);
         }
         historyPriceProtectionTable.setVisibleColumns(tableResultCustom.getObjResult());
         historyPriceProtectionTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
@@ -2705,12 +2707,12 @@ public class ItemPricing extends CustomComponent {
         historyPriceProtectionTable.setVisible(true);
         historyPriceProtectionTable.markAsDirty();
         historyPriceProtectionTable.setContainerDataSource(historyLazyContainer);
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultListHistory, objViewHistory, contractDashboardHistory, Constants.ViewMode);
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultListHistory, objViewHistory, contractDashboardHistory, Constants.VIEW_MODE);
         historyPriceProtectionTable.setVisibleColumns(tableResultCustom.getObjResult());
         historyPriceProtectionTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
 
-        historyPriceProtectionTable.setVisibleColumns(ContractUtils.PRICE_PROTECTION_HISTORY);
-        historyPriceProtectionTable.setColumnHeaders(ContractUtils.PRICE_PROTECTION_HISTORY_HEADER);
+        historyPriceProtectionTable.setVisibleColumns(ContractUtils.getInstance().priceProtectionHistory);
+        historyPriceProtectionTable.setColumnHeaders(ContractUtils.getInstance().priceProtectionHistoryHeader);
         historyPriceProtectionTable.setPageLength(NumericConstants.SEVEN);
         historyPriceProtectionTable.setImmediate(true);
         historyPriceProtectionTable.setSelectable(true);
@@ -2721,7 +2723,7 @@ public class ItemPricing extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         LOGGER.debug("End of configurePriceProtectionViewTable method");
@@ -2750,7 +2752,7 @@ public class ItemPricing extends CustomComponent {
                 try {
                     LOGGER.debug("Entering ppBtnPopulate buttonClick method");
                     String value = StringUtils.EMPTY;
-                    final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                    final SimpleDateFormat fmt = new SimpleDateFormat(ConstantUtil.YYYY_M_MDD);
                     if (ppMassField.getValue() != null) {
                         try {
                             ppFieldMass = String.valueOf(ppMassField.getValue());
@@ -2767,7 +2769,7 @@ public class ItemPricing extends CustomComponent {
                                             break;
                                         case com.stpl.app.serviceUtils.Constants.DATE:
                                             if (priceProtectionMassDate.getValue() == null) {
-                                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                             } else {
                                                 value = com.stpl.app.serviceUtils.Constants.DATE
                                                         + ContractUtils.DELIMITER + ((HelperDTO) (ppBasePriceDdlb.getValue())).getId()
@@ -2800,21 +2802,21 @@ public class ItemPricing extends CustomComponent {
                             }
                         } else if (ppFieldMass.equals(Constants.MASS_RESET_DATE)) {
                             if (priceProtectionMassDate.getValue() == null) {
-                                ppBinder.getErrorDisplay().setError("Please provide date and try again.");
+                                ppBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else {
                                 value = fmt.format(priceProtectionMassDate.getValue());
                             }
-                        } else if (ppFieldMass.equals(Constants.MASS_PRICE_PROTECTION_START_DATE)) {
+                        } else if (ppFieldMass.equals(Constants.PRICE_PROTECTION_START_DATE_VALUE)) {
                             if (priceScheduleStartDate.getValue() == null) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please Provide Price schedule Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.PLEASE_PROVIDE_PRICE_SCHEDULE_START_DATE);
                                 return;
                             } else if (priceProtectionMassDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else if (priceProtectionMassDate.getValue().before(priceScheduleStartDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.START_DATE_CANNOT_BE_BEFORE + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleStartDate.getValue()));
                                 return;
                             } else if (priceScheduleEndDate.getValue() != null && priceProtectionMassDate.getValue().after(priceScheduleEndDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.START_DATE_CANNOT_BE_AFTER + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleEndDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(priceProtectionMassDate.getValue());
@@ -2822,15 +2824,15 @@ public class ItemPricing extends CustomComponent {
 
                         } else if (ppFieldMass.equals(Constants.MASS_PRICE_PROTECTION_END_DATE)) {
                             if (priceScheduleStartDate.getValue() == null) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please Provide Price schedule Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR,  ConstantUtil.PLEASE_PROVIDE_PRICE_SCHEDULE_START_DATE);
                                 return;
                             } else if (priceProtectionMassDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else if (priceScheduleEndDate.getValue() != null && priceProtectionMassDate.getValue().after(priceScheduleEndDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.END_DATE_CANNOT_BE_AFTER + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleEndDate.getValue()));
                                 return;
                             } else if (priceProtectionMassDate.getValue().before(priceScheduleStartDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.END_DATE_CANNOT_BE_BEFORE + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleStartDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(priceProtectionMassDate.getValue());
@@ -2856,7 +2858,7 @@ public class ItemPricing extends CustomComponent {
                         } else if (priceProtectionMassValue.getValue() != null) {
                             value = priceProtectionMassValue.getValue();
                         } 
-                        IfpLogic.saveToTempTable(ppSaveContainer.getItemIds(), isEditable);
+                        IfpLogic.saveToTempTable(ppSaveContainer.getItemIds(), isEditable,sessionDTO);
                         ppSaveContainer.removeAllItems();
                         ifpLogic.populateToTempIFPforPP(ppMassField.getValue(), value, Boolean.FALSE);
                         loadPpTempIfp();
@@ -2919,7 +2921,7 @@ public class ItemPricing extends CustomComponent {
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug("Entering btnPopulate buttonClick method");
                 String value = StringUtils.EMPTY;
-                final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                final SimpleDateFormat fmt = new SimpleDateFormat(ConstantUtil.YYYY_M_MDD);
                 if (ppMassField.getValue() != null) {
                     try {
                         ppFieldMass = String.valueOf(ppMassField.getValue());
@@ -2936,7 +2938,7 @@ public class ItemPricing extends CustomComponent {
                                         break;
                                     case com.stpl.app.serviceUtils.Constants.DATE:
                                         if (priceProtectionMassDate.getValue() == null) {
-                                            binder.getErrorDisplay().setError("Please provide date and try again.");
+                                            binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                                         } else {
                                             value = com.stpl.app.serviceUtils.Constants.DATE
                                                     + ContractUtils.DELIMITER + fmt.format(priceProtectionMassDate.getValue());
@@ -2967,24 +2969,24 @@ public class ItemPricing extends CustomComponent {
                             }
                         } else if (ppFieldMass.equals(Constants.MASS_RESET_DATE)) {
                             if (priceProtectionMassDate.getValue() == null) {
-                                ppBinder.getErrorDisplay().setError("Please provide date and try again.");
+                                ppBinder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else {
                                 value = fmt.format(priceProtectionMassDate.getValue());
                             }
-                        } else if (ppFieldMass.equals(Constants.MASS_PRICE_PROTECTION_START_DATE)) {
+                        } else if (ppFieldMass.equals(Constants.PRICE_PROTECTION_START_DATE_VALUE)) {
                             if (priceScheduleStartDate.getValue() == null) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please Provide Price schedule Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR,  ConstantUtil.PLEASE_PROVIDE_PRICE_SCHEDULE_START_DATE);
 
                                 return;
                             } else if (priceProtectionMassDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else if (priceProtectionMassDate.getValue().before(priceScheduleStartDate.getValue())) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.START_DATE_CANNOT_BE_BEFORE + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleStartDate.getValue()));
                                 return;
                             } else if (priceScheduleEndDate.getValue() != null && priceProtectionMassDate.getValue().after(priceScheduleEndDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.START_DATE_CANNOT_BE_AFTER + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleEndDate.getValue()));
                                 return;
                             } else {
                                 value = fmt.format(priceProtectionMassDate.getValue());
@@ -2993,17 +2995,17 @@ public class ItemPricing extends CustomComponent {
                         } else if (ppFieldMass.equals(Constants.MASS_PRICE_PROTECTION_END_DATE)) {
                             if (priceScheduleStartDate.getValue() == null) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Please Provide Price schedule Start date and try again.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR,  ConstantUtil.PLEASE_PROVIDE_PRICE_SCHEDULE_START_DATE);
 
                                 return;
                             } else if (priceProtectionMassDate.getValue() == null) {
-                                binder.getErrorDisplay().setError("Please provide date and try again.");
+                                binder.getErrorDisplay().setError(ConstantUtil.PLEASE_PROVIDE_DATE_AND_TRY_AGAIN);
                             } else if (priceScheduleEndDate.getValue() != null && priceProtectionMassDate.getValue().after(priceScheduleEndDate.getValue())) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be after " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleEndDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.END_DATE_CANNOT_BE_AFTER + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleEndDate.getValue()));
                                 return;
                             } else if (priceProtectionMassDate.getValue().before(priceScheduleStartDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "End date cannot be before " + new SimpleDateFormat("MM/dd/YYYY").format(priceScheduleStartDate.getValue()));
+                                AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, ConstantUtil.END_DATE_CANNOT_BE_BEFORE + new SimpleDateFormat(ConstantUtil.DATE_FORMAT).format(priceScheduleStartDate.getValue()));
 
                                 return;
                             } else {
@@ -3033,7 +3035,7 @@ public class ItemPricing extends CustomComponent {
                         } else if (priceProtectionMassValue.getValue() != null) {
                             value = priceProtectionMassValue.getValue();
                         }
-                        IfpLogic.saveToTempTable(ppSaveContainer.getItemIds(), isEditable);
+                        IfpLogic.saveToTempTable(ppSaveContainer.getItemIds(), isEditable,sessionDTO);
                         ppSaveContainer.removeAllItems();
                         ifpLogic.populateToTempIFPforPP(ppMassField.getValue(), value, Boolean.TRUE);
                         loadPpTempIfp();
@@ -3097,7 +3099,7 @@ public class ItemPricing extends CustomComponent {
             public void valueChange(ValueChangeEvent event) {
                 try {
                     if (valueChange) {
-                        if (component.equals("START_DATE")) {
+                        if (component.equals(Constants.START_DATE_CAPS)) {
                             if (event != null) {
                                 Date contractSD = (Date) dates[0];
                                 if (!((PopupDateField) field).getValue().before(contractSD) && dates[1] == null) {
@@ -3108,30 +3110,30 @@ public class ItemPricing extends CustomComponent {
 
                                     detachListeners(field);
                                     ((PopupDateField) field).setValue(null);
-                                    attachListeners(field, "START_DATE");
+                                    attachListeners(field, Constants.START_DATE_CAPS);
                                 } else if (dates[1] != null && ((PopupDateField) field).getValue().after((Date) dates[1])) {
 
                                     AbstractNotificationUtils.getWarningNotification(Constants.START_DATE_SP, "Start Date cannot be after " + format.format((Date) dates[1]));
 
                                     detachListeners(field);
                                     ((PopupDateField) field).setValue(null);
-                                    attachListeners(field, "START_DATE");
+                                    attachListeners(field, Constants.START_DATE_CAPS);
                                 }
                             }
-                        } else if (component.equals("END_DATE") && event != null) {
+                        } else if (component.equals(Constants.END_DATE_CAPS) && event != null) {
                                 Date contractSD = (Date) dates[0];
                                 if (dates[1] == null && !((PopupDateField) field).getValue().before(contractSD)) {
                                     ((PopupDateField) field).setDescription(com.stpl.app.contract.global.util.CommonUtils.convertDateToString(((PopupDateField) field).getValue()));
                                 } else if (((PopupDateField) field).getValue().before(contractSD)) {
-                                    AbstractNotificationUtils.getWarningNotification("End Date", "End Date cannot be before " + format.format(contractSD));
+                                    AbstractNotificationUtils.getWarningNotification(Constants.END_DATE_SP, "End Date cannot be before " + format.format(contractSD));
                                     detachListeners(field);
                                     ((PopupDateField) field).setValue(null);
-                                    attachListeners(field, "END_DATE");
+                                    attachListeners(field, Constants.END_DATE_CAPS);
                                 } else if (dates[1] != null && ((PopupDateField) field).getValue().after(dates[1])) {
-                                    AbstractNotificationUtils.getWarningNotification("End Date", "End Date cannot be after " + format.format(dates[1]));
+                                    AbstractNotificationUtils.getWarningNotification(Constants.END_DATE_SP, "End Date cannot be after " + format.format(dates[1]));
                                     detachListeners(field);
                                     ((PopupDateField) field).setValue(null);
-                                    attachListeners(field, "END_DATE");
+                                    attachListeners(field, Constants.END_DATE_CAPS);
                             }
                         }
                     }
@@ -3194,7 +3196,7 @@ public class ItemPricing extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method");
 
             if (priceScheduleStartDate.getValue() != null && priceScheduleEndDate.getValue() != null) {

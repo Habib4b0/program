@@ -12,24 +12,29 @@ import java.util.List;
  * @author Abhiram.Giri
  * @param <T>
  */
-public class OriginalDataResult<T extends InterFaceDTO> implements DataResult<T>{
+public class OriginalDataResult<T extends InterFaceDTO> implements DataResult<T> {
+
     List<T> dataResults;
     Object message;
+
     @Override
     public List<T> getDataResults() {
         return dataResults;
     }
 
+    @Override
     public void setDataResults(List<T> dataResults) {
         this.dataResults = dataResults;
     }
 
+    @Override
     public Object getMessage() {
         return message;
     }
 
+    @Override
     public void setMessage(Object message) {
         this.message = message;
     }
-    
+
 }

@@ -166,7 +166,7 @@ public class ContractMember implements Serializable {
         this.memberId = memberId;
         this.memberNo = memberNo;
         this.childrenAllowed = childrenAllowed;
-        this.sub = new ArrayList<ContractMember>();
+        this.sub = new ArrayList<>();
     }
 
     
@@ -189,7 +189,7 @@ public class ContractMember implements Serializable {
         this.memberNo = memberNo;
         this.memberType=memberType;
         this.childrenAllowed = childrenAllowed;
-        this.sub = new ArrayList<ContractMember>();
+        this.sub = new ArrayList<>();
         this.startDate = startDate;
         this.endDate = endDate;
     }

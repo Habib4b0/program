@@ -52,7 +52,7 @@ public class ExcelExportforBB {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException
      */
-    public static void createWorkSheet(String[] headers, long recordCount, Object obj, UI ui, String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public static void createWorkSheet(String[] headers, long recordCount, Object obj, UI ui, String moduleName) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
         int maxRecords = ExcelExportUtil.maxRecords;
 
         int worksheetCount = (int) (recordCount / maxRecords);
@@ -310,15 +310,23 @@ public class ExcelExportforBB {
         Field field = null;
         Object value = null;
         try {
-            field = myDTO.getClass().getDeclaredField(variable);
-            field.setAccessible(true);
-            value = field.get(myDTO);
+            if (variable.matches("[a-zA-Z0-9_]+\\.\\d+$")) {
+                Class[] obj = new Class[]{String.class};
+                Method method = myDTO.getClass().getSuperclass().getDeclaredMethod("getPropertyValue", obj);
+                if (method != null) {
+                    value = method.invoke(myDTO, (Object[]) new String[]{variable});
+                }
+            } else {
+                field = myDTO.getClass().getDeclaredField(variable);
+                field.setAccessible(true);
+                value = field.get(myDTO);
+            }
             return value;
         } catch (NoSuchFieldException ex) {
             Class[] obj = new Class[]{String.class};
             Method method = myDTO.getClass().getSuperclass().getDeclaredMethod("getPropertyValue", obj);
             if (method != null) {
-                value = method.invoke(myDTO, new String[]{variable});
+                value = method.invoke(myDTO, (Object[]) new String[]{variable});
             }
             LOGGER.error(ex);
             return value;

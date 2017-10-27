@@ -5,6 +5,7 @@
 package com.stpl.app.adminconsole.relationshipbuilder.ui.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.itemgroup.util.UISecurityUtil;
 import com.stpl.app.adminconsole.relationshipbuilder.dto.RelationshipBuilderDTO;
@@ -191,7 +192,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
     /**
      * The results bean.
      */
-    private BeanItemContainer<RelationshipBuilderDTO> resultsBean = new BeanItemContainer<RelationshipBuilderDTO>(RelationshipBuilderDTO.class);
+    private BeanItemContainer<RelationshipBuilderDTO> resultsBean = new BeanItemContainer<>(RelationshipBuilderDTO.class);
     /**
      * The search results excel export.
      */
@@ -730,7 +731,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private Component addToContent() throws SystemException {
+    private Component addToContent() {
         LOGGER.debug("Entering addToContent Method");
         final VerticalLayout content = new VerticalLayout();
         space.setHeight("20");
@@ -785,7 +786,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
     private CustomFieldGroup getBinder() {
         LOGGER.debug("Entering getBinder Method");
         relationshipBuilderBinder.bindMemberFields(this);
-        relationshipBuilderBinder.setItemDataSource(new BeanItem<RelationshipBuilderDTO>(relationshipBuilderDTO));
+        relationshipBuilderBinder.setItemDataSource(new BeanItem<>(relationshipBuilderDTO));
         relationshipBuilderBinder.setBuffered(true);
         relationshipBuilderBinder.setErrorDisplay(errorMsg);
         LOGGER.debug(" getBinder Method returns relationshipBuilderBinder");
@@ -798,7 +799,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         LOGGER.debug("Entering configureFields Method");
         startDateFrom.setDescription(ConstantsUtils.DATE_DES);
         startDateTo.setDescription(ConstantsUtils.DATE_DES);
@@ -862,9 +863,9 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
             }
         });
 
-        relationshipType.addItem("Primary");
+        relationshipType.addItem(StringConstantUtils.PRIMARY);
         relationshipType.addItem("Secondary");
-        relationshipType.select("Primary");
+        relationshipType.select(StringConstantUtils.PRIMARY);
         relationshipType.addStyleName("horizontal");
         LOGGER.debug("In configureFields loadHierarchy started");
         loadHierarchy();
@@ -971,7 +972,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug("In configureFields btnDelete.addClickListener started");
                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.VERSIONNO, version);
-                deleteButtonClickLogic(event);
+                deleteButtonClickLogic();
                 LOGGER.debug("In configureFields btnDelete.addClickListener Ended");
             }
         });
@@ -984,7 +985,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
                 LOGGER.debug("In configureFields btnCopy.addClickListener started");
 
                 if (rbSystemId.getValue() == null || StringUtils.EMPTY.equals(rbSystemId.getValue()) || ConstantsUtils.ZERO.equals(rbSystemId.getValue())) {
-                    MessageBox.showPlain(Icon.ERROR, "No Relationship Selected", "No Relationship has been selected. Please select a Relationship and try again.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.ERROR, NO_RELATIONSHIP_SELECTED, NO_RELATIONSHIP_HAS_BEEN_SELECTED, ButtonId.OK);
                 } else {
                     try {
                         final int systemId = Integer.valueOf(rbSystemId.getValue());
@@ -1017,6 +1018,8 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
         });
         LOGGER.debug("configureFields Method ends Here");
     }
+    public static final String NO_RELATIONSHIP_HAS_BEEN_SELECTED = "No Relationship has been selected. Please select a Relationship and try again.";
+    public static final String NO_RELATIONSHIP_SELECTED = "No Relationship Selected";
 
     /**
      * Adds the listeners.
@@ -1029,9 +1032,9 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
             @SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In configureFields btnAdd.addClickListener navigateTo RelationshipBuilderView");
-                VaadinSession.getCurrent().setAttribute("relationshipSystemId", 0);
+                VaadinSession.getCurrent().setAttribute(RELATIONSHIP_SYSTEM_ID, 0);
                 VaadinSession.getCurrent().setAttribute("selectedHierarchySessionId", 0);
-                VaadinSession.getCurrent().setAttribute("fromViewPage", "Add");
+                VaadinSession.getCurrent().setAttribute(FROM_VIEW_PAGE, "Add");
                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.VERSIONNO, version);
                 getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
                 LOGGER.debug("In configureFields btnAdd.addClickListener Ended");
@@ -1044,15 +1047,15 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In configureFields btnEdit.addValueChangeListener started");
                 if (rbSystemId.getValue() == null || StringUtils.EMPTY.equals(rbSystemId.getValue()) || ConstantsUtils.ZERO.equals(rbSystemId.getValue())) {
-                    MessageBox.showPlain(Icon.ERROR, "No Relationship Selected", "No Relationship has been selected. Please select a Relationship and try again.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.ERROR, NO_RELATIONSHIP_SELECTED, NO_RELATIONSHIP_HAS_BEEN_SELECTED, ButtonId.OK);
                 } else {
                     try {
                         final int systemId = Integer.valueOf(rbSystemId.getValue());
                         final int latestVersion = logic.getExistingVersion(systemId);
 
                         if (latestVersion == version) {
-                            VaadinSession.getCurrent().setAttribute("relationshipSystemId", Integer.parseInt(rbSystemId.getValue().toString().replaceAll(",", ConstantsUtils.EMPTY)));
-                            VaadinSession.getCurrent().setAttribute("fromViewPage", "Edit");
+                            VaadinSession.getCurrent().setAttribute(RELATIONSHIP_SYSTEM_ID, Integer.parseInt(rbSystemId.getValue().toString().replaceAll(",", ConstantsUtils.EMPTY)));
+                            VaadinSession.getCurrent().setAttribute(FROM_VIEW_PAGE, "Edit");
                             VaadinSession.getCurrent().setAttribute(ConstantsUtils.VERSIONNO, version);
                             VaadinSession.getCurrent().setAttribute("hierarchyVersion", hierarchyVersion);
                             getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
@@ -1060,8 +1063,6 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
                             AbstractNotificationUtils.getErrorNotification("Error", "User Can Only Edit latest Version.");
                         }
                     } catch (SystemException ex) {
-                        LOGGER.error(ex);
-                    } catch (PortalException ex) {
                         LOGGER.error(ex);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -1077,11 +1078,11 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In configureFields btnView.addClickListener started");
                 if (rbSystemId.getValue() == null || StringUtils.EMPTY.equals(rbSystemId.getValue()) || ConstantsUtils.ZERO.equals(rbSystemId.getValue())) {
-                    MessageBox.showPlain(Icon.ERROR, "No Relationship Selected", "No Relationship has been selected. Please select a Relationship and try again.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.ERROR, NO_RELATIONSHIP_SELECTED, NO_RELATIONSHIP_HAS_BEEN_SELECTED, ButtonId.OK);
                 } else {
 
-                    VaadinSession.getCurrent().setAttribute("relationshipSystemId", Integer.parseInt(rbSystemId.getValue().replaceAll(",", ConstantsUtils.EMPTY)));
-                    VaadinSession.getCurrent().setAttribute("fromViewPage", "Yes");
+                    VaadinSession.getCurrent().setAttribute(RELATIONSHIP_SYSTEM_ID, Integer.parseInt(rbSystemId.getValue().replaceAll(",", ConstantsUtils.EMPTY)));
+                    VaadinSession.getCurrent().setAttribute(FROM_VIEW_PAGE, "Yes");
 
                     VaadinSession.getCurrent().setAttribute("hierarchyVersion", hierarchyVersion);
                     VaadinSession.getCurrent().setAttribute(ConstantsUtils.VERSIONNO, version);
@@ -1107,7 +1108,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
                     resultTable.removeAllItems();
                     btnDelete.setEnabled(true);
                     btnCopy.setEnabled(true);
-                    searchButtonClickLogic(event);
+                    searchButtonClickLogic();
                 }
                 LOGGER.debug("In configureFields btnSearch.addClickListener Ended");
             }
@@ -1128,11 +1129,13 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
                 btnDelete.setEnabled(false);
                 btnCopy.setEnabled(false);
                 searchCriteria = "auditSearch";
-                searchButtonClickLogic(event);
+                searchButtonClickLogic();
                 LOGGER.debug("In configureFields auditsearch.addClickListener Ended");
             }
         });
     }
+    public static final String FROM_VIEW_PAGE = "fromViewPage";
+    public static final String RELATIONSHIP_SYSTEM_ID = "relationshipSystemId";
 
     private void securityForButtons() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
@@ -1198,7 +1201,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("validate Method started");
             if (startDateFrom.getValue() != null && startDateTo.getValue() != null) {
                 if (startDateFrom.getValue().after(startDateTo.getValue())) {
@@ -1287,9 +1290,9 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
         resultTable.setFilterBarVisible(true);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setContainerDataSource(resultsBean);
-        resultTable.setVisibleColumns(CommonUIUtil.AC_SEARCH_RESULT_COLUMNS);
+        resultTable.setVisibleColumns(CommonUIUtil.getInstance().acSearchResultColumns);
 
-        resultTable.setColumnHeaders(CommonUIUtil.AC_SEARCH_RESULT_HEADER);
+        resultTable.setColumnHeaders(CommonUIUtil.getInstance().acSearchResultHeader);
         resultTable.setPageLength(NumericConstants.FIVE);
         resultTable.setSizeFull();
         resultTable.setImmediate(true);
@@ -1313,7 +1316,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
          */
         resultTable.setErrorHandler(new ErrorHandler() {
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
 
@@ -1350,7 +1353,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void loadHierarchy() throws SystemException {
+    private void loadHierarchy() {
         LOGGER.debug("loadHierarchy Method started");
         final LazyContainer hierarchyNameContainer = new LazyContainer(HelperDTO.class, new HierarchyNameContainer(null), new HierarchyNameCriteria());
         hierarchyNameContainer.setMinFilterLength(0);
@@ -1383,12 +1386,12 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
      * @param event the event
      * @param flag the flag
      */
-    protected void searchButtonClickLogic(final Button.ClickEvent event) {
+    protected void searchButtonClickLogic() {
         LOGGER.debug("searchButtonClickLogic Method started");
         try {
             relationshipBuilderBinder.commit();
             resultsBean.removeAllItems();
-            final List<RelationshipBuilderDTO> searchResults = new ArrayList<RelationshipBuilderDTO>();
+            final List<RelationshipBuilderDTO> searchResults = new ArrayList<>();
             if (searchResults.size() > ConstantsUtils.ZERO_NUM) {
                 enableActionButton();
                 resultsBean.addAll(searchResults);
@@ -1415,13 +1418,13 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
      */
     protected void resetButtonClickLogic() {
         LOGGER.debug("resetButtonClickLogic Method started");
-        relationshipBuilderBinder.setItemDataSource(new BeanItem<RelationshipBuilderDTO>(new RelationshipBuilderDTO()));
+        relationshipBuilderBinder.setItemDataSource(new BeanItem<>(new RelationshipBuilderDTO()));
         relationshipBuilderBinder.getErrorDisplay().clearError();
         rbSystemId.setValue("0");
         resultsBean.removeAllItems();
         resultTable.firePagedChangedEvent();
         relationshipName.setValue(ConstantsUtils.EMPTY);
-        relationshipType.select("Primary");
+        relationshipType.select(StringConstantUtils.PRIMARY);
         relationshipDesc.setValue(ConstantsUtils.EMPTY);
         hierarchyNameDdlb.setValue(new HelperDTO(ConstantsUtils.SELECT_ONE));
         startDateFrom.setValue(null);
@@ -1451,7 +1454,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
             if (selectedItem instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) selectedItem;
             } else if (selectedItem instanceof RelationshipBuilderDTO) {
-                targetItem = new BeanItem<RelationshipBuilderDTO>((RelationshipBuilderDTO) selectedItem);
+                targetItem = new BeanItem<>((RelationshipBuilderDTO) selectedItem);
             } else {
                 targetItem = (BeanItem<?>) selectedItem;
             }
@@ -1469,10 +1472,10 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
      *
      * @param event the event
      */
-    protected void deleteButtonClickLogic(final Button.ClickEvent event) {
+    protected void deleteButtonClickLogic() {
         LOGGER.debug("deleteButtonClickLogic Method started");
         if (rbSystemId.getValue() == null || StringUtils.EMPTY.equals(rbSystemId.getValue()) || ConstantsUtils.ZERO.equals(rbSystemId.getValue())) {
-            MessageBox.showPlain(Icon.ERROR, "No Relationship Selected", "No Relationship has been selected. Please select a Relationship and try again.", ButtonId.OK);
+            MessageBox.showPlain(Icon.ERROR, NO_RELATIONSHIP_SELECTED, NO_RELATIONSHIP_HAS_BEEN_SELECTED, ButtonId.OK);
         } else {
             MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Are you sure you want to delete record " + relationName + "?", new MessageBoxListener() {
                 /**
@@ -1491,7 +1494,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
                                 notif.show(Page.getCurrent());
 
                                 resultsBean.removeAllItems();
-                                final List<RelationshipBuilderDTO> relationshipsInfo = new ArrayList<RelationshipBuilderDTO>();
+                                final List<RelationshipBuilderDTO> relationshipsInfo = new ArrayList<>();
                                 resultsBean.addAll(relationshipsInfo);
                             }
                         } catch (SystemException ex) {
@@ -1520,7 +1523,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -1530,7 +1533,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
      */
     public void addResponsiveSearchTableCollapse(final ExtFilterTable table) {
 
-        final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+        final Map<Integer, Boolean> reloadMap = new HashMap<>();
         reloadMap.put(ConstantsUtils.PX_1516, true);
         reloadMap.put(NumericConstants.NINE_SEVEN_EIGHT, true);
         reloadMap.put(NumericConstants.SIX_HUNDRED, true);
@@ -1666,7 +1669,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
     private static String[] getCollapsibleColumns600Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1682,7 +1685,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
     private static String[] getCollapsibleColumns480Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1698,7 +1701,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
     private static String[] getCollapsibleColumns978Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1716,7 +1719,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
     private static String[] getCollapsibleColumnsDefault1515Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1734,7 +1737,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
     private static String[] getCollapsibleColumnsDefault(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         for (int i = 0; i < NumericConstants.TEN && !list.isEmpty(); i++) {
             list.remove(propertyIds[i]);
@@ -1823,7 +1826,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1889,7 +1892,7 @@ public final class RelationshipBuilderIndex extends CustomComponent implements V
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("validate Method started");
 
             if (creationDateFrom.getValue() != null && creationDateTo.getValue() != null) {

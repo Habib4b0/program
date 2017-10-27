@@ -1,5 +1,6 @@
 package com.stpl.app.contract.dashboard.logic;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,11 +149,11 @@ public class DashboardComponentSearchLogic {
 			return converter.getCustomizedDTOFromModel(resultList,ContractUtils.RS_COMPONENT);
 		}
 		LOGGER.debug("Exits Component Search Method returns Empty List");
-		return new ArrayList<ContractMember>();
+		return new ArrayList<>();
 	}
         
         private Map<String,Object> getFilterMap(final BeanSearchCriteria searchCriteria){
-            Map<String,Object> filterMap = new HashMap<String,Object>();
+            Map<String,Object> filterMap = new HashMap<>();
             if (searchCriteria != null && searchCriteria.getFilters() != null) {
                 for (Container.Filter filter : searchCriteria.getFilters()) {
 
@@ -184,7 +185,7 @@ public class DashboardComponentSearchLogic {
                 Map<String,Object> filterMap = getDetailFilterMap(searchCriteria);
 		if(ContractUtils.CFP_COMPONENT.equalsIgnoreCase(component)){
 			
-			query=queryUtil.getCFPDetails(modelSid, 0, 0, true);
+			query=queryUtil.getCFPDetails(modelSid, 0, 0, true,filterMap);
 			
 			List resultCount = dao.executeSelectQuery(query);
 			
@@ -236,7 +237,7 @@ public class DashboardComponentSearchLogic {
 		String query="";
                 Map<String,Object> filterMap = getDetailFilterMap(searchCriteria);
 		if(ContractUtils.CFP_COMPONENT.equalsIgnoreCase(component)){
-			query=queryUtil.getCFPDetails(modelSid, start, end, false);
+			query=queryUtil.getCFPDetails(modelSid, start, end, false,filterMap);
 			List resultList = dao.executeSelectQuery(query);
 			return converter.getCustomizedDTODetaildFromModel(resultList,ContractUtils.CFP_COMPONENT);
 		}else if(ContractUtils.IFP_COMPONENT.equalsIgnoreCase(component)){
@@ -253,20 +254,18 @@ public class DashboardComponentSearchLogic {
 			return converter.getCustomizedDTODetaildFromModel(resultList,ContractUtils.RS_COMPONENT);
 		}
 		LOGGER.debug("Exits Component Search Method returns Empty List");
-		return new ArrayList<DetailSearchDTO>();
+		return new ArrayList<>();
 	}
         
         private Map<String,Object> getDetailFilterMap(final BeanSearchCriteria searchCriteria){
-            Map<String,Object> filterMap = new HashMap<String,Object>();
-            final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            Map<String,Object> filterMap = new HashMap<>();
+            final SimpleDateFormat dateFormat = new SimpleDateFormat(ContractUtils.MMDDYYYY);
              if (searchCriteria != null && searchCriteria.getFilters() != null) {
                 for (Container.Filter filter : searchCriteria.getFilters()) {
 
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter filterValue = (SimpleStringFilter)filter;
-                            if("type".equals(String.valueOf(filterValue.getPropertyId()))){
-                                filterMap.put(String.valueOf(filterValue.getPropertyId()), filterValue.getFilterString());
-                            }else if("status".equals(String.valueOf(filterValue.getPropertyId()))){
+                            if("type".equals(String.valueOf(filterValue.getPropertyId())) || "status".equals(String.valueOf(filterValue.getPropertyId())) || "category".equals(String.valueOf(filterValue.getPropertyId()))){
                                 filterMap.put(String.valueOf(filterValue.getPropertyId()), filterValue.getFilterString());
                             }else{
                                 String filterString = "%" + filterValue.getFilterString() + "%";
@@ -329,7 +328,7 @@ public class DashboardComponentSearchLogic {
     public int getSearchPsCountParentLookup(final ErrorfulFieldGroup searchItemForm, final BeanSearchCriteria search) {
 
         LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat(ContractUtils.MMDDYYYY);
         String psId;
         String psNo;
         String psName;
@@ -340,55 +339,55 @@ public class DashboardComponentSearchLogic {
 
         int psStatusID = 0;
 
-        LOGGER.debug("priceScheduleId=" + searchItemForm.getField("priceScheduleId").getValue());
-        if (searchItemForm.getField("priceScheduleId").getValue() == null || searchItemForm.getField("priceScheduleId").getValue().toString() == "") {
+        LOGGER.debug("priceScheduleId=" + searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_ID).getValue());
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_ID).getValue() == null || searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_ID).getValue().toString() == "") {
             psId = "";
         } else {
-            psId = searchItemForm.getField("priceScheduleId").getValue()
+            psId = searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_ID).getValue()
                     .toString().trim();
         }
-        if (searchItemForm.getField("priceScheduleNo").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_NO).getValue() == null) {
             psNo = "";
         } else {
-            psNo = searchItemForm.getField("priceScheduleNo").getValue()
+            psNo = searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_NO).getValue()
                     .toString().trim();
         }
-        if (searchItemForm.getField("priceScheduleName").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_NAME).getValue() == null) {
             psName = "";
         } else {
-            psName = searchItemForm.getField("priceScheduleName").getValue()
+            psName = searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_NAME).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("itemId").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.ITEM_ID).getValue() == null) {
             itemId = "";
         } else {
-            itemId = searchItemForm.getField("itemId").getValue()
+            itemId = searchItemForm.getField(ConstantUtil.ITEM_ID).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("itemNo").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.ITEM_NO).getValue() == null) {
             itemNo = "";
         } else {
-            itemNo = searchItemForm.getField("itemNo").getValue()
+            itemNo = searchItemForm.getField(ConstantUtil.ITEM_NO).getValue()
                     .toString().trim();
         }
-        if (searchItemForm.getField("itemName").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.ITEM_NAME).getValue() == null) {
             itemName = "";
         } else {
-            itemName = searchItemForm.getField("itemName").getValue()
+            itemName = searchItemForm.getField(ConstantUtil.ITEM_NAME).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("priceScheduleType").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_TYPE).getValue() == null) {
             psTypeID = 0;
         } else {
-            psTypeID = ((HelperDTO) searchItemForm.getField("priceScheduleType").getValue()).getId();
+            psTypeID = ((HelperDTO) searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_TYPE).getValue()).getId();
         }
-        if (searchItemForm.getField("priceScheduleStatus").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_STATUS).getValue() == null) {
             psStatusID = 0;
         } else {
-            psStatusID = ((HelperDTO) searchItemForm.getField("priceScheduleStatus").getValue()).getId();
+            psStatusID = ((HelperDTO) searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_STATUS).getValue()).getId();
         }
 
         if (StringUtils.isNotBlank(psId)) {
@@ -419,14 +418,19 @@ public class DashboardComponentSearchLogic {
                     CommonUtils.CHAR_PERCENT);
         }
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
 
         if (search != null && search.getFilters() != null) {
             for (Container.Filter filter : search.getFilters()) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    String filterString = "%" + stringFilter.getFilterString() + "%";
-                    filterMap.put(String.valueOf(stringFilter.getPropertyId()), filterString);
+                    if ("priceScheduleType".equals(stringFilter.getPropertyId()) || "priceScheduleStatus".equals(stringFilter.getPropertyId()) || "priceScheduleCategory".equals(stringFilter.getPropertyId()) || "priceScheduleDesignation".equals(stringFilter.getPropertyId())
+                            || "tradeClass".equals(stringFilter.getPropertyId())) {
+                        filterMap.put(String.valueOf(stringFilter.getPropertyId()), stringFilter.getFilterString());
+                    } else {
+                        String filterString = "%" + stringFilter.getFilterString() + "%";
+                        filterMap.put(String.valueOf(stringFilter.getPropertyId()), filterString);
+                    }
 
                 } else if (filter instanceof Between) {
                     Between stringFilter = (Between) filter;
@@ -445,6 +449,10 @@ public class DashboardComponentSearchLogic {
                                 filterMap.put(String.valueOf(stringFilter.getPropertyId()), value);
 
                             }
+                        }else if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
+                                filterMap.put(String.valueOf(stringFilter.getPropertyId()) + "start", format.format((Date)stringFilter.getValue()));
+                        }else if (stringFilter.getOperation().equals(stringFilter.getOperation().LESS_OR_EQUAL)) {
+                                filterMap.put(String.valueOf(stringFilter.getPropertyId()) + "end", format.format((Date)stringFilter.getValue()));
                         }
                 }
             }
@@ -461,7 +469,7 @@ public class DashboardComponentSearchLogic {
     public List<SearchPriceScheduleDTO> getSearchPsListParentLookup(final ErrorfulFieldGroup searchItemForm, int start, int end, final List<OrderByColumn> orderByColumns, final BeanSearchCriteria search) {
 
         LOGGER.debug(" getCustomizedIfpSearchFormFromModel(ErrorfulFieldGroup searchItemForm)");
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat(ContractUtils.MMDDYYYY);
         String psId;
         String psNo;
         String psName;
@@ -471,55 +479,55 @@ public class DashboardComponentSearchLogic {
         int psTypeID = 0;
         int psStatusID = 0;
 
-        LOGGER.debug("priceScheduleId=" + searchItemForm.getField("priceScheduleId").getValue());
-        if (searchItemForm.getField("priceScheduleId").getValue() == null || searchItemForm.getField("priceScheduleId").getValue().toString() == "") {
+        LOGGER.debug("priceScheduleId=" + searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_ID).getValue());
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_ID).getValue() == null || searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_ID).getValue().toString() == "") {
             psId = "";
         } else {
-            psId = searchItemForm.getField("priceScheduleId").getValue()
+            psId = searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_ID).getValue()
                     .toString().trim();
         }
-        if (searchItemForm.getField("priceScheduleNo").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_NO).getValue() == null) {
             psNo = "";
         } else {
-            psNo = searchItemForm.getField("priceScheduleNo").getValue()
+            psNo = searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_NO).getValue()
                     .toString().trim();
         }
-        if (searchItemForm.getField("priceScheduleName").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_NAME).getValue() == null) {
             psName = "";
         } else {
-            psName = searchItemForm.getField("priceScheduleName").getValue()
+            psName = searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_NAME).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("itemId").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.ITEM_ID).getValue() == null) {
             itemId = "";
         } else {
-            itemId = searchItemForm.getField("itemId").getValue()
+            itemId = searchItemForm.getField(ConstantUtil.ITEM_ID).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("itemNo").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.ITEM_NO).getValue() == null) {
             itemNo = "";
         } else {
-            itemNo = searchItemForm.getField("itemNo").getValue()
+            itemNo = searchItemForm.getField(ConstantUtil.ITEM_NO).getValue()
                     .toString().trim();
         }
-        if (searchItemForm.getField("itemName").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.ITEM_NAME).getValue() == null) {
             itemName = "";
         } else {
-            itemName = searchItemForm.getField("itemName").getValue()
+            itemName = searchItemForm.getField(ConstantUtil.ITEM_NAME).getValue()
                     .toString().trim();
         }
 
-        if (searchItemForm.getField("priceScheduleType").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_TYPE).getValue() == null) {
             psTypeID = 0;
         } else {
-            psTypeID = ((HelperDTO) searchItemForm.getField("priceScheduleType").getValue()).getId();
+            psTypeID = ((HelperDTO) searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_TYPE).getValue()).getId();
         }
-        if (searchItemForm.getField("priceScheduleStatus").getValue() == null) {
+        if (searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_STATUS).getValue() == null) {
             psStatusID = 0;
         } else {
-            psStatusID = ((HelperDTO) searchItemForm.getField("priceScheduleStatus").getValue()).getId();
+            psStatusID = ((HelperDTO) searchItemForm.getField(ConstantUtil.PRICE_SCHEDULE_STATUS).getValue()).getId();
         }
 
         if (StringUtils.isNotBlank(psId)) {
@@ -550,15 +558,19 @@ public class DashboardComponentSearchLogic {
                     CommonUtils.CHAR_PERCENT);
         }
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
 
         if (search != null && search.getFilters() != null) {
             for (Container.Filter filter : search.getFilters()) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    String filterString = "%" + stringFilter.getFilterString() + "%";
-                    filterMap.put(String.valueOf(stringFilter.getPropertyId()), filterString);
-
+                      if ("priceScheduleType".equals(stringFilter.getPropertyId()) || "priceScheduleStatus".equals(stringFilter.getPropertyId()) || "priceScheduleCategory".equals(stringFilter.getPropertyId()) || "priceScheduleDesignation".equals(stringFilter.getPropertyId())
+                              || "tradeClass".equals(stringFilter.getPropertyId())) {
+                        filterMap.put(String.valueOf(stringFilter.getPropertyId()), stringFilter.getFilterString());
+                    } else {
+                        String filterString = "%" + stringFilter.getFilterString() + "%";
+                        filterMap.put(String.valueOf(stringFilter.getPropertyId()), filterString);
+                    }
                 } else if (filter instanceof Between) {
                     Between stringFilter = (Between) filter;
                     Date filterString = (Date) stringFilter.getStartValue();
@@ -569,13 +581,17 @@ public class DashboardComponentSearchLogic {
                     Compare stringFilter = (Compare) filter;
                     if (stringFilter.getValue() instanceof Integer && stringFilter.getOperation().equals(stringFilter.getOperation().EQUAL)) {
 
-                            if (((Integer) stringFilter.getValue()) == 0) {
+                        if (((Integer) stringFilter.getValue()) == 0) {
 
-                            } else {
-                                int value = (Integer) stringFilter.getValue();
-                                filterMap.put(String.valueOf(stringFilter.getPropertyId()), value);
+                        } else {
+                            int value = (Integer) stringFilter.getValue();
+                            filterMap.put(String.valueOf(stringFilter.getPropertyId()), value);
 
                         }
+                    } else if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
+                        filterMap.put(String.valueOf(stringFilter.getPropertyId()) + "start", format.format((Date) stringFilter.getValue()));
+                    } else if (stringFilter.getOperation().equals(stringFilter.getOperation().LESS_OR_EQUAL)) {
+                        filterMap.put(String.valueOf(stringFilter.getPropertyId()) + "end", format.format((Date) stringFilter.getValue()));
                     }
                 }
             }
@@ -589,15 +605,15 @@ public class DashboardComponentSearchLogic {
 
             if ("psSystemId".equals(orderByColumn.getName())) {
                 columnName = "ps.PS_MODEL_SID";
-            } else if ("priceScheduleId".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.PRICE_SCHEDULE_ID.equals(orderByColumn.getName())) {
                 columnName = "ps.PS_ID";
-            } else if ("priceScheduleNo".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.PRICE_SCHEDULE_NO.equals(orderByColumn.getName())) {
                 columnName = "ps.PS_NO";
-            } else if ("priceScheduleName".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.PRICE_SCHEDULE_NAME.equals(orderByColumn.getName())) {
                 columnName = "ps.PS_NAME";
-            } else if ("priceScheduleStatus".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.PRICE_SCHEDULE_STATUS.equals(orderByColumn.getName())) {
                 columnName = "status";
-            } else if ("priceScheduleType".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.PRICE_SCHEDULE_TYPE.equals(orderByColumn.getName())) {
                 columnName = "type";
             } else if ("priceScheduleCategory".equals(orderByColumn.getName())) {
                 columnName = "category";
@@ -628,7 +644,7 @@ public class DashboardComponentSearchLogic {
     }
 
     List<SearchPriceScheduleDTO> getCustomizedSearchPsListParentLookup(List list) {
-        List<SearchPriceScheduleDTO> result = new ArrayList<SearchPriceScheduleDTO>();
+        List<SearchPriceScheduleDTO> result = new ArrayList<>();
         SearchPriceScheduleDTO dto;
         for (int i = 0; i < list.size(); i++) {
             dto = new SearchPriceScheduleDTO();
@@ -668,20 +684,20 @@ public class DashboardComponentSearchLogic {
                 dto.setParentName(String.valueOf(obj[NumericConstants.ELEVEN]));
             }
 
-            if (obj[NumericConstants.THIRTEEN] != null && !String.valueOf(obj[NumericConstants.THIRTEEN]).equals("-Select One-")) {
+            if (obj[NumericConstants.THIRTEEN] != null && !String.valueOf(obj[NumericConstants.THIRTEEN]).equals(ConstantUtil.SELECT_ONE)) {
                 dto.setPriceScheduleType(String.valueOf(obj[NumericConstants.THIRTEEN]));
             }
-            if (obj[NumericConstants.FOURTEEN] != null && !String.valueOf(obj[NumericConstants.FOURTEEN]).equals("-Select One-")) {
+            if (obj[NumericConstants.FOURTEEN] != null && !String.valueOf(obj[NumericConstants.FOURTEEN]).equals(ConstantUtil.SELECT_ONE)) {
                 dto.setPriceScheduleStatus(String.valueOf(obj[NumericConstants.FOURTEEN]));
             }
 
-            if (obj[NumericConstants.FIFTEEN] != null && !String.valueOf(obj[NumericConstants.FIFTEEN]).equals("-Select One-")) {
+            if (obj[NumericConstants.FIFTEEN] != null && !String.valueOf(obj[NumericConstants.FIFTEEN]).equals(ConstantUtil.SELECT_ONE)) {
                 dto.setPriceScheduleCategory(String.valueOf(obj[NumericConstants.FIFTEEN]));
             }
-            if (obj[NumericConstants.SIXTEEN] != null && !String.valueOf(obj[NumericConstants.SIXTEEN]).equals("-Select One-")) {
+            if (obj[NumericConstants.SIXTEEN] != null && !String.valueOf(obj[NumericConstants.SIXTEEN]).equals(ConstantUtil.SELECT_ONE)) {
                 dto.setPriceScheduleDesignation(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
-            if (obj[NumericConstants.SEVENTEEN] != null && !String.valueOf(obj[NumericConstants.SEVENTEEN]).equals("-Select One-")) {
+            if (obj[NumericConstants.SEVENTEEN] != null && !String.valueOf(obj[NumericConstants.SEVENTEEN]).equals(ConstantUtil.SELECT_ONE)) {
                 dto.setTradeClass(String.valueOf(obj[NumericConstants.SEVENTEEN]));
             }
 

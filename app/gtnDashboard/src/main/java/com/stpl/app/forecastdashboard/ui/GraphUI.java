@@ -31,7 +31,6 @@ import org.jboss.logging.Logger;
 public class GraphUI extends UI implements VaadinPortletSession.PortletListener {
 
     Navigator navi;
-    private static final Logger LOGGER = Logger.getLogger(BigFiveUI.class);
     LiferayIPC liferayIPC;
 
     /**

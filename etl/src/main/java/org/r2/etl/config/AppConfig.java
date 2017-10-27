@@ -32,22 +32,13 @@ public class AppConfig implements WebApplicationInitializer {
 		final AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		rootContext.register(AppContext.class);
 
-		// XmlWebApplicationContext rootContext = new
-		// XmlWebApplicationContext();
-		// rootContext.setConfigLocation("classpath:applicationContext.xml");
-
+	
 		final ServletRegistration.Dynamic dispatcher = servletContext.addServlet(
 				DISP_SERV_NAME, new DispatcherServlet(rootContext));
 		dispatcher.setLoadOnStartup(1);
 		dispatcher.addMapping(DISPAT_SERV_MAPP);
 
-		// FilterRegistration.Dynamic security =
-		// servletContext.addFilter("springSecurityFilterChain", new
-		// DelegatingFilterProxy());
-		// EnumSet<DispatcherType> securityDispatcherTypes =
-		// EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
-		// security.addMappingForUrlPatterns(securityDispatcherTypes, true,
-		// "/*");
+	
 
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 	}

@@ -216,36 +216,36 @@ public class AltSummeryDiscount extends CustomComponent {
     /**
      * The bean for loading Start Period drop down.
      */
-    final protected BeanItemContainer<String> startPeriodBean = new BeanItemContainer<String>(String.class);
+    final protected BeanItemContainer<String> startPeriodBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading End Period drop down.
      */
-    final protected BeanItemContainer<String> endPeriodBean = new BeanItemContainer<String>(String.class);
+    final protected BeanItemContainer<String> endPeriodBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading Start Period drop down.
      */
-    final protected BeanItemContainer<String> forecaststartBean = new BeanItemContainer<String>(String.class);
+    final protected BeanItemContainer<String> forecaststartBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading End Period drop down.
      */
-    final protected BeanItemContainer<String> forecastendBean = new BeanItemContainer<String>(String.class);
+    final protected BeanItemContainer<String> forecastendBean = new BeanItemContainer<>(String.class);
 
     final StplSecurity stplSecurity = new StplSecurity();
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<DiscountProjectionDTO>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
-    Map<String, String> manualEntryMap = new HashMap<String, String>();
+    ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
+    Map<String, String> manualEntryMap = new HashMap<>();
     /* Discount Bean */
-    protected BeanItemContainer<String> programBean = new BeanItemContainer<String>(String.class);
+    protected BeanItemContainer<String> programBean = new BeanItemContainer<>(String.class);
     /* To store the current hierarchy */
-    List<Leveldto> currentHierarchy = new ArrayList<Leveldto>();
+    List<Leveldto> currentHierarchy = new ArrayList<>();
     /* To enable or disable level filter listener */
     boolean enableLevelFilterListener = true;
     /* The bean used to load the Mass Update - value Ddlb */
-    BeanItemContainer<String> valueDdlbBean = new BeanItemContainer<String>(String.class);
+    BeanItemContainer<String> valueDdlbBean = new BeanItemContainer<>(String.class);
     /* To hold the selected discounts in program selection lookup */
-    List<String> discountProgramsList = new LinkedList<String>();
+    List<String> discountProgramsList = new LinkedList<>();
     /* To hold the selected program from the program selection combo box */
-    List<String> programSelectionList = new ArrayList<String>();
+    List<String> programSelectionList = new ArrayList<>();
     /* The hierarchy indicator to indicate whether customer or Product */
     String hierarchyIndicator = StringUtils.EMPTY;
     /*  Non Mandated Logic */
@@ -277,12 +277,12 @@ public class AltSummeryDiscount extends CustomComponent {
     /* String to be stored during blur of List View text field */
     String blurValue = StringUtils.EMPTY;
     /* Discount Names to be used in Projection results */
-    List<String> discountNamesList = new ArrayList<String>();
+    List<String> discountNamesList = new ArrayList<>();
     /* Discount No to be used in Projection results */
-    List<String> discountNoList = new ArrayList<String>();
+    List<String> discountNoList = new ArrayList<>();
 
     /* Start and End Periods to be loaded */
-    List<Integer> startAndEndPeriods = new ArrayList<Integer>();
+    List<Integer> startAndEndPeriods = new ArrayList<>();
     /* Data Format Converter */
     DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
     DataFormatConverter priceFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
@@ -290,20 +290,20 @@ public class AltSummeryDiscount extends CustomComponent {
      * To store the details of the checked double header with its corresponding
      * Triple header and History, Projected values
      */
-    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<String, Map<String, List<String>>>();
+    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
     /* To store the name of the discounts selected in the Triple header */
-    List<Object> checkedDiscountsPropertyIds = new ArrayList<Object>();
+    List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
     /* List to have the items to be saved */
-    List<SaveDTO> saveList = new ArrayList<SaveDTO>();
+    List<SaveDTO> saveList = new ArrayList<>();
     /* To store the hierarchy numbers to refresh in table */
-    Set<String> refreshTableHierarchySet = new HashSet<String>();
+    Set<String> refreshTableHierarchySet = new HashSet<>();
     /* To store the custom View */
-    List<CustomViewMaster> customViewList = new ArrayList<CustomViewMaster>();
+    List<CustomViewMaster> customViewList = new ArrayList<>();
     /* The Excel container */
-    ExtTreeContainer<DiscountProjectionDTO> excelContainer = new ExtTreeContainer<DiscountProjectionDTO>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<DiscountProjectionDTO> excelContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
     boolean errorFlag = false;
 
-    Set<String> tableHirarechyNos = new HashSet<String>();
+    Set<String> tableHirarechyNos = new HashSet<>();
     DataFormatConverter dollarFormat = new DataFormatConverter("###,###,##0", DataFormatConverter.INDICATOR_DOLLAR);
     List<String> checkedList;
 
@@ -401,9 +401,9 @@ public class AltSummeryDiscount extends CustomComponent {
         viewDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         viewDdlb.setValue(SELECT_ONE.getConstant());
         viewDdlb.setEnabled(false);
-         pivotView.addItem("Period");
-        pivotView.addItem("Variable");
-        pivotView.select("Period");
+         pivotView.addItem(Constant.PERIOD);
+        pivotView.addItem(Constant.VARIABLE);
+        pivotView.select(Constant.PERIOD);
         pivotView.setImmediate(true);
         editBtn.setEnabled(false);
         newBtn.setEnabled(false);
@@ -422,7 +422,7 @@ public class AltSummeryDiscount extends CustomComponent {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                generateBtnClickLogic(true);
+                generateBtnClickLogic();
             }
         });
         resetBtn.addClickListener(new Button.ClickListener() {
@@ -530,7 +530,7 @@ public class AltSummeryDiscount extends CustomComponent {
 
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
 
-            generateBtnClickLogic(false);
+            generateBtnClickLogic();
 
         } else {
             loadEmptyTable();
@@ -669,7 +669,7 @@ public class AltSummeryDiscount extends CustomComponent {
                     String caption = Constant.LEVEL+ levelDto.getTreeLevelNo() + " - " + levelDto.getLevel();
                     levelFilterDdlb.addItem(itemId);
                     levelFilterDdlb.setItemCaption(itemId, caption);
-                   int levelSize="Variable".equalsIgnoreCase(String.valueOf(pivotView.getValue()))?currentHierarchy.size():currentHierarchy.size() - 1;
+                   int levelSize=Constant.VARIABLE.equalsIgnoreCase(String.valueOf(pivotView.getValue()))?currentHierarchy.size():currentHierarchy.size() - 1;
                     if (i <levelSize ) {
                         levelDdlb.addItem(itemId);
                         levelDdlb.setItemCaption(itemId, caption);
@@ -834,7 +834,7 @@ public class AltSummeryDiscount extends CustomComponent {
 
     protected void newBtnClickLogic() {
         LOGGER.debug("newCustomHierarchhy clickEvent method starts");
-        final CustomTreeBuild customTree = new CustomTreeBuild(Constant.ADD_FULL_SMALL, session);
+        final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
@@ -851,7 +851,7 @@ public class AltSummeryDiscount extends CustomComponent {
     protected void editBtnClickLogic() {
         LOGGER.debug("Entering editHierarchyBtn");
         if (CommonLogic.editButtonValidation(viewDdlb, customViewList)) {
-            final CustomTreeBuild customTree = new CustomTreeBuild(Constant.EDIT, session, customId);
+            final CustomTreeBuild customTree = new CustomTreeBuild(session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
                 @Override
                 public void windowClose(Window.CloseEvent e) {
@@ -882,7 +882,7 @@ public class AltSummeryDiscount extends CustomComponent {
             for (Object propertyId : excelTable.getContainerPropertyIds()) {
                 if (String.valueOf(propertyId).contains("ActualAmount") || String.valueOf(propertyId).contains("ProjectedAmount")) {
                     excelTable.setConverter(propertyId, priceFormat);
-                } else if (String.valueOf(propertyId).contains(Constant.ActualRPU)) {
+                } else if (String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
                     excelTable.setConverter(propertyId, priceFormat);
                 } else {
                     excelTable.setConverter(propertyId, percentFormat);
@@ -913,7 +913,7 @@ public class AltSummeryDiscount extends CustomComponent {
             customDetailsList.add(treeLevelNo);
 
 
-            List<String> customViewDetails = new ArrayList<String>();
+            List<String> customViewDetails = new ArrayList<>();
             String temphierarchyIndicator = hierarchyIndicator;
             boolean isCustomHierarchy = "CP".equals(hierarchyIndicator);
             if (isCustomHierarchy) {
@@ -994,14 +994,14 @@ public class AltSummeryDiscount extends CustomComponent {
             LOGGER.debug(" dto.getLevelNo() " + dto.getLevelNo());
             List customDetailsList = new ArrayList();
 
-            List<String> discountToBeLoaded = new ArrayList<String>();
+            List<String> discountToBeLoaded;
             if (!programSelectionList.isEmpty()) {
                 discountToBeLoaded = programSelectionList;
             } else {
                 discountToBeLoaded = discountProgramsList;
             }
-            discountToBeLoaded.add("REBATE_SCHEDULE_ID_15");
-            List<String> customViewDetails = new ArrayList<String>();
+            discountToBeLoaded.add(Constant.REBATE_SCHEDULE_ID_15);
+            List<String> customViewDetails = new ArrayList<>();
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
@@ -1063,7 +1063,7 @@ public class AltSummeryDiscount extends CustomComponent {
         LOGGER.debug("Exit addLowerLevelsForExport");
     }
 
-    protected void generateBtnClickLogic(Boolean isGenerate) {
+    protected void generateBtnClickLogic() {
 
         isRateUpdatedManually = false;
         isRPUUpdatedManually = false;
@@ -1080,14 +1080,14 @@ public class AltSummeryDiscount extends CustomComponent {
      */
     public void generateListView(boolean isGenerate) {
         LOGGER.debug("Inside generateListView ");
-        List<String> discountToBeLoaded = new ArrayList<String>();
+        List<String> discountToBeLoaded;
 
         if (!programSelectionList.isEmpty()) {
             discountToBeLoaded = programSelectionList;
         } else {
             discountToBeLoaded = discountProgramsList;
         }
-        discountToBeLoaded.add("REBATE_SCHEDULE_ID_15");
+        discountToBeLoaded.add(Constant.REBATE_SCHEDULE_ID_15);
         if (discountToBeLoaded == null || discountToBeLoaded.isEmpty()) {
             NotificationUtils.getErrorNotification("No Discounts selected", "Please select some discounts from program selection lookup");
         } else if (frequencyDdlb.getValue() == null || frequencyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
@@ -1107,11 +1107,11 @@ public class AltSummeryDiscount extends CustomComponent {
             resultsTable.getRightFreezeAsTable().setContainerDataSource(tableLogic.getContainerDataSource());
             configureRightTable();
             configureLeftTable();
-            String startFreq =StringUtils.EMPTY;
-            String endFreq=StringUtils.EMPTY;
+            String startFreq;
+            String endFreq;
             int startYear =0;
             int endYear =0;
-            if("Period".equalsIgnoreCase(String.valueOf(pivotView.getValue()))){
+            if(Constant.PERIOD.equalsIgnoreCase(String.valueOf(pivotView.getValue()))){
                 startFreq = String.valueOf(rightHeader.getDoubleHeaders().get(0));
                 endFreq = String.valueOf(rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1));
                 String startYearValue = startFreq.substring(startFreq.length() - NumericConstants.FOUR);
@@ -1141,9 +1141,9 @@ public class AltSummeryDiscount extends CustomComponent {
                     startAndEndPeriods.add(startFreqNo);
                 }
             } else {
-                String startMonthValue = StringUtils.EMPTY;
-                String endMonthValue = StringUtils.EMPTY;
-                if ("Period".equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
+                String startMonthValue;
+                String endMonthValue;
+                if (Constant.PERIOD.equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
                     startMonthValue = startFreq.substring(0, startFreq.length() - NumericConstants.FIVE);
                     endMonthValue = endFreq.substring(0, startFreq.length() - NumericConstants.FIVE);
                 } else {
@@ -1192,11 +1192,11 @@ public class AltSummeryDiscount extends CustomComponent {
 
     private void formatTableData() {
         LOGGER.debug("Start formatTableData");
-        if (!"Variable".equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
+        if (!Constant.VARIABLE.equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
             for (Object propertyId : resultsTable.getRightFreezeAsTable().getVisibleColumns()) {
                 if (String.valueOf(propertyId).contains("ActualAmount") || String.valueOf(propertyId).contains("ProjectedAmount")) {
                     resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
-                } else if (String.valueOf(propertyId).contains(Constant.ActualRPU)) {
+                } else if (String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
                     resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
                 } else {
                     resultsTable.getRightFreezeAsTable().setConverter(propertyId, percentFormat);
@@ -1209,13 +1209,13 @@ public class AltSummeryDiscount extends CustomComponent {
     private void loadDataInTable() {
         LOGGER.debug("Entering loadDataInTable");
         tableLogic.clearAll();
-        List<String> discountToBeLoaded = new ArrayList<String>();
+        List<String> discountToBeLoaded;
         if (!programSelectionList.isEmpty()) {
             discountToBeLoaded = programSelectionList;
         } else {
             discountToBeLoaded = discountProgramsList;
         }
-        discountToBeLoaded.add("REBATE_SCHEDULE_ID_15");
+        discountToBeLoaded.add(Constant.REBATE_SCHEDULE_ID_15);
 
         int levelNo = getStartLevelNo();
         String relationshipBuilderSid = getRelationshipBuilderSid();
@@ -1255,7 +1255,7 @@ public class AltSummeryDiscount extends CustomComponent {
         rightTable.setTripleHeaderColumnHeaders(tripleColumnHeader.toArray(new String[rightHeader.getTripleHeader().size()]));
         rightTable.setTripleHeaderMap(rightHeader.getTripleHeaderMaps());
         for (Object columns : rightHeader.getSingleColumns()) {
-            if ("Variable".equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
+            if (Constant.VARIABLE.equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
                 rightTable.setColumnWidth(columns, NumericConstants.ONE_THREE_ZERO);
                 resultsTable.getRightFreezeAsTable().setColumnWidth(columns, NumericConstants.ONE_THREE_ZERO);
             }
@@ -1275,7 +1275,7 @@ public class AltSummeryDiscount extends CustomComponent {
             if (freq.equals(QUARTERLY.getConstant())) {
                 historyNum = Integer.valueOf(hist.replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                historyNum = Integer.valueOf(hist.replace("Semi-Annual", StringUtils.EMPTY).trim());
+                historyNum = Integer.valueOf(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
             } else if (freq.equals(MONTHLY.getConstant())) {
                 historyNum = Integer.valueOf(hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } else if (freq.equals(ANNUALLY.getConstant())) {
@@ -1293,7 +1293,7 @@ public class AltSummeryDiscount extends CustomComponent {
         projectionSelection.setProjectionNum(CommonUtils.getProjectionNumber(projectionSelection.getFrequency(), session));
         projectionSelection.setActualsOrProjections(String.valueOf(actualsProjs.getValue()));
         projectionSelection.setProjectionOrder(String.valueOf(periodOrder.getValue()));
-         projectionSelection.setPivotView("Variable".equalsIgnoreCase(String.valueOf(pivotView.getValue()))?"Pivot":"");
+         projectionSelection.setPivotView(Constant.VARIABLE.equalsIgnoreCase(String.valueOf(pivotView.getValue()))?"Pivot":"");
         projectionSelection.setVariableView(String.valueOf(pivotView.getValue()));
         projectionSelection.setIsAlternate(true);   
         projectionSelection.setActualsOrProjections(String.valueOf(actualsProjs.getValue()));
@@ -1319,6 +1319,7 @@ public class AltSummeryDiscount extends CustomComponent {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
+                return;
             }
 
             @Override
@@ -1379,7 +1380,7 @@ public class AltSummeryDiscount extends CustomComponent {
                 int levelNo = isInteger(levelNumber) ? Integer.valueOf(levelNumber) : 0;
                 if (!levelNumber.startsWith(Constant.DASH)) {
                     projectionSelection.setIsFilter(true);
-                    if (!"Variable".equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
+                    if (!Constant.VARIABLE.equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
                         tableLogic.setChildrenAllowed(false);
                     }
                     tableLogic.clearAll();
@@ -1450,7 +1451,7 @@ public class AltSummeryDiscount extends CustomComponent {
         boolean isOne = true;
         boolean ismultipleDiscount = false;
         tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-        checkedList = new ArrayList<String>();
+        checkedList = new ArrayList<>();
         for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
             Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
             for (String e : checkedDoubleHeaders.keySet()) {
@@ -1498,7 +1499,7 @@ public class AltSummeryDiscount extends CustomComponent {
         if (checkedDoubleHeaders != null) {
             List<String> checkedHistoryList = checkedDoubleHeaders.get("H");
             List<String> checkedProjList = checkedDoubleHeaders.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-            Map<String, String> monthMap = new HashMap<String, String>();
+            Map<String, String> monthMap = new HashMap<>();
             int defval = 0;
             String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {

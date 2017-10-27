@@ -6,6 +6,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.transfer;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
@@ -23,7 +24,6 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
@@ -344,11 +344,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                             queryInput.add(mainDto.getPriceToleranceInterval().getId());
                             queryInput.add(mainDto.getPriceTolerance());
                             queryInput.add(mainDto.getPriceToleranceFrequency().getId());
-                            StringBuilder sql = new StringBuilder(CustomSQLUtil.get("getCurrentContractEndDate"));
-                            for (Object temp : queryInput) {
-                                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
-                            }
-                            List list = ITEMDAO.executeSelect(sql.toString());
+                            List list;
                             list = ItemQueries.getItemData(queryInput, "getCurrentContractEndDate", null);
                             if (list != null && !list.isEmpty() && list.size() > 0) {
                                 endDate = (Date) list.get(0);
@@ -401,8 +397,9 @@ public class TransferContractSearch extends AbstractContractSearch {
 
                                             @Override
                                             public void noMethod() {
+                                                return;
                                             }
-                                        }.getConfirmationMessage("Confirmation",
+                                        }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER,
                                                 " There are currently projected sales and units values for"
                                                 + " the selected Contract/Item combination. "
                                                 + "Are you sure you want to override these projection values?");
@@ -414,8 +411,9 @@ public class TransferContractSearch extends AbstractContractSearch {
 
                                 @Override
                                 public void noMethod() {
+                                    return;
                                 }
-                            }.getConfirmationMessage("Confirmation", "The Item Start Date you have entered for the following Contract/Rebate Schedule combination <" + contractName + ">does not directly follow the End Date you have previously entered. If you proceed with this update, there will be a total of  " + difference + " where the selected Item (or Items) will not be on either Contract. \n"
+                            }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, "The Item Start Date you have entered for the following Contract/Rebate Schedule combination <" + contractName + ">does not directly follow the End Date you have previously entered. If you proceed with this update, there will be a total of  " + difference + " where the selected Item (or Items) will not be on either Contract. \n"
                                     + "Are you sure you want to proceed? ?");
 
                         } else {
@@ -428,8 +426,9 @@ public class TransferContractSearch extends AbstractContractSearch {
 
                                     @Override
                                     public void noMethod() {
+                                        return;
                                     }
-                                }.getConfirmationMessage("Confirmation",
+                                }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER,
                                         " There are currently projected sales and units values for"
                                         + " the selected Contract/Item combination. "
                                         + "Are you sure you want to override these projection values?");
@@ -487,7 +486,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                     public void noMethod() {
                         isSubmit = false;
                     }
-                }.getConfirmationMessage("Confirmation", msg);
+                }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, msg);
             } else {
                 AbstractNotificationUtils.getErrorNotification("Workflow Status Issue",
                         "The following Contract & Item combination: " + getContractItemName() + "," + AbstractLogic.getItemName(selectedItemList) + " "
@@ -529,7 +528,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                 }
             }
         }
-        Map<String, String> itemName = new HashMap<String, String>();
+        Map<String, String> itemName = new HashMap<>();
         List SelectedItemIds = new ArrayList();
         List itemIds = selection.getTransterItemIds();
         for (Object object : itemIds) {
@@ -549,7 +548,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                 if (ConfirmationMsg.length() > 0) {
                     ConfirmationMsg.append(",");
                 } else {
-                    String[] str = new String[NumericConstants.TWO];
+                    String[] str;
                     String item = itemName.get(SelectedItemIds.get(j));
                     str = item.split(",");
 
@@ -637,8 +636,9 @@ public class TransferContractSearch extends AbstractContractSearch {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
-                    }.getConfirmationMessage("Confirmation", "The Item Start Date you have entered for the following Contract/Rebate Schedule combination <" + contractName + ">does not directly follow the End Date you have previously entered. If you proceed with this update, there will be a total of  " + difference + " where the selected Item (or Items) will not be on either Contract. \n"
+                    }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, "The Item Start Date you have entered for the following Contract/Rebate Schedule combination <" + contractName + ">does not directly follow the End Date you have previously entered. If you proceed with this update, there will be a total of  " + difference + " where the selected Item (or Items) will not be on either Contract. \n"
                             + "Are you sure you want to proceed? ?");
 
                 } else {

@@ -170,12 +170,12 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
     /**
      * The hierarchy builder level dto bean.
      */
-    public BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<HierarchyBuilderLevelDTO>(HierarchyBuilderLevelDTO.class);
+    public BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<>(HierarchyBuilderLevelDTO.class);
     /**
      * The level dto bean.
      */
-    private final BeanItemContainer<LevelDTO> levelDTOBean = new BeanItemContainer<LevelDTO>(LevelDTO.class);
-    private final BeanItemContainer<TableFieldLookUpDTO> tableFieldLookUpDTOBean = new BeanItemContainer<TableFieldLookUpDTO>(TableFieldLookUpDTO.class);
+    private final BeanItemContainer<LevelDTO> levelDTOBean = new BeanItemContainer<>(LevelDTO.class);
+    private final BeanItemContainer<TableFieldLookUpDTO> tableFieldLookUpDTOBean = new BeanItemContainer<>(TableFieldLookUpDTO.class);
 
     /**
      * The excel export levels.
@@ -667,8 +667,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
      * @throws SystemException
      */
     public HierarchyBuilderDefinition(final HierarchyBuilderDTO hierarchyBuilderDTO, final BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean,
-            final SessionDTO sessionDTO) throws SystemException,
-            PortalException {
+            final SessionDTO sessionDTO) throws SystemException {
         super();
         LOGGER.debug("HierarchyBuilderDefinition constructor started");
         this.hierarchyBuilderDTO = hierarchyBuilderDTO;
@@ -686,7 +685,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
      * @throws PortalException
      * @throws SystemException
      */
-    public final void init() throws SystemException, PortalException {
+    public final void init() throws SystemException {
         LOGGER.debug("Entering init()");
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/hierarchyDefinition.xml"), this));
         configureFields();
@@ -714,7 +713,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
      */
     private CustomFieldGroup getBinder() {
         LOGGER.debug("getBinder Method started");
-        hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+        hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<>(hierarchyBuilderDTO));
         hierarchyBuilderBinder.setBuffered(true);
         hierarchyBuilderBinder.bindMemberFields(this);
         hierarchyBuilderBinder.setErrorDisplay(errorMsg);
@@ -728,7 +727,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
      * @throws Exception
      * @throws SystemException
      */
-    private void configureFields() throws SystemException, PortalException {
+    private void configureFields() throws SystemException {
         LOGGER.debug("configureFields Method started");
         excelExportLevels.setIcon(new ThemeResource("../../icons/excel.png"));
         excelExportLevels.setStyleName("link");
@@ -892,7 +891,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
                 List<List> exportList;
                 final List<String> dollarList = new ArrayList();
                 dollarList.add("AdminConsole");
-                exportList = new ArrayList<List>();
+                exportList = new ArrayList<>();
                 exportList.add(dollarList);
                 exportList.add(null);
                 exportList.add(null);
@@ -1022,7 +1021,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
      * @return the component
      */
     @UiHandler("resetBtn")
-    public void resetBtnLogic(Button.ClickEvent event) throws PortalException {
+    public void resetBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("resetBtnLogic Started");
         final String mode = sessionDTO.getMode();
         if (event != null) {
@@ -1073,7 +1072,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
                  * Called when no has been clicked.
                  */
                 public void noMethod() {
-
+                    return;
                 }
             };
             notificationUtils.getConfirmationMessage(ConstantsUtils.CONFORMATION, "Are you sure you want to reset the page to default/previous values?");
@@ -1153,7 +1152,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
                  * Called when no has been clicked.
                  */
                 public void noMethod() {
-
+                    return;
                 }
             };
             notificationUtils.getConfirmationMessage(ConstantsUtils.CONFORMATION, "Are you sure you want to reset the page to default/previous values?");
@@ -1172,9 +1171,9 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
         LOGGER.debug("In addUpdateLevelButton btnUpdateLevel.addClickListener Started");
         if (event != null) {
             hierarchyBuilderBinder.getErrorDisplay().clearError();
-            final List<HierarchyBuilderLevelDTO> list = new ArrayList<HierarchyBuilderLevelDTO>();
+            final List<HierarchyBuilderLevelDTO> list = new ArrayList<>();
 
-            List<HierarchyBuilderLevelDTO> finallist = new ArrayList<HierarchyBuilderLevelDTO>();
+            List<HierarchyBuilderLevelDTO> finallist = new ArrayList<>();
             List<HierarchyBuilderLevelDTO> updatelist = hierarchyBuilderLevelDTOBean.getItemIds();
             for (HierarchyBuilderLevelDTO hierarchyBuilderLevelDTO : updatelist) {
                 finallist.add(hierarchyBuilderLevelDTO);
@@ -1249,10 +1248,10 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
         if (event != null) {
             hierarchyBuilderBinder.getErrorDisplay().clearError();
             final HierarchyBuilderLevelDTO dto = new HierarchyBuilderLevelDTO();
-            List<HierarchyBuilderLevelDTO> list = new ArrayList<HierarchyBuilderLevelDTO>();
+            List<HierarchyBuilderLevelDTO> list;
             list = hierarchyBuilderLevelDTOBean.getItemIds();
             final HashMap levelNameMap = new HashMap();
-            final List<String> tableList = new ArrayList<String>();
+            final List<String> tableList = new ArrayList<>();
             for (final HierarchyBuilderLevelDTO levelDTO : list) {
                 levelNameMap.put(levelDTO.getLevelNo(), levelDTO.getLevelName());
                 if (userDefinedOrLinked.getValue().equals(ConstantsUtils.LINKED)) {
@@ -1329,7 +1328,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
                 levelDTOBean.addBean(dto);
             } else {
                 final List<LevelDTO> tempList = levelDTOBean.getItemIds();
-                final List<LevelDTO> list = new ArrayList<LevelDTO>();
+                final List<LevelDTO> list = new ArrayList<>();
                 for (int i = 0; i < tempList.size(); i++) {
                     if (tempList.get(i).getLevelValues() == null && ConstantsUtils.EMPTY.equals(tempList.get(i).getLevelValues())) {
                         MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "Please Enter Value for the previous Level Value", ButtonId.OK);
@@ -1371,7 +1370,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
                  * Called when no has been clicked.
                  */
                 public void noMethod() {
-
+                    return;
                 }
             };
 
@@ -1396,9 +1395,9 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
         levelDefinitionTable.markAsDirty();
         levelDefinitionTable.setFilterDecorator(new ExtDemoFilterDecorator());
         levelDefinitionTable.setContainerDataSource(hierarchyBuilderLevelDTOBean);
-        levelDefinitionTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_DEFINITION_COLUMNS);
+        levelDefinitionTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelDefnitionColumns);
 
-        levelDefinitionTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_DEFINITION_HEADER);
+        levelDefinitionTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelDefnitionHeader);
         levelDefinitionTable.setPageLength(NumericConstants.SEVEN);
         levelDefinitionTable.setImmediate(true);
         levelDefinitionTable.setSelectable(true);
@@ -1465,7 +1464,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
              * Invoked when an error occurs.
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
-               
+                return;
             }
         });
         LOGGER.debug("levelDefinitionListTable Method retuns levelDefinitionTable");
@@ -1509,8 +1508,8 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
                             levelDefinitionTable.getContainerProperty(beanItem, "levelNo").setValue(i + 1);
                         }
                         levelDefinitionTable.setContainerDataSource(hierarchyBuilderLevelDTOBean);
-                        levelDefinitionTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_DEFINITION_COLUMNS);
-                        levelDefinitionTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_DEFINITION_HEADER);
+                        levelDefinitionTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelDefnitionColumns);
+                        levelDefinitionTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelDefnitionHeader);
                         levelNo.setReadOnly(false);
                         levelNo.setValue(String.valueOf(hierarchyBuilderLevelDTOBean.size() + 1));
                         levelNo.setReadOnly(true);
@@ -1526,7 +1525,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
                      * Called when no has been clicked .
                      */
                     public void noMethod() {
-                       
+                        return;
                     }
                 };
                 notificationUtils.getConfirmationMessage("Delete Confirmation", "You are about to delete the row.  Please click Yes if you would like to continue.");
@@ -1555,8 +1554,8 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
         levelValuesPagedTable.setSelectable(true);
         tableLogic.setPageLength(NumericConstants.SEVEN);
         levelValuesPagedTable.setCaption("Results");
-        levelValuesPagedTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_VALUES_COLUMNS);
-        levelValuesPagedTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_VALUES_HEADER);
+        levelValuesPagedTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelValuesColumns);
+        levelValuesPagedTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelValuesHeader);
         levelValuesPagedTable.setFilterBarVisible(true);
         levelValuesPagedTable.setSizeFull();
         levelValuesPagedTable.setImmediate(true);
@@ -1568,9 +1567,9 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
 
         levelValuesTable.markAsDirty();
         levelValuesTable.setContainerDataSource(levelDTOBean);
-        levelValuesTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_VALUES_COLUMNS);
+        levelValuesTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelValuesColumns);
         levelValuesTable.setCaption("Results");
-        levelValuesTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_VALUES_HEADER);
+        levelValuesTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelValuesHeader);
 
         levelValuesTable.setPageLength(NumericConstants.SEVEN);
         levelValuesTable.setImmediate(true);
@@ -1582,7 +1581,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-               
+                return;
             }
         });
         LOGGER.debug("levelValuesListTable Method returns levelValuesTable");
@@ -1591,7 +1590,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
 
     public void saveButtonLogic(final ClickEvent event, final boolean flag) {
         try {
-            List<HierarchyBuilderLevelDTO> levelvalues = new ArrayList<HierarchyBuilderLevelDTO>();
+            List<HierarchyBuilderLevelDTO> levelvalues;
             levelvalues = hierarchyBuilderLevelDTOBean.getItemIds();
 
             if (ConstantsUtils.EMPTY.equals(hierarchyType.getValue()) && ConstantsUtils.EMPTY.equals(hierarchyName.getValue().trim())) {
@@ -1724,7 +1723,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
                 }
             }
 
-            List<HierarchyBuilderLevelDTO> levelvalues = new ArrayList<HierarchyBuilderLevelDTO>();
+            List<HierarchyBuilderLevelDTO> levelvalues;
             levelvalues = hierarchyBuilderLevelDTOBean.getItemIds();
             if (ConstantsUtils.EMPTY.equals(hierarchyType.getValue()) && ConstantsUtils.EMPTY.equals(hierarchyName.getValue().trim())) {
 
@@ -1861,7 +1860,7 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof HierarchyBuilderLevelDTO) {
-            targetItem = new BeanItem<HierarchyBuilderLevelDTO>((HierarchyBuilderLevelDTO) obj);
+            targetItem = new BeanItem<>((HierarchyBuilderLevelDTO) obj);
         }
         return (HierarchyBuilderLevelDTO) targetItem.getBean();
     }
@@ -1888,6 +1887,6 @@ public class HierarchyBuilderDefinition extends CustomComponent implements View 
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-       
-    }
+        return;
+    }   
 }

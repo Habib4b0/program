@@ -31,7 +31,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
     public int getCount() {
         int count = 0;
             try {
-                count=selectionLogic.getSelectedTableCount(sessionDTO, this.getSortByColumns(),this.getFilters());
+                count=selectionLogic.getSelectedTableCount(sessionDTO,this.getFilters());
             }  catch (Exception ex) {
                 LOGGER.error(ex + " in getCount");
             }
@@ -41,7 +41,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<SelectionDTO> resultList = new ArrayList<SelectionDTO>();
+        List<SelectionDTO> resultList = new ArrayList<>();
         try {
             resultList=selectionLogic.getSelectedTableResult(sessionDTO, start, start + offset, this.getSortByColumns(),this.getFilters());
         } catch (Exception ex) {
@@ -64,6 +64,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
 
     @Override
     public void saveCurrentPage() {
+        return;
     }
 
     @Override

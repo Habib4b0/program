@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.tp.logic;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.model.CompanyQualifier;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
@@ -47,15 +48,18 @@ public class CompanySearchLogic {
 
     TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
     Converters converters=new Converters();
+    public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
+    public static final String SEARCH_SESSION_ID = "searchSessionId";
+    public static final String COMPANIES_FROM_MAIN_TABLE = "getCompaniesFromMainTable";
     /**
      * The Constant LOGGER.
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchLogic.class);
 
-    public int companySearchCount(TradingPartnerDTO tpDto, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId) throws PortalException, SystemException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public int companySearchCount(TradingPartnerDTO tpDto, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId) throws SystemException {
+        Map<String, Object> parameters = new HashMap<>();
         List resultList;
-        parameters.put("lazyLoadResults", null);
+        parameters.put(LAZY_LOAD_RESULTS, null);
         parameters.put("recordLockStatus", recordLockStatus);
 
         //Used to load the companies for Customer Selection tab in Transfer projection Details module
@@ -123,14 +127,14 @@ public class CompanySearchLogic {
             parameters.put("parentCompanyName", parentCompanyId);
         }
         if (isValidSid(searchSessionId)) {
-            parameters.put("searchSessionId", searchSessionId);
+            parameters.put(SEARCH_SESSION_ID, searchSessionId);
         }
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId(), filterString);
                 }
             }
         }
@@ -138,19 +142,19 @@ public class CompanySearchLogic {
         return Integer.parseInt(String.valueOf(resultList.get(0)));
     }
 
-    public List<TradingPartnerDTO> searchCompaniesLazy(final TradingPartnerDTO tpDTO, int startIndex, int offset, List<SortByColumn> sortByColumns, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId,boolean isProjectionSelected) throws SystemException, ParseException, PortalException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public List<TradingPartnerDTO> searchCompaniesLazy(final TradingPartnerDTO tpDTO, int startIndex, int offset, List<SortByColumn> sortByColumns, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId,boolean isProjectionSelected) throws SystemException, ParseException {
+        Map<String, Object> parameters = new HashMap<>();
         List resultList;
         List<TradingPartnerDTO> returnList = null;
         String columnName = StringUtils.EMPTY;
         parameters.put("startIndex", startIndex);
         parameters.put("offset", offset);
-        parameters.put("lazyLoadResults", "lazyLoadResults");
+        parameters.put(LAZY_LOAD_RESULTS, LAZY_LOAD_RESULTS);
         parameters.put("recordLockStatus", recordLockStatus);
         if (isProjectionSelected) {
-            parameters.put("checkRecord", 1);
+            parameters.put(Constants.CHECK_RECORD, 1);
         } else {
-            parameters.put("checkRecord", null);
+            parameters.put(Constants.CHECK_RECORD, null);
         }
         if (tpDTO.getCompanyMasterSids().size() > 0) {
             parameters.put("companyMasterSids", CommonUtils.CollectionToString(tpDTO.getCompanyMasterSids(), true));
@@ -216,14 +220,14 @@ public class CompanySearchLogic {
             parameters.put("parentCompanyName", parentCompanyId);
         }
         if (isValidSid(searchSessionId)) {
-            parameters.put("searchSessionId", searchSessionId);
+            parameters.put(SEARCH_SESSION_ID, searchSessionId);
         }
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId(), filterString);
                 }
             }
         }
@@ -257,7 +261,7 @@ public class CompanySearchLogic {
 
     public List<IdDescriptionDTO> loadDdlbs(String fieldName) {
         List list = new ArrayList();
-        List<IdDescriptionDTO> resultList = new ArrayList<IdDescriptionDTO>();
+        List<IdDescriptionDTO> resultList = new ArrayList<>();
         IdDescriptionDTO idDescription = null;
         try {
             DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
@@ -293,7 +297,7 @@ public class CompanySearchLogic {
 
     public List<IdDescriptionDTO> loadIdentifierTypeDdlb() {
         List list = new ArrayList();
-        List<IdDescriptionDTO> resultList = new ArrayList<IdDescriptionDTO>();
+        List<IdDescriptionDTO> resultList = new ArrayList<>();
         IdDescriptionDTO idDescription = null;
         try {
             DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyQualifier.class);
@@ -340,24 +344,21 @@ public class CompanySearchLogic {
         return count;
     }
 
-    public List<TradingPartnerDTO> loadAllCustomers(List<String> companyMasterSids) throws ParseException, PortalException, SystemException {
+    public List<TradingPartnerDTO> loadAllCustomers(List<String> companyMasterSids) throws ParseException {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         List resultList;
         List<TradingPartnerDTO> returnList;
-        query.append(CustomSQLUtil.get("getCompaniesFromMainTable"));
+        query.append(CustomSQLUtil.get(COMPANIES_FROM_MAIN_TABLE));
         query.append(" AND cm.COMPANY_MASTER_SID in (" + CommonUtils.CollectionToString(companyMasterSids, true) + ")");
         resultList = CompanyMasterLocalServiceUtil.executeQuery(query.toString());
         returnList = converters.searchCompany(resultList);
         return returnList;
     }
     
-    public void insertIntoTempTable(String searchSessionId, String userid, String updateType) {
+    public void insertIntoTempTable(String searchSessionId, String updateType) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("With TEMP as (");
-        query.append(CustomSQLUtil.get("getCompaniesFromMainTable"));
-//         if (!Constants.NULL.equals(userid) && !userid.isEmpty()) {
-//            query.append(" and cm.CREATED_BY != ").append(userid);
-//        }
+        query.append(CustomSQLUtil.get(COMPANIES_FROM_MAIN_TABLE));
         query.append(") INSERT into GCM_COMPANY_DETAILS(CHECK_RECORD, COMPANY_MASTER_SID,COMPANY_NO,COMPANY_NAME,SESSION_ID,SUB_MODULE_NAME,Created_Date)");
         query.append("SELECT '0', companyMasterSid,companyNo,companyName,'").append(searchSessionId).append("','").append(updateType).append("'");
         query.append(" ,getdate()");
@@ -367,20 +368,16 @@ public class CompanySearchLogic {
     }
     
     
-    public void insertIntoTempTablecustomer(String searchSessionId, String userid, String updateType) {
+    public void insertIntoTempTablecustomer(String searchSessionId, String updateType) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("With TEMP as (");
-        query.append(CustomSQLUtil.get("getCompaniesFromMainTable"));
-//        if (!Constants.NULL.equals(userid) && !userid.isEmpty()) {
-//            query.append(" and cm.CREATED_BY = ").append(userid);
-//        }
+        query.append(CustomSQLUtil.get(COMPANIES_FROM_MAIN_TABLE));
         query.append(") INSERT into GCM_COMPANY_DETAILS(CHECK_RECORD, COMPANY_MASTER_SID,COMPANY_NO,COMPANY_NAME,SESSION_ID,SUB_MODULE_NAME,Created_Date)");
         query.append("SELECT '0', companyMasterSid,companyNo,companyName,'").append(searchSessionId).append("','").append(updateType).append("'");
         query.append(" ,getdate()");
         query.append(" FROM TEMP;");
         query.append(" delete  FROM GCM_COMPANY_DETAILS where getdate()-1>CREATED_DATE");
                 CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
-                System.out.println("query.toString()=====================================   "+query.toString());
     }
     
 
@@ -401,9 +398,9 @@ public class CompanySearchLogic {
 
     public int getLinkedCompaniesCount(final CompanyLinkDTO tpDTO, Set<Container.Filter> filters, String searchSessionId) {
         LOGGER.debug("Entering getLinkedCompaniesCount");
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         parameters.put("queryType", "count");
-        parameters.put("searchSessionId", searchSessionId);
+        parameters.put(SEARCH_SESSION_ID, searchSessionId);
         if (isValidCriteria(tpDTO.getFromCompanyId())) {
             String fromCompanyId = tpDTO.getFromCompanyId();
             fromCompanyId = fromCompanyId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
@@ -443,11 +440,11 @@ public class CompanySearchLogic {
 
     public List getLinkedCompanies(final CompanyLinkDTO tpDTO, int start, int offset, Set<Container.Filter> filters, String searchSessionId) {
         LOGGER.debug("Entering getLinkedCompanies");
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         parameters.put("queryType", "data");
         parameters.put("start", start);
         parameters.put("offset", offset);
-        parameters.put("searchSessionId", searchSessionId);
+        parameters.put(SEARCH_SESSION_ID, searchSessionId);
         if (isValidCriteria(tpDTO.getFromCompanyId())) {
             String fromCompanyId = tpDTO.getFromCompanyId();
             fromCompanyId = fromCompanyId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
@@ -490,7 +487,7 @@ public class CompanySearchLogic {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId(), filterString);
                 }
             }
         }
@@ -503,7 +500,7 @@ public class CompanySearchLogic {
      * @return
      */
     private List convertObjectToList(List searchLinkedCompanies) {
-        List<CompanyLinkDTO> linkedCompaniesList = new ArrayList<CompanyLinkDTO>();
+        List<CompanyLinkDTO> linkedCompaniesList = new ArrayList<>();
         CompanyLinkDTO clDto;
         int size = searchLinkedCompanies.size();
         for (int loop = 0, limit = size; loop < limit; loop++) {

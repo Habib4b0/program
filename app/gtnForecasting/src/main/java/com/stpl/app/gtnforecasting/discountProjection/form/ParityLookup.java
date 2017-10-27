@@ -110,10 +110,10 @@ public class ParityLookup extends Window {
        private ErrorLabel errorMsg;
 
 	/** The results container. */
-	private final BeanItemContainer<LookUpDTO> resultsContainer = new BeanItemContainer<LookUpDTO>(LookUpDTO.class);
+	private final BeanItemContainer<LookUpDTO> resultsContainer = new BeanItemContainer<>(LookUpDTO.class);
 	
 	/** The parity container. */
-	private final BeanItemContainer<LookUpDTO> parityContainer = new BeanItemContainer<LookUpDTO>(LookUpDTO.class);
+	private final BeanItemContainer<LookUpDTO> parityContainer = new BeanItemContainer<>(LookUpDTO.class);
          
 	private CustomTextField parity;
         
@@ -129,6 +129,7 @@ public class ParityLookup extends Window {
         
         boolean populateFlag= false;
         List<LookUpDTO> dtoListValue ;
+        private final HeaderUtils headerUtils = new HeaderUtils();
 
     public ParityLookup() {
 
@@ -203,8 +204,8 @@ public class ParityLookup extends Window {
         ndc.setImmediate(true);
         ndcDesc.setImmediate(true);
         resultsTable.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(HeaderUtils.PARITY_COLUMNS);
-        resultsTable.setColumnHeaders(HeaderUtils.PARITY_HEADER);
+        resultsTable.setVisibleColumns(headerUtils.parityColumns);
+        resultsTable.setColumnHeaders(headerUtils.parityHeader);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSelectable(true);
         resultsTable.setMultiSelect(true);
@@ -213,8 +214,8 @@ public class ParityLookup extends Window {
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         
         parityTable.setContainerDataSource(parityContainer);
-        parityTable.setVisibleColumns(HeaderUtils.PARITY_COLUMNS);
-        parityTable.setColumnHeaders(HeaderUtils.PARITY_HEADER);
+        parityTable.setVisibleColumns(headerUtils.parityColumns);
+        parityTable.setColumnHeaders(headerUtils.parityHeader);
         parityTable.setFilterBarVisible(true);
         parityTable.setSelectable(true);
         parityTable.setMultiSelect(true);
@@ -239,7 +240,7 @@ public class ParityLookup extends Window {
 	public void closeBtn(Button.ClickEvent event) {
 		new AbstractNotificationUtils() {
 			public void noMethod() {
-				
+			    return;
 			}
 
 			@Override
@@ -266,7 +267,7 @@ public class ParityLookup extends Window {
 	public void resetBtn(ClickEvent event) {
 		new AbstractNotificationUtils() {
 			public void noMethod() {
-				
+                            return;
 			}
 
 			@Override
@@ -319,7 +320,7 @@ public class ParityLookup extends Window {
 	public void searchBtn(Button.ClickEvent event) {    
             
                 boolean valid= validateFields();    
-                List<LookUpDTO> parityDtoList = new ArrayList<LookUpDTO>();
+                List<LookUpDTO> parityDtoList = new ArrayList<>();
                 resultsContainer.removeAllItems();
                 lookUpDTO.setContractName(contractDdlb.getValue()!=null?contractDdlb.getValue().toString():StringUtils.EMPTY);
                 lookUpDTO.setBrandName(brandName.getValue()==StringUtils.EMPTY?StringUtils.EMPTY:brandName.getValue().replace(CommonUtils.CHAR_ASTERISK,
@@ -466,7 +467,7 @@ public class ParityLookup extends Window {
                         String[] periodList = sdpLogic.getYearAndPeriod(period.toString(), year);
                         List returnList = sdpLogic.callParityProcedure(dtoList, periodList, sessionDto);
                         if(!returnList.isEmpty() && returnList.size()>0){
-                        parityNDCInsert((List<LookUpDTO>) returnList.get(0), (List<String>) returnList.get(1), year, period);
+                        parityNDCInsert((List<LookUpDTO>) returnList.get(0), (List<String>) returnList.get(1));
                         }
                         else{
                         AbstractNotificationUtils.getErrorNotification("Submit Error", "There is no  values for selected NDCs. ");
@@ -538,7 +539,7 @@ public class ParityLookup extends Window {
   
    
     
-    public void parityNDCInsert(final List<LookUpDTO> finalDtoList, List<String> notifyList, final String year, final String period ){
+    public void parityNDCInsert(final List<LookUpDTO> finalDtoList, List<String> notifyList ){
          StringBuilder tempNotify = new StringBuilder();
         if (notifyList.isEmpty()) {
                         if (!finalDtoList.isEmpty()) {
@@ -604,7 +605,7 @@ public class ParityLookup extends Window {
     public void processParity(final String year, final String period, List<LookUpDTO> dtoList) {
         String[] periodList = sdpLogic.getYearAndPeriod(period.toString(), year);
         List returnList = sdpLogic.callParityProcedure(dtoList, periodList, sessionDto);
-        parityNDCInsert((List<LookUpDTO>) returnList.get(0), (List<String>) returnList.get(1), year, period);
+        parityNDCInsert((List<LookUpDTO>) returnList.get(0), (List<String>) returnList.get(1));
     }
 
 }

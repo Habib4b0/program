@@ -32,8 +32,8 @@ public class SessionDTO implements Serializable, Cloneable {
     private String companyCategory;
     private String tradeClass;
     private String companyMasterSid = StringUtils.EMPTY;
-    private List<String> companyMasterSids = new ArrayList<String>();
-    private List<String> phCompanyMasterSids = new ArrayList<String>();
+    private List<String> companyMasterSids = new ArrayList<>();
+    private List<String> phCompanyMasterSids = new ArrayList<>();
 
     private Integer companyId;
     String forecastingType = StringUtils.EMPTY;
@@ -42,9 +42,9 @@ public class SessionDTO implements Serializable, Cloneable {
     private String searchSessionId = StringUtils.EMPTY;
     private boolean checkValue;
     private List<ContractResultDTO> list;
-
     private int contMasteSid = 0;
     private String contractMasterSid = StringUtils.EMPTY;
+    private String processName = StringUtils.EMPTY;
     private HelperDTO contractType = new HelperDTO(0, Constants.SELECT_ONE);
     private String newProjectionId = StringUtils.EMPTY;
     private int contractSystemId = 0;
@@ -266,6 +266,14 @@ public class SessionDTO implements Serializable, Cloneable {
 
     public void setContractType(HelperDTO contractType) {
         this.contractType = contractType;
+    }
+    
+    public String getProcessName() {
+        return processName;
+    }
+
+    public void setProcessName(String processName) {
+        this.processName = processName;
     }
 
     public SessionDTO clone() throws CloneNotSupportedException {

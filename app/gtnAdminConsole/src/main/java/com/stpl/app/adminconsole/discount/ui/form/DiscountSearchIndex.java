@@ -146,17 +146,17 @@ public class DiscountSearchIndex extends CustomComponent implements View {
     /**
      * The Constant DISCOUNT_TABLE_COLUMNS.
      */
-    public static final Object[] DISCOUNT_TABLE_COLUMNS = new Object[]{"discountName", "discountNo", "discountDesc", "version", "createdBy", "createdDate"};
+    public final Object[] discountTableColumns = new Object[]{"discountName", "discountNo", "discountDesc", "version", "createdBy", "createdDate"};
 
     /**
      * The Constant DISCOUNT_TABLE_HEADER.
      */
-    public static final String[] DISCOUNT_TABLE_HEADER = new String[]{"Discount Name", "Discount No", "Discount Desc", "Version", "Created By", "Created Date"};
+    public final String[] discountTableHeader = new String[]{"Discount Name", "Discount No", "Discount Desc", "Version", "Created By", "Created Date"};
 
     /**
      * The results bean.
      */
-    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<DiscountSearchDTO>(DiscountSearchDTO.class);
+    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
 
     /**
      * The Discount Search dto.
@@ -194,7 +194,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
     public DiscountSearchIndex() {
         super();
         discountSearchDTO = new DiscountSearchDTO();
-        discountBinder = new CustomFieldGroup(new BeanItem<DiscountSearchDTO>(discountSearchDTO));
+        discountBinder = new CustomFieldGroup(new BeanItem<>(discountSearchDTO));
         init();
     }
 
@@ -455,8 +455,8 @@ public class DiscountSearchIndex extends CustomComponent implements View {
      *
      * @return the discount tableMap columns
      */
-    public static Object[] getDiscountTableColumns() {
-        return DISCOUNT_TABLE_COLUMNS;
+    public Object[] getDiscountTableColumns() {
+        return discountTableColumns;
     }
 
     /**
@@ -464,8 +464,8 @@ public class DiscountSearchIndex extends CustomComponent implements View {
      *
      * @return the discount tableMap header
      */
-    public static String[] getDiscountTableHeader() {
-        return DISCOUNT_TABLE_HEADER;
+    public String[] getDiscountTableHeader() {
+        return discountTableHeader;
     }
 
     /**
@@ -550,8 +550,8 @@ public class DiscountSearchIndex extends CustomComponent implements View {
         results.setFilterDecorator(new ExtDemoFilterDecorator());
         results.setContainerDataSource(resultsBean);
         results.setCaption("Results");
-        results.setVisibleColumns(DISCOUNT_TABLE_COLUMNS);
-        results.setColumnHeaders(DISCOUNT_TABLE_HEADER);
+        results.setVisibleColumns(discountTableColumns);
+        results.setColumnHeaders(discountTableHeader);
         results.setPageLength(NumericConstants.EIGHT);
         results.setWidth("100%");
         results.setSizeFull();
@@ -657,13 +657,6 @@ public class DiscountSearchIndex extends CustomComponent implements View {
                         searchButtonClickLogic();
                     }
 
-                } catch (SystemException e) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                    LOGGER.error(e);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                } catch (PortalException e) {
-                    LOGGER.error(e);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
                 } catch (Exception e) {
                     LOGGER.error(e);
                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
@@ -732,7 +725,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
              * The button click
              */
             public void buttonClick(final ClickEvent event) {
-                deleteButtonClickLogic(event);
+                deleteButtonClickLogic();
 
 
             }
@@ -787,7 +780,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void searchButtonClickLogic() throws SystemException, PortalException, FieldGroup.CommitException {
+    protected void searchButtonClickLogic() throws FieldGroup.CommitException {
         LOGGER.debug("searchButtonClickLogic method Started ");
         discountBinder.commit();
         resultsBean.removeAllItems();
@@ -802,7 +795,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
             searchDTO.setDiscountDesc(discountDesc.getValue().trim());
         }
 
-        final List<DiscountSearchDTO> searchResults = new ArrayList<DiscountSearchDTO>();
+        final List<DiscountSearchDTO> searchResults = new ArrayList<>();
         resultsBean.removeAllItems();
         if (searchResults.isEmpty()) {
             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
@@ -844,7 +837,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
 
         LOGGER.debug("getBinder method Started ");
         discountBinder.bindMemberFields(this);
-        discountBinder.setItemDataSource(new BeanItem<DiscountSearchDTO>(discountSearchDTO));
+        discountBinder.setItemDataSource(new BeanItem<>(discountSearchDTO));
         discountBinder.setBuffered(true);
         discountBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getBinder method RETURNS DiscountBinder - Binder ");
@@ -879,7 +872,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
             if (obj instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) obj;
             } else if (obj instanceof DiscountSearchDTO) {
-                targetItem = new BeanItem<DiscountSearchDTO>((DiscountSearchDTO) obj);
+                targetItem = new BeanItem<>((DiscountSearchDTO) obj);
             } else {
                 targetItem = NULLOBJECT;
             }
@@ -893,7 +886,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
      *
      * @param event the event
      */
-    protected void deleteButtonClickLogic(final ClickEvent event) {
+    protected void deleteButtonClickLogic() {
         LOGGER.debug("deleteButtonClickLogic Method started");
         if (deductionGroupSid == 0) {
             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, ConstantsUtils.NO_DEDUCTION_ERROR_INFO, ButtonId.OK);
@@ -923,7 +916,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
                                         if (discountDesc.getValue() != null && !discountDesc.getValue().equals(StringUtils.EMPTY)) {
                                             searchDTO.setDiscountDesc(discountDesc.getValue());
                                         }
-                                        final List<DiscountSearchDTO> searchResults = new ArrayList<DiscountSearchDTO>();
+                                        final List<DiscountSearchDTO> searchResults = new ArrayList<>();
 
                                         resultsBean.addAll(searchResults);
                                     }

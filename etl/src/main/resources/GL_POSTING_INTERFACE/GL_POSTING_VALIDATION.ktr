@@ -42,7 +42,7 @@
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
-    <size_rowset>10000</size_rowset>
+    <size_rowset>1000</size_rowset>
     <sleep_time_empty>50</sleep_time_empty>
     <sleep_time_full>50</sleep_time_full>
     <unique_connections>N</unique_connections>
@@ -115,7 +115,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 3</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>D</from><to>A</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 2</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 2</from><to>Delete Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2</from><to>Change Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 3</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2</from><to>D-INVALID2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 3</from><to>Delete Reason 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 4</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Add constants 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2 2</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Filter rows 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>ADJUSTMENT_GTN_DETAIL</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL</from><to>D</to><enabled>N</enabled> </hop>  <hop> <from>D</from><to>LATEST_DATE 3</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 3</from><to>ADJUSTMENT_GTN_DETAIL 2</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>LATEST_DATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 2</from><to>ADJUSTMENT_GTN_DETAIL 3</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>LATEST_DATE</to><enabled>N</enabled> </hop>  <hop> <from>LATEST_DATE</from><to>ADJUSTMENT_GTN_DETAIL 4</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3</from><to>ADD Audit update 2</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status 3</from><to>Delete Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2 2</from><to>Change Audit update 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 2</from><to>Memory Group by 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 3</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 4</from><to>Memory Group by 3</to><enabled>N</enabled> </hop>  <hop> <from>Delete Reason 3</from><to>D-INVALID2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2 2</from><to>D-INVALID2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 5 2</from><to>INVALID TABLE 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 3</from><to>Add constants 3</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by 2 3</from><to>Audit Status 3</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2</from><to>Audit Status 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 4</from><to>ADJUSTMENT_RESERVE_DETAIL 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 3 2 3</from><to>ADJUSTMENT_RESERVE_DETAIL 3</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 5</from><to>ADJUSTMENT_RESERVE_DETAIL 4</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 3</from><to>ADJUSTMENT_RESERVE_DETAIL</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL</from><to>Invalid Reason 5 2</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 2</from><to>Delete Reason 3</to><enabled>Y</enabled> </hop>  <hop> <from>D 2</from><to>LATEST_DATE 4</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL</from><to>D 2</to><enabled>N</enabled> </hop>  <hop> <from>D 2</from><to>A 2</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>INVALID COUNT 3 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>LATEST_DATE 5</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 3</from><to>Delete Reason 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>D 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>D</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>ADJUSTMENT_GTN_DETAIL 4</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>ADJUSTMENT_RESERVE_DETAIL 4</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 4</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 3</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>D</from><to>A</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 2</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 2</from><to>Delete Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2</from><to>Change Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 3</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2</from><to>D-INVALID2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 3</from><to>Delete Reason 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 4</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Add constants 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2 2</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Filter rows 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>ADJUSTMENT_GTN_DETAIL</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL</from><to>D</to><enabled>N</enabled> </hop>  <hop> <from>D</from><to>LATEST_DATE 3</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 3</from><to>ADJUSTMENT_GTN_DETAIL 2</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>LATEST_DATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 2</from><to>ADJUSTMENT_GTN_DETAIL 3</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>LATEST_DATE</to><enabled>N</enabled> </hop>  <hop> <from>LATEST_DATE</from><to>ADJUSTMENT_GTN_DETAIL 4</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3</from><to>ADD Audit update 2</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status 3</from><to>Delete Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2 2</from><to>Change Audit update 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 2</from><to>Memory Group by 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 3</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 4</from><to>Memory Group by 3</to><enabled>N</enabled> </hop>  <hop> <from>Delete Reason 3</from><to>D-INVALID2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2 2</from><to>D-INVALID2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 5 2</from><to>INVALID TABLE 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 3</from><to>Add constants 3</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by 2 3</from><to>Audit Status 3</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2</from><to>Audit Status 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 4</from><to>ADJUSTMENT_RESERVE_DETAIL 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 3 2 3</from><to>ADJUSTMENT_RESERVE_DETAIL 3</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 5</from><to>ADJUSTMENT_RESERVE_DETAIL 4</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 3</from><to>ADJUSTMENT_RESERVE_DETAIL</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL</from><to>Invalid Reason 5 2</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 2</from><to>Delete Reason 3</to><enabled>Y</enabled> </hop>  <hop> <from>D 2</from><to>LATEST_DATE 4</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL</from><to>D 2</to><enabled>N</enabled> </hop>  <hop> <from>D 2</from><to>A 2</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>INVALID COUNT 3 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>LATEST_DATE 5</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 3</from><to>Delete Reason 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>D 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>D</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>ADJUSTMENT_GTN_DETAIL 4</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>ADJUSTMENT_RESERVE_DETAIL 4</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 4</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>Sort rows</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>A</name>
     <type>FilterRows</type>
@@ -200,6 +200,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -666,6 +672,17 @@
         <length>5</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>GL_POSTING_INTERFACE</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -776,7 +793,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1111</xloc>
-      <yloc>329</yloc>
+      <yloc>241</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -834,6 +851,17 @@
         <length>10</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>GL_POSTING_INTERFACE</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -863,6 +891,17 @@
         <group/>
         <nullif>R</nullif>
         <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>GL_POSTING_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -896,6 +935,17 @@
         <length>10</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>GL_POSTING_INTERFACE</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -925,6 +975,17 @@
         <group/>
         <nullif>R</nullif>
         <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>GL_POSTING_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -964,6 +1025,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -1008,6 +1075,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -1451,6 +1524,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>DELETE_COUNT</name>
         <rename>DELETE_COUNT</rename>
@@ -1492,6 +1571,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -1645,7 +1730,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>965</xloc>
-      <yloc>292</yloc>
+      <yloc>204</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1663,7 +1748,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1241</xloc>
-      <yloc>279</yloc>
+      <yloc>191</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1813,7 +1898,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>697</xloc>
-      <yloc>139</yloc>
+      <yloc>51</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2103,7 +2188,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>828</xloc>
-      <yloc>120</yloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2488,6 +2573,43 @@
     </step>
 
   <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <sort_size>5000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>ADJUSTMENT_DETAIL_ID</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>TRANSACTION_LEVEL</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1197</xloc>
+      <yloc>319</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Switch &#47; Case</name>
     <type>SwitchCase</type>
     <description/>
@@ -2513,7 +2635,7 @@
 </case></cases>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1113</xloc>
-      <yloc>203</yloc>
+      <yloc>115</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2592,7 +2714,7 @@ JOIN ADJUSTMENT_GTN_DETAIL  D
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1116</xloc>
-      <yloc>93</yloc>
+      <yloc>5</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

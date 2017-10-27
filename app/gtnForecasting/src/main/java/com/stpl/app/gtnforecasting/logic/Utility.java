@@ -69,7 +69,7 @@ public class Utility {
         int customId = session.getCustomId();
         if (!session.getCustomHierarchyMap().containsKey(customId)) {
             List<CustomViewDetails> customDetailsList = null;
-            List<Leveldto> listValue = new ArrayList<Leveldto>();
+            List<Leveldto> listValue = new ArrayList<>();
             if (customId != 0) {
                 if (session.getCustomDetailMap().get(customId) != null) {
                     customDetailsList = session.getCustomDetailMap().get(customId);
@@ -92,7 +92,6 @@ public class Utility {
                     /**
                      * assign null to Object , To be destroyed By JVM *
                      */
-                    relationShipLevelQry = null;
                     for (CustomViewDetails ob : customDetailsList) {
                         for (Object[] obj : list) {
                             if ((String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim())) && (obj.length > 1)) {
@@ -120,7 +119,7 @@ public class Utility {
                 int maxLevel = currentHierarchy.size() - 1;
                 for (int i = 0; i < currentHierarchy.size(); i++) {
                     Leveldto levelDto = (Leveldto) currentHierarchy.get(i);
-                    int level = view.equals(Constant.CUSTOM) ? levelDto.getTreeLevelNo() : levelDto.getCount();
+                    int level = view.equals(Constant.CUSTOM_LABEL) ? levelDto.getTreeLevelNo() : levelDto.getCount();
                     if (!isExpCol || level <= maxLevel) {
                         Object itemId = null;
                         itemId = levelDto.getTreeLevelNo() + "~" + levelDto.getHierarchyIndicator();
@@ -132,12 +131,12 @@ public class Utility {
         }
     }
 
-    public static void loadLevelDDlbValue(ComboBox level, ComboBox levelFilter, ComboBox populateLevel, final List<Leveldto> currentHierarchy, String view) {
-        loadLevelAndFilterDdlb(level, currentHierarchy, view);
-        loadLevelAndFilterDdlb(levelFilter, currentHierarchy, view);
+    public static void loadLevelDDlbValue(ComboBox level, ComboBox levelFilter, final List<Leveldto> currentHierarchy) {
+        loadLevelAndFilterDdlb(level, currentHierarchy);
+        loadLevelAndFilterDdlb(levelFilter, currentHierarchy);
     }
 
-    public static void loadLevelAndFilterDdlb(ComboBox ddlb, List<Leveldto> currentHierarchy, String view) {
+    public static void loadLevelAndFilterDdlb(ComboBox ddlb, List<Leveldto> currentHierarchy) {
         if (ddlb != null) {
             resetDdlb(ddlb);
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
@@ -174,6 +173,7 @@ public class Utility {
         } else {
             levelNo = sessionDTO.getTradingPartner();
         }
+        LOGGER.debug("projectionIdOrCustomId"+projectionIdOrCustomId);
         return levelNo;
     }
 

@@ -54,7 +54,7 @@ public final class TableFieldNameLookUp extends Window {
     @UiField("tableName")
     private TextField tableName;
 
-    @UiField("fieldName")
+    @UiField(FIELD_NAME)
     private TextField fieldName;
 
     private TextField tempTable;
@@ -68,13 +68,13 @@ public final class TableFieldNameLookUp extends Window {
 
     private CustomFieldGroup binder;
 
-    private List<TableFieldLookUpDTO> lookUpList = new ArrayList<TableFieldLookUpDTO>();
+    private List<TableFieldLookUpDTO> lookUpList = new ArrayList<>();
 
-    private List<TableFieldLookUpDTO> fieldList = new ArrayList<TableFieldLookUpDTO>();
+    private List<TableFieldLookUpDTO> fieldList = new ArrayList<>();
 
     private static final Logger LOGGER = Logger.getLogger(TableFieldNameLookUp.class);
 
-    private final BeanItemContainer<TableFieldLookUpDTO> fieldBean = new BeanItemContainer<TableFieldLookUpDTO>(TableFieldLookUpDTO.class);
+    private final BeanItemContainer<TableFieldLookUpDTO> fieldBean = new BeanItemContainer<>(TableFieldLookUpDTO.class);
 
     @UiField("excelExportTables")
     private Button excelExportTables;
@@ -99,7 +99,7 @@ public final class TableFieldNameLookUp extends Window {
     TableFieldLogic tableLogicForFieldName = new TableFieldLogic();
     protected ExtPagedTable fieldTable = new ExtPagedTable(tableLogicForFieldName);
 
-    protected final BeanItemContainer<TableFieldLookUpDTO> resultsContainer = new BeanItemContainer<TableFieldLookUpDTO>(TableFieldLookUpDTO.class);
+    protected final BeanItemContainer<TableFieldLookUpDTO> resultsContainer = new BeanItemContainer<>(TableFieldLookUpDTO.class);
 
     private final ThemeResource excelImage = new ThemeResource("../../icons/excel.png");
 
@@ -231,7 +231,7 @@ public final class TableFieldNameLookUp extends Window {
      */
     private CustomFieldGroup getBinder() {
         LOGGER.debug("getBinder method started");
-        binder = new CustomFieldGroup(new BeanItem<TableFieldLookUpDTO>(new TableFieldLookUpDTO()));
+        binder = new CustomFieldGroup(new BeanItem<>(new TableFieldLookUpDTO()));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -306,8 +306,8 @@ public final class TableFieldNameLookUp extends Window {
         tableLogic.setPageLength(NumericConstants.FIVE);
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultTable.setCaption("Table Results");
-        resultTable.setVisibleColumns(CommonUIUtil.TABLE_LOOKUP_COLUMN);
-        resultTable.setColumnHeaders(CommonUIUtil.TABLE_LOOKUP_HEADER);
+        resultTable.setVisibleColumns(CommonUIUtil.getInstance().tableLookupColumns);
+        resultTable.setColumnHeaders(CommonUIUtil.getInstance().tableLookupHeader);
         resultTable.setFilterBarVisible(true);
         resultTable.setSizeFull();
         resultTable.setImmediate(true);
@@ -330,11 +330,11 @@ public final class TableFieldNameLookUp extends Window {
                     fieldLookUpDTO = (TableFieldLookUpDTO) event.getItemId();
                     tableLogicForFieldName.fireSetData(dto, false, ConstantsUtils.FIELD);
 
-                    String filterValue = String.valueOf(fieldTable.getFilterFieldValue("fieldName"));
-                    fieldTable.setFilterFieldValue("fieldName", ConstantsUtils.EMPTY);
+                    String filterValue = String.valueOf(fieldTable.getFilterFieldValue(FIELD_NAME));
+                    fieldTable.setFilterFieldValue(FIELD_NAME, ConstantsUtils.EMPTY);
 
                     if (!filterValue.equals("null") && !filterValue.equals(ConstantsUtils.EMPTY)) {
-                        fieldTable.setFilterFieldValue("fieldName", filterValue);
+                        fieldTable.setFilterFieldValue(FIELD_NAME, filterValue);
                     }
 
                 } catch (Exception ex) {
@@ -361,8 +361,8 @@ public final class TableFieldNameLookUp extends Window {
         tableLogicForFieldName.setPageLength(NumericConstants.FIVE);
         tableLogicForFieldName.sinkItemPerPageWithPageLength(false);
         fieldTable.setCaption("Field Results");
-        fieldTable.setVisibleColumns(CommonUIUtil.FIELD_LOOKUP_COLUMN);
-        fieldTable.setColumnHeaders(CommonUIUtil.FIELD_LOOKUP_HEADER);
+        fieldTable.setVisibleColumns(CommonUIUtil.getInstance().fieldLookupColumn);
+        fieldTable.setColumnHeaders(CommonUIUtil.getInstance().fieldLookupHeader);
         fieldTable.setFilterBarVisible(true);
         fieldTable.setSizeFull();
         fieldTable.setImmediate(true);
@@ -506,8 +506,8 @@ public final class TableFieldNameLookUp extends Window {
         tableResultsLayout.addComponent(excelTable);
         excelTable.setVisible(false);
         excelTable.setContainerDataSource(excelTableBean);
-        excelTable.setVisibleColumns(CommonUIUtil.TABLE_LOOKUP_COLUMN);
-        excelTable.setColumnHeaders(CommonUIUtil.TABLE_LOOKUP_HEADER);
+        excelTable.setVisibleColumns(CommonUIUtil.getInstance().tableLookupColumns);
+        excelTable.setColumnHeaders(CommonUIUtil.getInstance().tableLookupHeader);
 
     }
 
@@ -533,8 +533,8 @@ public final class TableFieldNameLookUp extends Window {
         fieldResultsLayout.addComponent(excelFieldTable);
         excelFieldTable.setVisible(false);
         excelFieldTable.setContainerDataSource(excelFieldBean);
-        excelFieldTable.setVisibleColumns(CommonUIUtil.FIELD_LOOKUP_COLUMN);
-        excelFieldTable.setColumnHeaders(CommonUIUtil.FIELD_LOOKUP_HEADER);
+        excelFieldTable.setVisibleColumns(CommonUIUtil.getInstance().fieldLookupColumn);
+        excelFieldTable.setColumnHeaders(CommonUIUtil.getInstance().fieldLookupHeader);
 
     }
 
@@ -550,4 +550,5 @@ public final class TableFieldNameLookUp extends Window {
         List<TableFieldLookUpDTO> resultList = logic.getTableName(tableFieldLookUpDTO.getTableName(), 0, count, null, null);
         excelFieldBean.addAll(resultList);
     }
+        public static final String FIELD_NAME = "fieldName";
 }

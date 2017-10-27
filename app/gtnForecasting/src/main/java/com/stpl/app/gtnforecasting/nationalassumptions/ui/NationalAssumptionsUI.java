@@ -78,7 +78,7 @@ public class NationalAssumptionsUI extends UI {
 
                 parametersFromProjection = parameters[0].split(EQUAL.getConstant());
 
-                final HashMap<String, String> hmValue = new HashMap<String, String>();
+                final HashMap<String, String> hmValue = new HashMap<>();
                 hmValue.put(parametersFromProjection[0], parametersFromProjection[1]);
             }
             VaadinSession.getCurrent().setAttribute(USER_ID, userId);

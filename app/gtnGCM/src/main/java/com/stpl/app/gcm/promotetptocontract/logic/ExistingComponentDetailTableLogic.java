@@ -38,7 +38,7 @@ public class ExistingComponentDetailTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         newDiscountTabDto.setStartIndex(start);
         newDiscountTabDto.setEndIndex(offset);
-        List<ComponentInfoDTO> resultList = new ArrayList<ComponentInfoDTO>();
+        List<ComponentInfoDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.getItemsFromRs(newDiscountTabDto);
         } catch (Exception ex) {

@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 public class DPQueryUtils {
 
     public String updateCheckRecordQuery(SessionDTO session, String hierarchyNo, String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, String hierarchy) {
-        String ccpDetails = StringUtils.EMPTY;
-        String customSql = StringUtils.EMPTY;
+        String ccpDetails;
+        String customSql;
         final String userId = session.getUserId();
         final String sessionId = session.getSessionId();
         final int projectionId = session.getProjectionId();
@@ -34,7 +34,7 @@ public class DPQueryUtils {
             if (count.equals(DASH)) {
                 final String uncheckRecordSql = "UPDATE M SET CHECK_RECORD = 0"
                         + " From ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
-                        + " Where M.USER_ID = " + userId + " \n"
+                        + " Where M.USER_ID =  " + userId + " \n"
                         + " and M.SESSION_ID = " + sessionId + "\n"
                         + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
                         + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID ";
@@ -44,7 +44,7 @@ public class DPQueryUtils {
 
             customSql = "UPDATE M SET CHECK_RECORD = 1 FROM ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B, \n" + ccpDetails
                     + " WHERE M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID  "
-                    + " and M.USER_ID = " + userId + "\n"
+                    + "  and M.USER_ID = " + userId + "\n"
                     + " and M.SESSION_ID = " + sessionId + "\n"
                     + " AND B.PROJECTION_MASTER_SID='" + projectionId + "'  \n"
                     + " AND CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID ";
@@ -55,31 +55,31 @@ public class DPQueryUtils {
             customSql = "UPDATE M SET CHECK_RECORD = CASE WHEN M.PROJECTION_DETAILS_SID  \n"
                     + " in (SELECT M.PROJECTION_DETAILS_SID FROM ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B, \n" + ccpDetails
                     + " WHERE M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID  "
-                    + " and M.USER_ID = " + userId + "\n"
-                    + " and M.SESSION_ID = " + sessionId + "\n"
+                    + "  and M.USER_ID = " + userId + "\n"
+                    + " and M.SESSION_ID  = " + sessionId + "\n"
                     + " AND B.PROJECTION_MASTER_SID='" + projectionId + "'  \n"
                     + " AND CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID \n"
                     + " GROUP  BY  M.PROJECTION_DETAILS_SID) \n"
                     + " THEN 1 ELSE 0 END \n"
                     + " From ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
                     + " Where M.USER_ID = " + userId + " \n"
-                    + " and M.SESSION_ID = " + sessionId + "\n"
+                    + " and M.SESSION_ID =  " + sessionId + "\n"
                     + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
                     + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID ";
         }
         return customSql;
     }
 
-    public String massUpdateQuery(Date startDate, Date endDate, int startYear, int endYear,
-            String fieldValue, SessionDTO session, String selectedField, int freqCount) {
+    public String massUpdateQuery(Date startDate, Date endDate,
+            String fieldValue, SessionDTO session, String selectedField) {
         final String userId = session.getUserId();
         final String sessionId = session.getSessionId();
         final int projectionId = session.getProjectionId();
         final int discount = session.getDiscountTypeId();
-        String customSql = StringUtils.EMPTY;
+        String customSql;
         int count = Integer.parseInt(session.getTotalDiscountCount());
-        String fieldValuequery = StringUtils.EMPTY;
-        double val = 0.0;
+        String fieldValuequery;
+        double val;
         val = Double.valueOf(fieldValue);
         if ("Projected Rate".equals(selectedField)) {
             fieldValuequery = " \n UPDATE DPT SET DPT.DISCOUNT_RATE = ";
@@ -97,7 +97,7 @@ public class DPQueryUtils {
                 + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
                 + " AND M.CHECK_RECORD = 1 \n"
                 + " and M.USER_ID = " + userId + "\n"
-                + " and M.SESSION_ID = " + sessionId + "\n"
+                + "  and  M.SESSION_ID = " + sessionId + "\n"
                 + " and DP.USER_ID = " + userId + "\n"
                 + " and DP.SESSION_ID = " + sessionId + "\n"
                 + " AND DP.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
@@ -115,7 +115,7 @@ public class DPQueryUtils {
         return customSql;
     }
 
-    public String saveDiscountProjectionListView(Date startDate, int yearToSave, Date endDate, boolean isCustomHierarchy,
+    public String saveDiscountProjectionListView(Date startDate, Date endDate, boolean isCustomHierarchy,
             List<String> customViewDetails, String hierarchyIndicator, SessionDTO session, String hierarchyNo, String fieldValue, String selectedField) {
 
         final int discountName = session.getDiscountTypeId();
@@ -131,7 +131,7 @@ public class DPQueryUtils {
             hierarchy = "PROJECTION_PROD_HIERARCHY ";
         }
 
-        String ccpDetails = StringUtils.EMPTY;
+        String ccpDetails;
         if (isCustomHierarchy && customViewDetails != null && !customViewDetails.isEmpty()) {
             ccpDetails = getCustomCCPDetailsQuery(hierarchyIndicator, projectionId, customViewDetails, true, hierarchyNo);
         } else {
@@ -152,7 +152,7 @@ public class DPQueryUtils {
                 + " ST_CH_PROJECTION_DISCOUNT DP, RS_CONTRACT RS, \"PERIOD\" P, \n" + ccpDetails
                 + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
                 + " and M.USER_ID = " + userId + "\n"
-                + " and M.SESSION_ID = " + sessionId + "\n"
+                + " and  M.SESSION_ID = " + sessionId + "\n"
                 + " and DP.USER_ID = " + userId + "\n"
                 + " and DP.SESSION_ID = " + sessionId + "\n"
                 + " and DP.RS_CONTRACT_SID = M.RS_CONTRACT_SID \n"
@@ -329,11 +329,11 @@ public class DPQueryUtils {
 
         int check = checkClear ? 1 : 0;
         String query = "UPDATE M SET CHECK_RECORD = " + check
-                + " From ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
+                + " From  ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
                 + " Where M.USER_ID = " + userId + " \n"
-                + " and M.SESSION_ID = " + sessionId + "\n"
-                + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
-                + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID ";
+                + "  and M.SESSION_ID = " + sessionId + "\n"
+                + " AND  E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
+                + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID  ";
 
         return query;
     }

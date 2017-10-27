@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  *
- * @author 
+ * @author
  */
 public class DataSelectionView extends VerticalLayout implements View {
 

@@ -5,6 +5,7 @@
  */
 package com.stpl.app.contract.ui;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.contractheader.logic.ContractHeaderLogic;
 import com.stpl.app.contract.global.logic.NotesTabLogic;
 import com.stpl.app.contract.util.CHFunctionNameUtils;
@@ -90,8 +91,8 @@ public class NotesTabForm extends AbstractNotesTab {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
             getNotesTab();
             final StplSecurity stplSecurity = new StplSecurity();
-            final Map<String, AppPermission> fieldNotesTableHM = stplSecurity.getFieldOrColumnPermission(userId, moduleName + "," + "Notes", false);
-            List<Object> resultList = contractLogic.getFieldsForSecurity(moduleName, "Notes");
+            final Map<String, AppPermission> fieldNotesTableHM = stplSecurity.getFieldOrColumnPermission(userId, moduleName + "," + ConstantUtil.NOTES, false);
+            List<Object> resultList = contractLogic.getFieldsForSecurity(moduleName, ConstantUtil.NOTES);
             Object[] obj = new Object[]{"documentName", "dateAdded", "userName"};
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldNotesTableHM, "View".equals(mode) ? "view" : mode);
             table.setContainerDataSource(attachmentsListBean);
@@ -247,7 +248,7 @@ public class NotesTabForm extends AbstractNotesTab {
             AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-                   
+                   return;
                 }
 
                 @Override
@@ -274,7 +275,7 @@ public class NotesTabForm extends AbstractNotesTab {
         if (tableBeanId instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableBeanId;
         } else if (tableBeanId instanceof NotesDTO) {
-            targetItem = new BeanItem<NotesDTO>((NotesDTO) tableBeanId);
+            targetItem = new BeanItem<>((NotesDTO) tableBeanId);
         }
         tableBean = (NotesDTO) targetItem.getBean();
         if (event.isDoubleClick()) {
@@ -307,9 +308,9 @@ public class NotesTabForm extends AbstractNotesTab {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         try {
-            final Map<String, AppPermission> fieldContract = stplSecurity.getFieldOrColumnPermission(userId, moduleName + "," + "Notes", false);
-            final Map<String, AppPermission> functionNotesHM = stplSecurity.getBusinessFunctionPermission(userId, moduleName + "," + "Notes");
-            List<Object> resultList = contractLogic.getFieldsForSecurity(moduleName, "Notes");
+            final Map<String, AppPermission> fieldContract = stplSecurity.getFieldOrColumnPermission(userId, moduleName + "," + ConstantUtil.NOTES, false);
+            final Map<String, AppPermission> functionNotesHM = stplSecurity.getBusinessFunctionPermission(userId, moduleName + "," + ConstantUtil.NOTES);
+            List<Object> resultList = contractLogic.getFieldsForSecurity(moduleName, ConstantUtil.NOTES);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssHistoryNote, fieldContract, "View".equals(mode) ? "view" : mode);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssNewNote, fieldContract, "View".equals(mode) ? "view" : mode);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout1, fieldContract, "View".equals(mode) ? "view" : mode);

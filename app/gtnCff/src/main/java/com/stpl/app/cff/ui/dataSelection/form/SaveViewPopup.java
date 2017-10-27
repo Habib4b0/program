@@ -112,7 +112,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
         this.customerListEndSids = customerListEndSids;
         this.productListEndSids = productListEndSids;
         buildPopup();
-        LOGGER.debug("End of SaveViewPopup");
+        LOGGER.debug("End of SaveViewPopup"+dataSelectionBinder);
     }
 
     /**
@@ -352,8 +352,10 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
+        return;
     }
     @Override
     protected void btnResetTableLogic() {
+        return;
     }
 }

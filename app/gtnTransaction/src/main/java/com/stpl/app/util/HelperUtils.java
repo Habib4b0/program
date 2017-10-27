@@ -106,7 +106,7 @@ public final class HelperUtils {
 	 */
 	public static List<String> getStatus() {
 		LOGGER.debug("Entering getStatus");
-		final List<String> status = new ArrayList<String>();
+		final List<String> status = new ArrayList<>();
 		try {
 			status.add("Active");
 			status.add("Inactive");
@@ -124,14 +124,14 @@ public final class HelperUtils {
 	 */
 	public static List<String> getMfpPopulateList() {
 		LOGGER.debug("Entering getMfpPopulateList");
-		final List<String> status = new ArrayList<String>();
+		final List<String> status = new ArrayList<>();
 		try {
 			status.add(START_DATE);
 			status.add(END_DATE);
 			status.add("TradeClass StartDate");
 			status.add("TradeClass EndDate");
 			status.add("Status");
-			status.add("Attached Status");
+			status.add(ConstantUtil.ATTACHED_STATUS);
 			status.add("Attached EndDate");
 			LOGGER.debug("Ends getMfpPopulateList with status size  :::: " + status.size());
 		} catch (Exception e) {
@@ -147,7 +147,7 @@ public final class HelperUtils {
 	 */
 	public static List<String> getIfpPopulateList() {
 		LOGGER.debug("Entering getIfpPopulateList");
-		final List<String> status = new ArrayList<String>();
+		final List<String> status = new ArrayList<>();
 		try {
 			status.add(START_DATE);
 			status.add(END_DATE);
@@ -168,7 +168,7 @@ public final class HelperUtils {
 	 */
 	public static List<String> getCfpPopulateList() {
 		LOGGER.debug("Entering getCfpPopulateList");
-		final List<String> status = new ArrayList<String>();
+		final List<String> status = new ArrayList<>();
 		try {
 			status.add(START_DATE);
 			status.add(END_DATE);
@@ -189,7 +189,7 @@ public final class HelperUtils {
 	 */
 	public static List<String> getPsPopulateList() {
 		LOGGER.debug("Entering getPsPopulateList");
-		final List<String> status = new ArrayList<String>();
+		final List<String> status = new ArrayList<>();
 		try {
 			status.add(START_DATE);
 			status.add(END_DATE);
@@ -208,7 +208,7 @@ public final class HelperUtils {
 	 */
 	public static List<String> geRsPopulateList() {
 		LOGGER.debug("Entering geRsPopulateList");
-		final List<String> status = new ArrayList<String>();
+		final List<String> status = new ArrayList<>();
 		try {
 			status.add("Rebate Plan Name");
 			status.add("Rebate Amount");

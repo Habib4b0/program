@@ -154,8 +154,10 @@ public interface ItemLogic {
 	 */
 	public String saveItemMaster(final ErrorfulFieldGroup itemMasterForm,
 			final List<ItemIrtIdentifierDTO> identifierList,
-			final List<ItemPricingDTO> priceList,List<NotesDTO> availableUploadedInformation, final String addedNotes, List<NotesDTO> removedDetailsList,final SessionDTO sessionDTO,final List<ItemPricingDTO> removedItemPriceList) throws SystemException,
-			PortalException;
+			final List<ItemPricingDTO> priceList,List<NotesDTO> availableUploadedInformation, 
+                        final String addedNotes, List<NotesDTO> removedDetailsList,
+                        final SessionDTO sessionDTO, final List<ItemPricingDTO> removedItemPriceList, 
+                        List<List> udcList) throws SystemException,PortalException;
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -173,8 +175,7 @@ public interface ItemLogic {
 	public void saveIdentifiersList(
 			final List<ItemIrtIdentifierDTO> identifierList,
 			final List<ItemPricingDTO> priceList, final ItemMaster result,final List<ItemPricingDTO> removedItemPriceList)
-			throws SystemException, NoSuchItemPricingQualifierException,
-			NoSuchItemQualifierException,PortalException;
+			throws SystemException, PortalException;
 
 	/** 
 	 * <!-- begin-UML-doc -->

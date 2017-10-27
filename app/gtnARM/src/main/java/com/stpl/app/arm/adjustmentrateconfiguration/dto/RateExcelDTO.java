@@ -26,7 +26,7 @@ public class RateExcelDTO extends ExtMapDTO implements Comparator<RateExcelDTO> 
     private String ratePeriod = StringUtils.EMPTY;
     private String month = StringUtils.EMPTY;
     private String dateType = StringUtils.EMPTY;
-    private Boolean checkRecord = false;
+    private Boolean checkRecord;
     private String inventoryDetails = StringUtils.EMPTY;
     private String adjustmentPrice = StringUtils.EMPTY;
     private String baseLinePrice = StringUtils.EMPTY;
@@ -57,7 +57,7 @@ public class RateExcelDTO extends ExtMapDTO implements Comparator<RateExcelDTO> 
         this.inventoryDetails = inventoryDetails;
     }
 
-    public RateExcelDTO(Integer rateConfigDetailsSid, String month, String adjustmentPrice, String baseLinePrice, String price, 
+    public RateExcelDTO(Integer rateConfigDetailsSid, String month, String adjustmentPrice, String baseLinePrice, String price,
             String dateType, String rateBasis, String rateFrequency, String ratePeriod, String inventoryDetails, String exclusionDetails) {
         this.rateConfigDetailsSid = rateConfigDetailsSid;
         this.month = month;

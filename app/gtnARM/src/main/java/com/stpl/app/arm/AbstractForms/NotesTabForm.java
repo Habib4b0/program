@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.arm.AbstractForms;
+package com.stpl.app.arm.abstractforms;
 
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.supercode.DefaultFocusable;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.FileUploader;
 import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -59,15 +60,14 @@ import org.jboss.logging.Logger;
 
 /**
  *
- * @author Porchelvi.Gunasekara
+ * @author Porchelvi.G
  */
-public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
+public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(NotesTabForm.class);
     private String masterTableSid;
     private final CustomFieldGroup binder;
-    private final String moduleName;
     private String adjustmentType;
     String userId;
     private String userName = "";
@@ -79,19 +79,19 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
     public static final String SPECIAL_CHAR = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
     private List<String> notesList = new ArrayList<>();
     private final SessionDTO sessionDTO;
-    public static final Map<Integer, String> userMap = new ConcurrentHashMap<Integer, String>();
+    protected static final Map<Integer, String> userMap = new ConcurrentHashMap<>();
     NotesDTO binderDto = new NotesDTO();
-    public ErrorfulFieldGroup notesBinder = new ErrorfulFieldGroup(new BeanItem<NotesDTO>(binderDto));
+    public ErrorfulFieldGroup notesBinder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     public ErrorLabel errorMsg = new ErrorLabel();
-    public NotesTabForm(FieldGroup binder, String moduleName, SessionDTO sessionDTO,String adjustmentType) throws SystemException {
+
+    public NotesTabForm(FieldGroup binder, String moduleName, SessionDTO sessionDTO, String adjustmentType) throws SystemException {
         super(binder, moduleName);
         getNotesBinder();
         configureField();
         this.masterTableSid = masterTableSid;
         this.binder = (CustomFieldGroup) binder;
-        this.moduleName = moduleName;
         this.sessionDTO = sessionDTO;
-        this.adjustmentType=adjustmentType;
+        this.adjustmentType = adjustmentType;
         userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         getUserName();
         userName = userMap.get(Integer.valueOf(userId));
@@ -101,7 +101,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
         table.setVisibleColumns(obj);
         table.setColumnHeaders(objHeaders);
         configureGeneratedColumn();
-        if(!this.adjustmentType.isEmpty()){
+        if (!this.adjustmentType.isEmpty()) {
             addReasonCodeDdlb();
         }
         if (ARMUtils.VIEW_SMALL.equals(this.sessionDTO.getAction())) {
@@ -115,7 +115,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
     }
 
     private void configureField() {
-        vlayout.addComponent(errorMsg,0);
+        vlayout.addComponent(errorMsg, 0);
         newNote.setMaxLength(NumericConstants.TWO_HUNDRED);
         newNote.addValidator(new StringLengthValidator(" New Note Should be less than 200 characters", 0, NumericConstants.TWO_HUNDRED, true));
         newNote.addValidator(new RegexpValidator("([0-9|a-z|A-Z|\\s])*", "Special characters are not allowed"));
@@ -133,7 +133,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
 
     @Override
     public void intailizingObject() {
-        uploadReceiver = (Upload.Receiver) new FileUploader(basepath, moduleName);
+        uploadReceiver =  new FileUploader(basepath, moduleName);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
         filePath = new File(basepath + File.separator + "Documents" + File.separator + moduleName);
         wordFile = new File(filePath + File.separator + fileName + ExportWord.DOC_EXT);
@@ -142,11 +142,11 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
     }
 
     @Override
-    public void addEnteredNotes(Button.ClickEvent event, final AbstractNotificationUtils.Parameter flag) {      
-            if ("0".equalsIgnoreCase(String.valueOf(reasonCode.getValue())) || "null".equalsIgnoreCase(String.valueOf(reasonCode.getValue())) || GlobalConstants.getSelectOne().equalsIgnoreCase(String.valueOf(reasonCode.getValue()))) {
-                AbstractNotificationUtils.getInfoNotification("Choose a Reason Code", "Please choose a reason code", flag);
-                return;
-            }
+    public void addEnteredNotes(Button.ClickEvent event, final AbstractNotificationUtils.Parameter flag) {
+        if ("0".equalsIgnoreCase(String.valueOf(reasonCode.getValue())) || "null".equalsIgnoreCase(String.valueOf(reasonCode.getValue())) || GlobalConstants.getSelectOne().equalsIgnoreCase(String.valueOf(reasonCode.getValue()))) {
+            AbstractNotificationUtils.getInfoNotification("Choose a Reason Code", "Please choose a reason code", flag);
+            return;
+        }
         if (StringUtils.EMPTY.equals(String.valueOf(newNote.getValue()).trim()) || "null".equals(String.valueOf(newNote.getValue()))) {
             AbstractNotificationUtils.getInfoNotification("Enter New Note", "Please enter a new note", flag);
             newNote.focus();
@@ -155,33 +155,33 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
             try {
                 notesBinder.getErrorDisplay().clearError();
                 notesBinder.commit();
-            new AbstractNotificationUtils() {
-                @Override
-                public void noMethod() {
-                    flag.setOk(false);
-                }
+                new AbstractNotificationUtils() {
+                    @Override
+                    public void noMethod() {
+                        flag.setOk(false);
+                    }
 
-                @Override
-                public void yesMethod() {
-                    SimpleDateFormat format = new SimpleDateFormat("HH/mm/ss");
-                    SimpleDateFormat format1 = new SimpleDateFormat(" MM/dd/yyyy");
-                    TimeZone central = TimeZone.getTimeZone("CST");
-                    format.setTimeZone(central);
-                    userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID));
-                    CommonUtils.getUserName();
-                    notesList.add("<" + format.format(new Date()) + ">" + CommonUtils.getUserNameById(userId) + " :" + newNote.getValue());
-                    String addedNotes = internalNotes.getValue() + "<" + CommonUtils.getUserNameById(userId) + "> " + " <" + format.format(new Date()) + "> " + " <" + format1.format(new Date()) + ">" + ":" + String.valueOf(newNote.getValue()) + "\n";
-                    internalNotes.setReadOnly(false);
-                    internalNotes.setValue(addedNotes);
-                    newNote.setValue(StringUtils.EMPTY);
-                    internalNotes.setReadOnly(true);
-                    documentExporter();
-                    flag.setOk(false);
-                }
-            }.getConfirmationMessage("New note confirmation", "Are you sure you want to add this note?");
+                    @Override
+                    public void yesMethod() {
+                        SimpleDateFormat format = new SimpleDateFormat("HH/mm/ss");
+                        SimpleDateFormat format1 = new SimpleDateFormat(" MM/dd/yyyy");
+                        TimeZone central = TimeZone.getTimeZone("CST");
+                        format.setTimeZone(central);
+                        userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID));
+                        CommonUtils.getUserName();
+                        notesList.add("<" + format.format(new Date()) + ">" + CommonUtils.getUserNameById(userId) + " :" + newNote.getValue());
+                        String addedNotes = internalNotes.getValue() + "<" + CommonUtils.getUserNameById(userId) + "> " + " <" + format.format(new Date()) + "> " + " <" + format1.format(new Date()) + ">" + ":" + String.valueOf(newNote.getValue()) + "\n";
+                        internalNotes.setReadOnly(false);
+                        internalNotes.setValue(addedNotes);
+                        newNote.setValue(StringUtils.EMPTY);
+                        internalNotes.setReadOnly(true);
+                        documentExporter();
+                        flag.setOk(false);
+                    }
+                }.getConfirmationMessage("New note confirmation", "Are you sure you want to add this note?");
             } catch (FieldGroup.CommitException ex) {
-                LOGGER.error(ex);
-                flag.setOk(Boolean.FALSE);
+                LOGGER.error("Error in addEnteredNotes :"+ex);
+                flag.setOk(false);
                 return;
             }
 
@@ -211,7 +211,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
                 attachmentDTO.setDateAdded(format.format(new Date()));
                 attachmentDTO.setUserId(Integer.valueOf(userId));
                 attachmentDTO.setUserName(CommonUtils.getUserNameById(userId));
-                attachmentDTO.setDocumentFullPath(fileUploadPath + sb.toString());
+                attachmentDTO.setDocumentFullPath(fileUploadPath + name);
                 attachmentsListBean.addBean(attachmentDTO);
                 fileNameField.setValue(StringUtils.EMPTY);
                 uploader.setValue(StringUtils.EMPTY);
@@ -220,7 +220,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
                 uploader.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in uploadComponentSucceededLogic :"+ex);
         }
 
     }
@@ -253,26 +253,27 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
                 uploader.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in uploadComponentStartedLogic :"+ex);
         }
 
     }
 
     @Override
     public void removeButtonLogic(Button.ClickEvent event) {
-        String CurrentUserName = tableBean.getUserName();
-        if (CurrentUserName.contains(",")) {
-            String[] str = CurrentUserName.split(",");
-            CurrentUserName = str[1] + " " + str[0];
+        String currentUserName = tableBean.getUserName();
+        if (currentUserName.contains(",")) {
+            String[] str = currentUserName.split(",");
+            currentUserName = str[1] + " " + str[0];
         }
         if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
-            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "Please select an attachment to remove ");
-        } else if (!CurrentUserName.trim().equalsIgnoreCase(userName.trim())) {
-            AbstractNotificationUtils.getInfoNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
+        } else if (!currentUserName.trim().equalsIgnoreCase(userName.trim())) {
+            AbstractNotificationUtils.getInfoNotification(CommonConstant.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
         } else {
             AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("Inside the removeButtonLogic Listener NO Method");
                 }
 
                 @Override
@@ -286,7 +287,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
                     tableBean = null;
                 }
             };
-            notification.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
+            notification.getConfirmationMessage(CommonConstant.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");
 
         }
     }
@@ -311,7 +312,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
     @Override
     public void refreshTable() {
         try {
-            String masterTableSidValue = StringUtils.EMPTY;
+            String masterTableSidValue;
             binder.commit();
             if ("Compliance Deduction Rules".equals(this.moduleName)) {
                 masterTableSidValue = masterTableSid;
@@ -321,10 +322,9 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
             LOGGER.debug("masterTableSid :" + masterTableSid);
             LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
             int systemId = Integer.valueOf(masterTableSidValue.replace(",", StringUtils.EMPTY));
-            if (systemId != 0) {
-            }
+            LOGGER.debug(systemId);
         } catch (FieldGroup.CommitException e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in refreshTable :"+e);
         }
     }
 
@@ -350,13 +350,12 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
         reasoncodeLayout.addComponentAsFirst(lay);
     }
 
-
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
-           LOGGER.error(ex);
+            LOGGER.error("Error in getFieldsForSecurity :"+ex);
         }
         return resultList;
     }
@@ -374,7 +373,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
             CommonUtils.getUserName();
             userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ARMUtils.USER_ID));
             List<String> addNotesList = getNotesList();
-              if (!addNotesList.isEmpty()) {
+            if (!addNotesList.isEmpty()) {
                 CommonLogic.saveNotes(projectionIdValue, userId, addNotesList, moduleName, String.valueOf(reasonCode.getValue()));
                 notesList.clear();
                 CommonLogic.saveUploadedFile(projectionIdValue, getUploadedData(), CommonUtils.getUserNameById(userId), 0, moduleName);
@@ -383,7 +382,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
                 removedAttachments.clear();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in saveNotesInformation :"+ex);
         }
     }
 
@@ -399,7 +398,7 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
 
     public void setNotesInformation(List<NotesDTO> notesDTO) {
         internalNotes.setReadOnly(false);
-        if (notesDTO.size() != 0) {
+        if (!notesDTO.isEmpty()) {
             internalNotes.setValue(notesDTO.get(0).getNotesHistory());
             attachmentsListBean.addAll(notesDTO);
             reasonCode.select(notesDTO.get(0).getReasonCode());
@@ -442,8 +441,9 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable{
             userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
         }
     }
-     @Override
-    public  Focusable getDefaultFocusComponent(){
+
+    @Override
+    public Focusable getDefaultFocusComponent() {
         return newNote;
-}
+    }
 }

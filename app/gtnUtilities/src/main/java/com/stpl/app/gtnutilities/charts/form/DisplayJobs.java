@@ -160,7 +160,7 @@ public class DisplayJobs extends CustomComponent implements View {
         }
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter)  {
         String value = null;
         try {
             List resultList = searchLogic.fetchDataFromDBForJOb(getInputArray(), start, end, false, tableLogic.getFilters(), null, true);
@@ -186,6 +186,7 @@ public class DisplayJobs extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     private Object[] getInputArray() {

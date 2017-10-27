@@ -70,11 +70,10 @@ public class RsLookUp extends Window {
     @UiField("rsCategory")
     public ComboBox rsCategory;    
     CommonUtil commonUtil=CommonUtil.getInstance();
-    UiUtils UIUtils=new UiUtils();
     
     LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<LookupDTO>(LookupDTO.class);
+    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private CustomFieldGroup binder;
     private CustomTextField parentRsName;
 
@@ -83,8 +82,8 @@ public class RsLookUp extends Window {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/rs.xml"), this));
         this.parentRsName = parentRsName;
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);      
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);      
         setClosable(true);
         setModal(true);
         getBinder();
@@ -103,8 +102,8 @@ public class RsLookUp extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setSelectable(true);
         resultsTable.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(Constants.RS_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(Constants.RS_SEARCH_HEADERS);
+        resultsTable.setVisibleColumns(Constants.getInstance().rsSearchColumns);
+        resultsTable.setColumnHeaders(Constants.getInstance().rsSearchHeaders);
         resultsTable.setColumnAlignment(Constants.RS_START_DATE, ExtCustomTable.Align.CENTER);
         resultsTable.setColumnAlignment(Constants.RS_END_DATE, ExtCustomTable.Align.CENTER);
         resultsTable.setConverter(Constants.RS_START_DATE, new DateToStringConverter());
@@ -113,7 +112,7 @@ public class RsLookUp extends Window {
         for (Object propertyId : resultsTable.getVisibleColumns()) {
             resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_TWO_ZERO);
         }
-        Object[] objColumn = Constants.RS_SEARCH_COLUMNS;
+        Object[] objColumn = Constants.getInstance().rsSearchColumns;
         for (Object objColumn1 : objColumn) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
@@ -143,39 +142,39 @@ public class RsLookUp extends Window {
                 if (propertyId.equals("rsType")) {
                     CustomComboBox rsType = new CustomComboBox();
                     rsType.setImmediate(true);
-                    commonUtil.loadComboBox(rsType, UIUtils.RS_TYPE, true);
+                    commonUtil.loadComboBox(rsType, UiUtils.RS_TYPE, true);
                     return rsType;
                 }
                 if (propertyId.equals("rsCategory")) {
                     CustomComboBox rsCategory = new CustomComboBox();
                     rsCategory.setImmediate(true);
                     
-                        commonUtil.loadComboBox(rsCategory, UIUtils.RS_CATEGORY, true);
+                        commonUtil.loadComboBox(rsCategory, UiUtils.RS_CATEGORY, true);
                    
                     return rsCategory;
                 }
                 if (propertyId.equals("rsTradeClass")) {
                     CustomComboBox rsTradeClass = new CustomComboBox();
                     rsTradeClass.setImmediate(true);
-                     commonUtil.loadComboBox(rsTradeClass, UIUtils.RS_TRADE_CLASS, true);
+                     commonUtil.loadComboBox(rsTradeClass, UiUtils.RS_TRADE_CLASS, true);
                     return rsTradeClass;
                 }
                 if (propertyId.equals("rsDesignation")) {
                     CustomComboBox rsDesignation = new CustomComboBox();
                     rsDesignation.setImmediate(true);
-                      commonUtil.loadComboBox(rsDesignation, UIUtils.RS_DESIGNATION, true);
+                      commonUtil.loadComboBox(rsDesignation, UiUtils.RS_DESIGNATION, true);
                     return rsDesignation;
                 }
                 if (propertyId.equals("rsStatus")) {
                     CustomComboBox rsStatus = new CustomComboBox();
                     rsStatus.setImmediate(true);
-                    commonUtil.loadComboBox(rsStatus, UIUtils.STATUS, true);
+                    commonUtil.loadComboBox(rsStatus, UiUtils.STATUS, true);
                     return rsStatus;
                 }
                 if (propertyId.equals("rebateProgramType")) {
                     CustomComboBox rebateProgramType = new CustomComboBox();
                     rebateProgramType.setImmediate(true);
-                     commonUtil.loadComboBox(rebateProgramType, UIUtils.REBATE_PROGRAM_TYPE, true);
+                     commonUtil.loadComboBox(rebateProgramType, UiUtils.REBATE_PROGRAM_TYPE, true);
                     return rebateProgramType;
                 }
                  } catch (Exception ex) {
@@ -185,9 +184,11 @@ public class RsLookUp extends Window {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -197,20 +198,20 @@ public class RsLookUp extends Window {
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.addStyleName("filterbar");
 
-        BeanItemContainer<HelperDTO> temp = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList(Constants.STATUS, Constants.HELPER_DTO));
         rsStatus.setContainerDataSource(temp);
         rsStatus.setNullSelectionItemId(Constants.HELPER_DTO);
         rsStatus.setNullSelectionAllowed(true);
         rsStatus.setValue(Constants.HELPER_DTO);
-        rsStatus.setItemCaptionPropertyId("description");
+        rsStatus.setItemCaptionPropertyId(Constants.DESCRIPTION);
         rsType.setImmediate(true);
-        temp = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList("RS_TYPE", Constants.HELPER_DTO));
         rsType.setContainerDataSource(temp);
         rsType.setNullSelectionItemId(Constants.HELPER_DTO);
         rsType.setValue(Constants.HELPER_DTO);
-        rsType.setItemCaptionPropertyId("description");
+        rsType.setItemCaptionPropertyId(Constants.DESCRIPTION);
         rsStartDate.setImmediate(true);
         rsStartDate.setDateFormat(Constants.DATE_FORMAT);
         rsStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
@@ -218,14 +219,14 @@ public class RsLookUp extends Window {
         rsEndDate.setDateFormat(Constants.DATE_FORMAT);
         rsEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
         rebateProgramType.setImmediate(true);
-        temp = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList("REBATE_PROGRAM_TYPE", Constants.HELPER_DTO));
         rebateProgramType.setContainerDataSource(temp);
         rebateProgramType.setNullSelectionItemId(Constants.HELPER_DTO);
         rebateProgramType.setValue(Constants.HELPER_DTO);
-        rebateProgramType.setItemCaptionPropertyId("description");
+        rebateProgramType.setItemCaptionPropertyId(Constants.DESCRIPTION);
         try {
-            commonUtil.loadComboBoxForGCM(rsCategory, UIUtils.RS_CATEGORY, false);
+            commonUtil.loadComboBoxForGCM(rsCategory, UiUtils.RS_CATEGORY, false);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -233,7 +234,7 @@ public class RsLookUp extends Window {
     }
 
     private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<LookupDTO>(new LookupDTO()));
+        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;
@@ -281,7 +282,7 @@ public class RsLookUp extends Window {
 
             public void yesMethod() {
                 resultsTable.resetFilters();
-                binder.setItemDataSource(new BeanItem<LookupDTO>(new LookupDTO()));
+                binder.setItemDataSource(new BeanItem<>(new LookupDTO()));
 
             }
 

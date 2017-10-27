@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.itemabstract.queryutils;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.copycontract.dao.ContractHeaderDAO;
@@ -46,15 +47,40 @@ public class ItemQueries {
     private static final Logger LOGGER = Logger.getLogger(ItemQueries.class);
     final static CommonDao ITEMDAO = CommonImpl.getInstance();
     final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-
+    
+    public static final String COMPANY_STATUS = "companyStatus";
+    public static final String TRADE_CLASS_PROPERTY = "tradeClass";
+    public static final String START_DATEFROM = "startDatefrom";
+    public static final String START_DATETO = "startDateto";
+    public static final String END_DATEFROM = "endDatefrom";
+    public static final String END_DATETO = "endDateto";
+    public static final String ATTACHED_DATETO = "attachedDateto";
+    
+    public static final String STATUS_DESCRIPTION = "statusDescription";
+    public static final String CONTRACT_TYPE = "contractType";
+    
     public static List getGroupList() {
         return new ArrayList();
     }
-
+    
+    public static final String MAX_INCREMENTAL_CHANGE = "maxIncrementalChange";
+    public static final String ATTACHED_DATEFROM = "attachedDatefrom";
+    public static final String COMP_END_DATETO = "compEndDateto";
+    public static final String COMP_END_DATEFROM = "compEndDatefrom";
+    public static final String COMP_START_DATETO = "compStartDateto";
+    public static final String COMP_START_DATEFROM = "compStartDatefrom";
+    public static final String RS_NAME = "rSName";
+    public static final String PS_NAME = "pSName";
+    public static final String CONT_END_DATETO = "contEndDateto";
+    public static final String CONT_END_DATEFROM = "contEndDatefrom";
+    public static final String CONT_START_DATETO = "contStartDateto";
+    public static final String CONT_START_DATEFROM = "contStartDatefrom";
+    public static final String SPACE_AND = " AND ";
+    
     public static List getItemData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(CustomSQLUtil.get(queryName));
@@ -147,7 +173,7 @@ public class ItemQueries {
         return false;
     }
 
-    private static String getQuery(StringBuilder query, Object myDTO) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    private static String getQuery(StringBuilder query, Object myDTO) throws NoSuchFieldException,  IllegalAccessException {
         while (true) {
             int index = query.indexOf("${");
             if (index != -1) {
@@ -161,7 +187,7 @@ public class ItemQueries {
         return query.toString();
     }
 
-    private static Object getFieldValue(Object myDTO, String variable) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    private static Object getFieldValue(Object myDTO, String variable) throws NoSuchFieldException,  IllegalAccessException {
         Field field = myDTO.getClass().getDeclaredField(variable);
         field.setAccessible(true);
         Object value = field.get(myDTO);
@@ -171,7 +197,7 @@ public class ItemQueries {
     public static List getItemData(List input, String queryName, String quaryName2, Set<Container.Filter> filters) {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
 
             try {
@@ -223,7 +249,7 @@ public class ItemQueries {
 
     private static StringBuilder getCFPFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
@@ -246,39 +272,39 @@ public class ItemQueries {
 
                 }
             }
-            if (parameters.get("companyNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("companyNo")))) {
-                query.append(" AND CM.COMPANY_NO LIKE '%").append(String.valueOf(parameters.get("companyNo"))).append("%'");
+            if (parameters.get(Constants.COMPANY_NO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.COMPANY_NO)))) {
+                query.append(" AND CM.COMPANY_NO LIKE '%").append(String.valueOf(parameters.get(Constants.COMPANY_NO))).append("%'");
             }
-            if (parameters.get("companyName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("companyStatus")))) {
-                String companyName = parameters.get("companyName").toString();
+            if (parameters.get(Constants.COMPANY_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(COMPANY_STATUS)))) {
+                String companyName = parameters.get(Constants.COMPANY_NAME).toString();
                 query.append(" AND CM.COMPANY_NAME like '%").append(companyName).append("%' ");
             }
-            if (parameters.get("companyStatus") != null && !String.valueOf(parameters.get("companyStatus")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_CS.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("companyStatus"))).append(StringUtils.EMPTY);
+            if (parameters.get(COMPANY_STATUS) != null && !String.valueOf(parameters.get(COMPANY_STATUS)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_CS.DESCRIPTION = '").append(String.valueOf(parameters.get(COMPANY_STATUS))).append("'");
             }
-            if (parameters.get("status") != null && !String.valueOf(parameters.get("status")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("status"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.STATUS_S) != null && !String.valueOf(parameters.get(Constants.STATUS_S)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND  HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append("'");
             }
-            if (parameters.get("tradeClass") != null && !String.valueOf(parameters.get("tradeClass")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_CFP.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("tradeClass"))).append(StringUtils.EMPTY);
+            if (parameters.get(TRADE_CLASS_PROPERTY) != null && !String.valueOf(parameters.get(TRADE_CLASS_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_CFP.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(TRADE_CLASS_PROPERTY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDatefrom")))) {
-                query.append(" AND CFP.CFP_START_DATE >='").append(String.valueOf(parameters.get("startDatefrom"))).append("'");
+            if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
+                query.append(" AND CFP.CFP_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append("'");
             }
-            if (parameters.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDateto")))) {
-                query.append(" AND CFP.CFP_START_DATE <='").append(String.valueOf(parameters.get("startDateto"))).append("'");
+            if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
+                query.append(" AND CFP.CFP_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append("'");
             }
-            if (parameters.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDatefrom")))) {
-                query.append(" AND CFP.CFP_END_DATE >='").append(String.valueOf(parameters.get("endDatefrom"))).append("'");
+            if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
+                query.append(" AND CFP.CFP_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append("'");
             }
-            if (parameters.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDateto")))) {
-                query.append(" AND CFP.CFP_END_DATE <='").append(String.valueOf(parameters.get("endDateto"))).append("'");
+            if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
+                query.append(" AND CFP.CFP_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append("'");
             }
-            if (parameters.get("attachedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDatefrom")))) {
-                query.append(" AND CFP.CFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get("attachedDatefrom"))).append("'");
+            if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
+                query.append(" AND CFP.CFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("'");
             }
-            if (parameters.get("attachedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDateto")))) {
-                query.append(" AND CFP.CFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get("attachedDateto"))).append("'");
+            if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
+                query.append(" AND CFP.CFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
             }
         }
         return query;
@@ -286,7 +312,7 @@ public class ItemQueries {
 
     private static StringBuilder getIFPFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
@@ -310,36 +336,36 @@ public class ItemQueries {
 
                 }
             }
-            if (parameters.get("itemNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemNo")))) {
-                query.append(" AND IM.ITEM_NO LIKE '%").append(String.valueOf(parameters.get("itemNo"))).append("%'");
+            if (parameters.get(Constants.ITEM_NO_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NO_PROPERTY)))) {
+                query.append(" AND IM.ITEM_NO  LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NO_PROPERTY))).append("%'");
             }
-            if (parameters.get("itemName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("itemName")))) {
-                String companyName = parameters.get("itemName").toString();
-                query.append(" AND IM.ITEM_NAME like '%").append(companyName).append("%' ");
+            if (parameters.get(Constants.ITEM_NAME_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.ITEM_NAME_PROPERTY)))) {
+                String companyName = parameters.get(Constants.ITEM_NAME_PROPERTY).toString();
+                query.append(" AND IM.ITEM_NAME  like '%").append(companyName).append("%' ");
             }
-            if (parameters.get("brand") != null && !StringUtils.isBlank(String.valueOf(parameters.get("brand")))) {
-                query.append(" AND B.BRAND_NAME like '%").append(String.valueOf(parameters.get("brand"))).append("%'");
+            if (parameters.get(Constants.BRAND_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.BRAND_PROPERTY)))) {
+                query.append(" AND  B.BRAND_NAME like '%").append(String.valueOf(parameters.get(Constants.BRAND_PROPERTY))).append("%'");
             }
-            if (parameters.get("status") != null && !String.valueOf(parameters.get("status")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("status"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.STATUS_S) != null && !String.valueOf(parameters.get(Constants.STATUS_S)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND  HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append("'");
             }
-            if (parameters.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDatefrom")))) {
-                query.append(" AND IFP.IFP_START_DATE >='").append(String.valueOf(parameters.get("startDatefrom"))).append("'");
+            if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
+                query.append(" AND IFP.IFP_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append("'");
             }
-            if (parameters.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDateto")))) {
-                query.append(" AND IFP.IFP_START_DATE <='").append(String.valueOf(parameters.get("startDateto"))).append("'");
+            if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
+                query.append(" AND IFP.IFP_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append("'");
             }
-            if (parameters.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDatefrom")))) {
-                query.append(" AND IFP.IFP_END_DATE >='").append(String.valueOf(parameters.get("endDatefrom"))).append("'");
+            if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
+                query.append(" AND IFP.IFP_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append("'");
             }
-            if (parameters.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDateto")))) {
-                query.append(" AND IFP.IFP_END_DATE <='").append(String.valueOf(parameters.get("endDateto"))).append("'");
+            if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
+                query.append(" AND IFP.IFP_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append("'");
             }
-            if (parameters.get("attachedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDatefrom")))) {
-                query.append(" AND IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get("attachedDatefrom"))).append("'");
+            if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
+                query.append(" AND IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("'");
             }
-            if (parameters.get("attachedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDateto")))) {
-                query.append(" AND IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get("attachedDateto"))).append("'");
+            if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
+                query.append(" AND IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
             }
         }
         return query;
@@ -347,7 +373,7 @@ public class ItemQueries {
 
     private static StringBuilder getPSFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
@@ -359,117 +385,117 @@ public class ItemQueries {
                     Compare stringFilter = (Compare) filter;
                     String filterValue = String.valueOf(stringFilter.getValue());
                     parameters.put(stringFilter.getPropertyId().toString(), filterValue);
-                    if ("priceType".equals(stringFilter.getPropertyId())) {
-                        parameters.put("priceType", filterValue);
+                    if (Constants.PRICE_TYPE_PROPERTY.equals(stringFilter.getPropertyId())) {
+                        parameters.put(Constants.PRICE_TYPE_PROPERTY, filterValue);
                     }
-                    if ("priceProtectionPriceType".equals(stringFilter.getPropertyId())) {
-                        parameters.put("priceProtectionPriceType", filterValue);
+                    if (Constants.PRICE_PROTECTION_PRICE_TYPE_PROPERTY.equals(stringFilter.getPropertyId())) {
+                        parameters.put(Constants.PRICE_PROTECTION_PRICE_TYPE_PROPERTY, filterValue);
                     }
-                    if ("priceToleranceInterval".equals(stringFilter.getPropertyId())) {
-                        parameters.put("priceToleranceInterval", filterValue);
+                    if (Constants.PRICE_TOLERANCE_INTERVAL.equals(stringFilter.getPropertyId())) {
+                        parameters.put(Constants.PRICE_TOLERANCE_INTERVAL, filterValue);
                     }
-                    if ("priceToleranceFrequency".equals(stringFilter.getPropertyId())) {
-                        parameters.put("priceToleranceFrequency", filterValue);
+                    if (StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY.equals(stringFilter.getPropertyId())) {
+                        parameters.put(StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY, filterValue);
                     }
-                    if ("priceToleranceType".equals(stringFilter.getPropertyId())) {
-                        parameters.put("priceToleranceType", filterValue);
+                    if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(stringFilter.getPropertyId())) {
+                        parameters.put(Constants.PRICE_TOLERANCE_TYPE_PROPERTY, filterValue);
                     }
-                    if ("resetType".equals(stringFilter.getPropertyId())) {
-                        parameters.put("resetType", filterValue);
+                    if (Constants.RESET_TYPE_PROPERTY.equals(stringFilter.getPropertyId())) {
+                        parameters.put(Constants.RESET_TYPE_PROPERTY, filterValue);
                     }
-                    if ("resetInterval".equals(stringFilter.getPropertyId())) {
-                        parameters.put("resetInterval", filterValue);
+                    if (Constants.RESET_INTERVAL_PROPERTY.equals(stringFilter.getPropertyId())) {
+                        parameters.put(Constants.RESET_INTERVAL_PROPERTY, filterValue);
                     }
-                    if ("resetFrequency".equals(stringFilter.getPropertyId())) {
-                        parameters.put("resetFrequency", filterValue);
+                    if (StringConstantsUtil.RESET_FREQUENCY.equals(stringFilter.getPropertyId())) {
+                        parameters.put(StringConstantsUtil.RESET_FREQUENCY, filterValue);
                     }
 
                 } 
             }
 
-            if (parameters.get("itemNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemNo")))) {
-                query.append(" AND IM.ITEM_NO LIKE '%").append(String.valueOf(parameters.get("itemNo"))).append("%'");
+            if (parameters.get(Constants.ITEM_NO_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NO_PROPERTY)))) {
+                query.append(" AND IM.ITEM_NO LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NO_PROPERTY))).append("%'");
             }
-            if (parameters.get("itemName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("itemName")))) {
-                query.append(" AND IM.ITEM_NAME like '%").append(String.valueOf(parameters.get("itemName"))).append("%'");
+            if (parameters.get(Constants.ITEM_NAME_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.ITEM_NAME_PROPERTY)))) {
+                query.append(" AND IM.ITEM_NAME like '%").append(String.valueOf(parameters.get(Constants.ITEM_NAME_PROPERTY))).append("%'");
             }
-            if (parameters.get("brand") != null && !String.valueOf(parameters.get("brand")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND B.BRAND_NAME like '%").append(String.valueOf(parameters.get("brand"))).append("%'");
+            if (parameters.get(Constants.BRAND_PROPERTY) != null && !String.valueOf(parameters.get(Constants.BRAND_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND B.BRAND_NAME like '%").append(String.valueOf(parameters.get(Constants.BRAND_PROPERTY))).append("%'");
             }
-            if (parameters.get("status") != null && !String.valueOf(parameters.get("status")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("status"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.STATUS_S) != null && !String.valueOf(parameters.get(Constants.STATUS_S)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append("'");
             }
-            if (parameters.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDatefrom")))) {
-                query.append(" AND PS.PS_START_DATE >='").append(String.valueOf(parameters.get("startDatefrom"))).append("'");
+            if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
+                query.append(" AND PS.PS_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append("'");
             }
-            if (parameters.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDateto")))) {
-                query.append(" AND PS.PS_START_DATE <='").append(String.valueOf(parameters.get("startDateto"))).append("'");
+            if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
+                query.append(" AND PS.PS_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append("'");
             }
-            if (parameters.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDatefrom")))) {
-                query.append(" AND PS.PS_END_DATE >='").append(String.valueOf(parameters.get("endDatefrom"))).append("'");
+            if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
+                query.append(" AND PS.PS_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append("'");
             }
-            if (parameters.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDateto")))) {
-                query.append(" AND PS.PS_END_DATE <='").append(String.valueOf(parameters.get("endDateto"))).append("'");
+            if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
+                query.append(" AND PS.PS_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append("'");
             }
-            if (parameters.get("priceType") != null && !String.valueOf(parameters.get("priceType")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_PTP.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("priceType"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.PRICE_TYPE_PROPERTY) != null && !String.valueOf(parameters.get(Constants.PRICE_TYPE_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_PTP.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.PRICE_TYPE_PROPERTY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("priceProtectionStatus") != null && !String.valueOf(parameters.get("priceProtectionStatus")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND PSD.PRICE_PROTECTION_STATUS = ").append(String.valueOf(parameters.get("priceProtectionStatus"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.PRICE_PROTECTION_STATUS_PROPERTY) != null && !String.valueOf(parameters.get(Constants.PRICE_PROTECTION_STATUS_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND PSD.PRICE_PROTECTION_STATUS = ").append(String.valueOf(parameters.get(Constants.PRICE_PROTECTION_STATUS_PROPERTY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("priceProtectionStartDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionStartDatefrom")))) {
-                query.append(" AND PSD.PRICE_PROTECTION_START_DATE >='").append(String.valueOf(parameters.get("priceProtectionStartDatefrom"))).append("'");
+            if (parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATEFROM)))) {
+                query.append(" AND PSD.PRICE_PROTECTION_START_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATEFROM))).append("'");
             }
-            if (parameters.get("priceProtectionStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionStartDateto")))) {
-                query.append(" AND PSD.PRICE_PROTECTION_START_DATE <='").append(String.valueOf(parameters.get("priceProtectionStartDateto"))).append("'");
+            if (parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATETO)))) {
+                query.append(" AND PSD.PRICE_PROTECTION_START_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATETO))).append("'");
             }
-            if (parameters.get("priceProtectionEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionEndDatefrom")))) {
-                query.append(" AND PSD.PRICE_PROTECTION_END_DATE >='").append(String.valueOf(parameters.get("priceProtectionEndDatefrom"))).append("'");
+            if (parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATEFROM)))) {
+                query.append(" AND PSD.PRICE_PROTECTION_END_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATEFROM))).append("'");
             }
-            if (parameters.get("priceProtectionEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceProtectionEndDateto")))) {
-                query.append(" AND PSD.PRICE_PROTECTION_END_DATE <='").append(String.valueOf(parameters.get("priceProtectionEndDateto"))).append("'");
+            if (parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATETO)))) {
+                query.append(" AND PSD.PRICE_PROTECTION_END_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATETO))).append("'");
             }
-            if (parameters.get("priceProtectionPriceType") != null && !String.valueOf(parameters.get("priceProtectionPriceType")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_PTY.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("priceProtectionPriceType"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.PRICE_PROTECTION_PRICE_TYPE_PROPERTY) != null && !String.valueOf(parameters.get(Constants.PRICE_PROTECTION_PRICE_TYPE_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_PTY.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.PRICE_PROTECTION_PRICE_TYPE_PROPERTY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("priceToleranceInterval") != null && !String.valueOf(parameters.get("priceToleranceInterval")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_PTI.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("priceToleranceInterval"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.PRICE_TOLERANCE_INTERVAL) != null && !String.valueOf(parameters.get(Constants.PRICE_TOLERANCE_INTERVAL)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_PTI.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.PRICE_TOLERANCE_INTERVAL))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("priceToleranceFrequency") != null && !String.valueOf(parameters.get("priceToleranceFrequency")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_PTF.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("priceToleranceFrequency"))).append(StringUtils.EMPTY);
+            if (parameters.get(StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY) != null && !String.valueOf(parameters.get(StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_PTF.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("priceToleranceType") != null && !String.valueOf(parameters.get("priceToleranceType")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_PTT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("priceToleranceType"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.PRICE_TOLERANCE_TYPE_PROPERTY) != null && !String.valueOf(parameters.get(Constants.PRICE_TOLERANCE_TYPE_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_PTT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.PRICE_TOLERANCE_TYPE_PROPERTY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("maxIncrementalChange") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("maxIncrementalChange")))) {
-                query.append(" AND PSD.MAX_INCREMENTAL_CHANGE LIKE '%").append(String.valueOf(parameters.get("maxIncrementalChange"))).append("%'");
+            if (parameters.get(MAX_INCREMENTAL_CHANGE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(MAX_INCREMENTAL_CHANGE)))) {
+                query.append(" AND PSD.MAX_INCREMENTAL_CHANGE LIKE '%").append(String.valueOf(parameters.get(MAX_INCREMENTAL_CHANGE))).append("%'");
             }
-            if (parameters.get("priceTolerance") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priceTolerance")))) {
-                query.append(" AND PSD.PRICE_TOLERANCE LIKE '%").append(String.valueOf(parameters.get("priceTolerance"))).append("%'");
+            if (parameters.get(Constants.PRICE_TOLERANCE_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.PRICE_TOLERANCE_PROPERTY)))) {
+                query.append(" AND PSD.PRICE_TOLERANCE LIKE '%").append(String.valueOf(parameters.get(Constants.PRICE_TOLERANCE_PROPERTY))).append("%'");
             }
-            if (parameters.get("resetEligible") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("resetEligible")))) {
-                query.append(" AND PSD.RESET_ELIGIBLE LIKE '%").append(String.valueOf(parameters.get("resetEligible"))).append("%'");
+            if (parameters.get(Constants.RESET_ELIGIBLE_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.RESET_ELIGIBLE_PROPERTY)))) {
+                query.append(" AND PSD.RESET_ELIGIBLE LIKE '%").append(String.valueOf(parameters.get(Constants.RESET_ELIGIBLE_PROPERTY))).append("%'");
             }
-            if (parameters.get("resetType") != null && !String.valueOf(parameters.get("resetType")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_RT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("resetType"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.RESET_TYPE_PROPERTY) != null && !String.valueOf(parameters.get(Constants.RESET_TYPE_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_RT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.RESET_TYPE_PROPERTY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("resetDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("resetDatefrom")))) {
-                query.append(" AND PSD.RESET_DATE >='").append(String.valueOf(parameters.get("resetDatefrom"))).append("'");
+            if (parameters.get(StringConstantsUtil.RESET_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATEFROM)))) {
+                query.append(" AND PSD.RESET_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATEFROM))).append("'");
             }
-            if (parameters.get("resetDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("resetDateto")))) {
-                query.append(" AND PSD.RESET_DATE <='").append(String.valueOf(parameters.get("resetDateto"))).append("'");
+            if (parameters.get(StringConstantsUtil.RESET_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATETO)))) {
+                query.append(" AND PSD.RESET_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATETO))).append("'");
             }
-            if (parameters.get("resetInterval") != null && !String.valueOf(parameters.get("resetInterval")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_RI.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("resetInterval"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.RESET_INTERVAL_PROPERTY) != null && !String.valueOf(parameters.get(Constants.RESET_INTERVAL_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_RI.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.RESET_INTERVAL_PROPERTY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("resetFrequency") != null && !String.valueOf(parameters.get("resetFrequency")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_RF.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("resetFrequency"))).append(StringUtils.EMPTY);
+            if (parameters.get(StringConstantsUtil.RESET_FREQUENCY) != null && !String.valueOf(parameters.get(StringConstantsUtil.RESET_FREQUENCY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT_RF.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(StringConstantsUtil.RESET_FREQUENCY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("attachedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDatefrom")))) {
-                query.append(" AND PS.PS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get("attachedDatefrom"))).append("'");
+            if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
+                query.append(" AND PS.PS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("'");
             }
-            if (parameters.get("attachedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDateto")))) {
-                query.append(" AND PS.PS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get("attachedDateto"))).append("'");
+            if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
+                query.append(" AND PS.PS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
             }
         }
         return query;
@@ -477,7 +503,7 @@ public class ItemQueries {
 
     private static StringBuilder getRSFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
@@ -489,8 +515,8 @@ public class ItemQueries {
                     Compare stringFilter = (Compare) filter;
                     String filterValue = String.valueOf(stringFilter.getValue());
                     parameters.put(stringFilter.getPropertyId().toString(), filterValue);
-                    if ("formulaType".equals(stringFilter.getPropertyId())) {
-                        parameters.put("formulaType", filterValue);
+                    if (Constants.FORMULA_TYPE_PROPERTY.equals(stringFilter.getPropertyId())) {
+                        parameters.put(Constants.FORMULA_TYPE_PROPERTY, filterValue);
                     }
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
@@ -505,56 +531,56 @@ public class ItemQueries {
                 }
             }
 
-            if (parameters.get("itemNo") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("itemNo")))) {
-                query.append(" AND IM.ITEM_NO LIKE '%").append(String.valueOf(parameters.get("itemNo"))).append("%'");
+            if (parameters.get(Constants.ITEM_NO_PROPERTY) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.ITEM_NO_PROPERTY)))) {
+                query.append(" AND IM.ITEM_NO LIKE '%").append(String.valueOf(parameters.get(Constants.ITEM_NO_PROPERTY))).append("%'");
             }
-            if (parameters.get("itemName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("itemName")))) {
-                query.append(" AND IM.ITEM_NAME like '%").append(String.valueOf(parameters.get("itemName"))).append("%'");
+            if (parameters.get(Constants.ITEM_NAME_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.ITEM_NAME_PROPERTY)))) {
+                query.append(" AND IM.ITEM_NAME like '%").append(String.valueOf(parameters.get(Constants.ITEM_NAME_PROPERTY))).append("%'");
             }
-            if (parameters.get("brand") != null && !String.valueOf(parameters.get("brand")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND B.BRAND_NAME like '%").append(String.valueOf(parameters.get("brand"))).append("%'");
+            if (parameters.get(Constants.BRAND_PROPERTY) != null && !String.valueOf(parameters.get(Constants.BRAND_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND B.BRAND_NAME like '%").append(String.valueOf(parameters.get(Constants.BRAND_PROPERTY))).append("%'");
             }
-            if (parameters.get("status") != null && !String.valueOf(parameters.get("status")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("status"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.STATUS_S) != null && !String.valueOf(parameters.get(Constants.STATUS_S)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append("'");
             }
-            if (parameters.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDatefrom")))) {
-                query.append(" AND RSD.ITEM_REBATE_START_DATE >='").append(String.valueOf(parameters.get("startDatefrom"))).append("'");
+            if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
+                query.append(" AND RSD.ITEM_REBATE_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append("'");
             }
-            if (parameters.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("startDateto")))) {
-                query.append(" AND RSD.ITEM_REBATE_START_DATE <='").append(String.valueOf(parameters.get("startDateto"))).append("'");
+            if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
+                query.append(" AND RSD.ITEM_REBATE_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append("'");
             }
-            if (parameters.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDatefrom")))) {
-                query.append(" AND RSD.ITEM_REBATE_END_DATE >='").append(String.valueOf(parameters.get("endDatefrom"))).append("'");
+            if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
+                query.append(" AND RSD.ITEM_REBATE_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append("'");
             }
-            if (parameters.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("endDateto")))) {
-                query.append(" AND RSD.ITEM_REBATE_END_DATE <='").append(String.valueOf(parameters.get("endDateto"))).append("'");
+            if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
+                query.append(" AND RSD.ITEM_REBATE_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append("'");
             }
-            if (parameters.get("formulaType") != null && !String.valueOf(parameters.get("formulaType")).equals(Constants.ZEROSTRING)) {
-                query.append(" AND RSD.FORMULA_TYPE = ").append(String.valueOf(parameters.get("formulaType"))).append(StringUtils.EMPTY);
+            if (parameters.get(Constants.FORMULA_TYPE_PROPERTY) != null && !String.valueOf(parameters.get(Constants.FORMULA_TYPE_PROPERTY)).equals(Constants.ZEROSTRING)) {
+                query.append(" AND RSD.FORMULA_TYPE = ").append(String.valueOf(parameters.get(Constants.FORMULA_TYPE_PROPERTY))).append(StringUtils.EMPTY);
             }
-            if (parameters.get("formulaId") != null && !StringUtils.isBlank(String.valueOf(parameters.get("formulaId")))) {
-                query.append(" AND FDM.FORMULA_ID like '%").append(String.valueOf(parameters.get("formulaId"))).append("%'");
+            if (parameters.get(Constants.FORMULA_ID_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.FORMULA_ID_PROPERTY)))) {
+                query.append(" AND FDM.FORMULA_ID like '%").append(String.valueOf(parameters.get(Constants.FORMULA_ID_PROPERTY))).append("%'");
             }
-            if (parameters.get("formulaName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("formulaName")))) {
-                query.append(" AND FM.FORMULA_NAME like '%").append(String.valueOf(parameters.get("formulaName"))).append("%'");
+            if (parameters.get(Constants.FORMULA_NAME_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.FORMULA_NAME_PROPERTY)))) {
+                query.append(" AND FM.FORMULA_NAME like '%").append(String.valueOf(parameters.get(Constants.FORMULA_NAME_PROPERTY))).append("%'");
             }
-            if (parameters.get("rebatePlanId") != null && !StringUtils.isBlank(String.valueOf(parameters.get("rebatePlanId")))) {
-                query.append(" AND RP.REBATE_PLAN_ID like '%").append(String.valueOf(parameters.get("rebatePlanId"))).append("%'");
+            if (parameters.get(Constants.REBATE_PLAN_ID_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.REBATE_PLAN_ID_PROPERTY)))) {
+                query.append(" AND RP.REBATE_PLAN_ID like '%").append(String.valueOf(parameters.get(Constants.REBATE_PLAN_ID_PROPERTY))).append("%'");
             }
-            if (parameters.get("rebatePlanName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("rebatePlanName")))) {
-                query.append(" AND RP.REBATE_PLAN_NAME like '%").append(String.valueOf(parameters.get("rebatePlanName"))).append("%'");
+            if (parameters.get(Constants.REBATE_PLAN_NAME_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.REBATE_PLAN_NAME_PROPERTY)))) {
+                query.append(" AND RP.REBATE_PLAN_NAME like '%").append(String.valueOf(parameters.get(Constants.REBATE_PLAN_NAME_PROPERTY))).append("%'");
             }
-            if (parameters.get("rebateAmount") != null && !StringUtils.isBlank(String.valueOf(parameters.get("rebateAmount")))) {
-                query.append(" AND RSD.REBATE_AMOUNT like '%").append(String.valueOf(parameters.get("rebateAmount"))).append("%'");
+            if (parameters.get(Constants.REBATE_AMOUNT_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.REBATE_AMOUNT_PROPERTY)))) {
+                query.append(" AND RSD.REBATE_AMOUNT like '%").append(String.valueOf(parameters.get(Constants.REBATE_AMOUNT_PROPERTY))).append("%'");
             }
-            if (parameters.get("bundleNo") != null && !StringUtils.isBlank(String.valueOf(parameters.get("bundleNo")))) {
-                query.append(" AND RSD.BUNDLE_NO like '%").append(String.valueOf(parameters.get("bundleNo"))).append("%'");
+            if (parameters.get(Constants.BUNDLE_NO_PROPERTY) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.BUNDLE_NO_PROPERTY)))) {
+                query.append(" AND RSD.BUNDLE_NO like '%").append(String.valueOf(parameters.get(Constants.BUNDLE_NO_PROPERTY))).append("%'");
             }
-            if (parameters.get("attachedDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDatefrom")))) {
-                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get("attachedDatefrom"))).append("'");
+            if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
+                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("'");
             }
-            if (parameters.get("attachedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("attachedDateto")))) {
-                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get("attachedDateto"))).append("'");
+            if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
+                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
             }
         }
         return query;
@@ -562,7 +588,7 @@ public class ItemQueries {
 
     private static StringBuilder getSubmittedRecordsFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
@@ -573,22 +599,18 @@ public class ItemQueries {
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
                     String filterValue = String.valueOf(stringFilter.getValue());
-                    if ("statusDescription".equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(Constants.NULL)) {
+                    if (STATUS_DESCRIPTION.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(Constants.NULL)) {
                         try {
                             int helperId = getHelperCode("STATUS", filterValue);
-                            parameters.put("status", helperId);
-                        } catch (PortalException ex) {
-                            LOGGER.error(ex);
+                            parameters.put(Constants.STATUS_S, helperId);
                         } catch (SystemException ex) {
                             LOGGER.error(ex);
                         }
                     }
-                    if ("contractType".equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(Constants.NULL)) {
+                    if (CONTRACT_TYPE.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(Constants.NULL)) {
                         try {
                             int helperId = getHelperCode("CONTRACT_TYPE", filterValue);
-                            parameters.put("contractType", helperId);
-                        } catch (PortalException ex) {
-                            LOGGER.error(ex);
+                            parameters.put(CONTRACT_TYPE, helperId);
                         } catch (SystemException ex) {
                             LOGGER.error(ex);
                         }
@@ -609,77 +631,76 @@ public class ItemQueries {
             query.append(" where ");
             if (parameters.get(Constants.CONTRACT_HOLDER) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(Constants.CONTRACT_HOLDER)))) {
                 query.append(" CM.COMPANY_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.CONTRACT_HOLDER))).append("%'");
-                andOperator = " AND ";
+                andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.CONTRACT_NO) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.CONTRACT_NO)))) {
                 query.append(andOperator + " CON.CONTRACT_NO LIKE '%").append(String.valueOf(parameters.get(Constants.CONTRACT_NO))).append("%'");
-                andOperator = " AND ";
+                andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.CONTRACT_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.CONTRACT_NAME)))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.CONTRACT_NAME))).append("%'");
-                andOperator = " AND ";
+                query.append(andOperator + " CON.CONTRACT_NAME LIKE  '%").append(String.valueOf(parameters.get(Constants.CONTRACT_NAME))).append("%'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("contractType") != null && !String.valueOf(parameters.get("contractType")).equals(Constants.ZEROSTRING)) {
-                query.append(andOperator + " HEL.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("contractType"))).append(StringUtils.EMPTY);
-                andOperator = " AND ";
+            if (parameters.get(CONTRACT_TYPE) != null && !String.valueOf(parameters.get(CONTRACT_TYPE)).equals(Constants.ZEROSTRING)) {
+                query.append(andOperator + " HEL.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(CONTRACT_TYPE))).append(StringUtils.EMPTY);
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("statusDescription") != null && !String.valueOf(parameters.get("statusDescription")).equals(Constants.ZEROSTRING)) {
-                query.append(andOperator + " HEL_TAB1.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get("statusDescription"))).append(StringUtils.EMPTY);
-                andOperator = " AND ";
+            if (parameters.get(STATUS_DESCRIPTION) != null && !String.valueOf(parameters.get(STATUS_DESCRIPTION)).equals(Constants.ZEROSTRING)) {
+                query.append(andOperator + " HEL_TAB1.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(STATUS_DESCRIPTION))).append(StringUtils.EMPTY);
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("contStartDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("contStartDatefrom")))) {
-                query.append(andOperator + " CON.START_DATE >='").append(String.valueOf(parameters.get("contStartDatefrom"))).append("'");
-                andOperator = " AND ";
+            if (parameters.get(CONT_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_START_DATEFROM)))) {
+                query.append(andOperator + " CON.START_DATE >='").append(String.valueOf(parameters.get(CONT_START_DATEFROM))).append("'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("contStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("contStartDateto")))) {
-                query.append(andOperator + " CON.START_DATE <='").append(String.valueOf(parameters.get("contStartDateto"))).append("'");
-                andOperator = " AND ";
+            if (parameters.get(CONT_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_START_DATETO)))) {
+                query.append(andOperator + " CON.START_DATE <='").append(String.valueOf(parameters.get(CONT_START_DATETO))).append("'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("contEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("contEndDatefrom")))) {
-                query.append(andOperator + " CON.END_DATE >='").append(String.valueOf(parameters.get("contEndDatefrom"))).append("'");
-                andOperator = " AND ";
+            if (parameters.get(CONT_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_END_DATEFROM)))) {
+                query.append(andOperator + " CON.END_DATE >='").append(String.valueOf(parameters.get(CONT_END_DATEFROM))).append("'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("contEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("contEndDateto")))) {
-                query.append(andOperator + " CON.END_DATE <='").append(String.valueOf(parameters.get("contEndDateto"))).append("'");
-                andOperator = " AND ";
+            if (parameters.get(CONT_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_END_DATETO)))) {
+                query.append(andOperator + " CON.END_DATE <='").append(String.valueOf(parameters.get(CONT_END_DATETO))).append("'");
+                andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.CFP_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.CFP_NAME)))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.CFP_NAME))).append("%'");
-                andOperator = " AND ";
+                query.append(andOperator + " CON.CONTRACT_NAME LIKE  '%").append(String.valueOf(parameters.get(Constants.CFP_NAME))).append("%'");
+                andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.IFPNAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.IFPNAME)))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.IFPNAME))).append("%'");
-                andOperator = " AND ";
+                query.append(andOperator + "  CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.IFPNAME))).append("%'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("pSName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("pSName")))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get("pSName"))).append("%'");
-                andOperator = " AND ";
+            if (parameters.get(PS_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(PS_NAME)))) {
+                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(PS_NAME))).append("%'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("rSName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("rSName")))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get("rSName"))).append("%'");
-                andOperator = " AND ";
+            if (parameters.get(RS_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(RS_NAME)))) {
+                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(RS_NAME))).append("%'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("compStartDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("compStartDatefrom")))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get("compStartDatefrom"))).append("'");
-                andOperator = " AND ";
+            if (parameters.get(COMP_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_START_DATEFROM)))) {
+                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_START_DATEFROM))).append("'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("compStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("compStartDateto")))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get("compStartDateto"))).append("'");
-                andOperator = " AND ";
+            if (parameters.get(COMP_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_START_DATETO)))) {
+                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_START_DATETO))).append("'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("compEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("compEndDatefrom")))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get("compEndDatefrom"))).append("'");
-                andOperator = " AND ";
+            if (parameters.get(COMP_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_END_DATEFROM)))) {
+                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_END_DATEFROM))).append("'");
+                andOperator = SPACE_AND;
             }
-            if (parameters.get("compEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("compEndDateto")))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get("compEndDateto"))).append("'");
-                andOperator = " AND ";
+            if (parameters.get(COMP_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_END_DATETO)))) {
+                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_END_DATETO))).append("'");
             }
         }
         return query;
     }
 
-    public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
+    public static int getHelperCode(String listName, String description) throws SystemException {
         ContractHeaderDAO DAO = new ContractHeaderLogicDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);

@@ -115,11 +115,11 @@ public class IFPItemDTO implements Serializable{
     /**
      * The item details list.
      */
-    private List<IFPItemDTO> itemDetailsList = new ArrayList<IFPItemDTO>();
+    private List<IFPItemDTO> itemDetailsList = new ArrayList<>();
     /**
      * The items list.
      */
-    private List<ItemMasterDTO> itemsList = new ArrayList<ItemMasterDTO>();
+    private List<ItemMasterDTO> itemsList = new ArrayList<>();
     //Added by Aaral
     /**
      * The item familyplan status.

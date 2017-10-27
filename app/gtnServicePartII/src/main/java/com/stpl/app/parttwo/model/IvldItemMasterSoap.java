@@ -98,6 +98,8 @@ public class IvldItemMasterSoap implements Serializable {
     private String _shelfLife;
     private String _marketTerminationDate;
     private boolean _checkRecord;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
 
     public IvldItemMasterSoap() {
     }
@@ -190,6 +192,8 @@ public class IvldItemMasterSoap implements Serializable {
         soapModel.setShelfLife(model.getShelfLife());
         soapModel.setMarketTerminationDate(model.getMarketTerminationDate());
         soapModel.setCheckRecord(model.getCheckRecord());
+        soapModel.setBaseCpiPrecision(model.getBaseCpiPrecision());
+        soapModel.setBaselineAmpPrecision(model.getBaselineAmpPrecision());
 
         return soapModel;
     }
@@ -922,5 +926,21 @@ public class IvldItemMasterSoap implements Serializable {
 
     public void setCheckRecord(boolean checkRecord) {
         _checkRecord = checkRecord;
+    }
+
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+    }
+
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
     }
 }

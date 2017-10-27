@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ActualsMasterSoap implements Serializable {
     private String _quantityInclusion;
-    private double _mandatedDiscountAmount;
+    private String _mandatedDiscountAmount;
     private String _itemNo;
     private String _analysisCode;
     private String _recordSequence;
@@ -42,7 +42,7 @@ public class ActualsMasterSoap implements Serializable {
     private String _salesAmount;
     private Date _accrualActualStartDate;
     private String _settlementNo;
-    private double _price;
+    private String _price;
     private Date _uploadDate;
     private String _claimIndicator;
     private String _itemId;
@@ -172,11 +172,11 @@ public class ActualsMasterSoap implements Serializable {
         _quantityInclusion = quantityInclusion;
     }
 
-    public double getMandatedDiscountAmount() {
+    public String getMandatedDiscountAmount() {
         return _mandatedDiscountAmount;
     }
 
-    public void setMandatedDiscountAmount(double mandatedDiscountAmount) {
+    public void setMandatedDiscountAmount(String mandatedDiscountAmount) {
         _mandatedDiscountAmount = mandatedDiscountAmount;
     }
 
@@ -398,11 +398,11 @@ public class ActualsMasterSoap implements Serializable {
         _settlementNo = settlementNo;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return _price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         _price = price;
     }
 

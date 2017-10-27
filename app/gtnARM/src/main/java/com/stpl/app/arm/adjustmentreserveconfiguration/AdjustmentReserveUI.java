@@ -74,6 +74,8 @@ public class AdjustmentReserveUI extends UI {
             CommonLogic.loadTransactionName();
             //THis method is load credit and debit drop down loading to drop down map.
             CommonLogic.loadDebitAndCrditName();
+            //THis method is load report indicator drop down loading to drop down map.
+            CommonLogic.loadReportIndicator();
             LOGGER.info("USER_ID :" + userId);
             LOGGER.info("SESSION_ID :" + sessionId);
             sessionDTO = new SessionDTO();
@@ -81,24 +83,22 @@ public class AdjustmentReserveUI extends UI {
             navigator.addView(AdjustmentReserveView.NAME, new AdjustmentReserveView(sessionDTO));
             LOGGER.debug("Exits the Adjustment Reserve UI");
         } catch (Exception ex) {
-            LOGGER.error("Error While Creating AdjustmentReserveUI " + ex.getMessage());
+            LOGGER.error("Error While Creating AdjustmentReserveUI " + ex);
         }
 
-        //         Configure the error handler for the UI
+//                 Configure the error handler for the UI
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 // Find the final cause
-                String cause = "The Exception occured because of: ";
+                StringBuilder cause = new StringBuilder("The Exception occured because of: ");
                 for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
                     if (t.getCause() == null) {
-
-                        cause += t.getClass().getName();
+                        cause.append(t.getClass().getName());
                     }
                 }
 
-                LOGGER.error(cause);
-                // Do the default error handling (optional)
+                LOGGER.error(cause.toString());
             }
         });
     }

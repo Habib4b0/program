@@ -30,9 +30,6 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
     Object[] showData;
     private static final String CURRENCY = "$";
 
-    public SalesProjectionResultsVariableTree() {
-    }
-
     @Override
     public void buildTree(ProjectionSelectionDTO projSelDTO) {
         loadStaticRows(projSelDTO);
@@ -75,7 +72,7 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
     }
 
     @Override
-    protected void addStaticDataRow(SalesPRCP parent, SalesPRCP child, HashMap dataMap) {
+    protected void addStaticDataRow(SalesPRCP child) {
         for (Object dataLevel1 : dataLevel) {
             SalesPRCP salesprCP = new SalesPRCP(String.valueOf(dataLevel1));
             salesprCP.setStatic(true);
@@ -108,7 +105,7 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
     }
 
     @Override
-    protected void addStaticRow(SalesPRCustom parent, SalesPRCustom child, HashMap dataMap) {
+    protected void addStaticRow(SalesPRCustom child) {
         for (Object dataLevel1 : dataLevel) {
             SalesPRCustom salesprCustom = new SalesPRCustom(String.valueOf(dataLevel1));
             salesprCustom.setStatic(true);

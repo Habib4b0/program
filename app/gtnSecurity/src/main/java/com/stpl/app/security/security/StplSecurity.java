@@ -170,7 +170,7 @@ public class StplSecurity {
      */
     public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName) throws PortalException, SystemException {
         LOGGER.debug("" + userId);
-        Map<String, AppPermission> functionHm = new HashMap<String, AppPermission>();
+        Map<String, AppPermission> functionHm;
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -189,7 +189,7 @@ public class StplSecurity {
      * @throws SystemException the system exception
      */
     public Map<String, AppPermission> getBusinessFieldPermission(final String userId, final String moduleName) throws PortalException, SystemException {
-        Map<String, AppPermission> fieldHm = new HashMap<String, AppPermission>();
+        Map<String, AppPermission> fieldHm;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
         final List tabPermissionList = dto.getBusinessroleModuleMasterFieldList(businessRoleIds, moduleName);
@@ -320,10 +320,10 @@ public class StplSecurity {
 
     public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName, final boolean column) throws PortalException, SystemException {
         LOGGER.debug("Enters getBusinessColumnPermission()");
-        List tabPermissionList = new ArrayList();
-        Set addPermission = new HashSet();
-        Set viewPermission = new HashSet();
-        Set editPermission = new HashSet();
+        List tabPermissionList;
+        Set addPermission;
+        Set viewPermission;
+        Set editPermission;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
         if (column == true) {
@@ -372,9 +372,9 @@ public class StplSecurity {
     }
 
     private List getBuisnessColumn(String businessRoleIds, String moduleName) {
-        List columnList = new ArrayList();
+        List columnList;
 
-        String query = StringUtils.EMPTY;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(",")) {
@@ -406,7 +406,7 @@ public class StplSecurity {
     }
 
     public List fetchColumnForSecurity(String moduleName, String tabName) {
-        List columnList = new ArrayList();
+        List columnList;
         String query = "SELECT DISPLAY_NAME, PROPERTY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '" + moduleName + "' "
                 + " AND TAB_NAME = '" + tabName + "' AND CATEGORY_NAME IN ('List view Header') ";
         columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -415,8 +415,8 @@ public class StplSecurity {
 
     private Set getModePermission(String businessRoleIds, String moduleName, boolean add, boolean view, boolean edit, boolean column) {
         Set field = new HashSet();
-        List columnList = new ArrayList();
-        String query = StringUtils.EMPTY;
+        List columnList;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(",")) {

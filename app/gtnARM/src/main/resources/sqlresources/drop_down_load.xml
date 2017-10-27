@@ -23,6 +23,35 @@ and open the template in the editor.
             ]]>
         </query>
     </entity>
+    <entity id="getDeductionProgram">
+        <query> 
+            <![CDATA[
+                 SELECT DISTINCT REBATE_PROGRAM_TYPE,HT.DESCRIPTION FROM RS_CONTRACT RC 
+                 JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.REBATE_PROGRAM_TYPE
+                 ORDER BY HT.DESCRIPTION
+            ]]>
+        </query>
+    </entity>
+    <entity id="getDeductionType">
+        <query> 
+            <![CDATA[
+               
+                  SELECT DISTINCT RS_TYPE,HT.DESCRIPTION FROM RS_CONTRACT RC 
+                  JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_TYPE
+                  ORDER BY HT.DESCRIPTION
+            ]]>
+        </query>
+    </entity>
+     <entity id="getDeductionCategory">
+        <query> 
+            <![CDATA[
+              SELECT DISTINCT RS_CATEGORY,HT.DESCRIPTION FROM RS_CONTRACT RC 
+              JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_CATEGORY
+              ORDER BY HT.DESCRIPTION
+
+            ]]>
+        </query>
+    </entity>
     <entity id="getRsCategoryQuery">
         <query> 
             <![CDATA[
@@ -69,7 +98,8 @@ and open the template in the editor.
     <entity id="getMonthYear">
         <query> 
              <![CDATA[
-    DECLARE @forecast_name VARCHAR(50) DECLARE @forecast_var VARCHAR(100) SELECT
+    DECLARE @forecast_name VARCHAR(50) DECLARE @forecast_var VARCHAR(100) 
+SELECT
     TOP 1 @forecast_name = FT.FORECAST_NAME,
     @forecast_var = FT.[VERSION]
 FROM
@@ -99,7 +129,9 @@ WHERE
     AND HT.LIST_NAME = 'FILE_TYPE'
     AND HT.DESCRIPTION = 'EX-FACTORY SALES'
 ORDER BY
-    FT.FROM_PERIOD DESC SELECT
+    FT.FROM_PERIOD DESC 
+	
+	SELECT
         FORECAST_NAME,
         MONTH(
             MAX(
@@ -156,7 +188,7 @@ ORDER BY
         )
         AND COUNTRY = 'US'
         AND FORECAST_NAME = @forecast_name
-        AND FORECAST_VER = @forecast_var
+        AND FLOOR(FORECAST_VER) = @forecast_var
     GROUP BY
         FORECAST_NAME,
         FORECAST_VER,
@@ -176,7 +208,7 @@ ORDER BY
             A.RS_TYPE
         FROM   RS_CONTRACT A
         LEFT JOIN   UDCS U ON U.MASTER_SID=A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
-        WHERE  A.RS_CATEGORY LIKE ?
+        WHERE  A.RS_CATEGORY LIKE ? 
             ]]>
         </query>
     </entity>   

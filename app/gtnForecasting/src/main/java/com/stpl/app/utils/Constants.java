@@ -22,15 +22,15 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Constants {
 
-    public static String[] RESON_CODES = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
+    public final String[] reasonCodes = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
 
     /**
      * Enum for label constants
      */
     public enum LabelConstants {
-        PRODUCT_HIERARCHY("Product"),
+        PRODUCT_HIERARCHY(PRODUCT1),
         METHODOLOGY_MOVING_AVERAGE("Moving Average"),
-        LEVEL_BRAND("Brand"),
+        LEVEL_BRAND(BRAND1),
         LEVEL_NDC("NDC"),
         PROJECTION_SEARCH("Projection Search"),
         PROJECTION_NAME("Projection Name"),
@@ -64,8 +64,8 @@ public class Constants {
         CFF_PROJECTIONS_COL("CFFProjections"),
         PROJECTIONS("Projections"),
         ACTUAL_RATE("Actual Rate"),
-        PROJECTED_RATE("Projected Rate"),
-        CFF_PROJECTED_RATE("Projected Rate"),
+        PROJECTED_RATE(PROJECTED_RATE1),
+        CFF_PROJECTED_RATE(PROJECTED_RATE1),
         ACTUALRATE("ActualsRate"),
         PROJECTEDRATE("ProjectionsRate"),
         CFF_PROJECTEDRATE("ProjectionsRate"),
@@ -93,13 +93,13 @@ public class Constants {
         PROGRAM("Program"),
         PROGRAM_CATEGORY("Program Category"),
         BRAND_TYPE("Brand Type"),
-        BRAND("Brand"),
-        CONTRACT("Contract"),
+        BRAND(BRAND1),
+        CONTRACT(CONTRACT1),
         CONTRACT_NAME("Contract Name"),
         CONTRACT_NO("Contract No"),
         CUSTOMER_ID("Customer ID"),
         CONTRACT_HOLDER_NAME("Contract Holder Name"),
-        COMPANY("Company"),
+        COMPANY(COMPANY1),
         CONTRACTED("Contracted"),
         ALL_BRANDS("All Brands"),
         MODE("Mode"),
@@ -146,14 +146,14 @@ public class Constants {
         OVERRIDE("Override"),
         AMOUNT("Amount"),
         PERCENTAGE("Percentage"),
-        CUSTOMER("Customer"),
-        PRODUCT("Product"),
-        CUSTOM("Custom"),
+        CUSTOMER(CUSTOMER1),
+        PRODUCT(PRODUCT1),
+        CUSTOM(CUSTOM1),
         BRAND_SEARCH("Brand Search"),
         TIME_PERIOD("Time Period"),
         CUSTOMER_GROUP("Customer Group"),
         PRODUCT_GROUP("Product Group"),
-        ENABLE("Enable"),
+        ENABLE(ENABLE1),
         PROJECTION_VARIANCE_SELECTION("Projection Variance Selection"),
         COMPARISON("Comparison"),
         FREQUENCY("Frequency :"),
@@ -193,7 +193,7 @@ public class Constants {
         COMPARISON_LOOKUP("Comparison Lookup"),
         PERIOD_PIVOT_VIEW("Period Pivot View"),
         VARIABLE_PIVOT_VIEW("Variable Pivot View"),
-        DISABLE("Disable"),
+        DISABLE(DISABLE1),
         CIDT_INDICATOR("cidtIndicator"),
         SALES_INDICATOR("salesIndicator"),
         DISCOUNT_INDICATOR("discountIndicator"),
@@ -204,8 +204,8 @@ public class Constants {
         SPRDASH("---"),
         LEVEL_NDC_8("NDC 8"),
         LEVEL_NDC_10("NDC 10"),
-        CUSTOMER_HIERARCHY("Customer"),
-        CUSTOM_HIERARCHY("Custom"),        
+        CUSTOMER_HIERARCHY(CUSTOMER1),
+        CUSTOM_HIERARCHY(CUSTOM1),        
         LEVEL_NDC_11("NDC 11"),
         TAB_SALES_ALLOCATION("Sales Allocation"),
         THERAPEUTIC_CLASS("therapeuticClass"),
@@ -235,6 +235,15 @@ public class Constants {
             return constant;
         }
     }
+    public static final String PRODUCT1 = "Product";
+    public static final String BRAND1 = "Brand";
+    public static final String PROJECTED_RATE1 = "Projected Rate";
+    public static final String CONTRACT1 = "Contract";
+    public static final String COMPANY1 = "Company";
+    public static final String CUSTOMER1 = "Customer";
+    public static final String CUSTOM1 = "Custom";
+    public static final String ENABLE1 = "Enable";
+    public static final String DISABLE1 = "Disable";
 
     /**
      * Enum for Button constants
@@ -306,8 +315,8 @@ public class Constants {
         INDICATOR_PRODUCT_HIERARCHY("Product Hierachy"),
         INDICATOR_PUBLIC_VIEW("Public View"),
         INDICATOR_PRIVATE_VIEW("Private View"),
-        INDICATOR_CUSTOMER("Customer"),
-        INDICATOR_BRAND("Brand"),
+        INDICATOR_CUSTOMER(CUSTOMER1),
+        INDICATOR_BRAND(BRAND1),
         INDICATOR_DATA_SELECTION_TAB("DataSelectionTab"),
         INDICATOR_DATA_SELECTION_INDEX("DataSelectionIndex"),
         INDICATOR_MODULE_NON_MANDATED("Non Mandated"),
@@ -330,7 +339,7 @@ public class Constants {
         SALES_LEVEL_WHOLE_SALER("SalesLevelWholeSaler"),
         SALES_LEVEL_SPECIALITY_DISTRIBUTOR("SalesLevelSpecialityDistributor"),
         SALES_LEVEL_INDIVIDUAL_OWNER("SalesLevelContract"),
-        SALES_LEVEL_FILTER_BRAND("Brand"),
+        SALES_LEVEL_FILTER_BRAND(BRAND1),
         SALES_LEVEL_FILTER_NDC("NDC"),
         SALES_LEVEL_FILTER_TOTAL_CUSTOMER("Total Customer"),
         SALES_LEVEL_FILTER_COMPANY("Wholesales/Speciality Distributor"),
@@ -379,7 +388,7 @@ public class Constants {
         HTML_SPACE("&nbsp;"),
         SELECT_ONE("-Select One-"),
         SELECTMETHODOLOGY("- Select Methodology -"),
-        DATE_FORMAT("MM/dd/yyyy"),
+        DATE_FORMAT(DATE_FORMAT_MMDDYYYY),
         REASON_CODE("Reason Code"),
         NULL("null"),
         ACTION_EDIT("edit"),
@@ -450,25 +459,25 @@ public class Constants {
      */
     public enum LevelConstants {
 
-        LEVEL_SEGMENT_GROUP("Segment Group"),
-        LEVEL_SEGMENT("Segment"),
-        LEVEL_MARKET_TYPE("Market Type"),
-        LEVEL_CONTRACT_HOLDER("Contract Holder"),
-        LEVEL_CONTRACT("Contract"),
-        LEVEL_TRADING_PARTNER("Trading Partner"),
-        LEVEL_COMPANY("Company"),
-        LEVEL_THERAPEUTIC_CLASS("Therapeutic Class"),
-        LEVEL_BRAND("Brand"),
+        LEVEL_SEGMENT_GROUP(SEGMENT_GROUP_LABEL),
+        LEVEL_SEGMENT(Constant.SEGMENT_LABEL),
+        LEVEL_MARKET_TYPE(MARKET_TYPE_LABEL),
+        LEVEL_CONTRACT_HOLDER(CONTRACT_HOLDER_LABEL),
+        LEVEL_CONTRACT(CONTRACT1),
+        LEVEL_TRADING_PARTNER(TRADING_PARTNER_LABEL),
+        LEVEL_COMPANY(COMPANY1),
+        LEVEL_THERAPEUTIC_CLASS(THERAPEUTIC_CLASS_LABEL),
+        LEVEL_BRAND(BRAND1),
         LEVEL_NDC("NDC"),
-        LEVEL_1_CUSTOMER("Segment Group"),
-        LEVEL_2_CUSTOMER("Segment"),
-        LEVEL_3_CUSTOMER("Market Type"),
-        LEVEL_4_CUSTOMER("Contract Holder"),
-        LEVEL_5_CUSTOMER("Contract"),
-        LEVEL_6_CUSTOMER("Trading Partner"),
-        LEVEL_1_BRAND("Company"),
-        LEVEL_2_BRAND("Therapeutic Class"),
-        LEVEL_3_BRAND("Brand"),
+        LEVEL_1_CUSTOMER(SEGMENT_GROUP_LABEL),
+        LEVEL_2_CUSTOMER(Constant.SEGMENT_LABEL),
+        LEVEL_3_CUSTOMER(MARKET_TYPE_LABEL),
+        LEVEL_4_CUSTOMER(CONTRACT_HOLDER_LABEL),
+        LEVEL_5_CUSTOMER(CONTRACT1),
+        LEVEL_6_CUSTOMER(TRADING_PARTNER_LABEL),
+        LEVEL_1_BRAND(COMPANY1),
+        LEVEL_2_BRAND(THERAPEUTIC_CLASS_LABEL),
+        LEVEL_3_BRAND(BRAND1),
         LEVEL_4_BRAND("NDC"),
         LEVEL_1("Level 1"),
         LEVEL_2("Level 2"),
@@ -491,6 +500,11 @@ public class Constants {
             return constant;
         }
     }
+    public static final String SEGMENT_GROUP_LABEL = "Segment Group";
+    public static final String MARKET_TYPE_LABEL = "Market Type";
+    public static final String CONTRACT_HOLDER_LABEL = "Contract Holder";
+    public static final String TRADING_PARTNER_LABEL = "Trading Partner";
+    public static final String THERAPEUTIC_CLASS_LABEL = "Therapeutic Class";
 
     /**
      * Enum for Regex constants
@@ -578,15 +592,15 @@ public class Constants {
         HEADER_PRODUCT_HIERARCHY("Product Hierarchy"),
         HEADER_PRODUCT_LEVEL("Product Level"),
         HEADER_LEVEL("Level"),
-        HEADER_MARKET_TYPE("Market Type"),
-        HEADER_COMPANY("Company"),
-        HEADER_THERAPEUTIC_CLASS("Therapeutic Class"),
-        HEADER_SEGMENT_GROUP("Segment Group"),
-        HEADER_SEGMENT("Segment"),
-        HEADER_CONTRACT_HOLDER("Contract Holder"),
-        HEADER_CONTRACT("Contract"),
-        HEADER_TRADING_PARTNER("Trading Partner"),
-        HEADER_BRAND("Brand"),
+        HEADER_MARKET_TYPE(MARKET_TYPE_LABEL),
+        HEADER_COMPANY(COMPANY1),
+        HEADER_THERAPEUTIC_CLASS(THERAPEUTIC_CLASS_LABEL),
+        HEADER_SEGMENT_GROUP(SEGMENT_GROUP_LABEL),
+        HEADER_SEGMENT(Constant.SEGMENT_LABEL),
+        HEADER_CONTRACT_HOLDER(CONTRACT_HOLDER_LABEL),
+        HEADER_CONTRACT(CONTRACT1),
+        HEADER_TRADING_PARTNER(TRADING_PARTNER_LABEL),
+        HEADER_BRAND(BRAND1),
         HEADER_NDC("NDC"),
         NDC11("NDC 11"),
         SALES_GTS_HEADER("Gross Trade Sales"),
@@ -982,7 +996,8 @@ public class Constants {
         PERCENT("%"),
         SPLIT_ARROW("->"),
         SPLIT_DASH("-"),
-        DOT(".");
+        DOT("."),
+        QUESTION("?");
         private String constant;
 
         private StringConstants(String constant) {
@@ -1087,9 +1102,9 @@ public class Constants {
      */
     public enum DateFormatConstants {
 
-        MMddyyyy("MM/dd/yyyy"),
-        yyyyMMddhhmmssSSS("yyyy-MM-dd hh:mm:ss.SSS"),
-        MMddyyyyhhmmss("MM/dd/yyyy hh:mm:ss");
+        MMDDYYYY(DATE_FORMAT_MMDDYYYY),
+        YYYYMMDDHHMMSSSSS("yyyy-MM-dd hh:mm:ss.SSS"),
+        MMDDYYYYHHMMSS("MM/dd/yyyy hh:mm:ss");
         private String constant;
 
         private DateFormatConstants(String constant) {
@@ -1105,6 +1120,7 @@ public class Constants {
             return constant;
         }
     }
+    public static final String DATE_FORMAT_MMDDYYYY = "MM/dd/yyyy";
     
      /**
      * Enum for common constants
@@ -1115,7 +1131,7 @@ public class Constants {
         COLON(":"),
         HTML_SPACE("&nbsp;"),
         SELECT_ONE("-Select One-"),
-        DATE_FORMAT("MM/dd/yyyy"),
+        DATE_FORMAT(DATE_FORMAT_MMDDYYYY),
         REASON_CODE("Reason Code"),
         NULL("null"),
         ACTION_EDIT("edit"),
@@ -1126,9 +1142,9 @@ public class Constants {
         VARIANCE("variance"),
         CHANGE("change"),
         FLAT("Flat"),
-        CUSTOM("Custom"),
-        CUSTOMER("Customer"),
-        PRODUCT("Product"),
+        CUSTOM(CUSTOM1),
+        CUSTOMER(CUSTOMER1),
+        PRODUCT(PRODUCT1),
         PROJECTED("Projected"),
         PROJECTIONS("Projections"),
         ASCENDING("Ascending"),
@@ -1136,7 +1152,7 @@ public class Constants {
         HORIZONTAL("horizontal"),
         OPTIONGROUPWIDTH("optiongroupwidth"),
         ACTUAL_RATE("ActualsRate"),
-        PROJECTED_RATE("Projected Rate"),
+        PROJECTED_RATE(PROJECTED_RATE1),
         DISCOUNT("Discount"),
         BOTH("Both"),
         SALES("Sales"),
@@ -1150,8 +1166,8 @@ public class Constants {
         DOLLAR("$"),
         ALL("All"),
         SELECTED("Selected"),
-        ENABLE("Enable"),
-        DISABLE("Disable"),
+        ENABLE(ENABLE1),
+        DISABLE(DISABLE1),
         ACTUALS("Actuals");
         private String constant;
 
@@ -1309,11 +1325,11 @@ public class Constants {
         /**
          * Constant for Enable.
          */
-        ENABLE("Enable"),
+        ENABLE(ENABLE1),
         /**
          * Constant for Disable.
          */
-        DISABLE("Disable");
+        DISABLE(DISABLE1);
         /**
          * The constant.
          */
@@ -1351,9 +1367,9 @@ public class Constants {
      /**
      * The Constant Avilable Customer Header.
      */
-    public static final String AVAILABLE_ITEMS_HEADERS[] = new String[]{
+    public final String[] availableItemsHeaders = new String[]{
         "", "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand Name", "Item No", "Item Name","Item Identifier Type","Item Identifier"};
-    public static final Object AVAILABLE_ITEMS_VISIBLE_COLUMNS[] = new Object[]{
+    public final Object[] availableItemsVisibleColumns = new Object[]{
         Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName","itemIdentifierType","itemIdentifier"};
     
     public static final String PROGRAM = "Program";

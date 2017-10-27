@@ -1,13 +1,19 @@
 package com.stpl.app.global.cfp.dto;
 
+import com.stpl.app.global.cfp.logic.CFPSearchLogic;
 import com.stpl.app.global.cfp.util.UIUtils;
 import com.stpl.app.global.common.util.CommonUtil;
 import com.stpl.app.global.common.dto.SessionDTO;
+import com.stpl.app.global.company.util.QueryUtils;
 import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
+import com.stpl.ifs.ui.CustomePagedFilterTable;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -16,18 +22,24 @@ import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtPagedFilterTableContainer;
 import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
 
 /**
  * The Class CFPTableGenerator.
  */
 public class CFPTableGenerator extends DefaultFieldFactory {
 
-    
-      /**
-     * The company details save bean is used to save the company details before performing any activity
-     * it will get the object form lazy container while user trying to edit or changing any value in the table and it is useful for saving in temp table
+    /**
+     * The company details save bean is used to save the company details before
+     * performing any activity it will get the object form lazy container while
+     * user trying to edit or changing any value in the table and it is useful
+     * for saving in temp table
      */
     private final BeanItemContainer<CFPCompanyDTO> companyDetailsResultBean;
     /**
@@ -36,10 +48,18 @@ public class CFPTableGenerator extends DefaultFieldFactory {
     private static final Logger LOGGER = Logger.getLogger(CFPTableGenerator.class);
     private CommonUtil commonUtil = CommonUtil.getInstance();
     SessionDTO sessionDTO;
-
-    public CFPTableGenerator(final BeanItemContainer<CFPCompanyDTO> companyDetailsResultBean, final SessionDTO sessionDTO) {
+    CustomePagedFilterTable table;
+    int count=0;
+    private String userId;
+    private String sessionId;
+   
+    List checkUpdate=new ArrayList();
+    List checkSelect=new ArrayList();
+    private int check;
+    public CFPTableGenerator(final BeanItemContainer<CFPCompanyDTO> companyDetailsResultBean, final SessionDTO sessionDTO, CustomePagedFilterTable table) {
         this.companyDetailsResultBean = companyDetailsResultBean;
-        this.sessionDTO=sessionDTO;
+        this.sessionDTO = sessionDTO;
+        this.table = table;
     }
 
     /**
@@ -54,14 +74,44 @@ public class CFPTableGenerator extends DefaultFieldFactory {
     @Override
     public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
      final  CFPCompanyDTO cfpCompanyDTO=(CFPCompanyDTO) itemId;
+     userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
+     sessionId = sessionDTO.getUiSessionId();
+     
         if (ConstantsUtils.CHECK_BOX.equals(propertyId)) {
             final CheckBox checkbox = new CheckBox();
             checkbox.setReadOnly(false);
             checkbox.setValue(cfpCompanyDTO.getCheckbox());
             checkbox.addValueChangeListener(new Property.ValueChangeListener() {
                 public void valueChange(Property.ValueChangeEvent event) {
-                    if (cfpCompanyDTO.getCheckbox() != null ){
+                    if (cfpCompanyDTO.getCheckbox() != null) {
                         companyDetailsResultBean.addItem(itemId);
+                        check = cfpCompanyDTO.getCheckbox() ? 1 : 0;
+                        checkUpdate=new ArrayList();
+                        
+
+                        checkUpdate.add(check);
+                        checkUpdate.add(sessionId);
+                        checkUpdate.add(userId);
+                        checkUpdate.add(cfpCompanyDTO.getCompanyId());
+
+                        QueryUtils.updateAppData(checkUpdate, "CFPCheckUpdate");
+                        checkUpdate = new ArrayList();
+
+                        checkUpdate.add(sessionId);
+                        checkUpdate.add(userId);
+                        
+                        checkSelect=new ArrayList();
+
+                        checkSelect = QueryUtils.getAppData(checkUpdate,"CFPCheckSelect", null);
+
+                        if (checkSelect.size() == 0) {
+                            table.setCurrentPage(table.getCurrentPage());
+                            table.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, true);
+                        } else {
+                            table.setCurrentPage(table.getCurrentPage());
+                            table.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, false);
+                        }
+
                     }
                 }
             });
@@ -82,8 +132,8 @@ public class CFPTableGenerator extends DefaultFieldFactory {
                 public void valueChange(Property.ValueChangeEvent event) {
                     if(event.getProperty().getValue() !=null ){
                         cfpCompanyDTO.setCheckFlag(true);
-                    companyDetailsResultBean.addItem(itemId);
-                    cfpStartDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(cfpStartDate.getValue()));
+                        companyDetailsResultBean.addItem(itemId);
+                        cfpStartDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(cfpStartDate.getValue()));
                     }
                 }
             });
@@ -100,10 +150,10 @@ public class CFPTableGenerator extends DefaultFieldFactory {
             cfpEndDate.addValueChangeListener(new Property.ValueChangeListener() {
                 public void valueChange(Property.ValueChangeEvent event) {
                      if(event.getProperty().getValue() !=null ){
-                         cfpCompanyDTO.setCheckFlag(true);
-                    companyDetailsResultBean.addItem(itemId);
-                    cfpEndDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(cfpEndDate.getValue()));
-                     }
+                        cfpCompanyDTO.setCheckFlag(true);
+                        companyDetailsResultBean.addItem(itemId);
+                        cfpEndDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(cfpEndDate.getValue()));
+                    }
                 }
             });
             return cfpEndDate;
@@ -115,7 +165,7 @@ public class CFPTableGenerator extends DefaultFieldFactory {
             cfpAttachedDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
             cfpAttachedDate.setImmediate(true);
             cfpAttachedDate.setReadOnly(true);
-            
+
             return cfpAttachedDate;
         }
         if ("modifiedDate".equals(propertyId)) {
@@ -124,7 +174,7 @@ public class CFPTableGenerator extends DefaultFieldFactory {
             modifiedDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
             modifiedDate.setImmediate(true);
             modifiedDate.setReadOnly(true);
-            
+
             return modifiedDate;
         }
         if ("createdDate".equals(propertyId)) {
@@ -133,36 +183,36 @@ public class CFPTableGenerator extends DefaultFieldFactory {
             createdDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
             createdDate.setImmediate(true);
             createdDate.setReadOnly(true);
-            
+
             return createdDate;
         }
         /*GAL-528*/
         if("tradingPartnerContractNo".equals(propertyId)){
             final TextField tradingPartnerContractNo = new TextField();
-                tradingPartnerContractNo.setImmediate(true);
-                tradingPartnerContractNo.setValue(cfpCompanyDTO.getTradingPartnerContractNo());
-                tradingPartnerContractNo.addValueChangeListener(new Property.ValueChangeListener() {
-                    public void valueChange(Property.ValueChangeEvent event) {
-                        if (event.getProperty().getValue() != null) {
-                            cfpCompanyDTO.setCheckFlag(true);
-                            companyDetailsResultBean.addItem(itemId);
-                        }
+            tradingPartnerContractNo.setImmediate(true);
+            tradingPartnerContractNo.setValue(cfpCompanyDTO.getTradingPartnerContractNo());
+            tradingPartnerContractNo.addValueChangeListener(new Property.ValueChangeListener() {
+                public void valueChange(Property.ValueChangeEvent event) {
+                    if (event.getProperty().getValue() != null) {
+                        cfpCompanyDTO.setCheckFlag(true);
+                        companyDetailsResultBean.addItem(itemId);
                     }
-                });
-                
+                }
+            });
 
-                return tradingPartnerContractNo;
+
+            return tradingPartnerContractNo;
         }
         if (ConstantsUtils.CFP_STATUS.equals(propertyId)) {
 
             final ComboBox cfpStatus = new ComboBox();
-         
-         try {
-             commonUtil.loadComboBox(cfpStatus, UIUtils.CFP_STATUS, false);
-              } catch (Exception ex) {
-             LOGGER.error(ex);
-         }
-       
+
+            try {
+                commonUtil.loadComboBox(cfpStatus, UIUtils.CFP_STATUS, false);
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+
             cfpStatus.addValueChangeListener(new Property.ValueChangeListener() {
                 public void valueChange(Property.ValueChangeEvent event) {
                     if (event.getProperty().getValue() != null && StringUtils.EMPTY.equals(event.getProperty().getValue().toString())) {
@@ -175,7 +225,7 @@ public class CFPTableGenerator extends DefaultFieldFactory {
             });
             return cfpStatus;
         }
-        
+
         if ("modifiedBy".equals(propertyId)) {
             final String isSaved = String.valueOf(sessionDTO.getIsSave());
             final TextField modifiedBy = new TextField();

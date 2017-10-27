@@ -1178,6 +1178,34 @@ public interface VwItemMasterModel extends BaseModel<VwItemMaster> {
      */
     public void setNonFederalExpirationDate(Date nonFederalExpirationDate);
 
+    /**
+     * Returns the base cpi precision of this vw item master.
+     *
+     * @return the base cpi precision of this vw item master
+     */
+    public int getBaseCpiPrecision();
+
+    /**
+     * Sets the base cpi precision of this vw item master.
+     *
+     * @param baseCpiPrecision the base cpi precision of this vw item master
+     */
+    public void setBaseCpiPrecision(int baseCpiPrecision);
+
+    /**
+     * Returns the baseline amp precision of this vw item master.
+     *
+     * @return the baseline amp precision of this vw item master
+     */
+    public int getBaselineAmpPrecision();
+
+    /**
+     * Sets the baseline amp precision of this vw item master.
+     *
+     * @param baselineAmpPrecision the baseline amp precision of this vw item master
+     */
+    public void setBaselineAmpPrecision(int baselineAmpPrecision);
+
     @Override
     public boolean isNew();
 

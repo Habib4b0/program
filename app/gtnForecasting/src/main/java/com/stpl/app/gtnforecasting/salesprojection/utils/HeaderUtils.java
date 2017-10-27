@@ -43,22 +43,25 @@ public class HeaderUtils {
     /**
      * The PMPY Available Product columns.
      */
-    public static Object[] PMPY_PRODUCT_COLUMNS = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
+    public Object[] pmpyProductColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
 
     /**
      * The PMPY Available Product Headers.
      */
-    public static String[] PMPY_PRODUCT_HEADER = new String[]{"Product #", "Product Name"};
+    public String[] pmpyProductHeader = new String[]{"Product #", "Product Name"};
 
     /**
      * The PMPY Available Product columns.
      */
-    public static Object[] PMPY_COLUMNS = new Object[]{"actuals", "projections"};
+    public Object[] pmpyColumns = new Object[]{"actuals", "projections"};
+    public static final String PRODUCT_GROWTH1 = " Product Growth";
+    public static final String PROJECTED_UNITS1 = " Projected Units";
+    public static final String PROJECTED_SALES1 = "Projected Sales";
 
     /**
      * The PMPY Available Product Headers.
      */
-    public static String[] PMPY_HEADER = new String[]{Constant.ACTUALS, Constant.PROJECTIONS};
+    public String[] pmpyHeader = new String[]{Constant.ACTUALS, Constant.PROJECTIONS};
 
     /**
      * To load the Header
@@ -79,12 +82,12 @@ public class HeaderUtils {
     private HeaderUtils() {
 
     }
-
+    
     public static CustomTableHeaderDTO getSalesProjectionLeftTableColumns() {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
 
         tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_LABEL, String.class);
         tableHeaderDTO.addDoubleColumn("grouped", " ");
         tableHeaderDTO.addDoubleHeaderMap("grouped", new Object[]{Constant.CHECK, Constant.LEVELNAME});
 
@@ -102,7 +105,7 @@ public class HeaderUtils {
         String pivotView = projSelDTO.getPivotView();
         String frequency = projSelDTO.getFrequency();
         Set massPopulateSet = new TreeSet();
-         List<String> colList = new ArrayList<String>();
+         List<String> colList = new ArrayList<>();
         CommonUtils.getHistoryAndProjectionDetails(projSelDTO);
 
         int historyNum = projSelDTO.getHistoryNum();
@@ -145,13 +148,14 @@ public class HeaderUtils {
         fullHeaderDTO.setEndPeriod(endPeriod);
         fullHeaderDTO.setProjectionOrder(projectionOrder);
         prepareCommonColumnHeaders(projSelDTO);
+        Map<Integer, List> periodListMapForExcel = new HashMap<>();
         if (pivotView != null && pivotView.contains(Constant.VARIABLE)) {
             projSelDTO.setColumns(new ArrayList<String>());
-            String commonColumn = StringUtils.EMPTY;
-            String commonHeader = StringUtils.EMPTY;
+            String commonColumn;
+            String commonHeader;
             commonColumn = "uv";
             commonHeader = Constant.UNITS_CAPS;
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             if (projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS)) {
                 Object singleColumn = commonColumn + Constant.ACTUALS;
                 dmap.add(singleColumn);
@@ -172,19 +176,57 @@ public class HeaderUtils {
             }
             projSelDTO.setColumns(CommonUtils.objectListToStringList(fullHeaderDTO.getSingleColumns()));
         } else {
-        List<String> periodList = projSelDTO.getPeriodList();
-        Map<String, String> periodListMap = projSelDTO.getPeriodListMap();       
-        for (int i = 0; i < periodList.size(); i++) {
-            List<Object> dmap = new ArrayList<Object>();
-            String commonColumn = periodList.get(i);
-            String commonHeader = periodListMap.get(commonColumn);
+            try{
+                List<String> periodList = projSelDTO.getPeriodList();
+                Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
+                List<Object> singleColumnForExcel = new ArrayList<>();//Added for tabwise excel export
+                List<String> singleHeaderForExcel = new ArrayList<>();
+                List<Object> doubleColumnForExcel = new ArrayList<>();
+                List<String> doubleHeaderForExcel = new ArrayList<>();
+                Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
+                List headerListForExcel;
+                int sizeToCopy = excelHeader.getSingleColumns().size();//Added for tabwise excel export
+                List<Object> singleColumns = new ArrayList<>(excelHeader.getSingleColumns().subList(0, sizeToCopy));
+                List<String> singleHeaders = new ArrayList<>(excelHeader.getSingleHeaders().subList(0, sizeToCopy));//Ends here
+
+                int tempYear, j = 0, k = 0;//Ends here
+                for (int i = 0; i < periodList.size(); i++) {
+                    List<Object> dmap = new ArrayList<>();
+                    String commonColumn = periodList.get(i);
+                    String commonHeader = periodListMap.get(commonColumn);
+
+                    boolean excelTab = frequencyDivision == NumericConstants.FOUR || frequencyDivision == NumericConstants.TWELVE;//Added for tabwise excel export
+                    tempYear = excelTab ? frequencyDivision == NumericConstants.FOUR ? Integer.parseInt(commonColumn.substring(NumericConstants.TWO, commonColumn.length()))
+                            : Integer.parseInt(commonColumn.replaceAll("[^\\d.]", StringUtils.EMPTY)) : 0;
+                    if (k != tempYear) {
+
+                        singleColumnForExcel = new ArrayList<>();
+                        singleHeaderForExcel = new ArrayList<>();
+                        headerListForExcel = new ArrayList();
+                        doubleColumnForExcel = new ArrayList<>();
+                        doubleHeaderForExcel = new ArrayList<>();
+                        doubleHeaderMap = new HashMap<>();
+                        headerListForExcel.add(singleColumnForExcel);
+                        headerListForExcel.add(singleHeaderForExcel);
+                        headerListForExcel.add(tempYear);
+                        headerListForExcel.add(doubleColumnForExcel);
+                        headerListForExcel.add(doubleHeaderForExcel);
+                        headerListForExcel.add(doubleHeaderMap);
+                        periodListMapForExcel.put(j, headerListForExcel);
+                        j++;
+                        singleColumnForExcel.addAll(singleColumns);
+                        singleHeaderForExcel.addAll(singleHeaders);
+
+                        doubleColumnForExcel.add(StringUtils.EMPTY);
+                        doubleHeaderForExcel.add(StringUtils.EMPTY);
+                        doubleHeaderMap.put(StringUtils.EMPTY, singleColumns.toArray());
+                        k = tempYear;
+                    }//Ends here
             if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projSelDTO.getScreenName())) {
                 if (projSelDTO.getFrequencyDivision() != 1) {
                     StringBuilder str = new StringBuilder(commonColumn);
                     commonColumn = str.insert(commonColumn.length() - NumericConstants.FOUR, '-').toString();
                 }
-                String[] variableArr = new String[projSelDTO.getVariableList().size()];
-                variableArr = projSelDTO.getVariableList().toArray(variableArr);
 
                 if (i >= projSelDTO.getHistoryStartIndex() && i <= projSelDTO.getHistoryEndIndex()) {
                     if (Constant.ACTUALS.equals(projSelDTO.getActualsOrProjections()) || Constant.BOTH.equals(projSelDTO.getActualsOrProjections())) {
@@ -196,28 +238,28 @@ public class HeaderUtils {
                     }
                     if ((Constant.PROJECTIONS.equals(projSelDTO.getActualsOrProjections()) || Constant.BOTH.equals(projSelDTO.getActualsOrProjections())) && i < projSelDTO.getProjectionStartIndex()) {
 
-                        columnConfigure(commonColumn + "-HistoryProjectedReturn%", commonHeader + " Projected Return %", "Projected Return %", tableHeaderDTO, excelHeader, dmap);
-                        columnConfigure(commonColumn + "-HistoryProjectedRPU", commonHeader + "Projected RPU", "Projected RPU", tableHeaderDTO, excelHeader, dmap);
-                        columnConfigure(commonColumn + "-HistoryProjectedReturnAmount", commonHeader + "Projected Return Amount", "Projected Return Amount", tableHeaderDTO, excelHeader, dmap);
-                        columnConfigure(commonColumn + "-HistoryGrowthRate", commonHeader + "Growth Rate", "Growth Rate", tableHeaderDTO, excelHeader, dmap);
+                        columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_RETURN, commonHeader + Constant.PROJECTED_RETURN_PERCENT, Constant.PROJECTED_RETURN_PER, tableHeaderDTO, excelHeader, dmap);
+                        columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_RPU, commonHeader + Constant.PROJECTED_RPU1, Constant.PROJECTED_RPU1, tableHeaderDTO, excelHeader, dmap);
+                        columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_RETURN_AMOUNT, commonHeader + Constant.PROJECTED_RETURN_AMOUNT1, Constant.PROJECTED_RETURN_AMOUNT1, tableHeaderDTO, excelHeader, dmap);
+                        columnConfigure(commonColumn + Constant.HISTORY_GROWTH_RATE, commonHeader + Constant.GROWTH_RATE, Constant.GROWTH_RATE, tableHeaderDTO, excelHeader, dmap);
                         colList.add(commonColumn);
                         projSelDTO.setCommonColumn(colList);
                     }
                     tableHeaderDTO.addDoubleHistoryColumn(commonColumn, commonHeader);
                 }
                 if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    columnConfigure(commonColumn + "-ProjectedReturn%", commonHeader + " Projected Return %", "Projected Return %", tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-ProjectedRPU", commonHeader + "Projected RPU", "Projected RPU", tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-ProjectedReturnAmount", commonHeader + "Projected Return Amount", "Projected Return Amount", tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-GrowthRate", commonHeader + "Growth Rate", "Growth Rate", tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + "-ProjectedReturn%", commonHeader + Constant.PROJECTED_RETURN_PERCENT, Constant.PROJECTED_RETURN_PER, tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + "-ProjectedRPU", commonHeader + Constant.PROJECTED_RPU1, Constant.PROJECTED_RPU1, tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + "-ProjectedReturnAmount", commonHeader + Constant.PROJECTED_RETURN_AMOUNT1, Constant.PROJECTED_RETURN_AMOUNT1, tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + "-GrowthRate", commonHeader + Constant.GROWTH_RATE, Constant.GROWTH_RATE, tableHeaderDTO, excelHeader, dmap);
                     tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
                 } else if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
 
-                    columnConfigure(commonColumn + "-ProjectedReturn%", commonHeader + " Projected Return %", "Projected Return %", tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-ProjectedRPU", commonHeader + "Projected RPU", "Projected RPU", tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-HistoryProjectedSales", commonHeader + " Projected Sales", "Projected Sales", tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-ProjectedReturnAmount", commonHeader + "Projected Return Amount", "Projected Return Amount", tableHeaderDTO, excelHeader, dmap);
-                    columnConfigure(commonColumn + "-GrowthRate", commonHeader + "Growth Rate", "Growth Rate", tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + "-ProjectedReturn%", commonHeader + Constant.PROJECTED_RETURN_PERCENT, Constant.PROJECTED_RETURN_PER, tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + "-ProjectedRPU", commonHeader + Constant.PROJECTED_RPU1, Constant.PROJECTED_RPU1, tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_SALES_DASH, commonHeader + Constant.PROJECTED_SALES, PROJECTED_SALES1, tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + "-ProjectedReturnAmount", commonHeader + Constant.PROJECTED_RETURN_AMOUNT1, Constant.PROJECTED_RETURN_AMOUNT1, tableHeaderDTO, excelHeader, dmap);
+                    columnConfigure(commonColumn + "-GrowthRate", commonHeader + Constant.GROWTH_RATE, Constant.GROWTH_RATE, tableHeaderDTO, excelHeader, dmap);
                 }
             } else {
                 if (projSelDTO.getFrequencyDivision() != 1) {
@@ -232,10 +274,14 @@ public class HeaderUtils {
                             value = value.trim();
                             switch (value) {
                                 case Constant.SALES_SMALL:
-                                    columnConfigure(commonColumn + "-ActualSales", commonHeader + " Actual Sales", Constant.ACTUAL_SALES, tableHeaderDTO, excelHeader, dmap);
+                                    columnConfigure(commonColumn + Constant.ACTUAL_SALES_AT, commonHeader + " Actual Sales", Constant.ACTUAL_SALES, tableHeaderDTO, excelHeader, dmap);
+                                    singleColumnForExcel.add(commonColumn + Constant.ACTUAL_SALES_AT);//Added for tabwise excel export
+                                    singleHeaderForExcel.add(commonHeader + " Actual Sales");//Ends here
                                     break;
                                 case Constant.UNITS_SMALL:
-                                    columnConfigure(commonColumn + "-ActualUnits", commonHeader + " Actual Units", "Actual Units", tableHeaderDTO, excelHeader, dmap);
+                                    columnConfigure(commonColumn + Constant.ACTUAL_UNITS_DASH, commonHeader + Constant.ACTUAL_UNITS_SPACE, Constant.ACTUAL_UNITS_LABEL, tableHeaderDTO, excelHeader, dmap);
+                                    singleColumnForExcel.add(commonColumn + Constant.ACTUAL_UNITS_DASH);//Added for tabwise excel export
+                                    singleHeaderForExcel.add(commonHeader + Constant.ACTUAL_UNITS_SPACE);//Ends here
                                     break;
                             }
                         }
@@ -245,10 +291,14 @@ public class HeaderUtils {
                             value = value.trim();
                             switch (value) {
                                 case Constant.SALES_SMALL:
-                                    columnConfigure(commonColumn + "-HistoryProjectedSales", commonHeader + " Projected Sales", "Projected Sales", tableHeaderDTO, excelHeader, dmap);
+                                    columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_SALES_DASH, commonHeader + Constant.PROJECTED_SALES, PROJECTED_SALES1, tableHeaderDTO, excelHeader, dmap);
+                                    singleColumnForExcel.add(commonColumn + Constant.HISTORY_PROJECTED_SALES_DASH);//Added for tabwise excel export
+                                    singleHeaderForExcel.add(commonHeader + Constant.PROJECTED_SALES);//Ends here
                                     break;
                                 case Constant.UNITS_SMALL:
-                                    columnConfigure(commonColumn + "-HistoryProjectedUnits", commonHeader + " Projected Units", "Projected Units", tableHeaderDTO, excelHeader, dmap);
+                                    columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_UNITS1, commonHeader + PROJECTED_UNITS1, Constant.PROJECTED_UNITS, tableHeaderDTO, excelHeader, dmap);
+                                    singleColumnForExcel.add(commonColumn + Constant.HISTORY_PROJECTED_UNITS1);//Added for tabwise excel export
+                                    singleHeaderForExcel.add(commonHeader + PROJECTED_UNITS1);//Ends here
                                     break;
                             }
                         }
@@ -261,16 +311,24 @@ public class HeaderUtils {
                         massPopulateSet.add(commonHeader);
                         switch (value) {
                             case Constant.SALES_SMALL:
-                                columnConfigure(commonColumn + "-ProjectedSales", commonHeader + " Projected Sales", "Projected Sales", tableHeaderDTO, excelHeader, dmap);
+                                columnConfigure(commonColumn + Constant.PROJECTED_SALES2, commonHeader + Constant.PROJECTED_SALES, PROJECTED_SALES1, tableHeaderDTO, excelHeader, dmap);
+                                singleColumnForExcel.add(commonColumn + Constant.PROJECTED_SALES2);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + Constant.PROJECTED_SALES);//Ends here
                                 break;
                             case Constant.UNITS_SMALL:
-                                columnConfigure(commonColumn + "-ProjectedUnits", commonHeader + " Projected Units", "Projected Units", tableHeaderDTO, excelHeader, dmap);
+                                columnConfigure(commonColumn + Constant.PROJECTED_UNITS_TILT, commonHeader + PROJECTED_UNITS1, Constant.PROJECTED_UNITS, tableHeaderDTO, excelHeader, dmap);
+                                singleColumnForExcel.add(commonColumn + Constant.PROJECTED_UNITS_TILT);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + PROJECTED_UNITS1);//Ends here
                                 break;
                             case Constant.PRODUCT_GROWTH:
-                                columnConfigure(commonColumn + "-ProductGrowth", commonHeader + " Product Growth", Constant.PRODUCT_GROWTH, tableHeaderDTO, excelHeader, dmap);
+                                columnConfigure(commonColumn + Constant.PRODUCT_GROWTH_TILT, commonHeader + PRODUCT_GROWTH1, Constant.PRODUCT_GROWTH, tableHeaderDTO, excelHeader, dmap);
+                                singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1);//Ends here
                                 break;
                             case Constant.ACCOUNT_GROWTH:
-                                columnConfigure(commonColumn + "-AccountGrowth", commonHeader + " Account Growth", Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
+                                columnConfigure(commonColumn + Constant.ACCOUNT_GROWTH_TILT, commonHeader + Constant.ACCOUNT_GROWTH_1, Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
+                                singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1);//Ends here
                                 break;
                         }
                     }
@@ -283,16 +341,24 @@ public class HeaderUtils {
                         switch (value) {
                             case Constant.SALES_SMALL:                               
 
-                             columnConfigure(commonColumn + "-ProjectedSalesDis", commonHeader + " Projected Sales", "Projected Sales", tableHeaderDTO, excelHeader, dmap);
+                             columnConfigure(commonColumn + Constant.PROJECTED_SALES2, commonHeader + Constant.PROJECTED_SALES, PROJECTED_SALES1, tableHeaderDTO, excelHeader, dmap);
+                             singleColumnForExcel.add(commonColumn + Constant.PROJECTED_SALES2);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + Constant.PROJECTED_SALES);//Ends here
                                 break;
                             case Constant.UNITS_SMALL:
-                                columnConfigure(commonColumn + "-ProjectedUnitsDis", commonHeader + " Projected Units", "Projected Units", tableHeaderDTO, excelHeader, dmap);
+                                columnConfigure(commonColumn + Constant.PROJECTED_UNITS_TILT, commonHeader + PROJECTED_UNITS1, Constant.PROJECTED_UNITS, tableHeaderDTO, excelHeader, dmap);
+                                singleColumnForExcel.add(commonColumn + Constant.PROJECTED_UNITS_TILT);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + PROJECTED_UNITS1);//Ends here
                                 break;
                             case Constant.PRODUCT_GROWTH:
-                                columnConfigure(commonColumn + "-ProductGrowthDis", commonHeader + " Product Growth", Constant.PRODUCT_GROWTH, tableHeaderDTO, excelHeader, dmap);
+                                columnConfigure(commonColumn + Constant.PRODUCT_GROWTH_TILT, commonHeader + PRODUCT_GROWTH1, Constant.PRODUCT_GROWTH, tableHeaderDTO, excelHeader, dmap);
+                                singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1);//Ends here
                                 break;
                             case Constant.ACCOUNT_GROWTH:
-                                columnConfigure(commonColumn + "-AccountGrowthDis", commonHeader + " Account Growth", Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
+                                columnConfigure(commonColumn + Constant.ACCOUNT_GROWTH_TILT, commonHeader + Constant.ACCOUNT_GROWTH_1, Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
+                                singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1);//Ends here
                                 break;
                         }
                     }
@@ -303,8 +369,12 @@ public class HeaderUtils {
                 tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
                 tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
 
-                fullHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                fullHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
+                excelHeader.addDoubleColumn(commonColumn, commonHeader);
+                excelHeader.addDoubleHeaderMap(commonColumn, dmap.toArray());
+                
+                doubleColumnForExcel.add(commonColumn);//Added for tabwise excel export
+                doubleHeaderForExcel.add(commonHeader);
+                doubleHeaderMap.put(commonColumn, dmap.toArray());//Ends here
             }
         }
         List<String> columnList=CommonUtils.objectListToStringList(tableHeaderDTO.getSingleColumns());
@@ -315,7 +385,11 @@ public class HeaderUtils {
             massPopulateList.add(object);
         }
         projSelDTO.setProjectedList(massPopulateList);
+            } catch (Exception e) {
+                LOGGER.error(e);
+            }
         }
+        projSelDTO.setHeaderMapForExcel(periodListMapForExcel);//Added for tabwise excel export
         return tableHeaderDTO;
     }
 
@@ -337,8 +411,8 @@ public class HeaderUtils {
         int historyEndIndex = -1;
         int projectionEndIndex = -1;
         int forecastEndIndex = -1;
-        List<String> periodList = new ArrayList<String>();
-        Map<String, String> periodListMap = new HashMap<String, String>();
+        List<String> periodList = new ArrayList<>();
+        Map<String, String> periodListMap = new HashMap<>();
         int startPr = 1;
         int lastPr = frequencyDivision;
         if (year != 0) {
@@ -398,7 +472,6 @@ public class HeaderUtils {
             
             //Calculating projection
             startPr = projSelDTO.getProjectionStartPeriod() == 0 ? 1 : projSelDTO.getProjectionStartPeriod();
-            lastPr = frequencyDivision;
             int projectionStartYear = projSelDTO.getProjectionStartYear();
             int projectionEndYear = projSelDTO.getForecastDTO().getProjectionEndYear();
                 lastPr = projSelDTO.getProjectionEndPeriod();
@@ -413,7 +486,6 @@ public class HeaderUtils {
 
             //Calculating history
             startPr = projSelDTO.getHistoryStartPeriod() == 0 ? 1 : projSelDTO.getHistoryStartPeriod();
-            lastPr = frequencyDivision;
             int historyStartYear = projSelDTO.getHistoryStartYear();
             int historyEndYear = projSelDTO.getHistoryEndYear();
             lastPr = projSelDTO.getHistoryEndPeriod();
@@ -430,7 +502,6 @@ public class HeaderUtils {
             
             //Calculating forecast
             startPr = projSelDTO.getForecastStartPeriod() == 0 ? 1 : projSelDTO.getForecastStartPeriod();
-            lastPr = frequencyDivision;
             int forecastStartYear = projSelDTO.getForecastDTO().getForecastStartYear();
             int forecastEndYear = projSelDTO.getForecastDTO().getForecastEndYear();
             lastPr = projSelDTO.getForecastEndPeriod();
@@ -515,7 +586,7 @@ public class HeaderUtils {
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {
-        List<String> common = new ArrayList<String>();
+        List<String> common = new ArrayList<>();
         String commonColumn = StringUtils.EMPTY;
         String commonHeader = StringUtils.EMPTY;
         if (frequencyDivision == 1) {
@@ -555,19 +626,19 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getSalesLeftTableColumns(final ProjectionSelectionDTO projectionSelectionDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         if ("Alternate_History".equals(projectionSelectionDTO.getFunctionality())) {
-            tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
-            tableHeaderDTO.addDoubleColumn("group1", " ");
-            tableHeaderDTO.addDoubleHeaderMap("group1", new Object[]{Constant.LEVELNAME});
+            tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_LABEL, String.class);
+            tableHeaderDTO.addDoubleColumn(Constant.GROUP1_SMALL, " ");
+            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.LEVELNAME});
         } else {
             tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-            tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+            tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_LABEL, String.class);
             if (projectionSelectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 tableHeaderDTO.addSingleColumn(Constant.GROUP, "Group", String.class);
             }
             tableHeaderDTO.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
             tableHeaderDTO.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
-            tableHeaderDTO.addDoubleColumn("group1", " ");
-            tableHeaderDTO.addDoubleHeaderMap("group1", new Object[]{Constant.CHECK, Constant.LEVELNAME, Constant.GROUP, Constant.BASELINE, Constant.METHODOLOGY});
+            tableHeaderDTO.addDoubleColumn(Constant.GROUP1_SMALL, " ");
+            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVELNAME, Constant.GROUP, Constant.BASELINE, Constant.METHODOLOGY});
         }
         return tableHeaderDTO;
     }
@@ -583,7 +654,7 @@ public class HeaderUtils {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         CustomTableHeaderDTO excelDto = new CustomTableHeaderDTO();
         excelDto.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-        excelDto.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+        excelDto.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_LABEL, String.class);
         excelDto.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
         excelDto.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
         return getCalculatedSalesColumnsforSales(selection, tableHeaderDTO, excelDto, sessionDTO);
@@ -602,9 +673,9 @@ public class HeaderUtils {
     public static List getCalculatedSalesColumnsforSales(Map selection, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO excelDto, SessionDTO session) {
         ForecastDTO forecastDTO = session.getForecastDTO();
 
-        Map<Object, Object[]> reProjectedColumn = new HashMap<Object, Object[]>();
-        Map<Object, Object[]> doubleHeaderHistoryMap = new HashMap<Object, Object[]>();
-        List<String> totalProjected = new ArrayList<String>();
+        Map<Object, Object[]> reProjectedColumn = new HashMap<>();
+        Map<Object, Object[]> doubleHeaderHistoryMap = new HashMap<>();
+        List<String> totalProjected = new ArrayList<>();
 
         String hist = selection.get(Constant.HISTORY).toString();
         String projFreq = selection.get("projectFrequency").toString();
@@ -613,8 +684,8 @@ public class HeaderUtils {
 
         String salesVar = (String) selection.get(Constant.SALES);
         String unitsVar = (String) selection.get(Constant.UNITS);
-        String pGrowthVar = (String) selection.get(Constant.P_Growth);
-        String aGrowthVar = (String) selection.get(Constant.A_Growth);
+        String pGrowthVar = (String) selection.get(Constant.P_GROWTH);
+        String aGrowthVar = (String) selection.get(Constant.A_GROWTH);
 
         int curMonth = forecastDTO.getForecastStartMonth() - 1;
         int curYear = forecastDTO.getForecastStartYear();
@@ -647,9 +718,9 @@ public class HeaderUtils {
         int reprojtionEndQuator = getQuarter(forecastDTO.getProjectionEndMonth());
         int reprojtionEndYear = forecastDTO.getProjectionEndYear();
         for (int i = 0; i < frequency; i++) {
-            List<Object> dmap = new ArrayList<Object>();
-            List<Object> historyObj = new ArrayList<Object>();
-            List<Object> projectionObj = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
+            List<Object> historyObj = new ArrayList<>();
+            List<Object> projectionObj = new ArrayList<>();
 
             String commonColumn = Constant.Q_SMALL + squr + "-" + syear;
             String commonHeader = Constant.Q + squr + " " + syear;
@@ -674,7 +745,7 @@ public class HeaderUtils {
             }
 
             if ((projection.contains(Constant.BOTH) || projection.contains(ACTUALS)) && (salesVar.equals(Constant.TRUE))) {
-                    String singleColumn = commonColumn + "-ActualSales";
+                    String singleColumn = commonColumn + Constant.ACTUAL_SALES_AT;
                     dmap.add(singleColumn);
                     historyObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.ACTUAL_SALES, String.class);
@@ -683,73 +754,73 @@ public class HeaderUtils {
             }
             if (!reprojectionAllowed) {
                 if ((projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS)) && (salesVar.equals(Constant.TRUE))) {
-                        String singleColumn = commonColumn + "-HistoryProjectedSales";
+                        String singleColumn = commonColumn + Constant.HISTORY_PROJECTED_SALES_DASH;
                         dmap.add(singleColumn);
                         historyObj.add(singleColumn);
-                        tableHeaderDTO.addSingleColumn(singleColumn, "Projected Sales", String.class);
-                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, "Projected Sales");
-                        excelDto.addSingleColumn(singleColumn, commonHeader + "  Projected Sales", String.class);
+                        tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_SALES1, String.class);
+                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, PROJECTED_SALES1);
+                        excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_SALES_SPACE, String.class);
                 }
             } else {
                 if ((projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS)) && (salesVar.equals(Constant.TRUE))) {
-                        String singleColumn = commonColumn + "-ProjectedSales";
+                        String singleColumn = commonColumn + Constant.PROJECTED_SALES2;
                         dmap.add(singleColumn);
                         historyObj.add(singleColumn);
                         projectionObj.add(singleColumn);
-                        tableHeaderDTO.addSingleColumn(singleColumn, "Projected Sales", String.class);
-                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, "Projected Sales");
-                        excelDto.addSingleColumn(singleColumn, commonHeader + "  Projected Sales", String.class);
+                        tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_SALES1, String.class);
+                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, PROJECTED_SALES1);
+                        excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_SALES_SPACE, String.class);
 
                 }
             }
             if ((projection.contains(Constant.BOTH) || projection.contains(ACTUALS)) && (unitsVar.equals(Constant.TRUE))) {
 
-                    String singleColumn = commonColumn + "-ActualUnits";
+                    String singleColumn = commonColumn + Constant.ACTUAL_UNITS_DASH;
                     dmap.add(singleColumn);
                     historyObj.add(singleColumn);
-                    tableHeaderDTO.addSingleColumn(singleColumn, "Actual Units", String.class);
-                    tableHeaderDTO.addSingleHistoryColumn(singleColumn, "Actual Units");
+                    tableHeaderDTO.addSingleColumn(singleColumn, Constant.ACTUAL_UNITS_LABEL, String.class);
+                    tableHeaderDTO.addSingleHistoryColumn(singleColumn, Constant.ACTUAL_UNITS_LABEL);
                     excelDto.addSingleColumn(singleColumn, commonHeader + "  Actual Units", String.class);
             }
             if (!reprojectionAllowed) {
                 if ((projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS)) && (unitsVar.equals(Constant.TRUE))) {
-                        String singleColumn = commonColumn + "-HistoryProjectedUnits";
+                        String singleColumn = commonColumn + Constant.HISTORY_PROJECTED_UNITS1;
                         dmap.add(singleColumn);
                         historyObj.add(singleColumn);
-                        tableHeaderDTO.addSingleColumn(singleColumn, "Projected Units", String.class);
-                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, "Projected Units");
-                        excelDto.addSingleColumn(singleColumn, commonHeader + "  Projected Units", String.class);
+                        tableHeaderDTO.addSingleColumn(singleColumn, Constant.PROJECTED_UNITS, String.class);
+                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, Constant.PROJECTED_UNITS);
+                        excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_UNITS_SPACE, String.class);
 
                 }
 
             } else {
                 if ((projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS)) && (unitsVar.equals(Constant.TRUE))) {
-                        String singleColumn = commonColumn + "-ProjectedUnits";
+                        String singleColumn = commonColumn + Constant.PROJECTED_UNITS_TILT;
                         dmap.add(singleColumn);
                         historyObj.add(singleColumn);
                         projectionObj.add(singleColumn);
-                        tableHeaderDTO.addSingleColumn(singleColumn, "Projected Units", String.class);
-                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, "Projected Units");
-                        excelDto.addSingleColumn(singleColumn, commonHeader + "  Projected Units", String.class);
+                        tableHeaderDTO.addSingleColumn(singleColumn, Constant.PROJECTED_UNITS, String.class);
+                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, Constant.PROJECTED_UNITS);
+                        excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_UNITS_SPACE, String.class);
 
                 }
 
                 if (pGrowthVar.equals(Constant.TRUE)) {
-                    String singleColumn = commonColumn + "-ProductGrowth";
+                    String singleColumn = commonColumn + Constant.PRODUCT_GROWTH_TILT;
                     dmap.add(singleColumn);
                     projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.PRODUCT_GROWTH, String.class);
                     tableHeaderDTO.addSingleHistoryColumn(singleColumn, Constant.PRODUCT_GROWTH);
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Product Growth", String.class);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PRODUCT_GROWTH_SPACE, String.class);
                 }
 
                 if (aGrowthVar.equals(Constant.TRUE)) {
-                    String singleColumn = commonColumn + "-AccountGrowth";
+                    String singleColumn = commonColumn + Constant.ACCOUNT_GROWTH_TILT;
                     dmap.add(singleColumn);
                     projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.ACCOUNT_GROWTH, String.class);
                     tableHeaderDTO.addSingleHistoryColumn(singleColumn, Constant.ACCOUNT_GROWTH);
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Account Growth", String.class);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.SPACE_ACCOUNT_GROWTH, String.class);
                 }
                 totalProjected.add(commonHeader);
             }
@@ -772,8 +843,8 @@ public class HeaderUtils {
         squr = current + 1;
         syear = curYear;
         for (int i = 0; i < projectFrequency; i++) {
-            List<Object> dmap = new ArrayList<Object>();
-            List<Object> projectionObj = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
+            List<Object> projectionObj = new ArrayList<>();
             String commonColumn = Constant.Q_SMALL + squr + "-" + syear;
             String commonHeader = Constant.Q + squr + " " + syear;
 
@@ -802,36 +873,36 @@ public class HeaderUtils {
             if (projAllowed) {
 
                 if (salesVar.equals(Constant.TRUE)) {
-                    String singleColumn = commonColumn + "-ProjectedSales";
+                    String singleColumn = commonColumn + Constant.PROJECTED_SALES2;
                     dmap.add(singleColumn);
                     projectionObj.add(singleColumn);
-                    tableHeaderDTO.addSingleColumn(singleColumn, "Projected Sales", String.class);
-                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, "Projected Sales");
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Projected Sales", String.class);
+                    tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_SALES1, String.class);
+                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, PROJECTED_SALES1);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_SALES_SPACE, String.class);
                 }
                 if (unitsVar.equals(Constant.TRUE)) {
-                    String singleColumn = commonColumn + "-ProjectedUnits";
+                    String singleColumn = commonColumn + Constant.PROJECTED_UNITS_TILT;
                     dmap.add(singleColumn);
                     projectionObj.add(singleColumn);
-                    tableHeaderDTO.addSingleColumn(singleColumn, "Projected Units", String.class);
-                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, "Projected Units");
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Projected Units", String.class);
+                    tableHeaderDTO.addSingleColumn(singleColumn, Constant.PROJECTED_UNITS, String.class);
+                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.PROJECTED_UNITS);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_UNITS_SPACE, String.class);
                 }
                 if (pGrowthVar.equals(Constant.TRUE)) {
-                    String singleColumn = commonColumn + "-ProductGrowth";
+                    String singleColumn = commonColumn + Constant.PRODUCT_GROWTH_TILT;
                     dmap.add(singleColumn);
                     projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.PRODUCT_GROWTH, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.PRODUCT_GROWTH);
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Product Growth", String.class);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PRODUCT_GROWTH_SPACE, String.class);
                 }
                 if (aGrowthVar.equals(Constant.TRUE)) {
-                    String singleColumn = commonColumn + "-AccountGrowth";
+                    String singleColumn = commonColumn + Constant.ACCOUNT_GROWTH_TILT;
                     dmap.add(singleColumn);
                     projectionObj.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.ACCOUNT_GROWTH, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.ACCOUNT_GROWTH);
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Account Growth", String.class);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.SPACE_ACCOUNT_GROWTH, String.class);
                 }
 
                 reprojtionStartQuator++;
@@ -848,30 +919,30 @@ public class HeaderUtils {
                 if (salesVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + "-ProjectedSalesDis";
                     dmap.add(singleColumn);
-                    tableHeaderDTO.addSingleColumn(singleColumn, "Projected Sales", String.class);
-                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, "Projected Sales");
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Projected Sales", String.class);
+                    tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_SALES1, String.class);
+                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, PROJECTED_SALES1);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_SALES_SPACE, String.class);
                 }
                 if (unitsVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + "-ProjectedUnitsDis";
                     dmap.add(singleColumn);
-                    tableHeaderDTO.addSingleColumn(singleColumn, "Projected Units", String.class);
-                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, "Projected Units");
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Projected Units", String.class);
+                    tableHeaderDTO.addSingleColumn(singleColumn, Constant.PROJECTED_UNITS, String.class);
+                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.PROJECTED_UNITS);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PROJECTED_UNITS_SPACE, String.class);
                 }
                 if (pGrowthVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + "-ProductGrowthDis";
                     dmap.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.PRODUCT_GROWTH, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.PRODUCT_GROWTH);
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Product Growth", String.class);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.PRODUCT_GROWTH_SPACE, String.class);
                 }
                 if (aGrowthVar.equals(Constant.TRUE)) {
                     String singleColumn = commonColumn + "-AccountGrowthDis";
                     dmap.add(singleColumn);
                     tableHeaderDTO.addSingleColumn(singleColumn, Constant.ACCOUNT_GROWTH, String.class);
                     tableHeaderDTO.addSingleProjectedColumn(singleColumn, Constant.ACCOUNT_GROWTH);
-                    excelDto.addSingleColumn(singleColumn, commonHeader + "  Account Growth", String.class);
+                    excelDto.addSingleColumn(singleColumn, commonHeader + Constant.SPACE_ACCOUNT_GROWTH, String.class);
                 }
 
             }
@@ -962,8 +1033,8 @@ public class HeaderUtils {
                 isExcelExport = false;
             }
 
-            List<Object> doubleHeaderMap = new ArrayList<Object>();
-            List<Object> tripleHeaderMap = new ArrayList<Object>();
+            List<Object> doubleHeaderMap = new ArrayList<>();
+            List<Object> tripleHeaderMap = new ArrayList<>();
             String commonColumn = StringUtils.EMPTY;
             String commonHeader = StringUtils.EMPTY;
             if (frequency.contains(QUARTERLY)) {
@@ -1006,21 +1077,30 @@ public class HeaderUtils {
         return tableHeaderDTO;
     }
 
-    public static CustomTableHeaderDTO getProjectionReturnsLeftTableColumns(final ProjectionSelectionDTO projectionSelectionDTO, CustomTableHeaderDTO excelDto) {
+    public static CustomTableHeaderDTO getProjectionReturnsLeftTableColumns( CustomTableHeaderDTO excelDto) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
         tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, Constant.BRAND_CAPS, String.class);
         tableHeaderDTO.addSingleColumn("log", "Lag", String.class);
-        tableHeaderDTO.addSingleColumn("closedDate", "Closed Date", String.class);
-        tableHeaderDTO.addSingleColumn("loeDate", "LOE Date", String.class);
-        tableHeaderDTO.addDoubleColumn("group1", " ");
-        tableHeaderDTO.addDoubleHeaderMap("group1", new Object[]{Constant.CHECK, Constant.LEVELNAME, "log", "closedDate", "loeDate"});
+        tableHeaderDTO.addSingleColumn(Constant.CLOSED_DATE, "Closed Date", String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LOE_DATE, "LOE Date", String.class);
+        tableHeaderDTO.addDoubleColumn(Constant.GROUP1_SMALL, " ");
+        tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVELNAME, "log", Constant.CLOSED_DATE, Constant.LOE_DATE});
         excelDto.addSingleColumn(Constant.LEVELNAME, Constant.BRAND_CAPS, String.class);
         excelDto.addSingleColumn("log", "Lag", String.class);
-        excelDto.addSingleColumn("closedDate", "Closed Date", String.class);
-        excelDto.addSingleColumn("loeDate", "LOE Date", String.class);
-        excelDto.addDoubleColumn("group1", " ");
-        excelDto.addDoubleHeaderMap("group1", new Object[]{Constant.CHECK, Constant.LEVELNAME, "log", "closedDate", "loeDate"});
+        excelDto.addSingleColumn(Constant.CLOSED_DATE, "Closed Date", String.class);
+        excelDto.addSingleColumn(Constant.LOE_DATE, "LOE Date", String.class);
+        excelDto.addDoubleColumn(Constant.GROUP1_SMALL, " ");
+        excelDto.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVELNAME, "log", Constant.CLOSED_DATE, Constant.LOE_DATE});
         return tableHeaderDTO;
+    }
+    
+    private static HeaderUtils object;
+
+    public static HeaderUtils getInstance() {
+        if (object == null) {
+            object = new HeaderUtils();
+        }
+        return object;
     }
 }

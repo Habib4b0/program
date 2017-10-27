@@ -46,7 +46,7 @@ public class GroupSearchLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<GroupDTO> resultList = new ArrayList<GroupDTO>();
+        List<GroupDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.searchGroup(dto, isCustomGroup, getFilters(), getSortByColumns(), start, offset);
         } catch (Exception ex) {
@@ -74,6 +74,7 @@ public class GroupSearchLogic extends PageTableLogic {
 
     @Override
     public void saveCurrentPage() {
+        return;
     }
 
     @Override

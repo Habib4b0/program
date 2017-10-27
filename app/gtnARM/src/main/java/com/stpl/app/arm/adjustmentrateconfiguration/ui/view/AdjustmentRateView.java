@@ -16,7 +16,7 @@ import org.apache.commons.lang.StringUtils;
  * The View Class For Adjustment Rate Configuration which is for adding the UI
  * screens in the portlet when the constructor is called.
  *
- * @author 
+ * @author
  */
 public class AdjustmentRateView extends VerticalLayout implements View {
 
@@ -58,6 +58,16 @@ public class AdjustmentRateView extends VerticalLayout implements View {
         adjustmentRateForm = new AdjustmentRateForm(sessionDTO);
         addComponent(adjustmentRateForm);
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

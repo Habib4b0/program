@@ -28,6 +28,7 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 import java.util.Map;
+import java.util.logging.Level;
 import org.jboss.logging.Logger; 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
@@ -105,8 +106,13 @@ public class PSFilterGenerator implements ExtFilterGenerator {
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
         final PSIFPDTO psDTO = new PSIFPDTO();
+        Map<Integer, String> userMap= null;
+      
         try {
-            Map<Integer, String> userMap = StplSecurity.getUserName();
+            userMap = StplSecurity.getUserName();
+        } catch (SystemException ex) {
+            java.util.logging.Logger.getLogger(PSFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
             ComboBox comboBox1;
         if ("resetEligible".equals(propertyId) || "netPriceType".equals(propertyId)) {
             try {
@@ -291,18 +297,18 @@ public class PSFilterGenerator implements ExtFilterGenerator {
                     comboBox1.setNullSelectionItemId(0);
                     return comboBox1;
                     }
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        }
+       
         return null;
     }
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Filter> filterType, Object value) {
+        return;
     }
 
     @Override

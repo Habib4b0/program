@@ -620,14 +620,11 @@ WHERE  year = @year
 
   UPDATE SPM
   SET METHODOLOGY = '@METHODOLOGY',
-    CALCULATION_PERIODS = '@CALCULATION_PERIODS',
-    CALCULATION_BASED = '@CALCULATION_BASED',
-    FORECAST_START_PERIOD_SID = @startperiod,
-    FORECAST_END_PERIOD_SID = @endperiod,
-    ALLOCATION_BASIS = @allocationbasis
+    CALCULATION_PERIODS = '@CALCULATION_PERIODS'
     FROM @MASTER_TABLE SPM    
     WHERE      
      CHECK_RECORD = 1; 
+     select @startperiod,@endperiod
         ]]>
     </sql>
     

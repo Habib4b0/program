@@ -26,9 +26,10 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getLogic();
+        return (ExcelInterface) getSummaryLogic();
     }
 
+    @Override
     public PipelineInventorySelectionDTO getSelection() {
         return (PipelineInventorySelectionDTO) super.getSelection();
     }
@@ -36,7 +37,7 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
     @Override
     public Object[] getExcelHierarchy() {
         Object[] value = null;
-        if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummary_deductionLevelDes().equals(ARMConstants.getDeduction())) {
+        if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract()) && getSelection().getSummarydeductionLevelDes().equals(ARMConstants.getDeduction())) {
             value = new Object[]{"D", "C", "T", "B", "I"};
         } else if (customerProductView.getValue().equals(ARMConstants.getDeductionCustomerContract())) {
             value = new Object[]{"T", "C", "B", "I"};
@@ -80,10 +81,11 @@ public class AdjustmentSummarySearchResultsInventory extends AbstractPipelineSum
 
     @Override
     protected String[] getExcelVariableVisibleColumns() {
-        return VariableConstants.VARIABLE_VISIBLE_COLUMN_DEDUTION_PI;
+        return VariableConstants.getVariableVisibleColumnDedutionPi();
     }
 
     protected void valueDdlbValueChange(String levelFilterValue, int masterSids) {
+        LOGGER.debug("Inside valueDdlbValueChange Method" + levelFilterValue + masterSids);
 
     }
 }

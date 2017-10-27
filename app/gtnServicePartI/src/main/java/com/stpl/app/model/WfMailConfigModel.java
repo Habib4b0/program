@@ -205,6 +205,21 @@ public interface WfMailConfigModel extends BaseModel<WfMailConfig> {
      */
     public void setInboundStatus(String inboundStatus);
 
+    /**
+     * Returns the test mail address of this wf mail config.
+     *
+     * @return the test mail address of this wf mail config
+     */
+    @AutoEscape
+    public String getTestMailAddress();
+
+    /**
+     * Sets the test mail address of this wf mail config.
+     *
+     * @param testMailAddress the test mail address of this wf mail config
+     */
+    public void setTestMailAddress(String testMailAddress);
+
     @Override
     public boolean isNew();
 

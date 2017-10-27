@@ -107,10 +107,12 @@ public class IvldItemMasterCacheModel implements CacheModel<IvldItemMaster>,
     public String shelfLife;
     public String marketTerminationDate;
     public boolean checkRecord;
+    public int baseCpiPrecision;
+    public int baselineAmpPrecision;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(171);
+        StringBundler sb = new StringBundler(175);
 
         sb.append("{itemNo=");
         sb.append(itemNo);
@@ -282,6 +284,10 @@ public class IvldItemMasterCacheModel implements CacheModel<IvldItemMaster>,
         sb.append(marketTerminationDate);
         sb.append(", checkRecord=");
         sb.append(checkRecord);
+        sb.append(", baseCpiPrecision=");
+        sb.append(baseCpiPrecision);
+        sb.append(", baselineAmpPrecision=");
+        sb.append(baselineAmpPrecision);
         sb.append("}");
 
         return sb.toString();
@@ -792,6 +798,8 @@ public class IvldItemMasterCacheModel implements CacheModel<IvldItemMaster>,
         }
 
         ivldItemMasterImpl.setCheckRecord(checkRecord);
+        ivldItemMasterImpl.setBaseCpiPrecision(baseCpiPrecision);
+        ivldItemMasterImpl.setBaselineAmpPrecision(baselineAmpPrecision);
 
         ivldItemMasterImpl.resetOriginalValues();
 
@@ -885,6 +893,8 @@ public class IvldItemMasterCacheModel implements CacheModel<IvldItemMaster>,
         shelfLife = objectInput.readUTF();
         marketTerminationDate = objectInput.readUTF();
         checkRecord = objectInput.readBoolean();
+        baseCpiPrecision = objectInput.readInt();
+        baselineAmpPrecision = objectInput.readInt();
     }
 
     @Override
@@ -1379,5 +1389,7 @@ public class IvldItemMasterCacheModel implements CacheModel<IvldItemMaster>,
         }
 
         objectOutput.writeBoolean(checkRecord);
+        objectOutput.writeInt(baseCpiPrecision);
+        objectOutput.writeInt(baselineAmpPrecision);
     }
 }

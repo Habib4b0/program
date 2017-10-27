@@ -26,7 +26,6 @@ import java.util.List;
  */
 public class BaseRateDAOImpl implements BaseRateDAO {
 
-    private CommonQuery comquery = new CommonQuery();
 
     /**
      *

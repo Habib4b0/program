@@ -95,7 +95,7 @@ public class ItemSearchLookup extends Window {
     ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
     private ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<ItemSearchDTO>(itemSearchDTO));
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSearchLookup.class);
-    private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<ItemSearchDTO>(ItemSearchDTO.class);
+    private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<>(ItemSearchDTO.class);
     @UiField("tableLayout")
     VerticalLayout tableLayout;
     private HorizontalLayout controlLayout = new HorizontalLayout();
@@ -114,9 +114,9 @@ public class ItemSearchLookup extends Window {
 
     public void init() throws PortalException, SystemException {
         setId("COMPANY");
-        setStyleName(Constants.bootstrap_ui);
+        setStyleName(Constants.BOOTSTRAP_UI);
         addStyleName("bootstrap-company");
-        addStyleName(Constants.bootstrap);
+        addStyleName(Constants.BOOTSTRAP);
         center();
         setClosable(true);
         setModal(true);
@@ -336,7 +336,7 @@ public class ItemSearchLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof ItemSearchDTO) {
-            targetItem = new BeanItem<ItemSearchDTO>((ItemSearchDTO) obj);
+            targetItem = new BeanItem<>((ItemSearchDTO) obj);
         }
         return (ItemSearchDTO) targetItem.getBean();
     }

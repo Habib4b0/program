@@ -37,6 +37,7 @@ public class AdjustmentSummaryPipelineAccrual extends AbstractPipelineSummary {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        logger.debug("Inside Enter Method Of AdjustmentSummaryPipelineAccrual Class");
 
     }
 
@@ -47,11 +48,11 @@ public class AdjustmentSummaryPipelineAccrual extends AbstractPipelineSummary {
 
     @Override
     protected void configureSummary() {
-        variableHeader = new String[]{VariableConstants.PipelineSummaryVariables.CPipelineAccrual.toString(), VariableConstants.PipelineSummaryVariables.PPipelineAccrual.toString(),
-            VariableConstants.PipelineSummaryVariables.Variance.toString()};
-        variableHeader_deduction = PipelineSummaryVariables.names();
-        variableVisibleColumns_deduction = VariableConstants.VARIABLE_VISIBLE_COLUMN_DEDUTION;
-        variableVisibleColumns = VariableConstants.VARIABLE_VISIBLE_COLUMN;
+        variableHeader = new String[]{VariableConstants.PipelineSummaryVariables.CPIPELINEACRUAL.toString(), VariableConstants.PipelineSummaryVariables.PPIPELINEACRUAL.toString(),
+            VariableConstants.PipelineSummaryVariables.VARIANCE.toString()};
+        variableHeaderDeduction = PipelineSummaryVariables.names();
+        variableVisibleColumnsDeduction = VariableConstants.getVariableVisibleColumnDedution();
+        variableVisibleColumns = VariableConstants.getVariableVisibleColumn();
     }
 
     public void configurePermission(String userId, StplSecurity stplSecurity) throws Exception {

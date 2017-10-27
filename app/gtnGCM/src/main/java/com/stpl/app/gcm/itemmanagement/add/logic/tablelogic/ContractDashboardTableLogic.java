@@ -34,7 +34,7 @@ public class ContractDashboardTableLogic extends PageTreeTableLogic {
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         selection.setStartIndex(start);
         selection.setOffSet(offset);
         List<ContractDashboardDTO> list = logic.getConfigureLoadData(getLastParent(), selection, idDTO);

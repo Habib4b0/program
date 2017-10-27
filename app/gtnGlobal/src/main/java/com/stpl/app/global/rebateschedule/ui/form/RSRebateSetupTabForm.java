@@ -176,7 +176,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
     /**
      * The map.
      */
-    private final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
+    private final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
     private final RSInfoTabForm infoTab;
     final StplSecurity stplSecurity = new StplSecurity();
@@ -229,6 +229,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
     RsDeductionLookup rsDeductionLookup;
     NetSalesRuleLookUp  calculationLookup =null;
     HelperListUtil helperList=HelperListUtil.getInstance();
+    RsUtils rsUtils = RsUtils.getInstance();
 
     public RSRebateSetupTabForm(final ErrorfulFieldGroup binder, final RebateScheduleLogic rebateLogic, final BeanItemContainer<ItemDetailsDTO> itemResultBean,
             final RSInfoTabForm infoTab,
@@ -268,8 +269,8 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
         addItemDetailsTable();
         ResponsiveUtils.getResponsiveControls(rebateSetupTableLogic.createControls(), controlLayout);
         userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Rebate Setup",false);
-        final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Rebate Setup");
+        final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.REBATE_SETUP,false);
+        final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.REBATE_SETUP);
         addResponsiveness(fieldRsHM);
         if (functionRsHM.get(FunctionNameUtil.POPULATE) != null && ((AppPermission) functionRsHM.get(FunctionNameUtil.POPULATE)).isFunctionFlag()) {
             addBtnPopulate();
@@ -298,8 +299,8 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                     final int systemId = Integer.valueOf(idValue);
                     itemResultBean.addAll(rebateLogic.getItemDetails(systemId,value));
                     itemDetailsTable.setContainerDataSource(itemResultBean);
-                    itemDetailsTable.setVisibleColumns(Arrays.copyOfRange(RsUtils.REBATE_SETUP_FORMULA, 1, RsUtils.REBATE_SETUP_FORMULA.length));
-                    itemDetailsTable.setColumnHeaders(Arrays.copyOfRange(RsUtils.REBATE_SETUP_FORMULA_HEADER, 1, RsUtils.REBATE_SETUP_FORMULA_HEADER.length));
+                    itemDetailsTable.setVisibleColumns(Arrays.copyOfRange(rsUtils.rebateSetupFormula, 1, rsUtils.rebateSetupFormula.length));
+                    itemDetailsTable.setColumnHeaders(Arrays.copyOfRange(rsUtils.rebateSetupFormulaHeader, 1, rsUtils.rebateSetupFormulaHeader.length));
                     loadBasedOnCalculationType(String.valueOf(binder.getField("calculationType").getValue()));
                 } else {
                     rebateSetupTableLogic.setSearchData(itemResultBean, value);
@@ -319,10 +320,10 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
     public void addItemDetailsTable() throws PortalException, SystemException {
 
         userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Rebate Setup",false);
-        resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, "Rebate Setup");
-        Object[] obj = RsUtils.REBATE_SETUP_FORMULA;
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
+        fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.REBATE_SETUP,false);
+        resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, ConstantsUtils.REBATE_SETUP);
+        Object[] obj = rsUtils.rebateSetupFormula;
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
         if (tableResultCustom.getObjResult().length == 0) {
             itemDetailsTable.setVisible(false);
         }
@@ -350,14 +351,13 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
         if (!isViewMode) {
             itemDetailsTable.setSelectable(true);
             itemDetailsTable.setEditable(true);
-            itemDetailsTable.setTableFieldFactory(new RSItemTableGenerator(itemDetailsTable, itemResultBean, infoTab.getRebatePlanLevelCaption(), rebateSetupTableLogic));
+            itemDetailsTable.setTableFieldFactory(new RSItemTableGenerator(itemDetailsTable, itemResultBean, infoTab.getRebatePlanLevelCaption(), rebateSetupTableLogic,sessionDTO));
 
             itemDetailsTable.setFilterFieldVisible(ConstantsUtils.CHECK_BOX, false);
             itemDetailsTable.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, false);
         } else {
-            itemDetailsTable.setFilterBarVisible(false);
-            itemDetailsTable.setVisibleColumns(Arrays.copyOfRange(RsUtils.REBATE_SETUP_FORMULA, 1, RsUtils.REBATE_SETUP_FORMULA.length));
-            itemDetailsTable.setColumnHeaders(Arrays.copyOfRange(RsUtils.REBATE_SETUP_FORMULA_HEADER, 1, RsUtils.REBATE_SETUP_FORMULA_HEADER.length));
+            itemDetailsTable.setVisibleColumns(Arrays.copyOfRange(rsUtils.rebateSetupFormula, 1, rsUtils.rebateSetupFormula.length));
+            itemDetailsTable.setColumnHeaders(Arrays.copyOfRange(rsUtils.rebateSetupFormulaHeader, 1, rsUtils.rebateSetupFormulaHeader.length));
         }
 
         itemDetailsTable.setColumnWidth(ConstantsUtils.CHECK_BOX, NumericConstants.FIFTY_FOUR);
@@ -375,6 +375,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
              * Method used to Handling error for item Details table
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
 
             }
         });
@@ -436,6 +437,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
 
                             @Override
                             public void windowClose(Window.CloseEvent e) {
+                                return;
 
                             }
                         });
@@ -527,7 +529,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                 try {
                     final String value = String.valueOf(massField.getValue());
                     massField.setDescription(value);
-                   if (RsUtils.REBATE_AMOUNT.equals(value) || "Bundle No".equals(value)||RsUtils.EVALUATION_RULE_BUNDLE.equals(value) || RsUtils.CALCULATION_RULE_BUNDLE.equals(value)) {
+                   if (RsUtils.REBATE_AMOUNT.equals(value) || ConstantsUtils.BUNDLE_NO_LABEL.equals(value)||RsUtils.EVALUATION_RULE_BUNDLE.equals(value) || RsUtils.CALCULATION_RULE_BUNDLE.equals(value)) {
                         valueLB.setVisible(true);
                         massValue.setVisible(true);
                         massDate.setVisible(false);
@@ -557,7 +559,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                             btnPopulate.setEnabled(true);
                         }
                         btnAllPopulate.setEnabled(true);
-                    } else if ("RS Status".equals(value)) {
+                    } else if (ConstantsUtils.RS_STATUS_LABEL.equals(value)) {
                         massLookup.setVisible(false);
                         massValue.setVisible(false);
                         massDate.setVisible(false);
@@ -567,7 +569,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                         btnPopulate.setEnabled(true);
                         btnAllPopulate.setEnabled(true); 
 
-                    } else if (ConstantsUtils.REBATE_PLAN_NO_LAB.equals(value) || "Formula No".equals(value) || RsUtils.NET_SALES_FORMULA.equals(value) || "Deduction Calendar No".equals(value)
+                    } else if (ConstantsUtils.REBATE_PLAN_NO_LAB.equals(value) || ConstantsUtils.FORMULA_NO_LABEL.equals(value) || RsUtils.NET_SALES_FORMULA.equals(value) || ConstantsUtils.DEDUCTION_CALENDAR_NO_LABEL.equals(value)
                             || RsUtils.NET_SALES_RULE.equals(value) || RsUtils.EVALUATION_RULE.equals(value) || RsUtils.CALCULATION_RULE.equals(value)  ) {
                         massValue.setVisible(false);
                         massDate.setVisible(false);
@@ -634,7 +636,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                             }
                         });
                         }
-                    } else if ("Deduction Calendar No".equals(massField.getValue().toString())) {
+                    } else if (ConstantsUtils.DEDUCTION_CALENDAR_NO_LABEL.equals(massField.getValue().toString())) {
                         if (rsDeductionLookup == null) {
                             rsDeductionLookup = new RsDeductionLookup(massLookup);
                             UI.getCurrent().addWindow(rsDeductionLookup);
@@ -645,7 +647,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                                         RsDeductionLookupDto deductionDto = rsDeductionLookup.getDeductionDto();
                                         final Map<String, String> map = new HashMap<>();
                                         map.put(ConstantsUtils.DEDUCTION_CALENDAR_NO, deductionDto.getDeductionNo());
-                                        map.put("deductionSystemId", deductionDto.getDeductionSystemId());
+                                        map.put(ConstantsUtils.DEDUCTION_SYSTEM_ID, deductionDto.getDeductionSystemId());
                                         map.put(ConstantsUtils.DEDUCTION_CALENDAR_NAME, deductionDto.getDeductionName());
                                         massLookup.setData(map);
                                     }
@@ -823,11 +825,11 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                             massUpdate = true;
                         } else if (RsUtils.REBATE_PLAN_NAME.equals(value) && massDDLB.getValue() != null) {
                             massUpdate = true;
-                        } else if ((LabelUtils.ITEM_REBATE_START_DATE.equals(value) || LabelUtils.ITEM_REBATE_END_DATE.equals(value)) && massDate.getValue() != null || "Bundle No".equals(value) || "RS Status".equals(value)) {
+                        } else if ((LabelUtils.ITEM_REBATE_START_DATE.equals(value) || LabelUtils.ITEM_REBATE_END_DATE.equals(value)) && massDate.getValue() != null ||ConstantsUtils.BUNDLE_NO_LABEL.equals(value) || ConstantsUtils.RS_STATUS_LABEL.equals(value)) {
                             massUpdate = true;
-                        } else if (value.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) || value.equals("Formula No")) {
+                        } else if (value.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) || value.equals(ConstantsUtils.FORMULA_NO_LABEL)) {
                             massUpdate = true; 
-                        } else if (value.equals("Deduction Calendar No")){
+                        } else if (value.equals(ConstantsUtils.DEDUCTION_CALENDAR_NO_LABEL)){
                             massUpdate = massLookup.getValue() != null && StringUtils.isNotBlank(String.valueOf(massLookup.getValue()));
                         } else if (value.equals(RsUtils.NET_SALES_FORMULA)){
                             massUpdate = massLookup.getValue() != null && StringUtils.isNotBlank(String.valueOf(massLookup.getValue()));
@@ -864,13 +866,13 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                         } else if (fieldMass.equals(ConstantsUtils.END_DATE)) {
                             populateField = "ITEM_REBATE_END_DATE";
                             populateValue = fmt.format(massDate.getValue());
-                        } else if (fieldMass.equals("Bundle No")) {
+                        } else if (fieldMass.equals(ConstantsUtils.BUNDLE_NO_LABEL)) {
                             populateField = "RS_DETAILS_BUNDLE_NO";
                             populateValue = massValue.getValue();
-                        } else if (fieldMass.equals("RS Status")) {
+                        } else if (fieldMass.equals(ConstantsUtils.RS_STATUS_LABEL)) {
                             populateField = "RS_DETAILS_ATTACHED_STATUS";
                             populateValue = String.valueOf(((HelperDTO) massDDLB.getValue()).getId()); 
-                        } else if (fieldMass.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) || fieldMass.equals("Formula No")) {
+                        } else if (fieldMass.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) || fieldMass.equals(ConstantsUtils.FORMULA_NO_LABEL)) {
                             populateField = StringUtils.EMPTY;
                             populateValue = StringUtils.EMPTY;
                             rebateLogic.saveToTemp(itemResultBean.getItemIds(), false);
@@ -886,11 +888,11 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                             }
                             populateField = "RS_DETAILS_REBATE_AMOUNT";
                             populateValue = String.valueOf(massValue.getValue()).trim();
-                        } else if ("Deduction Calendar No".equals(fieldMass) ) {
+                        } else if (ConstantsUtils.DEDUCTION_CALENDAR_NO_LABEL.equals(fieldMass) ) {
                           Map<String,String> deductionMap = (Map)  massLookup.getData();  
                             rebateLogic.massPopulateDeductionLookUp(fieldMass, deductionMap,true);
                             populateField = "DEDUCTION_CALENDAR_MASTER_SID";
-                            populateValue = deductionMap.get("deductionSystemId");
+                            populateValue = deductionMap.get(ConstantsUtils.DEDUCTION_SYSTEM_ID);
                             massLookup.setValue(StringUtils.EMPTY);
                             tempflag=true;
                             itemResultBean.removeAllItems();
@@ -932,7 +934,7 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                         rebateLogic.saveToTemp(itemResultBean.getItemIds(), false);
                         if (populate) {
                             itemResultBean.removeAllItems(); 
-                            if (!fieldMass.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) && !fieldMass.equals("Formula No") && !fieldMass.equals(RsUtils.NET_SALES_FORMULA)) {
+                            if (!fieldMass.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) && !fieldMass.equals(ConstantsUtils.FORMULA_NO_LABEL) && !fieldMass.equals(RsUtils.NET_SALES_FORMULA)) {
                                 rebateLogic.populateLogic(populateField, populateValue, false, null, infoTab.getRebatePlanLevelCaption());
                             }
                             refreshTable();
@@ -1005,11 +1007,11 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                             massUpdate = true;
                         } else if (RsUtils.REBATE_PLAN_NAME.equals(value) && massDDLB.getValue() != null) {
                             massUpdate = true;
-                        } else if ((LabelUtils.ITEM_REBATE_START_DATE.equals(value) || LabelUtils.ITEM_REBATE_END_DATE.equals(value)) && massDate.getValue() != null || "Bundle No".equals(value) || "RS Status".equals(value)) {
+                        } else if ((LabelUtils.ITEM_REBATE_START_DATE.equals(value) || LabelUtils.ITEM_REBATE_END_DATE.equals(value)) && massDate.getValue() != null || ConstantsUtils.BUNDLE_NO_LABEL.equals(value) || ConstantsUtils.RS_STATUS_LABEL.equals(value)) {
                             massUpdate = true;
-                        } else if (value.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) || value.equals("Formula No")) {
+                        } else if (value.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) || value.equals(ConstantsUtils.FORMULA_NO_LABEL)) {
                             massUpdate = true;
-                        } else if (value.equals("Deduction Calendar No")){
+                        } else if (value.equals(ConstantsUtils.DEDUCTION_CALENDAR_NO_LABEL)){
                             massUpdate = massLookup.getValue() != null && StringUtils.isNotBlank(String.valueOf(massLookup.getValue()));
                        } else if (value.equals(RsUtils.NET_SALES_FORMULA)||RsUtils.NET_SALES_RULE.equals(massField.getValue().toString()) || RsUtils.EVALUATION_RULE.equals(massField.getValue().toString()) || RsUtils.CALCULATION_RULE.equals(massField.getValue().toString())){
                             massUpdate = massLookup.getValue() != null && StringUtils.isNotBlank(String.valueOf(massLookup.getValue()));
@@ -1037,13 +1039,13 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                         } else if (fieldMass.equals(ConstantsUtils.END_DATE)) {
                             populateField = "ITEM_REBATE_END_DATE";
                             populateValue = fmt.format(massDate.getValue());
-                        } else if (fieldMass.equals("Bundle No")) {
+                        } else if (fieldMass.equals(ConstantsUtils.BUNDLE_NO_LABEL)) {
                             populateField = "RS_DETAILS_BUNDLE_NO";
                             populateValue = massValue.getValue();
-                        } else if (fieldMass.equals("RS Status")) {
+                        } else if (fieldMass.equals(ConstantsUtils.RS_STATUS_LABEL)) {
                             populateField = "RS_DETAILS_ATTACHED_STATUS";
                             populateValue = String.valueOf(((HelperDTO) massDDLB.getValue()).getId());
-                        } else if (fieldMass.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) || fieldMass.equals("Formula No")) {
+                        } else if (fieldMass.equals(ConstantsUtils.REBATE_PLAN_NO_LAB) || fieldMass.equals(ConstantsUtils.FORMULA_NO_LABEL)) {
                             populateField = StringUtils.EMPTY;
                             populateValue = StringUtils.EMPTY;
                             populate = false;
@@ -1058,10 +1060,10 @@ public class RSRebateSetupTabForm extends CustomComponent implements View {
                             }
                             populateField = "RS_DETAILS_REBATE_AMOUNT";
                             populateValue = String.valueOf(massValue.getValue()).trim();
-                        } else if ("Deduction Calendar No".equals(fieldMass) ) {
+                        } else if (ConstantsUtils.DEDUCTION_CALENDAR_NO_LABEL.equals(fieldMass) ) {
                             populateField = "DEDUCTION_CALENDAR_MASTER_SID";
                             Map<String,String> deductionMap = (Map)  massLookup.getData();  
-                            populateValue = deductionMap.get("deductionSystemId");
+                            populateValue = deductionMap.get(ConstantsUtils.DEDUCTION_SYSTEM_ID);
                             rebateLogic.massPopulateDeductionLookUp(fieldMass, deductionMap,false);
                             massLookup.setValue(StringUtils.EMPTY);
                             tempflag=true;
@@ -1224,8 +1226,8 @@ public void setMassCheckValue(String values) {
     private void addResponsiveness(final Map<String, AppPermission> fieldRsHM) {
         LOGGER.debug("Entering configurePermission");
         try {
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, "Rebate Setup");
-            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, mode);
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, ConstantsUtils.REBATE_SETUP);
+            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
         } catch (Exception ex) {
             LOGGER.error(ex);
 
@@ -1247,15 +1249,15 @@ public void setMassCheckValue(String values) {
         this.calculationType = calculationType;
         switch (calculationType) {
             case RsUtils.CALC_FORMULA:
-                obj = RsUtils.REBATE_SETUP_FORMULA;
-                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
+                obj = rsUtils.rebateSetupFormula;
+                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
                 if (tableResultCustom.getObjResult().length == 0) {
                     itemDetailsTable.setVisible(false);
                 }
                  itemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
                 itemDetailsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
                 resultsPanel.setWidth("100%");
-                massField.addItem("Formula No");
+                massField.addItem(ConstantsUtils.FORMULA_NO_LABEL);
                 massField.addItem(RsUtils.NET_SALES_FORMULA);
                 massField.addItem(RsUtils.NET_SALES_RULE);
                 massField.addItem(RsUtils.EVALUATION_RULE);
@@ -1264,15 +1266,15 @@ public void setMassCheckValue(String values) {
                 massField.addItem(RsUtils.CALCULATION_RULE_BUNDLE);
                 break;
             case RsUtils.CALC_REBATE_PLAN:
-                obj = RsUtils.REBATE_SETUP_REBATE_PLAN;
-                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
+                obj = rsUtils.rebateSetupRebatePlan;
+                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
                 if (tableResultCustom.getObjResult().length == 0) {
                     itemDetailsTable.setVisible(false);
                 }
                 itemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
                 itemDetailsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
                 resultsPanel.setWidth("100%");
-                massField.addItem("Bundle No");
+                massField.addItem(ConstantsUtils.BUNDLE_NO_LABEL);
                 massField.addItem(ConstantsUtils.REBATE_PLAN_NO_LAB);
                 massField.addItem(RsUtils.NET_SALES_FORMULA);
                 massField.addItem(RsUtils.NET_SALES_RULE);
@@ -1282,23 +1284,23 @@ public void setMassCheckValue(String values) {
                 massField.addItem(RsUtils.CALCULATION_RULE_BUNDLE);
                 break;
             case RsUtils.CALC_DEDUCTION_CALENDAR:
-                obj = RsUtils.REBATE_SETUP_DEDUCTION_CALENDAR;
-                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
+                obj = rsUtils.rebateSetupDeductionCalender;
+                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
                 if (tableResultCustom.getObjResult().length == 0) {
                     itemDetailsTable.setVisible(false);
                 }
                 itemDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
                 itemDetailsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
                 resultsPanel.setWidth("100%");
-                massField.addItem("Deduction Calendar No");
+                massField.addItem(ConstantsUtils.DEDUCTION_CALENDAR_NO_LABEL);
                 massField.addItem(RsUtils.EVALUATION_RULE);
                 massField.addItem(RsUtils.CALCULATION_RULE);
                 massField.addItem(RsUtils.EVALUATION_RULE_BUNDLE);
                 massField.addItem(RsUtils.CALCULATION_RULE_BUNDLE);
                 break;
             default:
-                obj = RsUtils.REBATE_SETUP_DEFAULT;
-                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
+                obj = rsUtils.rebateSetupDefault;
+                tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
                 if (tableResultCustom.getObjResult().length == 0) {
                     itemDetailsTable.setVisible(false);
                 }
@@ -1333,7 +1335,7 @@ public void setMassCheckValue(String values) {
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         massField.addItem(ConstantsUtils.SELECT_ONE);
-        massField.addItem("RS Status");
+        massField.addItem(ConstantsUtils.RS_STATUS_LABEL);
         massField.addItem("Start Date");
         massField.addItem("End Date");
         massField.select(ConstantsUtils.SELECT_ONE);
@@ -1411,7 +1413,7 @@ public void setMassCheckValue(String values) {
      * @throws InvocationTargetException
      * @throws Exception 
      */
-    private void createWorkSheet() throws PortalException, SystemException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void createWorkSheet() throws PortalException, SystemException,  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         int recordCount = 0;
       String[] header= getExcelHeader(itemDetailsTable);
@@ -1424,18 +1426,18 @@ public void setMassCheckValue(String values) {
         LOGGER.debug("Ending createWorkSheet");
     }
     
-  public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws PortalException, SystemException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws PortalException, SystemException {
         LOGGER.debug("Entering createWorkSheetContent");
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ExcelExportUtil.DATE_FORMAT, Locale.getDefault());
         if (itemDetailsTable.size() > 0) {
             ItemDetailsDTO itemDetailsDTO;
             final List<SortByColumn> columns = new ArrayList<>();
-            List<ItemDetailsDTO> dtoList;            
-            if(isViewMode){
+            List<ItemDetailsDTO> dtoList;
+            if (isViewMode) {
                 dtoList = itemResultBean.getItemIds();
-            }else{
-                dtoList = (List<ItemDetailsDTO>)rebateLogic.getLazyItemDetailsResults(start, end, columns, null,false,String.valueOf(record.getValue()));
-            }            
+            } else {
+                dtoList = (List<ItemDetailsDTO>) rebateLogic.getLazyItemDetailsResults(start, end, columns, null, false, String.valueOf(record.getValue()));
+            }
             for (int rowCount = 0; rowCount < dtoList.size(); rowCount++) {
 
                 itemDetailsDTO = (ItemDetailsDTO) dtoList.get(rowCount);
@@ -1444,49 +1446,42 @@ public void setMassCheckValue(String values) {
                 printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getItemName() != null ? itemDetailsDTO.getItemName() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
                 printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getAttachedStatus().getId() != 0 ? itemDetailsDTO.getAttachedStatus() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
                 printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getStartDate() != null ? dateFormat.format(itemDetailsDTO.getStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                
 
                 if (RsUtils.CALC_REBATE_PLAN.equals(this.calculationType)) {
                     printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEndDate() != null ? dateFormat.format(itemDetailsDTO.getEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getBundleNo()!= null ? itemDetailsDTO.getBundleNo() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getBundleNo() != null ? itemDetailsDTO.getBundleNo() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
                     printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getRebatePlanNo() != null ? itemDetailsDTO.getRebatePlanNo() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
                     printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getRebatePlanName() != null ? itemDetailsDTO.getRebatePlanName() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getNetSalesFormulaName()!= null ? itemDetailsDTO.getNetSalesFormulaName(): StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getNetSalesRule()!= null ? itemDetailsDTO.getNetSalesRule(): StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRule()!= null ? itemDetailsDTO.getEvaluationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRuleBundle()!= null ? itemDetailsDTO.getEvaluationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRule()!= null ? itemDetailsDTO.getCalculationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRuleBundle()!= null ? itemDetailsDTO.getCalculationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    if (!isViewMode) {
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getNetSalesFormulaName() != null ? itemDetailsDTO.getNetSalesFormulaName() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getNetSalesRule() != null ? itemDetailsDTO.getNetSalesRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRule() != null ? itemDetailsDTO.getEvaluationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRuleBundle() != null ? itemDetailsDTO.getEvaluationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRule() != null ? itemDetailsDTO.getCalculationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRuleBundle() != null ? itemDetailsDTO.getCalculationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
                     printWriter.println(ConstantsUtils.QUOTE + (itemDetailsDTO.getAttachedDate() != null ? dateFormat.format(itemDetailsDTO.getAttachedDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    }
-                    } else if (RsUtils.CALC_FORMULA.equals(this.calculationType)) {
+                } else if (RsUtils.CALC_FORMULA.equals(this.calculationType)) {
                     printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEndDate() != null ? dateFormat.format(itemDetailsDTO.getEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getFormulaType()!= null ? itemDetailsDTO.getFormulaType() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getFormulaNo()!= null ? itemDetailsDTO.getFormulaNo() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getFormulaName()!= null ? itemDetailsDTO.getFormulaName() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getNetSalesFormulaName()!= null ? itemDetailsDTO.getNetSalesFormulaName(): StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getNetSalesRule()!= null ? itemDetailsDTO.getNetSalesRule(): StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRule()!= null ? itemDetailsDTO.getEvaluationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRuleBundle()!= null ? itemDetailsDTO.getEvaluationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRule()!= null ? itemDetailsDTO.getCalculationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRuleBundle()!= null ? itemDetailsDTO.getCalculationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                     if (!isViewMode) {
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getFormulaType() != null ? itemDetailsDTO.getFormulaType() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getFormulaNo() != null ? itemDetailsDTO.getFormulaNo() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getFormulaName() != null ? itemDetailsDTO.getFormulaName() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getNetSalesFormulaName() != null ? itemDetailsDTO.getNetSalesFormulaName() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getNetSalesRule() != null ? itemDetailsDTO.getNetSalesRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRule() != null ? itemDetailsDTO.getEvaluationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRuleBundle() != null ? itemDetailsDTO.getEvaluationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRule() != null ? itemDetailsDTO.getCalculationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRuleBundle() != null ? itemDetailsDTO.getCalculationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
                     printWriter.println(ConstantsUtils.QUOTE + (itemDetailsDTO.getAttachedDate() != null ? dateFormat.format(itemDetailsDTO.getAttachedDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    }
-                    } else if (RsUtils.CALC_DEDUCTION_CALENDAR.equals(this.calculationType)) {
+                } else if (RsUtils.CALC_DEDUCTION_CALENDAR.equals(this.calculationType)) {
                     printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEndDate() != null ? dateFormat.format(itemDetailsDTO.getEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getDeductionCalendarNo()!= null ? itemDetailsDTO.getDeductionCalendarNo() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getDeductionCalendarName()!= null ? itemDetailsDTO.getDeductionCalendarName() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRule()!= null ? itemDetailsDTO.getEvaluationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRuleBundle()!= null ? itemDetailsDTO.getEvaluationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRule()!= null ? itemDetailsDTO.getCalculationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRuleBundle()!= null ? itemDetailsDTO.getCalculationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    if (!isViewMode) {
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getDeductionCalendarNo() != null ? itemDetailsDTO.getDeductionCalendarNo() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getDeductionCalendarName() != null ? itemDetailsDTO.getDeductionCalendarName() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRule() != null ? itemDetailsDTO.getEvaluationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getEvaluationRuleBundle() != null ? itemDetailsDTO.getEvaluationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRule() != null ? itemDetailsDTO.getCalculationRule() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
+                    printWriter.print(ConstantsUtils.QUOTE + (itemDetailsDTO.getCalculationRuleBundle() != null ? itemDetailsDTO.getCalculationRuleBundle() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
                     printWriter.println(ConstantsUtils.QUOTE + (itemDetailsDTO.getAttachedDate() != null ? dateFormat.format(itemDetailsDTO.getAttachedDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
-                    }
                 } else {
-                    printWriter.println(ConstantsUtils.QUOTE + (itemDetailsDTO.getEndDate() != null ? dateFormat.format(itemDetailsDTO.getEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);                    
+                    printWriter.println(ConstantsUtils.QUOTE + (itemDetailsDTO.getEndDate() != null ? dateFormat.format(itemDetailsDTO.getEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ConstantsUtils.COMMA);
                 }
 
             }
@@ -1504,7 +1499,7 @@ public void setMassCheckValue(String values) {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof ItemDetailsDTO) {
-            targetItem = new BeanItem<ItemDetailsDTO>(
+            targetItem = new BeanItem<>(
                     (ItemDetailsDTO) obj);
         }
         return (ItemDetailsDTO) targetItem.getBean();

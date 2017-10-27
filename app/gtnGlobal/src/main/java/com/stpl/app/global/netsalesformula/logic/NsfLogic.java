@@ -54,6 +54,7 @@ import org.jboss.logging.Logger;
 
 /**
  * The class Nsf Logic .
+ *
  * @author vinodhini
  */
 public class NsfLogic {
@@ -70,12 +71,11 @@ public class NsfLogic {
     static HashMap<String, String> nsrDetailsDbMap = new HashMap<>();
     static HashMap<String, String> nsRuleFilterCriteria = new HashMap<>();
 
-    public int getNsfCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) throws ParseException {
+    public int getNsfCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, true);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
-
 
         List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
         if (masterData != null && !masterData.isEmpty()) {
@@ -87,14 +87,14 @@ public class NsfLogic {
     }
 
     public List<SearchResultsDTO> loadNsfResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException, ParseException {
-        List<SearchResultsDTO> searchList = new ArrayList<>();
-        LOGGER.debug("Entering loadNsfResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<SearchResultsDTO> searchList;
+        LOGGER.debug("Entering loadNsfResults ");
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, false);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
         queryBuilder = getOrderQuery(queryBuilder, columns, start, end);
-       
+
         queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantsUtils.WHERE_AND, ConstantsUtils.QUERY_WHERE));
         queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantsUtils.WHERE) ? queryBuilder.toString().replace(ConstantsUtils.WHERE, " ") : queryBuilder);
 
@@ -105,7 +105,7 @@ public class NsfLogic {
 
     private void loadCriteriaInMap() {
         criteria.clear();
-        criteria.put("combo2", "NET_SALES_FORMULA_TYPE");
+        criteria.put(ConstantsUtils.COMBO2, "NET_SALES_FORMULA_TYPE");
         criteria.put("text6", "NET_SALES_FORMULA_ID");
         criteria.put("text7", "NET_SALES_FORMULA_NO");
         criteria.put("text8", "NET_SALES_FORMULA_NAME");
@@ -114,7 +114,7 @@ public class NsfLogic {
     private StringBuilder buildSearchQuery(ErrorfulFieldGroup searchFields, boolean isCount) {
         StringBuilder queryBuilder = new StringBuilder();
         String query = isCount ? "COUNT( * )" : constantProperties.getString("netSalesFormula");
-        queryBuilder.append(" SELECT ").append(query).append(" FROM NET_SALES_FORMULA_MASTER WHERE INBOUND_STATUS <> 'D' ");
+        queryBuilder.append(ConstantsUtils.SELECT_SPACE).append(query).append(" FROM NET_SALES_FORMULA_MASTER WHERE INBOUND_STATUS <> 'D' ");
         if (criteria.isEmpty()) {
             loadCriteriaInMap();
         }
@@ -122,10 +122,10 @@ public class NsfLogic {
         for (String fields : keys) {
 
             if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                if ("combo2".equalsIgnoreCase(fields)) {
-                    queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = ").append(((com.stpl.app.util.HelperDTO) searchFields.getField("combo2").getValue()).getSystemId());
+                if (ConstantsUtils.COMBO2.equalsIgnoreCase(fields)) {
+                    queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = ").append(((com.stpl.app.util.HelperDTO) searchFields.getField(ConstantsUtils.COMBO2).getValue()).getSystemId());
                 } else {
-                    queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(searchFields.getField(fields).getValue().toString().trim().replace("*", "%")).append("'");
+                    queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(searchFields.getField(fields).getValue().toString().trim().replace("*", "%")).append("'");
                 }
             }
         }
@@ -173,12 +173,12 @@ public class NsfLogic {
         return searchResultsList;
     }
 
-    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                    stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                 } else if (filter instanceof Between) {
 
                     Between stringFilter = (Between) filter;
@@ -187,7 +187,7 @@ public class NsfLogic {
 
                     if (startValue != null) {
                         stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
-                    } 
+                    }
                     if (endValue != null) {
                         stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" <= '").append(endValue).append("' ");
                     }
@@ -222,24 +222,23 @@ public class NsfLogic {
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY CREATED_DATE ");
         } else {
-            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            stringBuilder.append(ConstantsUtils.ORDER_BY).append(orderByColumn).append((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         }
 
-        stringBuilder.append(" OFFSET ").append(startIndex);
-        stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(" ROWS ONLY;");
+        stringBuilder.append(" OFFSET  ").append(startIndex);
+        stringBuilder.append(" ROWS FETCH NEXT  ").append(endIndex).append(ConstantsUtils.ROWS_FETCH_ONLY);
 
         return stringBuilder;
     }
 
-    public int getNsRuleCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet,String tabName) throws ParseException {
+    public int getNsRuleCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet, String tabName) {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder = buildNsRuleSearchQuery(searchFields, true,tabName);
+        StringBuilder queryBuilder;
+        queryBuilder = buildNsRuleSearchQuery(searchFields, true, tabName);
         queryBuilder = getNsRuleFilterQuery(filterSet, queryBuilder);
 
         queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantsUtils.WHERE_AND, ConstantsUtils.QUERY_WHERE));
         queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantsUtils.WHERE) ? queryBuilder.toString().replace(ConstantsUtils.WHERE, " ") : queryBuilder);
-
 
         List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
         if (masterData != null && !masterData.isEmpty()) {
@@ -251,14 +250,14 @@ public class NsfLogic {
     }
 
     public List<NetSalesRuleLookupDto> loadNsRuleResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet,String tabName) throws SystemException, ParseException {
-        List<NetSalesRuleLookupDto> searchList = new ArrayList<>();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, String tabName) {
+        List<NetSalesRuleLookupDto> searchList;
         LOGGER.debug("Entering loadNsRuleResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder = buildNsRuleSearchQuery(searchFields, false,tabName);
+        StringBuilder queryBuilder;
+        queryBuilder = buildNsRuleSearchQuery(searchFields, false, tabName);
         queryBuilder = getNsRuleFilterQuery(filterSet, queryBuilder);
         queryBuilder = getNsRuleOrderQuery(queryBuilder, columns, start, end);
-     
+
         queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantsUtils.WHERE_AND, ConstantsUtils.QUERY_WHERE));
         queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantsUtils.WHERE) ? queryBuilder.toString().replace(ConstantsUtils.WHERE, " ") : queryBuilder);
 
@@ -269,42 +268,35 @@ public class NsfLogic {
     }
 
     private void loadNsRuleCriteriaMap() {
-        nsRuleCriteria.clear(); 
-        nsRuleCriteria.put("ruleType", "MODEL.RULE_TYPE");
-        nsRuleCriteria.put("ruleNo", "MODEL.RULE_NO");
-        nsRuleCriteria.put("ruleName", "MODEL.RULE_NAME");
+        nsRuleCriteria.clear();
+        nsRuleCriteria.put(ConstantsUtils.RULE_TYPE, "MODEL.RULE_TYPE");
+        nsRuleCriteria.put(ConstantsUtils.RULE_NO, "MODEL.RULE_NO");
+        nsRuleCriteria.put(ConstantsUtils.RULE_NAME, "MODEL.RULE_NAME");
         nsRuleCriteria.put("ruleCategory", "MODEL.RULE_CATEGORY");
     }
-    private StringBuilder buildNsRuleSearchQuery(ErrorfulFieldGroup searchFields, boolean isCount,String tabName) {
+
+    private StringBuilder buildNsRuleSearchQuery(ErrorfulFieldGroup searchFields, boolean isCount, String tabName) {
         StringBuilder queryBuilder = new StringBuilder();
         String query = isCount ? "COUNT (DISTINCT MODEL.CDR_MODEL_SID ) " : constantProperties.getString("netSalesRule");
-        boolean isNotNSF=false;
         if (StringUtils.isBlank(tabName)) {
-            queryBuilder.append(" SELECT ").append(query).append(" FROM CDR_MODEL MODEL WHERE");
-            isNotNSF=true;
+            queryBuilder.append(ConstantsUtils.SELECT_SPACE).append(query).append(" FROM CDR_MODEL MODEL WHERE");
         } else if ("Sales Basis".equalsIgnoreCase(tabName)) {
-            queryBuilder.append(" SELECT ").append(query).append(" FROM dbo.CDR_MODEL MODEL JOIN CDR_DETAILS DETAIL ON DETAIL.CDR_MODEL_SID=MODEL.CDR_MODEL_SID AND DETAIL.KEYWORD = (SELECT HELPER_TABLE_SID FROM dbo.HELPER_TABLE WHERE LIST_NAME LIKE 'KEYWORD' AND DESCRIPTION LIKE 'Contract Sales') ");
+            queryBuilder.append(ConstantsUtils.SELECT_SPACE).append(query).append(" FROM dbo.CDR_MODEL MODEL JOIN CDR_DETAILS DETAIL ON DETAIL.CDR_MODEL_SID=MODEL.CDR_MODEL_SID AND DETAIL.KEYWORD = (SELECT HELPER_TABLE_SID FROM dbo.HELPER_TABLE WHERE LIST_NAME LIKE 'KEYWORD' AND DESCRIPTION LIKE 'Contract Sales') ");
         } else if ("Deduction".equalsIgnoreCase(tabName)) {
-            queryBuilder.append(" SELECT ").append(query).append(" FROM dbo.CDR_MODEL MODEL JOIN CDR_DETAILS DETAIL ON DETAIL.CDR_MODEL_SID=MODEL.CDR_MODEL_SID AND DETAIL.KEYWORD = (SELECT HELPER_TABLE_SID FROM dbo.HELPER_TABLE WHERE LIST_NAME LIKE 'KEYWORD' AND DESCRIPTION LIKE 'Contract Deductions') ");
+            queryBuilder.append(ConstantsUtils.SELECT_SPACE).append(query).append(" FROM dbo.CDR_MODEL MODEL JOIN CDR_DETAILS DETAIL ON DETAIL.CDR_MODEL_SID=MODEL.CDR_MODEL_SID AND DETAIL.KEYWORD = (SELECT HELPER_TABLE_SID FROM dbo.HELPER_TABLE WHERE LIST_NAME LIKE 'KEYWORD' AND DESCRIPTION LIKE 'Contract Deductions') ");
         }
-       
+
         if (nsRuleCriteria.isEmpty()) {
             loadNsRuleCriteriaMap();
         }
         Set<String> keys = nsRuleCriteria.keySet();
         for (String fields : keys) {
-
             if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                if ("ruleType".equalsIgnoreCase(fields) || "ruleCategory".equalsIgnoreCase(fields)) {
-                    if (isNotNSF) {
-                        queryBuilder.append(ConstantsUtils.AND).append(nsRuleCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
-                    } else {
-                        if (!"ruleType".equalsIgnoreCase(fields)) {
-                            queryBuilder.append(ConstantsUtils.AND).append(nsRuleCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
-                        }
-                    }
+                if (ConstantsUtils.RULE_TYPE.equalsIgnoreCase(fields) || "ruleCategory".equalsIgnoreCase(fields)) {
+                    queryBuilder.append(ConstantsUtils.AND).append(nsRuleCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
+
                 } else {
-                    queryBuilder.append(ConstantsUtils.AND).append(nsRuleCriteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(String.valueOf(searchFields.getField(fields).getValue()))).append("'");
+                    queryBuilder.append(ConstantsUtils.AND).append(nsRuleCriteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(String.valueOf(searchFields.getField(fields).getValue()))).append("'");
                 }
             }
         }
@@ -316,7 +308,7 @@ public class NsfLogic {
         final List<NetSalesRuleLookupDto> searchResultsList = new ArrayList<>();
         try {
             if (list != null) {
-              
+
                 for (int i = 0; i < list.size(); i++) {
                     final NetSalesRuleLookupDto searchDTO = new NetSalesRuleLookupDto();
                     final Object[] object = (Object[]) list.get(i);
@@ -325,8 +317,8 @@ public class NsfLogic {
                     searchDTO.setRuleNo(!ConstantsUtils.NULL.equals(String.valueOf(object[NumericConstants.TWO])) && StringUtils.isNotBlank(String.valueOf(object[NumericConstants.TWO])) ? String.valueOf(object[NumericConstants.TWO]) : StringUtils.EMPTY);
                     searchDTO.setRuleName(!ConstantsUtils.NULL.equals(String.valueOf(object[NumericConstants.THREE])) && StringUtils.isNotBlank(String.valueOf(object[NumericConstants.THREE])) ? String.valueOf(object[NumericConstants.THREE]) : StringUtils.EMPTY);
                     if (object[NumericConstants.FOUR] != null) {
-                    searchDTO.setRuleCategory(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.FOUR] != null ? Integer.valueOf(String.valueOf(object[NumericConstants.FOUR])) : 0));
-                    searchDTO.setRuleCategoryString(ConstantsUtils.SELECT_ONE.equals(searchDTO.getRuleCategory().getDescription()) ? StringUtils.EMPTY : searchDTO.getRuleCategory().getDescription());
+                        searchDTO.setRuleCategory(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.FOUR] != null ? Integer.valueOf(String.valueOf(object[NumericConstants.FOUR])) : 0));
+                        searchDTO.setRuleCategoryString(ConstantsUtils.SELECT_ONE.equals(searchDTO.getRuleCategory().getDescription()) ? StringUtils.EMPTY : searchDTO.getRuleCategory().getDescription());
                     }
                     searchResultsList.add(searchDTO);
                 }
@@ -337,21 +329,21 @@ public class NsfLogic {
         return searchResultsList;
     }
 
-    private StringBuilder getNsRuleFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getNsRuleFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         if (nsRuleFilterCriteria.isEmpty()) {
             nsRuleFilterCriteria.clear();
-            nsRuleFilterCriteria.put("ruleType", "MODEL.RULE_TYPE");
-            nsRuleFilterCriteria.put("ruleNo", "MODEL.RULE_NO");
-            nsRuleFilterCriteria.put("ruleName", "MODEL.RULE_NAME");
+            nsRuleFilterCriteria.put(ConstantsUtils.RULE_TYPE, "MODEL.RULE_TYPE");
+            nsRuleFilterCriteria.put(ConstantsUtils.RULE_NO, "MODEL.RULE_NO");
+            nsRuleFilterCriteria.put(ConstantsUtils.RULE_NAME, "MODEL.RULE_NAME");
             nsRuleFilterCriteria.put("ruleCategoryString", "MODEL.RULE_CATEGORY");
         }
-              
+
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(ConstantsUtils.AND).append(nsRuleFilterCriteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
-                } 
+                    stringBuilder.append(ConstantsUtils.AND).append(nsRuleFilterCriteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                }
             }
         }
 
@@ -363,9 +355,9 @@ public class NsfLogic {
         String orderByColumn = null;
         if (nsRuleFilterCriteria.isEmpty()) {
             nsRuleFilterCriteria.clear();
-            nsRuleFilterCriteria.put("ruleType", "RULE_TYPE");
-            nsRuleFilterCriteria.put("ruleNo", "RULE_NO");
-            nsRuleFilterCriteria.put("ruleName", "RULE_NAME");
+            nsRuleFilterCriteria.put(ConstantsUtils.RULE_TYPE, "RULE_TYPE");
+            nsRuleFilterCriteria.put(ConstantsUtils.RULE_NO, "RULE_NO");
+            nsRuleFilterCriteria.put(ConstantsUtils.RULE_NAME, "RULE_NAME");
             nsRuleFilterCriteria.put("ruleCategoryString", "RULE_CATEGORY");
         }
         if (sortByColumns != null) {
@@ -379,54 +371,53 @@ public class NsfLogic {
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY MODEL.CDR_MODEL_SID ");
         } else {
-            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            stringBuilder.append(ConstantsUtils.ORDER_BY).append(orderByColumn).append((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         }
 
         stringBuilder.append(" OFFSET ").append(startIndex);
-        stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(" ROWS ONLY;");
+        stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(ConstantsUtils.ROWS_FETCH_ONLY);
 
         return stringBuilder;
     }
-    
-       public int getNsRuleDetailsCount(final String ruleSystemId, final Set<Container.Filter> filterSet) throws ParseException {
+
+    public int getNsRuleDetailsCount(final String ruleSystemId, final Set<Container.Filter> filterSet) {
         LOGGER.debug("Entering getNsRuleDetailsCount ");
         int count = 0;
-        if(!"0".equals(ruleSystemId)){
-        StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder = buildNsRuleDetailsQuery(ruleSystemId, true);
-        queryBuilder = getNsRuleDetailsFilterQuery(filterSet, queryBuilder);
+        if (!"0".equals(ruleSystemId)) {
+            StringBuilder queryBuilder;
+            queryBuilder = buildNsRuleDetailsQuery(ruleSystemId, true);
+            queryBuilder = getNsRuleDetailsFilterQuery(filterSet, queryBuilder);
 
-        queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantsUtils.WHERE_AND, ConstantsUtils.QUERY_WHERE));
-        queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantsUtils.WHERE) ? queryBuilder.toString().replace(ConstantsUtils.WHERE, " ") : queryBuilder);
+            queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantsUtils.WHERE_AND, ConstantsUtils.QUERY_WHERE));
+            queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantsUtils.WHERE) ? queryBuilder.toString().replace(ConstantsUtils.WHERE, " ") : queryBuilder);
 
-
-        List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
-        if (masterData != null && !masterData.isEmpty()) {
-            Object ob = masterData.get(0);
-            count += Integer.valueOf(String.valueOf(ob));
+            List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+            if (masterData != null && !masterData.isEmpty()) {
+                Object ob = masterData.get(0);
+                count += Integer.valueOf(String.valueOf(ob));
+            }
         }
-       }
-        LOGGER.debug("End of getNsRuleDetailsCount= "+count);
+        LOGGER.debug("End of getNsRuleDetailsCount= " + count);
         return count;
     }
 
     public List<NetSalesRuleLookupDto> loadNsRuleDetailsResults(
-            final String ruleSystemId, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException {
+            final String ruleSystemId, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
         List<NetSalesRuleLookupDto> searchList = new ArrayList<>();
-        try{
-        LOGGER.debug("Entering loadNsRuleResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder = buildNsRuleDetailsQuery(ruleSystemId, false);
-        queryBuilder = getNsRuleDetailsFilterQuery(filterSet, queryBuilder);
-        queryBuilder = getNsRuleDetailsOrderQuery(queryBuilder, columns, start, end);
+        try {
+            LOGGER.debug("Entering loadNsRuleResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
+            StringBuilder queryBuilder;
+            queryBuilder = buildNsRuleDetailsQuery(ruleSystemId, false);
+            queryBuilder = getNsRuleDetailsFilterQuery(filterSet, queryBuilder);
+            queryBuilder = getNsRuleDetailsOrderQuery(queryBuilder, columns, start, end);
 
-        queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantsUtils.WHERE_AND, ConstantsUtils.QUERY_WHERE));
-        queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantsUtils.WHERE) ? queryBuilder.toString().replace(ConstantsUtils.WHERE, " ") : queryBuilder);
-     
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
-        searchList = getCustomizedNsRuleDetailsDTO(list);
-        }catch(Exception e){
-        LOGGER.error(e);
+            queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantsUtils.WHERE_AND, ConstantsUtils.QUERY_WHERE));
+            queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantsUtils.WHERE) ? queryBuilder.toString().replace(ConstantsUtils.WHERE, " ") : queryBuilder);
+
+            final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+            searchList = getCustomizedNsRuleDetailsDTO(list);
+        } catch (Exception e) {
+            LOGGER.error(e);
         }
         LOGGER.debug("End of loadNsRuleResults");
         return searchList;
@@ -442,11 +433,12 @@ public class NsfLogic {
         nsrDetailsDbMap.put("comparison", "COMPARISON");
         nsrDetailsDbMap.put("logicalOperator", "LOGICAL_OPERATOR");
     }
+
     private StringBuilder buildNsRuleDetailsQuery(String ruleSystemId, boolean isCount) {
         StringBuilder queryBuilder = new StringBuilder();
         String query = isCount ? "COUNT( * )" : constantProperties.getString("netSalesRuleDetails");
-        queryBuilder.append(" SELECT ").append(query).append(" FROM CDR_DETAILS WHERE CDR_MODEL_SID = ").append(ruleSystemId);
-       
+        queryBuilder.append(ConstantsUtils.SELECT_SPACE).append(query).append(" FROM CDR_DETAILS WHERE CDR_MODEL_SID = ").append(ruleSystemId);
+
         return queryBuilder;
     }
 
@@ -454,18 +446,18 @@ public class NsfLogic {
         final List<NetSalesRuleLookupDto> searchResultsList = new ArrayList<>();
         try {
             if (list != null) {
-              
+
                 for (Object nsrList : list) {
                     final NetSalesRuleLookupDto searchDTO = new NetSalesRuleLookupDto();
                     final Object[] object = (Object[]) nsrList;
                     searchDTO.setRuleSystemId(!ConstantsUtils.NULL.equals(String.valueOf(object[0])) && StringUtils.isNotBlank(String.valueOf(object[0])) ? String.valueOf(object[0]) : "0");
-                    searchDTO.setLineType(object[1] != null ?getDescById((int)object[1]):StringUtils.EMPTY);
-                    searchDTO.setAssociation(object[NumericConstants.TWO] != null ? getDescById((int)object[NumericConstants.TWO]):StringUtils.EMPTY);
-                    searchDTO.setKeyword(object[NumericConstants.THREE] != null ? getDescById((int)object[NumericConstants.THREE]):StringUtils.EMPTY);
-                    searchDTO.setOperator(object[NumericConstants.FOUR] != null ? getDescById((int)object[NumericConstants.FOUR]):StringUtils.EMPTY);
+                    searchDTO.setLineType(object[1] != null ? getDescById((int) object[1]) : StringUtils.EMPTY);
+                    searchDTO.setAssociation(object[NumericConstants.TWO] != null ? getDescById((int) object[NumericConstants.TWO]) : StringUtils.EMPTY);
+                    searchDTO.setKeyword(object[NumericConstants.THREE] != null ? getDescById((int) object[NumericConstants.THREE]) : StringUtils.EMPTY);
+                    searchDTO.setOperator(object[NumericConstants.FOUR] != null ? getDescById((int) object[NumericConstants.FOUR]) : StringUtils.EMPTY);
                     searchDTO.setValue(!ConstantsUtils.NULL.equals(String.valueOf(object[NumericConstants.FIVE])) && StringUtils.isNotBlank(String.valueOf(object[NumericConstants.FIVE])) ? String.valueOf(object[NumericConstants.FIVE]) : StringUtils.EMPTY);
-                    searchDTO.setComparison(object[NumericConstants.SIX] != null ?getDescById((int)object[NumericConstants.SIX]):StringUtils.EMPTY);
-                    searchDTO.setLogicalOperator(object[NumericConstants.SEVEN] != null?getDescById((int)object[NumericConstants.SEVEN]):StringUtils.EMPTY);
+                    searchDTO.setComparison(object[NumericConstants.SIX] != null ? getDescById((int) object[NumericConstants.SIX]) : StringUtils.EMPTY);
+                    searchDTO.setLogicalOperator(object[NumericConstants.SEVEN] != null ? getDescById((int) object[NumericConstants.SEVEN]) : StringUtils.EMPTY);
                     searchResultsList.add(searchDTO);
                 }
             }
@@ -475,18 +467,18 @@ public class NsfLogic {
         return searchResultsList;
     }
 
-    private StringBuilder getNsRuleDetailsFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
-      
+    private StringBuilder getNsRuleDetailsFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
+
         if (nsrDetailsDbMap.isEmpty()) {
-        loadNsRuleDetailsMap();
+            loadNsRuleDetailsMap();
         }
-              
+
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(ConstantsUtils.AND).append(nsrDetailsDbMap.get(stringFilter.getPropertyId().toString())).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
-                } 
+                    stringBuilder.append(ConstantsUtils.AND).append(nsrDetailsDbMap.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                }
             }
         }
 
@@ -506,59 +498,57 @@ public class NsfLogic {
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY CREATED_DATE ");
         } else {
-            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            stringBuilder.append(ConstantsUtils.ORDER_BY).append(orderByColumn).append((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         }
 
         stringBuilder.append(" OFFSET ").append(startIndex);
-        stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(" ROWS ONLY;");
+        stringBuilder.append(" ROWS FETCH NEXT ").append(endIndex).append(ConstantsUtils.ROWS_FETCH_ONLY);
 
         return stringBuilder;
     }
-    
-    
-     public Object nsfInsert(SessionDTO sessionDto,final String queryName,boolean isSelected,String sbName) throws SystemException {                     
+
+    public Object nsfInsert(SessionDTO sessionDto, final String queryName, boolean isSelected, String sbName) {
         Map<String, Object> input = new HashMap<>();
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         int user = Integer.valueOf(userId);
-        input.put("?UID",user);
-        input.put("?SID",sessionDto.getUiSessionId());
-        input.put("?NSFID",sessionDto.getSystemId());
-        return tempOperation(input,queryName,isSelected,sbName);
+        input.put("?UID", user);
+        input.put("?SID", sessionDto.getUiSessionId());
+        input.put("?NSFID", sessionDto.getSystemId());
+        return tempOperation(input, queryName, isSelected, sbName);
     }
-    
-     public Object tempOperation(final Map<String, Object> input, final String queryName,boolean isSelected,String sbName){
-      
+
+    public Object tempOperation(final Map<String, Object> input, final String queryName, boolean isSelected, String sbName) {
+
         try {
             LOGGER.debug("Entering tempOperation method ");
             LOGGER.debug("Query Name : " + queryName);
-                        
+
             String customSql = CustomSQLUtil.get(queryName);
-            if(isSelected){
-                customSql=customSql+CustomSQLUtil.get(sbName);
+            if (isSelected) {
+                customSql = customSql + CustomSQLUtil.get(sbName);
             }
-          
+
             for (String key : input.keySet()) {
                 LOGGER.debug("Key : " + key);
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
-          
-           
+
             LOGGER.debug("End of tempOperation method");
-            Object temp =RsModelLocalServiceUtil.executeUpdateQuery(customSql, this, this);
+            Object temp = RsModelLocalServiceUtil.executeUpdateQuery(customSql, this, this);
             return temp;
         } catch (Exception e) {
-           
+
             LOGGER.error(e);
             return null;
         }
     }
 
-   public void saveNsf(SessionDTO sessionDto, ErrorfulFieldGroup binder,HelperDTO formulaType, String contractSelected, int nsrId) throws PortalException, SystemException {
+    public void saveNsf(SessionDTO sessionDto, ErrorfulFieldGroup binder, HelperDTO formulaType, String contractSelected, int nsrId) throws PortalException, SystemException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         int user = Integer.valueOf(userId);
         NetSalesFormulaMaster nsf;
-        boolean isSelected=true;
-        if(!ConstantsUtils.EDIT.equalsIgnoreCase(sessionDto.getMode())){
+        boolean isSelected = true;
+        if (!ConstantsUtils.EDIT.equalsIgnoreCase(sessionDto.getMode())) {
             nsf = NetSalesFormulaMasterLocalServiceUtil.createNetSalesFormulaMaster(0);
 
             nsf.setNetSalesFormulaId(String.valueOf(binder.getField(ConstantsUtils.FORMULA_ID).getValue()));
@@ -572,7 +562,7 @@ public class NsfLogic {
             nsf.setInboundStatus("A");
             nsf.setModifiedDate(new Date());
             nsf.setCreatedDate(new Date());
-            if (nsf.getContractSelection().startsWith("Existing")) {
+            if (nsf.getContractSelection().startsWith(ConstantsUtils.EXISTING)) {
                 if (nsrId != 0) {
                     nsf.setCdrModelSid(String.valueOf(nsrId));
                 }
@@ -593,10 +583,10 @@ public class NsfLogic {
             nsf.setModifiedBy(user);
             nsf.setInboundStatus("A");
             nsf.setModifiedDate(new Date());
-            if (nsf.getContractSelection().startsWith("Existing")) {
+            if (nsf.getContractSelection().startsWith(ConstantsUtils.EXISTING)) {
                 if (nsrId != 0) {
                     nsf.setCdrModelSid(String.valueOf(nsrId));
-                }else{
+                } else {
                     nsf.setCdrModelSid(null);
                 }
             } else {
@@ -604,20 +594,20 @@ public class NsfLogic {
             }
             NetSalesFormulaMasterLocalServiceUtil.updateNetSalesFormulaMaster(nsf);
         }
-        if(contractSelected.startsWith("Existing")){
-           if (isPresent(sessionDto.getSystemId())) {
-               StringBuilder query = new StringBuilder(StringUtils.EMPTY);
-               query.append("UPDATE SALES_BASIS_DETAILS SET INBOUND_STATUS = 'D'");
-               query.append(ConstantsUtils.QUERY_NSF).append(sessionDto.getSystemId()).append(ConstantsUtils.SINGLE_QUOTE);
-               RsModelLocalServiceUtil.executeUpdateQuery(query.toString(), this, this);
-           } 
-               isSelected = false;
-       }
- 
+        if (contractSelected.startsWith(ConstantsUtils.EXISTING)) {
+            if (isPresent(sessionDto.getSystemId())) {
+                StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+                query.append("UPDATE SALES_BASIS_DETAILS SET INBOUND_STATUS = 'D'");
+                query.append(ConstantsUtils.QUERY_NSF).append(sessionDto.getSystemId()).append(ConstantsUtils.SINGLE_QUOTE);
+                RsModelLocalServiceUtil.executeUpdateQuery(query.toString(), this, this);
+            }
+            isSelected = false;
+        }
+
         if ("Contract".equals(formulaType.getDescription())) {
-            nsfInsert(sessionDto, "tempDeductionSaveContract",isSelected,"tempSaveSB");
+            nsfInsert(sessionDto, "tempDeductionSaveContract", isSelected, "tempSaveSB");
         } else {
-            nsfInsert(sessionDto, "tempDeductionSave",isSelected,"tempSaveSB");
+            nsfInsert(sessionDto, "tempDeductionSave", isSelected, "tempSaveSB");
         }
     }
 
@@ -627,7 +617,7 @@ public class NsfLogic {
      * @param sessionDto
      * @throws SystemException
      */
-    public void removeAllFromTempTable(SessionDTO sessionDto) throws SystemException, PortalException {
+    public void removeAllFromTempTable(SessionDTO sessionDto) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         final String sessionId = String.valueOf(sessionDto.getUiSessionId());
 
@@ -644,42 +634,42 @@ public class NsfLogic {
         RsModelLocalServiceUtil.executeUpdateQuery(deleteQuery.toString(), this, this);
 
     }
-    
-     /**
-     * 
+
+    /**
+     *
      * @param fieldName
      * @param binder
-     * @return 
+     * @return
      */
     private boolean checkEmptyDataFromFields(String fieldName, ErrorfulFieldGroup binder) {
-        boolean isEmpty = false;        
-        
+        boolean isEmpty = false;
+
         if (binder.getField(fieldName) instanceof TextField) {
-            TextField textField = (TextField)binder.getField(fieldName);
+            TextField textField = (TextField) binder.getField(fieldName);
             isEmpty = StringUtils.isBlank(textField.getValue()) || ConstantsUtils.NULL.equals(textField.getValue());
         }
         if (binder.getField(fieldName) instanceof ComboBox) {
-            
+
             ComboBox comboBox = (ComboBox) binder.getField(fieldName);
             if (comboBox.getValue() instanceof com.stpl.app.util.HelperDTO) {
                 isEmpty = comboBox.getValue() == null || ConstantsUtils.SELECT_ONE.equals(((com.stpl.app.util.HelperDTO) comboBox.getValue()).getDescription());
-            } else if ( comboBox.getValue() instanceof HelperDTO) {
+            } else if (comboBox.getValue() instanceof HelperDTO) {
                 isEmpty = comboBox.getValue() == null || ConstantsUtils.SELECT_ONE.equals(((HelperDTO) comboBox.getValue()).getDescription());
-            } else if( comboBox.getValue() == null){
+            } else if (comboBox.getValue() == null) {
                 isEmpty = true;
             }
-            
-        }      
+
+        }
         return isEmpty;
     }
-    
+
     public NsfDto getNsfMasterById(final int idValue) throws SystemException, PortalException {
 
         LOGGER.debug("In getNsfMasterById P1:id=" + idValue);
         NsfDto nsfDTO = new NsfDto();
-        if(idValue!=0){
-        NetSalesFormulaMaster nsf = NetSalesFormulaMasterLocalServiceUtil.getNetSalesFormulaMaster(idValue);
-        nsfDTO = convertToDTO(nsf, nsfDTO);
+        if (idValue != 0) {
+            NetSalesFormulaMaster nsf = NetSalesFormulaMasterLocalServiceUtil.getNetSalesFormulaMaster(idValue);
+            nsfDTO = convertToDTO(nsf, nsfDTO);
         }
         LOGGER.debug("getNsfMasterById Returns NetSalesFormulaMaster NsfDto");
         return nsfDTO;
@@ -695,7 +685,7 @@ public class NsfLogic {
             NSFView.setFormCategory(nsfDTO.getFormulaCategory());
             nsfDTO.setFormulaType(helperListUtil.getIdHelperDTOMap().get(nsf.getNetSalesFormulaType()));
             if (nsf.getContractSelection() != null) {
-                if (nsf.getContractSelection().startsWith("Existing")) {
+                if (nsf.getContractSelection().startsWith(ConstantsUtils.EXISTING)) {
                     nsfDTO.setContractSelected(nsf.getContractSelection());
                     if (StringUtils.isNotBlank(nsf.getCdrModelSid())) {
                         nsfDTO.setNsRuleId(Integer.valueOf(nsf.getCdrModelSid()));
@@ -714,14 +704,14 @@ public class NsfLogic {
         }
         return nsfDTO;
     }
-         
+
     /**
      * To delete NSF.
      *
      * @param idValue
      * @throws SystemException
      */
-    public void deleteNsfMasterById(final int idValue) throws SystemException, PortalException {
+    public void deleteNsfMasterById(final int idValue) {
         LOGGER.debug("In deleteNsfMasterById P1:id=" + idValue);
         StringBuilder deleteQuery = new StringBuilder();
         deleteQuery.append("UPDATE dbo.SALES_BASIS_DETAILS SET INBOUND_STATUS ='D' WHERE NET_SALES_FORMULA_MASTER_SID ='");
@@ -736,43 +726,42 @@ public class NsfLogic {
         RsModelLocalServiceUtil.executeUpdateQuery(deleteQuery.toString(), this, this);
         LOGGER.debug("deleteNsfMasterById ends");
     }
-    
-      public boolean checkNsf(SessionDTO sessionDto,String queryCheck,String dbTableName){
+
+    public boolean checkNsf(SessionDTO sessionDto, String queryCheck, String dbTableName) {
         LOGGER.debug("Entering checkNsf");
-          boolean checkFlag = false;
-          final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-          final String sessionId = sessionDto.getUiSessionId();
-          StringBuilder queryBuilder = new StringBuilder();
+        boolean checkFlag = false;
+        final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
+        final String sessionId = sessionDto.getUiSessionId();
+        StringBuilder queryBuilder = new StringBuilder();
 
-          if ("INDICATOR_CHECK".equals(queryCheck)) {
-              queryBuilder.append("select count(*) from ").append(dbTableName).append(" \n"
-                      + "where INDICATOR not in ('+','-') and OPERATION <> 'D' and INBOUND_STATUS <> 'D' and session_ID = '").append(sessionId);
-              queryBuilder.append("' and USERS_SID ='").append(userId).append("' ;");
-          }
+        if ("INDICATOR_CHECK".equals(queryCheck)) {
+            queryBuilder.append("select count(*) from ").append(dbTableName).append(" \n"
+                    + "where INDICATOR not in ('+','-') and OPERATION <> 'D' and INBOUND_STATUS <> 'D' and session_ID = '").append(sessionId);
+            queryBuilder.append("' and USERS_SID ='").append(userId).append("' ;");
+        }
 
-          final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
-          int count = Integer.parseInt(String.valueOf(list.get(0)));
-              if (count != 0) {
-                  checkFlag = true;
-              }
-        
-        LOGGER.debug("End of checkNsf checkFlag="+checkFlag);
+        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        int count = Integer.parseInt(String.valueOf(list.get(0)));
+        if (count != 0) {
+            checkFlag = true;
+        }
+
+        LOGGER.debug("End of checkNsf checkFlag=" + checkFlag);
         return checkFlag;
     }
-   
-    public void saveProjectionSelection(Map map, int nsfID, String screenName) throws PortalException {
+
+    public void saveProjectionSelection(Map map, int nsfID, String screenName) {
         try {
             int count = 0;
-            if(nsfID !=0){
-            StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.append("SELECT COUNT(*) from NSF_SELECTION ").append(" \n"
-                    + "WHERE NET_SALES_FORMULA_MASTER_SID = '").append(nsfID);
-            queryBuilder.append("' and SCREEN_NAME ='").append(screenName).append("' ;");
-            List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
-            if (list != null && !list.isEmpty()) {
-                count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(list.get(0))) ? String.valueOf(list.get(0)) : "0");
-                list = null;
-            }
+            if (nsfID != 0) {
+                StringBuilder queryBuilder = new StringBuilder();
+                queryBuilder.append("SELECT COUNT(*) from NSF_SELECTION ").append(" \n"
+                        + "WHERE NET_SALES_FORMULA_MASTER_SID = '").append(nsfID);
+                queryBuilder.append("' and SCREEN_NAME ='").append(screenName).append("' ;");
+                List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+                if (list != null && !list.isEmpty()) {
+                    count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(list.get(0))) ? String.valueOf(list.get(0)) : "0");
+                }
             }
             if (count == 0) {
                 saveSelection(map, nsfID, screenName, "save");
@@ -785,7 +774,7 @@ public class NsfLogic {
         }
     }
 
-    public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate) throws PortalException, SystemException {
+    public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate) {
         Object[] obj = map.keySet().toArray();
         StringBuilder queryBuilder = new StringBuilder();
         if ("save".equalsIgnoreCase(saveOrUpdate)) {
@@ -803,7 +792,7 @@ public class NsfLogic {
         }
         RsModelLocalServiceUtil.executeUpdateQuery(queryBuilder.toString(), this, this);
     }
-    
+
     /**
      * Get Sales Basis Selection Map
      *
@@ -827,7 +816,6 @@ public class NsfLogic {
                     Object[] obj = (Object[]) nsfList;
                     map.put(obj[0], obj[1]);
                 }
-                list = null;
             }
 
             return map;
@@ -837,7 +825,7 @@ public class NsfLogic {
         return null;
     }
 
-       private String getDescById(int systemId) throws PortalException, SystemException {
+    private String getDescById(int systemId) {
         if (systemId == 0) {
             return StringUtils.EMPTY;
         } else {
@@ -845,7 +833,8 @@ public class NsfLogic {
         }
 
     }
-        public SalesBasisDto getSalesBasisSelection(final int nsfID) {
+
+    public SalesBasisDto getSalesBasisSelection(final int nsfID) {
         Map<Object, Object> map = getSalesBasisSelectionMap(nsfID, "Sales Basis");
         SalesBasisDto sbDto = new SalesBasisDto();
         if (map != null && !map.isEmpty()) {
@@ -910,7 +899,7 @@ public class NsfLogic {
             if (value != null) {
                 sbDto.setMarketType(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(value))));
             }
-            
+
 // To load Available Customers Table
             value = map.get("contractMasterSid");
             if (value != null) {
@@ -919,6 +908,7 @@ public class NsfLogic {
         }
         return sbDto;
     }
+
     public String duplicateCheck(ErrorfulFieldGroup binder) {
 
         String noQuery = "select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_ID='" + String.valueOf(binder.getField(ConstantsUtils.FORMULA_ID).getValue()).trim() + "'";
@@ -939,16 +929,18 @@ public class NsfLogic {
         }
         return "S";
     }
+
     public void update(String query) {
         if (StringUtils.isNotBlank(query)) {
             RsModelLocalServiceUtil.executeUpdateQuery(query, this, this);
         }
     }
+
     public boolean isPresent(int nsfId) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append(" SELECT COUNT(NET_SALES_FORMULA_MASTER_SID) FROM SALES_BASIS_DETAILS");
         query.append(ConstantsUtils.QUERY_NSF).append(nsfId).append(ConstantsUtils.SINGLE_QUOTE);
-       
+
         int count = 0;
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         if (resultList != null && !resultList.isEmpty()) {

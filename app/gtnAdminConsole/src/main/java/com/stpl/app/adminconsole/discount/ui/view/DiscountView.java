@@ -33,7 +33,7 @@ public class DiscountView extends VerticalLayout implements View{
       /**
      * The selected results bean.
      */
-    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<DiscountSearchDTO>(DiscountSearchDTO.class);
+    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
     
      /**
      * The DiscountLogic.
@@ -75,7 +75,7 @@ public class DiscountView extends VerticalLayout implements View{
             resultsBean.removeAllItems();
             String pageName = String.valueOf(VaadinSession.getCurrent().getAttribute("logic"));
             if (pageName.equals("view")) {
-                List<DiscountSearchDTO> selectedRebate = new ArrayList<DiscountSearchDTO>();
+                List<DiscountSearchDTO> selectedRebate;
                 selectedRebate = logic.getDeductionGroupDetails(deductionGroupSId);
                 if (!selectedRebate.isEmpty()) {
                     resultsBean.addAll(selectedRebate);

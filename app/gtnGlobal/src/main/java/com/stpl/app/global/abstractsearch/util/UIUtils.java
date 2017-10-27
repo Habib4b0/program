@@ -33,7 +33,7 @@ public final class UIUtils {
 	/** The ps type. */
 	public static final String PS_TYPE = "PS_TYPE";
         /** The ps type. */
-	public static final String PS_TYPE__COLUMN = "ps_Type";
+	public static final String PS_TYPE_COLUMN = "ps_Type";
 	
 	/** The ps category. */
 	public static final String PS_CATEGORY = "PsCategory";
@@ -157,22 +157,22 @@ public final class UIUtils {
 
     
     /** The Constant UDC1. */
-    public static final String Comp_UDC1 = "COMP_UDC1";
+    public static final String COMP_UDC1 = "COMP_UDC1";
     
     /** The Constant UDC2. */
-    public static final String Comp_UDC2 = "COMP_UDC2";
+    public static final String COMP_UDC2 = "COMP_UDC2";
     
     /** The Constant UDC3. */
-    public static final String Comp_UDC3 = "COMP_UDC3";
+    public static final String COMP_UDC3 = "COMP_UDC3";
     
     /** The Constant UDC4. */
-    public static final String Comp_UDC4 = "COMP_UDC4";
+    public static final String COMP_UDC4 = "COMP_UDC4";
     
     /** The Constant UDC5. */
-    public static final String Comp_UDC5 = "COMP_UDC5";
+    public static final String COMP_UDC5 = "COMP_UDC5";
     
     /** The Constant UDC6. */
-    public static final String Comp_UDC6 = "COMP_UDC6";
+    public static final String COMP_UDC6 = "COMP_UDC6";
     
     /** The Constant IDENTIFIER_STATUS. */
     public static final String IDENTIFIER_STATUS = "COMP_IDEN_STATUS";
@@ -323,7 +323,7 @@ public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils
 	        
 	/** The Constant IDEN_FORM_COL_ORDER_HEADER. */
 	public static final String[] IDEN_FORM_COL_ORDER_HEADER = new String[] {
-		LabelUtils.ITEMQUALIFIERNAME, "Item Identifier", "Identifier Status", LabelUtils.pricingStartDate, LabelUtils.pricingEndDate,ConstantsUtils.ENTITYCODE,ConstantsUtils.ENTITYCODENAME, ConstantsUtils.MODIFIED_BY, ConstantsUtils.MODIFIED_DATE, ConstantsUtils.CREATED_BY, LabelUtils.CREATEDDATE};
+		LabelUtils.ITEMQUALIFIERNAME, "Item Identifier", "Identifier Status", LabelUtils.PRICING_START_DATE, LabelUtils.PRICING_END_DATE,ConstantsUtils.ENTITYCODE,ConstantsUtils.ENTITYCODENAME, ConstantsUtils.MODIFIED_BY, ConstantsUtils.MODIFIED_DATE, ConstantsUtils.CREATED_BY, LabelUtils.CREATEDDATE};
 	
 	/** The Constant IDEN_VIEW_FORM_COL_ORDER. */
 	public static final Object[] IDEN_VIEW_FORM_COL_ORDER = new Object[] {
@@ -338,7 +338,7 @@ public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils
 	
 	/** The Constant PRICING_FORM_COL_ORDER_HEADER. */
 	public static final String[] PRICING_FORM_COL_ORDER_HEADER = new String[] {
-		"Pricing Qualifier Name", "Item Price", "Pricing Status", "Item UOM", LabelUtils.pricingStartDate, LabelUtils.pricingEndDate, 
+		"Pricing Qualifier Name", "Item Price", "Pricing Status", "Item UOM", LabelUtils.PRICING_START_DATE, LabelUtils.PRICING_END_DATE, 
 		"Entity Code","Source", ConstantsUtils.MODIFIED_BY, ConstantsUtils.MODIFIED_DATE, ConstantsUtils.CREATED_BY, LabelUtils.CREATEDDATE};
 	
 	/** The Constant PRICING_VIEW_FORM_COL_ORDER. */

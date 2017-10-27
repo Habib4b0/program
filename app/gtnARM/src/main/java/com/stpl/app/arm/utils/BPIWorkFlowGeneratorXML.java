@@ -28,7 +28,7 @@ import org.w3c.dom.Text;
  * @author Asha.Ravi
  */
 public class BPIWorkFlowGeneratorXML {
-    
+
     private static final Logger LOGGER = Logger.getLogger(BPIWorkFlowGeneratorXML.class);
 
     /**
@@ -44,20 +44,19 @@ public class BPIWorkFlowGeneratorXML {
      * @return
      */
     public String generateId(String fileWithPath, String moduleName) {
-        
-        HashMap hmCounterAndDate = new HashMap();
-        HashMap hmBPIConterAndUpdateValues = new HashMap();
 
-      
+        HashMap hmCounterAndDate;
+        HashMap hmBPIConterAndUpdateValues;
+
         hmCounterAndDate = readBPICounterXML(fileWithPath, moduleName);
-     
+
         hmBPIConterAndUpdateValues = getBPIWorkflowIDAndRequiredUpdates(
                 hmCounterAndDate, moduleName);
-      
+
         updateBPICounterXML(hmBPIConterAndUpdateValues, fileWithPath,
                 moduleName);
         return (String) hmBPIConterAndUpdateValues.get("bpiWKid");
-        
+
     }
 
     /**
@@ -74,74 +73,71 @@ public class BPIWorkFlowGeneratorXML {
         // Input is - 1) modName
         // Output is a HashMap containing 1) counterValue 2)UpdateDate
         HashMap hm = new HashMap();
-        
+
         try {
             File file = new File(fileWithPath);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
-            
+
             String updateDate = "NA";
             String counterValue = "NA";
-            
+
             NodeList nodeLstTop = doc.getElementsByTagName("BPIWorkflowID");
             for (int s1 = 0; s1 < nodeLstTop.getLength(); s1++) {
 
-               
                 NodeList nodeLst = doc.getElementsByTagName("row");
-                
+
                 for (int s = 0; s < nodeLst.getLength(); s++) {
-                    
+
                     Node fstNode = nodeLst.item(s);
-                    
+
                     if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
-                        
+
                         Element fstElmnt = (Element) fstNode;
-                        
+
                         NodeList fstAllocationLst = fstElmnt
                                 .getElementsByTagName("moduleName");
                         Element fstAllocationElmnt = (Element) fstAllocationLst
                                 .item(0);
                         NodeList fstAllocation = fstAllocationElmnt
                                 .getChildNodes();
-                      
-                        String moduleName = ((Node) fstAllocation.item(0))
-                                .getNodeValue().toString();
-                        
+
+                        String moduleName = (fstAllocation.item(0))
+                                .getNodeValue();
+
                         if (moduleName.equals(modName)) {
                             NodeList fstNmElmntLst = fstElmnt
                                     .getElementsByTagName(ARMUtils.COUNTER_VALUE);
                             Element fstNmElmnt = (Element) fstNmElmntLst
                                     .item(0);
                             NodeList fstNm = fstNmElmnt.getChildNodes();
-                           
-                            counterValue = ((Node) fstNm.item(0))
-                                    .getNodeValue().toString();
-                            
+
+                            counterValue = (fstNm.item(0))
+                                    .getNodeValue();
+
                             NodeList lstNmElmntLst = fstElmnt
                                     .getElementsByTagName("counterUpdatedDate");
                             Element lstNmElmnt = (Element) lstNmElmntLst
                                     .item(0);
                             NodeList lstNm = lstNmElmnt.getChildNodes();
-                          
-                            updateDate = ((Node) lstNm.item(0)).getNodeValue()
-                                    .toString();
+
+                            updateDate = (lstNm.item(0)).getNodeValue();
                         }
-                        
+
                         hm.put(ARMUtils.COUNTER_VALUE, counterValue);
                         hm.put("updateDate", updateDate);
-                      
 
                     }
-                    
+
                 }
-                
+
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in readBPICounterXML :"+e);
         }
-        
+
         return hm;
     }
 
@@ -157,41 +153,41 @@ public class BPIWorkFlowGeneratorXML {
     private HashMap getBPIWorkflowIDAndRequiredUpdates(
             HashMap hmCounterAndDate, String moduleName) {
         HashMap hm = new HashMap();
-        
+
         String counterValue = hmCounterAndDate.get(ARMUtils.COUNTER_VALUE).toString();
         String updateDate = hmCounterAndDate.get("updateDate").toString();
-        
+
         int c = 0;
-        String DATE_FORMAT = "yyyyMMdd";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        String dateFormat = "yyyyMMdd";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         Calendar c1 = Calendar.getInstance();
         String currentDate = sdf.format(c1.getTime());
-        
+
         if (Integer.parseInt(updateDate) < Integer.parseInt(currentDate)) {
-            
+
             updateDate = currentDate;
-            
+
             counterValue = ARMUtils.STRING_ONE;
-            
+
         } else {
             c = Integer.parseInt(counterValue) + 1;
             counterValue = (new Integer(c)).toString();
-            
+
         }
-        
+
         String fmt = "0000";
         DecimalFormat df = new DecimalFormat(fmt);
         if (c == 0) {
             c = 1;
         }
         String bpiIDCounter = df.format(c);
-        
+
         String bpiWKid = moduleName + "F" + updateDate + bpiIDCounter;
-        
+
         hm.put("dateToUpdate", updateDate);
         hm.put("counterToUpdate", counterValue);
         hm.put("bpiWKid", bpiWKid);
-        
+
         return hm;
     }
 
@@ -207,82 +203,82 @@ public class BPIWorkFlowGeneratorXML {
      */
     private String updateBPICounterXML(HashMap hmBPIConterAndUpdateValues,
             String fileWithPath, String modName) {
-        
+
         String updateDate = hmBPIConterAndUpdateValues.get("dateToUpdate")
                 .toString();
         String counterValue = hmBPIConterAndUpdateValues.get("counterToUpdate")
                 .toString();
-        
+
         boolean updateflag = false;
-        
+
         try {
             File file = new File(fileWithPath);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
-            
+
             NodeList nodeLstTop = doc.getElementsByTagName("BPIWorkflowID");
             for (int s1 = 0; s1 < nodeLstTop.getLength(); s1++) {
-                
+
                 NodeList nodeLst = doc.getElementsByTagName("row");
-                
+
                 for (int s = 0; s < nodeLst.getLength(); s++) {
-                    
+
                     Node fstNode = nodeLst.item(s);
-                    
+
                     if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
-                        
+
                         Element fstElmnt = (Element) fstNode;
-                        
+
                         NodeList fstAllocationLst = fstElmnt
                                 .getElementsByTagName("moduleName");
                         Element fstAllocationElmnt = (Element) fstAllocationLst
                                 .item(0);
                         NodeList fstAllocation = fstAllocationElmnt
                                 .getChildNodes();
-                        String moduleName = ((Node) fstAllocation.item(0))
-                                .getNodeValue().toString();
-                        
+                        String moduleName = (fstAllocation.item(0))
+                                .getNodeValue();
+
                         if (moduleName.equals(modName)) {
                             NodeList fstNmElmntLst = fstElmnt
                                     .getElementsByTagName(ARMUtils.COUNTER_VALUE);
                             Element fstNmElmnt = (Element) fstNmElmntLst
                                     .item(0);
                             NodeList fstNm = fstNmElmnt.getChildNodes();
-                            
+
                             NodeList lstNmElmntLst = fstElmnt
                                     .getElementsByTagName("counterUpdatedDate");
                             Element lstNmElmnt = (Element) lstNmElmntLst
                                     .item(0);
                             NodeList lstNm = lstNmElmnt.getChildNodes();
-                            
+
                             Text updateDateText = (Text) lstNm.item(0);
                             updateDateText.setData(updateDate);
-                            
+
                             Text counterText = (Text) fstNm.item(0);
                             counterText.setData(counterValue);
-                            
+
                             updateflag = true;
                         }
-                        
+
                     }
-                    
+
                 }
-                
+
                 if (updateflag) {
                     Transformer xformer = TransformerFactory.newInstance()
                             .newTransformer();
                     xformer.transform(new DOMSource(doc), new StreamResult(
                             new File(fileWithPath)));
                 }
-                
+
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in updateBPICounterXML :"+e);
         }
-        
+
         return null;
     }
-    
+
 }

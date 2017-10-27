@@ -11,7 +11,7 @@ import com.stpl.app.arm.common.dto.SessionDTO;
  *
  * @author Srithar.Raju
  */
-public class AccountConfigSelection implements Cloneable {
+public class AccountConfigSelection {
 
     SessionDTO session;
     String tempTableName;
@@ -66,10 +66,6 @@ public class AccountConfigSelection implements Cloneable {
 
     public void setSearchAccConfigDTO(AccountConfigDTO searchAccConfigDTO) {
         this.searchAccConfigDTO = searchAccConfigDTO;
-    }
-
-    protected AccountConfigDTO clone() throws CloneNotSupportedException {
-        return (AccountConfigDTO) super.clone();
     }
 
 }

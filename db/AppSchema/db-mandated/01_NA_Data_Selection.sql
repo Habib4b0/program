@@ -1,4 +1,4 @@
------------------------NATIONAL ASSUMPTIONS DATA SELECTION TABLES----------------------------
+-----------------------NATIONAL ASSUMPTIONS DATA SELECTION TABLES---------------------------
 --------------------------NA_PROJ_MASTER------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   INFORMATION_SCHEMA.TABLES

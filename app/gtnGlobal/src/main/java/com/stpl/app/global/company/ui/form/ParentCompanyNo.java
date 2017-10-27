@@ -79,7 +79,7 @@ public final class ParentCompanyNo extends Window {
      */
     @UiField("errorMsg")
     private ErrorLabel errorMsg;
-    private final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
     CompanyCriteria searchCriteria = new CompanyCriteria();
     /**
      * The company no.
@@ -134,7 +134,7 @@ public final class ParentCompanyNo extends Window {
      * The Parent company name.
      */
     private TextField parentCompanyName = new TextField();
-    CommonUtil commmonUtil=CommonUtil.getInstance();
+    CommonUtil commmonUtil = CommonUtil.getInstance();
     /**
      * The btn select.
      */
@@ -155,7 +155,7 @@ public final class ParentCompanyNo extends Window {
      */
     @UiField("selectBtn")
     private Button selectBtn;
-    
+
     /**
      * The btn close.
      */
@@ -175,11 +175,10 @@ public final class ParentCompanyNo extends Window {
      * The parent company number.
      */
     public TextField parentCompanyNumber;
-    final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<SearchDTO>(new SearchDTO()));
+    final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(new SearchDTO()));
     SessionDTO sessionDTO;
 
     public ParentCompanyNo(final TextField parentCompanyNo) throws SystemException, PortalException {
-
 
         super("Entity Look Up");
         addStyleName(ConstantsUtils.BOOTSTRAP);
@@ -198,7 +197,7 @@ public final class ParentCompanyNo extends Window {
                  *
                  * @param buttonId The buttonId of the pressed button.
                  */
-            	@SuppressWarnings("PMD")
+                @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -213,7 +212,7 @@ public final class ParentCompanyNo extends Window {
                  *
                  * @param buttonId The buttonId of the pressed button.
                  */
-            	@SuppressWarnings("PMD")
+                @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -228,7 +227,7 @@ public final class ParentCompanyNo extends Window {
                  *
                  * @param buttonId The buttonId of the pressed button.
                  */
-            	@SuppressWarnings("PMD")
+                @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -246,14 +245,13 @@ public final class ParentCompanyNo extends Window {
      */
     public ParentCompanyNo(final TextField parentCompanyId, final TextField parentSysId, final TextField parentCompanyName, final SessionDTO sessionDTO) {
 
-
         super("Parent Company No");
         addStyleName(ConstantsUtils.BOOTSTRAP);
         addStyleName(ConstantsUtils.BOOTSTRAP_BB);
         this.parentCompanyId = parentCompanyId;
         this.parentSysId = parentSysId;
         this.parentCompanyName = parentCompanyName;
-        this.sessionDTO=sessionDTO;
+        this.sessionDTO = sessionDTO;
         try {
             setContent(Clara.create(getClass().getResourceAsStream("/clara/companyMaster/ParentCompanyLoopUp.xml"), this));
             init();
@@ -269,7 +267,7 @@ public final class ParentCompanyNo extends Window {
                  *
                  * @param buttonId The buttonId of the pressed button.
                  */
-            	@SuppressWarnings("PMD")
+                @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -284,7 +282,7 @@ public final class ParentCompanyNo extends Window {
                  *
                  * @param buttonId The buttonId of the pressed button.
                  */
-            	@SuppressWarnings("PMD")
+                @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -299,7 +297,7 @@ public final class ParentCompanyNo extends Window {
                  *
                  * @param buttonId The buttonId of the pressed button.
                  */
-            	@SuppressWarnings("PMD")
+                @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -405,7 +403,7 @@ public final class ParentCompanyNo extends Window {
     private String[] getCollapsibleColumns450Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
@@ -414,7 +412,7 @@ public final class ParentCompanyNo extends Window {
     private String[] getCollapsibleColumns850Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -422,13 +420,13 @@ public final class ParentCompanyNo extends Window {
         return propertyIds;
     }
 
-    public void addToTable() throws SystemException, PortalException {
+    public void addToTable() {
         LOGGER.debug("Entering addToTable ");
-        final BeanItemContainer<SearchCompanyForm> searchResultbeans = new BeanItemContainer<SearchCompanyForm>(SearchCompanyForm.class);
+        final BeanItemContainer<SearchCompanyForm> searchResultbeans = new BeanItemContainer<>(SearchCompanyForm.class);
         table.markAsDirty();
         table.setContainerDataSource(searchResultbeans);
-        table.setVisibleColumns(UIUtils.PARENT_COMPANY_NO_COLUMNS);
-        table.setColumnHeaders(UIUtils.PARENT_COMPANY_NO_HEADERS);
+        table.setVisibleColumns(UIUtils.getInstance().parentCompanyNoColumns);
+        table.setColumnHeaders(UIUtils.getInstance().parentCompanyNoHeaders);
         table.setPageLength(NumericConstants.SIX);
         table.setComponentError(null);
         table.setFilterBarVisible(true);
@@ -463,7 +461,7 @@ public final class ParentCompanyNo extends Window {
         final CustomGridLayout grid = new CustomGridLayout(NumericConstants.SIX, NumericConstants.FOUR);
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> fieldCompanyHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_MASTER,false);
+        final Map<String, AppPermission> fieldCompanyHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_MASTER, false);
         grid.setWidth(null);
         grid.setSpacing(true);
         grid.setMargin(true);
@@ -483,7 +481,7 @@ public final class ParentCompanyNo extends Window {
     protected void addToGrid2() throws SystemException, PortalException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> fieldCompanyHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_MASTER,false);
+        final Map<String, AppPermission> fieldCompanyHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_MASTER, false);
         ResponsiveUtils.addComponentInCsssLayout(cssLayout, ResponsiveUtils.makeLabel(companyIdLB, false), companyId,
                 (((AppPermission) fieldCompanyHM.get(FiledNameUtils.COMPANY_ID)) == null) ? false : ((AppPermission) fieldCompanyHM.get(FiledNameUtils.COMPANY_ID)).isSearchFlag());
         ResponsiveUtils.addComponentInCsssLayout(cssLayout, ResponsiveUtils.makeLabel(companyNoLB, false), companyNo,
@@ -523,7 +521,7 @@ public final class ParentCompanyNo extends Window {
         companyNo.setValidationVisible(true);
 
         companyId.setData("maxlengthvalidation,maxlengthvalidationcompanyid,null,null");
-            
+
         companyId.setImmediate(true);
         companyId.setValidationVisible(true);
         companyId.focus();
@@ -560,10 +558,10 @@ public final class ParentCompanyNo extends Window {
                 sessionDTO.setParentLookUpId("0001");
                 close();
                 LOGGER.debug("Ending PaymentCompanyNo SELECT  method ");
-            }            
+            }
         });
-       closeBtn.setWidth(ConstantsUtils.BTN_WIDTH);
-       closeBtn.addClickListener(new ClickListener() {
+        closeBtn.setWidth(ConstantsUtils.BTN_WIDTH);
+        closeBtn.addClickListener(new ClickListener() {
             /**
              * Logic for select button click Logic.
              *
@@ -585,7 +583,7 @@ public final class ParentCompanyNo extends Window {
                 sessionDTO.setParentLookUpId("0001");
                 close();
                 LOGGER.debug("Ending Close  method ");
-            }            
+            }
         });
     }
 
@@ -618,55 +616,55 @@ public final class ParentCompanyNo extends Window {
 
     @UiHandler("resetBtn")
     public void btnResetLogic(Button.ClickEvent event) {
-          MessageBox.showPlain(Icon.QUESTION,"Confirmation", "Are you sure you want to reset the page to default/previous values?", new MessageBoxListener() {
-                   /**
-               * Called when a Button has been clicked .
-               *
-               */
-              @SuppressWarnings("PMD")
-              public void buttonClicked(final ButtonId buttonId) {
-                  if (buttonId.name().equals(ConstantsUtils.YES)) {
-                      try {
-                          LOGGER.debug("Entering btnResetLogic - ParentCompanyNo Search operation");
-                          List<Object> collapsedColumns = new ArrayList<Object>();
-                          for (Object item : table.getVisibleColumns()) {
-                              if (table.isColumnCollapsed(item)) {
-                                  collapsedColumns.add(item);
-                              }
-                          }
-                          table.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
-                          binder.setItemDataSource(new BeanItem<SearchDTO>(new SearchDTO()));
-                          binder.getErrorDisplay().clearError();
-                          final BeanItemContainer<SearchCompanyForm> searchResultbeans = new BeanItemContainer<SearchCompanyForm>(SearchCompanyForm.class);
-                          table.setContainerDataSource(searchResultbeans);
-                          table.setVisibleColumns(UIUtils.PARENT_COMPANY_NO_COLUMNS);
-                          table.setColumnHeaders(UIUtils.PARENT_COMPANY_NO_HEADERS);
-                          table.addStyleName(ConstantsUtils.FILTER_BAR);
-                          table.setFilterDecorator(new ExtDemoFilterDecorator());
-                          table.setFilterGenerator(new CompanyFilterGenerator());
-                          btnSelect.setEnabled(false);
-
-                          searchCriteria.setCustomDirty(false);
-                          for (Object propertyId : collapsedColumns) {
-                              table.setColumnCollapsed(propertyId, true);
-                          }
-                          searchCriteria.setCustomDirty(true);
-                          LOGGER.debug("Ending btnResetLogic - ParentCompanyNo Search operation");
-
-                            } catch (Exception e) {
-                                LOGGER.error(e);
+        MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to reset the page to default/previous values?", new MessageBoxListener() {
+            /**
+             * Called when a Button has been clicked .
+             *
+             */
+            @SuppressWarnings("PMD")
+            public void buttonClicked(final ButtonId buttonId) {
+                if (buttonId.name().equals(ConstantsUtils.YES)) {
+                    try {
+                        LOGGER.debug("Entering btnResetLogic - ParentCompanyNo Search operation");
+                        List<Object> collapsedColumns = new ArrayList<>();
+                        for (Object item : table.getVisibleColumns()) {
+                            if (table.isColumnCollapsed(item)) {
+                                collapsedColumns.add(item);
                             }
                         }
+                        table.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
+                        binder.setItemDataSource(new BeanItem<>(new SearchDTO()));
+                        binder.getErrorDisplay().clearError();
+                        final BeanItemContainer<SearchCompanyForm> searchResultbeans = new BeanItemContainer<>(SearchCompanyForm.class);
+                        table.setContainerDataSource(searchResultbeans);
+                        table.setVisibleColumns(UIUtils.getInstance().parentCompanyNoColumns);
+                        table.setColumnHeaders(UIUtils.getInstance().parentCompanyNoHeaders);
+                        table.addStyleName(ConstantsUtils.FILTER_BAR);
+                        table.setFilterDecorator(new ExtDemoFilterDecorator());
+                        table.setFilterGenerator(new CompanyFilterGenerator());
+                        btnSelect.setEnabled(false);
+
+                        searchCriteria.setCustomDirty(false);
+                        for (Object propertyId : collapsedColumns) {
+                            table.setColumnCollapsed(propertyId, true);
+                        }
+                        searchCriteria.setCustomDirty(true);
+                        LOGGER.debug("Ending btnResetLogic - ParentCompanyNo Search operation");
+
+                    } catch (Exception e) {
+                        LOGGER.error(e);
                     }
-                }, ButtonId.YES, ButtonId.NO);
-       
+                }
+            }
+        }, ButtonId.YES, ButtonId.NO);
+
     }
 
     @UiHandler("searchBtn")
     public void btnSearchLogic(Button.ClickEvent event) {
         LOGGER.debug("Entering btnSearchLogic - ParentCompanyNo Search operation");
         try {
-            List<Object> collapsedColumns = new ArrayList<Object>();
+            List<Object> collapsedColumns = new ArrayList<>();
 
             for (Object item : table.getVisibleColumns()) {
                 if (table.isColumnCollapsed(item)) {
@@ -683,16 +681,16 @@ public final class ParentCompanyNo extends Window {
                      */
                     @SuppressWarnings("PMD")
                     public void buttonClicked(final ButtonId buttonId) {
-                        
+                        return;
+
                     }
                 }, ButtonId.OK);
             } else {
-               
-                    try {
-                        binder.commit();
-                 if (searchCriteria.getFilters() != null) {
-                         searchCriteria.getFilters().clear();
-                 }
+
+                binder.commit();
+                if (searchCriteria.getFilters() != null) {
+                    searchCriteria.getFilters().clear();
+                }
                 searchCriteria.setCustomDirty(true);
                 final LazyBeanItemContainer searchResults = new LazyBeanItemContainer(
                         SearchCompanyForm.class, new CompanyContainerParentNoLookUp(binder),
@@ -704,8 +702,8 @@ public final class ParentCompanyNo extends Window {
                 } else {
                     CommonUIUtils.successNotification(ConstantsUtils.NO_RESULTS_COMPLETED);
                 }
-                table.setVisibleColumns(UIUtils.PARENT_COMPANY_NO_COLUMNS);
-                table.setColumnHeaders(UIUtils.PARENT_COMPANY_NO_HEADERS);
+                table.setVisibleColumns(UIUtils.getInstance().parentCompanyNoColumns);
+                table.setColumnHeaders(UIUtils.getInstance().parentCompanyNoHeaders);
                 table.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
                 table.setSelectable(true);
                 table.addStyleName(ConstantsUtils.FILTER_BAR);
@@ -720,34 +718,13 @@ public final class ParentCompanyNo extends Window {
                     @SuppressWarnings("PMD")
                     public void itemClick(final ItemClickEvent event) {
                         LOGGER.debug("Entering btnSearchLogic - ParentCompanyNo Search operation - itemClick");
-                        try {
-                          
-                            itemSelectLogic(event, searchResults);
-                        } catch (Exception ex) {
-                            LOGGER.error(ex);
-                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                                /**
-                                 * The method is triggered when a button of the message box is
-                                 * pressed .
-                                 *
-                                 * @param buttonId The buttonId of the pressed button.
-                                 */
-                                @SuppressWarnings("PMD")
-                                public void buttonClicked(final ButtonId buttonId) {
-                                    // Do Nothing
-                                }
-                            }, ButtonId.OK);
-                            msg.getButton(ButtonId.OK).focus();
-                        }
+                        itemClickListener(event, searchResults);
                         btnSelect.setEnabled(true);
                         LOGGER.debug("Ending btnSearchLogic - ParentCompanyNo Search operation - itemClick");
 
                     }
                 });
 
-             } catch (FieldGroup.CommitException ex) {
-                        java.util.logging.Logger.getLogger(ParentCompanyNo.class.getName()).log(Level.SEVERE, null, ex);
-                    }
             }
             searchCriteria.setCustomDirty(false);
             for (Object propertyId : collapsedColumns) {
@@ -755,6 +732,8 @@ public final class ParentCompanyNo extends Window {
             }
             searchCriteria.setCustomDirty(true);
             LOGGER.debug("Ending btnSearchLogic - ParentCompanyNo Search operation");
+        } catch (FieldGroup.CommitException ex) {
+            java.util.logging.Logger.getLogger(ParentCompanyNo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -772,16 +751,39 @@ public final class ParentCompanyNo extends Window {
         LOGGER.debug("Ending itemSelectLogic");
 
     }
-     public void validateFields(ErrorfulFieldGroup binder) {
+
+    public void validateFields(ErrorfulFieldGroup binder) {
         Collection collection = binder.getFields();
-        
+
         for (Object field : collection) {
             if (field instanceof TextField) {
                 TextField textField = (TextField) field;
                 commmonUtil.textValidation(textField, textField.getData());
-                
+
             }
         }
-        
+
+    }
+
+    public void itemClickListener(final ItemClickEvent event, final LazyBeanItemContainer searchResults) {
+        try {
+
+            itemSelectLogic(event, searchResults);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
     }
 }

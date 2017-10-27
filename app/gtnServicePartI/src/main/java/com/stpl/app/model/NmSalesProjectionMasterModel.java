@@ -123,21 +123,6 @@ public interface NmSalesProjectionMasterModel extends BaseModel<NmSalesProjectio
      */
     public void setMethodology(String methodology);
 
-    /**
-     * Returns the calculation based of this nm sales projection master.
-     *
-     * @return the calculation based of this nm sales projection master
-     */
-    @AutoEscape
-    public String getCalculationBased();
-
-    /**
-     * Sets the calculation based of this nm sales projection master.
-     *
-     * @param calculationBased the calculation based of this nm sales projection master
-     */
-    public void setCalculationBased(String calculationBased);
-
     @Override
     public boolean isNew();
 

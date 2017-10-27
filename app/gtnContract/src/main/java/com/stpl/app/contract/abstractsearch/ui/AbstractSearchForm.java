@@ -26,6 +26,7 @@ import com.stpl.app.contract.util.ErrorCodes;
 import com.stpl.app.contract.util.ResponsiveUtils;
 import com.stpl.app.security.impl.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
@@ -174,7 +175,7 @@ public class AbstractSearchForm extends CustomComponent {
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     
     /** The result bean. */
-    private BeanItemContainer<SearchResultsDTO> resultBean = new BeanItemContainer<SearchResultsDTO>(SearchResultsDTO.class);
+    private BeanItemContainer<SearchResultsDTO> resultBean = new BeanItemContainer<>(SearchResultsDTO.class);
     
     /** The column bundle. */
     public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tablecolumns");
@@ -203,7 +204,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public AbstractSearchForm(String moduleName, final SessionDTO sessionDTO) throws PortalException,SystemException {
+    public AbstractSearchForm(String moduleName, final SessionDTO sessionDTO) throws SystemException {
         super();
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/abstractsearchform.xml"), this));
         binder = getBinder();
@@ -219,7 +220,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public void init() throws PortalException, SystemException {
+    public void init() throws  SystemException {
         configureFields();
         configureTable();
     }
@@ -231,7 +232,7 @@ public class AbstractSearchForm extends CustomComponent {
      */
     public CustomFieldGroup getBinder() {
         final SearchCriteriaDTO bean = new SearchCriteriaDTO();
-        final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<SearchCriteriaDTO>(bean));
+        final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(bean));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -251,25 +252,25 @@ public class AbstractSearchForm extends CustomComponent {
 
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_HEADER+","+"Contract Header Search");
-        if (functionHM.get(CHFunctionNameUtils.Add) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.Add)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.ADD) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.ADD)).isFunctionFlag()) {
            addBtn.setVisible(false);
           
         }else{
             btnAddLogic();
         }
-        if (functionHM.get(CHFunctionNameUtils.Edit) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.Edit)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.EDIT) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.EDIT)).isFunctionFlag()) {
               editBtn.setVisible(false);
         }else{
             btnEditLogic();
           
         }
-        if (functionHM.get(CHFunctionNameUtils.View) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.View)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.VIEW) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.VIEW)).isFunctionFlag()) {
              viewBtn.setVisible(false);
         }else{
              btnViewLogic();
           
         }
-        if (functionHM.get(CHFunctionNameUtils.ResetAbstract) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.ResetAbstract)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.RESET_ABSTRACT) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.RESET_ABSTRACT)).isFunctionFlag()) {
             resetBtn.setVisible(false);
         }else{
            btnResetLogic();
@@ -310,26 +311,20 @@ public class AbstractSearchForm extends CustomComponent {
                  * @param event - ValueChangeEvent
                  */
                 public void click(final CustomTextField.ClickEvent event) {
-                    try {
-                        final TradingPartnerLookUp lookUp = new TradingPartnerLookUp(tradingPartnerSystemId, text5);
-                        UI.getCurrent().addWindow(lookUp);
-                        lookUp.addCloseListener(new Window.CloseListener() {
-                            /**
-                             * To catch window close event
-                             *
-                             * @param event - WindowCloseEvent
-                             */
-                            @SuppressWarnings("PMD")
-                            public void windowClose(final Window.CloseEvent e) {
-                                text4.focus();
-                                text5.setReadOnly(true);
-                            }
-                        });
-                    } catch (SystemException ex) {
-                        final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                        LOGGER.error(errorMsg);
-                        AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                    }
+                    final TradingPartnerLookUp lookUp = new TradingPartnerLookUp(tradingPartnerSystemId, text5);
+                    UI.getCurrent().addWindow(lookUp);
+                    lookUp.addCloseListener(new Window.CloseListener() {
+                        /**
+                         * To catch window close event
+                         *
+                         * @param event - WindowCloseEvent
+                         */
+                        @SuppressWarnings("PMD")
+                        public void windowClose(final Window.CloseEvent e) {
+                            text4.focus();
+                            text5.setReadOnly(true);
+                        }
+                    });
                 }
             });
 
@@ -363,7 +358,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @param moduleName the module name
      * @throws Exception the exception
      */
-    private void loadComponents(String moduleName) throws SystemException, PortalException  {
+    private void loadComponents(String moduleName) {
         if (ConstantUtil.CONTRACT_HEADER.equals(moduleName)) {
             commonUtils.loadComboBox(combo1, UIUtils.STATUS,false);
             commonUtils.loadComboBox(combo2, UIUtils.CONTRACT_TYPE,false);
@@ -448,7 +443,7 @@ public class AbstractSearchForm extends CustomComponent {
     private static String[] getCollapsibleColumns600Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -464,7 +459,7 @@ public class AbstractSearchForm extends CustomComponent {
     private static String[] getCollapsibleColumns480Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -480,7 +475,7 @@ public class AbstractSearchForm extends CustomComponent {
     private static String[] getCollapsibleColumns978Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -498,7 +493,7 @@ public class AbstractSearchForm extends CustomComponent {
     private static String[] getCollapsibleColumnsDefault1515Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[Constants.ZERO]);
         list.remove(propertyIds[NumericConstants.ONE]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -516,7 +511,7 @@ public class AbstractSearchForm extends CustomComponent {
     private static String[] getCollapsibleColumnsDefault(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         for (int i = Constants.ZERO; i < NumericConstants.TEN; i++) {
             list.remove(propertyIds[i]);
         }
@@ -567,7 +562,7 @@ public class AbstractSearchForm extends CustomComponent {
     @UiHandler("searchBtn")
     public void btnSearchLogic(Button.ClickEvent event) {
       
-        List<Object> collapsedColumns = new ArrayList<Object>();
+        List<Object> collapsedColumns = new ArrayList<>();
         for (Object item : resultTable.getVisibleColumns()) {
             if (resultTable.isColumnCollapsed(item)) {
                 collapsedColumns.add(item);
@@ -592,8 +587,9 @@ public class AbstractSearchForm extends CustomComponent {
                     CommonUIUtils.successNotification("No results found");
                 } else {
                     CommonUIUtils.successNotification("Search Completed");
+                    
                 }
-                
+                resultTable.setValue(null);
                 resultTable.markAsDirtyRecursive();
 
             } catch (FieldGroup.CommitException commit) {
@@ -661,22 +657,22 @@ public class AbstractSearchForm extends CustomComponent {
                     if ((Integer) sessionDTO.getSystemId() != Constants.ZERO) {
                         getUI().getNavigator().navigateTo(ContractHeaderView.NAME);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("Edit Error", "Please select a record to Edit");
+                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.EDIT_ERROR, ConstantsUtils.EDIT_ERROR_MSG);
                     }
                 } else {
                     AbstractNotificationUtils.getInfoNotification("Access Denied", "You are not having permission to Edit this record");
                 }
             } else {
                 sessionDTO.setMode(Constants.EDIT);
-                if ((Integer) sessionDTO.getSystemId() !=Constants.ZERO) {
+                if ((Integer) sessionDTO.getSystemId() !=Constants.ZERO && resultTable.getValue() != null) {
                     getUI().getNavigator().navigateTo(ContractHeaderView.NAME);
                 } else {
-                    AbstractNotificationUtils.getErrorNotification("Edit Error", "Please select a record to Edit");
+                    AbstractNotificationUtils.getErrorNotification(ConstantsUtils.EDIT_ERROR, ConstantsUtils.EDIT_ERROR_MSG);
                 }
             }
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("Edit Error", "Please select a record to Edit");
+            AbstractNotificationUtils.getErrorNotification(ConstantsUtils.EDIT_ERROR, ConstantsUtils.EDIT_ERROR_MSG);
         }
 
     }
@@ -759,7 +755,7 @@ public class AbstractSearchForm extends CustomComponent {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof SearchResultsDTO) {
-            targetItem = new BeanItem<SearchResultsDTO>(
+            targetItem = new BeanItem<>(
                     (SearchResultsDTO) obj);
         }
         return (SearchResultsDTO) targetItem.getBean();

@@ -19,8 +19,8 @@ public class Message {
     public static final String IDENTIFIER_SPCHAR_MSG = "MSG_ID_006";
     public static final String ZIPCODE_CHAR_MSG = "MSG_ID_007";
     public static final String QUALIFIER_SPCHAR_MSG = "MSG_ID_008";
-    public static final String specialCharacterMessage = "MSG_ID_009";
-    public static final String alphaNumericCharsMessage = "MSG_ID_010";
+    public static final String SPECIAL_CHARACTER_MESSAGE = "MSG_ID_009";
+    public static final String ALPHA_NUMERIC_CHARS_MESSAGE = "MSG_ID_010";
     public static final String PRICE_MSG = "MSG_ID_011";
     public static final String SEARCH_SPCHAR_MSG = "MSG_ID_012";
     public static final String SEARCH_CRITERIA_HEADER = "MSG_ID_013";
@@ -58,5 +58,17 @@ public class Message {
     public static final String NO_SEARCH_VALUE = "MSG_ID_058";
     public static final String NO_RESULTS_FOUND = "MSG_ID_059";
     public static final String SEARCH_COMPLETED = "MSG_ID_060";
+    public static final String NO_END_DATE_HEADER = "MSG_ID_062";
+    public static final String NO_END_DATE_MSG = "MSG_ID_063";
+    public static final String NO_HOUR_HEADER = "MSG_ID_064";
+    public static final String NO_MIN_HEADER = "MSG_ID_065";
+    public static final String NO_HOUR1_MSG = "MSG_ID_066";
+    public static final String NO_HOUR2_MSG = "MSG_ID_067";
+    public static final String NO_HOUR3_MSG = "MSG_ID_068";
+    public static final String NO_MIN1_MSG = "MSG_ID_069";
+    public static final String NO_MIN2_MSG = "MSG_ID_070";
+    public static final String NO_MIN3_MSG = "MSG_ID_071";
+    public static final String NO_HOUR_MSG = "MSG_ID_072";
+    public static final String NO_MIN_MSG = "MSG_ID_073";
 
 }

@@ -225,6 +225,7 @@ public final class ParentLookUp extends Window {
      */
     private static final Logger LOGGER = Logger.getLogger(ParentLookUp.class);
     private boolean isItemCliked = false;
+    private final CommonUIUtils commonUiUtils = new CommonUIUtils();
 
     /**
      * Parent Lookup
@@ -350,7 +351,7 @@ public final class ParentLookUp extends Window {
      */
     private ErrorfulFieldGroup getBinder() {
 
-        binder = new ErrorfulFieldGroup(new BeanItem<RebateScheduleSearchDTO>(new RebateScheduleSearchDTO()));
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new RebateScheduleSearchDTO()));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -416,8 +417,8 @@ public final class ParentLookUp extends Window {
 
         table.setImmediate(true);
         table.setSizeFull();
-        table.setVisibleColumns(CommonUIUtils.REBATE_SCHEDULE_COLUMNS);
-        table.setColumnHeaders(CommonUIUtils.REBATE_SCHEDULE_HEADER);
+        table.setVisibleColumns(commonUiUtils.rebateScheduleColumns);
+        table.setColumnHeaders(commonUiUtils.rebateScheduleHeader);
         table.setFilterBarVisible(true);
         table.addStyleName(ConstantsUtils.FILTER_BAR);
         table.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -576,11 +577,7 @@ public final class ParentLookUp extends Window {
             public void buttonClick(final ClickEvent event) {
                 try {
                     LOGGER.debug("Entering ParetnLookUp Search operation");
-                    try {
-                        binder.commit();
-                    } catch (FieldGroup.CommitException ex) {
-                        LOGGER.error(ex);
-                    }
+                    binder.commit();
 
                     String rsId = binder.getField("rebateScheduleId").getValue().toString();
                     String rsNo = binder.getField(ConstantsUtils.REBATE_SCHEDULE_NO).getValue().toString();
@@ -619,7 +616,10 @@ public final class ParentLookUp extends Window {
                     }
 
                     LOGGER.debug("Ending ParetnLookUp Search operation");
-                } catch (Exception e) {
+                }catch (FieldGroup.CommitException ex) {
+                        LOGGER.error(ex);
+                    } 
+                catch (Exception e) {
                     LOGGER.error(e);
                 }
             }
@@ -716,7 +716,7 @@ public final class ParentLookUp extends Window {
     public void refeshLookup() {
         isItemCliked = false;
         binder.getErrorDisplay().clearError();
-        binder.setItemDataSource(new BeanItem<RebateScheduleSearchDTO>(new RebateScheduleSearchDTO()));
+        binder.setItemDataSource(new BeanItem<>(new RebateScheduleSearchDTO()));
         table.removeAllItems();
         parentLookUpTableLogic.clearAll();
         parentLookUpTableLogic.setReset(true);
@@ -753,7 +753,7 @@ public final class ParentLookUp extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof RebateScheduleSearchDTO) {
-            targetItem = new BeanItem<RebateScheduleSearchDTO>(
+            targetItem = new BeanItem<>(
                     (RebateScheduleSearchDTO) obj);
         }
         return (RebateScheduleSearchDTO) targetItem.getBean();

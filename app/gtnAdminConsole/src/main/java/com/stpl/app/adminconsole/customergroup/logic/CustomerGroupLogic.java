@@ -220,9 +220,8 @@ public class CustomerGroupLogic {
             if (!isCount) {
                 projectionDynamicQuery.setLimit(startIndex, startIndex + endIndex);
             }
-            List<CompanyGroup> currentResultList = new ArrayList<CompanyGroup>();
-            List<HistCompanyGroup> auditResultList = new ArrayList<HistCompanyGroup>();
-            List<CustomerGroupDTO> customerGroupList = new ArrayList<CustomerGroupDTO>();
+            List<CompanyGroup> currentResultList;
+            List<HistCompanyGroup> auditResultList;
             if (version.equalsIgnoreCase(ConstantsUtils.VERSION_CURRENT)) {
                 if (isCount) {
                     object = (Integer) dao.getCompanyGroupListCount(projectionDynamicQuery);
@@ -240,7 +239,6 @@ public class CustomerGroupLogic {
                 }
             }
 
-            LOGGER.debug("getSearchResults return customerGroupList=" + customerGroupList.size());
             LOGGER.debug("getSearchResults Ended  ");
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -328,9 +326,9 @@ public class CustomerGroupLogic {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    private List<SearchResultsDTO> getCustomizedResults(final List<CompanyGroup> currentList, final List<HistCompanyGroup> resultList) throws SystemException, PortalException, ParseException {
+    private List<SearchResultsDTO> getCustomizedResults(final List<CompanyGroup> currentList, final List<HistCompanyGroup> resultList) throws SystemException, ParseException {
 
-        final List<SearchResultsDTO> customerGroupsList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> customerGroupsList = new ArrayList<>();
 
         if (currentList == null) {
             if (resultList != null && resultList.size() > ConstantsUtils.ZERO_NUM) {
@@ -404,14 +402,14 @@ public class CustomerGroupLogic {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public List<CustomerDetailsDTO> getCustomerSearchResults(final ErrorfulFieldGroup companyForm, final int count) throws SystemException, PortalException {
+    public List<CustomerDetailsDTO> getCustomerSearchResults(final ErrorfulFieldGroup companyForm, final int count) {
         LOGGER.debug("Entering getCustomerSearchResults with P1:CustomFieldGroup companyForm");
 
 
         DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
 
         List<String> criteria = getSearchCriteria(companyForm, count);
-        List<CustomerDetailsDTO> itemsList = new ArrayList<CustomerDetailsDTO>();
+        List<CustomerDetailsDTO> itemsList = new ArrayList<>();
         try {
 
             final List resultList = CompanyMasterLocalServiceUtil.getCustomerSearchDetails(criteria.get(0), criteria.get(1), criteria.get(2), criteria.get(3), criteria.get(4), criteria.get(5), criteria.get(6), criteria.get(7));
@@ -425,7 +423,7 @@ public class CustomerGroupLogic {
     }
 
     public List<String> getSearchCriteria(final ErrorfulFieldGroup companyForm, final int count) {
-        final List<String> criteria = new ArrayList<String>();
+        final List<String> criteria = new ArrayList<>();
         String customerNo = ConstantsUtils.EMPTY;
         String customerName = ConstantsUtils.EMPTY;
         String tradeClass = ConstantsUtils.EMPTY;
@@ -518,9 +516,9 @@ public class CustomerGroupLogic {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public List<CustomerDetailsDTO> getCustomizedCustomerResults(final List resultList, final Map resultList1) throws SystemException, PortalException, ParseException {
-        final List<CustomerDetailsDTO> customerDetailsList = new ArrayList<CustomerDetailsDTO>();
-
+    public List<CustomerDetailsDTO> getCustomizedCustomerResults(final List resultList, final Map resultList1) throws ParseException {
+        final List<CustomerDetailsDTO> customerDetailsList = new ArrayList<>();
+        
         for (int i = 0; i < resultList.size(); i++) {
             final Object[] obj = (Object[]) resultList.get(i);
 
@@ -574,32 +572,32 @@ public class CustomerGroupLogic {
                 Date d = dateFormat.parse(CommonUtils.convertDateToString((Date) obj[NumericConstants.NINE]));
                 customerDetailsDTO.setCustomerEndDate(d);
             }
-            if (obj[NumericConstants.TEN] == null || ConstantsUtils.SELECTONE.equalsIgnoreCase((String) obj[NumericConstants.TEN])) {
+            if (obj[NumericConstants.TEN] == null || ConstantsUtils.SELECT_ONE.equalsIgnoreCase((String) obj[NumericConstants.TEN])) {
                 customerDetailsDTO.setUdc1(ConstantsUtils.EMPTY);
             } else {
                 customerDetailsDTO.setUdc1(obj[NumericConstants.TEN].toString());
             }
-            if (obj[NumericConstants.ELEVEN] == null || ConstantsUtils.SELECTONE.equalsIgnoreCase((String) obj[NumericConstants.ELEVEN])) {
+            if (obj[NumericConstants.ELEVEN] == null || ConstantsUtils.SELECT_ONE.equalsIgnoreCase((String) obj[NumericConstants.ELEVEN])) {
                 customerDetailsDTO.setUdc2(ConstantsUtils.EMPTY);
             } else {
                 customerDetailsDTO.setUdc2(obj[NumericConstants.ELEVEN].toString());
             }
-            if (obj[NumericConstants.TWELVE] == null || ConstantsUtils.SELECTONE.equalsIgnoreCase((String) obj[NumericConstants.TWELVE])) {
+            if (obj[NumericConstants.TWELVE] == null || ConstantsUtils.SELECT_ONE.equalsIgnoreCase((String) obj[NumericConstants.TWELVE])) {
                 customerDetailsDTO.setUdc3(ConstantsUtils.EMPTY);
             } else {
                 customerDetailsDTO.setUdc3(obj[NumericConstants.TWELVE].toString());
             }
-            if (obj[NumericConstants.THIRTEEN] == null || ConstantsUtils.SELECTONE.equalsIgnoreCase((String) obj[NumericConstants.THIRTEEN])) {
+            if (obj[NumericConstants.THIRTEEN] == null || ConstantsUtils.SELECT_ONE.equalsIgnoreCase((String) obj[NumericConstants.THIRTEEN])) {
                 customerDetailsDTO.setUdc4(ConstantsUtils.EMPTY);
             } else {
                 customerDetailsDTO.setUdc4(obj[NumericConstants.THIRTEEN].toString());
             }
-            if (obj[NumericConstants.FOURTEEN] == null || ConstantsUtils.SELECTONE.equalsIgnoreCase((String) obj[NumericConstants.FOURTEEN])) {
+            if (obj[NumericConstants.FOURTEEN] == null || ConstantsUtils.SELECT_ONE.equalsIgnoreCase((String) obj[NumericConstants.FOURTEEN])) {
                 customerDetailsDTO.setUdc5(ConstantsUtils.EMPTY);
             } else {
                 customerDetailsDTO.setUdc5(obj[NumericConstants.FOURTEEN].toString());
             }
-            if (obj[NumericConstants.FIFTEEN] == null || ConstantsUtils.SELECTONE.equalsIgnoreCase((String) obj[NumericConstants.FIFTEEN])) {
+            if (obj[NumericConstants.FIFTEEN] == null || ConstantsUtils.SELECT_ONE.equalsIgnoreCase((String) obj[NumericConstants.FIFTEEN])) {
                 customerDetailsDTO.setUdc6(ConstantsUtils.EMPTY);
             } else {
                 customerDetailsDTO.setUdc6(obj[NumericConstants.FIFTEEN].toString());
@@ -629,7 +627,7 @@ public class CustomerGroupLogic {
             } else {
                 customerDetailsDTO.setCity(obj[NumericConstants.TWENTY].toString());
             }
-            if (obj[NumericConstants.TWENTY_ONE] == null || ConstantsUtils.SELECTONE.equalsIgnoreCase((String) obj[NumericConstants.TWENTY_ONE])) {
+            if (obj[NumericConstants.TWENTY_ONE] == null || ConstantsUtils.SELECT_ONE.equalsIgnoreCase((String) obj[NumericConstants.TWENTY_ONE])) {
                 customerDetailsDTO.setState(ConstantsUtils.EMPTY);
             } else {
                 customerDetailsDTO.setState(obj[NumericConstants.TWENTY_ONE].toString());
@@ -639,7 +637,7 @@ public class CustomerGroupLogic {
             } else {
                 customerDetailsDTO.setZipCode(obj[NumericConstants.TWENTY_TWO].toString());
             }
-            if (obj[NumericConstants.TWENTY_THREE] == null || ConstantsUtils.SELECTONE.equalsIgnoreCase((String) obj[NumericConstants.TWENTY_THREE])) {
+            if (obj[NumericConstants.TWENTY_THREE] == null || ConstantsUtils.SELECT_ONE.equalsIgnoreCase((String) obj[NumericConstants.TWENTY_THREE])) {
                 customerDetailsDTO.setCountry(ConstantsUtils.EMPTY);
             } else {
                 customerDetailsDTO.setCountry(obj[NumericConstants.TWENTY_THREE].toString());
@@ -724,7 +722,7 @@ public class CustomerGroupLogic {
     public List<Integer> saveCustomerGroup(final ErrorfulFieldGroup customerGroupForm, final List<CustomerDetailsDTO> selectedCustomers, final String searchCriteria, final SessionDTO sessionDTO) throws SystemException, PortalException {
 
         LOGGER.debug("Entering saveCustomerGroup with P1:CustomFieldGroup customerGroupForm and P2:List<CustomerDetailsDTO> selectedCustomers size: " + selectedCustomers.size());
-        final List<Integer> idList = new ArrayList<Integer>();
+        final List<Integer> idList = new ArrayList<>();
         final int userId = Integer.valueOf(sessionDTO.getUserId());
         CompanyGroup customerGroup;
         int versionNo = ConstantsUtils.ZERO_NUM;
@@ -814,7 +812,7 @@ public class CustomerGroupLogic {
                 companyGroupDetails.setCreatedBy(userId);
                 companyGroupDetails.setCreatedDate(date);
                 companyGroupDetails.setModifiedDate(date);
-                companyGroupDetails = dao.addCompanyGroupDetails(companyGroupDetails);
+                dao.addCompanyGroupDetails(companyGroupDetails);
             } else// to ensure that particular Customer Group ADD or EDIT
              if (savedCustomersMap.containsKey(company.getCompanySystemId())) {// To
                     // ensure that specific Group or not
@@ -823,18 +821,18 @@ public class CustomerGroupLogic {
                     companyGroupDetails.setModifiedBy(userId);
                     companyGroupDetails.setVersionNo(companyGroup.getVersionNo());
 
-                    companyGroupDetails = dao.updateCompanyGroupDetails(companyGroupDetails);
+                    dao.updateCompanyGroupDetails(companyGroupDetails);
                     savedCustomersMap.remove(company.getCompanySystemId());
                 } else {// to save new Customer in existing item group
                     companyGroupDetails.setCreatedBy(userId);
                     companyGroupDetails.setCreatedDate(date);
                     companyGroupDetails.setModifiedDate(date);
                     companyGroupDetails.setVersionNo(companyGroup.getVersionNo());
-                    companyGroupDetails = dao.addCompanyGroupDetails(companyGroupDetails);
+                    dao.addCompanyGroupDetails(companyGroupDetails);
                 }
         }
         if (!savedCustomersMap.isEmpty()) {
-            final List<CompanyGroupDetails> companyListToDelete = new ArrayList<CompanyGroupDetails>(savedCustomersMap.values());
+            final List<CompanyGroupDetails> companyListToDelete = new ArrayList<>(savedCustomersMap.values());
             for (final Iterator<CompanyGroupDetails> iterator = companyListToDelete.iterator(); iterator.hasNext();) {
                 final CompanyGroupDetails companyToDelete = iterator.next();
                 dao.deleteCompanyGroupDetails(companyToDelete);
@@ -884,7 +882,7 @@ public class CustomerGroupLogic {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public CustomerGroupDTO getHistCustomerGroupInfo(final int versionNo, final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public CustomerGroupDTO getHistCustomerGroupInfo(final int versionNo, final SessionDTO sessionDTO) throws SystemException {
         LOGGER.debug("Entering getCustomerGroupInfo()");
         final int customerGroupSystemId = sessionDTO.getSystemId();
         final CustomerGroupDTO customerGroupDTO = new CustomerGroupDTO();
@@ -929,7 +927,7 @@ public class CustomerGroupLogic {
 
         LOGGER.debug("Entering getSavedCustomerDetails with P1:int customerGroupSystemId=" + customerGroupSystemId);
         final HashMap companiesMap = new HashMap();
-        final List<CustomerDetailsDTO> customerDetailsList = new ArrayList<CustomerDetailsDTO>();
+        final List<CustomerDetailsDTO> customerDetailsList = new ArrayList<>();
         final DynamicQuery companyGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyGroupDetails.class);
         companyGroupDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_GROUP_SYS_ID, customerGroupSystemId));
         companyGroupDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtils.VERSION_NO, Integer.valueOf(versionNo)));
@@ -953,8 +951,8 @@ public class CustomerGroupLogic {
                 customerDetailsDTO.setCustomerStatus(String.valueOf(customer.getCompanyStatus()));
                 final ProjectionList projList = ProjectionFactoryUtil.projectionList();
                 projList.add(ProjectionFactoryUtil.property(ConstantsUtils.TRADE_CLASS));
-                projList.add(ProjectionFactoryUtil.property("tradeClassStartDate"));
-                projList.add(ProjectionFactoryUtil.property("tradeClassEndDate"));
+                projList.add(ProjectionFactoryUtil.property(TRADE_CLASS_START_DATE));
+                projList.add(ProjectionFactoryUtil.property(TRADE_CLASS_END_DATE));
                 final List tradeClassList = CompanyTradeClassLocalServiceUtil.getTradeClassDetails(String.valueOf(customer.getCompanyMasterSid()),
                         String.valueOf(companyGroupDetail.getCompanyTradeclassSid()));
                 if (tradeClassList != null && !tradeClassList.isEmpty()) {
@@ -1010,6 +1008,8 @@ public class CustomerGroupLogic {
         return customerDetailsList;
 
     }
+    public static final String TRADE_CLASS_END_DATE = "tradeClassEndDate";
+    public static final String TRADE_CLASS_START_DATE = "tradeClassStartDate";
 
     /**
      * Gets the saved customer details.
@@ -1024,7 +1024,7 @@ public class CustomerGroupLogic {
 
         LOGGER.debug("Entering getSavedCustomerDetails with P1:int customerGroupSystemId=" + customerGroupSystemId);
         final HashMap companiesMap = new HashMap();
-        final List<CustomerDetailsDTO> customerDetailsList = new ArrayList<CustomerDetailsDTO>();
+        final List<CustomerDetailsDTO> customerDetailsList = new ArrayList<>();
         final DynamicQuery companyGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(HistCompanyGroupDetails.class);
         companyGroupDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_GROUP_SYS_ID, customerGroupSystemId));
         companyGroupDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.PRIMARY_KEY + ConstantsUtils.ACTION_FLAG, "D"));
@@ -1052,8 +1052,8 @@ public class CustomerGroupLogic {
                 customerDetailsDTO.setCustomerStatus(customerStatus);
                 final ProjectionList projList = ProjectionFactoryUtil.projectionList();
                 projList.add(ProjectionFactoryUtil.property(ConstantsUtils.TRADE_CLASS));
-                projList.add(ProjectionFactoryUtil.property("tradeClassStartDate"));
-                projList.add(ProjectionFactoryUtil.property("tradeClassEndDate"));
+                projList.add(ProjectionFactoryUtil.property(TRADE_CLASS_START_DATE));
+                projList.add(ProjectionFactoryUtil.property(TRADE_CLASS_END_DATE));
                 final List tradeClassList = CompanyTradeClassLocalServiceUtil.getTradeClassDetails(String.valueOf(customer.getCompanyMasterSid()),
                         String.valueOf(companyGroupDetail.getCompanyTradeclassSid()));
                 if (tradeClassList != null && !tradeClassList.isEmpty()) {
@@ -1173,7 +1173,7 @@ public class CustomerGroupLogic {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public Map getExistingCustomergroupNames() throws SystemException, PortalException {
+    public Map getExistingCustomergroupNames() throws SystemException {
         LOGGER.debug("Entering getExistingCustomergroupNames");
         final Map results = new HashMap();
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyGroup.class);
@@ -1212,7 +1212,7 @@ public class CustomerGroupLogic {
             projList.add(ProjectionFactoryUtil.property(ConstantsUtils.PRIMARY_KEY + ConstantsUtils.VERSION_NO));
             customerGroupHistoryDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
 
-            final List<Integer> finalList = new ArrayList<Integer>();
+            final List<Integer> finalList = new ArrayList<>();
             final List<Integer> historyList = dao.getCompanyGroupDetailsHistoryList(customerGroupHistoryDynamicQuery);
             finalList.addAll(historyList);
             final int size = finalList.size();
@@ -1276,7 +1276,7 @@ public class CustomerGroupLogic {
      * @param dto
      * @return getCompaniesCount
      */
-    public List<CustomerDetailsDTO> getCompaniesResults(CustomerDetailsDTO dto, Set<Container.Filter> filterSet, List<SortByColumn> sortedSet) throws SystemException, PortalException, ParseException {
+    public List<CustomerDetailsDTO> getCompaniesResults(CustomerDetailsDTO dto, Set<Container.Filter> filterSet, List<SortByColumn> sortedSet) throws ParseException {
         List list = dto.isAvailableContainer() ? getAvailableCompaniesInput(dto, filterSet, sortedSet) : getSelectedCompaniesInput(dto, filterSet, sortedSet);
         List<Object[]> resultList = (List<Object[]>) QueryReader.getAppData(list, dto.getQueryName(), null);
         List<CustomerDetailsDTO> customizedList = getCustomizedCustomerResults(resultList, new HashMap());
@@ -1302,7 +1302,7 @@ public class CustomerGroupLogic {
         } else {
             list.add(ConstantsUtils.PERCENT);
         }
-        if (dto.getState() != null && !dto.getState().isEmpty()) {
+         if (dto.getState() != null && !dto.getState().isEmpty()) {
             list.add(dto.getState().replace(ConstantsUtils.ASTERISK, ConstantsUtils.PERCENT));
         } else {
             list.add(ConstantsUtils.PERCENT);
@@ -1336,6 +1336,13 @@ public class CustomerGroupLogic {
             list.add(dto.getZipCode().replace(ConstantsUtils.ASTERISK, ConstantsUtils.PERCENT));
         } else {
             list.add(ConstantsUtils.PERCENT);
+        }
+        if (dto.getState() != null && !dto.getState().isEmpty()) {
+            list.add(dto.getState().replace(ConstantsUtils.ASTERISK, ConstantsUtils.PERCENT));
+            list.add(StringUtils.EMPTY);
+        } else {
+            list.add(ConstantsUtils.PERCENT);
+            list.add("OR HT_ST.DESCRIPTION IS NULL");
         }
         StringBuilder filteredQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filterSet, getFilterMap());
         if (filteredQuery != null) {
@@ -1403,12 +1410,13 @@ public class CustomerGroupLogic {
         inputMap.put("customerId", "CM.COMPANY_ID");
         inputMap.put("customerNo", "CM.COMPANY_NO");
         inputMap.put("customerName", "CM.COMPANY_NAME");
-        inputMap.put("tradeClass", "HT_TC.DESCRIPTION");
-        inputMap.put("tradeClassStartDate", "CTC.TRADE_CLASS_START_DATE");
-        inputMap.put("tradeClassEndDate", "CTC.TRADE_CLASS_END_DATE");
+        inputMap.put("tradeClass", "CTC.DESCRIPTION");
+        inputMap.put(TRADE_CLASS_START_DATE, "CTC.TRADE_CLASS_START_DATE");
+        inputMap.put(TRADE_CLASS_END_DATE, "CTC.TRADE_CLASS_END_DATE");
         inputMap.put("customerType", "HT_CT.DESCRIPTION");
         inputMap.put("customerStatus", "HT_CS.DESCRIPTION");
         inputMap.put("lives", "CM.LIVES");
+        inputMap.put("customerStartDate", "CM.COMPANY_START_DATE");
         inputMap.put("customerEndDate", "CM.COMPANY_END_DATE");
         inputMap.put("customerGroup", "CM.COMPANY_GROUP");
         inputMap.put("financialSystem", "CM.FINANCIAL_SYSTEM");
@@ -1417,14 +1425,20 @@ public class CustomerGroupLogic {
         inputMap.put("city", "CM.CITY");
         inputMap.put("state", "HT_ST.DESCRIPTION");
         inputMap.put("zipCode", "CM.ZIP_CODE");
-        inputMap.put("country", "HT_CN.DESCRIPTION COUNTRY");
+        inputMap.put("country", "HT_CN.DESCRIPTION");
         inputMap.put("regionCode", "CM.REGION_CODE");
-        inputMap.put("parentCustomerNo", "");
+        inputMap.put("parentCustomerNo", "CM.COMPANY_NO");
         inputMap.put("parentStartDate", "CPD.PARENT_START_DATE");
         inputMap.put("parentEndDate", "CPD.PARENT_END_DATE");
         inputMap.put("priorParentStartDate", "CPD.PRIOR_PARENT_START_DATE");
-        inputMap.put("priorParentCustomerNo", "");
+        inputMap.put("priorParentCustomerNo", "CPD.PRIOR_PARENT_CMPY_MASTER_SID");
         inputMap.put("SID", "CM.COMPANY_MASTER_SID");
+        inputMap.put("udc1", "UDC1");
+        inputMap.put("udc2", "UDC2");
+        inputMap.put("udc3", "UDC3");
+        inputMap.put("udc4", "UDC4");
+        inputMap.put("udc5", "UDC5");
+        inputMap.put("udc6", "UDC6");
         return inputMap;
     }
 
@@ -1435,7 +1449,7 @@ public class CustomerGroupLogic {
      * @return String
      */
     public String getCombinationsKey(Set<String> masterSid) {
-        String input = StringUtils.EMPTY;
+        String input;
         StringBuilder str = new StringBuilder(StringUtils.EMPTY);
         for (String string : masterSid) {
             str.append(" SELECT ").append(string.replace("~", ",")).append(" UNION ALL \n ");
@@ -1545,7 +1559,7 @@ public class CustomerGroupLogic {
      * @param mode
      * @return Set<String>
      */
-    public Set<String> getSelectedCompanyMasterSids(int systemId, String mode) {
+    public Set<String> getSelectedCompanyMasterSids(int systemId) {
         List input = new ArrayList<>();
         input.add(systemId);
         List<Object[]> resultList;

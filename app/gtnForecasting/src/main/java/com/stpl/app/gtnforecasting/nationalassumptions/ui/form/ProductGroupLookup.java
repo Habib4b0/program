@@ -70,7 +70,7 @@ public class ProductGroupLookup extends Window {
     /**
      * The table bean.
      */
-    BeanItemContainer<ProductGroupLookUpDTO> tableBean = new BeanItemContainer<ProductGroupLookUpDTO>(ProductGroupLookUpDTO.class);
+    BeanItemContainer<ProductGroupLookUpDTO> tableBean = new BeanItemContainer<>(ProductGroupLookUpDTO.class);
 
     /**
      * The select.
@@ -108,6 +108,7 @@ public class ProductGroupLookup extends Window {
     ProductGroupLogic productLogic = new ProductGroupLogic();
     boolean isCancel = false;
     SessionDTO sessionDTO;
+    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
     /**
      * Instantiates a new product group lookup.
      */
@@ -149,8 +150,8 @@ public class ProductGroupLookup extends Window {
         resultsTableLayout.addComponent(resultTable);
         resultsTableLayout.addComponent(tableLogic.createControls());
         tableLogic.setContainerDataSource(tableBean);
-        resultTable.setVisibleColumns(CommonUiUtils.PRODUCTGROUPCOLUMN);
-        resultTable.setColumnHeaders(CommonUiUtils.PRODUCTGROUPHEADER);
+        resultTable.setVisibleColumns(commonUiUtils.productGroupColumn);
+        resultTable.setColumnHeaders(commonUiUtils.productGroupHeader);
         resultTable.setSelectable(true);
         resultTable.setSortEnabled(true);
         resultTable.setImmediate(true);
@@ -184,6 +185,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
+                        return;
                     }
 
                     @Override
@@ -201,6 +203,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
+                        return;
                     }
 
                     @Override
@@ -216,6 +219,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
+                        return;
                     }
 
                     @Override

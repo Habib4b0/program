@@ -103,7 +103,7 @@ public class ForecastLogic {
                             cal.set(Calendar.MONTH, NumericConstants.ELEVEN);
                             cal.set(Calendar.DAY_OF_MONTH, NumericConstants.THIRTY_ONE);
                             Date toDate = cal.getTime();
-                            forecastConfig.setToDate(toDate);
+                            forecastConfig.setToDate(gtsDate);
                         }
 
                     } else {
@@ -122,7 +122,7 @@ public class ForecastLogic {
                             cal.set(Calendar.MONTH, NumericConstants.ELEVEN);
                             cal.set(Calendar.DAY_OF_MONTH, NumericConstants.THIRTY_ONE);
                             Date toDate = cal.getTime();
-                            forecastConfig.setToDate(toDate);
+                            forecastConfig.setToDate(gtsDate);
                         }
                     }
                     forecastConfig.setCreatedDate(new Date());
@@ -189,7 +189,7 @@ public class ForecastLogic {
      * @return the customized results
      */
     private List<ForecastDTO> getCustomizedresults(final List resultList) {
-        final List<ForecastDTO> forecastList = new ArrayList<ForecastDTO>();
+        final List<ForecastDTO> forecastList = new ArrayList<>();
         Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
         try {
             final Map<String, String> userInfoMap = CommonUtil.getCreatedByUser();
@@ -234,15 +234,15 @@ public class ForecastLogic {
     public Date convertToPeriod(final String flag, final String frequency, final int interval) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeZone(TimeZone.getTimeZone("GMT"));
-        if (flag.equalsIgnoreCase(CommonUtils.HISTORY)) {
+        if (flag.equals(CommonUtils.HISTORY)) {
             if (frequency.equalsIgnoreCase(ConstantsUtils.ANNUAL)) {
-                calculateFromDate(cal, interval, 1, 0);
+                calculateFromDate(cal, interval, 1, 0, frequency);
             } else if (frequency.equalsIgnoreCase(ConstantsUtils.SEMI_ANNUAL)) {
-                calculateFromDate(cal, interval, NumericConstants.TWO, 0);
+                calculateFromDate(cal, interval, NumericConstants.TWO, 0, frequency);
             } else if (frequency.equalsIgnoreCase(ConstantsUtils.QUARTER)) {
-                calculateFromDate(cal, interval, NumericConstants.FOUR, 0);
+                calculateFromDate(cal, interval, NumericConstants.FOUR, 1, frequency);
             } else {
-                calculateFromDate(cal, interval, NumericConstants.TWELVE, 1);
+                calculateFromDate(cal, interval, NumericConstants.TWELVE, 1, frequency);
             }
         } else {
             if (frequency.equalsIgnoreCase(ConstantsUtils.ANNUAL)) {
@@ -342,7 +342,7 @@ public class ForecastLogic {
      * @return list of date
      */
     public List<Date> getGTSFileToDate() {
-        List<Date> dates = new ArrayList<Date>();
+        List<Date> dates = new ArrayList<>();
         final DynamicQuery query = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("forecastDate"));
@@ -412,7 +412,7 @@ public class ForecastLogic {
      * @throws SystemException
      * @throws Exception
      */
-    public String formatDate(String stringDate) throws SystemException, java.text.ParseException {
+    public String formatDate(String stringDate) throws java.text.ParseException {
         Date date = null;
         SimpleDateFormat sdfSource = new SimpleDateFormat("yyyy-MM-dd");
         Format formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -471,7 +471,7 @@ public class ForecastLogic {
             detailsColumnForFilter.put("createdBy", "USR.lastName");
             detailsColumnForFilter.put("activeFlag", "Active_Inactive");
             
-            HashMap<String, String> detailsColumnForSort = new HashMap<String, String>();
+            HashMap<String, String> detailsColumnForSort = new HashMap<>();
             detailsColumnForSort.put("businessProcess", "HT.DESCRIPTION");
             detailsColumnForSort.put("processType", "PROCESS_TYPE_1");
             detailsColumnForSort.put("mode", "MODE");
@@ -576,13 +576,20 @@ public class ForecastLogic {
         return date;
     }
 
-    private void calculateFromDate(Calendar cal, int interval, int periodOffset, int monthOffset) {
+    private void calculateFromDate(Calendar cal, int interval, int periodOffset, int monthOffset, final String frequency) {
         int periodConstant = NumericConstants.TWELVE / periodOffset;
         int monthDifference = interval * periodConstant;
         int currentMonth = cal.get(Calendar.MONTH);
         int period = (currentMonth / periodConstant) + 1;
-        int firstMonth = ((period - 1) * periodConstant) - monthOffset;
-        cal.set(Calendar.MONTH, firstMonth);
+        int firstMonth = ((periodOffset == NumericConstants.TWELVE ? period : period - 1) * periodConstant) - monthOffset;
+        if(ConstantsUtils.QUARTER.equals(frequency))
+        {
+        cal.set(Calendar.MONTH, firstMonth + monthOffset);
+        }
+        else
+        {
+           cal.set(Calendar.MONTH, firstMonth);  
+        }
         cal.add(Calendar.MONTH, -monthDifference);
         cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
     }

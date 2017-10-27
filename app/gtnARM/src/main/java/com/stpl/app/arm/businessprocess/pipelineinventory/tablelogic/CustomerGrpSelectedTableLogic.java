@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.jboss.logging.Logger;
-import com.stpl.app.arm.AbstractForms.AbstractFilter;
+import com.stpl.app.arm.abstractforms.AbstractFilter;
 
 /**
  *
@@ -22,11 +22,11 @@ import com.stpl.app.arm.AbstractForms.AbstractFilter;
  */
 public class CustomerGrpSelectedTableLogic extends PageTableLogic {
 
-    List<CustomerGroupDTO> listCust = new ArrayList<CustomerGroupDTO>();
+    List<CustomerGroupDTO> listCust = new ArrayList<>();
     boolean generate = false;
     CustomerGroupDTO binderDto;
     PipelineInventoryLookupLogic commonLogic = new PipelineInventoryLookupLogic();
-    BeanItemContainer<CustomerGroupDTO> resultsinventoryContainer = new BeanItemContainer<CustomerGroupDTO>(CustomerGroupDTO.class);
+    BeanItemContainer<CustomerGroupDTO> resultsinventoryContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     boolean firstCount = true;
     AbstractSelectionDTO selectionDto;
     public static final Logger LOGGER = Logger.getLogger(CustomerGrpSelectedTableLogic.class);
@@ -36,31 +36,18 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
         if (generate) {
             try {
                 binderDto.clearFilters();
-                 if (firstCount) {
+                if (firstCount) {
                     commonLogic.getCustomerGroupView(binderDto, resultsinventoryContainer, binderDto.isViewFlag(), selectionDto, "customerGroupSelectedTableSearch");
-//                    firstCount = false;
                 }
                 for (Container.Filter fil : getFilters()) {
                     binderDto.addFilter(fil);
                 }
-//                ExtStringFilter filter = null;
-//                ExtStringFilter filter1 = null;
-//                if (!binderDto.getCustomerGroupName().isEmpty()) {
-//                    filter = new ExtStringFilter("customerGroupName", binderDto.getCustomerGroupName(), true, true, true);
-//                    binderDto.addFilter(filter);
-//                }
-//                if (!binderDto.getCustomerGroupNo().isEmpty()) {
-//                    filter1 = new ExtStringFilter("customerGroupNo", binderDto.getCustomerGroupNo(), true, true, true);
-//                    binderDto.addFilter(filter1);
-//                }
-//                Container.Filter filter2 = new Equal("selectedFlag", Boolean.TRUE);
-//                binderDto.getFilters().add(filter2);
-               
+
                 AbstractFilter.getInstance().filterQueryForContainer(binderDto.getFilters(), resultsinventoryContainer);
                 return resultsinventoryContainer.size();
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in getCount"+ex);
             }
         }
         return 0;
@@ -69,8 +56,9 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        LOGGER.debug("Start:==========>" + start+"Offset ========"+offset);
-        List<CustomerGroupDTO> resultList = new ArrayList<CustomerGroupDTO>();
+
+        LOGGER.debug("Start:==========>" + start + "Offset ========" + offset);
+        List<CustomerGroupDTO> resultList = new ArrayList<>();
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
         try {
@@ -78,25 +66,12 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
             for (Container.Filter fil : getFilters()) {
                 binderDto.addFilter(fil);
             }
-//            ExtStringFilter filter = null;
-//            ExtStringFilter filter1 = null;
-//            if (!binderDto.getCustomerGroupName().isEmpty()) {
-//                filter = new ExtStringFilter("customerGroupName", binderDto.getCustomerGroupName(), true, true, true);
-//                binderDto.addFilter(filter);
-//            }
-//            if (!binderDto.getCustomerGroupNo().isEmpty()) {
-//                filter1 = new ExtStringFilter("customerGroupNo", binderDto.getCustomerGroupNo(), true, true, true);
-//                binderDto.addFilter(filter1);
-//            }
-//            binderDto.setSortedColumns(getSortByColumns());
-//            Container.Filter filter2 = new Equal("selectedFlag", Boolean.TRUE);
-//            binderDto.getFilters().add(filter2);
 
             AbstractFilter.getInstance().filterQueryForContainer(binderDto.getFilters(), resultsinventoryContainer);
             AbstractFilter.getInstance().orderByQueryForContainer(binderDto.getSortedColumns(), resultsinventoryContainer);
             resultList = resultsinventoryContainer.getItemIds(start, offset);
         } catch (Exception ex) {
-           LOGGER.error(ex);
+            LOGGER.error("Error in loadData"+ex);
         }
 
         return resultList;
@@ -108,6 +83,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
         ((BeanItemContainer<CustomerGroupDTO>) container).addBean(dto);
         return dto;
     }
+
     /* Method to setting up the data which we pass to logic
      *
      * @param binderDto
@@ -115,7 +91,6 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
      * @param reset
      * @return 
      */
-
     public boolean loadSetData(CustomerGroupDTO binderDto, boolean reset, AbstractSelectionDTO selectionDto) {
         this.binderDto = binderDto;
         this.selectionDto = selectionDto;
@@ -168,8 +143,7 @@ public class CustomerGrpSelectedTableLogic extends PageTableLogic {
     }
 
     public void setFirstCount(boolean firstCount) {
-       this.firstCount=firstCount;
+        this.firstCount = firstCount;
     }
-
 
 }

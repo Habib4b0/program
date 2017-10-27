@@ -63,10 +63,10 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
-        List<TableDTO> list = new ArrayList<TableDTO>();
+        Map<Integer, Object> map = new HashMap<>();
+        List<TableDTO> list = new ArrayList<>();
         if (firstGenerated) {
-            list = (List<TableDTO>) phsResLogic.getConfiguredPhsResults(getLastParent(), start, offset, projSelDTO,sessionDTO);
+            list = phsResLogic.getConfiguredPhsResults(getLastParent(), start, offset, projSelDTO,sessionDTO);
         }
         levelNo = 0;
 
@@ -84,26 +84,22 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
         int index = getItemIndex(count + levelIndex + levelValue);
         int start = getStartIndex(count + levelIndex, index);
         int end = getPageLength();
-        ContainerLogic.LevelMap levelMap = new ContainerLogic.LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
-        return levelMap;
+       return new ContainerLogic.LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
     }
 
     public int getPageForItem(int pos) {
-        int curPage = ((pos - NumericConstants.TWO) / getPageLength()) + 1;
-        return curPage;
+       return ((pos - NumericConstants.TWO) / getPageLength()) + 1;
     }
 
     public int getItemIndex(int pos) {
-        int index = (pos - NumericConstants.TWO) % getPageLength();
-        return index;
+       return (pos - NumericConstants.TWO) % getPageLength();
     }
 
     public int getStartIndex(int count, int index) {
-        int start = count - index;
-        return start;
+        return count - index;
     }
 
-    public void setProjectionResultsData(ProjectionSelectionDTO selection, boolean isTotal,SessionDTO sessionDTO) {
+    public void setProjectionResultsData(ProjectionSelectionDTO selection,SessionDTO sessionDTO) {
 
         firstGenerated = true;
         clearAll();
@@ -150,8 +146,8 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
         setExpandCollapseProgress(false);
     }
 
-    public void loadExpandData(boolean isExpand, int itemMasterSID, int rowIndex, String ndcParent) {
-        List<String> expandedList = new ArrayList<String>(getExpandedTreeList().keySet());
+    public void loadExpandData(boolean isExpand, int rowIndex) {
+        List<String> expandedList = new ArrayList<>(getExpandedTreeList().keySet());
         clearAll();
         projSelDTO.setLevelNo(0);
         int count = phsResLogic.getConfiguredPhsResultsCount(new Object(), projSelDTO);
@@ -159,41 +155,48 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
         addlevelMap(StringUtils.EMPTY, levelMap);
 
         if (isExpand) {
-            List<TableDTO> levelList = phsResLogic.getConfiguredPhsResults(new Object(), 0, count, projSelDTO,sessionDTO);
-            int size = levelList.size();
-            int index = count - size + 1;
-            for (int j = 0; j < size; j++) {
-                String customTreeLevel = (index + j) + ".";
-                String customTreeLevel1 = (rowIndex) + ".";
-                if (expandedList.contains(customTreeLevel) || customTreeLevel1.equals(customTreeLevel) || rowIndex == -1) {
-                    TableDTO levelDto = levelList.get(j);
-                    addExpandedTreeList(customTreeLevel, levelDto);
-                    count = phsResLogic.getConfiguredPhsResultsCount(levelDto, projSelDTO);
-                    addlevelMap(customTreeLevel, new LevelMap(count, getColumnIdToFilterMap()));
-                }
-            }
+            expandLoadData(count, rowIndex, expandedList);
         } else {
-             if (rowIndex == -1) {
+            if (rowIndex == -1) {
                 getExpandedTreeList().clear();
-             }else if (!expandedList.isEmpty()) {
-                List<TableDTO> levelList = phsResLogic.getConfiguredPhsResults(new Object(), 0, count, projSelDTO,sessionDTO);
-                int size = levelList.size();
-                int index = count - size + 1;
-                for (int j = 0; j < size; j++) {
-                    String customTreeLevel = (index + j) + ".";
-                    String customTreeLevel1 = (rowIndex) + ".";
-                    if (expandedList.contains(customTreeLevel) && !customTreeLevel1.equals(customTreeLevel)) {
-                        TableDTO levelDto = levelList.get(j);
-                        addExpandedTreeList(customTreeLevel, levelDto);
-                        count = phsResLogic.getConfiguredPhsResultsCount(levelDto, projSelDTO);
-                        addlevelMap(customTreeLevel, new LevelMap(count, getColumnIdToFilterMap()));
-                    }
-                }
-
+            } else if (!expandedList.isEmpty()) {
+                collapseLoadData(count, rowIndex, expandedList);
             }
         }
         setRecordCount(getCalculatedTotalRecordCount());
         setCurrentPage(getTotalAmountOfPages());
+    }
+
+    public void collapseLoadData(int count, int rowIndex, List<String> expandedList) {
+        List<TableDTO> levelList = phsResLogic.getConfiguredPhsResults(new Object(), 0, count, projSelDTO,sessionDTO);
+        int size = levelList.size();
+        int index = count - size + 1;
+        for (int j = 0; j < size; j++) {
+            String customTreeLevel = (index + j) + ".";
+            String customTreeLevel1 = (rowIndex) + ".";
+            if (expandedList.contains(customTreeLevel) && !customTreeLevel1.equals(customTreeLevel)) {
+                TableDTO levelDto = levelList.get(j);
+                addExpandedTreeList(customTreeLevel, levelDto);
+                int collapseLoadDataCount = phsResLogic.getConfiguredPhsResultsCount(levelDto, projSelDTO);
+                addlevelMap(customTreeLevel, new LevelMap(collapseLoadDataCount, getColumnIdToFilterMap()));
+            }
+        }
+    }
+
+    public void expandLoadData(int count, int rowIndex, List<String> expandedList) {
+        List<TableDTO> levelList = phsResLogic.getConfiguredPhsResults(new Object(), 0, count, projSelDTO,sessionDTO);
+        int size = levelList.size();
+        int index = count - size + 1;
+        for (int j = 0; j < size; j++) {
+            String customTreeLevel = (index + j) + ".";
+            String customTreeLevel1 = (rowIndex) + ".";
+            if (expandedList.contains(customTreeLevel) || customTreeLevel1.equals(customTreeLevel) || rowIndex == -1) {
+                TableDTO levelDto = levelList.get(j);
+                addExpandedTreeList(customTreeLevel, levelDto);
+                int expandLoadDataCount = phsResLogic.getConfiguredPhsResultsCount(levelDto, projSelDTO);
+                addlevelMap(customTreeLevel, new LevelMap(expandLoadDataCount, getColumnIdToFilterMap()));
+            }
+        }
     }
     
     @Override

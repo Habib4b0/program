@@ -89,6 +89,7 @@ public class SelectionTableLogic extends PageTableLogic {
 
     @Override
     public void saveCurrentPage() {
+        return;
     }
 
     @Override

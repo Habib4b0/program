@@ -188,38 +188,31 @@ public final class UISecurityUtil {
 
     public static TableResultCustom getTableColumnsPermission(List<Object> resultList, Object[] obj, Map<String, AppPermission> fieldIfpHM, String mode) {
         TableResultCustom tableResultCustom = new TableResultCustom();
-        try {
-            List<Object> strList = Arrays.asList(obj);
-            List<String> columnList = new ArrayList<String>();
-            List<Object> columnList1 = new ArrayList<Object>();
-            List<String> headerList = new ArrayList<String>();
-            List<String> headerList2 = new ArrayList<String>();
-            for (int i = 0; i < resultList.size(); i++) {
-                Object[] objResult = (Object[]) resultList.get(i);
-                String value = objResult[1].toString();
-                if (strList.contains(value)) {
-                    columnList.add(value.toString());
-                    headerList.add(objResult[0].toString());
-                }
+        List<Object> strList = Arrays.asList(obj);
+        List<String> columnList = new ArrayList<>();
+        List<Object> columnList1 = new ArrayList<>();
+        List<String> headerList = new ArrayList<>();
+        List<String> headerList2 = new ArrayList<>();
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] objResult = (Object[]) resultList.get(i);
+            String value = objResult[1].toString();
+            if (strList.contains(value)) {
+                columnList.add(value.toString());
+                headerList.add(objResult[0].toString());
             }
-            for (Object headerList1 : strList) {
-                if (columnList.contains(headerList1.toString())) {
-                    columnList1.add(headerList1);
-                    headerList2.add(headerList.get(columnList.indexOf(headerList1.toString())));
-                }
-            }
-            String[] headerArray = new String[headerList2.size()];
-            headerArray = headerList2.toArray(headerArray);
-            for (int i = 0; i < headerList2.size(); i++) {
-                LOGGER.debug("headerArray-----------" + headerArray[i]);
-            }
-            tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
-
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
         }
+        for (Object headerList1 : strList) {
+            if (columnList.contains(headerList1.toString())) {
+                columnList1.add(headerList1);
+                headerList2.add(headerList.get(columnList.indexOf(headerList1.toString())));
+            }
+        }
+        String[] headerArray = new String[headerList2.size()];
+        headerArray = headerList2.toArray(headerArray);
+        for (int i = 0; i < headerList2.size(); i++) {
+            LOGGER.debug("headerArray-----------" + headerArray[i]);
+        }
+        tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
         return tableResultCustom;
     }
 
@@ -232,7 +225,7 @@ public final class UISecurityUtil {
      * @param fieldHM - HashMap contain userId and description.
      * @return the table result custom
      */
-    public static TableResultCustom modifyTableResult(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM) throws SystemException, PortalException {
+    public static TableResultCustom modifyTableResult(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM)  {
 
         final TableResultCustom tblResultCustom = new TableResultCustom();
 
@@ -242,7 +235,7 @@ public final class UISecurityUtil {
 
         for (int i = 0; i < obj.length; i++) {
             str = String.valueOf(obj[i]);
-            if (fieldHM.get(str) != null && true) {
+            if (fieldHM.get(str) != null) {
 
                 objResultList.add(obj[i]);
                 objResultHeaderList.add(header[i]);
@@ -259,7 +252,7 @@ public final class UISecurityUtil {
         return tblResultCustom;
     }
 
-    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode) throws SystemException, PortalException {
+    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode) {
 
         final TableResultCustom tblResultCustom = new TableResultCustom();
         boolean appPerm = false;

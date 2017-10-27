@@ -21,25 +21,19 @@ public class NmActualDiscountCacheModel implements CacheModel<NmActualDiscount>,
     Externalizable {
     public double actualRate;
     public int periodSid;
-    public double actualProjectionSales;
     public int projectionDetailsSid;
-    public double actualProjectionRate;
     public double actualSales;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(9);
 
         sb.append("{actualRate=");
         sb.append(actualRate);
         sb.append(", periodSid=");
         sb.append(periodSid);
-        sb.append(", actualProjectionSales=");
-        sb.append(actualProjectionSales);
         sb.append(", projectionDetailsSid=");
         sb.append(projectionDetailsSid);
-        sb.append(", actualProjectionRate=");
-        sb.append(actualProjectionRate);
         sb.append(", actualSales=");
         sb.append(actualSales);
         sb.append("}");
@@ -53,9 +47,7 @@ public class NmActualDiscountCacheModel implements CacheModel<NmActualDiscount>,
 
         nmActualDiscountImpl.setActualRate(actualRate);
         nmActualDiscountImpl.setPeriodSid(periodSid);
-        nmActualDiscountImpl.setActualProjectionSales(actualProjectionSales);
         nmActualDiscountImpl.setProjectionDetailsSid(projectionDetailsSid);
-        nmActualDiscountImpl.setActualProjectionRate(actualProjectionRate);
         nmActualDiscountImpl.setActualSales(actualSales);
 
         nmActualDiscountImpl.resetOriginalValues();
@@ -67,9 +59,7 @@ public class NmActualDiscountCacheModel implements CacheModel<NmActualDiscount>,
     public void readExternal(ObjectInput objectInput) throws IOException {
         actualRate = objectInput.readDouble();
         periodSid = objectInput.readInt();
-        actualProjectionSales = objectInput.readDouble();
         projectionDetailsSid = objectInput.readInt();
-        actualProjectionRate = objectInput.readDouble();
         actualSales = objectInput.readDouble();
     }
 
@@ -78,9 +68,7 @@ public class NmActualDiscountCacheModel implements CacheModel<NmActualDiscount>,
         throws IOException {
         objectOutput.writeDouble(actualRate);
         objectOutput.writeInt(periodSid);
-        objectOutput.writeDouble(actualProjectionSales);
         objectOutput.writeInt(projectionDetailsSid);
-        objectOutput.writeDouble(actualProjectionRate);
         objectOutput.writeDouble(actualSales);
     }
 }

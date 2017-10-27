@@ -28,16 +28,16 @@ public class NonMandatedViewWindow extends CustomWindow {
     SessionDTO session;
     DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
 
-    public NonMandatedViewWindow(String projectionName, SessionDTO session,final DataSelectionForm form) {
+    public NonMandatedViewWindow(String projectionName, SessionDTO session) {
 
         super(projectionName);
         this.session = session;
-        init(form);
+        init();
         addStyleName("valo-theme-customwindow");
         setMinimizeToTray();
     }
 
-    private void init(final DataSelectionForm form) {
+    private void init() {
         try {
             center();
             setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
@@ -48,10 +48,8 @@ public class NonMandatedViewWindow extends CustomWindow {
             addStyleName(Constant.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
             setClosable(false);
             loadSessionDTO();
-            setContent(new NonMandatedView(session, dataSelectionDTO, this,form));
-        } catch (SystemException ex) {
-            LOGGER.error(ex+" NonMandatedViewWindow");
-        } catch (Exception ex) {
+            setContent(new NonMandatedView(session, dataSelectionDTO));
+        }  catch (Exception ex) {
             LOGGER.error(ex+" NonMandatedViewWindow");
         }
     }

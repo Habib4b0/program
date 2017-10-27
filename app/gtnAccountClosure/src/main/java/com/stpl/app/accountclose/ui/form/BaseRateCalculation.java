@@ -182,9 +182,7 @@ public class BaseRateCalculation extends CustomComponent implements View {
     SessionDTO session;
     public BaseRateDTO baseRateDTO;
     public static final Logger LOGGER = Logger.getLogger(BaseRateCalculation.class);
-    private BeanItemContainer<BaseRateDTO> resultsContainer = new BeanItemContainer<BaseRateDTO>(BaseRateDTO.class);
     CustomTableHeaderDTO headerDTO = new CustomTableHeaderDTO();
-    private Map<Object, Boolean> chtCheckBoxMap = new HashMap<Object, Boolean>();
     private ExtTreeContainer<BaseRateDTO> baseRateCalcContainer = new ExtTreeContainer<BaseRateDTO>(BaseRateDTO.class,DataStructureMode.MAP);
     List<LevelDTO> innerProdLevels = new ArrayList<LevelDTO>();
     List<String> helperTableListNames;
@@ -200,7 +198,6 @@ public class BaseRateCalculation extends CustomComponent implements View {
      * The graph image.
      */
     private final Resource graphImage = new ThemeResource(GRAPH_IMAGE_PATH.getConstant());
-    private LazyContainer companyDdlbLazyContainer;
     HelperDTO companyDdlbDefault = new HelperDTO(0, SELECT_ONE.getConstant());
     CommonLogic commonLogic = new CommonLogic();
     TreeTableLogic logic = new TreeTableLogic();
@@ -213,10 +210,7 @@ public class BaseRateCalculation extends CustomComponent implements View {
     public FreezePagedTreeTable selectedCustomer = new FreezePagedTreeTable(selLogic);
     public ExtPagedTreeTable brSelectedCustomer = new ExtPagedTreeTable(brSelLogic);
     private ExtTreeContainer<TreeDTO> availTreeContainer = new ExtTreeContainer<TreeDTO>(TreeDTO.class,DataStructureMode.MAP);
-    private ExtTreeContainer<TreeDTO> selTreeContainer = new ExtTreeContainer<TreeDTO>(TreeDTO.class,DataStructureMode.MAP);
     HeaderUtils utils = new HeaderUtils();
-    private TreeDTO tableBean;
-    private static final BeanItem<?> NULL_OBJECT = null;
     public List parentList = new ArrayList();
     public int levelValue = 0;
     public TreeDTO treeDto = new TreeDTO();
@@ -234,11 +228,9 @@ public class BaseRateCalculation extends CustomComponent implements View {
     /**
      * The table bean id.
      */
-    private Object tableBeanId;
     /**
      * The tree bean id.
      */
-    private Object treeBeanId;
     private String custGroupSid;
     private String prodGroupSid;
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
@@ -334,9 +326,7 @@ public class BaseRateCalculation extends CustomComponent implements View {
     @UiField("resetBtn")
     public Button resetBtn;
 
-    private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("#,##00.00%");
 
-    private static final DecimalFormat RATE = new DecimalFormat("#,##0.0");
 
     public Component getContent() {
         LOGGER.info("getContent method starts");
@@ -1232,15 +1222,7 @@ public class BaseRateCalculation extends CustomComponent implements View {
      * @param updatedRecordsNo
      * @param checkValue
      */
-    private void updateCheckForParentLevels(Object itemId, int updatedRecordsNo, Boolean checkValue) {
-        TreeDTO tempDto = (TreeDTO) itemId;
-        boolean check = tempDto.getUncheckCount() == 0;
-        tempDto.addBooleanProperties("checkRecord", checkValue);
-        if (checkValue) {
-            logic.getContainerDataSource().getContainerProperty(itemId, "checkRecord").setValue(checkValue);
-        }
-    }
-
+    
     /**
      * next Btn logic
      *

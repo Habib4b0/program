@@ -39,13 +39,13 @@ public class ContractSearchLogic {
     public static final Logger LOGGER = Logger.getLogger(ContractSearchLogic.class);
     QueryUtils queryUtils = new QueryUtils();
 
-    public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset, List<SortByColumn> sortByColumns) {
-        List input = getInputForContractSearch(binderDTO, start, offset, false, sortByColumns);
+    public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset,List<SortByColumn> sortByColumns) {
+        List input = getInputForContractSearch(binderDTO, start, offset, false,sortByColumns);
         return configurePHContract(ItemQueries.getItemData(input, "Copy Contract-contract Search", null));
     }
 
     private List<ContractSearchDTO> configurePHContract(List resultList) {
-        List<ContractSearchDTO> retList = new ArrayList<ContractSearchDTO>();
+        List<ContractSearchDTO> retList = new ArrayList<>();
         for (int i = 0; i < resultList.size(); i++) {
             Object[] obj = (Object[]) resultList.get(i);
             ContractSearchDTO tempDTO = new ContractSearchDTO();
@@ -75,7 +75,7 @@ public class ContractSearchLogic {
     }
 
     public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Helper Table listType=" + listType);
         final DynamicQuery helperTableQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
@@ -103,7 +103,7 @@ public class ContractSearchLogic {
                 || binderDTO.getStartDate() != null || binderDTO.getEndDate() != null || (binderDTO.getMarketType() != null);
     }
 
-    public List getInputForContractSearch(ContractSearchDTO binderDTO, int start, int offset, boolean isCount, List<SortByColumn> sortByColumns) {
+    public List getInputForContractSearch(ContractSearchDTO binderDTO, int start, int offset, boolean isCount,List<SortByColumn> sortByColumns) {
         List input = new ArrayList();
         String columnName = StringUtils.EMPTY;
         if (binderDTO.getAliasNumber() != null && !binderDTO.getAliasNumber().isEmpty()) {
@@ -132,8 +132,10 @@ public class ContractSearchLogic {
         } else {
             input.add("%");
         }
-        input.add(binderDTO.getSessionId());
-        input.add(binderDTO.getUserId());
+        if (!isCount) {
+            input.add(binderDTO.getSessionId());
+            input.add(binderDTO.getUserId());
+        }
         if (binderDTO.getHiddenId() != null && !binderDTO.getHiddenId().isEmpty()) {
             input.add(binderDTO.getHiddenId());
         } else {
@@ -154,7 +156,8 @@ public class ContractSearchLogic {
         } else {
             input.add("%");
         }
-
+        
+        
         if (binderDTO.getStartDate() != null) {
             input.add(" AND CM.START_DATE > '" + CommonUtil.getDBDate(binderDTO.getStartDate()) + "'");
         } else {
@@ -184,11 +187,11 @@ public class ContractSearchLogic {
                     columnName = sortByColumn.getName();
                     asc = sortByColumn.getType() == SortByColumn.Type.ASC;
                 }
-                input.add("order by " + columnName + " " + (asc ? "ASC " : "DESC ") + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY ");
+                input.add("order by " + columnName +" "+(asc ? "ASC " : "DESC ")+ " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY " );
             } else {
                 input.add("order by CONTRACT_MASTER_SID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY ;");
             }
-
+        
         }
         return input;
     }

@@ -62,9 +62,8 @@ public class RebatePlanLookup extends CustomWindow {
     RebatePlanTableLogic tableLogic = new RebatePlanTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     public CustomTextField componentTextField;
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<LookupDTO>(LookupDTO.class);
+    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
      private static final Logger LOGGER = Logger.getLogger(RebatePlanLookup.class);
 
     public RebatePlanLookup(CustomTextField componentTextField) {
@@ -72,8 +71,8 @@ public class RebatePlanLookup extends CustomWindow {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/rebatePlanLookup.xml"), this));
         addStyleName("bootstrap-ui");
         addStyleName("valo-theme-customwindow");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setWidth(NumericConstants.SEVENTY, Unit.PERCENTAGE);
         this.componentTextField = componentTextField;
         setClosable(true);
@@ -91,13 +90,13 @@ public class RebatePlanLookup extends CustomWindow {
             resultsTable.setSelectable(true);
             resultsTable.setFilterBarVisible(true);
             resultsTable.setContainerDataSource(resultsContainer);
-            resultsTable.setVisibleColumns(Constants.REBATE_SEARCH_COLUMNS);
-            resultsTable.setColumnHeaders(Constants.REBATE_SEARCH_HEADERS);
+            resultsTable.setVisibleColumns(Constants.getInstance().rebateSearchColumns);
+            resultsTable.setColumnHeaders(Constants.getInstance().rebateSearchHeaders);
             resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
             HorizontalLayout controls = ResponsiveUtils.getResponsiveControls(tableLogic.createControls());
             formulaTableLayout.addComponent(controls);
-            rebatePlanStatus = commonUtil.loadComboBox(rebatePlanStatus, UIUtils.STATUS, false);
-            rebatePlanType = commonUtil.loadComboBox(rebatePlanType, UIUtils.REBATE_PLAN_TYPE, false);
+            rebatePlanStatus = commonUtil.loadComboBox(rebatePlanStatus, UiUtils.STATUS, false);
+            rebatePlanType = commonUtil.loadComboBox(rebatePlanType, UiUtils.REBATE_PLAN_TYPE, false);
             rebatePlanType.setNullSelectionAllowed(false);
             rebatePlanStatus.setNullSelectionAllowed(false);
         } catch (Exception e) {
@@ -159,7 +158,7 @@ public class RebatePlanLookup extends CustomWindow {
 
             @Override
             public void noMethod() {
-
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the values in the Rebate Plan Search?");
 

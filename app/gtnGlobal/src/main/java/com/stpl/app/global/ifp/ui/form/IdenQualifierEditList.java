@@ -1,7 +1,6 @@
 package com.stpl.app.global.ifp.ui.form;
 
 import org.jboss.logging.Logger;
-
 import com.stpl.app.global.item.dto.ItemIrtIdentifierDTO;
 import com.stpl.app.global.item.logic.ItemSearchLogic;
 import com.stpl.app.global.item.util.UIUtils;
@@ -60,7 +59,7 @@ public final class IdenQualifierEditList extends Window implements View {
     /**
      * The item qualifier.
      */
-    private   final BeanItemContainer<ItemIrtIdentifierDTO> itemQualifier = new BeanItemContainer<ItemIrtIdentifierDTO>(
+    private   final BeanItemContainer<ItemIrtIdentifierDTO> itemQualifier = new BeanItemContainer<>(
             ItemIrtIdentifierDTO.class);
     /**
      * The identifier dto.
@@ -97,9 +96,11 @@ public final class IdenQualifierEditList extends Window implements View {
      * The binder.
      */
     private  final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
-            new BeanItem<ItemIrtIdentifierDTO>(identifierDTO));
+            new BeanItem<>(identifierDTO));
    
     private ItemIrtIdentifierDTO selectedItemiden = new ItemIrtIdentifierDTO();
+    
+    private final UIUtils uIUtils = UIUtils.getInstance();
     /**
      * Instantiates a new iden qualifier edit list.
      */
@@ -189,7 +190,7 @@ public final class IdenQualifierEditList extends Window implements View {
     private Table addToTable() {
     
         qualifierTable.setContainerDataSource(itemQualifier);
-        qualifierTable.setVisibleColumns(UIUtils.QUALIFIER_ITEM);
+        qualifierTable.setVisibleColumns(uIUtils.qualifierItem);
         qualifierTable.setPageLength(NumericConstants.SEVEN);
         qualifierTable.setImmediate(true);
         qualifierTable.setSelectable(true);
@@ -205,7 +206,7 @@ public final class IdenQualifierEditList extends Window implements View {
                     binder.commit();
                 selectedItemiden = itemQualifier.getItem(
                         event.getItemId()).getBean();
-                binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(selectedItemiden));
+                binder.setItemDataSource(new BeanItem<>(selectedItemiden));
                 btnSave.setCaption(ConstantsUtils.UPDATE);
                  } catch(FieldGroup.CommitException ex){
                             LOGGER.error(ex);
@@ -305,7 +306,7 @@ public final class IdenQualifierEditList extends Window implements View {
                     itemQualifier.removeAllItems();
                     itemQualifier.addAll(itemlogic.saveIrtQualifer(binder,val));
                     binder.discard();
-                    binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(new ItemIrtIdentifierDTO()));
+                    binder.setItemDataSource(new BeanItem<>(new ItemIrtIdentifierDTO()));
                     btnSave.setCaption(ConstantsUtils.SAVE);
                  } catch (FieldGroup.CommitException sysException) {
                         LOGGER.error(sysException);
@@ -384,7 +385,7 @@ public final class IdenQualifierEditList extends Window implements View {
                 LOGGER.debug("deleteIrtQualifer started  ");
                 itemQualifier.addAll(itemlogic.deleteIrtQualifer(Integer.valueOf(binder.getField("itemIrtQualifierId").getValue().toString())));
                 binder.discard();
-                binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(new ItemIrtIdentifierDTO()));
+                binder.setItemDataSource(new BeanItem<>(new ItemIrtIdentifierDTO()));
                 LOGGER.debug("Ending IdenQualifierEditList delete operation");
                 } catch(FieldGroup.CommitException ex){
                     LOGGER.error(ex);
@@ -461,7 +462,7 @@ public final class IdenQualifierEditList extends Window implements View {
                 LOGGER.debug("Entering IdenQualifierEditList reset Button");
                 try {
                     binder.discard();
-                    binder.setItemDataSource(new BeanItem<ItemIrtIdentifierDTO>(new ItemIrtIdentifierDTO()));
+                    binder.setItemDataSource(new BeanItem<>(new ItemIrtIdentifierDTO()));
                     btnSave.setCaption(ConstantsUtils.SAVE);
                } catch (Exception exception) {
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1006), new MessageBoxListener() {  

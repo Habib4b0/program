@@ -22,6 +22,8 @@ import com.vaadin.ui.Field;
 import java.util.Map;
 import org.jboss.logging.Logger; 
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
+import java.util.logging.Level;
+
 
 /**
  *
@@ -69,8 +71,13 @@ public class IFPFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-        try{
-        Map<Integer, String> userMap = StplSecurity.getUserName();
+    
+        Map<Integer, String> userMap = null;
+        try {
+            userMap = StplSecurity.getUserName();
+        } catch (SystemException ex) {
+            java.util.logging.Logger.getLogger(IFPFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ComboBox comboBox1;
         if ("ifpStatus".equals(propertyId) || "displayItemStatus".equals(propertyId)
                 || "itemStatus".equals(propertyId) || ConstantsUtils.IFP_STATUS.equals(propertyId)) {
@@ -173,8 +180,6 @@ public class IFPFilterGenerator implements ExtFilterGenerator {
                 return brand;
             } catch (SystemException ex) {
                  LOGGER.error(ex);
-            } catch (PortalException ex) {
-                 LOGGER.error(ex);
             }
         }
         if ("ifpcreatedBy".equals(propertyId)) {       
@@ -214,9 +219,7 @@ public class IFPFilterGenerator implements ExtFilterGenerator {
                     comboBox1.setNullSelectionItemId(0);
                     return comboBox1;
                     }
-        }catch(SystemException ex){
-            LOGGER.error(ex);
-        }
+        
         return null;
     }
 

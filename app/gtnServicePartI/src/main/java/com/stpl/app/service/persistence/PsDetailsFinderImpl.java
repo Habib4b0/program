@@ -141,7 +141,7 @@ public class PsDetailsFinderImpl extends BasePersistenceImpl<PsDetails> implemen
             }
             if ((filterMap.get("priceScheduleStartDateend") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("priceScheduleStartDateend"))))) {
                 String endDate = filterMap.get("priceScheduleStartDateend").toString();
-                sql+=" AND ps.PS_START_DATE <= '" + endDate + "' ";
+                sql+=" AND CAST(ps.PS_START_DATE AS DATE) <= '" + endDate + "' ";
             }
             if ((filterMap.get("priceScheduleEndDatestart") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("priceScheduleEndDatestart"))))) { 
                 String startDate = filterMap.get("priceScheduleEndDatestart").toString();
@@ -149,28 +149,11 @@ public class PsDetailsFinderImpl extends BasePersistenceImpl<PsDetails> implemen
             }
             if ((filterMap.get("priceScheduleEndDateend") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("priceScheduleEndDateend"))))) {
                 String endDate = filterMap.get("priceScheduleEndDateend").toString();
-                sql+=" AND ps.PS_END_DATE <= '" + endDate + "' ";
+                sql+=" AND CAST(ps.PS_END_DATE as DATE) <= '" + endDate + "' ";
             }
-           if(filterMap.get("priceScheduleStartDatestart")!=null && filterMap.get("priceScheduleStartDateend")!=null 
-                   && StringUtils.isNotBlank(String.valueOf(filterMap.get("priceScheduleStartDatestart"))) && StringUtils.isNotBlank(String.valueOf(filterMap.get("priceScheduleStartDateend")))){
-               
-               String startDate = String.valueOf(filterMap.get("priceScheduleStartDatestart"));
-               String endDate = String.valueOf(filterMap.get("priceScheduleStartDateend"));
-               
-               sql+=" AND ps.PS_START_DATE BETWEEN '"+startDate+"' AND '"+endDate+"'";
-           }
-           
-           if(filterMap.get("priceScheduleEndDatestart")!=null && filterMap.get("priceScheduleEndDateend")!=null 
-                   && StringUtils.isNotBlank(String.valueOf(filterMap.get("priceScheduleEndDatestart"))) && StringUtils.isNotBlank(String.valueOf(filterMap.get("priceScheduleEndDateend")))){
-               
-               String startDate = String.valueOf(filterMap.get("priceScheduleEndDatestart"));
-               String endDate = String.valueOf(filterMap.get("priceScheduleEndDateend"));
-               
-               sql+=" AND ps.PS_END_DATE BETWEEN '"+startDate+"' AND '"+endDate+"'";
-           }
            
            if(filterMap.get("parentId")!=null && StringUtils.isNotBlank(String.valueOf(filterMap.get("parentId")))){
-               sql+=" AND ps.PS_ID LIKE '"+String.valueOf(filterMap.get("parentId"))+"'";
+               sql+=" AND ps.PARENT_PS_ID LIKE '"+String.valueOf(filterMap.get("parentId"))+"'";
            }
            
            if(filterMap.get("parentName")!=null && StringUtils.isNotBlank(String.valueOf(filterMap.get("parentName")))){

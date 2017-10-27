@@ -32,6 +32,7 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
     private String _portNumber;
     private Date _modifiedDate;
     private String _inboundStatus;
+    private String _testMailAddress;
     private BaseModel<?> _wfMailConfigRemoteModel;
 
     public WfMailConfigClp() {
@@ -82,6 +83,7 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
         attributes.put("portNumber", getPortNumber());
         attributes.put("modifiedDate", getModifiedDate());
         attributes.put("inboundStatus", getInboundStatus());
+        attributes.put("testMailAddress", getTestMailAddress());
 
         return attributes;
     }
@@ -152,6 +154,12 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
 
         if (inboundStatus != null) {
             setInboundStatus(inboundStatus);
+        }
+
+        String testMailAddress = (String) attributes.get("testMailAddress");
+
+        if (testMailAddress != null) {
+            setTestMailAddress(testMailAddress);
         }
     }
 
@@ -397,6 +405,29 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
         }
     }
 
+    @Override
+    public String getTestMailAddress() {
+        return _testMailAddress;
+    }
+
+    @Override
+    public void setTestMailAddress(String testMailAddress) {
+        _testMailAddress = testMailAddress;
+
+        if (_wfMailConfigRemoteModel != null) {
+            try {
+                Class<?> clazz = _wfMailConfigRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTestMailAddress",
+                        String.class);
+
+                method.invoke(_wfMailConfigRemoteModel, testMailAddress);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getWfMailConfigRemoteModel() {
         return _wfMailConfigRemoteModel;
     }
@@ -475,6 +506,7 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
         clone.setPortNumber(getPortNumber());
         clone.setModifiedDate(getModifiedDate());
         clone.setInboundStatus(getInboundStatus());
+        clone.setTestMailAddress(getTestMailAddress());
 
         return clone;
     }
@@ -520,7 +552,7 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(23);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("{smtpFlag=");
         sb.append(getSmtpFlag());
@@ -544,6 +576,8 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
         sb.append(getModifiedDate());
         sb.append(", inboundStatus=");
         sb.append(getInboundStatus());
+        sb.append(", testMailAddress=");
+        sb.append(getTestMailAddress());
         sb.append("}");
 
         return sb.toString();
@@ -551,7 +585,7 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(37);
+        StringBundler sb = new StringBundler(40);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.WfMailConfig");
@@ -600,6 +634,10 @@ public class WfMailConfigClp extends BaseModelImpl<WfMailConfig>
         sb.append(
             "<column><column-name>inboundStatus</column-name><column-value><![CDATA[");
         sb.append(getInboundStatus());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>testMailAddress</column-name><column-value><![CDATA[");
+        sb.append(getTestMailAddress());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

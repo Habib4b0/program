@@ -36,7 +36,7 @@ public class BPMLogic {
                 LOGGER.debug("taskSummary id:" + taskSummary.getId());                        
                 return true;
             }
-            LOGGER.debug("taskSummary :" + taskSummary.getName());
+            LOGGER.debug("taskSummary isValidWorkflowUser: " + taskSummary.getName());
             List<String> userRoles = BPMProcessBean.getPotentialOwners(taskSummary.getId(), roleList);
             LOGGER.debug("userRoles :" + userRoles);
             List<Role> roles = RoleLocalServiceUtil.getUserRoles(userModel.getUserId());
@@ -74,8 +74,8 @@ public class BPMLogic {
             LOGGER.debug("userId :" + userModel.getUserId());
             LOGGER.debug("userName :" + userModel.getScreenName());
             taskSummary = BPMProcessBean.getAvailableTask(processInstanceId);
-            LOGGER.debug("taskSummary :" + taskSummary.getName());
-            LOGGER.debug("taskSummary :" + taskSummary.getId());
+            LOGGER.debug("taskSummary startAndCompleteTask:" + taskSummary.getName());
+            LOGGER.debug("taskSummary : " + taskSummary.getId());
             BPMProcessBean.startTask(taskSummary.getId(), userModel.getScreenName());
             BPMProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null);
             if (isNewEntry) {
@@ -91,7 +91,7 @@ public class BPMLogic {
         try {
             TaskSummary task = null;
             task = BPMProcessBean.getAvailableTask(processInstanceId);
-            LOGGER.debug("taskSummary :" + task.getName());
+            LOGGER.debug("taskSummary submitWorkflow:" + task.getName());
             LOGGER.debug("taskSummary :" + task.getId());
             if (task.getActualOwnerId() != null && !task.getActualOwnerId().equals(user.getScreenName())) {
                 BPMProcessBean.claimTask(task.getId(), task.getActualOwnerId(), user.getScreenName());
@@ -127,7 +127,7 @@ public class BPMLogic {
             new AbstractNotificationUtils() {                
                 @Override
                 public void noMethod() {
-                    
+                    return;
                 }
                 @Override
                 public void yesMethod() {  

@@ -306,6 +306,7 @@ public class RebatePlanCalculation extends CustomComponent {
     final DecimalFormat commaFormatter = new DecimalFormat("#,###.00");
     final DecimalFormat formatter = new DecimalFormat("#.00");
      final DecimalFormat SIX_DIGIT_FORMAT = new DecimalFormat("##0.000000");
+    private final CommonUIUtils commonUiUtils = new CommonUIUtils();
     boolean valueChange=true;
     /**
      * The Constructor
@@ -408,7 +409,7 @@ public class RebatePlanCalculation extends CustomComponent {
 
             String mode = (String) sessionDTO.getMode();
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_PLAN, UISecurityUtil.CALCULATION_HEADER);
-            Object[] obj = CommonUIUtils.REBATE_TIER_COLUMNS;
+            Object[] obj = commonUiUtils.rebateTierColumns;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldCfpHM, mode.equals(ConstantsUtils.COPY) ? ConstantsUtils.EDIT:mode);
             if(tableResultCustom.getObjResult().length == 0){
               resultsTable.setVisible(false);
@@ -569,7 +570,7 @@ public class RebatePlanCalculation extends CustomComponent {
         }
         
         netSalesFormulaName.setImmediate(true);
-        netSalesFormulaName.addStyleName("searchicon");
+        netSalesFormulaName.addStyleName(ConstantsUtils.SEARCH_SYLENAME);
         netSalesFormulaName.addClickListener(new CustomTextField.ClickListener() {
                 /**
                  * Method used for parent Rebate Schedule Id
@@ -592,7 +593,6 @@ public class RebatePlanCalculation extends CustomComponent {
                                         netSalesFormulaName.setValue(netSaleFormula.getNetSalesFormulaName());
                                         netSalesFormulaSid.setValue(netSaleFormula.getSystemID());
                                         netSalesFormulaSid.setData(netSaleFormula.getSystemID());
-                                        
                                 }
                             }
                             }
@@ -605,7 +605,7 @@ public class RebatePlanCalculation extends CustomComponent {
         });
         
         tierFormula.setImmediate(true);
-        tierFormula.addStyleName("searchicon");
+        tierFormula.addStyleName(ConstantsUtils.SEARCH_SYLENAME);
         tierFormula.addClickListener(new CustomTextField.ClickListener() {
                 /**
                  * Method used for parent Rebate Schedule Id
@@ -632,7 +632,7 @@ public class RebatePlanCalculation extends CustomComponent {
                 }
                 });
         secondaryRebatePlanNo.setImmediate(true);
-        secondaryRebatePlanNo.addStyleName("searchicon");
+        secondaryRebatePlanNo.addStyleName(ConstantsUtils.SEARCH_SYLENAME);
         secondaryRebatePlanNo.addClickListener(new CustomTextField.ClickListener() {
             @Override
             public void click(CustomTextField.ClickEvent event) {
@@ -666,7 +666,7 @@ public class RebatePlanCalculation extends CustomComponent {
         }
         }
         netSalesRule.setImmediate(true);
-        netSalesRule.addStyleName("searchicon");
+        netSalesRule.addStyleName(ConstantsUtils.SEARCH_SYLENAME);
         netSalesRule.addClickListener(new CustomTextField.ClickListener() {
             @Override
             public void click(CustomTextField.ClickEvent event) {
@@ -854,7 +854,7 @@ public class RebatePlanCalculation extends CustomComponent {
                     binder.commit();
                     binder.getErrorDisplay().clearError();                  
                     LOGGER.debug("inside calc");
-                    BigDecimal tFromValue, tToValue;
+                    BigDecimal tFromValue = null, tToValue = null;
                     final RebatePlanTierResults rebatePlanTier = new RebatePlanTierResults();
                     
                     if (tempBeansList != null && tempBeansList.size() != 0 && (tempBeansList.lastItemId().getTierTo() == null || StringUtils.isBlank(tempBeansList.lastItemId().getTierTo().toPlainString()))) {  
@@ -871,15 +871,10 @@ public class RebatePlanCalculation extends CustomComponent {
                             return;
                         }
                         
-                        try {
-                            final String tfrom = tierFrom.getValue().trim().replaceAll(",", StringUtils.EMPTY);
-                            tFromValue = new BigDecimal(tfrom);
-                            rebatePlanTier.setTierFrom(tFromValue);
-                            rebatePlanTier.setTierFrom(new BigDecimal(formatter.format(tFromValue)));
-                        } catch (Exception e) {
-                            LOGGER.error(e);
-                            binder.getErrorDisplay().setError("Please enter only numbers with two decimals places in From");
-                            return;
+                        tFromValue=rebatePlanTierFromValue( tFromValue,rebatePlanTier);
+                        if(tFromValue==null){
+                                        binder.getErrorDisplay().setError("Please enter only numbers with two decimals places in From");
+                                        return;
                         }
 
                     }
@@ -909,16 +904,11 @@ public class RebatePlanCalculation extends CustomComponent {
                             return;
                         }
                         
-                        try {
-                            final String terTo = tierTo.getValue().trim().replaceAll(",", "");
-                            tToValue = new BigDecimal(terTo);
-                            rebatePlanTier.setTierTo(tToValue);
-                            rebatePlanTier.setTierTo(new BigDecimal(formatter.format(tToValue)));
-                        } catch (Exception e) {
-                            LOGGER.error(e);
+                      tToValue=  rebatePlanTierToValue( tToValue, rebatePlanTier);    
+                      if(tToValue==null){
                             binder.getErrorDisplay().setError("Please enter only numbers with two decimals places in To");
                             return;
-                        }                        
+                      }
                         if (tToValue.compareTo(tFromValue) == -1) {
                             binder.getErrorDisplay().setError("To value should not be lesser than From value");
                             return;
@@ -1372,5 +1362,30 @@ public class RebatePlanCalculation extends CustomComponent {
                 }
             }
         });
+    }
+    
+    public BigDecimal rebatePlanTierFromValue(BigDecimal tFromValue,final RebatePlanTierResults rebatePlanTier) {
+        try {
+            final String tfrom = tierFrom.getValue().trim().replaceAll(",", StringUtils.EMPTY);
+            tFromValue = new BigDecimal(tfrom);
+            rebatePlanTier.setTierFrom(tFromValue);
+            rebatePlanTier.setTierFrom(new BigDecimal(formatter.format(tFromValue)));
+            return tFromValue;
+        } catch (Exception e) {
+            LOGGER.error(e);
+            return null;
+        }
+    }
+    public BigDecimal rebatePlanTierToValue(BigDecimal tToValue,final RebatePlanTierResults rebatePlanTier) {
+         try {
+                            final String terTo = tierTo.getValue().trim().replaceAll(",", "");
+                            tToValue = new BigDecimal(terTo);
+                            rebatePlanTier.setTierTo(tToValue);
+                            rebatePlanTier.setTierTo(new BigDecimal(formatter.format(tToValue)));
+                            return tToValue;
+                        } catch (Exception e) {
+                            LOGGER.error(e);
+                            return null;
+                        } 
     }
 }

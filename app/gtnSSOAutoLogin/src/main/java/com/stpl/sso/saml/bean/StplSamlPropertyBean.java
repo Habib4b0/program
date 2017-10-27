@@ -19,6 +19,7 @@ public class StplSamlPropertyBean {
     private boolean logSamlResponse;
     private String issuer;
     private String relayState;
+    private String[] specialCharArray;
 
     public String getCertificatePath() {
         return certificatePath;
@@ -68,6 +69,12 @@ public class StplSamlPropertyBean {
 		this.relayState = relayState;
 	}
     
+    public String[] getSpecialCharArray() {
+        return specialCharArray;
+    }
     
+    public void setSpecialCharArray(String[] specialCharArray) {
+        this.specialCharArray = specialCharArray;
+    }
     
 }

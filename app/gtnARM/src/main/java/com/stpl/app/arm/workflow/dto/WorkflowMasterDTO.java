@@ -42,7 +42,6 @@ public class WorkflowMasterDTO implements Serializable {
         this.fileName = fileName;
     }
 
-
     public String getDocDetailsSid() {
         return docDetailsSid;
     }
@@ -244,6 +243,5 @@ public class WorkflowMasterDTO implements Serializable {
     public void setApprovedDate(Date approvedDate) {
         this.approvedDate = approvedDate;
     }
-    
-}
 
+}

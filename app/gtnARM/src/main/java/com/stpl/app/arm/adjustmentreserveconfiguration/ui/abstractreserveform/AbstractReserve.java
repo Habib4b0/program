@@ -5,28 +5,54 @@
  */
 package com.stpl.app.arm.adjustmentreserveconfiguration.ui.abstractreserveform;
 
+import com.stpl.app.arm.excecutors.SaveAction;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveAdjustmentSummaryAction;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveBalanceSummaryAction;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveBalanceSummaryInsertAction;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveConfigurationDetailsAction;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveConfigureDetailsToAdjustmentSummaryAction;
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
+import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentAndBalSummaryTableGenerator;
 import com.stpl.app.arm.adjustmentreserveconfiguration.logic.AdjustmentReserveLogic;
+import com.stpl.app.arm.adjustmentreserveconfiguration.logic.AdjustmentSummaryConfigLogic;
+import com.stpl.app.arm.adjustmentreserveconfiguration.logic.BalanceSummaryLogic;
+import com.stpl.app.arm.adjustmentreserveconfiguration.logic.ExcelExportLogic;
 import com.stpl.app.arm.adjustmentreserveconfiguration.logic.tablelogic.AdjustmentReserveTableLogic;
+import com.stpl.app.arm.adjustmentreserveconfiguration.logic.tablelogic.AdjustmentSummaryTableLogic;
+import com.stpl.app.arm.adjustmentreserveconfiguration.logic.tablelogic.BalSummaryConfigurationTableLogic;
+import com.stpl.app.arm.adjustmentreserveconfiguration.ui.fieldfactory.AdjustmentSummaryFieldFactory;
+import com.stpl.app.arm.adjustmentreserveconfiguration.ui.fieldfactory.BalanceSummaryFieldFactory;
 import com.stpl.app.arm.adjustmentreserveconfiguration.ui.form.ReserveFieldFactory;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.MandatoryValidationForCreditAndDebit;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.MandatoryValidationForReserveAndGTN;
+import com.stpl.app.arm.excecutors.Validation;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationAddRemoveLine;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationForAdjustmentTypeOfGTNAvailableInReserveDetails;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationForAtleastOneRecordToSave;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationForDuplicateAccounts;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationForLimitedRowInDetails;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationForNotMatchedAccountsOfGTNReserve;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationForParentRecordRemoveLine;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationForSameCreditDebitOfAdjustmentType;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationForSameReportIndicator;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
+import com.stpl.app.arm.excecutors.ActionExecutor;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.app.utils.CommonUtils;
+import com.stpl.app.utils.HeaderUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
@@ -43,11 +69,8 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
@@ -62,8 +85,12 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.util.NumericConstants;
-import java.lang.reflect.InvocationTargetException;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.themes.ValoTheme;
+import java.util.Map;
+import java.util.logging.Level;
 
 /**
  *
@@ -79,14 +106,14 @@ public abstract class AbstractReserve extends CustomWindow {
     /**
      * The Company Combo box where Options will be all values from Company
      * Master, Company Type = GLcomp The DDLB needs to show the combination of
-     * “COMPANY ID – COMPANY NAME”.
+     * â€œCOMPANY ID â€“ COMPANY NAMEâ€�.
      */
     @UiField("companyDdlbRes")
     protected ComboBox companyDdlbRes;
     /**
      * The Business Combo box where Options will be any Company Master record
      * where Company Type = Business Unit.The DDLB needs to show the combination
-     * of “COMPANY ID – COMPANY NAME”.
+     * of â€œCOMPANY ID â€“ COMPANY NAMEâ€�.
      */
     @UiField("businessDdlbRes")
     protected ComboBox businessDdlbRes;
@@ -104,7 +131,7 @@ public abstract class AbstractReserve extends CustomWindow {
      * value selected for Deduction Category. Based on the value selected in
      * Deduction Category the DDLB will only show the distinct values that are
      * associated with rebate schedules that have value selected in the
-     * “Deduction Category” DDLB.
+     * â€œDeduction Categoryâ€� DDLB.
      */
     @UiField("deductionTypeDdlbRes")
     protected ComboBox deductionTypeDdlbRes;
@@ -115,7 +142,7 @@ public abstract class AbstractReserve extends CustomWindow {
      * value selected for Deduction Type. Based on the value selected in
      * Deduction Category the DDLB will only show the distinct values that are
      * associated with rebate schedules that have value selected in the
-     * “Deduction Category” DDLB.
+     * â€œDeduction Categoryâ€� DDLB.
      */
     @UiField("deductionProgramDdlbRes")
     protected ComboBox deductionProgramDdlbRes;
@@ -160,6 +187,12 @@ public abstract class AbstractReserve extends CustomWindow {
     /**
      * Field is used to reset the company selection criteria.
      */
+
+    @UiField("methodologyDdlb")
+    protected ComboBox methodologyDdlb;
+    @UiField("reportTypeDdlb")
+    protected ComboBox reportTypeDdlb;
+
     @UiField("resetBtnRes")
     protected Button resetBtnRes;
     @UiField("searchBtnRes")
@@ -185,6 +218,40 @@ public abstract class AbstractReserve extends CustomWindow {
     @UiField("addPanelRes")
     protected Panel addPanelRes;
 
+    /* The Search Form Layout which will be disabled in Add/Edit/View Modes
+     */
+    @UiField("mainVerticalLayout")
+    protected VerticalLayout mainVerticalLayout;
+
+    @UiField("configurationDetailsPanel")
+    protected Panel configurationDetailsPanel;
+    
+    @UiField("adjSummaryPanel")
+    protected Panel adjSummaryPanel;
+    
+    @UiField("balSummaryPanel")
+    protected Panel balSummaryPanel;
+    
+
+
+    /* The Search Form Layout which will be disabled in Add/Edit/View Modes
+     */
+    @UiField("adjustmentSummaryConfigurationLayout")
+    protected VerticalLayout adjustmentSummaryConfigurationLayout;
+    /* The Search Form Layout which will be disabled in Add/Edit/View Modes
+     */
+    @UiField("balanceSummaryConfigurationLayout")
+    protected VerticalLayout balanceSummaryLayout;
+    @UiField("adjSummaryTableLayout")
+    protected VerticalLayout adjSummaryTableLayout;
+    @UiField("balsummaryTableLayout")
+    protected VerticalLayout balsummaryTableLayout;
+    /* The Search Form Layout which will be disabled in Add/Edit/View Modes
+     */
+    @UiField("tabSheetLayout")
+    protected VerticalLayout tabSheetLayout;
+    TabSheet tabSheet;
+
     public Button getCloseBtnRes() {
         return closeBtnRes;
     }
@@ -200,6 +267,28 @@ public abstract class AbstractReserve extends CustomWindow {
      * The Available Results Container
      */
     protected final BeanItemContainer<AdjustmentReserveDTO> detailsTableContainer = new BeanItemContainer<>(AdjustmentReserveDTO.class);
+    /**
+     * The Table Logic For Adjustment Reserve Configuration in Add/Edit Mode
+     */
+    protected AdjustmentSummaryTableLogic adjustmentSummaryTableLogic = new AdjustmentSummaryTableLogic();
+    /**
+     * The Results Table
+     */
+    protected ExtPagedTable adjustmentSummaryTable = new ExtPagedTable(adjustmentSummaryTableLogic);
+    /**
+     * The Table Logic For Balance Summary Configuration in Add/Edit Mode
+     */
+    protected BalSummaryConfigurationTableLogic balSummaryConfigurationTableLogic = new BalSummaryConfigurationTableLogic();
+    /**
+     * The Results Table
+     */
+    protected ExtPagedTable balanceSummaryTable = new ExtPagedTable(balSummaryConfigurationTableLogic);
+    protected final BeanItemContainer<AdjustmentReserveDTO> balanceSummaryContainer = new BeanItemContainer<>(AdjustmentReserveDTO.class);
+
+    /**
+     * The Available Results Container
+     */
+    protected final BeanItemContainer<AdjustmentReserveDTO> adjustmentSummaryContainer = new BeanItemContainer<>(AdjustmentReserveDTO.class);
     /**
      * The Adjustment Reserve Logic
      */
@@ -223,7 +312,7 @@ public abstract class AbstractReserve extends CustomWindow {
     /**
      * binder used to bind the fields from the page
      */
-    protected CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<AdjustmentReserveDTO>(binderDto));
+    protected CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     /**
      * This is used to find the value change of mass update done or not
      */
@@ -231,14 +320,26 @@ public abstract class AbstractReserve extends CustomWindow {
     /**
      * This is used to find the value change of mass update done or not
      */
-    boolean isTableLoaded = Boolean.FALSE;
+    boolean isTableLoaded;
     /**
      * This is used to check wheather the values of dataselection is changed or
      * not.
      */
     boolean isDataSelectionSaved;
 
-    public AbstractReserve(String caption, SessionDTO sessionDTO,ReserveSelection selection) {
+    protected AdjustmentSummaryConfigLogic adjustmentSummaryConfigLogic = AdjustmentSummaryConfigLogic.getInstance();
+
+    protected BalanceSummaryLogic balanceSummaryLogic = BalanceSummaryLogic.getInstance();
+    /*
+    Excel Logic
+     */
+    ExcelExportLogic excelExportLogic = new ExcelExportLogic();
+
+    int tabPosition = 0;
+
+    int lastPosition = 0;
+
+    public AbstractReserve(String caption, SessionDTO sessionDTO, ReserveSelection selection) {
         super(caption);
         this.sessionDTO = sessionDTO;
         this.selection = selection;
@@ -252,29 +353,38 @@ public abstract class AbstractReserve extends CustomWindow {
     protected void configureFields() {
         loadSelection();
         searchFormLayoutRes.setVisible(false);
-        loadComboBox();
         viewOpgRes.addItem(GlobalConstants.getCurrent());
         viewOpgRes.addItem(GlobalConstants.getHistory());
         viewOpgRes.select(GlobalConstants.getCurrent());
         loadMassfield();
-        getBinder();
-        massValueDdlbRes.setVisible(Boolean.FALSE);
-        massValueDdlbRes.setImmediate(Boolean.TRUE);
-        selection.setIsCurrent(Boolean.TRUE);
-        configureTable();
+        massValueDdlbRes.setVisible(false);
+        massValueDdlbRes.setImmediate(true);
+        selection.setIsCurrent(true);
+        configureDetailsTable();
+        configureAdjustmentSummaryTable();
+        configureBalanceSummaryTable();
         configurationTypeOpgRes.addItem(ARMConstants.getReserveDetails());
         configurationTypeOpgRes.addItem(ARMConstants.getGTNDetails());
         configurationTypeOpgRes.select(ARMConstants.getReserveDetails());
-        searchBtnRes.setVisible(Boolean.FALSE);
+        CommonUtils.loadComboBoxWithIntegerForComboBox(methodologyDdlb, "ARM_TRX_METHDOLOGY", false);
+        CommonUtils.loadComboBoxWithIntegerForComboBox(reportTypeDdlb, "ARM_REPORT_TYPE", false);
+        loadComboBox();
+        getBinder();
+        searchBtnRes.setVisible(false);
         exportBtnRes.setPrimaryStyleName("link");
         exportBtnRes.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
+        configureTab();
 
     }
 
     protected void loadComboBox() {
-        CommonLogic.configureDropDowns(companyDdlbRes, "getCompanyQuery", Boolean.TRUE);
-        CommonLogic.configureDropDowns(businessDdlbRes, "getBusinessQuery", Boolean.TRUE);
-        CommonUtils.loadComboBoxWithIntegerForComboBox(deductionCategoryDdlbRes, "RS_CATEGORY", Boolean.FALSE);
+        CommonLogic.configureDropDowns(companyDdlbRes, "getCompanyQuery", true);
+        companyDdlbRes.focus();
+        CommonLogic.configureDropDowns(businessDdlbRes, "getBusinessQuery", true);
+        CommonLogic.configureDropDownsForDeduction(deductionCategoryDdlbRes, "getDeductionCategory");
+        CommonLogic.configureDropDownsForDeduction(deductionTypeDdlbRes, "getDeductionType");
+        CommonLogic.configureDropDownsForDeduction(deductionProgramDdlbRes, "getDeductionProgram");
+        CommonUtils.loadComboBoxWithIntegerForComboBox(methodologyDdlb, "ARM_TRX_METHDOLOGY", false);
 
         deductionTypeDdlbRes.setNullSelectionAllowed(false);
         deductionProgramDdlbRes.setNullSelectionAllowed(false);
@@ -301,7 +411,7 @@ public abstract class AbstractReserve extends CustomWindow {
      * Loading the mass update field ddlb.
      */
     private void loadMassfield() {
-        isvValueChange = Boolean.TRUE;
+        isvValueChange = true;
         massValueDdlbRes.removeAllItems();
         massfieldDdlbRes.removeAllItems();
         massValueRes.setValue(StringUtils.EMPTY);
@@ -311,17 +421,17 @@ public abstract class AbstractReserve extends CustomWindow {
         massfieldDdlbRes.setNullSelectionItemId(GlobalConstants.getSelectOne());
 
         if (selection.isIsGTNDetails()) {
-            for (int i = 0; i < ARMUtils.ADJUSTMENT_GTN_DETAILS_COLUMNS.length; i++) {
-                massfieldDdlbRes.addItem(ARMUtils.ADJUSTMENT_GTN_DETAILS_COLUMNS[i]);
-                massfieldDdlbRes.setItemCaption(ARMUtils.ADJUSTMENT_GTN_DETAILS_COLUMNS[i], ARMUtils.ADJUSTMENT_GTN_DETAILS_Header[i]);
+            for (int i = 0; i < ARMUtils.getAdjustmentGtnDetailsColumns().length; i++) {
+                massfieldDdlbRes.addItem(ARMUtils.getAdjustmentGtnDetailsColumns()[i]);
+                massfieldDdlbRes.setItemCaption(ARMUtils.getAdjustmentGtnDetailsColumns()[i], ARMUtils.getAdjustmentGtnDetailsHeader()[i]);
             }
         } else {
-            for (int i = 0; i < ARMUtils.ADJUSTMENT_RESERVE_MASSUPDATE_COLUMN.length; i++) {
-                massfieldDdlbRes.addItem(ARMUtils.ADJUSTMENT_RESERVE_MASSUPDATE_COLUMN[i]);
-                massfieldDdlbRes.setItemCaption(ARMUtils.ADJUSTMENT_RESERVE_MASSUPDATE_COLUMN[i], ARMUtils.ADJUSTMENT_RESERVE_MASSUPDATE_HEADER[i]);
+            for (int i = 0; i < ARMUtils.getAdjustmentReserveMassupdateColumn().length; i++) {
+                massfieldDdlbRes.addItem(ARMUtils.getAdjustmentReserveMassupdateColumn()[i]);
+                massfieldDdlbRes.setItemCaption(ARMUtils.getAdjustmentReserveMassupdateColumn()[i], ARMUtils.getAdjustmentReserveMassupdateHeader()[i]);
             }
         }
-        isvValueChange = Boolean.FALSE;
+        isvValueChange = false;
         massValueDdlbRes.setValue(null);
 
     }
@@ -329,19 +439,18 @@ public abstract class AbstractReserve extends CustomWindow {
     /**
      * Configuring Result Table in Add/Edit Mode
      */
-    private void configureTable() {
-        LOGGER.debug(" Inside Configure table ");
+    private void configureDetailsTable() {
+        LOGGER.debug(CommonConstant.INSIDE_CONFIGURE_TABLE);
         resultsTableLayoutRes.addComponent(resultsTable);
         resultsTableLayoutRes.addComponent(getResponsiveControls(detailsTableLogic.createControls()));
         detailsTableLogic.setContainerDataSource(detailsTableContainer);
-        resultsTable.setSelectable(true);
         resultsTable.setMultiSelect(true);
         detailsTableLogic.setPageLength(NumericConstants.TEN);
         detailsTableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(ARMUtils.ADJUSTMENT_RESERVE_ADD_COLUMNS_RESERVE_DETAILS);
-        resultsTable.setColumnHeaders(ARMUtils.ADJUSTMENT_RESERVE_ADD_HEADERS_RESERVE_DETAILS);
-        resultsTable.setColumnAlignment(ARMUtils.ADJUSTMENT_RESERVE_ADD_COLUMNS_RESERVE_DETAILS[0], ExtCustomTable.Align.CENTER);
-        resultsTable.setColumnWidth(ARMUtils.ADJUSTMENT_RESERVE_ADD_COLUMNS_RESERVE_DETAILS[0], NumericConstants.FIFTY);
+        resultsTable.setVisibleColumns(ARMUtils.getAdjustmentReserveAddColumnsReserveDetails());
+        resultsTable.setColumnHeaders(ARMUtils.getAdjustmentReserveAddHeadersReserveDetails());
+        resultsTable.setColumnAlignment(ARMUtils.getAdjustmentReserveAddColumnsReserveDetails()[0], ExtCustomTable.Align.CENTER);
+        resultsTable.setColumnWidth(ARMUtils.getAdjustmentReserveAddColumnsReserveDetails()[0], NumericConstants.FIFTY);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSizeFull();
         resultsTable.setImmediate(true);
@@ -351,8 +460,13 @@ public abstract class AbstractReserve extends CustomWindow {
         setTableFieldFactory();
         loadTablefirstTime();
         resultsTable.addStyleName(ARMUtils.FILTERCOMBOBOX);
-        resultsTable.addStyleName("table-header-normal");
+        resultsTable.addStyleName(CommonConstant.TABLEHEADERNORMAL);
         resultsTable.addStyleName(ARMUtils.CENTER_CHECK);
+        if (selection.isIsViewMode()) {
+            resultsTable.setSelectable(false);
+        } else {
+            resultsTable.setSelectable(true);
+        }
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
             @Override
@@ -365,7 +479,8 @@ public abstract class AbstractReserve extends CustomWindow {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
                         ComboBox combo = (ComboBox) originatingField;
-                        if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant()) || propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant())) {
+                        if (propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.getConstant()) || propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.getConstant())
+                                || propertyId.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.getConstant())) {
                             String value = String.valueOf(combo.getValue().toString());
                             switch (value) {
                                 case "0":
@@ -374,11 +489,13 @@ public abstract class AbstractReserve extends CustomWindow {
                                 case "-1":
                                     value = "0";
                                     break;
+                                default:
+                                    break;
 
                             }
-                            return new SimpleStringFilter(propertyId, combo.getValue().toString().equals("0") ? StringUtils.EMPTY : value, false, false);
+                            return new SimpleStringFilter(propertyId, "0".equals(combo.getValue().toString()) ? StringUtils.EMPTY : value, false, false);
                         }
-                        return new SimpleStringFilter(propertyId, combo.getValue().toString().equals("0") ? StringUtils.EMPTY : combo.getValue().toString(), false, false);
+                        return new SimpleStringFilter(propertyId, "0".equals(combo.getValue().toString()) ? StringUtils.EMPTY : combo.getValue().toString(), false, false);
                     } else {
                         return null;
                     }
@@ -388,10 +505,12 @@ public abstract class AbstractReserve extends CustomWindow {
 
             @Override
             public void filterRemoved(Object propertyId) {
+                LOGGER.debug("Inside filterRemoved Method");
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                LOGGER.debug("Inside filterAdded Method");
             }
 
             @Override
@@ -411,9 +530,9 @@ public abstract class AbstractReserve extends CustomWindow {
                 if (ARMUtils.getDropDownMap().containsKey(propertyId)) {
                     ComboBox comboBox = new ComboBox();
                     if (ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.getConstant().equals(String.valueOf(propertyId))) {
-                        CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, "ARM_RES_ADJUSTMENT_LEVEL", Boolean.TRUE);
+                        CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, CommonConstant.ARM_RES_ADJUSTMENT_LEVEL, true);
                     } else {
-                        CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, ARMUtils.dropDownMap.get(propertyId.toString()), Boolean.TRUE);
+                        CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, ARMUtils.dropDownMap.get(propertyId.toString()), true);
                     }
                     return comboBox;
                 } else {
@@ -425,9 +544,10 @@ public abstract class AbstractReserve extends CustomWindow {
         });
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         if (!selection.isIsViewMode()) {
-            resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), Boolean.TRUE);
+            resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true);
         }
         resultsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = resultsTable.getItemIds();
                 for (Object obj : itemList) {
@@ -438,7 +558,149 @@ public abstract class AbstractReserve extends CustomWindow {
                 logic.updateAllCheckRecord(event.isChecked(), selection);
             }
         });
-        isTableLoaded = Boolean.TRUE;
+        isTableLoaded = true;
+    }
+
+    /**
+     * Configuring Result Table in Add/Edit Mode
+     */
+    private void configureAdjustmentSummaryTable() {
+        LOGGER.debug(CommonConstant.INSIDE_CONFIGURE_TABLE);
+        adjSummaryTableLayout.addComponent(adjustmentSummaryTable);
+        adjSummaryTableLayout.addComponent(getResponsiveControls(adjustmentSummaryTableLogic.createControls()));
+        adjustmentSummaryTableLogic.setContainerDataSource(adjustmentSummaryContainer);
+        adjustmentSummaryTable.setSelectable(false);
+        adjustmentSummaryTable.setMultiSelect(true);
+        adjustmentSummaryTableLogic.setPageLength(NumericConstants.TEN);
+        adjustmentSummaryTableLogic.sinkItemPerPageWithPageLength(false);
+        adjustmentSummaryTable.setVisibleColumns(ARMUtils.getAdjustmentReserveTx1Column());
+        adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveTx1Header());
+        adjustmentSummaryTable.setFilterBarVisible(true);
+        adjustmentSummaryTable.setImmediate(true);
+        adjustmentSummaryTable.setPageLength(NumericConstants.TEN);
+        adjustmentSummaryTable.setEditable(true);
+        setSummaryFieldFactory();
+        adjustmentSummaryTable.setColumnWidth(VariableConstants.CHECK_RECORD, NumericConstants.FIFTY);
+        adjustmentSummaryTable.addStyleName(ARMUtils.FILTERCOMBOBOX);
+        adjustmentSummaryTable.addStyleName(CommonConstant.TABLEHEADERNORMAL);
+        adjustmentSummaryTable.addStyleName(ARMUtils.CENTER_CHECK);
+        adjustmentSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
+        adjustmentSummaryTable.setFilterGenerator(new AdjustmentAndBalSummaryTableGenerator(selection));
+        adjustmentSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
+        adjustmentSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), !selection.isIsViewMode() ? Boolean.TRUE : Boolean.FALSE);
+
+        setWidth(adjustmentSummaryTable.getVisibleColumns());
+        if (!selection.isIsViewMode()) {
+            adjustmentSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true);
+            adjustmentSummaryTable.setSelectable(true);
+        }
+        adjustmentSummaryTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
+            public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
+                Collection itemList = adjustmentSummaryTable.getItemIds();
+                for (Object obj : itemList) {
+                    AdjustmentReserveDTO dto = (AdjustmentReserveDTO) obj;
+                    dto.setCheckRecord(event.isChecked());
+                    adjustmentSummaryTable.getContainerProperty(obj, event.getPropertyId()).setValue(event.isChecked());
+                }
+                adjustmentSummaryConfigLogic.updateAllCheckRecord(event.isChecked(), selection);
+            }
+        });
+    }
+
+    /**
+     *
+     * configureBalanceSummaryTable
+     */
+    private void configureBalanceSummaryTable() {
+        LOGGER.debug(CommonConstant.INSIDE_CONFIGURE_TABLE);
+        balsummaryTableLayout.addComponent(balanceSummaryTable);
+        balsummaryTableLayout.addComponent(getResponsiveControls(balSummaryConfigurationTableLogic.createControls()));
+        balSummaryConfigurationTableLogic.setContainerDataSource(balanceSummaryContainer);
+        balanceSummaryTable.setSelectable(false);
+        balanceSummaryTable.setMultiSelect(true);
+        balSummaryConfigurationTableLogic.setPageLength(NumericConstants.TEN);
+        balSummaryConfigurationTableLogic.sinkItemPerPageWithPageLength(false);
+
+        balanceSummaryTable.setVisibleColumns(ARMUtils.getReportTypePipelineSingleVisibleColumn());
+        balanceSummaryTable.setColumnHeaders(ARMUtils.getReportTypePipelineSingleHeaderColumn());
+        balanceSummaryTable.setDoubleHeaderVisible(true);
+        balanceSummaryTable.setDoubleHeaderVisibleColumns(ARMUtils.getReportTypePipelineDoubleVisibleColumn());
+        balanceSummaryTable.setDoubleHeaderColumnHeaders(ARMUtils.getReportTypePipelineDoubleHeaderColumn());
+        balanceSummaryTable.setDoubleHeaderMap(HeaderUtils.confDoubleHeaderMapPipelineReportType());
+
+        balanceSummaryTable.setFilterBarVisible(true);
+        balanceSummaryTable.setImmediate(true);
+        balanceSummaryTable.setPageLength(NumericConstants.TEN);
+        balanceSummaryTable.setEditable(true);
+        balanceSummaryTable.setTableFieldFactory(new BalanceSummaryFieldFactory(balanceSummaryTable, selection));
+        balanceSummaryTable.addStyleName(ARMUtils.FILTERCOMBOBOX);
+        balanceSummaryTable.addStyleName(CommonConstant.TABLEHEADERNORMAL);
+        balanceSummaryTable.addStyleName(ARMUtils.CENTER_CHECK);
+        balanceSummaryTable.setColumnWidth(VariableConstants.CHECK_RECORD, NumericConstants.FIFTY);
+
+        balanceSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
+        balanceSummaryTable.setFilterGenerator(new AdjustmentAndBalSummaryTableGenerator(selection));
+        balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), !selection.isIsViewMode() ? Boolean.TRUE : Boolean.FALSE);
+        for (Object columnName : ARMUtils.getReportTypeSinglevisibleColumnInReserve()) {
+            if (!columnName.equals(VariableConstants.CHECK_RECORD)) {
+                balanceSummaryTable.setColumnWidth(columnName, NumericConstants.ONE_EIGHT_ZERO);
+            }
+        }
+        if (!selection.isIsViewMode()) {
+            balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true);
+            balanceSummaryTable.setSelectable(true);
+        }
+        balanceSummaryTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
+            public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
+                Collection itemList = balanceSummaryTable.getItemIds();
+                for (Object obj : itemList) {
+                    AdjustmentReserveDTO dto = (AdjustmentReserveDTO) obj;
+                    dto.setCheckRecord(event.isChecked());
+                    balanceSummaryTable.getContainerProperty(obj, event.getPropertyId()).setValue(event.isChecked());
+                }
+                adjustmentSummaryConfigLogic.updateAllCheckRecord(event.isChecked(), selection);
+            }
+        });
+    }
+
+    @UiHandler("reportTypeDdlb")
+    public void loadReportTypeDdlbValue(Property.ValueChangeEvent event) {
+        selection.setReportType(Integer.valueOf(String.valueOf(reportTypeDdlb.getValue())));
+        balSummaryConfigurationTableLogic.getFilters().clear();
+        if ((reportTypeDdlb.getValue() != null) && Integer.valueOf(String.valueOf(reportTypeDdlb.getValue())) != 0) {
+            LOGGER.debug(event.toString());
+            try {
+                Map<String, List<Object>> tableHeaderMap;
+                String reportType = reportTypeDdlb.getItemCaption(reportTypeDdlb.getValue());
+                tableHeaderMap = HeaderUtils.configureBalanceSummaryTableheader(reportType);
+                if (tableHeaderMap.containsKey(reportType)) {
+                    List<Object> list = tableHeaderMap.get(reportType);
+                    balanceSummaryTable.setVisibleColumns((Object[]) list.get(0));
+                    balanceSummaryTable.setColumnHeaders((String[]) list.get(1));
+                    balanceSummaryTable.setDoubleHeaderVisible(true);
+                    balanceSummaryTable.setDoubleHeaderVisibleColumns((Object[]) list.get(2));
+                    balanceSummaryTable.setDoubleHeaderColumnHeaders((String[]) list.get(3));
+                    balanceSummaryTable.setDoubleHeaderMap((Map<Object, Object[]>) list.get(4));
+                    balanceSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
+                    balanceSummaryTable.setFilterGenerator(new AdjustmentAndBalSummaryTableGenerator(selection));
+                }
+                //Calling DB insertion Action Call
+           
+                ActionExecutor executor = new ActionExecutor();
+                executor.callingActionExecution(new SaveBalanceSummaryInsertAction(selection));
+
+                balSummaryConfigurationTableLogic.loadSetData(true, selection);
+
+            } catch (Exception e) {
+                LOGGER.error("Error in loadReportTypeDdlbValue :" + e);
+            }
+        } else {
+            balanceSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
+            balanceSummaryTable.setFilterGenerator(new AdjustmentAndBalSummaryTableGenerator(selection));
+            balSummaryConfigurationTableLogic.loadSetData(false, selection);
+        }
     }
 
     /**
@@ -446,24 +708,87 @@ public abstract class AbstractReserve extends CustomWindow {
      */
     @UiHandler("massfieldDdlbRes")
     public void loadMassValue(Property.ValueChangeEvent event) {
+        LOGGER.debug(event.toString());
         if ((!isvValueChange) && (massfieldDdlbRes.getValue() != null)) {
-                String massValue = massfieldDdlbRes.getValue().toString().trim();
-                if (ArrayUtils.contains(ARMUtils.ADJUSTMENT_RESERVE_COMBOBOX, massValue)) {
-                    massValueDdlbRes.removeAllItems();
-                    massValueDdlbRes.setVisible(true);
-                    massValueRes.setVisible(false);
-                    if (selection.isIsGTNDetails() && massValue.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
-                        CommonUtils.loadComboBoxWithIntegerForComboBox(massValueDdlbRes, "ARM_GTN_ADJUSTMENT_LEVEL", Boolean.FALSE);
-                    } else if (massValue.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
-                        CommonUtils.loadComboBoxWithIntegerForComboBox(massValueDdlbRes, "ARM_RES_ADJUSTMENT_LEVEL", Boolean.FALSE);
-                    } else {
-                        CommonUtils.loadComboBoxWithIntegerForComboBox(massValueDdlbRes, ARMUtils.dropDownMap.get(massValue), Boolean.FALSE);
-                    }
+            String massValue = massfieldDdlbRes.getValue().toString().trim();
+            if (ArrayUtils.contains(ARMUtils.getAdjustmentReserveCombobox(), massValue)) {
+                massValueDdlbRes.removeAllItems();
+                massValueDdlbRes.setVisible(true);
+                massValueRes.setVisible(false);
+                if (selection.isIsGTNDetails() && massValue.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
+                    CommonUtils.loadComboBoxWithIntegerForComboBox(massValueDdlbRes, "ARM_GTN_ADJUSTMENT_LEVEL", false);
+                } else if (massValue.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.toString())) {
+                    CommonUtils.loadComboBoxWithIntegerForComboBox(massValueDdlbRes, CommonConstant.ARM_RES_ADJUSTMENT_LEVEL, false);
                 } else {
-                    massValueRes.setValue(StringUtils.EMPTY);
-                    massValueDdlbRes.setVisible(false);
-                    massValueRes.setVisible(true);
+                    CommonUtils.loadComboBoxWithIntegerForComboBox(massValueDdlbRes, ARMUtils.dropDownMap.get(massValue), false);
                 }
+            } else {
+                massValueRes.setValue(StringUtils.EMPTY);
+                massValueDdlbRes.setVisible(false);
+                massValueRes.setVisible(true);
+            }
+        }
+    }
+
+    @UiHandler("methodologyDdlb")
+    public void loadmethodologyDdlb(Property.ValueChangeEvent event) throws Exception {
+        LOGGER.debug(event.toString());
+        selection.setMethodology(Integer.valueOf(String.valueOf(methodologyDdlb.getValue())));
+        adjustmentSummaryTableLogic.getFilters().clear();
+        if ((methodologyDdlb.getValue() != null) && Integer.valueOf(String.valueOf(methodologyDdlb.getValue())) != 0) {
+            String transaction = methodologyDdlb.getItemCaption(methodologyDdlb.getValue());
+            selection.setMethodologyDescription(transaction);
+            if (transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_1.toString())) {
+                adjustmentSummaryTable.setVisibleColumns(ARMUtils.getAdjustmentReserveTx1Column());
+                adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveTx1Header());
+            } else if (transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_3.toString())) {
+                adjustmentSummaryTable.setVisibleColumns(ARMUtils.getAdjustmentReserveTx3Column());
+                adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveTx3Header());
+
+            } else if (transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_2.toString()) || transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_5.toString())) {
+                adjustmentSummaryTable.setVisibleColumns(ARMUtils.getAdjustmentReserveTx2Column());
+                adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveTx2Header());
+
+            } else if (transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_4.toString())) {
+
+                adjustmentSummaryTable.setVisibleColumns(ARMUtils.getAdjustmentReserveTx4Column());
+                adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveTx4Header());
+
+            } else if (transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_6.toString()) || transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_7.toString()) || transaction.equals(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.TRANSACTION_8.toString())) {
+
+                adjustmentSummaryTable.setVisibleColumns(ARMUtils.getAdjustmentReserveTxColumn());
+                adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveTxHeader());
+
+            }
+
+            ActionExecutor executor = new ActionExecutor();
+            executor.callingActionExecution(new SaveConfigureDetailsToAdjustmentSummaryAction(selection));
+
+            adjustmentSummaryTableLogic.loadSetData(true, selection);
+        } else {
+            adjustmentSummaryTable.setVisibleColumns(ARMUtils.getAdjustmentReserveTx1Column());
+            adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveTx1Header());
+            adjustmentSummaryTableLogic.loadSetData(false, selection);
+        }
+        setWidth(adjustmentSummaryTable.getVisibleColumns());
+        adjustmentSummaryTable.setFilterGenerator(new AdjustmentAndBalSummaryTableGenerator(selection));
+        adjustmentSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
+
+    }
+
+    public void setWidth(Object[] visibleColumns) {
+        if (visibleColumns.length < 6) {
+            for (Object columnName : ARMUtils.getAdjustmentReserveColumnVar()) {
+                if (!columnName.equals(VariableConstants.CHECK_RECORD)) {
+                    adjustmentSummaryTable.setColumnWidth(columnName, NumericConstants.TWO_NINE_FIVE);
+                }
+            }
+        } else {
+            for (Object columnName : ARMUtils.getAdjustmentReserveColumnVar()) {
+                if (!columnName.equals(VariableConstants.CHECK_RECORD)) {
+                    adjustmentSummaryTable.setColumnWidth(columnName, NumericConstants.TWO_ONE_ZERO);
+                }
+            }
         }
     }
 
@@ -474,8 +799,21 @@ public abstract class AbstractReserve extends CustomWindow {
      * @throws com.vaadin.data.fieldgroup.FieldGroup.CommitException
      */
     @UiHandler("addLineBtnRes")
-    public void addLineButtonLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
-        addLineBtnLogic();
+    public void addLineButtonLogic(Button.ClickEvent event) {
+        LOGGER.debug(event.toString());
+        switch (tabPosition) {
+            case 0:
+                configureTabAddLineLogic();
+                break;
+            case 1:
+                adjustmentSummaryAddLineLogic();
+                break;
+            case 2:
+                balanceSummaryAddLineLogic();
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -485,6 +823,29 @@ public abstract class AbstractReserve extends CustomWindow {
      */
     @UiHandler("removeLineBtnRes")
     public void removeLineButtonLogic(Button.ClickEvent event) {
+        LOGGER.debug(event.toString());
+        switch (tabPosition) {
+            case 0:
+                configureTabRemoveLineLogic();
+                break;
+            case 1:
+                adjustmentSummaryRemoveLineLogic();
+                break;
+            case 2:
+                balanceSummaryRemoveLineLogic();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    /**
+     * This is to remove the selected line from UI and DB when the tab is
+     * selected at adjustmentConfiguration tab
+     *
+     */
+    private void configureTabRemoveLineLogic() {
         final List<AdjustmentReserveDTO> list = detailsTableContainer.getItemIds();
         final List<AdjustmentReserveDTO> finalList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
@@ -493,7 +854,7 @@ public abstract class AbstractReserve extends CustomWindow {
             }
         }
         if (finalList.isEmpty()) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getRemoveLineMessageID001());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getRemoveLineMessageID001());
         } else {
             new AbstractNotificationUtils() {
                 @Override
@@ -508,16 +869,85 @@ public abstract class AbstractReserve extends CustomWindow {
                         }
                         detailsTableLogic.loadsetData(true, selection);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in configureTabRemoveLineLogic :" + ex);
                     }
                 }
 
                 @Override
                 public void noMethod() {
+                    LOGGER.debug(CommonConstant.INSIDE_NO_METHOD);
                 }
-            }.getConfirmationMessage("Confirmation", ARMMessages.getRemoveLineMessageID002());
+            }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getRemoveLineMessageID002());
 
         }
+    }
+
+    /**
+     * This is to remove the selected line from UI and DB when the tab is
+     * selected at adjustmentConfiguration tab
+     *
+     */
+    private void adjustmentSummaryRemoveLineLogic() {
+        List<Validation> removeLineValidation = new ArrayList<>(2);
+        removeLineValidation.add(new ValidationAddRemoveLine(selection, false));
+        removeLineValidation.add(new ValidationForParentRecordRemoveLine(selection));
+
+        for (Validation validation : removeLineValidation) {
+            if (!validation.doValidate()) {
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, validation.validationMessage());
+                return;
+            }
+        }
+        new AbstractNotificationUtils() {
+            @Override
+            public void yesMethod() {
+                try {
+                    adjustmentSummaryConfigLogic.deleteDataFromDB(selection);
+                    adjustmentSummaryTableLogic.loadSetData(true, selection);
+                } catch (Exception ex) {
+                    LOGGER.error("Error in adjustmentSummaryRemoveLineLogic :" + ex);
+                }
+            }
+
+            @Override
+            public void noMethod() {
+                LOGGER.debug(CommonConstant.INSIDE_NO_METHOD);
+            }
+        }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getRemoveLineMessageID002());
+    }
+
+    /**
+     * This is to remove the selected line from UI and DB when the tab is
+     * selected at adjustmentConfiguration tab
+     *
+     */
+    private void balanceSummaryRemoveLineLogic() {
+        List<Validation> removeLineValidation = new ArrayList<>(2);
+        removeLineValidation.add(new ValidationAddRemoveLine(selection, false));
+        removeLineValidation.add(new ValidationForParentRecordRemoveLine(selection));
+
+        for (Validation validation : removeLineValidation) {
+            if (!validation.doValidate()) {
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, validation.validationMessage());
+                return;
+            }
+        }
+        new AbstractNotificationUtils() {
+            @Override
+            public void yesMethod() {
+                try {
+                    adjustmentSummaryConfigLogic.deleteDataFromDB(selection);
+                    balSummaryConfigurationTableLogic.loadSetData(true, selection);
+                } catch (Exception ex) {
+                    LOGGER.error("Error in balanceSummaryRemoveLineLogic :" + ex);
+                }
+            }
+
+            @Override
+            public void noMethod() {
+                LOGGER.debug("Inside the balanceSummaryRemoveLineLogic Listener NO Method");
+            }
+        }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getRemoveLineMessageID002());
     }
 
     /**
@@ -527,12 +957,16 @@ public abstract class AbstractReserve extends CustomWindow {
      */
     @UiHandler("populateBtn")
     public void populateBtnButtonLogic(Button.ClickEvent event) {
-        if ((((0 == (int) companyDdlbRes.getValue()
-                || 0 == (int) businessDdlbRes.getValue())
-                || 0 == (int) deductionCategoryDdlbRes.getValue())
-                || 0 == (int) deductionTypeDdlbRes.getValue())
-                || 0 == (int) deductionProgramDdlbRes.getValue()) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getPropertyMessage001());
+        LOGGER.debug(event.toString());
+        List<Integer> ddlbValueList = new ArrayList<>();
+        ddlbValueList.add((Integer) companyDdlbRes.getValue());
+        ddlbValueList.add((Integer) businessDdlbRes.getValue());
+        ddlbValueList.add((Integer) deductionCategoryDdlbRes.getValue());
+        ddlbValueList.add((Integer) deductionTypeDdlbRes.getValue());
+        ddlbValueList.add((Integer) deductionProgramDdlbRes.getValue());
+        if (ddlbValueList.contains(0)) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage001());
+
         } else if (massfieldDdlbRes.getValue() != null) {
             LOGGER.debug("massValueDdlbRes.getValue() = " + massfieldDdlbRes.getValue());
             Object value = massValueDdlbRes.isVisible() ? massValueDdlbRes.getValue() : massValueRes.getValue();
@@ -543,7 +977,9 @@ public abstract class AbstractReserve extends CustomWindow {
                         resultsTable.getContainerProperty(list.get(i), massfieldDdlbRes.getValue()).setValue(value);
                     }
                 }
-                if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue()) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())) {
+                if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue()) || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())
+                        || ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())) {
+                    Object oppositValueToBeUpdated = null;
                     switch ((int) value) {
                         // value = 0 for positive and value = 1 for negative
                         case 0:
@@ -551,19 +987,28 @@ public abstract class AbstractReserve extends CustomWindow {
                             break;
                         case -1:
                             value = 0;
+                            oppositValueToBeUpdated = 1;
                             break;
                         case 1:
                             value = 1;
+                            oppositValueToBeUpdated = 0;
                             break;
+                        default:
+                            break;
+                    }
+                    if (!ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.REPORT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())) {
+                        String property = ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString().equals(massfieldDdlbRes.getValue())
+                                ? ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.DEBIT_INDICATOR.toString() : ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CREDIT_INDICATOR.toString();
+                        logic.massUpdateValue(oppositValueToBeUpdated, selection, property);
                     }
                 }
                 logic.massUpdateValue(value, selection, massfieldDdlbRes.getValue());
                 detailsTableLogic.loadsetData(true, selection);
             } else {
-                AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getPropertyMessage002());
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage002());
             }
         } else {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getPropertyMessage002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage002());
         }
     }
 
@@ -574,11 +1019,12 @@ public abstract class AbstractReserve extends CustomWindow {
      * @throws CloneNotSupportedException
      */
     @UiHandler("copyLineBtnRes")
-    public void copyLineBtnResButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
+    public void copyLineBtnResButtonLogic(Button.ClickEvent event) {
+        LOGGER.debug(event.toString());
         List list = logic.getCheckedRecords(selection);
         int checkedRecords = list.size();
         if (checkedRecords == 0) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getCopyLineMessageID001());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getCopyLineMessageID001());
         } else {
             new AbstractNotificationUtils() {
                 @Override
@@ -589,9 +1035,10 @@ public abstract class AbstractReserve extends CustomWindow {
 
                 @Override
                 public void noMethod() {
+                    LOGGER.debug(CommonConstant.INSIDE_NO_METHOD);
                 }
 
-            }.getConfirmationMessage("Confirmation", ARMMessages.getCopyLineMessageID002());
+            }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getCopyLineMessageID002());
         }
     }
 
@@ -602,66 +1049,11 @@ public abstract class AbstractReserve extends CustomWindow {
      */
     @UiHandler("saveBtnRes")
     public void saveButtonLogic(Button.ClickEvent event) {
-        try{
-        if (saveToMaster()) {
-            if (selection.getReserveMasterSid() != 0 || selection.getGtnDetailsMasterSid() != 0) {
-                if (logic.madatoryCheckReserveANDDetails(selection, "Mandatory check for Reserve", "Mandatory check for GTNDetails")) {
-                    if (logic.madatoryCheckCreditDebit(selection, "CrediDebit_Validation")) { // GAL-8033
-                        if (!(logic.equalCheckCreditDebit(selection, "CrediDebit_Same"))) { // GAL-8148
-                            if (logic.duplicateCheckReserveANDDetails(selection, "Check_For_Save_validation")) {
-
-                                new AbstractNotificationUtils() {
-                                    @Override
-                                    public void yesMethod() {
-                                        try {
-                                            if (selection.isIsSaved()) {
-                                                logic.tempToMainUpdateLogic(selection);
-                                                logic.masterUpdateModifiedDate(selection);
-                                            } else {
-                                                if (selection.getReserveMasterSid() == 0) {
-                                                    int id = logic.addLineForMaster(selection, 0);
-                                                    selection.setReserveMasterSid(id);
-                                                } else if (selection.getGtnDetailsMasterSid() == 0) {
-                                                    int id = logic.addLineForMaster(selection, 1);
-                                                    selection.setGtnDetailsMasterSid(id);
-                                                }
-
-                                                logic.tempToMainSaveLogic(selection, binderDto);
-                                            }
-                                            selection.setIsSaved(Boolean.TRUE);
-                                            final Notification notif = new Notification("Adjustment & Reserve Configuration has been successfully saved", Notification.Type.HUMANIZED_MESSAGE);
-                                            notif.setPosition(Position.MIDDLE_CENTER);
-                                            notif.show(Page.getCurrent());
-                                        } catch (Exception ex) {
-                                            LOGGER.error(ex.getMessage());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void noMethod() {
-                                    }
-                                }.getConfirmationMessage("Confirmation", "Are you sure you want to save this Adjustment & Reserve Configuration?");
-
-                            } else {
-                                AbstractNotificationUtils.getErrorNotification("Error", "Please ensure that each unique combination of Business Process, Account Type, Company, Division, Deduction Category, Deduction Type, and Deduction Sub-Type is only in the list view once.");
-                            }
-
-                        } else {
-                            AbstractNotificationUtils.getErrorNotification("Error", "The Credit and Debit Indicators cannot have the same value");
-                        }
-
-                    } else {
-                        AbstractNotificationUtils.getErrorNotification("Error", "The Credit and Debit Indicators must be populated with a value");
-                    }
-                } else {
-                    AbstractNotificationUtils.getErrorNotification("Error", "Please ensure that all mandatory fields are populated. ");
-                }
-            } else {
-                AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSaveMessageID003());
-            }
-        }
-        }catch(Exception ex){
-           LOGGER.error(ex.getMessage());
+        LOGGER.debug(event.toString());
+        try {
+            saveConfigDetails();
+        } catch (Exception ex) {
+            LOGGER.error("Error in saveButtonLogic :" + ex);
         }
     }
 
@@ -671,41 +1063,24 @@ public abstract class AbstractReserve extends CustomWindow {
      * @param event
      */
     @UiHandler("exportBtnRes")
-    public void exportButtonLogic(Button.ClickEvent event) throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        createWorkSheet("Adjustment Reserve", resultsTable);
-    }
-
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        long recordCount = 0;
-        if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
-            selection.setIsGTNDetails(Boolean.FALSE);
-            selection.setMasterSID(selection.getReserveMasterSid());
-        } else {
-            selection.setMasterSID(selection.getGtnDetailsMasterSid());
-            selection.setIsGTNDetails(Boolean.TRUE);
-        }
-        List<String> visibleList = Arrays.asList(resultsTable.getColumnHeaders()).subList(1, resultsTable.getVisibleColumns().length);
-        if (resultTable.size() != 0) {
-            recordCount = logic.getReserveEditCount(selection, detailsTableLogic.getFilters());
-        }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
-    }
-
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
-
-        List visibleList = new ArrayList();
-        if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
-            visibleList = Arrays.asList(ARMUtils.ADJUSTMENT_RESERVE_ADD_COLUMNS_RESERVE_DETAILS_FOR_EXCEL);
-        } else {
-            visibleList = Arrays.asList(ARMUtils.ADJUSTMENT_RESERVE_ADD_COLUMNS_GTN_DETAILS_FOR_EXCEL);
-        }
-        try {
-            if (end != 0) {
-                final List<AdjustmentReserveDTO> searchList = logic.getReserveData(selection, start, end, detailsTableLogic.getFilters(), detailsTableLogic.getSortByColumns());
-                ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
+    public void exportButtonLogic(Button.ClickEvent event) {
+        LOGGER.debug(event.toString());
+        ExtPagedTable resultTable = tabPosition == 0 ? resultsTable
+                : tabPosition == 1 ? adjustmentSummaryTable
+                        : balanceSummaryTable;
+        if (resultTable.getContainerLogic().getContainerDataSource().size() > 0) {
+            selection.setTabNameForExcel(tabSheet.getTab(tabPosition).getCaption());
+            if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
+                selection.setIsGTNDetails(false);
+                selection.setMasterSID(selection.getReserveMasterSid());
+            } else {
+                selection.setMasterSID(selection.getGtnDetailsMasterSid());
+                selection.setIsGTNDetails(true);
             }
-        } catch (Exception e) {
-            LOGGER.error(e);
+            final ExtCustomTable excelCustomTable = new ExtCustomTable();
+            balanceSummaryLayout.addComponent(excelCustomTable);
+            excelExportLogic.excelLogic(excelCustomTable, resultTable, tabPosition, selection);
+            balanceSummaryLayout.removeComponent(excelCustomTable);
         }
     }
 
@@ -716,17 +1091,18 @@ public abstract class AbstractReserve extends CustomWindow {
      * @throws SystemException
      */
     @UiHandler("configurationTypeOpgRes")
-    public void configurationTypeLogic(Property.ValueChangeEvent event) throws SystemException {
+    public void configurationTypeLogic(Property.ValueChangeEvent event) {
+        LOGGER.debug(event.toString());
         if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
-            resultsTable.setVisibleColumns(ARMUtils.ADJUSTMENT_RESERVE_ADD_COLUMNS_RESERVE_DETAILS);
-            resultsTable.setColumnHeaders(ARMUtils.ADJUSTMENT_RESERVE_ADD_HEADERS_RESERVE_DETAILS);
-            selection.setIsGTNDetails(Boolean.FALSE);
+            resultsTable.setVisibleColumns(ARMUtils.getAdjustmentReserveAddColumnsReserveDetails());
+            resultsTable.setColumnHeaders(ARMUtils.getAdjustmentReserveAddHeadersReserveDetails());
+            selection.setIsGTNDetails(false);
             selection.setMasterSID(selection.getReserveMasterSid());
         } else {
-            resultsTable.setVisibleColumns(ARMUtils.ADJUSTMENT_RESERVE_ADD_COLUMNS_GTN_DETAILS);
-            resultsTable.setColumnHeaders(ARMUtils.ADJUSTMENT_RESERVE_ADD_HEADERS_GTN_DETAILS);
+            resultsTable.setVisibleColumns(ARMUtils.getAdjustmentReserveAddColumnsGtnDetails());
+            resultsTable.setColumnHeaders(ARMUtils.getAdjustmentReserveAddHeadersGtnDetails());
             selection.setMasterSID(selection.getGtnDetailsMasterSid());
-            selection.setIsGTNDetails(Boolean.TRUE);
+            selection.setIsGTNDetails(true);
         }
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
@@ -749,11 +1125,13 @@ public abstract class AbstractReserve extends CustomWindow {
                                 case "-1":
                                     value = "0";
                                     break;
+                                default:
+                                    break;
 
-                            } 
-                            return new SimpleStringFilter(propertyId, combo.getValue().toString().equals("0") ? StringUtils.EMPTY : value, false, false);
+                            }
+                            return new SimpleStringFilter(propertyId, "0".equals(combo.getValue().toString()) ? StringUtils.EMPTY : value, false, false);
                         }
-                        return new SimpleStringFilter(propertyId, combo.getValue().toString().equals("0") ? StringUtils.EMPTY : combo.getValue().toString(), false, false);
+                        return new SimpleStringFilter(propertyId, "0".equals(combo.getValue().toString()) ? StringUtils.EMPTY : combo.getValue().toString(), false, false);
                     } else {
                         return null;
                     }
@@ -763,10 +1141,12 @@ public abstract class AbstractReserve extends CustomWindow {
 
             @Override
             public void filterRemoved(Object propertyId) {
+                LOGGER.debug("filterRemoved Method");
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                LOGGER.debug("filterAdded Method");
             }
 
             @Override
@@ -776,7 +1156,7 @@ public abstract class AbstractReserve extends CustomWindow {
 
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                 if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant().equals(propertyId)) {
+                if (ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant().equals(propertyId)) {
                     CustomTextField text = new CustomTextField();
                     text.setVisible(false);
                     text.setImmediate(true);
@@ -786,12 +1166,12 @@ public abstract class AbstractReserve extends CustomWindow {
                     ComboBox comboBox = new ComboBox();
                     if (ADJUSTMENT_RESERVE_CONSTANTS.ADJUSTMENT_LEVEL.getConstant().equals(String.valueOf(propertyId))) {
                         if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
-                            CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, "ARM_RES_ADJUSTMENT_LEVEL", Boolean.TRUE);
+                            CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, CommonConstant.ARM_RES_ADJUSTMENT_LEVEL, true);
                         } else {
-                            CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, "ARM_GTN_ADJUSTMENT_LEVEL", Boolean.TRUE);
+                            CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, "ARM_GTN_ADJUSTMENT_LEVEL", true);
                         }
                     } else {
-                        CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, ARMUtils.dropDownMap.get(propertyId.toString()), Boolean.TRUE);
+                        CommonUtils.loadComboBoxWithIntegerForComboBox(comboBox, ARMUtils.dropDownMap.get(propertyId.toString()), true);
                     }
                     return comboBox;
                 } else {
@@ -803,16 +1183,16 @@ public abstract class AbstractReserve extends CustomWindow {
         });
         loadMassfield();
         LOGGER.debug("selection.getMasterSID()-->>>" + selection.getMasterSID());
-        detailsTableLogic.loadsetData(Boolean.TRUE, selection);
+        detailsTableLogic.loadsetData(true, selection);
         List<AdjustmentReserveDTO> list = detailsTableContainer.getItemIds();
-        boolean check = Boolean.FALSE;
+        boolean check = false;
         for (AdjustmentReserveDTO dto : list) {
             check = dto.getCheckRecord();
             if (!dto.getCheckRecord()) {
                 break;
             }
         }
-        resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), Boolean.TRUE, check);
+        resultsTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, check);
     }
 
     /**
@@ -822,31 +1202,47 @@ public abstract class AbstractReserve extends CustomWindow {
      */
     @UiHandler("resetLineBtnRes")
     public void resetLineBtnResLogic(Button.ClickEvent event) {
+        LOGGER.debug(event.toString());
         new AbstractNotificationUtils() {
             @Override
             public void yesMethod() {
                 try {
-                    loadResetData();
+                    selection.setResetLine(true);
+                    switch (tabPosition) {
+                        case 0:
+                            resetConfigureTabLine();
+                            break;
+                        case 1:
+                            resetAdjustmentSummaryLine();
+                            break;
+                        case 2:
+                            resetBalanceSummaryLine();
+                            break;
+                        default:
+                            break;
+                    }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in resetLineBtnResLogic :" + ex);
                 }
             }
 
             @Override
             public void noMethod() {
+                LOGGER.debug(CommonConstant.INSIDE_NO_METHOD);
             }
-        }.getConfirmationMessage("Confirmation", ARMMessages.getResetMessage());
+        }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getResetMessage());
     }
 
     @UiHandler("viewOpgRes")
-    public void viewModeChange(Property.ValueChangeEvent event) throws SystemException {
+    public void viewModeChange(Property.ValueChangeEvent event) {
+        LOGGER.debug(event.toString());
         if (isTableLoaded) {
             if (viewOpgRes.getValue().equals(GlobalConstants.getCurrent())) {
-                selection.setIsCurrent(Boolean.TRUE);
+                selection.setIsCurrent(true);
             } else {
-                selection.setIsCurrent(Boolean.FALSE);
+                selection.setIsCurrent(false);
             }
-            detailsTableLogic.loadsetData(Boolean.TRUE, selection);
+            detailsTableLogic.loadsetData(true, selection);
             populateBtn.setEnabled(selection.isIsCurrent());
             massValueDdlbRes.setEnabled(selection.isIsCurrent());
             massValueRes.setEnabled(selection.isIsCurrent());
@@ -879,7 +1275,7 @@ public abstract class AbstractReserve extends CustomWindow {
         List input = new ArrayList<>();
         input.add(sysid);
         List dataList = QueryUtils.getItemData(input, "Load_Company_No", null);
-        if (dataList.size() < 1) {
+        if (dataList.isEmpty()) {
             return StringUtils.EMPTY;
         }
         return String.valueOf(dataList.get(0));
@@ -895,8 +1291,139 @@ public abstract class AbstractReserve extends CustomWindow {
 
             @Override
             public void noMethod() {
+                LOGGER.debug(CommonConstant.INSIDE_NO_METHOD);
             }
-        }.getConfirmationMessage("Confirmation", ARMMessages.getCloseMessageID001());
+        }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getCloseMessageID001());
+    }
+
+    private void configureTab() {
+        mainVerticalLayout.removeComponent(configurationDetailsPanel);
+        mainVerticalLayout.removeComponent(adjustmentSummaryConfigurationLayout);
+        mainVerticalLayout.removeComponent(balanceSummaryLayout);
+
+        tabSheet = new TabSheet();
+        tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
+        tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+        tabSheet.setImmediate(true);
+        tabSheetLayout.addComponent(tabSheet);
+        tabSheet.addTab(configurationDetailsPanel, "Configuration Details", null, 0);
+        tabSheet.addTab(adjustmentSummaryConfigurationLayout, "Adjustment Summary Configuration", null, 1);
+        tabSheet.addTab(balanceSummaryLayout, "Balance Summary Configuration", null, 2);
+        attachTabSheetListener();
+    }
+
+    private void saveConfigDetails() {
+        if (saveToMaster()) {
+            List<Validation> validationList = new ArrayList<>();
+            validationList.add(new ValidationForAtleastOneRecordToSave(selection));
+            validationList.add(new MandatoryValidationForReserveAndGTN(selection));
+            validationList.add(new MandatoryValidationForCreditAndDebit(selection));
+            validationList.add(new ValidationForLimitedRowInDetails(selection, false));//Reserve
+            validationList.add(new ValidationForDuplicateAccounts(selection));
+            validationList.add(new ValidationForSameCreditDebitOfAdjustmentType(selection));
+            validationList.add(new ValidationForSameReportIndicator(selection));
+            validationList.add(new ValidationForLimitedRowInDetails(selection, true));//GTN
+            validationList.add(new ValidationForAdjustmentTypeOfGTNAvailableInReserveDetails(selection));
+            validationList.add(new ValidationForNotMatchedAccountsOfGTNReserve(selection));
+
+            // Validation Action
+            ActionExecutor executor = new ActionExecutor();
+            boolean isValidated = executor.executeValidation(validationList);
+            if (!isValidated) {
+                return;
+            }
+
+            new AbstractNotificationUtils() {
+                @Override
+                public void yesMethod() {
+                    try {
+
+                        List<SaveAction> saveActionObjectList = new ArrayList<>(3);
+                        saveActionObjectList.add(new SaveConfigurationDetailsAction(binderDto, selection));
+                        saveActionObjectList.add(new SaveAdjustmentSummaryAction(selection));
+                        saveActionObjectList.add(new SaveBalanceSummaryAction(selection));
+                        ActionExecutor excecute = new ActionExecutor();
+                        excecute.excecuteSaveAction(saveActionObjectList);
+
+                        final Notification notif = new Notification("Adjustment & Reserve Configuration has been successfully saved", Notification.Type.HUMANIZED_MESSAGE);
+                        notif.setPosition(Position.MIDDLE_CENTER);
+                        notif.show(Page.getCurrent());
+                    } catch (Exception ex) {
+                        LOGGER.error("Error in saveConfigDetails :" + ex);
+                    }
+                }
+
+                @Override
+                public void noMethod() {
+                    LOGGER.debug(CommonConstant.INSIDE_NO_METHOD);
+                }
+            }.getConfirmationMessage(CommonConstant.CONFIRMATION, "Are you sure you want to save this Adjustment & Reserve Configuration?");
+        }
+    }
+
+    /**
+     * FieldFactory for summary tab
+     *
+     */
+    private void setSummaryFieldFactory() {
+        AdjustmentSummaryFieldFactory fieldFactory = new AdjustmentSummaryFieldFactory(adjustmentSummaryTable, selection);
+        adjustmentSummaryTable.setTableFieldFactory(fieldFactory);
+        fieldFactory.addFields();
+        adjustmentSummaryTable.setVisibleColumns(ARMUtils.getAdjustmentReserveColumn());
+        adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveHeader());
+    }
+
+    /**
+     * Tab change listener for all
+     *
+     */
+    private void attachTabSheetListener() {
+        tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+            @Override
+            public void selectedTabChange(final TabSheet.SelectedTabChangeEvent event) {
+                final TabSheet.Tab tab = event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
+                lastPosition = tabPosition;
+                tabPosition = event.getTabSheet().getTabPosition(tab);
+                selection.setTabIndex(tabPosition);
+                if (selection.getMethodology() != 0 && tabPosition == 1 && lastPosition == 0) {
+                    try {
+                        List<SaveAction> actionList = new ArrayList<>();
+                        actionList.add(new SaveConfigureDetailsToAdjustmentSummaryAction(selection));
+                        ActionExecutor executor = new ActionExecutor();
+                        executor.excecuteSaveAction(actionList);
+                        adjustmentSummaryTable.setFilterGenerator(new AdjustmentAndBalSummaryTableGenerator(selection));
+                        adjustmentSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
+                        adjustmentSummaryTableLogic.loadSetData(true, selection);
+                    } catch (Exception ex) {
+                        try {
+                            throw new Exception(ex.getMessage());
+                        } catch (Exception ex1) {
+                            java.util.logging.Logger.getLogger(AbstractReserve.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
+                    }
+                }
+                if (tabPosition == 2) {
+                    balanceSummaryTable.setFilterGenerator(new AdjustmentAndBalSummaryTableGenerator(selection));
+                    balanceSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
+                    balSummaryConfigurationTableLogic.loadSetData(true, selection);
+                }
+                disableControlButtons(tabPosition);
+            }
+        });
+
+    }
+
+    /**
+     * Method to disable the control buttons based on the Tab selection
+     *
+     * @param tabPosition
+     */
+    private void disableControlButtons(int tabPosition) {
+        if (tabPosition != 0 || selection.isIsViewMode()) {
+            copyLineBtnRes.setEnabled(false);
+        } else {
+            copyLineBtnRes.setEnabled(true);
+        }
     }
 
     protected abstract void getMasterSids();
@@ -910,8 +1437,6 @@ public abstract class AbstractReserve extends CustomWindow {
 
     protected abstract void loadSelection();
 
-    protected abstract void addLineBtnLogic();
-
     /**
      * This Method is Used to Save thee data to master table.
      *
@@ -921,8 +1446,25 @@ public abstract class AbstractReserve extends CustomWindow {
 
     protected abstract void loadTablefirstTime();
 
-    /**
-     * This method is used to reset the Table irrespective of all the modes.
-     */
-    protected abstract void loadResetData();
+    protected abstract void resetConfigureTabLine();
+
+    protected abstract void resetAdjustmentSummaryLine();
+
+    protected abstract void resetBalanceSummaryLine();
+
+    protected abstract void configureTabAddLineLogic();
+
+    protected abstract void adjustmentSummaryAddLineLogic();
+
+    protected abstract void balanceSummaryAddLineLogic();
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

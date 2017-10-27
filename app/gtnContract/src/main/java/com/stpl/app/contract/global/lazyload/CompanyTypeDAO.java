@@ -13,6 +13,7 @@ import com.stpl.app.contract.util.ErrorCodes;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -26,16 +27,10 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
 public class CompanyTypeDAO implements DAO<HelperDTO> {
         private static final Logger LOGGER = Logger.getLogger(ManufacturerDAO.class);
     CFPSearchLogic logic=new CFPSearchLogic();
-    public CompanyTypeDAO(){
-        
-    }
     public int count(SearchCriteria searchCriteria) {
         try {
             LOGGER.debug("Entering CompanyQualifierNameDAO Count method :");
             return logic.getLazyCompanyTypeCount(searchCriteria.getFilter());
-        } catch (PortalException ex) {
-             LOGGER.debug(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
         } catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
@@ -50,15 +45,12 @@ public class CompanyTypeDAO implements DAO<HelperDTO> {
         try {
             LOGGER.debug("Entering CompanyQualifierNameDAO find method :");
             return logic.getLazyCompanyTypeResults(startIndex, startIndex + offset, searchCriteria.getFilter());
-        } catch (PortalException ex) {
-             LOGGER.debug(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
         } catch (SystemException ex) {
             LOGGER.error(ex);
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
         }
-        return null;
+        return  Collections.emptyList();
     }
 
 }

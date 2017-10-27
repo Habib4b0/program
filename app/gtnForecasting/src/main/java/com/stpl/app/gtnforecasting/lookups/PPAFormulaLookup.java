@@ -99,7 +99,8 @@ public class PPAFormulaLookup extends Window {
     
     CustomFieldGroup binder;
     
-    CommonUtil commonUtil = CommonUtil.getInstance();    
+    CommonUtil commonUtil = CommonUtil.getInstance();   
+    CommonUIUtils commonUIUtils = new CommonUIUtils();
     
     private boolean isSelected;
     
@@ -153,8 +154,8 @@ public class PPAFormulaLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);    
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(CommonUIUtils.FORMULA_LOOKUP);
-        resultsTable.setColumnHeaders(CommonUIUtils.FORMULA_LOOKUP_HEADER);    
+        resultsTable.setVisibleColumns(commonUIUtils.formulaLookup);
+        resultsTable.setColumnHeaders(commonUIUtils.formulaLookupHeader);    
         resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName(Constant.FILTERBAR);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -172,8 +173,8 @@ public class PPAFormulaLookup extends Window {
         detailstableLogic.sinkItemPerPageWithPageLength(false);    
         detailsTable.setImmediate(true);
         detailsTable.setSizeFull();
-        detailsTable.setVisibleColumns(CommonUIUtils.RULE_DETAILS_COLUMNS);
-        detailsTable.setColumnHeaders(CommonUIUtils.RULE_DETAILS_HEADERS);    
+        detailsTable.setVisibleColumns(commonUIUtils.ruleDetailsColumns);
+        detailsTable.setColumnHeaders(commonUIUtils.ruleDetailsHeaders);    
         detailsTable.setFilterBarVisible(true);
         detailsTable.addStyleName(Constant.FILTERBAR);
         detailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -295,7 +296,7 @@ public class PPAFormulaLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof RSFormulaDTO) {
-            targetItem = new BeanItem<RSFormulaDTO>(
+            targetItem = new BeanItem<>(
                     (RSFormulaDTO) obj);
         }
         return (RSFormulaDTO) targetItem.getBean();
@@ -338,8 +339,8 @@ public class PPAFormulaLookup extends Window {
         tableLogic.setContainerDataSource(resultsContainer);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(CommonUIUtils.FORMULA_LOOKUP);
-        resultsTable.setColumnHeaders(CommonUIUtils.FORMULA_LOOKUP_HEADER);    
+        resultsTable.setVisibleColumns(commonUIUtils.formulaLookup);
+        resultsTable.setColumnHeaders(commonUIUtils.formulaLookupHeader);    
     }
     
     /**

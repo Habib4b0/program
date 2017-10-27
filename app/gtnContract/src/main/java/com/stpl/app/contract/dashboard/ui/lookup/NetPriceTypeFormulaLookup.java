@@ -114,7 +114,7 @@ public class NetPriceTypeFormulaLookup extends Window {
     
     private final ExtFilterTable detailsTable = new ExtFilterTable();
     
-    private BeanItemContainer<PriceProtectionFormulaDTO> detailsContainer = new BeanItemContainer<PriceProtectionFormulaDTO>(PriceProtectionFormulaDTO.class);
+    private BeanItemContainer<PriceProtectionFormulaDTO> detailsContainer = new BeanItemContainer<>(PriceProtectionFormulaDTO.class);
     
     @UiField("formulaType")
     private ComboBox formulaType;
@@ -139,7 +139,7 @@ public class NetPriceTypeFormulaLookup extends Window {
         init();
     }
     
-    public NetPriceTypeFormulaLookup(CustomTextField tierFormula) throws SystemException {
+    public NetPriceTypeFormulaLookup(CustomTextField tierFormula) {
         this.tierFormula = tierFormula;
     }
 
@@ -189,8 +189,8 @@ public class NetPriceTypeFormulaLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);    
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(ContractUtils.FORMULA_LOOKUP);
-        resultsTable.setColumnHeaders(ContractUtils.FORMULA_LOOKUP_HEADER);    
+        resultsTable.setVisibleColumns(ContractUtils.getInstance().formulaLookup);
+        resultsTable.setColumnHeaders(ContractUtils.getInstance().formulaLookupHeader);    
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSelectable(true);
         tableLayout.addComponent(resultsTable);
@@ -209,7 +209,7 @@ public class NetPriceTypeFormulaLookup extends Window {
         resultsTable.setFilterGenerator(new FormulaFilterGenerate());
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         
-        BeanItemContainer<HelperDTO> container = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         container.addAll(ifpLogic.getHelperIdDetails(ContractUtils.REBATE_PLAN_FORMULA_TYPE));
         formulaType.setContainerDataSource(container);
         formulaType.setNullSelectionItemId(dto);
@@ -281,7 +281,7 @@ public class NetPriceTypeFormulaLookup extends Window {
                      */
                     @SuppressWarnings("PMD")
                     public void buttonClicked(final ButtonId buttonId) {
-                        
+                        return;
                     }
                 }, ButtonId.OK);
                 msg.getButton(ButtonId.OK).focus();
@@ -333,7 +333,7 @@ public class NetPriceTypeFormulaLookup extends Window {
                                      */
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
-                                                   
+                                        return;
                                     }
                                 }, ButtonId.OK);
                                 msg.getButton(ButtonId.OK).focus();
@@ -355,30 +355,8 @@ public class NetPriceTypeFormulaLookup extends Window {
             isSelected = true;
             this.close();
         } else {
-            final MessageBox msg = MessageBox.showPlain(Icon.WARN, "Select error", "Please select a record.", new MessageBoxListener() {
-              
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-            	@SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                 
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
+            com.stpl.ifs.ui.util.CommonUIUtils.getSelectErrorMessage();      
         }
-    }
-    
-    /**
-     * Closes the window.
-     * @param event 
-     */
-    @UiHandler("closeBtn")
-    public void closeLogic(Button.ClickEvent event){        
-        this.close();
     }
    
     /**
@@ -388,6 +366,15 @@ public class NetPriceTypeFormulaLookup extends Window {
      */
     public PriceProtectionFormulaDTO getSelectedItem(){
       return getBeanFromId(resultsTable.getValue());  
+    }
+    
+    /**
+     * Closes the window.
+     * @param event 
+     */
+    @UiHandler("closeBtn")
+    public void closeLogic(Button.ClickEvent event){        
+        this.close();
     }
     
     /**
@@ -401,7 +388,7 @@ public class NetPriceTypeFormulaLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof PriceProtectionFormulaDTO) {
-            targetItem = new BeanItem<PriceProtectionFormulaDTO>(
+            targetItem = new BeanItem<>(
                     (PriceProtectionFormulaDTO) obj);
         }
         return (PriceProtectionFormulaDTO) targetItem.getBean();

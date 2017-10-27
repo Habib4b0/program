@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class CommonUtil {
     
-    public static String workFlowQuery(boolean count, int start, int offset,boolean monitor,String orderByColumn,boolean orderBy) throws SQLException {
+    public static String workFlowQuery(boolean count, int start, int offset,String orderByColumn,boolean orderBy) throws SQLException {
         String query = QueryReader.getQuery("workFlowQuery");
 
         try(Connection connection = SysDataSourceConnection.getConnection()){
@@ -27,7 +27,9 @@ public class CommonUtil {
                     if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
                         query += " ORDER BY WP.PROCESS_NAME "; 
                     }
-                    
+                    else if ("SLA_CALENDAR_MASTER_SID".equals(orderByColumn)){
+                         query += " ORDER BY SCM.CALENDAR_NAME " + (!orderBy ? " ASC " : " DESC ");
+                    }
                     else {
                         query += " ORDER BY " + orderByColumn + (!orderBy ? " ASC " : " DESC ");
                     }

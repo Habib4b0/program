@@ -53,13 +53,6 @@ public class MailConfigurationUI extends UI {
                 LOGGER.info("SESSION_ID: "+sessionId);
                 navigator = new Navigator(this, this);
                 navigator.addView(MailConfigurationView.NAME, new MailConfigurationView(sessionDTO));
-            } catch (SystemException e) {
-                final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                LOGGER.error(e);
-                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-            } catch (PortalException e) {
-                LOGGER.error(e);
-                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4011));
             } catch (Exception e) {
                 LOGGER.error(e);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4011));

@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gcm.copycontract.ui.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.copycontract.dto.ContractSelectionDTO;
 import com.stpl.app.gcm.copycontract.dto.CopyComponentDTO;
@@ -99,7 +100,7 @@ public class CopyContractform extends CustomComponent implements View {
     public PopupDateField enddate;
     @UiField("markettype")
     public ComboBox markettype;
-    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<Integer, Boolean>();
+    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     boolean tabFlag = false;
     int tabPosition = 0;
@@ -107,7 +108,7 @@ public class CopyContractform extends CustomComponent implements View {
     private Exixtingcomponent existingcomponent;
     private Copycomponents Copycomponent;
     List<ContractSelectionDTO> selectedList;
-    ExtTreeContainer<CopyComponentDTO> dashBoardContainer = new ExtTreeContainer<CopyComponentDTO>(CopyComponentDTO.class);
+    ExtTreeContainer<CopyComponentDTO> dashBoardContainer = new ExtTreeContainer<>(CopyComponentDTO.class);
     @UiField("populate")
     public Button populate;
     @UiField("contractid")
@@ -139,14 +140,13 @@ public class CopyContractform extends CustomComponent implements View {
     public Button removeBtn;
     @UiField("populateBtn")
     public Button populateBtn;
-    private final BeanItemContainer<CopyComponentDTO> multiContractContainer = new BeanItemContainer<CopyComponentDTO>(CopyComponentDTO.class);
+    private final BeanItemContainer<CopyComponentDTO> multiContractContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     QueryUtils queryUtils = new QueryUtils();
     CommonLogic commonLogic = new CommonLogic();
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
     TradingPartnerDAO ccDao = new TradingPartnerDAOImpl();
 
-    public CopyContractform(CopyContractWindow editWindow, List<ContractSelectionDTO> selectedList, String Count) throws SystemException {
+    public CopyContractform(CopyContractWindow editWindow, List<ContractSelectionDTO> selectedList, String Count) {
         this.editWindow = editWindow;
         this.resultTable = resultTable;
         this.selectedList = selectedList;
@@ -161,9 +161,10 @@ public class CopyContractform extends CustomComponent implements View {
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
-    private void configurefields() throws SystemException {
+    private void configurefields() {
         try {
             contractid.focus();
             startdate.setDateFormat(Constants.MM_DD_YYYY);
@@ -175,11 +176,11 @@ public class CopyContractform extends CustomComponent implements View {
             aliasStartDate.setDateFormat(Constants.MM_DD_YYYY);
             aliasEndDate.setDateFormat(Constants.MM_DD_YYYY);
             contractStatus.setVisible(true);
-            commonUtil.loadComboBox(contractStatus, UIUtils.STATUS, false);
+            commonUtil.loadComboBox(contractStatus, UiUtils.STATUS, false);
             contractStatus.setValidationVisible(true);
-            commonUtil.loadComboBox(markettype, UIUtils.CONTRACT_TYPE, false);
+            commonUtil.loadComboBox(markettype, UiUtils.CONTRACT_TYPE, false);
             markettype.setValidationVisible(true);
-            commonUtil.loadComboBox(aliastypecc, UIUtils.CONTRACT_ALIAS_TYPE, false);
+            commonUtil.loadComboBox(aliastypecc, UiUtils.CONTRACT_ALIAS_TYPE, false);
             aliastypecc.setValidationVisible(true);
             Copycomponent = new Copycomponents(selectedList, copyContractDashBoardTable, dashBoardContainer);
             Newcomponent = new Newcomponent(newcontractDashBoardTable, dashBoardContainer);
@@ -240,7 +241,7 @@ public class CopyContractform extends CustomComponent implements View {
     }
 
     @UiHandler("populate")
-    public void populateLogic(Button.ClickEvent event) throws ParseException, SystemException {
+    public void populateLogic(Button.ClickEvent event) {
 
         String cId = contractid.getValue();
         String cName = contractname.getValue();
@@ -266,29 +267,29 @@ public class CopyContractform extends CustomComponent implements View {
         if (StringUtils.EMPTY.equals(cId) || StringUtils.EMPTY.equals(cName) || StringUtils.EMPTY.equals(cNo) || SDATE == null || mType.equals(Constants.NULL) || Constants.NULL.equals(contHolder1)) {
             AbstractNotificationUtils.getErrorNotification("Populate", "Please complete all mandatory Contract Header Details.");
         } else if (cId.length() > NumericConstants.THIRTY_EIGHT) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract ID length should be less than 38 characters.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract ID length should be less than 38 characters.");
         } else if (!cId.matches(Constants.ALPHA_NUM_VALIDATION)) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract ID  can contain only digits,alphabets.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract ID  can contain only digits,alphabets.");
         } else if (cName.length() > NumericConstants.THIRTY_EIGHT) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract Name should be less than 38 characters.");
-        } else if (!cName.matches("([0-9|a-z|A-Z|\\_|\\*|\\:|\\.|\\,|\\'|\\;|\\-|\\ |\\/])*")) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract Name allows Special Characters like *,:,.,(,),',;,-,/,_");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Name should be less than 38 characters.");
+        } else if (!cName.matches(StringConstantsUtil.SPECIAL_CHAR_REGEX)) {
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Name allows Special Characters like *,:,.,(,),',;,-,/,_");
         } else if (cNo.length() > NumericConstants.THIRTY_EIGHT) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract No length should be less than 38 characters.");
-        } else if (!cNo.matches("([0-9|a-z|A-Z|\\_|\\*|\\:|\\.|\\,|\\'|\\;|\\-|\\ |\\/])*")) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract No allows Special Characters like *,:,.,(,),',;,-,/,_");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract No length should be less than 38 characters.");
+        } else if (!cNo.matches(StringConstantsUtil.SPECIAL_CHAR_REGEX)) {
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract No allows Special Characters like *,:,.,(,),',;,-,/,_");
         } else if (enddate.getValue() != null && startdate.getValue().after(enddate.getValue())) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract End date should be after Contract Start Date.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract End date should be after Contract Start Date.");
         } else if (enddate.getValue() != null && startdate.getValue().getTime() == enddate.getValue().getTime()) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract Start date and Contract End date are equal.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Start date and Contract End date are equal.");
         } else if (AliasNumber.length() > NumericConstants.FIFTY) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract Alias No should be less than 50 characters.");
-        } else if (!AliasNumber.matches("([0-9|a-z|A-Z|\\_|\\*|\\:|\\.|\\,|\\'|\\;|\\-|\\ |\\/])*")) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract Alias No allows Special Characters like *,:,.,(,),',;,-,/,_");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias No should be less than 50 characters.");
+        } else if (!AliasNumber.matches(StringConstantsUtil.SPECIAL_CHAR_REGEX)) {
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias No allows Special Characters like *,:,.,(,),',;,-,/,_");
         } else if (aliasEndDate.getValue() != null && aliasStartDate.getValue().after(aliasEndDate.getValue())) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract Alias End date should be after Contract Alias Start Date.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias End date should be after Contract Alias Start Date.");
         } else if (aliasEndDate.getValue() != null && aliasStartDate.getValue().getTime() == aliasEndDate.getValue().getTime()) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Contract Alias Start date and Contract Alias End date are equal.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias Start date and Contract Alias End date are equal.");
         } else if (listcId != null && listcId.size() > 0) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different Contract ID since the Contract ID  already exists");
         } else if (listcNo != null && listcNo.size() > 0) {
@@ -305,12 +306,12 @@ public class CopyContractform extends CustomComponent implements View {
             copyContractDashBoardTable.getContainerProperty(rootId, "marketType").setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(markettype.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, "contractHolder").setValue(contHolder);
             copyContractDashBoardTable.getContainerProperty(rootId, "startDate").setValue(SDATE);
-            copyContractDashBoardTable.getContainerProperty(rootId, "status").setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(contractStatus.getValue().toString())));
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(contractStatus.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, "endDate").setValue(eDate);
-            copyContractDashBoardTable.getContainerProperty(rootId, "aliasType").setValue(aliastypecc.getValue() == null ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(aliastypecc.getValue().toString())));
-            copyContractDashBoardTable.getContainerProperty(rootId, "aliasstartdate").setValue(AliasSDATE);
-            copyContractDashBoardTable.getContainerProperty(rootId, "aliasNumber").setValue(AliasNumber);
-            copyContractDashBoardTable.getContainerProperty(rootId, "aliasenddate").setValue(AliasEDATE);
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_TYPE).setValue(aliastypecc.getValue() == null ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(aliastypecc.getValue().toString())));
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_START_DATE).setValue(AliasSDATE);
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_NUMBER).setValue(AliasNumber);
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_END_DATE).setValue(AliasEDATE);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ADDBY).setValue("0");
             copyContractDashBoardTable.addItem(rootId);
             resetFields();
@@ -318,7 +319,7 @@ public class CopyContractform extends CustomComponent implements View {
     }
 
     @UiHandler("CREATE")
-    public void btnCreateLogic(Button.ClickEvent event) throws SystemException, PortalException {
+    public void btnCreateLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
@@ -372,6 +373,8 @@ public class CopyContractform extends CustomComponent implements View {
                 case "3":
                     Copycomponent.savecontract(mainList[i]);
                     break;
+                default:
+                    break;
             }
             i++;
         }
@@ -394,7 +397,7 @@ public class CopyContractform extends CustomComponent implements View {
 
     }
 
-    protected void onTabChange(int tabPosition) throws PortalException, SystemException {
+    protected void onTabChange(int tabPosition) {
         tabsheet.setSelectedTab(tabPosition);
     }
 
@@ -417,7 +420,7 @@ public class CopyContractform extends CustomComponent implements View {
     @UiHandler("contracthHolder")
     public void contractHolderLookup(CustomTextField.ClickEvent event) {
         try {
-            ComponentLookUp chLookup = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", contracthHolder);
+            ComponentLookUp chLookup = new ComponentLookUp(Constants.CONTRACT_HOLDER_HEADER, "Contract Holder Lookup", contracthHolder);
             chLookup.addCloseListener(new Window.CloseListener() {
                 @Override
                 public void windowClose(Window.CloseEvent e) {
@@ -435,7 +438,7 @@ public class CopyContractform extends CustomComponent implements View {
     }
 
     private void loadMultiContainer(int no) {
-        List<CopyComponentDTO> list = new ArrayList<CopyComponentDTO>();
+        List<CopyComponentDTO> list = new ArrayList<>();
         for (int i = 0; i < no; i++) {
             CopyComponentDTO dto = new CopyComponentDTO();
             dto.setCheck(false);
@@ -463,7 +466,7 @@ public class CopyContractform extends CustomComponent implements View {
                     field = new CheckBox();
                     return field;
                 }
-                if (Constants.START_DATE.equals(propertyId) || "aliasstartdate".equals(propertyId) || "aliasenddate".equals(propertyId)) {
+                if (Constants.START_DATE.equals(propertyId) || Constants.ALIAS_START_DATE.equals(propertyId) || Constants.ALIAS_END_DATE.equals(propertyId)) {
                     PopupDateField field1 = new PopupDateField();
                     field1.setDateFormat(Constants.MM_DD_YYYY);
                     field1.setStyleName(Constants.DATE_FIEILD_CENTER);
@@ -476,11 +479,11 @@ public class CopyContractform extends CustomComponent implements View {
                     return field1;
 
                 }
-                if ("status".equals(propertyId)) {
+                if (Constants.STATUS_S.equals(propertyId)) {
                     ComboBox status = new ComboBox();
 
                     try {
-                        commonUtil.loadComboBoxForGCM(status, UIUtils.STATUS, false);
+                        commonUtil.loadComboBoxForGCM(status, UiUtils.STATUS, false);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -490,7 +493,7 @@ public class CopyContractform extends CustomComponent implements View {
                     ComboBox marketType = new ComboBox();
                     getSelectNull(marketType);
                     try {
-                        commonUtil.loadComboBoxForGCM(marketType, UIUtils.CONTRACT_TYPE, false);
+                        commonUtil.loadComboBoxForGCM(marketType, UiUtils.CONTRACT_TYPE, false);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -502,7 +505,7 @@ public class CopyContractform extends CustomComponent implements View {
                     cHolder.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     cHolder.addClickListener(new CustomTextField.ClickListener() {
                         public void click(CustomTextField.ClickEvent event) {
-                            ComponentLookUp lookup = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", cHolder);
+                            ComponentLookUp lookup = new ComponentLookUp(Constants.CONTRACT_HOLDER_HEADER, "Contract Holder Lookup", cHolder);
                             lookup.addCloseListener(new Window.CloseListener() {
                                 public void windowClose(Window.CloseEvent e) {
                                     if (cHolder.getData() != null) {
@@ -518,11 +521,11 @@ public class CopyContractform extends CustomComponent implements View {
                     });
                     return cHolder;
                 }
-                if ("aliasType".equals(propertyId)) {
+                if (Constants.ALIAS_TYPE.equals(propertyId)) {
                     ComboBox aliasType = new ComboBox();
                     getSelectNull(aliasType);
                     try {
-                        commonUtil.loadComboBoxForGCM(aliasType, UIUtils.CONTRACT_ALIAS_TYPE, false);
+                        commonUtil.loadComboBoxForGCM(aliasType, UiUtils.CONTRACT_ALIAS_TYPE, false);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -559,7 +562,7 @@ public class CopyContractform extends CustomComponent implements View {
                     });
                     return contractName;
                 }
-                if ("aliasNumber".equals(propertyId)) {
+                if (Constants.ALIAS_NUMBER.equals(propertyId)) {
                     final TextField aliasNumber = new TextField();
                     aliasNumber.setWidth("120px");
                     aliasNumber.addBlurListener(new FieldEvents.BlurListener() {
@@ -588,12 +591,12 @@ public class CopyContractform extends CustomComponent implements View {
             int i = Integer.valueOf(count);
             loadMultiContainer(i);
             multiContractTable.setContainerDataSource(multiContractContainer);
-            multiContractTable.setVisibleColumns("check", "contractId", Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, "status", Constants.START_DATE, Constants.END_DATE, Constants.CONTRACT_HOLDER, "contractHolderName", "aliasType", "aliasNumber", "aliasstartdate", "aliasenddate");
-            multiContractTable.setColumnHeaders(StringUtils.EMPTY, "Contract ID", "Contract No", "Contract Name", "Market Type", "Status", "Start Date", "End Date", "Contract Holder", "Contract Holder Name", "Alias Type", "Alias Number", "Alias Start Date", "Alias End Date");
+            multiContractTable.setVisibleColumns("check", "contractId", Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.CONTRACT_HOLDER, "contractHolderName", Constants.ALIAS_TYPE, Constants.ALIAS_NUMBER, Constants.ALIAS_START_DATE, Constants.ALIAS_END_DATE);
+            multiContractTable.setColumnHeaders(StringUtils.EMPTY, "Contract ID", "Contract No", "Contract Name", "Market Type", "Status", "Start Date", "End Date", Constants.CONTRACT_HOLDER_HEADER, "Contract Holder Name", "Alias Type", "Alias Number", "Alias Start Date", "Alias End Date");
             multiContractTable.setVisible(true);
             multiContractButtons.setVisible(true);
             horizontalLayoutNC1.setVisible(false);
-            multiContractTable.setColumnCheckBox(HeaderUtil.CONTRACT_SEARCH_COLUMN[0], Boolean.TRUE);
+            multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
             multiContractTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (CopyComponentDTO temp : multiContractContainer.getItemIds()) {
@@ -621,10 +624,10 @@ public class CopyContractform extends CustomComponent implements View {
     private void specValidation(String value, TextField field) {
 
         if (value.length() > NumericConstants.THIRTY_EIGHT) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Length should be less than 38 characters.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Length should be less than 38 characters.");
             field.setValue(Constants.EMPTY);
         } else if (!value.matches(Constants.ALPHA_NUM_VALIDATION)) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Field can contain only digits,alphabets.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Field can contain only digits,alphabets.");
             field.setValue(Constants.EMPTY);
         }
     }
@@ -638,8 +641,8 @@ public class CopyContractform extends CustomComponent implements View {
     @UiHandler("populateBtn")
     public void populateBtnLogic(Button.ClickEvent event) {
         final Collection<?> list = multiContractTable.getItemIds();
-        List<String> idList = new ArrayList<String>();
-        List<String> noList = new ArrayList<String>();
+        List<String> idList = new ArrayList<>();
+        List<String> noList = new ArrayList<>();
         Boolean checkFlag = false;
         if (list != null) {
             for (Object tmp : list) {
@@ -729,10 +732,10 @@ public class CopyContractform extends CustomComponent implements View {
         Boolean flag = true;
         if (eDate != null && sDate.after(eDate)) {
 
-            AbstractNotificationUtils.getErrorNotification("Error", field + " End date should be after " + field + " Start Date.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, field + " End date should be after " + field + " Start Date.");
             return false;
         } else if (eDate != null && sDate.getTime() == eDate.getTime()) {
-            AbstractNotificationUtils.getErrorNotification("Error", field + "Start date and " + field + " End date are equal.");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, field + "Start date and " + field + " End date are equal.");
             return false;
         }
         return flag;
@@ -742,7 +745,7 @@ public class CopyContractform extends CustomComponent implements View {
         Collection<?> list = multiContractTable.getItemIds();
         if (list != null) {
             Boolean checkFlag = false;
-            final List<Object> idList = new ArrayList<Object>();
+            final List<Object> idList = new ArrayList<>();
             for (final Iterator<?> iterator = multiContractTable.getItemIds().iterator(); iterator.hasNext();) {
                 Object item = iterator.next();
                 Boolean checked = (Boolean) multiContractContainer.getContainerProperty(item, Constants.CHECK).getValue();
@@ -752,7 +755,7 @@ public class CopyContractform extends CustomComponent implements View {
                 }
             }
             if (!checkFlag) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Please select a row to remove.");
+                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please select a row to remove.");
                 return;
             }
             new AbstractNotificationUtils() {
@@ -783,7 +786,7 @@ public class CopyContractform extends CustomComponent implements View {
         multiContractContainer.removeAllItems();
         multiContractTable.resetFilters();
         loadMultiContainer(i);
-        multiContractTable.setColumnCheckBox(HeaderUtil.CONTRACT_SEARCH_COLUMN[0], Boolean.TRUE);
+        multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
     }
 
     private void addMultiContractDashboard(Collection<?> list) {
@@ -801,10 +804,10 @@ public class CopyContractform extends CustomComponent implements View {
                 newcontractDashBoardTable.getContainerProperty(rootId, "contractHolder").setValue(dto.getHiddenId());
                 newcontractDashBoardTable.getContainerProperty(rootId, "startDate").setValue(dto.getStartDate());
                 newcontractDashBoardTable.getContainerProperty(rootId, "endDate").setValue(dto.getEndDate());
-                newcontractDashBoardTable.getContainerProperty(rootId, "status").setValue(dto.getStatus());
-                newcontractDashBoardTable.getContainerProperty(rootId, "aliasType").setValue(dto.getAliasType() == null ? new HelperDTO(0, StringUtils.EMPTY) : dto.getAliasType());
-                newcontractDashBoardTable.getContainerProperty(rootId, "aliasstartdate").setValue(dto.getAliasstartdate());
-                newcontractDashBoardTable.getContainerProperty(rootId, "aliasNumber").setValue(String.valueOf(dto.getAliasNumber()));
+                newcontractDashBoardTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(dto.getStatus());
+                newcontractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_TYPE).setValue(dto.getAliasType() == null ? new HelperDTO(0, StringUtils.EMPTY) : dto.getAliasType());
+                newcontractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_START_DATE).setValue(dto.getAliasstartdate());
+                newcontractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_NUMBER).setValue(String.valueOf(dto.getAliasNumber()));
                 newcontractDashBoardTable.getContainerProperty(rootId, "aliasenddate").setValue(dto.getAliasenddate());
                 newcontractDashBoardTable.getContainerProperty(rootId, Constants.ADDBY).setValue("0");
                 newcontractDashBoardTable.addItem(rootId);

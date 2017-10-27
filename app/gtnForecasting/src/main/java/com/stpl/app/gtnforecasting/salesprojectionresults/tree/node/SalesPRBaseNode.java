@@ -152,7 +152,6 @@ public abstract class SalesPRBaseNode implements TreeNode, Comparable<SalesPRBas
             hierarchyBuilder.append(parentNode.isApex() ? "" : parentNode.getHierarchyForTable());
             hierarchyBuilder.append(positiontoParent).append(".");
             hierarchyForTable = hierarchyBuilder.toString();
-            hierarchyBuilder = null;
         }
     }
 

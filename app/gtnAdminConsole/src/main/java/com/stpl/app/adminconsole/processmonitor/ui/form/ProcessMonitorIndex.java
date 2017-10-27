@@ -5,11 +5,11 @@
  */
 package com.stpl.app.adminconsole.processmonitor.ui.form;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.dao.CommonDAO;
 import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
-import com.stpl.app.adminconsole.periodConfiguration.ui.form.PeriodConfigSearchIndex;
 import com.stpl.app.adminconsole.processmonitor.dto.ProcessMonitorDTO;
 import com.stpl.app.adminconsole.processmonitor.logic.ProcessLogic;
 import com.stpl.app.adminconsole.processmonitor.logic.ProcessMonitorLogic;
@@ -19,8 +19,6 @@ import com.stpl.app.adminconsole.util.ConstantsUtils;
 import static com.stpl.app.adminconsole.util.ConstantsUtils.IndicatorConstants.HOLIDAY;
 import static com.stpl.app.adminconsole.util.ConstantsUtils.IndicatorConstants.HOLIDAY_SCHEDULE;
 import static com.stpl.app.adminconsole.util.ConstantsUtils.IndicatorConstants.HOUR;
-import static com.stpl.app.adminconsole.util.ConstantsUtils.IndicatorConstants.SELECT_HOUR;
-import static com.stpl.app.adminconsole.util.ConstantsUtils.IndicatorConstants.SELECT_MINUTE;
 import com.stpl.app.adminconsole.util.HelperListUtil;
 import com.stpl.app.adminconsole.util.Message;
 import com.stpl.app.adminconsole.util.MessageUtil;
@@ -31,6 +29,7 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;
+import static com.stpl.app.adminconsole.util.ConstantsUtils.IndicatorConstants.SELECT_ONE;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -72,7 +71,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class ProcessMonitorIndex extends CustomComponent implements View {
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
     SessionDTO session;
     private ProcessMonitorDTO processMonitorDTO;
@@ -138,6 +137,7 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
     SessionDTO sessionDTO;
     private static final Logger LOGGER = Logger.getLogger(ProcessMonitorIndex.class);
     CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+    public static final String MANUAL = "Manual";
 
     public ProcessMonitorIndex(ProcessMonitorDTO processMonitorDTO, CustomFieldGroup custom, SessionDTO sessionDTO) {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/processMonitor.xml"), this));
@@ -165,10 +165,9 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Process Monitor" + ConstantsUtils.COMMA + "Landing screen", false);
-            String mode = sessionDTO.getMode();
-            List<Object> resultList = getFieldsForSecurity("Process Monitor", "Landing screen");
-            Object[] obj = ConstantsUtils.PROCESS_MONITOR_COLUMNS;
+            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, StringConstantUtils.PROCESS_MONITOR + ConstantsUtils.COMMA + StringConstantUtils.LANDING_SCREEN, false);
+            List<Object> resultList = getFieldsForSecurity(StringConstantUtils.PROCESS_MONITOR, StringConstantUtils.LANDING_SCREEN);
+            Object[] obj = ConstantsUtils.getInstance().processMonitorColumns;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, obj, fieldIfpHM, "Add");
             if (tableResultCustom.getObjResult().length == 0) {
                 resultTable.setVisible(false);
@@ -218,7 +217,7 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
             processType.addValueChangeListener(new Property.ValueChangeListener() {
 
                 public void valueChange(Property.ValueChangeEvent event) {
-                    if ("Manual".equals(String.valueOf(processType.getValue()))) {
+                    if (MANUAL.equals(String.valueOf(processType.getValue()))) {
                         hours1.setEnabled(false);
                         hours2.setEnabled(false);
                         hours3.setEnabled(false);
@@ -252,12 +251,28 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
                 AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_PROCESS_TYPE_HEADER), MessageUtil.getMessage(Message.NO_PROCESS_TYPE_MSG));
             } else if (startDate.getValue() == null) {
                 AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_START_DATE_HEADER), MessageUtil.getMessage(Message.NO_START_DATE_MSG));
+            } else if (endDate.getValue() == null) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_END_DATE_HEADER), MessageUtil.getMessage(Message.NO_END_DATE_MSG));
             } else if (startDate.getValue().after(endDate.getValue())) {
                 AbstractNotificationUtils.getErrorNotification("Error", "End date should be after Start date");
             } else if (startDate.getValue().equals(endDate.getValue())) {
                 AbstractNotificationUtils.getErrorNotification("Error", "Start date and End date are equal");
-            } else if ("Automatic".equals(proType) && "null".equals(String.valueOf(hours1.getValue())) && "null".equals(String.valueOf(hours2.getValue())) && "null".equals(String.valueOf(hours3.getValue()))) {
+            } else if (!(MANUAL.equals(proType)) && "null".equals(String.valueOf(hours1.getValue())) && "null".equals(String.valueOf(hours2.getValue())) && "null".equals(String.valueOf(hours3.getValue()))) {
                 AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), MessageUtil.getMessage(Message.NO_RUN_TIME));
+            } else if (!(MANUAL.equals(proType)) && "null".equals(String.valueOf(minutes1.getValue())) && "null".equals(String.valueOf(minutes2.getValue())) && "null".equals(String.valueOf(minutes3.getValue()))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), MessageUtil.getMessage(Message.NO_RUN_TIME));
+            } else if ("null".equals(String.valueOf(hours1.getValue())) && !("null".equals(String.valueOf(minutes1.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_HOUR_HEADER), MessageUtil.getMessage(Message.NO_HOUR1_MSG));
+            } else if (!("null".equals(String.valueOf(hours1.getValue()))) && ("null".equals(String.valueOf(minutes1.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_MIN_HEADER), MessageUtil.getMessage(Message.NO_MIN1_MSG));
+            } else if ("null".equals(String.valueOf(hours2.getValue())) && !("null".equals(String.valueOf(minutes2.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_HOUR_HEADER), MessageUtil.getMessage(Message.NO_HOUR2_MSG));
+            } else if (!("null".equals(String.valueOf(hours2.getValue()))) && ("null".equals(String.valueOf(minutes2.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_MIN_HEADER), MessageUtil.getMessage(Message.NO_MIN2_MSG));
+            } else if ("null".equals(String.valueOf(hours3.getValue())) && !("null".equals(String.valueOf(minutes3.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_HOUR_HEADER), MessageUtil.getMessage(Message.NO_HOUR3_MSG));
+            } else if (!("null".equals(String.valueOf(hours3.getValue()))) && ("null".equals(String.valueOf(minutes3.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_MIN_HEADER), MessageUtil.getMessage(Message.NO_MIN3_MSG));
             } else if (!StringUtils.EMPTY.equals(processName.getValue())) {
                 String query = QueryReader.getQuery("duplicateProcessName");
                 Map<String, Object> input = new HashMap();
@@ -274,6 +289,7 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
                     }.getConfirmationMessage(MessageUtil.getMessage(Message.ADD_CONFIRMATION), MessageUtil.getMessage(Message.ADD_CONFIRMATION_MSG));
                 }
@@ -300,22 +316,22 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
         processName.setValue(dto.getProcessName());
         processType.setValue(dto.getProcessType());
         hours1.setEnabled(true);
-        hours1.setValue(HOUR.getConstant().equals(dto.getHours1()) ? SELECT_HOUR.getConstant() : dto.getHours1());
+        hours1.setValue(HOUR.getConstant().equals(dto.getHours1()) ? SELECT_ONE.getConstant() : dto.getHours1());
         hours1.setEnabled(false);
         minutes1.setEnabled(true);
-        minutes1.setValue(HOUR.getConstant().equals(dto.getMinutes1()) ? SELECT_MINUTE.getConstant() : dto.getMinutes1());
+        minutes1.setValue(HOUR.getConstant().equals(dto.getMinutes1()) ? SELECT_ONE.getConstant() : dto.getMinutes1());
         minutes1.setEnabled(false);
         hours2.setEnabled(true);
-        hours2.setValue(HOUR.getConstant().equals(dto.getHours2()) ? SELECT_HOUR.getConstant() : dto.getHours2());
+        hours2.setValue(HOUR.getConstant().equals(dto.getHours2()) ? SELECT_ONE.getConstant() : dto.getHours2());
         hours2.setEnabled(false);
         minutes2.setEnabled(true);
-        minutes2.setValue(HOUR.getConstant().equals(dto.getMinutes2()) ? SELECT_MINUTE.getConstant() : dto.getMinutes2());
+        minutes2.setValue(HOUR.getConstant().equals(dto.getMinutes2()) ? SELECT_ONE.getConstant() : dto.getMinutes2());
         minutes2.setEnabled(false);
         hours3.setEnabled(true);
-        hours3.setValue(HOUR.getConstant().equals(dto.getHours3()) ? SELECT_HOUR.getConstant() : dto.getHours3());
+        hours3.setValue(HOUR.getConstant().equals(dto.getHours3()) ? SELECT_ONE.getConstant() : dto.getHours3());
         hours3.setEnabled(false);
         minutes3.setEnabled(true);
-        minutes3.setValue(HOUR.getConstant().equals(dto.getMinutes3()) ? SELECT_MINUTE.getConstant() : dto.getMinutes3());
+        minutes3.setValue(HOUR.getConstant().equals(dto.getMinutes3()) ? SELECT_ONE.getConstant() : dto.getMinutes3());
         minutes3.setEnabled(false);
         int sid = dto.getSid();
         processMonitorDTO.setSid(sid);
@@ -374,40 +390,40 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
         calendar.setNullSelectionAllowed(true);
         calendar.setNullSelectionItemId(HOLIDAY_SCHEDULE.getConstant());
 
-        hours1.addItem(SELECT_HOUR.getConstant());
+        hours1.addItem(SELECT_ONE.getConstant());
         hours1.setNullSelectionAllowed(true);
-        hours1.setNullSelectionItemId(SELECT_HOUR.getConstant());
-        hours1.setValue(SELECT_HOUR.getConstant());
+        hours1.setNullSelectionItemId(SELECT_ONE.getConstant());
+        hours1.setValue(SELECT_ONE.getConstant());
         hours1.addItems(a.split(","));
 
-        minutes1.addItem(SELECT_MINUTE.getConstant());
+        minutes1.addItem(SELECT_ONE.getConstant());
         minutes1.setNullSelectionAllowed(true);
-        minutes1.setNullSelectionItemId(SELECT_MINUTE.getConstant());
-        minutes1.setValue(SELECT_MINUTE.getConstant());
+        minutes1.setNullSelectionItemId(SELECT_ONE.getConstant());
+        minutes1.setValue(SELECT_ONE.getConstant());
         minutes1.addItems(b.split(","));
 
-        hours2.addItem(SELECT_HOUR.getConstant());
+        hours2.addItem(SELECT_ONE.getConstant());
         hours2.setNullSelectionAllowed(true);
-        hours2.setNullSelectionItemId(SELECT_HOUR.getConstant());
-        hours2.setValue(SELECT_HOUR.getConstant());
+        hours2.setNullSelectionItemId(SELECT_ONE.getConstant());
+        hours2.setValue(SELECT_ONE.getConstant());
         hours2.addItems(a.split(","));
 
-        minutes2.addItem(SELECT_MINUTE.getConstant());
+        minutes2.addItem(SELECT_ONE.getConstant());
         minutes2.setNullSelectionAllowed(true);
-        minutes2.setNullSelectionItemId(SELECT_MINUTE.getConstant());
-        minutes2.setValue(SELECT_MINUTE.getConstant());
+        minutes2.setNullSelectionItemId(SELECT_ONE.getConstant());
+        minutes2.setValue(SELECT_ONE.getConstant());
         minutes2.addItems(b.split(","));
 
-        hours3.addItem(SELECT_HOUR.getConstant());
+        hours3.addItem(SELECT_ONE.getConstant());
         hours3.setNullSelectionAllowed(true);
-        hours3.setNullSelectionItemId(SELECT_HOUR.getConstant());
-        hours3.setValue(SELECT_HOUR.getConstant());
+        hours3.setNullSelectionItemId(SELECT_ONE.getConstant());
+        hours3.setValue(SELECT_ONE.getConstant());
         hours3.addItems(a.split(","));
 
-        minutes3.addItem(SELECT_MINUTE.getConstant());
+        minutes3.addItem(SELECT_ONE.getConstant());
         minutes3.setNullSelectionAllowed(true);
-        minutes3.setNullSelectionItemId(SELECT_MINUTE.getConstant());
-        minutes3.setValue(SELECT_MINUTE.getConstant());
+        minutes3.setNullSelectionItemId(SELECT_ONE.getConstant());
+        minutes3.setValue(SELECT_ONE.getConstant());
         minutes3.addItems(b.split(","));
         addBtn.setVisible(true);
         updateBtn.setVisible(false);
@@ -422,7 +438,33 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
             AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_PROCESS_TYPE_HEADER), MessageUtil.getMessage(Message.NO_PROCESS_TYPE_MSG));
         } else if (startDate.getValue() == null) {
             AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_START_DATE_HEADER), MessageUtil.getMessage(Message.NO_START_DATE_MSG));
-        } else if (!StringUtils.EMPTY.equals(processName.getValue())) {
+        }else if (endDate.getValue() == null) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_END_DATE_HEADER), MessageUtil.getMessage(Message.NO_END_DATE_MSG));
+            }
+        else if (!(MANUAL.equals(proType)) && "null".equals(String.valueOf(hours1.getValue())) && "null".equals(String.valueOf(hours2.getValue())) && "null".equals(String.valueOf(hours3.getValue()))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), MessageUtil.getMessage(Message.NO_RUN_TIME));
+            } 
+            else if (!(MANUAL.equals(proType)) && "null".equals(String.valueOf(minutes1.getValue())) && "null".equals(String.valueOf(minutes2.getValue())) && "null".equals(String.valueOf(minutes3.getValue()))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), MessageUtil.getMessage(Message.NO_RUN_TIME));
+            }
+            else if ("null".equals(String.valueOf(hours1.getValue())) && !("null".equals(String.valueOf(minutes1.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_HOUR_HEADER), MessageUtil.getMessage(Message.NO_HOUR1_MSG));
+            }
+            else if (!("null".equals(String.valueOf(hours1.getValue()))) && ("null".equals(String.valueOf(minutes1.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_MIN_HEADER), MessageUtil.getMessage(Message.NO_MIN1_MSG));
+            }
+             else if ("null".equals(String.valueOf(hours2.getValue())) && !("null".equals(String.valueOf(minutes2.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_HOUR_HEADER), MessageUtil.getMessage(Message.NO_HOUR2_MSG));
+            }
+             else if (!("null".equals(String.valueOf(hours2.getValue()))) && ("null".equals(String.valueOf(minutes2.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_MIN_HEADER), MessageUtil.getMessage(Message.NO_MIN2_MSG));
+            }
+             else if ("null".equals(String.valueOf(hours3.getValue())) && !("null".equals(String.valueOf(minutes3.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_HOUR_HEADER), MessageUtil.getMessage(Message.NO_HOUR3_MSG));
+            }
+            else if (!("null".equals(String.valueOf(hours3.getValue()))) && ("null".equals(String.valueOf(minutes3.getValue())))) {
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_MIN_HEADER), MessageUtil.getMessage(Message.NO_MIN3_MSG));
+            }else if (!StringUtils.EMPTY.equals(processName.getValue())) {
             String query = QueryReader.getQuery("duplicateProcessUpdate");
             Map<String, Object> input = new HashMap();
             input.put("?PROCESS_NAME", processName.getValue());
@@ -447,6 +489,7 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
 
                     @Override
                     public void noMethod() {
+                        return;
                     }
                 }.getConfirmationMessage(MessageUtil.getMessage(Message.ADD_CONFIRMATION), MessageUtil.getMessage(Message.UPDATE_CONFIRMATION));
             }
@@ -459,7 +502,7 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
 
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(sessionDTO.getUserId());
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Process Monitor" + "," + "Landing screen");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, StringConstantUtils.PROCESS_MONITOR + "," + StringConstantUtils.LANDING_SCREEN);
             if (functionHM.get("addBtn") != null && !((AppPermission) functionHM.get("addBtn")).isFunctionFlag()) {
                 addBtn.setVisible(false);
             } else {
@@ -472,7 +515,6 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
             } else {
                 processName.setVisible(true);
                 processNameLabel.setVisible(true);
-
             }
             if (functionHM.get("processType") != null && ((AppPermission) functionHM.get("processType")).isFunctionFlag()) {
                 processType.setVisible(false);
@@ -568,7 +610,7 @@ public class ProcessMonitorIndex extends CustomComponent implements View {
      * @return object of list or count
      */
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {

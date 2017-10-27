@@ -71,14 +71,15 @@ public class ExclusionAndInventoryRateLookUp extends Window {
 
     public LookUpDTO exRateDTO = new LookUpDTO();
     public static boolean flag = false;
-    
+
     private static final Logger LOGGER = Logger.getLogger(ExclusionAndInventoryRateLookUp.class);
-    String exclusionAndInclusionVal=StringUtils.EMPTY; 
-    String inventCalculationVal=StringUtils.EMPTY; 
-    public ExclusionAndInventoryRateLookUp(String exclusionAndInclusionVal,String inventCalculationVal) {
+    String exclusionAndInclusionVal = StringUtils.EMPTY;
+    String inventCalculationVal = StringUtils.EMPTY;
+
+    public ExclusionAndInventoryRateLookUp(String exclusionAndInclusionVal, String inventCalculationVal) {
         super();
-        this.exclusionAndInclusionVal=exclusionAndInclusionVal;
-        this.inventCalculationVal=inventCalculationVal;
+        this.exclusionAndInclusionVal = exclusionAndInclusionVal;
+        this.inventCalculationVal = inventCalculationVal;
         init();
         configureFields();
         configureTable();
@@ -105,15 +106,15 @@ public class ExclusionAndInventoryRateLookUp extends Window {
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.setFilterGenerator(new ViewFilterGenerator());
         tableLogic.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(ARMUtils.EXCLUSION_RATE_LOOKUP_HEADERS);
-        resultsTable.setColumnHeaders(ARMUtils.EXCLUSION_RATE_LOOKUP_COLUMNS);
-        resultsTable.setSelectable(true);              
+        resultsTable.setVisibleColumns(ARMUtils.getExclusionRateLookupHeaders());
+        resultsTable.setColumnHeaders(ARMUtils.getExclusionRateLookupColumns());
+        resultsTable.setSelectable(true);
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
         resultsTable.setPageLength(NumericConstants.TEN);
         selectButtonEX.setEnabled(false);
-        resultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);        
-        resultsTable.setFilterBarVisible(true);  
+        resultsTable.setColumnAlignment("createdDate", ExtCustomTable.Align.CENTER);
+        resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName("table-header-normal");
         resultsTable.addStyleName("filterbar");
         resultsTable.addStyleName("filtertable");
@@ -127,11 +128,11 @@ public class ExclusionAndInventoryRateLookUp extends Window {
             }
         });
         resultsTable.setConverter("createdDate", new StringToDateConverter() {
-                @Override
-                public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/YYYY");
-                }
-            });
+            @Override
+            public DateFormat getFormat(Locale locale) {
+                return new SimpleDateFormat("MM/dd/YYYY");
+            }
+        });
         resultsTableLayoutDS.addComponent(resultsTable);
         resultsTableLayoutDS.addComponent(getResponsiveControls(tableLogic.createControls()));
 
@@ -153,7 +154,7 @@ public class ExclusionAndInventoryRateLookUp extends Window {
         }
     }
 
-        @UiHandler("resetButtonEX")
+    @UiHandler("resetButtonEX")
     public void resetFields(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirmation", "Are you sure you want to Reset? All selected/entered values will be removed.", new MessageBoxListener() {
             /**
@@ -161,8 +162,9 @@ public class ExclusionAndInventoryRateLookUp extends Window {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
-                if (buttonId.name().equalsIgnoreCase("yes")) {
+                if ("yes".equalsIgnoreCase(buttonId.name())) {
                     LOGGER.debug("Entering Reset operation");
                     resetFields();
                     LOGGER.debug("Ending Reset operation");
@@ -176,16 +178,16 @@ public class ExclusionAndInventoryRateLookUp extends Window {
         if (resultsTable.getValue() != null) {
             LookUpDTO rateDTO = (LookUpDTO) resultsTable.getValue();
             rateDTO.setSelectFlag(true);
-           flag=true;
-            setExRateDTO(rateDTO);          
+            flag = true;
+            setExRateDTO(rateDTO);
             close();
         }
     }
 
     @UiHandler("closeButtonEX")
-    public void resetTableFields(Button.ClickEvent event) {   
-         flag=false;
-         exRateDTO = new LookUpDTO();
+    public void resetTableFields(Button.ClickEvent event) {
+        flag = false;
+        exRateDTO = new LookUpDTO();
         close();
     }
 
@@ -196,10 +198,11 @@ public class ExclusionAndInventoryRateLookUp extends Window {
     public void resetTable() {
         resultsContainer.removeAllItems();
     }
+
     public void reloadScreen(String inventCalculationVal) {
         viewNameEX.setValue(StringUtils.EMPTY);
         resultsContainer.removeAllItems();
-        this.inventCalculationVal=inventCalculationVal;
+        this.inventCalculationVal = inventCalculationVal;
 
     }
 

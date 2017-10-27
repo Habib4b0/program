@@ -6,8 +6,15 @@
 package com.stpl.app.arm.adjustmentreserveconfiguration.ui.form;
 
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveMainToTempAction;
 import com.stpl.app.arm.adjustmentreserveconfiguration.ui.abstractreserveform.AbstractReserve;
+import com.stpl.app.arm.excecutors.Validation;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationAddRemoveLine;
+import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
+import com.stpl.app.arm.excecutors.ActionExecutor;
+import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
@@ -35,8 +42,8 @@ public class CopyAdjustmentReserve extends AbstractReserve {
     boolean isFirst;
     boolean isValueChangeAllowed = true;
 
-    public CopyAdjustmentReserve(SessionDTO sessionDTO, AdjustmentReserveDTO dto,ReserveSelection resSelection) {
-        super("Adjustment & Reserve Configuration Details", sessionDTO,resSelection);
+    public CopyAdjustmentReserve(SessionDTO sessionDTO, AdjustmentReserveDTO dto, ReserveSelection resSelection) {
+        super("Adjustment & Reserve Configuration Details", sessionDTO, resSelection);
         this.selectedDto = dto;
         configureFields();
     }
@@ -58,16 +65,23 @@ public class CopyAdjustmentReserve extends AbstractReserve {
 
     @Override
     protected void loadSelection() {
-        selection.setSession(sessionDTO);
-        selection.setSearchBinderDTO(selectedDto);
-        selection.setWindowBinderDTO(binderDto);
-        selection.setIsSaved(Boolean.FALSE);
-        getMasterSids();
-        logic.insertToTempTable(selection);
+        try {
+            selection.setSession(sessionDTO);
+            selection.setSearchBinderDTO(selectedDto);
+            selection.setWindowBinderDTO(binderDto);
+            selection.setIsSaved(false);
+            getMasterSids();
+
+            ActionExecutor executor = new ActionExecutor();
+            executor.callingActionExecution(new SaveMainToTempAction(selection));
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
     }
 
     @Override
-    protected void addLineBtnLogic() {
+    public void configureTabAddLineLogic() {
         try {
             binder.commit();
             if (saveToMaster()) {
@@ -81,32 +95,59 @@ public class CopyAdjustmentReserve extends AbstractReserve {
 
             }
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in configureTabAddLineLogic :"+ex);
         }
+    }
+
+    /**
+     * Addline Logic
+     *
+     */
+    @Override
+    public void adjustmentSummaryAddLineLogic() {
+        Validation validation = new ValidationAddRemoveLine(selection, true);
+        if (!validation.doValidate()) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, validation.validationMessage());
+            return;
+        }
+        adjustmentSummaryConfigLogic.addLineLogic(selection);
+        adjustmentSummaryTableLogic.loadSetData(true, selection);
+    }
+
+    @Override
+    protected void balanceSummaryAddLineLogic() {
+        Validation validation = new ValidationAddRemoveLine(selection, true);
+        if (!validation.doValidate()) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, validation.validationMessage());
+            return;
+        }
+        balanceSummaryLogic.addLineLogic(selection);
+        balSummaryConfigurationTableLogic.loadSetData(true, selection);
+        LOGGER.debug("balanceSummaryAddLineLogic Method in Copy");
     }
 
     @Override
     protected boolean saveToMaster() {
         boolean binderModified = binder.isModified();
-        int rev_mas_id = selection.getReserveMasterSid();
+        int revmasid = selection.getReserveMasterSid();
         if (binderModified) {
             try {
                 binder.commit();
             } catch (FieldGroup.CommitException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in saveToMaster :"+ex);
             }
         }
         if (logic.combinationIsSelected(binderDto)) {
             if (logic.isDuplicateCompany(binderDto) && !selection.isIsSaved()) {
-                AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSaveMessageID002());
-                return Boolean.FALSE;
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID002());
+                return false;
             }
             if (!isFirst) {
                 int id = logic.addLineForMaster(selection, 1);
                 int id1 = logic.addLineForMaster(selection, 0);
                 if (id == 0 && id1 == 0) {
-                    AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSaveMessageID006());
-                    return Boolean.FALSE;
+                    AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
+                    return false;
                 } else {
                     selection.setReserveMasterSid(id1);
                     selection.setGtnDetailsMasterSid(id);
@@ -116,26 +157,26 @@ public class CopyAdjustmentReserve extends AbstractReserve {
                         selection.setMasterSID(selection.getReserveMasterSid());
                     }
                 }
-                isFirst = Boolean.TRUE;
-                logic.updateMasterSid(selectedDto, selection, rev_mas_id);
+                isFirst = true;
+                logic.updateMasterSid(selectedDto, selection, revmasid);
             } else if (binderModified) {
-                int mas_id = selection.getMasterSID();
+                int masid = selection.getMasterSID();
                 selection.setMasterSID(selection.getGtnDetailsMasterSid());
                 boolean isGTNSave = !logic.updateMasterTable(selection, binderDto);
                 selection.setMasterSID(selection.getReserveMasterSid());
                 if (!logic.updateMasterTable(selection, binderDto) || isGTNSave) {
-                    selection.setMasterSID(mas_id);
-                    AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSaveMessageID006());
-                    return Boolean.FALSE;
+                    selection.setMasterSID(masid);
+                    AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
+                    return false;
                 }
-                selection.setMasterSID(mas_id);
+                selection.setMasterSID(masid);
                 selection.setCompanyNo(getCompanyNo(binderDto.getCompanyDdlbRes()));
                 selection.setDivision(getCompanyNo(binderDto.getBusinessDdlbRes()));
                 selection.setBusUnit(businessDdlbRes.getItemCaption(binderDto.getBusinessDdlbRes()));
             }
-            return Boolean.TRUE;
+            return true;
         } else {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getPropertyMessage001());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage001());
             return false;
         }
     }
@@ -143,39 +184,14 @@ public class CopyAdjustmentReserve extends AbstractReserve {
     @Override
     protected void loadTablefirstTime() {
         LOGGER.debug("Inside Load Table Firsrt Time");
-        detailsTableLogic.loadsetData(Boolean.TRUE, selection);
-    }
-
-    @Override
-    protected void loadResetData() {
-        if (selection.isIsSaved()) {
-            if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
-                selection.setMasterSID(selection.getReserveMasterSid());
-            } else {
-                selection.setMasterSID(selection.getGtnDetailsMasterSid());
-            }
-            logic.resetDBRecord(selection);
-            logic.insertToTempTable(selection);
-            detailsTableLogic.loadsetData(Boolean.TRUE, selection);
-        } else {
-            ReserveSelection tempSelection = null;
-            try {
-                tempSelection = (ReserveSelection) this.selection.clone();
-            } catch (CloneNotSupportedException ex) {
-                LOGGER.error(ex);
-            }
-            tempSelection.setReserveMasterSid(logic.getMasterSids(this.selection));
-            tempSelection.setGtnDetailsMasterSid(selectedDto.getSearchMasterSid());
-            tempSelection.setMasterSID(selectedDto.getSearchMasterSid());
-            logic.resetDBRecord(this.selection);
-            logic.insertToTempTable(tempSelection, selection);
-            detailsTableLogic.loadsetData(Boolean.TRUE, tempSelection);
-        }
+        detailsTableLogic.loadsetData(true, selection);
     }
 
     @UiHandler("deductionCategoryDdlbRes")
     public void valueChangeDeductionCategoryDdlbRes(final Property.ValueChangeEvent event) {
-        isValueChangeAllowed = Boolean.FALSE;
+        LOGGER.debug(event.toString());
+        isValueChangeAllowed = false;
+        if((int) deductionCategoryDdlbRes.getValue() != 0){
         Map<Integer, HelperDTO> idhelper = HelperListUtil.getInstance().getIdHelperDTOMap();
         List<Object> list = logic.getTypeValuesBasedOnCategory((int) deductionCategoryDdlbRes.getValue());
         if (!deductionTypeDdlbRes.getItemIds().isEmpty()) {
@@ -195,12 +211,16 @@ public class CopyAdjustmentReserve extends AbstractReserve {
         deductionProgramDdlbRes.addItem(0);
         deductionProgramDdlbRes.setItemCaption(0, GlobalConstants.getSelectOne());
         deductionProgramDdlbRes.select(0);
-        isValueChangeAllowed = Boolean.TRUE;
+        isValueChangeAllowed = true;
+        }else{
+        CommonLogic.configureDropDownsForDeduction(deductionTypeDdlbRes, "getDeductionType");
+        }
     }
 
     @UiHandler("deductionTypeDdlbRes")
     public void valueChangeDeductionTypeDdlbRes(final Property.ValueChangeEvent event) {
-        if (isValueChangeAllowed) {
+        LOGGER.debug(event.toString());
+        if (isValueChangeAllowed && (int) deductionTypeDdlbRes.getValue() != 0 ) {
             if (deductionTypeDdlbRes.getValue() != null) {
                 Map<Integer, HelperDTO> idhelper = HelperListUtil.getInstance().getIdHelperDTOMap();
                 List<Object> list = logic.getTypeValuesBasedOnType((int) deductionCategoryDdlbRes.getValue(), (int) deductionTypeDdlbRes.getValue());
@@ -217,11 +237,14 @@ public class CopyAdjustmentReserve extends AbstractReserve {
                 }
             }
             deductionProgramDdlbRes.select(0);
+        }else{
+               CommonLogic.configureDropDownsForDeduction(deductionProgramDdlbRes, "getDeductionProgram");
         }
     }
 
     @UiHandler("resetBtnRes")
     public void resetSelectionButtonLogic(Button.ClickEvent event) {
+        LOGGER.debug(event.toString());
         new AbstractNotificationUtils() {
             @Override
             public void yesMethod() {
@@ -230,13 +253,82 @@ public class CopyAdjustmentReserve extends AbstractReserve {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in resetSelectionButtonLogic :"+ex);
                 }
             }
 
             @Override
             public void noMethod() {
+                LOGGER.debug("noMethod Method:");
             }
         }.getConfirmationMessage("Confirmation", ARMMessages.getResetMessageID001());
+    }
+
+    @Override
+    protected void resetConfigureTabLine() {
+        if (selection.isIsSaved()) {
+            if (configurationTypeOpgRes.getValue().equals(ARMConstants.getReserveDetails())) {
+                selection.setMasterSID(selection.getReserveMasterSid());
+            } else {
+                selection.setMasterSID(selection.getGtnDetailsMasterSid());
+            }
+            logic.resetDBRecord(selection);
+            logic.insertToTempTable(selection);
+            detailsTableLogic.loadsetData(true, selection);
+        } else {
+            ReserveSelection tempSelection = new ReserveSelection();
+            try {
+
+                tempSelection =  this.selection.clone(tempSelection);
+            } catch (NullPointerException e) {
+                LOGGER.error("Error in resetConfigureTabLine :"+e);
+            } catch (Exception ex) {
+                LOGGER.error("Error in resetConfigureTabLine :"+ex);
+            }
+            if (tempSelection != null) {
+                tempSelection.setReserveMasterSid(logic.getMasterSids(this.selection));
+                tempSelection.setGtnDetailsMasterSid(selectedDto.getSearchMasterSid());
+                tempSelection.setMasterSID(selectedDto.getSearchMasterSid());
+            }
+            logic.resetDBRecord(this.selection);
+            logic.insertToTempTable(tempSelection, selection);
+            detailsTableLogic.loadsetData(true, tempSelection);
+        }
+    }
+
+    @Override
+    protected void resetAdjustmentSummaryLine() {
+        adjustmentSummaryConfigLogic.deleteTempTableRecords(selection);
+        adjustmentSummaryConfigLogic.insertAdjSummaryToTempTableFromMainTable(selection);
+        adjustmentSummaryTableLogic.loadSetData(Boolean.TRUE, selection);
+        if (adjustmentSummaryTableLogic.getCount() == 0) {
+            methodologyDdlb.setValue(0);
+        }
+        List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
+        adjustmentSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
+    }
+
+    @Override
+    protected void resetBalanceSummaryLine() {
+        LOGGER.debug("resetBalanceSummaryLine Method in Copy");
+        balanceSummaryLogic.deleteTempTableRecords(selection);
+        balanceSummaryLogic.insertBalanceSummaryToTempTableFromMainTable(selection);
+        balSummaryConfigurationTableLogic.loadSetData(true, selection);
+        if (balSummaryConfigurationTableLogic.getCount() == 0) {
+            reportTypeDdlb.setValue(0);
+        }
+        List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
+        balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

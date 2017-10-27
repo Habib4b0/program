@@ -40,7 +40,7 @@ public class ComparisonTableLogic extends PageTableLogic {
         if (loadData) {
             try {
                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                    count =  projectionVarianceLogic.getProjectionCount(lookUpDTO,sessionDTO,notNeededProjectionIds, getFilters());
+                    count =  projectionVarianceLogic.getProjectionCount(lookUpDTO,notNeededProjectionIds, getFilters());
                 } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                     count = new NMProjectionVarianceLogic().getComparisonCount(comparisonLookup, getFilters(),screenName);
                 }
@@ -53,10 +53,10 @@ public class ComparisonTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<ComparisonLookupDTO> resultList = new ArrayList<ComparisonLookupDTO>();
+        List<ComparisonLookupDTO> resultList = new ArrayList<>();
         try {
              if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                resultList = projectionVarianceLogic.getProjection(false,lookUpDTO,sessionDTO,notNeededProjectionIds,start,offset, getSortByColumns(), getFilters());
+                resultList = projectionVarianceLogic.getProjection(lookUpDTO,notNeededProjectionIds,start,offset, getSortByColumns(), getFilters());
             } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 resultList = new NMProjectionVarianceLogic().getComparisonResults(comparisonLookup, start, offset, getFilters(), getSortByColumns(),screenName);
             }

@@ -44,7 +44,7 @@ public class PPAProjectionLogic {
     private static RunnableJob runnableJob;
     CommonLogic commonLogic=new CommonLogic();
 
-    public List getInputForMassUpdate(int startQuater, int endQuater, int startYear, int endYear, Object columnValue, String columnName, String group, ProjectionSelectionDTO selection) {
+    public List getInputForMassUpdate(int startQuater, int endQuater, int startYear, int endYear, Object columnValue, String columnName, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
           String ccpQuery = new CommonLogic().insertAvailableHierarchyNo(selection);
         input.add(ccpQuery);
@@ -76,7 +76,7 @@ public class PPAProjectionLogic {
 
     }
 
-    public List getInputForMassUpdateGroup(Object columnValue, String columnName, String group, ProjectionSelectionDTO selection) {
+    public List getInputForMassUpdateGroup(Object columnValue, String columnName, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
           String ccpQuery = new CommonLogic().insertAvailableHierarchyNo(selection);
         input.add(ccpQuery);
@@ -97,7 +97,7 @@ public class PPAProjectionLogic {
         return input;
     }
 
-    private static List getInputForSaveGroup(int projectionId, Object priceCap, String hirarechyNo, SessionDTO session, String group, ProjectionSelectionDTO selection) {
+    private static List getInputForSaveGroup(int projectionId, Object priceCap, String hirarechyNo, String group, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
         String ccpQuery = new CommonLogic().insertAvailableHierarchyNo(selection);
         input.add(ccpQuery);
@@ -120,20 +120,19 @@ public class PPAProjectionLogic {
      * @return
      * @throws com.stpl.portal.kernel.exception.PortalException
      */
-    public Object getPPAProjectionResults(ProjectionSelectionDTO selection, CustomTableHeaderDTO ridhtdto, int start, int offset) throws PortalException, SystemException{
+    public Object getPPAProjectionResults(ProjectionSelectionDTO selection, CustomTableHeaderDTO ridhtdto, int start, int offset) {
         List list = null;
-        printselection(selection);
         List<Object> finalList = (List) configureLevels( start, offset, selection, ridhtdto);
         List<PPAProjectionDTO> PPAList = (List<PPAProjectionDTO>) finalList.get(0);
-        list = getPPAProjectionList(selection, selection.getHierarchyNo(), finalList);
+        list = getPPAProjectionList(selection, selection.getHierarchyNo());
         list = getCustomizedPPA(list, selection, PPAList);
         return list;
     }
 
-    private List getPPAProjectionList(ProjectionSelectionDTO selection, String hirarechyNo, List<Object> finalList) {
+    private List getPPAProjectionList(ProjectionSelectionDTO selection, String hirarechyNo) {
         PPAQuerys.setTableName(selection.getSessionDTO().getCurrentTableNames());
         String ccpQuery = new CommonLogic().insertAvailableHierarchyNo(selection);
-        List<Object> input = new ArrayList<Object>();
+        List<Object> input = new ArrayList<>();
         String queryName = "PPAGenerate";
         input.add(ccpQuery);
         input.add(selection.getRelationshipBuilderSid());
@@ -152,7 +151,7 @@ public class PPAProjectionLogic {
 
     }
 
-    private List<PPAProjectionDTO> getCustomizedPPA(List<Object[]> list, ProjectionSelectionDTO selection, List<PPAProjectionDTO> dtoList) throws SystemException  {
+    private List<PPAProjectionDTO> getCustomizedPPA(List<Object[]> list, ProjectionSelectionDTO selection, List<PPAProjectionDTO> dtoList)   {
         LOGGER.debug("Inside getcustomized PPA");
         int levelNo = selection.getTreeLevelNo();
         for (int i = 0; i < list.size(); i++) {
@@ -172,7 +171,7 @@ public class PPAProjectionLogic {
         return column.toString();
     }
 
-    private PPAProjectionDTO setdata(Object[] str, ProjectionSelectionDTO selection, List<PPAProjectionDTO> dtoList) throws SystemException {
+    private PPAProjectionDTO setdata(Object[] str, ProjectionSelectionDTO selection, List<PPAProjectionDTO> dtoList)  {
         LOGGER.debug("Inside setdata");
         PPAProjectionDTO dto = getDtoFromList(dtoList, str[NumericConstants.NINE]);
         if (dto != null) {
@@ -235,29 +234,29 @@ public class PPAProjectionLogic {
         String propertyId = dto.getPropertyId();
           PPAQuerys.setTableName(session.getCurrentTableNames());
         if (propertyId.equals(Constant.GROUP)) {
-            input = getInputForSaveGroup(projectionId, dto.getValue().toString(), dto.getHirarechyNo(), session, dto.getGroup(), selection);
+            input = getInputForSaveGroup(projectionId, dto.getValue().toString(), dto.getHirarechyNo(), dto.getGroup(), selection);
             PPAQuerys.PPAUpdate(input, "PPA.massupdate-group");
 
         } else if (propertyId.contains(Constant.PRICECAP)) {
             String freq = String.valueOf(propertyId.charAt(1));
             String year = String.valueOf(propertyId.substring(NumericConstants.TWO, NumericConstants.SIX));
-            input = getInputForSavePriceCap(projectionId, dto, dto.getValue().toString(), session, freq, year, selection);
+            input = getInputForSavePriceCap(projectionId, dto, dto.getValue().toString(),  freq, year, selection);
             PPAQuerys.PPAUpdate(input, "PPA.savePriceCap");
         } else if (propertyId.contains(Constant.RESET_SMALL)) {
             String freq = String.valueOf(propertyId.charAt(1));
             String year = String.valueOf(propertyId.substring(NumericConstants.TWO, NumericConstants.SIX));
             if ((dto.getValue() != null) && (Boolean.valueOf(dto.getValue().toString()))) {
-                input = getInputForSavePriceCap(projectionId, dto, Constant.STRING_ONE, session, freq, year, selection);
+                input = getInputForSavePriceCap(projectionId, dto, Constant.STRING_ONE,  freq, year, selection);
             } else {
-                input = getInputForSavePriceCap(projectionId, dto, DASH, session, freq, year, selection);
+                input = getInputForSavePriceCap(projectionId, dto, DASH,  freq, year, selection);
             }
             PPAQuerys.PPAUpdate(input, "PPA.saveReset");
         } else if (propertyId.contains(Constant.CHECK_RECORD)) {
                   
             if ((dto.getValue() != null) && (Boolean.valueOf(dto.getValue().toString()))) {
-                input = getInputForSaveCheckRecord(projectionId, dto, Constant.STRING_ONE, session, selection);
+                input = getInputForSaveCheckRecord(projectionId, dto, Constant.STRING_ONE, selection);
             } else {
-                input = getInputForSaveCheckRecord(projectionId, dto, DASH, session, selection);
+                input = getInputForSaveCheckRecord(projectionId, dto, DASH, selection);
             }
             PPAQuerys.PPAUpdate(input, "PPA.saveCheckRecord");
         }
@@ -265,7 +264,7 @@ public class PPAProjectionLogic {
 
     }
 
-    public static List getInputForSavePriceCap(int projectionId, SaveDTO dto, String value, SessionDTO session, String freq, String year, ProjectionSelectionDTO selection) {
+    public static List getInputForSavePriceCap(int projectionId, SaveDTO dto, String value, String freq, String year, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
          String ccpQuery = new CommonLogic().insertAvailableHierarchyNo(selection);
         input.add(ccpQuery);
@@ -281,7 +280,7 @@ public class PPAProjectionLogic {
     }
 
 
-    private static List getInputForSaveCheckRecord(int projectionId, SaveDTO dto, String value, SessionDTO session, ProjectionSelectionDTO selection) {
+    private static List getInputForSaveCheckRecord(int projectionId, SaveDTO dto, String value, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
         String ccpQuery = new CommonLogic().insertAvailableHierarchyNo(selection);
         input.add(ccpQuery);
@@ -309,7 +308,7 @@ public class PPAProjectionLogic {
      */
     public List<PPAProjectionDTO> configureLevels(int start, int offset, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO ridhtdto) {
         List finalList = new ArrayList();
-        Set<String> hirarechyNos = new HashSet<String>();
+        Set<String> hirarechyNos = new HashSet<>();
         CommonLogic commonLogic = new CommonLogic();
         List<PPAProjectionDTO> resultList = new ArrayList<>();
         Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
@@ -318,14 +317,14 @@ public class PPAProjectionLogic {
             String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
             List<String> hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, start, offset);
             for (String hierarchyNo : hierarchyNoList) {
-                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo),ridhtdto));
+                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, relationshipLevelDetailsMap.get(hierarchyNo),ridhtdto));
             }
 
         } else {
             List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, start, offset);
             for (String hierarchyNo : hierarchyNoList) {
                hirarechyNos.add(hierarchyNo);
-                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),ridhtdto));
+                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), relationshipLevelDetailsMap.get(hierarchyNo),ridhtdto));
             }
         }
         finalList.add(resultList);
@@ -339,11 +338,10 @@ public class PPAProjectionLogic {
      * @param projSelDTO
      * @param hierarchyNo
      * @param hierarchyIndicator
-     * @param levelNo
      * @param detailsList
      * @return
      */
-    public PPAProjectionDTO configureDetailsInDTO(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator, int levelNo, List detailsList, CustomTableHeaderDTO ridhtdto) {
+    public PPAProjectionDTO configureDetailsInDTO(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator, List detailsList, CustomTableHeaderDTO ridhtdto) {
         PPAProjectionDTO dto = new PPAProjectionDTO();
         setNullValue(dto, ridhtdto.getSingleColumns());
         dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO).toString()));
@@ -421,7 +419,7 @@ public class PPAProjectionLogic {
         List list = null;
 
         try {
-            int levelNo = selection.getLevelNo();
+            int levelNo;
             selection.setIsCount(Boolean.FALSE);
             if (lastParent != null && (lastParent instanceof PPAProjectionDTO)) {
                 PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
@@ -445,22 +443,22 @@ public class PPAProjectionLogic {
         return list;
     }
 
-    public int getPPAProjectionResultsCount(ProjectionSelectionDTO selection, Object lastParent, SessionDTO session, int i, int i0, CustomTableHeaderDTO rightDto) {
+    public int getPPAProjectionResultsCount(ProjectionSelectionDTO selection, Object lastParent, SessionDTO session) {
         int count = 0;
         try {
             if (lastParent != null && (lastParent instanceof PPAProjectionDTO) || (selection.isIsFilter())) {
                 if (selection.isIsFilter()) {
-                    count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, Boolean.TRUE, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, Boolean.FALSE);
+                    count = configureLevelsCount(selection.getLevelNo(), selection);
                 } else {
                     PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                     selection.setLevelNo(dto.getLevelNo() + 1);
-                    count = configureLevelsCount(selection.getLevelNo(), selection, dto.getHirarechyNo(), Boolean.FALSE, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, Boolean.FALSE);
+                    count = configureLevelsCount(selection.getLevelNo(), selection);
 
                 }
 
             } else {
                 selection.setLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-                count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, Boolean.FALSE, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, Boolean.FALSE);
+                count = configureLevelsCount(selection.getLevelNo(), selection);
             }
 
             selection.setLevelCount(count);
@@ -470,11 +468,7 @@ public class PPAProjectionLogic {
         return count;
     }
 
-    private void printselection(ProjectionSelectionDTO selection) {
-
-    }
-
-    public int configureLevelsCount(int levelNo, ProjectionSelectionDTO projSelDTO, String hierarchyNo, boolean isFilter, String parentHierarchyInd, boolean isCustom) {
+    public int configureLevelsCount(int levelNo, ProjectionSelectionDTO projSelDTO) {
         int levelCount = 0;
         if (projSelDTO.isIsCustomHierarchy()) {
             levelCount = commonLogic.getCountForCustomView(projSelDTO);
@@ -661,7 +655,7 @@ public class PPAProjectionLogic {
      */
     public void setColumnValue(String columnName, String quater, String year, Object obj, PPAProjectionDTO dto, boolean isExcel) {
         int id = 0;
-        if (Constant.STRING_ONE.equals(dto.getPropertyValue(Constant.Q_SMALL + quater + year + columnName + Constant._FLAG))) {
+        if (Constant.STRING_ONE.equals(dto.getPropertyValue(Constant.Q_SMALL + quater + year + columnName + Constant.FLAG))) {
             dto.addIntegerProperties(createColumn(quater, year, columnName), -1);
         } else if (!isExcel) {
             id = cutomizeIntegerObject(obj);
@@ -683,10 +677,10 @@ public class PPAProjectionLogic {
         }
     }
 
-    public String getPriceTypeNameByID(final Integer priceType) throws SystemException {
+    public String getPriceTypeNameByID(final Integer priceType)  {
 
-        String retval = StringUtils.EMPTY;
-        List<Object> list = new ArrayList<Object>();
+        String retval;
+        List<Object> list;
         if (Integer.valueOf(priceType) != null && !Integer.valueOf(priceType).equals(0)) {
 
             String sqlQuery = "SELECT * FROM HELPER_TABLE WHERE HELPER_TABLE_SID =" + priceType;

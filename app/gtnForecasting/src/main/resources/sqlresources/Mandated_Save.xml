@@ -140,23 +140,15 @@ and open the template in the editor.
                       PRODUCT_GROWTH,
                       PROJECTION_SALES,
                       PROJECTION_UNITS,
-                      PERIOD_SID,
-                      ADJUSTMENT_TYPE,
-                      ADJUSTMENT_BASIS,
-                      ADJUSTMENT_VARIABLE,
-                      ADJUSTMENT_METHODOLOGY,
-                      ADJUSTMENT_VALUES)
+                      PERIOD_SID
+                     )
               SELECT B.CCP_DETAILS_SID,
                       A.ACCOUNT_GROWTH,
                       A.PRODUCT_GROWTH,
                       A.PROJECTION_SALES,
                       A.PROJECTION_UNITS,
-                      A.PERIOD_SID,
-                      A.ADJUSTMENT_TYPE,
-                      A.ADJUSTMENT_BASIS,
-                      A.ADJUSTMENT_VARIABLE,
-                      A.ADJUSTMENT_METHODOLOGY,
-                      A.ADJUSTMENT_VALUES
+                      A.PERIOD_SID
+                      
               FROM dbo.M_SALES_PROJECTION A,
                       dbo.PROJECTION_DETAILS B
               WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
@@ -176,12 +168,7 @@ and open the template in the editor.
              PRODUCT_GROWTH,
              PROJECTION_SALES,
              PROJECTION_UNITS,
-             PERIOD_SID,
-             ADJUSTMENT_TYPE,
-             ADJUSTMENT_BASIS,
-             ADJUSTMENT_VARIABLE,
-             ADJUSTMENT_METHODOLOGY,
-             ADJUSTMENT_VALUES
+             PERIOD_SID
              FROM dbo.ST_M_SALES_PROJECTION MAS
              JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
                 WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
@@ -194,12 +181,7 @@ and open the template in the editor.
              TARGET.PRODUCT_GROWTH=SOURCE.PRODUCT_GROWTH,
              TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,
              TARGET.PROJECTION_UNITS=SOURCE.PROJECTION_UNITS,
-             TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
-             TARGET.ADJUSTMENT_TYPE=SOURCE.ADJUSTMENT_TYPE,
-             TARGET.ADJUSTMENT_BASIS=SOURCE.ADJUSTMENT_BASIS,
-             TARGET.ADJUSTMENT_VARIABLE=SOURCE.ADJUSTMENT_VARIABLE,
-             TARGET.ADJUSTMENT_METHODOLOGY=SOURCE.ADJUSTMENT_METHODOLOGY,
-             TARGET.ADJUSTMENT_VALUES=SOURCE.ADJUSTMENT_VALUES
+             TARGET.PERIOD_SID=SOURCE.PERIOD_SID
              WHEN NOT MATCHED BY TARGET
              THEN
              INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,
@@ -207,12 +189,8 @@ and open the template in the editor.
              SOURCE.PRODUCT_GROWTH,
              SOURCE.PROJECTION_SALES,
              SOURCE.PROJECTION_UNITS,
-             SOURCE.PERIOD_SID,
-             SOURCE.ADJUSTMENT_TYPE,
-             SOURCE.ADJUSTMENT_BASIS,
-             SOURCE.ADJUSTMENT_VARIABLE,
-             SOURCE.ADJUSTMENT_METHODOLOGY,
-             SOURCE.ADJUSTMENT_VALUES);;
+             SOURCE.PERIOD_SID
+             );;
                 
                  ]]>
         </query>
@@ -224,12 +202,10 @@ and open the template in the editor.
                      CCP_DETAILS_SID,
                      METHODOLOGY,
                      CALCULATION_PERIODS,
-                     CALCULATION_BASED,
                      CHECK_RECORD)
              SELECT  B.CCP_DETAILS_SID,
                      A.METHODOLOGY,
                      A.CALCULATION_PERIODS,
-                     A.CALCULATION_BASED,
                      A.CHECK_RECORD
              FROM dbo.M_SALES_PROJECTION_MASTER A,
 			dbo.PROJECTION_DETAILS B
@@ -246,15 +222,12 @@ and open the template in the editor.
                      CCP_DETAILS_SID,
                      PERIOD_SID,
                      ACTUAL_SALES,
-                     ACTUAL_UNITS,
-                     ACTUAL_PROJECTION_SALES,
-                     ACTUAL_PROJECTION_UNITS)
+                     ACTUAL_UNITS
+                     )
              SELECT B.CCP_DETAILS_SID,
                      A.PERIOD_SID,
                      A.ACTUAL_SALES,
-                     A.ACTUAL_UNITS,
-                     A.ACTUAL_PROJECTION_SALES,
-                     A.ACTUAL_PROJECTION_UNITS
+                     A.ACTUAL_UNITS
              FROM dbo.M_ACTUAL_SALES A,
 			dbo.PROJECTION_DETAILS B
 		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID

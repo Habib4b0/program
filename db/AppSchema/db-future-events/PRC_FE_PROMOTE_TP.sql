@@ -70,9 +70,9 @@ AS
                METHODOLOGY               VARCHAR(20),
                USER_GROUP                VARCHAR(50),
                CALCULATION_PERIODS       VARCHAR(4000),
-               CALCULATION_BASED         VARCHAR(100),
-               FORECAST_START_PERIOD_SID INT,
-               FORECAST_END_PERIOD_SID   INT,
+               --CALCULATION_BASED         VARCHAR(100),
+               --FORECAST_START_PERIOD_SID INT,
+               --FORECAST_END_PERIOD_SID   INT,
                ALLOCATION_BASIS          VARCHAR(50),
                CHECK_RECORD              BIT
             )
@@ -86,9 +86,10 @@ AS
                CCP_DETAILS_SID          INT,
                PERIOD_SID               INT,
                ACTUAL_SALES             NUMERIC(22, 6),
-               ACTUAL_UNITS             NUMERIC(22, 6),
-               HISTORY_PROJECTION_SALES NUMERIC(22, 6),
-               HISTORY_PROJECTION_UNITS NUMERIC(22, 6)
+               ACTUAL_UNITS             NUMERIC(22, 6)
+			   --,
+               --HISTORY_PROJECTION_SALES NUMERIC(22, 6),
+               --HISTORY_PROJECTION_UNITS NUMERIC(22, 6)
             )
 
           IF Object_id('tempdb..#TEMP_PROJECTION') IS NOT NULL
@@ -102,12 +103,13 @@ AS
                PRODUCT_GROWTH         NUMERIC(22, 6),
                PROJECTION_SALES       NUMERIC(22, 6),
                PROJECTION_UNITS       NUMERIC(22, 6),
-               PERIOD_SID             INT,
-               ADJUSTMENT_TYPE        VARCHAR(20),
-               ADJUSTMENT_BASIS       VARCHAR(20),
-               ADJUSTMENT_VARIABLE    BIT,
-               ADJUSTMENT_METHODOLOGY VARCHAR(50),
-               ADJUSTMENT_VALUES      NUMERIC(22, 6)
+               PERIOD_SID             INT
+			   --,
+               --ADJUSTMENT_TYPE        VARCHAR(20),
+               --ADJUSTMENT_BASIS       VARCHAR(20),
+               --ADJUSTMENT_VARIABLE    BIT,
+               --ADJUSTMENT_METHODOLOGY VARCHAR(50),
+               --ADJUSTMENT_VALUES      NUMERIC(22, 6)
             )
 
           IF Object_id('tempdb..#TEMP_PROJECTION_TEMP') IS NOT NULL
@@ -121,12 +123,13 @@ AS
                PRODUCT_GROWTH         NUMERIC(22, 6),
                PROJECTION_SALES       NUMERIC(22, 6),
                PROJECTION_UNITS       NUMERIC(22, 6),
-               PERIOD_SID             INT,
-               ADJUSTMENT_TYPE        VARCHAR(20),
-               ADJUSTMENT_BASIS       VARCHAR(20),
-               ADJUSTMENT_VARIABLE    BIT,
-               ADJUSTMENT_METHODOLOGY VARCHAR(50),
-               ADJUSTMENT_VALUES      NUMERIC(22, 6)
+               PERIOD_SID             INT
+			   --,
+               --ADJUSTMENT_TYPE        VARCHAR(20),
+               --ADJUSTMENT_BASIS       VARCHAR(20),
+               --ADJUSTMENT_VARIABLE    BIT,
+               --ADJUSTMENT_METHODOLOGY VARCHAR(50),
+               --ADJUSTMENT_VALUES      NUMERIC(22, 6)
             )
 
           ------------------------------------------------------ Temp Tables for Copy From Projection ends here ---------
@@ -172,10 +175,10 @@ AS
                                 B.METHODOLOGY,
                                 B.USER_GROUP,
                                 B.CALCULATION_PERIODS,
-                                B.CALCULATION_BASED,
-                                B.FORECAST_START_PERIOD_SID,
-                                B.FORECAST_END_PERIOD_SID,
-                                B.ALLOCATION_BASIS,
+                                --B.CALCULATION_BASED,
+                                --B.FORECAST_START_PERIOD_SID,
+                                --B.FORECAST_END_PERIOD_SID,
+                                --B.ALLOCATION_BASIS,
                                 B.CHECK_RECORD
                          FROM   PROJECTION_DETAILS A
                          JOIN   (SELECT B.CCP_DETAILS_SID,
@@ -183,10 +186,12 @@ AS
                                         METHODOLOGY,
                                         USER_GROUP,
                                         CALCULATION_PERIODS,
-                                        CALCULATION_BASED,
-                                        FORECAST_START_PERIOD_SID,
-                                        FORECAST_END_PERIOD_SID,
-                                        ALLOCATION_BASIS,
+                                        --CALCULATION_BASED,
+
+                                        --FORECAST_START_PERIOD_SID,
+                                        --FORECAST_END_PERIOD_SID,
+                                        --ALLOCATION_BASIS,
+
                                         CHECK_RECORD
                                  FROM   NM_SALES_PROJECTION_MASTER A
                                  JOIN   PROJECTION_DETAILS B ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
@@ -198,20 +203,20 @@ AS
                              METHODOLOGY,
                              USER_GROUP,
                              CALCULATION_PERIODS,
-                             CALCULATION_BASED,
-                             FORECAST_START_PERIOD_SID,
-                             FORECAST_END_PERIOD_SID,
-                             ALLOCATION_BASIS,
+                             --CALCULATION_BASED,
+                             --FORECAST_START_PERIOD_SID,
+                             --FORECAST_END_PERIOD_SID,
+                             --ALLOCATION_BASIS,
                              CHECK_RECORD)
                 SELECT PROJECTION_DETAILS_SID,
                        CCP_DETAILS_SID,
                        METHODOLOGY,
                        USER_GROUP,
                        CALCULATION_PERIODS,
-                       CALCULATION_BASED,
-                       FORECAST_START_PERIOD_SID,
-                       FORECAST_END_PERIOD_SID,
-                       ALLOCATION_BASIS,
+                       --CALCULATION_BASED,
+                       --FORECAST_START_PERIOD_SID,
+                       --FORECAST_END_PERIOD_SID,
+                       --ALLOCATION_BASIS,
                        CHECK_RECORD
                 FROM   TEMP_FROM_PROJECTION_MASTER
 
@@ -220,22 +225,22 @@ AS
                              METHODOLOGY,
                              USER_GROUP,
                              CALCULATION_PERIODS,
-                             CALCULATION_BASED,
-                             FORECAST_START_PERIOD_SID,
-                             FORECAST_END_PERIOD_SID,
-                             ALLOCATION_BASIS,
+                             --CALCULATION_BASED,
+                             --FORECAST_START_PERIOD_SID,
+                             --FORECAST_END_PERIOD_SID,
+                             --ALLOCATION_BASIS,
                              CHECK_RECORD)
                 SELECT PROJECTION_DETAILS_SID,
                        METHODOLOGY,
                        USER_GROUP,
                        CALCULATION_PERIODS,
-                       CALCULATION_BASED,
-                       FORECAST_START_PERIOD_SID,
-                       FORECAST_END_PERIOD_SID,
-                       ALLOCATION_BASIS,
+                       --CALCULATION_BASED,
+                       --FORECAST_START_PERIOD_SID,
+                       --FORECAST_END_PERIOD_SID,
+                       --ALLOCATION_BASIS,
                        CHECK_RECORD
                 FROM   #TEMP_MASTER A
-                WHERE  A.PROJECTION_DETAILS_SID NOT IN(SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS(SELECT B.PROJECTION_DETAILS_SID
                                                        FROM   NM_SALES_PROJECTION_MASTER B
                                                        WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID);
 
@@ -244,17 +249,21 @@ AS
                                 A.CCP_DETAILS_SID,
                                 B.PERIOD_SID,
                                 B.ACTUAL_SALES,
-                                B.ACTUAL_UNITS,
-                                B.HISTORY_PROJECTION_SALES,
-                                B.HISTORY_PROJECTION_UNITS
+                                B.ACTUAL_UNITS
+								--,
+
+        --                        B.HISTORY_PROJECTION_SALES,
+        --                        B.HISTORY_PROJECTION_UNITS
                          FROM   PROJECTION_DETAILS A
                          JOIN   (SELECT B.CCP_DETAILS_SID,
                                         A.PROJECTION_DETAILS_SID AS OLD_PROJECTION_DETAILS_SID,
                                         A.PERIOD_SID,
                                         A.ACTUAL_SALES,
-                                        A.ACTUAL_UNITS,
-                                        A.HISTORY_PROJECTION_SALES,
-                                        A.HISTORY_PROJECTION_UNITS
+                                        A.ACTUAL_UNITS
+										--,
+
+          --                              A.HISTORY_PROJECTION_SALES,
+          --                              A.HISTORY_PROJECTION_UNITS
                                  FROM   NM_ACTUAL_SALES A
                                  JOIN   NM_SALES_PROJECTION_MASTER A1 ON A1.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
                                  JOIN   PROJECTION_DETAILS B ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
@@ -265,33 +274,36 @@ AS
                              CCP_DETAILS_SID,
                              PERIOD_SID,
                              ACTUAL_SALES,
-                             ACTUAL_UNITS,
-                             HISTORY_PROJECTION_SALES,
-                             HISTORY_PROJECTION_UNITS)
+                             ACTUAL_UNITS
+							 --,
+
+        --                     HISTORY_PROJECTION_SALES,
+        --                     HISTORY_PROJECTION_UNITS
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        CCP_DETAILS_SID,
                        PERIOD_SID,
                        ACTUAL_SALES,
-                       ACTUAL_UNITS,
-                       HISTORY_PROJECTION_SALES,
-                       HISTORY_PROJECTION_UNITS
+                       ACTUAL_UNITS
+					   --,
+        --               HISTORY_PROJECTION_SALES,
+        --               HISTORY_PROJECTION_UNITS
                 FROM   TEMP_FROM_PROJECTION_ACTUAL
 
                 INSERT INTO NM_ACTUAL_SALES
                             (PROJECTION_DETAILS_SID,
                              PERIOD_SID,
                              ACTUAL_SALES,
-                             ACTUAL_UNITS,
-                             HISTORY_PROJECTION_SALES,
-                             HISTORY_PROJECTION_UNITS)
+                             ACTUAL_UNITS)
                 SELECT PROJECTION_DETAILS_SID,
                        PERIOD_SID,
                        ACTUAL_SALES,
-                       ACTUAL_UNITS,
-                       HISTORY_PROJECTION_SALES,
-                       HISTORY_PROJECTION_UNITS
+                       ACTUAL_UNITS
+					   --,
+        --               HISTORY_PROJECTION_SALES,
+        --               HISTORY_PROJECTION_UNITS
                 FROM   #TEMP_ACTUALS A
-                WHERE  A.PROJECTION_DETAILS_SID NOT IN(SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS(SELECT B.PROJECTION_DETAILS_SID
                                                        FROM   NM_ACTUAL_SALES B
                                                        WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                                               AND A.PERIOD_SID = B.PERIOD_SID);
@@ -303,12 +315,14 @@ AS
                                 B.PRODUCT_GROWTH,
                                 B.PROJECTION_SALES,
                                 B.PROJECTION_UNITS,
-                                B.PERIOD_SID,
-                                B.ADJUSTMENT_TYPE,
-                                B.ADJUSTMENT_BASIS,
-                                B.ADJUSTMENT_VARIABLE,
-                                B.ADJUSTMENT_METHODOLOGY,
-                                B.ADJUSTMENT_VALUES
+                                B.PERIOD_SID
+								--,
+
+        --                        B.ADJUSTMENT_TYPE,
+        --                        B.ADJUSTMENT_BASIS,
+        --                        B.ADJUSTMENT_VARIABLE,
+        --                        B.ADJUSTMENT_METHODOLOGY,
+        --                        B.ADJUSTMENT_VALUES
                          FROM   PROJECTION_DETAILS A
                          JOIN   (SELECT B.CCP_DETAILS_SID,
                                         A.PROJECTION_DETAILS_SID AS OLD_PROJECTION_DETAILS_SID,
@@ -316,12 +330,17 @@ AS
                                         A.PRODUCT_GROWTH,
                                         A.PROJECTION_SALES,
                                         A.PROJECTION_UNITS,
-                                        A.PERIOD_SID,
-                                        A.ADJUSTMENT_TYPE,
-                                        A.ADJUSTMENT_BASIS,
-                                        A.ADJUSTMENT_VARIABLE,
-                                        A.ADJUSTMENT_METHODOLOGY,
-                                        A.ADJUSTMENT_VALUES
+                                        A.PERIOD_SID
+										--,
+          --                              A.ADJUSTMENT_TYPE,
+          --                              A.ADJUSTMENT_BASIS,
+
+
+
+          --                              A.ADJUSTMENT_VARIABLE,
+          --                              A.ADJUSTMENT_METHODOLOGY,
+          --                              A.ADJUSTMENT_VALUES
+
                                  FROM   NM_SALES_PROJECTION A
                                  JOIN   NM_SALES_PROJECTION_MASTER A1 ON A1.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
                                  JOIN   PROJECTION_DETAILS B ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
@@ -334,24 +353,29 @@ AS
                              PRODUCT_GROWTH,
                              PROJECTION_SALES,
                              PROJECTION_UNITS,
-                             PERIOD_SID,
-                             ADJUSTMENT_TYPE,
-                             ADJUSTMENT_BASIS,
-                             ADJUSTMENT_VARIABLE,
-                             ADJUSTMENT_METHODOLOGY,
-                             ADJUSTMENT_VALUES)
+                             PERIOD_SID
+							 --,
+
+        --                     ADJUSTMENT_TYPE,
+        --                     ADJUSTMENT_BASIS,
+        --                     ADJUSTMENT_VARIABLE,
+        --                     ADJUSTMENT_METHODOLOGY,
+        --                     ADJUSTMENT_VALUES
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        CCP_DETAILS_SID,
                        ACCOUNT_GROWTH,
                        PRODUCT_GROWTH,
                        PROJECTION_SALES,
                        PROJECTION_UNITS,
-                       PERIOD_SID,
-                       ADJUSTMENT_TYPE,
-                       ADJUSTMENT_BASIS,
-                       ADJUSTMENT_VARIABLE,
-                       ADJUSTMENT_METHODOLOGY,
-                       ADJUSTMENT_VALUES
+                       PERIOD_SID
+					   --,
+
+        --               ADJUSTMENT_TYPE,
+        --               ADJUSTMENT_BASIS,
+        --               ADJUSTMENT_VARIABLE,
+        --               ADJUSTMENT_METHODOLOGY,
+        --               ADJUSTMENT_VALUES
                 FROM   TEMP_FROM_PROJECTION_PROJECTION
 
                 INSERT INTO #TEMP_PROJECTION_TEMP
@@ -361,36 +385,42 @@ AS
                              PRODUCT_GROWTH,
                              PROJECTION_SALES,
                              PROJECTION_UNITS,
-                             PERIOD_SID,
-                             ADJUSTMENT_TYPE,
-                             ADJUSTMENT_BASIS,
-                             ADJUSTMENT_VARIABLE,
-                             ADJUSTMENT_METHODOLOGY,
-                             ADJUSTMENT_VALUES)
+                             PERIOD_SID
+							 --,
+
+        --                     ADJUSTMENT_TYPE,
+        --                     ADJUSTMENT_BASIS,
+        --                     ADJUSTMENT_VARIABLE,
+        --                     ADJUSTMENT_METHODOLOGY,
+        --                     ADJUSTMENT_VALUES
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        CCP_DETAILS_SID,
                        ACCOUNT_GROWTH,
                        PRODUCT_GROWTH,
                        PROJECTION_SALES,
                        PROJECTION_UNITS,
-                       PERIOD_SID,
-                       ADJUSTMENT_TYPE,
-                       ADJUSTMENT_BASIS,
-                       ADJUSTMENT_VARIABLE,
-                       ADJUSTMENT_METHODOLOGY,
-                       ADJUSTMENT_VALUES
+                       PERIOD_SID
+					   --,
+
+        --               ADJUSTMENT_TYPE,
+        --               ADJUSTMENT_BASIS,
+        --               ADJUSTMENT_VARIABLE,
+        --               ADJUSTMENT_METHODOLOGY,
+        --               ADJUSTMENT_VALUES
                 FROM   #TEMP_PROJECTION
 
                 UPDATE T
                 SET    PROJECTION_SALES = 0,
                        PROJECTION_UNITS = 0,
                        ACCOUNT_GROWTH = 0,
-                       PRODUCT_GROWTH = 0,
-                       ADJUSTMENT_TYPE = '',
-                       ADJUSTMENT_BASIS = '',
-                       ADJUSTMENT_VARIABLE = NULL,
-                       ADJUSTMENT_METHODOLOGY = NULL,
-                       ADJUSTMENT_VALUES = 0
+                       PRODUCT_GROWTH = 0
+					   --,
+        --               ADJUSTMENT_TYPE = '',
+        --               ADJUSTMENT_BASIS = '',
+        --               ADJUSTMENT_VARIABLE = NULL,
+        --               ADJUSTMENT_METHODOLOGY = NULL,
+        --               ADJUSTMENT_VALUES = 0
                 FROM   #TEMP_PROJECTION_TEMP T
                        JOIN (SELECT PROJECTION_DETAILS_SID,
                                     PERIOD_SID
@@ -399,8 +429,8 @@ AS
                              WHERE  PERIOD_SID > @CUST_PERIOD_END
                                     AND CONTRACT_MASTER_SID = @FROM_CONTRACT_MASTER_SID
                                     AND COMPANY_MASTER_SID = @COMPANY_MASTER_SID
-                                    AND ITEM_MASTER_SID IN (SELECT ITEM_MASTER_SID
-                                                            FROM   #TEMP_ITEM))A ON A.PROJECTION_DETAILS_SID = T.PROJECTION_DETAILS_SID
+                                    AND EXISTS (SELECT ITEM_MASTER_SID
+                                                            FROM   #TEMP_ITEM T WHERE T.ITEM_MASTER_SID=B.ITEM_MASTER_SID))A ON A.PROJECTION_DETAILS_SID = T.PROJECTION_DETAILS_SID
                                                                                 AND A.PERIOD_SID = T.PERIOD_SID
 
                 INSERT INTO NM_SALES_PROJECTION
@@ -409,25 +439,30 @@ AS
                              PRODUCT_GROWTH,
                              PROJECTION_SALES,
                              PROJECTION_UNITS,
-                             PERIOD_SID,
-                             ADJUSTMENT_TYPE,
-                             ADJUSTMENT_BASIS,
-                             ADJUSTMENT_VARIABLE,
-                             ADJUSTMENT_METHODOLOGY,
-                             ADJUSTMENT_VALUES)
+                             PERIOD_SID
+							 --,
+
+        --                     ADJUSTMENT_TYPE,
+        --                     ADJUSTMENT_BASIS,
+        --                     ADJUSTMENT_VARIABLE,
+        --                     ADJUSTMENT_METHODOLOGY,
+        --                     ADJUSTMENT_VALUES
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        ACCOUNT_GROWTH,
                        PRODUCT_GROWTH,
                        PROJECTION_SALES,
                        PROJECTION_UNITS,
-                       PERIOD_SID,
-                       ADJUSTMENT_TYPE,
-                       ADJUSTMENT_BASIS,
-                       ADJUSTMENT_VARIABLE,
-                       ADJUSTMENT_METHODOLOGY,
-                       ADJUSTMENT_VALUES
+                       PERIOD_SID
+					   --,
+
+        --               ADJUSTMENT_TYPE,
+        --               ADJUSTMENT_BASIS,
+        --               ADJUSTMENT_VARIABLE,
+        --               ADJUSTMENT_METHODOLOGY,
+        --               ADJUSTMENT_VALUES
                 FROM   #TEMP_PROJECTION_TEMP A
-                WHERE  A.PROJECTION_DETAILS_SID NOT IN(SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS(SELECT B.PROJECTION_DETAILS_SID
                                                        FROM   NM_SALES_PROJECTION B
                                                        WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                                               AND A.PERIOD_SID = B.PERIOD_SID);
@@ -439,10 +474,10 @@ AS
                                 A.CCP_DETAILS_SID,
                                 B.METHODOLOGY,
                                 B.CALCULATION_PERIODS,
-                                B.CALCULATION_BASED,
-                                B.FORECAST_START_PERIOD_SID,
-                                B.FORECAST_END_PERIOD_SID,
-                                B.ALLOCATION_BASIS,
+                                --B.CALCULATION_BASED,
+                                --B.FORECAST_START_PERIOD_SID,
+                                --B.FORECAST_END_PERIOD_SID,
+                                --B.ALLOCATION_BASIS,
                                 B.CHECK_RECORD
                          FROM   PROJECTION_DETAILS A
                          JOIN   (SELECT B.CCP_DETAILS_SID,
@@ -463,19 +498,19 @@ AS
                              CCP_DETAILS_SID,
                              METHODOLOGY,
                              CALCULATION_PERIODS,
-                             CALCULATION_BASED,
-                             FORECAST_START_PERIOD_SID,
-                             FORECAST_END_PERIOD_SID,
-                             ALLOCATION_BASIS,
+                             --CALCULATION_BASED,
+                             --FORECAST_START_PERIOD_SID,
+                             --FORECAST_END_PERIOD_SID,
+                             --ALLOCATION_BASIS,
                              CHECK_RECORD)
                 SELECT PROJECTION_DETAILS_SID,
                        CCP_DETAILS_SID,
                        METHODOLOGY,
                        CALCULATION_PERIODS,
-                       CALCULATION_BASED,
-                       FORECAST_START_PERIOD_SID,
-                       FORECAST_END_PERIOD_SID,
-                       ALLOCATION_BASIS,
+                       --CALCULATION_BASED,
+                       --FORECAST_START_PERIOD_SID,
+                       --FORECAST_END_PERIOD_SID,
+                       --ALLOCATION_BASIS,
                        CHECK_RECORD
                 FROM   TEMP_FROM_PROJECTION_MASTER
 
@@ -483,21 +518,21 @@ AS
                             (PROJECTION_DETAILS_SID,
                              METHODOLOGY,
                              CALCULATION_PERIODS,
-                             CALCULATION_BASED,
-                             FORECAST_START_PERIOD_SID,
-                             FORECAST_END_PERIOD_SID,
-                             ALLOCATION_BASIS,
+                             --CALCULATION_BASED,
+                             --FORECAST_START_PERIOD_SID,
+                             --FORECAST_END_PERIOD_SID,
+                             --ALLOCATION_BASIS,
                              CHECK_RECORD)
                 SELECT PROJECTION_DETAILS_SID,
                        METHODOLOGY,
                        CALCULATION_PERIODS,
-                       CALCULATION_BASED,
-                       FORECAST_START_PERIOD_SID,
-                       FORECAST_END_PERIOD_SID,
-                       ALLOCATION_BASIS,
+                       --CALCULATION_BASED,
+                       --FORECAST_START_PERIOD_SID,
+                       --FORECAST_END_PERIOD_SID,
+                       --ALLOCATION_BASIS,
                        ISNULL(CHECK_RECORD, 0)
                 FROM   #TEMP_MASTER A
-                WHERE  A.PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS(SELECT B.PROJECTION_DETAILS_SID
                                                         FROM   M_SALES_PROJECTION_MASTER B
                                                         WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID);
 
@@ -506,17 +541,21 @@ AS
                                 A.CCP_DETAILS_SID,
                                 B.PERIOD_SID,
                                 B.ACTUAL_SALES,
-                                B.ACTUAL_UNITS,
-                                B.ACTUAL_PROJECTION_SALES,
-                                B.ACTUAL_PROJECTION_UNITS
+                                B.ACTUAL_UNITS
+								--,
+
+        --                        B.ACTUAL_PROJECTION_SALES,
+        --                        B.ACTUAL_PROJECTION_UNITS
                          FROM   PROJECTION_DETAILS A
                          JOIN   (SELECT B.CCP_DETAILS_SID,
                                         A.PROJECTION_DETAILS_SID AS OLD_PROJECTION_DETAILS_SID,
                                         A.PERIOD_SID,
                                         A.ACTUAL_SALES,
-                                        A.ACTUAL_UNITS,
-                                        A.ACTUAL_PROJECTION_SALES,
-                                        A.ACTUAL_PROJECTION_UNITS
+                                        A.ACTUAL_UNITS
+										--,
+
+          --                              A.ACTUAL_PROJECTION_SALES,
+          --                              A.ACTUAL_PROJECTION_UNITS
                                  FROM   M_ACTUAL_SALES A
                                  JOIN   M_SALES_PROJECTION_MASTER A1 ON A1.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
                                  JOIN   PROJECTION_DETAILS B ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
@@ -527,33 +566,41 @@ AS
                              CCP_DETAILS_SID,
                              PERIOD_SID,
                              ACTUAL_SALES,
-                             ACTUAL_UNITS,
-                             HISTORY_PROJECTION_SALES,
-                             HISTORY_PROJECTION_UNITS)
+                             ACTUAL_UNITS
+							 --,
+
+                             --HISTORY_PROJECTION_SALES,
+                             --HISTORY_PROJECTION_UNITS
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        CCP_DETAILS_SID,
                        PERIOD_SID,
                        ACTUAL_SALES,
-                       ACTUAL_UNITS,
-                       ACTUAL_PROJECTION_SALES,
-                       ACTUAL_PROJECTION_UNITS
+                       ACTUAL_UNITS
+					   --,
+        --               ACTUAL_PROJECTION_SALES,
+        --               ACTUAL_PROJECTION_UNITS
                 FROM   TEMP_FROM_PROJECTION_ACTUAL
 
                 INSERT INTO M_ACTUAL_SALES
                             (PROJECTION_DETAILS_SID,
                              PERIOD_SID,
                              ACTUAL_SALES,
-                             ACTUAL_UNITS,
-                             ACTUAL_PROJECTION_SALES,
-                             ACTUAL_PROJECTION_UNITS)
+                             ACTUAL_UNITS
+							 --,
+
+        --                     ACTUAL_PROJECTION_SALES,
+        --                     ACTUAL_PROJECTION_UNITS
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        PERIOD_SID,
                        ACTUAL_SALES,
-                       ACTUAL_UNITS,
-                       HISTORY_PROJECTION_SALES,
-                       HISTORY_PROJECTION_UNITS
+                       ACTUAL_UNITS
+					   --,
+        --               HISTORY_PROJECTION_SALES,
+        --               HISTORY_PROJECTION_UNITS
                 FROM   #TEMP_ACTUALS A
-                WHERE  A.PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS(SELECT B.PROJECTION_DETAILS_SID
                                                         FROM   M_ACTUAL_SALES B
                                                         WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                                                AND A.PERIOD_SID = B.PERIOD_SID);
@@ -565,12 +612,14 @@ AS
                                 B.PRODUCT_GROWTH,
                                 B.PROJECTION_SALES,
                                 B.PROJECTION_UNITS,
-                                B.PERIOD_SID,
-                                B.ADJUSTMENT_TYPE,
-                                B.ADJUSTMENT_BASIS,
-                                B.ADJUSTMENT_VARIABLE,
-                                B.ADJUSTMENT_METHODOLOGY,
-                                B.ADJUSTMENT_VALUES
+                                B.PERIOD_SID
+								--,
+
+        --                        B.ADJUSTMENT_TYPE,
+        --                        B.ADJUSTMENT_BASIS,
+        --                        B.ADJUSTMENT_VARIABLE,
+        --                        B.ADJUSTMENT_METHODOLOGY,
+        --                        B.ADJUSTMENT_VALUES
                          FROM   PROJECTION_DETAILS A
                          JOIN   (SELECT B.CCP_DETAILS_SID,
                                         A.PROJECTION_DETAILS_SID AS OLD_PROJECTION_DETAILS_SID,
@@ -578,12 +627,17 @@ AS
                                         A.PRODUCT_GROWTH,
                                         A.PROJECTION_SALES,
                                         A.PROJECTION_UNITS,
-                                        A.PERIOD_SID,
-                                        A.ADJUSTMENT_TYPE,
-                                        A.ADJUSTMENT_BASIS,
-                                        A.ADJUSTMENT_VARIABLE,
-                                        A.ADJUSTMENT_METHODOLOGY,
-                                        A.ADJUSTMENT_VALUES
+                                        A.PERIOD_SID
+										--,
+          --                              A.ADJUSTMENT_TYPE,
+          --                              A.ADJUSTMENT_BASIS,
+
+
+
+          --                              A.ADJUSTMENT_VARIABLE,
+          --                              A.ADJUSTMENT_METHODOLOGY,
+          --                              A.ADJUSTMENT_VALUES
+
                                  FROM   M_SALES_PROJECTION A
                                  JOIN   M_SALES_PROJECTION_MASTER A1 ON A1.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
                                  JOIN   PROJECTION_DETAILS B ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
@@ -596,24 +650,29 @@ AS
                              PRODUCT_GROWTH,
                              PROJECTION_SALES,
                              PROJECTION_UNITS,
-                             PERIOD_SID,
-                             ADJUSTMENT_TYPE,
-                             ADJUSTMENT_BASIS,
-                             ADJUSTMENT_VARIABLE,
-                             ADJUSTMENT_METHODOLOGY,
-                             ADJUSTMENT_VALUES)
+                             PERIOD_SID
+							 --,
+
+        --                     ADJUSTMENT_TYPE,
+        --                     ADJUSTMENT_BASIS,
+        --                     ADJUSTMENT_VARIABLE,
+        --                     ADJUSTMENT_METHODOLOGY,
+        --                     ADJUSTMENT_VALUES
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        CCP_DETAILS_SID,
                        ACCOUNT_GROWTH,
                        PRODUCT_GROWTH,
                        PROJECTION_SALES,
                        PROJECTION_UNITS,
-                       PERIOD_SID,
-                       ADJUSTMENT_TYPE,
-                       ADJUSTMENT_BASIS,
-                       ADJUSTMENT_VARIABLE,
-                       ADJUSTMENT_METHODOLOGY,
-                       ADJUSTMENT_VALUES
+                       PERIOD_SID
+					   --,
+
+        --               ADJUSTMENT_TYPE,
+        --               ADJUSTMENT_BASIS,
+        --               ADJUSTMENT_VARIABLE,
+        --               ADJUSTMENT_METHODOLOGY,
+        --               ADJUSTMENT_VALUES
                 FROM   TEMP_FROM_PROJECTION_PROJECTION
 
                 INSERT INTO #TEMP_PROJECTION_TEMP
@@ -623,36 +682,42 @@ AS
                              PRODUCT_GROWTH,
                              PROJECTION_SALES,
                              PROJECTION_UNITS,
-                             PERIOD_SID,
-                             ADJUSTMENT_TYPE,
-                             ADJUSTMENT_BASIS,
-                             ADJUSTMENT_VARIABLE,
-                             ADJUSTMENT_METHODOLOGY,
-                             ADJUSTMENT_VALUES)
+                             PERIOD_SID
+							 --,
+
+        --                     ADJUSTMENT_TYPE,
+        --                     ADJUSTMENT_BASIS,
+        --                     ADJUSTMENT_VARIABLE,
+        --                     ADJUSTMENT_METHODOLOGY,
+        --                     ADJUSTMENT_VALUES
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        CCP_DETAILS_SID,
                        ACCOUNT_GROWTH,
                        PRODUCT_GROWTH,
                        PROJECTION_SALES,
                        PROJECTION_UNITS,
-                       PERIOD_SID,
-                       ADJUSTMENT_TYPE,
-                       ADJUSTMENT_BASIS,
-                       ADJUSTMENT_VARIABLE,
-                       ADJUSTMENT_METHODOLOGY,
-                       ADJUSTMENT_VALUES
+                       PERIOD_SID
+					   --,
+
+        --               ADJUSTMENT_TYPE,
+        --               ADJUSTMENT_BASIS,
+        --               ADJUSTMENT_VARIABLE,
+        --               ADJUSTMENT_METHODOLOGY,
+        --               ADJUSTMENT_VALUES
                 FROM   #TEMP_PROJECTION
 
                 UPDATE T
                 SET    PROJECTION_SALES = 0,
                        PROJECTION_UNITS = 0,
                        ACCOUNT_GROWTH = 0,
-                       PRODUCT_GROWTH = 0,
-                       ADJUSTMENT_TYPE = '',
-                       ADJUSTMENT_BASIS = '',
-                       ADJUSTMENT_VARIABLE = NULL,
-                       ADJUSTMENT_METHODOLOGY = NULL,
-                       ADJUSTMENT_VALUES = 0
+                       PRODUCT_GROWTH = 0
+					   --,
+        --               ADJUSTMENT_TYPE = '',
+        --               ADJUSTMENT_BASIS = '',
+        --               ADJUSTMENT_VARIABLE = NULL,
+        --               ADJUSTMENT_METHODOLOGY = NULL,
+        --               ADJUSTMENT_VALUES = 0
                 FROM   #TEMP_PROJECTION_TEMP T
                        JOIN (SELECT PROJECTION_DETAILS_SID,
                                     PERIOD_SID
@@ -661,8 +726,8 @@ AS
                              WHERE  PERIOD_SID > @CUST_PERIOD_END
                                     AND CONTRACT_MASTER_SID = @FROM_CONTRACT_MASTER_SID
                                     AND COMPANY_MASTER_SID = @COMPANY_MASTER_SID
-                                    AND ITEM_MASTER_SID IN (SELECT ITEM_MASTER_SID
-                                                            FROM   #TEMP_ITEM))A ON A.PROJECTION_DETAILS_SID = T.PROJECTION_DETAILS_SID
+                                    AND EXISTS (SELECT ITEM_MASTER_SID
+                                                            FROM   #TEMP_ITEM T WHERE T.ITEM_MASTER_SID=B.ITEM_MASTER_SID))A ON A.PROJECTION_DETAILS_SID = T.PROJECTION_DETAILS_SID
                                                                                 AND A.PERIOD_SID = T.PERIOD_SID
 
                 INSERT INTO M_SALES_PROJECTION
@@ -671,25 +736,30 @@ AS
                              PRODUCT_GROWTH,
                              PROJECTION_SALES,
                              PROJECTION_UNITS,
-                             PERIOD_SID,
-                             ADJUSTMENT_TYPE,
-                             ADJUSTMENT_BASIS,
-                             ADJUSTMENT_VARIABLE,
-                             ADJUSTMENT_METHODOLOGY,
-                             ADJUSTMENT_VALUES)
+                             PERIOD_SID
+							 --,
+
+        --                     ADJUSTMENT_TYPE,
+        --                     ADJUSTMENT_BASIS,
+        --                     ADJUSTMENT_VARIABLE,
+        --                     ADJUSTMENT_METHODOLOGY,
+        --                     ADJUSTMENT_VALUES
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        ACCOUNT_GROWTH,
                        PRODUCT_GROWTH,
                        PROJECTION_SALES,
                        PROJECTION_UNITS,
-                       PERIOD_SID,
-                       ADJUSTMENT_TYPE,
-                       ADJUSTMENT_BASIS,
-                       ADJUSTMENT_VARIABLE,
-                       ADJUSTMENT_METHODOLOGY,
-                       ADJUSTMENT_VALUES
+                       PERIOD_SID
+					   --,
+
+        --               ADJUSTMENT_TYPE,
+        --               ADJUSTMENT_BASIS,
+        --               ADJUSTMENT_VARIABLE,
+        --               ADJUSTMENT_METHODOLOGY,
+        --               ADJUSTMENT_VALUES
                 FROM   #TEMP_PROJECTION A
-                WHERE  A.PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS(SELECT B.PROJECTION_DETAILS_SID
                                                         FROM   M_SALES_PROJECTION B
                                                         WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                                                AND A.PERIOD_SID = B.PERIOD_SID);
@@ -740,8 +810,8 @@ AS
                   JOIN   CCP_DETAILS B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
                   WHERE  B.CONTRACT_MASTER_SID = @FROM_CONTRACT_MASTER_SID
                          AND B.COMPANY_MASTER_SID = @COMPANY_MASTER_SID
-                         AND B.ITEM_MASTER_SID IN (SELECT ITEM_MASTER_SID
-                                                   FROM   #TEMP_ITEM)) C ON C.COMPANY_MASTER_SID = B.COMPANY_MASTER_SID
+                         AND EXISTS (SELECT ITEM_MASTER_SID
+                                                   FROM   #TEMP_ITEM T WHERE T.ITEM_MASTER_SID=B.ITEM_MASTER_SID)) C ON C.COMPANY_MASTER_SID = B.COMPANY_MASTER_SID
                                                                         AND C.ITEM_MASTER_SID = B.ITEM_MASTER_SID
           WHERE  PROJECTION_MASTER_SID = @COPY_TO_PROJECTION
                  AND B.CONTRACT_MASTER_SID = @TO_CONTRACT_MASTER_SID
@@ -763,7 +833,7 @@ AS
                  CCP_DETAILS_SID
           FROM   PROJECTION_DETAILS
           WHERE  PROJECTION_MASTER_SID = @COPY_TO_PROJECTION
-                 AND PROJECTION_DETAILS_SID NOT IN (SELECT NEW_PROJECTION_DETAILS_SID
+                 AND NOT EXISTS (SELECT NEW_PROJECTION_DETAILS_SID
                                                     FROM   #TEMP_TO_CCP);
 
           IF ( @FORECAST_TYPE = 'Non Mandated' )
@@ -781,10 +851,10 @@ AS
                                    B.METHODOLOGY,
                                    B.USER_GROUP,
                                    B.CALCULATION_PERIODS,
-                                   B.CALCULATION_BASED,
-                                   B.FORECAST_START_PERIOD_SID,
-                                   B.FORECAST_END_PERIOD_SID,
-                                   B.ALLOCATION_BASIS,
+                                   --B.CALCULATION_BASED,
+                                   --B.FORECAST_START_PERIOD_SID,
+                                   --B.FORECAST_END_PERIOD_SID,
+                                   --B.ALLOCATION_BASIS,
                                    B.CHECK_RECORD
                          FROM      PROJECTION_DETAILS A
                          LEFT JOIN (SELECT D.NEW_CCP,
@@ -792,10 +862,12 @@ AS
                                            METHODOLOGY,
                                            USER_GROUP,
                                            CALCULATION_PERIODS,
-                                           CALCULATION_BASED,
-                                           FORECAST_START_PERIOD_SID,
-                                           FORECAST_END_PERIOD_SID,
-                                           ALLOCATION_BASIS,
+                                           --CALCULATION_BASED,
+
+                                           --FORECAST_START_PERIOD_SID,
+                                           --FORECAST_END_PERIOD_SID,
+                                           --ALLOCATION_BASIS,
+
                                            CHECK_RECORD
                                     FROM   #TEMP_MASTER A
                                     JOIN   CCP_DETAILS C ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
@@ -808,22 +880,22 @@ AS
                              METHODOLOGY,
                              USER_GROUP,
                              CALCULATION_PERIODS,
-                             CALCULATION_BASED,
-                             FORECAST_START_PERIOD_SID,
-                             FORECAST_END_PERIOD_SID,
-                             ALLOCATION_BASIS,
+                             --CALCULATION_BASED,
+                             --FORECAST_START_PERIOD_SID,
+                             --FORECAST_END_PERIOD_SID,
+                             --ALLOCATION_BASIS,
                              CHECK_RECORD)
                 SELECT PROJECTION_DETAILS_SID,
                        METHODOLOGY,
                        USER_GROUP,
                        CALCULATION_PERIODS,
-                       CALCULATION_BASED,
-                       FORECAST_START_PERIOD_SID,
-                       FORECAST_END_PERIOD_SID,
-                       ALLOCATION_BASIS,
+                       --CALCULATION_BASED,
+                       --FORECAST_START_PERIOD_SID,
+                       --FORECAST_END_PERIOD_SID,
+                       --ALLOCATION_BASIS,
                        ISNULL(CHECK_RECORD, 0)
                 FROM   TEMP_TO_PROJECTION_MASTER A
-                WHERE  PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS (SELECT B.PROJECTION_DETAILS_SID
                                                       FROM   NM_SALES_PROJECTION_MASTER B
                                                       WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID);
 
@@ -832,17 +904,23 @@ AS
                                    A.CCP_DETAILS_SID,
                                    B.PERIOD_SID,
                                    B.ACTUAL_SALES,
-                                   B.ACTUAL_UNITS,
-                                   B.HISTORY_PROJECTION_SALES,
-                                   B.HISTORY_PROJECTION_UNITS
+                                   B.ACTUAL_UNITS
+								   --,
+
+           --                        B.HISTORY_PROJECTION_SALES,
+           --                        B.HISTORY_PROJECTION_UNITS
                          FROM      PROJECTION_DETAILS A
                          LEFT JOIN (SELECT C.NEW_CCP                    AS CCP_DETAILS_SID,
                                            C.NEW_PROJECTION_DETAILS_SID AS OLD_PROJECTION_DETAILS_SID,
                                            A.PERIOD_SID,
                                            0                            AS ACTUAL_SALES,
-                                           0                            AS ACTUAL_UNITS,
-                                           0                            AS HISTORY_PROJECTION_SALES,
-                                           0                            AS HISTORY_PROJECTION_UNITS
+                                           0                            AS ACTUAL_UNITS
+										   --,
+             --                              0                            AS HISTORY_PROJECTION_SALES,
+             --                              0                            AS HISTORY_PROJECTION_UNITS
+
+
+
                                     FROM   #TEMP_ACTUALS A
                                     JOIN   #TEMP_TO_CCP C ON C.OLD_CCP = A.CCP_DETAILS_SID
                                     UNION
@@ -850,9 +928,11 @@ AS
                                                PROJECTION_DETAILS_SID,
                                                A.PERIOD_SID,
                                                0 AS ACTUAL_SALES,
-                                               0 AS ACTUAL_UNITS,
-                                               0 AS HISTORY_PROJECTION_SALES,
-                                               0 AS HISTORY_PROJECTION_UNITS
+                                               0 AS ACTUAL_UNITS
+											   --,
+
+              --                                 0 AS HISTORY_PROJECTION_SALES,
+              --                                 0 AS HISTORY_PROJECTION_UNITS
                                     FROM       #TEMP_MASTER_TO_EXCLUDED
                                     CROSS JOIN (SELECT PERIOD_SID
                                                 FROM   PERIOD
@@ -862,17 +942,21 @@ AS
                             (PROJECTION_DETAILS_SID,
                              PERIOD_SID,
                              ACTUAL_SALES,
-                             ACTUAL_UNITS,
-                             HISTORY_PROJECTION_SALES,
-                             HISTORY_PROJECTION_UNITS)
+                             ACTUAL_UNITS
+							 --,
+
+        --                     HISTORY_PROJECTION_SALES,
+        --                     HISTORY_PROJECTION_UNITS
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        PERIOD_SID,
                        ACTUAL_SALES,
-                       ACTUAL_UNITS,
-                       HISTORY_PROJECTION_SALES,
-                       HISTORY_PROJECTION_UNITS
+                       ACTUAL_UNITS
+					   --,
+        --               HISTORY_PROJECTION_SALES,
+        --               HISTORY_PROJECTION_UNITS
                 FROM   TEMP_TO_PROJECTION_ACTUAL A
-                WHERE  PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS (SELECT B.PROJECTION_DETAILS_SID
                                                       FROM   NM_ACTUAL_SALES B
                                                       WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                                              AND A.PERIOD_SID = B.PERIOD_SID);
@@ -884,12 +968,15 @@ AS
                                    B.PRODUCT_GROWTH,
                                    B.PROJECTION_SALES,
                                    B.PROJECTION_UNITS,
-                                   B.PERIOD_SID,
-                                   B.ADJUSTMENT_TYPE,
-                                   B.ADJUSTMENT_BASIS,
-                                   B.ADJUSTMENT_VARIABLE,
-                                   B.ADJUSTMENT_METHODOLOGY,
-                                   B.ADJUSTMENT_VALUES
+                                   B.PERIOD_SID
+								   --,
+           --                        B.ADJUSTMENT_TYPE,
+
+
+           --                        B.ADJUSTMENT_BASIS,
+           --                        B.ADJUSTMENT_VARIABLE,
+           --                        B.ADJUSTMENT_METHODOLOGY,
+           --                        B.ADJUSTMENT_VALUES
                          FROM      PROJECTION_DETAILS A
                          LEFT JOIN (SELECT     E.NEW_CCP                AS CCP_DETAILS_SID,
                                                A.PROJECTION_DETAILS_SID AS OLD_PROJECTION_DETAILS_SID,
@@ -897,24 +984,37 @@ AS
                                                A.PRODUCT_GROWTH,
                                                A.PROJECTION_SALES,
                                                A.PROJECTION_UNITS,
-                                               E.PERIOD_SID,
-                                               A.ADJUSTMENT_TYPE,
-                                               A.ADJUSTMENT_BASIS,
-                                               A.ADJUSTMENT_VARIABLE,
-                                               A.ADJUSTMENT_METHODOLOGY,
-                                               A.ADJUSTMENT_VALUES
+                                               E.PERIOD_SID
+											   --,
+              --                                 A.ADJUSTMENT_TYPE,
+              --                                 A.ADJUSTMENT_BASIS,
+              --                                 A.ADJUSTMENT_VARIABLE,
+
+
+
+
+              --                                 A.ADJUSTMENT_METHODOLOGY,
+              --                                 A.ADJUSTMENT_VALUES
+
                                     FROM       (SELECT PROJECTION_DETAILS_SID,
                                                        NEW_CCP,
                                                        ACCOUNT_GROWTH,
                                                        PRODUCT_GROWTH,
                                                        PROJECTION_SALES,
                                                        PROJECTION_UNITS,
-                                                       PERIOD_SID,
-                                                       ADJUSTMENT_TYPE,
-                                                       ADJUSTMENT_BASIS,
-                                                       ADJUSTMENT_VARIABLE,
-                                                       ADJUSTMENT_METHODOLOGY,
-                                                       ADJUSTMENT_VALUES
+                                                       PERIOD_SID
+													   --,
+                --                                       ADJUSTMENT_TYPE,
+                --                                       ADJUSTMENT_BASIS,
+                --                                       ADJUSTMENT_VARIABLE,
+                --                                       ADJUSTMENT_METHODOLOGY,
+                --                                       ADJUSTMENT_VALUES
+
+
+
+
+
+
                                                 FROM   #TEMP_PROJECTION A
                                                 JOIN   #TEMP_TO_CCP C ON C.OLD_CCP = A.CCP_DETAILS_SID
                                                                      AND A.PERIOD_SID >= @CUST_PERIOD_START) A
@@ -931,12 +1031,17 @@ AS
                                                NULL AS PRODUCT_GROWTH,
                                                NULL AS PROJECTION_SALES,
                                                NULL AS PROJECTION_UNITS,
-                                               A.PERIOD_SID,
-                                               NULL AS ADJUSTMENT_TYPE,
-                                               NULL AS ADJUSTMENT_BASIS,
-                                               NULL AS ADJUSTMENT_VARIABLE,
-                                               NULL AS ADJUSTMENT_METHODOLOGY,
-                                               NULL AS ADJUSTMENT_VALUES
+                                               A.PERIOD_SID
+											   --,
+              --                                 NULL AS ADJUSTMENT_TYPE,
+              --                                 NULL AS ADJUSTMENT_BASIS,
+
+
+
+              --                                 NULL AS ADJUSTMENT_VARIABLE,
+              --                                 NULL AS ADJUSTMENT_METHODOLOGY,
+              --                                 NULL AS ADJUSTMENT_VALUES
+
                                     FROM       #TEMP_MASTER_TO_EXCLUDED
                                     CROSS JOIN (SELECT PERIOD_SID
                                                 FROM   PERIOD
@@ -948,25 +1053,30 @@ AS
                              PRODUCT_GROWTH,
                              PROJECTION_SALES,
                              PROJECTION_UNITS,
-                             PERIOD_SID,
-                             ADJUSTMENT_TYPE,
-                             ADJUSTMENT_BASIS,
-                             ADJUSTMENT_VARIABLE,
-                             ADJUSTMENT_METHODOLOGY,
-                             ADJUSTMENT_VALUES)
+                             PERIOD_SID
+							 --,
+
+        --                     ADJUSTMENT_TYPE,
+        --                     ADJUSTMENT_BASIS,
+        --                     ADJUSTMENT_VARIABLE,
+        --                     ADJUSTMENT_METHODOLOGY,
+        --                     ADJUSTMENT_VALUES
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        ACCOUNT_GROWTH,
                        PRODUCT_GROWTH,
                        PROJECTION_SALES,
                        PROJECTION_UNITS,
-                       PERIOD_SID,
-                       ADJUSTMENT_TYPE,
-                       ADJUSTMENT_BASIS,
-                       ADJUSTMENT_VARIABLE,
-                       ADJUSTMENT_METHODOLOGY,
-                       ADJUSTMENT_VALUES
+                       PERIOD_SID
+					   --,
+
+        --               ADJUSTMENT_TYPE,
+        --               ADJUSTMENT_BASIS,
+        --               ADJUSTMENT_VARIABLE,
+        --               ADJUSTMENT_METHODOLOGY,
+        --               ADJUSTMENT_VALUES
                 FROM   TEMP_TO_PROJECTION_PROJECTION A
-                WHERE  PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS (SELECT B.PROJECTION_DETAILS_SID
                                                       FROM   NM_SALES_PROJECTION B
                                                       WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                                              AND A.PERIOD_SID = B.PERIOD_SID);
@@ -985,10 +1095,10 @@ AS
                                    B.METHODOLOGY,
                                    B.USER_GROUP,
                                    B.CALCULATION_PERIODS,
-                                   B.CALCULATION_BASED,
-                                   B.FORECAST_START_PERIOD_SID,
-                                   B.FORECAST_END_PERIOD_SID,
-                                   B.ALLOCATION_BASIS,
+                                   --B.CALCULATION_BASED,
+                                   --B.FORECAST_START_PERIOD_SID,
+                                   --B.FORECAST_END_PERIOD_SID,
+                                   --B.ALLOCATION_BASIS,
                                    B.CHECK_RECORD
                          FROM      PROJECTION_DETAILS A
                          LEFT JOIN (SELECT D.NEW_CCP,
@@ -996,10 +1106,12 @@ AS
                                            METHODOLOGY,
                                            USER_GROUP,
                                            CALCULATION_PERIODS,
-                                           CALCULATION_BASED,
-                                           FORECAST_START_PERIOD_SID,
-                                           FORECAST_END_PERIOD_SID,
-                                           ALLOCATION_BASIS,
+                                           --CALCULATION_BASED,
+
+                                           --FORECAST_START_PERIOD_SID,
+                                           --FORECAST_END_PERIOD_SID,
+                                           --ALLOCATION_BASIS,
+
                                            CHECK_RECORD
                                     FROM   #TEMP_MASTER A
                                     JOIN   CCP_DETAILS C ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
@@ -1011,21 +1123,21 @@ AS
                             (PROJECTION_DETAILS_SID,
                              METHODOLOGY,
                              CALCULATION_PERIODS,
-                             CALCULATION_BASED,
-                             FORECAST_START_PERIOD_SID,
-                             FORECAST_END_PERIOD_SID,
-                             ALLOCATION_BASIS,
+                             --CALCULATION_BASED,
+                             --FORECAST_START_PERIOD_SID,
+                             --FORECAST_END_PERIOD_SID,
+                             --ALLOCATION_BASIS,
                              CHECK_RECORD)
                 SELECT PROJECTION_DETAILS_SID,
                        METHODOLOGY,
                        CALCULATION_PERIODS,
-                       CALCULATION_BASED,
-                       FORECAST_START_PERIOD_SID,
-                       FORECAST_END_PERIOD_SID,
-                       ALLOCATION_BASIS,
+                       --CALCULATION_BASED,
+                       --FORECAST_START_PERIOD_SID,
+                       --FORECAST_END_PERIOD_SID,
+                       --ALLOCATION_BASIS,
                        ISNULL(CHECK_RECORD, 0)
                 FROM   TEMP_TO_PROJECTION_MASTER A
-                WHERE  PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS (SELECT B.PROJECTION_DETAILS_SID
                                                       FROM   M_SALES_PROJECTION_MASTER B
                                                       WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID);
 
@@ -1034,17 +1146,23 @@ AS
                                    A.CCP_DETAILS_SID,
                                    B.PERIOD_SID,
                                    B.ACTUAL_SALES,
-                                   B.ACTUAL_UNITS,
-                                   B.HISTORY_PROJECTION_SALES,
-                                   B.HISTORY_PROJECTION_UNITS
+                                   B.ACTUAL_UNITS
+								   --,
+
+           --                        B.HISTORY_PROJECTION_SALES,
+           --                        B.HISTORY_PROJECTION_UNITS
                          FROM      PROJECTION_DETAILS A
                          LEFT JOIN (SELECT C.NEW_CCP                    AS CCP_DETAILS_SID,
                                            C.NEW_PROJECTION_DETAILS_SID AS OLD_PROJECTION_DETAILS_SID,
                                            A.PERIOD_SID,
                                            0                            AS ACTUAL_SALES,
-                                           0                            AS ACTUAL_UNITS,
-                                           0                            AS HISTORY_PROJECTION_SALES,
-                                           0                            AS HISTORY_PROJECTION_UNITS
+                                           0                            AS ACTUAL_UNITS
+										   --,
+             --                              0                            AS HISTORY_PROJECTION_SALES,
+             --                              0                            AS HISTORY_PROJECTION_UNITS
+
+
+
                                     FROM   #TEMP_ACTUALS A
                                     JOIN   #TEMP_TO_CCP C ON C.OLD_CCP = A.CCP_DETAILS_SID
                                     UNION
@@ -1052,9 +1170,11 @@ AS
                                                PROJECTION_DETAILS_SID,
                                                A.PERIOD_SID,
                                                0 AS ACTUAL_SALES,
-                                               0 AS ACTUAL_UNITS,
-                                               0 AS HISTORY_PROJECTION_SALES,
-                                               0 AS HISTORY_PROJECTION_UNITS
+                                               0 AS ACTUAL_UNITS
+											   --,
+
+              --                                 0 AS HISTORY_PROJECTION_SALES,
+              --                                 0 AS HISTORY_PROJECTION_UNITS
                                     FROM       #TEMP_MASTER_TO_EXCLUDED
                                     CROSS JOIN (SELECT PERIOD_SID
                                                 FROM   PERIOD
@@ -1064,17 +1184,21 @@ AS
                             (PROJECTION_DETAILS_SID,
                              PERIOD_SID,
                              ACTUAL_SALES,
-                             ACTUAL_UNITS,
-                             ACTUAL_PROJECTION_SALES,
-                             ACTUAL_PROJECTION_UNITS)
+                             ACTUAL_UNITS
+							 --,
+
+        --                     ACTUAL_PROJECTION_SALES,
+        --                     ACTUAL_PROJECTION_UNITS
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        PERIOD_SID,
                        ACTUAL_SALES,
-                       ACTUAL_UNITS,
-                       HISTORY_PROJECTION_SALES,
-                       HISTORY_PROJECTION_UNITS
+                       ACTUAL_UNITS
+					   --,
+                       --HISTORY_PROJECTION_SALES,
+                       --HISTORY_PROJECTION_UNITS
                 FROM   TEMP_TO_PROJECTION_ACTUAL A
-                WHERE  PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS (SELECT B.PROJECTION_DETAILS_SID
                                                       FROM   M_ACTUAL_SALES B
                                                       WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                                              AND A.PERIOD_SID = B.PERIOD_SID);
@@ -1086,12 +1210,15 @@ AS
                                    B.PRODUCT_GROWTH,
                                    B.PROJECTION_SALES,
                                    B.PROJECTION_UNITS,
-                                   B.PERIOD_SID,
-                                   B.ADJUSTMENT_TYPE,
-                                   B.ADJUSTMENT_BASIS,
-                                   B.ADJUSTMENT_VARIABLE,
-                                   B.ADJUSTMENT_METHODOLOGY,
-                                   B.ADJUSTMENT_VALUES
+                                   B.PERIOD_SID
+								   --,
+           --                        B.ADJUSTMENT_TYPE,
+
+
+           --                        B.ADJUSTMENT_BASIS,
+           --                        B.ADJUSTMENT_VARIABLE,
+           --                        B.ADJUSTMENT_METHODOLOGY,
+           --                        B.ADJUSTMENT_VALUES
                          FROM      PROJECTION_DETAILS A
                          LEFT JOIN (SELECT     E.NEW_CCP                AS CCP_DETAILS_SID,
                                                A.PROJECTION_DETAILS_SID AS OLD_PROJECTION_DETAILS_SID,
@@ -1099,24 +1226,37 @@ AS
                                                A.PRODUCT_GROWTH,
                                                A.PROJECTION_SALES,
                                                A.PROJECTION_UNITS,
-                                               E.PERIOD_SID,
-                                               A.ADJUSTMENT_TYPE,
-                                               A.ADJUSTMENT_BASIS,
-                                               A.ADJUSTMENT_VARIABLE,
-                                               A.ADJUSTMENT_METHODOLOGY,
-                                               A.ADJUSTMENT_VALUES
+                                               E.PERIOD_SID
+											   --,
+              --                                 A.ADJUSTMENT_TYPE,
+              --                                 A.ADJUSTMENT_BASIS,
+              --                                 A.ADJUSTMENT_VARIABLE,
+
+
+
+
+              --                                 A.ADJUSTMENT_METHODOLOGY,
+              --                                 A.ADJUSTMENT_VALUES
+
                                     FROM       (SELECT PROJECTION_DETAILS_SID,
                                                        NEW_CCP,
                                                        ACCOUNT_GROWTH,
                                                        PRODUCT_GROWTH,
                                                        PROJECTION_SALES,
                                                        PROJECTION_UNITS,
-                                                       PERIOD_SID,
-                                                       ADJUSTMENT_TYPE,
-                                                       ADJUSTMENT_BASIS,
-                                                       ADJUSTMENT_VARIABLE,
-                                                       ADJUSTMENT_METHODOLOGY,
-                                                       ADJUSTMENT_VALUES
+                                                       PERIOD_SID
+													   --,
+                --                                       ADJUSTMENT_TYPE,
+                --                                       ADJUSTMENT_BASIS,
+                --                                       ADJUSTMENT_VARIABLE,
+                --                                       ADJUSTMENT_METHODOLOGY,
+                --                                       ADJUSTMENT_VALUES
+
+
+
+
+
+
                                                 FROM   #TEMP_PROJECTION A
                                                 JOIN   #TEMP_TO_CCP C ON C.OLD_CCP = A.CCP_DETAILS_SID
                                                                      AND A.PERIOD_SID >= @CUST_PERIOD_START) A
@@ -1133,12 +1273,17 @@ AS
                                                NULL AS PRODUCT_GROWTH,
                                                NULL AS PROJECTION_SALES,
                                                NULL AS PROJECTION_UNITS,
-                                               A.PERIOD_SID,
-                                               NULL AS ADJUSTMENT_TYPE,
-                                               NULL AS ADJUSTMENT_BASIS,
-                                               NULL AS ADJUSTMENT_VARIABLE,
-                                               NULL AS ADJUSTMENT_METHODOLOGY,
-                                               NULL AS ADJUSTMENT_VALUES
+                                               A.PERIOD_SID
+											   --,
+              --                                 NULL AS ADJUSTMENT_TYPE,
+              --                                 NULL AS ADJUSTMENT_BASIS,
+
+
+
+              --                                 NULL AS ADJUSTMENT_VARIABLE,
+              --                                 NULL AS ADJUSTMENT_METHODOLOGY,
+              --                                 NULL AS ADJUSTMENT_VALUES
+
                                     FROM       #TEMP_MASTER_TO_EXCLUDED
                                     CROSS JOIN (SELECT PERIOD_SID
                                                 FROM   PERIOD
@@ -1150,25 +1295,30 @@ AS
                              PRODUCT_GROWTH,
                              PROJECTION_SALES,
                              PROJECTION_UNITS,
-                             PERIOD_SID,
-                             ADJUSTMENT_TYPE,
-                             ADJUSTMENT_BASIS,
-                             ADJUSTMENT_VARIABLE,
-                             ADJUSTMENT_METHODOLOGY,
-                             ADJUSTMENT_VALUES)
+                             PERIOD_SID
+							 --,
+
+        --                     ADJUSTMENT_TYPE,
+        --                     ADJUSTMENT_BASIS,
+        --                     ADJUSTMENT_VARIABLE,
+        --                     ADJUSTMENT_METHODOLOGY,
+        --                     ADJUSTMENT_VALUES
+							 )
                 SELECT PROJECTION_DETAILS_SID,
                        ACCOUNT_GROWTH,
                        PRODUCT_GROWTH,
                        PROJECTION_SALES,
                        PROJECTION_UNITS,
-                       PERIOD_SID,
-                       ADJUSTMENT_TYPE,
-                       ADJUSTMENT_BASIS,
-                       ADJUSTMENT_VARIABLE,
-                       ADJUSTMENT_METHODOLOGY,
-                       ADJUSTMENT_VALUES
+                       PERIOD_SID
+					   --,
+
+        --               ADJUSTMENT_TYPE,
+        --               ADJUSTMENT_BASIS,
+        --               ADJUSTMENT_VARIABLE,
+        --               ADJUSTMENT_METHODOLOGY,
+        --               ADJUSTMENT_VALUES
                 FROM   TEMP_TO_PROJECTION_PROJECTION A
-                WHERE  PROJECTION_DETAILS_SID NOT IN (SELECT B.PROJECTION_DETAILS_SID
+                WHERE  NOT EXISTS (SELECT B.PROJECTION_DETAILS_SID
                                                       FROM   M_SALES_PROJECTION B
                                                       WHERE  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
                                                              AND A.PERIOD_SID = B.PERIOD_SID);

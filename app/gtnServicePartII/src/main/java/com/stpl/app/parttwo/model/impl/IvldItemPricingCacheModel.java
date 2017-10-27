@@ -48,10 +48,11 @@ public class IvldItemPricingCacheModel implements CacheModel<IvldItemPricing>,
     public String itemPrice;
     public long intfInsertedDate;
     public boolean checkRecord;
+    public String itemPriceprecision;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(53);
+        StringBundler sb = new StringBundler(55);
 
         sb.append("{itemNo=");
         sb.append(itemNo);
@@ -105,6 +106,8 @@ public class IvldItemPricingCacheModel implements CacheModel<IvldItemPricing>,
         sb.append(intfInsertedDate);
         sb.append(", checkRecord=");
         sb.append(checkRecord);
+        sb.append(", itemPriceprecision=");
+        sb.append(itemPriceprecision);
         sb.append("}");
 
         return sb.toString();
@@ -262,6 +265,12 @@ public class IvldItemPricingCacheModel implements CacheModel<IvldItemPricing>,
 
         ivldItemPricingImpl.setCheckRecord(checkRecord);
 
+        if (itemPriceprecision == null) {
+            ivldItemPricingImpl.setItemPriceprecision(StringPool.BLANK);
+        } else {
+            ivldItemPricingImpl.setItemPriceprecision(itemPriceprecision);
+        }
+
         ivldItemPricingImpl.resetOriginalValues();
 
         return ivldItemPricingImpl;
@@ -295,6 +304,7 @@ public class IvldItemPricingCacheModel implements CacheModel<IvldItemPricing>,
         itemPrice = objectInput.readUTF();
         intfInsertedDate = objectInput.readLong();
         checkRecord = objectInput.readBoolean();
+        itemPriceprecision = objectInput.readUTF();
     }
 
     @Override
@@ -434,5 +444,11 @@ public class IvldItemPricingCacheModel implements CacheModel<IvldItemPricing>,
 
         objectOutput.writeLong(intfInsertedDate);
         objectOutput.writeBoolean(checkRecord);
+
+        if (itemPriceprecision == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(itemPriceprecision);
+        }
     }
 }

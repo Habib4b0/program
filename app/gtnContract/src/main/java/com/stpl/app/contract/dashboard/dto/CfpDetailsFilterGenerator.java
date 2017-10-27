@@ -8,16 +8,20 @@ package com.stpl.app.contract.dashboard.dto;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.contractheader.util.CommonUtils;
 import com.stpl.app.contract.contractheader.util.UIUtils;
+import com.stpl.app.contract.util.Constants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.PopupDateField;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
+import org.asi.ui.extfilteringtable.datefilter.ExtDateFilterPopup;
 
 /**
  *
@@ -64,13 +68,20 @@ public class CfpDetailsFilterGenerator implements ExtFilterGenerator{
             try {
                 commonUtil.loadComboBox(companyStatus, UIUtils.STATUS, true);
             
-            } catch (SystemException ex) {
-                Logger.getLogger(CfpDetailsFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-                
             } catch (Exception ex) {
                 Logger.getLogger(CfpDetailsFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
             return companyStatus;
+        }
+        if (Constants.COMPANY_CATEGORY.equals(propertyId)) {
+           ComboBox categoryCompany = new ComboBox();
+            try {
+                commonUtil.loadComboBox(categoryCompany, UIUtils.COMPANY_CATEGORY_LIST_NAME, true);
+            
+            } catch (Exception ex) {
+                Logger.getLogger(CfpDetailsFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return categoryCompany;
         }
          
        if ("companyType".equals(propertyId)) {
@@ -78,9 +89,6 @@ public class CfpDetailsFilterGenerator implements ExtFilterGenerator{
             try {
                 commonUtil.loadComboBox(companyType, UIUtils.COMP_TYPE, true);
             
-            } catch (SystemException ex) {
-                Logger.getLogger(CfpDetailsFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-                
             } catch (Exception ex) {
                 Logger.getLogger(CfpDetailsFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -92,27 +100,31 @@ public class CfpDetailsFilterGenerator implements ExtFilterGenerator{
             try {
                 commonUtil.loadComboBox(companyFamilyPlanStatus, UIUtils.STATUS, true);
             
-            } catch (SystemException ex) {
-                Logger.getLogger(CfpDetailsFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-                
             } catch (Exception ex) {
                 Logger.getLogger(CfpDetailsFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
             return companyFamilyPlanStatus;
         }
        
-       
-       
+        if ("createdDate".equals(propertyId) || "modifiedDate".equals(propertyId)) {
+            final ExtDateFilterPopup createdDate = new ExtDateFilterPopup(new ExtDemoFilterDecorator(), propertyId);
+            createdDate.setImmediate(true);
+            createdDate.setDescription(Constants.DATE);
+            return createdDate;
+        }
+     
        
         return null;
     }
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

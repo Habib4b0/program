@@ -66,8 +66,8 @@ public class SalesRebateTab extends VerticalLayout {
         rebate.loadResultTable(session, projectionId);
     }
 
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+    public void enter() {
+        return;
     }
 
 }

@@ -26,12 +26,12 @@ public class HeaderUtils {
 
     public static CustomTableHeaderDTO getSalesTabLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
-        tableHeaderDTO.addSingleColumn("levelValue", "Customer/Contract/Product", String.class);
-        tableHeaderDTO.addDoubleColumn("levelValue", "");
-        tableHeaderDTO.addDoubleHeaderMap("levelValue", new Object[]{"levelValue"});
-        fullHeaderDTO.addSingleColumn("levelValue", "Customer/Contract/Product", String.class);
-        fullHeaderDTO.addDoubleColumn("levelValue", "");
-        fullHeaderDTO.addDoubleHeaderMap("levelValue", new Object[]{"levelValue"});
+        tableHeaderDTO.addSingleColumn(Constants.LEVEL_VALUE_PROPERTY, "Customer/Contract/Product", String.class);
+        tableHeaderDTO.addDoubleColumn(Constants.LEVEL_VALUE_PROPERTY, "");
+        tableHeaderDTO.addDoubleHeaderMap(Constants.LEVEL_VALUE_PROPERTY, new Object[]{Constants.LEVEL_VALUE_PROPERTY});
+        fullHeaderDTO.addSingleColumn(Constants.LEVEL_VALUE_PROPERTY, "Customer/Contract/Product", String.class);
+        fullHeaderDTO.addDoubleColumn(Constants.LEVEL_VALUE_PROPERTY, "");
+        fullHeaderDTO.addDoubleHeaderMap(Constants.LEVEL_VALUE_PROPERTY, new Object[]{Constants.LEVEL_VALUE_PROPERTY});
         return tableHeaderDTO;
     }
 
@@ -41,11 +41,11 @@ public class HeaderUtils {
     }
 
     public static CustomTableHeaderDTO getSalesTabsCalculatedColumns(CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO fullHeaderDTO, String frequency) {
-        List<String> periodList = new ArrayList<String>();
-        Map<String, String> periodListMap = new HashMap<String, String>();
+        List<String> periodList = new ArrayList<>();
+        Map<String, String> periodListMap = new HashMap<>();
         prepareCommonColumnHeaders(periodList, periodListMap, frequency);
         for (int i = 0; i < periodList.size(); i++) {
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             String commonColumn = periodList.get(i);
             String commonHeader = periodListMap.get(commonColumn);
             Object singleColumn = commonColumn + SALES.getConstant();
@@ -99,7 +99,7 @@ public class HeaderUtils {
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {
-        List<String> common = new ArrayList<String>();
+        List<String> common = new ArrayList<>();
         String commonColumn = "";
         String commonHeader = "";
         if (frequencyDivision == 1) {
@@ -127,11 +127,11 @@ public class HeaderUtils {
     }
 
     public static CustomTableHeaderDTO getRebateTabsCalculatedColumns(CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO fullHeaderDTO, String frequency) {
-        List<String> periodList = new ArrayList<String>();
-        Map<String, String> periodListMap = new HashMap<String, String>();
+        List<String> periodList = new ArrayList<>();
+        Map<String, String> periodListMap = new HashMap<>();
         prepareCommonColumnHeaders(periodList, periodListMap, frequency);
         for (int i = 0; i < periodList.size(); i++) {
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             String commonColumn = periodList.get(i);
             String commonHeader = periodListMap.get(commonColumn);
             Object singleColumn = commonColumn + AMOUNT.getConstant();
@@ -163,12 +163,12 @@ public class HeaderUtils {
      */
     public static CustomTableHeaderDTO getSalesTabLeftTableColumnsForPromoteTP(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
-        tableHeaderDTO.addSingleColumn("levelValue", "Contract Holder/Contract/Product", String.class);
-        tableHeaderDTO.addDoubleColumn("group", "");
-        tableHeaderDTO.addDoubleHeaderMap("group", new Object[]{"levelValue"});
-        fullHeaderDTO.addSingleColumn("levelValue", "Contract Holder/Contract/Product", String.class);
-        fullHeaderDTO.addDoubleColumn("group", "");
-        fullHeaderDTO.addDoubleHeaderMap("group", new Object[]{"levelValue"});
+        tableHeaderDTO.addSingleColumn(Constants.LEVEL_VALUE_PROPERTY, "Contract Holder/Contract/Product", String.class);
+        tableHeaderDTO.addDoubleColumn(Constants.GROUP_PROPERTY, "");
+        tableHeaderDTO.addDoubleHeaderMap(Constants.GROUP_PROPERTY, new Object[]{Constants.LEVEL_VALUE_PROPERTY});
+        fullHeaderDTO.addSingleColumn(Constants.LEVEL_VALUE_PROPERTY, "Contract Holder/Contract/Product", String.class);
+        fullHeaderDTO.addDoubleColumn(Constants.GROUP_PROPERTY, "");
+        fullHeaderDTO.addDoubleHeaderMap(Constants.GROUP_PROPERTY, new Object[]{Constants.LEVEL_VALUE_PROPERTY});
         return tableHeaderDTO;
     }
 
@@ -194,16 +194,16 @@ public class HeaderUtils {
         int projectFrequency = NumericConstants.THREE;
 
         int division = 1;
-        if (freq.equals("Quarterly")) {
+        if (freq.equals(Constants.QUARTERLY)) {
             current = curMonth / NumericConstants.THREE;
             division = NumericConstants.FOUR;
-        } else if (freq.equals("Semi-Annually")) {
+        } else if (freq.equals(Constants.SEMIANNUALLY)) {
             current = curMonth / NumericConstants.SIX;
             division = NumericConstants.TWO;
-        } else if (freq.equals("Monthly")) {
+        } else if (freq.equals(Constants.MONTHLY)) {
             current = curMonth;
             division = NumericConstants.TWELVE;
-        } else if (freq.equals("Annually")) {
+        } else if (freq.equals(Constants.ANNUALLY)) {
             current = curYear;
             division = 1;
         }
@@ -226,36 +226,36 @@ public class HeaderUtils {
 
         int squr = startFreq;
         int syear = pastYear;
-        if (freq.contains("Annually") && !freq.contains("Semi-Annually")) {
+        if (freq.contains(Constants.ANNUALLY) && !freq.contains(Constants.SEMIANNUALLY)) {
             syear = current - frequency;
         }
         for (int i = 0; i < frequency; i++) {
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             String commonColumn = "";
             String commonHeader = "";
-            if (freq.contains("Quarterly")) {
+            if (freq.contains(Constants.QUARTERLY)) {
                 commonColumn = "q" + squr + "" + syear;
                 commonHeader = "Q" + squr + " " + syear;
-            } else if (freq.contains("Semi-Annually")) {
+            } else if (freq.contains(Constants.SEMIANNUALLY)) {
                 commonColumn = "s" + squr + "" + syear;
                 commonHeader = "S" + squr + " " + syear;
-            } else if (freq.contains("Annually")) {
+            } else if (freq.contains(Constants.ANNUALLY)) {
                 commonColumn = "" + syear;
                 commonHeader = "" + syear;
-            } else if (freq.contains("Monthly")) {
+            } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
                 commonHeader = monthName + " " + syear;
             }
 
             if (isSalesFlag) {
-                dmap.add(commonColumn + "Sales");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Sales", "Sales", String.class);
-                dmap.add(commonColumn + "Units");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Units", "Units", String.class);
+                dmap.add(commonColumn + Constants.SALES_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.SALES_LABEL, Constants.SALES_LABEL, String.class);
+                dmap.add(commonColumn + Constants.UNITS_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.UNITS_LABEL, Constants.UNITS_LABEL, String.class);
             } else {
-                dmap.add(commonColumn + "Amount");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Amount", "Amount", String.class);
+                dmap.add(commonColumn + Constants.AMOUNT_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.AMOUNT_LABEL, Constants.AMOUNT_LABEL, String.class);
                 dmap.add(commonColumn + "Rate");
                 tableHeaderDTO.addSingleColumn(commonColumn + "Rate", "Rate", String.class);
 
@@ -272,31 +272,31 @@ public class HeaderUtils {
         }
         squr = current + 1;
         for (int i = 0; i < projectFrequency; i++) {
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             String commonColumn = "";
             String commonHeader = "";
-            if (freq.contains("Quarterly")) {
+            if (freq.contains(Constants.QUARTERLY)) {
                 commonColumn = "Q" + squr + "" + syear;
                 commonHeader = "Q" + squr + " " + syear;
-            } else if (freq.contains("Semi-Annually")) {
+            } else if (freq.contains(Constants.SEMIANNUALLY)) {
                 commonColumn = "S" + squr + "" + syear;
                 commonHeader = "S" + squr + " " + syear;
-            } else if (freq.contains("Annually")) {
+            } else if (freq.contains(Constants.ANNUALLY)) {
                 commonColumn = "" + syear;
                 commonHeader = "" + syear;
-            } else if (freq.contains("Monthly")) {
+            } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
                 commonHeader = monthName + " " + syear;
             }
             if (isSalesFlag) {
-                dmap.add(commonColumn + "Sales");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Sales", "Sales", String.class);
-                dmap.add(commonColumn + "Units");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Units", "Units", String.class);
+                dmap.add(commonColumn + Constants.SALES_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.SALES_LABEL, Constants.SALES_LABEL, String.class);
+                dmap.add(commonColumn + Constants.UNITS_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.UNITS_LABEL, Constants.UNITS_LABEL, String.class);
             } else {
-                dmap.add(commonColumn + "Amount");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Amount", "Amount", String.class);
+                dmap.add(commonColumn + Constants.AMOUNT_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.AMOUNT_LABEL, Constants.AMOUNT_LABEL, String.class);
                 dmap.add(commonColumn + "Rate");
                 tableHeaderDTO.addSingleColumn(commonColumn + "Rate", "Rate", String.class);
 
@@ -327,22 +327,22 @@ public class HeaderUtils {
         int projectFrequency = NumericConstants.FOUR;
 
         int division = 1;
-        if (freq.equals("Quarterly")) {
+        if (freq.equals(Constants.QUARTERLY)) {
             current = curMonth / NumericConstants.THREE;
             division = NumericConstants.FOUR;
             projectFrequency = NumericConstants.TWELVE;
-        } else if (freq.equals("Semi-Annually")) {
+        } else if (freq.equals(Constants.SEMIANNUALLY)) {
             current = curMonth / NumericConstants.SIX;
             division = NumericConstants.TWO;
             projectFrequency = NumericConstants.SIX;
-        } else if (freq.equals("Monthly")) {
+        } else if (freq.equals(Constants.MONTHLY)) {
             current = curMonth;
             division = NumericConstants.TWELVE;
             projectFrequency = NumericConstants.THIRTY_SIX;
-        } else if (freq.equals("Annually")) {
+        } else if (freq.equals(Constants.ANNUALLY)) {
             current = curYear;
             division = 1;
-            projectFrequency = NumericConstants.FOUR;
+            projectFrequency = NumericConstants.THREE;
         }
         projectFrequency = projectFrequency + 1;
         int pastYear = curYear;
@@ -361,43 +361,43 @@ public class HeaderUtils {
         } else {
             startFreq = startFreq - frequency;
         }
-
+        
         int squr = startFreq;
         int syear = pastYear;
-        if (freq.contains("Annually") && !freq.contains("Semi-Annually")) {
+        if (freq.contains(Constants.ANNUALLY) && !freq.contains(Constants.SEMIANNUALLY)) {
             syear = current - frequency;
         }
         for (int i = 0; i < frequency; i++) {
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             String commonColumn = "";
             String commonHeader = "";
-            if (freq.contains("Quarterly")) {
+            if (freq.contains(Constants.QUARTERLY)) {
                 commonColumn = "q" + squr + "" + syear;
                 commonHeader = "Q" + squr + " " + syear;
-            } else if (freq.contains("Semi-Annually")) {
+            } else if (freq.contains(Constants.SEMIANNUALLY)) {
                 commonColumn = "s" + squr + "" + syear;
                 commonHeader = "S" + squr + " " + syear;
-            } else if (freq.contains("Annually")) {
+            } else if (freq.contains(Constants.ANNUALLY)) {
                 commonColumn = "" + syear;
                 commonHeader = "" + syear;
-            } else if (freq.contains("Monthly")) {
+            } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
                 commonColumn = commonColumn.toLowerCase();
                 commonHeader = monthName + " " + syear;
             }
             if (isSalesFlag) {
-                dmap.add(commonColumn + "Sales");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Sales", "Sales", String.class);
-                fullHeader.addSingleColumn(commonColumn + "Sales", commonHeader+" Sales", String.class);
+                dmap.add(commonColumn + Constants.SALES_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.SALES_LABEL, Constants.SALES_LABEL, String.class);
+                fullHeader.addSingleColumn(commonColumn + Constants.SALES_LABEL, commonHeader+" Sales", String.class);
                
-                dmap.add(commonColumn + "Units");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Units", "Units", String.class);
-                fullHeader.addSingleColumn(commonColumn + "Units", commonHeader +" Units", String.class);
+                dmap.add(commonColumn + Constants.UNITS_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.UNITS_LABEL, Constants.UNITS_LABEL, String.class);
+                fullHeader.addSingleColumn(commonColumn + Constants.UNITS_LABEL, commonHeader +" Units", String.class);
             } else {
-                dmap.add(commonColumn + "Amount");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Amount", "Amount", String.class);
-                fullHeader.addSingleColumn(commonColumn + "Amount", commonHeader+" Amount", String.class);
+                dmap.add(commonColumn + Constants.AMOUNT_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.AMOUNT_LABEL, Constants.AMOUNT_LABEL, String.class);
+                fullHeader.addSingleColumn(commonColumn + Constants.AMOUNT_LABEL, commonHeader+" Amount", String.class);
                 dmap.add(commonColumn + "Rate");
                 tableHeaderDTO.addSingleColumn(commonColumn + "Rate", "Rate", String.class);
                 fullHeader.addSingleColumn(commonColumn + "Rate", commonHeader+" Rate", String.class);
@@ -417,35 +417,35 @@ public class HeaderUtils {
         }
         squr = current + 1;
         for (int i = 0; i < projectFrequency; i++) {
-            List<Object> dmap = new ArrayList<Object>();
+            List<Object> dmap = new ArrayList<>();
             String commonColumn = "";
             String commonHeader = "";
-            if (freq.contains("Quarterly")) {
+            if (freq.contains(Constants.QUARTERLY)) {
                 commonColumn = "q" + squr + "" + syear;
                 commonHeader = "Q" + squr + " " + syear;
-            } else if (freq.contains("Semi-Annually")) {
+            } else if (freq.contains(Constants.SEMIANNUALLY)) {
                 commonColumn = "s" + squr + "" + syear;
                 commonHeader = "S" + squr + " " + syear;
-            } else if (freq.contains("Annually")) {
+            } else if (freq.contains(Constants.ANNUALLY)) {
                 commonColumn = "" + syear;
                 commonHeader = "" + syear;
-            } else if (freq.contains("Monthly")) {
+            } else if (freq.contains(Constants.MONTHLY)) {
                 String monthName = getMonthForInt(squr - 1);
                 commonColumn = monthName + syear;
                 commonColumn = commonColumn.toLowerCase();
                 commonHeader = monthName + " " + syear;
             }
             if (isSalesFlag) {
-                dmap.add(commonColumn + "Sales");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Sales", "Sales", String.class);
-                fullHeader.addSingleColumn(commonColumn + "Sales", commonHeader+" Sales", String.class);
-                dmap.add(commonColumn + "Units");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Units", "Units", String.class);
-                fullHeader.addSingleColumn(commonColumn + "Units", commonHeader+" Units", String.class);
+                dmap.add(commonColumn + Constants.SALES_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.SALES_LABEL, Constants.SALES_LABEL, String.class);
+                fullHeader.addSingleColumn(commonColumn + Constants.SALES_LABEL, commonHeader+" Sales", String.class);
+                dmap.add(commonColumn + Constants.UNITS_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.UNITS_LABEL, Constants.UNITS_LABEL, String.class);
+                fullHeader.addSingleColumn(commonColumn + Constants.UNITS_LABEL, commonHeader+" Units", String.class);
             } else {
-                dmap.add(commonColumn + "Amount");
-                tableHeaderDTO.addSingleColumn(commonColumn + "Amount", "Amount", String.class);
-                fullHeader.addSingleColumn(commonColumn + "Amount", commonHeader+" Amount", String.class);
+                dmap.add(commonColumn + Constants.AMOUNT_LABEL);
+                tableHeaderDTO.addSingleColumn(commonColumn + Constants.AMOUNT_LABEL, Constants.AMOUNT_LABEL, String.class);
+                fullHeader.addSingleColumn(commonColumn + Constants.AMOUNT_LABEL, commonHeader+" Amount", String.class);
                 dmap.add(commonColumn + "Rate");
                 tableHeaderDTO.addSingleColumn(commonColumn + "Rate", "Rate", String.class);
                 fullHeader.addSingleColumn(commonColumn + "Rate", commonHeader+" Rate", String.class);

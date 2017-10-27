@@ -219,8 +219,8 @@ public class RebatePlanLookup extends Window {
         resultsTable.setSizeFull();
         resultsTable.setConverter("createdDate", new DateToStringConverter());
         resultsTable.setConverter("modifiedDate", new DateToStringConverter());
-        resultsTable.setVisibleColumns(RsUtils.REBATE_PLAN_LOOKUP);
-        resultsTable.setColumnHeaders(RsUtils.REBATE_PLAN_LOOKUP_HEADER);
+        resultsTable.setVisibleColumns(RsUtils.getInstance().rebatePlanLookup);
+        resultsTable.setColumnHeaders(RsUtils.getInstance().rebatePlanLookupHeader);
         resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName(ConstantsUtils.FILTER_BAR);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -249,6 +249,7 @@ public class RebatePlanLookup extends Window {
                              */
                             @SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
+                                return;
 
                             }
                         }, ButtonId.OK);
@@ -336,7 +337,7 @@ public class RebatePlanLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof RebatePlanDTO) {
-            targetItem = new BeanItem<RebatePlanDTO>(
+            targetItem = new BeanItem<>(
                     (RebatePlanDTO) obj);
         }        
         return (RebatePlanDTO) targetItem.getBean();
@@ -360,7 +361,7 @@ public class RebatePlanLookup extends Window {
         this.isSelected = isSelected;
     }
 
-     protected void excelExportLogic() throws SystemException, PortalException {
+     protected void excelExportLogic() {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
@@ -377,7 +378,7 @@ public class RebatePlanLookup extends Window {
         }
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         RebatePlanDTO dto;
        List<RebatePlanDTO> resultList = (List<RebatePlanDTO>) rebateScheduleLogic.loadRebatePlan(rebatePlanDTO,start,end,false,null,null); 
         

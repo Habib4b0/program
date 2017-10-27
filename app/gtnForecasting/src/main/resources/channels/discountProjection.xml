@@ -61,7 +61,7 @@ and open the template in the editor.
                             <Label value="Adjustment: " contentMode="HTML" />  
                             <TextField id="adjustment" immediate="true"
                                    enable="true"/>
-                            <Label value="  Allocation Methodology: " contentMode="HTML" width="185"/>
+                            <Label value="  Allocation Methododlogy: " contentMode="HTML" width="185"/>
                             <ComboBox id="allocMethodology" immediate="true"
                                   description="Select One" />   
                             <Label value="  Adjustment Periods: " contentMode="HTML"  width="143"/>  

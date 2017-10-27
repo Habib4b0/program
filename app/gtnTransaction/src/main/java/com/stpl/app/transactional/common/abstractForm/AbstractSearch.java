@@ -110,19 +110,28 @@ public abstract class AbstractSearch extends CustomComponent {
 
     CustomTextField privateViewTextField = null;
     CustomTextField publicViewTextField = null;
-    List<List> searchList = new ArrayList<List>();
-    List<String> headerList = new ArrayList<String>();
-    Set<String> headerListInventoryRemove = new HashSet<String>();
-    List<Object> columnList = new ArrayList<Object>();
+    List<List> searchList = new ArrayList<>();
+    List<String> headerList = new ArrayList<>();
+    Set<String> headerListInventoryRemove = new HashSet<>();
+    List<Object> columnList = new ArrayList<>();
     List<DetailsDTO> moduleDetailsValue = null;
-    List<DetailsDTO> primaryDetailsValue = new ArrayList<DetailsDTO>();
+    List<DetailsDTO> primaryDetailsValue = new ArrayList<>();
     protected Object[] tableColumnArr;
     protected Object[] excelVisibleColumnArr;
     protected String[] tableHeaderArr;
+    /*
+     main layout
+    */
     @UiField("mainLayout")
     VerticalLayout mainLayout;
+    /*
+    css Layout 
+    */
     @UiField("cssLayout")
     protected CssLayout cssLayout;
+    /**
+     * buttonLayout
+     */
     @UiField("buttonLayout")
     private HorizontalLayout buttonLayout;
     @UiField("excelBtn")
@@ -169,8 +178,8 @@ public abstract class AbstractSearch extends CustomComponent {
     private VerticalLayout searchFieldVerticalLayout2;
 
     final ThemeResource excelImage = new ThemeResource("../../icons/excel.png");
-    protected Map<Object, Object> searchValues = new HashMap<Object, Object>();
-    protected Map<Object, Object> tableValues = new HashMap<Object, Object>();
+    protected Map<Object, Object> searchValues = new HashMap<>();
+    protected Map<Object, Object> tableValues = new HashMap<>();
     protected CustomMenuBar.CustomMenuItem deductionValueItem;
     protected String tableValue = null;
     protected String tableValue1 = null;
@@ -183,7 +192,7 @@ public abstract class AbstractSearch extends CustomComponent {
     public static String EXCEL_NAME = "Forcast";
     CommonLogic logic = new CommonLogic();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    public BeanItemContainer<DetailsDTO> container = new BeanItemContainer<DetailsDTO>(DetailsDTO.class);
+    public BeanItemContainer<DetailsDTO> container = new BeanItemContainer<>(DetailsDTO.class);
     private static Map<String, Integer> excelOrderMap = new HashMap<String, Integer>();
     /**
      * The Constant LOGGER.
@@ -217,6 +226,7 @@ public abstract class AbstractSearch extends CustomComponent {
     String className = StringUtils.EMPTY;
     public boolean loadEnable = false;
     int arpRecordCount = 0;
+    public static final String CHECK_RECORD = "checkRecord";
     int j = 0;
 
     private CustomTextField redemptionPeriodToDate = new CustomTextField();
@@ -310,14 +320,14 @@ public abstract class AbstractSearch extends CustomComponent {
             fieldForecastSalesHM = stplSecurity.getFieldOrColumnPermission(userId,
                     ConstantUtil.INVALID_INVENTORYVIEW_TABLE.equalsIgnoreCase(invalidTableName) ? ConstantUtil.IVLD_INVENTORY_WITHDRAWAL_SUMMARY : invalidTableName, false);
         }
-        headerList = new ArrayList<String>();
-        columnList = new ArrayList<Object>();
+        headerList = new ArrayList<>();
+        columnList = new ArrayList<>();
         for (final DetailsDTO moduleProperty : moduleDetailsValue) {
             if (ConstantUtil.IVLD_RETURN_RESERVE.equals(invalidTableName) && moduleProperty.getPropertyName().equals("brandId")) {
                 focus();
             }
             if (((((AppPermission) fieldForecastSalesHM.get(moduleProperty.getPropertyName())) == null) ? false
-                    : ((AppPermission) fieldForecastSalesHM.get(moduleProperty.getPropertyName())).isSearchFlag()) || (ConstantUtil.Button.equals(moduleProperty.getCategoryName()))) {
+                    : ((AppPermission) fieldForecastSalesHM.get(moduleProperty.getPropertyName())).isSearchFlag()) || (ConstantUtil.BUTTON.equals(moduleProperty.getCategoryName()))) {
 
                 if (ConstantUtil.COLUMN.equals(moduleProperty.getCategoryName())) {
                     if (ConstantUtil.IVLD_RETURN_RESERVE.equals(invalidTableName)) {
@@ -328,7 +338,7 @@ public abstract class AbstractSearch extends CustomComponent {
                             moduleProperty.setDisplayName("Invalid Record ID");
                         }
                     }
-                    if ("checkRecord".equals(moduleProperty.getPropertyName())) {
+                    if (CHECK_RECORD.equals(moduleProperty.getPropertyName())) {
                         headerList.add(0, moduleProperty.getDisplayName());
                         columnList.add(0, moduleProperty.getPropertyName());
                     } else {
@@ -347,8 +357,8 @@ public abstract class AbstractSearch extends CustomComponent {
 
         }
         if (ConstantUtil.INVALID_GTS_CUSTOMER.equals(invalidTableName)) {
-            List<String> headList = new ArrayList<String>();
-            List<String> columlist = new ArrayList<String>();
+            List<String> headList = new ArrayList<>();
+            List<String> columlist = new ArrayList<>();
             headList.add("Forecast Interface ID");
             columlist.add("customerGtsForecastIntfId");
             for (String headlist1 : headList) {
@@ -359,8 +369,8 @@ public abstract class AbstractSearch extends CustomComponent {
             }
         }
         if (ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL.equals(invalidTableName)) {
-            List<String> headList = new ArrayList<String>();
-            List<String> columlist = new ArrayList<String>();
+            List<String> headList = new ArrayList<>();
+            List<String> columlist = new ArrayList<>();
             headList.add("Interface ID");
             columlist.add("customerGtsActualIntfId");
             for (String headlist1 : headList) {
@@ -371,14 +381,14 @@ public abstract class AbstractSearch extends CustomComponent {
             }
         }
         if (ConstantUtil.DEMANDVIEW_TABLE.equalsIgnoreCase(tableName) || ConstantUtil.IVLD_DEMANDVIEW_TABLE.equalsIgnoreCase(invalidTableName)) {
-            List<String> headList = new ArrayList<String>();
+            List<String> headList = new ArrayList<>();
             headList.add(ConstantUtil.FORECASTING_NAME);
             headList.add(ConstantUtil.FORECAST_SPACE_VERSION);
             headList.add(ConstantUtil.DEMANDTYPE);
             headList.add(ConstantUtil.UNCAPTURED_UNIT);
             headList.add(ConstantUtil.UNCAPTURED_UNIT_RATIO);
             headList.add(ConstantUtil.INVENTORY_UNITS_CHANGE);
-            List<String> columlist = new ArrayList<String>();
+            List<String> columlist = new ArrayList<>();
             columlist.add(ConstantUtil.FORECAST_NAME);
             columlist.add(ConstantUtil.FORECAST_VER);
             columlist.add(ConstantUtil.UN_CAPTURED_UNITS);
@@ -393,8 +403,8 @@ public abstract class AbstractSearch extends CustomComponent {
             }
         }
         if (ConstantUtil.INVENTORYVIEW_TABLE.equalsIgnoreCase(tableName) || ConstantUtil.INVALID_INVENTORYVIEW_TABLE.equalsIgnoreCase(tableName)) {
-            List<String> headList = new ArrayList<String>();
-            List<String> columlist = new ArrayList<String>();
+            List<String> headList = new ArrayList<>();
+            List<String> columlist = new ArrayList<>();
             if (ConstantUtil.SUMMARY.equalsIgnoreCase(primaryDto.getLevelDdlb())) {
                 headList.add(ConstantUtil.COMPANYID);
                 headList.add(ConstantUtil.COMPANYNAME);
@@ -441,7 +451,7 @@ public abstract class AbstractSearch extends CustomComponent {
     }
 
     private Component componentCreater(final DetailsDTO moduleProperty) throws PortalException, SystemException {
-        if (ConstantUtil.TextField.equals(moduleProperty.getCategoryName())) {
+        if (ConstantUtil.TEXT_FIELD.equals(moduleProperty.getCategoryName())) {
             return new TextField() {
                 {
                     setData(moduleProperty.getPropertyName());
@@ -465,7 +475,6 @@ public abstract class AbstractSearch extends CustomComponent {
                         setImmediate(true);
                         setValidationVisible(true);
                     }
-                    System.out.println("tableName-------" + tableName);
                     switch (tableName) {
                         case ConstantUtil.ST_CFF_OUTBOUND:
                             if (moduleProperty.getPropertyName().equals("financialForecastId")) {
@@ -520,7 +529,7 @@ public abstract class AbstractSearch extends CustomComponent {
                     }
                 }
             };
-        } else if (ConstantUtil.CustomTextField.equals(moduleProperty.getCategoryName())) {
+        } else if (ConstantUtil.CUSTOM_TEXT_FIELD.equals(moduleProperty.getCategoryName())) {
             if (ConstantUtil.REDEMPTION_PERIOD.equalsIgnoreCase(moduleProperty.getPropertyName())) {
                 return new CustomTextField() {
                     {
@@ -573,7 +582,7 @@ public abstract class AbstractSearch extends CustomComponent {
                     }
                 };
             }
-        } else if (ConstantUtil.CustomMenuBar.equals(moduleProperty.getCategoryName())) {
+        } else if (ConstantUtil.CUSTOM_MENU_BAR.equals(moduleProperty.getCategoryName())) {
             return new CustomMenuBar() {
                 {
                     setScrollable(true);
@@ -582,7 +591,7 @@ public abstract class AbstractSearch extends CustomComponent {
                     setStyleName("customMenuBarWidth-199");
                 }
             };
-        } else if (ConstantUtil.PopupDateField.equals(moduleProperty.getCategoryName())) {
+        } else if (ConstantUtil.POP_UP_DATE_FIELD.equals(moduleProperty.getCategoryName())) {
             return new PopupDateField() {
                 {
                     setData(moduleProperty.getPropertyName());
@@ -859,6 +868,10 @@ public abstract class AbstractSearch extends CustomComponent {
                                             primaryDto.setLevelDdlb(tableValue1);
                                             getIterativeComponents1(cssLayout, true, moduleProperty.getPropertyName());
                                         }
+                                        if (moduleProperty.getPropertyName().equalsIgnoreCase(ConstantUtil.LEVEL) && ConstantUtil.STRING_NULL.equalsIgnoreCase(tableValue1)) {
+                                            primaryDto.setLevelDdlb(tableValue1);
+                                            getIterativeComponents1(cssLayout, true, moduleProperty.getPropertyName());
+                                        }
                                     } catch (Exception ex) {
                                         LOGGER.error(ex);
                                     }
@@ -906,7 +919,7 @@ public abstract class AbstractSearch extends CustomComponent {
                         setNullSelectionItemId(ConstantUtil.SELECT_ONE);
                         select(ConstantUtil.SELECT_ONE);
                         setData(moduleProperty.getPropertyName());
-                    } else if (moduleProperty.getPropertyName().equals("ndc9") || moduleProperty.getPropertyName().equals("ndc8") || moduleProperty.getPropertyName().equals("brand") || moduleProperty.getPropertyName().equals("pricingCodeQualifierName") || moduleProperty.getPropertyName().equals("itemQualifier") || moduleProperty.getPropertyName().equals("identifierCodeQualifierName") || moduleProperty.getPropertyName().equals("priorTradeClass")) {
+                    } else if (moduleProperty.getPropertyName().equals("ndc9") || moduleProperty.getPropertyName().equals("ndc8") || moduleProperty.getPropertyName().equals("brand") || moduleProperty.getPropertyName().equals("pricingCodeQualifierName") || moduleProperty.getPropertyName().equals("itemQualifier") || moduleProperty.getPropertyName().equals(IDENTIFIER_CODE_QUALIFIER_NAME)|| moduleProperty.getPropertyName().equals("priorTradeClass")) {
                         String sql = StringUtils.EMPTY;
                         List<String> ndcList = new ArrayList<>();
                         setImmediate(true);
@@ -924,14 +937,21 @@ public abstract class AbstractSearch extends CustomComponent {
                                 ndcList.add(obj.toString());
                             }
 
-                        } else if (moduleProperty.getPropertyName().equals("identifierCodeQualifierName")) {
-                            sql = "select DISTINCT IQ.ITEM_QUALIFIER_NAME from  ITEM_QUALIFIER IQ WHERE IQ.ITEM_QUALIFIER_NAME IS NOT NULL";
+                        } else if (moduleProperty.getPropertyName().equals(IDENTIFIER_CODE_QUALIFIER_NAME) && (ConstantUtil.VW_COMPANY_IDENTIFIER.equals(tableName)|| ConstantUtil.INVALID_COMPANY_IDENTIFIER.equals(invalidTableName))) {
+                            sql = "select DISTINCT CQ.COMPANY_QUALIFIER_NAME from COMPANY_QUALIFIER CQ WHERE CQ.COMPANY_QUALIFIER_VALUE IS NOT NULL";
                             List<Object> list = new ArrayList<>();
                             list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
                             for (Object obj : list) {
                                 ndcList.add(obj.toString());
                             }
-                        } else if (moduleProperty.getPropertyName().equals("pricingCodeQualifierName")) {
+                        } else if (moduleProperty.getPropertyName().equals(IDENTIFIER_CODE_QUALIFIER_NAME)  && (ConstantUtil.VW_ITEM_IDENTIFIER.equals(tableName)|| "IvldItemIdentifier".equals(invalidTableName))) {
+                            sql = "select DISTINCT CQ.ITEM_QUALIFIER_NAME from ITEM_QUALIFIER CQ WHERE CQ.ITEM_QUALIFIER_VALUE IS NOT NULL";
+                            List<Object> list = new ArrayList<>();
+                            list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
+                            for (Object obj : list) {
+                                ndcList.add(obj.toString());
+                            }
+                        }else if (moduleProperty.getPropertyName().equals("pricingCodeQualifierName")) {
                             sql = "select DISTINCT IQ.ITEM_PRICING_QUALIFIER_NAME from ITEM_PRICING_QUALIFIER IQ WHERE IQ.ITEM_PRICING_QUALIFIER_NAME IS NOT NULL";
                             List<Object> list = new ArrayList<>();
                             list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -972,12 +992,25 @@ public abstract class AbstractSearch extends CustomComponent {
                                         if (ConstantUtil.TABLE.equalsIgnoreCase(moduleProperty.getPropertyName())) {
                                             tableValue = ConstantUtil.INVENTORY_WITHDRAWAL_SUMMARY.equals(String.valueOf(event.getProperty().getValue()).replaceAll("\\s", StringUtils.EMPTY)) ? ConstantUtil.INVENTORY : String.valueOf(event.getProperty().getValue()).replaceAll("\\s", StringUtils.EMPTY);
                                             newList = new ArrayList();
-                                            if (tableValue.equals("ProjectedGTS–CustomerLevel")) {
+                                            if (tableValue.equals("GTSForecast")) {
                                                 tableValue = ConstantUtil.CUSTOMERSALES;
-                                            } else if (tableValue.equals("ActualGTS–CustomerLevel")) {
+                                            } else if (tableValue.equals("GTSActual")) {
                                                 tableValue = ConstantUtil.ACTUALGTSCUSTOMERSALES;
-                                            } else if (tableValue.equals("AccrualInboundDetails")) {
+                                            } else if (tableValue.equals("AccrualDetails")) {
                                                 tableValue = ConstantUtil.ACCRUAL_DETAILS;
+                                            }
+                                            else if (tableValue.equals("SalesForecast")) {
+                                                tableValue = "ForecastSales";
+                                            } else if (tableValue.equals("Payments")) {
+                                                tableValue = ACTUALS_MASTER;
+                                            }else if (tableValue.equals("GLCostCenter")) {
+                                                tableValue = "GlCostCenterMaster";
+                                            }else if (tableValue.equals("CPI")) {
+                                                tableValue = "CPIMaster";
+                                            }else if (tableValue.equals("InventoryWithdrawals")) {
+                                                tableValue = "Inventory";
+                                            }else if (tableValue.equals("GLBalance")) {
+                                                tableValue = "GLBalanceMaster";
                                             }
                                             EXCEL_NAME = tableValue;
                                             if (ConstantUtil.DEMAND.equals(tableValue)) {
@@ -1142,6 +1175,8 @@ public abstract class AbstractSearch extends CustomComponent {
                                             }
                                         }
                                         VaadinSession.getCurrent().setAttribute(ConstantUtil.VIEW_SID_NAME, viewNameSid);
+                                        table.setFilterFieldVisible(ConstantUtil.CHECK_RECORD, false);
+                                        table.setColumnCheckBox(ConstantUtil.CHECK_RECORD, true, false);
                                     } catch (Exception ex) {
                                         LOGGER.error(ex);
                                     }
@@ -1372,6 +1407,8 @@ public abstract class AbstractSearch extends CustomComponent {
 
                                     } else if (size >= NumericConstants.THREE && forecastTypeValue.equalsIgnoreCase(helperList.get(NumericConstants.TWO) == null ? StringUtils.EMPTY : helperList.get(NumericConstants.TWO).getDescription())) {
                                         getIterativeComponents1(cssLayout, true, moduleProperty.getPropertyName());
+                                    } else if ("forecastType".equalsIgnoreCase(moduleProperty.getPropertyName()) && ConstantUtil.STRING_NULL.equalsIgnoreCase(forecastTypeValue)) {
+                                        getIterativeComponents1(cssLayout, true, moduleProperty.getPropertyName());
                                     }
                                 }
                             });
@@ -1379,8 +1416,9 @@ public abstract class AbstractSearch extends CustomComponent {
                         }
                     }
                 }
+                public static final String IDENTIFIER_CODE_QUALIFIER_NAME = "identifierCodeQualifierName";
             };
-        } else if (ConstantUtil.Button.equals(moduleProperty.getCategoryName())) {
+        } else if (ConstantUtil.BUTTON.equals(moduleProperty.getCategoryName())) {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
 
@@ -1416,15 +1454,17 @@ public abstract class AbstractSearch extends CustomComponent {
         }
         return null;
     }
+    public static final String ACTUALS_MASTER = "ActualsMaster";
 
-    public void singleFieldSet(final Component labelComponent, final Component fieldComponent) {
+    public void singleFieldSet(final Component label, final Component fieldComponent) {
         if (fieldComponent != null) {
+            Label labelComponent=(Label)label;
             if (selectedInvalidModule.equalsIgnoreCase(ConstantUtil.INVALID_RECORD_COUNT)) {
                 cssLayout1.addComponent(labelComponent);
                 cssLayout1.addComponent(fieldComponent);
             } else if (tableName.equals(ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL) || tableName.equals(ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL)) {
-                if (labelComponent.toString().equalsIgnoreCase("Private Views") || labelComponent.toString().equalsIgnoreCase("Public View") || (labelComponent.toString().equalsIgnoreCase("Adjustment Type")) || (labelComponent.toString().equalsIgnoreCase("Transaction Level"))
-                        || (labelComponent.toString().equalsIgnoreCase("GL Company") || labelComponent.toString().equalsIgnoreCase("Business Unit") || (labelComponent.toString().equalsIgnoreCase("Workflow  ID")) || (labelComponent.toString().equalsIgnoreCase("Workflow Name")))) {
+                if (labelComponent.getValue().equalsIgnoreCase("Private Views") || labelComponent.getValue().equalsIgnoreCase("Public View") || (labelComponent.getValue().equalsIgnoreCase("Adjustment Type")) || (labelComponent.getValue().equalsIgnoreCase("Transaction Level"))
+                        || (labelComponent.getValue().equalsIgnoreCase("GL Company") || labelComponent.getValue().equalsIgnoreCase("Business Unit") || (labelComponent.getValue().equalsIgnoreCase("Workflow  ID")) || (labelComponent.getValue().equalsIgnoreCase("Workflow Name")))) {
                     summaryPanel.setVisible(true);
                     searchFieldLayout2.removeStyleName("responsiveGrid"); // Added for GAL-6070
                     searchFieldVerticalLayout.addStyleName(ConstantUtil.WIDTH_AUTO);
@@ -1435,9 +1475,9 @@ public abstract class AbstractSearch extends CustomComponent {
                     cssLayout2.addComponent(fieldComponent);
                     gridLayout1.addComponent(labelComponent); // Added for GAL-6070
                     gridLayout1.addComponent(fieldComponent);
-                    if (labelComponent.toString().equalsIgnoreCase("Private Views") || labelComponent.toString().equalsIgnoreCase("Public View")) {
+                    if (labelComponent.getValue().equalsIgnoreCase("Private Views") || labelComponent.getValue().equalsIgnoreCase("Public View")) {
                         fieldComponent.addStyleName("searchicon");
-                    } else if (labelComponent.toString().equalsIgnoreCase("Adjustment Type")) {
+                    } else if (labelComponent.getValue().equalsIgnoreCase("Adjustment Type")) {
                         fieldComponent.setWidth("208px");
                     }
                 } else {
@@ -1453,7 +1493,7 @@ public abstract class AbstractSearch extends CustomComponent {
                     cssLayout.addComponent(fieldComponent);
                     gridLayout2.addComponent(labelComponent); //Added for GAL-6070
                     gridLayout2.addComponent(fieldComponent);
-                    if (labelComponent.toString().equalsIgnoreCase(ConstantUtil.ADJUSTMENT_LEVEL)) {
+                    if (labelComponent.getValue().equalsIgnoreCase(ConstantUtil.ADJUSTMENT_LEVEL)) {
                         loadAdjustmentLevel();
                     }
                     if (tableName.equals(ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL) || tableName.equals(ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL)) {
@@ -1463,13 +1503,13 @@ public abstract class AbstractSearch extends CustomComponent {
             } else {
                 if (fieldComponent instanceof ComboBox || fieldComponent instanceof CustomMenuBar) {
                     fieldComponent.addStyleName("margin-bottom-7px");
-                    if (labelComponent.toString().equalsIgnoreCase("Trade Class")) {
+                    if (labelComponent.getValue().equalsIgnoreCase("Trade Class")) {
                         fieldComponent.addStyleName("tradeClassDdlb");
                     }
                 }
                 cssLayout.addComponent(labelComponent);
                 cssLayout.addComponent(fieldComponent);
-                if (labelComponent.toString().equalsIgnoreCase(ConstantUtil.ADJUSTMENT_LEVEL)) {
+                if (labelComponent.getValue().equalsIgnoreCase(ConstantUtil.ADJUSTMENT_LEVEL)) {
                     loadAdjustmentLevel();
                 }
                 if (tableName.equals(ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL) || tableName.equals(ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL)) {
@@ -1571,9 +1611,9 @@ public abstract class AbstractSearch extends CustomComponent {
         try {
             if (ConstantUtil.SEARCH.equals(event.getButton().getCaption())) {
                 searchValues.clear();
-                List<Component> compList = new ArrayList<Component>();
+                List<Component> compList = new ArrayList<>();
                 getIterativeComponents(searchFieldVerticalLayout, compList);
-                List<Component> compList2 = new ArrayList<Component>();
+                List<Component> compList2 = new ArrayList<>();
                 getIterativeComponents(searchFieldVerticalLayout2, compList2);
 
                 for (Component component : compList) {
@@ -1642,7 +1682,7 @@ public abstract class AbstractSearch extends CustomComponent {
                                 try {
                                     ((TextField) component).validate();
                                 } catch (Validator.InvalidValueException e) {
-                                    errorMsg.setValue(String.valueOf(e));
+                                    errorMsg.setValue(String.valueOf(e.getMessage()));
                                     errorMsg.setComponentError(new UserError(e.getMessage()));
                                     errorMsg.setVisible(true);
                                 } catch (Exception e) {
@@ -1658,7 +1698,7 @@ public abstract class AbstractSearch extends CustomComponent {
                                 SimpleDateFormat sdf = new SimpleDateFormat(ConstantUtil.DATE_FORMAT);
                                 Date date = ((PopupDateField) component).getValue();
                                 searchValues.put(((PopupDateField) component).getData() + "_Date", sdf.format(date));
-                            } else if (tableName.equals("Invalidrecordcount")) {
+                            } else if (tableName.equals(INVALIDRECORDCOUNT)) {
 
                                 SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy hh:mmaa");
                                 Date date = ((PopupDateField) component).getValue();
@@ -1796,6 +1836,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
                                         @SuppressWarnings("PMD")
                                         public void buttonClicked(final ButtonId buttonId) {
+                                            return;
                                         }
                                     }, ButtonId.OK);
                                     msg.getButton(ButtonId.OK).focus();
@@ -1835,6 +1876,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
+                                        return;
                                     }
                                 }, ButtonId.OK);
                                 msg.getButton(ButtonId.OK).focus();
@@ -1853,6 +1895,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
+                                    return;
                                 }
                             }, ButtonId.OK);
                             msg.getButton(ButtonId.OK).focus();
@@ -1865,6 +1908,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
+                                        return;
                                     }
                                 }, ButtonId.OK);
                                 msg.getButton(ButtonId.OK).focus();
@@ -1922,6 +1966,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
+                                        return;
                                     }
                                 }, ButtonId.OK);
                                 msg.getButton(ButtonId.OK).focus();
@@ -2009,6 +2054,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
+                            return;
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
@@ -2020,6 +2066,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
+                            return;
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
@@ -2030,7 +2077,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
                 arpCount = tableLogic.getArpCount();
             } else if (ConstantUtil.RESET.equals(event.getButton().getCaption())) {
-                String msg = StringUtils.EMPTY;
+                String msg;
                 if (!ConstantUtil.ST_CFF_OUTBOUND.equals(tableName) && !ConstantUtil.ARP_OUTBOUND.equals(tableName) && !ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)
                         && !ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
                     msg = "Are you sure you want to reset the page to default/previous values ";
@@ -2105,6 +2152,7 @@ public abstract class AbstractSearch extends CustomComponent {
             LOGGER.error(e);
         }
     }
+    public static final String INVALIDRECORDCOUNT = "Invalidrecordcount";
 
     /**
      * Adds the to table.
@@ -2148,7 +2196,7 @@ public abstract class AbstractSearch extends CustomComponent {
                         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
 
                             boolean check = event.isChecked();
-                            String checkValue = StringUtils.EMPTY;
+                            String checkValue;
                             if (check) {
                                 checkValue = "1";
                             } else {
@@ -2171,7 +2219,7 @@ public abstract class AbstractSearch extends CustomComponent {
                                 customCheckBox.addClickListener(new ExtCustomCheckBox.ClickListener() {
                                     @Override
                                     public void click(ExtCustomCheckBox.ClickEvent event) {
-                                        String check = StringUtils.EMPTY;
+                                        String check;
                                         if (customCheckBox.getValue()) {
                                             check = "1";
                                             ++arpCount;
@@ -2220,8 +2268,8 @@ public abstract class AbstractSearch extends CustomComponent {
                             }
                             return field;
                         }
-                    });
-                } else if (tableName.equals("VwCustomerGtsForecast") || tableName.equals(ConstantUtil.CUSTOMER_GTS_ACTUAL)
+                       });
+                   } else if (tableName.equals("VwCustomerGtsForecast") || tableName.equals(ConstantUtil.CUSTOMER_GTS_ACTUAL)
                         || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(tableName) || ConstantUtil.ST_CFF_OUTBOUND.equals(tableName) || ConstantUtil.VW_ITEM_IDENTIFIER.equals(tableName) || ConstantUtil.VW_ITEM_PRICING.equals(tableName) || ConstantUtil.VW_COMPANY_IDENTIFIER.equals(tableName)
                         || ConstantUtil.VW_COMPANY_PARENT_DETAILS.equals(tableName) || ConstantUtil.VW_COMPANY_TRADE_CLASS.equals(tableName) || ConstantUtil.VW_ITEM_MASTER.equals(tableName)
                         || ConstantUtil.VW_COMPANY_MASTER.equals(tableName) || ConstantUtil.RETURN_RESERVE.equals(tableName) || ConstantUtil.IVLD_RETURN_RESERVE.equals(tableName)) {
@@ -2288,16 +2336,13 @@ public abstract class AbstractSearch extends CustomComponent {
                                 customCheckbox.addClickListener(new ExtCustomCheckBox.ClickListener() {
                                     @Override
                                     public void click(ExtCustomCheckBox.ClickEvent event) {
-                                        String check = StringUtils.EMPTY;
+                                        String check;
                                         if (customCheckbox.getValue()) {
                                             check = "1";
-                                            table.setColumnCheckBox(ConstantUtil.CHECK_RECORD, true, true);
+                                            ++arpCount;
                                         } else {
                                             check = "0";
-                                            if (table.getColumnCheckBox(ConstantUtil.CHECK_RECORD)) {
-                                                table.setColumnCheckBox(ConstantUtil.CHECK_RECORD, true, false);
-                                            }
-
+                                            --arpCount;
                                         }
 
                                         String cffId = String.valueOf(table.getContainerProperty(itemId, "cffDetailsSid").getValue());
@@ -2306,6 +2351,7 @@ public abstract class AbstractSearch extends CustomComponent {
                                         String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
                                         String deductionId = String.valueOf(table.getContainerProperty(itemId, "rsModelSid").getValue());
                                         searchLogic.updateCheckRecord(check, cffId, userId, periodSid, sessionId, deductionId);
+                                        table.setColumnCheckBox(ConstantUtil.CHECK_RECORD, true, commonLogic.CFFcheckandUncheckALL(userId, sessionId));
                                     }
                                 });
                                 field = customCheckbox;
@@ -2351,19 +2397,19 @@ public abstract class AbstractSearch extends CustomComponent {
                 resultsPanel.setVisible(false);
                 excelExport.setVisible(false);
                 invalidButtonLayout.setVisible(false);
-                table.setEditable(true);                
-                table.setColumnCheckBox("checkRecord", true, false);
+                table.setEditable(true);
+                table.setColumnCheckBox(CHECK_RECORD, true, false);
                 table.addColumnCheckListener(new ColumnCheckListener() {
 
                     public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
 
                         boolean check = event.isChecked();
-                        String checkValue = StringUtils.EMPTY;
+                        String checkValue;
                         if (check) {
                             checkValue = "1";
                         } else {
                             checkValue = "0";
-                        }                                          
+                        }
                         selectedRecords = new ArrayList<>();
                         SearchLogic searchLogic = new SearchLogic();
                         List<Object> checkList = new ArrayList<>();
@@ -2392,11 +2438,11 @@ public abstract class AbstractSearch extends CustomComponent {
                                     java.util.logging.Logger.getLogger(AbstractSearch.class.getName()).log(Level.SEVERE, null, ex);
                                 } 
                         }
-                        String invalidTableName = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME));      
+                        String invalidTableName = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME));
                         commonLogic.updateAllInInvalidTableOnCheckAll(selectedRecords,viewNameSid,invalidTableName,checkValue,false,StringUtils.EMPTY);
                         
                         for (Object item : table.getItemIds()) {
-                            tableLogic.getContainerDataSource().getContainerProperty(item, "checkRecord").setValue(check);
+                            tableLogic.getContainerDataSource().getContainerProperty(item, CHECK_RECORD).setValue(check);
                         }
                     }
                 });
@@ -2404,18 +2450,18 @@ public abstract class AbstractSearch extends CustomComponent {
                     public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                         Field field = null;
 
-                        if ("checkRecord".equals(propertyId.toString())) {
+                        if (CHECK_RECORD.equals(propertyId.toString())) {
                             final ExtCustomCheckBox customCheckBox = new ExtCustomCheckBox();
                             customCheckBox.setImmediate(true);
                             customCheckBox.setEnabled(true);
                             customCheckBox.addClickListener(new ExtCustomCheckBox.ClickListener() {
                                 @Override
-                                public void click(ExtCustomCheckBox.ClickEvent event) {                                    
+                                public void click(ExtCustomCheckBox.ClickEvent event) {
                                     selectedRecordSid = (int) tableLogic.getContainerDataSource().getContainerProperty(itemId, viewName).getValue();
-                                    selectedRecords.add(selectedRecordSid);
                                     String invalidTableName = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME));                                    
-                                    commonLogic.updateInvalidTable(selectedRecordSid, viewNameSid, invalidTableName, customCheckBox.getValue() ? 1 : 0);
-                                }
+                                    commonLogic.updateInvalidTable(selectedRecordSid, viewNameSid, invalidTableName, customCheckBox.getValue() ? 1 : 0,String.valueOf(searchValues.get("isMaster")));
+                                    table.setColumnCheckBox(CHECK_RECORD, true, commonLogic.checkandUncheckALL(invalidTableName));
+                                    }
                             });
                             field = customCheckBox;
                         }
@@ -2423,7 +2469,7 @@ public abstract class AbstractSearch extends CustomComponent {
                     }
                 });
             }
-            if (tableName.equals("Invalidrecordcount")
+            if (tableName.equals(INVALIDRECORDCOUNT)
                     || ConstantUtil.VW_ITEM_IDENTIFIER.equals(tableName) || ConstantUtil.VW_ITEM_PRICING.equals(tableName) || ConstantUtil.VW_COMPANY_IDENTIFIER.equals(tableName)
                     || ConstantUtil.VW_COMPANY_PARENT_DETAILS.equals(tableName) || ConstantUtil.VW_COMPANY_TRADE_CLASS.equals(tableName) || ConstantUtil.VW_ITEM_MASTER.equals(tableName)
                     || ConstantUtil.VW_COMPANY_MASTER.equals(tableName)) {
@@ -2507,8 +2553,8 @@ public abstract class AbstractSearch extends CustomComponent {
 
             if (primaryDto.getValidation().equals("GL Balance") || primaryDto.getValidation().equals(ConstantUtil.ACCRUAL_MASTER) || primaryDto.getValidation().equals(ConstantUtil.CPI_INDEX) || primaryDto.getValidation().equals("GlobalFilesItemPricing")
                     || primaryDto.getValidation().equals("GlobalFilesCompanyMaster") || primaryDto.getValidation().equals("GlobalFilesCompanyIdentifier") || primaryDto.getValidation().equals("GlobalFilesCompanyParent") || primaryDto.getValidation().equals("GlobalFilesCompanyTradeClass")
-                    || primaryDto.getValidation().equals("GlobalFilesItemMaster") || primaryDto.getValidation().equals("GlobalFilesItemIdentifier") || primaryDto.getValidation().equals("Return Reserve Actual")) {
-                table.setFilterGenerator(new FilterGenerator());
+                    || tableName.equals(INVALIDRECORDCOUNT)|| primaryDto.getValidation().equals("GlobalFilesItemMaster") || primaryDto.getValidation().equals("GlobalFilesItemIdentifier") || primaryDto.getValidation().equals("Return Reserve Actual")) {
+                table.setFilterGenerator(new FilterGenerator(tableName));
             }
 
         } catch (Exception ec) {
@@ -2521,8 +2567,19 @@ public abstract class AbstractSearch extends CustomComponent {
      * To get table columns
      */
     private void getTableColumns() {
+        /*
+        To make checkbox for first column
+        */        
+         if(headerList.contains("")){
+           headerList.remove("");
+           headerList.add(0,"");
+        }
         tableHeaderArr = new String[headerList.size()];
         tableHeaderArr = headerList.toArray(tableHeaderArr);
+          if(columnList.contains(CHECK_RECORD)){
+           columnList.remove(CHECK_RECORD);
+           columnList.add(0, CHECK_RECORD);
+        }
         tableColumnArr = new Object[columnList.size()];
         tableColumnArr = columnList.toArray(tableColumnArr);
     }
@@ -2800,7 +2857,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
         try{
         LOGGER.debug("Entering createWorkSheet");
         long recordCount = 0;
@@ -2846,7 +2903,7 @@ public abstract class AbstractSearch extends CustomComponent {
                     if (!ConstantUtil.ARP_OUTBOUND.equals(tableName)) {
                         if (searchValues.isEmpty()) {
                             recordCount = (int) searchLogic.getActualsTotalCount(ConstantUtil.INVALID_RECORD_COUNT.equalsIgnoreCase(tableName) ? invalidTableName : tableName);
-                        } else if ("ActualsMaster".equals(tableName) || ConstantUtil.IVID_ACTUAL_MASTER.equals(invalidTableName)) {
+                        } else if (ACTUALS_MASTER.equals(tableName) || ConstantUtil.IVID_ACTUAL_MASTER.equals(invalidTableName)) {
                             recordCount = searchLogic.getActualSearchResults(searchValues, null, ConstantUtil.INVALID_RECORD_COUNT.equalsIgnoreCase(tableName) ? invalidTableName : tableName);
                         } else {
                             if (searchValues != null && searchValues.get(ConstantUtil.ACCRUAL_TYPE) != null && !searchValues.get(ConstantUtil.ACCRUAL_TYPE).equals(ConstantUtil.OTHER)
@@ -2857,9 +2914,9 @@ public abstract class AbstractSearch extends CustomComponent {
                         }
                     }
                     List tableColumnList = new ArrayList(Arrays.asList(table.getVisibleColumns()));
-                    List tableHeaderList = new ArrayList<String>(Arrays.asList(header));
-                    if (tableColumnList.contains("checkRecord")) {
-                        tableColumnList.remove("checkRecord");
+                    List tableHeaderList = new ArrayList<>(Arrays.asList(header));
+                    if (tableColumnList.contains(CHECK_RECORD)) {
+                        tableColumnList.remove(CHECK_RECORD);
                         tableHeaderList = tableHeaderList.subList(1, tableHeaderList.size());
                     }
                     excelVisibleColumnArr = tableColumnList.toArray();
@@ -2893,7 +2950,7 @@ public abstract class AbstractSearch extends CustomComponent {
         LOGGER.debug("Entering createWorkSheetContent with start value  :::: " + start + ",  and end value  :::: " + end + "  and printWriter");
         try {
             primaryDto.setInvalidTableName(viewName);
-            List<Object> salesList = new ArrayList<Object>();
+            List<Object> salesList;
             if (ConstantUtil.INVALID_RECORD_COUNT.equalsIgnoreCase(tableName)) {
                 salesList = logic.getExcelList(searchValues, start, end, excelVisibleColumnArr, invalidTableName, primaryDto);
             } else {
@@ -2964,7 +3021,7 @@ public abstract class AbstractSearch extends CustomComponent {
      */
     public List<HelperDTO> getIsActive() throws SystemException, PortalException {
         LOGGER.debug("Entering getIsActive");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         for (int i = 0; i < NumericConstants.THREE; i++) {
             HelperDTO dto;
             if (i == 0) {
@@ -2984,7 +3041,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
     public List<HelperDTO> getIsoutline() throws SystemException, PortalException {
         LOGGER.debug("Entering getIsActive");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         for (int i = 0; i < NumericConstants.THREE; i++) {
             HelperDTO dto;
             if (i == 0) {
@@ -3078,11 +3135,11 @@ public abstract class AbstractSearch extends CustomComponent {
             Object[] tableColumnArr1 = null;
             String[] tableHeaderArr1 = null;
             if (invalidTableName.equalsIgnoreCase(ConstantUtil.IVID_ACTUAL_MASTER)) {
-                List<Object> list = new ArrayList<Object>(Arrays.asList(tableColumnArr));
+                List<Object> list = new ArrayList<>(Arrays.asList(tableColumnArr));
                 list.removeAll(Arrays.asList("actualsMasterSid"));
                 tableColumnArr1 = list.toArray();
 
-                List<String> list1 = new ArrayList<String>(Arrays.asList(tableHeaderArr));
+                List<String> list1 = new ArrayList<>(Arrays.asList(tableHeaderArr));
                 list1.removeAll(Arrays.asList("Actuals Master ID"));
                 tableHeaderArr1 = list1.toArray(new String[list1.size()]);
                 table.setVisibleColumns(tableColumnArr1);
@@ -3109,7 +3166,7 @@ public abstract class AbstractSearch extends CustomComponent {
             table.setFilterDecorator(new ExtDemoFilterDecorator());
             table.setImmediate(true);
             if (primaryDto.getValidation().equals(ConstantUtil.GL_SPACE_BALANCE) || primaryDto.getValidation().equals(ConstantUtil.ACCRUAL_MASTER) || primaryDto.getValidation().equals(ConstantUtil.CPI_INDEX)) {
-                table.setFilterGenerator(new FilterGenerator());
+                table.setFilterGenerator(new FilterGenerator(tableName));
             }
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -3120,7 +3177,7 @@ public abstract class AbstractSearch extends CustomComponent {
     protected void propertyId() {
 
         String screen = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.DDLB_NAME));
-        if (screen.equals("ActualsMaster")) {
+        if (screen.equals(ACTUALS_MASTER)) {
             generatedColumn = "actualIntfid";
             viewName = "ivldActualMasterSid";
             stagingTable = "STAG_ACTUAL_MASTER";
@@ -3655,7 +3712,7 @@ public abstract class AbstractSearch extends CustomComponent {
 
     }
 
-    public static void createFileContent(Object[] visibleColumns, List searchList, PrintWriter printWriter) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    public static void createFileContent(Object[] visibleColumns, List searchList, PrintWriter printWriter) throws NoSuchFieldException, IllegalAccessException {
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
         tableMap();
         for (Object value : searchList) {
@@ -3684,7 +3741,7 @@ public abstract class AbstractSearch extends CustomComponent {
         }
     }
 
-    private static Object getFieldValue(Object myDTO, String variable) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    private static Object getFieldValue(Object myDTO, String variable) throws NoSuchFieldException, IllegalAccessException {
         Object value = null;
         Object[] obj = (Object[]) myDTO;
 

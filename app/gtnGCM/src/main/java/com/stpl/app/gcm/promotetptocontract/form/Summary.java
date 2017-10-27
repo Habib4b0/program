@@ -44,7 +44,7 @@ public class Summary extends VerticalLayout implements View {
     private SummaryTPDetails summaryTPDetails;
     private SummarySalesProjectionTransfer summarySalesProjectionTransfer;
     private TabSheet tabSheet;
-    private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
     private int tabPosition;
     @UiField("companyNo")
     public TextField companyNo;

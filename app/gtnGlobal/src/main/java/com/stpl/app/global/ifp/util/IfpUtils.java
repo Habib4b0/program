@@ -43,65 +43,65 @@ public class IfpUtils {
     public static final char CHAR_ASTERISK = '*';
 
     /** The Constant IFP_COL_HEADERS. */
-    public static final String[] IFP_COL_HEADERS = new String[]{
+    public final String[] ifpColHeaders = new String[]{
         "IFP ID", "IFP No", "IFP Name",
-        "IFP Status", "IFP Type",
+        ConstantsUtils.IFP_STATUS_LABEL, "IFP Type",
         "IFP Category", "IFP Start Date",
-        "IFP End Date", "IFP Designation",
+        ConstantsUtils.IFP_ENDDATE, "IFP Designation",
         "Total Dollar Commitment", "Commitment Period",
         "Total Volume Commitment", "Total Market share Commitment"};
     
     /** The Constant IFP_SEARCH_TABLE. */
-    public static final Object[] IFP_SEARCH_TABLE = new Object[]{
+    public final Object[] ifpSearchTable = new Object[]{
         ConstantsUtils.IFP_ID, ConstantsUtils.IFP_NO, ConstantsUtils.IFP_NAME,
         ConstantsUtils.IFP_STATUS, ConstantsUtils.IFP_TYPE,
-        "itemFamilyplanCategory", "itemFamilyplanStartDate",
-        "itemFamilyplanEndDate", "itemFamilyplanDesignation",
+        "itemFamilyplanCategory", ConstantsUtils.IFP_START_DATE,
+        ConstantsUtils.IFP_END_DATE, "itemFamilyplanDesignation",
         "totalDollarCommitment", "commitmentPeriod",
         "totalVolumeCommitment", "totalMarketshareCommitment"};
     
     /** The Constant AVAILABLE_ITEM_COL. */
-    public static final Object[] AVAILABLE_ITEM_COL = new Object[]{ConstantsUtils.ITEM_NO,
-        ConstantsUtils.ITEM_NAME,"itemDesc", "itemStatus", "displayForm","strength",ConstantsUtils.THERAPEUTIC_CLASS,"brand"};
+    public final Object[] availableItemColumn = new Object[]{ConstantsUtils.ITEM_NO,
+        ConstantsUtils.ITEM_NAME,ConstantsUtils.ITEM_DESC, "itemStatus", "displayForm","strength",ConstantsUtils.THERAPEUTIC_CLASS,ConstantsUtils.BRAND};
     
     /** The Constant AVAILABLE_ITEM_COL_HEADER. */
-    public static final String[] AVAILABLE_ITEM_COL_HEADER = new String[]{
-        "Item No", "Item Name", "Item Desc","Item Status", "Form",ConstantsUtils.STRENGH,ConstantsUtils.THERAPEUTIC_CLASS1,"Brand"};
+    public final String[] availableItemColumnHeader = new String[]{
+        "Item No", ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEMS_DESC,ConstantsUtils.ITEMSTATUS, "Form",ConstantsUtils.STRENGH,ConstantsUtils.THERAPEUTIC_CLASS1,ConstantsUtils.BRAND1};
     
     /** The Constant SELECTED_ITEM_COL. */
-    public static final Object[] SELECTED_ITEM_COL = new Object[]{ConstantsUtils.ITEM_NO,
-        ConstantsUtils.ITEM_NAME,"itemDesc","itemStatus","displayForm","strength",
-        ConstantsUtils.THERAPEUTIC_CLASS,"brand"};
+    public final Object[] selectedItemColumn = new Object[]{ConstantsUtils.ITEM_NO,
+        ConstantsUtils.ITEM_NAME,ConstantsUtils.ITEM_DESC,"itemStatus","displayForm","strength",
+        ConstantsUtils.THERAPEUTIC_CLASS,ConstantsUtils.BRAND};
     
     /** The Constant SELECTED_ITEM_COL_HEADER. */
-    public static final String[] SELECTED_ITEM_COL_HEADER = new String[]{
-        "Item No", "Item Name","Item Desc","Item Status", "Form",ConstantsUtils.STRENGH,ConstantsUtils.THERAPEUTIC_CLASS1,"Brand"};
+    public final String[] selectedItemColumnHeader = new String[]{
+        "Item No", ConstantsUtils.ITEM_NAMES,ConstantsUtils.ITEMS_DESC,ConstantsUtils.ITEMSTATUS, "Form",ConstantsUtils.STRENGH,ConstantsUtils.THERAPEUTIC_CLASS1,ConstantsUtils.BRAND1};
     
     /** The Constant ITEM_DETAILS_COL. */
-    public static final Object[] ITEM_DETAILS_COL = new Object[]{"checkbox",
-        ConstantsUtils.ITEM_NO,ConstantsUtils.ITEM_NAME,"itemDesc",ConstantsUtils.IFP_STATUS,
-        "itemFamilyplanStartDate", "itemFamilyplanEndDate", ConstantsUtils.ITEM_STATUS,
-         ConstantsUtils.FORM, ConstantsUtils.STRENGTH,ConstantsUtils.THERAPEUTIC_CLASS, "brand","attachedDate",
+    public final Object[] itemDetailsColumn = new Object[]{"checkbox",
+        ConstantsUtils.ITEM_NO,ConstantsUtils.ITEM_NAME,ConstantsUtils.ITEM_DESC,ConstantsUtils.IFP_STATUS,
+        ConstantsUtils.IFP_START_DATE, ConstantsUtils.IFP_END_DATE, ConstantsUtils.ITEM_STATUS,
+         ConstantsUtils.FORM, ConstantsUtils.STRENGTH,ConstantsUtils.THERAPEUTIC_CLASS, ConstantsUtils.BRAND,"attachedDate",
         "modifiedDate","modifiedBy","createdDate","createdBy"  
         };
     
     /** The Constant ITEM_DETAILS_COL_HEADER. */
-    public static final String[] ITEM_DETAILS_COL_HEADER = new String[]{"",
-        ConstantsUtils.ITEMS_NO,"Item Name","Item Desc","IFP Status", ConstantsUtils.IFP_STARTDATE, "IFP End Date", "Item Status",
-       "Form",ConstantsUtils.STRENGH,"Therapy Class", "Brand","Attached Date" ,"Modified Date","Modified By", "Created Date","Created By"};
+    public final String[] itemDetailsColulmnHeader = new String[]{"",
+        ConstantsUtils.ITEMS_NO,ConstantsUtils.ITEM_NAMES,ConstantsUtils.ITEMS_DESC,ConstantsUtils.IFP_STATUS_LABEL, ConstantsUtils.IFP_STARTDATE, ConstantsUtils.IFP_ENDDATE, ConstantsUtils.ITEMSTATUS,
+       "Form",ConstantsUtils.STRENGH,"Therapy Class", ConstantsUtils.BRAND1,"Attached Date" ,"Modified Date","Modified By", "Created Date","Created By"};
     
     /** The Constant ITEM_DETAILS_COL_VIEW. */
-    public static final Object[] ITEM_DETAILS_COL_VIEW = new Object[]{
-       ConstantsUtils.ITEM_NO,ConstantsUtils.ITEM_NAME,"itemDesc","displayIFPStatus",
-        "itemFamilyplanStartDate", "itemFamilyplanEndDate", ConstantsUtils.ITEM_STATUS,
-         ConstantsUtils.FORM, ConstantsUtils.STRENGTH,ConstantsUtils.THERAPEUTIC_CLASS, "brand","attachedDate",
+    public final Object[] itemDetailsColumnView = new Object[]{
+       ConstantsUtils.ITEM_NO,ConstantsUtils.ITEM_NAME,ConstantsUtils.ITEM_DESC,"displayIFPStatus",
+        ConstantsUtils.IFP_START_DATE, ConstantsUtils.IFP_END_DATE, ConstantsUtils.ITEM_STATUS,
+         ConstantsUtils.FORM, ConstantsUtils.STRENGTH,ConstantsUtils.THERAPEUTIC_CLASS, ConstantsUtils.BRAND,"attachedDate",
         "modifiedDate","modifiedBy","createdDate","createdBy"  
         };
     
     /** The Constant ITEM_DETAILS_COL_HEADER_VIEW. */
-    public static final String[] ITEM_DETAILS_COL_HEADER_VIEW = new String[]{
-        ConstantsUtils.ITEMS_NO,"Item Name","Item Desc","IFP Status", ConstantsUtils.IFP_STARTDATE, "IFP End Date", "Item Status",
-        "Form",ConstantsUtils.STRENGH,ConstantsUtils.THERAPEUTIC_CLASS1, "Brand","Attached Date","Modified Date","Modified By", "Created Date","Created By" };
+    public final String[] itemDetailsColumnHeaderView = new String[]{
+        ConstantsUtils.ITEMS_NO,ConstantsUtils.ITEM_NAMES,ConstantsUtils.ITEMS_DESC,ConstantsUtils.IFP_STATUS_LABEL, ConstantsUtils.IFP_STARTDATE, ConstantsUtils.IFP_ENDDATE, ConstantsUtils.ITEMSTATUS,
+        "Form",ConstantsUtils.STRENGH,ConstantsUtils.THERAPEUTIC_CLASS1, ConstantsUtils.BRAND1,"Attached Date","Modified Date","Modified By", "Created Date","Created By" };
     
     /**
      * Gets the native select.
@@ -127,12 +127,12 @@ public class IfpUtils {
      */
     public void searchFields(ComboBox list) {
         list.addItem(ConstantsUtils.SELECT_ONE);        
-        list.addItem("Brand");
+        list.addItem(ConstantsUtils.BRAND1);
         list.addItem("Form");
          list.addItem(ConstantsUtils.ITEMS_ID);
-        list.addItem("Item Name");
+        list.addItem(ConstantsUtils.ITEM_NAMES);
         list.addItem(ConstantsUtils.ITEMS_NO);
-        list.addItem("Item Status");
+        list.addItem(ConstantsUtils.ITEMSTATUS);
         list.addItem(ConstantsUtils.STRENGH);
         list.addItem(ConstantsUtils.THERAPEUTIC_CLASS1);
         list.addItem("UOM");  

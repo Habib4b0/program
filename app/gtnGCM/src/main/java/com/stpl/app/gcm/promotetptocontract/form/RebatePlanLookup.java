@@ -71,11 +71,12 @@ public class RebatePlanLookup extends Window {
     private ComboBox rebatePlanStatus;
     @UiField("rebatePlanType")
     private ComboBox rebatePlanType;
-    private BeanItemContainer<RebatePlanDTO> resultContainer = new BeanItemContainer<RebatePlanDTO>(RebatePlanDTO.class);
+    private BeanItemContainer<RebatePlanDTO> resultContainer = new BeanItemContainer<>(RebatePlanDTO.class);
     private RebatePlanDTO selectedChHolderHierarchy;
     List<CompanyMaster> filteredCompanies;
     PromoteTPLogic logic = new PromoteTPLogic();
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    public static final String REBATE_PLAN = "Rebate Plan";
 
     public List<CompanyMaster> getFilteredCompanies() {
         return filteredCompanies;
@@ -93,11 +94,11 @@ public class RebatePlanLookup extends Window {
         this.selectedChHolderHierarchy = selectedChHolderHierarchy;
     }
 
-    public RebatePlanLookup(final String indicator, final CustomTextField groupLookup, final String sidQuery) {
+    public RebatePlanLookup(final String indicator, final CustomTextField groupLookup) {
         super("Rebate Plan Lookup");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
 
         this.indicator = indicator;
         this.groupLookup = groupLookup;
@@ -116,8 +117,8 @@ public class RebatePlanLookup extends Window {
 
     private ExtFilterTable addContractTable() {
         rebateResultTable.setContainerDataSource(resultContainer);
-        rebateResultTable.setVisibleColumns(TableHeaderColumnsUtil.REBATE_PLAN_VISIBLE_COLUMN);
-        rebateResultTable.setColumnHeaders(TableHeaderColumnsUtil.REBATE_PLAN_COLUMN_HEADER);
+        rebateResultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().rebatePlanVisibleColumn);
+        rebateResultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().rebatePlanColumnHeader);
         rebateResultTable.setSelectable(true);
         rebateResultTable.setImmediate(true);
         rebateResultTable.setWidth("1110px");
@@ -207,8 +208,8 @@ public class RebatePlanLookup extends Window {
                     && (!StringUtils.EMPTY.equals(rebatePlanType.getValue()) || !Constants.NULL.equals(rebatePlanType.getValue()))) {
 
                 resultContainer.removeAllItems();
-                List<RebatePlanDTO> resultList = new ArrayList<RebatePlanDTO>();
-                if ("Rebate Plan".equals(indicator)) {
+                List<RebatePlanDTO> resultList = new ArrayList<>();
+                if (REBATE_PLAN.equals(indicator)) {
                     resultList = logic.getRebatePlanDetails(rebatePlanId.getValue(), rebatePlanNo.getValue(), rebatePlanName.getValue(),
                             String.valueOf(rebatePlanType.getValue()), String.valueOf(rebatePlanType.getValue()));
 
@@ -220,7 +221,7 @@ public class RebatePlanLookup extends Window {
                     CommonUIUtils.getMessageNotification("Search Completed");
                 } else {
                     resultContainer.removeAllItems();
-                    if ("Rebate Plan".equals(indicator)) {
+                    if (REBATE_PLAN.equals(indicator)) {
                         AbstractNotificationUtils.getErrorNotification("No Records Found", "There are no Rebate Plan that match the search criteria.");
                     }
                 }
@@ -240,7 +241,7 @@ public class RebatePlanLookup extends Window {
     @UiHandler("selectBtnRPL")
     protected void btnLookupSelectLogic() {
         if (rebateResultTable != null && rebateResultTable.getValue() != null) {
-            if ("Rebate Plan".equals(indicator)) {
+            if (REBATE_PLAN.equals(indicator)) {
                 setSelectedChHolderHierarchy((RebatePlanDTO) rebateResultTable.getValue());
                 groupLookup.setValue(String.valueOf(selectedChHolderHierarchy.getRebatePlanName()));
                 groupLookup.setData(String.valueOf(selectedChHolderHierarchy.getRebatePlanId()));

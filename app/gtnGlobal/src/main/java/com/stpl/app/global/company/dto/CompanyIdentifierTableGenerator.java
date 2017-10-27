@@ -70,7 +70,6 @@ public class CompanyIdentifierTableGenerator extends DefaultFieldFactory {
                 companyIdentifier.setImmediate(true);
                 companyIdentifier.setValidationVisible(true);
                 companyIdentifier.setId("companyIdentifier");
-                companyIdentifier.addValidator(new RegexpValidator(ValidationUtils.SEARCH_SP_CHAR, "Identifier " + " " + ValidationUtils.SEARCH_SPCHAR_MSG));
                 companyIdentifier.addValidator(new StringLengthValidator("Identifier Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
                 field = companyIdentifier;
             } else if (ConstantsUtils.START_DATE.equals(propertyId)) {
@@ -122,12 +121,7 @@ public class CompanyIdentifierTableGenerator extends DefaultFieldFactory {
                  * @param event
                  */
                 public void click(final CustomTextField.ClickEvent event) {
-                    try {
-                        final ParentCompanyNo lookUp = new ParentCompanyNo(entityCode);
-                        UI.getCurrent().addWindow(lookUp);
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                    }
+                 CustomTextFieldClickListener(entityCode);
                 }
             }); 
             } else if ("identifierStatus".equals(propertyId)) {
@@ -203,5 +197,13 @@ public class CompanyIdentifierTableGenerator extends DefaultFieldFactory {
         }
         // Otherwise use the default field factory
         return field;
+    }
+    public void CustomTextFieldClickListener(final CustomTextField entityCode){
+        try {
+                        final ParentCompanyNo lookUp = new ParentCompanyNo(entityCode);
+                        UI.getCurrent().addWindow(lookUp);
+                    } catch (Exception ex) {
+                        LOGGER.error(ex);
+                    }
     }
 }

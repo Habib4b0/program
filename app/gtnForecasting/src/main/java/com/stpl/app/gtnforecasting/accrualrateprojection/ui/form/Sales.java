@@ -179,7 +179,7 @@ public class Sales extends CustomComponent {
         frequencyDdlb.setEnabled(false);
 
         historyDdlb.setImmediate(true);
-        historyDdlb.addItems(AccrualRateUtils.HISTORY_PERIODS_12);
+        historyDdlb.addItems(AccrualRateUtils.getInstance().historyPeriods12);
         historyDdlb.select(Constant.SELECT_ONE);
 
         exclusionDetails.setImmediate(true);
@@ -232,7 +232,6 @@ public class Sales extends CustomComponent {
             @Override
             public void windowClose(Window.CloseEvent e) {
                 callSalesInsertProcedure();
-                generateBtnLogic();
 
             }
         });
@@ -321,7 +320,7 @@ public class Sales extends CustomComponent {
                 callSalesInsertProcedure();
             }
             loadResultsTable();
-            map.put("Period Basis", priceBasisDdlb.getValue());
+            map.put(Constant.PERIOD_BASIS, priceBasisDdlb.getValue());
             map.put(Constant.IS_SALES_GENERATED, true);
         }
         LOGGER.info("generate button click end");
@@ -332,7 +331,7 @@ public class Sales extends CustomComponent {
         LOGGER.info("Reset button click starts");
         new AbstractNotificationUtils() {
             public void noMethod() {
-
+                return;
             }
 
             @Override
@@ -386,7 +385,7 @@ public class Sales extends CustomComponent {
         final boolean isViewMode = AccrualRateUtils.VIEW.equalsIgnoreCase(session.getAction());
         accrualRateSelectionDTO.setSessionDto(session);
         tableLogic.setRequiredData(AccrualRateUtils.SALES, accrualRateSelectionDTO, selectedVariables, isViewMode);
-        map.put("Period Basis", priceBasisDdlb.getValue().toString());
+        map.put(Constant.PERIOD_BASIS, priceBasisDdlb.getValue().toString());
         LOGGER.info("generateBtnLogic end");
     }
 
@@ -427,7 +426,7 @@ public class Sales extends CustomComponent {
             if (value != null) {
                 priceBasisDdlb.setValue(String.valueOf(value));
             }
-            this.map.put("Period Basis", priceBasisDdlb.getValue());
+            this.map.put(Constant.PERIOD_BASIS, priceBasisDdlb.getValue());
             value = map.get(Constant.VARIABLES);
             if (value != null) {
                 String val = value.toString();
@@ -538,7 +537,7 @@ public class Sales extends CustomComponent {
 
         excelTable.setDoubleHeaderVisible(true);
         final boolean isViewMode = AccrualRateUtils.VIEW.equalsIgnoreCase(session.getAction());
-        excelContainer.addAll(accrualRateProjectionLogic.getDataForSales(accrualRateSelectionDTO, selectedVariables, 0, 0, true, isViewMode));
+        excelContainer.addAll(accrualRateProjectionLogic.getDataForSales(accrualRateSelectionDTO, 0, 0, true, isViewMode));
 
     }
 

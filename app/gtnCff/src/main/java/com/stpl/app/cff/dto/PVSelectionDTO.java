@@ -24,15 +24,15 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private String discountLevel;
     private String fromDate;
     private String currentProjectionName;
-    public List<Integer> projIdList = new ArrayList<Integer>();
-    private Map<Integer, String> projectionMap = new HashMap<Integer, String>();
+    public List<Integer> projIdList = new ArrayList<>();
+    private Map<Integer, String> projectionMap = new HashMap<>();
     private String variableCategory;
     private String variables;
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
-    private List<String> discountNames = new ArrayList<String>();
+    private List<String> discountNames = new ArrayList<>();
     private SessionDTO session = new SessionDTO();
-    private Map<String, String> pivotHeaderMap = new HashMap<String, String>();
+    private Map<String, String> pivotHeaderMap = new HashMap<>();
     private int neededRecord;
     private int mayBeAdded;
     private boolean isFlag;
@@ -48,7 +48,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     public String screenName;
     private int currentProjectionID;
     int customCount = 0;
-    private List<String> programCodeNameList = new ArrayList<String>();
+    private List<String> programCodeNameList = new ArrayList<>();
     private String toDate;
     private boolean isCustomerDdlb;
     private String pivotStartDate;
@@ -58,7 +58,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private String columnName = StringUtils.EMPTY;
 
     private int productRelationId;
-    private List<String> pivotList = new ArrayList<String>();
+    private List<String> pivotList = new ArrayList<>();
     /**
      * From Projection Variance DTO
      *
@@ -66,16 +66,19 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private Integer parent = 0;
     private String discoutName;
     private String discountIndicator;
-    private List<String> periodHeaderList = new ArrayList<String>();
-    private List<String> pivotHeaderList = new ArrayList<String>();
+    private List<String> periodHeaderList = new ArrayList<>();
+    private List<String> pivotHeaderList = new ArrayList<>();
     private boolean isLevel;
     private boolean isNetSales;
     private String varIndicator = StringUtils.EMPTY;
-    private Map<String, Object> headerMap = new HashMap<String, Object>();
+    private Map<String, Object> headerMap = new HashMap<>();
     private String graphHeader = StringUtils.EMPTY;
     private boolean RPU = false;
     private String discountGroupName = StringUtils.EMPTY;
     private int excelFilterLevelNo=0;
+    private boolean netExFactorySales;
+    
+    private boolean netExFactorySalesPerExFactory;
     /**
      * Combination variables
      */
@@ -803,6 +806,22 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     public void setDiscountPerExFactory(boolean discountPerExFactory) {
         this.discountPerExFactory = discountPerExFactory;
+    }
+
+    public boolean isNetExFactorySales() {
+        return netExFactorySales;
+    }
+
+    public void setNetExFactorySales(boolean netExFactorySales) {
+        this.netExFactorySales = netExFactorySales;
+    }
+
+    public boolean isNetExFactorySalesPerExFactory() {
+        return netExFactorySalesPerExFactory;
+    }
+
+    public void setNetExFactorySalesPerExFactory(boolean netExFactorySalesPerExFactory) {
+        this.netExFactorySalesPerExFactory = netExFactorySalesPerExFactory;
     }
 
     }

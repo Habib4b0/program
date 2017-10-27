@@ -5,6 +5,7 @@ import com.stpl.app.global.abstractsearch.view.AbstractSearchView;
 import com.stpl.app.global.common.util.HelperListUtil;
 import com.stpl.app.global.common.dto.SessionDTO;
 import org.jboss.logging.Logger;
+import java.util.Date;
 
 import com.stpl.app.global.priceschedule.ui.view.PSView;
 import com.stpl.app.security.StplSecurity;
@@ -25,6 +26,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.text.SimpleDateFormat;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -79,6 +81,13 @@ public class PriceScheduleUI extends UI {
             addStyleName(ConstantsUtils.BOOTSTRAP);
             addStyleName(ConstantsUtils.BOOTSTRAP_BB);
             LOGGER.debug("---init()--P1-VaadinRequest");
+            
+            final Date tempDate = new Date();
+            final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            final SimpleDateFormat fmtID = new SimpleDateFormat("MMddyyyyhhmmssms");
+            sessionDTO.setSessionDate(fmt.format(tempDate));
+            sessionDTO.setUiSessionId(fmtID.format(tempDate));
+            
             final String userId = request.getRemoteUser();
             VaadinSession.getCurrent().setAttribute(ConstantsUtils.USER_ID, userId);
             final String sessionId = request.getWrappedSession().getId();
@@ -119,7 +128,7 @@ public class PriceScheduleUI extends UI {
 
                 }
             });
-        } catch (SystemException se) {
+        }catch (SystemException se) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(se);
             LOGGER.error(errorMsg);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {    
@@ -135,22 +144,15 @@ public class PriceScheduleUI extends UI {
                 }           
             }, ButtonId.OK);  
             msg.getButton(ButtonId.OK).focus();
-        } catch (PortalException pe) {
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {      
-                /**       
-                 * The method is triggered when a button of the message box is        
-                 * pressed .           
-                 *          
-                 * @param buttonId The buttonId of the pressed button.     
-                 */             
-                @SuppressWarnings("PMD")         
-                public void buttonClicked(final ButtonId buttonId) {    
-                    // Do Nothing          
-                }    
-            }, ButtonId.OK);  
-            msg.getButton(ButtonId.OK).focus();
-            LOGGER.error(pe);
-        } catch (Exception exception) {
+        }
+        /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */
+        // Do Nothing
+         catch (Exception exception) {
         	LOGGER.error(exception);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {    
                 /**         

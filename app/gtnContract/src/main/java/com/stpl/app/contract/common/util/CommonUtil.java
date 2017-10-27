@@ -57,13 +57,6 @@ public class CommonUtil {
     private static final ResourceBundle confirmationMessage = ResourceBundle.getBundle("properties.message");
 
     /**
-     * Instantiates a new common util.
-     */
-    public CommonUtil() {
-
-    }
-
-    /**
      * Gets the single instance of CommonUtil.
      *
      * @return single instance of CommonUtil
@@ -85,7 +78,7 @@ public class CommonUtil {
      * @throws Exception the exception
      */
     public ComboBox loadComboBox(final ComboBox select,
-            final String listName, boolean isFilter) throws SystemException {
+            final String listName, boolean isFilter) {
         final HelperDTO defaultValue = new HelperDTO(Constants.ZERO, isFilter ? Constants.SHOW_ALL : Constants.SELECT_ONE);
         select.setValidationVisible(true);
         select.setImmediate(true);
@@ -93,9 +86,9 @@ public class CommonUtil {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(Constants.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
         }
@@ -226,7 +219,7 @@ public class CommonUtil {
      * @throws Exception the exception
      */
     public ComboBox loadYesNoDDLB(final ComboBox select,
-            boolean isFilter) throws SystemException {
+            boolean isFilter) {
         
         final String defaultValue=isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE;
         select.setValidationVisible(true);

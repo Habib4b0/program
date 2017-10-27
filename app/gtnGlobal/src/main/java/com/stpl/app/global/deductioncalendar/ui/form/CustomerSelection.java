@@ -54,7 +54,6 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.Arrays;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -107,11 +106,11 @@ public class CustomerSelection extends CustomComponent {
     /**
      * Bean container for available result table.
      */
-    protected final BeanItemContainer<SelectionDTO> availableResultsContainer = new BeanItemContainer<SelectionDTO>(SelectionDTO.class);
+    protected final BeanItemContainer<SelectionDTO> availableResultsContainer = new BeanItemContainer<>(SelectionDTO.class);
     /**
      * Bean container for Selected result table.
      */
-    protected BeanItemContainer<SelectionDTO> selectedResultsContainer = new BeanItemContainer<SelectionDTO>(SelectionDTO.class);
+    protected BeanItemContainer<SelectionDTO> selectedResultsContainer = new BeanItemContainer<>(SelectionDTO.class);
     /**
      * Selection Table Logic
      */
@@ -194,6 +193,7 @@ public class CustomerSelection extends CustomComponent {
     public Boolean excelEligible = false;
     
     DeductionCalendarForm deductionCalendarForm;
+    private final HeaderUtils headerUtils = new HeaderUtils();
 
     public CustomerSelection(SessionDTO sessionDTO, DeductionCalendarForm deductionCalendarForm) {
         this.sessionDTO = sessionDTO;
@@ -255,7 +255,7 @@ public class CustomerSelection extends CustomComponent {
             String mode = sessionDTO.getMode();
 
             List<Object> resultList = ifpLogic.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.CUSTOMER_SELECTION);
-            Object[] objColumn = HeaderUtils.CUSTOMER_COLUMNS;
+            Object[] objColumn = headerUtils.customerColumns;
 
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode.equals("Copy")?"Edit":mode);
             
@@ -288,7 +288,7 @@ public class CustomerSelection extends CustomComponent {
             selectedCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
             selectedCustomersTable.addStyleName("filtertable");
             selectedCustomersTable.addStyleName("table-header-normal");
-            Arrays.asList(HeaderUtils.CUSTOMER_COLUMNS);
+            Arrays.asList(headerUtils.customerColumns);
             for (Object list1 : availableCustomersTable.getVisibleColumns()) {
                 if(list1.equals("tradeClassStartDate") || list1.equals("tradeClassStartDate") ||
                         list1.equals("customerStartDate") || list1.equals("customerEndDate") ||
@@ -298,15 +298,15 @@ public class CustomerSelection extends CustomComponent {
                     selectedCustomersTable.setColumnAlignment(list1.toString(), ExtPagedTable.Align.CENTER);
                 }
             }
-            availableExportBtn.setIcon(new ThemeResource("../../icons/excel.png"));
-            availableExportBtn.setIcon(new ThemeResource("../../icons/excel.png"));
+            availableExportBtn.setIcon(new ThemeResource(ConstantsUtils.ICONS_EXCEL_PNG));
+            availableExportBtn.setIcon(new ThemeResource(ConstantsUtils.ICONS_EXCEL_PNG));
             availableExportBtn.setStyleName("link");
             availableExportBtn.setDescription("Export to excel");
             availableExportBtn.setIconAlternateText("Excel export");
             availableExportBtn.setHtmlContentAllowed(true);
 
-            selectedExportBtn.setIcon(new ThemeResource("../../icons/excel.png"));
-            selectedExportBtn.setIcon(new ThemeResource("../../icons/excel.png"));
+            selectedExportBtn.setIcon(new ThemeResource(ConstantsUtils.ICONS_EXCEL_PNG));
+            selectedExportBtn.setIcon(new ThemeResource(ConstantsUtils.ICONS_EXCEL_PNG));
             selectedExportBtn.setStyleName("link");
             selectedExportBtn.setDescription("Export to excel");
             selectedExportBtn.setIconAlternateText("Excel export");
@@ -456,10 +456,10 @@ public class CustomerSelection extends CustomComponent {
                 LOGGER.debug("Entering Add Button operation in Customer Selection");
                 final Set<SelectionDTO> selectionDTO = (Set<SelectionDTO>) availableCustomersTable.getValue();
                 if (selectionDTO.isEmpty()) {
-                    AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_RECORD_SELECTED_HEADER), MessageUtil.getMessage(Message.NO_RECORD_SELECTED_MESSAGE));
+                    AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_RECORD_SELECTED_HEADER), MessageUtil.getMessage(Message.NO_RECORD_SELECTED_MESSAGE2));
                 } else {
                     deductionCalendarForm.setNeedRefresh(true);
-                    addItemsButtonClick(event);
+                    addItemsButtonClick();
                 }
                 
                 LOGGER.debug("Entering Add Button operation in Customer Selection");
@@ -479,7 +479,7 @@ public class CustomerSelection extends CustomComponent {
                 LOGGER.debug("Entering Add All Button operation in Customer Selection");
                 if (availableResultsContainer.size() > 0) {
                     deductionCalendarForm.setNeedRefresh(true);
-                    addAllItemsButtonClick(event);
+                    addAllItemsButtonClick();
 
                 } else {
                     AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_RECORD_SELECTED_HEADER), MessageUtil.getMessage(Message.NO_RECORD_SELECTED_MESSAGE));
@@ -488,20 +488,13 @@ public class CustomerSelection extends CustomComponent {
                 LOGGER.debug("Entering Add All Button operation in Customer Selection");
             }
 
-            private void addAllItemsButtonClick(Button.ClickEvent event) {
-                try {
-                    selLogic.addAllCustomersAndSaveToTempTable(sessionDTO,customerSelectionDTO,availableTableLogic.getFilters());
-                    selectedCustomersTable.setValue(null);
-                    availableCustomersTable.setValue(null);
-                    customerSelectionDTO.setUserId(sessionDTO.getUserId());
-                    customerSelectionDTO.setSessionId(sessionDTO.getUiSessionId());  
-                    selectionTableLogic.fireSetData(customerSelectionDTO, false, Constants.CUSTOMER_SELECTION,"selected");
-                    
-                } catch (SystemException ex) {
-                    java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (PortalException ex) {
-                    java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            private void addAllItemsButtonClick() {
+                selLogic.addAllCustomersAndSaveToTempTable(sessionDTO,customerSelectionDTO,availableTableLogic.getFilters());
+                selectedCustomersTable.setValue(null);
+                availableCustomersTable.setValue(null);
+                customerSelectionDTO.setUserId(sessionDTO.getUserId());
+                customerSelectionDTO.setSessionId(sessionDTO.getUiSessionId());
+                selectionTableLogic.fireSetData(customerSelectionDTO, false, Constants.CUSTOMER_SELECTION,ConstantsUtils.SELECTED);
             }
 
         });
@@ -521,7 +514,7 @@ public class CustomerSelection extends CustomComponent {
                     AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_RECORD_SELECTED_HEADER), MessageUtil.getMessage(Message.NO_RECORD_SELECTED_MESSAGE1));
                 } else {
                     deductionCalendarForm.setNeedRefresh(true);
-                    removeItemsButtonClick(event);
+                    removeItemsButtonClick();
                 }
 
                 LOGGER.debug("Entering Remove Button operation in Customer Selection");
@@ -542,7 +535,7 @@ public class CustomerSelection extends CustomComponent {
                 LOGGER.debug("Entering Remove All Button operation in Customer Selection");
                 if (selectedResultsContainer.size() > 0) {
                     deductionCalendarForm.setNeedRefresh(true);
-                    removeAllItemsButtonClick(event);
+                    removeAllItemsButtonClick();
 
                 } else {
                     AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_RECORD_SELECTED_HEADER), MessageUtil.getMessage(Message.NO_RECORD_SELECTED_MESSAGE1));
@@ -551,34 +544,28 @@ public class CustomerSelection extends CustomComponent {
                 LOGGER.debug("Ending Remove All Button operation in Customer Selection");
             }
 
-            private void removeAllItemsButtonClick(Button.ClickEvent event) {
-                try { 
-                    selLogic.deleteAllCustomersFromTempTable(sessionDTO);
-                    selectedResultsContainer.removeAllItems();                    
-                    selectedCustomersTable.setValue(null);
-                    availableCustomersTable.setValue(null);
-                    availableTableLogic.fireSetData(customerSelectionDTO, false, Constants.CUSTOMER_SELECTION,ConstantsUtils.AVAILABLE);
-                } catch (SystemException ex) {
-                    java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (PortalException ex) {
-                    java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            private void removeAllItemsButtonClick() {
+                selLogic.deleteAllCustomersFromTempTable(sessionDTO);
+                selectedResultsContainer.removeAllItems();
+                selectedCustomersTable.setValue(null);
+                availableCustomersTable.setValue(null);
+                availableTableLogic.fireSetData(customerSelectionDTO, false, Constants.CUSTOMER_SELECTION,ConstantsUtils.AVAILABLE);
             }
 
         });
     }
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ParseException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ParseException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         customerSelectionDTO.setUserId(sessionDTO.getUserId());
         customerSelectionDTO.setSessionId(sessionDTO.getUiSessionId());
         final int recordCount = (Integer) selLogic.getCustomerSearchResult(customerSelectionDTO,0,0,true,null,null,availableOrselected);
-        ExcelExportforBB.createWorkSheet(HeaderUtils.CUSTOMER_HEADERS, recordCount, this, getUI(), TabNameUtil.CUSTOMER_SELECTION_EXPORT);
+        ExcelExportforBB.createWorkSheet(headerUtils.customerHeaders, recordCount, this, getUI(), TabNameUtil.CUSTOMER_SELECTION_EXPORT);
         LOGGER.debug("Ending createWorkSheet");
     }
     
@@ -591,7 +578,7 @@ public class CustomerSelection extends CustomComponent {
     }
     @UiHandler("selectedExportBtn")
     public void excelExportButtonClick(final Button.ClickEvent event) {
-        availableOrselected="selected";
+        availableOrselected=ConstantsUtils.SELECTED;
         excelExport();
     }
 
@@ -651,7 +638,7 @@ public class CustomerSelection extends CustomComponent {
         }
     }
     
-    public void createWorkSheetContent(final Integer start, final Integer end,  PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end,  PrintWriter printWriter) {
         try {
         SelectionDTO dto;
         final List<SelectionDTO> searchList = (List) selLogic.getCustomerSearchResult(customerSelectionDTO,start,end,false,null,null,availableOrselected);
@@ -781,7 +768,7 @@ public class CustomerSelection extends CustomComponent {
             LOGGER.error(e);
             }
     }
-    protected void addItemsButtonClick(final Button.ClickEvent event) {
+    protected void addItemsButtonClick() {
 
         LOGGER.debug("Entering addItemsButtonClick method ");
         final java.util.Set<SelectionDTO> selectedCompaniesList = (java.util.Set<SelectionDTO>) availableCustomersTable.getValue();
@@ -791,17 +778,13 @@ public class CustomerSelection extends CustomComponent {
         }
         for (SelectionDTO selDTO : selectedCompaniesList) {
             if (selDTO != null) {
-                try {
-                    selLogic.moveCustomersAndSaveToTempTable(selDTO, sessionDTO);
-                    selDTO.setUserId(sessionDTO.getUserId());
-                    selDTO.setSessionId(sessionDTO.getUiSessionId());
-                    selectionTableLogic.fireSetData(selDTO, false, Constants.CUSTOMER_SELECTION, "selected");
-                    selectedCustomersTable.setFilterBarVisible(true);
-                    selectedCustomersTable.setFilterDecorator(new ExtDemoFilterDecorator());
-                    selectedCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
-                } catch (SystemException | PortalException ex) {
-                    LOGGER.error(ex);
-                }
+                selLogic.moveCustomersAndSaveToTempTable(selDTO, sessionDTO);
+                selDTO.setUserId(sessionDTO.getUserId());
+                selDTO.setSessionId(sessionDTO.getUiSessionId());
+                selectionTableLogic.fireSetData(selDTO, false, Constants.CUSTOMER_SELECTION, ConstantsUtils.SELECTED);
+                selectedCustomersTable.setFilterBarVisible(true);
+                selectedCustomersTable.setFilterDecorator(new ExtDemoFilterDecorator());
+                selectedCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
             }
         }
         selectedCustomersTable.setValue(null);
@@ -810,7 +793,7 @@ public class CustomerSelection extends CustomComponent {
 
     }
 
-    protected void removeItemsButtonClick(final Button.ClickEvent event) {
+    protected void removeItemsButtonClick() {
 
         LOGGER.debug("Entering removeItemsButtonClick method ");
         final java.util.Set<SelectionDTO> itemMasterDetailsList = (java.util.Set<SelectionDTO>) selectedCustomersTable.getValue();
@@ -822,11 +805,7 @@ public class CustomerSelection extends CustomComponent {
                 selectedResultsContainer.removeItem(item);
             }
 
-            try {
-                selLogic.deleteCustomersFromTempTable(StringUtils.join(ids, ","), sessionDTO);
-            } catch (SystemException | PortalException ex) {
-                java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            selLogic.deleteCustomersFromTempTable(StringUtils.join(ids, ","), sessionDTO);
         } else {
             AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_RECORD_SELECTED_HEADER), MessageUtil.getMessage(Message.NO_RECORD_SELECTED_MESSAGE1));
         }
@@ -841,7 +820,10 @@ public class CustomerSelection extends CustomComponent {
         SelectionDTO selDTO = new SelectionDTO();
         selDTO.setUserId(session.getUserId());
         selDTO.setSessionId(session.getUiSessionId());
-        selectionTableLogic.fireSetData(selDTO, false, Constants.CUSTOMER_SELECTION,"selected");
+        selectionTableLogic.fireSetData(selDTO, false, Constants.CUSTOMER_SELECTION,ConstantsUtils.SELECTED);
+        selectedCustomersTable.setFilterBarVisible(true);
+        selectedCustomersTable.setFilterDecorator(new ExtDemoFilterDecorator());
+        selectedCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
     }
 
      public void disableFieldsOnView(){

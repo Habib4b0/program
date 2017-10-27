@@ -86,18 +86,17 @@ public class SearchLogic {
 
             File fileList = new File(filepath);
             fileList.createNewFile(); // if file already exists will do nothing
-            
-            FileInputStream in =new FileInputStream(fileList);
-            prop = new Properties();
-            prop.load(in);
-            if (isRemove ) {
-                if (prop.containsKey(logDestination)) {
-                    prop.remove(logDestination);
-                } 
-            } else {
-                prop.setProperty(logDestination, MessagesSelected);
+            try (FileInputStream in = new FileInputStream(fileList)) {
+                prop = new Properties();
+                prop.load(in);
+                if (isRemove ) {
+                    if (prop.containsKey(logDestination)) {
+                        prop.remove(logDestination);
+                    }
+                } else {
+                    prop.setProperty(logDestination, MessagesSelected);
+                }
             }
-            in.close();
             prop.store(new FileOutputStream(fileList), null);
           
             return StringUtils.EMPTY;

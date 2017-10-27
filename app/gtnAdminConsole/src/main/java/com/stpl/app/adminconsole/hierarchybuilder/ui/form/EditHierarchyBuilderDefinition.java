@@ -158,11 +158,11 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
     /**
      * The hierarchy builder level dto bean.
      */
-    public BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<HierarchyBuilderLevelDTO>(HierarchyBuilderLevelDTO.class);
+    public BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<>(HierarchyBuilderLevelDTO.class);
     /**
      * The level dto bean.
      */
-    private final BeanItemContainer<LevelDTO> levelDTOBean = new BeanItemContainer<LevelDTO>(LevelDTO.class);
+    private final BeanItemContainer<LevelDTO> levelDTOBean = new BeanItemContainer<>(LevelDTO.class);
     /**
      * The excel export levels.
      */
@@ -642,8 +642,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
      * @throws PortalException
      * @throws SystemException
      */
-    public EditHierarchyBuilderDefinition(final BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean, final HierarchyBuilderDTO hierarchyBuilderDTO) throws SystemException,
-            PortalException {
+    public EditHierarchyBuilderDefinition(final BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean, final HierarchyBuilderDTO hierarchyBuilderDTO) throws SystemException {
         super();
         LOGGER.debug("EditHierarchyBuilderDefinition constructor initiated ");
         this.hierarchyBuilderLevelDTOBean = hierarchyBuilderLevelDTOBean;
@@ -661,7 +660,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
      *
      * @throws Exception
      */
-    public void init() throws SystemException, PortalException {
+    public void init() throws SystemException {
         LOGGER.debug("Init method started ");
         addToContent();
         configureFields();
@@ -676,7 +675,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
      */
     private CustomFieldGroup getBinder() {
         LOGGER.debug("getBinder method started ");
-        hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+        hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<>(hierarchyBuilderDTO));
         hierarchyBuilderBinder.setBuffered(true);
         hierarchyBuilderBinder.bindMemberFields(this);
         hierarchyBuilderBinder.setErrorDisplay(errorMsg);
@@ -712,7 +711,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
      * @throws Exception
      * @throws SystemException
      */
-    private void configureFields() throws SystemException, PortalException {
+    private void configureFields() throws SystemException {
         LOGGER.debug("configureFields Entering ");
         excelExportLevels.setDescription(ConstantsUtils.EXCEL_EXPORT);
         excelExportLevels.setIconAlternateText(ConstantsUtils.EXCEL_EXPORT);
@@ -854,7 +853,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                         List<List> exportList;
                         final List<String> dollarList = new ArrayList();
                         dollarList.add("AdminConsole");
-                        exportList = new ArrayList<List>();
+                        exportList = new ArrayList<>();
                         exportList.add(dollarList);
                         exportList.add(null);
                         exportList.add(null);
@@ -1159,7 +1158,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                          * Called when a no has been clicked .
                          */
                         public void noMethod() {
-
+                            return;
                         }
                     };
                     notificationUtils.getConfirmationMessage(ConstantsUtils.CONFORMATION, "Are you sure you want to reset the page to default/previous values?");
@@ -1190,10 +1189,10 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
 
                         hierarchyBuilderBinder.getErrorDisplay().clearError();
                         final HierarchyBuilderLevelDTO dto = new HierarchyBuilderLevelDTO();
-                        List<HierarchyBuilderLevelDTO> list = new ArrayList<HierarchyBuilderLevelDTO>();
+                        List<HierarchyBuilderLevelDTO> list;
                         list = hierarchyBuilderLevelDTOBean.getItemIds();
                         final HashMap levelNameMap = new HashMap();
-                        final List<String> tableList = new ArrayList<String>();
+                        final List<String> tableList = new ArrayList<>();
                         for (final HierarchyBuilderLevelDTO levelDTO : list) {
                             levelNameMap.put(levelDTO.getLevelNo(), levelDTO.getLevelName());
                             if (levelValueReference.getValue().equals(ConstantsUtils.LINKED)) {
@@ -1330,9 +1329,6 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                                 LOGGER.error(ex);
-                            } catch (PortalException ex) {
-                                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
-                                LOGGER.error(ex);
                             } catch (Exception ex) {
                                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
                                 LOGGER.error(ex);
@@ -1344,10 +1340,10 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                          * Called when no has been clicked .
                          */
                         public void noMethod() {
-
+                            return;
                         }
                     };
-                    notificationUtils.getConfirmationMessage("Delete Confirmation", "You are about to delete the row.  Please click Yes if you would like to continue.");
+                    notificationUtils.getConfirmationMessage(DELETE_CONFIRMATION, YOU_ARE_ABOUT_TO_DELETE_THE_ROW);
 
                 }
                 LOGGER.debug("In addDeleteButton btnDelete.addClickListener Ended");
@@ -1356,6 +1352,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
 
         return btnDelete;
     }
+    
 
     /**
      * Adds the level buttons .
@@ -1414,7 +1411,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                          * Called when no has been clicked .
                          */
                         public void noMethod() {
-
+                            return;
                         }
                     };
                     notificationUtils.getConfirmationMessage(ConstantsUtils.CONFORMATION, "Are you sure you want to reset the page to default/previous values?");
@@ -1442,7 +1439,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                 LOGGER.debug("In addUpdateLevelButton btnUpdateLevel.addClickListener Started");
                 if (event != null) {
                     hierarchyBuilderBinder.getErrorDisplay().clearError();
-                    List<HierarchyBuilderLevelDTO> finalList = new ArrayList<HierarchyBuilderLevelDTO>();
+                    List<HierarchyBuilderLevelDTO> finalList = new ArrayList<>();
                     List<HierarchyBuilderLevelDTO> updatelist = hierarchyBuilderLevelDTOBean.getItemIds();
                     for (HierarchyBuilderLevelDTO hierarchyBuilderLevelDTO : updatelist) {
                         finalList.add(hierarchyBuilderLevelDTO);
@@ -1454,7 +1451,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                     for (final HierarchyBuilderLevelDTO levelDTO : finalList) {
                         levelNameMap.put(levelDTO.getLevelNo(), levelDTO.getLevelName());
                     }
-                    final List<HierarchyBuilderLevelDTO> list = new ArrayList<HierarchyBuilderLevelDTO>();
+                    final List<HierarchyBuilderLevelDTO> list = new ArrayList<>();
                     for (int i = 0; i < hierarchyBuilderLevelDTOBean.size(); i++) {
                         final HierarchyBuilderLevelDTO dto = hierarchyBuilderLevelDTOBean.getIdByIndex(i);
                         if (dto.getLevelNo() == lvlDefDTO.getLevelNo()) {
@@ -1588,7 +1585,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                         levelDTOBean.addBean(dto);
                     } else {
                         final List<LevelDTO> tempList = levelDTOBean.getItemIds();
-                        final List<LevelDTO> list = new ArrayList<LevelDTO>();
+                        final List<LevelDTO> list = new ArrayList<>();
                         for (int i = 0; i < tempList.size(); i++) {
                             if (tempList.get(i).getLevelValues() == null || ConstantsUtils.EMPTY.equals(tempList.get(i).getLevelValues())) {
                                 MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "Please Enter Value for the previous Level Value", ButtonId.OK);
@@ -1649,11 +1646,11 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                          * Called when no has been clicked.
                          */
                         public void noMethod() {
-
+                            return;
                         }
                     };
 
-                    notificationUtils.getConfirmationMessage("Delete Confirmation", "You are about to delete the row.  Please click Yes if you would like to continue.");
+                    notificationUtils.getConfirmationMessage(DELETE_CONFIRMATION, YOU_ARE_ABOUT_TO_DELETE_THE_ROW);
                 }
                 LOGGER.debug("In deleteLevelValues btnLevValuesDelete.addClickListener Ended");
 
@@ -1674,9 +1671,9 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
         levelDefinitionTable.setFilterBarVisible(true);
         levelDefinitionTable.setFilterDecorator(new ExtDemoFilterDecorator());
         levelDefinitionTable.setContainerDataSource(hierarchyBuilderLevelDTOBean);
-        levelDefinitionTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_DEFINITION_COLUMNS);
+        levelDefinitionTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelDefnitionColumns);
 
-        levelDefinitionTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_DEFINITION_HEADER);
+        levelDefinitionTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelDefnitionHeader);
         levelDefinitionTable.setPageLength(NumericConstants.SEVEN);
         levelDefinitionTable.setImmediate(true);
         levelDefinitionTable.setSelectable(true);
@@ -1744,7 +1741,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
              * Invoked when an error occurs .
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         levelDefinitionTable.addValueChangeListener(new Property.ValueChangeListener() {
@@ -1753,8 +1750,8 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
              * changes forwards .
              */
             public void valueChange(final ValueChangeEvent event) {
-
-            }
+                return;
+            }   
         });
         return levelDefinitionTable;
     }
@@ -1801,8 +1798,8 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                                     levelDefinitionTable.getContainerProperty(beanItem, "levelNo").setValue(i + 1);
                                 }
                                 levelDefinitionTable.setContainerDataSource(hierarchyBuilderLevelDTOBean);
-                                levelDefinitionTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_DEFINITION_COLUMNS);
-                                levelDefinitionTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_DEFINITION_HEADER);
+                                levelDefinitionTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelDefnitionColumns);
+                                levelDefinitionTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelDefnitionHeader);
                                 levelNumber.setReadOnly(false);
                                 levelNumber.setValue(String.valueOf(hierarchyBuilderLevelDTOBean.size() + 1));
                                 levelNumber.setReadOnly(true);
@@ -1818,10 +1815,10 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                              * Called when no has been clicked .
                              */
                             public void noMethod() {
-
+                                return;
                             }
                         };
-                        notificationUtils.getConfirmationMessage("Delete Confirmation", "You are about to delete the row.  Please click Yes if you would like to continue.");
+                        notificationUtils.getConfirmationMessage(DELETE_CONFIRMATION, YOU_ARE_ABOUT_TO_DELETE_THE_ROW);
 
                     }
                 } else {
@@ -1841,9 +1838,9 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
     public Table levelValuesListTable() {
         levelValuesTable.markAsDirty();
         levelValuesTable.setContainerDataSource(levelDTOBean);
-        levelValuesTable.setVisibleColumns(CommonUIUtil.AC_HB_LEVEL_VALUES_COLUMNS);
+        levelValuesTable.setVisibleColumns(CommonUIUtil.getInstance().acHbLevelValuesColumns);
         levelValuesTable.setCaption("Results");
-        levelValuesTable.setColumnHeaders(CommonUIUtil.AC_HB_LEVEL_VALUES_HEADER);
+        levelValuesTable.setColumnHeaders(CommonUIUtil.getInstance().acHbLevelValuesHeader);
         levelValuesTable.setPageLength(NumericConstants.SEVEN);
         levelValuesTable.setImmediate(true);
         levelValuesTable.setSelectable(true);
@@ -1854,8 +1851,8 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-
-            }
+                return;
+            }   
         });
         return levelValuesTable;
     }
@@ -1863,9 +1860,9 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
     public void updateButtonLogic(final ClickEvent event, final boolean flag) {
         try {
 
-            String systemId = hierarchyBuilderBinder.getField("hierarchyDefinitionSystemId").getValue() == null
-                    || ConstantsUtils.NULL.equals(hierarchyBuilderBinder.getField("hierarchyDefinitionSystemId").getValue()) ? ConstantsUtils.EMPTY : String.valueOf(hierarchyBuilderBinder
-                                    .getField("hierarchyDefinitionSystemId").getValue());
+            String systemId = hierarchyBuilderBinder.getField(HIERARCHY_DEFINITION_SYSTEM_ID).getValue() == null
+                    || ConstantsUtils.NULL.equals(hierarchyBuilderBinder.getField(HIERARCHY_DEFINITION_SYSTEM_ID).getValue()) ? ConstantsUtils.EMPTY : String.valueOf(hierarchyBuilderBinder
+                                    .getField(HIERARCHY_DEFINITION_SYSTEM_ID).getValue());
             systemId = systemId.replace(",", ConstantsUtils.EMPTY);
             if (!systemId.equals("null") && !systemId.equals("0")) {
                 int id = Integer.valueOf(systemId);
@@ -1878,7 +1875,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
                 }
             }
 
-            List<HierarchyBuilderLevelDTO> levelvalues = new ArrayList<HierarchyBuilderLevelDTO>();
+            List<HierarchyBuilderLevelDTO> levelvalues;
             levelvalues = hierarchyBuilderLevelDTOBean.getItemIds();
             if (ConstantsUtils.EMPTY.equals(hierarchyType.getValue()) && ConstantsUtils.EMPTY.equals(hierarchyName.getValue().trim())) {
 
@@ -2005,6 +2002,7 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
             LOGGER.error(ex);
         }
     }
+    
 
     /**
      * This method is always called before the view is shown on screen .
@@ -2012,6 +2010,9 @@ public final class EditHierarchyBuilderDefinition extends CustomComponent implem
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
+    public static final String YOU_ARE_ABOUT_TO_DELETE_THE_ROW = "You are about to delete the row.  Please click Yes if you would like to continue.";
+    public static final String DELETE_CONFIRMATION = "Delete Confirmation";
+    public static final String HIERARCHY_DEFINITION_SYSTEM_ID = "hierarchyDefinitionSystemId";
 }

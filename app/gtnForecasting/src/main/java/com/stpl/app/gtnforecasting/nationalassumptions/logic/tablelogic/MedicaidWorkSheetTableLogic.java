@@ -38,9 +38,9 @@ public class MedicaidWorkSheetTableLogic extends PageTreeTableLogic {
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated) {
-            List<String> indexList = new ArrayList<String>(getNonFetchableData().keySet());
+            List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);
             List<TableDTO> list = medicaidResLogic.getConfiguredMedicaidWorkSheetResults(getLastParent(), start, offset, projSelDTO,sessionDTO);
             int i = start;

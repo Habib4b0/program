@@ -17,6 +17,7 @@ import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
@@ -28,57 +29,57 @@ import org.jboss.logging.Logger;
 public class DPRQueryUtils {
 
     private static final Logger LOGGER = Logger.getLogger(DPRQueryUtils.class);
-
-    public List getSumNMPivotValue(int projectionId, int userId, int sessionId, String freq, ProjectionSelectionDTO projSelDTO) {
+    public static final String Q_FINALQ = ") Q) FINALQ\n";
+    public List getSumNMPivotValue(int projectionId, String freq, ProjectionSelectionDTO projSelDTO) {
 
         try {
-            List list = new ArrayList();
+            List list;
             String frequency = StringUtils.EMPTY;
             if (freq.equals(Constant.QUARTERLY)) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
             if (freq.equals(ANNUALLY.getConstant())) {
                 frequency = "YEAR";
             }
             if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = "SEMI_ANNUAL";
+                frequency = Constant.SEMI_ANNUAL;
             }
             if (freq.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
             String str = SQlUtil.getQuery("mmdprgetSumNMPivotValue");
-            str = str.replaceAll("@projID", projectionId + StringUtils.EMPTY);
-            str = str.replaceAll("@frequency_var", frequency);
+            str = str.replaceAll(Constant.PROJ_ID, projectionId + StringUtils.EMPTY);
+            str = str.replaceAll(Constant.FREQUENCY_VAR, frequency);
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             str=QueryUtil.replaceTableNames(str, projSelDTO.getSessionDTO().getCurrentTableNames());
             list = (List) salesProjectionDAO.executeSelectQuery(str);
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
 
         }
     }
 
-    public List getNonMandateTotalValue(int projectionId, int userId, int sessionId, String freq, ProjectionSelectionDTO projSelDTO) {
+    public List getNonMandateTotalValue(int projectionId, String freq, ProjectionSelectionDTO projSelDTO) {
         try {
-            List list = new ArrayList();
+            List list;
             String frequency = StringUtils.EMPTY;
             if (freq.equals(Constant.QUARTERLY)) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
             if (freq.equals(ANNUALLY.getConstant())) {
                 frequency = "YEAR";
             }
             if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = "SEMI_ANNUAL";
+                frequency = Constant.SEMI_ANNUAL;
             }
             if (freq.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
             String str = SQlUtil.getQuery("mmdprgetNonMandateTotalValue");
-            str = str.replaceAll("@projID", projectionId + StringUtils.EMPTY);
-            str = str.replaceAll("@frequency_var", frequency);
+            str = str.replaceAll(Constant.PROJ_ID, projectionId + StringUtils.EMPTY);
+            str = str.replaceAll(Constant.FREQUENCY_VAR, frequency);
             if ("YEAR".equalsIgnoreCase(frequency)) {
                 str += "ORDER     BY   A1.BRAND_NAME,per.year\n"
                         + "             ";
@@ -93,31 +94,31 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
 
         }
 
     }
 
-    public List getNonMandatedBrand(int projectionId, int userId, int sessionId, String freq, ProjectionSelectionDTO projSelDTO) {
+    public List getNonMandatedBrand(int projectionId, String freq, ProjectionSelectionDTO projSelDTO) {
         try {
-            List list = new ArrayList();
+            List list;
             String frequency = StringUtils.EMPTY;
             if (freq.equals(Constant.QUARTERLY)) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
             if (freq.equals(ANNUALLY.getConstant())) {
                 frequency = "YEAR";
             }
             if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = "SEMI_ANNUAL";
+                frequency = Constant.SEMI_ANNUAL;
             }
             if (freq.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
             String query = SQlUtil.getQuery("mmdprgetNonmandatedbrand");
-            query = query.replaceAll("@projID", projectionId + StringUtils.EMPTY);
-            query = query.replaceAll("@frequency_var", frequency);
+            query = query.replaceAll(Constant.PROJ_ID, projectionId + StringUtils.EMPTY);
+            query = query.replaceAll(Constant.FREQUENCY_VAR, frequency);
             query = query + " WHERE  FINALQ.TEMP_INDEX > " + projSelDTO.getStart() + " AND FINALQ.TEMP_INDEX <=   " + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
                     + "\n"
                     + " order by BRAND_NAME,YEARS,PERIODS";
@@ -127,7 +128,7 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
 
         }
 
@@ -138,17 +139,17 @@ public class DPRQueryUtils {
         String query = StringUtils.EMPTY;
         String frequency = projSelDTO.getFrequency();
         if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "QUARTER";
+            frequency = Constant.QUARTER;
         }
         if (frequency.equals(ANNUALLY.getConstant())) {
             frequency = "YEAR";
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            frequency = "SEMI_ANNUAL";
+            frequency = Constant.SEMI_ANNUAL;
 
         }
         if (frequency.equals(MONTHLY.getConstant())) {
-            frequency = "MONTH";
+            frequency = Constant.MONTH_WITHOUT_SPACE;
         }
 
         try {
@@ -157,24 +158,24 @@ public class DPRQueryUtils {
                     + "  FINALQ.LEVEL_NAME,FINALQ.Actual_Sale,FINALQ.Disc_Rate,FINALQ.Flag,FINALQ.RPU from(\n"
                     + "select Q.YEARS,Q.PERIODS,Q.COM_ID,Q.CON_ID,Q.BRAND_ID, Q.COMPANY_MASTER_SID,Q.COMPANY_NO,\n"
                     + "  Q.LEVEL_NAME,Q.Actual_Sale,Q.Disc_Rate,Q.Flag,Q.RPU,Dense_rank() OVER    (ORDER BY Q.COMPANY_MASTER_SID) AS TEMP_INDEX from("
-                    + "select per.YEAR as YEARS,per." + frequency + " as PERIODS, 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.COMPANY_MASTER_SID as COMPANY_MASTER_SID,TT.COMPANY_NO as COMPANY_NO,\n"
-                    + " 'Customer' as LEVEL_NAME,\n"
+                    + "select per.YEAR as YEARS ,per." + frequency + " as PERIODS, 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.COMPANY_MASTER_SID as COMPANY_MASTER_SID,TT.COMPANY_NO as COMPANY_NO,\n"
+                    + Constant.CUSTOMER_AS_LEVEL_NAME
                     + "\n"
                     + " sum(SUPMAS.ACTUAL_SALES) As Actual_Sale,\n"
                     + "--  avg(SUPMAS.ACTUAL_RATE) As Actual_rate,\n"
                     + "Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(m_mas.ACTUAL_SALES),0),0)*100       AS  Disc_Rate,\n"
                     + " 'ACT' As Flag,Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(m_mas.ACTUAL_UNITS),0),0) As RPU\n"
                     + "\n"
-                    + " FROM ST_CCP_HIERARCHY PD,\n"
-                    + " CCP_DETAILS CCP,\n"
-                    + " COMPANY_MASTER TT,\n"
+                    + Constant.FROM_ST_CCP_HIERARCHY_PD
+                    + Constant.CCP_DETAILS_CCP
+                    + Constant.COMPANY_MASTER_TT
                     + " ST_M_ACTUAL_DISCOUNT SUPMAS,\n"
                     + " Period per,\n"
                     + "ST_M_ACTUAL_SALES m_mas,\n"
                     + "ST_M_SALES_PROJECTION_MASTER m_mac\n"
-                    + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                    + " and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
-                    + "  and Per.PERIOD_SID = SUPMAS.PERIOD_SID\n"
+                    + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                    + Constant.AND_TTCOMPANY_MASTER_SID_CCP_MAS
+                    + Constant.AND_PER_PERIOD_SID_SUP_PERIOD_SID
                     + "and Per.PERIOD_SID = m_mas.PERIOD_SID\n"
                     + "  and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID \n"
                     + "and pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
@@ -182,59 +183,59 @@ public class DPRQueryUtils {
                     + "\n";
             if ((!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue())) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                 if ("YEAR".equalsIgnoreCase(frequency)) {
-                    query += "AND per.YEAR =" + projSelDTO.getPivotValue();
+                    query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                 } else {
                     String str[] = projSelDTO.getPivotValue().split(" ");
-                    query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                    query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                 }
 
             }
             if (projSelDTO.isFilterDdlb()) {
-                query += " and TT." + projSelDTO.getDefinedContract() + " = '" + projSelDTO.getSelectedCust() + "' ";
+                query += Constant.AND_TT + projSelDTO.getDefinedContract() + " = '" + projSelDTO.getSelectedCust() + "' ";
             }
             query += " group by  TT.COMPANY_MASTER_SID,TT.COMPANY_NO,per.YEAR,\n"
-                    + "           per." + frequency + "\n"
+                    + Constant.SPACE_PER + frequency + "\n"
                     + "UNION\n"
                     + "\n"
-                    + "select per.YEAR as YEARS,per." + frequency + " as PERIODS, 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.COMPANY_MASTER_SID as COMPANY_MASTER_SID,TT.COMPANY_NO as COMPANY_NO,\n"
-                    + " 'Customer' as LEVEL_NAME,\n"
+                    + "select per.YEAR as  YEARS,per." + frequency + " as PERIODS, 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.COMPANY_MASTER_SID as COMPANY_MASTER_SID,TT.COMPANY_NO as COMPANY_NO,\n"
+                    + Constant.CUSTOMER_AS_LEVEL_NAME
                     + "\n"
                     + " sum(SUPMAS.PROJECTION_SALES) As Actual_Sale,\n"
                     + "--  avg(SUPMAS.PROJECTION_RATE) As Proj_rate,\n"
                     + "Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(m_mas.PROJECTION_SALES),0),0)*100       AS  Disc_Rate,\n"
                     + " 'Proj' As Flag,Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(m_mas.PROJECTION_UNITS),0),0) As RPU \n"
                     + "\n"
-                    + " FROM ST_CCP_HIERARCHY PD,\n"
-                    + " CCP_DETAILS CCP,\n"
-                    + " COMPANY_MASTER TT,\n"
+                    + Constant.FROM_ST_CCP_HIERARCHY_PD
+                    + Constant.CCP_DETAILS_CCP
+                    + Constant.COMPANY_MASTER_TT
                     + " ST_M_DISCOUNT_PROJECTION SUPMAS,\n"
                     + " Period per,\n"
                     + "ST_M_SALES_PROJECTION m_mas,\n"
                     + "ST_M_SALES_PROJECTION_MASTER m_mac\n"
-                    + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                    + " and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
+                    + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                    + Constant.AND_TTCOMPANY_MASTER_SID_CCP_MAS
                     + " and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID  "
-                    + "  and Per.PERIOD_SID = SUPMAS.PERIOD_SID\n"
+                    + Constant.AND_PER_PERIOD_SID_SUP_PERIOD_SID
                     + "and Per.PERIOD_SID=m_mas.PERIOD_SID\n"
                     + "and pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
                     + "and m_mac.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
                     + "\n";
             if (projSelDTO.isFilterDdlb()) {
-                query += " and TT." + projSelDTO.getDefinedContract() + " = '" + projSelDTO.getSelectedCust() + "' ";
+                query += Constant.AND_TT + projSelDTO.getDefinedContract() + " = '" + projSelDTO.getSelectedCust() + "' ";
             }
             if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                 if ("YEAR".equalsIgnoreCase(frequency)) {
-                    query += " AND  per.YEAR =" + projSelDTO.getPivotValue();
+                    query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                 } else {
                     String str[] = projSelDTO.getPivotValue().split(" ");
-                    query += "and per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                    query += "and per." + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                 }
             }
             query += "  group by  TT.COMPANY_MASTER_SID,TT.COMPANY_NO,per.YEAR,\n"
-                    + "           per." + frequency + "\n"
+                    + Constant.SPACE_PER + frequency + "\n"
                     + "\n"
-                    + ") Q) FINALQ\n"
-                    + "WHERE  FINALQ.TEMP_INDEX > " + projSelDTO.getStart() + " AND FINALQ.TEMP_INDEX <=  " + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
+                    + Q_FINALQ
+                    + Constant.WHERE_FINALQTEMP_INDEX_GREATER + projSelDTO.getStart() + Constant.AND_FINALQTEMP_INDEX_LESSER + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
                     + "\n"
                     + " order by COMPANY_MASTER_SID,YEARS,PERIODS";
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -246,37 +247,38 @@ public class DPRQueryUtils {
 
         return list;
     }
+    public static final String AND_SPACE = " and ";
 
     public List getContractLevelValue(ProjectionSelectionDTO projSelDTO) {
-        List list = new ArrayList();
+        List list;
         String query = StringUtils.EMPTY;
         String frequency = projSelDTO.getFrequency();
         if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "QUARTER";
+            frequency = Constant.QUARTER;
         }
         if (frequency.equals(ANNUALLY.getConstant())) {
             frequency = "YEAR";
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            frequency = "SEMI_ANNUAL";
+            frequency = Constant.SEMI_ANNUAL;
 
         }
         if (frequency.equals(MONTHLY.getConstant())) {
-            frequency = "MONTH";
+            frequency = Constant.MONTH_WITHOUT_SPACE;
         }
         try {
             if (!projSelDTO.getCurrentCustomer().equals(Constant.NULL)) {
                 query = "select FINALQ.YEARS,FINALQ.PERIODS,FINALQ.COM_ID,FINALQ.CON_ID,FINALQ.BRAND_ID, FINALQ.CONTRACT_MASTER_SID,FINALQ.CONTRACT_NO,\n"
-                        + "   FINALQ.LEVEL_NAME,FINALQ.Actual_Sale,FINALQ.Actual_Rate,FINALQ.Flag,FINALQ.RPU from(\n"
+                        + "   FINALQ.LEVEL_NAME,FINALQ.Actual_Sale,FINALQ.Actual_Rate,FINALQ.Flag,FINALQ.RPU from (\n"
                         + "select Q.YEARS,Q.PERIODS,Q.COM_ID,Q.CON_ID,Q.BRAND_ID, Q.CONTRACT_MASTER_SID,Q.CONTRACT_NO,\n"
                         + "  Q.LEVEL_NAME,Q.Actual_Sale,Q.Actual_Rate,Q.Flag,Q.RPU,Dense_rank() OVER(ORDER BY Q.CONTRACT_MASTER_SID) AS TEMP_INDEX from("
                         + "select per.YEAR as YEARS,per." + frequency + "  as PERIODS," + projSelDTO.getCurrentCustomer() + " AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.CONTRACT_MASTER_SID AS CONTRACT_MASTER_SID,TT.CONTRACT_NO AS CONTRACT_NO,\n"
                         + " 'Contract' as LEVEL_NAME, \n"
                         + " Sum(SUPMAS.ACTUAL_SALES) AS Actual_Sale  ,\n"
                         + "Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(STMAS.ACTUAL_SALES),0),0)*100       AS  Actual_Rate,\n"
-                        + " 'ACT' AS Flag,Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(STMAS.ACTUAL_UNITS),0),0) AS RPU \n"
+                        + " 'ACT' AS Flag,Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(STMAS.ACTUAL_UNITS),0),0) AS RPU  \n"
                         + "  FROM ST_CCP_HIERARCHY PD,\n"
-                        + "  CCP_DETAILS CCP,\n"
+                        + "  CCP_DETAILS CCP ,\n"
                         + "  CONTRACT_MASTER TT,\n"
                         + "  ST_M_ACTUAL_DISCOUNT SUPMAS,\n"
                         + " ST_M_ACTUAL_SALES  STMAS,\n"
@@ -286,28 +288,28 @@ public class DPRQueryUtils {
                         + "  and TT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n"
                         + "  and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
                         + "  and per.PERIOD_SID=SUPMAS.PERIOD_SID\n"
-                        + "  and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + " \n"
+                        + AND_CCPCOMPANY_MASTER_SID + projSelDTO.getCurrentCustomer() + " \n"
                         + "and STMAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                         + "  and STMAS.PERIOD_SID= per.PERIOD_SID\n"
-                        + "  and STMSP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n";
+                        + "  and STMSP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID \n";
                 if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
-                        query += " AND  per.YEAR =" + projSelDTO.getPivotValue();
+                        query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                     } else {
                         String str[] = projSelDTO.getPivotValue().split(" ");
-                        query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                        query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
                 query += "  group by  TT.CONTRACT_MASTER_SID,TT.CONTRACT_NO,per.YEAR,per." + frequency + "\n"
                         + "  UNION\n"
-                        + "select per.YEAR as YEARS,per." + frequency + " as PERIODS," + projSelDTO.getCurrentCustomer() + " AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.CONTRACT_MASTER_SID AS CONTRACT_MASTER_SID,TT.CONTRACT_NO AS CONTRACT_NO,\n"
+                        + "select per.YEAR as YEARS, per." + frequency + " as PERIODS," + projSelDTO.getCurrentCustomer() + " AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.CONTRACT_MASTER_SID AS CONTRACT_MASTER_SID,TT.CONTRACT_NO AS CONTRACT_NO,\n"
                         + " 'Contract' as LEVEL_NAME, \n"
                         + " Sum(SUPMAS.PROJECTION_SALES)AS Actual_Sale,\n"
                         + "Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(STSP.PROJECTION_SALES),0),0)*100       AS  Actual_Rate,\n"
                         + " 'Proj' AS Flag,Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(STSP.PROJECTION_UNITS),0),0) AS RPU \n"
                         + "\n"
-                        + "  FROM ST_CCP_HIERARCHY PD,\n"
-                        + "  CCP_DETAILS CCP,\n"
+                        + "  FROM ST_CCP_HIERARCHY  PD,\n"
+                        + "  CCP_DETAILS CCP, \n"
                         + "  CONTRACT_MASTER TT,\n"
                         + "  ST_M_DISCOUNT_PROJECTION SUPMAS,\n"
                         + "ST_M_SALES_PROJECTION STSP,\n"
@@ -317,22 +319,22 @@ public class DPRQueryUtils {
                         + "  and TT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n"
                         + "  and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
                         + "  and per.PERIOD_SID=SUPMAS.PERIOD_SID\n"
-                        + "  and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + " \n"
+                        + AND_CCPCOMPANY_MASTER_SID + projSelDTO.getCurrentCustomer() + " \n"
                         + " and STSP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                         + "  and STSP.PERIOD_SID= per.PERIOD_SID\n"
                         + "  and STMSP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n";
                 if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
-                        query += " AND  per.YEAR =" + projSelDTO.getPivotValue();
+                        query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                     } else {
                         String str[] = projSelDTO.getPivotValue().split(" ");
-                        query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                        query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
                 query += "  group by  TT.CONTRACT_MASTER_SID,TT.CONTRACT_NO,per.YEAR,per." + frequency + "\n"
                         + "     "
-                        + ") Q) FINALQ\n"
-                        + "WHERE  FINALQ.TEMP_INDEX > " + projSelDTO.getStart() + " AND FINALQ.TEMP_INDEX <=  " + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
+                        + Q_FINALQ
+                        + Constant.WHERE_FINALQTEMP_INDEX_GREATER + projSelDTO.getStart() + Constant.AND_FINALQTEMP_INDEX_LESSER + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
                         + "\n"
                         + " order by CONTRACT_MASTER_SID,YEARS,PERIODS";
 
@@ -343,27 +345,28 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
 
     }
+    public static final String AND_CCPCOMPANY_MASTER_SID = "  and CCP.COMPANY_MASTER_SID = ";
 
     public List getBrandLevelValue(ProjectionSelectionDTO projSelDTO) {
         List list = new ArrayList();
-        String query = StringUtils.EMPTY;
+        String query;
         String frequency = projSelDTO.getFrequency();
         if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "QUARTER";
+            frequency = Constant.QUARTER;
         }
         if (frequency.equals(ANNUALLY.getConstant())) {
             frequency = "YEAR";
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            frequency = "SEMI_ANNUAL";
+            frequency = Constant.SEMI_ANNUAL;
 
         }
         if (frequency.equals(MONTHLY.getConstant())) {
-            frequency = "MONTH";
+            frequency = Constant.MONTH_WITHOUT_SPACE;
         }
         try {
             if (!Constant.NULL.equals(projSelDTO.getCurrentContract()) && !Constant.NULL.equals(projSelDTO.getCurrentCustomer())) {
@@ -371,25 +374,25 @@ public class DPRQueryUtils {
                         + "    FINALQ.LEVEL_NAME,FINALQ.Actual_Sale,FINALQ.Actual_Rate,FINALQ.Flag,FINALQ.RPU from(\n"
                         + " select Q.YEARS,Q.PERIODS,Q.COM_ID,Q.CON_ID,Q.BRAND_ID, Q.BRAND_MASTER_SID,Q.BRAND_NAME,\n"
                         + "    Q.LEVEL_NAME,Q.Actual_Sale,Q.Actual_Rate,Q.Flag,Q.RPU,Dense_rank() OVER (ORDER BY Q.BRAND_MASTER_SID) AS TEMP_INDEX from("
-                        + "select per.YEAR AS YEARS,per." + frequency + " AS PERIODS ," + projSelDTO.getCurrentCustomer() + " AS COM_ID," + projSelDTO.getCurrentContract() + " AS CON_ID,0 AS BRAND_ID,TT.BRAND_MASTER_SID AS BRAND_MASTER_SID,TT.BRAND_NAME AS BRAND_NAME,\n"
-                        + "'Brand' as LEVEL_NAME,\n"
+                        + "select per.YEAR AS YEARS, per." + frequency + " AS PERIODS ," + projSelDTO.getCurrentCustomer() + " AS COM_ID," + projSelDTO.getCurrentContract() + " AS CON_ID,0 AS BRAND_ID,TT.BRAND_MASTER_SID AS BRAND_MASTER_SID,TT.BRAND_NAME AS BRAND_NAME,\n"
+                        + "'Brand' as LEVEL_NAME, \n"
                         + "sum(SUPMAS.ACTUAL_SALES)AS Actual_Sale,\n"
                         + "Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(STMAS.ACTUAL_SALES),0),0)*100       AS  Actual_Rate,\n"
                         + "'ACT' AS Flag,Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(STMAS.ACTUAL_UNITS),0),0) AS RPU \n"
                         + "\n"
-                        + "FROM ST_CCP_HIERARCHY PD,\n"
-                        + "CCP_DETAILS CCP,\n"
-                        + "ITEM_MASTER IM,\n"
+                        + FROM_ST_CCP_HIERARCHY_PD
+                        + " CCP_DETAILS CCP, \n"
+                        + "ITEM_MASTER IM , \n"
                         + " BRAND_MASTER TT,\n"
                         + " ST_M_ACTUAL_DISCOUNT SUPMAS ,\n"
                         + " ST_M_ACTUAL_SALES STMAS,\n"
-                        + "ST_M_SALES_PROJECTION_MASTER STMSPM,\n"
+                        + "ST_M_SALES_PROJECTION_MASTER STMSPM, \n"
                         + " Period per"
-                        + " where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                        + "and TT.BRAND_MASTER_SID = IM.BRAND_MASTER_SID\n"
+                        + WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                        + "and TT.BRAND_MASTER_SID =  IM.BRAND_MASTER_SID\n"
                         + " and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
                         + " and per.PERIOD_SID=SUPMAS.PERIOD_SID\n"
-                        + " and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + "\n"
+                        + AND_CCP_COMPANY_MASTER_SID + projSelDTO.getCurrentCustomer() + "\n"
                         + "  and CCP.CONTRACT_MASTER_SID = " + projSelDTO.getCurrentContract() + "\n"
                         + " and CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID  \n"
                         + "and STMAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
@@ -397,35 +400,35 @@ public class DPRQueryUtils {
                         + "and STMSPM.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n";
                 if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
-                        query += " AND  per.YEAR =" + projSelDTO.getPivotValue();
+                        query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                     } else {
                         String str[] = projSelDTO.getPivotValue().split(" ");
-                        query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                        query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
                 query += "  group by TT.BRAND_MASTER_SID,TT.BRAND_NAME, per.YEAR,per." + frequency + " \n"
                         + "  \n"
                         + "  union \n"
                         + "  \n"
-                        + "select per.YEAR AS YEARS,per." + frequency + " AS PERIODS ," + projSelDTO.getCurrentCustomer() + " AS COM_ID," + projSelDTO.getCurrentContract() + " AS CON_ID,0 AS BRAND_ID,TT.BRAND_MASTER_SID AS BRAND_MASTER_SID,TT.BRAND_NAME AS BRAND_NAME,\n"
-                        + "'Brand' as LEVEL_NAME,\n"
+                        + "select per.YEAR AS YEARS, per." + frequency + "  AS PERIODS ," + projSelDTO.getCurrentCustomer() + " AS COM_ID ," + projSelDTO.getCurrentContract() + " AS CON_ID,0 AS BRAND_ID,TT.BRAND_MASTER_SID AS BRAND_MASTER_SID,TT.BRAND_NAME AS BRAND_NAME,\n"
+                        + "'Brand' as LEVEL_NAME, \n"
                         + "sum(SUPMAS.PROJECTION_SALES)AS Projection_Sale,\n"
                         + "Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(STSP.PROJECTION_SALES),0),0)*100       AS  Actual_Rate,\n"
                         + "'Proj'AS Flag,Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(STSP.PROJECTION_UNITS),0),0) AS RPU \n"
                         + "\n"
-                        + "FROM ST_CCP_HIERARCHY PD,\n"
-                        + "CCP_DETAILS CCP,\n"
-                        + "ITEM_MASTER IM,\n"
+                        + FROM_ST_CCP_HIERARCHY_PD
+                        + " CCP_DETAILS CCP ,\n"
+                        + "ITEM_MASTER IM ,  \n"
                         + " BRAND_MASTER TT,\n"
                         + " ST_M_DISCOUNT_PROJECTION SUPMAS ,\n"
                         + "ST_M_SALES_PROJECTION STSP,\n"
-                        + "ST_M_SALES_PROJECTION_MASTER STMSPM,\n"
+                        + "ST_M_SALES_PROJECTION_MASTER STMSPM ,\n"
                         + " Period per"
-                        + " where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                        + "and TT.BRAND_MASTER_SID = IM.BRAND_MASTER_SID\n"
+                        + WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                        + "and TT.BRAND_MASTER_SID  = IM.BRAND_MASTER_SID\n"
                         + " and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
                         + " and per.PERIOD_SID=SUPMAS.PERIOD_SID\n"
-                        + " and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + "\n"
+                        + AND_CCP_COMPANY_MASTER_SID + projSelDTO.getCurrentCustomer() + "\n"
                         + "  and CCP.CONTRACT_MASTER_SID = " + projSelDTO.getCurrentContract() + "\n"
                         + " and CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID  \n"
                         + "and STSP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
@@ -433,18 +436,18 @@ public class DPRQueryUtils {
                         + "and STMSPM.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n";
                 if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
-                        query += " AND  per.YEAR =" + projSelDTO.getPivotValue();
+                        query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                     } else {
                         String str[] = projSelDTO.getPivotValue().split(" ");
-                        query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                        query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
                 query += "  group by TT.BRAND_MASTER_SID,TT.BRAND_NAME, per.YEAR,per." + frequency + " \n"
                         + "\n"
                         + "  \n"
                         + "  "
-                        + ") Q) FINALQ\n"
-                        + "WHERE  FINALQ.TEMP_INDEX > " + projSelDTO.getStart() + " AND FINALQ.TEMP_INDEX <=  " + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
+                        + Q_FINALQ
+                        + Constant.WHERE_FINALQTEMP_INDEX_GREATER + projSelDTO.getStart() + Constant.AND_FINALQTEMP_INDEX_LESSER + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
                         + "\n"
                         + " order by BRAND_MASTER_SID,YEARS,PERIODS";
 
@@ -460,23 +463,25 @@ public class DPRQueryUtils {
 
         return list;
     }
+    public static final String AND_CCP_COMPANY_MASTER_SID = " and CCP.COMPANY_MASTER_SID = ";
+    public static final String FROM_ST_CCP_HIERARCHY_PD = "FROM ST_CCP_HIERARCHY PD,\n";
 
     public List getSuppLevelValue(ProjectionSelectionDTO projSelDTO) {
         List list = new ArrayList();
         String query = StringUtils.EMPTY;
         String frequency = projSelDTO.getFrequency();
         if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "QUARTER";
+            frequency = Constant.QUARTER;
         }
         if (frequency.equals(ANNUALLY.getConstant())) {
             frequency = "YEAR";
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            frequency = "SEMI_ANNUAL";
+            frequency = Constant.SEMI_ANNUAL;
 
         }
         if (frequency.equals(MONTHLY.getConstant())) {
-            frequency = "MONTH";
+            frequency = Constant.MONTH_WITHOUT_SPACE;
         }
 
         try {
@@ -484,87 +489,87 @@ public class DPRQueryUtils {
                     + "   FINALQ.LEVEL_NAME,FINALQ.Actual_Sale,FINALQ.Actual_Rate,FINALQ.Flag,FINALQ.RPU from(\n"
                     + "select Q.YEARS,Q.PERIODS,Q.COM_ID,Q.CON_ID,Q.BRAND_ID, Q.COMPANY_MASTER_SID,Q.COMPANY_NO,\n"
                     + "   Q.LEVEL_NAME,Q.Actual_Sale,Q.Actual_Rate,Q.Flag,Q.RPU,Dense_rank() OVER (ORDER BY Q.COMPANY_MASTER_SID) AS TEMP_INDEX from("
-                    + " select per.YEAR AS YEARS,per." + frequency + " AS PERIODS, 0 AS COM_ID ,0 AS CON_ID,0 AS BRAND_ID, TT.COMPANY_MASTER_SID AS COMPANY_MASTER_SID ,TT.COMPANY_NO AS COMPANY_NO,\n"
-                    + " 'Customer' as LEVEL_NAME,\n"
+                    + " select per.YEAR AS YEARS, per." + frequency + " AS PERIODS, 0 AS COM_ID ,0 AS CON_ID,0 AS BRAND_ID, TT.COMPANY_MASTER_SID AS COMPANY_MASTER_SID ,TT.COMPANY_NO AS COMPANY_NO,\n"
+                    + Constant.CUSTOMER_AS_LEVEL_NAME
                     + "\n"
                     + " sum(ST_M_DIS_ACT.ACTUAL_SALES) As Actual_Sale,\n"
-                    + "Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_SALES),0),0)*100       AS  Actual_Rate,"
+                    + "Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_SALES),0),0)*100     AS  Actual_Rate,"
                     + " 'ACT' As Flag,Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_UNITS),0),0) As RPU \n"
                     + "\n"
-                    + " FROM ST_CCP_HIERARCHY PD,\n"
-                    + " CCP_DETAILS CCP,\n"
-                    + " COMPANY_MASTER TT,\n"
-                    + " ST_M_SUPPLEMENTAL_DISC_ACTUALS ST_M_DIS_ACT,\n"
+                    + Constant.FROM_ST_CCP_HIERARCHY_PD
+                    + Constant.CCP_DETAILS_CCP
+                    + Constant.COMPANY_MASTER_TT
+                    + " ST_M_SUPPLEMENTAL_DISC_ACTUALS ST_M_DIS_ACT, \n"
                     + " ST_M_ACTUAL_SALES               ST_M_ACT_SAL,\n"
                     + "\n"
                     + "ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,  \n"
-                    + " Period per\n"
-                    + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                    + " and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
-                    + "  and  ST_M_DIS_ACT.PERIOD_SID =Per.PERIOD_SID\n"
-                    + "and ST_M_DIS_ACT.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
-                    + "and ST_M_ACT_SAL.CCP_DETAILS_SID=ST_M_DIS_ACT.CCP_DETAILS_SID\n"
+                    + PERIOD_PER_N
+                    + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                    + Constant.AND_TTCOMPANY_MASTER_SID_CCP_MAS
+                    + "  and  ST_M_DIS_ACT.PERIOD_SID =Per.PERIOD_SID \n"
+                    + "and ST_M_DIS_ACT.CCP_DETAILS_SID=PD.CCP_DETAILS_SID \n"
+                    + "and ST_M_ACT_SAL.CCP_DETAILS_SID = ST_M_DIS_ACT.CCP_DETAILS_SID\n"
                     + "and ST_M_ACT_SAL.PERIOD_SID=Per.PERIOD_SID\n"
                     + "\n"
-                    + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
+                    + AND_ST_M_SAL_PROJ_MASCCP_DETAILS_SIDPDCCP
                     + "\n"
                     + "\n";
             if (projSelDTO.isFilterDdlb()) {
-                query += " and TT." + projSelDTO.getDefinedContract() + " = '" + projSelDTO.getSelectedCust() + "' ";
+                query += Constant.AND_TT + projSelDTO.getDefinedContract() + " = '" + projSelDTO.getSelectedCust() + "' ";
             }
             if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                 if ("YEAR".equalsIgnoreCase(frequency)) {
-                    query += "AND per.YEAR =" + projSelDTO.getPivotValue();
+                    query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                 } else {
                     String str[] = projSelDTO.getPivotValue().split(" ");
-                    query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                    query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                 }
             }
             query += "  group by  TT.COMPANY_MASTER_SID,TT.COMPANY_NO,per.YEAR,\n"
-                    + "           per." + frequency + "\n"
+                    + Constant.SPACE_PER + frequency + "\n"
                     + "\n"
-                    + "Union\n"
+                    + Constant.UNION
                     + "\n"
-                    + " select per.YEAR AS YEARS,per." + frequency + " AS PERIODS, 0 AS COM_ID ,0 AS CON_ID,0 AS BRAND_ID, TT.COMPANY_MASTER_SID AS COMPANY_MASTER_SID ,TT.COMPANY_NO AS COMPANY_NO,\n"
-                    + " 'Customer' as LEVEL_NAME,\n"
+                    + " select per.YEAR AS  YEARS,per." + frequency + " AS PERIODS, 0 AS COM_ID ,0 AS CON_ID,0 AS BRAND_ID, TT.COMPANY_MASTER_SID AS COMPANY_MASTER_SID ,TT.COMPANY_NO AS COMPANY_NO,\n"
+                    + Constant.CUSTOMER_AS_LEVEL_NAME
                     + "\n"
                     + " sum(ST_M_DIS_Proj.PROJECTION_SALES) As Actual_Sale,\n"
                     + "Coalesce(Sum(ST_M_DIS_Proj.PROJECTION_SALES)/Nullif(Sum(ST_M_PROJ_SAL.PROJECTION_SALES),0),0)*100       AS  Actual_Rate,"
                     + " 'PROJ' As Flag,Coalesce(Sum(ST_M_DIS_Proj.PROJECTION_SALES)/Nullif(Sum(ST_M_PROJ_SAL.PROJECTION_UNITS),0),0) As RPU \n"
                     + "\n"
-                    + " FROM ST_CCP_HIERARCHY PD,\n"
-                    + " CCP_DETAILS CCP,\n"
-                    + " COMPANY_MASTER TT,\n"
+                    + Constant.FROM_ST_CCP_HIERARCHY_PD
+                    + Constant.CCP_DETAILS_CCP
+                    + Constant.COMPANY_MASTER_TT
                     + " ST_M_SUPPLEMENTAL_DISC_PROJ ST_M_DIS_Proj,\n"
                     + " ST_M_SALES_PROJECTION       ST_M_PROJ_SAL,\n"
                     + "\n"
                     + "ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,  \n"
-                    + " Period per\n"
-                    + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                    + " and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
+                    + PERIOD_PER_N
+                    + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                    + Constant.AND_TTCOMPANY_MASTER_SID_CCP_MAS
                     + "  and  ST_M_DIS_Proj.PERIOD_SID =Per.PERIOD_SID\n"
                     + "and ST_M_DIS_Proj.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
-                    + "and ST_M_PROJ_SAL.CCP_DETAILS_SID=ST_M_DIS_Proj.CCP_DETAILS_SID\n"
-                    + "and ST_M_PROJ_SAL.PERIOD_SID=Per.PERIOD_SID\n"
+                    + "and ST_M_PROJ_SAL.CCP_DETAILS_SID = ST_M_DIS_Proj.CCP_DETAILS_SID\n"
+                    + "and ST_M_PROJ_SAL.PERIOD_SID = Per.PERIOD_SID\n"
                     + "\n"
-                    + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n";
+                    + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID= PD.CCP_DETAILS_SID\n";
             if (projSelDTO.isFilterDdlb()) {
-                query += " and TT." + projSelDTO.getDefinedContract() + " = '" + projSelDTO.getSelectedCust() + "' ";
+                query += Constant.AND_TT + projSelDTO.getDefinedContract() + " = '" + projSelDTO.getSelectedCust() + "' ";
             }
             if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                 if ("YEAR".equalsIgnoreCase(frequency)) {
-                    query += "AND per.YEAR =" + projSelDTO.getPivotValue();
+                    query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                 } else {
                     String str[] = projSelDTO.getPivotValue().split(" ");
-                    query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                    query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                 }
             }
             query += " group by  TT.COMPANY_MASTER_SID,TT.COMPANY_NO,per.YEAR,\n"
-                    + "           per." + frequency + "\n"
+                    + Constant.SPACE_PER + frequency + "\n"
                     + "\n"
                     + "  "
-                    + ") Q) FINALQ\n"
-                    + "WHERE  FINALQ.TEMP_INDEX > " + projSelDTO.getStart() + " AND FINALQ.TEMP_INDEX <=  " + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
+                    + Q_FINALQ
+                    + Constant.WHERE_FINALQTEMP_INDEX_GREATER + projSelDTO.getStart() + Constant.AND_FINALQTEMP_INDEX_LESSER + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
                     + "\n"
                     + " order by COMPANY_MASTER_SID,YEARS,PERIODS";
 
@@ -577,23 +582,25 @@ public class DPRQueryUtils {
 
         return list;
     }
+    public static final String AND_ST_M_SAL_PROJ_MASCCP_DETAILS_SIDPDCCP = "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n";
+    public static final String PERIOD_PER_N = " Period per\n";
 
     public List getSuppContractLevelValue(ProjectionSelectionDTO projSelDTO) {
-        List list = new ArrayList();
+        List list;
         String query = StringUtils.EMPTY;
         String frequency = projSelDTO.getFrequency();
         if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "QUARTER";
+            frequency = Constant.QUARTER;
         }
         if (frequency.equals(ANNUALLY.getConstant())) {
             frequency = "YEAR";
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            frequency = "SEMI_ANNUAL";
+            frequency = Constant.SEMI_ANNUAL;
 
         }
         if (frequency.equals(MONTHLY.getConstant())) {
-            frequency = "MONTH";
+            frequency = Constant.MONTH_WITHOUT_SPACE;
         }
         try {
             if (!projSelDTO.getCurrentCustomer().equals(Constant.NULL)) {
@@ -601,79 +608,79 @@ public class DPRQueryUtils {
                         + "    FINALQ.LEVEL_NAME,FINALQ.Actual_Sale,FINALQ.Actual_Rate,FINALQ.Flag,FINALQ.RPU from(\n"
                         + " select Q.YEARS,Q.PERIODS,Q.COM_ID,Q.CON_ID,Q.BRAND_ID, Q.CONTRACT_MASTER_SID,Q.CONTRACT_NO,\n"
                         + "   Q.LEVEL_NAME,Q.Actual_Sale,Q.Actual_Rate,Q.Flag,Q.RPU,Dense_rank() OVER (ORDER BY Q.CONTRACT_MASTER_SID) AS TEMP_INDEX from("
-                        + "select per.YEAR AS YEARS,per." + frequency + " AS PERIODS," + projSelDTO.getCurrentCustomer() + " AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.CONTRACT_MASTER_SID AS CONTRACT_MASTER_SID ,TT.CONTRACT_NO AS CONTRACT_NO,\n"
+                        + "select  per.YEAR AS YEARS,per." + frequency + " AS PERIODS," + projSelDTO.getCurrentCustomer() + " AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.CONTRACT_MASTER_SID AS CONTRACT_MASTER_SID ,TT.CONTRACT_NO AS CONTRACT_NO,\n"
                         + " 'Contract' as LEVEL_NAME,\n"
                         + "SUM(ST_M_DIS_ACT.ACTUAL_SALES) As Actual_Sale,\n"
                         + "Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_SALES),0),0)*100       AS  Actual_Rate,"
                         + "'ACT' As Flag,Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_UNITS),0),0) As RPU \n"
                         + " FROM \n"
-                        + "ST_CCP_HIERARCHY PD,\n"
-                        + " CCP_DETAILS CCP,\n"
+                        + "  ST_CCP_HIERARCHY PD,\n"
+                        + Constant.CCP_DETAILS_CCP
                         + " CONTRACT_MASTER TT,\n"
                         + " ST_M_SUPPLEMENTAL_DISC_ACTUALS ST_M_DIS_ACT,\n"
-                        + " ST_M_ACTUAL_SALES               ST_M_ACT_SAL,\n"
+                        + "  ST_M_ACTUAL_SALES               ST_M_ACT_SAL,\n"
                         + "\n"
-                        + "ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,  \n"
-                        + " Period per\n"
-                        + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                        + "  and TT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n"
-                        + "  and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + "  \n"
+                        + " ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,  \n"
+                        + PERIOD_PER_N
+                        + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                        + "  and TT.CONTRACT_MASTER_SID =  CCP.CONTRACT_MASTER_SID\n"
+                        + AND_CCPCOMPANY_MASTER_SID + projSelDTO.getCurrentCustomer() + "  \n"
                         + "  and  ST_M_DIS_ACT.PERIOD_SID =Per.PERIOD_SID\n"
-                        + "and ST_M_DIS_ACT.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
-                        + "and ST_M_ACT_SAL.CCP_DETAILS_SID=ST_M_DIS_ACT.CCP_DETAILS_SID\n"
+                        + "and  ST_M_DIS_ACT.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
+                        + "and ST_M_ACT_SAL.CCP_DETAILS_SID =ST_M_DIS_ACT.CCP_DETAILS_SID\n"
                         + "and ST_M_ACT_SAL.PERIOD_SID=Per.PERIOD_SID\n"
                         + "\n"
-                        + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
+                        + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID =PD.CCP_DETAILS_SID\n"
                         + "\n";
                 if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
-                        query += "AND per.YEAR =" + projSelDTO.getPivotValue();
+                        query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                     } else {
                         String str[] = projSelDTO.getPivotValue().split(" ");
-                        query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                        query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
                 query += "group by  TT.CONTRACT_MASTER_SID,TT.CONTRACT_NO, per.YEAR,per." + frequency + "\n"
                         + "\n"
-                        + "Union\n"
-                        + "select per.YEAR AS YEARS,per." + frequency + " AS PERIODS," + projSelDTO.getCurrentCustomer() + " AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.CONTRACT_MASTER_SID AS CONTRACT_MASTER_SID ,TT.CONTRACT_NO AS CONTRACT_NO,\n"
+                        + Constant.UNION
+                        + " select per.YEAR AS YEARS,per." + frequency + " AS PERIODS," + projSelDTO.getCurrentCustomer() + " AS COM_ID,0 AS CON_ID,0 AS BRAND_ID, TT.CONTRACT_MASTER_SID AS CONTRACT_MASTER_SID ,TT.CONTRACT_NO AS CONTRACT_NO,\n"
                         + " 'Contract' as LEVEL_NAME,\n"
                         + "SUM(ST_M_DIS_PROJ.PROJECTION_SALES) As Actual_Sale,\n"
                         + "Coalesce(Sum(ST_M_DIS_Proj.PROJECTION_SALES)/Nullif(Sum(ST_M_PROJ_SAL.PROJECTION_SALES),0),0)*100       AS  Proj_rate,"
                         + "'PROJ' As Flag,Coalesce(Sum(ST_M_DIS_Proj.PROJECTION_SALES)/Nullif(Sum(ST_M_PROJ_SAL.PROJECTION_UNITS),0),0) As RPU \n"
                         + " FROM \n"
-                        + "ST_CCP_HIERARCHY PD,\n"
-                        + " CCP_DETAILS CCP,\n"
+                        + " ST_CCP_HIERARCHY PD,\n"
+                        + Constant.CCP_DETAILS_CCP
                         + " CONTRACT_MASTER TT,\n"
                         + " ST_M_SUPPLEMENTAL_DISC_PROJ ST_M_DIS_PROJ,\n"
                         + " ST_M_SALES_PROJECTION               ST_M_PROJ_SAL,\n"
                         + "\n"
-                        + "ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,  \n"
-                        + " Period per\n"
-                        + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                        + "  and TT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n"
-                        + "  and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + "  \n"
+                        + "ST_M_SALES_PROJECTION_MASTER    ST_M_SAL_PROJ_MAS,  \n"
+                        + PERIOD_PER_N
+                        + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                        + "  and  TT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n"
+                        + AND_CCPCOMPANY_MASTER_SID + projSelDTO.getCurrentCustomer() + "  \n"
                         + "  and  ST_M_DIS_PROJ.PERIOD_SID =Per.PERIOD_SID\n"
                         + "and ST_M_DIS_PROJ.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                         + "and ST_M_PROJ_SAL.CCP_DETAILS_SID=ST_M_DIS_PROJ.CCP_DETAILS_SID\n"
                         + "and ST_M_PROJ_SAL.PERIOD_SID=Per.PERIOD_SID\n"
                         + "\n"
-                        + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
+                        + "and  ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                         + "\n";
                 if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
-                        query += "AND per.YEAR =" + projSelDTO.getPivotValue();
+                        query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                     } else {
                         String str[] = projSelDTO.getPivotValue().split(" ");
-                        query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                        query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
 
                 query += "group by  TT.CONTRACT_MASTER_SID,TT.CONTRACT_NO, per.YEAR,per." + frequency + "\n"
                         + "\n"
                         + StringUtils.EMPTY
-                        + ") Q) FINALQ\n"
-                        + "WHERE  FINALQ.TEMP_INDEX > " + projSelDTO.getStart() + " AND FINALQ.TEMP_INDEX <=  " + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
+                        + Q_FINALQ
+                        + Constant.WHERE_FINALQTEMP_INDEX_GREATER + projSelDTO.getStart() + Constant.AND_FINALQTEMP_INDEX_LESSER + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
                         + "\n"
                         + " order by CONTRACT_MASTER_SID,YEARS,PERIODS";
 
@@ -684,27 +691,27 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
 
     }
 
     public List getSuppBrandLevelValue(ProjectionSelectionDTO projSelDTO) {
         List list = new ArrayList();
-        String query = StringUtils.EMPTY;
+        String query;
         String frequency = projSelDTO.getFrequency();
         if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "QUARTER";
+            frequency = Constant.QUARTER;
         }
         if (frequency.equals(ANNUALLY.getConstant())) {
             frequency = "YEAR";
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            frequency = "SEMI_ANNUAL";
+            frequency = Constant.SEMI_ANNUAL;
 
         }
         if (frequency.equals(MONTHLY.getConstant())) {
-            frequency = "MONTH";
+            frequency = Constant.MONTH_WITHOUT_SPACE;
         }
         try {
             if (!Constant.NULL.equals(projSelDTO.getCurrentContract()) && !Constant.NULL.equals(projSelDTO.getCurrentCustomer())) {
@@ -712,88 +719,88 @@ public class DPRQueryUtils {
                         + "   FINALQ.LEVEL_NAME,FINALQ.Actual_Sale,FINALQ.Actual_Rate,FINALQ.Flag,FINALQ.RPU from(\n"
                         + "select Q.YEARS,Q.PERIODS,Q.COM_ID,Q.CON_ID,Q.BRAND_ID, Q.BRAND_MASTER_SID,Q.BRAND_NAME,\n"
                         + "   Q.LEVEL_NAME,Q.Actual_Sale,Q.Actual_Rate,Q.Flag,Q.RPU,Dense_rank() OVER (ORDER BY Q.BRAND_MASTER_SID) AS TEMP_INDEX from("
-                        + "select per.YEAR AS YEARS,per." + frequency + " AS PERIODS ," + projSelDTO.getCurrentCustomer() + " AS COM_ID," + projSelDTO.getCurrentContract() + " AS CON_ID,0 AS BRAND_ID,TT.BRAND_MASTER_SID AS BRAND_MASTER_SID ,TT.BRAND_NAME AS BRAND_NAME,\n"
+                        + "select per.YEAR AS YEARS,per." + frequency + " AS  PERIODS ," + projSelDTO.getCurrentCustomer() + " AS  COM_ID," + projSelDTO.getCurrentContract() + " AS CON_ID,0 AS BRAND_ID,TT.BRAND_MASTER_SID AS BRAND_MASTER_SID ,TT.BRAND_NAME AS BRAND_NAME,\n"
                         + "'Brand' as LEVEL_NAME,\n"
                         + "sum(ST_M_DIS_ACT.ACTUAL_SALES)AS Actual_Sale,\n"
                         + "Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_SALES),0),0)*100       AS  Actual_Rate,"
                         + "'ACT' AS Flag,Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_UNITS),0),0) AS RPU \n"
                         + "\n"
-                        + "FROM ST_CCP_HIERARCHY PD,\n"
+                        + FROM_ST_CCP_HIERARCHY_PD
                         + "CCP_DETAILS CCP,\n"
-                        + "ITEM_MASTER IM,\n"
-                        + " BRAND_MASTER TT,\n"
+                        + "ITEM_MASTER IM  , \n"
+                        + "  BRAND_MASTER TT,\n"
                         + "ST_M_SUPPLEMENTAL_DISC_ACTUALS ST_M_DIS_ACT,\n"
-                        + " ST_M_ACTUAL_SALES               ST_M_ACT_SAL,\n"
+                        + " ST_M_ACTUAL_SALES              ST_M_ACT_SAL,\n"
                         + "\n"
                         + "ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,\n"
-                        + " Period per\n"
-                        + " where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                        + "and TT.BRAND_MASTER_SID = IM.BRAND_MASTER_SID\n"
+                        + PERIOD_PER_N
+                        + WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                        + "and  TT.BRAND_MASTER_SID = IM.BRAND_MASTER_SID\n"
                         + "and ST_M_DIS_ACT.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
                         + "and CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID\n"
                         + "and per.PERIOD_SID=ST_M_DIS_ACT.PERIOD_SID\n"
                         + "and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + " \n"
                         + "and CCP.CONTRACT_MASTER_SID = " + projSelDTO.getCurrentContract() + "\n"
-                        + "and ST_M_DIS_ACT.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
+                        + "and ST_M_DIS_ACT.CCP_DETAILS_SID =PD.CCP_DETAILS_SID\n"
                         + "and ST_M_ACT_SAL.CCP_DETAILS_SID=ST_M_DIS_ACT.CCP_DETAILS_SID\n"
-                        + "and ST_M_ACT_SAL.PERIOD_SID=Per.PERIOD_SID\n"
+                        + "and ST_M_ACT_SAL.PERIOD_SID =Per.PERIOD_SID\n"
                         + "\n"
-                        + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n";
+                        + AND_ST_M_SAL_PROJ_MASCCP_DETAILS_SIDPDCCP;
                 if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
-                        query += "AND per.YEAR =" + projSelDTO.getPivotValue();
+                        query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                     } else {
                         String str[] = projSelDTO.getPivotValue().split(" ");
-                        query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                        query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
-                query += "  group by TT.BRAND_MASTER_SID,TT.BRAND_NAME, per.YEAR,per." + frequency + "\n"
+                query += "  group by TT.BRAND_MASTER_SID, TT.BRAND_NAME, per.YEAR,per." + frequency + "\n"
                         + "\n"
                         + "\n"
                         + "  union\n"
                         + "\n"
-                        + "select per.YEAR AS YEARS,per." + frequency + " AS PERIODS ," + projSelDTO.getCurrentCustomer() + " AS COM_ID," + projSelDTO.getCurrentContract() + " AS CON_ID,0 AS BRAND_ID,TT.BRAND_MASTER_SID AS BRAND_MASTER_SID ,TT.BRAND_NAME AS BRAND_NAME,\n"
+                        + "select per.YEAR AS YEARS,per." + frequency + " AS PERIODS  ," + projSelDTO.getCurrentCustomer() + " AS COM_ID," + projSelDTO.getCurrentContract() + " AS CON_ID,0 AS BRAND_ID,TT.BRAND_MASTER_SID AS BRAND_MASTER_SID ,TT.BRAND_NAME AS BRAND_NAME,\n"
                         + "'Brand' as LEVEL_NAME,\n"
                         + "sum(ST_M_DIS_ACT.PROJECTION_SALES)AS Actual_Sale,\n"
                         + "Coalesce(Sum(ST_M_DIS_ACT.PROJECTION_SALES)/Nullif(Sum(ST_M_ACT_SAL.PROJECTION_SALES),0),0)*100       AS  Proj_rate,"
                         + "'Proj' AS Flag,Coalesce(Sum(ST_M_DIS_ACT.PROJECTION_SALES)/Nullif(Sum(ST_M_ACT_SAL.PROJECTION_UNITS),0),0) AS RPU \n"
                         + "\n"
-                        + "FROM ST_CCP_HIERARCHY PD,\n"
+                        + FROM_ST_CCP_HIERARCHY_PD
                         + "CCP_DETAILS CCP,\n"
                         + "ITEM_MASTER IM,\n"
-                        + " BRAND_MASTER TT,\n"
+                        + "  BRAND_MASTER TT,\n"
                         + "ST_M_SUPPLEMENTAL_DISC_PROJ ST_M_DIS_ACT,\n"
                         + " ST_M_SALES_PROJECTION               ST_M_ACT_SAL,\n"
                         + "\n"
                         + "ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,\n"
-                        + " Period per\n"
-                        + " where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
+                        + PERIOD_PER_N
+                        + WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
                         + "and TT.BRAND_MASTER_SID = IM.BRAND_MASTER_SID\n"
                         + "and ST_M_DIS_ACT.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
                         + "and CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID\n"
                         + "and per.PERIOD_SID=ST_M_DIS_ACT.PERIOD_SID\n"
-                        + "and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + " \n"
+                        + "and  CCP.COMPANY_MASTER_SID = " + projSelDTO.getCurrentCustomer() + " \n"
                         + "and CCP.CONTRACT_MASTER_SID = " + projSelDTO.getCurrentContract() + "\n"
-                        + "and ST_M_DIS_ACT.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
+                        + "and ST_M_DIS_ACT.CCP_DETAILS_SID= PD.CCP_DETAILS_SID\n"
                         + "and ST_M_ACT_SAL.CCP_DETAILS_SID=ST_M_DIS_ACT.CCP_DETAILS_SID\n"
-                        + "and ST_M_ACT_SAL.PERIOD_SID=Per.PERIOD_SID\n"
+                        + "and ST_M_ACT_SAL.PERIOD_SID= Per.PERIOD_SID\n"
                         + "\n"
-                        + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n";
+                        + AND_ST_M_SAL_PROJ_MASCCP_DETAILS_SIDPDCCP;
                 if (!StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getPivotValue()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getPivotValue()) && Constant.DISCOUNT_SMALL.equalsIgnoreCase(projSelDTO.getPivotView())) {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
-                        query += "AND per.YEAR =" + projSelDTO.getPivotValue();
+                        query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                     } else {
                         String str[] = projSelDTO.getPivotValue().split(" ");
-                        query += " AND per." + frequency + Constant.EQUAL + str[0] + " and " + "per.YEAR =" + str[1];
+                        query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
 
-                query += "  group by TT.BRAND_MASTER_SID,TT.BRAND_NAME, per.YEAR,per." + frequency + " \n"
+                query += "  group by TT.BRAND_MASTER_SID,TT.BRAND_NAME, per.YEAR, per." + frequency + " \n"
                         + "\n"
                         + "  \n"
                         + "  "
-                        + ") Q) FINALQ\n"
-                        + "WHERE  FINALQ.TEMP_INDEX > " + projSelDTO.getStart() + " AND FINALQ.TEMP_INDEX <=  " + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
+                        + Q_FINALQ
+                        + Constant.WHERE_FINALQTEMP_INDEX_GREATER + projSelDTO.getStart() + Constant.AND_FINALQTEMP_INDEX_LESSER + (projSelDTO.getStart() + projSelDTO.getOffset()) + "\n"
                         + "\n"
                         + " order by BRAND_MASTER_SID,YEARS,PERIODS";
                 SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -811,8 +818,8 @@ public class DPRQueryUtils {
 
     public List<Integer> getProjectionDetailsId(ProjectionSelectionDTO projSelDTO) {
         try {
-            List list = new ArrayList();
-            List<Integer> listInte = new ArrayList<Integer>();
+            List list;
+            List<Integer> listInte = new ArrayList<>();
             String sql = "select CCP_DETAILS_SID from dbo.ST_CCP_HIERARCHY\n";
 
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -827,7 +834,7 @@ public class DPRQueryUtils {
             return listInte;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -836,72 +843,72 @@ public class DPRQueryUtils {
         String query = StringUtils.EMPTY;
         String frequency = projSelDTO.getFrequency();
         if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "QUARTER";
+            frequency = Constant.QUARTER;
         }
         if (frequency.equals(ANNUALLY.getConstant())) {
             frequency = "YEAR";
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            frequency = "SEMI_ANNUAL";
+            frequency = Constant.SEMI_ANNUAL;
 
         }
         if (frequency.equals(MONTHLY.getConstant())) {
-            frequency = "MONTH";
+            frequency = Constant.MONTH_WITHOUT_SPACE;
         }
 
         try {
-            query += " select per.YEAR,per." + frequency + ", 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID,0 As COMPANY_MASTER_SID,0 AS COMPANY_NO,  "
-                    + " 'Customer' as LEVEL_NAME,\n"
+            query += " select  per.YEAR,per." + frequency + ", 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID,0 As COMPANY_MASTER_SID,0 AS COMPANY_NO,  "
+                    + Constant.CUSTOMER_AS_LEVEL_NAME
                     + "\n"
                     + " sum(SUPMAS.ACTUAL_SALES) As Actual_Sale,\n"
                     + "Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(STMSP.ACTUAL_SALES),0),0)*100       AS ACTUAL_Rate,\n"
                     + " 'ACT' As Flag,Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(STMSP.ACTUAL_UNITS),0),0)  As RPU  \n"
                     + "\n"
-                    + " FROM ST_CCP_HIERARCHY PD,\n"
-                    + " CCP_DETAILS CCP,\n"
-                    + " COMPANY_MASTER TT,\n"
+                    + Constant.FROM_ST_CCP_HIERARCHY_PD
+                    + Constant.CCP_DETAILS_CCP
+                    + Constant.COMPANY_MASTER_TT
                     + " ST_M_ACTUAL_DISCOUNT SUPMAS,\n"
                     + "ST_M_ACTUAL_SALES STMSP,\n"
-                    + "ST_M_SALES_PROJECTION_MASTER STMSPM,\n"
-                    + " Period per\n"
-                    + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                    + " and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
-                    + "  and Per.PERIOD_SID = SUPMAS.PERIOD_SID\n"
+                    + " ST_M_SALES_PROJECTION_MASTER STMSPM,\n"
+                    + PERIOD_PER_N
+                    + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                    + Constant.AND_TTCOMPANY_MASTER_SID_CCP_MAS
+                    + Constant.AND_PER_PERIOD_SID_SUP_PERIOD_SID
                     + "  and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID"
                     + "  and STMSP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                     + "and STMSP.PERIOD_SID=Per.PERIOD_SID \n"
                     + " and STMSPM.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
-                    + "  group by  "
-                    + "per.YEAR,\n"
-                    + "           per." + frequency + "\n"
+                    + "  group by   "
+                    + "per.YEAR , \n"
+                    + Constant.SPACE_PER + frequency + "\n"
                     + "\n"
                     + "UNION\n"
                     + "\n"
                     + " select per.YEAR,per." + frequency + ", 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID,0 As COMPANY_MASTER_SID,0 AS COMPANY_NO,"
-                    + " 'Customer' as LEVEL_NAME,\n"
+                    + Constant.CUSTOMER_AS_LEVEL_NAME
                     + "\n"
                     + " sum(SUPMAS.PROJECTION_SALES) As Proj_Sale,\n"
                     + "Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(STMSP.PROJECTION_SALES),0),0)*100       AS PROJ_Rate,\n"
                     + " 'Proj' As Flag,Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(STMSP.PROJECTION_UNITS),0),0) AS RPU   \n"
                     + "\n"
-                    + " FROM ST_CCP_HIERARCHY PD,\n"
-                    + " CCP_DETAILS CCP,\n"
-                    + " COMPANY_MASTER TT,\n"
+                    + Constant.FROM_ST_CCP_HIERARCHY_PD
+                    + Constant.CCP_DETAILS_CCP
+                    + Constant.COMPANY_MASTER_TT
                     + " ST_M_DISCOUNT_PROJECTION SUPMAS,\n"
                     + "ST_M_SALES_PROJECTION STMSP,\n"
-                    + "ST_M_SALES_PROJECTION_MASTER STMSPM,\n"
-                    + " Period per\n"
-                    + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                    + " and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
+                    + "ST_M_SALES_PROJECTION_MASTER STMSPM,  \n"
+                    + PERIOD_PER_N
+                    + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                    + Constant.AND_TTCOMPANY_MASTER_SID_CCP_MAS
                     + " and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID "
-                    + "  and Per.PERIOD_SID = SUPMAS.PERIOD_SID\n"
+                    + Constant.AND_PER_PERIOD_SID_SUP_PERIOD_SID
                     + "and STMSP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                     + "and STMSP.PERIOD_SID=Per.PERIOD_SID \n"
                     + " and STMSPM.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                     + "-- and STMSP.PERIOD_SID=Per.PERIOD_SID \n"
                     + "  group by  "
-                    + "per.YEAR,\n"
-                    + "           per." + frequency + "\n"
+                    + "per.YEAR,  \n"
+                    + Constant.SPACE_PER + frequency + "\n"
                     + "\n"
                     + "  ";
             if (!frequency.equals("YEAR")) {
@@ -927,84 +934,84 @@ public class DPRQueryUtils {
         String query = StringUtils.EMPTY;
         String frequency = projSelDTO.getFrequency();
         if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "QUARTER";
+            frequency = Constant.QUARTER;
         }
         if (frequency.equals(ANNUALLY.getConstant())) {
             frequency = "YEAR";
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-            frequency = "SEMI_ANNUAL";
+            frequency = Constant.SEMI_ANNUAL;
 
         }
         if (frequency.equals(MONTHLY.getConstant())) {
-            frequency = "MONTH";
+            frequency = Constant.MONTH_WITHOUT_SPACE;
         }
 
         try {
             query += " select per.YEAR,per." + frequency + ", 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID,0 As COMPANY_MASTER_SID,0 AS COMPANY_NO,"
-                    + " 'Customer' as LEVEL_NAME,\n"
+                    + Constant.CUSTOMER_AS_LEVEL_NAME
                     + "\n"
                     + " sum(ST_M_DIS_ACT.ACTUAL_SALES) As Actual_Sale,\n"
                     + "Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_SALES),0),0)*100       AS ACTUAL_Rate,\n"
                     + " 'ACT' As Flag,Coalesce(Sum(ST_M_DIS_ACT.ACTUAL_SALES)/Nullif(Sum(ST_M_ACT_SAL.ACTUAL_UNITS),0),0) As RPU    \n"
                     + "\n"
-                    + " FROM ST_CCP_HIERARCHY PD,\n"
-                    + " CCP_DETAILS CCP,\n"
-                    + " COMPANY_MASTER TT,\n"
+                    + Constant.FROM_ST_CCP_HIERARCHY_PD
+                    + Constant.CCP_DETAILS_CCP
+                    + Constant.COMPANY_MASTER_TT
                     + " ST_M_SUPPLEMENTAL_DISC_ACTUALS ST_M_DIS_ACT,\n"
                     + " ST_M_ACTUAL_SALES               ST_M_ACT_SAL,\n"
                     + "\n"
-                    + "ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,  \n"
-                    + " Period per\n"
-                    + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                    + " and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
+                    + "ST_M_SALES_PROJECTION_MASTER   ST_M_SAL_PROJ_MAS,  \n"
+                    + PERIOD_PER_N
+                    + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                    + Constant.AND_TTCOMPANY_MASTER_SID_CCP_MAS
                     + "  and  ST_M_DIS_ACT.PERIOD_SID =Per.PERIOD_SID\n"
                     + "and ST_M_DIS_ACT.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
-                    + "and ST_M_ACT_SAL.CCP_DETAILS_SID=ST_M_DIS_ACT.CCP_DETAILS_SID\n"
-                    + "and ST_M_ACT_SAL.PERIOD_SID=Per.PERIOD_SID\n"
+                    + "and ST_M_ACT_SAL.CCP_DETAILS_SID  = ST_M_DIS_ACT.CCP_DETAILS_SID\n"
+                    + "and  ST_M_ACT_SAL.PERIOD_SID=Per.PERIOD_SID\n"
                     + "\n"
-                    + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
+                    + AND_ST_M_SAL_PROJ_MASCCP_DETAILS_SIDPDCCP
                     + "\n"
                     + "\n"
                     + "  group by  "
                     + "per.YEAR,\n"
-                    + "           per." + frequency + "\n"
+                    + Constant.SPACE_PER + frequency + "\n"
                     + "\n"
-                    + "Union\n"
+                    + Constant.UNION
                     + "\n"
                     + "select per.YEAR,per." + frequency + ", 0 AS COM_ID,0 AS CON_ID,0 AS BRAND_ID,0 As COMPANY_MASTER_SID,0 AS COMPANY_NO, "
-                    + " 'Customer' as LEVEL_NAME,\n"
+                    + Constant.CUSTOMER_AS_LEVEL_NAME
                     + "\n"
                     + " sum(ST_M_DIS_Proj.PROJECTION_SALES) As Proj_Sale,\n"
                     + "Coalesce(Sum(ST_M_DIS_Proj.PROJECTION_SALES)/Nullif(Sum(ST_M_PROJ_SAL.PROJECTION_SALES),0),0)*100       AS PROJ_Rate,\n"
                     + " 'PROJ' As Flag,Coalesce(Sum(ST_M_DIS_Proj.PROJECTION_SALES)/Nullif(Sum(ST_M_PROJ_SAL.PROJECTION_UNITS),0),0) As RPU  \n"
                     + "\n"
-                    + " FROM ST_CCP_HIERARCHY PD,\n"
-                    + " CCP_DETAILS CCP,\n"
-                    + " COMPANY_MASTER TT,\n"
+                    + Constant.FROM_ST_CCP_HIERARCHY_PD
+                    + Constant.CCP_DETAILS_CCP
+                    + Constant.COMPANY_MASTER_TT
                     + " ST_M_SUPPLEMENTAL_DISC_PROJ ST_M_DIS_Proj,\n"
                     + " ST_M_SALES_PROJECTION       ST_M_PROJ_SAL,\n"
                     + "\n"
-                    + "ST_M_SALES_PROJECTION_MASTER     ST_M_SAL_PROJ_MAS,  \n"
-                    + " Period per\n"
-                    + "where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-                    + " and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
+                    + "ST_M_SALES_PROJECTION_MASTER      ST_M_SAL_PROJ_MAS,  \n"
+                    + PERIOD_PER_N
+                    + Constant.WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
+                    + Constant.AND_TTCOMPANY_MASTER_SID_CCP_MAS
                     + "  and  ST_M_DIS_Proj.PERIOD_SID =Per.PERIOD_SID\n"
                     + "and ST_M_DIS_Proj.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
                     + "and ST_M_PROJ_SAL.CCP_DETAILS_SID=ST_M_DIS_Proj.CCP_DETAILS_SID\n"
                     + "and ST_M_PROJ_SAL.PERIOD_SID=Per.PERIOD_SID\n"
                     + "\n"
-                    + "and ST_M_SAL_PROJ_MAS.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n"
+                    + AND_ST_M_SAL_PROJ_MASCCP_DETAILS_SIDPDCCP
                     + " group by  "
                     + "per.YEAR,\n"
-                    + "           per." + frequency + "\n"
+                    + Constant.SPACE_PER + frequency + "\n"
                     + "\n"
                     + "  ";
             if (!frequency.equals("YEAR")) {
-                query += "order by "
+                query += "order by  "
                         + "per.YEAR,per." + frequency + "\n";
             } else {
-                query += "order by "
+                query += "order by  "
                         + "per.YEAR";
             }
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -1039,8 +1046,8 @@ public class DPRQueryUtils {
                 tempWerQuery = " AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID\n"
                         + "AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID\n";
                 if (brandFlag) {
-                    tempWerQuery += "and CCP.COMPANY_MASTER_SID = " + parentDto.getCurrentCustomer() + " \n"
-                            + "and CCP.CONTRACT_MASTER_SID = " + parentDto.getCurrentContract() + "\n";
+                    tempWerQuery += AND_CCP_COMPANY_MASTER_SID + parentDto.getCurrentCustomer() + " \n"
+                            + "and  CCP.CONTRACT_MASTER_SID = " + parentDto.getCurrentContract() + "\n";
                     tempFrom += ",CONTRACT_MASTER CONTR, COMPANY_MASTER CM";
                 }
             }
@@ -1049,7 +1056,6 @@ public class DPRQueryUtils {
 
             String werQuery = " where CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n";
 
-//            String filterQuery = " AND PD.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId();
 
             query.append(tempSelect + fromQuery + tempFrom + werQuery + tempWerQuery );
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -1080,10 +1086,10 @@ public class DPRQueryUtils {
             } else if (ANNUALLY.getConstant().equals(projSelDTO.getFrequency())) {
                 frequency = "YEAR";
             }
-            List list = new ArrayList();
+            List list;
             String query = SQlUtil.getQuery("mmdprgetNonmandatedtotal");
-            query = query.replaceAll("@projID", projectionId + StringUtils.EMPTY);
-            query = query.replaceAll("@frequency_var", frequency);
+            query = query.replaceAll(Constant.PROJ_ID, projectionId + StringUtils.EMPTY);
+            query = query.replaceAll(Constant.FREQUENCY_VAR, frequency);
             if (!frequency.equals("YEAR")) {
                 query += ",\n"
                         + "per." + frequency + StringUtils.EMPTY;
@@ -1096,11 +1102,11 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
-    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods,ProjectionSelectionDTO selection) {
+    public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String view, List<Integer> startAndEndPeriods,ProjectionSelectionDTO selection) {
         List list = new ArrayList();
         try {
 
@@ -1117,9 +1123,6 @@ public class DPRQueryUtils {
 
             String forecastStartPeriod = StringUtils.EMPTY;
             String forecastEndPeriod = StringUtils.EMPTY;
-            if (discountString.equals(Constant.DASH)) {
-                discountString = "'" + discountString + "'";
-            }
             if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
@@ -1150,21 +1153,21 @@ public class DPRQueryUtils {
 
             }
             if (frequency.equals(Constant.QUARTERLY)) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
             if (frequency.equals(ANNUALLY.getConstant())) {
                 frequency = "YEAR";
             }
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = "SEMI_ANNUAL";
+                frequency = Constant.SEMI_ANNUAL;
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
-            String projectionQuery = StringUtils.EMPTY;
+            String projectionQuery;
             projectionQuery = "SELECT PR.YEAR,\n"
-                    + "       PR." + frequency + "            AS BASE,\n"
+                    + "       PR." + frequency + "             AS BASE,\n"
                     + "       0.00                        AS ACTUAL_SALES,\n"
                     + "       0.00                        AS ACTUAL_DISCOUNT,\n"
                     + "       Max(NMDPM.PROJECTION_SALES)  AS PROJECTION_SALES,\n"
@@ -1184,18 +1187,18 @@ public class DPRQueryUtils {
                     + "   AND Cast(PR.YEAR AS VARCHAR(4))\n"
                     + "       + RIGHT('0'+Cast(PR.MONTH AS VARCHAR), 2) <=" + forecastEndPeriod + "\n"
                     + "GROUP  BY PR.YEAR,\n"
-                    + "          PR." + frequency + ",\n"
+                    + PR + frequency + ",\n"
                     + "          PR.MONTH,\n"
                     + "          PD.CCP_DETAILS_SID \n"
                     + "\n"
-                    + "UNION ALL\n"
+                    + "UNION ALL \n"
                     + "SELECT    PR.YEAR,\n"
-                    + "          PR." + frequency + "                            AS BASE,\n"
+                    + PR + frequency + "                 AS BASE,\n"
                     + "          Max(NMADM.ACTUAL_SALES)                AS ACTUAL_SALES,\n"
                     + "          Sum(NMADM.ACTUAL_SALES)               AS ACTUAL_DISCOUNT,\n"
                     + "          Max(IsNull(NMSP.PROJECTION_SALES, 0)) AS PROJECTION_SALES,\n"
                     + "          Sum(IsNull(NMAS.ACTUAL_SALES, 0)) AS PROJECTION_DISCOUNT,\n"
-                    + "          PR." + frequency + ",\n"
+                    + PR + frequency + ",\n"
                     + "          PR.MONTH\n"
                     + "FROM      ST_CCP_HIERARCHY PD\n"
                     + "JOIN      ST_M_ACTUAL_DISCOUNT NMADM ON NMADM.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
@@ -1219,13 +1222,13 @@ public class DPRQueryUtils {
                     + "             PD.CCP_DETAILS_SID\n";
 
             if (view.equalsIgnoreCase(Constant.PARENT)) {
-                if (frequency.equals("YEAR") || frequency.equals("MONTH")) {
+                if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
                     projectionQuery = projectionQuery + "ORDER BY PR.YEAR";
                 } else {
                     projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequency + "";
                 }
             } else {
-                if (frequency.equals("YEAR") || frequency.equals("MONTH")) {
+                if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
                     projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR";
                 } else {
                     projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + "";
@@ -1239,11 +1242,12 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
+    public static final String PR = "          PR.";
 
-    public List getMandatedSupp2(List<Integer> discountprojectionId, String frequency, String discountString, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods,ProjectionSelectionDTO selection) {
+    public List getMandatedSupp2(List<Integer> discountprojectionId, String frequency, List<Integer> startAndEndPeriods,ProjectionSelectionDTO selection) {
         List list = new ArrayList();
         try {
 
@@ -1260,9 +1264,6 @@ public class DPRQueryUtils {
 
             String forecastStartPeriod = StringUtils.EMPTY;
             String forecastEndPeriod = StringUtils.EMPTY;
-            if (discountString.equals(Constant.DASH)) {
-                discountString = "'" + discountString + "'";
-            }
             if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
                 String hsYear = String.valueOf(startAndEndPeriods.get(0));
                 String hsMonth = String.valueOf(startAndEndPeriods.get(1));
@@ -1293,27 +1294,27 @@ public class DPRQueryUtils {
 
             }
             if (frequency.equals(Constant.QUARTERLY)) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
             if (frequency.equals(ANNUALLY.getConstant())) {
                 frequency = "YEAR";
             }
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = "SEMI_ANNUAL";
+                frequency = Constant.SEMI_ANNUAL;
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
-            String projectionQuery = StringUtils.EMPTY;
+            String projectionQuery;
 
             projectionQuery = "SELECT PR.YEAR,\n"
-                    + "       PR." + frequency + "            AS BASE,\n"
+                    + "    PR." + frequency + "            AS BASE,\n"
                     + "       0.00                        AS ACTUAL_SALES,\n"
                     + "       0.00                        AS ACTUAL_DISCOUNT,\n"
                     + "       Max(NMDPM.PROJECTION_SALES)  AS PROJECTION_SALES,\n"
                     + "       Sum(NMDPM.PROJECTION_SALES) AS PROJECTION_DISCOUNT,\n"
-                    + "       PR." + frequency + ",\n"
+                    + "    PR." + frequency + ",\n"
                     + "       PR.MONTH\n"
                     + "FROM   ST_CCP_HIERARCHY PD\n"
                     + "JOIN   ST_M_SUPPLEMENTAL_DISC_PROJ NMDPM ON NMDPM.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
@@ -1328,19 +1329,19 @@ public class DPRQueryUtils {
                     + "   AND Cast(PR.YEAR AS VARCHAR(4))\n"
                     + "       + RIGHT('0'+Cast(PR.MONTH AS VARCHAR), 2) <=" + forecastEndPeriod + "\n"
                     + "GROUP  BY PR.YEAR,\n"
-                    + "          PR." + frequency + ",\n"
+                    + PR + frequency + ",\n"
                     + "          PR.MONTH,\n"
                     + "          PD.CCP_DETAILS_SID \n"
                     + "\n"
                     + "UNION ALL\n"
                     + "SELECT    PR.YEAR,\n"
-                    + "          PR." + frequency + "                            AS BASE,\n"
+                    + PR + frequency + "                            AS BASE,\n"
                     + "          Max(NMADM.ACTUAL_SALES)                AS ACTUAL_SALES,\n"
                     + "          Sum(NMADM.ACTUAL_SALES)               AS ACTUAL_DISCOUNT,\n"
                     + "          Max(IsNull(NMDP.PROJECTION_SALES, 0)) AS PROJECTION_SALES,\n"
                     + "          Sum(IsNull(NMDP.PROJECTION_SALES, 0)) AS PROJECTION_DISCOUNT"
                     + ",\n"
-                    + "          PR." + frequency + ",\n"
+                    + PR + frequency + ",\n"
                     + "          PR.MONTH\n"
                     + "  FROM      ST_CCP_HIERARCHY PD\n"
                     + "JOIN      ST_M_SUPPLEMENTAL_DISC_ACTUALS NMADM ON NMADM.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
@@ -1372,12 +1373,12 @@ public class DPRQueryUtils {
 
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
 
     }
 
-    public List getMandatedTotal(List<Integer> discountprojectionId, String frequency, String discountString, int projId, String view, ProjectionSelectionDTO projSelDTO, List<Integer> startAndEndPeriods, int userId, int sessionId) {
+    public List getMandatedTotal(List<Integer> discountprojectionId, String frequency, ProjectionSelectionDTO projSelDTO) {
         List list = new ArrayList();
         try {
 
@@ -1390,34 +1391,34 @@ public class DPRQueryUtils {
                 }
             }
             if (frequency.equals(Constant.QUARTERLY)) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
             if (frequency.equals(ANNUALLY.getConstant())) {
                 frequency = "YEAR";
             }
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = "SEMI_ANNUAL";
+                frequency = Constant.SEMI_ANNUAL;
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
 
-            String str = "SELECT PR.YEAR,\n"
+            String str = "SELECT PR.YEAR, \n"
                     + "        PR." + frequency + " AS BASE,\n"
                     + "      \n"
                     + "sum(SUPMAS.ACTUAL_SALES) As Actual_Sale,\n"
                     + "Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(m_mas.ACTUAL_SALES),0),0)*100       AS  Disc_Rate,\n"
                     + "  '0' As Flag,\n"
                     + "Coalesce(Sum(SUPMAS.ACTUAL_SALES)/Nullif(Sum(m_mas.ACTUAL_UNITS),0),0) As RPU\n"
-                    + "FROM ST_CCP_HIERARCHY PD,\n"
+                    + FROM_ST_CCP_HIERARCHY_PD
                     + "  CCP_DETAILS CCP,\n"
                     + "  COMPANY_MASTER TT,\n"
                     + "  ST_M_ACTUAL_DISCOUNT SUPMAS,\n"
                     + "  Period PR,\n"
                     + " ST_M_ACTUAL_SALES m_mas,\n"
                     + " ST_M_SALES_PROJECTION_MASTER m_mac\n"
-                    + " where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
+                    + WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
                     + "  and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
                     + "   and PR.PERIOD_SID = SUPMAS.PERIOD_SID\n"
                     + " and PR.PERIOD_SID = m_mas.PERIOD_SID\n"
@@ -1438,14 +1439,14 @@ public class DPRQueryUtils {
                     + "  '1' As Flag,\n"
                     + "Coalesce(Sum(SUPMAS.PROJECTION_SALES)/Nullif(Sum(m_mas.PROJECTION_UNITS),0),0) As RPU \n"
                     + "\n"
-                    + "  FROM ST_CCP_HIERARCHY PD,\n"
+                    + "   FROM ST_CCP_HIERARCHY PD,\n"
                     + "  CCP_DETAILS CCP,\n"
                     + "  COMPANY_MASTER TT,\n"
                     + "  ST_M_DISCOUNT_PROJECTION SUPMAS,\n"
                     + "  Period PR,\n"
                     + " ST_M_SALES_PROJECTION m_mas,\n"
                     + " ST_M_SALES_PROJECTION_MASTER m_mac\n"
-                    + " where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
+                    + WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS
                     + "  and TT.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n"
                     + "  and SUPMAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID   \n"
                     + "   and PR.PERIOD_SID = SUPMAS.PERIOD_SID\n"
@@ -1468,12 +1469,13 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
 
     }
+    public static final String WHERE_CCPCCP_DETAILS_SID_PDCCP_DETAILS = " where  CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n";
 
-    public List getSuppTotal(List<Integer> discountprojectionId, String frequency, String discountString, String actualsOrProjections, String view, ProjectionSelectionDTO projSelDTO, List<Integer> startAndEndPeriods, int userId, int sessionId) {
+    public List getSuppTotal(List<Integer> discountprojectionId, String frequency, ProjectionSelectionDTO projSelDTO) {
         List list = new ArrayList();
         try {
 
@@ -1486,20 +1488,20 @@ public class DPRQueryUtils {
                 }
             }
             if (frequency.equals(Constant.QUARTERLY)) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
             if (frequency.equals(ANNUALLY.getConstant())) {
                 frequency = "YEAR";
             }
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-                frequency = "SEMI_ANNUAL";
+                frequency = Constant.SEMI_ANNUAL;
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
 
-            String str = "SELECT PR.YEAR,\n"
+            String str = "SELECT PR.YEAR ,\n"
                     + " PR." + frequency + "  AS BASE,\n"
                     + "  SUM(STPROJ.PROJECTION_SALES)  AS PROJECTION_SALES,\n"
                     + "Coalesce(Sum(STPROJ.PROJECTION_SALES)/Nullif(Sum(STMSP.PROJECTION_SALES),0),0)*100       AS ProJ_Rate,\n"
@@ -1525,7 +1527,7 @@ public class DPRQueryUtils {
                     + "Coalesce(Sum(STPROJ.ACTUAL_SALES)/Nullif(Sum(STMAS.ACTUAL_SALES),0),0)*100       AS Actual_Rate,\n"
                     + "         0                          AS Flag,Coalesce(Sum(STPROJ.ACTUAL_SALES)/Nullif(Sum(STMAS.ACTUAL_UNITS),0),0)  AS RPU \n"
                     + "FROM ST_M_SUPPLEMENTAL_DISC_ACTUALS STPROJ,\n"
-                    + "ST_CCP_HIERARCHY PD,\n"
+                    + "ST_CCP_HIERARCHY PD, \n"
                     + "\"PERIOD\" PR ,\n"
                     + "ST_M_ACTUAL_SALES STMAS,\n"
                     + "ST_M_SALES_PROJECTION_MASTER STMSPM "
@@ -1550,7 +1552,7 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1571,7 +1573,7 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1592,7 +1594,7 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1610,7 +1612,7 @@ public class DPRQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 }

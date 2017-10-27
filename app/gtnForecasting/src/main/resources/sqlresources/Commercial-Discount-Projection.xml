@@ -220,6 +220,14 @@ GROUP  BY I.PERIOD,
                         END,
                         @RS_CONTRACT_SID
                         P.HIERARCHY_NO
+                        
+                  IF Object_id('TEMPDB..#CCP_COUNT') IS NOT NULL
+                    DROP TABLE #CCP_COUNT
+                    SELECT HIERARCHY_NO,DISCOUNT,COUNT(DISTINCT DISCOUNT) CCPS_COUNT
+                    INTO #CCP_COUNT
+                    FROM #SELECTED_HIERARCHY_NO
+                    GROUP BY HIERARCHY_NO,DISCOUNT,CCP_DETAILS_SID
+
           
 
               SELECT CHECK_RECORD,
@@ -227,14 +235,14 @@ GROUP  BY I.PERIOD,
                      AD.YEAR,
                      AD.PERIOD,
                      DPM.DISCOUNT,
-                     COALESCE((DISCOUNT_ACTUALS) / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
+                     COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
                      NULL PROJECTION_RATE,
                      0                                                             AS AP_TABLE_INDICATOR,
                      USER_GROUP,
                      CCP_COUNT,
                      UNCHECK_COUNT,
                      DISCOUNT_ACTUALS                           AS ACTUAL_SALES,
-                     COALESCE((DISCOUNT_ACTUALS )/ NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
+                     COALESCE(DISCOUNT_ACTUALS/ NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
                      NULL                                      AS PROJECTION_SALES,
                      NULL                                                          AS PROJECTION_RPU,
                      NULL                                                          AS GROWTH
@@ -250,7 +258,8 @@ GROUP  BY I.PERIOD,
                                 AND SA.PERIOD = AD.PERIOD
                                 AND SA.DISCOUNT = AD.DISCOUNT
 				     @CONDITION2
-                                    
+                                     inner join #CCP_COUNT cc on cc.HIERARCHY_NO=ad.HIERARCHY_NO
+                                     AND cc.DISCOUNT = AD.DISCOUNT
               UNION ALL
               SELECT CHECK_RECORD,
                      DPM.HIERARCHY_NO,
@@ -258,7 +267,7 @@ GROUP  BY I.PERIOD,
                      AD.PERIOD,
                      DPM.DISCOUNT,
                      NULL AS                                                              ACTUAL_RATE,
-                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
+                     COALESCE((PROJECTED_DISCOUNT/NULLIF(CCPS_COUNT,0)) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
                      1                                                                   AS AP_TABLE_INDICATOR,
                      USER_GROUP,
                      CCP_COUNT,
@@ -266,7 +275,7 @@ GROUP  BY I.PERIOD,
                      NULL                                                                AS ACTUAL_SALES,
                      NULL                                                                AS ACTUAL_RPU,
                      PROJECTED_DISCOUNT                                                   AS PROJECTION_SALES,
-                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_UNITS, 0), 0)       AS PROJECTION_RPU,
+                     COALESCE((PROJECTED_DISCOUNT/NULLIF(CCPS_COUNT,0)) / NULLIF(PROJECTION_UNITS, 0), 0)       AS PROJECTION_RPU,
                      GROWTH
                      @DPM_RS_CONTRACT_SID
               FROM   #DISCOUNT_PROJECTION_MASTER DPM
@@ -279,7 +288,9 @@ GROUP  BY I.PERIOD,
                                 AND SA.discount = AD.discount
                                 AND SA.YEAR = AD.YEAR
                                 AND SA.PERIOD = AD.PERIOD
-                               
+                                inner join #CCP_COUNT cc on cc.HIERARCHY_NO=ad.HIERARCHY_NO
+                                AND cc.DISCOUNT = AD.DISCOUNT
+              
               ORDER  BY 
                         @CONDITION3 ,
                         DISCOUNT,
@@ -562,9 +573,6 @@ WHERE CCPH.CUST_HIERARCHY_NO  LIKE '@HIERARCHYNO%'
             <![CDATA[   
                 UPDATE  DPM
                   SET DPM.CALCULATION_PERIODS = '@CALCULATION_PERIODS ',
-                         DPM.FORECAST_START_PERIOD_SID = '@FORECAST_START_PERIOD_SID',
-                         DPM.FORECAST_END_PERIOD_SID = '@FORECAST_END_PERIOD_SID',
-                         DPM.CALCULATION_BASED = '@CALCULATION_BASED',
                          DPM.METHODOLOGY = '@METHODOLOGY' FROM ST_NM_DISCOUNT_PROJ_MASTER DPM
                     JOIN  RS_CONTRACT RS ON RS.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID
                 WHERE $COLUMN_NAME IN ( '@PRICE_GROUP_TYPE' )

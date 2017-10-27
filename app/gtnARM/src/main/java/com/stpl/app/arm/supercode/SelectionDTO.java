@@ -17,39 +17,39 @@ import java.util.TreeMap;
  */
 public interface SelectionDTO {
 
-    public List<String[]> getSummary_variables();
+    public List<String[]> getSummaryvariables();
 
-    public List<String[]> getSummary_deductionVariables();
+    public List<String[]> getSummarydeductionVariables();
 
-    public List<String> getSummary_columnList();
+    public List<String> getSummarycolumnList();
 
-    public int getSummary_deductionLevel();
+    public int getSummarydeductionLevel();
 
-    public String getSummary_deductionLevelDes();
+    public String getSummarydeductionLevelDes();
 
-    public List<Integer> getSummary_deductionVariableIds();
+    public List<Integer> getSummarydeductionVariableIds();
 
-    public String getSummary_month();
+    public String getSummarymonth();
 
     public int getProjectionMasterSid();
 
     public int getCompanyMasterSid();
 
-    public String getSummary_deductionValues();
+    public String getSummarydeductionValues();
 
     public DataSelectionDTO getDataSelectionDTO();
 
     public List<String> getSelectedAdjustmentType();
-    
+
     public List<String> getSelectedAdjustmentTypeValues();
 
-    public String getDetail_Level();
+    public String getDetailLevel();
 
-    public List<String> getDetail_reserveAcount();
+    public List<String> getDetailreserveAcount();
 
-    public List<String> getDetail_variables();
+    public List<String> getDetailvariables();
 
-    public String getSummary_glDate();
+    public String getSummaryglDate();
 
     public String getFromDate();
 
@@ -57,7 +57,7 @@ public interface SelectionDTO {
 
     public String getDeductionLevelValue();
 
-    public String getSales_levelFilterValue();
+    public String getSaleslevelFilterValue();
 
     public String getDateType();
 
@@ -67,27 +67,27 @@ public interface SelectionDTO {
 
     public String getStatus();
 
-    public int getRate_DeductionLevel();
+    public int getRateDeductionLevel();
 
-    public String getRate_DeductionLevelName();
+    public String getRateDeductionLevelName();
 
-    public String getRate_DeductionValue();
+    public String getRateDeductionValue();
 
-    public String getRate_DeductionView();
+    public String getRateDeductionView();
 
-    public int getRate_Basis();
+    public int getRateBasisValue();
 
-    public String getRate_BasisName();
+    public String getRateBasisName();
 
-    public int getRate_Frequency();
+    public int getRateFrequencyValue();
 
-    public String getRate_FrequencyName();
+    public String getRateFrequencyName();
 
-    public String getRate_Period();
+    public String getRatePeriodValue();
 
-    public List<List> getRate_ColumnList();
+    public List<List> getRateColumnList();
 
-    public String getRate_LevelName();
+    public String getRateLevelName();
 
     /**
      * Generate button Validation
@@ -98,21 +98,21 @@ public interface SelectionDTO {
 
     public String getModuleName();
 
-    public List<String[]> getSummary_frequencyList();
+    public List<String[]> getSummaryfrequencyList();
 
-    public String getSummary_demand_view();
+    public String getSummarydemandview();
 
-    public String getSummary_demand_toDate();
+    public String getSummarydemandtoDate();
 
-    public String getSummary_demand_fromDate();
+    public String getSummarydemandfromDate();
 
-    public String getSummary_demand_frequency();
+    public String getSummarydemandfrequency();
 
-    public int getSummary_demand_MultipleLevel();
+    public int getSummarydemandMultipleLevel();
 
-    public Map<Integer, String> getSummary_demand_Level();
+    public Map<Integer, String> getSummarydemandLevel();
 
-    public void setSummary_demand_Level(Map<Integer, String> summary_demand_Level);
+    public void setSummarydemandLevel(Map<Integer, String> summarydemandLevel);
 
     public Object getProcedureInputs(String feild);
 
@@ -120,11 +120,11 @@ public interface SelectionDTO {
 
     public boolean isFieldInput(String feild);
 
-    public List<String[]> getSales_variables();
+    public List<String[]> getSalesVariables();
 
     public String[] getVariableVisibleColumns();
 
-    public String getInventory_reserveDate();
+    public String getInventoryreserveDate();
 
     public String getTableName();
 
@@ -138,19 +138,19 @@ public interface SelectionDTO {
 
     public void setRateFrequency(String rateFrequency);
 
-    public void setSummary_demand_MultipleLevel(int summary_demand_MultipleLevel);
+    public void setSummarydemandMultipleLevel(int summarydemandMultipleLevel);
 
     public String getRatePeriod();
 
-    public String getSummary_viewType();
+    public String getSummaryviewType();
 
-    public int getSummary_levelFilterNo();
+    public int getSummarylevelFilterNo();
 
-    public String getSummary_levelFilterValue();
+    public String getSummarylevelFilterValue();
 
-    public int getRates_levelFilterNo();
+    public int getRateslevelFilterNo();
 
-    String getInventory_Details();
+    String getInventoryDetails();
 
     public void setUserId(Integer userId);
 
@@ -162,23 +162,31 @@ public interface SelectionDTO {
 
     public TreeMap<String, Integer> getMasterSids();
 
-    public void setSummary_glList(List<String> summary_glList);
+    public void setSummaryglList(List<String> summaryglList);
 
-    public List<String> getSummary_glList();
+    public List<String> getSummaryglList();
 
     SessionDTO getSessionDTO();
 
-    public void setSummary_variables(List<String[]> summary_variables);
+    public void setSummaryvariables(List<String[]> summaryVariables);
 
-    public Map<Integer, String> getSales_hierarchy();
+    public Map<Integer, String> getSaleshierarchy();
 
-    public Map<Integer, String> getRates_hierarchy();
+    public Map<Integer, String> getRateshierarchy();
 
-    public Map<Integer, String> getSummery_hierarchy();
+    public Map<Integer, String> getSummeryhierarchy();
 
-    public int getSummary_valueSid();
+    public int getSummaryvalueSid();
+
+    public List<String> getDetailamountFilter();
+
+    public List<String> getInventorycolumnList();
+
+    public List<String> getReturnsdatavariables();
+
+    public boolean isCancelOverride();
     
-    public List<String> getDetail_amountFilter();
+    public List<String> getReturnsdataSelectedvariables();
     
-    public List<String> getInventory_columnList();
+    public int getRatesOverrideFlag();
 }

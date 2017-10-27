@@ -5,10 +5,10 @@
  */
 package com.stpl.app.arm.businessprocess;
 
-import com.stpl.app.arm.businessprocess.transaction6.dto.Trx6_SelectionDTO;
-import com.stpl.app.arm.businessprocess.transaction6.form.Trx6_AdjustmentDetail;
-import com.stpl.app.arm.businessprocess.transaction6.form.Trx6_AdjustmentSummary;
-import com.stpl.app.arm.businessprocess.transaction6.form.Trx6_Inventory;
+import com.stpl.app.arm.businessprocess.transaction6.dto.Trx6SelectionDTO;
+import com.stpl.app.arm.businessprocess.transaction6.form.Trx6AdjustmentDetail;
+import com.stpl.app.arm.businessprocess.transaction6.form.Trx6AdjustmentSummary;
+import com.stpl.app.arm.businessprocess.transaction6.form.Trx6Inventory;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
@@ -27,10 +27,10 @@ import org.jboss.logging.Logger;
  */
 public class Transaction6 extends AbstractTransaction {
 
-    Trx6_SelectionDTO trx6Selection;
-    Trx6_Inventory inventory;
-    Trx6_AdjustmentSummary summary;
-    Trx6_AdjustmentDetail details;
+    Trx6SelectionDTO trx6Selection;
+    Trx6Inventory inventory;
+    Trx6AdjustmentSummary summary;
+    Trx6AdjustmentDetail details;
     public static final Logger LOGGER = Logger.getLogger(Transaction6.class);
 
     public Transaction6(TabSheet tabSheet, CustomFieldGroup binder, String name, DataSelectionDTO dataselectionDTO, SessionDTO sessionDTO) throws SystemException {
@@ -41,12 +41,12 @@ public class Transaction6 extends AbstractTransaction {
     public void initializeTabs() {
         getTabSheet().addTab(getDataSelectionWF(), ARMConstants.getDataSelection());
         try {
-            trx6Selection = new Trx6_SelectionDTO();
+            trx6Selection = new Trx6SelectionDTO();
             trx6Selection.setDataSelectionDTO(getDataselectionDTO());
             trx6Selection.setSessionDTO(getSessionDTO());
-            inventory = new Trx6_Inventory(trx6Selection, getDataselectionDTO().getProjectionId());
-            summary = new Trx6_AdjustmentSummary(trx6Selection);
-            details = new Trx6_AdjustmentDetail(trx6Selection);
+            inventory = new Trx6Inventory(trx6Selection, getDataselectionDTO().getProjectionId());
+            summary = new Trx6AdjustmentSummary(trx6Selection);
+            details = new Trx6AdjustmentDetail(trx6Selection);
 
             TabSheet.Tab tab1 = getTabSheet().addTab(inventory, "Inventory");
             tab1.setDefaultFocusComponent(inventory.getDefaultFocusComponent());
@@ -57,7 +57,7 @@ public class Transaction6 extends AbstractTransaction {
             TabSheet.Tab tab5 = getTabSheet().addTab(getNotes(), "Additional Information");
             tab5.setDefaultFocusComponent(getNotes().getDefaultFocusComponent());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in initializeTabs"+e);
         }
     }
 
@@ -77,7 +77,7 @@ public class Transaction6 extends AbstractTransaction {
     }
 
     @Override
-    public Trx6_SelectionDTO getSelection() {
+    public Trx6SelectionDTO getSelection() {
         return trx6Selection;
     }
 
@@ -89,12 +89,12 @@ public class Transaction6 extends AbstractTransaction {
 
     @Override
     public String getGtnQuery() {
-        return "Transaction_6_Adjustment_details_Insert_GTN";
+        return "Pipeline_Adjustment_details_Insert_GTN";
     }
 
     @Override
     public String getReserveQuery() {
-        return "Transaction_6_Adjustment_details_Insert_Reserve";
+        return "Pipeline_Adjustment_details_Insert_Reserve";
     }
 
     @Override
@@ -108,5 +108,10 @@ public class Transaction6 extends AbstractTransaction {
         inventory.configurePermission(userId, stplSecurity);
         summary.configurePermission(userId, stplSecurity);
         details.configurePermission(userId, stplSecurity);
+    }
+
+    @Override
+    public String getTableName() {
+        return "ARM_INFLATION_INVENTORY_ADJ";
     }
 }

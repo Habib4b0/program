@@ -76,7 +76,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
     private void loadSessionDTO() {
         try {
             int projectionId = session.getProjectionId();
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             NonMandatedLogic logic = new NonMandatedLogic();
             if (projectionId != 0) {
                 try {

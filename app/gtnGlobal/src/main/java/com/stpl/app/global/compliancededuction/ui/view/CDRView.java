@@ -46,7 +46,7 @@ public class CDRView extends VerticalLayout implements View {
      * @throws SystemException
      * @throws Exception
      */
-    public CDRView(SessionDTO sessionDTO) throws PortalException, SystemException {
+    public CDRView(SessionDTO sessionDTO) {
         super();
         this.sessionDTO = sessionDTO;
         setStyleName("bootstrap-company");

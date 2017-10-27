@@ -100,7 +100,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
     protected ComboBox reasonCodeddlb;
     @UiField("reasonCodeLabel")
     protected Label reasonCodeLabel;
-     
+
     public Button getAddNote() {
         return addNote;
     }
@@ -144,12 +144,14 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
     protected String fileUploadPath;
     private final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<Integer, Boolean>();
     public List<NotesDTO> removeDetailsList = new ArrayList<NotesDTO>();
+    protected String moduleName;
 
     /**
      * constructor for additional information
      *
      */
     public AbstractNotesTab(final FieldGroup binder, final String moduleName) {
+        this.moduleName = moduleName;
         this.binder = binder;
         this.fileName = "Notes_History_" + moduleName.replace(" ", "");
 
@@ -240,13 +242,13 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
             wordPngImage.setStyleName(HeaderUtils.IMAGE_DISABLED);
             pdfPngImage.setStyleName(HeaderUtils.IMAGE_DISABLED);
         }else{
-          wordPngImage.setEnabled(true);
-                    pdfPngImage.setEnabled(true);
-                    wordPngImage.setStyleName(HeaderUtils.IMAGE_ENABLED);
-                    pdfPngImage.setStyleName(HeaderUtils.IMAGE_ENABLED);
-                    wordDownloader.extend(wordPngImage);
-                    pdfDownloader.extend(pdfPngImage);
-        
+            wordPngImage.setEnabled(true);
+            pdfPngImage.setEnabled(true);
+            wordPngImage.setStyleName(HeaderUtils.IMAGE_ENABLED);
+            pdfPngImage.setStyleName(HeaderUtils.IMAGE_ENABLED);
+            wordDownloader.extend(wordPngImage);
+            pdfDownloader.extend(pdfPngImage);
+
         }
         internalNotes.addValueChangeListener(new Property.ValueChangeListener() {
             /**
@@ -264,8 +266,10 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
                     wordDownloader.extend(wordPngImage);
                     pdfDownloader.extend(pdfPngImage);
                 } else {
-                    wordDownloader.remove();
-                    pdfDownloader.remove();
+                    wordRes = new FileResource(wordFile);
+                    pdfRes = new FileResource(pdfFile);
+                    wordDownloader.setFileDownloadResource(wordRes);
+                    pdfDownloader.setFileDownloadResource(wordRes);
                     wordPngImage.setEnabled(false);
                     pdfPngImage.setEnabled(false);
                     wordPngImage.setStyleName(HeaderUtils.IMAGE_DISABLED);

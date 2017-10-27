@@ -17,6 +17,7 @@ import com.stpl.app.service.StChSalesProjectionMasterLocalServiceUtil;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import java.util.Collections;
 
 import java.util.List;
 import java.util.Map;
@@ -99,7 +100,7 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
     public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
             String level, String discountLevel) throws SystemException, PortalException {
 
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -114,7 +115,7 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
     public List<String> getGroupList(DynamicQuery query) throws SystemException {
 
         // TODO Auto-generated method stub
-        return null;
+        return Collections.emptyList();
     }
 
     /**

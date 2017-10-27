@@ -210,10 +210,10 @@
 			<HorizontalLayout immediate="true" styleName="responsiveTabGrid">
 				<CssLayout id="cssLayout2" immediate="true" width="100%" height="100%">
 					
-                                        <Label id="calendarLb" value="Calendar" styleName="mandatory" contentMode="HTML" immediate="true" />
+                                        <Label id="calendarLb" value="Calendar" contentMode="HTML" />
 					<c:CustomComboBox id="calendar" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
 					
-                                        <Label id="rebateFrequencyLb" value="Rebate Frequency" contentMode="HTML" />
+                                        <Label id="rebateFrequencyLb" value="Rebate Frequency" styleName="mandatory" contentMode="HTML" />
 					<c:CustomComboBox id="rebateFrequency" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
                                         <Label id="paymentLevelLb" value="Payment Level" contentMode="HTML" />
@@ -249,14 +249,14 @@
                                         <Label id="calculationRuleLevelLb" value="Calculation Rule Level" contentMode="HTML" />
 					<c:CustomComboBox id="calculationRuleLevel" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
-                                        <Label id="calculationTypeLb" value="Calculation Type" contentMode="HTML" />
+                                        <Label id="calculationTypeLb" value="Calculation Type" styleName="mandatory" contentMode="HTML" />
 					<c:CustomComboBox id="calculationType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
                                         <Label id="calculationRuleLb"  value="Calculation Rule" contentMode="HTML" />
 					<b:CustomTextField id="calculationRule" styleName="searchicon" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
                                        
-                                        <Label id="calculationLevelLb" value="Calculation Level" contentMode="HTML" />
+                                        <Label id="calculationLevelLb" value="Calculation Level" styleName="mandatory" contentMode="HTML" />
 					<c:CustomComboBox id="calculationLevel" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
 					<Label id="rebateRuleTypeLb" value="Rebate Rule Type" contentMode="HTML" />

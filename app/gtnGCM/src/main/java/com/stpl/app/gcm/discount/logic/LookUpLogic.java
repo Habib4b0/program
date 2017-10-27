@@ -52,7 +52,7 @@ public class LookUpLogic {
     }
 
     public List<LookupDTO> getSearch(CustomFieldGroup discountChBinder, int start, int offset, String moduleName, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
-        List<LookupDTO> searchList = new ArrayList<LookupDTO>();
+        List<LookupDTO> searchList = new ArrayList<>();
         try {
             List resultList = discountDAO.getSearchValues(discountChBinder, start, offset, moduleName, filters, sortByColumns);
             if (Constants.CFP.equals(moduleName)) {
@@ -74,7 +74,7 @@ public class LookUpLogic {
     }
 
     public List<LookupDTO> setCfpValues(List list) {
-        List<LookupDTO> returnList = new ArrayList<LookupDTO>();
+        List<LookupDTO> returnList = new ArrayList<>();
         LookupDTO lookupDTO;
         int count = list.size();
         for (int i = 0; i < count; i++) {
@@ -100,7 +100,7 @@ public class LookUpLogic {
     }
 
     public List<LookupDTO> setIfpValues(List list) {
-        List<LookupDTO> returnList = new ArrayList<LookupDTO>();
+        List<LookupDTO> returnList = new ArrayList<>();
         LookupDTO lookupDTO;
         int count = list.size();
         for (int i = 0; i < count; i++) {
@@ -127,7 +127,7 @@ public class LookUpLogic {
     }
 
     public List<LookupDTO> setPSValues(List list) {
-        List<LookupDTO> returnList = new ArrayList<LookupDTO>();
+        List<LookupDTO> returnList = new ArrayList<>();
         LookupDTO lookupDTO;
         int count = list.size();
         for (int i = 0; i < count; i++) {
@@ -153,7 +153,7 @@ public class LookUpLogic {
     }
 
    public List<LookupDTO> setRSValues(List list) {
-        List<LookupDTO> returnList = new ArrayList<LookupDTO>();
+        List<LookupDTO> returnList = new ArrayList<>();
         LookupDTO lookupDTO;
         int count = list.size();
         for (int i = 0; i < count; i++) {

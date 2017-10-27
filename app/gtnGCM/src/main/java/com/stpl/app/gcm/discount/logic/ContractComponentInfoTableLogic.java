@@ -34,7 +34,7 @@ public class ContractComponentInfoTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<PSComponentDetailsDTO> result = new ArrayList<PSComponentDetailsDTO>();
+        List<PSComponentDetailsDTO> result = new ArrayList<>();
         if (Constants.CFP.equalsIgnoreCase(value)) {
             List<CFPComponentDetailsDTO> list = logic.getFromCfpCD(parent, start, offset);
             return list;

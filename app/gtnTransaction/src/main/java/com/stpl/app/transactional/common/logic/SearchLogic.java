@@ -20,6 +20,7 @@ import com.stpl.app.model.VwInventoryWdActualProjMas;
 import com.stpl.app.model.VwIvldDemandForecastActual;
 import com.stpl.app.model.VwIvldInventoryWdActualProjMas;
 import com.stpl.app.parttwo.model.CustomerGtsActual;
+import com.stpl.app.parttwo.model.IvldAccrualInbound;
 import com.stpl.app.parttwo.model.IvldCompanyIdentifier;
 import com.stpl.app.parttwo.model.IvldCompanyMaster;
 import com.stpl.app.parttwo.model.IvldCompanyParent;
@@ -57,6 +58,7 @@ import com.stpl.app.transactional.common.util.xmlparser.QueryAPP;
 import com.stpl.app.util.QueryDataUtils;
 import com.stpl.app.util.SysDataSourceConnection;
 import com.stpl.app.transactional.common.util.xmlparser.SQlUtil;
+import com.stpl.app.util.AbstractNotificationUtils;
 import com.stpl.app.util.ConnectionUtils;
 import com.stpl.app.util.ConstantUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -121,15 +123,17 @@ public class SearchLogic {
     static HashMap<String, String> filterMap = new HashMap<>();
     static Map<String, String> gtnMap = new HashMap<>();
     static Map<String, String> reserveMap = new HashMap<>();
+    Map<Integer, String> userMap = StplSecurity.userMap;
     HelperListUtil helper = HelperListUtil.getInstance();
     DecimalFormat twodecimalformat = new DecimalFormat("#0.00");
+    private DecimalFormat format2 = new DecimalFormat();
 
     /**
      * Gets the actuals total count.
      *
      * @return the actuals total count
      */
-    public int getActualsTotalCount(String tableName) throws PortalException, SystemException, NoSuchMethodException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException{
+    public int getActualsTotalCount(String tableName) throws PortalException, SystemException, NoSuchMethodException, ClassNotFoundException, IllegalAccessException,  InvocationTargetException, InstantiationException{
         LOGGER.debug("Entering getActualsTotalCount");
         Class cls;
         Method method = null;
@@ -146,9 +150,9 @@ public class SearchLogic {
         } else {
             cls = Class.forName(ConstantUtil.TABLE_SERVICE_PATH + tableName + ConstantUtil.TABLE_UTIL_APPEND);
         }
-        if (!("IvldFormulaDetails".equals(tableName) || "IvldForecastSales".equals(tableName) || "IvldReturns".equals(tableName) || "VwCompanyParentDetails".equals(tableName) || "VwCompanyTradeClass".equals(tableName) || "IvldCompanyTradeClass".equals(tableName))) {
+        if (!("IvldFormulaDetails".equals(tableName) || "IvldForecastSales".equals(tableName) || ConstantUtil.IVLD_RETURNS.equals(tableName) || "VwCompanyParentDetails".equals(tableName) || "VwCompanyTradeClass".equals(tableName) || ConstantUtil.IVLD_COMPANY_TRADE_CLASS.equals(tableName))) {
             method = cls.getMethod("get" + tableName + "sCount");
-        } else if ("IvldFormulaDetails".equals(tableName) || "IvldForecastSales".equals(tableName) || "IvldReturns".equals(tableName) || "VwCompanyParentDetails".equals(tableName) || "VwCompanyTradeClass".equals(tableName) || "IvldCompanyTradeClass".equals(tableName)) {
+        } else if ("IvldFormulaDetails".equals(tableName) || "IvldForecastSales".equals(tableName) || ConstantUtil.IVLD_RETURNS.equals(tableName) || "VwCompanyParentDetails".equals(tableName) || "VwCompanyTradeClass".equals(tableName) || ConstantUtil.IVLD_COMPANY_TRADE_CLASS.equals(tableName)) {
             method = cls.getMethod("get" + tableName + "esCount");
         }
         Object ob = method.invoke(cls.newInstance());
@@ -168,7 +172,7 @@ public class SearchLogic {
         int count = 0;
         try {
 
-            String tempValue = StringUtils.EMPTY;
+            String tempValue;
             DynamicQuery dynamicQuery;
             if ((tableName.equals(ConstantUtil.VW_CUSTOMER_GTS_FORECAST)) || (tableName.equals(ConstantUtil.INVALID_GTS_CUSTOMER)) || tableName.equals(ConstantUtil.ADJUSTED_DEMAND_VIEW) || tableName.equals(ConstantUtil.IVLD_ADJUSTED_DEMAND_VIEW)
                     || tableName.equals(ConstantUtil.CUSTOMER_GTS_ACTUAL) || tableName.equals(ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL)
@@ -188,20 +192,20 @@ public class SearchLogic {
                 searchValues.remove(ConstantUtil.LEVEL);
             }
             for (int i = 0; i < searchValues.size(); i++) {
-                if (searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE)) {
-                    invalidFromDate = (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE);
+                if (searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE_DATE)) {
+                    invalidFromDate = (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE_DATE);
                 } else {
                     invalidFromDate = null;
                 }
-                if (searchValues.containsKey("invalidToDate_Date")) {
-                    invalidToDate = (Date) searchValues.get("invalidToDate_Date");
+                if (searchValues.containsKey(ConstantUtil.INVALID_TO_DATE)) {
+                    invalidToDate = (Date) searchValues.get(ConstantUtil.INVALID_TO_DATE);
                 } else {
                     invalidToDate = null;
                 }
             }
             for (Map.Entry<Object, Object> entry : searchValues.entrySet()) {
-                if (entry.getKey().toString().contains("_Date")) {
-                    if ("invalidToDate".equals(entry.getKey().toString().replace("_Date", StringUtils.EMPTY)) || "invalidFromDate".equals(entry.getKey().toString().replace("_Date", StringUtils.EMPTY))) {
+                if (entry.getKey().toString().contains(ConstantUtil.UNDERSCORE_DATE)) {
+                    if (ConstantUtil.INVALID_TO_DATE1.equals(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY)) || ConstantUtil.INVALID_FROM_DATE.equals(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY))) {
                         if (invalidToDate != null && invalidFromDate != null) {
                             final Date invalidDate = new Date();
 
@@ -209,28 +213,28 @@ public class SearchLogic {
                             invalidDate.setHours(NumericConstants.TWENTY_THREE);
                             invalidDate.setMinutes(NumericConstants.FIFTY_NINE);
                             invalidDate.setSeconds(NumericConstants.FIFTY_NINE);
-                            dynamicQuery.add(RestrictionsFactoryUtil.between("intfInsertedDate", invalidFromDate, invalidDate));
-                        } else if ("invalidToDate".equals(entry.getKey().toString().replace("_Date", StringUtils.EMPTY))) {
-                            dynamicQuery.add(RestrictionsFactoryUtil.lt("intfInsertedDate", (Date) searchValues.get("invalidToDate_Date")));
-                        } else if ("invalidFromDate".equals(entry.getKey().toString().replace("_Date", StringUtils.EMPTY))) {
+                            dynamicQuery.add(RestrictionsFactoryUtil.between(AbstractNotificationUtils.INTF_INSERTED_DATE, invalidFromDate, invalidDate));
+                        } else if (ConstantUtil.INVALID_TO_DATE1.equals(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY))) {
+                            dynamicQuery.add(RestrictionsFactoryUtil.lt(AbstractNotificationUtils.INTF_INSERTED_DATE, (Date) searchValues.get(ConstantUtil.INVALID_TO_DATE)));
+                        } else if (ConstantUtil.INVALID_FROM_DATE.equals(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY))) {
 
-                            dynamicQuery.add(RestrictionsFactoryUtil.ge("intfInsertedDate", (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE)));
+                            dynamicQuery.add(RestrictionsFactoryUtil.ge(AbstractNotificationUtils.INTF_INSERTED_DATE, (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE_DATE)));
                         }
                     } else if (searchValues.containsKey(ConstantUtil.CFF_CREATION_FROM_DATE) || searchValues.containsKey(ConstantUtil.CFF_CREATION_TO_DATE)) {
                         if (searchValues.containsKey(ConstantUtil.CFF_CREATION_FROM_DATE) && searchValues.containsKey(ConstantUtil.CFF_CREATION_TO_DATE)) {
-                            dynamicQuery.add(RestrictionsFactoryUtil.between("financialForecastCreationDate", searchValues.get(ConstantUtil.CFF_CREATION_FROM_DATE), searchValues.get(ConstantUtil.CFF_CREATION_TO_DATE)));
+                            dynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.FINANCIAL_FORECAST_CREATION_DATE, searchValues.get(ConstantUtil.CFF_CREATION_FROM_DATE), searchValues.get(ConstantUtil.CFF_CREATION_TO_DATE)));
                         } else if (searchValues.containsKey(ConstantUtil.CFF_CREATION_FROM_DATE)) {
-                            dynamicQuery.add(RestrictionsFactoryUtil.ge("financialForecastCreationDate", searchValues.get(ConstantUtil.CFF_CREATION_FROM_DATE)));
+                            dynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantUtil.FINANCIAL_FORECAST_CREATION_DATE, searchValues.get(ConstantUtil.CFF_CREATION_FROM_DATE)));
                         } else if (searchValues.containsKey(ConstantUtil.CFF_CREATION_TO_DATE)) {
-                            dynamicQuery.add(RestrictionsFactoryUtil.le("financialForecastCreationDate", searchValues.get(ConstantUtil.CFF_CREATION_TO_DATE)));
+                            dynamicQuery.add(RestrictionsFactoryUtil.le(ConstantUtil.FINANCIAL_FORECAST_CREATION_DATE, searchValues.get(ConstantUtil.CFF_CREATION_TO_DATE)));
                         }
                     } else if (searchValues.containsKey(ConstantUtil.CFF_APPROVED_FROM_DATE) || searchValues.containsKey(ConstantUtil.CFF_APPROVED_TO_DATE)) {
                         if (searchValues.containsKey(ConstantUtil.CFF_APPROVED_FROM_DATE) && searchValues.containsKey(ConstantUtil.CFF_APPROVED_TO_DATE)) {
-                            dynamicQuery.add(RestrictionsFactoryUtil.between("financialForecastApprovalDate", searchValues.get(ConstantUtil.CFF_APPROVED_FROM_DATE), searchValues.get(ConstantUtil.CFF_APPROVED_TO_DATE)));
+                            dynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.FINANCIAL_FORECAST_APPROVAL_DATE, searchValues.get(ConstantUtil.CFF_APPROVED_FROM_DATE), searchValues.get(ConstantUtil.CFF_APPROVED_TO_DATE)));
                         } else if (searchValues.containsKey(ConstantUtil.CFF_APPROVED_FROM_DATE)) {
-                            dynamicQuery.add(RestrictionsFactoryUtil.ge("financialForecastApprovalDate", searchValues.get(ConstantUtil.CFF_APPROVED_FROM_DATE)));
+                            dynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantUtil.FINANCIAL_FORECAST_APPROVAL_DATE, searchValues.get(ConstantUtil.CFF_APPROVED_FROM_DATE)));
                         } else if (searchValues.containsKey(ConstantUtil.CFF_APPROVED_TO_DATE)) {
-                            dynamicQuery.add(RestrictionsFactoryUtil.le("financialForecastApprovalDate", searchValues.get(ConstantUtil.CFF_APPROVED_TO_DATE)));
+                            dynamicQuery.add(RestrictionsFactoryUtil.le(ConstantUtil.FINANCIAL_FORECAST_APPROVAL_DATE, searchValues.get(ConstantUtil.CFF_APPROVED_TO_DATE)));
                         }
                     } else if (searchValues.containsKey(ConstantUtil.REDEMPTION_FROM_DATE_PRIMARY_KEY) || searchValues.containsKey(ConstantUtil.REDEMPTION_FROM_DATE) || searchValues.containsKey(ConstantUtil.REDEMPTION_TO_DATE)) {
                         SimpleDateFormat format = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
@@ -238,17 +242,17 @@ public class SearchLogic {
                             Date reserveFromDate = format.parse(String.valueOf(searchValues.get(ConstantUtil.REDEMPTION_FROM_DATE_PRIMARY_KEY)));
                             if (searchValues.get(ConstantUtil.REDEMPTION_TO_DATE) != null) {
                                 Date reserveToDate = format.parse(String.valueOf(searchValues.get(ConstantUtil.REDEMPTION_TO_DATE)));
-                                dynamicQuery.add(RestrictionsFactoryUtil.between("primaryKey.redemptionPeriod", reserveFromDate, reserveToDate));
+                                dynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.PRIMARY_KEYREDEMPTION_PERIOD, reserveFromDate, reserveToDate));
                             } else {
-                                dynamicQuery.add(RestrictionsFactoryUtil.gt("primaryKey.redemptionPeriod", reserveFromDate));
+                                dynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.PRIMARY_KEYREDEMPTION_PERIOD, reserveFromDate));
                             }
                         } else if (searchValues.get(ConstantUtil.REDEMPTION_FROM_DATE) != null) {
                             Date reserveFromDate = format.parse(String.valueOf(searchValues.get(ConstantUtil.REDEMPTION_FROM_DATE)));
                             if (searchValues.get(ConstantUtil.REDEMPTION_TO_DATE) != null) {
                                 Date reserveToDate = format.parse(String.valueOf(searchValues.get(ConstantUtil.REDEMPTION_TO_DATE)));
-                                dynamicQuery.add(RestrictionsFactoryUtil.between("redemptionPeriod", reserveFromDate, reserveToDate));
+                                dynamicQuery.add(RestrictionsFactoryUtil.between(AbstractNotificationUtils.REDEMPTION_PERIOD, reserveFromDate, reserveToDate));
                             } else {
-                                dynamicQuery.add(RestrictionsFactoryUtil.gt("redemptionPeriod", reserveFromDate));
+                                dynamicQuery.add(RestrictionsFactoryUtil.gt(AbstractNotificationUtils.REDEMPTION_PERIOD, reserveFromDate));
                             }
                         }
                     } else if (entry.getValue() != null) {
@@ -257,9 +261,9 @@ public class SearchLogic {
                         forecastsDate.setHours(NumericConstants.TWENTY_THREE);
                         forecastsDate.setMinutes(NumericConstants.FIFTY_NINE);
                         forecastsDate.setSeconds(NumericConstants.FIFTY_NINE);
-                        dynamicQuery.add(RestrictionsFactoryUtil.between(entry.getKey().toString().replace("_Date", StringUtils.EMPTY), entry.getValue(), forecastsDate));
+                        dynamicQuery.add(RestrictionsFactoryUtil.between(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY), entry.getValue(), forecastsDate));
                     }
-                } else if (entry.getKey().toString().contains("_boolean")) {
+                } else if (entry.getKey().toString().contains(ConstantUtil.UNDERSCORE_BOOLEAN)) {
 
                     boolean flag = false;
                     if (NumericConstants.ONE == Integer.valueOf(String.valueOf(entry.getValue()))) {
@@ -320,10 +324,10 @@ public class SearchLogic {
                     listName = ConstantUtil.CFF_TYPE;
                     String tmpValue = getHelperValues(entry.getValue().toString(), listName);
                     dynamicQuery.add(RestrictionsFactoryUtil.like(entry.getKey().toString(), tmpValue));
-                } else if ("CpiIndexMaster".equals(tableName.trim())
+                } else if (AbstractNotificationUtils.CPI_INDEX_MASTER.equals(tableName.trim())
                         && (entry.getKey().toString().trim().equals(ConstantUtil.STATUS))) {
                     if (entry.getKey().toString().equalsIgnoreCase(ConstantUtil.STATUS)) {
-                        listName = ConstantUtil.STATUS_DUP;
+                        listName = ConstantUtil.COMPANY_STATUS;
                     }
                     String tmpValue = getHelperValues(entry.getValue().toString(), listName);
                     dynamicQuery.add(RestrictionsFactoryUtil.like(ConstantUtil.STATUS, tmpValue));
@@ -344,13 +348,13 @@ public class SearchLogic {
                 dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RE_PROCESSED_FLAG, ConstantUtil.KEY_N));
             }
             if (ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                dynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey." + ConstantUtil.USERID, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID))));
-                dynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey." + ConstantUtil.SESSIONID, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID))));
+                dynamicQuery.add(RestrictionsFactoryUtil.eq(AbstractNotificationUtils.PRIMARY_KEY + ConstantUtil.USERID, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID))));
+                dynamicQuery.add(RestrictionsFactoryUtil.eq(AbstractNotificationUtils.PRIMARY_KEY + ConstantUtil.SESSIONID, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID))));
             }
 
             dynamicQuery = getFilterQuery(search, dynamicQuery, tableName);
-
-            LOGGER.debug(" Ends getDynamicQuerySearch with dynamicQuery");
+            
+            LOGGER.debug(" Ends getDynamicQuerySearch with dynamicQuery Search");
 
             Class cls;
             if ((tableName.equals(ConstantUtil.VW_CUSTOMER_GTS_FORECAST)) || (tableName.equals(ConstantUtil.INVALID_GTS_CUSTOMER)) || tableName.equals(ConstantUtil.ADJUSTED_DEMAND_VIEW)
@@ -383,7 +387,7 @@ public class SearchLogic {
         int count = 0;
         try {
 
-            String tempValue = StringUtils.EMPTY;
+            String tempValue;
             DynamicQuery dynamicQuery;
             dynamicQuery = DynamicQueryFactoryUtil.forClass(Class.forName(className));
             if (searchValues.containsKey("level")) {
@@ -391,15 +395,15 @@ public class SearchLogic {
             }
             for (Map.Entry<Object, Object> entry : searchValues.entrySet()) {
 
-                if (entry.getKey().toString().contains("_Date")) {
+                if (entry.getKey().toString().contains(ConstantUtil.UNDERSCORE_DATE)) {
 
                     final Date forecastsDate = new Date();
                     forecastsDate.setTime(((Date) entry.getValue()).getTime());
                     forecastsDate.setHours(NumericConstants.TWENTY_THREE);
                     forecastsDate.setMinutes(NumericConstants.FIFTY_NINE);
                     forecastsDate.setSeconds(NumericConstants.FIFTY_NINE);
-                    dynamicQuery.add(RestrictionsFactoryUtil.between(entry.getKey().toString().replace("_Date", StringUtils.EMPTY), entry.getValue(), forecastsDate));
-                } else if (entry.getKey().toString().contains("_boolean")) {
+                    dynamicQuery.add(RestrictionsFactoryUtil.between(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY), entry.getValue(), forecastsDate));
+                } else if (entry.getKey().toString().contains(ConstantUtil.UNDERSCORE_BOOLEAN)) {
 
                     boolean flag = false;
                     if (NumericConstants.ONE == Integer.valueOf(entry.getValue().toString())) {
@@ -430,7 +434,7 @@ public class SearchLogic {
                         if (flag) {
                             dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.POSTING_INDICATOR, "Y"));
                         } else {
-                            Criterion c1 = RestrictionsFactoryUtil.eq(ConstantUtil.POSTING_INDICATOR, "N");
+                            Criterion c1 = RestrictionsFactoryUtil.eq(ConstantUtil.POSTING_INDICATOR, ConstantUtil.N);
                             Criterion c2 = RestrictionsFactoryUtil.isNull(ConstantUtil.POSTING_INDICATOR);
                             dynamicQuery.add(RestrictionsFactoryUtil.or(c1, c2));
                         }
@@ -449,12 +453,12 @@ public class SearchLogic {
             }
 
             if (String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.TABLE_NAME1)).equalsIgnoreCase("Invalidrecordcount")) {
-                dynamicQuery.add(RestrictionsFactoryUtil.eq("reprocessedFlag", "N"));
+                dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.REPROCESSED_FLAG, ConstantUtil.N));
             }
 
             dynamicQuery = getFilterQuery(filterSet, dynamicQuery, tableName);
 
-            LOGGER.debug(" Ends getDynamicQuerySearch with dynamicQuery");
+            LOGGER.debug(" Ends getDynamicQuerySearch with dynamicQuery2");
 
             Class cls;
             if ((tableName.equals("VwCustomerGtsForecast")) || (tableName.equals("IvldCustomerGtsForecast"))
@@ -517,16 +521,16 @@ public class SearchLogic {
                             Criterion c2 = RestrictionsFactoryUtil.isNull(ConstantUtil.POSTING_INDICATOR);
                             forecastQuery.add(RestrictionsFactoryUtil.or(c1, c2));
                         }
-                    } else if ("deductionCategory".equals(stringFilter.getPropertyId())) {
+                    } else if (ConstantUtil.DEDUCTION_CATEGORY.equals(stringFilter.getPropertyId())) {
                         String tmpValue = getHelperValues(filterString, ConstantUtil.RS_CATEGORY);
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ("deductionType".equals(stringFilter.getPropertyId())) {
+                    } else if (ConstantUtil.DEDUCTION_TYPE.equals(stringFilter.getPropertyId())) {
                         String tmpValue = getHelperValues(filterString, ConstantUtil.RS_TYPE);
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ("deductionProgramType".equals(stringFilter.getPropertyId())) {
+                    } else if (ConstantUtil.DEDUCTION_PROGRAM_TYPE.equals(stringFilter.getPropertyId())) {
                         String tmpValue = getHelperValues(filterString, ConstantUtil.REBATE_PROGRAM_TYPE);
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ("status".equals(stringFilter.getPropertyId())) {
+                    } else if (ConstantUtil.STATUS.equals(stringFilter.getPropertyId())) {
                         if ("AuditMasterInbound".equals(tableName)) {
                             forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), filterString));
                         } else {
@@ -536,48 +540,48 @@ public class SearchLogic {
                     } else if ("type".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
                         String tmpValue = getHelperValues(filterString, ConstantUtil.CFF_TYPE);
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ("deductionInclusion".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
+                    } else if (ConstantUtil.DEDUCTION_INCLUSION.equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
                         String tmpValue = getHelperValues(filterString, "LOCKED_STATUS");
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
 
-                    } else if ("deductionCategory".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                        String tmpValue = getHelperValues(filterString, "RS_CATEGORY");
+                    } else if (ConstantUtil.DEDUCTION_CATEGORY.equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
+                        String tmpValue = getHelperValues(filterString, ConstantUtil.RS_CATEGORY1);
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
 
-                    } else if ("deductionType".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                        String tmpValue = getHelperValues(filterString, "RS_TYPE");
-                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                    } else if (ConstantUtil.DEDUCTION_TYPE.equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
+                        String dedType = getHelperValues(filterString, ConstantUtil.RS_TYPE);
+                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), dedType));
 
-                    } else if ("deductionProgram".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
+                    } else if (ConstantUtil.DEDUCTION_PROGRAM.equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
                         String tmpValue = getHelperValues(filterString, ConstantUtil.CFF_TYPE);
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
 
                     } else if ("deductionCategory1".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                        String tmpValue = getHelperValues(filterString, "RS_TYPE");
-                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                        String deductionCategory1 = getHelperValues(filterString, ConstantUtil.RS_TYPE);
+                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), deductionCategory1));
 
                     } else if ("deductionCategory2".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                        String tmpValue = getHelperValues(filterString, "RS_TYPE");
-                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                        String deductionCategory2 = getHelperValues(filterString, ConstantUtil.RS_TYPE);
+                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), deductionCategory2));
 
                     } else if ("deductionCategory3".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                        String tmpValue = getHelperValues(filterString, "RS_TYPE");
-                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                        String deductionCategory3 = getHelperValues(filterString, ConstantUtil.RS_TYPE);
+                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), deductionCategory3));
 
                     } else if ("deductionCategory4".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                        String tmpValue = getHelperValues(filterString, "RS_TYPE");
-                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                        String deductionCategory4 = getHelperValues(filterString, ConstantUtil.RS_TYPE);
+                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), deductionCategory4));
 
                     } else if ("deductionCategory5".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                        String tmpValue = getHelperValues(filterString, "RS_TYPE");
-                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                        String deductionCategory5 = getHelperValues(filterString, ConstantUtil.RS_TYPE);
+                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), deductionCategory5));
                     } else if ("deductionCategory6".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
-                        String tmpValue = getHelperValues(filterString, "RS_TYPE");
-                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                        String deductionCategory6 = getHelperValues(filterString, ConstantUtil.RS_TYPE);
+                        forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), deductionCategory6));
                     } else if ("contractType".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName)) {
                         String tmpValue = getHelperValues(filterString, "CONTRACT_TYPE");
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ("adjustmentLevel".equals(stringFilter.getPropertyId())) {
+                    } else if (ConstantUtil.ADJUSTMENT_LEVEL.equals(stringFilter.getPropertyId())) {
                         String tmpValue = StringUtils.EMPTY;
                         if(ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)){
                             tmpValue = getHelperValues(filterString, "ARM_GTN_ADJUSTMENT_LEVEL");
@@ -585,24 +589,24 @@ public class SearchLogic {
                             tmpValue = getHelperValues(filterString, "ARM_RES_ADJUSTMENT_LEVEL");
                         }
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ("accountCategory".equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))) {
+                    } else if (ConstantUtil.ACCOUNT_CATEGORY.equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))) {
                         String tmpValue = getHelperValues(filterString, "ACCOUNT_CATEGORY");
-                        forecastQuery.add(RestrictionsFactoryUtil.like("primaryKey." +String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ("accountType".equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))) {
+                        forecastQuery.add(RestrictionsFactoryUtil.like(AbstractNotificationUtils.PRIMARY_KEY +String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                    } else if (ConstantUtil.ACCOUNT_TYPE1.equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))) {
                         String tmpValue = getHelperValues(filterString, "ARM_ACCOUNT_TYPE");
-                        forecastQuery.add(RestrictionsFactoryUtil.like("primaryKey." +String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ((ConstantUtil.ACCOUNT.equals(stringFilter.getPropertyId()) || "workflowId".equals(stringFilter.getPropertyId())
-                            || "deductionId".equals(stringFilter.getPropertyId()) || "itemId".equals(stringFilter.getPropertyId()) || "companyId".equals(stringFilter.getPropertyId())
-                            || "contractId".equals(stringFilter.getPropertyId()) || "glCompanyId".equals(stringFilter.getPropertyId())
-                            || "businessUnitId".equals(stringFilter.getPropertyId())) && ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
-                        forecastQuery.add(RestrictionsFactoryUtil.like("primaryKey."+String.valueOf(stringFilter.getPropertyId()), filterString));                        
-                    } else if ("adjustmentType".equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))) {
+                        forecastQuery.add(RestrictionsFactoryUtil.like(AbstractNotificationUtils.PRIMARY_KEY +String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                    } else if ((ConstantUtil.ACCOUNT.equals(stringFilter.getPropertyId()) || ConstantUtil.WORKFLOW_ID.equals(stringFilter.getPropertyId())
+                            || ConstantUtil.DEDUCTION_ID.equals(stringFilter.getPropertyId()) || ConstantUtil.ITEM_ID.equals(stringFilter.getPropertyId()) || ConstantUtil.COMPANY_ID.equals(stringFilter.getPropertyId())
+                            || ConstantUtil.CONTRACT_ID.equals(stringFilter.getPropertyId()) || ConstantUtil.GL_COMPANY_ID.equals(stringFilter.getPropertyId())
+                            || ConstantUtil.BUSINESS_UNIT_ID.equals(stringFilter.getPropertyId())) && ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
+                        forecastQuery.add(RestrictionsFactoryUtil.like(AbstractNotificationUtils.PRIMARY_KEY+String.valueOf(stringFilter.getPropertyId()), filterString));                        
+                    } else if (ConstantUtil.ADJUSTMENT_TYPE.equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))) {
                         String tmpValue = getAdjustmentTypeValues(filterString, "ST_ADJUSTMENT_RESERVE_DETAIL");
-                        forecastQuery.add(RestrictionsFactoryUtil.like("primaryKey."+String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ("adjustmentType".equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName))) {
+                        forecastQuery.add(RestrictionsFactoryUtil.like(AbstractNotificationUtils.PRIMARY_KEY+String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                    } else if (ConstantUtil.ADJUSTMENT_TYPE.equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName))) {
                         String tmpValue = getAdjustmentTypeValues(filterString, "ST_ADJUSTMENT_GTN_DETAIL");
-                        forecastQuery.add(RestrictionsFactoryUtil.like("primaryKey."+String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    }  else if ("deductionProgram".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
+                        forecastQuery.add(RestrictionsFactoryUtil.like(AbstractNotificationUtils.PRIMARY_KEY+String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                    }  else if (ConstantUtil.DEDUCTION_PROGRAM.equals(stringFilter.getPropertyId()) && ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
                         String tmpValue = getHelperValues(filterString, ConstantUtil.REBATE_PROGRAM_TYPE);
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
                     }else if ("deductionUdc1".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
@@ -641,15 +645,26 @@ public class SearchLogic {
                     } else if ("udc6".equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))) {
                         String tmpValue = getHelperValues(filterString, "ARM_UDC_6");
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
-                    } else if ((ConstantUtil.ACCOUNT.equals(stringFilter.getPropertyId()) || "workflowId".equals(stringFilter.getPropertyId())
-                            || "businessUnitId".equals(stringFilter.getPropertyId()) 
-                            || "brand".equals(stringFilter.getPropertyId())) && ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
-                        forecastQuery.add(RestrictionsFactoryUtil.like("primaryKey."+String.valueOf(stringFilter.getPropertyId()), filterString));                        
-                    }else if("glCompanyName".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)){
+                    } else if ((ConstantUtil.ACCOUNT.equals(stringFilter.getPropertyId()) || ConstantUtil.WORKFLOW_ID.equals(stringFilter.getPropertyId())
+                            || ConstantUtil.BUSINESS_UNIT_ID.equals(stringFilter.getPropertyId()) 
+                            || ConstantUtil.BRAND.equals(stringFilter.getPropertyId())) && ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
+                        forecastQuery.add(RestrictionsFactoryUtil.like(AbstractNotificationUtils.PRIMARY_KEY+String.valueOf(stringFilter.getPropertyId()), filterString));                        
+                    }else if(ConstantUtil.GL_COMPANY_NAME.equals(stringFilter.getPropertyId()) && ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)){
                         forecastQuery.add(RestrictionsFactoryUtil.like("primaryKey.businessUnitId", filterString)); 
                     } else if ("currency".equals(stringFilter.getPropertyId()) && ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
                         String tmpValue = getHelperValues(filterString, "CURRENCY");
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), tmpValue));
+                    } else if (commonLogic.AllInvalidScreenTables(tableName)) {
+                        String userMapIds = StringUtils.EMPTY;
+                        for (Map.Entry<Integer, String> filter1 : userMap.entrySet()) {
+                            userMapIds = userMapIds + ConstantUtil.FILTER_QUOTES + filter1.getKey().toString() + ConstantUtil.FILTER_QUOTES + ",";
+                        }
+                        userMapIds = userMapIds.substring(0, userMapIds.length() - 1);
+                        if ((ConstantUtil.STRING_PERCENT + ConstantUtil.INACTIVE_USER + ConstantUtil.STRING_PERCENT).equals(filterString)) {
+                            forecastQuery.add(RestrictionsFactoryUtil.sqlRestriction("CREATED_BY NOT IN (" + userMapIds + ")"));
+                        } else {
+                            forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), filterString));
+                        }
                     } else {
                         forecastQuery.add(RestrictionsFactoryUtil.like(String.valueOf(stringFilter.getPropertyId()), filterString));
                     }
@@ -657,9 +672,9 @@ public class SearchLogic {
                     Between stringFilter = (Between) filter;
                     Date filterString = (Date) stringFilter.getStartValue();
                     Date filterString1 = (Date) stringFilter.getEndValue();
-                    if("redemptionPeriod".equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))){
-                        forecastQuery.add(RestrictionsFactoryUtil.ge("primaryKey." +String.valueOf(stringFilter.getPropertyId()), filterString));
-                        forecastQuery.add(RestrictionsFactoryUtil.lt("primaryKey." +String.valueOf(stringFilter.getPropertyId()), filterString1));
+                    if(AbstractNotificationUtils.REDEMPTION_PERIOD.equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))){
+                        forecastQuery.add(RestrictionsFactoryUtil.ge(AbstractNotificationUtils.PRIMARY_KEY +String.valueOf(stringFilter.getPropertyId()), filterString));
+                        forecastQuery.add(RestrictionsFactoryUtil.lt(AbstractNotificationUtils.PRIMARY_KEY +String.valueOf(stringFilter.getPropertyId()), filterString1));
                     } else {
                     forecastQuery.add(RestrictionsFactoryUtil.ge(String.valueOf(stringFilter.getPropertyId()), filterString));
                     forecastQuery.add(RestrictionsFactoryUtil.lt(String.valueOf(stringFilter.getPropertyId()), filterString1));
@@ -669,14 +684,14 @@ public class SearchLogic {
                     if (stringFilter.getValue() instanceof Date) {
                         Date filterString = (Date) stringFilter.getValue();
                         if (stringFilter.getOperation().equals(stringFilter.getOperation().GREATER_OR_EQUAL)) {
-                            if("redemptionPeriod".equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))){
-                                forecastQuery.add(RestrictionsFactoryUtil.ge("primaryKey."+String.valueOf(stringFilter.getPropertyId()), filterString));
+                            if(AbstractNotificationUtils.REDEMPTION_PERIOD.equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))){
+                                forecastQuery.add(RestrictionsFactoryUtil.ge(AbstractNotificationUtils.PRIMARY_KEY+String.valueOf(stringFilter.getPropertyId()), filterString));
                             } else {
                             forecastQuery.add(RestrictionsFactoryUtil.ge(String.valueOf(stringFilter.getPropertyId()), filterString));
                             }                            
                         } else if (stringFilter.getOperation().equals(stringFilter.getOperation().LESS_OR_EQUAL)) {
-                            if("redemptionPeriod".equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))){
-                                forecastQuery.add(RestrictionsFactoryUtil.le("primaryKey."+String.valueOf(stringFilter.getPropertyId()), filterString));
+                            if(AbstractNotificationUtils.REDEMPTION_PERIOD.equals(stringFilter.getPropertyId()) && (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName))){
+                                forecastQuery.add(RestrictionsFactoryUtil.le(AbstractNotificationUtils.PRIMARY_KEY+String.valueOf(stringFilter.getPropertyId()), filterString));
                             } else {
                             forecastQuery.add(RestrictionsFactoryUtil.le(String.valueOf(stringFilter.getPropertyId()), filterString));
                         }
@@ -824,12 +839,12 @@ public class SearchLogic {
             }
 
         
-        String tempValue = StringUtils.EMPTY;
+        String tempValue;
         DecimalFormat decimalformat = new DecimalFormat("$#0.00");
         DecimalFormat decimalformatper = new DecimalFormat("#0.00");
         DecimalFormat alphanumeric = new DecimalFormat("#,###");
-        List<String> gtnPrimaryKeyList = new ArrayList<>(Arrays.asList(ConstantUtil.ACCOUNT, "adjustmentType", "accountType", "workflowId", "accountCategory", "deductionId", "itemId", "companyId", "contractId","redemptionPeriod","glCompanyId","businessUnitId"));
-        List<String> reserveDetailsPrimaryKeyList = new ArrayList<>(Arrays.asList("businessUnitId", ConstantUtil.ACCOUNT, "adjustmentType", "accountType","workflowId", "accountCategory", "redemptionPeriod", "glCompanyName", "brand"));
+        List<String> gtnPrimaryKeyList = new ArrayList<>(Arrays.asList(ConstantUtil.ACCOUNT, ConstantUtil.ADJUSTMENT_TYPE, ConstantUtil.ACCOUNT_TYPE1, ConstantUtil.WORKFLOW_ID, ConstantUtil.ACCOUNT_CATEGORY, ConstantUtil.DEDUCTION_ID, ConstantUtil.ITEM_ID, ConstantUtil.COMPANY_ID, ConstantUtil.CONTRACT_ID, AbstractNotificationUtils.REDEMPTION_PERIOD, ConstantUtil.GL_COMPANY_ID, ConstantUtil.BUSINESS_UNIT_ID));
+        List<String> reserveDetailsPrimaryKeyList = new ArrayList<>(Arrays.asList(ConstantUtil.BUSINESS_UNIT_ID, ConstantUtil.ACCOUNT, ConstantUtil.ADJUSTMENT_TYPE, ConstantUtil.ACCOUNT_TYPE1, ConstantUtil.WORKFLOW_ID, ConstantUtil.ACCOUNT_CATEGORY, AbstractNotificationUtils.REDEMPTION_PERIOD, ConstantUtil.GL_COMPANY_NAME, ConstantUtil.BRAND));
         if (!ConstantUtil.ARP_OUTBOUND.equals(tableName)) {
 
             DynamicQuery forecastQuery;
@@ -837,7 +852,7 @@ public class SearchLogic {
             if ((tableName.equals(ConstantUtil.IVLD_ADJUSTED_DEMAND_VIEW)) || (tableName.equals(ConstantUtil.VW_CUSTOMER_GTS_FORECAST)) || (tableName.equals(ConstantUtil.INVALID_GTS_CUSTOMER)) 
                     || (tableName.equals(ConstantUtil.ADJUSTED_DEMAND_VIEW)) || tableName.equals(ConstantUtil.CUSTOMER_GTS_ACTUAL) || tableName.equals(ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL)
                     || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(tableName) || tableName.equals("IvldCompanyMaster") || tableName.equals("IvldCompanyIdentifier") || tableName.equals("IvldCompanyParent") 
-                    || tableName.equals("IvldCompanyTradeClass")|| tableName.equals(ConstantUtil.IBID_ITEM_MASTER) || tableName.equals(ConstantUtil.IVID_ITEM_IDENTIFIER) || tableName.equals(ConstantUtil.IVID_ITEM_PRICING) 
+                    || tableName.equals(ConstantUtil.IVLD_COMPANY_TRADE_CLASS)|| tableName.equals(ConstantUtil.IBID_ITEM_MASTER) || tableName.equals(ConstantUtil.IVID_ITEM_IDENTIFIER) || tableName.equals(ConstantUtil.IVID_ITEM_PRICING) 
                     || ConstantUtil.ST_CFF_OUTBOUND.equals(tableName) || ConstantUtil.VW_ITEM_IDENTIFIER.equals(tableName) || ConstantUtil.VW_ITEM_PRICING.equals(tableName) 
                     || ConstantUtil.VW_COMPANY_IDENTIFIER.equals(tableName)
                     || ConstantUtil.VW_COMPANY_PARENT_DETAILS.equals(tableName) || ConstantUtil.VW_COMPANY_TRADE_CLASS.equals(tableName) || ConstantUtil.VW_ITEM_MASTER.equals(tableName)
@@ -853,22 +868,22 @@ public class SearchLogic {
                     if (!(ConstantUtil.CHECK_RECORD.equals(columnList1.toString()))) {
                         if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
                             if (gtnPrimaryKeyList.contains(columnList1.toString())) {
-                                projectonList.add(ProjectionFactoryUtil.property("primaryKey." + columnList1.toString()));
+                                projectonList.add(ProjectionFactoryUtil.property(AbstractNotificationUtils.PRIMARY_KEY + columnList1.toString()));
                             } else {
                                 projectonList.add(ProjectionFactoryUtil.property(columnList1.toString()));
                             }
 
                         } else if (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
                             if (reserveDetailsPrimaryKeyList.contains(columnList1.toString())) {
-                                projectonList.add(ProjectionFactoryUtil.property("primaryKey." + columnList1.toString()));
+                                projectonList.add(ProjectionFactoryUtil.property(AbstractNotificationUtils.PRIMARY_KEY + columnList1.toString()));
                             } else {
                                 projectonList.add(ProjectionFactoryUtil.property(columnList1.toString()));
                             }
 
                         } else {
                             if (!(ConstantUtil.CHECK_RECORD.equals(columnList1.toString()) && ConstantUtil.ST_CFF_OUTBOUND.equals(tableName))) {
-                                if (columnList1.toString().equals("glCompanyName") && tableName.equals("AccrualDetails")) {
-                                    projectonList.add(ProjectionFactoryUtil.property("companyId"));
+                                if (columnList1.toString().equals(ConstantUtil.GL_COMPANY_NAME) && tableName.equals("AccrualDetails")) {
+                                    projectonList.add(ProjectionFactoryUtil.property(ConstantUtil.COMPANY_ID));
                                 } else {
                                     projectonList.add(ProjectionFactoryUtil.property(columnList1.toString()));
                                 }
@@ -880,35 +895,35 @@ public class SearchLogic {
                 }
             }
             for (Map.Entry<Object, Object> entry : searchValues.entrySet()) {
-                if (entry.getKey().toString().contains("_Date")) {
-                    if ("invalidToDate".equals(entry.getKey().toString().replace("_Date", StringUtils.EMPTY)) || "invalidFromDate".equals(entry.getKey().toString().replace("_Date", StringUtils.EMPTY))) {
+                if (entry.getKey().toString().contains(ConstantUtil.UNDERSCORE_DATE)) {
+                    if (ConstantUtil.INVALID_TO_DATE1.equals(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY)) || ConstantUtil.INVALID_FROM_DATE.equals(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY))) {
                         if (invalidToDate != null && invalidFromDate != null) {
                             final Date invalidDate = new Date();
                             invalidDate.setTime(((Date) invalidToDate).getTime());
                             invalidDate.setHours(NumericConstants.TWENTY_THREE);
                             invalidDate.setMinutes(NumericConstants.FIFTY_NINE);
                             invalidDate.setSeconds(NumericConstants.FIFTY_NINE);
-                            forecastQuery.add(RestrictionsFactoryUtil.between("intfInsertedDate", invalidFromDate, invalidDate));
-                        } else if ("invalidToDate".equals(entry.getKey().toString().replace("_Date", StringUtils.EMPTY))) {
-                            forecastQuery.add(RestrictionsFactoryUtil.lt("intfInsertedDate", (Date) searchValues.get("invalidToDate_Date")));
-                        } else if ("invalidFromDate".equals(entry.getKey().toString().replace("_Date", StringUtils.EMPTY))) {
-                            forecastQuery.add(RestrictionsFactoryUtil.ge("intfInsertedDate", (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE)));
+                            forecastQuery.add(RestrictionsFactoryUtil.between(AbstractNotificationUtils.INTF_INSERTED_DATE, invalidFromDate, invalidDate));
+                        } else if (ConstantUtil.INVALID_TO_DATE1.equals(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY))) {
+                            forecastQuery.add(RestrictionsFactoryUtil.lt(AbstractNotificationUtils.INTF_INSERTED_DATE, (Date) searchValues.get(ConstantUtil.INVALID_TO_DATE)));
+                        } else if (ConstantUtil.INVALID_FROM_DATE.equals(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY))) {
+                            forecastQuery.add(RestrictionsFactoryUtil.ge(AbstractNotificationUtils.INTF_INSERTED_DATE, (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE_DATE)));
                         }
                     } else if (searchValues.containsKey(ConstantUtil.CFF_CREATION_FROM_DATE) || searchValues.containsKey(ConstantUtil.CFF_CREATION_TO_DATE)) {
                         if (searchValues.containsKey(ConstantUtil.CFF_CREATION_FROM_DATE) && searchValues.containsKey(ConstantUtil.CFF_CREATION_TO_DATE)) {
-                            forecastQuery.add(RestrictionsFactoryUtil.between("financialForecastCreationDate", searchValues.get(ConstantUtil.CFF_CREATION_FROM_DATE), searchValues.get(ConstantUtil.CFF_CREATION_TO_DATE)));
+                            forecastQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.FINANCIAL_FORECAST_CREATION_DATE, searchValues.get(ConstantUtil.CFF_CREATION_FROM_DATE), searchValues.get(ConstantUtil.CFF_CREATION_TO_DATE)));
                         } else if (searchValues.containsKey(ConstantUtil.CFF_CREATION_FROM_DATE)) {
-                            forecastQuery.add(RestrictionsFactoryUtil.ge("financialForecastCreationDate", entry.getValue()));
+                            forecastQuery.add(RestrictionsFactoryUtil.ge(ConstantUtil.FINANCIAL_FORECAST_CREATION_DATE, entry.getValue()));
                         } else if (searchValues.containsKey(ConstantUtil.CFF_CREATION_TO_DATE)) {
-                            forecastQuery.add(RestrictionsFactoryUtil.le("financialForecastCreationDate", searchValues.get(ConstantUtil.CFF_CREATION_TO_DATE)));
+                            forecastQuery.add(RestrictionsFactoryUtil.le(ConstantUtil.FINANCIAL_FORECAST_CREATION_DATE, searchValues.get(ConstantUtil.CFF_CREATION_TO_DATE)));
                         }
                     } else if (searchValues.containsKey(ConstantUtil.CFF_APPROVED_FROM_DATE) || searchValues.containsKey(ConstantUtil.CFF_APPROVED_TO_DATE)) {
                         if (searchValues.containsKey(ConstantUtil.CFF_APPROVED_FROM_DATE) && searchValues.containsKey(ConstantUtil.CFF_CREATION_TO_DATE)) {
-                            forecastQuery.add(RestrictionsFactoryUtil.between("financialForecastApprovalDate", searchValues.get(ConstantUtil.CFF_APPROVED_FROM_DATE), searchValues.get(ConstantUtil.CFF_APPROVED_TO_DATE)));
+                            forecastQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.FINANCIAL_FORECAST_APPROVAL_DATE, searchValues.get(ConstantUtil.CFF_APPROVED_FROM_DATE), searchValues.get(ConstantUtil.CFF_APPROVED_TO_DATE)));
                         } else if (searchValues.containsKey(ConstantUtil.CFF_APPROVED_FROM_DATE)) {
-                            forecastQuery.add(RestrictionsFactoryUtil.gt("financialForecastApprovalDate", searchValues.get(ConstantUtil.CFF_APPROVED_FROM_DATE)));
+                            forecastQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.FINANCIAL_FORECAST_APPROVAL_DATE, searchValues.get(ConstantUtil.CFF_APPROVED_FROM_DATE)));
                         } else if (searchValues.containsKey(ConstantUtil.CFF_APPROVED_TO_DATE)) {
-                            forecastQuery.add(RestrictionsFactoryUtil.lt("financialForecastApprovalDate", searchValues.get(ConstantUtil.CFF_APPROVED_TO_DATE)));
+                            forecastQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.FINANCIAL_FORECAST_APPROVAL_DATE, searchValues.get(ConstantUtil.CFF_APPROVED_TO_DATE)));
                         }
                     } else if (searchValues.containsKey(ConstantUtil.REDEMPTION_FROM_DATE_PRIMARY_KEY) || searchValues.containsKey(ConstantUtil.REDEMPTION_FROM_DATE) || searchValues.containsKey(ConstantUtil.REDEMPTION_TO_DATE)) {
                         SimpleDateFormat format = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
@@ -916,17 +931,17 @@ public class SearchLogic {
                             Date reserveFromDate = format.parse(String.valueOf(searchValues.get(ConstantUtil.REDEMPTION_FROM_DATE_PRIMARY_KEY)));
                             if (searchValues.get(ConstantUtil.REDEMPTION_TO_DATE) != null) {
                                 Date reserveToDate = format.parse(String.valueOf(searchValues.get(ConstantUtil.REDEMPTION_TO_DATE)));
-                                forecastQuery.add(RestrictionsFactoryUtil.between("primaryKey.redemptionPeriod", reserveFromDate, reserveToDate));
+                                forecastQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.PRIMARY_KEYREDEMPTION_PERIOD, reserveFromDate, reserveToDate));
                     } else {
-                                forecastQuery.add(RestrictionsFactoryUtil.gt("primaryKey.redemptionPeriod", reserveFromDate));
+                                forecastQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.PRIMARY_KEYREDEMPTION_PERIOD, reserveFromDate));
                             }
                         } else if (searchValues.get(ConstantUtil.REDEMPTION_FROM_DATE) != null) {
                             Date reserveFromDate = format.parse(String.valueOf(searchValues.get(ConstantUtil.REDEMPTION_FROM_DATE)));
                             if (searchValues.get(ConstantUtil.REDEMPTION_TO_DATE) != null) {
                                 Date reserveToDate = format.parse(String.valueOf(searchValues.get(ConstantUtil.REDEMPTION_TO_DATE)));
-                                forecastQuery.add(RestrictionsFactoryUtil.between("redemptionPeriod", reserveFromDate, reserveToDate));
+                                forecastQuery.add(RestrictionsFactoryUtil.between(AbstractNotificationUtils.REDEMPTION_PERIOD, reserveFromDate, reserveToDate));
                             } else {
-                                forecastQuery.add(RestrictionsFactoryUtil.gt("redemptionPeriod", reserveFromDate));
+                                forecastQuery.add(RestrictionsFactoryUtil.gt(AbstractNotificationUtils.REDEMPTION_PERIOD, reserveFromDate));
                             }
                         }
                     } else {
@@ -935,9 +950,9 @@ public class SearchLogic {
                         forecastsDate.setHours(NumericConstants.TWENTY_THREE);
                         forecastsDate.setMinutes(NumericConstants.FIFTY_NINE);
                         forecastsDate.setSeconds(NumericConstants.FIFTY_NINE);
-                        forecastQuery.add(RestrictionsFactoryUtil.between(entry.getKey().toString().replace("_Date", StringUtils.EMPTY), entry.getValue(), forecastsDate));
+                        forecastQuery.add(RestrictionsFactoryUtil.between(entry.getKey().toString().replace(ConstantUtil.UNDERSCORE_DATE, StringUtils.EMPTY), entry.getValue(), forecastsDate));
                     }
-                } else if (entry.getKey().toString().contains("_boolean")) {
+                } else if (entry.getKey().toString().contains(ConstantUtil.UNDERSCORE_BOOLEAN)) {
                     boolean flag = false;
                     if (NumericConstants.ONE == Integer.valueOf(entry.getValue().toString())) {
                         flag = true;
@@ -994,10 +1009,10 @@ public class SearchLogic {
                     listName = ConstantUtil.CFF_TYPE;
                     String tmpValue = getHelperValues(entry.getValue().toString(), listName);
                     forecastQuery.add(RestrictionsFactoryUtil.like(entry.getKey().toString(), tmpValue));
-                } else if ("CpiIndexMaster".equals(tableName.trim())
+                } else if (AbstractNotificationUtils.CPI_INDEX_MASTER.equals(tableName.trim())
                         && (entry.getKey().toString().trim().equals(ConstantUtil.STATUS))) {
                     if (entry.getKey().toString().equalsIgnoreCase(ConstantUtil.STATUS)) {
-                        listName = ConstantUtil.STATUS_DUP;
+                        listName = ConstantUtil.COMPANY_STATUS;
                     }
                     String tmpValue = getHelperValues(entry.getValue().toString(), listName);
                     forecastQuery.add(RestrictionsFactoryUtil.like(entry.getKey().toString(), tmpValue));
@@ -1018,8 +1033,8 @@ public class SearchLogic {
                 forecastQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RE_PROCESSED_FLAG, ConstantUtil.KEY_N));
             }
             if (ConstantUtil.ST_CFF_OUTBOUND.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName) || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
-                forecastQuery.add(RestrictionsFactoryUtil.eq("primaryKey." + ConstantUtil.USERID, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID))));
-                forecastQuery.add(RestrictionsFactoryUtil.eq("primaryKey." + ConstantUtil.SESSIONID, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID))));
+                forecastQuery.add(RestrictionsFactoryUtil.eq(AbstractNotificationUtils.PRIMARY_KEY + ConstantUtil.USERID, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID))));
+                forecastQuery.add(RestrictionsFactoryUtil.eq(AbstractNotificationUtils.PRIMARY_KEY + ConstantUtil.SESSIONID, String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID))));
 
             }
             forecastQuery.setLimit(start, end);
@@ -1033,9 +1048,9 @@ public class SearchLogic {
                     } else if (ConstantUtil.ST_CFF_OUTBOUND.equals(tableName.trim()) && !excelFlag) {
                         forecastQuery.addOrder(OrderFactoryUtil.asc("financialForecastId"));
                     } else if (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName.trim())) {
-                        forecastQuery.addOrder(OrderFactoryUtil.asc("primaryKey." + primaryDTO.getPropertyName()));
+                        forecastQuery.addOrder(OrderFactoryUtil.asc(AbstractNotificationUtils.PRIMARY_KEY + primaryDTO.getPropertyName()));
                     } else if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName.trim())) {
-                        forecastQuery.addOrder(OrderFactoryUtil.asc("primaryKey." + primaryDTO.getPropertyName()));
+                        forecastQuery.addOrder(OrderFactoryUtil.asc(AbstractNotificationUtils.PRIMARY_KEY + primaryDTO.getPropertyName()));
                     } else if (ConstantUtil.VW_CUSTOMER_GTS_FORECAST.equals(tableName.trim()) && excelFlag) {
                         forecastQuery.addOrder(OrderFactoryUtil.asc("customerGtsForecastSid"));
                     } else if (ConstantUtil.ACCRUAL_DETAILS.equals(tableName.trim())) {
@@ -1053,10 +1068,10 @@ public class SearchLogic {
                     final SortByColumn orderByColumn = (SortByColumn) iterator.next();
                     String propertyName=orderByColumn.getName();
                     if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName.trim()) && gtnPrimaryKeyList.contains(orderByColumn.getName())) {
-                            propertyName="primaryKey." +orderByColumn.getName();
+                            propertyName=AbstractNotificationUtils.PRIMARY_KEY +orderByColumn.getName();
                     }  
                     if (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName.trim()) && reserveDetailsPrimaryKeyList.contains(orderByColumn.getName())) {
-                            propertyName="primaryKey." +orderByColumn.getName();
+                            propertyName=AbstractNotificationUtils.PRIMARY_KEY +orderByColumn.getName();
                     }  
                     
                     if (orderByColumn.getType() == SortByColumn.Type.ASC) {
@@ -1086,7 +1101,7 @@ public class SearchLogic {
             list = searchFindForArpOutBound(searchValues, start, end, null, null, true,true);
 
         }
-
+        
         if (!excelFlag) {
             if (ConstantUtil.GL_BALANCE_MASTER.equals(tableName)) {
                 for (int i = 0; i < list.size(); i++) {
@@ -1156,7 +1171,7 @@ public class SearchLogic {
                         ob.setIsForecast(ConstantUtil.PROJECTION);
                     } else {
                         ob.setIsForecast(ConstantUtil.ACTUALS);
-                    }
+            }
                 }
             }
             
@@ -1194,19 +1209,18 @@ public class SearchLogic {
                     if (outboundStatus.equalsIgnoreCase("yes")) {
                         outboundStatus = "Y";
                     }
-                    ob.setOutboundStatus((StringUtils.isBlank(outboundStatus)) || outboundStatus == null || "null".equals(outboundStatus) ? "N" : String.valueOf(outboundStatus));
+                    ob.setOutboundStatus((StringUtils.isBlank(outboundStatus)) || outboundStatus == null || "null".equals(outboundStatus) ? ConstantUtil.N : String.valueOf(outboundStatus));
                 }
             }
             if (ConstantUtil.RETURN_RESERVE.equals(tableName)) {
                 for (int i = 0; i < list.size(); i++) {
                     VwReturnReserve ob = (VwReturnReserve) list.get(i);
-                    Map<Integer, String> userMap = StplSecurity.userMap;
                     if (!"null".equals(ob.getModifiedBy()) && ob.getModifiedBy() != null && !ob.getModifiedBy().isEmpty()
-                            && ob.getModifiedBy().matches("\\-?\\d+")) {
+                            && ob.getModifiedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) {
                         ob.setModifiedBy(userMap.get(Integer.valueOf(ob.getModifiedBy())));
                     }
                     if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
-                            && ob.getCreatedBy().matches("\\-?\\d+")) {
+                            && ob.getCreatedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) {
                         ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
                     }
                     if (!"null".equals(ob.getAmount()) && !"".equals(ob.getAmount())) {
@@ -1225,13 +1239,12 @@ public class SearchLogic {
             if (ConstantUtil.IVLD_RETURN_RESERVE.equals(tableName)) {
                 for (int i = 0; i < list.size(); i++) {
                     VwIvldReturnReserve ob = (VwIvldReturnReserve) list.get(i);
-                    Map<Integer, String> userMap = StplSecurity.userMap;
                     if (!"null".equals(ob.getModifiedBy()) && ob.getModifiedBy() != null && !ob.getModifiedBy().isEmpty()
-                            && ob.getModifiedBy().matches("\\-?\\d+")) {
+                            && ob.getModifiedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) {
                         ob.setModifiedBy(userMap.get(Integer.valueOf(ob.getModifiedBy())));
                     }
                     if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
-                            && ob.getCreatedBy().matches("\\-?\\d+")) {
+                            && ob.getCreatedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) {
                         ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
                     }
                     if (!"null".equals(ob.getAmount()) && !"".equals(ob.getAmount())) {
@@ -1246,14 +1259,39 @@ public class SearchLogic {
                     } else {
                         ob.setUnits("");
                     }
+                    if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
+                        }
                 }
             }
 
+            if (ConstantUtil.INVALID_ACCURAL_INBOUND.equals(tableName)) {
+                for (int i = 0; i < list.size(); i++) {
+                    try {
+                        IvldAccrualInbound ob = (IvldAccrualInbound) list.get(i);
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
+                        }
+                    } catch (Exception e) {
+                        LOGGER.error(ConstantUtil.UN_PARSEABLE_DATE + e);
+                    }
+                }
+            }
             if (tableName.equals("IvldCompanyIdentifier")) {
                 for (int i = 0; i < list.size(); i++) {
                     try {
                         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                        DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df2 = new SimpleDateFormat(ConstantUtil.MM_DD_YYYY);
                         df.setLenient(false);
                         IvldCompanyIdentifier ob = (IvldCompanyIdentifier) list.get(i);
                         if (ob.getEndDate() != null && !(ob.getEndDate().equals("null")) && !(ob.getEndDate().equals(""))) {
@@ -1262,8 +1300,16 @@ public class SearchLogic {
                         if (ob.getStartDate() != null && !(ob.getStartDate().equals("null")) && !(ob.getStartDate().equals(""))) {
                             ob.setStartDate(df2.format(parseDate(ob.getStartDate())));
                         }
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
+                        }
                     } catch (Exception e) {
-                        LOGGER.error("Un parseable Date" + e);
+                        LOGGER.error(ConstantUtil.UN_PARSEABLE_DATE + e);
                     }
                 }
             }
@@ -1271,24 +1317,19 @@ public class SearchLogic {
             if (tableName.equals("IvldCompanyParent")) {
                 for (int i = 0; i < list.size(); i++) {
                     try {
-                        DateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm");
-                        DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df = new SimpleDateFormat(ConstantUtil.MMM_DD_YYYY_H_HMM);
                         df.setLenient(false);
                         IvldCompanyParent ob = (IvldCompanyParent) list.get(i);
-                        if (ob.getParentStartDate() != null && !(ob.getParentStartDate().equals("null")) && !(ob.getParentStartDate().equals(""))) {
-                            ob.setParentStartDate(df2.format(parseDate(ob.getParentStartDate())));
-                        }
-                        if (ob.getParentEndDate() != null && !(ob.getParentEndDate().equals("null")) && !(ob.getParentEndDate().equals(""))) {
-                            ob.setParentEndDate(df2.format(parseDate(ob.getParentEndDate())));
-                        }
-                        if (ob.getPriorParentStartDate() != null && !(ob.getPriorParentStartDate().equals("null")) && !(ob.getPriorParentStartDate().equals(""))) {
-                            ob.setPriorParentStartDate(df2.format(parseDate(ob.getParentEndDate())));
-                        }
-                        if (ob.getLastUpdatedDate() != null && !(ob.getLastUpdatedDate().equals("null")) && !(ob.getLastUpdatedDate().equals(""))) {
-                            ob.setLastUpdatedDate(df2.format(parseDate(ob.getLastUpdatedDate())));
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
                         }
                     } catch (Exception e) {
-                        LOGGER.error("Un parseable Date" + e);
+                        LOGGER.error(ConstantUtil.UN_PARSEABLE_DATE + e);
                     }
                 }
             }
@@ -1296,30 +1337,28 @@ public class SearchLogic {
             if (tableName.equals("IvldCompanyMaster")) {
                 for (int i = 0; i < list.size(); i++) {
                     try {
-                        DateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm");
-                        DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df = new SimpleDateFormat(ConstantUtil.MMM_DD_YYYY_H_HMM);
                         df.setLenient(false);
                         IvldCompanyMaster ob = (IvldCompanyMaster) list.get(i);
-                        if (ob.getCompanyStartDate() != null && !(ob.getCompanyStartDate().equals("null")) && !(ob.getCompanyStartDate().equals(""))) {
-                            ob.setCompanyStartDate(df2.format(parseDate(ob.getCompanyStartDate())));
-                        }
-                        if (ob.getCompanyEndDate() != null && !(ob.getCompanyEndDate().equals("null")) && !(ob.getCompanyEndDate().equals(""))) {
-                            ob.setCompanyEndDate(df2.format(parseDate(ob.getCompanyEndDate())));
-                        }
-                        if (ob.getLastUpdatedDate() != null && !(ob.getLastUpdatedDate().equals("null")) && !(ob.getLastUpdatedDate().equals(""))) {
-                            ob.setLastUpdatedDate(df2.format(parseDate(ob.getLastUpdatedDate())));
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
                         }
                     } catch (Exception e) {
-                        LOGGER.error("Un parseable Date" + e);
+                        LOGGER.error(ConstantUtil.UN_PARSEABLE_DATE + e);
                     }
                 }
             }
 
-            if (tableName.equals("IvldCompanyTradeClass")) {
+            if (tableName.equals(ConstantUtil.IVLD_COMPANY_TRADE_CLASS)) {
                 for (int i = 0; i < list.size(); i++) {
                     try {
-                        DateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm");
-                        DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df = new SimpleDateFormat(ConstantUtil.MMM_DD_YYYY_H_HMM);
+                        DateFormat df2 = new SimpleDateFormat(ConstantUtil.MM_DD_YYYY);
                         df.setLenient(false);
                         IvldCompanyTradeClass ob = (IvldCompanyTradeClass) list.get(i);
                         if (ob.getTradeClassStartDate() != null && !(ob.getTradeClassStartDate().equals("null")) && !(ob.getTradeClassStartDate().equals(""))) {
@@ -1334,8 +1373,16 @@ public class SearchLogic {
                         if (ob.getLastUpdatedDate() != null && !(ob.getLastUpdatedDate().equals("null")) && !(ob.getLastUpdatedDate().equals(""))) {
                             ob.setLastUpdatedDate(df2.format(parseDate(ob.getLastUpdatedDate())));
                         }
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
+                        }
                     } catch (Exception e) {
-                        LOGGER.error("Un parseable Date" + e);
+                        LOGGER.error(ConstantUtil.UN_PARSEABLE_DATE + e);
                     }
                 }
             }
@@ -1343,8 +1390,8 @@ public class SearchLogic {
             if (tableName.equals(ConstantUtil.IBID_ITEM_MASTER)) {
                 for (int i = 0; i < list.size(); i++) {
                     try {
-                        DateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm");
-                        DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df = new SimpleDateFormat(ConstantUtil.MMM_DD_YYYY_H_HMM);
+                        DateFormat df2 = new SimpleDateFormat(ConstantUtil.MM_DD_YYYY);
                         df.setLenient(false);
                         IvldItemMaster ob = (IvldItemMaster) list.get(i);
                         if (ob.getAcquisitionDate() != null && !(ob.getAcquisitionDate().equals("null")) && !(ob.getAcquisitionDate().equals(""))) {
@@ -1401,8 +1448,32 @@ public class SearchLogic {
                         if (ob.getPediatricExclusiveStartDate() != null && !(ob.getPediatricExclusiveStartDate().equals("null")) && !(ob.getPediatricExclusiveStartDate().equals(""))) {
                             ob.setPediatricExclusiveStartDate(df2.format(parseDate(ob.getPediatricExclusiveStartDate())));
                         }
+                        if (ob.getBaselineAmp() != null) {
+                            VaadinSession.getCurrent().setAttribute("BaselineAmpPrecision", ob.getBaselineAmpPrecision());
+                            format2.applyPattern(pattern(ob.getBaselineAmpPrecision()));
+                            ob.setBaselineAmp("$" + format2.format(Double.valueOf(ob.getBaselineAmp())));
+                        } else {
+                            ob.setBaselineAmp("");
+                        }
+                        if (ob.getBaseCpi() != null) {
+                            VaadinSession.getCurrent().setAttribute("BaseCpiPrecision", ob.getBaseCpiPrecision());
+                            format2.applyPattern(pattern(ob.getBaseCpiPrecision()));
+                            ob.setBaseCpi(format2.format(Double.valueOf(ob.getBaseCpi())));
+                        } else {
+                            ob.setBaseCpi("");
+                        }
+
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
+                        }
+                        
                     } catch (Exception e) {
-                        LOGGER.error("Un parseable Date" + e);
+                        LOGGER.error(ConstantUtil.UN_PARSEABLE_DATE + e);
                     }
                 }
             }
@@ -1410,8 +1481,8 @@ public class SearchLogic {
             if (tableName.equals(ConstantUtil.IVID_ITEM_IDENTIFIER)) {
                 for (int i = 0; i < list.size(); i++) {
                     try {
-                        DateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm");
-                        DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df = new SimpleDateFormat(ConstantUtil.MMM_DD_YYYY_H_HMM);
+                        DateFormat df2 = new SimpleDateFormat(ConstantUtil.MM_DD_YYYY);
                         df.setLenient(false);
                         IvldItemIdentifier ob = (IvldItemIdentifier) list.get(i);
                         if (ob.getEndDate() != null && !(ob.getEndDate().equals("null")) && !(ob.getEndDate().equals(""))) {
@@ -1420,8 +1491,16 @@ public class SearchLogic {
                         if (ob.getStartDate() != null && !(ob.getStartDate().equals("null")) && !(ob.getStartDate().equals(""))) {
                             ob.setStartDate(df2.format(parseDate(ob.getStartDate())));
                         }
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
+                        }
                     } catch (Exception e) {
-                        LOGGER.error("Un parseable Date" + e);
+                        LOGGER.error(ConstantUtil.UN_PARSEABLE_DATE + e);
                     }
                 }
             }
@@ -1430,8 +1509,8 @@ public class SearchLogic {
                 try {
                     for (int i = 0; i < list.size(); i++) {
                         try {
-                            DateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm");
-                            DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat df = new SimpleDateFormat(ConstantUtil.MMM_DD_YYYY_H_HMM);
+                            DateFormat df2 = new SimpleDateFormat(ConstantUtil.MM_DD_YYYY);
                             df.setLenient(false);
                             IvldItemPricing ob = (IvldItemPricing) list.get(i);
                             if (ob.getEndDate() != null && !(ob.getEndDate().equals("null")) && !(ob.getEndDate().equals(""))) {
@@ -1441,9 +1520,18 @@ public class SearchLogic {
                                 ob.setStartDate(df2.format(parseDate(ob.getStartDate())));
                             }
                             if (ob.getItemPrice() != null && !(ob.getItemPrice().equals("null")) && !(ob.getItemPrice().equals(""))) {
-
-                                ob.setItemPrice(decimalformat.format(Double.valueOf(ob.getItemPrice())));
+                                VaadinSession.getCurrent().setAttribute("IvldItemPricePrecision", ob.getItemPriceprecision());
+                                format2.applyPattern(pattern(Integer.valueOf(ob.getItemPriceprecision())));
+                                ob.setItemPrice(format2.format(Double.valueOf(ob.getItemPrice())));
                             }
+                            if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
+                        }
                         } catch (Exception e) {
                             LOGGER.error(e);
                         }
@@ -1455,10 +1543,11 @@ public class SearchLogic {
 
             if (tableName.equals("VwItemPricing")) {
                 for (int i = 0; i < list.size(); i++) {
-                    DateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm");
+                    DateFormat df = new SimpleDateFormat(ConstantUtil.MMM_DD_YYYY_H_HMM);
                     df.setLenient(false);
                     VwItemPricing ob = (VwItemPricing) list.get(i);
-                    ob.setItemPrice(decimalformat.format(Double.valueOf(ob.getItemPrice())));
+                    format2.applyPattern(pattern(ob.getItemPriceprecision()));
+                    ob.setItemPrice(format2.format(Double.valueOf(ob.getItemPrice())));
                 }
             }
 
@@ -1482,13 +1571,17 @@ public class SearchLogic {
                             } else {
                                 ob.setObraBamp("");
                             }
-                            if (!"null".equals(ob.getBaselineAmp()) && !"".equals(ob.getBaselineAmp()) && ob.getBaselineAmp() != null) {
-                                ob.setBaselineAmp(decimalformat.format(Double.valueOf(ob.getBaselineAmp())));
+                            if (ob.getBaselineAmp() != null) {
+                                VaadinSession.getCurrent().setAttribute("BaselineAmpPrecision", ob.getBaselineAmpPrecision());
+                                format2.applyPattern(pattern(ob.getBaselineAmpPrecision()));
+                                ob.setBaselineAmp("$" + format2.format(Double.valueOf(ob.getBaselineAmp())));
                             } else {
                                 ob.setBaselineAmp("");
                             }
-                            if (!"null".equals(ob.getBaseCpi()) && !"".equals(ob.getBaseCpi()) && ob.getBaseCpi() != null) {
-                                ob.setBaseCpi(decimalformatper.format(Double.valueOf(ob.getBaseCpi())) + "%");
+                            if (ob.getBaseCpi() != null) {
+                                VaadinSession.getCurrent().setAttribute("BaseCpiPrecision", ob.getBaseCpiPrecision());
+                                format2.applyPattern(pattern(ob.getBaseCpiPrecision()));
+                                ob.setBaseCpi(format2.format(Double.valueOf(ob.getBaseCpi())));
                             } else {
                                 ob.setBaseCpi("");
                             }
@@ -1505,7 +1598,7 @@ public class SearchLogic {
                     LOGGER.error(ex);
                 }
             }
-            if ("CpiIndexMaster".equals(tableName)) {
+            if (AbstractNotificationUtils.CPI_INDEX_MASTER.equals(tableName)) {
                 for (int i = 0; i < list.size(); i++) {
                     CpiIndexMaster ob = (CpiIndexMaster) list.get(i);
                     ob.setStatus(CommonLogic.getDescription(!StringUtils.EMPTY.equalsIgnoreCase(ob.getStatus())?Integer.valueOf(ob.getStatus()):0));
@@ -1522,19 +1615,23 @@ public class SearchLogic {
                 for (int i = 0; i < list.size(); i++) {
                     if (tableName.contains(ConstantUtil.INVALID_INVENTORYVIEW_TABLE)) {
                         VwIvldInventoryWdActualProjMas ob = (VwIvldInventoryWdActualProjMas) list.get(i);
-                        if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty() && ob.getCreatedBy().matches("\\-?\\d+")) {
-                            ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
-                        }
-                        if (!"null".equals(ob.getModifiedBy()) && ob.getModifiedBy() != null && !ob.getModifiedBy().isEmpty() && ob.getModifiedBy().matches("\\-?\\d+")) {
-                            ob.setModifiedBy(userMap.get(Integer.valueOf(ob.getModifiedBy())));
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
                         }
                     } else {
                         VwInventoryWdActualProjMas ob = (VwInventoryWdActualProjMas) list.get(i);
-                        if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()) {
-                            ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
-                        }
-                        if (!"null".equals(ob.getModifiedBy()) && ob.getModifiedBy() != null && !ob.getModifiedBy().isEmpty()) {
-                            ob.setModifiedBy(userMap.get(Integer.valueOf(ob.getModifiedBy())));
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
                         }
                     }
                 }
@@ -1549,20 +1646,22 @@ public class SearchLogic {
                 for (int i = 0; i < list.size(); i++) {
                     if (tableName.contains(ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL)) {
                         IvldCustomerGtsActual ob = (IvldCustomerGtsActual) list.get(i);
-                        if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty() && ob.getCreatedBy().matches("\\-?\\d+")) {
-                            ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
-                        }
-                        if (!"null".equals(ob.getModifiedBy()) && ob.getModifiedBy() != null && !ob.getModifiedBy().isEmpty() && ob.getModifiedBy().matches("\\-?\\d+")) {
-                            ob.setModifiedBy(userMap.get(Integer.valueOf(ob.getModifiedBy())));
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
                         }
                     } else {
                         CustomerGtsActual ob = (CustomerGtsActual) list.get(i);
                         if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
-                                && ob.getCreatedBy().matches("\\-?\\d+")) {
+                                && ob.getCreatedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) {
                             ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
                         }
                         if (!"null".equals(ob.getModifiedBy()) && ob.getModifiedBy() != null && !ob.getModifiedBy().isEmpty()
-                                && ob.getModifiedBy().matches("\\-?\\d+")) {
+                                && ob.getModifiedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) {
                             ob.setModifiedBy(userMap.get(Integer.valueOf(ob.getModifiedBy())));
                         }
                     }
@@ -1590,14 +1689,14 @@ public class SearchLogic {
                             ob.setUdc5((!ob.getUdc5().isEmpty() && !"0".equals(ob.getUdc5())) ? commonLogic.getDescription(Integer.valueOf(ob.getUdc5())) : StringUtils.EMPTY);
                             ob.setUdc6((!ob.getUdc6().isEmpty() && !"0".equals(ob.getUdc6())) ? commonLogic.getDescription(Integer.valueOf(ob.getUdc6())) : StringUtils.EMPTY);
                             ob.setCurrency((!ob.getCurrency().isEmpty() && !"0".equals(ob.getCurrency())) ? commonLogic.getDescription(Integer.valueOf(ob.getCurrency())) : StringUtils.EMPTY);
-                            ob.setAdjustmentType((!ob.getAdjustmentType().isEmpty() && !"0".equals(ob.getAdjustmentType())) ? com.stpl.app.util.HelperListUtil.getInstance().getDescById(Integer.valueOf(ob.getAdjustmentType()), ConstantUtil.ADJUSTMENT_TYPE) : StringUtils.EMPTY);
+                            ob.setAdjustmentType((!ob.getAdjustmentType().isEmpty() && !"0".equals(ob.getAdjustmentType())) ? com.stpl.app.util.HelperListUtil.getInstance().getDescById(Integer.valueOf(ob.getAdjustmentType()), ConstantUtil.ARM_ADJUSTMENT_TYPE) : StringUtils.EMPTY);
                             ob.setAccountCategory((!ob.getAccountCategory().isEmpty() && !"0".equals(ob.getAccountCategory())) ? commonLogic.getDescription(Integer.valueOf(ob.getAccountCategory())) : StringUtils.EMPTY);
                             ob.setAccountType((!ob.getAccountType().isEmpty() && !"0".equals(ob.getAccountType())) ? commonLogic.getDescription(Integer.valueOf(ob.getAccountType())) : StringUtils.EMPTY);
                             ob.setAdjustmentLevel((!ob.getAdjustmentLevel().isEmpty() && !"0".equals(ob.getAdjustmentLevel())) ? commonLogic.getDescription(Integer.valueOf(ob.getAdjustmentLevel())) : StringUtils.EMPTY);
                             ob.setCredit((!ob.getCredit().isEmpty() && !ob.getCredit().equals(ConstantUtil.NULL) && ob.getCredit() != null) ? decimalformat.format(Double.valueOf(ob.getCredit())) : StringUtils.EMPTY);
                             ob.setDebit((!ob.getDebit().isEmpty() && !ob.getDebit().equals(ConstantUtil.NULL) && ob.getDebit() != null) ? decimalformat.format(Double.valueOf(ob.getDebit())) : StringUtils.EMPTY);
-                            ob.setWorkflowCreatedBy((!ob.getWorkflowCreatedBy().isEmpty() && !ob.getWorkflowCreatedBy().equals(ConstantUtil.NULL) && ob.getWorkflowCreatedBy() != null && ob.getWorkflowCreatedBy().matches("\\-?\\d+")) ? userMap.get(Integer.valueOf(ob.getWorkflowCreatedBy())) : StringUtils.EMPTY);
-                            ob.setWorkflowApprovedBy((!ob.getWorkflowApprovedBy().isEmpty() && !ob.getWorkflowApprovedBy().equals(ConstantUtil.NULL) && ob.getWorkflowApprovedBy() != null && ob.getWorkflowApprovedBy().matches("\\-?\\d+")) ? userMap.get(Integer.valueOf(ob.getWorkflowApprovedBy())) : StringUtils.EMPTY);
+                            ob.setWorkflowCreatedBy((!ob.getWorkflowCreatedBy().isEmpty() && !ob.getWorkflowCreatedBy().equals(ConstantUtil.NULL) && ob.getWorkflowCreatedBy() != null && ob.getWorkflowCreatedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) ? userMap.get(Integer.valueOf(ob.getWorkflowCreatedBy())) : StringUtils.EMPTY);
+                            ob.setWorkflowApprovedBy((!ob.getWorkflowApprovedBy().isEmpty() && !ob.getWorkflowApprovedBy().equals(ConstantUtil.NULL) && ob.getWorkflowApprovedBy() != null && ob.getWorkflowApprovedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) ? userMap.get(Integer.valueOf(ob.getWorkflowApprovedBy())) : StringUtils.EMPTY);
                         }
                     } else if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
                         for (int i = 0; i < list.size(); i++) {
@@ -1620,14 +1719,14 @@ public class SearchLogic {
                             ob.setDeductionRate((!ob.getDeductionRate().isEmpty() && !ob.getDeductionRate().equals(ConstantUtil.NULL) && ob.getDeductionRate() != null) ? decimalformatper.format(Double.valueOf(ob.getDeductionRate())) : StringUtils.EMPTY);
                             ob.setDeductionCategory((!ob.getDeductionCategory().isEmpty() && !"0".equals(ob.getDeductionCategory())) ? commonLogic.getDescription(Integer.valueOf(ob.getDeductionCategory())) : StringUtils.EMPTY);
                             ob.setDeductionType((!ob.getDeductionType().isEmpty() && !"0".equals(ob.getDeductionType())) ? commonLogic.getDescription(Integer.valueOf(ob.getDeductionType())) : StringUtils.EMPTY);
-                        ob.setAdjustmentType((!ob.getAdjustmentType().isEmpty() && !"0".equals(ob.getAdjustmentType())) ? com.stpl.app.util.HelperListUtil.getInstance().getDescById(Integer.valueOf(ob.getAdjustmentType()),ConstantUtil.ADJUSTMENT_TYPE)  : StringUtils.EMPTY);
+                            ob.setAdjustmentType((!ob.getAdjustmentType().isEmpty() && !"0".equals(ob.getAdjustmentType())) ? com.stpl.app.util.HelperListUtil.getInstance().getDescById(Integer.valueOf(ob.getAdjustmentType()),ConstantUtil.ARM_ADJUSTMENT_TYPE)  : StringUtils.EMPTY);
                             ob.setAccountCategory((!ob.getAccountCategory().isEmpty() && !"0".equals(ob.getAccountCategory())) ? commonLogic.getDescription(Integer.valueOf(ob.getAccountCategory())) : StringUtils.EMPTY);
                             ob.setAccountType((!ob.getAccountType().isEmpty() && !"0".equals(ob.getAccountType())) ? commonLogic.getDescription(Integer.valueOf(ob.getAccountType())) : StringUtils.EMPTY);
                             ob.setAdjustmentLevel((!ob.getAdjustmentLevel().isEmpty() && !"0".equals(ob.getAdjustmentLevel())) ? commonLogic.getDescription(Integer.valueOf(ob.getAdjustmentLevel())) : StringUtils.EMPTY);
                             ob.setDeductionInclusion((!ob.getDeductionInclusion().isEmpty() && !"0".equals(ob.getDeductionInclusion())) ? commonLogic.getDescription(Integer.valueOf(ob.getDeductionInclusion())) : StringUtils.EMPTY);
                             ob.setDeductionProgram((!ob.getDeductionProgram().isEmpty() && !"0".equals(ob.getDeductionProgram())) ? commonLogic.getDescription(Integer.valueOf(ob.getDeductionProgram())) : StringUtils.EMPTY);
-                            ob.setWorkflowCreatedBy((!ob.getWorkflowCreatedBy().isEmpty() && !ob.getWorkflowCreatedBy().equals(ConstantUtil.NULL) && ob.getWorkflowCreatedBy() != null && ob.getWorkflowCreatedBy().matches("\\-?\\d+")) ? userMap.get(Integer.valueOf(ob.getWorkflowCreatedBy())) : StringUtils.EMPTY);
-                            ob.setWorkflowApprovedBy((!ob.getWorkflowApprovedBy().isEmpty() && !ob.getWorkflowApprovedBy().equals(ConstantUtil.NULL) && ob.getWorkflowApprovedBy() != null && ob.getWorkflowApprovedBy().matches("\\-?\\d+")) ? userMap.get(Integer.valueOf(ob.getWorkflowApprovedBy())) : StringUtils.EMPTY);
+                            ob.setWorkflowCreatedBy((!ob.getWorkflowCreatedBy().isEmpty() && !ob.getWorkflowCreatedBy().equals(ConstantUtil.NULL) && ob.getWorkflowCreatedBy() != null && ob.getWorkflowCreatedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) ? userMap.get(Integer.valueOf(ob.getWorkflowCreatedBy())) : StringUtils.EMPTY);
+                            ob.setWorkflowApprovedBy((!ob.getWorkflowApprovedBy().isEmpty() && !ob.getWorkflowApprovedBy().equals(ConstantUtil.NULL) && ob.getWorkflowApprovedBy() != null && ob.getWorkflowApprovedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) ? userMap.get(Integer.valueOf(ob.getWorkflowApprovedBy())) : StringUtils.EMPTY);
                             
                         }
                     }
@@ -1649,12 +1748,16 @@ public class SearchLogic {
                 for (int i = 0; i < list.size(); i++) {
                     if (tableName.contains(ConstantUtil.INVALID_GTS_CUSTOMER)) {
                         IvldCustomerGtsForecast ob = (IvldCustomerGtsForecast) list.get(i);
-                        if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty() && ob.getCreatedBy().matches("\\-?\\d+")) {
-                            ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                        
+                        if (!ConstantUtil.STRING_NULL.equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
+                                && ob.getCreatedBy().matches(ConstantUtil.REGEX)) {
+                            if (userMap.get(Integer.valueOf(ob.getCreatedBy())) != null) {
+                                ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
+                            } else {
+                                ob.setCreatedBy(ConstantUtil.INACTIVE_USER);
+                            }
                         }
-                        if (!"null".equals(ob.getModifiedBy()) && ob.getModifiedBy() != null && !ob.getModifiedBy().isEmpty() && ob.getModifiedBy().matches("\\-?\\d+")) {
-                            ob.setModifiedBy(userMap.get(Integer.valueOf(ob.getModifiedBy())));
-                        }
+                        
                     } else if (tableName.equalsIgnoreCase(ConstantUtil.VW_COMPANY_MASTER)) {
                         VwCompanyMaster ob = (VwCompanyMaster) list.get(i);
                         if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()) {
@@ -1714,21 +1817,21 @@ public class SearchLogic {
                     } else if (tableName.contains(ConstantUtil.VW_CUSTOMER_GTS_FORECAST)) {
                         VwCustomerGtsForecast ob = (VwCustomerGtsForecast) list.get(i);
                         if (!"null".equals(ob.getCreatedBy()) && ob.getCreatedBy() != null && !ob.getCreatedBy().isEmpty()
-                                && ob.getCreatedBy().matches("\\-?\\d+")) {
+                                && ob.getCreatedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) {
                             ob.setCreatedBy(userMap.get(Integer.valueOf(ob.getCreatedBy())));
                         }
                         if (!"null".equals(ob.getModifiedBy()) && ob.getModifiedBy() != null && !ob.getModifiedBy().isEmpty()
-                                && ob.getModifiedBy().matches("\\-?\\d+")) {
+                                && ob.getModifiedBy().matches(ConstantUtil.MODIFIED_BY_REGEX)) {
                             ob.setModifiedBy(userMap.get(Integer.valueOf(ob.getModifiedBy())));
                         }
                     }
                 }
             }
-            if (tableName.contains("IvldReturns")) {
+            if (tableName.contains(ConstantUtil.IVLD_RETURNS)) {
                 for (int i = 0; i < list.size(); i++) {
                     try {
-                        DateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm");
-                        DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+                        DateFormat df = new SimpleDateFormat(ConstantUtil.MMM_DD_YYYY_H_HMM);
+                        DateFormat df2 = new SimpleDateFormat(ConstantUtil.MM_DD_YYYY);
                         df.setLenient(false);
                         IvldReturns ob = (IvldReturns) list.get(i);
                         ob.setOrigSaleMonth(df2.format(df.parse(ob.getOrigSaleMonth())));
@@ -1739,13 +1842,13 @@ public class SearchLogic {
                         ob.setMaxExpiredMonthPlusCutoff(df2.format(df.parse(ob.getMaxExpiredMonthPlusCutoff())));
                         ob.setLoadDate(df2.format(df.parse(ob.getLoadDate())));
                     } catch (ParseException e) {
-                        LOGGER.error("Un parseable Date" + e.getCause());
+                        LOGGER.error(ConstantUtil.UN_PARSEABLE_DATE + e.getCause());
                     }
                 }
             }
         }
-
-      
+                 
+        
         
 
     } catch (SystemException e) {
@@ -1767,7 +1870,7 @@ public class SearchLogic {
         final DynamicQuery itemMasterQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
 
         DynamicQuery actualsDynamicQuery = DynamicQueryFactoryUtil.forClass(Class.forName(ConstantUtil.TABLE_MODEL_PATH + tableName));
-        String[] str = {ConstantUtil.ACCOUNTNO, ConstantUtil.ACTUALID, ConstantUtil.ACCOUNT_NAME, ConstantUtil.SETTLEMENT_NO, ConstantUtil.ITEMNO, ConstantUtil.PROVISIONID, ConstantUtil.QUANTITY_INCLUSION, "actualIntfid", "batchId"};
+        String[] str = {ConstantUtil.ACCOUNTNO, ConstantUtil.ACTUALID, ConstantUtil.ACCOUNT_NAME, ConstantUtil.SETTLEMENT_NO, ConstantUtil.ITEMNO, ConstantUtil.PROVISIONID, ConstantUtil.QUANTITY_INCLUSION, ConstantUtil.ACTUAL_INTFID, ConstantUtil.BATCH_ID};
         List<String> wordList = Arrays.asList(str);
         for (Map.Entry<Object, Object> entry : searchValues.entrySet()) {
 
@@ -1826,30 +1929,29 @@ public class SearchLogic {
         }
         if (flag) {
             actualsDynamicQuery.add(PropertyFactoryUtil.forName(ConstantUtil.ITEMID).in(itemMasterQuery.setProjection(ProjectionFactoryUtil.property(ConstantUtil.ITEMID))));
-            flag = false;
         }
 
-        if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_FROM + "_Date") && searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_FROM + "_Date"), searchValues.get(ConstantUtil.ACCRUAL_START_DATE_TO + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_FROM + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_FROM + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_TO + "_Date")));
+        if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_FROM + ConstantUtil.UNDERSCORE_DATE) && searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_FROM + ConstantUtil.UNDERSCORE_DATE), searchValues.get(ConstantUtil.ACCRUAL_START_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
         }
-        if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_FROM + "_Date") && searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_FROM + "_Date"), searchValues.get(ConstantUtil.ACCRUAL_END_DATE_TO + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_FROM + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_FROM + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_TO + "_Date")));
+        if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_FROM + ConstantUtil.UNDERSCORE_DATE) && searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_FROM + ConstantUtil.UNDERSCORE_DATE), searchValues.get(ConstantUtil.ACCRUAL_END_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
         }
 
-        if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_FROM + "_Date") && searchValues.containsKey(ConstantUtil.PAYMENT_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_FROM + "_Date"), searchValues.get(ConstantUtil.PAYMENT_DATE_TO + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_FROM + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_FROM + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_TO + "_Date")));
+        if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_FROM + ConstantUtil.UNDERSCORE_DATE) && searchValues.containsKey(ConstantUtil.PAYMENT_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_FROM + ConstantUtil.UNDERSCORE_DATE), searchValues.get(ConstantUtil.PAYMENT_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
         }
 
         if (searchValues.containsKey(ConstantUtil.AMOUNT_FROM) && searchValues.containsKey(ConstantUtil.AMOUNT_TO)) {
@@ -1863,7 +1965,7 @@ public class SearchLogic {
         if (searchValues.containsKey(ConstantUtil.QUANTITY_FROM) && searchValues.containsKey(ConstantUtil.QUANTITY_TO)) {
             actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.QUANTITY, Double.valueOf(searchValues.get(ConstantUtil.QUANTITY_FROM).toString()), Double.valueOf(searchValues.get(ConstantUtil.QUANTITY_TO).toString())));
         }
-        if (searchValues.containsKey(ConstantUtil.INVALID_TO_DATE) || searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE)) {
+        if (searchValues.containsKey(ConstantUtil.INVALID_TO_DATE) || searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE_DATE)) {
             if (invalidToDate != null && invalidFromDate != null) {
                 final Date invalidDate = new Date();
 
@@ -1871,15 +1973,15 @@ public class SearchLogic {
                 invalidDate.setHours(NumericConstants.TWENTY_THREE);
                 invalidDate.setMinutes(NumericConstants.FIFTY_NINE);
                 invalidDate.setSeconds(NumericConstants.FIFTY_NINE);
-                actualsDynamicQuery.add(RestrictionsFactoryUtil.between("intfInsertedDate", invalidFromDate, invalidDate));
+                actualsDynamicQuery.add(RestrictionsFactoryUtil.between(AbstractNotificationUtils.INTF_INSERTED_DATE, invalidFromDate, invalidDate));
             } else if (searchValues.containsKey(ConstantUtil.INVALID_TO_DATE)) {
-                actualsDynamicQuery.add(RestrictionsFactoryUtil.lt("intfInsertedDate", (Date) searchValues.get("invalidToDate_Date")));
-            } else if (searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE)) {
-                actualsDynamicQuery.add(RestrictionsFactoryUtil.ge("intfInsertedDate", (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE)));
+                actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(AbstractNotificationUtils.INTF_INSERTED_DATE, (Date) searchValues.get(ConstantUtil.INVALID_TO_DATE)));
+            } else if (searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE_DATE)) {
+                actualsDynamicQuery.add(RestrictionsFactoryUtil.ge(AbstractNotificationUtils.INTF_INSERTED_DATE, (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE_DATE)));
             }
         }
-        if ("IvldActualMaster".equals(tableName) || tableName.startsWith("Ivld")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.like("reprocessedFlag", "N"));
+        if (ConstantUtil.IVLD_ACTUAL_MASTER.equals(tableName) || tableName.startsWith("Ivld")) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantUtil.REPROCESSED_FLAG, ConstantUtil.N));
         }
         actualsDynamicQuery = getFilterQuery(bsc, actualsDynamicQuery, tableName);
         LOGGER.debug(" Ends getActualSearchResults with dynamicQuery");
@@ -1905,7 +2007,7 @@ public class SearchLogic {
         return count;
     }
 
-    public List<Object> searchFindForActualMaster(Map<Object, Object> searchValues, int startIndex, int i, List<SortByColumn> sortByColumns, Set<Filter> criteria, String tableName, boolean excelFlag, Object[] excelVisibleColumnArr, final DetailsDTO primaryDTO) throws IllegalAccessException, IllegalArgumentException,
+    public List<Object> searchFindForActualMaster(Map<Object, Object> searchValues, int startIndex, int i, List<SortByColumn> sortByColumns, Set<Filter> criteria, String tableName, boolean excelFlag, Object[] excelVisibleColumnArr, final DetailsDTO primaryDTO) throws IllegalAccessException, 
            InvocationTargetException,ClassNotFoundException, NoSuchMethodException, InstantiationException {
         String tempValue = StringUtils.EMPTY;
         final DynamicQuery contractMasterQuery = DynamicQueryFactoryUtil.forClass(ContractMaster.class);
@@ -1914,19 +2016,19 @@ public class SearchLogic {
 
         final DynamicQuery itemMasterQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
         for (int j = 0; j < searchValues.size(); j++) {
-            if (searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE)) {
-                invalidFromDate = (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE);
+            if (searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE_DATE)) {
+                invalidFromDate = (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE_DATE);
             } else {
                 invalidFromDate = null;
             }
-            if (searchValues.containsKey("invalidToDate_Date")) {
-                invalidToDate = (Date) searchValues.get("invalidToDate_Date");
+            if (searchValues.containsKey(ConstantUtil.INVALID_TO_DATE)) {
+                invalidToDate = (Date) searchValues.get(ConstantUtil.INVALID_TO_DATE);
             } else {
                 invalidToDate = null;
             }
         }
         DynamicQuery actualsDynamicQuery = DynamicQueryFactoryUtil.forClass(Class.forName(ConstantUtil.TABLE_MODEL_PATH + tableName));
-        String[] str = {ConstantUtil.ACCOUNTNO, ConstantUtil.ACTUALID, ConstantUtil.ACCOUNT_NAME, ConstantUtil.SETTLEMENT_NO, ConstantUtil.ITEMNO, ConstantUtil.PROVISIONID, ConstantUtil.QUANTITY_INCLUSION, "actualIntfid", "batchId"};
+        String[] str = {ConstantUtil.ACCOUNTNO, ConstantUtil.ACTUALID, ConstantUtil.ACCOUNT_NAME, ConstantUtil.SETTLEMENT_NO, ConstantUtil.ITEMNO, ConstantUtil.PROVISIONID, ConstantUtil.QUANTITY_INCLUSION, ConstantUtil.ACTUAL_INTFID, ConstantUtil.BATCH_ID};
         List<String> wordList = Arrays.asList(str);
         for (Map.Entry<Object, Object> entry : searchValues.entrySet()) {
             if (wordList.contains(entry.getKey())) {
@@ -1983,31 +2085,30 @@ public class SearchLogic {
             flag = true;
         }
         if (flag) {
-            actualsDynamicQuery.add(PropertyFactoryUtil.forName(ConstantUtil.ITEMID).in(itemMasterQuery.setProjection(ProjectionFactoryUtil.property("itemId"))));
-            flag = false;
+            actualsDynamicQuery.add(PropertyFactoryUtil.forName(ConstantUtil.ITEMID).in(itemMasterQuery.setProjection(ProjectionFactoryUtil.property(ConstantUtil.ITEM_ID))));
         }
 
-        if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_FROM + "_Date") && searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_FROM + "_Date"), searchValues.get(ConstantUtil.ACCRUAL_START_DATE_TO + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_FROM + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_FROM + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_TO + "_Date")));
+        if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_FROM + ConstantUtil.UNDERSCORE_DATE) && searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_FROM + ConstantUtil.UNDERSCORE_DATE), searchValues.get(ConstantUtil.ACCRUAL_START_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_START_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.ACCRUAL_ACTUAL_START_DATE, searchValues.get(ConstantUtil.ACCRUAL_START_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
         }
-        if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_FROM + "_Date") && searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_FROM + "_Date"), searchValues.get(ConstantUtil.ACCRUAL_END_DATE_TO + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_FROM + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_FROM + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_TO + "_Date")));
+        if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_FROM + ConstantUtil.UNDERSCORE_DATE) && searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_FROM + ConstantUtil.UNDERSCORE_DATE), searchValues.get(ConstantUtil.ACCRUAL_END_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.ACCRUAL_END_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.ACCRUAL_ACTUAL_END_DATE, searchValues.get(ConstantUtil.ACCRUAL_END_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
         }
 
-        if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_FROM + "_Date") && searchValues.containsKey(ConstantUtil.PAYMENT_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_FROM + "_Date"), searchValues.get(ConstantUtil.PAYMENT_DATE_TO + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_FROM + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_FROM + "_Date")));
-        } else if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_TO + "_Date")) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_TO + "_Date")));
+        if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_FROM + ConstantUtil.UNDERSCORE_DATE) && searchValues.containsKey(ConstantUtil.PAYMENT_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_FROM + ConstantUtil.UNDERSCORE_DATE), searchValues.get(ConstantUtil.PAYMENT_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_FROM + ConstantUtil.UNDERSCORE_DATE)));
+        } else if (searchValues.containsKey(ConstantUtil.PAYMENT_DATE_TO + ConstantUtil.UNDERSCORE_DATE)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(ConstantUtil.CASHPAID_DATE, searchValues.get(ConstantUtil.PAYMENT_DATE_TO + ConstantUtil.UNDERSCORE_DATE)));
         }
         if (searchValues.containsKey(ConstantUtil.AMOUNT_FROM) && searchValues.containsKey(ConstantUtil.AMOUNT_TO)) {
             actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.AMOUNT, Double.valueOf(searchValues.get(ConstantUtil.AMOUNT_FROM).toString()), Double.valueOf(searchValues.get(ConstantUtil.AMOUNT_TO).toString())));
@@ -2020,7 +2121,7 @@ public class SearchLogic {
         if (searchValues.containsKey(ConstantUtil.QUANTITY_FROM) && searchValues.containsKey(ConstantUtil.QUANTITY_TO)) {
             actualsDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantUtil.QUANTITY, Double.valueOf(searchValues.get(ConstantUtil.QUANTITY_FROM).toString()), Double.valueOf(searchValues.get(ConstantUtil.QUANTITY_TO).toString())));
         }
-        if (searchValues.containsKey(ConstantUtil.INVALID_TO_DATE) || searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE)) {
+        if (searchValues.containsKey(ConstantUtil.INVALID_TO_DATE) || searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE_DATE)) {
             if (invalidToDate != null && invalidFromDate != null) {
                 final Date invalidDate = new Date();
 
@@ -2028,15 +2129,15 @@ public class SearchLogic {
                 invalidDate.setHours(NumericConstants.TWENTY_THREE);
                 invalidDate.setMinutes(NumericConstants.FIFTY_NINE);
                 invalidDate.setSeconds(NumericConstants.FIFTY_NINE);
-                actualsDynamicQuery.add(RestrictionsFactoryUtil.between("intfInsertedDate", invalidFromDate, invalidDate));
+                actualsDynamicQuery.add(RestrictionsFactoryUtil.between(AbstractNotificationUtils.INTF_INSERTED_DATE, invalidFromDate, invalidDate));
             } else if (searchValues.containsKey(ConstantUtil.INVALID_TO_DATE)) {
-                actualsDynamicQuery.add(RestrictionsFactoryUtil.lt("intfInsertedDate", (Date) searchValues.get("invalidToDate_Date")));
-            } else if (searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE)) {
-                actualsDynamicQuery.add(RestrictionsFactoryUtil.ge("intfInsertedDate", (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE)));
+                actualsDynamicQuery.add(RestrictionsFactoryUtil.lt(AbstractNotificationUtils.INTF_INSERTED_DATE, (Date) searchValues.get(ConstantUtil.INVALID_TO_DATE)));
+            } else if (searchValues.containsKey(ConstantUtil.INVALID_FROM_DATE_DATE)) {
+                actualsDynamicQuery.add(RestrictionsFactoryUtil.ge(AbstractNotificationUtils.INTF_INSERTED_DATE, (Date) searchValues.get(ConstantUtil.INVALID_FROM_DATE_DATE)));
             }
         }
-        if ("IvldActualMaster".equals(tableName)) {
-            actualsDynamicQuery.add(RestrictionsFactoryUtil.like("reprocessedFlag", "N"));
+        if (ConstantUtil.IVLD_ACTUAL_MASTER.equals(tableName)) {
+            actualsDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantUtil.REPROCESSED_FLAG, ConstantUtil.N));
         }
         if (sortByColumns == null || sortByColumns.isEmpty()) {
             if (StringUtils.isEmpty(primaryDTO.getInvalidTableName())) {
@@ -2049,7 +2150,7 @@ public class SearchLogic {
         if (!excelFlag) {
             actualsDynamicQuery = getFilterQuery(criteria, actualsDynamicQuery, tableName);
             actualsDynamicQuery.setLimit(startIndex, i);
-            LOGGER.debug(" Ends getDynamicQuerySearch with dynamicQuery");
+            LOGGER.debug(" Ends getDynamicQuerySearch with dynamicQuery3");
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 SortByColumn orderByColumn = (SortByColumn) iterator.next();
                 if (orderByColumn.getType() == SortByColumn.Type.ASC) {
@@ -2072,7 +2173,7 @@ public class SearchLogic {
         List<Object> list = (List<Object>) method.invoke(cls.newInstance(), actualsDynamicQuery);
         
         if (!excelFlag) {
-            if ("IvldActualMaster".equals(tableName)) {
+            if (ConstantUtil.IVLD_ACTUAL_MASTER.equals(tableName)) {
                 for (int j = 0; j < list.size(); j++) {
                     IvldActualMaster ob = (IvldActualMaster) list.get(j);
                     ob.setQuantity(!"null".equals(ob.getQuantity()) && ob.getQuantity() != null && !ob.getQuantity().isEmpty() ? String.valueOf(twodecimalformat.format(Double.valueOf(ob.getQuantity()))) : StringUtils.EMPTY);
@@ -2087,8 +2188,8 @@ public class SearchLogic {
                     ob.setSalesAmount(!"null".equals(ob.getSalesAmount()) && ob.getSalesAmount() != null && !ob.getSalesAmount().isEmpty() ? String.valueOf(twodecimalformat.format(Double.valueOf(ob.getSalesAmount()))) : StringUtils.EMPTY);
                 }
             }
-        }
-        
+            }
+
         
         
         LOGGER.debug(" Ends searchForecastSales with the Search List size    ::::  " + ((list == null) ? list : list.size()));
@@ -2097,9 +2198,9 @@ public class SearchLogic {
 
     public List<Object> searchFindForReturnsMsater(Map<Object, Object> searchValues,
             String tableName) {
-
+        
         String QuerytableName = "";
-        if ("IvldReturns".equals(tableName)) {
+        if (ConstantUtil.IVLD_RETURNS.equals(tableName)) {
             QuerytableName = "IVLD_RETURNS";
         }
         if (tableName.equals("ReturnsMaster")) {
@@ -2107,7 +2208,7 @@ public class SearchLogic {
         }
         String query = getInvalidReturnFind(QuerytableName);
 
-        Map<String, String> input = new HashMap<String, String>();
+        Map<String, String> input = new HashMap<>();
         input.put("?DESCRIPTION?", "%");
         input.put("?EXTENDED_BRAND?", "%");
         input.put("?MAXIMUM?", "%");
@@ -2172,8 +2273,8 @@ public class SearchLogic {
     }
 
     public List<String> getQuantityInclusion() {
-        List<String> resultList = new ArrayList<String>();
-        List<String> quantityInclusion = new ArrayList<String>();
+        List<String> resultList = new ArrayList<>();
+        List<String> quantityInclusion = new ArrayList<>();
         DynamicQuery actualsMasterQuery = DynamicQueryFactoryUtil.forClass(ActualsMaster.class);
         ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property(ConstantUtil.QUANTITY_INCLUSION));
@@ -2230,7 +2331,7 @@ public class SearchLogic {
     }
 
     public String getHelperValues(String helperValue, String listval) {
-        String sqlQuery = "SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE DESCRIPTION LIKE '" + helperValue + "' AND LIST_NAME LIKE '" + listval + "'";
+        String sqlQuery = "SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE DESCRIPTION LIKE '" + helperValue + "' AND LIST_NAME LIKE '" + listval + ConstantUtil.FILTER_QUOTES;
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
         return String.valueOf(list.get(0));
     }
@@ -2238,7 +2339,7 @@ public class SearchLogic {
     public String getAdjustmentTypeValues(String filterString, String tableName) {
         String sqlQuery = " SELECT SRD.ADJUSTMENT_TYPE FROM "+tableName+" SRD\n" +
                             " LEFT JOIN ARM_ADJUSTMENT_CONFIG ADJ ON ADJ.ARM_ADJUSTMENT_CONFIG_SID = SRD.ADJUSTMENT_TYPE\n" +
-                            " WHERE ADJ.TRANSACTION_NAME LIKE '"+filterString+"'";
+                            " WHERE ADJ.TRANSACTION_NAME LIKE '"+filterString+ConstantUtil.FILTER_QUOTES;
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
         return String.valueOf(list.get(0));
     }
@@ -2259,12 +2360,17 @@ public class SearchLogic {
                 + " FROM  dbo.IVLD_SALES_MASTER WHERE REPROCESSED_FLAG = 'N' ";
         for (Map.Entry<Object, Object> entry : searchValues.entrySet()) {
             String tempValue = entry.getValue().toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-            query = query + " AND " + (getInvalidSalesDbColumn(entry.getKey().toString())) + " like'" + tempValue + "'";
+            query = query + ConstantUtil.AND + (getInvalidSalesDbColumn(entry.getKey().toString())) + " like'" + tempValue + ConstantUtil.FILTER_QUOTES;
         }
         query = query + " ORDER BY  SALES_INTFID  ASC\n"
-                + "OFFSET " + start + " ROWS FETCH NEXT " + end + " ROWS ONLY ";
+                + "OFFSET " + start + ConstantUtil.ROWS_FETCH_NEXT + end + ConstantUtil.ROWS_ONLY;
 
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        return list;
+    }
+    public List getPrecisionFromItemPricing() {
+        String query = "SELECT ITEM_PRICE_PRECISION from VW_ITEM_PRICING  ORDER BY ITEM_PRICING_SID ASC \n";
+        List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
     }
 
@@ -2274,31 +2380,30 @@ public class SearchLogic {
                 return "SALES_INTFID";
             case "salesId":
                 return "SALES_ID";
-            case "itemId":
-                return "ITEM_ID";
-            case "itemNo":
-                return "ITEM_NO";
+            case ConstantUtil.ITEM_ID:
+                return ConstantUtil.ITEM_ID1;
+            case ConstantUtil.ITEM_NO1:
+                return ConstantUtil.ITEM_NO;
             case "accountId":
                 return "ACCOUNT_ID";
             case "accountNo":
                 return "ACCOUNT_NO";
-            case "contractId":
+            case ConstantUtil.CONTRACT_ID:
                 return "CONTRACT_ID";
-            case "batchId":
-                return "BATCH_ID";
-            case "contractNo":
-                return "CONTRACT_NO";
-            case "companyId":
-                return "COMPANY_ID";
+            case ConstantUtil.BATCH_ID:
+                return ConstantUtil.BATCH_ID1;
+            case ConstantUtil.CONTRACT_NO:
+                return ConstantUtil.CONTRACT_NO1;
+            case ConstantUtil.COMPANY_ID:
+                return ConstantUtil.COMPANY_ID1;
             default:
-                return "ITEM_ID";
+                return ConstantUtil.ITEM_ID1;
         }
     }
 
     
     public String addSearchConditionsforARP(Map<Object, Object> searchValues, boolean countFlag) {
-        String tempValue = StringUtils.EMPTY;
-        tempValue = tempValue.replace("*", "%");
+        String tempValue;
         String filterQuery = "";
 
         if (searchValues != null) {
@@ -2308,7 +2413,7 @@ public class SearchLogic {
                 filterQuery += " INNER JOIN PROJECTION_MASTER P ON P.PROJECTION_MASTER_SID = ARP.PROJECTION_MASTER_SID";
             }
                 tempValue = searchValues.get(ConstantUtil.ARP_NAME).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND p.PROJECTION_NAME like '" + tempValue + "'";
+                filterQuery += " AND p.PROJECTION_NAME like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
 
             if ((searchValues.containsKey(ConstantUtil.COMPANY_NO) || searchValues.containsKey(ConstantUtil.COMPANY_NAME)) && !countFlag) {
@@ -2317,11 +2422,11 @@ public class SearchLogic {
 
             if (searchValues.containsKey(ConstantUtil.COMPANY_NO)) {
                 tempValue = searchValues.get(ConstantUtil.COMPANY_NO).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND CM.COMPANY_NO like '" + tempValue + "'";
+                filterQuery += " AND CM.COMPANY_NO like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
             if (searchValues.containsKey(ConstantUtil.COMPANY_NAME)) {
                 tempValue = searchValues.get(ConstantUtil.COMPANY_NAME).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND CM.COMPANY_NAME like '" + tempValue + "'";
+                filterQuery += " AND CM.COMPANY_NAME like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
 
             if ((searchValues.containsKey(ConstantUtil.ITEMNO) || searchValues.containsKey(ConstantUtil.ITEMID) || searchValues.containsKey(ConstantUtil.ITEM_NAME)) && !countFlag) {
@@ -2330,15 +2435,15 @@ public class SearchLogic {
 
             if (searchValues.containsKey(ConstantUtil.ITEMNO)) {
                 tempValue = searchValues.get(ConstantUtil.ITEMNO).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND IM.ITEM_NO like '" + tempValue + "'";
+                filterQuery += " AND IM.ITEM_NO like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
             if (searchValues.containsKey(ConstantUtil.ITEMID)) {
                 tempValue = searchValues.get(ConstantUtil.ITEMID).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND IM.ITEM_ID like '" + tempValue + "'";
+                filterQuery += " AND IM.ITEM_ID like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
             if (searchValues.containsKey(ConstantUtil.ITEM_NAME)) {
                 tempValue = searchValues.get(ConstantUtil.ITEM_NAME).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND IM.ITEM_NAME like '" + tempValue + "'";
+                filterQuery += " AND IM.ITEM_NAME like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
 
             if ((searchValues.containsKey(ConstantUtil.BRAND_ID) || searchValues.containsKey(ConstantUtil.BRAND_NAME)) && !countFlag) {
@@ -2347,49 +2452,60 @@ public class SearchLogic {
 
             if (searchValues.containsKey(ConstantUtil.BRAND_ID)) {
                 tempValue = searchValues.get(ConstantUtil.BRAND_ID).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND BM.BRAND_ID like '" + tempValue + "'";
+                filterQuery += " AND BM.BRAND_ID like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
             if (searchValues.containsKey(ConstantUtil.BRAND_NAME)) {
                 tempValue = searchValues.get(ConstantUtil.BRAND_NAME).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND BM.BRAND_NAME like '" + tempValue + "'";
+                filterQuery += " AND BM.BRAND_NAME like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
         filterQuery += " Where ARP_WORKFLOW_ID like '%'";
             if (searchValues.containsKey(ConstantUtil.ARP_ID)) {                
                 tempValue = searchValues.get(ConstantUtil.ARP_ID).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND ARP_WORKFLOW_ID like '" + tempValue + "'";
+                filterQuery += " AND ARP_WORKFLOW_ID like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
             if (searchValues.containsKey(ConstantUtil.CATEGORY)) {
                 tempValue = searchValues.get(ConstantUtil.CATEGORY).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
                 if(!"*".equals(searchValues.get(ConstantUtil.CATEGORY).toString())){
-                filterQuery += " AND RS_CATEGORY like '" + tempValue + "'";
+                filterQuery += " AND RS_CATEGORY like '" + tempValue + ConstantUtil.FILTER_QUOTES;
                 }
             }
             if (searchValues.containsKey(ConstantUtil.TYPE)) {
                 tempValue = searchValues.get(ConstantUtil.TYPE).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
                 if(!"*".equals(searchValues.get(ConstantUtil.TYPE).toString())){
-                filterQuery += " AND RS_TYPE like '" + tempValue + "'";
+                filterQuery += " AND RS_TYPE like '" + tempValue + ConstantUtil.FILTER_QUOTES;
                 }
             }
             if (searchValues.containsKey(ConstantUtil.PROGRAM)) {
                 tempValue = searchValues.get(ConstantUtil.PROGRAM).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
                 if(!"*".equals(searchValues.get(ConstantUtil.PROGRAM).toString())){
-                filterQuery += " AND REBATE_PROGRAM_TYPE like '" + tempValue + "'";
+                filterQuery += " AND REBATE_PROGRAM_TYPE like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
             }
             if (searchValues.containsKey(ConstantUtil.ACCOUNT)) {
                 tempValue = searchValues.get(ConstantUtil.ACCOUNT).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += " AND ARP.ACCOUNT like '" + tempValue + "'";
+                filterQuery += " AND ARP.ACCOUNT like '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
 
-            if (searchValues.containsKey(ConstantUtil.ACCOUNT_TYPE)) {
-                tempValue = searchValues.get(ConstantUtil.ACCOUNT_TYPE).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
-                filterQuery += "  AND ARP.ACCOUNT_TYPE like '" + tempValue + "'";
+            if (searchValues.containsKey(ConstantUtil.ACCOUNT_TYPE_COL)) {
+                tempValue = searchValues.get(ConstantUtil.ACCOUNT_TYPE_COL).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
+                if (tempValue.contains("Sales Dollars")) {
+                    tempValue = "EX-FACTORY SALES DOLLARS";
+                } else if (tempValue.contains("Sales Units")) {
+                    tempValue = "EX-FACTORY SALES UNITS";
+                } else if (tempValue.contains(ConstantUtil.ACCRUAL_DOLLARS)) {
+                    tempValue = "Accrual Dollars";
+                } else if (tempValue.contains(ConstantUtil.ACCRUAL_RATE)) {
+                    tempValue = "Accrual Rate";
+                } else if (tempValue.contains("Deduction")) {
+                    tempValue = "Accrual Rate";
+                }
+                filterQuery += "  AND ARP.ACCOUNT_TYPE like '" + tempValue + ConstantUtil.FILTER_QUOTES;
            
             }
 
-            if (searchValues.containsKey(ConstantUtil.ARP_CREATION_DATE) && searchValues.get(ConstantUtil.ARP_CREATION_DATE) != null && !searchValues.get(ConstantUtil.ARP_CREATION_DATE).equals("null")) {
-                    tempValue = searchValues.get(ConstantUtil.ARP_CREATION_DATE).toString();
-                        filterQuery += " AND ARP.ARP_CREATION_DATE   >= '" + tempValue + "'";
+            if (searchValues.containsKey(ConstantUtil.ARP_CREATION_DATE_DATE) && searchValues.get(ConstantUtil.ARP_CREATION_DATE_DATE) != null && !searchValues.get(ConstantUtil.ARP_CREATION_DATE_DATE).equals("null")) {
+                    tempValue = searchValues.get(ConstantUtil.ARP_CREATION_DATE_DATE).toString();
+                        filterQuery += " AND ARP.ARP_CREATION_DATE   >= '" + tempValue + ConstantUtil.FILTER_QUOTES;
             }
             filterQuery = filterQuery.replaceFirst("WHERE AND", "WHERE");
             if (filterQuery.endsWith("REBATE_PROGRAM_TYPE=ht1.HELPER_TABLE_SID WHERE")) {
@@ -2403,17 +2519,17 @@ public class SearchLogic {
     public List<Object[]> searchArpOutbound(Map<Object, Object> searchValues, boolean countFlag, final Set<Container.Filter> filterSet) throws ParseException {
         String filterCondition=StringUtils.EMPTY;
         StringBuilder queryBuilder = new StringBuilder(addSearchConditionsforARP(searchValues, countFlag));
-        String filterQuery = String.valueOf(getConditionForARPOutbound(filterSet, queryBuilder, "count"));
+        String filterQuery = String.valueOf(getConditionForARPOutbound(filterSet, queryBuilder, ConstantUtil.COUNT));
         if (filterSet!=null && filterSet.size()!=0)
          filterCondition = String.valueOf(getFilterForARPOutbound(filterSet));
-        filterQuery = filterQuery.replaceAll("''", "'");
+        filterQuery = filterQuery.replaceAll("''", ConstantUtil.FILTER_QUOTES);
         
         String accountType = "null";
         if (searchValues != null && searchValues.containsKey(ConstantUtil.ACCOUNT)) {
             accountType = searchValues.get(ConstantUtil.ACCOUNT).toString();
         }
-        if (searchValues != null && searchValues.containsKey(ConstantUtil.ACCOUNT_TYPE)) {
-            accountType = searchValues.get(ConstantUtil.ACCOUNT_TYPE).toString();
+        if (searchValues != null && searchValues.containsKey(ConstantUtil.ACCOUNT_TYPE_COL)) {
+            accountType = searchValues.get(ConstantUtil.ACCOUNT_TYPE_COL).toString();
         }
 
         if (!accountType.equals("null")) {
@@ -2421,9 +2537,9 @@ public class SearchLogic {
                 accountType = "'EX-FACTORY SALES DOLLARS'";
             } else if (accountType.contains("Sales Units")) {
                 accountType = "'EX-FACTORY SALES UNITS'";
-            } else if (accountType.contains("Accrual Dollars")){
+            } else if (accountType.contains(ConstantUtil.ACCRUAL_DOLLARS)){
                 accountType = "'Accrual Dollars'";
-            }else if(accountType.contains("Accrual Rate")){
+            }else if(accountType.contains(ConstantUtil.ACCRUAL_RATE)){
                  accountType = "'Accrual Rate'";
             }else if(accountType.contains("Deduction")){
                  accountType = "'Accrual Rate'";
@@ -2453,53 +2569,53 @@ public class SearchLogic {
             countQueryFilterMap.put("brand_Id", "BM.BRAND_ID");
             countQueryFilterMap.put("brand_Name", "BM.BRAND_NAME");
             countQueryFilterMap.put(ConstantUtil.ACCOUNT, "ARP.ACCOUNT");
-            countQueryFilterMap.put("account_Type", "ARP.ACCOUNT_TYPE");
-            countQueryFilterMap.put("category", "RS_CATEGORY");
-            countQueryFilterMap.put("type", "RS_TYPE");
+            countQueryFilterMap.put(ConstantUtil.ACCOUNT_TYPE, "ARP.ACCOUNT_TYPE");
+            countQueryFilterMap.put(ConstantUtil.CATEGORY, ConstantUtil.RS_CATEGORY1);
+            countQueryFilterMap.put("type", ConstantUtil.RS_TYPE);
             countQueryFilterMap.put("program", "REBATE_PROGRAM_TYPE");
-            countQueryFilterMap.put("arp_Creation_Date", "ARP.ARP_CREATION_DATE");
+            countQueryFilterMap.put(ConstantUtil.ARP_CREATION_DATE, "ARP.ARP_CREATION_DATE");
             countQueryFilterMap.put("arp_Approval_Date", "AC.APPROVED_DATE");
-            countQueryFilterMap.put("outbound_Status", "ARP.OUTBOUND_STATUS");
-            countQueryFilterMap.put("original_Batch_ID", "ARP.ORIGINAL_BATCH_ID");
+            countQueryFilterMap.put(ConstantUtil.OUTBOUND_STATUS, "ARP.OUTBOUND_STATUS");
+            countQueryFilterMap.put(ConstantUtil.ORIGINAL_BATCH_ID, "ARP.ORIGINAL_BATCH_ID");
 
-            countQueryFilterMap.put("current_Year_Jan", "ARP.JAN");
-            countQueryFilterMap.put("current_Year_Feb", "ARP.FEB");
-            countQueryFilterMap.put("current_Year_Mar", "ARP.MAR");
-            countQueryFilterMap.put("current_Year_Apr", "ARP.APR");
-            countQueryFilterMap.put("current_Year_May", "ARP.MAY");
-            countQueryFilterMap.put("current_Year_June", "ARP.JUN");
-            countQueryFilterMap.put("current_Year_July", "ARP.JUL");
-            countQueryFilterMap.put("current_Year_Aug", "ARP.AUG");
-            countQueryFilterMap.put("current_Year_Sep", "ARP.SEP");
-            countQueryFilterMap.put("current_Year_Oct", "ARP.OCT");
-            countQueryFilterMap.put("current_Year_Nov", "ARP.NOV");
-            countQueryFilterMap.put("current_Year_Dec", "ARP.DEC");
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_JAN, ConstantUtil.ARPJAN);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_FEB, ConstantUtil.ARPFEB);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_MAR, ConstantUtil.ARP_MAR);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_APR, ConstantUtil.ARPAPR);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_MAY, ConstantUtil.ARP_MAY);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_JUNE, ConstantUtil.ARPJUN);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_JULY, ConstantUtil.ARPJUL);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_AUG, ConstantUtil.ARP_AUG);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_SEP, ConstantUtil.ARPSEP);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_OCT, ConstantUtil.ARP_OCT);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_NOV, ConstantUtil.ARPNOV);
+            countQueryFilterMap.put(ConstantUtil.CURRENT__YEAR__DEC, ConstantUtil.ARPDEC);
 
-            countQueryFilterMap.put("current_Year_1_Jan", "ARP.JAN");
-            countQueryFilterMap.put("current_Year_1_Feb", "ARP.FEB");
-            countQueryFilterMap.put("current_Year_1_Mar", "ARP.MAR");
-            countQueryFilterMap.put("current_Year_1_Apr", "ARP.APR");
-            countQueryFilterMap.put("current_Year_1_May", "ARP.MAY");
-            countQueryFilterMap.put("current_Year_1_June", "ARP.JUN");
-            countQueryFilterMap.put("current_Year_1_July", "ARP.JUL");
-            countQueryFilterMap.put("current_Year_1_Aug", "ARP.AUG");
-            countQueryFilterMap.put("current_Year_1_Sep", "ARP.SEP");
-            countQueryFilterMap.put("current_Year_1_Oct", "ARP.OCT");
-            countQueryFilterMap.put("current_Year_1_Nov", "ARP.NOV");
-            countQueryFilterMap.put("current_Year_1_Dec", "ARP.DEC");
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_JAN, ConstantUtil.ARPJAN);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_FEB, ConstantUtil.ARPFEB);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_MAR, ConstantUtil.ARP_MAR);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_APR, ConstantUtil.ARPAPR);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_MAY, ConstantUtil.ARP_MAY);
+            countQueryFilterMap.put(ConstantUtil.CURRENT__YEAR_1__JUNE, ConstantUtil.ARPJUN);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_JULY, ConstantUtil.ARPJUL);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_AUG, ConstantUtil.ARP_AUG);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_SEP, ConstantUtil.ARPSEP);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_OCT, ConstantUtil.ARP_OCT);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_NOV, ConstantUtil.ARPNOV);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_DEC, ConstantUtil.ARPDEC);
 
-            countQueryFilterMap.put("current_Year_2_Jan", "ARP.JAN");
-            countQueryFilterMap.put("current_Year_2_Feb", "ARP.FEB");
-            countQueryFilterMap.put("current_Year_2_Mar", "ARP.MAR");
-            countQueryFilterMap.put("current_Year_2_Apr", "ARP.APR");
-            countQueryFilterMap.put("current_Year_2_May", "ARP.MAY");
-            countQueryFilterMap.put("current_Year_2_June", "ARP.JUN");
-            countQueryFilterMap.put("current_Year_2_July", "ARP.JUL");
-            countQueryFilterMap.put("current_Year_2_Aug", "ARP.AUG");
-            countQueryFilterMap.put("current_Year_2_Sep", "ARP.SEP");
-            countQueryFilterMap.put("current_Year_2_Oct", "ARP.OCT");
-            countQueryFilterMap.put("current_Year_2_Nov", "ARP.NOV");
-            countQueryFilterMap.put("current_Year_2_Dec", "ARP.DEC");
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_JAN, ConstantUtil.ARPJAN);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_FEB, ConstantUtil.ARPFEB);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_MAR, ConstantUtil.ARP_MAR);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_APR, ConstantUtil.ARPAPR);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_MAY, ConstantUtil.ARP_MAY);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_JUNE, ConstantUtil.ARPJUN);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_JULY, ConstantUtil.ARPJUL);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_AUG, ConstantUtil.ARP_AUG);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_SEP, ConstantUtil.ARPSEP);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_OCT, ConstantUtil.ARP_OCT);
+            countQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_NOV, ConstantUtil.ARPNOV);
+            countQueryFilterMap.put(ConstantUtil.CURRENT__YEAR_2__DEC, ConstantUtil.ARPDEC);
             countQueryFilterMap.put("uom", "ARP.UOM");
             countQueryFilterMap.put("account_category", "ARP.ACCOUNT_CATEGORY");
             countQueryFilterMap.put("account_group", "ARP.ACCOUNT_GROUP");
@@ -2508,7 +2624,7 @@ public class SearchLogic {
 
         }
     }
-
+    
     public List<Object> searchFindForArpOutBound(Map<Object, Object> searchValues, int start, int end, List<SortByColumn> sortByColumns, Set<Filter> criteria, boolean isExcel,boolean isSearchFirst) throws ParseException {
      
         String query = QueryUtils.getPivotQuery(searchValues, start, end, isExcel);
@@ -2545,7 +2661,7 @@ public class SearchLogic {
     public static void updateTempTable(ARPOutboundDTO dto) {
         String session_Id = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID_ARP));
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
-        String updateQuery = SQlUtil.getQuery("Accrual Rate".equals(dto.getAccount_Type()) || "Accrual Dollars".equals(dto.getAccount_Type())? "arp-check-record-update-deduction-rate" : "arp-check-record-update");
+        String updateQuery = SQlUtil.getQuery(ConstantUtil.ACCRUAL_RATE.equals(dto.getAccount_Type()) || ConstantUtil.ACCRUAL_DOLLARS.equals(dto.getAccount_Type())? "arp-check-record-update-deduction-rate" : "arp-check-record-update");
         updateQuery = updateQuery.replace("[?CHECK_RECORD]", dto.getCheckedValue());
         updateQuery = updateQuery.replace("[?ITEM_MASTER_SID]", dto.getItemMasterSid());
         updateQuery = updateQuery.replace("[?RS_TYPE]", dto.getType());
@@ -2555,7 +2671,7 @@ public class SearchLogic {
         updateQuery = updateQuery.replace("[?SESSION_ID]", session_Id);
         updateQuery = updateQuery.replace("[?USER_ID]", userId);
          updateQuery = updateQuery.replace("[?ARP_WORKFLOW_ID]", dto.getArp_Id());
-        if ("Accrual Rate".equals(dto.getAccount_Type()) || "Accrual Dollars".equals(dto.getAccount_Type())) {
+        if (ConstantUtil.ACCRUAL_RATE.equals(dto.getAccount_Type()) || ConstantUtil.ACCRUAL_DOLLARS.equals(dto.getAccount_Type())) {
             if (StringUtils.isBlank(dto.getAccount_category())) {
                 updateQuery += " AND (ACCOUNT_CATEGORY  ='' or ACCOUNT_CATEGORY is null)";
             } else {
@@ -2567,9 +2683,9 @@ public class SearchLogic {
                 updateQuery += " AND ACCOUNT_GROUP = " + dto.getAccount_group();
             }
             
-            updateQuery += StringUtils.isBlank(dto.getType()) ? " AND (RS_TYPE ='' or RS_TYPE is null) " : " AND RS_TYPE = '" + dto.getType()+"'";
-            updateQuery += StringUtils.isBlank(dto.getProgram()) ? " AND (REBATE_PROGRAM_TYPE ='' or REBATE_PROGRAM_TYPE is null) " : " AND REBATE_PROGRAM_TYPE = '" + dto.getProgram()+"'";
-            updateQuery += StringUtils.isBlank(dto.getCategory()) ? " AND (RS_CATEGORY ='' or RS_CATEGORY is null) " : " AND RS_CATEGORY = '" + dto.getCategory()+"'";
+            updateQuery += StringUtils.isBlank(dto.getType()) ? " AND (RS_TYPE ='' or RS_TYPE is null) " : " AND RS_TYPE = '" + dto.getType()+ConstantUtil.FILTER_QUOTES;
+            updateQuery += StringUtils.isBlank(dto.getProgram()) ? " AND (REBATE_PROGRAM_TYPE ='' or REBATE_PROGRAM_TYPE is null) " : " AND REBATE_PROGRAM_TYPE = '" + dto.getProgram()+ConstantUtil.FILTER_QUOTES;
+            updateQuery += StringUtils.isBlank(dto.getCategory()) ? " AND (RS_CATEGORY ='' or RS_CATEGORY is null) " : " AND RS_CATEGORY = '" + dto.getCategory()+ConstantUtil.FILTER_QUOTES;
         }
         HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
     }
@@ -2587,60 +2703,60 @@ public class SearchLogic {
             pivotQueryFilterMap.put("item_Name", "IM1.ITEM_NAME");
             pivotQueryFilterMap.put("brand_Id", "BM1.BRAND_ID");
             pivotQueryFilterMap.put("brand_Name", "BM1.BRAND_NAME");
-            pivotQueryFilterMap.put(ConstantUtil.ACCOUNT, "A.ACCOUNT");
-            pivotQueryFilterMap.put("account_Type", "A.ACCOUNT_TYPE");
-            pivotQueryFilterMap.put("category", "RS_CATEGORY");
-            pivotQueryFilterMap.put("type", "RS_TYPE");
+            pivotQueryFilterMap.put(ConstantUtil.ACCOUNT, ConstantUtil.A_ACCOUNT);
+            pivotQueryFilterMap.put(ConstantUtil.ACCOUNT_TYPE, "A.ACCOUNT_TYPE");
+            pivotQueryFilterMap.put(ConstantUtil.CATEGORY, ConstantUtil.RS_CATEGORY1);
+            pivotQueryFilterMap.put("type", ConstantUtil.RS_TYPE);
             pivotQueryFilterMap.put("program", "REBATE_PROGRAM_TYPE");
-            pivotQueryFilterMap.put("arp_Creation_Date", "A.ARP_CREATION_DATE");
+            pivotQueryFilterMap.put(ConstantUtil.ARP_CREATION_DATE, "A.ARP_CREATION_DATE");
             pivotQueryFilterMap.put("arp_Approval_Date", "A.ARP_APPROVAL_DATE");
-            pivotQueryFilterMap.put("outbound_Status", "A.OUTBOUND_STATUS");
-            pivotQueryFilterMap.put("original_Batch_ID", "A.ORIGINAL_BATCH_ID");
+            pivotQueryFilterMap.put(ConstantUtil.OUTBOUND_STATUS, "A.OUTBOUND_STATUS");
+            pivotQueryFilterMap.put(ConstantUtil.ORIGINAL_BATCH_ID, "A.ORIGINAL_BATCH_ID");
 
-            pivotQueryFilterMap.put("current_Year_Jan", "A.CURRENT_YEAR_M1");
-            pivotQueryFilterMap.put("current_Year_Feb", "A.CURRENT_YEAR_M2");
-            pivotQueryFilterMap.put("current_Year_Mar", "A.CURRENT_YEAR_M3");
-            pivotQueryFilterMap.put("current_Year_Apr", "A.CURRENT_YEAR_M4");
-            pivotQueryFilterMap.put("current_Year_May", "A.CURRENT_YEAR_M5");
-            pivotQueryFilterMap.put("current_Year_June", "A.CURRENT_YEAR_M6");
-            pivotQueryFilterMap.put("current_Year_July", "A.CURRENT_YEAR_M7");
-            pivotQueryFilterMap.put("current_Year_Aug", "A.CURRENT_YEAR_M8");
-            pivotQueryFilterMap.put("current_Year_Sep", "A.CURRENT_YEAR_M9");
-            pivotQueryFilterMap.put("current_Year_Oct", "A.CURRENT_YEAR_M10");
-            pivotQueryFilterMap.put("current_Year_Nov", "A.CURRENT_YEAR_M11");
-            pivotQueryFilterMap.put("current_Year_Dec", "A.CURRENT_YEAR_M12");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_JAN, "A.CURRENT_YEAR_M1");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_FEB, "A.CURRENT_YEAR_M2");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_MAR, "A.CURRENT_YEAR_M3");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_APR, "A.CURRENT_YEAR_M4");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_MAY, "A.CURRENT_YEAR_M5");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_JUNE, "A.CURRENT_YEAR_M6");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_JULY, "A.CURRENT_YEAR_M7");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_AUG, "A.CURRENT_YEAR_M8");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_SEP, "A.CURRENT_YEAR_M9");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_OCT, "A.CURRENT_YEAR_M10");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_NOV, "A.CURRENT_YEAR_M11");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT__YEAR__DEC, "A.CURRENT_YEAR_M12");
 
-            pivotQueryFilterMap.put("current_Year_1_Jan", "A.CURRENT_YEAR1_M1");
-            pivotQueryFilterMap.put("current_Year_1_Feb", "A.CURRENT_YEAR1_M2");
-            pivotQueryFilterMap.put("current_Year_1_Mar", "A.CURRENT_YEAR1_M3");
-            pivotQueryFilterMap.put("current_Year_1_Apr", "A.CURRENT_YEAR1_M4");
-            pivotQueryFilterMap.put("current_Year_1_May", "A.CURRENT_YEAR1_M5");
-            pivotQueryFilterMap.put("current_Year_1_June", "A.CURRENT_YEAR1_M6");
-            pivotQueryFilterMap.put("current_Year_1_July", "A.CURRENT_YEAR1_M7");
-            pivotQueryFilterMap.put("current_Year_1_Aug", "A.CURRENT_YEAR1_M8");
-            pivotQueryFilterMap.put("current_Year_1_Sep", "A.CURRENT_YEAR1_M9");
-            pivotQueryFilterMap.put("current_Year_1_Oct", "A.CURRENT_YEAR1_M10");
-            pivotQueryFilterMap.put("current_Year_1_Nov", "A.CURRENT_YEAR1_M11");
-            pivotQueryFilterMap.put("current_Year_1_Dec", "A.CURRENT_YEAR1_M12");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_JAN, "A.CURRENT_YEAR1_M1");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_FEB, "A.CURRENT_YEAR1_M2");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_MAR, "A.CURRENT_YEAR1_M3");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_APR, "A.CURRENT_YEAR1_M4");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_MAY, "A.CURRENT_YEAR1_M5");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT__YEAR_1__JUNE, "A.CURRENT_YEAR1_M6");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_JULY, "A.CURRENT_YEAR1_M7");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_AUG, "A.CURRENT_YEAR1_M8");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_SEP, "A.CURRENT_YEAR1_M9");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_OCT, "A.CURRENT_YEAR1_M10");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_NOV, "A.CURRENT_YEAR1_M11");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_1_DEC, "A.CURRENT_YEAR1_M12");
 
-            pivotQueryFilterMap.put("current_Year_2_Jan", "A.CURRENT_YEAR2_M1");
-            pivotQueryFilterMap.put("current_Year_2_Feb", "A.CURRENT_YEAR2_M2");
-            pivotQueryFilterMap.put("current_Year_2_Mar", "A.CURRENT_YEAR2_M3");
-            pivotQueryFilterMap.put("current_Year_2_Apr", "A.CURRENT_YEAR2_M4");
-            pivotQueryFilterMap.put("current_Year_2_May", "A.CURRENT_YEAR2_M5");
-            pivotQueryFilterMap.put("current_Year_2_June", "A.CURRENT_YEAR2_M6");
-            pivotQueryFilterMap.put("current_Year_2_July", "A.CURRENT_YEAR2_M7");
-            pivotQueryFilterMap.put("current_Year_2_Aug", "A.CURRENT_YEAR2_M8");
-            pivotQueryFilterMap.put("current_Year_2_Sep", "A.CURRENT_YEAR2_M9");
-            pivotQueryFilterMap.put("current_Year_2_Oct", "A.CURRENT_YEAR2_M10");
-            pivotQueryFilterMap.put("current_Year_2_Nov", "A.CURRENT_YEAR2_M11");
-            pivotQueryFilterMap.put("current_Year_2_Dec", "A.CURRENT_YEAR2_M12");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_JAN, "A.CURRENT_YEAR2_M1");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_FEB, "A.CURRENT_YEAR2_M2");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_MAR, "A.CURRENT_YEAR2_M3");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_APR, "A.CURRENT_YEAR2_M4");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_MAY, "A.CURRENT_YEAR2_M5");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_JUNE, "A.CURRENT_YEAR2_M6");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_JULY, "A.CURRENT_YEAR2_M7");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_AUG, "A.CURRENT_YEAR2_M8");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_SEP, "A.CURRENT_YEAR2_M9");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_OCT, "A.CURRENT_YEAR2_M10");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT_YEAR_2_NOV, "A.CURRENT_YEAR2_M11");
+            pivotQueryFilterMap.put(ConstantUtil.CURRENT__YEAR_2__DEC, "A.CURRENT_YEAR2_M12");
 
             pivotQueryFilterMap.put("uom", "A.UOM");
             pivotQueryFilterMap.put("account_category", "A.ACCOUNT_CATEGORY");
             pivotQueryFilterMap.put("account_group", "A.ACCOUNT_GROUP");
             pivotQueryFilterMap.put("account_type", "A.ACCOUNT_TYPE");
-            pivotQueryFilterMap.put(ConstantUtil.ACCOUNT, "A.ACCOUNT");
+            pivotQueryFilterMap.put(ConstantUtil.ACCOUNT, ConstantUtil.A_ACCOUNT);
 
         }
 
@@ -2649,7 +2765,7 @@ public class SearchLogic {
     private StringBuilder getConditionForARPOutbound(final Set<Container.Filter> filterSet, StringBuilder stringBuilder, final String query) {
         loadsearchFilterMap();
         if (filterSet != null) {
-            if ("count".equals(query)) {
+            if (ConstantUtil.COUNT.equals(query)) {
                 stringBuilder.append(AbstractFilterLogic.getInstance().filterQueryGenerator_ARP(filterSet, countQueryFilterMap, true).toString().replace("where", " AND"));
             } else {
                 stringBuilder.append(AbstractFilterLogic.getInstance().filterQueryGenerator_ARP(filterSet, pivotQueryFilterMap, false).toString());
@@ -2669,8 +2785,8 @@ public class SearchLogic {
     private StringBuilder getSortingARPOutbound(List<SortByColumn> sortByColumns, int start, int end, StringBuilder stringBuilder, final String query) {
         loadCountFilterMap();
         if (sortByColumns != null) {
-            StringBuilder orderBy = new StringBuilder();
-            if ("count".equals(query)) {
+            StringBuilder orderBy;
+            if (ConstantUtil.COUNT.equals(query)) {
                 orderBy = AbstractFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, countQueryFilterMap, "ARP_WORKFLOW_ID, COMPANY_ID, ITEM_ID, ACCOUNT_TYPE ", start, end);
             } else {
                 orderBy = AbstractFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, pivotQueryFilterMap, "ARP_WORKFLOW_ID, COMPANY_ID, ITEM_ID, ACCOUNT_TYPE ", start, end);
@@ -2680,7 +2796,7 @@ public class SearchLogic {
         return stringBuilder;
     } 
    
-    public void deleteTempTable() {
+    public void deleteARPTempTable() {
 
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID_ARP));
@@ -2692,18 +2808,18 @@ public class SearchLogic {
 
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID_ARP));
-        String query = "UPDATE  ST_ARP_OUTBOUND SET CHECK_RECORD=" + updateValue + " WHERE USER_ID='" + userId + "' AND SESSION_ID=" + sessionId + "";
+        String query = "UPDATE  ST_ARP_OUTBOUND SET CHECK_RECORD=" + updateValue + " WHERE USER_ID='" + userId + "' AND SESSION_ID=" + sessionId ;
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
     }
 
     public Date parseDate(String d) {
         String[] formats = {
-            "dd-MMM-yy", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd",
+            "dd-MMM-yy", "yyyy-MM-dd HH:mm:ss", ConstantUtil.YYYY_MM_DD,
             "yyyy-MM-dd HH:mm:ss.S", "MM/dd/yyyy HH:mm:ss", "dd/MM/yyyy", "MMM dd yyyy hh:mm", "dd/MM/yy",
             "dd/MM/yyyy", "d/M/yy", "d/M/yyyy", "ddMMyy", "ddMMyyyy", "ddMMMyy", "ddMMMyyyy", "dd-MMM-yyyy", "dMMMyy",
             "dMMMyyyy", "d-MMM-yy", "d-MMM-yyyy", "d-MMMM-yy", "d-MMMM-yyyy", "yyMMdd", "yyyyMMdd", "yy/MM/dd",
-            "yyyy/MM/dd", "MMddyy", "MMddyyyy", "MM/dd/yy", "MM/dd/yyyy", "MMM-dd-yy", "MMM-dd-yyyy", "yyyy-MM-dd", "MMM dd yyyy hh:mm aaa"};
+            "yyyy/MM/dd", "MMddyy", "MMddyyyy", "MM/dd/yy", ConstantUtil.MM_DD_YYYY, "MMM-dd-yy", "MMM-dd-yyyy", ConstantUtil.YYYY_MM_DD, "MMM dd yyyy hh:mm aaa"};
 
         if (d != null) {
             for (String parse : formats) {
@@ -2852,7 +2968,7 @@ public class SearchLogic {
             }
             if (dto.getFilters() != null && !dto.getFilters().isEmpty()) {
                 StringBuilder filterQString = AbstractFilter.getInstance().filterQueryGenerator(dto.getFilters(), getAdjusmentDetailsQueryMap());
-                input.add(filterQString.toString().replace("where", " AND "));
+                input.add(filterQString.toString().replace("where", ConstantUtil.AND));
             } else {
                 input.add(" ");
             }
@@ -2869,7 +2985,7 @@ public class SearchLogic {
                 input.add(dto.getOffset());
             }
         } catch (SQLException ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error(ex);
         }
         return input;
     }
@@ -2935,53 +3051,53 @@ public class SearchLogic {
         input.add(dto.getViewType());
         input.add(dto.getUserId());
         // This is for details insert input
-        if (map.get("adjustmentType") != null) {
-            input.add(map.get("adjustmentType"));
+        if (map.get(ConstantUtil.ADJUSTMENT_TYPE) != null) {
+            input.add(map.get(ConstantUtil.ADJUSTMENT_TYPE));
         } else {
             input.add("0");
         }
-        if (map.get("adjustmentLevel") != null) {
-            input.add(map.get("adjustmentLevel"));
+        if (map.get(ConstantUtil.ADJUSTMENT_LEVEL) != null) {
+            input.add(map.get(ConstantUtil.ADJUSTMENT_LEVEL));
         } else {
             input.add("0");
         }
 
-        if (map.get("glCompanyName") != null) {
-            input.add(map.get("glCompanyName"));
+        if (map.get(ConstantUtil.GL_COMPANY_NAME) != null) {
+            input.add(map.get(ConstantUtil.GL_COMPANY_NAME));
         } else {
             input.add("NULL");
         }
 
-        if (map.get("businessUnitId") != null) {
-            input.add(map.get("businessUnitId"));
+        if (map.get(ConstantUtil.BUSINESS_UNIT_ID) != null) {
+            input.add(map.get(ConstantUtil.BUSINESS_UNIT_ID));
         } else {
             input.add("NULL");
         }
 
-        if (map.get("workflowId") != null) {
-            input.add(map.get("workflowId"));
+        if (map.get(ConstantUtil.WORKFLOW_ID) != null) {
+            input.add(map.get(ConstantUtil.WORKFLOW_ID));
         } else {
             input.add("NULL");
         }
-        if (map.get("workflowName") != null) {
-            input.add(map.get("workflowName"));
-        } else {
-            input.add("NULL");
-        }
-
-        if (map.get("companyNo") != null) {
-            input.add(map.get("companyNo"));
-        } else {
-            input.add("NULL");
-        }
-        if (map.get("itemNo") != null) {
-            input.add(map.get("itemNo"));
+        if (map.get(ConstantUtil.WORKFLOW_NAME) != null) {
+            input.add(map.get(ConstantUtil.WORKFLOW_NAME));
         } else {
             input.add("NULL");
         }
 
-        if (map.get("deductionLevel") != null) {
-            input.add(map.get("deductionLevel"));
+        if (map.get(ConstantUtil.COMPANY_NO) != null) {
+            input.add(map.get(ConstantUtil.COMPANY_NO));
+        } else {
+            input.add("NULL");
+        }
+        if (map.get(ConstantUtil.ITEM_NO1) != null) {
+            input.add(map.get(ConstantUtil.ITEM_NO1));
+        } else {
+            input.add("NULL");
+        }
+
+        if (map.get(ConstantUtil.DEDUCTION_LEVEL) != null) {
+            input.add(map.get(ConstantUtil.DEDUCTION_LEVEL));
         } else {
             input.add("0");
         }
@@ -2989,71 +3105,71 @@ public class SearchLogic {
         if (map.get(ConstantUtil.CREATED_DATE) != null) {
             Date createdDate = (Date) map.get(ConstantUtil.CREATED_DATE);
             Timestamp time = new Timestamp(createdDate.getTime());
-            input.add("'" + time + "'");
+            input.add(ConstantUtil.FILTER_QUOTES + time + ConstantUtil.FILTER_QUOTES);
         } else {
             input.add("NULL");
         }
 
-        if (map.get("companyName") != null) {
-            input.add(map.get("companyName"));
+        if (map.get(ConstantUtil.COMPANY_NAME) != null) {
+            input.add(map.get(ConstantUtil.COMPANY_NAME));
         } else {
             input.add("NULL");
         }
-        if (map.get("itemName") != null) {
-            input.add(map.get("itemName"));
-        } else {
-            input.add("NULL");
-        }
-
-        if (map.get("deductionValue") != null) {
-            input.add(map.get("deductionValue"));
+        if (map.get(ConstantUtil.ITEM_NAME) != null) {
+            input.add(map.get(ConstantUtil.ITEM_NAME));
         } else {
             input.add("NULL");
         }
 
-        if (map.get("glDate") != null) {
-            Date glDate = (Date) map.get("glDate");
+        if (map.get(ConstantUtil.DEDUCTION_VALUE) != null) {
+            input.add(map.get(ConstantUtil.DEDUCTION_VALUE));
+        } else {
+            input.add("NULL");
+        }
+
+        if (map.get(ConstantUtil.GL_DATE) != null) {
+            Date glDate = (Date) map.get(ConstantUtil.GL_DATE);
             Timestamp time = new Timestamp(glDate.getTime());
-            input.add("'" + time + "'");
+            input.add(ConstantUtil.FILTER_QUOTES + time + ConstantUtil.FILTER_QUOTES);
         } else {
             input.add("NULL");
         }
 
-        if (map.get("originalBatchId") != null) {
-            input.add(map.get("originalBatchId"));
+        if (map.get(ConstantUtil.ORIGINAL_BATCH_ID1) != null) {
+            input.add(map.get(ConstantUtil.ORIGINAL_BATCH_ID1));
         } else {
             input.add("NULL");
         }
-        if (map.get("brandName") != null) {
-            input.add(map.get("brandName"));
+        if (map.get(ConstantUtil.BRAND_NAME) != null) {
+            input.add(map.get(ConstantUtil.BRAND_NAME));
         } else {
             input.add("NULL");
         }
-        if (map.get("redemptionPeriodToDate") != null) {
-            SimpleDateFormat dateF = new SimpleDateFormat("MM/dd/yyyy");
-            Date redemptionPeriod = dateF.parse(String.valueOf(map.get("redemptionPeriodToDate")));
+        if (map.get(ConstantUtil.REDEMPTION_PERIOD_TO_DATE) != null) {
+            SimpleDateFormat dateF = new SimpleDateFormat(ConstantUtil.MM_DD_YYYY);
+            Date redemptionPeriod = dateF.parse(String.valueOf(map.get(ConstantUtil.REDEMPTION_PERIOD_TO_DATE)));
             Timestamp time = new Timestamp(redemptionPeriod.getTime());
-            input.add("'" + time + "'");
+            input.add(ConstantUtil.FILTER_QUOTES + time + ConstantUtil.FILTER_QUOTES);
         } else {
             input.add("NULL");
         }
-        if (map.get("postingIndicator") != null) {
-            input.add(map.get("postingIndicator"));
+        if (map.get(ConstantUtil.POSTING_INDICATOR) != null) {
+            input.add(map.get(ConstantUtil.POSTING_INDICATOR));
         } else {
             input.add("0");
         }
-        if (map.get("transactionLevel") != null) {
-            input.add(map.get("transactionLevel"));
+        if (map.get(ConstantUtil.TRANSACTION_LEVEL) != null) {
+            input.add(map.get(ConstantUtil.TRANSACTION_LEVEL));
         } else {
             input.add("0");
         }
-        if (map.get("accountCategory") != null) {
-            input.add(map.get("accountCategory"));
+        if (map.get(ConstantUtil.ACCOUNT_CATEGORY) != null) {
+            input.add(map.get(ConstantUtil.ACCOUNT_CATEGORY));
         } else {
             input.add("0");
         }
-        if (map.get("accountType") != null) {
-            input.add(map.get("accountType"));
+        if (map.get(ConstantUtil.ACCOUNT_TYPE1) != null) {
+            input.add(map.get(ConstantUtil.ACCOUNT_TYPE1));
         } else {
             input.add("0");
         }
@@ -3062,30 +3178,30 @@ public class SearchLogic {
         } else {
             input.add("NULL");
         }
-        if (map.get("redemptionPeriodToDate") != null) {
-            SimpleDateFormat dateF = new SimpleDateFormat("MM/dd/yyyy");
-            Date redemptionPeriod = dateF.parse(String.valueOf(map.get("redemptionPeriodToDate")));
+        if (map.get(ConstantUtil.REDEMPTION_PERIOD_TO_DATE) != null) {
+            SimpleDateFormat dateF = new SimpleDateFormat(ConstantUtil.MM_DD_YYYY);
+            Date redemptionPeriod = dateF.parse(String.valueOf(map.get(ConstantUtil.REDEMPTION_PERIOD_TO_DATE)));
             Timestamp time = new Timestamp(redemptionPeriod.getTime());
-            input.add("'" + time + "'");
+            input.add(ConstantUtil.FILTER_QUOTES + time + ConstantUtil.FILTER_QUOTES);
         } else {
             input.add("NULL");
         }
 
         return input;
     }
-
+    
     public Boolean checkETLRecords() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID_ARP));
-        String query = "update ST_ARP_OUTBOUND SET ETL_CHECK_RECORD=1 WHERE USER_ID = '" + userId + "' AND SESSION_ID = " + sessionId + " AND CHECK_RECORD = 1";
+        String query = "update ST_ARP_OUTBOUND SET ETL_CHECK_RECORD=1 WHERE USER_ID = '" + userId + ConstantUtil.AND_SESSION_ID_WITH_QUOTES + sessionId + " AND CHECK_RECORD = 1";
         int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
         return count > 0;
     }
-
+    
     public Boolean existsQuery() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID_ARP));
-        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_ARP_OUTBOUND WHERE USER_ID = '" + userId + "' AND SESSION_ID = " + sessionId + " AND ETL_CHECK_RECORD = 1";
+        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_ARP_OUTBOUND WHERE USER_ID = '" + userId + ConstantUtil.AND_SESSION_ID_WITH_QUOTES + sessionId + ConstantUtil.AND_ETL_CHECK_RECORD1;
         List count = HelperTableLocalServiceUtil.executeSelectQuery(query);
         int c = Integer.valueOf(String.valueOf(count.get(0)));
         return c > 0;
@@ -3094,7 +3210,7 @@ public class SearchLogic {
     public Boolean cffExistsQuery() {
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + userId + " AND SESSION_ID = " + sessionId + " AND ETL_CHECK_RECORD = 1";
+        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + userId + ConstantUtil.AND_SESSION_ID_ + sessionId + ConstantUtil.AND_ETL_CHECK_RECORD1;
         List count = HelperTableLocalServiceUtil.executeSelectQuery(query);
         int c = Integer.valueOf(String.valueOf(count.get(0)));
         return c > 0;
@@ -3103,25 +3219,36 @@ public class SearchLogic {
     public Boolean checkCffETLRecords() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-        String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET ETL_CHECK_RECORD=1 WHERE USER_ID='" + userId + "' AND SESSION_ID = '" + sessionId + "' AND CHECK_RECORD = 1";
+        String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET ETL_CHECK_RECORD=1 WHERE USER_ID='" + userId + ConstantUtil.AND_SESSION_ID_WITH_QUTES + sessionId + ConstantUtil.AND_CHECK_RECORD_1;
         int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
         return count > 0;
     }
 
-    public void deleteTempTableValues() {
+    public void deleteCFFTempTable() {
         try {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
             final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-            String deleteQuery = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + userId + " AND SESSION_ID ='" + sessionId + "' ";
+            String deleteQuery = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + userId + AND_SESSION_ID_WITH_QUOTES1 + sessionId + ConstantUtil.FILTER_QUOTES_SPACE;
             HelperTableLocalServiceUtil.executeUpdateQuery(deleteQuery);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
     }
+    public void deleteReprocessCFFTempTable() {
+        try {
+            final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
+            final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
+            String deleteQuery = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + userId + AND_SESSION_ID_WITH_QUOTES1 + sessionId + ConstantUtil.AND_CHECK_RECORD_1;
+            HelperTableLocalServiceUtil.executeUpdateQuery(deleteQuery);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
+    public static final String AND_SESSION_ID_WITH_QUOTES1 = " AND SESSION_ID ='";
     
     public void updateCheckRecord(String check, String cffId, String userId, String periodSid, String sessionId, String deductionId) {
-        String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET CHECK_RECORD=" + check + " WHERE CFF_DETAILS_SID=" + cffId + " AND "
-                + " USER_ID=" + userId + " AND SESSION_ID=" + sessionId + " AND PERIOD_SID=" + periodSid + " AND RS_MODEL_SID='" + deductionId + "'";
+        String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET CHECK_RECORD=" + check + " WHERE CFF_DETAILS_SID=" + cffId + ConstantUtil.AND
+                + " USER_ID=" + userId + " AND SESSION_ID=" + sessionId + " AND PERIOD_SID=" + periodSid + " AND RS_MODEL_SID='" + deductionId + ConstantUtil.FILTER_QUOTES;
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
@@ -3138,7 +3265,7 @@ public class SearchLogic {
             Map<String, String> ccfMap = new HashMap<>();
             loadfilterColumnMap(ccfMap);
             String query = QueryUtils.getExcelQuery();
-            query += " WHERE USER_ID = " + userId + " AND SESSION_ID ='" + sessionId + "' ";
+            query += " WHERE USER_ID = " + userId + AND_SESSION_ID_WITH_QUOTES1 + sessionId + ConstantUtil.FILTER_QUOTES_SPACE;
             query += getCustomFilterQuery(criteria, sortByColumn, false, ccfMap,tableName);
             List result = new ArrayList();
             result.add(query);
@@ -3154,22 +3281,22 @@ public class SearchLogic {
      
      private static String getCustomFilterQuery(final Set<Container.Filter> filterSet, final List<SortByColumn> sortByColumns, boolean isCount, Map<String, String> filterColumnMap,String tableName) {
         String filterQuery = StringUtils.EMPTY;
-        final SimpleDateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        final SimpleDateFormat dbDateFormat = new SimpleDateFormat(ConstantUtil.YYYY_MM_DD);
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    filterQuery += " AND " + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    filterQuery += ConstantUtil.AND + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + ConstantUtil.LIKE + filterString + ConstantUtil.FILTER_QUOTES;
                 } else if (filter instanceof Between) {
                     Between stringFilter = (Between) filter;
                     Date startValue = (Date) stringFilter.getStartValue();
                     Date endValue = (Date) stringFilter.getEndValue();
                     if (startValue != null) {
-                        filterQuery += " AND " + (filterColumnMap.get(stringFilter.getPropertyId().toString())) + " >= '" + startValue + "' ";
+                        filterQuery += ConstantUtil.AND + (filterColumnMap.get(stringFilter.getPropertyId().toString())) + ConstantUtil.GREATER_THAN_EQUAL_TO + startValue + ConstantUtil.FILTER_QUOTES_SPACE;
                     }
                     if (endValue != null) {
-                        filterQuery += " AND " + (filterColumnMap.get(stringFilter.getPropertyId().toString())) + " <= '" + endValue + "' ";
+                        filterQuery += ConstantUtil.AND + (filterColumnMap.get(stringFilter.getPropertyId().toString())) + ConstantUtil.LESS_THAN_EQUAL_TO + endValue + ConstantUtil.FILTER_QUOTES_SPACE;
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -3177,21 +3304,21 @@ public class SearchLogic {
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = dbDateFormat.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            filterQuery += " AND " + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " > '" + filterString + "' ";
+                            filterQuery += ConstantUtil.AND + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " > '" + filterString + ConstantUtil.FILTER_QUOTES_SPACE;
                         } else {
-                            filterQuery += " AND " + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " < '" + filterString + "' ";
+                            filterQuery += ConstantUtil.AND + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " < '" + filterString + ConstantUtil.FILTER_QUOTES_SPACE;
                         }
                     } else if (Compare.Operation.GREATER.toString().equals(operation.name())) {
-                        filterQuery += " AND " + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " > '" + stringFilter.getValue() + "' ";
+                        filterQuery += ConstantUtil.AND + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " > '" + stringFilter.getValue() + ConstantUtil.FILTER_QUOTES_SPACE;
                     } else if (Compare.Operation.LESS.toString().equals(operation.name())) {
-                        filterQuery += " AND " + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " < '" + stringFilter.getValue() + "' ";
+                        filterQuery += ConstantUtil.AND + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " < '" + stringFilter.getValue() + ConstantUtil.FILTER_QUOTES_SPACE;
                     } else if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-                        filterQuery += " AND " + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " = '" + stringFilter.getValue() + "' ";
+                        filterQuery += ConstantUtil.AND + filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " = '" + stringFilter.getValue() + ConstantUtil.FILTER_QUOTES_SPACE;
                     }
                 }
             }
         }
-        String finalQuery = StringUtils.EMPTY;
+        String finalQuery;
         String order = StringUtils.EMPTY;
         if (!isCount) {
             boolean sortOrder = false;
@@ -3230,32 +3357,32 @@ public class SearchLogic {
       private static String getARMFilterQuery(final Set<Container.Filter> filterSet, final List<SortByColumn> sortByColumns, boolean isCount, Map<String, String> filterColumnMap, String tableName) {
         String filterQuery = StringUtils.EMPTY;
      
-        final SimpleDateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        final SimpleDateFormat dbDateFormat = new SimpleDateFormat(ConstantUtil.YYYY_MM_DD);
         if (filterSet != null) {
 
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : " AND ";
+                    filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : ConstantUtil.AND;
                     if (("debit".equalsIgnoreCase(String.valueOf(stringFilter.getPropertyId())) || "credit".equalsIgnoreCase(String.valueOf(stringFilter.getPropertyId())))
                             && filterString.contains("$")) {
                         filterString = filterString.replace("$", StringUtils.EMPTY);
                     }
-                    filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                    filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + ConstantUtil.LIKE + filterString + ConstantUtil.FILTER_QUOTES;
                 } else if (filter instanceof Between) {
                     Between stringFilter = (Between) filter;
                     Date startValue = (Date) stringFilter.getStartValue();
                     Date endValue = (Date) stringFilter.getEndValue();
                     if (startValue != null) {
                         String filterString = dbDateFormat.format(startValue);
-                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : " AND ";
-                        filterQuery += (filterColumnMap.get(stringFilter.getPropertyId().toString())) + " >= '" + filterString + "' ";
+                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : ConstantUtil.AND;
+                        filterQuery += (filterColumnMap.get(stringFilter.getPropertyId().toString())) + ConstantUtil.GREATER_THAN_EQUAL_TO + filterString + ConstantUtil.FILTER_QUOTES_SPACE;
                     }
                     if (endValue != null) {
                         String filterString = dbDateFormat.format(endValue);
-                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : " AND ";
-                        filterQuery += (filterColumnMap.get(stringFilter.getPropertyId().toString())) + " <= '" + filterString + "' ";
+                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : ConstantUtil.AND;
+                        filterQuery += (filterColumnMap.get(stringFilter.getPropertyId().toString())) + ConstantUtil.LESS_THAN_EQUAL_TO + filterString + ConstantUtil.FILTER_QUOTES_SPACE;
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -3263,26 +3390,26 @@ public class SearchLogic {
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = dbDateFormat.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : " AND ";
-                            filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " >= '" + filterString + "' ";
+                            filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : ConstantUtil.AND;
+                            filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + ConstantUtil.GREATER_THAN_EQUAL_TO + filterString + ConstantUtil.FILTER_QUOTES_SPACE;
                         } else {
-                            filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : " AND ";
-                            filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " <= '" + filterString + "' ";
+                            filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : ConstantUtil.AND;
+                            filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + ConstantUtil.LESS_THAN_EQUAL_TO + filterString + ConstantUtil.FILTER_QUOTES_SPACE;
                         }
                     } else if (Compare.Operation.GREATER.toString().equals(operation.name())) {
-                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : " AND ";
-                        filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " > '" + stringFilter.getValue() + "' ";
+                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : ConstantUtil.AND;
+                        filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " > '" + stringFilter.getValue() + ConstantUtil.FILTER_QUOTES_SPACE;
                     } else if (Compare.Operation.LESS.toString().equals(operation.name())) {
-                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : " AND ";
-                        filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " < '" + stringFilter.getValue() + "' ";
+                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : ConstantUtil.AND;
+                        filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " < '" + stringFilter.getValue() + ConstantUtil.FILTER_QUOTES_SPACE;
                     } else if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : " AND ";
-                        filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " = '" + stringFilter.getValue() + "' ";
+                        filterQuery += filterQuery.isEmpty() ? StringUtils.EMPTY : ConstantUtil.AND;
+                        filterQuery += filterColumnMap.get(String.valueOf(stringFilter.getPropertyId())) + " = '" + stringFilter.getValue() + ConstantUtil.FILTER_QUOTES_SPACE;
                     }
                 }
             }
         }
-        String finalQuery = StringUtils.EMPTY;
+        String finalQuery;
         String order = StringUtils.EMPTY;
         if (!isCount) {
             boolean sortOrder = false;
@@ -3324,8 +3451,8 @@ public class SearchLogic {
             filterColumnMap.put("projectionName", "PROJECTION_NAME");
             filterColumnMap.put("year", "YEAR");
             filterColumnMap.put("month", "MONTH");
-            filterColumnMap.put("contractId", "CONTRACT_ID");
-            filterColumnMap.put("contractNo", "CONTRACT_NO");
+            filterColumnMap.put(ConstantUtil.CONTRACT_ID, "CONTRACT_ID");
+            filterColumnMap.put(ConstantUtil.CONTRACT_NO, ConstantUtil.CONTRACT_NO1);
             filterColumnMap.put("contractName", "CONTRACT_NAME");
             filterColumnMap.put("contractType", "HT1.DESCRIPTION");
             filterColumnMap.put("contractHolderId", "CONTRACT_HOLDER_ID");
@@ -3334,19 +3461,19 @@ public class SearchLogic {
             filterColumnMap.put("customerId", "CUSTOMER_ID");
             filterColumnMap.put("customerNo", "CUSTOMER_NO");
             filterColumnMap.put("customerName", "CUSTOMER_NAME");
-            filterColumnMap.put("itemId", "ITEM_ID");
-            filterColumnMap.put("itemNo", "ITEM_NO");
-            filterColumnMap.put("itemName", "ITEM_NAME");
+            filterColumnMap.put(ConstantUtil.ITEM_ID, ConstantUtil.ITEM_ID1);
+            filterColumnMap.put(ConstantUtil.ITEM_NO1, ConstantUtil.ITEM_NO);
+            filterColumnMap.put(ConstantUtil.ITEM_NAME, "ITEM_NAME");
             filterColumnMap.put("salesDollars", "SALES_DOLLARS");
             filterColumnMap.put("salesUnits", "SALES_UNITS");
             filterColumnMap.put("salesInclusion", "SALES_INCLUSION");
-            filterColumnMap.put("deductionId", "DEDUCTION_ID");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_ID, ConstantUtil.DEDUCTION_ID1);
             filterColumnMap.put("deductionNo", "DEDUCTION_NO");
             filterColumnMap.put("deductionName", "DEDUCTION_NAME");
-            filterColumnMap.put("deductionCategory", "HT2.DESCRIPTION");
-            filterColumnMap.put("deductionType", "HT3.DESCRIPTION");
-            filterColumnMap.put("deductionProgram", "HT4.DESCRIPTION");
-            filterColumnMap.put("deductionInclusion", "HT5.DESCRIPTION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_CATEGORY, "HT2.DESCRIPTION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_TYPE, "HT3.DESCRIPTION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_PROGRAM, "HT4.DESCRIPTION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_INCLUSION, "HT5.DESCRIPTION");
             filterColumnMap.put("deductionCategory1", "HT6.DESCRIPTION");
             filterColumnMap.put("deductionCategory2", "HT7.DESCRIPTION");
             filterColumnMap.put("deductionCategory3", "HT8.DESCRIPTION");
@@ -3354,23 +3481,23 @@ public class SearchLogic {
             filterColumnMap.put("deductionCategory5", "HT10.DESCRIPTION");
             filterColumnMap.put("deductionCategory6", "HT11.DESCRIPTION");
             filterColumnMap.put("deductionDollars", "DEDUCTION_DOLLARS");
-            filterColumnMap.put("deductionRate", "DEDUCTION_RATE");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_RATE, ConstantUtil.DEDUCTION_RATE1);
             filterColumnMap.put("deductionPerUnit", "DEDUCTION_PER_UNIT");
             filterColumnMap.put("netSalesDollar", "NET_SALES_DOLLAR");
             filterColumnMap.put("cogsAmount", "COGS_AMOUNT");
             filterColumnMap.put("cogsPerUnit", "COGS_PER_UNIT");
             filterColumnMap.put("netProfitDollars", "NET_PROFIT_DOLLARS");
             filterColumnMap.put("netProfitPerUnit", "NET_PROFIT_PER_UNIT");
-            filterColumnMap.put("companyId", "COMPANY_ID");
-            filterColumnMap.put("companyNo", "COMPANY_NO");
-            filterColumnMap.put("companyName", "COMPANY_NAME");
-            filterColumnMap.put("businessUnitId", "BUSINESS_UNIT_ID");
+            filterColumnMap.put(ConstantUtil.COMPANY_ID, ConstantUtil.COMPANY_ID1);
+            filterColumnMap.put(ConstantUtil.COMPANY_NO, "COMPANY_NO");
+            filterColumnMap.put(ConstantUtil.COMPANY_NAME, "COMPANY_NAME");
+            filterColumnMap.put(ConstantUtil.BUSINESS_UNIT_ID, "BUSINESS_UNIT_ID");
             filterColumnMap.put("businessUnitNo", "BUSINESS_UNIT_NO");
             filterColumnMap.put("businessUnitName", "BUSINESS_UNIT_NAME");
-            filterColumnMap.put("financialForecastCreationDate", "FINANCIAL_FORECAST_CREATION_DATE");
-            filterColumnMap.put("financialForecastApprovalDate", "FINANCIAL_FORECAST_APPROVAL_DATE");
+            filterColumnMap.put(ConstantUtil.FINANCIAL_FORECAST_CREATION_DATE, "FORMAT(FINANCIAL_FORECAST_CREATION_DATE, 'MM/dd/yyyy')"); 
+            filterColumnMap.put(ConstantUtil.FINANCIAL_FORECAST_APPROVAL_DATE, "FORMAT(FINANCIAL_FORECAST_APPROVAL_DATE, 'MM/dd/yyyy')"); 
             filterColumnMap.put("outboundStatus", "OUTBOUND_STATUS");
-            filterColumnMap.put("originalBatchId", "ORIGINAL_BATCH_ID");
+            filterColumnMap.put(ConstantUtil.ORIGINAL_BATCH_ID1, ConstantUtil.ORIGINAL_BATCH_ID2);
         }
     }
     
@@ -3391,7 +3518,7 @@ public class SearchLogic {
         query += " WHERE ST.USER_ID = " + userId + " AND ST.SESSION_ID =" + sessionId + " ";
         query += getCustomFilterQuery(filter, sortByColumn, isCount, ccfMap,tableName);
         if (!isCount) {
-            query += " OFFSET " + start + " ROWS FETCH NEXT " + end + " ROWS ONLY ; ";
+            query += " OFFSET " + start + ConstantUtil.ROWS_FETCH_NEXT + end + " ROWS ONLY ; ";
         }
         List result = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return result;
@@ -3431,7 +3558,7 @@ public class SearchLogic {
         loadGtnfilterColumnMap(gtnMap);
         String filterQuery = getARMFilterQuery(filter, sortByColumn, isCount, ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)?gtnMap :reserveMap,tableName);
         query = query.replace("[$FILTER_QUERY]", filter.size()!=0 ? " WHERE "+filterQuery:filterQuery);
-        query = query.replace("[$START_OFFSET]",!isCount && !isExcel ? " OFFSET " + start + " ROWS FETCH NEXT " + end + " ROWS ONLY" :  StringUtils.EMPTY);
+        query = query.replace("[$START_OFFSET]",!isCount && !isExcel ? " OFFSET " + start + ConstantUtil.ROWS_FETCH_NEXT + end + " ROWS ONLY" :  StringUtils.EMPTY);
         if(!isExcel){
             result = HelperTableLocalServiceUtil.executeSelectQuery(query);
         } else {
@@ -3440,7 +3567,7 @@ public class SearchLogic {
             }
          } catch (Exception e) {
             LOGGER.error("Error :" + e + " While Executing " + query);
-            return null;
+            return Collections.emptyList();
         } finally {
             try {
                 connection.close();
@@ -3455,7 +3582,7 @@ public class SearchLogic {
         try {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
             final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-            String deleteQuery = "DELETE FROM ST_ADJUSTMENT_GTN_DETAIL WHERE USER_ID = " + userId + " AND SESSION_ID ='" + sessionId + "' ";
+            String deleteQuery = "DELETE FROM ST_ADJUSTMENT_GTN_DETAIL WHERE USER_ID = " + userId + AND_SESSION_ID_WITH_QUOTES1 + sessionId + ConstantUtil.FILTER_QUOTES_SPACE;
             HelperTableLocalServiceUtil.executeUpdateQuery(deleteQuery);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -3465,7 +3592,7 @@ public class SearchLogic {
     public Boolean checkGTNETLRecords() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-        String query = "UPDATE ST_ADJUSTMENT_GTN_DETAIL SET ETL_CHECK_RECORD=1 WHERE USER_ID='" + userId + "' AND SESSION_ID = '" + sessionId + "' AND CHECK_RECORD = 1";
+        String query = "UPDATE ST_ADJUSTMENT_GTN_DETAIL SET ETL_CHECK_RECORD=1 WHERE USER_ID='" + userId + ConstantUtil.AND_SESSION_ID_WITH_QUTES + sessionId + ConstantUtil.AND_CHECK_RECORD_1;
         int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
         return count > 0;
     }
@@ -3474,7 +3601,7 @@ public class SearchLogic {
         try {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
             final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-            String deleteQuery = "DELETE FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE USER_ID = " + userId + " AND SESSION_ID ='" + sessionId + "' ";
+            String deleteQuery = "DELETE FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE USER_ID = " + userId + AND_SESSION_ID_WITH_QUOTES1 + sessionId + ConstantUtil.FILTER_QUOTES_SPACE;
             HelperTableLocalServiceUtil.executeUpdateQuery(deleteQuery);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -3484,7 +3611,7 @@ public class SearchLogic {
     public Boolean checkReserveETLRecords() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         final String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-        String query = "UPDATE ST_ADJUSTMENT_RESERVE_DETAIL SET ETL_CHECK_RECORD=1 WHERE USER_ID='" + userId + "' AND SESSION_ID = '" + sessionId + "' AND CHECK_RECORD = 1";
+        String query = "UPDATE ST_ADJUSTMENT_RESERVE_DETAIL SET ETL_CHECK_RECORD=1 WHERE USER_ID='" + userId + ConstantUtil.AND_SESSION_ID_WITH_QUTES + sessionId + ConstantUtil.AND_CHECK_RECORD_1;
         int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
         LOGGER.debug("checkReserveETLRecords check record----"+query);
         return count > 0;
@@ -3493,7 +3620,7 @@ public class SearchLogic {
     public Boolean GtnExistsQuery() {
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_ADJUSTMENT_GTN_DETAIL WHERE USER_ID = " + userId + " AND SESSION_ID = " + sessionId + " AND ETL_CHECK_RECORD = 1";
+        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_ADJUSTMENT_GTN_DETAIL WHERE USER_ID = " + userId + ConstantUtil.AND_SESSION_ID_ + sessionId + ConstantUtil.AND_ETL_CHECK_RECORD1;
         List count = HelperTableLocalServiceUtil.executeSelectQuery(query);
         int c = Integer.valueOf(String.valueOf(count.get(0)));
         return c > 0;
@@ -3502,7 +3629,7 @@ public class SearchLogic {
     public Boolean ReserveExistsQuery() {
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.USERID));
         String sessionId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantUtil.SESSIONID));
-        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE USER_ID = " + userId + " AND SESSION_ID = " + sessionId + " AND ETL_CHECK_RECORD = 1";
+        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE USER_ID = " + userId + ConstantUtil.AND_SESSION_ID_ + sessionId + ConstantUtil.AND_ETL_CHECK_RECORD1;
         List count = HelperTableLocalServiceUtil.executeSelectQuery(query);
         int c = Integer.valueOf(String.valueOf(count.get(0)));
         return c > 0;
@@ -3522,79 +3649,79 @@ public class SearchLogic {
     }
 
     public void adjustmentDetailsSearchRestriction(String tableName, Map<Object, Object> searchValues) {
-        if (searchValues.containsKey("transactionLevel")) {
-            searchValues.remove("transactionLevel");
+        if (searchValues.containsKey(ConstantUtil.TRANSACTION_LEVEL)) {
+            searchValues.remove(ConstantUtil.TRANSACTION_LEVEL);
 }
         if (tableName.equals(ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL)) {
 
-            if (searchValues.containsKey("businessUnitId")) {
-                searchValues.put("division", getCompanyNameDescription(String.valueOf(searchValues.get("businessUnitId"))));
-                searchValues.remove("businessUnitId");
+            if (searchValues.containsKey(ConstantUtil.BUSINESS_UNIT_ID)) {
+                searchValues.put("division", getCompanyNameDescription(String.valueOf(searchValues.get(ConstantUtil.BUSINESS_UNIT_ID))));
+                searchValues.remove(ConstantUtil.BUSINESS_UNIT_ID);
             }
-            if (searchValues.containsKey("glCompanyName")) {
-                searchValues.put("businessUnitId", getCompanyIdDescription(String.valueOf(searchValues.get("glCompanyName"))));
-                searchValues.remove("glCompanyName");
+            if (searchValues.containsKey(ConstantUtil.GL_COMPANY_NAME)) {
+                searchValues.put(ConstantUtil.BUSINESS_UNIT_ID, getCompanyIdDescription(String.valueOf(searchValues.get(ConstantUtil.GL_COMPANY_NAME))));
+                searchValues.remove(ConstantUtil.GL_COMPANY_NAME);
             }
 
         } else if (tableName.equals(ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL)) {
-            if (searchValues.containsKey("businessUnitId")) {
-                searchValues.put("businessUnitId", getCompanyNameDescription(String.valueOf(searchValues.get("businessUnitId"))));
+            if (searchValues.containsKey(ConstantUtil.BUSINESS_UNIT_ID)) {
+                searchValues.put(ConstantUtil.BUSINESS_UNIT_ID, getCompanyNameDescription(String.valueOf(searchValues.get(ConstantUtil.BUSINESS_UNIT_ID))));
             }
-            if (searchValues.containsKey("glCompanyName")) {
-                searchValues.put("glCompanyName", getCompanyNameDescription(String.valueOf(searchValues.get("glCompanyName"))));
+            if (searchValues.containsKey(ConstantUtil.GL_COMPANY_NAME)) {
+                searchValues.put(ConstantUtil.GL_COMPANY_NAME, getCompanyNameDescription(String.valueOf(searchValues.get(ConstantUtil.GL_COMPANY_NAME))));
             }
-            if (searchValues.containsKey("deductionLevel") || searchValues.containsKey("deductionValue")) {
-                searchValues.remove("deductionLevel");
-                searchValues.remove("deductionValue");
+            if (searchValues.containsKey(ConstantUtil.DEDUCTION_LEVEL) || searchValues.containsKey(ConstantUtil.DEDUCTION_VALUE)) {
+                searchValues.remove(ConstantUtil.DEDUCTION_LEVEL);
+                searchValues.remove(ConstantUtil.DEDUCTION_VALUE);
             }
         }
     }
     
     void loadFilterMap() {
         if (filterMap.isEmpty()) {
-            filterMap.put("current_Year_Jan", ",JAN");
-            filterMap.put("current_Year_Feb", ",FEB");
-            filterMap.put("current_Year_Mar", ",MAR");
-            filterMap.put("current_Year_Apr", ",APR");
-            filterMap.put("current_Year_May", ",MAY");
-            filterMap.put("current_Year_June", ",JUN");
-            filterMap.put("current_Year_July", ",JUL");
-            filterMap.put("current_Year_Aug", ",AUG");
-            filterMap.put("current_Year_Sep", ",SEP");
-            filterMap.put("current_Year_Oct", ",OCT");
-            filterMap.put("current_Year_Nov", ",NOV");
-            filterMap.put("current_Year_Dec", ",DEC");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_JAN, ",JAN");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_FEB, ",FEB");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_MAR, ",MAR");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_APR, ",APR");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_MAY, ",MAY");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_JUNE, ",JUN");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_JULY, ",JUL");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_AUG, ",AUG");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_SEP, ",SEP");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_OCT, ",OCT");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_NOV, ",NOV");
+            filterMap.put(ConstantUtil.CURRENT__YEAR__DEC, ",DEC");
 
-            filterMap.put("current_Year_1_Jan", ",JAN");
-            filterMap.put("current_Year_1_Feb", ",FEB");
-            filterMap.put("current_Year_1_Mar", ",MAR");
-            filterMap.put("current_Year_1_Apr", ",APR");
-            filterMap.put("current_Year_1_May", ",MAY");
-            filterMap.put("current_Year_1_June", ",JUN");
-            filterMap.put("current_Year_1_July", ",JUL");
-            filterMap.put("current_Year_1_Aug", ",AUG");
-            filterMap.put("current_Year_1_Sep", ",SEP");
-            filterMap.put("current_Year_1_Oct", ",OCT");
-            filterMap.put("current_Year_1_Nov", ",NOV");
-            filterMap.put("current_Year_1_Dec", ",DEC");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_JAN, ",JAN");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_FEB, ",FEB");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_MAR, ",MAR");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_APR, ",APR");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_MAY, ",MAY");
+            filterMap.put(ConstantUtil.CURRENT__YEAR_1__JUNE, ",JUN");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_JULY, ",JUL");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_AUG, ",AUG");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_SEP, ",SEP");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_OCT, ",OCT");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_NOV, ",NOV");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_1_DEC, ",DEC");
 
-            filterMap.put("current_Year_2_Jan", ",JAN");
-            filterMap.put("current_Year_2_Feb", ",FEB");
-            filterMap.put("current_Year_2_Mar", ",MAR");
-            filterMap.put("current_Year_2_Apr", ",APR");
-            filterMap.put("current_Year_2_May", ",MAY");
-            filterMap.put("current_Year_2_June", ",JUN");
-            filterMap.put("current_Year_2_July", ",JUL");
-            filterMap.put("current_Year_2_Aug", ",AUG");
-            filterMap.put("current_Year_2_Sep", ",SEP");
-            filterMap.put("current_Year_2_Oct", ",OCT");
-            filterMap.put("current_Year_2_Nov", ",NOV");
-            filterMap.put("current_Year_2_Dec", ",DEC");
-            filterMap.put("arp_Creation_Date", ",ARP_CREATION_DATE");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_JAN, ",JAN");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_FEB, ",FEB");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_MAR, ",MAR");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_APR, ",APR");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_MAY, ",MAY");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_JUNE, ",JUN");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_JULY, ",JUL");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_AUG, ",AUG");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_SEP, ",SEP");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_OCT, ",OCT");
+            filterMap.put(ConstantUtil.CURRENT_YEAR_2_NOV, ",NOV");
+            filterMap.put(ConstantUtil.CURRENT__YEAR_2__DEC, ",DEC");
+            filterMap.put(ConstantUtil.ARP_CREATION_DATE, ",ARP_CREATION_DATE");
             filterMap.put(ConstantUtil.ACCOUNT, ",ACCOUNT");
-            filterMap.put("account_Type", ",ACCOUNT_TYPE");
-            filterMap.put("outbound_Status", ",OUTBOUND_STATUS");
-            filterMap.put("original_Batch_ID", ",ORIGINAL_BATCH_ID");
+            filterMap.put(ConstantUtil.ACCOUNT_TYPE, ",ACCOUNT_TYPE");
+            filterMap.put(ConstantUtil.OUTBOUND_STATUS, ",OUTBOUND_STATUS");
+            filterMap.put(ConstantUtil.ORIGINAL_BATCH_ID, ",ORIGINAL_BATCH_ID");
         }
   }
     private String getFilterForARPOutbound(Set<Filter> filterSet) {
@@ -3640,34 +3767,34 @@ public class SearchLogic {
             filterColumnMap.put("price", "PRICE");
             filterColumnMap.put("forecastYear", "FORECAST_YEAR");
             filterColumnMap.put("deductionAmount", "DEDUCTION_AMOUNT");
-            filterColumnMap.put("deductionId", "DEDUCTION_ID");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_ID, ConstantUtil.DEDUCTION_ID1);
             filterColumnMap.put("forecastDate", "FORECAST_DATE");
-            filterColumnMap.put("itemId", "ITEM_ID");
+            filterColumnMap.put(ConstantUtil.ITEM_ID, ConstantUtil.ITEM_ID1);
             filterColumnMap.put("source", "SOURCE");
             filterColumnMap.put("salesAmount", "SALES_AMOUNT");
             filterColumnMap.put("udc6", "HT9.DESCRIPTION");
             filterColumnMap.put("udc5", "HT8.DESCRIPTION");
             filterColumnMap.put("udc4", "HT7.DESCRIPTION");
-            filterColumnMap.put("deductionType", "HT2.DESCRIPTION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_TYPE, "HT2.DESCRIPTION");
             filterColumnMap.put("udc1", "HT4.DESCRIPTION");
             filterColumnMap.put("units", "UNITS");
-            filterColumnMap.put("deductionRate", "DEDUCTION_RATE");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_RATE, ConstantUtil.DEDUCTION_RATE1);
             filterColumnMap.put("udc2", "HT5.DESCRIPTION");
             filterColumnMap.put("udc3", "HT6.DESCRIPTION");
             filterColumnMap.put("country", "COUNTRY");
-            filterColumnMap.put("companyId", "COMPANY_ID");
+            filterColumnMap.put(ConstantUtil.COMPANY_ID, ConstantUtil.COMPANY_ID1);
             filterColumnMap.put("forecastValueType", "FORECAST_VALUE_TYPE");
-            filterColumnMap.put("deductionCategory", "HT1.DESCRIPTION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_CATEGORY, "HT1.DESCRIPTION");
             filterColumnMap.put("adjustmentCode", "ADJUSTMENT_CODE");
-            filterColumnMap.put("deductionProgramType", "HT3.DESCRIPTION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_PROGRAM_TYPE, "HT3.DESCRIPTION");
             filterColumnMap.put("salesInclusion", "SALES_INCLUSION");
             filterColumnMap.put("forecastVer", "FORECAST_VER");
             filterColumnMap.put("priceType", "PRICE_TYPE");
             filterColumnMap.put("forecastMonth", "FORECAST_MONTH");
-            filterColumnMap.put("deductionInclusion", "DEDUCTION_INCLUSION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_INCLUSION, "DEDUCTION_INCLUSION");
             filterColumnMap.put("segment", "SEGMENT");
-            filterColumnMap.put("brand", "BRAND");
-            filterColumnMap.put("batchId", "BATCH_ID");
+            filterColumnMap.put(ConstantUtil.BRAND, "BRAND");
+            filterColumnMap.put(ConstantUtil.BATCH_ID, ConstantUtil.BATCH_ID1);
             filterColumnMap.put("forecastName", "FORECAST_NAME");
             filterColumnMap.put("addChgDelIndicator", "ADD_CHG_DEL_INDICATOR");
             filterColumnMap.put("createdBy", "CREATED_BY");
@@ -3679,25 +3806,25 @@ public class SearchLogic {
     }
     private static void loadReservefilterColumnMap(Map<String, String> filterColumnMap) {
         if (filterColumnMap.isEmpty()) {
-            filterColumnMap.put("adjustmentType", "AAC.TRANSACTION_NAME");
-            filterColumnMap.put("glCompanyName", "A.COMPANY");// GAL-8610
+            filterColumnMap.put(ConstantUtil.ADJUSTMENT_TYPE, "AAC.TRANSACTION_NAME");
+            filterColumnMap.put(ConstantUtil.GL_COMPANY_NAME, "A.COMPANY");// GAL-8610
             filterColumnMap.put("division", "DIVISION");
-            filterColumnMap.put("businessUnitId", "A.BUSINESS_UNIT");// GAL-8610
-            filterColumnMap.put(ConstantUtil.ACCOUNT, "A.ACCOUNT");// GAL-8610
+            filterColumnMap.put(ConstantUtil.BUSINESS_UNIT_ID, "A.BUSINESS_UNIT");// GAL-8610
+            filterColumnMap.put(ConstantUtil.ACCOUNT, ConstantUtil.A_ACCOUNT);// GAL-8610
             filterColumnMap.put("journalName", "JOURNAL_NAME");
             filterColumnMap.put("journalDescription", "JOURNAL_DESCRIPTION");
-            filterColumnMap.put("brand", "A.BRAND");// GAL-8610
+            filterColumnMap.put(ConstantUtil.BRAND, "A.BRAND");// GAL-8610
             filterColumnMap.put("debit", "DEBIT");
             filterColumnMap.put("credit", "CREDIT");
             filterColumnMap.put("currency", "HT.CURRENCY");
             filterColumnMap.put("accountingDate", "ACCOUNTING_DATE");
-            filterColumnMap.put("redemptionPeriod", "A.REDEMPTION_PERIOD");
-            filterColumnMap.put("postingIndicator", "POSTING_INDICATOR");
+            filterColumnMap.put(AbstractNotificationUtils.REDEMPTION_PERIOD, "A.REDEMPTION_PERIOD");
+            filterColumnMap.put(ConstantUtil.POSTING_INDICATOR, "POSTING_INDICATOR");
             filterColumnMap.put("costCenter", "COST_CENTER");
             filterColumnMap.put("project", "PROJECT");
             filterColumnMap.put("future1", "FUTURE_1");
             filterColumnMap.put("future2", "FUTURE_2");
-            filterColumnMap.put("category", "CATEGORY");
+            filterColumnMap.put(ConstantUtil.CATEGORY, "CATEGORY");
             filterColumnMap.put("balanceType", "BALANCE_TYPE");
             filterColumnMap.put("database", "ARD_DB");
             filterColumnMap.put("dataAccessSet", "DATA_ACCESS_SET");
@@ -3705,7 +3832,7 @@ public class SearchLogic {
             filterColumnMap.put("ledger", "LEDGER");
             filterColumnMap.put("source", "SOURCE");
             filterColumnMap.put("batchName", "BATCH_NAME");
-            filterColumnMap.put("batchId", "BATCH_ID");
+            filterColumnMap.put(ConstantUtil.BATCH_ID, ConstantUtil.BATCH_ID1);
             filterColumnMap.put("reverseJournal", "REVERSE_JOURNAL");
             filterColumnMap.put("reversalPeriodDate", "REVERSAL_PERIOD_DATE");
             filterColumnMap.put("lineDescription", "LINE_DESCRIPTION");
@@ -3715,13 +3842,13 @@ public class SearchLogic {
             filterColumnMap.put("udc4", "HT.UDC_4");
             filterColumnMap.put("udc5", "HT.UDC_5");
             filterColumnMap.put("udc6", "HT.UDC_6");
-            filterColumnMap.put("accountCategory", "HT.ACCOUNT_CATEGORY");
-            filterColumnMap.put("accountType", "HT.ACCOUNT_TYPE");
-            filterColumnMap.put("adjustmentLevel", "HT.ADJUSTMENT_LEVEL");
+            filterColumnMap.put(ConstantUtil.ACCOUNT_CATEGORY, "HT.ACCOUNT_CATEGORY");
+            filterColumnMap.put(ConstantUtil.ACCOUNT_TYPE1, "HT.ACCOUNT_TYPE");
+            filterColumnMap.put(ConstantUtil.ADJUSTMENT_LEVEL, "HT.ADJUSTMENT_LEVEL");
             filterColumnMap.put("adjustmentCreatedDate", "ADJUSTMENT_CREATED_DATE");
-            filterColumnMap.put("originalBatchId", "ORIGINAL_BATCH_ID");
-            filterColumnMap.put("workflowId", "A.WORKFLOW_ID");// GAL-8610
-            filterColumnMap.put("workflowName", "WORKFLOW_NAME");
+            filterColumnMap.put(ConstantUtil.ORIGINAL_BATCH_ID1, ConstantUtil.ORIGINAL_BATCH_ID2);
+            filterColumnMap.put(ConstantUtil.WORKFLOW_ID, "A.WORKFLOW_ID");// GAL-8610
+            filterColumnMap.put(ConstantUtil.WORKFLOW_NAME, "WORKFLOW_NAME");
             filterColumnMap.put("workflowCreatedBy", "WORKFLOW_CREATED_BY");
             filterColumnMap.put("workflowCreatedDate", "WORKFLOW_CREATED_DATE");
             filterColumnMap.put("workflowApprovedBy", "WORKFLOW_APPROVED_BY");
@@ -3731,42 +3858,42 @@ public class SearchLogic {
     }
     private static void loadGtnfilterColumnMap(Map<String, String> filterColumnMap) {
         if (filterColumnMap.isEmpty()) {
-            filterColumnMap.put("adjustmentType", "AAC.TRANSACTION_NAME");
-             filterColumnMap.put("accountCategory", "HT.ACCOUNT_CATEGORY");
-            filterColumnMap.put("accountType", "HT.ACCOUNT_TYPE");
-            filterColumnMap.put(ConstantUtil.ACCOUNT, "A.ACCOUNT");// GAL-8610
-            filterColumnMap.put("adjustmentLevel", "HT.ADJUSTMENT_LEVEL");
-            filterColumnMap.put("businessUnitId", "A.BUSINESS_UNIT_ID");// GAL-8610
+            filterColumnMap.put(ConstantUtil.ADJUSTMENT_TYPE, "AAC.TRANSACTION_NAME");
+             filterColumnMap.put(ConstantUtil.ACCOUNT_CATEGORY, "HT.ACCOUNT_CATEGORY");
+            filterColumnMap.put(ConstantUtil.ACCOUNT_TYPE1, "HT.ACCOUNT_TYPE");
+            filterColumnMap.put(ConstantUtil.ACCOUNT, ConstantUtil.A_ACCOUNT);// GAL-8610
+            filterColumnMap.put(ConstantUtil.ADJUSTMENT_LEVEL, "HT.ADJUSTMENT_LEVEL");
+            filterColumnMap.put(ConstantUtil.BUSINESS_UNIT_ID, "A.BUSINESS_UNIT_ID");// GAL-8610
             filterColumnMap.put("businessUnitNo", "BUSINESS_UNIT_NO");
             filterColumnMap.put("businessUnitName", "BUSINESS_UNIT_NAME");
-            filterColumnMap.put("glCompanyId", "A.GL_COMPANY_ID");// GAL-8610
+            filterColumnMap.put(ConstantUtil.GL_COMPANY_ID, "A.GL_COMPANY_ID");// GAL-8610
             filterColumnMap.put("glCompanyNo", "GL_COMPANY_NO");
-            filterColumnMap.put("glCompanyName", "GL_COMPANY_NAME");
+            filterColumnMap.put(ConstantUtil.GL_COMPANY_NAME, "GL_COMPANY_NAME");
             filterColumnMap.put("glYear", "GL_YEAR");
             filterColumnMap.put("glMonth", "GL_MONTH");
-            filterColumnMap.put("glDate", "GL_DATE");
+            filterColumnMap.put(ConstantUtil.GL_DATE, "GL_DATE");
             filterColumnMap.put("reversalPeriodDate", "REVERSAL_PERIOD_DATE");
             filterColumnMap.put("adjustmentCreatedDate", "ADJUSTMENT_CREATED_DATE");
             filterColumnMap.put("deductionAmount", "DEDUCTION_AMOUNT");
-            filterColumnMap.put("deductionRate", "DEDUCTION_RATE");
-            filterColumnMap.put("contractId", "A.CONTRACT_ID");// GAL-8610
-            filterColumnMap.put("contractNo", "CONTRACT_NO");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_RATE, ConstantUtil.DEDUCTION_RATE1);
+            filterColumnMap.put(ConstantUtil.CONTRACT_ID, "A.CONTRACT_ID");// GAL-8610
+            filterColumnMap.put(ConstantUtil.CONTRACT_NO, ConstantUtil.CONTRACT_NO1);
             filterColumnMap.put("contractName", "CONTRACT_NAME");
-            filterColumnMap.put("companyId", "A.COMPANY_ID");// GAL-8610
-            filterColumnMap.put("companyNo", "COMPANY_NO");
-            filterColumnMap.put("companyName", "COMPANY_NAME");
-            filterColumnMap.put("itemId", "A.ITEM_ID");// GAL-8610
-            filterColumnMap.put("itemNo", "ITEM_NO");
-            filterColumnMap.put("itemName", "ITEM_NAME");
+            filterColumnMap.put(ConstantUtil.COMPANY_ID, "A.COMPANY_ID");// GAL-8610
+            filterColumnMap.put(ConstantUtil.COMPANY_NO, "COMPANY_NO");
+            filterColumnMap.put(ConstantUtil.COMPANY_NAME, "COMPANY_NAME");
+            filterColumnMap.put(ConstantUtil.ITEM_ID, "A.ITEM_ID");// GAL-8610
+            filterColumnMap.put(ConstantUtil.ITEM_NO1, ConstantUtil.ITEM_NO);
+            filterColumnMap.put(ConstantUtil.ITEM_NAME, "ITEM_NAME");
             filterColumnMap.put("brandId", "BRAND_ID");
-            filterColumnMap.put("brandName", "BRAND_NAME");
-            filterColumnMap.put("deductionId", "A.DEDUCTION_ID");// GAL-8610
+            filterColumnMap.put(ConstantUtil.BRAND_NAME, "BRAND_NAME");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_ID, "A.DEDUCTION_ID");// GAL-8610
             filterColumnMap.put("deductionNo", "DEDUCTION_NO");
             filterColumnMap.put("deductionName", "DEDUCTION_NAME");
-            filterColumnMap.put("deductionCategory", "HT.DEDUCTION_CATEGORY");
-            filterColumnMap.put("deductionType", "HT.DEDUCTION_TYPE");
-            filterColumnMap.put("deductionProgram", "HT.DEDUCTION_PROGRAM");
-            filterColumnMap.put("deductionInclusion", "DEDUCTION_INCLUSION");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_CATEGORY, "HT.DEDUCTION_CATEGORY");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_TYPE, "HT.DEDUCTION_TYPE");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_PROGRAM, "HT.DEDUCTION_PROGRAM");
+            filterColumnMap.put(ConstantUtil.DEDUCTION_INCLUSION, "DEDUCTION_INCLUSION");
             filterColumnMap.put("deductionUdc1", "HT.DEDUCTION_UDC_1");
             filterColumnMap.put("deductionUdc2", "HT.DEDUCTION_UDC_2");
             filterColumnMap.put("deductionUdc3", "HT.DEDUCTION_UDC_3");
@@ -3774,9 +3901,9 @@ public class SearchLogic {
             filterColumnMap.put("deductionUdc5", "HT.DEDUCTION_UDC_5");
             filterColumnMap.put("deductionUdc6", "HT.DEDUCTION_UDC_6");
             filterColumnMap.put("calculationPeriod", "A.CALCULATION_PERIOD");// GAL-8610
-            filterColumnMap.put("originalBatchId", "ORIGINAL_BATCH_ID");
-            filterColumnMap.put("workflowId", "A.WORKFLOW_ID");// GAL-8610
-            filterColumnMap.put("workflowName", "WORKFLOW_NAME");
+            filterColumnMap.put(ConstantUtil.ORIGINAL_BATCH_ID1, ConstantUtil.ORIGINAL_BATCH_ID2);
+            filterColumnMap.put(ConstantUtil.WORKFLOW_ID, "A.WORKFLOW_ID");// GAL-8610
+            filterColumnMap.put(ConstantUtil.WORKFLOW_NAME, "WORKFLOW_NAME");
             filterColumnMap.put("workflowCreatedBy", "WORKFLOW_CREATED_BY");
             filterColumnMap.put("workflowCreatedDate", "WORKFLOW_CREATED_DATE");
             filterColumnMap.put("workflowApprovedBy", "WORKFLOW_APPROVED_BY");
@@ -3791,8 +3918,8 @@ public class SearchLogic {
             filterColumnMap.put("udc4", "HT.UDC_4");
             filterColumnMap.put("udc5", "HT.UDC_5");
             filterColumnMap.put("udc6", "HT.UDC_6");
-            filterColumnMap.put("postingIndicator", "POSTING_INDICATOR");
-            filterColumnMap.put("redemptionPeriod", "A.REDEMPTION_PERIOD");//GAL-8610
+            filterColumnMap.put(ConstantUtil.POSTING_INDICATOR, "POSTING_INDICATOR");
+            filterColumnMap.put(AbstractNotificationUtils.REDEMPTION_PERIOD, "A.REDEMPTION_PERIOD");//GAL-8610
         }
     }
     public static String getSearchCriteria(Map<Object, Object> criteria) {
@@ -3805,9 +3932,9 @@ public class SearchLogic {
             percentage = String.valueOf(criteria.get(onn.getKey()));
             percentage = percentage.replace("*", "%");
             if (percentage.equals("%")) {
-                searchCriteria = searchCriteria + " AND " + dbNameMap.get(onn.getKey()) + " IS NULL OR " + dbNameMap.get(onn.getKey()) + " like '" + percentage + "'";
+                searchCriteria = searchCriteria + ConstantUtil.AND + dbNameMap.get(onn.getKey()) + " IS NULL OR " + dbNameMap.get(onn.getKey()) + ConstantUtil.LIKE + percentage + ConstantUtil.FILTER_QUOTES;
             } else {
-                searchCriteria = searchCriteria + " AND " + dbNameMap.get(onn.getKey()) + " like '" + percentage + "'";
+                searchCriteria = searchCriteria + ConstantUtil.AND + dbNameMap.get(onn.getKey()) + ConstantUtil.LIKE + percentage + ConstantUtil.FILTER_QUOTES;
             }
         }
         if(!criteria.isEmpty()){
@@ -3817,17 +3944,30 @@ public class SearchLogic {
     }
 
     public static void loadGtsForecastColumnMap(Map<Object, Object> dbColumnName) {
-        dbColumnName.put(ConstantUtil.COMPANY_ID, "COMPANY_ID");
+        dbColumnName.put(ConstantUtil.COMPANY_ID, ConstantUtil.COMPANY_ID1);
         dbColumnName.put(ConstantUtil.FORECAST_YEAR, "FORECAST_YEAR");
         dbColumnName.put(ConstantUtil.FORECAST_MONTH, "FORECAST_MONTH");
-        dbColumnName.put(ConstantUtil.ITEMID, "ITEM_ID");
+        dbColumnName.put(ConstantUtil.ITEMID, ConstantUtil.ITEM_ID1);
         dbColumnName.put(ConstantUtil.DEDUCTION_CATEGORY, "DEDUCTION_CATEGORY");
         dbColumnName.put(ConstantUtil.FORECAST_NAME, "FORECAST_NAME");
         dbColumnName.put(ConstantUtil.DEDUCTION_PROGRAM_TYPE, "DEDUCTION_PROGRAM_TYPE");
         dbColumnName.put(ConstantUtil.FORECAST_VER, "FORECAST_VER");
         dbColumnName.put(ConstantUtil.DEDUCTION_TYPE, "DEDUCTION_TYPE");
-        dbColumnName.put(ConstantUtil.BATCH_ID, "BATCH_ID");
+        dbColumnName.put(ConstantUtil.BATCH_ID, ConstantUtil.BATCH_ID1);
         dbColumnName.put(ConstantUtil.COUNTRY, "COUNTRY");
-        dbColumnName.put(ConstantUtil.DEDUCTION_ID, "DEDUCTION_ID");
+        dbColumnName.put(ConstantUtil.DEDUCTION_ID, ConstantUtil.DEDUCTION_ID1);
     }
-}
+    
+    public static String pattern(int i) {
+
+        int j = 1;
+        StringBuilder str =new StringBuilder("0");
+        for (j = 1; j <= i; j++) {
+            if (j == 1) {
+                str.append(".");
+            }
+            str.append("0");
+        }
+        return str.toString();
+    }
+        }

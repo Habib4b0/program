@@ -34,7 +34,7 @@ public class CompanySearchDAO implements BeanDAO<CFPCompanyDTO> {
     }
 
     public List<CFPCompanyDTO> find(BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list) {
-        List<CFPCompanyDTO> resultList = new ArrayList<CFPCompanyDTO>();
+        List<CFPCompanyDTO> resultList = new ArrayList<>();
         return resultList;
     }
 }

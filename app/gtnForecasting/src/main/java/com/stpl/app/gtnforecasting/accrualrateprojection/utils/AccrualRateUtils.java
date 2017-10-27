@@ -40,8 +40,8 @@ public class AccrualRateUtils {
     public static final String ALL_BRANDS = "All Brands";
     public static final String ALL_PRODUCTS = "All Products";
     public static final String SELECT_VARIABLES = "-Select Variables-";
-    public static final Object[] HISTORY_PERIODS = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months"};
-    public static final Object[] HISTORY_PERIODS_12 = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months",
+    public final Object[] historyPeriods = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months"};
+    public final Object[] historyPeriods12 = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months",
     "7 Months", "8 Months", "9 Months", "10 Months", "11 Months", "12 Months"};
     public static final String SALES = "Sales";
     public static final String PRICE = "Price";
@@ -59,10 +59,10 @@ public class AccrualRateUtils {
     public static final String GROUP_ONE = "group1";
     public static final String SPACE = " ";
     public static final String EFFECTIVE_ACCRUAL_RATE = "Effective Accrual Rate";
-    public static final String[] AVAILABLE_VALUES_VISIBLE_HEADERS = {"Available Values"};
-    public static final Object[] AVAILABLE_VALUES_VISIBLE_COLUMNS = {"companyId"};
-    public static final String[] EXCLUDED_VALUES_VISIBLE_HEADERS = {"Excluded Field", " Value"};
-    public static final Object[] EXCLUDED_VALUES_VISIBLE_COLUMNS = {"excludedField", Constant.COMPANY_NAME};
+    public final String[] availableValuesVisibleHeaders = {"Available Values"};
+    public final Object[] availableValuesVisibleColumns = {"companyId"};
+    public final String[] excludedValuesVisibleHeaders = {"Excluded Field", " Value"};
+    public final Object[] excludedValuesVisibleColumns = {"excludedField", Constant.COMPANY_NAME};
     public static final String DOT = ".";
     public static final String RESET_CONFIRMATION = "Reset Confirmation";
     public static final String RATE = "Rate";
@@ -90,7 +90,7 @@ public class AccrualRateUtils {
     public static final String ADD = "Add";
     public static final String EDIT = "Edit";
     public static final String VIEW = "View";
-    public static final String add = "add";
+    public static final String ADD_CASE = "add";
     public static final DecimalFormat DOLLAR_FORMAT_WITH_COMMA = new DecimalFormat("$#,##0.00");
     
     /**
@@ -98,7 +98,7 @@ public class AccrualRateUtils {
      */
     public enum DetailsVariables {
 
-        CHECK_ALL("Check All"),
+        CHECK_ALL(Constant.CHECK_ALL_CAPS),
         GROSS_TRADE_SALES("Gross Trade Sales"),
         EXCLUDED_GROSS_TRADE_SALES("Excluded Gross Trade Sales"),
         ELIGIBLE_GROSS_TRADE_SALES("Eligible Gross Trade Sales"),
@@ -145,14 +145,14 @@ public class AccrualRateUtils {
      */
     public static void getLeftHeadersForDetails(final CustomTableHeaderDTO tableHeaderDTO) {
         tableHeaderDTO.addSingleColumn(Constant.GROUP, "Period Basis For Rate", Object.class);
-        tableHeaderDTO.addDoubleColumn("group1", "GL Period");
-        tableHeaderDTO.addDoubleHeaderMap("group1", new Object[]{Constant.GROUP});
+        tableHeaderDTO.addDoubleColumn(GROUP_ONE, "GL Period");
+        tableHeaderDTO.addDoubleHeaderMap(GROUP_ONE, new Object[]{Constant.GROUP});
     }
 
     public static void getLeftHeadersForSales(final CustomTableHeaderDTO tableHeaderDTO) {
-        tableHeaderDTO.addDoubleColumn("group1", " ");
+        tableHeaderDTO.addDoubleColumn(GROUP_ONE, " ");
         tableHeaderDTO.addSingleColumn(Constant.GROUP, "Product", Object.class);
-        tableHeaderDTO.addDoubleHeaderMap("group1", new Object[]{Constant.GROUP});
+        tableHeaderDTO.addDoubleHeaderMap(GROUP_ONE, new Object[]{Constant.GROUP});
     } 
 
 
@@ -331,7 +331,6 @@ public class AccrualRateUtils {
         }
         calendar.add(Calendar.MONTH, -1);
         accrualRateSelectionDTO.setEndDate(calendar.getTime());
-        list = null;
     }
 
     /**
@@ -456,7 +455,7 @@ public class AccrualRateUtils {
 
     public enum AccrualSalesVariables {
 
-        CHECK_ALL("Check All"),
+        CHECK_ALL(Constant.CHECK_ALL_CAPS),
         GROSS_TRADE_SALES("Total Units"),
         EXCLUDED_GROSS_TRADE_SALES("Excluded Units"),
         ELIGIBLE_GROSS_TRADE_SALES("Net Units"),
@@ -497,5 +496,13 @@ public class AccrualRateUtils {
             selectedVariables.remove("Check All");
         }
 
+    }
+    private static AccrualRateUtils object;
+
+    public static AccrualRateUtils getInstance() {
+        if (object == null) {
+            object = new AccrualRateUtils();
+        }
+        return object;
     }
 }

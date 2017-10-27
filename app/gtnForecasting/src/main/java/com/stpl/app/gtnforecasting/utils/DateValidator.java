@@ -82,7 +82,7 @@ public class DateValidator extends AbstractValidator {
      * @throws InvalidValueException the invalid value exception
      */
     @Override
-    public void validate(final Object value) throws Validator.InvalidValueException {
+    public void validate(final Object value)  {
         if (startDate.getValue() != null && endDate.getValue() != null) {
             if (startDate.getValue().after(endDate.getValue())) {
                 throw new Validator.InvalidValueException(greaterErrorMessage);

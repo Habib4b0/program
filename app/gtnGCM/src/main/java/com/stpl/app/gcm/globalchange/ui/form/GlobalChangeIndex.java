@@ -104,7 +104,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                     if (valueChange) {
                         String processName = String.valueOf(process.getValue());
                         String updateTypeVal = String.valueOf(updateType.getValue());                       
-                        if ("Item Management".equals(processName) && "Item Update".equals(updateTypeVal)) {
+                        if (Constants.ITEM_MANAGEMENT.equals(processName) && "Item Update".equals(updateTypeVal)) {
                             if (modeSelectRadio.getValue().equals(ITEM_FAMILY_PLAN.getConstant())) {
                                 selection.setIsIFP(Boolean.TRUE);
                             } else {
@@ -190,7 +190,8 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                     LOGGER.error(ex);
                 }
 
-            } else if ("Item Management".equals(processName)) {
+            } else if (Constants.ITEM_MANAGEMENT.equals(processName)) {
+                sessionDTO.setProcessName(Constants.ITEM_MANAGEMENT);
                 if ("Item Update".equals(updateTypeVal)) {
                     selection.setButtonMode(ConstantsUtil.EDIT);
                 } else if ("Item Add".equals(updateTypeVal)) {

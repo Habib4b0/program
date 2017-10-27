@@ -71,7 +71,7 @@ public class ContractHeaderUI extends UI {
             navigator = new Navigator(this, this);
             VaadinSession.getCurrent().setAttribute(Constants.LOCK_STATUS, "N");
             VaadinSession.getCurrent().setAttribute(Constants.SAVE_NOTIF, "N");
-            VaadinSession.getCurrent().setAttribute(Constants.itemClickFlag, false);
+            VaadinSession.getCurrent().setAttribute(Constants.ITEM_CLICK_FLAG, false);
             StplSecurity.getUserName();
             HelperListUtil helperListUtil = HelperListUtil.getInstance();
             helperListUtil.loadValuesWithListName("contractheader");

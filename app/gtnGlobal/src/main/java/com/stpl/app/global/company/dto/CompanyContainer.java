@@ -139,7 +139,7 @@ public class CompanyContainer implements BeanDAO<SearchResultsDTO> {
 			}
 		}
 		
-		return new ArrayList<SearchResultsDTO>();
+		return new ArrayList<>();
 	}
 
 	/**

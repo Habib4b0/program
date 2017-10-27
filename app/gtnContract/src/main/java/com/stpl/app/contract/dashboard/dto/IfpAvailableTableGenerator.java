@@ -65,8 +65,6 @@ public class IfpAvailableTableGenerator implements ExtFilterGenerator{
                 try {
                     commonUtil.loadComboBox(form, "FORM", true);
                 
-                } catch (SystemException ex) {
-                    Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
                     Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -76,9 +74,6 @@ public class IfpAvailableTableGenerator implements ExtFilterGenerator{
                 ComboBox itemStatus = new ComboBox();
                 try {
                     commonUtil.loadComboBox(itemStatus, UIUtils.STATUS, true);
-
-                } catch (SystemException ex) {
-                    Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
 
                 } catch (Exception ex) {
                     Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,9 +87,6 @@ public class IfpAvailableTableGenerator implements ExtFilterGenerator{
                 try {
                    commonUtil.loadComboBox(packageSize, "PACKAGE_SIZE", true);
 
-                } catch (SystemException ex) {
-                    Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
-                    
                 } catch (Exception ex) {
                     Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -105,8 +97,6 @@ public class IfpAvailableTableGenerator implements ExtFilterGenerator{
                 try {
                     commonUtil.loadComboBox(status, "STATUS", true);
                 
-                } catch (SystemException ex) {
-                    Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
                     Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -117,9 +107,6 @@ public class IfpAvailableTableGenerator implements ExtFilterGenerator{
                 try {
                     commonUtil.loadComboBox(strength, "STRENGTH", true);
                 
-                } catch (SystemException ex) {
-                    Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
-                    
                 } catch (Exception ex) {
                     Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -131,9 +118,6 @@ public class IfpAvailableTableGenerator implements ExtFilterGenerator{
                 try {
                     commonUtil.loadComboBox(therapeutic, "THERAPEUTIC_CLASS", true);
                 
-                } catch (SystemException ex) {
-                    Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
-                   
                 } catch (Exception ex) {
                     Logger.getLogger(IfpAvailableTableGenerator.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -176,10 +160,12 @@ public class IfpAvailableTableGenerator implements ExtFilterGenerator{
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

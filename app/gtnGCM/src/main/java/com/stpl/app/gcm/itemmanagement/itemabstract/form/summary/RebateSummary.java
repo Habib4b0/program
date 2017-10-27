@@ -48,7 +48,7 @@ public class RebateSummary extends Summary {
         configureExcelResultTable();
         loadExcelResultTable();
         exportPeriodViewTable.setRefresh(Boolean.TRUE);
-        Map<String, String> formatter = new HashMap<String, String>();
+        Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Amount");
         formatter.put("perTwoDecimal", "Rate");
         VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, Constants.TRUE);

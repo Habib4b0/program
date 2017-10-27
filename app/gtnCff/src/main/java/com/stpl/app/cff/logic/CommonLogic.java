@@ -1,6 +1,7 @@
 
 package com.stpl.app.cff.logic;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.SalesProjectionDAO;
@@ -47,7 +48,6 @@ import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -113,7 +113,7 @@ public class CommonLogic {
      * @return
      */
     public static List<Leveldto> getHierarchy(int projectionId, String hierarchyIndicator, final int levelNo) {
-        List<Leveldto> listValue = new ArrayList<Leveldto>();
+        List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getHierarchyTreeQuery(projectionId, hierarchyIndicator, levelNo);
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
@@ -237,14 +237,8 @@ public class CommonLogic {
                     customViewMaster.setCreatedDate(date);
                     customViewMaster = commonDao.addCustomView(customViewMaster);
                     if (customViewMaster != null) {
-                        try {
-                            customId = customViewMaster.getCffCustomViewMasterSid();
-                            customViewDetailsSaveLogic(customId, levelList);
-                        } catch (SystemException ex) {
-                            LOGGER.error(ex);
-                        } catch (PortalException ex) {
-                            LOGGER.error(ex);
-                        }
+                        customId = customViewMaster.getCffCustomViewMasterSid();
+                        customViewDetailsSaveLogic(customId, levelList);
                     }
                 } catch (SystemException ex) {
                     LOGGER.error(ex);
@@ -273,8 +267,6 @@ public class CommonLogic {
                         customViewDetailsSaveLogic(customId, levelList);
                     }
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
-                } catch (PortalException ex) {
                     LOGGER.error(ex);
                 }
             }
@@ -354,7 +346,7 @@ public class CommonLogic {
         return list;
     }
 
-    public static boolean customViewDetailsSaveLogic(int customId, List levelList) throws SystemException, PortalException {
+    public static boolean customViewDetailsSaveLogic(int customId, List levelList) throws SystemException  {
         for (Object ob : levelList) {
             Leveldto dto = (Leveldto) ob;
             CffCustomViewDetails customViewDetails = CffCustomViewDetailsLocalServiceUtil.createCffCustomViewDetails(0);
@@ -367,7 +359,7 @@ public class CommonLogic {
         return true;
     }
 
-    public static String cffCustomViewDetailsSaveLogic(int customId, List levelList, boolean isUpdate) throws SystemException, PortalException {
+    public static String cffCustomViewDetailsSaveLogic(int customId, List levelList, boolean isUpdate) {
         StringBuilder declareSql = new StringBuilder("DECLARE  @identity_val VARCHAR (50)='" + customId + "'");
         StringBuilder sql = new StringBuilder("insert into CFF_CUSTOM_VIEW_DETAILS(CFF_CUSTOM_VIEW_MASTER_SID,HIERARCHY_ID,HIERARCHY_INDICATOR,LEVEL_NO) values ");
         String quotes = "'";
@@ -396,7 +388,7 @@ public class CommonLogic {
         try {
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(CffCustomViewDetails.class);
             query.add(RestrictionsFactoryUtil.eq("cffCustomViewMasterSid", customId));
-            query.addOrder(OrderFactoryUtil.asc("levelNo"));
+            query.addOrder(OrderFactoryUtil.asc(StringConstantsUtil.LEVEL_NO));
             list = commonDao.getCustomViewDetailsList(query);
         } catch (SystemException ex) {
             LOGGER.error(ex);
@@ -411,7 +403,7 @@ public class CommonLogic {
      * @return
      */
     public static List<Leveldto> getCustomTree(int customId) {
-        List<Leveldto> listValue = new ArrayList<Leveldto>();
+        List<Leveldto> listValue = new ArrayList<>();
         if (customId != 0) {
             List<CffCustomViewDetails> customDetailsList = getCustomViewDetails(customId);
             for (CffCustomViewDetails ob : customDetailsList) {
@@ -447,87 +439,6 @@ public class CommonLogic {
         return cvm;
     }
 
-    public static List<Leveldto> getConditionalLevelList(int projectionId, int start, int offset, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isExpand, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid, boolean isCount, boolean isLimit) {
-        List<Leveldto> listValue = new ArrayList<Leveldto>();
-        try {
-            if(projectionId!=0){
-            String query = getCffLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, isExpand, isCount, start, offset, isLimit, isCustom, customId, userGroup, userId, sessionId, custRelSid, prodRelSid);
-           LOGGER.debug("getLevelListQuery=========" + query);
-           List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
-            if (list != null && !list.isEmpty()) {
-                for (Object list1 : list) {
-                    final Object[] obj = (Object[]) list1;
-                    Leveldto dto = getCustomizedView(obj, false);
-                    listValue.add(dto);
-                }
-            }
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        }
-        return listValue;
-    }
-
-    public static int getLevelListCount(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid) {
-        int count = 0;
-        try {
-           if(projectionId!=0){
-            String query = getCffLevelListQuery(projectionId, hierarchyIndicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, isFilter, false, true, 0, 0, false, isCustom, customId, userGroup, userId, sessionId, custRelSid, prodRelSid);
-            List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
-            if (list != null && !list.isEmpty()) {
-                Object ob = list.get(0);
-                count = Integer.valueOf(String.valueOf(ob));
-            }
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        }
-        return count;
-    }
-
-    public static String getCustomViewLevelListQuery(int projectionId, int customId, String hierarchyIndicator, int levelNo, String productHierarchyNo, String customerHierarchyNo, String custRelSid, String prodRelSid) {
-        customerHierarchyNo += "%";
-        productHierarchyNo += "%";
-        String customerLevelNo = "%";
-        String productLevelNo = "%";
-
-        if (hierarchyIndicator.equals("C")) {
-            customerLevelNo = "" + levelNo;
-        } else if (hierarchyIndicator.equals("P")) {
-            productLevelNo = "" + levelNo;
-        }
-        String customViewQuery = "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
-                + " AND RLD.RELATIONSHIP_BUILDER_SID = " + custRelSid + "\n"
-                + " JOIN CFF_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.CFF_MASTER_SID=" + projectionId
-                + " ) CCPMAPC"
-                + " JOIN"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
-                + " AND RLD.RELATIONSHIP_BUILDER_SID = " + prodRelSid + "\n"
-                + " JOIN CFF_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.CFF_MASTER_SID=" + projectionId
-                + " ) CCPMAPP "
-                + " ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID"
-                + " JOIN "
-                + " (SELECT distinct RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO as TREE_LEVEL_NO, RLD2.LEVEL_NO,RLD2.RELATIONSHIP_LEVEL_VALUES,RLD2.PARENT_NODE,RLD2.LEVEL_NAME \n"
-                + " FROM dbo.CFF_CUSTOM_VIEW_DETAILS CVD "
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
-                + " AND CVD.CFF_CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
-                + " JOIN CFF_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.CFF_MASTER_SID=" + projectionId
-                + " WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'"
-                + " JOIN "
-                + " (SELECT distinct RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO as TREE_LEVEL_NO, RLD2.LEVEL_NO,RLD2.RELATIONSHIP_LEVEL_VALUES,RLD2.PARENT_NODE,RLD2.LEVEL_NAME FROM dbo.CFF_CUSTOM_VIEW_DETAILS CVD "
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
-                + " AND CVD.CFF_CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + productLevelNo + "'"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
-                + " JOIN CFF_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.CFF_MASTER_SID=" + projectionId
-                + " WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'";
-        return customViewQuery;
-    }
-
     public static String getAllHierarchyLevelsQuery(int startLevelNo, int projectionId, String hierarchyIndicator, String userGroup, int userId, int sessionId, String relationshipBuilderSid) {
         String finalQuery = "";
         finalQuery += getHierarchyLevelsQuery(projectionId, hierarchyIndicator, startLevelNo, userGroup, userId, sessionId, relationshipBuilderSid);
@@ -549,17 +460,17 @@ public class CommonLogic {
                 + " WHERE  RLD1.hierarchy_no LIKE '%' AND RLD1.LEVEL_NO >= " + levelNo + ") HLD";
         String mainJoin = " WHERE  CCPMAP.hierarchy_no LIKE HLD.hierarchy_no + '%'";
 
-        customSql = mainSelect + " from " + selectClause1 + " from " + joinQuery1 + " " + selectClause2 + " from " + joinQuery2 + " " + mainJoin;
+        customSql = mainSelect + StringConstantsUtil.FROM_SMALL + selectClause1 + StringConstantsUtil.FROM_SMALL + joinQuery1 + " " + selectClause2 + StringConstantsUtil.FROM_SMALL + joinQuery2 + " " + mainJoin;
         return customSql;
 
     }
 
     public static String getHierarchyTreeQuery(int projectionId, String hierarchyIndicator, final int levelNo) {
-        String selectClause = "select distinct RLD.LEVEL_NO, "
+        String selectClause = "select distinct RLD.LEVEL_NO,  "
                 + " RLD.LEVEL_NO as TREE_LEVEL_NO,"
-                + "'" + hierarchyIndicator + "' as HIERARCHY_INDICATOR,"
+                + "'" + hierarchyIndicator + "' as  HIERARCHY_INDICATOR,"
                 + " RLD.LEVEL_NAME, RLD.HIERARCHY_LEVEL_DEFINITION_SID";
-        String from = " from " + getViewTableName(hierarchyIndicator);
+        String from = StringConstantsUtil.FROM_SMALL + getViewTableName(hierarchyIndicator);
         String customSql = selectClause + from + " as HC,"
                 + " RELATIONSHIP_LEVEL_DEFINITION as RLD "
                 + "where HC.CFF_MASTER_SID=" + projectionId
@@ -569,7 +480,7 @@ public class CommonLogic {
 
     public static List<Object> getLevelNoAndHierarchyNo(Object value) {
         LOGGER.debug("Inside getLevelNoAndHierarchyNo");
-        List<Object> levelHierarchy = new ArrayList<Object>();
+        List<Object> levelHierarchy = new ArrayList<>();
         String selectedId = "0";
         if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
                 selectedId = String.valueOf(value);
@@ -590,7 +501,7 @@ public class CommonLogic {
     }
 
     public static List<Object> getParentLevelNoAndHierarchyNo(int levelNo, String hierarchyNos) {
-        List<Object> levelHierarchy = new ArrayList<Object>();
+        List<Object> levelHierarchy = new ArrayList<>();
         String hierarchyNo = getParentHierarchyNo(hierarchyNos);
         levelNo--;
         if (hierarchyNo.isEmpty()) {
@@ -602,7 +513,7 @@ public class CommonLogic {
     }
     public static List<List<Object>> getAllLevelNoAndHierarchyNo(Object value) {
         LOGGER.debug("getAllLevelNoAndHierarchyNo started");
-        List<List<Object>> allLevelHierarchy = new ArrayList<List<Object>>();
+        List<List<Object>> allLevelHierarchy = new ArrayList<>();
         List<Object> levelHierarchy = getLevelNoAndHierarchyNo(value);
 
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
@@ -610,7 +521,7 @@ public class CommonLogic {
         List<String> nos = getAllHierarchyNo(hierarchyNo1);
         Collections.reverse(nos);
         for (String hierarchyNo : nos) {
-            levelHierarchy = new ArrayList<Object>();
+            levelHierarchy = new ArrayList<>();
             levelHierarchy.add(Integer.valueOf(levelNo));
             levelHierarchy.add(hierarchyNo);
             allLevelHierarchy.add(0, levelHierarchy);
@@ -635,7 +546,7 @@ public class CommonLogic {
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
             projectionListFrom.add(ProjectionFactoryUtil.property("levelName"));
-            projectionListFrom.add(ProjectionFactoryUtil.property("levelNo"));
+            projectionListFrom.add(ProjectionFactoryUtil.property(StringConstantsUtil.LEVEL_NO));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = commonDao.getRelationshipLevels(query);
         } catch (SystemException ex) {
@@ -672,8 +583,8 @@ public class CommonLogic {
         return viewtable;
     }
 
-    public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator) {
-        List<Leveldto> newLevelList = new ArrayList<Leveldto>();
+    public static List<Leveldto> getAllHierarchyLevels() {
+        List<Leveldto> newLevelList = new ArrayList<>();
             String query = "";
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
@@ -687,7 +598,7 @@ public class CommonLogic {
     }
 
     public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator, String userGroup, int userId, int sessionId, String relationshipBuilderSid) {
-        List<Leveldto> newLevelList = new ArrayList<Leveldto>();
+        List<Leveldto> newLevelList = new ArrayList<>();
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, userGroup, userId, sessionId, relationshipBuilderSid);
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
@@ -717,7 +628,7 @@ public class CommonLogic {
         DataSource datasource;
         CallableStatement statement = null;
         ResultSet rs = null;
-        List<Object[]> objectList = new ArrayList<Object[]>();
+        List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
@@ -725,20 +636,21 @@ public class CommonLogic {
                 connection = datasource.getConnection();
             }
             if (connection != null) {
-                String procedureToCall = "{call " + procedureName;
+                StringBuilder procedureToCall = new StringBuilder("{call ");
+                procedureToCall.append(procedureName);
                 int noOfArgs = orderedArgs.length;
                 for (int i = 0; i < noOfArgs; i++) {
                     if (i == 0) {
-                        procedureToCall += "(";
+                        procedureToCall.append(ConstantsUtil.OPEN_PARANTHESIS);
                     }
-                    procedureToCall += "?,";
+                    procedureToCall.append("?,");
                     if (i == noOfArgs - 1) {
-                        procedureToCall += ")";
+                        procedureToCall.append(ConstantsUtil.CLOSE_PARANTHESIS);
                     }
                 }
-                procedureToCall = procedureToCall.replace(",)", ")");
-                procedureToCall += "}";
-                statement = connection.prepareCall(procedureToCall);
+                procedureToCall.replace(procedureToCall.lastIndexOf(ConstantsUtil.COMMA), procedureToCall.lastIndexOf(ConstantsUtil.COMMA) + 1, StringUtils.EMPTY);
+                procedureToCall.append("}");
+                statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
                     LOGGER.debug(i + " -- " + orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
@@ -770,11 +682,6 @@ public class CommonLogic {
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
-            try {
-                System.gc();
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
         }
         return objectList;
     }
@@ -792,20 +699,21 @@ public class CommonLogic {
                 connection = datasource.getConnection();
             }
             if (connection != null) {
-                String procedureToCall = "{call " + procedureName;
+                StringBuilder procedureToCall = new StringBuilder("{call ");
+                procedureToCall.append(procedureName);
                 int noOfArgs = orderedArgs.length;
                 for (int i = 0; i < noOfArgs; i++) {
                     if (i == 0) {
-                        procedureToCall += "(";
+                        procedureToCall.append(ConstantsUtil.OPEN_PARANTHESIS);
                     }
-                    procedureToCall += "?,";
+                    procedureToCall.append("?,");
                     if (i == noOfArgs - 1) {
-                        procedureToCall += ")";
+                        procedureToCall.append(ConstantsUtil.CLOSE_PARANTHESIS);
                     }
                 }
-                procedureToCall = procedureToCall.replace(",)", ")");
-                procedureToCall += "}";
-                statement = connection.prepareCall(procedureToCall);
+                procedureToCall.replace(procedureToCall.lastIndexOf(ConstantsUtil.COMMA), procedureToCall.lastIndexOf(ConstantsUtil.COMMA) + 1, StringUtils.EMPTY);
+                procedureToCall.append("}");
+                statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
                     LOGGER.debug(i + " -- " + orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
@@ -836,11 +744,6 @@ public class CommonLogic {
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
-            try {
-                System.gc();
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
         }
        
     }
@@ -852,7 +755,7 @@ public class CommonLogic {
      * @return
      */
     private static List<Object[]> convertResultSetToList(ResultSet rs) {
-        List<Object[]> objList = new ArrayList<Object[]>();
+        List<Object[]> objList = new ArrayList<>();
 
         try {
             ResultSetMetaData rsMetaData = rs.getMetaData();
@@ -889,9 +792,9 @@ public class CommonLogic {
      * @return list
      */
     public static List<List<String>> getDiscountNoList(int projectionId, List<String> discounts, boolean isProgram) {
-        List<List<String>> discountlist = new ArrayList<List<String>>();
-        List<String> discountNolist = new ArrayList<String>();
-        List<String> discountNamelist = new ArrayList<String>();
+        List<List<String>> discountlist = new ArrayList<>();
+        List<String> discountNolist = new ArrayList<>();
+        List<String> discountNamelist = new ArrayList<>();
         List<Object> list = null;
         if (discounts != null && !discounts.isEmpty()) {
             String selectedDiscounts = CollectionToString(discounts, true);
@@ -922,7 +825,7 @@ public class CommonLogic {
     }
 
     public static List<Leveldto> getLevelListDiscount(int projectionId, String hierarchyIndicator, int levelNo, int hierarchyId) {
-        List<Leveldto> listValue = new ArrayList<Leveldto>();
+        List<Leveldto> listValue = new ArrayList<>();
         try {
             List list = CustomViewMasterLocalServiceUtil.getHierarchyLevelsForDiscount(projectionId, hierarchyIndicator, levelNo, hierarchyId);
             if (list != null && !list.isEmpty()) {
@@ -971,10 +874,10 @@ public class CommonLogic {
      * @param projectionID
      * @param screenName
      */
-    public static void saveProjectionSelection(Map map, int projectionID, String screenName) {
+    public static void saveProjectionSelection(int projectionID, String screenName) {
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
-        query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionID));
-        query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PROJECTION_MASTER_SID, projectionID));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.SCREEN_NAME, screenName));
         try {
             NmProjectionSelectionLocalServiceUtil.dynamicQuery(query);
         } catch (SystemException ex) {
@@ -989,11 +892,11 @@ public class CommonLogic {
      * @param projectionID
      * @param screenName
      */
-    public void saveProjectionSelectionMandatedDiscountProjection(Map map, int projectionID, String screenName) throws PortalException {
-        List<MProjectionSelection> list = new ArrayList<MProjectionSelection>();
+    public void saveProjectionSelectionMandatedDiscountProjection(Map map, int projectionID, String screenName) {
+        List<MProjectionSelection> list = new ArrayList<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
-        query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionID));
-        query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PROJECTION_MASTER_SID, projectionID));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.SCREEN_NAME, screenName));
         try {
             list = MProjectionSelectionLocalServiceUtil.dynamicQuery(query);
             if (list.isEmpty()) {
@@ -1014,7 +917,7 @@ public class CommonLogic {
      * @param screenName
      * @param saveOrUpdate
      */
-    public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate, String tableName) throws PortalException {
+    public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate, String tableName) {
         Object[] obj = map.keySet().toArray();
         StringBuilder queryBuilder = new StringBuilder();
         LOGGER.debug("saveOrUpdate >> " + saveOrUpdate);
@@ -1043,11 +946,11 @@ public class CommonLogic {
      * @return
      */
     public static Map<Object, Object> getCHProjectionSelection(final int projectionId, final String screenName) {
-        List<Object[]> list = new ArrayList<Object[]>();
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        List<Object[]> list = new ArrayList<>();
+        Map<Object, Object> map = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(ChProjectionSelection.class);
-        query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionId));
-        query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PROJECTION_MASTER_SID, projectionId));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.SCREEN_NAME, screenName));
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
         projectionListFrom.add(ProjectionFactoryUtil.property("fieldName"));
         projectionListFrom.add(ProjectionFactoryUtil.property("fieldValues"));
@@ -1068,8 +971,8 @@ public class CommonLogic {
     }
 
     public static Map<Object, Object> getNMProjectionSelection(final int projectionId, final String screenName) {
-        List<Object[]> list = new ArrayList<Object[]>();
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        List<Object[]> list = new ArrayList<>();
+        Map<Object, Object> map = new HashMap<>();
          String query;
          query="SELECT FIELD_NAME, FIELD_VALUES FROM CFF_SELECTION WHERE CFF_MASTER_SID = " + projectionId + " AND SCREEN_NAME LIKE '" + screenName +  ("'");
        
@@ -1094,10 +997,10 @@ public class CommonLogic {
      * @param projectionId
      * @return list
      */
-    public static List<List<String>> getPriceGroupTypeList(int projectionId, List<String> discountName) {
-        List<List<String>> discountlist = new ArrayList<List<String>>();
-        List<String> discountNolist = new ArrayList<String>();
-        List<String> priceGrouplist = new ArrayList<String>();
+    public static List<List<String>> getPriceGroupTypeList(List<String> discountName) {
+        List<List<String>> discountlist = new ArrayList<>();
+        List<String> discountNolist = new ArrayList<>();
+        List<String> priceGrouplist = new ArrayList<>();
         List list = null;
         if (discountName != null && !discountName.isEmpty()) {
         }
@@ -1152,15 +1055,15 @@ public class CommonLogic {
     }
 
     public static List<String> getCommonSelectWhereOrderGroupByClause(String table1, String table2, String where) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         String orderBy = " YEARS, PERIODS";
-        String groupBy = " " + table1 + ".YEARS";
-        String selectClause = "Isnull(" + table1 + ".YEARS, " + table2 + ".YEARS) as YEARS, ";
-        String finalWhereCond = " " + where + " " + table1 + ".YEARS=" + table2 + ".YEARS";
-        selectClause += "Isnull(" + table1 + ".PERIODS, " + table2 + ".PERIODS)";
-        finalWhereCond += " and " + table1 + ".PERIODS=" + table2 + ".PERIODS";
-        groupBy += ", " + table1 + ".PERIODS";
-        selectClause += " as PERIODS, \n";
+        String groupBy = " " + table1 + StringConstantsUtil.DOT_YEARS;
+        String selectClause = "Isnull (" + table1 + StringConstantsUtil.YEARS_DOT + table2 + ".YEARS) as YEARS, ";
+        String finalWhereCond = " " + where + " " + table1 + StringConstantsUtil.YEARS_DOT_EQUAL + table2 + StringConstantsUtil.DOT_YEARS;
+        selectClause += "Isnull (" + table1 + StringConstantsUtil.PERIODS_DOT + table2 + StringConstantsUtil.PERIODS_DOT_CLOSE_BRACE;
+        finalWhereCond += StringConstantsUtil.SMALL_AND + table1 + StringConstantsUtil.PERIODS_DOT_EQUAL + table2 + StringConstantsUtil.DOT_PERIODS;
+        groupBy += ", " + table1 + StringConstantsUtil.DOT_PERIODS;
+        selectClause += " as PERIODS , \n";
 
         list.add(selectClause);
         list.add(finalWhereCond);
@@ -1170,24 +1073,24 @@ public class CommonLogic {
     }
 
     public static List<String> getCommonSelectWhereOrderGroupByClause(String table1, String table2, String table3, String where, boolean isTable3) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         String orderBy = " YEARS, PERIODS";
-        String groupBy = " " + table1 + ".YEARS";
-        String selectClause = "Isnull(" + table1 + ".YEARS, " + table2 + ".YEARS)";
-        String selectClause1 = "Isnull(" + table1 + ".PERIODS, " + table2 + ".PERIODS)";
+        String groupBy = " " + table1 + StringConstantsUtil.DOT_YEARS;
+        String selectClause = " Isnull(" + table1 + StringConstantsUtil.YEARS_DOT + table2 + ".YEARS)";
+        String selectClause1 = " Isnull(" + table1 + StringConstantsUtil.PERIODS_DOT + table2 + StringConstantsUtil.PERIODS_DOT_CLOSE_BRACE;
         if (isTable3) {
-            selectClause = "Isnull(Isnull(" + table1 + ".YEARS, " + table2 + ".YEARS), " + table3 + ".YEARS)";
-            selectClause1 = "Isnull(Isnull(" + table1 + ".PERIODS, " + table2 + ".PERIODS), " + table3 + ".PERIODS)";
+            selectClause = "Isnull(Isnull(" + table1 + StringConstantsUtil.YEARS_DOT + table2 + ".YEARS), " + table3 + ".YEARS)";
+            selectClause1 = "Isnull(Isnull(" + table1 + StringConstantsUtil.PERIODS_DOT + table2 + ".PERIODS), " + table3 + StringConstantsUtil.PERIODS_DOT_CLOSE_BRACE;
         }
         selectClause += " as YEARS, ";
         selectClause += selectClause1;
         selectClause += " as PERIODS, \n";
-        String finalWhereCond = " " + where + " " + table1 + ".YEARS=" + table2 + ".YEARS ";
-        finalWhereCond += " and " + table1 + ".PERIODS=" + table2 + ".PERIODS ";
-        groupBy += ", " + table1 + ".PERIODS";
+        String finalWhereCond = " " + where + " " + table1 + StringConstantsUtil.YEARS_DOT_EQUAL + table2 + ".YEARS ";
+        finalWhereCond += StringConstantsUtil.SMALL_AND + table1 + StringConstantsUtil.PERIODS_DOT_EQUAL + table2 + ".PERIODS ";
+        groupBy += ", " + table1 + StringConstantsUtil.DOT_PERIODS;
 
-        String finalWhereCond1 = " " + where + " " + table1 + ".YEARS=" + table3 + ".YEARS ";
-        finalWhereCond1 += " and " + table1 + ".PERIODS=" + table3 + ".PERIODS";
+        String finalWhereCond1 = " " + where + " " + table1 + StringConstantsUtil.YEARS_DOT_EQUAL + table3 + ".YEARS ";
+        finalWhereCond1 += StringConstantsUtil.SMALL_AND + table1 + StringConstantsUtil.PERIODS_DOT_EQUAL + table3 + StringConstantsUtil.DOT_PERIODS;
         list.add(selectClause);
         list.add(finalWhereCond);
         list.add(finalWhereCond1);
@@ -1197,13 +1100,13 @@ public class CommonLogic {
     }
 
     public static String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-        String user = " and " + table + ".USER_ID=" + userId + " and " + table + ".SESSION_ID=" + sessionId + " \n";
+        String user = StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " \n";
         return user;
     }
 
     public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String CCP) {
-        String ccpWhereCond = " and " + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP + ".RELATIONSHIP_LEVEL_SID \n"
-                + " and " + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
+        String ccpWhereCond = StringConstantsUtil.SMALL_AND + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP + ".RELATIONSHIP_LEVEL_SID \n"
+                + StringConstantsUtil.SMALL_AND + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
         return ccpWhereCond;
     }
 
@@ -1239,17 +1142,7 @@ public class CommonLogic {
         return periodFilter;
     }
 
-    public static String getCCPQuery(ProjectionSelectionDTO projSelDTO) {
-        String ccpQuery = getCCPTempTableQuery();
-        if (projSelDTO.isIsCustomHierarchy()) {
-            ccpQuery += getCustomCCPQuery(projSelDTO);
-        } else {
-            ccpQuery += getGeneralCCPQuery(projSelDTO);
-        }
-        return ccpQuery;
-    }
-
-     public static String getCCPQueryForCff(ProjectionSelectionDTO projSelDTO) {
+    public static String getCCPQueryForCff(ProjectionSelectionDTO projSelDTO) {
         String ccpQuery =  QueryUtil.replaceTableNames(new CommonLogic().insertAvailableHierarchyNo(projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames());
         ccpQuery+= "SELECT * FROM #SELECTED_HIERARCHY_NO";
         return ccpQuery;
@@ -1268,117 +1161,10 @@ public class CommonLogic {
                 + "            (RELATIONSHIP_LEVEL_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
         return tableQuery;
     }
-
-    public static String getGeneralCCPQuery(ProjectionSelectionDTO projSelDTO) {
-
-        String relationshipBuilderSid = "";
-        if ("C".equals(projSelDTO.getHierarchyIndicator())) {
-            relationshipBuilderSid = projSelDTO.getCustRelationshipBuilderSid();
-        } else if ("P".equals(projSelDTO.getHierarchyIndicator())) {
-            relationshipBuilderSid = projSelDTO.getProdRelationshipBuilderSid();
-        }
-        boolean isPrior = false;
-        if (projSelDTO instanceof PVSelectionDTO) {
-            PVSelectionDTO dto = (PVSelectionDTO) projSelDTO;
-            isPrior = dto.isIsPrior();
-        }
-        String viewtable = CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator());
-        String ccpQuery = " SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from \n"
-                + "(SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from \n"
-                + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + "FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + "JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + "AND RLD.RELATIONSHIP_BUILDER_SID=" + relationshipBuilderSid + "\n"
-                + "JOIN CFF_DETAILS CFFD ON CFFD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID \n"
-                + "AND CFFD.CFF_MASTER_SID=" + projSelDTO.getProjectionId();
-        if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
-            String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior);
-        }
-        ccpQuery += " ) CCPMAP,\n"
-                + " (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD1 \n"
-                + " JOIN " + viewtable + " PCH \n"
-                + " ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID \n"
-                + " AND PCH.CFF_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD1.HIERARCHY_NO like '" + projSelDTO.getHierarchyNo() + "%' ) HLD \n"
-                + " WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO+'%' ) LCCP \n"
-                + " WHERE LCCP.HIERARCHY_NO in \n"
-                + " (SELECT RLD2.HIERARCHY_NO \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD2 \n"
-                + " JOIN " + viewtable + " PCH2 \n"
-                + " ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID \n"
-                + " AND PCH2.CFF_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD2.LEVEL_NO=" + projSelDTO.getTreeLevelNo() + ") \n";
-
-        return ccpQuery;
-    }
-
-   public static String getCustomCCPQuery(ProjectionSelectionDTO projSelDTO) {
-        String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo() + "%";
-        String productHierarchyNo = projSelDTO.getProductHierarchyNo() + "%";
-        String customerLevelNo = "%";
-        String productLevelNo = "%";
-        boolean isPrior = false;
-        if (projSelDTO instanceof PVSelectionDTO) {
-            PVSelectionDTO dto = (PVSelectionDTO) projSelDTO;
-            isPrior = dto.isIsPrior();
-        }
-        if (projSelDTO.getHierarchyIndicator().equals("C")) {
-
-            customerLevelNo = "" + projSelDTO.getTreeLevelNo();
-        } else if (projSelDTO.getHierarchyIndicator().equals("P")) {
-
-            productLevelNo = "" + projSelDTO.getTreeLevelNo();
-        }
-        String ccpQuery = "SELECT distinct HLD" + projSelDTO.getHierarchyIndicator() + ".RELATIONSHIP_LEVEL_SID, CCPMAP" + projSelDTO.getHierarchyIndicator() + ".CCP_DETAILS_SID,HLD" + projSelDTO.getHierarchyIndicator() + ".HIERARCHY_NO FROM \n"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + " AND RLD.RELATIONSHIP_BUILDER_SID = " + projSelDTO.getCustRelationshipBuilderSid() + "\n"
-                + " JOIN CFF_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.CFF_MASTER_SID=" + projSelDTO.getProjectionId() + "\n";
-
-        if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
-            String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior);
-        }
-
-        ccpQuery += " ) CCPMAPC \n"
-                + " JOIN"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + " AND RLD.RELATIONSHIP_BUILDER_SID = " + projSelDTO.getProdRelationshipBuilderSid() + "\n"
-                + " JOIN CFF_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.CFF_MASTER_SID=" + projSelDTO.getProjectionId() + "\n";
-
-        if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
-            String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), isPrior);
-        }
-
-        ccpQuery += " ) CCPMAPP \n"
-                + " ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID \n"
-                + " JOIN "
-                + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CFF_CUSTOM_VIEW_DETAILS CVD \n"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " AND CVD.CFF_CUSTOM_VIEW_MASTER_SID=" + projSelDTO.getCustomId() + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN CFF_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.CFF_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%' \n"
-                + " JOIN "
-                + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CFF_CUSTOM_VIEW_DETAILS CVD \n"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " AND CVD.CFF_CUSTOM_VIEW_MASTER_SID=" + projSelDTO.getCustomId() + " AND CVD.LEVEL_NO  like '" + productLevelNo + "'\n"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN CFF_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.CFF_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%' \n";
-        return ccpQuery;
-    }
-   
    
     public static List<String> getAllHierarchyNo(String hierarchyNo) {
         LOGGER.debug("getAllHierarchyNo started");
-        List<String> allLevelHierarchy = new ArrayList<String>();
+        List<String> allLevelHierarchy = new ArrayList<>();
         String extraDot = "";
         if (hierarchyNo.endsWith(".")) {
             extraDot = ".";
@@ -1452,14 +1238,14 @@ public class CommonLogic {
                     userGroup = " like '%' ";
                     query = getGroupFilterPPAQuery(userGroup, userId, sessionId, isPrior);
                 }
-            } else if (userGroup.startsWith("Discount-")) {
-                userGroup = " = '" + userGroup.replace("Discount-", "") + "' ";
+            } else if (userGroup.startsWith(StringConstantsUtil.DISCOUNT_HYPEN)) {
+                userGroup = " = '" + userGroup.replace(StringConstantsUtil.DISCOUNT_HYPEN, "") + "' ";
                 query = getGroupFilterDiscountQuery(userGroup, userId, sessionId, isPrior);
             } else if (userGroup.startsWith("PPA-")) {
                 userGroup = " = '" + userGroup.replace("PPA-", "") + "' ";
                 query = getGroupFilterPPAQuery(userGroup, userId, sessionId, isPrior);
-            } else if (userGroup.startsWith("Sales-")) {
-                userGroup = " = '" + userGroup.replace("Sales-", "") + "' ";
+            } else if (userGroup.startsWith(StringConstantsUtil.SALES_HYPEN)) {
+                userGroup = " = '" + userGroup.replace(StringConstantsUtil.SALES_HYPEN, "") + "' ";
                 query = getGroupFilterSalesQuery(userGroup, userId, sessionId, isPrior);
             }
         }
@@ -1483,7 +1269,7 @@ public class CommonLogic {
         if (!isPrior) {
             tableIndicator = "ST_";
         }
-        String query = "JOIN " + tableIndicator + "NM_PPA_PROJECTION_MASTER P ON P.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  P.USER_GROUP " + userGroup;
+        String query = " JOIN " + tableIndicator + "NM_PPA_PROJECTION_MASTER P ON P.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  P.USER_GROUP " + userGroup;
         if (!isPrior) {
             query += getUserSessionQueryCondition(userId, sessionId, "P");
         }
@@ -1517,13 +1303,13 @@ public class CommonLogic {
     }
 
     public static List<String> getDiscountGroup(int projectionId, int sessionId, int userId) {
-        List<String> groupList = new ArrayList<String>();
+        List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_NM_DISCOUNT_PROJ_MASTER");
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
-                    groupList.add("Discount-" + String.valueOf(list1));
+                    groupList.add(StringConstantsUtil.DISCOUNT_HYPEN + String.valueOf(list1));
                 }
             }
         } catch (Exception ex) {
@@ -1533,7 +1319,7 @@ public class CommonLogic {
     }
 
     public static List<String> getPPAGroup(int projectionId, int sessionId, int userId) {
-        List<String> groupList = new ArrayList<String>();
+        List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_NM_PPA_PROJECTION_MASTER");
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
@@ -1549,13 +1335,13 @@ public class CommonLogic {
     }
 
     public static List<String> getSalesGroup(int projectionId, int sessionId, int userId) {
-        List<String> groupList = new ArrayList<String>();
+        List<String> groupList = new ArrayList<>();
         try {
             String query = getGroupQuery(projectionId, sessionId, userId, "ST_NM_SALES_PROJECTION_MASTER");
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
-                    groupList.add("Sales-" + String.valueOf(list1));
+                    groupList.add(StringConstantsUtil.SALES_HYPEN + String.valueOf(list1));
                 }
             }
         } catch (Exception ex) {
@@ -1565,7 +1351,7 @@ public class CommonLogic {
     }
 
     public static List<String> getAllGroup(int projectionId, int userId, int sessionId, boolean isPPA) {
-        List<String> groupList = new ArrayList<String>();
+        List<String> groupList = new ArrayList<>();
         groupList.add("All Sales Group");
         groupList.add("All Discount Group");
         if (isPPA) {
@@ -1577,7 +1363,7 @@ public class CommonLogic {
     }
 
     public static List<String> getAllPPAGroup(int projectionId, int userId, int sessionId) {
-        List<String> groupList = new ArrayList<String>();
+        List<String> groupList = new ArrayList<>();
         groupList.add(ALL_GROUP);
         groupList.addAll(getPPAGroup(projectionId, sessionId, userId));
         return groupList;
@@ -1612,70 +1398,13 @@ public class CommonLogic {
     }
 
     public static List<String> getSalesGroupDDLB(int projectionId, int userId, int sessionId) {
-        List<String> groupList = new ArrayList<String>();
+        List<String> groupList = new ArrayList<>();
         groupList.addAll(getSalesGroup(projectionId, sessionId, userId));
         return groupList;
     }
 
-    public static String getCustomCCPQueryForDPR(ProjectionSelectionDTO projSelDTO) {
-        String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo() + "%";
-        String productHierarchyNo = projSelDTO.getProductHierarchyNo() + "%";
-        String customerLevelNo = "%";
-        String productLevelNo = "%";
-        if (projSelDTO.getHierarchyIndicator().equals("C")) {
-
-            customerLevelNo = "" + projSelDTO.getTreeLevelNo();
-        } else if (projSelDTO.getHierarchyIndicator().equals("P")) {
-
-            productLevelNo = "" + projSelDTO.getTreeLevelNo();
-        }
-        String ccpQuery = "(SELECT distinct  CCPMAP" + projSelDTO.getHierarchyIndicator() + ".CCP_DETAILS_SID FROM \n"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n";
-
-        if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
-            String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
-        }
-
-        ccpQuery += " ) CCPMAPC \n"
-                + " JOIN"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n";
-
-        if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
-            String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
-        }
-
-        ccpQuery += " ) CCPMAPP \n"
-                + " ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID \n"
-                + " JOIN "
-                + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                + " JOIN dbo.CUSTOM_VIEW_MASTER CVM ON \n"
-                + " CVD.CUSTOM_VIEW_MASTER_SID=" + projSelDTO.getCustomId() + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%' \n"
-                + " JOIN "
-                + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                + " JOIN dbo.CUSTOM_VIEW_MASTER CVM ON \n"
-                + " CVD.CUSTOM_VIEW_MASTER_SID=" + projSelDTO.getCustomId() + " AND CVD.LEVEL_NO like '" + productLevelNo + "'\n"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'"
-                + " ) \n";
-        return ccpQuery;
-    }
-
     public static List<Integer> getPageNumber() {
-        List<Integer> pagelength = new ArrayList<Integer>();
+        List<Integer> pagelength = new ArrayList<>();
         pagelength.add(NumericConstants.TEN);
         pagelength.add(NumericConstants.FIFTEEN);
         pagelength.add(NumericConstants.TWENTY);
@@ -1713,11 +1442,11 @@ public class CommonLogic {
      * @return
      */
     public static Map<Object, Object> getMProjectionSelection(final int projectionId, final String screenName) {
-        List<Object[]> list = new ArrayList<Object[]>();
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        List<Object[]> list = new ArrayList<>();
+        Map<Object, Object> map = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
-        query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionId));
-        query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PROJECTION_MASTER_SID, projectionId));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.SCREEN_NAME, screenName));
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
         projectionListFrom.add(ProjectionFactoryUtil.property("fieldName"));
         projectionListFrom.add(ProjectionFactoryUtil.property("fieldValues"));
@@ -1745,7 +1474,7 @@ public class CommonLogic {
      * @return
      */
     public static List<Leveldto> getHierarchy(int projectionId, String hierarchyIndicator, final int levelNo, final Object rbID) {
-        List<Leveldto> listValue = new ArrayList<Leveldto>();
+        List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getHierarchyTreeQuery(projectionId, hierarchyIndicator, levelNo, rbID);
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
@@ -1767,14 +1496,14 @@ public class CommonLogic {
 
     public static String getHierarchyTreeQuery(int projectionId, String hierarchyIndicator, final int levelNo, final Object rbID) {
         String selectClause = "select distinct RLD.LEVEL_NO, "
-                + " RLD.LEVEL_NO as TREE_LEVEL_NO,"
+                + " RLD.LEVEL_NO as  TREE_LEVEL_NO,"
                 + "'" + hierarchyIndicator + "' as HIERARCHY_INDICATOR,"
                 + " RLD.LEVEL_NAME, RLD.HIERARCHY_LEVEL_DEFINITION_SID";
-        String from = " from " + getViewTableName(hierarchyIndicator);
+        String from = StringConstantsUtil.FROM_SMALL + getViewTableName(hierarchyIndicator);
         String customSql = selectClause + from + " as HC,"
-                + " RELATIONSHIP_LEVEL_DEFINITION as RLD "
+                + " RELATIONSHIP_LEVEL_DEFINITION as  RLD "
                 + "where HC.PROJECTION_MASTER_SID=" + projectionId
-                + " and HC.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID=" + rbID + ";";
+                + " and HC.RELATIONSHIP_LEVEL_SID= RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID=" + rbID + ";";
         return customSql;
     }
 
@@ -1782,8 +1511,8 @@ public class CommonLogic {
         List<CustomViewDetails> list = null;
         String indicator = "";
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
-        query.add(RestrictionsFactoryUtil.eq("customViewMasterSid", viewName));
-        query.add(RestrictionsFactoryUtil.eq("levelNo", levelNo));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, viewName));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LEVEL_NO, levelNo));
         try {
             list = commonDao.getCustomViewDetailsList(query);
         } catch (Exception ex) {
@@ -1798,10 +1527,10 @@ public class CommonLogic {
         return indicator;
     }
 
-    public static int getIndicatorCount(int projectionId, int viewName) {
+    public static int getIndicatorCount(int viewName) {
         List<CustomViewDetails> list = null;
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
-        query.add(RestrictionsFactoryUtil.eq("customViewMasterSid", viewName));
+        query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, viewName));
         try {
             list = commonDao.getCustomViewDetailsList(query);
         } catch (Exception ex) {
@@ -1819,51 +1548,8 @@ public class CommonLogic {
         return str;
     }
 
-    public static String getCustomViewLevelListQuery(int projectionId, int customId, String hierarchyIndicator, int levelNo, String productHierarchyNo, String customerHierarchyNo) {
-        customerHierarchyNo += "%";
-        productHierarchyNo += "%";
-        String customerLevelNo = "%";
-        String productLevelNo = "%";
-
-        if (hierarchyIndicator.equals("C")) {
-            customerLevelNo = "" + levelNo;
-        } else if (hierarchyIndicator.equals("P")) {
-            productLevelNo = "" + levelNo;
-        }
-        String customViewQuery = "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId
-                + " ) CCPMAPC"
-                + " JOIN"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId
-                + " ) CCPMAPP "
-                + " ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID"
-                + " JOIN "
-                + " (SELECT distinct RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO as TREE_LEVEL_NO, RLD2.LEVEL_NO,RLD2.RELATIONSHIP_LEVEL_VALUES,RLD2.PARENT_NODE,RLD2.LEVEL_NAME FROM dbo.CUSTOM_VIEW_DETAILS CVD "
-                + " JOIN dbo.CUSTOM_VIEW_MASTER CVM ON "
-                + " CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
-                + " JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
-                + " WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'"
-                + " JOIN "
-                + " (SELECT distinct RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO as TREE_LEVEL_NO, RLD2.LEVEL_NO,RLD2.RELATIONSHIP_LEVEL_VALUES,RLD2.PARENT_NODE,RLD2.LEVEL_NAME FROM dbo.CUSTOM_VIEW_DETAILS CVD "
-                + " JOIN dbo.CUSTOM_VIEW_MASTER CVM ON "
-                + " CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO like '" + productLevelNo + "'"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID "
-                + " JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
-                + " WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'";
-        return customViewQuery;
-    }
-
-
     public static List<Leveldto> getAllHierarchyLevels(int startLevelNo, int projectionId, String hierarchyIndicator, String userGroup, int userId, int sessionId) {
-        List<Leveldto> newLevelList = new ArrayList<Leveldto>();
+        List<Leveldto> newLevelList = new ArrayList<>();
         try {
             String query = getAllHierarchyLevelsQuery(startLevelNo, projectionId, hierarchyIndicator, userGroup, userId, sessionId);
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
@@ -1899,7 +1585,7 @@ public class CommonLogic {
                 + " WHERE  RLD1.hierarchy_no LIKE '%' AND RLD1.LEVEL_NO >= " + levelNo + ") HLD";
         String mainJoin = " WHERE  CCPMAP.hierarchy_no LIKE HLD.hierarchy_no + '%'";
 
-        customSql = mainSelect + " from " + selectClause1 + " from " + joinQuery1 + " " + selectClause2 + " from " + joinQuery2 + " " + mainJoin;
+        customSql = mainSelect + StringConstantsUtil.FROM_SMALL + selectClause1 + StringConstantsUtil.FROM_SMALL + joinQuery1 + " " + selectClause2 + StringConstantsUtil.FROM_SMALL + joinQuery2 + " " + mainJoin;
         return customSql;
 
     }
@@ -1909,23 +1595,23 @@ public class CommonLogic {
         if (!userGroup.isEmpty()) {
             if (userGroup.startsWith("All")) {
                 if (userGroup.contains("Discount")) {
-                    userGroup = " like '%' ";
+                    userGroup = "  like '%' ";
                     query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
                 } else if (userGroup.contains("PPA")) {
-                    userGroup = " like '%' ";
+                    userGroup = " like  '%' ";
                     query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
                 } else if (userGroup.contains("Sales")) {
-                    userGroup = " like '%' ";
+                    userGroup = " like  '%' ";
                     query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
                 }
-            } else if (userGroup.startsWith("Discount-")) {
-                userGroup = " = '" + userGroup.replace("Discount-", "") + "' ";
+            } else if (userGroup.startsWith(StringConstantsUtil.DISCOUNT_HYPEN)) {
+                userGroup = " = '" + userGroup.replace(StringConstantsUtil.DISCOUNT_HYPEN, "") + "' ";
                 query = getGroupFilterDiscountQuery(userGroup, userId, sessionId);
             } else if (userGroup.startsWith("PPA-")) {
                 userGroup = " = '" + userGroup.replace("PPA-", "") + "' ";
                 query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith("Sales-")) {
-                userGroup = " = '" + userGroup.replace("Sales-", "") + "' ";
+            } else if (userGroup.startsWith(StringConstantsUtil.SALES_HYPEN)) {
+                userGroup = " = '" + userGroup.replace(StringConstantsUtil.SALES_HYPEN, "") + "' ";
                 query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
             }
         }
@@ -1948,23 +1634,13 @@ public class CommonLogic {
     }
 
     public static String getUserSessionQueryConditionForPR(int userId, int sessionId, String table) {
-        String user = " " + table + ".USER_ID=" + userId + " and " + table + ".SESSION_ID=" + sessionId + " \n";
+        String user = " " + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " \n";
         return user;
     }
 
     public static String getCCPWhereConditionQuery(String projectionDetails, String CCP) {
-        String ccpWhereCond = " and " + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+        String ccpWhereCond = StringConstantsUtil.SMALL_AND + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
         return ccpWhereCond;
-    }
-
-    public static String getCCPQueryForPR(ProjectionSelectionDTO projSelDTO) {
-        String ccpQuery = getCCPTempTableQueryForPR();
-        if (projSelDTO.isIsCustomHierarchy()) {
-            ccpQuery += getCustomCCPQueryForPR(projSelDTO);
-        } else {
-            ccpQuery += getGeneralCCPQueryForPR(projSelDTO);
-        }
-        return ccpQuery;
     }
 
     public static String getCCPTempTableQueryForPR() {
@@ -1978,92 +1654,6 @@ public class CommonLogic {
                 + " INSERT INTO @CCP\n"
                 + "            (RELATIONSHIP_LEVEL_SID,PROJECTION_DETAILS_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
         return tableQuery;
-    }
-
-    public static String getCustomCCPQueryForPR(ProjectionSelectionDTO projSelDTO) {
-        String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo() + "%";
-        String productHierarchyNo = projSelDTO.getProductHierarchyNo() + "%";
-        String customerLevelNo = "%";
-        String productLevelNo = "%";
-
-        if (projSelDTO.getHierarchyIndicator().equals("C")) {
-
-            customerLevelNo = "" + projSelDTO.getTreeLevelNo();
-        } else if (projSelDTO.getHierarchyIndicator().equals("P")) {
-
-            productLevelNo = "" + projSelDTO.getTreeLevelNo();
-        }
-        String ccpQuery = "SELECT distinct HLD" + projSelDTO.getHierarchyIndicator() + ".RELATIONSHIP_LEVEL_SID, PD.PROJECTION_DETAILS_SID,CCPMAP" + projSelDTO.getHierarchyIndicator() + ".CCP_DETAILS_SID,HLD" + projSelDTO.getHierarchyIndicator() + ".HIERARCHY_NO FROM \n"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + " AND RLD.RELATIONSHIP_BUILDER_SID = " + projSelDTO.getCustRelationshipBuilderSid() + "\n"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n";
-
-        ccpQuery += " ) CCPMAPC \n"
-                + " JOIN"
-                + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + " AND RLD.RELATIONSHIP_BUILDER_SID = " + projSelDTO.getProdRelationshipBuilderSid() + "\n"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n";
-
-        ccpQuery += " ) CCPMAPP \n"
-                + " ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID \n"
-                + " JOIN "
-                + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " AND CVD.CUSTOM_VIEW_MASTER_SID=" + projSelDTO.getCustomId() + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%' \n"
-                + " JOIN "
-                + " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                + " JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " AND CVD.CUSTOM_VIEW_MASTER_SID=" + projSelDTO.getCustomId() + " AND CVD.LEVEL_NO  like '" + productLevelNo + "'\n"
-                + " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                + " JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%' \n"
-                + " JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCPMAPC.CCP_DETAILS_SID AND\n"
-                + "  PD.PROJECTION_MASTER_SID =" + projSelDTO.getProjectionId() + "\n";
-        return ccpQuery;
-    }
-
-    public static String getGeneralCCPQueryForPR(ProjectionSelectionDTO projSelDTO) {
-
-        String relationshipBuilderSid = "";
-        if ("C".equals(projSelDTO.getHierarchyIndicator())) {
-            relationshipBuilderSid = projSelDTO.getCustRelationshipBuilderSid();
-        } else if ("P".equals(projSelDTO.getHierarchyIndicator())) {
-            relationshipBuilderSid = projSelDTO.getProdRelationshipBuilderSid();
-        }
-
-        String viewtable = CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator());
-        String ccpQuery = " SELECT LCCP.RELATIONSHIP_LEVEL_SID,LCCP.PROJECTION_DETAILS_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from \n"
-                + "(SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID,CCPMAP.PROJECTION_DETAILS_SID from \n"
-                + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID,PD.PROJECTION_DETAILS_SID \n"
-                + "FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                + "JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                + "AND RLD.RELATIONSHIP_BUILDER_SID=" + relationshipBuilderSid + "\n"
-                + "JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID \n"
-                + "AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId();
-
-        ccpQuery += " ) CCPMAP,\n"
-                + " (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD1 \n"
-                + " JOIN " + viewtable + " PCH \n"
-                + " ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID \n"
-                + " AND PCH.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD1.HIERARCHY_NO like '" + projSelDTO.getHierarchyNo() + "%' ) HLD \n"
-                + " WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO+'%' ) LCCP \n"
-                + " WHERE LCCP.HIERARCHY_NO in \n"
-                + " (SELECT RLD2.HIERARCHY_NO \n"
-                + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD2 \n"
-                + " JOIN " + viewtable + " PCH2 \n"
-                + " ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID \n"
-                + " AND PCH2.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId() + "\n"
-                + " WHERE RLD2.LEVEL_NO=" + projSelDTO.getTreeLevelNo() + ") \n";
-        return ccpQuery;
     }
 
     /**
@@ -2092,7 +1682,7 @@ public class CommonLogic {
     }
 
     public List<HelperDTO> getDropDownList(final String listType) {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         try {
             SalesProjectionDAO dao = new SalesProjectionDAOImpl();
             LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
@@ -2137,7 +1727,7 @@ public class CommonLogic {
         try {
             SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
             SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
-            Date date = new Date();
+            Date date;
             date = inputDateFormatter.parse(stringDate);
             return outputDateFormatter.format(date);
         } catch (ParseException ex) {
@@ -2154,23 +1744,10 @@ public class CommonLogic {
      * @param selectedPeriod
      * @return
      */
-    public static String getPeriodSID(String frequency, String selectedPeriod, boolean formatFlag) {
-        String periodSID = StringUtils.EMPTY;
+    public static String getPeriodSID(String selectedPeriod) {
+        String periodSID;
         if (StringUtils.isNotBlank(selectedPeriod) && !"null".equals(selectedPeriod)) {
-            try {
-                String year = ConstantsUtil.ANNUAL.equalsIgnoreCase(frequency) ? selectedPeriod.trim() : getYearAndPeriod(selectedPeriod, frequency, formatFlag)[0];
-                String period = ConstantsUtil.ANNUAL.equalsIgnoreCase(frequency) ? selectedPeriod.trim() : getYearAndPeriod(selectedPeriod, frequency, formatFlag)[1];
-                List list = new ArrayList<>();
-                String query = CustomSQLUtil.get("getPeriodSID");
-                query = query.replace("@selectedfreq", frequency);
-                query = query.replace("@selectedyear", year);
-                query = query.replace("@selectedperiod", period);
-                if (!list.isEmpty()) {
-                    periodSID = String.valueOf(list.get(0));
-                }
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
+            periodSID = StringUtils.EMPTY;
         } else {
             periodSID = "0";
         }
@@ -2207,7 +1784,7 @@ public class CommonLogic {
      * @return
      */
     public static List<Leveldto> getCustomTreeMan(int customId) {
-        List<Leveldto> listValue = new ArrayList<Leveldto>();
+        List<Leveldto> listValue = new ArrayList<>();
         if (customId != 0) {
             List<CustomViewDetails> customDetailsList = getCustomViewDetailsMan(customId);
             for (CustomViewDetails ob : customDetailsList) {
@@ -2236,7 +1813,7 @@ public class CommonLogic {
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
             projectionListFrom.add(ProjectionFactoryUtil.property("levelName"));
-            projectionListFrom.add(ProjectionFactoryUtil.property("levelNo"));
+            projectionListFrom.add(ProjectionFactoryUtil.property(StringConstantsUtil.LEVEL_NO));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery(query);
         } catch (SystemException ex) {
@@ -2255,8 +1832,8 @@ public class CommonLogic {
         List<CustomViewDetails> list = null;
         try {
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
-            query.add(RestrictionsFactoryUtil.eq("customViewMasterSid", customId));
-            query.addOrder(OrderFactoryUtil.asc("levelNo"));
+            query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, customId));
+            query.addOrder(OrderFactoryUtil.asc(StringConstantsUtil.LEVEL_NO));
             list = CustomViewDetailsLocalServiceUtil.dynamicQuery(query);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -2292,7 +1869,7 @@ public class CommonLogic {
      * @return
      */
     public static List<Leveldto> getHierarchyMan(int projectionId, String hierarchyIndicator, final int levelNo) {
-        List<Leveldto> listValue = new ArrayList<Leveldto>();
+        List<Leveldto> listValue = new ArrayList<>();
         try {
             String query = getHierarchyTreeQueryMan(projectionId, hierarchyIndicator, levelNo);
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
@@ -2313,9 +1890,9 @@ public class CommonLogic {
         String selectClause = "select distinct RLD.LEVEL_NO, "
                 + " RLD.LEVEL_NO as TREE_LEVEL_NO,"
                 + "'" + hierarchyIndicator + "' as HIERARCHY_INDICATOR,"
-                + " RLD.LEVEL_NAME, RLD.HIERARCHY_LEVEL_DEFINITION_SID";
-        String from = " from " + getViewTableName(hierarchyIndicator);
-        String customSql = selectClause + from + " as HC,"
+                + " RLD.LEVEL_NAME , RLD.HIERARCHY_LEVEL_DEFINITION_SID";
+        String from = StringConstantsUtil.FROM_SMALL + getViewTableName(hierarchyIndicator);
+        String customSql = selectClause + from + "  as HC,"
                 + " RELATIONSHIP_LEVEL_DEFINITION as RLD "
                 + "where HC.CFF_MASTER_SID=" + projectionId
                 + " and HC.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo;
@@ -2347,7 +1924,7 @@ public class CommonLogic {
     }
 
     public static List<Object> getLevelNoAndHierarchyNo(Object value, boolean filter) {
-        List<Object> levelHierarchy = new ArrayList<Object>();
+        List<Object> levelHierarchy = new ArrayList<>();
         String selectedId = "0";
         if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
                 selectedId = String.valueOf(value);
@@ -2369,10 +1946,10 @@ public class CommonLogic {
     }
 
 
-    public static Map<Object, Object> getReturnsProjectionSelection(final int projectionId, final String screenName) {
-        List list = new ArrayList<>();
+    public static Map<Object, Object> getReturnsProjectionSelection(final int projectionId) {
+        List list;
         String query = "";
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        Map<Object, Object> map = new HashMap<>();
         query = "select Field_Name,Field_Values from RETURNS_PROJECTION_SELECTION\n"
                 + "where Projection_Master_Sid=" + projectionId + ";";
             list = (List) commonDao.executeSelectQuery(query, null, null);
@@ -2557,7 +2134,7 @@ public class CommonLogic {
                 + "  DROP TABLE #TEMP_CCPD\n"
                 + "\n"
                 + "CREATE TABLE #TEMP_CCPD\n"
-                + "  (\n"
+                + "   (\n"
                 + "     COMPANY_MASTER_SID     INT,\n"
                 + "     CONTRACT_MASTER_SID    INT,\n"
                 + "     ITEM_MASTER_SID        INT,\n"
@@ -2607,16 +2184,16 @@ public class CommonLogic {
     }
 
     public static List<String> getCommonSelectWhereOrderGroupByNetSalesClause(String table1, String table2, int freq) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         String orderBy = " YEARS";
-        String groupBy = " " + table1 + ".YEARS";
-        String selectClause = "Isnull(" + table1 + ".YEARS, " + table2 + ".YEARS) as YEARS, ";
-        String finalWhereCond = " " + "on" + " " + table1 + ".YEARS=" + table2 + ".YEARS";
-        selectClause += "Isnull(" + table1 + ".PERIODS, " + table2 + ".PERIODS)";
+        String groupBy = " " + table1 + StringConstantsUtil.DOT_YEARS;
+        String selectClause = "Isnull(" + table1 + StringConstantsUtil.YEARS_DOT + table2 + ".YEARS) as YEARS, ";
+        String finalWhereCond = " " + "on" + " " + table1 + StringConstantsUtil.YEARS_DOT_EQUAL + table2 + StringConstantsUtil.DOT_YEARS;
+        selectClause += "Isnull(" + table1 + StringConstantsUtil.PERIODS_DOT + table2 + StringConstantsUtil.PERIODS_DOT_CLOSE_BRACE;
         selectClause += " as PERIODS, \n";
         if (freq != 1) {
-            finalWhereCond += " and " + table1 + ".PERIODS=" + table2 + ".PERIODS";
-            groupBy += ", " + table1 + ".PERIODS";
+            finalWhereCond += StringConstantsUtil.SMALL_AND + table1 + StringConstantsUtil.PERIODS_DOT_EQUAL + table2 + StringConstantsUtil.DOT_PERIODS;
+            groupBy += ", " + table1 + StringConstantsUtil.DOT_PERIODS;
 
         }
         orderBy += ", PERIODS";
@@ -2628,7 +2205,7 @@ public class CommonLogic {
     }
 
     public List<String> getBrand() {
-        List<String> brandList = new ArrayList<String>();
+        List<String> brandList = new ArrayList<>();
         String query = "select distinct BRAND_NAME  from dbo.BRAND_MASTER WHERE BRAND_NAME!='null'";
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (Object brandName : list) {
@@ -2639,7 +2216,7 @@ public class CommonLogic {
     }
 
     public List<String> getIdentifierType() {
-        List<String> identifierList = new ArrayList<String>();
+        List<String> identifierList = new ArrayList<>();
         String query = "select distinct ITEM_IDENTIFIER_VALUE from dbo.ITEM_IDENTIFIER WHERE ITEM_IDENTIFIER_VALUE!='null'";
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (Object idenifier : list) {
@@ -2696,75 +2273,6 @@ public class CommonLogic {
             }
         }
         return framedString;
-    }
-
-    public static String getCffLevelListQuery(int projectionId, String hierarchyIndicator, int levelNo, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo, boolean isFilter, boolean isExpand, boolean isCount, int start, int offset, boolean isLimit, boolean isCustom, int customId, String userGroup, int userId, int sessionId, String custRelSid, String prodRelSid) {
-        if (isCustom) {
-
-            String hierarchyIndicatorQuery = "select HIERARCHY_INDICATOR from dbo.CFF_CUSTOM_VIEW_DETAILS where CFF_CUSTOM_VIEW_MASTER_SID=" + customId + " and LEVEL_NO=" + levelNo;
-            List<Object> list = (List<Object>) executeSelectQuery(hierarchyIndicatorQuery, null, null);
-            if (list != null && !list.isEmpty()) {
-                Object ob = list.get(0);
-                hierarchyIndicator = String.valueOf(ob);
-            } else {
-                hierarchyIndicator = "";
-            }
-        }
-        String hierarchyNo1 = "";
-        String whereCond = " ";
-        if (hierarchyNo != null && !hierarchyNo.equals("")) {
-                if (isExpand) {
-                    whereCond = " and HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
-                }
-                if (!isFilter) {
-                    hierarchyNo1 = hierarchyNo;
-                }
-            }
-        String recordNumber = "";
-        String selectClause = "select ";
-        if (isCount) {
-            selectClause += " Count(distinct HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO) ";
-        } else {
-            selectClause += " distinct HLD" + hierarchyIndicator.trim() + ".LEVEL_NO, "
-                    + " HLD" + hierarchyIndicator.trim() + ".TREE_LEVEL_NO, "
-                    + " '" + hierarchyIndicator + "' as HIERARCHY_INDICATOR,"
-                    + " HLD" + hierarchyIndicator.trim() + ".LEVEL_NAME,"
-                    + " HLD" + hierarchyIndicator.trim() + ".RELATIONSHIP_LEVEL_VALUES,"
-                    + " HLD" + hierarchyIndicator.trim() + ".PARENT_NODE,"
-                    + " HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO ";
-            if (isLimit) {
-                recordNumber += " ORDER BY HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO ASC OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
-            } else {
-                selectClause += ", ROW_NUMBER() OVER (ORDER BY HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO ASC) AS TEMP_INDEX ";
-            }
-        }
-        String customSql = selectClause;
-        if (isCustom) {
-
-            String customViewQuery = getCustomViewLevelListQuery(projectionId, customId, hierarchyIndicator, levelNo, productHierarchyNo, customerHierarchyNo, custRelSid, prodRelSid);
-            customSql += " from " + customViewQuery;
-        } else {
-            String relationshipBuilderSid = custRelSid;
-            if ("P".equals(hierarchyIndicator)) {
-                relationshipBuilderSid = prodRelSid;
-            }
-            String selectClause1 = "(SELECT RLD.relationship_level_values,RLD.hierarchy_no,CCP.ccp_details_sid,RLD.hierarchy_level_definition_sid,RLD.level_no,RLD.level_no as TREE_LEVEL_NO," + "'" + hierarchyIndicator + "'" + " HIERARCHY_INDICATOR,RLD.PARENT_NODE ";
-            String selectClause2 = " (SELECT RLD1.hierarchy_no,RLD1.relationship_level_sid,RLD1.relationship_level_values,RLD1.level_no,RLD1.level_name,RLD1.level_no as TREE_LEVEL_NO," + "'" + hierarchyIndicator + "'" + " HIERARCHY_INDICATOR,RLD1.hierarchy_level_definition_sid,RLD1.PARENT_NODE ";
-            String joinQuery1 = " relationship_level_definition RLD JOIN ccp_map CCP ON RLD.relationship_level_sid = CCP.relationship_level_sid"
-                    + " AND RLD.RELATIONSHIP_BUILDER_SID=" + relationshipBuilderSid + " \n"
-                    + " JOIN CFF_DETAILS ccfd "
-                    + "  ON ccfd.ccp_details_sid = CCP.ccp_details_sid  AND ccfd.cff_master_sid =" + projectionId + " " + getGroupFilterQuery(userGroup, userId, sessionId, false) + ") CCPMAP,";
-
-            String joinQuery2 = " relationship_level_definition RLD1 JOIN " + getViewTableName(hierarchyIndicator) + " PCH  ON PCH.relationship_level_sid = RLD1.relationship_level_sid \n"
-                    + " AND PCH.CFF_MASTER_SID =" + projectionId
-                    + " WHERE  RLD1.hierarchy_no LIKE '" + hierarchyNo1 + "%' AND RLD1.LEVEL_NO = " + levelNo + ") HLD" + hierarchyIndicator.trim();
-            String mainJoin = " WHERE  CCPMAP.hierarchy_no LIKE HLD" + hierarchyIndicator.trim() + ".hierarchy_no + '%'";
-
-            customSql += " from " + selectClause1 + " from " + joinQuery1 + " " + selectClause2 + " from " + joinQuery2 + " " + mainJoin
-                    + whereCond;
-        }
-        customSql += recordNumber;
-        return customSql;
     }
     
     public static String getHistoryPeriodDate(String freq,int histNum)
@@ -2837,14 +2345,14 @@ public class CommonLogic {
 
         String query = insertAvailableHierarchyNo(projSelDTO);
         query += SQlUtil.getQuery("custom-view-hiearchy-no-query");
-        query = query.replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(projSelDTO));
+        query = query.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         query = query.replace("[?START]", String.valueOf(start));
         query = query.replace("[?END]", String.valueOf(end));    
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             return list;
         } else {
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -2868,18 +2376,18 @@ public class CommonLogic {
             int levelNo = getActualLevelNoFromCustomView(projSelDTO);
             switch (String.valueOf(currentHierarchyIndicator)) {
                 case "C":
-                    sql = sql.replace("[?HIERARCHY_NO_VALUES]", getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo));
+                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 case "P":
-                    sql = sql.replace("[?HIERARCHY_NO_VALUES]", getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
+                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 default:
-                    LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator: " + currentHierarchyIndicator);
             }
         } else {
-            sql = sql.replace("[?HIERARCHY_NO_VALUES]", getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
+            sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         }
-        sql = sql.replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(projSelDTO));
+        sql = sql.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         System.out.println(" insertAvailableHierarchyNo ----------- >>>> "+sql);
         LOGGER.debug("Group Filter Value:" + projSelDTO.getGroupFilter());
         return sql;
@@ -3023,7 +2531,7 @@ public class CommonLogic {
         int customId = session.getCustomId();
         if (!session.getCustomHierarchyMap().containsKey(customId)) {
             List<CffCustomViewDetails> customDetailsList = null;
-            List<Leveldto> listValue = new ArrayList<Leveldto>();
+            List<Leveldto> listValue = new ArrayList<>();
             if (customId != 0) {
                 if (session.getCustomDetailMap().get(customId) != null) {
                     customDetailsList = session.getCustomDetailMap().get(customId);
@@ -3046,7 +2554,6 @@ public class CommonLogic {
                     /**
                      * assign null to Object , To be destroyed By JVM *
                      */
-                    relationShipLevelQry = null;
                     for (CffCustomViewDetails ob : customDetailsList) {
                         for (Object[] obj : list) {
                             if (String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim()) && obj.length > 1) {
@@ -3080,7 +2587,7 @@ public class CommonLogic {
     public List getHiearchyNoAsList(final ProjectionSelectionDTO projSelDTO, int start, int end) {
 
         String query = SQlUtil.getQuery("hiearchy-no-query");
-        query = query.replace("[?HIERARCHY_NO_VALUES]", getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
+        query = query.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         query = query.replace("[?START]", String.valueOf(start));
         query = query.replace("[?END]", String.valueOf(end));
         query = query.replace("[?HIERARCHY_COLUMN]", getColumnName(projSelDTO.getHierarchyIndicator()));
@@ -3090,7 +2597,7 @@ public class CommonLogic {
             return list;
         }
 
-        return null;
+        return Collections.emptyList();
     }
        /**
      * Return the column name associated to hierarchy indicator
@@ -3099,7 +2606,7 @@ public class CommonLogic {
      * @return 
      */
     public String getColumnName(final String hierarchyIndicator) {
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
             columnName = "CUST_HIERARCHY_NO";
         } else {
@@ -3122,7 +2629,7 @@ public class CommonLogic {
         }
         String countQuery = insertAvailableHierarchyNo(projSelDTO);
         countQuery += SQlUtil.getQuery("custom-view-count-query");
-        countQuery = countQuery.replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(projSelDTO));
+        countQuery = countQuery.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             count = Integer.valueOf(list.get(0).toString());
@@ -3150,7 +2657,7 @@ public class CommonLogic {
         String countQuery = insertAvailableHierarchyNo(session, hierarchyNo, hierarchyIndicator, levelNo, Boolean.TRUE,
                 customId, customerHierarchyNo,productHierarchyNo);
         countQuery += SQlUtil.getQuery("custom-view-count-query");
-        countQuery = countQuery.replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(Boolean.TRUE, customerHierarchyNo, productHierarchyNo, hierarchyIndicator));
+        countQuery = countQuery.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(Boolean.TRUE, customerHierarchyNo, productHierarchyNo, hierarchyIndicator));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, session.getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             count = Integer.valueOf(list.get(0).toString());
@@ -3167,18 +2674,18 @@ public class CommonLogic {
             int actualLevelNo = getActualLevelNoFromCustomView(sessionDTO, customId, levelNo);
             switch (String.valueOf(currentHierarchyIndicator)) {
                 case "C":
-                    sql = sql.replace("[?HIERARCHY_NO_VALUES]", getSelectedHierarchy(sessionDTO, customerHierarchyNo, currentHierarchyIndicator, actualLevelNo));
+                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(sessionDTO, customerHierarchyNo, currentHierarchyIndicator, actualLevelNo));
                     break;
                 case "P":
-                    sql = sql.replace("[?HIERARCHY_NO_VALUES]", getSelectedHierarchy(sessionDTO, productHierarchyNo, currentHierarchyIndicator, actualLevelNo));
+                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(sessionDTO, productHierarchyNo, currentHierarchyIndicator, actualLevelNo));
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
             }
         } else {
-            sql = sql.replace("[?HIERARCHY_NO_VALUES]", getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo));
+            sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo));
         }
-        sql = sql.replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(sessionDTO, customId, levelNo,isCustomHierarchy,hierarchyIndicator,customerHierarchyNo,productHierarchyNo));
+        sql = sql.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(sessionDTO, customId, levelNo,isCustomHierarchy,hierarchyIndicator,customerHierarchyNo,productHierarchyNo));
         return sql;
 
     }

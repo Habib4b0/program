@@ -294,6 +294,20 @@ public interface ItemPricingModel extends BaseModel<ItemPricing> {
      */
     public void setPricingCodeStatus(int pricingCodeStatus);
 
+    /**
+     * Returns the item price precision of this item pricing.
+     *
+     * @return the item price precision of this item pricing
+     */
+    public int getItemPricePrecision();
+
+    /**
+     * Sets the item price precision of this item pricing.
+     *
+     * @param itemPricePrecision the item price precision of this item pricing
+     */
+    public void setItemPricePrecision(int itemPricePrecision);
+
     @Override
     public boolean isNew();
 

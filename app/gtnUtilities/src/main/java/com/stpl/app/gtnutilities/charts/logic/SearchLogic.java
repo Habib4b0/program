@@ -98,26 +98,24 @@ public class SearchLogic {
         return isExcelExport?resultList:customize_data(resultList, tableName, String.valueOf(input[NumericConstants.ZERO]));
     }
 
-   public List fetchDataFromDBForJOb(Object input[], int start, int end, boolean isCount, Set<Container.Filter> filterSet, List<SortByColumn> sortByList,boolean isExcelExport ) {
-            ResultSet resultSet=null;
-       try {
+    public List fetchDataFromDBForJOb(Object input[], int start, int end, boolean isCount, Set<Container.Filter> filterSet, List<SortByColumn> sortByList, boolean isExcelExport) {
+        try {
             connectToDB();
-            Statement statment = connection.createStatement();
             query = SQlUtil.getQuery(isCount ? "getScheduledJobsCount" : "getScheduledJobs");
             if (!isCount) {
                 String enabledQuery = String.valueOf(input[NumericConstants.ONE]).equals(Constants.ALL) ? Constants.EMPTY
-                        : String.format("and [jobs].[enabled]=%s", String.valueOf(input[ NumericConstants.ONE]).equals(Constants.ENABLED) ? NumericConstants.ONE : NumericConstants.ZERO);
-                query += String.format("WHERE [jobs].[name] like '%s' %s %s %s OFFSET %s ROWS FETCH NEXT %s ROWS ONLY", 
+                        : String.format("and [jobs].[enabled]=%s", String.valueOf(input[NumericConstants.ONE]).equals(Constants.ENABLED) ? NumericConstants.ONE : NumericConstants.ZERO);
+                query += String.format("WHERE [jobs].[name] like '%s' %s %s %s OFFSET %s ROWS FETCH NEXT %s ROWS ONLY",
                         input[NumericConstants.ZERO], enabledQuery, getFilterQueryForJob(filterSet), getSortByQuery(sortByList, Constants.JOB), start, end);
             }
-        
-            resultSet= statment.executeQuery(query);
-            returnList = new ArrayList<>();
-            
-        } catch (Exception ex) {
+            try (Statement statment = connection.createStatement(); ResultSet resultSet = statment.executeQuery(query);) {
+                returnList = isExcelExport && !isCount ? Arrays.asList(resultSet) : customize_Job_Data(resultSet, isCount);
+            }
+
+        } catch ( SQLException ex) {
             LOGGER.debug(ex);
         }
-        return isExcelExport && !isCount ? Arrays.asList(resultSet) : customize_Job_Data(resultSet, isCount);
+        return returnList;
     }
 
     private List customize_data(List<Object[]> resultList, String tableName, String type) {
@@ -145,6 +143,7 @@ public class SearchLogic {
                 chartsDTO.setValue(truncateValuesBasedOnType(type, String.valueOf(objects[index++])));
                 chartsDTO.setText_Query(createButtonLink(query));
             }
+            LOGGER.debug("End of Loop----------" + index);
             returnList.add(chartsDTO);
         }
         return returnList;
@@ -159,7 +158,7 @@ public class SearchLogic {
         return resultList;
     }
 
-    public Connection connectToDB() throws ClassNotFoundException, SQLException {
+    public Connection connectToDB() throws  SQLException {
         String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appMonitorDataPool";
 
         try {

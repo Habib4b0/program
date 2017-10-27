@@ -1,6 +1,9 @@
 package com.stpl.app.util;
 
 // TODO: Auto-generated Javadoc
+
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Contains the constants that were used in ExcelExport.
  * 
@@ -31,5 +34,19 @@ public final class ExcelExportUtil {
      */
     private ExcelExportUtil(){
     	//Empty
+    }
+    /**
+     * To null check and replace double quotes in string 
+     * CSV will spilt the values based on Comma and if string contains quotes and comma, values will misplace
+     * @param rawObj -value to write in csv
+     * @return 
+     */    
+     public static String replaceDoubleQuotes(Object rawObj) {
+        String excelString = rawObj == null ? " " : String.valueOf(rawObj);
+        if (StringUtils.isNotBlank(String.valueOf(excelString))) {
+                 excelString = excelString.replace("\"", "\"\"");
+        } 
+            return excelString;
+            
     }
 }

@@ -46,16 +46,7 @@ public class AddDiscountAddView extends VerticalLayout {
         this.session = session;
         addDiscountForm = new AddDiscountForm(this.addWindow, removeList, this.session);
         addComponent(addDiscountForm);
-        enter();
     }
 
-    /**
-     * This method is always called before the view is shown on screen.
-     *
-     * @param event the event
-     */
-    public void enter() {
-
-    }
 
 }

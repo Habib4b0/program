@@ -20,7 +20,9 @@ import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.Role;
+import com.stpl.portal.model.User;
 import com.stpl.portal.service.RoleLocalServiceUtil;
+import com.stpl.portal.service.UserLocalServiceUtil;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.RegexpValidator;
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -64,13 +67,12 @@ public class CommonUtils {
 
     final private static FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
 
-    private static Logger logger = Logger.getLogger(CommonUtils.class);
-
     private static CommonUtils object;
     /**
      * The WorkFlowStatus list name.
      */
     public final static String WORKFLOW_STATUS = "WorkFlowStatus";
+    private static HashMap<Long, String> userMap = new HashMap<Long, String>();
     
     public final static String SUCCESSFULLY_DELETED = " has been deleted Successfully";
     public final static String PRIMARY = "Primary";
@@ -111,7 +113,7 @@ public class CommonUtils {
         final HelperDTO defaultValue = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> helperList = getHelperResults(listName);
         resultContainer.addAll(helperList);
         select.setContainerDataSource(resultContainer);
@@ -152,7 +154,7 @@ public class CommonUtils {
 
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
@@ -181,7 +183,7 @@ public class CommonUtils {
      */
     public static ComboBox getCompany(final ComboBox select) throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         try {
             List<CompanyMaster> resultList;
             final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
@@ -242,14 +244,13 @@ public class CommonUtils {
             String forecastName = fileNameObject[0] != null ? fileNameObject[0].toString() : "";
             String version = fileNameObject[1] != null ? fileNameObject[1].toString() : "";
             String finalVersion;
-            String etlVersion = ConstantsUtils.EMPTY;
+            String etlVersion;
             String selectedVersion = version;
             if (selectedVersion.contains(".")) {
                 String[] array = selectedVersion.split("\\.");
                 etlVersion = array[0];
                 finalVersion = etlVersion + "~" + selectedVersion;
             } else {
-                etlVersion = selectedVersion;
                 finalVersion = selectedVersion;
             }
             List<Object[]> list = getForecastYear(finalVersion, forecastName, fileType);
@@ -333,7 +334,7 @@ public class CommonUtils {
             frequencyDivision = 1;
             endPeriod = cal.get(Calendar.YEAR);
         }
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         list.add(frequencyDivision);
         list.add(endPeriod);
         list.add(cal.get(Calendar.YEAR));
@@ -387,7 +388,7 @@ public class CommonUtils {
     }
 
     public static String getMonthForInt(int num) {
-        String month = "wrong";
+        String month;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
         if (num >= 0 && num <= NumericConstants.ELEVEN) {
@@ -439,7 +440,7 @@ public class CommonUtils {
                 }
             }
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
     }
 
@@ -479,9 +480,9 @@ public class CommonUtils {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
         }
@@ -633,5 +634,34 @@ public class CommonUtils {
 
             LOGGER.error(e);
         }
+    }
+    public static HashMap<Long, String> setUserInfo() {
+
+        List<User> users = new ArrayList<>();
+        DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        try {
+            users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
+        } catch (SystemException ex) {
+            LOGGER.error(ex);
+        }
+
+        for (User user : users) {
+            userMap.put(user.getUserId(), user.getLastName() + " " + user.getFirstName());
+        }
+        return userMap;
+    }
+    public static String getUserInfo(String userId) {
+        try {
+            Long.valueOf(userId);
+        } catch (NumberFormatException nfe) {
+            return StringUtils.EMPTY;
+        }
+        return getUserInfo(Long.valueOf(userId));
+    }
+    public static String getUserInfo(Long userId) {
+        return userMap.get(userId) != null ? userMap.get(userId) : StringUtils.EMPTY;
+    }
+    public static HashMap<Long, String> getUserMap() {
+        return userMap;
     }
 }

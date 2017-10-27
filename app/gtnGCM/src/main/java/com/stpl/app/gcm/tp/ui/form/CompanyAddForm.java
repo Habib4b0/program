@@ -166,15 +166,15 @@ public class CompanyAddForm extends VerticalLayout {
     @UiField("errorMsg")
     public ErrorLabel errorMsg;
 
-    private BeanItemContainer<CompanyCrtIdentifierDTO> identifierContainer = new BeanItemContainer<CompanyCrtIdentifierDTO>(CompanyCrtIdentifierDTO.class);
-    private BeanItemContainer<CompanyCrtIdentifierDTO> tradeClassContainer = new BeanItemContainer<CompanyCrtIdentifierDTO>(CompanyCrtIdentifierDTO.class);
+    private BeanItemContainer<CompanyCrtIdentifierDTO> identifierContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
+    private BeanItemContainer<CompanyCrtIdentifierDTO> tradeClassContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
 
     CompanyCrtIdentifierDTO companyCrtIdentifierDTO = new CompanyCrtIdentifierDTO();
     private static final Logger LOGGER = Logger.getLogger(CompanyAddForm.class);
     /**
      * The binder.
      */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyCrtIdentifierDTO>(companyCrtIdentifierDTO));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(companyCrtIdentifierDTO));
     /**
      * The identifier results bean.
      */
@@ -201,7 +201,7 @@ public class CompanyAddForm extends VerticalLayout {
      */
     public ErrorfulFieldGroup getBinder() {
         final CompanyCrtIdentifierDTO bean = new CompanyCrtIdentifierDTO();
-        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyCrtIdentifierDTO>(bean));
+        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -212,27 +212,27 @@ public class CompanyAddForm extends VerticalLayout {
 
         try {
             companyStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            companyStartDate.setStyleName("dateFieldCenter");
+            companyStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
             companyStartDate.setRequired(true);
             companyStartDate.setValidationVisible(true);
 
             startDate.setDateFormat(Constants.MM_DD_YYYY);
-            startDate.setStyleName("dateFieldCenter");
+            startDate.setStyleName(Constants.DATE_FIELD_CENTER);
             startDate.setRequired(true);
             startDate.setValidationVisible(true);
 
             endDate.setDateFormat(Constants.MM_DD_YYYY);
-            endDate.setStyleName("dateFieldCenter");
+            endDate.setStyleName(Constants.DATE_FIELD_CENTER);
             endDate.setRequired(true);
             endDate.setValidationVisible(true);
 
             tradeStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            tradeStartDate.setStyleName("dateFieldCenter");
+            tradeStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
             tradeStartDate.setRequired(true);
             tradeStartDate.setValidationVisible(true);
 
             tradeEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            tradeEndDate.setStyleName("dateFieldCenter");
+            tradeEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
             tradeEndDate.setRequired(true);
             tradeEndDate.setValidationVisible(true);
 
@@ -297,8 +297,8 @@ public class CompanyAddForm extends VerticalLayout {
         identifierResults.setSelectable(true);
         identifierResults.setFilterBarVisible(false);
 
-        identifierResults.setVisibleColumns(Constants.IDEN_FORM_COL_ORDER);
-        identifierResults.setColumnHeaders(Constants.IDEN_FORM_COL_HEADER);
+        identifierResults.setVisibleColumns(Constants.getInstance().idenFormColOrder);
+        identifierResults.setColumnHeaders(Constants.getInstance().idenFormColHeader);
 
         identifierResults.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             /**
@@ -311,7 +311,7 @@ public class CompanyAddForm extends VerticalLayout {
                 if (identifierTableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) identifierTableBeanId;
                 } else if (identifierTableBeanId instanceof CompanyCrtIdentifierDTO) {
-                    targetItem = new BeanItem<CompanyCrtIdentifierDTO>((CompanyCrtIdentifierDTO) identifierTableBeanId);
+                    targetItem = new BeanItem<>((CompanyCrtIdentifierDTO) identifierTableBeanId);
                 } else {
                     targetItem = null;
                 }
@@ -330,8 +330,8 @@ public class CompanyAddForm extends VerticalLayout {
 
         tradeResults.setFilterBarVisible(false);
         tradeResults.setSelectable(true);
-        tradeResults.setVisibleColumns(Constants.TRADE_CLASS_COLUMNS);
-        tradeResults.setColumnHeaders(Constants.TRADE_CLASS_HEADERS);
+        tradeResults.setVisibleColumns(Constants.getInstance().tradeClassColumns);
+        tradeResults.setColumnHeaders(Constants.getInstance().tradeClassHeaders);
 
         tradeResults.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             /**
@@ -344,7 +344,7 @@ public class CompanyAddForm extends VerticalLayout {
                 if (tradeTableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) tradeTableBeanId;
                 } else if (tradeTableBeanId instanceof CompanyCrtIdentifierDTO) {
-                    targetItem = new BeanItem<CompanyCrtIdentifierDTO>((CompanyCrtIdentifierDTO) tradeTableBeanId);
+                    targetItem = new BeanItem<>((CompanyCrtIdentifierDTO) tradeTableBeanId);
                 } else {
                     targetItem = null;
                 }
@@ -356,7 +356,7 @@ public class CompanyAddForm extends VerticalLayout {
     }
 
     public void attachButton1() {
-
+        return;
     }
 
     @UiHandler("identifierAttachBtn")
@@ -605,7 +605,7 @@ public class CompanyAddForm extends VerticalLayout {
         session.setCompanyCategory(" ");
         session.setTradeClass(" ");
 
-        List<String> companyIds = new ArrayList<String>();
+        List<String> companyIds = new ArrayList<>();
         companyIds.add(String.valueOf(company.getCompanyMasterSid()));
         session.setCompanyMasterSids(companyIds);
         session.setModuleName(moduleName);
@@ -652,7 +652,7 @@ public class CompanyAddForm extends VerticalLayout {
              */
             public void yesMethod() {
                 binder.getErrorDisplay().clearError();
-                binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
+                binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
             }
         }.getConfirmationMessage(MessageUtil.getErrorCode(Message.CONFIRM_RESET), MessageUtil.getErrorCode(Message.CONFIRM_RESET_MSG));
 
@@ -675,7 +675,7 @@ public class CompanyAddForm extends VerticalLayout {
              */
             public void yesMethod() {
                 binder.getErrorDisplay().clearError();
-                binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
+                binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
             }
         }.getConfirmationMessage(MessageUtil.getErrorCode(Message.CONFIRM_RESET), MessageUtil.getErrorCode(Message.CONFIRM_IDENTIFIER_RESET_MSG));
 
@@ -729,7 +729,7 @@ public class CompanyAddForm extends VerticalLayout {
              */
             public void yesMethod() {
                 binder.getErrorDisplay().clearError();
-                binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
+                binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
                 tradeResults.resetFilters();
 
             }

@@ -13,6 +13,7 @@ import com.stpl.app.gtnforecasting.bpm.util.MessageUtils;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dataassumptions.form.DataAssumptions;
+import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;
 import com.stpl.app.gtnforecasting.discountProjection.form.MSupplementalDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.discountprojectionresults.form.MDiscountProjectionResults;
@@ -205,8 +206,8 @@ public class ForecastForm extends AbstractForm {
     /**
      * Map for lazy loading.
      */
-    private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<Integer, Boolean>();
-    private final Map<String, Boolean> pushMap = new HashMap<String, Boolean>();
+    private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
+    private final Map<String, Boolean> pushMap = new HashMap<>();
     final StplSecurity stplSecurity = new StplSecurity();
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     /**
@@ -230,6 +231,7 @@ public class ForecastForm extends AbstractForm {
     final DataSelectionForm dataSelectionForm;
     DataSelectionLogic dsLogic = new DataSelectionLogic();
     NonMandatedLogic logic = new NonMandatedLogic();
+    DataAssumptionsLogic dataAssumption = new DataAssumptionsLogic();
     public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
     boolean discountFlag = true;
     boolean ppaFlag = true;
@@ -240,7 +242,7 @@ public class ForecastForm extends AbstractForm {
     boolean isCommercialGovernment = Boolean.FALSE;
     ExecutorService service = ThreadPool.getInstance().getService();
     public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session, ForecastEditWindow editWindow,
-            final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm,ForecastWindow forecastWindow) throws SystemException, Exception {
+            final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm,ForecastWindow forecastWindow) throws  Exception {
 
         this.dataSelectionBinder = dataSelectionBinder;
         this.dataSelectionDTO = dataSelectionDTO;
@@ -268,11 +270,11 @@ public class ForecastForm extends AbstractForm {
         }
     }
 
-    private void forecastDTOConfiguration() throws Exception {
+    private void forecastDTOConfiguration()  {
         DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
     }
 
-    private void init() throws SystemException, Exception {
+    private void init() throws  Exception {
 
         session.setPpaIndicator(true);
         forecastDTOConfiguration();
@@ -282,7 +284,11 @@ public class ForecastForm extends AbstractForm {
             session.setMaximumCustomerLevel(dsLogic.getMaximumLevelNo(session.getHierarchyLevelDetails(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY));
             session.setMaximumProductLevel(dsLogic.getMaximumLevelNo(session.getHierarchyLevelDetails(), Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY));
             commercialConfiguration();
-           if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+            dataAssumption.setSession(this.session);
+            session.setDataAssumptionLogic(dataAssumption);
+            dataAssumption.getLatestFilesList();
+            dataAssumption.isSalesCalculatedAlready();
+            if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.VIEW.equalsIgnoreCase(session.getAction())) {
                 if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())) {
                     discountFlag = false;
                 }
@@ -295,7 +301,7 @@ public class ForecastForm extends AbstractForm {
             this.ppaProjectionResults = new PPAProjectionResults(session);
             this.projectionVariance = new NMProjectionVariance(this, session, screenName);
             this.nonmandatedprojectionResults = new NMProjectionResults(session, screenName, this);
-            this.additionalInformation = new AdditionalInformationForm(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED, StringUtils.EMPTY, session.getProjectionId(), session.getAction());
+            this.additionalInformation = new AdditionalInformationForm(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED, session.getProjectionId(), session.getAction());
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
             governmentConfiguration();
             this.salesProjectionResultsForMandated = new MSalesProjectionResults(session, screenName);
@@ -304,7 +310,7 @@ public class ForecastForm extends AbstractForm {
             this.discountProjectionResultsForMandated = new MDiscountProjectionResults(session, screenName);
             this.mmdiscountProjectionResultsForMandated = new ManagedDiscountProjectionResult(session, screenName);
             this.mandatedprojectionResults = new MProjectionResults(session, screenName);
-            this.additionalInformation = new AdditionalInformationForm(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, StringUtils.EMPTY, session.getProjectionId(), session.getAction());
+            this.additionalInformation = new AdditionalInformationForm(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, session.getProjectionId(), session.getAction());
             this.projectionVarianceForMandated = new MProjectionVariance(session, screenName);
 
         } else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
@@ -415,35 +421,35 @@ public class ForecastForm extends AbstractForm {
                 tabSheet.addTab(projectionVariance, TAB_PROJECTION_VARIANCE.getConstant(), null, NumericConstants.EIGHT);
                 tabSheet.addTab(additionalInformation, TAB_ADDITIONAL_INFORMATION.getConstant(), null, NumericConstants.NINE);
             } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                tabSheet.addTab(salesProjectionForMandated, "Sales Projection", null, 1);
-                tabSheet.addTab(salesProjectionResultsForMandated, "Sales Projection Results", null, NumericConstants.TWO);
+                tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
+                tabSheet.addTab(salesProjectionResultsForMandated, Constant.SALES_PROJECTION_RESULTS, null, NumericConstants.TWO);
                 tabSheet.addTab(supplementalDiscountProjectionForMandated, "Supplemental Discount Projection", null, NumericConstants.THREE);
-                String definedOrUDValue = StringUtils.EMPTY;
+                String definedOrUDValue;
                 String definedValue = dsLogic.getDefinedValue(dataSelectionDTO.getCustomerHierSid());
                 if ("User Defined".equalsIgnoreCase(definedValue)) {
                     definedOrUDValue = session.getMarketType();
                     session.setMarketTypeValue(definedOrUDValue);
                 }
-                if (Constant.MM.equalsIgnoreCase(session.getMarketTypeValue()) || Constant.Managed_Medicaid.equalsIgnoreCase(session.getMarketTypeValue())) {
-                    tabSheet.addTab(mmdiscountProjectionResultsForMandated, "Discount Projection Results",
+                if (Constant.MM.equalsIgnoreCase(session.getMarketTypeValue()) || Constant.MANAGED_MEDICAID.equalsIgnoreCase(session.getMarketTypeValue())) {
+                    tabSheet.addTab(mmdiscountProjectionResultsForMandated, Constant.DISCOUNT_PROJECTION_RESULTS,
                             null, NumericConstants.FOUR);
                 } else {
-                    tabSheet.addTab(discountProjectionResultsForMandated, "Discount Projection Results",
+                    tabSheet.addTab(discountProjectionResultsForMandated, Constant.DISCOUNT_PROJECTION_RESULTS,
                             null, NumericConstants.FOUR);
                 }
 
-                tabSheet.addTab(mandatedprojectionResults, "Projection Results", null, NumericConstants.FIVE);
+                tabSheet.addTab(mandatedprojectionResults, Constant.PROJECTION_RESULTS, null, NumericConstants.FIVE);
                 tabSheet.addTab(projectionVarianceForMandated, "Projection Variance", null, NumericConstants.SIX);
                 tabSheet.addTab(additionalInformation, "Additional Information", null, NumericConstants.SEVEN);
             } else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
-                tabSheet.addTab(returnsProjection, "Returns Projection", null, 1);
+                tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
             }
 
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
         attachTabChangeListener();
-        if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+        if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) && tabSheet.getTab(tabPosition).isVisible()) {
             ppaProjectionResults.setVisible(session.isCidtIndicator());
         }
     }
@@ -465,8 +471,13 @@ public class ForecastForm extends AbstractForm {
                         if (checkSalesFlag) {
                             CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                         }
-                        if(tabPosition == NumericConstants.THREE){
+                        if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.THREE) {
                             salesProjectionResults.defaultFocus();
+                        } else if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.FIVE) {
+                            discountProjectionResults.defaultFocus();
+                        }
+                        if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.SEVEN) {
+                            nonmandatedprojectionResults.defaultFocus();
                         }
                         onTabChange(tabPosition);
 
@@ -479,13 +490,13 @@ public class ForecastForm extends AbstractForm {
                         if (checkSalesFlag) {
                             CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                         }
-                        onTabChangeForMandated(tabPosition);
+                        onTabChangeForMandated();
                     } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
                         //To check wheather the thread is alive
                         if (tabPosition == 0) {
                             waitForThread(dsThread);
                         }
-                        onTabChangeForReturns(tabPosition);
+                        onTabChangeForReturns();
                     }
                 } catch (Exception ex) {
                     LOGGER.error(ex);
@@ -497,7 +508,7 @@ public class ForecastForm extends AbstractForm {
     protected void buttonEnableLogic(int tabPosition, int i) {
         if (tabPosition != 0) {
             btnPrev.setVisible(true);
-        } else if (tabPosition == 0) {
+        } else  {
             btnPrev.setVisible(false);
         }
         if (tabPosition == i) {
@@ -556,8 +567,7 @@ public class ForecastForm extends AbstractForm {
                     if (!data.isDataSelectionValid()) {
                         data.setUpdateOnTabChange(true);
                         dsFlag = true;
-                        AbstractNotificationUtils.getErrorNotification("Selection Criteria",
-                                "Not all required fields have been populated. Please try again.");
+                        AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER, Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
                         return;
                     } else {
                         new AbstractNotificationUtils() {
@@ -572,10 +582,10 @@ public class ForecastForm extends AbstractForm {
                                     data.updateDataSelection();
                                     if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
                                         List<Integer> productListValue = DataSelection.getProductBeanLisTemp();
-                                        data.updateDataSelectionSelectedProducts(productListValue);
+                                        data.updateDataSelectionSelectedProducts();
                                         data.updateProjectionProdHierarchy();
                                         dsLogic.updateReturnDetails(session);
-                                        session.setReturnsDetailsMap(dsLogic.getReturnDetails(null, session, true));
+                                        session.setReturnsDetailsMap(dsLogic.getReturnDetails( session, true));
                                         dsLogic.callInsertProcedure(session.getProjectionId(), session.getUserId(), session.getSessionId(), SalesUtils.RETURNS_SALES_INSERT_PRO_NAME);
                                     } else {
                                         data.updateDataSelectionProjectionTables(screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) ? "GOVERMENT_DETAILS_TABLES" : "COMMERCIAL_TABLES");
@@ -602,7 +612,7 @@ public class ForecastForm extends AbstractForm {
                                 }
 
                             }
-                        }.getConfirmationMessage("Update confirmation", "Data Selection values have changed. All other tabs will be updated and unsaved data will be lost. Continue?");
+                        }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
                     }
 
                     data.setUpdateOnTabChange(Boolean.FALSE);
@@ -619,68 +629,67 @@ public class ForecastForm extends AbstractForm {
      * @param tabPosition the tab position
      */
     @Override
-    protected void onTabChange(int tabPosition) { 
+    protected void onTabChange(int tabPosition) {
         LOGGER.debug("onTabChange starts");
         try {
 
-                if ((lastPosition == data.getTabNumber()) && (data.isUpdateOnTabChange() && dsFlag)) {
-                    dsFlag = false;
-                    tempTabPosition = tabPosition;
-                    tabSheet.setSelectedTab(0);
-                    new AbstractNotificationUtils() {
-                        @Override
-                        public void yesMethod() {
-                            try {
-                                if (data.isDataSelectionValid()) {
-                                    data.updateDataSelection();
-                                    session.setTradingPartner(CommonLogic.getTradingPartnerLevelNo(false, session.getProjectionId()));
-                                    pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
-                                    if (session.isFromDateChanged()) {
-                                        DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
-                                        pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
-                                        session.setFromDateChanged(false);
-                                    }
-                                    tabSheet.setSelectedTab(tempTabPosition);
-                                    dsFlag = true;
-                                    discountFlag = true;
-                                    nmSalesProjection.init();
-                                    discountProjection.getContent();
-                                } else {
-                                    Tab tabToReset = tabSheet.getTab(2);
-                                    tabSheet.removeTab(tabToReset);
-                                    tabSheet.addTab(nmSalesProjection, "Sales Projection", null, 2);
-                                    dsFlag = true;
-                                    data.setUpdateOnTabChange(Boolean.TRUE);
-                                    tabSheet.setSelectedTab(0);
-                                    lastPosition = 0;
-                                    AbstractNotificationUtils.getErrorNotification("Selection Criteria",
-                                            "Not all required fields have been populated. Please try again.");
+            if ((lastPosition == data.getTabNumber()) && (data.isUpdateOnTabChange() && dsFlag)) {
+                dsFlag = false;
+                tempTabPosition = tabPosition;
+                tabSheet.setSelectedTab(0);
+                new AbstractNotificationUtils() {
+                    @Override
+                    public void yesMethod() {
+                        try {
+                            if (data.isDataSelectionValid()) {
+                                data.updateDataSelection();
+                                session.setTradingPartner(CommonLogic.getTradingPartnerLevelNo(false, session.getProjectionId()));
+                                pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
+                                if (session.isFromDateChanged()) {
+                                    DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
+                                    pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
+                                    session.setFromDateChanged(false);
                                 }
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                tabSheet.setSelectedTab(tempTabPosition);
+                                dsFlag = true;
+                                discountFlag = true;
+                                nmSalesProjection.init();
+                                discountProjection.getContent();
+                            } else {
+                                Tab tabToReset = tabSheet.getTab(2);
+                                tabSheet.removeTab(tabToReset);
+                                tabSheet.addTab(nmSalesProjection, Constant.SALES_PROJECTION, null, 2);
+                                dsFlag = true;
+                                data.setUpdateOnTabChange(Boolean.TRUE);
+                                tabSheet.setSelectedTab(0);
+                                lastPosition = 0;
+                                AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER, Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
                             }
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
                         }
+                    }
 
-                        @Override
-                        public void noMethod() {
+                    @Override
+                    public void noMethod() {
 
-                            Tab tabToReset = tabSheet.getTab(2);
-                            tabSheet.removeTab(tabToReset);
-                            tabSheet.addTab(nmSalesProjection, "Sales Projection", null, 2);
-                            dsFlag = true;
-                            try {
+                        Tab tabToReset = tabSheet.getTab(2);
+                        tabSheet.removeTab(tabToReset);
+                        tabSheet.addTab(nmSalesProjection, Constant.SALES_PROJECTION, null, 2);
+                        dsFlag = true;
+                        try {
 
-                                data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
-                            }
-                            tabSheet.setSelectedTab(0);
-                            lastPosition = 0;
+                            data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
                         }
-                    }.getConfirmationMessage("Update confirmation", "Data Selection values have changed. All other tabs will be updated and unsaved data will be lost. Continue?");
-                    data.setReloadAfterUpdate(Boolean.TRUE);
-                    data.setUpdateOnTabChange(Boolean.FALSE);
-                }
+                        tabSheet.setSelectedTab(0);
+                        lastPosition = 0;
+                    }
+                }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
+                data.setReloadAfterUpdate(Boolean.TRUE);
+                data.setUpdateOnTabChange(Boolean.FALSE);
+            }
 
             /**
              * Saving Projection selection for projection variance data load
@@ -690,23 +699,23 @@ public class ForecastForm extends AbstractForm {
                 discountProjection.saveSelections();
             }
             session.setIsProgramCategory(PROGRAM_CATEGORY.getConstant().equals(discountProjection.getDiscountType()));
-            if (tabPosition == NumericConstants.THREE) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.THREE) {
                 salesProjectionResults.configure();
             }
             if (tabPosition == discountProjection.getTabNumber()) {
                 //To make the discount projection insert procedure to wait
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROCEDURE_CALL));
-                    if (discountProjection.isListviewGenerated && discountFlag) {
-                        discountProjection.configure();
-                        discountProjection.saveDiscountProjectionScreen(false);
+                if (discountProjection.isListviewGenerated && discountFlag) {
+                    discountProjection.configure();
+                    discountProjection.saveDiscountProjectionScreen(false);
                     discountFlag = false;
-                    }
-                    }
-            if (tabPosition == nonmandatedprojectionResults.getTabNumber() && tabLazyLoadMap.get(nonmandatedprojectionResults.getTabNumber())) {
+                }
+            }
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == nonmandatedprojectionResults.getTabNumber() && tabLazyLoadMap.get(nonmandatedprojectionResults.getTabNumber())) {
                 session.setPpaIndicator(true);
                 nonmandatedprojectionResults.loadGroupFilterOntabChange();
             }
-            if (tabPosition == nonmandatedprojectionResults.getTabNumber()) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == nonmandatedprojectionResults.getTabNumber()) {
                 nonmandatedprojectionResults.configure();
             }
             if (!tabLazyLoadMap.get(tabPosition)) {
@@ -719,28 +728,28 @@ public class ForecastForm extends AbstractForm {
                 projectionVariance.configure();
                 projectionVariance.loadGroupFilterOntabChange();
             }
-            if (tabPosition == discountProjectionResults.getTabNumber() && tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber() && tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
                 discountProjectionResults.configure();
                 //To make the discount projection insert procedure to wait
-                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROCEDURE_CALL,0));
+                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROCEDURE_CALL, 0));
                 discountProjectionResults.loadGroupFilter();
             }
-            if (tabPosition == ppaProjectionResults.getTabNumber() && session.isIsSalesCalculated()) {
-               nmPPAInitProcedure();
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == ppaProjectionResults.getTabNumber() && session.isIsSalesCalculated()) {
+                nmPPAInitProcedure();
             }
-            if(tabPosition == salesProjectionResults.getTabNumber()){
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == salesProjectionResults.getTabNumber()) {
                 session.setSprRefreshReqd(true);
             }
             push(tabPosition);
 
             lastPosition = tabPosition;
-                } catch (Exception ex) {
+        } catch (Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("onTabChange ends");
     }
 
-    private void onTabChangeForReturns(int tabPositionForM) throws PortalException, SystemException {
+    private void onTabChangeForReturns()  {
         try {
 
             if ((lastPosition == data.getTabNumber()) && (data.isUpdateOnTabChange() && dsFlag)) {
@@ -755,10 +764,10 @@ public class ForecastForm extends AbstractForm {
                                     List<Integer> productListValue = DataSelection.getProductBeanLisTemp();
 
                                     data.updateDataSelection();
-                                    data.updateDataSelectionSelectedProducts(productListValue);
+                                    data.updateDataSelectionSelectedProducts();
                                     data.updateProjectionProdHierarchy();
                                     dsLogic.updateReturnDetails(session);
-                                    session.setReturnsDetailsMap(dsLogic.getReturnDetails(null, session, true));
+                                    session.setReturnsDetailsMap(dsLogic.getReturnDetails( session, true));
                                     dsLogic.callInsertProcedure(session.getProjectionId(), session.getUserId(), session.getSessionId(), SalesUtils.RETURNS_SALES_INSERT_PRO_NAME);
                                     if (session.isFromDateChanged()) {
                                         DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
@@ -776,7 +785,7 @@ public class ForecastForm extends AbstractForm {
                                     try {
                                         Tab tabToReset = tabSheet.getTab(1);
                                         tabSheet.removeTab(tabToReset);
-                                        tabSheet.addTab(returnsProjection, "Returns Projection", null, 1);
+                                        tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
                                         tabSheet.setSelectedTab(0);
                                         data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
                                         tabPosition = 0;
@@ -785,8 +794,7 @@ public class ForecastForm extends AbstractForm {
                                         LOGGER.error(e);
                                     }
 
-                                    AbstractNotificationUtils.getErrorNotification("Selection Criteria",
-                                            "Not all required fields have been populated. Please try again.");
+                                    AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER, Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
                                 }
                             } catch (Exception ex) {
                                 LOGGER.error(ex);
@@ -798,7 +806,7 @@ public class ForecastForm extends AbstractForm {
                             try {
                                 Tab tabToReset = tabSheet.getTab(1);
                                 tabSheet.removeTab(tabToReset);
-                                tabSheet.addTab(returnsProjection, "Returns Projection", null, 1);
+                                tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
                                 tabSheet.setSelectedTab(0);
                                 data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
                                 tabPosition = 0;
@@ -808,7 +816,7 @@ public class ForecastForm extends AbstractForm {
                             }
                             dsFlag = true;
                         }
-                    }.getConfirmationMessage("Update confirmation", "Data Selection values have changed. All other tabs will be updated and unsaved data will be lost. Continue?");
+                    }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
                     data.setReloadAfterUpdate(Boolean.FALSE);
                     data.setUpdateOnTabChange(Boolean.FALSE);
                 }
@@ -831,7 +839,7 @@ public class ForecastForm extends AbstractForm {
         }
     }
 
-    private void onTabChangeForMandated(int tabPositionForM) throws PortalException, SystemException {
+    private void onTabChangeForMandated()  {
 
         try {
 
@@ -864,7 +872,7 @@ public class ForecastForm extends AbstractForm {
                                     try {
                                         Tab tabToReset = tabSheet.getTab(1);
                                         tabSheet.removeTab(tabToReset);
-                                        tabSheet.addTab(salesProjectionForMandated, "Sales Projection", null, 1);
+                                        tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
                                         tabSheet.setSelectedTab(0);
                                         data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
                                         tabPosition = 0;
@@ -873,8 +881,7 @@ public class ForecastForm extends AbstractForm {
                                         LOGGER.error(e);
                                     }
 
-                                    AbstractNotificationUtils.getErrorNotification("Selection Criteria",
-                                            "Not all required fields have been populated. Please try again.");
+                                    AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER, Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
                                 }
                             } catch (Exception ex) {
                                 LOGGER.error(ex);
@@ -886,7 +893,7 @@ public class ForecastForm extends AbstractForm {
                             try {
                                 Tab tabToReset = tabSheet.getTab(1);
                                 tabSheet.removeTab(tabToReset);
-                                tabSheet.addTab(salesProjectionForMandated, "Sales Projection", null, 1);
+                                tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
                                 tabSheet.setSelectedTab(0);
                                 data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
                                 tabPosition = 0;
@@ -896,7 +903,7 @@ public class ForecastForm extends AbstractForm {
                             }
                             dsFlag = true;
                         }
-                    }.getConfirmationMessage("Update confirmation", "Data Selection values have changed. All other tabs will be updated and unsaved data will be lost. Continue?");
+                    }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
                     data.setReloadAfterUpdate(Boolean.FALSE);
                     data.setUpdateOnTabChange(Boolean.FALSE);
                 }
@@ -926,7 +933,7 @@ public class ForecastForm extends AbstractForm {
                     discountProjectionResultsForMandated.configureScreen();
                     if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) && !this.salesProjectionForMandated.isSalesCalculated()) {
                         Object[] orderedArgs = {session.getProjectionId(), session.getUserId(), "SPAP", session.getSessionId()};
-                        CommonLogic.callProcedureforUpdate("PRC_M_DISCOUNT_INSERT", orderedArgs);
+                        CommonLogic.callProcedureforUpdate(Constant.PRC_M_DISCOUNT_INSERT, orderedArgs);
                     }
                     supplementalDiscountProjectionForMandated.setDefaultAccess();
                     session.setDprRefreshReqd(true);
@@ -960,19 +967,18 @@ public class ForecastForm extends AbstractForm {
     @Override
     protected void lazyLoadTab(final int tabPosition) {
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-            if (tabPosition == salesProjectionResults.getTabNumber()) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == salesProjectionResults.getTabNumber()) {
                 tabSheet.replaceComponent(salesProjectionResults, salesProjectionResults);
                 salesProjectionResults.setProjectionSelection();
             } else if (tabPosition == discountProjection.getTabNumber()) {
                 discountProjection.getContent();
                 tabSheet.replaceComponent(discountProjection, discountProjection);
-            } else if (tabPosition == discountProjectionResults.getTabNumber()) {
+            } else if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber()) {
                 tabSheet.replaceComponent(discountProjectionResults, discountProjectionResults);
                 discountProjectionResults.setProjectionSelection();
-            } 
-            else if (tabPosition == ppaProjectionResults.getTabNumber()) {
+            } else if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == ppaProjectionResults.getTabNumber()) {
                 tabSheet.replaceComponent(ppaProjectionResults, ppaProjectionResults.getContent());
-            } else if (tabPosition == nonmandatedprojectionResults.getTabNumber()) {
+            } else if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == nonmandatedprojectionResults.getTabNumber()) {
                 tabSheet.replaceComponent(nonmandatedprojectionResults, nonmandatedprojectionResults);
 
             } else if (tabPosition == projectionVariance.getTabNumber()) {
@@ -992,7 +998,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     public void detachListeners(TabSheet tabsheet) {
-        List<TabSheet.SelectedTabChangeListener> listeners = new ArrayList<TabSheet.SelectedTabChangeListener>();
+        List<TabSheet.SelectedTabChangeListener> listeners;
 
         listeners = (List<TabSheet.SelectedTabChangeListener>) tabsheet
                 .getListeners(TabSheet.SelectedTabChangeEvent.class);
@@ -1075,8 +1081,8 @@ public class ForecastForm extends AbstractForm {
      */
     @Override
     protected void btnCloseLogic() {
-        String msgTitle = "Close Confirmation";
-        String msgContent = "Are you sure you want to close this Projection?";
+        String msgTitle;
+        String msgContent;
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
             msgTitle = "Save?";
 
@@ -1102,7 +1108,7 @@ public class ForecastForm extends AbstractForm {
                             try {
                                 NonMandatedLogic logic = new NonMandatedLogic();
                                 saveProjection();
-                                logic.deleteTempBySession(session,screenName);
+                                logic.deleteTempBySession();
 
                                 if (editWindow != null) {
                                     closeEditTray(editWindow);
@@ -1145,15 +1151,13 @@ public class ForecastForm extends AbstractForm {
                         checkSaveFlag(false);
                     }
                 }
-//  Commented for CEL-321 - While value changing the View Option Group (Customer, Product,Custom) the list view is Empty.               
-//              CommonLogic.dropDynamicTables(session.getUserId(),session.getSessionId()); 
             }
         }.getConfirmationMessage(msgTitle, msgContent);
 
     }
 
     private void checkSaveFlag(boolean flag)  {
-        final NonMandatedLogic logic = new NonMandatedLogic();
+        final NonMandatedLogic logic;
         if (!session.isProjectionSaveFlag()) {
             if (dataSelectionDTO != null && Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
                 new AbstractNotificationUtils() {
@@ -1161,13 +1165,12 @@ public class ForecastForm extends AbstractForm {
                     public void yesMethod() {
                         try {
                         
-//                            logic.deleteTempBySession(session, screenName);
                             if (resultTable != null) {
                                 resultTable.removeAllItems();
-                                BeanItemContainer<DataSelectionDTO> tempContainer = new BeanItemContainer<DataSelectionDTO>(DataSelectionDTO.class);
+                                BeanItemContainer<DataSelectionDTO> tempContainer = new BeanItemContainer<>(DataSelectionDTO.class);
                                 resultTable.setContainerDataSource(tempContainer);
-                                resultTable.setVisibleColumns(TableHeaderColumnsUtil.DATASELECTION_COLUMNS);
-                                resultTable.setColumnHeaders(TableHeaderColumnsUtil.DATASELECTION_HEADERS);
+                                resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumns);
+                                resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaders);
                             }
                             dsLogic.deleteProjection(session.getProjectionId(), session.getUserId(), screenName);
                         }
@@ -1230,60 +1233,81 @@ public class ForecastForm extends AbstractForm {
      */
     @Override
     protected void btnSubmitLogic() {
-
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
-            if (((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED))
-                    || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) 
-            && (canBeSubmitted(screenName))){
-                
-                new AbstractNotificationUtils() {
-                    @Override
-                    public void yesMethod() {
-
-                        final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                        getUI().getCurrent().addWindow(popup);
-                        popup.addCloseListener(new Window.CloseListener() {
-                            @Override
-                            public void windowClose(Window.CloseEvent e) {
-                                try {
-                                    if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
-                                        submitProjection(popup.getNotes().getValue(), screenName, popup.getUploadedData());
-                                        if ((Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) && editWindow != null) {
-                                            closeEditTray(editWindow);
-                                            editWindow.close();
-                                        }  else if (isCommercialGovernment && forecastWindow != null) {
-                                            closeEditTray(forecastWindow);
-                                            forecastWindow.close();
-                                        } else if (viewWindow != null) {
-                                            closeViewTray(viewWindow);
-                                            viewWindow.close();
-                                        }
-                                        WorkFlowNotesLookup.submitFlag = "Failed";
-
-                                        CommonLogic.dropDynamicTables(session.getUserId(),session.getSessionId());
-                                    }
-
-                                } catch (SystemException ex) {
-                                    LOGGER.error(ex);
-                                } catch (PortalException ex) {
-                                    LOGGER.error(ex);
-                                } catch (Exception ex) {
-                                    LOGGER.error(ex);
-                                }
-                            }
-                        });
+            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                if (submitCheck()) {
+                    if (dataAssumption.isIsAllowedToSubmit() && (session.isIsDiscountCalculated() || Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()))) {
+                        submitLogic(true);
+                    } else {
+                        AbstractNotificationUtils.getInfoNotification("New File Activated",
+                                session.getFileStatus() == 0 ? "There is a new file " + session.getFileName() + " that has been activated. Please recalculate the Discount Projection, since it is currently based off of outdated data"
+                                        : "Please recalculate the Discount Projection, since it is currently based off of outdated data");
                     }
-
-                    @Override
-                    public void noMethod() {
-                    }
-                }.getConfirmationMessage("Confirm Submit", "Are you sure you want to submit the projection for approval?");
-
+                } else {
+                    AbstractNotificationUtils.getErrorNotification("Missing Values", "The workflow cannot be submitted for approval.\n  Not all required fields have been completed.");
+                }
+            } else if ((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) && canBeSubmitted(screenName)) {
+                submitLogic(false);
             } else {
                 AbstractNotificationUtils.getErrorNotification("Missing Values", "The workflow cannot be submitted for approval.\n  Not all required fields have been completed.");
             }
         }
+    }
+    
+    private boolean submitCheck() {
+        return (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) && nmSalesProjection.getSubmitFlag()
+                && discountProjection.getSubmitFlag() && dataAssumption.isDiscountLoaded())
+                || (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) && dataAssumption.isDiscountLoaded());
+    }
+    
+    private void submitLogic(final boolean isCommercial) {
+        new AbstractNotificationUtils() {
+            @Override
+            public void yesMethod() {
+                final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
+                getUI().getCurrent().addWindow(popup);
+                popup.addCloseListener(new Window.CloseListener() {
+                    @Override
+                    public void windowClose(Window.CloseEvent e) {
+                        try {
+                            nmPPAInitProcedure();
+                            if ( ppaProjectionResults != null && ppaProjectionResults.isIsTabVisible()) {
+                                ppaProjectionResults.getContent();
+                                ppaProjectionResults.ppaProcedure();
+                            }
+                            if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+                                submitProjection(popup.getNotes().getValue(), screenName, popup.getUploadedData());
+                                if ((Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) && editWindow != null) {
+                                    closeEditTray(editWindow);
+                                    editWindow.close();
+                                } else if (isCommercialGovernment && forecastWindow != null) {
+                                    closeEditTray(forecastWindow);
+                                    forecastWindow.close();
+                                } else if (viewWindow != null) {
+                                    closeViewTray(viewWindow);
+                                    viewWindow.close();
+                                }
+                                WorkFlowNotesLookup.submitFlag = "Failed";
+                                CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
+                            }
+                        } catch (SystemException ex) {
+                            LOGGER.error(ex);
+                        } catch (PortalException ex) {
+                            LOGGER.error(ex);
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
+                        }
+                    }
+                });
+            }
 
+            @Override
+            public void noMethod() {
+                if (isCommercial) {
+                    dataAssumption.isSalesCalculatedAlready();
+                }
+            }
+        }.getConfirmationMessage("Confirm Submit", "Are you sure you want to submit the projection for approval?");
     }
 
     private boolean canBeSubmitted(String screenName) {
@@ -1327,7 +1351,6 @@ public class ForecastForm extends AbstractForm {
                   List<Future> saveFutureList = new ArrayList<>();
                 //To save data from temp to main. threads used
                 logic.saveTempToMainForMandated(session,service,saveFutureList);
-//                salesProjectionForMandated.saveSalesProjection();
                 salesProjectionResultsForMandated.saveSPResults();
                 supplementalDiscountProjectionForMandated.saveSDP();
                 discountProjectionResultsForMandated.saveDPR();
@@ -1344,16 +1367,14 @@ public class ForecastForm extends AbstractForm {
             }
             updateSaveFlag(session.getProjectionId());
         } catch (SystemException ex) {
-            ex.printStackTrace();
             LOGGER.error(ex);
         } catch (Exception ex) {
-            ex.printStackTrace();
             LOGGER.error(ex);
         }
         LOGGER.debug("Exiting SaveProjection method");
     }
 
-    public void updateSaveFlag(final int projectionId) throws SystemException{
+    public void updateSaveFlag(final int projectionId) {
         if (!StringUtils.isEmpty(String.valueOf(projectionId)) && !Constant.NULL.equalsIgnoreCase(String.valueOf(projectionId))) {
             String query = "UPDATE PROJECTION_MASTER SET SAVE_FLAG=1 ,MODIFIED_BY= " + UiUtils.parseStringToInteger(userId) + ",MODIFIED_DATE=GETDATE() WHERE PROJECTION_MASTER_SID = " + projectionId;
             HelperTableLocalServiceUtil.executeUpdateQuery(query);
@@ -1363,16 +1384,16 @@ public class ForecastForm extends AbstractForm {
     /**
      * Submits the projection. Saves and calls the workflow
      */
-    private void submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData) throws SystemException, SQLException, PortalException{
+    private void submitProjection(final String notes, final String screenName, final List<NotesDTO> getUploadedData) throws SystemException, PortalException{
 
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
             NonMandatedLogic logic = new NonMandatedLogic();
-            Map<String, Object> params = new HashMap<String, Object>();
+            Map<String, Object> params = new HashMap<>();
             params.put(Constant.PROJECTION_ID, session.getProjectionId());
             saveProjection();
                 if ((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) && (!checkMandatedDiscountAvailablity(session))) {
                     Object[] orderedArgs = {session.getProjectionId(), session.getUserId(), "SPAP", session.getSessionId()};
-                    CommonLogic.callProcedureforUpdate("PRC_M_DISCOUNT_INSERT", orderedArgs);
+                    CommonLogic.callProcedureforUpdate(Constant.PRC_M_DISCOUNT_INSERT, orderedArgs);
                 }
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
@@ -1381,7 +1402,7 @@ public class ForecastForm extends AbstractForm {
             if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
                 ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
                 User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
-                List<String> roleList = new ArrayList<String>();
+                List<String> roleList = new ArrayList<>();
                 boolean workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
                 Long processInstanceId = processInstance.getId();
                 try {
@@ -1396,7 +1417,7 @@ public class ForecastForm extends AbstractForm {
 
                 } else {
                     StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
-                    if (roleList != null && !roleList.isEmpty()) {
+                    if (!roleList.isEmpty()) {
                         notiMsg.append("\n Only " + roleList + " can submit a projection.");
                     }
                     NotificationUtils.getAlertNotification("Permission Denied", notiMsg.toString());
@@ -1426,7 +1447,7 @@ public class ForecastForm extends AbstractForm {
                     processId = Long.valueOf(processList.get(0).toString());
                 }
                 
-            VarianceCalculationLogic.submitWorkflow(session.getUserId(), processId, params, "submit");
+            VarianceCalculationLogic.submitWorkflow(session.getUserId(), processId, params);
             String autoApproval = BPMProcessBean.getProcessVariableLog(processId, "Auto_Approval");
             String noOfUsers = BPMProcessBean.getProcessVariableLog(processId, "NoOfUsers");
             if (!autoApproval.isEmpty() && !noOfUsers.isEmpty()) {
@@ -1434,8 +1455,8 @@ public class ForecastForm extends AbstractForm {
                 LOGGER.debug("autoApproval  : " + autoApproval);
                 LOGGER.debug("no of users : " + noOfUsers);
                 String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
-                String approvedFlag = StringUtils.EMPTY;
-                logic.deleteTempBySession(session, screenName);
+                String approvedFlag;
+                logic.deleteTempBySession();
                 if (Constant.TRUE.equals(autoApproval)) {
                     WorkflowLogic wfLogic = new WorkflowLogic();
                     WorkflowMaster wm = wfLogic.getWorkflowMasterByProjectionId(session.getProjectionId());
@@ -1489,7 +1510,7 @@ public class ForecastForm extends AbstractForm {
     /**
      * Called on submitting. Starts the workflow
      */
-    public void configureOnEnter(final int projectionId, final DataSelectionDTO dataSelectionDTO) {
+    public void configureOnEnter() {
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             tabSheet.setSelectedTab(2);
         } else {
@@ -1524,7 +1545,7 @@ public class ForecastForm extends AbstractForm {
         saveProjection();
     }
 
-    public void pushUpdate(String indicator) throws SystemException, SQLException {
+    public void pushUpdate(String indicator) {
         if (INDICATOR_REFRESH_UPDATE.getConstant().equals(indicator)) {
             try {
                 Object[] inputs = new Object[NumericConstants.FOUR];
@@ -1575,14 +1596,14 @@ public class ForecastForm extends AbstractForm {
         if (pushMap.get(INDICATOR_REFRESH_UPDATE.getConstant()) != null && pushMap.get(INDICATOR_REFRESH_UPDATE.getConstant())) {
             if (tabPosition == nmSalesProjection.getTabNumber()) {
             }
-            if (tabPosition == salesProjectionResults.getTabNumber() && tabLazyLoadMap.get(salesProjectionResults.getTabNumber())) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == salesProjectionResults.getTabNumber() && tabLazyLoadMap.get(salesProjectionResults.getTabNumber())) {
                 salesProjectionResults.pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
             }
 
-            if (tabPosition == discountProjectionResults.getTabNumber() && tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber() && tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
                 discountProjectionResults.pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
             }
-            if (tabPosition == ppaProjectionResults.getTabNumber() && tabLazyLoadMap.get(ppaProjectionResults.getTabNumber())) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == ppaProjectionResults.getTabNumber() && tabLazyLoadMap.get(ppaProjectionResults.getTabNumber())) {
                 ppaProjectionResults.pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
             }
 
@@ -1595,17 +1616,17 @@ public class ForecastForm extends AbstractForm {
         if (pushMap.get(INDICATOR_TIME_PERIOD_CHANGED.getConstant()) != null && pushMap.get(INDICATOR_TIME_PERIOD_CHANGED.getConstant())) {
             if (tabPosition == nmSalesProjection.getTabNumber()) {
             }
-            if (tabPosition == salesProjectionResults.getTabNumber() && tabLazyLoadMap.get(salesProjectionResults.getTabNumber())) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == salesProjectionResults.getTabNumber() && tabLazyLoadMap.get(salesProjectionResults.getTabNumber())) {
                 salesProjectionResults.pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
             }
 
-            if (tabPosition == discountProjectionResults.getTabNumber() && tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber() && tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
                 discountProjectionResults.pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
             }
             if (tabPosition == ppaProjection.getTabNumber() && tabLazyLoadMap.get(ppaProjection.getTabNumber())) {
                 ppaProjection.pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
             }
-            if (tabPosition == ppaProjectionResults.getTabNumber() && tabLazyLoadMap.get(ppaProjectionResults.getTabNumber())) {
+            if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == ppaProjectionResults.getTabNumber() && tabLazyLoadMap.get(ppaProjectionResults.getTabNumber())) {
                 ppaProjectionResults.pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
             }
 
@@ -1627,10 +1648,10 @@ public class ForecastForm extends AbstractForm {
      *
      * @throws Exception
      */
-    private void setTabSecurity() throws PortalException, SystemException {
+    private void setTabSecurity()  {
         final StplSecurity stplSecurity = new StplSecurity();
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-            Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessTabPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getGovernmentConstant());
+            Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessTabPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.BUSINESS_ROLE_IDS)), getGovernmentConstant());
             if (functionPsHM.get(FunctionNameUtil.DATA_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.DATA_TAB)).isTabFlag()) {
                 tabSheet.getTab(0).setVisible(Boolean.FALSE);
             }
@@ -1657,7 +1678,7 @@ public class ForecastForm extends AbstractForm {
             }
 
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-            Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessTabPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant());
+            Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessTabPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.BUSINESS_ROLE_IDS)), getCommercialConstant());
             if (functionPsHM.get(FunctionNameUtil.NM_DATA_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_DATA_TAB)).isTabFlag()) {
                 tabSheet.getTab(0).setVisible(Boolean.FALSE);
             }
@@ -1669,18 +1690,22 @@ public class ForecastForm extends AbstractForm {
             }
             if (functionPsHM.get(FunctionNameUtil.NM_SPR_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SPR_TAB)).isTabFlag()) {
                 tabSheet.getTab(NumericConstants.THREE).setVisible(Boolean.FALSE);
+                salesProjectionResults.setIsTabVisible(Boolean.FALSE);
             }
             if (functionPsHM.get(FunctionNameUtil.NM_SDP_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SDP_TAB)).isTabFlag()) {
                 tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
             }
             if (functionPsHM.get(FunctionNameUtil.NM_SDPR_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SDPR_TAB)).isTabFlag()) {
                 tabSheet.getTab(NumericConstants.FIVE).setVisible(Boolean.FALSE);
+                discountProjectionResults.setIsTabVisible(Boolean.FALSE);
             }
             if (functionPsHM.get(FunctionNameUtil.NM_PPA_RESULTS_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PPA_RESULTS_TAB)).isTabFlag()) {
                 tabSheet.getTab(NumericConstants.SIX).setVisible(Boolean.FALSE);
+                ppaProjectionResults.setIsTabVisible(Boolean.FALSE);
             }
             if (functionPsHM.get(FunctionNameUtil.NM_PR_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PR_TAB)).isTabFlag()) {
                 tabSheet.getTab(NumericConstants.SEVEN).setVisible(Boolean.FALSE);
+                nonmandatedprojectionResults.setIsTabVisible(Boolean.FALSE);
             }
             if (functionPsHM.get(FunctionNameUtil.NM_PV_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PV_TAB)).isTabFlag()) {
                 tabSheet.getTab(NumericConstants.EIGHT).setVisible(Boolean.FALSE);
@@ -1698,7 +1723,7 @@ public class ForecastForm extends AbstractForm {
      */
     private void setButtonSecurity() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
-        Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) ? getCommercialConstant() : screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) ? getGovernmentConstant() : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS) + "," + "Common");
+        Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.BUSINESS_ROLE_IDS)), (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) ? getCommercialConstant() : screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) ? getGovernmentConstant() : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS) + "," + "Common");
         if (functionPsHM.get("btnSave") != null && !((AppPermission) functionPsHM.get("btnSave")).isFunctionFlag()) {
             getBtnSave().setVisible(Boolean.FALSE);
         }
@@ -1754,7 +1779,7 @@ public class ForecastForm extends AbstractForm {
      * @throws Exception
      */
 
-    private void checkForActualSales() throws PortalException, SystemException, ParseException, Exception {
+    private void checkForActualSales() throws Exception  {
 
         if (logic.checkForZeroActuals(session)) {
             new AbstractNotificationUtils() {
@@ -1822,8 +1847,8 @@ public class ForecastForm extends AbstractForm {
                                 int userIdInt = Integer.parseInt(userId);
                                 int workflowId = session.getWorkflowId();
                                 WorkflowLogic wfLogic = new WorkflowLogic();
-                                String workflowIdUpdate = StringUtils.EMPTY;
-                                WorkflowMasterDTO wfMasterDto = new WorkflowMasterDTO();
+                                String workflowIdUpdate;
+                                WorkflowMasterDTO wfMasterDto;
                                 wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getApprovedStatus(), popup.getNotes().getValue(), session.getApprovalLevel());
                                 workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                 if (session.getNoOfApproval() > session.getApprovalLevel()) {
@@ -1832,15 +1857,15 @@ public class ForecastForm extends AbstractForm {
                                 }
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
 
-                                    Map<String, Object> params = new HashMap<String, Object>();
-                                    params.put("approveFlag", "approve");
-                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params,"approve");
+                                    Map<String, Object> params = new HashMap<>();
+                                    params.put(Constant.APPROVE_FLAG, "approve");
+                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
                                     callWorkflowInboxRefresh();
-                                    AbstractNotificationUtils.getInfoNotification("Approved Information", "Workflow Id " + workflowIdUpdate + " approved successfully");
-                                    StringBuffer sb = new StringBuffer("Hi,<br /><br />");
-                                    sb.append("The workflow with workflow Id " + workflowIdUpdate + " is Approved Succesfully.");
-                                    sb.append("<br /><br />Thanks,<br />BPI Technical Team");
-                                    MailWorkItemHandler.sendMail("support@bpitechnologies.com", "Workflow Approved Succesfully", sb);
+                                    AbstractNotificationUtils.getInfoNotification("Approved Information", Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
+                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
+                                    sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate + " is Approved Succesfully.");
+                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
+                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Approved Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -1879,15 +1904,15 @@ public class ForecastForm extends AbstractForm {
                                 WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getRejectedStatus(), popup.getNotes().getValue(), session.getApprovalLevel());
                                 String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-                                    Map<String, Object> params = new HashMap<String, Object>();
-                                    params.put("approveFlag", "reject-RWC");
-                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params,"reject");
+                                    Map<String, Object> params = new HashMap<>();
+                                    params.put(Constant.APPROVE_FLAG, "reject-RWC");
+                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
                                     callWorkflowInboxRefresh();
-                                    AbstractNotificationUtils.getInfoNotification("Rejected Information ", "Workflow Id " + workflowIdUpdate + " rejected successfully");
-                                    StringBuffer sb = new StringBuffer("Hi,<br /><br />");
-                                    sb.append("The workflow with workflow Id " + workflowIdUpdate + " is Rejected Succesfully.");
-                                    sb.append("<br /><br />Thanks,<br />BPI Technical Team");
-                                    MailWorkItemHandler.sendMail("support@bpitechnologies.com", "Workflow Rejected Succesfully", sb);
+                                    AbstractNotificationUtils.getInfoNotification("Rejected Information ", Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
+                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
+                                    sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate + " is Rejected Succesfully.");
+                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
+                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Rejected Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -1926,17 +1951,17 @@ public class ForecastForm extends AbstractForm {
                                 WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getWithdrawnStatus(), popup.getNotes().getValue(), session.getApprovalLevel());
                                 String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-                                    Map<String, Object> params = new HashMap<String, Object>();
-                                    params.put("approveFlag", "withdraw-RWC");
-                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params,"withdraw");
+                                    Map<String, Object> params = new HashMap<>();
+                                    params.put(Constant.APPROVE_FLAG, "withdraw-RWC");
+                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
 
                                     callWorkflowInboxRefresh();
-                                    AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", "Workflow Id " + workflowIdUpdate + " withdrawn successfully");
+                                    AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", Constant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
 
-                                    StringBuffer sb = new StringBuffer("Hi,<br /><br />");
-                                    sb.append("The workflow with workflow Id " + workflowIdUpdate + " is Withdrawn Succesfully.");
-                                    sb.append("<br /><br />Thanks,<br />BPI Technical Team");
-                                    MailWorkItemHandler.sendMail("support@bpitechnologies.com", "Workflow Withdrawn Succesfully", sb);
+                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
+                                    sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate + " is Withdrawn Succesfully.");
+                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
+                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Withdrawn Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -1975,16 +2000,16 @@ public class ForecastForm extends AbstractForm {
                                 String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
 
-                                    Map<String, Object> params = new HashMap<String, Object>();
-                                    params.put("approveFlag", "cancel-RWC");
-                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params,"cancel");
+                                    Map<String, Object> params = new HashMap<>();
+                                    params.put(Constant.APPROVE_FLAG, "cancel-RWC");
+                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
                                     callWorkflowInboxRefresh();
-                                    AbstractNotificationUtils.getInfoNotification("Cancel Information", "Workflow Id " + workflowIdUpdate + " cancelled successfully");
+                                    AbstractNotificationUtils.getInfoNotification("Cancel Information", Constant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
 
-                                    StringBuffer sb = new StringBuffer("Hi,<br /><br />");
-                                    sb.append("The workflow with workflow Id " + workflowIdUpdate + " is cancelled Succesfully.");
-                                    sb.append("<br /><br />Thanks,<br />BPI Technical Team");
-                                    MailWorkItemHandler.sendMail("support@bpitechnologies.com", "Workflow Cancelled Succesfully", sb);
+                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
+                                    sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate + " is cancelled Succesfully.");
+                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
+                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Cancelled Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -2124,8 +2149,6 @@ public class ForecastForm extends AbstractForm {
                 callContractDetailsPrcForDiscount();
                 nmPPAProcedure();
                 
-//                //call ppa insert procedures parallely 
-//                callPPADataSelectionProcedures();
 
                 break;
             case Constant.EDIT_SMALL:
@@ -2145,13 +2168,11 @@ public class ForecastForm extends AbstractForm {
                 callContractDetailsPrcForDiscount();
                 nmPPAProcedure();
               
-//                //call ppa insert procedures parallely 
-//                callPPADataSelectionProcedures();
                 break;
                 
             case Constant.VIEW:
 
-                 session.addFutureMap(Constant.FILE_INSERT, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCallForView()))});
+                session.addFutureMap(Constant.FILE_INSERT, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCallForView()))});
                 //Main to temp insert
                 logic.mainToTempTableInsert(session, service);
             
@@ -2239,17 +2260,15 @@ public class ForecastForm extends AbstractForm {
         .replace("?PROJECTION_ID", String.valueOf(session.getProjectionId()))
         .replace("?USER_ID",String.valueOf(session.getUserId()))
         .replace("?SESSION_ID", sessionId);
-        LOGGER.info("query---------------->>"+query);
         return query;
     }
     
-     private String dataInsertProcedureCallForView(){
+    private String dataInsertProcedureCallForView(){
         String sessionId ="'"+session.getSessionId()+"'";
         String query = SQlUtil.getQuery("Product_customer_files_insert_view")
         .replace("?PROJECTION_ID", String.valueOf(session.getProjectionId()))
         .replace("?USER_ID",String.valueOf(session.getUserId()))
         .replace("?SESSION_ID", sessionId);
-        LOGGER.info("View query-------------->>"+query);
         return query;
     }
     private Boolean checkLastPositionTab(int tabPosition){
@@ -2262,16 +2281,16 @@ public class ForecastForm extends AbstractForm {
         return salesFlag;
     }
     private void nmSalesInsertProcedure() {
-        session.addFutureMap(Constant.SALES_PROCEDURE_CALL, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), "sales")),
-        service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), "sales")),
-        service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), "sales"))
+        session.addFutureMap(Constant.SALES_PROCEDURE_CALL, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), Constant.SALES1)),
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), Constant.SALES1)),
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), Constant.SALES1))
         });
 }
  private void nmDiscountInsertProcedure() {
-         Future discountMasterInsert = service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(),"discount"));
+         Future discountMasterInsert = service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), Constant.DISCOUNT3));
          session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL, new Future[]{discountMasterInsert,
-         service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(),"discount",discountMasterInsert)),
-         service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(),"discount",discountMasterInsert))
+         service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,discountMasterInsert)),
+         service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,discountMasterInsert))
          });
      }
      
@@ -2324,8 +2343,9 @@ public class ForecastForm extends AbstractForm {
       * 
       */
       private void mDiscountProcedure() {
-         Future mDiscountInsert = service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, "PRC_M_DISCOUNT_INSERT", session.getProjectionId(), session.getUserId(), "SPAP", session.getSessionId()));
+         Future mDiscountInsert = service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, Constant.PRC_M_DISCOUNT_INSERT, session.getProjectionId(), session.getUserId(), "SPAP", session.getSessionId()));
          session.addFutureMap(Constant.M_DISCOUNT_PROCEDURE_CALL, new Future[]{mDiscountInsert});
      }
-}
+      
+    }
 

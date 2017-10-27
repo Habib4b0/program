@@ -8,23 +8,23 @@ package com.stpl.app.arm.adjustmentreserveconfiguration.ui.form;
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
 import com.stpl.app.arm.adjustmentreserveconfiguration.logic.AdjustmentReserveLogic;
 import com.stpl.app.arm.adjustmentreserveconfiguration.logic.tablelogic.ReserveSearchTableLogic;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.DeleteAdjustmentReserveAction;
 import com.stpl.app.arm.adjustmentreserveconfiguration.ui.abstractreserveform.AbstractReserve;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
+import com.stpl.app.arm.excecutors.ActionExecutor;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
+import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-import static com.stpl.ifs.ui.util.AbstractNotificationUtils.LOGGER;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.constants.ARMMessages;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
@@ -58,7 +58,10 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.ifs.ui.util.NumericConstants;
-import java.lang.reflect.InvocationTargetException;
+import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.GlobalConstants;
+import com.vaadin.data.Property;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -83,15 +86,16 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
     /**
      * The Company Drop down for Search Screen in Reserve Configuration in which
      * the Options will be all values from Company Master, Company Type = GLcomp
-     * The DDLB needs to show the combination of “COMPANY ID – COMPANY NAME”.
+     * The DDLB needs to show the combination of â€œCOMPANY ID â€“ COMPANY
+     * NAMEâ€�.
      */
     @UiField("companyDdlbRes")
     private ComboBox companyDdlbRes;
     /**
      * The Business Drop down for Search Screen in Reserve Configuration in
      * which the Options will be any Company Master record where Company Type =
-     * Business Unit.The DDLB needs to show the combination of “COMPANY ID –
-     * COMPANY NAME”.
+     * Business Unit.The DDLB needs to show the combination of â€œCOMPANY ID â€“
+     * COMPANY NAMEâ€�.
      */
     @UiField("businessDdlbRes")
     private ComboBox businessDdlbRes;
@@ -109,7 +113,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      * the DDLB will be filtered based on the value selected for Deduction
      * Category. Based on the value selected in Deduction Category the DDLB will
      * only show the distinct values that are associated with rebate schedules
-     * that have value selected in the “Deduction Category” DDLB.
+     * that have value selected in the â€œDeduction Categoryâ€� DDLB.
      */
     @UiField("deductionTypeDdlbRes")
     private ComboBox deductionTypeDdlbRes;
@@ -120,7 +124,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      * listed in the DDLB will be filtered based on the value selected for
      * Deduction Type. Based on the value selected in Deduction Category the
      * DDLB will only show the distinct values that are associated with rebate
-     * schedules that have value selected in the “Deduction Category” DDLB.
+     * schedules that have value selected in the â€œDeduction Categoryâ€� DDLB.
      */
     @UiField("deductionProgramDdlbRes")
     private ComboBox deductionProgramDdlbRes;
@@ -134,9 +138,20 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     @UiField("addPanelRes")
     private Panel addPanelRes;
+    
+    @UiField("adjSummaryPanel")
+    private Panel adjSummaryPanel;
+    
+    @UiField("balSummaryPanel")
+    protected Panel balSummaryPanel;
 
     @UiField("excelBtnRes")
     public Button excelBtnRes;
+    @UiField("methodologyLayout")
+    public HorizontalLayout methodologyLayout;
+    @UiField("reportTypeLayout")
+    public HorizontalLayout reportTypeLayout;
+
     /**
      * The Search Results Table Logic in Reserve Configuration
      */
@@ -159,11 +174,12 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
     AdjustmentReserveLogic logic = AdjustmentReserveLogic.getInstance();
 
     AdjustmentReserveDTO binderDto = new AdjustmentReserveDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<AdjustmentReserveDTO>(binderDto));
-    public static final Logger LOGGER = Logger.getLogger(AdjustmentReserveSearchForm.class);
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private static final Logger LOGGER = Logger.getLogger(AdjustmentReserveSearchForm.class);
     Map<Integer, String> userMap = null;
     ReserveSelection resSelection;
     ExecutorService service = ThreadPool.getInstance().getService();
+    private Boolean isValueChangeAllowed;
 
     /**
      * The Constructor for Search Screen in Adjustment Reserve Configuration.
@@ -182,18 +198,21 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     private void configureFields() {
         try {
-            CommonLogic.configureDropDowns(companyDdlbRes, "getCompanyQuery", Boolean.TRUE);
-            CommonLogic.configureDropDowns(businessDdlbRes, "getBusinessQuery", Boolean.TRUE);
-            CommonUtils.loadComboBoxWithIntegerForComboBox(deductionCategoryDdlbRes, "RS_CATEGORY", false);
-            CommonUtils.loadComboBoxWithIntegerForComboBox(deductionTypeDdlbRes, "RS_TYPE", false);
-            CommonUtils.loadComboBoxWithIntegerForComboBox(deductionProgramDdlbRes, "REBATE_PROGRAM_TYPE", false);
+            CommonLogic.configureDropDowns(companyDdlbRes, "getCompanyQuery", true);
+            CommonLogic.configureDropDowns(businessDdlbRes, "getBusinessQuery", true);
+            CommonLogic.configureDropDownsForDeduction(deductionCategoryDdlbRes, "getDeductionCategory");
+            CommonLogic.configureDropDownsForDeduction(deductionTypeDdlbRes, "getDeductionType");
+            CommonLogic.configureDropDownsForDeduction(deductionProgramDdlbRes, "getDeductionProgram");
+
             configureOnSearch();
             userMap = logic.getUserName();
             configureTable();
+            methodologyLayout.setVisible(false);
+            reportTypeLayout.setVisible(false);
             excelBtnRes.setPrimaryStyleName("link");
             excelBtnRes.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("Error in configureFields :"+ex);
         }
     }
 
@@ -202,18 +221,11 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     private void configureTable() {
         resultsTableLayoutRes.addComponent(resultsTable);
-        resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
+        
         resultsTable.setSelectable(true);
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
-
-            public Container.Filter generateFilter(Object propertyId, Object value) {
-                if ((propertyId.toString().equals("createdBy")) && (value != null)) {
-                    return new SimpleStringFilter(propertyId, String.valueOf(value), false, false);
-                }
-                return null;
-            }
-
-            @Override
+            
+             @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 String value = null;
                 if ((originatingField instanceof ComboBox) && ((originatingField instanceof ComboBox) && (originatingField.getValue() != null))) {
@@ -221,13 +233,21 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                 }
                 return generateFilter(propertyId, value);
             }
+            @Override
+            public Container.Filter generateFilter(Object propertyId, Object value) {
+                return null;
+            }
+
+           
 
             @Override
             public void filterRemoved(Object propertyId) {
+                LOGGER.debug("filterRemoved Method:");
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                LOGGER.debug("filterAdded Method:");
             }
 
             @Override
@@ -237,37 +257,20 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
 
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                try {
-                    final ComboBox comboBox = new ComboBox();
-                    comboBox.setImmediate(true);
-                    switch (propertyId.toString()) {
-                        case "createdBy":
-                            comboBox.addItem(0);
-                            comboBox.setItemCaption(0, ConstantsUtils.SHOW_ALL);
-                            for (Map.Entry<Integer, String> entry : userMap.entrySet()) {
-                                comboBox.addItem(entry.getKey());
-                                comboBox.setItemCaption(entry.getKey(), entry.getValue());
-                            }
-                            comboBox.setNullSelectionAllowed(true);
-                            comboBox.setNullSelectionItemId(0);
-                            return comboBox;
-                        default:
-                            return null;
-                    }
-                } catch (Exception ex) {
-                    LOGGER.error(ex);
-                }
-                return null;
+               return null;
+
             }
+          
         });
+        resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTableLayoutRes.addComponent(getResponsiveControls(adjustReserveConfigTableLogic.createControls()));
         adjustReserveConfigTableLogic.setContainerDataSource(availableResultsContainer);
-        resultsTable.setSelectable(Boolean.TRUE);
-        resultsTable.setMultiSelect(Boolean.FALSE);
+        resultsTable.setSelectable(true);
+        resultsTable.setMultiSelect(false);
         adjustReserveConfigTableLogic.setPageLength(NumericConstants.TEN);
-        adjustReserveConfigTableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
-        resultsTable.setVisibleColumns(ARMUtils.ADJUSTMENT_RESERVE_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(ARMUtils.ADJUSTMENT_RESERVE_SEARCH_HEADERS);
+        adjustReserveConfigTableLogic.sinkItemPerPageWithPageLength(false);
+        resultsTable.setVisibleColumns(ARMUtils.getAdjustmentReserveSearchColumns());
+        resultsTable.setColumnHeaders(ARMUtils.getAdjustmentReserveSearchHeaders());
         for (Object objColumn1 : resultsTable.getVisibleColumns()) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
@@ -275,7 +278,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
             }
         }
         resultsTable.setSizeFull();
-        resultsTable.setImmediate(Boolean.TRUE);
+        resultsTable.setImmediate(true);
         resultsTable.setPageLength(NumericConstants.TEN);
 
         resultsTable.addStyleName("filtertable");
@@ -295,14 +298,15 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     @UiHandler("copyBtnRes")
     public void copyButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
+        LOGGER.debug(event.toString());
         if (resultsTable.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSelect_Msg_002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSelect_Msg_002());
         } else {
             resSelection = new ReserveSelection();
             AdjustmentReserveDTO dto = (AdjustmentReserveDTO) resultsTable.getValue();
             sessionDTO.setMode(ARMUtils.COPY);
             SessionDTO selection = createSessionId();
-            selection.setScreenName("ARM_ADJ_REV");
+            selection.setScreenName(CommonConstant.ARM_ADJ_REV);
             createWindow(new CopyAdjustmentReserve(selection, dto, resSelection));
         }
     }
@@ -314,11 +318,12 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     @UiHandler("addBtnRes")
     public void addButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
+        LOGGER.debug(event.toString());
         sessionDTO.setMode(ARMUtils.ADD);
         SessionDTO selection = createSessionId();
         resSelection = new ReserveSelection();
         resSelection.setSession(selection);
-        selection.setScreenName("ARM_ADJ_REV");
+        selection.setScreenName(CommonConstant.ARM_ADJ_REV);
         initializeTempTables(selection, resSelection);
         createWindow(new AddAdjustmentReserve(selection, resSelection));
     }
@@ -330,14 +335,16 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     @UiHandler("editBtnRes")
     public void editButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
+        LOGGER.debug(event.toString());
         if (resultsTable.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSelect_Msg_002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSelect_Msg_002());
         } else {
             resSelection = new ReserveSelection();
-            AdjustmentReserveDTO dto = (AdjustmentReserveDTO) resultsTable.getValue();
+             AdjustmentReserveDTO dto = (AdjustmentReserveDTO) resultsTable.getValue();
             sessionDTO.setMode(ARMUtils.EDIT);
             SessionDTO selection = createSessionId();
-            selection.setScreenName("ARM_ADJ_REV");
+            selection.setScreenName(CommonConstant.ARM_ADJ_REV);
+            resSelection.setSession(selection);
             createWindow(new EditAdjustmentReserve(selection, dto, resSelection));
         }
     }
@@ -349,13 +356,16 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     @UiHandler("viewBtnRes")
     public void viewButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
+        LOGGER.debug(event.toString());
         if (resultsTable.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSelect_Msg_002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSelect_Msg_002());
         } else {
             resSelection = new ReserveSelection();
             AdjustmentReserveDTO dto = (AdjustmentReserveDTO) resultsTable.getValue();
             sessionDTO.setMode(ARMUtils.VIEW);
             SessionDTO selection = createSessionId();
+            selection.setScreenName(CommonConstant.ARM_ADJ_REV);
+            resSelection.setSession(selection);
             createWindow(new ViewAdjustmentReserve(selection, dto, resSelection));
         }
     }
@@ -368,17 +378,16 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      * @throws com.vaadin.data.fieldgroup.FieldGroup.CommitException
      */
     @UiHandler("searchBtnRes")
-    public void searchBtnResLogic(Button.ClickEvent event) throws CloneNotSupportedException, FieldGroup.CommitException {
+    public void searchBtnResLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
+        LOGGER.debug(event.toString());
         binder.commit();
-        if (binderDto.getCompanyDdlbRes() != 0 || binderDto.getBusinessDdlbRes() != 0 || binderDto.getDeductionCategoryDdlbRes() != 0 || binderDto.getDeductionTypeDdlbRes() != 0
-                || binderDto.getDeductionProgramDdlbRes() != 0) {
-            if (!adjustReserveConfigTableLogic.loadsetData(Boolean.TRUE, binderDto)) {
+        if (!mandatoryCheckForSearch()) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSearchMsg_001());
+        } else {
+            if (!adjustReserveConfigTableLogic.loadsetData(true, binderDto)) {
                 CommonUtils.successNotification(ARMMessages.getNoResultsFoundMessage());
             }
             resultsTable.setValue(null);
-
-        } else {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSearchMsg_001());
         }
     }
 
@@ -389,26 +398,29 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     @UiHandler("deleteBtnRes")
     public void deleteButtonLogic(Button.ClickEvent event) {
+        LOGGER.debug(event.toString());
         if (resultsTable.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSelect_Msg_002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSelect_Msg_002());
         } else if (logic.deleteAdjustmentDetailsCheck((AdjustmentReserveDTO) resultsTable.getValue())) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getDeleteMessageId_004());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getDeleteMessageId_004());
         } else {
             final AdjustmentReserveDTO dto = (AdjustmentReserveDTO) resultsTable.getValue();
             new AbstractNotificationUtils() {
                 @Override
                 public void yesMethod() {
                     try {
-                        logic.deleteReserveMaster(dto.getSearchMasterSid());
-                        adjustReserveConfigTableLogic.loadsetData(Boolean.TRUE, binderDto);
+                        ActionExecutor executor = new ActionExecutor();
+                        executor.callingActionExecution(new DeleteAdjustmentReserveAction(dto.getSearchMasterSid()));
+                        adjustReserveConfigTableLogic.loadsetData(true, binderDto);
                         AbstractNotificationUtils.getInfoNotification("Delete Successful", ARMMessages.getSuccessful_msg_001());
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in deleteButtonLogic :"+ex);
                     }
                 }
 
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("noMethod Method:");
                 }
 
             }.getConfirmationMessage("Confirmation", "Are you sure you want to delete record <" + dto.getCompanyName() + "> <" + dto.getBusinessUnitNo() + "> <" + dto.getDeductionCategory() + "> "
@@ -425,10 +437,13 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         getBinder();
         addFormLayoutRes.setVisible(false);
         addPanelRes.setVisible(false);
+        adjSummaryPanel.setVisible(false);
+        balSummaryPanel.setVisible(false);
     }
 
     @UiHandler("resetBtnRes")
-    public void resetButtonLogic(Button.ClickEvent event) throws SystemException, PortalException {
+    public void resetButtonLogic(Button.ClickEvent event) {
+        LOGGER.debug(event.toString());
         new AbstractNotificationUtils() {
             @Override
             public void yesMethod() {
@@ -437,17 +452,70 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in resetButtonLogic :"+ex);
                 }
             }
 
             @Override
             public void noMethod() {
+                LOGGER.debug("noMethod Method:");
             }
         }.getConfirmationMessage("Confirmation", ARMMessages.getResetMessageID003());
 
     }
-
+     @UiHandler("deductionCategoryDdlbRes")
+    public void valueChangeDeductionCategoryDdlbRes(final Property.ValueChangeEvent event) {
+        LOGGER.debug(event.toString());
+        isValueChangeAllowed = Boolean.FALSE;
+        if((int) deductionCategoryDdlbRes.getValue() != 0){
+        Map<Integer, HelperDTO> idhelper = HelperListUtil.getInstance().getIdHelperDTOMap();
+        List<Object> list = logic.getTypeValuesBasedOnCategory((int) deductionCategoryDdlbRes.getValue());
+        deductionTypeDdlbRes.removeAllItems();
+        deductionTypeDdlbRes.addItem(0);
+        deductionTypeDdlbRes.setItemCaption(0, GlobalConstants.getSelectOne());
+        deductionTypeDdlbRes.setNullSelectionAllowed(false);
+        for (Object obj : list) {
+            if (obj != null) {
+                deductionTypeDdlbRes.addItem((int) obj);
+                deductionTypeDdlbRes.setItemCaption((int) obj, (idhelper.get((int) obj)).getDescription());
+            }
+        }
+        deductionTypeDdlbRes.select(0);
+        deductionProgramDdlbRes.removeAllItems();
+        deductionProgramDdlbRes.addItem(0);
+        deductionProgramDdlbRes.setItemCaption(0, GlobalConstants.getSelectOne());
+        deductionProgramDdlbRes.select(0);
+        isValueChangeAllowed = Boolean.TRUE;
+        }else{
+            CommonLogic.configureDropDownsForDeduction(deductionTypeDdlbRes, "getDeductionType");
+        }
+    }
+    
+    
+    @UiHandler("deductionTypeDdlbRes")
+    public void valueChangeDeductionTypeDdlbRes(final Property.ValueChangeEvent event) {
+        LOGGER.debug(event.toString());
+        if (isValueChangeAllowed && (int) deductionTypeDdlbRes.getValue() != 0 ) {
+            if (deductionTypeDdlbRes.getValue() != null) {
+                Map<Integer, HelperDTO> idhelper = HelperListUtil.getInstance().getIdHelperDTOMap();
+                List<Object> list = logic.getTypeValuesBasedOnType((int) deductionCategoryDdlbRes.getValue(), (int) deductionTypeDdlbRes.getValue());// changed (int) companyDdlbRes.getValue() and (int) businessDdlbRes.getValue() to 0 for GAL-5535
+                deductionProgramDdlbRes.removeAllItems();
+                deductionProgramDdlbRes.addItem(0);
+                deductionProgramDdlbRes.setItemCaption(0, GlobalConstants.getSelectOne());
+                deductionProgramDdlbRes.setNullSelectionAllowed(false);
+                for (Object obj : list) {
+                    if (obj != null) {
+                        deductionProgramDdlbRes.addItem((int) obj);
+                        deductionProgramDdlbRes.setItemCaption((int) obj, (idhelper.get((int) obj)).getDescription());
+                    }
+                }
+            }
+            deductionProgramDdlbRes.select(0);
+        }else{
+              CommonLogic.configureDropDownsForDeduction(deductionProgramDdlbRes, "getDeductionProgram");
+       }
+    }
+    
     /**
      * Used to close the Edit tray
      *
@@ -485,11 +553,11 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      * @return @throws CloneNotSupportedException
      */
     private SessionDTO createSessionId() throws CloneNotSupportedException {
-        SessionDTO selection = this.sessionDTO.clone();
+        SessionDTO selection = sessionDTO.getSessionDTO(this.sessionDTO);
         Date sessionDate = new Date();
-        selection.setSessionId(Integer.valueOf(ARMUtils.FMT_ID.format(sessionDate)));
+        selection.setSessionId(Integer.valueOf(ARMUtils.getInstance().getFmtID().format(sessionDate)));
         selection.setSessionDate(sessionDate);
-        LOGGER.debug("UserId-->>" + String.valueOf(VaadinSession.getCurrent().getAttribute("userId")));
+        LOGGER.debug("UserId-->>" + VaadinSession.getCurrent().getAttribute("userId").toString());
         selection.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
         return selection;
     }
@@ -501,7 +569,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
      */
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<AdjustmentReserveDTO>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }
@@ -512,11 +580,16 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
 //     * @param event
 //     */
     @UiHandler("excelBtnRes")
-    public void exportButtonLogic(Button.ClickEvent event) throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        createWorkSheet("Adjustment Reserve", resultsTable);
+    public void exportButtonLogic(Button.ClickEvent event) throws Exception {
+        LOGGER.debug(event.toString());
+        try {
+            createWorkSheet("Adjustment Reserve", resultsTable);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws Exception {
         long recordCount = 0;
         List<String> visibleList = Arrays.asList(resultsTable.getColumnHeaders());
         if (resultTable.size() != 0) {
@@ -525,7 +598,7 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws Exception {
 
         List visibleList = Arrays.asList(resultsTable.getVisibleColumns());
         try {
@@ -534,12 +607,40 @@ public class AdjustmentReserveSearchForm extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in createWorkSheetContent :"+e);
         }
     }
 
     private void initializeTempTables(SessionDTO selection, ReserveSelection resSelection) {
         selection.setCurrentTableNames(QueryUtils.createTempTables(selection.getScreenName(), selection.getProjectionId(), selection.getUserId().toString(), selection.getSessionId().toString()));
         resSelection.setTempTableName(selection.getCurrentTableNames().get("ST_ARM_ADJ_RES_CONFIG_DETAIL"));
+        resSelection.setAdjustmentSummaryTempTableName(selection.getCurrentTableNames().get("ST_ARM_ADJ_SUMMARY_CONFIG_DETAILS"));
+        resSelection.setBalanceSummaryTempTableName(selection.getCurrentTableNames().get("ST_ARM_BALANCE_SUMMARY_CONFIG"));
+        LOGGER.info("selection.getCurrentTableNames() ------- > " + selection.getCurrentTableNames());
     }
+
+    private boolean mandatoryCheckForSearch() {
+        List<Integer> ddlbValues = new ArrayList<>();
+        ddlbValues.add(binderDto.getCompanyDdlbRes());
+        ddlbValues.add(binderDto.getBusinessDdlbRes());
+        ddlbValues.add(binderDto.getDeductionCategoryDdlbRes());
+        ddlbValues.add(binderDto.getDeductionTypeDdlbRes());
+        ddlbValues.add(binderDto.getDeductionProgramDdlbRes());
+        for (Integer ddlbValue : ddlbValues) {
+            if (ddlbValue != 0) {
+                return true;
+            }
+        }
+        return false;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+}

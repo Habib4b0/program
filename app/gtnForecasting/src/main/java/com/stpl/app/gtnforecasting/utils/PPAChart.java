@@ -134,7 +134,7 @@ public class PPAChart {
         if (dto != null && dto.size() > 0) {
 
             if (selection.getPivotView().equals(Constant.PERIOD)) {
-                List<String> xcat = new ArrayList<String>();
+                List<String> xcat = new ArrayList<>();
 
                 for (PPAProjectionResultsDTO pDto : dto) {
                     ListSeries listSeries = new ListSeries();
@@ -155,7 +155,7 @@ public class PPAChart {
                 }
                 xAxis.setCategories(xcat.toArray(new String[xcat.size()]));
             } else {
-                List<String> xcat = new ArrayList<String>();
+                List<String> xcat = new ArrayList<>();
                 ListSeries discountDollorListSeries = new ListSeries();
                 discountDollorListSeries.setName("Discount $ Per Unit");
                 ListSeries discountPercentListSeries = new ListSeries();

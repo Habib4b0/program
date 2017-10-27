@@ -25,8 +25,10 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 public class FilterGenerator implements ExtFilterGenerator {
    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(FilterGenerator.class);
     CommonLogic commonLogic = new CommonLogic();
+    String tableName;
 
-    public FilterGenerator() {
+    public FilterGenerator(String tableName) {
+        this.tableName = tableName;
     }
 
     public Container.Filter generateFilter(Object propertyId, Object value) {
@@ -59,6 +61,13 @@ public class FilterGenerator implements ExtFilterGenerator {
                         return null;
                     }
                 }
+            } else {
+                return null;
+            }
+        }
+        if ("status".equals(propertyId)) {
+            if (originatingField.getValue() != null) {
+                return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
             } else {
                 return null;
             }
@@ -141,11 +150,14 @@ public class FilterGenerator implements ExtFilterGenerator {
                     }
                     comboBox1.setNullSelectionAllowed(true);
                     comboBox1.setNullSelectionItemId(0);
+                    if ("Invalidrecordcount".equals(tableName)) {
+                        comboBox1.addItem(ConstantUtil.INACTIVE_USER); 
+                    }
                     return comboBox1;
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
-            } else if ("modifiedBy".equals(propertyId)) {
+            } else if ("modifiedBy".equals(propertyId) && (!tableName.equals("Invalidrecordcount"))) {
                 try {
                     comboBox1 = new ComboBox();
                     comboBox1.addItem(0);

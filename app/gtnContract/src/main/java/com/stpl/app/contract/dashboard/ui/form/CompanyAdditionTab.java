@@ -3,9 +3,11 @@
  */
 package com.stpl.app.contract.dashboard.ui.form;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.contractheader.logic.ContractHeaderLogic;
 import com.stpl.app.contract.contractheader.util.UIUtils;
+import com.stpl.app.contract.dashboard.dto.CompanyAdditionFilterGenerator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -142,18 +144,18 @@ public class CompanyAdditionTab extends CustomComponent {
     SessionDTO sessionDTO;
     final StplSecurity stplSecurity = new StplSecurity();
     String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<>();
     ContractHeaderLogic headerLogic = new ContractHeaderLogic();
     /**
      * Container to Clear the table.
      */
-    private final BeanItemContainer<CompanyMasterDTO> availableTableContainer = new BeanItemContainer<CompanyMasterDTO>(CompanyMasterDTO.class);
-    private final BeanItemContainer<CFPCompanyDTO> selectedTableContainer = new BeanItemContainer<CFPCompanyDTO>(CFPCompanyDTO.class);
-    final Map<String, AppPermission> fieldContract = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Company Addition", false);
-    List<Object> resultList = headerLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Company Addition");
-    Object[] objAvail = ContractUtils.AVAILABLE_COMPANY_COL;
+    private final BeanItemContainer<CompanyMasterDTO> availableTableContainer = new BeanItemContainer<>(CompanyMasterDTO.class);
+    private final BeanItemContainer<CFPCompanyDTO> selectedTableContainer = new BeanItemContainer<>(CFPCompanyDTO.class);
+    final Map<String, AppPermission> fieldContract = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.COMPANY_ADDITION, false);
+    List<Object> resultList = headerLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.COMPANY_ADDITION);
+    Object[] objAvail = ContractUtils.getInstance().availableCompanyCol;
     TableResultCustom tableResultCustomAvail = commonSecurityLogic.getTableColumnsPermission(resultList, objAvail, fieldContract, Constants.EDIT);
-    Object[] objSelect = ContractUtils.SELECTED_COMPANY_COL;
+    Object[] objSelect = ContractUtils.getInstance().selectedCompanyCoil;
     TableResultCustom tableResultCustomSelect = commonSecurityLogic.getTableColumnsPermission(resultList, objSelect, fieldContract, Constants.EDIT);
     AvailableCompanyTableLogic avlTblLogic = new AvailableCompanyTableLogic(true);
     ExtPagedTable availableTable = new ExtPagedTable(avlTblLogic);
@@ -201,7 +203,7 @@ public class CompanyAdditionTab extends CustomComponent {
     private void init() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-        final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Company Addition", false);
+        final Map<String, AppPermission> contractDashboard = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.COMPANY_ADDITION, false);
         addResponsiveGrid(contractDashboard);
         if (isEditable) {
             configureFields();
@@ -252,8 +254,8 @@ public class CompanyAdditionTab extends CustomComponent {
 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-        final Map<String, AppPermission> funContractHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + "Company Addition");
-        if (!(funContractHM.get(CHFunctionNameUtils.CompanySearch) != null) || !((AppPermission) funContractHM.get(CHFunctionNameUtils.CompanySearch)).isFunctionFlag()) {
+        final Map<String, AppPermission> funContractHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + "," + ConstantUtil.COMPANY_ADDITION);
+        if (!(funContractHM.get(CHFunctionNameUtils.COMPANY_SEARCH) != null) || !((AppPermission) funContractHM.get(CHFunctionNameUtils.COMPANY_SEARCH)).isFunctionFlag()) {
             companySearchBtn.setVisible(false);
         } else {
             addFindBtn();
@@ -292,14 +294,14 @@ public class CompanyAdditionTab extends CustomComponent {
                     availableTable.setValue(null);
                     selectedTable.setValue(null);
                     if (event.getProperty().getValue() != null && !Constants.SELECT_ONE.equals(String.valueOf(event.getProperty().getValue()))) {
-                        if ("Company Status".equals(String.valueOf(event.getProperty().getValue()))) {
+                        if (ConstantUtil.COMPANY_STATUS.equals(String.valueOf(event.getProperty().getValue()))) {
 
                             searchValue.setVisible(false);
                             searchDdlb.setVisible(true);
                             loadComboBox(searchDdlb, headerLogic.getCompanyDropDownListWithoutNull(UIUtils.STATUS));
                             searchDdlb.select(Constants.SELECT_ONE);
 
-                        } else if ("Company Type".equals(String.valueOf(event.getProperty().getValue()))) {
+                        } else if (ConstantUtil.COMPANY_TYPE.equals(String.valueOf(event.getProperty().getValue()))) {
                             searchValue.setVisible(false);
                             searchDdlb.setVisible(true);
                             loadComboBox(searchDdlb, headerLogic.getCompanyDropDownListWithoutNull(UIUtils.COMP_TYPE));
@@ -340,6 +342,7 @@ public class CompanyAdditionTab extends CustomComponent {
         }
         availableTable.setFilterBarVisible(true);
         availableTable.addStyleName("filterbar");
+        availableTable.setFilterGenerator(new CompanyAdditionFilterGenerator());
         availableTable.setFilterDecorator(new ExtDemoFilterDecorator());
         avlTblLogic.setPageLength(NumericConstants.EIGHT);
         avlTblLogic.sinkItemPerPageWithPageLength(false);
@@ -353,6 +356,7 @@ public class CompanyAdditionTab extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         availableTableLayout.addComponent(availableTable);
@@ -384,6 +388,7 @@ public class CompanyAdditionTab extends CustomComponent {
         selectedTable.setFilterBarVisible(true);
         selectedTable.addStyleName("filterbar");
         selectedTable.setWidth("410px");
+        selectedTable.setFilterGenerator(new CompanyAdditionFilterGenerator());
         selectedTable.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedTable.setSelectable(true);
         selTblLogic.fireSetData("", "", sessionDTO, false);
@@ -393,6 +398,7 @@ public class CompanyAdditionTab extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         selectedTableLayout.addComponent(selectedTable);
@@ -525,7 +531,7 @@ public class CompanyAdditionTab extends CustomComponent {
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug(" buttonClick (Click Event event) name=" + event.getButton().getCaption());
                 try {
-                    addAllCompanyButtonClick(event);
+                    addAllCompanyButtonClick();
                 } catch (SystemException ex) {
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     LOGGER.error(errorMsg);
@@ -542,10 +548,10 @@ public class CompanyAdditionTab extends CustomComponent {
      *
      * @param event the event
      */
-    protected void addAllCompanyButtonClick(final ClickEvent event) throws SystemException {
+    protected void addAllCompanyButtonClick() throws SystemException {
         LOGGER.debug("Entering addAllCompanyButtonClick method");
         selectedTable.clearFilters();
-        if(tempSearchField.equals("Company Status") || tempSearchField.equals("Company Type")){
+        if(tempSearchField.equals(ConstantUtil.COMPANY_STATUS) || tempSearchField.equals(ConstantUtil.COMPANY_TYPE)){
         tempSearchValue = String.valueOf(((HelperDTO) searchDdlb.getValue()).getId());
         }
         cfpLogic.addToTempCFP(tempSearchField, tempSearchValue);
@@ -579,7 +585,7 @@ public class CompanyAdditionTab extends CustomComponent {
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug(" buttonClick( Click Event event) name=" + event.getButton().getCaption());
                 try {
-                    removeAllCompanyButtonClick(event);
+                    removeAllCompanyButtonClick();
                 } catch (SystemException ex) {
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     LOGGER.error(errorMsg);
@@ -590,7 +596,7 @@ public class CompanyAdditionTab extends CustomComponent {
         LOGGER.debug("End of removeAll method");
     }
 
-    protected void removeAllCompanyButtonClick(final ClickEvent event) throws SystemException {
+    protected void removeAllCompanyButtonClick() throws SystemException {
         LOGGER.debug("Entering removeAllCompanyButtonClick method");
         saveContainer.removeAllItems();
         selectedTable.clearFilters();
@@ -641,7 +647,7 @@ public class CompanyAdditionTab extends CustomComponent {
                             
                         } else if ("Company No".equals(searchFields.getValue()) || "Company Name".equals(searchFields.getValue())) {
                             binder.getErrorDisplay().setError("Please enter a Value to search");
-                        } else if ("Company Status".equals(searchFields.getValue()) || "Company Type".equals(searchFields.getValue())) {
+                        } else if (ConstantUtil.COMPANY_STATUS.equals(searchFields.getValue()) || ConstantUtil.COMPANY_TYPE.equals(searchFields.getValue())) {
                             binder.getErrorDisplay().setError("Please select a Value to search");
                         }
 
@@ -664,14 +670,14 @@ public class CompanyAdditionTab extends CustomComponent {
      * @return the container
      */
     public Container searchFieldsContainer() {
-        final List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
         LOGGER.debug("Entering searchFieldsContainer method");
         list.add(Constants.SELECT_ONE);
         list.add("Company ID");
         list.add("Company Name");
         list.add("Company No");
-        list.add("Company Status");
-        list.add("Company Type");
+        list.add(ConstantUtil.COMPANY_STATUS);
+        list.add(ConstantUtil.COMPANY_TYPE);
         LOGGER.debug("End of searchFieldsContainer method");
         return new IndexedContainer(list);
     }
@@ -694,8 +700,8 @@ public class CompanyAdditionTab extends CustomComponent {
         selectedViewTable.markAsDirty();
         selectedLazyContainer = new LazyBeanItemContainer(CFPCompanyDTO.class, new SelectedCompaniesContainer(sessionDTO), new LazyLoadCriteria());
 
-        Object[] obj = ContractUtils.SELECTED_COMPANY_COL;
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldContract, Constants.ViewMode);
+        Object[] obj = ContractUtils.getInstance().selectedCompanyCoil;
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldContract, Constants.VIEW_MODE);
         selectedViewTable.setContainerDataSource(selectedLazyContainer);
         selectedViewTable.setVisibleColumns(tableResultCustom.getObjResult());
         selectedViewTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
@@ -710,6 +716,7 @@ public class CompanyAdditionTab extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         LOGGER.debug("End of addSelectedTable method");
@@ -831,7 +838,7 @@ public class CompanyAdditionTab extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = NumericConstants.FOUR; i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -853,7 +860,7 @@ public class CompanyAdditionTab extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = NumericConstants.TWO; i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -875,7 +882,7 @@ public class CompanyAdditionTab extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = 1; i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -907,12 +914,16 @@ public class CompanyAdditionTab extends CustomComponent {
         LOGGER.debug("Entering configurePermission");
         try {
 
-            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Company Addition");
+            List<Object> resultList = contractLogic.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.COMPANY_ADDITION);
 
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, contractDashboard, Constants.EDIT);
 
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
+    }
+
+    void refreshTable() {
+        selTblLogic.setCurrentPage(1);
     }
 }

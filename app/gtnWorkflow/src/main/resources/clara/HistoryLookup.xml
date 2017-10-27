@@ -35,8 +35,6 @@
                     <Label id="workflowDesLb" value="Workflow Desc"  contentMode="HTML" />
                     <TextField id="workflowDes" inputPrompt="" />
                     
-                    <Label id="workflowDesLb1" value="Workflow Desc1"  contentMode="HTML" />
-                    <TextField id="workflowDes1" inputPrompt="" />
                 </GridLayout>
             </Panel>     
         </HorizontalLayout>

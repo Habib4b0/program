@@ -178,7 +178,6 @@ public class CommonSecurityLogic {
                     if (layout.getComponent(i) != null && layout.getComponent(i).getClass().isInstance(new Label())) {
                         Label l = (Label) layout.getComponent(i);
                         if (labelStr.equals(l.getValue())) {
-
                             layout.removeComponent(layout.getComponent(i));
                         }
                     }
@@ -335,7 +334,7 @@ public class CommonSecurityLogic {
         final TableResultCustom tblResultCustom = new TableResultCustom();
         boolean appPerm = false;
 
-        String str = StringUtils.EMPTY;
+        String str;
         final List<Object> objResultList = new ArrayList();
         final List<String> objResultHeaderList = new ArrayList();
         if (mode != null) {

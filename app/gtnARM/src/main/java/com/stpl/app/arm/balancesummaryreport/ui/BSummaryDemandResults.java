@@ -25,14 +25,13 @@ public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
 
     public BSummaryDemandResults(BSummaryDemandLogic logic, SummarySelection selection) {
         super(logic, selection);
-        this.selection = selection;
     }
 
     @Override
     public void setExcelVisibleColumn() {
         try {
             Map properties = new HashMap();
-            List<Object> header = getLogic().getRightTableHeaders(selection);
+            List<Object> header = getSummaryLogic().getRightTableHeaders(getSummarySelection());
             List rightSingleVisibleColumn = (ArrayList) header.get(NumericConstants.ZERO);
             List rightSingleVisibleHeader = (ArrayList) header.get(NumericConstants.ONE);
             List<String> rightDoubleVisibleColumn = (ArrayList) header.get(NumericConstants.TWO);
@@ -55,28 +54,28 @@ public class BSummaryDemandResults extends AbstractBalanceSummaryResutls {
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in setExcelVisibleColumn :"+ex);
         }
     }
 
     @Override
-    public AbstractBSummaryLogic getLogic() {
-        return (AbstractBSummaryLogic) super.getLogic();
+    public AbstractBSummaryLogic getSummaryLogic() {
+        return  super.getSummaryLogic();
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return getLogic();
+        return getSummaryLogic();
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
-        return getSelection().getSummery_hierarchy();
+        return getSelection().getSummeryhierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        selection.setSummery_hierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override

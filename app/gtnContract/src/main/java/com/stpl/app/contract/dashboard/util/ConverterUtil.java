@@ -1,5 +1,6 @@
 package com.stpl.app.contract.dashboard.util;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ConverterUtil {
 	 */
 	public Map<String,String> getContractFilterMap(){
 		
-		Map<String,String> filterMap = new HashMap<String,String>();
+		Map<String,String> filterMap = new HashMap<>();
 		
 		
 		
@@ -53,27 +54,27 @@ public class ConverterUtil {
     public List<ContractMember> getCustomizedDTOFromModel(final List list, final String flag) {
         LOGGER.debug("Entering getCustomizedDTOFromModel method");
 
-        final List<ContractMember> searchList = new ArrayList<ContractMember>();
+        final List<ContractMember> searchList = new ArrayList<>();
         
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
             	Object[] record=(Object[])list.get(i);
                 if (ContractUtils.CONTRACT_DETAILS_COMPONENT.equals(flag)) {
-                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])), Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]), record[NumericConstants.FOUR] != null && !"-Select One-".equals(String.valueOf(record[NumericConstants.FOUR])) ? String.valueOf(record[NumericConstants.FOUR]) : "",
+                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])), Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]), record[NumericConstants.FOUR] != null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.FOUR])) ? String.valueOf(record[NumericConstants.FOUR]) : "",
                             Constants.CONTRACT, true, record[NumericConstants.FIVE] != null ? (Date) record[NumericConstants.FIVE] : null, record[NumericConstants.SIX] != null ? (Date) record[NumericConstants.SIX] : null));
                 }
                 if (ContractUtils.CFP_COMPONENT.equals(flag)) {
-                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])),Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]),record[NumericConstants.FOUR]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"", Constants.CFP,
+                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])),Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]),record[NumericConstants.FOUR]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"", Constants.CFP,
                             true, record[NumericConstants.FIVE] != null ? (Date) record[NumericConstants.FIVE] : null, record[NumericConstants.SIX] != null ? (Date) record[NumericConstants.SIX] : null));
                 }
                 if (ContractUtils.IFP_COMPONENT.equals(flag)) {
-                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])),Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]),record[NumericConstants.FOUR]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"", Constants.IFP, true,record[NumericConstants.FIVE] != null ? (Date) record[NumericConstants.FIVE] : null, record[NumericConstants.SIX] != null ? (Date) record[NumericConstants.SIX] : null));
+                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])),Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]),record[NumericConstants.FOUR]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"", Constants.IFP, true,record[NumericConstants.FIVE] != null ? (Date) record[NumericConstants.FIVE] : null, record[NumericConstants.SIX] != null ? (Date) record[NumericConstants.SIX] : null));
                 }
                 if (ContractUtils.PS_COMPONENT.equals(flag)) {
-                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])),Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]),record[NumericConstants.FOUR]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"", Constants.PS_VALUE, true,record[NumericConstants.FIVE] != null ? (Date) record[NumericConstants.FIVE] : null, record[NumericConstants.SIX] != null ? (Date) record[NumericConstants.SIX] : null));
+                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])),Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]),record[NumericConstants.FOUR]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"", Constants.PS_VALUE, true,record[NumericConstants.FIVE] != null ? (Date) record[NumericConstants.FIVE] : null, record[NumericConstants.SIX] != null ? (Date) record[NumericConstants.SIX] : null));
                 }
                 if (ContractUtils.RS_COMPONENT.equals(flag)) {
-                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])),Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]),record[NumericConstants.FOUR]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"", Constants.RS_VALUE, false,record[NumericConstants.FIVE] != null ? (Date) record[NumericConstants.FIVE] : null, record[NumericConstants.SIX] != null ? (Date) record[NumericConstants.SIX] : null));
+                    searchList.add(new ContractMember(Integer.valueOf(String.valueOf(record[0])),Integer.valueOf(String.valueOf(record[0])), String.valueOf(record[NumericConstants.THREE]), String.valueOf(record[1]), String.valueOf(record[NumericConstants.TWO]),record[NumericConstants.FOUR]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"", Constants.RS_VALUE, false,record[NumericConstants.FIVE] != null ? (Date) record[NumericConstants.FIVE] : null, record[NumericConstants.SIX] != null ? (Date) record[NumericConstants.SIX] : null));
                 }
             }
         }
@@ -91,7 +92,7 @@ public class ConverterUtil {
     public List<DetailSearchDTO> getCustomizedDTODetaildFromModel(final List list, final String flag) {
         LOGGER.debug("Entering getCustomizedDTOFromModel method");
 
-        final List<DetailSearchDTO> searchList = new ArrayList<DetailSearchDTO>();
+        final List<DetailSearchDTO> searchList = new ArrayList<>();
         
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -99,23 +100,23 @@ public class ConverterUtil {
                 
                 if (ContractUtils.CFP_COMPONENT.equals(flag)) {
                     searchList.add(new DetailSearchDTO(String.valueOf(record[0]),String.valueOf(record[1]),
-                            record[NumericConstants.TWO]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.TWO]))?String.valueOf(record[NumericConstants.TWO]):"",
-                            record[NumericConstants.THREE]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.THREE]))?String.valueOf(record[NumericConstants.THREE]):"",
-                            record[NumericConstants.FOUR]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"",null,null));
+                            record[NumericConstants.TWO]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.TWO]))?String.valueOf(record[NumericConstants.TWO]):"",
+                            record[NumericConstants.THREE]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.THREE]))?String.valueOf(record[NumericConstants.THREE]):"",
+                            record[NumericConstants.FOUR]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.FOUR]))?String.valueOf(record[NumericConstants.FOUR]):"",null,null));
                 }
                 if (ContractUtils.IFP_COMPONENT.equals(flag)) {
                     searchList.add(new DetailSearchDTO(String.valueOf(record[0]),String.valueOf(record[1]),"","",
-                            record[NumericConstants.TWO]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.TWO]))?String.valueOf(record[NumericConstants.TWO]):"",
+                            record[NumericConstants.TWO]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.TWO]))?String.valueOf(record[NumericConstants.TWO]):"",
                             record[NumericConstants.THREE]!=null?(Date)record[NumericConstants.THREE]:null,record[NumericConstants.FOUR]!=null?(Date)record[NumericConstants.FOUR]:null));
                 }
                 if (ContractUtils.PS_COMPONENT.equals(flag)) {
                     searchList.add(new DetailSearchDTO(String.valueOf(record[0]),String.valueOf(record[1]),"","",
-                            record[NumericConstants.TWO]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.TWO]))?String.valueOf(record[NumericConstants.TWO]):"",
+                            record[NumericConstants.TWO]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.TWO]))?String.valueOf(record[NumericConstants.TWO]):"",
                             record[NumericConstants.THREE]!=null?(Date)record[NumericConstants.THREE]:null,record[NumericConstants.FOUR]!=null?(Date)record[NumericConstants.FOUR]:null));
                 }
                 if (ContractUtils.RS_COMPONENT.equals(flag)) {
                     searchList.add(new DetailSearchDTO(String.valueOf(record[0]),String.valueOf(record[1]),"","",
-                            record[NumericConstants.TWO]!=null && !"-Select One-".equals(String.valueOf(record[NumericConstants.TWO]))?String.valueOf(record[NumericConstants.TWO]):"",
+                            record[NumericConstants.TWO]!=null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(record[NumericConstants.TWO]))?String.valueOf(record[NumericConstants.TWO]):"",
                             record[NumericConstants.THREE]!=null?(Date)record[NumericConstants.THREE]:null,record[NumericConstants.FOUR]!=null?(Date)record[NumericConstants.FOUR]:null));
                 }
             }
@@ -128,7 +129,7 @@ public class ConverterUtil {
         try {
             SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
             SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
-            Date date = new Date();
+            Date date;
             date = inputDateFormatter.parse(stringDate);
             return outputDateFormatter.format(date);
         } catch (ParseException ex) {

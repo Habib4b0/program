@@ -58,9 +58,9 @@ public class PricingResultsView extends CustomComponent {
     private  final ItemPricingDTO pricingFormBean = new ItemPricingDTO();
     
     /** The binder. */
-    private  ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<ItemPricingDTO>(pricingFormBean));
-
-
+    private  ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(pricingFormBean));
+    
+    private final UIUtils uiUtils = UIUtils.getInstance();
     
      /**
      * Instantiates a new pricing results view.
@@ -116,8 +116,8 @@ public class PricingResultsView extends CustomComponent {
         final Table pricingTable = new Table();
       
         pricingTable.setContainerDataSource(pricingTableBean);
-        pricingTable.setVisibleColumns(UIUtils.PRICING_FORM_COL_ORDER);
-        pricingTable.setColumnHeaders(UIUtils.PRICING_FORM_COL_ORDER_HEADER);
+        pricingTable.setVisibleColumns(uiUtils.pricingFormColOrder);
+        pricingTable.setColumnHeaders(uiUtils.pricingFormColOrderHeader);
         pricingTable.setPageLength(NumericConstants.SEVEN);
         pricingTable.setImmediate(true);
         pricingTable.setSelectable(true);
@@ -179,7 +179,7 @@ public class PricingResultsView extends CustomComponent {
                         pricingTableBean.addBean(identForm);
                         binder.discard();
                         binder = new ErrorfulFieldGroup(
-                                new BeanItem<ItemPricingDTO>(new ItemPricingDTO()));
+                                new BeanItem<>(new ItemPricingDTO()));
 
                 } catch (FieldGroup.CommitException ex) {
                     LOGGER.error(ex);

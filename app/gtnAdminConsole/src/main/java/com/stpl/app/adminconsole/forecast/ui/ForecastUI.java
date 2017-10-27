@@ -124,11 +124,14 @@ public class ForecastUI extends UI implements VaadinPortletSession.PortletListen
     }
 
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
+        return;
     }
 
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
+        return;
     }
 
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
+        return;
     }
 }

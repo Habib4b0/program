@@ -352,7 +352,7 @@ public class CurrentContractDTO implements Serializable {
         this.contractId = memberId;
         this.contractNo = memberNo;
         this.childrenAllowed = childrenAllowed;
-        this.sub = new ArrayList<CurrentContractDTO>();
+        this.sub = new ArrayList<>();
     }
 
     /**

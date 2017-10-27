@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import org.apache.commons.lang.StringUtils;
 
-
 public class SqlEntity {
 
     private String sqlQuery = StringUtils.EMPTY;
@@ -20,7 +19,7 @@ public class SqlEntity {
         return sqlQuery;
     }
 
-    @XmlElement(name="query")
+    @XmlElement(name = "query")
     public void setSqlQuery(String sqlQuery) {
         this.sqlQuery = sqlQuery;
     }

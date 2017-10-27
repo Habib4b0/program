@@ -40,7 +40,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     @Override
     public void setVisibleColumnsAndHeaders() {
         Map properties = new HashMap();
-        Object[] variableColumns = VariableConstants.VARIABLE_SALES_VISIBLE_COLUMN;
+        Object[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
         for (int i = 0; i < variableColumns.length; i++) {
             properties.put(variableColumns[i], String.class);
         }
@@ -78,7 +78,7 @@ public class SalesSearchResults extends AbstractSearchResults {
         if (ARMUtils.VIEW_SMALL.equals(selection.getSessionDTO().getAction())) {
             configureFieldsOnViewMode();
         }
-        setConverter(rightTable, VariableConstants.VARIABLE_SALES_VISIBLE_COLUMN);
+        setConverter(rightTable, VariableConstants.getVariableSalesVisibleColumn());
     }
 
     private void configureOnSalesSearchResults() {
@@ -86,35 +86,35 @@ public class SalesSearchResults extends AbstractSearchResults {
         customerProductView.setVisible(false);
         cpLabel.setVisible(false);
         valueDdlb.setVisible(false);
-        BBExport.setPrimaryStyleName("link");
-        BBExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
+        bbExport.setPrimaryStyleName("link");
+        bbExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
     }
 
     @Override
     public void setExcelVisibleColumn() {
         Map properties = new HashMap();
-        List<Object> header = getLogic().generateHeader((PipelineAccrualSelectionDTO) selection);
-        List right_singleVisibleColumn = (ArrayList) header.get(0);
-        List right_singleVisibleHeader = (ArrayList) header.get(1);
-        for (Object variableColumn : right_singleVisibleColumn) {
+        List<Object> header = getSummaryLogic().generateHeader((PipelineAccrualSelectionDTO) selection);
+        List rightSingleVisibleColumn = (ArrayList) header.get(0);
+        List rightSingleVisibleHeader = (ArrayList) header.get(1);
+        for (Object variableColumn : rightSingleVisibleColumn) {
             properties.put(variableColumn, String.class);
         }
         getExcelContainer().setColumnProperties(properties);
-        getExcelContainer().setRecordHeader(right_singleVisibleColumn);
-        List right_singleVisibleColumn1 = new ArrayList(right_singleVisibleColumn);
-        right_singleVisibleColumn1.add(0, "group");
-        right_singleVisibleHeader.add(0, "Product");
-        getExcelTable().setVisibleColumns(right_singleVisibleColumn1.toArray());
-        getExcelTable().setColumnHeaders(Arrays.copyOf((right_singleVisibleHeader).toArray(), (right_singleVisibleHeader).size(), String[].class));
+        getExcelContainer().setRecordHeader(rightSingleVisibleColumn);
+        List rightSingleVisibleColumn1 = new ArrayList(rightSingleVisibleColumn);
+        rightSingleVisibleColumn1.add(0, "group");
+        rightSingleVisibleHeader.add(0, "Product");
+        getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
+        getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
         setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
     }
 
     public void generateButtonLogic(PipelineAccrualSelectionDTO selection, boolean isEditButtonClick) {
-        LOGGER.debug("Inside generate ButtonClick Btn" + selection.getSales_variables().size());
-        List<Object> header = getLogic().generateHeader(selection);
-        List right_singleVisibleColumn = (ArrayList) header.get(0);
+        LOGGER.debug("Inside generate ButtonClick Btn" + selection.getSalesVariables().size());
+        List<Object> header = getSummaryLogic().generateHeader(selection);
+        List rightSingleVisibleColumn = (ArrayList) header.get(0);
         Map properties = new HashMap();
-        Object[] variableColumns = VariableConstants.VARIABLE_SALES_VISIBLE_COLUMN;
+        Object[] variableColumns = VariableConstants.getVariableSalesVisibleColumn();
         for (int i = 0; i < variableColumns.length; i++) {
             properties.put(variableColumns[i], String.class);
         }
@@ -123,13 +123,13 @@ public class SalesSearchResults extends AbstractSearchResults {
         }
         rightTable.setContainerDataSource(getTableLogic().getContainerDataSource());
         resultBeanContainer.setColumnProperties(properties);
-        resultBeanContainer.setRecordHeader(right_singleVisibleColumn);
-        rightTable.setVisibleColumns(right_singleVisibleColumn.toArray());
+        resultBeanContainer.setRecordHeader(rightSingleVisibleColumn);
+        rightTable.setVisibleColumns(rightSingleVisibleColumn.toArray());
         rightTable.setColumnHeaders(Arrays.copyOf(((List) header.get(1)).toArray(), ((List) header.get(1)).size(), String[].class));
         for (Object propertyId : rightTable.getVisibleColumns()) {
             rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
         }
-        SalesFieldFactory salesFieldFactory = new SalesFieldFactory(getLogic(), selection);
+        SalesFieldFactory salesFieldFactory = new SalesFieldFactory(getSummaryLogic(), selection);
         rightTable.setEditable(true);
         rightTable.setTableFieldFactory(salesFieldFactory);
         selection.setUserId(selection.getSessionDTO().getUserId());
@@ -139,6 +139,7 @@ public class SalesSearchResults extends AbstractSearchResults {
 
     @Override
     protected void configureRightTable() {
+        LOGGER.debug("Inside configureRightTable Method");
     }
 
     @Override
@@ -146,15 +147,16 @@ public class SalesSearchResults extends AbstractSearchResults {
         LOGGER.debug("Inside calculate ButtonClick Btn");
         try {
             Object[] orderedArgs = {selection.getProjectionMasterSid(), selection.getDateType(), selection.getPrice(), "1", selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
-            getLogic().getSalesResults(orderedArgs);
+            getSummaryLogic().getSalesResults(orderedArgs);
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in calculateLogic :"+e);
         }
         return false;
     }
 
     @Override
     protected void customerProductValueChange() {
+        LOGGER.debug("inside customerProductValueChange MEthod");
 
     }
 
@@ -165,7 +167,7 @@ public class SalesSearchResults extends AbstractSearchResults {
     public void salesProcedureCall(PipelineAccrualSelectionDTO selection) {
         Object[] orderedArgs = {selection.getProjectionMasterSid(), selection.getDateType(), selection.getPrice(), "0",
             selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId()};
-        getLogic().getSalesResults(orderedArgs);
+        getSummaryLogic().getSalesResults(orderedArgs);
     }
 
     @Override
@@ -174,28 +176,29 @@ public class SalesSearchResults extends AbstractSearchResults {
     }
 
     @Override
-    public SalesLogic getLogic() {
-        return (SalesLogic) super.getLogic();
+    public SalesLogic getSummaryLogic() {
+        return (SalesLogic) super.getSummaryLogic();
     }
 
     @Override
     protected boolean setRespectiveLevelFileterValue(String levelValue, int levelNo) {
-        selection.setSales_levelFilterValue(levelValue);
+        selection.setSaleslevelFilterValue(levelValue);
         return true;
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return getLogic();
+        return getSummaryLogic();
     }
 
+    @Override
     public Object[] getExcelHierarchy() {
         return new Object[]{"B", "I"};
     }
 
     @Override
     public List getExcelExportVisibleColumn() {
-        return Arrays.asList(VariableConstants.VARIABLE_SALES_VISIBLE_COLUMN);
+        return Arrays.asList(VariableConstants.getVariableSalesVisibleColumn());
     }
 
     @Override
@@ -220,12 +223,12 @@ public class SalesSearchResults extends AbstractSearchResults {
 
     @Override
     public Map<Integer, String> getHierarchy() {
-        return getSelection().getSales_hierarchy();
+        return getSelection().getSaleshierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        getSelection().setSales_hierarchy(ARMUtils.getLevelAndLevelFilter(viewType));
+        getSelection().setSaleshierarchy(ARMUtils.getLevelAndLevelFilter(viewType));
     }
 
     @Override
@@ -235,16 +238,28 @@ public class SalesSearchResults extends AbstractSearchResults {
 
     @Override
     protected void valueDdlbValueChange(int masterSids) {
+        LOGGER.debug("Inside valueDdlbValueChange Method");
 
     }
 
     @Override
     protected void loadLevelFilterValueDdlb(String levelValue, int levelNo) {
+        LOGGER.debug("Inside valueDdlbValueChange Method");
 
     }
 
     @Override
     protected boolean getIsDemandSreen() {
         return Boolean.FALSE;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

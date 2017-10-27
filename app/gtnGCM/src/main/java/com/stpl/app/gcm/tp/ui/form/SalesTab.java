@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.tp.ui.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.SalesTabDTO;
@@ -80,15 +81,15 @@ public class SalesTab extends VerticalLayout {
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightDTO;
     CustomTableHeaderDTO leftDTO;
-    public ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<SalesTabDTO>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    public ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     /**
      * The map right visible columns.
      */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     ExtFilterTreeTable leftTable;
     ExtFilterTreeTable rightTable;
     SalesTabTableLogic tableLogic = new SalesTabTableLogic();
@@ -108,9 +109,9 @@ public class SalesTab extends VerticalLayout {
     private final float splitPosition = 300;
     public TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private ExtCustomTreeTable exportPeriodViewTable;
-    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<SalesTabDTO>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     LoadTabLogic tabLogic = new LoadTabLogic();
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<String>(String.class);
+    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     SessionDTO session;
     boolean load = false;
     Date startPeriod;
@@ -141,13 +142,13 @@ public class SalesTab extends VerticalLayout {
         selectionDTO.setFrequency("QUARTER");
         frequency.addItem("Annually");
         frequency.addItem("Semi-Annually");
-        frequency.addItem("Quarterly");
+        frequency.addItem(Constants.QUARTERLY);
         frequency.addItem("Monthly");
-        frequency.setValue("Quarterly");
+        frequency.setValue(Constants.QUARTERLY);
         frequency.focus();
 
-        history.addItem("4 Quarters");
-        history.setValue("4 Quarters");
+        history.addItem(StringConstantsUtil.FOUR_QUARTERS);
+        history.setValue(StringConstantsUtil.FOUR_QUARTERS);
 
         selectionDTO.setSessionID(Integer.parseInt(session.getSessionId()));
         selectionDTO.setCompanyMasterSids(session.getCompanyMasterSids());
@@ -160,7 +161,7 @@ public class SalesTab extends VerticalLayout {
         fullHeader = new CustomTableHeaderDTO();
         leftDTO = HeaderUtils.getSalesTabLeftTableColumns(fullHeader);
         tableHeader = new CustomTableHeaderDTO();
-        rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, NumericConstants.FOUR, "Quarterly", true);
+        rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, NumericConstants.FOUR, Constants.QUARTERLY, true);
         resultBean.setColumnProperties(leftDTO.getProperties());
         resultBean.setColumnProperties(rightDTO.getProperties());
         tableLogic.setTreeNodeMultiClick(false);
@@ -207,7 +208,7 @@ public class SalesTab extends VerticalLayout {
             }
         });
         tradingPartnerSalesTableLayout.addComponent(resultsTable);
-        HorizontalLayout hLayout = new HorizontalLayout();
+        HorizontalLayout hLayout;
         hLayout = tableLogic.createControls();
         tradingPartnerSalesTableLayout.addComponent(hLayout);
     }
@@ -244,7 +245,7 @@ public class SalesTab extends VerticalLayout {
             loadExcelResultTable();
         }
         exportPeriodViewTable.setRefresh(Boolean.TRUE);
-        Map<String, String> formatter = new HashMap<String, String>();
+        Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");
         VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, Constants.TRUE);
@@ -303,7 +304,8 @@ public class SalesTab extends VerticalLayout {
         loadDataToContainer(resultList, id);
     }
 
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
+    public void enter() {
+        return;
     }
 
     public ExtTreeContainer<SalesTabDTO> getResultBean() {
@@ -379,7 +381,7 @@ public class SalesTab extends VerticalLayout {
             mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
             resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
             tradingPartnerSalesTableLayout.addComponent(resultsTable);
-            HorizontalLayout hLayout = new HorizontalLayout();
+            HorizontalLayout hLayout;
             hLayout = tableLogic.createControls();
             tradingPartnerSalesTableLayout.addComponent(hLayout);
             if (Constants.QUARTERLY.equalsIgnoreCase(String.valueOf(frequency.getValue()))) {
@@ -413,7 +415,7 @@ public class SalesTab extends VerticalLayout {
                 String.valueOf(frequency.getValue()))) {
             history.removeAllItems();
             historyBean.addAll(loadHistory(Constants.QUARTERLY, QUARTERS.getConstant()));
-            historyConstant = "4 Quarters";
+            historyConstant = StringConstantsUtil.FOUR_QUARTERS;
         } else if (MONTHLY.getConstant().equals(
                 String.valueOf(frequency.getValue()))) {
             history.removeAllItems();
@@ -433,7 +435,7 @@ public class SalesTab extends VerticalLayout {
      * @return the list
      */
     protected final List<String> loadHistory(String frequency, String period) {
-        List<String> history = new ArrayList<String>();
+        List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {

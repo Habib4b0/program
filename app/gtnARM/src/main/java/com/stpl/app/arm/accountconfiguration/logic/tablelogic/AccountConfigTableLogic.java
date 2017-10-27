@@ -33,7 +33,7 @@ public class AccountConfigTableLogic extends PageTableLogic {
                 return logic.getAccountConfigCount(selection, getFilters());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("Error in getCount :"+ex);
             return 0;
         }
         return 0;
@@ -44,7 +44,7 @@ public class AccountConfigTableLogic extends PageTableLogic {
         try {
             return logic.getAccountConfigData(selection, start, offset, getFilters(), getSortByColumns());
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("Error in loadData :"+ex);
             return new ArrayList<>();
         }
     }

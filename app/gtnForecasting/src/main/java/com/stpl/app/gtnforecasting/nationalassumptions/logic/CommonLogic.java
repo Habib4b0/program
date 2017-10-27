@@ -47,7 +47,7 @@ public class CommonLogic {
       public static NADataSelectionDAO dataSelection = new NADataSelectionDAOImpl();
         public void saveProjectionSelection(Map map, int projectionID, String screenName) throws PortalException {
         PhsQueryUtils phsQueryUtils = new PhsQueryUtils();
-        List<NaProjectionSelection> list = new ArrayList<NaProjectionSelection>();
+        List<NaProjectionSelection> list = new ArrayList<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(NaProjectionSelection.class);
         query.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionID));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
@@ -58,9 +58,7 @@ public class CommonLogic {
             } else {
                 phsQueryUtils.saveSelection(map, projectionID, screenName, Constant.UPDATE);
             }
-            if(!list.isEmpty()){
-                list = null;                
-            }
+            
         } catch (Exception ex) {
               LOGGER.error(ex);
         }
@@ -72,8 +70,8 @@ public class CommonLogic {
      * @return 
      */
     public static Map<Object, Object> getProjectionSelection(final int projectionId, final String screenName) {
-        List<Object[]> list = new ArrayList<Object[]>();
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        List<Object[]> list = new ArrayList<>();
+        Map<Object, Object> map = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(NaProjectionSelection.class);
         query.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionId));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
@@ -88,7 +86,6 @@ public class CommonLogic {
                     Object[] obj = (Object[]) list.get(i);
                     map.put(obj[0], obj[1]);
                 }
-                list = null;
             }
             return map;
         } catch (Exception ex) {
@@ -96,22 +93,22 @@ public class CommonLogic {
         }
         return null;
     }
-      public Object saveTempToMain(SessionDTO session) throws SystemException {                     
-        Map<String, Object> input = new HashMap<String, Object>();
+      public Object saveTempToMain(SessionDTO session)  {                     
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID",session.getProjectionId());
         return tempOperation(input, "na.saveToMainTable",session);
     }
-       public Object saveBaseYeaToItemMaster(SessionDTO session) throws SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+       public Object saveBaseYeaToItemMaster(SessionDTO session) {
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
         return tempOperation(input, "UpdateBaseYearAdustments",session);
     }
-      public Object saveTempNDCToMain(SessionDTO session) throws SystemException { 
-        Map<String, Object> input = new HashMap<String, Object>();
+      public Object saveTempNDCToMain(SessionDTO session)  { 
+        Map<String, Object> input = new HashMap<>();
         return tempOperation(input, "na.saveTempNdcToMainTable",session);
     }
-      public Object deleteTempBySession(SessionDTO session) throws SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+      public Object deleteTempBySession(SessionDTO session)  {
+        Map<String, Object> input = new HashMap<>();
         return tempOperation(input, "na.dleteTemp",session);
     }
       public Object tempOperation(final Map<String, Object> input, final String queryName,SessionDTO session) {
@@ -135,14 +132,14 @@ public class CommonLogic {
             return null;
         }
     }
-        public Object tempInsert(SessionDTO session) throws SystemException{
-        Map<String, Object> input = new HashMap<String, Object>();
+        public Object tempInsert(SessionDTO session) {
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
         return tempOperation(input, "na.tempInsert",session);
     }
 
-    public Object clearTemp(SessionDTO session) throws SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+    public Object clearTemp(SessionDTO session)  {
+        Map<String, Object> input = new HashMap<>();
         return tempOperation(input, "na.clearTemp",session);
     }
     public HelperDTO getBrand(int id) {

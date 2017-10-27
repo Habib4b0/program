@@ -36,6 +36,7 @@ public class HistoryTableGenerator implements ExtFilterGenerator {
     private static final Logger LOGGER = LogManager.getLogger(HistoryTableGenerator.class);
 
     public HistoryTableGenerator() {
+        LOGGER.debug("HistoryTableGenerator");
     }
     
     @Override
@@ -108,10 +109,12 @@ public class HistoryTableGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

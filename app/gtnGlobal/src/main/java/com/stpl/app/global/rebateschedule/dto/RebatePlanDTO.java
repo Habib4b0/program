@@ -27,8 +27,9 @@ public class RebatePlanDTO implements Serializable{
     private String rebatePlanName = StringUtils.EMPTY;
     
     private HelperDTO rebatePlanStatus = new HelperDTO(0, Constants.SELECT_ONE);
-    private HelperDTO rebatePlanType = new HelperDTO(0, Constants.SELECT_ONE);
     
+    private HelperDTO rebatePlanType = new HelperDTO(0, Constants.SELECT_ONE);
+  
     private HelperDTO rebateStructure;
     
     private HelperDTO rangeBasedOn;
@@ -107,8 +108,8 @@ public class RebatePlanDTO implements Serializable{
 
     public void setRebatePlanType(HelperDTO rebatePlanType) {
         this.rebatePlanType = rebatePlanType;
-    }
-    
+    }    
+
     public HelperDTO getRebateStructure() {
         return rebateStructure;
     }

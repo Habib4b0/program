@@ -77,7 +77,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
                 customSql = "INSERT INTO WORKFLOW_MASTER (WORKFLOW_ID,WORKFLOW_STATUS_ID,CREATED_BY,CREATED_DATE,NO_OF_APPROVAL,APPROVAL_LEVEL,CONTRACT_MASTER_SID,CONTRACT_STRUCTURE,MODIFIED_DATE) "
                         + "VALUES ('" + dto.getWorkflowId() + "'," + dto.getWorkflowStatusId() + "," + dto.getCreatedBy() + ",'" + new Timestamp(dto.getCreatedDate().getTime()) + "',"
                         + dto.getNoOfApproval() + "," + dto.getApprovalLevel() + "," + dto.getContractMasterSid() + ",'" + conStrut + "','" + new Timestamp(dto.getModifiedDate().getTime()) + "')";
-            } else if (isNewSubmit != null && !isNewSubmit) {
+            } else if (isNewSubmit != null ) {
                 customSql = "UPDATE WORKFLOW_MASTER SET WORKFLOW_STATUS_ID=" + dto.getWorkflowStatusId() + ",MODIFIED_BY=" + dto.getModifiedBy() + ",MODIFIED_DATE='" + new Timestamp(dto.getModifiedDate().getTime()) + "'"
                         + ",CONTRACT_STRUCTURE='" + conStrut + "', "
                         + "CREATED_BY= '" + dto.getApprovedBy() + "' ,    CREATED_DATE=getdate(), APPROVED_BY=null,  APPROVED_DATE=null where WORKFLOW_MASTER_SID=" + dto.getWorkflowMasterSid() + ";";

@@ -30,7 +30,7 @@ public class SalesTabTableLogic extends PageTreeTableLogic {
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         List<SalesTabDTO> list = logic.getConfiguredSalesTabResults(getLastParent(), tabSelectionDTO, false);
         int i = start;
         for (SalesTabDTO dto : list) {

@@ -4,7 +4,7 @@
 	<HorizontalLayout id="hlayout" immediate="true" caption="Mass Update" styleName="responsiveTabGrid" spacing="true">
 		<CssLayout id="cssLayout" spacing="true" immediate="true" width="100%" height="100%">
 
-			<OptionGroup id="massCheck" enabled="true" />
+			<OptionGroup id="massCheck" enabled="true" immediate="true" styleName="horizontal" />
                         <Label Value="Field" id="massFieldLB" immediate="true" />
 			<c:CustomComboBox id="massField" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                         <Label Value="Value" id="valueLB" immediate="true" width="50px" />

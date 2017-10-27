@@ -32,7 +32,7 @@ public class PeriodConfigTableLogic  extends PageTableLogic {
         int count = 0;
         try {
             if (isFirstLoad) {
-                count = (Integer) searchLogic.searchForecast( 0, 0, this.getSortByColumns(), this.getFilters(), true,isFirst);
+                count = (Integer) searchLogic.searchForecast( 0, 0, this.getSortByColumns(), this.getFilters(), true);
             }
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
@@ -47,7 +47,7 @@ public class PeriodConfigTableLogic  extends PageTableLogic {
         List list = new ArrayList();
         if (isFirstLoad) {
             try {
-                list = (List) searchLogic.searchForecast(start, offset, this.getSortByColumns(), this.getFilters(), false,isFirst);
+                list = (List) searchLogic.searchForecast(start, offset, this.getSortByColumns(), this.getFilters(), false);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }

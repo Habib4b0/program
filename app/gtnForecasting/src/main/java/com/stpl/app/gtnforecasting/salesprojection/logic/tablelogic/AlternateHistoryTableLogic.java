@@ -13,6 +13,7 @@ import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
@@ -38,15 +39,15 @@ public class AlternateHistoryTableLogic extends PageTableLogic {
             if (!firstTime) {
                 if (altHistoryDTO.getScreenName().equals("Customer_Selection")) {
                     if (isAvailable) {
-                        return logic.companySearchCount(searchBinder, altHistoryDTO, getFilters(), session);
+                        return logic.companySearchCount(altHistoryDTO, getFilters(), session);
                     } else {
-                        return (Integer) logic.getCompanyList(0, 0, searchBinder, altHistoryDTO, getFilters(), Boolean.TRUE, session).get(0);
+                        return (Integer) logic.getCompanyList(0, 0, getFilters(), Boolean.TRUE, session).get(0);
                     }
                 } else if (altHistoryDTO.getScreenName().equals("Item_Selection")) {
                     if (isAvailable) {
-                        return logic.itemsSearchCount(searchBinder, altHistoryDTO, getFilters(), session);
+                        return logic.itemsSearchCount(altHistoryDTO, getFilters(), session);
                     } else {
-                        return logic.getCheckedItemsCount(searchBinder, altHistoryDTO, getFilters(), session);
+                        return logic.getCheckedItemsCount( altHistoryDTO, getFilters(), session);
                     }
                 } else {
                     return 0;
@@ -64,22 +65,22 @@ public class AlternateHistoryTableLogic extends PageTableLogic {
         try {
             if (altHistoryDTO.getScreenName().equals("Customer_Selection")) {
                 if (isAvailable) {
-                    return logic.searchCompany(searchBinder, altHistoryDTO, getFilters(), start, offset,  session);
+                    return logic.searchCompany( altHistoryDTO, getFilters(), start, offset,  session);
                 } else {
-                    return logic.getCompanyList(start, offset, searchBinder, altHistoryDTO, getFilters(), Boolean.FALSE, session);
+                    return logic.getCompanyList(start, offset, getFilters(), Boolean.FALSE, session);
                 }
             } else if (altHistoryDTO.getScreenName().equals("Item_Selection")) {
                 if (isAvailable) {
-                    return logic.searchItems(searchBinder, altHistoryDTO, getFilters(), start, offset, session, Boolean.FALSE);
+                    return logic.searchItems(altHistoryDTO, getFilters(), start, offset, session);
                 } else {
-                    return logic.getCheckedItemsFromTemptable(searchBinder, altHistoryDTO, getFilters(), start, offset, session);
+                    return logic.getCheckedItemsFromTemptable( altHistoryDTO, getFilters(), start, offset, session);
                 }
             } else {
-                return null;
+                return Collections.emptyList();
             } 
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
       
     }

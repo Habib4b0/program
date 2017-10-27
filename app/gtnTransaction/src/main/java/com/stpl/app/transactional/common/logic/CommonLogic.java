@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.TransactionModuleDetails;
 import com.stpl.app.model.TransactionModuleMaster;
-import com.stpl.app.model.VwDemandForecastActual;
 import com.stpl.app.security.impl.StplSecurity;
 import com.stpl.app.service.AccrualMasterLocalServiceUtil;
 import com.stpl.app.service.BusinessroleModuleLocalServiceUtil;
@@ -35,8 +34,6 @@ import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
@@ -58,7 +55,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
 
@@ -81,7 +77,7 @@ public class CommonLogic {
     static boolean invalidAdjustedDemand = false;
     public static ResourceBundle InterfaceScripts = ResourceBundle.getBundle(ConstantUtil.PROP_INTERFACE_SCRIPTS);
     public List<String> PROPERTY_LIST = Arrays.asList(ConstantUtil.INVENTORY_UNIT_CHANGE, ConstantUtil.UNCAPTURED_UNITS, ConstantUtil.UNCAPTURED_UNITS_RATIO, ConstantUtil.FORECASTNAME, ConstantUtil.FORECASTVER);
-    Map<Integer, Boolean> SelectedAccrualsId = new LinkedHashMap<Integer, Boolean>();
+    Map<Integer, Boolean> SelectedAccrualsId = new LinkedHashMap<>();
     public List<String> GTS_INVAID_LIST = Arrays.asList(ConstantUtil.CUS_GTS_FORECAST_ID);
     public List<String> ACCURAL_INVAID_LIST = Arrays.asList("COMPANY_QUALIFIER_ID");
     static int isForecast = 0;
@@ -94,6 +90,8 @@ public class CommonLogic {
     DecimalFormat decimalformatdol = new DecimalFormat("$#0.00");
     DecimalFormat format = new DecimalFormat("#,###.##########");
     public final static String FTP_PROPERTIES_PATH = "conf/BPI Configuration/FTPConfiguration.properties";
+    Map<Integer, String> userMap = StplSecurity.userMap;
+    private final DecimalFormat precisionFormat = new DecimalFormat();
 
     /**
      * Get the all the fields to be create in dynamic
@@ -103,7 +101,7 @@ public class CommonLogic {
      * @return
      * @throws Exception
      */
-    public Object[] getFiledNames(String moduleName, String tabName) throws PortalException, SystemException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
+    public Object[] getFiledNames(String moduleName, String tabName) throws PortalException, SystemException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         LOGGER.debug("getFieldNames  moduleName =" + moduleName + " tabName=" + tabName);
         int sysId = 0;
         Object[] ob = new Object[NumericConstants.FIVE];
@@ -171,7 +169,7 @@ public class CommonLogic {
      * @return
      */
     public List<DetailsDTO> convertToDetailsDto(List<Object> list, Object tableName, int count) {
-        List<DetailsDTO> dtoList = new ArrayList<DetailsDTO>();
+        List<DetailsDTO> dtoList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             DetailsDTO dto = new DetailsDTO();
             Object[] ob = (Object[]) list.get(i);
@@ -216,12 +214,10 @@ public class CommonLogic {
                 hm.put("ADJUSTED_DEMAND_FORECAST_INTF_ID", "DEMAND_INT_SID");
             }
         }
-        int createdByIndex = 0;
-        int modifyByIndex = 0;
         int i = 0;
         for (DetailsDTO moduleDetail : (List<DetailsDTO>) ob[0]) {
 
-            if (!ConstantUtil.Button.equals(moduleDetail.getCategoryName()) && !ConstantUtil.PRIMARY_KEY.equals(moduleDetail.getCategoryName())) {
+            if (!ConstantUtil.BUTTON.equals(moduleDetail.getCategoryName()) && !ConstantUtil.PRIMARY_KEY.equals(moduleDetail.getCategoryName())) {
                 tableName = moduleDetail.getTableName();
                 if (!(ConstantUtil.ADJUST_DEMAND_VIEW.equals(tableName) || ConstantUtil.DEMAND_VIEW.equals(tableName)
                         || ConstantUtil.VW_IVLD_DEMAND_FPRECAST.equals(tableName) || ConstantUtil.INVALID_ADJUST_DEMAND_VIEW.equals(tableName)) && (adjustDemand == true || invalidAdjustedDemand == true)) {
@@ -234,11 +230,6 @@ public class CommonLogic {
                     query.append(moduleDetail.getPropertyName()).append(",");
                 }
 
-                if ("CREATED_BY".equals(moduleDetail.getPropertyName())) {
-                    createdByIndex = i;
-                } else if ("MODIFIED_BY".equals(moduleDetail.getPropertyName())) {
-                    modifyByIndex = i;
-                }
                 i++;
             }
         }
@@ -312,7 +303,7 @@ public class CommonLogic {
             query = new StringBuilder();
             query.append(sql);
 
-        } else if (invalidtableName.equalsIgnoreCase("IVLD_ACTUAL_MASTER") || tableName.equalsIgnoreCase("ACTUALS_MASTER")) {
+        } else if (invalidtableName.equalsIgnoreCase(ConstantUtil.IVLD_ACTUAL_MASTER) || tableName.equalsIgnoreCase("ACTUALS_MASTER")) {
             String sql = query.toString();
             sql = sql.replaceAll("\\bQUANTITY\\b", "Cast(CONVERT(DECIMAL(10,2),QUANTITY) as nvarchar) AS QUANTITY");
             sql = sql.replaceAll("\\bSALES_AMOUNT\\b", "Cast(CONVERT(DECIMAL(10,2),SALES_AMOUNT) as nvarchar) AS SALES_AMOUNT");
@@ -321,60 +312,28 @@ public class CommonLogic {
             query.append(sql);
         }
         List<Object> objList = (List<Object>) BusinessroleModuleLocalServiceUtil.executeSelectQuery(invalidtableName.equals(ConstantUtil.IVLD_SALES_MASTER) ? query.toString().replace("ITEM_PARENT_NO", "PARENT_ITEM_NO") : query.toString(), null);
-
+        
         if (tableName.contains("VW_INVENTORY_WD_ACTUAL_PROJ_MAS")) {
             if (objList != null && !objList.isEmpty()) {
-                Map<Integer, String> userMap = new ConcurrentHashMap<>();
-                DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
-                List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
-                for (User user : userList) {
-                    userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
-                }
                 Object[] result = (Object[]) objList.get(0);
-                if (result[createdByIndex] != null && !result[createdByIndex].toString().isEmpty() && String.valueOf(result[createdByIndex]).matches(ConstantUtil.REGEX)) {
-                    result[createdByIndex] = userMap.get(Integer.valueOf(String.valueOf(result[NumericConstants.SIXTEEN])));
-                }
-                if (result[modifyByIndex] != null && !result[modifyByIndex].toString().isEmpty() && String.valueOf(result[modifyByIndex]).matches(ConstantUtil.REGEX)) {
-                    result[modifyByIndex] = userMap.get(Integer.valueOf(String.valueOf(result[modifyByIndex])));
-                }
-                return result;
-            } else {
-                return new Object[0];
-            }
-        } else if (tableName.contains("CUSTOMER_GTS_ACTUAL")) {
-            if (objList != null && !objList.isEmpty()) {
-                Map<Integer, String> userMap = new ConcurrentHashMap<>();
-                DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
-                List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
-                for (User user : userList) {
-                    userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
-                }
-                Object[] result = (Object[]) objList.get(0);
-                if (result[createdByIndex] != null && !result[NumericConstants.SEVENTEEN].toString().isEmpty() && String.valueOf(result[createdByIndex]).matches(ConstantUtil.REGEX)) {
-                    result[createdByIndex] = userMap.get(Integer.valueOf(String.valueOf(result[createdByIndex])));
-                }
-                if (result[modifyByIndex] != null && !result[modifyByIndex].toString().isEmpty() && String.valueOf(result[modifyByIndex]).matches(ConstantUtil.REGEX)) {
-                    result[modifyByIndex] = userMap.get(Integer.valueOf(String.valueOf(result[modifyByIndex])));
-                }
+                result[NumericConstants.ZERO] = result[NumericConstants.ZERO] == null ? 0 : result[NumericConstants.ZERO];
+                result[NumericConstants.EIGHT] = result[NumericConstants.EIGHT] == null ? 0 : result[NumericConstants.EIGHT];
+                result[NumericConstants.TEN] = result[NumericConstants.TEN] == null ? 0 : result[NumericConstants.TEN];
+                result[NumericConstants.ELEVEN] = result[NumericConstants.ELEVEN] == null ? 0 : result[NumericConstants.ELEVEN];
+                result[NumericConstants.TWELVE] = result[NumericConstants.TWELVE] == null ? 0 : result[NumericConstants.TWELVE];
+                result[NumericConstants.THIRTEEN] = result[NumericConstants.THIRTEEN] == null ? 0 : result[NumericConstants.THIRTEEN];
+                result[NumericConstants.FOURTEEN] = result[NumericConstants.FOURTEEN] == null ? 0 : result[NumericConstants.FOURTEEN];
                 return result;
             } else {
                 return new Object[0];
             }
         } else if (tableName.contains(ConstantUtil.CUSTOMER_GTS_FORECAST)) {
             if (objList != null && !objList.isEmpty()) {
-                Map<Integer, String> userMap = new ConcurrentHashMap<>();
-                DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
-                List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
-                for (User user : userList) {
-                    userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
-                }
                 Object[] result = (Object[]) objList.get(0);
-                if (result[createdByIndex] != null && !result[createdByIndex].toString().isEmpty() && String.valueOf(result[createdByIndex]).matches(ConstantUtil.REGEX)) {
-                    result[createdByIndex] = userMap.get(Integer.valueOf(String.valueOf(result[createdByIndex])));
-                }
-                if (result[modifyByIndex] != null && !result[modifyByIndex].toString().isEmpty() && String.valueOf(result[modifyByIndex]).matches(ConstantUtil.REGEX)) {
-                    result[modifyByIndex] = userMap.get(Integer.valueOf(String.valueOf(result[modifyByIndex])));
-                }
+                result[NumericConstants.THIRTEEN] = result[NumericConstants.THIRTEEN] == null ? 0 : result[NumericConstants.THIRTEEN];
+                result[NumericConstants.FOURTEEN] = result[NumericConstants.FOURTEEN] == null ? 0 : result[NumericConstants.FOURTEEN];
+                result[NumericConstants.SEVENTEEN] = result[NumericConstants.SEVENTEEN] == null ? 0 : result[NumericConstants.SEVENTEEN];
+                result[NumericConstants.EIGHTEEN] = result[NumericConstants.EIGHTEEN] == null ? 0 : result[NumericConstants.EIGHTEEN];
                 return result;
             } else {
                 return new Object[0];
@@ -390,25 +349,70 @@ public class CommonLogic {
                     result[NumericConstants.TWENTY_SEVEN] = StringUtils.EMPTY;
                 }
             }
-        } else if ((tableName.contains(ConstantUtil.CUSTOMER_GTS_FORECAST) || tableName.contains("VW_ITEM_IDENTIFIER")
-                || tableName.contains("VW_ITEM_MASTER") || tableName.contains("VW_ITEM_PRICING")
-                || tableName.contains("VW_COMPANY_MASTER") || tableName.contains("VW_COMPANY_IDENTIFIER")
-                || tableName.contains("VW_COMPANY_PARENT_DETAILS") || tableName.contains("VW_COMPANY_TRADE_CLASS")) && objList != null && !objList.isEmpty()) {
-                Map<Integer, String> userMap = new ConcurrentHashMap<>();
-                DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
-                List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
-                for (User user : userList) {
-                    userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
-                }
+
+        } else if (tableName.contains("FORECASTING_MASTER")) {
+            if (objList != null && !objList.isEmpty()) {
                 Object[] result = (Object[]) objList.get(0);
-                if (result[createdByIndex] != null && !result[createdByIndex].toString().isEmpty() && String.valueOf(result[createdByIndex]).matches(ConstantUtil.REGEX)) {
-                    result[createdByIndex] = userMap.get(Integer.valueOf(String.valueOf(result[createdByIndex])));
+                result[NumericConstants.TWO] = result[NumericConstants.TWO] == null ? 0 : result[NumericConstants.TWO];
+                result[NumericConstants.FOUR] = result[NumericConstants.FOUR] == null ? 0 : result[NumericConstants.FOUR];
+                result[NumericConstants.SIX] = result[NumericConstants.SIX] == null ? 0 : result[NumericConstants.SIX];
                 }
-                if (result[modifyByIndex] != null && !result[modifyByIndex].toString().isEmpty() && String.valueOf(result[modifyByIndex]).matches(ConstantUtil.REGEX)) {
-                    result[modifyByIndex] = userMap.get(Integer.valueOf(String.valueOf(result[modifyByIndex])));
+        } else if (tableName.contains("CPI_INDEX_MASTER")) {
+            if (objList != null && !objList.isEmpty()) {
+                Object[] result = (Object[]) objList.get(0);
+                result[NumericConstants.ZERO] = result[NumericConstants.ZERO] == null ? 0 : result[NumericConstants.ZERO];
                 }
-                return result;
+        } else if (tableName.contains("AUDIT_MASTER_INBOUND")) {
+            if (objList != null && !objList.isEmpty()) {
+                Object[] result = (Object[]) objList.get(0);
+                result[NumericConstants.ZERO] = result[NumericConstants.ZERO] == null ? 0 : result[NumericConstants.ZERO];
+                result[NumericConstants.SIX] = result[NumericConstants.SIX] == null ? 0 : result[NumericConstants.SIX];
+                result[NumericConstants.SEVEN] = result[NumericConstants.SEVEN] == null ? 0 : result[NumericConstants.SEVEN];
+                result[NumericConstants.EIGHT] = result[NumericConstants.EIGHT] == null ? 0 : result[NumericConstants.EIGHT];
+                result[NumericConstants.TEN] = result[NumericConstants.TEN] == null ? 0 : result[NumericConstants.TEN];
+                result[NumericConstants.ELEVEN] = result[NumericConstants.ELEVEN] == null ? 0 : result[NumericConstants.ELEVEN];
+                result[NumericConstants.THIRTEEN] = result[NumericConstants.THIRTEEN] == null ? 0 : result[NumericConstants.THIRTEEN];
+                result[NumericConstants.FOURTEEN] = result[NumericConstants.FOURTEEN] == null ? 0 : result[NumericConstants.FOURTEEN];
+                result[NumericConstants.FIFTEEN] = result[NumericConstants.FIFTEEN] == null ? 0 : result[NumericConstants.FIFTEEN];
+                result[NumericConstants.SIXTEEN] = result[NumericConstants.SIXTEEN] == null ? 0 : result[NumericConstants.SIXTEEN];
+                result[NumericConstants.SEVENTEEN] = result[NumericConstants.SEVENTEEN] == null ? 0 : result[NumericConstants.SEVENTEEN];
+                result[NumericConstants.EIGHTEEN] = result[NumericConstants.EIGHTEEN] == null ? 0 : result[NumericConstants.EIGHTEEN];
+                }
+        } else if (tableName.contains("GL_BALANCE_MASTER")) {
+            if (objList != null && !objList.isEmpty()) {
+                Object[] result = (Object[]) objList.get(0);
+                result[NumericConstants.FIVE] = result[NumericConstants.FIVE] == null ? 0 : result[NumericConstants.FIVE];
         }
+
+        } else if (tableName.contains("SALES_MASTER")) {
+            if (objList != null && !objList.isEmpty()) {
+                Object[] result = (Object[]) objList.get(0);
+                result[NumericConstants.TEN] = result[NumericConstants.TEN] == null ? 0 : result[NumericConstants.TEN];
+                result[NumericConstants.TWENTY] = result[NumericConstants.TWENTY] == null ? 0 : result[NumericConstants.TWENTY];
+            }
+
+        } else if (tableName.contains(ConstantUtil.VW_ITEM_MASTER_CAPS)) {
+            if (objList != null && !objList.isEmpty()) {
+                Object[] result = (Object[]) objList.get(0);
+                if (invalidtableName.equals("IVLD_ITEM_MASTER")) {
+                    VaadinSession.getCurrent().setAttribute(ConstantUtil.BASE_CPI_PRECISION, result[NumericConstants.SEVENTY_SIX] == null ? 0 : result[NumericConstants.SEVENTY_SIX]);
+                    VaadinSession.getCurrent().setAttribute(ConstantUtil.BASELINE_AMP_PRECISION, result[NumericConstants.SEVENTY_SEVEN] == null ? 0 : result[NumericConstants.SEVENTY_SEVEN]);
+                } else {
+                    VaadinSession.getCurrent().setAttribute(ConstantUtil.BASE_CPI_PRECISION, result[NumericConstants.SEVENTY_FIVE] == null ? 0 : result[NumericConstants.SEVENTY_FIVE]);
+                    VaadinSession.getCurrent().setAttribute(ConstantUtil.BASELINE_AMP_PRECISION, result[NumericConstants.SEVENTY_SIX] == null ? 0 : result[NumericConstants.SEVENTY_SIX]);
+                }
+            }
+
+        } 
+        else if (tableName.contains(ConstantUtil.VW_ITEM_PRICING_CAPS)) {
+            if (objList != null && !objList.isEmpty()) {
+                Object[] result = (Object[]) objList.get(0);
+                VaadinSession.getCurrent().setAttribute(ConstantUtil.ITEM_PRICE_PRECISION, result[NumericConstants.SEVENTEEN] == null ? 0 : result[NumericConstants.SEVENTEEN]);
+              
+            }
+
+        } 
+        
         return objList.isEmpty() ? new Object[0] : (Object[]) objList.get(0);
     }
 
@@ -436,7 +440,7 @@ public class CommonLogic {
      */
     public ComboBox loadComboBox(final ComboBox select,
             String listName) throws SystemException  {
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         final List<HelperDTO> helperList = getHelperResults(listName);
         resultContainer.addAll(helperList);
         select.setContainerDataSource(resultContainer);
@@ -464,7 +468,7 @@ public class CommonLogic {
      */
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException{
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery;
         final List list;
         LOGGER.debug("Entering getHelperResults  " + listType);
@@ -584,9 +588,14 @@ public class CommonLogic {
      * @throws Exception
      */
     public List<Object> getExcelList(final Map<Object, Object> searchValues, final int start, final int end,
-            Object[] excelVisibleColumnArr, String tableName, final DetailsDTO primaryDTO)throws PortalException, SystemException, ClassNotFoundException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException  {
+            Object[] excelVisibleColumnArr, String tableName, final DetailsDTO primaryDTO)throws PortalException, SystemException, ClassNotFoundException, ParseException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException  {
         SearchLogic sl = new SearchLogic();
         List<Object> list = null;
+        
+        DateFormat timeFormatExcel = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
+        DateFormat dateFormatExcel = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
+        timeFormatExcel.setLenient(false);
+      
         if (ConstantUtil.ACTUALS_MASTER.equals(tableName) || ConstantUtil.IVID_ACTUAL_MASTER.equals(tableName)) {
             list = sl.searchFindForActualMaster(searchValues, start, end, null, null, tableName, true, excelVisibleColumnArr, primaryDTO);
         } else if ("IvldSalesMaster".equals(tableName)) {
@@ -597,17 +606,18 @@ public class CommonLogic {
         
         int demandindex = ConstantUtil.DEMANDVIEW_TABLE.equals(tableName) ? NumericConstants.SEVEN : ConstantUtil.IVLD_DEMANDVIEW_TABLE.equals(tableName)
                 ? NumericConstants.SIX : NumericConstants.ZERO;
-        if (demandindex != NumericConstants.ZERO) {
+
+        Object forcastTypeDDLB = searchValues.get("isForecast");
+        if (demandindex != NumericConstants.ZERO && (forcastTypeDDLB != null && String.valueOf(forcastTypeDDLB).trim().equals(ConstantUtil.ONE))) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] ob = (Object[]) list.get(i);
-                if ("1".equals(ob[demandindex])) {
+                if (ConstantUtil.ONE.equals(ob[demandindex])) {
                     ob[demandindex] = ConstantUtil.PROJECTION;
                 } else {
                     ob[demandindex] = ConstantUtil.ACTUALS;
                 }
             }
         }
-  
         if ("ForecastingMaster".equals(tableName)) { // Sales Forecast
             for (int i = 0; i < list.size(); i++) {
                 Object[] ob = (Object[]) list.get(i);
@@ -616,25 +626,21 @@ public class CommonLogic {
             }
         }
 
-        if (ConstantUtil.GL_BALANCE_MASTER.equals(tableName)) {
+        int index = ConstantUtil.GL_BALANCE_MASTER.equals(tableName) ? NumericConstants.FOUR : ConstantUtil.ACCURAL_MASTER.equals(tableName)
+                ? NumericConstants.FOURTEEN : NumericConstants.ZERO;
+
+        if (index != NumericConstants.ZERO) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] ob = (Object[]) list.get(i);
-                if ("1".equals(ob[NumericConstants.FOUR])) {
-                    ob[NumericConstants.FOUR] = "Yes";
+                if (ConstantUtil.ONE.equals(ob[index])) {
+                    ob[index] = ConstantUtil.YES;
                 } else {
-                    ob[NumericConstants.FOUR] = "No";
+                    ob[index] = ConstantUtil.NO;
                 }
             }
-        } else if (ConstantUtil.ACCURAL_MASTER.equals(tableName)) {
-            for (int i = 0; i < list.size(); i++) {
-                Object[] ob = (Object[]) list.get(i);
-                if ("1".equals(ob[NumericConstants.FOURTEEN])) {
-                    ob[NumericConstants.FOURTEEN] = "Yes";
-                } else {
-                    ob[NumericConstants.FOURTEEN] = "No";
                 }
-            }
-        } else if ("CpiIndexMaster".equals(tableName)) {
+
+        if ("CpiIndexMaster".equals(tableName)) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] ob = (Object[]) list.get(i);
                 if (ob[NumericConstants.ONE] != null && (String.valueOf(ob[NumericConstants.ONE])).matches(ConstantUtil.REGEX)) {
@@ -646,34 +652,39 @@ public class CommonLogic {
         if (tableName.contains("IvldReturns")) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                    DateFormat df2 = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
-                    df.setLenient(false);
                     Object[] ob = (Object[]) list.get(i);
-                    ob[NumericConstants.NINE] = ob[NumericConstants.NINE] == null ? StringUtils.EMPTY : df2.format(df.parse(String.valueOf(ob[NumericConstants.NINE])));
-                    ob[NumericConstants.SIXTEEN] = ob[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : df2.format(df.parse(String.valueOf(ob[NumericConstants.SIXTEEN])));
-                    ob[NumericConstants.SEVENTEEN] = ob[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : df2.format(df.parse(String.valueOf(ob[NumericConstants.SEVENTEEN])));
-                    ob[NumericConstants.EIGHTEEN] = ob[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : df2.format(df.parse(String.valueOf(ob[NumericConstants.EIGHTEEN])));
-                    ob[NumericConstants.NINETEEN] = ob[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : df2.format(df.parse(String.valueOf(ob[NumericConstants.NINETEEN])));
-                    ob[NumericConstants.THIRTY_FOUR] = ob[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : df2.format(df.parse(String.valueOf(ob[NumericConstants.THIRTY_FOUR])));
-                    ob[NumericConstants.THIRTY_EIGHT] = ob[NumericConstants.THIRTY_EIGHT] == null ? StringUtils.EMPTY : df2.format(df.parse(String.valueOf(ob[NumericConstants.THIRTY_EIGHT])));
+                    ob[NumericConstants.NINE] = ob[NumericConstants.NINE] == null ? StringUtils.EMPTY : dateFormatExcel.format(timeFormatExcel.parse(String.valueOf(ob[NumericConstants.NINE])));
+                    ob[NumericConstants.SIXTEEN] = ob[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : dateFormatExcel.format(timeFormatExcel.parse(String.valueOf(ob[NumericConstants.SIXTEEN])));
+                    ob[NumericConstants.SEVENTEEN] = ob[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : dateFormatExcel.format(timeFormatExcel.parse(String.valueOf(ob[NumericConstants.SEVENTEEN])));
+                    ob[NumericConstants.EIGHTEEN] = ob[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : dateFormatExcel.format(timeFormatExcel.parse(String.valueOf(ob[NumericConstants.EIGHTEEN])));
+                    ob[NumericConstants.NINETEEN] = ob[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : dateFormatExcel.format(timeFormatExcel.parse(String.valueOf(ob[NumericConstants.NINETEEN])));
+                    ob[NumericConstants.THIRTY_FOUR] = ob[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : dateFormatExcel.format(timeFormatExcel.parse(String.valueOf(ob[NumericConstants.THIRTY_FOUR])));
+                    ob[NumericConstants.THIRTY_EIGHT] = ob[NumericConstants.THIRTY_EIGHT] == null ? StringUtils.EMPTY : dateFormatExcel.format(timeFormatExcel.parse(String.valueOf(ob[NumericConstants.THIRTY_EIGHT])));
                 } catch (Exception e) {
                     LOGGER.error("Un parseable Date" + e);
                 }
             }
         }
-
         if (tableName.equals("IvldItemMaster")) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                    DateFormat df2 = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
-                    df.setLenient(false);
                     Object[] ob = (Object[]) list.get(i);
-                    ob[NumericConstants.SIXTEEN] = ob[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.SIXTEEN])));
-                    ob[NumericConstants.THIRTY_TWO] = ob[NumericConstants.THIRTY_TWO] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.THIRTY_TWO])));
-                    ob[NumericConstants.FORTY] = ob[NumericConstants.FORTY] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.FORTY])));
+                    ob[NumericConstants.SIXTEEN] = ob[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.SIXTEEN])));
+                    ob[NumericConstants.THIRTY_TWO] = ob[NumericConstants.THIRTY_TWO] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.THIRTY_TWO])));
+                    ob[NumericConstants.FORTY] = ob[NumericConstants.FORTY] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.FORTY])));
                 } catch (Exception e) {
+                    LOGGER.error(e);
+                }
+            }
+        }
+        if (tableName.equals("ActualsMaster")) {
+            for (int i = 0; i < list.size(); i++) {
+                try {
+                    Object[] ob = (Object[]) list.get(i);
+                    ob[NumericConstants.TWELVE] = ob[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : decimalformatper.format(Double.valueOf(ob[NumericConstants.TWELVE].toString()));
+                    ob[NumericConstants.THIRTEEN] = ob[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : decimalformatper.format(Double.valueOf(ob[NumericConstants.THIRTEEN].toString()));
+                    ob[NumericConstants.EIGHTEEN] = ob[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : decimalformatper.format(Double.valueOf(ob[NumericConstants.EIGHTEEN].toString()));
+                } catch (NumberFormatException e) {
                     LOGGER.error(e);
                 }
             }
@@ -681,15 +692,12 @@ public class CommonLogic {
         if (tableName.equals("IvldCompanyMaster")) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                    DateFormat df2 = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
-                    df.setLenient(false);
                     Object[] ob = (Object[]) list.get(i);
 
-                    ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.EIGHT])));
-                    ob[NumericConstants.NINE] = ob[NumericConstants.NINE] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.NINE])));
+                    ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.EIGHT])));
+                    ob[NumericConstants.NINE] = ob[NumericConstants.NINE] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.NINE])));
 
-                    ob[NumericConstants.TWENTY_FIVE] = ob[NumericConstants.TWENTY_FIVE] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.TWENTY_FIVE])));
+                    ob[NumericConstants.TWENTY_FIVE] = ob[NumericConstants.TWENTY_FIVE] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.TWENTY_FIVE])));
                 } catch (Exception e) {
                     LOGGER.error(e);
                 }
@@ -698,12 +706,9 @@ public class CommonLogic {
         if (tableName.equals("IvldCompanyIdentifier")) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                    DateFormat df2 = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
-                    df.setLenient(false);
                     Object[] ob = (Object[]) list.get(i);
-                    ob[NumericConstants.SEVEN] = ob[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.SEVEN])));
-                    ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.EIGHT])));
+                    ob[NumericConstants.SEVEN] = ob[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.SEVEN])));
+                    ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.EIGHT])));
                 } catch (Exception e) {
                     LOGGER.error(e);
                 }
@@ -712,14 +717,11 @@ public class CommonLogic {
         if (tableName.equals("IvldCompanyParent")) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                    DateFormat df2 = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
-                    df.setLenient(false);
                     Object[] ob = (Object[]) list.get(i);
-                    ob[NumericConstants.TWO] = ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.TWO])));
-                    ob[NumericConstants.THREE] = ob[NumericConstants.THREE] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.THREE])));
-                    ob[NumericConstants.FOUR] = ob[NumericConstants.FOUR] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.FOUR])));
-                    ob[NumericConstants.FIVE] = ob[NumericConstants.FIVE] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.FIVE])));
+                    ob[NumericConstants.TWO] = ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.TWO])));
+                    ob[NumericConstants.THREE] = ob[NumericConstants.THREE] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.THREE])));
+                    ob[NumericConstants.FOUR] = ob[NumericConstants.FOUR] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.FOUR])));
+                    ob[NumericConstants.FIVE] = ob[NumericConstants.FIVE] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.FIVE])));
                 } catch (Exception e) {
                     LOGGER.error(e);
                 }
@@ -728,14 +730,11 @@ public class CommonLogic {
         if (tableName.equals("IvldCompanyTradeClass")) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                    DateFormat df2 = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
-                    df.setLenient(false);
                     Object[] ob = (Object[]) list.get(i);
-                    ob[NumericConstants.ONE] = ob[NumericConstants.ONE] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.ONE])));
-                    ob[NumericConstants.TWO] = ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.TWO])));
-                    ob[NumericConstants.FOUR] = ob[NumericConstants.FOUR] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.FOUR])));
-                    ob[NumericConstants.FIVE] = ob[NumericConstants.FIVE] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.FIVE])));
+                    ob[NumericConstants.ONE] = ob[NumericConstants.ONE] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.ONE])));
+                    ob[NumericConstants.TWO] = ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.TWO])));
+                    ob[NumericConstants.FOUR] = ob[NumericConstants.FOUR] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.FOUR])));
+                    ob[NumericConstants.FIVE] = ob[NumericConstants.FIVE] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.FIVE])));
                 } catch (Exception e) {
                     LOGGER.error(e);
                 }
@@ -744,12 +743,9 @@ public class CommonLogic {
         if (tableName.equals("IvldItemIdentifier")) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                    DateFormat df2 = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
-                    df.setLenient(false);
                     Object[] ob = (Object[]) list.get(i);
-                    ob[NumericConstants.SEVEN] = ob[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.SEVEN])));
-                    ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.EIGHT])));
+                    ob[NumericConstants.SEVEN] = ob[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.SEVEN])));
+                    ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.EIGHT])));
                 } catch (Exception e) {
                     LOGGER.error(e);
                 }
@@ -758,12 +754,11 @@ public class CommonLogic {
         if (tableName.equals("IvldItemPricing")) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                    DateFormat df2 = new SimpleDateFormat(ConstantUtil.MMDDYYYY);
-                    df.setLenient(false);
                     Object[] ob = (Object[]) list.get(i);
-                    ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.EIGHT])));
-                    ob[NumericConstants.NINE] = ob[NumericConstants.NINE] == null ? StringUtils.EMPTY : df2.format(parseDate(String.valueOf(ob[NumericConstants.NINE])));
+                    precisionFormat.applyPattern(SearchLogic.pattern(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("IvldItemPricePrecision")))));
+                    ob[NumericConstants.SIX] = ob[NumericConstants.SIX] == null ? StringUtils.EMPTY : "$" + precisionFormat.format(Double.valueOf(String.valueOf(ob[NumericConstants.SIX])));
+                    ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.EIGHT])));
+                    ob[NumericConstants.NINE] = ob[NumericConstants.NINE] == null ? StringUtils.EMPTY : dateFormatExcel.format(parseDate(String.valueOf(ob[NumericConstants.NINE])));
                 } catch (Exception e) {
                     LOGGER.error(e);
                 }
@@ -773,14 +768,14 @@ public class CommonLogic {
             try {
                 for (int i = 0; i < list.size(); i++) {
                     try {
-                        DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                        df.setLenient(false);
                         Object[] ob = (Object[]) list.get(i);
-                        ob[NumericConstants.SIXTY_NINE] = ob[NumericConstants.SIXTY_NINE] == null ? StringUtils.EMPTY : decimalformatper.format(Double.valueOf(String.valueOf(ob[NumericConstants.SIXTY_NINE]))) + "%";
+                        precisionFormat.applyPattern(SearchLogic.pattern(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("BaseCpiPrecision")))));
+                        ob[NumericConstants.SIXTY_NINE] = ob[NumericConstants.SIXTY_NINE] == null ? StringUtils.EMPTY : precisionFormat.format(Double.valueOf(String.valueOf(ob[NumericConstants.SIXTY_SEVEN])));
                         ob[NumericConstants.FIFTY_SEVEN] = ob[NumericConstants.FIFTY_SEVEN] == null ? StringUtils.EMPTY : decimalformatdol.format(Double.valueOf(String.valueOf(ob[NumericConstants.FIFTY_SEVEN])));
                         ob[NumericConstants.FIFTY_EIGHT] = ob[NumericConstants.FIFTY_EIGHT] == null ? StringUtils.EMPTY : decimalformatdol.format(Double.valueOf(String.valueOf(ob[NumericConstants.FIFTY_EIGHT])));
                         ob[NumericConstants.FIFTY_NINE] = ob[NumericConstants.FIFTY_NINE] == null ? StringUtils.EMPTY : decimalformatdol.format(Double.valueOf(String.valueOf(ob[NumericConstants.FIFTY_NINE])));
-                        ob[NumericConstants.SIXTY_SEVEN] = ob[NumericConstants.SIXTY_SEVEN] == null ? StringUtils.EMPTY : decimalformatdol.format(Double.valueOf(String.valueOf(ob[NumericConstants.SIXTY_SEVEN])));
+                        precisionFormat.applyPattern(SearchLogic.pattern(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("BaselineAmpPrecision")))));
+                        ob[NumericConstants.SIXTY_SEVEN] = ob[NumericConstants.SIXTY_SEVEN] == null ? StringUtils.EMPTY : "$" + precisionFormat.format(Double.valueOf(String.valueOf(ob[NumericConstants.SIXTY_SEVEN])));
                     } catch (Exception e) {
                         LOGGER.error(e);
                     }
@@ -794,10 +789,11 @@ public class CommonLogic {
             try {
                 for (int i = 0; i < list.size(); i++) {
                     try {
-                        DateFormat df = new SimpleDateFormat(ConstantUtil.TIME_FORMAT);
-                        df.setLenient(false);
                         Object[] ob = (Object[]) list.get(i);
-                        ob[NumericConstants.SIX] = ob[NumericConstants.SIX] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(ob[NumericConstants.SIX])));
+                        List<Integer> precisionList = sl.getPrecisionFromItemPricing();
+                        Object[] obj = precisionList.toArray();
+                        precisionFormat.applyPattern(obj[i] == null ? StringUtils.EMPTY : SearchLogic.pattern(Integer.valueOf(String.valueOf(obj[i]))));
+                        ob[NumericConstants.SIX] = ob[NumericConstants.SIX] == null ? StringUtils.EMPTY : "$" + precisionFormat.format(Double.valueOf(String.valueOf(ob[NumericConstants.SIX])));
                     } catch (Exception e) {
                         LOGGER.error(e);
                     }
@@ -809,78 +805,21 @@ public class CommonLogic {
 
         if (ConstantUtil.IVLD_RETURN_RESERVE.equals(tableName) || ConstantUtil.RETURN_RESERVE.equals(tableName)) {
             try {
-                Map<Integer, String> userMap = StplSecurity.userMap;
                 List visibleCOlumnList = Arrays.asList(excelVisibleColumnArr);
-                int createdByIndexVal = visibleCOlumnList.indexOf(ConstantUtil.CREATED_BY);
-                int modifiedByIndexVal = visibleCOlumnList.indexOf(ConstantUtil.MODIFIED_BY);
                 int amountIndexVal = visibleCOlumnList.indexOf("amount");
                 int unitIndexVal = visibleCOlumnList.indexOf("units");
-                int rrListSize = list.size();
-                for (int i = 0; i < rrListSize; i++) {
-                    try {
+                for (int i = 0; i < list.size(); i++) {
                         Object[] ob = (Object[]) list.get(i);
 
-                        if (ob[amountIndexVal] != null) {
-                            if ((String.valueOf(ob[amountIndexVal])).matches("^[1-9]\\d*(\\.\\d+)?$")) {
-                                ob[amountIndexVal] = decimalformatdol.format(Double.valueOf(String.valueOf(ob[amountIndexVal])));
-                            }
-                        } else {
-                            ob[amountIndexVal] = StringUtils.EMPTY;
-                        }
-                        if (ob[unitIndexVal] != null) {
-                            if ((String.valueOf(ob[unitIndexVal])).matches("^[1-9]\\d*(\\.\\d+)?$")) {
-                                ob[unitIndexVal] = decimalformatper.format(Double.valueOf(String.valueOf(ob[unitIndexVal])));
-                            }
-                        } else {
-                            ob[unitIndexVal] = StringUtils.EMPTY;
-                        }
+                    ob[amountIndexVal] = (ob[amountIndexVal] != null && String.valueOf(ob[amountIndexVal]).matches("^[1-9]\\d*(\\.\\d+)?$"))
+                            ? ob[amountIndexVal] = decimalformatdol.format(Double.valueOf(String.valueOf(ob[amountIndexVal])))
+                            : StringUtils.EMPTY;
 
-                        if (!"null".equalsIgnoreCase(String.valueOf(ob[createdByIndexVal])) && ob[createdByIndexVal] != null
-                                && (String.valueOf(ob[createdByIndexVal])).matches(ConstantUtil.REGEX)) {
-                            ob[createdByIndexVal] = userMap.get(Integer.valueOf(String.valueOf(ob[createdByIndexVal])));
-                        }
-                        if (!"null".equals(String.valueOf(ob[modifiedByIndexVal])) && ob[modifiedByIndexVal] != null
-                                && (String.valueOf(ob[modifiedByIndexVal])).matches(ConstantUtil.REGEX)) {
-                            ob[modifiedByIndexVal] = userMap.get(Integer.valueOf(String.valueOf(ob[modifiedByIndexVal])));
-                        }
-                    } catch (Exception e) {
-                        LOGGER.error(e);
-                    }
-                }
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
-        }
-        if (ConstantUtil.ACTUALS_MASTER.equals(tableName) || ConstantUtil.IVID_ACTUAL_MASTER.equals(tableName)) {
-            try {
-                List visibleCOlumnList = Arrays.asList(excelVisibleColumnArr);
-                int amountIndexVal = visibleCOlumnList.indexOf("amount");
-                int unitIndexVal = visibleCOlumnList.indexOf("quantity");
-                int salesAmountIndexVal = visibleCOlumnList.indexOf("salesAmount");
-                int rrListSize = list.size();
-                for (int i = 0; i < rrListSize; i++) {
-                    try {
-                        Object[] ob = (Object[]) list.get(i);
+                    ob[unitIndexVal] = (ob[unitIndexVal] != null && String.valueOf(ob[unitIndexVal]).matches("^[1-9]\\d*(\\.\\d+)?$"))
+                            ? ob[unitIndexVal] = decimalformatper.format(Double.valueOf(String.valueOf(ob[unitIndexVal])))
+                                       : StringUtils.EMPTY;
 
-                        if (ob[amountIndexVal] != null) {
-                                ob[amountIndexVal] = decimalformatper.format(Double.valueOf(String.valueOf(ob[amountIndexVal])));
-                        } else {
-                            ob[amountIndexVal] = StringUtils.EMPTY;
                         }
-                        if (ob[unitIndexVal] != null) {
-                                ob[unitIndexVal] = decimalformatper.format(Double.valueOf(String.valueOf(ob[unitIndexVal])));
-                        } else {
-                            ob[unitIndexVal] = StringUtils.EMPTY;
-                        }
-                        if (ob[salesAmountIndexVal] != null) {
-                                ob[salesAmountIndexVal] = decimalformatper.format(Double.valueOf(String.valueOf(ob[salesAmountIndexVal])));
-                        } else {
-                            ob[salesAmountIndexVal] = StringUtils.EMPTY;
-                        }
-                    } catch (Exception e) {
-                        LOGGER.error(e);
-                    }
-                }
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
@@ -889,19 +828,13 @@ public class CommonLogic {
         if (ConstantUtil.ACCRUAL_DETAILS.equals(tableName)) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] ob = (Object[]) list.get(i);
-                if (ConstantUtil.KEY_Y.equals(ob[NumericConstants.FOURTEEN])) {
-                    ob[NumericConstants.FOURTEEN] = ConstantUtil.YES;
-                } else if (ConstantUtil.KEY_N.equals(ob[NumericConstants.FOURTEEN])) {
-                    ob[NumericConstants.FOURTEEN] = ConstantUtil.NO;
-                } else {
-                    ob[NumericConstants.FOURTEEN] = StringUtils.EMPTY;
+                ob[NumericConstants.FOURTEEN] = ConstantUtil.KEY_Y.equals(ob[NumericConstants.FOURTEEN]) ? ConstantUtil.YES
+                        : ConstantUtil.KEY_N.equals(ob[NumericConstants.FOURTEEN])
+                        ? ConstantUtil.NO : StringUtils.EMPTY;
                 }
             }
-        }
-        if (tableName.contains(ConstantUtil.INVENTORYVIEW_TABLE) || tableName.contains(ConstantUtil.INVALID_INVENTORYVIEW_TABLE) || tableName.contains(ConstantUtil.CUSTOMER_GTS_FORECAST)
-                || ConstantUtil.VW_ITEM_IDENTIFIER.equals(tableName) || ConstantUtil.VW_ITEM_PRICING.equals(tableName) || ConstantUtil.VW_COMPANY_IDENTIFIER.equals(tableName)
-                || ConstantUtil.VW_COMPANY_PARENT_DETAILS.equals(tableName) || ConstantUtil.VW_COMPANY_TRADE_CLASS.equals(tableName) || ConstantUtil.VW_ITEM_MASTER.equals(tableName)
-                || ConstantUtil.VW_COMPANY_MASTER.equals(tableName)) {
+        if (AllInvalidScreenTables(tableName)
+                || AllValidTables(tableName)) {
 
             Map<Integer, String> userMap = StplSecurity.userMap;
             List visibleCOlumnList = Arrays.asList(excelVisibleColumnArr);
@@ -910,42 +843,31 @@ public class CommonLogic {
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] ob = (Object[]) list.get(i);
-                if (!"null".equalsIgnoreCase(String.valueOf(ob[createdByIndexVal])) && ob[createdByIndexVal] != null
-                        && (String.valueOf(ob[createdByIndexVal])).matches(ConstantUtil.REGEX)) {
+                if (!ConstantUtil.STRING_NULL.equalsIgnoreCase(String.valueOf(ob[createdByIndexVal])) && ob[createdByIndexVal] != null
+                        && (String.valueOf(ob[createdByIndexVal])).matches(ConstantUtil.REGEX)  && AllValidTables(tableName)) {
                     ob[createdByIndexVal] = userMap.get(Integer.valueOf(String.valueOf(ob[createdByIndexVal])));
                 }
-                if (!"null".equals(String.valueOf(ob[modifiedByIndexVal])) && ob[modifiedByIndexVal] != null
-                        && (String.valueOf(ob[modifiedByIndexVal])).matches(ConstantUtil.REGEX)) {
-                    ob[modifiedByIndexVal] = userMap.get(Integer.valueOf(String.valueOf(ob[modifiedByIndexVal])));
+                
+                // In Active Created User
+                if (!ConstantUtil.STRING_NULL.equalsIgnoreCase(String.valueOf(ob[createdByIndexVal])) && ob[createdByIndexVal] != null
+                        && (String.valueOf(ob[createdByIndexVal])).matches(ConstantUtil.REGEX) && AllInvalidScreenTables(tableName)) {
+                    ob[createdByIndexVal] = userMap.get(Integer.valueOf(String.valueOf(ob[createdByIndexVal]))) != null
+                            ? userMap.get(Integer.valueOf(String.valueOf(ob[createdByIndexVal]))) : ConstantUtil.INACTIVE_USER;
+                }
+                if (!ConstantUtil.INVALID_ACCURAL_INBOUND.equals(tableName)) {
+                    if (!ConstantUtil.STRING_NULL.equals(String.valueOf(ob[modifiedByIndexVal])) && ob[modifiedByIndexVal] != null
+                            && (String.valueOf(ob[modifiedByIndexVal])).matches(ConstantUtil.REGEX)) {
+                        ob[modifiedByIndexVal] = userMap.get(Integer.valueOf(String.valueOf(ob[modifiedByIndexVal])));
+                    }
                 }
             }
         }
 
-        if (tableName.contains(ConstantUtil.CUSTOMER_GTS_ACTUAL) || tableName.contains(ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL)) {
-            Map<Integer, String> userMap = StplSecurity.userMap;
-
-            for (int i = 0; i < list.size(); i++) {
-                Object[] ob = (Object[]) list.get(i);
-                if (!"null".equals(ob[NumericConstants.SEVENTEEN]) && ob[NumericConstants.SEVENTEEN] != null && (String.valueOf(ob[NumericConstants.SEVENTEEN])).matches(ConstantUtil.REGEX)) {
-                    ob[NumericConstants.SEVENTEEN] = userMap.get(Integer.valueOf((String) ob[NumericConstants.SEVENTEEN]));
-                }
-                if (!"null".equals(ob[NumericConstants.NINETEEN]) && ob[NumericConstants.NINETEEN] != null && (String.valueOf(ob[NumericConstants.SEVENTEEN])).matches(ConstantUtil.REGEX)) {
-                    ob[NumericConstants.NINETEEN] = userMap.get(Integer.valueOf((String) ob[NumericConstants.NINETEEN]));
-                }
-            }
-        }
         if (tableName.contains(ConstantUtil.VW_CUSTOMER_GTS_FORECAST) || tableName.contains(ConstantUtil.INVALID_GTS_CUSTOMER)) {
-            Map<Integer, String> userMap = StplSecurity.userMap;
             HelperListUtil helper = HelperListUtil.getInstance();
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] ob = (Object[]) list.get(i);
-                if (!"null".equals(ob[NumericConstants.THIRTY_ONE]) && ob[NumericConstants.THIRTY_ONE] != null && (String.valueOf(ob[NumericConstants.THIRTY_ONE])).matches(ConstantUtil.REGEX)) {
-                    ob[NumericConstants.THIRTY_ONE] = userMap.get(Integer.valueOf((String) ob[NumericConstants.THIRTY_ONE]));
-                }
-                if (!"null".equals(ob[NumericConstants.THIRTY_THREE]) && ob[NumericConstants.THIRTY_THREE] != null && (String.valueOf(ob[NumericConstants.THIRTY_THREE])).matches(ConstantUtil.REGEX)) {
-                    ob[NumericConstants.THIRTY_THREE] = userMap.get(Integer.valueOf((String) ob[NumericConstants.THIRTY_THREE]));
-                }
                 if (tableName.contains(ConstantUtil.VW_CUSTOMER_GTS_FORECAST)) {
                     ob[NumericConstants.EIGHT] = ob[NumericConstants.EIGHT] != null && !"0".equals(ob[NumericConstants.EIGHT]) && !"null".equals(ob[NumericConstants.EIGHT]) ? helper.getHelperDTOByID(Integer.parseInt(String.valueOf(ob[NumericConstants.EIGHT]))).getDescription() : StringUtils.EMPTY;
                     ob[NumericConstants.TEN] = ob[NumericConstants.TEN] != null && !"0".equals(ob[NumericConstants.TEN]) && !"null".equals(ob[NumericConstants.TEN]) ? helper.getHelperDTOByID(Integer.parseInt(String.valueOf(ob[NumericConstants.TEN]))).getDescription() : StringUtils.EMPTY;
@@ -983,27 +905,8 @@ public class CommonLogic {
             }
         }
 
-        if (ConstantUtil.VW_ITEM_PRICING.equals(tableName)) {
-            Map<Integer, String> userMap = StplSecurity.userMap;
-            List visibleCOlumnList = Arrays.asList(excelVisibleColumnArr);
-            int createdByIndexVal = visibleCOlumnList.indexOf(ConstantUtil.CREATED_BY);
-            int modifiedByIndexVal = visibleCOlumnList.indexOf(ConstantUtil.MODIFIED_BY);
-
-            for (int j = 0; j < list.size(); j++) {
-                Object[] ob = (Object[]) list.get(j);
-                if (!"null".equalsIgnoreCase(String.valueOf(ob[createdByIndexVal])) && ob[createdByIndexVal] != null
-                        && (String.valueOf(ob[createdByIndexVal])).matches(ConstantUtil.REGEX)) {
-                    ob[createdByIndexVal] = userMap.get(Integer.valueOf(String.valueOf(ob[createdByIndexVal])));
-                }
-                if (!"null".equals(String.valueOf(ob[modifiedByIndexVal])) && ob[modifiedByIndexVal] != null
-                        && (String.valueOf(ob[modifiedByIndexVal])).matches(ConstantUtil.REGEX)) {
-                    ob[modifiedByIndexVal] = userMap.get(Integer.valueOf(String.valueOf(ob[modifiedByIndexVal])));
-                }
-            }
-        }
 
             if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)) {
-                Map<Integer, String> userrmap = StplSecurity.userMap;
                 int listSize = list.size();
                 for (int j = 0; j < listSize; j++) {
                     Object[] ob = (Object[]) list.get(j);
@@ -1027,16 +930,9 @@ public class CommonLogic {
                     ob[NumericConstants.FIFTY_SIX] = ob[NumericConstants.FIFTY_SIX] != null && !"0".equals(ob[NumericConstants.FIFTY_SIX]) && !"null".equals(ob[NumericConstants.FIFTY_SIX]) ? CommonLogic.getDescription(Integer.valueOf(ob[NumericConstants.FIFTY_SIX].toString())) : StringUtils.EMPTY;
                     ob[NumericConstants.FIFTY_SEVEN] = ob[NumericConstants.FIFTY_SEVEN] != null && !"0".equals(ob[NumericConstants.FIFTY_SEVEN]) && !"null".equals(ob[NumericConstants.FIFTY_SEVEN]) ? CommonLogic.getDescription(Integer.valueOf(ob[NumericConstants.FIFTY_SEVEN].toString())) : StringUtils.EMPTY;
                     ob[NumericConstants.FIFTY_EIGHT] = ob[NumericConstants.FIFTY_EIGHT] != null && !"0".equals(ob[NumericConstants.FIFTY_EIGHT]) && !"null".equals(ob[NumericConstants.FIFTY_EIGHT]) ? CommonLogic.getDescription(Integer.valueOf(ob[NumericConstants.FIFTY_EIGHT].toString())) : StringUtils.EMPTY;
-                    if (!"null".equals(ob[NumericConstants.FORTY_FIVE]) && ob[NumericConstants.FORTY_FIVE] != null && (String.valueOf(ob[NumericConstants.FORTY_FIVE])).matches(ConstantUtil.REGEX)) {
-                        ob[NumericConstants.FORTY_FIVE] = userrmap.get(Integer.valueOf((String) ob[NumericConstants.FORTY_FIVE]));
-                    }
-                    if (!"null".equals(ob[NumericConstants.FORTY_SEVEN]) && ob[NumericConstants.FORTY_SEVEN] != null && (String.valueOf(ob[NumericConstants.FORTY_SEVEN])).matches(ConstantUtil.REGEX)) {
-                        ob[NumericConstants.FORTY_SEVEN] = userrmap.get(Integer.valueOf((String) ob[NumericConstants.FORTY_SEVEN]));
-                    }
 
                 }
             } else if (ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)) {
-                Map<Integer, String> usermap = StplSecurity.userMap;
                 int listSize = list.size();
                 for (int j = 0; j < listSize; j++) {
                     Object[] ob = (Object[]) list.get(j);
@@ -1054,12 +950,6 @@ public class CommonLogic {
                     ob[NumericConstants.THIRTY_SIX] = ob[NumericConstants.THIRTY_SIX] != null && !"0".equals(ob[NumericConstants.THIRTY_SIX]) && !"null".equals(ob[NumericConstants.THIRTY_SIX]) ? CommonLogic.getDescription(Integer.valueOf(ob[NumericConstants.THIRTY_SIX].toString())) : StringUtils.EMPTY;
                     ob[NumericConstants.THIRTY_SEVEN] = ob[NumericConstants.THIRTY_SEVEN] != null && !"0".equals(ob[NumericConstants.THIRTY_SEVEN]) && !"null".equals(ob[NumericConstants.THIRTY_SEVEN]) ? CommonLogic.getDescription(Integer.valueOf(ob[NumericConstants.THIRTY_SEVEN].toString())) : StringUtils.EMPTY;
                     ob[NumericConstants.THIRTY_EIGHT] = ob[NumericConstants.THIRTY_EIGHT] != null && !"0".equals(ob[NumericConstants.THIRTY_EIGHT]) && !"null".equals(ob[NumericConstants.THIRTY_EIGHT]) ? CommonLogic.getDescription(Integer.valueOf(ob[NumericConstants.THIRTY_EIGHT].toString())) : StringUtils.EMPTY;
-                    if (!"null".equals(ob[NumericConstants.FORTY_THREE]) && ob[NumericConstants.FORTY_THREE] != null && (String.valueOf(ob[NumericConstants.FORTY_THREE])).matches(ConstantUtil.REGEX)) {
-                        ob[NumericConstants.FORTY_THREE] = usermap.get(Integer.valueOf((String) ob[NumericConstants.FORTY_THREE]));
-                    }
-                    if (!"null".equals(ob[NumericConstants.FORTY_FIVE]) && ob[NumericConstants.FORTY_FIVE] != null && (String.valueOf(ob[NumericConstants.FORTY_FIVE])).matches(ConstantUtil.REGEX)) {
-                        ob[NumericConstants.FORTY_FIVE] = usermap.get(Integer.valueOf((String) ob[NumericConstants.FORTY_FIVE]));
-                    }
                     
                 }
             }
@@ -1074,7 +964,7 @@ public class CommonLogic {
      */
     public List<HelperDTO> getIsActive() throws SystemException, PortalException {
         LOGGER.debug("Entering getIsActive");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         for (int i = 0; i < NumericConstants.THREE; i++) {
             HelperDTO dto;
             if (i == 0) {
@@ -1119,31 +1009,23 @@ public class CommonLogic {
             return null;
         }
     }
-
+    
     public List getTableName() {
         LOGGER.debug("Entering getTableName");
         try {
             List list = new ArrayList();
             list.add(ConstantUtil.SELECT_ONE);
-            list.add("Actuals Master");
-            list.add("Average Shelf Life");
-            list.add("Best Price");
-            list.add("CPI Master");
-            list.add("Forecast Sales");
-            list.add("Formula Details");
-            list.add("GL Balance Master");
-            list.add("GL Cost Center Master");
-            list.add("Item Hierarchy");
-            list.add("Item Hierarchy Definition");
-            list.add("Lot Master");
-            list.add("Master Data Attribute Master");
-            list.add("Sales Master");
             list.add("Demand");
+            list.add("GTS Forecast");
+            list.add("Sales Forecast");
+            list.add("GTS Actual");
+            list.add("Inventory Withdrawals");
+            list.add("Payments");
             list.add("Returns");
-            list.add("Inventory Withdrawal Summary");
-            list.add("Projected GTS–Customer Level");
-            list.add("Actual GTS–Customer Level");
-            list.add("Accrual Inbound Details");
+            list.add("Average Shelf Life");
+            list.add("Lot Master");
+            list.add("CPI");
+            list.add("Sales Master");
             list.add("Global Files Company Master");
             list.add("Global Files Company Identifier");
             list.add("Global Files Company Parent");
@@ -1151,11 +1033,14 @@ public class CommonLogic {
             list.add("Global Files Item Master");
             list.add("Global Files Item Identifier");
             list.add("Global Files Item Pricing");
+            list.add("GL Cost Center");
+            list.add("Accrual Details");
+            list.add("GL Balance");
             Collections.sort(list);
             return list;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
 
     }
@@ -1253,7 +1138,7 @@ public class CommonLogic {
                         + "FROM IVLD_BEST_PRICE where IVLD_BEST_PRICE.CHECK_RECORD = 1;";
                 processName = "BEST_PRICE_INTERFACE";
             }
-            if (invalidTable.equalsIgnoreCase("IVLD_ACTUAL_MASTER")) {
+            if (invalidTable.equalsIgnoreCase(ConstantUtil.IVLD_ACTUAL_MASTER)) {
                 insertSql = "INSERT INTO STAG_ACTUAL_MASTER \n"
                         + "(ACTUAL_INTFID,ACTUAL_ID,CONTRACT_ID,UPLOAD_DATE,PROVISION_ID,ACCRUAL_ACTUAL_START_DATE,ACCRUAL_ACTUAL_END_DATE,ITEM_ID,ITEM_IDENTIFIER_CODE_QUALIFIER,ITEM_NO,SETTLEMENT_METHOD,\n"
                         + "CASH_PAID_DATE,AMOUNT,QUANTITY,QUANTITY_INCLUSION,SETTLEMENT_NO,INVOICE_LINE_NUMBER,ACCOUNT_ID,ACCT_IDENTIFIER_CODE_QUALIFIER,ACCOUNT_NO,ACCOUNT_NAME,ANALYSIS_CODE,IS_ACTIVE,COM_DIV_MKT_BRAND_PROD_KEY,\n"
@@ -1299,7 +1184,7 @@ public class CommonLogic {
                         + "FROM IVLD_ITEM_HIERARCHY_DEFINITION where IVLD_ITEM_HIERARCHY_DEFINITION.CHECK_RECORD = 1 ;";
                 processName = "ITEM_HIERARCHY_DEFINITION_INTERFACE";
             }
-            if (invalidTable.equalsIgnoreCase("VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS")) {
+            if (invalidTable.equalsIgnoreCase(ConstantUtil.VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS)) {
                 if (ConstantUtil.ACTUALS.equalsIgnoreCase(typeValue)) {
                     insertSql = "INSERT INTO STAG_INVENTORY_WD_ACTUAL_MAS \n"
                             + " (INVENTORY_WD_ACTUAL_MAS_INTF_ID,\"YEAR\",\"MONTH\",\"DAY\",WEEK,ITEM_ID,\n"
@@ -1345,7 +1230,7 @@ public class CommonLogic {
                         + "FROM IVLD_BEST_PRICE where IVLD_BEST_PRICE.CHECK_RECORD = 1 ;";
                 processName = "BEST_PRICE_INTERFACE";
             }
-            if (invalidTable.equalsIgnoreCase("IVLD_ACTUAL_MASTER")) {
+            if (invalidTable.equalsIgnoreCase(ConstantUtil.IVLD_ACTUAL_MASTER)) {
                 insertSql = "INSERT INTO STAG_ACTUAL_MASTER \n"
                         + "(ACTUAL_INTFID,ACTUAL_ID,CONTRACT_ID,UPLOAD_DATE,PROVISION_ID,ACCRUAL_ACTUAL_START_DATE,ACCRUAL_ACTUAL_END_DATE,ITEM_ID,ITEM_IDENTIFIER_CODE_QUALIFIER,ITEM_NO,SETTLEMENT_METHOD,\n"
                         + "CASH_PAID_DATE,AMOUNT,QUANTITY,QUANTITY_INCLUSION,SETTLEMENT_NO,INVOICE_LINE_NUMBER,ACCOUNT_ID,ACCT_IDENTIFIER_CODE_QUALIFIER,ACCOUNT_NO,ACCOUNT_NAME,ANALYSIS_CODE,IS_ACTIVE,COM_DIV_MKT_BRAND_PROD_KEY,\n"
@@ -1407,7 +1292,7 @@ public class CommonLogic {
                     processName = "DEMAND_ACTUAL_INTERFACE";
                 }
             }
-            if (invalidTable.equalsIgnoreCase("VW_IVLD_ADJ_DEMAND_FORE_ACTUAL")) {
+            if (invalidTable.equalsIgnoreCase(ConstantUtil.VW_IVLD_ADJ_DEMAND_FORE_ACTUAL)) {
                 if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
                     insertSql = "\n"
                             + "             INSERT INTO STAG_ADJUSTED_DEMAND_FORECAST \n"
@@ -1622,7 +1507,7 @@ public class CommonLogic {
             runJob(getFtpBundleValue(), interfaceScriptName, false,selectedRecords,viewNameSid,stagingTable);
             updateAllInInvalidTable(invalidTable, "0");
         } else {
-
+             
             SearchLogic logic = new SearchLogic();
             try {
                 if (invalidTable.equalsIgnoreCase("StArpOutbound")) {
@@ -1633,21 +1518,19 @@ public class CommonLogic {
                     if (logic.checkETLRecords()) {
 
                         String interfaceScriptName = InterfaceScripts.getString(processName);
-                        LOGGER.debug("after process lock-------" + interfaceScriptName);
                         runJob(getFtpBundleValue(), interfaceScriptName, true,selectedRecords,viewNameSid,stagingTable);
-                        logic.deleteTempTable();
+                        logic.deleteARPTempTable();
                     }
                     LOGGER.debug("ARP outboud-----ends--");
 
                 } else if (invalidTable.equalsIgnoreCase(ConstantUtil.ST_CFF_OUTBOUND)) {
                     LOGGER.debug("inside CFF outboud-------");
                     process.lock();
-                    LOGGER.debug("after process lock-------");
                     processName = "CFF_OUTBOUND_INTERFACE";
                     if (logic.checkCffETLRecords()) {
                         String interfaceScriptName = InterfaceScripts.getString(processName);
                         runJob(getFtpBundleValue(), interfaceScriptName, true,selectedRecords,viewNameSid,stagingTable);
-                        logic.deleteTempTableValues();
+                        logic.deleteReprocessCFFTempTable();
                     }
                     LOGGER.debug("CFF outboud-----ends--");
                 } else if (ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equalsIgnoreCase(invalidTable)) {
@@ -1719,39 +1602,32 @@ public class CommonLogic {
     }
 
     public void updateFlagForReprocessedOrRemovedRecords() {
-        String sidName = (String) VaadinSession.getCurrent().getAttribute(ConstantUtil.VIEW_SID_NAME);
         String tableName = (String) VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME);
         if (ConstantUtil.VW_IVLD_DEMAND_FPRECAST.equalsIgnoreCase(tableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
-                tableName = "IVLD_DEMAND_FORECAST";
-                sidName = "IVLD_DEMAND_FORECAST_SID";
+                tableName = ConstantUtil.IVLD_DEMAND_FORECAST;
             } else {
-                tableName = "IVLD_DEMAND_ACTUAL";
-                sidName = "IVLD_DEMAND_ACTUAL_SID";
+                tableName = ConstantUtil.IVLD_DEMAND_ACTUAL;
             }
         }
-        if ("VW_IVLD_ADJ_DEMAND_FORE_ACTUAL".equalsIgnoreCase(tableName)) {
+        if (ConstantUtil.VW_IVLD_ADJ_DEMAND_FORE_ACTUAL.equalsIgnoreCase(tableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
-                tableName = "IVLD_ADJUSTED_DEMAND_FORECAST";
-                sidName = "IVLD_ADJUSTED_DEMAND_FORECAST_SID";
+                tableName = ConstantUtil.IVLD_ADJUSTED_DEMAND_FORECAST;
             } else {
-                tableName = "IVLD_ADJUSTED_DEMAND_ACTUAL";
-                sidName = "IVLD_ADJUSTED_DEMAND_ACTUAL_SID";
+                tableName = ConstantUtil.IVLD_ADJUSTED_DEMAND_ACTUAL;
             }
         }
-        if ("VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS".equalsIgnoreCase(tableName)) {
+        if (ConstantUtil.VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS.equalsIgnoreCase(tableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(typeValue)) {
-                tableName = "IVLD_INVENTORY_WD_PROJ_MAS";
-                sidName = "IVLD_INVENTORY_WD_PROJ_MAS_SID";
+                tableName = ConstantUtil.IVLD_INVENTORY_WD_PROJ_MAS;
             } else {
-                tableName = "IVLD_INVENTORY_WD_ACTUAL_MAS";
-                sidName = "IVLD_INVENTORY_WD_ACTUAL_MAS_SID";
+                tableName = ConstantUtil.IVLD_INVENTORY_WD_ACTUAL_MAS;
             }
         }
         String query = " Update " + tableName + " set REPROCESSED_FLAG = 'Y' where CHECK_RECORD = 1 ;";
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
-
+   
     public void runJob(FtpProperties ftpProperties, String processName, boolean isToWait,List<Integer> selectedRecords,String viewNameSid,String stagingTable) {
         LOGGER.debug("inside runjob---------------");
         String invalidTableName = (String) VaadinSession.getCurrent().getAttribute(ConstantUtil.INVALID_TABLE_NAME);
@@ -1768,44 +1644,8 @@ public class CommonLogic {
                         runShellScriptAndWait(ftpProperties.getScripts(), processName);
                     } else {
                         runShellScript(ftpProperties.getScripts(), processName);
+                        updateReprocessedFlag(selectedRecords, stagingTable, processName, viewNameSid, invalidTableName);     // Added for CEL-330      
                     }
-                    // Added for CEL-330
-                    String selectedRecordsList = StringUtils.EMPTY;
-                    for (int i = 0; i < selectedRecords.size(); i++) {
-                        if(i != 0){
-                            selectedRecordsList =  selectedRecordsList+ "," +selectedRecords.get(i);
-                        }  else {
-                            selectedRecordsList = selectedRecordsList+selectedRecords.get(i);
-                        }          
-                    }
-                    String str;
-                    if(stagingTable.equals("ARP_OUTBOUND")){
-                        str = "SELECT DISTINCT ORIGINAL_BATCH_ID FROM "+ stagingTable +"";
-                    } else {
-                        str = "SELECT DISTINCT BATCH_ID FROM "+ stagingTable +"";
-                    }
-                    List batchIdList = HelperTableLocalServiceUtil.executeSelectQuery(str);
-                    String batchIds = StringUtils.EMPTY;
-                    if(batchIdList != null) {
-                        for (int i = 0; i < batchIdList.size(); i++) {
-                            if(i != 0){
-                                batchIds =  batchIds+ ",'" +batchIdList.get(i)+"'";
-                            }  else {
-                                batchIds = "'"+batchIdList.get(i).toString()+"'";
-                            }          
-                        }
-                    }
-                    SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-                    String query = "select TOP 1 STATUS,BATCH_ID from AUDIT_MASTER_INBOUND where APPLICATION_PROCESS = '"+processName+"' AND BATCH_ID IN ("+batchIds+") AND MODIFIED_DATE > '"+sdf.format(new Date())+"' ORDER BY MODIFIED_DATE DESC";
-                    List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                        if(list.isEmpty()){
-                                updateAllInInvalidTableOnCheckAll(selectedRecords,viewNameSid,invalidTableName, "1",true,StringUtils.EMPTY);
-                        } else {
-                            Object[] obj = (Object[]) list.get(0);
-                            if(String.valueOf(obj[0]).equalsIgnoreCase("E")){                        
-                                updateAllInInvalidTableOnCheckAll(selectedRecords,viewNameSid,invalidTableName, "1",true,String.valueOf(obj[1]));
-                            }                            
-                        }
                 }
             }
             LOGGER.debug("run job ends--------------??????????");
@@ -1968,7 +1808,7 @@ public class CommonLogic {
     }
 
     public static String dataForCFFoutbound(Map<Object, Object> searchValues) {
-        String tempValue = StringUtils.EMPTY;
+        String tempValue;
         String query = " WHERE";
 
         if (searchValues.containsKey(ConstantUtil.CFF_ID)) {
@@ -2024,7 +1864,6 @@ public class CommonLogic {
             query += " AND CFF.ITEM_NO LIKE '" + tempValue + ConstantUtil.APOSTROPHE;
         }
         if (searchValues.containsKey(ConstantUtil.ITEM_NAME)) {
-            tempValue = searchValues.get(ConstantUtil.ITEM_NAME).toString().replace(ConstantUtil.CHAR_ASTERISK, ConstantUtil.CHAR_PERCENT);
             query += " AND CFF.ITEM_NAME LIKE '" + searchValues.get(ConstantUtil.ITEM_NAME) + ConstantUtil.APOSTROPHE;
         }
         if (searchValues.containsKey(ConstantUtil.CFF_CREATION_FROM_DATE) && searchValues.containsKey(ConstantUtil.CFF_CREATION_TO_DATE)) {
@@ -2082,7 +1921,7 @@ public class CommonLogic {
             tempValue = searchlogic.getHelperValues(searchValues.get(ConstantUtil.TYPE).toString(), ConstantUtil.CFF_TYPE);
             query += " AND CFF.TYPE = '" + tempValue + ConstantUtil.APOSTROPHE;
         }
-        query = query.replace("WHERE AND", " WHERE ");
+        query = query.replace("WHERE AND", ConstantUtil.WHERE);
         return query;
     }
 
@@ -2173,14 +2012,11 @@ public class CommonLogic {
     }
 
     public List<Object> getARPExcelList(final Map<Object, Object> searchValues, final int start, final int end,
-             String tableName, int arpCount) throws ParseException {
+             String tableName) throws ParseException {
         SearchLogic sl = new SearchLogic();
         List<Object> list = null;
 
         if (ConstantUtil.ARP_OUTBOUND.equals(tableName)) {
-            if (arpCount > NumericConstants.TEN_LAKH) {
-                arpCount = NumericConstants.TEN_LAKH;
-            }
             list = sl.searchFindForArpOutBound(searchValues, start, end, null, null, true,false);
         }
         return list;
@@ -2235,89 +2071,108 @@ public class CommonLogic {
         return sl.searchFindForArpOutBound(searchValues, 0, 0, null, null, true, false);
     }
     
+    public void updateInvalidTable(int selectedRecordSid, String selectedRecordProperty, String invalidTable, int isChecked,String dropValue) {
     
-    public void updateInvalidTable(int selectedRecordSid, String selectedRecordProperty, String invalidTable, int isChecked) {
-        System.out.println("selectedRecordSid = " + selectedRecordSid);
-        System.out.println("selectedRecordProperty = " + selectedRecordProperty);
-        System.out.println("invalidTable = " + invalidTable);
-        System.out.println("invalidTable = " + invalidTable);
-        System.out.println("isChecked = " + isChecked);
-        String insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + " WHERE " + selectedRecordProperty + " = " + selectedRecordSid + ";";
-        if (invalidTable.equalsIgnoreCase("VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS")) {
+        String insertSql = "";
+        if (invalidTable.equalsIgnoreCase(ConstantUtil.VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS)) {
             if (ConstantUtil.ACTUALS.equalsIgnoreCase(typeValue)) {
-                insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + " WHERE " + selectedRecordProperty + " = " + selectedRecordSid + " AND IS_FORECAST=" + 0 + " ;";
+                if (dropValue.equalsIgnoreCase("1")) {
+                    insertSql = "UPDATE IVLD_INVENTORY_WD_ACTUAL_MAS SET CHECK_RECORD = " + isChecked + " WHERE IVLD_INVENTORY_WD_ACTUAL_MAS_SID = " + selectedRecordSid + "";
             } else {
-                insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + " WHERE " + selectedRecordProperty + " = " + selectedRecordSid + " AND IS_FORECAST=" + 1 + " ;";
+                    insertSql = "UPDATE IVLD_INVENTORY_WD_ACTUAL_DT SET CHECK_RECORD = " + isChecked + " WHERE IVLD_INVENTORY_WD_ACTUAL_DT_SID = " + selectedRecordSid + "";
+            }
+            } else {
+                 if (dropValue.equalsIgnoreCase("1")) {
+                    insertSql = "UPDATE IVLD_INVENTORY_WD_PROJ_MAS SET CHECK_RECORD = " + isChecked + " WHERE IVLD_INVENTORY_WD_PROJ_MAS_SID = " + selectedRecordSid + " ";
+                } else {
+                    insertSql = "UPDATE IVLD_INVENTORY_WD_PROJ_DT SET CHECK_RECORD = " + isChecked + " WHERE IVLD_INVENTORY_WD_PROJ_DT_sid = " + selectedRecordSid + "";
+                }
             }
         } else if (invalidTable.equalsIgnoreCase(ConstantUtil.VW_IVLD_DEMAND_FPRECAST)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
-                insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + " WHERE " + selectedRecordProperty + " = " + selectedRecordSid + " AND IS_FORECAST=" + 1 + " ;";
+              insertSql = "UPDATE IVLD_DEMAND_FORECAST SET CHECK_RECORD = " + isChecked + " WHERE IVLD_DEMAND_FORECAST_SID = " + selectedRecordSid + " ";
             } else {
-                insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + " WHERE " + selectedRecordProperty + " = " + selectedRecordSid + " AND IS_FORECAST=" + 0 + " ;";
+                insertSql = "UPDATE IVLD_DEMAND_ACTUAL SET CHECK_RECORD = " + isChecked + " WHERE IVLD_DEMAND_ACTUAL_SID = " + selectedRecordSid + " ";
             }
-        } else if (invalidTable.equalsIgnoreCase("VW_IVLD_ADJ_DEMAND_FORE_ACTUAL")) {
+        } else if (invalidTable.equalsIgnoreCase(ConstantUtil.VW_IVLD_ADJ_DEMAND_FORE_ACTUAL)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
-                insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + " WHERE " + selectedRecordProperty + " = " + selectedRecordSid + " AND IS_FORECAST=" + 1 + " ;";
+                insertSql = "UPDATE IVLD_ADJUSTED_DEMAND_FORECAST SET CHECK_RECORD = " + isChecked + " WHERE IVLD_ADJUSTED_DEMAND_FORECAST_SID = " + selectedRecordSid + "";
             } else {
-                insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + " WHERE " + selectedRecordProperty + " = " + selectedRecordSid + " AND IS_FORECAST=" + 0 + " ;";
-                insertSql = " INSERT INeSTED_DEMAND_FORECAST.IS_FORECAST=" + 0 + " ";
+                 insertSql = "UPDATE IVLD_ADJUSTED_DEMAND_ACTUAL SET CHECK_RECORD = " + isChecked + " WHERE IVLD_ADJUSTED_DEMAND_ACTUAL_SID = " + selectedRecordSid + "";
             }
         } else {
-            insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + " WHERE " + selectedRecordProperty + " = " + selectedRecordSid + ";";
+            insertSql = "UPDATE " + invalidTable + " SET CHECK_RECORD = " + isChecked + ConstantUtil.WHERE + selectedRecordProperty + " = " + selectedRecordSid + ";";
         }
         System.out.println("insertSql = " + insertSql);
         HelperTableLocalServiceUtil.executeUpdateQuery(insertSql);
     }
+    public boolean checkandUncheckALL(String invalidTableName) {
+        String insertSql = "SELECT  COUNT(*) FROM " + invalidTableName+" WHERE CHECK_RECORD = 0 AND REPROCESSED_FLAG = 'N'";
+        int count =(Integer) HelperTableLocalServiceUtil.executeSelectQuery(insertSql).get(0);
+        return count == 0;
+    }
+    public boolean CFFcheckandUncheckALL(String userId, String sessionId) {
+        String insertSql = "SELECT COUNT(*) FROM ST_CFF_OUTBOUND_MASTER WHERE CHECK_RECORD = 0" +" AND USER_ID= " +userId+ " AND SESSION_ID= " +sessionId;
+        int count =(Integer) HelperTableLocalServiceUtil.executeSelectQuery(insertSql).get(0);
+        return count == 0;
+    }
     
     public void updateAllInInvalidTable(String inValidTableName, String isChecked) {
+        try{
         String tableName = inValidTableName;
+        if((ConstantUtil.VW_IVLD_DEMAND_FPRECAST).equals(inValidTableName) && invalidAdjustedDemand){
+            inValidTableName=ConstantUtil.INVALID_ADJUST_DEMAND_VIEW;
+        }
         if (ConstantUtil.VW_IVLD_DEMAND_FPRECAST.equalsIgnoreCase(inValidTableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
-                tableName = "IVLD_DEMAND_FORECAST";
+                tableName = ConstantUtil.IVLD_DEMAND_FORECAST;
             } else {
-                tableName = "IVLD_DEMAND_ACTUAL";
+                tableName = ConstantUtil.IVLD_DEMAND_ACTUAL;
             }
         }
-        if ("VW_IVLD_ADJ_DEMAND_FORE_ACTUAL".equalsIgnoreCase(inValidTableName)) {
+        if (ConstantUtil.INVALID_ADJUST_DEMAND_VIEW.equalsIgnoreCase(inValidTableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
-                tableName = "IVLD_ADJUSTED_DEMAND_FORECAST";
+                tableName = ConstantUtil.IVLD_ADJUSTED_DEMAND_FORECAST;
             } else {
-                tableName = "IVLD_ADJUSTED_DEMAND_ACTUAL";
+                tableName = ConstantUtil.IVLD_ADJUSTED_DEMAND_ACTUAL;
             }
         }
-        if ("VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS".equalsIgnoreCase(inValidTableName)) {
+        if (ConstantUtil.VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS.equalsIgnoreCase(inValidTableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(typeValue)) {
-                tableName = "IVLD_INVENTORY_WD_PROJ_MAS";
+                tableName = ConstantUtil.IVLD_INVENTORY_WD_PROJ_MAS;
             } else {
-                tableName = "IVLD_INVENTORY_WD_ACTUAL_MAS";
+                tableName = ConstantUtil.IVLD_INVENTORY_WD_ACTUAL_MAS;
             }
         }
-        String query = " UPDATE " + tableName + " SET CHECK_RECORD =" + isChecked + " ;";
+        String query = ConstantUtil.UPDATE + tableName + " SET CHECK_RECORD =" + isChecked + " ;";
         System.out.println("query = " + query);
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
-
+    
     public void updateAllInInvalidTableOnCheckAll(List<Integer> selectedRecords, String selectedRecordProperty,String inValidTableName, String isChecked, boolean isReprocess,String batchId) {
         String tableName = inValidTableName;
         if (ConstantUtil.VW_IVLD_DEMAND_FPRECAST.equalsIgnoreCase(inValidTableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
-                tableName = "IVLD_DEMAND_FORECAST";
+                tableName = ConstantUtil.IVLD_DEMAND_FORECAST;
             } else {
-                tableName = "IVLD_DEMAND_ACTUAL";
+                tableName = ConstantUtil.IVLD_DEMAND_ACTUAL;
             }
         }
-        if ("VW_IVLD_ADJ_DEMAND_FORE_ACTUAL".equalsIgnoreCase(inValidTableName)) {
+        if (ConstantUtil.VW_IVLD_ADJ_DEMAND_FORE_ACTUAL.equalsIgnoreCase(inValidTableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(tableValue1)) {
-                tableName = "IVLD_ADJUSTED_DEMAND_FORECAST";
+                tableName = ConstantUtil.IVLD_ADJUSTED_DEMAND_FORECAST;
             } else {
-                tableName = "IVLD_ADJUSTED_DEMAND_ACTUAL";
+                tableName = ConstantUtil.IVLD_ADJUSTED_DEMAND_ACTUAL;
             }
         }
-        if ("VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS".equalsIgnoreCase(inValidTableName)) {
+        if (ConstantUtil.VW_IVLD_INVENTORY_WD_ACTUAL_PROJ_MAS.equalsIgnoreCase(inValidTableName)) {
             if (ConstantUtil.PROJECTION.equalsIgnoreCase(typeValue)) {
-                tableName = "IVLD_INVENTORY_WD_PROJ_MAS";
+                tableName = ConstantUtil.IVLD_INVENTORY_WD_PROJ_MAS;
             } else {
-                tableName = "IVLD_INVENTORY_WD_ACTUAL_MAS";
+                tableName = ConstantUtil.IVLD_INVENTORY_WD_ACTUAL_MAS;
             }
         }
         String selectedRecordsList = StringUtils.EMPTY;
@@ -2330,10 +2185,10 @@ public class CommonLogic {
         }
          String query = StringUtils.EMPTY;
         if(!isReprocess){
-            query = " UPDATE " + tableName + " SET CHECK_RECORD =" + isChecked + " WHERE " + selectedRecordProperty + " in ( " + selectedRecordsList + ");";
+            query = ConstantUtil.UPDATE + tableName + " SET CHECK_RECORD =" + isChecked + ConstantUtil.WHERE + selectedRecordProperty + " in ( " + selectedRecordsList + ");";
         } else {
             if(!batchId.isEmpty()){
-                query = " UPDATE " + tableName + " SET REPROCESSED_FLAG = 'N' WHERE "+selectedRecordProperty + " in ( " + selectedRecordsList + ");";
+                query = ConstantUtil.UPDATE + tableName + " SET REPROCESSED_FLAG = 'N' WHERE "+selectedRecordProperty + " in ( " + selectedRecordsList + ");";
             } else {
                 
             }            
@@ -2343,10 +2198,90 @@ public class CommonLogic {
     }
     
     public boolean isRecordChecked(String inValidTableName) {
+
+        if ((ConstantUtil.VW_IVLD_DEMAND_FPRECAST).equals(inValidTableName) && invalidAdjustedDemand) {
+            inValidTableName = ConstantUtil.INVALID_ADJUST_DEMAND_VIEW;
+
+        }
         String query = " SELECT COUNT(*) FROM " + inValidTableName + " WHERE CHECK_RECORD = 1 ;";
+        System.out.println("query = " + query);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return list == null ? false : (int) list.get(0) == 0 ? false : true;
+        return list == null ? false : (int) list.get(0) != 0;
     }
 
-}
+    public boolean AllInvalidScreenTables(String tableName) {
 
+        return ConstantUtil.INVALID_COMPANY_MASTER.equals(tableName)
+                || ConstantUtil.INVALID_COMPANY_IDENTIFIER.equals(tableName)
+                || ConstantUtil.INVALID_COMPANY_PARENT.equals(tableName)
+                || ConstantUtil.INVALID_COMPANY_TRADE_CLASS.equals(tableName)
+                || ConstantUtil.IBID_ITEM_MASTER.equals(tableName)
+                || ConstantUtil.IVID_ITEM_IDENTIFIER.equals(tableName)
+                || ConstantUtil.IVID_ITEM_PRICING.equals(tableName)
+                || ConstantUtil.INVALID_CUSTOMER_GTS_ACTUAL.equals(tableName)
+                || ConstantUtil.INVALID_GTS_CUSTOMER.equals(tableName)
+                || ConstantUtil.IVLD_RETURN_RESERVE.equals(tableName)
+                || ConstantUtil.INVALID_INVENTORYVIEW_TABLE.equals(tableName)
+                || ConstantUtil.IVLD_RETURN_RESERVE.equals(tableName)
+                || ConstantUtil.INVENTORYVIEW_TABLE_IN_VIEW.equals(tableName)
+                || ConstantUtil.INVALID_ACCURAL_INBOUND.equals(tableName)
+                || ConstantUtil.INVALID_INVENTORYVIEW_TABLE_IN_VIEW.equals(tableName);
+    }
+
+    public boolean AllValidTables(String tableName) {
+
+        return ConstantUtil.VW_COMPANY_MASTER.equals(tableName)
+                || ConstantUtil.VW_COMPANY_IDENTIFIER.equals(tableName)
+                || ConstantUtil.VW_COMPANY_PARENT_DETAILS.equals(tableName)
+                || ConstantUtil.VW_COMPANY_TRADE_CLASS.equals(tableName)
+                || ConstantUtil.VW_ITEM_MASTER.equals(tableName)
+                || ConstantUtil.VW_ITEM_IDENTIFIER.equals(tableName)
+                || ConstantUtil.VW_ITEM_PRICING.equals(tableName)
+                || ConstantUtil.CUSTOMER_GTS_FORECAST.equals(tableName)
+                || ConstantUtil.CUSTOMER_GTS_ACTUAL.equals(tableName)
+                || ConstantUtil.VW_CUSTOMER_GTS_FORECAST.equals(tableName)
+                || ConstantUtil.INVENTORYVIEW_TABLE.equals(tableName)
+                || ConstantUtil.ST_ADJUSTMENT_GTN_DETAIL.equals(tableName)
+                || ConstantUtil.ST_ADJUSTMENT_RESERVE_DETAIL.equals(tableName)
+                || ConstantUtil.RETURN_RESERVE.equals(tableName);
+    }
+    
+    public void updateReprocessedFlag(List<Integer> selectedRecords, String stagingTable, String processName, String viewNameSid, String invalidTableName) {
+        String selectedRecordsList = StringUtils.EMPTY;
+        for (int i = 0; i < selectedRecords.size(); i++) {
+            if (i != 0) {
+                selectedRecordsList = selectedRecordsList + "," + selectedRecords.get(i);
+            } else {
+                selectedRecordsList = selectedRecordsList + selectedRecords.get(i);
+            }
+        }
+        String str;
+        if(stagingTable.equals("ARP_OUTBOUND")){
+            str = "SELECT DISTINCT ORIGINAL_BATCH_ID FROM "+ stagingTable +"";
+        } else {
+            str = "SELECT DISTINCT BATCH_ID FROM "+ stagingTable +"";
+        }
+        List batchIdList = HelperTableLocalServiceUtil.executeSelectQuery(str);
+        String batchIds = StringUtils.EMPTY;
+        if (batchIdList != null) {
+            for (int i = 0; i < batchIdList.size(); i++) {
+                if (i != 0) {
+                    batchIds = batchIds + ",'" + batchIdList.get(i) + "'";
+                } else {
+                    batchIds = "'" + batchIdList.get(i).toString() + "'";
+                }
+            }
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        String query = "select TOP 1 STATUS,BATCH_ID from AUDIT_MASTER_INBOUND where APPLICATION_PROCESS = '" + processName + "' AND BATCH_ID IN (" + batchIds + ") AND MODIFIED_DATE > '" + sdf.format(new Date()) + "' ORDER BY MODIFIED_DATE DESC";
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        if (list.isEmpty()) {
+            updateAllInInvalidTableOnCheckAll(selectedRecords, viewNameSid, invalidTableName, "1", true, StringUtils.EMPTY);
+        } else {
+            Object[] obj = (Object[]) list.get(0);
+            if (String.valueOf(obj[0]).equalsIgnoreCase("E")) {
+                updateAllInInvalidTableOnCheckAll(selectedRecords, viewNameSid, invalidTableName, "1", true, String.valueOf(obj[1]));
+            }
+        }
+    }
+}

@@ -4,12 +4,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.arm.AbstractForms;
+package com.stpl.app.arm.abstractforms;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.dataselection.dto.DeductionLevelDTO;
 import com.stpl.app.arm.dataselection.dto.LevelDTO;
-import com.stpl.app.arm.dataselection.ui.lookups.CalculationProfileLookUp;
 import com.stpl.app.arm.dataselection.ui.lookups.HierarchyLookup;
 import com.stpl.app.arm.dataselection.ui.lookups.PrivatePublicLookUp;
 import com.stpl.app.arm.dataselection.ui.lookups.ViewSearchLookUp;
@@ -24,25 +40,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * Allows the user to select the Data Selection work flow tab. All values in
@@ -148,20 +150,20 @@ public abstract class AbstractDataSelection extends CustomComponent {
      * Move a selected deduction value from Available to Selected
      */
     @UiField("deduction_moveLeftBtn")
-    protected Button deduction_moveLeftBtn;
+    protected Button deductionMoveLeftBtn;
 
     /**
      * Move a selected deduction value from Selected to Available.
      */
     @UiField("deduction_moveRightBtn")
-    protected Button deduction_moveRightBtn;
+    protected Button deductionMoveRightBtn;
 
     /**
      * Move all deduction values between Selected/Available or
      * Available/Selected
      */
     @UiField("deduction_moveAllBtn")
-    protected Button deduction_moveAllBtn;
+    protected Button deductionMoveAllBtn;
 
     /**
      * Customer Selection UI fields in Data selection Screen
@@ -210,20 +212,20 @@ public abstract class AbstractDataSelection extends CustomComponent {
      * This is how the user can manually create their own adjustment hierarchy.
      */
     @UiField("customer_moveLeftBtn")
-    protected Button customer_moveLeftBtn;
+    protected Button customerMoveLeftBtn;
 
     /**
      * Removes the selected level from the selected, to the available list view.
      */
     @UiField("customer_moveRightBtn")
-    protected Button customer_moveRightBtn;
+    protected Button customerMoveRightBtn;
 
     /**
      * Brings all of the displayed level values in the available list view, into
      * the selected list view, or vice versa.
      */
     @UiField("customer_MoveAllBtn")
-    protected Button customer_MoveAllBtn;
+    protected Button customerMoveAllBtn;
 
     /**
      * Product Selection UI fields in Data selection Screen
@@ -272,20 +274,20 @@ public abstract class AbstractDataSelection extends CustomComponent {
      * This is how the user can manually create their own forecasting hierarchy.
      */
     @UiField("product_moveLeftProduct")
-    protected Button product_moveLeftProduct;
+    protected Button productMoveLeftProduct;
 
     /**
      * Removes the selected level from the selected, to the available list view.
      */
     @UiField("product_moveRightProduct")
-    protected Button product_moveRightProduct;
+    protected Button productMoveRightProduct;
 
     /**
      * Brings all of the displayed level values in the available list view, into
      * the selected list view.
      */
     @UiField("product_moveAllBtn")
-    protected Button product_moveAllBtn;
+    protected Button productMoveAllBtn;
 
     /**
      * Launches the adjustment workflow in a separate window.
@@ -329,8 +331,11 @@ public abstract class AbstractDataSelection extends CustomComponent {
 
     @UiField("panel3")
     protected Panel panel3;
+    
+    @UiField("panel1")
+    protected Panel panel1;
 
-    public int hierSid;
+    public static final int HIERSID = 0;
 
     protected List<LevelDTO> innerCustLevels = new ArrayList<>();
     protected List<LevelDTO> innerProdLevels = new ArrayList<>();
@@ -349,7 +354,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
      * Returns Helper Table SID and Description in an array for deduction level
      * Number
      */
-    protected Map<Integer, String[]> deductionHelperLevelMap = new HashMap<>();
+	protected Map<Integer, String[]> deductionHelperLevelMap = new HashMap<>();
     /**
      * Returns Deduction Level Name for deduction level Number
      */
@@ -365,8 +370,6 @@ public abstract class AbstractDataSelection extends CustomComponent {
     private static final String LEVEL_VALUE = "levelValue";
     private static final String DISPLAY_VALUE = "displayValue";
 
-    protected Label calculationProfileLabel = new Label("Calculation Profile :");
-    protected CustomTextField calculationProfile = new CustomTextField();
     protected Label summaryTypeLabel = new Label("Summary Type:");
     protected ComboBox summaryTypeDdlb = new ComboBox();
 
@@ -381,8 +384,6 @@ public abstract class AbstractDataSelection extends CustomComponent {
     protected HorizontalLayout horizontalLayout;
     @UiField("selectionVerticalLayout")
     protected VerticalLayout selectionVerticalLayout;
-
-    public CalculationProfileLookUp calculationProfileLookUp;
 
     /**
      * Initialization Of UI Fields.
@@ -401,13 +402,13 @@ public abstract class AbstractDataSelection extends CustomComponent {
 
     private void configureFields() {
         setAdjustmentOptionsPanelForBalanceSummaryReport();
-        CommonLogic.setComboBoxItemIDAndCaption(adjustmentType, "LoadAdjustmentType", Collections.EMPTY_LIST);
+        CommonLogic.setComboBoxItemIDAndCaption(adjustmentType, "LoadAdjustmentType", Collections.emptyList());
         adjustmentType.focus();
         configurePeriodDropDown(fromPeriod);
         configurePeriodDropDown(toPeriod);
         buttonLay.setVisible(true);
         configureDropDowns(deductionLevel);
-        CommonLogic.getComboBoxByListNameSorted(deductionLevel, "DEDUCTION_LEVELS", false, deductionHelperLevelMap);
+        CommonLogic.getComboBoxByListNameSorted(deductionLevel, "DEDUCTION_LEVELS", Boolean.FALSE, deductionHelperLevelMap);
         configureDropDowns(company);
         configureDropDowns(businessUnit);
         CommonLogic.loadCompanyAndBusinessUnit(company, "getCompanyQueryForDS");
@@ -489,7 +490,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
         }
     }
 
-    public void CustomerValueChange() {
+    public void customerValueChange() {
         if (customerHierarchyLookup != null && customerHierarchyLookup.getHierarchyDto() != null && customerHierarchyLookup.getHierarchyDto().getHierarchyId() != 0) {
             int custHierSid = customerHierarchyLookup.getHierarchyDto().getHierarchyId();
             loadCustRelationAndLevel(custHierSid, customerHierarchyLookup.getCtfEvent());
@@ -522,7 +523,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
             customerHierarchyCloseListener();
             getUI().addWindow(customerHierarchyLookup);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in customerHierarchyClickListener :"+ex);
         }
     }
 
@@ -540,7 +541,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
             productHierarchyCloseListener();
             getUI().addWindow(productHierarchyLookup);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in productHierarchyClickListener :"+ex);
         }
     }
 
@@ -600,7 +601,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
     }
 
     @UiHandler("deductionLevel")
-    public void DeductionValueChange(Property.ValueChangeEvent event) {
+    public void deductionValueChange(Property.ValueChangeEvent event) {
         loadAvailableDeductions();
     }
 
@@ -620,7 +621,7 @@ public abstract class AbstractDataSelection extends CustomComponent {
     }
 
     @UiHandler("saveViewBtn")
-    public void saveviewLogic(Button.ClickEvent event) {
+    public void saveviewLogicBtn(Button.ClickEvent event) {
         saveViewLogic();
     }
 
@@ -632,8 +633,9 @@ public abstract class AbstractDataSelection extends CustomComponent {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
-                if (buttonId.name().equalsIgnoreCase("yes")) {
+                if ("yes".equalsIgnoreCase(buttonId.name())) {
                     LOGGER.debug("Entering Reset operation");
                     resetFields();
                     LOGGER.debug("Ending Reset operation");
@@ -731,8 +733,22 @@ public abstract class AbstractDataSelection extends CustomComponent {
         businessUnit.select(null);
         fromPeriod.setValue(0);
         toPeriod.setValue(0);
-
+        clearListView();
         deleteViewBtn.setEnabled(false);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public void clearListView() {
+        return;
     }
 
 }

@@ -60,6 +60,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +78,6 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PhsResults.
  *
@@ -168,12 +168,12 @@ public class PhsResults extends CustomComponent implements View {
      */
     @UiField("excelBtn")
     private Button excelBtn;
-    public PhsResultsLogic phsResultsLogic = new PhsResultsLogic();
+    private PhsResultsLogic phsResultsLogic = new PhsResultsLogic();
 
     @UiField("levelDdlb")
     private ComboBox levelDdlb;
-    public LazyContainer ndcLevelContainer;
-
+    
+    private LazyContainer ndcLevelContainer;
     /**
      * The excel export image.
      */
@@ -184,69 +184,72 @@ public class PhsResults extends CustomComponent implements View {
      */
     @UiField("tablePanel")
     public Panel tablePanel;
-    CommonLogic commonLogic = new CommonLogic();
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private CommonLogic commonLogic = new CommonLogic();
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     public HorizontalLayout controlLayout;
     public boolean wacFlag = false;
     public boolean phsFlag = false;
     public boolean totalURAFlag = false;
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    public boolean ampFlag = false;
+    public String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private final HelperDTO therapyDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
     public final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(
             Constant.PROJECTION_ID);
 
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POSITION = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MIN_SPLIT_POSITION = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
-    LazyContainer therapeuticContainer;
-    LazyContainer brandContainer;
+    private static final float SPLIT_POSITION = 300;
+    private LazyContainer therapeuticContainer;
+    private LazyContainer brandContainer;
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
-    PhsResultsTableLogic tableLogic = new PhsResultsTableLogic();
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private PhsResultsTableLogic tableLogic = new PhsResultsTableLogic();
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
 
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     @UiField("ndcFilterDdlb")
     private ComboBox ndcFilterDdlb;
     private final HelperDTO ndcHelperDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    LazyContainer ndcFilterContainer;
+    private LazyContainer ndcFilterContainer;
     private final HelperDTO levelDTO = new HelperDTO(0, SELECT_ONE.getConstant());
 
     /**
      * The grid layout.
      */
     @UiField("gridLayout")
-    GridLayout gridLayout;
+    private GridLayout gridLayout;
 
     /**
      * The price type.
      */
     private final OptionGroup priceType = new OptionGroup();
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    Property.ValueChangeListener ndcValuChange = getNDCFilterValueChangeListener();
-     NationalAssumptionsForm form;
-     SessionDTO sessionDTO;
+    private Property.ValueChangeListener ndcValuChange = getNDCFilterValueChangeListener();
+    private NationalAssumptionsForm form;
+    private SessionDTO sessionDTO;
 
     /**
      * Instantiates a new phs results.
+     * @param form
+     * @param sessionDTO
      */
     public PhsResults(NationalAssumptionsForm form,SessionDTO sessionDTO) {
         super();
@@ -285,8 +288,8 @@ public class PhsResults extends CustomComponent implements View {
         ndcFilterDdlb.select(ndcHelperDto);
         levelDdlb.select(levelDTO);
         historyDdlb.setContainerDataSource(new IndexedContainer(CommonUtils.loadHistory(QUARTERLY.getConstant())));
-        if (historyDdlb.containsId("2 Quarters")) {
-            historyDdlb.select("2 Quarters");
+        if (historyDdlb.containsId(Constant.TWO_QUARTERS)) {
+            historyDdlb.select(Constant.TWO_QUARTERS);
         } else {
             historyDdlb.addItem(Constant.SELECT_ONE);
             historyDdlb.select(Constant.SELECT_ONE);
@@ -312,6 +315,7 @@ public class PhsResults extends CustomComponent implements View {
         priceType.addItem(Constant.WAC);
         priceType.addItem("PHS");
         priceType.addItem("Total URA");
+        priceType.addItem(Constant.AMP); 
 
         excelBtn.setIcon(excelExportImage);
 
@@ -348,36 +352,7 @@ public class PhsResults extends CustomComponent implements View {
         brandDdlb.select(brandDto);
 
         loadBrand();
-        therapeuticDdlb.setPageLength(NumericConstants.SEVEN);
-        therapeuticDdlb.setImmediate(true);
-        therapeuticDdlb.setNullSelectionAllowed(true);
-        therapeuticDdlb.setInputPrompt(SELECT_ONE.getConstant());
-        therapeuticDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
-        therapeuticDdlb.setItemCaptionPropertyId(DESCRIPTION.getConstant());
-        therapeuticDdlb.markAsDirty();
-        therapeuticContainer = new LazyContainer(HelperDTO.class, new TherapeuticContainer(), new TherapeuticCriteria());
-        therapeuticContainer.setMinFilterLength(0);
-        therapeuticDdlb.setContainerDataSource(therapeuticContainer);
-        therapeuticDdlb.select(therapyDto);
-
-        therapeuticDdlb.addValueChangeListener(new Property.ValueChangeListener() {
-
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-
-                LOGGER.debug("therapeuticDdlb ValueChangeEvent initiated " + therapeuticDdlb.getValue());
-
-                if (therapeuticDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(String.valueOf(therapeuticDdlb.getValue()))) {
-                    HelperDTO helperDTO = (HelperDTO) therapeuticDdlb.getValue();
-                    int theraupeuticId = helperDTO.getId();
-                    projectionDTO.setTherapeuticSid(helperDTO);
-                    brandContainer.removeAllItems();
-                    loadBrand();
-                    LOGGER.debug("therapeuticDdlb ValueChangeEvent ends theraupeuticId   " + theraupeuticId);
-
-                }
-            }
-        });
+        loadTherapeuticDdlb();
 
         brandDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
@@ -412,15 +387,23 @@ public class PhsResults extends CustomComponent implements View {
             }
         });
 
-        if (Constant.EDIT_SMALL.equalsIgnoreCase(mode) || Constant.VIEW.equalsIgnoreCase(mode)) {
+        if (Constant.EDIT_SMALL.equalsIgnoreCase(MODE) || Constant.VIEW.equalsIgnoreCase(MODE)) {
             setProjectionSelection();
-            if (Constant.VIEW.equalsIgnoreCase(mode)) {
+            if (Constant.VIEW.equalsIgnoreCase(MODE)) {
                 disableFieldsOnView();
             }
         } else {
             selectPriceTypes();
         }
         
+        buttonLevelSecurity();
+        ndcFilterDdlb.setWidth("176px");
+        levelDdlb.setWidth("176px");
+        tabOrder();
+    }
+    
+    
+    public void buttonLevelSecurity() {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId =  sessionDTO.getUserId();
         try {
@@ -450,14 +433,43 @@ public class PhsResults extends CustomComponent implements View {
             } else {
                 collapse.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
-        ndcFilterDdlb.setWidth("176px");
-        levelDdlb.setWidth("176px");
-        tabOrder();
+    }
+
+    public void loadTherapeuticDdlb() {
+        therapeuticDdlb.setPageLength(NumericConstants.SEVEN);
+        therapeuticDdlb.setImmediate(true);
+        therapeuticDdlb.setNullSelectionAllowed(true);
+        therapeuticDdlb.setInputPrompt(SELECT_ONE.getConstant());
+        therapeuticDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
+        therapeuticDdlb.setItemCaptionPropertyId(DESCRIPTION.getConstant());
+        therapeuticDdlb.markAsDirty();
+        therapeuticContainer = new LazyContainer(HelperDTO.class, new TherapeuticContainer(), new TherapeuticCriteria());
+        therapeuticContainer.setMinFilterLength(0);
+        therapeuticDdlb.setContainerDataSource(therapeuticContainer);
+        therapeuticDdlb.select(therapyDto);
+        
+        
+        therapeuticDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+
+                LOGGER.debug("therapeuticDdlb ValueChangeEvent initiated " + therapeuticDdlb.getValue());
+
+                if (therapeuticDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(String.valueOf(therapeuticDdlb.getValue()))) {
+                    HelperDTO helperDTO = (HelperDTO) therapeuticDdlb.getValue();
+                    int theraupeuticId = helperDTO.getId();
+                    projectionDTO.setTherapeuticSid(helperDTO);
+                    brandContainer.removeAllItems();
+                    loadBrand();
+                    LOGGER.debug("therapeuticDdlb ValueChangeEvent ends theraupeuticId   " + theraupeuticId);
+
+                }
+            }
+        });
     }
 
     private Property.ValueChangeListener getNDCFilterValueChangeListener() {
@@ -514,6 +526,7 @@ public class PhsResults extends CustomComponent implements View {
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -523,12 +536,12 @@ public class PhsResults extends CustomComponent implements View {
              * @param buttonId The buttonId of the pressed button.m
              */
             public void yesMethod() {
-                if (Constant.EDIT_SMALL.equalsIgnoreCase(mode) || Constant.VIEW.equalsIgnoreCase(mode)) {
+                if (Constant.EDIT_SMALL.equalsIgnoreCase(MODE) || Constant.VIEW.equalsIgnoreCase(MODE)) {
                     setProjectionSelection();
                 } else {
                     brandDdlb.select(brandDto);
                     therapeuticDdlb.select(therapyDto);
-                    historyDdlb.setValue("2 Quarters");
+                    historyDdlb.setValue(Constant.TWO_QUARTERS);
                     variables.setValue(PERCENTAGE.getConstant());
                     periodOrder.setValue(ASCENDING.getConstant());
                     actualOrProj.setValue(BOTH.getConstant());
@@ -551,14 +564,9 @@ public class PhsResults extends CustomComponent implements View {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener
-     * .ViewChangeEvent)
-     */
+    @Override
     public void enter(ViewChangeEvent event) {
+         // com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
     }
 
     private void initializeResultTable() {
@@ -566,9 +574,9 @@ public class PhsResults extends CustomComponent implements View {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
         periodTableId.setImmediate(true);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName("valo-theme-extfiltertable");
         periodTableId.addStyleName("table-header-center");
     }
@@ -576,25 +584,22 @@ public class PhsResults extends CustomComponent implements View {
     public boolean loadProjectionSelection() {
         boolean flag = false;
         Object hist = historyDdlb.getValue();
-
         int historyNum = 0;
         boolean histFlag = false;
-
-            if ((hist != null) && (!SELECT_ONE.getConstant().equals(hist.toString()))) {
-                histFlag = true;
-                projectionDTO.setHistory(hist.toString());
-                historyNum = Integer.valueOf(String.valueOf(hist).trim().substring(0, NumericConstants.TWO).trim());
-            }
+        if ((hist != null) && (!SELECT_ONE.getConstant().equals(hist.toString()))) {
+            histFlag = true;
+            projectionDTO.setHistory(hist.toString());
+            historyNum = Integer.valueOf(String.valueOf(hist).trim().substring(0, NumericConstants.TWO).trim());
+        }
         if (histFlag) {
             flag = true;
             Object[] itemIds = priceType.getItemIds().toArray();
-            List<String> selectedPrice = new ArrayList<String>();
+            List<String> selectedPrice = new ArrayList<>();
             for (Object itemId : itemIds) {
                 if (priceType.isSelected(itemId)) {
                     selectedPrice.add(String.valueOf(itemId));
                 }
             }
-
             for (int i = 0; i < selectedPrice.size(); i++) {
                 if (selectedPrice.get(i).contentEquals(PHS.getConstant())) {
                     selectedPrice.add(NumericConstants.TWO, Constant.PHS_DISCOUNT);
@@ -603,28 +608,36 @@ public class PhsResults extends CustomComponent implements View {
             if (!(selectedPrice.contains(Constant.PHS_DISCOUNT))) {
                 selectedPrice.add(Constant.PHS_DISCOUNT);
             }
-            int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-            projectionDTO.setProjectionId(projectionId);
-            projectionDTO.setPriceTypeList(selectedPrice);
-            projectionDTO.setFrequency(QUARTERLY.getConstant());
-            projectionDTO.setHistoryNum(historyNum);
-            projectionDTO.setActualsOrProjections(actualOrProj.getValue().toString());
-            projectionDTO.setVariables(String.valueOf(variables.getValue()));
-            projectionDTO.setProjectionOrder(periodOrder.getValue().toString());
-            projectionDTO.setPivotView(view.getValue().toString());
-            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
-            Date startDate = startAndTodate.getFromDate();
-            Date endDate = startAndTodate.getToDate();
-            if (startDate != null && endDate != null) {
-                projectionDTO.setEndYear(endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-                projectionDTO.setEndMonth(endDate.getMonth() + 1);
-                projectionDTO.setHistProjYear(startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO);
-                projectionDTO.setHistProjMonth(startDate.getMonth() + 1);
-                projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), endDate, QUARTERLY.getConstant()));
-            }
-            tablePanel.setCaption(view.getValue().toString() + SPACE.getConstant() + PIVOT_VIEW.getConstant());
+            int projectionID = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+            loadProjectionSelectionSetData(projectionID, selectedPrice, historyNum);
         }
         return flag;
+    }
+
+    public void loadProjectionSelectionSetData(int projectionId1, List<String> selectedPrice, int historyNum) {
+        projectionDTO.setProjectionId(projectionId1);
+        projectionDTO.setPriceTypeList(selectedPrice);
+        projectionDTO.setFrequency(QUARTERLY.getConstant());
+        projectionDTO.setHistoryNum(historyNum);
+        projectionDTO.setActualsOrProjections(actualOrProj.getValue().toString());
+        projectionDTO.setVariables(String.valueOf(variables.getValue()));
+        projectionDTO.setProjectionOrder(periodOrder.getValue().toString());
+        projectionDTO.setPivotView(view.getValue().toString());
+        com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
+        Date startDate = startAndTodate.getFromDate();
+        Date endDate = startAndTodate.getToDate();
+        Calendar edate = Calendar.getInstance();
+        edate.setTime(endDate);
+        Calendar sdate = Calendar.getInstance();
+        sdate.setTime(startDate);
+        if (startDate != null && endDate != null) {
+            projectionDTO.setEndYear(edate.get(Calendar.YEAR));
+            projectionDTO.setEndMonth(edate.get(Calendar.MONTH) + 1);
+            projectionDTO.setHistProjYear(sdate.get(Calendar.YEAR));
+            projectionDTO.setHistProjMonth(sdate.get(Calendar.MONTH) + 1);
+            projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), endDate, QUARTERLY.getConstant()));
+        }
+        tablePanel.setCaption(view.getValue().toString() + SPACE.getConstant() + PIVOT_VIEW.getConstant());
     }
 
     private void configureResultTable() {
@@ -632,7 +645,7 @@ public class PhsResults extends CustomComponent implements View {
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
         rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader);
-        resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
         tableLogic.setTreeNodeMultiClick(false);
@@ -642,9 +655,9 @@ public class PhsResults extends CustomComponent implements View {
                 .getRightFreezeAsTable();
         leftTable.setImmediate(true);
         rightTable.setImmediate(true);
-        periodTableId.setHeight("390px");
-        leftTable.setHeight("390px");
-        rightTable.setHeight("390px");        
+        periodTableId.setHeight(Constant.PX_390);
+        leftTable.setHeight(Constant.PX_390);
+        rightTable.setHeight(Constant.PX_390);        
         leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
         leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
         rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
@@ -661,8 +674,13 @@ public class PhsResults extends CustomComponent implements View {
 
         rightTable.setDoubleHeaderMap(rightHeader.getDoubleHeaderMaps());
 
-        leftTable.addGeneratedColumn(Constant.GROUP, new ExtPagedTreeTable.ColumnGenerator() {
+        configureLeftTableColumns(leftTable);
+        configureTableFilter(leftTable);
+    }
 
+    public void configureLeftTableColumns(final ExtPagedTreeTable leftTable) {
+        leftTable.addGeneratedColumn(Constant.GROUP, new ExtPagedTreeTable.ColumnGenerator() {
+            
             @Override
             public Object generateCell(ExtCustomTable source, Object itemId, Object columnId) {
 
@@ -676,23 +694,24 @@ public class PhsResults extends CustomComponent implements View {
                     ndcLink.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
+                        @Override
                         public void buttonClick(final Button.ClickEvent event) {
                             ProjectionSelectionDTO worksheetProjDto = projectionDTO;
                             HelperDTO ndcDto = new HelperDTO();
                             ndcDto.setId(tableDto.getItemMasterSid());
                             ndcDto.setDescription(tableDto.getGroup());
                             worksheetProjDto.setNdcSid(ndcDto);
-                              HelperDTO brandResultsDto = (HelperDTO) brandDdlb.getValue();
-                                if (Constant.SELECT_ONE.equals(brandResultsDto.getDescription())) {
-                    HelperDTO brand = commonLogic.getBrand(ndcDto.getId());
-                                    if(!Constant.NULL.equals(brand.getDescription())) {    
-                                worksheetProjDto.setBrand(brand);
-                               
-                            }else{
-                                      worksheetProjDto.setBrand(null);    
-                                    }
-                                     worksheetProjDto.setBrandSeclected(true);
+                            HelperDTO brandResultsDto = (HelperDTO) brandDdlb.getValue();
+                            if (Constant.SELECT_ONE.equals(brandResultsDto.getDescription())) {
+                                HelperDTO brand = commonLogic.getBrand(ndcDto.getId());
+                                if(!Constant.NULL.equals(brand.getDescription())) {
+                                    worksheetProjDto.setBrand(brand);
+                                    
+                                }else{
+                                    worksheetProjDto.setBrand(null);
                                 }
+                                worksheetProjDto.setBrandSeclected(true);
+                            }
                             worksheetProjDto.setAdjust(false);
                             worksheetProjDto.setNdcWSdto(ndcDto);
                             final MasterPhsWorksheet lookUp = new MasterPhsWorksheet(worksheetProjDto,sessionDTO);
@@ -701,7 +720,7 @@ public class PhsResults extends CustomComponent implements View {
 
                                 @Override
                                 public void windowClose(Window.CloseEvent e) {
-                                     projectionDTO.setBrandSeclected(false);
+                                    projectionDTO.setBrandSeclected(false);
                                     projectionDTO.setBrandWSdto(brandWorksheetDto);
                                     lookUp.closeLogic();
                                     if (lookUp.isSubmit()) {
@@ -718,9 +737,8 @@ public class PhsResults extends CustomComponent implements View {
                 }
             }
         });
-        configureTableFilter(leftTable);
     }
-
+    
     private void addResultTable() {
         tableVerticalLayout.addComponent(periodTableId);
         controlLayout = tableLogic.createControls();
@@ -741,14 +759,13 @@ public class PhsResults extends CustomComponent implements View {
 
     public void generateLogic() {
         try {
-          if(!Constant.VIEW.equalsIgnoreCase(mode)){     
-            callPhsProcedure();
+            if (!Constant.VIEW.equalsIgnoreCase(MODE)) {
+                callPhsProcedure();
             }
-        } catch (Exception ex) {
+            loadResultTable();
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
-        loadResultTable();
-
     }
 
     private void loadResultTable() {
@@ -756,7 +773,7 @@ public class PhsResults extends CustomComponent implements View {
             tableLogic.clearAll();
             tableLogic.setRefresh(false);
             projectionDTO.clearNonFetchableIndex();
-            tableLogic.setProjectionResultsData(projectionDTO, true,sessionDTO);
+            tableLogic.setProjectionResultsData(projectionDTO, sessionDTO);
             tableLogic.setRefresh(true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -774,7 +791,7 @@ public class PhsResults extends CustomComponent implements View {
         if (id instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) id;
         } else if (id instanceof TableDTO) {
-            targetItem = new BeanItem<TableDTO>(
+            targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
         return (TableDTO) targetItem.getBean();
@@ -783,14 +800,21 @@ public class PhsResults extends CustomComponent implements View {
     public void callPhsProcedure() throws SQLException, NamingException {
         String priceBasis = String.valueOf(priceBasisDdlb.getValue());
 
-        if (priceBasis.equals("Average Quarter WAC")) {
-            priceBasis = "AVGQWAC";
-        } else if (priceBasis.equals("Beginning Quarter WAC")) {
-            priceBasis = "BQWAC";
-        } else if (priceBasis.equals("Ending Quarter WAC")) {
-            priceBasis = "EQWAC";
-        } else if (priceBasis.equals("Mid-Quarter WAC")) {
-            priceBasis = "MQWAC";
+        switch (priceBasis) {
+            case "Average Quarter WAC":
+                priceBasis = "AVGQWAC";
+                break;
+            case "Beginning Quarter WAC":
+                priceBasis = "BQWAC";
+                break;
+            case "Ending Quarter WAC":
+                priceBasis = "EQWAC";
+                break;
+            case "Mid-Quarter WAC":
+                priceBasis = "MQWAC";
+                break;
+            default:
+                break;
         }
         phsResultsLogic.getPhsCook(priceBasis,sessionDTO);
     }
@@ -822,7 +846,7 @@ public class PhsResults extends CustomComponent implements View {
             if (resultBeanContainer.size() > 0) {
                 loadExcelResultTable();
             }
-            ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "PHS Results", "PHS Results", "PHS_Results.xls", false);
+            ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PHS_RESULTS, Constant.PHS_RESULTS, "PHS_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
         } catch (Exception e) {
@@ -830,9 +854,9 @@ public class PhsResults extends CustomComponent implements View {
         }
         LOGGER.debug("excelBtn click listener ends");
     }
-
+    
     private void configureExcelResultTable() {
-        excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
         exceltable = new ExtCustomTreeTable();
         tableVerticalLayout.addComponent(exceltable);
@@ -889,8 +913,8 @@ public class PhsResults extends CustomComponent implements View {
             tempVariables = tempVariables.substring(1, tempVariables.length() - 1);
             HelperDTO helperDTO = (HelperDTO) therapeuticDdlb.getValue();
             String therapy = helperDTO.getDescription() + "," + helperDTO.getId();
-            HelperDTO DTO = (HelperDTO) brandDdlb.getValue();
-            String brand = DTO.getDescription() + "," + DTO.getId();
+            HelperDTO dto = (HelperDTO) brandDdlb.getValue();
+            String brand = dto.getDescription() + "," + dto.getId();
             map.put(Constant.HISTORY, historyDdlb.getValue().toString());
             map.put("therapeutic", therapy);
             map.put(Constant.BRAND, brand);
@@ -902,7 +926,7 @@ public class PhsResults extends CustomComponent implements View {
             map.put("priceBasis", String.valueOf(priceBasisDdlb.getValue()));
 
             logic.saveProjectionSelection(map, projectionId, PHS_RESULTS_SCREEN.getConstant());
-        } catch (Exception ex) {
+        } catch (PortalException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("saveSalesProjection method ends");
@@ -992,13 +1016,18 @@ public class PhsResults extends CustomComponent implements View {
                             priceType.select(TOTAL_URA.getConstant());
                             totalURAFlag = true;
                         }
+                        if (tempValue.equals(AMP.getConstant())) {
+
+                            priceType.select(AMP.getConstant());
+                            ampFlag = true;
+                        }
 
                     }
 
                 }
 
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1072,7 +1101,7 @@ public class PhsResults extends CustomComponent implements View {
                 ndcFilterDdlb.addValueChangeListener(ndcValuChange);
             }
         }
-        tableLogic.loadExpandData(isExpand, projectionDTO.getNdcLevelNo(), rowIndex, projectionDTO.getNdcParent());
+        tableLogic.loadExpandData(isExpand, rowIndex);
         tableLogic.setRefresh(true);
     }
 
@@ -1104,6 +1133,6 @@ public class PhsResults extends CustomComponent implements View {
     private void configureTableFilter(final ExtPagedTreeTable leftTable){
         leftTable.setFilterBarVisible(true);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        leftTable.setFilterGenerator(new NationalAssumptionsFilterGenerator(projectionDTO,"PHS Results"));
+        leftTable.setFilterGenerator(new NationalAssumptionsFilterGenerator(projectionDTO,Constant.PHS_RESULTS));
     }
 }

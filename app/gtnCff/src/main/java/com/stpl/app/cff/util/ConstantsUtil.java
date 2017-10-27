@@ -5,7 +5,9 @@
  */
 package com.stpl.app.cff.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -19,6 +21,8 @@ public class ConstantsUtil {
      * The session id.
      */
     public final static String SESSION_ID = "sessionId";
+    
+    public static final String DOLLAR_OR = "^.|.$";
     /**
      * The WorkFlowStatus list name.
      */
@@ -100,7 +104,7 @@ public class ConstantsUtil {
     /**
      * Reg ex for alphaNumericChars
      */
-    public static final String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
+    public static final String ALPHA_NUM_CHARS = "([0-9|a-z|A-Z|\\ |\\*])*";
     /**
      * The date format.
      */
@@ -123,6 +127,26 @@ public class ConstantsUtil {
     public static final String CFF_APPROVE_MASTER = "CFF_APPROVAL_DETAILS";
     public static final String CFF_DETAILS = "CFF_DETAILS";
     public static final String ACTUAL = "Actual";
+    public static final String ACCRUAL = "Accrual";
+    public static final String OPEN_PARANTHESIS = "(";
+    public static final String CLOSE_PARANTHESIS = ")";
+    public static String COMMA=",";
+    public static final String DETAIL = "Detail";
+    public static final String NET_EXFACT_SALES = "Net Ex-Factory Sales";
+    public static final String NET_EXFACT_SALES_PER_EXFACT = "Net Ex-Factory Sales as % of Ex-Factory Sales";
+    public static final String NET_EXFACT_SALES_COLUMN_VALUE = "NEFSValue";
+    public static final String NET_EXFACT_SALES_HEADER_VALUE = "Net Ex-Factory Sales Value";
+    public static final String NET_EXFACT_SALES_COLUMN_VARIANCE = "NEFSVariance";
+    public static final String NET_EXFACT_SALES_HEADER_VARIANCE = "Net Ex-Factory Sales Variance";
+    public static final String NET_EXFACT_SALES_COLUMN_PER_CHANGE = "NEFSPerChange";
+    public static final String NET_EXFACT_SALES_HEADER_PER_CHANGE = "Net Ex-Factory Sales %Change";
+    public static final String NET_EXFACT_SALES_PER_EXFACT_COLUMN_VALUE = "NEFSPEFValue";
+    public static final String NET_EXFACT_SALES_PER_EXFACT_HEADER_VALUE = "Net Ex-Factory Sales as % of Ex-Factory Sales Value";
+    public static final String NET_EXFACT_SALES_PER_EXFACT_COLUMN_VARIANCE = "NEFSPEFVariance";
+    public static final String NET_EXFACT_SALES_PER_EXFACT_HEADER_VARIANCE = "Net Ex-Factory Sales as % of Ex-Factory Sales Variance";
+    public static final String NET_EXFACT_SALES_PER_EXFACT_COLUMN_PER_CHANGE = "NEFSPEFPerChange";
+    public static final String NET_EXFACT_SALES_PER_EXFACT_HEADER_PER_CHANGE = "Net Ex-Factory Sales as % of Ex-Factory Sales %Change";
+    public static final String TOTAL_DISCOUNT = "Total Discount";
     
 
     public enum PVVariables {
@@ -148,6 +172,8 @@ public class ConstantsUtil {
         DISCOUNT_PER_EX_FACTORY("Discount % of Ex-Factory"),
         VAR_NETSALES("Net Sales"),
         NET_SALES_PER_EX_FACTORY("Net Sales % of Ex-Factory"),
+        NET_EX_FACTORY_SALES(NET_EXFACT_SALES),
+        NET_EX_FACTORY_SALES_PER_EX_FACTORY(NET_EXFACT_SALES_PER_EXFACT),
         VAR_COGS("COGS"),
         VAR_NET_PROFITE("Net Profit");
         private String constant;
@@ -162,11 +188,11 @@ public class ConstantsUtil {
         }
 
         public static String[] names() {
-            return Arrays.toString(PVVariables.values()).replaceAll("^.|.$", "").split(",");
+            return Arrays.toString(PVVariables.values()).replaceAll(DOLLAR_OR, "").split(",");
         }
 
         public static String[] getCheckAllVariables() {
-            return Arrays.toString(ArrayUtils.removeElement(PVVariables.values(), CHECK_ALL)).replaceAll("^.|.$", "").split(",");
+            return Arrays.toString(ArrayUtils.removeElement(PVVariables.values(), CHECK_ALL)).replaceAll(DOLLAR_OR, "").split(",");
         }
     }
     
@@ -176,7 +202,8 @@ public class ConstantsUtil {
         COL_VALUE("Value"),
         COL_VARIANCE("Variance"),
         COL_PERCENTAGE("%Change"),
-        COL_ACTUALS("Actuals");
+        COL_ACTUALS("Actuals"),
+        COL_ACCRUALS(StringConstantsUtil.ACCRUALS);
         private String constant;
 
         private PVVariableCategory(String constant) {
@@ -189,7 +216,12 @@ public class ConstantsUtil {
         }
 
         public static String[] names() {
-            return Arrays.toString(PVVariableCategory.values()).replaceAll("^.|.$", StringUtils.EMPTY).split(",");
+            String[] temp = Arrays.toString(PVVariableCategory.values()).replaceAll(DOLLAR_OR, StringUtils.EMPTY).split(",");
+            List tempList = new ArrayList(Arrays.asList(temp));
+            if (!CommonUtils.isValueEligibleForLoading()) {
+                tempList.remove(" "+StringConstantsUtil.ACCRUALS);
+            }
+            return Arrays.copyOf(tempList.toArray(), tempList.toArray().length,String[].class);
         }
     }
 }

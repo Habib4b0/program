@@ -13,5 +13,6 @@ import java.util.List;
  * @author Jayaram.LeelaRam
  */
 public interface ExcelInterface {
+
     List getExcelResultList(AbstractSelectionDTO selection);
 }

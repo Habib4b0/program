@@ -119,6 +119,8 @@ public class VwItemMasterWrapper implements VwItemMaster,
         attributes.put("itemCode", getItemCode());
         attributes.put("clottingFactorStartDate", getClottingFactorStartDate());
         attributes.put("nonFederalExpirationDate", getNonFederalExpirationDate());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -603,6 +605,19 @@ public class VwItemMasterWrapper implements VwItemMaster,
 
         if (nonFederalExpirationDate != null) {
             setNonFederalExpirationDate(nonFederalExpirationDate);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -2174,6 +2189,46 @@ public class VwItemMasterWrapper implements VwItemMaster,
     public void setNonFederalExpirationDate(
         java.util.Date nonFederalExpirationDate) {
         _vwItemMaster.setNonFederalExpirationDate(nonFederalExpirationDate);
+    }
+
+    /**
+    * Returns the base cpi precision of this vw item master.
+    *
+    * @return the base cpi precision of this vw item master
+    */
+    @Override
+    public int getBaseCpiPrecision() {
+        return _vwItemMaster.getBaseCpiPrecision();
+    }
+
+    /**
+    * Sets the base cpi precision of this vw item master.
+    *
+    * @param baseCpiPrecision the base cpi precision of this vw item master
+    */
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _vwItemMaster.setBaseCpiPrecision(baseCpiPrecision);
+    }
+
+    /**
+    * Returns the baseline amp precision of this vw item master.
+    *
+    * @return the baseline amp precision of this vw item master
+    */
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _vwItemMaster.getBaselineAmpPrecision();
+    }
+
+    /**
+    * Sets the baseline amp precision of this vw item master.
+    *
+    * @param baselineAmpPrecision the baseline amp precision of this vw item master
+    */
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _vwItemMaster.setBaselineAmpPrecision(baselineAmpPrecision);
     }
 
     @Override

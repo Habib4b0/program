@@ -32,7 +32,7 @@ public class ItemGroupSearchMain extends VerticalLayout implements View {
    
     private ItemGroupDTO itemGroupDTO = new ItemGroupDTO();
     
-    private CustomFieldGroup itemGroupBinder = new CustomFieldGroup(new BeanItem<ItemGroupDTO>(itemGroupDTO));
+    private CustomFieldGroup itemGroupBinder = new CustomFieldGroup(new BeanItem<>(itemGroupDTO));
 
    
     public CustomFieldGroup getItemGroupBinder() {
@@ -76,6 +76,7 @@ public class ItemGroupSearchMain extends VerticalLayout implements View {
    
     public void enter(final ViewChangeEvent event) {
         try {
+            abstractSearchForm.removeOnViewChange();
             markAsDirty();
 
             setStyleName("bootstrap");

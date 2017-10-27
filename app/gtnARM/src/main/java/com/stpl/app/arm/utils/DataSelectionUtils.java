@@ -11,7 +11,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.TreeTable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,15 +24,21 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *
- * @author 
+ * @author
  */
 public class DataSelectionUtils {
+
+    private DataSelectionUtils() {
+        /*
+        Empty COnstructor
+         */
+    }
 
     public static List<Integer> getSelectedRelationshipLevelSids(List<LevelDTO> itemIds) {
         List<Integer> selectedRelationshipLevelSids = null;
         if (itemIds != null && !itemIds.isEmpty()) {
             LevelDTO dto;
-            selectedRelationshipLevelSids = new ArrayList<Integer>();
+            selectedRelationshipLevelSids = new ArrayList<>();
             for (Object item : itemIds) {
                 dto = getBeanFromId(item);
                 selectedRelationshipLevelSids.add(dto.getRelationshipLevelSid());
@@ -48,7 +53,7 @@ public class DataSelectionUtils {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof LevelDTO) {
-            targetItem = new BeanItem<LevelDTO>((LevelDTO) obj);
+            targetItem = new BeanItem<>((LevelDTO) obj);
         }
 
         return (LevelDTO) targetItem.getBean();
@@ -75,7 +80,7 @@ public class DataSelectionUtils {
     }
 
     public static List<String> getEndLevelHierNo(List<LevelDTO> levels) {
-        List<String> hierNos = new ArrayList<String>();
+        List<String> hierNos = new ArrayList<>();
         for (LevelDTO level : levels) {
             hierNos.add(String.valueOf(level.getHierarchyNo()));
         }
@@ -84,10 +89,10 @@ public class DataSelectionUtils {
 
     public static List<String> storeUncommonValues(List<String> list1, List<String> list2) {
         // Prepare a union
-        List<String> union = new ArrayList<String>(list1);
+        List<String> union = new ArrayList<>(list1);
         union.addAll(list2);
         // Prepare an intersection
-        List<String> intersection = new ArrayList<String>(list1);
+        List<String> intersection = new ArrayList<>(list1);
         intersection.retainAll(list2);
         // Subtract the intersection from the union
         union.removeAll(intersection);
@@ -98,9 +103,9 @@ public class DataSelectionUtils {
             final ExtTreeContainer<LevelDTO> selectedContainer, final BeanItemContainer<LevelDTO> availableContainer, final int currentLevel) {
         if (selectedTable.hasChildren(item)) {
             Collection<?> children = selectedTable.getChildren(item);
-            if (children != null && children.size() > 0) {
-                BeanItemContainer<LevelDTO> tempBean = new BeanItemContainer<LevelDTO>(LevelDTO.class);
-                LinkedList<Object> children2 = new LinkedList<Object>();
+            if (children != null && !children.isEmpty()) {
+                BeanItemContainer<LevelDTO> tempBean = new BeanItemContainer<>(LevelDTO.class);
+                LinkedList<Object> children2 = new LinkedList<>();
                 for (Iterator<?> i = children.iterator(); i.hasNext();) {
                     children2.add((Object) i.next());
                 }
@@ -118,7 +123,7 @@ public class DataSelectionUtils {
     }
 
     public static List<LevelDTO> getFSValue(final String relationshipLevelValue, final String fieldName) {
-        List<LevelDTO> list = new ArrayList<LevelDTO>();
+        List<LevelDTO> list = new ArrayList<>();
         DataSelectionLogic logic = new DataSelectionLogic();
         List<Object> listValue = logic.getFSValue(relationshipLevelValue, fieldName);
         LevelDTO dto = new LevelDTO();
@@ -131,7 +136,7 @@ public class DataSelectionUtils {
         return list;
     }
 
-    public static String getTimePeriod(Date date) throws ParseException {
+    public static String getTimePeriod(Date date) {
         String timePeriod = StringUtils.EMPTY;
         SimpleDateFormat getYear = new SimpleDateFormat("yyyy");
         int quarter = getQuarter(date);

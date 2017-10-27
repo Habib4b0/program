@@ -17,10 +17,9 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import com.stpl.app.gtnforecasting.utils.AbstractFilterLogic;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.utils.QueryUtils;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import java.text.ParseException;
+import com.stpl.ifs.util.QueryUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,14 +32,23 @@ import java.util.logging.Logger;
  * @author Rohit.Vignesh
  */
 public class DataAssumptionsLogic {
-    
-   SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+    private boolean isAllowedToSubmit = false;
+    private List<Object[]> tempProjectionFileDetails = null;
+    private SessionDTO session ;
+    private final Map<Integer,String> fileNameList = new HashMap<>();
+    public static final String S_FLAG = "S";
+    public static final String D_FLAG = "D";
+    public static final String C_FLAG = "C";
+
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
     public List getCustomizedData(List<Object[]> list) {
         List<DataAssumptionDTO> finalList = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             try {
                 final DataAssumptionDTO dto = new DataAssumptionDTO();
-                final Object[] object = (Object[]) list.get(i);
+                final Object[] object = list.get(i);
 
                 dto.setActiveFileName(checkAndReturnString(object[1]));
                 dto.setActiveFileCompany(checkAndReturnString(object[2]));
@@ -54,7 +62,7 @@ public class DataAssumptionsLogic {
                     dto.setActiveFileFromDateString("\t" + formatter.format(object[NumericConstants.SIX]) + "\t");
                 }
                 if (object[NumericConstants.SEVEN] != null) {
-                    dto.setActiveFileFromPeriodString("\t" + formatter.format(object[NumericConstants.SEVEN])+"\t");
+                    dto.setActiveFileFromPeriodString("\t" + formatter.format(object[NumericConstants.SEVEN]) + "\t");
                 }
                 if (object[NumericConstants.EIGHT] != null) {
                     dto.setActiveFileToPeriodString("\t" + formatter.format(object[NumericConstants.EIGHT]) + "\t");
@@ -63,7 +71,7 @@ public class DataAssumptionsLogic {
             } catch (Exception ex) {
                 Logger.getLogger(DataAssumptionsLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
-            }
+        }
         return finalList;
     }
 
@@ -83,7 +91,7 @@ public class DataAssumptionsLogic {
         }
     }
 
-    public List getDataAssumption(int start, int end, boolean isCount, Set<Container.Filter> searchCriteria, final List<SortByColumn> sortByColumns, SessionDTO sessionDTO) throws PortalException, SystemException, ParseException {
+    public List getDataAssumption(int start, int end, boolean isCount, Set<Container.Filter> searchCriteria, final List<SortByColumn> sortByColumns, SessionDTO sessionDTO) {
         List returnList = null;
         StringBuilder sql = new StringBuilder();
 
@@ -131,4 +139,154 @@ public class DataAssumptionsLogic {
         return map;
     }
 
+    private void validationForSubmit() {
+        getTempPFDFiles();
+
+        if (tempProjectionFileDetails != null && !tempProjectionFileDetails.isEmpty()) {
+            Object[] pfd = tempProjectionFileDetails.get(0);
+            if (S_FLAG.equals(String.valueOf(pfd[3])) && (boolean) pfd[4]) {
+                isAllowedToSubmit = true;
+                session.setIsSalesCalculated(true);
+            } else {
+                isAllowedToSubmit = false;
+                return;
+            }
+            if (tempProjectionFileDetails.size() > 1) {
+                pfd = tempProjectionFileDetails.get(1);
+                if ((D_FLAG.equals(String.valueOf(pfd[3])) && (boolean) pfd[4]) || (C_FLAG.equals(String.valueOf(pfd[3])) && (boolean) pfd[4])) {
+                    isAllowedToSubmit = true;
+                    session.setIsDiscountCalculated(true);
+                } else if(Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())){
+                    isAllowedToSubmit = true;
+                }else{
+                    isAllowedToSubmit = false;
+                }
+            } else {
+                isAllowedToSubmit = false;
+            }
+        }
+    }
+
+    public void getLatestFilesList() {
+        String query = SQlUtil.getQuery("getCurrentActiveFiles");
+        query = query.replace("@PROJECTIONID", String.valueOf(session.getProjectionId()));
+        List<Object[]> latestFiles = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        if (latestFiles != null && !latestFiles.isEmpty()) {
+            Map<String, Object[]> fileMap = new HashMap<>();
+            for (Object[] latestFile : latestFiles) {
+                fileMap.put(String.valueOf(latestFile[4]), latestFile);
+            }
+            session.getLatestProjectionFileDetails().putAll(fileMap);
+        }
+    }
+
+    public boolean isIsAllowedToSubmit() {
+        validationForSubmit();
+        return isAllowedToSubmit;
+    }
+
+    public void setSession(SessionDTO session) {
+        this.session = session;
+    }
+    
+    /**
+     * This method returns list of values from the session table
+     */
+    public void getTempPFDFiles() {
+        String query = SQlUtil.getQuery("getTempPFD");
+        query = query.replace("@PROJECTIONID", String.valueOf(session.getProjectionId()));
+        tempProjectionFileDetails = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+    }
+    
+    /**
+     * This method decides whether Sales is calculated or not
+     */
+    public void isSalesCalculatedAlready() {
+        getTempPFDFiles();
+        loadFileMap();
+        if (tempProjectionFileDetails != null) {
+            if (tempProjectionFileDetails.size() > 1) {
+                Object[] obj = tempProjectionFileDetails.get(0);
+                Object[] obj1 = tempProjectionFileDetails.get(1);
+                if (S_FLAG.equals(String.valueOf(obj[3]))) {
+                    session.setIsSalesCalculated((boolean) obj[4]);
+                    session.setFileNameUsedInSales(fileNameList.get((Integer) obj[2]));
+                } else if (S_FLAG.equals(String.valueOf(obj1[3]))) {
+                    session.setIsSalesCalculated((boolean) obj1[4]);
+                    session.setFileNameUsedInSales(fileNameList.get((Integer) obj1[2]));
+                } else {
+                    session.setIsSalesCalculated((boolean) obj1[4]);
+                    session.setFileNameUsedInSales(fileNameList.get((Integer) obj[2]));
+                }
+            } else if (tempProjectionFileDetails.size() == 1) {
+                Object[] obj = tempProjectionFileDetails.get(0);
+                if (S_FLAG.equals(String.valueOf(obj[3]))) {
+                    session.setIsSalesCalculated((boolean) obj[4]);
+                }
+                session.setFileNameUsedInSales(fileNameList.get((Integer) obj[2]));
+            }
+        }
+    }
+    
+    /**
+     * This method returns whether calculation can be done in discount projection
+     * @param obj
+     * @return 
+     */
+    public boolean discountCanbeCalculated(Object[] obj) {
+        getTempPFDFiles();
+        if (tempProjectionFileDetails != null && !tempProjectionFileDetails.isEmpty()) {
+            boolean discountCanBeCalculated = false;
+            Object[] obj1 = tempProjectionFileDetails.get(0);
+            if (obj[1].equals(obj1[2])) {
+                String query = SQlUtil.getQuery("QUERY_TO_CHECK_ISSALES_CALCULATED_ALREADY").replace("@PROJECTION_ID", String.valueOf(session.getProjectionId()));
+                List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+                if (list != null && !list.isEmpty()) {
+                    discountCanBeCalculated = Integer.valueOf(String.valueOf(list.get(0))) == 1;
+                }
+                if (!discountCanBeCalculated) {
+                    return obj[0].equals(obj1[1]);
+                }
+                return true;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * This method used to check whether discount projection has been loaded based on the sales projection
+     * "D" flag Indicates discount and "C" flag indicates discount projection with Contract details methodology
+     * @return 
+     */
+    public boolean isDiscountLoaded(){
+        getTempPFDFiles();
+        if (tempProjectionFileDetails != null && !tempProjectionFileDetails.isEmpty()) {
+            for (int i = 0; i < tempProjectionFileDetails.size(); i++) {
+                Object[] obj = tempProjectionFileDetails.get(i);
+                if (D_FLAG.equals(String.valueOf(obj[3])) || C_FLAG.equals(String.valueOf(obj[3]))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Method will load File Name and Sid from HelperTable
+     */
+    public void loadFileMap() {
+        if (fileNameList.isEmpty()) {
+            String query = SQlUtil.getQuery("getFileTypeList");
+            List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+            if (list != null && !list.isEmpty()) {
+                for (int i = 0; i < list.size(); i++) {
+                    Object[] obj = list.get(i);
+                    fileNameList.put((Integer) obj[0], String.valueOf(obj[1]));
+                }
+            }
+        }
+    }
+    
 }

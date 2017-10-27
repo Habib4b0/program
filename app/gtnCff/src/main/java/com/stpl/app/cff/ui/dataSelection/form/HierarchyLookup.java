@@ -72,7 +72,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
     /**
      * Container for results table.
      */
-    private final BeanItemContainer<HierarchyLookupDTO> resultBean = new BeanItemContainer<HierarchyLookupDTO>(HierarchyLookupDTO.class);
+    private final BeanItemContainer<HierarchyLookupDTO> resultBean = new BeanItemContainer<>(HierarchyLookupDTO.class);
 
     /**
      * Hierarchy DTO.
@@ -88,7 +88,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
      * @param hierarchyDto to return the selected hierarchy information
      */
     public HierarchyLookup(final String indicator, final String windowName, final TextField hierarchyLookup, HierarchyLookupDTO hierarchyDto) {
-        super(indicator, windowName, INDICATOR_MODULE_NON_MANDATED.getConstant());
+        super(windowName, INDICATOR_MODULE_NON_MANDATED.getConstant());
         this.indicator = indicator;
         this.hierarchyLookup = hierarchyLookup;
         this.hierarchyDto = hierarchyDto;
@@ -170,7 +170,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
 
             @Override
             public void noMethod() {
-
+                return;
             }
         };
         notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");
@@ -263,6 +263,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
+        return;
     }
 
     @Override

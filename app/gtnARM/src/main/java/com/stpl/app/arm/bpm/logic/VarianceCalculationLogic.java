@@ -11,6 +11,12 @@ import org.kie.api.task.model.Status;
 
 public class VarianceCalculationLogic {
 
+    private VarianceCalculationLogic() {
+        /*
+        Empty Constructor
+         */
+    }
+
     static String notiMsg = "";
     /**
      * The Constant LOGGER.
@@ -26,8 +32,8 @@ public class VarianceCalculationLogic {
                 TaskSummary task = BPMProcessBean.getAvailableTask(processInstanceId);
                 LOGGER.debug("task.getName() :" + task.getName());
                 LOGGER.debug("task.getId() :" + task.getId());
-                LOGGER.debug("task.getActualOwnerId() :"+task.getActualOwnerId());
-                LOGGER.debug("user.getScreenName() : "+user.getScreenName());
+                LOGGER.debug("task.getActualOwnerId() :" + task.getActualOwnerId());
+                LOGGER.debug("user.getScreenName() : " + user.getScreenName());
                 if (task.getActualOwnerId() != null && !task.getActualOwnerId().equals(user.getScreenName())) {
                     BPMProcessBean.claimTask(task.getId(), task.getActualOwnerId(), user.getScreenName());
                     LOGGER.debug("Claiming the " + task.getActualOwnerId() + " to :" + user.getScreenName());
@@ -41,7 +47,7 @@ public class VarianceCalculationLogic {
                 count = 0;
             } catch (Exception e) {
                 count++;
-                LOGGER.error(e);
+                LOGGER.error("Error in submitWorkflow :"+e);
             }
         }
     }

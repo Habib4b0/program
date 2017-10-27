@@ -18,7 +18,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author 
  */
 public class FinancialCloseDTO implements Comparator<FinancialCloseDTO> {
 

@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.discountProjection.logic;
 
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.tree.node.TreeNode;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
@@ -37,7 +35,7 @@ public class DiscountQueryBuilder {
     public static final String PROGRAM_CATEGORY = "Program Category";
     CommonLogic commonLogic = new CommonLogic();
 
-    public boolean updateInputsForAdjustment(SessionDTO session, String frequency, String levelType, String adjustmentType, String adjustmentBasis,
+    public boolean updateInputsForAdjustment(String frequency, String levelType, String adjustmentType, String adjustmentBasis,
             String adjustmentValue, String allocationMethodology, Map<String, Map<String, List<String>>> periodsMap) {
 
         String masterTableUpdateQuery = "";
@@ -72,11 +70,10 @@ public class DiscountQueryBuilder {
                     baselinePeriods = CommonUtils.replaceShortMonthForMonth(baselinePeriods);
                     selectedPeriods = CommonUtils.replaceShortMonthForMonth(selectedPeriods);
                 }
-                
+
                 LOGGER.debug(" Baseline Periods " + baselinePeriods);
                 LOGGER.debug(" Selected Periods " + selectedPeriods);
                 masterTableUpdateQuery = "UPDATE DM SET DM.BASELINE_PERIODS = '" + baselinePeriods + "', DM.SELECTED_PERIODS = '" + selectedPeriods + "' FROM ST_NM_DISCOUNT_PROJ_MASTER DM ";
-                discountName = discountName.contains("~") ? discountName.split("~")[0] : discountName ;
                 if (levelType.equals(Constants.PROGRAM)) {
                     masterTableUpdateQuery += " JOIN  RS_CONTRACT RS ON RS.RS_CONTRACT_SID = DM.RS_CONTRACT_SID \n"
                             + "WHERE RS.RS_NAME = '" + discountName + "' AND DM.CHECK_RECORD = 1";
@@ -84,7 +81,6 @@ public class DiscountQueryBuilder {
                     masterTableUpdateQuery += " WHERE  DM.PRICE_GROUP_TYPE = '" + discountName + "' AND DM.CHECK_RECORD = 1";
                 }
 
-                HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, session.getCurrentTableNames()));
             }
 
             // For updating DISCOUNT_PROJECTION Table 
@@ -102,7 +98,7 @@ public class DiscountQueryBuilder {
                 period = "CAST(PR.\"YEAR\" AS char(4))";
             }
 
-            String rsQuery = levelType.equals(Constants.PROGRAM) ? " RS.RS_NAME " : " DPM.PRICE_GROUP_TYPE ";
+            String rsQuery = levelType.equals(Constants.PROGRAM)?" RS.RS_NAME " :" DPM.PRICE_GROUP_TYPE "; 
             for (String discountName : periodsMap.keySet()) {
                 String selectedPeriodsToUpdate = CommonUtils.CollectionToString(periodsMap.get(discountName).get("P"), false);
                 selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
@@ -116,13 +112,13 @@ public class DiscountQueryBuilder {
                 if (levelType.equals(Constants.PROGRAM)) {
                     discountProjectionTableUpdateQuery += " AND DP.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ";
                 }
-                discountName = discountName.contains("~") ? discountName.split("~")[0] : discountName ;
-                
+
+
                 discountProjectionTableUpdateQuery += "WHERE  DPM.CHECK_RECORD = 1\n"
-                        + "       AND " + rsQuery + " = '" + discountName + "'\n"
+                        + "       AND "+rsQuery+" = '" + discountName + "'\n"
                         + "       AND DP.PERIOD_SID IN(SELECT PERIOD_SID from \"PERIOD\" PR WHERE " + period + " IN (" + selectedPeriodsToUpdate + ")) ";
 
-                HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(discountProjectionTableUpdateQuery, session.getCurrentTableNames()));
+
 
             }
         } catch (Exception e) {
@@ -130,11 +126,12 @@ public class DiscountQueryBuilder {
             LOGGER.error(masterTableUpdateQuery);
             LOGGER.error(discountProjectionTableUpdateQuery);
             return false;
-        }
+        } 
         return true;
     }
-
-    public void checkClearAll(SessionDTO session, String userGroup, boolean checkValue, boolean isProgram, List<String> discountList) {
+    
+    
+    public void checkClearAll(SessionDTO session, String userGroup, boolean checkValue) {
         String query = StringUtils.EMPTY;
         LOGGER.debug(" inside checkClearAll");
         try {
@@ -142,18 +139,18 @@ public class DiscountQueryBuilder {
 
             query = "UPDATE M SET CHECK_RECORD = " + check
                     + " From ST_NM_DISCOUNT_PROJ_MASTER M";
-            if (!userGroup.isEmpty()) {
+            if(!userGroup.isEmpty()){
                 query += " and M.USER_GROUP = '" + userGroup + "'\n";
             }
-            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,session.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error(e);
             LOGGER.error(query);
-        }
+        } 
     }
 
-    public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo, String userGroup,
-            String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, String relationshipBuilderSid, boolean isProgram, List<String> discountList) {
+    public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo,
+            String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountList) {
         String customSql = "";
         LOGGER.debug(" inside updateCheckRecord");
         try {
@@ -171,32 +168,34 @@ public class DiscountQueryBuilder {
 
                     customSql = SQlUtil.getQuery("UPDATE_PROGRAM_CHECKRECORD").replace("@CHECK_RECORD", String.valueOf(checkValue ? 1 : 0))
                             .replace("@HIERARCHY_COLUMN", hierarchy)
-                            .replace("@HIERARCHY_NO", hierarchyNo)
+                            .replace(Constant.HIERARCHY_NO, hierarchyNo)
                             .replace("@PROGRAMS", selectedDiscounts);
 
                 } else {
                     customSql = SQlUtil.getQuery("UPDATE_PROGRAM_CATEGORY_CHECKRECORD").replace("@CHECK_RECORD", String.valueOf(checkValue ? 1 : 0))
                             .replace("@HIERARCHY_COLUMN", hierarchy)
-                            .replace("@HIERARCHY_NO", hierarchyNo)
+                            .replace(Constant.HIERARCHY_NO, hierarchyNo)
                             .replace("@PROGRAM_CATEGORY", selectedDiscounts);
                 }
             }
             if (isCustomView) {
                 customSql = checkIsCustom(isCustomView, hierarchyIndicator, customViewDetails.get(NumericConstants.TWO), customViewDetails.get(NumericConstants.FOUR), hierarchyNo, customSql);
             } else {
-                customSql = checkIsCustom(isCustomView, hierarchyIndicator, StringUtils.EMPTY, StringUtils.EMPTY, hierarchyNo, customSql);
-            }
-            return HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+                 customSql = checkIsCustom(isCustomView,hierarchyIndicator,StringUtils.EMPTY,StringUtils.EMPTY,hierarchyNo,customSql);
+                }
+                return HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
 
         } catch (Exception e) {
             LOGGER.error(e);
             LOGGER.error(customSql);
             return 0;
-        }
+        } 
     }
-
+    
+    
+     
     public void massUpdate(SessionDTO session, String frequency, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
-            List<String> checkedDiscounts, boolean isProgram, List<String[]> massUpdateData, List<String> selectedPeriods) {
+           List<String> checkedDiscounts, boolean isProgram, List<String[]> massUpdateData, List<String> selectedPeriods) {
 
         String customSql = "";
         LOGGER.debug(" entering massUpdate");
@@ -299,7 +298,7 @@ public class DiscountQueryBuilder {
                     startMonth = startFreq;
                     endMonth = endFreq;
                 }
-                String selectedDiscounts = getRSDiscountSids(checkedDiscounts);
+                String selectedDiscounts =  getRSDiscountSids(checkedDiscounts);
                 String discountType = "M.PRICE_GROUP_TYPE";
                 String level = isProgram ? "Program" : "Program Category";
                 if (isProgram) {
@@ -321,41 +320,26 @@ public class DiscountQueryBuilder {
                     customSql = customSql.replace("@COLUMN1", column);
                     customSql = customSql.replace("@COL2", column2);
                     customSql = customSql.replace("@DISCTYPE ", discountType + " IN ");
-                } else if ("Discount Amount".equals(selectedField) ){
-                    String csustomSql = isProgram ? SQlUtil.getQuery("GET_COUNT_PROGRAM") : SQlUtil.getQuery("GET_COUNT_PROGRAM_CATEGORY");
+                } else {
+                   String csustomSql = isProgram ? SQlUtil.getQuery("GET_COUNT_PROGRAM") : SQlUtil.getQuery("GET_COUNT_PROGRAM_CATEGORY");
                 if (isProgram) {
                         csustomSql = csustomSql.replace("@DISCOUNT", getRebate(selectedPeriods));
                     } else {
                         csustomSql = csustomSql.replace("@DISCOUNT", getRebate(checkedDiscounts));
                     }
-                
                     csustomSql += SQlUtil.getQuery("MASSUPDATE-DISCOUNT-AMOUNT");
                     csustomSql = csustomSql.replace("[?Hierarchy-Combination]", getCustomHierarchies(massUpdateData));
                     customSql = declareStatement + csustomSql;
-                }else {
-                    customSql = declareStatement + " \n UPDATE DPT SET " + column + " = " + fieldValue + " FROM ST_NM_DISCOUNT_PROJECTION DPT, \n"
-                            + "(SELECT M.CCP_DETAILS_SID, DP.PERIOD_SID, RS.RS_CONTRACT_SID FROM ST_NM_DISCOUNT_PROJ_MASTER M, \n"
-                            + " ST_NM_DISCOUNT_PROJECTION DP, RS_CONTRACT RS, \"PERIOD\" P \n"
-                            + " WHERE  \n"
-                            + "  M.CHECK_RECORD = 1 \n"
-                            + " AND DP.CCP_DETAILS_SID = M.CCP_DETAILS_SID \n"
-                            + " AND M.RS_CONTRACT_SID = RS.RS_CONTRACT_SID \n"
-                            + " AND " + discountType + " in (" + selectedDiscounts + ") \n"
-                            + " AND DP.PERIOD_SID = P.PERIOD_SID AND P.PERIOD_DATE BETWEEN Datefromparts(@START_YEAR, @START_MONTH, 1) AND Datefromparts (@END_YEAR, @END_MONTH, 1) \n "
-                            + " ) A \n"
-                            + " WHERE DPT.CCP_DETAILS_SID = A.CCP_DETAILS_SID \n"
-                            + " AND DPT.PERIOD_SID = A.PERIOD_SID \n"
-                            + " AND DPT.RS_CONTRACT_SID = A.RS_CONTRACT_SID \n";
                 }
             }
-            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error(e);
             LOGGER.error(customSql);
         }
     }
-
-    private String getCustomHierarchies(List<String[]> massUpdateData) {
+    
+      private String getCustomHierarchies(List<String[]> massUpdateData) {
         StringBuilder stringBuilder = new StringBuilder();
         boolean isNotFirstElement = false;
         int i = 1;
@@ -379,23 +363,23 @@ public class DiscountQueryBuilder {
         }
         return stringBuilder.toString();
     }
-
+    
     public boolean saveGroupValues(SessionDTO session, String hierarchyNo, String groupValue, boolean isProgram,
-            boolean isCustom, List<String> customViewDetails, List<String> discountList, String relationshipBuilderSid) {
+              List<String> discountList) {
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" entering saveGroupValues");
         try {
 
-            String rebateQuery = isProgram ? SQlUtil.getQuery("GET_COUNT_PROGRAM") : SQlUtil.getQuery("GET_COUNT_PROGRAM_CATEGORY");
-            rebateQuery = rebateQuery.replace("@DISCOUNT", getRebate(discountList));
+            String rebateQuery = isProgram ? SQlUtil.getQuery(Constant.GET_COUNT_PROGRAM) : SQlUtil.getQuery(Constant.COUNT_PROGRAM_CATEGORY);
+            rebateQuery = rebateQuery.replace(Constant.AT_DISCOUNT, getRebate(discountList));
 
             customSql = SQlUtil.getQuery("MANUAL_USER_GROUP_SAVE")
                     .replace("@REBATE_QUERY", rebateQuery)
-                    .replace("@USER_GROUP", groupValue)
+                    .replace(Constant.AT_USER_GROUP, groupValue)
                     .replace("@HIERARCHYNO", hierarchyNo)
-                    .replace("@REBATE_NAME", isProgram ? "RS_CONTRACT_SID" : "PRICE_GROUP_TYPE");
+                    .replace("@REBATE_NAME", isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE);
 
-            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
             return true;
         } catch (Exception e) {
             LOGGER.error(e);
@@ -403,9 +387,11 @@ public class DiscountQueryBuilder {
             return false;
         }
     }
-
-    public boolean saveDiscountProjectionListView(SessionDTO session, String frequency, int period, int year, String hierarchyIndicator,
-            int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
+    
+    
+    
+      public boolean saveDiscountProjectionListView(SessionDTO session, String frequency, int period, int year, String hierarchyIndicator,
+            String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails) {
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" entering saveDiscountProjectionListView");
         try {
@@ -413,34 +399,34 @@ public class DiscountQueryBuilder {
 
             String queryPeriod = SQlUtil.getQuery("PERIOD_TABLE")
                     .replace("?F", String.valueOf(frequency.charAt(0)));
-            String rebateTempQuery = SQlUtil.getQuery(isProgram ? "GET_COUNT_PROGRAM" : "GET_COUNT_PROGRAM_CATEGORY")
-                    .replace("@DISCOUNT", "('" + discountName + "')");
+            String rebateTempQuery = SQlUtil.getQuery(isProgram ? Constant.GET_COUNT_PROGRAM : Constant.COUNT_PROGRAM_CATEGORY)
+                    .replace(Constant.AT_DISCOUNT, "('" + discountName + "')");
             customSql = SQlUtil.getQuery("MANUAL_ENTRY_DISCOUNT").replace("@PERIOD_TABLE", queryPeriod)
                     .replace("@TEMP_TABLE_DISCOUNT", rebateTempQuery)
-                    .replace("@COLUMN_NAME", commonLogic.getColumnName(hierarchyIndicator))
-                    .replace("?Y", String.valueOf(year)).replace("@RS_COLUMN", isProgram ? "RS_CONTRACT_SID" : "PRICE_GROUP_TYPE");
+                    .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnName(hierarchyIndicator))
+                    .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, isProgram?Constant.RS_CONTRACT_SID:Constant.PRICE_GROUP_TYPE);
 
             if ("GROWTH".equals(refreshName)) {
-                customSql = customSql.replace("@SETTER", "DPT.GROWTH = " + fieldValue);
+                customSql = customSql.replace("@SETTER", "DPT.GROWTH = " + fieldValue );
             } else {
                 customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue + " ,DPT.refreshed_name = '" + refreshName + "' ");
             }
 
             if (!frequency.equals(ANNUALLY.getConstant())) {
                 customSql += "and I.period = " + period;
-            }
+                    }
 
-            customSql = checkIsCustom(isCustomHierarchy, hierarchyIndicator, customViewDetails.get(NumericConstants.TWO), customViewDetails.get(NumericConstants.FOUR), hierarchyNo, customSql);
-            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+        customSql = checkIsCustom(isCustomHierarchy,hierarchyIndicator,customViewDetails.get(NumericConstants.TWO),customViewDetails.get(NumericConstants.FOUR),hierarchyNo,customSql);
+      HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
             return Boolean.TRUE;
         } catch (Exception e) {
             LOGGER.error(e);
             LOGGER.error(customSql);
             return Boolean.FALSE;
-        }
+        } 
     }
-
-    public List<String> getGroupValues(SessionDTO session, String masterTable, List<String> discountList, String relationshipBuilderSid) {
+      
+     public List<String> getGroupValues(SessionDTO session, List<String> discountList) {
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" entering getGroupValues");
         try {
@@ -454,15 +440,15 @@ public class DiscountQueryBuilder {
                     customSql = SQlUtil.getQuery("Program_Category").replace("@PROGRAM_CATEGORY", selectedDiscounts);
                 }
             }
-            return (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+            return (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error(e);
             LOGGER.error(customSql);
-            return null;
-        }
+            return Collections.emptyList();
+        } 
     }
-
-    public int getCheckedRecordCount(SessionDTO session, boolean isProgram, List<String> discountList) {
+     
+     public int getCheckedRecordCount(SessionDTO session, boolean isProgram, List<String> discountList) {
         List list = new ArrayList();
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" inside getCheckedRecordCount");
@@ -477,15 +463,16 @@ public class DiscountQueryBuilder {
                 }
             }
 
+
             customSql = "SELECT count(*) AS CHECK_COUNT FROM ST_NM_DISCOUNT_PROJ_MASTER DP JOIN ST_CCP_HIERARCHY CCPH ON CCPH.CCP_DETAILS_SID = DP.CCP_DETAILS_SID \n"
                     + discountTypeQuery + " AND DP.CHECK_RECORD=1";
 
-            list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+            list =  HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error(e);
             LOGGER.error(customSql);
             return -1;
-        }
+        } 
 
         if (list != null && !list.isEmpty()) {
             return Integer.valueOf(String.valueOf(list.get(0)));
@@ -493,8 +480,8 @@ public class DiscountQueryBuilder {
             return -1;
         }
     }
-
-    public List getDiscountPrograms(SessionDTO session, String programType) {
+     
+     public List getDiscountPrograms(SessionDTO session, String programType) {
         StringBuilder sb = new StringBuilder();
         LOGGER.debug(" inside getDiscountPrograms");
         try {
@@ -512,10 +499,12 @@ public class DiscountQueryBuilder {
         } catch (Exception e) {
             LOGGER.error(e);
             LOGGER.error(sb.toString());
-            return null;
-        }
+            return Collections.emptyList();
+        } 
     }
-
+    
+    
+    
     public List getDiscountProjection(final boolean isProgram, final String frequency, final List<String> discountList,
             final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final boolean isCustom, final List<String> customViewDetails, final int treeLevelNo,
             final int start, final int end, final String userGroup) {
@@ -524,40 +513,40 @@ public class DiscountQueryBuilder {
         queryBuilder = queryBuilder.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
                 .replace("?F", String.valueOf(frequency.charAt(0))) //Selected Frequency initial char
                 .replaceAll("@SELECTED_REBATE", getRSDiscountSids(discountList)) // Selected RS
-                .replace("@REBATE_QUERY", isProgram ? SQlUtil.getQuery("GET_COUNT_PROGRAM") : SQlUtil.getQuery("GET_COUNT_PROGRAM_CATEGORY"))
-                .replace("@DISCOUNT", getRebate(discountList))
+                .replace("@REBATE_QUERY", isProgram ? SQlUtil.getQuery(Constant.GET_COUNT_PROGRAM) : SQlUtil.getQuery(Constant.COUNT_PROGRAM_CATEGORY))
+                .replace(Constant.AT_DISCOUNT, getRebate(discountList))
                 .replace("@HIERARCHY_QUERY", insertAvailableHierarchyNo(session, hierarchyNo, hierarchyIndicator, isCustom ? treeLevelNo : levelNo, isCustom, isCustom ? Integer.valueOf(customViewDetails.get(0)) : 0, isCustom ? customViewDetails.get(NumericConstants.TWO) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.FOUR) : StringUtils.EMPTY, start, end, userGroup)) // Selected RS
-                .replace("@REBATE_COLUMN", isProgram ? "RS_CONTRACT_SID" : "PRICE_GROUP_TYPE")
-                .replace("@COLUMN_NAME", commonLogic.getColumnName(hierarchyIndicator))
+                .replace("@REBATE_COLUMN", isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE)
+                .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnName(hierarchyIndicator))
                 .replace("@RS_CONTRACT_SID", isProgram ? " DM.RS_CONTRACT_SID, " : StringUtils.EMPTY)
                 .replace("@DPM_RS_CONTRACT_SID", isProgram ? " ,DPM.RS_CONTRACT_SID AS RS_CONTRACT_SID " : StringUtils.EMPTY)
                 .replace("@ORDER_RS_CONTRACT_SID", isProgram ? " DPM.RS_CONTRACT_SID, " : StringUtils.EMPTY)
                 .replace("@RS_CONTRACT_ID", isProgram ? " RS_CONTRACT_SID, " : StringUtils.EMPTY)
                 .replace("@SELECTED_HIERARCHY_NO", isProgram ? " #SELECTED_HIERARCHY_NO " : " (select distinct HIERARCHY_NO,DISCOUNT,ccp_details_sid from #SELECTED_HIERARCHY_NO) ")
-                .replace("@RS_ID", isProgram ? "  ,s.rs_contract_sid " : StringUtils.EMPTY)
-                .replace("@TABLENAME", " #ST_NM_DISCOUNT_PROJ_MASTER ")
+                .replace("@RS_ID", isProgram ? "  ,s.rs_contract_sid " : StringUtils.EMPTY )
+                .replace("@TABLENAME", " #ST_NM_DISCOUNT_PROJ_MASTER " )
                 .replace("@PROGCATPROG", isProgram ? " RS_CONTRACT_SID " : "  PRICE_GROUP_TYPE ")
-                .replace("@RS_NO", isProgram ? "  ,C.RS_CONTRACT_SID " : StringUtils.EMPTY)
-                .replace("@CONDITION1", isProgram ? "   AND DPM.RS_CONTRACT_SID = AD.RS_CONTRACT_SID " : StringUtils.EMPTY)
-                .replace("@CONDITION2", isProgram ? "  AND SA.RS_CONTRACT_SID = AD.RS_CONTRACT_SID " : StringUtils.EMPTY)
-                .replace("@CONDITION3", isProgram ? "  HIERARCHY_NO " : " DPM.HIERARCHY_NO ");
+                .replace("@RS_NO", isProgram ? "  ,C.RS_CONTRACT_SID " : StringUtils.EMPTY )
+                .replace("@CONDITION1", isProgram ? "   AND DPM.RS_CONTRACT_SID = AD.RS_CONTRACT_SID " : StringUtils.EMPTY )
+                .replace("@CONDITION2", isProgram ? "  AND SA.RS_CONTRACT_SID = AD.RS_CONTRACT_SID " : StringUtils.EMPTY )
+                .replace("@CONDITION3", isProgram ? "  HIERARCHY_NO " : " DPM.HIERARCHY_NO " );
 
         if (StringUtils.isNotBlank(userGroup)) {
-            queryBuilder = queryBuilder.replace("@USER_GROUP", " AND USER_GROUP = '" + userGroup + "'");
+            queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, " AND USER_GROUP = '" + userGroup + "'");
         }
         queryBuilder = isProgram ? queryBuilder.replace("@PROGJOIN", " JOIN #SELECTED_REBATE SR ON SR.PRICE_GROUP_TYPE = SPM.RS_CONTRACT_SID ")
                 : queryBuilder.replace("@PROGJOIN", " JOIN #SELECTED_REBATE SR ON SR.PRICE_GROUP_TYPE = SPM.PRICE_GROUP_TYPE ");
-        queryBuilder = queryBuilder.replace("@USER_GROUP", StringUtils.EMPTY);
+        queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, StringUtils.EMPTY);
         queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
-        if (queryBuilder.contains("('')")) {
-            return Collections.EMPTY_LIST;
-        } else {
-            return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
+        if(queryBuilder.contains("('')")){
+        return Collections.EMPTY_LIST;
+        }else{
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
         }
     }
-
+    
     private String getUPPSJoin(boolean isProgram) {
-        String query = StringUtils.EMPTY;
+        String query;
         if (isProgram) {
             query = " INNER JOIN #ST_NM_DISCOUNT_PROJ_MASTER IU\n"
                     + "  ON IU.CCP_DETAILS_SID = S.CCP_DETAILS_SID\n"
@@ -597,20 +586,19 @@ public class DiscountQueryBuilder {
             int actualLevelNo = commonLogic.getActualLevelNoFromCustomView(sessionDTO, customId, levelNo);
             switch (String.valueOf(currentHierarchyIndicator)) {
                 case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
-                    sql = sql.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(sessionDTO, customerHierarchyNo, currentHierarchyIndicator, actualLevelNo));
+                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(sessionDTO, customerHierarchyNo, currentHierarchyIndicator, actualLevelNo));
                     break;
                 case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
-                    sql = sql.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(sessionDTO, productHierarchyNo, currentHierarchyIndicator, actualLevelNo));
+                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(sessionDTO, productHierarchyNo, currentHierarchyIndicator, actualLevelNo));
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
             }
         } else {
-            sql = sql.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo));
+            sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo));
         }
         sql = sql.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(sessionDTO, customId, levelNo, isCustomHierarchy, hierarchyIndicator, customerHierarchyNo, productHierarchyNo));
-//        sql += commonLogic.getJoinBasedOnTab("discount", userGroup, sessionDTO.getScreenName());
-        sql += getJoinForDP("All Discount Groups", userGroup);
+        sql += getJoinForDP(Constant.ALL_DISCOUNT_GROUP, userGroup);
         sql = sql.replace("@START", String.valueOf(startIndex));
         sql = sql.replace("@OFFSET", String.valueOf(endIndex));
         return sql;
@@ -625,11 +613,11 @@ public class DiscountQueryBuilder {
             sql = sql.replace("[?USER_GROUP]", groupFilterValue);
         }
         return sql;
-    }
+    }            
 
     /**
-     * Customer and Product view, discount count query
-     *
+     * Customer and Product view,  discount count query
+     * 
      * @param sessionDTO
      * @param hierarchyNo
      * @param levelNo
@@ -637,17 +625,17 @@ public class DiscountQueryBuilder {
      * @param isProgram
      * @param discountList
      * @param userGroup
-     * @return
+     * @return 
      */
-    public String getDiscountCountQuery(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, boolean isProgram, List<String> discountList, final String userGroup) {
-        String countQuery = SQlUtil.getQuery("GET_COUNT").replace("@HIERARCHY_NO", commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
-                .replace("@REBATE", isProgram ? SQlUtil.getQuery("GET_COUNT_PROGRAM") : SQlUtil.getQuery("GET_COUNT_PROGRAM_CATEGORY"))
-                .replace("@COLUMN_NAME", commonLogic.getColumnName(hierarchyIndicator)).replace("@DISCOUNT", getRebate(discountList))
-                .replace("@FOR_CUSTOM", StringUtils.EMPTY).replace("@RS_COLUMN", isProgram ? "RS_CONTRACT_SID" : "PRICE_GROUP_TYPE");
-        if (StringUtils.isNotBlank(userGroup)) {
-            countQuery = countQuery.concat(" WHERE USER_GROUP = '").concat(userGroup).concat("'");
-        }
-        return countQuery;
+    public String getDiscountCountQuery(SessionDTO sessionDTO, String hierarchyNo, int levelNo, String hierarchyIndicator, boolean isProgram, List<String> discountList,final String userGroup) {
+        String countQuery = SQlUtil.getQuery("GET_COUNT").replace(Constant.HIERARCHY_NO, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
+                .replace("@REBATE", isProgram ? SQlUtil.getQuery(Constant.GET_COUNT_PROGRAM) : SQlUtil.getQuery(Constant.COUNT_PROGRAM_CATEGORY))
+                .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnName(hierarchyIndicator)).replace(Constant.AT_DISCOUNT, getRebate(discountList))
+                .replace("@FOR_CUSTOM", StringUtils.EMPTY).replace(Constant.AT_RS_COLUMN, isProgram?Constant.RS_CONTRACT_SID:Constant.PRICE_GROUP_TYPE);
+           if(StringUtils.isNotBlank(userGroup)){
+               countQuery = countQuery.concat(" WHERE USER_GROUP = '").concat(userGroup).concat("'");
+           }     
+         return countQuery;       
     }
 
     /**
@@ -665,17 +653,17 @@ public class DiscountQueryBuilder {
      * @param userGroup
      * @return
      */
-    public String getDiscountCustomCountQuery(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo, final int customId,
-            final String hierarchyNo, final String parentHierarhcyIndicaotr, final String parentHierarchyNo, final List<String> discountList, boolean isProgram, final String userGroup) {
+    public String getDiscountCustomCountQuery(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo,
+            final String hierarchyNo, final String parentHierarhcyIndicaotr, final String parentHierarchyNo, final List<String> discountList, boolean isProgram,final String userGroup) {
         String parentColumnJoin = StringUtils.EMPTY;
         if (StringUtils.isNotBlank(parentHierarhcyIndicaotr)) {
             parentColumnJoin = SQlUtil.getQuery("CUSTOM_JOIN").replace("@COLUMN", commonLogic.getColumnName(parentHierarhcyIndicaotr))
-                    .replace("@HIERARCHY_NO", parentHierarchyNo);
+                    .replace(Constant.HIERARCHY_NO, parentHierarchyNo);
         }
-        String countQuery = SQlUtil.getQuery("GET_COUNT").replace("@HIERARCHY_NO", commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
-                .replace("@REBATE", isProgram ? SQlUtil.getQuery("GET_COUNT_PROGRAM") : SQlUtil.getQuery("GET_COUNT_PROGRAM_CATEGORY"))
-                .replace("@COLUMN_NAME", commonLogic.getColumnName(hierarchyIndicator)).replace("@DISCOUNT", getRebate(discountList))
-                .replace("@FOR_CUSTOM", parentColumnJoin).replace("@RS_COLUMN", isProgram ? "RS_CONTRACT_SID" : "PRICE_GROUP_TYPE");
+        String countQuery = SQlUtil.getQuery("GET_COUNT").replace(Constant.HIERARCHY_NO, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
+                .replace("@REBATE", isProgram ? SQlUtil.getQuery(Constant.GET_COUNT_PROGRAM) : SQlUtil.getQuery(Constant.COUNT_PROGRAM_CATEGORY))
+                .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnName(hierarchyIndicator)).replace(Constant.AT_DISCOUNT, getRebate(discountList))
+                .replace("@FOR_CUSTOM", parentColumnJoin).replace(Constant.AT_RS_COLUMN, isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE);
 
         if (StringUtils.isNotBlank(userGroup)) {
             countQuery = countQuery.concat(" WHERE USER_GROUP = '").concat(userGroup).concat("'");
@@ -693,15 +681,16 @@ public class DiscountQueryBuilder {
         String format = "('@Rebate')";
         String comma = StringUtils.EMPTY;
         StringBuilder builder = new StringBuilder();
-        String rsValue = StringUtils.EMPTY;
+        String rsValue;
         for (String rs : discountList) {
-            rsValue = rs.contains("~") ? rs.split("~")[1] : rs;
-            builder.append(comma).append(format.replace("@Rebate", rsValue));
+            rsValue=rs.contains("~")?rs.split("~")[1]:rs;
+            builder.append(comma).append(format.replace("@Rebate",rsValue ));
             comma = ",";
         }
         return builder.toString();
     }
-
+    
+    
     private String checkIsCustom(boolean isCustomHierarchy, String hierarchyIndicator, String customerHierarchyNo, String productHierarchyNo, String hierarchyNo, String customSql) {
         String parentHierarchyIndicator = StringUtils.EMPTY;
         String parentHierarchyNo = StringUtils.EMPTY;
@@ -714,12 +703,12 @@ public class DiscountQueryBuilder {
         }
 
         if (isCustomHierarchy) {
-            customSql = customSql.replace("@HIERARCHY_NO", "C".equalsIgnoreCase(hierarchyIndicator) ? customerHierarchyNo : productHierarchyNo);
+            customSql = customSql.replace(Constant.HIERARCHY_NO, "C".equalsIgnoreCase(hierarchyIndicator) ? customerHierarchyNo : productHierarchyNo);
             if (StringUtils.isNotBlank(parentHierarchyNo)) {
                 customSql = customSql.replace("@CUSTOM_VIEW", " AND CCPH." + commonLogic.getColumnName(parentHierarchyIndicator) + " LIKE '" + parentHierarchyNo + "%'");
             }
         } else {
-            customSql = customSql.replace("@HIERARCHY_NO", hierarchyNo);
+            customSql = customSql.replace(Constant.HIERARCHY_NO, hierarchyNo);
         }
         customSql = customSql.replace("@CUSTOM_VIEW", StringUtils.EMPTY);
         return customSql;

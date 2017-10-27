@@ -114,7 +114,7 @@ public class AbstractSearchLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void createWorkSheet(String moduleName, ExtFilterTable resultTable, AbstractSearchForm obj, CustomFieldGroup binder) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet(String moduleName, ExtFilterTable resultTable, AbstractSearchForm obj, CustomFieldGroup binder) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         if (resultTable.size() != 0) {
             recordCount = getCountBasedOnModules(binder, obj, 0, 0, true, null, null, moduleName);
@@ -138,7 +138,7 @@ public class AbstractSearchLogic {
      public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException{
          
          SearchResultsDTO searchItemForm;
-         final List<SortByColumn> columns = new ArrayList<SortByColumn>();
+         final List<SortByColumn> columns = new ArrayList<>();
 
          if (end != 0 && ConstantUtil.CONTRACT_HEADER.equals(moduleName)) {
                  final List<SearchResultsDTO> reultList = (List<SearchResultsDTO>) new ContractHeaderLogic().searchContractResults(binder, start, end, columns, null);

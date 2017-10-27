@@ -72,9 +72,9 @@ public abstract class AbstractLookup extends Window {
         center();
         initializeComponents();
 
-        addStyleName(Constants.bootstrap_ui);
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP_UI);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
     }
 
     /**

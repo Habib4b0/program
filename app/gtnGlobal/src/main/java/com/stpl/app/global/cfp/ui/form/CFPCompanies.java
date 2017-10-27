@@ -157,7 +157,7 @@ public class CFPCompanies extends CustomComponent {
     @UiField("valueforddlb")
     private Label valueforddlb; 
     
-    public BeanItemContainer<CFPCompanyDTO> companyDetailsResultSaveBean = new BeanItemContainer<CFPCompanyDTO>(CFPCompanyDTO.class);
+    public BeanItemContainer<CFPCompanyDTO> companyDetailsResultSaveBean = new BeanItemContainer<>(CFPCompanyDTO.class);
     /**
      * The cfp logic.
      */
@@ -176,7 +176,7 @@ public class CFPCompanies extends CustomComponent {
      * table in companies tab
      */
     private LazyBeanItemContainer companyDetailsResultLazyBean;
-    private final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
     private final IFPLogic ifpLogic = new IFPLogic();
 
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png"); 
@@ -246,9 +246,6 @@ public class CFPCompanies extends CustomComponent {
             massUpdateLayout.setVisible(false);
             massUpdateLayout.removeAllComponents();
         } else {
-            if(mode.equals("Add")){
-                record.setReadOnly(true);
-            }
             configureFields();
             final StplSecurity stplSecurity = new StplSecurity();
             final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.COMPANY_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.COMPANIES);
@@ -415,23 +412,7 @@ public class CFPCompanies extends CustomComponent {
                 }
             });
 
-        } catch (PortalException pe) {
-            LOGGER.error(pe);
-            final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004), new MessageBoxListener() {
-              
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-            	@SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                    // Do Nothing
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
-        } catch (SystemException se) {
+        }catch (SystemException se) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(se);
             LOGGER.error(errorMsg);
             final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
@@ -448,7 +429,15 @@ public class CFPCompanies extends CustomComponent {
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
-        } catch (Exception ex) {
+        }
+        /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */
+        // Do Nothing
+         catch (Exception ex) {
             LOGGER.error(ex);
             final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004), new MessageBoxListener() {
               
@@ -791,7 +780,7 @@ public class CFPCompanies extends CustomComponent {
                 companyDetailsTable.sinkItemPerPageWithPageLength(false);
                 companyDetailsTable.setImmediate(true);
                 companyDetailsTable.setSizeFull();
-                companyDetailsTable.setTableFieldFactory(new CFPTableGenerator(companyDetailsResultSaveBean,sessionDTO));
+                companyDetailsTable.setTableFieldFactory(new CFPTableGenerator(companyDetailsResultSaveBean,sessionDTO,companyDetailsTable));
                 companyDetailsTable.setEditable(true);
                 companyDetailsTable.setFilterBarVisible(true);
                 companyDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -816,7 +805,7 @@ public class CFPCompanies extends CustomComponent {
                  * Invoked when an error occurs.
                  */
                 public void error(final com.vaadin.server.ErrorEvent event) {
-                    LOGGER.error("Error in details Table");
+                    LOGGER.error("Error in details Table"+event.getThrowable());
                 }
             });
             if (!mode.equals(ConstantsUtils.VIEW_BTN)) {
@@ -939,7 +928,7 @@ public class CFPCompanies extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -950,7 +939,7 @@ public class CFPCompanies extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -964,7 +953,7 @@ public class CFPCompanies extends CustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }
@@ -985,7 +974,7 @@ public class CFPCompanies extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -1005,7 +994,7 @@ public class CFPCompanies extends CustomComponent {
         table.setColumnCollapsingAllowed(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1157,7 +1146,7 @@ public class CFPCompanies extends CustomComponent {
         if (!mode.equals(ConstantsUtils.VIEW_BTN)) {
             companyDetailsTable.setFilterBarVisible(true);
             companyDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-            companyDetailsTable.setTableFieldFactory(new CFPTableGenerator(companyDetailsResultSaveBean,sessionDTO));
+            companyDetailsTable.setTableFieldFactory(new CFPTableGenerator(companyDetailsResultSaveBean,sessionDTO,companyDetailsTable));
             companyDetailsTable.setFilterGenerator(new CFPTestGenerator());
             companyDetailsTable.setFilterFieldVisible(companyDetailsTable.getVisibleColumns()[0], false);
             companyDetailsTable.addStyleName(ConstantsUtils.FILTER_BAR);
@@ -1182,13 +1171,14 @@ public class CFPCompanies extends CustomComponent {
     }
 
     void resetCompanyDetailsTable() {
-        BeanItemContainer<CFPCompanyDTO> emptyContainer = new BeanItemContainer<CFPCompanyDTO>(CFPCompanyDTO.class);
+        BeanItemContainer<CFPCompanyDTO> emptyContainer = new BeanItemContainer<>(CFPCompanyDTO.class);
         companyDetailsTable.setContainerDataSource(emptyContainer);
         companyDetailsTable.setVisibleColumns(UIUtils.ITEM_DETAILS_COL);
         companyDetailsTable.setColumnHeaders(UIUtils.ITEM_COL_HEADER);
     }
 
     private void configureButtonPermission() {
+        return;
           
     }
     
@@ -1215,7 +1205,7 @@ public class CFPCompanies extends CustomComponent {
         LOGGER.debug("Ending excelExportLogic");
         }
     
-    private void createWorkSheet() throws PortalException, SystemException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void createWorkSheet() throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         int recordCount =0;
         if (mode.equals(ConstantsUtils.VIEW_BTN)) {
@@ -1233,14 +1223,14 @@ public class CFPCompanies extends CustomComponent {
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ExcelExportUtil.DATE_FORMAT, Locale.getDefault());
         if (companyDetailsTable.size() > 0) {
             CFPCompanyDTO resultList;
-            final List<OrderByColumn> columns = new ArrayList<OrderByColumn>();
+            final List<OrderByColumn> columns = new ArrayList<>();
             List<CFPCompanyDTO> companies = null;
             if (mode.equals(ConstantsUtils.VIEW_BTN)) {
                 companies = CFPSearchLogic.getLazyTempCfpDetailsResults(start, end, String.valueOf(cfpMaster.getCompanyFamilyPlanSystemId()), new String[]{cfpMaster.getCompanyFamilyPlanNo(), cfpMaster.getCompanyFamilyPlanName()}, columns, null,String.valueOf(record.getValue()));
             } else {
                 CommonLazyUtilDTO dto = (CommonLazyUtilDTO) companyDetailsTable.getData();
                 List<Object[]> list1 = CFPSearchLogic.searchCompanyHelperTableSort(start, end, dto, columns, null,String.valueOf(record.getValue()),false);
-                List<CFPCompanyDTO> finalList = new ArrayList<CFPCompanyDTO>();
+                List<CFPCompanyDTO> finalList = new ArrayList<>();
 
                 companies = CFPSearchLogic.getCustomizedTempCFPCompanyDTO(list1, finalList, dto);
             }

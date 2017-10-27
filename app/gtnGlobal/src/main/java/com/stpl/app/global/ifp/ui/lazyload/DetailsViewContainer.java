@@ -53,7 +53,7 @@ public class DetailsViewContainer implements BeanDAO<IFPItemDTO> {
     }
     public int count(BeanSearchCriteria sc) {
         try {
-            count = ifpLogic.ifpViewCount(getRecord(),false);
+            count = ifpLogic.ifpViewCount(getRecord(),false,sc);
            
             return count;
         } catch (SystemException ex) {
@@ -76,31 +76,18 @@ public class DetailsViewContainer implements BeanDAO<IFPItemDTO> {
     }
 
     public List<IFPItemDTO> find(BeanSearchCriteria sc, int i, int i1, List<OrderByColumn> list) {
-        try {
-            final int currentPage = table.getCurrentPage() - 1;
-            final int pageLength = table.getPageLength();
-            int offset = i1;
-            if (count < currentPage * pageLength + offset) {
-                offset = (currentPage * pageLength + offset) - count;
-            }
-            return ifpLogic.getViewTableResult(pageLength*currentPage,currentPage*pageLength+offset,binder,list,getRecord());
-        } catch (SystemException ex) {
-            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-                @SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                    // Do Nothing              
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
-        }
-        return new ArrayList<IFPItemDTO>();
+        final int currentPage = table.getCurrentPage() - 1; /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */ // Do Nothing
+         final int pageLength = table.getPageLength();
+         int offset = i1;
+         if (count < currentPage * pageLength + offset) {
+             offset = (currentPage * pageLength + offset) - count;
+         }
+         return ifpLogic.getViewTableResult(pageLength*currentPage,currentPage*pageLength+offset,binder,list,getRecord(), sc);
     }
 
     public String getRecord() {

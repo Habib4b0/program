@@ -50,7 +50,7 @@ public class CFPAddView extends VerticalLayout implements View {
     /**
      * The binder.
      */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CFPCompanyDTO>(cfpMaster));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(cfpMaster));
     CFPAddForm cfpAddForm;
 
     /**
@@ -79,7 +79,7 @@ public class CFPAddView extends VerticalLayout implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public CFPAddView(final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public CFPAddView(final SessionDTO sessionDTO)  {
         super();
         setSpacing(true);
         this.sessionDTO=sessionDTO;
@@ -106,11 +106,11 @@ public class CFPAddView extends VerticalLayout implements View {
             if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
                 final int systemId = sessionDTO.getSystemId();
                 cfpMaster = cfpLogic.getCFPById(Integer.valueOf(systemId));
-                binder = new ErrorfulFieldGroup(new BeanItem<CFPCompanyDTO>(cfpMaster));
+                binder = new ErrorfulFieldGroup(new BeanItem<>(cfpMaster));
                 cfpLogic.addToTempCfpDetailsEdit(cfpMaster.getCompanyFamilyPlanSystemId());
        
                 cfpAddForm = new CFPAddForm(cfpMaster, binder,sessionDTO);
-                 binder.setItemDataSource(new BeanItem<CFPCompanyDTO>(cfpMaster));
+                 binder.setItemDataSource(new BeanItem<>(cfpMaster));
                 
               
                 if (String.valueOf(cfpMaster.getCompanyFamilyPlanDesignation()) != null) {
@@ -133,7 +133,7 @@ public class CFPAddView extends VerticalLayout implements View {
                 binder.getField("createdDate").setReadOnly(true);
 
             } else if (sessionDTO.getMode().equals("View")) {
-                binder = new ErrorfulFieldGroup(new BeanItem<CFPCompanyDTO>(cfpMaster));
+                binder = new ErrorfulFieldGroup(new BeanItem<>(cfpMaster));
                 final int systemId = sessionDTO.getSystemId();
                 // getting cfp master table object
                 cfpMaster = cfpLogic.getCFPById(Integer.valueOf(systemId));
@@ -142,7 +142,7 @@ public class CFPAddView extends VerticalLayout implements View {
                 LOGGER.debug("Ending CFP VIEW FORM");
 
                 cfpAddForm = new CFPAddForm(cfpMaster, binder,sessionDTO);
-                binder.setItemDataSource(new BeanItem<CFPCompanyDTO>(cfpMaster));
+                binder.setItemDataSource(new BeanItem<>(cfpMaster));
                 binder.setReadOnly(true);
 
                 binder.getField(ConstantsUtils.PARENT_CFP_NAME).setEnabled(false);
@@ -152,13 +152,13 @@ public class CFPAddView extends VerticalLayout implements View {
 
             } else {
                 //ADD
-                binder = new ErrorfulFieldGroup(new BeanItem<CFPCompanyDTO>(new CFPCompanyDTO()));
+                binder = new ErrorfulFieldGroup(new BeanItem<>(new CFPCompanyDTO()));
                 dto.setUserId(String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
                 dto.setSessionId(sessionDTO.getUiSessionId());
                 dto.setDate(sessionDTO.getSessionDate());
                 cfpLogic.deleteAllTempCFPDetailsInEdit(dto);
                 cfpMaster = new CFPCompanyDTO();
-                binder.setItemDataSource(new BeanItem<CFPCompanyDTO>(cfpMaster));
+                binder.setItemDataSource(new BeanItem<>(cfpMaster));
                 cfpAddForm = new CFPAddForm(cfpMaster, binder,sessionDTO);
 
             }

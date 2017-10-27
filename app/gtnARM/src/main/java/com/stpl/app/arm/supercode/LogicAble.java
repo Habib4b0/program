@@ -11,6 +11,8 @@ package com.stpl.app.arm.supercode;
  * @param <T>
  */
 public interface LogicAble<T extends InterFaceDTO> {
+
     int getCount(Criteria criteria);
+
     DataResult<T> getData(Criteria criteria);
 }

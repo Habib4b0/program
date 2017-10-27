@@ -39,10 +39,11 @@ public class ItemPricingCacheModel implements CacheModel<ItemPricing>,
     public String inboundStatus;
     public int itemPricingSid;
     public int pricingCodeStatus;
+    public int itemPricePrecision;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(35);
+        StringBundler sb = new StringBundler(37);
 
         sb.append("{itemMasterSid=");
         sb.append(itemMasterSid);
@@ -78,6 +79,8 @@ public class ItemPricingCacheModel implements CacheModel<ItemPricing>,
         sb.append(itemPricingSid);
         sb.append(", pricingCodeStatus=");
         sb.append(pricingCodeStatus);
+        sb.append(", itemPricePrecision=");
+        sb.append(itemPricePrecision);
         sb.append("}");
 
         return sb.toString();
@@ -148,6 +151,7 @@ public class ItemPricingCacheModel implements CacheModel<ItemPricing>,
 
         itemPricingImpl.setItemPricingSid(itemPricingSid);
         itemPricingImpl.setPricingCodeStatus(pricingCodeStatus);
+        itemPricingImpl.setItemPricePrecision(itemPricePrecision);
 
         itemPricingImpl.resetOriginalValues();
 
@@ -173,6 +177,7 @@ public class ItemPricingCacheModel implements CacheModel<ItemPricing>,
         inboundStatus = objectInput.readUTF();
         itemPricingSid = objectInput.readInt();
         pricingCodeStatus = objectInput.readInt();
+        itemPricePrecision = objectInput.readInt();
     }
 
     @Override
@@ -218,5 +223,6 @@ public class ItemPricingCacheModel implements CacheModel<ItemPricing>,
 
         objectOutput.writeInt(itemPricingSid);
         objectOutput.writeInt(pricingCodeStatus);
+        objectOutput.writeInt(itemPricePrecision);
     }
 }

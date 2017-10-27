@@ -65,14 +65,15 @@ public interface ActualsMasterModel extends BaseModel<ActualsMaster> {
      *
      * @return the mandated discount amount of this actuals master
      */
-    public double getMandatedDiscountAmount();
+    @AutoEscape
+    public String getMandatedDiscountAmount();
 
     /**
      * Sets the mandated discount amount of this actuals master.
      *
      * @param mandatedDiscountAmount the mandated discount amount of this actuals master
      */
-    public void setMandatedDiscountAmount(double mandatedDiscountAmount);
+    public void setMandatedDiscountAmount(String mandatedDiscountAmount);
 
     /**
      * Returns the item no of this actuals master.
@@ -478,14 +479,15 @@ public interface ActualsMasterModel extends BaseModel<ActualsMaster> {
      *
      * @return the price of this actuals master
      */
-    public double getPrice();
+    @AutoEscape
+    public String getPrice();
 
     /**
      * Sets the price of this actuals master.
      *
      * @param price the price of this actuals master
      */
-    public void setPrice(double price);
+    public void setPrice(String price);
 
     /**
      * Returns the upload date of this actuals master.

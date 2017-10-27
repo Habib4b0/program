@@ -8,7 +8,6 @@ package com.stpl.app.arm.dataselection.dto;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
 public class ViewDTO {
 
     /**
@@ -66,15 +65,16 @@ public class ViewDTO {
      */
     private String projectionId = StringUtils.EMPTY;
 
-    private String customerHierarchySid;
-    private String productHierarchySid;
+    private String customerHierarchySid = StringUtils.EMPTY;
+    private String productHierarchySid = StringUtils.EMPTY;
 
     private String custRelationshipBuilderSid;
     private String prodRelationshipBuilderSid;
     private String adjustmentType = StringUtils.EMPTY;
 
-    private int gl_companyMasterSid;
-    private int bu_companyMasterSid, deductionLevel;
+    private int glcompanyMasterSid;
+    private int bucompanyMasterSid;
+    private int deductionLevel;
     private int companyMasterSid;
     private int customerHierVerNo = 0;
     private String customerHierHL = StringUtils.EMPTY;
@@ -82,7 +82,7 @@ public class ViewDTO {
     private String productHierHL = StringUtils.EMPTY;
     private int viewCreatedBy = 0;
     private String viewType = StringUtils.EMPTY;
-    private String bu_CompanyName = StringUtils.EMPTY;
+    private String buCompanyName = StringUtils.EMPTY;
 
     private String customerRelationship = StringUtils.EMPTY;
     private String productRelationship = StringUtils.EMPTY;
@@ -90,10 +90,8 @@ public class ViewDTO {
     private Date modifiedDate;
     private String createdByString = StringUtils.EMPTY;
     private String deductionLevels = StringUtils.EMPTY;
-    private int adjustmentId=0;
-    private String calculationProfileMasterSid= StringUtils.EMPTY;
-    private String calculationProfileName;
-    private String calculationProfileDescrition;
+    private int adjustmentId = 0;
+
     public String getViewName() {
         return viewName;
     }
@@ -222,20 +220,20 @@ public class ViewDTO {
         this.adjustmentType = adjustmentType;
     }
 
-    public int getGl_companyMasterSid() {
-        return gl_companyMasterSid;
+    public int getGlcompanyMasterSid() {
+        return glcompanyMasterSid;
     }
 
-    public void setGl_companyMasterSid(int gl_companyMasterSid) {
-        this.gl_companyMasterSid = gl_companyMasterSid;
+    public void setGlcompanyMasterSid(int glcompanyMasterSid) {
+        this.glcompanyMasterSid = glcompanyMasterSid;
     }
 
-    public int getBu_companyMasterSid() {
-        return bu_companyMasterSid;
+    public int getBucompanyMasterSid() {
+        return bucompanyMasterSid;
     }
 
-    public void setBu_companyMasterSid(int bu_companyMasterSid) {
-        this.bu_companyMasterSid = bu_companyMasterSid;
+    public void setBucompanyMasterSid(int bucompanyMasterSid) {
+        this.bucompanyMasterSid = bucompanyMasterSid;
     }
 
     public int getDeductionLevel() {
@@ -310,8 +308,6 @@ public class ViewDTO {
         this.viewCreatedBy = viewCreatedBy;
     }
 
-    
-
     public String getViewType() {
         return viewType;
     }
@@ -320,12 +316,12 @@ public class ViewDTO {
         this.viewType = viewType;
     }
 
-    public String getBu_CompanyName() {
-        return bu_CompanyName;
+    public String getBuCompanyName() {
+        return buCompanyName;
     }
 
-    public void setBu_CompanyName(String bu_CompanyName) {
-        this.bu_CompanyName = bu_CompanyName;
+    public void setBuCompanyName(String buCompanyName) {
+        this.buCompanyName = buCompanyName;
     }
 
     public String getCustomerRelationship() {
@@ -383,31 +379,4 @@ public class ViewDTO {
     public void setAdjustmentId(int adjustmentId) {
         this.adjustmentId = adjustmentId;
     }
-
-    public String getCalculationProfileName() {
-        return calculationProfileName;
-    }
-
-    public void setCalculationProfileName(String calculationProfileName) {
-        this.calculationProfileName = calculationProfileName;
-    }
-
-    public String getCalculationProfileDescrition() {
-        return calculationProfileDescrition;
-    }
-
-    public void setCalculationProfileDescrition(String calculationProfileDescrition) {
-        this.calculationProfileDescrition = calculationProfileDescrition;
-    }
-
-    public String getCalculationProfileMasterSid() {
-        return calculationProfileMasterSid;
-    }
-
-    public void setCalculationProfileMasterSid(String calculationProfileMasterSid) {
-        this.calculationProfileMasterSid = calculationProfileMasterSid;
-    }
-
-    
-    
 }

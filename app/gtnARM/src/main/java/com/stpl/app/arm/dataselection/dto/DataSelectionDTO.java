@@ -17,18 +17,36 @@ import org.asi.ui.container.ExtTreeContainer;
  */
 public class DataSelectionDTO {
 
-    private String projectionName, projectionDescription, forecastingType, customerHierarchyName, productHierarchyName;
-    private boolean brandType, saveFlag;
-    private int customerHierarchySid, productHierarchySid, createdBy, customerHierarchyVersionNo, productHierarchyVersionNo;
-    private String customerHierarchyLevel, productHierarchyLevel;
-    private String companyGroupSid, itemGroupSid;
+    private String projectionName;
+    private String projectionDescription;
+    private String forecastingType;
+    private String customerHierarchyName;
+    private String productHierarchyName;
+    private boolean brandType;
+    private boolean saveFlag;
+    private int customerHierarchySid;
+    private int productHierarchySid;
+    private int createdBy;
+    private int customerHierarchyVersionNo;
+    private int productHierarchyVersionNo;
+    private String customerHierarchyLevel;
+    private String productHierarchyLevel;
+    private String companyGroupSid;
+    private String itemGroupSid;
+
     private int companyMasterSid;
-    private Date fromDate, toDate, createdDate;
-    private int custRelationshipBuilderSid, prodRelationshipBuilderSid;
-    private String discountType,adjustmentType;
+    private Date fromDate;
+    private Date toDate;
+    private Date createdDate;
+    private int custRelationshipBuilderSid;
+    private int prodRelationshipBuilderSid;
+    private String discountType;
+    private String adjustmentType;
     private String viewType;
-    private int projectionId , adjustmentId;
-    private int bu_companyMasterSid;
+    private int projectionId;
+    private int adjustmentId;
+    private int bucompanyMasterSid;
+    private int defaultCompanyMasterSid;
     private int deductionLevel;
     private List<Integer> rsContractSidList = new ArrayList<>();
     private List<LevelDTO> customerList = new ArrayList<>();
@@ -45,25 +63,26 @@ public class DataSelectionDTO {
     private String viewId = StringUtils.EMPTY;
     private String viewName = StringUtils.EMPTY;
     private int viewCreatedBy = 0;
-    private String fromPeriod=StringUtils.EMPTY;
-    private String toPeriod=StringUtils.EMPTY;
-    private String fromPeriodMonth=StringUtils.EMPTY;
-    
-    
+    private String fromPeriod = StringUtils.EMPTY;
+    private String toPeriod = StringUtils.EMPTY;
+    private String fromPeriodMonth = StringUtils.EMPTY;
+
     private String customerRelationship = StringUtils.EMPTY;
     private String productRelationship = StringUtils.EMPTY;
     private String createdDateString = StringUtils.EMPTY;
     private String modifiedDate = StringUtils.EMPTY;
     private String createdByString = StringUtils.EMPTY;
-    private String deductionLevels = StringUtils.EMPTY; 
-    private String selectedAdjType = StringUtils.EMPTY; 
-    private String adjustmentCaption = StringUtils.EMPTY; 
+    private String deductionLevels = StringUtils.EMPTY;
+    private String selectedAdjType = StringUtils.EMPTY;
+    private String adjustmentCaption = StringUtils.EMPTY;
     private boolean viewFlag;
-    private List newClosedSummary_glList= new ArrayList();
+    private List newClosedSummaryglList = new ArrayList();
     private Object summaryType;
-    private String calculationProfileMasterSid;
-    private String calculationProfileName = StringUtils.EMPTY;
     private String screenname = StringUtils.EMPTY;
+    private Date endDate;
+    private Date defaultToDate;
+    private boolean checkFlag;
+    private Date startDate;
 
     public String getProjectionName() {
         return projectionName;
@@ -273,12 +292,12 @@ public class DataSelectionDTO {
         this.projectionId = projectionId;
     }
 
-    public int getBu_companyMasterSid() {
-        return bu_companyMasterSid;
+    public int getBucompanyMasterSid() {
+        return bucompanyMasterSid;
     }
 
-    public void setBu_companyMasterSid(int bu_companyMasterSid) {
-        this.bu_companyMasterSid = bu_companyMasterSid;
+    public void setBucompanyMasterSid(int bucompanyMasterSid) {
+        this.bucompanyMasterSid = bucompanyMasterSid;
     }
 
     public int getDeductionLevel() {
@@ -376,8 +395,6 @@ public class DataSelectionDTO {
     public void setViewCreatedBy(int viewCreatedBy) {
         this.viewCreatedBy = viewCreatedBy;
     }
-
-   
 
     public String getViewName() {
         return viewName;
@@ -490,13 +507,13 @@ public class DataSelectionDTO {
     public void setAdjustmentCaption(String adjustmentCaption) {
         this.adjustmentCaption = adjustmentCaption;
     }
-    
-    public List getNewClosedSummary_glList() {
-        return newClosedSummary_glList;
+
+    public List getNewClosedSummaryglList() {
+        return newClosedSummaryglList;
     }
 
-    public void setNewClosedSummary_glList(List newClosedSummary_glList) {
-        this.newClosedSummary_glList = newClosedSummary_glList;
+    public void setNewClosedSummaryglList(List newClosedSummaryglList) {
+        this.newClosedSummaryglList = newClosedSummaryglList;
     }
 
     public Object getSummaryType() {
@@ -507,22 +524,6 @@ public class DataSelectionDTO {
         this.summaryType = summaryType;
     }
 
-    public String getCalculationProfileMasterSid() {
-        return calculationProfileMasterSid;
-    }
-
-    public void setCalculationProfileMasterSid(String calculationProfileMasterSid) {
-        this.calculationProfileMasterSid = calculationProfileMasterSid;
-    }
-
-    public String getCalculationProfileName() {
-        return calculationProfileName;
-    }
-
-    public void setCalculationProfileName(String calculationProfileName) {
-        this.calculationProfileName = calculationProfileName;
-    }
-
     public String getScreenname() {
         return screenname;
     }
@@ -530,5 +531,44 @@ public class DataSelectionDTO {
     public void setScreenname(String screenname) {
         this.screenname = screenname;
     }
-    
+
+    public int getDefaultCompanyMasterSid() {
+        return defaultCompanyMasterSid;
+    }
+
+    public void setDefaultCompanyMasterSid(int defaultCompanyMasterSid) {
+        this.defaultCompanyMasterSid = defaultCompanyMasterSid;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getDefaultToDate() {
+        return defaultToDate;
+    }
+
+    public void setDefaultToDate(Date defaultToDate) {
+        this.defaultToDate = defaultToDate;
+    }
+
+    public boolean isCheckFlag() {
+        return checkFlag;
+    }
+
+    public void setCheckFlag(boolean checkFlag) {
+        this.checkFlag = checkFlag;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 }

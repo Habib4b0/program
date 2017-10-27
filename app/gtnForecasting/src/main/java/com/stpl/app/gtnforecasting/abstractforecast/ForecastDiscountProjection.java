@@ -281,7 +281,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     /**
      * The massCheck OptionGroup.
      */
-    @UiField("massCheck")
+    @UiField(MASS_CHECK)
     protected OptionGroup massCheck;
     /**
      * The programSelectionlookup Button.
@@ -372,19 +372,19 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     /**
      * The bean for loading Start Period drop down.
      */
-    final protected BeanItemContainer<String> startPeriodBean = new BeanItemContainer<String>(String.class);
+    final protected BeanItemContainer<String> startPeriodBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading End Period drop down.
      */
-    final protected BeanItemContainer<String> endPeriodBean = new BeanItemContainer<String>(String.class);
+    final protected BeanItemContainer<String> endPeriodBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading Start Period drop down.
      */
-    final protected BeanItemContainer<String> forecaststartBean = new BeanItemContainer<String>(String.class);
+    final protected BeanItemContainer<String> forecaststartBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading End Period drop down.
      */
-    final protected BeanItemContainer<String> forecastendBean = new BeanItemContainer<String>(String.class);
+    final protected BeanItemContainer<String> forecastendBean = new BeanItemContainer<>(String.class);
     final protected Property.ValueChangeListener propertyVlaueChangeListener = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
@@ -504,7 +504,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
 
         adjperiods.setData("adjperiods");
 
-        massCheck.setData("massCheck");
+        massCheck.setData(MASS_CHECK);
 
         startPeriod.setData("startPeriod");
 
@@ -536,6 +536,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         screenLoad();
 
             }
+    public static final String MASS_CHECK = "massCheck";
 
     private void screenLoad() {
         switch (screenName) {
@@ -589,7 +590,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
             variablesForMandated.addItem(ACCESS.getConstant());
             variablesForMandated.addItem(PARITY_SETTINGS.getConstant());
             variablesForMandated.setImmediate(true);
-            massCheck.setData("massCheck");
+            massCheck.setData(MASS_CHECK);
             massCheck.addValueChangeListener(propertyVlaueChangeListener);
         }
 
@@ -712,7 +713,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 case "levelFilterDdlb":
                     levelFilterValueChangeLogic(event);
                     break;
-                case "massCheck":
+                case MASS_CHECK:
                     massCheckValueChangeLogic(event);
                     break;
                 case "startPeriod":

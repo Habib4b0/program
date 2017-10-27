@@ -151,7 +151,7 @@ public class FinancialCloseLogic {
             FilterLogic.getInstance().filterQueryForContainer(binderDto.getFilters(), resultsContainer);
             count += resultsContainer.size();
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error(ex);
         }
         return count;
     }
@@ -161,7 +161,7 @@ public class FinancialCloseLogic {
      *
      * Return no of count available in the table
      */
-    public List getFinancialCloseData(final FinancialCloseDTO binderDto, final BeanItemContainer<FinancialCloseDTO> resultsContainer) throws SystemException, SQLException {
+    public List getFinancialCloseData(final FinancialCloseDTO binderDto, final BeanItemContainer<FinancialCloseDTO> resultsContainer) {
         List<FinancialCloseDTO> list = new ArrayList<>();
         FilterLogic.getInstance().orderByQueryForContainer(binderDto.getSortedColumns(), resultsContainer);
         if (binderDto.isGenerate()) {
@@ -490,7 +490,7 @@ public class FinancialCloseLogic {
             list.add(companyMasterSid);
             resultList = getCustomizedFinancialClose(QueryUtils.getAppData(list, "getDdlbOnEdit", null));
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error(ex);
         }
         return resultList;
     }

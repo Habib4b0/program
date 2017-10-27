@@ -281,7 +281,7 @@ public class Deductions extends CustomComponent {
             getResponsiveFirstTab();
             configureButtonPermission();
         } catch (Exception ex) { 
-            LOGGER.error("Deductions init():Exception occured--->" + ex.getMessage());
+            LOGGER.error("Deductions init():Exception occured--->" + ex);
         }
     }
 
@@ -299,14 +299,15 @@ public class Deductions extends CustomComponent {
         massCheck.setStyleName("horizontal");
         massCheck.setDescription((String) massCheck.getValue());
         massField.setImmediate(true);
+        massValue.addStyleName("stpl-margin-bottom-11");
         massField.setEnabled(false);
         massValue.setVisible(false);
         massCombo.setVisible(false);
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         massField.addItem(ConstantsUtils.SELECT_ONE);
-        massField.addItem("+/- Indicator");
-        massField.addItem("Net Sales Rule No");
+        massField.addItem(ConstantsUtils.PLUS_MINUS_INDICATOR);
+        massField.addItem(ConstantsUtils.NET_SALES_RULE_NO);
         massField.select(ConstantsUtils.SELECT_ONE);
 
 
@@ -446,12 +447,12 @@ public class Deductions extends CustomComponent {
         massField.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                if (("+/- Indicator").equals(massField.getValue())) {
+                if ((ConstantsUtils.PLUS_MINUS_INDICATOR).equals(massField.getValue())) {
                     massValue.setVisible(false);
                     massCombo.setVisible(true);
                     UIUtils utils = new UIUtils();
                     massCombo = utils.loadIndicator(massCombo, false);
-                } else if (("Net Sales Rule No").equals(massField.getValue())) {
+                } else if ((ConstantsUtils.NET_SALES_RULE_NO).equals(massField.getValue())) {
                     massValue.setVisible(true);
                     massValue.setValue(StringUtils.EMPTY);
                     massValue.addClickListener(new CustomTextField.ClickListener() {
@@ -469,7 +470,7 @@ public class Deductions extends CustomComponent {
                                             final Map<String, String> map = new HashMap<>();
                                             map.put("ruleNo", ruleDto.getRuleNo());
                                             map.put("ruleName", ruleDto.getRuleName());
-                                            map.put("ruleSystemSID", String.valueOf(ruleDto.getRuleSystemId()));
+                                            map.put(ConstantsUtils.RULE_SYSTEM_ID, String.valueOf(ruleDto.getRuleSystemId()));
                                             massValue.setData(map);
                                         }
                                     }
@@ -529,7 +530,7 @@ public class Deductions extends CustomComponent {
                         MessageBox.showPlain(Icon.ERROR, "No Search Criteria", "No search criteria were found. Please enter search criteria and try again", ButtonId.OK);
 
                     } else {
-                        searchButtonClickLogic(event);
+                        searchButtonClickLogic();
                     }
 
                 } catch (Exception e) { 
@@ -556,8 +557,8 @@ public class Deductions extends CustomComponent {
             @SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
 
-                LOGGER.debug("Entering Reset Logic");
-                MessageBox.showPlain(Icon.QUESTION, "Reset Confirmation", "Are you sure you want to reset the values in the Search Criteria group box?", new MessageBoxListener() {
+                LOGGER.debug("Entering Reset Logic in Click");
+                MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.RESET_CONFIRMATION, "Are you sure you want to reset the values in the Search Criteria group box?", new MessageBoxListener() {
                     /**
                      * Called when a Button has been clicked .
                      *
@@ -604,7 +605,7 @@ public class Deductions extends CustomComponent {
             public void buttonClick(final Button.ClickEvent event) {
 
                 LOGGER.debug("Entering Reset Logic");
-                MessageBox.showPlain(Icon.QUESTION, "Reset Confirmation", "Are you sure you want to reset the values in the Selected Deductions group box?", new MessageBoxListener() {
+                MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.RESET_CONFIRMATION, "Are you sure you want to reset the values in the Selected Deductions group box?", new MessageBoxListener() {
                     /**
                      * Called when a Button has been clicked .
                      *
@@ -623,7 +624,7 @@ public class Deductions extends CustomComponent {
 
                                 } else if (sessiondto.getMode().equalsIgnoreCase("Edit")) {
                                     logic.removeAll(sessiondto);
-                                    if ("Contract".equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) {
+                                    if (ConstantsUtils.CONTRACT.equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) {
                                         nsfLogic.nsfInsert(sessiondto, "tempDeductionInsertContract", false, ConstantsUtils.TEMP_SB_INSERT);
                                     } else {
                                         nsfLogic.nsfInsert(sessiondto, "tempDeductionInsert", false, ConstantsUtils.TEMP_SB_INSERT);
@@ -631,7 +632,7 @@ public class Deductions extends CustomComponent {
                                     
                                 } else if (sessiondto.getMode().equalsIgnoreCase("Copy")) {
                                     logic.removeAll(sessiondto);
-                                    if ("Contract".equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) {
+                                    if (ConstantsUtils.CONTRACT.equalsIgnoreCase(nsfDto.getFormulaType().getDescription())) {
                                         nsfLogic.nsfInsert(sessiondto, "copyTempDeductionContractInsert", false, ConstantsUtils.TEMP_SB_INSERT);
                                     } else {
                                         nsfLogic.nsfInsert(sessiondto, "copyTempDeductionInsert", false, ConstantsUtils.TEMP_SB_INSERT);
@@ -664,8 +665,8 @@ public class Deductions extends CustomComponent {
             @SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
 
-                LOGGER.debug("Entering Reset Logic");
-                MessageBox.showPlain(Icon.QUESTION, "Reset Confirmation", "Are you sure you want to reset the values in the Available Deductions group box?", new MessageBoxListener() {
+                LOGGER.debug("Entering Reset Logic resetAvailBtn");
+                MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.RESET_CONFIRMATION, "Are you sure you want to reset the values in the Available Deductions group box?", new MessageBoxListener() {
                     /**
                      * Called when a Button has been clicked .
                      *
@@ -694,7 +695,7 @@ public class Deductions extends CustomComponent {
 
         LOGGER.debug("getItemBinder method Started ");
         deductionBinder.bindMemberFields(this);
-        deductionBinder.setItemDataSource(new BeanItem<DeductionDto>(deductionDto));
+        deductionBinder.setItemDataSource(new BeanItem<>(deductionDto));
         deductionBinder.setBuffered(true);
         deductionBinder.commit();
         LOGGER.debug("getItemBinder method RETURNS customerBinder ");
@@ -702,7 +703,7 @@ public class Deductions extends CustomComponent {
         return deductionBinder;
     }
 
-    private void searchButtonClickLogic(Button.ClickEvent event) {
+    private void searchButtonClickLogic() {
         try {
             LOGGER.debug("Entering searchButtonClickLogic");
 
@@ -758,7 +759,7 @@ public class Deductions extends CustomComponent {
                         try {
 
                             if (logic.addDuplicateValidation(item, sessiondto)) {
-                             logic.addToTempTable(item, sessiondto, String.valueOf((HelperDTO) deductionBinder.getField("formulaType").getValue()).equals("Contract"),addQuery);
+                             logic.addToTempTable(item, sessiondto, String.valueOf((HelperDTO) deductionBinder.getField(ConstantsUtils.FORMULA_TYPE).getValue()).equals(ConstantsUtils.CONTRACT),addQuery);
                             }
                         } catch (Exception ex) { 
                             LOGGER.error("Exception..In adding" + ex);
@@ -776,9 +777,9 @@ public class Deductions extends CustomComponent {
     public void loadSelectedTable() throws PortalException, SystemException {
         selectedDeductionTable.removeAllItems();
         selectedTableLogic.setSearchData(selectedDeductions, deductionBinder, sessiondto,
-                String.valueOf((HelperDTO) deductionBinder.getField("formulaType").getValue()).equals("Contract"), true);
+                String.valueOf((HelperDTO) deductionBinder.getField(ConstantsUtils.FORMULA_TYPE).getValue()).equals(ConstantsUtils.CONTRACT), true);
         selectedTableLogic.setCurrentPage(selectedTableLogic.getCurrentPage());
-        if (formulaType.getValue()!=null && formulaType.getValue().toString().equals("Contract")) {
+        if (formulaType.getValue()!=null && formulaType.getValue().toString().equals(ConstantsUtils.CONTRACT)) {
             selectedDeductionTable.setConverter(ConstantsUtils.START_DATE, new DateToStringConverter());
             selectedDeductionTable.setConverter(ConstantsUtils.END_DATE, new DateToStringConverter());
             selectedDeductionTable.setVisibleColumns(UIUtils.SELECTED_DED_COL1);
@@ -960,7 +961,7 @@ public class Deductions extends CustomComponent {
         resetAvailBtn.setEnabled(false);
     }
 
-    void populateLogic() throws SystemException, PortalException, ParseException {
+    void populateLogic() {
 
         String fieldMass = "";
         boolean massflag = false;
@@ -971,7 +972,7 @@ public class Deductions extends CustomComponent {
         String tempCreatedDate = String.valueOf(sessiondto.getSessionDate());
         if (massField.getValue() != null) {
             boolean netflag = false;
-            if (("+/- Indicator").equals(massField.getValue())) {
+            if ((ConstantsUtils.PLUS_MINUS_INDICATOR).equals(massField.getValue())) {
                 if (massCombo.getValue() != null) {
                     populateField = "INDICATOR";
                     LOGGER.debug("massCombo.getValue().toString()" + massCombo.getValue().toString());
@@ -980,7 +981,7 @@ public class Deductions extends CustomComponent {
                     massflag = true;
 
                 } else {
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please select value for the " + massField.getValue(), new MessageBoxListener() {
+                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please select value for the " + massField.getValue(), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message
                          * box is pressed .
@@ -1000,15 +1001,15 @@ public class Deductions extends CustomComponent {
                     if (massField.getValue() != null && StringUtils.isNotEmpty(massValue.getValue())) {
 
                         fieldMass = massField.getValue().toString();
-                        if ("Net Sales Rule No".equals(fieldMass)) {
+                        if (ConstantsUtils.NET_SALES_RULE_NO.equals(fieldMass)) {
                             populateField = "CDR_MODEL_SID";
                             Map<String, String> map = (HashMap) massValue.getData();
-                            populateValue = "0".equals(map.get("ruleSystemSID"))?null:map.get("ruleSystemSID");
+                            populateValue = "0".equals(map.get(ConstantsUtils.RULE_SYSTEM_ID))?null:map.get(ConstantsUtils.RULE_SYSTEM_ID);
                             netflag = true;
                             massflag = true;
                         }
                     } else {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
+                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
                             /**
                              * The method is triggered when a button of the
                              * message box is pressed .
@@ -1046,7 +1047,7 @@ public class Deductions extends CustomComponent {
 
             massField.setValue("");
         } else {
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please Select a field to Populate", new MessageBoxListener() {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please Select a field to Populate", new MessageBoxListener() {
                 /**
                  * The method is triggered when a button of the message box is
                  * pressed .
@@ -1065,7 +1066,7 @@ public class Deductions extends CustomComponent {
     public void refreshTable() {
         selectedDeductionTable.removeAllItems();
         selectedTableLogic.setSearchData(selectedDeductions, deductionBinder, sessiondto,
-                String.valueOf((HelperDTO) deductionBinder.getField("formulaType").getValue()).equals("Contract"), true);
+                String.valueOf((HelperDTO) deductionBinder.getField(ConstantsUtils.FORMULA_TYPE).getValue()).equals(ConstantsUtils.CONTRACT), true);
         selectedTableLogic.setCurrentPage(selectedTableLogic.getCurrentPage());
 
     }
@@ -1081,7 +1082,7 @@ public class Deductions extends CustomComponent {
 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.NET_SALES_FORMULA + "," + "Deductions");
+        final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.NET_SALES_FORMULA + "," + ConstantsUtils.DEDUCTION);
         if (functionHM.get("searchBtn") == null || !((AppPermission) functionHM.get("searchBtn")).isFunctionFlag()) {
             searchBtn.setVisible(false);
         }
@@ -1115,14 +1116,14 @@ public class Deductions extends CustomComponent {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
             final Map<String, AppPermission> fieldNsfHM = stplSecurity
-                    .getFieldOrColumnPermission(userId, UISecurityUtil.NET_SALES_FORMULA + "," + "Deductions", false);
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.NET_SALES_FORMULA, "Deductions");
+                    .getFieldOrColumnPermission(userId, UISecurityUtil.NET_SALES_FORMULA + "," + ConstantsUtils.DEDUCTION, false);
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.NET_SALES_FORMULA, ConstantsUtils.DEDUCTION);
             LOGGER.debug("------result===List" + resultList.size());
             securityLogic.removeComponentOnPermission(resultList, cssLayout, fieldNsfHM, sessiondto.getMode().equalsIgnoreCase("Copy")?"Add":sessiondto.getMode());
             securityLogic.removeComponentOnPermission(resultList, cssSearchLayout, fieldNsfHM, sessiondto.getMode().equalsIgnoreCase("Copy")?"Add":sessiondto.getMode());
             Object[] obj;
             Object[] obj1;
-            if (formulaType.getValue()!=null && formulaType.getValue().toString().equals("Contract")) {
+            if (formulaType.getValue()!=null && formulaType.getValue().toString().equals(ConstantsUtils.CONTRACT)) {
                 availableDeductionTable.setConverter(ConstantsUtils.START_DATE, new DateToStringConverter());
                 availableDeductionTable.setConverter(ConstantsUtils.END_DATE, new DateToStringConverter());
                 availableDeductionTable.setColumnAlignment(ConstantsUtils.START_DATE, ExtCustomTable.Align.CENTER);
@@ -1186,15 +1187,15 @@ public class Deductions extends CustomComponent {
         }
     }
 
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException , NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException , NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
-        boolean isContract = String.valueOf((HelperDTO) deductionBinder.getField("formulaType").getValue()).equals("Contract");
+        boolean isContract = String.valueOf((HelperDTO) deductionBinder.getField(ConstantsUtils.FORMULA_TYPE).getValue()).equals(ConstantsUtils.CONTRACT);
         long recordCount = 0;
         List list = logic.tempTableCount(null, null, isContract, true, 0, 0);
         if (list != null) {
@@ -1204,10 +1205,10 @@ public class Deductions extends CustomComponent {
         LOGGER.debug("Ending createWorkSheet");
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         DeductionDto dto;
          if(end !=0){
-        boolean isContract = String.valueOf((HelperDTO) deductionBinder.getField("formulaType").getValue()).equals("Contract");
+        boolean isContract = String.valueOf((HelperDTO) deductionBinder.getField(ConstantsUtils.FORMULA_TYPE).getValue()).equals(ConstantsUtils.CONTRACT);
         final List<DeductionDto> searchList = logic.tempTableCount(null,null,isContract, false, start, end);
         if(null !=searchList){
         for (DeductionDto deductionList : searchList) {
@@ -1291,7 +1292,7 @@ public class Deductions extends CustomComponent {
     }
     void onChangeFormulaType() {
         try {
-            if (String.valueOf(formulaType.getValue()).equals("Contract")) {
+            if (String.valueOf(formulaType.getValue()).equals(ConstantsUtils.CONTRACT)) {
                 contractNo.setEnabled(true);
                 contractName.setEnabled(true);
                 contractHolder.setEnabled(true);

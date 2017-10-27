@@ -305,7 +305,7 @@ public final class Constants {
      * The Constant PS_ID.
      */
     public final static String PS_ID = "priceScheduleId";
-    public final static String PS_ID_Column = "psId";
+    public final static String PS_ID_COLUMN = "psId";
     /**
      * The Constant PS_TYPE.
      */

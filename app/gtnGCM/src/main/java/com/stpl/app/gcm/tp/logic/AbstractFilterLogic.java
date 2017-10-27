@@ -20,9 +20,10 @@ import java.util.Map;
 public class AbstractFilterLogic {
 
     private static AbstractFilterLogic instance;
-    private Map<String, String> filterMap = new HashMap<String, String>();
-    private Map<String, String> summaryFilterMap = new HashMap<String, String>();
-    private Map<String, String> queryMap = new HashMap<String, String>();
+    private Map<String, String> filterMap = new HashMap<>();
+    private Map<String, String> summaryFilterMap = new HashMap<>();
+    private Map<String, String> queryMap = new HashMap<>();
+    public static final String CONTRACT_STATUS = "contractStatus";
 
     private AbstractFilterLogic() {
         setFilterMap();
@@ -49,7 +50,7 @@ public class AbstractFilterLogic {
         filterMap.put("contractId", "CN.CONTRACT_ID");
         filterMap.put(Constants.CONTRACT_NO, " CN.CONTRACT_NO");
         filterMap.put(Constants.CONTRACT_NAME, "CN.CONTRACT_NAME");
-        filterMap.put("contractStatus", "CN_ST.DESCRIPTION");
+        filterMap.put(CONTRACT_STATUS, "CN_ST.DESCRIPTION");
         filterMap.put(Constants.START_DATE, "CN.START_DATE");
         filterMap.put(Constants.END_DATE, "CN.END_DATE");
         filterMap.put(Constants.CFP_NAME, "CFC.CFP_NAME");
@@ -98,7 +99,7 @@ public class AbstractFilterLogic {
                             StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
                             StringBuilder temp = new StringBuilder(initial);
                             temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            if (!stringFilter.getPropertyId().toString().equals("contractStatus")) {
+                            if (!stringFilter.getPropertyId().toString().equals(CONTRACT_STATUS)) {
                                 String filterString = "%" + stringFilter.getFilterString() + "%";
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, filterString);
                                 sql.append(temp);
@@ -114,7 +115,7 @@ public class AbstractFilterLogic {
                             StringBuilder temp = new StringBuilder(str);
                             temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                             temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            if (!stringFilter.getPropertyId().toString().equals("contractStatus")) {
+                            if (!stringFilter.getPropertyId().toString().equals(CONTRACT_STATUS)) {
                                 String filterString = "%" + stringFilter.getFilterString() + "%";
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, filterString);
                                 sql.append(temp);

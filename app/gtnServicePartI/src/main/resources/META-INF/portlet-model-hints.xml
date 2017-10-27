@@ -113,7 +113,7 @@
 	</model>
 	<model name="com.stpl.app.model.ActualsMaster">
 		<field name="quantityInclusion" type="String" />
-		<field name="mandatedDiscountAmount" type="double" />
+		<field name="mandatedDiscountAmount" type="String" />
 		<field name="itemNo" type="String" />
 		<field name="analysisCode" type="String" />
 		<field name="recordSequence" type="String" />
@@ -141,7 +141,7 @@
 		<field name="salesAmount" type="String" />
 		<field name="accrualActualStartDate" type="Date" />
 		<field name="settlementNo" type="String" />
-		<field name="price" type="double" />
+		<field name="price" type="String" />
 		<field name="uploadDate" type="Date" />
 		<field name="claimIndicator" type="String" />
 		<field name="itemId" type="String" />
@@ -2125,6 +2125,8 @@
 		<field name="clottingFactorStartDate" type="Date" />
 		<field name="nonFederalExpirationDate" type="Date" />
 		<field name="internalNotes" type="String" />
+		<field name="baseCpiPrecision" type="int" />
+		<field name="baselineAmpPrecision" type="int" />
 	</model>
 	<model name="com.stpl.app.model.ItemPricing">
 		<field name="itemMasterSid" type="int" />
@@ -2144,6 +2146,7 @@
 		<field name="inboundStatus" type="String" />
 		<field name="itemPricingSid" type="int" />
 		<field name="pricingCodeStatus" type="int" />
+		<field name="itemPricePrecision" type="int" />
 	</model>
 	<model name="com.stpl.app.model.ItemPricingQualifier">
 		<field name="createdBy" type="int" />
@@ -3080,34 +3083,22 @@
 	<model name="com.stpl.app.model.NmActualDiscount">
 		<field name="actualRate" type="double" />
 		<field name="periodSid" type="int" />
-		<field name="actualProjectionSales" type="double" />
 		<field name="projectionDetailsSid" type="int" />
-		<field name="actualProjectionRate" type="double" />
 		<field name="actualSales" type="double" />
 	</model>
 	<model name="com.stpl.app.model.NmActualPpa">
 		<field name="actualRate" type="double" />
 		<field name="periodSid" type="int" />
-		<field name="actualProjDiscountDollar" type="double" />
-		<field name="actualProjectionSales" type="double" />
 		<field name="projectionDetailsSid" type="int" />
-		<field name="actualProjectionRate" type="double" />
-		<field name="actualProjDiscountUnits" type="double" />
 		<field name="actualDiscountDollar" type="double" />
 		<field name="actualDiscountUnits" type="double" />
 		<field name="actualSales" type="double" />
 	</model>
 	<model name="com.stpl.app.model.NmDiscountProjection">
-		<field name="adjustmentMethodology" type="String" />
-		<field name="adjustmentBasis" type="String" />
 		<field name="periodSid" type="int" />
 		<field name="projectionRate" type="double" />
 		<field name="projectionDetailsSid" type="int" />
-		<field name="adjustmentVariable" type="boolean" />
-		<field name="adjustmentValue" type="double" />
-		<field name="adjustmentType" type="String" />
 		<field name="projectionSales" type="double" />
-		<field name="discountRate" type="double" />
 	</model>
 	<model name="com.stpl.app.model.NmDiscountProjMaster">
 		<field name="checkRecord" type="boolean" />
@@ -3148,16 +3139,11 @@
 		<field name="projectionMasterSid" type="int" />
 	</model>
 	<model name="com.stpl.app.model.NmSalesProjection">
-		<field name="adjustmentMethodology" type="String" />
-		<field name="adjustmentBasis" type="String" />
 		<field name="periodSid" type="int" />
 		<field name="productGrowth" type="double" />
 		<field name="projectionDetailsSid" type="int" />
-		<field name="adjustmentValues" type="double" />
-		<field name="adjustmentVariable" type="boolean" />
 		<field name="accountGrowth" type="double" />
 		<field name="projectionUnits" type="double" />
-		<field name="adjustmentType" type="String" />
 		<field name="projectionSales" type="double" />
 	</model>
 	<model name="com.stpl.app.model.NmSalesProjectionMaster">
@@ -3166,7 +3152,6 @@
 		<field name="userGroup" type="String" />
 		<field name="projectionDetailsSid" type="int" />
 		<field name="methodology" type="String" />
-		<field name="calculationBased" type="String" />
 	</model>
 	<model name="com.stpl.app.model.Period">
 		<field name="periodSid" type="int" />
@@ -4408,6 +4393,7 @@
 		<field name="portNumber" type="String" />
 		<field name="modifiedDate" type="Date" />
 		<field name="inboundStatus" type="String" />
+		<field name="testMailAddress" type="String" />
 	</model>
 	<model name="com.stpl.app.model.WorkflowMaster">
 		<field name="createdBy" type="int" />

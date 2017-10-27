@@ -10,5 +10,5 @@ package com.stpl.app.arm.adjustmentconfiguration.form;
  * @author Srithar.Raju
  */
 public class AdjustmentConfigLookUp {
-    
+
 }

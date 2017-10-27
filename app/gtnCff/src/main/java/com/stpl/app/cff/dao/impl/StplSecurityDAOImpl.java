@@ -48,7 +48,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
     }
 
     @Override
-    public List getBusinessroleModuleMasterFieldList(String businessRoleIds, String moduleName) throws PortalException, SystemException, RuntimeException {
+    public List getBusinessroleModuleMasterFieldList(String businessRoleIds, String moduleName) throws PortalException, SystemException {
         return BusinessroleModuleLocalServiceUtil.getBusinessFieldPermission(businessRoleIds, moduleName);
     }
 

@@ -37,7 +37,7 @@ public class ForecastingFormulaContainer implements BeanDAO<RSFormulaDTO>{
 
     @Override
     public List<RSFormulaDTO> find(BeanSearchCriteria bsc, int start, int offset, List<OrderByColumn> list) {
-        List<RSFormulaDTO> resultList = new ArrayList<RSFormulaDTO>();
+        List<RSFormulaDTO> resultList = new ArrayList<>();
             try{
                 
                 return logic.getForecastingFormula(start, start+offset);

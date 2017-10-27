@@ -11,8 +11,6 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
  *
  * @author Asha.Ravi
  */
-public class DRSelectionDTO extends AbstractSelectionDTO{
-    
-   
-    
+public class DRSelectionDTO extends AbstractSelectionDTO {
+
 }

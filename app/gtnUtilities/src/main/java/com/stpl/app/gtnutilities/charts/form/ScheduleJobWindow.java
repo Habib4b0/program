@@ -99,9 +99,9 @@ public class ScheduleJobWindow extends CustomComponent {
         occursOnceAt.setResolution(Resolution.SECOND);
         startingAt.setResolution(Resolution.SECOND);
         endingAt.setResolution(Resolution.SECOND);
-        occursOnceAt.addStyleName("time-only");
-        startingAt.addStyleName("time-only");
-        endingAt.addStyleName("time-only");
+        occursOnceAt.addStyleName(Constants.TIMEONLY);
+        startingAt.addStyleName(Constants.TIMEONLY);
+        endingAt.addStyleName(Constants.TIMEONLY);
         occursOnceAt.setDateFormat(Constants.Time_Format);
         startingAt.setDateFormat(Constants.Time_Format);
         endingAt.setDateFormat(Constants.Time_Format);

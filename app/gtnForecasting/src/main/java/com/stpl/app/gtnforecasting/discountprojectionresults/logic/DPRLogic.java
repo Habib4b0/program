@@ -15,9 +15,9 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.ANNUALLY;
-import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.Mandated_Discount;
+import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.MANDATED_DISCOUNT;
 import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.PERIOD;
-import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.Supplemental_Discount;
+import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.SUPPLEMENTAL_DISCOUNT;
 import com.stpl.app.model.MProjectionSelection;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
@@ -54,14 +54,16 @@ public class DPRLogic {
     private static final String CURRENCY = "$";
     private static final String PERCENTAGE = Constant.PERCENT;
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
-    public List<DiscountProjectionResultsDTO> projectionTotalList = new ArrayList<DiscountProjectionResultsDTO>();
+    public List<DiscountProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     Object[] dprOrderedArgs;
     List<Object[]> totalPrcResultList = new ArrayList<>();
+    public static final String SUPPLEMENTAL = "supplemental";
+    public static final String SUPPLEMENTAL_DISCOUNT1 = "SupplementalDiscount";
 
     public List<DiscountProjectionResultsDTO> getConfiguredDPResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO)  {
-        List<DiscountProjectionResultsDTO> resultList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> resultList;
         if (!projSelDTO.isIsFilter() || (parentId instanceof DiscountProjectionResultsDTO)) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
 
             if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
                 projSelDTO.setActualsOrProjections("Actuals and Projections");
@@ -144,10 +146,10 @@ public class DPRLogic {
         int neededRecord = offset;
         int started = start;
         int mayBeAdded = 0;
-        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
         boolean tempCustomFlag = false;
 
-        List<Integer> yearList = new ArrayList<Integer>();
+        List<Integer> yearList = new ArrayList<>();
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
         yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
@@ -162,7 +164,7 @@ public class DPRLogic {
             DiscountProjectionResultsDTO mandatedDisc = null;
             DiscountProjectionResultsDTO SupplDisc = null;
             if (projSelDTO.isIsProjectionTotal() && projSelDTO.isIsTotal()) {
-                projectionTotalList = getConfiguredResultsTotal(start, offset, projSelDTO);
+                projectionTotalList = getConfiguredResultsTotal(projSelDTO);
                 if (!projectionTotalList.isEmpty()) {
                     projDTOList.addAll(projectionTotalList);
                     neededRecord -= projectionTotalList.size();
@@ -212,8 +214,8 @@ public class DPRLogic {
                 }
             }
 
-            if (Mandated_Discount.getConstant().equals(projSelDTO.getLevelValue()) || Supplemental_Discount.getConstant().equals(projSelDTO.getLevelValue())) {
-                List<DiscountProjectionResultsDTO> programCodeList = new ArrayList<DiscountProjectionResultsDTO>();
+            if (MANDATED_DISCOUNT.getConstant().equals(projSelDTO.getLevelValue()) || SUPPLEMENTAL_DISCOUNT.getConstant().equals(projSelDTO.getLevelValue())) {
+                List<DiscountProjectionResultsDTO> programCodeList;
                 programCodeList = getProgramCodeDiscount(projSelDTO);
                 if (programCodeList != null && !programCodeList.isEmpty()) {
                     for (int k = start; k < programCodeList.size() && neededRecord > 0; k++) {
@@ -225,8 +227,8 @@ public class DPRLogic {
             }
         } else {
             if (projSelDTO.isIsProjectionTotal() && projSelDTO.isIsTotal()) {
-                List<DiscountProjectionResultsDTO> projectionDtoList = new ArrayList<DiscountProjectionResultsDTO>();
-                List<DiscountProjectionResultsDTO> totalDTO = new ArrayList<DiscountProjectionResultsDTO>();
+                List<DiscountProjectionResultsDTO> projectionDtoList;
+                List<DiscountProjectionResultsDTO> totalDTO = new ArrayList<>();
                 if (start < 1) {
                     DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
                     dto.setLevelValue(Constant.PROJECTION_TOTAL);
@@ -236,7 +238,7 @@ public class DPRLogic {
                     neededRecord--;
                 }
                 mayBeAdded++;
-                projectionDtoList = getConfiguredResultsTotal(start, offset, projSelDTO);
+                projectionDtoList = getConfiguredResultsTotal(projSelDTO);
                 int maybeAddedRecord = start - mayBeAdded;
                 if (maybeAddedRecord < 0) {
                     maybeAddedRecord = 0;
@@ -250,7 +252,7 @@ public class DPRLogic {
                 projDTOList.addAll(totalDTO);
             }
 
-            List<DiscountProjectionResultsDTO> projectionDtoList = new ArrayList<DiscountProjectionResultsDTO>();
+            List<DiscountProjectionResultsDTO> projectionDtoList = new ArrayList<>();
             if (projSelDTO.isIsProjectionTotal()) {
 
             } else {
@@ -269,7 +271,7 @@ public class DPRLogic {
             }
             if (projSelDTO.isCustomFlag()) {
                 projSelDTO.setCustomLevelNo(projSelDTO.getCustomLevelNo() + 1);
-                int i = CommonLogic.getIndicatorCount(projSelDTO.getProjectionId(), projSelDTO.getCustomId());
+                int i = CommonLogic.getIndicatorCount( projSelDTO.getCustomId());
                 if (i >= projSelDTO.getCustomLevelNo()) {
                     tempCustomFlag = true;
                 }
@@ -286,16 +288,12 @@ public class DPRLogic {
                 if (tempCustomFlag) {
                     List<DiscountProjectionResultsDTO> nextLevelValueList = configureLevels(mayBeAddedRecord, neededRecord, projSelDTO);
                     projDTOList.addAll(nextLevelValueList);
-                    nextLevelValueList = null;
-
                 }
             } else {
                 projSelDTO.setLevelNo(projSelDTO.getLevelNo() + 1);
                 projSelDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo() + 1);
                 List<DiscountProjectionResultsDTO> nextLevelValueList = configureLevels(mayBeAddedRecord, neededRecord, projSelDTO);
                 projDTOList.addAll(nextLevelValueList);
-                nextLevelValueList = null;
-
             }
         }
         return projDTOList;
@@ -309,50 +307,48 @@ public class DPRLogic {
 
     public List<DiscountProjectionResultsDTO> getProgramCodeDiscount(ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("inside getProgramCodeDiscount :: ");
-        List<Object> list = new ArrayList<Object>();
-        Map<Integer, String> freq = new HashMap<Integer, String>();
-        freq.put(1, "\"YEAR\"");
-        freq.put(NumericConstants.TWO, "SEMI_ANNUAL");
-        freq.put(NumericConstants.FOUR, "QUARTER");
-        freq.put(NumericConstants.TWELVE, "\"MONTH\"");
+        List<Object> list;
+        Map<Integer, String> freq = new HashMap<>();
+        freq.put(1, Constant.YEAR_SPACE);
+        freq.put(NumericConstants.TWO, Constant.SEMI_ANNUAL);
+        freq.put(NumericConstants.FOUR, Constant.QUARTER);
+        freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
-        String freqChar = !"\"YEAR\"".equalsIgnoreCase(frequency) ? "SEMI_ANNUAL".equalsIgnoreCase(frequency) ? Constant.S : "QUARTER".equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
-        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getProjectionId(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getLevelNo(), projSelDTO.getHierarchyNo(), frequency, projSelDTO.getView(), projSelDTO, freqChar), null, null);
+        String freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
+        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar), null, null);
         List<DiscountProjectionResultsDTO> projDTOList = getCustomizedPC(list, projSelDTO);
-        list = null;
-
         return projDTOList;
     }
 
     public List<Object> getProgramCodeName(ProjectionSelectionDTO projSelDTO) {
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list;
         list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeNameQuery(projSelDTO.getProjectionId()), null, null);
         return list;
     }
 
     public List<DiscountProjectionResultsDTO> getCustomizedMandSuppDisc(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<DiscountProjectionResultsDTO> projDtoList = new ArrayList<DiscountProjectionResultsDTO>();
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<DiscountProjectionResultsDTO> projDtoList = new ArrayList<>();
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove("levelValue");
         DiscountProjectionResultsDTO mandatedDTO = projSelDTO.getMandatedDTO();
         DiscountProjectionResultsDTO suppDTO = projSelDTO.getSupplementalDTO();
         mandatedDTO.setLevelNo(projSelDTO.getLevelNo());
         mandatedDTO.setHierarchyNo(projSelDTO.getHierarchyNo());
         mandatedDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
-        mandatedDTO.setLevelValue(Mandated_Discount.getConstant());
-        mandatedDTO.setRelationshipLevelName(Mandated_Discount.getConstant());
+        mandatedDTO.setLevelValue(MANDATED_DISCOUNT.getConstant());
+        mandatedDTO.setRelationshipLevelName(MANDATED_DISCOUNT.getConstant());
         mandatedDTO.setParentLevelName(projSelDTO.getLevelValue());
 
         suppDTO.setLevelNo(projSelDTO.getLevelNo());
         suppDTO.setHierarchyNo(projSelDTO.getHierarchyNo());
         suppDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
-        suppDTO.setLevelValue(Supplemental_Discount.getConstant());
-        suppDTO.setRelationshipLevelName(Supplemental_Discount.getConstant());
+        suppDTO.setLevelValue(SUPPLEMENTAL_DISCOUNT.getConstant());
+        suppDTO.setRelationshipLevelName(SUPPLEMENTAL_DISCOUNT.getConstant());
         suppDTO.setParentLevelName(projSelDTO.getLevelValue());
 
         mandatedDTO.setParent(1);
         suppDTO.setParent(1);
-        int frequencyDivision = projSelDTO.getFrequencyDivision();
+        int frequencyDivision;
         if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
             frequencyDivision = NumericConstants.FOUR;
         } else if (Constant.MONTHLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
@@ -366,16 +362,16 @@ public class DPRLogic {
         if (list != null && !list.isEmpty()) {
             boolean actualFlag = false;
             for (Object list1 : list) {
-                String columnName = StringUtils.EMPTY;
+                String columnName;
                 final Object[] obj = (Object[]) list1;
                 int year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
                 int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
                 List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                 String commonColumn = common.get(0);
-                if ("mandated".equalsIgnoreCase(salesOrUnits) || Constant.BOTH_SMALL.equalsIgnoreCase(salesOrUnits)) {
+                if (Constant.MANDATED.equalsIgnoreCase(salesOrUnits) || Constant.BOTH_SMALL.equalsIgnoreCase(salesOrUnits)) {
 
                     String mandAmt = StringUtils.EMPTY + obj[0];
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     if (!actualFlag) {
                         mandAmt = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, mandAmt);
                     }
@@ -383,7 +379,7 @@ public class DPRLogic {
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandAmt);
 
                     String mandRate = StringUtils.EMPTY + obj[1];
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     if (!actualFlag) {
                         mandRate = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, mandRate);
                     }
@@ -391,7 +387,7 @@ public class DPRLogic {
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandRate);
 
                 }
-                if ("supplemental".equalsIgnoreCase(salesOrUnits) || Constant.BOTH_SMALL.equalsIgnoreCase(salesOrUnits)) {
+                if (SUPPLEMENTAL.equalsIgnoreCase(salesOrUnits) || Constant.BOTH_SMALL.equalsIgnoreCase(salesOrUnits)) {
                     String actual = StringUtils.EMPTY + obj[0];
                     actual = getFormattedValue(UNITVOLUME, actual);
                     suppDTO.addStringProperties(commonColumn + Constant.ACTUALS, actual);
@@ -412,7 +408,7 @@ public class DPRLogic {
     }
 
     public List<DiscountProjectionResultsDTO> getCustomizedPC(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<DiscountProjectionResultsDTO> pcDTO = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> pcDTO = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             int frequencyDivision = projSelDTO.getFrequencyDivision();
             DiscountProjectionResultsDTO contractDTO = null;
@@ -423,7 +419,7 @@ public class DPRLogic {
                     annualSuppamt = 0.0, annualSupprate = 0.0, annualSupprpu = 0.0, annualSuppProjamt = 0.0, annualSuppProjrate = 0.0, annualSuppProjrpu = 0.0;
             List<Object> rightHeaderColumns = projSelDTO.getRightHeaderDoubleColumns();
             for (int i = 0; i < list.size(); i++) {
-                String columnName = StringUtils.EMPTY;
+                String columnName;
                 final Object[] obj = (Object[]) list.get(i);
                 if (lastValue.isEmpty() || !lastValue.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
                     if (contractDTO != null) {
@@ -442,7 +438,7 @@ public class DPRLogic {
                 lastValue = String.valueOf(obj[NumericConstants.TWO]);
                 int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
                 int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
-                List<String> annualTotal = new ArrayList<String>();
+                List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                     annualTotal = HeaderUtils.getCommonColumnHeader(1, year, 0, false);
@@ -468,7 +464,7 @@ public class DPRLogic {
                 List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                 String commonColumn = common.get(0);
 
-                if (Mandated_Discount.getConstant().equals(projSelDTO.getLevelValue())) {
+                if (MANDATED_DISCOUNT.getConstant().equals(projSelDTO.getLevelValue())) {
                     String mandAmt = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     String mandRate = StringUtils.EMPTY + obj[NumericConstants.SIX];
                     String mandRPU = StringUtils.EMPTY + obj[NumericConstants.NINE];
@@ -480,15 +476,15 @@ public class DPRLogic {
                     }
 
                     mandAmt = getFormatValue(NumericConstants.TWO, mandAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     contractDTO.addStringProperties(commonColumn + columnName, mandAmt);
 
                     mandRate = getFormatValue(NumericConstants.TWO, mandRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     contractDTO.addStringProperties(commonColumn + columnName, mandRate);
 
                     mandRPU = getFormatValue(NumericConstants.TWO, mandRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     contractDTO.addStringProperties(commonColumn + columnName, mandRPU);
 
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
@@ -513,16 +509,16 @@ public class DPRLogic {
                             mandRPU = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, mandRPU);
                         }
 
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         contractDTO.addStringProperties(annualColumn + columnName, mandAmt);
 
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         contractDTO.addStringProperties(annualColumn + columnName, mandRate);
 
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         contractDTO.addStringProperties(annualColumn + columnName, mandRPU);
                     }
-                } else if (Supplemental_Discount.getConstant().equals(projSelDTO.getLevelValue())) {
+                } else if (SUPPLEMENTAL_DISCOUNT.getConstant().equals(projSelDTO.getLevelValue())) {
                     String suppAmt = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
                     String suppRate = StringUtils.EMPTY + obj[NumericConstants.EIGHT];
                     String suppRPU = StringUtils.EMPTY + obj[NumericConstants.TEN];
@@ -534,15 +530,15 @@ public class DPRLogic {
                     }
 
                     suppAmt = getFormatValue(NumericConstants.TWO, suppAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     contractDTO.addStringProperties(commonColumn + columnName, suppAmt);
 
                     suppRate = getFormatValue(NumericConstants.TWO, suppRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     contractDTO.addStringProperties(commonColumn + columnName, suppRate);
 
                     suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     contractDTO.addStringProperties(commonColumn + columnName, suppRPU);
 
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
@@ -567,12 +563,12 @@ public class DPRLogic {
                             suppRPU = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, suppRPU);
                         }
 
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         contractDTO.addStringProperties(annualColumn + columnName, suppAmt);
 
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         contractDTO.addStringProperties(annualColumn + columnName, suppRate);
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         contractDTO.addStringProperties(annualColumn + columnName, suppRPU);
                     }
                 }
@@ -608,7 +604,7 @@ public class DPRLogic {
     public int getConfiguredDPResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelCount, ProjectionSelectionDTO initialProjSelDTO) {
         int count = 0;
         if (!projSelDTO.isIsFilter() || (parentId instanceof DiscountProjectionResultsDTO)) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
 
             if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
                 projSelDTO.setActualsOrProjections("Actuals and Projections");
@@ -681,8 +677,8 @@ public class DPRLogic {
             String salesOrUnit = projSelDTO.getMandatedOrSupp();           
             count += projSelDTO.isIsProjectionTotal() == true ? 1 : 0;
             
-            if (Mandated_Discount.getConstant().equals(projSelDTO.getLevelValue()) || Supplemental_Discount.getConstant().equals(projSelDTO.getLevelValue())) {
-                List<Object> list = new ArrayList<Object>();
+            if (MANDATED_DISCOUNT.getConstant().equals(projSelDTO.getLevelValue()) || SUPPLEMENTAL_DISCOUNT.getConstant().equals(projSelDTO.getLevelValue())) {
+                List<Object> list;
                 list = getProgramCodeCount(projSelDTO.getProjectionId(), projSelDTO.getHierarchyNo());
                 if (list != null && !list.isEmpty()) {
                     for (Object object : list) {
@@ -705,7 +701,7 @@ public class DPRLogic {
         if (projSelDTO.isIsTotal() && isLevelCount && !projSelDTO.isIsFilter()) {
             if (projSelDTO.isCustomFlag()) {
                 projSelDTO.setCustomLevelNo(projSelDTO.getCustomLevelNo() + 1);
-                int i = CommonLogic.getIndicatorCount(projSelDTO.getProjectionId(), projSelDTO.getCustomId());
+                int i = CommonLogic.getIndicatorCount(projSelDTO.getCustomId());
                 if (i >= projSelDTO.getCustomLevelNo()) {
                     tempCustomFlag = true;
                 }
@@ -751,7 +747,7 @@ public class DPRLogic {
         }
         int neededRecord = offset;
         CommonLogic comm = new CommonLogic();
-        List<DiscountProjectionResultsDTO> resultList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> resultList = new ArrayList<>();
         Map<String, List> levelMap = null;
         if (projSelDTO.isCustomFlag()) {
             projSelDTO.setHierarchyIndicator(comm.getHiearchyIndicatorFromCustomView(projSelDTO));
@@ -848,7 +844,7 @@ public class DPRLogic {
     }
 
     public List<DiscountProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO)  {
-        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
           List<Object[]> gtsList;
            boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
          // Procedure called only in  Tab Change
@@ -874,7 +870,7 @@ public class DPRLogic {
     }
 
     public List<DiscountProjectionResultsDTO> getProjectionPivotTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
-        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> projDTOList;
          List<Object[]> gtsList;
           boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
          // Procedure called only in  Tab Change
@@ -903,7 +899,7 @@ public class DPRLogic {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         String mandSupp = projSelDTO.getMandatedOrSupp();
         String freq = projSelDTO.getFrequency();
-        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
         DiscountProjectionResultsDTO projTotal = new DiscountProjectionResultsDTO();
         DiscountProjectionResultsDTO mandatedDTO = new DiscountProjectionResultsDTO();
         DiscountProjectionResultsDTO supplDTO = new DiscountProjectionResultsDTO();
@@ -913,12 +909,12 @@ public class DPRLogic {
         projTotal.setRelationshipLevelName(Constant.PROJECTION_TOTAL);
 
         mandatedDTO.setParent(0);
-        mandatedDTO.setLevelValue(Mandated_Discount.getConstant());
-        mandatedDTO.setRelationshipLevelName(Mandated_Discount.getConstant());
+        mandatedDTO.setLevelValue(MANDATED_DISCOUNT.getConstant());
+        mandatedDTO.setRelationshipLevelName(MANDATED_DISCOUNT.getConstant());
 
         supplDTO.setParent(0);
-        supplDTO.setLevelValue(Supplemental_Discount.getConstant());
-        supplDTO.setRelationshipLevelName(Supplemental_Discount.getConstant());
+        supplDTO.setLevelValue(SUPPLEMENTAL_DISCOUNT.getConstant());
+        supplDTO.setRelationshipLevelName(SUPPLEMENTAL_DISCOUNT.getConstant());
         double amt = 0.0, rate = 0.0, rpu = 0.0, projamt = 0.0, projrate = 0.0, projrpu = 0.0, annualMandamt = 0.0, annualMandrate = 0.0, annualMandrpu = 0.0,
                 annualMandProjamt = 0.0, annualMandProjrate = 0.0, annualMandProjrpu = 0.0, annualSuppamt = 0.0, annualSupprate = 0.0, annualSupprpu = 0.0, annualSuppProjamt = 0.0, annualSuppProjrate = 0.0, annualSuppProjrpu = 0.0;
         String tempAnnualColumn = StringUtils.EMPTY;
@@ -932,8 +928,8 @@ public class DPRLogic {
             }
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String type = StringUtils.EMPTY;
-                String columnName = StringUtils.EMPTY;
+                String type;
+                String columnName;
                 if (annualFlag) {
                     type = String.valueOf(obj[NumericConstants.TEN]);
                 } else {
@@ -941,7 +937,7 @@ public class DPRLogic {
                 }
                 int year = annualFlag ? Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])) : Integer.valueOf(String.valueOf(obj[NumericConstants.TEN]));
                 int period = annualFlag ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.NINE]));
-                List<String> annualTotal = new ArrayList<String>();
+                List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!annualFlag) {
                     annualTotal = HeaderUtils.getCommonColumnHeader(1, year, 0, false);
@@ -988,15 +984,15 @@ public class DPRLogic {
                 }
 
                 totalAmt = getFormatValue(NumericConstants.TWO, totalAmt, CURRENCY);
-                columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                 projTotal.addStringProperties(commonColumn + columnName, totalAmt);
 
                 totalRate = getFormatValue(NumericConstants.TWO, totalRate, PERCENTAGE);
-                columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                 projTotal.addStringProperties(commonColumn + columnName, totalRate);
 
                 totalRPU = getFormatValue(NumericConstants.TWO, totalRPU, CURRENCY);
-                columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                 projTotal.addStringProperties(commonColumn + columnName, totalRPU);
 
                 if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
@@ -1020,17 +1016,17 @@ public class DPRLogic {
                         totalRate = CommonUtils.forecastConfigDataHide(freq, projSelDTO.getForecastConfigPeriods(), commonColumn, totalRate);
                         totalRPU = CommonUtils.forecastConfigDataHide(freq, projSelDTO.getForecastConfigPeriods(), commonColumn, totalRPU);
                     }
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     projTotal.addStringProperties(annualColumn + columnName, totalAmt);
 
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     projTotal.addStringProperties(annualColumn + columnName, totalRate);
 
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     projTotal.addStringProperties(annualColumn + columnName, totalRPU);
                 }
 
-                if ("mandated".equalsIgnoreCase(mandSupp) || Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
+                if (Constant.MANDATED.equalsIgnoreCase(mandSupp) || Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
 
                     String mandAmt = StringUtils.EMPTY + obj[0];
                     String mandRate = StringUtils.EMPTY + obj[1];
@@ -1042,15 +1038,15 @@ public class DPRLogic {
                         mandRPU = CommonUtils.forecastConfigDataHide(freq, projSelDTO.getForecastConfigPeriods(), commonColumn, mandRPU);
                     }
                     mandAmt = getFormatValue(NumericConstants.TWO, mandAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandAmt);
 
                     mandRate = getFormatValue(NumericConstants.TWO, mandRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandRate);
 
                     mandRPU = getFormatValue(NumericConstants.TWO, mandRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandRPU);
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
@@ -1074,17 +1070,17 @@ public class DPRLogic {
                             mandRate = CommonUtils.forecastConfigDataHide(freq, projSelDTO.getForecastConfigPeriods(), commonColumn, mandRate);
                             mandRPU = CommonUtils.forecastConfigDataHide(freq, projSelDTO.getForecastConfigPeriods(), commonColumn, mandRPU);
                         }
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandAmt);
 
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandRate);
 
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandRPU);
                     }
                 }
-                if ("supplemental".equalsIgnoreCase(mandSupp) || Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
+                if (SUPPLEMENTAL.equalsIgnoreCase(mandSupp) || Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
                     String suppAmt = StringUtils.EMPTY + obj[NumericConstants.THREE];
                     String suppRate = StringUtils.EMPTY + obj[NumericConstants.FOUR];
                     String suppRPU = StringUtils.EMPTY + obj[NumericConstants.FIVE];
@@ -1096,15 +1092,15 @@ public class DPRLogic {
                     }
 
                     suppAmt = getFormatValue(NumericConstants.TWO, suppAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     supplDTO.addStringProperties(commonColumn + columnName, suppAmt);
 
                     suppRate = getFormatValue(NumericConstants.TWO, suppRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     supplDTO.addStringProperties(commonColumn + columnName, suppRate);
 
                     suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     supplDTO.addStringProperties(commonColumn + columnName, suppRPU);
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
@@ -1127,13 +1123,13 @@ public class DPRLogic {
                             suppRate = CommonUtils.forecastConfigDataHide(freq, projSelDTO.getForecastConfigPeriods(), commonColumn, suppRate);
                             suppRPU = CommonUtils.forecastConfigDataHide(freq, projSelDTO.getForecastConfigPeriods(), commonColumn, suppRPU);
                         }
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         supplDTO.addStringProperties(annualColumn + columnName, suppAmt);
 
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         supplDTO.addStringProperties(annualColumn + columnName, suppRate);
 
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         supplDTO.addStringProperties(annualColumn + columnName, suppRPU);
                     }
                 }
@@ -1148,19 +1144,19 @@ public class DPRLogic {
 
     public List<DiscountProjectionResultsDTO> getCustomizedProjectionPivotTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<DiscountProjectionResultsDTO>();
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         String mandSupp = projSelDTO.getMandatedOrSupp();
         String freq = projSelDTO.getFrequency();
 
-        String type = StringUtils.EMPTY;
+        String type;
         String lastPeriod = StringUtils.EMPTY;
         DiscountProjectionResultsDTO projDTO = null;
         for (int i = 0; i < list.size(); i++) {
             final Object[] row = (Object[]) list.get(i);
             boolean annualFlag = false;
             boolean actualFlag = false;
-            String columnName = StringUtils.EMPTY;
+            String columnName;
             if (ANNUALLY.equalsIgnoreCase(freq)) {
                 annualFlag = true;
             }
@@ -1169,13 +1165,13 @@ public class DPRLogic {
             } else {
                 type = String.valueOf(row[NumericConstants.ELEVEN]);
             }
-            String column = StringUtils.EMPTY;
+            String column;
             int year = annualFlag ? Integer.valueOf(String.valueOf(row[NumericConstants.NINE])) : Integer.valueOf(String.valueOf(row[NumericConstants.TEN]));
             int period = annualFlag ? 0 : Integer.valueOf(String.valueOf(row[NumericConstants.NINE]));
             List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
-            String commonColumn = StringUtils.EMPTY;
+            String commonColumn;
             if ("Actual".equalsIgnoreCase(type)) {
                 actualFlag = true;
             } else {
@@ -1193,9 +1189,9 @@ public class DPRLogic {
                 }
                 projDTO.setLevelValue(commonHeader);
                 projDTO.setRelationshipLevelName(commonHeader);
-                String value = Constant.NULL;
+                String value;
                 commonColumn = Constant.TOTALDISCOUNT;
-                column = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                column = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                 columnName = commonColumn + column;
                 if (projSelDTO.hasColumn(columnName)) {
                     value = StringUtils.EMPTY + row[NumericConstants.SIX];
@@ -1205,7 +1201,7 @@ public class DPRLogic {
                     value = getFormatValue(NumericConstants.TWO, value, CURRENCY);
                     projDTO.addStringProperties(columnName, value);
                 }
-                column = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                column = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                 columnName = commonColumn + column;
                 if (projSelDTO.hasColumn(columnName)) {
                     value = StringUtils.EMPTY + row[NumericConstants.SEVEN];
@@ -1215,7 +1211,7 @@ public class DPRLogic {
                     value = getFormatValue(NumericConstants.TWO, value, PERCENTAGE);
                     projDTO.addStringProperties(columnName, value);
                 }
-                column = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                column = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                 columnName = commonColumn + column;
                 if (projSelDTO.hasColumn(columnName)) {
                     value = StringUtils.EMPTY + row[NumericConstants.EIGHT];
@@ -1225,9 +1221,9 @@ public class DPRLogic {
                     }
                     projDTO.addStringProperties(columnName, value);
                 }
-                if ("mandated".equalsIgnoreCase(mandSupp) || Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
-                    commonColumn = "MandatedDiscount";
-                    column = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                if (Constant.MANDATED.equalsIgnoreCase(mandSupp) || Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
+                    commonColumn = Constant.MANDATED_DISCOUNT1;
+                    column = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     columnName = commonColumn + column;
                     if (projSelDTO.hasColumn(columnName)) {
                         value = StringUtils.EMPTY + row[0];
@@ -1237,7 +1233,7 @@ public class DPRLogic {
                         value = getFormatValue(NumericConstants.TWO, value, CURRENCY);
                         projDTO.addStringProperties(columnName, value);
                     }
-                    column = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    column = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     columnName = commonColumn + column;
                     if (projSelDTO.hasColumn(columnName)) {
                         value = StringUtils.EMPTY + row[1];
@@ -1247,7 +1243,7 @@ public class DPRLogic {
                         value = getFormatValue(NumericConstants.TWO, value, PERCENTAGE);
                         projDTO.addStringProperties(columnName, value);
                     }
-                    column = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    column = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     columnName = commonColumn + column;
                     if (projSelDTO.hasColumn(columnName)) {
                         value = StringUtils.EMPTY + row[NumericConstants.TWO];
@@ -1258,9 +1254,9 @@ public class DPRLogic {
                         projDTO.addStringProperties(columnName, value);
                     }
                 }
-                if ("supplemental".equalsIgnoreCase(mandSupp) || Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
-                    commonColumn = "SupplementalDiscount";
-                    column = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                if (SUPPLEMENTAL.equalsIgnoreCase(mandSupp) || Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
+                    commonColumn = SUPPLEMENTAL_DISCOUNT1;
+                    column = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     columnName = commonColumn + column;
                     if (projSelDTO.hasColumn(columnName)) {
                         value = StringUtils.EMPTY + row[NumericConstants.THREE];
@@ -1270,7 +1266,7 @@ public class DPRLogic {
                         value = getFormatValue(NumericConstants.TWO, value, CURRENCY);
                         projDTO.addStringProperties(columnName, value);
                     }
-                    column = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    column = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     columnName = commonColumn + column;
                     if (projSelDTO.hasColumn(columnName)) {
                         value = StringUtils.EMPTY + row[NumericConstants.FOUR];
@@ -1280,7 +1276,7 @@ public class DPRLogic {
                         value = getFormatValue(NumericConstants.TWO, value, PERCENTAGE);
                         projDTO.addStringProperties(columnName, value);
                     }
-                    column = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    column = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     columnName = commonColumn + column;
                     if (projSelDTO.hasColumn(columnName)) {
                         value = StringUtils.EMPTY + row[NumericConstants.FIVE];
@@ -1325,31 +1321,9 @@ public class DPRLogic {
         return value;
     }
 
-    private String getProgramCodeQuery(int projectionId, int userID, int sessionID, int levelNo, String hierarchyNo, String frequency, String View, ProjectionSelectionDTO projSelDTO, String freqChar) {
-        String hierarchy = StringUtils.EMPTY;
+    private String getProgramCodeQuery(String hierarchyNo, String frequency, ProjectionSelectionDTO projSelDTO, String freqChar) {
         String columnName = StringUtils.EMPTY;
-        String customerLevelNo = StringUtils.EMPTY;
-        String prodLevelNo = StringUtils.EMPTY;
-        String customerHierNo = StringUtils.isBlank(String.valueOf(projSelDTO.getCustomerHierarchyNo())) ? StringUtils.EMPTY : String.valueOf(projSelDTO.getCustomerHierarchyNo());
-        String prodHierNo = StringUtils.isBlank(String.valueOf(projSelDTO.getProductHierarchyNo())) ? StringUtils.EMPTY : String.valueOf(projSelDTO.getProductHierarchyNo());
         List list;
-         boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
-        int customID = projSelDTO.getCustomId();
-        int customLevelNo = projSelDTO.getCustomLevelNo();
-        String hierarchyIndicator = projSelDTO.getHierarchyIndicator().trim();
-        if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equalsIgnoreCase(hierarchyIndicator)) {
-            customerLevelNo = StringUtils.isBlank(String.valueOf(customLevelNo)) ? Constant.PERCENT : String.valueOf(customLevelNo);
-            prodLevelNo = Constant.PERCENT;
-        } else {
-            customerLevelNo = Constant.PERCENT;
-            prodLevelNo = StringUtils.isBlank(String.valueOf(customLevelNo)) ? Constant.PERCENT : String.valueOf(customLevelNo);
-        }
-
-        if (Constant.CUSTOMER_SMALL.equalsIgnoreCase(View)) {
-            hierarchy = "PROJECTION_CUST_HIERARCHY";
-        } else {
-            hierarchy = "PROJECTION_PROD_HIERARCHY";
-        }
         String hierSQL = "SELECT FIELD_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION WHERE HIERARCHY_DEFINITION_SID=" + projSelDTO.getCustHierarchySID() + " and LEVEL_NAME='Contract'";
         list = (List<Object>) CommonLogic.executeSelectQuery(hierSQL, null, null);
 
@@ -1382,16 +1356,16 @@ public class DPRLogic {
                 + "    '' as   LEVEL_NO,\n"
                 + "     '' as   LEVEL_NAME,\n"
                 + "       cm." + columnName + ",\n"
-                + "pd.HIERARCHY_NO,\n"
-                + "p.\"YEAR\",\n"
+                + Constant.PD_HIERARCHY_NO
+                + "p.\"YEAR\", \n"
                 + "       Sum(MAD.ACTUAL_SALES)        AS  Disc_Amt,\n"
                 + "Coalesce(Sum(MAD.ACTUAL_SALES)/Nullif(Sum(m_ac.ACTUAL_SALES),0),0)*100       AS  Disc_Rate,\n"
                 + "       Sum(SPMA.ACTUAL_SALES)        AS  Supp_Amt,\n"
                 + "Coalesce(Sum(SPMA.ACTUAL_SALES)/Nullif(Sum(m_ac.ACTUAL_SALES),0),0)*100      AS  Supp_Rate,\n"
                 + " Coalesce(Sum(MAD.ACTUAL_SALES)/Nullif(Sum(m_ac.ACTUAL_UNITS),0),0) AS Man_RPU, Coalesce(Sum(SPMA.ACTUAL_SALES)/Nullif(Sum(m_ac.ACTUAL_UNITS),0),0) As Sup_RPU,\n"
                 + "       0                            As ActualProj\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
-            customSQL += "         , p." + frequency + "\n";
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
+            customSQL += "       , p." + frequency + "\n";
             customSQL += ",'" + freqChar + "'+CONVERT(VARCHAR(2),P." + frequency + ")+' '+CONVERT(VARCHAR(4),P.YEAR) AS PERIOD\n";
         }
         customSQL += "FROM #SELECTED_HIERARCHY_NO pd\n";
@@ -1399,28 +1373,28 @@ public class DPRLogic {
         customSQL += "join ccp_details ccd on ccd.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
                 + "join contract_master cm on cm.contract_master_sid=ccd.contract_master_sid\n";
         
-        customSQL += "JOIN "
+        customSQL += Constant.JOIN_SPACE
                 +  "   ST_M_SALES_PROJECTION_MASTER "
                 + "m_mas ON pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
                 + "JOIN  "
                 + " ST_M_ACTUAL_SALES m_ac"
                 + " ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
                 + "JOIN   ST_M_ACTUAL_DISCOUNT "
-                + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
-                + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
-                + "LEFT JOIN "
+                + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID \n"
+                + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID \n"
+                + Constant.LEFT_JOIN
                 + " ST_M_SUPPLEMENTAL_DISC_MASTER "
-                + " SPM ON SPM.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
+                + " SPM ON SPM.CCP_DETAILS_SID = pd.CCP_DETAILS_SID \n"
                 + "LEFT JOIN  "
                 + "  ST_M_SUPPLEMENTAL_DISC_ACTUALS "
-                + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
+                + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID \n"
                 + "										   AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
-                + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
+                + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID \n"
                 + "GROUP  BY cm." + columnName + ",\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
-            customSQL += "          p." + frequency + ",\n";
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
+            customSQL += "         p." + frequency + ",\n";
         }
-        customSQL +="pd.HIERARCHY_NO,\n"
+        customSQL +=Constant.PD_HIERARCHY_NO
                 + "          p.\"YEAR\""
                 + "Union ALL \n"
                 + "\n"
@@ -1428,16 +1402,16 @@ public class DPRLogic {
                 + "    '' as   LEVEL_NO,\n"
                 + "     '' as   LEVEL_NAME,\n"
                 + "       cm." + columnName + ",\n"
-                + "pd.HIERARCHY_NO,\n"
-                + "p.\"YEAR\",\n"
+                + Constant.PD_HIERARCHY_NO
+                + "p.\"YEAR\", \n"
                 + "       Sum(MAD.PROJECTION_SALES)        AS  Disc_Amt,\n"
                 + "Coalesce(Sum(MAD.PROJECTION_SALES)/Nullif(Sum(m_ac.PROJECTION_SALES),0),0)*100 AS  Disc_Rate,\n"
                 + "       Sum(SPMA.PROJECTION_SALES)        AS  Supp_Amt,\n"
                 + "Coalesce(Sum(SPMA.PROJECTION_SALES)/Nullif(Sum(m_ac.PROJECTION_SALES),0),0)*100 AS  Supp_Rate,\n"
                 + " Coalesce(Sum(MAD.PROJECTION_SALES)/Nullif(Sum(m_ac.PROJECTION_UNITS),0),0) AS Man_RPU, Coalesce(Sum(SPMA.PROJECTION_SALES)/Nullif(Sum(m_ac.PROJECTION_UNITS),0),0) As Sup_RPU, \n"
                 + "       1                            As ActualProj\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
-            customSQL += "         , p." + frequency + "\n";
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
+            customSQL += "        , p." + frequency + "\n";
             customSQL += ",'" + freqChar + "'+CONVERT(VARCHAR(2),P." + frequency + ")+' '+CONVERT(VARCHAR(4),P.YEAR) AS PERIOD\n";
         }
         customSQL += "FROM   #SELECTED_HIERARCHY_NO pd\n";
@@ -1445,32 +1419,32 @@ public class DPRLogic {
         customSQL += "join ccp_details ccd on ccd.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
                 + "join contract_master cm on cm.contract_master_sid=ccd.contract_master_sid\n";
 
-        customSQL += "JOIN "
+        customSQL += Constant.JOIN_SPACE
                 + "  ST_M_SALES_PROJECTION_MASTER"
                 + " m_mas ON pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
-                + "JOIN "
+                + Constant.JOIN_SPACE
                 + "  ST_M_SALES_PROJECTION "
-                + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
-                + "JOIN   "
+                + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID \n"
+                + "JOIN    "
                  + "  ST_M_DISCOUNT_PROJECTION "
-                + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
-                + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
-                + "LEFT JOIN "
+                + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID \n"
+                + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID \n"
+                + Constant.LEFT_JOIN
                 + "  ST_M_SUPPLEMENTAL_DISC_MASTER "
                 + " SPM ON SPM.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "\n"
               
-                + "LEFT JOIN "
+                + Constant.LEFT_JOIN
                 +"  ST_M_SUPPLEMENTAL_DISC_PROJ "
-                + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
+                + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID \n"
                 + "                                                                        AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
-                + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
+                + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID \n"
                 
                 + "GROUP  BY cm." + columnName + ",\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          p." + frequency + ",\n";
         }
-        customSQL +="pd.HIERARCHY_NO,\n"
+        customSQL +=Constant.PD_HIERARCHY_NO
                 + "          p.\"YEAR\"\n";
         if (Constant.PERIOD.equalsIgnoreCase(projSelDTO.getPivotView())) {
             customSQL += "Order By cm." + columnName + ",p.\"YEAR\"\n";
@@ -1478,13 +1452,14 @@ public class DPRLogic {
             customSQL += "Order By p.\"YEAR\"\n";
         }
 
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          ,p." + frequency + "\n";
         }
          customSQL=QueryUtil.replaceTableNames(customSQL, projSelDTO.getSessionDTO().getCurrentTableNames());
        
         return customSQL;
     }
+    
 
     private String getProgramCodeNameQuery(int projectionId) {
         String customSQL = "SELECT DISTINCT CM.CONTRACT_NAME FROM dbo.CONTRACT_MASTER CM \n"
@@ -1494,14 +1469,15 @@ public class DPRLogic {
     }
 
     public DiscountProjectionResultsDTO getChildNodeValues(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO) {
-        Map<Integer, String> freq = new HashMap<Integer, String>();
-        freq.put(1, "\"YEAR\"");
-        freq.put(NumericConstants.TWO, "SEMI_ANNUAL");
-        freq.put(NumericConstants.FOUR, "QUARTER");
-        freq.put(NumericConstants.TWELVE, "\"MONTH\"");
+        Map<Integer, String> freq = new HashMap<>();
+        freq.put(1, Constant.YEAR_SPACE);
+        freq.put(NumericConstants.TWO, Constant.SEMI_ANNUAL);
+        freq.put(NumericConstants.FOUR, Constant.QUARTER);
+        freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
-        String freqChar = !"\"YEAR\"".equalsIgnoreCase(frequency) ? "SEMI_ANNUAL".equalsIgnoreCase(frequency) ? Constant.S : "QUARTER".equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
-        String query = getHierarchyLevelQuery(projSelDTO.getProjectionId(), projSelDTO.getUserId(), projSelDTO.getSessionId(), dto.getLevelNo(), projSelDTO.getHierarchyNo(), frequency, projSelDTO.getView(), projSelDTO, dto.getCustomerHierarchyNo(), dto.getProductHierarchyNo(), dto.getLevelValue(), freqChar);
+        String freqChar;
+        freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
+        String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
         double annualMandamt = 0.0, annualMandrate = 0.0, annualMandrpu = 0.0, annualMandProjamt = 0.0, annualMandProjrate = 0.0, annualMandProjrpu = 0.0,
                 annualSuppamt = 0.0, annualSupprate = 0.0, annualSupprpu = 0.0, annualSuppProjamt = 0.0, annualSuppProjrate = 0.0, annualSuppProjrpu = 0.0;
@@ -1520,14 +1496,14 @@ public class DPRLogic {
             boolean actualFlag = false;
             for (Object list1 : list) {
 
-                String columnName = StringUtils.EMPTY;
+                String columnName;
                 final Object[] obj = (Object[]) list1;
                 actualFlag = Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
                 String mandSupp = projSelDTO.getMandatedOrSupp();
 
                 int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
                 int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
-                List<String> annualTotal = new ArrayList<String>();
+                List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                     annualTotal = HeaderUtils.getCommonColumnHeader(1, year, 0, false);
@@ -1552,7 +1528,7 @@ public class DPRLogic {
                 }
                 List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                 String commonColumn = common.get(0);
-                if ("mandated".equalsIgnoreCase(mandSupp)) {
+                if (Constant.MANDATED.equalsIgnoreCase(mandSupp)) {
 
                     String mandAmt = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     String mandRate = StringUtils.EMPTY + obj[NumericConstants.SIX];
@@ -1565,18 +1541,18 @@ public class DPRLogic {
                     }
 
                     mandAmt = getFormatValue(NumericConstants.TWO, mandAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandAmt);
                     dto.addStringProperties(commonColumn + columnName, mandAmt);
 
                     mandRate = getFormatValue(NumericConstants.TWO, mandRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandRate);
 
                     dto.addStringProperties(commonColumn + columnName, mandRate);
 
                     mandRPU = getFormatValue(NumericConstants.TWO, mandRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandRPU);
                     dto.addStringProperties(commonColumn + columnName, mandRPU);
 
@@ -1603,20 +1579,20 @@ public class DPRLogic {
                             mandRPU = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, mandRPU);
                         }
 
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandAmt);
                         dto.addStringProperties(annualColumn + columnName, mandAmt);
 
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandRate);
                         dto.addStringProperties(annualColumn + columnName, mandRate);
 
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandRPU);
                         dto.addStringProperties(annualColumn + columnName, mandRPU);
                     }
                 }
-                if ("supplemental".equalsIgnoreCase(mandSupp)) {
+                if (SUPPLEMENTAL.equalsIgnoreCase(mandSupp)) {
                     String suppAmt = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
                     String suppRate = StringUtils.EMPTY + obj[NumericConstants.EIGHT];
                     String suppRPU = StringUtils.EMPTY + obj[NumericConstants.TEN];
@@ -1626,17 +1602,17 @@ public class DPRLogic {
                         suppRPU = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, suppRPU);
                     }
                     suppAmt = getFormatValue(NumericConstants.TWO, suppAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     suppDTO.addStringProperties(commonColumn + columnName, suppAmt);
                     dto.addStringProperties(commonColumn + columnName, suppAmt);
 
                     suppRate = getFormatValue(NumericConstants.TWO, suppRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     suppDTO.addStringProperties(commonColumn + columnName, suppRate);
                     dto.addStringProperties(commonColumn + columnName, suppRate);
 
                     suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     suppDTO.addStringProperties(commonColumn + columnName, suppRPU);
                     dto.addStringProperties(commonColumn + columnName, suppRPU);
 
@@ -1663,15 +1639,15 @@ public class DPRLogic {
                             suppRPU = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, suppRPU);
                         }
 
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         suppDTO.addStringProperties(annualColumn + columnName, suppAmt);
                         dto.addStringProperties(annualColumn + columnName, suppAmt);
 
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         suppDTO.addStringProperties(annualColumn + columnName, suppRate);
                         dto.addStringProperties(annualColumn + columnName, suppRate);
 
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         suppDTO.addStringProperties(annualColumn + columnName, suppRPU);
                         dto.addStringProperties(annualColumn + columnName, suppRPU);
                     }
@@ -1694,20 +1670,16 @@ public class DPRLogic {
                     }
 
                     mandAmt = getFormatValue(NumericConstants.TWO, mandAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandAmt);
 
                     mandRate = getFormatValue(NumericConstants.TWO, mandRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandRate);
 
                     suppAmt = getFormatValue(NumericConstants.TWO, suppAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     suppDTO.addStringProperties(commonColumn + columnName, suppAmt);
-                    String nullValue = "...";
-                    if (nullValue.equals(suppAmt)) {
-                        suppAmt = StringUtils.EMPTY;
-                    }
                     Double amt = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.FIVE])) ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SEVEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0.00);
                     String stringAmount = String.valueOf(amt);
                     if (!actualFlag) {
@@ -1716,11 +1688,8 @@ public class DPRLogic {
                     dto.addStringProperties(commonColumn + columnName, getFormatValue(NumericConstants.TWO, stringAmount, CURRENCY));
 
                     suppRate = getFormatValue(NumericConstants.TWO, suppRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     suppDTO.addStringProperties(commonColumn + columnName, suppRate);
-                    if (nullValue.equals(suppRate)) {
-                        suppRate = StringUtils.EMPTY;
-                    }
 
                     Double rate = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SIX])) ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.EIGHT])) ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0.00);
                     String stringRate = String.valueOf(rate);
@@ -1730,15 +1699,12 @@ public class DPRLogic {
                     dto.addStringProperties(commonColumn + columnName, getFormatValue(NumericConstants.TWO, stringRate, PERCENTAGE));
 
                     mandRPU = getFormatValue(NumericConstants.TWO, mandRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandRPU);
 
                     suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     suppDTO.addStringProperties(commonColumn + columnName, suppRPU);
-                    if (nullValue.equals(suppRPU)) {
-                        suppRPU = StringUtils.EMPTY;
-                    }
                     Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
                     String stringRpu = String.valueOf(rpu);
                     if (!actualFlag) {
@@ -1760,9 +1726,9 @@ public class DPRLogic {
                             suppRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprate), PERCENTAGE);
                             annualSupprpu = annualSupprpu + (obj[NumericConstants.TEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0);
                             suppRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprpu), CURRENCY);
-                            dto.addStringProperties(annualColumn + "ActualsAmount", getFormatValue(NumericConstants.TWO, String.valueOf(annualMandamt + annualSuppamt), CURRENCY));
-                            dto.addStringProperties(annualColumn + "ActualsRate", getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrate + annualSupprate), PERCENTAGE));
-                            dto.addStringProperties(annualColumn + "ActualsRPU", getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrpu + annualSupprpu), CURRENCY));
+                            dto.addStringProperties(annualColumn + Constant.ACTUALS_AMOUNT, getFormatValue(NumericConstants.TWO, String.valueOf(annualMandamt + annualSuppamt), CURRENCY));
+                            dto.addStringProperties(annualColumn + Constant.ACTUALS_RATE, getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrate + annualSupprate), PERCENTAGE));
+                            dto.addStringProperties(annualColumn + Constant.ACTUALS_RPU, getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrpu + annualSupprpu), CURRENCY));
                         } else {
                             annualMandProjamt = annualMandProjamt + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
                             annualMandProjrate = annualMandProjrate + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
@@ -1794,26 +1760,26 @@ public class DPRLogic {
                             suppRate = getFormatValue(NumericConstants.TWO, stringAnnualSuppProjrate, PERCENTAGE);
                             suppRPU = getFormatValue(NumericConstants.TWO, stringAnnualSuppProjrpu, CURRENCY);
 
-                            dto.addStringProperties(annualColumn + "ProjectionsAmount", getFormatValue(NumericConstants.TWO, getSummedData(stringAnnualMandProjamt, stringAnnualSuppProjamt), CURRENCY));
-                            dto.addStringProperties(annualColumn + "ProjectionsRate", getFormatValue(NumericConstants.TWO, getSummedData(stringAnnualMandProjrate, stringAnnualSuppProjrate), PERCENTAGE));
-                            dto.addStringProperties(annualColumn + "ProjectionsRPU", getFormatValue(NumericConstants.TWO, getSummedData(stringAnnualMandProjrpu, stringAnnualSuppProjrpu), CURRENCY));
+                            dto.addStringProperties(annualColumn + Constant.PROJECTIONS_AMOUNT, getFormatValue(NumericConstants.TWO, getSummedData(stringAnnualMandProjamt, stringAnnualSuppProjamt), CURRENCY));
+                            dto.addStringProperties(annualColumn + Constant.PROJECTIONS_RATE, getFormatValue(NumericConstants.TWO, getSummedData(stringAnnualMandProjrate, stringAnnualSuppProjrate), PERCENTAGE));
+                            dto.addStringProperties(annualColumn + Constant.PROJECTIONS_RPU, getFormatValue(NumericConstants.TWO, getSummedData(stringAnnualMandProjrpu, stringAnnualSuppProjrpu), CURRENCY));
                         }
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandAmt);
 
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandRate);
 
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         mandatedDTO.addStringProperties(annualColumn + columnName, mandRPU);
 
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         suppDTO.addStringProperties(annualColumn + columnName, suppAmt);
 
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         suppDTO.addStringProperties(annualColumn + columnName, suppRate);
 
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         suppDTO.addStringProperties(annualColumn + columnName, suppRPU);
                     }
                 }
@@ -1825,30 +1791,8 @@ public class DPRLogic {
         return dto;
     }
 
-    public static String getHierarchyLevelQuery(int projectionId, int userID, int sessionID, int levelNo, String hierarchyNo, String frequency, String View, ProjectionSelectionDTO projSelDTO, String customerHierNo, String prodHierNo, String levelValue, String freqChar) {
-        String hierarchy = StringUtils.EMPTY;
-        String customerLevelNo = StringUtils.EMPTY;
-        String prodLevelNo = StringUtils.EMPTY;
-        boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
-        String customerHierarNo = StringUtils.isBlank(String.valueOf(customerHierNo)) ? StringUtils.EMPTY : String.valueOf(customerHierNo);
-        String prodHierarNo = StringUtils.isBlank(String.valueOf(prodHierNo)) ? StringUtils.EMPTY : String.valueOf(prodHierNo);
-
-        int customID = projSelDTO.getCustomId();
-        int customLevelNo = projSelDTO.getCustomLevelNo();
-        String hierarchyIndicator = projSelDTO.getHierarchyIndicator().trim();
-        if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equalsIgnoreCase(hierarchyIndicator)) {
-            customerLevelNo = StringUtils.isBlank(String.valueOf(customLevelNo)) ? Constant.PERCENT : String.valueOf(customLevelNo);
-            prodLevelNo = Constant.PERCENT;
-        } else {
-            customerLevelNo = Constant.PERCENT;
-            prodLevelNo = StringUtils.isBlank(String.valueOf(customLevelNo)) ? Constant.PERCENT : String.valueOf(customLevelNo);
-        }
-
-        if (Constant.CUSTOMER_SMALL.equalsIgnoreCase(View)) {
-            hierarchy = "PROJECTION_CUST_HIERARCHY";
-        } else {
-            hierarchy = "PROJECTION_PROD_HIERARCHY";
-        }   String selectedHierQury = "IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL\n"
+    public static String getHierarchyLevelQuery(String hierarchyNo, String frequency, ProjectionSelectionDTO projSelDTO, String freqChar) {
+        String selectedHierQury = "IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL\n"
                 + "  DROP TABLE #SELECTED_HIERARCHY_NO\n"
                 + "\n"
                 + "CREATE TABLE #SELECTED_HIERARCHY_NO\n"
@@ -1869,7 +1813,7 @@ public class DPRLogic {
                 + "  '' as   LEVEL_NO,\n"
                 + "   '' as     LEVEL_NAME,\n"
                 + "  '' as      RELATIONSHIP_LEVEL_VALUES,\n"
-                + "pd.HIERARCHY_NO,\n"
+                + Constant.PD_HIERARCHY_NO
                 + "p.\"YEAR\",\n"
                 + "       Sum(MAD.ACTUAL_SALES)        AS  Disc_Amt,\n"
                 + "Coalesce(Sum(MAD.ACTUAL_SALES)/Nullif(Sum(m_ac.ACTUAL_SALES),0),0)*100       AS  Disc_Rate,\n"
@@ -1877,19 +1821,16 @@ public class DPRLogic {
                 + "Coalesce(Sum(SPMA.ACTUAL_SALES)/Nullif(Sum(m_ac.ACTUAL_SALES),0),0)*100      AS  Supp_Rate,\n"
                 + " Coalesce(Sum(MAD.ACTUAL_SALES)/Nullif(Sum(m_ac.ACTUAL_UNITS),0),0) AS Man_RPU, Coalesce(Sum(SPMA.ACTUAL_SALES)/Nullif(Sum(m_ac.ACTUAL_UNITS),0),0) As Sup_RPU,\n"
                 + "       0                            As ActualProj\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "         , p." + frequency + "\n";
         }
         customSQL += "FROM #SELECTED_HIERARCHY_NO pd \n";
 
       
-//        if (!Constant.CUSTOM.equalsIgnoreCase(View)) {
-//            customSQL += "                                        AND ph.RELATIONSHIP_LEVEL_SID = rld.RELATIONSHIP_LEVEL_SID\n";
-//        }
-        customSQL += "JOIN "
+        customSQL += Constant.JOIN_SPACE
                 +  "  ST_M_SALES_PROJECTION_MASTER "
                 + " m_mas ON pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
-                + "JOIN "
+                + Constant.JOIN_SPACE
                 + "  ST_M_ACTUAL_SALES "
                 + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
             
@@ -1898,18 +1839,18 @@ public class DPRLogic {
                 + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
 
-                + "LEFT JOIN "
+                + Constant.LEFT_JOIN
                 +"  ST_M_SUPPLEMENTAL_DISC_MASTER "
                 + " SPM ON SPM.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
               
-                + "LEFT JOIN "
+                + Constant.LEFT_JOIN
                 +  "  ST_M_SUPPLEMENTAL_DISC_ACTUALS "
                 + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "										   AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
               
                 + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n";
         if (!Constant.PERIOD.equalsIgnoreCase(projSelDTO.getPivotView())) {
-            if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+            if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
 
                 customSQL += "AND p.PERIOD_SID between (SELECT MIN(PERIOD_SID) FROM PERIOD WHERE '" + freqChar + "'+CONVERT(VARCHAR(2)," + frequency + ")+' '+CONVERT(VARCHAR(4),YEAR)='" + freqChar + projSelDTO.getHistoryStartPeriod() + " " + projSelDTO.getHistoryStartYear() + "')"
                         + " and (SELECT MAX(PERIOD_SID) FROM PERIOD WHERE 'M'+CONVERT(VARCHAR(2),\"MONTH\")+' '+CONVERT(VARCHAR(4),YEAR)='M" + projSelDTO.getForecastDTO().getForecastEndMonth() + " " + projSelDTO.getForecastDTO().getForecastEndYear() + "')";
@@ -1920,10 +1861,10 @@ public class DPRLogic {
         }
        
         customSQL += "GROUP  BY \n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          p." + frequency + ",\n";
         }
-        customSQL += "pd.HIERARCHY_NO,\n"
+        customSQL += Constant.PD_HIERARCHY_NO
                 + "          p.\"YEAR\"\n"
                 + "Union ALL \n"
                 + "\n"
@@ -1931,7 +1872,7 @@ public class DPRLogic {
                 + "   '' as   LEVEL_NO,\n"
                 + "  '' as   LEVEL_NAME,\n"
                 + "     '' as   RELATIONSHIP_LEVEL_VALUES,\n"
-                + "pd.HIERARCHY_NO,\n"
+                + Constant.PD_HIERARCHY_NO
                 + "p.\"YEAR\",\n"
                 + "       Sum(MAD.PROJECTION_SALES)        AS  Disc_Amt,\n"
                 + "Coalesce(Sum(MAD.PROJECTION_SALES)/Nullif(Sum(m_ac.PROJECTION_SALES),0),0)*100 AS  Disc_Rate,\n"
@@ -1939,34 +1880,34 @@ public class DPRLogic {
                 + "Coalesce(Sum(SPMA.PROJECTION_SALES)/Nullif(Sum(m_ac.PROJECTION_SALES),0),0)*100 AS  Supp_Rate,\n"
                 + " Coalesce(Sum(MAD.PROJECTION_SALES)/Nullif(Sum(m_ac.PROJECTION_UNITS),0),0) AS Man_RPU, Coalesce(Sum(SPMA.PROJECTION_SALES)/Nullif(Sum(m_ac.PROJECTION_UNITS),0),0) As Sup_RPU, \n"
                 + "       1                            As ActualProj\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "         , p." + frequency + "\n";
         }
         customSQL += "	FROM #SELECTED_HIERARCHY_NO pd \n ";
 
 
-        customSQL += "JOIN "
+        customSQL += Constant.JOIN_SPACE
                 + "  ST_M_SALES_PROJECTION_MASTER "
                 + "m_mas ON pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
               
-                + "JOIN  "
+                + "JOIN   "
                 + " ST_M_SALES_PROJECTION"
                 + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
              
-                + "JOIN  "
+                + "JOIN   "
                 + " ST_M_DISCOUNT_PROJECTION "
                 + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + "LEFT JOIN  "
                 + " ST_M_SUPPLEMENTAL_DISC_MASTER "
-                + " SPM ON SPM.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
-                + "LEFT JOIN "
+                + " SPM ON SPM.CCP_DETAILS_SID = pd.CCP_DETAILS_SID \n"
+                + Constant.LEFT_JOIN
                 + "  ST_M_SUPPLEMENTAL_DISC_PROJ "
                 + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "                                                                        AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n" ;
         if (!Constant.PERIOD.equalsIgnoreCase(projSelDTO.getPivotView())) {
-            if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+            if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
                 customSQL += "AND p.PERIOD_SID between (SELECT MIN(PERIOD_SID) FROM PERIOD WHERE '" + freqChar + "'+CONVERT(VARCHAR(2)," + frequency + ")+' '+CONVERT(VARCHAR(4),YEAR)='" + freqChar + projSelDTO.getHistoryStartPeriod() + " " + projSelDTO.getHistoryStartYear() + "')"
                         + " and (SELECT MAX(PERIOD_SID) FROM PERIOD WHERE 'M'+CONVERT(VARCHAR(2),\"MONTH\")+' '+CONVERT(VARCHAR(4),YEAR)='M" + projSelDTO.getForecastDTO().getForecastEndMonth() + " " + projSelDTO.getForecastDTO().getForecastEndYear() + "')";
             } else {
@@ -1975,13 +1916,13 @@ public class DPRLogic {
         }
 
         customSQL += "GROUP  BY ";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
-            customSQL += "          p." + frequency + ",\n";
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
+            customSQL += "        p." + frequency + ",\n";
         }
-        customSQL += "pd.HIERARCHY_NO,\n"
+        customSQL += Constant.PD_HIERARCHY_NO
                 + " p.\"YEAR\"\n"
                 + "Order By p.\"YEAR\"\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          ,p." + frequency + "\n";
         }
          customSQL=   QueryUtil.replaceTableNames(customSQL, projSelDTO.getSessionDTO().getCurrentTableNames());
@@ -1998,19 +1939,19 @@ public class DPRLogic {
      *
      */
     public DiscountProjectionResultsDTO getPivotChildNodeValues(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO) {
-        Map<Integer, String> freq = new HashMap<Integer, String>();
-        freq.put(1, "\"YEAR\"");
-        freq.put(NumericConstants.TWO, "SEMI_ANNUAL");
-        freq.put(NumericConstants.FOUR, "QUARTER");
-        freq.put(NumericConstants.TWELVE, "\"MONTH\"");
+        Map<Integer, String> freq = new HashMap<>();
+        freq.put(1, Constant.YEAR_SPACE);
+        freq.put(NumericConstants.TWO, Constant.SEMI_ANNUAL);
+        freq.put(NumericConstants.FOUR, Constant.QUARTER);
+        freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
-        String freqChar = !"\"YEAR\"".equalsIgnoreCase(frequency) ? "SEMI_ANNUAL".equalsIgnoreCase(frequency) ? Constant.S : "QUARTER".equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
-        String query = getHierarchyLevelQuery(projSelDTO.getProjectionId(), projSelDTO.getUserId(), projSelDTO.getSessionId(), dto.getLevelNo(), projSelDTO.getHierarchyNo(), frequency, projSelDTO.getView(), projSelDTO, dto.getCustomerHierarchyNo(), dto.getProductHierarchyNo(), dto.getLevelValue(), freqChar);
+        String freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
+        String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO,freqChar);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
         if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
             Collections.reverse(list);
         }
-        List<DiscountProjectionResultsDTO> childList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> childList = new ArrayList<>();
         try {
             if (list != null && !list.isEmpty()) {
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
@@ -2020,7 +1961,7 @@ public class DPRLogic {
                 List<Object> pcList = addProgramCodeDiscounts(projSelDTO);
                 for (int i = 0; i < list.size(); i++) {
 
-                    String columnName = StringUtils.EMPTY;
+                    String columnName;
                     final Object[] obj = (Object[]) list.get(i);
                     actualFlag = Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
                     String mandSupp = projSelDTO.getMandatedOrSupp();
@@ -2030,7 +1971,7 @@ public class DPRLogic {
                     List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                     String column = common.get(0);
                     String commonHeader = common.get(1);
-                    String commonColumn = StringUtils.EMPTY;
+                    String commonColumn;
 
                     if (lastPeriod.isEmpty() || !lastPeriod.equalsIgnoreCase(common.get(1))) {
                         if (periodDTO != null) {
@@ -2043,7 +1984,7 @@ public class DPRLogic {
                     }
                     periodDTO.setLevelValue(commonHeader);
                     periodDTO.setRelationshipLevelName(commonHeader);
-                    if ("mandated".equalsIgnoreCase(mandSupp)) {
+                    if (Constant.MANDATED.equalsIgnoreCase(mandSupp)) {
                         String mandAmt = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                         String mandRate = StringUtils.EMPTY + obj[NumericConstants.SIX];
                         String mandRPU = StringUtils.EMPTY + obj[NumericConstants.NINE];
@@ -2054,28 +1995,28 @@ public class DPRLogic {
                             mandRPU = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), column, mandRPU);
                         }
 
-                        commonColumn = "MandatedDiscount";
+                        commonColumn = Constant.MANDATED_DISCOUNT1;
                         mandAmt = getFormatValue(NumericConstants.TWO, mandAmt, CURRENCY);
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         periodDTO.addStringProperties(commonColumn + columnName, mandAmt);
 
                         mandRate = getFormatValue(NumericConstants.TWO, mandRate, PERCENTAGE);
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         periodDTO.addStringProperties(commonColumn + columnName, mandRate);
 
                         mandRPU = getFormatValue(NumericConstants.TWO, mandRPU, CURRENCY);
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         periodDTO.addStringProperties(commonColumn + columnName, mandRPU);
 
                         commonColumn = Constant.TOTALDISCOUNT;
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         periodDTO.addStringProperties(commonColumn + columnName, mandAmt);
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         periodDTO.addStringProperties(commonColumn + columnName, mandRate);
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         periodDTO.addStringProperties(commonColumn + columnName, mandRPU);
                     }
-                    if ("supplemental".equalsIgnoreCase(mandSupp)) {
+                    if (SUPPLEMENTAL.equalsIgnoreCase(mandSupp)) {
 
                         String suppAmt = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
                         String suppRate = StringUtils.EMPTY + obj[NumericConstants.EIGHT];
@@ -2087,29 +2028,29 @@ public class DPRLogic {
                             suppRPU = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), column, suppRPU);
                         }
 
-                        commonColumn = "SupplementalDiscount";
+                        commonColumn = SUPPLEMENTAL_DISCOUNT1;
                         suppAmt = getFormatValue(NumericConstants.TWO, suppAmt, CURRENCY);
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         periodDTO.addStringProperties(commonColumn + columnName, suppAmt);
 
                         suppRate = getFormatValue(NumericConstants.TWO, suppRate, PERCENTAGE);
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         periodDTO.addStringProperties(commonColumn + columnName, suppRate);
 
                         suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         periodDTO.addStringProperties(commonColumn + columnName, suppRPU);
 
                         commonColumn = Constant.TOTALDISCOUNT;
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         periodDTO.addStringProperties(commonColumn + columnName, suppAmt);
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         periodDTO.addStringProperties(commonColumn + columnName, suppRate);
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         periodDTO.addStringProperties(commonColumn + columnName, suppRPU);
                     }
                     if (Constant.BOTH_SMALL.equalsIgnoreCase(mandSupp)) {
-                        commonColumn = "MandatedDiscount";
+                        commonColumn = Constant.MANDATED_DISCOUNT1;
                         String mandAmt = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                         String mandRate = StringUtils.EMPTY + obj[NumericConstants.SIX];
                         String mandRPU = StringUtils.EMPTY + obj[NumericConstants.NINE];
@@ -2121,18 +2062,18 @@ public class DPRLogic {
                         }
 
                         mandAmt = getFormatValue(NumericConstants.TWO, mandAmt, CURRENCY);
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         periodDTO.addStringProperties(commonColumn + columnName, mandAmt);
 
                         mandRate = getFormatValue(NumericConstants.TWO, mandRate, PERCENTAGE);
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         periodDTO.addStringProperties(commonColumn + columnName, mandRate);
 
                         mandRPU = getFormatValue(NumericConstants.TWO, mandRPU, CURRENCY);
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         periodDTO.addStringProperties(commonColumn + columnName, mandRPU);
 
-                        commonColumn = "SupplementalDiscount";
+                        commonColumn = SUPPLEMENTAL_DISCOUNT1;
 
                         String suppAmt = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
                         String suppRate = StringUtils.EMPTY + obj[NumericConstants.EIGHT];
@@ -2145,22 +2086,15 @@ public class DPRLogic {
                         }
 
                         suppAmt = getFormatValue(NumericConstants.TWO, suppAmt, CURRENCY);
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         periodDTO.addStringProperties(commonColumn + columnName, suppAmt);
-                        String nullValue = "...";
-                        if (nullValue.equals(suppAmt)) {
-                            suppAmt = StringUtils.EMPTY;
-                        }
 
                         suppRate = getFormatValue(NumericConstants.TWO, suppRate, PERCENTAGE);
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         periodDTO.addStringProperties(commonColumn + columnName, suppRate);
-                        if (nullValue.equals(suppRate)) {
-                            suppRate = StringUtils.EMPTY;
-                        }
 
                         suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         periodDTO.addStringProperties(commonColumn + columnName, suppRPU);
 
                         commonColumn = Constant.TOTALDISCOUNT;
@@ -2176,11 +2110,11 @@ public class DPRLogic {
                             stringRate = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), column, stringRate);
                             stringRpu = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), column, stringRpu);
                         }
-                        columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                        columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                         periodDTO.addStringProperties(commonColumn + columnName, getFormatValue(NumericConstants.TWO, stringAmt, CURRENCY));
-                        columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                        columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                         periodDTO.addStringProperties(commonColumn + columnName, getFormatValue(NumericConstants.TWO, stringRate, PERCENTAGE));
-                        columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                        columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                         periodDTO.addStringProperties(commonColumn + columnName, getFormatValue(NumericConstants.TWO, stringRpu, CURRENCY));
                     }
                     if (i == list.size() - 1) {
@@ -2208,26 +2142,26 @@ public class DPRLogic {
     }
 
     private List<Object> addProgramCodeDiscounts(ProjectionSelectionDTO projSelDTO) {
-        List<Object> list = new ArrayList<Object>();
-        Map<Integer, String> freq = new HashMap<Integer, String>();
-        freq.put(1, "\"YEAR\"");
-        freq.put(NumericConstants.TWO, "SEMI_ANNUAL");
-        freq.put(NumericConstants.FOUR, "QUARTER");
-        freq.put(NumericConstants.TWELVE, "\"MONTH\"");
+        List<Object> list;
+        Map<Integer, String> freq = new HashMap<>();
+        freq.put(1, Constant.YEAR_SPACE);
+        freq.put(NumericConstants.TWO, Constant.SEMI_ANNUAL);
+        freq.put(NumericConstants.FOUR, Constant.QUARTER);
+        freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
-        String freqChar = !"\"YEAR\"".equalsIgnoreCase(frequency) ? "SEMI_ANNUAL".equalsIgnoreCase(frequency) ? Constant.S : "QUARTER".equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
-        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getProjectionId(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getLevelNo(), projSelDTO.getHierarchyNo(), frequency, projSelDTO.getView(), projSelDTO, freqChar), null, null);
+        String freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
+        list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar), null, null);
         return list;
     }
 
     private void customizePCDisc(List<Object> list, DiscountProjectionResultsDTO periodDTO, ProjectionSelectionDTO projSelDTO, String commonHeader, String freq) {
         if (list != null && !list.isEmpty()) {
             int frequencyDivision = projSelDTO.getFrequencyDivision();
-            String lastPeriod = StringUtils.EMPTY;
+            String lastPeriod;
             boolean actualFlag = false;
             for (int i = 0; i < list.size(); i++) {
 
-                String columnName = StringUtils.EMPTY;
+                String columnName;
                 final Object[] obj = (Object[]) list.get(i);
                 actualFlag = Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
 
@@ -2235,7 +2169,7 @@ public class DPRLogic {
                 int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
                 List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                 String column = common.get(0);
-                lastPeriod = "\"YEAR\"".equalsIgnoreCase(freq) ? String.valueOf(obj[NumericConstants.FOUR]) : String.valueOf(obj[NumericConstants.THIRTEEN]);
+                lastPeriod = Constant.YEAR_SPACE.equalsIgnoreCase(freq) ? String.valueOf(obj[NumericConstants.FOUR]) : String.valueOf(obj[NumericConstants.THIRTEEN]);
                 if (!lastPeriod.isEmpty() && commonHeader.equalsIgnoreCase(lastPeriod)) {
                     String commonColumn = obj[NumericConstants.TWO] + "m";
                     String mandAmt = StringUtils.EMPTY + obj[NumericConstants.FIVE];
@@ -2254,38 +2188,38 @@ public class DPRLogic {
                         suppRPU = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), column, suppRPU);
                     }
                     mandAmt = getFormatValue(NumericConstants.TWO, mandAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     periodDTO.addStringProperties(commonColumn + columnName, mandAmt);
 
                     mandRate = getFormatValue(NumericConstants.TWO, mandRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     periodDTO.addStringProperties(commonColumn + columnName, mandRate);
 
                     mandRPU = getFormatValue(NumericConstants.TWO, mandRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     periodDTO.addStringProperties(commonColumn + columnName, mandRPU);
 
                     commonColumn = obj[NumericConstants.TWO] + Constant.S_SMALL;
 
                     suppAmt = getFormatValue(NumericConstants.TWO, suppAmt, CURRENCY);
-                    columnName = actualFlag ? "ActualsAmount" : "ProjectionsAmount";
+                    columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     periodDTO.addStringProperties(commonColumn + columnName, suppAmt);
 
                     suppRate = getFormatValue(NumericConstants.TWO, suppRate, PERCENTAGE);
-                    columnName = actualFlag ? "ActualsRate" : "ProjectionsRate";
+                    columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     periodDTO.addStringProperties(commonColumn + columnName, suppRate);
 
                     suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
-                    columnName = actualFlag ? "ActualsRPU" : "ProjectionsRPU";
+                    columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     periodDTO.addStringProperties(commonColumn + columnName, suppRPU);
                 }
             }
         }
     }
 
-    public List<DiscountProjectionResultsDTO> getConfiguredResultsTotal(int start, int offset, ProjectionSelectionDTO projSelDTO)  {
-        List<DiscountProjectionResultsDTO> totalDTO = new ArrayList<DiscountProjectionResultsDTO>();
-        List<Integer> yearList = new ArrayList<Integer>();
+    public List<DiscountProjectionResultsDTO> getConfiguredResultsTotal(ProjectionSelectionDTO projSelDTO)  {
+        List<DiscountProjectionResultsDTO> totalDTO = new ArrayList<>();
+        List<Integer> yearList = new ArrayList<>();
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
         yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
@@ -2313,7 +2247,7 @@ public class DPRLogic {
             return totalDTO;
         } else {
 
-            List<DiscountProjectionResultsDTO> projectionDtoList = new ArrayList<DiscountProjectionResultsDTO>();
+            List<DiscountProjectionResultsDTO> projectionDtoList;
 
             projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
 
@@ -2323,7 +2257,7 @@ public class DPRLogic {
     }
 
     private List<Object> getProgramCodeCount(int projectionId, String hierarchyNo) {
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list;
         String customSQL = "SELECT DISTINCT CM.CONTRACT_NO FROM dbo.CONTRACT_MASTER CM \n"
                 + "JOIN dbo.CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
                 + "JOIN dbo.PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID \n"
@@ -2342,8 +2276,8 @@ public class DPRLogic {
      * @return
      */
     public static Map<Object, Object> getMProjectionSelection(final int projectionId, final String screenName) {
-        List<Object[]> list = new ArrayList<Object[]>();
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        List<Object[]> list = new ArrayList<>();
+        Map<Object, Object> map = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
         query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
@@ -2415,7 +2349,7 @@ public class DPRLogic {
 
     private String getSummedData(String stringAnnualMandProjamt, String stringAnnualSuppProjamt) {
         Double mandatedAmount = 0.0;
-        Double supplementalAmount = 0.0;
+        Double supplementalAmount;
         try {
             mandatedAmount = Double.valueOf(stringAnnualMandProjamt);
         } catch (NumberFormatException nfe) {

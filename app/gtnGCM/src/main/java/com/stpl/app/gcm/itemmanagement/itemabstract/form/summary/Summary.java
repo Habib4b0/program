@@ -6,6 +6,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.itemabstract.form.summary;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
@@ -83,25 +84,25 @@ public abstract class Summary extends CustomComponent {
     HorizontalLayout horizontalLayout1;
     @UiField("verti")
     VerticalLayout verti;
-    public ExtTreeContainer<AbstractSummaryDTO> resultBean = new ExtTreeContainer<AbstractSummaryDTO>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
+    public ExtTreeContainer<AbstractSummaryDTO> resultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
-    public Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<Object, Object[]>();
+    public Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     /**
      * The map right visible columns.
      */
-    public Map<Object, Object[]> mapRightVisibleColumns = new HashMap<Object, Object[]>();
+    public Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     ExtFilterTreeTable leftTable;
     ExtFilterTreeTable rightTable;
     SessionDTO session;
     List<ItemIndexDto> itemList;
     public ExtCustomTreeTable exportPeriodViewTable;
-    public ExtTreeContainer<AbstractSummaryDTO> excelResultBean = new ExtTreeContainer<AbstractSummaryDTO>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
+    public ExtTreeContainer<AbstractSummaryDTO> excelResultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
     public RemoveItemLogic logic = new RemoveItemLogic();
     TabSelectionDTO selectionDTO = new TabSelectionDTO();
     final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    Map<String, AppPermission> functionHM = new HashMap<>();
 
     public Summary(List<ItemIndexDto> itemList, SelectionDTO selection) {
         this.selection = selection;
@@ -126,7 +127,7 @@ public abstract class Summary extends CustomComponent {
     void ConfigureSalesSummaryTable() {
         fullHeader = new CustomTableHeaderDTO();
         String[] his = history.getValue().toString().split(" ");
-        selectionDTO.setFrequency("QUARTER");
+        selectionDTO.setFrequency(StringConstantsUtil.QUARTER_LABEL);
         selectionDTO.setSessionID(selection.getSessionId());
         selectionDTO.setOperation(selection.getButtonMode());
         selectionDTO.setItemList(itemList);
@@ -201,7 +202,7 @@ public abstract class Summary extends CustomComponent {
         frequency.setNullSelectionItemId(SELECT_ONE.getConstant());
         history.addItem(SELECT_ONE.getConstant());
         history.setNullSelectionItemId(SELECT_ONE.getConstant());
-        selection.getTabSelection().setFrequency("QUARTER");
+        selection.getTabSelection().setFrequency(StringConstantsUtil.QUARTER_LABEL);
 
         frequency.addItem("Annually");
         frequency.addItem("Semi-Annually");
@@ -209,8 +210,8 @@ public abstract class Summary extends CustomComponent {
         frequency.addItem("Monthly");
         frequency.setValue("Quarterly");
         frequency.focus();
-        history.addItem("4 Quarters");
-        history.setValue("4 Quarters");
+        history.addItem(StringConstantsUtil.FOUR_QUARTERS);
+        history.setValue(StringConstantsUtil.FOUR_QUARTERS);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent event) {
                 frequenyChangeLogic();
@@ -233,7 +234,7 @@ public abstract class Summary extends CustomComponent {
      */
     @SuppressWarnings("serial")
     public void configureExcelResultTable() {
-        excelResultBean = new ExtTreeContainer<AbstractSummaryDTO>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
         exportPeriodViewTable = new ExtFilterTreeTable();
         tradingPartnerSalesTableLayout.addComponent(exportPeriodViewTable);
         exportPeriodViewTable.setRefresh(Boolean.FALSE);
@@ -338,8 +339,8 @@ public abstract class Summary extends CustomComponent {
             deletedetailtable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
              tradingPartnerSalesTableLayout.addComponent(deletedetailtable);
             if (Constants.QUARTERLY.equalsIgnoreCase(String.valueOf(frequency.getValue()))) {
-                selection.getTabSelection().setFrequency("QUARTER");
-                selectionDTO.setFrequency("QUARTER");
+                selection.getTabSelection().setFrequency(StringConstantsUtil.QUARTER_LABEL);
+                selectionDTO.setFrequency(StringConstantsUtil.QUARTER_LABEL);
             } else if (Constants.SEMIANNUALLY.equalsIgnoreCase(String.valueOf(frequency.getValue()))) {
                 selection.getTabSelection().setFrequency("SEMI_ANNUAL");
                 selectionDTO.setFrequency("SEMI_ANNUAL");
@@ -359,7 +360,7 @@ public abstract class Summary extends CustomComponent {
      */
     private void frequenyChangeLogic() {
         String historyConstant = StringUtils.EMPTY;
-        final BeanItemContainer<String> historyBean = new BeanItemContainer<String>(String.class);
+        final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
         if ("Annually".equals(String.valueOf(frequency.getValue()))) {
             history.removeAllItems();
             historyBean.addAll(AbstractLogic.loadHistory(Constants.ANNUALLY, YEAR.getConstant()));
@@ -371,7 +372,7 @@ public abstract class Summary extends CustomComponent {
         } else if (QUARTERLY.equals(String.valueOf(frequency.getValue()))) {
             history.removeAllItems();
             historyBean.addAll(AbstractLogic.loadHistory(Constants.QUARTERLY, QUARTERS.getConstant()));
-            historyConstant = "4 Quarters";
+            historyConstant = StringConstantsUtil.FOUR_QUARTERS;
         } else if (MONTHLY.getConstant().equals(String.valueOf(frequency.getValue()))) {
             history.removeAllItems();
             historyBean.addAll(AbstractLogic.loadHistory(Constants.MONTHLY, MONTHS.getConstant()));

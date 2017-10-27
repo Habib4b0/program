@@ -87,8 +87,8 @@ public class DataFormatConverter implements Converter<String, String> {
           return "-";
         }
         try {
-            String stringValue = StringUtils.EMPTY;
-            String tempValue = StringUtils.EMPTY;
+            String stringValue;
+            String tempValue;
             tempValue = value.trim().replaceAll(numericDashRegex, StringUtils.EMPTY);
             DecimalFormat df = getFormatter();
             if (!StringUtils.EMPTY.equals(tempValue) && !UIUtil.NULL.equals(tempValue)

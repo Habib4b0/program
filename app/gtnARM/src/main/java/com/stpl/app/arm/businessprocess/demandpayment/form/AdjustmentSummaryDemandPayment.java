@@ -46,18 +46,20 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
     @Override
     protected void configureSummary() {
         view.select(ARMConstants.getMultiplePeriod());
-        selectionDTO.setSummary_demand_view("Multiple Period");
-        variableHeader = new String[]{VariableConstants.DemandPaymentSummaryVariables.DemandAccrual.toString(), VariableConstants.DemandPaymentSummaryVariables.DemandAccrualReforecast.toString(),
-            VariableConstants.DemandPaymentSummaryVariables.DemandPaymentRecon.toString(),
-            VariableConstants.DemandPaymentSummaryVariables.TotalDemandAccrual.toString(), VariableConstants.DemandPaymentSummaryVariables.ActualPayments.toString(),
-            VariableConstants.DemandPaymentSummaryVariables.PaymentRatio.toString(), VariableConstants.DemandPaymentSummaryVariables.Variance.toString()};
-        variableHeader_deduction = VariableConstants.DemandPaymentSummaryVariables.names();
-        variableVisibleColumns_deduction = VariableConstants.VISIBLE_COLUMN_DEMAND_PAYMENT_DEDUCTION;
-        variableVisibleColumns = VariableConstants.VISIBLE_COLUMN_DEMAND_PAYMENT;
+        selectionDTO.setSummarydemandview("Multiple Period");
+        variableHeader = new String[]{VariableConstants.DemandPaymentSummaryVariables.DEMANDACCRUAL.toString(), VariableConstants.DemandPaymentSummaryVariables.DEMANDACCRUALREFORECAST.toString(),
+            VariableConstants.DemandPaymentSummaryVariables.DEMANDACCRUALRECON.toString(),
+            VariableConstants.DemandPaymentSummaryVariables.TOTALDEMANDACCRUAL.toString(), VariableConstants.DemandPaymentSummaryVariables.ACTUALPAYMENTS.toString(),
+            VariableConstants.DemandPaymentSummaryVariables.PAYMENTRATIO.toString(), VariableConstants.DemandPaymentSummaryVariables.VARIANCE.toString()};
+        variableHeaderDeduction = VariableConstants.DemandPaymentSummaryVariables.names();
+        variableVisibleColumnsDeduction = VariableConstants.getVisibleColumnDemandPaymentDeduction();
+        variableVisibleColumns = VariableConstants.getVisibleColumnDemandPayment();
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        LOGGER.debug("Inside Enter Method of AdjustmentSummaryDemandPayment Class");
+
     }
 
     @Override
@@ -65,8 +67,9 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
         return new AdjustmentSummarySearchResultsDemandPayment((DPSummaryLogic) logic, (DPSelectionDTO) selectionDTO);
     }
 
+    @Override
     public ExtTreeContainer<AdjustmentDTO> getResultBeanContainer() {
-        return adjustmentResults.getResultBeanContainer();
+        return adjustmentResults.getResultBeanContainerVal();
     }
 
     @Override
@@ -76,7 +79,7 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
 
     @Override
     protected String[] getTableColumns() {
-        return VariableConstants.VISIBLE_COLUMN_DEMAND_PAYMENT_DEDUCTION;
+        return VariableConstants.getVisibleColumnDemandPaymentDeduction();
     }
 
     public void configureWorkFlow() throws InvocationTargetException {
@@ -93,9 +96,9 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
     public void loadDetails() throws InvocationTargetException {
         List<Object[]> list = CommonLogic.loadPipelineAccrual(selectionDTO.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
-            Object[] obj = (Object[]) list.get(i);
-            if ("summary_deductionValues".equals(String.valueOf(obj[0]))) {
-                deductionLevelDdlb.setValue(selectionDTO.getSummary_deductionLevel());
+            Object[] obj = list.get(i);
+            if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(obj[0]))) {
+                deductionLevelDdlb.setValue(selectionDTO.getSummarydeductionLevel());
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -103,7 +106,7 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(getDeductionCustomMenuItem(), str3);
                 }
-            } else if ("summary_variables".equals(String.valueOf(obj[0]))) {
+            } else if (VariableConstants.SUMMARY_VARIABLES.equals(String.valueOf(obj[0]))) {
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -111,17 +114,11 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(customMenuItem, str3);
                 }
-            } else if (!"detail_variables".equals(String.valueOf(obj[0])) && !"detail_reserveAcount".equals(String.valueOf(obj[0]))
-                    && !"sales_variables".equals(String.valueOf(obj[0]))
-                    && !"rate_DeductionValue".equals(String.valueOf(obj[0])) && !VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0]))) {
+            } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
                     BeanUtils.setProperty(selectionDTO, String.valueOf(obj[0]), obj[1]);
-                } catch (IllegalAccessException ex) {
-                    LOGGER.error(ex);
-                } catch (InvocationTargetException ex) {
-                    LOGGER.error(ex);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in loadDetails :" + ex);
                 }
 
             }
@@ -135,19 +132,19 @@ public class AdjustmentSummaryDemandPayment extends AbstractDemandSummarySelecti
 
     private void loadSelection() {
         try {
-            view.setValue(selectionDTO.getSummary_demand_view());
-            frequencyDdlb.select(Integer.valueOf(selectionDTO.getSummary_demand_frequency()));
-            selectionDTO.setSummary_demand_frequency(String.valueOf(frequencyDdlb.getItemCaption(frequencyDdlb.getValue())));
-            fromDate.setValue(selectionDTO.getSummary_demand_fromDate());
-            toDate.setValue(selectionDTO.getSummary_demand_toDate());
-            LOGGER.debug("selectionDTO.getSummary_glDate()!!!!!!!!" + selectionDTO.getSummary_glDate());
+            view.setValue(selectionDTO.getSummarydemandview());
+            frequencyDdlb.select(Integer.valueOf(selectionDTO.getSummarydemandfrequency()));
+            selectionDTO.setSummarydemandfrequency(String.valueOf(frequencyDdlb.getItemCaption(frequencyDdlb.getValue())));
+            fromDate.setValue(selectionDTO.getSummarydemandfromDate());
+            toDate.setValue(selectionDTO.getSummarydemandtoDate());
+            LOGGER.debug("selectionDTO.getSummary_glDate()!!!!!!!!" + selectionDTO.getSummaryglDate());
             glImpactDate.removeValueChangeListener(glListener);
-            defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummary_glDate());
+            defaultWorkFlowDate = dateFormat.parse(selectionDTO.getSummaryglDate());
             resetWorkFlowDate = defaultWorkFlowDate;
             glImpactDate.setValue(resetWorkFlowDate);
             glImpactDate.addValueChangeListener(glWorkflowListener);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in loadSelection :"+ex);
         }
     }
 

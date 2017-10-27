@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -18,37 +19,39 @@ import org.apache.commons.lang.StringUtils;
  * @author Asha.Ravi
  */
 public class FileUploader implements Upload.Receiver {
-    
+
     private FileOutputStream outputStream;
     public File file;
-    public static final String FILE_PATH="../../../../var/Attachments/";
-    String moduleName=StringUtils.EMPTY;
+    public static final String FILE_PATH = "../../../../var/Attachments/";
+    String moduleName = StringUtils.EMPTY;
 
     public FileUploader(String moduleName) {
-        this.moduleName=moduleName;
+        this.moduleName = moduleName;
     }
 
     /**
      * To get the uploaded file
+     *
      * @param filename
      * @param mimeType
-     * @return 
+     * @return
      */
+    @Override
     public OutputStream receiveUpload(String filename, String mimeType) {
         try {
 
-        	if(!filename.isEmpty()){
-        		
-            File dir = new File(FILE_PATH+moduleName);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            file = new File(dir, filename);
-            if (file.exists()) {
-                file.delete();
-            }
-            file.createNewFile();
-            outputStream = new FileOutputStream(file);
+            if (!filename.isEmpty()) {
+
+                File dir = new File(FilenameUtils.getName(FILE_PATH + moduleName));
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                file = new File(dir, FilenameUtils.getName(filename));
+                if (file.exists()) {
+                    file.delete();
+                }
+                file.createNewFile();
+                outputStream = new FileOutputStream(file);
             }
         } catch (final java.io.FileNotFoundException e) {
             LOGGER.error(e);
@@ -57,24 +60,25 @@ public class FileUploader implements Upload.Receiver {
             LOGGER.error(ex);
             return null;
         }
-        return outputStream; 
+        return outputStream;
 
     }
 
     /**
      * method should be called at the end
      */
-    protected void finalize() throws Throwable{
+    @Override
+    protected void finalize() throws Throwable {
         try {
 
             if (outputStream != null) {
                 outputStream.close();
             }
         } catch (IOException ex) {
-                LOGGER.error(ex);
+            LOGGER.error(ex);
         } finally {
             super.finalize();
         }
     }
-    
+
 }

@@ -61,7 +61,7 @@ public class ActionButtonLayout extends HorizontalLayout {
             private static final long serialVersionUID = 1L;
 
             public void error(com.vaadin.server.ErrorEvent event) {
-                   
+                    return;
             
 
             }

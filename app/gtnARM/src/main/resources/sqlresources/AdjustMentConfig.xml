@@ -108,7 +108,7 @@ insert into ARM_ADJUSTMENT_CONFIG
         </query>
     </entity>
     
-       <entity id="Edit-Mode Save">
+    <entity id="Edit-Mode Save">
         <query> 
             <![CDATA[
 
@@ -118,6 +118,19 @@ REDEMPTION_PERIOD='?',
 MODIFIED_BY='?',
 MODIFIED_DATE=getdate()
 where ARM_ADJUSTMENT_CONFIG_SID=?
+                    
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="Check Adjusment Type">
+        <query> 
+            <![CDATA[
+
+ SELECT COUNT(*) FROM ARM_ADJ_RES_CONFIG_DETAIL AA 
+    JOIN ARM_ADJUSTMENT_CONFIG AAC ON 
+    AAC.ARM_ADJUSTMENT_CONFIG_SID = AA.ADJUSTMENT_TYPE
+    WHERE ARM_ADJUSTMENT_CONFIG_SID = ?
                     
                     ]]>    
         </query>
@@ -174,4 +187,15 @@ and AAM.TRANSACTION_TYPE = ? and ht.DESCRIPTION in ('Pending','Withdrawn','Appro
                     ]]>    
         </query>
     </entity>
+    
+   <entity id="AdjustmentConfigDelCount">
+        <query> 
+            <![CDATA[
+    SELECT count(*) FROM ARM_ADJ_RES_CONFIG_DETAIL AAR 
+    JOIN ARM_ADJUSTMENT_CONFIG AAC ON 
+    AAC.ARM_ADJUSTMENT_CONFIG_SID = AAR.ADJUSTMENT_TYPE
+    WHERE ARM_ADJUSTMENT_CONFIG_SID = ?   
+                    ]]>    
+        </query>
+    </entity> 
 </sql>

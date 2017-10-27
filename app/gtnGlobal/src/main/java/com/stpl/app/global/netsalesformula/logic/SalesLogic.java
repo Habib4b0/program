@@ -34,6 +34,7 @@ import com.vaadin.server.VaadinSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,19 +63,19 @@ public class SalesLogic {
     static HashMap<String, String> customerCriteria = new HashMap<>();
     static HashMap<String, String> customerOrder = new HashMap<>();
     
-    public int getCount(ErrorfulFieldGroup binder, SalesBasis obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException, PortalException  {
+    public int getCount(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet)  {
         int count;
         count = (Integer) loadSales(binder, start, offset, isCount, columns, filterSet);
         return count;
     }
 
-    public List getSearchResults(ErrorfulFieldGroup binder, SalesBasis obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException, PortalException {
+    public List getSearchResults(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
         List list;
         list = (List) loadSales(binder, start, offset, isCount, columns, filterSet);
         return list;
     }
 
-    public Object loadSales(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException, PortalException {
+    public Object loadSales(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
 
         Object object;
         if (isCount) {
@@ -97,10 +98,9 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public Object getResultsForContract(final ErrorfulFieldGroup searchContractForm, final int start, final int end, final List<SortByColumn> sortByColumns, final Set<Filter> filterSet, boolean isCount) throws SystemException,
-            PortalException {
+    public Object getResultsForContract(final ErrorfulFieldGroup searchContractForm, final int start, final int end, final List<SortByColumn> sortByColumns, final Set<Filter> filterSet, boolean isCount) {
         Map<String, Object> parameters =getDisplaySearchMap(searchContractForm, null);
-        Object object = new Object();
+        Object object;
         String sql = getQueryForContractMaster(sortByColumns,start, end, parameters, isCount,filterSet);
         List resultList = (List) CompanyMasterLocalServiceUtil.executeSelectQuery(sql, null, null);
         if (isCount) {
@@ -134,7 +134,6 @@ public class SalesLogic {
             } else {
                 sql = CustomSQLUtil.get("availableContracts");
             }
-            sql = sql.replaceFirst(ConstantsUtils.QUESTION_MARK, contractHolder);
             sql = sql.replaceFirst(ConstantsUtils.QUESTION_MARK, contractNo);
             sql = sql.replaceFirst(ConstantsUtils.QUESTION_MARK, contractName);
             sql = sql.replaceFirst(ConstantsUtils.QUESTION_MARK, cfpNo);
@@ -166,16 +165,16 @@ public class SalesLogic {
                     }
                 }
                 if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
-                    sql += " ORDER BY cm.CONTRACT_MASTER_SID" + ((!sortOrder) ? " ASC " : " DESC ");
+                    sql += " ORDER BY cm.CONTRACT_MASTER_SID" + ((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
                 } else {
-                    sql += "ORDER BY " + (orderByColumn) + ((!sortOrder) ? " ASC " : " DESC ");
+                    sql += "ORDER BY " + (orderByColumn) + ((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
                 }
               
                 sql += (" " + "OFFSET ");
                 sql += (index);
-                sql += (" ROWS FETCH NEXT ");
+                sql += (" ROWS FETCH NEXT  ");
                 sql += ((Integer) next - (Integer) index);
-                sql += (" ROWS ONLY;");
+                sql += (" ROWS ONLY; ");
             } else {
                 if (!ConstantsUtils.PERCENCTAGE.equals(contractHolder)) {
                     sql += "AND CON_HOL.COMPANY_NAME LIKE '" + contractHolder + "'"; 
@@ -208,7 +207,7 @@ public class SalesLogic {
      */
     public List<SalesBasisDto> getCustomizedSearchFormFromObject(final List list) {
         try {
-            final List<SalesBasisDto> searchItemList = new ArrayList<SalesBasisDto>();
+            final List<SalesBasisDto> searchItemList = new ArrayList<>();
 
             if (list != null) {
                 for (int i = 0; i < list.size(); i++) {
@@ -243,23 +242,23 @@ public class SalesLogic {
             return searchItemList;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
     
-    public int getCustomerCount(int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String contractMasterSid) throws PortalException, SystemException {
+    public int getCustomerCount(int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String contractMasterSid) {
         int count;
         count = (Integer) loadCustomers(start, offset, isCount, columns, filterSet, contractMasterSid);
         return count;
     }
 
-    public List getCustomerSearchResults(int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String contractMasterSid) throws PortalException, SystemException {
+    public List getCustomerSearchResults(int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String contractMasterSid) {
         List list;
         list = (List) loadCustomers(start, offset, isCount, columns, filterSet,contractMasterSid);
         return list;
     }
 
-    public Object loadCustomers(int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String contractMasterSid) throws PortalException, SystemException {
+    public Object loadCustomers(int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String contractMasterSid) {
         Object object;
         if (isCount) {
             object = getResultsForCustomer(start, start + offset, columns, filterSet, true, contractMasterSid);
@@ -268,9 +267,8 @@ public class SalesLogic {
         }
         return object;
     }
-    public Object getResultsForCustomer(final int start, final int end, final List<SortByColumn> sortByColumns, final Set<Filter> filterSet, boolean isCount, final String contractMasterSid) throws SystemException,
-            PortalException {
-        Object object = new Object();
+    public Object getResultsForCustomer(final int start, final int end, final List<SortByColumn> sortByColumns, final Set<Filter> filterSet, boolean isCount, final String contractMasterSid) {
+        Object object;
         String sql = getQueryForCustomer(sortByColumns, start, end, contractMasterSid,isCount,filterSet);
         List resultList = (List) CompanyMasterLocalServiceUtil.executeSelectQuery(sql, null, null);
         if (isCount) {
@@ -299,10 +297,10 @@ public class SalesLogic {
                 customerOrder.clear();
                 customerOrder.put(ConstantsUtils.COMPANY_NO, "CUSTOMER_NO");
                 customerOrder.put(ConstantsUtils.COMPANY_NAME, "CUSTOMER_NAME");
-                customerOrder.put(ConstantsUtils.CONTRACT_NO, "CONTRACT_NO");
-                customerOrder.put(ConstantsUtils.CONTRACT_NAME, "CONTRACT_NAME");
-                customerOrder.put(ConstantsUtils.CFP_NO, "CFP_NO");
-                customerOrder.put(ConstantsUtils.CFP_NAME, "CFP_NAME");
+                customerOrder.put(ConstantsUtils.CONTRACT_NO, ConstantsUtils.CONTRACT_NO_LABEL);
+                customerOrder.put(ConstantsUtils.CONTRACT_NAME, ConstantsUtils.CONTRACT_NAME_LABEL);
+                customerOrder.put(ConstantsUtils.CFP_NO, ConstantsUtils.CFP_NO_LABEL);
+                customerOrder.put(ConstantsUtils.CFP_NAME, ConstantsUtils.CFP_NAME_LABEL);
                   }
                   boolean sortOrder = false;
                 String orderByColumn = null;
@@ -315,9 +313,9 @@ public class SalesLogic {
                 }
                
                 if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
-                    sql += " ORDER BY CUSTOMER_NAME" + ((!sortOrder) ? " ASC " : " DESC ");
+                    sql += " ORDER BY CUSTOMER_NAME" + ((!sortOrder) ? ConstantsUtils.ASC_SPACE: ConstantsUtils.DESC_SPACE);
                 } else {
-                    sql += "ORDER BY " + (orderByColumn) + ((!sortOrder) ? " ASC " : " DESC ");
+                    sql += "ORDER BY " + (orderByColumn) + ((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
                 }
 
                 sql += (" " + "OFFSET ");
@@ -342,7 +340,7 @@ public class SalesLogic {
      */
     public List<SalesBasisDto> getCustomizedCustomerFormFromObject(final List list) {
         try {
-            final List<SalesBasisDto> searchItemList = new ArrayList<SalesBasisDto>();
+            final List<SalesBasisDto> searchItemList = new ArrayList<>();
             if (list != null) {
                 for (int i = 0; i < list.size(); i++) {
                     final SalesBasisDto searchCompanyForm = new SalesBasisDto();
@@ -365,11 +363,11 @@ public class SalesLogic {
             return searchItemList;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
        
-    public void addToTempTable(SalesBasisDto item, SessionDTO sessiondto, NetSalesRuleLookupDto ruleDto,StringBuilder insertQuery) throws SystemException {
+    public void addToTempTable(SalesBasisDto item, SessionDTO sessiondto, NetSalesRuleLookupDto ruleDto,StringBuilder insertQuery) {
         
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
 
@@ -406,7 +404,7 @@ public class SalesLogic {
        public int tempTableCount(final Set<Container.Filter> filterSet, SessionDTO sessionDTO) {
         try {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(true,sessionDTO);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
 
@@ -424,10 +422,10 @@ public class SalesLogic {
     }
 
     public List<SalesBasisDto> tempTableResults(final SessionDTO sessionDTO,
-            final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException, ParseException {
-        List<SalesBasisDto> searchList = new ArrayList<>();
+            final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<SalesBasisDto> searchList;
         LOGGER.debug("Entering tempTableResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(false,sessionDTO);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
         queryBuilder = getOrderQuery(queryBuilder, columns, start, end);
@@ -438,10 +436,10 @@ public class SalesLogic {
 
     private void loadCriteriaInMap() {
         criteria.clear();
-        criteria.put(ConstantsUtils.CONTRACT_NO, "CONTRACT_NO");
-        criteria.put(ConstantsUtils.CONTRACT_NAME, "CONTRACT_NAME");
-        criteria.put(ConstantsUtils.CFP_NO, "CFP_NO");
-        criteria.put(ConstantsUtils.CFP_NAME, "CFP_NAME");
+        criteria.put(ConstantsUtils.CONTRACT_NO, ConstantsUtils.CONTRACT_NO_LABEL);
+        criteria.put(ConstantsUtils.CONTRACT_NAME, ConstantsUtils.CONTRACT_NAME_LABEL);
+        criteria.put(ConstantsUtils.CFP_NO, ConstantsUtils.CFP_NO_LABEL);
+        criteria.put(ConstantsUtils.CFP_NAME,  ConstantsUtils.CFP_NAME_LABEL);
         criteria.put(ConstantsUtils.COMPANY_NO, "CUSTOMER_NO");
         criteria.put(ConstantsUtils.COMPANY_NAME, "CUSTOMER_NAME");
         
@@ -454,10 +452,10 @@ public class SalesLogic {
         int user = Integer.valueOf(userId);
         if(isCount){
             queryBuilder.append(" SELECT ").append(query).append(" FROM IMTD_SALES_BASIS_DETAILS im\n" +
-        " LEFT JOIN DBO.CDR_MODEL cdr ON cdr.CDR_MODEL_SID = im.CDR_MODEL_SID WHERE USERS_SID ='").append(user).append("' AND SESSION_ID='").append(sessionDTO.getUiSessionId()).append("' AND INBOUND_STATUS <> 'D' AND \"OPERATION\" <> 'D'");
+        " LEFT JOIN DBO.CDR_MODEL cdr ON cdr.CDR_MODEL_SID = im.CDR_MODEL_SID WHERE USERS_SID ='").append(user).append("' AND SESSION_ID ='").append(sessionDTO.getUiSessionId()).append("' AND INBOUND_STATUS <> 'D' AND \"OPERATION\" <> 'D'");
         }else{
         queryBuilder.append(" SELECT ").append(query).append(" FROM IMTD_SALES_BASIS_DETAILS im\n" +
-        " LEFT JOIN DBO.CDR_MODEL cdr ON cdr.CDR_MODEL_SID = im.CDR_MODEL_SID WHERE USERS_SID ='").append(user).append("' AND SESSION_ID='").append(sessionDTO.getUiSessionId()).append("' AND INBOUND_STATUS <> 'D' AND \"OPERATION\" <> 'D'");
+        " LEFT JOIN DBO.CDR_MODEL cdr ON cdr.CDR_MODEL_SID = im.CDR_MODEL_SID WHERE USERS_SID ='").append(user).append("' AND SESSION_ID ='").append(sessionDTO.getUiSessionId()).append("' AND INBOUND_STATUS <> 'D' AND \"OPERATION\" <> 'D'");
         }
         return queryBuilder;
     }
@@ -497,7 +495,7 @@ public class SalesLogic {
         return searchResultsList;
     }
 
-    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         if (criteria.isEmpty()) {
             loadCriteriaInMap();
         }
@@ -505,7 +503,7 @@ public class SalesLogic {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(ConstantsUtils.AND).append(criteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                    stringBuilder.append(ConstantsUtils.AND).append(criteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                 }                  
             }
         }
@@ -526,7 +524,7 @@ public class SalesLogic {
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY CREATED_DATE ");
         } else {
-            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            stringBuilder.append(" ORDER BY ").append(orderByColumn).append((!sortOrder) ? ConstantsUtils.ASC_SPACE : ConstantsUtils.DESC_SPACE);
         }
 
         stringBuilder.append(" OFFSET ").append(startIndex);
@@ -535,7 +533,7 @@ public class SalesLogic {
         return stringBuilder;
     }
 
-     public void removeFromTempTable(SessionDTO sessiondto) throws SystemException, PortalException {
+     public void removeFromTempTable(SessionDTO sessiondto) {
          StringBuilder query = new StringBuilder(StringUtils.EMPTY);
          query.append("UPDATE IMTD_SALES_BASIS_DETAILS SET \"OPERATION\" = 'D',INBOUND_STATUS = 'D'");
          query.append(" WHERE CHECK_RECORD = 1 ");
@@ -599,8 +597,7 @@ public class SalesLogic {
             LOGGER.error(e);
         } 
     }
-    public void removeAll(SessionDTO sessDto) throws SystemException, PortalException {
-//
+    public void removeAll(SessionDTO sessDto) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("DELETE FROM IMTD_SALES_BASIS_DETAILS ");
         query.append(" WHERE SESSION_ID = '").append(String.valueOf(sessDto.getUiSessionId())).append("'");
@@ -613,7 +610,7 @@ public class SalesLogic {
 
     }
     
-    private String getAvailContractFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private String getAvailContractFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
        if(availCriteria.isEmpty()){
            loadavailCriteriaMap();
        }
@@ -621,7 +618,7 @@ public class SalesLogic {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(ConstantsUtils.AND).append(availCriteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                    stringBuilder.append(ConstantsUtils.AND).append(availCriteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                 }
             }
         }
@@ -644,7 +641,7 @@ public class SalesLogic {
 
     }
     
-        public boolean addDuplicateValidation(final SalesBasisDto sales, final SessionDTO dto) throws SystemException, PortalException {
+        public boolean addDuplicateValidation(final SalesBasisDto sales, final SessionDTO dto) throws SystemException {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
             final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdSalesBasisDetails.class);
             dynamicQuery.add(RestrictionsFactoryUtil.eq("contractMasterSid", Integer.valueOf(sales.getContractMasterSid())));
@@ -657,7 +654,7 @@ public class SalesLogic {
            
             return count == 0;
     }
-    private String getAvailCustomerFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private String getAvailCustomerFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         stringBuilder.append(" ");
         if (customerCriteria.isEmpty()) {
             loadcustomerCriteriaMap();
@@ -666,7 +663,7 @@ public class SalesLogic {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append("AND ").append(customerCriteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                    stringBuilder.append("AND ").append(customerCriteria.get(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                 }
             }
         }
@@ -677,31 +674,31 @@ public class SalesLogic {
         customerCriteria.clear();
         customerCriteria.put(ConstantsUtils.COMPANY_NO, "COMPANY_NO");
         customerCriteria.put(ConstantsUtils.COMPANY_NAME, "COMPANY_NAME");
-        customerCriteria.put(ConstantsUtils.CONTRACT_NO, "CONTRACT_NO");
-        customerCriteria.put(ConstantsUtils.CONTRACT_NAME, "CONTRACT_NAME");
-        customerCriteria.put(ConstantsUtils.CFP_NO, "CFP_NO");
-        customerCriteria.put(ConstantsUtils.CFP_NAME, "CFP_NAME");
+        customerCriteria.put(ConstantsUtils.CONTRACT_NO, ConstantsUtils.CONTRACT_NO_LABEL);
+        customerCriteria.put(ConstantsUtils.CONTRACT_NAME, ConstantsUtils.CONTRACT_NAME_LABEL);
+        customerCriteria.put(ConstantsUtils.CFP_NO, ConstantsUtils.CFP_NO_LABEL);
+        customerCriteria.put(ConstantsUtils.CFP_NAME,  ConstantsUtils.CFP_NAME_LABEL);
 
     }
     
     public Map<String, Object> getDisplaySearchMap(ErrorfulFieldGroup searchContractForm, Map displaySearchMap) {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (displaySearchMap == null) {
             displaySearchMap = new HashMap();
         }
 
-        String contractNo = StringUtils.EMPTY;
-        String contractName = StringUtils.EMPTY;
-        String contractHolder = StringUtils.EMPTY;
-        String marketType = StringUtils.EMPTY;
-        String cfpNo = StringUtils.EMPTY;
-        String cfpName = StringUtils.EMPTY;
+        String contractNo;
+        String contractName;
+        String contractHolder;
+        String marketType;
+        String cfpNo;
+        String cfpName;
         String ifpNo = StringUtils.EMPTY;
-        String ifpName = StringUtils.EMPTY;
-        String companyNo = StringUtils.EMPTY;
-        String companyName = StringUtils.EMPTY;
-        String itemNo = StringUtils.EMPTY;
-        String itemName = StringUtils.EMPTY;
+        String ifpName;
+        String companyNo= StringUtils.EMPTY;
+        String companyName;
+        String itemNo;
+        String itemName;
         if (searchContractForm.getField(ConstantsUtils.CONTRACT_NO).getValue().toString() != null && StringUtils.isNotBlank(searchContractForm.getField(ConstantsUtils.CONTRACT_NO).getValue().toString())) {
             contractNo = searchContractForm.getField(ConstantsUtils.CONTRACT_NO).getValue().toString().trim();
             displaySearchMap.put(ConstantsUtils.CONTRACT_NO, contractNo);

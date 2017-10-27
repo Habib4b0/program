@@ -23,7 +23,7 @@ import java.util.Date;
 public class ActualsMasterCacheModel implements CacheModel<ActualsMaster>,
     Externalizable {
     public String quantityInclusion;
-    public double mandatedDiscountAmount;
+    public String mandatedDiscountAmount;
     public String itemNo;
     public String analysisCode;
     public String recordSequence;
@@ -51,7 +51,7 @@ public class ActualsMasterCacheModel implements CacheModel<ActualsMaster>,
     public String salesAmount;
     public long accrualActualStartDate;
     public String settlementNo;
-    public double price;
+    public String price;
     public long uploadDate;
     public String claimIndicator;
     public String itemId;
@@ -186,7 +186,11 @@ public class ActualsMasterCacheModel implements CacheModel<ActualsMaster>,
             actualsMasterImpl.setQuantityInclusion(quantityInclusion);
         }
 
-        actualsMasterImpl.setMandatedDiscountAmount(mandatedDiscountAmount);
+        if (mandatedDiscountAmount == null) {
+            actualsMasterImpl.setMandatedDiscountAmount(StringPool.BLANK);
+        } else {
+            actualsMasterImpl.setMandatedDiscountAmount(mandatedDiscountAmount);
+        }
 
         if (itemNo == null) {
             actualsMasterImpl.setItemNo(StringPool.BLANK);
@@ -340,7 +344,11 @@ public class ActualsMasterCacheModel implements CacheModel<ActualsMaster>,
             actualsMasterImpl.setSettlementNo(settlementNo);
         }
 
-        actualsMasterImpl.setPrice(price);
+        if (price == null) {
+            actualsMasterImpl.setPrice(StringPool.BLANK);
+        } else {
+            actualsMasterImpl.setPrice(price);
+        }
 
         if (uploadDate == Long.MIN_VALUE) {
             actualsMasterImpl.setUploadDate(null);
@@ -454,7 +462,7 @@ public class ActualsMasterCacheModel implements CacheModel<ActualsMaster>,
     @Override
     public void readExternal(ObjectInput objectInput) throws IOException {
         quantityInclusion = objectInput.readUTF();
-        mandatedDiscountAmount = objectInput.readDouble();
+        mandatedDiscountAmount = objectInput.readUTF();
         itemNo = objectInput.readUTF();
         analysisCode = objectInput.readUTF();
         recordSequence = objectInput.readUTF();
@@ -482,7 +490,7 @@ public class ActualsMasterCacheModel implements CacheModel<ActualsMaster>,
         salesAmount = objectInput.readUTF();
         accrualActualStartDate = objectInput.readLong();
         settlementNo = objectInput.readUTF();
-        price = objectInput.readDouble();
+        price = objectInput.readUTF();
         uploadDate = objectInput.readLong();
         claimIndicator = objectInput.readUTF();
         itemId = objectInput.readUTF();
@@ -512,7 +520,11 @@ public class ActualsMasterCacheModel implements CacheModel<ActualsMaster>,
             objectOutput.writeUTF(quantityInclusion);
         }
 
-        objectOutput.writeDouble(mandatedDiscountAmount);
+        if (mandatedDiscountAmount == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(mandatedDiscountAmount);
+        }
 
         if (itemNo == null) {
             objectOutput.writeUTF(StringPool.BLANK);
@@ -644,7 +656,12 @@ public class ActualsMasterCacheModel implements CacheModel<ActualsMaster>,
             objectOutput.writeUTF(settlementNo);
         }
 
-        objectOutput.writeDouble(price);
+        if (price == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(price);
+        }
+
         objectOutput.writeLong(uploadDate);
 
         if (claimIndicator == null) {

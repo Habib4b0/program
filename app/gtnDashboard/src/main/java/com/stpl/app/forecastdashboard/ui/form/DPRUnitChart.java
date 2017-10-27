@@ -55,14 +55,11 @@ public class DPRUnitChart {
     Chart chart ;
     private String freq = CommonUtils.ANNUAL;
     CommonLogic logic = new CommonLogic();
-    private List finalList;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(SPRChart.class);
 
-    private int fromDate = 0;
-    private int toDate = 0;
     Set<String> keySet = new HashSet<String>();
     private int proId=0;
     private String projType;

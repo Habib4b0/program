@@ -120,7 +120,7 @@ public final class FieldNameUtils {
      * The Constant PRICE.
      */
     public static final String PRICE = "price";
-    /**
+     /**
      * The Constant PRICE.
      */
     public static final String INTERNAL_NOTES = "internalNotes";

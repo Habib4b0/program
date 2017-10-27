@@ -335,7 +335,7 @@
 			<generator class="identity" />
 		</id>
 		<property name="quantityInclusion" type="com.stpl.portal.dao.orm.hibernate.StringType" column="QUANTITY_INCLUSION" />
-		<property name="mandatedDiscountAmount" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="MANDATED_DISCOUNT_AMOUNT" />
+		<property name="mandatedDiscountAmount" type="com.stpl.portal.dao.orm.hibernate.StringType" column="MANDATED_DISCOUNT_AMOUNT" />
 		<property name="itemNo" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ITEM_NO" />
 		<property name="analysisCode" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ANALYSIS_CODE" />
 		<property name="recordSequence" type="com.stpl.portal.dao.orm.hibernate.StringType" column="RECORD_SEQUENCE" />
@@ -362,7 +362,7 @@
 		<property name="salesAmount" type="com.stpl.portal.dao.orm.hibernate.StringType" column="SALES_AMOUNT" />
 		<property name="accrualActualStartDate" type="org.hibernate.type.TimestampType" column="ACCRUAL_ACTUAL_START_DATE" />
 		<property name="settlementNo" type="com.stpl.portal.dao.orm.hibernate.StringType" column="SETTLEMENT_NO" />
-		<property name="price" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="PRICE" />
+		<property name="price" type="com.stpl.portal.dao.orm.hibernate.StringType" column="PRICE" />
 		<property name="uploadDate" type="org.hibernate.type.TimestampType" column="UPLOAD_DATE" />
 		<property name="claimIndicator" type="com.stpl.portal.dao.orm.hibernate.StringType" column="CLAIM_INDICATOR" />
 		<property name="itemId" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ITEM_ID" />
@@ -2534,6 +2534,8 @@
 		<property name="clottingFactorStartDate" type="org.hibernate.type.TimestampType" column="CLOTTING_FACTOR_START_DATE" />
 		<property name="nonFederalExpirationDate" type="org.hibernate.type.TimestampType" column="NON_FEDERAL_EXPIRATION_DATE" />
 		<property name="internalNotes" type="com.stpl.portal.dao.orm.hibernate.StringType" column="INTERNAL_NOTES" />
+		<property name="baseCpiPrecision" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BASE_CPI_PRECISION" />
+		<property name="baselineAmpPrecision" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BASELINE_AMP_PRECISION" />
 	</class>
 	<class name="com.stpl.app.model.impl.ItemPricingImpl" table="ITEM_PRICING">
 		<id name="itemPricingSid" column="ITEM_PRICING_SID" type="int">
@@ -2555,6 +2557,7 @@
 		<property name="modifiedBy" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="MODIFIED_BY" />
 		<property name="inboundStatus" type="com.stpl.portal.dao.orm.hibernate.StringType" column="INBOUND_STATUS" />
 		<property name="pricingCodeStatus" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="PRICING_CODE_STATUS" />
+		<property name="itemPricePrecision" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="ITEM_PRICE_PRECISION" />
 	</class>
 	<class name="com.stpl.app.model.impl.ItemPricingQualifierImpl" table="ITEM_PRICING_QUALIFIER">
 		<id name="itemPricingQualifierSid" column="ITEM_PRICING_QUALIFIER_SID" type="int">
@@ -3580,8 +3583,6 @@
 			<key-property name="projectionDetailsSid" column="PROJECTION_DETAILS_SID" type="com.stpl.portal.dao.orm.hibernate.IntegerType" />
 		</composite-id>
 		<property name="actualRate" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_RATE" />
-		<property name="actualProjectionSales" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_PROJECTION_SALES" />
-		<property name="actualProjectionRate" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_PROJECTION_RATE" />
 		<property name="actualSales" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_SALES" />
 	</class>
 	<class name="com.stpl.app.model.impl.NmActualPpaImpl" table="NM_ACTUAL_PPA">
@@ -3590,10 +3591,6 @@
 			<key-property name="projectionDetailsSid" column="PROJECTION_DETAILS_SID" type="com.stpl.portal.dao.orm.hibernate.IntegerType" />
 		</composite-id>
 		<property name="actualRate" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_RATE" />
-		<property name="actualProjDiscountDollar" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_PROJ_DISCOUNT_DOLLAR" />
-		<property name="actualProjectionSales" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_PROJECTION_SALES" />
-		<property name="actualProjectionRate" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_PROJECTION_RATE" />
-		<property name="actualProjDiscountUnits" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_PROJ_DISCOUNT_UNITS" />
 		<property name="actualDiscountDollar" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_DISCOUNT_DOLLAR" />
 		<property name="actualDiscountUnits" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_DISCOUNT_UNITS" />
 		<property name="actualSales" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACTUAL_SALES" />
@@ -3603,14 +3600,8 @@
 			<key-property name="periodSid" column="PERIOD_SID" type="com.stpl.portal.dao.orm.hibernate.IntegerType" />
 			<key-property name="projectionDetailsSid" column="PROJECTION_DETAILS_SID" type="com.stpl.portal.dao.orm.hibernate.IntegerType" />
 		</composite-id>
-		<property name="adjustmentMethodology" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ADJUSTMENT_METHODOLOGY" />
-		<property name="adjustmentBasis" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ADJUSTMENT_BASIS" />
 		<property name="projectionRate" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="PROJECTION_RATE" />
-		<property name="adjustmentVariable" type="com.stpl.portal.dao.orm.hibernate.BooleanType" column="ADJUSTMENT_VARIABLE" />
-		<property name="adjustmentValue" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ADJUSTMENT_VALUE" />
-		<property name="adjustmentType" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ADJUSTMENT_TYPE" />
 		<property name="projectionSales" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="PROJECTION_SALES" />
-		<property name="discountRate" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="DISCOUNT_RATE" />
 	</class>
 	<class name="com.stpl.app.model.impl.NmDiscountProjMasterImpl" table="NM_DISCOUNT_PROJ_MASTER">
 		<id name="projectionDetailsSid" column="PROJECTION_DETAILS_SID" type="int">
@@ -3663,14 +3654,9 @@
 			<key-property name="periodSid" column="PERIOD_SID" type="com.stpl.portal.dao.orm.hibernate.IntegerType" />
 			<key-property name="projectionDetailsSid" column="PROJECTION_DETAILS_SID" type="com.stpl.portal.dao.orm.hibernate.IntegerType" />
 		</composite-id>
-		<property name="adjustmentMethodology" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ADJUSTMENT_METHODOLOGY" />
-		<property name="adjustmentBasis" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ADJUSTMENT_BASIS" />
 		<property name="productGrowth" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="PRODUCT_GROWTH" />
-		<property name="adjustmentValues" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ADJUSTMENT_VALUES" />
-		<property name="adjustmentVariable" type="com.stpl.portal.dao.orm.hibernate.BooleanType" column="ADJUSTMENT_VARIABLE" />
 		<property name="accountGrowth" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="ACCOUNT_GROWTH" />
 		<property name="projectionUnits" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="PROJECTION_UNITS" />
-		<property name="adjustmentType" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ADJUSTMENT_TYPE" />
 		<property name="projectionSales" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="PROJECTION_SALES" />
 	</class>
 	<class name="com.stpl.app.model.impl.NmSalesProjectionMasterImpl" table="NM_SALES_PROJECTION_MASTER">
@@ -3681,7 +3667,6 @@
 		<property name="calculationPeriods" type="com.stpl.portal.dao.orm.hibernate.StringType" column="CALCULATION_PERIODS" />
 		<property name="userGroup" type="com.stpl.portal.dao.orm.hibernate.StringType" column="USER_GROUP" />
 		<property name="methodology" type="com.stpl.portal.dao.orm.hibernate.StringType" column="METHODOLOGY" />
-		<property name="calculationBased" type="com.stpl.portal.dao.orm.hibernate.StringType" column="CALCULATION_BASED" />
 	</class>
 	<class name="com.stpl.app.model.impl.PeriodImpl" table="PERIOD">
 		<id name="periodSid" column="PERIOD_SID" type="int">
@@ -5045,6 +5030,7 @@
 		<property name="portNumber" type="com.stpl.portal.dao.orm.hibernate.StringType" column="PORT_NUMBER" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" column="MODIFIED_DATE" />
 		<property name="inboundStatus" type="com.stpl.portal.dao.orm.hibernate.StringType" column="INBOUND_STATUS" />
+		<property name="testMailAddress" type="com.stpl.portal.dao.orm.hibernate.StringType" column="TEST_MAIL_ADDRESS" />
 	</class>
 	<class name="com.stpl.app.model.impl.WorkflowMasterImpl" table="WORKFLOW_MASTER">
 		<id name="workflowMasterSid" column="WORKFLOW_MASTER_SID" type="int">

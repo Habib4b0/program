@@ -204,8 +204,8 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     public CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     public CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     public CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    public ExtTreeContainer<DiscountProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<DiscountProjectionResultsDTO>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
-    public ExtTreeContainer<DiscountProjectionResultsDTO> excelResultBeanContainer = new ExtTreeContainer<DiscountProjectionResultsDTO>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
+    public ExtTreeContainer<DiscountProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
+    public ExtTreeContainer<DiscountProjectionResultsDTO> excelResultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
     public DPRLogic dprLogic = new DPRLogic();
     public NMDPRLogic nmDPRLogic = new NMDPRLogic();
     protected List<CustomViewMaster> customViewList = new ArrayList<>();
@@ -309,7 +309,7 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
 
     protected void newCustomHierarchyLogic() {
         LOGGER.debug("newCustomHierarchhy clickEvent method starts");
-        final CustomTreeBuild customTree = new CustomTreeBuild(Constant.ADD_FULL_SMALL, session);
+        final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
 
             @Override
@@ -330,7 +330,7 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     protected void editHierarchyBtnLogic() {
         LOGGER.debug("Entering editHierarchyBtn");
         if (CommonLogic.editButtonValidation(customDdlb, customViewList)) {
-            final CustomTreeBuild customTree = new CustomTreeBuild(Constant.EDIT, session, customId);
+            final CustomTreeBuild customTree = new CustomTreeBuild(session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
 
                 @Override
@@ -355,7 +355,7 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
 
     private void replaceComponent() {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(flavourName)) {
-            if (Constant.MM.equalsIgnoreCase(session.getMarketTypeValue()) || Constant.Managed_Medicaid.equalsIgnoreCase(session.getMarketTypeValue())) {
+            if (Constant.MM.equalsIgnoreCase(session.getMarketTypeValue()) || Constant.MANAGED_MEDICAID.equalsIgnoreCase(session.getMarketTypeValue())) {
               dprGridLayoutScreen.replaceComponent(labelVar, labelPivotView);
               dprGridLayoutScreen.replaceComponent(variableMenu, pivotViewOpg);
                 discountOpgLabel.setVisible(true);
@@ -411,16 +411,12 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     }
     
     protected List getCheckedValues() {
-        List<String> result = new ArrayList<String>(); 
+        List<String> result = new ArrayList<>(); 
         if (customMenuItem != null && customMenuItem.getSize() > 0) {
             List<CustomMenuBar.CustomMenuItem> items = customMenuItem.getChildren();
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
                 if (customMenuItem1.isChecked()) {
-//                    if (customMenuItem1.getMenuItem().getCaption().equals(Constant.DPRVariables.CHECK_ALL.toString())) {
-//                        result.addAll(Arrays.asList(Constant.DPRVariables.getCheckAllVariables()));
-//                        return  result;
-//                    }
                     result.add(customMenuItem1.getMenuItem().getCaption());
                 }
             }

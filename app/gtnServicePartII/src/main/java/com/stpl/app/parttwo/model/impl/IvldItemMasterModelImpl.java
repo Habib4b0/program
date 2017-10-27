@@ -125,9 +125,11 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
             { "PACKAGE_SIZE", Types.VARCHAR },
             { "SHELF_LIFE", Types.VARCHAR },
             { "MARKET_TERMINATION_DATE", Types.VARCHAR },
-            { "CHECK_RECORD", Types.BOOLEAN }
+            { "CHECK_RECORD", Types.BOOLEAN },
+            { "BASE_CPI_PRECISION", Types.INTEGER },
+            { "BASELINE_AMP_PRECISION", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table IVLD_ITEM_MASTER (ITEM_NO VARCHAR(75) null,UDC6 VARCHAR(75) null,CREATED_DATE DATE null,NEW_FORMULATION_INDICATOR VARCHAR(75) null,UDC5 VARCHAR(75) null,NEW_FORMULATION_END_DATE VARCHAR(75) null,UDC4 VARCHAR(75) null,CLOTTING_FACTOR_START_DATE VARCHAR(75) null,SECONDARY_UOM VARCHAR(75) null,ITEM_DESC VARCHAR(75) null,AUTHORIZED_GENERIC_END_DATE VARCHAR(75) null,MANUFACTURER_NAME VARCHAR(75) null,ITEM_NAME VARCHAR(75) null,REPROCESSED_FLAG VARCHAR(75) null,STATUS VARCHAR(75) null,BASE_CPI VARCHAR(75) null,BASELINE_AMP VARCHAR(75) null,AUTHORIZED_GENERIC VARCHAR(75) null,THERAPEUTIC_CLASS VARCHAR(75) null,ITEM_FAMILY_ID VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_START_DATE VARCHAR(75) null,CREATED_BY VARCHAR(75) null,PRIMARY_UOM VARCHAR(75) null,NDC9 VARCHAR(75) null,ITEM_ID VARCHAR(75) null,LAST_LOT_EXPIRATION_DATE VARCHAR(75) null,ERROR_FIELD VARCHAR(75) null,ITEM_CODE VARCHAR(75) null,STRENGTH VARCHAR(75) null,MODIFIED_DATE DATE null,BRAND VARCHAR(75) null,NDC8 VARCHAR(75) null,LABELER_CODE VARCHAR(75) null,UDC3 VARCHAR(75) null,SOURCE VARCHAR(75) null,UDC2 VARCHAR(75) null,ADD_CHG_DEL_INDICATOR VARCHAR(75) null,UDC1 VARCHAR(75) null,ACQUIRED_AMP VARCHAR(75) null,DISCONTINUATION_DATE VARCHAR(75) null,ITEM_MASTER_INTFID VARCHAR(75) null,INTF_INSERTED_DATE DATE null,DIVESTITURE_DATE VARCHAR(75) null,MODIFIED_BY VARCHAR(75) null,BASE_CPI_PERIOD VARCHAR(75) null,CLOTTING_FACTOR_END_DATE VARCHAR(75) null,DOSES_PER_UNIT VARCHAR(75) null,MANUFACTURER_ID VARCHAR(75) null,CLOTTING_FACTOR_INDICATOR VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ACQUISITION_DATE VARCHAR(75) null,DUAL_PRICING_INDICATOR VARCHAR(75) null,NON_FEDERAL_EXPIRATION_DATE VARCHAR(75) null,ERROR_CODE VARCHAR(75) null,NEW_FORMULATION VARCHAR(75) null,OBRA_BAMP VARCHAR(75) null,BRAND_ID VARCHAR(75) null,ITEM_STATUS VARCHAR(75) null,AUTHORIZED_GENERIC_START_DATE VARCHAR(75) null,NEW_FORMULATION_START_DATE VARCHAR(75) null,ITEM_CATEGORY VARCHAR(75) null,ITEM_END_DATE VARCHAR(75) null,ITEM_TYPE VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_END_DATE VARCHAR(75) null,ORGANIZATION_KEY VARCHAR(75) null,FIRST_SALE_DATE VARCHAR(75) null,SHELF_LIFE_TYPE VARCHAR(75) null,ITEM_START_DATE VARCHAR(75) null,ITEM_TYPE_INDICATION VARCHAR(75) null,ACQUIRED_BAMP VARCHAR(75) null,FORM VARCHAR(75) null,ITEM_CLASS VARCHAR(75) null,MANUFACTURER_NO VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_INDICATOR VARCHAR(75) null,PACKAGE_SIZE_CODE VARCHAR(75) null,DISPLAY_BRAND VARCHAR(75) null,DRA VARCHAR(75) null,REASON_FOR_FAILURE VARCHAR(75) null,PACKAGE_SIZE_INTRO_DATE VARCHAR(75) null,UPPS VARCHAR(75) null,IVLD_ITEM_MASTER_SID INTEGER not null primary key IDENTITY,PACKAGE_SIZE VARCHAR(75) null,SHELF_LIFE VARCHAR(75) null,MARKET_TERMINATION_DATE VARCHAR(75) null,CHECK_RECORD BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table IVLD_ITEM_MASTER (ITEM_NO VARCHAR(75) null,UDC6 VARCHAR(75) null,CREATED_DATE DATE null,NEW_FORMULATION_INDICATOR VARCHAR(75) null,UDC5 VARCHAR(75) null,NEW_FORMULATION_END_DATE VARCHAR(75) null,UDC4 VARCHAR(75) null,CLOTTING_FACTOR_START_DATE VARCHAR(75) null,SECONDARY_UOM VARCHAR(75) null,ITEM_DESC VARCHAR(75) null,AUTHORIZED_GENERIC_END_DATE VARCHAR(75) null,MANUFACTURER_NAME VARCHAR(75) null,ITEM_NAME VARCHAR(75) null,REPROCESSED_FLAG VARCHAR(75) null,STATUS VARCHAR(75) null,BASE_CPI VARCHAR(75) null,BASELINE_AMP VARCHAR(75) null,AUTHORIZED_GENERIC VARCHAR(75) null,THERAPEUTIC_CLASS VARCHAR(75) null,ITEM_FAMILY_ID VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_START_DATE VARCHAR(75) null,CREATED_BY VARCHAR(75) null,PRIMARY_UOM VARCHAR(75) null,NDC9 VARCHAR(75) null,ITEM_ID VARCHAR(75) null,LAST_LOT_EXPIRATION_DATE VARCHAR(75) null,ERROR_FIELD VARCHAR(75) null,ITEM_CODE VARCHAR(75) null,STRENGTH VARCHAR(75) null,MODIFIED_DATE DATE null,BRAND VARCHAR(75) null,NDC8 VARCHAR(75) null,LABELER_CODE VARCHAR(75) null,UDC3 VARCHAR(75) null,SOURCE VARCHAR(75) null,UDC2 VARCHAR(75) null,ADD_CHG_DEL_INDICATOR VARCHAR(75) null,UDC1 VARCHAR(75) null,ACQUIRED_AMP VARCHAR(75) null,DISCONTINUATION_DATE VARCHAR(75) null,ITEM_MASTER_INTFID VARCHAR(75) null,INTF_INSERTED_DATE DATE null,DIVESTITURE_DATE VARCHAR(75) null,MODIFIED_BY VARCHAR(75) null,BASE_CPI_PERIOD VARCHAR(75) null,CLOTTING_FACTOR_END_DATE VARCHAR(75) null,DOSES_PER_UNIT VARCHAR(75) null,MANUFACTURER_ID VARCHAR(75) null,CLOTTING_FACTOR_INDICATOR VARCHAR(75) null,BATCH_ID VARCHAR(75) null,ACQUISITION_DATE VARCHAR(75) null,DUAL_PRICING_INDICATOR VARCHAR(75) null,NON_FEDERAL_EXPIRATION_DATE VARCHAR(75) null,ERROR_CODE VARCHAR(75) null,NEW_FORMULATION VARCHAR(75) null,OBRA_BAMP VARCHAR(75) null,BRAND_ID VARCHAR(75) null,ITEM_STATUS VARCHAR(75) null,AUTHORIZED_GENERIC_START_DATE VARCHAR(75) null,NEW_FORMULATION_START_DATE VARCHAR(75) null,ITEM_CATEGORY VARCHAR(75) null,ITEM_END_DATE VARCHAR(75) null,ITEM_TYPE VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_END_DATE VARCHAR(75) null,ORGANIZATION_KEY VARCHAR(75) null,FIRST_SALE_DATE VARCHAR(75) null,SHELF_LIFE_TYPE VARCHAR(75) null,ITEM_START_DATE VARCHAR(75) null,ITEM_TYPE_INDICATION VARCHAR(75) null,ACQUIRED_BAMP VARCHAR(75) null,FORM VARCHAR(75) null,ITEM_CLASS VARCHAR(75) null,MANUFACTURER_NO VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_INDICATOR VARCHAR(75) null,PACKAGE_SIZE_CODE VARCHAR(75) null,DISPLAY_BRAND VARCHAR(75) null,DRA VARCHAR(75) null,REASON_FOR_FAILURE VARCHAR(75) null,PACKAGE_SIZE_INTRO_DATE VARCHAR(75) null,UPPS VARCHAR(75) null,IVLD_ITEM_MASTER_SID INTEGER not null primary key IDENTITY,PACKAGE_SIZE VARCHAR(75) null,SHELF_LIFE VARCHAR(75) null,MARKET_TERMINATION_DATE VARCHAR(75) null,CHECK_RECORD BOOLEAN,BASE_CPI_PRECISION INTEGER,BASELINE_AMP_PRECISION INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table IVLD_ITEM_MASTER";
     public static final String ORDER_BY_JPQL = " ORDER BY ivldItemMaster.ivldItemMasterSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY IVLD_ITEM_MASTER.IVLD_ITEM_MASTER_SID ASC";
@@ -232,6 +234,8 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
     private String _shelfLife;
     private String _marketTerminationDate;
     private boolean _checkRecord;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
     private IvldItemMaster _escapedModel;
 
     public IvldItemMasterModelImpl() {
@@ -360,6 +364,8 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
         attributes.put("shelfLife", getShelfLife());
         attributes.put("marketTerminationDate", getMarketTerminationDate());
         attributes.put("checkRecord", getCheckRecord());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -894,6 +900,19 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
 
         if (checkRecord != null) {
             setCheckRecord(checkRecord);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -2075,6 +2094,26 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
     }
 
     @Override
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+    }
+
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
+    }
+
+    @Override
     public IvldItemMaster toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (IvldItemMaster) ProxyUtil.newProxyInstance(_classLoader,
@@ -2173,6 +2212,8 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
         ivldItemMasterImpl.setShelfLife(getShelfLife());
         ivldItemMasterImpl.setMarketTerminationDate(getMarketTerminationDate());
         ivldItemMasterImpl.setCheckRecord(getCheckRecord());
+        ivldItemMasterImpl.setBaseCpiPrecision(getBaseCpiPrecision());
+        ivldItemMasterImpl.setBaselineAmpPrecision(getBaselineAmpPrecision());
 
         ivldItemMasterImpl.resetOriginalValues();
 
@@ -2911,12 +2952,16 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
 
         ivldItemMasterCacheModel.checkRecord = getCheckRecord();
 
+        ivldItemMasterCacheModel.baseCpiPrecision = getBaseCpiPrecision();
+
+        ivldItemMasterCacheModel.baselineAmpPrecision = getBaselineAmpPrecision();
+
         return ivldItemMasterCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(171);
+        StringBundler sb = new StringBundler(175);
 
         sb.append("{itemNo=");
         sb.append(getItemNo());
@@ -3088,6 +3133,10 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
         sb.append(getMarketTerminationDate());
         sb.append(", checkRecord=");
         sb.append(getCheckRecord());
+        sb.append(", baseCpiPrecision=");
+        sb.append(getBaseCpiPrecision());
+        sb.append(", baselineAmpPrecision=");
+        sb.append(getBaselineAmpPrecision());
         sb.append("}");
 
         return sb.toString();
@@ -3095,7 +3144,7 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(259);
+        StringBundler sb = new StringBundler(265);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.parttwo.model.IvldItemMaster");
@@ -3440,6 +3489,14 @@ public class IvldItemMasterModelImpl extends BaseModelImpl<IvldItemMaster>
         sb.append(
             "<column><column-name>checkRecord</column-name><column-value><![CDATA[");
         sb.append(getCheckRecord());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baseCpiPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaseCpiPrecision());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baselineAmpPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaselineAmpPrecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

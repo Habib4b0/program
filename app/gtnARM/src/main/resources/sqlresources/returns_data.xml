@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+       
+    <entity id="returnsdata-count">
+        <query> 
+            <![CDATA[
+           ; with CTE as (
+            SELECT
+                SKU,
+                BRAND,
+                BRAND AS EXPANDED_BRAND,
+                DESCRIPTION,
+                MAXIMUM,
+                PCT_75TH,
+                PCT_50TH,
+                PCT_25TH,
+                UPPER_LIMIT,
+                LOWER_LIMIT,
+                WITHIN_50QRTILE,
+                CONVERT(VARCHAR(10), ORIG_SALE_MONTH, 101) AS ORIG_SALE_MONTH,
+                ORIG_SALE_UNITS,
+                ORIG_SALE_DOLLARS,
+                ASP,
+                CUM_RETURN_UNITS,
+                ACTUAL_RETURN_RATE,
+                WEIGHTED_AVG_MONTHS,
+                CONVERT(VARCHAR(10), FIRST_RETURN, 101) AS FIRST_RETURN,
+                CONVERT(VARCHAR(10), LAST_RETURN, 101) AS LAST_RETURN,
+                CONVERT(VARCHAR(10), MAX_EXPIRED_MONTH, 101) AS MAX_EXPIRED_MONTH,
+                CONVERT(VARCHAR(10), MAX_EXPIRED_MONS_PLUSCUTOFF, 101) AS MAX_EXPIRED_MONS_PLUSCUTOFF,
+                CONVERT(VARCHAR(10), ORIG_SALE_MONTH_CUT_OFF, 101) AS ORIG_SALE_MONTH_CUT_OFF,
+                PAST_EXPIRATION,
+                RETURN_COMPLETE,
+                EXPECTED_RETURN_RATE,
+                ESTIMATED_RETURN_UNITS,
+                POS_ESTIMATED_RETURN_UNITS,
+                ADJ_ESTIMATED_RETURN_UNITS,
+                VALUE_AT_ORIG_ASP,
+                ADJ_VALUE_AT_ORIG_ASP,
+                VERSION
+            FROM
+                RETURNS_MASTER
+                ) SELECT COUNT(*) FROM CTE
+                WHERE VERSION LIKE '?'
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="returnsdata-data">
+        <query> 
+            <![CDATA[
+            ; with CTE as (
+            SELECT
+                SKU,
+                BRAND,
+                BRAND AS EXPANDED_BRAND,
+                DESCRIPTION,
+                MAXIMUM,
+                PCT_75TH,
+                PCT_50TH,
+                PCT_25TH,
+                UPPER_LIMIT,
+                LOWER_LIMIT,
+                WITHIN_50QRTILE,
+                CONVERT(VARCHAR(10), ORIG_SALE_MONTH, 101) AS ORIG_SALE_MONTH,
+                ORIG_SALE_UNITS,
+                ORIG_SALE_DOLLARS,
+                ASP,
+                CUM_RETURN_UNITS,
+                ACTUAL_RETURN_RATE,
+                WEIGHTED_AVG_MONTHS,
+                CONVERT(VARCHAR(10), FIRST_RETURN, 101) AS FIRST_RETURN,
+                CONVERT(VARCHAR(10), LAST_RETURN, 101) AS LAST_RETURN,
+                CONVERT(VARCHAR(10), MAX_EXPIRED_MONTH, 101) AS MAX_EXPIRED_MONTH,
+                CONVERT(VARCHAR(10), MAX_EXPIRED_MONS_PLUSCUTOFF, 101) AS MAX_EXPIRED_MONS_PLUSCUTOFF,
+                CONVERT(VARCHAR(10), ORIG_SALE_MONTH_CUT_OFF, 101) AS ORIG_SALE_MONTH_CUT_OFF,
+                PAST_EXPIRATION,
+                RETURN_COMPLETE,
+                EXPECTED_RETURN_RATE,
+                ESTIMATED_RETURN_UNITS,
+                POS_ESTIMATED_RETURN_UNITS,
+                ADJ_ESTIMATED_RETURN_UNITS,
+                VALUE_AT_ORIG_ASP,
+                ADJ_VALUE_AT_ORIG_ASP,
+                VERSION
+            FROM
+                RETURNS_MASTER
+                ) SELECT * FROM CTE
+                WHERE VERSION LIKE '?'
+                    ]]>    
+        </query>
+    </entity>
+</sql>
+	

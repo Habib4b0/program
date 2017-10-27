@@ -27,7 +27,7 @@ public class PPAQuerys {
     private static final Logger LOGGER = Logger.getLogger(PPAQuerys.class);
     final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
     private static GtnSmallHashMap replaceTableName = new GtnSmallHashMap();
-    public static List getGroupList(int projectionId) {
+    public static List getGroupList() {
         return new ArrayList();
     }
     
@@ -42,7 +42,7 @@ public class PPAQuerys {
 
     
     public static List getPPAData(List input, String queryName, String quaryName2) {
-        LOGGER.debug("Inside getPPAData");
+        LOGGER.debug("Inside  getPPAData");
         List list = new ArrayList();
         StringBuilder sql = new StringBuilder();
         try {
@@ -60,7 +60,7 @@ public class PPAQuerys {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        LOGGER.debug("End of getPPAData");
+        LOGGER.debug("End of  getPPAData");
         return list;
     }
 

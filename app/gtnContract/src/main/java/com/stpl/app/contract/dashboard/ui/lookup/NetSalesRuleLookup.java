@@ -14,6 +14,7 @@ import com.stpl.app.contract.dashboard.logic.NsrDetailsTableLogic;
 import com.stpl.app.contract.dashboard.util.ContractUtils;
 import com.stpl.app.contract.ui.ErrorfulFieldGroup;
 import com.stpl.app.contract.util.CommonUIUtils;
+import com.stpl.app.contract.util.Constants;
 import static com.stpl.app.contract.util.ResponsiveUtils.getResponsiveControls;
 import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -139,9 +140,9 @@ public class NetSalesRuleLookup extends Window {
         this.detailsDto = detailsDto;
         configureHelperDto();
         setModal(true);
-        addStyleName("bootstrap-ui");
-        addStyleName("bootstrap");
-        addStyleName("bootstrap-forecast bootstrap-nm");
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAPUI);
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAP);
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAPFORECAST_BOOTSTRAPNM);
         setWidth(70f, Sizeable.Unit.PERCENTAGE);
         setHeight(33f, Sizeable.Unit.PERCENTAGE);
         init();
@@ -155,9 +156,9 @@ public class NetSalesRuleLookup extends Window {
         this.detailsDto = detailsDto;
         this.helperDto = helperDto;
         setModal(true);
-        addStyleName("bootstrap-ui");
-        addStyleName("bootstrap");
-        addStyleName("bootstrap-forecast bootstrap-nm");
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAPUI);
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAP);
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAPFORECAST_BOOTSTRAPNM);
         setWidth(70f, Sizeable.Unit.PERCENTAGE);
         setHeight(60f, Sizeable.Unit.PERCENTAGE);
         init();
@@ -171,9 +172,9 @@ public class NetSalesRuleLookup extends Window {
         this.detailsDto = detailsDto;
         this.helperDto = helperDto;
         setModal(true);
-        addStyleName("bootstrap-ui");
-        addStyleName("bootstrap");
-        addStyleName("bootstrap-forecast bootstrap-nm");
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAPUI);
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAP);
+        addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.BOOTSTRAPFORECAST_BOOTSTRAPNM);
         setWidth(70f, Sizeable.Unit.PERCENTAGE);
         setHeight(60f, Sizeable.Unit.PERCENTAGE);
         init();
@@ -209,7 +210,7 @@ public class NetSalesRuleLookup extends Window {
     /**
      * Configure fields.
      */
-    private void configureFields() throws SystemException  {
+    private void configureFields() {
         ruleCategory.setValidationVisible(true);
         ruleName.setValidationVisible(true);
         ruleNo.setImmediate(true);
@@ -256,6 +257,7 @@ public class NetSalesRuleLookup extends Window {
                      */
                     @SuppressWarnings("PMD")
                     public void buttonClicked(final ButtonId buttonId) {
+                        return;
                     }
                 }, ButtonId.OK);
                 msg.getButton(ButtonId.OK).focus();
@@ -294,9 +296,10 @@ public class NetSalesRuleLookup extends Window {
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase("YES")) {
                     LOGGER.debug("Entering Reset operation");
-                    binder.getErrorDisplay().clearError();
+                    if (null != binder.getErrorDisplay()) {
+                        binder.getErrorDisplay().clearError();
+                    }
                     binder.setItemDataSource(new BeanItem<>(new NetSalesRuleLookupDto()));
-
                     ruleType.setEnabled(true);
                     ruleType.setValue(helperDto);
                     ruleType.setEnabled(false);
@@ -316,7 +319,7 @@ public class NetSalesRuleLookup extends Window {
                     resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     resultTable.setFilterGenerator(new NsfFilterGenerator(rtDto));
                     resultTable.setValidationVisible(false);
-                    resultTable.addStyleName("filterbar");
+                    resultTable.addStyleName(Constants.FILTER_BAR);
 
                     loadDetailsGrid("0");
 
@@ -344,19 +347,19 @@ public class NetSalesRuleLookup extends Window {
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setFilterGenerator(new NsfFilterGenerator(rtDto));
         resultTable.setValidationVisible(false);
-        resultTable.addStyleName("filterbar");
+        resultTable.addStyleName(Constants.FILTER_BAR);
 
     }
 
     public void setTableDefaultConfig() {
         resultTable.setWidth("470px");
-        resultTable.setVisibleColumns(ContractUtils.NSR_COLUMN);
-        resultTable.setColumnHeaders(ContractUtils.NSR_HEADER);
+        resultTable.setVisibleColumns(ContractUtils.getInstance().nsrColumn);
+        resultTable.setColumnHeaders(ContractUtils.getInstance().nsrHeader);
         resultTable.markAsDirtyRecursive();
         resultTable.setImmediate(true);
         resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
         resultTable.setHeight("250px");
-        resultTable.addStyleName("LeftAlignImportant");
+        resultTable.addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.LEFT_ALIGN_IMPORTANT);
     }
 
     /**
@@ -368,7 +371,7 @@ public class NetSalesRuleLookup extends Window {
             resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
             resultTable.setFilterGenerator(new NsfFilterGenerator(rtDto));
             if (helperDto != null) {
-                resultTable.getFilterField("ruleType").setVisible(false);
+                resultTable.getFilterField(com.stpl.app.contract.abstractsearch.util.ConstantUtil.RULE_TYPE).setVisible(false);
             }
             resultTable.setImmediate(true);
             resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -399,15 +402,15 @@ public class NetSalesRuleLookup extends Window {
         detailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         detailsTable.setFilterGenerator(new NsfFilterGenerator(rtDto));
         detailsTable.setValidationVisible(false);
-        detailsTable.addStyleName("filterbar");
-        detailsTable.addStyleName("LeftAlignImportant");
+        detailsTable.addStyleName(Constants.FILTER_BAR);
+        detailsTable.addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.LEFT_ALIGN_IMPORTANT);
 
     }
 
     public void setDetailsTableDefaultConfig() {
 
-        detailsTable.setVisibleColumns(ContractUtils.NSR_DETAILS_COLUMN);
-        detailsTable.setColumnHeaders(ContractUtils.NSR_DETAILS_HEADER);
+        detailsTable.setVisibleColumns(ContractUtils.getInstance().nsrDetailsColumn);
+        detailsTable.setColumnHeaders(ContractUtils.getInstance().nsrDetailsHeader);
         detailsTable.markAsDirtyRecursive();
         detailsTable.setImmediate(true);
         detailsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -426,7 +429,7 @@ public class NetSalesRuleLookup extends Window {
             detailsTable.setImmediate(true);
             detailsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
             detailsTable.addStyleName("TableCheckBox");
-            detailsTable.addStyleName("LeftAlignImportant");
+            detailsTable.addStyleName(com.stpl.app.contract.abstractsearch.util.ConstantUtil.LEFT_ALIGN_IMPORTANT);
             detailsTable.setSelectable(true);
             detailsTable.markAsDirtyRecursive();
         } catch (Exception ex) {
@@ -565,7 +568,7 @@ public class NetSalesRuleLookup extends Window {
             if (obj instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) obj;
             } else if (obj instanceof NetSalesRuleLookupDto) {
-                targetItem = new BeanItem<NetSalesRuleLookupDto>(
+                targetItem = new BeanItem<>(
                         (NetSalesRuleLookupDto) obj);
             }
         }

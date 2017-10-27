@@ -80,8 +80,9 @@ and open the template in the editor.
                                       FM.COUNTRY,
                                       FM.BUSINESS_UNIT,
                                       CM.COMPANY_MASTER_SID) A
+                                      @DATEQUERY
                     ORDER BY [?ORDER_BY_COLUMN] 
-                    OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;     
+                    OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
      ]]>
         </query>
     </entity>
@@ -125,7 +126,9 @@ and open the template in the editor.
                                       FM.SOURCE,
                                       FM.COUNTRY,
                                       FM.BUSINESS_UNIT,
-                                      CM.COMPANY_MASTER_SID) A;     
+                                      CM.COMPANY_MASTER_SID) A
+                                      @DATEQUERY;  
+                                      
      ]]>
         </query>
     </entity>
@@ -182,6 +185,7 @@ and open the template in the editor.
                               FM.BUSINESS_UNIT,
                               CM.COMPANY_MASTER_SID
                               ) A
+                               @DATEQUERY
                     ORDER BY [?ORDER_BY_COLUMN] 
                         OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
             
@@ -229,7 +233,8 @@ and open the template in the editor.
                               FM.COUNTRY,
                               FM.BUSINESS_UNIT,
                               CM.COMPANY_MASTER_SID
-                              ) A            
+                              ) A  
+                              @DATEQUERY 
                  ]]>
         </query>
     </entity>
@@ -286,6 +291,7 @@ and open the template in the editor.
                                 FM.COUNTRY,
                                 FM.BUSINESS_UNIT,
                                 CM.COMPANY_MASTER_SID) A
+                                @DATEQUERY
                     ORDER BY [?ORDER_BY_COLUMN] 
                         OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
                 ]]>
@@ -331,7 +337,8 @@ and open the template in the editor.
                                 FM.SOURCE,
                                 FM.COUNTRY,
                                 FM.BUSINESS_UNIT,
-                                CM.COMPANY_MASTER_SID) A;
+                                CM.COMPANY_MASTER_SID) A
+                                @DATEQUERY;
                 ]]>
         </query>
     </entity>
@@ -387,6 +394,7 @@ and open the template in the editor.
                         FM.BUSINESS_UNIT,
                         CM.COMPANY_MASTER_SID
                         ) A
+                          @DATEQUERY
                     ORDER BY [?ORDER_BY_COLUMN] 
                         OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
                   
@@ -433,7 +441,8 @@ and open the template in the editor.
                         FM.COUNTRY,
                         FM.BUSINESS_UNIT,
                         CM.COMPANY_MASTER_SID
-                        ) A;  ]]>
+                        ) A
+                          @DATEQUERY;  ]]>
         </query>
     </entity>
     
@@ -488,6 +497,7 @@ and open the template in the editor.
                         FM.BUSINESS_UNIT,
                         CM.COMPANY_MASTER_SID
                         ) A
+                          @DATEQUERY
                     ORDER BY [?ORDER_BY_COLUMN] 
                         OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
                   ]]>
@@ -533,7 +543,8 @@ and open the template in the editor.
                         FM.COUNTRY,
                         FM.BUSINESS_UNIT,
                         CM.COMPANY_MASTER_SID
-                        ) A;
+                        ) A
+                          @DATEQUERY;
                   ]]>
         </query>
     </entity>
@@ -589,6 +600,7 @@ and open the template in the editor.
                         FM.BUSINESS_UNIT,
                         CM.COMPANY_MASTER_SID
                         ) A
+                          @DATEQUERY
                     ORDER BY [?ORDER_BY_COLUMN] 
                         OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
                   ]]>
@@ -634,9 +646,25 @@ and open the template in the editor.
                         FM.COUNTRY,
                         FM.BUSINESS_UNIT,
                         CM.COMPANY_MASTER_SID
-                        ) A;
+                        ) A
+                          @DATEQUERY;
                   ]]>
         </query>
     </entity>
+    
+    <entity id="balanceSummaryReport">
+            <query>
+                <![CDATA[    
+                SELECT
+                    HT.HELPER_TABLE_SID,        
+                    HT.DESCRIPTION
+                FROM
+                    HELPER_TABLE HT
+                    where HT.LIST_NAME = 'ARM_REPORT_TYPE'
+                      ]]>
+            </query>
+        </entity> 
+
+
      
 </sql>

@@ -34,20 +34,9 @@ public class TempViewRebateContainer implements BeanDAO<TempRebateDTO> {
 
     @Override
     public int count(final BeanSearchCriteria searchCriteria) {
-        try {
-            List list = ifpLogic.getLazyItemRebateDeatils(0, 0, searchCriteria, true, getRecord(), Boolean.FALSE);
-            count = Integer.valueOf(String.valueOf(list.get(0)));
-            return list == null ? 0 : count;
-        } catch (PortalException ex) {
-
-            LOGGER.error(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-        }
-        return 0;
+        List list = ifpLogic.getLazyItemRebateDeatils(0, 0, searchCriteria, true, getRecord(), Boolean.FALSE,null);
+        count = Integer.valueOf(String.valueOf(list.get(0)));
+        return list == null ? 0 : count;
     }
 
     /**
@@ -62,17 +51,14 @@ public class TempViewRebateContainer implements BeanDAO<TempRebateDTO> {
     @Override
     public List<TempRebateDTO> find(final BeanSearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
-            List<Object[]> returnList = ifpLogic.getLazyItemRebateDeatils(startIndex, startIndex + offset, searchCriteria, false, getRecord(), Boolean.FALSE);
+            List<Object[]> returnList = ifpLogic.getLazyItemRebateDeatils(startIndex, startIndex + offset, searchCriteria, false, getRecord(), Boolean.FALSE,list);
             return ifpLogic.getCustomizedRebateDTO(returnList, getRecord());
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
         } catch (SystemException ex) {
             LOGGER.error(ex);
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
         }
-        return new ArrayList<TempRebateDTO>();
+        return new ArrayList<>();
     }
 
     public String getRecord() {

@@ -42,7 +42,7 @@ public class AccClosureMasterFinderImpl extends BasePersistenceImpl<AccClosureMa
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                LOGGER.debug("CustomSQLUtil - Name ' " + queryName + " ' Select Query --- > " + sql);
+                LOGGER.debug("CustomSQLUtil - Name ' " + queryName + " ' Select Query --- > " + sql.toString());
                 session = openSession();
                 Query sqlQuery = session.createSQLQuery(sql.toString());
                 returnList = sqlQuery.list();
@@ -65,7 +65,7 @@ public class AccClosureMasterFinderImpl extends BasePersistenceImpl<AccClosureMa
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
-            LOGGER.debug("CustomSQLUtil - Name ' " + queryName + " ' Update Query --- > " + sql);
+            LOGGER.debug("CustomSQLUtil - Name ' " + queryName + " ' Update Query --- > " + sql.toString());
             session = openSession();
             Query sqlQuery = session.createSQLQuery(sql.toString());
             int count = sqlQuery.executeUpdate();
@@ -89,7 +89,7 @@ public class AccClosureMasterFinderImpl extends BasePersistenceImpl<AccClosureMa
         try {
             sql = new StringBuilder();
             sql = new StringBuilder(CustomSQLUtil.get(queryName));
-             LOGGER.debug("CustomSQLUtil - Name ' " + queryName + " ' get Query --- > " + sql);
+             LOGGER.debug("CustomSQLUtil - Name ' " + queryName + " ' get Query --- > " + sql.toString());
         } catch (Exception ex) {
             LOGGER.error(ex);
                   }

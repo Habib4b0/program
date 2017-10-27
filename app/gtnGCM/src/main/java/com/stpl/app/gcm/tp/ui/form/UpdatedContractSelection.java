@@ -14,8 +14,6 @@ import com.stpl.app.gcm.discount.ui.form.CfpLookUp;
 import com.stpl.app.gcm.discount.ui.form.IfpLookUp;
 import com.stpl.app.gcm.discount.ui.form.PsLookUp;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
-//import static com.stpl.app.gcm.itemmanagement.add.form.Summary.LOGGER;
-import static com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractContractSearch.LOGGER;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.promotetptocontract.form.TPContractHolderLookUp;
@@ -32,6 +30,7 @@ import com.stpl.app.gcm.tp.tablelogic.CurrentContractTableLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+import static com.stpl.app.gcm.util.Constants.DateFormatConstants.DEFOULT_SQL_DATE_FORMAT;
 import static com.stpl.app.gcm.util.Constants.ID;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ADD_TRADING_PARTNER;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.COMPANY_FAMILY_PLAN;
@@ -281,14 +280,8 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiField("resetBtn")
     public Button resetBtn;
 
-//    @UiField("searchBtn")
-//    public Button searchBtn;
-//    @UiField("NextBtn")
-//    public Button NextBtn;
-//    @UiField("closeBtn")
-//    public Button closeBtn;
 
-    final public BeanItemContainer<String> statusBean = new BeanItemContainer<String>(String.class);
+    final public BeanItemContainer<String> statusBean = new BeanItemContainer<>(String.class);
     private String screenName = StringUtils.EMPTY;
 
     @UiField("massUpdateSection")
@@ -306,26 +299,26 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiField("removeProjectionDetails")
     public CheckBox removeProjectionDetails;
     final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    Map<String, AppPermission> functionHM = new HashMap<>();
     /**
      * The excel export image
      */
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    UiUtils UIUtils = new UiUtils();
     CurrentContractTableLogic ContractTableLogic = new CurrentContractTableLogic();
     public ExtPagedTable pagedTable = new ExtPagedTable(ContractTableLogic);
-    private BeanItemContainer<ContractResultDTO> pagedContainer = new BeanItemContainer<ContractResultDTO>(ContractResultDTO.class);
-    private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<ComponentInformationDTO>(ComponentInformationDTO.class);
+    private BeanItemContainer<ContractResultDTO> pagedContainer = new BeanItemContainer<>(ContractResultDTO.class);
+    private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
     ContractSelectionDTO contractSeletion = null;
-    List<IdDescriptionDTO> statusResultList = new ArrayList<IdDescriptionDTO>();
-    ExtTreeContainer<ContractResultDTO> tradingPartnerDetailsContainer = new ExtTreeContainer<ContractResultDTO>(ContractResultDTO.class);
+    List<IdDescriptionDTO> statusResultList = new ArrayList<>();
+    ExtTreeContainer<ContractResultDTO> tradingPartnerDetailsContainer = new ExtTreeContainer<>(ContractResultDTO.class);
     boolean summaryRefreshed;
-    private ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<ComponentInformationDTO>(ComponentInformationDTO.class);
-    public List<ComponentInformationDTO> componentInformation = new ArrayList<ComponentInformationDTO>();
+    private ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
+    public List<ComponentInformationDTO> componentInformation = new ArrayList<>();
     CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
     public ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     CommonUtil commonMsg = CommonUtil.getInstance();
+    public static final String MASS_UPDATE_ERROR = "Mass Update Error";
     SelectionDTO selection;
     /**
      * The Constant LOGGER.
@@ -414,8 +407,8 @@ public class UpdatedContractSelection extends VerticalLayout {
         if (isTransfer) {
             tradingPartnerPanel.setCaption("Transfer - Customer Details");
             previousBtn.setVisible(isTransfer);
-            fieldDdlb.addItem("Status");
-            fieldDdlb.addItem("Company Start Date");
+            fieldDdlb.addItem(Constants.STATUS_FIELD);
+            fieldDdlb.addItem(Constants.COMPANY_START_DATE_LABEL);
             screenName = TAB_TRANSFER_CONTRACT.getConstant();
 
         } else {
@@ -476,11 +469,11 @@ public class UpdatedContractSelection extends VerticalLayout {
             fieldDdlb.addItem(SELECT_ONE.getConstant());
             fieldDdlb.setNullSelectionAllowed(true);
             fieldDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
-            fieldDdlb.addItem("Company End Date");
+            fieldDdlb.addItem(Constants.COMPANY_END_DATE_LABEL);
             valueDdlb.setVisible(true);
             startPeriod.setVisible(false);
-            startPeriod.setDateFormat("MM/dd/yyyy");
-            endPeriod.setDateFormat("MM/dd/yyyy");
+            startPeriod.setDateFormat(Constants.DATE_FORMAT);
+            endPeriod.setDateFormat(Constants.DATE_FORMAT);
             comStartDateLabel.setVisible(false);
 
             endPeriod.setVisible(false);
@@ -503,13 +496,13 @@ public class UpdatedContractSelection extends VerticalLayout {
                     componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     componentInformationTable.setFilterGenerator(new CustomerFilterGenerator());
                     componentInformationTable.addStyleName("filtertable");
-                    componentInformationTable.addStyleName("table-header-normal");
+                    componentInformationTable.addStyleName(Constants.TABLE_HEADER_NORMAL);
                 }
             });
 
             contractHolder.setStyleName("searchicon");
             currentTradingPartnerTableLayout.addComponent(pagedTable);
-            HorizontalLayout hLayout = new HorizontalLayout();
+            HorizontalLayout hLayout;
             hLayout = ContractTableLogic.createControls();
             currentTradingPartnerTableLayout.addComponent(hLayout);
 
@@ -553,12 +546,11 @@ public class UpdatedContractSelection extends VerticalLayout {
     public void configureCurrentTradingPartnerTable() {
         final CommmonLogic logic = new CommmonLogic();
 
-        pagedTable.setFilterBarVisible(true);
         pagedTable.setFilterGenerator(new ExtFilterGenerator() {
 
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
-                if (propertyId.equals("status")) {
+                if (propertyId.equals(Constants.STATUS_S)) {
                     try {
                         CustomComboBox status = new CustomComboBox();
                         logic.setIdDescription(statusResultList, status);
@@ -567,13 +559,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                         LOGGER.error(ex);
                     }
 
-                }
-                if (propertyId.equals("checkRecord")) {
-                    TextField checkRec = new TextField();
-                    checkRec.setEnabled(false);
-                    checkRec.setWidth(String.valueOf(NumericConstants.HUNDRED));
-                    return checkRec;
-                }
+                }               
                 if ("rARCategory".equals(propertyId)) {
                     try {
                         final ComboBox rarCategory = new ComboBox();
@@ -589,10 +575,12 @@ public class UpdatedContractSelection extends VerticalLayout {
 
             @Override
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             @Override
@@ -620,28 +608,28 @@ public class UpdatedContractSelection extends VerticalLayout {
         ContractTableLogic.setContainerDataSource(pagedContainer);
 
         if (ADD_TRADING_PARTNER.getConstant().equals(session.getModuleName())) {
-            pagedTable.setVisibleColumns(Constants.CONTRACT_SELECTION_COLUMNS);
-            pagedTable.setColumnHeaders(Constants.CONTRACT_SELECTION_HEADERS);
+            pagedTable.setVisibleColumns(Constants.getInstance().contractSelectionColumns);
+            pagedTable.setColumnHeaders(Constants.getInstance().contractSelectionHeaders);
         } else if (TRANSFER_TRADING_PARTNER.getConstant().equals(session.getModuleName()) && screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())) {
-            pagedTable.setVisibleColumns(Constants.TRANSFER_CUSTOMER_COLUMNS);
-            pagedTable.setColumnHeaders(Constants.TRANSFER_CUSTOMER_HEADERS);
+            pagedTable.setVisibleColumns(Constants.getInstance().transferCustomerColumns);
+            pagedTable.setColumnHeaders(Constants.getInstance().transferCustomerHeaders);
         } else if (PROJECTION_DETAILS_TRANSFER.getConstant().equals(session.getModuleName())) {
-            pagedTable.setVisibleColumns(Constants.TRANSFER_CUSTOMER_COLUMNS);
-            pagedTable.setColumnHeaders(Constants.TRANSFER_CUSTOMER_HEADERS);
+            pagedTable.setVisibleColumns(Constants.getInstance().transferCustomerColumns);
+            pagedTable.setColumnHeaders(Constants.getInstance().transferCustomerHeaders);
         } else {
-            pagedTable.setVisibleColumns(Constants.REMOVE_TP_CONTRACT_SELECTION_COLUMNS);
-            pagedTable.setColumnHeaders(Constants.REMOVE_TP_SELECTION_HEADERS);
+            pagedTable.setVisibleColumns(Constants.getInstance().removeTpContractSelectionColumns);
+            pagedTable.setColumnHeaders(Constants.getInstance().removeTpSelectionHeaders);
         }
         pagedTable.setColumnAlignment("contStartDate", ExtCustomTable.Align.CENTER);
         pagedTable.setColumnAlignment("contEndDate", ExtCustomTable.Align.CENTER);
-        pagedTable.setColumnAlignment("compStartDate", ExtCustomTable.Align.CENTER);
-        pagedTable.setColumnAlignment("compEndDate", ExtCustomTable.Align.CENTER);
+        pagedTable.setColumnAlignment(Constants.COMP_START_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
+        pagedTable.setColumnAlignment(Constants.COMP_END_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         pagedTable.setImmediate(true);
         pagedTable.setSizeFull();
         pagedTable.setSelectable(true);
         pagedTable.setPageLength(NumericConstants.FIVE);
         pagedTable.setEditable(true);
-
+        
         pagedTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
             public void itemClick(ItemClickEvent event) {
@@ -654,12 +642,16 @@ public class UpdatedContractSelection extends VerticalLayout {
         );
         ContractTableLogic.sinkItemPerPageWithPageLength(false);
         pagedTable.addColumnCheckListener(checkListener);
-        pagedTable.setColumnWidth("checkRecord", NumericConstants.HUNDRED);
+        pagedTable.setColumnWidth(Constants.CHECK_RECORD, NumericConstants.HUNDRED);
         for (Object object : pagedTable.getVisibleColumns()) {
             if (String.valueOf(object).contains("Date")) {
                 pagedTable.setColumnAlignment(object, ExtCustomTable.Align.CENTER);
             }
         }
+        
+        pagedTable.setFilterBarVisible(true);
+        pagedTable.addStyleName("filterbar");
+        pagedTable.addStyleName(Constants.TABLE_HEADER_NORMAL);
         pagedTable.setFilterDecorator(new ExtDemoFilterDecorator());
 
         pagedTable.addGeneratedColumn("projectionIdLink", new ExtCustomTable.ColumnGenerator() {
@@ -698,7 +690,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 final ContractResultDTO dto = (ContractResultDTO) itemId;
 
-                if (propertyId.equals("checkRecord")) {
+                if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     if (!dto.getWorkflowStatus().trim().isEmpty()) {
                         check.setVisible(false);
@@ -710,7 +702,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                                 if (!check.getValue()) {
 
                                     pagedTable.removeColumnCheckListener(checkListener);
-                                    pagedTable.setColumnCheckBox("check", true, false);
+                                    pagedTable.setColumnCheckBox(Constants.CHECK, true, false);
                                     pagedTable.addColumnCheckListener(checkListener);
 
                                 }
@@ -720,11 +712,11 @@ public class UpdatedContractSelection extends VerticalLayout {
                     return check;
                 }
 
-                if (propertyId.equals("compStartDate") && !isTableUpdate) {
+                if (propertyId.equals(Constants.COMP_START_DATE_PROPERTY) && !isTableUpdate) {
                     final PopupDateField compStartDate = new PopupDateField();
-                    compStartDate.setStyleName("dateFieldCenter");
-                    compStartDate.addStyleName("datefieldcentered");
-                    compStartDate.setDateFormat("MM/dd/yyyy");
+                    compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
+                    compStartDate.setDateFormat(Constants.DATE_FORMAT);
                     if (dto.getWorkflowStatus().trim().isEmpty() && (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant()) || TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName()) || session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()))) {
                         compStartDate.setImmediate(true);
                         compStartDate.setData(((ContractResultDTO) itemId).getCompStartDate());
@@ -741,12 +733,12 @@ public class UpdatedContractSelection extends VerticalLayout {
                                             Date maxEndDate = new Date(1, 1, NumericConstants.ONE_NINE_ZERO_ZERO);
                                             if (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())) {
                                                 String endDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
-                                                maxEndDate = new Date(CommonLogic.convertDateFormat(endDate, "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy"));
+                                                maxEndDate = new Date(CommonLogic.convertDateFormat(endDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
                                             }
 
-                                            if (enteredDate == null || (maxEndDate != null && enteredDate.after(maxEndDate))) {
+                                            if (enteredDate == null || (enteredDate.after(maxEndDate))) {
                                                 if (dto.getCheckRecord()) {
-                                                    performMassUpdate("Company Start Date", enteredDate);
+                                                    performMassUpdate(Constants.COMPANY_START_DATE_LABEL, enteredDate);
                                                 } else {
                                                     logic.callDateUpdate(enteredDate, dto, session, screenName, "START_DATE");
                                                 }
@@ -758,7 +750,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                                                 isTableUpdate = true;
                                                 compStartDate.setValue(oldStartDate);
                                                 isTableUpdate = false;
-                                                AbstractNotificationUtils.getErrorNotification("Update Error", "The Start Date must come after the End Date in current contract. Please reenter the Start Date. ");
+                                                AbstractNotificationUtils.getErrorNotification(Constants.UPDATE_ERROR, "The Start Date must come after the End Date in current contract. Please reenter the Start Date. ");
                                             }
                                         }
                                     }
@@ -776,11 +768,11 @@ public class UpdatedContractSelection extends VerticalLayout {
                     return compStartDate;
                 }
 
-                if (propertyId.equals("compEndDate")) {
+                if (propertyId.equals(Constants.COMP_END_DATE_PROPERTY)) {
                     final PopupDateField compEndDate = new PopupDateField();
-                    compEndDate.setDateFormat("MM/dd/yyyy");
-                    compEndDate.setStyleName("dateFieldCenter");
-                    compEndDate.addStyleName("datefieldcentered");
+                    compEndDate.setDateFormat(Constants.DATE_FORMAT);
+                    compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     if (dto.getWorkflowStatus().trim().isEmpty()) {
                         compEndDate.setImmediate(true);
                         compEndDate.setData(((ContractResultDTO) itemId).getCompEndDate());
@@ -802,7 +794,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                                                     if (enteredDate == null
                                                             || (enteredDate.after(compStartDate) && !ContractSelectionLogic.isStartDateGreaterThanEndDate(session.getUserId(), session.getSessionId(), dateFormater.format((Date) enteredDate)))) {
                                                         if (dto.getCheckRecord()) {
-                                                            performMassUpdate("Company End Date", enteredDate);
+                                                            performMassUpdate(Constants.COMPANY_END_DATE_LABEL, enteredDate);
                                                         } else {
                                                             logic.callDateUpdate(enteredDate, dto, session, screenName, "END_DATE");
                                                         }
@@ -814,10 +806,10 @@ public class UpdatedContractSelection extends VerticalLayout {
                                                         isTableUpdate = true;
                                                         compEndDate.setValue(newEndDate);
                                                         isTableUpdate = false;
-                                                        AbstractNotificationUtils.getErrorNotification("Update Error", "The End Date must come after the Start Date. Please reenter the End Date. ");
+                                                        AbstractNotificationUtils.getErrorNotification(Constants.UPDATE_ERROR, "The End Date must come after the Start Date. Please reenter the End Date. ");
                                                     }
                                                 } else {
-                                                    AbstractNotificationUtils.getErrorNotification("Update Error", "Please enter a Start Date before Entering an End Date");
+                                                    AbstractNotificationUtils.getErrorNotification(Constants.UPDATE_ERROR, "Please enter a Start Date before Entering an End Date");
                                                 }
 
                                             } catch (Exception e) {
@@ -837,11 +829,11 @@ public class UpdatedContractSelection extends VerticalLayout {
                     return compEndDate;
                 }
 
-                if (String.valueOf(propertyId).equals("status")) {
+                if (String.valueOf(propertyId).equals(Constants.STATUS_S)) {
                     final CustomComboBox status = new CustomComboBox();
                     status.setImmediate(true);
                     try {
-                        CommmonLogic.loaDDLBForListLoading(status, UIUtils.STATUS, false);
+                        CommmonLogic.loaDDLBForListLoading(status, UiUtils.STATUS, false);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -864,7 +856,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                                                 if (stat != 0) {
                                                     int count = 0;
                                                     if (dto.getCheckRecord()) {
-                                                        performMassUpdate("Status", stat);
+                                                        performMassUpdate(Constants.STATUS_FIELD, stat);
                                                     } else {
                                                         count = logic.callStatusUpdate(stat, (ContractResultDTO) itemId, session, screenName);
                                                         if (count == 0) {
@@ -892,9 +884,9 @@ public class UpdatedContractSelection extends VerticalLayout {
                 if (propertyId.equals(
                         "contEndDate")) {
                     final PopupDateField contEndDate = new PopupDateField();
-                    contEndDate.setDateFormat("MM/dd/yyyy");
-                    contEndDate.setStyleName("dateFieldCenter");
-                    contEndDate.addStyleName("datefieldcentered");
+                    contEndDate.setDateFormat(Constants.DATE_FORMAT);
+                    contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contEndDate.setEnabled(false);
 
                     return contEndDate;
@@ -903,9 +895,9 @@ public class UpdatedContractSelection extends VerticalLayout {
                 if (propertyId.equals(
                         "contStartDate")) {
                     final PopupDateField contStartDate = new PopupDateField();
-                    contStartDate.setDateFormat("MM/dd/yyyy");
-                    contStartDate.setStyleName("dateFieldCenter");
-                    contStartDate.addStyleName("datefieldcentered");
+                    contStartDate.setDateFormat(Constants.DATE_FORMAT);
+                    contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contStartDate.setEnabled(false);
                     return contStartDate;
                 }
@@ -913,6 +905,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 return null;
             }
         });
+        pagedTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
 
     }
 
@@ -925,8 +918,8 @@ public class UpdatedContractSelection extends VerticalLayout {
         componentInformationTable.setPageLength(NumericConstants.FIVE);
         tablelogic.setContainerDataSource(componentInformationContainer);
 
-        componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_RS);
-        componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_RS);
+        componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
+        componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
         componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
 
@@ -934,7 +927,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
         componentInformationTable.setFilterGenerator(new CustomerFilterGenerator());
         componentInformationTable.addStyleName("filtertable");
-        componentInformationTable.addStyleName("table-header-normal");
+        componentInformationTable.addStyleName(Constants.TABLE_HEADER_NORMAL);
     }
 
     private void loadComponentInformation(String componentSelectionValue, Object selectedItem) {
@@ -956,7 +949,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 tablelogic.loadSetData(componentSelectionValue, id, Boolean.TRUE);
             } else {
                 tablelogic.loadSetData(componentSelectionValue, id, false);
-                loadComponentInformationFields(new ArrayList<Object>());
+                loadComponentInformationFields(new ArrayList<>());
 
             }
         }
@@ -1005,30 +998,30 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void loadComponentInformationTable(String componentSelectionValue) {
 
         if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_RS);
-            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_RS);
+            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
+            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
-            componentInformationTable.setColumnAlignment("attachedDate", ExtCustomTable.Align.CENTER);
+            componentInformationTable.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_PS);
-            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_PS);
+            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment("priceProtectionStartDate", ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment("priceProtectionEndDate", ExtCustomTable.Align.CENTER);
             componentInformationTable.setColumnAlignment("resetDate", ExtCustomTable.Align.CENTER);
-            componentInformationTable.setColumnAlignment("attachedDate", ExtCustomTable.Align.CENTER);
+            componentInformationTable.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         } else if (COMPANY_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_CFP);
-            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_CFP);
+            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsCfp);
+            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersCfp);
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
-            componentInformationTable.setColumnAlignment("attachedDate", ExtCustomTable.Align.CENTER);
+            componentInformationTable.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         } else if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
-            componentInformationTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_IFP);
-            componentInformationTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_IFP);
+            componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsIfp);
+            componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersIfp);
             componentInformationTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
-            componentInformationTable.setColumnAlignment("attachedDate", ExtCustomTable.Align.CENTER);
+            componentInformationTable.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         }
 
     }
@@ -1036,7 +1029,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("NextBtn")
     public void nextButtonLogic(Button.ClickEvent event) {
         LOGGER.debug("Contract selection submitAndNextLogic initiated");
-        List<String> checkData = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, "check");
+        List<String> checkData = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
 
         if (logic.isAnyDataSubmitted(session.getUserId(), session.getSessionId(), session.getModuleName(), screenName)) {
             if (checkData.size() <= 0 || checkData.get(0).equals(Constants.ZEROSTRING)) {
@@ -1170,6 +1163,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             contractSeletion.setPsNo(psNo.getValue());
             searCriteria = true;
         }
+        pagedTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
         if (!searCriteria) {
             AbstractNotificationUtils.getAlertNotification(Constants.MessageConstants.NO_SEARCH_CRITERIA_TITLE.getConstant(),
                     Constants.MessageConstants.NO_SEARCH_CRITERIA_BODY.getConstant());
@@ -1186,6 +1180,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         } else {
             CommonUIUtils.getMessageNotification("Search Completed");
         }
+        pagedTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
 
     }
 
@@ -1238,7 +1233,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     public void fieldDdlbValueChange(Property.ValueChangeEvent event) {
         LOGGER.debug(" FieldDdlb ValueChangeEvent initiated ");
 
-        if ("Status".equals(String.valueOf(fieldDdlb.getValue()))) {
+        if (Constants.STATUS_FIELD.equals(String.valueOf(fieldDdlb.getValue()))) {
 
             valueDdlb.setVisible(true);
             valueDdlbLabel.setVisible(true);
@@ -1247,7 +1242,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
             endPeriod.setVisible(false);
             comEndDateLabel.setVisible(false);
-        } else if ("Company Start Date".equals(String.valueOf(fieldDdlb.getValue()))) {
+        } else if (Constants.COMPANY_START_DATE_LABEL.equals(String.valueOf(fieldDdlb.getValue()))) {
             valueDdlb.setVisible(false);
             valueDdlbLabel.setVisible(false);
             startPeriod.setVisible(true);
@@ -1255,7 +1250,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             endPeriod.setVisible(false);
             comEndDateLabel.setVisible(false);
 
-        } else if ("Company End Date".equals(String.valueOf(fieldDdlb.getValue()))) {
+        } else if (Constants.COMPANY_END_DATE_LABEL.equals(String.valueOf(fieldDdlb.getValue()))) {
             valueDdlb.setVisible(false);
             valueDdlbLabel.setVisible(false);
             startPeriod.setVisible(false);
@@ -1273,26 +1268,26 @@ public class UpdatedContractSelection extends VerticalLayout {
         String fieldValue = String.valueOf(fieldDdlb.getValue());
 
         if (!this.logic.isAnyRecordSelected(session.getUserId(), session.getSessionId(), screenName)) {
-            AbstractNotificationUtils.getErrorNotification("Mass Update Error", "Please select at least one contract to apply the Mass Update to");
+            AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "Please select at least one contract to apply the Mass Update to");
             return;
         }
         if (Constants.NULL.equals(fieldValue)) {
-            AbstractNotificationUtils.getErrorNotification("Mass Update Error", "Please select a Field to Mass Update");
+            AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "Please select a Field to Mass Update");
             return;
         }
 
         Object massUpdateValue = StringUtils.EMPTY;
 
-        if ("Status".equals(String.valueOf(fieldDdlb.getValue()))) {
+        if (Constants.STATUS_FIELD.equals(String.valueOf(fieldDdlb.getValue()))) {
             if (!String.valueOf(valueDdlb.getValue()).isEmpty() && Constants.NULL.equals(String.valueOf(valueDdlb.getValue()))) {
-                AbstractNotificationUtils.getErrorNotification("Mass Update Error", "Please enter any value to Mass Update.");
+                AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "Please enter any value to Mass Update.");
                 return;
             }
             massUpdateValue = valueDdlb.getValue();
-        } else if ("Company Start Date".equals(String.valueOf(fieldDdlb.getValue()))) {
+        } else if (Constants.COMPANY_START_DATE_LABEL.equals(String.valueOf(fieldDdlb.getValue()))) {
 
             if (!String.valueOf(startPeriod.getValue()).isEmpty() && Constants.NULL.equals(String.valueOf(startPeriod.getValue()))) {
-                AbstractNotificationUtils.getErrorNotification("Mass Update Error", "Please enter a Start Date to Mass Update.");
+                AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "Please enter a Start Date to Mass Update.");
                 return;
             }
             String endDate = StringUtils.EMPTY;
@@ -1303,18 +1298,18 @@ public class UpdatedContractSelection extends VerticalLayout {
             if (endDate != StringUtils.EMPTY) {
                 SimpleDateFormat inputDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-                String startdate = StringUtils.EMPTY;
+                String startdate;
                 startdate = String.valueOf(inputDateFormatter.format(startPeriod.getValue()));
 
                 if (!ContractSelectionLogic.isTCStartDateGreaterThanEndDate(session.getUserId(), session.getSessionId(), endDate, startdate)) {
-                    AbstractNotificationUtils.getErrorNotification("Mass Update Error", "The Start Date must come after the End Date in current contract. Please reenter the Start Date.");
+                    AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "The Start Date must come after the End Date in current contract. Please reenter the Start Date.");
                     return;
                 }
             }
             massUpdateValue = startPeriod.getValue();
-        } else if ("Company End Date".equals(String.valueOf(fieldDdlb.getValue()))) {
+        } else if (Constants.COMPANY_END_DATE_LABEL.equals(String.valueOf(fieldDdlb.getValue()))) {
             if (!String.valueOf(endPeriod.getValue()).isEmpty() && Constants.NULL.equals(String.valueOf(endPeriod.getValue()))) {
-                AbstractNotificationUtils.getErrorNotification("Mass Update Error", "Please enter an End Date to Mass Update.");
+                AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "Please enter an End Date to Mass Update.");
                 return;
             }
 
@@ -1322,7 +1317,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             String endDate = dateFormater.format((Date) endPeriod.getValue());
 
             if (ContractSelectionLogic.isStartDateGreaterThanEndDate(session.getUserId(), session.getSessionId(), endDate)) {
-                AbstractNotificationUtils.getErrorNotification("Mass Update Error", "The End Date must come after the Start Date. Please reenter the End Date.");
+                AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "The End Date must come after the Start Date. Please reenter the End Date.");
                 return;
             }
             massUpdateValue = endPeriod.getValue();
@@ -1332,7 +1327,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         if (logic.isValuesPresentAlready(String.valueOf(fieldDdlb.getValue()), session.getUserId(), session.getSessionId(), screenName)) {
             new AbstractNotificationUtils() {
                 public void noMethod() {
-
+                    return;
                 }
 
                 @Override
@@ -1362,17 +1357,17 @@ public class UpdatedContractSelection extends VerticalLayout {
         isTableUpdate = true;
         for (ContractResultDTO dto : containerList) {
             if (dto.getCheckRecord()) {
-                if ("Status".equals(fieldValue)) {
+                if (Constants.STATUS_FIELD.equals(fieldValue)) {
                     HelperDTO helper = new HelperDTO();
                     helper.setId((Integer) massUpdateValue);
                     helper.setDescription(valueDdlb.getItemCaption(massUpdateValue));
-                    pagedTable.getContainerProperty(dto, "status").setValue(helper);
+                    pagedTable.getContainerProperty(dto, Constants.STATUS_S).setValue(helper);
 
-                } else if ("Company Start Date".equals(fieldValue)) {
-                    pagedTable.getContainerProperty(dto, "compStartDate").setValue(massUpdateValue);
+                } else if (Constants.COMPANY_START_DATE_LABEL.equals(fieldValue)) {
+                    pagedTable.getContainerProperty(dto, Constants.COMP_START_DATE_PROPERTY).setValue(massUpdateValue);
 
-                } else if ("Company End Date".equals(fieldValue)) {
-                    pagedTable.getContainerProperty(dto, "compEndDate").setValue(massUpdateValue);
+                } else if (Constants.COMPANY_END_DATE_LABEL.equals(fieldValue)) {
+                    pagedTable.getContainerProperty(dto, Constants.COMP_END_DATE_PROPERTY).setValue(massUpdateValue);
                 }
 
             }
@@ -1402,7 +1397,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         List<ContractResultDTO> containerList = pagedContainer.getItemIds();
 
         for (ContractResultDTO dto : containerList) {
-            pagedTable.getContainerProperty(dto, "checkRecord").setValue(checkValue);
+            pagedTable.getContainerProperty(dto, Constants.CHECK_RECORD).setValue(checkValue);
         }
     }
 
@@ -1497,7 +1492,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         }
     }
 
-    public void createWorkSheet(String fileName, ExtFilterTable resultTable) throws ParseException, SystemException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, PortalException {
+    public void createWorkSheet(String fileName, ExtFilterTable resultTable) throws ParseException, SystemException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException, PortalException {
 
         long recordCount = 0;
         CommmonLogic logic = new CommmonLogic();
@@ -1507,9 +1502,9 @@ public class UpdatedContractSelection extends VerticalLayout {
         isComponentInformationExport = false;
         String[] headers;
         if (!TRADING_PARTNER_REMOVE.getConstant().equals(session.getModuleName())) {
-            headers = Constants.EXCEL_CONTRACT_SELECTION_HEADERS;
+            headers = Constants.getInstance().excelContractSelectionHeaders;
         } else {
-            headers = Constants.EXCEL_REMOVE_TP_SELECTION_HEADERS;
+            headers = Constants.getInstance().excelRemoveTpSelectionHeaders;
         }
         ExcelExportforBB.createWorkSheet(headers, recordCount, this, UI.getCurrent(), fileName);
 
@@ -1527,9 +1522,9 @@ public class UpdatedContractSelection extends VerticalLayout {
                             0, end, ContractTableLogic.getFilters()), true);
 
                     if (!TRADING_PARTNER_REMOVE.getConstant().equals(session.getModuleName())) {
-                        visibleColumns = Constants.EXCEL_CONTRACT_SELECTION_COLUMNS;
+                        visibleColumns = Constants.getInstance().excelContractSelectionColumns;
                     } else {
-                        visibleColumns = Constants.EXCEL_REMOVE_TP_CONTRACT_SELECTION_COLUMNS;
+                        visibleColumns = Constants.getInstance().excelRemoveTpContractSelectionColumns;
                     }
                 } else {
                     ContractSelectionLogic contractSelectionLogic = new ContractSelectionLogic();
@@ -1555,7 +1550,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         }
     }
 
-    public void createWorkSheetInfo(String fileName, ExtFilterTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheetInfo(String fileName, ExtFilterTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
 
         long recordCount = 0;
         if (resultTable.size() != 0) {
@@ -1633,7 +1628,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("contractHolder")
     public void contractHolderLookup(CustomTextField.ClickEvent event) {
 
-        final TPContractHolderLookUp contractHolderLookUpWindow = new TPContractHolderLookUp("Contract Holder", contractHolder, StringUtils.EMPTY);
+        final TPContractHolderLookUp contractHolderLookUpWindow = new TPContractHolderLookUp("Contract Holder", contractHolder);
         contractHolderLookUpWindow.setWidth("1320px");
         contractHolderLookUpWindow.setHeight("830px");
         UI.getCurrent().addWindow(contractHolderLookUpWindow);
@@ -1688,26 +1683,26 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     public void configureAddTpScreen() {
         if (!TRADING_PARTNER_UPDATE.getConstant().equalsIgnoreCase(session.getModuleName().trim())) {
-            fieldDdlb.addItem("Status");
+            fieldDdlb.addItem(Constants.STATUS_FIELD);
         }
-        fieldDdlb.addItem("Company Start Date");
+        fieldDdlb.addItem(Constants.COMPANY_START_DATE_LABEL);
     }
 
     public boolean submitAndNextLogic(final boolean isNextButtonClicked) {
         LOGGER.debug("Contract selection submitAndNextLogic initiated");
-        List<String> checkData = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, "check");
+        List<String> checkData = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
         if (checkData.size() > 0 && checkData.get(0).equals(Constants.ZEROSTRING)) {
-            AbstractNotificationUtils.getErrorNotification("Submit error", "Please select any record to submit");
+            AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please select any record to submit");
             return false;
         }
-        List<String> contractLists = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, "status");
+        List<String> contractLists = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.STATUS_S);
         if (((session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant())) || (session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant()))) && contractLists != null && !contractLists.isEmpty()) {
-            AbstractNotificationUtils.getErrorNotification("Submit error", "Please select Status for the following Contract records: " + CommonUtils.CollectionToString(contractLists, false));
+            AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please select Status for the following Contract records: " + CommonUtils.CollectionToString(contractLists, false));
             return false;
         }
         if (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant())) {
             if (contractLists != null && !contractLists.isEmpty()) {
-                AbstractNotificationUtils.getErrorNotification("Submit error", "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.CollectionToString(contractLists, false) + ". Then try again.");
+                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.CollectionToString(contractLists, false) + ". Then try again.");
                 return false;
             }
             if (!singleContractCheck("single contract check for customere check")) {
@@ -1719,23 +1714,18 @@ public class UpdatedContractSelection extends VerticalLayout {
         List<String> contractList = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.START_DATE);
         if (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant())) {
             if (contractList != null && !contractList.isEmpty()) {
-                AbstractNotificationUtils.getErrorNotification("Submit error", "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.CollectionToString(contractList, false) + ". Then try again.");
+                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.CollectionToString(contractList, false) + ". Then try again.");
                 return false;
             }
-//        } else {
-//            if (contractList != null && !contractList.isEmpty()) {
-//                AbstractNotificationUtils.getErrorNotification("Submit error", "Please enter an Start Date for the following Contract records: " + CommonUtils.CollectionToString(contractList, false));
-//                return false;
-//            }
         } else if (contractList != null && !contractList.isEmpty()) {
-            AbstractNotificationUtils.getErrorNotification("Submit error", "Please enter an Start Date for the following Contract records: " + CommonUtils.CollectionToString(contractList, false));
+            AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter an Start Date for the following Contract records: " + CommonUtils.CollectionToString(contractList, false));
             return false;
         }
         if ((session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant())) || (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant())
                 || session.getModuleName().equals(PROJECTION_DETAILS_TRANSFER.getConstant())) && TAB_CURRENT_CONTRACT.getConstant().equals(screenName)) {
             contractList = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.END_DATE);
             if (contractList != null && !contractList.isEmpty()) {
-                AbstractNotificationUtils.getErrorNotification("Submit error", "Please enter an End Date for the following Contract records: " + CommonUtils.CollectionToString(contractList, false));
+                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter an End Date for the following Contract records: " + CommonUtils.CollectionToString(contractList, false));
                 return false;
             }
         }
@@ -1769,7 +1759,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 for (ContractResultDTO dto : tempActualDateList) {
                     tempActualDate = dto.getTempVarOne() + " -- " + dto.getTempVarTwo();
                 }
-                AbstractNotificationUtils.getErrorNotification("Submit error", "You cannot proceed with this Update.\n The following Contract/Customer record: " + contractCustomer + " has actuals \n that should be excluded with the following Company Start/End Date " + tempDate + ".\n The following Contract/Customer record: " + contractCustomer + " \n has actual payments that exist between these time periods: " + tempActualDate + " . \n"
+                AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "You cannot proceed with this Update.\n The following Contract/Customer record: " + contractCustomer + " has actuals \n that should be excluded with the following Company Start/End Date " + tempDate + ".\n The following Contract/Customer record: " + contractCustomer + " \n has actual payments that exist between these time periods: " + tempActualDate + " . \n"
                         + "Please make sure the updated Company Start and End Dates do not exclude any of these periods.  ");
                 return false;
             }
@@ -1824,7 +1814,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     public void yesMethod() {
                         checkTimeGap(isNextButtonClicked);
                     }
-                }.getConfirmationMessage("Transfer confirmation", "You are about to transfer Projection Details "
+                }.getConfirmationMessage(Constants.TRANSFER_CONFIRMATION, "You are about to transfer Projection Details "
                         + "from " + sourceContract + " to " + destinationContract + ". \n Some of the products are not associated.\n"
                         + "Are you sure you want to continue with this transfer process? ");
             } else {
@@ -1844,7 +1834,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 public void yesMethod() {
                     checkTimeGap(isNextButtonClicked);
                 }
-            }.getConfirmationMessage("Transfer confirmation", "You are about to transfer " + companies + " "
+            }.getConfirmationMessage(Constants.TRANSFER_CONFIRMATION, "You are about to transfer " + companies + " "
                     + "from " + sourceContract + " to " + destinationContract + ". \n The following products are not associated to  " + destinationContract + " : " + nonAssociatedProducts + ".\n"
                     + "Are you sure you want to continue with this transfer process? ");
         } else {
@@ -1889,7 +1879,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 public void yesMethod() {
                     submition(isNextButtonClicked);
                 }
-            }.getConfirmationMessage("Transfer confirmation", "Are you sure want to override this preexisting projection data for the contract/Company intersection? ");
+            }.getConfirmationMessage(Constants.TRANSFER_CONFIRMATION, "Are you sure want to override this preexisting projection data for the contract/Company intersection? ");
 
         } else {
             submition(isNextButtonClicked);
@@ -1900,10 +1890,10 @@ public class UpdatedContractSelection extends VerticalLayout {
     private boolean isTimeGapPresent() {
         LOGGER.debug("Inside isTimeGapPresent");
         String endDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
-        Date maxEndDate = new Date(CommonLogic.convertDateFormat(endDate, "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy"));
+        Date maxEndDate = new Date(CommonLogic.convertDateFormat(endDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
 
         String startDate = CommonLogic.getDateForCheckedContract(session.getSessionId(), true, true, false);
-        Date minStartDate = new Date(CommonLogic.convertDateFormat(startDate, "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy"));
+        Date minStartDate = new Date(CommonLogic.convertDateFormat(startDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
 
         Calendar startCalendar = new GregorianCalendar();
         startCalendar.setTime(maxEndDate);
@@ -1976,15 +1966,15 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     private void configureSecurityPermissionsAddTransfer() {
         try {
-            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Customer Management", "Add Customer", "ContractSelectionTab");
-            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
-            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess("tpResetBtn", functionHM));
-            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));
-            excelBtn.setVisible(CommonLogic.isButtonVisibleAccess("excelBtn", functionHM));
-            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess("submitBtn", functionHM));
-            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn", functionHM));
-            excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess("excelBtnInfo", functionHM));
+            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Add Customer", "ContractSelectionTab");
+            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
+            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
+            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
+            excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHM));
+            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
+            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
+            excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
         }
             catch (Exception ex) {
             LOGGER.error(ex);
@@ -1993,12 +1983,12 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     private void configureSecurityPermissions() {
         try {
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(session.getUserId()), "GCM-Customer Management", "UpdateCustomer", "CurrentContractTab");
-            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
-            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess("tpResetBtn", functionHM));
-            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));
-            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess("submitBtn", functionHM));
-            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn", functionHM));
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(session.getUserId()), Constants.GCM_CUSTOMER_MANAGEMENT, "UpdateCustomer", "CurrentContractTab");
+            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
+            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
+            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
+            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
+            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
             NextBtn.setVisible(CommonLogic.isButtonVisibleAccess("NextBtn", functionHM));
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
         } catch (Exception ex) {
@@ -2009,25 +1999,25 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void configureSecurityPermissionsForTransfer(boolean isTransfer) {
         try {
             if (!isTransfer) {
-                String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-                Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Customer Management", "Transfer Customer", "CurrentContractTab");
-                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
-                tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess("tpResetBtn", functionHM));
-                populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));
-                excelBtn.setVisible(CommonLogic.isButtonVisibleAccess("excelBtn", functionHM));
-                submitBtn.setVisible(CommonLogic.isButtonVisibleAccess("submitBtn", functionHM));
-                resetBtn.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn", functionHM));
-                excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess("excelBtnInfo", functionHM));                
+                String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+                Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Transfer Customer", "CurrentContractTab");
+                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
+                tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
+                populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
+                excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHM));
+                submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
+                resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
+                excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));                
             } else {
-                String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-                Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Customer Management", "Transfer Customer", "TranferContractTab");
-                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
-                tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess("tpResetBtn", functionHM));
-                populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));
-                excelBtn.setVisible(CommonLogic.isButtonVisibleAccess("excelBtn", functionHM));
-                submitBtn.setVisible(CommonLogic.isButtonVisibleAccess("submitBtn", functionHM));
-                resetBtn.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn", functionHM));
-                excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess("excelBtnInfo", functionHM));
+                String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+                Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Transfer Customer", "TranferContractTab");
+                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
+                tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
+                populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
+                excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHM));
+                submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
+                resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
+                excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
 
             }
 
@@ -2037,15 +2027,15 @@ public class UpdatedContractSelection extends VerticalLayout {
     }
     private void configureSecurityPermissionsRemoveTransfer() {
         try {
-            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Customer Management", "Remove Customer", "ContractSelectionTab");
-            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
-            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess("tpResetBtn", functionHM));
-            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));
-            excelBtn.setVisible(CommonLogic.isButtonVisibleAccess("excelBtn", functionHM));
-            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess("submitBtn", functionHM));
-            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn", functionHM));
-            excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess("excelBtnInfo", functionHM));
+            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, Constants.GCM_CUSTOMER_MANAGEMENT, "Remove Customer", "ContractSelectionTab");
+            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SEARCH_BTN, functionHM));
+            tpResetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.TP_RESET_BTN, functionHM));
+            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.POPULATE_BTN, functionHM));
+            excelBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN, functionHM));
+            submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
+            resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
+            excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
         }
             catch (Exception ex) {
             LOGGER.error(ex);

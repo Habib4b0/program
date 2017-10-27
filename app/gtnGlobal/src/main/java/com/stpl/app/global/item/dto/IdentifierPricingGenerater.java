@@ -53,13 +53,13 @@ public class IdentifierPricingGenerater implements ExtFilterGenerator {
            } else {
                return new StringExtFilter(propertyId, "%", false, false); 
             }
-        } else if("identifierStatus".equals(propertyId)){
+        } else if(ConstantsUtils.IDENTIFIER_STATUS.equals(propertyId)){
             if (!ConstantsUtils.SHOW_ALL.equals(String.valueOf(value)) && value!=null ) {
         return new StringExtFilter(propertyId, String.valueOf(value), false, false);
              } else {
              return null;
             }
-        }else if (ConstantsUtils.ITEM_STATUS.equals(propertyId) && !String.valueOf(value).equals("Select All")) {
+        }else if (ConstantsUtils.ITEM_STATUS.equals(propertyId) && !String.valueOf(value).equals(ConstantsUtils.SELECT_ALL)) {
             return new StringExtFilter(propertyId, String.valueOf(value), false, false);
         }
        
@@ -71,18 +71,18 @@ public class IdentifierPricingGenerater implements ExtFilterGenerator {
         if (ConstantsUtils.ITEM_CLASS.equals(propertyId) || ConstantsUtils.SECONDARY_UOM.equals(propertyId)
                 || ConstantsUtils.PRIMARY_UOM.equals(propertyId) || ConstantsUtils.STRENGTH.equals(propertyId)
                 || ConstantsUtils.FORM.equals(propertyId) || ConstantsUtils.ITEM_TYPE.equals(propertyId)) {
-            if (!String.valueOf(originatingField.getValue()).equals("Select All")) {
+            if (!String.valueOf(originatingField.getValue()).equals(ConstantsUtils.SELECT_ALL)) {
                 return new StringExtFilter(propertyId, CommonUtils.getDescription(Integer.valueOf(String.valueOf(originatingField.getValue()))), false, false);
             } else {
                 return new StringExtFilter(propertyId, "%", false, false);
             }
-        } else if ("identifierStatus".equals(propertyId)) {
+        } else if (ConstantsUtils.IDENTIFIER_STATUS.equals(propertyId)) {
             if (!ConstantsUtils.SHOW_ALL.equals(String.valueOf(originatingField.getValue())) && originatingField.getValue()!=null ) {
                 return new StringExtFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
             } else {
                 return null;
             }
-        } else if (ConstantsUtils.ITEM_STATUS.equals(propertyId) && !String.valueOf(originatingField.getValue()).equals("Select All")) {
+        } else if (ConstantsUtils.ITEM_STATUS.equals(propertyId) && !String.valueOf(originatingField.getValue()).equals(ConstantsUtils.SELECT_ALL)) {
             return new StringExtFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
         } else if (originatingField instanceof ComboBox && originatingField.getValue() != null) {
                 return new SimpleStringFilter(propertyId, String.valueOf(originatingField.getValue()), false, false);
@@ -94,7 +94,7 @@ public class IdentifierPricingGenerater implements ExtFilterGenerator {
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
          try {
-            if ("identifierStatus".equals(propertyId)) {
+            if (ConstantsUtils.IDENTIFIER_STATUS.equals(propertyId)) {
                 final ComboBox identifierStatus = new ComboBox();
                  commonUtil.loadComboBox(identifierStatus, UIUtils.STATUS, true);
                 return identifierStatus;
@@ -110,24 +110,20 @@ public class IdentifierPricingGenerater implements ExtFilterGenerator {
                 return itemUom;
             } else {
                 if (ConstantsUtils.ITEM_STATUS.equals(propertyId)) {
-                    try {
+               
                         ComboBox itemStatus = new ComboBox();
                          commonUtil.loadComboBox(itemStatus, UIUtils.STATUS, true);
                         return itemStatus;
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                    }
+                   
                 }
 
                 if (ConstantsUtils.ITEM_TYPE.equals(propertyId)) {
-                    try {
+             
                         ComboBox itemType = new ComboBox();
                         commonUtil.loadComboBox(itemType, UIUtils.ITEM_TYPE, true);
 
                         return itemType;
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                    }
+                   
                 }
                 if ("brand".equals(propertyId)) {
                     ComboBox brandDdlb = new ComboBox();
@@ -223,10 +219,12 @@ public class IdentifierPricingGenerater implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

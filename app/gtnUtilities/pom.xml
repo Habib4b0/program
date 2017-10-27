@@ -19,9 +19,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-   
-        <dependency>
+   <dependencies>
+
+        <dependency> 
             <groupId>com.vaadin.addon</groupId>
             <artifactId>vaadin-charts</artifactId>
             <version>${vaadin.charts.version}</version>
@@ -63,17 +63,6 @@
             <version>${bpm.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.stpl.app.bpm</groupId>
-            <artifactId>guvnor-utils</artifactId>
-            <version>${bpm.version}</version>
-            <scope>provided</scope>
-        </dependency>
-<!--        <dependency>
-            <groupId>com.netflix.archaius</groupId>
-            <artifactId>archaius-core</artifactId>
-            <version>0.6.6</version>
-        </dependency>-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -256,6 +245,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    
     <build>
         <finalName>${artifactId}</finalName>
         <plugins>
@@ -289,7 +279,7 @@
                             <overWrite>false</overWrite>
                         </artifactItem>
                     </artifactItems> 
-                    <outputDirectory>${basedir}/target/gtnAdminConsole/WEB-INF/lib</outputDirectory>
+                    <outputDirectory>${basedir}/target/gtnUtilities/WEB-INF/lib</outputDirectory>
                     <overWriteReleases>false</overWriteReleases>
                     <overWriteSnapshots>true</overWriteSnapshots>
                 </configuration>

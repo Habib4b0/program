@@ -11,7 +11,6 @@ import com.stpl.app.global.company.util.LabelUtils;
 import com.stpl.app.global.company.util.UIUtils;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.ui.CustomGridLayout;
 import com.stpl.app.ui.StplWindow;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
@@ -79,20 +78,19 @@ public final class IdenQualifierEditList extends StplWindow {
      * The companylogic.
      */
     private final CompanySearchLogic companylogic = new CompanySearchLogic();
-    
-    
+
     @UiField("errorMsg")
     private final ErrorLabel errorMsg = new ErrorLabel();
     /**
      * The qualifier table.
      */
-    @UiField("qualifierTable") 
+    @UiField("qualifierTable")
     private ExtFilterTable qualifierTable;
-    
+
     /**
      * The company qualifier bean.
      */
-    private final BeanItemContainer<CompanyCrtIdentifierDTO> companyQualifierBean = new BeanItemContainer<CompanyCrtIdentifierDTO>(
+    private final BeanItemContainer<CompanyCrtIdentifierDTO> companyQualifierBean = new BeanItemContainer<>(
             CompanyCrtIdentifierDTO.class);
     /**
      * The identifier dto.
@@ -112,10 +110,10 @@ public final class IdenQualifierEditList extends StplWindow {
      */
     @UiField("companyCrtQualifierName")
     private TextField companyCrtQualifierName = new TextField();
-    
+
     @UiField("effectiveDates")
-    private ComboBox effectiveDates= new ComboBox();
-    
+    private ComboBox effectiveDates = new ComboBox();
+
     @UiField("notes")
     private TextArea notes = new TextArea();
     /**
@@ -130,21 +128,20 @@ public final class IdenQualifierEditList extends StplWindow {
      * The binder.
      */
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
-    new BeanItem<CompanyCrtIdentifierDTO>(identifierDTO));
+            new BeanItem<>(identifierDTO));
     private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
 
     /**
      * The btn delete.
      */
     @UiField("QualifierDelete")
-    private Button QualifierDelete;
+    private Button qualifierDelete;
     /**
      * The btn reset.
      */
     @UiField("IdentifierRemove")
-    private Button IdentifierRemove;
+    private Button identifierRemove;
 
- 
     /**
      * Gets the binder.
      *
@@ -153,10 +150,10 @@ public final class IdenQualifierEditList extends StplWindow {
     public ErrorfulFieldGroup getBinder() {
         return binder;
     }
-    
-    CommonUtil commmonUtil=CommonUtil.getInstance();
-    
-    CompanyCrtIdentifierDTO selectedItemiden  = new CompanyCrtIdentifierDTO();
+
+    CommonUtil commmonUtil = CommonUtil.getInstance();
+
+    CompanyCrtIdentifierDTO selectedItemiden = new CompanyCrtIdentifierDTO();
 
     /**
      * The Constructor to initialize the companyQualifierName.
@@ -169,7 +166,7 @@ public final class IdenQualifierEditList extends StplWindow {
         this.companyQualifierName = companyQualifierName;
         companyQualifierBean.addAll(companylogic.getCompanyQualifierForEditList());
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
+        binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
         binder.setBuffered(true);
         binder.setErrorDisplay(errorMsg);
         init();
@@ -205,22 +202,22 @@ public final class IdenQualifierEditList extends StplWindow {
         companyCrtQualifierName.setValidationVisible(true);
         companyCrtQualifierName.addValidator(new StringLengthValidator(
                 "Company CRT Qualifier Name Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
-        
+
         effectiveDates.setPageLength(NumericConstants.SEVEN);
         effectiveDates.setImmediate(true);
         effectiveDates.addItem(ConstantsUtils.SELECT_ONE);
         effectiveDates.addItem("Yes");
-        effectiveDates.addItem("No");        
+        effectiveDates.addItem("No");
         effectiveDates.setNullSelectionAllowed(true);
         effectiveDates.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         effectiveDates.setValidationVisible(true);
-       btnSave.setImmediate(true);
-        
+        btnSave.setImmediate(true);
+
         notes.setImmediate(true);
         notes.setMaxLength(NumericConstants.THOUSAND);
         notes.addValidator(new StringLengthValidator(" New Note Should be less than 1000 characters", 0, NumericConstants.THOUSAND, true));
         notes.setInputPrompt(String.valueOf("<" + new Date() + ">"));
-  
+
     }
 
     /**
@@ -237,12 +234,12 @@ public final class IdenQualifierEditList extends StplWindow {
         getResponsiveButtons(functionCompanyHM);
         return content;
     }
+
     public VerticalLayout addToContent1() throws SystemException, PortalException {
         final VerticalLayout content = new VerticalLayout();
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> fieldCompanyHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_MASTER,false);
-
+        final Map<String, AppPermission> fieldCompanyHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_MASTER, false);
 
         content.setMargin(true);
         content.setSpacing(true);
@@ -264,30 +261,24 @@ public final class IdenQualifierEditList extends StplWindow {
      * @param functionCompanyHM the function company hm
      * @return the buttons
      */
-    public GridLayout getButtons(final Map<String, AppPermission> functionCompanyHM) {
+    public GridLayout getButtons() {
         final GridLayout layout = new GridLayout(NumericConstants.TWO, NumericConstants.ONE);
 
         layout.setSpacing(true);
         layout.setWidth(null);
-        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_SAVE) != null && ((AppPermission) functionCompanyHM.get(FunctionNameUtil.QUALIFIER_SAVE)).isFunctionFlag()) {
-        }
-        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_DELETE) != null && ((AppPermission) functionCompanyHM.get(FunctionNameUtil.QUALIFIER_DELETE)).isFunctionFlag()) {
-        }
-        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_RESET) != null && ((AppPermission) functionCompanyHM.get(FunctionNameUtil.QUALIFIER_RESET)).isFunctionFlag()) {
-        }
         return layout;
     }
 
     public void getResponsiveButtons(final Map<String, AppPermission> functionCompanyHM) {
-        
-        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_SAVE) != null && ((AppPermission) functionCompanyHM.get(FunctionNameUtil.QUALIFIER_SAVE)).isFunctionFlag()) {
+
+        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_SAVE) != null && (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_SAVE)).isFunctionFlag()) {
             btnSave.setEnabled(false);
         }
-        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_DELETE) != null && ((AppPermission) functionCompanyHM.get(FunctionNameUtil.QUALIFIER_DELETE)).isFunctionFlag()) {
-            QualifierDelete.setEnabled(false);
+        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_DELETE) != null && (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_DELETE)).isFunctionFlag()) {
+            qualifierDelete.setEnabled(false);
         }
-        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_RESET) != null && ((AppPermission) functionCompanyHM.get(FunctionNameUtil.QUALIFIER_RESET)).isFunctionFlag()) {
-              IdentifierRemove.setEnabled(false);
+        if (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_RESET) != null && (functionCompanyHM.get(FunctionNameUtil.QUALIFIER_RESET)).isFunctionFlag()) {
+            identifierRemove.setEnabled(false);
         }
     }
 
@@ -296,10 +287,10 @@ public final class IdenQualifierEditList extends StplWindow {
      *
      * @return the table
      */
-    private void addToTable()  {
+    private void addToTable() {
         qualifierTable.setContainerDataSource(companyQualifierBean);
-        qualifierTable.setVisibleColumns(UIUtils.QUALIFIER_COMPANY);
-        qualifierTable.setColumnHeaders(UIUtils.QUALIFIER_COMPANY_HEADERS);
+        qualifierTable.setVisibleColumns(UIUtils.getInstance().qualifierCompany);
+        qualifierTable.setColumnHeaders(UIUtils.getInstance().qualifierCompanyHeaders);
         qualifierTable.setPageLength(NumericConstants.SEVEN);
         qualifierTable.setImmediate(true);
         qualifierTable.setSelectable(true);
@@ -317,7 +308,7 @@ public final class IdenQualifierEditList extends StplWindow {
             @SuppressWarnings("PMD")
             public void itemClick(final ItemClickEvent event) {
                 selectedItemiden = companyQualifierBean.getItem(event.getItemId()).getBean();
-                binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(selectedItemiden));
+                binder.setItemDataSource(new BeanItem<>(selectedItemiden));
                 btnSave.setCaption(ConstantsUtils.UPDATE);
             }
         });
@@ -340,24 +331,24 @@ public final class IdenQualifierEditList extends StplWindow {
     }
 
     public VerticalLayout addToForm1(final Map<String, AppPermission> fieldCompanyHM) {
-        
+
         final VerticalLayout vLayout = new VerticalLayout();
-        
-        final HorizontalLayout hLayout1= new HorizontalLayout();
+
+        final HorizontalLayout hLayout1 = new HorizontalLayout();
         hLayout1.setStyleName(LabelUtils.EDIT_LIST);
-        final HorizontalLayout hLayout2= new HorizontalLayout();
+        final HorizontalLayout hLayout2 = new HorizontalLayout();
         hLayout2.setStyleName(LabelUtils.EDIT_LIST);
-        
+
         final CssLayout cssLayout1 = new CssLayout();
         final CssLayout cssLayout2 = new CssLayout();
         cssLayout1.setSizeFull();
         cssLayout2.setSizeFull();
-        
+
         ResponsiveUtils.addComponentInCsssLayout(cssLayout1, ResponsiveUtils.makeLabel(LabelUtils.EDIT_LIST_COMPANY_CRT_QUALIFIER, true), companyQualifier, (fieldCompanyHM.get(FiledNameUtils.EDIT_LIST_COMPANY_CRT_QUALIFIER)) == null ? false : ((AppPermission) fieldCompanyHM.get(FiledNameUtils.EDIT_LIST_COMPANY_CRT_QUALIFIER)).isEditFlag());
         ResponsiveUtils.addComponentInCsssLayout(cssLayout2, ResponsiveUtils.makeLabel(LabelUtils.EDIT_LIST_COMPANY_CRT_QUALIFIER_NAME, true), companyCrtQualifierName, (fieldCompanyHM.get(FiledNameUtils.EDIT_LIST_COMPANY_CRT_QUALIFIER_NAME)) == null ? false : ((AppPermission) fieldCompanyHM.get(FiledNameUtils.EDIT_LIST_COMPANY_CRT_QUALIFIER_NAME)).isEditFlag());
         hLayout1.addComponent(cssLayout1);
         hLayout2.addComponent(cssLayout2);
-        
+
         vLayout.addComponent(hLayout1);
         vLayout.addComponent(hLayout2);
 
@@ -370,134 +361,73 @@ public final class IdenQualifierEditList extends StplWindow {
      *
      * @return the button
      */
-
     @UiHandler("QualifierSave")
-            public void buttonClick(final ClickEvent event) {
-                LOGGER.debug("Entering inside ItemQualifierEditList SAVE  method ");
-                try {
-                    binder.commit();
-                    qualifierTable.addItem(binder.getItemDataSource());                    
-                    final String companyIdentifier = binder.getField("companyQualifier").getValue().toString().trim();                    
-                    if(companyIdentifier.isEmpty()){                        
-                        binder.getErrorDisplay().setError("Enter Qualifier");
-                        return;
-                    }                    
-                    
-                    final String companyCrtQualifierName = binder.getField("companyCrtQualifierName").getValue().toString().trim();
-                    if(companyCrtQualifierName.isEmpty()){
-                        binder.getErrorDisplay().setError("Enter Qualifier Name");
-                        return;
-                    }                  
-                    
-                    if(StringUtils.isBlank(String.valueOf(binder.getField("effectiveDates").getValue())) || "null".equals(String.valueOf(binder.getField("effectiveDates").getValue()))){
-                        binder.getErrorDisplay().setError("Please select Effective Dates");
-                        return;
-                    }  
-                    
-                    if (!ConstantsUtils.SAVE.equals(btnSave.getCaption()) && companylogic.checkDifferentQualifier(selectedItemiden.getCompanyCrtQualifierId(), binder.getField("companyQualifier").getValue().toString().trim())) {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Error", "Identifier Code Qualifier cannot be edited.", new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the
-                             * message box is pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed
-                             * button.
-                             */
-                            @SuppressWarnings("PMD")
-                            @Override
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothingreturn
+    public void buttonClick(final ClickEvent event) {
+        LOGGER.debug("Entering inside ItemQualifierEditList SAVE  method ");
+        try {
+            binder.commit();
+            qualifierTable.addItem(binder.getItemDataSource());
+            final String companyIdentifier = binder.getField("companyQualifier").getValue().toString().trim();
+            if (companyIdentifier.isEmpty()) {
+                binder.getErrorDisplay().setError("Enter Qualifier");
+                return;
+            }
 
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                        return;
+            final String companyCrtQualifierNameBinder = binder.getField("companyCrtQualifierName").getValue().toString().trim();
+            if (companyCrtQualifierNameBinder.isEmpty()) {
+                binder.getErrorDisplay().setError("Enter Qualifier Name");
+                return;
+            }
+
+            if (StringUtils.isBlank(String.valueOf(binder.getField("effectiveDates").getValue())) || "null".equals(String.valueOf(binder.getField("effectiveDates").getValue()))) {
+                binder.getErrorDisplay().setError("Please select Effective Dates");
+                return;
+            }
+
+            if (!ConstantsUtils.SAVE.equals(btnSave.getCaption()) && companylogic.checkDifferentQualifier(selectedItemiden.getCompanyCrtQualifierId(), binder.getField("companyQualifier").getValue().toString().trim())) {
+                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Error", "Identifier Code Qualifier cannot be edited.", new MessageBoxListener() {
+                    /**
+                     * The method is triggered when a button of the message box
+                     * is pressed .
+                     *
+                     * @param buttonId The buttonId of the pressed button.
+                     */
+                    @SuppressWarnings("PMD")
+                    @Override
+                    public void buttonClicked(final ButtonId buttonId) {
+                        // Do Nothingreturn
+
                     }
-                    Item item = (Item) binder.getItemDataSource();
-                    Boolean recordLockStatus =  (item.getItemProperty(ConstantsUtils.RECORD_LOCKED_STATUS).getValue()==null)? false : ((Boolean)item.getItemProperty(ConstantsUtils.RECORD_LOCKED_STATUS).getValue());
-                    if(recordLockStatus){
-                        final MessageBox msg = MessageBox.showPlain(Icon.INFO, commmonUtil.getAccessDeniedHeaderMessage(), commmonUtil.getPermissionDeniedToEdit(), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                        return;
-                    }                             
-                    MessageBox.showPlain(Icon.QUESTION, commmonUtil.getHeaderMessage(), commmonUtil.getSaveMessage(companyQualifier.getValue()), new MessageBoxListener() {
+                }, ButtonId.OK);
+                msg.getButton(ButtonId.OK).focus();
+                return;
+            }
+            Item item = binder.getItemDataSource();
+            Boolean recordLockStatus = (item.getItemProperty(ConstantsUtils.RECORD_LOCKED_STATUS).getValue() == null) ? false : ((Boolean) item.getItemProperty(ConstantsUtils.RECORD_LOCKED_STATUS).getValue());
+            if (recordLockStatus) {
+                final MessageBox msg = MessageBox.showPlain(Icon.INFO, commmonUtil.getAccessDeniedHeaderMessage(), commmonUtil.getPermissionDeniedToEdit(), new MessageBoxListener() {
+                    /**
+                     * The method is triggered when a button of the message box
+                     * is pressed .
+                     *
+                     * @param buttonId The buttonId of the pressed button.
+                     */
+                    @SuppressWarnings("PMD")
+                    public void buttonClicked(final ButtonId buttonId) {
+                        // Do Nothing
+                    }
+                }, ButtonId.OK);
+                msg.getButton(ButtonId.OK).focus();
+                return;
+            }
+            MessageBox.showPlain(Icon.QUESTION, commmonUtil.getHeaderMessage(), commmonUtil.getSaveMessage(companyQualifier.getValue()), new MessageBoxListener() {
                 /**
                  * Called when a Button has been clicked .
                  *
                  */
                 @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
-                    try {
-                        if (buttonId.name().equals(ConstantsUtils.YES)) {
-                            companyQualifierBean.removeAllItems();
-                            companyQualifierBean.addAll(companylogic.saveCrtQualifer(binder));
-                            companyQualifierName.removeAllItems();
-                            LazyContainer identifierTypeDescContainer = new LazyContainer(HelperDTO.class, new CompanyQualifierNameContainer(true), new CompanyQualifierNameCriteria());
-                            identifierTypeDescContainer.setMinFilterLength(0);
-                            companyQualifierName.setContainerDataSource(identifierTypeDescContainer);
-                            companyQualifierName.setValue(dto);
-                            binder.discard(); 
-                            binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
-                            btnSave.setCaption(ConstantsUtils.SAVE);
-                        }
-                    } catch (SystemException ex) {
-                        final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                        LOGGER.error(errorMsg);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                    } catch (PortalException ex) {
-                        LOGGER.error(ex);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                    }
+                    qualifierSaveClickListener(buttonId);
                 }
             }, ButtonId.YES, ButtonId.NO);
             LOGGER.debug("Ending ItemQualifierEditList SAVE  method ");
@@ -506,18 +436,18 @@ public final class IdenQualifierEditList extends StplWindow {
         } catch (Exception ex) {
             LOGGER.error(ex);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
         }
     }
 
@@ -526,164 +456,230 @@ public final class IdenQualifierEditList extends StplWindow {
      *
      * @return the button
      */
-        @UiHandler("QualifierDelete")
-            public void deleteButtonClick(final ClickEvent event) {
-                try {
-                    LOGGER.debug("Entering inside ItemQualifierEditList  DELETE  method ");
-                    binder.commit();        
-                    Object selectValue = qualifierTable.getValue();
-                    boolean flag = qualifierTable.isSelected(selectValue);
-                    Item item = (Item) binder.getItemDataSource();
-                    Boolean recordLockStatus =  (item.getItemProperty(ConstantsUtils.RECORD_LOCKED_STATUS).getValue()==null)? false : ((Boolean)item.getItemProperty(ConstantsUtils.RECORD_LOCKED_STATUS).getValue());
-                    if (recordLockStatus) {
-                        final MessageBox msg = MessageBox.showPlain(Icon.INFO, commmonUtil.getAccessDeniedHeaderMessage(), commmonUtil.getPermissionDeniedToDelete(), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                        return;
-                    }   
-                    if(!flag){
-                    final MessageBox msg = MessageBox.showPlain(Icon.INFO, commmonUtil.getHeaderMessage(), "Please select an Identifier from the list view to Delete.", new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                    } else {
-                    MessageBox.showPlain(Icon.QUESTION, commmonUtil.getHeaderMessage(), commmonUtil.getDeleteMessage(companyQualifier.getValue()), new MessageBoxListener() {
-                        /**
-                         * After clicking button, function will be executed.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                try {
-                                    List<CompanyCrtIdentifierDTO> resultList = companylogic.deleteCrtQualifer(Integer.valueOf(binder.getField("companyCrtQualifierId").getValue().toString()));
-                                    if (!resultList.isEmpty()) {
-                                        companyQualifierBean.removeAllItems();
-                                        companyQualifierBean.addAll(resultList);
-                                        companyQualifierName.removeAllItems();
-                                        LazyContainer identifierTypeDescContainer = new LazyContainer(HelperDTO.class, new CompanyQualifierNameContainer(true), new CompanyQualifierNameCriteria());
-                                        identifierTypeDescContainer.setMinFilterLength(0);
-                                        companyQualifierName.setContainerDataSource(identifierTypeDescContainer);
-                                        companyQualifierName.setValue(dto);
-                                        binder.discard();
-                                        binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
-                                    }
-                                } catch (SystemException ex) {
-                                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                                    LOGGER.error(errorMsg);
-                                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),errorMsg, new MessageBoxListener() {
-                                        /**
-                                         * The method is triggered when a button of the message box is
-                                         * pressed .
-                                         *
-                                         * @param buttonId The buttonId of the pressed button.
-                                         */
-                                        @SuppressWarnings("PMD")
-                                        public void buttonClicked(final ButtonId buttonId) {
-                                            // Do Nothing
-                                        }
-                                    }, ButtonId.OK);
-                                    msg.getButton(ButtonId.OK).focus();
-                                } catch (PortalException ex) {
-                                    LOGGER.error(ex);
-                                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
-                                        /**
-                                         * The method is triggered when a button of the message box is
-                                         * pressed .
-                                         *
-                                         * @param buttonId The buttonId of the pressed button.
-                                         */
-                                        @SuppressWarnings("PMD")
-                                        public void buttonClicked(final ButtonId buttonId) {
-                                            // Do Nothing
-                                        }
-                                    }, ButtonId.OK);
-                                    msg.getButton(ButtonId.OK).focus();
-                                } catch (Exception ex) {
-                                    LOGGER.error(ex);
-                                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
-                                        /**
-                                         * The method is triggered when a button of the message box is
-                                         * pressed .
-                                         *
-                                         * @param buttonId The buttonId of the pressed button.
-                                         */
-                                        @SuppressWarnings("PMD")
-                                        public void buttonClicked(final ButtonId buttonId) {
-                                            // Do Nothing
-                                        }
-                                    }, ButtonId.OK);
-                                    msg.getButton(ButtonId.OK).focus();
-                                }
-                            }
-                        }
-                    }, ButtonId.YES, ButtonId.NO);
-                    LOGGER.debug("Ending ItemQualifierEditList  DELETE  method ");
+    @UiHandler("QualifierDelete")
+    public void deleteButtonClick(final ClickEvent event) {
+        try {
+            LOGGER.debug("Entering inside ItemQualifierEditList  DELETE  method ");
+            binder.commit();
+            Object selectValue = qualifierTable.getValue();
+            boolean flag = qualifierTable.isSelected(selectValue);
+            Item item = binder.getItemDataSource();
+            Boolean recordLockStatus = (item.getItemProperty(ConstantsUtils.RECORD_LOCKED_STATUS).getValue() == null) ? false : ((Boolean) item.getItemProperty(ConstantsUtils.RECORD_LOCKED_STATUS).getValue());
+            if (recordLockStatus) {
+                final MessageBox msg = MessageBox.showPlain(Icon.INFO, commmonUtil.getAccessDeniedHeaderMessage(), commmonUtil.getPermissionDeniedToDelete(), new MessageBoxListener() {
+                    /**
+                     * The method is triggered when a button of the message box
+                     * is pressed .
+                     *
+                     * @param buttonId The buttonId of the pressed button.
+                     */
+                    @SuppressWarnings("PMD")
+                    public void buttonClicked(final ButtonId buttonId) {
+                        // Do Nothing
                     }
-                } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
-                } catch (Exception ex) {
-                    LOGGER.error(ex);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
-                                        /**
-                                         * The method is triggered when a button of the message box is
-                                         * pressed .
-                                         *
-                                         * @param buttonId The buttonId of the pressed button.
-                                         */
-                                        @SuppressWarnings("PMD")
-                                        public void buttonClicked(final ButtonId buttonId) {
-                                            // Do Nothing
-                                        }
-                                    }, ButtonId.OK);
-                                    msg.getButton(ButtonId.OK).focus();
-                }
+                }, ButtonId.OK);
+                msg.getButton(ButtonId.OK).focus();
+                return;
             }
+            if (!flag) {
+                final MessageBox msg = MessageBox.showPlain(Icon.INFO, commmonUtil.getHeaderMessage(), "Please select an Identifier from the list view to Delete.", new MessageBoxListener() {
+                    /**
+                     * The method is triggered when a button of the message box
+                     * is pressed .
+                     *
+                     * @param buttonId The buttonId of the pressed button.
+                     */
+                    @SuppressWarnings("PMD")
+                    public void buttonClicked(final ButtonId buttonId) {
+                        // Do Nothing
+                    }
+                }, ButtonId.OK);
+                msg.getButton(ButtonId.OK).focus();
+            } else {
+                MessageBox.showPlain(Icon.QUESTION, commmonUtil.getHeaderMessage(), commmonUtil.getDeleteMessage(companyQualifier.getValue()), new MessageBoxListener() {
+                    /**
+                     * After clicking button, function will be executed.
+                     */
+                    @SuppressWarnings("PMD")
+                    public void buttonClicked(final ButtonId buttonId) {
+                        if (buttonId.name().equals(ConstantsUtils.YES)) {
+                            deleteButtonClickListener();
+                        }
+                    }
+                }, ButtonId.YES, ButtonId.NO);
+                LOGGER.debug("Ending ItemQualifierEditList  DELETE  method ");
+            }
+        } catch (FieldGroup.CommitException ex) {
+            LOGGER.error(ex);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
 
     /**
      * To get the Reset button.
      *
      * @return the button
      */
-        @UiHandler("IdentifierRemove")
-            public void removeButtonClick(final ClickEvent event) {
-                MessageBox.showPlain(Icon.QUESTION, commmonUtil.getHeaderMessage(), commmonUtil.getResetMessage(), new MessageBoxListener() {
-                    /**
-                     * Called when a Button has been clicked .
-                     *
-                     */
-                    @SuppressWarnings("PMD")
-                    public void buttonClicked(final ButtonId buttonId) {
-                        if (buttonId.name().equals(ConstantsUtils.YES)) {
-                            LOGGER.debug("Entering inside ItemQualifierEditList RESET  method ");
-                            binder.discard();
-                            binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
-                            btnSave.setCaption(ConstantsUtils.SAVE);
-                            Object selectValue = qualifierTable.getValue();
-                            qualifierTable.unselect(selectValue);
-                            LOGGER.debug("Ending ItemQualifierEditList RESET  method ");
-                        }
-                    }
-                }, ButtonId.YES, ButtonId.NO);
-
+    @UiHandler("IdentifierRemove")
+    public void removeButtonClick(final ClickEvent event) {
+        MessageBox.showPlain(Icon.QUESTION, commmonUtil.getHeaderMessage(), commmonUtil.getResetMessage(), new MessageBoxListener() {
+            /**
+             * Called when a Button has been clicked .
+             *
+             */
+            @SuppressWarnings("PMD")
+            public void buttonClicked(final ButtonId buttonId) {
+                if (buttonId.name().equals(ConstantsUtils.YES)) {
+                    LOGGER.debug("Entering inside ItemQualifierEditList RESET  method ");
+                    binder.discard();
+                    binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
+                    btnSave.setCaption(ConstantsUtils.SAVE);
+                    Object selectValue = qualifierTable.getValue();
+                    qualifierTable.unselect(selectValue);
+                    LOGGER.debug("Ending ItemQualifierEditList RESET  method ");
+                }
             }
-    
+        }, ButtonId.YES, ButtonId.NO);
+
+    }
+
+    public void deleteButtonClickListener() {
+        try {
+            List<CompanyCrtIdentifierDTO> resultList = companylogic.deleteCrtQualifer(Integer.valueOf(String.valueOf(binder.getField("companyCrtQualifierId").getValue()).replace(",", "")));
+            if (!resultList.isEmpty()) {
+                companyQualifierBean.removeAllItems();
+                companyQualifierBean.addAll(resultList);
+                companyQualifierName.removeAllItems();
+                LazyContainer identifierTypeDescContainer = new LazyContainer(HelperDTO.class, new CompanyQualifierNameContainer(true), new CompanyQualifierNameCriteria());
+                identifierTypeDescContainer.setMinFilterLength(0);
+                companyQualifierName.setContainerDataSource(identifierTypeDescContainer);
+                companyQualifierName.setValue(dto);
+                binder.discard();
+                binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
+            }
+        } catch (SystemException ex) {
+            final String errorMsg1 = ErrorCodeUtil.getErrorMessage(ex);
+            LOGGER.error(errorMsg1);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg1, new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        } catch (PortalException ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
+
+    public void qualifierSaveClickListener(final ButtonId buttonId) {
+        try {
+            if (buttonId.name().equals(ConstantsUtils.YES)) {
+                companyQualifierBean.removeAllItems();
+                companyQualifierBean.addAll(companylogic.saveCrtQualifer(binder));
+                companyQualifierName.removeAllItems();
+                LazyContainer identifierTypeDescContainer = new LazyContainer(HelperDTO.class, new CompanyQualifierNameContainer(true), new CompanyQualifierNameCriteria());
+                identifierTypeDescContainer.setMinFilterLength(0);
+                companyQualifierName.setContainerDataSource(identifierTypeDescContainer);
+                companyQualifierName.setValue(dto);
+                binder.discard();
+                binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
+                btnSave.setCaption(ConstantsUtils.SAVE);
+            }
+        } catch (SystemException ex) {
+            final String errorMsgEx = ErrorCodeUtil.getErrorMessage(ex);
+            LOGGER.error(errorMsgEx);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsgEx, new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        } catch (PortalException ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
 }

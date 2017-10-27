@@ -95,7 +95,6 @@ public class GLReserveMappingindex extends CustomComponent implements View {
     ExtContainer<GLReserveMappingDTO> extSearchContainer = new ExtContainer<GLReserveMappingDTO>(GLReserveMappingDTO.class);
     ExtTreeContainer<GLReserveMappingDTO> excelContainer = new ExtTreeContainer<GLReserveMappingDTO>(GLReserveMappingDTO.class);
     GLReserveMappingDTO glReserveMappingDTOobj = new GLReserveMappingDTO();
-    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd ");
     DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     @UiField("addbtn")

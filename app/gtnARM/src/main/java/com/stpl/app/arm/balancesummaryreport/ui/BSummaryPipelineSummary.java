@@ -18,13 +18,19 @@ public class BSummaryPipelineSummary extends AbstractBSummaryReportSummary {
      * SummaryLogic logic has all depended methods for all summary logic classes
      */
     BSummaryPipelineResults results;
-
-    String[] defaultColumnsHeader = {"Starting Balance", "Actual Payments", "Total Period Adjustment", "Ending Balance", "Cumulative Balance"};
-    String[] defaultColumns = {"Starting_Balance", "Actual_Payments", "Total_Period_Adjustment", "Ending_Balance", "Cumulative_Balance "};
+    
+    private String[] defaultVariablesHeader = {"Starting Balance", "Pipeline Accrual", "Demand Accrual", "Pipeline Inventory True-Up",
+        "Demand Reforecast", "Total Period Adjustment", "Ending Balance", "Total"};
+    private String[] defaultVariablesColumns = {"Starting_Balance","Pipeline_Accrual","Demand_Accrual","Pipeline_Inventory_True-Up",
+        "Demand_Reforecast","Total_Period_Adjustment","Ending_Balance", "Total"};
+    private String[] defaultColumnsHeader = {"Starting Balance", "Pipeline Accrual", "Demand Accrual", "Pipeline Inventory True-Up",
+        "Demand Reforecast", "Total Period Adjustment", "Ending Balance"};
+    private String[] defaultColumns = {"Starting_Balance","Pipeline_Accrual","Demand_Accrual","Pipeline_Inventory_True-Up",
+        "Demand_Reforecast","Total_Period_Adjustment","Ending_Balance"};
 
     public BSummaryPipelineSummary(SummarySelection tselection, BSummaryPipelineLogic logic) {
         super(logic, tselection);
-        results = new BSummaryPipelineResults(logic, selection);
+        results = new BSummaryPipelineResults(logic, getSelection());
         init();
     }
 
@@ -35,17 +41,17 @@ public class BSummaryPipelineSummary extends AbstractBSummaryReportSummary {
 
     @Override
     public String[] getDefaultColumnsHeader() {
-        return defaultColumnsHeader;
+        return defaultColumnsHeader.clone();
     }
 
     @Override
     public String[] getDefaultColumns() {
-        return defaultColumns;
+        return defaultColumns.clone();
     }
 
     @Override
     public String getProcedureName() {
-        return "PRC_BALANCE_REPORT_PIPELINE";
+        return "PRC_ARM_BSR_PIPELINE";
     }
 
     @Override
@@ -53,4 +59,23 @@ public class BSummaryPipelineSummary extends AbstractBSummaryReportSummary {
         return "ARM_BSR_PIPELINE";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public String[] getAdjustmentTypeHeader() {
+        return defaultVariablesHeader.clone();
+    }
+
+    @Override
+    public String[] getAdjustmentTypeColumn() {
+        return defaultVariablesColumns.clone();
+    }
 }

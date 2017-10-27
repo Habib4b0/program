@@ -24,6 +24,7 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -70,7 +71,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
         } catch (SystemException ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -87,8 +88,8 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
      * @return
      */
     public List getComponentInfo(String componentSelectionValue, String rebateId) {
-        String query1 = StringUtils.EMPTY;
-        String query2 = StringUtils.EMPTY;
+        String query1;
+        String query2;
         if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
             query1 = "select RS.RS_ID, RS.RS_NO, RS.RS_NAME, RS.RS_STATUS, \n"
                     + " '' AS RAR_TYPE, \n"
@@ -230,7 +231,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
                     + "from RS_CONTRACT RS "
                     + "JOIN RS_CONTRACT_DETAILS RSD ON RSD.RS_CONTRACT_SID = RS.RS_CONTRACT_SID \n"
                     + "JOIN ITEM_MASTER IM ON RSD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID \n"
-                    + "JOIN BRAND_MASTER B ON IM.BRAND_MASTER_SID = B.BRAND_MASTER_SID \n"
+                    + "JOIN BRAND_MASTER B ON IM.BRAND_MASTER_SID =  B.BRAND_MASTER_SID \n"
                     + "JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = IM.ITEM_STATUS \n"
                     + "LEFT JOIN REBATE_PLAN_MASTER RP ON RSD.REBATE_PLAN_MASTER_SID = RP.REBATE_PLAN_MASTER_SID \n"
                     + " LEFT JOIN FORMULA_DETAILS_MASTER FDM ON FDM.FORMULA_ID = RSD.FORMULA_ID"
@@ -252,7 +253,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
                     + " WHERE CFP.CFP_CONTRACT_SID = " + id[0];
 
         } else if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
-            query1 = "  select IFPC.IFP_ID,IFPC.IFP_NO,IFPC.IFP_NAME,(case when  HT.HELPER_TABLE_SID=0 then ' ' else HT.DESCRIPTION end) as IFP_STATUS,IFPC.IFP_START_DATE,IFPC.IFP_END_DATE ,' ' as col1,' ' as col2, ' ' as col3 "
+            query1 = "  select IFPM.IFP_ID,IFPC.IFP_NO,IFPC.IFP_NAME,(case when  HT.HELPER_TABLE_SID=0 then ' ' else HT.DESCRIPTION end) as IFP_STATUS,IFPC.IFP_START_DATE,IFPC.IFP_END_DATE ,' ' as col1,' ' as col2, ' ' as col3 "
                     + " from IFP_CONTRACT IFPC join IFP_MODEL IFPM ON IFPM.IFP_MODEL_SID=IFPC.IFP_MODEL_SID "
                     + " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=IFPC.IFP_STATUS "
                     + " WHERE IFPC.CFP_CONTRACT_SID = " + id[0] + " and IFPC.IFP_CONTRACT_SID = " + id[1];
@@ -296,7 +297,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
     }
 
     public List startDateAndEndDateValidation(String userId, String sessionId, String screenName) {
-        String query1 = "select count(*) from GCM_GLOBAL_DETAILS where USER_ID = '" + userId + "' AND SESSION_ID = '" + sessionId + "' and SCREEN_NAME = '" + screenName + "' and CHECK_RECORD = '1'";
+        String query1 = "select count(*) from GCM_GLOBAL_DETAILS where USER_ID =  '" + userId + "' AND SESSION_ID =  '" + sessionId + "' and SCREEN_NAME =  '" + screenName + "' and CHECK_RECORD = '1'";
         String query2 = "select count(*) from GCM_GLOBAL_DETAILS where USER_ID = '" + userId + "' AND SESSION_ID = '" + sessionId + "' and SCREEN_NAME = '" + screenName + "' and CHECK_RECORD = '1' and END_DATE IS NOT NULL";
 
         String[] queries = new String[NumericConstants.TWO];

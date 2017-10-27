@@ -97,7 +97,7 @@ public class WorkflowLogic {
      * @return Status as Saved or Not Saved
      * @throws IOException
      */
-    public String saveWorkflow(int projectionId, String userId, String notes, int noOfLevels, String screenName, List<NotesDTO> getUploadedData, String description) throws IOException, SAXException, ParserConfigurationException, TransformerException, SystemException, PortalException {
+    public String saveWorkflow(int projectionId, String userId, String notes, int noOfLevels, String screenName, List<NotesDTO> getUploadedData, String description) {
         String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
                 ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
         String filePath1 = "/../../../WorkflowXML/BPIGeneratorIDs.xml";
@@ -197,7 +197,7 @@ public class WorkflowLogic {
      * @param description
      * @return WorkflowMasterDTO Object
      */
-    public WorkflowMasterDTO setWorkflowMasterDTO(int projectionId, String workflowId, String userId, String notes, int noOfLevels, String getUploadedData, String description) throws SystemException {
+    public WorkflowMasterDTO setWorkflowMasterDTO(int projectionId, String workflowId, String userId, String notes, int noOfLevels, String getUploadedData, String description) {
         WorkflowMasterDTO workflowMasterDTO = new WorkflowMasterDTO();
         int userIdInt = Integer.parseInt(userId);
         workflowMasterDTO.setWorkflowId(workflowId);
@@ -433,7 +433,7 @@ public class WorkflowLogic {
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.LIST_NAME,
                 listName));
 
-        List<HelperTable> resultList = new ArrayList<HelperTable>();
+        List<HelperTable> resultList = new ArrayList<>();
         try {
             resultList = HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
 

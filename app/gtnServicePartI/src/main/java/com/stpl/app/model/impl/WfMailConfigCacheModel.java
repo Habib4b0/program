@@ -33,10 +33,11 @@ public class WfMailConfigCacheModel implements CacheModel<WfMailConfig>,
     public String portNumber;
     public long modifiedDate;
     public String inboundStatus;
+    public String testMailAddress;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(23);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("{smtpFlag=");
         sb.append(smtpFlag);
@@ -60,6 +61,8 @@ public class WfMailConfigCacheModel implements CacheModel<WfMailConfig>,
         sb.append(modifiedDate);
         sb.append(", inboundStatus=");
         sb.append(inboundStatus);
+        sb.append(", testMailAddress=");
+        sb.append(testMailAddress);
         sb.append("}");
 
         return sb.toString();
@@ -122,6 +125,12 @@ public class WfMailConfigCacheModel implements CacheModel<WfMailConfig>,
             wfMailConfigImpl.setInboundStatus(inboundStatus);
         }
 
+        if (testMailAddress == null) {
+            wfMailConfigImpl.setTestMailAddress(StringPool.BLANK);
+        } else {
+            wfMailConfigImpl.setTestMailAddress(testMailAddress);
+        }
+
         wfMailConfigImpl.resetOriginalValues();
 
         return wfMailConfigImpl;
@@ -140,6 +149,7 @@ public class WfMailConfigCacheModel implements CacheModel<WfMailConfig>,
         portNumber = objectInput.readUTF();
         modifiedDate = objectInput.readLong();
         inboundStatus = objectInput.readUTF();
+        testMailAddress = objectInput.readUTF();
     }
 
     @Override
@@ -188,6 +198,12 @@ public class WfMailConfigCacheModel implements CacheModel<WfMailConfig>,
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
             objectOutput.writeUTF(inboundStatus);
+        }
+
+        if (testMailAddress == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(testMailAddress);
         }
     }
 }

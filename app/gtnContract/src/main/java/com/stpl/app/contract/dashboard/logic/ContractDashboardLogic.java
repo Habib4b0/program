@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
@@ -79,7 +78,6 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.VaadinSession;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
@@ -93,7 +91,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     /**
      * The rs details list.
      */
-    public List<RsContractDetails> rsDetailsList = new ArrayList<RsContractDetails>();
+    public List<RsContractDetails> rsDetailsList = new ArrayList<>();
 
     /**
      * Logger used for ContractDashboardLogic class.
@@ -314,7 +312,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public List<ContractMember> getAlSearchList(final String idValue, final String flag) throws SystemException, PortalException {
+    public List<ContractMember> getAlSearchList(final String idValue, final String flag) throws SystemException {
         List<ContractMember> resultList;
         LOGGER.debug("Entering getAlSearchList method with paramete  idValue=" + idValue + ", flag=" + flag);
         String cid;
@@ -355,7 +353,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
             resultList = getCustomizedDTOFromModel(dao.rebateScheduleMasterDynamicQuery(itemDynamicQuery), flag);
 
         } else {
-            resultList = new ArrayList<ContractMember>();
+            resultList = new ArrayList<>();
         }
 
         LOGGER.debug("End of getAlSearchList method");
@@ -372,7 +370,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     public List<ContractMember> getCustomizedDTOFromModel(final List<?> list, final String flag) {
         LOGGER.debug("Entering getCustomizedDTOFromModel method");
 
-        final List<ContractMember> searchList = new ArrayList<ContractMember>();
+        final List<ContractMember> searchList = new ArrayList<>();
         ContractMaster contractMaster;
         CfpModel cfp;
         IfpModel ifp;
@@ -424,10 +422,11 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         final CfpModel companyFamily = dao.getCompanyFamilyplanMaster(contractMember.getModelSysId());
 
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(CfpContract.class);
-        query.add(RestrictionsFactoryUtil.eq("contractMasterSid", contractSystemId));
+        query.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, contractSystemId));
         query.add(RestrictionsFactoryUtil.eq("cfpModelSid", contractMember.getModelSysId()));
         List<CfpContract> list = CfpContractLocalServiceUtil.dynamicQuery(query);
-        CfpContract cfpContract = CfpContractLocalServiceUtil.createCfpContract(Constants.ZERO);
+        CfpContractLocalServiceUtil.createCfpContract(Constants.ZERO);
+        CfpContract cfpContract;
 
         if (list.size() > Constants.ZERO) {
             final CfpContract cfpMasterAttached = CfpContractLocalServiceUtil.getCfpContract(list.get(Constants.ZERO).getCfpContractSid());
@@ -485,7 +484,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         }
 
         contractMember.setCfpContractId(cfpContract.getCfpContractSid());
-        List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+        List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
         input.add(cfpContract.getCfpContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(ContractUtils.USER_ID));
         input.add(FORMAT.format(new Date()));
@@ -516,7 +515,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         final IfpModel itemFamily = dao.getItemFamilyPlanMaster(contractMember.getModelSysId());
 
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(IfpContract.class);
-        query.add(RestrictionsFactoryUtil.eq("contractMasterSid", contractSystemId));
+        query.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, contractSystemId));
         if (cfpSystemId != Constants.ZERO) {
             query.add(RestrictionsFactoryUtil.ilike(Constants.CFP_CONTRACT_SID, String.valueOf(cfpSystemId)));
         } else {
@@ -524,7 +523,8 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         }
         query.add(RestrictionsFactoryUtil.eq(Constants.IFP_SYSTEM_ID, contractMember.getModelSysId()));
         List<IfpContract> list = IfpContractLocalServiceUtil.dynamicQuery(query);
-        IfpContract ifpContract = IfpContractLocalServiceUtil.createIfpContract(Constants.ZERO);
+        IfpContractLocalServiceUtil.createIfpContract(Constants.ZERO);
+        IfpContract ifpContract;
 
         if (list.size() > Constants.ZERO) {
 
@@ -586,7 +586,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         }
 
         contractMember.setIfpContractId(ifpContract.getIfpContractSid());
-        List<Object> input = new ArrayList<Object>(NumericConstants.TEN);
+        List<Object> input = new ArrayList<>(NumericConstants.TEN);
         input.add(ifpContract.getIfpContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(ContractUtils.USER_ID));
         input.add(FORMAT.format(new Date()));
@@ -628,7 +628,8 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
 
         query.add(RestrictionsFactoryUtil.eq("psModelSid", contractMember.getModelSysId()));
         List<PsContract> list = PsContractLocalServiceUtil.dynamicQuery(query);
-        PsContract psContract = PsContractLocalServiceUtil.createPsContract(Constants.ZERO);
+        PsContractLocalServiceUtil.createPsContract(Constants.ZERO);
+        PsContract psContract;
         if (list.size() > Constants.ZERO) {
             final PsContract psMasterAttached = PsContractLocalServiceUtil.getPsContract(list.get(Constants.ZERO).getPsContractSid());
             psMasterAttached.setContractMasterSid(contractSystemId);
@@ -681,7 +682,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         }
 
         contractMember.setPsContractId(psContract.getPsContractSid());
-        List<Object> input = new ArrayList<Object>(NumericConstants.TEN);
+        List<Object> input = new ArrayList<>(NumericConstants.TEN);
         input.add(psContract.getPsContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(ContractUtils.USER_ID));
         input.add(FORMAT.format(new Date()));
@@ -730,7 +731,8 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         }
         query.add(RestrictionsFactoryUtil.eq("rsModelSid", contractMember.getModelSysId()));
         List<RsContract> list = RsContractLocalServiceUtil.dynamicQuery(query);
-        RsContract rsContract = RsContractLocalServiceUtil.createRsContract(Constants.ZERO);
+        RsContractLocalServiceUtil.createRsContract(Constants.ZERO);
+        RsContract rsContract;
 
         if (list.size() > Constants.ZERO) {
             final RsContract rsMasterAttached = RsContractLocalServiceUtil.getRsContract(list.get(Constants.ZERO).getRsContractSid());
@@ -866,7 +868,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
             rsContract = dao.addRsMasterAttached(rsMasterAttached);
         }
 
-        List<Object> input = new ArrayList<Object>(NumericConstants.TEN);
+        List<Object> input = new ArrayList<>(NumericConstants.TEN);
         input.add(rsContract.getRsContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(ContractUtils.USER_ID));
         input.add(FORMAT.format(new Date()));
@@ -1007,8 +1009,8 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
      * @return the queried count
      * @throws SystemException
      */
-    public int getRightQueriedCount(final CustomFieldGroup rightSearchBinder) throws SystemException {
-        LOGGER.debug("Entering getQueriedCount method");
+    public int getRightQueriedCount(final CustomFieldGroup rightSearchBinder) {
+        LOGGER.debug("Entering getRightQueriedCount method");
         QueryUtil queryUtil = new QueryUtil();
         DashboardDAO dao = new DashboardLogicDAOImpl();
         int count = Constants.ZERO;
@@ -1065,7 +1067,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
             public void put(final List<ContractMember> contractList, final Object parent, final HierarchicalContainer container) {
                 for (int i = Constants.ZERO; i < contractList.size(); i++) {
                     final ContractMember contractMember = (ContractMember) contractList.get(i);
-                    final BeanItem<ContractMember> item = new BeanItem<ContractMember>(contractMember);
+                    final BeanItem<ContractMember> item = new BeanItem<>(contractMember);
 
                     container.addItem(item);
 
@@ -1280,7 +1282,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
 
         LOGGER.debug("Entering getLevel2List method");
         List<ContractMember> level2List;
-        level2List = new ArrayList<ContractMember>();
+        level2List = new ArrayList<>();
         if (getCFPQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
             level2List = getCFPList(parent1, ContractMember.LEVEL2, start, end, isLimit);
         }
@@ -1308,7 +1310,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
 
         LOGGER.debug("Entering getLevel3List method");
         List<ContractMember> level3List;
-        level3List = new ArrayList<ContractMember>();
+        level3List = new ArrayList<>();
         if (Constants.CFP.equals(parent2.getCategory())) {
             if (getIFPCount(parent1.getSystemId(), parent2.getInternalId(), NumericConstants.TWO) > Constants.ZERO) {
                 level3List.addAll(getIFPList(parent1, parent2, ContractMember.LEVEL3, start, end, isLimit));
@@ -1347,7 +1349,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         LOGGER.debug("Entering getLevel4List method");
               
         List<ContractMember> level4List;
-        level4List = new ArrayList<ContractMember>();
+        level4List = new ArrayList<>();
         try{
         if (Constants.IFP.equals(parent3.getCategory())) {
             if (getPSCount(parent1.getSystemId(), parent2.getInternalId(), parent3.getInternalId(), NumericConstants.THREE) > Constants.ZERO) {
@@ -1385,7 +1387,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         if (!Constants.RS_VALUE.equals(parent3.getCategory()) && getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
             level5List = getRSList(parent1, parent2, parent3, parent4, ContractMember.LEVEL5, start, end, isLimit);
         } else {
-            level5List = new ArrayList<ContractMember>();
+            level5List = new ArrayList<>();
         }
 
         LOGGER.debug("End of getLevel5List method");
@@ -1481,12 +1483,12 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, contractSystemId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ContractUtils.INBOUND_STATUS, ContractUtils.INBOUND_STATUS_D)));
-        LOGGER.debug("End of getIFPQueriedCount method");
+        LOGGER.debug("End of getIFPQueriedCount method ");
         return (int) dao.contractMasterDynamicQueryCount(ifpDynamicQuery);
     }
 
     public int getIFPCount(final int contractSystemId, final int cfpContractSystemId, final int levelNo) throws SystemException {
-        LOGGER.debug("Entering getIFPQueriedCount method");
+        LOGGER.debug("Entering getIFPCount method");
 
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, contractSystemId));
@@ -1513,12 +1515,12 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
         psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, contractSystemId));
         psDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ContractUtils.INBOUND_STATUS, ContractUtils.INBOUND_STATUS_D)));
-        LOGGER.debug("End of getPSQueriedCount method");
+        LOGGER.debug("End of getPSQueriedCount method ");
         return (int) dao.contractMasterDynamicQueryCount(psDynamicQuery);
     }
 
     public int getPSCount(final int contractSystemId, final int cfpContractSystemId, final int ifpContractSystemId, final int levelNo) throws SystemException {
-        LOGGER.debug("Entering getPSQueriedCount method");
+        LOGGER.debug("Entering getPSCount method");
 
         final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
         psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, contractSystemId));
@@ -1542,12 +1544,12 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     }
 
     public int getRSQueriedCount(final int contractSystemId) throws SystemException {
-        LOGGER.debug("Entering getRSQueriedCount method");
+        LOGGER.debug("Entering getQueriedCount method");
 
         final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
         rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, contractSystemId));
         rsDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ContractUtils.INBOUND_STATUS, ContractUtils.INBOUND_STATUS_D)));
-        LOGGER.debug("End of getRSQueriedCount method");
+        LOGGER.debug("End of getRSQueriedCount ");
         return (int) dao.contractMasterDynamicQueryCount(rsDynamicQuery);
     }
 
@@ -1605,10 +1607,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
      * @return the contract list
      */
     @SuppressWarnings(ContractUtils.UNCHECKED)
-    public List<ContractMember> getContractList(final CustomFieldGroup rightSearchBinder, final int level, final int start, final int end) throws SystemException {
+    public List<ContractMember> getContractList(final CustomFieldGroup rightSearchBinder, final int level, final int start, final int end) {
         LOGGER.debug("Entering getContractList method");
 
-        final List<ContractMember> contractList = new ArrayList<ContractMember>();
+        final List<ContractMember> contractList = new ArrayList<>();
         try {
             List result = getRightProcessedQuery(rightSearchBinder, start, end);
             Object[] record;
@@ -1693,7 +1695,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     private List<ContractMember> getCFPList(final ContractMember parent1, final int level, final int start, final int end, final boolean isLimit) throws SystemException, PortalException {
         LOGGER.debug("Entering getCFPList method");
 
-        final List<ContractMember> cfpList = new ArrayList<ContractMember>();
+        final List<ContractMember> cfpList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, parent1.getSystemId()));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ContractUtils.INBOUND_STATUS, ContractUtils.INBOUND_STATUS_D)));
@@ -1732,7 +1734,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     private List<ContractMember> getIFPList(final ContractMember parent1, final ContractMember parent2, final int level, final int start, final int end, final boolean isLimit) throws SystemException, PortalException {
         LOGGER.debug("Entering getIFPList method");
 
-        final List<ContractMember> ifpList = new ArrayList<ContractMember>();
+        final List<ContractMember> ifpList = new ArrayList<>();
         final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, parent1.getSystemId()));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ContractUtils.INBOUND_STATUS, ContractUtils.INBOUND_STATUS_D)));
@@ -1795,7 +1797,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     private List<ContractMember> getPSList(final ContractMember parent1, final ContractMember parent2, final ContractMember parent3, final int level, final int start, final int end, final boolean isLimit) throws SystemException, PortalException {
         LOGGER.debug("Entering getPSList method");
 
-        final List<ContractMember> psList = new ArrayList<ContractMember>();
+        final List<ContractMember> psList = new ArrayList<>();
         final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
         psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, parent1.getSystemId()));
         psDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ContractUtils.INBOUND_STATUS, ContractUtils.INBOUND_STATUS_D)));
@@ -1877,7 +1879,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
             throws SystemException, PortalException {
         LOGGER.debug("Entering getRSList method");
 
-        final List<ContractMember> rsList = new ArrayList<ContractMember>();
+        final List<ContractMember> rsList = new ArrayList<>();
         final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
         rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CONTRACT_MASTER_SID, parent1.getSystemId()));
         rsDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ContractUtils.INBOUND_STATUS, ContractUtils.INBOUND_STATUS_D)));
@@ -2005,7 +2007,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
 
 
     private List<Integer> getContractIdList(final List<ContractMaster> allContractList) {
-        final List<Integer> contractIdList = new ArrayList<Integer>();
+        final List<Integer> contractIdList = new ArrayList<>();
         if (allContractList != null) {
             for (int i = Constants.ZERO; i < allContractList.size(); i++) {
                 final ContractMaster contractMaster = allContractList.get(i);
@@ -2016,7 +2018,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     }
 
     private List<RsContract> getAllRsList(final List<Integer> contractIdList) throws SystemException {
-        final List<RsContract> allRsList = new ArrayList<RsContract>();
+        final List<RsContract> allRsList = new ArrayList<>();
         if (!contractIdList.isEmpty()) {
             final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
             rsDynamicQuery.add(RestrictionsFactoryUtil.in(Constants.CONTRACT_MASTER_SID, contractIdList.toArray()));
@@ -2032,7 +2034,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     }
 
     private List<PsContract> getAllPsList(final List<Integer> contractIdList) throws SystemException {
-        final List<PsContract> allPsList = new ArrayList<PsContract>();
+        final List<PsContract> allPsList = new ArrayList<>();
         if (!contractIdList.isEmpty()) {
             final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
             psDynamicQuery.add(RestrictionsFactoryUtil.in(Constants.CONTRACT_MASTER_SID, contractIdList.toArray()));
@@ -2049,7 +2051,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
 
     private List<CfpContract> getAllCfpList(final List<Integer> contractIdList) throws SystemException {
 
-        final List<CfpContract> allCfpList = new ArrayList<CfpContract>();
+        final List<CfpContract> allCfpList = new ArrayList<>();
 
         if (!contractIdList.isEmpty()) {
             final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
@@ -2066,14 +2068,15 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     }
 
     private List<IfpContract> getAllIfpList(final List<Integer> contractIdList) throws SystemException {
-        final List<IfpContract> allIfpList = new ArrayList<IfpContract>();
+        final List<IfpContract> allIfpList = new ArrayList<>();
         if (!contractIdList.isEmpty()) {
             final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
             ifpDynamicQuery.add(RestrictionsFactoryUtil.in(Constants.CONTRACT_MASTER_SID, contractIdList.toArray()));
             LOGGER.debug("IfpMasterDynamicQuery(ifpDynamicQuery)");
             final List<IfpContract> tempIfpList = dao.ifpMasterDynamicQuery(ifpDynamicQuery);
-            LOGGER.debug("returns  List<IfpMasterAttached> size=" + tempIfpList.size());
+            
             if (tempIfpList != null) {
+                LOGGER.debug("returns  List<IfpMasterAttached> size=" + tempIfpList.size());
                 for (int i = Constants.ZERO; i < tempIfpList.size(); i++) {
                     final IfpContract ifp = tempIfpList.get(i);
                     allIfpList.add(ifp);
@@ -2084,7 +2087,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     }
 
     private List<CfpContract> getCfpList(final List<CfpContract> allCfpList, final ContractMaster contractName) {
-        final List<CfpContract> cfpList = new ArrayList<CfpContract>();
+        final List<CfpContract> cfpList = new ArrayList<>();
         for (int i = Constants.ZERO; i < allCfpList.size(); i++) {
             final CfpContract cfp = allCfpList.get(i);
             if (cfp.getContractMasterSid() == contractName.getContractMasterSid()) {
@@ -2298,10 +2301,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             contractQuery.add(RestrictionsFactoryUtil.ilike(Constants.CONTRACT_ID, filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             contractQuery.add(RestrictionsFactoryUtil.ilike(Constants.CONTRACT_NO, filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2322,10 +2325,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("cfpId", filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("cfpNo", filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2343,10 +2346,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike("ifpId", filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike("ifpNo", filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2367,10 +2370,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             rsDynamicQuery.add(RestrictionsFactoryUtil.ilike("psId", filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             rsDynamicQuery.add(RestrictionsFactoryUtil.ilike("psNo", filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2391,10 +2394,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             psDynamicQuery.add(RestrictionsFactoryUtil.ilike("rsId", filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             psDynamicQuery.add(RestrictionsFactoryUtil.ilike("rsNo", filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2425,7 +2428,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public List<ContractMember> getAlSearchList(final DashBoardSearchDto searchDTO, final int start, final int end, final BeanSearchCriteria searchCriteria) throws SystemException, PortalException {
+    public List<ContractMember> getAlSearchList(final DashBoardSearchDto searchDTO, final int start, final int end, final BeanSearchCriteria searchCriteria) throws SystemException {
 
         List<ContractMember> resultList;
         LOGGER.debug("Entering getAlSearchList method");
@@ -2453,10 +2456,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             contractQuery.add(RestrictionsFactoryUtil.ilike(Constants.CONTRACT_ID, filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             contractQuery.add(RestrictionsFactoryUtil.ilike(Constants.CONTRACT_NO, filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2477,10 +2480,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("cfpId", filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike("cfpNo", filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2501,10 +2504,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike("ifpId", filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike("ifpNo", filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2525,10 +2528,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             psDynamicQuery.add(RestrictionsFactoryUtil.ilike("psId", filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             psDynamicQuery.add(RestrictionsFactoryUtil.ilike("psNo", filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2549,10 +2552,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                         String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                        if (stringFilter.getPropertyId().equals("memberId")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_ID)) {
                             rsDynamicQuery.add(RestrictionsFactoryUtil.ilike("rsId", filterText));
                         }
-                        if (stringFilter.getPropertyId().equals("memberNo")) {
+                        if (stringFilter.getPropertyId().equals(Constants.MEMBER_NO)) {
                             rsDynamicQuery.add(RestrictionsFactoryUtil.ilike("rsNo", filterText));
                         }
                         if (stringFilter.getPropertyId().equals("name")) {
@@ -2564,7 +2567,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
             rsDynamicQuery.setLimit(start, end);
             resultList = getCustomizedDTOFromModel(dao.rebateScheduleMasterDynamicQuery(rsDynamicQuery), flag);
         } else {
-            resultList = new ArrayList<ContractMember>();
+            resultList = new ArrayList<>();
         }
 
         LOGGER.debug("End of getAlSearchList method");
@@ -2663,8 +2666,8 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
 
     public boolean validatePS(final int ifpSystemId, final int psSystemID) throws SystemException {
         boolean result = false;
-        final Set<Integer> psItems = new HashSet<Integer>();
-        final Set<Integer> ifpItems = new HashSet<Integer>();
+        final Set<Integer> psItems = new HashSet<>();
+        final Set<Integer> ifpItems = new HashSet<>();
 
         final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
         psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", psSystemID));
@@ -2696,7 +2699,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     }
 
 
-    public boolean callCcpProcedure() throws SystemException, SQLException {
+    public boolean callCcpProcedure() throws  SQLException {
         boolean status = false;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
@@ -2726,15 +2729,44 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         return true;
 
     }
+    /**
+     * Method to call actauls details prc to insert data in actuals details table
+     * 
+     * @return
+     * @throws SystemException
+     * @throws SQLException 
+     */
+    public boolean callActualsDetailsProcedure() throws SQLException {
+        boolean status = false;
+        long startTime  = System.currentTimeMillis();
+        final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
+        Connection connection = null;
+        CallableStatement statement = null;
+        try {
+            connection = dataSourceConnection.getConnection();
+            LOGGER.info("Entering callActualsDetailsProcedure  ::::");
+            statement = connection.prepareCall("{call PRC_ACTUAL_DETAILS_POPULATION ()}");
+            statement.execute();
+            LOGGER.info("Ending callActualsDetailsProcedure return  ");
+            LOGGER.info("Time taken for  callActualsDetailsProcedure   " + ((System.currentTimeMillis() - startTime) / 1000));
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return status;
+        } finally {
+            statement.close();
+            connection.close();
+        }
+        return true;
+    }
 
-    public int getNsRuleCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) throws ParseException  {
+    public int getNsRuleCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) {
         int count = Constants.ZERO;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildNsRuleSearchQuery(searchFields, true);
         queryBuilder = getNsRuleFilterQuery(filterSet, queryBuilder);
 
-        queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll("WHERE AND", " WHERE "));
-        queryBuilder = new StringBuilder(queryBuilder.toString().endsWith("WHERE") ? queryBuilder.toString().replace("WHERE", " ") : queryBuilder);
+        queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantUtil.WHERE_AND, ConstantUtil.WHERE_SPACE));
+        queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantUtil.WHERE) ? queryBuilder.toString().replace(ConstantUtil.WHERE, " ") : queryBuilder);
         List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
         if (masterData != null && !masterData.isEmpty()) {
             Object ob = masterData.get(Constants.ZERO);
@@ -2755,30 +2787,30 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         for (String fields : keys) {
 
             if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                if ("ruleType".equalsIgnoreCase(fields) || "ruleCategory".equalsIgnoreCase(fields)) {
-                    queryBuilder.append(" AND ").append(nsRuleCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
+                if (ConstantUtil.RULE_TYPE.equalsIgnoreCase(fields) || "ruleCategory".equalsIgnoreCase(fields)) {
+                    queryBuilder.append(ConstantUtil.AND_SPACE).append(nsRuleCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
                 } else {
-                    queryBuilder.append(" AND ").append(nsRuleCriteria.get(fields)).append(" LIKE '").append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace("*", Constants.PERCENT)).append("'");
+                    queryBuilder.append(ConstantUtil.AND_SPACE).append(nsRuleCriteria.get(fields)).append(" LIKE '").append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace("*", Constants.PERCENT)).append("'");
                 }
             }
         }
         return queryBuilder;
     }
 
-    private StringBuilder getNsRuleFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getNsRuleFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         if (nsRuleFilterCriteria.isEmpty()) {
             nsRuleFilterCriteria.clear();
-            nsRuleFilterCriteria.put("ruleType", "RULE_TYPE");
-            nsRuleFilterCriteria.put("ruleNo", "RULE_NO");
-            nsRuleFilterCriteria.put("ruleName", "RULE_NAME");
-            nsRuleFilterCriteria.put("ruleCategoryString", "RULE_CATEGORY");
+            nsRuleFilterCriteria.put(ConstantUtil.RULE_TYPE, ConstantUtil.RULE_TYPE_LIST);
+            nsRuleFilterCriteria.put(ConstantUtil.RULE_NO, ConstantUtil.RULE_NO_LIST);
+            nsRuleFilterCriteria.put(ConstantUtil.RULE_NAME, ConstantUtil.RULE_NAME_LIST);
+            nsRuleFilterCriteria.put("ruleCategoryString", ConstantUtil.RULE_CATEGORY_LIST);
         }
 
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(" AND ").append(nsRuleFilterCriteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '%").append(stringFilter.getFilterString()).append("%'");
+                    stringBuilder.append(ConstantUtil.AND_SPACE).append(nsRuleFilterCriteria.get(stringFilter.getPropertyId().toString())).append(" LIKE '%").append(stringFilter.getFilterString()).append("%'");
                 }
             }
         }
@@ -2788,23 +2820,23 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
 
     private void loadNsRuleCriteriaMap() {
         nsRuleCriteria.clear();
-        nsRuleCriteria.put("ruleType", "RULE_TYPE");
-        nsRuleCriteria.put("ruleNo", "RULE_NO");
-        nsRuleCriteria.put("ruleName", "RULE_NAME");
-        nsRuleCriteria.put("ruleCategory", "RULE_CATEGORY");
+        nsRuleCriteria.put(ConstantUtil.RULE_TYPE,  ConstantUtil.RULE_TYPE_LIST);
+        nsRuleCriteria.put(ConstantUtil.RULE_NO, ConstantUtil.RULE_NO_LIST);
+        nsRuleCriteria.put(ConstantUtil.RULE_NAME,  ConstantUtil.RULE_NAME_LIST);
+        nsRuleCriteria.put("ruleCategory", ConstantUtil.RULE_CATEGORY_LIST);
     }
 
     public List<NetSalesRuleLookupDto> loadNsRuleResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException,ParseException {
-        List<NetSalesRuleLookupDto> searchList = new ArrayList<>();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<NetSalesRuleLookupDto> searchList;
         LOGGER.debug("Entering loadNsRuleResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildNsRuleSearchQuery(searchFields, false);
         queryBuilder = getNsRuleFilterQuery(filterSet, queryBuilder);
         queryBuilder = getNsRuleOrderQuery(queryBuilder, columns, start, end);
 
-        queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll("WHERE AND", " WHERE "));
-        queryBuilder = new StringBuilder(queryBuilder.toString().endsWith("WHERE") ? queryBuilder.toString().replace("WHERE", " ") : queryBuilder);
+        queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantUtil.WHERE_AND,  ConstantUtil.WHERE_SPACE));
+        queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantUtil.WHERE) ? queryBuilder.toString().replace(ConstantUtil.WHERE, " ") : queryBuilder);
 
         final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
         searchList = getCustomizedNsRuleDTO(list);
@@ -2817,10 +2849,10 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         String orderByColumn = null;
         if (nsRuleFilterCriteria.isEmpty()) {
             nsRuleFilterCriteria.clear();
-            nsRuleFilterCriteria.put("ruleType", "RULE_TYPE");
-            nsRuleFilterCriteria.put("ruleNo", "RULE_NO");
-            nsRuleFilterCriteria.put("ruleName", "RULE_NAME");
-            nsRuleFilterCriteria.put("ruleCategoryString", "RULE_CATEGORY");
+            nsRuleFilterCriteria.put(ConstantUtil.RULE_TYPE,  ConstantUtil.RULE_TYPE_LIST);
+            nsRuleFilterCriteria.put(ConstantUtil.RULE_NO, ConstantUtil.RULE_NO_LIST);
+            nsRuleFilterCriteria.put(ConstantUtil.RULE_NAME, ConstantUtil.RULE_NAME_LIST);
+            nsRuleFilterCriteria.put("ruleCategoryString", ConstantUtil.RULE_CATEGORY_LIST);
         }
         if (sortByColumns != null) {
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
@@ -2829,7 +2861,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
                 sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
             }
         }
-        stringBuilder = new StringBuilder(stringBuilder.toString().endsWith("WHERE") ? stringBuilder.toString().replace("WHERE", " ") : stringBuilder);
+        stringBuilder = new StringBuilder(stringBuilder.toString().endsWith(ConstantUtil.WHERE) ? stringBuilder.toString().replace(ConstantUtil.WHERE, " ") : stringBuilder);
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             stringBuilder.append(" ORDER BY CREATED_DATE ");
         } else {
@@ -2867,16 +2899,16 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         return searchResultsList;
     }
 
-    public int getNsRuleDetailsCount(final String ruleSystemId, final Set<Container.Filter> filterSet) throws ParseException {
+    public int getNsRuleDetailsCount(final String ruleSystemId, final Set<Container.Filter> filterSet) {
         LOGGER.debug("Entering getNsRuleDetailsCount ");
       int count = Constants.ZERO;
         if (!"0".equals(ruleSystemId)) {
-            StringBuilder queryBuilder = new StringBuilder();
+            StringBuilder queryBuilder;
             queryBuilder = buildNsRuleDetailsQuery(ruleSystemId, true);
             queryBuilder = getNsRuleDetailsFilterQuery(filterSet, queryBuilder);
 
-            queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll("WHERE AND", " WHERE "));
-            queryBuilder = new StringBuilder(queryBuilder.toString().endsWith("WHERE") ? queryBuilder.toString().replace("WHERE", " ") : queryBuilder);
+            queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantUtil.WHERE_AND, ConstantUtil.WHERE_SPACE));
+            queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantUtil.WHERE) ? queryBuilder.toString().replace(ConstantUtil.WHERE, " ") : queryBuilder);
 
             List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
             if (masterData != null && !masterData.isEmpty()) {
@@ -2896,7 +2928,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         return queryBuilder;
     }
 
-    private StringBuilder getNsRuleDetailsFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getNsRuleDetailsFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
 
         if (nsrDetailsDbMap.isEmpty()) {
             loadNsRuleDetailsMap();
@@ -2906,7 +2938,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(" AND ").append(nsrDetailsDbMap.get(stringFilter.getPropertyId().toString())).append(" LIKE '%").append(stringFilter.getFilterString()).append("%'");
+                    stringBuilder.append(ConstantUtil.AND_SPACE).append(nsrDetailsDbMap.get(stringFilter.getPropertyId().toString())).append(" LIKE '%").append(stringFilter.getFilterString()).append("%'");
                 }
             }
         }
@@ -2926,17 +2958,17 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
     }
 
     public List<NetSalesRuleLookupDto> loadNsRuleDetailsResults(
-            final String ruleSystemId, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException {
+            final String ruleSystemId, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
         List<NetSalesRuleLookupDto> searchList = new ArrayList<>();
         try {
             LOGGER.debug("Entering loadNsRuleResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-            StringBuilder queryBuilder = new StringBuilder();
+            StringBuilder queryBuilder;
             queryBuilder = buildNsRuleDetailsQuery(ruleSystemId, false);
             queryBuilder = getNsRuleDetailsFilterQuery(filterSet, queryBuilder);
             queryBuilder = getNsRuleDetailsOrderQuery(queryBuilder, columns, start, end);
 
-            queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll("WHERE AND", " WHERE "));
-            queryBuilder = new StringBuilder(queryBuilder.toString().endsWith("WHERE") ? queryBuilder.toString().replace("WHERE", " ") : queryBuilder);
+            queryBuilder = new StringBuilder(queryBuilder.toString().replaceAll(ConstantUtil.WHERE_AND, ConstantUtil.WHERE_SPACE));
+            queryBuilder = new StringBuilder(queryBuilder.toString().endsWith(ConstantUtil.WHERE) ? queryBuilder.toString().replace(ConstantUtil.WHERE, " ") : queryBuilder);
 
             final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
             searchList = getCustomizedNsRuleDetailsDTO(list);
@@ -2994,7 +3026,7 @@ public class ContractDashboardLogic extends BeanItemContainer<ContractMaster> {
         return searchResultsList;
     }
 
-    private String getDescById(int systemId) throws PortalException, SystemException {
+    private String getDescById(int systemId) {
         if (systemId == Constants.ZERO) {
             return StringUtils.EMPTY;
         } else {

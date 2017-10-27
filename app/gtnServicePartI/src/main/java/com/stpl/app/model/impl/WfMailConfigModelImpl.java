@@ -51,9 +51,10 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
             { "CREATED_DATE", Types.TIMESTAMP },
             { "PORT_NUMBER", Types.VARCHAR },
             { "MODIFIED_DATE", Types.TIMESTAMP },
-            { "INBOUND_STATUS", Types.VARCHAR }
+            { "INBOUND_STATUS", Types.VARCHAR },
+            { "TEST_MAIL_ADDRESS", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table WF_MAIL_CONFIG (SMTP_FLAG VARCHAR(75) null,CREATED_BY INTEGER,EMAIL_ADDRESS VARCHAR(75) null,PASSWORD VARCHAR(75) null,MODIFIED_BY INTEGER,WF_MAIL_CONFIG_SID INTEGER not null primary key IDENTITY,HOST_NAME VARCHAR(75) null,CREATED_DATE DATE null,PORT_NUMBER VARCHAR(75) null,MODIFIED_DATE DATE null,INBOUND_STATUS VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table WF_MAIL_CONFIG (SMTP_FLAG VARCHAR(75) null,CREATED_BY INTEGER,EMAIL_ADDRESS VARCHAR(75) null,PASSWORD VARCHAR(75) null,MODIFIED_BY INTEGER,WF_MAIL_CONFIG_SID INTEGER not null primary key IDENTITY,HOST_NAME VARCHAR(75) null,CREATED_DATE DATE null,PORT_NUMBER VARCHAR(75) null,MODIFIED_DATE DATE null,INBOUND_STATUS VARCHAR(75) null,TEST_MAIL_ADDRESS VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table WF_MAIL_CONFIG";
     public static final String ORDER_BY_JPQL = " ORDER BY wfMailConfig.wfMailConfigSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY WF_MAIL_CONFIG.WF_MAIL_CONFIG_SID ASC";
@@ -84,6 +85,7 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
     private String _portNumber;
     private Date _modifiedDate;
     private String _inboundStatus;
+    private String _testMailAddress;
     private WfMailConfig _escapedModel;
 
     public WfMailConfigModelImpl() {
@@ -134,6 +136,7 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
         attributes.put("portNumber", getPortNumber());
         attributes.put("modifiedDate", getModifiedDate());
         attributes.put("inboundStatus", getInboundStatus());
+        attributes.put("testMailAddress", getTestMailAddress());
 
         return attributes;
     }
@@ -204,6 +207,12 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
 
         if (inboundStatus != null) {
             setInboundStatus(inboundStatus);
+        }
+
+        String testMailAddress = (String) attributes.get("testMailAddress");
+
+        if (testMailAddress != null) {
+            setTestMailAddress(testMailAddress);
         }
     }
 
@@ -342,6 +351,20 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
     }
 
     @Override
+    public String getTestMailAddress() {
+        if (_testMailAddress == null) {
+            return StringPool.BLANK;
+        } else {
+            return _testMailAddress;
+        }
+    }
+
+    @Override
+    public void setTestMailAddress(String testMailAddress) {
+        _testMailAddress = testMailAddress;
+    }
+
+    @Override
     public WfMailConfig toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (WfMailConfig) ProxyUtil.newProxyInstance(_classLoader,
@@ -366,6 +389,7 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
         wfMailConfigImpl.setPortNumber(getPortNumber());
         wfMailConfigImpl.setModifiedDate(getModifiedDate());
         wfMailConfigImpl.setInboundStatus(getInboundStatus());
+        wfMailConfigImpl.setTestMailAddress(getTestMailAddress());
 
         wfMailConfigImpl.resetOriginalValues();
 
@@ -489,12 +513,20 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
             wfMailConfigCacheModel.inboundStatus = null;
         }
 
+        wfMailConfigCacheModel.testMailAddress = getTestMailAddress();
+
+        String testMailAddress = wfMailConfigCacheModel.testMailAddress;
+
+        if ((testMailAddress != null) && (testMailAddress.length() == 0)) {
+            wfMailConfigCacheModel.testMailAddress = null;
+        }
+
         return wfMailConfigCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(23);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("{smtpFlag=");
         sb.append(getSmtpFlag());
@@ -518,6 +550,8 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
         sb.append(getModifiedDate());
         sb.append(", inboundStatus=");
         sb.append(getInboundStatus());
+        sb.append(", testMailAddress=");
+        sb.append(getTestMailAddress());
         sb.append("}");
 
         return sb.toString();
@@ -525,7 +559,7 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(37);
+        StringBundler sb = new StringBundler(40);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.WfMailConfig");
@@ -574,6 +608,10 @@ public class WfMailConfigModelImpl extends BaseModelImpl<WfMailConfig>
         sb.append(
             "<column><column-name>inboundStatus</column-name><column-value><![CDATA[");
         sb.append(getInboundStatus());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>testMailAddress</column-name><column-value><![CDATA[");
+        sb.append(getTestMailAddress());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

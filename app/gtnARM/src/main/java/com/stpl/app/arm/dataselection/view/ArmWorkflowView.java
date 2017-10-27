@@ -15,19 +15,19 @@ import com.vaadin.ui.VerticalLayout;
  * @author Asha.Ravi
  */
 public class ArmWorkflowView extends VerticalLayout implements View {
-    
+
     /**
      * View name for navigation.
      */
     public static final String NAME = "workflowViewArm";
 
-    public ArmWorkflowView(BussinessProcessForm editWindow)  {
+    public ArmWorkflowView(BussinessProcessForm editWindow) {
         addComponent(editWindow.getContent());
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
-    
+
 }

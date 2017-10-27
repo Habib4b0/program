@@ -32,7 +32,7 @@ public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
     }
 
     public List<IFPItemDTO> find(BeanSearchCriteria bsc, int i, int i1, List<OrderByColumn> list) {
-        List<IFPItemDTO> resultList = new ArrayList<IFPItemDTO>();
+        List<IFPItemDTO> resultList = new ArrayList<>();
         return resultList;
     }
 }

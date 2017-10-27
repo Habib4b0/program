@@ -105,11 +105,11 @@ public class ItemSelection extends CustomComponent implements View {
     ExtPagedTable availableItemsTable = new ExtPagedTable(availableItemTableLoic);
     AlternateHistoryTableLogic selectedItemsTableLoic = new AlternateHistoryTableLogic();
     ExtPagedTable selectedItemsTable = new ExtPagedTable(selectedItemsTableLoic);
-    private BeanItemContainer<AlternateHistoryDTO> availableItemsContainer = new BeanItemContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class);
-    private BeanItemContainer<AlternateHistoryDTO> selectedItemsContainer = new BeanItemContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class);
+    private BeanItemContainer<AlternateHistoryDTO> availableItemsContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
+    private BeanItemContainer<AlternateHistoryDTO> selectedItemsContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
     public AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
     private static final Logger LOGGER = Logger.getLogger(ItemSelection.class);
-    public CustomFieldGroup itemSearchBinder = new CustomFieldGroup(new BeanItem<AlternateHistoryDTO>(altHistoryDTO));
+    public CustomFieldGroup itemSearchBinder = new CustomFieldGroup(new BeanItem<>(altHistoryDTO));
     Boolean contractExcelFlag = false;
     Boolean infoExcelFlag = false;
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
@@ -118,13 +118,13 @@ public class ItemSelection extends CustomComponent implements View {
     /**
      * The Constant Avilable Customer Header.
      */
-    public static final String AVAILABLE_ITEMS_HEADERS[] = new String[]{
+    public final String[] availableItemsHeaders = new String[]{
         StringUtils.EMPTY, "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand", "Item No", "Item Name", "Item Identifier Type", "Item Identifier"};
-    public static final Object AVAILABLE_ITEMS_VISIBLE_COLUMNS[] = new Object[]{
+    public final Object[] availableItemsVisibleColumns = new Object[]{
         Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName", "itemIdentifierType", "itemIdentifier"};
-    public static final String AVAILABLE_ITEMS_HEADERS1[] = new String[]{
+    public final String[] availableItemHeaders1 = new String[]{
         StringUtils.EMPTY, "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand", "Item No", "Item Name"};
-    public static final Object AVAILABLE_ITEMS_VISIBLE_COLUMNS1[] = new Object[]{
+    public final Object[] availableItemsColumns1 = new Object[]{
         Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName"};
 
     SessionDTO session;
@@ -207,11 +207,11 @@ public class ItemSelection extends CustomComponent implements View {
     public void configureTable() {
 
         availableItemsTableLayout.addComponent(availableItemsTable);
-        HorizontalLayout hLayout = new HorizontalLayout();
+        HorizontalLayout hLayout;
         hLayout = availableItemTableLoic.createControls();
         availableItemsTableLayout.addComponent(hLayout);
         selectedItemsTableLayout.addComponent(selectedItemsTable);
-        HorizontalLayout hLayout1 = new HorizontalLayout();
+        HorizontalLayout hLayout1;
         hLayout1 = selectedItemsTableLoic.createControls();
         selectedItemsTableLayout.addComponent(hLayout1);
         availableItemsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -221,8 +221,8 @@ public class ItemSelection extends CustomComponent implements View {
         availableItemsTable.setSortEnabled(false);
         availableItemTableLoic.setIsAvailable(Boolean.TRUE);
         availableItemTableLoic.setContainerDataSource(availableItemsContainer);
-        availableItemsTable.setVisibleColumns(AVAILABLE_ITEMS_VISIBLE_COLUMNS);
-        availableItemsTable.setColumnHeaders(AVAILABLE_ITEMS_HEADERS);
+        availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
+        availableItemsTable.setColumnHeaders(availableItemsHeaders);
         availableItemsTable.setFilterBarVisible(true);
         availableItemsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         availableItemsTable.setEditable(true);
@@ -234,7 +234,7 @@ public class ItemSelection extends CustomComponent implements View {
         availableItemsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 String checkValue = event.isChecked() ? "1" : "0";
-                logic.updateTableOnAddorCheckAll(itemSearchBinder, altHistoryDTO, null, 0, 0, session, false, checkValue);
+                logic.updateTableOnAddorCheckAll(altHistoryDTO, null, session, false, checkValue);
                 availableItemTableLoic.loadSetData(itemSearchBinder, altHistoryDTO, session, true);
             }
         });
@@ -256,9 +256,11 @@ public class ItemSelection extends CustomComponent implements View {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -271,7 +273,7 @@ public class ItemSelection extends CustomComponent implements View {
             }
         });
 
-        Object[] availableColumn = AVAILABLE_ITEMS_VISIBLE_COLUMNS;
+        Object[] availableColumn = availableItemsVisibleColumns;
         for (Object objColumn1 : availableColumn) {
             availableItemsTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
         }
@@ -303,8 +305,8 @@ public class ItemSelection extends CustomComponent implements View {
         selectedItemsTable.setPageLength(NumericConstants.FIVE);
         selectedItemsTable.setSortEnabled(false);
         selectedItemsTableLoic.setContainerDataSource(selectedItemsContainer);
-        selectedItemsTable.setVisibleColumns(AVAILABLE_ITEMS_VISIBLE_COLUMNS);
-        selectedItemsTable.setColumnHeaders(AVAILABLE_ITEMS_HEADERS);
+        selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
+        selectedItemsTable.setColumnHeaders(availableItemsHeaders);
         selectedItemsTable.setFilterBarVisible(true);
         selectedItemsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedItemsTable.setEditable(true);
@@ -319,7 +321,7 @@ public class ItemSelection extends CustomComponent implements View {
             }
         });
 
-        Object[] selectedColumn = AVAILABLE_ITEMS_VISIBLE_COLUMNS;
+        Object[] selectedColumn = availableItemsVisibleColumns;
         for (Object objColumn1 : selectedColumn) {
             selectedItemsTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
         }
@@ -384,22 +386,22 @@ public class ItemSelection extends CustomComponent implements View {
                 }
 
                 if ((!altHistoryDTO.getItemIdentifier().equals("")) || (!"null".equals(altHistoryDTO.getItemIdentifierType()))) {
-                    availableItemsTable.setVisibleColumns(AVAILABLE_ITEMS_VISIBLE_COLUMNS);
-                    availableItemsTable.setColumnHeaders(AVAILABLE_ITEMS_HEADERS);
-                    selectedItemsTable.setVisibleColumns(AVAILABLE_ITEMS_VISIBLE_COLUMNS);
-                    selectedItemsTable.setColumnHeaders(AVAILABLE_ITEMS_HEADERS);
+                    availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
+                    availableItemsTable.setColumnHeaders(availableItemsHeaders);
+                    selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
+                    selectedItemsTable.setColumnHeaders(availableItemsHeaders);
                 } else if ((!altHistoryDTO.getBusinessUnitNo().equals("")) || (!altHistoryDTO.getItemNo().equals(""))
                         || (!altHistoryDTO.getItemName().equals("")) || (!altHistoryDTO.getBusinessUnitName().equals(""))
                         || (!"null".equals(altHistoryDTO.getTheraputicClass())) || (!"null".equals(altHistoryDTO.getBrand()))) {
-                    availableItemsTable.setVisibleColumns(AVAILABLE_ITEMS_VISIBLE_COLUMNS1);
-                    availableItemsTable.setColumnHeaders(AVAILABLE_ITEMS_HEADERS1);
-                    selectedItemsTable.setVisibleColumns(AVAILABLE_ITEMS_VISIBLE_COLUMNS1);
-                    selectedItemsTable.setColumnHeaders(AVAILABLE_ITEMS_HEADERS1);
+                    availableItemsTable.setVisibleColumns(availableItemsColumns1);
+                    availableItemsTable.setColumnHeaders(availableItemHeaders1);
+                    selectedItemsTable.setVisibleColumns(availableItemsColumns1);
+                    selectedItemsTable.setColumnHeaders(availableItemHeaders1);
                 } else {
-                    availableItemsTable.setVisibleColumns(AVAILABLE_ITEMS_VISIBLE_COLUMNS);
-                    availableItemsTable.setColumnHeaders(AVAILABLE_ITEMS_HEADERS);
-                    selectedItemsTable.setVisibleColumns(AVAILABLE_ITEMS_VISIBLE_COLUMNS);
-                    selectedItemsTable.setColumnHeaders(AVAILABLE_ITEMS_HEADERS);
+                    availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
+                    availableItemsTable.setColumnHeaders(availableItemsHeaders);
+                    selectedItemsTable.setVisibleColumns(availableItemsVisibleColumns);
+                    selectedItemsTable.setColumnHeaders(availableItemsHeaders);
                 }
                 availableItemsTable.setColumnCheckBox(Constant.CHECK, true, false);
                 if (itemIdentifierType.getValue() != null && selectedItemsTable.size() > 0) {
@@ -477,7 +479,7 @@ public class ItemSelection extends CustomComponent implements View {
                 logic.removeItems(session);
                 selectedItemsTableLoic.setFireData(altHistoryDTO, session);
                 altHistoryDTO.getSelectedProductSet().clear();
-                logic.getCheckedItemsFromTemptable(itemSearchBinder, altHistoryDTO, null, 0, 0, session);
+                logic.getCheckedItemsFromTemptable(altHistoryDTO, null, 0, 0, session);
                 selectedItemsTable.setColumnCheckBox(Constant.CHECK, true,false);
             } else {
                 AbstractNotificationUtils.getErrorNotification("No Value Selected",
@@ -536,7 +538,7 @@ public class ItemSelection extends CustomComponent implements View {
     public void availableItemsExport(Button.ClickEvent event) {
         try {
             contractExcelFlag = true;
-            final int recordCount = logic.itemsSearchCount(itemSearchBinder, altHistoryDTO, null, session);
+            final int recordCount = logic.itemsSearchCount(altHistoryDTO, null, session);
             if (recordCount > 0) {
                 createWorkSheet("Available_Items", availableItemsTable, recordCount);
             }
@@ -556,7 +558,7 @@ public class ItemSelection extends CustomComponent implements View {
     public void selectedCustomerExport(Button.ClickEvent event) {
         try {
             infoExcelFlag = true;
-            final int recordCount = logic.getCheckedItemsCount(itemSearchBinder, altHistoryDTO, null, session);
+            final int recordCount = logic.getCheckedItemsCount( altHistoryDTO, null, session);
             if (recordCount > 0) {
                 createWorkSheet("Selected_Items", selectedItemsTable, recordCount);
             }
@@ -568,23 +570,23 @@ public class ItemSelection extends CustomComponent implements View {
     }
 
     /* This Method is used to create work sheet content */
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, NoSuchMethodException, IllegalAccessException, InvocationTargetException{
         List<String> header = Arrays.asList(resultTable.getColumnHeaders());
         List<String> list = header.subList(1, header.size());
         ExcelExportforBB.createWorkSheet(list.toArray(new String[list.size()]), count, this, UI.getCurrent(), moduleName);
     }
 
     /* This Method is used to write the table content in csv */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException{
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         try {
             if (end != 0) {
                 if (contractExcelFlag) {
-                    List<AlternateHistoryDTO> searchList = logic.searchItems(itemSearchBinder, altHistoryDTO, null, start, end, session, false);
+                    List<AlternateHistoryDTO> searchList = logic.searchItems(altHistoryDTO, null, start, end, session);
                     List<Object> visibleColumns = Arrays.asList(availableItemsTable.getVisibleColumns());
                     visibleColumns = visibleColumns.subList(1, visibleColumns.size());
                     ExcelExportforBB.createFileContent(visibleColumns.toArray(new String[visibleColumns.size()]), searchList, printWriter);
                 } else if (infoExcelFlag) {
-                    List<AlternateHistoryDTO> searchList = logic.getCheckedItemsFromTemptable(itemSearchBinder, altHistoryDTO, null, start, end, session);
+                    List<AlternateHistoryDTO> searchList = logic.getCheckedItemsFromTemptable( altHistoryDTO, null, start, end, session);
                     List<Object> visibleColumns = Arrays.asList(selectedItemsTable.getVisibleColumns());
                     visibleColumns = visibleColumns.subList(1, visibleColumns.size());
                     ExcelExportforBB.createFileContent(visibleColumns.toArray(new String[visibleColumns.size()]), searchList, printWriter);

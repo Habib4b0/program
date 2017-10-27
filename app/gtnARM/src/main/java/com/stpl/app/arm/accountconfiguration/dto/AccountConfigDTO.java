@@ -25,15 +25,36 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class AccountConfigDTO {
 
-    private String companyNo = StringUtils.EMPTY, companyName = StringUtils.EMPTY,
-            businessUnitNo = StringUtils.EMPTY, businessUnitName = StringUtils.EMPTY, account = StringUtils.EMPTY, costCentre = StringUtils.EMPTY,
-            brand = StringUtils.EMPTY, createdBy = StringUtils.EMPTY, source = StringUtils.EMPTY, accountDdlb, companyIdWithName = StringUtils.EMPTY, buIdWithName = StringUtils.EMPTY
-            , brandWithIdName = StringUtils.EMPTY;
-    private Date createdDate, modifiedDate;
-    private int companyDdlb, businessDdlb, brandDdlb, start, offset, companySid, buSid, brandSid;
+    private String companyNo = StringUtils.EMPTY;
 
-    private HelperDTO companyNoHelperDto, businessNoHelperDto;
-    private boolean count, checkRecord, saved;
+    private String companyName = StringUtils.EMPTY;
+    private String businessUnitNo = StringUtils.EMPTY;
+    private String businessUnitName = StringUtils.EMPTY;
+    private String account = StringUtils.EMPTY;
+    private String costCentre = StringUtils.EMPTY;
+    private String brand = StringUtils.EMPTY;
+    private String createdBy = StringUtils.EMPTY;
+    private String source = StringUtils.EMPTY;
+    private String accountDdlb;
+    private String companyIdWithName = StringUtils.EMPTY;
+    private String buIdWithName = StringUtils.EMPTY;
+    private String brandWithIdName = StringUtils.EMPTY;
+    private Date createdDate;
+    private Date modifiedDate;
+    private int companyDdlb;
+
+    private int businessDdlb;
+    private int brandDdlb;
+    private int start;
+    private int offset;
+    private int companySid;
+    private int buSid;
+    private int brandSid;
+    private HelperDTO companyNoHelperDto;
+    private HelperDTO businessNoHelperDto;
+
+    private boolean count;
+    private boolean checkRecord;
     private int masterId;
     private Set<Container.Filter> filters = new HashSet<>();
     private List<SortByColumn> sortByColumns = new ArrayList<>();
@@ -297,5 +318,5 @@ public class AccountConfigDTO {
     public void setBrandWithIdName(String brandWithIdName) {
         this.brandWithIdName = brandWithIdName;
     }
-    
-    }
+
+}

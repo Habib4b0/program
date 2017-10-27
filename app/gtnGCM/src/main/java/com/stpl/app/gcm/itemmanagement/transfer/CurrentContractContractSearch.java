@@ -60,21 +60,19 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     Label Label = new Label("Transfer Sales Projection :");
     public OptionGroup transferSales = new OptionGroup();
     CheckBox removeProjection = new CheckBox("Remove Projection Details");
-    Object[] VISIBLE_COLUMN = {ConstantsUtil.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, ConstantsUtil.STATUS, ConstantsUtil.ITEM_START_DATE, ConstantsUtil.ITEM_END_DATE, "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME, "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
-    String[] HEADER = {StringUtils.EMPTY, "Projection ID", "WorkFlow Status", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE, "CFP No", "CFP Name", Constants.IFP_NO, Constants.IfpNAME, "PS No", " PS Name", "RS No", "RS Name", "RAR Category"};
-    Object[] VISIBLE_COLUMN_PT = {ConstantsUtil.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER,
+    private Object[] visibleColumn = {ConstantsUtil.CHECK_RECORD, Constants.PROJ_ID_LINK, Constants.WORKFLOW_STATUS, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, 
+        Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, ConstantsUtil.STATUS, ConstantsUtil.ITEM_START_DATE, 
+        ConstantsUtil.ITEM_END_DATE, Constants.CFP_NO, Constants.CFP_NAME, Constants.IFP_NO_COLUMN, Constants.IFPNAME, Constants.PS_NO_COLUMN, Constants.PSNAME, Constants.RS_NO_COLUMN, Constants.RSNAME, Constants.RAR_CATEGORY_COLUMN};
+    
+    private String[] header = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER, Constants.CONTRACT_NAME_HEADER, Constants.MARKET_TYPE_HEADER, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE, Constants.ITEM_END_DATE, Constants.CFP_NO_HEADER, Constants.CFP_NAME_HEADER, Constants.IFP_NO, 
+        Constants.IFP_NAME_LABEL, Constants.PS_NO,  Constants.PS_NAME_LABEL, Constants.RS_NO_HEADER, Constants.RS_NAME_LABEL, Constants.RAR_CATEGORY_HEADER};
+    private Object[] visibleColumnPt = {ConstantsUtil.CHECK_RECORD, Constants.PROJ_ID_LINK, Constants.WORKFLOW_STATUS, Constants.CONTRACT_HOLDER,
         Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE,
         Constants.END_DATE, ConstantsUtil.ITEM_START_DATE,
-        ConstantsUtil.ITEM_END_DATE, "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME,
-        "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
-    String[] HEADER_PT = {StringUtils.EMPTY, "Projection ID", "WorkFlow Status", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE, "CFP No", "CFP Name", Constants.IFP_NO, Constants.IfpNAME, "PS No", " PS Name", "RS No", "RS Name", "RAR Category"};
-    Object[] EXCEL_VISIBLE_COLUMN_PT = {"projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER,
-        Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE,
-        Constants.END_DATE, ConstantsUtil.ITEM_START_DATE,
-        ConstantsUtil.ITEM_END_DATE, "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME,
-        "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
-    String[] EXCEL_HEADER_PT = {"Projection ID", "WorkFlow Status", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE, "CFP No", "CFP Name", Constants.IFP_NO, Constants.IfpNAME, "PS No", " PS Name", "RS No", "RS Name", "RAR Category"};
-
+        ConstantsUtil.ITEM_END_DATE, Constants.CFP_NO, Constants.CFP_NAME, Constants.IFP_NO_COLUMN, Constants.IFPNAME, Constants.PS_NO_COLUMN, Constants.PSNAME, Constants.RS_NO_COLUMN, Constants.RSNAME, Constants.RAR_CATEGORY_COLUMN};
+    private String[] headerPt = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER, 
+        Constants.CONTRACT_NAME_HEADER, Constants.MARKET_TYPE_HEADER, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ITEM_START_DATE, Constants.ITEM_END_DATE, Constants.CFP_NO_HEADER, Constants.CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.PS_NO, Constants.PS_NAME_LABEL, Constants.RS_NO_HEADER, Constants.RS_NAME_LABEL, Constants.RAR_CATEGORY_HEADER};
+   
     public CurrentContractContractSearch(SelectionDTO selection, List selectedItemList) {
         super(selection, selectedItemList);
         try {
@@ -469,7 +467,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     }
 
     public void LoadField() {
-        field.addItems(Constants.SELECT_ONE, "End Date");
+        field.addItems(Constants.SELECT_ONE, Constants.END_DATE_HEADER);
         valuelabel.setVisible(Boolean.FALSE);
         massUpdateValue.setVisible(Boolean.FALSE);
 
@@ -484,11 +482,11 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     public void setVisibleColumns() {
         if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-            contractSelectionTable.setVisibleColumns(VISIBLE_COLUMN_PT);
-            contractSelectionTable.setColumnHeaders(HEADER_PT);
+            contractSelectionTable.setVisibleColumns(visibleColumnPt);
+            contractSelectionTable.setColumnHeaders(headerPt);
         } else {
-            contractSelectionTable.setVisibleColumns(VISIBLE_COLUMN);
-            contractSelectionTable.setColumnHeaders(HEADER);
+            contractSelectionTable.setVisibleColumns(visibleColumn);
+            contractSelectionTable.setColumnHeaders(header);
         }
 
     }

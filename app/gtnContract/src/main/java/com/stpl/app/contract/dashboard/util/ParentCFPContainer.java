@@ -126,6 +126,6 @@ public class ParentCFPContainer implements BeanDAO<CFPSearchDTO> {
         }catch(Exception ex){
             LOGGER.error(ex);
         }
-        return new ArrayList<CFPSearchDTO>();
+        return new ArrayList<>();
     }
     }

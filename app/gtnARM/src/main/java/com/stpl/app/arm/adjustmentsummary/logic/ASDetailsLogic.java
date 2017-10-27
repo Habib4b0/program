@@ -8,8 +8,10 @@ package com.stpl.app.arm.adjustmentsummary.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic;
+import static com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractAdjustmentDetailsLogic.LOGGER;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import static com.stpl.app.arm.utils.ARMUtils.COMMA;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import static com.stpl.app.utils.VariableConstants.DASH;
 import static com.stpl.app.utils.VariableConstants.SINGLE_QUOTE;
@@ -21,43 +23,46 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
 /**
  *
- * @author Jayaram.LeelaRam 
+ * @author Jayaram.LeelaRam
  */
 public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentDetailsLogic<T> {
-    
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
-    public String getQuery(SelectionDTO selection, Boolean isCount, int start, int offset) {
+    public String getQuery(SelectionDTO selection, Boolean isCount, int start, int offset,List<SortByColumn> sortByColumns) {
         LOGGER.debug(" Inside GetQuery method ");
         String sb = StringUtils.EMPTY;
-        String category = StringUtils.EMPTY;
-        String type = StringUtils.EMPTY;
-        String account = StringUtils.EMPTY;
-        String accountDesc = StringUtils.EMPTY;
+        StringBuilder category = new StringBuilder();
+        StringBuilder type = new StringBuilder();
+        StringBuilder account = new StringBuilder();
+        StringBuilder accountDesc = new StringBuilder();
         String[] adjustmentLevel = null;
         String[] gtnAdjustmentLevel = null;
-        if (selection.getDetail_reserveAcount() != null) {
-            for (int i = 0; i < selection.getDetail_reserveAcount().size(); i++) {
-                String[] str = selection.getDetail_reserveAcount().get(i).split(" - ");
+        if (selection.getDetailreserveAcount() != null) {
+            for (int i = 0; i < selection.getDetailreserveAcount().size(); i++) {
+                String[] str = selection.getDetailreserveAcount().get(i).split(" - ");
                 if (i == 0) {
-                    category = str[0].trim();
-                    type = str[1].trim();
-                    account = SINGLE_QUOTE + str[NumericConstants.TWO].trim() + SINGLE_QUOTE;
-                    if (str.length ==  NumericConstants.FOUR) {
-                        accountDesc = SINGLE_QUOTE + str[NumericConstants.THREE].trim() + SINGLE_QUOTE;
+                    category = new StringBuilder(str[0].trim());
+                    type = new StringBuilder(str[1].trim());
+                    account = new StringBuilder(SINGLE_QUOTE);
+                    account.append(str[NumericConstants.TWO].trim()).append(SINGLE_QUOTE);
+                    if (str.length == NumericConstants.FOUR) {
+                        accountDesc = new StringBuilder(SINGLE_QUOTE);
+                        accountDesc.append(str[NumericConstants.THREE].trim()).append(SINGLE_QUOTE);
                     }
 
                 } else {
-                    category += COMMA + str[0].trim();
-                    type += COMMA + str[1].trim();
-                    account += COMMA + SINGLE_QUOTE + str[NumericConstants.TWO].trim() + SINGLE_QUOTE;
-                    if (str.length ==  NumericConstants.FOUR) {
-                        accountDesc += COMMA + SINGLE_QUOTE + str[NumericConstants.THREE].trim() + SINGLE_QUOTE;
+                    category.append(COMMA).append(str[0].trim());
+                    type.append(COMMA).append(str[1].trim());
+                    account.append(COMMA).append(SINGLE_QUOTE).append(str[NumericConstants.TWO].trim()).append(SINGLE_QUOTE);
+                    if (str.length == NumericConstants.FOUR) {
+                        accountDesc.append(COMMA).append(SINGLE_QUOTE).append(str[NumericConstants.THREE].trim()).append(SINGLE_QUOTE);
                     }
                 }
             }
@@ -66,35 +71,35 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         if (list != null) {
             adjustmentLevel = new String[NumericConstants.TWO];
             for (HelperDTO dto : list) {
-                if (dto.getDescription().equalsIgnoreCase("BRAND")) {
+                if ("BRAND".equalsIgnoreCase(dto.getDescription())) {
                     adjustmentLevel[0] = String.valueOf(dto.getId());
                 } else {
                     adjustmentLevel[1] = String.valueOf(dto.getId());
                 }
             }
         }
-        int configLevelid = helperId.getIdByDesc("ARM_CONFIGURATION_TYPE", selection.getDetail_Level());
-        String adjustmentDetailSelection = StringUtils.EMPTY;
+        int configLevelid = helperId.getIdByDesc("ARM_CONFIGURATION_TYPE", selection.getDetailLevel());
+        StringBuilder adjustmentDetailSelection = new StringBuilder();
         List adjDetail = null;
         try {
-            if (GlobalConstants.getReserveDetail().equals(selection.getDetail_Level())) {
+            if (GlobalConstants.getReserveDetail().equals(selection.getDetailLevel())) {
                 adjDetail = selection.getSelectedAdjustmentType();
                 if (adjDetail != null && !adjDetail.isEmpty()) {
                     for (int i = 0; i < adjDetail.size(); i++) {
                         if (i == 0) {
-                            adjustmentDetailSelection = adjDetail.get(i).toString();
+                            adjustmentDetailSelection = new StringBuilder(adjDetail.get(i).toString());
                         } else {
-                            adjustmentDetailSelection += "," + adjDetail.get(i).toString();
+                            adjustmentDetailSelection.append(",").append(adjDetail.get(i).toString());
                         }
                     }
                 }
 
                 sb = SQlUtil.getQuery("ASAdjustmentDetailReserveCountQuery");
                 sb = sb.replace("@SELECT", isCount ? " SELECT COUNT (*) FROM ( " + SQlUtil.getQuery("ASAdjustmentDetailReserveLoadDataQuery") + " )A " : SQlUtil.getQuery("ASAdjustmentDetailReserveLoadDataQuery"));
-                sb = sb.replace("@CATEGORY", category);
-                sb = sb.replace("@TYPE", type);
-                sb = sb.replace("@ACCOUNT", account);
-                sb = sb.replaceAll("@ADJUSTMENT_TYPE", adjustmentDetailSelection);
+                sb = sb.replace("@CATEGORY", category.toString());
+                sb = sb.replace("@TYPE", type.toString());
+                sb = sb.replace("@ACCOUNT", account.toString());
+                sb = sb.replaceAll("@ADJUSTMENT_TYPE", adjustmentDetailSelection.toString());
                 sb = sb.replace("@PROJECTIONMASTER", String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
                 sb = sb.replace("@ADJUSTMENTLEVELBRAND", adjustmentLevel != null ? adjustmentLevel[0] : StringUtils.EMPTY);
                 sb = sb.replace("@ADJUSTMENTLEVELTOTAL", adjustmentLevel != null ? adjustmentLevel[1] : StringUtils.EMPTY);
@@ -104,7 +109,7 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 String status = "0".equals(selection.getStatus()) ? StringUtils.EMPTY : selection.getStatus();
                 status = status.replace("[", "").replace("]", "");
                 sb = sb.replace("@WORKFLOWSTATUS", status);
-                sb = sb.replace("@PAGINATION", isCount ? StringUtils.EMPTY : " ORDER BY AAD.LINE_DESCRIPTION,UDC1.DESCRIPTION,HT.DESCRIPTION,A.BRAND_ID OFFSET " + String.valueOf(start) + " ROWS FETCH NEXT " + String.valueOf(offset) + " ROWS ONLY; ");
+                sb = sb.replace("@PAGINATION", isCount ? StringUtils.EMPTY : " ORDER BY AAD.LINE_DESCRIPTION,UDC1.DESCRIPTION,HT.DESCRIPTION,A.BRAND_ID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY; ");
             } else {
                 List<HelperDTO> gtnList = helperId.getListNameMap().get("ARM_GTN_ADJUSTMENT_LEVEL");
                 if (gtnList != null) {
@@ -117,7 +122,7 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 }
                 adjDetail = selection.getSelectedAdjustmentTypeValues();
                 if (adjDetail != null && !adjDetail.isEmpty()) {
-                    adjustmentDetailSelection = StringUtils.join(adjDetail.toArray(),"','");
+                    adjustmentDetailSelection = new StringBuilder(StringUtils.join(adjDetail.toArray(), "','"));
                 }
                 sb = SQlUtil.getQuery("ASAdjustmentDetailGTNCountQuery");
                 sb = sb.replace("@SELECT", isCount ? " SELECT COUNT (*) FROM ( " + SQlUtil.getQuery("ASAdjustmentDetailGTNLoadDataQuery") + " )A " : SQlUtil.getQuery("ASAdjustmentDetailGTNLoadDataQuery"));
@@ -125,22 +130,22 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
                 sb = sb.replace("@GLCOMP", /*String.valueOf(519461)*/ String.valueOf(selection.getDataSelectionDTO().getCompanyMasterSid()));
                 sb = sb.replace("@FROMDATE", /*"2016-07-30"*/ dateFormat.format(sdf.parse(selection.getDataSelectionDTO().getFromPeriod())));
                 sb = sb.replace("@TODATE", /*"2016-10-30"*/ dateFormat.format(sdf.parse(selection.getDataSelectionDTO().getToPeriod())));
-                sb = sb.replace("@CATEGORY", category);
-                sb = sb.replace("@TYPE", type);
-                sb = sb.replace("@ACCOUNT", account);
-                sb = sb.replaceAll("@ADJUSTMENT_TYPE", "'"+adjustmentDetailSelection+"'");
-                sb = sb.replace("@ACCDESC", accountDesc);
+                sb = sb.replace("@CATEGORY", category.toString());
+                sb = sb.replace("@TYPE", type.toString());
+                sb = sb.replace("@ACCOUNT", account.toString());
+                sb = sb.replaceAll("@ADJUSTMENT_TYPE", "'" + adjustmentDetailSelection.toString() + "'");
+                sb = sb.replace("@ACCDESC", accountDesc.toString());
                 sb = sb.replace("@CONFIGURATIONTYPE", String.valueOf(configLevelid));
                 String status = "0".equals(selection.getStatus()) ? StringUtils.EMPTY : selection.getStatus();
                 status = status.replace("[", "").replace("]", "");
                 sb = sb.replace("@WORKFLOWSTATUS", status);
                 sb = sb.replace("@ADJUSTMENT_LEVEL", gtnAdjustmentLevel != null ? gtnAdjustmentLevel[0] : StringUtils.EMPTY);
-                sb = sb.replace("@PAGINATION", isCount ? StringUtils.EMPTY : " ORDER BY UDC1.DESCRIPTION,RTYPE.DESCRIPTION,TP.APPRVD_TRANSACTION_NAME,A.BRAND_ID OFFSET " + String.valueOf(start) + " ROWS FETCH NEXT " + String.valueOf(offset) + " ROWS ONLY; ");
+                sb = sb.replace("@PAGINATION", isCount ? StringUtils.EMPTY : " ORDER BY UDC1.DESCRIPTION,RTYPE.DESCRIPTION,TP.APPRVD_TRANSACTION_NAME,A.BRAND_ID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY; ");
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getQuery :"+ex);
         }
-        if (category.isEmpty() || type.isEmpty() || account.isEmpty()) {
+        if (category.length() == 0 || type.length() == 0 || account.length() == 0) {
             return StringUtils.EMPTY;
         }
         return sb;
@@ -152,17 +157,17 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        String value = StringUtils.EMPTY;
-        String property = StringUtils.EMPTY;
+        StringBuilder value;
+        StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
-        String adjustmentDetailSelection = StringUtils.EMPTY;
+        StringBuilder adjustmentDetailSelection = new StringBuilder();
         List adjDetail = selection.getSelectedAdjustmentType();
         if (adjDetail != null && !adjDetail.isEmpty()) {
             for (int i = 0; i < adjDetail.size(); i++) {
                 if (i == 0) {
-                    adjustmentDetailSelection = adjDetail.get(i).toString();
+                    adjustmentDetailSelection = new StringBuilder(adjDetail.get(i).toString());
                 } else {
-                    adjustmentDetailSelection += "," + adjDetail.get(i).toString();
+                    adjustmentDetailSelection.append(",").append(adjDetail.get(i).toString());
                 }
             }
             replaceList.add(isReserveValue);
@@ -170,7 +175,7 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             replaceList.add(selection.getDataSelectionDTO().getProjectionId());
             replaceList.add(selection.getDataSelectionDTO().getProjectionId());
             replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-            replaceList.add(selection.getDataSelectionDTO().getBu_companyMasterSid());
+            replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
             StringBuilder query = new StringBuilder(SQlUtil.getQuery("getReserveAccountSummary"));
             for (Object temp : replaceList) {
                 query.replace(query.indexOf("?"), query.indexOf("?") + 1, String.valueOf(temp));
@@ -179,26 +184,27 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             if (list != null) {
                 for (int i = 0; i < list.size(); i++) {
                     Object[] obj = (Object[]) list.get(i);
-                    value = StringUtils.EMPTY;
-                    property = StringUtils.EMPTY;
+                    value = new StringBuilder("");
+                    property = new StringBuilder("");
+
                     if (isValid(obj[0])) {
-                        value = helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0])));
-                        property = String.valueOf(obj[0]);
+                        value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
+                        property = new StringBuilder(String.valueOf(obj[0]));
                     }
                     if (isValid(obj[1])) {
-                        value += DASH + helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1])));
-                        property += DASH + String.valueOf(obj[1]);
+                        value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
+                        property.append(DASH).append(String.valueOf(obj[1]));
                     }
                     if (isValid(obj[NumericConstants.TWO])) {
-                        value += DASH + String.valueOf(obj[NumericConstants.TWO]);
-                        property += DASH + String.valueOf(obj[NumericConstants.TWO]);
+                        value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                        property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
                     }
                     if (isValid(obj[NumericConstants.THREE])) {
-                        value += DASH + String.valueOf(obj[NumericConstants.THREE]);
-                        property += DASH + String.valueOf(obj[NumericConstants.THREE]);
+                        value.append(DASH).append(String.valueOf(obj[NumericConstants.THREE]));
+                        property.append(DASH).append(String.valueOf(obj[NumericConstants.THREE]));
                     }
-                    reserveHeader.add(value);
-                    reserveProperty.add(property);
+                    reserveHeader.add(value.toString());
+                    reserveProperty.add(property.toString());
                 }
                 finalList.add(reserveHeader);
                 finalList.add(reserveProperty);
@@ -209,17 +215,17 @@ public class ASDetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForView() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected String getTableNameForEdit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

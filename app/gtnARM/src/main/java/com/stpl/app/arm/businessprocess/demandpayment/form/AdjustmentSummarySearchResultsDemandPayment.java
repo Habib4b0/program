@@ -34,7 +34,7 @@ public class AdjustmentSummarySearchResultsDemandPayment extends AbstractDemandS
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return (ExcelInterface) getLogic();
+        return (ExcelInterface) getSummaryLogic();
     }
 
     @Override
@@ -46,5 +46,5 @@ public class AdjustmentSummarySearchResultsDemandPayment extends AbstractDemandS
     protected String getTableNameForEdit() {
         return "ST_ARM_DEMAND_RECON_SUMMARY";
     }
-    
+
 }

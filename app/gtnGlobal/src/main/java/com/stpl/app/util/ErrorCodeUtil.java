@@ -39,10 +39,10 @@ public final class ErrorCodeUtil {
 	 */
 	public static String getEC(final String key) {
 		try {
-                    if (key != null && resouceBundle.containsKey(key)) {
+                    if(key!=null && resouceBundle.containsKey(key)){
                         return resouceBundle.getString(key);
                     }
-                    return "";
+                     return "";
 		} catch(NullPointerException e){
                         LOGGER.error(e);
                         return "";

@@ -26,11 +26,11 @@ public class ProcessMonitorMainView extends VerticalLayout implements View {
     SessionDTO sessionDTO;
    
     ProcessMonitorDTO processMonitorDTO = new ProcessMonitorDTO();
-    private CustomFieldGroup processMonitorBinder = new CustomFieldGroup(new BeanItem<ProcessMonitorDTO>(processMonitorDTO));
+    private CustomFieldGroup processMonitorBinder = new CustomFieldGroup(new BeanItem<>(processMonitorDTO));
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         processMonitorDTO = new ProcessMonitorDTO();
-        processMonitorBinder = new CustomFieldGroup(new BeanItem<ProcessMonitorDTO>(processMonitorDTO));
+        processMonitorBinder = new CustomFieldGroup(new BeanItem<>(processMonitorDTO));
     }
 
     

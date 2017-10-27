@@ -244,9 +244,10 @@ WHERE CREATED_DATE <= GETDATE() - 1
     <entity id="Company Contract Search Inverse">
         <query> 
                     <![CDATA[
-                       DECLARE @COMPANY_MS_SID       VARCHAR(1000) =?;
-          WITH TEMP
-     AS (SELECT DISTINCT CM.COMPANY_NAME AS 'Contract Holder',
+    DECLARE @COMPANY_MS_SID       VARCHAR(1000) ='?';
+    
+	WITH TEMP
+    AS (SELECT DISTINCT CM.COMPANY_NAME AS 'Contract Holder',
                          CON.CONTRACT_NO,
                          CON.CONTRACT_NAME,
                          HEL.DESCRIPTION AS 'CONTRACT_TYPE',
@@ -381,7 +382,7 @@ WHERE CREATED_DATE <= GETDATE() - 1
                 AND PS_CON.INBOUND_STATUS <> 'D'
                 AND RS_CON.INBOUND_STATUS <> 'D'
                 AND CON.CONTRACT_NO LIKE '%'
-                AND CM1.COMPANY_MASTER_SID IN ( @COMPANY_MS_SID )
+                AND CM1.COMPANY_MASTER_SID IN ( SELECT U.TOKEN FROM udf_splitstring (@COMPANY_MS_SID,',')U )
                 AND CFP_CON.CFP_CONTRACT_SID IN (SELECT CFP.CFP_CONTRACT_SID
                                                  FROM   CONTRACT_MASTER A
                                                         JOIN CFP_CONTRACT CFP
@@ -389,13 +390,13 @@ WHERE CREATED_DATE <= GETDATE() - 1
                                                              AND CFP.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
                                                         JOIN CFP_CONTRACT_DETAILS CFP_D
                                                           ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID
-                                                 WHERE  CFP_D.COMPANY_MASTER_SID IN ( @COMPANY_MS_SID )
+                                                        JOIN ( SELECT U.TOKEN FROM udf_splitstring (@COMPANY_MS_SID,',')U ) U ON
+														CFP_D.COMPANY_MASTER_SID = U.TOKEN
                                                         AND CFP_D.INBOUND_STATUS <> 'D'
                                                  GROUP  BY CFP.CFP_CONTRACT_SID
-                                                 HAVING Sum(( CASE
-                                                                WHEN CFP_D.COMPANY_MASTER_SID IN ( @COMPANY_MS_SID ) THEN -1
-                                                                ELSE 0
-                                                              END )) = -?))
+                                                 HAVING Sum(( CASE WHEN CFP_D.COMPANY_MASTER_SID = U.TOKEN THEN -1
+                                                                   ELSE 0
+                                                                   END )) = -?))
 INSERT INTO GCM_GLOBAL_DETAILS
             (CHECK_RECORD,
              CONTRACT_MASTER_SID,

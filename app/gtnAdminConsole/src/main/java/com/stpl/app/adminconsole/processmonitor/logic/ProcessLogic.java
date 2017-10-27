@@ -10,20 +10,15 @@ import com.stpl.app.adminconsole.dao.CommonDAO;
 import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
 import com.stpl.app.adminconsole.processmonitor.dto.ProcessMonitorDTO;
 import com.stpl.app.adminconsole.processmonitor.util.CommonUtil;
-import static com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic.getDBColumnName;
-import static com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic.loadDbColumnName;
-import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.HelperListUtil;
 import com.stpl.app.model.WorkflowProfile;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.server.VaadinSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,11 +40,11 @@ public class ProcessLogic {
     final static CommonDAO dao = new CommonDAOImpl();
     HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    public List getSearchResult(boolean count, int start, int offset,boolean monitor,final List<SortByColumn> orderByColumns) {
+    public List getSearchResult(boolean count, int start, int offset,final List<SortByColumn> orderByColumns) {
         LOGGER.debug("Entering getSearchResult");
         try {
             boolean asc = false;
-            String columnName = StringUtils.EMPTY;
+            String columnName;
             String dbColumnName = StringUtils.EMPTY;
             loadDbColumnName();
             if(!count){
@@ -65,8 +60,7 @@ public class ProcessLogic {
                     }
                 }
             }
-            String query = CommonUtil.workFlowQuery(count, start, offset, monitor, dbColumnName, asc);
-//            String query = CommonUtil.workFlowQuery(count, start, offset);
+            String query = CommonUtil.workFlowQuery(count, start, offset, dbColumnName, asc);
             List list = (List) dao.executeSelectQuery(query, null, null);
             if (count) {
                 return list;
@@ -76,7 +70,7 @@ public class ProcessLogic {
         } catch (Exception ex) {
 
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
         public static String getDBColumnName(String visibleColumnName) {
@@ -92,9 +86,9 @@ public class ProcessLogic {
        return columnName;
    }
 
-    private List getCustomizedProcessMonitoring(List list) throws SystemException, PortalException {
+    private List getCustomizedProcessMonitoring(List list) throws SystemException {
         LOGGER.debug("Entering getCustomizedProcessMonitoring" + list.size());
-        List<ProcessMonitorDTO> returnList = new ArrayList<ProcessMonitorDTO>();
+        List<ProcessMonitorDTO> returnList = new ArrayList<>();
         SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
         final HashMap<String, String> userInfoMap = (HashMap<String, String>) com.stpl.app.adminconsole.common.util.CommonUtil.getCreatedByUser();
 
@@ -103,7 +97,12 @@ public class ProcessLogic {
                 Object[] obj = (Object[]) list.get(i);
                 ProcessMonitorDTO dto = new ProcessMonitorDTO();
                 dto.setProcessName(String.valueOf(obj[1]));
-                dto.setProcessType(helperListUtil.getIdHelperDTOMap().get(obj[NumericConstants.TEN] != null ? Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0));
+                if (null == (helperListUtil.getIdHelperDTOMap().get(obj[NumericConstants.TEN]))) {
+                    dto.setProcessType(null);
+                } else {
+                    dto.setProcessType(helperListUtil.getIdHelperDTOMap().get(obj[NumericConstants.TEN] != (Integer.valueOf(0)) ? Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])) : null));
+                }
+                System.out.println("dto.setProcessType"+dto.getProcessType());
                 if (obj[NumericConstants.THREE] != null) {
                     dto.setStartDate(new Date(date.format(obj[NumericConstants.THREE])));
                 }
@@ -168,13 +167,13 @@ public class ProcessLogic {
             profile.setInboundStatus("A");
             profile.setCreatedDate(new Date());
             profile.setFrequency("Time");
-            profile.setSlaCalendarMasterSid(1);
+            profile.setSlaCalendarMasterSid("Holiday Schedule".equals(processMonitorDTO.getCalender())? 1 : 2);
             profile.setUserSid(Integer.valueOf(sessionDTO.getUserId()));
             profile.setCreatedBy(Integer.valueOf(sessionDTO.getUserId()));
             profile.setCreatedDate(new Date());
             profile.setModifiedBy(Integer.valueOf(String.valueOf(sessionDTO.getUserId())));
             profile.setModifiedDate(new Date());
-            profile = WorkflowProfileLocalServiceUtil.addWorkflowProfile(profile);
+            WorkflowProfileLocalServiceUtil.addWorkflowProfile(profile);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -200,6 +199,7 @@ public class ProcessLogic {
                 profile.setStartMinutes3(processMonitorDTO.getMinutes3() == null || "null".equals(processMonitorDTO.getMinutes3()) ? NumericConstants.TWENTY_FOUR : Integer.valueOf(processMonitorDTO.getMinutes3()));
                 profile.setModifiedBy(Integer.valueOf(String.valueOf(sessionDTO.getUserId())));
                 profile.setModifiedDate(new Date());
+                profile.setSlaCalendarMasterSid("Holiday Schedule".equals(processMonitorDTO.getCalender())? 1 : 2);
                 WorkflowProfileLocalServiceUtil.updateWorkflowProfile(profile);
             }
             LOGGER.debug("Ending update");

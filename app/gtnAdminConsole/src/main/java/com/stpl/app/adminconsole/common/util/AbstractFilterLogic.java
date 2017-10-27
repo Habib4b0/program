@@ -106,7 +106,7 @@ public class AbstractFilterLogic {
                             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
-                            String value = StringUtils.EMPTY;
+                            String value;
                             if (((Integer) stringFilter.getValue()) == 0) {
                                 value = String.valueOf(stringFilter.getValue());
                             } else {
@@ -265,7 +265,7 @@ public class AbstractFilterLogic {
                 final String string1 = entry.getValue();
                 if (screenName.equals("CFF_OUTBOUND") && string1.contains("FINANCIAL_FORECAST_ID")) {
                     tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, string1 + ",PROJECT_ID,YEAR,MONTH");
-                } else if (string1.contains("SID")) {
+                } else if (string1.equals("CM.COMPANY_MASTER_SID")) {
                     tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, string1);
                 }
             }

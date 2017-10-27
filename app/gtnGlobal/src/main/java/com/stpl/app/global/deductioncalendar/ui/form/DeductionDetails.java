@@ -22,7 +22,6 @@ import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
@@ -147,9 +146,9 @@ public class DeductionDetails extends CustomComponent {
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-    Set<String> childLevelSet = new HashSet<String>();
+    Set<String> childLevelSet = new HashSet<>();
 
-    Set<String> refreshSet = new HashSet<String>();
+    Set<String> refreshSet = new HashSet<>();
 
     boolean refreshFlag = false;
 
@@ -176,7 +175,7 @@ public class DeductionDetails extends CustomComponent {
      * The table control Layout.
      */
     public HorizontalLayout controlLayout;
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class, ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class, ExtContainer.DataStructureMode.MAP);
     HeaderUtils headerUtils = new HeaderUtils();
 
     DecimalFormat DEC_FORMAT = new DecimalFormat("###0.00");
@@ -195,7 +194,6 @@ public class DeductionDetails extends CustomComponent {
         this.sessionDTO = sessionDTO;
         this.mode = this.sessionDTO.getMode();
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarativeui/deduction_calendar/deductionDetails.xml"), this));
-//        detailsDto = new DeductionDetailsDTO();
         init();
         detailsDto.setUserId(sessionDTO.getUserId());
         detailsDto.setSessionId(sessionDTO.getUiSessionId());
@@ -224,7 +222,7 @@ public class DeductionDetails extends CustomComponent {
         dataview.select(ConstantsUtils.CUSTOMER);
         detailsDto.setDataView(String.valueOf(dataview.getValue()));
         generatedView = detailsDto.getDataView();
-        listview.select("Collapse");
+        listview.select(ConstantsUtils.COLLAPSE);
         detailsDto.setListView(String.valueOf(listview.getValue()));
         type.select(ConstantsUtils.INCREMENTAL);
         basis.select(ConstantsUtils.AMOUNT);
@@ -243,7 +241,7 @@ public class DeductionDetails extends CustomComponent {
         endPeriod.setEnabled(false);
         populate.setEnabled(false);
 
-        frequencyDdlb.select("Annual");
+        frequencyDdlb.select(ConstantsUtils.ANNUAL);
         try {
             from.setValue(sdf.parse(detailsDto.getForecastFromDate()));
         } catch (ParseException ex) {
@@ -264,13 +262,17 @@ public class DeductionDetails extends CustomComponent {
         try {
             detailsDto = logic.getForecastConfig(detailsDto);
             // or any date format you want
-            from.setValue(sdf.parse(detailsDto.getForecastFromDate()));
-            to.setValue(sdf.parse(detailsDto.getForecastToDate()));
+            if (!ConstantsUtils.NULL.equals(detailsDto.getForecastFromDate()) && !StringUtils.EMPTY.equals(detailsDto.getForecastFromDate())) {
+                from.setValue(sdf.parse(detailsDto.getForecastFromDate()));
+            }
+            if (!ConstantsUtils.NULL.equals(detailsDto.getForecastToDate())&& !StringUtils.EMPTY.equals(detailsDto.getForecastToDate())) {
+                to.setValue(sdf.parse(detailsDto.getForecastToDate()));
+            }
             filterDdlb.setNullSelectionAllowed(Boolean.TRUE);
             filterDdlb.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
             filterDdlb.addItem(ConstantsUtils.SELECT_ONE);
-            dataview.addItem("Customer");
-            dataview.addItem("Product");
+            dataview.addItem(ConstantsUtils.CUSTOMER);
+            dataview.addItem(ConstantsUtils.PRODUCT);
             dataview.select(ConstantsUtils.CUSTOMER);
             detailsDto.setDataView(String.valueOf(dataview.getValue()));
             dataview.addValueChangeListener(new Property.ValueChangeListener() {
@@ -286,9 +288,9 @@ public class DeductionDetails extends CustomComponent {
                     }
                 }
             });
-            listview.addItem("Expand");
-            listview.addItem("Collapse");
-            listview.select("Collapse");
+            listview.addItem(ConstantsUtils.EXPAND);
+            listview.addItem(ConstantsUtils.COLLAPSE);
+            listview.select(ConstantsUtils.COLLAPSE);
             detailsDto.setListView(String.valueOf(listview.getValue()));
             listview.addValueChangeListener(new Property.ValueChangeListener() {
 
@@ -310,14 +312,14 @@ public class DeductionDetails extends CustomComponent {
             adjustmentPeriods.addItem("All");
             adjustmentPeriods.select(ConstantsUtils.ALL);
             adjustmentPeriods.addItem(ConstantsUtils.SELECT1);
-            massUpdate.addItem("Enable");
+            massUpdate.addItem(ConstantsUtils.ENABLE);
             massUpdate.select(ConstantsUtils.ENABLE);
             massUpdate.addItem("Disable");
             massUpdate.select("Disable");
             massUpdate.addListener(new Property.ValueChangeListener() {
                 public void valueChange(Property.ValueChangeEvent event) {
 
-                    if ("Enable".equals(massUpdate.getValue())) {
+                    if (ConstantsUtils.ENABLE.equals(massUpdate.getValue())) {
                         fieldDdlb.setEnabled(true);
                         levelDdlb.setEnabled(true);
                         value.setEnabled(true);
@@ -335,15 +337,16 @@ public class DeductionDetails extends CustomComponent {
 
                 }
             });
-            frequencyDdlb.addItem("Annual");
+            frequencyDdlb.addItem(ConstantsUtils.ANNUAL);
             frequencyDdlb.addItem("Semi-Annual");
-            frequencyDdlb.addItem("Quarterly");
+            frequencyDdlb.addItem(ConstantsUtils.QUARTERLY);
             frequencyDdlb.addItem(ConstantsUtils.MONTHLY);
-            frequencyDdlb.select("Annual");
+            frequencyDdlb.select(ConstantsUtils.ANNUAL);
             frequencyDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
+                    return;
                 }
             });
             from.setEnabled(true);
@@ -363,9 +366,9 @@ public class DeductionDetails extends CustomComponent {
 
             levelDdlb.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
             levelDdlb.addItem(ConstantsUtils.SELECT_ONE);
-            levelDdlb.addItem("Customer");
+            levelDdlb.addItem(ConstantsUtils.CUSTOMER);
             levelDdlb.addItem("Brand");
-            levelDdlb.addItem("Product");
+            levelDdlb.addItem(ConstantsUtils.PRODUCT);
             filterDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
                 @Override
@@ -400,7 +403,7 @@ public class DeductionDetails extends CustomComponent {
     private void configureResultTable() {
         tableLogic.setPageLength(NumericConstants.TEN);
         fullHeader = new CustomTableHeaderDTO();
-        detailsDto.setFrequency(frequencyDdlb.getValue() == null ? "Quarterly" : String.valueOf(frequencyDdlb.getValue()));
+        detailsDto.setFrequency(frequencyDdlb.getValue() == null ? ConstantsUtils.QUARTERLY : String.valueOf(frequencyDdlb.getValue()));
         leftHeader = headerUtils.getLeftDeductionDetailsHeader(fullHeader);
         rightHeader = headerUtils.getRightDeductionDetailsHeader(fullHeader, detailsDto);
         resultBeanContainer.setColumnProperties(leftHeader.getProperties());
@@ -411,9 +414,9 @@ public class DeductionDetails extends CustomComponent {
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.setImmediate(true);
         rightTable.setImmediate(true);
-        resultsTable.setHeight("390px");
-        leftTable.setHeight("390px");
-        rightTable.setHeight("390px");
+        resultsTable.setHeight(ConstantsUtils.THREE_NINE_ZERO_PIXEL);
+        leftTable.setHeight(ConstantsUtils.THREE_NINE_ZERO_PIXEL);
+        rightTable.setHeight(ConstantsUtils.THREE_NINE_ZERO_PIXEL);
         leftTable.setColumnWidth("group", NumericConstants.THREE_HUNDRED);
         leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
         leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
@@ -467,7 +470,7 @@ public class DeductionDetails extends CustomComponent {
             @Override
             public Field<?> createField(Container container, final Object itemId, final Object propertyId, Component uiContext) {
 
-                if ("check".equals(propertyId)) {
+                if (ConstantsUtils.CHECK.equals(propertyId)) {
                     final ExtCustomCheckBox checkBox = new ExtCustomCheckBox();
                     if (detailsDto.getFrequency().equals(ConstantsUtils.MONTHLY)) {
                         checkBox.setEnabled(true);
@@ -481,13 +484,13 @@ public class DeductionDetails extends CustomComponent {
                             int updatedRecordsNo = 0;
                             getBeanFromId(itemId).addBooleanProperties(propertyId, check);
                             if ("Total".equalsIgnoreCase(getBeanFromId(itemId).getGroup())) {
-                                updatedRecordsNo = logic.checkTempTable(detailsDto, check, sessionDTO);
+                                updatedRecordsNo = logic.checkTempTable(check, sessionDTO);
                                 if (check) {
                                     checkAll = true;
                                 } else {
                                     checkAll = false;
                                 }
-                                leftTable.setColumnCheckBox("check", true, checkAll);
+                                leftTable.setColumnCheckBox(ConstantsUtils.CHECK, true, checkAll);
                             } else {
                                 updatedRecordsNo = logic.checkTempTable(detailsDto, check, getBeanFromId(itemId), String.valueOf(filterDdlb.getValue()), sessionDTO);
                             }
@@ -501,7 +504,7 @@ public class DeductionDetails extends CustomComponent {
                 return null;
             }
         });
-        leftTable.setColumnCheckBox("check", true);
+        leftTable.setColumnCheckBox(ConstantsUtils.CHECK, true);
         checkAll = false;
         leftTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
 
@@ -512,7 +515,7 @@ public class DeductionDetails extends CustomComponent {
 
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 checkAll = event.isChecked();
-                logic.checkTempTable(detailsDto, checkAll, sessionDTO);
+                logic.checkTempTable(checkAll, sessionDTO);
                 List<String> levels = tableLogic.getAllLevels();
                 for (String level : levels) {
                     boolean isPresent = true;
@@ -527,7 +530,7 @@ public class DeductionDetails extends CustomComponent {
                         TableDTO dto = (TableDTO) itemID;
                         dto.setCheck(checkAll);
                         if (isPresent) {
-                            leftTable.getContainerProperty(itemID, "check").setValue(checkAll);
+                            leftTable.getContainerProperty(itemID, ConstantsUtils.CHECK).setValue(checkAll);
                         }
                     }
                 }
@@ -624,7 +627,7 @@ public class DeductionDetails extends CustomComponent {
      */
     private void generateLogic() {
         try {
-            if (detailsDto.getListView().equals("Expand")) {
+            if (detailsDto.getListView().equals(ConstantsUtils.EXPAND)) {
                 tableLogic.loadExpandData(detailsDto);
             } else {
                 tableLogic.setProjectionResultsData(detailsDto, sessionDTO);
@@ -641,7 +644,7 @@ public class DeductionDetails extends CustomComponent {
             }
 
             checkBoxList.clear();
-            leftTable.setColumnCheckBox("check", true, checkall);
+            leftTable.setColumnCheckBox(ConstantsUtils.CHECK, true, checkall);
             generatedView = detailsDto.getDataView();
             filterValue = detailsDto.getFilterDdlb();
         } catch (Exception ex) {
@@ -667,23 +670,23 @@ public class DeductionDetails extends CustomComponent {
                     Date foreTo = CommonUtil.stringToDateFormat(detailsDto.getForecastToDate());
 
                     if (from.getValue() == null) {
-                        AbstractNotificationUtils.getErrorNotification("Date Range", "Please select From date");
+                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.DATE_RANGE, "Please select From date");
                         return;
                     } else if (to.getValue() == null) {
-                        AbstractNotificationUtils.getErrorNotification("Date Range", "Please select to date");
+                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.DATE_RANGE, "Please select to date");
                         return;
                     } else {
                         if (from.getValue().equals(foreFrom) || from.getValue().after(foreFrom)) {
                             detailsDto.setDetailsFromDate(format.format(from.getValue()));
                         } else {
-                            AbstractNotificationUtils.getErrorNotification("Date Range", "From date cannot be before " + detailsDto.getForecastFromDate());
+                            AbstractNotificationUtils.getErrorNotification(ConstantsUtils.DATE_RANGE, "From date cannot be before " + detailsDto.getForecastFromDate());
                             return;
                         }
                         if (to.getValue() != null) {
                             if (to.getValue().equals(foreTo) || to.getValue().before(foreTo)) {
                                 detailsDto.setDetailsToDate(format.format(to.getValue()));
                             } else {
-                                AbstractNotificationUtils.getErrorNotification("Date Range", "To date cannot be after" + detailsDto.getForecastToDate());
+                                AbstractNotificationUtils.getErrorNotification(ConstantsUtils.DATE_RANGE, "To date cannot be after" + detailsDto.getForecastToDate());
                                 return;
                             }
                         } else {
@@ -712,7 +715,7 @@ public class DeductionDetails extends CustomComponent {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof TableDTO) {
-            targetItem = new BeanItem<TableDTO>(
+            targetItem = new BeanItem<>(
                     (TableDTO) obj);
         }
         return (TableDTO) targetItem.getBean();
@@ -722,7 +725,7 @@ public class DeductionDetails extends CustomComponent {
         adjustmentPanel.setEnabled(false);
         massUpdatePanel.setEnabled(false);
         rightTable.setEditable(false);
-        leftTable.setColumnCheckBoxDisable("check", true);
+        leftTable.setColumnCheckBoxDisable(ConstantsUtils.CHECK, true);
         detailsPanel.setEnabled(false);
 
     }
@@ -781,38 +784,38 @@ public class DeductionDetails extends CustomComponent {
                 try {
                     String query = "";
                     if (fieldDdlb.getValue() == null || ConstantsUtils.SELECT_ONE.equals(fieldDdlb.getValue())) {
-                        AbstractNotificationUtils.getErrorNotification("Mass Update", "Please select field");
+                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Please select field");
                     } else if (levelDdlb.getValue() == null || ConstantsUtils.SELECT_ONE.equals(levelDdlb.getValue())) {
-                        AbstractNotificationUtils.getErrorNotification("Mass Update", "Please select a level");
+                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Please select a level");
                     } else if (value.getValue() == null) {
-                        AbstractNotificationUtils.getErrorNotification("Mass Update", "Please enter value");
+                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Please enter value");
                     } else if (startPeriod.getValue() == null) {
-                        AbstractNotificationUtils.getErrorNotification("Mass Update", "Please select Start period");
+                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Please select Start period");
                     } else if (endPeriod.getValue() == null) {
-                        AbstractNotificationUtils.getErrorNotification("Mass Update", "Please select end period");
+                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Please select end period");
                     } else {
                         String[] start = String.valueOf(startPeriod.getValue()).split(" ");
                         String[] end = String.valueOf(endPeriod.getValue()).split(" ");
                         int startMonth = CommonUtil.getMonth(start[0]);
                         int endMonth = CommonUtil.getMonth(end[0]);
                         if (Integer.valueOf(start[1]) > Integer.valueOf(end[1])) {
-                            AbstractNotificationUtils.getErrorNotification("Mass Update", "Start period cannot be greater than end period");
+                            AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
                         } else if (Integer.valueOf(start[1]) == Integer.valueOf(end[1]) && (startMonth > endMonth)) {
-                            AbstractNotificationUtils.getErrorNotification("Mass Update", "Start period cannot be greater than end period");
+                            AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
                         } else if (refreshSet.isEmpty()) {
                             String updateValue = value.getValue();
                             String sqlID = StringUtils.EMPTY;
                             String selectedSID = StringUtils.isNotBlank(filterValue) && !ConstantsUtils.NULL.equalsIgnoreCase(filterValue)
-                                    ? ("Customer".equalsIgnoreCase(generatedView) ? " AND CD.Company_master_sid=" + filterValue : " AND CD.item_master_sid=" + filterValue)
+                                    ? (ConstantsUtils.CUSTOMER.equalsIgnoreCase(generatedView) ? " AND CD.Company_master_sid=" + filterValue : " AND CD.item_master_sid=" + filterValue)
                                     : StringUtils.EMPTY;
                             switch (String.valueOf(levelDdlb.getValue())) {
-                                case "Customer":
-                                    sqlID = "Customer".equalsIgnoreCase(generatedView) ? "mass-populate-customer" : "mass-populate-customer-product-view";
+                                case ConstantsUtils.CUSTOMER:
+                                    sqlID = ConstantsUtils.CUSTOMER.equalsIgnoreCase(generatedView) ? "mass-populate-customer" : "mass-populate-customer-product-view";
                                     break;
                                 case "Brand":
-                                    sqlID = "Customer".equalsIgnoreCase(generatedView) ? "mass-populate-brand" : "mass-populate-brand-product-view";
+                                    sqlID = ConstantsUtils.CUSTOMER.equalsIgnoreCase(generatedView) ? "mass-populate-brand" : "mass-populate-brand-product-view";
                                     break;
-                                case "Product":
+                                case ConstantsUtils.PRODUCT:
                                     sqlID = "mass-populate-item";
                                     break;
 
@@ -919,9 +922,9 @@ public class DeductionDetails extends CustomComponent {
                 }
                 LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Parent Uncheck count after " + tempDto.getUncheckCount());
                 if (tempDto.getUncheckCount() == 0) {
-                    leftTable.setColumnCheckBox("check", true, true);
+                    leftTable.setColumnCheckBox(ConstantsUtils.CHECK, true, true);
                 } else {
-                    leftTable.setColumnCheckBox("check", true, false);
+                    leftTable.setColumnCheckBox(ConstantsUtils.CHECK, true, false);
                 }
                 updateChecks(tempId, isPresentInContainer);
             }
@@ -967,9 +970,9 @@ public class DeductionDetails extends CustomComponent {
 
         TableDTO tempDto = (TableDTO) tempId;
         boolean checkValue = tempDto.getUncheckCount() == 0;
-        tempDto.addBooleanProperties("check", checkValue);
+        tempDto.addBooleanProperties(ConstantsUtils.CHECK, checkValue);
         if (isPresentInContainer) {
-            tableLogic.getContainerDataSource().getContainerProperty(tempId, "check").setValue(checkValue);
+            tableLogic.getContainerDataSource().getContainerProperty(tempId, ConstantsUtils.CHECK).setValue(checkValue);
         }
     }
 
@@ -991,10 +994,10 @@ public class DeductionDetails extends CustomComponent {
     }
 
     public void loadStartAndEndPeriodDDLB() {
-        detailsDto.setFrequency(frequencyDdlb.getValue() == null ? "Quarterly" : String.valueOf(frequencyDdlb.getValue()));
+        detailsDto.setFrequency(frequencyDdlb.getValue() == null ? ConstantsUtils.QUARTERLY : String.valueOf(frequencyDdlb.getValue()));
         if (ConstantsUtils.MONTHLY.equals(String.valueOf(frequencyDdlb.getValue()))) {
             massUpdate.setEnabled(true);
-            if ("Enable".equalsIgnoreCase(String.valueOf(massUpdate.getValue()))) {
+            if (ConstantsUtils.ENABLE.equalsIgnoreCase(String.valueOf(massUpdate.getValue()))) {
                 startPeriod.setEnabled(true);
                 endPeriod.setEnabled(true);
                 fieldDdlb.setEnabled(true);
@@ -1034,7 +1037,7 @@ public class DeductionDetails extends CustomComponent {
 
                             String lastValue = StringUtils.EMPTY;
 
-                            List<Object> periodList = new ArrayList();
+                            List<Object> periodList;
                             if (ConstantsUtils.SELECT1.equals(String.valueOf(adjustmentPeriods.getValue()))) {
                                 periodList = checkBoxList;
                             } else {
@@ -1053,7 +1056,7 @@ public class DeductionDetails extends CustomComponent {
                             Object[] orderedArgs = {lastValue, detailsDto.getUserId(), detailsDto.getSessionId(), type.getValue().toString(), adjustment.getValue(), basis.getValue().toString(), variable.getValue().toString(), allocationMethododlogyDdlb.getValue().toString()};
                             CommonUtil.callProcedure("PRC_DEDUCTION_CALENDAR_ADJUSTMENT", orderedArgs);
 
-                            if (detailsDto.getListView().equals("Expand")) {
+                            if (detailsDto.getListView().equals(ConstantsUtils.EXPAND)) {
                                 tableLogic.loadExpandData(detailsDto);
                             } else {
                                 tableLogic.setProjectionResultsData(detailsDto, sessionDTO);

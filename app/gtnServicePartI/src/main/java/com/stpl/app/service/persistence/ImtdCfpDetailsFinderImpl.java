@@ -1506,11 +1506,11 @@ public class ImtdCfpDetailsFinderImpl extends BasePersistenceImpl<ImtdCfpDetails
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyStatus")))) {
-                sql += " AND hstatus.DESCRIPTION LIKE '" + String.valueOf(filterMap.get("companyStatus")) + "'";
+                sql += " AND cm.COMPANY_STATUS = " + String.valueOf(filterMap.get("companyStatus"));
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyType")))) {
-                sql += " AND htype.DESCRIPTION LIKE '" + String.valueOf(filterMap.get("companyType")) + "'";
+                sql += " AND cm.COMPANY_TYPE = " + String.valueOf(filterMap.get("companyType"));
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyFamilyPlanStatus")))) {
@@ -1522,11 +1522,11 @@ public class ImtdCfpDetailsFinderImpl extends BasePersistenceImpl<ImtdCfpDetails
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyCategory"))) && filterMap.get("companyCategory")!=null) {
-                sql += " AND hcategory.DESCRIPTION LIKE '" + String.valueOf(filterMap.get("companyCategory")) + "'";
+                sql += " AND com.COMPANY_CATEGORY= " + String.valueOf(filterMap.get("companyCategory"));
             }
 
             if (StringUtils.isNotBlank(String.valueOf(filterMap.get("companyGroup"))) && filterMap.get("companyGroup")!=null) {
-                sql += " AND hgroup.DESCRIPTION LIKE '" + String.valueOf(filterMap.get("companyGroup")) + "'";
+                sql += " AND com.COMPANY_GROUP = " + String.valueOf(filterMap.get("companyGroup")) ;
             }
 
             if (filterMap.containsKey("companyId") && filterMap.get("companyId") != null && StringUtils.isNotBlank(String.valueOf(filterMap.get("companyId")))) {
@@ -1549,7 +1549,7 @@ public class ImtdCfpDetailsFinderImpl extends BasePersistenceImpl<ImtdCfpDetails
 
                 Date to = (Date) filterMap.get("companyEndDate-to");
 
-                sql += " AND cm.COMPANY_END_DATE BETWEEN '" + tempFromat.format(from) + "' AND '" + tempFromat.format(to) + "'";
+                sql += " AND CAST(cm.COMPANY_END_DATE AS DATE) BETWEEN '" + tempFromat.format(from) + "' AND '" + tempFromat.format(to) + "'";
 
             }
 
@@ -1559,7 +1559,7 @@ public class ImtdCfpDetailsFinderImpl extends BasePersistenceImpl<ImtdCfpDetails
 
                 Date to = (Date) filterMap.get("companyFamilyPlanStartDate-to");
 
-                sql += " AND cm.CFP_DETAILS_START_DATE BETWEEN '" + tempFromat.format(from) + "' AND '" + tempFromat.format(to) + "'";
+                sql += " AND CAST(cm.CFP_DETAILS_START_DATE AS DATE) BETWEEN '" + tempFromat.format(from) + "' AND '" + tempFromat.format(to) + "'";
 
             }
 
@@ -1569,7 +1569,7 @@ public class ImtdCfpDetailsFinderImpl extends BasePersistenceImpl<ImtdCfpDetails
 
                 Date to = (Date) filterMap.get("companyFamilyPlanEndDate-to");
 
-                sql += " AND cm.CFP_DETAILS_END_DATE BETWEEN '" + tempFromat.format(from) + "' AND '" + tempFromat.format(to) + "'";
+                sql += " AND CAST(cm.CFP_DETAILS_END_DATE AS DATE) BETWEEN '" + tempFromat.format(from) + "' AND '" + tempFromat.format(to) + "'";
 
             }
 
@@ -1579,7 +1579,37 @@ public class ImtdCfpDetailsFinderImpl extends BasePersistenceImpl<ImtdCfpDetails
 
                 Date to = (Date) filterMap.get("attachedDate-to");
 
-                sql += " AND cm.CFP_DETAILS_ATTACHED_DATE BETWEEN '" + tempFromat.format(from) + "' AND '" + tempFromat.format(to) + "'";
+                sql += " AND CAST(cm.CFP_DETAILS_ATTACHED_DATE AS DATE) BETWEEN '" + tempFromat.format(from) + "' AND '" + tempFromat.format(to) + "'";
+
+            }
+            if (filterMap.get("modifiedDatefrom") != null) {
+
+                Date modifiedDatefrom = (Date) filterMap.get("modifiedDatefrom");
+
+                sql += " AND cm.MODIFIED_DATE >= '" + tempFromat.format(modifiedDatefrom) + "'";
+
+            }
+            if (filterMap.get("modifiedDateto") != null) {
+
+                Date modifiedDateto = (Date) filterMap.get("modifiedDateto");
+
+
+                sql += " AND CAST(cm.MODIFIED_DATE AS DATE) <= '" + tempFromat.format(modifiedDateto) + "'";
+
+            }
+            if (filterMap.get("createdDatefrom") != null) {
+
+                Date createdDatefrom = (Date) filterMap.get("createdDatefrom");
+
+
+                sql += " AND cm.CREATED_DATE >= '" + tempFromat.format(createdDatefrom) + "'";
+
+            }
+            if (filterMap.get("createdDateto") != null) {
+
+                Date createdDateto = (Date) filterMap.get("createdDateto");
+
+                sql += " AND CAST(cm.CREATED_DATE AS DATE) <= '" + tempFromat.format(createdDateto) + "'";
 
             }
             if (filterMap.get("Current") != null && filterMap.get("History") != null && filterMap.get("Future") != null) {

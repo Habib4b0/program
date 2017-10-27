@@ -10,5 +10,6 @@ package com.stpl.app.arm.supercode;
  * @author Jayaram.LeelaRam
  */
 public interface HasExcel {
-     ExcelInterface getExcelLogic();
+
+    ExcelInterface getExcelLogic();
 }

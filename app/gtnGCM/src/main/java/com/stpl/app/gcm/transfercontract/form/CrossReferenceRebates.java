@@ -38,9 +38,9 @@ public class CrossReferenceRebates extends VerticalLayout {
     public ComboBox massField;
     
 
-    private final ExtTreeContainer<TransferToDTO> toResultContainer = new ExtTreeContainer<TransferToDTO>(TransferToDTO.class);
-    private final BeanItemContainer<ComponentDetailsDTO> componentDetailsContainer = new BeanItemContainer<ComponentDetailsDTO>(ComponentDetailsDTO.class);
-    private final BeanItemContainer<DetailsDTO> rsResultsContainer = new BeanItemContainer<DetailsDTO>(DetailsDTO.class);
+    private final ExtTreeContainer<TransferToDTO> toResultContainer = new ExtTreeContainer<>(TransferToDTO.class);
+    private final BeanItemContainer<ComponentDetailsDTO> componentDetailsContainer = new BeanItemContainer<>(ComponentDetailsDTO.class);
+    private final BeanItemContainer<DetailsDTO> rsResultsContainer = new BeanItemContainer<>(DetailsDTO.class);
 
     public CrossReferenceRebates() {
         addComponent(Clara.create(getClass().getResourceAsStream("/TransferContract/crossRefRebate.xml"), this));
@@ -51,16 +51,16 @@ public class CrossReferenceRebates extends VerticalLayout {
     private void configureTables() {
 
         toResultTableRebate.setContainerDataSource(toResultContainer);
-        toResultTableRebate.setVisibleColumns(HeaderUtil.TRANSFOR_TO_COLUMN);
-        toResultTableRebate.setColumnHeaders(HeaderUtil.TRANSFOR_TO_HEADER);
+        toResultTableRebate.setVisibleColumns(HeaderUtil.getInstance().transforToColumn);
+        toResultTableRebate.setColumnHeaders(HeaderUtil.getInstance().transforToHeader);
 
         componentDetailsTable.setContainerDataSource(componentDetailsContainer);
-        componentDetailsTable.setVisibleColumns(HeaderUtil.COMPONENT_DETAILS_ITEM_COLUMN);
-        componentDetailsTable.setColumnHeaders(HeaderUtil.COMPONENT_DETAILS_ITEM_HEADER);
+        componentDetailsTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
+        componentDetailsTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
 
         rsResults.setContainerDataSource(rsResultsContainer);
-        rsResults.setVisibleColumns(HeaderUtil.RS_DETAILS_COLUMN);
-        rsResults.setColumnHeaders(HeaderUtil.RS_DETAILS_HEADER);
+        rsResults.setVisibleColumns(HeaderUtil.getInstance().rsDetailsColumn);
+        rsResults.setColumnHeaders(HeaderUtil.getInstance().rsDetailsHeader);
 
     }
      public void configureFields(){

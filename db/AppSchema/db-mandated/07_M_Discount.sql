@@ -1,5 +1,5 @@
 ------------------------------------------- M_DISCOUNT_PROJECTION -------------------------------
-IF NOT EXISTS (  SELECT 'X'
+IF NOT EXISTS (SELECT 'X'
                FROM   INFORMATION_SCHEMA.TABLES
                WHERE  TABLE_NAME = 'M_DISCOUNT_PROJECTION'
                   AND TABLE_SCHEMA = 'DBO')
@@ -133,8 +133,8 @@ IF EXISTS(SELECT 1
                   OR SAVE_FLAG = 0)
   BEGIN
       DELETE FROM M_ACTUAL_DISCOUNT
-	  WHERE  SAVE_FLAG IS NULL
-                  OR SAVE_FLAG = 0
+         WHERE  SAVE_FLAG = 0
+              OR SAVE_FLAG IS NULL
   END
   GO
 IF EXISTS (SELECT 1

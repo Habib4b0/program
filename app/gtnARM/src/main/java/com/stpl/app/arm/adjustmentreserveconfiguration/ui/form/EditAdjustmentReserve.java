@@ -6,12 +6,19 @@
 package com.stpl.app.arm.adjustmentreserveconfiguration.ui.form;
 
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveMainToTempAction;
 import com.stpl.app.arm.adjustmentreserveconfiguration.ui.abstractreserveform.AbstractReserve;
+import com.stpl.app.arm.excecutors.Validation;
+import com.stpl.app.arm.adjustmentreserveconfiguration.validation.ValidationAddRemoveLine;
 import com.stpl.app.arm.common.dto.SessionDTO;
+import com.stpl.app.arm.excecutors.ActionExecutor;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import java.util.List;
 
 /**
  *
@@ -21,19 +28,26 @@ public class EditAdjustmentReserve extends AbstractReserve {
 
     AdjustmentReserveDTO selectedDto;
 
-    EditAdjustmentReserve(SessionDTO session, AdjustmentReserveDTO dto,ReserveSelection resSelection) {
-        super("Adjustment & Reserve Configuration Details", session,resSelection);
+    EditAdjustmentReserve(SessionDTO session, AdjustmentReserveDTO dto, ReserveSelection resSelection) {
+        super("Adjustment & Reserve Configuration Details", session, resSelection);
         selectedDto = dto;
         configureFields();
     }
 
     @Override
     protected void loadSelection() {
-        selection.setSession(sessionDTO);
-        selection.setSearchBinderDTO(selectedDto);
-        getMasterSids();
-        logic.insertToTempTable(selection);
-        selection.setIsSaved(Boolean.TRUE);
+        try {
+            selection.setSession(sessionDTO);
+            selection.setSearchBinderDTO(selectedDto);
+            getMasterSids();
+
+            ActionExecutor executor = new ActionExecutor();
+            executor.callingActionExecution(new SaveMainToTempAction(selection));
+
+            selection.setIsSaved(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
     }
 
     @Override
@@ -42,7 +56,7 @@ public class EditAdjustmentReserve extends AbstractReserve {
     }
 
     @Override
-    protected void addLineBtnLogic() {
+    public void configureTabAddLineLogic() {
         try {
             binder.commit();
             logic.addLineLogic(selection);
@@ -53,13 +67,40 @@ public class EditAdjustmentReserve extends AbstractReserve {
             }
             detailsTableLogic.loadsetData(true, selection);
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("Error in configureTabAddLineLogic :"+ex);
         }
+    }
+
+    /**
+     * Addline Logic
+     *
+     */
+    @Override
+    public void adjustmentSummaryAddLineLogic() {
+        Validation validation = new ValidationAddRemoveLine(selection, true);
+        if (!validation.doValidate()) {
+            AbstractNotificationUtils.getErrorNotification("Error", validation.validationMessage());
+            return;
+        }
+        adjustmentSummaryConfigLogic.addLineLogic(selection);
+        adjustmentSummaryTableLogic.loadSetData(true, selection);
+    }
+
+    @Override
+    protected void balanceSummaryAddLineLogic() {
+        Validation validation = new ValidationAddRemoveLine(selection, true);
+        if (!validation.doValidate()) {
+            AbstractNotificationUtils.getErrorNotification("Error", validation.validationMessage());
+            return;
+        }
+        balanceSummaryLogic.addLineLogic(selection);
+        balSummaryConfigurationTableLogic.loadSetData(true, selection);
+        LOGGER.debug("balanceSummaryAddLineLogic Method in Edit");
     }
 
     @Override
     protected boolean saveToMaster() {
-        return Boolean.TRUE;
+        return true;
     }
 
     @Override
@@ -86,27 +127,71 @@ public class EditAdjustmentReserve extends AbstractReserve {
         deductionProgramDdlbRes.addItem(selectedDto.getDeductionProgramDdlbRes());
         deductionProgramDdlbRes.setItemCaption(selectedDto.getDeductionProgramDdlbRes(), selectedDto.getDeductionProgram());
         deductionProgramDdlbRes.select(selectedDto.getDeductionProgramDdlbRes());
-        companyDdlbRes.setEnabled(Boolean.FALSE);
-        businessDdlbRes.setEnabled(Boolean.FALSE);
-        deductionCategoryDdlbRes.setEnabled(Boolean.FALSE);
-        deductionTypeDdlbRes.setEnabled(Boolean.FALSE);
-        deductionProgramDdlbRes.setEnabled(Boolean.FALSE);
+        companyDdlbRes.setEnabled(false);
+        businessDdlbRes.setEnabled(false);
+        deductionCategoryDdlbRes.setEnabled(false);
+        deductionTypeDdlbRes.setEnabled(false);
+        deductionProgramDdlbRes.setEnabled(false);
         selection.setCompanyNo(getCompanyNo(Integer.valueOf(companyDdlbRes.getValue().toString())));
         selection.setDivision(getCompanyNo(Integer.valueOf(businessDdlbRes.getValue().toString())));
         selection.setBusUnit(businessDdlbRes.getItemCaption(Integer.valueOf(businessDdlbRes.getValue().toString())));
-        resetBtnRes.setEnabled(Boolean.FALSE);
+        resetBtnRes.setEnabled(false);
 
     }
 
     @Override
     protected void loadTablefirstTime() {
-        detailsTableLogic.loadsetData(Boolean.TRUE, selection);
+        detailsTableLogic.loadsetData(true, selection);
+    }
+
+    /**
+     *
+     * Method to Reset the line to as it was
+     *
+     */
+    @Override
+    public void resetConfigureTabLine() {
+        logic.resetDBRecord(selection);
+        logic.insertToTempTable(selection);
+        detailsTableLogic.loadsetData(true, selection);
+    }
+
+    /**
+     * Adjustment summary reset line logic
+     *
+     */
+    @Override
+    public void resetAdjustmentSummaryLine() {
+        adjustmentSummaryConfigLogic.deleteTempTableRecords(selection);
+        adjustmentSummaryConfigLogic.insertAdjSummaryToTempTableFromMainTable(selection);
+        adjustmentSummaryTableLogic.loadSetData(true, selection);
+        if (adjustmentSummaryTableLogic.getCount() == 0) {
+            methodologyDdlb.setValue(0);
+        }
+        List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
+        adjustmentSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
     }
 
     @Override
-    protected void loadResetData() {
-        logic.resetDBRecord(selection);
-        logic.insertToTempTable(selection);
-        detailsTableLogic.loadsetData(Boolean.TRUE, selection);
+    protected void resetBalanceSummaryLine() {
+        LOGGER.debug("resetBalanceSummaryLine Method in Copy");
+        balanceSummaryLogic.deleteTempTableRecords(selection);
+        balanceSummaryLogic.insertBalanceSummaryToTempTableFromMainTable(selection);
+        balSummaryConfigurationTableLogic.loadSetData(true, selection);
+        if (balSummaryConfigurationTableLogic.getCount() == 0) {
+            reportTypeDdlb.setValue(0);
+        }
+        List list = adjustmentSummaryConfigLogic.isAllCheckBoxesAreChecked(selection);
+        balanceSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true, list.size() != 1 ? false : "true".equals(String.valueOf(list.get(0))));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

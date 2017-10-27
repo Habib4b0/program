@@ -33,14 +33,14 @@ public class MailConfigurationView extends VerticalLayout implements View {
     /**
      * The binder.
      */
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<MailConfigurationDTO>(mailconfigurationdto));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(mailconfigurationdto));
 
     public static final String NAME = StringUtils.EMPTY;
 
     MailForm mailForm;
     SessionDTO sessionDTO;
 
-    public MailConfigurationView(final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public MailConfigurationView(final SessionDTO sessionDTO) {
         super();
         this.sessionDTO = sessionDTO;
         mailForm = new MailForm(this.sessionDTO);
@@ -53,7 +53,7 @@ public class MailConfigurationView extends VerticalLayout implements View {
         try {
 
             addComponent(mailForm);
-            binder.setItemDataSource(new BeanItem<MailConfigurationDTO>(mailconfigurationdto));
+            binder.setItemDataSource(new BeanItem<>(mailconfigurationdto));
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

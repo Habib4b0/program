@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gcm.promotetptocontract.logic;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.promotetptocontract.dao.PromoteTpDAO;
 import com.stpl.app.gcm.promotetptocontract.dao.impl.PromoteTpDAOImpl;
 import com.stpl.app.gcm.promotetptocontract.dto.PromoteTpToChDto;
@@ -32,10 +33,10 @@ public class CompanySearchLogic {
      * The Constant LOGGER.
      */
 
-    public int companySearchCount(PromoteTpToChDto tpDto, Set<Container.Filter> filters) throws PortalException, SystemException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public int companySearchCount(PromoteTpToChDto tpDto, Set<Container.Filter> filters) throws  SystemException {
+        Map<String, Object> parameters = new HashMap<>();
         List resultList;
-        parameters.put("lazyLoadResults", null);
+        parameters.put(StringConstantsUtil.LAZY_LOAD_RESULTS, null);
         if (isValidCriteria(tpDto.getCompanyId())) {
             String companyId = tpDto.getCompanyId();
             companyId = companyId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
@@ -103,13 +104,13 @@ public class CompanySearchLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public List<PromoteTpToChDto> searchCompaniesLazy(final PromoteTpToChDto tpDTO, int startIndex, int offset, Set<Container.Filter> filters, String searchSessionId) throws SystemException, ParseException, PortalException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public List<PromoteTpToChDto> searchCompaniesLazy(final PromoteTpToChDto tpDTO, int startIndex, int offset, Set<Container.Filter> filters, String searchSessionId) throws SystemException {
+        Map<String, Object> parameters = new HashMap<>();
         List resultList;
         List<PromoteTpToChDto> returnList = null;
         parameters.put("startIndex", startIndex);
         parameters.put("offset", offset);
-        parameters.put("lazyLoadResults", "lazyLoadResults");
+        parameters.put(StringConstantsUtil.LAZY_LOAD_RESULTS, StringConstantsUtil.LAZY_LOAD_RESULTS);
 
         if (isValidCriteria(tpDTO.getCompanyId())) {
             String companyId = tpDTO.getCompanyId();

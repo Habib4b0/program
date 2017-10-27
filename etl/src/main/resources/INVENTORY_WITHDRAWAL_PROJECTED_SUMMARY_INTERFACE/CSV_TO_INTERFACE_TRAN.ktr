@@ -169,6 +169,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>RECEIVED_RECORD_COUNT</name>
         <rename>received_record_count</rename>
@@ -266,6 +272,17 @@
         <group/>
         <nullif>R</nullif>
         <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>INVENTORY_WITHDRAWAL_PROJECTED_SUMMARY_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -1186,6 +1203,131 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>164</xloc>
       <yloc>653</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVENTORY_WD_PROJ_MAS_INTF</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>staging</connection>
+    <schema/>
+    <table>INVENTORY_WD_PROJ_MAS_INTF</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT_WITHDRAWN</column_name>
+          <stream_name>AMOUNT_WITHDRAWN</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COUNTRY</column_name>
+          <stream_name>COUNTRY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>userid</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DAY</column_name>
+          <stream_name>DAY</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_NAME</column_name>
+          <stream_name>FORECAST_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VER</column_name>
+          <stream_name>FORECAST_VER</stream_name>
+        </field>
+        <field>
+          <column_name>INVENTORY_WD_PROJ_MAS_INTF_ID</column_name>
+          <stream_name>INVENTORY_WD_PROJ_MAS_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_IDENTIFIER</column_name>
+          <stream_name>ITEM_IDENTIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>ITEM_IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MONTH</column_name>
+          <stream_name>MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>UNITS_WITHDRAWN</column_name>
+          <stream_name>UNITS_WITHDRAWN</stream_name>
+        </field>
+        <field>
+          <column_name>WEEK</column_name>
+          <stream_name>WEEK</stream_name>
+        </field>
+        <field>
+          <column_name>YEAR</column_name>
+          <stream_name>YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE</column_name>
+          <stream_name>PRICE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>322</xloc>
+      <yloc>605</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2944,131 +3086,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </GUI>
     </step>
 
-  <step>
-    <name>INVENTORY_WD_PROJ_MAS_INTF</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>staging</connection>
-    <schema/>
-    <table>INVENTORY_WD_PROJ_MAS_INTF</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>AMOUNT_WITHDRAWN</column_name>
-          <stream_name>AMOUNT_WITHDRAWN</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>COUNTRY</column_name>
-          <stream_name>COUNTRY</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>userid</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>DAY</column_name>
-          <stream_name>DAY</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_NAME</column_name>
-          <stream_name>FORECAST_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_VER</column_name>
-          <stream_name>FORECAST_VER</stream_name>
-        </field>
-        <field>
-          <column_name>INVENTORY_WD_PROJ_MAS_INTF_ID</column_name>
-          <stream_name>INVENTORY_WD_PROJ_MAS_INTF_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_IDENTIFIER</column_name>
-          <stream_name>ITEM_IDENTIFIER</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_IDENTIFIER_CODE_QUALIFIER</column_name>
-          <stream_name>ITEM_IDENTIFIER_CODE_QUALIFIER</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>MONTH</column_name>
-          <stream_name>MONTH</stream_name>
-        </field>
-        <field>
-          <column_name>ORGANIZATION_KEY</column_name>
-          <stream_name>ORGANIZATION_KEY</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>UNITS_WITHDRAWN</column_name>
-          <stream_name>UNITS_WITHDRAWN</stream_name>
-        </field>
-        <field>
-          <column_name>WEEK</column_name>
-          <stream_name>WEEK</stream_name>
-        </field>
-        <field>
-          <column_name>YEAR</column_name>
-          <stream_name>YEAR</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE</column_name>
-          <stream_name>PRICE</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>322</xloc>
-      <yloc>605</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step_error_handling>
       <error>
         <source_step>Data Validator</source_step>
@@ -3078,6 +3095,18 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <descriptions_valuename/>
         <fields_valuename>Invalid Field Type__</fields_valuename>
         <codes_valuename>error_code_fieldname</codes_valuename>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>INVENTORY_WD_PROJ_MAS_INTF</source_step>
+        <target_step>Data Validator</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
         <max_errors/>
         <max_pct_errors/>
         <min_pct_rows/>
@@ -3114,18 +3143,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <descriptions_valuename/>
         <fields_valuename>Invalid Field Type__</fields_valuename>
         <codes_valuename>error_code_fieldname</codes_valuename>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
-        <source_step>INVENTORY_WD_PROJ_MAS_INTF</source_step>
-        <target_step>Data Validator</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
         <max_errors/>
         <max_pct_errors/>
         <min_pct_rows/>

@@ -27,6 +27,7 @@ import com.stpl.ifs.util.QueryUtil;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,12 +55,12 @@ public class CommercialDPRLogic {
      * @return
      *
      */
-    public int getConfiguredProjectionResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelsCount) throws SystemException, PortalException {
+    public int getConfiguredProjectionResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelsCount)  {
         int count = 0;
         if (!projSelDTO.isIsFilter() || (parentId instanceof DiscountProjectionResultsDTO)) {
             projSelDTO.setYear(ALL.getConstant());
             if (BOTH.getConstant().equals(projSelDTO.getActualsOrProjections())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (parentId instanceof DiscountProjectionResultsDTO) {
                 projSelDTO.setIsProjectionTotal(false);
@@ -111,7 +112,21 @@ public class CommercialDPRLogic {
         return count;
     }
 
-    public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelsCount, Object parentId) throws SystemException, PortalException {
+    public int getTotalDiscountCount(ProjectionSelectionDTO projSelDTO, Object parentId) {
+        String query = getDiscountCountForCurrentHierarchy(projSelDTO);
+        List<Object> list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
+        if (list != null && !list.isEmpty()) {
+            Object ob = list.get(0);
+            if (parentId instanceof DiscountProjectionResultsDTO) {
+                DiscountProjectionResultsDTO parentDTO = (DiscountProjectionResultsDTO) parentId;
+                parentDTO.setTotalDiscountCount(Integer.valueOf(String.valueOf(ob)));
+                return parentDTO.getTotalDiscountCount();
+            }
+        }
+        return 0;
+    }
+
+    public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelsCount, Object parentId)  {
         int count = 0;
         projSelDTO.setGroupCount(false);
         if (!projSelDTO.getGroup().startsWith(Constant.DISCOUNT)) {
@@ -119,16 +134,7 @@ public class CommercialDPRLogic {
                 if (projSelDTO.isIsProjectionTotal()) {
                     count = count + projSelDTO.getDiscountList().get(0).size();
                 } else {
-                    String query = getDiscountCountForCurrentHierarchy(projSelDTO);                    
-                    List<Object> list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-                    if (list != null && !list.isEmpty()) {
-                        Object ob = list.get(0);
-                        if (parentId instanceof DiscountProjectionResultsDTO) {
-                            DiscountProjectionResultsDTO parentDTO = (DiscountProjectionResultsDTO) parentId;
-                            parentDTO.setTotalDiscountCount(Integer.valueOf(String.valueOf(ob)));
-                            count = count + parentDTO.getTotalDiscountCount();
-                        }
-                    }
+                    count = count + getTotalDiscountCount(projSelDTO, parentId);
                 }
             } else {
                 count = count + projSelDTO.getPeriodList().size();
@@ -141,7 +147,7 @@ public class CommercialDPRLogic {
             if (isLevelsCount && !projSelDTO.isIsFilter()) {
                 if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                         && ((projSelDTO.isIsCustomHierarchy()) || (!INDICATOR_VIEW_PRODUCT.getConstant().equals(projSelDTO.getHierarchyIndicator())))
-                        && !"All Discount Groups".equals(projSelDTO.getGroupFilter()) && !projSelDTO.getGroup().startsWith(Constant.DISCOUNT)) {                    
+                        && !Constant.ALL_DISCOUNT_GROUP.equals(projSelDTO.getGroupFilter()) && !projSelDTO.getGroup().startsWith(Constant.DISCOUNT)) {                    
                     count = count + 1;
                     projSelDTO.setGroupCount(true);
                     projSelDTO.setLevelCount(1);
@@ -172,18 +178,18 @@ public class CommercialDPRLogic {
         CommonLogic commonLogic = new CommonLogic();
         String countQuery;
         if (selection.isIsCustomHierarchy()) {
-            countQuery = SQlUtil.getQuery("insert-selected-rs-model");
+            countQuery = SQlUtil.getQuery(Constant.INSERT_SELECTED_RS_MODEL);
             countQuery += SQlUtil.getQuery("get-custom-count-rebate");
-            countQuery = countQuery.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(selection));
+            countQuery = countQuery.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(selection));
             countQuery = countQuery.replace("[?HIERARCHY_NO]", selection.getHierarchyNo());
-            Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(true, selection.getCustomerHierarchyNo(), selection.getProductHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(selection));
-            countQuery = countQuery.replace("[?HIERARCHY_COLUMN]", customHierarchyRestriction.get("current-hierarchy"));
-            countQuery = countQuery.replace("[?PREVIOUS_HIERARCHY_NO]", customHierarchyRestriction.containsKey("prior-hierarchy") ? customHierarchyRestriction.get("prior-hierarchy") : StringUtils.EMPTY);
+            Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(selection.getCustomerHierarchyNo(), selection.getProductHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(selection));
+            countQuery = countQuery.replace(Constant.HIERARCHY_COLUMN_QUESTION, customHierarchyRestriction.get(Constant.CURRENT_HIERARCHY));
+            countQuery = countQuery.replace(Constant.PREVIOUS_HIERARCHY_NO_QUESTION, customHierarchyRestriction.containsKey(Constant.PRIOR_HIERARCHY) ? customHierarchyRestriction.get(Constant.PRIOR_HIERARCHY) : StringUtils.EMPTY);
         } else {
-            countQuery = SQlUtil.getQuery("insert-selected-rs-model");
+            countQuery = SQlUtil.getQuery(Constant.INSERT_SELECTED_RS_MODEL);
             countQuery += SQlUtil.getQuery("get-count-rebate");
-            countQuery = countQuery.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(selection));
-            countQuery = countQuery.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(selection.getHierarchyIndicator()));
+            countQuery = countQuery.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(selection));
+            countQuery = countQuery.replace(Constant.HIERARCHY_COLUMN_QUESTION, commonLogic.getColumnName(selection.getHierarchyIndicator()));
             countQuery = countQuery.replace("[?HIERARCHY_NO]", selection.getHierarchyNo());
         }
         return countQuery;
@@ -211,47 +217,48 @@ public class CommercialDPRLogic {
 
     private String getLevelCount(ProjectionSelectionDTO selection) {
         CommonLogic commonLogic = new CommonLogic();
-        String countQuery = SQlUtil.getQuery("insert-selected-rs-model");
+        String countQuery = SQlUtil.getQuery(Constant.INSERT_SELECTED_RS_MODEL);
         countQuery += SQlUtil.getQuery("insert-selected-hierarchy-no-dpr");
         countQuery += SQlUtil.getQuery("get-count-dpr");
 
-        countQuery = countQuery.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(selection));
-        countQuery = countQuery.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(selection.getSessionDTO(), selection.getHierarchyNo(), selection.getHierarchyIndicator(), selection.getTreeLevelNo()));
+        countQuery = countQuery.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(selection));
+        countQuery = countQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(selection.getSessionDTO(), selection.getHierarchyNo(), selection.getHierarchyIndicator(), selection.getTreeLevelNo()));
         countQuery = countQuery.replace("[?SELECTED_HIERARCHY_JOIN]", commonLogic.getHierarchyJoinQuery(selection));
-          if(selection.getHierarchyIndicator().equalsIgnoreCase("C") && !selection.getGroupFilter().equalsIgnoreCase("All Discount Groups")){
-                countQuery = countQuery.replace("[?USER_GROUP_JOIN]", SQlUtil.getQuery("user-group-condition-query").replace("[?USER_GROUP]", selection.getGroupFilter())); 
+          if(selection.getHierarchyIndicator().equalsIgnoreCase("C") && !selection.getGroupFilter().equalsIgnoreCase(Constant.ALL_DISCOUNT_GROUP)){
+                countQuery = countQuery.replace(Constant.USER_GROUP_JOIN, SQlUtil.getQuery(Constant.USER_GROUP_CONDITIONQUERY).replace(USER_GROUP_QUESTION, selection.getGroupFilter())); 
             }else{
-               countQuery = countQuery.replace("[?USER_GROUP_JOIN]", StringUtils.EMPTY);  
+               countQuery = countQuery.replace(Constant.USER_GROUP_JOIN, StringUtils.EMPTY);  
             }
-        countQuery = countQuery.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(selection.getHierarchyIndicator()));
+        countQuery = countQuery.replace(Constant.HIERARCHY_COLUMN_QUESTION, commonLogic.getColumnName(selection.getHierarchyIndicator()));
         
         return countQuery;
 
     }
+    public static final String USER_GROUP_QUESTION = "[?USER_GROUP]";
 
     private String getCustomLevelCount(ProjectionSelectionDTO selection) {
         CommonLogic commonLogic = new CommonLogic();
-        String countQuery = SQlUtil.getQuery("insert-selected-rs-model");
+        String countQuery = SQlUtil.getQuery(Constant.INSERT_SELECTED_RS_MODEL);
         countQuery += SQlUtil.getQuery("insert-selected-hierarchy-no-dpr-custom-view");
         countQuery += SQlUtil.getQuery("get-count-dpr");
 
-        countQuery = countQuery.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(selection));
+        countQuery = countQuery.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(selection));
 
         String currentHierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(selection);
         int levelNo = commonLogic.getActualLevelNoFromCustomView(selection);
         switch (String.valueOf(currentHierarchyIndicator)) {
             case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
-                countQuery = countQuery.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(selection.getSessionDTO(), selection.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo));
+                countQuery = countQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(selection.getSessionDTO(), selection.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo));
                 break;
             case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
-                countQuery = countQuery.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(selection.getSessionDTO(), selection.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
+                countQuery = countQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(selection.getSessionDTO(), selection.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                 break;
             default:
                 LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
         }
-        Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(true, selection.getCustomerHierarchyNo(), selection.getProductHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(selection));
-        countQuery = countQuery.replace("[?CURRENT_HIERARCHY_NO]", customHierarchyRestriction.get("current-hierarchy"));
-        countQuery = countQuery.replace("[?PREVIOUS_HIERARCHY_NO]", customHierarchyRestriction.containsKey("prior-hierarchy") ? customHierarchyRestriction.get("prior-hierarchy") : StringUtils.EMPTY);
+        Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(selection.getCustomerHierarchyNo(), selection.getProductHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(selection));
+        countQuery = countQuery.replace("[?CURRENT_HIERARCHY_NO]", customHierarchyRestriction.get(Constant.CURRENT_HIERARCHY));
+        countQuery = countQuery.replace(Constant.PREVIOUS_HIERARCHY_NO_QUESTION, customHierarchyRestriction.containsKey(Constant.PRIOR_HIERARCHY) ? customHierarchyRestriction.get(Constant.PRIOR_HIERARCHY) : StringUtils.EMPTY);
 
         return countQuery;
 
@@ -267,29 +274,29 @@ public class CommercialDPRLogic {
      * @param hierarchyIndicator
      * @return
      */
-    public Map<String, String> getHierarchyDetailsForCustomView(boolean isCustomHierarchy, String customerHierarchyNo, String productHierarchyNo, String hierarchyIndicator) {
+    public Map<String, String> getHierarchyDetailsForCustomView(String customerHierarchyNo, String productHierarchyNo, String hierarchyIndicator) {
 
         Map<String, String> map = new HashMap<>(NumericConstants.TWO);
 
         switch (String.valueOf(hierarchyIndicator)) {
             case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
-                map.put("current-hierarchy", "CUST_HIERARCHY_NO ");
+                map.put(Constant.CURRENT_HIERARCHY, "CUST_HIERARCHY_NO ");
                 if (StringUtils.isNotBlank(productHierarchyNo)) {
                     StringBuilder priorHierarchy = new StringBuilder();
                     priorHierarchy.append(" AND CH.PROD_HIERARCHY_NO LIKE '");
                     priorHierarchy.append(productHierarchyNo);
                     priorHierarchy.append("%' ");
-                    map.put("prior-hierarchy", priorHierarchy.toString());
+                    map.put(Constant.PRIOR_HIERARCHY, priorHierarchy.toString());
                 }
                 break;
             case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
-                map.put("current-hierarchy", "PROD_HIERARCHY_NO ");
+                map.put(Constant.CURRENT_HIERARCHY, "PROD_HIERARCHY_NO ");
                 if (StringUtils.isNotBlank(customerHierarchyNo)) {
                     StringBuilder priorHierarchy = new StringBuilder();
                     priorHierarchy.append(" AND CH.CUST_HIERARCHY_NO LIKE '");
                     priorHierarchy.append(customerHierarchyNo);
                     priorHierarchy.append("%' ");
-                    map.put("prior-hierarchy", priorHierarchy.toString());
+                    map.put(Constant.PRIOR_HIERARCHY, priorHierarchy.toString());
                 }
                 break;
             default:
@@ -326,13 +333,13 @@ public class CommercialDPRLogic {
      * @return
      *
      */
-    public List<DiscountProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws SystemException, PortalException {
+    public List<DiscountProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> resultList;
         if (!projSelDTO.isIsFilter() || (parentId instanceof DiscountProjectionResultsDTO)) {
 
             projSelDTO.setYear(ALL.getConstant());
             if (BOTH.getConstant().equals(projSelDTO.getActualsOrProjections())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (parentId instanceof DiscountProjectionResultsDTO) {
                 projSelDTO.setIsProjectionTotal(false);
@@ -386,7 +393,7 @@ public class CommercialDPRLogic {
         return resultList;
     }
 
-    public List<DiscountProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO, final Object parentId) throws SystemException, PortalException {
+    public List<DiscountProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO, final Object parentId) {
         int neededRecord = offset;
         List<DiscountProjectionResultsDTO> dataList = new ArrayList<>();
         boolean isPeriodView = projSelDTO.getPivotView().contains(PERIOD.getConstant());
@@ -398,7 +405,7 @@ public class CommercialDPRLogic {
                 neededRecord--;
 
                 if (!projSelDTO.getDiscountNameList().isEmpty()) {
-                    List discountList = getAllRSDiscount(start, neededRecord, projSelDTO, isPeriodView);
+                    List discountList = getAllRSDiscount(projSelDTO, isPeriodView);
                     if (isPeriodView) {
                         dataList.addAll(discountList);
                         neededRecord = neededRecord - discountList.size();
@@ -415,7 +422,7 @@ public class CommercialDPRLogic {
                     start = start - projSelDTO.getDiscountList().get(0).size();
                 } else {
                     if (start < projSelDTO.getPeriodList().size()) {
-                        List discountList = getAllRSDiscount(start, neededRecord, projSelDTO, isPeriodView);
+                        List discountList = getAllRSDiscount(projSelDTO, isPeriodView);
                         int recordsToFetch = neededRecord < discountList.size() ? Math.abs(discountList.size() - start) : discountList.size();
                         dataList.addAll(discountList.subList(start, start + recordsToFetch));
                         neededRecord = neededRecord < discountList.size() ? Math.abs(discountList.size() - start - neededRecord) : neededRecord - discountList.size();
@@ -474,11 +481,11 @@ public class CommercialDPRLogic {
      * @return
      * @throws SystemException
      */
-    public List<DiscountProjectionResultsDTO> getAllRSDiscount(int start, int offset, ProjectionSelectionDTO projSelDTO, boolean isPeriodView) throws SystemException {
+    public List<DiscountProjectionResultsDTO> getAllRSDiscount(ProjectionSelectionDTO projSelDTO, boolean isPeriodView)  {
 
         String totalQuery = SQlUtil.getQuery("dpr-total-discount-query");
-        totalQuery = totalQuery.replace("[?FREQUENCY]", projSelDTO.getFrequency().substring(0, 1));
-        totalQuery = totalQuery.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(projSelDTO));
+        totalQuery = totalQuery.replace(Constant.FREQUENCY_QUESTION, projSelDTO.getFrequency().substring(0, 1));
+        totalQuery = totalQuery.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(projSelDTO));
         List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(totalQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (isPeriodView) {
             return customizeForPeriodView(resultList, projSelDTO, true, null,true);
@@ -495,11 +502,11 @@ public class CommercialDPRLogic {
      * @return
      * @throws SystemException
      */
-    public List<DiscountProjectionResultsDTO> getProjectionTotal(ProjectionSelectionDTO projSelDTO, boolean isPeriodView) throws SystemException {
+    public List<DiscountProjectionResultsDTO> getProjectionTotal(ProjectionSelectionDTO projSelDTO, boolean isPeriodView)  {
         if (isPeriodView) {
             String totalQuery = SQlUtil.getQuery("dpr-total-query");
-            totalQuery = totalQuery.replace("[?FREQUENCY]", projSelDTO.getFrequency().substring(0, 1));
-            totalQuery = totalQuery.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(projSelDTO));
+            totalQuery = totalQuery.replace(Constant.FREQUENCY_QUESTION, projSelDTO.getFrequency().substring(0, 1));
+            totalQuery = totalQuery.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(projSelDTO));
             List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(totalQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
             return customizeForPeriodView(resultList, projSelDTO, true, null,false);
         } else {
@@ -521,29 +528,29 @@ public class CommercialDPRLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public List<DiscountProjectionResultsDTO> getDiscountBasedOnLevelValue(int start, int offset, ProjectionSelectionDTO projSelDTO, boolean isPeriodView,final Object parentId) throws SystemException, PortalException {
+    public List<DiscountProjectionResultsDTO> getDiscountBasedOnLevelValue(int start, int offset, ProjectionSelectionDTO projSelDTO, boolean isPeriodView,final Object parentId) {
         CommonLogic commonLogic = new CommonLogic();
         String query = projSelDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("dpr-custom-hierarchy-discount-query") : SQlUtil.getQuery("dpr-hierarchy-discount-query");
         if (projSelDTO.isIsCustomHierarchy()) {
-            Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(true, projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO));
-            query = query.replace("[?HIERARCHY_COLUMN]", customHierarchyRestriction.get("current-hierarchy"));
-            query = query.replace("[?PREVIOUS_HIERARCHY_NO]", customHierarchyRestriction.containsKey("prior-hierarchy") ? customHierarchyRestriction.get("prior-hierarchy") : StringUtils.EMPTY);
+            Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO));
+            query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, customHierarchyRestriction.get(Constant.CURRENT_HIERARCHY));
+            query = query.replace(Constant.PREVIOUS_HIERARCHY_NO_QUESTION, customHierarchyRestriction.containsKey(Constant.PRIOR_HIERARCHY) ? customHierarchyRestriction.get(Constant.PRIOR_HIERARCHY) : StringUtils.EMPTY);
         } else {
-            query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
-            query = query.replace("[?PREVIOUS_HIERARCHY_NO]", StringUtils.EMPTY);
+            query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
+            query = query.replace(Constant.PREVIOUS_HIERARCHY_NO_QUESTION, StringUtils.EMPTY);
         }
-        if (projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase("All Discount Groups")) {
-            query = query.replace("[?USER_GROUP_JOIN]", SQlUtil.getQuery("user-group-condition-query").replace("[?USER_GROUP]", projSelDTO.getGroupFilter()));
+        if (projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase(Constant.ALL_DISCOUNT_GROUP)) {
+            query = query.replace(Constant.USER_GROUP_JOIN, SQlUtil.getQuery(Constant.USER_GROUP_CONDITIONQUERY).replace(USER_GROUP_QUESTION, projSelDTO.getGroupFilter()));
         } else {
-            query = query.replace("[?USER_GROUP_JOIN]", StringUtils.EMPTY);
+            query = query.replace(Constant.USER_GROUP_JOIN, StringUtils.EMPTY);
         }
-        query = query.replace("[?HIERARCHY_NO_VALUES]", "('" + projSelDTO.getHierarchyNo() + "')");
-        query = query.replace("[?FREQUENCY]", projSelDTO.getFrequency().substring(0, 1));
-        query = query.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(projSelDTO));
+        query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + projSelDTO.getHierarchyNo() + "')");
+        query = query.replace(Constant.FREQUENCY_QUESTION, projSelDTO.getFrequency().substring(0, 1));
+        query = query.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(projSelDTO));
         
         if (isPeriodView) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("ORDER BY RS_CONTRACT_SID OFFSET ").append(start).append(" ROWS FETCH NEXT ").append(offset).append(" ROWS ONLY");
+            stringBuilder.append("ORDER BY RS_CONTRACT_SID OFFSET ").append(start).append(Constant.ROWS_FETCH_NEXT_SPACE).append(offset).append(Constant.ROWS_ONLY_SPACE);
             query = query.replace("[?PAGINATION_PARAMETERS]", StringUtils.EMPTY);       
           
             List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -564,7 +571,7 @@ public class CommercialDPRLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public List<DiscountProjectionResultsDTO> configureLevels(int start, int offset, ProjectionSelectionDTO projSelDTO, boolean isPeriodView) throws SystemException, PortalException {
+    public List<DiscountProjectionResultsDTO> configureLevels(int start, int offset, ProjectionSelectionDTO projSelDTO, boolean isPeriodView) {
         CommonLogic commonLogic = new CommonLogic();
         if (isPeriodView) {
             String query = SQlUtil.getQuery("dpr-hierarchy-query");
@@ -574,33 +581,33 @@ public class CommercialDPRLogic {
 
                 switch (String.valueOf(currentHierarchyIndicator)) {
                     case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
-                        query = query.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo));
+                        query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo));
                         break;
                     case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
-                        query = query.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
+                        query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                         break;
                     default:
                         LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
                 }
 
-                Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(true, projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator);
-                query = query.replace("[?HIERARCHY_COLUMN]", customHierarchyRestriction.get("current-hierarchy"));
-                query = query.replace("[?PREVIOUS_HIERARCHY_NO]", customHierarchyRestriction.containsKey("prior-hierarchy") ? customHierarchyRestriction.get("prior-hierarchy") : StringUtils.EMPTY);
+                Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator);
+                query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, customHierarchyRestriction.get(Constant.CURRENT_HIERARCHY));
+                query = query.replace(Constant.PREVIOUS_HIERARCHY_NO_QUESTION, customHierarchyRestriction.containsKey(Constant.PRIOR_HIERARCHY) ? customHierarchyRestriction.get(Constant.PRIOR_HIERARCHY) : StringUtils.EMPTY);
 
             } else {
-                query = query.replace("[?HIERARCHY_NO_VALUES]", commonLogic.getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
-                query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
-                query = query.replace("[?PREVIOUS_HIERARCHY_NO]", StringUtils.EMPTY);
+                query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
+                query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
+                query = query.replace(Constant.PREVIOUS_HIERARCHY_NO_QUESTION, StringUtils.EMPTY);
             }
-            if(projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase("All Discount Groups")){
-                query = query.replace("[?USER_GROUP_JOIN]", SQlUtil.getQuery("user-group-condition-query").replace("[?USER_GROUP]", projSelDTO.getGroupFilter())); 
+            if(projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase(Constant.ALL_DISCOUNT_GROUP)){
+                query = query.replace(Constant.USER_GROUP_JOIN, SQlUtil.getQuery(Constant.USER_GROUP_CONDITIONQUERY).replace(USER_GROUP_QUESTION, projSelDTO.getGroupFilter())); 
             }else{
-               query = query.replace("[?USER_GROUP_JOIN]", StringUtils.EMPTY);  
+               query = query.replace(Constant.USER_GROUP_JOIN, StringUtils.EMPTY);  
             }
             query = query.replace("[?START]", StringUtils.EMPTY + start);
             query = query.replace("[?OFFSET]", StringUtils.EMPTY + offset);
-            query = query.replace("[?FREQUENCY]", projSelDTO.getFrequency().substring(0, 1));
-            query = query.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(projSelDTO));
+            query = query.replace(Constant.FREQUENCY_QUESTION, projSelDTO.getFrequency().substring(0, 1));
+            query = query.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(projSelDTO));
             List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             return customizeForPeriodView(resultList, projSelDTO, false, null,false);
         } else {
@@ -684,6 +691,9 @@ public class CommercialDPRLogic {
                 rebateList.add(rebateName.replace(" ", StringUtils.EMPTY));
             }
             setDefaultValues(periodList, map, rebateList);
+        }
+        if (proSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
+            Collections.reverse(finalList);
         }
 
         return finalList;
@@ -851,7 +861,7 @@ public class CommercialDPRLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public List configureLevelsForExcel(int start, int offset, ProjectionSelectionDTO projSelDTO, boolean isPeriodView,String hierarchy) throws SystemException, PortalException {
+    public List configureLevelsForExcel(int start, int offset, ProjectionSelectionDTO projSelDTO, boolean isPeriodView,String hierarchy)  {
         CommonLogic commonLogic = new CommonLogic();
         if (isPeriodView) {
             String query =projSelDTO.isIsCustomHierarchy()? SQlUtil.getQuery("dpr-hierarchy-query-custom-query"):SQlUtil.getQuery("dpr-hierarchy-query");
@@ -861,23 +871,23 @@ public class CommercialDPRLogic {
                 query = query.replace("[?CUSTOM_VIEW_MASTER_SID]", String.valueOf(projSelDTO.getCustomId()));
                  query = query.replace("[?RS_MODEL_SID]", getSelectedRSIDForQuery(projSelDTO));
             } else {
-                if (projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase("All Discount Groups")) {
-                    query = query.replace("[?USER_GROUP_JOIN]", SQlUtil.getQuery("user-group-condition-query").replace("[?USER_GROUP]", projSelDTO.getGroupFilter()));
+                if (projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase(Constant.ALL_DISCOUNT_GROUP)) {
+                    query = query.replace(Constant.USER_GROUP_JOIN, SQlUtil.getQuery(Constant.USER_GROUP_CONDITIONQUERY).replace(USER_GROUP_QUESTION, projSelDTO.getGroupFilter()));
                 } else {
-                    query = query.replace("[?USER_GROUP_JOIN]", StringUtils.EMPTY);
+                    query = query.replace(Constant.USER_GROUP_JOIN, StringUtils.EMPTY);
                 }
-                query = query.replace("[?HIERARCHY_NO_VALUES]", hierarchy);
-                query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
-                query = query.replace("[?PREVIOUS_HIERARCHY_NO]", StringUtils.EMPTY);
+                query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, hierarchy);
+                query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
+                query = query.replace(Constant.PREVIOUS_HIERARCHY_NO_QUESTION, StringUtils.EMPTY);
                 query = query.replace("[?START]", StringUtils.EMPTY + start);
                 query = query.replace("[?OFFSET]", StringUtils.EMPTY + offset);
-                query = query.replace("[?RS_CONTRACT_SID]", getSelectedRSIDForQuery(projSelDTO));
+                query = query.replace(Constant.RS_CONTRACT_SID_QUESTION, getSelectedRSIDForQuery(projSelDTO));
             }
-            query = query.replace("[?FREQUENCY]", projSelDTO.getFrequency().substring(0, 1));
+            query = query.replace(Constant.FREQUENCY_QUESTION, projSelDTO.getFrequency().substring(0, 1));
             List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             return resultList;
         } else {
-            List resultList = projSelDTO.isIsCustomHierarchy() ? commonLogic.getHiearchyNoForCustomViewForExcel(projSelDTO, start, offset,hierarchy) : commonLogic.getHiearchyNoAsListForExcel(projSelDTO, start, offset,hierarchy);
+            List resultList = projSelDTO.isIsCustomHierarchy() ? commonLogic.getHiearchyNoForCustomViewForExcel(projSelDTO, start) : commonLogic.getHiearchyNoAsListForExcel(projSelDTO, start, offset,hierarchy);
             return resultList;
         }
     }
@@ -892,37 +902,37 @@ public class CommercialDPRLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public List getDiscountForAllContractExcel(ProjectionSelectionDTO projSelDTO, boolean isPeriodView,String hierarchy) throws SystemException, PortalException {
+    public List getDiscountForAllContractExcel(ProjectionSelectionDTO projSelDTO, boolean isPeriodView,String hierarchy)  {
         CommonLogic commonLogic = new CommonLogic();
         String query = projSelDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("dpr-custom-hierarchy-discount-excel-query") : SQlUtil.getQuery("dpr-hierarchy-discount-excel-query");
         if (projSelDTO.isIsCustomHierarchy()) {
             if (!isPeriodView) {
-                query = query.replace("[?ORDER_BY]", "LEVEL_NO,DPM.HIERARCHY_NO,PARENT_HIERARCHY_NO,YEAR,PERIOD,RS_NAME,AP_TABLE_INDICATOR");
+                query = query.replace(Constant.ORDER_BY_QUESTION, "LEVEL_NO,DPM.HIERARCHY_NO,PARENT_HIERARCHY_NO,YEAR,PERIOD,RS_NAME,AP_TABLE_INDICATOR");
             } else {
-                query = query.replace("[?ORDER_BY]", "LEVEL_NO,DPM.HIERARCHY_NO,PARENT_HIERARCHY_NO,RS_NAME,YEAR,PERIOD,AP_TABLE_INDICATOR");
+                query = query.replace(Constant.ORDER_BY_QUESTION, "LEVEL_NO,DPM.HIERARCHY_NO,PARENT_HIERARCHY_NO,RS_NAME,YEAR,PERIOD,AP_TABLE_INDICATOR");
             }
             query = query.replace("[?CUST_RELATIONSHIP_BUILDER_SID]", projSelDTO.getCustRelationshipBuilderSid());
             query = query.replace("[?PROD_RELATIONSHIP_BUILDER_SID]", projSelDTO.getProdRelationshipBuilderSid());
             query = query.replace("[?CUSTOM_VIEW_MASTER_SID]", String.valueOf(projSelDTO.getCustomId()));
         } else {
             if (!isPeriodView) {
-                query = query.replace("[?ORDER_BY]", "AD.HIERARCHY_NO,DPM.discount ,DPM.RS_CONTRACT_SID,AD.YEAR,AD.PERIOD,AP_TABLE_INDICATOR");
+                query = query.replace(Constant.ORDER_BY_QUESTION, "AD.HIERARCHY_NO,DPM.discount,AD.YEAR,AD.PERIOD ,DPM.RS_CONTRACT_SID,AP_TABLE_INDICATOR");
             } else {
-                query = query.replace("[?ORDER_BY]", "AD.HIERARCHY_NO,DPM.discount ,DPM.RS_CONTRACT_SID,AD.YEAR,AD.PERIOD,AP_TABLE_INDICATOR");
+                query = query.replace(Constant.ORDER_BY_QUESTION, "AD.HIERARCHY_NO,DPM.discount,AD.YEAR,AD.PERIOD ,DPM.RS_CONTRACT_SID,AP_TABLE_INDICATOR");
             }
-            if(projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase("All Discount Groups")){
-                String userGroupCondition=SQlUtil.getQuery("user-group-condition-query");
+            if(projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase(Constant.ALL_DISCOUNT_GROUP)){
+                String userGroupCondition=SQlUtil.getQuery(Constant.USER_GROUP_CONDITIONQUERY);
                 userGroupCondition=userGroupCondition.replace("AND", "WHERE");
-                userGroupCondition=userGroupCondition.replace("[?USER_GROUP]", projSelDTO.getGroupFilter());
-                query = query.replace("[?USER_GROUP_JOIN]", userGroupCondition); 
+                userGroupCondition=userGroupCondition.replace(USER_GROUP_QUESTION, projSelDTO.getGroupFilter());
+                query = query.replace(Constant.USER_GROUP_JOIN, userGroupCondition); 
             }else{
-               query = query.replace("[?USER_GROUP_JOIN]", StringUtils.EMPTY);  
+               query = query.replace(Constant.USER_GROUP_JOIN, StringUtils.EMPTY);  
             }
-            query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
-            query = query.replace("[?PREVIOUS_HIERARCHY_NO]", StringUtils.EMPTY);
-            query = query.replace("[?HIERARCHY_NO_VALUES]", hierarchy);
+            query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
+            query = query.replace(Constant.PREVIOUS_HIERARCHY_NO_QUESTION, StringUtils.EMPTY);
+            query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, hierarchy);
         }
-        query = query.replace("[?FREQUENCY]", projSelDTO.getFrequency().substring(0, 1));
+        query = query.replace(Constant.FREQUENCY_QUESTION, projSelDTO.getFrequency().substring(0, 1));
         query = query.replace("[?RS_MODEL_SID]", getSelectedRSIDForQuery(projSelDTO));
         List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         return resultList;

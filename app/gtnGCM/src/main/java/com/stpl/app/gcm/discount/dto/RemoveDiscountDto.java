@@ -94,7 +94,7 @@ public class RemoveDiscountDto {
     private String rebatePlanLevel = StringUtils.EMPTY;
     private Integer sessionId;
     private Integer userId;
-    private boolean reset;
+   private boolean search;
 
     public String getAliastype() {
         return aliastype;
@@ -688,12 +688,12 @@ public class RemoveDiscountDto {
         this.userId = userId;
     }
 
-    public boolean isReset() {
-        return reset;
+     public boolean isSearch() {
+        return search;
     }
 
-    public void setReset(boolean reset) {
-        this.reset = reset;
+    public void setSearch(boolean search) {
+        this.search = search;
     }
     
 

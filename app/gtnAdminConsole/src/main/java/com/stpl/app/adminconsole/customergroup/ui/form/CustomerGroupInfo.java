@@ -5,6 +5,7 @@
 package com.stpl.app.adminconsole.customergroup.ui.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -624,8 +625,8 @@ public class CustomerGroupInfo extends CustomComponent implements View {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = sessionDTO.getUserId();
         final Map<String, AppPermission> fieldItemHM = stplSecurity
-                .getFieldOrColumnPermission(userId, UISecurityUtil.CUSTOMER_GROUP_MASTER + "," + "Functional Screen", false);
-        final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CUSTOMER_GROUP_MASTER + "," + "Functional Screen");
+                .getFieldOrColumnPermission(userId, UISecurityUtil.CUSTOMER_GROUP_MASTER + "," + StringConstantUtils.FUNCTIONAL_SCREEN, false);
+        final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CUSTOMER_GROUP_MASTER + "," + StringConstantUtils.FUNCTIONAL_SCREEN);
         getResponsiveFirstTab(fieldItemHM);
         configureFields();
         getButtonPermission(functionCompanyHM);
@@ -637,7 +638,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
     private ErrorfulFieldGroup getCustomerGroupBinder() {
         LOGGER.debug("Entering getCustomerGroupBinder method");
         customerGroupBinder.bindMemberFields(this);
-        customerGroupBinder.setItemDataSource(new BeanItem<CustomerGroupDTO>(customerGroupDTO));
+        customerGroupBinder.setItemDataSource(new BeanItem<>(customerGroupDTO));
         customerGroupBinder.setBuffered(true);
         customerGroupBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getCustomerGroupBinder method RETURNS customerGroupBinder ");
@@ -653,7 +654,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
 
         LOGGER.debug("getItemBinder method Started ");
         customerBinder.bindMemberFields(this);
-        customerBinder.setItemDataSource(new BeanItem<CustomerDetailsDTO>(customerDetailsDTO));
+        customerBinder.setItemDataSource(new BeanItem<>(customerDetailsDTO));
         customerBinder.setBuffered(true);
         customerBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getItemBinder method RETURNS customerBinder ");
@@ -693,11 +694,11 @@ public class CustomerGroupInfo extends CustomComponent implements View {
             final StplSecurity stplSecurity = new StplSecurity();
 
             final String userId = sessionDTO.getUserId();
-            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CUSTOMER_GROUP_MASTER + "," + "Functional List view", false);
+            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CUSTOMER_GROUP_MASTER + "," + StringConstantUtils.FUNCTIONAL_LIST_VIEW, false);
             String mode = sessionDTO.getMode();
 
-            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.CUSTOMER_GROUP_MASTER, "Functional List view");
-            Object[] objColumn = CommonUIUtils.CUSTOMER_RESULTS_COLUMNS;
+            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.CUSTOMER_GROUP_MASTER, StringConstantUtils.FUNCTIONAL_LIST_VIEW);
+            Object[] objColumn = new CommonUIUtils().customerResultsColumns;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
 
             availableResults.setFilterBarVisible(true);
@@ -716,13 +717,13 @@ public class CustomerGroupInfo extends CustomComponent implements View {
             availableResults.setWidth(ConstantsUtils.WIDTH);
             availableResults.setImmediate(true);
             availableResults.setSelectable(true);
-            availableResults.setConverter("tradeClassStartDate", new DateToStringConverter());
-            availableResults.setConverter("tradeClassEndDate", new DateToStringConverter());
-            availableResults.setConverter("parentStartDate", new DateToStringConverter());
-            availableResults.setConverter("parentEndDate", new DateToStringConverter());
-            availableResults.setConverter("customerStartDate", new DateToStringConverter());
-            availableResults.setConverter("customerEndDate", new DateToStringConverter());
-            availableResults.setConverter("priorParentStartDate", new DateToStringConverter());
+            availableResults.setConverter(StringConstantUtils.TRADE_CLASS_START_DATE, new DateToStringConverter());
+            availableResults.setConverter(StringConstantUtils.TRADE_CLASS_END_DATE, new DateToStringConverter());
+            availableResults.setConverter(StringConstantUtils.PARENT_START_DATE, new DateToStringConverter());
+            availableResults.setConverter(StringConstantUtils.PARENT_END_DATE, new DateToStringConverter());
+            availableResults.setConverter(StringConstantUtils.CUSTOMER_START_DATE, new DateToStringConverter());
+            availableResults.setConverter(StringConstantUtils.CUSTOMER_END_DATE, new DateToStringConverter());
+            availableResults.setConverter(StringConstantUtils.PRIOR_PARENT_START_DATE, new DateToStringConverter());
             for (Object object : availableResults.getVisibleColumns()) {
                 if (object.toString().contains("Date")) {
                     availableResults.setColumnAlignment(object, ExtCustomTable.Align.CENTER);
@@ -733,7 +734,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                  * Interface for listening to errors in the application.
                  */
                 public void error(final com.vaadin.server.ErrorEvent event) {
-
+                    return;
                 }
             });
 
@@ -745,7 +746,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                 }
             });
 
-            final Object[] obj = new Object[]{"tradeClassStartDate", "tradeClassEndDate", "customerEndDate", "parentStartDate", "parentEndDate", "customerStartDate", "priorParentStartDate"};
+            final Object[] obj = new Object[]{StringConstantUtils.TRADE_CLASS_START_DATE, StringConstantUtils.TRADE_CLASS_END_DATE, StringConstantUtils.CUSTOMER_END_DATE, StringConstantUtils.PARENT_START_DATE, StringConstantUtils.PARENT_END_DATE, StringConstantUtils.CUSTOMER_START_DATE, StringConstantUtils.PRIOR_PARENT_START_DATE};
             availableResults = CommonUtil.getFormattedTable(availableResults, obj);
             LOGGER.debug("addItemAvailableResults mehod RETURNS availableResults - ExtFilterTable ");
 
@@ -785,11 +786,11 @@ public class CustomerGroupInfo extends CustomComponent implements View {
             final StplSecurity stplSecurity = new StplSecurity();
 
             final String userId = sessionDTO.getUserId();
-            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CUSTOMER_GROUP_MASTER + "," + "Functional List view", false);
+            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CUSTOMER_GROUP_MASTER + "," + StringConstantUtils.FUNCTIONAL_LIST_VIEW, false);
             String mode = sessionDTO.getMode();
 
-            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.CUSTOMER_GROUP_MASTER, "Functional List view");
-            Object[] objColumn = CommonUIUtils.CUSTOMER_RESULTS_COLUMNS;
+            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.CUSTOMER_GROUP_MASTER, StringConstantUtils.FUNCTIONAL_LIST_VIEW);
+            Object[] objColumn = new CommonUIUtils().customerResultsColumns;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
 
             if (tableResultCustom.getObjResult().length > 0) {
@@ -804,13 +805,13 @@ public class CustomerGroupInfo extends CustomComponent implements View {
             selectedResults.setWidth(ConstantsUtils.WIDTH);
             selectedResults.setImmediate(true);
             selectedResults.setSelectable(true);
-            selectedResults.setConverter("tradeClassStartDate", new DateToStringConverter());
-            selectedResults.setConverter("tradeClassEndDate", new DateToStringConverter());
-            selectedResults.setConverter("parentStartDate", new DateToStringConverter());
-            selectedResults.setConverter("parentEndDate", new DateToStringConverter());
-            selectedResults.setConverter("customerStartDate", new DateToStringConverter());
-            selectedResults.setConverter("customerEndDate", new DateToStringConverter());
-            selectedResults.setConverter("priorParentStartDate", new DateToStringConverter());
+            selectedResults.setConverter(StringConstantUtils.TRADE_CLASS_START_DATE, new DateToStringConverter());
+            selectedResults.setConverter(StringConstantUtils.TRADE_CLASS_END_DATE, new DateToStringConverter());
+            selectedResults.setConverter(StringConstantUtils.PARENT_START_DATE, new DateToStringConverter());
+            selectedResults.setConverter(StringConstantUtils.PARENT_END_DATE, new DateToStringConverter());
+            selectedResults.setConverter(StringConstantUtils.CUSTOMER_START_DATE, new DateToStringConverter());
+            selectedResults.setConverter(StringConstantUtils.CUSTOMER_END_DATE, new DateToStringConverter());
+            selectedResults.setConverter(StringConstantUtils.PRIOR_PARENT_START_DATE, new DateToStringConverter());
             for (Object object : selectedResults.getVisibleColumns()) {
                 if (object.toString().contains("Date")) {
                     selectedResults.setColumnAlignment(object, ExtCustomTable.Align.CENTER);
@@ -818,7 +819,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
             }
             selectedResults.setErrorHandler(new ErrorHandler() {
                 public void error(final com.vaadin.server.ErrorEvent event) {
-
+                    return;
                 }
             });
 
@@ -830,15 +831,15 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                  */
                 public void itemClick(final ItemClickEvent event) {
                     if (event.isDoubleClick()) {
-                        removeItemsButtonClick(event);
+                        removeItemsButtonClick();
                     }
                 }
             });
-            final Object[] obj = new Object[]{"tradeClassStartDate", "tradeClassEndDate", "customerEndDate", "parentStartDate", "parentEndDate", "customerStartDate", "priorParentStartDate"};
+            final Object[] obj = new Object[]{StringConstantUtils.TRADE_CLASS_START_DATE, StringConstantUtils.TRADE_CLASS_END_DATE, StringConstantUtils.CUSTOMER_END_DATE, StringConstantUtils.PARENT_START_DATE, StringConstantUtils.PARENT_END_DATE, StringConstantUtils.CUSTOMER_START_DATE, StringConstantUtils.PRIOR_PARENT_START_DATE};
             selectedResults = CommonUtil.getFormattedTable(selectedResults, obj);
             if (ConstantsUtils.LOWERCASE_EDIT.equalsIgnoreCase(sessionDTO.getLogic()) || ConstantsUtils.VIEW.equalsIgnoreCase(sessionDTO.getLogic())
                     || ConstantsUtils.LOWERCASE_COPY.equalsIgnoreCase(sessionDTO.getLogic())) {
-                loadSelectedTableOnEdit(sessionDTO.getLogic());
+                loadSelectedTableOnEdit();
             }
             LOGGER.debug("addItemSelectedResults mehod RETURNS selectedResults ");
 
@@ -874,7 +875,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void configureFields() throws SystemException, PortalException {
+    private void configureFields() throws SystemException {
 
         LOGGER.debug("configureFields mehod Initiated ");
         customerGroupName.focus();
@@ -891,6 +892,10 @@ public class CustomerGroupInfo extends CustomComponent implements View {
 
         customerGroupDesc.setRequired(true);
         customerGroupDesc.setRequiredError("Please enter Customer Group Description");
+        if (sessionDTO.getMode() != null && sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
+            savetBtn.setCaption("UPDATE");
+        }
+
 
         LOGGER.debug("In configureFields loadCustomerStatus started");
         customerStatusDdlb = CommonUtil.getComboBox(customerStatusDdlb, "STATUS");
@@ -959,7 +964,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                 stateOnChangeEvent(event.getProperty().getValue());
             }
         });
-
+        
         excel.addClickListener(new ClickListener() {
             /**
              * Adds the button click listener.
@@ -1096,7 +1101,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
     int count;
     static String searchCriteria = StringUtils.EMPTY;
 
-    protected void searchButtonClickLogic(final Button.ClickEvent event) throws SystemException, PortalException, FieldGroup.CommitException{
+    protected void searchButtonClickLogic() throws FieldGroup.CommitException{
         LOGGER.debug("Entering searchButtonClickLogic");
         count++;
         customerBinder.commit();
@@ -1178,7 +1183,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
      *
      * @param event the event
      */
-    protected void removeItemsButtonClick(final ItemClickEvent event) {
+    protected void removeItemsButtonClick() {
         LOGGER.debug("Entering removeItemsButtonClick method ");
         removeCustomers();
         customerDetailsDTO.setMaster_Sid_List(masterSidsList);
@@ -1246,14 +1251,14 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                     }
                     saveFlag = true;
                 } else if ("NOEXIST".equals(msg)) {
-                    MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Customer Group No already exists, Please enter different Customer Group No  ", ButtonId.OK);
-                    saveFlag = false;
-                    return saveFlag;
+                        MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Customer Group No already exists, Please enter different Customer Group No  ", ButtonId.OK);
+                        saveFlag = false;
+                        return saveFlag;
                 } else if ("NAMEEXIST".equals(msg)) {
-                    MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Customer Group Name already exists, Please enter different Customer Group Name", ButtonId.OK);
-                    saveFlag = false;
-                    return saveFlag;
-                }
+                        MessageBox.showPlain(Icon.ERROR, ConstantsUtils.ERROR, "Customer Group Name already exists, Please enter different Customer Group Name", ButtonId.OK);
+                        saveFlag = false;
+                        return saveFlag;
+                    }                    
 
             }
         } catch (FieldGroup.CommitException e) {
@@ -1281,8 +1286,8 @@ public class CustomerGroupInfo extends CustomComponent implements View {
             LOGGER.debug("Entering saveButtonClick method");
 
             final List<CustomerDetailsDTO> selectedCompanies = selectedResultsBean.getItemIds();
-            final List<String> selectedList = new ArrayList<String>();
-            List<String> alreadyList = new ArrayList<String>();
+            final List<String> selectedList = new ArrayList<>();
+            List<String> alreadyList = new ArrayList<>();
             for (CustomerDetailsDTO selectedCompany : selectedCompanies) {
 
                 selectedList.add(selectedCompany.getCustomerId());
@@ -1296,7 +1301,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
             String pageView = sessionDTO.getLogic();
             LOGGER.debug("pageView====" + pageView + "-----");
             if (pageView.equals("copy")) {
-                alreadyList = new ArrayList<String>();
+                alreadyList = new ArrayList<>();
                 sessionDTO.setSystemId(0);
             }
             if (!selectedList.equals(alreadyList)) {
@@ -1312,9 +1317,9 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                         LOGGER.debug("In configureFields editButtonClickLogic navigateTo CustomerGroupView");
                         getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
                     }
-                    final Notification notif = new Notification(customerGroupName.getValue() + " has been successfully saved", Notification.Type.HUMANIZED_MESSAGE);
+                    final Notification notif = new Notification(customerGroupName.getValue() + StringConstantUtils.HAS_BEEN_SUCCESSFULLY_SAVED, Notification.Type.HUMANIZED_MESSAGE);
                     notif.setPosition(Position.BOTTOM_CENTER);
-                    notif.setStyleName("mystyle");
+                    notif.setStyleName(StringConstantUtils.MYSTYLE);
                     notif.setDelayMsec(NumericConstants.THREE_THOUSAND);
                     notif.show(Page.getCurrent());
                 } else {
@@ -1322,10 +1327,10 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                 }
 
             } else {
-                final Notification notif = new Notification(customerGroupName.getValue() + " has been successfully saved", Notification.Type.HUMANIZED_MESSAGE);
+                final Notification notif = new Notification(customerGroupName.getValue() + StringConstantUtils.HAS_BEEN_SUCCESSFULLY_SAVED, Notification.Type.HUMANIZED_MESSAGE);
 
                 notif.setPosition(Position.BOTTOM_CENTER);
-                notif.setStyleName("mystyle");
+                notif.setStyleName(StringConstantUtils.MYSTYLE);
                 notif.setDelayMsec(NumericConstants.THREE_THOUSAND);
                 notif.show(Page.getCurrent());
             }
@@ -1350,7 +1355,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
 
                 selectedResultsBean.removeAllItems();
                 if (ConstantsUtils.LOWERCASE_EDIT.equalsIgnoreCase(sessionDTO.getLogic())) {
-                   loadSelectedTableOnEdit(sessionDTO.getLogic());
+                   loadSelectedTableOnEdit();
                 } else {
                     selectedResults.setFilterDecorator(new ExtDemoFilterDecorator());
                 }
@@ -1424,7 +1429,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
     /**
      * Entry.
@@ -1433,9 +1438,9 @@ public class CustomerGroupInfo extends CustomComponent implements View {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    List<CustomerDetailsDTO> companyDetails = new ArrayList<CustomerDetailsDTO>();
+    List<CustomerDetailsDTO> companyDetails = new ArrayList<>();
 
-    public void entry(final Boolean flag) throws SystemException, PortalException, ParseException {
+    public void entry(final Boolean flag) throws SystemException {
         LOGGER.debug("entry method Started");
         LOGGER.debug(ConstantsUtils.ENTRY_STARTED);
         final int customerGroupSystemId = sessionDTO.getSystemId();
@@ -1512,7 +1517,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
      */
     public void addResponsiveSearchTableCollapse(final ExtFilterTable table) {
 
-        final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+        final Map<Integer, Boolean> reloadMap = new HashMap<>();
         reloadMap.put(ConstantsUtils.PX_1516, true);
         reloadMap.put(NumericConstants.NINE_SEVEN_EIGHT, true);
         reloadMap.put(NumericConstants.SIX_HUNDRED, true);
@@ -1651,7 +1656,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumns600Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1667,7 +1672,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumns480Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1683,7 +1688,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumns978Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1701,7 +1706,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumnsDefault1515Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1719,7 +1724,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
     private static String[] getCollapsibleColumnsDefault(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         for (int i = 0; i < NumericConstants.TEN; i++) {
             list.remove(propertyIds[i]);
@@ -1808,7 +1813,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1866,7 +1871,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
         LOGGER.debug("Entering getFirstTab1");
         try {
             String mode = sessionDTO.getMode();
-            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.CUSTOMER_GROUP_MASTER, "Functional Screen");
+            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.CUSTOMER_GROUP_MASTER, StringConstantUtils.FUNCTIONAL_SCREEN);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
             commonSecurityLogic.removeComponentOnPermission(resultList, isCssLayout, fieldItemHM, mode);
         } catch (Exception ex) {
@@ -1941,16 +1946,9 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                         MessageBox.showPlain(Icon.ERROR, "No Search Criteria", "No search criteria were found. Please enter search criteria and try again", ButtonId.OK);
 
                     } else {
-                        searchButtonClickLogic(event);
+                        searchButtonClickLogic();
                     }
 
-                } catch (SystemException e) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                    LOGGER.error(e);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                } catch (PortalException e) {
-                    LOGGER.error(e);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
                 } catch (Exception e) {
                     LOGGER.error(e);
                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
@@ -2020,7 +2018,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                     }
                     availableResults.setValue(null);
                 } else {
-                    MessageBox.showPlain(Icon.ERROR, ConstantsUtils.NO_RECORDS_SELECTED, "No items were selected in the Results list view.  Please select at least one Customer and try again.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.ERROR, ConstantsUtils.NO_RECORDS_SELECTED, "No Customers were selected in the Results list view.  Please select at least one Customer and try again.", ButtonId.OK);
                 }
                 LOGGER.debug("In configureFields addItemsButtonClick Ended");
             }
@@ -2194,7 +2192,7 @@ public class CustomerGroupInfo extends CustomComponent implements View {
             sessionDTO.setSystemId(0);
         }
         if (!idList.isEmpty()) {
-            if (page.equalsIgnoreCase(ConstantsUtils.ADD)) {
+            if (page.equalsIgnoreCase(ConstantsUtils.ADD) || page.equalsIgnoreCase(ConstantsUtils.COPY)) {
                 sessionDTO.setSystemId(idList.get(0));
                 sessionDTO.setFromViewPage(ConstantsUtils.OPTION_NO);
                 sessionDTO.setVersionNo(idList.get(1));
@@ -2203,9 +2201,9 @@ public class CustomerGroupInfo extends CustomComponent implements View {
                 LOGGER.debug("In configureFields editButtonClickLogic navigateTo CustomerGroupView");
                 getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
             }
-            final Notification notif = new Notification(customerGroupName.getValue() + " has been successfully saved", Notification.Type.HUMANIZED_MESSAGE);
+            final Notification notif = new Notification(customerGroupName.getValue() + StringConstantUtils.HAS_BEEN_SUCCESSFULLY_SAVED, Notification.Type.HUMANIZED_MESSAGE);
             notif.setPosition(Position.BOTTOM_CENTER);
-            notif.setStyleName("mystyle");
+            notif.setStyleName(StringConstantUtils.MYSTYLE);
             notif.setDelayMsec(NumericConstants.THREE_THOUSAND);
             notif.show(Page.getCurrent());
         } else {
@@ -2216,9 +2214,9 @@ public class CustomerGroupInfo extends CustomComponent implements View {
     /**
      * This method is to load not in ADD mode
      */
-    private void loadSelectedTableOnEdit(String mode) {
+    private void loadSelectedTableOnEdit() {
         masterSidsList.clear();
-        masterSidsList.addAll(logic.getSelectedCompanyMasterSids(sessionDTO.getSystemId(), mode));
+        masterSidsList.addAll(logic.getSelectedCompanyMasterSids(sessionDTO.getSystemId()));
         customerDetailsDTO.setMaster_Sid_List(masterSidsList);
         customerDetailsDTO.setEditMode(Boolean.TRUE);
         customerDetailsDTO.setCompanySystemId(sessionDTO.getSystemId());
@@ -2240,19 +2238,19 @@ public class CustomerGroupInfo extends CustomComponent implements View {
         excelAvailableTable.setContainerDataSource(availableExcelResultsBean);
         excelAvailableTable.setVisibleColumns(availableResults.getVisibleColumns());
         excelAvailableTable.setColumnHeaders(availableResults.getColumnHeaders());
-        excelAvailableTable.setConverter("tradeClassStartDate", new DateToStringConverter());
-        excelAvailableTable.setConverter("tradeClassEndDate", new DateToStringConverter());
-        excelAvailableTable.setConverter("parentStartDate", new DateToStringConverter());
-        excelAvailableTable.setConverter("parentEndDate", new DateToStringConverter());
-        excelAvailableTable.setConverter("customerStartDate", new DateToStringConverter());
-        excelAvailableTable.setConverter("customerEndDate", new DateToStringConverter());
-        excelAvailableTable.setConverter("priorParentStartDate", new DateToStringConverter());
+        excelAvailableTable.setConverter(StringConstantUtils.TRADE_CLASS_START_DATE, new DateToStringConverter());
+        excelAvailableTable.setConverter(StringConstantUtils.TRADE_CLASS_END_DATE, new DateToStringConverter());
+        excelAvailableTable.setConverter(StringConstantUtils.PARENT_START_DATE, new DateToStringConverter());
+        excelAvailableTable.setConverter(StringConstantUtils.PARENT_END_DATE, new DateToStringConverter());
+        excelAvailableTable.setConverter(StringConstantUtils.CUSTOMER_START_DATE, new DateToStringConverter());
+        excelAvailableTable.setConverter(StringConstantUtils.CUSTOMER_END_DATE, new DateToStringConverter());
+        excelAvailableTable.setConverter(StringConstantUtils.PRIOR_PARENT_START_DATE, new DateToStringConverter());
         for (Object object : excelAvailableTable.getVisibleColumns()) {
             if (object.toString().contains("Date")) {
                 excelAvailableTable.setColumnAlignment(object, ExtCustomTable.Align.CENTER);
             }
         }
-        final Object[] obj = new Object[]{"tradeClassStartDate", "tradeClassEndDate", "customerEndDate", "parentStartDate", "parentEndDate", "customerStartDate", "priorParentStartDate"};
+        final Object[] obj = new Object[]{StringConstantUtils.TRADE_CLASS_START_DATE, StringConstantUtils.TRADE_CLASS_END_DATE, StringConstantUtils.CUSTOMER_END_DATE, StringConstantUtils.PARENT_START_DATE, StringConstantUtils.PARENT_END_DATE, StringConstantUtils.CUSTOMER_START_DATE, StringConstantUtils.PRIOR_PARENT_START_DATE};
         excelAvailableTable = CommonUtil.getFormattedTable(excelAvailableTable, obj);
         excelAvailableTable.markAsDirtyRecursive();
 
@@ -2297,19 +2295,19 @@ public class CustomerGroupInfo extends CustomComponent implements View {
         excelSelectedTable.setColumnHeaders(selectedResults.getColumnHeaders());
         excelSelectedTable.addStyleName("table-header-normal");
         excelSelectedTable.addStyleName(ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE);
-        excelSelectedTable.setConverter("tradeClassStartDate", new DateToStringConverter());
-        excelSelectedTable.setConverter("tradeClassEndDate", new DateToStringConverter());
-        excelSelectedTable.setConverter("parentStartDate", new DateToStringConverter());
-        excelSelectedTable.setConverter("parentEndDate", new DateToStringConverter());
-        excelSelectedTable.setConverter("customerStartDate", new DateToStringConverter());
-        excelSelectedTable.setConverter("customerEndDate", new DateToStringConverter());
-        excelSelectedTable.setConverter("priorParentStartDate", new DateToStringConverter());
+        excelSelectedTable.setConverter(StringConstantUtils.TRADE_CLASS_START_DATE, new DateToStringConverter());
+        excelSelectedTable.setConverter(StringConstantUtils.TRADE_CLASS_END_DATE, new DateToStringConverter());
+        excelSelectedTable.setConverter(StringConstantUtils.PARENT_START_DATE, new DateToStringConverter());
+        excelSelectedTable.setConverter(StringConstantUtils.PARENT_END_DATE, new DateToStringConverter());
+        excelSelectedTable.setConverter(StringConstantUtils.CUSTOMER_START_DATE, new DateToStringConverter());
+        excelSelectedTable.setConverter(StringConstantUtils.CUSTOMER_END_DATE, new DateToStringConverter());
+        excelSelectedTable.setConverter(StringConstantUtils.PRIOR_PARENT_START_DATE, new DateToStringConverter());
         for (Object object : excelSelectedTable.getVisibleColumns()) {
             if (object.toString().contains("Date")) {
                 excelSelectedTable.setColumnAlignment(object, ExtCustomTable.Align.CENTER);
             }
         }
-        final Object[] obj = new Object[]{"tradeClassStartDate", "tradeClassEndDate", "customerEndDate", "parentStartDate", "parentEndDate", "customerStartDate", "priorParentStartDate"};
+        final Object[] obj = new Object[]{StringConstantUtils.TRADE_CLASS_START_DATE, StringConstantUtils.TRADE_CLASS_END_DATE, StringConstantUtils.CUSTOMER_END_DATE, StringConstantUtils.PARENT_START_DATE, StringConstantUtils.PARENT_END_DATE, StringConstantUtils.CUSTOMER_START_DATE, StringConstantUtils.PRIOR_PARENT_START_DATE};
         excelSelectedTable = CommonUtil.getFormattedTable(excelSelectedTable, obj);
         excelSelectedTable.markAsDirtyRecursive();
 

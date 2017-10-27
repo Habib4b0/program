@@ -37,7 +37,7 @@ import com.vaadin.ui.ExtCustomTable;
 
 /**
  *
- * @author Sathya
+ * @author 
  */
 public class PrivatePublicLookUp extends Window {
 
@@ -94,7 +94,7 @@ public class PrivatePublicLookUp extends Window {
             setCaption(ARMUtils.PUBLIC_VIEW);
         }
         setWidth(NumericConstants.FLOAT_SEVENTY, Sizeable.Unit.PERCENTAGE);
-        setHeight(NumericConstants.FLOAT_SIXTY, Sizeable.Unit.PERCENTAGE);        
+        setHeight(NumericConstants.FLOAT_SIXTY, Sizeable.Unit.PERCENTAGE);
     }
 
     @UiHandler("searchBtn")
@@ -117,6 +117,7 @@ public class PrivatePublicLookUp extends Window {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase("yes")) {
                     LOGGER.debug("Entering Reset operation");
@@ -153,16 +154,16 @@ public class PrivatePublicLookUp extends Window {
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableLogic.setContainerDataSource(resultsContainer);
         if (screenName.equals(ARMConstants.getAdjustmentSummary())) {
-            resultsTable.setVisibleColumns(ARMUtils.PRIVATE_VIEW_LOOKUP_COLUMNS_ADJ_SUMM);
-            resultsTable.setColumnHeaders(ARMUtils.PRIVATE_VIEW_LOOKUP_HEADERS_ADJ_SUMM);
-        for (Object propertyId : resultsTable.getVisibleColumns()) {
-            if (propertyId.equals("createdDate") || propertyId.equals("modifiedDate")){
-            resultsTable.setColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
-        }
-        }
+            resultsTable.setVisibleColumns(ARMUtils.getPrivateViewLookupColumnsAdjSumm());
+            resultsTable.setColumnHeaders(ARMUtils.getPrivateViewLookupHeadersAdjSumm());
+            for (Object propertyId : resultsTable.getVisibleColumns()) {
+                if (propertyId.equals("createdDate") || propertyId.equals("modifiedDate")) {
+                    resultsTable.setColumnAlignment(propertyId, ExtCustomTable.Align.CENTER);
+                }
+            }
         } else {
-            resultsTable.setVisibleColumns(ARMUtils.PRIVATE_VIEW_LOOKUP_COLUMNS);
-            resultsTable.setColumnHeaders(ARMUtils.PRIVATE_VIEW_LOOKUP_HEADERS);
+            resultsTable.setVisibleColumns(ARMUtils.getPrivateViewLookupColumns());
+            resultsTable.setColumnHeaders(ARMUtils.getPrivateViewLookupHeaders());
         }
         resultsTable.setSelectable(true);
         resultsTable.addStyleName(ARMUtils.FILTER_TABLE);
@@ -177,7 +178,7 @@ public class PrivatePublicLookUp extends Window {
         resultsTable.setConverter("fromPeriod", new DateToStringConverter());
         resultsTable.setConverter("toPeriod", new DateToStringConverter());
         selectBtn.setEnabled(false);
-        
+
         resultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
             @Override
@@ -221,8 +222,8 @@ public class PrivatePublicLookUp extends Window {
     public void setIndicator(String indicator) {
         this.indicator = indicator;
     }
-    
-      void loadResultsTable() {
+
+    void loadResultsTable() {
         LOGGER.debug("Entering Load Results Table");
         tableLogic.configureSearchData(true, viewNameEpl.getValue(), indicator, screenName);
         resultsTable.addStyleName(ARMUtils.FILTER_TABLE);

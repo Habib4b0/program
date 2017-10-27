@@ -15,6 +15,7 @@ import com.stpl.app.contract.ui.ErrorfulFieldGroup;
 import com.stpl.app.contract.util.QueryUtil;
 import com.stpl.app.contract.util.ResponsiveUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
+import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItem;
@@ -97,7 +98,7 @@ public class NetSalesFormulaLookup extends Window{
         init();
     }
     
-    public NetSalesFormulaLookup(boolean validatePPA, CustomTextField netSalesNoField) throws SystemException {
+    public NetSalesFormulaLookup(boolean validatePPA, CustomTextField netSalesNoField)  {
         this.validatePPA = validatePPA;
         this.netSalesNoField = netSalesNoField;
         init();
@@ -106,7 +107,7 @@ public class NetSalesFormulaLookup extends Window{
     /**
      *  Configures the Window
      */
-    private void init() throws SystemException {
+    private void init() {
         this.setModal(true);
         this.setClosable(true);
         this.center();
@@ -127,7 +128,7 @@ public class NetSalesFormulaLookup extends Window{
         binder.setBuffered(true);
     }
     
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         commonUtil.loadComboBox(nepFormulaType, UIUtils.NS_FORMULA_TYPE, false);
         createdDate.setImmediate(Boolean.TRUE);
         modifiedDate.setImmediate(Boolean.TRUE);
@@ -141,8 +142,8 @@ public class NetSalesFormulaLookup extends Window{
         tableLogic.sinkItemPerPageWithPageLength(false);    
         resultsTable.setImmediate(true);
         resultsTable.setSizeFull();
-        resultsTable.setVisibleColumns(ContractUtils.NEP_FORMULA_LOOKUP);
-        resultsTable.setColumnHeaders(ContractUtils.NEP_FORMULA_LOOKUP_HEADER);
+        resultsTable.setVisibleColumns(ContractUtils.getInstance().nepFormulaLookup);
+        resultsTable.setColumnHeaders(ContractUtils.getInstance().nepFormulaLookupHeader);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.setFilterGenerator(new NsfFilterGenerator());
@@ -198,7 +199,7 @@ public class NetSalesFormulaLookup extends Window{
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof NepFormulaLookUpDTO) {
-            targetItem = new BeanItem<NepFormulaLookUpDTO>(
+            targetItem = new BeanItem<>(
                     (NepFormulaLookUpDTO) obj);
         }
         return (NepFormulaLookUpDTO) targetItem.getBean();
@@ -217,6 +218,11 @@ public class NetSalesFormulaLookup extends Window{
             resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             resultsTable.setFilterGenerator(new NsfFilterGenerator());
             resultsTable.addStyleName("filterbar");
+            if (resultsTable.size() > 0) {
+                CommonUIUtils.successNotification("Search Completed");
+            } else {
+                AbstractNotificationUtils.getWarningNotification("No Records Found", "There are no values that match the entered search criteria");
+            }
         } catch (Exception ex) {
             tableLogic.clearAll();
             tableLogic.getFilters().clear();
@@ -240,11 +246,9 @@ public class NetSalesFormulaLookup extends Window{
                         "Only formulas that have a Contract Selection of 'Existing Contract' \n"
                         + "and a Formula Type of 'Contract Deduction' may be used. \n"
                         + "Please select another formula and try again.");
-                
-            }else{
-            netSalesNoField.setReadOnly(false);
+                isSelected = false;
+            } else {
             netSalesNoField.setValue(psNepFormulaDTO.getNepFormulaNo());
-            netSalesNoField.setReadOnly(true);
             setNepFormulaDTO(itemId);
             isSelected = true;
             close();
@@ -267,6 +271,7 @@ public class NetSalesFormulaLookup extends Window{
     public void resetButtonLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
                     public void noMethod() {
+                        return;
                     }
 
                     @Override

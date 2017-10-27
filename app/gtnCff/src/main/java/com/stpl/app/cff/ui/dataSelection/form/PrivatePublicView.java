@@ -87,9 +87,9 @@ public class PrivatePublicView extends AbstractViewLookup {
         LOGGER.debug("Entering PrivatePublicView");
         this.indicator = indicator;
         this.screenName = screenName;
-        addStyleName(Constants.bootstrap_ui);
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP_UI);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         initializeComponents();
         buildLookup();
         LOGGER.debug("End of PrivatePublicView");
@@ -106,7 +106,7 @@ public class PrivatePublicView extends AbstractViewLookup {
         btnSelect = new Button(BTN_SELECT.getConstant());
         btnClose = new Button(BTN_CLOSE.getConstant());
         results = new ExtFilterTable();
-        viewContainer = new BeanItemContainer<ViewDTO>(ViewDTO.class);
+        viewContainer = new BeanItemContainer<>(ViewDTO.class);
         LOGGER.debug("End of initializeComponents");
     }
 
@@ -129,11 +129,11 @@ public class PrivatePublicView extends AbstractViewLookup {
         //Configure the table
         results.setContainerDataSource(viewContainer);
         if (screenName.equals(ConstantsUtils.RETURNS)) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLUMNS_RETURNS);
-            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADERS_RETURNS);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumnsReturns);
+            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeadersReturns);
         } else {
-            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLUMNS);
-            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADERS);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumns);
+            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeaders);
         }
         results.setSortEnabled(true);
         results.setSelectable(true);
@@ -152,6 +152,7 @@ public class PrivatePublicView extends AbstractViewLookup {
 
                     @Override
                     public void noMethod() {
+                        return;
                     }
                 };
                 notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");
@@ -167,8 +168,8 @@ public class PrivatePublicView extends AbstractViewLookup {
                     ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT,
                     ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.CENTER, ExtCustomTable.Align.CENTER, ExtCustomTable.Align.LEFT);
         } else {
-            results.setColumnAlignments(ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.CENTER, ExtCustomTable.Align.CENTER,
-                    ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT,
+            results.setColumnAlignments(ExtCustomTable.Align.LEFT,ExtCustomTable.Align.LEFT,ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.CENTER, ExtCustomTable.Align.CENTER,
+                    ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT,
                     ExtCustomTable.Align.LEFT, ExtCustomTable.Align.LEFT, ExtCustomTable.Align.CENTER, ExtCustomTable.Align.CENTER, ExtCustomTable.Align.LEFT);
         }
         LOGGER.debug("End of configureField");

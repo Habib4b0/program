@@ -36,7 +36,7 @@ public class TempViewTableLogic extends PageTableLogic {
         int count = 0;
         try {
             if (isFirstLoad) {
-                List list = ifpLogic.getLazyItemPricingDeatils(0,0,this.getFilters(),true,getRecord(),false, Boolean.FALSE);
+                List list = ifpLogic.getLazyItemPricingDeatils(0,0,this.getFilters(),true,getRecord(),false, Boolean.FALSE,null);
                     count = Integer.valueOf(String.valueOf(list.get(0)));
             }
 
@@ -52,7 +52,7 @@ public class TempViewTableLogic extends PageTableLogic {
         List<Object[]> returnList = new ArrayList();
         if (isFirstLoad) {
             try {
-                returnList =  ifpLogic.getLazyItemPricingDeatils(start, offset,this.getFilters(),false, getRecord(),false, Boolean.FALSE);
+                returnList =  ifpLogic.getLazyItemPricingDeatils(start, offset,this.getFilters(),false, getRecord(),false, Boolean.FALSE,this.getSortByColumns());
                 return ifpLogic.getCustomizedPricingDTO(returnList,false,getRecord());
             } catch (Exception ex) {
                 LOGGER.error(ex);

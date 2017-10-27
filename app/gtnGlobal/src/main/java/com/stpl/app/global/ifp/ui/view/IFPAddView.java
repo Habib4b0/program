@@ -9,6 +9,7 @@ import com.stpl.app.global.item.dto.ItemMasterDTO;
 import com.stpl.app.global.priceschedule.util.FieldNameUtils;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
+import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
@@ -18,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
@@ -37,15 +39,15 @@ public class IFPAddView extends VerticalLayout implements View {
 	/**
 	 * The available item result bean.
 	 */
-	private final BeanItemContainer<ItemMasterDTO> availableItemResultBean = new BeanItemContainer<ItemMasterDTO>(ItemMasterDTO.class);
+	private final BeanItemContainer<ItemMasterDTO> availableItemResultBean = new BeanItemContainer<>(ItemMasterDTO.class);
 	/**
 	 * The selected item result bean.
 	 */
-	private final BeanItemContainer<ItemMasterDTO> selectedItemResultBean = new BeanItemContainer<ItemMasterDTO>(ItemMasterDTO.class);
+	private final BeanItemContainer<ItemMasterDTO> selectedItemResultBean = new BeanItemContainer<>(ItemMasterDTO.class);
 	/**
 	 * The item details results bean.
 	 */
-	private final BeanItemContainer<IFPItemDTO> itemDetailsResultsBean = new BeanItemContainer<IFPItemDTO>(IFPItemDTO.class);
+	private final BeanItemContainer<IFPItemDTO> itemDetailsResultsBean = new BeanItemContainer<>(IFPItemDTO.class);
 	/**
 	 * The ifp master.
 	 */
@@ -53,9 +55,9 @@ public class IFPAddView extends VerticalLayout implements View {
 	/**
 	 * The binder.
 	 */
-	private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<ItemFamilyplanMasterDTO>(ifpMaster));
+	private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(ifpMaster));
 
-	private Map<Integer, Object[]> itemMap = new HashMap<Integer, Object[]>();
+	private Map<Integer, Object[]> itemMap = new HashMap<>();
 
 	IFPTabsheetForm addFormForIFP;
 	private final IFPLogic ifpLogic;
@@ -96,7 +98,7 @@ public class IFPAddView extends VerticalLayout implements View {
                         sessionDTO.setUiSessionId(fmtID.format(tempDate));
                         
 			this.removeAllComponents();
-			binder = new ErrorfulFieldGroup(new BeanItem<ItemFamilyplanMasterDTO>(new ItemFamilyplanMasterDTO()));
+			binder = new ErrorfulFieldGroup(new BeanItem<>(new ItemFamilyplanMasterDTO()));
 			availableItemResultBean.removeAllItems();
 			selectedItemResultBean.removeAllItems();
 			itemDetailsResultsBean.removeAllItems();
@@ -104,16 +106,16 @@ public class IFPAddView extends VerticalLayout implements View {
 			if (ConstantsUtils.ADD.equals(mode)) {
 				ifpLogic.removeAllFromTempTable(true);
                                 ifpMaster = new ItemFamilyplanMasterDTO();
-				addFormForIFP = new IFPTabsheetForm(ifpMaster, binder, availableItemResultBean, selectedItemResultBean, itemDetailsResultsBean, itemMap, mode, sessionDTO);
+				addFormForIFP = new IFPTabsheetForm(ifpMaster, binder, itemDetailsResultsBean, mode, sessionDTO);
                                 addComponent(addFormForIFP);
-			} else if (ConstantsUtils.EDIT.equals(mode)) {
-				ifpLogic.removeAllFromTempTable(true);
-				final int systemId = sessionDTO.getSystemId();
-				ifpLogic.loadTempTable(systemId);
+			} else if ((ConstantsUtils.EDIT.equals(mode)) || (ConstantsUtils.COPY).equals(mode)) {
+                            ifpLogic.removeAllFromTempTable(true);
+                            final int systemId = sessionDTO.getSystemId();
+                            ifpLogic.loadTempTable(systemId);
 				// refreshing the Master model from data base
 				ifpLogic.getIFPById(Integer.valueOf(systemId), ifpMaster);
-                                binder.setItemDataSource(new BeanItem<ItemFamilyplanMasterDTO>(ifpMaster));
-				addFormForIFP = new IFPTabsheetForm(ifpMaster, binder, availableItemResultBean, selectedItemResultBean, itemDetailsResultsBean, itemMap, mode, sessionDTO);
+                                binder.setItemDataSource(new BeanItem<>(ifpMaster));
+				addFormForIFP = new IFPTabsheetForm(ifpMaster, binder, itemDetailsResultsBean, mode, sessionDTO);
                                 addComponent(addFormForIFP);
 				addFormForIFP.getIfpItemAddition().loadSelectedTable();
 				binder.getField(FieldNameUtils.INTERNAL_NOTES).setReadOnly(true);
@@ -121,8 +123,8 @@ public class IFPAddView extends VerticalLayout implements View {
                         LOGGER.debug("IFPViewForm Method");
                         final int systemId = sessionDTO.getSystemId();
                         ifpLogic.getIFPById(Integer.valueOf(systemId),ifpMaster);
-                        binder.setItemDataSource(new BeanItem<ItemFamilyplanMasterDTO>(ifpMaster));
-                        addFormForIFP = new IFPTabsheetForm(ifpMaster, binder, availableItemResultBean, selectedItemResultBean, itemDetailsResultsBean, itemMap, mode, sessionDTO);
+                        binder.setItemDataSource(new BeanItem<>(ifpMaster));
+                        addFormForIFP = new IFPTabsheetForm(ifpMaster, binder, itemDetailsResultsBean, mode, sessionDTO);
                         addComponent(addFormForIFP);
 
                         LOGGER.debug("Entering View in Add form");

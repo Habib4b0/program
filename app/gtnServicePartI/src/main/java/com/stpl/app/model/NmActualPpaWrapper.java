@@ -39,11 +39,7 @@ public class NmActualPpaWrapper implements NmActualPpa,
 
         attributes.put("actualRate", getActualRate());
         attributes.put("periodSid", getPeriodSid());
-        attributes.put("actualProjDiscountDollar", getActualProjDiscountDollar());
-        attributes.put("actualProjectionSales", getActualProjectionSales());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("actualProjectionRate", getActualProjectionRate());
-        attributes.put("actualProjDiscountUnits", getActualProjDiscountUnits());
         attributes.put("actualDiscountDollar", getActualDiscountDollar());
         attributes.put("actualDiscountUnits", getActualDiscountUnits());
         attributes.put("actualSales", getActualSales());
@@ -65,39 +61,11 @@ public class NmActualPpaWrapper implements NmActualPpa,
             setPeriodSid(periodSid);
         }
 
-        Double actualProjDiscountDollar = (Double) attributes.get(
-                "actualProjDiscountDollar");
-
-        if (actualProjDiscountDollar != null) {
-            setActualProjDiscountDollar(actualProjDiscountDollar);
-        }
-
-        Double actualProjectionSales = (Double) attributes.get(
-                "actualProjectionSales");
-
-        if (actualProjectionSales != null) {
-            setActualProjectionSales(actualProjectionSales);
-        }
-
         Integer projectionDetailsSid = (Integer) attributes.get(
                 "projectionDetailsSid");
 
         if (projectionDetailsSid != null) {
             setProjectionDetailsSid(projectionDetailsSid);
-        }
-
-        Double actualProjectionRate = (Double) attributes.get(
-                "actualProjectionRate");
-
-        if (actualProjectionRate != null) {
-            setActualProjectionRate(actualProjectionRate);
-        }
-
-        Double actualProjDiscountUnits = (Double) attributes.get(
-                "actualProjDiscountUnits");
-
-        if (actualProjDiscountUnits != null) {
-            setActualProjDiscountUnits(actualProjDiscountUnits);
         }
 
         Double actualDiscountDollar = (Double) attributes.get(
@@ -183,46 +151,6 @@ public class NmActualPpaWrapper implements NmActualPpa,
     }
 
     /**
-    * Returns the actual proj discount dollar of this nm actual ppa.
-    *
-    * @return the actual proj discount dollar of this nm actual ppa
-    */
-    @Override
-    public double getActualProjDiscountDollar() {
-        return _nmActualPpa.getActualProjDiscountDollar();
-    }
-
-    /**
-    * Sets the actual proj discount dollar of this nm actual ppa.
-    *
-    * @param actualProjDiscountDollar the actual proj discount dollar of this nm actual ppa
-    */
-    @Override
-    public void setActualProjDiscountDollar(double actualProjDiscountDollar) {
-        _nmActualPpa.setActualProjDiscountDollar(actualProjDiscountDollar);
-    }
-
-    /**
-    * Returns the actual projection sales of this nm actual ppa.
-    *
-    * @return the actual projection sales of this nm actual ppa
-    */
-    @Override
-    public double getActualProjectionSales() {
-        return _nmActualPpa.getActualProjectionSales();
-    }
-
-    /**
-    * Sets the actual projection sales of this nm actual ppa.
-    *
-    * @param actualProjectionSales the actual projection sales of this nm actual ppa
-    */
-    @Override
-    public void setActualProjectionSales(double actualProjectionSales) {
-        _nmActualPpa.setActualProjectionSales(actualProjectionSales);
-    }
-
-    /**
     * Returns the projection details sid of this nm actual ppa.
     *
     * @return the projection details sid of this nm actual ppa
@@ -240,46 +168,6 @@ public class NmActualPpaWrapper implements NmActualPpa,
     @Override
     public void setProjectionDetailsSid(int projectionDetailsSid) {
         _nmActualPpa.setProjectionDetailsSid(projectionDetailsSid);
-    }
-
-    /**
-    * Returns the actual projection rate of this nm actual ppa.
-    *
-    * @return the actual projection rate of this nm actual ppa
-    */
-    @Override
-    public double getActualProjectionRate() {
-        return _nmActualPpa.getActualProjectionRate();
-    }
-
-    /**
-    * Sets the actual projection rate of this nm actual ppa.
-    *
-    * @param actualProjectionRate the actual projection rate of this nm actual ppa
-    */
-    @Override
-    public void setActualProjectionRate(double actualProjectionRate) {
-        _nmActualPpa.setActualProjectionRate(actualProjectionRate);
-    }
-
-    /**
-    * Returns the actual proj discount units of this nm actual ppa.
-    *
-    * @return the actual proj discount units of this nm actual ppa
-    */
-    @Override
-    public double getActualProjDiscountUnits() {
-        return _nmActualPpa.getActualProjDiscountUnits();
-    }
-
-    /**
-    * Sets the actual proj discount units of this nm actual ppa.
-    *
-    * @param actualProjDiscountUnits the actual proj discount units of this nm actual ppa
-    */
-    @Override
-    public void setActualProjDiscountUnits(double actualProjDiscountUnits) {
-        _nmActualPpa.setActualProjDiscountUnits(actualProjDiscountUnits);
     }
 
     /**

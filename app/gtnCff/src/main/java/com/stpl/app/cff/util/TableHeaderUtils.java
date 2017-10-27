@@ -10,38 +10,54 @@ package com.stpl.app.cff.util;
  * @author Manasa
  */
 public class TableHeaderUtils {
-    
+
     /**
-     * Result Tables Columns and Headers in Consolidated Financial Forecast Search Form
+     * Result Tables Columns and Headers in Consolidated Financial Forecast
+     * Search Form
      */
-    public static final Object[] RESULT_TABLE_VISIBLE_COLUMN=new Object[]{"financialForecastId","financialForecastName","typeDesc","statusDesc",
-        "finalApprovalDate","approvedBy"};
-     public static final Object[] RESULT_TABLE_VISIBLE_COLUMN_EXCEL=new Object[]{"financialForecastId","financialForecastName","typeDesc","statusDesc",
-        "finalApprovalDateExcel","approvedBy"};
-    public static final String[] RESULT_TABLE_HEADER=new String[]{"Financial Forecast ID","Financial Forecast Name","Type","Status",
-        "Final Approval Date","Approved By"};
-        
+    public final Object[] resultTableVisibleColumn = new Object[]{"financialForecastId", "financialForecastName", "typeDesc", "statusDesc",
+        "finalApprovalDate", StringConstantsUtil.APPROVED_BY_PROPERTY};
+    public final Object[] resultTableVisibleColumnExcel = new Object[]{"financialForecastId", "financialForecastName", "typeDesc", "statusDesc",
+        "finalApprovalDateExcel", StringConstantsUtil.APPROVED_BY_PROPERTY};
+
+    public final String[] resultTableHeader = new String[]{"Financial Forecast ID", "Financial Forecast Name", "Type", "Status",
+        "Final Approval Date", StringConstantsUtil.APPROVED_BY_HEADER};
+
     /**
      * Approval Table Columns and Headers
      */
-    public static final Object[] APPROVAL_TABLE_VISIBLE_COLUMN=new Object[]{"approvedBy","approvedDate","approvalSequence"};
-    public static final String[] APPROVAL_TABLE_HEADER=new String[]{"Approved By","Approved Date","Approval Sequence"};
-    
+    public final Object[] approvalTableVisibleColumn = new Object[]{StringConstantsUtil.APPROVED_BY_PROPERTY, "approvedDate", "approvalSequence"};
+    public final String[] approvalTableHeader = new String[]{StringConstantsUtil.APPROVED_BY_HEADER, "Approved Date", "Approval Sequence"};
+
     /**
      * Approved Result Table Columns and Headers
      */
-    public static final Object[] APPROVED_RESULT_TABLE_VISIBLE_COLUMN=new Object[]{"workflowId","projectionName","createdDate",
-        "createdBy","approvalDate","approvedBy","priorLatestEstimate","priorUpdateCycle"};
-    public static final String[] APPROVED_RESULT_TABLE_HEADER=new String[]{"Projection ID","Projection Name","Creation Date","Created By",
-        "Approval Date","Approved By","Prior Latest Estimate","Prior Update Cycle"};
-    
+    public final Object[] approvedResultTableVisibleColumn = new Object[]{"workflowId", "projectionName", "createdDate",
+        "createdBy", "approvalDate", StringConstantsUtil.APPROVED_BY_PROPERTY, "priorLatestEstimate", "priorUpdateCycle"};
+    public final String[] approvedResultTableHeader = new String[]{"Projection ID", "Projection Name", "Creation Date", "Created By",
+        "Approval Date", StringConstantsUtil.APPROVED_BY_HEADER, "Prior Latest Estimate", "Prior Update Cycle"};
+
     /**
-    * The Constant ATTACHMENT_COLUMNS.
-    */
-    public static final Object[] ATTACHMENT_COLUMNS = new Object[] {"documentName", "dateAdded", "userName"};
+     * The Constant ATTACHMENT_COLUMNS.
+     */
+    public final Object[] attachmentColumns = new Object[]{"documentName", "dateAdded", "userName"};
     /**
-    * The Constant ATTACHMENT_HEADER.
-    */
-    public static final String[] ATTACHMENT_HEADER = new String[] { "Document Name", "Date Added", "User Name"};
+     * The Constant ATTACHMENT_HEADER.
+     */
+    public final String[] attachmentHeader = new String[]{"Document Name", "Date Added", "User Name"};
     
+    private TableHeaderUtils(){
+        /*
+        Constructor
+        */
+    }
+    private static TableHeaderUtils object;
+
+    public static TableHeaderUtils getInstance() {
+        if (object == null) {
+            object = new TableHeaderUtils();
+        }
+        return object;
+    }
+
 }

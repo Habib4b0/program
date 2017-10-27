@@ -264,8 +264,8 @@ public class NonMandatedLogic {
      */
     public AlternateLookupSource searchAlternateCustomerAndBrand(final CustomFieldGroup searchBinder, final String searchType, boolean flag) throws SystemException {
 
-        List<CompanyMaster> resultTPList = new ArrayList<CompanyMaster>();
-        List<BrandMaster> resultBrandList = new ArrayList<BrandMaster>();
+        List<CompanyMaster> resultTPList;
+        List<BrandMaster> resultBrandList;
         final AlternateLookupSource alternate = new AlternateLookupSource();
 
         LOGGER.debug("Entering searchAlternateBrand  ::::");
@@ -302,7 +302,7 @@ public class NonMandatedLogic {
             resultTPList = dataSelection.getCompanyMasterList(dynamicQuery);
             LOGGER.debug("Size of resultTPList " + resultTPList.size());
 
-            List<AlternateHistoryDTO> temp = new ArrayList<AlternateHistoryDTO>();
+            List<AlternateHistoryDTO> temp;
             temp = getAlternateTP(resultTPList);
             alternate.setCustomersList(temp);
         }
@@ -321,7 +321,7 @@ public class NonMandatedLogic {
 
             LOGGER.debug("Size of resultBrandList " + resultBrandList.size());
 
-            List<AlternateHistoryDTO> brand = new ArrayList<AlternateHistoryDTO>();
+            List<AlternateHistoryDTO> brand;
             brand = getAlternateBrand(resultBrandList);
             alternate.setBrandList(brand);
         }
@@ -337,7 +337,7 @@ public class NonMandatedLogic {
      * @return the alternate tp
      */
     public List<AlternateHistoryDTO> getAlternateTP(final List<CompanyMaster> list) {
-        final List<AlternateHistoryDTO> resultList = new ArrayList<AlternateHistoryDTO>();
+        final List<AlternateHistoryDTO> resultList = new ArrayList<>();
 
         LOGGER.debug("Entering getAlternateTP  ::::");
 
@@ -363,7 +363,7 @@ public class NonMandatedLogic {
      * @return the alternate brand
      */
     public List<AlternateHistoryDTO> getAlternateBrand(final List<BrandMaster> list) {
-        final List<AlternateHistoryDTO> resultList = new ArrayList<AlternateHistoryDTO>();
+        final List<AlternateHistoryDTO> resultList = new ArrayList<>();
 
         LOGGER.debug("Entering getAlternateBrand  ::::");
         final int index = list.size();
@@ -388,10 +388,10 @@ public class NonMandatedLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public List<PMPYTradingPartnerDTO> tradingPartnerLookUp(String tpNo, String tpName, Object contractHolder) throws SystemException{
+    public List<PMPYTradingPartnerDTO> tradingPartnerLookUp(String tpNo, String tpName, Object contractHolder) {
         LOGGER.debug("Entering tradingPartnerLookUp  ::::");
-        List input = new ArrayList<String>();
-        String queryName = StringUtils.EMPTY;
+        List input = new ArrayList<>();
+        String queryName;
         if (contractHolder != null) {
             input.add(contractHolder);
             queryName = "PMPY-Load TP with CH";
@@ -414,7 +414,7 @@ public class NonMandatedLogic {
             input.add(Constant.PERCENT);
         }
         List resultTPList = PPAQuerys.getPPAData(input, queryName, null);
-        List<PMPYTradingPartnerDTO> tradingpartner = new ArrayList<PMPYTradingPartnerDTO>();
+        List<PMPYTradingPartnerDTO> tradingpartner;
         tradingpartner = getTPLookedUp(resultTPList);
         LOGGER.debug("Ending tradingPartnerLookUp    ::::");
         return tradingpartner;
@@ -427,7 +427,7 @@ public class NonMandatedLogic {
      * @return the TP looked up
      */
     public List<PMPYTradingPartnerDTO> getTPLookedUp(final List<Object[]> list) {
-        final List<PMPYTradingPartnerDTO> resultList = new ArrayList<PMPYTradingPartnerDTO>();
+        final List<PMPYTradingPartnerDTO> resultList = new ArrayList<>();
 
         LOGGER.debug("Entering getTPLookedUp  ::::");
         final int index = list.size();
@@ -455,7 +455,7 @@ public class NonMandatedLogic {
      * @throws PortalException ,Exception
      * @throws Exception the exception
      */
-    public PMPYCalculatorDTO pmpyGenerateLogic(final String contract, final String tpName) throws SystemException, PortalException{
+    public PMPYCalculatorDTO pmpyGenerateLogic(final String tpName) throws SystemException, PortalException{
         final PMPYCalculatorDTO bean = new PMPYCalculatorDTO();
         String tpName1;
 
@@ -491,7 +491,7 @@ public class NonMandatedLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public ComboBox loadPMPYContractHolders(int projectionId, ComboBox contract, String contractHolder) throws SystemException, PortalException{
+    public ComboBox loadPMPYContractHolders(ComboBox contract) {
 
         LOGGER.debug("Entering loadPmpyContractHolders  ::::");
 
@@ -572,7 +572,7 @@ public class NonMandatedLogic {
         final List sales = new ArrayList();
         final List units = new ArrayList();
 
-        final List<PMPYCalculatorDTO> resultList = new ArrayList<PMPYCalculatorDTO>();
+        final List<PMPYCalculatorDTO> resultList = new ArrayList<>();
 
         LOGGER.debug("Entering getChList  ::::");
         final int index = chList.size();
@@ -793,7 +793,7 @@ public class NonMandatedLogic {
         final List sales = new ArrayList();
         final List units = new ArrayList();
 
-        final List<PMPYCalculatorDTO> resultList = new ArrayList<PMPYCalculatorDTO>();
+        final List<PMPYCalculatorDTO> resultList = new ArrayList<>();
 
         LOGGER.debug("Entering getTpList  ::::");
         final int index = tpList.size();
@@ -1011,7 +1011,7 @@ public class NonMandatedLogic {
      * @return the SALES_SMALL
      */
     public Double getSales(final Object obj) {
-        Double value = 0.0;
+        Double value;
         final DecimalFormat format = new DecimalFormat("#");
 
         LOGGER.debug("Entering getSales  ::::");
@@ -1031,7 +1031,7 @@ public class NonMandatedLogic {
      * @return the UNITS_SMALL
      */
     public Double getUnits(final Object obj) {
-        Double value = 0.0;
+        Double value;
         final DecimalFormat format = new DecimalFormat("#.0");
 
         LOGGER.debug("Entering getUnits  ::::");
@@ -1044,26 +1044,6 @@ public class NonMandatedLogic {
         return value;
     }
 
-    /**
-     * Generate projection variance.
-     *
-     * @param projectionId the projection id
-     * @param indicator the indicator
-     * @param comparisonProjections the up to 5 projections for comparison
-     * @param frequency the selected frequency
-     * @param level the level
-     * @param discountLevel the discountLevel
-     * @return the list of projection data
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
-     */
-    public List<ProjectionVarianceDTO> generateProjectionVariance(final int projectionId, final String indicator,
-            final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel)
-            throws SystemException, PortalException {
-        LOGGER.debug("Generate Projection Variance");
-        return null;
-    }
 
     /**
      * Generate projection variance for Pivot.
@@ -1149,7 +1129,7 @@ public class NonMandatedLogic {
     public List<ProjectionVarianceDTO> getVarianceDiscountGroup(final int projectionId, final String indicator,
             final List<Integer> comparisonProjections, final String frequency, final String level, final String discountLevel)
             throws SystemException, PortalException {
-        LOGGER.debug("Generate PPA Group for Projection Variance");
+        LOGGER.debug("Generate PPA Group for  Projection Variance");
 
         return projectionVarianceDAO.getContractHolderSummary(projectionId, indicator, comparisonProjections, frequency, level, discountLevel);
     }
@@ -1217,7 +1197,7 @@ public class NonMandatedLogic {
      * @throws java.lang.Exception
      */
     public List<GroupDTO> getCustomerGroup(String customerName, String customerNo, List<String> companySids) throws SystemException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         customerName = customerName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         customerNo = customerNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         parameters.put(Constant.CUSTOMER_NO, customerNo);
@@ -1239,7 +1219,7 @@ public class NonMandatedLogic {
      * @throws java.lang.Exception
      */
     public List<GroupDTO> getProductGroup(String productName, String productNo, List<String> itemSids) throws SystemException  {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         productName = productName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         productNo = productNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 
@@ -1298,8 +1278,8 @@ public class NonMandatedLogic {
      * @return the projection master result list
      * @throws com.stpl.portal.kernel.exception.SystemException
      */
-    public List<DataSelectionDTO> searchDSProjections(final DataSelectionDTO dataSelectionDTO) throws SystemException, ParseException, PortalException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public List<DataSelectionDTO> searchDSProjections(final DataSelectionDTO dataSelectionDTO) throws SystemException, ParseException  {
+        Map<String, Object> parameters = new HashMap<>();
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
         List resultList;
         List<DataSelectionDTO> returnList = null;
@@ -1314,42 +1294,42 @@ public class NonMandatedLogic {
             projectionDescription = projectionDescription.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             parameters.put(Constant.PROJECTIONDESCRIPTION, projectionDescription);
         }
-        dynamicQuery.add(RestrictionsFactoryUtil.ilike("forecastingType", CommonUtils.NONMANDATED));
+        dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECASTING_TYPE, CommonUtils.NONMANDATED));
 
         if (isValidSid(dataSelectionDTO.getCustomerHierSid())) {
             String customerHierarchySid = dataSelectionDTO.getCustomerHierSid();
             customerHierarchySid = customerHierarchySid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerHierarchySid", customerHierarchySid);
+            parameters.put(Constant.CUSTOMER_HIERARCHY_SID, customerHierarchySid);
         }
 
         if (isValidSid(dataSelectionDTO.getProdHierSid())) {
             String prodHierarchySid = dataSelectionDTO.getProdHierSid();
             prodHierarchySid = prodHierarchySid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("prodHierarchySid", prodHierarchySid);
+            parameters.put(Constant.PROD_HIERARCHY_SID, prodHierarchySid);
         }
 
         if (isValidSid(dataSelectionDTO.getCustomerHierarchyLevel())) {
             String customerHierarchyLevel = dataSelectionDTO.getCustomerHierarchyLevel();
             customerHierarchyLevel = customerHierarchyLevel.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerHierarchyLevel", customerHierarchyLevel);
+            parameters.put(Constant.CUSTOMER_HIERARCHY_LEVEL, customerHierarchyLevel);
         }
 
         if (isValidSid(dataSelectionDTO.getProductHierarchyLevel())) {
             String productHierarchyLevel = dataSelectionDTO.getProductHierarchyLevel();
             productHierarchyLevel = productHierarchyLevel.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("productHierarchyLevel", productHierarchyLevel);
+            parameters.put(Constant.PRODUCT_HIERARCHY_LEVEL, productHierarchyLevel);
         }
 
         if (isValidSid(dataSelectionDTO.getCustomerGrpSid())) {
             String customerGrpSid = dataSelectionDTO.getCustomerGrpSid();
             customerGrpSid = customerGrpSid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerGroupSid", customerGrpSid);
+            parameters.put(Constant.CUSTOMER_GROUP_SID, customerGrpSid);
         }
 
         if (isValidSid(dataSelectionDTO.getProdGrpSid())) {
             String prodGrpSid = dataSelectionDTO.getProdGrpSid();
             prodGrpSid = prodGrpSid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("prodGroupSid", prodGrpSid);
+            parameters.put(Constant.PROD_GROUP_SID, prodGrpSid);
         }
 
         if (isValidSid(dataSelectionDTO.getCompanySid())) {
@@ -1414,14 +1394,11 @@ public class NonMandatedLogic {
         DynamicQuery projectionDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(ProjectionMaster.class);
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(
-                    "forecastingType", CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));
+            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE, CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(
-                    "forecastingType", CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED));
+            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED));
         } else if(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(
-                    "forecastingType", CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION));
+            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE, CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION));
         }
         projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID,
                 projectionId));
@@ -1455,29 +1432,6 @@ public class NonMandatedLogic {
             LOGGER.error(e);
             return "Not Saved";
         }
-
-    }
-
-    /**
-     * Gets the SALES_SMALL group.
-     *
-     * @param projId the proj id
-     * @return the SALES_SMALL group
-     * @throws SystemException the system exception
-     * @throws Exception the exception
-     */
-    public static List<String> getSalesGroup(final int projId) throws SystemException{
-
-        return null;
-    }
-
-    /**
-     * Save hierarchy.
-     *
-     * @param mode the mode
-     * @param projectionId the projection id
-     */
-    public void saveHierarchy(final String mode, final String projectionId) {
 
     }
 
@@ -1518,7 +1472,7 @@ public class NonMandatedLogic {
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.COMPANY_NAME, filterText));
         dynamicQuery.setLimit(startIndex, endIndex);
         List<Object[]> returnlist = dataSelection.getCompanies(dynamicQuery);
-        List<HelperDTO> companies = new ArrayList<HelperDTO>();
+        List<HelperDTO> companies = new ArrayList<>();
         HelperDTO helperDTO;
 
         if (startIndex == 0) {
@@ -1559,7 +1513,7 @@ public class NonMandatedLogic {
     }
 
     public Boolean hasTradingPartner(int projectionId) throws SystemException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         parameters.put(Constant.INDICATOR, "hasTradingPartner");
         parameters.put(Constant.PROJECTION_ID, projectionId);
         List returnList = dataSelection.executeQuery(parameters);
@@ -1570,7 +1524,7 @@ public class NonMandatedLogic {
         }
     }
 
-    public DataSelectionDTO getProjection(int projectionId) throws SystemException, ParseException, PortalException {
+    public DataSelectionDTO getProjection(int projectionId) throws ParseException{
 
         List projection = dataSelection.getProjection(projectionId);
         if (projection.isEmpty()) {
@@ -1590,18 +1544,18 @@ public class NonMandatedLogic {
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.LIST_NAME));
         dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
         List resultList = dataSelection.getHelperTableListNames(dynamicQuery);
-        List<String> returnList = new ArrayList<String>();
+        List<String> returnList = new ArrayList<>();
         for (Object listName : resultList) {
             returnList.add(String.valueOf(listName));
         }
         return returnList;
     }
 
-    public int searchDSProjectionsCount(final DataSelectionDTO dataSelectionDTO, Set<Container.Filter> filters) throws PortalException, SystemException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public int searchDSProjectionsCount(final DataSelectionDTO dataSelectionDTO, Set<Container.Filter> filters) throws  SystemException {
+        Map<String, Object> parameters = new HashMap<>();
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
         List resultList;
-        parameters.put("lazyLoadResults", null);
+        parameters.put(Constant.LAZY_LOAD_RESULTS, null);
         parameters.put("moduleName", dataSelectionDTO.getModulName());
         if (isValidCriteria(dataSelectionDTO.getProjectionName())) {
             String projectionName = dataSelectionDTO.getProjectionName();
@@ -1613,17 +1567,17 @@ public class NonMandatedLogic {
             projectionDescription = projectionDescription.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             parameters.put(Constant.PROJECTIONDESCRIPTION, projectionDescription);
         }
-        dynamicQuery.add(RestrictionsFactoryUtil.ilike("forecastingType", CommonUtils.NONMANDATED));
+        dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECASTING_TYPE, CommonUtils.NONMANDATED));
         if (isValidSid(dataSelectionDTO.getCustomerHierSid())) {
             String customerHierarchySid = dataSelectionDTO.getCustomerHierSid();
             customerHierarchySid = customerHierarchySid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerHierarchySid", customerHierarchySid);
+            parameters.put(Constant.CUSTOMER_HIERARCHY_SID, customerHierarchySid);
         }
 
         if (isValidSid(dataSelectionDTO.getProdHierSid())) {
             String prodHierarchySid = dataSelectionDTO.getProdHierSid();
             prodHierarchySid = prodHierarchySid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("prodHierarchySid", prodHierarchySid);
+            parameters.put(Constant.PROD_HIERARCHY_SID, prodHierarchySid);
         }
 
         if (!dataSelectionDTO.getSelectedCustomerRelationSid().isEmpty()) {
@@ -1637,19 +1591,19 @@ public class NonMandatedLogic {
         if (isValidSid(dataSelectionDTO.getCustomerHierarchyLevel())) {
             String customerHierarchyLevel = dataSelectionDTO.getCustomerHierarchyLevel();
             customerHierarchyLevel = customerHierarchyLevel.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerHierarchyLevel", customerHierarchyLevel);
+            parameters.put(Constant.CUSTOMER_HIERARCHY_LEVEL, customerHierarchyLevel);
         }
 
         if (isValidSid(dataSelectionDTO.getProductHierarchyLevel())) {
             String productHierarchyLevel = dataSelectionDTO.getProductHierarchyLevel();
             productHierarchyLevel = productHierarchyLevel.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("productHierarchyLevel", productHierarchyLevel);
+            parameters.put(Constant.PRODUCT_HIERARCHY_LEVEL, productHierarchyLevel);
         }
 
         if (isValidSid(dataSelectionDTO.getCustomerGrpSid())) {
             String customerGrpSid = dataSelectionDTO.getCustomerGrpSid();
             customerGrpSid = customerGrpSid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerGroupSid", customerGrpSid);
+            parameters.put(Constant.CUSTOMER_GROUP_SID, customerGrpSid);
         }
 
         if (isValidSid(String.valueOf(dataSelectionDTO.getDiscountSid()))) {
@@ -1661,7 +1615,7 @@ public class NonMandatedLogic {
         if (isValidSid(dataSelectionDTO.getProdGrpSid())) {
             String prodGrpSid = dataSelectionDTO.getProdGrpSid();
             prodGrpSid = prodGrpSid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("prodGroupSid", prodGrpSid);
+            parameters.put(Constant.PROD_GROUP_SID, prodGrpSid);
         }
            if (dataSelectionDTO.getBusinessUnitSystemId() != 0) {
             parameters.put("businessUnit", dataSelectionDTO.getBusinessUnitSystemId());
@@ -1675,26 +1629,26 @@ public class NonMandatedLogic {
         if (!SELECT_ONE.equalsIgnoreCase(dataSelectionDTO.getFromPeriod())) {
             if (!StringUtils.isBlank(dataSelectionDTO.getFromPeriod()) && !CommonConstants.NULL.getConstant().equals(dataSelectionDTO.getFromPeriod())) {
                 String fromPeriod = DataSelectionUtil.getDateFromQuarter(dataSelectionDTO.getFromPeriod());
-                parameters.put("fromDate", fromPeriod);
+                parameters.put(Constant.FROM_DATE, fromPeriod);
             }
         } else {
-            parameters.put("fromDate", null);
+            parameters.put(Constant.FROM_DATE, null);
         }
         if (!SELECT_ONE.equalsIgnoreCase(dataSelectionDTO.getToPeriod())) {
             if (!StringUtils.isBlank(dataSelectionDTO.getToPeriod()) && !CommonConstants.NULL.getConstant().equals(dataSelectionDTO.getToPeriod())) {
                 String toDate = DataSelectionUtil.getLastDateFromQuarter(dataSelectionDTO.getToPeriod());
-                parameters.put("toDate", toDate);
+                parameters.put(Constant.TO_DATE1, toDate);
             }
         } else {
-            parameters.put("toDate", null);
+            parameters.put(Constant.TO_DATE1, null);
         }
-        parameters.put("selectValue", StringUtils.EMPTY);
-        parameters.put("leftJoinValue", StringUtils.EMPTY);
-        parameters.put("whereFilterValue", StringUtils.EMPTY);
+        parameters.put(Constant.SELECT_VALUE, StringUtils.EMPTY);
+        parameters.put(Constant.LEFT_JOIN_VALUE, StringUtils.EMPTY);
+        parameters.put(Constant.WHERE_FILTER_VALUE, StringUtils.EMPTY);
         if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(dataSelectionDTO.getModulName())) {
-            parameters.put("selectValue", "APS.FIELD_NAME,APS.FIELD_VALUES");
-            parameters.put("leftJoinValue", " Left Join ACCRUAL_PROJ_SELECTION APS ON APS.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID  ");
-            parameters.put("whereFilterValue", "   AND APS.SCREEN_NAME='AccrualRateProjection' ");
+            parameters.put(Constant.SELECT_VALUE, "APS.FIELD_NAME,APS.FIELD_VALUES");
+            parameters.put(Constant.LEFT_JOIN_VALUE, " Left Join ACCRUAL_PROJ_SELECTION APS ON APS.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID  ");
+            parameters.put(Constant.WHERE_FILTER_VALUE, "   AND APS.SCREEN_NAME='AccrualRateProjection' ");
             if (isValidSid(dataSelectionDTO.getDeductionLevel())) {
                 parameters.put("deductionLevel", dataSelectionDTO.getDeductionLevel());
 
@@ -1716,14 +1670,6 @@ public class NonMandatedLogic {
                     } else if (!"createdBy".equals(stringFilter.getPropertyId())) {
                         parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
                     } else {
-                        String lastName = StringUtils.EMPTY;
-                        if (filterString.contains(",")) {
-                            String array[] = filterString.split(",");
-                            lastName = array[0].trim();
-                        } else {
-                            lastName = filterString;
-                            lastName = lastName.trim();
-                        }
 
                         try {
 
@@ -1737,14 +1683,14 @@ public class NonMandatedLogic {
                     Between betweenFilter = (Between) filter;
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
-                    parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + "~from", String.valueOf(startValue));
+                    parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + Constant.TILT_FROM, String.valueOf(startValue));
                     parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + "~to", String.valueOf(endValue));
                 } else if (filter instanceof Compare) {
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     Date value = (Date) compare.getValue();
                     if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(Constant.FILTER + compare.getPropertyId() + "~from", String.valueOf(value));
+                        parameters.put(Constant.FILTER + compare.getPropertyId() + Constant.TILT_FROM, String.valueOf(value));
                     } else {
                         parameters.put(Constant.FILTER + compare.getPropertyId() + "~to", String.valueOf(value));
                     }
@@ -1755,14 +1701,14 @@ public class NonMandatedLogic {
         return Integer.parseInt(String.valueOf(resultList.get(0)));
     }
 
-    public List<DataSelectionDTO> searchDSProjectionsLazy(final DataSelectionDTO dataSelectionDTO, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws PortalException, SystemException, ParseException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public List<DataSelectionDTO> searchDSProjectionsLazy(final DataSelectionDTO dataSelectionDTO, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws  ParseException, SystemException {
+        Map<String, Object> parameters = new HashMap<>();
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
         List resultList;
         List<DataSelectionDTO> returnList = null;
         parameters.put("startIndex", startIndex);
         parameters.put("offset", offset);
-        parameters.put("lazyLoadResults", "lazyLoadResults");
+        parameters.put(Constant.LAZY_LOAD_RESULTS, Constant.LAZY_LOAD_RESULTS);
         parameters.put("moduleName", dataSelectionDTO.getModulName());
         if (isValidCriteria(dataSelectionDTO.getProjectionName())) {
             String projectionName = dataSelectionDTO.getProjectionName();
@@ -1774,17 +1720,17 @@ public class NonMandatedLogic {
             projectionDescription = projectionDescription.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             parameters.put(Constant.PROJECTIONDESCRIPTION, projectionDescription);
         }
-        dynamicQuery.add(RestrictionsFactoryUtil.ilike("forecastingType", CommonUtils.NONMANDATED));
+        dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECASTING_TYPE, CommonUtils.NONMANDATED));
         if (isValidSid(dataSelectionDTO.getCustomerHierSid())) {
             String customerHierarchySid = dataSelectionDTO.getCustomerHierSid();
             customerHierarchySid = customerHierarchySid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerHierarchySid", customerHierarchySid);
+            parameters.put(Constant.CUSTOMER_HIERARCHY_SID, customerHierarchySid);
         }
 
         if (isValidSid(dataSelectionDTO.getProdHierSid())) {
             String prodHierarchySid = dataSelectionDTO.getProdHierSid();
             prodHierarchySid = prodHierarchySid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("prodHierarchySid", prodHierarchySid);
+            parameters.put(Constant.PROD_HIERARCHY_SID, prodHierarchySid);
         }
         if (!dataSelectionDTO.getSelectedCustomerRelationSid().isEmpty()) {
             parameters.put("selectedCustomerRelationSid", dataSelectionDTO.getSelectedCustomerRelationSid());
@@ -1797,13 +1743,13 @@ public class NonMandatedLogic {
         if (isValidSid(dataSelectionDTO.getCustomerHierarchyLevel())) {
             String customerHierarchyLevel = dataSelectionDTO.getCustomerHierarchyLevel();
             customerHierarchyLevel = customerHierarchyLevel.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerHierarchyLevel", customerHierarchyLevel);
+            parameters.put(Constant.CUSTOMER_HIERARCHY_LEVEL, customerHierarchyLevel);
         }
 
         if (isValidSid(dataSelectionDTO.getProductHierarchyLevel())) {
             String productHierarchyLevel = dataSelectionDTO.getProductHierarchyLevel();
             productHierarchyLevel = productHierarchyLevel.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("productHierarchyLevel", productHierarchyLevel);
+            parameters.put(Constant.PRODUCT_HIERARCHY_LEVEL, productHierarchyLevel);
         }
         if (isValidSid(String.valueOf(dataSelectionDTO.getDiscountSid()))) {
             String discountSid = String.valueOf(dataSelectionDTO.getDiscountSid());
@@ -1814,13 +1760,13 @@ public class NonMandatedLogic {
         if (isValidSid(dataSelectionDTO.getCustomerGrpSid())) {
             String customerGrpSid = dataSelectionDTO.getCustomerGrpSid();
             customerGrpSid = customerGrpSid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("customerGroupSid", customerGrpSid);
+            parameters.put(Constant.CUSTOMER_GROUP_SID, customerGrpSid);
         }
 
         if (isValidSid(dataSelectionDTO.getProdGrpSid())) {
             String prodGrpSid = dataSelectionDTO.getProdGrpSid();
             prodGrpSid = prodGrpSid.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-            parameters.put("prodGroupSid", prodGrpSid);
+            parameters.put(Constant.PROD_GROUP_SID, prodGrpSid);
         }
 
         if (isValidSid(dataSelectionDTO.getCompanySid())) {
@@ -1836,27 +1782,27 @@ public class NonMandatedLogic {
         if (!SELECT_ONE.equalsIgnoreCase(dataSelectionDTO.getFromPeriod())) {
             if (!StringUtils.isBlank(dataSelectionDTO.getFromPeriod()) && !CommonConstants.NULL.getConstant().equals(dataSelectionDTO.getFromPeriod())) {
                 String fromPeriod = DataSelectionUtil.getDateFromQuarter(dataSelectionDTO.getFromPeriod());
-                parameters.put("fromDate", fromPeriod);
+                parameters.put(Constant.FROM_DATE, fromPeriod);
             }
         } else {
-            parameters.put("fromDate", null);
+            parameters.put(Constant.FROM_DATE, null);
         }
         if (!SELECT_ONE.equalsIgnoreCase(dataSelectionDTO.getToPeriod())) {
             if (!StringUtils.isBlank(dataSelectionDTO.getToPeriod()) && !CommonConstants.NULL.getConstant().equals(dataSelectionDTO.getToPeriod())) {
                 String toDate = DataSelectionUtil.getLastDateFromQuarter(dataSelectionDTO.getToPeriod());
-                parameters.put("toDate", toDate);
+                parameters.put(Constant.TO_DATE1, toDate);
             }
         } else {
-            parameters.put("toDate", null);
+            parameters.put(Constant.TO_DATE1, null);
         }
 
-        parameters.put("selectValue", StringUtils.EMPTY);
-        parameters.put("leftJoinValue", StringUtils.EMPTY);
-        parameters.put("whereFilterValue", StringUtils.EMPTY);
+        parameters.put(Constant.SELECT_VALUE, StringUtils.EMPTY);
+        parameters.put(Constant.LEFT_JOIN_VALUE, StringUtils.EMPTY);
+        parameters.put(Constant.WHERE_FILTER_VALUE, StringUtils.EMPTY);
         if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(dataSelectionDTO.getModulName())) {
-            parameters.put("selectValue", ",APS.FIELD_NAME,APS.FIELD_VALUES");
-            parameters.put("leftJoinValue", "  Left Join ACCRUAL_PROJ_SELECTION APS ON APS.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID  ");
-            parameters.put("whereFilterValue", "   AND APS.SCREEN_NAME='AccrualRateProjection' ");
+            parameters.put(Constant.SELECT_VALUE, ",APS.FIELD_NAME,APS.FIELD_VALUES");
+            parameters.put(Constant.LEFT_JOIN_VALUE, "  Left Join ACCRUAL_PROJ_SELECTION APS ON APS.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID  ");
+            parameters.put(Constant.WHERE_FILTER_VALUE, "   AND APS.SCREEN_NAME='AccrualRateProjection' ");
             if (isValidSid(dataSelectionDTO.getDeductionLevel())) {
                 parameters.put("deductionLevel", dataSelectionDTO.getDeductionLevel());
 
@@ -1885,14 +1831,14 @@ public class NonMandatedLogic {
                     Between betweenFilter = (Between) filter;
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
-                    parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + "~from", String.valueOf(startValue));
+                    parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + Constant.TILT_FROM, String.valueOf(startValue));
                     parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + "~to", String.valueOf(endValue));
                 } else if (filter instanceof Compare) {
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     Date value = (Date) compare.getValue();
                     if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(Constant.FILTER + compare.getPropertyId() + "~from", String.valueOf(value));
+                        parameters.put(Constant.FILTER + compare.getPropertyId() + Constant.TILT_FROM, String.valueOf(value));
                     } else {
                         parameters.put(Constant.FILTER + compare.getPropertyId() + "~to", String.valueOf(value));
                     }
@@ -1929,8 +1875,8 @@ public class NonMandatedLogic {
         dataSelection.updateProjectionMaster(projectionMaster);
     }
 
-    public void tempInsert(final SessionDTO inputDto, final String customSqlId) throws SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+    public void tempInsert(final SessionDTO inputDto, final String customSqlId)  {
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", inputDto.getProjectionId());
         input.put("?PSY", inputDto.getForecastDTO().getProjectionStartYear());
         input.put("?PEY", inputDto.getForecastDTO().getForecastEndYear());
@@ -1944,23 +1890,23 @@ public class NonMandatedLogic {
     }
 
     public Object saveTampToMain(final SessionDTO inputDto) throws SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?UID", inputDto.getUserId());
         input.put("?SID", inputDto.getSessionId());
         return dataSelection.tempOperation(input, "nm.saveToMainTable");
     }
-    public Object deleteTempBySession(final SessionDTO inputDto, final String screenName) throws SystemException {
+    public Object deleteTempBySession() throws SystemException {
         return null;
     }
 
     public void setSingleBrand(final SessionDTO inputDto) throws SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", inputDto.getProjectionId());
         inputDto.setPpaIndicator((Integer) ((List) dataSelection.tempOperation(input, "ds.singleBrand")).get(0) == 1);
     }
 
     public Object deleteTempByProjection(final int projectionSid) throws SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", projectionSid);
         return dataSelection.tempOperation(input, "nm.dleteTempProjectionTables");
     }
@@ -2018,26 +1964,26 @@ public class NonMandatedLogic {
         final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
         String lastModified = fmt.format(lastModifiedDate);
         String insertQuery = "INSERT INTO ST_M_SALES_PROJECTION_MASTER(\n"
-                + "			PROJECTION_DETAILS_SID,\n"
+                + "	PROJECTION_DETAILS_SID,\n"
                 + "			METHODOLOGY,\n"
                 + "			CALCULATION_PERIODS,\n"
                 + "			CALCULATION_BASED,\n"
                 + "			CHECK_RECORD, \n"
-                + "			USER_ID,\n"
-                + "			SESSION_ID,\n"
+                + "	USER_ID,\n"
+                + "			SESSION_ID, \n"
                 + "			LAST_MODIFIED_DATE)\n"
-                + "		SELECT A.PROJECTION_DETAILS_SID,\n"
+                + "	SELECT A.PROJECTION_DETAILS_SID,\n"
                 + "			A.METHODOLOGY,\n"
                 + "			A.CALCULATION_PERIODS,\n"
                 + "			A.CALCULATION_BASED,\n"
                 + "			A.CHECK_RECORD, \n"
-                + "			" + userId + " USER_ID,\n"
-                + "			" + sessionId + " SESSION_ID,\n"
-                + "			'" + lastModified + "' LAST_MODIFIED_DATE \n"
+                + "			" + userId + "  USER_ID, \n"
+                + "			" + sessionId + " SESSION_ID ,\n"
+                + "			'" + lastModified + "' LAST_MODIFIED_DATE  \n"
                 + "		FROM dbo.M_SALES_PROJECTION_MASTER A,\n"
-                + "			dbo.PROJECTION_DETAILS B\n"
-                + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID\n"
-                + "			AND B.PROJECTION_MASTER_SID=" + projectionId + ";";
+                + "		dbo.PROJECTION_DETAILS B\n"
+                + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID \n"
+                + "			AND B.PROJECTION_MASTER_SID = " + projectionId + ";";
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         salesProjectionDAO.executeUpdateQuery(insertQuery);
@@ -2123,7 +2069,7 @@ public class NonMandatedLogic {
         String insertQuery = StringUtils.EMPTY;
         try {
             insertQuery = CommonUtils.getReturnsProperties(query);
-            insertQuery = insertQuery.replace("@PROJECTION_MASTER_SID", StringUtils.EMPTY + inputDto.getProjectionId());
+            insertQuery = insertQuery.replace(Constant.AT_PROJECTION_MASTER_SID, StringUtils.EMPTY + inputDto.getProjectionId());
             insertQuery = insertQuery.replace("@USER_ID", StringUtils.EMPTY + inputDto.getUserId());
             insertQuery = insertQuery.replace("@SESSION_ID", StringUtils.EMPTY + inputDto.getSessionId());
 
@@ -2139,7 +2085,7 @@ public class NonMandatedLogic {
         String insertQuery = StringUtils.EMPTY;
         try {
             insertQuery = CommonUtils.getReturnsProperties(query);
-            insertQuery = insertQuery.replace("@PROJECTION_MASTER_SID", StringUtils.EMPTY + inputDto.getProjectionId());
+            insertQuery = insertQuery.replace(Constant.AT_PROJECTION_MASTER_SID, StringUtils.EMPTY + inputDto.getProjectionId());
 
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
@@ -2187,7 +2133,7 @@ public class NonMandatedLogic {
         try {
 
             insertQuery = CommonUtils.getReturnsProperties(queryName);
-            insertQuery = insertQuery.replace("@PROJECTION_MASTER_SID", StringUtils.EMPTY + inputDto.getProjectionId());
+            insertQuery = insertQuery.replace(Constant.AT_PROJECTION_MASTER_SID, StringUtils.EMPTY + inputDto.getProjectionId());
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery,inputDto.getCurrentTableNames()));
         } catch (Exception e) {
@@ -2199,7 +2145,7 @@ public class NonMandatedLogic {
 
     public static List getARPView(String viewValue, String forecastType, String userId, String viewType) {
 
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list;
         String viewQueryARPP = "Select FVM.VIEW_NAME viewName, PM.PROJECTION_DESCRIPTION description, PM.PROJECTION_NAME projectionName, PM.BRAND_TYPE brandType, PM.MODIFIED_DATE modifiedDate, PM.CREATED_BY createdBy,"
                 + "                        PM.CREATED_DATE createdDate, PM.PRODUCT_HIERARCHY_LEVEL productLevel, PM.CUSTOMER_HIERARCHY_LEVEL customerLevel, CUST_HD.HIERARCHY_NAME customerHierarchy, PROD_HD.HIERARCHY_NAME productHierarchy,"
                 + "                        CM.COMPANY_NAME company, CMG.COMPANY_GROUP_NAME customerGroup, IG.ITEM_GROUP_NAME productGroup, PM.PROJECTION_MASTER_SID projectionId, FVM.VIEW_ID viewId, PM.CUSTOMER_HIERARCHY_SID customerHierarchySid,"
@@ -2247,14 +2193,11 @@ public class NonMandatedLogic {
         DynamicQuery projectionDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(ProjectionMaster.class);
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(
-                    "forecastingType", CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));
+            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE, CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(
-                    "forecastingType", CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED));
+            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED));
         } else if(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(
-                    "forecastingType", CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION));
+            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE, CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION));
 }
         projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID,
                 projectionId));
@@ -2287,31 +2230,31 @@ public class NonMandatedLogic {
      */
     public void saveTempToMain(SessionDTO session, ExecutorService service,List<Future> saveFutureList, Future discountListView) {
         //SALES MASTER TABLE INSERT
-        String query = SQlUtil.getQuery("Sales_Temp_Main_MASTER").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        String query = SQlUtil.getQuery("Sales_Temp_Main_MASTER").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //SALES PROJECTION TABLE INSERT
-        query = SQlUtil.getQuery("Sales_Temp_Main_PROJ").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Sales_Temp_Main_PROJ").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //SALES ACTUAL INSERT
-        query = SQlUtil.getQuery("Sales_Temp_Main_ACTUAL").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Sales_Temp_Main_ACTUAL").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //PPA MASTER INSERT
-        query = SQlUtil.getQuery("PPA_Temp_Main_MASTER").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("PPA_Temp_Main_MASTER").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //PPA PROJ INSERT
-        query = SQlUtil.getQuery("PPA_Temp_Main_PROJ").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("PPA_Temp_Main_PROJ").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //PPA ACTUAL INSERT
-        query = SQlUtil.getQuery("PPA_Temp_Main_ACTUAL").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("PPA_Temp_Main_ACTUAL").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //DISCOUNT MASTER INSERT
-        query = SQlUtil.getQuery("Discount_Temp_Main_MASTER").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Discount_Temp_Main_MASTER").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()), discountListView)));
         //DISCOUNT PROJ INSERT
-        query = SQlUtil.getQuery("Discount_Temp_Main_PROJ").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Discount_Temp_Main_PROJ").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()), discountListView)));
         //DISCOUNT ACTUAL INSERT
-        query = SQlUtil.getQuery("Discount_Temp_Main_ACTUAL").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Discount_Temp_Main_ACTUAL").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()), discountListView)));
 }
 
@@ -2327,13 +2270,13 @@ public class NonMandatedLogic {
     public void mainToTempTableInsert(SessionDTO session, ExecutorService service) {
         List<Future> tempInsertFutureList = new ArrayList<>();
         //SALES MASTER TABLE INSERT
-        String query = SQlUtil.getQuery("Sales_Main_Temp_Master_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        String query = SQlUtil.getQuery("Sales_Main_Temp_Master_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //SALES PROJECTION INSERT
-        query = SQlUtil.getQuery("Sales_Main_Temp_Proj_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Sales_Main_Temp_Proj_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //SALES ACTUAL INSERT
-        query = SQlUtil.getQuery("Sales_Main_Temp_Actual_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Sales_Main_Temp_Actual_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
        
         for (Future futureObject : tempInsertFutureList) {
@@ -2343,29 +2286,29 @@ public class NonMandatedLogic {
         session.addFutureMap(Constant.DISCOUNT_LOWER_CASE, new Future[]{
             //DISCOUNT MASTER INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("Discount_Main_Temp_Master_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("Discount_Main_Temp_Master_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())),
             session.getCurrentTableNames()))),
             //DISCOUNT PROJ INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("Discount_Main_Temp_Proj_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("Discount_Main_Temp_Proj_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())),
             session.getCurrentTableNames()))),
             //DISCOUNT ACTUAL INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("Discount_Main_Temp_Actual_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("Discount_Main_Temp_Actual_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())),
             session.getCurrentTableNames())))
         });
         
         session.addFutureMap(Constant.PPA_SMALL, new Future[]{
             //PPA MASTER INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("PPA_Main_Temp_Master_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())), session.getCurrentTableNames()))),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("PPA_Main_Temp_Master_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())), session.getCurrentTableNames()))),
             //PPA PROJ INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("PPA_Main_Temp_Proj_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("PPA_Main_Temp_Proj_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())),
             session.getCurrentTableNames()))),
             //PPA ACTUAL INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("PPA_Main_Temp_Actual_Insert").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("PPA_Main_Temp_Actual_Insert").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())),
             session.getCurrentTableNames())))
         });
     }
@@ -2382,13 +2325,13 @@ public class NonMandatedLogic {
         List<Future> tempInsertFutureList = new ArrayList<>();
       
         //SALES MASTER TABLE INSERT
-        String query = SQlUtil.getQuery("Master_Sales_Main_Temp_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        String query = SQlUtil.getQuery("Master_Sales_Main_Temp_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //SALES PROJECTION INSERT
-        query = SQlUtil.getQuery("Proj_Sales_Main_Temp_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Proj_Sales_Main_Temp_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //SALES ACTUAL INSERT
-        query = SQlUtil.getQuery("Actuals_Sales_Main_Temp_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Actuals_Sales_Main_Temp_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
        
         for (Future futureObject : tempInsertFutureList) {
@@ -2397,14 +2340,14 @@ public class NonMandatedLogic {
            session.addFutureMap(Constant.SUPPLEMENTAL, new Future[]{
             //SUPPLEMENTAL MASTER INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("Supp_Discount_Master_Main_Temp_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())), session.getCurrentTableNames()))),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("Supp_Discount_Master_Main_Temp_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())), session.getCurrentTableNames()))),
             //SUPPLEMENTAL PROJ INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("Supp_Discount_Proj_Main_Temp_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("Supp_Discount_Proj_Main_Temp_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())),
             session.getCurrentTableNames()))),
             //SUPPLEMENTAL ACTUAL INSERT
             service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-            QueryUtil.replaceTableNames(SQlUtil.getQuery("Supp_Discount_Actuals_Main_Temp_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId())),
+            QueryUtil.replaceTableNames(SQlUtil.getQuery("Supp_Discount_Actuals_Main_Temp_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId())),
             session.getCurrentTableNames())))
         });
     }
@@ -2422,28 +2365,34 @@ public class NonMandatedLogic {
     public void saveTempToMainForMandated(SessionDTO session, ExecutorService service,List<Future> saveFutureList) {
          
            //SALES MASTER TABLE INSERT
-        String query = SQlUtil.getQuery("Master_Sales_Temp_Main_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        String query = SQlUtil.getQuery("Master_Sales_Temp_Main_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //SALES PROJECTION TABLE INSERT
-        query = SQlUtil.getQuery("Proj_Sales_Temp_Main_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Proj_Sales_Temp_Main_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //SALES ACTUAL INSERT
-         query = SQlUtil.getQuery("Actuals_Sales_Temp_Main_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+         query = SQlUtil.getQuery("Actuals_Sales_Temp_Main_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //DISCOUNT PROJ INSERT
-        query = SQlUtil.getQuery("Discount_Proj_Temp_Main_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Discount_Proj_Temp_Main_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         //DISCOUNT ACTUAL INSERT
-        query = SQlUtil.getQuery("Discount_Actual_Temp_Main_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Discount_Actual_Temp_Main_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         
-        query = SQlUtil.getQuery("Supp_Discount_Master_Temp_Main_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Supp_Discount_Master_Temp_Main_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         
-        query = SQlUtil.getQuery("Supp_Discount_Proj_Temp_Main_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Supp_Discount_Proj_Temp_Main_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
         
-        query = SQlUtil.getQuery("Supp_Discount_Actuals_Temp_Main_Mandated").replace("@PROJECTION_MASTER_SID", String.valueOf(session.getProjectionId()));
+        query = SQlUtil.getQuery("Supp_Discount_Actuals_Temp_Main_Mandated").replace(Constant.AT_PROJECTION_MASTER_SID, String.valueOf(session.getProjectionId()));
         saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
 }
+    
+    public void loadPFDFromMainToTemp(SessionDTO session){
+        //PROJECTION_FILES_DETAILS
+        String query = SQlUtil.getQuery("PFD_MAIN_TO_TEMP").replace("@PROJECTIONMASTERSID", String.valueOf(session.getProjectionId()));
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+    }
 }

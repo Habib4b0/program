@@ -36,7 +36,7 @@ public class TabSelectionDTO {
     private String frequency = StringUtils.EMPTY;
     private String operation = StringUtils.EMPTY;
     private List<ItemIndexDto> itemList;
-    private List<String> companyMasterSids = new ArrayList<String>();
+    private List<String> companyMasterSids = new ArrayList<>();
     public int summaryProjectionId;
     public String foreCastingType = StringUtils.EMPTY;
 

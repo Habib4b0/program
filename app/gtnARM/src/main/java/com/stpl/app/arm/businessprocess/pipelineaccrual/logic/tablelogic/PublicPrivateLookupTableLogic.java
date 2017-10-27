@@ -9,6 +9,8 @@ import com.stpl.app.arm.adjustmentrateconfiguration.dto.ViewLookupDTO;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.logic.ExclusionDetailsLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+
+import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.jboss.logging.Logger;
@@ -27,13 +29,13 @@ public class PublicPrivateLookupTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         try {
-            if(isGenerate){
-            List<Object> count = logic.getSavedViewList(exRateDTO, true, 0, 0, null, this.getFilters());
-            return Integer.valueOf(count.get(0).toString());
+            if (isGenerate) {
+                List<Object> count = logic.getSavedViewList(exRateDTO, true, 0, 0, null, this.getFilters());
+                return Integer.valueOf(count.get(0).toString());
             }
             return 0;
         } catch (Exception ex) {
-             LOGGER.error(ex);
+            LOGGER.error("Error in getCount :"+ex);
             return 0;
         }
     }
@@ -41,11 +43,10 @@ public class PublicPrivateLookupTableLogic extends PageTableLogic {
     @Override
     public List loadData(int start, int offset) {
         try {
-                List<ViewLookupDTO> list = logic.getSavedViewList(exRateDTO,false, start, offset, this.getSortByColumns(), this.getFilters());
-                return list;
+            return logic.getSavedViewList(exRateDTO, false, start, offset, this.getSortByColumns(), this.getFilters());
         } catch (Exception ex) {
-             LOGGER.error(ex);
-            return null;
+            LOGGER.error("Error in loadData :"+ex);
+            return Collections.emptyList();
         }
     }
 
@@ -61,14 +62,13 @@ public class PublicPrivateLookupTableLogic extends PageTableLogic {
             this.isGenerate = isGenerate;
             this.exRateDTO = exRateDTO;
             exRateDTO.setViewCategory(viewCategory);
-                 clearAll();
-                setRequiredCount(true);
-                setCurrentPage(1);
+            clearAll();
+            setRequiredCount(true);
+            setCurrentPage(1);
 
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in configureSearchData :"+e);
         }
     }
 
-    
 }

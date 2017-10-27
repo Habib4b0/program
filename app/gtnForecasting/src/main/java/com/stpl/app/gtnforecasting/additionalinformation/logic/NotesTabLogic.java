@@ -61,12 +61,12 @@ public class NotesTabLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public List<NotesDTO> getAttachmentDTOList(final int projectionId, final String moduleName, String fileUploadPath) throws SystemException, PortalException {
+    public List<NotesDTO> getAttachmentDTOList(final int projectionId, final String moduleName, String fileUploadPath) throws SystemException {
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
         TimeZone central = TimeZone.getTimeZone("CST");
         dateTimeFormat.setTimeZone(central);
-        final List<NotesDTO> attachmentDTOList = new ArrayList<NotesDTO>();
+        final List<NotesDTO> attachmentDTOList = new ArrayList<>();
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
@@ -109,7 +109,7 @@ public class NotesTabLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public Boolean deleteUploadedFile(int docDetailsId, String moduleName, String fileName) throws PortalException, SystemException {
+    public Boolean deleteUploadedFile(int docDetailsId, String fileName) throws PortalException, SystemException {
         if (docDetailsId != 0) {
             DocDetailsLocalServiceUtil.deleteDocDetails(docDetailsId);
         }
@@ -118,7 +118,7 @@ public class NotesTabLogic {
         return true;
     }
 
-    public void saveUploadedFile(int projectionId, String fileName, String uploadedBy, int fileSize, String moduleName) throws SystemException, PortalException {
+    public void saveUploadedFile(int projectionId, String fileName, String uploadedBy, int fileSize, String moduleName) throws SystemException {
         final DecimalFormat formatter = new DecimalFormat("#.#");
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
@@ -132,7 +132,7 @@ public class NotesTabLogic {
         List<DocDetails> docDetailsList;
         DocDetails docDetails;
 
-        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName "
+        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName"
                 + moduleName);
 
         docDetailsList = DocDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -208,7 +208,7 @@ public class NotesTabLogic {
      * @return List of AttachmentDTO Object .
      */
     public List<NotesDTO> addUserFile(final List<NotesDTO> list) {
-        final List<NotesDTO> finalList = new ArrayList<NotesDTO>();
+        final List<NotesDTO> finalList = new ArrayList<>();
         LOGGER.debug("Entering addUserFile method with list size " + list.size());
         for (final Iterator<NotesDTO> iterator = list.iterator(); iterator.hasNext();) {
             final NotesDTO dto = iterator.next();

@@ -37,6 +37,7 @@ import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.Constants;
+import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -157,11 +158,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      * The result bean.
      */
     CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
-    List<Leveldto> currentHierarchy = new ArrayList<Leveldto>();
-    List<Leveldto> viewChangeHierarchy = new ArrayList<Leveldto>();
+    List<Leveldto> currentHierarchy = new ArrayList<>();
+    List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     boolean customHierarchy = false;
-    List<ComparisonLookupDTO> selectedList = new ArrayList<ComparisonLookupDTO>();
-    private static List<String> oldDiscountNameList = new ArrayList<String>();
+    List<ComparisonLookupDTO> selectedList = new ArrayList<>();
+    private static List<String> oldDiscountNameList = new ArrayList<>();
     /**
      * The custom id.
      */
@@ -171,9 +172,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     /**
      *
      */
-    public  List<String> projNameList = new ArrayList<String>();
-    public  List<Integer> projIdList = new ArrayList<Integer>();
-    Map<Integer, String> projectionMap = new HashMap<Integer, String>();
+    public List<String> projNameList = new ArrayList<>();
+    public List<Integer> projIdList = new ArrayList<>();
+    Map<Integer, String> projectionMap = new HashMap<>();
     NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
     ProjectionVarianceDAO projectionVarianceDAO = new ProjectionVarianceDAOImpl();
     PVQueryUtils queryUtils = new PVQueryUtils();
@@ -205,21 +206,21 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     ProjectionVarianceDTO variPPAAmount = new ProjectionVarianceDTO();
     ProjectionVarianceDTO perPPAAmount = new ProjectionVarianceDTO();
     ForecastForm nonMandatedForm;
-    List<List<String>> discountlist = new ArrayList<List<String>>();
-    Map<String, Object> selection = new HashMap<String, Object>();
-    List<ProjectionVarianceDTO> projDTOList1 = new ArrayList<ProjectionVarianceDTO>();
-    List<List> currentDiscount = new ArrayList<List>();
-    List<List> currentSales = new ArrayList<List>();
-    List<List> currentTotal = new ArrayList<List>();
-    List<List> currentTotalDiscount = new ArrayList<List>();
-    List<Integer> priorProjIdDiscountList = new ArrayList<Integer>();
-    List<Integer> priorProjIdSalesList = new ArrayList<Integer>();
-    List<Integer> priorProjIdTotalList = new ArrayList<Integer>();
-    List<List> currentPivotGTSTotal = new ArrayList<List>();
-    List<Integer> pivotPriorProjIdList = new ArrayList<Integer>();
+    List<List<String>> discountlist = new ArrayList<>();
+    Map<String, Object> selection = new HashMap<>();
+    List<ProjectionVarianceDTO> projDTOList1 = new ArrayList<>();
+    List<List> currentDiscount = new ArrayList<>();
+    List<List> currentSales = new ArrayList<>();
+    List<List> currentTotal = new ArrayList<>();
+    List<List> currentTotalDiscount = new ArrayList<>();
+    List<Integer> priorProjIdDiscountList = new ArrayList<>();
+    List<Integer> priorProjIdSalesList = new ArrayList<>();
+    List<Integer> priorProjIdTotalList = new ArrayList<>();
+    List<List> currentPivotGTSTotal = new ArrayList<>();
+    List<Integer> pivotPriorProjIdList = new ArrayList<>();
     boolean firstGenerated = false;
-    public List<Integer> comparisonProjId = new ArrayList<Integer>();
-    public List<String> comparisonProjName = new ArrayList<String>();
+    public List<Integer> comparisonProjId = new ArrayList<>();
+    public List<String> comparisonProjName = new ArrayList<>();
     boolean editFlag = false;
     /**
      * The selected projection.
@@ -235,6 +236,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final List<String> discountKeys = new ArrayList();
     protected PVParameters parameterDto = new PVParameters();
     private final NMPVExcelLogic excelLogic = new NMPVExcelLogic(resultMap, pvSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto);
+    int columnSize = 0;
 
     /**
      * The Constant AMOUNT.
@@ -245,7 +247,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     /**
      * Constructor for ProjectionVariance.
      */
-    public NMProjectionVariance(ForecastForm form, SessionDTO sessionDTO, String screenName) throws PortalException, SystemException {
+    public NMProjectionVariance(ForecastForm form, SessionDTO sessionDTO, String screenName)  {
         super(sessionDTO, screenName);
         this.screenName = screenName;
         LOGGER.info("ProjectionVariance Constructor initiated ");
@@ -305,14 +307,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             variableCategoryCustomItem[i].setItemClickable(true);
 
             variableCategoryCustomItem[i].setItemClickNotClosable(true);
-//            if (i == 0) {
-//                variableCategoryCustomItem[i].setCheckAll(true);
-//            }
         }
-        discountLevel.addItem("Total Discount");
-        discountLevel.addItem("Program Category");
+        discountLevel.addItem(Constants.LabelConstants.TOTAL_DISCOUNT.toString());
+        discountLevel.addItem(PROGRAM_CATEGORY.getConstant());
         discountLevel.addItem("Program");
-        discountLevel.select("Total Discount");
+        discountLevel.select(Constants.LabelConstants.TOTAL_DISCOUNT.toString());
         discountLevel.addStyleName(Constant.HORIZONTAL);
 
         excelBtn.setIcon(excelExportImage);
@@ -355,7 +354,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
 
         alignRight();
-        resultBeanContainer = new ExtTreeContainer<ProjectionVarianceDTO>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
 
         resultBeanContainer.setColumnProperties(leftHeader.getProperties());
         resultBeanContainer.setColumnProperties(rightHeader.getProperties());
@@ -372,9 +371,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         leftTable.reConstruct(true);
         rightTable.setImmediate(true);
         rightTable.reConstruct(true);
-        resultsTable.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        resultsTable.setHeight(Constant.SIX_FIFTY_PX);
+        leftTable.setHeight(Constant.SIX_FIFTY_PX);
+        rightTable.setHeight(Constant.SIX_FIFTY_PX);
         leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
         leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
 
@@ -385,6 +384,12 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         rightTable.setDoubleHeaderColumnHeaders(rightHeader.getDoubleHeaders().toArray(new String[rightHeader.getDoubleHeaders().size()]));
 
         rightTable.setDoubleHeaderMap(rightHeader.getDoubleHeaderMaps());
+           for (Object columns : rightHeader.getDoubleColumns()) {
+
+                Map<Object, Object[]> doubleHeaderMap;
+                doubleHeaderMap = rightHeader.getDoubleHeaderMaps();
+                columnSize = doubleHeaderMap.get(columns).length;
+            }
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
         resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         pvSelectionDTO.setProjectionId(projectionId);
@@ -395,7 +400,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_SEVEN_ZERO, TAB_PROJECTION_VARIANCE.getConstant());
         if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue()))) {
-            List<String> periodList = new ArrayList<String>(pvSelectionDTO.getPeriodHeaderList());
+            List<String> periodList = new ArrayList<>(pvSelectionDTO.getPeriodHeaderList());
             Object toDateString;
 
             if (String.valueOf(projectionPeriodOrder.getValue()).equals("Descending")) {
@@ -410,7 +415,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     Collections.reverse(periodList);
                 }
 
-                List<String> pivotList = new ArrayList<String>();
+                List<String> pivotList = new ArrayList<>();
                 String fromPeriod = fromDate.getValue().toString().replace(" ", StringUtils.EMPTY);
                 String toPeriod = toDate.getValue().toString().replace(" ", StringUtils.EMPTY);
                 if (rightHeader.getFrequencyDivision() == NumericConstants.TWELVE) {
@@ -429,13 +434,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 pvSelectionDTO.setPeriodList(pivotList);
             }
         }
-            if (("Variable".equals(pivotView.getValue().toString())) && (!discountLevel.getValue().equals("Total Discount")
+            if (("Variable".equals(pivotView.getValue().toString())) && (!discountLevel.getValue().equals(Constants.LabelConstants.TOTAL_DISCOUNT.toString())
                     && (pvSelectionDTO.isVarDisAmount() || pvSelectionDTO.isVarDisRate() || pvSelectionDTO.isVarRPU() || pvSelectionDTO.isDiscountPerExFactory()))) {
                 //Discount
                 final List<String> discountNames = new ArrayList(pvSelectionDTO.getDiscountNameList());
                 // PPA.
                 List listObj = CommonLogic.getPPADiscountNameList(pvSelectionDTO);
-                if (listObj != null) {
+                if (listObj != null && !listObj.isEmpty()) {
                     discountNames.addAll(listObj);
                 }
 
@@ -488,7 +493,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setFilterHierarchyNo(hierarchyNo);
         pvSelectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
         pvSelectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
-        tableLogic.setProjectionResultsData(currentHierarchy, pvSelectionDTO, levelNo, hierarchyNo, pvSelectionDTO);
+        tableLogic.setProjectionResultsData(currentHierarchy, pvSelectionDTO, levelNo,  pvSelectionDTO);
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
         resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         pvSelectionDTO.setProjectionId(projectionId);
@@ -540,7 +545,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 LOGGER.error(ex);
             }
         }
-        final NMComparisonLookup comparisonLookupWindow = new NMComparisonLookup("Comparison lookup", "NM", comparison, projectionId, selectedList, screenName);
+        final NMComparisonLookup comparisonLookupWindow = new NMComparisonLookup( comparison, projectionId, selectedList, screenName);
         UI.getCurrent().addWindow(comparisonLookupWindow);
         comparisonLookupWindow.addCloseListener(new Window.CloseListener() {
             /**
@@ -582,15 +587,90 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             LOGGER.info("Time taken to refresh table :" + (end - start));
             start = end;
             ForecastUI.EXCEL_CLOSE = true;
-            ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), "Projection Variance", "Projection Variance", "Projection_Variance.xls", false);
-            export.export();
-            end = System.currentTimeMillis();
-            LOGGER.info("Time taken to export :" + (end - start));
+            int leftcolumnsize = NumericConstants.ONE;
+            int ColSize = 252;
+            int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;
+            Object[] leftColumns = new Object[leftcolumnsize + maxColSize];
+            String[] leftHeaders = new String[leftcolumnsize + maxColSize];
+            System.arraycopy(fullHeader.getSingleColumns().toArray(), NumericConstants.ZERO, leftColumns, NumericConstants.ZERO, NumericConstants.ONE);
+            System.arraycopy(fullHeader.getSingleHeaders().toArray(), NumericConstants.ZERO, leftHeaders, NumericConstants.ZERO, NumericConstants.ONE);
+            List<Object> fullColumns = fullHeader.getSingleColumns();
+            int totalDoubleHeaderSize = (fullHeader.getDoubleHeaderMaps().size() - NumericConstants.ONE) * columnSize + NumericConstants.ONE;
+            Map<Object, Object[]> doubleheadermap = new HashMap<>();
+            int oldDoubleHeaderSize = 0;
+            if (totalDoubleHeaderSize >= 255) {
+                ExcelExport export = null;
+                int sheetCount = 0;
+                for (int i = leftcolumnsize; i < totalDoubleHeaderSize; i += (maxColSize)) {
+                    int remainingColumnSize = totalDoubleHeaderSize - (sheetCount * maxColSize + NumericConstants.ONE);
+                    int currentColumnSize = remainingColumnSize > maxColSize + NumericConstants.ONE ? maxColSize : remainingColumnSize;
+                    int doubleHeaderSize = currentColumnSize / columnSize;
+                    Object[] leftDoubleColumns = new Object[doubleHeaderSize + NumericConstants.ONE];
+                    String[] leftDoubleHeaders = new String[doubleHeaderSize + NumericConstants.ONE];
+
+                    if (remainingColumnSize < maxColSize + 1) {
+                        currentColumnSize = remainingColumnSize;
+                        leftColumns = new Object[leftcolumnsize + remainingColumnSize];
+                        leftHeaders = new String[leftcolumnsize + remainingColumnSize];
+                        leftDoubleColumns = new Object[doubleHeaderSize + NumericConstants.ONE];
+                        leftDoubleHeaders = new String[doubleHeaderSize + NumericConstants.ONE];
+                        System.arraycopy(fullHeader.getSingleColumns().toArray(), NumericConstants.ZERO, leftColumns, NumericConstants.ZERO, NumericConstants.ONE);
+                        System.arraycopy(fullHeader.getSingleHeaders().toArray(), NumericConstants.ZERO, leftHeaders, NumericConstants.ZERO, NumericConstants.ONE);
+                    }
+
+                    System.arraycopy(fullHeader.getDoubleColumns().toArray(), NumericConstants.ZERO, leftDoubleColumns, NumericConstants.ZERO, NumericConstants.ONE);
+                    System.arraycopy(fullHeader.getDoubleHeaders().toArray(), NumericConstants.ZERO, leftDoubleHeaders, NumericConstants.ZERO, NumericConstants.ONE);
+
+                    System.arraycopy(fullColumns.toArray(), i, leftColumns, leftcolumnsize, currentColumnSize);
+                    System.arraycopy(fullHeader.getSingleHeaders().toArray(), i, leftHeaders, leftcolumnsize, currentColumnSize);
+                    System.arraycopy(fullHeader.getDoubleColumns().toArray(), i == leftcolumnsize ? leftcolumnsize : oldDoubleHeaderSize,
+                            leftDoubleColumns, leftcolumnsize, doubleHeaderSize);
+                    System.arraycopy(fullHeader.getDoubleHeaders().toArray(), i == leftcolumnsize ? leftcolumnsize : oldDoubleHeaderSize,
+                            leftDoubleHeaders, leftcolumnsize, doubleHeaderSize);
+                    doubleheadermap.clear();
+                    for (Object leftColumn : leftDoubleColumns) {
+                        for (Map.Entry<Object, Object[]> entry : fullHeader.getDoubleHeaderMaps().entrySet()) {
+                            Object key = entry.getKey();
+                            Object[] value = entry.getValue();
+                            if (leftColumn.toString().startsWith(key.toString())) {
+                                doubleheadermap.put(key, value);
+                            }
+                        }
+                    }
+                    excelTable.setVisibleColumns(leftColumns);
+                    excelTable.setColumnHeaders(leftHeaders);
+                    excelTable.setRefresh(true);
+                    excelTable.setDoubleHeaderVisible(true);
+                    excelTable.setDoubleHeaderVisibleColumns(leftDoubleColumns);
+                    excelTable.setDoubleHeaderColumnHeaders(leftDoubleHeaders);
+                    excelTable.setDoubleHeaderMap(doubleheadermap);
+                    oldDoubleHeaderSize = doubleHeaderSize + NumericConstants.ONE;
+                    String sheetName = "Projection Variance " + sheetCount;
+                    if (i == leftcolumnsize) {
+                        export = new ExcelExport(new ExtCustomTableHolder(excelTable), TAB_PROJECTION_VARIANCE.getConstant(), TAB_PROJECTION_VARIANCE.getConstant(), "ProjectionVariance.xls", false);
+                    } else {
+                        export.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    }
+                    sheetCount++;
+                    export.export();
+                }
+            } else {
+                excelTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
+                excelTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
+                excelTable.setDoubleHeaderVisible(true);
+                excelTable.setDoubleHeaderVisibleColumns(fullHeader.getDoubleColumns().toArray());
+                excelTable.setDoubleHeaderColumnHeaders(fullHeader.getDoubleHeaders().toArray(new String[fullHeader.getDoubleHeaders().size()]));
+                excelTable.setDoubleHeaderMap(fullHeader.getDoubleHeaderMaps());
+                ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), TAB_PROJECTION_VARIANCE.getConstant(), TAB_PROJECTION_VARIANCE.getConstant(), "Projection_Variance.xls", false);
+                export.export();
+                end = System.currentTimeMillis();
+                LOGGER.info("Time taken to export :" + (end - start));
+            }
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
     }
-
+    
     /**
      * Graph button click listener.
      *
@@ -609,7 +689,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             }
         }
         final PVChart chart = new PVChart(chartiLst, String.valueOf(frequency.getValue()), StringUtils.EMPTY, fullHeader, pvSelectionDTO);
-        final PVGraphWindow salesGraphWindow = new PVGraphWindow(chart.getChart(), "Projection Variance");
+        final PVGraphWindow salesGraphWindow = new PVGraphWindow(chart.getChart(), TAB_PROJECTION_VARIANCE.getConstant());
         UI.getCurrent().addWindow(salesGraphWindow);
         salesGraphWindow.focus();
     }
@@ -636,7 +716,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             public void yesMethod() {
                 frequency.setValue(Constant.QUARTERLY);
                 level.select(Constant.TOTAL);
-                discountLevel.select("Total Discount");
+                discountLevel.select(Constants.LabelConstants.TOTAL_DISCOUNT.toString());
                 projectionPeriodOrder.setValue(Constant.ASCENDING);
                 pivotView.setValue(Constant.PERIOD);
                 fromDate.setValue(getSelectOne());
@@ -645,11 +725,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 comparison.setValue(Constant.SELECT_ONE);
                 comparison.setData(null);
                 comparison.setReadOnly(true);
-//                variableCategory.unselect(CommonUtils.COL_VALUE);
-//                variableCategory.unselect(CommonUtils.COL_VARIANCE);
-//                variableCategory.unselect(CommonUtils.COL_PERCENTAGE);
                 getUnCheckedVariableMenuItem(variableCategoryCustomMenuItem);
-//                variableCategory.setImmediate(true);
 
                 variables.unselect(CommonUtils.VAR_GTS);
                 variables.unselect(CommonUtils.VAR_PERCENTAGE);
@@ -829,7 +905,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof ProjectionVarianceDTO) {
-            targetItem = new BeanItem<ProjectionVarianceDTO>(
+            targetItem = new BeanItem<>(
                     (ProjectionVarianceDTO) obj);
         }
         return (ProjectionVarianceDTO) targetItem.getBean();
@@ -863,9 +939,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setCustomId(customId);
         pvSelectionDTO.setTabName(screenName);
         pvSelectionDTO.setComparisonBasis(String.valueOf(comparisonBasis.getValue()));
+        pvSelectionDTO.setView(String.valueOf(view.getValue()));
         viewChange(false);
         groupChange(false);
-        setCurrentHierarchy(new ArrayList<Leveldto>(viewChangeHierarchy));
+        setCurrentHierarchy(new ArrayList<>(viewChangeHierarchy));
     }
 
     public void addLowerLevelsForExport(Object id) {
@@ -893,7 +970,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setIslevelFiler(false);
         loadResultTable(0, StringUtils.EMPTY);
         levelFilter.addValueChangeListener(levelFilterChangeOption);
-    }
+        }
 
     /**
      * Sets the base variables.
@@ -923,6 +1000,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setVarNetProfit(false);
         pvSelectionDTO.setNetSalesExFactory(false);
         pvSelectionDTO.setDiscountPerExFactory(false);
+        pvSelectionDTO.setNetExFactorySales(false);
+        pvSelectionDTO.setNetExFactorySalesPerExFactory(false);
 
         columns = columns.substring(1, columns.length() - 1);
         varriables = varriables.substring(1, varriables.length() - 1);
@@ -975,6 +1054,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 pvSelectionDTO.setNetSalesExFactory(true);
             } else if (value.equalsIgnoreCase(StringUtils.trim(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString()))) {
                 pvSelectionDTO.setDiscountPerExFactory(true);
+            } else if(value.equalsIgnoreCase(StringUtils.trim(Constant.PVVariables.NET_EX_FACTORY_SALES.toString()))){
+                pvSelectionDTO.setNetExFactorySales(true);
+            } else if(value.equalsIgnoreCase(StringUtils.trim(Constant.PVVariables.NET_EX_FACTORY_SALES_PER_EX_FACTORY.toString()))){
+                pvSelectionDTO.setNetExFactorySalesPerExFactory(true);
             }
         }
 
@@ -990,7 +1073,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     public void loadFromPeriod(String fromDateVal) {
         fromDate.removeAllItems();
         fromDate.addItem(Constant.SELECT_ONE);
-        List<String> periodList = new ArrayList<String>(pvSelectionDTO.getPeriodHeaderList());
+        List<String> periodList = new ArrayList<>(pvSelectionDTO.getPeriodHeaderList());
         if (String.valueOf(projectionPeriodOrder.getValue()).equals(Constant.DESCENDING)) {
             Collections.reverse(periodList);
         }
@@ -1015,7 +1098,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         toDate.removeAllItems();
         toDate.addItem(Constant.SELECT_ONE);
         int start = 0;
-        List<String> periodList = new ArrayList<String>(pvSelectionDTO.getPeriodHeaderList());
+        List<String> periodList = new ArrayList<>(pvSelectionDTO.getPeriodHeaderList());
         if (String.valueOf(projectionPeriodOrder.getValue()).equals(Constant.DESCENDING)) {
             Collections.reverse(periodList);
         }
@@ -1040,9 +1123,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private void loadComparison() {
         if (isComparisonLookupOpened) {
             ComparisonLookupDTO comparisonLookup = (ComparisonLookupDTO) comparison.getData();
-            projectionMap = new HashMap<Integer, String>();
-            projNameList = new ArrayList<String>();
-            projIdList = new ArrayList<Integer>();
+            projectionMap = new HashMap<>();
+            projNameList = new ArrayList<>();
+            projIdList = new ArrayList<>();
             if (comparisonLookup != null) {
                 if (!comparisonLookup.getSelected().isEmpty()) {
                     for (ComparisonLookupDTO object : comparisonLookup.getSelected()) {
@@ -1068,7 +1151,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
 
     public void loadGroupFilterOntabChange() {
-        loadGroupFilter(session.getProjectionId(), Integer.valueOf(pvSelectionDTO.getUserId()), Integer.valueOf(pvSelectionDTO.getSessionId()), true);
+        loadGroupFilter(true);
     }
 
     public void groupChange(boolean groupChange) {
@@ -1125,7 +1208,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     }
 
-    public void loadGroupFilter(int projId, int userId, int sessionId, boolean isPPA) {
+    public void loadGroupFilter(boolean isPPA) {
         LOGGER.info("loadGroupFilter initiated ");
         group.setEnabled(true);
         group.removeAllItems();
@@ -1142,24 +1225,24 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public static List<Date> getStartandTodate() {
-        List<Date> result = new ArrayList<Date>();
+        List<Date> result = new ArrayList<>();
         ForecastConfig forecastConfig = getTimePeriod();
         Date fromDate = null;
         Date toDate = null;
         if (forecastConfig != null) {
             if (forecastConfig.getProcessMode()) {
-                if ("Month".equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
-                    fromDate = DataSelectionUtil.calculateHistory("Month", forecastConfig.getHistValue());
-                    toDate = DataSelectionUtil.calculateProjection("Month", forecastConfig.getProjValue());
-                } else if ("Quarter".equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
-                    fromDate = DataSelectionUtil.calculateHistory("Quarter", forecastConfig.getHistValue());
-                    toDate = DataSelectionUtil.calculateProjection("Quarter", forecastConfig.getProjValue());
-                } else if ("SemiAnnual".equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
-                    fromDate = DataSelectionUtil.calculateHistory("SemiAnnual", forecastConfig.getHistValue());
-                    toDate = DataSelectionUtil.calculateProjection("SemiAnnual", forecastConfig.getProjValue());
-                } else if ("Annual".equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
-                    fromDate = DataSelectionUtil.calculateHistory("Annual", forecastConfig.getHistValue());
-                    toDate = DataSelectionUtil.calculateProjection("Annual", forecastConfig.getProjValue());
+                if (Constant.MONTH1.equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
+                    fromDate = DataSelectionUtil.calculateHistory(Constant.MONTH1, forecastConfig.getHistValue());
+                    toDate = DataSelectionUtil.calculateProjection(Constant.MONTH1, forecastConfig.getProjValue());
+                } else if (Constant.QUARTER1.equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
+                    fromDate = DataSelectionUtil.calculateHistory(Constant.QUARTER1, forecastConfig.getHistValue());
+                    toDate = DataSelectionUtil.calculateProjection(Constant.QUARTER1, forecastConfig.getProjValue());
+                } else if (Constant.SEMI_ANNUAL_SMALL.equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
+                    fromDate = DataSelectionUtil.calculateHistory(Constant.SEMI_ANNUAL_SMALL, forecastConfig.getHistValue());
+                    toDate = DataSelectionUtil.calculateProjection(Constant.SEMI_ANNUAL_SMALL, forecastConfig.getProjValue());
+                } else if (Constant.ANNUAL.equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
+                    fromDate = DataSelectionUtil.calculateHistory(Constant.ANNUAL, forecastConfig.getHistValue());
+                    toDate = DataSelectionUtil.calculateProjection(Constant.ANNUAL, forecastConfig.getProjValue());
                 }
             } else {
                 fromDate = forecastConfig.getFromDate();
@@ -1198,7 +1281,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         return forecastConfig;
     }
 
-    public static int getProjections(Date startDate, Date endDate, String frequency) {
+    public static int getProjections(Date endDate, String frequency) {
 
         if (frequency.equals(Constant.ANNUALLY)) {
             return endDate.getYear() - new Date().getYear();
@@ -1233,10 +1316,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         Map<Object, Object> map = CommonLogic.getNMProjectionSelection(projectionId, TAB_DISCOUNT_PROJECTION.getConstant());
         try{
         if (map != null && map.size() > 0) {
-            String discountType = map.get("Level").toString();
+            String discountType = map.get(HEADER_LEVEL.getConstant()).toString();
             if (PROGRAM.getConstant().equals(discountType)) {
-                List<String> discountNames1 = new LinkedList<String>(Arrays.asList(String.valueOf(map.get("Selected Discounts")).split("\\s*,\\s*")));
-                 if ("Program Category".equals(discountLevel.getValue())) {
+                List<String> discountNames1 = new LinkedList<>(Arrays.asList(String.valueOf(map.get("Selected Discounts")).split("\\s*,\\s*")));
+                 if (PROGRAM_CATEGORY.getConstant().equals(discountLevel.getValue())) {
                      List<List<String>> discList=null;
                      if(!compareDiscountList(discountNames1,oldDiscountNameList)){
                          discList = CommonLogic.getPriceGroupTypeList(discountNames1,pvSelectionDTO.getSessionDTO());
@@ -1251,8 +1334,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     discountlist = CommonLogic.getDiscountNoList(discountNames1, true, pvSelectionDTO.getSessionDTO());
                 }
             } else if (PROGRAM_CATEGORY.getConstant().equals(discountType)) {
-                List<String> priceGroupType = new LinkedList<String>(Arrays.asList(String.valueOf(map.get("Selected Discounts")).split("\\s*,\\s*")));
-                if ("Program Category".equals(discountLevel.getValue())) {
+                List<String> priceGroupType = new LinkedList<>(Arrays.asList(String.valueOf(map.get("Selected Discounts")).split("\\s*,\\s*")));
+                if (PROGRAM_CATEGORY.getConstant().equals(discountLevel.getValue())) {
                     List<List<String>> discList = CommonLogic.getDiscountNoList(priceGroupType, false, pvSelectionDTO.getSessionDTO());
                     discountlist.add(discList.get(0));
                     discountlist.add(priceGroupType);
@@ -1262,7 +1345,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             }
         }
         session.setDiscountRSlistUpdated(true);
-        session.setDiscountRSlist(discountlist); 
+        session.setDiscountRSlist(discountlist);
         }
         catch(Exception e){
             LOGGER.error(e);
@@ -1273,11 +1356,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         NMDiscountProjection dp = nonMandatedForm.getDiscountProjection();
         if (dp != null) {
             String discountType = nonMandatedForm.getDiscountProjection().getDiscountType();
-            if (nonMandatedForm.getDiscountProjection().isDiscountGenerated() && discountType != null &&  session.isDiscountRSlistUpdated()) {
-                 discountlist = new ArrayList<List<String>>();
+            if (dp.getResultBeanContainer().size() > 0 && discountType != null &&  session.isDiscountRSlistUpdated()) {
+                 discountlist = new ArrayList<>();
                 if (PROGRAM_CATEGORY.getConstant().equals(discountType)) {
                     List<String> priceGroupType = nonMandatedForm.getDiscountProjection().getDiscountNamesList();
-                    if (discountLevel.getValue().equals("Program Category")) {
+                    if (discountLevel.getValue().equals(PROGRAM_CATEGORY.getConstant())) {
                         List<List<String>> discList = session.getDiscountRSlist();
                         discountlist.add(discList.get(0));
                         discountlist.add(priceGroupType);
@@ -1285,14 +1368,14 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         discountlist = session.getDiscountRSlist();
                     }
                 } else if (PROGRAM.getConstant().equals(discountType)) {
-                    List<List<String>> discList = null;
+                     List<List<String>> discList=null;
                     List<String> discountNameList = nonMandatedForm.getDiscountProjection().getDiscountNamesList();
                     for (int i = 0; i < discountNameList.size(); i++) {
                         discountNameList.set(i, discountNameList.get(i).split("~")[0]);
                     }
                     List<List<String>> rsList = session.getDiscountRSlist();
-                    if (discountLevel.getValue().equals("Program Category")) {
-                        if (!compareDiscountList(discountNameList,oldDiscountNameList)){
+                    if (discountLevel.getValue().equals(PROGRAM_CATEGORY.getConstant())) {
+                        if(!compareDiscountList(discountNameList,oldDiscountNameList)){
                          discList = CommonLogic.getPriceGroupTypeList(discountNameList,pvSelectionDTO.getSessionDTO());
                            session.setDiscountlist(discList);
                         }else{
@@ -1309,7 +1392,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 }
             }
         }
-        pvSelectionDTO.setDiscountList(new ArrayList<List<String>>(discountlist));
+        pvSelectionDTO.setDiscountList(new ArrayList<>(discountlist));
         pvSelectionDTO.setSession(session);
         }
 
@@ -1386,7 +1469,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             String priorProjectionIds = projIdList == null || projIdList.isEmpty() ? StringUtils.EMPTY : projIdList.toString();
 
             map.put("Comparison", priorProjectionIds);
-            map.put("Level", level.getValue().toString());
+            map.put(HEADER_LEVEL.getConstant(), level.getValue().toString());
             map.put("Projection Period Order", projectionPeriodOrder.getValue().toString());
             map.put("From", fromDate.getValue() != null ? fromDate.getValue().toString() : StringUtils.EMPTY);
             map.put("To", toDate.getValue() != null ? toDate.getValue().toString() : StringUtils.EMPTY);
@@ -1396,7 +1479,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             map.put("Variable Category", getCheckedVariableCategoryValues());
             map.put(Constant.VARIABLES, getCheckedValues());
             map.put("Comparison Basis", comparisonBasis.getValue() != null ? comparisonBasis.getValue().toString() : StringUtils.EMPTY);
-            logic.saveNMPVSelection(map, projectionId, "Projection Variance");
+            logic.saveNMPVSelection(map, projectionId, TAB_PROJECTION_VARIANCE.getConstant());
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -1405,7 +1488,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public void setProjectionSelection() {
-        Map<Object, Object> map = CommonLogic.getNMProjectionSelection(projectionId, "Projection Variance");
+        Map<Object, Object> map = CommonLogic.getNMProjectionSelection(projectionId, TAB_PROJECTION_VARIANCE.getConstant());
         if (map != null && !map.isEmpty()) {
 
             Object value = map.get(Constant.FREQUENCY_SMALL);
@@ -1420,7 +1503,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 comparison.setReadOnly(true);
             }
 
-            value = map.get("Level");
+            value = map.get(HEADER_LEVEL.getConstant());
             if (value != null) {
                 level.setValue(String.valueOf(value));
             }
@@ -1568,6 +1651,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setVarNetProfit(false);
         pvSelectionDTO.setNetSalesExFactory(false);
         pvSelectionDTO.setDiscountPerExFactory(false);
+        pvSelectionDTO.setNetExFactorySales(false);
+        pvSelectionDTO.setNetExFactorySalesPerExFactory(false);
 
         columns = columns.substring(1, columns.length() - 1);
         varriables = varriables.substring(1, varriables.length() - 1);
@@ -1620,6 +1705,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 pvSelectionDTO.setNetSalesExFactory(true);
             } else if (value.equalsIgnoreCase(StringUtils.trim(Constant.PVVariables.DISCOUNT_PER_EX_FACTORY.toString()))) {
                 pvSelectionDTO.setDiscountPerExFactory(true);
+            } else if(value.equalsIgnoreCase(StringUtils.trim(Constant.PVVariables.NET_EX_FACTORY_SALES.toString()))){
+                pvSelectionDTO.setNetExFactorySales(true);
+            } else if(value.equalsIgnoreCase(StringUtils.trim(Constant.PVVariables.NET_EX_FACTORY_SALES_PER_EX_FACTORY.toString()))){
+                pvSelectionDTO.setNetExFactorySalesPerExFactory(true);
             }
         }
     }
@@ -1819,7 +1908,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     Collections.sort(hierarchyKeys);
                 }
                 boolean tpAsParent = true;
-                 List<ProjectionVarianceDTO> varibaleList = new ArrayList<ProjectionVarianceDTO>();
+                 List<ProjectionVarianceDTO> varibaleList = new ArrayList<>();
                 for (Iterator<String> it = hierarchyKeys.listIterator(); it.hasNext();) {
                     String key = it.next();
                     it.remove();
@@ -1828,12 +1917,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         varibaleList = resultMap.get(key);
                         resultMap.remove(key);
                     }
-//                    String key;
-//                    if (newKey.contains("$")) {
-//                        key = (newKey.split("\\$"))[0];
-//                    } else {
-//                        key = newKey;
-//                    }
 
                     Object parentItemId = null;
                     if (tradingPartnerKeys.contains(key)) {
@@ -1852,7 +1935,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
                                 }
-                                String groupParentKey = StringUtils.EMPTY;
+                                String groupParentKey;
                                 if (tpAsParent) {
                                     groupParentKey = parentKey + pvSelectionDTO.getGroupFilter();
                                     parentItemId = excelParentRecords.get(parentKey);
@@ -1972,13 +2055,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     public void getExcelProcedureInput() {
 
-        String splitarr[] = ("All Sales Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
-                || "All Discount Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
-                || "All PPA Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter()))
+        String splitarr[] = (Constant.ALL_SALES_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
+                || Constant.ALL_DISCOUNT_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())
+                || Constant.ALL_GROUP.equalsIgnoreCase(pvSelectionDTO.getGroupFilter()))
                 ? pvSelectionDTO.getGroupFilter().split(" ") : pvSelectionDTO.getGroupFilter().split("-");
-        String groupFilter = ("All Sales Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter()) || "All Discount Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter()) || "All PPA Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter())) ? splitarr[1] : splitarr[0];
-        String groupFilterValue = ("All Sales Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter()) || "All Discount Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter()) || "All PPA Group".equalsIgnoreCase(pvSelectionDTO.getGroupFilter())) ? "All" : splitarr[1];
-        String discountLevelValue = "Total Discount".equalsIgnoreCase(pvSelectionDTO.getDiscountLevel()) ? "Program" : pvSelectionDTO.getDiscountLevel();
+        String groupFilter = (Constant.ALL_SALES_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter()) || Constant.ALL_DISCOUNT_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter()) || Constant.ALL_GROUP.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())) ? splitarr[1] : splitarr[0];
+        String groupFilterValue = (Constant.ALL_SALES_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter()) || Constant.ALL_DISCOUNT_GROUP1.equalsIgnoreCase(pvSelectionDTO.getGroupFilter()) || Constant.ALL_GROUP.equalsIgnoreCase(pvSelectionDTO.getGroupFilter())) ? "All" : splitarr[1];
+        String discountLevelValue = Constants.LabelConstants.TOTAL_DISCOUNT.toString().equalsIgnoreCase(pvSelectionDTO.getDiscountLevel()) ? "Program" : pvSelectionDTO.getDiscountLevel();
 
         //User Id
         parameterDto.setUserId(sessionDTO.getUserId());

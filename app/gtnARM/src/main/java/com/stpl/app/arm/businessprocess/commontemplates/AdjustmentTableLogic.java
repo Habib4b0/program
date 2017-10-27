@@ -67,7 +67,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in configureContainer :"+e);
         }
         return dto;
     }
@@ -122,15 +122,11 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
                 if (expandLevelNo >= levelNo) {
 
                     List<AdjustmentDTO> levelList = null;
-                    try {
-                        criteria.setStart(0);
-                        criteria.setOffset(count);
-                        criteria.setSiblingCount(count);
-                        levelList = getData(criteria).getDataResults();
+                    criteria.setStart(0);
+                    criteria.setOffset(count);
+                    criteria.setSiblingCount(count);
+                    levelList = getData(criteria).getDataResults();
 
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                    }
                     if (levelList != null) {
                         int size = levelList.size();
                         int index = count - size + 1;
@@ -147,7 +143,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in recursivelyLoadExpandData :"+e);
         }
     }
 
@@ -162,22 +158,22 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
             //commented code
             setCurrentPage(tempCurrentPage);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in loadExpandData :"+e);
         }
     }
 
     @Override
     public int getCount(Criteria criteria) {
-        return getLogic().getCount(criteria);
+        return getSummaryLogic().getCount(criteria);
     }
 
     @Override
     public DataResult getData(Criteria criteria) {
-        return getLogic().getData(criteria);
+        return getSummaryLogic().getData(criteria);
     }
 
     @Override
-    public LogicAble<T> getLogic() {
+    public LogicAble<T> getSummaryLogic() {
         return logic;
     }
 

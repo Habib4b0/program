@@ -1,4 +1,3 @@
-
 package com.stpl.app.forecastdashboard.ui;
 
 import com.stpl.app.model.ForecastConfig;
@@ -70,11 +69,11 @@ public class ForecastDashBoardUI extends UI {
             if (!url.isEmpty()) {
                 url += "\\";
             }
-            url+=s;
+            url += s;
         }
 //        System.out.println(" url " + url);
         Label forecastLabel = new Label("", ContentMode.HTML);
-        forecastLabel.setValue("<div style=\"background: dodgerblue;color: white;text-align:center\"> Forecast Configuration Period : " 
+        forecastLabel.setValue("<div style=\"background: dodgerblue;color: white;text-align:center\"> Forecast Configuration Period : "
                 + startDateString + " to " + endDateString + "&nbsp;&nbsp;<b><a href=\"" + url + "\" style=\"color: yellow;\">Click Here to change </a></b></div> ");
         Label urlLabel = new Label(url);
 
@@ -142,47 +141,6 @@ public class ForecastDashBoardUI extends UI {
      * @param layoutFriendlyName the layout friendly name
      * @return the string
      */
-    private String buildUrlForPortlet() {
-        String groupFriendlyUrl = null;
-        final String serverUrl = Page.getCurrent().getLocation().toString();
-        final String[] url = serverUrl.split(":");
-        final String[] portSplit = url[1].split("/");
-        String layoutFriendlyName = "/forecasting-configuration";
-        try {
-            final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-            final User user = getUserInfo(Long.parseLong(userId));
-            if (user != null) {
-                final List<Organization> orgs = OrganizationLocalServiceUtil
-                        .getUserOrganizations(user.getUserId());
-                if (orgs != null && !orgs.isEmpty()) {
-                    final Organization org = orgs.get(0);
-                    final List<Group> groups = GroupLocalServiceUtil
-                            .getCompanyGroups(user.getCompanyId(), -1, -1);
-                    if (groups != null && !groups.isEmpty()) {
-                        for (final Group group : groups) {
-                            if (group.getName().equals(
-                                    Long.toString(org.getOrganizationId()))) {
-                                groupFriendlyUrl = group.getFriendlyURL();
-                                break;
-                            }
-                        }
-                    }
-                }
-
-            }
-
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        if (groupFriendlyUrl == null) {
-            groupFriendlyUrl = "/guest";
-        }
-        //  System.out.println("---------------url--" + ((groupFriendlyUrl != null) ? ("http:" + portSplit[0] + layoutFriendlyName) : null));
-
-        return (groupFriendlyUrl == null || serverUrl == null) ? null : ("http:" + portSplit[0]
-                + layoutFriendlyName);
-    }
-
     /**
      * Gets the user info.
      *
@@ -199,7 +157,7 @@ public class ForecastDashBoardUI extends UI {
                 return resultList.get(0);
             }
         } catch (SystemException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(ForecastDashBoardUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -207,7 +165,7 @@ public class ForecastDashBoardUI extends UI {
     public Map<String, BigDecimal> getActualsData() {
         Map<String, BigDecimal> actualsMap = new HashMap<String, BigDecimal>();
 
-        List<Object[]> resultList = (List<Object[]>) RsModelLocalServiceUtil.executeSelectQuery(getActualsQuery(),null,null);
+        List<Object[]> resultList = (List<Object[]>) RsModelLocalServiceUtil.executeSelectQuery(getActualsQuery(), null, null);
         if (resultList != null && !resultList.isEmpty()) {
             for (Object[] obj : resultList) {
 //                System.out.println(" Market Type - " + obj[0]);

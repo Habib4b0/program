@@ -45,7 +45,7 @@ public class QuartzJob implements Job {
                 }
             } else if ("CFF_OUTBOUND_INTERFACE".equalsIgnoreCase(profile.getProcessName())) {
                 try {
-                    SchedulerSynchronizer process = SchedulerSynchronizer.getInstance(" Automatic Scheduler ");
+                    SchedulerSynchronizer process = SchedulerSynchronizer.getInstance(AUTOMATIC_SCHEDULER);
                     process.lock();
                     int i = 0;
                     new ProcessSchedulerLogic().schedulerInsert();
@@ -63,30 +63,30 @@ public class QuartzJob implements Job {
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
-            } else if ("ACCRUAL_RATE_PROJECTION_INTERFACE".equalsIgnoreCase(profile.getProcessName())) {
-                try {
-                    ArmSchedulerSynchronizer arpProcess = ArmSchedulerSynchronizer.getInstance(" Automatic Scheduler ");
-                    arpProcess.lock();
+           } else if ("ACCRUAL_RATE_PROJECTION_INTERFACE".equalsIgnoreCase(profile.getProcessName())) {
+            try {
+                ArmSchedulerSynchronizer arpProcess = ArmSchedulerSynchronizer.getInstance(AUTOMATIC_SCHEDULER);
+                arpProcess.lock();
                     new ProcessSchedulerLogic().schedulerInsertForArp(one, one);
-                    logic.runJob(getFtpBundleValue(), profile.getScriptName());
-                    logic.updateLastRun(profile.getProcessSid(), true);
-                    arpProcess.unlock();
-                } catch (Exception ex) {
-                    LOGGER.error(ex);
-                }
+                logic.runJob(getFtpBundleValue(), profile.getScriptName());
+                logic.updateLastRun(profile.getProcessSid(), true);
+                arpProcess.unlock();
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
             } else if (ConstantsUtils.ADJ_RESERVER_DETAIL_INTERFACE.equals(profile.getProcessName()) || ConstantsUtils.ADJ_GTN_DETAIL_INTERFACE.equals(profile.getProcessName())) {
-                try {
-                    ArmSchedulerSynchronizer adjOutboundProcess = ArmSchedulerSynchronizer.getInstance(" Automatic Scheduler ");
-                    adjOutboundProcess.lock();
+            try {
+                ArmSchedulerSynchronizer adjOutboundProcess = ArmSchedulerSynchronizer.getInstance(AUTOMATIC_SCHEDULER);
+                adjOutboundProcess.lock();
                     new ProcessSchedulerLogic().updateCheckRecord(profile.getProcessName(), one, one);
-                    logic.runJob(getFtpBundleValue(), profile.getScriptName());
-                    logic.updateLastRun(profile.getProcessSid(), true);
-                    adjOutboundProcess.unlock();
-                } catch (Exception ex) {
-                    LOGGER.error(ex);
-                }
-            } else {
-                try {
+                logic.runJob(getFtpBundleValue(), profile.getScriptName());
+                logic.updateLastRun(profile.getProcessSid(), true);
+                adjOutboundProcess.unlock();
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+        } else {
+            try {
                     logic.runJob(getFtpBundleValue(), profile.getScriptName());
                 } catch (Exception e) {
                     LOGGER.error(e);
@@ -105,7 +105,7 @@ public class QuartzJob implements Job {
                 logic.deleteUnsavedProjections("ForecastUnsavedProjectionDelete");
                 //To drop temp tables created dynamically using userId and sessionId    
                 logic.deleteUnsavedProjections("ForecastTempTableDrop");
-                LOGGER.debug("Ending delete Job");
+            LOGGER.debug("Ending delete Job");
             } catch (Exception e) {
                 LOGGER.error(e);
             }
@@ -115,6 +115,7 @@ public class QuartzJob implements Job {
             QuartzListener.printJobsForJobKey(context.getJobDetail().getKey());
         } catch (Exception e) {
             LOGGER.error(e);
-        }
     }
+}
+    public static final String AUTOMATIC_SCHEDULER = " Automatic Scheduler ";
 }

@@ -26,6 +26,7 @@ public abstract class NotificationUtils {
         MessageBox.showPlain(Icon.ERROR, confirmationHeader,
                 confirmationMessage, new MessageBoxListener() {
                     public void buttonClicked(ButtonId buttonId) {
+                        return;
                     }
                 }, ButtonId.OK);
     }
@@ -35,6 +36,7 @@ public abstract class NotificationUtils {
         MessageBox.showPlain(Icon.WARN, confirmationHeader,
                 confirmationMessage, new MessageBoxListener() {
                     public void buttonClicked(ButtonId buttonId) {
+                        return;
                     }
                 }, ButtonId.OK);
     }
@@ -44,6 +46,7 @@ public abstract class NotificationUtils {
         MessageBox.showPlain(Icon.INFO, confirmationHeader,
                 confirmationMessage, new MessageBoxListener() {
                     public void buttonClicked(ButtonId buttonId) {
+                        return;
                     }
                 }, ButtonId.OK);
     }

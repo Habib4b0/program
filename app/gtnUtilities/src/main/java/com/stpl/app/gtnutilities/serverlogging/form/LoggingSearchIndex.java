@@ -48,7 +48,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
     private Button viewBtn;
     @UiField("deleteBtn")
     private Button deleteBtn;
-    private Button downloadBtn=new Button("DOWNLOAD");
+    private Button downloadBtn=new Button(Constants.DOWNLOAD);
     @UiField("buttonLayout2")
     private HorizontalLayout buttonLayout2;
     public LoggingDto loggingDTO = new LoggingDto();
@@ -108,7 +108,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
     private void init() {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/LoggingSearchIndex.xml"), this));
         configureTable();
-        downloadBtn = new Button("DOWNLOAD");
+        downloadBtn = new Button(Constants.DOWNLOAD);
         buttonLayout2.addComponent(downloadBtn);
     }
 
@@ -120,6 +120,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /**
@@ -230,7 +231,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
             logDestinationValue = ((LoggingDto) targetItem.getBean()).getLogDestination();
             if(isActive){
                 buttonLayout2.removeComponent(downloadBtn);
-                downloadBtn = new Button("DOWNLOAD");
+                downloadBtn = new Button(Constants.DOWNLOAD);
                 Resource res = new FileResource(new File(logDestinationValue));
                 FileDownloader fd = new FileDownloader(res);
                 fd.extend(downloadBtn);

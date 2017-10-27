@@ -10,6 +10,6 @@ package com.stpl.app.arm.supercode;
  * @author Abhiram.Giri
  * @param <T>
  */
-public interface TableLogicAble<T extends InterFaceDTO> extends LogicAble<T>{
-    
+public interface TableLogicAble<T extends InterFaceDTO> extends LogicAble<T> {
+
 }

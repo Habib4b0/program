@@ -6,6 +6,7 @@
 package com.stpl.app.gtnforecasting.salesprojectionresults.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjectionResults;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesProjectionResultsDTO;
@@ -90,7 +91,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     public static final Logger LOGGER = Logger.getLogger(NMSalesProjectionResults.class);
 
-    List<Object> possibleKeyList = new ArrayList<Object>();
+    List<Object> possibleKeyList = new ArrayList<>();
     boolean sales;
     boolean units;
 
@@ -108,24 +109,24 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The history bean.
      */
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<String>(
+    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(
             String.class);
     /**
      * The map left visible columns.
      */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     /**
      * The map right visible columns.
      */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     ExtFilterTreeTable leftTable;
     ExtFilterTreeTable rightTable;
     SessionDTO session;
     List<Object> headerList;
-    List<CustomViewMaster> customViewList = new ArrayList<CustomViewMaster>();
+    List<CustomViewMaster> customViewList = new ArrayList<>();
     int customIdToSelect = 0;
     private ExtCustomTreeTable exportPeriodViewTable;
-    public static final String SALES_RESULTS = "Sales Projection Results";
+    public static final String SALES_RESULTS = Constant.SALES_PROJECTION_RESULTS;
     int customId = 0;
     List<Date> startAndTodate;
 
@@ -172,15 +173,16 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The result bean.
      */
-    private ExtTreeContainer<SalesProjectionResultsDTO> resultBean = new ExtTreeContainer<SalesProjectionResultsDTO>(
+    private ExtTreeContainer<SalesProjectionResultsDTO> resultBean = new ExtTreeContainer<>(
             SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
-    private ExtTreeContainer<SalesProjectionResultsDTO> excelResultBean = new ExtTreeContainer<SalesProjectionResultsDTO>(
+    private ExtTreeContainer<SalesProjectionResultsDTO> excelResultBean = new ExtTreeContainer<>(
             SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
     CustomTableHeaderDTO rightDTO;
     NMSalesProjectionResultsTableLogic tableLogic = new NMSalesProjectionResultsTableLogic();
     private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     boolean flag = false;
+    boolean isTabVisible = true;
 
     /**
      * Instantiates a new SALES_SMALL projection results.
@@ -190,7 +192,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         LOGGER.info("SalesProjectionResults Constructor initiated ");
         this.session = session;
         this.screenName = screenName;
-        projectionDTO.setTabName("Sales Projection Results");
+        projectionDTO.setTabName(Constant.SALES_PROJECTION_RESULTS);
         if (flag) {
             configure();
         }
@@ -212,8 +214,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         frequency.setValue(Constant.QUARTERLY);
         frequency.focus();
 
-        history.addItem("4 Quarters");
-        history.setValue("4 Quarters");
+        history.addItem(Constant.FOUR_QUARTERS);
+        history.setValue(Constant.FOUR_QUARTERS);
 
         salesOrUnits.addItem(Constant.SALES_SMALL);
         salesOrUnits.addItem(Constant.UNITS_SMALL);
@@ -237,8 +239,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         graphBtn.setIcon(graphImage);
 
         view.addItem(Constant.CUSTOMER_SMALL);
-        view.addItem(Constant.PRODUCT);
-        view.addItem(Constant.CUSTOM);
+        view.addItem(Constant.PRODUCT_LABEL);
+        view.addItem(Constant.CUSTOM_LABEL);
         view.setValue(Constant.CUSTOMER_SMALL);
         view.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -281,7 +283,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     protected final List<String> loadHistory(String frequency, String period) {
         LOGGER.info("loadHistory method starts");
-        List<String> history = new ArrayList<String>();
+        List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.getConstant().equals(frequency)) {
@@ -352,7 +354,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 history.addItem(SELECT_ONE.getConstant());
                 history.setNullSelectionItemId(SELECT_ONE.getConstant());
                 historyBean.addAll(loadHistory(QUARTERLY.getConstant(), QUARTERS.getConstant()));
-                historyConstant = "4 Quarters";
+                historyConstant = Constant.FOUR_QUARTERS;
             } else if (MONTHLY.getConstant().equals(
                     String.valueOf(frequency.getValue()))) {
                 history.removeAllItems();
@@ -389,9 +391,9 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
         CustomTableHeaderDTO leftDTO = HeaderUtils.getSalesProjectionResultsLeftTableColumns(fullHeader);
         projectionDTO.setProjTabName("SPR");
-        rightDTO = HeaderUtils.getSalesProjectionResultsRightTableColumns(projectionDTO, session, fullHeader);
+        rightDTO = HeaderUtils.getSalesProjectionResultsRightTableColumns(projectionDTO, fullHeader);
         projectionDTO.setProjTabName(StringUtils.EMPTY);
-        resultBean = new ExtTreeContainer<SalesProjectionResultsDTO>(SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
+        resultBean = new ExtTreeContainer<>(SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
         resultBean.setColumnProperties(leftDTO.getProperties());
         resultBean.setColumnProperties(rightDTO.getProperties());
         tableLogic.setTreeNodeMultiClick(false);
@@ -410,9 +412,9 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         leftTable.setColumnHeaders(leftDTO.getSingleHeaders().toArray(new String[leftDTO.getSingleHeaders().size()]));
 
         leftTable.setFilterBarVisible(true);
-        resultsTable.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        resultsTable.setHeight(Constant.SIX_FIFTY_PX);
+        leftTable.setHeight(Constant.SIX_FIFTY_PX);
+        rightTable.setHeight(Constant.SIX_FIFTY_PX);
         mapLeftVisibleColumns = leftDTO.getDoubleHeaderMaps();
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
 
@@ -462,13 +464,13 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
             @Override
             public void noMethod() {
-
+                return;
             }
 
             @Override
             public void yesMethod() {
                 frequency.setValue(Constant.QUARTERLY);
-                history.setValue("4 Quarters");
+                history.setValue(Constant.FOUR_QUARTERS);
                 salesOrUnits.setValue(Constant.SALES_SMALL);
                 periodOrder.setValue(Constant.ASCENDING);
                 actualOrProj.setValue(Constant.ACTUALS);
@@ -545,7 +547,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 List<SalesProjectionResultsDTO> levelList = list.get(0);
                 List<SalesProjectionResultsDTO> salesList = list.get(1);
                 List<SalesProjectionResultsDTO> unitList = list.get(NumericConstants.TWO);
-                if ("period".equalsIgnoreCase(pivotView.getValue().toString())) {
+                if (Constant.PERIOD_SMALL.equalsIgnoreCase(pivotView.getValue().toString())) {
 
                     container.addBean(levelList.get(0));
                     container.setChildrenAllowed(levelList.get(0), true);
@@ -605,7 +607,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             LOGGER.info("addLowerLevels method starts");
             NMSalesProjectionResultsLogic logic = new NMSalesProjectionResultsLogic();
             SalesProjectionResultsDTO levelDto = getBeanFromId(id);
-            List<List> resulList = new ArrayList<List>();
+            List<List> resulList;
             Object[] selections = new Object[NumericConstants.NINE];
             selections[0] = session.getProjectionId();
             selections[1] = frequency.getValue().toString();
@@ -626,7 +628,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 List<SalesProjectionResultsDTO> resultList = resulList.get(0);
                 List<SalesProjectionResultsDTO> salesList = resulList.get(1);
                 List<SalesProjectionResultsDTO> unitList = resulList.get(NumericConstants.TWO);
-                if ("period".equalsIgnoreCase(pivotView.getValue().toString())) {
+                if (Constant.PERIOD_SMALL.equalsIgnoreCase(pivotView.getValue().toString())) {
                     container.addBean(resultList.get(0));
                     container.setChildrenAllowed(resultList.get(0), true);
                     container.setParent(resultList.get(0), levelDto);
@@ -672,7 +674,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof SalesProjectionResultsDTO) {
-            targetItem = new BeanItem<SalesProjectionResultsDTO>(
+            targetItem = new BeanItem<>(
                     (SalesProjectionResultsDTO) obj);
         }
         LOGGER.info("getBeanFromId method ends");
@@ -682,14 +684,16 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     public void saveSPResults() {
         LOGGER.info("saveSPResults method starts");
         try {
-            Map map = new HashMap();
-            map.put(Constant.FREQUENCY_SMALL, frequency.getValue() != null ? frequency.getValue().toString() : StringUtils.EMPTY);
-            map.put(Constant.HISTORY_CAPS, history.getValue() != null ? history.getValue().toString() : StringUtils.EMPTY);
-            map.put("Sales/Units", salesOrUnits.getValue() != null ? salesOrUnits.getValue().toString() : StringUtils.EMPTY);
-            map.put("Actuals/Projections", actualOrProj.getValue() != null ? actualOrProj.getValue().toString() : StringUtils.EMPTY);
-            map.put(Constant.PERIOD_ORDER, periodOrder.getValue() != null ? periodOrder.getValue().toString() : StringUtils.EMPTY);
-            map.put("Pivot", pivotView.getValue() != null ? pivotView.getValue().toString() : StringUtils.EMPTY);
-            sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), "Sales Projection Results");
+            if (isIsTabVisible()) {
+                Map map = new HashMap();
+                map.put(Constant.FREQUENCY_SMALL, frequency.getValue() != null ? frequency.getValue().toString() : StringUtils.EMPTY);
+                map.put(Constant.HISTORY_CAPS, history.getValue() != null ? history.getValue().toString() : StringUtils.EMPTY);
+                map.put("Sales/Units", salesOrUnits.getValue() != null ? salesOrUnits.getValue().toString() : StringUtils.EMPTY);
+                map.put("Actuals/Projections", actualOrProj.getValue() != null ? actualOrProj.getValue().toString() : StringUtils.EMPTY);
+                map.put(Constant.PERIOD_ORDER, periodOrder.getValue() != null ? periodOrder.getValue().toString() : StringUtils.EMPTY);
+                map.put(Constant.PIVOT_SMALL, pivotView.getValue() != null ? pivotView.getValue().toString() : StringUtils.EMPTY);
+                sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION_RESULTS);
+            }
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -723,8 +727,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         if (!list.isEmpty()) {
             List<SalesProjectionResultsDTO> salesList = list.get(1);
             List<SalesProjectionResultsDTO> unitList = list.get(NumericConstants.TWO);
-            List<SalesProjectionResultsDTO> gts = logic.getGTSResult(session.getProjectionId(), session.getSessionId(), session.getUserId(), headerList, selection, pivotView.getValue().toString());
-            if ("period".equalsIgnoreCase(pivotView.getValue().toString())) {
+            List<SalesProjectionResultsDTO> gts = logic.getGTSResult(session.getProjectionId(), session.getSessionId(), session.getUserId(), selection, pivotView.getValue().toString());
+            if (Constant.PERIOD_SMALL.equalsIgnoreCase(pivotView.getValue().toString())) {
                 container.addBean(sprDTO);
                 container.setChildrenAllowed(sprDTO, false);
                 if (!gts.isEmpty() && sales) {
@@ -754,7 +758,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     @Override
     public void newCustomHierarchyLogic() {
         LOGGER.info("newCustomHierarchhy clickEvent method starts");
-        final CustomTreeBuild customTree = new CustomTreeBuild(Constant.ADD_FULL_SMALL, session);
+        final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
 
             @Override
@@ -800,7 +804,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             if (customIdToSelect == 0) {
                 level.setEnabled(false);
                 customDdlb.setValue(SELECT_ONE);
-                if (!generated && firstGenerated) {
+                if (firstGenerated) {
                     generateLogic();
                 }
             } else {
@@ -841,7 +845,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                 ForecastUI.EXCEL_CLOSE = true;
                 if (i == 0) {
-                    exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, "Sales Projection Results", "Sales_Projection_Results.xls", false);
+                    exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
                 } else {
                     exp.setNextTableHolder(new ExtCustomTableHolder(exportPeriodViewTable), sheetName);
                 }
@@ -862,7 +866,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     public void editHierarchyBtnLogic() {
         LOGGER.info("editHierarchyBtn clickEvent method starts");
         if (CommonLogic.editButtonValidation(customDdlb, customViewList)) {
-            final CustomTreeBuild customTree = new CustomTreeBuild(Constant.EDIT, session, customId);
+            final CustomTreeBuild customTree = new CustomTreeBuild(session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
 
                 @Override
@@ -1017,7 +1021,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
         if (view.getValue() != null) {
             setTradingNo();
-            if (Constant.CUSTOM.equals(String.valueOf(view.getValue()))) {
+            if (Constant.CUSTOM_LABEL.equals(String.valueOf(view.getValue()))) {
                 projectionDTO.setHierarchyIndicator(StringUtils.EMPTY);
                 projectionDTO.setIsCustomHierarchy(true);
                 if (firstGenerated && !generated) {
@@ -1040,7 +1044,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                     if (viewChange && firstGenerated) {
                         generateLogic();
                     }
-                } else if (Constant.PRODUCT.equals(String.valueOf(view.getValue()))) {
+                } else if (Constant.PRODUCT_LABEL.equals(String.valueOf(view.getValue()))) {
                     projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     projectionDTO.setRelationshipBuilderSid(projectionDTO.getProdRelationshipBuilderSid());
                     if (viewChange && firstGenerated) {
@@ -1064,7 +1068,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         levelFilter.setValue(SELECT_ONE);
         if (projectionDTO.isIsCustomHierarchy()) {
             if (!session.getCustomHierarchyMap().isEmpty() && customId != 0) {
-                Utility.loadLevelValueForResult(level, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM);
+                Utility.loadLevelValueForResult(level, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
             }
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
             Utility.loadLevelValueForResult(level, levelFilter, null, session.getCustomerHierarchyList(), view.getValue().toString());
@@ -1085,7 +1089,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         projectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
         projectionDTO.clearNonFetchableIndex();
-        tableLogic.setProjectionResultsData(projectionDTO, "SPR");
+        tableLogic.setProjectionResultsData(projectionDTO);
         configureTableFieldFactory();
     }
 
@@ -1135,7 +1139,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         if (Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue()))) {
             projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             projectionDTO.setRelationshipBuilderSid(projectionDTO.getCustRelationshipBuilderSid());
-        } else if (Constant.PRODUCT.equals(String.valueOf(view.getValue()))) {
+        } else if (Constant.PRODUCT_LABEL.equals(String.valueOf(view.getValue()))) {
             projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
             projectionDTO.setRelationshipBuilderSid(projectionDTO.getProdRelationshipBuilderSid());
         }
@@ -1171,9 +1175,9 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     @SuppressWarnings("serial")
     private void configureExcelResultTable() {
-        excelResultBean = new ExtTreeContainer<SalesProjectionResultsDTO>(SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
+        excelResultBean = new ExtTreeContainer<>(SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
 
-        Map<String, String> selection = new HashMap<String, String>();
+        Map<String, String> selection = new HashMap<>();
         selection.put(Constant.FREQUENCY, frequency.getValue().toString());
         selection.put(Constant.HISTORY, history.getValue().toString());
         selection.put(Constant.ORDER, periodOrder.getValue().toString());
@@ -1245,7 +1249,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             if (value != null) {
                 periodOrder.setValue(value.toString());
             }
-            value = map.get("Pivot");
+            value = map.get(Constant.PIVOT_SMALL);
             if (value != null) {
                 pivotView.setValue(value.toString());
             }
@@ -1257,7 +1261,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             if (value != null) {
                 salesOrUnits.setValue(value.toString());
             }
-            value = map.get("Pivot");
+            value = map.get(Constant.PIVOT_SMALL);
             if (value != null) {
                 view.setValue(value.toString());
             }
@@ -1273,14 +1277,14 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         }
     }
 
-    public void loadGroupFilter(int projectionID, int userID, int sessionID) {
+    public void loadGroupFilter() {
         LOGGER.info("loadGroupFilter initiated ");
 
         LOGGER.info("loadGroupFilter ends ");
     }
 
     public void loadGroupFilterOntabChange() {
-        loadGroupFilter(session.getProjectionId(), projectionDTO.getUserId(), projectionDTO.getSessionId());
+        loadGroupFilter();
     }
 
 
@@ -1289,7 +1293,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), GlobalConstants.getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION_RESULTS);
 
-            if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON_SALES) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON_SALES)).isFunctionFlag())) {
+            if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
                 generateBtn.setVisible(Boolean.FALSE);
                 expandBtn.setVisible(Boolean.FALSE);
                 collapseBtn.setVisible(Boolean.FALSE);
@@ -1325,6 +1329,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         editBtn.setTabIndex(NumericConstants.SIXTEEN);
         excelBtn.setTabIndex(NumericConstants.SEVENTEEN);
         graphBtn.setTabIndex(NumericConstants.EIGHTEEN);
+        AbstractForm.getBtnSave().setTabIndex(NumericConstants.NINETEEN);
+        AbstractForm.getBtnPrev().setTabIndex(NumericConstants.TWENTY);
+        AbstractForm.getBtnNext().setTabIndex(NumericConstants.TWENTY_ONE);
+        AbstractForm.getBtnClose().setTabIndex(NumericConstants.TWENTY_TWO);
+        AbstractForm.getBtnSubmit().setTabIndex(NumericConstants.TWENTY_THREE);
     }
 
     /**
@@ -1367,10 +1376,12 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
                 @Override
                 public void filterRemoved(Object propertyId) {
+                    return;
                 }
 
                 @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                    return;
                 }
 
                 @Override
@@ -1392,10 +1403,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             for (String groups : groupList) {
                 group.addItem(groups);
             }
-//            group.select(groupList.get(0));
         }
         group.select(Constant.ALL_SALES_GROUP);
-//        group.select(Constant.ALL_SALES_GROUP);
     }
 
     private ComboBox getComboBox() {
@@ -1425,4 +1434,14 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     public void defaultFocus() {
         frequency.focus();
     }
+
+    public boolean isIsTabVisible() {
+        return isTabVisible;
+    }
+
+    public void setIsTabVisible(boolean isTabVisible) {
+        this.isTabVisible = isTabVisible;
+    }
+    
+    
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.stpl.app.arm.businessprocess.pipelineinventory.dto;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
@@ -14,104 +13,119 @@ import java.util.Map;
  *
  * @author Karthikeyan.Subraman
  */
-public class PipelineInventorySelectionDTO extends AbstractSelectionDTO{
-    
-    private List<String[]> sales_variables;
-    private String inventory_Details;
-    private String inventory_price;
-    private String inventory_reserveDate;
+public class PipelineInventorySelectionDTO extends AbstractSelectionDTO {
+
+    private List<String[]> salesvariablesList;
+    private String inventoryDetails;
+    private String inventoryprice;
+    private String inventoryreserveDate;
     private String[] variableVisibleColumns;
-    private Map<String,String> inventory_fixed_ColumnList;
+    private Map<String, String> inventoryfixedColumnList;
 
-    public List<String[]> getSales_variables() {
-        return sales_variables;
+    @Override
+    public List<String[]> getSalesVariables() {
+        return salesvariablesList;
     }
 
-    public void setSales_variables(List<String[]> sales_variables) {
-        this.sales_variables = sales_variables;
-    }
-   
-
-    public void setInventory_Details(String inventory_Details) {
-        this.inventory_Details = inventory_Details;
+    @Override
+    public void setSalesVariables(List<String[]> salesvariablesList) {
+        this.salesvariablesList = salesvariablesList;
     }
 
-    public String getInventory_Details() {
-        return inventory_Details;
+    @Override
+    public void setInventoryDetails(String inventoryDetails) {
+        this.inventoryDetails = inventoryDetails;
     }
 
-    public String getInventory_price() {
-        return inventory_price;
+    @Override
+    public String getInventoryDetails() {
+        return inventoryDetails;
     }
 
-    public void setInventory_price(String inventory_price) {
-        this.inventory_price = inventory_price;
+    public String getInventoryprice() {
+        return inventoryprice;
     }
 
-    public String getInventory_reserveDate() {
-        return inventory_reserveDate;
+    public void setInventoryprice(String inventoryprice) {
+        this.inventoryprice = inventoryprice;
     }
 
-    public void setInventory_reserveDate(String inventory_reserveDate) {
-        this.inventory_reserveDate = inventory_reserveDate;
+    @Override
+    public String getInventoryreserveDate() {
+        return inventoryreserveDate;
     }
 
+    @Override
+    public void setInventoryreserveDate(String inventoryreserveDate) {
+        this.inventoryreserveDate = inventoryreserveDate;
+    }
+
+    @Override
     public List<String> getSelectedAdjustmentType() {
         return selectedAdjustmentType;
     }
 
+    @Override
     public void setSelectedAdjustmentType(List<String> selectedAdjustmentType) {
         this.selectedAdjustmentType = selectedAdjustmentType;
     }
 
-    public String getDetail_Level() {
-        return detail_Level;
+    @Override
+    public String getDetailLevel() {
+        return detailLevel;
     }
 
-    public void setDetail_Level(String detail_Level) {
-        this.detail_Level = detail_Level;
+    @Override
+    public void setDetailLevel(String detailLevel) {
+        this.detailLevel = detailLevel;
     }
 
-    public List<String> getDetail_reserveAcount() {
-        return detail_reserveAcount;
+    @Override
+    public List<String> getDetailreserveAcount() {
+        return detailreserveAcount;
     }
 
-    public void setDetail_reserveAcount(List<String> detail_reserveAcount) {
-        this.detail_reserveAcount = detail_reserveAcount;
+    @Override
+    public void setDetailreserveAcount(List<String> detailReserveAcount) {
+        this.detailreserveAcount = detailReserveAcount;
     }
 
-    public List<String> getDetail_variables() {
-        return detail_variables;
+    @Override
+    public List<String> getDetailvariables() {
+        return detailvariables;
     }
 
-    public void setDetail_variables(List<String> detail_variables) {
-        this.detail_variables = detail_variables;
+    @Override
+    public void setDetailvariables(List<String> detailVariables) {
+        this.detailvariables = detailVariables;
     }
 
-    public String getSummary_glDate() {
-        return summary_glDate;
+    @Override
+    public String getSummaryglDate() {
+        return summaryglDate;
     }
 
-    public void setSummary_glDate(String summary_glDate) {
-        this.summary_glDate = summary_glDate;
+    @Override
+    public void setSummaryglDate(String summaryGLDate) {
+        this.summaryglDate = summaryGLDate;
     }
 
+    @Override
     public String[] getVariableVisibleColumns() {
         return variableVisibleColumns;
     }
 
+    @Override
     public void setVariableVisibleColumns(String[] variableVisibleColumns) {
         this.variableVisibleColumns = variableVisibleColumns;
     }
 
-    public Map<String, String> getInventory_fixed_ColumnList() {
-        return inventory_fixed_ColumnList;
+    public Map<String, String> getInventoryfixedColumnList() {
+        return inventoryfixedColumnList;
     }
 
-    public void setInventory_fixed_ColumnList(Map<String, String> inventory_fixed_ColumnList) {
-        this.inventory_fixed_ColumnList = inventory_fixed_ColumnList;
+    public void setInventoryfixedColumnList(Map<String, String> inventoryfixedColumnList) {
+        this.inventoryfixedColumnList = inventoryfixedColumnList;
     }
 
-   
-    
 }

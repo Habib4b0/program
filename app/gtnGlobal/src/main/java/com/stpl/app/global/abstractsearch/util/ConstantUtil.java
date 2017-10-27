@@ -3,37 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.stpl.app.global.abstractsearch.util;
 
 /**
  * The Class Constant Util.
+ *
  * @author pvinoth
  */
 public class ConstantUtil {
-    
+
     public static final String ITEM_MASTER = "itemmaster";
-    
+
     public static final String COMPANY_MAST = "companymaster";
-    
-    public static final  String COMPANY_FAMILY_PLAN = "companyfamilyplan";
-    
-    public static final  String ITEM_FAMILY_PLAN = "itemfamilyplan";
-    
-    public static final  String PRICE_SCHEDULE_MASTER = "priceschedule";
-    
-    public static final  String REBATE_SCHEDULE_MASTER = "rebateschedule";
-    
-    public static final String  NET_SALES_FORMULA="netsalesformula";
-    
-    public static final  String REBATE_PLAN = "rebateplan";
-    
-    public static final  String DEDUCTION_CALENDAR = "deductioncalendar";
-    
-    public static final  String SELECT_ONE = "-Select One-";
-    
-    public static final  String COMPLIANCE_DEDUCTION_RULES = "compliancedeductionrules";
-    
+
+    public static final String COMPANY_FAMILY_PLAN = "companyfamilyplan";
+
+    public static final String ITEM_FAMILY_PLAN = "itemfamilyplan";
+
+    public static final String PRICE_SCHEDULE_MASTER = "priceschedule";
+
+    public static final String REBATE_SCHEDULE_MASTER = "rebateschedule";
+
+    public static final String NET_SALES_FORMULA = "netsalesformula";
+
+    public static final String REBATE_PLAN = "rebateplan";
+
+    public static final String DEDUCTION_CALENDAR = "deductioncalendar";
+
+    public static final String SELECT_ONE = "-Select One-";
+
+    public static final String COMPLIANCE_DEDUCTION_RULES = "compliancedeductionrules";
+
     /**
      * The comma.
      */
@@ -42,40 +42,40 @@ public class ConstantUtil {
     /**
      * The zero.
      */
-    public static final  String ZERO = "0";
+    public static final String ZERO = "0";
     /**
      * The zero.
      */
-    public static final  int ZERO_INT = 0;
+    public static final int ZERO_INT = 0;
 
     /**
      * The view.
      */
-    public static final  String VIEW = "view";
+    public static final String VIEW = "view";
 
     /**
      * The space.
      */
-    public static final  String SPACE = "&nbsp;";
+    public static final String SPACE = "&nbsp;";
 
     /**
      * The height.
      */
-    public static final  String HEIGHT = "20";
+    public static final String HEIGHT = "20";
     /**
      * The identifier qualifier mess.
      */
-    public static final  String IDENTIFIER_QUALIFIER_MESS = "Both identifier and qualifier should be entered";
+    public static final String IDENTIFIER_QUALIFIER_MESS = "Both identifier and qualifier should be entered";
 
     /**
      * The quote.
      */
-    public static final  String QUOTE = "\"";
+    public static final String QUOTE = "\"";
 
     /**
      * The longdateformat.
      */
-    public static final  String LONGDATEFORMAT = "yyyy-MM-dd hh:mm:ss.S";
+    public static final String LONGDATEFORMAT = "yyyy-MM-dd hh:mm:ss.S";
     /**
      * The simpledateformat.
      */
@@ -83,99 +83,100 @@ public class ConstantUtil {
     /**
      * The error in search.
      */
-    public static final  String ERROR_IN_SEARCH = "error occured in search";
+    public static final String ERROR_IN_SEARCH = "error occured in search";
 
     /**
      * The populate all.
      */
-    public static final  String POPULATE_ALL = "Populate All";
+    public static final String POPULATE_ALL = "Populate All";
 
     /**
      * The populate.
      */
-    public static final  String POPULATE = "Populate";
+    public static final String POPULATE = "Populate";
 
     /**
      * The search completed.
      */
-    public static final  String SEARCH_COMPLETED = "Search Completed";
+    public static final String SEARCH_COMPLETED = "Search Completed";
 
     /**
      * The no results completed.
      */
-    public static final  String NO_RESULTS_COMPLETED = "No results found";
+    public static final String NO_RESULTS_COMPLETED = "No results found";
 
     /**
      * The null.
      */
-    public static final  String NULL = "null";
+    public static final String NULL = "null";
+    public static final String NULL_DATA = "null,null,null,null";
 
     /**
      * The user id.
      */
-    public static final  String USER_ID = "userId";
+    public static final String USER_ID = "userId";
 
     /**
      * The user id.
      */
-    public static final  String USER_SID = "usersSid";
+    public static final String USER_SID = "usersSid";
 
     /**
      * The session id.
      */
-    public static final  String SESSION_ID = "sessionId";
+    public static final String SESSION_ID = "sessionId";
     /**
      * The session id.
      */
-    public static final  String SESSION_DATE = "sessionDate";
+    public static final String SESSION_DATE = "sessionDate";
     /**
      * The session id.
      */
-    public static final  String UI_SESSION_ID = "uiSessionId";
+    public static final String UI_SESSION_ID = "uiSessionId";
     /**
      * The user id.
      */
-    public static final  String USER_ID_SMALL = "userid";
+    public static final String USER_ID_SMALL = "userid";
 
     /**
      * The session id.
      */
-    public static final  String SESSION_ID_SMALL = "sessionid";
+    public static final String SESSION_ID_SMALL = "sessionid";
 
     /**
      * The system id.
      */
-    public static final  String SYSTEM_ID = "text1";
+    public static final String SYSTEM_ID = "text1";
 
     /**
      * The check box.
      */
-    public static final  String CHECK_BOX = "checkbox";
+    public static final String CHECK_BOX = "checkbox";
 
     /**
      * The start date.
      */
-    public static final  String START_DATE = "startDate";
+    public static final String START_DATE = "startDate";
 
     /**
      * The identifier required.
      */
-    public static final  String IDENTIFIER_REQUIRED = "Identifier should be entered on Identifier tab";
+    public static final String IDENTIFIER_REQUIRED = "Identifier should be entered on Identifier tab";
 
     /**
      * The end date.
      */
-    public static final  String END_DATE = "endDate";
+    public static final String END_DATE = "endDate";
 
     /**
      * The start date.
      */
-    public static final  String START_DATE_SP = "startDate";
+    public static final String START_DATE_SP = "startDate";
 
     /**
      * The end date.
      */
-    public static final  String END_DATE_SP = "endDate";
+    public static final String END_DATE_SP = "endDate";
 
     /**
      * The entity code.
@@ -333,7 +334,7 @@ public class ConstantUtil {
      */
     public static final String EMPTY = "empty";
 
-	// CFP MODULE
+    // CFP MODULE
     /**
      * The cfp id.
      */
@@ -438,7 +439,7 @@ public class ConstantUtil {
      */
     public static final String PARENT_CFP_ID_DUP = "parentCfpId";
 
-	// COMPANY MODULE
+    // COMPANY MODULE
     /**
      * Inbound Status
      */
@@ -582,12 +583,12 @@ public class ConstantUtil {
     /**
      * The city.
      */
-    public  static final String CITY = "city";
+    public static final String CITY = "city";
 
     /**
      * The state.
      */
-    public  static final String STATE = "state";
+    public static final String STATE = "state";
 
     /**
      * The zipcode.
@@ -748,7 +749,7 @@ public class ConstantUtil {
      */
     public static final String IFP_MODEL_END_DATE = "ifpEndDate";
 
-	// PS
+    // PS
     /**
      * The Constant PS_NAME.
      */
@@ -774,7 +775,7 @@ public class ConstantUtil {
      */
     public static final String PS_NO = "priceScheduleNo";
 
-	// ITEM MASTER MODULE
+    // ITEM MASTER MODULE
     /**
      * The item irt qualififierid.
      */
@@ -800,7 +801,7 @@ public class ConstantUtil {
      * The item id.
      */
     public static final String ITEM_ID = "text2";
-    
+
     /**
      * The item id.
      */
@@ -810,7 +811,7 @@ public class ConstantUtil {
      * The item no.
      */
     public static final String ITEM_NO = "text3";
-    
+
     /**
      * The item no.
      */
@@ -820,13 +821,13 @@ public class ConstantUtil {
      * The item name.
      */
     public static final String ITEM_NAME = "text4";
-    
+
     /**
      * The item name.
      */
     public static final String ITEM_NAME_M = "itemName";
 
-     /**
+    /**
      * The item name.
      */
     public static final String ITEM_BATCH_ID = "Batch_id";
@@ -835,7 +836,7 @@ public class ConstantUtil {
      * The item desc.
      */
     public static final String ITEM_DESC = "text5";
-    
+
     /**
      * The item desc.
      */
@@ -897,7 +898,7 @@ public class ConstantUtil {
      * The item status.
      */
     public static final String ITEM_STATUS = "text6";
-    
+
     /**
      * The item status.
      */
@@ -1317,9 +1318,8 @@ public class ConstantUtil {
      * The select.
      */
     public static final String SELECT = "SELECT";
-    
 
-	// REBATE PLAN
+    // REBATE PLAN
     /**
      * The rebate plan id.
      */
@@ -1525,7 +1525,7 @@ public class ConstantUtil {
      */
     public static final String REBATE_PLAN_MASTER_ID = "rebatePlanMasterId";
 
-	// REBATE SCHEDULE
+    // REBATE SCHEDULE
     /**
      * The attached status.
      */
@@ -1948,7 +1948,16 @@ public class ConstantUtil {
      */
     public static final String COMP_END_DATE = "compEndDate";
     public static final String COPY = "Copy";
-  public static final String DELETE_CONFORMATION   = "Delete Confirmation";
-    public static final String CONFORMATION_MSG   = "Confirmation";
+    public static final String DELETE_CONFORMATION = "Delete Confirmation";
+    public static final String CONFORMATION_MSG = "Confirmation";
+    public static final String COPY_BUTTON = "copyBtn";
+    public static final String RESET_BUTTON = "resetBtn";
+    public static final String ADD_BUTTON = "addBtn";
+    public static final String EDIT_BUTTON = "editBtn";
+    public static final String VIEW_BUTTON = "viewBtn";
+    public static final String SEARCH_BUTTON = "searchBtn";
+    public static final String DELETE_BUTTON = "deleteBtn";
+    public static final String TABLE_RESET_BUTTON = "tableResetBtn";
+    public static final String NOT_SUPPORTED_YET = "Not supported yet.";
 
 }

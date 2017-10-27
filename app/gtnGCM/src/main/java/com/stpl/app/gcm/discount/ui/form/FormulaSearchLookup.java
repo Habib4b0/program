@@ -55,15 +55,15 @@ public class FormulaSearchLookup extends CustomWindow {
     FormulaLookupTableLogic tableLogic = new FormulaLookupTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
      public CustomTextField componentTextField;
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<LookupDTO>(LookupDTO.class);
+    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
      private static final Logger LOGGER = Logger.getLogger(FormulaSearchLookup.class);
     public FormulaSearchLookup(CustomTextField componentTextField) {
         super("Formula Id Lookup");
         setContent(Clara.create(getClass().getResourceAsStream("/discount/formulaIdpopup.xml"), this));
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         this.componentTextField=componentTextField;
         setClosable(true);
         setModal(true);
@@ -77,18 +77,18 @@ public class FormulaSearchLookup extends CustomWindow {
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSelectable(true);
-        resultsTable.setVisibleColumns(Constants.FORMULA_SEARCH_COLUMNS);
-        resultsTable.setColumnHeaders(Constants.FORMULA_SEARCH_HEADERS);
+        resultsTable.setVisibleColumns(Constants.getInstance().formulaSearchColumns);
+        resultsTable.setColumnHeaders(Constants.getInstance().formulaSearchHeaders);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         HorizontalLayout controls = ResponsiveUtils.getResponsiveControls(tableLogic.createControls());
         formulaTableLayout.addComponent(controls);
     }
     @UiHandler("closeBtn")
-    public void closeBtn(Button.ClickEvent event) {        
+    public void closeBtnClickLogic(Button.ClickEvent event) {        
         close();
     }
      @UiHandler("selectBtn")
-    public void selectBtn(Button.ClickEvent event) {
+    public void selectBtnClickLogic(Button.ClickEvent event) {
         if (resultsTable.getValue() != null) {
             LookupDTO componentLookUp = (LookupDTO) resultsTable.getValue();
             componentTextField.setValue(componentLookUp.getFormulaName());
@@ -128,6 +128,7 @@ public class FormulaSearchLookup extends CustomWindow {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the values in the Formula Search?");
     }

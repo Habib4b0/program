@@ -109,11 +109,11 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
     /**
      * The List of Helper Dto
      */
-    List<HelperDTO> rebateStatus = new ArrayList<HelperDTO>();
+    List<HelperDTO> rebateStatus = new ArrayList<>();
     /**
      * The List of Helper Dto
      */
-    List<HelperDTO> rebateType = new ArrayList<HelperDTO>();
+    List<HelperDTO> rebateType = new ArrayList<>();
 
     public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");    public static ResourceBundle constantProperties = ResourceBundle.getBundle("properties.constants");
 
@@ -216,8 +216,8 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
     @Override
     public List<SearchResultsDTO> searchRebatePlan(
             final ErrorfulFieldGroup searchRebatePlanForm, final int start, final int end, final List<OrderByColumn> columns,final BeanSearchCriteria searchCriteria) throws SystemException, PortalException {
-            List<SearchResultsDTO> searchList = new ArrayList<SearchResultsDTO>();
-            LOGGER.debug("Entering searchRebatePlan with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
+            List<SearchResultsDTO> searchList;
+            LOGGER.debug("Entering searchRebatePlan" + start + "and endIndex " + end + "  Column Size " + ((columns == null) ? columns : columns.size()));
             
             String rebatePlanId = StringUtils.EMPTY;
             String rebatePlanNo = StringUtils.EMPTY;
@@ -283,7 +283,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
                 }
             }
             if (StringUtils.isNotBlank(rebatePlanType)) {
-                
+                 
                 rebateType = getDropDownList(GeneralCommonUtils.REBATE_PLAN_TYPE);
                 for (int i = 0; i < rebateType.size(); i++) {
                     if (String.valueOf(rebateType.get(i).getId()).equals(rebatePlanType)) {
@@ -364,9 +364,9 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
             rebatePlanDynamicQuery.setLimit(start, end);
             
             final List<RebatePlanMaster> list = dao.getRebatePlanMasterList(rebatePlanDynamicQuery);
-            LOGGER.debug("After Query Hit,list size for Search results is = " + ((list == null) ? list : list.size()));
+            LOGGER.debug("After Query Hit" + ((list == null) ? list : list.size()));
             searchList = getCustomizedSearchFormFromModel(list);
-            LOGGER.debug("Ends searchRebatePlan wiht search size ----" + ((searchList == null) ? searchList : searchList.size()));
+            LOGGER.debug("Ends searchRebatePlan searchList ----" + ((searchList == null) ? searchList : searchList.size()));
             
         return searchList;
            
@@ -510,7 +510,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
      */
     public List<SearchResultsDTO> getCustomizedSearchFormFromModel(
             final List<RebatePlanMaster> list) throws PortalException, SystemException {
-        final List<SearchResultsDTO> searchRebatePlanList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> searchRebatePlanList = new ArrayList<>();
         Map<Integer, String> hm = GeneralCommonUtils.getCodeDescription();
 
         if (list != null) {
@@ -693,8 +693,8 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
         } else {
             systemId = String.valueOf(rebateIdDelMaster.get(0).getRebatePlanMasterSid());
         }
-        
-        if (systemId == null || ConstantsUtils.NULL.equals(systemId) || ConstantsUtils.ZERO.equals(systemId)) {
+
+        if (systemId == null || ConstantsUtils.NULL.equals(systemId) || ConstantsUtils.ZERO.equals(systemId) || sessionDTO.getMode().equals(ConstantsUtils.COPY)) {
             
 //          First Tab
             final RebatePlanMaster rebatePlanMaster = RebatePlanMasterLocalServiceUtil.createRebatePlanMaster(0);
@@ -989,7 +989,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
 
             dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.REBATE_PLAN_MASTER_SID, rebatePlanSystemId));
 
-            List<RebatePlanTier> tiers = new ArrayList<RebatePlanTier>();
+            List<RebatePlanTier> tiers;
             LOGGER.debug("Entering getRebatePlanTierList");
             tiers = dao.getRebatePlanTierList(dynamicQuery);
             // To delete the attached existing tiers
@@ -1175,7 +1175,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
             UDCIncrementCheck.decrement(GeneralCommonUtils.getHelperDescription(rebatePlanMaster.getRebateRangeBasedOn()), GeneralCommonUtils.REBATE_RANGE_BASED_ON);
         }
 
-        List<RebatePlanTierResults> rebatePlanTiers = new ArrayList<RebatePlanTierResults>();
+        List<RebatePlanTierResults> rebatePlanTiers;
         rebatePlanTiers = getRebatePlanTiersfromId(systemId,rebatePlanMasterDTO);
         for (int i = 0; i < rebatePlanTiers.size(); i++) {
             final RebatePlanTier tier = dao.deleteRebatePlanTier(rebatePlanTiers.get(i)
@@ -1200,8 +1200,6 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
      */
     public int getDynamicQueryCount(final DynamicQuery dynamicQuerySearch) throws SystemException {
         int resultValue;
-        resultValue = GeneralCommonUtils.ZERO;
-
         LOGGER.debug("Method getRebatePlanMasterQueryCount p1: DynamicQuery");
         resultValue = dao.getRebatePlanMasterQueryCount(dynamicQuerySearch);
 
@@ -1214,7 +1212,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
      * @return the actuals total count
      */
     public int getActualsTotalCount() throws SystemException {
-        int result = GeneralCommonUtils.ZERO;
+        int result;
 
         LOGGER.debug("Method getRebatePlanMasterTotalCount ");
         result = dao.getRebatePlanMasterTotalCount();
@@ -1249,7 +1247,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
     public static List<String> getTierFormulaNo() throws SystemException, PortalException {
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(RebateTierFormula.class);
         companyDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.REBATE_TIER_FORMULA_NO)));
-        List<String> resultList = new ArrayList<String>();
+        List<String> resultList;
         final RebatePlanDAO staticDao = new RebatePlanSearchLogicDAOImpl();
 
         LOGGER.debug("Method getRebatePlanMasterTotalCount ");
@@ -1268,7 +1266,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
         LOGGER.debug("getTierFormulaName method ");
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(RebateTierFormula.class);
         companyDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.REBATE_TIER_FORMULA_NAME)));
-        List<String> resultList = new ArrayList<String>();
+        List<String> resultList;
         final RebatePlanDAO staticDao = new RebatePlanSearchLogicDAOImpl();
 
         resultList = staticDao.getTierFormula(companyDynamicQuery);
@@ -1287,7 +1285,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
         RebatePlanMasterDTO tierFormulaDTO;
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(RebateTierFormula.class);
         final RebatePlanDAO staticDao = new RebatePlanSearchLogicDAOImpl();
-        final List<RebatePlanMasterDTO> resultList = new ArrayList<RebatePlanMasterDTO>();
+        final List<RebatePlanMasterDTO> resultList = new ArrayList<>();
 
         LOGGER.debug("Enter getSelectedTierFormulaId method ");
         list = staticDao.getTierFormulaList(companyDynamicQuery);
@@ -1333,7 +1331,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
      */
     public static long getRecordCount(final RebatePlanSearchLogic rebatePlanLogic, final ErrorfulFieldGroup binder) throws SystemException {
         LOGGER.debug("Entering getRecordCount");
-        long result = GeneralCommonUtils.ZERO;
+        long result;
 
         final DynamicQuery query = rebatePlanLogic.getDynamicQuerySearch(binder,null);
         result = rebatePlanLogic.getDynamicQueryCount(query);
@@ -1361,7 +1359,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
      * @throws PortalException
      * @throws SystemException 
      */
-    public int getItemPriceTypesCount(String filter) throws PortalException, SystemException {
+    public int getItemPriceTypesCount(String filter) throws SystemException {
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyTierFormulaIdCount method with filterText :" + filter);
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemPricingQualifier.class);
@@ -1380,7 +1378,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
      * @throws PortalException
      * @throws SystemException
      */
-    public List<com.stpl.ifs.util.HelperDTO> getItemPriceTypesResults(final int start, final int end, String filter) throws PortalException, SystemException {
+    public List<com.stpl.ifs.util.HelperDTO> getItemPriceTypesResults(final int start, final int end, String filter) throws SystemException {
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemPricingQualifier.class);
         dynamicQuery.add(RestrictionsFactoryUtil.like("itemPricingQualifierName", filter));
@@ -1413,7 +1411,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
      */
     public List<HelperDTO> getDropDownList(final String listName) throws SystemException {
         List<HelperTable> list = null;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         
         list = HelperTableLocalServiceUtil.findByHelperTableDetails(listName);
         if (list != null) {
@@ -1441,8 +1439,8 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
     @SuppressWarnings(ConstantsUtils.UNCHECK)
     public List<SearchResultsDTO> getResultsForSearch(
             final ErrorfulFieldGroup searchRebatePlanForm, final int start, final int end, final List<SortByColumn> columns,final Set<Container.Filter> filterSet) throws SystemException, PortalException {
-        List<SearchResultsDTO> searchList = new ArrayList<SearchResultsDTO>();
-        LOGGER.debug("Entering searchRebatePlan with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
+        List<SearchResultsDTO> searchList;
+        LOGGER.debug("Entering searchRebatePlan with start" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
 
         String rebatePlanName;
         String rebatePlanId = StringUtils.EMPTY;
@@ -1596,15 +1594,14 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
     }
     
     public int getRebatePlanResultsCount(
-            final ErrorfulFieldGroup searchRebatePlanForm, final int start, final int end, final List<SortByColumn> columns,final Set<Container.Filter> filterSet) throws SystemException{
+            final ErrorfulFieldGroup searchRebatePlanForm,final Set<Container.Filter> filterSet) throws SystemException{
         LOGGER.debug("Entering searchRebatePlan with count" );
         boolean escapeFlag = false;
         String rebatePlanName;
-        String rebatePlanId = StringUtils.EMPTY;
-        String rebatePlanNo = StringUtils.EMPTY;
-        rebatePlanName = StringUtils.EMPTY;
-        String rebatePlanStatus = StringUtils.EMPTY;
-        String rebatePlanType = StringUtils.EMPTY;
+        String rebatePlanId;
+        String rebatePlanNo;
+        String rebatePlanStatus;
+        String rebatePlanType;
 
         String sql = "select count(*) from (";
         sql+= CustomSQLUtil.get("com.global.rebateplan.RebatePlanSearch"); 
@@ -1620,10 +1617,10 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
             rebatePlanId = rebatePlanId.replace(GeneralCommonUtils.CHAR_ASTERISK,
                     GeneralCommonUtils.CHAR_PERCENT);
             if (escapeFlag) {
-                sql += "AND RPM.REBATE_PLAN_ID LIKE '" + rebatePlanId + "'  ESCAPE '\\'";
+                sql += " AND RPM.REBATE_PLAN_ID LIKE '" + rebatePlanId + ConstantsUtils.ESCAPE;
                 escapeFlag = false;
             } else {
-                sql += "AND RPM.REBATE_PLAN_ID LIKE '" + rebatePlanId + "' ";
+                sql += " AND RPM.REBATE_PLAN_ID LIKE '" + rebatePlanId + "' ";
             }
         }
         if (searchRebatePlanForm.getField(ConstantsUtils.TEXT2).getValue() != null && StringUtils.isNotBlank(String.valueOf(searchRebatePlanForm.getField(ConstantsUtils.TEXT2).getValue()))) {
@@ -1636,10 +1633,10 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
             rebatePlanNo = rebatePlanNo.replace(GeneralCommonUtils.CHAR_ASTERISK,
                     GeneralCommonUtils.CHAR_PERCENT);
             if (escapeFlag) {
-                sql += "AND RPM.REBATE_PLAN_NO LIKE '" + rebatePlanNo + "'  ESCAPE '\\'";
+                sql += ConstantsUtils.AND_RPM_REBATE_PLAN_NO+ rebatePlanNo + ConstantsUtils.ESCAPE;
                 escapeFlag = false;
             } else {
-                sql += "AND RPM.REBATE_PLAN_NO LIKE '" + rebatePlanNo + "' ";
+                sql += ConstantsUtils.AND_RPM_REBATE_PLAN_NO + rebatePlanNo + "' ";
             }
         }
         if (searchRebatePlanForm.getField(ConstantsUtils.TEXT3).getValue() != null && StringUtils.isNotBlank(String.valueOf(searchRebatePlanForm.getField(ConstantsUtils.TEXT3).getValue()))) {
@@ -1651,17 +1648,16 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
             }
             rebatePlanName = rebatePlanName.replace(GeneralCommonUtils.CHAR_ASTERISK, GeneralCommonUtils.CHAR_PERCENT);
             if (escapeFlag) {
-                sql += "AND RPM.REBATE_PLAN_NAME LIKE '" + rebatePlanName + "'  ESCAPE '\\'";
-                escapeFlag = false;
+                sql += "AND RPM.REBATE_PLAN_NAME  LIKE '" + rebatePlanName + ConstantsUtils.ESCAPE;
             } else {
-                sql += "AND RPM.REBATE_PLAN_NAME LIKE '" + rebatePlanName + "' ";
+                sql += "AND  RPM.REBATE_PLAN_NAME LIKE  '" + rebatePlanName + "' ";
             }
         } 
         if (searchRebatePlanForm.getField(ConstantsUtils.COMBO1).getValue() != null && ((HelperDTO)searchRebatePlanForm.getField(ConstantsUtils.COMBO1).getValue()).getId() != 0) {
 
             rebatePlanStatus = String.valueOf(((HelperDTO)searchRebatePlanForm
                     .getField(ConstantsUtils.COMBO1).getValue()).getSystemId());
-            sql += "AND HT_STATUS.HELPER_TABLE_SID = '"+rebatePlanStatus+"' " ;
+            sql += "AND HT_STATUS.HELPER_TABLE_SID ='"+rebatePlanStatus+"' " ;
         }
         if (searchRebatePlanForm.getField(ConstantsUtils.COMBO2).getValue() != null && ((HelperDTO)searchRebatePlanForm.getField(ConstantsUtils.COMBO2).getValue()).getId() != 0) {
             rebatePlanType = String.valueOf(((HelperDTO)searchRebatePlanForm.getField(ConstantsUtils.COMBO2)
@@ -1679,7 +1675,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
                         sql += "AND RPM.REBATE_PLAN_ID LIKE '"+filterString+"' ";                        
                     }else         
                     if (ConstantsUtils.REBATE_PLAN_NO.equals(stringFilter.getPropertyId())) {
-                        sql += "AND RPM.REBATE_PLAN_NO LIKE '"+filterString+"' ";                        
+                        sql += ConstantsUtils.AND_RPM_REBATE_PLAN_NO+filterString+"' ";                        
                     }else
                     if (ConstantsUtils.REBATE_PLAN_NAME.equals(stringFilter.getPropertyId())) {
                         sql += "AND RPM.REBATE_PLAN_NAME LIKE '"+filterString+"' ";                        
@@ -1701,7 +1697,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
                     }
                     if (ConstantsUtils.REBATE_PLAN_STATUS.equals(stringFilter.getPropertyId())) {
                             if (!ConstantsUtils.ZERO.equals(stringFilter.getFilterString())) {
-                                sql += "AND HT_STATUS.HELPER_TABLE_SID = '"+stringFilter.getFilterString()+"' ";
+                                sql += "AND HT_STATUS.HELPER_TABLE_SID =  '"+stringFilter.getFilterString()+"' ";
                             }
                         }else
                         if (ConstantsUtils.REBATE_PLAN_TYPE.equals(stringFilter.getPropertyId())) {
@@ -1755,7 +1751,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
             }else{
                 count=0;
             }
-        LOGGER.debug("Ends searchRebatePlan wiht search size ----" + count);
+        LOGGER.debug("Ends searchRebatePlan count ----" + count);
 
         return count;
         
@@ -1764,15 +1760,14 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
     public List<SearchResultsDTO> getRebatePlanResults(
             final ErrorfulFieldGroup searchRebatePlanForm, final int start, final int end, final List<SortByColumn> columns,final Set<Container.Filter> filterSet) throws SystemException, ParseException{
         
-        List<SearchResultsDTO> searchList = new ArrayList<SearchResultsDTO>();
+        List<SearchResultsDTO> searchList;
         LOGGER.debug("Entering searchRebatePlan with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
 
         String rebatePlanName;
-        String rebatePlanId = StringUtils.EMPTY;
-        String rebatePlanNo = StringUtils.EMPTY;
-        rebatePlanName = StringUtils.EMPTY;
-        String rebatePlanStatus = StringUtils.EMPTY;
-        String rebatePlanType = StringUtils.EMPTY;
+        String rebatePlanId;
+        String rebatePlanNo;
+        String rebatePlanStatus;
+        String rebatePlanType;
 
         String sql;
         boolean escapeFlag = false;
@@ -1801,18 +1796,12 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
 "            NET_SALES_FORMULA_MASTER NSF on NSF.NET_SALES_FORMULA_MASTER_SID=RPM.NET_SALES_FORMULA_MASTER_SID\n" +
 "        LEFT JOIN \n" +
 "            CDR_MODEL CM on CM.CDR_MODEL_SID=RPM.CDR_MODEL_SID\n" +
-"        LEFT JOIN\n" +
-"            HELPER_TABLE HT_STATUS ON HT_STATUS.HELPER_TABLE_SID = RPM.REBATE_PLAN_STATUS\n" +
-"        LEFT JOIN\n" +
-"            HELPER_TABLE HT_TYPE ON HT_TYPE.HELPER_TABLE_SID = RPM.REBATE_PLAN_TYPE\n" +
-"        LEFT JOIN\n" +
-"            HELPER_TABLE HT_FORMULA_TYPE ON HT_FORMULA_TYPE.HELPER_TABLE_SID = RPM.FORMULA_TYPE\n" +
-"        LEFT JOIN\n" +
-"            HELPER_TABLE HT_RBO ON HT_RBO.HELPER_TABLE_SID = RPM.REBATE_BASED_ON\n" +
-"        LEFT JOIN\n" +
-"            HELPER_TABLE HT_RBS ON HT_RBS.HELPER_TABLE_SID = RPM.REBATE_STRUCTURE\n" +
-"        LEFT JOIN\n" +
-"            HELPER_TABLE HT_RRBO ON HT_RRBO.HELPER_TABLE_SID = RPM.REBATE_RANGE_BASED_ON\n" +
+"        LEFT JOIN HELPER_TABLE HT_STATUS ON HT_STATUS.HELPER_TABLE_SID = RPM.REBATE_PLAN_STATUS\n" +
+"        LEFT JOIN HELPER_TABLE HT_TYPE ON HT_TYPE.HELPER_TABLE_SID = RPM.REBATE_PLAN_TYPE\n" +
+"        LEFT JOIN HELPER_TABLE HT_FORMULA_TYPE ON HT_FORMULA_TYPE.HELPER_TABLE_SID = RPM.FORMULA_TYPE\n" +
+"        LEFT JOIN HELPER_TABLE HT_RBO ON HT_RBO.HELPER_TABLE_SID = RPM.REBATE_BASED_ON\n" +
+"        LEFT JOIN HELPER_TABLE HT_RBS ON HT_RBS.HELPER_TABLE_SID = RPM.REBATE_STRUCTURE\n" +
+"        LEFT JOIN HELPER_TABLE HT_RRBO ON HT_RRBO.HELPER_TABLE_SID = RPM.REBATE_RANGE_BASED_ON\n" +
 "        WHERE\n" +
 "            RPM.INBOUND_STATUS <> 'D'";
         
@@ -1826,10 +1815,10 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
             rebatePlanId = rebatePlanId.replace(GeneralCommonUtils.CHAR_ASTERISK,
                     GeneralCommonUtils.CHAR_PERCENT);
             if(escapeFlag){
-                sql += "AND RPM.REBATE_PLAN_ID LIKE '" + rebatePlanId + "'  ESCAPE '\\'";
+                sql += "AND RPM.REBATE_PLAN_ID LIKE  '" + rebatePlanId + ConstantsUtils.ESCAPE;
                 escapeFlag = false;
             }else{
-                sql += "AND RPM.REBATE_PLAN_ID LIKE '" + rebatePlanId + "' ";
+                sql += "AND RPM.REBATE_PLAN_ID LIKE  '" + rebatePlanId + "' ";
             }
         }
         if (searchRebatePlanForm.getField(ConstantsUtils.TEXT2).getValue() != null && StringUtils.isNotBlank(String.valueOf(searchRebatePlanForm.getField(ConstantsUtils.TEXT2).getValue()))) {
@@ -1842,10 +1831,9 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
             rebatePlanNo = rebatePlanNo.replace(GeneralCommonUtils.CHAR_ASTERISK,
                     GeneralCommonUtils.CHAR_PERCENT);
             if (escapeFlag) {
-                sql += "AND RPM.REBATE_PLAN_NO LIKE '" + rebatePlanNo + "'  ESCAPE '\\'";
-                escapeFlag = false;
+                sql += ConstantsUtils.AND_RPM_REBATE_PLAN_NO+ rebatePlanNo + ConstantsUtils.ESCAPE;
             } else {
-                sql += "AND RPM.REBATE_PLAN_NO LIKE '" + rebatePlanNo + "' ";
+                sql += ConstantsUtils.AND_RPM_REBATE_PLAN_NO + rebatePlanNo + "' ";
             }
         }
         if (searchRebatePlanForm.getField(ConstantsUtils.TEXT3).getValue() != null && StringUtils.isNotBlank(String.valueOf(searchRebatePlanForm.getField(ConstantsUtils.TEXT3).getValue()))) {
@@ -1864,7 +1852,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
         if (searchRebatePlanForm.getField(ConstantsUtils.COMBO2).getValue() != null && ((HelperDTO)searchRebatePlanForm.getField(ConstantsUtils.COMBO2).getValue()).getId() != 0) {
             rebatePlanType = String.valueOf(((HelperDTO)searchRebatePlanForm.getField(ConstantsUtils.COMBO2)
                     .getValue()).getSystemId());
-            sql += "AND HT_TYPE.HELPER_TABLE_SID = '"+rebatePlanType+"' " ;
+            sql += "AND HT_TYPE.HELPER_TABLE_SID ='"+rebatePlanType+"' " ;
         }
         
         if (filterSet != null) {
@@ -1877,10 +1865,10 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
                         sql += "AND RPM.REBATE_PLAN_ID LIKE '"+filterString+"' ";                        
                     }else         
                     if (ConstantsUtils.REBATE_PLAN_NO.equals(stringFilter.getPropertyId())) {
-                        sql += "AND RPM.REBATE_PLAN_NO LIKE '"+filterString+"' ";                        
+                        sql += ConstantsUtils.AND_RPM_REBATE_PLAN_NO +filterString+"' ";                        
                     }else
                     if (ConstantsUtils.REBATE_PLAN_NAME.equals(stringFilter.getPropertyId())) {
-                        sql += "AND RPM.REBATE_PLAN_NAME LIKE '"+filterString+"' ";                        
+                        sql += "AND RPM.REBATE_PLAN_NAME LIKE   '"+filterString+"' ";                        
                     }else
                     if (ConstantsUtils.SECONDARY_REBATE_PLAN_ID.equals(stringFilter.getPropertyId())) {
                         sql += "AND RPM.SECONDARY_REBATE_PLAN_ID LIKE '"+filterString+"' ";                        
@@ -1904,7 +1892,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
                         }else
                         if (ConstantsUtils.REBATE_PLAN_TYPE.equals(stringFilter.getPropertyId())) {
                             if (!ConstantsUtils.ZERO.equals(stringFilter.getFilterString())) {
-                                sql += "AND HT_TYPE.HELPER_TABLE_SID = '"+stringFilter.getFilterString()+"' ";
+                                sql += "AND HT_TYPE.HELPER_TABLE_SID ='"+stringFilter.getFilterString()+"' ";
                             }
                         }else
                         if (ConstantsUtils.REBATE_BASED_ON.equals(stringFilter.getPropertyId())) {
@@ -1985,7 +1973,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
         final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(sql, null, null);
         LOGGER.debug("After Query Hit,list size for Search results is = " + ((list == null) ? list : list.size()));
         searchList = getCustomizedSearchFormToDTO(list);
-        LOGGER.debug("Ends searchRebatePlan wiht search size ----" + ((searchList == null) ? searchList : searchList.size()));
+        LOGGER.debug("Ends searchRebatePlan Size" + ((searchList == null) ? searchList : searchList.size()));
 
         return searchList;
         
@@ -2022,7 +2010,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
      */
     public List<SearchResultsDTO> getCustomizedSearchFormToDTO(
             final List list) throws SystemException, ParseException {
-        final List<SearchResultsDTO> searchRebatePlanList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> searchRebatePlanList = new ArrayList<>();
          Map<Integer, String> userMap= StplSecurity.getUserName();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -2090,7 +2078,7 @@ public class RebatePlanSearchLogic extends BeanItemContainer<RebatePlanMaster> i
     public RebatePlanMaster deleteRebatePlanById(int systemId) throws SystemException, PortalException {
         return null;
     }
-    public String parseDateLogic(Object object) throws ParseException{  
+    public String parseDateLogic(Object object) {  
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         String date = formatter.format(object);
         return date;

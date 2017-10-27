@@ -1,5 +1,4 @@
---------------------------------------ITEM_MASTER------------------------------------------
-
+--------------------------------------ITEM_MASTER-----------------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   INFORMATION_SCHEMA.TABLES
                WHERE  TABLE_NAME = 'ITEM_MASTER'
@@ -285,7 +284,32 @@ BEGIN
   END
 END
 GO
+---------CEL-1445
+IF NOT EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'item_master'
+			AND column_name = 'BASE_CPI_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ITEM_MASTER ADD BASE_CPI_PRECISION INT
+END
+	GO
 
+IF NOT EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'item_master'
+			AND column_name = 'BASELINE_AMP_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ITEM_MASTER ADD BASELINE_AMP_PRECISION INT
+END
+	GO
+
+---------CEL-1445
 
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
@@ -573,7 +597,33 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
+-----cel-1445
 
+IF NOT EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'HIST_ITEM_MASTER'
+			AND column_name = 'BASE_CPI_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE HIST_ITEM_MASTER ADD BASE_CPI_PRECISION INT
+END
+	GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'HIST_ITEM_MASTER'
+			AND column_name = 'BASELINE_AMP_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE HIST_ITEM_MASTER ADD BASELINE_AMP_PRECISION INT
+END
+	GO
+
+----cel-1445
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
 DECLARE @STATSNAME VARCHAR(200)
@@ -768,7 +818,9 @@ AS
                      CREATED_DATE,
                      MODIFIED_BY,
                      MODIFIED_DATE,
-                     ACTION_FLAG)
+                     ACTION_FLAG
+                     ,BASE_CPI_PRECISION
+                     ,BASELINE_AMP_PRECISION)
         SELECT ITEM_MASTER_SID,
                ITEM_ID,
                ITEM_NO,
@@ -841,6 +893,8 @@ AS
                MODIFIED_BY,
                MODIFIED_DATE,
                'C'
+               ,BASE_CPI_PRECISION
+               ,BASELINE_AMP_PRECISION
         FROM   INSERTED
   END
 
@@ -935,7 +989,9 @@ AS
                      CREATED_DATE,
                      MODIFIED_BY,
                      MODIFIED_DATE,
-                     ACTION_FLAG)
+                     ACTION_FLAG
+                     ,BASE_CPI_PRECISION
+                     ,BASELINE_AMP_PRECISION)
         SELECT ITEM_MASTER_SID,
                ITEM_ID,
                ITEM_NO,
@@ -1008,6 +1064,8 @@ AS
                MODIFIED_BY,
                MODIFIED_DATE,
                'A'
+               ,BASE_CPI_PRECISION
+               ,BASELINE_AMP_PRECISION
         FROM   INSERTED
 	END
 	GO
@@ -1101,7 +1159,9 @@ AS
                      CREATED_DATE,
                      MODIFIED_BY,
                      MODIFIED_DATE,
-                     ACTION_FLAG)
+                     ACTION_FLAG
+                     ,BASE_CPI_PRECISION
+                     ,BASELINE_AMP_PRECISION)
         SELECT ITEM_MASTER_SID,
                ITEM_ID,
                ITEM_NO,
@@ -1174,6 +1234,8 @@ AS
                MODIFIED_BY,
                MODIFIED_DATE,
                'D'
+               ,BASE_CPI_PRECISION
+               ,BASELINE_AMP_PRECISION
         FROM   DELETED
   END
 
@@ -2479,6 +2541,29 @@ BEGIN
 END
 GO
 
+-----------cel-1445--------------
+IF EXISTS (SELECT *
+           FROM   SYS.stats
+           WHERE  NAME = 'ITEM_PRICE_PRECISION'
+                  AND Object_name(object_id) = 'ITEM_PRICING_QUALIFIER')
+  BEGIN
+      DROP STATISTICS dbo.ITEM_PRICING_QUALIFIER.ITEM_PRICE_PRECISION 
+  END 
+
+GO
+IF EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'ITEM_PRICING_QUALIFIER'
+			AND column_name = 'ITEM_PRICE_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ITEM_PRICING_QUALIFIER DROP COLUMN  ITEM_PRICE_PRECISION
+END
+	GO
+-----------cel-1445--------------
+
 --------------------------------------------price type insert scripts regarding PPA starts here-----------------------------------------------
 
 IF NOT EXISTS (
@@ -2487,7 +2572,7 @@ IF NOT EXISTS (
 		WHERE [PRICING_QUALIFIER] = 'Prior Period NEP'
 			AND ITEM_PRICING_QUALIFIER_NAME = 'Prior Period NEP'
 			AND INBOUND_STATUS = 'A'
-			AND RECORD_LOCK_STATUS = 1
+			--AND RECORD_LOCK_STATUS = 1
 		)
 BEGIN
 	INSERT INTO ITEM_PRICING_QUALIFIER (
@@ -2511,7 +2596,7 @@ IF NOT EXISTS (
 		WHERE [PRICING_QUALIFIER] = 'Prior Period WAC'
 			AND ITEM_PRICING_QUALIFIER_NAME = 'Prior Period WAC'
 			AND INBOUND_STATUS = 'A'
-			AND RECORD_LOCK_STATUS = 1
+			--AND RECORD_LOCK_STATUS = 1
 		)
 BEGIN
 	INSERT INTO ITEM_PRICING_QUALIFIER (
@@ -2535,7 +2620,7 @@ IF NOT EXISTS (
 		WHERE [PRICING_QUALIFIER] = 'Prior Period Net WAC'
 			AND ITEM_PRICING_QUALIFIER_NAME = 'Prior Period Net WAC'
 			AND INBOUND_STATUS = 'A'
-			AND RECORD_LOCK_STATUS = 1
+			--AND RECORD_LOCK_STATUS = 1
 		)
 BEGIN
 	INSERT INTO ITEM_PRICING_QUALIFIER (
@@ -2552,6 +2637,7 @@ BEGIN
 		)
 END
 GO
+
 
 --------------------------------------------price type insert scripts regarding PPA ends here-----------------------------------------------
 
@@ -2717,7 +2803,30 @@ IF NOT EXISTS (SELECT 1
   END
 
 GO
+-----------cel-1445--------------cel-1611
+IF EXISTS (SELECT *
+           FROM   SYS.stats
+           WHERE  NAME = 'ITEM_PRICE_PRECISION'
+                  AND Object_name(object_id) = 'HIST_ITEM_PRICING_QUALIFIER')
+  BEGIN
+      DROP STATISTICS dbo.HIST_ITEM_PRICING_QUALIFIER.ITEM_PRICE_PRECISION 
+  END 
 
+GO
+IF EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'HIST_ITEM_PRICING_QUALIFIER'
+			AND column_name = 'ITEM_PRICE_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE HIST_ITEM_PRICING_QUALIFIER  DROP COLUMN  ITEM_PRICE_PRECISION
+END
+	GO
+	
+	
+-----------cel-1445--------------cel-1611
 ----------------------------------------
 
 IF NOT EXISTS (SELECT 'X'
@@ -2855,6 +2964,7 @@ AS
 					 EFFECTIVE_DATES,
 					 SPECIFIC_ENTITY_CODE,
 					 NOTES,
+					 ----ITEM_PRICE_PRECISION,cel--1611
                      INBOUND_STATUS,
                      RECORD_LOCK_STATUS,
                      BATCH_ID,
@@ -2870,6 +2980,7 @@ AS
 			   EFFECTIVE_DATES,
 			   SPECIFIC_ENTITY_CODE,
 			   NOTES,
+			   ---ITEM_PRICE_PRECISION,cel--1611
                INBOUND_STATUS,
                RECORD_LOCK_STATUS,
                BATCH_ID,
@@ -2908,6 +3019,7 @@ AS
 					 EFFECTIVE_DATES,
 					 SPECIFIC_ENTITY_CODE,
 					 NOTES,
+					 ----ITEM_PRICE_PRECISION,cel--1611
                      INBOUND_STATUS,
                      RECORD_LOCK_STATUS,
                      BATCH_ID,
@@ -2923,6 +3035,7 @@ AS
 			   EFFECTIVE_DATES,
 			   SPECIFIC_ENTITY_CODE,
 			   NOTES,
+			   -----ITEM_PRICE_PRECISION,cel--1611
                INBOUND_STATUS,
                RECORD_LOCK_STATUS,
                BATCH_ID,
@@ -2961,6 +3074,7 @@ AS
 					 EFFECTIVE_DATES,
 					 SPECIFIC_ENTITY_CODE,
 					 NOTES,
+					 ----------ITEM_PRICE_PRECISION,cel--1611
                      INBOUND_STATUS,
                      RECORD_LOCK_STATUS,
                      BATCH_ID,
@@ -2976,6 +3090,7 @@ AS
 			   EFFECTIVE_DATES,
 			   SPECIFIC_ENTITY_CODE,
 			   NOTES,
+			   ----------ITEM_PRICE_PRECISION,cel--1611
                INBOUND_STATUS,
                RECORD_LOCK_STATUS,
                BATCH_ID,
@@ -3087,7 +3202,20 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
+-------------------cel-1445--------------
 
+IF NOT EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'ITEM_PRICING'
+			AND column_name = 'ITEM_PRICE_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ITEM_PRICING ADD ITEM_PRICE_PRECISION INT
+END
+	GO
+-------------------cel-1445--------------
 ---------------------------------------------UNIQUE_CONSTRAINT-----------------------------------------
 
 IF EXISTS (SELECT NAME
@@ -3240,6 +3368,19 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
+-----------cel-1445--------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'HIST_ITEM_PRICING'
+			AND column_name = 'ITEM_PRICE_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE HIST_ITEM_PRICING ADD ITEM_PRICE_PRECISION INT
+END
+	GO
+-----------cel-1445--------------
 
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.DEFAULT_CONSTRAINTS
@@ -3383,6 +3524,7 @@ AS
                      ENTITY_CODE,
                      START_DATE,
                      END_DATE,
+					 ITEM_PRICE_PRECISION,
                      RECORD_LOCK_STATUS,
                      BATCH_ID,
                      [SOURCE],
@@ -3401,6 +3543,7 @@ AS
                ENTITY_CODE,
                START_DATE,
                END_DATE,
+			   ITEM_PRICE_PRECISION,
                RECORD_LOCK_STATUS,
                BATCH_ID,
                [SOURCE],
@@ -3442,6 +3585,7 @@ AS
                      ENTITY_CODE,
                      START_DATE,
                      END_DATE,
+					 ITEM_PRICE_PRECISION,
                      RECORD_LOCK_STATUS,
                      BATCH_ID,
                      [SOURCE],
@@ -3460,6 +3604,7 @@ AS
                ENTITY_CODE,
                START_DATE,
                END_DATE,
+			   ITEM_PRICE_PRECISION,
                RECORD_LOCK_STATUS,
                BATCH_ID,
                [SOURCE],
@@ -3501,6 +3646,7 @@ AS
                      ENTITY_CODE,
                      START_DATE,
                      END_DATE,
+					 ITEM_PRICE_PRECISION,
                      RECORD_LOCK_STATUS,
                      BATCH_ID,
                      [SOURCE],
@@ -3519,6 +3665,7 @@ AS
                ENTITY_CODE,
                START_DATE,
                END_DATE,
+			   ITEM_PRICE_PRECISION,
                RECORD_LOCK_STATUS,
                BATCH_ID,
                [SOURCE],
@@ -3532,6 +3679,7 @@ AS
   END
 
 GO
+
 
 -------------------------------------BRAND_MASTER-------------------------------------------------
 

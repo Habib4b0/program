@@ -85,6 +85,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
+import java.text.ParseException;
+import java.util.logging.Level;
 
 /**
  *
@@ -140,9 +142,6 @@ public class CompanyAddForm extends CustomComponent {
     private Label labelInfoName;
     @UiField("tabSheet")
     private TabSheet tabSheet;
-     /**
-     * The Save button.
-     */
     @UiField("saveBtn")
     private Button saveBtn;
     @UiField("resetBtn")
@@ -179,7 +178,7 @@ public class CompanyAddForm extends CustomComponent {
     CompanyTradeClassForm compayTradeClass = new CompanyTradeClassForm();
     CompanyParentForm compayParent = new CompanyParentForm();
     CompanyMasterDTO companyMasterDTO = new CompanyMasterDTO();
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyMasterDTO>(companyMasterDTO));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(companyMasterDTO));
     private BeanItemContainer<CompanyCrtIdentifierDTO> identifierResultsBean = new BeanItemContainer(CompanyCrtIdentifierDTO.class);
     private BeanItemContainer<CompanyMasterDTO> tradeClassResultsBean = new BeanItemContainer(CompanyMasterDTO.class);
     private BeanItemContainer<CompanyMasterDTO> parentCompanyResultsBean = new BeanItemContainer(CompanyMasterDTO.class);
@@ -312,7 +311,7 @@ public class CompanyAddForm extends CustomComponent {
         return binder;
     }
 
-    public void enableDisableAndInformationTab(String mode) throws PortalException, SystemException {
+    public void enableDisableAndInformationTab(String mode) {
 
         compayInformation.hideColumns(mode);
         infoPanel.setCaption(TabNameUtil.COMPANY_INFO);
@@ -354,8 +353,8 @@ public class CompanyAddForm extends CustomComponent {
                     LOGGER.debug("Entering inside  SAVE  method from ADD ");
                     binder.getErrorDisplay().clearError();
                     binder.commit();
-                    identifierList = new ArrayList<CompanyCrtIdentifierDTO>();
-                    companyTradeList = new ArrayList<CompanyMasterDTO>();
+                    identifierList = new ArrayList<>();
+                    companyTradeList = new ArrayList<>();
 
                     boolean flag = false;
                     boolean flag1 = false;
@@ -388,7 +387,7 @@ public class CompanyAddForm extends CustomComponent {
                         errorMessage.append(ConstantsUtils.COMPANYSTATUS);
                         flag = true;
                     }
-                    if (binder.getField(ConstantsUtils.Company_Start_Date).getValue() == null) {
+                    if (binder.getField(ConstantsUtils.COMPANY_START_DATE_COL).getValue() == null) {
                         if (flag) {
                             errorMessage.append(ConstantsUtils.COMMA);
                         }
@@ -466,9 +465,9 @@ public class CompanyAddForm extends CustomComponent {
                         List companyTradeClass = null;
 
                         if (companyTradeClass != null && companyTradeClass.size() > 0) {
-                                binder.getErrorDisplay().setError(
-                                        "Please enter different Start Date.Since selected Trade Class and Start Date Combination already exists");
-                                return;
+                            binder.getErrorDisplay().setError(
+                                    "Please enter different Start Date.Since selected Trade Class and Start Date Combination already exists");
+                            return;
                         }
                         duplicateCheckInGrid.add(String.valueOf(dto.getTradeClass1()));
                         duplicateDateInGrid.add((Date) dto.getTradeClassSDate());
@@ -476,7 +475,7 @@ public class CompanyAddForm extends CustomComponent {
                         companyTradeList.add(dto);
 
                     }
-                    Set<String> uniqueSet = new HashSet<String>(duplicateCheckInGrid);
+                    Set<String> uniqueSet = new HashSet<>(duplicateCheckInGrid);
                     for (String temp : uniqueSet) {
                         int count = Collections.frequency(duplicateCheckInGrid, temp);
                         if (count > 1) {
@@ -484,7 +483,7 @@ public class CompanyAddForm extends CustomComponent {
                             return;
                         }
                     }
-                    Set<Date> dateUniqueSet = new HashSet<Date>(duplicateDateInGrid);
+                    Set<Date> dateUniqueSet = new HashSet<>(duplicateDateInGrid);
                     for (Date temp : dateUniqueSet) {
                         int count = Collections.frequency(duplicateDateInGrid, temp);
                         if (count > 1) {
@@ -500,9 +499,9 @@ public class CompanyAddForm extends CustomComponent {
                     /* End Fourth tab */
 
  /*Fifth Tab Coing */
-                    final List<CompanyMasterDTO> parentCompanyList = new ArrayList<CompanyMasterDTO>();
+                    final List<CompanyMasterDTO> parentCompanyList = new ArrayList<>();
                     List duplicateCheckInParentGrid = new ArrayList();
-                    Map<Integer, CompanyMasterDTO> duplicateCheck = new HashMap<Integer, CompanyMasterDTO>();
+                    Map<Integer, CompanyMasterDTO> duplicateCheck = new HashMap<>();
                     for (int j = 0; j < parentCompanyResultsBean.size(); j++) {
 
                         CompanyMasterDTO dto = parentCompanyResultsBean.getIdByIndex(j);
@@ -551,14 +550,14 @@ public class CompanyAddForm extends CustomComponent {
 
                     }
 
-                    Set<Integer> unique = new HashSet<Integer>(duplicateCheckInParentGrid);
+                    Set<Integer> unique = new HashSet<>(duplicateCheckInParentGrid);
                     for (int temp : unique) {
                         int count = Collections.frequency(duplicateCheckInParentGrid, temp);
                         if (count > 1) {
                             int dupcount = 0;
                             for (CompanyMasterDTO ob : parentCompanyList) {
                                 if (ob.getParentCompanySysId() == temp && (duplicateCheck.get(temp).getParentStartDate()).equals(ob.getParentStartDate())) {
-                                        dupcount++;
+                                    dupcount++;
                                 }
                             }
                             if (dupcount > 1) {
@@ -606,7 +605,7 @@ public class CompanyAddForm extends CustomComponent {
 
                         CompanyQualifier qualif = null;
                         qualif = companyLogic.getCompanyCrtQualifierByQualifierName(iden.getCompanyCrtQualifierName());
-                        List<CompanyIdentifier> companyIdentiiferList = new ArrayList<CompanyIdentifier>();
+                        List<CompanyIdentifier> companyIdentiiferList;
                         final DynamicQuery companyIdentifierDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyIdentifier.class);
                         companyIdentifierDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_IDENTIFIER, iden.getCompanyIdentifier().trim()));
                         companyIdentifierDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.START_DATE, iden.getStartDate()));
@@ -619,13 +618,13 @@ public class CompanyAddForm extends CustomComponent {
                         }
                         for (int k = 0; k < identifierList.size(); k++) {
                             if (identifierList.get(k).getCompanyIdentifier().equals(iden.getCompanyIdentifier()) && identifierList.get(k).getStartDate().equals(iden.getStartDate())) {
-                                    CompanyQualifier qual = new CompanyQualifierImpl();
-                                    qual = companyLogic.getCompanyCrtQualifierByQualifierName(iden.getCompanyCrtQualifierName());
-                                    CompanyQualifier qualBean = new CompanyQualifierImpl();
-                                    qualBean = companyLogic.getCompanyCrtQualifierByQualifierName(identifierList.get(k).getCompanyCrtQualifierName());
-                                    if (qual.getCompanyQualifierSid() == qualBean.getCompanyQualifierSid()) {
-                                        binder.getErrorDisplay().setError("Company Identifier already added for this Company");
-                                        return;
+                                CompanyQualifier qual;
+                                qual = companyLogic.getCompanyCrtQualifierByQualifierName(iden.getCompanyCrtQualifierName());
+                                CompanyQualifier qualBean;
+                                qualBean = companyLogic.getCompanyCrtQualifierByQualifierName(identifierList.get(k).getCompanyCrtQualifierName());
+                                if (qual.getCompanyQualifierSid() == qualBean.getCompanyQualifierSid()) {
+                                    binder.getErrorDisplay().setError("Company Identifier already added for this Company");
+                                    return;
                                 }
                             }
                         }
@@ -641,60 +640,7 @@ public class CompanyAddForm extends CustomComponent {
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-                            try {
-                                if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                    String msg = ConstantsUtils.SUCCESS;
-                                    msg = companyLogic.saveCompanyMaster(binder,
-                                            identifierList, companyTradeList, parentCompanyList, notesTabForm.getUploadedData(), notesTabForm.getAddedNotes(), notesTabForm.removeDetailsList());
-                                    if (msg.equals(ConstantsUtils.SUCCESS)) {
-                                        //This code is needed.Related to ARM Module changes
-                                        if (financialClose.getModeDdlb().getValue() != null && String.valueOf(financialClose.getModeDdlb().getValue()).equalsIgnoreCase(ConstantsUtils.MANUAL)) {
-                                            boolean isGLComp = ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.GLCOMP)
-                                                    || ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.DIVISION)
-                                                    ||((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT);
-                                            BeanItemContainer container = financialClose.financialCloseTableLogic.getResultsContainer();
-                                            if (isGLComp && container.size() != 0) {
-                                                FinancialCloseDTO binderDto = financialClose.financialCloseTableLogic.getBinderDto();
-                                                binderDto.setCompanyMasterSid(sessionDTO.getSystemId());
-                                                financialCloseLogic.saveManualStatus(binderDto, container);
-                                            }
-                                        } else {
-                                            boolean isGLComp = ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.GLCOMP)
-                                                    ||((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.DIVISION)
-                                                    || ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT);
-                                            if (isGLComp && financialClose.financialCloseTableLogic.getBinderDto()!=null) {
-                                                FinancialCloseDTO binderDto = financialClose.financialCloseTableLogic.getBinderDto();
-                                                List<FinancialCloseDTO> addModeList = financialClose.financialCloseTableLogic.getBinderDto().getAddMode_Container_MainList();
-                                                if (addModeList != null && !addModeList.isEmpty()) {
-                                                binderDto.setCompanyMasterSid(sessionDTO.getSystemId());
-                                                financialCloseLogic.saveAutoMode(binderDto, addModeList);
-                                                QuartzListener.scheduleCompanyFinancialClose();
-                                                }
-                                            }
-                                        }
-                                        if (ConstantsUtils.ADD.equalsIgnoreCase(sessionDTO.getMode())) {
-                                            companyLogic.insertToCPDetails(sessionDTO.getSystemId());
-                                        }
-                                        final Notification notif = new Notification(commmonUtil.getSavedSuccessfulMessage(String.valueOf(binder.getField(ConstantsUtils.COMPANY_ID).getValue()), String.valueOf(binder.getField(ConstantsUtils.COMPANY_NAME).getValue())), Notification.Type.HUMANIZED_MESSAGE);
-                                        notif.setPosition(Position.MIDDLE_CENTER);
-                                        notif.setStyleName(ConstantsUtils.MY_STYLE);
-                                        notif.show(Page.getCurrent());
-                                        notif.setDelayMsec(NumericConstants.TWO_THOUSAND);
-                                        sessionDTO.setMode(ConstantsUtils.EDIT);
-                                        getUI().getNavigator().navigateTo(CompanyAddView.NAME);
-                                        binder.discard();
-                                        binder = new ErrorfulFieldGroup(new BeanItem<CompanyMasterDTO>(new CompanyMasterDTO()));
-                                    } else if ("duplicateNo".equals(msg)) {
-                                        binder.getErrorDisplay().setError("Company No already exists.");
-                                    } else if (ConstantsUtils.DUPLICATE.equals(msg)) {
-                                        binder.getErrorDisplay().setError("Company ID already exists.");
-                                    } else if ("duplicateIdentifier".equals(msg)) {
-                                        binder.getErrorDisplay().setError("Company Identifier already exists.");
-                                    }
-                                }
-                            } catch (Exception e) {
-                                LOGGER.error(e);
-                            }
+                            savebuttonListener(buttonId, parentCompanyList);
                         }
                     }, ButtonId.YES, ButtonId.NO);
 
@@ -747,7 +693,7 @@ public class CompanyAddForm extends CustomComponent {
                 LOGGER.debug("Entering inside  BACK  method from ADD ");
                 if (sessionDTO.getMode().equals(ConstantsUtils.VIEW)) {
                     binder.discard();
-                    binder = new ErrorfulFieldGroup(new BeanItem<SearchDTO>(new SearchDTO()));
+                    binder = new ErrorfulFieldGroup(new BeanItem<>(new SearchDTO()));
                     AbstractSearchView.flag = false;
                     getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
                 } else {
@@ -761,7 +707,7 @@ public class CompanyAddForm extends CustomComponent {
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(ConstantsUtils.YES)) {
                                 binder.discard();
-                                binder = new ErrorfulFieldGroup(new BeanItem<SearchDTO>(new SearchDTO()));
+                                binder = new ErrorfulFieldGroup(new BeanItem<>(new SearchDTO()));
                                 AbstractSearchView.flag = true;
                                 getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
                             }
@@ -819,191 +765,189 @@ public class CompanyAddForm extends CustomComponent {
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-                            try {
-                                String mode = sessionDTO.getMode();
-                                if ((ConstantsUtils.ADD).equals(mode)) {
-                                    if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                        if (selectedTabIndex == 0) {
-                                            TextField id = (TextField) binder.getField(FiledNameUtils.COMPANY_ID);
-                                            id.setValue(StringUtils.EMPTY);
-                                            TextField no = (TextField) binder.getField(FiledNameUtils.COMPANY_NO);
-                                            no.setValue(StringUtils.EMPTY);
-                                            TextField name = (TextField) binder.getField(FiledNameUtils.COMPANY_NAME);
-                                            name.setValue(StringUtils.EMPTY);
-                                            ComboBox status = (ComboBox) binder.getField(FiledNameUtils.COMPANY_STATUS);
-                                            status.setValue(null);
-                                            PopupDateField startDate = (PopupDateField) binder.getField(FiledNameUtils.COMPANY_START_DATE);
-                                            startDate.setValue(null);
-                                            PopupDateField endDate = (PopupDateField) binder.getField(FiledNameUtils.COMPANY_END_DATE);
-                                            endDate.setValue(null);
-                                            ComboBox type = (ComboBox) binder.getField(FiledNameUtils.COMPANY_TYPE);
-                                            type.setValue(null);
-                                            ComboBox group = (ComboBox) binder.getField(FiledNameUtils.COMPANY_GROUP);
-                                            group.setValue(null);
-                                            ComboBox category = (ComboBox) binder.getField(FiledNameUtils.COMPANY_CATEGORY);
-                                            category.setValue(null);
-                                            ComboBox udc1 = (ComboBox) binder.getField(FiledNameUtils.UDC1);
-                                            udc1.setValue(null);
-                                            ComboBox udc2 = (ComboBox) binder.getField(FiledNameUtils.UDC2);
-                                            udc2.setValue(null);
-                                            ComboBox udc3 = (ComboBox) binder.getField(FiledNameUtils.UDC3);
-                                            udc3.setValue(null);
-                                            ComboBox udc4 = (ComboBox) binder.getField(FiledNameUtils.UDC4);
-                                            udc4.setValue(null);
-                                            ComboBox udc5 = (ComboBox) binder.getField(FiledNameUtils.UDC5);
-                                            udc5.setValue(null);
-                                            ComboBox udc6 = (ComboBox) binder.getField(FiledNameUtils.UDC6);
-                                            udc6.setValue(null);
-                                            ComboBox orgKey = (ComboBox) binder.getField(FiledNameUtils.ORGANIZATION_KEY);
-                                            orgKey.setValue(null);
-                                            TextField financialSys = (TextField) binder.getField(FiledNameUtils.FINANCIAL_SYSTEM);
-                                            financialSys.setValue(StringUtils.EMPTY);
-                                            TextField lives = (TextField) binder.getField(FiledNameUtils.LIVES);
-                                            lives.setValue(StringUtils.EMPTY);
-                                            TextField regCode = (TextField) binder.getField(FiledNameUtils.REGION_CODE);
-                                            regCode.setValue(StringUtils.EMPTY);
-                                        }
-                                        if (selectedTabIndex == 1) {
-                                            TextField address1 = (TextField) binder.getField(FiledNameUtils.ADDRESS1);
-                                            address1.setValue(StringUtils.EMPTY);
-                                            TextField address2 = (TextField) binder.getField(FiledNameUtils.ADDRESS2);
-                                            address2.setValue(StringUtils.EMPTY);
-                                            TextField city = (TextField) binder.getField(FiledNameUtils.CITY);
-                                            city.setValue(StringUtils.EMPTY);
-                                            TextField zipCode = (TextField) binder.getField(FiledNameUtils.ZIP_CODE);
-                                            zipCode.setValue(StringUtils.EMPTY);
-                                            ComboBox state = (ComboBox) binder.getField(FiledNameUtils.STATE);
-                                            state.setValue(null);
-                                            ComboBox country = (ComboBox) binder.getField(FiledNameUtils.COUNTRY);
-                                            country.setValue(null);
-                                            TextField regionCode = (TextField) binder.getField(FiledNameUtils.REGION_CODE);
-                                            regionCode.setValue(StringUtils.EMPTY);
-                                        }
-                                        if (selectedTabIndex == NumericConstants.TWO) {
-                                            compayIdentifier.resetBtnLogic();
-                                            identifierResultsBean.removeAllItems();
-                                        }
-                                        if (selectedTabIndex == NumericConstants.THREE) {
-                                            ComboBox tradeClass = (ComboBox) binder.getField("tradeClass1");
-                                            tradeClass.setValue(null);
-                                            PopupDateField sDate = (PopupDateField) binder.getField("tradeClassSDate");
-                                            sDate.setValue(null);
-                                            PopupDateField eDate = (PopupDateField) binder.getField("tradeClassEDate");
-                                            eDate.setValue(null);
-                                            tradeClassResultsBean.removeAllItems();
-                                        }
-                                        if (selectedTabIndex == NumericConstants.FOUR) {
-                                            CustomTextField parentCompany = (CustomTextField) binder.getField("parentCompanyNo");
-                                            parentCompany.setReadOnly(false);
-                                            parentCompany.setValue(StringUtils.EMPTY);
-                                            parentCompany.setReadOnly(true);
-                                            PopupDateField sDate = (PopupDateField) binder.getField(ConstantsUtils.PARENT_START_DATE);
-                                            sDate.setValue(null);
-                                            PopupDateField eDate = (PopupDateField) binder.getField("parentEndDate");
-                                            eDate.setValue(null);
-                                            parentCompanyResultsBean.removeAllItems();
-                                        }
-                                        if (selectedTabIndex == NumericConstants.FIVE) {
-                                            financialClose.resetAddMode();
-                                        }
-                                        if (selectedTabIndex == NumericConstants.SIX) {
-                                            notesTabForm.resetAddMode();
-                                        }
-                                    }
-                                } else if ((ConstantsUtils.EDIT).equals(mode)) {
 
-                                    final int systemId = sessionDTO.getSystemId();
-                                    companyMasterDTO = companyLogic.getCompanyMasterById(Integer.valueOf(systemId));
+                            String mode = sessionDTO.getMode();
+                            if ((ConstantsUtils.ADD).equals(mode)) {
+                                if (buttonId.name().equals(ConstantsUtils.YES)) {
                                     if (selectedTabIndex == 0) {
                                         TextField id = (TextField) binder.getField(FiledNameUtils.COMPANY_ID);
-                                        id.setValue(companyMasterDTO.getCompanyId());
+                                        id.setValue(StringUtils.EMPTY);
                                         TextField no = (TextField) binder.getField(FiledNameUtils.COMPANY_NO);
-                                        no.setValue(companyMasterDTO.getCompanyNo());
+                                        no.setValue(StringUtils.EMPTY);
                                         TextField name = (TextField) binder.getField(FiledNameUtils.COMPANY_NAME);
-                                        name.setValue(companyMasterDTO.getCompanyName());
+                                        name.setValue(StringUtils.EMPTY);
                                         ComboBox status = (ComboBox) binder.getField(FiledNameUtils.COMPANY_STATUS);
-                                        status.setValue(companyMasterDTO.getCompanyStatus());
+                                        status.setValue(null);
                                         PopupDateField startDate = (PopupDateField) binder.getField(FiledNameUtils.COMPANY_START_DATE);
-                                        startDate.setValue(companyMasterDTO.getCompanyStartDate());
+                                        startDate.setValue(null);
                                         PopupDateField endDate = (PopupDateField) binder.getField(FiledNameUtils.COMPANY_END_DATE);
-                                        endDate.setValue(companyMasterDTO.getCompanyEndDate());
+                                        endDate.setValue(null);
                                         ComboBox type = (ComboBox) binder.getField(FiledNameUtils.COMPANY_TYPE);
-                                        type.setValue(companyMasterDTO.getCompanyType());
+                                        type.setValue(null);
                                         ComboBox group = (ComboBox) binder.getField(FiledNameUtils.COMPANY_GROUP);
-                                        group.setValue(companyMasterDTO.getCompanyGroup());
+                                        group.setValue(null);
                                         ComboBox category = (ComboBox) binder.getField(FiledNameUtils.COMPANY_CATEGORY);
-                                        category.setValue(companyMasterDTO.getCompanyCategory());
+                                        category.setValue(null);
                                         ComboBox udc1 = (ComboBox) binder.getField(FiledNameUtils.UDC1);
-                                        udc1.setValue(companyMasterDTO.getUdc1());
+                                        udc1.setValue(null);
                                         ComboBox udc2 = (ComboBox) binder.getField(FiledNameUtils.UDC2);
-                                        udc2.setValue(companyMasterDTO.getUdc2());
+                                        udc2.setValue(null);
                                         ComboBox udc3 = (ComboBox) binder.getField(FiledNameUtils.UDC3);
-                                        udc3.setValue(companyMasterDTO.getUdc3());
+                                        udc3.setValue(null);
                                         ComboBox udc4 = (ComboBox) binder.getField(FiledNameUtils.UDC4);
-                                        udc4.setValue(companyMasterDTO.getUdc4());
+                                        udc4.setValue(null);
                                         ComboBox udc5 = (ComboBox) binder.getField(FiledNameUtils.UDC5);
-                                        udc5.setValue(companyMasterDTO.getUdc5());
+                                        udc5.setValue(null);
                                         ComboBox udc6 = (ComboBox) binder.getField(FiledNameUtils.UDC6);
-                                        udc6.setValue(companyMasterDTO.getUdc6());
+                                        udc6.setValue(null);
                                         ComboBox orgKey = (ComboBox) binder.getField(FiledNameUtils.ORGANIZATION_KEY);
-                                        orgKey.setValue(companyMasterDTO.getOrganizationKey());
+                                        orgKey.setValue(null);
                                         TextField financialSys = (TextField) binder.getField(FiledNameUtils.FINANCIAL_SYSTEM);
-                                        financialSys.setValue(companyMasterDTO.getFinancialSystem());
+                                        financialSys.setValue(StringUtils.EMPTY);
                                         TextField lives = (TextField) binder.getField(FiledNameUtils.LIVES);
-                                        lives.setValue(companyMasterDTO.getLives());
+                                        lives.setValue(StringUtils.EMPTY);
                                         TextField regCode = (TextField) binder.getField(FiledNameUtils.REGION_CODE);
-                                        regCode.setValue(companyMasterDTO.getRegionCode());
-                                    } else if (selectedTabIndex == 1) {
+                                        regCode.setValue(StringUtils.EMPTY);
+                                    }
+                                    if (selectedTabIndex == 1) {
                                         TextField address1 = (TextField) binder.getField(FiledNameUtils.ADDRESS1);
-                                        address1.setValue(companyMasterDTO.getAddress1());
+                                        address1.setValue(StringUtils.EMPTY);
                                         TextField address2 = (TextField) binder.getField(FiledNameUtils.ADDRESS2);
-                                        address2.setValue(companyMasterDTO.getAddress2());
+                                        address2.setValue(StringUtils.EMPTY);
                                         TextField city = (TextField) binder.getField(FiledNameUtils.CITY);
-                                        city.setValue(companyMasterDTO.getCity());
+                                        city.setValue(StringUtils.EMPTY);
                                         TextField zipCode = (TextField) binder.getField(FiledNameUtils.ZIP_CODE);
-                                        zipCode.setValue(companyMasterDTO.getZipCode());
+                                        zipCode.setValue(StringUtils.EMPTY);
                                         ComboBox state = (ComboBox) binder.getField(FiledNameUtils.STATE);
-                                        state.setValue(companyMasterDTO.getState());
+                                        state.setValue(null);
                                         ComboBox country = (ComboBox) binder.getField(FiledNameUtils.COUNTRY);
-                                        country.setValue(companyMasterDTO.getCountry());
-                                    } else if (selectedTabIndex == NumericConstants.TWO) {
+                                        country.setValue(null);
+                                        TextField regionCode = (TextField) binder.getField(FiledNameUtils.REGION_CODE);
+                                        regionCode.setValue(StringUtils.EMPTY);
+                                    }
+                                    if (selectedTabIndex == NumericConstants.TWO) {
                                         compayIdentifier.resetBtnLogic();
                                         identifierResultsBean.removeAllItems();
-                                        identifierResultsBean.addAll(companyMasterDTO.getCompanyIdentifierList());
-                                    } else if (selectedTabIndex == NumericConstants.THREE) {
+                                    }
+                                    if (selectedTabIndex == NumericConstants.THREE) {
                                         ComboBox tradeClass = (ComboBox) binder.getField("tradeClass1");
-                                        tradeClass.setValue(companyMasterDTO.getTradeClass1());
+                                        tradeClass.setValue(null);
                                         PopupDateField sDate = (PopupDateField) binder.getField("tradeClassSDate");
-                                        sDate.setValue(companyMasterDTO.getTradeClassSDate());
+                                        sDate.setValue(null);
                                         PopupDateField eDate = (PopupDateField) binder.getField("tradeClassEDate");
-                                        eDate.setValue(companyMasterDTO.getTradeClassEDate());
+                                        eDate.setValue(null);
                                         tradeClassResultsBean.removeAllItems();
-                                        tradeClassResultsBean.addAll(companyLogic.getTradeClassTable(systemId));
-                                    } else if (selectedTabIndex == NumericConstants.FOUR) {
+                                    }
+                                    if (selectedTabIndex == NumericConstants.FOUR) {
                                         CustomTextField parentCompany = (CustomTextField) binder.getField("parentCompanyNo");
                                         parentCompany.setReadOnly(false);
-                                        parentCompany.setValue(companyMasterDTO.getParentCompanyNo());
+                                        parentCompany.setValue(StringUtils.EMPTY);
                                         parentCompany.setReadOnly(true);
-                                        TextField parentCompanyName = (TextField) binder.getField("parentCompanyName");
-                                        parentCompanyName.setReadOnly(false);
-                                        parentCompanyName.setValue(companyMasterDTO.getParentCompanyNo());
-                                        parentCompanyName.setReadOnly(true);
                                         PopupDateField sDate = (PopupDateField) binder.getField(ConstantsUtils.PARENT_START_DATE);
-                                        sDate.setValue(companyMasterDTO.getParentStartDate());
+                                        sDate.setValue(null);
                                         PopupDateField eDate = (PopupDateField) binder.getField("parentEndDate");
-                                        eDate.setValue(companyMasterDTO.getParentEndDate());
+                                        eDate.setValue(null);
                                         parentCompanyResultsBean.removeAllItems();
-                                        parentCompanyResultsBean.addAll(companyLogic.getParentCompanyTable(systemId));
-                                    } else if (selectedTabIndex == NumericConstants.FIVE) {
-                                        financialClose.resetLogic();
-                                    } else if (selectedTabIndex == NumericConstants.SIX) {
-                                        notesTabForm.resetBtnLogic(companyMasterDTO.getInternalNotes());
                                     }
-
+                                    if (selectedTabIndex == NumericConstants.FIVE) {
+                                        financialClose.resetAddMode();
+                                    }
+                                    if (selectedTabIndex == NumericConstants.SIX) {
+                                        notesTabForm.resetAddMode();
+                                    }
                                 }
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
+                            } else if ((ConstantsUtils.EDIT).equals(mode)) {
+
+                                final int systemId = sessionDTO.getSystemId();
+                                setcompanyMasterDTO(systemId);
+                                if (selectedTabIndex == 0) {
+                                    TextField id = (TextField) binder.getField(FiledNameUtils.COMPANY_ID);
+                                    id.setValue(companyMasterDTO.getCompanyId());
+                                    TextField no = (TextField) binder.getField(FiledNameUtils.COMPANY_NO);
+                                    no.setValue(companyMasterDTO.getCompanyNo());
+                                    TextField name = (TextField) binder.getField(FiledNameUtils.COMPANY_NAME);
+                                    name.setValue(companyMasterDTO.getCompanyName());
+                                    ComboBox status = (ComboBox) binder.getField(FiledNameUtils.COMPANY_STATUS);
+                                    status.setValue(companyMasterDTO.getCompanyStatus());
+                                    PopupDateField startDate = (PopupDateField) binder.getField(FiledNameUtils.COMPANY_START_DATE);
+                                    startDate.setValue(companyMasterDTO.getCompanyStartDate());
+                                    PopupDateField endDate = (PopupDateField) binder.getField(FiledNameUtils.COMPANY_END_DATE);
+                                    endDate.setValue(companyMasterDTO.getCompanyEndDate());
+                                    ComboBox type = (ComboBox) binder.getField(FiledNameUtils.COMPANY_TYPE);
+                                    type.setValue(companyMasterDTO.getCompanyType());
+                                    ComboBox group = (ComboBox) binder.getField(FiledNameUtils.COMPANY_GROUP);
+                                    group.setValue(companyMasterDTO.getCompanyGroup());
+                                    ComboBox category = (ComboBox) binder.getField(FiledNameUtils.COMPANY_CATEGORY);
+                                    category.setValue(companyMasterDTO.getCompanyCategory());
+                                    ComboBox udc1 = (ComboBox) binder.getField(FiledNameUtils.UDC1);
+                                    udc1.setValue(companyMasterDTO.getUdc1());
+                                    ComboBox udc2 = (ComboBox) binder.getField(FiledNameUtils.UDC2);
+                                    udc2.setValue(companyMasterDTO.getUdc2());
+                                    ComboBox udc3 = (ComboBox) binder.getField(FiledNameUtils.UDC3);
+                                    udc3.setValue(companyMasterDTO.getUdc3());
+                                    ComboBox udc4 = (ComboBox) binder.getField(FiledNameUtils.UDC4);
+                                    udc4.setValue(companyMasterDTO.getUdc4());
+                                    ComboBox udc5 = (ComboBox) binder.getField(FiledNameUtils.UDC5);
+                                    udc5.setValue(companyMasterDTO.getUdc5());
+                                    ComboBox udc6 = (ComboBox) binder.getField(FiledNameUtils.UDC6);
+                                    udc6.setValue(companyMasterDTO.getUdc6());
+                                    ComboBox orgKey = (ComboBox) binder.getField(FiledNameUtils.ORGANIZATION_KEY);
+                                    orgKey.setValue(companyMasterDTO.getOrganizationKey());
+                                    TextField financialSys = (TextField) binder.getField(FiledNameUtils.FINANCIAL_SYSTEM);
+                                    financialSys.setValue(companyMasterDTO.getFinancialSystem());
+                                    TextField lives = (TextField) binder.getField(FiledNameUtils.LIVES);
+                                    lives.setValue(companyMasterDTO.getLives());
+                                    TextField regCode = (TextField) binder.getField(FiledNameUtils.REGION_CODE);
+                                    regCode.setValue(companyMasterDTO.getRegionCode());
+                                } else if (selectedTabIndex == 1) {
+                                    TextField address1 = (TextField) binder.getField(FiledNameUtils.ADDRESS1);
+                                    address1.setValue(companyMasterDTO.getAddress1());
+                                    TextField address2 = (TextField) binder.getField(FiledNameUtils.ADDRESS2);
+                                    address2.setValue(companyMasterDTO.getAddress2());
+                                    TextField city = (TextField) binder.getField(FiledNameUtils.CITY);
+                                    city.setValue(companyMasterDTO.getCity());
+                                    TextField zipCode = (TextField) binder.getField(FiledNameUtils.ZIP_CODE);
+                                    zipCode.setValue(companyMasterDTO.getZipCode());
+                                    ComboBox state = (ComboBox) binder.getField(FiledNameUtils.STATE);
+                                    state.setValue(companyMasterDTO.getState());
+                                    ComboBox country = (ComboBox) binder.getField(FiledNameUtils.COUNTRY);
+                                    country.setValue(companyMasterDTO.getCountry());
+                                } else if (selectedTabIndex == NumericConstants.TWO) {
+                                    compayIdentifier.resetBtnLogic();
+                                    identifierResultsBean.removeAllItems();
+                                    identifierResultsBean.addAll(companyMasterDTO.getCompanyIdentifierList());
+                                } else if (selectedTabIndex == NumericConstants.THREE) {
+                                    ComboBox tradeClass = (ComboBox) binder.getField("tradeClass1");
+                                    tradeClass.setValue(companyMasterDTO.getTradeClass1());
+                                    PopupDateField sDate = (PopupDateField) binder.getField("tradeClassSDate");
+                                    sDate.setValue(companyMasterDTO.getTradeClassSDate());
+                                    PopupDateField eDate = (PopupDateField) binder.getField("tradeClassEDate");
+                                    eDate.setValue(companyMasterDTO.getTradeClassEDate());
+                                    tradeClassResultsBean.removeAllItems();
+                                    addtradeClassResultsBean(systemId);
+                                } else if (selectedTabIndex == NumericConstants.FOUR) {
+                                    CustomTextField parentCompany = (CustomTextField) binder.getField("parentCompanyNo");
+                                    parentCompany.setReadOnly(false);
+                                    parentCompany.setValue(companyMasterDTO.getParentCompanyNo());
+                                    parentCompany.setReadOnly(true);
+                                    TextField parentCompanyName = (TextField) binder.getField("parentCompanyName");
+                                    parentCompanyName.setReadOnly(false);
+                                    parentCompanyName.setValue(companyMasterDTO.getParentCompanyNo());
+                                    parentCompanyName.setReadOnly(true);
+                                    PopupDateField sDate = (PopupDateField) binder.getField(ConstantsUtils.PARENT_START_DATE);
+                                    sDate.setValue(companyMasterDTO.getParentStartDate());
+                                    PopupDateField eDate = (PopupDateField) binder.getField("parentEndDate");
+                                    eDate.setValue(companyMasterDTO.getParentEndDate());
+                                    parentCompanyResultsBean.removeAllItems();
+                                    parentCompanyResultsBean.addAll(companyLogic.getParentCompanyTable(systemId));
+                                } else if (selectedTabIndex == NumericConstants.FIVE) {
+                                    financialClose.resetLogic();
+                                } else if (selectedTabIndex == NumericConstants.SIX) {
+                                    notesTabForm.resetBtnLogic(companyMasterDTO.getInternalNotes());
+                                }
+
                             }
+
                         }
                     }, ButtonId.YES, ButtonId.NO);
 
@@ -1031,8 +975,8 @@ public class CompanyAddForm extends CustomComponent {
 
                     binder.commit();
 
-                    final List<CompanyCrtIdentifierDTO> identifierList = new ArrayList<CompanyCrtIdentifierDTO>();
-                    companyTradeList = new ArrayList<CompanyMasterDTO>();
+                    final List<CompanyCrtIdentifierDTO> identifierList = new ArrayList<>();
+                    companyTradeList = new ArrayList<>();
                     binder.getErrorDisplay().clearError();
 
                     boolean flag = false;
@@ -1066,7 +1010,7 @@ public class CompanyAddForm extends CustomComponent {
                         errorMessage.append(ConstantsUtils.COMPANYSTATUS);
                         flag = true;
                     }
-                    if (binder.getField(ConstantsUtils.Company_Start_Date).getValue() == null) {
+                    if (binder.getField(ConstantsUtils.COMPANY_START_DATE_COL).getValue() == null) {
                         if (flag) {
                             errorMessage.append(ConstantsUtils.COMMA);
                         }
@@ -1156,7 +1100,7 @@ public class CompanyAddForm extends CustomComponent {
 
                         }
 
-                        List<CompanyMasterDTO> companyTradeClass = new ArrayList<CompanyMasterDTO>();
+                        List<CompanyMasterDTO> companyTradeClass = new ArrayList<>();
 
                         duplicateCheckInGrid.add(String.valueOf(dto.getTradeClass1()));
                         duplicateDateInGrid.add((Date) dto.getTradeClassSDate());
@@ -1176,7 +1120,7 @@ public class CompanyAddForm extends CustomComponent {
                         binder.getErrorDisplay().setError(
                                 "Parent tab should contains record");
                     }
-                    Set<String> uniqueSet = new HashSet<String>(duplicateCheckInGrid);
+                    Set<String> uniqueSet = new HashSet<>(duplicateCheckInGrid);
                     for (String temp : uniqueSet) {
                         int count = Collections.frequency(duplicateCheckInGrid, temp);
                         if (count > 1) {
@@ -1184,7 +1128,7 @@ public class CompanyAddForm extends CustomComponent {
                             return;
                         }
                     }
-                    Set<Date> dateUniqueSet = new HashSet<Date>(duplicateDateInGrid);
+                    Set<Date> dateUniqueSet = new HashSet<>(duplicateDateInGrid);
                     for (Date temp : dateUniqueSet) {
                         int count = Collections.frequency(duplicateDateInGrid, temp);
                         if (count > 1) {
@@ -1198,9 +1142,9 @@ public class CompanyAddForm extends CustomComponent {
                             .getField(ConstantsUtils.COMPANY_SYSTEM_ID).getValue().equals(ConstantsUtils.NULL)) ? String
                             .valueOf(binder.getField(ConstantsUtils.COMPANY_SYSTEM_ID)
                                     .getValue().toString()) : StringUtils.EMPTY;
-                    final List<CompanyMasterDTO> parentCompanyList = new ArrayList<CompanyMasterDTO>();
+                    final List<CompanyMasterDTO> parentCompanyList = new ArrayList<>();
                     List duplicateCheckInParentGrid = new ArrayList();
-                    Map<Integer, CompanyMasterDTO> duplicateCheck = new HashMap<Integer, CompanyMasterDTO>();
+                    Map<Integer, CompanyMasterDTO> duplicateCheck = new HashMap<>();
                     for (int j = 0; j < parentCompanyResultsBean.size(); j++) {
 
                         CompanyMasterDTO dto = parentCompanyResultsBean.getIdByIndex(j);
@@ -1248,14 +1192,14 @@ public class CompanyAddForm extends CustomComponent {
 
                     }
 
-                    Set<Integer> unique = new HashSet<Integer>(duplicateCheckInParentGrid);
+                    Set<Integer> unique = new HashSet<>(duplicateCheckInParentGrid);
                     for (int temp : unique) {
                         int count = Collections.frequency(duplicateCheckInParentGrid, temp);
                         if (count > 1) {
                             int dupcount = 0;
                             for (CompanyMasterDTO ob : parentCompanyList) {
                                 if (ob.getParentCompanySysId() == temp && (duplicateCheck.get(temp).getParentStartDate()).equals(ob.getParentStartDate())) {
-                                        dupcount++;
+                                    dupcount++;
                                 }
                             }
                             if (dupcount > 1) {
@@ -1345,15 +1289,15 @@ public class CompanyAddForm extends CustomComponent {
                         }
                         for (int k = 0; k < identifierList.size(); k++) {
                             if (identifierList.get(k).getCompanyIdentifier().equals(iden.getCompanyIdentifier()) && identifierList.get(k).getStartDate().equals(iden.getStartDate())) {
-                                    final CompanyQualifier qual = companyLogic.getCompanyCrtQualifierByQualifierName(iden
-                                            .getCompanyCrtQualifierName());
+                                final CompanyQualifier qual = companyLogic.getCompanyCrtQualifierByQualifierName(iden
+                                        .getCompanyCrtQualifierName());
 
-                                    final CompanyQualifier qualBean = companyLogic.getCompanyCrtQualifierByQualifierName(identifierList.get(k).getCompanyCrtQualifierName());
-                                    if (qual.getCompanyQualifierSid() == qualBean.getCompanyQualifierSid()) {
-                                        binder.getErrorDisplay().setError(
-                                                "Company Identifier already added for this Company");
-                                        return;
-                                    }
+                                final CompanyQualifier qualBean = companyLogic.getCompanyCrtQualifierByQualifierName(identifierList.get(k).getCompanyCrtQualifierName());
+                                if (qual.getCompanyQualifierSid() == qualBean.getCompanyQualifierSid()) {
+                                    binder.getErrorDisplay().setError(
+                                            "Company Identifier already added for this Company");
+                                    return;
+                                }
 
                             }
                         }
@@ -1369,7 +1313,7 @@ public class CompanyAddForm extends CustomComponent {
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(ConstantsUtils.YES)) {
-                               String msg = companyLogic.saveCompanyMaster(binder, identifierList, companyTradeList, parentCompanyList, notesTabForm.getUploadedData(), notesTabForm.getAddedNotes(), notesTabForm.removeDetailsList());
+                                String msg = companyLogic.saveCompanyMaster(binder, identifierList, companyTradeList, parentCompanyList, notesTabForm.getUploadedData(), notesTabForm.getAddedNotes(), notesTabForm.removeDetailsList());
                                 //This code is needed.ARM Related changes
                                 String companyTypeDesc = ((HelperDTO) compayInformation.companyType.getValue()).getDescription();
                                 boolean isGLComp = companyTypeDesc.equalsIgnoreCase(ConstantsUtils.GLCOMP) || companyTypeDesc.equalsIgnoreCase(ConstantsUtils.DIVISION) || companyTypeDesc.equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT);
@@ -1479,7 +1423,7 @@ public class CompanyAddForm extends CustomComponent {
                         msg.getButton(ButtonId.OK).focus();
                     }
 
-                    List<ImtdCfpDetails> cfpDetailsList = new ArrayList<>();
+                    List<ImtdCfpDetails> cfpDetailsList;
                     if (!isParentCompany) {
                         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
                                 .forClass(CfpDetails.class);
@@ -1508,7 +1452,7 @@ public class CompanyAddForm extends CustomComponent {
 
                         }
                     }
-                    List<CfpContractDetails> compContractList = new ArrayList<>();
+                    List<CfpContractDetails> compContractList;
                     if (!isParentCompany && !isInCfp) {
                         final DynamicQuery contractDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContractDetails.class);
                         contractDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_MASTER_ID, systemId));
@@ -1536,46 +1480,21 @@ public class CompanyAddForm extends CustomComponent {
                     }
 
                     if (!isParentCompany && !isInCfp && !isInContract && companyParentDetailsList.isEmpty()) {
-                            MessageBox.showPlain(Icon.QUESTION, commmonUtil.getHeaderMessage(), commmonUtil.getDeleteMessage(binder.getField(ConstantsUtils.COMPANY_NAME).getValue().toString()), new MessageBoxListener() {
-                                /**
-                                 * Yes/No Button logic
-                                 */
-                                @SuppressWarnings("PMD")
-                                public void buttonClicked(final ButtonId buttonId) {
-                                    if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                        try {
-                                            final CompanyMaster master = companyLogic.deleteCompanyMasterById(systemId);
-                                            companyLogic.deleteNotesTabAttachment(systemId);
-                                            final Notification notif = new Notification(commmonUtil.getDeletedSuccessfulMessage(master.getCompanyId(), master.getCompanyName()), Notification.Type.HUMANIZED_MESSAGE);
-                                            notif.setPosition(Position.MIDDLE_CENTER);
-                                            notif.setStyleName(ConstantsUtils.MY_STYLE);
-                                            notif.show(Page.getCurrent());
-                                            AbstractSearchView.flag = true;
-                                            getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
-                                        } catch (Exception ex) {
-                                            LOGGER.error(ex);
-                                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
-                                                /**
-                                                 * The method is triggered when
-                                                 * a button of the message box
-                                                 * is pressed .
-                                                 *
-                                                 * @param buttonId The buttonId
-                                                 * of the pressed button.
-                                                 */
-                                                @SuppressWarnings("PMD")
-                                                public void buttonClicked(final ButtonId buttonId) {
-                                                    // Do Nothing
-                                                }
-                                            }, ButtonId.OK);
-                                            msg.getButton(ButtonId.OK).focus();
-                                        }
-                                    } else {
-                                    }
+                        MessageBox.showPlain(Icon.QUESTION, commmonUtil.getHeaderMessage(), commmonUtil.getDeleteMessage(binder.getField(ConstantsUtils.COMPANY_NAME).getValue().toString()), new MessageBoxListener() {
+                            /**
+                             * Yes/No Button logic
+                             */
+                            @SuppressWarnings("PMD")
+                            public void buttonClicked(final ButtonId buttonId) {
+                                if (buttonId.name().equals(ConstantsUtils.YES)) {
+                                    deleteButtonListener(systemId);
+
+                                } else {
                                 }
-                            },
-                                    ButtonId.YES,
-                                    ButtonId.NO);
+                            }
+                        },
+                                ButtonId.YES,
+                                ButtonId.NO);
                     }
 
                 } catch (Exception ex) {
@@ -1647,7 +1566,7 @@ public class CompanyAddForm extends CustomComponent {
         tabSheet.addTab(financialClose, "Financial Close", null);
         tabSheet.getTab(NumericConstants.FIVE).setVisible(Boolean.FALSE);
         Object companyTypeValue = compayInformation.companyType.getValue();
-        if (companyTypeValue != null && (((HelperDTO) companyTypeValue).getDescription().equalsIgnoreCase(ConstantsUtils.GLCOMP) ||((HelperDTO) companyTypeValue).getDescription().equalsIgnoreCase(ConstantsUtils.DIVISION) || ((HelperDTO) companyTypeValue).getDescription().equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT))){
+        if (companyTypeValue != null && (((HelperDTO) companyTypeValue).getDescription().equalsIgnoreCase(ConstantsUtils.GLCOMP) || ((HelperDTO) companyTypeValue).getDescription().equalsIgnoreCase(ConstantsUtils.DIVISION) || ((HelperDTO) companyTypeValue).getDescription().equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT))) {
             tabSheet.getTab(NumericConstants.FIVE).setVisible(Boolean.TRUE);
         } else {
             tabSheet.getTab(NumericConstants.FIVE).setVisible(Boolean.FALSE);
@@ -1663,7 +1582,6 @@ public class CompanyAddForm extends CustomComponent {
 
         }
         if ("Edit".equals(sessionDTO.getMode())) {
-            notesTabForm.readOnlyNotesHistory(true);
             notesTabForm.refreshTable();
         }
         tabSheet.addTab(notesTabForm, "Notes", null);
@@ -1676,10 +1594,123 @@ public class CompanyAddForm extends CustomComponent {
 
                 Component component = event.getTabSheet().getSelectedTab();
                 selectedTabIndex = event.getTabSheet().getTabPosition(event.getTabSheet().getTab(component));
-                 if (selectedTabIndex == NumericConstants.FIVE) {
-                     financialClose.setDefaultFocus();
-                 }
+                if (selectedTabIndex == NumericConstants.FIVE) {
+                    financialClose.setDefaultFocus();
+                }
+                if (selectedTabIndex == NumericConstants.SIX) {
+                   notesTabForm.readOnlyNotesHistory(true);
+                }
             }
         });
     }
+
+    public void savebuttonListener(ButtonId buttonId, final List<CompanyMasterDTO> parentCompanyList) {
+        try {
+            if (buttonId.name().equals(ConstantsUtils.YES)) {
+                String msg;
+                msg = companyLogic.saveCompanyMaster(binder,
+                        identifierList, companyTradeList, parentCompanyList, notesTabForm.getUploadedData(), notesTabForm.getAddedNotes(), notesTabForm.removeDetailsList());
+                if (msg.equals(ConstantsUtils.SUCCESS)) {
+                    //This code is needed.Related to ARM Module changes
+                    if (financialClose.getModeDdlb().getValue() != null && String.valueOf(financialClose.getModeDdlb().getValue()).equalsIgnoreCase(ConstantsUtils.MANUAL)) {
+                        boolean isGLComp = ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.GLCOMP)
+                                || ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.DIVISION)
+                                || ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT);
+                        BeanItemContainer container = financialClose.financialCloseTableLogic.getResultsContainer();
+                        if (isGLComp && container.size() != 0) {
+                            FinancialCloseDTO binderDto = financialClose.financialCloseTableLogic.getBinderDto();
+                            binderDto.setCompanyMasterSid(sessionDTO.getSystemId());
+                            financialCloseLogic.saveManualStatus(binderDto, container);
+                        }
+                    } else {
+                        boolean isGLComp = ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.GLCOMP)
+                                || ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.DIVISION)
+                                || ((HelperDTO) compayInformation.companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT);
+                        if (isGLComp && financialClose.financialCloseTableLogic.getBinderDto() != null) {
+                            FinancialCloseDTO binderDto = financialClose.financialCloseTableLogic.getBinderDto();
+                            List<FinancialCloseDTO> addModeList = financialClose.financialCloseTableLogic.getBinderDto().getAddMode_Container_MainList();
+                            if (addModeList != null && !addModeList.isEmpty()) {
+                                binderDto.setCompanyMasterSid(sessionDTO.getSystemId());
+                                financialCloseLogic.saveAutoMode(binderDto, addModeList);
+                                QuartzListener.scheduleCompanyFinancialClose();
+                            }
+                        }
+                    }
+                    if (ConstantsUtils.ADD.equalsIgnoreCase(sessionDTO.getMode())) {
+                        companyLogic.insertToCPDetails(sessionDTO.getSystemId());
+                    }
+                    final Notification notif = new Notification(commmonUtil.getSavedSuccessfulMessage(String.valueOf(binder.getField(ConstantsUtils.COMPANY_ID).getValue()), String.valueOf(binder.getField(ConstantsUtils.COMPANY_NAME).getValue())), Notification.Type.HUMANIZED_MESSAGE);
+                    notif.setPosition(Position.MIDDLE_CENTER);
+                    notif.setStyleName(ConstantsUtils.MY_STYLE);
+                    notif.show(Page.getCurrent());
+                    notif.setDelayMsec(NumericConstants.TWO_THOUSAND);
+                    sessionDTO.setMode(ConstantsUtils.EDIT);
+                    getUI().getNavigator().navigateTo(CompanyAddView.NAME);
+                    binder.discard();
+                    binder = new ErrorfulFieldGroup(new BeanItem<>(new CompanyMasterDTO()));
+                } else if ("duplicateNo".equals(msg)) {
+                    binder.getErrorDisplay().setError("Company No already exists.");
+                } else if (ConstantsUtils.DUPLICATE.equals(msg)) {
+                    binder.getErrorDisplay().setError("Company ID already exists.");
+                } else if ("duplicateIdentifier".equals(msg)) {
+                    binder.getErrorDisplay().setError("Company Identifier already exists.");
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+    }
+
+    public void deleteButtonListener(final int systemId) {
+        try {
+            final CompanyMaster master = companyLogic.deleteCompanyMasterById(systemId);
+            companyLogic.deleteNotesTabAttachment(systemId);
+            final Notification notif = new Notification(commmonUtil.getDeletedSuccessfulMessage(master.getCompanyId(), master.getCompanyName()), Notification.Type.HUMANIZED_MESSAGE);
+            notif.setPosition(Position.MIDDLE_CENTER);
+            notif.setStyleName(ConstantsUtils.MY_STYLE);
+            notif.show(Page.getCurrent());
+            AbstractSearchView.flag = true;
+            getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
+
+    public void setcompanyMasterDTO(final int systemId) {
+        try {
+            companyMasterDTO = companyLogic.getCompanyMasterById(Integer.valueOf(systemId));
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(CompanyAddForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            java.util.logging.Logger.getLogger(CompanyAddForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PortalException ex) {
+            java.util.logging.Logger.getLogger(CompanyAddForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void addtradeClassResultsBean(final int systemId) {
+        try {
+            tradeClassResultsBean.addAll(companyLogic.getTradeClassTable(systemId));
+        } catch (SystemException ex) {
+            java.util.logging.Logger.getLogger(CompanyAddForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PortalException ex) {
+            java.util.logging.Logger.getLogger(CompanyAddForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
 }

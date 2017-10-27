@@ -32,16 +32,17 @@ import org.jboss.logging.Logger;
  *
  * @author Nimisha.Rakesh
  */
-public class SummaryFieldFactory implements TableFieldFactory,LeaveCheckAble {
+public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
 
     protected final AbstractSummaryLogic logic;
     private final AbstractSelectionDTO selection;
     static final Logger LOGGER = Logger.getLogger(SummaryFieldFactory.class);
     final ExecutorService service = ThreadPool.getInstance().getService();
     private Boolean isFieldRequire;
-    private final DataFormatConverter CUR_ZERO = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
-    boolean checkLeave=false;
-    boolean restrictLeave=false;
+    private final DataFormatConverter curZero = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
+    boolean checkLeave = false;
+    boolean restrictLeave = false;
+
     public SummaryFieldFactory(AbstractSummaryLogic logic, AbstractSelectionDTO selection, Boolean isFieldRequire) {
         this.logic = logic;
         this.selection = selection;
@@ -52,7 +53,7 @@ public class SummaryFieldFactory implements TableFieldFactory,LeaveCheckAble {
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
         String total = ((ExtCustomTable) uiContext).getDoubleHeaderForSingleHeader(propertyId.toString());
         AdjustmentDTO dto = (AdjustmentDTO) itemId;
-        if (propertyId.toString().contains("override") && dto.getLevelNo() == NumericConstants.FIVE && isFieldRequire && !total.toString().startsWith("total") && !total.startsWith("Total")) {
+        if (propertyId.toString().contains("override") && dto.getLevelNo() == NumericConstants.FIVE && isFieldRequire && !total.startsWith("total") && !total.startsWith("Total")) {
             List items = new ArrayList();
             items.add(itemId);
             items.add(propertyId);
@@ -60,7 +61,7 @@ public class SummaryFieldFactory implements TableFieldFactory,LeaveCheckAble {
             final TextField override = new TextField();
             override.setData(items);
             override.addStyleName("align-right");
-            override.setConverter(CUR_ZERO);
+            override.setConverter(curZero);
             override.addFocusListener(new FieldEvents.FocusListener() {
                 @Override
                 public void focus(FieldEvents.FocusEvent event) {
@@ -68,6 +69,9 @@ public class SummaryFieldFactory implements TableFieldFactory,LeaveCheckAble {
                     override.removeFocusListener(this);
                 }
             });
+            if(selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL) || total.startsWith("~Total") ){
+                override.setEnabled(false);
+            }
             return override;
         }
 
@@ -84,53 +88,58 @@ public class SummaryFieldFactory implements TableFieldFactory,LeaveCheckAble {
                 Component uiContext = (Component) ((List) ((TextField) event.getProperty()).getData()).get(NumericConstants.TWO);
                 valueChangeLogic(dto, val, propertyId, uiContext);
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("Error in overrideListener :"+e);
             }
         }
     };
 
     protected void valueChangeLogic(AdjustmentDTO dto, Object val, Object propertyId, Component uiContext) {
-        Double value = 0.0;
-         boolean isEmptied = false;
-        try {
-           
-            if (StringUtils.EMPTY.equals(val)) {
-                isEmptied = true;
-            }
-            value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
-        } catch (NumberFormatException e) {
-            LOGGER.debug("User is supposed to give Double value " + e.getMessage());
-           if(!isEmptied){
+        ExtCustomTable table = (ExtCustomTable) uiContext;
+        int singleVisibleColumn = Integer.valueOf(((String[]) (table.getDoubleHeaderForSingleHeader(propertyId.toString())).split("\\~"))[0]);
+        if (singleVisibleColumn == (dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()))) {
+            Double value = 0.0;
+            boolean isEmptied = false;
+            try {
+                if (StringUtils.EMPTY.equals(val)) {
+                    isEmptied = true;
+                }
+                value = Double.valueOf(val == null ? "0" : val.toString().trim().replaceAll("[^\\-\\d.]", StringUtils.EMPTY));
+            } catch (NumberFormatException e) {
+                LOGGER.debug("User is supposed to give Double value " + e.getMessage());
+                if (!isEmptied) {
                     return;
-                   }
-        }
-        List input = new ArrayList();
-        //Added this for GAL-5809
-        input.add(selection.getProjectionMasterSid());
-        
+                }
+            }
+            List input = new ArrayList();
+            //Added this for GAL-5809
+            input.add(selection.getProjectionMasterSid());
 
-        input.add(Integer.valueOf(dto.getBrand_item_masterSid()));
-        input.add(isEmptied ? "NULL" :value.toString());           
-        input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
-        input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
-        input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
-        input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
-        input.addAll(logic.getTableInput(selection.getSessionDTO()));
-        checkLeave=true;
-        service.submit(new UpdateOverride(input)); 
+            input.add(Integer.valueOf(dto.getBranditemmasterSid()));
+            input.add(isEmptied ? "NULL" : value.toString());
+            input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
+            input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
+            input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
+            input.add(dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : dto.getMasterIds().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
+            input.addAll(logic.getTableInput(selection.getSessionDTO()));
+            checkLeave = true;
+            service.submit(new UpdateOverride(input));
+        }
     }
 
     @Override
     public boolean checkLeave() {
         return !checkLeave;
     }
+
     @Override
-    public boolean isRestrict(){
+    public boolean isRestrict() {
         return restrictLeave;
     }
+
     public void setRestrictLeave() {
         this.restrictLeave = restrictLeave;
     }
+
     public void setCheckLeave(boolean checkLeave) {
         this.checkLeave = checkLeave;
     }

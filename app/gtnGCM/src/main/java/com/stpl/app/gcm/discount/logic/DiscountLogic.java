@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.discount.logic;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.HelperListUtil;
 import com.stpl.app.gcm.common.QueryUtils;
@@ -19,7 +20,7 @@ import com.stpl.app.gcm.discount.dto.LookupDTO;
 import com.stpl.app.gcm.discount.dto.PSComponentDetailsDTO;
 import static com.stpl.app.gcm.util.Constants.DateFormatConstants.DEFOULT_JAVA_DATE_FORMAT;
 import static com.stpl.app.gcm.util.Constants.DateFormatConstants.DEFOULT_SQL_DATE_FORMAT;
-import static com.stpl.app.gcm.util.Constants.DateFormatConstants.MMddyyyy;
+import static com.stpl.app.gcm.util.Constants.DateFormatConstants.MMDDYYYY;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import static com.stpl.app.gcm.itemmanagement.index.logic.ItemLogic.stringIsNull;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
@@ -53,6 +54,7 @@ import com.stpl.app.gcm.transfercontract.util.CommonUtil;
 import com.stpl.app.gcm.transfercontract.util.Constant;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+import static com.stpl.app.gcm.util.Constants.IndicatorConstants.CONTRACT_MASTER_SID;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.SALES;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.UNITS;
 import com.stpl.app.gcm.util.Converters;
@@ -70,7 +72,6 @@ import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.data.Container;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.ComboBox;
@@ -99,7 +100,7 @@ public class DiscountLogic {
     static CommonDao DAO = CommonImpl.getInstance();
     static DiscountDAO discountDAO = new DiscountDaoImpl();
     private static final Logger LOGGER = Logger.getLogger(DiscountLogic.class);
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMddyyyy.getConstant());
+    public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
     QueryUtils queryUtils = new QueryUtils();
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0");
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
@@ -107,6 +108,10 @@ public class DiscountLogic {
     private static final DecimalFormat ACTUAL_FORMAT = new DecimalFormat("0.00");
     DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     HelperListUtil helperlist = HelperListUtil.getInstance();
+    public static final String SPACE_OFFSET_SPACE = " OFFSET ";
+    public static final String SET_COLUMN_NAME_QUESTION = "?SET_COLUMN_NAME?";
+    public static final String ROWS_ONLY = " ROWS ONLY";
+    public static final String FILTER = "@filter@";
 
     /**
      * The Constant CHAR_ASTERISK.
@@ -128,8 +133,8 @@ public class DiscountLogic {
     public List<RemoveDiscountDto> getContractSearch(CustomFieldGroup discountChBinder, int startIndex,
             int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumn) {
         LOGGER.debug("Entered contract search logic");
-        List resultList = new ArrayList();
-        List<RemoveDiscountDto> searchList = new ArrayList<RemoveDiscountDto>();
+        List resultList;
+        List<RemoveDiscountDto> searchList;
         resultList = discountDAO.getContracts(discountChBinder, startIndex, offset, filters, sortByColumn);
         searchList = setContractValues(resultList);
         LOGGER.debug("Ending contract search logic" + searchList.size());
@@ -137,7 +142,7 @@ public class DiscountLogic {
     }
 
     public List<RemoveDiscountDto> setContractValues(List list) {
-        List<RemoveDiscountDto> returnList = new ArrayList<RemoveDiscountDto>();
+        List<RemoveDiscountDto> returnList = new ArrayList<>();
         RemoveDiscountDto removeDiscountDto;
         int count = list.size();
         for (int i = 0; i < count; i++) {
@@ -172,7 +177,7 @@ public class DiscountLogic {
     }
 
     public List<ContractsDetailsDto> getLevelDetails(ContractsDetailsDto tableBean) {
-        List<ContractsDetailsDto> levelsDetails = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> levelsDetails = new ArrayList<>();
         try {
             final DynamicQuery contractQuery = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
             contractQuery.add(RestrictionsFactoryUtil.eq("rsContractSid", tableBean.getInternalId()));
@@ -185,7 +190,7 @@ public class DiscountLogic {
     }
 
     private List<ContractsDetailsDto> getNewDiscountTabDto(List<RsContractDetails> contractDetails) {
-        List<ContractsDetailsDto> levelsDetails = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> levelsDetails = new ArrayList<>();
         try {
             if (!contractDetails.isEmpty()) {
                 for (RsContractDetails contractDetail : contractDetails) {
@@ -217,7 +222,7 @@ public class DiscountLogic {
     }
 
     public List<ContractsDetailsDto> getItemSearch(ContractsDetailsDto removeDiscountDto) throws SystemException {
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> searchList;
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
         query.add(RestrictionsFactoryUtil.in("brandMasterSid", new Object[]{NumericConstants.FOUR, NumericConstants.SIX, NumericConstants.TEN, NumericConstants.EIGHTY_FIVE}));
         query.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
@@ -228,7 +233,7 @@ public class DiscountLogic {
     }
 
     private List<ContractsDetailsDto> getSearchResult(List<ItemMaster> resultList) throws SystemException {
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> searchList = new ArrayList<>();
         for (ItemMaster resultList1 : resultList) {
             ContractsDetailsDto dto = new ContractsDetailsDto();
             dto.setItemId(resultList1.getItemId());
@@ -249,7 +254,7 @@ public class DiscountLogic {
     public List<RemoveDiscountDto> getprojectionValues(RemoveDiscountDto removeDiscountDto, List contractSid, List rsSid) {
         List removeList = new ArrayList();
         List queryList = new ArrayList();
-        List<RemoveDiscountDto> searchList = new ArrayList<RemoveDiscountDto>();
+        List<RemoveDiscountDto> searchList = new ArrayList<>();
         try {
             String query = queryUtils.getLatestCCPQuery(contractSid, rsSid);
             removeList = discountDAO.getValues(query);
@@ -302,58 +307,51 @@ public class DiscountLogic {
     }
 
     public List<ContractsDetailsDto> getRebateSchedule(ContractsDetailsDto newDiscountTabDto) throws SystemException{
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?CFP_NO?", "%");
-        inputMap.put("?CFP_NAME?", "%");
-        inputMap.put("?CFP_ID?", "%");
-        inputMap.put("?CFP_STATUS?", "%");
-        inputMap.put("?CFP_TYPE?", "%");
-        inputMap.put("?IFP_NO?", "%");
-        inputMap.put("?IFP_NAME?", "%");
-        inputMap.put("?IFP_ID?", "%");
-        inputMap.put("?IFP_STATUS?", "%");
-        inputMap.put("?IFP_TYPE?", "%");
-        inputMap.put("?PS_NO?", "%");
-        inputMap.put("?PS_NAME?", "%");
-        inputMap.put("?PS_ID?", "%");
-        inputMap.put("?PS_STATUS?", "%");
-        inputMap.put("?PS_TYPE?", "%");
-        inputMap.put("?RS_NO?", "%");
-        inputMap.put("?RS_NAME?", "%");
-        inputMap.put("?RS_ID?", "%");
-        inputMap.put("?RS_STATUS?", "%");
-        inputMap.put("?RS_TYPE?", "%");
-        String searchValue = Converters.convertNullToEmpty(newDiscountTabDto.getSearchFieldValue());
-        if (searchValue.trim().equals(StringUtils.EMPTY)) {
-
-            searchValue = Constants.IndicatorConstants.CHAR_PERCENT.getConstant();
-        } else {
-            searchValue = searchValue.replace(Constants.IndicatorConstants.CHAR_ASTERISK.getConstant(), Constants.IndicatorConstants.CHAR_PERCENT.getConstant());
-        }
+        List<ContractsDetailsDto> searchList;
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.CFP_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.CFP_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.CFP_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.CFP_TYPE_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_TYPE_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, "%");
         List results = new ArrayList();
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.RS_VALUE.toString())) {
             getToInput(inputMap, newDiscountTabDto, false);
             String query = CommonUtil.getQuery(inputMap, "ad.rsSearch");
-            query += "ORDER BY RS.RS_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+            query += "ORDER BY RS.RS_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.CFP.toString())) {
             getToInput(inputMap, newDiscountTabDto, false);
             String query = CommonUtil.getQuery(inputMap, "ad.cfpSearch");
-            query += "ORDER BY CFP.CFP_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+            query += "ORDER BY CFP.CFP_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.IFP.toString())) {
             getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, "ad.ifpSearch");
-            query += "ORDER BY IFP.IFP_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADIFP_SEARCH);
+            query += "ORDER BY IFP.IFP_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.PS_VALUE.toString())) {
             getToInput(inputMap, newDiscountTabDto, false);
             String query = CommonUtil.getQuery(inputMap, "ad.psSearch");
-            query += "ORDER BY PS.PS_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+            query += "ORDER BY PS.PS_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
 
@@ -363,7 +361,7 @@ public class DiscountLogic {
 
     private List<ContractsDetailsDto> getCustomisedDto(List results, ContractsDetailsDto newDiscountTabDto) {
 
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> searchList = new ArrayList<>();
         int size = results.size();
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.RS_VALUE.toString())) {
             for (int i = 0; i < size; i++) {
@@ -445,25 +443,25 @@ public class DiscountLogic {
     }
 
     public List<ContractsDetailsDto> getItemsFromRs(ContractsDetailsDto newDiscountTabDto) throws SystemException  {
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<ContractsDetailsDto> searchList;
+        Map<String, String> inputMap = new HashMap<>();
         List results = new ArrayList();
-        inputMap.put("?SID?", String.valueOf(newDiscountTabDto.getInternalId()));
+        inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(newDiscountTabDto.getInternalId()));
         if (Constants.IndicatorConstants.CFP.toString().equals(newDiscountTabDto.getCategory())) {
             String query = CommonUtil.getQuery(inputMap, "ad.cfpFromResults");
-            query += "ORDER BY CFP_CM.COMPANY_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+            query += "ORDER BY CFP_CM.COMPANY_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         } else if (Constants.IndicatorConstants.IFP.toString().equals(newDiscountTabDto.getCategory())) {
-            String query = CommonUtil.getQuery(inputMap, "ad.ifpFromResults");
-            query += "ORDER BY IFP_IM.ITEM_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADIFP_FROM_RESULTS);
+            query += "ORDER BY IFP_IM.ITEM_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         } else if (Constants.IndicatorConstants.PS_VALUE.toString().equals(newDiscountTabDto.getCategory())) {
             String query = CommonUtil.getQuery(inputMap, "ad.psFromResults");
-            query += "ORDER BY PS_IM.ITEM_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+            query += "ORDER BY PS_IM.ITEM_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         } else if (Constants.IndicatorConstants.RS_VALUE.toString().equals(newDiscountTabDto.getCategory())) {
             String query = CommonUtil.getQuery(inputMap, "ad.rsFromResults");
-            query += "ORDER BY RS_IM.ITEM_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+            query += "ORDER BY RS_IM.ITEM_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             results = discountDAO.getRebates(query);
         }
         searchList = getDetailsFromResult(results, newDiscountTabDto);
@@ -471,7 +469,7 @@ public class DiscountLogic {
     }
 
     private List<ContractsDetailsDto> getDetailsFromResult(List results, ContractsDetailsDto newDiscountTabDto) {
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> searchList = new ArrayList<>();
 
         int size = results.size();
         if (Constants.IndicatorConstants.RS_VALUE.toString().equals(newDiscountTabDto.getCategory())) {
@@ -559,7 +557,7 @@ public class DiscountLogic {
     }
 
     public List<DiscountDTO> configureLevel(RemoveDiscountDto projSelDTO) {
-        List<DiscountDTO> resultList = new ArrayList<DiscountDTO>();
+        List<DiscountDTO> resultList = new ArrayList<>();
         String query = queryUtils.getSummaryQuery(projSelDTO);
         try {
             List list = (List<Object[]>) discountDAO.getValues(query);
@@ -634,27 +632,27 @@ public class DiscountLogic {
 
     public int getRebateScheduleCount(ContractsDetailsDto newDiscountTabDto) throws SystemException {
         List results = new ArrayList();
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?CFP_NO?", "%");
-        inputMap.put("?CFP_NAME?", "%");
-        inputMap.put("?CFP_ID?", "%");
-        inputMap.put("?CFP_STATUS?", "%");
-        inputMap.put("?CFP_TYPE?", "%");
-        inputMap.put("?IFP_NO?", "%");
-        inputMap.put("?IFP_NAME?", "%");
-        inputMap.put("?IFP_ID?", "%");
-        inputMap.put("?IFP_STATUS?", "%");
-        inputMap.put("?IFP_TYPE?", "%");
-        inputMap.put("?PS_NO?", "%");
-        inputMap.put("?PS_NAME?", "%");
-        inputMap.put("?PS_ID?", "%");
-        inputMap.put("?PS_STATUS?", "%");
-        inputMap.put("?PS_TYPE?", "%");
-        inputMap.put("?RS_NO?", "%");
-        inputMap.put("?RS_NAME?", "%");
-        inputMap.put("?RS_ID?", "%");
-        inputMap.put("?RS_STATUS?", "%");
-        inputMap.put("?RS_TYPE?", "%");
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.CFP_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.CFP_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.CFP_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.CFP_TYPE_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.PS_TYPE_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, "%");
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.RS_VALUE.toString())) {
             getToInput(inputMap, newDiscountTabDto, false);
             String query = CommonUtil.getQuery(inputMap, "ad.rsSearch");
@@ -668,7 +666,7 @@ public class DiscountLogic {
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.IFP.toString())) {
             getToInput(inputMap, newDiscountTabDto, false);
-            String query = CommonUtil.getQuery(inputMap, "ad.ifpSearch");
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADIFP_SEARCH);
             results = discountDAO.getRebates(query);
         }
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.PS_VALUE.toString())) {
@@ -682,13 +680,13 @@ public class DiscountLogic {
 
     public int getItemsFromRsCount(ContractsDetailsDto newDiscountTabDto) throws SystemException {
         List results = new ArrayList();
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?SID?", String.valueOf(newDiscountTabDto.getInternalId()));
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(newDiscountTabDto.getInternalId()));
         if (Constants.IndicatorConstants.CFP.toString().equals(newDiscountTabDto.getCategory())) {
             String query = CommonUtil.getQuery(inputMap, "ad.cfpFromResults");
             results = discountDAO.getRebates(query);
         } else if (Constants.IndicatorConstants.IFP.toString().equals(newDiscountTabDto.getCategory())) {
-            String query = CommonUtil.getQuery(inputMap, "ad.ifpFromResults");
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADIFP_FROM_RESULTS);
             results = discountDAO.getRebates(query);
         } else if (Constants.IndicatorConstants.PS_VALUE.toString().equals(newDiscountTabDto.getCategory())) {
             String query = CommonUtil.getQuery(inputMap, "ad.psFromResults");
@@ -723,7 +721,7 @@ public class DiscountLogic {
     }
 
     public List<RemoveDiscountDto> setItemValues(List list) {
-        List<RemoveDiscountDto> itemList = new ArrayList<RemoveDiscountDto>();
+        List<RemoveDiscountDto> itemList = new ArrayList<>();
         RemoveDiscountDto removeDiscountDto;
         int count = list.size();
         for (int i = 0; i < count; i++) {
@@ -795,8 +793,8 @@ public class DiscountLogic {
 
     public List<RemoveDiscountDto> getRebateSearch(String field, String value, int contractSid, int rsSid) {
         LOGGER.debug("Entered contract search logic");
-        List resultList = new ArrayList();
-        List<RemoveDiscountDto> searchList = new ArrayList<RemoveDiscountDto>();
+        List resultList;
+        List<RemoveDiscountDto> searchList;
         resultList = discountDAO.getRebateSearch(field, value, contractSid, rsSid);
         searchList = setContractValues(resultList);
         LOGGER.debug("Ending contract search logic" + searchList.size());
@@ -804,11 +802,11 @@ public class DiscountLogic {
     }
 
     public List<CFPComponentDetailsDTO> getFromCfpCD(Object parent) {
-        List<CFPComponentDetailsDTO> retList = new ArrayList<CFPComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<CFPComponentDetailsDTO> retList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
 
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
 
         List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.cfpFromCD"));
@@ -826,10 +824,10 @@ public class DiscountLogic {
     }
 
     public List<PSComponentDetailsDTO> getFromIfpCD(Object parent) {
-        List<PSComponentDetailsDTO> retList = new ArrayList<PSComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<PSComponentDetailsDTO> retList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
         List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.ifpFromCD"));
         for (Object[] temp : resList) {
@@ -848,10 +846,10 @@ public class DiscountLogic {
     }
 
     public List<PSComponentDetailsDTO> getFromPsCD(Object parent) {
-        List<PSComponentDetailsDTO> retList = new ArrayList<PSComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<PSComponentDetailsDTO> retList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
         List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.psFromCD"));
         for (Object[] temp : resList) {
@@ -870,10 +868,10 @@ public class DiscountLogic {
     }
 
     public List<PSComponentDetailsDTO> getFromRsCD(Object parent) {
-        List<PSComponentDetailsDTO> retList = new ArrayList<PSComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<PSComponentDetailsDTO> retList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
         List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.rsFromCD"));
         for (Object[] temp : resList) {
@@ -890,12 +888,9 @@ public class DiscountLogic {
         return retList;
     }
 
-    public void saveRS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final int psSystemId, final ContractsDetailsDto contractMember) throws SystemException, PortalException {
-        LOGGER.debug("Entering saveRS method with contractSystemId=" + contractSystemId);
-        int rsId = 0;
-        if (!contractMember.getRsSid().equals("0")) {
-            rsId = Integer.valueOf(contractMember.getRsSid());
-        }
+    public static void saveRS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final int psSystemId, final ContractsDetailsDto contractMember,boolean flag) throws SystemException, PortalException {
+        LOGGER.debug("Entering saveRS method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()-----------------"+contractMember.getModelSysId());
+         int rsId = flag ? Integer.valueOf(contractMember.getRsSid()) : contractMember.getModelSysId();
         final RsModel rebateMaster = discountDAO.getRebateScheduleMaster(rsId);
         final RsContract rsMasterAttached = RsContractLocalServiceUtil.createRsContract(0);
         rsMasterAttached.setContractMasterSid(contractSystemId);
@@ -948,7 +943,7 @@ public class DiscountLogic {
         rsMasterAttached.setInboundStatus("A");
 
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(RsContract.class);
-        query.add(RestrictionsFactoryUtil.eq("contractMasterSid", contractSystemId));
+        query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
         if (cfpSystemId != 0) {
             query.add(RestrictionsFactoryUtil.ilike(Constants.CFP_CONTRACT_SID, String.valueOf(cfpSystemId)));
         } else {
@@ -980,7 +975,7 @@ public class DiscountLogic {
             rsContract.setRsContractSid(list.get(0).getRsContractSid());
         }
         try {
-            List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+            List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
             input.add(rsContract.getRsContractSid());
             input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             input.add(DBDate.format(new Date()));
@@ -1017,110 +1012,110 @@ public class DiscountLogic {
 
     public static void getToInput(final Map<String, String> inputMap, ContractsDetailsDto newDiscountTabDto, boolean fromNewTab) {
         String searchValue = newDiscountTabDto.getSearchFieldValue();
-        String searchField = StringUtils.EMPTY;
+        String searchField;
         if (fromNewTab) {
             searchField = newDiscountTabDto.getSearchField().split("-")[1];
         } else {
             searchField = newDiscountTabDto.getSearchField();
         }
 
-        if (Constants.CFP_SEARCH[0].equals(searchField)) {
-            inputMap.put("?CFP_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[1].equals(searchField)) {
-            inputMap.put("?CFP_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?CFP_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?CFP_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?CFP_TYPE?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().cfpSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.IFP_SEARCH[0].equals(searchField)) {
-            inputMap.put("?IFP_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.IFP_SEARCH[1].equals(searchField)) {
-            inputMap.put("?IFP_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.IFP_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?IFP_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?IFP_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?IFP_TYPE?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().ifpSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getIFPSEARCH()[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getIFPSEARCH()[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.PS_SEARCH[0].equals(searchField)) {
-            inputMap.put("?PS_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.PS_SEARCH[1].equals(searchField)) {
-            inputMap.put("?PS_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.PS_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?PS_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?PS_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?PS_TYPE?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().psSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getPSSEARCH()[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getPSSEARCH()[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.RS_SEARCH[0].equals(searchField)) {
-            inputMap.put("?RS_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.RS_SEARCH[1].equals(searchField)) {
-            inputMap.put("?RS_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.RS_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?RS_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.RS_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?RS_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.RS_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?RS_TYPE?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().rsSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getRSSEARCH()[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getRSSEARCH()[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().rsSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().rsSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.ITEM_SEARCH[0].equals(searchField)) {
-            inputMap.put("?ITEM_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[1].equals(searchField)) {
-            inputMap.put("?ITEM_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?ITEM_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?ITEM_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?ITEM_TYPE?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.FIVE].equals(searchField)) {
-            inputMap.put("?BRAND_MASTER_SID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.SIX].equals(searchField)) {
-            inputMap.put("?FORM?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.SEVEN].equals(searchField)) {
-            inputMap.put("?STRENGTH?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.EIGHT].equals(searchField)) {
-            inputMap.put("?THERAPEUTIC_CLASS?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().itemSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.FIVE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.BRAND_MASTER_SID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.SIX].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.FORM_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.SEVEN].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.STRENGTH_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.EIGHT].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.THERAPEUTIC_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.COMPANY_SEARCH[0].equals(searchField)) {
-            inputMap.put("?COMPANY_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[1].equals(searchField)) {
-            inputMap.put("?COMPANY_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?COMPANY_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?COMPANY_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?COMPANY_TYPE?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.FIVE].equals(searchField)) {
-            inputMap.put("?COMPANY_CATEGORY?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.SIX].equals(searchField)) {
-            inputMap.put("?TRADE_CLASS?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().companySearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().companySearch[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().companySearch[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().companySearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().companySearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().companySearch[NumericConstants.FIVE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_CATEGORY_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().companySearch[NumericConstants.SIX].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.TRADE_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
     }
 
     public int getCommonCountForNewTab(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO) throws SystemException {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        Map<String, String> inputMapToAppend = new HashMap<String, String>();
+        Map<String, String> inputMap = new HashMap<>();
+        Map<String, String> inputMapToAppend = new HashMap<>();
         String searchField = newDiscountTabDto.getSearchField().split("-")[0];
-        inputMap.put("?IFP_NO?", "%");
-        inputMap.put("?IFP_NAME?", "%");
-        inputMap.put("?IFP_ID?", "%");
-        inputMap.put("?IFP_STATUS?", "%");
-        inputMap.put("?IFP_TYPE?", "%");
-        inputMap.put("?USERS_SID?", sessionDTO.getUserId());
-        inputMap.put("?SESSION_ID?", sessionDTO.getSearchSessionId());
+        inputMap.put(StringConstantsUtil.IFP_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, sessionDTO.getUserId());
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionDTO.getSearchSessionId());
 
         List results = new ArrayList();
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString()) || searchField.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
@@ -1130,17 +1125,17 @@ public class DiscountLogic {
         }
 
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-            inputMap.put("?OPERATION?", "%" + Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
+            inputMap.put(StringConstantsUtil.OPERATION, "%" + Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
             getToInput(inputMap, inputMapToAppend, newDiscountTabDto, true);
             String query = CommonUtil.getQuery(inputMap, inputMapToAppend, "ad.tempItemSearchCountForIFP");
             results = discountDAO.getRebates(query);
         }
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
-            inputMap.put("?COMPANY_ID?", "%");
-            inputMap.put("?COMPANY_NO?", "%");
-            inputMap.put("?COMPANY_NAME?", "%");
-            inputMap.put("?COMPANY_STATUS?", "%");
-            inputMap.put("?OPERATION?", "%" + Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
+            inputMap.put(StringConstantsUtil.COMPANY_ID_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_NO_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_NAME_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_STATUS_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.OPERATION, "%" + Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
             getToInput(inputMap, inputMapToAppend, newDiscountTabDto, true);
             String query = CommonUtil.getQuery(inputMap, inputMapToAppend, "ad.tempCompanySearchCountForCFP");
             results = discountDAO.getRebates(query);
@@ -1154,21 +1149,21 @@ public class DiscountLogic {
 
     public static boolean insertToTempTable(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO) {
         String searchField = newDiscountTabDto.getCategory();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        Map<String, String> inputMap = new HashMap<>();
 
-        inputMap.put("?USERS_SID?", sessionDTO.getUserId());
-        inputMap.put("?SESSION_ID?", sessionDTO.getSearchSessionId());
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, sessionDTO.getUserId());
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionDTO.getSearchSessionId());
 
-        inputMap.put("?COLUMN_NAME1?", "USERS_SID");
-        inputMap.put("?COLUMN_NAME2?", "SESSION_ID");
-        inputMap.put("?COLUMN_NAME3?", "OPERATION");
+        inputMap.put(StringConstantsUtil.COLUMN_NAME_QUESTION, StringConstantsUtil.USERS_SID_COLUMN);
+        inputMap.put(StringConstantsUtil.COLUMN_NAM_E2_QUESTION, StringConstantsUtil.SESSION_ID_COLUMN);
+        inputMap.put(StringConstantsUtil.COLUMN_NAM_E3_QUESTION, StringConstantsUtil.OPERATION_COLUMN);
 
-        inputMap.put("?VALUE1?", sessionDTO.getUserId());
-        inputMap.put("?VALUE2?", sessionDTO.getSearchSessionId());
+        inputMap.put(StringConstantsUtil.VALU_E1_QUESTION, sessionDTO.getUserId());
+        inputMap.put(StringConstantsUtil.VALU_E2_QUESTION, sessionDTO.getSearchSessionId());
 
         int count = 0;
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.RS_VALUE.toString()) || searchField.equalsIgnoreCase(Constants.IndicatorConstants.PS_VALUE.toString())) {
-            inputMap.put("?TABLE_NAME?", "IMTD_ITEM_PRICE_REBATE_DETAILS");
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_ITEM_PRICE_REBATE_DETAILS);
             String operation = StringUtils.EMPTY;
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.RS_VALUE.toString())) {
                 operation = Constants.IndicatorConstants.SELECTED_RS_IFP_FOR_ADD_DISCOUNT.getConstant();
@@ -1177,9 +1172,9 @@ public class DiscountLogic {
                 operation = Constants.IndicatorConstants.SELECTED_PS_IFP_FOR_ADD_DISCOUNT.getConstant();
             }
             inputMap.put("?IFP_MODEL_SID?", StringUtils.EMPTY + newDiscountTabDto.getInternalId());
-            inputMap.put("?OPERATION?", operation);
-            inputMap.put("?VALUE3?", operation);
-            String query = CommonUtil.getQuery(inputMap, "ad.tempItemDataInsertFromIFP") + ";";
+            inputMap.put(StringConstantsUtil.OPERATION, operation);
+            inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, operation);
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_DATA_DELETE) + ";" + CommonUtil.getQuery(inputMap, "ad.tempItemDataInsertFromIFP") + ";";
 
             try {
                 count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
@@ -1187,36 +1182,36 @@ public class DiscountLogic {
                 java.util.logging.Logger.getLogger(DiscountLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.IFP.toString())) {
-            inputMap.put("?TABLE_NAME?", "IMTD_IFP_DETAILS");
-            inputMap.put("?ITEM_ID?", "%");
-            inputMap.put("?ITEM_NO?", "%");
-            inputMap.put("?ITEM_NAME?", "%");
-            inputMap.put("?ITEM_STATUS?", "%");
-            inputMap.put("?ITEM_TYPE?", "%");
-            inputMap.put("?BRAND_MASTER_SID?", "%");
-            inputMap.put("?FORM?", "%");
-            inputMap.put("?STRENGTH?", "%");
-            inputMap.put("?THERAPEUTIC_CLASS?", "%");
-            inputMap.put("?OPERATION?", Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
-            inputMap.put("?VALUE3?", Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
-            String query = CommonUtil.getQuery(inputMap, "ad.tempDataDelete") + ";" + CommonUtil.getQuery(inputMap, "ad.tempDataInsertForIFP") + ";";
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_IFP_DETAILS);
+            inputMap.put(StringConstantsUtil.ITEM_ID_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.ITEM_NO_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.ITEM_NAME_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.ITEM_STATUS_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.ITEM_TYPE_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.BRAND_MASTER_SID_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.FORM_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.STRENGTH_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.THERAPEUTIC_CLASS_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
+            inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_DATA_DELETE) + ";" + CommonUtil.getQuery(inputMap, "ad.tempDataInsertForIFP") + ";";
             try {
                 count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.CFP.toString())) {
-            inputMap.put("?TABLE_NAME?", "IMTD_CFP_DETAILS");
-            inputMap.put("?COMPANY_ID?", "%");
-            inputMap.put("?COMPANY_NO?", "%");
-            inputMap.put("?COMPANY_NAME?", "%");
-            inputMap.put("?COMPANY_STATUS?", "%");
-            inputMap.put("?TRADE_CLASS?", "%");
-            inputMap.put("?COMPANY_TYPE?", "%");
-            inputMap.put("?COMPANY_CATEGORY?", "%");
-            inputMap.put("?OPERATION?", Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
-            inputMap.put("?VALUE3?", Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
-            String query = CommonUtil.getQuery(inputMap, "ad.tempDataDelete") + ";" + CommonUtil.getQuery(inputMap, "ad.tempDataInsertForCFP") + ";";
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_CFP_DETAILS);
+            inputMap.put(StringConstantsUtil.COMPANY_ID_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_NO_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_NAME_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_STATUS_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.TRADE_CLASS_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_TYPE_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_CATEGORY_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
+            inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_DATA_DELETE) + ";" + CommonUtil.getQuery(inputMap, "ad.tempDataInsertForCFP") + ";";
             try {
                 count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
             } catch (Exception ex) {
@@ -1228,46 +1223,46 @@ public class DiscountLogic {
     }
 
     public List<ContractsDetailsDto> getCommonSearchList(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO) throws SystemException {
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
-        Map<String, String> inputMap = new HashMap<String, String>();
-        Map<String, String> inputMapToAppend = new HashMap<String, String>();
+        List<ContractsDetailsDto> searchList;
+        Map<String, String> inputMap = new HashMap<>();
+        Map<String, String> inputMapToAppend = new HashMap<>();
         String searchField = newDiscountTabDto.getSearchField().split("-")[0];
-        inputMap.put("?IFP_NO?", "%");
-        inputMap.put("?IFP_NAME?", "%");
-        inputMap.put("?IFP_ID?", "%");
-        inputMap.put("?IFP_STATUS?", "%");
-        inputMap.put("?IFP_TYPE?", "%");
-        inputMap.put("?USERS_SID?", sessionDTO.getUserId());
-        inputMap.put("?SESSION_ID?", sessionDTO.getSearchSessionId());
+        inputMap.put(StringConstantsUtil.IFP_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, sessionDTO.getUserId());
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionDTO.getSearchSessionId());
 
         List results = new ArrayList();
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString()) || searchField.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
             getToInput(inputMap, inputMapToAppend, newDiscountTabDto, true);
-            String query = CommonUtil.getQuery(inputMap, "ad.ifpSearch");
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADIFP_SEARCH);
             if (newDiscountTabDto.getEndIndex() > 0) {
-                query += "ORDER BY IFP.IFP_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+                query += "ORDER BY IFP.IFP_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             }
             results = discountDAO.getRebates(query);
         }
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-            inputMap.put("?OPERATION?", "%" + Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
+            inputMap.put(StringConstantsUtil.OPERATION, "%" + Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
             getToInput(inputMap, inputMapToAppend, newDiscountTabDto, true);
             String query = CommonUtil.getQuery(inputMap, inputMapToAppend, "ad.tempItemSearchForIFP");
             if (newDiscountTabDto.getEndIndex() > 0) {
-                query += " order by ITEM_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+                query += " order by ITEM_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             }
             results = discountDAO.getRebates(query);
         }
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
-            inputMap.put("?COMPANY_ID?", "%");
-            inputMap.put("?COMPANY_NO?", "%");
-            inputMap.put("?COMPANY_NAME?", "%");
-            inputMap.put("?COMPANY_STATUS?", "%");
-            inputMap.put("?OPERATION?", "%" + Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
+            inputMap.put(StringConstantsUtil.COMPANY_ID_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_NO_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_NAME_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.COMPANY_STATUS_QUESTION, "%");
+            inputMap.put(StringConstantsUtil.OPERATION, "%" + Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
             getToInput(inputMap, inputMapToAppend, newDiscountTabDto, true);
             String query = CommonUtil.getQuery(inputMap, inputMapToAppend, "ad.tempCompanySearchForCFP");
             if (newDiscountTabDto.getEndIndex() > 0) {
-                query += " order by COMPANY_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+                query += " order by COMPANY_NAME OFFSET " + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             }
             results = discountDAO.getRebates(query);
         }
@@ -1278,7 +1273,7 @@ public class DiscountLogic {
 
     private List<ContractsDetailsDto> getCustomisedSearchDto(List results, String searchField) {
 
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> searchList = new ArrayList<>();
         int size = results.size();
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString()) || searchField.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
             for (int i = 0; i < size; i++) {
@@ -1341,96 +1336,96 @@ public class DiscountLogic {
     }
 
     public static void updateTempTableRecord(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO, String propertyId, boolean isSearchTable) {
-        Map<String, String> inputMap = new HashMap<String, String>();
+        Map<String, String> inputMap = new HashMap<>();
         String searchField = newDiscountTabDto.getCategory();
 
-        inputMap.put("?COLUMN_NAME1?", "USERS_SID");
-        inputMap.put("?COLUMN_NAME2?", "SESSION_ID");
-        inputMap.put("?COLUMN_NAME3?", "OPERATION");
+        inputMap.put(StringConstantsUtil.COLUMN_NAME_QUESTION, StringConstantsUtil.USERS_SID_COLUMN);
+        inputMap.put(StringConstantsUtil.COLUMN_NAM_E2_QUESTION, StringConstantsUtil.SESSION_ID_COLUMN);
+        inputMap.put(StringConstantsUtil.COLUMN_NAM_E3_QUESTION, StringConstantsUtil.OPERATION_COLUMN);
 
-        inputMap.put("?VALUE1?", sessionDTO.getUserId());
-        inputMap.put("?VALUE2?", sessionDTO.getSearchSessionId());
-        inputMap.put("?EXTRA_COLUMN?", StringUtils.EMPTY);
+        inputMap.put(StringConstantsUtil.VALU_E1_QUESTION, sessionDTO.getUserId());
+        inputMap.put(StringConstantsUtil.VALU_E2_QUESTION, sessionDTO.getSearchSessionId());
+        inputMap.put(StringConstantsUtil.EXTRA_COLUMN, StringUtils.EMPTY);
 
         if (propertyId.equals(Constants.CHECK_RECORD)) {
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.IFP.toString())) {
-                inputMap.put("?SET_COLUMN_NAME?", "CHECK_BOX");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "CHECK_BOX");
             } else {
-                inputMap.put("?SET_COLUMN_NAME?", "CHECK_RECORD");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "CHECK_RECORD");
             }
 
-            inputMap.put("?SET_VALUE?", newDiscountTabDto.getCheckRecord() ? "1" : Constants.ZEROSTRING);
+            inputMap.put(StringConstantsUtil.SET_VALUE, newDiscountTabDto.getCheckRecord() ? "1" : Constants.ZEROSTRING);
         } else if (propertyId.equals("status")) {
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.IFP.toString())) {
-                inputMap.put("?SET_COLUMN_NAME?", "ITEM_STATUS");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "ITEM_STATUS");
             } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.CFP.toString())) {
-                inputMap.put("?SET_COLUMN_NAME?", "COMPANY_STATUS");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "COMPANY_STATUS");
             } else {
-                inputMap.put("?SET_COLUMN_NAME?", "RS_DETAILS_SID");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "RS_DETAILS_SID");
             }
-            inputMap.put("?SET_VALUE?", newDiscountTabDto.getStatus().equals(Constants.ZEROSTRING) ? null : newDiscountTabDto.getStatus());
+            inputMap.put(StringConstantsUtil.SET_VALUE, newDiscountTabDto.getStatus().equals(Constants.ZEROSTRING) ? null : newDiscountTabDto.getStatus());
         } else if (propertyId.equals("sDate")) {
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.IFP.toString())) {
-                inputMap.put("?SET_COLUMN_NAME?", "ITEM_START_DATE");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "ITEM_START_DATE");
             } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.CFP.toString())) {
-                inputMap.put("?SET_COLUMN_NAME?", "COMPANY_START_DATE");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "COMPANY_START_DATE");
             } else {
-                inputMap.put("?SET_COLUMN_NAME?", "ITEM_REBATE_START_DATE");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "ITEM_REBATE_START_DATE");
             }
             String value = !String.valueOf(newDiscountTabDto.getsDate()).equals(Constants.NULL) ? "'" + CommonLogic.convertDateFormat(newDiscountTabDto.getsDate().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()) + "'" : null;
-            inputMap.put("?SET_VALUE?", value);
+            inputMap.put(StringConstantsUtil.SET_VALUE, value);
         } else if (propertyId.equals("eDate")) {
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.IFP.toString())) {
-                inputMap.put("?SET_COLUMN_NAME?", "ITEM_END_DATE");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "ITEM_END_DATE");
             } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.CFP.toString())) {
-                inputMap.put("?SET_COLUMN_NAME?", "COMPANY_END_DATE");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "COMPANY_END_DATE");
             } else {
-                inputMap.put("?SET_COLUMN_NAME?", "ITEM_REBATE_END_DATE");
+                inputMap.put(SET_COLUMN_NAME_QUESTION, "ITEM_REBATE_END_DATE");
             }
             String value = !String.valueOf(newDiscountTabDto.geteDate()).equals(Constants.NULL) ? "'" + CommonLogic.convertDateFormat(newDiscountTabDto.geteDate().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()) + "'" : null;
-            inputMap.put("?SET_VALUE?", value);
+            inputMap.put(StringConstantsUtil.SET_VALUE, value);
         } else if (propertyId.equals("rebatePlan")) {
-            inputMap.put("?SET_COLUMN_NAME?", "REBATE_PLAN_SYSTEM_ID");
+            inputMap.put(SET_COLUMN_NAME_QUESTION, "REBATE_PLAN_SYSTEM_ID");
             String value = newDiscountTabDto.getRebatePlan().equals(Constants.ZEROSTRING) ? null : newDiscountTabDto.getRebatePlan();
-            inputMap.put("?SET_VALUE?", value);
+            inputMap.put(StringConstantsUtil.SET_VALUE, value);
             String rebateName = newDiscountTabDto.getRebatePlanName();
             String value1 = rebateName.equals(StringUtils.EMPTY) ? null : "'" + rebateName + "'";
-            inputMap.put("?EXTRA_COLUMN?", " , UDC2=" + value1 + " ");
+            inputMap.put(StringConstantsUtil.EXTRA_COLUMN, " , UDC2=" + value1 + " ");
         } else if (propertyId.equals("formulaName")) {
-            inputMap.put("?SET_COLUMN_NAME?", "FORMULA_ID");
-            inputMap.put("?SET_VALUE?", newDiscountTabDto.getFormulaId().equals(StringUtils.EMPTY) ? null : newDiscountTabDto.getFormulaId());
+            inputMap.put(SET_COLUMN_NAME_QUESTION, "FORMULA_ID");
+            inputMap.put(StringConstantsUtil.SET_VALUE, newDiscountTabDto.getFormulaId().equals(StringUtils.EMPTY) ? null : newDiscountTabDto.getFormulaId());
             String formulaName = newDiscountTabDto.getFormulaName();
             String value = formulaName.equals(StringUtils.EMPTY) ? null : "'" + formulaName + "'";
-            inputMap.put("?EXTRA_COLUMN?", " , FORMULA_NAME=" + value + " ");
+            inputMap.put(StringConstantsUtil.EXTRA_COLUMN, " , FORMULA_NAME=" + value + " ");
         } else if (propertyId.equals("priceType")) {
-            inputMap.put("?SET_COLUMN_NAME?", "PRICE_TYPE");
+            inputMap.put(SET_COLUMN_NAME_QUESTION, "PRICE_TYPE");
             String value = newDiscountTabDto.getPriceType().equals(Constants.ZEROSTRING) ? null : newDiscountTabDto.getPriceType();
-            inputMap.put("?SET_VALUE?", value);
+            inputMap.put(StringConstantsUtil.SET_VALUE, value);
         } else if (propertyId.equals("ppSDate")) {
-            inputMap.put("?SET_COLUMN_NAME?", "PRICE_PROTECTION_START_DATE");
+            inputMap.put(SET_COLUMN_NAME_QUESTION, "PRICE_PROTECTION_START_DATE");
             String value = !String.valueOf(newDiscountTabDto.getPpSDate()).equals(Constants.NULL) ? "'" + CommonLogic.convertDateFormat(newDiscountTabDto.getPpSDate().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()) + "'" : null;
-            inputMap.put("?SET_VALUE?", value);
+            inputMap.put(StringConstantsUtil.SET_VALUE, value);
         } else {
             return;
         }
 
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.RS_VALUE.getConstant()) || searchField.equalsIgnoreCase(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
-            inputMap.put("?TABLE_NAME?", "IMTD_ITEM_PRICE_REBATE_DETAILS");
-            inputMap.put("?VALUE3?", Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant());
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_ITEM_PRICE_REBATE_DETAILS);
+            inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant());
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.PS_VALUE.toString())) {
                 if (isSearchTable) {
-                    inputMap.put("?VALUE3?", "%" + Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant());
+                    inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, "%" + Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant());
                 } else {
-                    inputMap.put("?VALUE3?", Constants.IndicatorConstants.SELECTED_PS_IFP_FOR_ADD_DISCOUNT.getConstant());
+                    inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.SELECTED_PS_IFP_FOR_ADD_DISCOUNT.getConstant());
                 }
             } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.RS_VALUE.toString())) {
                 if (isSearchTable) {
-                    inputMap.put("?VALUE3?", "%" + Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant());
+                    inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, "%" + Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant());
                 } else {
-                    inputMap.put("?VALUE3?", Constants.IndicatorConstants.SELECTED_RS_IFP_FOR_ADD_DISCOUNT.getConstant());
+                    inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.SELECTED_RS_IFP_FOR_ADD_DISCOUNT.getConstant());
                 }
             }
-            String query = CommonUtil.getQuery(inputMap, "ad.tempUpdateRecord");
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_UPDATE_RECORD);
             if (newDiscountTabDto.getBulkUpdate()) {
                 query += " AND CHECK_RECORD=1";
             } else if (!newDiscountTabDto.getCheckAll()) {
@@ -1443,13 +1438,13 @@ public class DiscountLogic {
                 LOGGER.error(ex);
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.IFP.toString())) {
-            inputMap.put("?TABLE_NAME?", "IMTD_IFP_DETAILS");
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_IFP_DETAILS);
             if (isSearchTable) {
-                inputMap.put("?VALUE3?", "%" + Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
+                inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, "%" + Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
             } else {
-                inputMap.put("?VALUE3?", Constants.IndicatorConstants.SELECTED_ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
+                inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.SELECTED_ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
             }
-            String query = CommonUtil.getQuery(inputMap, "ad.tempUpdateRecord");
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_UPDATE_RECORD);
             if (newDiscountTabDto.getBulkUpdate()) {
                 query += " AND CHECK_BOX=1";
             } else if (!newDiscountTabDto.getCheckAll()) {
@@ -1462,13 +1457,13 @@ public class DiscountLogic {
                 LOGGER.error(ex);
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.CFP.toString())) {
-            inputMap.put("?TABLE_NAME?", "IMTD_CFP_DETAILS");
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_CFP_DETAILS);
             if (isSearchTable) {
-                inputMap.put("?VALUE3?", "%" + Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
+                inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, "%" + Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
             } else {
-                inputMap.put("?VALUE3?", Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
+                inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
             }
-            String query = CommonUtil.getQuery(inputMap, "ad.tempUpdateRecord");
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_UPDATE_RECORD);
             if (newDiscountTabDto.getBulkUpdate()) {
                 query += " AND CHECK_RECORD=1";
             } else if (!newDiscountTabDto.getCheckAll()) {
@@ -1482,46 +1477,43 @@ public class DiscountLogic {
             }
         }
     }
-
+ 
     public int getCommonCountForSelectedResult(ContractsDetailsDto newDiscountTabDto) throws SystemException {
         List results = new ArrayList();
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?SID?", String.valueOf(newDiscountTabDto.getInternalId()));
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(newDiscountTabDto.getInternalId()));
         if (Constants.IndicatorConstants.RS_VALUE.toString().equals(newDiscountTabDto.getCategory())) {
-            String query = CommonUtil.getQuery(inputMap, "ad.ifpFromResults");
+            String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADIFP_FROM_RESULTS);
             results = discountDAO.getRebates(query);
         }
         return results.size();
     }
 
-    public static int getCountForNewDiscountSelectedItems(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO, boolean selectedItemsTable, boolean addCheckCondition) {
+    public static int getCountForNewDiscountSelectedItems(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO, boolean selectedItemsTable,boolean isAdd) {
         List results = new ArrayList();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        Map<String, String> inputMap = new HashMap<>();
         String operation = StringUtils.EMPTY;
         String searchField = newDiscountTabDto.getCategory();
-        inputMap.put("?USERS_SID?", sessionDTO.getUserId());
-        inputMap.put("?SESSION_ID?", sessionDTO.getSearchSessionId());
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, sessionDTO.getUserId());
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionDTO.getSearchSessionId());
         
         if (Constants.IndicatorConstants.PS_VALUE.toString().equals(searchField) || Constants.IndicatorConstants.RS_VALUE.toString().equals(searchField)) {
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.RS_VALUE.toString())) {
-                if (selectedItemsTable) {
+                if (selectedItemsTable && !isAdd) {
                     operation = Constants.IndicatorConstants.SELECTED_RS_IFP_FOR_ADD_DISCOUNT.getConstant();
                 } else {
                     operation = Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant();
                 }
             }
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.PS_VALUE.toString())) {
-                if (selectedItemsTable) {
+                if (selectedItemsTable && !isAdd) {
                     operation = Constants.IndicatorConstants.SELECTED_PS_IFP_FOR_ADD_DISCOUNT.getConstant();
                 } else {
                     operation = Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant();
                 }
             }
-            inputMap.put("?OPERATION?", operation);
+            inputMap.put(StringConstantsUtil.OPERATION, operation);
             String query = CommonUtil.getQuery(inputMap, "ad.tempItemSearchCount");
-//            if (addCheckCondition) {
-//                query += " AND CHECK_RECORD=1";
-//            }
             try {
                 results = discountDAO.getRebates(query);
             } catch (SystemException ex) {
@@ -1530,12 +1522,12 @@ public class DiscountLogic {
                 java.util.logging.Logger.getLogger(DiscountLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (Constants.IndicatorConstants.CFP.getConstant().equals(newDiscountTabDto.getCategory())) {
-            if (selectedItemsTable) {
+            if (selectedItemsTable && !isAdd) {
                 operation = Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();
             } else {
                 operation = Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();
             }
-            inputMap.put("?OPERATION?", operation);
+            inputMap.put(StringConstantsUtil.OPERATION, operation);
             String query = CommonUtil.getQuery(inputMap, "ad.selectedCompaniesFromSearchTableCount");
             try {
                 results = discountDAO.getRebates(query);
@@ -1543,12 +1535,12 @@ public class DiscountLogic {
                 LOGGER.error(ex);
             }
         } else if (Constants.IndicatorConstants.IFP.toString().equals(newDiscountTabDto.getCategory())) {
-            if (selectedItemsTable) {
+            if (selectedItemsTable && !isAdd) {
                 operation = Constants.IndicatorConstants.SELECTED_ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant();
             } else {
                 operation = Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant();
             }
-            inputMap.put("?OPERATION?", operation);
+            inputMap.put(StringConstantsUtil.OPERATION, operation);
             String query = CommonUtil.getQuery(inputMap, "ad.selectedItemsFromSearchTableCount");
             try {
                 results = discountDAO.getRebates(query);
@@ -1562,16 +1554,34 @@ public class DiscountLogic {
         }
         return obj == null ? 0 : (Integer) obj;
     }
+    
+    public static void removeSelectedItems(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO) {
+        String query = StringUtils.EMPTY;
+        if (Constants.IndicatorConstants.CFP.getConstant().equals(newDiscountTabDto.getCategory())) {
+            query = "UPDATE IMTD_CFP_DETAILS SET OPERATION = '" + Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant() + Constants.WHERE_USER_SID
+                    + sessionDTO.getUserId() + Constants.AND_SESSION_ID + sessionDTO.getSearchSessionId() +  Constants.AND_OPERATION + Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant() + "'" + Constants.AND_CHECK_RECORD;
+        } else if (Constants.IndicatorConstants.IFP.getConstant().equals(newDiscountTabDto.getCategory())) {
+            query = "UPDATE IMTD_IFP_DETAILS SET OPERATION = '" + Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant() + Constants.WHERE_USER_SID
+                    + sessionDTO.getUserId() + Constants.AND_SESSION_ID + sessionDTO.getSearchSessionId() + Constants.AND_OPERATION + Constants.IndicatorConstants.SELECTED_ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant() + "'" + "AND CHECK_BOX = 1";
+        } else if (Constants.IndicatorConstants.PS_VALUE.getConstant().equals(newDiscountTabDto.getCategory())) {
+            query = "UPDATE IMTD_ITEM_PRICE_REBATE_DETAILS SET OPERATION = '" + Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant() + Constants.WHERE_USER_SID
+                    + sessionDTO.getUserId() + Constants.AND_SESSION_ID + sessionDTO.getSearchSessionId() + Constants.AND_OPERATION + Constants.IndicatorConstants.SELECTED_PS_IFP_FOR_ADD_DISCOUNT.getConstant() + "'" +  Constants.AND_CHECK_RECORD;
+        } else if (Constants.IndicatorConstants.RS_VALUE.getConstant().equals(newDiscountTabDto.getCategory())) {
+            query = "UPDATE IMTD_ITEM_PRICE_REBATE_DETAILS SET OPERATION = '" + Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant() + Constants.WHERE_USER_SID
+                    + sessionDTO.getUserId() + Constants.AND_SESSION_ID + sessionDTO.getSearchSessionId() + Constants.AND_OPERATION + Constants.IndicatorConstants.SELECTED_RS_IFP_FOR_ADD_DISCOUNT.getConstant() + "'" +  Constants.AND_CHECK_RECORD;
+        }
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
+    }
 
     public static List<ContractsDetailsDto> getCommonResults(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO, boolean isSelectedTable) throws SystemException {
         LOGGER.debug("Inside getCommonResults ");
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<ContractsDetailsDto> searchList;
+        Map<String, String> inputMap = new HashMap<>();
         List results = new ArrayList();
         String operation = StringUtils.EMPTY;
         String searchField = newDiscountTabDto.getCategory();
-        inputMap.put("?USERS_SID?", sessionDTO.getUserId());
-        inputMap.put("?SESSION_ID?", sessionDTO.getSearchSessionId());
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, sessionDTO.getUserId());
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionDTO.getSearchSessionId());
 
         if (Constants.IndicatorConstants.PS_VALUE.getConstant().equals(newDiscountTabDto.getCategory()) || Constants.IndicatorConstants.RS_VALUE.getConstant().equals(newDiscountTabDto.getCategory())) {
             if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.RS_VALUE.getConstant())) {
@@ -1588,11 +1598,11 @@ public class DiscountLogic {
                     operation = Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant();
                 }
             }
-            inputMap.put("?OPERATION?", operation);
+            inputMap.put(StringConstantsUtil.OPERATION, operation);
             String query = CommonUtil.getQuery(inputMap, "ad.tempItemSearch");
             query += "ORDER BY IMTD_ITEM_PRICE_REBATE_SID";
             if (newDiscountTabDto.getEndIndex() > 0) {
-                query += " OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+                query += SPACE_OFFSET_SPACE + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             }
             results = discountDAO.getRebates(query);
         }
@@ -1603,11 +1613,11 @@ public class DiscountLogic {
             } else {
                 operation = Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();
             }
-            inputMap.put("?OPERATION?", operation);
+            inputMap.put(StringConstantsUtil.OPERATION, operation);
             String query = CommonUtil.getQuery(inputMap, "ad.selectedCompaniesFromSearchTable");
             query += "ORDER BY IMTD_CFP_DETAILS_SID ";
             if (newDiscountTabDto.getEndIndex() > 0) {
-                query += " OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+                query += SPACE_OFFSET_SPACE + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             }
             results = discountDAO.getRebates(query);
         } else if (Constants.IndicatorConstants.IFP.getConstant().equals(newDiscountTabDto.getCategory())) {
@@ -1616,11 +1626,11 @@ public class DiscountLogic {
             } else {
                 operation = Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant();
             }
-            inputMap.put("?OPERATION?", operation);
+            inputMap.put(StringConstantsUtil.OPERATION, operation);
             String query = CommonUtil.getQuery(inputMap, "ad.selectedItemsFromSearchTable");
             query += "ORDER BY IMTD_IFP_DETAILS_SID ";
             if (newDiscountTabDto.getEndIndex() > 0) {
-                query += " OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
+                query += SPACE_OFFSET_SPACE + newDiscountTabDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + newDiscountTabDto.getEndIndex() + ROWS_ONLY;
             }
             results = discountDAO.getRebates(query);
         }
@@ -1630,7 +1640,7 @@ public class DiscountLogic {
     }
 
     private static List<ContractsDetailsDto> getDetailsFromSelectedResult(List results, ContractsDetailsDto newDiscountTabDto) {
-        List<ContractsDetailsDto> searchList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> searchList = new ArrayList<>();
 
         int size = results.size();
         if (Constants.IndicatorConstants.RS_VALUE.getConstant().equals(newDiscountTabDto.getCategory()) || Constants.IndicatorConstants.PS_VALUE.getConstant().equals(newDiscountTabDto.getCategory())) {
@@ -1647,11 +1657,11 @@ public class DiscountLogic {
                 tabDto.setHelperTableSid(Converters.convertNullToEmpty(arr[NumericConstants.FIVE]));
                 tabDto.setStatus(Converters.convertNullToEmpty(arr[NumericConstants.SEVEN]));
                 tabDto.setTempStatus(Converters.convertNullToEmpty(arr[NumericConstants.SEVEN]));
-                Date dt1 = !String.valueOf(arr[NumericConstants.NINE]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.NINE].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMddyyyy.getConstant())) : null;
+                Date dt1 = !String.valueOf(arr[NumericConstants.NINE]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.NINE].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMDDYYYY.getConstant())) : null;
 
                 tabDto.setsDate(dt1);
                 tabDto.setTempSDate(dt1);
-                Date dt2 = !String.valueOf(arr[NumericConstants.TEN]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.TEN].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMddyyyy.getConstant())) : null;
+                Date dt2 = !String.valueOf(arr[NumericConstants.TEN]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.TEN].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMDDYYYY.getConstant())) : null;
 
                 tabDto.seteDate(dt2);
                 tabDto.setTempEDate(dt2);
@@ -1678,11 +1688,11 @@ public class DiscountLogic {
 
                 tabDto.setStatus(Converters.convertNullToEmpty(arr[NumericConstants.FOUR]));
                 tabDto.setTempStatus(Converters.convertNullToEmpty(arr[NumericConstants.FOUR]));
-                Date dt1 = !String.valueOf(arr[NumericConstants.SEVEN]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.SEVEN].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMddyyyy.getConstant())) : null;
+                Date dt1 = !String.valueOf(arr[NumericConstants.SEVEN]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.SEVEN].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMDDYYYY.getConstant())) : null;
 
                 tabDto.setsDate(dt1);
                 tabDto.setTempSDate(dt1);
-                Date dt2 = !String.valueOf(arr[NumericConstants.EIGHT]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.EIGHT].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMddyyyy.getConstant())) : null;
+                Date dt2 = !String.valueOf(arr[NumericConstants.EIGHT]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.EIGHT].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMDDYYYY.getConstant())) : null;
 
                 tabDto.seteDate(dt2);
                 tabDto.setTempEDate(dt2);
@@ -1700,11 +1710,11 @@ public class DiscountLogic {
                 tabDto.setCompanyName(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setStatus(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
                 tabDto.setTempStatus(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
-                Date dt1 = !String.valueOf(arr[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.FOUR].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMddyyyy.getConstant())) : null;
+                Date dt1 = !String.valueOf(arr[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.FOUR].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMDDYYYY.getConstant())) : null;
 
                 tabDto.setsDate(dt1);
                 tabDto.setTempSDate(dt1);
-                Date dt2 = !String.valueOf(arr[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.FIVE].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMddyyyy.getConstant())) : null;
+                Date dt2 = !String.valueOf(arr[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(CommonLogic.convertDateFormat(arr[NumericConstants.FIVE].toString(), DEFOULT_SQL_DATE_FORMAT.getConstant(), MMDDYYYY.getConstant())) : null;
 
                 tabDto.seteDate(dt2);
                 tabDto.setTempEDate(dt2);
@@ -1720,7 +1730,7 @@ public class DiscountLogic {
     }
 
     public List<HelperDTO> getDropDownList(final String listType, HelperDTO dto) throws SystemException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery helperTableQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
         helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -1765,19 +1775,19 @@ public class DiscountLogic {
     }
 
     public int getFormulaSearchCount(LookupDTO binderDto) throws SystemException {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?FORMULA_ID?", "%");
-        inputMap.put("?FORMULA_NO?", "%");
-        inputMap.put("?FORMULA_DESC?", "%");
-        List results = new ArrayList();
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.FORMULA_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.FORMULA_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.FORMULA_DESC_QUESTION, "%");
+        List results;
         if (StringUtils.isNotBlank(binderDto.getFormulaId())) {
-            inputMap.put("?FORMULA_ID?", CommonUtil.astToPerConverter(binderDto.getFormulaId()));
+            inputMap.put(StringConstantsUtil.FORMULA_ID_QUESTION, CommonUtil.astToPerConverter(binderDto.getFormulaId()));
         }
         if (StringUtils.isNotBlank(binderDto.getFormulaNo())) {
-            inputMap.put("?FORMULA_NO?", CommonUtil.astToPerConverter(binderDto.getFormulaNo()));
+            inputMap.put(StringConstantsUtil.FORMULA_NO_QUESTION, CommonUtil.astToPerConverter(binderDto.getFormulaNo()));
         }
         if (StringUtils.isNotBlank(binderDto.getFormulaName())) {
-            inputMap.put("?FORMULA_DESC?", CommonUtil.astToPerConverter(binderDto.getFormulaName()));
+            inputMap.put(StringConstantsUtil.FORMULA_DESC_QUESTION, CommonUtil.astToPerConverter(binderDto.getFormulaName()));
         }
         String query = CommonUtil.getQuery(inputMap, "ad.formulaSearchCount");
         results = discountDAO.getRebates(query);
@@ -1789,23 +1799,23 @@ public class DiscountLogic {
     }
 
     public List<LookupDTO> getFormulaSearchResults(LookupDTO binderDto) throws SystemException {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        List<LookupDTO> resultsList = new ArrayList<LookupDTO>();
-        inputMap.put("?FORMULA_ID?", "%");
-        inputMap.put("?FORMULA_NO?", "%");
-        inputMap.put("?FORMULA_DESC?", "%");
-        List results = new ArrayList();
+        Map<String, String> inputMap = new HashMap<>();
+        List<LookupDTO> resultsList = new ArrayList<>();
+        inputMap.put(StringConstantsUtil.FORMULA_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.FORMULA_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.FORMULA_DESC_QUESTION, "%");
+        List results;
         if (StringUtils.isNotBlank(binderDto.getFormulaId())) {
-            inputMap.put("?FORMULA_ID?", CommonUtil.astToPerConverter(binderDto.getFormulaId()));
+            inputMap.put(StringConstantsUtil.FORMULA_ID_QUESTION, CommonUtil.astToPerConverter(binderDto.getFormulaId()));
         }
         if (StringUtils.isNotBlank(binderDto.getFormulaNo())) {
-            inputMap.put("?FORMULA_NO?", CommonUtil.astToPerConverter(binderDto.getFormulaNo()));
+            inputMap.put(StringConstantsUtil.FORMULA_NO_QUESTION, CommonUtil.astToPerConverter(binderDto.getFormulaNo()));
         }
         if (StringUtils.isNotBlank(binderDto.getFormulaName())) {
-            inputMap.put("?FORMULA_DESC?", CommonUtil.astToPerConverter(binderDto.getFormulaName()));
+            inputMap.put(StringConstantsUtil.FORMULA_DESC_QUESTION, CommonUtil.astToPerConverter(binderDto.getFormulaName()));
         }
         String query = CommonUtil.getQuery(inputMap, "ad.formulaSearch");
-        query += " ORDER BY FORMULA_DETAILS_MASTER_SID OFFSET " + binderDto.getStartIndex() + "  ROWS FETCH NEXT " + binderDto.getEndIndex() + " ROWS ONLY ;";
+        query += " ORDER BY FORMULA_DETAILS_MASTER_SID OFFSET " + binderDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + binderDto.getEndIndex() + " ROWS ONLY ;";
         results = discountDAO.getRebates(query);
         if (!results.isEmpty()) {
             resultsList = getLookUpDtos(results, false);
@@ -1815,7 +1825,7 @@ public class DiscountLogic {
 
     private List<LookupDTO> getLookUpDtos(List results, boolean isRebate) {
         int size = results.size();
-        List<LookupDTO> resultsList = new ArrayList<LookupDTO>();
+        List<LookupDTO> resultsList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             Object arr[] = (Object[]) results.get(i);
             LookupDTO dTo = new LookupDTO();
@@ -1840,27 +1850,27 @@ public class DiscountLogic {
     }
 
     public int getRebateSearchCount(LookupDTO binderDto) throws SystemException {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?REBATE_PLAN_ID?", "%");
-        inputMap.put("?REBATE_PLAN_NO?", "%");
-        inputMap.put("?REBATE_PLAN_NAME?", "%");
-        inputMap.put("?REBATE_PLAN_STATUS?", "%");
-        inputMap.put("?REBATE_PLAN_TYPE?", "%");
-        List results = new ArrayList();
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_TYPE_QUESTION, "%");
+        List results;
         if (StringUtils.isNotBlank(binderDto.getRebatePlanId())) {
-            inputMap.put("?REBATE_PLAN_ID?", CommonUtil.astToPerConverter(binderDto.getRebatePlanId()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_ID_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanId()));
         }
         if (StringUtils.isNotBlank(binderDto.getRebatePlanNo())) {
-            inputMap.put("?REBATE_PLAN_NO?", CommonUtil.astToPerConverter(binderDto.getRebatePlanNo()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_NO_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanNo()));
         }
         if (StringUtils.isNotBlank(binderDto.getRebatePlanName())) {
-            inputMap.put("?REBATE_PLAN_NAME?", CommonUtil.astToPerConverter(binderDto.getRebatePlanName()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_NAME_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanName()));
         }
         if (StringUtils.isNotBlank(binderDto.getRebatePlanStatus())) {
-            inputMap.put("?REBATE_PLAN_STATUS?", CommonUtil.astToPerConverter(binderDto.getRebatePlanStatus()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_STATUS_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanStatus()));
         }
         if (StringUtils.isNotBlank(binderDto.getRebatePlanType())) {
-            inputMap.put("?REBATE_PLAN_TYPE?", CommonUtil.astToPerConverter(binderDto.getRebatePlanType()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_TYPE_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanType()));
         }
         String query = CommonUtil.getQuery(inputMap, "ad.rebateSearchCount");
         results = discountDAO.getRebates(query);
@@ -1872,31 +1882,31 @@ public class DiscountLogic {
     }
 
     public List<LookupDTO> getRebateSearchResults(LookupDTO binderDto) throws SystemException {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        List<LookupDTO> resultsList = new ArrayList<LookupDTO>();
-        inputMap.put("?REBATE_PLAN_ID?", "%");
-        inputMap.put("?REBATE_PLAN_NO?", "%");
-        inputMap.put("?REBATE_PLAN_NAME?", "%");
-        inputMap.put("?REBATE_PLAN_STATUS?", "%");
-        inputMap.put("?REBATE_PLAN_TYPE?", "%");
-        List results = new ArrayList();
+        Map<String, String> inputMap = new HashMap<>();
+        List<LookupDTO> resultsList = new ArrayList<>();
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_ID_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_NO_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_NAME_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_STATUS_QUESTION, "%");
+        inputMap.put(StringConstantsUtil.REBATE_PLAN_TYPE_QUESTION, "%");
+        List results;
         if (StringUtils.isNotBlank(binderDto.getRebatePlanId())) {
-            inputMap.put("?REBATE_PLAN_ID?", CommonUtil.astToPerConverter(binderDto.getRebatePlanId()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_ID_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanId()));
         }
         if (StringUtils.isNotBlank(binderDto.getRebatePlanNo())) {
-            inputMap.put("?REBATE_PLAN_NO?", CommonUtil.astToPerConverter(binderDto.getRebatePlanNo()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_NO_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanNo()));
         }
         if (StringUtils.isNotBlank(binderDto.getRebatePlanName())) {
-            inputMap.put("?REBATE_PLAN_NAME?", CommonUtil.astToPerConverter(binderDto.getRebatePlanName()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_NAME_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanName()));
         }
         if (StringUtils.isNotBlank(binderDto.getRebatePlanStatus())) {
-            inputMap.put("?REBATE_PLAN_STATUS?", CommonUtil.astToPerConverter(binderDto.getRebatePlanStatus()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_STATUS_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanStatus()));
         }
         if (StringUtils.isNotBlank(binderDto.getRebatePlanType())) {
-            inputMap.put("?REBATE_PLAN_TYPE?", CommonUtil.astToPerConverter(binderDto.getRebatePlanType()));
+            inputMap.put(StringConstantsUtil.REBATE_PLAN_TYPE_QUESTION, CommonUtil.astToPerConverter(binderDto.getRebatePlanType()));
         }
         String query = CommonUtil.getQuery(inputMap, "ad.rebateSearch");
-        query += " ORDER BY REBATE_PLAN_MASTER_SID OFFSET " + binderDto.getStartIndex() + "  ROWS FETCH NEXT " + binderDto.getEndIndex() + " ROWS ONLY ;";
+        query += " ORDER BY REBATE_PLAN_MASTER_SID OFFSET " + binderDto.getStartIndex() + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + binderDto.getEndIndex() + " ROWS ONLY ;";
         results = discountDAO.getRebates(query);
         if (!results.isEmpty()) {
             resultsList = getLookUpDtos(results, true);
@@ -1908,18 +1918,11 @@ public class DiscountLogic {
         boolean actual = false;
         try {
             String actualQuery = queryUtils.getActuals(dto);
-            List results = new ArrayList();
+            List results;
             results = discountDAO.getRebates(actualQuery);
-            int count = results.size();
-            if (count != 0) {
-
-                Object arr[] = (Object[]) results.get(0);
-                Double sales = Double.valueOf(String.valueOf(arr[0]));
-                Double units = Double.valueOf(String.valueOf(arr[1]));
-
-                if (ACTUAL_FORMAT.format(sales) != "0.00" || ACTUAL_FORMAT.format(units) != "0.00") {
-                    actual = true;
-                }
+            Object arr[] = (Object[]) results.get(0);
+            if (arr[0] != null || arr[0] != null) {
+                actual = true;
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -1929,14 +1932,14 @@ public class DiscountLogic {
     }
 
     public static void saveIntoRsDetails(RsModel rsModel, String userId, String sessionId) {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?USERS_SID?", userId);
-        inputMap.put("?SESSION_ID?", sessionId);
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         inputMap.put("?RS_MODEL_SID?", String.valueOf(rsModel.getRsModelSid()));
-        inputMap.put("?CREATED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
-        inputMap.put("?MODIFIED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
+        inputMap.put(StringConstantsUtil.CREATED_DATE_QUESTION, CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
+        inputMap.put(StringConstantsUtil.MODIFIED_DATE_QUESTION, CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
         inputMap.put("?ITEM_RS_ATTACHED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
-        inputMap.put("?OPERATION?", Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant());
+        inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant());
         String query = CommonUtil.getQuery(inputMap, "ad.insertintoRsDetailsFromTemp");
         CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
         deleteTempData(userId, sessionId, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
@@ -1986,27 +1989,27 @@ public class DiscountLogic {
     }
 
     public static void saveIntoIfpDetails(IfpModel ifpmodel, String userId, String sessionId) {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?USERS_SID?", userId);
-        inputMap.put("?SESSION_ID?", sessionId);
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         inputMap.put("?IFP_MODEL_SID?", String.valueOf(ifpmodel.getIfpModelSid()));
-        inputMap.put("?CREATED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
-        inputMap.put("?MODIFIED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
+        inputMap.put(StringConstantsUtil.CREATED_DATE_QUESTION, CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
+        inputMap.put(StringConstantsUtil.MODIFIED_DATE_QUESTION, CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
         inputMap.put("?ITEM_IFP_ATTACHED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
-        inputMap.put("?OPERATION?", Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
+        inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
         String query = CommonUtil.getQuery(inputMap, "ad.insertintoIFPDetailsFromTemp");
         CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
         deleteTempData(userId, sessionId, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
     }
 
     public static void saveIntoPsDetails(PsModel psModel, String userId, String sessionId) {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?USERS_SID?", userId);
-        inputMap.put("?SESSION_ID?", sessionId);
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         inputMap.put("?PS_MODEL_SID?", String.valueOf(psModel.getPsModelSid()));
-        inputMap.put("?CREATED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
-        inputMap.put("?MODIFIED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
-        inputMap.put("?OPERATION?", Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant());
+        inputMap.put(StringConstantsUtil.CREATED_DATE_QUESTION, CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
+        inputMap.put(StringConstantsUtil.MODIFIED_DATE_QUESTION, CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
+        inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant());
 
         String query = CommonUtil.getQuery(inputMap, "ad.insertintoPsDetailsFromTemp");
         CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
@@ -2035,14 +2038,14 @@ public class DiscountLogic {
     }
 
     public static void saveIntoCfpDetails(CfpModel cfpmodel, String userId, String sessionId) {
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?USERS_SID?", userId);
-        inputMap.put("?SESSION_ID?", sessionId);
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         inputMap.put("?CFP_MODEL_SID?", String.valueOf(cfpmodel.getCfpModelSid()));
-        inputMap.put("?CREATED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
-        inputMap.put("?MODIFIED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
+        inputMap.put(StringConstantsUtil.CREATED_DATE_QUESTION, CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
+        inputMap.put(StringConstantsUtil.MODIFIED_DATE_QUESTION, CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
         inputMap.put("?COMPANY_CFP_ATTACHED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
-        inputMap.put("?OPERATION?", Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
+        inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
         String query = CommonUtil.getQuery(inputMap, "ad.insertintoCFPDetailsFromTemp");
         CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
         deleteTempData(userId, sessionId, Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
@@ -2056,13 +2059,10 @@ public class DiscountLogic {
      * @param ifpSystemId the ifp system id
      * @param contractMember the contract member
      */
-    public static void savePS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final ContractsDetailsDto contractMember) throws SystemException, PortalException {
-        LOGGER.debug("Entering getChildNodeOfPriorContractSales method with contractSystemId=" + contractSystemId);
+    public static void savePS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final ContractsDetailsDto contractMember,boolean flag) throws SystemException, PortalException {
+        LOGGER.debug("Entering getChildNodeOfPriorContractSales method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()=========="+contractMember.getModelSysId());
         try {
-            int psId = 0;
-            if (!"0".equals(contractMember.getPsSid())) {
-                psId = Integer.valueOf(contractMember.getPsSid());
-            }
+           int psId = flag ? Integer.valueOf(contractMember.getPsSid()) : contractMember.getModelSysId();
             final PsModel priceSchedule = discountDAO.getPriceScheduleMaster(psId);
             final PsContract psMasterAttached = PsContractLocalServiceUtil.createPsContract(0);
             psMasterAttached.setContractMasterSid(contractSystemId);
@@ -2087,7 +2087,7 @@ public class DiscountLogic {
             psMasterAttached.setInboundStatus("A");
 
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(PsContract.class);
-            query.add(RestrictionsFactoryUtil.eq("contractMasterSid", contractSystemId));
+            query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
             if (cfpSystemId != 0) {
                 query.add(RestrictionsFactoryUtil.ilike(Constants.CFP_CONTRACT_SID, String.valueOf(cfpSystemId)));
             } else {
@@ -2115,7 +2115,7 @@ public class DiscountLogic {
                 contractMember.setPsContractId(list.get(0).getPsContractSid());
             }
 
-            List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+            List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
             input.add(psContract.getPsContractSid());
             input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             input.add(DBDate.format(new Date()));
@@ -2137,21 +2137,21 @@ public class DiscountLogic {
     }
 
     public static void deleteTempData(String userId, String sessionId, String operation) {
-        Map<String, String> inputMap = new HashMap<String, String>();
+        Map<String, String> inputMap = new HashMap<>();
         if (operation.equalsIgnoreCase(Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant())) {
-            inputMap.put("?TABLE_NAME?", "IMTD_IFP_DETAILS");
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_IFP_DETAILS);
         } else if (operation.equalsIgnoreCase(Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant())) {
-            inputMap.put("?TABLE_NAME?", "IMTD_CFP_DETAILS");
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_CFP_DETAILS);
         } else {
-            inputMap.put("?TABLE_NAME?", "IMTD_ITEM_PRICE_REBATE_DETAILS");
+            inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_ITEM_PRICE_REBATE_DETAILS);
         }
-        inputMap.put("?COLUMN_NAME1?", "USERS_SID");
-        inputMap.put("?COLUMN_NAME2?", "SESSION_ID");
-        inputMap.put("?COLUMN_NAME3?", "OPERATION");
-        inputMap.put("?VALUE1?", userId);
-        inputMap.put("?VALUE2?", sessionId);
-        inputMap.put("?VALUE3?", "%" + operation);
-        String query = CommonUtil.getQuery(inputMap, "ad.tempDataDelete");
+        inputMap.put(StringConstantsUtil.COLUMN_NAME_QUESTION, StringConstantsUtil.USERS_SID_COLUMN);
+        inputMap.put(StringConstantsUtil.COLUMN_NAM_E2_QUESTION, StringConstantsUtil.SESSION_ID_COLUMN);
+        inputMap.put(StringConstantsUtil.COLUMN_NAM_E3_QUESTION, StringConstantsUtil.OPERATION_COLUMN);
+        inputMap.put(StringConstantsUtil.VALU_E1_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.VALU_E2_QUESTION, sessionId);
+        inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, "%" + operation);
+        String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_DATA_DELETE);
         CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
     }
 
@@ -2159,9 +2159,9 @@ public class DiscountLogic {
         List list = null;
         String query = StringUtils.EMPTY;
         if (operation.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
-            query = "select * from dbo.PS_MODEL where " + fieldName + " = '" + name + "'" + "and INBOUND_STATUS <> 'D'";
+            query = "select * from dbo.PS_MODEL where " + fieldName + " = '" + name + "'" + " and INBOUND_STATUS <> 'D'";
         } else if (operation.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
-            query = "select * from dbo.CFP_MODEL where " + fieldName + " = '" + name + "'" + "and INBOUND_STATUS <> 'D'";
+            query = "select * from dbo.CFP_MODEL where " + fieldName + " = '" + name + "'" + " and INBOUND_STATUS <> 'D'";
         } else if (operation.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
             query = "select * from dbo.IFP_MODEL where " + fieldName + " = '" + name + "'" + "and INBOUND_STATUS <> 'D'";
         } else if (operation.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
@@ -2172,11 +2172,12 @@ public class DiscountLogic {
 
     }
 
-    public static void saveIFP(final int contractSystemId, final int cfpSystemId, final ContractsDetailsDto contractMember) throws SystemException, PortalException {
+    public static void saveIFP(final int contractSystemId, final int cfpSystemId, final ContractsDetailsDto contractMember,boolean flag) throws SystemException, PortalException {
 
-        LOGGER.debug("Entering saveIFP method with contractSystemId=" + contractSystemId);
+        LOGGER.debug("Entering saveIFP method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()-------------"+contractMember.getModelSysId());
+        int ifpId = flag ? contractMember.getIfpId() : contractMember.getModelSysId();
 
-        final IfpModel itemFamily = discountDAO.getItemFamilyPlanMaster(contractMember.getIfpId());
+        final IfpModel itemFamily = discountDAO.getItemFamilyPlanMaster(ifpId);
         final IfpContract ifpMasterAttached = IfpContractLocalServiceUtil.createIfpContract(0);
 
         ifpMasterAttached.setIfpModelSid(contractMember.getModelSysId());
@@ -2198,13 +2199,13 @@ public class DiscountLogic {
         ifpMasterAttached.setInboundStatus("A");
 
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(IfpContract.class);
-        query.add(RestrictionsFactoryUtil.eq("contractMasterSid", contractSystemId));
+        query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
         if (cfpSystemId != 0) {
             query.add(RestrictionsFactoryUtil.ilike(Constants.CFP_CONTRACT_SID, String.valueOf(cfpSystemId)));
         } else {
             query.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
         }
-        query.add(RestrictionsFactoryUtil.eq("ifpModelSid", contractMember.getIfpId()));
+        query.add(RestrictionsFactoryUtil.eq("ifpModelSid",ifpId));
         List<IfpContract> list = IfpContractLocalServiceUtil.dynamicQuery(query);
         IfpContract ifpContract = IfpContractLocalServiceUtil.createIfpContract(0);
 
@@ -2213,20 +2214,20 @@ public class DiscountLogic {
 
             ifpMasterAttached.setCfpContractSid((cfpSystemId != 0) ? String.valueOf(cfpSystemId) : null);
 
-            ifpMasterAttached.setIfpModelSid(contractMember.getIfpId());
+            ifpMasterAttached.setIfpModelSid(ifpId);
 
             ifpContract = discountDAO.addIfpMasterAttached(ifpMasterAttached);
             contractMember.setIfpContractId(ifpContract.getIfpContractSid());
         } else {
             contractMember.setIfpContractId(list.get(0).getIfpContractSid());
         }
-        List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+        List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
         input.add(ifpContract.getIfpContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         input.add(DBDate.format(new Date()));
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         input.add(DBDate.format(new Date()));
-        input.add(contractMember.getIfpId());
+        input.add(ifpId);
         input.add(DBDate.format(itemFamily.getIfpStartDate()));
         if (itemFamily.getIfpEndDate() != null) {
             input.add(DBDate.format(itemFamily.getIfpEndDate()));
@@ -2248,10 +2249,11 @@ public class DiscountLogic {
      * @throws SystemException
      * @throws PortalException
      */
-    public static void saveCFp(final int contractSystemId, final ContractsDetailsDto contractMember) throws SystemException, PortalException {
-        LOGGER.debug("Entering saveCFp method with contractSystemId=" + contractSystemId + "======" + contractMember.getCfpId());
-
-        final CfpModel companyFamily = discountDAO.getCompanyFamilyplanMaster(contractMember.getCfpId());
+    public static void saveCFp(final int contractSystemId, final ContractsDetailsDto contractMember , boolean flag) throws SystemException, PortalException {
+        LOGGER.debug("Entering saveCFp method with contractSystemId=" + contractSystemId + "======" + contractMember.getCfpId() + "contractMember.getModelSysId()" +contractMember.getModelSysId());
+        int cpdId = flag ? contractMember.getCfpId() : contractMember.getModelSysId();
+       
+        final CfpModel companyFamily = discountDAO.getCompanyFamilyplanMaster(cpdId);
         final CfpContract cfpMasterAttached = CfpContractLocalServiceUtil.createCfpContract(0);
         cfpMasterAttached.setCfpName(contractMember.getName());
         cfpMasterAttached.setCfpType(companyFamily.getCfpType());
@@ -2272,26 +2274,26 @@ public class DiscountLogic {
         cfpMasterAttached.setInboundStatus("A");
 
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(CfpContract.class);
-        query.add(RestrictionsFactoryUtil.eq("contractMasterSid", contractSystemId));
-        query.add(RestrictionsFactoryUtil.eq("cfpModelSid", contractMember.getCfpId()));
+        query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
+        query.add(RestrictionsFactoryUtil.eq("cfpModelSid", cpdId));
         List<CfpContract> list = CfpContractLocalServiceUtil.dynamicQuery(query);
         CfpContract cfpContract = CfpContractLocalServiceUtil.createCfpContract(0);
 
         if (list.isEmpty()) {
             cfpMasterAttached.setContractMasterSid(contractSystemId);
-            cfpMasterAttached.setCfpModelSid(contractMember.getCfpId());
+            cfpMasterAttached.setCfpModelSid(cpdId);
             cfpContract = discountDAO.addCfpMasterAttached(cfpMasterAttached);
             contractMember.setCfpContractId(cfpContract.getCfpContractSid());
         } else {
-            contractMember.setCfpContractId(cfpContract.getCfpContractSid());
+            contractMember.setCfpContractId(list.get(0).getCfpContractSid());
         }
-        List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+        List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
         input.add(cfpContract.getCfpContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         input.add(DBDate.format(new Date()));
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         input.add(DBDate.format(new Date()));
-        input.add(contractMember.getCfpId());
+        input.add(cpdId);
         input.add(DBDate.format(companyFamily.getCfpStartDate()));
         if (companyFamily.getCfpEndDate() != null) {
             input.add(DBDate.format(companyFamily.getCfpEndDate()));
@@ -2334,9 +2336,9 @@ public class DiscountLogic {
             query = query.replace("?", " ");
         }
         if(dto != null && dto.getRemovedRsList() != null && !dto.getRemovedRsList().isEmpty()) {
-            query = query.replace("@RS_SID_CHECK", getRsContractFromRSContractList(dto));            
+            query = query.replace(StringConstantsUtil.RS_SID_CHECK, getRsContractFromRSContractList(dto));            
         } else {
-            query = query.replace("@RS_SID_CHECK", StringUtils.EMPTY);
+            query = query.replace(StringConstantsUtil.RS_SID_CHECK, StringUtils.EMPTY);
         }
         if ("contract".equals(indicator)) {
             filterSql = AbstractFilterLogic.getInstance().contractfilterQueryGenerator(filterSet);
@@ -2344,9 +2346,9 @@ public class DiscountLogic {
             filterSql = AbstractFilterLogic.getInstance().summaryfilterQueryGenerator(filterSet);
         }
         if (filterSql != null) {
-            query = query.replace("@filter@", filterSql.toString().replace("where", " and "));
+            query = query.replace(FILTER, filterSql.toString().replace("where", " and "));
         } else {
-            query = query.replace("@filter@", " ");
+            query = query.replace(FILTER, " ");
         }
         List list = CompanyMasterLocalServiceUtil.executeQuery(query);
         count = list != null ? Integer.parseInt(String.valueOf(list.get(0))) : 0;
@@ -2355,12 +2357,12 @@ public class DiscountLogic {
 
     public List<RemoveDiscountDto> getSelectedContract(int start, int offset, int userId, int sessionId, List<String> rebateList,
             final String indicator,java.util.Set<Container.Filter> filterSet, ContractsDetailsDto dto, boolean summaryFlag) {
-        List<RemoveDiscountDto> result = new ArrayList<>();
+        List<RemoveDiscountDto> result;
         String query = SQlUtil.getQuery("rd.selectedContractData");
         StringBuilder filterSql = new StringBuilder();
         query = query.replace("[$USERID]", String.valueOf(userId));
         query = query.replace("[$SESSIONID]", String.valueOf(sessionId));
-        query = query + " OFFSET " + start + "  ROWS FETCH NEXT " + offset + " ROWS ONLY";
+        query = query + SPACE_OFFSET_SPACE + start + StringConstantsUtil.SPACE_ROWS_FETCH_NEXT_SPACE + offset + ROWS_ONLY;
         if (summaryFlag) {
             query = query.replace("AND TEMP.CHECK_RECORD = 1", StringUtils.EMPTY);
         }
@@ -2370,9 +2372,9 @@ public class DiscountLogic {
             query = query.replace("?", " ");
         }
         if(dto.getRemovedRsList().isEmpty()){
-            query = query.replace("@RS_SID_CHECK", StringUtils.EMPTY);
+            query = query.replace(StringConstantsUtil.RS_SID_CHECK, StringUtils.EMPTY);
         } else {
-            query = query.replace("@RS_SID_CHECK", getRsContractFromRSContractList(dto));
+            query = query.replace(StringConstantsUtil.RS_SID_CHECK, getRsContractFromRSContractList(dto));
         }
         if (indicator.equals("contract")) {
             filterSql = AbstractFilterLogic.getInstance().contractfilterQueryGenerator(filterSet);
@@ -2380,9 +2382,9 @@ public class DiscountLogic {
             filterSql = AbstractFilterLogic.getInstance().summaryfilterQueryGenerator(filterSet);
         }
         if (filterSql != null) {
-            query = query.replace("@filter@", filterSql.toString().replace("where", " and "));
+            query = query.replace(FILTER, filterSql.toString().replace("where", " and "));
         } else {
-            query = query.replace("@filter@", " ");
+            query = query.replace(FILTER, " ");
         }
         List list = CompanyMasterLocalServiceUtil.executeQuery(query);
         result = setContractValues(list);
@@ -2392,9 +2394,9 @@ public class DiscountLogic {
     public int getComponentCount(Object parent, String value) {
         int count = 0;
         String component = StringUtils.EMPTY;
-        Map<String, String> inputMap = new HashMap<String, String>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
         }
         if (Constants.CFP.equalsIgnoreCase(value)) {
             component = "rd.cfpFromCDCount";
@@ -2413,12 +2415,12 @@ public class DiscountLogic {
     }
 
     public List<CFPComponentDetailsDTO> getFromCfpCD(Object parent, int start, int offset) {
-        List<CFPComponentDetailsDTO> retList = new ArrayList<CFPComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<CFPComponentDetailsDTO> retList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
-            inputMap.put("?start?", String.valueOf(start));
-            inputMap.put("?offset?", String.valueOf(offset));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.START_QUESTION, String.valueOf(start));
+            inputMap.put(StringConstantsUtil.OFFSET_QUESTION, String.valueOf(offset));
         }
         List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "rd.cfpFromCD"));
         for (Object[] temp : resList) {
@@ -2435,12 +2437,12 @@ public class DiscountLogic {
     }
 
     public List<PSComponentDetailsDTO> getFromIfpCD(Object parent, int start, int offset) {
-        List<PSComponentDetailsDTO> retList = new ArrayList<PSComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<PSComponentDetailsDTO> retList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
-            inputMap.put("?start?", String.valueOf(start));
-            inputMap.put("?offset?", String.valueOf(offset));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.START_QUESTION, String.valueOf(start));
+            inputMap.put(StringConstantsUtil.OFFSET_QUESTION, String.valueOf(offset));
         }
         List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "rd.ifpFromCD"));
         for (Object[] temp : resList) {
@@ -2459,12 +2461,12 @@ public class DiscountLogic {
     }
 
     public List<PSComponentDetailsDTO> getFromPsCD(Object parent, int start, int offset) {
-        List<PSComponentDetailsDTO> retList = new ArrayList<PSComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<PSComponentDetailsDTO> retList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
-            inputMap.put("?start?", String.valueOf(start));
-            inputMap.put("?offset?", String.valueOf(offset));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.START_QUESTION, String.valueOf(start));
+            inputMap.put(StringConstantsUtil.OFFSET_QUESTION, String.valueOf(offset));
         }
         List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "rd.psFromCD"));
         for (Object[] temp : resList) {
@@ -2483,12 +2485,12 @@ public class DiscountLogic {
     }
 
     public List<PSComponentDetailsDTO> getFromRsCD(Object parent, int start, int offset) {
-        List<PSComponentDetailsDTO> retList = new ArrayList<PSComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
+        List<PSComponentDetailsDTO> retList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
         if (parent instanceof ContractsDetailsDto) {
-            inputMap.put("?SID?", String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
-            inputMap.put("?start?", String.valueOf(start));
-            inputMap.put("?offset?", String.valueOf(offset));
+            inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(((ContractsDetailsDto) parent).getInternalId()));
+            inputMap.put(StringConstantsUtil.START_QUESTION, String.valueOf(start));
+            inputMap.put(StringConstantsUtil.OFFSET_QUESTION, String.valueOf(offset));
         }
         List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "rd.rsFromCD"));
         for (Object[] temp : resList) {
@@ -2532,12 +2534,12 @@ public class DiscountLogic {
     
     public List<PSComponentDetailsDTO> getDiscountItemsForPS_RS(String UserId, String SessionId, List<String> itemsList) {
         LOGGER.debug(" Inside getDiscountItemsForPS");
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?USERS_SID?", UserId);
-        inputMap.put("?SESSION_ID?", SessionId);
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, UserId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, SessionId);
         inputMap.put("?ITEM_MASTER_SIDs?", CommonUtils.getListToString(itemsList));
         String query = CommonUtil.getQuery(inputMap, "ad.selectedItemsForNewPS_RS");
-        List<PSComponentDetailsDTO> resultsList = new ArrayList<PSComponentDetailsDTO>();
+        List<PSComponentDetailsDTO> resultsList = new ArrayList<>();
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (int i = 0; i < list.size(); i++) {
             Object[] temp = (Object[]) list.get(i);
@@ -2558,12 +2560,12 @@ public class DiscountLogic {
 
     public List<PSComponentDetailsDTO> getDiscountItemsForIFP(String UserId, String SessionId, List<String> itemsList) {
         LOGGER.debug(" Inside getDiscountItemsForIFP");
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?USERS_SID?", UserId);
-        inputMap.put("?SESSION_ID?", SessionId);
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, UserId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, SessionId);
         inputMap.put("?ITEM_MASTER_SIDs?", CommonUtils.getListToString(itemsList));
         String query = CommonUtil.getQuery(inputMap, "ad.selectedItemsForNewIFP");
-        List<PSComponentDetailsDTO> resultsList = new ArrayList<PSComponentDetailsDTO>();
+        List<PSComponentDetailsDTO> resultsList = new ArrayList<>();
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         for (int i = 0; i < list.size(); i++) {
             Object[] temp = (Object[]) list.get(i);
@@ -2584,10 +2586,10 @@ public class DiscountLogic {
 
     public List<CFPComponentDetailsDTO> getDiscountItemsForCFP(String UserId, String SessionId, List<String> companyList) {
         LOGGER.debug(" Inside getDiscountItemsForCFP");
-        List<CFPComponentDetailsDTO> resultsList = new ArrayList<CFPComponentDetailsDTO>();
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("?USERS_SID?", UserId);
-        inputMap.put("?SESSION_ID?", SessionId);
+        List<CFPComponentDetailsDTO> resultsList = new ArrayList<>();
+        Map<String, String> inputMap = new HashMap<>();
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, UserId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, SessionId);
         inputMap.put("?COMPANY_MASTER_SIDs?", CommonUtils.getListToString(companyList));
         String query = CommonUtil.getQuery(inputMap, "ad.selectedCompaniesForNewCFP");
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -2617,7 +2619,7 @@ public class DiscountLogic {
      */
     public void updateDataOperation(String componentType, SessionDTO sessionDTO, boolean isAddOperation) {
         LOGGER.debug("Inside updateDataOperation");
-        Map<String, String> inputMap = new HashMap<String, String>();
+        Map<String, String> inputMap = new HashMap<>();
         String operation = "";
         String oldOperation = "";
         String tableName = "";
@@ -2630,10 +2632,10 @@ public class DiscountLogic {
                 oldOperation = Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();
                 operation = Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();
             }
-            tableName = "IMTD_CFP_DETAILS";
-            queryName = "ad.updateForSelectedCompanySearchTable";
+            tableName = StringConstantsUtil.IMTD_CFP_DETAILS;
+            queryName = StringConstantsUtil.ADUPDATE_FOR_SELECTED_COMPANY_SEARCH_TABLE;
         } else if (Constants.IndicatorConstants.IFP.getConstant().equals(componentType)) {
-            tableName = "IMTD_IFP_DETAILS";
+            tableName = StringConstantsUtil.IMTD_IFP_DETAILS;
             if (isAddOperation) {
                 oldOperation = Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant();
                 operation = Constants.IndicatorConstants.SELECTED_ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant();
@@ -2651,8 +2653,8 @@ public class DiscountLogic {
                 oldOperation = Constants.IndicatorConstants.SELECTED_PS_IFP_FOR_ADD_DISCOUNT.getConstant();
                 operation = Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant();
             }
-            tableName = "IMTD_ITEM_PRICE_REBATE_DETAILS";
-            queryName = "ad.updateForSelectedCompanySearchTable";
+            tableName = StringConstantsUtil.IMTD_ITEM_PRICE_REBATE_DETAILS;
+            queryName = StringConstantsUtil.ADUPDATE_FOR_SELECTED_COMPANY_SEARCH_TABLE;
         } else if (Constants.IndicatorConstants.RS_VALUE.getConstant().equals(componentType)) {
             if (isAddOperation) {
                 oldOperation = Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant();
@@ -2661,14 +2663,14 @@ public class DiscountLogic {
                 oldOperation = Constants.IndicatorConstants.SELECTED_RS_IFP_FOR_ADD_DISCOUNT.getConstant();
                 operation = Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant();
             }
-            tableName = "IMTD_ITEM_PRICE_REBATE_DETAILS";
-            queryName = "ad.updateForSelectedCompanySearchTable";
+            tableName = StringConstantsUtil.IMTD_ITEM_PRICE_REBATE_DETAILS;
+            queryName = StringConstantsUtil.ADUPDATE_FOR_SELECTED_COMPANY_SEARCH_TABLE;
         }
-        inputMap.put("?OPERATION?", operation);
+        inputMap.put(StringConstantsUtil.OPERATION, operation);
         inputMap.put("?OLD_OPERATION?", oldOperation);
-        inputMap.put("?USERS_SID?", sessionDTO.getUserId());
-        inputMap.put("?SESSION_ID?", sessionDTO.getSearchSessionId());
-        inputMap.put("?TABLE_NAME?", tableName);
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, sessionDTO.getUserId());
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionDTO.getSearchSessionId());
+        inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, tableName);
 
         try {
             String query = CommonUtil.getQuery(inputMap, queryName);
@@ -2688,7 +2690,7 @@ public class DiscountLogic {
      */
     public List getSelectedTableData(String category, SessionDTO session) {
         LOGGER.debug("Inside getSelectedTableData");
-        Map<String, String> inputMap = new HashMap<String, String>();
+        Map<String, String> inputMap = new HashMap<>();
         String operation = "";
         if (Constants.IndicatorConstants.CFP.getConstant().equals(category)) {
             operation = Constants.IndicatorConstants.SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant();
@@ -2699,10 +2701,10 @@ public class DiscountLogic {
         } else if (Constants.IndicatorConstants.RS_VALUE.getConstant().equals(category)) {
             operation = Constants.IndicatorConstants.SELECTED_RS_IFP_FOR_ADD_DISCOUNT.getConstant();
         }
-        inputMap.put("?OPERATION?", operation);
-        inputMap.put("?USERS_SID?", session.getUserId());
-        inputMap.put("?SESSION_ID?", session.getSearchSessionId());
-        String query = StringUtils.EMPTY;
+        inputMap.put(StringConstantsUtil.OPERATION, operation);
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, session.getUserId());
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, session.getSearchSessionId());
+        String query;
         if (Constants.IndicatorConstants.CFP.getConstant().equals(category)) {
             query = CommonUtil.getQuery(inputMap, "ad.selectedCompaniesFromSearchTable");
         } else if (Constants.IndicatorConstants.IFP.getConstant().equals(category)) {
@@ -2722,7 +2724,7 @@ public class DiscountLogic {
      * @return
      */
     public List<String> getAttachedNames(List list, String category) {
-        List<String> attachedList = new ArrayList<String>();
+        List<String> attachedList = new ArrayList<>();
         int no = 0;
         if (Constants.IndicatorConstants.PS_VALUE.getConstant().equals(category) || Constants.IndicatorConstants.RS_VALUE.getConstant().equals(category)) {
             no = NumericConstants.TWO;
@@ -2737,8 +2739,8 @@ public class DiscountLogic {
     
     public boolean checkSameItemInPs(String query1, String query2, String userId, String sessionId) {
         Map<String, String> inputMap = new HashMap<>();
-        inputMap.put("?USERS_SID?", userId);
-        inputMap.put("?SESSION_ID?", sessionId);
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         query1 = CommonUtil.getQuery(inputMap, query1);
         query2 = CommonUtil.getQuery(inputMap, query2);
         List queryList1 = CompanyMasterLocalServiceUtil.executeQuery(query1);
@@ -2755,8 +2757,8 @@ public class DiscountLogic {
 
     public boolean checkSameItemInPs(String query, List<Object> dataList, String userId, String sessionId) {
         Map<String, String> inputMap = new HashMap<>();
-        inputMap.put("?USERS_SID?", userId);
-        inputMap.put("?SESSION_ID?", sessionId);
+        inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
+        inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         query = CommonUtil.getQuery(inputMap, query);
         List resultList = CompanyMasterLocalServiceUtil.executeQuery(query);
         if (resultList.size() == dataList.size()) {
@@ -2771,129 +2773,129 @@ public class DiscountLogic {
     
     public static void getToInput(final Map<String, String> inputMap, final Map<String, String> inputMapToAppend, ContractsDetailsDto newDiscountTabDto, boolean fromNewTab) {
         String searchValue = newDiscountTabDto.getSearchFieldValue();
-        String searchField = StringUtils.EMPTY;
+        String searchField;
         if (fromNewTab) {
             searchField = newDiscountTabDto.getSearchField().split("-")[1];
         } else {
             searchField = newDiscountTabDto.getSearchField();
         }
 
-        if (Constants.CFP_SEARCH[0].equals(searchField)) {
-            inputMap.put("?CFP_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[1].equals(searchField)) {
-            inputMap.put("?CFP_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?CFP_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?CFP_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?CFP_TYPE?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.FIVE].equals(searchField)) {
+        if (Constants.getInstance().cfpSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.CFP_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.FIVE].equals(searchField)) {
             inputMapToAppend.put("COMPANY_ID", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.SIX].equals(searchField)) {
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.SIX].equals(searchField)) {
             inputMapToAppend.put("COMPANY_NO", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.SEVEN].equals(searchField)) {
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.SEVEN].equals(searchField)) {
             inputMapToAppend.put("COMPANY_NAME", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.EIGHT].equals(searchField)) {
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.EIGHT].equals(searchField)) {
             inputMapToAppend.put("COMPANY_STATUS", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.NINE].equals(searchField)) {
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.NINE].equals(searchField)) {
             inputMapToAppend.put("COMPANY_TYPE", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.TEN].equals(searchField)) {
-        } else if (Constants.CFP_SEARCH[NumericConstants.ELEVEN].equals(searchField)) {
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.TEN].equals(searchField)) {
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.ELEVEN].equals(searchField)) {
             inputMapToAppend.put("CFP_DETAILS_TRADE_CLASS", CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.IFP_SEARCH[0].equals(searchField)) {
-            inputMap.put("?IFP_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.IFP_SEARCH[1].equals(searchField)) {
-            inputMap.put("?IFP_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.IFP_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?IFP_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?IFP_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?IFP_TYPE?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.FIVE].equals(searchField)) {
+        if (Constants.getInstance().ifpSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getIFPSEARCH()[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getIFPSEARCH()[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.IFP_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.FIVE].equals(searchField)) {
             inputMapToAppend.put("ITEM_ID", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.SIX].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.SIX].equals(searchField)) {
             inputMapToAppend.put("ITEM_NO", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.SEVEN].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.SEVEN].equals(searchField)) {
             inputMapToAppend.put("ITEM_NAME", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.EIGHT].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.EIGHT].equals(searchField)) {
             inputMapToAppend.put("ITEM_STATUS", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.NINE].equals(searchField)) {
-        } else if (Constants.IFP_SEARCH[NumericConstants.TEN].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.NINE].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.TEN].equals(searchField)) {
             inputMapToAppend.put("ITEM_BRAND", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.ELEVEN].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.ELEVEN].equals(searchField)) {
             inputMapToAppend.put("ITEM_FORM", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.TWELVE].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.TWELVE].equals(searchField)) {
             inputMapToAppend.put("ITEM_STRENGTH", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.THIRTEEN].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.THIRTEEN].equals(searchField)) {
             inputMapToAppend.put("ITEM_THERAPEUTIC_CLASS", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.FOURTEEN].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.FOURTEEN].equals(searchField)) {
             inputMapToAppend.put("ITEM_START_DATE", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.IFP_SEARCH[NumericConstants.FIFTEEN].equals(searchField)) {
+        } else if (Constants.getInstance().ifpSearch[NumericConstants.FIFTEEN].equals(searchField)) {
             inputMapToAppend.put("ITEM_END_DATE", CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.PS_SEARCH[0].equals(searchField)) {
-            inputMap.put("?PS_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.PS_SEARCH[1].equals(searchField)) {
-            inputMap.put("?PS_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.PS_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?PS_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?PS_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.CFP_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?PS_TYPE?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().psSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getPSSEARCH()[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getPSSEARCH()[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().getInstance().cfpSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().getInstance().cfpSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.PS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.RS_SEARCH[0].equals(searchField)) {
-            inputMap.put("?RS_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.RS_SEARCH[1].equals(searchField)) {
-            inputMap.put("?RS_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constant.RS_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?RS_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.RS_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?RS_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.RS_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?RS_TYPE?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().rsSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getRSSEARCH()[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constant.getRSSEARCH()[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().rsSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().rsSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.RS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.ITEM_SEARCH[0].equals(searchField)) {
-            inputMap.put("?ITEM_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[1].equals(searchField)) {
-            inputMap.put("?ITEM_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?ITEM_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?ITEM_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?ITEM_TYPE?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.FIVE].equals(searchField)) {
-            inputMap.put("?BRAND_MASTER_SID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.SIX].equals(searchField)) {
-            inputMap.put("?FORM?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.SEVEN].equals(searchField)) {
-            inputMap.put("?STRENGTH?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.ITEM_SEARCH[NumericConstants.EIGHT].equals(searchField)) {
-            inputMap.put("?THERAPEUTIC_CLASS?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().itemSearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.ITEM_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.FIVE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.BRAND_MASTER_SID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.SIX].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.FORM_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.SEVEN].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.STRENGTH_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().itemSearch[NumericConstants.EIGHT].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.THERAPEUTIC_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.COMPANY_SEARCH[0].equals(searchField)) {
-            inputMap.put("?COMPANY_ID?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[1].equals(searchField)) {
-            inputMap.put("?COMPANY_NAME?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.TWO].equals(searchField)) {
-            inputMap.put("?COMPANY_NO?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.THREE].equals(searchField)) {
-            inputMap.put("?COMPANY_STATUS?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.FOUR].equals(searchField)) {
-            inputMap.put("?COMPANY_TYPE?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.FIVE].equals(searchField)) {
-            inputMap.put("?COMPANY_CATEGORY?", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.COMPANY_SEARCH[NumericConstants.SIX].equals(searchField)) {
-            inputMap.put("?TRADE_CLASS?", CommonUtil.astToPerConverter(searchValue));
+        if (Constants.getInstance().getInstance().companySearch[0].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().getInstance().companySearch[1].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.TWO].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.THREE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.FOUR].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.FIVE].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.COMPANY_CATEGORY_QUESTION, CommonUtil.astToPerConverter(searchValue));
+        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.SIX].equals(searchField)) {
+            inputMap.put(StringConstantsUtil.TRADE_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
     }

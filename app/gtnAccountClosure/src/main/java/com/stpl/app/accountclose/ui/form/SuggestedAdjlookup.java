@@ -47,9 +47,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
  */
 public class SuggestedAdjlookup extends Window {
 
-    private String indicator;
     private TextField groupLookup;
-    private String sidQuery;
     @UiField("availableTableLayout")
     public VerticalLayout availableTableLayout;
     SuggestedAdjustmentTableLogic logic = new SuggestedAdjustmentTableLogic();
@@ -78,7 +76,6 @@ public class SuggestedAdjlookup extends Window {
     CustomTableHeaderDTO leftDTO;
     private ExtTreeContainer<TreeDTO> resultBean = new ExtTreeContainer<TreeDTO>(TreeDTO.class,DataStructureMode.MAP);
     HeaderUtils utils = new HeaderUtils();
-    private TreeDTO tableBean;
     CommonLogic commonLogic = new CommonLogic();
     final List<TreeDTO> selecteditemList = new ArrayList<TreeDTO>();
     List<String> ccpIds=new ArrayList<String>();

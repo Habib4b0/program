@@ -54,16 +54,10 @@ public class SalesAndRebates extends VerticalLayout {
         return panel;
     }
 
-    public void configureFields() {
-    }
-
     public void loadTable() {
         tradingPartnerSalesTableLayout.removeAllComponents();
         tradingPartnerRebatesTableLayout.removeAllComponents();
         tradingPartnerSalesTableLayout.addComponent(sales.getContent(itemList, session));
         tradingPartnerRebatesTableLayout.addComponent(rebate.getContent(itemList, session));
-    }
-
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
     }
 }

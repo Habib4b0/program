@@ -140,17 +140,17 @@ public class DataSelectionIndex extends CustomComponent implements View {
     /**
      * The available product bean.
      */
-    private BeanItemContainer<DataSelectionDTO> availableProductBean = new BeanItemContainer<DataSelectionDTO>(DataSelectionDTO.class);
+    private BeanItemContainer<DataSelectionDTO> availableProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The selected product bean.
      */
-    private BeanItemContainer<DataSelectionDTO> selectedProductBean = new BeanItemContainer<DataSelectionDTO>(DataSelectionDTO.class);
+    private BeanItemContainer<DataSelectionDTO> selectedProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The table bean.
      */
-    private final BeanItemContainer<DataSelectionDTO> resultsContainer = new BeanItemContainer<DataSelectionDTO>(DataSelectionDTO.class);
+    private final BeanItemContainer<DataSelectionDTO> resultsContainer = new BeanItemContainer<>(DataSelectionDTO.class);
     /**
      * The generate.
      */
@@ -236,19 +236,18 @@ public class DataSelectionIndex extends CustomComponent implements View {
      */
     private Object tableBeanId;
     public DataSelectionDTO dsDto = new DataSelectionDTO();
-    /**
+            /**
      * The business Unit.
      */
     @UiField("businessUnit")
     private ComboBox businessUnit;
-
+    
     private String productGroupCompany = StringUtils.EMPTY;
-
+    
     com.stpl.app.gtnforecasting.logic.DataSelectionLogic dsLogic = new com.stpl.app.gtnforecasting.logic.DataSelectionLogic();
-
-    DataSelectionDTO dataSelectionDTO;
-    SessionDTO sessionDTO;
-
+    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
+     DataSelectionDTO dataSelectionDTO;
+     SessionDTO sessionDTO;
     /**
      * Instantiates a new data selection index.
      *
@@ -256,12 +255,12 @@ public class DataSelectionIndex extends CustomComponent implements View {
      * @param dataSelectionBinder
      * @param mode the mode
      */
-    public DataSelectionIndex(DataSelectionDTO dtoValue, CustomFieldGroup dataSelectionBinder, OptionGroup mode, SessionDTO sessionDTO) {
+    public DataSelectionIndex(DataSelectionDTO dtoValue, CustomFieldGroup dataSelectionBinder,SessionDTO sessionDTO) {
         super();
-        this.sessionDTO = sessionDTO;
-        nationalAssumptions = new NationalAssumptions(sessionDTO);
+        this.sessionDTO=sessionDTO;
+        nationalAssumptions= new NationalAssumptions(sessionDTO);
         this.dataSelectionBinder = dataSelectionBinder;
-        this.dataSelectionDTO = dtoValue;
+        this.dataSelectionDTO=dtoValue;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/nationalassumption/DataSelectionIndex.xml"), this));
         init();
     }
@@ -285,7 +284,6 @@ public class DataSelectionIndex extends CustomComponent implements View {
         dataSelectionBinder.setErrorDisplay(errorMsg);
         return dataSelectionBinder;
     }
-
     /*
      * (non-Javadoc)
      * 
@@ -293,6 +291,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener
      * .ViewChangeEvent)
      */
+
     public void enter(ViewChangeEvent event) {
         projectionName.setValue(StringUtils.EMPTY);
     }
@@ -332,7 +331,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
                     List<HelperDTO> result = CommonUtils.getTherapeuticClass();
                     result.remove(0);
-                    if (result != null && result.size() > 0) {
+                    if (result.size() > 0) {
                         therapClass.setContainerDataSource(new IndexedContainer(result));
                     }
 
@@ -346,11 +345,11 @@ public class DataSelectionIndex extends CustomComponent implements View {
             }
 
             public void filterRemoved(Object propertyId) {
-
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -375,68 +374,70 @@ public class DataSelectionIndex extends CustomComponent implements View {
         modeOption.addItem(Constants.LabelConstants.MODE_SEARCH);
         modeOption.select(Constant.ADD_SMALL);
 
-        resultTable.setColumnAlignment(CommonUiUtils.VISIBLESEARCHCOLUMN[NumericConstants.FOUR], ExtFilterTable.Align.CENTER);
-        resultTable.setColumnAlignment(CommonUiUtils.VISIBLESEARCHCOLUMN[NumericConstants.FIVE], ExtFilterTable.Align.CENTER);
+        resultTable.setColumnAlignment(commonUiUtils.visibleSearchColumn[NumericConstants.FOUR], ExtFilterTable.Align.CENTER);
+        resultTable.setColumnAlignment(commonUiUtils.visibleSearchColumn[NumericConstants.FIVE], ExtFilterTable.Align.CENTER);
+        
+            businessUnit.setPageLength(NumericConstants.SEVEN);
+            businessUnit.setImmediate(true);
+            businessUnit.addItem(0);
+            businessUnit.setItemCaption(0, Constants.CommonConstants.SELECT_ONE.getConstant());
+            businessUnit.setNullSelectionAllowed(true);
+            businessUnit.setNullSelectionItemId(0);
+            businessUnit.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
+            businessUnit.markAsDirty();
 
-        businessUnit.setPageLength(NumericConstants.SEVEN);
-        businessUnit.setImmediate(true);
-        businessUnit.addItem(0);
-        businessUnit.setItemCaption(0, Constants.CommonConstants.SELECT_ONE.getConstant());
-        businessUnit.setNullSelectionAllowed(true);
-        businessUnit.setNullSelectionItemId(0);
-        businessUnit.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
-        businessUnit.markAsDirty();
-
-        List<Object[]> list = dsLogic.getBusinessUnits(0);
-        if (list != null && !list.isEmpty()) {
-            for (Object[] object : list) {
-                businessUnit.addItem(object[0]);
-                businessUnit.setItemCaption(object[0], object[NumericConstants.TWO] + Constant.SPACE + Constant.DASH_NO_DATA + Constant.SPACE + object[NumericConstants.THREE]);
+            List<Object[]> list = dsLogic.getBusinessUnits(0);
+            if (list != null && !list.isEmpty()) {
+                for (Object[] object : list) {
+                    businessUnit.addItem(object[0]);
+                    businessUnit.setItemCaption(object[0], object[NumericConstants.TWO] + Constant.SPACE + Constant.DASH_NO_DATA + Constant.SPACE + object[NumericConstants.THREE]);
+                }
             }
-        }
 
-        businessUnit.addValueChangeListener(new Property.ValueChangeListener() {
+            businessUnit.addValueChangeListener(new Property.ValueChangeListener() {
 
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                selectedProductBean.removeAllItems();
-                companyOnChangeEvent(event.getProperty().getValue());
+                @Override
+                public void valueChange(Property.ValueChangeEvent event) {
+                    selectedProductBean.removeAllItems();
+                    companyOnChangeEvent();
+                }
+            });
+
+            company.setPageLength(NumericConstants.SEVEN);
+            company.setImmediate(true);
+            company.addItem(0);
+            company.setItemCaption(0, Constants.CommonConstants.SELECT_ONE.getConstant());
+            company.setNullSelectionAllowed(true);
+            company.setNullSelectionItemId(0);
+            company.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
+            company.markAsDirty();
+
+            List<Object[]> companyList = dsLogic.getCompanies();
+            if (companyList != null && !companyList.isEmpty()) {
+                for (Object[] object : companyList) {
+                    company.addItem(object[0]);
+                    company.setItemCaption(object[0], object[NumericConstants.TWO] + Constant.SPACE + Constant.DASH_NO_DATA + Constant.SPACE + object[NumericConstants.THREE]);
+                }
             }
-        });
+            company.select(0);
+            company.addValueChangeListener(new Property.ValueChangeListener() {
 
-        company.setPageLength(NumericConstants.SEVEN);
-        company.setImmediate(true);
-        company.addItem(0);
-        company.setItemCaption(0, Constants.CommonConstants.SELECT_ONE.getConstant());
-        company.setNullSelectionAllowed(true);
-        company.setNullSelectionItemId(0);
-        company.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
-        company.markAsDirty();
+                @Override
+                public void valueChange(Property.ValueChangeEvent event) {
 
-        List<Object[]> companyList = dsLogic.getCompanies();
-        if (companyList != null && !companyList.isEmpty()) {
-            for (Object[] object : companyList) {
-                company.addItem(object[0]);
-                company.setItemCaption(object[0], object[NumericConstants.TWO] + Constant.SPACE + Constant.DASH_NO_DATA + Constant.SPACE + object[NumericConstants.THREE]);
-            }
-        }
-        company.select(0);
-        company.addValueChangeListener(new Property.ValueChangeListener() {
+                    selectedProductBean.removeAllItems();
+                    companyOnChangeEvent();
+                }
+            });
 
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-
-                selectedProductBean.removeAllItems();
-                companyOnChangeEvent(event.getProperty().getValue());
-            }
-        });
-
+        
+        
         loadTherapeuticClass();
         therapeuticClass.addValueChangeListener(new Property.ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
             public void valueChange(ValueChangeEvent event) {
-                companyOnChangeEvent(event.getProperty().getValue());
+                companyOnChangeEvent();
             }
         });
 
@@ -448,13 +449,13 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 if (projectionId.getValue() != null && !StringUtils.EMPTY.equals(projectionId.getValue())) {
 
                     VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, Integer.parseInt(projectionId.getValue().replaceAll(",", StringUtils.EMPTY)));
-                    sessionDTO.setProjectionId(Integer.parseInt(projectionId.getValue().replaceAll(",", StringUtils.EMPTY)));
+                     sessionDTO.setProjectionId(Integer.parseInt(projectionId.getValue().replaceAll(",", StringUtils.EMPTY)));
                     VaadinSession.getCurrent().setAttribute(Constant.MODE, Constant.EDIT_SMALL);
                     VaadinSession.getCurrent().setAttribute("SessionDate", modifiedDate);
                     getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
                     LOGGER.debug("projectionId in edit Button ------------------------>" + projectionId);
                 } else if (resultTable.getValue() == null) {
-                    AbstractNotificationUtils.getErrorNotification("Select Record", "No record was selected.  Please try again.");
+                    AbstractNotificationUtils.getErrorNotification(Constant.SELECT_RECORD, Constant.NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN);
                 }
             }
         });
@@ -468,13 +469,13 @@ public class DataSelectionIndex extends CustomComponent implements View {
                             .getValue()).getProjectionId();
                     VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID,
                             projectonIdValue);
-                    sessionDTO.setProjectionId(projectonIdValue);
+                   sessionDTO.setProjectionId(projectonIdValue);
                     VaadinSession.getCurrent().setAttribute(Constant.MODE, Constant.VIEW);
                     VaadinSession.getCurrent().setAttribute("SessionDate", modifiedDate);
                     getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
 
                 } else {
-                    AbstractNotificationUtils.getErrorNotification("Select Record", "No record was selected.  Please try again.");
+                    AbstractNotificationUtils.getErrorNotification(Constant.SELECT_RECORD, Constant.NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN);
                 }
             }
         });
@@ -484,7 +485,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             @Override
             public void buttonClick(Button.ClickEvent event) {
 
-                deleteButtonClickLogic(event);
+                deleteButtonClickLogic();
 
                 UI.getCurrent().setFocusedComponent(UI.getCurrent());
             }
@@ -516,9 +517,9 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
                 List<DataSelectionDTO> tempAvaliable = availableProductBean.getItemIds();
                 if (selectedProductBean.size() > 0) {
-                    List<DataSelectionDTO> availableProducts = new ArrayList<DataSelectionDTO>();
+                    List<DataSelectionDTO> availableProducts = new ArrayList<>();
                     List<DataSelectionDTO> selectedIdList = selectedProductBean.getItemIds();
-                    Map<Integer, String> selectedId = new HashMap<Integer, String>();
+                    Map<Integer, String> selectedId = new HashMap<>();
 
                     availableProducts.addAll(tempAvaliable);
                     for (DataSelectionDTO selected : selectedIdList) {
@@ -595,13 +596,13 @@ public class DataSelectionIndex extends CustomComponent implements View {
         }
 
     }
-
+   
     /**
      * Company on change event.
      *
      * @param companyValue the company value
      */
-    protected void companyOnChangeEvent(Object companyValue) {
+    protected void companyOnChangeEvent() {
         loadOnChangeEvent();
 
     }
@@ -614,13 +615,13 @@ public class DataSelectionIndex extends CustomComponent implements View {
             availableProductBean.removeAllItems();
             loadData();
             ResultList result = null;
-            if (!"0".equals(company.getValue()) || ((Integer) thearupeticValueId) != 0 || !StringUtils.EMPTY.equals((String) productGroupValue) || !"0".valueOf(businessUnit.getValue()).isEmpty()) {
+            if (!"0".equals(company.getValue()) || ((Integer) thearupeticValueId) != 0 || !StringUtils.EMPTY.equals((String) productGroupValue)|| !"0".valueOf(businessUnit.getValue()).isEmpty()) {
 
-                result = new DataSelectionLogic().searchCCP(company.getValue(), thearupeticValueId, productGroupValue.toString(), businessUnit.getValue());
+                result = new DataSelectionLogic().searchCCP(company.getValue(), thearupeticValueId, productGroupValue.toString(),businessUnit.getValue());
             } else {
                 availableProductBean.removeAllItems();
             }
-
+            
             if (result != null && Constant.SUCCESS.equals(result.getFlag())) {
                 availableProductBean.addAll(result.getAvailableProducts());
             } else {
@@ -630,17 +631,17 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 notif.setDelayMsec(NumericConstants.THOUSAND);
                 notif.show(Page.getCurrent());
             }
-            if (company.getValue() != null && !"null".equalsIgnoreCase(String.valueOf(productGroupValue)) && !StringUtils.EMPTY.equals((String) productGroupValue)) {
+            if (company.getValue() != null  && !"null".equalsIgnoreCase(String.valueOf(productGroupValue)) && !StringUtils.EMPTY.equals((String) productGroupValue) ) {
                 String compName = StringUtils.EMPTY;
                 List list = logic.getCompanyName(Integer.valueOf(company.getValue().toString()));
-                for (int i = 0; i < list.size(); i++) {
-                    Object[] ob = (Object[]) list.get(i);
-                    compName = ob[NumericConstants.TWO].toString();
-                }
-                if (!productGroupCompany.equals(compName)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        Object[] ob = (Object[]) list.get(i);
+                        compName = ob[NumericConstants.TWO].toString();                                               
+                    }
+                if (!productGroupCompany.equals(compName)){
                     availableProductBean.removeAllItems();
                     Notification notif = new Notification("No results found",
-                            Notification.Type.HUMANIZED_MESSAGE);
+                        Notification.Type.HUMANIZED_MESSAGE);
                     notif.setPosition(Position.MIDDLE_CENTER);
                     notif.setDelayMsec(NumericConstants.THOUSAND);
                     notif.show(Page.getCurrent());
@@ -654,7 +655,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
      */
     private void loadData() {
         if (company.getValue() != null) {
-            companyValueId = company.getValue();
+            companyValueId =  company.getValue();
         } else {
             companyValueId = 0;
         }
@@ -680,7 +681,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
         String projectionNametemp = projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue();
 
-        if (!tableLogic.fireSetData(projectionNametemp, getSelectedProducts(), companyValueId, thearupeticValueId, productGroupId, false, businessUnit.getValue())) {
+        if (!tableLogic.fireSetData(projectionNametemp, getSelectedProducts(), companyValueId, thearupeticValueId, productGroupId, false,businessUnit.getValue())) {
             enableButtons(false);
             if (searchFlag) {
                 AbstractNotificationUtils
@@ -740,7 +741,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     company.setItemCaption(value.getCompanySid(), value.getCompany());
                     company.setImmediate(true);
                     loadOnChangeEvent();
-                }
+                } 
 
             }
         });
@@ -759,14 +760,14 @@ public class DataSelectionIndex extends CustomComponent implements View {
         availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
         availableProduct.setStyleName(Constant.FILTER_TABLE);
         availableProduct.setContainerDataSource(availableProductBean);
-        availableProduct.setVisibleColumns(CommonUiUtils.VISIBLECOLUMN);
-        availableProduct.setColumnHeaders(CommonUiUtils.VISIBLEHEADER);
-        availableProduct.setColumnAlignment(CommonUiUtils.VISIBLECOLUMN[0], ExtCustomTable.Align.RIGHT);
+        availableProduct.setVisibleColumns(commonUiUtils.visibleColumn);
+        availableProduct.setColumnHeaders(commonUiUtils.visibleHeader);
+        availableProduct.setColumnAlignment(commonUiUtils.visibleColumn[0], ExtCustomTable.Align.RIGHT);
         availableProduct.setPageLength(NumericConstants.TEN);
         availableProduct.setImmediate(true);
         availableProduct.setSelectable(true);
         availableProduct.setSizeFull();
-        availableProduct.setWidth("390px");
+        availableProduct.setWidth(Constant.PX_390);
         availableProduct.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             /**
              *
@@ -797,14 +798,14 @@ public class DataSelectionIndex extends CustomComponent implements View {
         selectedProducts.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedProducts.setStyleName(Constant.FILTER_TABLE);
         selectedProducts.setContainerDataSource(selectedProductBean);
-        selectedProducts.setVisibleColumns(CommonUiUtils.VISIBLECOLUMN);
-        selectedProducts.setColumnHeaders(CommonUiUtils.VISIBLEHEADER);
-        selectedProducts.setColumnAlignment(CommonUiUtils.VISIBLECOLUMN[0], ExtCustomTable.Align.RIGHT);
+        selectedProducts.setVisibleColumns(commonUiUtils.visibleColumn);
+        selectedProducts.setColumnHeaders(commonUiUtils.visibleHeader);
+        selectedProducts.setColumnAlignment(commonUiUtils.visibleColumn[0], ExtCustomTable.Align.RIGHT);
         selectedProducts.setPageLength(NumericConstants.TEN);
         selectedProducts.setImmediate(true);
         selectedProducts.setSelectable(true);
         selectedProducts.setSizeFull();
-        selectedProducts.setWidth("390px");
+        selectedProducts.setWidth(Constant.PX_390);
 
         return selectedProducts;
     }
@@ -821,8 +822,8 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultTable.setFilterBarVisible(true);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setStyleName(Constant.FILTER_TABLE);
-        resultTable.setVisibleColumns(CommonUiUtils.VISIBLESEARCHCOLUMN);
-        resultTable.setColumnHeaders(CommonUiUtils.VISIBLESEARCHHEADER);
+        resultTable.setVisibleColumns(commonUiUtils.visibleSearchColumn);
+        resultTable.setColumnHeaders(commonUiUtils.visibleSearchHeader);
         resultTable.setPageLength(NumericConstants.TEN);
         resultTable.setImmediate(true);
         resultTable.setSelectable(true);
@@ -869,10 +870,10 @@ public class DataSelectionIndex extends CustomComponent implements View {
      * @param event the event
      */
     @UiHandler("generateBtn")
-    public void generateBtn(Button.ClickEvent event) {
+    public void generateBtn(Button.ClickEvent event)  {
         try {
             LOGGER.debug("generateBtn ClickEvent starts with company value   " + company.getValue());
-            if (StringUtils.isBlank(projectionName.getValue()) || "0".equals(company.getValue()) || company.getValue() == null || "0".equals(businessUnit.getValue()) || businessUnit.getValue() == null) {
+            if (StringUtils.isBlank(projectionName.getValue()) || "0".equals(company.getValue()) || company.getValue() == null|| "0".equals(businessUnit.getValue()) || businessUnit.getValue() == null) {
                 AbstractNotificationUtils.getErrorNotification("Missing Data", "Please select all required fields before clicking the Generate button.");
             } else if (selectedProducts.size() == 0) {
                 AbstractNotificationUtils.getErrorNotification("Missing Data", "Please select all required fields before clicking the Generate button.");
@@ -881,7 +882,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 String msg = StringUtils.EMPTY;
                 if (modeOption.getValue() != null && Constant.ADD_SMALL.equals(modeOption.getValue())) {
                     // Save the Projection
-                    List<DataSelectionDTO> selectedProducts = new ArrayList<DataSelectionDTO>();
+                    List<DataSelectionDTO> selectedProducts = new ArrayList<>();
                     for (int i = 0; i < selectedProductBean.size(); i++) {
                         DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
                         selectedProducts.add(dataSelectionDto);
@@ -892,18 +893,18 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         LOGGER.error(e);
                     }
                     Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
-                        thearupeticValueId, productGroupId, String.valueOf(businessUnit.getValue())};
-                    msg = logic.saveProjection(values, selectedProducts, false, sessionDTO);
+                        thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
+                    msg = logic.saveProjection(values, selectedProducts, false,sessionDTO);
                     if (!Constant.FAIL.equalsIgnoreCase(msg)) {
                         VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, Integer.parseInt(msg));
                         VaadinSession.getCurrent().setAttribute(Constant.MODE, Constant.ADD_FULL_SMALL);
-                        sessionDTO.setProjectionId(Integer.parseInt(msg));
+                        sessionDTO.setProjectionId( Integer.parseInt(msg));
                         sessionDTO.setProjectionName(projectionName.getValue());
                         sessionDTO.setMode(Constant.ADD_FULL_SMALL);
                         getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
 
                         UI.getCurrent().setFocusedComponent(UI.getCurrent());
-                        nationalAssumptions.getNDCSetup();
+                        nationalAssumptions.getNDCSetup(String.valueOf(sessionDTO.getProjectionId()));
                     }
                 } else if (modeOption.getValue() != null && Constants.LabelConstants.MODE_SEARCH.equals(modeOption.getValue())) {
                     if (projectionId.getValue() == null || StringUtils.EMPTY.equals(projectionId.getValue())) {
@@ -968,6 +969,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         }
     }
 
+
     /**
      * Loading therapeutic class and we can select from drop down list box
      */
@@ -983,11 +985,11 @@ public class DataSelectionIndex extends CustomComponent implements View {
      *
      * @param event
      */
-    protected void deleteButtonClickLogic(Button.ClickEvent event) {
+    protected void deleteButtonClickLogic() {
         LOGGER.debug("deleteButtonClickLogic starts");
         try {
             if (tableBeanId == null || resultTable.size() <= 0 || !resultTable.isSelected(tableBeanId)) {
-                AbstractNotificationUtils.getErrorNotification("Select Record", "No record was selected.  Please try again.");
+                AbstractNotificationUtils.getErrorNotification(Constant.SELECT_RECORD, Constant.NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN);
             } else {
                 MessageBox.showPlain(Icon.QUESTION, "Delete Confirmation", "Are you sure you want to delete this " + dsDto.getProjectionName() + "?", new MessageBoxListener() {
                     @Override
@@ -1002,7 +1004,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                                     AbstractNotificationUtils.getErrorNotification("Cannot Delete Record", "You do not have permission to delete this projection.  It can only be deleted by the creator.");
                                     return;
                                 }
-
+                                
                                 Notification notif = new Notification("The selected Price Type Projection has been deleted.",
                                         Notification.Type.HUMANIZED_MESSAGE);
                                 notif.setPosition(Position.BOTTOM_CENTER);
@@ -1041,7 +1043,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             String msg = StringUtils.EMPTY;
             if (modeOption.getValue() != null && Constant.ADD_SMALL.equals(modeOption.getValue())) {
                 // Save the Projection
-                List<DataSelectionDTO> selectedProducts = new ArrayList<DataSelectionDTO>();
+                List<DataSelectionDTO> selectedProducts = new ArrayList<>();
                 for (int i = 0; i < selectedProductBean.size(); i++) {
                     DataSelectionDTO ccpDTO = (DataSelectionDTO) selectedProductBean
                             .getIdByIndex(i);
@@ -1053,9 +1055,9 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     LOGGER.error(e);
                 }
                 Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
-                    thearupeticValueId, productGroupId, String.valueOf(businessUnit.getValue())};
+                    thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
                 try {
-                    msg = logic.saveProjection(values, selectedProducts, false, sessionDTO);
+                    msg = logic.saveProjection(values, selectedProducts, false,sessionDTO);
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
@@ -1094,19 +1096,17 @@ public class DataSelectionIndex extends CustomComponent implements View {
             if (id instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) id;
             } else if (id instanceof DataSelectionDTO) {
-                targetItem = new BeanItem<DataSelectionDTO>(
+                targetItem = new BeanItem<>(
                         (DataSelectionDTO) id);
             }
             int projectionSysId = ((DataSelectionDTO) targetItem.getBean()).getProjectionId();
-            String projectionName = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
-
+            String projection = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
             modifiedDate = ((DataSelectionDTO) targetItem.getBean()).getModifiedDate();
             projectionId.setValue(String.valueOf(projectionSysId));
-            sessionDTO.setProjectionName(projectionName);
+            sessionDTO.setProjectionName(projection);
         } else {
             projectionId.setValue(null);
             sessionDTO.setProjectionName(StringUtils.EMPTY);
-
         }
 
     }
@@ -1128,7 +1128,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         if (id instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) id;
         } else if (id instanceof DataSelectionDTO) {
-            targetItem = new BeanItem<DataSelectionDTO>(
+            targetItem = new BeanItem<>(
                     (DataSelectionDTO) id);
         }
         return (DataSelectionDTO) targetItem.getBean();
@@ -1156,6 +1156,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
     public void moveToAvailable(Object item) {
         selectedProductBean.removeItem(item);
     }
+
 
     private void reloadResultsTable() {
         searchButtonClickLogic(false);

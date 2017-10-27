@@ -51,7 +51,7 @@ private static final Logger LOGGER = Logger.getLogger(RebatePlanTableLogic.class
     public List loadData(int start, int offset) {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
-        List<LookupDTO> resultList = new ArrayList<LookupDTO>();
+        List<LookupDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.getRebateSearchResults(binderDto);
         } catch (Exception ex) {

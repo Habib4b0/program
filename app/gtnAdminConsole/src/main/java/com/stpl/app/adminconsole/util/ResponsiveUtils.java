@@ -36,7 +36,7 @@ public class ResponsiveUtils {
     }
 
     public static void addButtonListeners(final ExtFilterTable table, final Button prevColumn, final Button nextColumn) {
-        List<Object> collapsedColumns1 = new ArrayList<Object>();
+        List<Object> collapsedColumns1 = new ArrayList<>();
 
         for (Object item : table.getVisibleColumns()) {
             if (!table.isColumnCollapsed(item)) {
@@ -45,8 +45,8 @@ public class ResponsiveUtils {
         }
         prevColumn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -65,7 +65,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(true);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -82,8 +82,8 @@ public class ResponsiveUtils {
 
         nextColumn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -105,7 +105,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(false);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -147,7 +147,7 @@ public class ResponsiveUtils {
     }
     public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout){
         HorizontalLayout controlBar = new HorizontalLayout();
-                        controlBar.setStyleName("responsivePagedTable");
+                        controlBar.setStyleName(RESPONSIVE_PAGED_TABLE);
                         
                         HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
                         HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
@@ -162,6 +162,7 @@ public class ResponsiveUtils {
                         controlBar.addComponent(cssLayout);
                         return controlBar;
     }
+    public static final String RESPONSIVE_PAGED_TABLE = "responsivePagedTable";
    
  public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder("");
@@ -184,7 +185,7 @@ public class ResponsiveUtils {
         }
     public static void getResponsiveControls(HorizontalLayout tempLayout, HorizontalLayout controlBar) {
 
-		controlBar.setStyleName("responsivePagedTable");
+		controlBar.setStyleName(RESPONSIVE_PAGED_TABLE);
 		HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
 		HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
 
@@ -201,7 +202,7 @@ public class ResponsiveUtils {
     
     public static HorizontalLayout getResponsiveControl(HorizontalLayout tempLayout) {
         HorizontalLayout controlBar = new HorizontalLayout();
-        controlBar.setStyleName("responsivePagedTable");
+        controlBar.setStyleName(RESPONSIVE_PAGED_TABLE);
         HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
         HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
 

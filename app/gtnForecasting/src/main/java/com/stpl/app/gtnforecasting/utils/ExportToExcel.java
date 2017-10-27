@@ -71,7 +71,7 @@ public class ExportToExcel extends ExcelExport {
         style5.setDataFormat(hssfDataFormat.getFormat("#,##0"));
         style5.setAlignment(CellStyle.ALIGN_RIGHT);
         style6.setAlignment(CellStyle.ALIGN_RIGHT);
-        Object levelValue = StringUtils.EMPTY;
+        Object levelValue;
         for (int col = 0; col < getPropIds().size(); col++) {
 
             propId = getPropIds().get(col);
@@ -92,15 +92,15 @@ public class ExportToExcel extends ExcelExport {
                         d = Double.parseDouble(value.toString().replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY).replace(Constant.PERCENT, StringUtils.EMPTY));
                         sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         if (!String.valueOf(levelValue).contains(CommonUtils.COL_PERCENTAGE) && !String.valueOf(propId).endsWith("Per")
-                                && ((formatter.get("percentTwoDecimal") != null
-                                && (String.valueOf(levelValue).contains(formatter.get("percentTwoDecimal"))
-                                || String.valueOf(propId).contains(formatter.get("percentTwoDecimal"))
+                                && ((formatter.get(Constant.PERCENT_TWO_DECIMAL) != null
+                                && (String.valueOf(levelValue).contains(formatter.get(Constant.PERCENT_TWO_DECIMAL))
+                                || String.valueOf(propId).contains(formatter.get(Constant.PERCENT_TWO_DECIMAL))
                                 || String.valueOf(propId).contains("Per")) || String.valueOf(propId).startsWith("Per"))
-                                || (formatter.get("percentOneDecimal") != null
-                                && (String.valueOf(levelValue).contains(formatter.get("percentOneDecimal"))
-                                || String.valueOf(propId).contains(formatter.get("percentOneDecimal"))
+                                || (formatter.get(Constant.PERCENT_ONE_DECIMAL) != null
+                                && (String.valueOf(levelValue).contains(formatter.get(Constant.PERCENT_ONE_DECIMAL))
+                                || String.valueOf(propId).contains(formatter.get(Constant.PERCENT_ONE_DECIMAL))
                                 || String.valueOf(propId).contains("DiscountSalesValue") || String.valueOf(propId).contains("DiscountSalesVar"))
-                                || String.valueOf(propId).contains("totaldiscountper") || String.valueOf(propId).contains("totaldiscountchangepercentage")))) {
+                                || String.valueOf(propId).contains("totaldiscountper") || String.valueOf(propId).contains(Constant.TOTAL_DISCOUNT_CHANGE_PERCENTAGE)))) {
                             sheetCell.setCellValue(d / NumericConstants.HUNDRED);
                         } else {
                             sheetCell.setCellValue(d);
@@ -117,35 +117,35 @@ public class ExportToExcel extends ExcelExport {
                     }
                     continue;
                 }
-                if (formatter.get("currencyTwoDecimal") != null && ((String.valueOf(levelValue).contains(formatter.get("currencyTwoDecimal")) && !String.valueOf(levelValue).contains(Constant.PERCENT)
-                        && !String.valueOf(propId).contains("ContractSalesWACVarPer") && !String.valueOf(propId).equals("totaldiscountperpriorpercentage") && !String.valueOf(propId).equals("totaldiscountperprojectedpercentage") && !String.valueOf(propId).equals("totaldiscountchangepercentage"))
-                        || (String.valueOf(propId).contains(formatter.get("currencyTwoDecimal")) && !String.valueOf(propId).contains(Constant.DISCOUNT_SMALL) && !String.valueOf(propId).contains("ContractSalesWACVarPer") && !String.valueOf(propId).equals("totaldiscountperpriorpercentage") && !String.valueOf(propId).equals("totaldiscountperprojectedpercentage") && !String.valueOf(propId).equals("totaldiscountchangepercentage"))
+                if (formatter.get(Constant.CURRENCY_TWO_DECIMAL) != null && ((String.valueOf(levelValue).contains(formatter.get(Constant.CURRENCY_TWO_DECIMAL)) && !String.valueOf(levelValue).contains(Constant.PERCENT)
+                        && !String.valueOf(propId).contains(Constant.CONTRACT_SALES_WAC_VAR_PER) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_PER_PRIOR_PERCENTAGE) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_PER_PROJECTEDPERCENTAGE) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_CHANGE_PERCENTAGE))
+                        || (String.valueOf(propId).contains(formatter.get(Constant.CURRENCY_TWO_DECIMAL)) && !String.valueOf(propId).contains(Constant.DISCOUNT_SMALL) && !String.valueOf(propId).contains(Constant.CONTRACT_SALES_WAC_VAR_PER) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_PER_PRIOR_PERCENTAGE) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_PER_PROJECTEDPERCENTAGE) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_CHANGE_PERCENTAGE))
                         
                         || "Discount $ Value".equals(String.valueOf(levelValue)) || "Discount $ Variance".equals(String.valueOf(levelValue))
                         || String.valueOf(propId).contains("GTSValue") || (String.valueOf(propId).contains("GTSVariance") && !String.valueOf(propId).contains("Per"))
                         || String.valueOf(propId).contains("DiscountAmountValue") || String.valueOf(propId).contains("DiscountAmountVar"))) {
                     sheetCell.setCellStyle(style1);
-                } else if (formatter.get("oneDecimal") != null && (String.valueOf(levelValue).contains(formatter.get("oneDecimal"))
-                        || String.valueOf(propId).contains(formatter.get("oneDecimal")))) {
+                } else if (formatter.get(Constant.ONE_DECIMAL) != null && (String.valueOf(levelValue).contains(formatter.get(Constant.ONE_DECIMAL))
+                        || String.valueOf(propId).contains(formatter.get(Constant.ONE_DECIMAL)))) {
                     sheetCell.setCellStyle(style3);
-                } else if (formatter.get("currencyDecimal") != null && (String.valueOf(levelValue).contains(formatter.get("currencyDecimal"))
-                        || (String.valueOf(propId).contains(formatter.get("currencyDecimal")) && !String.valueOf(propId).equals("totaldiscountperpriorpercentage")
-                        && !String.valueOf(propId).equals("totaldiscountperprojectedpercentage") && !String.valueOf(propId).equals("totaldiscountchangepercentage")))) {
+                } else if (formatter.get(Constant.CURRENCY_DECIMAL) != null && (String.valueOf(levelValue).contains(formatter.get(Constant.CURRENCY_DECIMAL))
+                        || (String.valueOf(propId).contains(formatter.get(Constant.CURRENCY_DECIMAL)) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_PER_PRIOR_PERCENTAGE)
+                        && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_PER_PROJECTEDPERCENTAGE) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_CHANGE_PERCENTAGE)))) {
                     sheetCell.setCellStyle(style1);
-                } else if (formatter.get("percentTwoDecimal") != null && (String.valueOf(levelValue).contains(formatter.get("percentTwoDecimal"))
-                        || String.valueOf(propId).contains(formatter.get("percentTwoDecimal"))
+                } else if (formatter.get(Constant.PERCENT_TWO_DECIMAL) != null && (String.valueOf(levelValue).contains(formatter.get(Constant.PERCENT_TWO_DECIMAL))
+                        || String.valueOf(propId).contains(formatter.get(Constant.PERCENT_TWO_DECIMAL))
                         || String.valueOf(propId).contains("Per"))) {
                     sheetCell.setCellStyle(style2);
-                } else if (formatter.get("discountDol") != null && (String.valueOf(levelValue).contains(formatter.get("discountDol"))
-                        || (String.valueOf(propId).contains(formatter.get("discountDol")) && !String.valueOf(propId).equals("totaldiscountperpriorpercentage") && !String.valueOf(propId).equals("totaldiscountperprojectedpercentage") && !String.valueOf(propId).equals("totaldiscountchangepercentage")))) {
+                } else if (formatter.get(Constant.DISCOUNT_DOL) != null && (String.valueOf(levelValue).contains(formatter.get(Constant.DISCOUNT_DOL))
+                        || (String.valueOf(propId).contains(formatter.get(Constant.DISCOUNT_DOL)) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_PER_PRIOR_PERCENTAGE) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_PER_PROJECTEDPERCENTAGE) && !String.valueOf(propId).equals(Constant.TOTAL_DISCOUNT_CHANGE_PERCENTAGE)))) {
                     sheetCell.setCellStyle(style1);
-                } else if (formatter.get("percent2Decimal") != null && (String.valueOf(levelValue).contains(formatter.get("percent2Decimal"))
-                        || String.valueOf(propId).contains(formatter.get("percent2Decimal")))) {
+                } else if (formatter.get(Constant.PERCENT2_DECIMAL) != null && (String.valueOf(levelValue).contains(formatter.get(Constant.PERCENT2_DECIMAL))
+                        || String.valueOf(propId).contains(formatter.get(Constant.PERCENT2_DECIMAL)))) {
                     sheetCell.setCellStyle(style2);
-                } else if (formatter.get("percentOneDecimal") != null && (String.valueOf(levelValue).contains(formatter.get("percentOneDecimal"))
-                        || String.valueOf(propId).contains(formatter.get("percentOneDecimal")) || String.valueOf(propId).contains("Per")
+                } else if (formatter.get(Constant.PERCENT_ONE_DECIMAL) != null && (String.valueOf(levelValue).contains(formatter.get(Constant.PERCENT_ONE_DECIMAL))
+                        || String.valueOf(propId).contains(formatter.get(Constant.PERCENT_ONE_DECIMAL)) || String.valueOf(propId).contains("Per")
                         || String.valueOf(propId).contains("DiscountSalesValue") || String.valueOf(propId).contains("DiscountSalesVar")
-                        || String.valueOf(propId).contains("totaldiscountper") || String.valueOf(propId).contains("totaldiscountchangepercentage"))) {
+                        || String.valueOf(propId).contains("totaldiscountper") || String.valueOf(propId).contains(Constant.TOTAL_DISCOUNT_CHANGE_PERCENTAGE))) {
                     sheetCell.setCellStyle(style4);
                 } else if ("Contract Units Value".equals(String.valueOf(levelValue)) || "Contract Units Variance".equals(String.valueOf(levelValue))
                         || (String.valueOf(propId).contains("ContractUnits") && !String.valueOf(propId).contains("Per"))) {

@@ -65,7 +65,7 @@ public class SearchButtonLayout extends HorizontalLayout {
 						List<SearchBusinessRoleModuleForm> searchResults=businessRoleModuleLogic.searchmoduleAccessDetails(binder);
 						searchResultbeans.removeAllItems();
 						searchResultbeans.addAll(searchResults);
-						table.setVisibleColumns(UIUtils.BUSINESS_ROLE_MODULE_MASTER_COL);
+						table.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterCol);
 					} catch (SystemException e) {
 						LOGGER.error(e);
 						

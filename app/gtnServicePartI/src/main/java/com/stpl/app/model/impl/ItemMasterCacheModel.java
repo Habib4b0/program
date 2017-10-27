@@ -91,10 +91,12 @@ public class ItemMasterCacheModel implements CacheModel<ItemMaster>,
     public long clottingFactorStartDate;
     public long nonFederalExpirationDate;
     public String internalNotes;
+    public int baseCpiPrecision;
+    public int baselineAmpPrecision;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(139);
+        StringBundler sb = new StringBundler(143);
 
         sb.append("{itemStatus=");
         sb.append(itemStatus);
@@ -234,6 +236,10 @@ public class ItemMasterCacheModel implements CacheModel<ItemMaster>,
         sb.append(nonFederalExpirationDate);
         sb.append(", internalNotes=");
         sb.append(internalNotes);
+        sb.append(", baseCpiPrecision=");
+        sb.append(baseCpiPrecision);
+        sb.append(", baselineAmpPrecision=");
+        sb.append(baselineAmpPrecision);
         sb.append("}");
 
         return sb.toString();
@@ -570,6 +576,9 @@ public class ItemMasterCacheModel implements CacheModel<ItemMaster>,
             itemMasterImpl.setInternalNotes(internalNotes);
         }
 
+        itemMasterImpl.setBaseCpiPrecision(baseCpiPrecision);
+        itemMasterImpl.setBaselineAmpPrecision(baselineAmpPrecision);
+
         itemMasterImpl.resetOriginalValues();
 
         return itemMasterImpl;
@@ -646,6 +655,8 @@ public class ItemMasterCacheModel implements CacheModel<ItemMaster>,
         clottingFactorStartDate = objectInput.readLong();
         nonFederalExpirationDate = objectInput.readLong();
         internalNotes = objectInput.readUTF();
+        baseCpiPrecision = objectInput.readInt();
+        baselineAmpPrecision = objectInput.readInt();
     }
 
     @Override
@@ -862,5 +873,8 @@ public class ItemMasterCacheModel implements CacheModel<ItemMaster>,
         } else {
             objectOutput.writeUTF(internalNotes);
         }
+
+        objectOutput.writeInt(baseCpiPrecision);
+        objectOutput.writeInt(baselineAmpPrecision);
     }
 }

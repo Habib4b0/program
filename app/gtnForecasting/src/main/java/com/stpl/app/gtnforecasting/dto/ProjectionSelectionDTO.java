@@ -72,7 +72,7 @@ public class ProjectionSelectionDTO {
     private String productHierarchyNo = StringUtils.EMPTY;
     private String customerHierarchyNo = StringUtils.EMPTY;
     private String hierarchyIndicator = StringUtils.EMPTY;
-    List<List<String>> discountList = new ArrayList<List<String>>();
+    List<List<String>> discountList = new ArrayList<>();
     String view;
     String frequency = StringUtils.EMPTY;
     boolean isFrequencyChanged = Boolean.TRUE;
@@ -85,14 +85,14 @@ public class ProjectionSelectionDTO {
     int customId = 0;
     int historyNum;
     int projectionNum;
-    List<String> levelValueList = new ArrayList<String>();
-    List<String> parentNodeList = new ArrayList<String>();
+    List<String> levelValueList = new ArrayList<>();
+    List<String> parentNodeList = new ArrayList<>();
     Date startDate;
     Date toDates;
-    List<String> columns = new ArrayList<String>();
-    List<String> periodList = new ArrayList<String>();
-    List<String> discountProgramsList = new ArrayList<String>();
-    Map<String, String> periodListMap = new HashMap<String, String>();
+    List<String> columns = new ArrayList<>();
+    List<String> periodList = new ArrayList<>();
+    List<String> discountProgramsList = new ArrayList<>();
+    Map<String, String> periodListMap = new HashMap<>();
     boolean isFilter;
     boolean isCustomHierarchy;
     int discountIndex = 0;
@@ -106,7 +106,7 @@ public class ProjectionSelectionDTO {
     private int productLevelNo;
     ForecastDTO forecastDTO;
     SessionDTO sessionDTO;
-    private Map<String, Integer> projectionDetails = new HashMap<String, Integer>();
+    private Map<String, Integer> projectionDetails = new HashMap<>();
     int historyStartIndex = -1;
     int projectionStartIndex = -1;
     int forecastStartIndex = -1;
@@ -119,10 +119,10 @@ public class ProjectionSelectionDTO {
     private String custRelationshipBuilderSid;
     private String prodRelationshipBuilderSid;
     private String relationshipBuilderSid;
-    private List<String> nonFetchableIndex = new ArrayList<String>();
+    private List<String> nonFetchableIndex = new ArrayList<>();
     boolean groupCount = false;
     int levelCount = 0;
-    List<String> hirarechyNo = new ArrayList<String>();
+    List<String> hirarechyNo = new ArrayList<>();
     private String discountName = StringUtils.EMPTY;
     private boolean expandCollapseFlag = false;
     private String ndcType = StringUtils.EMPTY;
@@ -166,7 +166,7 @@ public class ProjectionSelectionDTO {
     private Date forecastEndDate;
     private Integer forecastEndYear = 0;
     private Integer forecastEndMonth = 0;
-    private List<String> variableList = new ArrayList<String>();
+    private List<String> variableList = new ArrayList<>();
     private String screenName = StringUtils.EMPTY;
     private int rowsPerLevelItem = 0;
     private String buisnessProcessIndicator = StringUtils.EMPTY;
@@ -180,7 +180,7 @@ public class ProjectionSelectionDTO {
     private Integer supplementalLevelNo = 0;
     private String supplementalLevelName = StringUtils.EMPTY;
     private String parentSupplementalLevelName = StringUtils.EMPTY;
-    private List<Object> supplementalList = new ArrayList<Object>();
+    private List<Object> supplementalList = new ArrayList<>();
     private Integer ccpDetailsSID = 0;
     private Integer systemID = 0;
     private Integer companyID = 0;
@@ -188,8 +188,8 @@ public class ProjectionSelectionDTO {
     private Integer therapeuticID = 0;
     private Integer levelCompanySid = 0;
     private String brandID = StringUtils.EMPTY;
-    private List<String> ccpDetailIdList = new ArrayList<String>();
-    private List<String> parentCcpDetailIdList = new ArrayList<String>();
+    private List<String> ccpDetailIdList = new ArrayList<>();
+    private List<String> parentCcpDetailIdList = new ArrayList<>();
     private String levelFieldSelection = StringUtils.EMPTY;
     private boolean excelFlag;
     //Discount projection related entries ends here
@@ -234,7 +234,7 @@ public class ProjectionSelectionDTO {
     private String discountLevel = StringUtils.EMPTY;
     private Integer onExpandTotalRow = 0;
     private String pivotValue = StringUtils.EMPTY;
-    private List<Date> startAndEndDate = new ArrayList<Date>();
+    private List<Date> startAndEndDate = new ArrayList<>();
     private String startDateValue = StringUtils.EMPTY;
     private String endDateValue = StringUtils.EMPTY;
     private String nmSuppLevel = StringUtils.EMPTY;
@@ -245,30 +245,29 @@ public class ProjectionSelectionDTO {
     // NM DP
     private List<String> dPVariablesList;
     private List<String> ppaSelectedVariables;
-    private List<Object> rightHeaderDoubleColumns = new ArrayList<Object>();
-    private String discountValue = StringUtils.EMPTY;
-    private String definedContract = StringUtils.EMPTY;
-    private String functionality = StringUtils.EMPTY;
-    private boolean isSumarry = false;
-    private List<DiscountProjectionDTO> alternatePivotList = new ArrayList<DiscountProjectionDTO>();
-    private String variableView = StringUtils.EMPTY;
-    private boolean isAlternate = false;
-    private String detailsSid = StringUtils.EMPTY;
-    Map<Integer, List> headerMapForExcel = new HashMap<Integer, List>();
+    private List<Object> rightHeaderDoubleColumns = new ArrayList<>();
+    private String discountValue=StringUtils.EMPTY;
+    private String definedContract=StringUtils.EMPTY;
+    private String functionality=StringUtils.EMPTY;
+    private boolean isSumarry=false;
+      private List<DiscountProjectionDTO> alternatePivotList=new ArrayList<>();
+    private String variableView=StringUtils.EMPTY;
+    private boolean isAlternate=false;
+    private String detailsSid=StringUtils.EMPTY;
+    Map<Integer, List> headerMapForExcel = new HashMap<>();
 
     private boolean returns;
-    private List<String> commonColumn = new ArrayList<String>();
-    private List<String> headerMapColumn = new ArrayList<>();
+    private List<String> commonColumn = new ArrayList<>();
+    private List<String> headerMapColumn=new ArrayList<>();
     private List<String> forecastConfigPeriods = new ArrayList<>();
-    private Map<String, List<String>> projectionHeaderMap = new HashMap<>();
+    private Map<String,List<String>> projectionHeaderMap = new HashMap<>();
     private List<String> projectionHeaderList = new ArrayList<>();
-    private List<String> programCodeList = new ArrayList<String>();
+    private List<String> programCodeList = new ArrayList<>();
     private String customhierarchy = StringUtils.EMPTY;
     private String customViewIndicator = StringUtils.EMPTY;
     private String tabName = StringUtils.EMPTY;
     private boolean isGenerate = false;
-    private boolean isDiscountFlag = false;
-    private String secHierarchyNo;
+    private boolean isDiscountFlag=false;
 
     public boolean isIsDiscountFlag() {
         return isDiscountFlag;
@@ -877,7 +876,7 @@ public class ProjectionSelectionDTO {
             isHistroryChanged = Boolean.TRUE;
         }
     }
-
+    
     public String getProjection() {
         return projection;
     }
@@ -935,7 +934,7 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getDiscountNameList() {
-        List<String> discountNames = new ArrayList<String>();
+        List<String> discountNames = new ArrayList<>();
         if (discountList != null && discountList.size() > 1) {
             discountNames = discountList.get(1);
         }
@@ -943,21 +942,21 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getDiscountNoList() {
-        List<String> discountNos = new ArrayList<String>();
+        List<String> discountNos = new ArrayList<>();
         if (discountList != null && discountList.size() > 0) {
             discountNos = discountList.get(0);
         }
         return discountNos;
     }
 
-    public List<String> getDiscountNameNoList() {
-        List<String> discountNos = new ArrayList<String>();
+     public List<String> getDiscountNameNoList() {
+        List<String> discountNos = new ArrayList<>();
         if (discountList != null && discountList.size() > 0) {
             discountNos = discountList.get(NumericConstants.TWO);
         }
         return discountNos;
     }
-
+   
     public List<String> getColumns() {
         return columns;
     }
@@ -2086,10 +2085,10 @@ public class ProjectionSelectionDTO {
     public void setRightHeaderDoubleColumns(List<Object> rightHeaderDoubleColumns) {
         this.rightHeaderDoubleColumns = rightHeaderDoubleColumns;
     }
-
+    
     public String getReHierarchyNo() {
         return reHierarchyNo;
-    }
+}
 
     public void setReHierarchyNo(String reHierarchyNo) {
         this.reHierarchyNo = reHierarchyNo;
@@ -2166,7 +2165,7 @@ public class ProjectionSelectionDTO {
     public void setHeaderMapForExcel(Map<Integer, List> headerMapForExcel) {
         this.headerMapForExcel = headerMapForExcel;
     }
-
+    
     public boolean isReturns() {
         return returns;
     }
@@ -2191,14 +2190,14 @@ public class ProjectionSelectionDTO {
         this.headerMapColumn = headerMapColumn;
     }
 
-    public Map<String, List<String>> getProjectionHeaderMap() {
+     public Map<String, List<String>> getProjectionHeaderMap() {
         return projectionHeaderMap;
     }
 
     public void setProjectionHeaderMap(Map<String, List<String>> projectionHeaderMap) {
         this.projectionHeaderMap = projectionHeaderMap;
     }
-
+    
     public List<String> getForecastConfigPeriods() {
         return forecastConfigPeriods;
     }
@@ -2238,7 +2237,7 @@ public class ProjectionSelectionDTO {
     public void setCustomViewIndicator(String customViewIndicator) {
         this.customViewIndicator = customViewIndicator;
     }
-
+    
     public boolean isIsGenerate() {
         return isGenerate;
     }
@@ -2253,14 +2252,6 @@ public class ProjectionSelectionDTO {
 
     public void setTabName(String tabName) {
         this.tabName = tabName;
-    }
-
-    public String getSecHierarchyNo() {
-        return secHierarchyNo;
-    }
-
-    public void setSecHierarchyNo(String secHierarchyNo) {
-        this.secHierarchyNo = secHierarchyNo;
     }
 
 }

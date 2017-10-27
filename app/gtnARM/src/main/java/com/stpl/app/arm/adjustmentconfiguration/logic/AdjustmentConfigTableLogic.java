@@ -29,7 +29,7 @@ public class AdjustmentConfigTableLogic extends PageTableLogic {
             try {
                 return logic.getAdjustmentConfigCount(getFilters());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in getcount :"+ex);
             }
         }
         return 0;
@@ -40,9 +40,9 @@ public class AdjustmentConfigTableLogic extends PageTableLogic {
         try {
             return logic.getAdjustmentConfigData(start, offset, getFilters(), getSortByColumns());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in LoadData :"+ex);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override

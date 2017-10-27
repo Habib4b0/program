@@ -39,9 +39,7 @@ public class NmActualDiscountWrapper implements NmActualDiscount,
 
         attributes.put("actualRate", getActualRate());
         attributes.put("periodSid", getPeriodSid());
-        attributes.put("actualProjectionSales", getActualProjectionSales());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("actualProjectionRate", getActualProjectionRate());
         attributes.put("actualSales", getActualSales());
 
         return attributes;
@@ -61,25 +59,11 @@ public class NmActualDiscountWrapper implements NmActualDiscount,
             setPeriodSid(periodSid);
         }
 
-        Double actualProjectionSales = (Double) attributes.get(
-                "actualProjectionSales");
-
-        if (actualProjectionSales != null) {
-            setActualProjectionSales(actualProjectionSales);
-        }
-
         Integer projectionDetailsSid = (Integer) attributes.get(
                 "projectionDetailsSid");
 
         if (projectionDetailsSid != null) {
             setProjectionDetailsSid(projectionDetailsSid);
-        }
-
-        Double actualProjectionRate = (Double) attributes.get(
-                "actualProjectionRate");
-
-        if (actualProjectionRate != null) {
-            setActualProjectionRate(actualProjectionRate);
         }
 
         Double actualSales = (Double) attributes.get("actualSales");
@@ -151,26 +135,6 @@ public class NmActualDiscountWrapper implements NmActualDiscount,
     }
 
     /**
-    * Returns the actual projection sales of this nm actual discount.
-    *
-    * @return the actual projection sales of this nm actual discount
-    */
-    @Override
-    public double getActualProjectionSales() {
-        return _nmActualDiscount.getActualProjectionSales();
-    }
-
-    /**
-    * Sets the actual projection sales of this nm actual discount.
-    *
-    * @param actualProjectionSales the actual projection sales of this nm actual discount
-    */
-    @Override
-    public void setActualProjectionSales(double actualProjectionSales) {
-        _nmActualDiscount.setActualProjectionSales(actualProjectionSales);
-    }
-
-    /**
     * Returns the projection details sid of this nm actual discount.
     *
     * @return the projection details sid of this nm actual discount
@@ -188,26 +152,6 @@ public class NmActualDiscountWrapper implements NmActualDiscount,
     @Override
     public void setProjectionDetailsSid(int projectionDetailsSid) {
         _nmActualDiscount.setProjectionDetailsSid(projectionDetailsSid);
-    }
-
-    /**
-    * Returns the actual projection rate of this nm actual discount.
-    *
-    * @return the actual projection rate of this nm actual discount
-    */
-    @Override
-    public double getActualProjectionRate() {
-        return _nmActualDiscount.getActualProjectionRate();
-    }
-
-    /**
-    * Sets the actual projection rate of this nm actual discount.
-    *
-    * @param actualProjectionRate the actual projection rate of this nm actual discount
-    */
-    @Override
-    public void setActualProjectionRate(double actualProjectionRate) {
-        _nmActualDiscount.setActualProjectionRate(actualProjectionRate);
     }
 
     /**

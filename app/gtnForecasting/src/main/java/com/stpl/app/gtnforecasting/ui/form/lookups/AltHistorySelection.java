@@ -95,7 +95,7 @@ public class AltHistorySelection extends CustomComponent implements View {
     CustomTableHeaderDTO rightDTO;
     ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     public AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
-    private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<AlternateHistoryDTO>(
+    private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<>(
             AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
     @UiField("export")
     public Button export;
@@ -123,7 +123,7 @@ public class AltHistorySelection extends CustomComponent implements View {
     String excelName = "All Item Information";
     private Set ccpSet = new HashSet();
     AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    private ExtTreeContainer<AlternateHistoryDTO> excelResultBean = new ExtTreeContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<AlternateHistoryDTO> excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map right visible columns.
      */
@@ -154,7 +154,7 @@ public class AltHistorySelection extends CustomComponent implements View {
     public ComboBox to;
     private ExtCustomTable exportPeriodViewTable;   
     private boolean isAllocationChanged = false;
-    Set<String> checkboxList=new HashSet<String>();
+    Set<String> checkboxList=new HashSet<>();
 
     public AltHistorySelection(SessionDTO session, AlternateHistory altHistory) {
         try {
@@ -271,17 +271,17 @@ public class AltHistorySelection extends CustomComponent implements View {
         LOGGER.debug("Entered inside generateBtnClick method");
         try {
             if (frequency.getValue() == null) {
-                AbstractNotificationUtils.getErrorNotification("Error",
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR,
                         "Please Select Frequency");
                 return;
             }
             if (from.getValue() == null) {
-                AbstractNotificationUtils.getErrorNotification("Error",
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR,
                         "Please Select From Period");
                 return;
             }
             if (to.getValue() == null) {
-                AbstractNotificationUtils.getErrorNotification("Error",
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR,
                         "Please Select To Period");
                 return;
             }
@@ -321,7 +321,7 @@ public class AltHistorySelection extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     private void loadFrequency(String frequency) {
@@ -349,7 +349,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         projectionDTO.getVariableList().addAll((Set)variables.getValue());        
         rightDTO = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
 
-        resultBean = new ExtContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultBean = new ExtContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBean.setColumnProperties(leftDTO.getProperties());
         resultBean.setColumnProperties(rightDTO.getProperties());
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -367,12 +367,12 @@ public class AltHistorySelection extends CustomComponent implements View {
         leftTable.setDoubleHeaderColumnHeaders(leftDTO.getDoubleHeaders().toArray(new String[leftDTO.getDoubleHeaders().size()]));
         leftTable.addStyleName("table-header-center");
         resultsTable.addStyleName("valo-theme-extfiltertable-center");
-        resultsTable.setHeight("390px");
-        leftTable.setHeight("390px");
+        resultsTable.setHeight(Constant.PX_390);
+        leftTable.setHeight(Constant.PX_390);
         leftTable.setFilterBarVisible(true);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        leftTable.setFilterFieldVisible("check", false);
-        rightTable.setHeight("390px");
+        leftTable.setFilterFieldVisible(Constant.CHECK, false);
+        rightTable.setHeight(Constant.PX_390);
         rightTable.setDoubleHeaderVisible(Boolean.TRUE);
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightDTO.getSingleHeaders().toArray(new String[rightDTO.getSingleHeaders().size()]));
@@ -395,8 +395,8 @@ public class AltHistorySelection extends CustomComponent implements View {
         }
         leftTable.setEditable(true);
         leftTable.setImmediate(true);
-        leftTable.setColumnCheckBox("check", true, false);
-        leftTable.setColumnWidth("check", NumericConstants.ONE_TWO_ZERO);
+        leftTable.setColumnCheckBox(Constant.CHECK, true, false);
+        leftTable.setColumnWidth(Constant.CHECK, NumericConstants.ONE_TWO_ZERO);
         leftTable.addColumnCheckListener(checkListener);
         rightTable.addColumnCheckListener(new ColumnCheckListener() {
             @Override
@@ -425,7 +425,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             try {
-                                boolean isCheck = (boolean) container.getContainerProperty(itemId, "check").getValue();
+                                boolean isCheck = (boolean) container.getContainerProperty(itemId, Constant.CHECK).getValue();
                                 Object ccpdetailsSID = container.getContainerProperty(itemId, "ccpDetailsId").getValue();
                                 if (isCheck) {
                                     ccpSet.add(ccpdetailsSID);
@@ -452,7 +452,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         for (Object object : singleCol) {
             if (TabNameUtil.DISCOUNT_PROJECTION.equals(session.getForecastName())) {
                 rightTable.setColumnCheckBox(object, true, false);
-            } else if (("Sales Projection".equals(session.getForecastName())) && (String.valueOf(object).contains("Units"))) {
+            } else if ((Constant.SALES_PROJECTION.equals(session.getForecastName())) && (String.valueOf(object).contains("Units"))) {
 
                     rightTable.setColumnCheckBox(object, true, false);
                 }
@@ -463,11 +463,11 @@ public class AltHistorySelection extends CustomComponent implements View {
     private void formatTableData() {
         LOGGER.debug("Start formatTableData");
         for (Object propertyId : resultsTable.getRightFreezeAsTable().getVisibleColumns()) {
-            if (String.valueOf(propertyId).contains("actualPayments")) {
+            if (String.valueOf(propertyId).contains(Constant.ACTUAL_PAYMENTS)) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
-            } else if (String.valueOf(propertyId).contains("projectionPayments")) {
+            } else if (String.valueOf(propertyId).contains(Constant.PROJECTION_PAYMENTS)) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
-            }else if ((String.valueOf(propertyId).contains("actualUnits")) || (String.valueOf(propertyId).contains("projectionUnits"))) {
+            }else if ((String.valueOf(propertyId).contains(Constant.ACTUAL_UNITS_PROPERTY)) || (String.valueOf(propertyId).contains(Constant.PROJECTION_UNITS))) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, formatsalesunit);
             } else if ((String.valueOf(propertyId).contains("actualSales")) || (String.valueOf(propertyId).contains("projectionSales"))) {
                 resultsTable.getRightFreezeAsTable().setConverter(propertyId, priceFormat);
@@ -493,7 +493,7 @@ public class AltHistorySelection extends CustomComponent implements View {
 
     private void loadDateRange(String freq) {
         LOGGER.debug("loadDateRange method starts");
-        List<String> dateList = new ArrayList<String>();
+        List<String> dateList = new ArrayList<>();
         
         int currentQuarter = 0;
         int currentsemiannual = 0;
@@ -706,7 +706,7 @@ public class AltHistorySelection extends CustomComponent implements View {
             String quarter = value.substring(0, 1);
             if (quarter.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
-                    date = year + "-01-01";
+                    date = year + Constant.ONE_ONE;
                 } else {
                     date = year + "-03-31";
                 }
@@ -715,12 +715,12 @@ public class AltHistorySelection extends CustomComponent implements View {
                 if (isFromDate) {
                     date = year + "-04-01";
                 } else {
-                    date = year + "-06-30";
+                    date = year + Constant.SIX_THIRTY;
                 }
             }
             if (quarter.equals("3")) {
                 if (isFromDate) {
-                    date = year + "-07-01";
+                    date = year + Constant.STRING_SEVEN_ONE;
                 } else {
                     date = year + "-09-30";
                 }
@@ -729,7 +729,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 if (isFromDate) {
                     date = year + "-10-01";
                 } else {
-                    date = year + "-12-31";
+                    date = year + Constant.TWELVE_THIRTY_ONE;
                 }
             }
         }else if (freq.equals(Constant.SEMI_ANNUALLY)) {
@@ -737,23 +737,23 @@ public class AltHistorySelection extends CustomComponent implements View {
             String semiAnnual = value.substring(0, 1);
             if (semiAnnual.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
-                    date = year + "-01-01";
+                    date = year + Constant.ONE_ONE;
                 } else {
-                    date = year + "-06-30";
+                    date = year + Constant.SIX_THIRTY;
                 }
             }
             if (semiAnnual.equals("2")) {
                 if (isFromDate) {
-                    date = year + "-07-01";
+                    date = year + Constant.STRING_SEVEN_ONE;
                 } else {
-                    date = year + "-12-31";
+                    date = year + Constant.TWELVE_THIRTY_ONE;
                 }
             }
         }else if(freq.equals(Constant.ANNUALLY)){
                 if(isFromDate){
-                 date = year + "-01-01";
+                 date = year + Constant.ONE_ONE;
                 }else{
-                 date = year + "-12-31";
+                 date = year + Constant.TWELVE_THIRTY_ONE;
                 
                 }
               
@@ -767,7 +767,7 @@ public class AltHistorySelection extends CustomComponent implements View {
               
                 if(startMonth==1){
                 if(isFromDate){
-                 date = year + "-01-01";
+                 date = year + Constant.ONE_ONE;
                 }else{
                  date = year + "-01-31";
                 }
@@ -799,11 +799,11 @@ public class AltHistorySelection extends CustomComponent implements View {
                 if(isFromDate){
                  date = year + "-06-01";
                 }else{
-                 date = year + "-06-30";
+                 date = year + Constant.SIX_THIRTY;
                 }
                 }else if(startMonth==NumericConstants.SEVEN){
                 if(isFromDate){
-                 date = year + "-07-01";
+                 date = year + Constant.STRING_SEVEN_ONE;
                 }else{
                  date = year + "-07-31";
                 }
@@ -835,7 +835,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 if(isFromDate){
                  date = year + "-12-01";
                 }else{
-                 date = year + "-12-31";
+                 date = year + Constant.TWELVE_THIRTY_ONE;
                 }
                 }
             }
@@ -858,15 +858,15 @@ public class AltHistorySelection extends CustomComponent implements View {
 
     public void checkBoxList(Object checkBoxValue) {
         if (TabNameUtil.SALES_PROJECTION.equals(session.getForecastName())) {
-            if (rightTable.getColumnCheckBox(String.valueOf(checkBoxValue) + "actualUnits")
-                    || rightTable.getColumnCheckBox(String.valueOf(checkBoxValue) + "projectionUnits")) {
+            if (rightTable.getColumnCheckBox(String.valueOf(checkBoxValue) + Constant.ACTUAL_UNITS_PROPERTY)
+                    || rightTable.getColumnCheckBox(String.valueOf(checkBoxValue) + Constant.PROJECTION_UNITS)) {
                 checkboxList.add(String.valueOf(checkBoxValue));
             } else {
                 checkboxList.remove(String.valueOf(checkBoxValue));
             }
         } else if (TabNameUtil.DISCOUNT_PROJECTION.equals(session.getForecastName())) {
-            if (rightTable.getColumnCheckBox(String.valueOf(checkBoxValue) + "actualPayments")
-                    || rightTable.getColumnCheckBox(String.valueOf(checkBoxValue) + "projectionPayments")) {
+            if (rightTable.getColumnCheckBox(String.valueOf(checkBoxValue) + Constant.ACTUAL_PAYMENTS)
+                    || rightTable.getColumnCheckBox(String.valueOf(checkBoxValue) + Constant.PROJECTION_PAYMENTS)) {
                 checkboxList.add(String.valueOf(checkBoxValue));
             } else {
                 checkboxList.remove(String.valueOf(checkBoxValue));
@@ -889,18 +889,18 @@ public class AltHistorySelection extends CustomComponent implements View {
                 datePeriod.add(String.valueOf(cb));
                 if (TabNameUtil.DISCOUNT_PROJECTION.equals(session.getForecastName())) {
                     if ("Both".equals(actualOrProj.getValue().toString())) {
-                        if (!((rightTable.getColumnCheckBox(String.valueOf(cb) + "actualPayments"))
-                                || (rightTable.getColumnCheckBox(String.valueOf(cb) + "projectionPayments")))) {
+                        if (!((rightTable.getColumnCheckBox(String.valueOf(cb) + Constant.ACTUAL_PAYMENTS))
+                                || (rightTable.getColumnCheckBox(String.valueOf(cb) + Constant.PROJECTION_PAYMENTS)))) {
                             isChecked = true;
                             datePeriodUnchecked.append(rightTable.getDoubleHeaderColumnHeader(cb)).append(" ,");
                         }
-                    } else if ("Actuals".equals(actualOrProj.getValue().toString())) {
-                        if (!(rightTable.getColumnCheckBox(String.valueOf(cb) + "actualPayments"))) {
+                    } else if (Constant.ACTUALS.equals(actualOrProj.getValue().toString())) {
+                        if (!(rightTable.getColumnCheckBox(String.valueOf(cb) + Constant.ACTUAL_PAYMENTS))) {
                             isChecked = true;
                             datePeriodUnchecked.append(rightTable.getDoubleHeaderColumnHeader(cb)).append(" ,");
                         }
                     } else {
-                        if (!(rightTable.getColumnCheckBox(String.valueOf(cb) + "projectionPayments"))) {
+                        if (!(rightTable.getColumnCheckBox(String.valueOf(cb) + Constant.PROJECTION_PAYMENTS))) {
                             isChecked = true;
                             datePeriodUnchecked.append(rightTable.getDoubleHeaderColumnHeader(cb)).append(" ,");
                         }
@@ -908,17 +908,17 @@ public class AltHistorySelection extends CustomComponent implements View {
                     }
                  } else if (TabNameUtil.SALES_PROJECTION.equals(session.getForecastName())) {
                     if ("Both".equals(actualOrProj.getValue().toString())) {
-                        if (!((rightTable.getColumnCheckBox(String.valueOf(cb) + "actualUnits"))
-                                || (rightTable.getColumnCheckBox(String.valueOf(cb) + "projectionUnits")))) {
+                        if (!((rightTable.getColumnCheckBox(String.valueOf(cb) + Constant.ACTUAL_UNITS_PROPERTY))
+                                || (rightTable.getColumnCheckBox(String.valueOf(cb) + Constant.PROJECTION_UNITS)))) {
                             isChecked = true;
                             datePeriodUnchecked.append(rightTable.getDoubleHeaderColumnHeader(cb)).append(" ,");
                         }
-                    } else if ("Actuals".equals(actualOrProj.getValue().toString())) {
-                        if (!(rightTable.getColumnCheckBox(String.valueOf(cb) + "actualUnits"))) {
+                    } else if (Constant.ACTUALS.equals(actualOrProj.getValue().toString())) {
+                        if (!(rightTable.getColumnCheckBox(String.valueOf(cb) + Constant.ACTUAL_UNITS_PROPERTY))) {
                             isChecked = true;
                             datePeriodUnchecked.append(rightTable.getDoubleHeaderColumnHeader(cb)).append(" ,");
                         }
-                    } else if (!(rightTable.getColumnCheckBox(String.valueOf(cb) + "projectionUnits"))) {
+                    } else if (!(rightTable.getColumnCheckBox(String.valueOf(cb) + Constant.PROJECTION_UNITS))) {
                         isChecked = true;
                         datePeriodUnchecked.append(rightTable.getDoubleHeaderColumnHeader(cb)).append(" ,");
                     }
@@ -926,7 +926,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 }
             }
         if ((!isChecked && !isHeaderChecked)||!checkboxList.isEmpty()) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Please select Time Period.");
+            AbstractNotificationUtils.getErrorNotification(Constant.ERROR, "Please select Time Period.");
             return Collections.EMPTY_LIST;
         }
         if (isChecked) {
@@ -984,7 +984,7 @@ public class AltHistorySelection extends CustomComponent implements View {
     }
 
     private void configureExcelResultTable() {
-        excelResultBean = new ExtTreeContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
      
         exportPeriodViewTable = new ExtCustomTable();
         historyAllocationLayout.addComponent(exportPeriodViewTable);
@@ -1001,7 +1001,7 @@ public class AltHistorySelection extends CustomComponent implements View {
     ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
-            if ("check".equals(event.getPropertyId().toString())) {
+            if (Constant.CHECK.equals(event.getPropertyId().toString())) {
                 ccpSet.clear();
                 if (event.isChecked()) {
                     ccpSet.addAll(logic.getSelectedCCPS(session));
@@ -1009,7 +1009,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                 Collection<?> salesList = resultsTable.getLeftFreezeAsTable().getItemIds();
                 if (!salesList.isEmpty()) {
                     for (Object item : salesList) {
-                        resultBean.getContainerProperty(item, "check").setValue(event.isChecked());
+                        resultBean.getContainerProperty(item, Constant.CHECK).setValue(event.isChecked());
                     }
                 }
             }
@@ -1034,7 +1034,7 @@ public void resetButtonLogic() {
     }
  
   public static Map<String,Integer> getMonthMap() {
-      Map<String,Integer> monthMap=new HashMap<String,Integer>();
+      Map<String,Integer> monthMap=new HashMap<>();
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getShortMonths();
         List<String> temp=Arrays.asList(months);

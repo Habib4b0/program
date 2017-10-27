@@ -22,7 +22,7 @@ public class ArchiveMainPageView extends VerticalLayout implements View {
 
     @Override
     public void enter(final ViewChangeEvent event) {
-
+        return;
     }
 
 }

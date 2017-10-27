@@ -30,10 +30,10 @@ public class ComparisonLookupDTO {
     private String createdDateTo;
     private int projectionId = 0;
     private String createdBy = StringUtils.EMPTY;
-    List<ComparisonLookupDTO> selected = new ArrayList<ComparisonLookupDTO>();
-    List<Integer> projIdList = new ArrayList<Integer>();
-    List<String> projNameList = new ArrayList<String>();
-    Map<Integer, String> projectionMap = new HashMap<Integer, String>();
+    List<ComparisonLookupDTO> selected = new ArrayList<>();
+    List<Integer> projIdList = new ArrayList<>();
+    List<String> projNameList = new ArrayList<>();
+    Map<Integer, String> projectionMap = new HashMap<>();
 
     public String getWorkflowStatus() {
         return workflowStatus;

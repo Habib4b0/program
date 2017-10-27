@@ -26,14 +26,14 @@ public class BPMProcessBean {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(BPMProcessBean.class);
 
-    public static ProcessInstance startProcess(String processName, Map<String, Object> params)  {
+    public static ProcessInstance startProcess(String processName, Map<String, Object> params) {
         KieSession ksession = BPMManagerBean.getEngine().getRuntimeEngine().getKieSession();
         ProcessInstance processInstance = null;
         try {
             processInstance = ksession.startProcess(processName, params);
         } catch (Exception e) {
-          LOGGER.error(e.getMessage());
-          throw e;
+            LOGGER.error(e.getMessage());
+            throw e;
         }
         return processInstance;
     }
@@ -43,12 +43,12 @@ public class BPMProcessBean {
         taskService.start(taskId, userId);
     }
 
-    public static void completeTask(Long taskId, String userID, Map<String, Object> map)  {
+    public static void completeTask(Long taskId, String userID, Map<String, Object> map) {
         TaskService taskService = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService();
         taskService.complete(taskId, userID, map);
     }
 
-    public static void claimTask(Long taskId, String actualUserId, String targetUserId)  {
+    public static void claimTask(Long taskId, String actualUserId, String targetUserId) {
         TaskService taskService = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService();
         taskService.delegate(taskId, actualUserId, targetUserId);
     }
@@ -56,7 +56,7 @@ public class BPMProcessBean {
     public static TaskSummary getAvailableTask(Long processInstanceId) {
         TaskSummary taskSummary = null;
         TaskService taskService = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService();
-        List<Status> status = new ArrayList<Status>();
+        List<Status> status = new ArrayList<>();
         try {
             status.add(Status.Ready);
             status.add(Status.Reserved);
@@ -67,7 +67,7 @@ public class BPMProcessBean {
 
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in getAvailableTask :"+e);
         }
         return taskSummary;
     }
@@ -84,8 +84,11 @@ public class BPMProcessBean {
     }
 
     public static List<String> getPotentialOwners(long taskId, List<String> roleList) {
+        List<String> roleLists;
         if (roleList == null) {
-            roleList = new ArrayList<String>();
+            roleLists = new ArrayList<>();
+        } else {
+            roleLists = roleList;
         }
         List<OrganizationalEntity> list = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService().getTaskById(taskId).getPeopleAssignments().getPotentialOwners();
         LOGGER.debug("OrganizationalEntity list  :" + list);
@@ -93,10 +96,17 @@ public class BPMProcessBean {
             return Collections.emptyList();
         } else {
             for (OrganizationalEntity organizationalEntity : list) {
-                roleList.add(organizationalEntity.getId());
+                roleLists.add(organizationalEntity.getId());
             }
-            return roleList;
+            return roleLists;
         }
+    }
+
+    private BPMProcessBean() {
+        /*
+        Empty Constructor
+         */
+
     }
 
 }

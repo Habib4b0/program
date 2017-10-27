@@ -19,11 +19,11 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractForm extends VerticalLayout {
 
-    protected Button btnSave;
-    protected Button btnSubmit;
-    protected Button btnNext;
-    protected Button btnPrev;
-    protected Button btnClose;
+    protected static Button btnSave;
+    protected static Button btnSubmit;
+    protected static Button btnNext;
+    protected static Button btnPrev;
+    protected static Button btnClose;
     protected Button btnRefresh;
     protected Button btnApprove;
     protected Button btnReject;
@@ -37,8 +37,8 @@ public abstract class AbstractForm extends VerticalLayout {
      * @return HorizontalLayout containing the buttons
      */
     public HorizontalLayout addFooterButtons(Button btnNext, Button btnPrev, Button btnRefresh) {
-        this.btnNext = btnNext;
-        this.btnPrev = btnPrev;
+        AbstractForm.btnNext = btnNext;
+        AbstractForm.btnPrev = btnPrev;
         setBtnSave(new Button(BTN_SAVE.getConstant()));
         setBtnSubmit(new Button(BTN_SUBMIT.getConstant()));
         setBtnClose(new Button(BTN_CLOSE.getConstant()));
@@ -49,24 +49,28 @@ public abstract class AbstractForm extends VerticalLayout {
         HorizontalLayout footerLayout = (HorizontalLayout) UiUtils.getLayout(HorizontalLayout.class);
         btnSave.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnSaveLogic();
             }
         });
         btnClose.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnCloseLogic();
             }
         });
         btnSubmit.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnSubmitLogic();
             }
         });
         btnApprove.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnApproveLogic();
             }
@@ -153,44 +157,44 @@ public abstract class AbstractForm extends VerticalLayout {
    
     protected abstract void lazyLoadTab(int tabPosition);
 
-    public Button getBtnSave() {
+    public static Button getBtnSave() {
         return btnSave;
     }
 
-    public void setBtnSave(Button btnSave) {
-        this.btnSave = btnSave;
+    public static void setBtnSave(Button btnSave) {
+        AbstractForm.btnSave = btnSave;
     }
 
-    public Button getBtnSubmit() {
+    public static Button getBtnSubmit() {
         return btnSubmit;
     }
 
-    public void setBtnSubmit(Button btnSubmit) {
-        this.btnSubmit = btnSubmit;
+    public static void setBtnSubmit(Button btnSubmit) {
+        AbstractForm.btnSubmit = btnSubmit;
     }
 
-    public Button getBtnNext() {
+    public static Button getBtnNext() {
         return btnNext;
     }
 
-    public void setBtnNext(Button btnNext) {
-        this.btnNext = btnNext;
+    public static void setBtnNext(Button btnNext) {
+        AbstractForm.btnNext = btnNext;
     }
 
-    public Button getBtnPrev() {
+    public static Button getBtnPrev() {
         return btnPrev;
     }
 
-    public void setBtnPrev(Button btnPrev) {
-        this.btnPrev = btnPrev;
+    public static void setBtnPrev(Button btnPrev) {
+        AbstractForm.btnPrev = btnPrev;
     }
 
-    public Button getBtnClose() {
+    public static Button getBtnClose() {
         return btnClose;
     }
 
-    public void setBtnClose(Button btnClose) {
-        this.btnClose = btnClose;
+    public static void setBtnClose(Button btnClose) {
+        AbstractForm.btnClose = btnClose;
     }
 
     public Button getBtnRefresh() {

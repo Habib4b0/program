@@ -98,6 +98,7 @@ public class FileMgmtCustomer extends Window {
     public static final Logger LOGGER = Logger.getLogger(FileMgmtCustomer.class);
 
     public FileMgmtCustomer() {
+        LOGGER.debug("FileMgmtCustomer");
     }
 
     public void init(String systemId) {

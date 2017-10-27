@@ -127,6 +127,8 @@ public class IvldItemMasterWrapper implements IvldItemMaster,
         attributes.put("shelfLife", getShelfLife());
         attributes.put("marketTerminationDate", getMarketTerminationDate());
         attributes.put("checkRecord", getCheckRecord());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -661,6 +663,19 @@ public class IvldItemMasterWrapper implements IvldItemMaster,
 
         if (checkRecord != null) {
             setCheckRecord(checkRecord);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -2402,6 +2417,46 @@ public class IvldItemMasterWrapper implements IvldItemMaster,
     @Override
     public void setCheckRecord(boolean checkRecord) {
         _ivldItemMaster.setCheckRecord(checkRecord);
+    }
+
+    /**
+    * Returns the base cpi precision of this ivld item master.
+    *
+    * @return the base cpi precision of this ivld item master
+    */
+    @Override
+    public int getBaseCpiPrecision() {
+        return _ivldItemMaster.getBaseCpiPrecision();
+    }
+
+    /**
+    * Sets the base cpi precision of this ivld item master.
+    *
+    * @param baseCpiPrecision the base cpi precision of this ivld item master
+    */
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _ivldItemMaster.setBaseCpiPrecision(baseCpiPrecision);
+    }
+
+    /**
+    * Returns the baseline amp precision of this ivld item master.
+    *
+    * @return the baseline amp precision of this ivld item master
+    */
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _ivldItemMaster.getBaselineAmpPrecision();
+    }
+
+    /**
+    * Sets the baseline amp precision of this ivld item master.
+    *
+    * @param baselineAmpPrecision the baseline amp precision of this ivld item master
+    */
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _ivldItemMaster.setBaselineAmpPrecision(baselineAmpPrecision);
     }
 
     @Override

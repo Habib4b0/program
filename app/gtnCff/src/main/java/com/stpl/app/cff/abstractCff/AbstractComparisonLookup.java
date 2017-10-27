@@ -170,11 +170,11 @@ public abstract class AbstractComparisonLookup extends Window {
     /**
      * Visible columns for the tables
      */
-    public static final Object[] COMPARISON_RESULTS_COLUMNS = new Object[]{"projectionName", "projectionDescription", "marketType", "customer", "contract", "brand", "createdDateFrom", "createdBy"};
+    public final Object[] comparisonResultsColumns = new Object[]{"projectionName", "projectionDescription", "marketType", "customer", "contract", "brand", "createdDateFrom", "createdBy"};
     /**
      * The Constant COMPARISON_RESULTS_HEADER.
      */
-    public static final String[] COMPARISON_RESULTS_HEADER = new String[]{"Projection Name", "Description", "Market Type", "Contract Holder", "Contract", "Brand", "Created Date", "Created By"};
+    public final String[] comparisonResultsHeader = new String[]{"Projection Name", "Description", "Market Type", "Contract Holder", "Contract", "Brand", "Created Date", "Created By"};
     /**
      * Logger
      */
@@ -182,11 +182,11 @@ public abstract class AbstractComparisonLookup extends Window {
     /**
      * Resultbean
      */
-    protected final BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<ComparisonLookupDTO>(ComparisonLookupDTO.class);
+    protected final BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
     /**
      * Selected result bean
      */
-    protected final BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<ComparisonLookupDTO>(ComparisonLookupDTO.class);
+    protected final BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
     /**
      * Screen Name
      */
@@ -204,9 +204,9 @@ public abstract class AbstractComparisonLookup extends Window {
     public AbstractComparisonLookup(final CustomTextField comparison) {
         super("Projection lookup");
         this.comparison = comparison;
-        addStyleName(Constants.bootstrap_ui);
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP_UI);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(true);
         setModal(true);
         setWidth(NumericConstants.THOUSAND_FIVE_HUNDRED, Sizeable.Unit.PIXELS);
@@ -284,13 +284,13 @@ public abstract class AbstractComparisonLookup extends Window {
      *
      */
     private void loadAvailableHeader() {
-        resultsTable.setVisibleColumns(COMPARISON_RESULTS_COLUMNS);
-        resultsTable.setColumnHeaders(COMPARISON_RESULTS_HEADER);
+        resultsTable.setVisibleColumns(comparisonResultsColumns);
+        resultsTable.setColumnHeaders(comparisonResultsHeader);
     }
 
     private void loadSelectedHeader() {
-        projectionTable.setVisibleColumns(COMPARISON_RESULTS_COLUMNS);
-        projectionTable.setColumnHeaders(COMPARISON_RESULTS_HEADER);
+        projectionTable.setVisibleColumns(comparisonResultsColumns);
+        projectionTable.setColumnHeaders(comparisonResultsHeader);
     }
 
     /**
@@ -414,7 +414,7 @@ public abstract class AbstractComparisonLookup extends Window {
     protected void submitBtnLogic() {
         try {
             if (!projectionTable.getItemIds().isEmpty()) {
-                List<ComparisonLookupDTO> selected = new ArrayList<ComparisonLookupDTO>();
+                List<ComparisonLookupDTO> selected = new ArrayList<>();
                 ComparisonLookupDTO lookUpDTO = new ComparisonLookupDTO();
                 Object[] itemIds = projectionTable.getItemIds().toArray();
                 for (Object item : itemIds) {

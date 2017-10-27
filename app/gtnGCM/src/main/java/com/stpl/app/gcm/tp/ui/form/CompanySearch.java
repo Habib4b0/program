@@ -44,6 +44,7 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ExtCustomTable;
@@ -58,7 +59,6 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -128,16 +128,18 @@ public class CompanySearch extends VerticalLayout {
     String updateType = StringUtils.EMPTY;
     CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     StplSecurity stplSecurity = new StplSecurity();
-    UiUtils UIUtils = new UiUtils();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
-    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
-    ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
+    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<>(TradingPartnerDTO.class);
     public TradingPartnerDTO tpDto = new TradingPartnerDTO();
     final ErrorLabel errorMsg = new ErrorLabel();
+    public static final String SEARCH_BTN = "searchBtn";
+    public static final String PLEASE_SELECT_A_VALUE_IN_THE_RESULTS_LIST = "Please select a value in the Results list view then try again.";
+    public static final String CHECK = "check";
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<TradingPartnerDTO>(tpDto));
+    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
     /**
      * The excel export image.
      */
@@ -169,7 +171,7 @@ public class CompanySearch extends VerticalLayout {
             commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, false);
 
             companySearchTableLayout.addComponent(companySearchResultsTable);
-            HorizontalLayout hLayout = new HorizontalLayout();
+            HorizontalLayout hLayout;
             hLayout = companyLogic.createControls();
             companySearchTableLayout.addComponent(hLayout);
             excelBtn.setIcon(excelExportImage);
@@ -232,7 +234,7 @@ public class CompanySearch extends VerticalLayout {
 
             public void itemClick(ItemClickEvent event) {
                 if (event.getItemId() != null) {
-                    List<String> selectedCompany = new ArrayList<String>();
+                    List<String> selectedCompany = new ArrayList<>();
                     TradingPartnerDTO tpDTO = (TradingPartnerDTO) event.getItemId();
                     session.setCompanyNo(tpDTO.getCompanyNo());
                     session.setCompanyName(tpDTO.getCompanyName());
@@ -271,7 +273,7 @@ public class CompanySearch extends VerticalLayout {
                 if ("tradeClass".equals(propertyId)) {
                     try {
                         ComboBox tradeClass = new ComboBox();
-                        commonUtil.loadComboBox(tradeClass, UIUtils.COMPANY_TRADE_CLASS, true);
+                        commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
                         return tradeClass;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -280,7 +282,7 @@ public class CompanySearch extends VerticalLayout {
                 if ("companyType".equals(propertyId)) {
                     try {
                         ComboBox companyType = new ComboBox();
-                        commonUtil.loadComboBox(companyType, UIUtils.COMPANY_TYPE, true);
+                        commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
                         return companyType;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -289,7 +291,7 @@ public class CompanySearch extends VerticalLayout {
                 if ("companyCategory".equals(propertyId)) {
                     try {
                         ComboBox companyCategory = new ComboBox();
-                        commonUtil.loadComboBox(companyCategory, UIUtils.COMPANY_CATEGORY, true);
+                        commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
                         return companyCategory;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -298,27 +300,26 @@ public class CompanySearch extends VerticalLayout {
                 if ("state".equals(propertyId)) {
                     try {
                         ComboBox state = new ComboBox();
-                        commonUtil.loadComboBox(state, UIUtils.STATE, true);
+                        commonUtil.loadComboBox(state, UiUtils.STATE, true);
                         return state;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
-                    }
+                    }                           
                 }
-                if (propertyId.equals("check")) {
-                    TextField checkRec = new TextField();
-                    checkRec.setEnabled(false);
-                    checkRec.setWidth(String.valueOf(NumericConstants.HUNDRED));
+                if (propertyId.equals(CHECK)) {
+                    CheckBox checkRec = new CheckBox();
+                    checkRec.setVisible(false);
                     return checkRec;
                 }
                 return null;
             }
 
             public void filterRemoved(Object propertyId) {
-
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -329,7 +330,7 @@ public class CompanySearch extends VerticalLayout {
         companySearchResultsTable.setTableFieldFactory(new TableFieldFactory() {
 
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
-                if (propertyId.equals("check")) {
+                if (propertyId.equals(CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
@@ -342,7 +343,7 @@ public class CompanySearch extends VerticalLayout {
                             if (!check.getValue()) {
 
                                 companySearchResultsTable.removeColumnCheckListener(checkListener);
-                                companySearchResultsTable.setColumnCheckBox("check", true, false);
+                                companySearchResultsTable.setColumnCheckBox(CHECK, true, false);
                                 companySearchResultsTable.addColumnCheckListener(checkListener);
                             }
                         }
@@ -355,12 +356,12 @@ public class CompanySearch extends VerticalLayout {
 
         companySearchResultsTable.addColumnCheckListener(checkListener);
         if (ADD_TRADING_PARTNER.getConstant().equals(updateType)) {
-            companySearchResultsTable.setVisibleColumns(Constants.TP_COMPANY_SEARCH_COLUMNS);
-            companySearchResultsTable.setColumnHeaders(Constants.TP_COMPANY_SEARCH_HEADERS);
+            companySearchResultsTable.setVisibleColumns(Constants.getInstance().tpCompanySearchColumns);
+            companySearchResultsTable.setColumnHeaders(Constants.getInstance().tpCompanySearchHeaders);
             companySearchResultsTable.setSelectable(true);
         } else {
-            companySearchResultsTable.setVisibleColumns(Constants.COMPANY_SEARCH_COLUMNS);
-            companySearchResultsTable.setColumnHeaders(Constants.COMPANY_SEARCH_HEADERS);
+            companySearchResultsTable.setVisibleColumns(Constants.getInstance().companySearchColumns);
+            companySearchResultsTable.setColumnHeaders(Constants.getInstance().companySearchHeaders);
             companySearchResultsTable.setSelectable(false);
         }
 
@@ -426,7 +427,7 @@ public class CompanySearch extends VerticalLayout {
                     SessionDTO session = createSession(updateType);
                     session.setSearchSessionId(searchSessionId);
                     session.setModuleName(TRADING_PARTNER_REMOVE.getConstant());
-                    RemoveTPForm removeForm = new RemoveTPForm(session);
+                        RemoveTPForm removeForm = new RemoveTPForm(session);
                     UI.getCurrent().addWindow(removeForm);
                 } else {
                     AbstractNotificationUtils.getErrorNotification("No Valid Contracts", "There is no Contract attached with the selected Company ");
@@ -434,7 +435,7 @@ public class CompanySearch extends VerticalLayout {
                 }
 
             } else {
-                AbstractNotificationUtils.getErrorNotification("Remove Error", "Please select a value in the Results list view then try again.");
+                AbstractNotificationUtils.getErrorNotification("Remove Error", PLEASE_SELECT_A_VALUE_IN_THE_RESULTS_LIST);
             }
         }
     }
@@ -446,13 +447,13 @@ public class CompanySearch extends VerticalLayout {
                 TradingPartnerDTO dto = (TradingPartnerDTO) companySearchResultsTable.getValue();
                 SessionDTO session = createSession(updateType);
                 session.setModuleName(ADD_TRADING_PARTNER.getConstant());
-                List<String> companyIds = new ArrayList<String>();
+                List<String> companyIds = new ArrayList<>();
                 companyIds.add(dto.getCompanySystemId());
                 session.setCompanyMasterSids(companyIds);
                 AddTPForm removeForm = new AddTPForm(session);
                 UI.getCurrent().addWindow(removeForm);
             } else {
-                AbstractNotificationUtils.getErrorNotification(" Error", "Please select a value in the Results list view then try again.");
+                AbstractNotificationUtils.getErrorNotification(" Error", PLEASE_SELECT_A_VALUE_IN_THE_RESULTS_LIST);
             }
         }
     }
@@ -519,13 +520,13 @@ public class CompanySearch extends VerticalLayout {
                 }
 
             } else {
-                AbstractNotificationUtils.getErrorNotification("Update Error", "Please select a value in the Results list view then try again.");
+                AbstractNotificationUtils.getErrorNotification("Update Error", PLEASE_SELECT_A_VALUE_IN_THE_RESULTS_LIST);
             }
         }
     }
 
     @UiHandler("searchBtn")
-    public void searchBtnLogic(Button.ClickEvent event) throws SystemException {
+    public void searchBtnLogic(Button.ClickEvent event) {
         if (companyLogic.getFilters() != null) {
             companyLogic.getFilters().clear();
         }
@@ -533,15 +534,15 @@ public class CompanySearch extends VerticalLayout {
         companySearchResultsTable.setContainerDataSource(companyResultsContainer);
 
         String recordLockStatus = StringUtils.EMPTY;
-        Map<Integer, String> users = new HashMap<Integer, String>();
+        Map<Integer, String> users;
         String userid= "";
         if (ADD_TRADING_PARTNER.getConstant().equals(updateType)) {
-            companySearchResultsTable.setVisibleColumns(Constants.TP_COMPANY_SEARCH_COLUMNS);
-            companySearchResultsTable.setColumnHeaders(Constants.TP_COMPANY_SEARCH_HEADERS);
+            companySearchResultsTable.setVisibleColumns(Constants.getInstance().tpCompanySearchColumns);
+            companySearchResultsTable.setColumnHeaders(Constants.getInstance().tpCompanySearchHeaders);
 
         } else {
-            companySearchResultsTable.setVisibleColumns(Constants.COMPANY_SEARCH_COLUMNS);
-            companySearchResultsTable.setColumnHeaders(Constants.COMPANY_SEARCH_HEADERS);
+            companySearchResultsTable.setVisibleColumns(Constants.getInstance().companySearchColumns);
+            companySearchResultsTable.setColumnHeaders(Constants.getInstance().companySearchHeaders);
         }
 
         //To bring only the placeholder companies
@@ -573,7 +574,7 @@ public class CompanySearch extends VerticalLayout {
                         userid = entry.getKey().toString();
                     }
                 }
-                logic.insertIntoTempTable(searchSessionId, userid, updateType);
+                logic.insertIntoTempTable(searchSessionId,  updateType);
                 tpDto.setReset(Boolean.FALSE);
                 companyLogic.loadSetData(tpDto, parentCompanyNo, parentCompanyName, recordLockStatus, searchSessionId);
                 if (!companyLogic.isRecordPresent()) {
@@ -590,7 +591,7 @@ public class CompanySearch extends VerticalLayout {
 
     private CustomFieldGroup getBinder() {
         dataSelectionBinder.bindMemberFields(this);
-        dataSelectionBinder.setItemDataSource(new BeanItem<TradingPartnerDTO>(tpDto));
+        dataSelectionBinder.setItemDataSource(new BeanItem<>(tpDto));
         dataSelectionBinder.setBuffered(true);
         dataSelectionBinder.setErrorDisplay(errorMsg);
         return dataSelectionBinder;
@@ -615,7 +616,7 @@ public class CompanySearch extends VerticalLayout {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtFilterTable resultTable) throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtFilterTable resultTable) throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
 
         String parentCompanyNo = parentNo.getValue() != null ? parentNo.getValue() : StringUtils.EMPTY;
         String parentCompanyName = parentName.getValue() != null ? parentName.getValue() : StringUtils.EMPTY;
@@ -677,7 +678,7 @@ public class CompanySearch extends VerticalLayout {
         List<TradingPartnerDTO> containerList = resultsLazyContainer.getBeans();
 
         for (TradingPartnerDTO dto : containerList) {
-            companySearchResultsTable.getContainerProperty(dto, "check").setValue(checkValue);
+            companySearchResultsTable.getContainerProperty(dto, CHECK).setValue(checkValue);
         }
     }
 
@@ -686,7 +687,7 @@ public class CompanySearch extends VerticalLayout {
     }
 
     // CSV Export. Do not remove the below method
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
         String parentCompanyNo = parentNo.getValue() != null ? parentNo.getValue() : StringUtils.EMPTY;
         String parentCompanyName = parentName.getValue() != null ? parentName.getValue() : StringUtils.EMPTY;
@@ -709,18 +710,18 @@ public class CompanySearch extends VerticalLayout {
         try {
             if (ADD_TRADING_PARTNER.getConstant().equals(updateType)) {
                 Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID)), "GCM-Customer Management", "Add Customer", "Add Customer Screen");
-                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
+                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(SEARCH_BTN, functionHM));
                 reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
                 resetBtn2.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn2", functionHM));
                 addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHM));
                 
             } else {
                 Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID)), "GCM-Customer Management", "Customer Management", "Landing  Screen");
-                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
+                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(SEARCH_BTN, functionHM));
                 reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
                 resetBtn2.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn2", functionHM));
                 transferBtn.setVisible(CommonLogic.isButtonVisibleAccess("transferBtn", functionHM));
-                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
+                searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(SEARCH_BTN, functionHM));
                 addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHM));
                 editBtn.setVisible(CommonLogic.isButtonVisibleAccess("editBtn", functionHM));
                 deleteBtn.setVisible(CommonLogic.isButtonVisibleAccess("deleteBtn", functionHM));

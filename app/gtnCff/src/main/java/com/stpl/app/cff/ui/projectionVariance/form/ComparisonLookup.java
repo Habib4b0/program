@@ -1,5 +1,6 @@
 package com.stpl.app.cff.ui.projectionVariance.form;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.abstractCff.AbstractComparisonLookup;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
@@ -119,7 +120,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
                 comparisonLookup.setCreatedDateTo(toDate.getValue());
                 tableLogic.fireSetData(comparisonLookup, false,screenName);
                 if (resultsTable.size()==0) {
-                    MessageBox.showPlain(Icon.INFO, "Error", "No results could be found that match the entered search criteria.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, StringConstantsUtil.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
                     addBtn.setEnabled(false);
                     addBtn.setImmediate(true);
                 } else {
@@ -129,7 +130,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
 
                 }
             } else {
-                MessageBox.showPlain(Icon.INFO, "Error", "Please select a Workflow Status", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, StringConstantsUtil.ERROR, "Please select a Workflow Status", ButtonId.OK);
             }
 
         } catch (Exception e) {
@@ -166,6 +167,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage(CONFIRMATION.getConstant(), "Are you sure you want to reset?");
         LOGGER.debug("Ending resetBtnLogic");
@@ -180,10 +182,10 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         LOGGER.debug("Inside addBtnLogic");
         // Implement
         if (recordSelectedFlag) {
-            addItemsButtonClick(event);
+            addItemsButtonClick();
             recordSelectedFlag = false;
         } else {
-            MessageBox.showPlain(Icon.INFO, "Error", "Please select a projection to add.", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, StringConstantsUtil.ERROR, "Please select a projection to add.", ButtonId.OK);
         }
         LOGGER.debug("Ending addBtnLogic");
 
@@ -207,6 +209,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage(CONFIRMATION.getConstant(), "Are you sure you want to reset the contents of the ‘Projections’ list view?");
         LOGGER.debug("Ending projectionResetBtnLogic");
@@ -239,17 +242,17 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         LOGGER.debug("Inside removeBtnLogic");
         // Implement
         if (recordSelectedFlag) {
-            removeItemsButtonClick(event);
+            removeItemsButtonClick();
             recordSelectedFlag = false;
         } else {
-            MessageBox.showPlain(Icon.INFO, "Error", "Please select a projection to remove. ", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, StringConstantsUtil.ERROR, "Please select a projection to remove. ", ButtonId.OK);
         }
         LOGGER.debug("Ending removeBtnLogic");
     }
 
     private void loadAvailableResults() {
         LOGGER.debug("Inside loadAvailableResults");
-        Object[] objColumn = COMPARISON_RESULTS_COLUMNS;
+        Object[] objColumn = comparisonResultsColumns;
         resultsTable.setConverter("createdDateFrom", new DateToStringConverter());
         projectionTable.setConverter("createdDateFrom", new DateToStringConverter());
         for (Object objColumn1 : objColumn) {
@@ -306,10 +309,10 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void addItemsButtonClick(final Button.ClickEvent event) {
+    protected void addItemsButtonClick() {
         final java.util.Set<ComparisonLookupDTO> itemMasterDetailsList = (java.util.Set<ComparisonLookupDTO>) resultsTable.getValue();
         boolean flag = false;
-        List<ComparisonLookupDTO> addedItem = new ArrayList<ComparisonLookupDTO>();
+        List<ComparisonLookupDTO> addedItem = new ArrayList<>();
         if ((itemMasterDetailsList.size()) <= (NumericConstants.FIVE - selectedResultsBean.getItemIds().size())) {
             for (final Iterator<ComparisonLookupDTO> iterator = itemMasterDetailsList.iterator(); iterator.hasNext();) {
                 final ComparisonLookupDTO item = iterator.next();
@@ -344,7 +347,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
             projectionTable.setValue(null);
             resultsTable.setValue(null);
         } else {
-            MessageBox.showPlain(Icon.INFO, "Error", "Cannot Add more than Five items.  Please select five records or below and try again.", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, StringConstantsUtil.ERROR, "Cannot Add more than Five items.  Please select five records or below and try again.", ButtonId.OK);
         }
         if (resultsBean.size() > 0) {
             addBtn.setEnabled(true);
@@ -362,7 +365,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void removeItemsButtonClick(final Button.ClickEvent event) {
+    protected void removeItemsButtonClick() {
         final Object itemId = projectionTable.getValue();
         selectedResultsBean.removeItem(itemId);
         projectionTable.addItem(itemId);

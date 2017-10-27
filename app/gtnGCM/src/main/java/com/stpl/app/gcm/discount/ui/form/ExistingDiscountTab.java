@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.discount.ui.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.discount.dto.CFPComponentDetailsDTO;
@@ -176,9 +177,8 @@ public class ExistingDiscountTab extends CustomComponent {
     /* Current Level Value */
     public int levelValue;
     Object treeBeanId;
-    List<Integer> newlyAddedRebates = new ArrayList<Integer>();
+    List<Integer> newlyAddedRebates = new ArrayList<>();
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
 
     public List parentList = new ArrayList();
     List<RemoveDiscountDto> removeDiscountDto;
@@ -199,17 +199,17 @@ public class ExistingDiscountTab extends CustomComponent {
      * The contract member.
      */
     private ContractsDetailsDto contractDetails;
-    private BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
-    private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
+    private BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
+    private BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
-    List<Integer> rebateList = new ArrayList<Integer>();
-    List<HelperDTO> itemStatusList = new ArrayList<HelperDTO>();
-    final List<ContractsDetailsDto> cfpList = new ArrayList<ContractsDetailsDto>();
-    final List<ContractsDetailsDto> ifpList = new ArrayList<ContractsDetailsDto>();
-    final List<ContractsDetailsDto> psList = new ArrayList<ContractsDetailsDto>();
-    final List<ContractsDetailsDto> rsList = new ArrayList<ContractsDetailsDto>();
+    List<Integer> rebateList = new ArrayList<>();
+    List<HelperDTO> itemStatusList = new ArrayList<>();
+    final List<ContractsDetailsDto> cfpList = new ArrayList<>();
+    final List<ContractsDetailsDto> ifpList = new ArrayList<>();
+    final List<ContractsDetailsDto> psList = new ArrayList<>();
+    final List<ContractsDetailsDto> rsList = new ArrayList<>();
     List<ContractsDetailsDto> ifpListforMap;
     List<ContractsDetailsDto> psListforMap;
     List<ContractsDetailsDto> rsListforMap;
@@ -274,8 +274,8 @@ public class ExistingDiscountTab extends CustomComponent {
         componentResultsTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         componentResultsTable.setPageLength(NumericConstants.FIVE);
         componentResultsTable.setContainerDataSource(availableItemContainer);
-        componentResultsTable.setVisibleColumns(Constants.RS_RESULTS_COLUMNS);
-        componentResultsTable.setColumnHeaders(Constants.RS_RESULTS_HEADERS);
+        componentResultsTable.setVisibleColumns(Constants.getInstance().rsResultsColumns);
+        componentResultsTable.setColumnHeaders(Constants.getInstance().rsResultsHeaders);
         componentResultsTable.setSelectable(true);
         componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         componentResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
@@ -285,22 +285,22 @@ public class ExistingDiscountTab extends CustomComponent {
         componentDetailsSelectedItem.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         componentDetailsSelectedItem.setPageLength(NumericConstants.FIVE);
         componentDetailsSelectedItem.setContainerDataSource(selectedContainer);
-        componentDetailsSelectedItem.setVisibleColumns(Constants.EXISTING_SELECTED_RESULTS_COLUMNS);
-        componentDetailsSelectedItem.setColumnHeaders(Constants.EXISTING_SELECTED_RESULTS_HEADERS);
+        componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().existingSelectedResultsColumns);
+        componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().existingSelectedResultsHeaders);
         componentDetailsSelectedItem.setColumnAlignment("itemStartDate", ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment("itemEndDate", ExtCustomTable.Align.CENTER);
 
         dashboardTreeTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         dashboardTreeTable.setPageLength(NumericConstants.TEN);
         dashboardTreeTable.setContainerDataSource(dashBoardTreeContainer);
-        dashboardTreeTable.setVisibleColumns(Constants.TREE_COLUMNS);
-        dashboardTreeTable.setColumnHeaders(Constants.TREE_HEADERS);
+        dashboardTreeTable.setVisibleColumns(Constants.getInstance().treeColumns);
+        dashboardTreeTable.setColumnHeaders(Constants.getInstance().treeHeaders);
 
         levelDetailsResultsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         levelDetailsResultsTable.setPageLength(NumericConstants.ELEVEN);
         levelDetailsResultsTable.setContainerDataSource(componentResultsContainer);
-        levelDetailsResultsTable.setVisibleColumns(Constants.CONTRACT_COMPONENT_DETAILS_RESULTS_COLUMNS);
-        levelDetailsResultsTable.setColumnHeaders(Constants.CONTRACT_COMPONENT_DETAILS_RESULTS_HEADERS);
+        levelDetailsResultsTable.setVisibleColumns(Constants.getInstance().contractComponentDetailsResultsColumns);
+        levelDetailsResultsTable.setColumnHeaders(Constants.getInstance().contractComponentDetailsResultsHeaders);
 
     }
 
@@ -335,7 +335,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 if (treeBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) treeBeanId;
                 } else if (treeBeanId instanceof ContractsDetailsDto) {
-                    targetItem = new BeanItem<ContractsDetailsDto>((ContractsDetailsDto) treeBeanId);
+                    targetItem = new BeanItem<>((ContractsDetailsDto) treeBeanId);
                 } else {
                     targetItem = NULL_OBJECT;
                 }
@@ -348,8 +348,8 @@ public class ExistingDiscountTab extends CustomComponent {
 
     private void setProcessedTableHeader() {
         LOGGER.debug("Entering setProcessedTableHeader method");
-        dashboardTreeTable.setVisibleColumns(Constants.TREE_COLUMNS);
-        dashboardTreeTable.setColumnHeaders(Constants.TREE_HEADERS);
+        dashboardTreeTable.setVisibleColumns(Constants.getInstance().treeColumns);
+        dashboardTreeTable.setColumnHeaders(Constants.getInstance().treeHeaders);
         LOGGER.debug("End of setProcessedTableHeader method");
     }
 
@@ -652,7 +652,7 @@ public class ExistingDiscountTab extends CustomComponent {
     }
 
     @UiHandler("componentTypeDdlb")
-    public void componentTypeDdlbLogic(Property.ValueChangeEvent event) throws SystemException {
+    public void componentTypeDdlbLogic(Property.ValueChangeEvent event) {
         searchFieldDdlb = CommonLogic.loadExistingTabSearchField(searchFieldDdlb, componentTypeDdlb);
         resultsComponentTypeDdlb = CommonLogic.loadComponentType(resultsComponentTypeDdlb, String.valueOf(componentTypeDdlb.getValue()), false);
         searchValueStatusDdlb.removeAllItems();
@@ -667,7 +667,7 @@ public class ExistingDiscountTab extends CustomComponent {
             String value = String.valueOf(event.getProperty().getValue());
 
             if ("RS No".equals(value) || "RS Name".equals(value) || "RS ID".equals(value)
-                    || Constants.IFP_NO.equals(value) || Constants.IfpNAME.equals(value) || Constants.IFP_ID.equals(value)
+                    || Constants.IFP_NO.equals(value) || Constants.IFP_NAME_LABEL.equals(value) || Constants.IFP_ID.equals(value)
                     || "CFP No".equals(value) || "CFP Name".equals(value) || "CFP ID".equals(value)
                     || "PS ID".equals(value) || "PS No".equals(value) || "PS Name".equals(value)) {
                 valueTxt.setValue(StringUtils.EMPTY);
@@ -682,26 +682,26 @@ public class ExistingDiscountTab extends CustomComponent {
             } else if ("RS Type".equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 valueTxt.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.RS_TYPE, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.RS_TYPE, false);
 
                 searchValueStatusDdlb.setVisible(true);
             } else if ("CFP Type".equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 valueTxt.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.CFP_TYPE, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.CFP_TYPE, false);
 
                 searchValueStatusDdlb.setVisible(true);
             } else if ("IFP_TYPE".equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 valueTxt.setVisible(false);
 
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.IFP_TYPE, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.IFP_TYPE, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if ("PS_TYPE".equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 valueTxt.setVisible(false);
 
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.PS_TYPE, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.PS_TYPE, false);
                 searchValueStatusDdlb.setVisible(true);
             }
         }
@@ -755,23 +755,23 @@ public class ExistingDiscountTab extends CustomComponent {
                     srcTableBean = null;
                 }
                 if (srcTableBean == null) {
-                    MessageBox.showPlain(Icon.ERROR, "Error", "Please select Search Result", ButtonId.OK);
+                    MessageBox.showPlain(Icon.ERROR, Constants.ERROR, "Please select Search Result", ButtonId.OK);
                     return;
                 }
                 if (compType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
-                    rsListforMap = new ArrayList<ContractsDetailsDto>();
+                    rsListforMap = new ArrayList<>();
                     if (addToTreeMethod(srcTableBean)) {
                         rsList.add(srcTableBean);
                         rsListforMap.add(srcTableBean);
                     }
                 } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
-                    psListforMap = new ArrayList<ContractsDetailsDto>();
+                    psListforMap = new ArrayList<>();
                     if (addToTreeMethod(srcTableBean)) {
                         psList.add(srcTableBean);
                         psListforMap.add(srcTableBean);
                     }
                 } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-                    ifpListforMap = new ArrayList<ContractsDetailsDto>();
+                    ifpListforMap = new ArrayList<>();
                     if (addToTreeMethod(srcTableBean)) {
                         ifpList.add(srcTableBean);
                         ifpListforMap.add(srcTableBean);
@@ -796,7 +796,7 @@ public class ExistingDiscountTab extends CustomComponent {
         ContractsDetailsDto treeBean;
         boolean returnFlag = false;
         if (srcTableBean == null) {
-            MessageBox.showPlain(Icon.ERROR, "Error", "Please select Search Result", ButtonId.OK);
+            MessageBox.showPlain(Icon.ERROR, Constants.ERROR, "Please select Search Result", ButtonId.OK);
         } else {
 
             treeBean = dashboardTreeTable.getValue() == null ? null : getBeanFromID(dashboardTreeTable.getValue());
@@ -808,19 +808,19 @@ public class ExistingDiscountTab extends CustomComponent {
                     returnFlag = true;
                 } else {
                     final String message = "Cannot make a " + srcTableBean.getCategory() + " as contracts header";
-                    AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                    AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.CONTRACT.toString())) {
                 final String message = "Cannot make a " + srcTableBean.getCategory() + " as child node";
-                AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
             } else if (srcTableBean.getCategory().equals(treeBean.getCategory())) {
                 final String message = srcTableBean.getCategory() + " cannot be added to  " + treeBean.getCategory();
-                AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.toString())) {
                 final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
 
-                psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", Integer.valueOf(srcTableBean.getPsSid())));
-                psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("ifpModelSid")));
+                psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(srcTableBean.getPsSid())));
+                psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                 final List<PsDetails> priceScheduleDetailsList = PsDetailsLocalServiceUtil.dynamicQuery(psDynamicQuery);
                 if (priceScheduleDetailsList.isEmpty()) {
                     AbstractNotificationUtils.getWarningNotification("No Items", "No items Exists in PS");
@@ -839,8 +839,8 @@ public class ExistingDiscountTab extends CustomComponent {
                                 final Object childId = iterator.next();
                                 final ContractsDetailsDto object = getBeanFromID(childId);
                                 if (srcTableBean.getInternalId() == object.getModelSysId()) {
-                                    final String messageStr = srcTableBean.getCategory() + " Already Added";
-                                    AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", messageStr);
+                                    final String messageStr = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
+                                    AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, messageStr);
                                     return false;
                                 }
                             }
@@ -849,18 +849,18 @@ public class ExistingDiscountTab extends CustomComponent {
                         setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean);
                         returnFlag = true;
                     } else {
-                        final String message = srcTableBean.getCategory() + " does not associate with  " + treeBean.getCategory();
-                        AbstractNotificationUtils.getErrorNotification("Error", message);
+                        final String message = srcTableBean.getCategory() + StringConstantsUtil.DOES_NOT_ASSOCIATE_WITH + treeBean.getCategory();
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, message);
                     }
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.toString())) {
                 LOGGER.debug("Inside Expected Code");
                 final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
                 rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
-                rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("ifpModelSid")));
+                rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                 final List<RsDetails> rebateScheduleDetailsList = RsDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
                 if (rebateScheduleDetailsList.isEmpty()) {
-                    AbstractNotificationUtils.getErrorNotification("Error", "No items Exists in RS");
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "No items Exists in RS");
                 } else {
                     final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
                     if (rsSystem.equals(String.valueOf(treeBean.getPsSid()).trim())) {
@@ -869,8 +869,8 @@ public class ExistingDiscountTab extends CustomComponent {
                             for (final Object id : collection) {
                                 final ContractsDetailsDto object = getBeanFromID(id);
                                 if (srcTableBean.getInternalId() == object.getModelSysId()) {
-                                    final String message = srcTableBean.getCategory() + " Already Added";
-                                    AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
+                                    final String message = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
+                                    AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, message);
                                     return false;
                                 }
                             }
@@ -880,14 +880,14 @@ public class ExistingDiscountTab extends CustomComponent {
                         setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean);
                         returnFlag = true;
                     } else {
-                        final String message = srcTableBean.getCategory() + " does not associate with  " + treeBean.getCategory();
-                        AbstractNotificationUtils.getErrorNotification("Error", message);
+                        final String message = srcTableBean.getCategory() + StringConstantsUtil.DOES_NOT_ASSOCIATE_WITH + treeBean.getCategory();
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, message);
                     }
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.toString())) {
                 final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
                 rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
-                rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("ifpModelSid")));
+                rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                 final List<RsDetails> rebateScheduleDetailsList = RsDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
                 if (rebateScheduleDetailsList != null) {
                     if (rebateScheduleDetailsList.isEmpty()) {
@@ -896,11 +896,11 @@ public class ExistingDiscountTab extends CustomComponent {
                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
                         final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
                         if (treeBean.getInternalId() != 0) {
-                            psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", Integer.valueOf(treeBean.getModelSysId())));
+                            psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(treeBean.getModelSysId())));
                         } else {
-                            psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", Integer.valueOf(treeBean.getPsSid())));
+                            psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(treeBean.getPsSid())));
                         }
-                        psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("ifpModelSid")));
+                        psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                         final List<PsDetails> priceScheduleDetailsList = PsDetailsLocalServiceUtil.dynamicQuery(psDynamicQuery);
                         if (rsSystem.equals(String.valueOf(priceScheduleDetailsList.get(0)).trim())) {
                             if (dashBoardTreeContainer.hasChildren(treeBeanId)) {
@@ -908,8 +908,8 @@ public class ExistingDiscountTab extends CustomComponent {
                                 for (final Object id : collection) {
                                     final ContractsDetailsDto object = getBeanFromID(id);
                                     if (srcTableBean.getInternalId().equals(object.getModelSysId())) {
-                                        final String message = srcTableBean.getCategory() + " Already Added";
-                                        AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
+                                        final String message = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
+                                        AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, message);
                                         return false;
                                     }
                                 }
@@ -919,8 +919,8 @@ public class ExistingDiscountTab extends CustomComponent {
                             setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId);
                             returnFlag = true;
                         } else {
-                            final String message = srcTableBean.getCategory() + " does not associate with  " + treeBean.getCategory();
-                            AbstractNotificationUtils.getWarningNotification("Error", message);
+                            final String message = srcTableBean.getCategory() + StringConstantsUtil.DOES_NOT_ASSOCIATE_WITH + treeBean.getCategory();
+                            AbstractNotificationUtils.getWarningNotification(Constants.ERROR, message);
                         }
                     }
                 }
@@ -930,8 +930,8 @@ public class ExistingDiscountTab extends CustomComponent {
                     for (final Object id : collection) {
                         final ContractsDetailsDto object = getBeanFromID(id);
                         if (srcTableBean.getInternalId() == object.getModelSysId()) {
-                            final String message = srcTableBean.getCategory() + " Already Added";
-                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
+                            final String message = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
+                            AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, message);
                             return false;
                         }
                     }
@@ -960,7 +960,7 @@ public class ExistingDiscountTab extends CustomComponent {
         if (tableID instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableID;
         } else if (tableID instanceof ContractsDetailsDto) {
-            targetItem = new BeanItem<ContractsDetailsDto>((ContractsDetailsDto) tableID);
+            targetItem = new BeanItem<>((ContractsDetailsDto) tableID);
         } else {
             targetItem = NULL_OBJECT;
         }
@@ -988,22 +988,18 @@ public class ExistingDiscountTab extends CustomComponent {
                 AbstractNotificationUtils.getWarningNotification("Duplicate Contract ID", "Selected Contract ID is already exist");
             } else {
                 if (bean.getCategory().equals("CFP")) {
-                    logic.getInternalIds(bean);
                     bean.setLevel(NumericConstants.TWO);
                     bean.setParent1(getBeanFromID(dashboardTreeTable.getValue()));
                 } else if (bean.getCategory().equals("IFP")) {
-                    logic.getInternalIds(bean);
                     bean.setLevel(NumericConstants.THREE);
                     bean.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
                     bean.setParent2(getBeanFromID(dashboardTreeTable.getValue()));
                 } else if (bean.getCategory().equals("PS")) {
-                    logic.getInternalIds(bean);
                     bean.setLevel(NumericConstants.FOUR);
                     bean.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
                     bean.setParent2(getBeanFromID(dashboardTreeTable.getValue()).getParent2());
                     bean.setParent3(getBeanFromID(dashboardTreeTable.getValue()));
                 } else if (bean.getCategory().equals("RS")) {
-                    logic.getInternalIds(bean);
                     bean.setLevel(NumericConstants.FIVE);
                     bean.setParent1(getBeanFromID(dashboardTreeTable.getValue()).getParent1());
                     bean.setParent2(getBeanFromID(dashboardTreeTable.getValue()).getParent2());
@@ -1035,23 +1031,23 @@ public class ExistingDiscountTab extends CustomComponent {
     private void loadTableHeaders() {
         String compType = String.valueOf(componentTypeDdlb.getValue());
         if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.AD_CFP_IFP_RESULTS_COLUMNS);
-            componentResultsTable.setColumnHeaders(Constants.AD_CFP_IFP_RESULTS_HEADERS);
+            componentResultsTable.setVisibleColumns(Constants.getInstance().adCfpIfpResultsColumns);
+            componentResultsTable.setColumnHeaders(Constants.getInstance().adCfpIfpResultsHeaders);
             componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.AD_CFP_IFP_RESULTS_COLUMNS);
-            componentResultsTable.setColumnHeaders(Constants.AD_CFP_IFP_RESULTS_HEADERS);
+            componentResultsTable.setVisibleColumns(Constants.getInstance().adCfpIfpResultsColumns);
+            componentResultsTable.setColumnHeaders(Constants.getInstance().adCfpIfpResultsHeaders);
             componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.AD_PS_RESULTS_COLUMNS);
-            componentResultsTable.setColumnHeaders(Constants.AD_PS_RESULTS_HEADERS);
+            componentResultsTable.setVisibleColumns(Constants.getInstance().adPsResultsColumns);
+            componentResultsTable.setColumnHeaders(Constants.getInstance().adPsResultsHeaders);
             componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.RS_RESULTS_COLUMNS);
-            componentResultsTable.setColumnHeaders(Constants.RS_RESULTS_HEADERS);
+            componentResultsTable.setVisibleColumns(Constants.getInstance().rsResultsColumns);
+            componentResultsTable.setColumnHeaders(Constants.getInstance().rsResultsHeaders);
             componentResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
         }
@@ -1062,7 +1058,7 @@ public class ExistingDiscountTab extends CustomComponent {
         LOGGER.debug(" buttonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
         if (dashBoardTreeContainer.getItemIds().size() > Constants.ZERO) {
             if (dashboardTreeTable.getValue() == null) {
-                AbstractNotificationUtils.getWarningNotification("Remove", "Please highlight a component to Remove.");
+                AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "Please highlight a component to Remove.");
             } else {
                 final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanId);
                 if (collection == null) {
@@ -1096,11 +1092,11 @@ public class ExistingDiscountTab extends CustomComponent {
                     }
                 } else {
                     final String message = "Please remove all children nodes before removing a parent node.";
-                    AbstractNotificationUtils.getWarningNotification("Remove", message);
+                    AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, message);
                 }
             }
         } else {
-            AbstractNotificationUtils.getWarningNotification("Remove", "No data to remove");
+            AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "No data to remove");
         }
     }
 
@@ -1122,7 +1118,7 @@ public class ExistingDiscountTab extends CustomComponent {
                             final Notification notif = new Notification("Contract successfully saved", Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(ConstantsUtils.MY_STYLE);
-                            notif.show(Page.getCurrent());
+                                notif.show(Page.getCurrent());
                         } catch (Exception ex) {
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000));
                             LOGGER.error(ex);
@@ -1140,7 +1136,7 @@ public class ExistingDiscountTab extends CustomComponent {
     ContractsDetailsDto ifp = null;
     ContractsDetailsDto priceSchedule = null;
     ContractsDetailsDto rebateSchedule = null;
-
+    
     public void saveTree(final Collection list) {
         LOGGER.debug("Entering saveTree method");
         try {
@@ -1162,22 +1158,22 @@ public class ExistingDiscountTab extends CustomComponent {
                     ifp = new ContractsDetailsDto();
                     priceSchedule = new ContractsDetailsDto();
                     rebateSchedule = new ContractsDetailsDto();
-                    DiscountLogic.saveCFp(contract.getInternalId(), cfp);
+                    DiscountLogic.saveCFp(contract.getInternalId(), cfp ,false);
                 }
                 if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(temp.getCategory())) {
                     ifp = temp;
                     priceSchedule = new ContractsDetailsDto();
                     rebateSchedule = new ContractsDetailsDto();
-                    DiscountLogic.saveIFP(contract.getInternalId(), cfp.getCfpContractId(), ifp);
+                    DiscountLogic.saveIFP(contract.getInternalId(), cfp.getCfpContractId(), ifp ,false);
                 }
                 if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
                     priceSchedule = temp;
                     rebateSchedule = new ContractsDetailsDto();
-                    DiscountLogic.savePS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule);
+                    DiscountLogic.savePS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule ,false);
                 }
                 if (Constants.IndicatorConstants.RS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
                     rebateSchedule = temp;
-                    new DiscountLogic().saveRS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule.getPsContractId(), rebateSchedule);
+                    DiscountLogic.saveRS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule.getPsContractId(), rebateSchedule,false);
                 }
 
                 final Collection childlist = dashboardTreeTable.getChildren(idValue);
@@ -1197,69 +1193,69 @@ public class ExistingDiscountTab extends CustomComponent {
     }
 
     private void loadCfpFromCD(final ContractsDetailsDto parent) {
-        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<CFPComponentDetailsDTO>(CFPComponentDetailsDTO.class));
+        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(CFPComponentDetailsDTO.class));
         levelDetailsResultsTable.addItems(new DiscountLogic().getFromCfpCD(parent));
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.AD_COMPONENT_DETAILS_COMPANY_COLUMN);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.AD_COMPONENT_DETAILS_COMPANY_HEADER);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsCompanyColumn);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().adComponentDetailsCompanyHeader);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadIfpFromCD(final ContractsDetailsDto parent) {
-        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<PSComponentDetailsDTO>(PSComponentDetailsDTO.class));
+        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         levelDetailsResultsTable.addItems(new DiscountLogic().getFromIfpCD(parent));
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.AD_COMPONENT_DETAILS_PS_COLUMN);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.AD_COMPONENT_DETAILS_PS_HEADER);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadPsFromCD(final ContractsDetailsDto parent) {
-        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<PSComponentDetailsDTO>(PSComponentDetailsDTO.class));
+        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         levelDetailsResultsTable.addItems(new DiscountLogic().getFromPsCD(parent));
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.AD_COMPONENT_DETAILS_PS_COLUMN);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.AD_COMPONENT_DETAILS_PS_HEADER);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadRsFromCD(final ContractsDetailsDto parent) {
-        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<PSComponentDetailsDTO>(PSComponentDetailsDTO.class));
+        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         levelDetailsResultsTable.addItems(new DiscountLogic().getFromRsCD(parent));
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.AD_COMPONENT_DETAILS_PS_COLUMN);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.AD_COMPONENT_DETAILS_PS_HEADER);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadCfpFromResults() {
-        componentDetailsSelectedItem.setVisibleColumns(Constants.AD_COMPONENT_DETAILS_COLUMNS_CFP);
-        componentDetailsSelectedItem.setColumnHeaders(Constants.AD_COMPONENT_DETAILS_HEADERS_CFP);
-        componentDetailsSelectedItem.setColumnAlignment("attachedDate", ExtCustomTable.Align.CENTER);
+        componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsCfp);
+        componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersCfp);
+        componentDetailsSelectedItem.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadIfpFromResults() {
-        componentDetailsSelectedItem.setVisibleColumns(Constants.AD_COMPONENT_DETAILS_COLUMNS_IFP);
-        componentDetailsSelectedItem.setColumnHeaders(Constants.AD_COMPONENT_DETAILS_HEADERS_IFP);
-        componentDetailsSelectedItem.setColumnAlignment("attachedDate", ExtCustomTable.Align.CENTER);
+        componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsIfp);
+        componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersIfp);
+        componentDetailsSelectedItem.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadPsFromResults() {
-        componentDetailsSelectedItem.setVisibleColumns(Constants.AD_COMPONENT_DETAILS_COLUMNS_PS);
-        componentDetailsSelectedItem.setColumnHeaders(Constants.AD_COMPONENT_DETAILS_HEADERS_PS);
-        componentDetailsSelectedItem.setColumnAlignment("attachedDate", ExtCustomTable.Align.CENTER);
+        componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsPs);
+        componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersPs);
+        componentDetailsSelectedItem.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadRsFromResults() {
-        componentDetailsSelectedItem.setVisibleColumns(Constants.AD_COMPONENT_DETAILS_RS_COLUMN);
-        componentDetailsSelectedItem.setColumnHeaders(Constants.AD_COMPONENT_DETAILS_RS_HEADER);
-        componentDetailsSelectedItem.setColumnAlignment("attachedDate", ExtCustomTable.Align.CENTER);
+        componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adComponentDetailsRsColumn);
+        componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adComponentDetailsRsHeader);
+        componentDetailsSelectedItem.setColumnAlignment(Constants.ATTACHED_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
@@ -1310,4 +1306,4 @@ public class ExistingDiscountTab extends CustomComponent {
             LOGGER.error(ex);
         }
     }
-}
+    }

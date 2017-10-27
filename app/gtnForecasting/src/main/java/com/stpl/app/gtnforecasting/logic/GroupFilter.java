@@ -25,7 +25,7 @@ public class GroupFilter {
 
 
     public static void initSalesMap(final SessionDTO session) {
-        List<Object> initialList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(CommonLogic.getGroupQuery(session.getProjectionId(), Integer.valueOf(session.getSessionId()), Integer.valueOf(session.getUserId()), "ST_NM_SALES_PROJECTION_MASTER"), session.getCurrentTableNames()), null, null);
+        List<Object> initialList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(CommonLogic.getGroupQuery("ST_NM_SALES_PROJECTION_MASTER"), session.getCurrentTableNames()), null, null);
         session.setSalesgroupSet(generateStringSet(initialList));
     }
 
@@ -39,7 +39,7 @@ public class GroupFilter {
 
 
     public static void initdiscountMap(final SessionDTO session) {
-        List<Object> initialList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(CommonLogic.getGroupQuery(session.getProjectionId(), Integer.valueOf(session.getSessionId()), Integer.valueOf(session.getUserId()), "ST_NM_DISCOUNT_PROJ_MASTER"), session.getCurrentTableNames()), null, null);
+        List<Object> initialList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(CommonLogic.getGroupQuery("ST_NM_DISCOUNT_PROJ_MASTER"), session.getCurrentTableNames()), null, null);
         session.setDiscountgroupSet(generateStringSet(initialList));
     }
 

@@ -6,6 +6,7 @@
 package com.stpl.app.gtnforecasting.logic;
 
 import com.stpl.app.gtnforecasting.dto.LevelMapKey;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HelperListUtil;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -80,7 +81,7 @@ public class CustomViewLogic {
         LOGGER.debug("select the Data from CUSTOM_CCP_MAP  table :"+queryName);
         String query = SQlUtil.getQuery(queryName);
         query = query.replace("[$PROJECTION_MASTER_SID]", projectionId);
-        query = query.replace("[$CUSTOM_VIEW_MASTER_SID]", customViewMasterSid);
+        query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, customViewMasterSid);
         List<Object[]> rawList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return rawList;
 
@@ -90,14 +91,14 @@ public class CustomViewLogic {
         LOGGER.debug("Insert the Data in CUSTOM_CCP_MAP table :");
         String query = SQlUtil.getQuery(queryName);
         query = query.replace("[$PROJECTION_MASTER_SID]", projectionId);
-        query = query.replace("[$CUSTOM_VIEW_MASTER_SID]", customViewMasterSid);
+        query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, customViewMasterSid);
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
     }
 
     public void executeDelete(String customViewMasterSid) {
         String query = SQlUtil.getQuery("DELETE_CUSTOM_VIEW_TABLES");
-        query = query.replace("[$CUSTOM_VIEW_MASTER_SID]", customViewMasterSid);
+        query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, customViewMasterSid);
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
     }

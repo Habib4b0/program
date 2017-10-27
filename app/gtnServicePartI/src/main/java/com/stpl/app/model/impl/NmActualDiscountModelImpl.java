@@ -42,12 +42,10 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
     public static final Object[][] TABLE_COLUMNS = {
             { "ACTUAL_RATE", Types.DOUBLE },
             { "PERIOD_SID", Types.INTEGER },
-            { "ACTUAL_PROJECTION_SALES", Types.DOUBLE },
             { "PROJECTION_DETAILS_SID", Types.INTEGER },
-            { "ACTUAL_PROJECTION_RATE", Types.DOUBLE },
             { "ACTUAL_SALES", Types.DOUBLE }
         };
-    public static final String TABLE_SQL_CREATE = "create table NM_ACTUAL_DISCOUNT (ACTUAL_RATE DOUBLE,PERIOD_SID INTEGER not null IDENTITY,ACTUAL_PROJECTION_SALES DOUBLE,PROJECTION_DETAILS_SID INTEGER not null IDENTITY,ACTUAL_PROJECTION_RATE DOUBLE,ACTUAL_SALES DOUBLE,primary key (PERIOD_SID, PROJECTION_DETAILS_SID))";
+    public static final String TABLE_SQL_CREATE = "create table NM_ACTUAL_DISCOUNT (ACTUAL_RATE DOUBLE,PERIOD_SID INTEGER not null IDENTITY,PROJECTION_DETAILS_SID INTEGER not null IDENTITY,ACTUAL_SALES DOUBLE,primary key (PERIOD_SID, PROJECTION_DETAILS_SID))";
     public static final String TABLE_SQL_DROP = "drop table NM_ACTUAL_DISCOUNT";
     public static final String ORDER_BY_JPQL = " ORDER BY nmActualDiscount.id.periodSid ASC, nmActualDiscount.id.projectionDetailsSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY NM_ACTUAL_DISCOUNT.PERIOD_SID ASC, NM_ACTUAL_DISCOUNT.PROJECTION_DETAILS_SID ASC";
@@ -69,9 +67,7 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
         };
     private double _actualRate;
     private int _periodSid;
-    private double _actualProjectionSales;
     private int _projectionDetailsSid;
-    private double _actualProjectionRate;
     private double _actualSales;
     private NmActualDiscount _escapedModel;
 
@@ -115,9 +111,7 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
 
         attributes.put("actualRate", getActualRate());
         attributes.put("periodSid", getPeriodSid());
-        attributes.put("actualProjectionSales", getActualProjectionSales());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("actualProjectionRate", getActualProjectionRate());
         attributes.put("actualSales", getActualSales());
 
         return attributes;
@@ -137,25 +131,11 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
             setPeriodSid(periodSid);
         }
 
-        Double actualProjectionSales = (Double) attributes.get(
-                "actualProjectionSales");
-
-        if (actualProjectionSales != null) {
-            setActualProjectionSales(actualProjectionSales);
-        }
-
         Integer projectionDetailsSid = (Integer) attributes.get(
                 "projectionDetailsSid");
 
         if (projectionDetailsSid != null) {
             setProjectionDetailsSid(projectionDetailsSid);
-        }
-
-        Double actualProjectionRate = (Double) attributes.get(
-                "actualProjectionRate");
-
-        if (actualProjectionRate != null) {
-            setActualProjectionRate(actualProjectionRate);
         }
 
         Double actualSales = (Double) attributes.get("actualSales");
@@ -186,16 +166,6 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
     }
 
     @Override
-    public double getActualProjectionSales() {
-        return _actualProjectionSales;
-    }
-
-    @Override
-    public void setActualProjectionSales(double actualProjectionSales) {
-        _actualProjectionSales = actualProjectionSales;
-    }
-
-    @Override
     public int getProjectionDetailsSid() {
         return _projectionDetailsSid;
     }
@@ -203,16 +173,6 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
     @Override
     public void setProjectionDetailsSid(int projectionDetailsSid) {
         _projectionDetailsSid = projectionDetailsSid;
-    }
-
-    @Override
-    public double getActualProjectionRate() {
-        return _actualProjectionRate;
-    }
-
-    @Override
-    public void setActualProjectionRate(double actualProjectionRate) {
-        _actualProjectionRate = actualProjectionRate;
     }
 
     @Override
@@ -241,9 +201,7 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
 
         nmActualDiscountImpl.setActualRate(getActualRate());
         nmActualDiscountImpl.setPeriodSid(getPeriodSid());
-        nmActualDiscountImpl.setActualProjectionSales(getActualProjectionSales());
         nmActualDiscountImpl.setProjectionDetailsSid(getProjectionDetailsSid());
-        nmActualDiscountImpl.setActualProjectionRate(getActualProjectionRate());
         nmActualDiscountImpl.setActualSales(getActualSales());
 
         nmActualDiscountImpl.resetOriginalValues();
@@ -296,11 +254,7 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
 
         nmActualDiscountCacheModel.periodSid = getPeriodSid();
 
-        nmActualDiscountCacheModel.actualProjectionSales = getActualProjectionSales();
-
         nmActualDiscountCacheModel.projectionDetailsSid = getProjectionDetailsSid();
-
-        nmActualDiscountCacheModel.actualProjectionRate = getActualProjectionRate();
 
         nmActualDiscountCacheModel.actualSales = getActualSales();
 
@@ -309,18 +263,14 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(9);
 
         sb.append("{actualRate=");
         sb.append(getActualRate());
         sb.append(", periodSid=");
         sb.append(getPeriodSid());
-        sb.append(", actualProjectionSales=");
-        sb.append(getActualProjectionSales());
         sb.append(", projectionDetailsSid=");
         sb.append(getProjectionDetailsSid());
-        sb.append(", actualProjectionRate=");
-        sb.append(getActualProjectionRate());
         sb.append(", actualSales=");
         sb.append(getActualSales());
         sb.append("}");
@@ -330,7 +280,7 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(16);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.NmActualDiscount");
@@ -345,16 +295,8 @@ public class NmActualDiscountModelImpl extends BaseModelImpl<NmActualDiscount>
         sb.append(getPeriodSid());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>actualProjectionSales</column-name><column-value><![CDATA[");
-        sb.append(getActualProjectionSales());
-        sb.append("]]></column-value></column>");
-        sb.append(
             "<column><column-name>projectionDetailsSid</column-name><column-value><![CDATA[");
         sb.append(getProjectionDetailsSid());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>actualProjectionRate</column-name><column-value><![CDATA[");
-        sb.append(getActualProjectionRate());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>actualSales</column-name><column-value><![CDATA[");

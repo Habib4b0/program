@@ -154,7 +154,7 @@ public class ItemPricingPersistenceImpl extends BasePersistenceImpl<ItemPricing>
                 "endDate", "modifiedDate", "entityCode", "recordLockStatus",
                 "startDate", "createdDate", "createdBy", "source", "batchId",
                 "itemUom", "modifiedBy", "inboundStatus", "itemPricingSid",
-                "pricingCodeStatus"
+                "pricingCodeStatus", "itemPricePrecision"
             });
     private static ItemPricing _nullItemPricing = new ItemPricingImpl() {
             @Override
@@ -1564,6 +1564,7 @@ public class ItemPricingPersistenceImpl extends BasePersistenceImpl<ItemPricing>
         itemPricingImpl.setInboundStatus(itemPricing.getInboundStatus());
         itemPricingImpl.setItemPricingSid(itemPricing.getItemPricingSid());
         itemPricingImpl.setPricingCodeStatus(itemPricing.getPricingCodeStatus());
+        itemPricingImpl.setItemPricePrecision(itemPricing.getItemPricePrecision());
 
         return itemPricingImpl;
     }

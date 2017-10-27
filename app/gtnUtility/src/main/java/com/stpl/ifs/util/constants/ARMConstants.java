@@ -9,7 +9,7 @@ import com.stpl.app.util.service.PropertiesReader;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author
  */
 public class ARMConstants {
 
@@ -136,11 +136,11 @@ public class ARMConstants {
     }
 
     public static String getReserveDetails() {
-        return properties.getProperty("RESERVE_DETAILS");
+        return GlobalConstants.getReserveDetail();
     }
 
     public static String getGTNDetails() {
-        return properties.getProperty("GTN_DETAILS");
+        return GlobalConstants.getGTNDetail();
     }
 
     public static String getPipelineTrueUp() {
@@ -572,7 +572,7 @@ public class ARMConstants {
     }
 
     public static String getDemandAccrualReforecast() {
-        return properties.getProperty("DEMAND_ACCRUAL_REFORECAST");
+        return properties.getProperty("DEMAND_REFORECAST_HEADER");
     }
 
     public static String getTotalDemandAccrual() {
@@ -640,7 +640,7 @@ public class ARMConstants {
     }
 
     public static String getDemandPaymentReconVariable() {
-        return properties.getProperty("DEMAND_PAYMENTS_RECON_VARIABLE");
+        return properties.getProperty("PAYMENT_TRUP_UP");
     }
 
     public static String getDate() {
@@ -722,7 +722,76 @@ public class ARMConstants {
     public static String getBalanceSummaryReport() {
         return properties.getProperty("BALANCE_SUMMARY_REPORT");
     }
+
     public static String getDemand() {
         return properties.getProperty("DEMAND");
     }
+
+    public static String getTransaction8() {
+        return properties.getProperty("TRANSACTION_8");
+    }
+
+    public static String getStartBalance() {
+        return properties.getProperty("STARTING_BALANCE");
+    }
+
+    public static String getFeesAcrual() {
+        return properties.getProperty("FEES_ACCRAUL");
+    }
+
+    public static String getInflationAdjustment() {
+        return properties.getProperty("INFLATION_ADJUSTMENT");
+    }
+
+    public static String getCreditCardfees() {
+        return properties.getProperty("CREDIT_CARD_FEES");
+    }
+
+    public static String getOtherFixedDollarAdjustment() {
+        return properties.getProperty("OTHER_FIXED_DOLLER_ADJUSTMENT");
+    }
+
+    public static String getInventoryValuation() {
+        return properties.getProperty("INVENTORY_VALUATION");
+    }
+
+    public static String getPaymentTrueUp() {
+        return properties.getProperty("PAYMENT_TRUP_UP");
+    }
+
+    public static String getReturnReserve() {
+        return properties.getProperty("RETURN_RESERVE");
+    }
+
+    public static String getPipelineAccrualHeader() {
+        return properties.getProperty("PIPELINE_ACCRUAL_HEADER");
+    }
+
+    public static String getPipelineInverntorytrueupHeader() {
+        return properties.getProperty("PIPELINE_INVENTORY_TRUPUP_HEADER");
+    }
+
+    public static String getDemandReforecastHeader() {
+        return properties.getProperty("DEMAND_REFORECAST_HEADER");
+    }
+
+    public static String getDemandPaymenttrueupHeader() {
+        return properties.getProperty("PAYMENT_TRUP_UP");
+    }
+
+    public static String getOctalValue() {
+        return properties.getProperty("OCTAL_VALUE");
+    }
+    public static String getCurrentPipeline() {
+        return properties.getProperty("C_PIPELINE");
+    }
+
+    public static String getDemandPayment() {
+        return properties.getProperty("DEMAND_PAYMENTS_RECON_VAR");
+    }
+    
+     public static String getDeductionContractCustomer() {
+        return properties.getProperty("DEDUCTION_CONTRACT_CUSTOMER");
+    }
+
 }

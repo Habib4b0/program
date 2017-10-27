@@ -8,13 +8,14 @@ package com.stpl.app.arm.businessprocess.pipelineaccrual.logic;
 import com.stpl.app.arm.adjustmentrateconfiguration.dto.ExclusionLookupDTO;
 import com.stpl.app.arm.adjustmentrateconfiguration.dto.ViewLookupDTO;
 import com.stpl.app.arm.businessprocess.pipelineinventory.dto.CustomerGroupDTO;
-import static com.stpl.app.arm.common.CommonFilterLogic.DBDate;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dao.CommonDao;
 import com.stpl.app.arm.dao.impl.CommonImpl;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.utils.VariableConstants;
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
@@ -46,19 +47,19 @@ import org.jboss.logging.Logger;
 public class ExclusionDetailsLogic {
 
     private static final CommonDao DAO = CommonImpl.getInstance();
-    public static Map<String, String> userMap = new HashMap<String, String>();
+    protected static Map<String, String> userMap = new HashMap<>();
     public static final Logger LOGGER = Logger.getLogger(ExclusionDetailsLogic.class);
-    
+
     public List<ExclusionLookupDTO> getCompanySid(String viewSid) {
-        List<ExclusionLookupDTO> finalList = Collections.EMPTY_LIST;
+        List<ExclusionLookupDTO> finalList = Collections.emptyList();
         try {
             String query = SQlUtil.getQuery("getExclusionViewDetails");
-            query = query.replace("@ARM_VIEW_MASTER_SID", viewSid);
+            query = query.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewSid);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
-            if (rawList.size() > 0 && !rawList.isEmpty()) {
+            if (!rawList.isEmpty()) {
                 finalList = new ArrayList();
                 for (int i = 0; i < rawList.size(); i++) {
-                    Object[] obj = (Object[]) rawList.get(i);
+                    Object[] obj =  rawList.get(i);
                     ExclusionLookupDTO dto = new ExclusionLookupDTO();
                     dto.setExcludedField(String.valueOf(obj[0]));
                     dto.setValues(String.valueOf(obj[1]));
@@ -67,16 +68,16 @@ public class ExclusionDetailsLogic {
             }
             return finalList;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in getCompanySid :"+e);
             return finalList;
         }
     }
 
-    public void saveORUpdate_Exclusion_Details_LookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
+    public void saveORUpdateExclusionDetailsLookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
         StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
         boolean isView = sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL);
         String saveQuery = isView ? SQlUtil.getQuery("saveORUpdateQuery") : SQlUtil.getQuery("saveORUpdateQueryEdit");
-        saveQuery = saveQuery.replace("@PROJECTION_MASTER_SID", "" + projectionSid);
+        saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         sbQuery.append(saveQuery);
         for (ExclusionLookupDTO dtoList : list) {
             sbQuery.append("(").append(projectionSid).append(",'").append(dtoList.getExcludedField()).append("'" + ",'").append(dtoList.getValues()).append("'),");
@@ -86,7 +87,7 @@ public class ExclusionDetailsLogic {
         query = query.replace("@COMPANY_ID", accountId);
         query = query.replace("@COMPANY_NAME", accountName);
         query = query.replace("@CONTRACT_ID", contractId);
-        query = query.replace("@PROJECTION_MASTER_SID", "" + projectionSid);
+        query = query.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         query = query.replace("[TABLE]", "" + sessionDTO.getCurrentTableNames().get("ST_ARM_PIPELINE_EXCLUSION_DETAILS"));
         sbQuery.append(" ; ").append(query);
         DAO.executeUpdate(sbQuery.toString());
@@ -94,11 +95,11 @@ public class ExclusionDetailsLogic {
 
     public List<ExclusionLookupDTO> getFieldListValue(String fieldValue, String prevSelectedValues) {
         try {
-            String query = QueryUtils.build_FieldName_selectQuery(fieldValue, prevSelectedValues);
-            List<ExclusionLookupDTO> finalList = new ArrayList<ExclusionLookupDTO>();
+            String query = QueryUtils.buildFieldNameselectQuery(fieldValue, prevSelectedValues);
+            List<ExclusionLookupDTO> finalList = new ArrayList<>();
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             if (rawList == null || rawList.isEmpty()) {
-                return Collections.EMPTY_LIST;
+                return Collections.emptyList();
             }
             if (!rawList.isEmpty()) {
                 for (int i = 0; i < rawList.size(); i++) {
@@ -110,23 +111,23 @@ public class ExclusionDetailsLogic {
             }
             return finalList;
         } catch (Exception e) {
-            LOGGER.error(e);
-            return Collections.EMPTY_LIST;
+            LOGGER.error("Error in getFieldListValue"+e);
+            return Collections.emptyList();
         }
     }
 
-    public List<ExclusionLookupDTO> getIntialLoadValue(int rate_Details_Sid) {
-        List<ExclusionLookupDTO> finalList = new ArrayList<ExclusionLookupDTO>();
+    public List<ExclusionLookupDTO> getIntialLoadValue(int rateDetailsSid) {
+        List<ExclusionLookupDTO> finalList = new ArrayList<>();
         try {
             String query = SQlUtil.getQuery("getIntialLoadQuery");
-            query = query.replace("@PROJECTION_MASTER_SID", "" + rate_Details_Sid);
+            query = query.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(rateDetailsSid));
             List<Object[]> rawList = QueryUtils.executeSelect(query);
             if (rawList == null || rawList.isEmpty()) {
-                return Collections.EMPTY_LIST;
+                return Collections.emptyList();
             }
             if (!rawList.isEmpty()) {
                 for (int i = 0; i < rawList.size(); i++) {
-                    Object[] obj = (Object[]) rawList.get(i);
+                    Object[] obj =  rawList.get(i);
                     ExclusionLookupDTO dtoValue = new ExclusionLookupDTO();
                     dtoValue.setValues(String.valueOf(obj[0]));
                     dtoValue.setExcludedField(String.valueOf(obj[1]));
@@ -135,8 +136,8 @@ public class ExclusionDetailsLogic {
             }
             return finalList;
         } catch (Exception e) {
-             LOGGER.error(e);
-            return Collections.EMPTY_LIST;
+            LOGGER.error("Error in getintialLoadValue"+e);
+            return Collections.emptyList();
         }
     }
 
@@ -145,25 +146,21 @@ public class ExclusionDetailsLogic {
             String query = SQlUtil.getQuery("getIntialViewLoad");
             query = query.replace("@View_Name", viewName);
             List<Object[]> rawList = QueryUtils.executeSelect(query);
-            if (!rawList.isEmpty() && rawList.size() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+                return !rawList.isEmpty();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in isDuplicateName"+e);
             return true;
         }
     }
 
-    public boolean isAdd_OR_UpdateView(ExclusionLookupDTO saveViewDTO) {
+    public boolean isAddORUpdateView(ExclusionLookupDTO saveViewDTO) {
         StringBuilder sbQuery = new StringBuilder(StringUtils.EMPTY);
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
         try {
-            String viewSid = StringUtils.EMPTY;
+            String viewSid;
             if (saveViewDTO.isViewStatus()) {
                 String updateQuery = SQlUtil.getQuery("updateMasterViewQuery");
-                updateQuery = updateQuery.replace("@ARM_VIEW_MASTER_SID", saveViewDTO.getViewMasterSid());
+                updateQuery = updateQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, saveViewDTO.getViewMasterSid());
                 updateQuery = updateQuery.replace("@MODIFIED_BY", "" + saveViewDTO.getUserID());
                 updateQuery = updateQuery.replace("@MODIFIED_DATE", dateFormat.format(new Date()));
 
@@ -176,7 +173,7 @@ public class ExclusionDetailsLogic {
             if (saveViewDTO.isScreenFlag()) {
                 if (!StringUtils.EMPTY.equals(viewSid)) {
                     for (CustomerGroupDTO dtoValue : saveViewDTO.getCustGrpList()) {
-                        sbQuery.append("(" + viewSid + "," + (StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid())? null : dtoValue.getCompanyMasterSid()) + "," + (StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid()) + "," + (dtoValue.isInclude() == true ? 1 : 0) + "," + (dtoValue.getIndicator() != null ? dtoValue.getIndicator() == true ? 1 : 0 : "null") + "," + null + "," + null + "),");
+                        sbQuery.append("(" + viewSid + "," + (StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCompanyMasterSid()) ? null : dtoValue.getCompanyMasterSid()) + "," + (StringUtils.EMPTY.equalsIgnoreCase(dtoValue.getCustomerGroupSid()) ? null : dtoValue.getCustomerGroupSid()) + "," + (dtoValue.isInclude() == true ? 1 : 0) + "," + (dtoValue.getIndicator() != null ? dtoValue.getIndicator() == true ? 1 : 0 : "null") + "," + null + "," + null + "),");
                     }
                 }
             } else {
@@ -191,7 +188,7 @@ public class ExclusionDetailsLogic {
             DAO.executeUpdate(sbQuery.toString());
             return true;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in isAddORUpdateView"+e);
             return false;
         }
     }
@@ -206,12 +203,12 @@ public class ExclusionDetailsLogic {
             query = query.replace("@Created_By", "" + saveViewDTO.getUserID());
             query = query.replace("@Created_Date", dateFormat.format(new Date()));
             List<Object[]> rawList = QueryUtils.executeSelect(query);
-            if (rawList.size() > 0 && !rawList.isEmpty()) {
+            if (!rawList.isEmpty()) {
                 return String.valueOf(rawList.get(0));
             }
             return StringUtils.EMPTY;
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in isSaveView"+e);
             return StringUtils.EMPTY;
         }
 
@@ -220,58 +217,60 @@ public class ExclusionDetailsLogic {
     public void deleteViewLogic(String viewMasterSid) {
         try {
             String deleteQuery = SQlUtil.getQuery("deleteViewMasterQuery");
-            deleteQuery = deleteQuery.replace("@ARM_VIEW_MASTER_SID", viewMasterSid);
+            deleteQuery = deleteQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewMasterSid);
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-             LOGGER.error(ex);
+            LOGGER.error("Error in deleteViewLogic"+ex);
         }
     }
+
     public void deleteViewLogicForInventory(String viewMasterSid) {
         try {
             String deleteQuery = SQlUtil.getQuery("deleteViewMasterQueryForInventory");
-            deleteQuery = deleteQuery.replace("@ARM_VIEW_MASTER_SID", viewMasterSid);
+            deleteQuery = deleteQuery.replace(CommonConstant.ARM_VIEW_MASTER_SID, viewMasterSid);
 
             DAO.executeUpdate(deleteQuery);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in deleteViewLogicForInventory"+ex);
         }
     }
 
     public List getSavedViewList(ViewLookupDTO exRateDTO, boolean isCount, final int startIndex, final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet) {
-        List<ViewLookupDTO> dtoList = Collections.EMPTY_LIST;
+        List<ViewLookupDTO> dtoList = Collections.emptyList();
         try {
             getAllUsers();
             String viewValue = exRateDTO.getViewName();
             if (StringUtils.isNotBlank(exRateDTO.getViewName())) {
                 viewValue = viewValue.replace("*", "%");
             }
-            String query = StringUtils.EMPTY;
+            StringBuilder query;
             if (isCount) {
-                query = "select count(Distinct AVM.ARM_VIEW_MASTER_SID) from ARM_VIEW_MASTER AVM   "
-                        + "Join ARM_VIEW_DETAILS AVD ON AVD.ARM_VIEW_MASTER_SID=AVM.ARM_VIEW_MASTER_SID \n"
-                        + "where AVM.VIEW_TYPE IN(Select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID='@View_Type')  AND AVM.VIEW_NAME like'@VIEW_NAME'";
+                query = new StringBuilder();
+                query.append("select count(Distinct AVM.ARM_VIEW_MASTER_SID) from ARM_VIEW_MASTER AVM   ");
+                query.append("Join ARM_VIEW_DETAILS AVD ON AVD.ARM_VIEW_MASTER_SID=AVM.ARM_VIEW_MASTER_SID \n");
+                query.append("where AVM.VIEW_TYPE  = '").append(VariableConstants.PRIVATE_VIEW.equalsIgnoreCase(exRateDTO.getViewType()) ? VariableConstants.A_PRIVATE : "Public").append(" '  AND AVM.VIEW_NAME like'@VIEW_NAME'");
+
             } else {
-                query = "select Distinct AVM.ARM_VIEW_MASTER_SID,AVM.VIEW_NAME,AVM.VIEW_TYPE,AVM.CREATED_BY,AVM.CREATED_DATE,AVM.MODIFIED_DATE,AVM.MODIFIED_BY from ARM_VIEW_MASTER AVM \n"
-                        + "Join ARM_VIEW_DETAILS AVD ON AVD.ARM_VIEW_MASTER_SID=AVM.ARM_VIEW_MASTER_SID \n"
-                        + "where AVM.VIEW_TYPE IN(Select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID='@View_Type')  AND AVM.VIEW_NAME like'@VIEW_NAME'  ";
+                query = new StringBuilder();
+                query.append("select Distinct AVM.ARM_VIEW_MASTER_SID,AVM.VIEW_NAME,AVM.VIEW_TYPE,AVM.CREATED_BY,AVM.CREATED_DATE,AVM.MODIFIED_DATE,AVM.MODIFIED_BY from ARM_VIEW_MASTER AVM \n");
+                query.append("Join ARM_VIEW_DETAILS AVD ON AVD.ARM_VIEW_MASTER_SID=AVM.ARM_VIEW_MASTER_SID \n");
+                query.append("where AVM.VIEW_TYPE  = '" ).append(VariableConstants.PRIVATE_VIEW.equalsIgnoreCase(exRateDTO.getViewType()) ? VariableConstants.A_PRIVATE : "Public").append(" '  AND AVM.VIEW_NAME like'@VIEW_NAME'  ");
+
             }
 
-            query = query.replace("@VIEW_NAME", viewValue);
-            String helperSidQuery = "SELECT HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION like '"+(exRateDTO.getViewType().equalsIgnoreCase("privateView")?"Private":"Public")+"'";
-            List<Object> viewSid = HelperTableLocalServiceUtil.executeSelectQuery(helperSidQuery);
-            LOGGER.debug("viewSid----"+ String.valueOf(viewSid.get(0)));
-            query = query.replace("@View_Type", String.valueOf(viewSid.get(0)));
+            String queryVal = query.toString().replace("@VIEW_NAME", viewValue);
+            query = new StringBuilder(queryVal);
             if (StringUtils.EMPTY.equalsIgnoreCase(exRateDTO.getDetailsValue())) {
-                query += " AND AVD.FIELD_VALUES is NOT Null";
+                query.append(" AND AVD.FIELD_VALUES is NOT Null");
             } else {
-                query += "C".equalsIgnoreCase(exRateDTO.getDetailsValue()) ? " AND AVD.COMPANY_MASTER_SID is NOT Null AND AVD.CHECK_RECORD is NOT NULL  " : "    AND AVD.COMPANY_GROUP_SID is NOT Null AND AVD.CHECK_RECORD is NOT NULL  ";
+                query.append("C".equalsIgnoreCase(exRateDTO.getDetailsValue()) ? " AND AVD.COMPANY_MASTER_SID is NOT Null AND AVD.CHECK_RECORD is NOT NULL  " : "    AND AVD.COMPANY_GROUP_SID is NOT Null AND AVD.CHECK_RECORD is NOT NULL  ");
             }
             if (exRateDTO.getViewTypeFlag()) {
-                query += "  AND AVM.CREATED_BY=" + exRateDTO.getCreatedBy();
+                query.append("  AND AVM.CREATED_BY=").append(exRateDTO.getCreatedBy());
             }
-            String filterQuery = StringUtils.EMPTY;
-            HashMap<String, String> detailsColumn = new HashMap<String, String>();
+            StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
+            HashMap<String, String> detailsColumn = new HashMap<>();
             detailsColumn.put("viewName", "AVM.VIEW_NAME");
             detailsColumn.put("viewType", "AVM.VIEW_TYPE");
             detailsColumn.put("createdDate", "AVM.CREATED_DATE");
@@ -280,7 +279,7 @@ public class ExclusionDetailsLogic {
             detailsColumn.put("modifiedDate", "AVM.MODIFIED_DATE");
             boolean makeCount = false;
             if (filterSet != null) {
-               
+
                 for (Container.Filter filter : filterSet) {
                     if (filter instanceof SimpleStringFilter) {
                         SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
@@ -290,7 +289,8 @@ public class ExclusionDetailsLogic {
                                 makeCount = true;
                             }
                         } else {
-                            filterQuery = filterQuery + " AND " + detailsColumn.get(String.valueOf(stringFilter.getPropertyId())) + " like '" + filterString + "'";
+                            filterQuery.append(" AND ").append(detailsColumn.get(String.valueOf(stringFilter.getPropertyId())));
+                            filterQuery.append(" like '").append(filterString).append("'");
                         }
 
                     } else if (filter instanceof Between) {
@@ -310,8 +310,8 @@ public class ExclusionDetailsLogic {
                                     tempStart = new StringBuilder(dateStartstr);
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(startValue));
-                                query+=tempStart;
+                                tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(startValue));
+                                query.append(tempStart);
                             }
                             if (!betweenFilter.getEndValue().toString().isEmpty()) {
                                 StringBuilder tempEnd;
@@ -322,14 +322,14 @@ public class ExclusionDetailsLogic {
                                 }
 
                                 tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, detailsColumn.get(betweenFilter.getPropertyId().toString()));
-                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDate.format(endValue));
-                                query+=tempEnd;
+                                tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, ARMUtils.getInstance().getDbDate().format(endValue));
+                                query.append(tempEnd);
                             }
                         }
-                    } 
+                    }
                 }
             }
-            String finalQuery = StringUtils.EMPTY;
+            StringBuilder finalQuery;
             String order = StringUtils.EMPTY;
             if (!isCount) {
                 boolean sortOrder = false;
@@ -337,7 +337,7 @@ public class ExclusionDetailsLogic {
                 String orderByColumn = null;
                 if (sortByColumns != null) {
                     for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                        final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+                        final SortByColumn sortByColumn =  iterator.next();
 
                         columnName = sortByColumn.getName();
                         orderByColumn = detailsColumn.get(columnName);
@@ -369,25 +369,26 @@ public class ExclusionDetailsLogic {
                 }
             } else {
                 if (isCount) {
-                    finalQuery = query + filterQuery;
+                    finalQuery = new StringBuilder();
+                    finalQuery.append(query.toString()).append(filterQuery.toString());
                 } else {
-                    finalQuery = query + filterQuery + order;
+                    finalQuery = new StringBuilder();
+                    finalQuery.append(query.toString()).append(filterQuery.toString()).append(order);
                 }
                 if (isCount) {
-                    List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
-                    return list;
+                    return HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
                 }
 
-                List<Object[]> rawList = QueryUtils.executeSelect(finalQuery);
-                if (rawList.size() > 0 && !rawList.isEmpty()) {
+                List<Object[]> rawList = QueryUtils.executeSelect(finalQuery.toString());
+                if (!rawList.isEmpty()) {
 
                     dtoList = new ArrayList();
                     for (int i = 0; i < rawList.size(); i++) {
-                        Object[] obj = (Object[]) rawList.get(i);
+                        Object[] obj =  rawList.get(i);
                         ViewLookupDTO dto = new ViewLookupDTO();
                         dto.setViewSid(String.valueOf(obj[0]));
                         dto.setViewName(String.valueOf(obj[1]));
-                    dto.setViewType(String.valueOf(obj[NumericConstants.TWO]).equalsIgnoreCase("Private")?"privateView":"publicView");
+                        dto.setViewType(VariableConstants.A_PRIVATE.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO])) ? VariableConstants.PRIVATE_VIEW : "publicView");
                         dto.setViewCategory(exRateDTO.getViewCategory());
                         dto.setCreatedUser(String.valueOf(obj[NumericConstants.THREE]));
                         dto.setCreatedBy(userMap.get(String.valueOf(obj[NumericConstants.THREE])));
@@ -400,14 +401,14 @@ public class ExclusionDetailsLogic {
                 return dtoList;
             }
         } catch (Exception e) {
-             LOGGER.error(e);
+            LOGGER.error("Error in getSavedViewList :"+e);
             return dtoList;
         }
 
     }
 
     public static void getAllUsers() {
-        List<Object> userList = new ArrayList<Object>();
+        List<Object> userList = new ArrayList<>();
         try {
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
             final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -418,24 +419,24 @@ public class ExclusionDetailsLogic {
 
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
-                Object array[] = (Object[]) userList.get(loop);
+                Object[] array = (Object[]) userList.get(loop);
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getAllUsers :"+ex);
         }
     }
 
     public List<ExclusionLookupDTO> getListInitialInsertFromARC(List input) {
-        List<ExclusionLookupDTO> finalList = new ArrayList<ExclusionLookupDTO>();
+        List<ExclusionLookupDTO> finalList = new ArrayList<>();
         try {
             List<Object[]> rawList = QueryUtils.getItemData(input, "getIntialInsertQueryFromARC", null);
             if (rawList == null || rawList.isEmpty()) {
-                return Collections.EMPTY_LIST;
+                return Collections.emptyList();
             }
             if (!rawList.isEmpty()) {
                 for (int i = 0; i < rawList.size(); i++) {
-                    Object[] obj = (Object[]) rawList.get(i);
+                    Object[] obj =  rawList.get(i);
                     ExclusionLookupDTO dtoValue = new ExclusionLookupDTO();
                     dtoValue.setValues(String.valueOf(obj[1]));
                     dtoValue.setExcludedField(String.valueOf(obj[0]));
@@ -444,8 +445,8 @@ public class ExclusionDetailsLogic {
             }
             return finalList;
         } catch (Exception e) {
-             LOGGER.error(e);
-            return Collections.EMPTY_LIST;
+            LOGGER.error("Error in getListInitialInsertFromARC :"+e);
+            return Collections.emptyList();
         }
     }
 

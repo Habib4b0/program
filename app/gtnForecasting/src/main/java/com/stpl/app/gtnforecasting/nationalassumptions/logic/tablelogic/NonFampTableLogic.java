@@ -42,11 +42,11 @@ public class NonFampTableLogic extends PageTreeTableLogic {
      @Override
      public Map<Integer, Object> loadData(int start, int offset) {
           LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated && offset > 0) {
-            List<String> indexList = new ArrayList<String>(getNonFetchableData().keySet());
+            List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);
-            List<TableDTO> list =  fcpResLogic.getConfiguredNonFamp(getLastParent(), start, offset, projSelDTO, levelNo, hierarchyNo,sessionDTO);
+            List<TableDTO> list =  fcpResLogic.getConfiguredNonFamp(start, offset, projSelDTO, hierarchyNo,sessionDTO);
             int i = start;
             for (TableDTO dto : list) {
                 while (projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + i)) {
@@ -68,7 +68,7 @@ public class NonFampTableLogic extends PageTreeTableLogic {
 
         if (firstGenerated) {
             try {
-                count = fcpResLogic.getConfiguredNonFampCount(getLastParent(), projSelDTO, levelNo, hierarchyNo, true);
+                count = fcpResLogic.getConfiguredNonFampCount(getLastParent(), projSelDTO, hierarchyNo);
             } catch (Exception ex) {
               LOGGER.error(ex);
             } 

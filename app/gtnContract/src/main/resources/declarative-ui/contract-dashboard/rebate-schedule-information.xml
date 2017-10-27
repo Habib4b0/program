@@ -73,7 +73,7 @@
                         <b:CustomTextField id="parentRsName" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
 					
                         <Label id="rebateScheduleTransRefNameLb" value="RS Transaction Ref Name" contentMode="HTML" />
-                        <b:CustomTextField id="rebateScheduleTransRefName" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+                        <b:CustomTextField id="rebateScheduleTransRefName" styleName="comboxsize" enable="false" nullSelectionAllowed="true" immediate="true" />
 					
                         <Label id="udc3Lb" value="UDC 3" contentMode="HTML" />
                         <c:CustomComboBox id="udc3" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
@@ -94,10 +94,10 @@
                 <HorizontalLayout immediate="true" styleName="responsiveTabGrid">
                     <CssLayout id="cssLayout1" immediate="true" width="100%" height="100%">
 				
-                        <Label id="calendarLb" value="Calendar" styleName = "mandatory"  contentMode="HTML" immediate="true" />
+                        <Label id="calendarLb" value="Calendar"  contentMode="HTML" />
                         <c:CustomComboBox id="calendar" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
 					
-                        <Label id="rebateFrequencyLb" value="Rebate Frequency" contentMode="HTML" />
+                        <Label id="rebateFrequencyLb" styleName="mandatory" value="Rebate Frequency" contentMode="HTML" />
                         <c:CustomComboBox id="rebateFrequency" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
                         <Label id="paymentLevelLb" value="Payment Level" contentMode="HTML" />
@@ -130,16 +130,16 @@
                         <Label id="interestBearingIndicatorLb" value="Interest Bearing Indicator" contentMode="HTML" />
                         <c:CustomComboBox id="interestBearingIndicator" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
-                        <Label id="calculationRuleLevelLb" value="Calculation Rule Level" contentMode="HTML" />
+                        <Label id="calculationRuleLevelLb"  value="Calculation Rule Level" contentMode="HTML" />
                         <c:CustomComboBox id="calculationRuleLevel" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
-                        <Label id="calculationTypeLb" value="Calculation Type" contentMode="HTML" />
+                        <Label id="calculationTypeLb" styleName="mandatory" value="Calculation Type" contentMode="HTML" />
                         <c:CustomComboBox id="calculationType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
                         <Label id="calculationRuleLb"  value="Calculation Rule" contentMode="HTML" />
                         <b:CustomTextField id="calculationRule" styleName="searchicon" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
-                        <Label id="calculationLevelLb" value="Calculation Level" contentMode="HTML" />
+                        <Label id="calculationLevelLb" styleName="mandatory" value="Calculation Level" contentMode="HTML" />
                         <c:CustomComboBox id="calculationLevel" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                                         
                         <Label id="rebateRuleTypeLb" value="Rebate Rule Type" visible="false" contentMode="HTML" />

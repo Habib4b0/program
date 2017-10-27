@@ -10,5 +10,6 @@ package com.stpl.app.arm.supercode;
  * @author Abhiram.Giri
  */
 public interface GenerateAble {
+
     boolean isGenerated();
 }

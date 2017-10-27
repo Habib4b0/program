@@ -16,7 +16,7 @@ import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
-import static com.stpl.app.gcm.util.Constants.DateFormatConstants.MMddyyyy;
+import static com.stpl.app.gcm.util.Constants.DateFormatConstants.MMDDYYYY;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ENABLE;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.SELECT_ONE;
@@ -247,11 +247,12 @@ public class NewDiscountTab extends CustomComponent {
     @UiField("searchDatePeriod")
     public PopupDateField searchDatePeriod;
     public List<ContractsDetailsDto> contListafterRemove = new ArrayList<>();
-    private BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
-    private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
+    private BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
+    private BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     public static final SimpleDateFormat DBDate = new SimpleDateFormat("MM-dd-yyyy");
+    public static final String S_DATE_PROPERTY = "sDate";
     /* Current Level Value */
     public int levelValue;
     /**
@@ -279,23 +280,22 @@ public class NewDiscountTab extends CustomComponent {
      */
     private ContractsDetailsDto contractDetails;
     ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
-    List<ContractsDetailsDto> selecteditemList = new ArrayList<ContractsDetailsDto>();
-    List<ContractsDetailsDto> selectedResultList = new ArrayList<ContractsDetailsDto>();
-    List<Integer> rebateList = new ArrayList<Integer>();
-    List<HelperDTO> itemStatusList = new ArrayList<HelperDTO>();
-    List<HelperDTO> priceTypeList = new ArrayList<HelperDTO>();
+    List<ContractsDetailsDto> selecteditemList = new ArrayList<>();
+    List<ContractsDetailsDto> selectedResultList = new ArrayList<>();
+    List<Integer> rebateList = new ArrayList<>();
+    List<HelperDTO> itemStatusList = new ArrayList<>();
+    List<HelperDTO> priceTypeList = new ArrayList<>();
     String selectedComponenttype = StringUtils.EMPTY;
-    List<String> newlyAddedRebates = new ArrayList<String>();
+    List<String> newlyAddedRebates = new ArrayList<>();
     CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
     StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
 
-    final List<ContractsDetailsDto> cfpList = new ArrayList<ContractsDetailsDto>();
-    final List<ContractsDetailsDto> ifpList = new ArrayList<ContractsDetailsDto>();
-    final List<ContractsDetailsDto> psList = new ArrayList<ContractsDetailsDto>();
-    final List<ContractsDetailsDto> rsList = new ArrayList<ContractsDetailsDto>();
-    final List<ContractsDetailsDto> selected = new ArrayList<ContractsDetailsDto>();
+    final List<ContractsDetailsDto> cfpList = new ArrayList<>();
+    final List<ContractsDetailsDto> ifpList = new ArrayList<>();
+    final List<ContractsDetailsDto> psList = new ArrayList<>();
+    final List<ContractsDetailsDto> rsList = new ArrayList<>();
+    final List<ContractsDetailsDto> selected = new ArrayList<>();
     int levelVal = 0;
     int contractMasterId = 0;
     List<ContractsDetailsDto> ifpListforMap;
@@ -304,7 +304,7 @@ public class NewDiscountTab extends CustomComponent {
 
     public NewDiscountTab(List<RemoveDiscountDto> removeDiscountDto, SessionDTO session) {
         this.removeDiscountDto = removeDiscountDto;
-        dashBoardTreeContainer = new ExtTreeContainer<ContractsDetailsDto>(ContractsDetailsDto.class);
+        dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
         this.session = session;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/newDiscountTab.xml"), this));
         configureFields();
@@ -317,34 +317,34 @@ public class NewDiscountTab extends CustomComponent {
             endDate.addStyleName("v-align-center");
 
             rsstartDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsstartDate.setStyleName("dateFieldCenter");
+            rsstartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             rsEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsEndDate.setStyleName("dateFieldCenter");
+            rsEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             datePeriod.setDateFormat(Constants.MM_DD_YYYY);
-            datePeriod.setStyleName("dateFieldCenter");
+            datePeriod.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             rsStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsStartDate.setStyleName("dateFieldCenter");
+            rsStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             psStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            psStartDate.setStyleName("dateFieldCenter");
+            psStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             ifpStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            ifpStartDate.setStyleName("dateFieldCenter");
+            ifpStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             cfpStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            cfpStartDate.setStyleName("dateFieldCenter");
+            cfpStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             cfpEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            cfpEndDate.setStyleName("dateFieldCenter");
+            cfpEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             ifpEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            ifpEndDate.setStyleName("dateFieldCenter");
+            ifpEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             psEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            psEndDate.setStyleName("dateFieldCenter");
+            psEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             searchDatePeriod.setDateFormat(Constants.MM_DD_YYYY);
 
@@ -357,12 +357,12 @@ public class NewDiscountTab extends CustomComponent {
             componentTypeddlb = CommonLogic.loadComponentType(componentTypeddlb, null, true);
             searchFieldDdlb.setImmediate(true);
             searchFieldDdlb = CommonLogic.loadNewTabSearchDdlb(searchFieldDdlb, selectedComponenttype);
-            commonUtil.loadComboBox(rsStatusDdlb, UIUtils.STATUS, false);
-            commonUtil.loadComboBox(rsProgramType, UIUtils.REBATE_PROGRAM_TYPE, false);
-            commonUtil.loadComboBox(rebatePlanLevel, UIUtils.REBATE_PLAN_LEVEL, false);
-            commonUtil.loadComboBox(paymentFrequency, UIUtils.PAYMENT_FREQUENCY, false);
-            commonUtil.loadComboBox(paymentMethod, UIUtils.PAYMENT_METHOD, false);
-            commonUtil.loadComboBox(rsType, UIUtils.RS_TYPE, false);
+            commonUtil.loadComboBox(rsStatusDdlb, UiUtils.STATUS, false);
+            commonUtil.loadComboBox(rsProgramType, UiUtils.REBATE_PROGRAM_TYPE, false);
+            commonUtil.loadComboBox(rebatePlanLevel, UiUtils.REBATE_PLAN_LEVEL, false);
+            commonUtil.loadComboBox(paymentFrequency, UiUtils.PAYMENT_FREQUENCY, false);
+            commonUtil.loadComboBox(paymentMethod, UiUtils.PAYMENT_METHOD, false);
+            commonUtil.loadComboBox(rsType, UiUtils.RS_TYPE, false);
             configureTables();
             LoadDashBoardTree();
             for (RemoveDiscountDto remove : removeDiscountDto) {
@@ -375,9 +375,9 @@ public class NewDiscountTab extends CustomComponent {
             fieldDdlb.setImmediate(true);
             fieldDdlb.setNullSelectionAllowed(false);
             fieldDdlb.setInputPrompt(SELECT_ONE.getConstant());
-            fieldDdlb.addItem("Status");
-            fieldDdlb.addItem("Start Date");
-            fieldDdlb.addItem("End Date");
+            fieldDdlb.addItem(Constants.STATUS_FIELD);
+            fieldDdlb.addItem(Constants.START_DATE_HEADER);
+            fieldDdlb.addItem(Constants.END_DATE_HEADER);
             valueDdlb.setImmediate(true);
             valueDdlb.setNullSelectionAllowed(false);
             valueDdlb.setInputPrompt(SELECT_ONE.getConstant());
@@ -410,8 +410,8 @@ public class NewDiscountTab extends CustomComponent {
         componentDetailsSearchTable.setHeight(NumericConstants.EIGHTY, Sizeable.Unit.PERCENTAGE);
         componentDetailsSearchTable.setEditable(Boolean.TRUE);
         componentDetailsSearchTable.setFilterBarVisible(Boolean.FALSE);
-        componentDetailsSearchTable.setVisibleColumns(Constants.ITEM_SEARCH_RESULTS_COLUMNS);
-        componentDetailsSearchTable.setColumnHeaders(Constants.ITEM_SEARCH_RESULTS_HEADERS);
+        componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().itemSearchResultsColumns);
+        componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().itemSearchResultsHeaders);
         componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
         componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
@@ -444,20 +444,15 @@ public class NewDiscountTab extends CustomComponent {
                     newDiscountTabDto.setCheckAll(true);
                     newDiscountTabDto.setCheckRecord(event.isChecked());
                     DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, Constants.CHECK_RECORD, true);
-
-                    for (Object obj : itemList) {
-                        ContractsDetailsDto dto = (ContractsDetailsDto) obj;
-                        dto.setCheckRecord(event.isChecked());
-                        componentDetailsSearchTable.getContainerProperty(obj, Constants.CHECK_RECORD).setValue(event.isChecked());
-                    }
+                    tableLogic.loadSetData(newDiscountTabDto, session, false);
                 }
             }
         });
         componentDetailsSelectedItem.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         componentDetailsSelectedItem.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
         componentDetailsSelectedItem.setHeight(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
-        componentDetailsSelectedItem.setVisibleColumns(Constants.SELECTED_RESULTS_COLUMNS);
-        componentDetailsSelectedItem.setColumnHeaders(Constants.SELECTED_RESULTS_HEADERS);
+        componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().selectedResultsColumns);
+        componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().selectedResultsHeaders);
         componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
         componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, Boolean.TRUE);
         componentDetailsSelectedItem.setEditable(Boolean.TRUE);
@@ -489,13 +484,13 @@ public class NewDiscountTab extends CustomComponent {
                     });
                     return check;
                 }
-                if (String.valueOf(propertyId).equals("status")) {
+                if (String.valueOf(propertyId).equals(Constants.STATUS_S)) {
                     final ComboBox status = new ComboBox();
                     status.setImmediate(true);
                     status.setNullSelectionAllowed(false);
                     status.setInputPrompt(SELECT_ONE.getConstant());
                     try {
-                        commonUtil.loadComboBox(status, UIUtils.STATUS, false);
+                        commonUtil.loadComboBox(status, UiUtils.STATUS, false);
 
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -508,19 +503,19 @@ public class NewDiscountTab extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 dto.setStatus(newValue);
                                 dto.setTempStatus(newValue);
-                                DiscountLogic.updateTempTableRecord(dto, session, "status", false);
+                                DiscountLogic.updateTempTableRecord(dto, session, Constants.STATUS_S, false);
                             }
                         }
                     });
                     return status;
 
                 }
-                if (propertyId.equals("sDate")) {
+                if (propertyId.equals(S_DATE_PROPERTY)) {
                     final PopupDateField itemStartDate = new PopupDateField();
                     itemStartDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     itemStartDate.setImmediate(true);
-                    itemStartDate.setDateFormat(MMddyyyy.getConstant());
-                    itemStartDate.setStyleName("dateFieldCenter");
+                    itemStartDate.setDateFormat(MMDDYYYY.getConstant());
+                    itemStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     itemStartDate.addBlurListener(new BlurListener() {
                         public void blur(FieldEvents.BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
@@ -529,18 +524,18 @@ public class NewDiscountTab extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 dto.setsDate(dt1);
                                 dto.setTempSDate(dt1);
-                                DiscountLogic.updateTempTableRecord(dto, session, "sDate", false);
+                                DiscountLogic.updateTempTableRecord(dto, session, S_DATE_PROPERTY, false);
                             }
                         }
                     });
                     return itemStartDate;
                 }
-                if (propertyId.equals("eDate")) {
+                if (propertyId.equals(Constants.E_DATE)) {
                     final PopupDateField itemEndDate = new PopupDateField();
                     itemEndDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     itemEndDate.setImmediate(true);
-                    itemEndDate.setDateFormat(MMddyyyy.getConstant());
-                    itemEndDate.setStyleName("dateFieldCenter");
+                    itemEndDate.setDateFormat(MMDDYYYY.getConstant());
+                    itemEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     itemEndDate.addBlurListener(new BlurListener() {
                         public void blur(FieldEvents.BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
@@ -549,7 +544,7 @@ public class NewDiscountTab extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 dto.seteDate(dt1);
                                 dto.setTempEDate(dt1);
-                                DiscountLogic.updateTempTableRecord(dto, session, "eDate", false);
+                                DiscountLogic.updateTempTableRecord(dto, session, Constants.E_DATE, false);
                             }
                         }
                     });
@@ -611,7 +606,7 @@ public class NewDiscountTab extends CustomComponent {
 
                     return formulaId;
                 }
-                if (String.valueOf(propertyId).equals("priceType")) {
+                if (String.valueOf(propertyId).equals(Constants.PRICE_TYPE_PROPERTY)) {
                     final ComboBox priceType = new ComboBox();
                     priceType.setImmediate(true);
                     priceType.setNullSelectionAllowed(false);
@@ -629,18 +624,18 @@ public class NewDiscountTab extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 dto.setPriceType(newValue);
                                 dto.setTempPriceType(newValue);
-                                DiscountLogic.updateTempTableRecord(dto, session, "priceType", false);
+                                DiscountLogic.updateTempTableRecord(dto, session, Constants.PRICE_TYPE_PROPERTY, false);
                             }
                         }
                     });
                     return priceType;
                 }
-                if (propertyId.equals("ppSDate")) {
+                if (propertyId.equals(Constants.PP_S_DATE)) {
                     final PopupDateField ppStartDate = new PopupDateField();
                     ppStartDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     ppStartDate.setImmediate(true);
-                    ppStartDate.setDateFormat(MMddyyyy.getConstant());
-                    ppStartDate.setStyleName("dateFieldCenter");
+                    ppStartDate.setDateFormat(MMDDYYYY.getConstant());
+                    ppStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     ppStartDate.addBlurListener(new BlurListener() {
                         public void blur(FieldEvents.BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
@@ -649,7 +644,7 @@ public class NewDiscountTab extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 dto.setPpSDate(dt1);
                                 dto.setTempPpSDate(dt1);
-                                DiscountLogic.updateTempTableRecord(dto, session, "ppSDate", false);
+                                DiscountLogic.updateTempTableRecord(dto, session, Constants.PP_S_DATE, false);
                             }
                         }
                     });
@@ -672,11 +667,7 @@ public class NewDiscountTab extends CustomComponent {
                     newDiscountTabDto.setSystemId(compId);
                     DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, Constants.CHECK_RECORD, true);
                     newDiscountTabDto.setCheckAll(false);
-                    for (Object obj : itemList) {
-                        ContractsDetailsDto dto = (ContractsDetailsDto) obj;
-                        dto.setCheckRecord(event.isChecked());
-                        componentDetailsSelectedItem.getContainerProperty(obj, Constants.CHECK_RECORD).setValue(event.isChecked());
-                    }
+                    selectedTableLogic.loadSetData(newDiscountTabDto, session, false);
                 }
             }
         });
@@ -687,13 +678,14 @@ public class NewDiscountTab extends CustomComponent {
         dashboardTreeTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
         dashboardTreeTable.setPageLength(NumericConstants.TEN);
         dashboardTreeTable.setContainerDataSource(dashBoardTreeContainer);
-        dashboardTreeTable.setVisibleColumns(Constants.TREE_COLUMNS);
-        dashboardTreeTable.setColumnHeaders(Constants.TREE_HEADERS);
+        dashboardTreeTable.setVisibleColumns(Constants.getInstance().treeColumns);
+        dashboardTreeTable.setColumnHeaders(Constants.getInstance().treeHeaders);
         levelDetailsResultsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
         levelDetailsResultsTable.setPageLength(NumericConstants.ELEVEN);
         levelDetailsResultsTable.setContainerDataSource(componentResultsContainer);
-        levelDetailsResultsTable.setVisibleColumns(Constants.CONTRACT_COMPONENT_DETAILS_RESULTS_COLUMNS);
-        levelDetailsResultsTable.setColumnHeaders(Constants.CONTRACT_COMPONENT_DETAILS_RESULTS_HEADERS);
+        levelDetailsResultsTable.setVisibleColumns(Constants.getInstance().contractComponentDetailsResultsColumns);
+        levelDetailsResultsTable.setColumnHeaders(Constants.getInstance().contractComponentDetailsResultsHeaders);
+        componentDetailsSearchTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
 
     }
 
@@ -729,7 +721,7 @@ public class NewDiscountTab extends CustomComponent {
                 if (tableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) tableBeanId;
                 } else if (tableBeanId instanceof ContractsDetailsDto) {
-                    targetItem = new BeanItem<ContractsDetailsDto>((ContractsDetailsDto) tableBeanId);
+                    targetItem = new BeanItem<>((ContractsDetailsDto) tableBeanId);
                 } else {
                     targetItem = NULL_OBJECT;
                 }
@@ -931,8 +923,8 @@ public class NewDiscountTab extends CustomComponent {
 
     private void setProcessedTableHeader() {
         LOGGER.debug("Entering setProcessedTableHeader method");
-        dashboardTreeTable.setVisibleColumns(Constants.TREE_COLUMNS);
-        dashboardTreeTable.setColumnHeaders(Constants.TREE_HEADERS);
+        dashboardTreeTable.setVisibleColumns(Constants.getInstance().treeColumns);
+        dashboardTreeTable.setColumnHeaders(Constants.getInstance().treeHeaders);
         LOGGER.debug("End of setProcessedTableHeader method");
     }
 
@@ -948,8 +940,8 @@ public class NewDiscountTab extends CustomComponent {
             newDiscountTabDto.setSearchField(compType + "-" + searchField);
             if (searchValue.isVisible()) {
                 newDiscountTabDto.setSearchFieldValue(searchValue.getValue());
-            } else if (Constants.IFP_SEARCH[NumericConstants.TEN].equals(searchField) || Constants.IFP_SEARCH[NumericConstants.ELEVEN].equals(searchField) || Constants.IFP_SEARCH[NumericConstants.TWELVE].equals(searchField)
-                    || Constants.IFP_SEARCH[NumericConstants.THIRTEEN].equals(searchField) || Constants.CFP_SEARCH[NumericConstants.ELEVEN].equals(searchField)) {
+            } else if (Constants.getInstance().ifpSearch[NumericConstants.TEN].equals(searchField) || Constants.getInstance().ifpSearch[NumericConstants.ELEVEN].equals(searchField) || Constants.getInstance().ifpSearch[NumericConstants.TWELVE].equals(searchField)
+                    || Constants.getInstance().ifpSearch[NumericConstants.THIRTEEN].equals(searchField) || Constants.getInstance().cfpSearch[NumericConstants.ELEVEN].equals(searchField)) {
                 Object ddlb = searchValueStatusDdlb.getValue();
                 newDiscountTabDto.setSearchFieldValue(searchValueStatusDdlb.getItemCaption(ddlb));
             } else if (searchField.contains("Date")) {
@@ -983,12 +975,12 @@ public class NewDiscountTab extends CustomComponent {
     public void populateBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entered populate method");
         String massField = String.valueOf(fieldDdlb.getValue());
-        String propertyId = StringUtils.EMPTY;
+        String propertyId;
         newDiscountTabDto.setBulkUpdate(true);
-        if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true, true) > 0) {
+        if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,false) > 0) {
             if (massField != null && !massField.equals(Constants.NULL) && !massField.equals(StringUtils.EMPTY)) {
-                if (massField.equals("Status")) {
-                    propertyId = "status";
+                if (massField.equals(Constants.STATUS_FIELD)) {
+                    propertyId = Constants.STATUS_S;
                     String value = String.valueOf(valueDdlb.getValue());
                     if (value != null && !value.equals(Constants.NULL) && !value.equals(StringUtils.EMPTY)) {
                         newDiscountTabDto.setStatus(value);
@@ -1003,11 +995,10 @@ public class NewDiscountTab extends CustomComponent {
                         }
                         DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, propertyId, false);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("No Value",
-                                "No value entered for mass populate.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.NO_VALUE, Constants.NO_VALUE_ENTERED_FOR_MASS_POPULATE);
                     }
-                } else if (massField.equalsIgnoreCase("Start Date")) {
-                    propertyId = "sDate";
+                } else if (massField.equalsIgnoreCase(Constants.START_DATE_HEADER)) {
+                    propertyId = S_DATE_PROPERTY;
                     String value = String.valueOf(datePeriod.getValue());
                     if (value != null && !value.equals(Constants.NULL) && !value.equals(StringUtils.EMPTY)) {
                         newDiscountTabDto.setsDate(datePeriod.getValue());
@@ -1022,12 +1013,11 @@ public class NewDiscountTab extends CustomComponent {
                         }
                         DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, propertyId, false);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("No Value",
-                                "No value entered for mass populate.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.NO_VALUE, Constants.NO_VALUE_ENTERED_FOR_MASS_POPULATE);
                     }
 
-                } else if (massField.contains("End Date")) {
-                    propertyId = "eDate";
+                } else if (massField.contains(Constants.END_DATE_HEADER)) {
+                    propertyId = Constants.E_DATE;
                     String value = String.valueOf(datePeriod.getValue());
                     if (value != null && !value.equals(Constants.NULL) && !value.equals(StringUtils.EMPTY)) {
                         newDiscountTabDto.seteDate(datePeriod.getValue());
@@ -1042,12 +1032,11 @@ public class NewDiscountTab extends CustomComponent {
                         }
                         DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, propertyId, false);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("No Value",
-                                "No value entered for mass populate.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.NO_VALUE, Constants.NO_VALUE_ENTERED_FOR_MASS_POPULATE);
                     }
 
-                } else if (massField.contains("Price Type")) {
-                    propertyId = "priceType";
+                } else if (massField.contains(Constants.PRICE_TYPE_LABEL)) {
+                    propertyId = Constants.PRICE_TYPE_PROPERTY;
                     String value = String.valueOf(valueDdlb.getValue());
                     if (value != null && !value.equals(Constants.NULL) && !value.equals(StringUtils.EMPTY)) {
                         newDiscountTabDto.setPriceType(value);
@@ -1062,11 +1051,10 @@ public class NewDiscountTab extends CustomComponent {
                         }
                         DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, propertyId, false);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("No Value",
-                                "No value entered for mass populate.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.NO_VALUE, Constants.NO_VALUE_ENTERED_FOR_MASS_POPULATE);
                     }
                 } else if (massField.equalsIgnoreCase("Price Protection Start Date")) {
-                    propertyId = "ppSDate";
+                    propertyId = Constants.PP_S_DATE;
                     String value = String.valueOf(datePeriod.getValue());
                     if (value != null && !value.equals(Constants.NULL) && !value.equals(StringUtils.EMPTY)) {
                         newDiscountTabDto.setPpSDate(datePeriod.getValue());
@@ -1081,8 +1069,7 @@ public class NewDiscountTab extends CustomComponent {
                         }
                         DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, propertyId, false);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("No Value",
-                                "No value entered for mass populate.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.NO_VALUE, Constants.NO_VALUE_ENTERED_FOR_MASS_POPULATE);
                     }
                 }
             } else {
@@ -1141,8 +1128,9 @@ public class NewDiscountTab extends CustomComponent {
                 newDiscountTabDto.setCategory(Constants.IndicatorConstants.CFP.getConstant());
             }
 
-            new DiscountLogic().updateDataOperation(newDiscountTabDto.getCategory(), session, true);
-            if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true, false) > 0) {
+      
+            if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,true) > 0) {
+                      new DiscountLogic().updateDataOperation(newDiscountTabDto.getCategory(), session, true);
                 if (!selectedTableLogic.loadSetData(newDiscountTabDto, session, false)) {
                     componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, Boolean.TRUE);
                     AbstractNotificationUtils.getErrorNotification("No Records Found",
@@ -1178,7 +1166,9 @@ public class NewDiscountTab extends CustomComponent {
         if (load) {
             searchFieldDdlb = CommonLogic.loadNewTabSearchDdlb(searchFieldDdlb, selectedComponenttype);
         }
+        if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString()) || selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
         session.setSearchSessionId(StringUtils.EMPTY);
+        }
         selectedTableLogic.resetAndLoadData(true);
         tableLogic.resetAndLoadData(true);
         loadTableHeaders();
@@ -1189,37 +1179,37 @@ public class NewDiscountTab extends CustomComponent {
         if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
             componentDetailsSearchTable.setEditable(true);
             componentDetailsSearchTable.setSelectable(false);
-            componentDetailsSearchTable.setVisibleColumns(Constants.AD_SEARCH_RESULTS_COLUMNS_CFP);
-            componentDetailsSearchTable.setColumnHeaders(Constants.AD_SEARCH_RESULTS_HEADERS_CFP);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.AD_SELECTED_RESULTS_COLUMNS_CFP);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.AD_SELECTED_RESULTS_HEADERS_CFP);
+            componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().adSearchResultsColumnsCfp);
+            componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().adSearchResultsHeadersCfp);
+            componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adSelectedResultsColumnsCfp);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adSelectedResultsHeadersCfp);
             componentDetailsSearchTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSearchTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
         } else if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
             componentDetailsSearchTable.setEditable(true);
             componentDetailsSearchTable.setSelectable(false);
-            componentDetailsSearchTable.setVisibleColumns(Constants.AD_SEARCH_RESULTS_COLUMNS_IFP);
-            componentDetailsSearchTable.setColumnHeaders(Constants.AD_SEARCH_RESULTS_HEADERS_IFP);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.AD_SELECTED_RESULTS_COLUMNS_IFP);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.AD_SELECTED_RESULTS_HEADERS_IFP);
+            componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().adSearchResultsColumnsIfp);
+            componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().adSearchResultsHeadersIfp);
+            componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adSelectedResultsColumnsIfp);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adSelectedResultsHeadersIfp);
             componentDetailsSearchTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSearchTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
         } else if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
             componentDetailsSearchTable.setEditable(false);
             componentDetailsSearchTable.setSelectable(true);
-            componentDetailsSearchTable.setVisibleColumns(Constants.AD_IFP_RESULTS_COLUMNS);
-            componentDetailsSearchTable.setColumnHeaders(Constants.AD_IFP_RESULTS_HEADERS);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.AD_ND_PS_COMPONENT_DETAILS_COLUMNS);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.AD_ND_PS_COMPONENT_DETAILS_HEADERS);
+            componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().adIfpResultsColumns);
+            componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().adIfpResultsHeaders);
+            componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adNdPsComponentDetailsColumns);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adNdPsComponentDetailsHeaders);
             componentDetailsSearchTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSearchTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
         } else if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
             componentDetailsSearchTable.setEditable(false);
             componentDetailsSearchTable.setSelectable(true);
-            componentDetailsSearchTable.setVisibleColumns(Constants.AD_IFP_RESULTS_COLUMNS);
-            componentDetailsSearchTable.setColumnHeaders(Constants.AD_IFP_RESULTS_HEADERS);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.AD_ND_RS_COMPONENT_DETAILS_COLUMNS);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.AD_ND_RS_COMPONENT_DETAILS_HEADERS);
+            componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().adIfpResultsColumns);
+            componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().adIfpResultsHeaders);
+            componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adNdRsComponentDetailsColumns);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adNdRsComponentDetailsHeaders);
             componentDetailsSearchTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSearchTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
         }
@@ -1265,10 +1255,10 @@ public class NewDiscountTab extends CustomComponent {
     public void fieldDdlbValueChange(Property.ValueChangeEvent event) {
         LOGGER.debug(" FieldDdlb ValueChangeEvent initiated ");
         datePeriod.setValue(null);
-        if ("Status".equals(String.valueOf(fieldDdlb.getValue())) || "Price Type".equals(String.valueOf(fieldDdlb.getValue()))) {
+        if (Constants.STATUS_FIELD.equals(String.valueOf(fieldDdlb.getValue())) || Constants.PRICE_TYPE_LABEL.equals(String.valueOf(fieldDdlb.getValue()))) {
             datePeriod.setVisible(false);
             valueDdlb.setVisible(true);
-            if ("Status".equals(String.valueOf(fieldDdlb.getValue()))) {
+            if (Constants.STATUS_FIELD.equals(String.valueOf(fieldDdlb.getValue()))) {
                 try {
                     valueDdlb.removeAllItems();
                     valueDdlb = CommonLogic.getNativeSelect(valueDdlb, itemStatusList);
@@ -1276,7 +1266,7 @@ public class NewDiscountTab extends CustomComponent {
                     LOGGER.error(ex);
                 }
             }
-            if ("Price Type".equals(String.valueOf(fieldDdlb.getValue()))) {
+            if (Constants.PRICE_TYPE_LABEL.equals(String.valueOf(fieldDdlb.getValue()))) {
                 try {
                     valueDdlb.removeAllItems();
                     valueDdlb = CommonLogic.getNativeSelect(valueDdlb, priceTypeList);
@@ -1298,37 +1288,37 @@ public class NewDiscountTab extends CustomComponent {
         if (componentTypeddlb.getValue() != null) {
             if (componentTypeddlb.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
                 componentSelectionLayout.addComponent(cfpComponent);
-                cfpType = commonUtil.loadComboBox(cfpType, UIUtils.CFP_TYPE, false);
+                cfpType = commonUtil.loadComboBox(cfpType, UiUtils.CFP_TYPE, false);
                 cfpStatus = CommonLogic.getNativeSelect(cfpStatus, itemStatusList);
                 fieldDdlb.removeAllItems();
-                fieldDdlb.addItem("Status");
-                fieldDdlb.addItem("Start Date");
-                fieldDdlb.addItem("End Date");
+                fieldDdlb.addItem(Constants.STATUS_FIELD);
+                fieldDdlb.addItem(Constants.START_DATE_HEADER);
+                fieldDdlb.addItem(Constants.END_DATE_HEADER);
             } else if (componentTypeddlb.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
                 componentSelectionLayout.addComponent(ifpComponent);
                 ifpStatus = CommonLogic.getNativeSelect(ifpStatus, itemStatusList);
-                ifpType = commonUtil.loadComboBox(ifpType, UIUtils.IFP_TYPE, false);
+                ifpType = commonUtil.loadComboBox(ifpType, UiUtils.IFP_TYPE, false);
                 fieldDdlb.removeAllItems();
-                fieldDdlb.addItem("Status");
-                fieldDdlb.addItem("Start Date");
-                fieldDdlb.addItem("End Date");
+                fieldDdlb.addItem(Constants.STATUS_FIELD);
+                fieldDdlb.addItem(Constants.START_DATE_HEADER);
+                fieldDdlb.addItem(Constants.END_DATE_HEADER);
             } else if (componentTypeddlb.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
                 componentSelectionLayout.addComponent(psComponent);
                 priceTypeList = CommonLogic.getPriceTypeResults();
                 psStatus = CommonLogic.getNativeSelect(psStatus, itemStatusList);
-                psType = commonUtil.loadComboBox(psType, UIUtils.PS_TYPE, false);
+                psType = commonUtil.loadComboBox(psType, UiUtils.PS_TYPE, false);
                 fieldDdlb.removeAllItems();
-                fieldDdlb.addItem("Status");
-                fieldDdlb.addItem("Start Date");
-                fieldDdlb.addItem("End Date");
-                fieldDdlb.addItem("Price Type");
+                fieldDdlb.addItem(Constants.STATUS_FIELD);
+                fieldDdlb.addItem(Constants.START_DATE_HEADER);
+                fieldDdlb.addItem(Constants.END_DATE_HEADER);
+                fieldDdlb.addItem(Constants.PRICE_TYPE_LABEL);
                 fieldDdlb.addItem("Price Protection Start Date");
             } else if (componentTypeddlb.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
                 componentSelectionLayout.addComponent(rsComponent);
                 fieldDdlb.removeAllItems();
-                fieldDdlb.addItem("Status");
-                fieldDdlb.addItem("Start Date");
-                fieldDdlb.addItem("End Date");
+                fieldDdlb.addItem(Constants.STATUS_FIELD);
+                fieldDdlb.addItem(Constants.START_DATE_HEADER);
+                fieldDdlb.addItem(Constants.END_DATE_HEADER);
             }
         }
     }
@@ -1345,7 +1335,7 @@ public class NewDiscountTab extends CustomComponent {
                     ContractsDetailsDto dto = (ContractsDetailsDto) obj;
                     if (dto.getCheckRecord()) {
                         if ((dto.getStatus() == null || dto.getStatus() == "" || dto.getsDate() == null)) {
-                            AbstractNotificationUtils.getErrorNotification("Add to Tree", "Please ensure all mandatory fields are completed for the Component and Component Details.");
+                            AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                             return;
                         }
                     }
@@ -1382,7 +1372,7 @@ public class NewDiscountTab extends CustomComponent {
                             return;
                         }
                         saveTreeDto = new ContractsDetailsDto();
-                        rsListforMap = new ArrayList<ContractsDetailsDto>();
+                        rsListforMap = new ArrayList<>();
                         saveTreeDto.setCategory(Constants.IndicatorConstants.RS_VALUE.getConstant());
                         saveTreeDto.setId(rebateId);
                         saveTreeDto.setName(rebateName);
@@ -1414,7 +1404,7 @@ public class NewDiscountTab extends CustomComponent {
                         }
 
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("Add to Tree", "Please ensure all mandatory fields are completed for the Component and Component Details.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                     }
                 } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
                     String priceId = psId.getValue();
@@ -1431,7 +1421,7 @@ public class NewDiscountTab extends CustomComponent {
                             return;
                         }
                         saveTreeDto = new ContractsDetailsDto();
-                        psListforMap = new ArrayList<ContractsDetailsDto>();
+                        psListforMap = new ArrayList<>();
                         saveTreeDto.setCategory(Constants.IndicatorConstants.PS_VALUE.getConstant());
                         saveTreeDto.setId(priceId);
                         saveTreeDto.setName(priceName);
@@ -1457,7 +1447,7 @@ public class NewDiscountTab extends CustomComponent {
                         }
 
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("Add to Tree", "Please ensure all mandatory fields are completed for the Component and Component Details.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                     }
                 } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
                     String ifpId = this.ifpId.getValue();
@@ -1473,7 +1463,7 @@ public class NewDiscountTab extends CustomComponent {
                             return;
                         }
                         saveTreeDto = new ContractsDetailsDto();
-                        ifpListforMap = new ArrayList<ContractsDetailsDto>();
+                        ifpListforMap = new ArrayList<>();
                         saveTreeDto.setCategory(Constants.IndicatorConstants.IFP.getConstant());
                         saveTreeDto.setId(ifpId);
                         saveTreeDto.setName(ifpName);
@@ -1491,7 +1481,7 @@ public class NewDiscountTab extends CustomComponent {
                         }
 
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("Add to Tree", "Please ensure all mandatory fields are completed for the Component and Component Details.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                     }
                 } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant())) {
                     String cfpId = this.cfpId.getValue();
@@ -1527,12 +1517,11 @@ public class NewDiscountTab extends CustomComponent {
                             addedFlag = true;
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("Add to Tree", "Please ensure all mandatory fields are completed for the Component and Component Details.");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                     }
                 }
 
                 if (addedFlag) {
-//                    session.setSearchSessionId(StringUtils.EMPTY);
                     tableLogic.resetAndLoadData(true);
                     selectedTableLogic.resetAndLoadData(true);
                 }
@@ -1542,7 +1531,7 @@ public class NewDiscountTab extends CustomComponent {
             LOGGER.error(e);
         }
     }
-
+    
     private boolean addToTreeMethod(ContractsDetailsDto srcTableBean) throws SystemException {
 
         ContractsDetailsDto treeBean = dashboardTreeTable.getValue() == null ? null : getBeanFromID(dashboardTreeTable.getValue());
@@ -1558,24 +1547,24 @@ public class NewDiscountTab extends CustomComponent {
                 returnFlag = true;
             } else {
                 final String message = "Cannot make a " + srcTableBean.getCategory() + " as contracts header";
-                AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
             }
         } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.CONTRACT.getConstant())) {
             final String message = "Cannot make a " + srcTableBean.getCategory() + " as child node";
-            AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+            AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
         } else if (srcTableBean.getCategory().equals(treeBean.getCategory())) {
             final String message = srcTableBean.getCategory() + " cannot be added to  " + treeBean.getCategory();
-            AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+            AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
         } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
             final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContractDetails.class);
             rsDynamicQuery.add(RestrictionsFactoryUtil.eq("ifpContractSid", treeBean.getInternalId()));
-            rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("itemMasterSid")));
+            rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.ITEM_MASTER_SID_PROPERTY)));
             final List<Object> itemsList = IfpContractDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
             String query1 = "getItemForIFPInNewDiscount";
             String query2 = "getItemForPsInNewDiscount";
-
+            
             if ((treeBean.getInternalId() == 0 && !discountLogic.checkSameItemInPs(query1, query2, userId, sessionId)) || (treeBean.getInternalId() != 0 && !discountLogic.checkSameItemInPs(query2, itemsList, userId, sessionId))) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Please Select the same items that are in IFP");
+                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_THE_SAME_ITEMS);
             } else {
                 if (dashBoardTreeContainer.hasChildren(treeBeanId)) {
                     final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanId);
@@ -1586,7 +1575,7 @@ public class NewDiscountTab extends CustomComponent {
                         String dest = object.getId() + object.getName() + object.getNumber();
                         if (src.equals(dest)) {
                             final String messageStr = srcTableBean.getCategory() + "Already Added";
-                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", messageStr);
+                            AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, messageStr);
                             return false;
                         }
                     }
@@ -1600,7 +1589,7 @@ public class NewDiscountTab extends CustomComponent {
             LOGGER.debug("Inside Expected Code");
             final DynamicQuery rsDynamicQuery1 = DynamicQueryFactoryUtil.forClass(IfpContractDetails.class);
             rsDynamicQuery1.add(RestrictionsFactoryUtil.eq("ifpContractSid", treeBean.getInternalId()));
-            rsDynamicQuery1.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("itemMasterSid")));
+            rsDynamicQuery1.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.ITEM_MASTER_SID_PROPERTY)));
             final List<Object> itemsList = IfpContractDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery1);
             final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
             rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
@@ -1609,7 +1598,7 @@ public class NewDiscountTab extends CustomComponent {
             String query1 = "getItemForIFPInNewDiscount";
             String query2 = "getItemForRsInNewDiscount";
             if ((treeBean.getInternalId() == 0 && !discountLogic.checkSameItemInPs(query1, query2, userId, sessionId)) || (treeBean.getInternalId() != 0 && !discountLogic.checkSameItemInPs(query2, itemsList, userId, sessionId))) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Please Select the same items that are in IFP");
+                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_THE_SAME_ITEMS);
             } else {
                 if (dashBoardTreeContainer.hasChildren(treeBeanId)) {
                     final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanId);
@@ -1618,8 +1607,8 @@ public class NewDiscountTab extends CustomComponent {
                         String src = srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber();
                         String dest = object.getId() + object.getName() + object.getNumber();
                         if (src.equals(dest)) {
-                            final String message = srcTableBean.getCategory() + " Already Added";
-                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
+                            final String message = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
+                            AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, message);
                             return false;
                         }
                     }
@@ -1632,12 +1621,12 @@ public class NewDiscountTab extends CustomComponent {
         } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.getConstant()) && treeBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
             final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContractDetails.class);
             rsDynamicQuery.add(RestrictionsFactoryUtil.eq("psContractSid", treeBean.getInternalId()));
-            rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("itemMasterSid")));
+            rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.ITEM_MASTER_SID_PROPERTY)));
             final List<Object> itemsList = PsContractDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
             String query1 = "getItemForPsInNewDiscount";
             String query2 = "getItemForRsInNewDiscount";
             if ((treeBean.getInternalId() == 0 && !discountLogic.checkSameItemInPs(query1, query2, userId, sessionId)) || (treeBean.getInternalId() != 0 && !discountLogic.checkSameItemInPs(query2, itemsList, userId, sessionId))) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Please Select the same items that are in IFP");
+                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_THE_SAME_ITEMS);
             } else {
                 final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
                 psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", treeBean.getModelSysId()));
@@ -1650,8 +1639,8 @@ public class NewDiscountTab extends CustomComponent {
                         String src = srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber();
                         String dest = object.getId() + object.getName() + object.getNumber();
                         if (src.equals(dest)) {
-                            final String message = srcTableBean.getCategory() + " Already Added";
-                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
+                            final String message = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
+                            AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, message);
                             return false;
                         }
                     }
@@ -1669,8 +1658,8 @@ public class NewDiscountTab extends CustomComponent {
                     String src = srcTableBean.getId() + srcTableBean.getName() + srcTableBean.getNumber();
                     String dest = object.getId() + object.getName() + object.getNumber();
                     if (src.equals(dest)) {
-                        final String message = srcTableBean.getCategory() + " Already Added";
-                        AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
+                        final String message = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
+                        AbstractNotificationUtils.getWarningNotification(Constants.DUPLICATE_CRITERIA, message);
                         return false;
                     }
                 }
@@ -1690,7 +1679,7 @@ public class NewDiscountTab extends CustomComponent {
         if (tableID instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableID;
         } else if (tableID instanceof ContractsDetailsDto) {
-            targetItem = new BeanItem<ContractsDetailsDto>((ContractsDetailsDto) tableID);
+            targetItem = new BeanItem<>((ContractsDetailsDto) tableID);
         } else {
             targetItem = NULL_OBJECT;
         }
@@ -1782,53 +1771,53 @@ public class NewDiscountTab extends CustomComponent {
     }
 
     private void loadCfpFromCD(final ContractsDetailsDto parent, int internalId, String userid, String sessionid) {
-        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<CFPComponentDetailsDTO>(CFPComponentDetailsDTO.class));
+        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(CFPComponentDetailsDTO.class));
         if (internalId == 0) {
             levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForCFP(userid, sessionid, parent.getAttachedList()));
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromCfpCD(parent));
         }
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.AD_COMPONENT_DETAILS_COMPANY_COLUMN);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.AD_COMPONENT_DETAILS_COMPANY_HEADER);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsCompanyColumn);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().adComponentDetailsCompanyHeader);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadIfpFromCD(final ContractsDetailsDto parent, int internalId, String userid, String sessionid) {
-        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<PSComponentDetailsDTO>(PSComponentDetailsDTO.class));
+        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         if (internalId == 0) {
             levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForIFP(userid, sessionid, parent.getAttachedList()));
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromIfpCD(parent));
         }
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.AD_COMPONENT_DETAILS_PS_COLUMN);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.AD_COMPONENT_DETAILS_PS_HEADER);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadPsFromCD(final ContractsDetailsDto parent, int internalId, String userid, String sessionid) {
-        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<PSComponentDetailsDTO>(PSComponentDetailsDTO.class));
+        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         if (internalId == 0) {
             levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPS_RS(userid, sessionid, parent.getAttachedList()));
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromPsCD(parent));
         }
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.AD_COMPONENT_DETAILS_PS_COLUMN);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.AD_COMPONENT_DETAILS_PS_HEADER);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
 
     private void loadRsFromCD(final ContractsDetailsDto parent, int internalId, String userid, String sessionid) {
-        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<PSComponentDetailsDTO>(PSComponentDetailsDTO.class));
+        levelDetailsResultsTable.setContainerDataSource(new BeanItemContainer<>(PSComponentDetailsDTO.class));
         if (internalId == 0) {
             levelDetailsResultsTable.addItems(new DiscountLogic().getDiscountItemsForPS_RS(userid, sessionid, parent.getAttachedList()));
         } else {
             levelDetailsResultsTable.addItems(new DiscountLogic().getFromRsCD(parent));
         }
-        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.AD_COMPONENT_DETAILS_PS_COLUMN);
-        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.AD_COMPONENT_DETAILS_PS_HEADER);
+        levelDetailsResultsTable.setVisibleColumns(HeaderUtil.getInstance().adComponentDetailsPsColumn);
+        levelDetailsResultsTable.setColumnHeaders(HeaderUtil.getInstance().aDComponentDetailsPsHeader);
         levelDetailsResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
         levelDetailsResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
     }
@@ -1839,7 +1828,7 @@ public class NewDiscountTab extends CustomComponent {
         LOGGER.debug(" buttonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
         if (dashBoardTreeContainer.getItemIds().size() > Constants.ZERO) {
             if (dashboardTreeTable.getValue() == null) {
-                AbstractNotificationUtils.getWarningNotification("Remove", "Please highlight a component to Remove.");
+                AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "Please highlight a component to Remove.");
             } else {
                 final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(tableBeanId);
                 if (collection == null) {
@@ -1867,16 +1856,16 @@ public class NewDiscountTab extends CustomComponent {
                         }
 
                     } else {
-                        AbstractNotificationUtils.getWarningNotification("Remove", "You can remove only newly added Rebates.");
+                        AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "You can remove only newly added Rebates.");
                     }
 
                 } else {
                     final String message = "Please remove all children nodes before removing a parent node.";
-                    AbstractNotificationUtils.getWarningNotification("Remove", message);
+                    AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, message);
                 }
             }
         } else {
-            AbstractNotificationUtils.getWarningNotification("Remove", "No data to remove");
+            AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "No data to remove");
         }
     }
 
@@ -1898,7 +1887,7 @@ public class NewDiscountTab extends CustomComponent {
                         try {
                             int rsModelSysId = 0;
 
-                            if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true, true) > 0) {
+                            if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,false) > 0) {
                                 for (final Iterator iterator = idList.iterator(); iterator.hasNext();) {
                                     final Object idValue = iterator.next();
                                     final ContractsDetailsDto temp = getBeanFromID(idValue);
@@ -1983,7 +1972,7 @@ public class NewDiscountTab extends CustomComponent {
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.CFP.getConstant())) {
                         cfp.setModelSysId(rsModelSysId);
                         cfp.setCfpId(rsModelSysId);
-                        DiscountLogic.saveCFp(contract.getInternalId(), cfp);
+                        DiscountLogic.saveCFp(contract.getInternalId(), cfp ,true);
                     }
                 }
                 if (Constants.IndicatorConstants.IFP.toString().equalsIgnoreCase(temp.getCategory())) {
@@ -1993,7 +1982,7 @@ public class NewDiscountTab extends CustomComponent {
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.IFP.getConstant())) {
                         ifp.setModelSysId(rsModelSysId);
                         ifp.setIfpId(rsModelSysId);
-                        DiscountLogic.saveIFP(contract.getInternalId(), cfp.getCfpContractId(), ifp);
+                        DiscountLogic.saveIFP(contract.getInternalId(), cfp.getCfpContractId(), ifp ,true);
                     }
                 }
                 if (Constants.IndicatorConstants.PS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
@@ -2002,7 +1991,7 @@ public class NewDiscountTab extends CustomComponent {
                     if (category.equalsIgnoreCase(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
                         priceSchedule.setModelSysId(rsModelSysId);
                         priceSchedule.setPsSid(String.valueOf(rsModelSysId));
-                        DiscountLogic.savePS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule);
+                        DiscountLogic.savePS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule ,true);
                     }
                 }
                 if (Constants.IndicatorConstants.RS_VALUE.toString().equalsIgnoreCase(temp.getCategory())) {
@@ -2011,7 +2000,7 @@ public class NewDiscountTab extends CustomComponent {
                         rebateSchedule.setRsSid(String.valueOf(rsModelSysId));
                         int internalId = temp.getInternalId();
                         if (internalId == 0) {
-                            new DiscountLogic().saveRS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule.getPsContractId(), rebateSchedule);
+                            DiscountLogic.saveRS(contract.getInternalId(), cfp.getCfpContractId(), ifp.getIfpContractId(), priceSchedule.getPsContractId(), rebateSchedule ,true);
                         }
                     }
                 }
@@ -2055,7 +2044,7 @@ public class NewDiscountTab extends CustomComponent {
     @UiHandler("removeBtn")
     public void removeBtnLogic(Button.ClickEvent event) {
         LOGGER.debug(" buttonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
-        if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true, false) > 0) {
+        if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,false) > 0) {
             if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
                 newDiscountTabDto.setCategory(Constants.IndicatorConstants.IFP.getConstant());
             } else if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
@@ -2065,11 +2054,13 @@ public class NewDiscountTab extends CustomComponent {
             } else if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
                 newDiscountTabDto.setCategory(Constants.IndicatorConstants.RS_VALUE.getConstant());
             }
+            DiscountLogic.removeSelectedItems(newDiscountTabDto, session);
             selectedContainer.removeAllItems();
             selectedContainer.addAll(contListafterRemove);
             contListafterRemove.clear();
+            selectedTableLogic.loadSetData(newDiscountTabDto, session, false);
         } else {
-            AbstractNotificationUtils.getErrorNotification("Remove", "Please check a record to Remove.");
+            AbstractNotificationUtils.getErrorNotification(Constants.REMOVE_HEADER, "Please check a record to Remove.");
         }
 
     }
@@ -2111,7 +2102,7 @@ public class NewDiscountTab extends CustomComponent {
 
             if (Constants.COMPANY_ID.equals(value) || Constants.COMPANYNAME.equals(value) || Constants.COMPANYNO.equals(value)
                     || Constants.ITEM_ID.equals(value) || Constants.ITEM_NAME.equals(value) || Constants.ITEM_NO.equals(value)
-                    || Constants.IFP_ID.equals(value) || Constants.IfpNAME.equals(value) || Constants.IFP_NO.equals(value)) {
+                    || Constants.IFP_ID.equals(value) || Constants.IFP_NAME_LABEL.equals(value) || Constants.IFP_NO.equals(value)) {
                 searchValue.setValue(StringUtils.EMPTY);
                 searchValue.setVisible(true);
                 searchValueStatusDdlb.setVisible(false);
@@ -2127,37 +2118,37 @@ public class NewDiscountTab extends CustomComponent {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.COMPANY_TYPE, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.COMPANY_TYPE, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if (Constants.ITEM_TYPE.equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.ITEM_TYPE, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.ITEM_TYPE, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if (Constants.IFPTYPE.equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.IFP_TYPE, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.IFP_TYPE, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if (Constants.COMPANYCATEGORY.equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.COMPANY_CATEGORY, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.COMPANY_CATEGORY, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if (Constants.TRADECLASS.equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.COMPANY_TRADE_CLASS, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.COMPANY_TRADE_CLASS, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if (Constants.BRAND.equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                List<HelperDTO> temp = new ArrayList<HelperDTO>();
+                List<HelperDTO> temp;
                 temp = CommonLogic.getBrand("ad.getBrand");
                 searchValueStatusDdlb = CommonLogic.getNativeSelect(searchValueStatusDdlb, temp);
                 searchValueStatusDdlb.setVisible(true);
@@ -2165,19 +2156,19 @@ public class NewDiscountTab extends CustomComponent {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.FORM, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.FORM, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if (Constants.STRENGTH.equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.STRENGTH, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.STRENGTH, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if (Constants.THERAPY_CLASS.equals(value)) {
                 searchValueStatusDdlb.removeAllItems();
                 searchValue.setVisible(false);
                 searchDatePeriod.setVisible(false);
-                commonUtil.loadComboBox(searchValueStatusDdlb, UIUtils.THERAPEUTIC_CLASS, false);
+                commonUtil.loadComboBox(searchValueStatusDdlb, UiUtils.THERAPEUTIC_CLASS, false);
                 searchValueStatusDdlb.setVisible(true);
             } else if (Constants.ITEM_START_DATE.equals(value) || Constants.ITEM_END_DATE.equals(value)) {
                 searchValue.setVisible(false);

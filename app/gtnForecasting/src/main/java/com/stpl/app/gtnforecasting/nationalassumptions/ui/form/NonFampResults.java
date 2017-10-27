@@ -185,14 +185,14 @@ public class NonFampResults extends Window {
     CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     FcpResultsLogic fcpLogic = new FcpResultsLogic();
     private HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
     LazyContainer brandContainer;
     LazyContainer therapeuticContainer;
     ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     @UiField("nfNdcFilterDdlb")
     private ComboBox ndcFilterDdlb;
     LazyContainer ndcFilterContainer;
@@ -203,7 +203,7 @@ public class NonFampResults extends Window {
      * Instantiates a new non famp results.
      */
     public NonFampResults(SessionDTO sessionDTO) {
-        super("Non-FAMP Results");
+        super(Constant.NON_FAMP_RESULTS);
         this.sessionDTO=sessionDTO;
         LOGGER.debug("NonFampResults Constructor initiated ");
         init();
@@ -238,8 +238,8 @@ public class NonFampResults extends Window {
             CommonUtils.defaultSelect(therapeuticDdlb, brandDdlb, historyDdlb, ndcFilterDdlb);
             ndcFilterDdlb.select(ndcFilterDTO);
             historyDdlb.setContainerDataSource(new IndexedContainer(CommonUtils.loadHistory(QUARTERLY.getConstant())));
-            if (historyDdlb.containsId("2 Quarters")) {
-                historyDdlb.select("2 Quarters");
+            if (historyDdlb.containsId(Constant.TWO_QUARTERS)) {
+                historyDdlb.select(Constant.TWO_QUARTERS);
             } else {
                 historyDdlb.addItem(Constant.SELECT_ONE);
                 historyDdlb.select(Constant.SELECT_ONE);
@@ -388,7 +388,7 @@ public class NonFampResults extends Window {
              * @param buttonId The buttonId of the pressed button.
              */
             public void yesMethod() {
-                historyDdlb.setValue("2 Quarters");
+                historyDdlb.setValue(Constant.TWO_QUARTERS);
                 variables.setValue(PERCENTAGE.getConstant());
                 periodOrder.setValue(ASCENDING.getConstant());
                 actualOrProj.setValue(BOTH.getConstant());
@@ -467,7 +467,7 @@ public class NonFampResults extends Window {
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
         rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader);
-        resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
         tableLogic.setTreeNodeMultiClick(false);
@@ -477,9 +477,9 @@ public class NonFampResults extends Window {
                 .getRightFreezeAsTable();
         leftTable.setImmediate(true);
         rightTable.setImmediate(true);
-        periodTableId.setHeight("315px");
-        leftTable.setHeight("315px");
-        rightTable.setHeight("315px");
+        periodTableId.setHeight(Constant.THREE_FIFTEEN_PX);
+        leftTable.setHeight(Constant.THREE_FIFTEEN_PX);
+        rightTable.setHeight(Constant.THREE_FIFTEEN_PX);
         leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
         leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
         rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
@@ -604,7 +604,7 @@ public class NonFampResults extends Window {
         if (id instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) id;
         } else if (id instanceof TableDTO) {
-            targetItem = new BeanItem<TableDTO>(
+            targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
         return (TableDTO) targetItem.getBean();
@@ -636,14 +636,14 @@ public class NonFampResults extends Window {
         if (resultBeanContainer.size() > 0) {
             loadExcelResultTable();
         }
-        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Non-FAMP Results", "Non-FAMP Results", "Non-FAMP_Results.xls", false);
+        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.NON_FAMP_RESULTS, Constant.NON_FAMP_RESULTS, "Non-FAMP_Results.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);
         LOGGER.debug("excelBtn click listener ends");
     }
 
     private void configureExcelResultTable() {
-        excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
         exceltable = new ExtCustomTreeTable();
         tableVerticalLayout.addComponent(exceltable);
@@ -665,10 +665,10 @@ public class NonFampResults extends Window {
     private void loadExcelResultTable() {
         excelResultBeanContainer.removeAllItems();
         List<TableDTO> resultList = fcpLogic.getNonFamp(projectionDTO,sessionDTO);
-        loadDataToContainer(resultList, null);
+        loadDataToContainer(resultList);
     }
 
-    public void loadDataToContainer(List<TableDTO> resultList, Object parentId) {
+    public void loadDataToContainer(List<TableDTO> resultList) {
         for (TableDTO dto : resultList) {
             excelResultBeanContainer.addBean(dto);
         }

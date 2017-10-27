@@ -59,35 +59,35 @@ public class MProjectionResultsLogic {
     ProjectionResultsDTO manDisDolDto = null;
     ProjectionResultsDTO manRPUDto = null;
     ProjectionResultsDTO supRPUDto = null;
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<ProjectionResultsDTO>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<ProjectionResultsDTO>();
+    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
 
-    List<ProjectionResultsDTO> prjTotalDisDtoList = new ArrayList<ProjectionResultsDTO>();
-    List<ProjectionResultsDTO> prjTotalDisChildDtoList = new ArrayList<ProjectionResultsDTO>();
-    List<List<ProjectionResultsDTO>> programCodeDtoList = new ArrayList<List<ProjectionResultsDTO>>();
+    List<ProjectionResultsDTO> prjTotalDisDtoList = new ArrayList<>();
+    List<ProjectionResultsDTO> prjTotalDisChildDtoList = new ArrayList<>();
+    List<List<ProjectionResultsDTO>> programCodeDtoList = new ArrayList<>();
 
-    List<Object> totalDiscountDollarList = new ArrayList<Object>();
-    List<Object> childDiscountDollarList = new ArrayList<Object>();
-    List<Object[]> programCodeDollarList = new ArrayList<Object[]>();
+    List<Object> totalDiscountDollarList = new ArrayList<>();
+    List<Object> childDiscountDollarList = new ArrayList<>();
+    List<Object[]> programCodeDollarList = new ArrayList<>();
 
-    List<Object> totalDiscountPerList = new ArrayList<Object>();
-    List<Object> childDiscountPerList = new ArrayList<Object>();
-    List<Object[]> programCodePerList = new ArrayList<Object[]>();
-
-    List<ProjectionResultsDTO> netSalesDtoList = new ArrayList<ProjectionResultsDTO>();
-    List<Object[]> prcMProjResultsContract = new ArrayList<Object[]>();
+    List<Object> totalDiscountPerList = new ArrayList<>();
+    List<Object> childDiscountPerList = new ArrayList<>();
+    List<Object[]> programCodePerList = new ArrayList<>();
+    public static final String TOTAL_DISCOUNT_DOLLAR = "Total Discount $";
+    List<ProjectionResultsDTO> netSalesDtoList = new ArrayList<>();
+    List<Object[]> prcMProjResultsContract = new ArrayList<>();
      //To Persist the Total Procedure Result List 
-    List<Object[]> prcMProcedureResults = new ArrayList<Object[]>();
-    List<Object> totalDiscount = new ArrayList<Object>();
-    List<Object> childDiscountList = new ArrayList<Object>();
-    List<Object[]> programCodeList = new ArrayList<Object[]>();
-    List<Object> prMainQuery = new ArrayList<Object>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<ProjectionResultsDTO>();
+    List<Object[]> prcMProcedureResults = new ArrayList<>();
+    List<Object> totalDiscount = new ArrayList<>();
+    List<Object> childDiscountList = new ArrayList<>();
+    List<Object[]> programCodeList = new ArrayList<>();
+    List<Object> prMainQuery = new ArrayList<>();
+    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     // To Persist the Total Procedure Input
      Object[] totalPRCInput;
      Object[] totalDiscountPRCInput;
     public List<ProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if ( projSelDTO.getSessionDTO().isPrRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, totalPRCInput)) {
             prcMProcedureResults = CommonLogic.callProcedure("PRC_M_PROJECTION_RESULTS", orderedArgs);
             totalPRCInput = orderedArgs;
@@ -97,7 +97,6 @@ public class MProjectionResultsLogic {
         if (gtsList != null) {
             projDTOList = getCustomizedProjectionTotal(gtsList, projSelDTO);
         }
-        gtsList = null;
 
         return projDTOList;
     }
@@ -107,7 +106,7 @@ public class MProjectionResultsLogic {
         String sql = commonLogic.insertAvailableHierarchyNo(projSelDTO);
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
 
-        String query = "DECLARE @FROM_DATE DATE\n"
+        String query = "DECLARE @FROM_DATE DATE \n"
                 + "     , @STARTFROM DATE\n"
                 + "     , @PROJECTION_DATE DATE\n"
                 + "     , @START_PERIOD_SID INT\n"
@@ -119,11 +118,11 @@ public class MProjectionResultsLogic {
                 + "WHERE PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
                 + "\n"
                 + "SELECT @START_PERIOD_SID = PERIOD_SID\n"
-                + "FROM PERIOD\n"
+                + "FROM PERIOD \n"
                 + "WHERE PERIOD_DATE = @STARTFROM\n"
                 + "\n"
                 + "SELECT @END_PERIOD_SID = PERIOD_SID\n"
-                + "FROM PERIOD\n"
+                + "FROM PERIOD \n"
                 + "WHERE PERIOD_DATE = @PROJECTION_DATE \n";
         query += sql + " \n" + getProjectionResultsNetSalesQueryForPR(projSelDTO);
         prMainQuery = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
@@ -132,8 +131,8 @@ public class MProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsSales(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDtoList = new ArrayList<ProjectionResultsDTO>();
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<ProjectionResultsDTO> projDtoList = new ArrayList<>();
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO projSalesDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO projUnitDTO = new ProjectionResultsDTO();
@@ -153,7 +152,7 @@ public class MProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = obj[NumericConstants.ZERO] == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(obj[NumericConstants.ZERO]));
                 int period = obj[NumericConstants.ONE] == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(obj[NumericConstants.ONE]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -195,7 +194,7 @@ public class MProjectionResultsLogic {
     }
 
     public void getCustomizedTotalDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO totalDisPerDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO totalRPUDTO = new ProjectionResultsDTO();
@@ -240,7 +239,7 @@ public class MProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = obj[NumericConstants.ZERO] == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(obj[NumericConstants.ZERO]));
                 int period = obj[NumericConstants.ONE] == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(obj[NumericConstants.ONE]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -291,7 +290,7 @@ public class MProjectionResultsLogic {
     }
 
     public void getCustomizedChildTotalDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO manPerDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO manRPUDTO = new ProjectionResultsDTO();
@@ -322,49 +321,49 @@ public class MProjectionResultsLogic {
         manPerDTO.setLevelNo(projSelDTO.getLevelNo());
         manPerDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         manPerDTO.setLevelValue(projSelDTO.getLevelValue());
-        manPerDTO.setGroup(Mandated_Discount.getConstant());
-        manPerDTO.setDiscountValue("Total Discount %");
-        manPerDTO.setRelationshipLevelName(Mandated_Discount.getConstant());
+        manPerDTO.setGroup(MANDATED_DISCOUNT.getConstant());
+        manPerDTO.setDiscountValue(Constant.TOTAL_DISCOUNT_PERCEN);
+        manPerDTO.setRelationshipLevelName(MANDATED_DISCOUNT.getConstant());
         manPerDTO.setLevelIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
         manPerDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
         manRPUDTO.setLevelNo(projSelDTO.getLevelNo());
         manRPUDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         manRPUDTO.setLevelValue(projSelDTO.getLevelValue());
-        manRPUDTO.setGroup(Mandated_Discount.getConstant());
-        manRPUDTO.setDiscountValue("Total RPU");
-        manRPUDTO.setRelationshipLevelName(Mandated_Discount.getConstant());
+        manRPUDTO.setGroup(MANDATED_DISCOUNT.getConstant());
+        manRPUDTO.setDiscountValue(Constant.Total_RPU);
+        manRPUDTO.setRelationshipLevelName(MANDATED_DISCOUNT.getConstant());
         manRPUDTO.setLevelIndicator(Constant.R);
         manRPUDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
         manDolDTO.setLevelNo(projSelDTO.getLevelNo());
         manDolDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         manDolDTO.setLevelValue(projSelDTO.getLevelValue());
-        manDolDTO.setGroup(Mandated_Discount.getConstant());
-        manDolDTO.setDiscountValue("Total Discount $");
-        manDolDTO.setRelationshipLevelName(Mandated_Discount.getConstant());
+        manDolDTO.setGroup(MANDATED_DISCOUNT.getConstant());
+        manDolDTO.setDiscountValue(TOTAL_DISCOUNT_DOLLAR);
+        manDolDTO.setRelationshipLevelName(MANDATED_DISCOUNT.getConstant());
         manDolDTO.setLevelIndicator("D");
         manDolDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
         suppPerDTO.setLevelNo(projSelDTO.getLevelNo());
         suppPerDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         suppPerDTO.setLevelValue(projSelDTO.getLevelValue());
-        suppPerDTO.setGroup(Supplemental_Discount.getConstant());
-        suppPerDTO.setDiscountValue("Total Discount %");
-        suppPerDTO.setRelationshipLevelName(Supplemental_Discount.getConstant());
+        suppPerDTO.setGroup(SUPPLEMENTAL_DISCOUNT.getConstant());
+        suppPerDTO.setDiscountValue(Constant.TOTAL_DISCOUNT_PERCEN);
+        suppPerDTO.setRelationshipLevelName(SUPPLEMENTAL_DISCOUNT.getConstant());
         suppPerDTO.setLevelIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
         suppPerDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
         suppRPUDTO.setLevelNo(projSelDTO.getLevelNo());
         suppRPUDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         suppRPUDTO.setLevelValue(projSelDTO.getLevelValue());
-        suppRPUDTO.setGroup(Supplemental_Discount.getConstant());
-        suppRPUDTO.setDiscountValue("Total RPU");
-        suppRPUDTO.setRelationshipLevelName(Supplemental_Discount.getConstant());
+        suppRPUDTO.setGroup(SUPPLEMENTAL_DISCOUNT.getConstant());
+        suppRPUDTO.setDiscountValue(Constant.Total_RPU);
+        suppRPUDTO.setRelationshipLevelName(SUPPLEMENTAL_DISCOUNT.getConstant());
         suppRPUDTO.setLevelIndicator(Constant.R);
         suppRPUDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
         suppDolDTO.setLevelNo(projSelDTO.getLevelNo());
         suppDolDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         suppDolDTO.setLevelValue(projSelDTO.getLevelValue());
-        suppDolDTO.setGroup(Supplemental_Discount.getConstant());
-        suppDolDTO.setDiscountValue("Total Discount $");
-        suppDolDTO.setRelationshipLevelName(Supplemental_Discount.getConstant());
+        suppDolDTO.setGroup(SUPPLEMENTAL_DISCOUNT.getConstant());
+        suppDolDTO.setDiscountValue(TOTAL_DISCOUNT_DOLLAR);
+        suppDolDTO.setRelationshipLevelName(SUPPLEMENTAL_DISCOUNT.getConstant());
         suppDolDTO.setLevelIndicator("D");
         suppDolDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
         manPerDTO.setParent(NumericConstants.ONE);
@@ -378,7 +377,7 @@ public class MProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = obj[NumericConstants.ZERO] == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(obj[NumericConstants.ZERO]));
                 int period = obj[NumericConstants.ONE] == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(obj[NumericConstants.ONE]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -458,7 +457,7 @@ public class MProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getCustomizedNetSales(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO netSalesDto = new ProjectionResultsDTO();
         ProjectionResultsDTO cogsDto = new ProjectionResultsDTO();
@@ -490,7 +489,7 @@ public class MProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = (obj[NumericConstants.ZERO] == null) ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(obj[NumericConstants.ZERO]));
                 int period = projSelDTO.getFrequencyDivision() == NumericConstants.ONE ? NumericConstants.ZERO : (obj[NumericConstants.ONE] == null) ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(obj[NumericConstants.ONE]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -544,7 +543,7 @@ public class MProjectionResultsLogic {
 
     public List<ProjectionResultsDTO> getCustomizedProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         ProjectionResultsDTO exFacSalesDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO demandSalesDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO invWithdrawDTO = new ProjectionResultsDTO();
@@ -634,8 +633,8 @@ public class MProjectionResultsLogic {
         netProfitDTO.setRelationshipLevelName(NET_PROFIT.getConstant());
 
         supDisDolDTO.setParent(NumericConstants.ONE);
-        supDisDolDTO.setGroup("Supplemental Discount");
-        supDisDolDTO.setRelationshipLevelName("Supplemental Discount");
+        supDisDolDTO.setGroup(Constant.SUPPLEMENTAL_DISCOUNT_LABEL);
+        supDisDolDTO.setRelationshipLevelName(Constant.SUPPLEMENTAL_DISCOUNT_LABEL);
         supDisDolDTO.setProjectionTotal(NumericConstants.ONE);
         supDisDolDTO.setLevelIndicator("D");
         supDisDolDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
@@ -648,9 +647,9 @@ public class MProjectionResultsLogic {
         manDisDolDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
 
         supDisPerDTO.setParent(NumericConstants.ONE);
-        supDisPerDTO.setGroup("Supplemental Discount");
+        supDisPerDTO.setGroup(Constant.SUPPLEMENTAL_DISCOUNT_LABEL);
         supDisPerDTO.setProjectionTotal(NumericConstants.ONE);
-        supDisPerDTO.setRelationshipLevelName("Supplemental Discount");
+        supDisPerDTO.setRelationshipLevelName(Constant.SUPPLEMENTAL_DISCOUNT_LABEL);
         supDisPerDTO.setLevelIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
         supDisPerDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
 
@@ -662,9 +661,9 @@ public class MProjectionResultsLogic {
         manDisPerDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
 
         supRPUDTO.setParent(NumericConstants.ONE);
-        supRPUDTO.setGroup("Supplemental Discount");
+        supRPUDTO.setGroup(Constant.SUPPLEMENTAL_DISCOUNT_LABEL);
         supRPUDTO.setProjectionTotal(NumericConstants.ONE);
-        supRPUDTO.setRelationshipLevelName("Supplemental Discount");
+        supRPUDTO.setRelationshipLevelName(Constant.SUPPLEMENTAL_DISCOUNT_LABEL);
         supRPUDTO.setLevelIndicator("R");
         supRPUDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
         manRPUDTO.setParent(NumericConstants.ONE);
@@ -674,7 +673,7 @@ public class MProjectionResultsLogic {
         manRPUDTO.setLevelIndicator("R");
         manRPUDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
 
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
             int col = NumericConstants.THREE;
@@ -683,7 +682,7 @@ public class MProjectionResultsLogic {
             }
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
 
                 int year = Integer.valueOf(String.valueOf(obj[col]));
                 int period = Integer.valueOf(String.valueOf(frequencyDivision != NumericConstants.ONE ? obj[col - NumericConstants.ONE] : NumericConstants.ZERO));
@@ -924,7 +923,7 @@ public class MProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException  {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.RATE);
         String query = "";
         if (projSelDTO.isIsTotal()) {
@@ -944,9 +943,9 @@ public class MProjectionResultsLogic {
             programCodeList = getProgramCodeDiscount(projSelDTO);
 
             getCustomizedProgramCode(programCodeList, projSelDTO);
-            if (projSelDTO.getGroup().equals(Mandated_Discount.getConstant())) {
+            if (projSelDTO.getGroup().equals(MANDATED_DISCOUNT.getConstant())) {
                 projDTOList.addAll(programCodeDtoList.get(NumericConstants.TWO));
-            } else if (projSelDTO.getGroup().equals(Supplemental_Discount.getConstant())) {
+            } else if (projSelDTO.getGroup().equals(SUPPLEMENTAL_DISCOUNT.getConstant())) {
                 projDTOList.addAll(programCodeDtoList.get(NumericConstants.FIVE));
             }
         }
@@ -954,7 +953,7 @@ public class MProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getDiscountDollar(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException  {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
         String query = "";
         if (projSelDTO.isIsTotal()) {
@@ -974,9 +973,9 @@ public class MProjectionResultsLogic {
             programCodeList = getProgramCodeDiscount(projSelDTO);
 
             getCustomizedProgramCode(programCodeList, projSelDTO);
-            if (projSelDTO.getGroup().equals(Mandated_Discount.getConstant())) {
+            if (projSelDTO.getGroup().equals(MANDATED_DISCOUNT.getConstant())) {
                 projDTOList.addAll(programCodeDtoList.get(NumericConstants.ZERO));
-            } else if (projSelDTO.getGroup().equals(Supplemental_Discount.getConstant())) {
+            } else if (projSelDTO.getGroup().equals(SUPPLEMENTAL_DISCOUNT.getConstant())) {
                 projDTOList.addAll(programCodeDtoList.get(NumericConstants.THREE));
             }
         }
@@ -984,7 +983,7 @@ public class MProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getDiscountRPU(ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales("RPU");
         String query = "";
         if (projSelDTO.isIsTotal()) {
@@ -1005,9 +1004,9 @@ public class MProjectionResultsLogic {
             programCodeList = getProgramCodeDiscount(projSelDTO);
 
             getCustomizedProgramCode(programCodeList, projSelDTO);
-            if (projSelDTO.getGroup().equals(Mandated_Discount.getConstant())) {
+            if (projSelDTO.getGroup().equals(MANDATED_DISCOUNT.getConstant())) {
                 projDTOList.addAll(programCodeDtoList.get(NumericConstants.ONE));
-            } else if (projSelDTO.getGroup().equals(Supplemental_Discount.getConstant())) {
+            } else if (projSelDTO.getGroup().equals(SUPPLEMENTAL_DISCOUNT.getConstant())) {
                 projDTOList.addAll(programCodeDtoList.get(NumericConstants.FOUR));
             }
         }
@@ -1015,7 +1014,7 @@ public class MProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getProjectionTotalDiscounts(ProjectionSelectionDTO projSelDTO, Object[] orderedArgs) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if (prjTotalDisDolDtoList.isEmpty() || prjTotalDisPerDtoList.isEmpty()) {
             Object[] orderedArgs1 = {orderedArgs[NumericConstants.ZERO], orderedArgs[NumericConstants.ONE], orderedArgs[NumericConstants.TWO], orderedArgs[NumericConstants.THREE], orderedArgs[NumericConstants.FOUR], orderedArgs[NumericConstants.FIVE], orderedArgs[NumericConstants.SIX]};
             if (prcMProjResultsContract.isEmpty()) {
@@ -1023,7 +1022,6 @@ public class MProjectionResultsLogic {
             }
             List<Object[]> gtsList = prcMProjResultsContract;
             getCustomizedDiscountsProjectionTotal(gtsList, projSelDTO);
-            gtsList = null;
         }
         if (projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT)) {
             if (manDisDolDto != null) {
@@ -1047,10 +1045,10 @@ public class MProjectionResultsLogic {
 
     public void getCustomizedDiscountsProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDolDTOList = new ArrayList<ProjectionResultsDTO>();
-        List<ProjectionResultsDTO> projPerDTOList = new ArrayList<ProjectionResultsDTO>();
-        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountNameList());
-        String oldDiscountName = "old";
+        List<ProjectionResultsDTO> projDolDTOList = new ArrayList<>();
+        List<ProjectionResultsDTO> projPerDTOList = new ArrayList<>();
+        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountNameList());
+        String oldDiscountName;
         String newDiscountName = "oldDiscountName";
         if (list != null && !list.isEmpty()) {
             ProjectionResultsDTO projDolDTO = new ProjectionResultsDTO();
@@ -1060,7 +1058,7 @@ public class MProjectionResultsLogic {
                 col = col + NumericConstants.ONE;
             }
             boolean add = false;
-            List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+            List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             columnList.remove(Constant.GROUP);
             for (int i = NumericConstants.ZERO; i < list.size(); i++) {
                 final Object[] obj = (Object[]) list.get(i);
@@ -1092,7 +1090,7 @@ public class MProjectionResultsLogic {
                             projDolDTO.addStringProperties(columns, getFormattedValue(CUR_TWO, Constant.ZERO_STRING));
                             projPerDTO.addStringProperties(columns, getFormattedValue(PER_TWO, Constant.ZERO_STRING));
                         }
-                        columnList = new ArrayList<String>(projSelDTO.getColumns());
+                        columnList = new ArrayList<>(projSelDTO.getColumns());
                         columnList.remove(Constant.GROUP);
                     }
 
@@ -1122,7 +1120,7 @@ public class MProjectionResultsLogic {
             }
 
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         for (String ob : discountList) {
             ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
@@ -1144,14 +1142,14 @@ public class MProjectionResultsLogic {
             projDolDTOList.add(projDTO);
             projPerDTOList.add(projDTO1);
         }
-        prjTotalDisDolDtoList = new ArrayList<ProjectionResultsDTO>(projDolDTOList);
-        prjTotalDisPerDtoList = new ArrayList<ProjectionResultsDTO>(projPerDTOList);
+        prjTotalDisDolDtoList = new ArrayList<>(projDolDTOList);
+        prjTotalDisPerDtoList = new ArrayList<>(projPerDTOList);
     }
 
 
     public String getProjectionResultsSalesQueryForPR(ProjectionSelectionDTO projSelDTO) {
 
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String whereClause = "";
         String groupBy = " I.\"YEAR\"\n";
         String customQuery = "";
@@ -1163,7 +1161,7 @@ public class MProjectionResultsLogic {
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += "I.QUARTER as PERIODS, \n";
             whereClause += "";
-            groupBy += ", I.QUARTER";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
             selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
             whereClause += "";
@@ -1202,9 +1200,9 @@ public class MProjectionResultsLogic {
                 + " sum(A.PROJECTION_UNITS) as PROJECTION_UNITS \n"
                 + (" from ST_M_SALES_PROJECTION A \n")
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(NumericConstants.ONE);
-        String finalSelectClause = "select " + list.get(NumericConstants.ZERO) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES,\n Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES,"
+        String finalSelectClause = " select " + list.get(NumericConstants.ZERO) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES,\n Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES,"
                 + "\n Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) as ACTUAL_UNITS,\n Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) as PROJECTION_UNITS  ";
 
         customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
@@ -1216,7 +1214,7 @@ public class MProjectionResultsLogic {
         int started = start;
         int neededRecord = offset;
         int mayBeAdded = 0;
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         String freq = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.ONE) {
             freq = "ANNUALLY";
@@ -1225,10 +1223,10 @@ public class MProjectionResultsLogic {
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             freq = "QUARTERLY";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            freq = "MONTHLY";
+            freq = Constant.MONTHLY_COLUMN;
         }
         projSelDTO.setProjectionHeaderList(CommonUtils.prepareProjectionPeriodList(projSelDTO));
-        Object[] orderedArgs = {projSelDTO.getProjectionId(), projSelDTO.getUserId(), projSelDTO.getSessionDTO().getSessionId(), freq, "Projection Results", projSelDTO.getStartPeriod(), projSelDTO.getStartYear()};
+        Object[] orderedArgs = {projSelDTO.getProjectionId(), projSelDTO.getUserId(), projSelDTO.getSessionDTO().getSessionId(), freq, Constant.PROJECTION_RESULTS, projSelDTO.getStartPeriod(), projSelDTO.getStartYear()};
         if (projSelDTO.isIsProjectionTotal()) {
             if (started == NumericConstants.ZERO && projSelDTO.isIsTotal()) {
                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
@@ -1332,13 +1330,13 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded++;
                 } else if (projSelDTO.getGroup().equals(Constant.MANDATED_DISCOUNT) && projSelDTO.getLevelIndicator().equals("D")) {
-                    List<ProjectionResultsDTO> discountDolarDtoList = new ArrayList<ProjectionResultsDTO>();
+                    List<ProjectionResultsDTO> discountDolarDtoList = new ArrayList<>();
 
                     projSelDTO.setTreeLevelNo(NumericConstants.ONE);
                     programCodeList = getProgramCodeDiscount(projSelDTO);
                     getCustomizedProgramCode(programCodeList, projSelDTO);
                     if (programCodeDtoList.isEmpty()) {
-                        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountProgramsList());
+                        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountProgramsList());
                         for (String discountList1 : discountList) {
                             ProjectionResultsDTO tempDto = new ProjectionResultsDTO();
                             tempDto.setGroup(discountList1);
@@ -1357,15 +1355,15 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size();
 
-                } else if (projSelDTO.getGroup().equals("Supplemental Discount") && projSelDTO.getLevelIndicator().equals("D")) {
-                    List<ProjectionResultsDTO> discountDolarDtoList = new ArrayList<ProjectionResultsDTO>();
+                } else if (projSelDTO.getGroup().equals(Constant.SUPPLEMENTAL_DISCOUNT_LABEL) && projSelDTO.getLevelIndicator().equals("D")) {
+                    List<ProjectionResultsDTO> discountDolarDtoList = new ArrayList<>();
 
                     projSelDTO.setTreeLevelNo(NumericConstants.ONE);
                     programCodeList = getProgramCodeDiscount(projSelDTO);
                     getCustomizedProgramCode(programCodeList, projSelDTO);
 
                     if (programCodeDtoList.isEmpty()) {
-                        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountProgramsList());
+                        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountProgramsList());
                         for (String discountList1 : discountList) {
                             ProjectionResultsDTO tempDto = new ProjectionResultsDTO();
                             tempDto.setGroup(discountList1);
@@ -1384,14 +1382,14 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size();
                 } else if (projSelDTO.getGroup().equals(Constant.MANDATED_DISCOUNT) && projSelDTO.getLevelIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                    List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<ProjectionResultsDTO>();
+                    List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<>();
 
                     projSelDTO.setTreeLevelNo(NumericConstants.ONE);
                     programCodeList = getProgramCodeDiscount(projSelDTO);
                     getCustomizedProgramCode(programCodeList, projSelDTO);
 
                     if (programCodeDtoList.isEmpty()) {
-                        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountProgramsList());
+                        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountProgramsList());
                         for (String discountList1 : discountList) {
                             ProjectionResultsDTO tempDto = new ProjectionResultsDTO();
                             tempDto.setRelationshipLevelName(discountList1);
@@ -1408,15 +1406,15 @@ public class MProjectionResultsLogic {
                         neededRecord--;
                     }
                     mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size();
-                } else if (projSelDTO.getGroup().equals("Supplemental Discount") && projSelDTO.getLevelIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
+                } else if (projSelDTO.getGroup().equals(Constant.SUPPLEMENTAL_DISCOUNT_LABEL) && projSelDTO.getLevelIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
 
                     projSelDTO.setTreeLevelNo(NumericConstants.ONE);
                     programCodeList = getProgramCodeDiscount(projSelDTO);
                     getCustomizedProgramCode(programCodeList, projSelDTO);
-                    List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<ProjectionResultsDTO>();
+                    List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<>();
 
                     if (programCodeDtoList.isEmpty()) {
-                        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountProgramsList());
+                        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountProgramsList());
                         for (String discountList1 : discountList) {
                             ProjectionResultsDTO tempDto = new ProjectionResultsDTO();
                             tempDto.setRelationshipLevelName(discountList1);
@@ -1435,14 +1433,14 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size();
                 } else if (projSelDTO.getGroup().equals(Constant.MANDATED_DISCOUNT) && projSelDTO.getLevelIndicator().equals("R")) {
-                    List<ProjectionResultsDTO> discountRPUDtoList = new ArrayList<ProjectionResultsDTO>();
+                    List<ProjectionResultsDTO> discountRPUDtoList = new ArrayList<>();
 
                     projSelDTO.setTreeLevelNo(NumericConstants.ONE);
                     programCodeList = getProgramCodeDiscount(projSelDTO);
                     getCustomizedProgramCode(programCodeList, projSelDTO);
 
                     if (programCodeDtoList.isEmpty()) {
-                        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountProgramsList());
+                        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountProgramsList());
                         for (String discountList1 : discountList) {
                             ProjectionResultsDTO tempDto = new ProjectionResultsDTO();
                             tempDto.setRelationshipLevelName(discountList1);
@@ -1459,15 +1457,15 @@ public class MProjectionResultsLogic {
                         neededRecord--;
                     }
                     mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size();
-                } else if (projSelDTO.getGroup().equals("Supplemental Discount") && projSelDTO.getLevelIndicator().equals("R")) {
+                } else if (projSelDTO.getGroup().equals(Constant.SUPPLEMENTAL_DISCOUNT_LABEL) && projSelDTO.getLevelIndicator().equals("R")) {
 
                     projSelDTO.setTreeLevelNo(NumericConstants.ONE);
                     programCodeList = getProgramCodeDiscount(projSelDTO);
                     getCustomizedProgramCode(programCodeList, projSelDTO);
-                    List<ProjectionResultsDTO> discountRPUDtoList = new ArrayList<ProjectionResultsDTO>();
+                    List<ProjectionResultsDTO> discountRPUDtoList = new ArrayList<>();
 
                     if (programCodeDtoList.isEmpty()) {
-                        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountProgramsList());
+                        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountProgramsList());
                         for (String discountList1 : discountList) {
                             ProjectionResultsDTO tempDto = new ProjectionResultsDTO();
                             tempDto.setRelationshipLevelName(discountList1);
@@ -1666,7 +1664,6 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded++;
                 }
-                contractSalesDto = null;
 
                 if (neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(UNITS.getConstant()))) {
                     if ((salesUnits.equals(BOTH.getConstant()) && started == NumericConstants.ONE) || started == NumericConstants.ZERO) {
@@ -1678,12 +1675,11 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded++;
                 }
-                unitVolDto = null;
             }
             if (neededRecord > NumericConstants.ZERO && !projSelDTO.isIsProjectionTotal()) {
 
                 List<ProjectionResultsDTO> discountPerDtoList = Collections.EMPTY_LIST;
-                if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase("Total Discount %") || projSelDTO.getDiscountValue().equalsIgnoreCase("Total Discount %")) {
+                if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase(Constant.TOTAL_DISCOUNT_PERCEN) || projSelDTO.getDiscountValue().equalsIgnoreCase(Constant.TOTAL_DISCOUNT_PERCEN)) {
                     discountPerDtoList = getDiscountPer(projSelDTO);
                 }
                 if (projSelDTO.isIsTotal()) {
@@ -1701,10 +1697,9 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded += discountPerDtoList.size();
                 }
-                discountPerDtoList = null;
 
                 List<ProjectionResultsDTO> discountRPUDtoList = Collections.EMPTY_LIST;
-                if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase("Total RPU") || projSelDTO.getDiscountValue().equalsIgnoreCase("Total RPU")) {
+                if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase(Constant.Total_RPU) || projSelDTO.getDiscountValue().equalsIgnoreCase(Constant.Total_RPU)) {
                     discountRPUDtoList = getDiscountRPU(projSelDTO);
                 }
                 if (projSelDTO.isIsTotal()) {
@@ -1722,10 +1717,9 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded += discountRPUDtoList.size();
                 }
-                discountRPUDtoList = null;
 
                 List<ProjectionResultsDTO> discountDolarDtoList = Collections.EMPTY_LIST;
-                if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase("Total Discount $") || projSelDTO.getDiscountValue().equalsIgnoreCase("Total Discount $")) {
+                if (projSelDTO.isIsTotal() || projSelDTO.getGroup().equalsIgnoreCase(TOTAL_DISCOUNT_DOLLAR) || projSelDTO.getDiscountValue().equalsIgnoreCase(TOTAL_DISCOUNT_DOLLAR)) {
                     discountDolarDtoList = getDiscountDollar(projSelDTO);
                 }
 
@@ -1744,7 +1738,6 @@ public class MProjectionResultsLogic {
                     }
                     mayBeAdded += discountDolarDtoList.size();
                 }
-                discountDolarDtoList = null;
 
             }
 
@@ -1778,7 +1771,6 @@ public class MProjectionResultsLogic {
                         if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
                             projDTOList.add(netProfitDto);
                         }
-                        started++;
                         neededRecord--;
                     }
                     mayBeAdded++;
@@ -1795,7 +1787,6 @@ public class MProjectionResultsLogic {
                 neededRecord--;
             }
             mayBeAdded += projectionDtoList.size();
-            projectionDtoList = null;
         }
         if (neededRecord > NumericConstants.ZERO && projSelDTO.isIsTotal() && !projSelDTO.isIsFilter() && !projSelDTO.isFilterDdlb()) {
             int mayBeAddedRecord = start - mayBeAdded;
@@ -1805,7 +1796,6 @@ public class MProjectionResultsLogic {
             projSelDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo() + NumericConstants.ONE);
             List<ProjectionResultsDTO> nextLevelValueList = configureLevels(mayBeAddedRecord, neededRecord, projSelDTO);
             projDTOList.addAll(nextLevelValueList);
-            nextLevelValueList = null;
         }
 
         return projDTOList;
@@ -1814,7 +1804,7 @@ public class MProjectionResultsLogic {
     public List<ProjectionResultsDTO> getProjectionResultsTotal(int start, int offset, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
         int mayBeAdded = NumericConstants.ZERO;
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         String freq = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.ONE) {
             freq = "ANNUALLY";
@@ -1823,10 +1813,10 @@ public class MProjectionResultsLogic {
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             freq = "QUARTERLY";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            freq = "MONTHLY";
+            freq = Constant.MONTHLY_COLUMN;
         }
 
-        Object[] orderedArgs = {projSelDTO.getProjectionId(), projSelDTO.getUserId(), projSelDTO.getSessionDTO().getSessionId(), freq, "Projection Results", projSelDTO.getStartPeriod(), projSelDTO.getStartYear()};
+        Object[] orderedArgs = {projSelDTO.getProjectionId(), projSelDTO.getUserId(), projSelDTO.getSessionDTO().getSessionId(), freq, Constant.PROJECTION_RESULTS, projSelDTO.getStartPeriod(), projSelDTO.getStartYear()};
         if (neededRecord > NumericConstants.ZERO) {
             if (start < NumericConstants.ONE) {
                 ProjectionResultsDTO dto = new ProjectionResultsDTO();
@@ -1838,8 +1828,6 @@ public class MProjectionResultsLogic {
             }
             mayBeAdded++;
             if (neededRecord > NumericConstants.ZERO && projSelDTO.getPivotView().contains(PERIOD.getConstant()) && projSelDTO.isIsTotal()) {
-
-                mayBeAdded += NumericConstants.TWO;
                 List<ProjectionResultsDTO> projectionTotalList = getProjectionTotal(orderedArgs, projSelDTO);
                 ProjectionResultsDTO gtsDto = projectionTotalList.get(NumericConstants.ZERO);
                 ProjectionResultsDTO percentDto = projectionTotalList.get(NumericConstants.ONE);
@@ -1868,40 +1856,28 @@ public class MProjectionResultsLogic {
                         neededRecord--;
                 }
                 String salesUnits = projSelDTO.getSalesOrUnit();
-                if (neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(SALES.getConstant()))) {
-                    if (start < NumericConstants.FOUR) {
+                if ((neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(SALES.getConstant()))) && (start < NumericConstants.FOUR)) {
                         projDTOList.add(contractSalesDto);
                         neededRecord--;
-                    }
-                    mayBeAdded++;
                 }
-                if (neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(UNITS.getConstant()))) {
-                    if ((salesUnits.equals(BOTH.getConstant()) && start < NumericConstants.FIVE) || start < NumericConstants.FOUR) {
+                if ((neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(UNITS.getConstant())))
+                        && ((salesUnits.equals(BOTH.getConstant()) && start < NumericConstants.FIVE) || start < NumericConstants.FOUR)) {
                         projDTOList.add(unitVolDto);
                         neededRecord--;
-                    }
-                    mayBeAdded++;
                 }
-                if (neededRecord > NumericConstants.ZERO && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT)) {
-                    if ((salesUnits.equals(BOTH.getConstant()) && start < NumericConstants.SIX) || start < NumericConstants.FIVE) {
+                if ((neededRecord > NumericConstants.ZERO && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT))
+                        && ((salesUnits.equals(BOTH.getConstant()) && start < NumericConstants.SIX) || start < NumericConstants.FIVE)) {
                         projDTOList.add(discountPerDto);
                         neededRecord--;
-                    }
-                    mayBeAdded++;
                 }
-                if (neededRecord > NumericConstants.ZERO && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE)) {
-                    if ((salesUnits.equals(BOTH.getConstant()) && start < NumericConstants.SEVEN) || start < NumericConstants.SIX) {
+                if ((neededRecord > NumericConstants.ZERO && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE))
+                       && ((salesUnits.equals(BOTH.getConstant()) && start < NumericConstants.SEVEN) || start < NumericConstants.SIX)){
                         projDTOList.add(discountDolDto);
                         neededRecord--;
-                    }
-                    mayBeAdded++;
                 }
-                if (neededRecord > NumericConstants.ZERO) {
-                    if ((salesUnits.equals(BOTH.getConstant()) && start < NumericConstants.EIGHT) || start < NumericConstants.SEVEN) {
+                if ((neededRecord > NumericConstants.ZERO)
+                        && ((salesUnits.equals(BOTH.getConstant()) && start < NumericConstants.EIGHT) || start < NumericConstants.SEVEN)) {
                         projDTOList.add(netSalesDto);
-                        neededRecord--;
-                    }
-                    mayBeAdded++;
                 }
             } else if (neededRecord > NumericConstants.ZERO) {
                 List<ProjectionResultsDTO> projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
@@ -1914,18 +1890,17 @@ public class MProjectionResultsLogic {
                     projDTOList.add(projectionDtoList.get(k));
                     neededRecord--;
                 }
-                mayBeAdded += projectionDtoList.size();
             }
         }
         return projDTOList;
     }
 
     public List<ProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException {
-        List<ProjectionResultsDTO> resultList = new ArrayList<>();
+        List<ProjectionResultsDTO> resultList;
         if ((!projSelDTO.isIsFilter() && !projSelDTO.isFilterDdlb()) || parentId instanceof ProjectionResultsDTO) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (parentId instanceof ProjectionResultsDTO) {
                 ProjectionResultsDTO parentDto = (ProjectionResultsDTO) parentId;
@@ -1979,14 +1954,14 @@ public class MProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getConfiguredProjectionResultsTotal(int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> resultList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> resultList = new ArrayList<>();
         projSelDTO.setIsProjectionTotal(true);
         projSelDTO.setIsTotal(true);
         if (!projSelDTO.isIsFilter()) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
 
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (projSelDTO.isIsCustomHierarchy()) {
                 projSelDTO.setLevelNo(NumericConstants.ZERO);
@@ -2020,7 +1995,7 @@ public class MProjectionResultsLogic {
         int count = NumericConstants.ZERO;
         if ((!projSelDTO.isIsFilter() && !projSelDTO.isFilterDdlb()) || parentId instanceof ProjectionResultsDTO) {
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (parentId instanceof ProjectionResultsDTO) {
                 ProjectionResultsDTO parentDto = (ProjectionResultsDTO) parentId;
@@ -2076,10 +2051,10 @@ public class MProjectionResultsLogic {
         projSelDTO.setIsProjectionTotal(true);
         projSelDTO.setIsTotal(true);
         if (!projSelDTO.isIsFilter()) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
 
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (projSelDTO.isIsCustomHierarchy()) {
                 projSelDTO.setLevelNo(NumericConstants.ZERO);
@@ -2101,8 +2076,8 @@ public class MProjectionResultsLogic {
 
     public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelsCount) throws PortalException, SystemException {
         int count = NumericConstants.ZERO;
-        if (!projSelDTO.getGroup().startsWith(Constant.All)
-                && !projSelDTO.getGroup().contains(Constant.Sales)
+        if (!projSelDTO.getGroup().startsWith(Constant.ALL)
+                && !projSelDTO.getGroup().contains(Constant.SALES_)
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)) {
             if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 String salesUnits = projSelDTO.getSalesOrUnit();
@@ -2131,7 +2106,7 @@ public class MProjectionResultsLogic {
             if (projSelDTO.isIsProjectionTotal()) {
                 count = count + configureLevelsCount(projSelDTO);
             } else {
-                int levelCount = NumericConstants.ZERO;
+                int levelCount;
                  CommonLogic commonLogic = new CommonLogic();
                 if (projSelDTO.isIsCustomHierarchy()) {
                     levelCount = commonLogic.getCountForCustomView(projSelDTO);
@@ -2162,10 +2137,6 @@ public class MProjectionResultsLogic {
     }
 
     public int configureLevelsCount(ProjectionSelectionDTO projSelDTO) {
-        String userGroup = StringUtils.EMPTY;
-        if (projSelDTO.getTreeLevelNo() == projSelDTO.getTpLevel()) {
-            userGroup = projSelDTO.getGroupFilter();
-        }
         int count = NumericConstants.ZERO;
         if (!projSelDTO.isIsFilter()) {
             if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
@@ -2174,7 +2145,7 @@ public class MProjectionResultsLogic {
                 count = count + NumericConstants.ONE + projSelDTO.getPeriodList().size();
             }
         }
-        int levelCount=NumericConstants.ZERO;
+        int levelCount;
                 CommonLogic commonLogic = new CommonLogic();
                 if (projSelDTO.isIsCustomHierarchy()) {
                     levelCount = commonLogic.getCountForCustomView(projSelDTO);
@@ -2189,17 +2160,15 @@ public class MProjectionResultsLogic {
 
     public List<Object[]> getProgramCodeDiscount(ProjectionSelectionDTO projSelDTO) {
 
-        Map<Integer, String> freq = new HashMap<Integer, String>();
-        freq.put(NumericConstants.ONE, "\"YEAR\"");
-        freq.put(NumericConstants.TWO, "SEMI_ANNUAL");
-        freq.put(NumericConstants.FOUR, "QUARTER");
+        Map<Integer, String> freq = new HashMap<>();
+        freq.put(NumericConstants.ONE, Constant.YEAR_SPACE);
+        freq.put(NumericConstants.TWO, Constant.SEMI_ANNUAL);
+        freq.put(NumericConstants.FOUR, Constant.QUARTER);
         freq.put(NumericConstants.TWELVE, "\"MONTH\"");
         if (projSelDTO.getTreeLevelNo() == NumericConstants.ZERO) { //need to change
             projSelDTO.setTreeLevelNo(NumericConstants.FIVE);
         }
-        String query=getProgramCodeQuery(projSelDTO.getProjectionId(), Integer.valueOf(projSelDTO.getUserId()),
-                Integer.valueOf(projSelDTO.getSessionId()), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(),
-                freq.get(projSelDTO.getFrequencyDivision()), projSelDTO.getView(), projSelDTO);
+        String query=getProgramCodeQuery(freq.get(projSelDTO.getFrequencyDivision()), projSelDTO);
         programCodeList = (List<Object[]>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
         return programCodeList;
     }
@@ -2343,19 +2312,13 @@ public class MProjectionResultsLogic {
             programCodeDtoList.add(projDolSupDTOList);
             programCodeDtoList.add(projRPUSupDTOList);
             programCodeDtoList.add(projPerSupDTOList);
-            projDolManDTOList = null;
-            projRPUManDTOList = null;
-            projPerManDTOList = null;
-            projDolSupDTOList = null;
-            projRPUSupDTOList = null;
-            projPerSupDTOList = null;
         }
         LOGGER.debug("Ends getCustomizedProgramCode");
     }
 
     public List<ProjectionResultsDTO> getProjectionPivot(ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
-        String query = "DECLARE @FROM_DATE DATE\n"
+        List<ProjectionResultsDTO> projDTOList;
+        String query = " DECLARE @FROM_DATE DATE\n"
                 + "     , @STARTFROM DATE\n"
                 + "     , @PROJECTION_DATE DATE\n"
                 + "     , @START_PERIOD_SID INT\n"
@@ -2380,22 +2343,18 @@ public class MProjectionResultsLogic {
         List<Object[]> pcList = addProgramCodeDiscounts(projSelDTO);
 
         projDTOList = getCustomizedProjectionPivot(gtsList, pcList, projSelDTO);
-        gtsList = null;
-        pcList = null;
 
         return projDTOList;
     }
 
     private List<Object[]> addProgramCodeDiscounts(ProjectionSelectionDTO projSelDTO) {
-        List<Object[]> list = new ArrayList<Object[]>();
-        Map<Integer, String> freq = new HashMap<Integer, String>();
-        freq.put(NumericConstants.ONE, "\"YEAR\"");
-        freq.put(NumericConstants.TWO, "SEMI_ANNUAL");
-        freq.put(NumericConstants.FOUR, "QUARTER");
+        List<Object[]> list;
+        Map<Integer, String> freq = new HashMap<>();
+        freq.put(NumericConstants.ONE, Constant.YEAR_SPACE);
+        freq.put(NumericConstants.TWO, Constant.SEMI_ANNUAL);
+        freq.put(NumericConstants.FOUR, Constant.QUARTER);
         freq.put(NumericConstants.TWELVE, "\"MONTH\"");
-        String query=getProgramCodeQuery(projSelDTO.getProjectionId(), Integer.valueOf(projSelDTO.getUserId()),
-                Integer.valueOf(projSelDTO.getSessionId()), projSelDTO.getLevelNo(), projSelDTO.getHierarchyNo(),
-                freq.get(projSelDTO.getFrequencyDivision()), projSelDTO.getView(), projSelDTO);
+        String query=getProgramCodeQuery(freq.get(projSelDTO.getFrequencyDivision()), projSelDTO);
         list = (List<Object[]>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
         return list;
     }
@@ -2403,29 +2362,29 @@ public class MProjectionResultsLogic {
     public List<ProjectionResultsDTO> getCustomizedProjectionPivot(List<Object> list, List<Object[]> pcList, ProjectionSelectionDTO projSelDTO) {
 
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
             Collections.reverse(list);
         }
         for (Object rows : list) {
             final Object[] row = (Object[]) rows;
-            String column = StringUtils.EMPTY;
+            String column;
             int year = (row[NumericConstants.ZERO] == null) ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(row[NumericConstants.ZERO]));
             int period = projSelDTO.getFrequencyDivision() == NumericConstants.ONE ? NumericConstants.ZERO : (row[NumericConstants.ONE] == null) ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(row[NumericConstants.ONE]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(NumericConstants.ZERO);
             String commonHeader = common.get(NumericConstants.ONE);
 
-            String commonColumn = StringUtils.EMPTY;
+            String commonColumn;
             if (periodList.contains(pcommonColumn)) {
                 periodList.remove(pcommonColumn);
                 ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
-                List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+                List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
                 columnList.remove(Constant.GROUP);
                 projDTO.setGroup(commonHeader);
                 projDTO.setRelationshipLevelName(commonHeader);
-                String value = "0";
+                String value;
                 commonColumn = "conSalesWac";
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
@@ -2457,7 +2416,7 @@ public class MProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisPer;
+                commonColumn = Constant.TOT_DIS_PER;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.SIX];
@@ -2472,7 +2431,7 @@ public class MProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = "totRPU";
+                commonColumn = Constant.TOT_RPU;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.EIGHT];
@@ -2487,7 +2446,7 @@ public class MProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisDol;
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[NumericConstants.TEN];
@@ -2647,7 +2606,7 @@ public class MProjectionResultsLogic {
                     String dcommonColumn = dcommon.get(NumericConstants.ZERO);
                     if (pcommonColumn.contains(dcommonColumn)) {
                         commonColumn = discountRow[NumericConstants.ZERO].toString().replace(" ", StringUtils.EMPTY);
-                        column = Constant.totDisPer + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOT_DIS_PER + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
 
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.FIVE];
@@ -2655,49 +2614,49 @@ public class MProjectionResultsLogic {
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisPer + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOT_DIS_PER + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.ELEVEN];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisPer + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOT_DIS_PER + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.EIGHT];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisPer + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOT_DIS_PER + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.FOURTEEN];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = "totRPU" + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOT_RPU + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.FOUR];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = "totRPU" + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOT_RPU + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.TEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = "totRPU" + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOT_RPU + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.SEVEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = "totRPU" + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOT_RPU + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.THIRTEEN];
                             value = getFormattedValue(CUR_TWO, value);
@@ -2705,28 +2664,28 @@ public class MProjectionResultsLogic {
                             columnList.remove(column);
                         }
 
-                        column = Constant.totDisDol + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOTAL_DISCOUNT_DOLLAR + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.THREE];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisDol + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOTAL_DISCOUNT_DOLLAR + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.NINE];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisDol + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOTAL_DISCOUNT_DOLLAR + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.SIX];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisDol + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOTAL_DISCOUNT_DOLLAR + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[NumericConstants.TWELVE];
                             value = getFormattedValue(CUR_TWO, value);
@@ -2743,7 +2702,7 @@ public class MProjectionResultsLogic {
             }
 
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         for (String ob : periodList) {
             ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
@@ -2763,7 +2722,7 @@ public class MProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getProjectionPivotTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList;
         if (projSelDTO.getSessionDTO().isPrRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, totalPRCInput)) {
             List<Object[]> gtsList =CommonLogic.callProcedure("PRC_M_PROJECTION_RESULTS", orderedArgs);
             totalPRCInput = orderedArgs;
@@ -2774,15 +2733,13 @@ public class MProjectionResultsLogic {
         Object[] orderedArgs1 = {orderedArgs[NumericConstants.ZERO], orderedArgs[NumericConstants.ONE], orderedArgs[NumericConstants.TWO], orderedArgs[NumericConstants.THREE], orderedArgs[NumericConstants.FOUR], orderedArgs[NumericConstants.FIVE], orderedArgs[NumericConstants.SIX]};
         List<Object[]> discountList = CommonLogic.callProcedure("PRC_M_PROJ_RESULTS_CONTRACT", orderedArgs1);
         projDTOList = getCustomizedProjectionPivotTotal(gtsList, discountList, projSelDTO);
-        gtsList = null;
-        discountList = null;
         return projDTOList;
     }
 
     public List<ProjectionResultsDTO> getCustomizedProjectionPivotTotal(List<Object[]> list, List<Object[]> discountList, ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         int col = NumericConstants.THREE;
         int dcol = NumericConstants.ONE;
         if (frequencyDivision != NumericConstants.ONE) {
@@ -2794,21 +2751,21 @@ public class MProjectionResultsLogic {
         }
         for (Object[] row : list) {
 
-            String column = StringUtils.EMPTY;
+            String column;
             int year = Integer.valueOf(String.valueOf(row[col]));
             int period = Integer.valueOf(String.valueOf(frequencyDivision != NumericConstants.ONE ? row[col - NumericConstants.ONE] : NumericConstants.ZERO));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(NumericConstants.ZERO);
             String commonHeader = common.get(NumericConstants.ONE);
-            String commonColumn = StringUtils.EMPTY;
+            String commonColumn;
             if (periodList.contains(pcommonColumn)) {
                 periodList.remove(pcommonColumn);
                 ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
-                List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+                List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
                 columnList.remove(Constant.GROUP);
                 projDTO.setGroup(commonHeader);
                 projDTO.setRelationshipLevelName(commonHeader);
-                String value = "0";
+                String value;
                 commonColumn = "efs";
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
@@ -2929,7 +2886,7 @@ public class MProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisPer;
+                commonColumn = Constant.TOT_DIS_PER;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.FIFTEEN];
@@ -2944,7 +2901,7 @@ public class MProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = "totRPU";
+                commonColumn = Constant.TOT_RPU;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.THIRTY_THREE];
@@ -2959,7 +2916,7 @@ public class MProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisDol;
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.THIRTEEN];
@@ -3120,84 +3077,84 @@ public class MProjectionResultsLogic {
                     if (pcommonColumn.contains(dcommonColumn)) {
                         int programCodeIndex = projSelDTO.getFrequency().equals(ANNUALLY.getConstant()) ? NumericConstants.FOUR : NumericConstants.FIVE;
                         commonColumn = discountRow[programCodeIndex].toString().replace(" ", StringUtils.EMPTY);
-                        column = Constant.totDisPer + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOT_DIS_PER + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.TWELVE];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisPer + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOT_DIS_PER + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.THIRTEEN];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisPer + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOT_DIS_PER + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.FOURTEEN];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisPer + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOT_DIS_PER + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.FIFTEEN];
                             value = getFormattedValue(PER_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = "totRPU" + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOT_RPU + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.SIXTEEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = "totRPU" + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOT_RPU + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol +NumericConstants.SEVENTEEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = "totRPU" + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOT_RPU + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.EIGHTEEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = "totRPU" + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOT_RPU + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.NINETEEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisDol + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOTAL_DISCOUNT_DOLLAR + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.EIGHT];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisDol + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOTAL_DISCOUNT_DOLLAR + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.NINE];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisDol + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
+                        column = Constant.TOTAL_DISCOUNT_DOLLAR + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + ACTUALS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.TEN];
                             value = getFormattedValue(CUR_TWO, value);
                             projDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
-                        column = Constant.totDisDol + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
+                        column = Constant.TOTAL_DISCOUNT_DOLLAR + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim() + commonColumn + PROJECTIONS.getConstant();
                         if (projSelDTO.hasColumn(column)) {
                             value = StringUtils.EMPTY + discountRow[dcol + NumericConstants.ELEVEN];
                             value = getFormattedValue(CUR_TWO, value);
@@ -3216,7 +3173,7 @@ public class MProjectionResultsLogic {
             }
 
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         for (String ob : periodList) {
             ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
@@ -3249,7 +3206,7 @@ public class MProjectionResultsLogic {
 
 
     public String getChildTotalDiscountQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = "select ";
+        String selectClause = " select  ";
         selectClause += "p.\"YEAR\" as YEARS, ";
         String groupBy = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
@@ -3324,9 +3281,9 @@ public class MProjectionResultsLogic {
 
     public String getChildTotalDiscountMainQuery(ProjectionSelectionDTO projSelDTO) {
         CommonLogic commonLogic = new CommonLogic();
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(NumericConstants.ONE);
-        String finalSelectClause = "select " + list.get(NumericConstants.ZERO) + "\n "
+        String finalSelectClause = "select   " + list.get(NumericConstants.ZERO) + "\n "
                 + "HISTORY.MAD_ACTUAL_SALES as MAD_ACTUAL_SALES,\n"
                 + "HISTORY.MAD_ACTUAL_RATE as MAD_ACTUAL_RATE,\n"
                 + "HISTORY.MAD_ACTUAL_RPU as MAD_ACTUAL_RPU,\n"
@@ -3349,7 +3306,7 @@ public class MProjectionResultsLogic {
     }
 
     public String getTotalDiscountMainQuery(ProjectionSelectionDTO projSelDTO) {
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(NumericConstants.ONE);
         String finalSelectClause = "select " + list.get(NumericConstants.ZERO) + "\n "
                 + "(Isnull(HISTORY.MAD_ACTUAL_SALES,0)+Isnull(HISTORY.SUP_ACTUAL_SALES,0)) as ACTUAL_SALES,\n"
@@ -3363,7 +3320,7 @@ public class MProjectionResultsLogic {
         projSelDTO.setFuture(true);
         String futureQuery = getChildTotalDiscountQuery(projSelDTO);
 
-        String customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+        String customQuery = finalSelectClause + "  from  (\n " + historyQuery + "\n) HISTORY FULL  OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n " + finalWhereCond;
         return customQuery;
     }
 
@@ -3385,7 +3342,7 @@ public class MProjectionResultsLogic {
                 + "     , ITEM_MASTER_SID\n"
                 + "     , PROJECTION_DETAILS_SID\n"
                 + "     , PROJECTION_MASTER_SID\n"
-                + "     )\n"
+                + "     ) \n"
                 + "SELECT C.COMPANY_MASTER_SID\n"
                 + "     , C.CONTRACT_MASTER_SID\n"
                 + "     , C.ITEM_MASTER_SID\n"
@@ -3413,9 +3370,9 @@ public class MProjectionResultsLogic {
                 + "                   AND IM.ITEM_MASTER_SID = A.ITEM_MASTER_SID\n"
                 + "            )";
 
-        selectClause += " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", "on");
+        selectClause += Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", "on");
         selectClause += list.get(NumericConstants.ZERO);
         String finalWhereCond = list.get(NumericConstants.ONE);
         selectClause += " ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-Isnull(TODIS.ACTUAL_SALES, 0)),\n"
@@ -3426,7 +3383,7 @@ public class MProjectionResultsLogic {
         String totalDiscountQuery = getTotalDiscountMainQuery(projSelDTO);
         String salesQuery = getProjectionResultsSalesQueryForPR(projSelDTO);
         String cogsQuery = getProjectionResultsCOGSQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + " from (\n " + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
         customQuery += " FULL OUTER JOIN (" + cogsQuery + "\n";
         customQuery += " ORDER BY YEARS\n"
                 + "       , PERIODS";
@@ -3434,9 +3391,9 @@ public class MProjectionResultsLogic {
     }
 
     public String getProjectionResultsNetSalesQueryForPR(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String customQuery = "";
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", "on");
         selectClause += list.get(NumericConstants.ZERO);
         String finalWhereCond = list.get(NumericConstants.ONE);
         selectClause += " NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-Isnull(TODIS.ACTUAL_SALES, 0)),\n"
@@ -3457,7 +3414,7 @@ public class MProjectionResultsLogic {
                 + "       NET_PROFIT_PROJECTED=0.000000";
         String totalDiscountQuery = getTotalDiscountMainQuery(projSelDTO);
         String salesQuery = getProjectionResultsSalesQueryForPR(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + "from  (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
         return customQuery;
     }
 
@@ -3465,7 +3422,7 @@ public class MProjectionResultsLogic {
         String groupBy = StringUtils.EMPTY;
         String value = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            value = ", I.QUARTER";
+            value = Constant.IQUARTER;
             groupBy = "AND SALE.PERIODS = COGS.QUARTER";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
             value = ", I.SEMI_ANNUAL";
@@ -3493,11 +3450,11 @@ public class MProjectionResultsLogic {
         return query;
     }
 
-    private String getProgramCodeQuery(int projectionId, int userID, int sessionID, int levelNo, String hierarchyNo, String frequency, String View, ProjectionSelectionDTO projSelDTO) {
+    private String getProgramCodeQuery(String frequency, ProjectionSelectionDTO projSelDTO) {
         String columnName = StringUtils.EMPTY;
         List list;
         CommonLogic commonLogic = new CommonLogic();
-        String hierarchyIndicator = projSelDTO.getHierarchyIndicator().trim();
+        String hierarchyIndicator;
         String hierSQL = "SELECT FIELD_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION WHERE HIERARCHY_DEFINITION_SID=" + projSelDTO.getCustHierarchySid() + " and LEVEL_NAME='Contract'";
         list = (List<Object>) CommonLogic.executeSelectQuery(hierSQL, null, null);
 
@@ -3520,7 +3477,7 @@ public class MProjectionResultsLogic {
                 + "       (Isnull(Sum(SPMA.ACTUAL_SALES), 0)/NULLIF(Sum(m_ac.ACTUAL_SALES),0))*100  AS SUP_ACT_RATE,\n"
                 + "       (SUM(ISNULL(SPMA.ACTUAL_SALES, 0)) / NULLIF(SUM(M_AC.ACTUAL_UNITS), 0))  AS SUP_ACT_RPU,"
                 + "       0                            As ActualProj\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "         , p." + frequency + " as PERIODS \n";
         } else {
             customSQL += ",0 as PERIODS \n";
@@ -3529,7 +3486,7 @@ public class MProjectionResultsLogic {
         customSQL += "JOIN ST_M_SALES_PROJECTION_MASTER "
                 + "m_mas ON CCP.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
                 + "JOIN  ST_M_ACTUAL_SALES "
-                + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
+                + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n "
                 + "JOIN   ST_M_ACTUAL_DISCOUNT MAD ON MAD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + " JOIN ccp_details ccd ON ccd.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
@@ -3538,12 +3495,12 @@ public class MProjectionResultsLogic {
                 + " SPM ON SPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "\n"
                 + "LEFT JOIN  ST_M_SUPPLEMENTAL_DISC_ACTUALS "
-                + " SPMA ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + " SPMA  ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + " AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
                 + "GROUP  BY cm." + columnName + ",\n";
 
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          p." + frequency + ",\n";
         }
         customSQL += "    CCP.HIERARCHY_NO,\n"
@@ -3560,7 +3517,7 @@ public class MProjectionResultsLogic {
                 + "       (Isnull(Sum(SPMA.PROJECTION_SALES),0)/NULLIF(Sum(m_ac.PROJECTION_SALES),0))*100  AS SUP_PROJ_RATE,\n"
                 + "       (SUM(ISNULL(SPMA.PROJECTION_SALES, 0)) / NULLIF(SUM(M_AC.PROJECTION_UNITS), 0)) AS SUP_PROJ_RPU, \n"
                 + "       1                            As ActualProj\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL1 += "         , p." + frequency + " as PERIODS \n";
         } else {
             customSQL1 += ",0 as PERIODS \n";
@@ -3570,27 +3527,27 @@ public class MProjectionResultsLogic {
         customSQL1 += "JOIN  ST_M_SALES_PROJECTION_MASTER "
                 + " m_mas ON CCP.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
                 + "JOIN  ST_M_SALES_PROJECTION "
-                + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
+                + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID \n"
                 + "JOIN  ST_M_DISCOUNT_PROJECTION MAD ON MAD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
-                + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
+                + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID \n"
                 + " JOIN ccp_details ccd ON ccd.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
                 + " JOIN contract_master cm ON cm.contract_master_sid = ccd.contract_master_sid \n"
                 + "LEFT JOIN ST_M_SUPPLEMENTAL_DISC_MASTER "
-                + " SPM ON SPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + " SPM ON SPM.CCP_DETAILS_SID =  CCP.CCP_DETAILS_SID\n"
                 + "\n"
                 + " LEFT JOIN ST_M_SUPPLEMENTAL_DISC_PROJ "
-                + " SPMA ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + " SPMA ON  SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "                                                                        AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
                 + "GROUP  BY cm." + columnName + ",\n";
-        if (!"\"YEAR\"".equalsIgnoreCase(frequency)) {
+        if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL1 += "          p." + frequency + ",\n";
         }
         customSQL1 += " CCP.HIERARCHY_NO,\n"
                 + "          p.\"YEAR\"\n";
           
           String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        String sql = CCPQuery + " \n" + "select "
+        String sql = CCPQuery + " \n" + "   select "
                 + " Isnull(HISTORY.PROGRAM_CODE,FUTURE.PROGRAM_CODE) as PROGRAM_CODE \n"
                 + ",Isnull(HISTORY.HIERARCHY_NO,FUTURE.HIERARCHY_NO) \n"
                 + ",Isnull(HISTORY.YEARS,FUTURE.YEARS) as YEARS \n"
@@ -3630,7 +3587,7 @@ public class MProjectionResultsLogic {
                 + "     , ITEM_MASTER_SID INT\n"
                 + "     , PROJECTION_DETAILS_SID INT PRIMARY KEY\n"
                 + "     , PROJECTION_MASTER_SID INT\n"
-                + "     )\n"
+                + "      )\n"
                 + "\n"
                 + "INSERT INTO #TEMP_CCP (\n"
                 + "     COMPANY_MASTER_SID\n"
@@ -3666,8 +3623,8 @@ public class MProjectionResultsLogic {
                 + "                   AND IM.ITEM_MASTER_SID = A.ITEM_MASTER_SID\n"
                 + "            )";
 
-        selectClause += " select ";
-        String customQuery = StringUtils.EMPTY;
+        selectClause += Constant.SELECT_SMALL_SPACE;
+        String customQuery;
 
         List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByNetSalesClause("DISCOUNT", "SALE", projSelDTO.getFrequencyDivision());
         selectClause += list.get(NumericConstants.ZERO);
@@ -3717,7 +3674,7 @@ public class MProjectionResultsLogic {
         String historyQuery = getChildTotalDiscountQuery(projSelDTO);
         projSelDTO.setFuture(true);
         String futureQuery = getChildTotalDiscountQuery(projSelDTO);
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(NumericConstants.ONE);
         String finalSelectClause = "select " + list.get(NumericConstants.ZERO)
                 + "HISTORY.MAD_ACTUAL_SALES as MAD_ACTUAL_SALES,\n"
@@ -3733,13 +3690,13 @@ public class MProjectionResultsLogic {
                 + "FUTURE.SUP_PROJECTION_RATE as SUP_PROJECTION_RATE,\n"
                 + "FUTURE.SUP_PROJECTION_RPU as SUP_PROJECTION_RPU\n";
 
-        String customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+        String customQuery = finalSelectClause + "from (\n" + historyQuery + "\n) HISTORY  FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE  \n" + finalWhereCond;
         return customQuery;
     }
 
 
     public static List<String> getProgramCodeName(int projectionId) {
-        List<String> strList = new ArrayList<String>();
+        List<String> strList = new ArrayList<>();
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(getProgramCodeNameQuery(projectionId), null, null);
         if (list != null && !list.isEmpty()) {
             strList = CommonUtils.objectListToStringList(list);
@@ -3791,14 +3748,8 @@ public class MProjectionResultsLogic {
         String customerProductQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);;
 
         StringBuffer netSalesQuery = new StringBuffer();
-        String relationshipBuilderSid = StringUtils.EMPTY;
-        if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
-            relationshipBuilderSid = projSelDTO.getCustRelationshipBuilderSid();
-        } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
-            relationshipBuilderSid = projSelDTO.getProdRelationshipBuilderSid();
-        }
-        List<String> list = getCommonSelectPeriodNetSalesClause("TODIS", "SALE", projSelDTO.getFrequencyDivision());
-        List<String> list2 = getCommonSelectPeriodNetSalesClause("HISTORY", "FUTURE", projSelDTO.getFrequencyDivision());
+        List<String> list = getCommonSelectPeriodNetSalesClause(Constant.TODIS_LABEL, "SALE", projSelDTO.getFrequencyDivision());
+        List<String> list2 = getCommonSelectPeriodNetSalesClause(Constant.HISTORY1, Constant.FUTURE, projSelDTO.getFrequencyDivision());
         String value = StringUtils.EMPTY;
         String periodValue = StringUtils.EMPTY;
         String groupByValue = StringUtils.EMPTY;
@@ -3807,16 +3758,16 @@ public class MProjectionResultsLogic {
         String periodGroup = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             value = ", I.QUARTER AS PERIODS \n ";
-            periodValue = ",PERIODS \n";
-            groupByValue = ",A.PERIODS\n";
+            periodValue = ",PERIODS   \n";
+            groupByValue = APERIODS;
             period = "and HISTORY.PERIODS=FUTURE.PERIODS\n";
             periodHisValue = ", p.QUARTER as PERIODS";
             periodGroup = " p.QUARTER,";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
             value = ", I.SEMI_ANNUAL AS PERIODS \n";
-            periodValue = ",PERIODS \n";
-            groupByValue = ",A.PERIODS\n";
-            period = "and HISTORY.PERIODS=FUTURE.PERIODS\n";
+            periodValue = ",PERIODS  \n";
+            groupByValue = APERIODS;
+            period = "and HISTORY.PERIODS=FUTURE.PERIODS \n";
             periodHisValue = ", p.SEMI_ANNUAL as PERIODS";
             periodGroup = " p.SEMI_ANNUAL,";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.ONE) {
@@ -3827,8 +3778,8 @@ public class MProjectionResultsLogic {
             periodGroup = StringUtils.EMPTY;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
             value = ", I.MONTH AS PERIODS \n";
-            periodValue = ",PERIODS \n";
-            groupByValue = ",A.PERIODS\n";
+            periodValue = ",PERIODS  \n";
+            groupByValue = APERIODS;
             period = "and HISTORY.PERIODS=FUTURE.PERIODS\n";
             periodHisValue = ", p.MONTH as PERIODS";
             periodGroup = " p.MONTH,";
@@ -3867,7 +3818,7 @@ public class MProjectionResultsLogic {
                 + "      , CONTRACT_MASTER_SID\n"
                 + "      , ITEM_MASTER_SID\n"
                 + "      , PROJECTION_MASTER_SID\n"
-                + "      )\n"
+                + "       )\n"
                 + " SELECT C.COMPANY_MASTER_SID\n"
                 + "      , C.CONTRACT_MASTER_SID\n"
                 + "      , C.ITEM_MASTER_SID\n"
@@ -3894,7 +3845,7 @@ public class MProjectionResultsLogic {
                 + "      ,COGS_PROJECTED = ISNULL(SALE.COGS_PROJECTED, 0)\n"
                 + "      ,NET_PROFIT_ACTUAL = ((Isnull(SALE.SALES_ACTUAL_SALES, 0) - (Isnull(TODIS.MADD_ACTUAL_SALES, 0) + Isnull(TODIS.SUPP_ACTUAL_SALES, 0))) - ISNULL(SALE.COGS_ACTUAL, 0))\n"
                 + "      ,NET_PROFIT_PROJECTED = ((Isnull(SALE.SALES_PROJECTION_SALES, 0) - (Isnull(TODIS.MADD_ACTUAL_SALES, 0) + Isnull(TODIS.SUPP_ACTUAL_SALES, 0))) - ISNULL(SALE.COGS_PROJECTED, 0)) from (\n"
-                + " select " + list2.get(0) + "\n"
+                + Constant.SELECT_SMALL_SPACE + list2.get(0) + "\n"
                 + "\n"
                 + "  (Isnull(HISTORY.MAD_ACTUAL_SALES,0)+Isnull(HISTORY.SUP_ACTUAL_SALES,0)) as ACTUAL_SALES,\n"
                 + " ((Isnull(HISTORY.MAD_ACTUAL_RATE,0)+Isnull(HISTORY.SUP_ACTUAL_RATE,0))/2) as ACTUAL_RATE,\n"
@@ -3913,15 +3864,15 @@ public class MProjectionResultsLogic {
                 + "        Sum(Isnull(SPMA.ACTUAL_SALES,0))        AS  SUP_ACTUAL_SALES,\n"
                 + "        ( Sum(Isnull(SPMA.ACTUAL_SALES, 0)) / NULLIF(Sum(m_ac.ACTUAL_SALES), 0) ) * 100        AS  SUP_ACTUAL_RATE,\n"
                 + "        ( SUM(ISNULL(SPMA.ACTUAL_SALES, 0)) / NULLIF(SUM(M_AC.ACTUAL_UNITS), 0) ) * 100 AS SUP_ACTUAL_RPU FROM   #SELECTED_HIERARCHY_NO CCP INNER  JOIN  ST_M_SALES_PROJECTION_MASTER "
-                + " m_mas ON CCP.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
+                + " m_mas ON CCP.CCP_DETAILS_SID =  m_mas.CCP_DETAILS_SID\n"
                 + " INNER  JOIN ST_M_ACTUAL_SALES "
-                + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
+                + " m_ac  ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
                 + " INNER JOIN   ST_M_ACTUAL_DISCOUNT MAD ON MAD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + " AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + "  LEFT JOIN ST_M_SUPPLEMENTAL_DISC_MASTER "
-                + " SPM ON SPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + " SPM ON  SPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "  LEFT JOIN  ST_M_SUPPLEMENTAL_DISC_ACTUALS "
-                + " SPMA ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + " SPMA ON SPMA.CCP_DETAILS_SID =  CCP.CCP_DETAILS_SID\n"
                 + "                                                                         AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + " INNER  JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
                 + "  GROUP  BY  " + periodGroup + "\n"
@@ -3936,19 +3887,19 @@ public class MProjectionResultsLogic {
                 + "        ( Sum(Isnull(SPMA.PROJECTION_SALES, 0)) / NULLIF(Sum(m_ac.PROJECTION_SALES), 0) ) * 100    AS  SUP_PROJECTION_RATE,\n"
                 + "        Sum(Isnull(SPMA.PROJECTION_RPU,0))   AS  SUP_PROJECTION_RPU\n"
                 + "  FROM   #SELECTED_HIERARCHY_NO CCP INNER  JOIN  ST_M_SALES_PROJECTION_MASTER "
-                + " m_mas ON CCP.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
+                + " m_mas ON  CCP.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
                 + " INNER  JOIN  ST_M_SALES_PROJECTION "
                  + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
                  + " INNER JOIN   ST_M_DISCOUNT_PROJECTION MAD ON MAD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + " AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + "  LEFT JOIN  ST_M_SUPPLEMENTAL_DISC_MASTER "
-                + " SPM ON SPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + " SPM ON SPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
                 + "  LEFT JOIN   ST_M_SUPPLEMENTAL_DISC_PROJ "
-                + " SPMA ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + " SPMA ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
                 + "                                                                         AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + " INNER  JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
                 + "  GROUP  BY  " + periodGroup + "\n"
-                + "                           CCP.HIERARCHY_NO,\n"
+                + "                       CCP.HIERARCHY_NO,\n"
                 + "                           p.\"YEAR\"\n"
                 + " ) FUTURE\n" + "ON HISTORY.YEARS = FUTURE.YEARS  "
                 + period
@@ -4024,6 +3975,7 @@ public class MProjectionResultsLogic {
 
         return netSalesQuery.toString();
     }
+    public static final String APERIODS = ",A.PERIODS\n";
 
     public String getCustomQuery(ProjectionSelectionDTO projSelDTO) {
         String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo() + Constant.PERCENT;
@@ -4069,7 +4021,7 @@ public class MProjectionResultsLogic {
                 + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + projSelDTO.getProdRelationshipBuilderSid() + "\n"
                 + "  INNER JOIN PROJECTION_DETAILS PD\n"
                 + "    ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
-                + "    AND PD.PROJECTION_MASTER_SID =  " + projSelDTO.getProjectionId() + ") CCPMAPP\n"
+                + "    AND PD.PROJECTION_MASTER_SID =   " + projSelDTO.getProjectionId() + ") CCPMAPP\n"
                 + "    ON CCPMAPC.CCP_DETAILS_SID = CCPMAPP.CCP_DETAILS_SID\n"
                 + "  INNER JOIN (SELECT\n"
                 + "    RLD2.HIERARCHY_NO,\n"
@@ -4087,7 +4039,7 @@ public class MProjectionResultsLogic {
                 + "    AND PCH2.PROJECTION_MASTER_SID =  " + projSelDTO.getProjectionId() + "\n"
                 + "  WHERE RLD2.HIERARCHY_NO LIKE '" + customerHierarchyNo + "') HLDC\n"
                 + "    ON CCPMAPC.HIERARCHY_NO LIKE HLDC.HIERARCHY_NO + '%'\n"
-                + "  INNER JOIN (SELECT\n"
+                + "  INNER JOIN  (SELECT\n"
                 + "    RLD2.HIERARCHY_NO,\n"
                 + "    RLD2.RELATIONSHIP_LEVEL_SID,\n"
                 + "    CVD.LEVEL_NO\n"
@@ -4103,7 +4055,7 @@ public class MProjectionResultsLogic {
                 + "    AND PCH2.PROJECTION_MASTER_SID =  " + projSelDTO.getProjectionId() + "\n"
                 + "  WHERE RLD2.HIERARCHY_NO LIKE '" + productHierarchyNo + "') HLDP\n"
                 + "    ON CCPMAPP.HIERARCHY_NO LIKE HLDP.HIERARCHY_NO + '%'\n"
-                + "  INNER JOIN PROJECTION_DETAILS PD\n"
+                + "  INNER JOIN PROJECTION_DETAILS PD \n"
                 + "    ON PD.CCP_DETAILS_SID = CCPMAPC.CCP_DETAILS_SID\n"
                 + "    AND PD.PROJECTION_MASTER_SID =  " + projSelDTO.getProjectionId() + StringUtils.EMPTY);
 
@@ -4146,23 +4098,23 @@ public class MProjectionResultsLogic {
         String period = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             value = ", I.QUARTER AS PERIODS \n ";
-            periodValue = "  PERIODS,";
-            period = " ,PERIODS";
+            periodValue = Constant.PERIODS_COMMA;
+            period = Constant.PERIODS_SPACE;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
             value = ", I.SEMI_ANNUAL AS PERIODS \n";
-            periodValue = "  PERIODS,";
-            period = " ,PERIODS";
+            periodValue = Constant.PERIODS_COMMA;
+            period = Constant.PERIODS_SPACE;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.ONE) {
             value = ",0 AS PERIODS";
-            periodValue = "  PERIODS,";
-            period = " ,PERIODS";
+            periodValue = Constant.PERIODS_COMMA;
+            period = Constant.PERIODS_SPACE;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
             value = ", I.MONTH AS PERIODS \n";
-            periodValue = "  PERIODS,";
-            period = " ,PERIODS";
+            periodValue = Constant.PERIODS_COMMA;
+            period = Constant.PERIODS_SPACE;
         }
         String whereClause = StringUtils.EMPTY;
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
             whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
@@ -4223,33 +4175,33 @@ public class MProjectionResultsLogic {
                 + "  A.PROJECTION_UNITS,\n"
                 + "  COGS_PROJECTED = (ISNULL(A.PROJECTION_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0))"
                 + " from ST_M_SALES_PROJECTION A \n"
-                + customSql + ")P" + " group by " + "YEARS\n" + period;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByNetSalesClause("HISTORY", "FUTURE", projSelDTO.getFrequencyDivision());
+                + customSql + ")P" + "  group by " + "YEARS\n" + period;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByNetSalesClause(Constant.HISTORY1, Constant.FUTURE, projSelDTO.getFrequencyDivision());
         String finalWhereCond = list.get(NumericConstants.ONE);
-        String finalSelectClause = "select " + list.get(NumericConstants.ZERO) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES,\n Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES,"
+        String finalSelectClause = "     select " + list.get(NumericConstants.ZERO) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES,\n Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES,"
                 + "\n Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) as ACTUAL_UNITS,"
                 + " ISNULL(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) AS PROJECTION_UNITS,\n"
                 + "  ISNULL(HISTORY.COGS_ACTUAL, 0) AS COGS_ACTUAL,\n"
                 + "  ISNULL(FUTURE.COGS_PROJECTED, 0) AS COGS_PROJECTED \n";
 
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL  JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+        customQuery = finalSelectClause + "  from (\n" + historyQuery + "\n) HISTORY FULL  JOIN (\n" + futureQuery + "\n)  FUTURE \n" + finalWhereCond;
 
         return customQuery;
     }
 
     public static List<String> getCommonSelectPeriodNetSalesClause(String table1, String table2, int freq) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         String orderBy = " YEARS";
         String groupBy = " " + table1 + ".YEARS";
         String selectClause = "Isnull(" + table1 + ".YEARS, " + table2 + ".YEARS) as YEARS, ";
         String finalWhereCond = " " + "on" + " " + table1 + ".YEARS=" + table2 + ".YEARS";
         if (freq != NumericConstants.ONE) {
-            selectClause += "Isnull(" + table1 + ".PERIODS, " + table2 + ".PERIODS)";
+            selectClause += "Isnull(" + table1 + Constant.DOT_PERIODS_QUOTE + table2 + ".PERIODS)";
             selectClause += " as PERIODS, \n";
         }
         if (freq != NumericConstants.ONE) {
-            finalWhereCond += " and " + table1 + ".PERIODS=" + table2 + ".PERIODS";
-            groupBy += ", " + table1 + ".PERIODS";
+            finalWhereCond += Constant.AND_SMALL_SPACE + table1 + Constant.PERIODS_EQUAL + table2 + Constant.DOT_PERIODS_QUERY;
+            groupBy += ", " + table1 + Constant.DOT_PERIODS_QUERY;
 
         }
         orderBy += ", PERIODS";
@@ -4271,7 +4223,7 @@ public class MProjectionResultsLogic {
                 List<String> hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, start, offset);                
                for (int i = NumericConstants.ZERO; i < hierarchyNoList.size() && neededRecord > NumericConstants.ZERO; i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
-                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo),neededRecord, hierarchyNoList.size(),i));
+                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo), hierarchyNoList.size(),i));
                      
               
                 neededRecord--;
@@ -4283,7 +4235,7 @@ public class MProjectionResultsLogic {
                 List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, start, offset);
             for (int i = NumericConstants.ZERO; i < hierarchyNoList.size() && neededRecord > NumericConstants.ZERO; i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
-                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),neededRecord,hierarchyNoList.size(),i));
+                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),hierarchyNoList.size(),i));
                    
                 neededRecord--;
                    }
@@ -4299,7 +4251,7 @@ public class MProjectionResultsLogic {
      * @param detailsList
      * @return
      */
-    public ProjectionResultsDTO configureDetailsInDTO(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator,int levelNo, List detailsList,int neededRecord,int listSize,int i) {
+    public ProjectionResultsDTO configureDetailsInDTO(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator,int levelNo, List detailsList,int listSize,int i) {
                      ProjectionResultsDTO dto = new ProjectionResultsDTO();
                      dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO).toString()));
                      dto.setTreeLevelNo(levelNo);

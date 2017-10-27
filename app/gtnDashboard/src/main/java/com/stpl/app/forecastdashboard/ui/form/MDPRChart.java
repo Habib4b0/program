@@ -322,9 +322,6 @@ public class MDPRChart {
         return mainLayout;
     }
 
-    private boolean checkForNullValues(Object object) {
-        return "null".equals(String.valueOf(object)) || StringUtils.isBlank(String.valueOf(object));
 
-    }
 
 }

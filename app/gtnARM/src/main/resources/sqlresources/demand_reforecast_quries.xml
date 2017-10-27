@@ -668,12 +668,17 @@ END IN (?)
                                      ]]>  
         </query>
     </entity>
-    <entity id="TRANSACTION_5_Wf_Save_Query">
+    <entity id="Transaction_5_-_Demand_Reforecast_True-up_Wf_Save_Query">
         <query>
             <![CDATA[
                 DELETE ADRS FROM ARM_DEMAND_RF_TRUE_UP_SUMMARY ADRS
                 JOIN ARM_ADJUSTMENT_DETAILS AAD ON
                     ADRS.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
+                WHERE AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID ;
+                
+                DELETE AA FROM ARM_ADJUSTMENTS AA
+                    JOIN ARM_ADJUSTMENT_DETAILS AAD ON
+                    AA.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
                 WHERE AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID ;
 
                 INSERT INTO ARM_DEMAND_RF_TRUE_UP_SUMMARY
@@ -701,15 +706,38 @@ END IN (?)
                 JOIN ARM_ADJUSTMENT_DETAILS AAD ON
                         ADRS.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
                 WHERE AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID ;
+                
+                
+                INSERT INTO ARM_ADJUSTMENTS(
+                    ARM_ADJUSTMENT_DETAILS_SID,
+                    PERIOD_SID,
+                    ADJUSTMENT_TYPE,
+                    ACCOUNT,
+                    DEBIT,
+                    CREDIT
+                ) SELECT
+                    ARM_ADJUSTMENT_DETAILS_SID,
+                    PERIOD_SID,
+                    ADJUSTMENT_TYPE,
+                    ACCOUNT,
+                    DEBIT,
+                    CREDIT
+                FROM
+                    ST_ARM_ADJUSTMENTS;
 
                 DELETE ADRS FROM ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY ADRS
                 JOIN ARM_ADJUSTMENT_DETAILS AAD ON
                     ADRS.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
                 WHERE AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID ;
+
+                DELETE AA FROM ST_ARM_ADJUSTMENTS AA
+                    JOIN ARM_ADJUSTMENT_DETAILS AAD ON
+                    AA.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
+                WHERE AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID ;
         ]]>  
         </query>
     </entity>
-    <entity id="TRANSACTION~5_Wf_Edit_Query">
+    <entity id="Transaction_5_-_Demand_Reforecast_True-up_Wf_Edit_Query">
         <query>
             <![CDATA[
                 INSERT INTO ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY
@@ -737,6 +765,27 @@ END IN (?)
                 JOIN ARM_ADJUSTMENT_DETAILS AAD ON
                         ADRS.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
                 WHERE AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID ;
+                INSERT
+                    INTO
+                        ST_ARM_ADJUSTMENTS(
+                                ARM_ADJUSTMENT_DETAILS_SID,
+                                PERIOD_SID,
+                                ADJUSTMENT_TYPE,
+                                ACCOUNT,
+                                DEBIT,
+                                CREDIT
+                        ) SELECT
+                                AA.ARM_ADJUSTMENT_DETAILS_SID,
+                                AA.PERIOD_SID,
+                                AA.ADJUSTMENT_TYPE,
+                                AA.CREDIT,
+                                AA.DEBIT
+                        FROM
+                                ARM_ADJUSTMENTS AA
+                        JOIN ARM_ADJUSTMENT_DETAILS AAD ON
+                                AA.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
+                        WHERE
+                                AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
         ]]>  
         </query>
     </entity>
@@ -2383,6 +2432,29 @@ SELECT ARM_ADJUSTMENT_DETAILS_SID,
 FROM   ? 
 WHERE  OVERRIDE IS NOT NULL 
        AND OVERRIDE != 0 
+       
+---UPDATE for Credit and debit Values in adjustments table
+UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
+FROM  ? AA INNER JOIN(SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID AS ARM_ADJUSTMENT_DETAILS_SID,
+        ISNULL(A1.PERIOD_SID, A2.PERIOD_SID) AS PERIOD_SID,
+        ACCOUNT,
+        SUM(ABS(A1.ACCRUAL_AMOUNT))                  AS CREDIT,
+        SUM(ABS(A2.ACCRUAL_AMOUNT))                  AS DEBIT
+FROM   #TEMP_AMOUNT TAM
+        JOIN ARM_ADJ_RES_CCP AAC
+             ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AAC.ARM_ADJUSTMENT_DETAILS_SID
+        LEFT JOIN #TEMP_AMOUNT A1
+                     ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A1.ARM_ADJUSTMENT_DETAILS_SID
+                           AND AAC.CREDIT = A1.INDICATOR
+        LEFT JOIN #TEMP_AMOUNT A2
+                     ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A2.ARM_ADJUSTMENT_DETAILS_SID
+                           AND AAC.DEBIT = A2.INDICATOR
+            JOIN PERIOD P ON P.PERIOD_SID=ISNULL(A1.PERIOD_SID, A2.PERIOD_SID) AND P.PERIOD_SID=TAM.PERIOD_SID
+            WHERE CREDIT IS NOT NULL AND DEBIT IS NOT NULL
+GROUP  BY TAM.ARM_ADJUSTMENT_DETAILS_SID,
+              ISNULL(A1.PERIOD_SID, A2.PERIOD_SID),
+              ACCOUNT) BB ON AA.ARM_ADJUSTMENT_DETAILS_SID=BB.ARM_ADJUSTMENT_DETAILS_SID AND AA.PERIOD_SID=BB.PERIOD_SID
+              AND AA.ACCOUNT=BB.ACCOUNT
 
 IF OBJECT_ID('TEMPDB..#CURRENT_LIABILITY') IS NOT NULL 
   DROP TABLE #CURRENT_LIABILITY 

@@ -120,8 +120,8 @@ public class ExistingComponents extends CustomComponent implements View {
     public VerticalLayout contractComponentDetailsTableLayout;
     TreeTable contractDashboardResultsTable = new TreeTable();
     public ExtFilterTable contractComponentDetailsTable = new ExtFilterTable();
-    private BeanItemContainer<ComponentInfoDTO> transferCompContainer = new BeanItemContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
-    private BeanItemContainer<ComponentInfoDTO> selectedContainer = new BeanItemContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
+    private BeanItemContainer<ComponentInfoDTO> transferCompContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
+    private BeanItemContainer<ComponentInfoDTO> selectedContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     @UiField("componentType")
     public ComboBox componentTypeDdlb;
     @UiField("searchField")
@@ -218,8 +218,8 @@ public class ExistingComponents extends CustomComponent implements View {
     public GridLayout componentInfoIfpLayout;
     @UiField("componentInfoPsLayout")
     public GridLayout componentInfoPsLayout;
-    ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer1 = new ExtTreeContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
-    private BeanItemContainer<ComponentInfoDTO> componentResultsContainer = new BeanItemContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
+    ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer1 = new ExtTreeContainer<>(ComponentInfoDTO.class);
+    private BeanItemContainer<ComponentInfoDTO> componentResultsContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     public List parentList = new ArrayList();
     public int levelValue;
     ComponentInfoDTO componentInfoDTO = new ComponentInfoDTO();
@@ -228,19 +228,19 @@ public class ExistingComponents extends CustomComponent implements View {
     public ExtPagedTable componentResultsTable = new ExtPagedTable(availableTableLogic);
     ComponentInfoDTO newDiscountTabDto = new ComponentInfoDTO();
     public ExtPagedFilterTable componentDetailsSelectedItem = new ExtPagedFilterTable();
-    List<Integer> newlyAddedRebates = new ArrayList<Integer>();
+    List<Integer> newlyAddedRebates = new ArrayList<>();
     Object treeBeanId;
-    private ExtTreeContainer<ComponentInfoDTO> excelResultBean2 = new ExtTreeContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
-    public List<ComponentInfoDTO> componentInformation = new ArrayList<ComponentInfoDTO>();
-    public List<ComponentInfoDTO> componentInfo = new ArrayList<ComponentInfoDTO>();
-    private ExtCustomTable exportPeriodViewTable;
-    private ExtCustomTable exportPeriodViewTable2;
+    private ExtTreeContainer<ComponentInfoDTO> excelResultBean2 = new ExtTreeContainer<>(ComponentInfoDTO.class);
+    public List<ComponentInfoDTO> componentInformation = new ArrayList<>();
+    public List<ComponentInfoDTO> componentInfo = new ArrayList<>();
+    private ExtCustomTable exportPeriodViewTable = new ExtCustomTable();
+    private ExtCustomTable exportPeriodViewTable2 = new ExtCustomTable();;
     String excelName1 = "Component Results";
     String excelName2 = "Component Details";
     PromoteTPLogic logic = new PromoteTPLogic();
     QueryUtils queryUtils = new QueryUtils();
     DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-    List<HelperDTO> itemStatusList = new ArrayList<HelperDTO>();
+    List<HelperDTO> itemStatusList = new ArrayList<>();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     Boolean contractExcelFlag = false;
     Boolean infoExcelFlag = false;
@@ -328,8 +328,8 @@ public class ExistingComponents extends CustomComponent implements View {
         componentResultsTable.setHeight("230px");
         componentResultsTable.setPageLength(NumericConstants.FIVE);
         componentResultsTable.setContainerDataSource(transferCompContainer);
-        componentResultsTable.setVisibleColumns(Constants.RS_RESULTS_COLUMNS);
-        componentResultsTable.setColumnHeaders(Constants.RS_RESULTS_HEADERS);
+        componentResultsTable.setVisibleColumns(Constants.getInstance().rsResultsColumns);
+        componentResultsTable.setColumnHeaders(Constants.getInstance().rsResultsHeaders);
         componentResultsTable.setSelectable(true);
         for (Object propertyId : componentResultsTable.getVisibleColumns()) {
             componentResultsTable.setColumnWidth(propertyId, NumericConstants.ONE_TWO_FIVE);
@@ -357,8 +357,8 @@ public class ExistingComponents extends CustomComponent implements View {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 String searchField = String.valueOf(searchFieldDdlb.getValue());
-                if (searchField.contains("Status") || searchField.contains("Type")) {
-                    if (searchField.contains("Status")) {
+                if (searchField.contains(Constants.STATUS_FIELD) || searchField.contains("Type")) {
+                    if (searchField.contains(Constants.STATUS_FIELD)) {
                         try {
                             itemStatusList.clear();
                             itemStatusList = CommonLogic.getDropDownList(Constants.IndicatorConstants.STATUS.getConstant());
@@ -470,8 +470,8 @@ public class ExistingComponents extends CustomComponent implements View {
         contractDashboardResultsTable.setSelectable(true);
         contractDashboardResultsTable.setMultiSelect(false);
         contractDashboardResultsTable.setContainerDataSource(dashBoardTreeContainer1);
-        contractDashboardResultsTable.setVisibleColumns(Constants.PROMOTE_TP_CONTRACT_DASHBOARD_TREE_COLUMNS_TRANSFER);
-        contractDashboardResultsTable.setColumnHeaders(Constants.PROMOTE_TP_CONTRACT_DASHBOARD_TREE_HEADERS);
+        contractDashboardResultsTable.setVisibleColumns(Constants.getInstance().promoteTpContractDashboardTreeColumnsTransfer);
+        contractDashboardResultsTable.setColumnHeaders(Constants.getInstance().promoteTpContractDashboardTreeHeaders);
     }
 
     public void configureComponentDetailsTable() {
@@ -481,8 +481,8 @@ public class ExistingComponents extends CustomComponent implements View {
         componentDetailsSelectedItem.setHeight("230px");
         componentDetailsSelectedItem.setPageLength(NumericConstants.FIVE);
         componentDetailsSelectedItem.setContainerDataSource(selectedContainer);
-        componentDetailsSelectedItem.setVisibleColumns(Constants.EXISTING_SELECTED_RESULTS_COLUMNS);
-        componentDetailsSelectedItem.setColumnHeaders(Constants.EXISTING_SELECTED_RESULTS_HEADERS);
+        componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().existingSelectedResultsColumns);
+        componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().existingSelectedResultsHeaders);
         componentDetailsSelectedItem.setSelectable(false);
     }
 
@@ -492,8 +492,8 @@ public class ExistingComponents extends CustomComponent implements View {
         contractComponentDetailsTable.setHeight("430px");
         contractComponentDetailsTable.setPageLength(NumericConstants.FIVE);
         contractComponentDetailsTable.setContainerDataSource(componentResultsContainer);
-        contractComponentDetailsTable.setVisibleColumns(Constants.COMPONENT_DETAILS_COLUMNS);
-        contractComponentDetailsTable.setColumnHeaders(Constants.COMPONENT_DETAILS_HEADERS);
+        contractComponentDetailsTable.setVisibleColumns(Constants.getInstance().componentDetailsColumns);
+        contractComponentDetailsTable.setColumnHeaders(Constants.getInstance().componentDetailsHeaders);
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -544,7 +544,7 @@ public class ExistingComponents extends CustomComponent implements View {
     }
 
     private void configureExcelSelItemResultTable() {
-        excelResultBean2 = new ExtTreeContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
+        excelResultBean2 = new ExtTreeContainer<>(ComponentInfoDTO.class);
         exportPeriodViewTable2 = new ExtCustomTable();
         transferCompPanelTableLayout.addComponent(exportPeriodViewTable2);
         exportPeriodViewTable2.setRefresh(Boolean.FALSE);
@@ -555,7 +555,7 @@ public class ExistingComponents extends CustomComponent implements View {
     }
 
     @UiHandler("componentType")
-    public void componentTypeDdlbLogic(Property.ValueChangeEvent event) throws SystemException {
+    public void componentTypeDdlbLogic(Property.ValueChangeEvent event) {
         searchFieldDdlb = CommonLogic.loadExistingTabSearchField(searchFieldDdlb, componentTypeDdlb);
         loadTableHeaders();
     }
@@ -563,20 +563,20 @@ public class ExistingComponents extends CustomComponent implements View {
     private void loadTableHeaders() {
         String compType = String.valueOf(componentTypeDdlb.getValue());
         if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.AD_CFP_IFP_RESULTS_COLUMNS);
-            componentResultsTable.setColumnHeaders(Constants.AD_CFP_IFP_RESULTS_HEADERS);
+            componentResultsTable.setVisibleColumns(Constants.getInstance().adCfpIfpResultsColumns);
+            componentResultsTable.setColumnHeaders(Constants.getInstance().adCfpIfpResultsHeaders);
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.AD_CFP_IFP_RESULTS_COLUMNS);
-            componentResultsTable.setColumnHeaders(Constants.AD_CFP_IFP_RESULTS_HEADERS);
+            componentResultsTable.setVisibleColumns(Constants.getInstance().adCfpIfpResultsColumns);
+            componentResultsTable.setColumnHeaders(Constants.getInstance().adCfpIfpResultsHeaders);
             for (Object obj : componentResultsTable.getVisibleColumns()) {
                 componentResultsTable.setColumnWidth(obj, NumericConstants.ONE_NINE_FIVE);
             }
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.AD_PS_RESULTS_COLUMNS);
-            componentResultsTable.setColumnHeaders(Constants.AD_PS_RESULTS_HEADERS);
+            componentResultsTable.setVisibleColumns(Constants.getInstance().adPsResultsColumns);
+            componentResultsTable.setColumnHeaders(Constants.getInstance().adPsResultsHeaders);
         } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
-            componentResultsTable.setVisibleColumns(Constants.RS_RESULTS_COLUMNS);
-            componentResultsTable.setColumnHeaders(Constants.RS_RESULTS_HEADERS);
+            componentResultsTable.setVisibleColumns(Constants.getInstance().rsResultsColumns);
+            componentResultsTable.setColumnHeaders(Constants.getInstance().rsResultsHeaders);
         }
     }
 
@@ -590,7 +590,7 @@ public class ExistingComponents extends CustomComponent implements View {
         LOGGER.debug("Entered search method");
         transferCompContainer.removeAllItems();
         String searchField = String.valueOf(searchFieldDdlb.getValue());
-        if (searchField.contains("Status") || searchField.contains("Type")) {
+        if (searchField.contains(Constants.STATUS_FIELD) || searchField.contains("Type")) {
             newDiscountTabDto.setSearchFieldValue(String.valueOf(searchType.getValue()));
         } else {
             newDiscountTabDto.setSearchFieldValue(searchValue.getValue());
@@ -606,7 +606,7 @@ public class ExistingComponents extends CustomComponent implements View {
     }
 
     @UiHandler("addToTreeBtn1")
-    public void addToTreeLogic(Button.ClickEvent event) throws SystemException {
+    public void addToTreeLogic(Button.ClickEvent event) {
         try {
             addToContDashboardTree();
         } catch (Exception e) {
@@ -657,7 +657,7 @@ public class ExistingComponents extends CustomComponent implements View {
                         contractDashboardResultsTable.setChildrenAllowed(rootId, true);
                         contractDashboardResultsTable.setCollapsed(root, false);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Correct Node");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
                     }
                 } else if (level.equals(Constants.PRICE_SCHEDULE)) {
                     if (NumericConstants.THREE - levelNumber == 1) {
@@ -679,7 +679,7 @@ public class ExistingComponents extends CustomComponent implements View {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS does not associate with  IFP");
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Correct Node");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
                     }
                 } else if (level.equals(Constants.REBATE_SCHEDULE)) {
                     if (NumericConstants.FOUR - levelNumber == 1) {
@@ -698,7 +698,7 @@ public class ExistingComponents extends CustomComponent implements View {
                         contractDashboardResultsTable.setCollapsed(root, false);
 
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Correct Node");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
                     }
                 }
             } else {
@@ -744,7 +744,7 @@ public class ExistingComponents extends CustomComponent implements View {
                 List componentList = CompanyMasterLocalServiceUtil.executeQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     componentResultsContainer.removeAllItems();
-                    List<ComponentInfoDTO> companyList = new ArrayList<ComponentInfoDTO>();
+                    List<ComponentInfoDTO> companyList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
                         ComponentInfoDTO companyDTO = new ComponentInfoDTO();
                         Object[] obje = (Object[]) componentList.get(i);
@@ -766,8 +766,8 @@ public class ExistingComponents extends CustomComponent implements View {
                         companyList.add(companyDTO);
                     }
                     componentResultsContainer.addAll(companyList);
-                    contractComponentDetailsTable.setVisibleColumns(Constants.CC_COMPONENT_DETAILS_COLUMNS);
-                    contractComponentDetailsTable.setColumnHeaders(Constants.CC_COMPONENT_DETAILS_HEADERS);
+                    contractComponentDetailsTable.setVisibleColumns(Constants.getInstance().ccComponentDetailsColumns);
+                    contractComponentDetailsTable.setColumnHeaders(Constants.getInstance().ccComponentDetailsHeaders);
                     cfpDetailsGrid.setVisible(true);
                     ifpDetailsGrid.setVisible(false);
                     psDetailsGrid.setVisible(false);
@@ -793,7 +793,7 @@ public class ExistingComponents extends CustomComponent implements View {
                 List componentList = CompanyMasterLocalServiceUtil.executeQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     componentResultsContainer.removeAllItems();
-                    List<ComponentInfoDTO> itemList = new ArrayList<ComponentInfoDTO>();
+                    List<ComponentInfoDTO> itemList = new ArrayList<>();
                     for (int i = 0; i < componentList.size(); i++) {
                         ComponentInfoDTO itemDTO = new ComponentInfoDTO();
                         Object[] obje = (Object[]) componentList.get(i);
@@ -818,8 +818,8 @@ public class ExistingComponents extends CustomComponent implements View {
                         itemList.add(itemDTO);
                     }
                     componentResultsContainer.addAll(itemList);
-                    contractComponentDetailsTable.setVisibleColumns(Constants.COMPONENT_DETAILS_ITEM_COLUMNS);
-                    contractComponentDetailsTable.setColumnHeaders(Constants.COMPONENT_DETAILS_ITEM_HEADERS);
+                    contractComponentDetailsTable.setVisibleColumns(Constants.getInstance().componentDetailsItemColumns);
+                    contractComponentDetailsTable.setColumnHeaders(Constants.getInstance().componentDetailsItemHeaders);
                     if (level.equals(Constants.TWO)) {
                         cfpDetailsGrid.setVisible(false);
                         ifpDetailsGrid.setVisible(true);
@@ -863,7 +863,7 @@ public class ExistingComponents extends CustomComponent implements View {
 
     public List<Integer> saveExistingContract() throws SystemException, PortalException, ParseException {
         int contractMasterSid = 0;
-        List<Integer> returnList = new ArrayList<Integer>();
+        List<Integer> returnList = new ArrayList<>();
         try {
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
 
@@ -951,7 +951,7 @@ public class ExistingComponents extends CustomComponent implements View {
                     cfpDetails.setModifiedDate(new Date());
                     cfpDetails.setCreatedBy(Integer.valueOf(userId));
                     cfpDetails.setModifiedBy(Integer.valueOf(userId));
-                    cfpDetails = CfpDetailsLocalServiceUtil.addCfpDetails(cfpDetails);
+                    CfpDetailsLocalServiceUtil.addCfpDetails(cfpDetails);
 
                     CfpContract cfpcontract;
                     cfpcontract = CfpContractLocalServiceUtil.createCfpContract(0);
@@ -1011,7 +1011,7 @@ public class ExistingComponents extends CustomComponent implements View {
                     ifpcontract = IfpContractLocalServiceUtil.addIfpContract(ifpcontract);
                     contractDashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).setValue(String.valueOf(ifpcontract.getIfpContractSid()));
 
-                    List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+                    List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(ifpcontract.getIfpContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
                     input.add(DBDate.format(new Date()));
@@ -1052,7 +1052,7 @@ public class ExistingComponents extends CustomComponent implements View {
                     psContract = PsContractLocalServiceUtil.addPsContract(psContract);
 
                     contractDashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).setValue(String.valueOf(psContract.getPsContractSid()));
-                    List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+                    List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(psContract.getPsContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
                     input.add(DBDate.format(new Date()));
@@ -1100,7 +1100,7 @@ public class ExistingComponents extends CustomComponent implements View {
                     rsContract.setModifiedDate(new Date());
                     rsContract = RsContractLocalServiceUtil.addRsContract(rsContract);
 
-                    List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+                    List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(rsContract.getRsContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
                     input.add(DBDate.format(new Date()));
@@ -1120,12 +1120,12 @@ public class ExistingComponents extends CustomComponent implements View {
         return returnList;
     }
 
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
 
     }
 
-    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) throws SystemException {
         try {
             if (end != 0) {
                 if (contractExcelFlag) {
@@ -1146,21 +1146,21 @@ public class ExistingComponents extends CustomComponent implements View {
             componentInformationLayout1.setVisible(false);
             componentInfoIfpLayout.setVisible(true);
             componentInfoPsLayout.setVisible(false);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.AD_COMPONENT_DETAILS_COLUMNS_IFP_NEW);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.AD_COMPONENT_DETAILS_HEADERS_IFP_NEW);
+            componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsIfpNew);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersIfpNew);
         } else if (compType.equals(Constants.REBATE_SCHEDULE)) {
             componentInformationLayout1.setVisible(true);
             componentInfoIfpLayout.setVisible(false);
             componentInfoPsLayout.setVisible(false);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.AD_COMPONENT_DETAILS_RS_COLUMN);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.AD_COMPONENT_DETAILS_RS_HEADER);
+            componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adComponentDetailsRsColumn);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adComponentDetailsRsHeader);
 
         } else if (compType.equals(Constants.PRICE_SCHEDULE)) {
             componentInformationLayout1.setVisible(false);
             componentInfoIfpLayout.setVisible(false);
             componentInfoPsLayout.setVisible(true);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.AD_COMPONENT_DETAILS_PS_COLUMN);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.AD_COMPONENT_DETAILS_PS_HEADER);
+            componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().adComponentDetailsPsColumn);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().adComponentDetailsPsHeader);
 
         }
     }

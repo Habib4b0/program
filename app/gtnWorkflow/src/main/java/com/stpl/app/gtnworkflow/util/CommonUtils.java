@@ -62,66 +62,9 @@ public class CommonUtils {
     public static final double ZERO_DOUBLE = 0.00;
     public static final String IS_ALPHABET = "([0-9]|[a-z|A-Z])*";
     HelperListUtil helperListUtil = HelperListUtil.getInstance();
-    public static final Object[] WF_HISTORY_LOOKUP_COLUMNS = new Object[]{
-        CommonUtils.STATUS, CommonUtils.MODIFIED_DATE, CommonUtils.MODIFIED_BY, CommonUtils.NOTES, "attachmentLink"};
-    public static final String[] WF_HISTORY_LOOKUP_HEADER = new String[]{
-        CommonUtils.STATUS_HEADER, CommonUtils.MODIFIED_DATE_HEADER, CommonUtils.MODIFIED_BY_HEADER, CommonUtils.NOTES_HEADER, "Attachement"};
-    public static final Object[] WF_HISTORY_LOOKUP_COLUMNS_ARM = new Object[]{
-        CommonUtils.STATUS, CommonUtils.MODIFIED_DATE, CommonUtils.MODIFIED_BY,CommonUtils.NOTES};
-    public static final String[] WF_HISTORY_LOOKUP_HEADER_ARM = new String[]{
-        CommonUtils.STATUS_HEADER, CommonUtils.MODIFIED_DATE_HEADER, CommonUtils.MODIFIED_BY_HEADER, CommonUtils.NOTES_HEADER};
     public static final String PRIVATE = "Private";
     public static final String PUBLIC = "Public";
     private static HashMap<Long, String> userMap = new HashMap<Long, String>();
-
-    /**
-     * Visible columns for Workflow Dashboard. If this is changed,
-     * getDbColumnName() method should be changed in workflowlogic.java
-     */
-    public static final Object[] INBOX_DASHBOARD_COLUMNS = new Object[]{
-        CommonUtils.WORKFLOW_ID, CommonUtils.WORKFLOW_NAME, CommonUtils.WORKFLOW_DESCRIPTION, CommonUtils.WORK_FLOW_STATUS, "company", CommonUtils.BUSINESS_UNIT, CommonUtils.CREATED_BY, CommonUtils.CREATED_DATE, CommonUtils.APPROVED_BY, CommonUtils.APPROVED_DATE};
-
-    public static final String[] INBOX_DASHBOARD_HEADER = new String[]{
-        "Workflow ID", CommonUtils.WORKFLOW_NAME_HEADER, CommonUtils.WORKFLOW_DESCRIPTION_HEADER, CommonUtils.STATUS_HEADER, "Company Name", "Business Unit Name", CommonUtils.CREATED_BY_HEADER, CommonUtils.CREATION_DATE_HEADER, CommonUtils.APPROVED_BY_HEADER, CommonUtils.APPROVED_DATE_HEADER};
-    public static final Object[] INBOX_DASHBOARD_COLUMNS_OTHERS = new Object[]{
-                CommonUtils.WORKFLOW_ID, CommonUtils.WORKFLOW_NAME, CommonUtils.WORKFLOW_DESCRIPTION, CommonUtils.WORK_FLOW_STATUS, CommonUtils.CREATED_BY, CommonUtils.CREATED_DATE, CommonUtils.APPROVED_BY, CommonUtils.APPROVED_DATE};
-
-    public static final String[] INBOX_DASHBOARD_HEADER_OTHERS = new String[]{
-        "Workflow Id", CommonUtils.WORKFLOW_NAME_HEADER, CommonUtils.WORKFLOW_DESCRIPTION_HEADER, CommonUtils.STATUS_HEADER, CommonUtils.CREATED_BY_HEADER, CommonUtils.CREATION_DATE_HEADER, CommonUtils.APPROVED_BY_HEADER, CommonUtils.APPROVED_DATE_HEADER};
-    
-     public static final Object[] INBOX_DASHBOARD_COLUMNS_SEARCH = new Object[]{
-        CommonUtils.WORKFLOW_ID, CommonUtils.WORKFLOW_NAME, "adjustmentTypeValue", "company", CommonUtils.BUSINESS_UNIT, CommonUtils.WORK_FLOW_STATUS, CommonUtils.CREATED_BY, CommonUtils.CREATED_DATE, CommonUtils.APPROVED_BY, CommonUtils.APPROVED_DATE};
-
-    public static final String[] INBOX_DASHBOARD_HEADER_SEARCH = new String[]{
-        "Workflow ID", CommonUtils.WORKFLOW_NAME_HEADER, "Adjustment Type", "Company", "Business Unit", CommonUtils.STATUS_HEADER, CommonUtils.CREATED_BY_HEADER, CommonUtils.CREATION_DATE_HEADER, CommonUtils.APPROVED_BY_HEADER, CommonUtils.APPROVED_DATE_HEADER};
-
-    public static final Object[] INBOX_DASHBOARD_COLUMNS_ARM = new Object[]{
-        "viewType", CommonUtils.CREATED_DATE, CommonUtils.CREATED_BY, CommonUtils.MODIFIED_DATE, CommonUtils.MODIFIED_BY,};
-
-    public static final String[] INBOX_DASHBOARD_HEADER_ARM = new String[]{
-        "View Type", CommonUtils.CREATION_DATE_HEADER, CommonUtils.CREATED_BY_HEADER, CommonUtils.MODIFIED_DATE_HEADER, CommonUtils.MODIFIED_BY_HEADER,};
-
-    public static final Object[] VIEW_SEARCH_LOOKUP_ADD_COLUMNS = new Object[]{"viewName"};
-    public static final String[] VIEW_SEARCH_LOOKUP_ADD_HEADER = new String[]{"View Name"};
-
-    public static final Object[] VIEW_SEARCH_LOOKUP_COLUMNS = merge(VIEW_SEARCH_LOOKUP_ADD_COLUMNS, INBOX_DASHBOARD_COLUMNS);
-    private static final Object[] TEMP_VIEW_SEARCH_LOOKUP_HEADER = merge(VIEW_SEARCH_LOOKUP_ADD_HEADER, INBOX_DASHBOARD_HEADER);
-
-    public static final Object[] VIEW_SEARCH_LOOKUP_COLUMNS_ARM = merge(VIEW_SEARCH_LOOKUP_ADD_COLUMNS, INBOX_DASHBOARD_COLUMNS_ARM);
-    private static final Object[] TEMP_VIEW_SEARCH_LOOKUP_HEADER_ARM = merge(VIEW_SEARCH_LOOKUP_ADD_HEADER, INBOX_DASHBOARD_HEADER_ARM);
-
-    public static final String[] VIEW_SEARCH_LOOKUP_HEADER = Arrays.copyOf(TEMP_VIEW_SEARCH_LOOKUP_HEADER, TEMP_VIEW_SEARCH_LOOKUP_HEADER.length, String[].class);
-    public static final String[] VIEW_SEARCH_LOOKUP_HEADER_ARM = Arrays.copyOf(TEMP_VIEW_SEARCH_LOOKUP_HEADER_ARM, TEMP_VIEW_SEARCH_LOOKUP_HEADER_ARM.length, String[].class);
-
-    public static final Object[] VIEW_VISIBLE_COLUMN = new Object[]{CommonUtils.LAST_NAME, CommonUtils.FIRST_NAME};
-    public static final String[] VIEW_HEADER = new String[]{"Last Name", "First Name"};
-
-    public static final Object[] VIEW_VISIBLE_COLUMN_ARM = new Object[]{"fullName", CommonUtils.FIRST_NAME, CommonUtils.LAST_NAME};
-    public static final String[] VIEW_HEADER_ARM = new String[]{"User Name", "User First Name", "User Last Name"};
-
-    public static final Object[] WF_HISTORY_LOOKUP_ATTACHMENTS_COLUMNS = new Object[]{"documentName", "dateAdded", "userName"};
-
-    public static final String[] WF_HISTORY_LOOKUP_ATTACHMENTS_HEADER = new String[]{"Document Name", "Date Added", "User Name"};
     /**
      *
      * The list name bundle. 
@@ -129,15 +72,18 @@ public class CommonUtils {
     private static final ResourceBundle confirmationMessage = ResourceBundle.getBundle("properties.message");
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
     public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
-    public final static String CONTRACT_TYPE = "CONTRACT_TYPE";
-    public final static String RS_TYPE = "RS_TYPE";
-    public final static String RS_CATEGORY = "RS_CATEGORY";
-    public final static String REBATE_PROGRAM_TYPE = "REBATE_PROGRAM_TYPE";
-    public final static String DEDUCTION_TYPE = "Deduction Schedule Type";
-    public final static String DEDUCTION_CATEGORY = "Deduction Category";
-    public final static String DEDUCTION_PROGRAM_TYPE = "Deduction Program Type";
+    public static final String CONTRACT_TYPE = "CONTRACT_TYPE";
+    public static final String RS_TYPE = "RS_TYPE";
+    public static final String RS_CATEGORY = "RS_CATEGORY";
+    public static final  String REBATE_PROGRAM_TYPE = "REBATE_PROGRAM_TYPE";
+    public static final  String DEDUCTION_TYPE = "Deduction Schedule Type";
+    public static final  String DEDUCTION_CATEGORY = "Deduction Category";
+    public static final  String DEDUCTION_PROGRAM_TYPE = "Deduction Program Type";
     public static final String DASH = "0";
+    public static final String SEARCH = "search";
+    public static final String LANDING_SCREEN = "Landing screen";
     Map<String, String[]> levelMap = new HashMap<>();
+    public static List<String> adjustmentTypes = new ArrayList<>();
     /**
      * The Constant MMDDYYYY.
      */
@@ -150,7 +96,7 @@ public class CommonUtils {
         Object[] newArray = list1.toArray();
         return newArray;
     }
-
+    
     public static List<InboxDashboardDTO> getCustomizedWorkflowInboxResults(List resultList, List<String> columnsList) {
         InboxDashboardDTO inboxDashboardDTO;
         List<InboxDashboardDTO> inboxDashboardDTOs = new ArrayList<>();
@@ -170,6 +116,11 @@ public class CommonUtils {
                 inboxDashboardDTO.setApprovedBy(getUserInfo(inboxDashboardDTO.getApprovedById()));
                 inboxDashboardDTO.setCreatedBy(getUserInfo(inboxDashboardDTO.getCreatedById()));
                 inboxDashboardDTOs.add(inboxDashboardDTO);
+                if(inboxDashboardDTO.getWorkFlowStatus().equalsIgnoreCase(CommonUtils.SELECT_ONE))
+                {
+                    inboxDashboardDTO.setWorkFlowStatus(StringUtils.EMPTY);
+                }
+                
             }
         } catch (Exception e) {
             LOGGER.error("Exception at customizing results" + e);
@@ -188,7 +139,7 @@ public class CommonUtils {
         }
 
         for (User user : users) {
-            userMap.put(user.getUserId(), user.getLastName() + " " + user.getFirstName());
+            userMap.put(user.getUserId(), user.getFirstName() + " " + user.getLastName());
         }
         return userMap;
     }
@@ -386,9 +337,9 @@ public class CommonUtils {
      * @param sqlID
      */
     public static void loadReserveRateDropdowns(ComboBox comboBox, boolean companyBusinessUnitFlag, String sqlID) {
-        StringBuilder sqlQuery = SQlUtil.getQuery(sqlID);
+        String sqlQuery = SQlUtil.getQuery(sqlID);
         if (companyBusinessUnitFlag) {
-            List<Object[]> arr = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery.toString());
+            List<Object[]> arr = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
             for (Object[] obj : arr) {
                 if (obj[1] != null && obj[NumericConstants.TWO] != null) {
                     comboBox.addItem((int) obj[0]);
@@ -396,7 +347,7 @@ public class CommonUtils {
                 }
             }
         } else {
-            List<Object> arr = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery.toString());
+            List<Object> arr = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
             comboBox.addItems(arr);
         }
     }
@@ -445,8 +396,8 @@ public class CommonUtils {
         Map<Integer, HelperDTO> descriptionMap = helperListUtil.getIdHelperDTOMap();
         loadLevelMap();
         List<LevelDTO> resultList = new ArrayList<>();
-        StringBuilder sqlQuery = SQlUtil.getQuery("getDeductionAvailableLevels");
-        String query = sqlQuery.toString();
+        String sqlQuery = SQlUtil.getQuery("getDeductionAvailableLevels");
+        String query = sqlQuery;
         String filterQuery;
         String finalQuery;
         if (!valueLevel.getDescription().equals(ARMConstants.getDeduction())) {
@@ -516,7 +467,8 @@ public class CommonUtils {
                 customItem[i].setCheckable(true);
                 customItem[i].setItemClickable(true);
                 customItem[i].setItemClickNotClosable(true);
-            }
+                adjustmentTypes.add(dto.getCaption());
+        }
         }
         return customMenuItemDed;
     }
@@ -575,7 +527,7 @@ public class CommonUtils {
         if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (int i = 0; i < adjType.size(); i++) {
                 for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
-                    if (adjType.get(i).toString().trim().equals(object.getMenuItem().getCaption())) {
+                     if (adjustmentTypes.get(i).equals(object.getMenuItem().getCaption())) {
                         object.setChecked(true);
                     }
                 }
@@ -595,8 +547,8 @@ public class CommonUtils {
         comboBox.addItem(0);
         comboBox.setItemCaption(0, GlobalConstants.getSelectOne());
         comboBox.setNullSelectionAllowed(false);
-        StringBuilder sqlQuery = SQlUtil.getQuery(sqlID);
-            List<Object[]> arr = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery.toString());
+        String sqlQuery = SQlUtil.getQuery(sqlID);
+            List<Object[]> arr = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
             for (Object[] obj : arr) {
                 if (obj[0] != null && obj[NumericConstants.TWO] != null) {
                     comboBox.addItem((int) obj[0]);

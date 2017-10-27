@@ -131,8 +131,9 @@
                             NA.ACTUAL_UNITS AS  UNITS,                            
                             NPA.ACTUAL_DISCOUNT_DOLLAR/NULLIF(NA.ACTUAL_UNITS,0) AS RPU,                            
                             0 AS ACTUALS_PROJECTION
-                    FROM   #NM_PPA_ACTUAL NPA
-                           JOIN #NM_ACTUAL_SALES NA
+                            
+                    FROM   #NM_ACTUAL_SALES NA
+                            LEFT JOIN #NM_PPA_ACTUAL NPA
                              ON NA.PERIOD = NPA.PERIOD
                                 AND NA.YEAR = NPA.YEAR
                     UNION ALL
@@ -143,8 +144,8 @@
                             NA1.PROJECTION_UNITS AS UNIT,
                             NPA1.PROJECTION_DISCOUNT_DOLLAR/NULLIF(NA1.PROJECTION_UNITS,0) AS RPU,                            
                             1 AS ACTUALS_PROJECTION
-                    FROM   #NM_PPA_PROJECTION NPA1
-                           JOIN #NM_SALES_PROJECTION NA1
+                     FROM   #NM_SALES_PROJECTION NA1
+                            LEFT JOIN #NM_PPA_PROJECTION NPA1
                              ON NA1.PERIOD = NPA1.PERIOD
                                 AND NA1.YEAR = NPA1.YEAR
                     ORDER BY PERIOD_FINAL,

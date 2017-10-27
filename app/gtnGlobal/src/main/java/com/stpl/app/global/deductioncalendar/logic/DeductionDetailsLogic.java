@@ -18,6 +18,7 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
@@ -80,7 +81,7 @@ public class DeductionDetailsLogic {
                 }
                 deductionDTO.setLevelNo(1);
             }
-            String query = queryUtils.getDeductionCountQuery(deductionDTO, tableDTO,sessionDTO);
+            String query = queryUtils.getDeductionCountQuery(deductionDTO, tableDTO);
             List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
             count =  (list == null || list.isEmpty() ) ? 0 : Integer.valueOf(String.valueOf(list.get(0)));
             LOGGER.debug("End of getDeductionDetailsCount");
@@ -129,7 +130,7 @@ public class DeductionDetailsLogic {
     private List getCustomizedResultList(List list, DeductionDetailsDTO deductionDTO, TableDTO parentIdDto) {
         try {
             LOGGER.debug("Inside getCustomizedResultList with list size" + list.size());
-            List<TableDTO> resultList = new ArrayList<TableDTO>();
+            List<TableDTO> resultList = new ArrayList<>();
             String lastValue = StringUtils.EMPTY;
             TableDTO dto = new TableDTO();
             String freq=deductionDTO.getFrequency();
@@ -147,32 +148,32 @@ public class DeductionDetailsLogic {
                         dto.setGroup(String.valueOf(obj[1]));
                         dto.setCcpCount(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                         if (obj[NumericConstants.FOUR] != null && "1".equals(String.valueOf(obj[NumericConstants.FOUR]))) {
-                            dto.addBooleanProperties("check", Boolean.TRUE);
+                            dto.addBooleanProperties(ConstantsUtils.CHECK, Boolean.TRUE);
                         }
                         dto.setUncheckCount(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
                         int index = NumericConstants.SIX;
                         String stringProperty;
                         switch (freq) {
-                            case "Annual":
+                            case ConstantsUtils.ANNUAL:
                                 stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
                                         0, deductionDTO);
                                 dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 break;
-                            case "Semi-Annual":
+                            case ConstantsUtils.SEMI_ANNUAL:
                                 for (int semi = 1; semi <= NumericConstants.TWO; semi++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
                                             semi, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
-                            case "Quarterly":
+                            case ConstantsUtils.QUARTERLY:
                                 for (int quarter = 1; quarter <= NumericConstants.FOUR; quarter++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
                                             quarter, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
-                            case "Monthly":
+                            case ConstantsUtils.MONTHLY:
                                 for (int month = 1; month <= NumericConstants.TWELVE; month++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
                                             month, deductionDTO);
@@ -213,32 +214,32 @@ public class DeductionDetailsLogic {
                         dto.setGroup(String.valueOf(obj[1]));
                         dto.setCcpCount(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
                         if (obj[NumericConstants.FOUR] != null && "1".equals(String.valueOf(obj[NumericConstants.FOUR]))) {
-                            dto.addBooleanProperties("check", Boolean.TRUE);
+                            dto.addBooleanProperties(ConstantsUtils.CHECK, Boolean.TRUE);
                         }
                         dto.setUncheckCount(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
                         int index = NumericConstants.SIX;
                         String stringProperty;
                         switch (freq) {
-                            case "Annual":
+                            case ConstantsUtils.ANNUAL:
                                 stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
                                         0, deductionDTO);
                                 dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 break;
-                            case "Semi-Annual":
+                            case ConstantsUtils.SEMI_ANNUAL:
                                 for (int semi = 1; semi <= NumericConstants.TWO; semi++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
                                             semi, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
-                            case "Quarterly":
+                            case ConstantsUtils.QUARTERLY:
                                 for (int quarter = 1; quarter <= NumericConstants.FOUR; quarter++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
                                             quarter, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
-                            case "Monthly":
+                            case ConstantsUtils.MONTHLY:
                                 for (int month = 1; month <= NumericConstants.TWELVE; month++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
                                             month, deductionDTO);
@@ -255,31 +256,31 @@ public class DeductionDetailsLogic {
                         dto.setCcpCount(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])));
                         dto.setUncheckCount(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
                         if (obj[NumericConstants.THREE] != null && "1".equals(String.valueOf(obj[NumericConstants.THREE]))) {
-                            dto.addBooleanProperties("check", Boolean.TRUE);
+                            dto.addBooleanProperties(ConstantsUtils.CHECK, Boolean.TRUE);
                         }
                         int index = NumericConstants.FIVE;
                         String stringProperty;
                         switch (freq) {
-                            case "Annual":
+                            case ConstantsUtils.ANNUAL:
                                 stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[1])),
                                         0, deductionDTO);
                                 dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 break;
-                            case "Semi-Annual":
+                            case ConstantsUtils.SEMI_ANNUAL:
                                 for (int semi = 1; semi <= NumericConstants.TWO; semi++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[1])),
                                             semi, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
-                            case "Quarterly":
+                            case ConstantsUtils.QUARTERLY:
                                 for (int quarter = 1; quarter <= NumericConstants.FOUR; quarter++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[1])),
                                             quarter, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
-                            case "Monthly":
+                            case ConstantsUtils.MONTHLY:
                                 for (int month = 1; month <= NumericConstants.TWELVE; month++, index++) {
                                     stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[1])),
                                             month, deductionDTO);
@@ -324,7 +325,7 @@ public class DeductionDetailsLogic {
             return resultList;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -332,11 +333,12 @@ public class DeductionDetailsLogic {
      * For getting no of items under a company
      *
      * @param value
+     * @param sessionDTO
      * @return
      */
-    public int getItemCount(String value, DeductionDetailsDTO deductionDTO,SessionDTO sessionDTO) {
+    public int getItemCount(String value,SessionDTO sessionDTO) {
         Object[] obj = value.split("~");
-        String query = queryUtils.getItemCount(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])), Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])), deductionDTO);
+        String query = queryUtils.getItemCount(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])), Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
         return  (list == null || list.isEmpty()) ? 0 : Integer.valueOf(String.valueOf(list.get(0)));
     }
@@ -376,11 +378,11 @@ public class DeductionDetailsLogic {
             String query = StringUtils.EMPTY;
             int count = 0;
             if (deductionDTO.getDataView().equals(ConstantsUtils.CUSTOMER)) {
-                query = queryUtils.getCheckQueryForCustomer(deductionDTO, dto, ischeck, filterValue);
+                query = queryUtils.getCheckQueryForCustomer(dto, ischeck, filterValue);
             } else if (deductionDTO.getDataView().equals(ConstantsUtils.PRODUCT)) {
-                query = queryUtils.getCheckQueryForProduct(deductionDTO, dto, ischeck,filterValue);
+                query = queryUtils.getCheckQueryForProduct(dto, ischeck,filterValue);
             }
-            count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
+            count = HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
             String qry="SELECT COUNT(DISTINCT \"YEAR\") FROM ST_DEDUCTION_CALENDAR_DETAILS ";
             List list=HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(qry,sessionDTO.getCurrentTableNames()));
             return count/Integer.valueOf(list.get(0).toString());
@@ -394,10 +396,12 @@ public class DeductionDetailsLogic {
      * Check all
      *
      * @param check
+     * @param sessionDTO
+     * @return 
      */
-    public int checkTempTable(DeductionDetailsDTO dto, boolean check,SessionDTO sessionDTO) {
+    public int checkTempTable(boolean check,SessionDTO sessionDTO) {
         int count = 0;
-        String query = queryUtils.getCheckAllQuery(dto, check);
+        String query = queryUtils.getCheckAllQuery(check);
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
         return count;
     }
@@ -415,72 +419,72 @@ public class DeductionDetailsLogic {
         if (dto.getDataView().equals(ConstantsUtils.CUSTOMER)) {
             if (tableDTO.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.TWO : 1)) {
                 query = ConstantsUtils.UPDATE_SDC
-                        + "SET SDC.DISCOUNT_AMOUNT = " + value + "  \n"
+                        + ConstantsUtils.SET_DISCOUNT_AMOUNT + value + "  \n"
                         + "FROM ST_DEDUCTION_CALENDAR_DETAILS SDC  \n"
-                        + "JOIN PERIOD P ON P.PERIOD_SID = SDC.PERIOD_SID\n"
+                        + ConstantsUtils.JOIN_PERIOD_ON_PERIOD_SID
                         + ConstantsUtils.QUERY_WHERE_COND + tableDTO.getCompanySid() + "\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT ('0'+Cast(P.MONTH AS VARCHAR), 2) >= '" + startPeriod + "'\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT('0'+Cast(P.MONTH AS VARCHAR), 2) <= '" + endPeriod + "';";
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        + ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR_GREATER_THAN + startPeriod + "'\n"
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        + ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR + endPeriod + "';";
             } else if (tableDTO.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.THREE : NumericConstants.TWO)) {
                 query = ConstantsUtils.UPDATE_SDC
-                        + "SET SDC.DISCOUNT_AMOUNT = " + value + "  \n"
+                        + ConstantsUtils.SET_DISCOUNT_AMOUNT + value + "  \n"
                         + "FROM ITEM_MASTER IM \n"
-                        + "JOIN ST_DEDUCTION_CALENDAR_DETAILS SDC ON SDC.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AND IM.BRAND_MASTER_SID = " + tableDTO.getBrandSid() + "\n"
-                        + "JOIN PERIOD P ON P.PERIOD_SID = SDC.PERIOD_SID\n"
+                        + ConstantsUtils.JOIN_ST_CALENDAR_DETAILS_ON_ITEM_MASTER_SID+ tableDTO.getBrandSid() + "\n"
+                        + ConstantsUtils.JOIN_PERIOD_ON_PERIOD_SID
                         + ConstantsUtils.QUERY_WHERE_COND + tableDTO.getCompanySid() + "\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT ('0'+Cast(P.MONTH AS VARCHAR), 2) >= '" + startPeriod + "'\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT('0'+Cast(P.MONTH AS VARCHAR), 2) <= '" + endPeriod + "';";
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        +  ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR_GREATER_THAN  + startPeriod + "'\n"
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        + ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR + endPeriod + "';";
             } else if (tableDTO.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.FOUR : NumericConstants.THREE)) {
                 query = ConstantsUtils.UPDATE_SDC
-                        + "SET SDC.DISCOUNT_AMOUNT = " + value + "  \n"
-                        + "FROM ITEM_MASTER IM\n"
+                        + ConstantsUtils.SET_DISCOUNT_AMOUNT + value + "  \n"
+                        + ConstantsUtils.FROM_ITEM_MASTER
                         + "JOIN ST_DEDUCTION_CALENDAR_DETAILS SDC ON SDC.ITEM_MASTER_SID = IM.ITEM_MASTER_SID\n"
-                        + "JOIN PERIOD P ON P.PERIOD_SID = SDC.PERIOD_SID\n"
+                        + ConstantsUtils.JOIN_PERIOD_ON_PERIOD_SID
                         + ConstantsUtils.QUERY_WHERE_COND + tableDTO.getCompanySid() + " AND SDC.ITEM_MASTER_SID = " + tableDTO.getItemSid() + "\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT ('0'+Cast(P.MONTH AS VARCHAR), 2) >= '" + startPeriod + "'\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT('0'+Cast(P.MONTH AS VARCHAR), 2) <= '" + endPeriod + "';";
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        +  ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR_GREATER_THAN + startPeriod + "'\n"
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        + ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR + endPeriod + "';";
             }
 
         } else if (dto.getDataView().equals(ConstantsUtils.PRODUCT)) {
             if (tableDTO.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.TWO : 1)) {
                 query = ConstantsUtils.UPDATE_SDC
-                        + "SET SDC.DISCOUNT_AMOUNT = " + value + "  \n"
-                        + "FROM ITEM_MASTER IM\n"
-                        + "JOIN ST_DEDUCTION_CALENDAR_DETAILS SDC ON SDC.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AND IM.BRAND_MASTER_SID = " + tableDTO.getBrandSid() + "\n"
-                        + "JOIN PERIOD P ON P.PERIOD_SID = SDC.PERIOD_SID\n"
+                        + ConstantsUtils.SET_DISCOUNT_AMOUNT + value + "  \n"
+                        +  ConstantsUtils.FROM_ITEM_MASTER
+                        + ConstantsUtils.JOIN_ST_CALENDAR_DETAILS_ON_ITEM_MASTER_SID + tableDTO.getBrandSid() + "\n"
+                        + ConstantsUtils.JOIN_PERIOD_ON_PERIOD_SID
                         + "WHERE CHECK_RECORD = 1 \n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT ('0'+Cast(P.MONTH AS VARCHAR), 2) >= '" + startPeriod + "'\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT('0'+Cast(P.MONTH AS VARCHAR), 2) <= '" + endPeriod + "';";
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        +  ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR_GREATER_THAN  + startPeriod + "'\n"
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        + ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR + endPeriod + "';";
             } else if (tableDTO.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.THREE : NumericConstants.TWO)) {
                 query = ConstantsUtils.UPDATE_SDC
-                        + "SET SDC.DISCOUNT_AMOUNT = " + value + "  \n"
-                        + "FROM ITEM_MASTER IM\n"
-                        + "JOIN ST_DEDUCTION_CALENDAR_DETAILS SDC ON SDC.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AND IM.BRAND_MASTER_SID = " + tableDTO.getBrandSid() + "\n"
-                        + "JOIN PERIOD P ON P.PERIOD_SID = SDC.PERIOD_SID\n"
+                        + ConstantsUtils.SET_DISCOUNT_AMOUNT + value + "  \n"
+                        + ConstantsUtils.FROM_ITEM_MASTER
+                        + ConstantsUtils.JOIN_ST_CALENDAR_DETAILS_ON_ITEM_MASTER_SID+ tableDTO.getBrandSid() + "\n"
+                        + ConstantsUtils.JOIN_PERIOD_ON_PERIOD_SID
                         + ConstantsUtils.QUERY_WHERE_COND + tableDTO.getCompanySid() + "\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT ('0'+Cast(P.MONTH AS VARCHAR), 2) >= '" + startPeriod + "'\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT('0'+Cast(P.MONTH AS VARCHAR), 2) <= '" + endPeriod + "';";
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        +  ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR_GREATER_THAN  + startPeriod + "'\n"
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        + ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR+ endPeriod + "';";
             } else if (tableDTO.getLevelNo() == (ConstantsUtils.NULL.equals(filterValue) ? NumericConstants.FOUR : NumericConstants.THREE)) {
                 query = ConstantsUtils.UPDATE_SDC
-                        + "SET SDC.DISCOUNT_AMOUNT = " + value + "  \n"
-                        + "FROM ITEM_MASTER IM\n"
+                        + ConstantsUtils.SET_DISCOUNT_AMOUNT+ value + "  \n"
+                        +  ConstantsUtils.FROM_ITEM_MASTER
                         + "JOIN ST_DEDUCTION_CALENDAR_DETAILS SDC ON SDC.ITEM_MASTER_SID = IM.ITEM_MASTER_SID\n"
-                        + "JOIN PERIOD P ON P.PERIOD_SID = SDC.PERIOD_SID\n"
+                        + ConstantsUtils.JOIN_PERIOD_ON_PERIOD_SID
                         + ConstantsUtils.QUERY_WHERE_COND + tableDTO.getCompanySid() + " AND SDC.ITEM_MASTER_SID = " + tableDTO.getItemSid() + "\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT ('0'+Cast(P.MONTH AS VARCHAR), 2) >= '" + startPeriod + "'\n"
-                        + "       AND Cast(P.YEAR AS VARCHAR(4))\n"
-                        + "           + RIGHT('0'+Cast(P.MONTH AS VARCHAR), 2) <= '" + endPeriod + "';";
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        +  ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR_GREATER_THAN  + startPeriod + "'\n"
+                        + ConstantsUtils.CAST_YEAR_AS_VARCHAR
+                        + ConstantsUtils.RIGHT_CAST_MONTH_AS_VARCHAR + endPeriod + "';";
             }
         }
         return query;
@@ -494,12 +498,12 @@ public class DeductionDetailsLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
     }
 
-    public void adjust(String selectedOption, List checkList, DeductionDetailsDTO dto, String type, String basis, String variable, String amount, String method,SessionDTO sessionDTO) {
-        String query = StringUtils.EMPTY;
+    public void adjust(String selectedOption, List checkList, String type, String basis, String variable, String amount, String method,SessionDTO sessionDTO) {
+        String query;
         if ("All".equals(selectedOption)) {
-            query = queryUtils.getAdjustQuery(dto, type, basis, variable, amount, method, StringUtils.EMPTY, selectedOption,sessionDTO);
+            query = queryUtils.getAdjustQuery(type, basis, variable, amount, method, StringUtils.EMPTY, selectedOption);
         } else {
-            query = queryUtils.getAdjustQuery(dto, type, basis, variable, amount, method, queryUtils.getAdjustPeriodQuery(checkList), selectedOption,sessionDTO);
+            query = queryUtils.getAdjustQuery(type, basis, variable, amount, method, queryUtils.getAdjustPeriodQuery(checkList), selectedOption);
         }
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
     }

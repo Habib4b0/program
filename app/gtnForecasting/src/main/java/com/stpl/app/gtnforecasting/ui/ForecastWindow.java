@@ -27,9 +27,9 @@ public class ForecastWindow extends CustomWindow {
     private final DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
 
     // Binder for DataSelection.
-    private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<DataSelectionDTO>(dataSelectionDTO));
+    private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
 
-     public ForecastWindow(String projectionName, SessionDTO session, final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm,final DataSelectionDTO dataSelectionDTO) throws SystemException, Exception {
+     public ForecastWindow(String projectionName, SessionDTO session, final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm,final DataSelectionDTO dataSelectionDTO) throws  Exception {
         super(projectionName);
         init();
         setContent(new ForecastForm(dataSelectionBinder, dataSelectionDTO, session, null, resultTable,screenName,dataSelectionForm,this));

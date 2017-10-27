@@ -129,7 +129,6 @@ public class DataAssumptions extends CustomComponent {
             CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(), resultTable.getVisibleColumns(), tableLogic, "Data Assumptions");
             LOGGER.info("Ending createWorkSheet");
         } catch (Exception e) {
-            e.printStackTrace();
             LOGGER.error(e);
         }
     }

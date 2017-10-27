@@ -10,6 +10,10 @@ package com.stpl.app.arm.supercode;
  * @author Nimisha.Rakesh
  */
 public interface GTNOrReserve {
-     public abstract String getGtnQuery();
-     public abstract String getReserveQuery();
+
+    public abstract String getGtnQuery();
+
+    public abstract String getTableName();
+
+    public abstract String getReserveQuery();
 }

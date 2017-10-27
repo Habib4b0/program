@@ -19,8 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class OnDemandFileDownloader extends FileDownloader {
     
-     private static final Logger LOGGER = Logger.getLogger(OnDemandFileDownloader.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(OnDemandFileDownloader.class);
     public static final int BUFFER_SIZE = 1024 * 4;
 
     /**
@@ -56,7 +55,7 @@ public class OnDemandFileDownloader extends FileDownloader {
             falg = super.handleConnectorRequest(request, response, path);
         } catch (Exception e) {
             System.out.println("No record Found to Export :"+e);
-            e.printStackTrace();
+               LOGGER.info(e);
         }
         return falg;
     }

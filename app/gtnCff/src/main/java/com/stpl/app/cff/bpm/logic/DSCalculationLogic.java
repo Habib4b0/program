@@ -9,6 +9,7 @@ import org.kie.api.task.model.TaskSummary;
 
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.bpm.utils.DroolsProperties;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.cff.bpm.service.BPMProcessBean;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -38,8 +39,8 @@ public class DSCalculationLogic {
                            LOGGER.debug("taskSummary id:" + taskSummary.getId());                        
                            return true;
                         }
-                        LOGGER.debug("taskSummary :" + taskSummary.getName());
-			LOGGER.debug("taskSummary :" + taskSummary.getId());
+                        LOGGER.debug(StringConstantsUtil.TASK_SUMMARY + taskSummary.getName());
+			LOGGER.debug(StringConstantsUtil.TASK_SUMMARY + taskSummary.getId());
 			List<String> userRoles = BPMProcessBean.getPotentialOwners(taskSummary.getId(), roleList);
 			LOGGER.debug("userRoles :" + userRoles);
 			List<Role> roles = RoleLocalServiceUtil.getUserRoles(userModel.getUserId());
@@ -78,8 +79,8 @@ public class DSCalculationLogic {
 			LOGGER.debug("userId :" + userModel.getUserId());
 			LOGGER.debug("userName :" + userModel.getScreenName());
 			taskSummary = BPMProcessBean.getAvailableTask(processInstanceId);
-			LOGGER.debug("taskSummary :" + taskSummary.getName());
-			LOGGER.debug("taskSummary :" + taskSummary.getId());
+			LOGGER.debug(StringConstantsUtil.TASK_SUMMARY + taskSummary.getName());
+			LOGGER.debug(StringConstantsUtil.TASK_SUMMARY + taskSummary.getId());
 			BPMProcessBean.startTask(taskSummary.getId(), userModel.getScreenName());
 			BPMProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null);
 			WorkflowPersistance.insertWFInstanceInfo(projectionId, processInstanceId);
@@ -90,7 +91,7 @@ public class DSCalculationLogic {
 	}
 
 	public static List<ForecastingRulesDTO> getProjectionValues(int projectionId, String userId, String sessionId) {
-		List<ForecastingRulesDTO> list = new ArrayList<ForecastingRulesDTO>();
+		List<ForecastingRulesDTO> list = new ArrayList<>();
 		try {
 			List<Object[]> returnList = WorkflowPersistance.getProjectionRecords(projectionId, userId, sessionId);
 
@@ -146,7 +147,7 @@ public class DSCalculationLogic {
 	}
         
         public static List<ForecastingRulesDTO> getProjectionValuesForAccrual(int projectionId, String userId, String sessionId) {
-		List<ForecastingRulesDTO> list = new ArrayList<ForecastingRulesDTO>();
+		List<ForecastingRulesDTO> list = new ArrayList<>();
 		try {
 			List<Object[]> returnList = WorkflowPersistance.getProjectionRecordsForAccrual(projectionId, userId, sessionId);
 

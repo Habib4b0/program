@@ -5,6 +5,7 @@
  */
 package com.stpl.app.contract.global.logic;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import static com.stpl.app.contract.dashboard.ui.form.CompanyAdditionTab.LOGGER;
 import com.stpl.app.contract.dashboard.util.ContractUtils;
@@ -16,7 +17,6 @@ import com.stpl.app.contract.global.util.CommonUtils;
 import com.stpl.app.contract.util.Constants;
 import com.stpl.app.service.CfpContractDetailsLocalServiceUtil;
 import com.stpl.app.service.ImtdCfpDetailsLocalServiceUtil;
-import com.stpl.portal.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Between;
@@ -51,9 +51,9 @@ public class CompanyAdditionLogic {
      * @throws SystemException
      */
     
-    public List<CompanyMasterDTO> getCompaniesForCFP(final String searchField, final String val,int start, int end, List<SortByColumn> columns,final Set<Container.Filter> searchCriteria) throws SystemException {
+    public List<CompanyMasterDTO> getCompaniesForCFP(final String searchField, final String val,int start, int end, List<SortByColumn> columns,final Set<Container.Filter> searchCriteria) {
         LOGGER.debug("Entering CFPSearchLogic getCompaniesForCFP");
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put("Company ID", Constants.COMPANY_ID_CAPS);
         map.put("Company No", Constants.COMPANY_NO_CAPS);
         map.put("Company Name", Constants.COMPANY_NAME_CAPS);
@@ -72,15 +72,15 @@ public class CompanyAdditionLogic {
                 column = Constants.COMPANY_NO_CAPS;
             } else if (Constants.COMPANY_NAME.equals(orderByColumn.getName())) {
                 column = Constants.COMPANY_NAME_CAPS;
-            } else if ("displayCompanyStatus".equals(orderByColumn.getName())) {
-                column = "cstatus";
-            } else if ("displayCompanyType".equals(orderByColumn.getName())) {
-                column = "ctype";
+            } else if (ConstantUtil.DISPLAY_COMPANY_STATUS.equals(orderByColumn.getName())) {
+                column = ConstantUtil.CSTATUS;
+            } else if (ConstantUtil.DISPLAY_COMPANY_TYPE.equals(orderByColumn.getName())) {
+                column = ConstantUtil.CTYPE;
             } else if (Constants.TRADE_CLASS.equals(orderByColumn.getName())) {
                 column = "COMPANY_TRADE_CLASS";
-            } else if ("companyCategory".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.COMPANY_CATEGORY.equals(orderByColumn.getName())) {
                 column = "ccategory";
-            } else if ("companyGroup".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.COMPANY_GROUP.equals(orderByColumn.getName())) {
                 column = "cgroup";
             }
             
@@ -95,7 +95,7 @@ public class CompanyAdditionLogic {
             value = val.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
         List<String> returnList = null;
-     Map<String, Object> filterMap = new HashMap<String, Object>();
+     Map<String, Object> filterMap = new HashMap<>();
         filterMap.put(Constants.COMPANY_ID,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NO,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME,StringUtils.EMPTY);
@@ -123,22 +123,22 @@ public class CompanyAdditionLogic {
                                         
                             filterMap.put(Constants.COMPANY_NAME,filterText );
                    
-                    }else if(stringFilter.getPropertyId().equals("displayCompanyType")){
+                    }else if(stringFilter.getPropertyId().equals(ConstantUtil.DISPLAY_COMPANY_TYPE)){
                     
-                            filterMap.put(Constants.COMPANY_TYPE, filterText);
+                            filterMap.put(Constants.COMPANY_TYPE, stringFilter.getFilterString());
                         
-                    }else if(stringFilter.getPropertyId().equals("displayCompanyStatus")){
+                    }else if(stringFilter.getPropertyId().equals(ConstantUtil.DISPLAY_COMPANY_STATUS)){
                             
-                            filterMap.put(Constants.COMPANY_STATUS, filterText);
+                            filterMap.put(Constants.COMPANY_STATUS, stringFilter.getFilterString());
                         
                     } else if(stringFilter.getPropertyId().equals(Constants.TRADE_CLASS)){
                             filterMap.put(Constants.TRADE_CLASS, filterText);
                         
-                    } else if(stringFilter.getPropertyId().equals("companyCategory")){
-                            filterMap.put("companyCategory", filterText);
+                    } else if(stringFilter.getPropertyId().equals(ConstantUtil.COMPANY_CATEGORY)){
+                            filterMap.put(ConstantUtil.COMPANY_CATEGORY, stringFilter.getFilterString());
                         
-                    } else if(stringFilter.getPropertyId().equals("companyGroup")){
-                            filterMap.put("companyGroup", filterText);
+                    } else if(stringFilter.getPropertyId().equals(ConstantUtil.COMPANY_GROUP)){
+                            filterMap.put(ConstantUtil.COMPANY_GROUP, stringFilter.getFilterString());
                     }
                 }
                    
@@ -153,20 +153,20 @@ public class CompanyAdditionLogic {
         return companyMasterDTOList;
     }
    
-    public int getCompanyAddtionCount(final String searchField, final String val, final  Set<Container.Filter> searchCriteria) throws SystemException {
+    public int getCompanyAddtionCount(final String searchField, final String val, final  Set<Container.Filter> searchCriteria) {
         LOGGER.debug("Entering CFPSearchLogic getCompanyAddtionCount");
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put("Company ID", Constants.COMPANY_ID_CAPS);
         map.put("Company No", Constants.COMPANY_NO_CAPS);
         map.put("Company Name", Constants.COMPANY_NAME_CAPS);
         map.put("Company Type", Constants.COMP_TYPE);
         map.put("Company Status", Constants.COMPANY_STATUS_CAPS);
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         String value = Constants.PERCENT;
         if (StringUtils.isNotBlank(val)) {
             value = val.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);        
         }
-        List<Integer> returnList = new ArrayList<Integer>();
+        List<Integer> returnList = new ArrayList<>();
         filterMap.put(Constants.COMPANY_ID, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NO, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME, StringUtils.EMPTY);
@@ -193,20 +193,20 @@ public class CompanyAdditionLogic {
 
                         filterMap.put(Constants.COMPANY_NAME, filterText);
 
-                    } else if (stringFilter.getPropertyId().equals("displayCompanyType")) {
+                    } else if (stringFilter.getPropertyId().equals(ConstantUtil.DISPLAY_COMPANY_TYPE)) {
 
-                        filterMap.put(Constants.COMPANY_TYPE, filterText);
+                        filterMap.put(Constants.COMPANY_TYPE, stringFilter.getFilterString());
 
-                    } else if (stringFilter.getPropertyId().equals("displayCompanyStatus")) {
-                        filterMap.put(Constants.COMPANY_STATUS, filterText);
+                    } else if (stringFilter.getPropertyId().equals(ConstantUtil.DISPLAY_COMPANY_STATUS)) {
+                        filterMap.put(Constants.COMPANY_STATUS, stringFilter.getFilterString());
                     } else if(stringFilter.getPropertyId().equals(Constants.TRADE_CLASS)){
                             filterMap.put(Constants.TRADE_CLASS, filterText);
                         
-                    } else if(stringFilter.getPropertyId().equals("companyCategory")){
-                            filterMap.put("companyCategory", filterText);
+                    } else if(stringFilter.getPropertyId().equals(ConstantUtil.COMPANY_CATEGORY)){
+                            filterMap.put(ConstantUtil.COMPANY_CATEGORY, stringFilter.getFilterString());
                         
-                    } else if(stringFilter.getPropertyId().equals("companyGroup")){
-                            filterMap.put("companyGroup", filterText);
+                    } else if(stringFilter.getPropertyId().equals(ConstantUtil.COMPANY_GROUP)){
+                            filterMap.put(ConstantUtil.COMPANY_GROUP, stringFilter.getFilterString());
                     }
                 }
             }
@@ -216,7 +216,7 @@ public class CompanyAdditionLogic {
         LOGGER.debug("End of getCompaniesForCFP()");
         return count;
     }
-    public int getLazySelectedCompaniesDetailsCount(int start, int end, Boolean flag, final List<SortByColumn> list,final Set<Container.Filter> searchCriteria,boolean isCount) throws PortalException, SystemException {
+    public int getLazySelectedCompaniesDetailsCount(int start, int end, Boolean flag, final List<SortByColumn> list,final Set<Container.Filter> searchCriteria,boolean isCount) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
 
@@ -232,9 +232,9 @@ public class CompanyAdditionLogic {
                 } else if (Constants.COMPANY_NAME.equals(orderByColumn.getName())) {
                     column = Constants.COMPANY_NAME_CAPS;
                 } else if (Constants.COMPANY_STATUS.equals(orderByColumn.getName())) {
-                    column = "cstatus";
+                    column = ConstantUtil.CSTATUS;
                 } else if (Constants.COMPANY_TYPE.equals(orderByColumn.getName())) {
-                    column = "ctype";
+                    column = ConstantUtil.CTYPE;
                 }
 
                 if (orderByColumn.getType() == SortByColumn.Type.ASC) {
@@ -246,12 +246,12 @@ public class CompanyAdditionLogic {
 
         }
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put(Constants.COMPANY_NO, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_STATUS, StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_TYPE, StringUtils.EMPTY);
-        filterMap.put("companyFamilyPlanStatus", StringUtils.EMPTY);
+        filterMap.put(COMPANY_FAMILY_PLAN_STATUS, StringUtils.EMPTY);
         filterMap.put(Constants.TRADE_CLASS,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_CATEGORY,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_GROUP,StringUtils.EMPTY);
@@ -260,8 +260,11 @@ public class CompanyAdditionLogic {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
+                     if (stringFilter.getPropertyId().equals(Constants.COMPANY_ID)) {
 
-                    if (stringFilter.getPropertyId().equals(Constants.COMPANY_NO)) {
+                        filterMap.put(Constants.COMPANY_ID, filterText);
+
+                    }else if (stringFilter.getPropertyId().equals(Constants.COMPANY_NO)) {
 
                         filterMap.put(Constants.COMPANY_NO, filterText);
 
@@ -270,22 +273,22 @@ public class CompanyAdditionLogic {
                         filterMap.put(Constants.COMPANY_NAME, filterText);
 
                     } else if (stringFilter.getPropertyId().equals(Constants.COMPANY_TYPE)) {
-                        filterMap.put(Constants.COMPANY_TYPE, filterText);
+                        filterMap.put(Constants.COMPANY_TYPE, stringFilter.getFilterString());
 
                     } else if (stringFilter.getPropertyId().equals(Constants.COMPANY_STATUS)) {
-                        filterMap.put(Constants.COMPANY_STATUS, filterText);
+                        filterMap.put(Constants.COMPANY_STATUS, stringFilter.getFilterString());
 
-                    } else if (stringFilter.getPropertyId().equals("companyFamilyPlanStatus")) {
-                        filterMap.put("companyFamilyPlanStatus", filterText);
+                    } else if (stringFilter.getPropertyId().equals(COMPANY_FAMILY_PLAN_STATUS)) {
+                        filterMap.put(COMPANY_FAMILY_PLAN_STATUS, filterText);
 
                     } else if(stringFilter.getPropertyId().equals(Constants.TRADE_CLASS)){
                             filterMap.put(Constants.TRADE_CLASS, filterText);
                         
-                    } else if(stringFilter.getPropertyId().equals("companyCategory")){
-                            filterMap.put("companyCategory", filterText);
+                    } else if(stringFilter.getPropertyId().equals(ConstantUtil.COMPANY_CATEGORY)){
+                            filterMap.put(ConstantUtil.COMPANY_CATEGORY, stringFilter.getFilterString());
                         
-                    } else if(stringFilter.getPropertyId().equals("companyGroup")){
-                            filterMap.put("companyGroup", filterText);
+                    } else if(stringFilter.getPropertyId().equals(ConstantUtil.COMPANY_GROUP)){
+                            filterMap.put(ConstantUtil.COMPANY_GROUP, stringFilter.getFilterString());
                     }
                 } else if (filter instanceof Between) {
 
@@ -328,7 +331,8 @@ public class CompanyAdditionLogic {
         LOGGER.debug("selected count :" + returnList.size());
         return Integer.valueOf(String.valueOf(obj));
     }
-    public List<CFPCompanyDTO> getLazySelectedCompaniesDeatils(int start, int end, Boolean flag, final List<SortByColumn> list,final Set<Container.Filter> searchCriteria,boolean isCount,String record) throws com.stpl.portal.kernel.exception.PortalException, SystemException {
+    
+    public List<CFPCompanyDTO> getLazySelectedCompaniesDeatils(int start, int end, Boolean flag, final List<SortByColumn> list,final Set<Container.Filter> searchCriteria,boolean isCount,String record) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
 
@@ -344,14 +348,14 @@ public class CompanyAdditionLogic {
             } else if (Constants.COMPANY_NAME.equals(orderByColumn.getName())) {
                 column = Constants.COMPANY_NAME_CAPS;
             } else if (Constants.COMPANY_STATUS.equals(orderByColumn.getName())) {
-                column = "cstatus";
+                column = ConstantUtil.CSTATUS;
             } else if (Constants.COMPANY_TYPE.equals(orderByColumn.getName())) {
-                column = "ctype";
+                column = ConstantUtil.CTYPE;
             } else if (Constants.TRADE_CLASS.equals(orderByColumn.getName())) {
                 column = "ctrade";
-            } else if ("companyCategory".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.COMPANY_CATEGORY.equals(orderByColumn.getName())) {
                 column = "ccategory";
-            } else if ("companyGroup".equals(orderByColumn.getName())) {
+            } else if (ConstantUtil.COMPANY_GROUP.equals(orderByColumn.getName())) {
                 column = "cgroup";
             }
             
@@ -364,12 +368,12 @@ public class CompanyAdditionLogic {
 
      }
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put(Constants.COMPANY_NO,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_NAME,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_STATUS,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_TYPE,StringUtils.EMPTY);
-        filterMap.put("companyFamilyPlanStatus",StringUtils.EMPTY);
+        filterMap.put(COMPANY_FAMILY_PLAN_STATUS,StringUtils.EMPTY);
         filterMap.put(Constants.TRADE_CLASS,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_CATEGORY,StringUtils.EMPTY);
         filterMap.put(Constants.COMPANY_GROUP,StringUtils.EMPTY);
@@ -378,8 +382,11 @@ public class CompanyAdditionLogic {
                  if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterText = Constants.PERCENT + stringFilter.getFilterString() + Constants.PERCENT;
-                    
-                    if(stringFilter.getPropertyId().equals(Constants.COMPANY_NO)){
+                    if(stringFilter.getPropertyId().equals(Constants.COMPANY_ID)){
+                            
+                            filterMap.put(Constants.COMPANY_ID, filterText);
+                            
+                    }else if(stringFilter.getPropertyId().equals(Constants.COMPANY_NO)){
                             
                             filterMap.put(Constants.COMPANY_NO, filterText);
                             
@@ -388,22 +395,22 @@ public class CompanyAdditionLogic {
                             filterMap.put(Constants.COMPANY_NAME,filterText );
                    
                     }else if(stringFilter.getPropertyId().equals(Constants.COMPANY_TYPE)){
-                            filterMap.put(Constants.COMPANY_TYPE, filterText);
+                            filterMap.put(Constants.COMPANY_TYPE, stringFilter.getFilterString());
                         
                     }else if(stringFilter.getPropertyId().equals(Constants.COMPANY_STATUS)){
-                            filterMap.put(Constants.COMPANY_STATUS, filterText);
+                            filterMap.put(Constants.COMPANY_STATUS, stringFilter.getFilterString());
                         
-                    }else if(stringFilter.getPropertyId().equals("companyFamilyPlanStatus")){
-                            filterMap.put("companyFamilyPlanStatus", filterText);
+                    }else if(stringFilter.getPropertyId().equals(COMPANY_FAMILY_PLAN_STATUS)){
+                            filterMap.put(COMPANY_FAMILY_PLAN_STATUS, filterText);
                         
                     } else if(stringFilter.getPropertyId().equals(Constants.TRADE_CLASS)){
                             filterMap.put(Constants.TRADE_CLASS, filterText);
                         
-                    } else if(stringFilter.getPropertyId().equals("companyCategory")){
-                            filterMap.put("companyCategory", filterText);
+                    } else if(stringFilter.getPropertyId().equals(ConstantUtil.COMPANY_CATEGORY)){
+                            filterMap.put(ConstantUtil.COMPANY_CATEGORY, stringFilter.getFilterString());
                         
-                    } else if(stringFilter.getPropertyId().equals("companyGroup")){
-                            filterMap.put("companyGroup", filterText);
+                    } else if(stringFilter.getPropertyId().equals(ConstantUtil.COMPANY_GROUP)){
+                            filterMap.put(ConstantUtil.COMPANY_GROUP, stringFilter.getFilterString());
                     }
                 }else if(filter instanceof Between){
                     
@@ -455,7 +462,7 @@ public class CompanyAdditionLogic {
         final List<Object[]> returnList = ImtdCfpDetailsLocalServiceUtil.getSelectedCompanies(userId, sessionId, start, end, column, orderBy, flag, null,filterMap,isCount);
         
       
-        List<CFPCompanyDTO> companyList = new ArrayList<CFPCompanyDTO>();
+        List<CFPCompanyDTO> companyList = new ArrayList<>();
         LOGGER.debug("selected results :" + returnList.size());
         return CFPSearchLogic.getCustomizedCompanyMasterDTO(returnList, companyList, flag, StringUtils.EMPTY);
     }
@@ -466,5 +473,5 @@ public class CompanyAdditionLogic {
     public void setSessionDTO(SessionDTO sessionDTO) {
         this.sessionDTO = sessionDTO;
     }
-    
+    public static final String COMPANY_FAMILY_PLAN_STATUS = "companyFamilyPlanStatus";
 }

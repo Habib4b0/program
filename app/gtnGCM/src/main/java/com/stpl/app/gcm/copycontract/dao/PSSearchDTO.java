@@ -33,7 +33,7 @@ public class PSSearchDTO implements BeanDAO<PSIFPDTO> {
     }
 
     public List<PSIFPDTO> find(BeanSearchCriteria bsc, int i, int i1, List<OrderByColumn> list) {
-        List<PSIFPDTO> resultList = new ArrayList<PSIFPDTO>();
+        List<PSIFPDTO> resultList = new ArrayList<>();
         return resultList;
 
     }

@@ -88,7 +88,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public final class IdentifierResults extends StplCustomComponent {
 
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabThreeMap = new HashMap<>();
 
     /**
      * The Constant LOGGER.
@@ -113,7 +113,7 @@ public final class IdentifierResults extends StplCustomComponent {
     /**
      * The binder.
      */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyCrtIdentifierDTO>(identifierFormBean));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(identifierFormBean));
     /**
      * The identifier results bean.
      */
@@ -432,8 +432,8 @@ public final class IdentifierResults extends StplCustomComponent {
     public ExtFilterTable addToTable() {
         table.addStyleName("table-header-normal");
         table.setContainerDataSource(identifierResultsBean);
-        table.setVisibleColumns(UIUtils.IDEN_FORM_COL_ORDER);
-        table.setColumnHeaders(UIUtils.IDEN_FORM_COL_HEADER);
+        table.setVisibleColumns(UIUtils.getInstance().idenFormColOrder);
+        table.setColumnHeaders(UIUtils.getInstance().idenFormHeader);
         table.setPageLength(NumericConstants.THREE);
         table.setImmediate(true);
         table.setSelectable(true);
@@ -802,7 +802,7 @@ public final class IdentifierResults extends StplCustomComponent {
                     } else {
                         value = companyCrtQualifierNameDDLB.getValue().toString();
                     }
-                    if (UIUtils.EDIT_LIST.equals(value)) {
+                    if (UIUtils.getInstance().EDIT_LIST.equals(value)) {
                         final IdenQualifierEditList sub = new IdenQualifierEditList(companyCrtQualifierNameDDLB);
                         UI.getCurrent().addWindow(sub);
                         final LazyContainer identifierTypeDescContainer = new LazyContainer(HelperDTO.class, new CompanyQualifierNameContainer(true), new CompanyQualifierNameCriteria());
@@ -953,13 +953,13 @@ public final class IdentifierResults extends StplCustomComponent {
 		});
     }
     
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
     
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = table.getContainerDataSource().size();
         ExcelExportforBB.createWorkSheet(table.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.IDENTIFIER);
@@ -976,7 +976,7 @@ public final class IdentifierResults extends StplCustomComponent {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final PrintWriter printWriter) {
         CompanyCrtIdentifierDTO dto;
         final List<CompanyCrtIdentifierDTO> searchList = identifierResultsBean.getItemIds();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
@@ -1055,7 +1055,7 @@ public final class IdentifierResults extends StplCustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             if (startDate.getValue() != null && endDate.getValue() != null) {
                 if (startDate.getValue().after(endDate.getValue())) {
                     throw new InvalidValueException("End date should be greater than Start date");
@@ -1121,7 +1121,7 @@ public final class IdentifierResults extends StplCustomComponent {
     private static Object[] getCollapsibleColumns480Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
 
         propertyIds = list.toArray(new Object[list.size()]);
@@ -1140,7 +1140,7 @@ public final class IdentifierResults extends StplCustomComponent {
     private static Object[] getCollapsibleColumns978Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1158,7 +1158,7 @@ public final class IdentifierResults extends StplCustomComponent {
     private static Object[] getCollapsibleColumnsTwoData(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new Object[list.size()]);
@@ -1176,7 +1176,7 @@ public final class IdentifierResults extends StplCustomComponent {
     private static Object[] getCollapsibleOneColumn(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new Object[list.size()]);
         for (Object propertyId : table.getVisibleColumns()) {
@@ -1195,7 +1195,7 @@ public final class IdentifierResults extends StplCustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = list.size(); i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -1349,8 +1349,8 @@ public final class IdentifierResults extends StplCustomComponent {
     }
     
     public void refreshIdentifierTable() {
-        Map<Integer, String> companyQualifierMap = new HashMap<Integer, String>();
-        List<CompanyCrtIdentifierDTO> list = new ArrayList<CompanyCrtIdentifierDTO>();        
+        Map<Integer, String> companyQualifierMap = new HashMap<>();
+        List<CompanyCrtIdentifierDTO> list = new ArrayList<>();        
         try {
             companyQualifierMap = CompanySearchLogic.getCompanyQualifiers();
         } catch (PortalException ex) {

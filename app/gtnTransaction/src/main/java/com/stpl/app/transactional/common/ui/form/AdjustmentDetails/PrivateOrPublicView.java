@@ -104,9 +104,9 @@ public class PrivateOrPublicView extends Window {
         setHeight(NumericConstants.FLOAT_EIGHTY, Unit.PERCENTAGE);
         setWidth(NumericConstants.FLOAT_EIGHTY, Unit.PERCENTAGE);
         if (indicator.equalsIgnoreCase(ConstantUtil.PRIVATE)) {
-            setCaption(ConstantUtil.PRIVATE_VIEW_Lookup);
+            setCaption(ConstantUtil.PRIVATE_VIEW_LOOK_UP);
         } else if (indicator.equalsIgnoreCase(ConstantUtil.PUBLIC)) {
-            setCaption(ConstantUtil.PUBLIC_VIEW_Lookup);
+            setCaption(ConstantUtil.PUBLIC_VIEW_LOOK_UP);
         }
 
     }
@@ -129,8 +129,8 @@ public class PrivateOrPublicView extends Window {
         tableLayout.addComponent(tempLayout);
 
         tableLogic.setContainerDataSource(resultsContainer);
-        resultTable.setVisibleColumns(CommonUIUtils.VIEW_SEARCH_LOOKUP_COLUMNS);
-        resultTable.setColumnHeaders(CommonUIUtils.VIEW_SEARCH_LOOKUP_HEADER);
+        resultTable.setVisibleColumns(CommonUIUtils.getInstance().viewSearchLookupColumns);
+        resultTable.setColumnHeaders(CommonUIUtils.getInstance().viewSearchLookupHeader);
         resultTable.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultTable.setComponentError(null);

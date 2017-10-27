@@ -64,6 +64,7 @@ public class FileUploader implements Receiver {
         }
         return outputStream; // Return the output stream to write to
     }
+
     
      public static String getFilePath()
     {
@@ -73,7 +74,7 @@ public class FileUploader implements Receiver {
         path = ftppath[0];
         return path;
     }
-
+    
     /**
      * method should be called at the end
      */

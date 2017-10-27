@@ -141,7 +141,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 	/**
 	 * The map.
 	 */
-	private final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>();
+	private final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
 	/**
 	 * The ps master.
@@ -159,7 +159,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 	/**
 	 * The priceScheduleSystemId.
 	 */
-	private BeanItemContainer<PSIFPDTO> itemDetailsResultBean = new BeanItemContainer<PSIFPDTO>(PSIFPDTO.class);
+	private BeanItemContainer<PSIFPDTO> itemDetailsResultBean = new BeanItemContainer<>(PSIFPDTO.class);
 
 
 	/**
@@ -212,9 +212,9 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 	private String success = StringUtils.EMPTY;
 	private int selectedTabIndex = 0;
         SessionDTO sessionDTO;
-        private final BeanItemContainer<PSIFPDTO> emptyAvailableContainer = new BeanItemContainer<PSIFPDTO>(PSIFPDTO.class);
+        private final BeanItemContainer<PSIFPDTO> emptyAvailableContainer = new BeanItemContainer<>(PSIFPDTO.class);
 
-        private BeanItemContainer<PSIFPDTO> itemDetailsContainer = new BeanItemContainer<PSIFPDTO>(PSIFPDTO.class);
+        private BeanItemContainer<PSIFPDTO> itemDetailsContainer = new BeanItemContainer<>(PSIFPDTO.class);
 
 	/**
 	 * Gets the name.
@@ -383,7 +383,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
                 psLogic = new PSLogic(this.sessionDTO);
 		this.mode=mode;
 		this.isAddMode = ConstantsUtils.ADD.equals(mode);
-		this.isEditMode = ConstantsUtils.EDIT.equals(mode);
+		this.isEditMode = ConstantsUtils.EDIT.equals(mode)|| ConstantsUtils.COPY.equals(mode);
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarativeui/common/tabsheetform.xml"), this));
 		init();
 
@@ -416,9 +416,12 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 	 *             the exception
 	 */
 	public void addToContent() throws SystemException, PortalException {
-                informationLayout.addComponent(new InformationLayout("price_Schedule", psMaster.getPriceScheduleId(), psMaster.getPriceScheduleNo(), psMaster.getPriceScheduleName()));
-		configureTabSheet();
-	}
+            if (ConstantsUtils.COPY.equals(mode)) {
+            configInfoLayoutCopy();
+        }
+        informationLayout.addComponent(new InformationLayout("price_Schedule", psMaster.getPriceScheduleId(), psMaster.getPriceScheduleNo(), psMaster.getPriceScheduleName()));
+        configureTabSheet();
+    }
 
 	/**
 	 * Gets the binder.
@@ -452,10 +455,17 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 			LOGGER.debug("Adding Price Schedule Information Tab ");
 			infoTab = new PSInfoTabForm(binder, psLogic, errorMsg, psMaster, fieldPsHM, mode);
 			tabsheet.addTab(infoTab, TabNameUtil.PRICE_SCHEDULE_INFO, null, 0);
+                        if (ConstantsUtils.COPY.equals(mode)) {
+                psMaster.setPriceScheduleId(StringUtils.EMPTY);
+                psMaster.setPriceScheduleName(StringUtils.EMPTY);
+                psMaster.setPriceScheduleNo(StringUtils.EMPTY);
+                psMaster.setModifiedBy(StringUtils.EMPTY);
+                deleteBtn.setVisible(false);
+            }
 			LOGGER.debug("Adding Price Schedule Item Addition Tab ");
 			itemAdditionTab = new PSItemAdditionTabForm(psMaster, binder, errorMsg, fieldPsHM, availableItemResultBean, itemDetailsResultBean, selectedItemResultBean, userId, sessionId,
 					tempCreatedDate, psLogic, selectedId, pricingTab, mode,sessionDTO.getSystemId());
-			tabsheet.addTab(itemAdditionTab, TabNameUtil.PS_ITEM_ADDITION, null, 1);
+			tabsheet.addTab(itemAdditionTab, TabNameUtil.ITEM_ADDITION, null, 1);
 			availableTable = itemAdditionTab.getAvailableTable();
 			selectedTable = itemAdditionTab.addSelectedTable();
 			
@@ -464,7 +474,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 			tabsheet.addTab(pricingTab, TabNameUtil.PS_PRICING, null, NumericConstants.TWO);
 			itemDetailsTable = pricingTab.getItemDetailsTable();
                 LOGGER.debug("Adding Price Schedule price Protection Tab ");        
-                priceProtectionTabForm=new PriceProtectionTabForm(binder, itemDetailsResultBean, mode, userId, sessionId, tempCreatedDate, psMaster, errorMsg, psLogic,fieldPsHM, itemDetailsContainer, psMaster, sessionDTO);
+                priceProtectionTabForm=new PriceProtectionTabForm(binder, itemDetailsResultBean, mode, userId, sessionId, tempCreatedDate, psMaster, errorMsg, psLogic, itemDetailsContainer, psMaster, sessionDTO);
                 tabsheet.addTab(priceProtectionTabForm, TabNameUtil.PRICE_PROTECTION, null, NumericConstants.THREE);
 		itemAdditionTab.setPricingAndProtectionTab(pricingTab,priceProtectionTabForm);
                 LOGGER.debug("Adding Price Schedule Notes Tab ");
@@ -599,7 +609,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 		map.put("Price Tolerance Type", "priceToleranceType");
 		map.put("Price Tolerance Interval", "priceToleranceInterval");
 		map.put("Price Tolerance Frequency", "priceToleranceFrequency");
-		map.put("Price", "price");
+		map.put(ConstantsUtils.PRIC, "price");
 
                 if (functionPsHM.get(FunctionNameUtil.EDIT) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.EDIT)).isFunctionFlag()) {
 			deleteButton();
@@ -622,7 +632,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
                         LOGGER.debug("Entering Price Schedule back button operation from Add");
 
                         try {
-                            psLogic.removeAllFromTempTable(true);
+                            psLogic.removeAllFromTempTable();
                             MessageBox.showPlain(Icon.QUESTION, commonutil.getHeaderMessage(),commonutil.getBackMessage(), new MessageBoxListener() {
                                 /**
                                  * Called when a Button has been clicked .
@@ -669,9 +679,9 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 			public void buttonClick(final ClickEvent event) {
 				LOGGER.debug("Entering Price Schedule Save button operation from Add");
 				try {
-					if (isAddMode) {
+					if (isAddMode || ConstantsUtils.COPY.equals(mode)) {
 						saveLogicForAddMode();
-					} else if (isEditMode) {
+					} else if (isEditMode && !(ConstantsUtils.COPY.equals(mode)) ) {
 						updateLogicForEditMode();
 					}
 
@@ -891,6 +901,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 	
 	@Override
 	public void addLogic() {
+            return;
 	}
 
 	/**
@@ -963,6 +974,11 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 		saveBtn.setCaption(ConstantsUtils.UPDATE);
 		notesTab.refreshTable();
 	}
+        public void copyModeConfig() {
+        deleteBtn.setVisible(false);
+        saveBtn.setCaption(ConstantsUtils.SAVE);
+        notesTab.refreshTable();
+    }
 	public void viewModeConfig() {
 		buttonLayout.removeComponent(deleteBtn);
 		buttonLayout.removeComponent(saveBtn);
@@ -983,23 +999,23 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 			TextField name = (TextField) binder.getField(FieldNameUtils.RICE_SCHEDULE_NAME);
 			name.setValue(StringUtils.EMPTY);
 			ComboBox status = (ComboBox) binder.getField(FieldNameUtils.PS_STATUS);
-			status.setValue(0);
+			status.setValue(null);
 			PopupDateField startDate = (PopupDateField) binder.getField(FieldNameUtils.PS_START_DATE);
 			startDate.setValue(null);
 			PopupDateField endDate = (PopupDateField) binder.getField(FieldNameUtils.PS_END_DATE);
 			endDate.setValue(null);
 			ComboBox type = (ComboBox) binder.getField(FieldNameUtils.PRICE_SCHEDULE_TYPE);
-			type.setValue(0);
+			type.setValue(null);
 			ComboBox category = (ComboBox) binder.getField(FieldNameUtils.PRICE_SCHEDULE_CAT);
 			category.setValue(0);
 			ComboBox designation = (ComboBox) binder.getField(FieldNameUtils.PS_DESIGNATION);
-			designation.setValue(0);
+			designation.setValue(null);
 			ComboBox tradeClass = (ComboBox) binder.getField(FieldNameUtils.TRADE_CLASS);
 			tradeClass.setValue(0);
 			TextField parentCompany = (TextField) binder.getField(FieldNameUtils.PARENT_PS_NAME);
-			parentCompany.setValue(StringUtils.EMPTY);
+			parentCompany.setValue(null);
                         TextField parentId = (TextField) binder.getField(FieldNameUtils.PARENT_PS_ID);
-                        parentId.setValue(StringUtils.EMPTY);    
+                        parentId.setValue(null);  
 		}
 		if (selectedTabIndex == 1) { try {
                     // Item addition
@@ -1010,18 +1026,14 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
                     value.setValue(StringUtils.EMPTY);
                     itemDetailsResultBean.removeAllItems();
                     availableTable.setContainerDataSource(emptyAvailableContainer);
-                    availableTable.setVisibleColumns(PsUtils.AVAILABLE_IFP_COL);
-                    availableTable.setColumnHeaders(PsUtils.AVAILABLE_IFP_COL_HEADER);
+                    availableTable.setVisibleColumns(PsUtils.getInstance().availableIfpCol);
+                    availableTable.setColumnHeaders(PsUtils.getInstance().availableIfpColHeader);
                     selectedItemResultBean.removeAllItems();
-                    selectedTable.setVisibleColumns(PsUtils.AVAILABLE_IFP_COL);
-                    selectedTable.setColumnHeaders(PsUtils.AVAILABLE_IFP_COL_HEADER);
-                    psLogic.removeAllFromTempTable(true);
+                    selectedTable.setVisibleColumns(PsUtils.getInstance().availableIfpCol);
+                    selectedTable.setColumnHeaders(PsUtils.getInstance().availableIfpColHeader);
+                    psLogic.removeAllFromTempTable();
                     pricingTab.clearTable();
                     priceProtectionTabForm.clearTable();
-                    } catch (SystemException ex) {
-                        LOGGER.error(ex);
-                    } catch (PortalException ex) {
-                        LOGGER.error(ex);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -1096,24 +1108,28 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
                         parentId.setReadOnly(false);
                         parentId.setValue(psMaster.getParentPriceScheduleId());
                         parentId.setReadOnly(true);
-			
+                       if (ConstantsUtils.COPY.equals(mode)) {
+                    psMaster.setPriceScheduleId(StringUtils.EMPTY);
+                    psMaster.setPriceScheduleName(StringUtils.EMPTY);
+                    psMaster.setPriceScheduleNo(StringUtils.EMPTY);
+                }
 
-		}
+            }
 		if (selectedTabIndex == 1 || selectedTabIndex == NumericConstants.TWO || selectedTabIndex == NumericConstants.THREE) {
 			ComboBox field = (ComboBox) binder.getField("searchFields");
 			field.setValue(ConstantsUtils.SELECT_ONE);
 			TextField value = (TextField) binder.getField("searchValue");
 			value.setValue(StringUtils.EMPTY);
                         itemDetailsResultBean.removeAllItems();
-                        psLogic.removeAllFromTempTable(true);
+                        psLogic.removeAllFromTempTable();
 			psLogic.addToTempPSDetailsEdit(psMaster.getPriceScheduleSystemId());
 			selectedItemResultBean.removeAllItems();
                         selectedItemResultBean.addAll((List<PSIFPDTO>)psLogic.getSelectedItemListTable(sessionDTO.getSystemId(), false));
-			selectedTable.setVisibleColumns(PsUtils.AVAILABLE_IFP_COL);
-			selectedTable.setColumnHeaders(PsUtils.AVAILABLE_IFP_COL_HEADER);
+			selectedTable.setVisibleColumns(PsUtils.getInstance().availableIfpCol);
+			selectedTable.setColumnHeaders(PsUtils.getInstance().availableIfpColHeader);
 			availableTable.setContainerDataSource(emptyAvailableContainer);
-			availableTable.setVisibleColumns(PsUtils.AVAILABLE_IFP_COL);
-			availableTable.setColumnHeaders(PsUtils.AVAILABLE_IFP_COL_HEADER);
+			availableTable.setVisibleColumns(PsUtils.getInstance().availableIfpCol);
+			availableTable.setColumnHeaders(PsUtils.getInstance().availableIfpColHeader);
                         pricingTab.clearTable();
                         priceProtectionTabForm.clearTable();
                         pricingTab.loadItemDetailsTable();
@@ -1147,6 +1163,14 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 				errorMessage.append(ConstantsUtils.COMMA);
 			}
 			errorMessage.append(LabelUtils.PRICE_SCHEDULE_NO);
+			flag = true;
+		}
+                
+                  if (StringUtils.isBlank(String.valueOf(binder.getField(FieldNameUtils.RICE_SCHEDULE_NAME).getValue()))) {
+			if (flag) {
+				errorMessage.append(ConstantsUtils.COMMA);
+			}
+			errorMessage.append(LabelUtils.PRICE_SCHEDULE_NAME);
 			flag = true;
 		}
 		if (binder.getField(FieldNameUtils.PS_STATUS)==null || ((HelperDTO)binder.getField(FieldNameUtils.PS_STATUS).getValue()).getId()==0 ) {
@@ -1231,7 +1255,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 			return;
 		}
 		itemList = psLogic.validateNull(userId, sessionId, tempCreatedDate, "PriceType");
-                List<Object> itemList1 = psLogic.validateNull(userId, sessionId, tempCreatedDate, "Price");
+                List<Object> itemList1 = psLogic.validateNull(userId, sessionId, tempCreatedDate, ConstantsUtils.PRIC);
 		if (itemList.size() > 0 ) {
 			Object itemNo = itemList.get(0);
 			binder.getErrorDisplay().setError("Price Type is required for Item No " + itemNo);
@@ -1339,6 +1363,13 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 			errorMessage.append(LabelUtils.PRICE_SCHEDULE_NO);
 			flag = true;
 		}
+                 if (StringUtils.isBlank(String.valueOf(binder.getField(FieldNameUtils.RICE_SCHEDULE_NAME).getValue()))) {
+			if (flag) {
+				errorMessage.append(ConstantsUtils.COMMA);
+			}
+			errorMessage.append(LabelUtils.PRICE_SCHEDULE_NAME);
+			flag = true;
+		}
 		if (binder.getField(FieldNameUtils.PS_STATUS).getValue()==null) {
 			if (flag) {
 				errorMessage.append(ConstantsUtils.COMMA);
@@ -1421,7 +1452,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 			return;
 		}
 		itemList = psLogic.validateNull(userId, sessionId, tempCreatedDate, "PriceType");
-		List<Object> itemList1 = psLogic.validateNull(userId, sessionId, tempCreatedDate, "Price");
+		List<Object> itemList1 = psLogic.validateNull(userId, sessionId, tempCreatedDate, ConstantsUtils.PRIC);
 		if (itemList.size() > 0 ) {
 			Object itemNo = itemList.get(0);
 			binder.getErrorDisplay().setError("Price Type is required for Item No " + itemNo);
@@ -1502,7 +1533,7 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 						notif.setStyleName(ConstantsUtils.MY_STYLE);
 						notif.show(Page.getCurrent());
 					} else {
-						binder.getErrorDisplay().setError("Please enter different PS ID, Since the entered PS ID already exits");
+						binder.getErrorDisplay().setError("Please enter different PS ID, Since the entered PS ID already exists.");
 					}
 				}
 			}
@@ -1515,4 +1546,9 @@ public final class PSTabsheetForm extends StplCustomComponent implements AddBase
 		super.finalize();
 
 	}
+        public void configInfoLayoutCopy() {
+        psMaster.setPriceScheduleId(StringUtils.EMPTY);
+        psMaster.setPriceScheduleName(StringUtils.EMPTY);
+        psMaster.setPriceScheduleNo(StringUtils.EMPTY);
+    }
 }

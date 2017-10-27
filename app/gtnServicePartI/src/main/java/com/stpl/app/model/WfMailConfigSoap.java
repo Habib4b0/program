@@ -24,6 +24,7 @@ public class WfMailConfigSoap implements Serializable {
     private String _portNumber;
     private Date _modifiedDate;
     private String _inboundStatus;
+    private String _testMailAddress;
 
     public WfMailConfigSoap() {
     }
@@ -42,6 +43,7 @@ public class WfMailConfigSoap implements Serializable {
         soapModel.setPortNumber(model.getPortNumber());
         soapModel.setModifiedDate(model.getModifiedDate());
         soapModel.setInboundStatus(model.getInboundStatus());
+        soapModel.setTestMailAddress(model.getTestMailAddress());
 
         return soapModel;
     }
@@ -176,5 +178,13 @@ public class WfMailConfigSoap implements Serializable {
 
     public void setInboundStatus(String inboundStatus) {
         _inboundStatus = inboundStatus;
+    }
+
+    public String getTestMailAddress() {
+        return _testMailAddress;
+    }
+
+    public void setTestMailAddress(String testMailAddress) {
+        _testMailAddress = testMailAddress;
     }
 }

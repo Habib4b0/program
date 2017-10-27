@@ -30,21 +30,20 @@ import org.apache.commons.lang.StringUtils;
 public class PhsQueryUtils {
  
     private static final CommonResultsDAO DAO = new CommonResultsDAOImpl();   
-     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    public final  String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     
       public List loadPhsResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
-          Map<String, Object> input = new HashMap<String, Object>();
+          Map<String, Object> input = new HashMap<>();
           List phsList ;
-          String customSql =StringUtils.EMPTY;
- 
-          String priceType = StringUtils.EMPTY;
+          String customSql;
+          StringBuilder priceType = new StringBuilder();
           int size = priceTypeList.size();
-          int lastOne = size - 1;         
+          int lastOne = size - 1;
           for (int i = 0; i < size; i++) {
               if (i == lastOne) {
-                  priceType +=  priceTypeList.get(i).toUpperCase();
+                  priceType.append(priceTypeList.get(i).toUpperCase());
               } else {
-                  priceType += priceTypeList.get(i).toUpperCase() + ",";
+                  priceType.append(priceTypeList.get(i).toUpperCase()).append(",");
               }
           }
        
@@ -57,9 +56,9 @@ public class PhsQueryUtils {
           }else{
                 customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode)?"getPhsAmountForView":"getPhsAmount");
           }
-          for (String key : input.keySet()) {
-              LOGGER.debug("Key : " + key);
-              customSql = customSql.replace(key, String.valueOf(input.get(key)));
+          for (Map.Entry<String, Object> entry : input.entrySet()) {
+              LOGGER.debug(" Key : " + entry.getKey());
+              customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
           }
 
           phsList = (List) DAO.executeSelectQuery( QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
@@ -69,7 +68,7 @@ public class PhsQueryUtils {
     }
     public List loadPhsResultsTable(int projMasterId,int brandSid,String queryName,int parentLevelId, int itemMasterSID,int therapeuticSid) throws PortalException, SystemException {
         List phsList;          
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
         if( brandSid==0){
         input.put("?BID", Constant.NULL_CAPS);
@@ -83,10 +82,11 @@ public class PhsQueryUtils {
         }       
         input.put("?IMD", itemMasterSID);
         String customSql = CustomSQLUtil.get(queryName);
-    
-            for (String key : input.keySet()) {
-                customSql = customSql.replace(key, String.valueOf(input.get(key)));
-            }
+
+        for (Map.Entry<String, Object> entry : input.entrySet()) {
+            LOGGER.debug(" Key : " + entry.getKey());
+            customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
+        }
             if (parentLevelId != 0) {
             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
         }
@@ -116,7 +116,7 @@ public class PhsQueryUtils {
     }
     public List loadPhsWorksheet(SessionDTO session, int ndcSid,boolean adjustFlag) throws PortalException, SystemException {
         List phsWSList;
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
         input.put("?IMID", ndcSid);
         String customSql;
@@ -125,8 +125,9 @@ public class PhsQueryUtils {
         } else {
             customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ?"getPhsWorkSheetForView":"getPhsWorkSheet");
         }
-        for (String key : input.keySet()) {
-            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        for (Map.Entry<String, Object> entry : input.entrySet()) {
+            LOGGER.debug("Key : " + entry.getKey());
+            customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
 
         phsWSList = (List) DAO.executeSelectQuery( QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
@@ -135,7 +136,7 @@ public class PhsQueryUtils {
     }
     public void saveNotes(Map<String, String> editedValues, SessionDTO session, int itemSid) throws PortalException, SystemException {
    
-        List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
@@ -143,7 +144,7 @@ public class PhsQueryUtils {
 
                 String formatedValue = editedValues.get(values);
 
-                String tempValue[] = values.split("~");
+                String[] tempValue = values.split("~");
                 String propertyId = tempValue[0];
                 String rowId = tempValue[1];
                 String qValue = propertyId.substring(1, NumericConstants.TWO);
@@ -151,36 +152,15 @@ public class PhsQueryUtils {
 
                 int year = Integer.parseInt(yearValue);
                 int quarter = Integer.parseInt(qValue);
-                Double finalvalue = 0.0;
-
-                if (rowId.equals(Constant.ADJUSTMENT)) {
-                    formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
-                    formatedValue = formatedValue.replace("$", StringUtils.EMPTY);
-                    formatedValue = formatedValue.trim();
-                    if (StringUtils.isNotBlank(formatedValue)) {
-                        Double value = Double.valueOf(formatedValue);
-                        finalvalue = value;
-                        if (value == 0) {
-                            queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
-                        } else {
-                            queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
-                        }
-                    } else {
-                        queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
-                    }   
-                    } else if (rowId.equals(Constant.NOTES)) {
-
-                    queryBuilder1.append("UPDATE dbo.ST_PHS_PROJ SET NOTES='").append(formatedValue).append("' ");
-
-                }
+                saveNotesCondition(rowId, formatedValue, queryBuilder1);
 
                 queryBuilder1.append(" where NA_PROJ_DETAILS_SID ");
 
                 queryBuilder1.append("  in ( ");
 
-                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
+                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS WHERE  NA_PROJ_MASTER_SID=").append(session.getProjectionId());
 
-                queryBuilder1.append(" AND ITEM_MASTER_SID=" + itemSid);
+                queryBuilder1.append(" AND ITEM_MASTER_SID=").append(itemSid);
 
                 queryBuilder1.append(" ) AND PRICE_TYPE='PHS'");
 
@@ -196,9 +176,34 @@ public class PhsQueryUtils {
             queryList.clear();
         }
     }
+
+    public void saveNotesCondition(String rowId, String formatedValue, StringBuilder queryBuilder1) {
+        Double finalvalue;
+        
+        if (rowId.equals(Constant.ADJUSTMENT)) {
+            formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
+            formatedValue = formatedValue.replace("$", StringUtils.EMPTY);
+            formatedValue = formatedValue.trim();
+            if (StringUtils.isNotBlank(formatedValue)) {
+                Double value = Double.valueOf(formatedValue);
+                finalvalue = value;
+                if (value == 0) {
+                    queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
+                } else {
+                    queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
+                }
+            } else {
+                queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
+            }
+        } else if (rowId.equals(Constant.NOTES)) {
+            
+            queryBuilder1.append("UPDATE dbo.ST_PHS_PROJ SET NOTES='").append(formatedValue).append("' ");
+            
+        }
+    }
      public List loadPhsParent(int projMasterId, int brandSid,int parentLevelId,com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session,int therapeuticSid) throws PortalException, SystemException {
         List fcpList;
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
         if( brandSid==0){
         input.put("?BID", Constant.NULL_CAPS);
@@ -224,9 +229,10 @@ public class PhsQueryUtils {
          } else {
              customSql = CustomSQLUtil.get("getPhsParent");
          }
-         for (String key : input.keySet()) {
-             customSql = customSql.replace(key, String.valueOf(input.get(key)));
-         }
+        for (Map.Entry<String, Object> entry : input.entrySet()) {
+              LOGGER.debug("Key : " + entry.getKey());
+              customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
+          }
 
         fcpList = (List) DAO.executeSelectQuery(customSql);
         return fcpList;

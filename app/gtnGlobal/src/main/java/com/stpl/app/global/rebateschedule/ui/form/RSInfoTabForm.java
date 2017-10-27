@@ -449,8 +449,8 @@ public class RSInfoTabForm extends CustomComponent {
             String mode = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.GLOBAL_FILES_MODE);
 
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, "Rebate Schedule Information");
-           commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, mode);
-           commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout2, fieldRsHM, mode);
+           commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
+           commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout2, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -462,8 +462,8 @@ public class RSInfoTabForm extends CustomComponent {
 
         try {
             
-            evaluationRuleAssociation.addStyleName("searchicon");
-            calculationRule.addStyleName("searchicon");
+            evaluationRuleAssociation.addStyleName(ConstantsUtils.SEARCH_SYLENAME);
+            calculationRule.addStyleName(ConstantsUtils.SEARCH_SYLENAME);
             
         startDate.setDescription(ConstantsUtils.DATE_DES);
             
@@ -657,7 +657,7 @@ public class RSInfoTabForm extends CustomComponent {
                 }
             });
 
-            rebateScheduleTransRefNo.addStyleName("searchicon");
+            rebateScheduleTransRefNo.addStyleName(ConstantsUtils.SEARCH_SYLENAME);
             rebateScheduleTransRefNo.setImmediate(true);
             rebateScheduleTransRefNo.setReadOnly(true);
             rebateScheduleTransRefNo.setValidationVisible(true);

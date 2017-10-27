@@ -40,7 +40,7 @@ public class HelperListUtil {
     /**
      * The id desc map.
      */
-    private Map<Integer, String> idDescMap = new HashMap<Integer, String>();
+    private Map<Integer, String> idDescMap = new HashMap<>();
 
 
     /**
@@ -51,25 +51,25 @@ public class HelperListUtil {
     /**
      * The list name map.
      */
-    private Map<String, List<HelperDTO>> listNameMap = new HashMap<String, List<HelperDTO>>();
+    private Map<String, List<HelperDTO>> listNameMap = new HashMap<>();
 
     /**
      * The id helper dto map.
      */
-    private Map<Integer, HelperDTO> idHelperDTOMap = new HashMap<Integer, HelperDTO>();
+    private Map<Integer, HelperDTO> idHelperDTOMap = new HashMap<>();
     /**
      * The id desc map.
      */
-    private Map<Integer, String> idDescMapBU = new HashMap<Integer, String>();
+    private Map<Integer, String> idDescMapBU = new HashMap<>();
     /**
      * The list name map.
      */
-    private Map<String, List<HelperDTO>> listNameMapBU = new HashMap<String, List<HelperDTO>>();
+    private Map<String, List<HelperDTO>> listNameMapBU = new HashMap<>();
 
     /**
      * The id helper dto map.
      */
-    private Map<Integer, HelperDTO> idHelperDTOMapBU = new HashMap<Integer, HelperDTO>();
+    private Map<Integer, HelperDTO> idHelperDTOMapBU = new HashMap<>();
 
     /**
      * Instantiates a new helper list util.
@@ -119,7 +119,7 @@ public class HelperListUtil {
                                 if (helperList != null) {
                                     listNameMap.put(currentListName, helperList);
                                 }
-                                helperList = new ArrayList<HelperDTO>();
+                                helperList = new ArrayList<>();
                             }
                             helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
                             idDescMap.put(helperTable.getHelperTableSid(), helperTable
@@ -205,7 +205,7 @@ public class HelperListUtil {
      */
     public void loadBusinessUnitValues() {
         try {
-            List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+            List<HelperDTO> helperList = new ArrayList<>();
             String query = CustomSQLUtil.get("loadBusinessUnitInWorkflow");
             final List list = CompanyMasterLocalServiceUtil.executeQuery(query);
             if (list != null) {
@@ -270,7 +270,7 @@ public class HelperListUtil {
                             if (helperList != null) {
                                 listNameMap.put(currentListName, helperList);
                             }
-                            helperList = new ArrayList<HelperDTO>();
+                            helperList = new ArrayList<>();
                         }
                         helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
                                 .getDescription()));

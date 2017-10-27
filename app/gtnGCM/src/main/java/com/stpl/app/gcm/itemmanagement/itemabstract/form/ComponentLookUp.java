@@ -28,11 +28,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
@@ -46,7 +46,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author mohamed.hameed
  */
-public class ComponentLookUp extends CustomWindow {
+public class ComponentLookUp extends Window {
 public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
@@ -80,17 +80,17 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
     public Button closeBtn;
     ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<ComponentLookUpDTO>(ComponentLookUpDTO.class);
-    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<String>(String.class);
-    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<String>(String.class);
+    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
+    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
+    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     private String component = StringUtils.EMPTY;
     ComponentLookUpDTO componentDto;
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ComponentLookUpDTO>(binderDto));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection = new SelectionDTO();
     AbstractLogic logic = AbstractLogic.getInstance();
-    List<String> countFlag = new ArrayList<String>();
-    List<String> loadDataFlag = new ArrayList<String>();
+    List<String> countFlag = new ArrayList<>();
+    List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
 
     public ComponentLookUp(final String component, final String caption, final CustomTextField componentTextField) {
@@ -99,8 +99,8 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
         setContent(Clara.create(getClass().getResourceAsStream("/componentLookup.xml"), this));
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(true);
         setModal(true);
         getBinder();
@@ -161,9 +161,11 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -198,7 +200,7 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
 
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<ComponentLookUpDTO>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }
@@ -234,6 +236,7 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the page to default/previous values?");
 

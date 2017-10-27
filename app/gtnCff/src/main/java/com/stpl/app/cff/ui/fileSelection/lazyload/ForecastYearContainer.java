@@ -13,6 +13,7 @@ import com.stpl.app.cff.util.ErrorCodes;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -42,9 +43,6 @@ public class ForecastYearContainer implements DAO<HelperDTO> {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             LOGGER.error(errorMsg);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-        } catch (PortalException portException) {
-            LOGGER.error(portException);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010));
         }
         return 0;
     }
@@ -64,10 +62,7 @@ public class ForecastYearContainer implements DAO<HelperDTO> {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             LOGGER.error(errorMsg);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-        } catch (PortalException portException) {
-            LOGGER.error(portException);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010));
         }
-        return null;
+        return Collections.emptyList();
     }
 }

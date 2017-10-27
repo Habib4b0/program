@@ -33,7 +33,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
     String businessUnit;
     private static final Logger LOGGER = Logger.getLogger(FileSelectionTableGenerator.class);
 
-    public FileSelectionTableGenerator(ExtPagedTable table, BeanItemContainer searchContainer, FileSelectionTableLogic tableLogic,SessionDTO sessionDTO,String businessUnit ){
+    public FileSelectionTableGenerator(BeanItemContainer searchContainer,SessionDTO sessionDTO,String businessUnit ){
         this.searchContainer = searchContainer;
         this.session=sessionDTO;
         this.businessUnit=businessUnit;
@@ -72,6 +72,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                              *
                              */
                             public void windowClose(final Window.CloseEvent e) {
+                                return;
                             }
                         });
 

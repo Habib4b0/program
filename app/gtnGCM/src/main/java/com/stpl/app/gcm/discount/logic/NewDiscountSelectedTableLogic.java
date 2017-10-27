@@ -35,7 +35,7 @@ public class NewDiscountSelectedTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         if (generate) {
-            return DiscountLogic.getCountForNewDiscountSelectedItems(binderDto, sessionDTO, true, false);
+            return DiscountLogic.getCountForNewDiscountSelectedItems(binderDto, sessionDTO, true,false);
         }
         return 0;
     }
@@ -51,7 +51,7 @@ public class NewDiscountSelectedTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
-        List<ContractsDetailsDto> resultList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> resultList = new ArrayList<>();
         try {
             resultList = DiscountLogic.getCommonResults(binderDto, sessionDTO, true);
         } catch (Exception ex) {

@@ -47,7 +47,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DiscountProjectionResultsLogic {
 
-    Map<String, String> periodMap = new HashMap<String, String>();
+    Map<String, String> periodMap = new HashMap<>();
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
@@ -61,15 +61,15 @@ public class DiscountProjectionResultsLogic {
     private final String PERCENTAGE = "%";
     private final String DOLLAR_SYMBOL = "$";
     private final String ZERO_SYMBOL = "0";
-    Map<String, String> monthMap = new HashMap<String, String>();
-    Map<String, String> valueMap = new HashMap<String, String>();
+    Map<String, String> monthMap = new HashMap<>();
+    Map<String, String> valueMap = new HashMap<>();
 
     public DiscountProjectionResultsLogic() {
         periodValueMap();
     }
-    List<Integer> startAndEndPeriods = new ArrayList<Integer>();
+    List<Integer> startAndEndPeriods = new ArrayList<>();
     private static final CommonDAO commonDao = new CommonDAOImpl();
-
+    public static final String AND_SMALL = " and ";
     /**
      * Method is Used To Load Projection Total of period Mode
      *
@@ -77,9 +77,9 @@ public class DiscountProjectionResultsLogic {
      * @param selection
      * @return
      */
-    public List<DiscountProjectionResultsDTO> getPeriodProjectionTotal(int projectionId, Map selection, List<Integer> startAndEndPeriods, ProjectionSelectionDTO projSelDTO) {
+    public List<DiscountProjectionResultsDTO> getPeriodProjectionTotal(int projectionId, List<Integer> startAndEndPeriods, ProjectionSelectionDTO projSelDTO) {
         try {
-            List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<DiscountProjectionResultsDTO>();
+            List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
               boolean viewFlag=Constant.VIEW.equals(projSelDTO.getSessionDTO().getAction());
             String selectedView = projSelDTO.getView();
             String userId = String.valueOf(projSelDTO.getUserId());
@@ -90,14 +90,14 @@ public class DiscountProjectionResultsLogic {
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
-            if (selectedView.equals(Constant.PRODUCT)) {
+            if (selectedView.equals(Constant.PRODUCT_LABEL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
-            if (selectedView.equals(Constant.CUSTOM)) {
+            if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (ccpId != null && ccpId.size() > 0) {
-                List<Integer> proDetailsSid = new ArrayList<Integer>();
+                List<Integer> proDetailsSid;
                 final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
@@ -110,7 +110,7 @@ public class DiscountProjectionResultsLogic {
                     String freq = projSelDTO.getFrequency();
                     String order = projSelDTO.getProjectionOrder();
                     String projection = projSelDTO.getView();
-                    List<String> discountList = new ArrayList<String>();
+                    List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
                     List list = NmDiscountProjMasterLocalServiceUtil.getDiscountProjectionResults(proDetailsSid, freq, discountString, projection, Constant.PARENT, order, startAndEndPeriods, user, session,viewFlag);
@@ -179,7 +179,7 @@ public class DiscountProjectionResultsLogic {
             return discountProjList;
         } catch (Exception e) {
             Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -194,7 +194,7 @@ public class DiscountProjectionResultsLogic {
      * @throws SystemException
      */
     public List<DiscountProjectionResultsDTO> getPeriodHierarchy(ProjectionSelectionDTO proSelDTO, List<Integer> startAndEndPeriods, List<String> discountList) throws SystemException {
-        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
         
         try {
             String level = String.valueOf(proSelDTO.getTreeLevelNo());
@@ -205,10 +205,10 @@ public class DiscountProjectionResultsLogic {
             if (hierarchy.equals(Constant.CUSTOMER_SMALL)) {
                 ccpid = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierarchyNo, level);
             }
-            if (hierarchy.equals(Constant.PRODUCT)) {
+            if (hierarchy.equals(Constant.PRODUCT_LABEL)) {
                 ccpid = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionMasterId, hierarchyNo, level);
             }
-            if (hierarchy.equals(Constant.CUSTOM)) {
+            if (hierarchy.equals(Constant.CUSTOM_LABEL)) {
                 proSelDTO.setIsCustomHierarchy(true);
                 String customQuery = CommonLogic.getCustomCCPQuery(proSelDTO);
                 List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
@@ -270,8 +270,8 @@ public class DiscountProjectionResultsLogic {
 
     private void periodValueMap() {
         periodMap.put(Constant.MONTHLY, "MONTH");
-        periodMap.put(Constant.QUARTERLY, "QUARTER");
-        periodMap.put(Constant.SEMI_ANNUALLY, "QUARTER");
+        periodMap.put(Constant.QUARTERLY, Constant.QUARTER);
+        periodMap.put(Constant.SEMI_ANNUALLY, Constant.QUARTER);
         periodMap.put(Constant.ANNUALLY, "YEAR");
     }
 
@@ -286,20 +286,20 @@ public class DiscountProjectionResultsLogic {
      * @return
      *
      */
-    public List<DiscountProjectionResultsDTO> getPeriodProjectionTotalDiscount(int projectionId, Map selection, List<Integer> startAndEndPeriods, ProjectionSelectionDTO projSelDTO, List<String> discountList) {
-        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<DiscountProjectionResultsDTO>();
+    public List<DiscountProjectionResultsDTO> getPeriodProjectionTotalDiscount(int projectionId,List<Integer> startAndEndPeriods, ProjectionSelectionDTO projSelDTO, List<String> discountList) {
+        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
         try {
             List ccpId = null;
             String selectedView = projSelDTO.getView();
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
-            } else if (selectedView.equals(Constant.PRODUCT)) {
+            } else if (selectedView.equals(Constant.PRODUCT_LABEL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
-            } else if (selectedView.equals(Constant.CUSTOM)) {
+            } else if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (ccpId != null && ccpId.size() > 0) {
-                List<Integer> proDetailsSid = new ArrayList<Integer>();
+                List<Integer> proDetailsSid;
                 final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
@@ -358,19 +358,19 @@ public class DiscountProjectionResultsLogic {
      *
      */
     public List<DiscountProjectionResultsDTO> getPivotProjectionTotal(int projectionId, ProjectionSelectionDTO projSelDTO, List<Integer> startAndEndPeriods) {
-        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
         try {
             // Used to Load Discount
-            List<Integer> proDetailsSid = new ArrayList<Integer>();
+            List<Integer> proDetailsSid;
             String selectedView = String.valueOf(projSelDTO.getView());
             List ccpId = null;
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
-            if (selectedView.equals(Constant.PRODUCT)) {
+            if (selectedView.equals(Constant.PRODUCT_LABEL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
-            if (selectedView.equals(Constant.CUSTOM)) {
+            if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (ccpId != null && ccpId.size() > 0) {
@@ -387,7 +387,7 @@ public class DiscountProjectionResultsLogic {
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
                     int user = Integer.valueOf(userId);
                     int session = Integer.valueOf(sessionId);
-                    List<String> discountList = new ArrayList<String>();
+                    List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
                     List list = NmDiscountProjMasterLocalServiceUtil.getTotalDiscountNumber(proDetailsSid, freq, discountString, startAndEndPeriods, user, session,null);
@@ -405,7 +405,7 @@ public class DiscountProjectionResultsLogic {
                         double actualAmount = 0;
                         double projectedSales = 0;
                         double projectedAmount = 0;
-                        String commonColumn = StringUtils.EMPTY;
+                        String commonColumn;
                         Object[] object = (Object[]) list.get(0);
                         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
                         commonColumn = currentDiscount.replace(" ", StringUtils.EMPTY);
@@ -506,7 +506,6 @@ public class DiscountProjectionResultsLogic {
                                     }
                                     String proAmount = String.valueOf(projectedAmtAmt);
                                     discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -571,7 +570,7 @@ public class DiscountProjectionResultsLogic {
         } catch (SystemException ex) {
             Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -584,12 +583,12 @@ public class DiscountProjectionResultsLogic {
      *
      */
     public List<DiscountProjectionResultsDTO> getPivotProjectionTotalDiscount(ProjectionSelectionDTO projSelDTO, List<Integer> startAndEndPeriods) throws SystemException {
-        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
         try {
             int projectionId = projSelDTO.getProjectionId();
             List ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             if (ccpId != null && ccpId.size() > 0) {
-                List<Integer> proDetailsSid = new ArrayList<Integer>();
+                List<Integer> proDetailsSid;
                 final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
@@ -603,7 +602,7 @@ public class DiscountProjectionResultsLogic {
                     int user = Integer.valueOf(userId);
                     int session = Integer.valueOf(sessionId);
                     String freq = String.valueOf(projSelDTO.getFrequency());
-                    List<String> discountList = new ArrayList<String>();
+                    List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
                     List list = NmDiscountProjMasterLocalServiceUtil.getSubDiscount(proDetailsSid, freq, discountString, startAndEndPeriods, user, session);
@@ -613,8 +612,8 @@ public class DiscountProjectionResultsLogic {
                             double actualAmount = 0;
                             double projectedSales = 0;
                             double projectedAmount = 0;
-                            String commonColumn = StringUtils.EMPTY;
-                            List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                            String commonColumn;
+                            List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
                             DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                             Object[] object = (Object[]) list.get(0);
                             String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
@@ -669,7 +668,6 @@ public class DiscountProjectionResultsLogic {
                                 }
                                 String proAmount = String.valueOf(projectedAmtAmt);
                                 discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                commonColumn = StringUtils.EMPTY;
                                 discountProjList.add(discountDto);
                             } else {
                                 for (int i = 1; i < list.size(); i++) {
@@ -724,7 +722,6 @@ public class DiscountProjectionResultsLogic {
                                             }
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                            commonColumn = StringUtils.EMPTY;
                                             actualSales = 0;
                                             actualAmount = 0;
                                             projectedSales = 0;
@@ -877,8 +874,8 @@ public class DiscountProjectionResultsLogic {
                             double actualAmount = 0;
                             double projectedSales = 0;
                             double projectedAmount = 0;
-                            String commonColumn = StringUtils.EMPTY;
-                            List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                            String commonColumn;
+                            List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
                             DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                             Object[] object = (Object[]) list.get(0);
                             String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
@@ -934,7 +931,6 @@ public class DiscountProjectionResultsLogic {
                                 }
                                 String proAmount = String.valueOf(projectedAmtAmt);
                                 discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                commonColumn = StringUtils.EMPTY;
                                 discountProjList.add(discountDto);
                             } else {
                                 for (int i = 1; i < list.size(); i++) {
@@ -990,7 +986,6 @@ public class DiscountProjectionResultsLogic {
                                             }
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                            commonColumn = StringUtils.EMPTY;
                                             actualSales = 0;
                                             actualAmount = 0;
                                             projectedSales = 0;
@@ -1151,8 +1146,8 @@ public class DiscountProjectionResultsLogic {
                             double actualAmount = 0;
                             double projectedSales = 0;
                             double projectedAmount = 0;
-                            String commonColumn = StringUtils.EMPTY;
-                            List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                            String commonColumn;
+                            List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
                             DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                             Object[] object = (Object[]) list.get(0);
                             String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
@@ -1206,7 +1201,6 @@ public class DiscountProjectionResultsLogic {
                                 }
                                 String proAmount = String.valueOf(projectedAmtAmt);
                                 discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                commonColumn = StringUtils.EMPTY;
                                 discountProjList.add(discountDto);
                             } else {
                                 for (int i = 1; i < list.size(); i++) {
@@ -1261,7 +1255,6 @@ public class DiscountProjectionResultsLogic {
                                             }
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                            commonColumn = StringUtils.EMPTY;
                                             actualSales = 0;
                                             actualAmount = 0;
                                             projectedSales = 0;
@@ -1422,9 +1415,9 @@ public class DiscountProjectionResultsLogic {
                             double actualAmount = 0;
                             double projectedSales = 0;
                             double projectedAmount = 0;
-                            String commonColumn = StringUtils.EMPTY;
+                            String commonColumn;
                             loadMap();
-                            List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                            List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
                             DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                             Object[] object = (Object[]) list.get(0);
                             String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
@@ -1478,7 +1471,6 @@ public class DiscountProjectionResultsLogic {
                                 }
                                 String proAmount = String.valueOf(projectedAmtAmt);
                                 discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                commonColumn = StringUtils.EMPTY;
                                 discountProjList.add(discountDto);
                             } else {
                                 for (int i = 1; i < list.size(); i++) {
@@ -1533,7 +1525,6 @@ public class DiscountProjectionResultsLogic {
                                             }
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                            commonColumn = StringUtils.EMPTY;
                                             actualSales = 0;
                                             actualAmount = 0;
                                             projectedSales = 0;
@@ -1701,12 +1692,12 @@ public class DiscountProjectionResultsLogic {
         } catch (SystemException ex) {
             Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List<DiscountProjectionResultsDTO> configureLevels(int projectionId, int levelNo, List<Leveldto> currentHierarchy) {
         Leveldto lvlDto = CommonLogic.getNextLevel(levelNo, currentHierarchy);
-        List<DiscountProjectionResultsDTO> result = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> result = new ArrayList<>();
         if (lvlDto != null) {
             List<Leveldto> levelList = CommonLogic.getLevelListDiscount(projectionId, lvlDto.getHierarchyIndicator(), lvlDto.getLevelNo(), lvlDto.getHierarchyId());
             for (Leveldto levelDto : levelList) {
@@ -1732,7 +1723,7 @@ public class DiscountProjectionResultsLogic {
      *
      */
     public List<DiscountProjectionResultsDTO> getPivotHierarchy(ProjectionSelectionDTO projSelDTO, List<Integer> startAndEndPeriods) throws SystemException {
-        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
         int projectionMasterId = projSelDTO.getProjectionId();
         String selectedView = projSelDTO.getView();
         String level = String.valueOf(projSelDTO.getTreeLevelNo());
@@ -1741,10 +1732,10 @@ public class DiscountProjectionResultsLogic {
         if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
             ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierarchyNo, level);
         }
-        if (selectedView.equals(Constant.PRODUCT)) {
+        if (selectedView.equals(Constant.PRODUCT_LABEL)) {
             ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionMasterId, hierarchyNo, level);
         }
-        if (selectedView.equals(Constant.CUSTOM)) {
+        if (selectedView.equals(Constant.CUSTOM_LABEL)) {
             projSelDTO.setIsCustomHierarchy(true);
             String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
             List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
@@ -1761,7 +1752,7 @@ public class DiscountProjectionResultsLogic {
             }
         }
         if (ccpId != null && ccpId.size() > 0) {
-            List<Integer> proDetailsSid = new ArrayList<Integer>();
+            List<Integer> proDetailsSid;
             final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
             projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionMasterId));
             projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
@@ -1775,8 +1766,8 @@ public class DiscountProjectionResultsLogic {
                 int user = Integer.valueOf(userId);
                 int session = Integer.valueOf(sessionId);
                 String frequ = String.valueOf(projSelDTO.getFrequency());
-                List<String> discountList = new ArrayList<String>();
-                List<String> tmpList = new ArrayList<String>();
+                List<String> discountList;
+                List<String> tmpList = new ArrayList<>();
                 discountList = projSelDTO.getDiscountNameList();
                 String discountString = getDiscountName(discountList);
                 List list = NmDiscountProjMasterLocalServiceUtil.getSubDiscount(proDetailsSid, frequ, discountString, startAndEndPeriods, user, session);
@@ -1787,8 +1778,8 @@ public class DiscountProjectionResultsLogic {
                         double projectedSales = 0;
                         double projectedAmount = 0;
                         tmpList.addAll(discountList);
-                        String commonColumn = StringUtils.EMPTY;
-                        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                        String commonColumn;
+                        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
                         DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                         Object[] object = (Object[]) list.get(0);
                         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
@@ -1845,7 +1836,6 @@ public class DiscountProjectionResultsLogic {
                                 }
                                 String proAmount = String.valueOf(projectedAmtAmt);
                                 discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                commonColumn = StringUtils.EMPTY;
                                 if (!tmpList.isEmpty()) {
                                     for (int j = 0; j < tmpList.size(); j++) {
                                         String column = tmpList.get(j);
@@ -1918,7 +1908,6 @@ public class DiscountProjectionResultsLogic {
                                         }
                                         String proAmount = String.valueOf(projectedAmtAmt);
                                         discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                        commonColumn = StringUtils.EMPTY;
                                         actualSales = 0;
                                         actualAmount = 0;
                                         projectedSales = 0;
@@ -2104,8 +2093,8 @@ public class DiscountProjectionResultsLogic {
                         double projectedSales = 0;
                         double projectedAmount = 0;
                         tmpList.addAll(discountList);
-                        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
-                        String commonColumn = StringUtils.EMPTY;
+                        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
+                        String commonColumn;
                         DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                         Object[] object = (Object[]) list.get(0);
                         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
@@ -2161,7 +2150,6 @@ public class DiscountProjectionResultsLogic {
                             }
                             String proAmount = String.valueOf(projectedAmtAmt);
                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                            commonColumn = StringUtils.EMPTY;
                             if (!tmpList.isEmpty()) {
                                 discountDto = putHyphenForDiscount(tmpList, discountDto);
                             }
@@ -2223,7 +2211,6 @@ public class DiscountProjectionResultsLogic {
                                         }
                                         String proAmount = String.valueOf(projectedAmtAmt);
                                         discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                        commonColumn = StringUtils.EMPTY;
                                         actualSales = 0;
                                         actualAmount = 0;
                                         projectedSales = 0;
@@ -2392,8 +2379,8 @@ public class DiscountProjectionResultsLogic {
                         double actualAmount = 0;
                         double projectedSales = 0;
                         double projectedAmount = 0;
-                        String commonColumn = StringUtils.EMPTY;
-                        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                        String commonColumn;
+                        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
                         tmpList.addAll(discountList);
                         DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                         Object[] object = (Object[]) list.get(0);
@@ -2449,7 +2436,6 @@ public class DiscountProjectionResultsLogic {
                             }
                             String proAmount = String.valueOf(projectedAmtAmt);
                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                            commonColumn = StringUtils.EMPTY;
                             if (!tmpList.isEmpty()) {
                                 discountDto = putHyphenForDiscount(tmpList, discountDto);
                             }
@@ -2509,7 +2495,6 @@ public class DiscountProjectionResultsLogic {
                                         }
                                         String proAmount = String.valueOf(projectedAmtAmt);
                                         discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                        commonColumn = StringUtils.EMPTY;
                                         actualSales = 0;
                                         actualAmount = 0;
                                         projectedSales = 0;
@@ -2680,8 +2665,8 @@ public class DiscountProjectionResultsLogic {
                         double projectedSales = 0;
                         double projectedAmount = 0;
                         loadMap();
-                        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
-                        String commonColumn = StringUtils.EMPTY;
+                        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
+                        String commonColumn;
                         tmpList.addAll(discountList);
                         DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                         Object[] object = (Object[]) list.get(0);
@@ -2737,7 +2722,6 @@ public class DiscountProjectionResultsLogic {
                             }
                             String proAmount = String.valueOf(projectedAmtAmt);
                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                            commonColumn = StringUtils.EMPTY;
                             if (!tmpList.isEmpty()) {
                                 discountDto = putHyphenForDiscount(tmpList, discountDto);
                             }
@@ -2797,7 +2781,6 @@ public class DiscountProjectionResultsLogic {
                                         }
                                         String proAmount = String.valueOf(projectedAmtAmt);
                                         discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                        commonColumn = StringUtils.EMPTY;
                                         actualSales = 0;
                                         actualAmount = 0;
                                         projectedSales = 0;
@@ -2980,7 +2963,7 @@ public class DiscountProjectionResultsLogic {
     }
 
     public List<DiscountProjectionResultsDTO> getLevelFilterSum(DiscountProjectionResultsDTO dto, Map selection, SessionDTO session) throws SystemException {
-        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
           boolean viewFlag=Constant.VIEW.equals(session.getAction());
         int projectionMasterId = session.getProjectionId();
         String hierachyNumber = String.valueOf(dto.getHierarchyNo());
@@ -3066,7 +3049,6 @@ public class DiscountProjectionResultsLogic {
                                         projectedAmtAmt = 0.0;
                                     }
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -3126,7 +3108,6 @@ public class DiscountProjectionResultsLogic {
                                     }
                                     String proAmount = String.valueOf(projectedAmtAmt);
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -3214,7 +3195,6 @@ public class DiscountProjectionResultsLogic {
                                         projectedAmtAmt = 0.0;
                                     }
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -3269,7 +3249,6 @@ public class DiscountProjectionResultsLogic {
                                         projectedAmtAmt = 0.0;
                                     }
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -3352,7 +3331,6 @@ public class DiscountProjectionResultsLogic {
                                         projectedAmtAmt = 0.0;
                                     }
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -3405,7 +3383,6 @@ public class DiscountProjectionResultsLogic {
                                         projectedAmtAmt = 0.0;
                                     }
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -3492,7 +3469,6 @@ public class DiscountProjectionResultsLogic {
                                         projectedAmtAmt = 0.0;
                                     }
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -3549,7 +3525,6 @@ public class DiscountProjectionResultsLogic {
                                         projectedAmtAmt = 0.0;
                                     }
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -3597,8 +3572,8 @@ public class DiscountProjectionResultsLogic {
     public List<DiscountProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
         int mayBeAdded = 0;
-        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<DiscountProjectionResultsDTO>();
-        List<Integer> yearList = new ArrayList<Integer>();
+        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
+        List<Integer> yearList = new ArrayList<>();
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
         yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
@@ -3634,7 +3609,7 @@ public class DiscountProjectionResultsLogic {
         if (projSelDTO.isIsProjectionTotal()) {
             if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 if (start < 1) {
-                    List<DiscountProjectionResultsDTO> list = getPeriodProjectionTotal(projSelDTO.getProjectionId(), new HashMap(), yearList, projSelDTO);
+                    List<DiscountProjectionResultsDTO> list = getPeriodProjectionTotal(projSelDTO.getProjectionId(), yearList, projSelDTO);
                     if (list != null && list.size() > 0) {
                         projDTOList.add(list.get(0));
                         neededRecord--;
@@ -3642,7 +3617,7 @@ public class DiscountProjectionResultsLogic {
                 }
                 mayBeAdded += 1;
                 if (neededRecord > 0) {
-                    List<String> discountList = new ArrayList<String>();
+                    List<String> discountList = new ArrayList<>();
                     int mayBeAddedRecord = start - mayBeAdded;
                     if (mayBeAddedRecord < 0) {
                         mayBeAddedRecord = 0;
@@ -3650,7 +3625,7 @@ public class DiscountProjectionResultsLogic {
                     for (int i = mayBeAddedRecord; i < projSelDTO.getDiscountNameList().size(); i++) {
                         discountList.add(projSelDTO.getDiscountNameList().get(i));
                     }
-                    List<DiscountProjectionResultsDTO> discountDtoList = getPeriodProjectionTotalDiscount(projSelDTO.getProjectionId(), new HashMap(), yearList, projSelDTO, discountList);
+                    List<DiscountProjectionResultsDTO> discountDtoList = getPeriodProjectionTotalDiscount(projSelDTO.getProjectionId(), yearList, projSelDTO, discountList);
                     for (int k = 0; k < discountDtoList.size() && neededRecord > 0; k++) {
                         projDTOList.add(discountDtoList.get(k));
                         neededRecord--;
@@ -3658,7 +3633,7 @@ public class DiscountProjectionResultsLogic {
                     mayBeAdded += projSelDTO.getDiscountNameList().size();
                 }
             } else {
-                List<Integer> pivotYearList = new ArrayList<Integer>();
+                List<Integer> pivotYearList = new ArrayList<>();
                 String frequency = String.valueOf(projSelDTO.getFrequency());
                 if (frequency.equals(Constant.ANNUALLY)) {
                     pivotYearList.add(Integer.valueOf(projSelDTO.getPeriodList().get(0)));
@@ -3736,7 +3711,7 @@ public class DiscountProjectionResultsLogic {
                 pivotYearList.add(projSelDTO.getForecastDTO().getForecastEndYear());
                 pivotYearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
                 if (start < 1) {
-                    List<DiscountProjectionResultsDTO> discountDtoList = new ArrayList<DiscountProjectionResultsDTO>();
+                    List<DiscountProjectionResultsDTO> discountDtoList;
                     discountDtoList = getPivotProjectionTotal(projSelDTO.getProjectionId(), projSelDTO, pivotYearList);
                     if (discountDtoList != null && discountDtoList.size() > 0) {
                         projDTOList.add(discountDtoList.get(0));
@@ -3745,7 +3720,7 @@ public class DiscountProjectionResultsLogic {
                 }
                 mayBeAdded++;
                 if (neededRecord > 0) {
-                    List<DiscountProjectionResultsDTO> periodList = new ArrayList<DiscountProjectionResultsDTO>();
+                    List<DiscountProjectionResultsDTO> periodList = new ArrayList<>();
                     try {
                         periodList = getPivotProjectionTotalDiscount(projSelDTO, pivotYearList);
                     } catch (SystemException ex) {
@@ -3764,9 +3739,9 @@ public class DiscountProjectionResultsLogic {
             }
         } else {
             if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
-                List<DiscountProjectionResultsDTO> discountDtoList = new ArrayList<DiscountProjectionResultsDTO>();
+                List<DiscountProjectionResultsDTO> discountDtoList = new ArrayList<>();
                 if (neededRecord > 0) {
-                    List<String> discountList = new ArrayList<String>();
+                    List<String> discountList = new ArrayList<>();
                     int mayBeAddedRecord = start - mayBeAdded;
                     if (mayBeAddedRecord < 0) {
                         mayBeAddedRecord = 0;
@@ -3787,7 +3762,7 @@ public class DiscountProjectionResultsLogic {
                     mayBeAdded += projSelDTO.getDiscountNameList().size();
                 }
             } else {
-                List<Integer> pivotYearList = new ArrayList<Integer>();
+                List<Integer> pivotYearList = new ArrayList<>();
                 String frequency = String.valueOf(projSelDTO.getFrequency());
                 if (frequency.equals(Constant.ANNUALLY)) {
                     pivotYearList.add(Integer.valueOf(projSelDTO.getPeriodList().get(0)));
@@ -3866,7 +3841,7 @@ public class DiscountProjectionResultsLogic {
                 pivotYearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
 
                 if (neededRecord > 0 && !projSelDTO.getGroup().startsWith(Constant.DISCOUNT)) {
-                    List<DiscountProjectionResultsDTO> periodList = new ArrayList<DiscountProjectionResultsDTO>();
+                    List<DiscountProjectionResultsDTO> periodList = new ArrayList<>();
                     try {
                         periodList = getPivotHierarchy(projSelDTO, pivotYearList);
                     } catch (SystemException ex) {
@@ -3889,7 +3864,7 @@ public class DiscountProjectionResultsLogic {
         if (neededRecord > 0 && !projSelDTO.isIsFilter()) {
             if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                     && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
-                    && !projSelDTO.getGroup().startsWith(Constant.DISCOUNT) && !projSelDTO.getGroupFilter().startsWith("All Discount Groups")) {
+                    && !projSelDTO.getGroup().startsWith(Constant.DISCOUNT) && !projSelDTO.getGroupFilter().startsWith(Constant.ALL_DISCOUNT_GROUP)) {
                 DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
                 dto.setLevelNo(projSelDTO.getLevelNo());
                 dto.setTreeLevelNo(projSelDTO.getTreeLevelNo());
@@ -3907,7 +3882,7 @@ public class DiscountProjectionResultsLogic {
                 }
 
                 dto.setParent(1);
-                DiscountProjectionResultsDTO discountDTO = new DiscountProjectionResultsDTO();
+                DiscountProjectionResultsDTO discountDTO;
                 if (projSelDTO.getPivotView().equals(Constant.PERIOD)) {
 
                     discountDTO = getChildNodeValues(dto, projSelDTO, null);
@@ -3916,7 +3891,6 @@ public class DiscountProjectionResultsLogic {
                 }
 
                 projDTOList.add(discountDTO);
-                neededRecord--;
             } else {
                 int mayBeAddedRecord = start - mayBeAdded;
                 if (mayBeAddedRecord < 0) {
@@ -3940,12 +3914,12 @@ public class DiscountProjectionResultsLogic {
      *
      */
     public List<DiscountProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        List<DiscountProjectionResultsDTO> resultList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> resultList;
         if (!projSelDTO.isIsFilter() || (parentId instanceof DiscountProjectionResultsDTO)) {
 
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + AND_SMALL + PROJECTIONS.getConstant());
             }
             if (parentId instanceof DiscountProjectionResultsDTO) {
                 projSelDTO.setIsProjectionTotal(false);
@@ -4010,7 +3984,7 @@ public class DiscountProjectionResultsLogic {
      */
     public List<DiscountProjectionResultsDTO> configureLevels(int start, int offset, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
-        List<DiscountProjectionResultsDTO> resultList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> resultList = new ArrayList<>();
         if (neededRecord > 0) {
             List<Leveldto> levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), Constant.DISCOUNT_PROJECTION_RESULTS, start, offset, projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.isIsFilter(), false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getCustRelationshipBuilderSid(), projSelDTO.getProdRelationshipBuilderSid(), false, true, projSelDTO.getDiscountNoList(),projSelDTO);
             for (int i = 0; i < levelList.size() && neededRecord > 0; i++) {
@@ -4034,7 +4008,7 @@ public class DiscountProjectionResultsLogic {
 
                 dto.setParent(1);
                 dto.setTotal(0);
-                DiscountProjectionResultsDTO discountDTO = new DiscountProjectionResultsDTO();
+                DiscountProjectionResultsDTO discountDTO;
                 if (projSelDTO.getPivotView().equals(Constant.PERIOD)) {
                     projSelDTO.setHierarchyIndicator(levelDto.getHierarchyIndicator());
                     projSelDTO.setTreeLevelNo(levelDto.getTreeLevelNo());
@@ -4070,9 +4044,9 @@ public class DiscountProjectionResultsLogic {
 
         int count = 0;
         if (!projSelDTO.isIsFilter() || (parentId instanceof DiscountProjectionResultsDTO)) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
             if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + AND_SMALL + PROJECTIONS.getConstant());
             }
             if (parentId instanceof DiscountProjectionResultsDTO) {
                 projSelDTO.setIsProjectionTotal(false);
@@ -4142,7 +4116,7 @@ public class DiscountProjectionResultsLogic {
         if (isLevelsCount && !projSelDTO.isIsFilter()) {
             if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                     && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
-                    && !projSelDTO.getGroupFilter().equals("All Discount Groups") && !projSelDTO.getGroup().startsWith(Constant.DISCOUNT)) {
+                    && !projSelDTO.getGroupFilter().equals(Constant.ALL_DISCOUNT_GROUP) && !projSelDTO.getGroup().startsWith(Constant.DISCOUNT)) {
                 count = count + 1;
                 projSelDTO.setGroupCount(true);
                 projSelDTO.setLevelCount(1);
@@ -4176,7 +4150,7 @@ public class DiscountProjectionResultsLogic {
             dto.setParent(1);
             String hierachyNumber = String.valueOf(dto.getHierarchyNo());
             hierachyNumber = hierachyNumber + PERCENTAGE;
-            List<Integer> yearList = new ArrayList<Integer>();
+            List<Integer> yearList = new ArrayList<>();
             yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
             yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
             yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
@@ -4216,10 +4190,10 @@ public class DiscountProjectionResultsLogic {
                 if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
                     ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
                 }
-                if (selectedView.equals(Constant.PRODUCT)) {
+                if (selectedView.equals(Constant.PRODUCT_LABEL)) {
                     ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
                 }
-                if (selectedView.equals(Constant.CUSTOM)) {
+                if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                     projSelDTO.setIsCustomHierarchy(true);
                     String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
                     List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
@@ -4252,7 +4226,7 @@ public class DiscountProjectionResultsLogic {
                     int user = Integer.valueOf(userId);
                     int session = Integer.valueOf(sessionId);
                     String frequency = projSelDTO.getFrequency();
-                    List<String> discountList = new ArrayList<String>();
+                    List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
                     List list = NmDiscountProjMasterLocalServiceUtil.getDiscountProjectionResults(projectionDetailsId, frequency, discountString, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, yearList, user, session,viewFlag);
@@ -4294,7 +4268,7 @@ public class DiscountProjectionResultsLogic {
             dto.setParent(1);
             String hierachyNumber = String.valueOf(dto.getHierarchyNo());
             hierachyNumber = hierachyNumber + PERCENTAGE;
-            List<Integer> pivotYearList = new ArrayList<Integer>();
+            List<Integer> pivotYearList = new ArrayList<>();
             String frequency = String.valueOf(projSelDTO.getFrequency());
             if (frequency.equals(Constant.ANNUALLY)) {
                 pivotYearList.add(Integer.valueOf(projSelDTO.getPeriodList().get(0)));
@@ -4352,10 +4326,10 @@ public class DiscountProjectionResultsLogic {
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
             }
-            if (selectedView.equals(Constant.PRODUCT)) {
+            if (selectedView.equals(Constant.PRODUCT_LABEL)) {
                 ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
             }
-            if (selectedView.equals(Constant.CUSTOM)) {
+            if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                 projSelDTO.setIsCustomHierarchy(true);
                 String customQuery = CommonLogic.getCustomCCPQuery(projSelDTO);
                 List<Object> list = (List<Object>) executeSelectQuery(customQuery, null, null);
@@ -4385,8 +4359,8 @@ public class DiscountProjectionResultsLogic {
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
                     int user = Integer.valueOf(userId);
                     int session = Integer.valueOf(sessionId);
-                    List<String> discountList = new ArrayList<String>();
-                    List<String> tmpList = new ArrayList<String>();
+                    List<String> discountList;
+                    List<String> tmpList = new ArrayList<>();
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
                     List list = NmDiscountProjMasterLocalServiceUtil.getTotalDiscountNumber(proDetailsSid, freq, discountString, pivotYearList, user, session,null);
@@ -4403,7 +4377,7 @@ public class DiscountProjectionResultsLogic {
                         double actualAmount = 0;
                         double projectedSales = 0;
                         double projectedAmount = 0;
-                        String commonColumn = StringUtils.EMPTY;
+                        String commonColumn;
                         Object[] object = (Object[]) list.get(0);
                         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
                         tmpList.addAll(discountList);
@@ -4506,7 +4480,6 @@ public class DiscountProjectionResultsLogic {
                                     }
                                     String proAmount = String.valueOf(projectedAmtAmt);
                                     dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
-                                    commonColumn = StringUtils.EMPTY;
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
@@ -4690,7 +4663,7 @@ public class DiscountProjectionResultsLogic {
         int year = 0;
         int Quarter = 0;
 
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
@@ -4771,7 +4744,6 @@ public class DiscountProjectionResultsLogic {
                     String proAmount = String.valueOf(projectedAmtAmt);
                     discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                     periodList.remove(commonColumn);
-                    commonColumn = StringUtils.EMPTY;
                     actualSales = 0;
                     actualAmount = 0;
                     projectedSales = 0;
@@ -4825,7 +4797,6 @@ public class DiscountProjectionResultsLogic {
                 }
                 discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
                 periodList.remove(commonColumn);
-                commonColumn = StringUtils.EMPTY;
                 actualSales = 0;
                 actualAmount = 0;
                 projectedSales = 0;
@@ -4845,7 +4816,7 @@ public class DiscountProjectionResultsLogic {
         double projectedSales = 0;
         double projectedAmount = 0;
         int year = 0;
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
@@ -4920,7 +4891,6 @@ public class DiscountProjectionResultsLogic {
                     }
                     discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
                     periodList.remove(commonColumn);
-                    commonColumn = StringUtils.EMPTY;
                     actualSales = 0;
                     actualAmount = 0;
                     projectedSales = 0;
@@ -4971,7 +4941,6 @@ public class DiscountProjectionResultsLogic {
                 }
                 discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
                 periodList.remove(commonColumn);
-                commonColumn = StringUtils.EMPTY;
                 actualSales = 0;
                 actualAmount = 0;
                 projectedSales = 0;
@@ -4992,7 +4961,7 @@ public class DiscountProjectionResultsLogic {
         double projectedAmount = 0;
         int year = 0;
         int month = 0;
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
@@ -5074,7 +5043,6 @@ public class DiscountProjectionResultsLogic {
                     }
                     discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
                     periodList.remove(commonColumn);
-                    commonColumn = StringUtils.EMPTY;
                     actualSales = 0;
                     actualAmount = 0;
                     projectedSales = 0;
@@ -5128,7 +5096,6 @@ public class DiscountProjectionResultsLogic {
                 }
                 discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, projectedAmtAmt != null && !NULL.equals(String.valueOf(projectedAmtAmt)) && !StringUtils.EMPTY.equals(String.valueOf(projectedAmtAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(projectedAmtAmt)))) : HYPHEN);
                 periodList.remove(commonColumn);
-                commonColumn = StringUtils.EMPTY;
                 actualSales = 0;
                 actualAmount = 0;
                 projectedSales = 0;
@@ -5153,7 +5120,7 @@ public class DiscountProjectionResultsLogic {
         double projectedSales = 0;
         double projectedAmount = 0;
         DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         String commonColumn = StringUtils.EMPTY;
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = (Object[]) list.get(i);
@@ -5208,7 +5175,6 @@ public class DiscountProjectionResultsLogic {
                     String proAmount = String.valueOf(projectedAmtAmt);
                     discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                     periodList.remove(commonColumn);
-                    commonColumn = StringUtils.EMPTY;
                     actualSales = 0;
                     actualAmount = 0;
                     projectedSales = 0;
@@ -5358,7 +5324,7 @@ public class DiscountProjectionResultsLogic {
                     for (int k = 0; k < discountList.size(); k++) {
                         String group = discountList.get(k);
                         discountDto = new DiscountProjectionResultsDTO();
-                        periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                        periodList = new ArrayList<>(projSelDTO.getPeriodList());
                         discountDto.setGroup(group);
                         discountDto = putHyphenForDTO(periodList, discountDto);
                         discountProjList.add(discountDto);
@@ -5375,8 +5341,8 @@ public class DiscountProjectionResultsLogic {
         double actualAmount = 0;
         double projectedSales = 0;
         double projectedAmount = 0;
-        String commonColumn = StringUtils.EMPTY;
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        String commonColumn;
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
         Object[] object = (Object[]) list.get(0);
         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
@@ -5431,7 +5397,6 @@ public class DiscountProjectionResultsLogic {
             String proAmount = String.valueOf(projectedAmtAmt);
             dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
             periodList.remove(commonColumn);
-            commonColumn = StringUtils.EMPTY;
         } else {
             for (int i = 1; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
@@ -5489,7 +5454,6 @@ public class DiscountProjectionResultsLogic {
                         String proAmount = String.valueOf(projectedAmtAmt);
                         dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                         periodList.remove(commonColumn);
-                        commonColumn = StringUtils.EMPTY;
                         actualSales = 0;
                         actualAmount = 0;
                         projectedSales = 0;
@@ -5551,7 +5515,7 @@ public class DiscountProjectionResultsLogic {
                     projectedSales = 0;
                     projectedAmount = 0;
                     dto = new DiscountProjectionResultsDTO();
-                    periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                    periodList = new ArrayList<>(projSelDTO.getPeriodList());
                     currentDiscount = selectedDiscount;
                     dto.setGroup(currentDiscount);
                     discountList.remove(currentDiscount);
@@ -5613,7 +5577,7 @@ public class DiscountProjectionResultsLogic {
                 for (int k = 0; k < discountList.size(); k++) {
                     String group = discountList.get(k);
                     dto = new DiscountProjectionResultsDTO();
-                    periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                    periodList = new ArrayList<>(projSelDTO.getPeriodList());
                     dto.setGroup(group);
                     dto = putHyphenForDTO(periodList, dto);
                     discountProjList.add(dto);
@@ -5630,8 +5594,8 @@ public class DiscountProjectionResultsLogic {
         double actualAmount = 0;
         double projectedSales = 0;
         double projectedAmount = 0;
-        String commonColumn = StringUtils.EMPTY;
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+        String commonColumn;
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
         Object[] object = (Object[]) list.get(0);
         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
@@ -5689,7 +5653,6 @@ public class DiscountProjectionResultsLogic {
             String proAmount = String.valueOf(projectedAmtAmt);
             dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
             periodList.remove(commonColumn);
-            commonColumn = StringUtils.EMPTY;
         } else {
             for (int i = 1; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
@@ -5744,7 +5707,6 @@ public class DiscountProjectionResultsLogic {
                         String proAmount = String.valueOf(projectedAmtAmt);
                         dto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                         periodList.remove(commonColumn);
-                        commonColumn = StringUtils.EMPTY;
                         actualSales = 0;
                         actualAmount = 0;
                         projectedSales = 0;
@@ -5810,7 +5772,7 @@ public class DiscountProjectionResultsLogic {
                     projectedSales = 0;
                     projectedAmount = 0;
                     dto = new DiscountProjectionResultsDTO();
-                    periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                    periodList = new ArrayList<>(projSelDTO.getPeriodList());
                     currentDiscount = selectedDiscount;
                     dto.setGroup(currentDiscount);
                     discountList.remove(currentDiscount);
@@ -5875,7 +5837,7 @@ public class DiscountProjectionResultsLogic {
                 for (int k = 0; k < discountList.size(); k++) {
                     String group = discountList.get(k);
                     dto = new DiscountProjectionResultsDTO();
-                    periodList = new ArrayList<String>(projSelDTO.getPeriodList());
+                    periodList = new ArrayList<>(projSelDTO.getPeriodList());
                     dto.setGroup(group);
                     dto = putHyphenForDTO(periodList, dto);
                     discountProjList.add(dto);
@@ -5897,13 +5859,13 @@ public class DiscountProjectionResultsLogic {
      *
      */
     public List<DiscountProjectionResultsDTO> getConfiguredProjectionResultsTotal(int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        List<DiscountProjectionResultsDTO> resultList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> resultList = new ArrayList<>();
         projSelDTO.setIsProjectionTotal(true);
         if (!projSelDTO.isIsFilter()) {
 
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + AND_SMALL + PROJECTIONS.getConstant());
             }
             projSelDTO.setIsTotal(false);
             if (projSelDTO.isIsCustomHierarchy()) {
@@ -5937,8 +5899,8 @@ public class DiscountProjectionResultsLogic {
     public List<DiscountProjectionResultsDTO> getProjectionResultsTotal(int start, int offset, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
         int mayBeAdded = 0;
-        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<DiscountProjectionResultsDTO>();
-        List<Integer> yearList = new ArrayList<Integer>();
+        List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
+        List<Integer> yearList = new ArrayList<>();
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
         yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
@@ -5974,7 +5936,7 @@ public class DiscountProjectionResultsLogic {
 
         if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
             if (start < 1) {
-                List<DiscountProjectionResultsDTO> list = getPeriodProjectionTotal(projSelDTO.getProjectionId(), new HashMap(), yearList, projSelDTO);
+                List<DiscountProjectionResultsDTO> list = getPeriodProjectionTotal(projSelDTO.getProjectionId(), yearList, projSelDTO);
                 if (list != null && list.size() > 0) {
                     projDTOList.add(list.get(0));
                     neededRecord--;
@@ -5982,7 +5944,7 @@ public class DiscountProjectionResultsLogic {
             }
             mayBeAdded += 1;
             if (neededRecord > 0) {
-                List<String> discountList = new ArrayList<String>();
+                List<String> discountList = new ArrayList<>();
                 int mayBeAddedRecord = start - mayBeAdded;
                 if (mayBeAddedRecord < 0) {
                     mayBeAddedRecord = 0;
@@ -5990,15 +5952,14 @@ public class DiscountProjectionResultsLogic {
                 for (int i = mayBeAddedRecord; i < projSelDTO.getDiscountNameList().size(); i++) {
                     discountList.add(projSelDTO.getDiscountNameList().get(i));
                 }
-                List<DiscountProjectionResultsDTO> discountDtoList = getPeriodProjectionTotalDiscount(projSelDTO.getProjectionId(), new HashMap(), yearList, projSelDTO, discountList);
+                List<DiscountProjectionResultsDTO> discountDtoList = getPeriodProjectionTotalDiscount(projSelDTO.getProjectionId(), yearList, projSelDTO, discountList);
                 for (int k = 0; k < discountDtoList.size() && neededRecord > 0; k++) {
                     projDTOList.add(discountDtoList.get(k));
                     neededRecord--;
                 }
-                mayBeAdded += projSelDTO.getDiscountNameList().size();
             }
         } else {
-            List<Integer> pivotYearList = new ArrayList<Integer>();
+            List<Integer> pivotYearList = new ArrayList<>();
             String frequency = String.valueOf(projSelDTO.getFrequency());
             if (frequency.equals(Constant.ANNUALLY)) {
                 pivotYearList.add(Integer.valueOf(projSelDTO.getPeriodList().get(0)));
@@ -6074,7 +6035,7 @@ public class DiscountProjectionResultsLogic {
             pivotYearList.add(projSelDTO.getForecastDTO().getForecastEndYear());
             pivotYearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
             if (start < 1) {
-                List<DiscountProjectionResultsDTO> discountDtoList = new ArrayList<DiscountProjectionResultsDTO>();
+                List<DiscountProjectionResultsDTO> discountDtoList;
                 discountDtoList = getPivotProjectionTotal(projSelDTO.getProjectionId(), projSelDTO, pivotYearList);
                 if (discountDtoList != null && discountDtoList.size() > 0) {
                     projDTOList.add(discountDtoList.get(0));
@@ -6083,7 +6044,7 @@ public class DiscountProjectionResultsLogic {
             }
             mayBeAdded++;
             if (neededRecord > 0) {
-                List<DiscountProjectionResultsDTO> periodList = new ArrayList<DiscountProjectionResultsDTO>();
+                List<DiscountProjectionResultsDTO> periodList = new ArrayList<>();
                 try {
                     periodList = getPivotProjectionTotalDiscount(projSelDTO, yearList);
                 } catch (SystemException ex) {
@@ -6097,7 +6058,6 @@ public class DiscountProjectionResultsLogic {
                     projDTOList.add(periodList.get(i));
                     neededRecord--;
                 }
-                mayBeAdded += periodList.size();
             }
         }
         return projDTOList;
@@ -6117,9 +6077,9 @@ public class DiscountProjectionResultsLogic {
         int count = 0;
         projSelDTO.setIsProjectionTotal(true);
         if (!projSelDTO.isIsFilter()) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
             if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + AND_SMALL + PROJECTIONS.getConstant());
             }
             projSelDTO.setIsTotal(false);
             if (projSelDTO.isIsCustomHierarchy()) {

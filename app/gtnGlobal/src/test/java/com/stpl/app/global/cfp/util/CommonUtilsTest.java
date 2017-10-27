@@ -56,7 +56,7 @@ public class CommonUtilsTest {
     public void positiveTestSearchFields() {
         LOGGER.debug("searchFields");
         CommonUtils instance = new CommonUtils();
-        final List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
         list.add(ConstantsUtils.SELECT_ONE);
         list.add("Company Name");
         list.add("Company No");

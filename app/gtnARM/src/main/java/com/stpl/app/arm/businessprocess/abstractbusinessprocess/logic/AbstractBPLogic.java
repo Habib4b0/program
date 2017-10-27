@@ -55,19 +55,23 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
     /**
      * The Currency Two Decimal Places Format.
      */
-    private static final DecimalFormat CUR_TWO = new DecimalFormat("$#,##,##0.00");
+    protected static final DecimalFormat CUR_TWO = new DecimalFormat("$#,##,##0.00");
     /**
      * The Percent Three Decimal Places Format.
      */
-    private static final DecimalFormat PER_THREE = new DecimalFormat("#,##0.000%");
+    protected static final DecimalFormat PER_THREE = new DecimalFormat("#,##0.000%");
+    /**
+     * The Percent Three Decimal Places Format.
+     */
+    protected static final DecimalFormat PER_TWO = new DecimalFormat("#,##0.00%");
     /**
      * The Currency Zero Decimal Places Format.
      */
-    private static final DecimalFormat CURR_ZERO = new DecimalFormat("$#,##0");
+    protected static final DecimalFormat CURR_ZERO = new DecimalFormat("$#,##0");
     /**
      * The Numeric Zero Decimal Places Format.
      */
-    private static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
+    protected static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
 
     /**
      * method will customize the raw or result list from data base it sets the
@@ -103,25 +107,22 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                                 setHelperSidColumn((ExtListDTO) obj, objects[j], varibales.get(j));
                             } else if (varibales.get(j).matches("[a-zA-Z0-9]+\\.\\d+$")) {
                                 if (objects[j] instanceof BigInteger) {
-                                    ((ExtListDTO) obj).addProperties(varibales.get(j), objects[j]);
-                                }else if (varibales.get(j).contains("glDate.")) {
-                                     ((ExtListDTO) obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : format.format(objects[j]));
+                                    (obj).addProperties(varibales.get(j), objects[j]);
+                                } else if (varibales.get(j).contains("glDate.")) {
+                                    (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : format.format(objects[j]));
                                 } else if (varibales.get(j).contains("Date")) {
-                                    ((ExtListDTO) obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : format.format(objects[j]));
-                                }else if (!"itemID.27".equals(varibales.get(j)) && varibales.get(j).contains("itemID")) {
-                                    String object =String.valueOf(objects[j]);  
-                                    String value = StringUtils.EMPTY;
-                                    value = getItemId(object);
-                                    ((ExtListDTO) obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : value);
-                                } 
-                                else if (objects[j] != null) {
+                                    (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : format.format(objects[j]));
+                                } else if (!"itemID.27".equals(varibales.get(j)) && varibales.get(j).contains("itemID")) {
+                                    String object = String.valueOf(objects[j]);
+                                    (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : object);
+                                } else if (objects[j] != null) {
                                     if (objects[j].toString().matches("^(-?0[.]\\d+)$|^(-?[1-9]+\\d*([.]\\d+)?)$|^0$")) { // Allows only Numbers in it
-                                        String value = StringUtils.EMPTY;                                        
+                                        String value;
                                         if (varibales.get(j).contains(ARMConstants.getAmount()) || varibales.get(j).contains("deductionAmount") || varibales.get(j).contains("debit")
                                                 || varibales.get(j).contains("credit") || varibales.get(j).contains("price") || varibales.get(j).contains("priceOverride")) {
                                             value = getFormattedValue(CUR_TWO, String.valueOf(objects[j]));
-                                        } else if (varibales.get(j).contains("salesVariancePer") || varibales.get(j).contains(ARMConstants.getRate()) 
-                                                || varibales.get(j).contains("deductionRate")|| varibales.get(j).contains(ARMConstants.getRate())) {                                            
+                                        } else if (varibales.get(j).contains("salesVariancePer") || varibales.get(j).contains(ARMConstants.getRate())
+                                                || varibales.get(j).contains("deductionRate") || varibales.get(j).contains(ARMConstants.getRate())) {
                                             value = getFormattedValue(PER_THREE, String.valueOf(objects[j]));
                                         } else if (varibales.get(j).contains("totalSales") || varibales.get(j).contains("excludedSales") || varibales.get(j).contains("netSales")
                                                 || varibales.get(j).contains("netCalculatedSales") || varibales.get(j).contains("salesVariance")) {
@@ -131,12 +132,12 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
                                         } else {
                                             value = objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]);
                                         }
-                                        ((ExtListDTO) obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : value);
+                                        (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : value);
                                     } else {
-                                        ((ExtListDTO) obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]));
+                                        (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]));
                                     }
                                 } else {
-                                    ((ExtListDTO) obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]));
+                                    (obj).addStringProperties(varibales.get(j), objects[j] == null ? StringUtils.EMPTY : String.valueOf(objects[j]));
                                 }
                             } else {
                                 BeanUtils.setProperty(obj, varibales.get(j), objects[j]);
@@ -152,15 +153,15 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
         } catch (InstantiationException | ClassNotFoundException ex) {
             LOGGER.error("The given DTO path is not valid :" + ex + " the given path :" + dtoFullPath);
         } catch (IllegalArgumentException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in customizier "+ex);
         }
-        OriginalDataResult<T> dataResult = new OriginalDataResult<T>();
+        OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(customizedList);
         return dataResult;
     }
 
     private void setHelperSidColumn(ExtListDTO obj, Object objects, String variables) {
-        String desc = StringUtils.EMPTY;
+        String desc;
         int value = objects == null || StringUtils.isBlank(String.valueOf(objects)) ? 0 : Integer.valueOf(String.valueOf(objects));
         if (value > 0) {
             desc = idDescMap.get(value) == null ? StringUtils.EMPTY : idDescMap.get(value);
@@ -168,17 +169,19 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
         }
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat format, String value) {
+        String values;
         if (value.contains("null")) {
-            value = "- - -";
+            values = "- - -";
         } else {
-            Double newValue = Double.valueOf(value);
-            if (FORMAT.toPattern().contains("%")) {
+            values = value;
+            Double newValue = Double.valueOf(values);
+            if (format.toPattern().contains("%")) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            values = format.format(newValue);
         }
-        return value;
+        return values;
     }
 
     public boolean checkProcedureCallAllowed(SelectionDTO selection, List<String> keys, List<Object> values) {
@@ -217,13 +220,15 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
         }
         return allowed;
     }
-     public String getItemId(String value) {
-         if (value.length() > NumericConstants.FOUR) {
-             value = value.substring(0, NumericConstants.FOUR) + "." + value.substring(NumericConstants.FOUR, value.length());
-         } else {
-             value = value + ".";
-         }
-         return value;
+
+    public String getItemId(String value) {
+        String values;
+        if (value.length() > NumericConstants.FOUR) {
+            values = value.substring(0, NumericConstants.FOUR) + "." + value.substring(NumericConstants.FOUR, value.length());
+        } else {
+            values = value + ".";
+        }
+        return values;
     }
 
     public List<Object> getMonthYear() {
@@ -252,7 +257,7 @@ public abstract class AbstractBPLogic<T extends AdjustmentDTO> implements LogicA
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in getMonthName :"+e);
         }
         return monthName;
     }

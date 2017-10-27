@@ -481,7 +481,7 @@ public class GeneralCommonUtils {
     
     public static Map<Integer, String> getCodeDescription() throws PortalException, SystemException{
         CompanyMasterDAO dao = new CompanySearchLogicDAOImpl();
-        Map<Integer, String> helperTableMap = new HashMap<Integer, String>();
+        Map<Integer, String> helperTableMap = new HashMap<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName();
         for(HelperTable helperTable: list){
             helperTableMap.put(helperTable.getHelperTableSid(), helperTable.getDescription());
@@ -519,7 +519,7 @@ public class GeneralCommonUtils {
         final HelperDTO defaultValue=new HelperDTO(ConstantsUtils.SELECT_ONE);
         select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
-        BeanItemContainer<HelperDTO> resultContainer= new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer= new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> helperList=getHelperResults(listName);
         resultContainer.addAll(helperList);
         select.setContainerDataSource(resultContainer);
@@ -547,7 +547,7 @@ public class GeneralCommonUtils {
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
         
         final ItemDAO DAO = new ItemSearchLogicDAOImpl();
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);
         dynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,

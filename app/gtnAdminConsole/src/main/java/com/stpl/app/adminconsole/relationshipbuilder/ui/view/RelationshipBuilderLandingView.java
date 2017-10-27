@@ -30,7 +30,7 @@ public class RelationshipBuilderLandingView extends VerticalLayout implements Vi
 
     private RelationshipBuilderDTO relationshipBuilderDTO = new RelationshipBuilderDTO();
 
-    private CustomFieldGroup relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<RelationshipBuilderDTO>(relationshipBuilderDTO));
+    private CustomFieldGroup relationshipBuilderBinder = new CustomFieldGroup(new BeanItem<>(relationshipBuilderDTO));
 
     SessionDTO sessionDTO;
 

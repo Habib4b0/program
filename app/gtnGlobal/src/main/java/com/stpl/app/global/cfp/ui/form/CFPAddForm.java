@@ -138,7 +138,7 @@ public final class CFPAddForm extends StplCustomComponent {
     /**
      * The map.
      */
-    private final Map<String, String> map = new HashMap<String, String>();
+    private final Map<String, String> map = new HashMap<>();
     /**
      * The cfp master.
      */
@@ -256,7 +256,7 @@ public final class CFPAddForm extends StplCustomComponent {
     }
 
     private ErrorfulFieldGroup getBinder() {
-        binder.setItemDataSource(new BeanItem<CFPCompanyDTO>(cfpMaster));
+        binder.setItemDataSource(new BeanItem<>(cfpMaster));
         binder.setBuffered(true);
         binder.setErrorDisplay(errorMsg);
         errorMsg.setId("ErrorMessage");
@@ -564,42 +564,7 @@ public final class CFPAddForm extends StplCustomComponent {
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                String msg = StringUtils.EMPTY;
-                                try {
-                                    msg = cfpLogic.saveCompanyMaster(binder, cfpAdditionalInfo.getUploadedData(), cfpAdditionalInfo.getAddedNotes(), cfpAdditionalInfo.removeDetailsList());
-                                    if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
-                                    sessionDTO.setIsSave("Y");
-                                    }
-                                } catch (Exception ex) {
-                                    LOGGER.error(ex);
-                                    final MessageBox msgBox = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                                        /**
-                                         * The method is triggered when a button of the message box is
-                                         * pressed .
-                                         *
-                                         * @param buttonId The buttonId of the pressed button.
-                                         */
-                                        @SuppressWarnings("PMD")
-                                        public void buttonClicked(final ButtonId buttonId) {
-                                            // Do Nothing
-                                        }
-                                    }, ButtonId.OK);
-                                    msgBox.getButton(ButtonId.OK).focus();
-                                }
-                                if (ConstantsUtils.SUCCESS.equals(msg)) {
-                                    final Notification notif = new Notification(binder.getField(FieldNameUtils.COMPANYFAMILYPLANID).getValue() + ", " + binder.getField(FieldNameUtils.COMPANYFAMILYPLANNAME).getValue() + " has been successfully Saved", Notification.Type.HUMANIZED_MESSAGE);
-                                    notif.setPosition(Position.MIDDLE_CENTER);
-                                    notif.setStyleName(ConstantsUtils.MY_STYLE);
-                                    notif.show(Page.getCurrent());
-                                    sessionDTO.setMode(ConstantsUtils.EDIT);
-                                    getUI().getNavigator().navigateTo(CFPAddView.NAME);
-                                } else if (ConstantsUtils.DUPLICATE.equals(msg)) {
-                                    binder.getErrorDisplay().setError(
-                                            "Company Family Plan ID already exists.");
-                                } else if (ConstantsUtils.DUPLICATENO.equals(msg)) {
-                                    binder.getErrorDisplay().setError(
-                                            "Company Family Plan No already exists.");
-                                }
+                                buttonClickedyesAction();
                             }
                         }
                     }, ButtonId.YES, ButtonId.NO);
@@ -782,97 +747,7 @@ public final class CFPAddForm extends StplCustomComponent {
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(ConstantsUtils.YES)) {
-                                try {
-                                    LOGGER.debug("Entering inside  reset  method from ADD ");
-                                    if (TabNameUtil.CFP_INFO.equals(tabSheet.getSelectedTab().getCaption())) {
-                                         final HelperDTO defaultValue=new HelperDTO( 0,  ConstantsUtils.SELECT_ONE);
-                                        TextField id = (TextField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANID);
-                                        id.setValue(StringUtils.EMPTY);
-                                        TextField no = (TextField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANNO);
-                                        no.setValue(StringUtils.EMPTY);
-                                        TextField name = (TextField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANNAME);
-                                        name.setValue(StringUtils.EMPTY);
-                                        ComboBox status = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANSTATUS);
-                                        status.setValue(defaultValue);
-                                        PopupDateField startDate = (PopupDateField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANSTARTDATE);
-                                        startDate.setValue(null);
-                                        PopupDateField endDate = (PopupDateField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANENDDATE);
-                                        endDate.setValue(null);
-                                        ComboBox type = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANTYPE);
-                                         type.setValue(defaultValue);
-                                        ComboBox tradeClass = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANTRADECLASS);
-                                        tradeClass.select(defaultValue);
-                                        ComboBox category = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANCATEGORY);
-                                        category.select(defaultValue);
-                                        ComboBox designation = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANDESIGNATION);
-                                        designation.select(defaultValue);
-                                        CustomTextField parentCompany = (CustomTextField) binder.getField(ConstantsUtils.PARENT_CFP_ID);
-                                        parentCompany.setReadOnly(false);
-                                        parentCompany.setValue(StringUtils.EMPTY);
-                                        parentCompany.setReadOnly(true);
-                                        TextField parentName = (TextField) binder.getField(FieldNameUtils.PARENTCOMPANYFAMILYPLANNAME);
-                                        parentName.setReadOnly(false);
-                                        parentName.setValue(StringUtils.EMPTY);
-                                        parentName.setReadOnly(true);
-                                        ComboBox salesInclusion = (ComboBox) binder.getField(FieldNameUtils.SALESINCLUSION);
-                                        salesInclusion.select(defaultValue);
-                                       
-                                        if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
-                                            id.setValue(cfpMaster.getCompanyFamilyPlanId());
-                                            no.setValue(cfpMaster.getCompanyFamilyPlanNo());
-                                            name.setValue(cfpMaster.getCompanyFamilyPlanName());
-                                            status.setValue(cfpMaster.getCompanyFamilyPlanStatus());
-                                            startDate.setValue(cfpMaster.getCompanyFamilyPlanStartDate());
-                                            endDate.setValue(cfpMaster.getCompanyFamilyPlanEndDate());
-                                            type.setValue(cfpMaster.getCompanyFamilyPlanType());
-                                            tradeClass.setValue(cfpMaster.getCompanyFamilyPlanTradeClass());
-                                            category.setValue(cfpMaster.getCompanyFamilyPlanCategory());
-                                            designation.setValue(cfpMaster.getCompanyFamilyPlanDesignation());
-                                            parentCompany.setReadOnly(false);
-                                            parentCompany.setValue(String.valueOf(cfpMaster.getParentCompanyFamilyPlanId()));
-                                            parentCompany.setReadOnly(true);
-                                            parentName.setReadOnly(false);
-                                            parentName.setValue(cfpMaster.getParentCompanyFamilyPlanName());
-                                            parentName.setReadOnly(true);
-                                            salesInclusion.setValue(cfpMaster.getSalesInclusion());
-                                        }
-                                    } else if (TabNameUtil.CFP_COMPANY_ADDITION.equals(tabSheet.getSelectedTab().getCaption())) {
-                                        TextField value = (TextField) binder.getField("searchValue");
-                                        value.setValue(StringUtils.EMPTY);
-                                        ComboBox field = (ComboBox) binder.getField("searchFields");
-                                        field.setValue(ConstantsUtils.SELECT_ONE);
-                                        companyAddition.resetAvailableTable();
-                                        if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
-                                            ImtdCfpDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, null, null, null, ConstantsUtils.DELETE1, null);
-                                            cfpLogic.addToTempCfpDetailsEdit(cfpMaster.getCompanyFamilyPlanSystemId());
-                                            companyAddition.selectedTableLoad();
-                                        } else {
-                                            companyAddition.removeAllCompanyButtonClick(null);
-                                        }
-
-                                    }
-                                    if (TabNameUtil.CFP_COMPANIES.equals(tabSheet.getSelectedTab().getCaption())) {
-                                        OptionGroup massCheck = (OptionGroup) binder.getField("massCheck");
-                                        massCheck.setValue(ConstantsUtils.DISABLE);
-                                        cfpCompanies.getMassField().setValue(ConstantsUtils.SELECT_ONE);
-                                        if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
-                                            cfpCompanies.saveRecordsInTempTable();
-                                            ImtdCfpDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, null, null, null, ConstantsUtils.DELETE1, null);
-                                            cfpLogic.addToTempCfpDetailsEdit(cfpMaster.getCompanyFamilyPlanSystemId());
-                                            cfpCompanies.loadDetailsTable();
-                                        } else {
-                                            ImtdCfpDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, null, null, null, ConstantsUtils.DELETE1, null);
-                                            cfpCompanies.loadDetailsTable();
-                                        }
-
-                                    } else {
-                                        cfpAdditionalInfo.resetBtnLogic(StringUtils.EMPTY);
-                                    }
-
-                                } catch (Exception e) {
-                                    LOGGER.error(e);
-
-                                }
+                                buttonClickForReset();
                             }
                         }
                     }, ButtonId.YES, ButtonId.NO);
@@ -922,7 +797,7 @@ public final class CFPAddForm extends StplCustomComponent {
                     }
                     if (cfpDetailsList.isEmpty()) {                        
                        
-                        List<CfpContract> cfpContractList = new ArrayList<>();
+                        List<CfpContract> cfpContractList;
                             final DynamicQuery contractDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
                             contractDynamicQuery.add(RestrictionsFactoryUtil.eq("cfpModelSid", cfpId));
                             contractDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, "D"));
@@ -960,66 +835,7 @@ public final class CFPAddForm extends StplCustomComponent {
                                          AbstractSearchView.flag=true;
                                         getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
                                     } else {
-                                        try {
-                                            CfpModel master;
-                                            master = cfpLogic.deleteCFPMasterById(cfpSystemId);
-
-                                            final Notification notif = new Notification(master.getCfpId() + ", " + master.getCfpName() + " has been successfully deleted", Notification.Type.HUMANIZED_MESSAGE);
-                                            notif.setPosition(Position.MIDDLE_CENTER);
-                                            notif.setStyleName(ConstantsUtils.MY_STYLE);
-                                            notif.show(Page.getCurrent());
-                                             AbstractSearchView.flag=true;
-                                            getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
-
-                                        } catch (SystemException ex) {
-                                            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                                            LOGGER.error(errorMsg);
-                                            final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-              
-                                                /**
-                                                 * The method is triggered when a button of the message box is
-                                                 * pressed .
-                                                 *
-                                                 * @param buttonId The buttonId of the pressed button.
-                                                 */
-                                                @SuppressWarnings("PMD")
-                                                public void buttonClicked(final ButtonId buttonId) {
-                                                    // Do Nothing
-                                                }
-                                            }, ButtonId.OK);
-                                            msg.getButton(ButtonId.OK).focus();
-                                        } catch (PortalException ex) {
-                                            LOGGER.error(ex);
-                                            final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
-              
-                                                /**
-                                                 * The method is triggered when a button of the message box is
-                                                 * pressed .
-                                                 *
-                                                 * @param buttonId The buttonId of the pressed button.
-                                                 */
-                                                @SuppressWarnings("PMD")
-                                                public void buttonClicked(final ButtonId buttonId) {
-                                                    // Do Nothing
-                                                }
-                                            }, ButtonId.OK);
-                                            msg.getButton(ButtonId.OK).focus();
-                                        } catch (Exception ex) {
-                                            LOGGER.error(ex);
-                                            final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
-                                                /**
-                                                 * The method is triggered when a button of the message box is
-                                                 * pressed .
-                                                 *
-                                                 * @param buttonId The buttonId of the pressed button.
-                                                 */
-                                                @SuppressWarnings("PMD")
-                                                public void buttonClicked(final ButtonId buttonId) {
-                                                    // Do Nothing
-                                                }
-                                            }, ButtonId.OK);
-                                            msg.getButton(ButtonId.OK).focus();
-                                        }
+                                        buttonClickedNotNull(cfpSystemId);
                                     }
                                 }
                             }
@@ -1064,5 +880,205 @@ public final class CFPAddForm extends StplCustomComponent {
             }
         });
 
+    }
+    
+    public void buttonClickedyesAction() {
+
+        String msg = StringUtils.EMPTY;
+        try {
+            msg = cfpLogic.saveCompanyMaster(binder, cfpAdditionalInfo.getUploadedData(), cfpAdditionalInfo.getAddedNotes(), cfpAdditionalInfo.removeDetailsList());
+            if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
+                sessionDTO.setIsSave("Y");
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msgBox = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msgBox.getButton(ButtonId.OK).focus();
+        }
+        if (ConstantsUtils.SUCCESS.equals(msg)) {
+            final Notification notif = new Notification(binder.getField(FieldNameUtils.COMPANYFAMILYPLANID).getValue() + ", " + binder.getField(FieldNameUtils.COMPANYFAMILYPLANNAME).getValue() + " has been successfully Saved", Notification.Type.HUMANIZED_MESSAGE);
+            notif.setPosition(Position.MIDDLE_CENTER);
+            notif.setStyleName(ConstantsUtils.MY_STYLE);
+            notif.show(Page.getCurrent());
+            sessionDTO.setMode(ConstantsUtils.EDIT);
+            getUI().getNavigator().navigateTo(CFPAddView.NAME);
+        } else if (ConstantsUtils.DUPLICATE.equals(msg)) {
+            binder.getErrorDisplay().setError(
+                    "Company Family Plan ID already exists.");
+        } else if (ConstantsUtils.DUPLICATENO.equals(msg)) {
+            binder.getErrorDisplay().setError(
+                    "Company Family Plan No already exists.");
+        }
+
+    }
+    public void buttonClickedNotNull(int cfpSystemId){
+        
+        try {
+            CfpModel master;
+            master = cfpLogic.deleteCFPMasterById(cfpSystemId);
+
+            final Notification notif = new Notification(master.getCfpId() + ", " + master.getCfpName() + " has been successfully deleted", Notification.Type.HUMANIZED_MESSAGE);
+            notif.setPosition(Position.MIDDLE_CENTER);
+            notif.setStyleName(ConstantsUtils.MY_STYLE);
+            notif.show(Page.getCurrent());
+            AbstractSearchView.flag = true;
+            getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
+
+        } catch (SystemException ex) {
+            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
+            LOGGER.error(errorMsg);
+            final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        } catch (PortalException ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.WARN, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1012), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+
+    }
+    
+    public void buttonClickForReset() {
+
+        try {
+            LOGGER.debug("Entering inside  reset  method from ADD ");
+            if (TabNameUtil.CFP_INFO.equals(tabSheet.getSelectedTab().getCaption())) {
+                final HelperDTO defaultValue = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
+                TextField id = (TextField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANID);
+                id.setValue(StringUtils.EMPTY);
+                TextField no = (TextField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANNO);
+                no.setValue(StringUtils.EMPTY);
+                TextField name = (TextField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANNAME);
+                name.setValue(StringUtils.EMPTY);
+                ComboBox status = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANSTATUS);
+                status.setValue(defaultValue);
+                PopupDateField startDate = (PopupDateField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANSTARTDATE);
+                startDate.setValue(null);
+                PopupDateField endDate = (PopupDateField) binder.getField(FieldNameUtils.COMPANYFAMILYPLANENDDATE);
+                endDate.setValue(null);
+                ComboBox type = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANTYPE);
+                type.setValue(defaultValue);
+                ComboBox tradeClass = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANTRADECLASS);
+                tradeClass.select(defaultValue);
+                ComboBox category = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANCATEGORY);
+                category.select(defaultValue);
+                ComboBox designation = (ComboBox) binder.getField(FieldNameUtils.COMPANYFAMILYPLANDESIGNATION);
+                designation.select(defaultValue);
+                CustomTextField parentCompany = (CustomTextField) binder.getField(ConstantsUtils.PARENT_CFP_ID);
+                parentCompany.setReadOnly(false);
+                parentCompany.setValue(StringUtils.EMPTY);
+                parentCompany.setReadOnly(true);
+                TextField parentName = (TextField) binder.getField(FieldNameUtils.PARENTCOMPANYFAMILYPLANNAME);
+                parentName.setReadOnly(false);
+                parentName.setValue(StringUtils.EMPTY);
+                parentName.setReadOnly(true);
+                ComboBox salesInclusion = (ComboBox) binder.getField(FieldNameUtils.SALESINCLUSION);
+                salesInclusion.select(defaultValue);
+
+                if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
+                    id.setValue(cfpMaster.getCompanyFamilyPlanId());
+                    no.setValue(cfpMaster.getCompanyFamilyPlanNo());
+                    name.setValue(cfpMaster.getCompanyFamilyPlanName());
+                    status.setValue(cfpMaster.getCompanyFamilyPlanStatus());
+                    startDate.setValue(cfpMaster.getCompanyFamilyPlanStartDate());
+                    endDate.setValue(cfpMaster.getCompanyFamilyPlanEndDate());
+                    type.setValue(cfpMaster.getCompanyFamilyPlanType());
+                    tradeClass.setValue(cfpMaster.getCompanyFamilyPlanTradeClass());
+                    category.setValue(cfpMaster.getCompanyFamilyPlanCategory());
+                    designation.setValue(cfpMaster.getCompanyFamilyPlanDesignation());
+                    parentCompany.setReadOnly(false);
+                    parentCompany.setValue(String.valueOf(cfpMaster.getParentCompanyFamilyPlanId()));
+                    parentCompany.setReadOnly(true);
+                    parentName.setReadOnly(false);
+                    parentName.setValue(cfpMaster.getParentCompanyFamilyPlanName());
+                    parentName.setReadOnly(true);
+                    salesInclusion.setValue(cfpMaster.getSalesInclusion());
+                }
+            } else if (TabNameUtil.CFP_COMPANY_ADDITION.equals(tabSheet.getSelectedTab().getCaption())) {
+                TextField value = (TextField) binder.getField("searchValue");
+                value.setValue(StringUtils.EMPTY);
+                ComboBox field = (ComboBox) binder.getField("searchFields");
+                field.setValue(ConstantsUtils.SELECT_ONE);
+                companyAddition.resetAvailableTable();
+                if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
+                    ImtdCfpDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, null, null, null, ConstantsUtils.DELETE1, null);
+                    cfpLogic.addToTempCfpDetailsEdit(cfpMaster.getCompanyFamilyPlanSystemId());
+                    companyAddition.selectedTableLoad();
+                } else {
+                    companyAddition.removeAllCompanyButtonClick();
+                }
+
+            }
+            if (TabNameUtil.CFP_COMPANIES.equals(tabSheet.getSelectedTab().getCaption())) {
+                OptionGroup massCheck = (OptionGroup) binder.getField("massCheck");
+                massCheck.setValue(ConstantsUtils.DISABLE);
+                cfpCompanies.getMassField().setValue(ConstantsUtils.SELECT_ONE);
+                if (sessionDTO.getMode().equals(ConstantsUtils.EDIT)) {
+                    cfpCompanies.saveRecordsInTempTable();
+                    ImtdCfpDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, null, null, null, ConstantsUtils.DELETE1, null);
+                    cfpLogic.addToTempCfpDetailsEdit(cfpMaster.getCompanyFamilyPlanSystemId());
+                    cfpCompanies.loadDetailsTable();
+                } else {
+                    ImtdCfpDetailsLocalServiceUtil.deleteAll(userId, sessionId, null, null, null, null, ConstantsUtils.DELETE1, null);
+                    cfpCompanies.loadDetailsTable();
+                }
+
+            } else {
+                cfpAdditionalInfo.resetBtnLogic(StringUtils.EMPTY);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error(e);
+
+        }
     }
 }

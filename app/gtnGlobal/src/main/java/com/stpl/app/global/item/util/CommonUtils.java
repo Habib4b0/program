@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.custommenubar.CustomMenuBar;
 import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
@@ -114,6 +115,10 @@ public class CommonUtils {
      * The Constant QUOTE.
      */
     public static final String QUOTE = "\"";
+    
+    public static final String CLIENT_NAME = "Client_Name";
+    public static final String GALDERMA = "Galderma";
+    
     /*
      * @param listTypeId- listType typeid of listtype table to get the description
      * @return String - The description for the specific listtype id
@@ -178,7 +183,7 @@ public class CommonUtils {
      */
     public NativeSelect getPriceTypeNative(final NativeSelect select, final List<HelperDTO> helperList) {
 
-        LOGGER.debug("getPriceTypeNative() P1: NativeSelect size " + select.size() + " P2:List<HelperDTO> size " + helperList.size());
+        LOGGER.debug("getPriceTypeNative() P1: NativeSelect size " + select.size() + " P2:getPriceTypeNative List<HelperDTO> size " + helperList.size());
         for (int i = 0; i < helperList.size(); i++) {
             final HelperDTO helperDTO = helperList.get(i);
             select.addItem(String.valueOf(helperDTO.getId()));
@@ -198,7 +203,7 @@ public class CommonUtils {
      */
     public NativeSelect getIdentifierNativeSelect(final NativeSelect select, final List<HelperDTO> helperList) {
 
-        LOGGER.debug("getIdentifierNativeSelect() P1: NativeSelect size " + select.size() + " P2:List<HelperDTO> size " + helperList.size());
+        LOGGER.debug("getIdentifierNativeSelect() P1: NativeSelect size " + select.size() + " P2:getIdentifierNativeSelect List<HelperDTO> size " + helperList.size());
         for (int i = 0; i < helperList.size(); i++) {
             final HelperDTO helperDTO = helperList.get(i);
             select.addItem(helperDTO.getDescription());
@@ -257,7 +262,7 @@ public class CommonUtils {
      * @return the identifier
      */
     public Container getIdentifier() throws SystemException, PortalException {
-        final List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         LOGGER.debug("getIdentifier()");
         final List<HelperDTO> helperList = itemLogic.getItemQualifier();
@@ -280,7 +285,7 @@ public class CommonUtils {
      * @return the identifier
      */
     public Container getPricingIdentifier() throws SystemException, PortalException {
-        final List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         LOGGER.debug("getIdentifier()");
         List<HelperDTO> helperList;
@@ -305,7 +310,7 @@ public class CommonUtils {
      * @return the status select
      */
     public NativeSelect getStatusSelect(final NativeSelect select) {
-        select.addItem("Active");
+        select.addItem(ConstantsUtils.ACTIVE);
         select.addItem("Inactive");
         return select;
     }
@@ -316,9 +321,9 @@ public class CommonUtils {
      * @return the status select
      */
     public Container getStatusSelect() {
-        final List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
-        list.add("Active");
+        list.add(ConstantsUtils.ACTIVE);
         list.add("InActive");
         return new IndexedContainer(list);
     }
@@ -348,7 +353,7 @@ public class CommonUtils {
      * @throws ParseException the parse exception
      * @throws ParseException the parse exception
      */
-    public static Date convertStringToDate(final String strDate) throws ParseException, java.text.ParseException {
+    public static Date convertStringToDate(final String strDate) throws java.text.ParseException {
         LOGGER.debug("convertStringToDate() P1: strDate " + strDate);
 
         if (strDate == null || strDate.equals(EMPTY) || strDate.equals(STRING_NULL)) {
@@ -370,7 +375,7 @@ public class CommonUtils {
      * @throws ParseException the parse exception
      * @throws ParseException the parse exception
      */
-    public static final Date convertStringToDate(final String aMask, final String strDate) throws ParseException, java.text.ParseException {
+    public static final Date convertStringToDate(final String aMask, final String strDate) throws java.text.ParseException {
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat(aMask);
         return dateFormat.parse(strDate);
@@ -504,7 +509,7 @@ public class CommonUtils {
      */
     public ComboBox getStatus(final ComboBox select) {
         select.addItem(ConstantsUtils.SELECT_ONE);
-        select.addItem("Active");
+        select.addItem(ConstantsUtils.ACTIVE);
         select.addItem("Inactive");
         select.select(ConstantsUtils.SELECT_ONE);
         return select;
@@ -634,7 +639,7 @@ public class CommonUtils {
     }
      
       public static String loadDescription(int code) throws PortalException, SystemException {
-        String descValue=StringUtils.EMPTY;
+        String descValue;
            HelperTable description=HelperTableLocalServiceUtil.getHelperTable(code);
            descValue=description.getDescription();
         
@@ -672,12 +677,12 @@ public class CommonUtils {
         return id;
     }
     
-    public static String convertBigDecimal(String value) throws PortalException, SystemException {
+    public static String convertBigDecimal(String value) {
         BigDecimal bd = new BigDecimal(value);
         return String.valueOf(bd);
     }
     
-    public static String convertWith2Decimal(String value) throws PortalException, SystemException {
+    public static String convertWith2Decimal(String value) {
         BigDecimal bd = new BigDecimal(value);
         DecimalFormat df = new DecimalFormat("0.00");
         return String.valueOf(df.format(bd));
@@ -720,7 +725,7 @@ public class CommonUtils {
      * @return 
      */
     public static List<String> objectListToStringList(List<Object> objectList) {
-        List<String> stringList = new ArrayList<String>();
+        List<String> stringList = new ArrayList<>();
         if (objectList != null) {
             for (Object object : objectList) {
                 stringList.add(String.valueOf(object));
@@ -753,7 +758,7 @@ public class CommonUtils {
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
-        BeanItemContainer<HelperDTO> resultContainer= new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer= new BeanItemContainer<>(HelperDTO.class);
         List<HelperDTO> helperList=getHelperResults(listName);
         resultContainer.addAll(helperList);
         select.setContainerDataSource(resultContainer);
@@ -780,7 +785,7 @@ public class CommonUtils {
      */
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
         final ItemDAO DAO = new ItemSearchLogicDAOImpl();
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
@@ -833,5 +838,35 @@ public class CommonUtils {
         }
         return framedString;
     }
-    
-                             }
+
+    public static void checkMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem, int sid) {
+        if (customMenuItem != null && customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
+            for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
+                if (object.getMenuItem().getId() == sid) {
+                    object.setChecked(true);
+                }
+            }
+        }
+    }
+
+    public static void checkMenuBarItemEdit(CustomMenuBar.CustomMenuItem customMenuItem, int sid) {
+        if (customMenuItem != null && customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
+            for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
+                if (object.getMenuItem().getId() == sid) {
+                    object.setChecked(true);
+                }
+            }
+        }
+    }
+
+    public static void unCheckMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem) {
+        if (customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
+            for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
+                if (object.isChecked()) {
+                    object.setChecked(Boolean.FALSE);
+                }
+            }
+        }
+    }
+
+}

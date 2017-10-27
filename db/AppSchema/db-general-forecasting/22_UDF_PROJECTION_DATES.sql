@@ -26,7 +26,7 @@ AS
                                                    ELSE DATEADD(MM, DATEDIFF(MM, 0, FROM_DATE), 0)
                                                  END) AS PROJECTION_START_DATE ,
                       MAX(CASE
-                                                 WHEN @FREQUENCY = 'A' THEN DATEADD(YY, DATEDIFF(YY, 0, TO_DATE), 0)
+                                                 WHEN @FREQUENCY = 'A' THEN DATEADD(YY, DATEDIFF(YY, -1, TO_DATE), 0)
                                                  WHEN @FREQUENCY = 'S' THEN
                                                    CASE
                                                      WHEN DATEPART(MM, TO_DATE) <= 6 THEN ( DATEADD(YY, DATEDIFF(YY, 0, TO_DATE), 0) )

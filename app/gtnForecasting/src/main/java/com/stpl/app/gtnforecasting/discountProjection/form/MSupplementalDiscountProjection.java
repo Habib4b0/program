@@ -7,6 +7,7 @@
 package com.stpl.app.gtnforecasting.discountProjection.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.forecastabstract.lookups.AbstractComparisonLookup;
 import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
@@ -133,7 +134,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     /**
      * The result bean Container .
      */
-    ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<DiscountProjectionDTO>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
     CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
@@ -153,19 +154,20 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     String blurValue = StringUtils.EMPTY;
     String dtoItemValue = StringUtils.EMPTY;
 
-    List<LookUpDTO> dtoListValue = new ArrayList<LookUpDTO>();
+    List<LookUpDTO> dtoListValue = new ArrayList<>();
     static Map columnName = new HashMap();
     DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
     DataFormatConverter contractPriceFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
     SupplementalDiscountProjectionLogic supplementalDiscountProjectionLogic = new SupplementalDiscountProjectionLogic();
     CommonLogic commonLogic = new CommonLogic();
-    private ExtTreeContainer<DiscountProjectionDTO> excelResultBean = new ExtTreeContainer<DiscountProjectionDTO>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<DiscountProjectionDTO> excelResultBean = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The bean for loading Field drop down.
      */
-    final private BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<String>(String.class);
+    final private BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<>(String.class);
     private DecimalFormat dollZeroDec = new DecimalFormat("$###,##0.00");
-    private static BeanItemContainer<String> methdologyBean = new BeanItemContainer<String>(String.class);
+    private static BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
+    private final HeaderUtils headerUtils = new HeaderUtils();
     Object formulaList;
     boolean canLoad = true;
 
@@ -206,7 +208,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         });
 
         if (ACTION_EDIT.getConstant().equals(session.getAction()) || ACTION_VIEW.getConstant().equals(session.getAction())) {
-            Map<Object, Object> map = CommonLogic.getMProjectionSelection(session.getProjectionId(), "Supplemental Discount Projection");
+            Map<Object, Object> map = CommonLogic.getMProjectionSelection(session.getProjectionId(), Constant.SUPPLEMENTAL_DISCOUNT_PROJECTION);
             if (map != null && !map.isEmpty()) {
                 Object value = map.get(Constant.VARIABLES);
                 if (value != null) {
@@ -380,7 +382,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     public boolean isProjectionSelection() {
         boolean selected = false;
         Object[] itemIds = variablesForMandated.getItemIds().toArray();
-        List<String> selectedItems = new ArrayList<String>();
+        List<String> selectedItems = new ArrayList<>();
         for (Object itemId : itemIds) {
             if (variablesForMandated.isSelected(itemId)) {
                 selected = true;
@@ -457,7 +459,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     }
 
     public List<String> loadLevelFilter() {
-        List<String> levelFilter = new ArrayList<String>();
+        List<String> levelFilter = new ArrayList<>();
         levelFilter.add("Level 1 - Customer");
         levelFilter.add("Level 2 - Contract");
         levelFilter.add("Level 3 - Therapeutic Class");
@@ -525,8 +527,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getSupplementalLeftTableColumns(fullHeader, Constant.CUSTOMER_SMALL);
-        rightHeader = HeaderUtils.getSupplementalrightTableColumns(projectionDTO, fullHeader, session);
-        resultBeanContainer = new ExtTreeContainer<DiscountProjectionDTO>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
+        rightHeader = HeaderUtils.getSupplementalrightTableColumns(projectionDTO, fullHeader);
+        resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
         tableLogic.setTreeNodeMultiClick(false);
         resultBeanContainer.setColumnProperties(leftHeader.getProperties());
         resultBeanContainer.setColumnProperties(rightHeader.getProperties());
@@ -535,9 +537,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         leftTable = periodTableId.getLeftFreezeAsTable();
         rightTable = periodTableId.getRightFreezeAsTable();
 
-        periodTableId.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        periodTableId.setHeight(AbstractComparisonLookup.SIX_FIFTY_PX);
+        leftTable.setHeight(AbstractComparisonLookup.SIX_FIFTY_PX);
+        rightTable.setHeight(AbstractComparisonLookup.SIX_FIFTY_PX);
         leftTable.setSortEnabled(false);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
 
@@ -593,7 +595,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     }
                     boolean checkEnbl1 = ACTION_VIEW.getConstant().equals(session.getAction());
                     boolean checkEnbl2 = itemDto1.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
-                            || itemDto1.getLevelName().equalsIgnoreCase("Therapeutic Class");
+                            || itemDto1.getLevelName().equalsIgnoreCase(AbstractComparisonLookup.THERAPEUTIC_CLASS);
                     if (checkEnbl1) {
                         check.setEnabled(false);
                     } else if (checkEnbl2) {
@@ -607,7 +609,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                 tableLogic.setRefresh(false);
                                 DiscountProjectionDTO itemDto = getBeanFromId(itemId);
                                 itemDto.addBooleanProperties(Constant.CHECK, check.getValue());
-                                supplementalDiscountProjectionLogic.updateCheckedRecord(itemDto, projectionDTO, check.getValue() ? 1 : 0, session.getUserId(), session.getSessionId());
+                                supplementalDiscountProjectionLogic.updateCheckedRecord(itemDto, projectionDTO, check.getValue() ? 1 : 0);
                                 boolean checkCustomerFlag = false;
                                 boolean checkBrandFlag = false;
                                 List<Object> queryList = null;
@@ -632,7 +634,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                         for (Map.Entry<String, Object> entry : mapList.entrySet()) {
                                             DiscountProjectionDTO itemDtoExpanded = (DiscountProjectionDTO) entry.getValue();
                                             if ((!itemDtoExpanded.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
-                                                    && !itemDtoExpanded.getLevelName().equalsIgnoreCase("Therapeutic Class")) && (itemDto.getCcpDetailIds().containsAll(itemDtoExpanded.getCcpDetailIds()))) {
+                                                    && !itemDtoExpanded.getLevelName().equalsIgnoreCase(AbstractComparisonLookup.THERAPEUTIC_CLASS)) && (itemDto.getCcpDetailIds().containsAll(itemDtoExpanded.getCcpDetailIds()))) {
                                                     Object tempId = tableLogic.getcurrentTreeData(entry.getKey());
                                                     itemDtoExpanded.addBooleanProperties(Constant.CHECK, check.getValue());
                                                     if (tempId != null) {
@@ -690,8 +692,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             }
         }
 
-        rightTable.setColumnAlignment(HeaderUtils.SUPPLEMENTAL_RIGHT_TABLE_ONE_COLUMNS[1], ExtCustomTable.Align.LEFT);
-        rightTable.setColumnAlignment("contractEndDate", ExtCustomTable.Align.CENTER);
+        rightTable.setColumnAlignment(headerUtils.supplementalRightTableOneColumns[1], ExtCustomTable.Align.LEFT);
+        rightTable.setColumnAlignment(Constant.CONTRACT_END_DATE, ExtCustomTable.Align.CENTER);
 
         rightTable.setDoubleHeaderVisible(true);
         rightTable
@@ -704,8 +706,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         rightTable.setDoubleHeaderColumnWidth("actualdiscount", NumericConstants.ONE_SIX_ZERO);
         rightTable.setColumnWidth("actualdiscount", NumericConstants.ONE_SIX_ZERO);
 
-        rightTable.setDoubleHeaderColumnWidth("contractEndDate", NumericConstants.ONE_SIX_ZERO);
-        rightTable.setColumnWidth("contractEndDate", NumericConstants.ONE_SIX_ZERO);
+        rightTable.setDoubleHeaderColumnWidth(Constant.CONTRACT_END_DATE, NumericConstants.ONE_SIX_ZERO);
+        rightTable.setColumnWidth(Constant.CONTRACT_END_DATE, NumericConstants.ONE_SIX_ZERO);
         rightTable.setTableFieldFactory(new DefaultFieldFactory() {
             /**
              *
@@ -719,8 +721,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
 
-                if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains("disable") && (String.valueOf(propertyId).contains("Access")
-                        && (getBeanFromId(itemId).getLevelName().equals(Constant.BRAND_CAPS) || getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT)))) {
+                if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains(Constant.DISABLE) && (String.valueOf(propertyId).contains("Access")
+                        && (getBeanFromId(itemId).getLevelName().equals(Constant.BRAND_CAPS) || getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT_LABEL)))) {
                     final CustomComboBox comboBox = new CustomComboBox();
                     comboBox.setData(propertyId);
                     comboBox.addStyleName(Constant.TXT_RIGHT_ALIGN);
@@ -757,9 +759,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     });
                     return comboBox;
 
-                } else if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains("disable") && ((String.valueOf(propertyId).contains("ContractPrice")
+                } else if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains(Constant.DISABLE) && ((String.valueOf(propertyId).contains("ContractPrice")
                         || String.valueOf(propertyId).contains("Discount1") || String.valueOf(propertyId).contains("Discount2")
-                        || String.valueOf(propertyId).contains(Constant.DISCOUNT_SMALL)) && getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT))) {
+                        || String.valueOf(propertyId).contains(Constant.DISCOUNT_SMALL)) && getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT_LABEL))) {
                     final TextField textField = new TextField();
                     textField.setData(propertyId);
                     textField.setImmediate(true);
@@ -777,7 +779,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                 blurValue = blurValue.replace("$", StringUtils.EMPTY);
                                 blurValue = blurValue.trim();
                             }
-                            saveFromTableField(itemId, propertyId, blurValue, false, periodTableId);
+                            saveFromTableField(itemId, propertyId, blurValue, false);
                             LOGGER.debug(" group blur Value" + String.valueOf(container.getContainerProperty(itemId, propertyId).getValue()).trim());
                         }
                     });
@@ -789,7 +791,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     }
 
                     return textField;
-                } else if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains("disable") && (String.valueOf(propertyId).contains("ParityReference") && getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT))) {
+                } else if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains(Constant.DISABLE) && (String.valueOf(propertyId).contains("ParityReference") && getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT_LABEL))) {
                     final CustomTextField parityLookUp = new CustomTextField();
                     parityLookUp.setData(propertyId);
                     parityLookUp.addStyleName(Constant.SEARCH_ICON_STYLE);
@@ -813,7 +815,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                     @SuppressWarnings("PMD")
                                     public void windowClose(final Window.CloseEvent e) {
                                         if (parityLookUp.getValue() != null) {
-                                            saveFromTableField(itemId, propertyId, parityLookUp.getValue(), false, periodTableId);
+                                            saveFromTableField(itemId, propertyId, parityLookUp.getValue(), false);
                                         }
                                     }
                                 });
@@ -821,7 +823,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         }
                     });
                     return parityLookUp;
-                } else if (!String.valueOf(propertyId).contains("disable") && (String.valueOf(propertyId).contains("Parity") && getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT))) {
+                } else if (!String.valueOf(propertyId).contains(Constant.DISABLE) && (String.valueOf(propertyId).contains("Parity") && getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT_LABEL))) {
 
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setData(propertyId);
@@ -830,13 +832,13 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     check.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
-                            saveFromTableField(itemId, propertyId, "CheckFlag", check.getValue(), periodTableId);
+                            saveFromTableField(itemId, propertyId, "CheckFlag", check.getValue());
                         }
                     });
                     check.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
                     return check;
-                } else if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains("disable") && (String.valueOf(propertyId).contains("Methodology")
-                        && (getBeanFromId(itemId).getLevelName().equals(Constant.CUSTOMER_SMALL) || getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT)))) {
+                } else if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains(Constant.DISABLE) && (String.valueOf(propertyId).contains("Methodology")
+                        && (getBeanFromId(itemId).getLevelName().equals(Constant.CUSTOMER_SMALL) || getBeanFromId(itemId).getLevelName().equals(Constant.PRODUCT_LABEL)))) {
                     final CustomTextField formulaNo = new CustomTextField();
                     formulaNo.setImmediate(true);
                     formulaNo.addStyleName(Constant.SEARCH_ICON_STYLE);
@@ -864,7 +866,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                             tableLogic.setRefresh(false);
 
                                             if (!formulaName.equalsIgnoreCase(SELECTMETHODOLOGY.getConstant()) && !formulaName.isEmpty() && !formulaName.equalsIgnoreCase(SELECT_ONE.getConstant())) {
-                                                saveFromTableField(itemIdValue, propertyIdValue, formulaName, false, periodTableId);
+                                                saveFromTableField(itemIdValue, propertyIdValue, formulaName, false);
                                             }
                                             tableLogic.setRefresh(true);
                                         }
@@ -887,7 +889,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             tableLogic.setProjectionResultsData(projectionDTO);
         }
     }
-
     /**
      * Gets the bean from id.
      *
@@ -900,13 +901,13 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof DiscountProjectionDTO) {
-            targetItem = new BeanItem<DiscountProjectionDTO>(
+            targetItem = new BeanItem<>(
                     (DiscountProjectionDTO) obj);
         }
         return (DiscountProjectionDTO) targetItem.getBean();
     }
 
-    public void saveFromTableField(Object itemId, Object propertyId, String value, boolean flag, FreezePagedTreeTable periodTableId) {
+    public void saveFromTableField(Object itemId, Object propertyId, String value, boolean flag) {
         DiscountProjectionDTO dto = (DiscountProjectionDTO) itemId;
         if ("CheckFlag".equals(value)) {
             dto.addBooleanProperties(propertyId, flag);
@@ -937,7 +938,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             if (itemId != null) {
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) itemId;
                 if (!dto.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
-                        && !dto.getLevelName().equalsIgnoreCase("Therapeutic Class")) {
+                        && !dto.getLevelName().equalsIgnoreCase(AbstractComparisonLookup.THERAPEUTIC_CLASS)) {
                     dto.addBooleanProperties(Constant.CHECK, checkClear);
                     if (flag) {
                         tableLogic.getContainerDataSource().getContainerProperty(itemId, Constant.CHECK).setValue(checkClear);
@@ -963,7 +964,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 if (valueChange) {
                     String selectedValue = String.valueOf(event.getProperty().getValue());
                     if (!selectedValue.equalsIgnoreCase(SELECTMETHODOLOGY.getConstant()) && !selectedValue.isEmpty() && !selectedValue.equalsIgnoreCase(SELECT_ONE.getConstant())) {
-                        saveFromTableField(itemIdValue, propertyIdValue, selectedValue, false, periodTableId);
+                        saveFromTableField(itemIdValue, propertyIdValue, selectedValue, false);
                     }
                     valueChange = false;
                 }
@@ -985,7 +986,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         for (Object obj : dtoList) {
             DiscountProjectionDTO suppDto = (DiscountProjectionDTO) obj;
             if ((suppDto.getSupplementalLevelNo() == 5 && checkDto.getCcpDetailIds().containsAll(suppDto.getCcpDetailIds())) &&  (!suppDto.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
-                        && !suppDto.getLevelName().equalsIgnoreCase("Therapeutic Class"))) {
+                        && !suppDto.getLevelName().equalsIgnoreCase(AbstractComparisonLookup.THERAPEUTIC_CLASS))) {
                     tableLogic.getContainerDataSource().getContainerProperty(obj, Constant.CHECK).setValue(value);
                 }
             }
@@ -1003,7 +1004,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             if (itemId != null) {
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) itemId;
                 if ((!dto.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
-                        && !dto.getLevelName().equalsIgnoreCase("Therapeutic Class")) && (checkDto.getCcpDetailIds().containsAll(dto.getCcpDetailIds()))) {
+                        && !dto.getLevelName().equalsIgnoreCase(AbstractComparisonLookup.THERAPEUTIC_CLASS)) && (checkDto.getCcpDetailIds().containsAll(dto.getCcpDetailIds()))) {
                         dto.addBooleanProperties(Constant.CHECK, value);
                         if (flag) {
                             tableLogic.getContainerDataSource().getContainerProperty(itemId, Constant.CHECK).setValue(value);
@@ -1026,7 +1027,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             if (itemId != null) {
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) itemId;
                 if ((!dto.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
-                        && !dto.getLevelName().equalsIgnoreCase("Therapeutic Class")) && ((dto.getSupplementalLevelNo() == levelNo[0] || dto.getSupplementalLevelNo() == levelNo[1]) && dto.getCcpDetailIds().containsAll(checkDto.getCcpDetailIds()))) {
+                        && !dto.getLevelName().equalsIgnoreCase(AbstractComparisonLookup.THERAPEUTIC_CLASS)) && ((dto.getSupplementalLevelNo() == levelNo[0] || dto.getSupplementalLevelNo() == levelNo[1]) && dto.getCcpDetailIds().containsAll(checkDto.getCcpDetailIds()))) {
                         dto.addBooleanProperties(Constant.CHECK, value);
                         if (flag) {
                             tableLogic.getContainerDataSource().getContainerProperty(itemId, Constant.CHECK).setValue(value);
@@ -1049,7 +1050,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             if (itemId != null) {
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) itemId;
                 if ((!dto.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
-                        && !dto.getLevelName().equalsIgnoreCase("Therapeutic Class")) && (dto.getCcpDetailIds().containsAll(checkDto.getCcpDetailIds()))) {
+                        && !dto.getLevelName().equalsIgnoreCase(AbstractComparisonLookup.THERAPEUTIC_CLASS)) && (dto.getCcpDetailIds().containsAll(checkDto.getCcpDetailIds()))) {
                         dto.addBooleanProperties(Constant.CHECK, value);
                         if (flag) {
                             tableLogic.getContainerDataSource().getContainerProperty(itemId, Constant.CHECK).setValue(value);
@@ -1061,9 +1062,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     }
 
     private Set<String> getCheckedRecordsHierarchyNoForMethodolgy() {
-        Set<String> finalHirarechyNo = new HashSet<String>();
-        List<List<String>> relatedCcpDetailsId = new ArrayList<List<String>>();
-        List<List<String>> relatedCustomerId = new ArrayList<List<String>>();
+        Set<String> finalHirarechyNo = new HashSet<>();
+        List<List<String>> relatedCcpDetailsId = new ArrayList<>();
+        List<List<String>> relatedCustomerId = new ArrayList<>();
         for (String tableTreeLevelNo : tableLogic.getAllLevels()) {
             Object itemId = tableLogic.getcurrentTreeData(tableTreeLevelNo);
             if (itemId == null) {
@@ -1082,13 +1083,13 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         }
         LOGGER.debug("relatedCustomerId.size()  " + relatedCustomerId.size());
         LOGGER.debug("relatedCcpDetailsId.size()  " + relatedCcpDetailsId.size());
-        getRelatedCcpDetails(relatedCustomerId, finalHirarechyNo, 5);
-        getRelatedCcpDetails(relatedCcpDetailsId, finalHirarechyNo, 1);
+        getRelatedCcpDetails(relatedCustomerId, finalHirarechyNo);
+        getRelatedCcpDetails(relatedCcpDetailsId, finalHirarechyNo);
         return finalHirarechyNo;
     }
 
     private Set<String> getCheckedRecordsHierarchyNo() {
-        Set<String> finalHirarechyNo = new HashSet<String>();
+        Set<String> finalHirarechyNo = new HashSet<>();
         for (String tableTreeLevelNo : tableLogic.getAllLevels()) {
             Object itemId = tableLogic.getcurrentTreeData(tableTreeLevelNo);
             if (itemId == null) {
@@ -1104,7 +1105,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         return finalHirarechyNo;
     }
 
-    public Set<String> getRelatedCcpDetails(List<List<String>> relatedCcpDetailsId, Set<String> finalHirarechyNo, int levelNo) {
+    public Set<String> getRelatedCcpDetails(List<List<String>> relatedCcpDetailsId, Set<String> finalHirarechyNo) {
         for (List<String> relatedCustomerId1 : relatedCcpDetailsId) {
             for (String tableTreeLevelNo : tableLogic.getAllLevels()) {
                 Object itemId = tableLogic.getcurrentTreeData(tableTreeLevelNo);
@@ -1152,7 +1153,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     };
 
     private void configureExcelResultTable() {
-        excelResultBean = new ExtTreeContainer<DiscountProjectionDTO>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBean = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
 
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable = new ExtFilterTreeTable();
@@ -1187,11 +1188,11 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         if (fieldDdlb.getValue() == null) {
             AbstractNotificationUtils.getErrorNotification("No Field Selected", "Please select a Field and enter a Value to Mass Update.");
         } else if (methodologyFlag && valueDdlb.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("No Value Selected", "Please select any Methodology to update");
+            AbstractNotificationUtils.getErrorNotification(Constant.NO_VALUE_SELECTED, "Please select any Methodology to update");
         } else if (accessFlag && valueDdlb.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("No Value Selected", "Please select any value to update");
+            AbstractNotificationUtils.getErrorNotification(Constant.NO_VALUE_SELECTED, "Please select any value to update");
         } else if (optionGroupFlag && valueOption.getValue() == null) {
-            AbstractNotificationUtils.getErrorNotification("No Value Selected", "Please select any value to update");
+            AbstractNotificationUtils.getErrorNotification(Constant.NO_VALUE_SELECTED, "Please select any value to update");
         } else if (!parityFlag && !accessFlag && !methodologyFlag && !optionGroupFlag && (value.getValue() == null || StringUtils.isEmpty(value.getValue()))) {
             AbstractNotificationUtils.getErrorNotification("No Value Entered", "Please enter any value to update");
         } else if (parityFlag && valueLookUp.getValue() == null) {
@@ -1208,7 +1209,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     }
                 }
 
-            String selectedValue = StringUtils.EMPTY;
+            String selectedValue;
 
             final int startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
 
@@ -1340,14 +1341,14 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
                                     supplementalDiscountProjectionLogic.insertInParity(returnList.get(0), session.getProjectionId());
                                     valueLookUp.setValue(dtoItemValue);
-                                    allowMethod(String.valueOf(valueLookUp.getValue()), startYear, startQuater, ed, edQ, columnsFlag);
+                                    allowMethod(String.valueOf(valueLookUp.getValue()));
 
                                 } catch (Exception ex) {
                                    LOGGER.error(ex);
                                 }
                             }
                         }.getConfirmationMessage("Submit Confirmation", "In Ndc:" + notifyContent + " are not having any prior values.Do you wish to continue.?");
-                        String emptyNull = StringUtils.EMPTY;
+                        String emptyNull;
                         emptyNull = notifyContent;
                         notifyContent.replaceAll(emptyNull, StringUtils.EMPTY);
                     }
@@ -1366,7 +1367,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             }
 
             if (!flag) {
-                List<DiscountProjectionDTO> checkedDto = new ArrayList<DiscountProjectionDTO>();
+                List<DiscountProjectionDTO> checkedDto = new ArrayList<>();
 
                 for (DiscountProjectionDTO dto : resultBeanContainer.getBeans()) {
                     if ((Boolean) dto.getPropertyValue(Constant.CHECK)) {
@@ -1402,7 +1403,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 } else {
                     AbstractNotificationUtils.getErrorNotification("Populate Warning", "Please check valid selection");
                 }
-                flag = false;
             }
         }
         tableLogic.setRefresh(true);
@@ -1413,8 +1413,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         tableLogic.setCurrentPage(tableLogic.getCurrentPage());
     }
 
-    public void allowMethod(final String selectedValue, final int startYear, final int startQuater, final int endYear, final int endQuater, final String column) {
-        List<DiscountProjectionDTO> checkedDto = new ArrayList<DiscountProjectionDTO>();
+    public void allowMethod(final String selectedValue) {
+        List<DiscountProjectionDTO> checkedDto = new ArrayList<>();
         for (DiscountProjectionDTO dto : resultBeanContainer.getBeans()) {
             if ((Boolean) dto.getPropertyValue(Constant.CHECK)) {
                 if (dto.getSupplementalLevelNo() == NumericConstants.FIVE) {
@@ -1439,30 +1439,37 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
     @Override
     protected void viewValueChangeLogic() {
+        return;
     }
 
     @Override
     protected void adjProgramsValueChangeLogic(String adjustmentProgram) {
+        return;
     }
 
     @Override
     protected void adjPeriodValueChangeLogic(String adjustmentPeriods) {
+        return;
     }
 
     @Override
     protected void calculateBtnClickLogic() {
+        return;
     }
 
     @Override
     protected void newBtnClickLogic() {
+        return;
     }
 
     @Override
     protected void editBtnClickLogic() {
+        return;
     }
 
     @Override
     protected void adjustBtnClickLogic() {
+        return;
     }
 
     @Override
@@ -1534,7 +1541,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         projectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setExcelFlag(true);
-        int count = supplementalDiscountProjectionLogic.getConfiguredSupplementalDiscountCount(new Object(), projectionDTO, true);
+        int count = supplementalDiscountProjectionLogic.getConfiguredSupplementalDiscountCount(new Object(), projectionDTO);
         List<DiscountProjectionDTO> resultList = supplementalDiscountProjectionLogic.getConfiguredSupplementalDiscount(new Object(), 0, count, projectionDTO);
 
         loadDataToContainer(resultList, null);
@@ -1560,7 +1567,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         projectionDTO.setFilterHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
-        int count = supplementalDiscountProjectionLogic.getConfiguredSupplementalDiscountCount(id, projectionDTO, true);
+        int count = supplementalDiscountProjectionLogic.getConfiguredSupplementalDiscountCount(id, projectionDTO);
         List<DiscountProjectionDTO> resultList = supplementalDiscountProjectionLogic.getConfiguredSupplementalDiscount(id, 0, count, projectionDTO);
         loadDataToContainer(resultList, id);
     }
@@ -1646,7 +1653,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             try {
                 Map map = new HashMap();
                 map.put(Constant.VARIABLES, variablesForMandated.getValue());
-                commonLogic.saveProjectionSelectionMandatedDiscountProjection(map, session.getProjectionId(), "Supplemental Discount Projection");
+                commonLogic.saveProjectionSelectionMandatedDiscountProjection(map, session.getProjectionId(), Constant.SUPPLEMENTAL_DISCOUNT_PROJECTION);
                 supplementalDiscountProjectionLogic.supplementalSave(session);
             } catch (Exception ex) {
 
@@ -1658,7 +1665,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 CommonLogic.callProcedureforUpdate(Constant.SUPPLEMENTAL_INSERT_PRC, orderedArgs);
                 Map map = new HashMap();
                 map.put(Constant.VARIABLES, variablesForMandated.getValue());
-                commonLogic.saveProjectionSelectionMandatedDiscountProjection(map, session.getProjectionId(), "Supplemental Discount Projection");
+                commonLogic.saveProjectionSelectionMandatedDiscountProjection(map, session.getProjectionId(), Constant.SUPPLEMENTAL_DISCOUNT_PROJECTION);
                 supplementalDiscountProjectionLogic.supplementalSave(session);
             } catch (Exception ex) {
                 LOGGER.error(ex);
@@ -1701,6 +1708,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
     @Override
     protected void customDdlbLogic() {
+        return;
     }
 
     /**
@@ -1723,12 +1731,12 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
     @Override
     protected void resetBtnForTableLogic() {
-
+        return;
     }
 
     @Override
     protected void fieldDdlbValueChangeLogic(Property.ValueChangeEvent event) {
-
+        return;
     }
 
     public void configureScreen() {

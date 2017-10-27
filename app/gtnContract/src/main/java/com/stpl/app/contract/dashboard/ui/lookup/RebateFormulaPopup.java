@@ -7,6 +7,7 @@
 package com.stpl.app.contract.dashboard.ui.lookup;
 
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import java.util.List;
 import java.util.Set;
@@ -91,7 +92,7 @@ public class RebateFormulaPopup extends Window {
     
     BeanItemContainer<RSFormulaDTO> availableBeanItemContainer;
     BeanItemContainer<ImtdContRsDetailsFrDTO> selectedBeanItemContainer;
-    public RebateFormulaPopup(int imtdContRsdSid,int contRsdFrSid,int contRsdSid,int itemSid,String itemId, final SessionDTO sessionDTO){
+    public RebateFormulaPopup(int imtdContRsdSid,int itemSid, final SessionDTO sessionDTO){
         super();
         this.imtdContRsdSid=imtdContRsdSid;
         this.itemSid=itemSid;
@@ -141,7 +142,7 @@ public class RebateFormulaPopup extends Window {
         try{
       LOGGER.debug("Entering addAvailableTable");        
       availableTable.markAsDirty();
-      availableBeanItemContainer=new BeanItemContainer<RSFormulaDTO>(RSFormulaDTO.class);
+      availableBeanItemContainer=new BeanItemContainer<>(RSFormulaDTO.class);
       availableBeanItemContainer.addAll(logic.getLoadForecastingFormula());
       availableTable.setContainerDataSource(availableBeanItemContainer);
       availableTable.setVisibleColumns("formulaNo","formulaName");
@@ -163,7 +164,7 @@ public class RebateFormulaPopup extends Window {
            */
           @Override
           public void itemClick(ItemClickEvent event) {
-
+              return;
           }
       });
       availableTable.setErrorHandler(new ErrorHandler() {
@@ -217,11 +218,11 @@ public class RebateFormulaPopup extends Window {
 			 */
 			@SuppressWarnings("unchecked")
 			public void buttonClick(final Button.ClickEvent event) {
-                            LOGGER.debug("Entering inside  MOVE_RIGHT  method ");
+                            LOGGER.debug("Entering inside  MOVE_RIGHT  ");
                                final Set<RSFormulaDTO> formulaList =  (Set<RSFormulaDTO>) availableTable.getValue();
                                 for(RSFormulaDTO formula:formulaList){ 
                                          DynamicQuery query = DynamicQueryFactoryUtil.forClass(FormulaDetailsMaster.class);
-                                          query.add(RestrictionsFactoryUtil.ilike("formulaDesc",formula.getFormulaName()));
+                                          query.add(RestrictionsFactoryUtil.ilike(ConstantUtil.FORMULA_DESC,formula.getFormulaName()));
                                           try { 
                                               List<FormulaDetailsMaster> list= FormulaDetailsMasterLocalServiceUtil.dynamicQuery(query);
                                               if(list!=null && !list.isEmpty()&& Integer.valueOf(list.get(0).getFormulaId())!=0){
@@ -242,7 +243,7 @@ public class RebateFormulaPopup extends Window {
                                                     List<ImtdContRsDetailsFrDTO> selectedList=selectedBeanItemContainer.getItemIds();
                                                     for(int i=0;i<selectedList.size();i++){
                                                         DynamicQuery query = DynamicQueryFactoryUtil.forClass(FormulaDetailsMaster.class);
-                                                                query.add(RestrictionsFactoryUtil.ilike("formulaDesc",formula.getFormulaName()));
+                                                                query.add(RestrictionsFactoryUtil.ilike(ConstantUtil.FORMULA_DESC,formula.getFormulaName()));
                                                                 List<FormulaDetailsMaster> list= FormulaDetailsMasterLocalServiceUtil.dynamicQuery(query);
                                                         if(Integer.valueOf(list.get(0).getFormulaId())==selectedList.get(i).getFormulaId()){
                                                                  flag=false;
@@ -255,7 +256,7 @@ public class RebateFormulaPopup extends Window {
                                                         selectedBeanItemContainer.addBean(logic.addToSelectedFormulaList(formula, imtdContRsdSid, 0, 0, itemSid));
                                                     }                                           
                                                  }else{
-                                                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR,"Please select atleast one Item");
+                                                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, ConstantUtil.PLEASE_SELECT_ATLEAST_ONE_ITEM);
                                                   }
                                             }    
                                     } catch (Exception exception) {
@@ -265,7 +266,7 @@ public class RebateFormulaPopup extends Window {
                                     }
                         }  
                       selectedTable.setCurrentPage(selectedTable.getCurrentPage());
-                      LOGGER.debug("Ending MOVE_RIGHT  method ");
+                      LOGGER.debug("Ending MOVE_RIGHT  method");
 
 			}
 		});
@@ -300,7 +301,7 @@ public class RebateFormulaPopup extends Window {
                                    
                                       selectedBeanItemContainer.removeItem(dto);
                                   }else{
-                                      AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please select atleast one Item");
+                                      AbstractNotificationUtils.getErrorNotification(Constants.ERROR, ConstantUtil.PLEASE_SELECT_ATLEAST_ONE_ITEM);
                                   }
                                 }  
                             }catch (Exception ex) {
@@ -346,7 +347,7 @@ public class RebateFormulaPopup extends Window {
                                   final List<RSFormulaDTO> formulaList =  availableBeanItemContainer.getItemIds();
                                 for(RSFormulaDTO formula:formulaList){ 
                                          DynamicQuery query = DynamicQueryFactoryUtil.forClass(FormulaDetailsMaster.class);
-                                          query.add(RestrictionsFactoryUtil.ilike("formulaDesc",formula.getFormulaName()));
+                                          query.add(RestrictionsFactoryUtil.ilike(ConstantUtil.FORMULA_DESC,formula.getFormulaName()));
                                           try { 
                                               List<FormulaDetailsMaster> list= FormulaDetailsMasterLocalServiceUtil.dynamicQuery(query);
                                               if(list!=null && !list.isEmpty()&& Integer.valueOf(list.get(0).getFormulaId())!=0){
@@ -367,7 +368,7 @@ public class RebateFormulaPopup extends Window {
                                                     List<ImtdContRsDetailsFrDTO> selectedList=selectedBeanItemContainer.getItemIds();
                                                     for(int i=0;i<selectedList.size();i++){
                                                         DynamicQuery query = DynamicQueryFactoryUtil.forClass(FormulaDetailsMaster.class);
-                                                                query.add(RestrictionsFactoryUtil.ilike("formulaDesc",formula.getFormulaName()));
+                                                                query.add(RestrictionsFactoryUtil.ilike(ConstantUtil.FORMULA_DESC,formula.getFormulaName()));
                                                                 List<FormulaDetailsMaster> list= FormulaDetailsMasterLocalServiceUtil.dynamicQuery(query);
                                                             if(list!=null && !list.isEmpty() && Integer.valueOf(list.get(0).getFormulaId())==selectedList.get(i).getFormulaId())  {  
                                                                     flag=false;
@@ -377,7 +378,7 @@ public class RebateFormulaPopup extends Window {
                                                         selectedBeanItemContainer.addBean(logic.addToSelectedFormulaList(formula, imtdContRsdSid, 0, 0, itemSid));
                                                     }                                           
                                                  }else{
-                                                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR,"Please select atleast one Item");
+                                                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, ConstantUtil.PLEASE_SELECT_ATLEAST_ONE_ITEM);
                                                   }
                                             }  
                                    
@@ -434,7 +435,7 @@ public class RebateFormulaPopup extends Window {
     public void addSelectedTable() {
         LOGGER.debug("Entering addAvailableTable");           
         selectedTable.markAsDirty();
-        selectedBeanItemContainer = new BeanItemContainer<ImtdContRsDetailsFrDTO>(ImtdContRsDetailsFrDTO.class);
+        selectedBeanItemContainer = new BeanItemContainer<>(ImtdContRsDetailsFrDTO.class);
         selectedBeanItemContainer.addAll(logic.getLoadImtdContRsDetailsFr(itemSid));
         selectedTable.setContainerDataSource(selectedBeanItemContainer);
         selectedTable.setVisibleColumns("formulaId","formulaName");
@@ -456,7 +457,7 @@ public class RebateFormulaPopup extends Window {
              */
             @Override
             public void itemClick(ItemClickEvent event) {
-
+                return;
             }
         });
         selectedTable.setErrorHandler(new ErrorHandler() {

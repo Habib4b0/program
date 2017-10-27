@@ -79,7 +79,7 @@ public class CommonUtil {
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         select.addItem(defaultValue);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
@@ -126,7 +126,7 @@ public class CommonUtil {
             List input = new ArrayList();
             input.add(listName);
             List<Object[]> list = ItemQueries.getItemData(input, "ComboBox List Name Query", null);
-            List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+            List<HelperDTO> resultList = new ArrayList<>();
             resultList.add(defaultValue);
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(IndicatorConstants.SELECT_ONE.getConstant()))) {

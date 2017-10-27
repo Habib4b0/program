@@ -23,7 +23,7 @@ and open the template in the editor.
                 </GridLayout>
             </HorizontalLayout>
         </Panel>
-        <Panel id="promoteTpToChPanel2" caption="Customer Search">
+        <Panel id="promoteTpToChPanel2" caption="Trading Partner Search">
             <VerticalLayout id="horizontalLayout2" spacing="true" margin="true" immediate="true">
                 <GridLayout spacing="true"  id="promoteTpToChLayout2" immediate="true" columns="8" rows="3">
                     <Label caption="Contract No: " contentMode="HTML" />
@@ -74,7 +74,7 @@ and open the template in the editor.
                 
             </HorizontalLayout>
         </Panel>
-        <Panel id="currentTradingPartnerPanel" caption="Current-Customer Details ">
+        <Panel id="currentTradingPartnerPanel" caption="Current Trading Partner-Details ">
             <VerticalLayout>
                 <VerticalLayout id="currTradingPartnerTableLayout" spacing="true" margin="false" immediate="true">
                 </VerticalLayout>

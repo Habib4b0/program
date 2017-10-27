@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -78,9 +77,18 @@ public class SummaryTab extends VerticalLayout {
     public TextField tradeClassField = new TextField();
     final StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
-
-    BeanItemContainer<ContractResultDTO> currentTPDetailsContainer = new BeanItemContainer<ContractResultDTO>(ContractResultDTO.class);
-    BeanItemContainer<ContractResultDTO> transferTPDetailsContainer = new BeanItemContainer<ContractResultDTO>(ContractResultDTO.class);
+    
+    public static final String FUNCTIONAL_BUTTON = "functionalButton";
+    public static final String CLOSE_BTN = "close";
+    public static final String GCM_CUSTOMER_MANAGEMENT = "GCM-Customer Management";
+    public static final String PREVIOUS_BTN = "previous";
+    public static final String ONE_THIRTY_PX = "130px";
+    public static final String USER_ID = "userId";
+    public static final String AND_PROJECTION_NAME = " \n and Projection Name - ";
+    public static final String NEW_PROJECTION_CREATED_WITH_FORECASTING = "'\n new Projection created with forecasting type -";
+    
+    BeanItemContainer<ContractResultDTO> currentTPDetailsContainer = new BeanItemContainer<>(ContractResultDTO.class);
+    BeanItemContainer<ContractResultDTO> transferTPDetailsContainer = new BeanItemContainer<>(ContractResultDTO.class);
 
     TransferTPForm ttpForm;
     RemoveTPForm rtpform;
@@ -254,10 +262,10 @@ public class SummaryTab extends VerticalLayout {
     @UiHandler("functionalButton")
     public void functionalButtonLogic(Button.ClickEvent event) {
         ButtonId idOne = ButtonId.OK;
-        ButtonId idTwo = ButtonId.CANCEL;
+        ButtonId idTwo;
         idString = idOne.name();
-        String confirmContent = StringUtils.EMPTY;
-        String comfirmHeader = StringUtils.EMPTY;
+        String confirmContent;
+        String comfirmHeader;
 
         if (session.getModuleName().equalsIgnoreCase(TRADING_PARTNER_REMOVE.getConstant()) || session.getModuleName().equalsIgnoreCase(ADD_TRADING_PARTNER.getConstant())
                 || TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName())) {
@@ -327,13 +335,13 @@ public class SummaryTab extends VerticalLayout {
                      */
                     @SuppressWarnings("PMD")
                     public void buttonClicked(final ButtonId buttonId) {
-                        List<String> tempList = new ArrayList<String>();
-                        List<String> tempTransferList = new ArrayList<String>();
+                        List<String> tempList = new ArrayList<>();
+                        List<String> tempTransferList = new ArrayList<>();
                         boolean projectionCreationFlag = false;
                         if (buttonId.name().equals(idString)) {
                             CommmonLogic logic = new CommmonLogic();
-                            String msgHeader = StringUtils.EMPTY;
-                            String msgContent = StringUtils.EMPTY;
+                            String msgHeader;
+                            String msgContent;
 
                             try {
                                 if (!PROJECTION_DETAILS_TRANSFER.getConstant().equals(session.getModuleName())) {
@@ -346,8 +354,7 @@ public class SummaryTab extends VerticalLayout {
                                 CommonLogic common = new CommonLogic();
 
                                 int projectionId = CommonLogic.getProjectionIdForSubmittedContract(session.getSessionId(), session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()));
-                                int toProjectionId = CommonLogic.getProjectionIdForSubmittedContract(session.getSessionId(), true);
-                                
+                                int toProjectionId = CommonLogic.getProjectionIdForSubmittedContract(session.getSessionId(), session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()));
                                 session.setFromProjectionId(projectionId);
                                 session.setToProjectionId(toProjectionId);
                                 boolean transferSalesFlag = true;
@@ -392,7 +399,7 @@ public class SummaryTab extends VerticalLayout {
                                             int destinationContract = CommonLogic.getSelectedContractSid(session.getSessionId(), true);
                                             String fromCustomerEndDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
                                             String toCustomerStartDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), true, true, false);
-                                            String companies = StringUtils.EMPTY;
+                                            String companies;
                                             if (session.getModuleName().equalsIgnoreCase(TRANSFER_TRADING_PARTNER.getConstant())) {
                                                 companies = CommonUtils.CollectionToString(session.getCompanyMasterSids(), false);
                                             } else {
@@ -425,22 +432,22 @@ public class SummaryTab extends VerticalLayout {
                                     msgHeader = MessageUtil.getErrorCode(Message.DELETE_SUCCESS);
                                     msgContent = "The selected Customer has been deleted successfully";
                                     if (tempList != null && !tempList.isEmpty()) {
-                                        msgContent = msgContent + "'\n new Projection created with forecasting type -" + tempList.get(0)
-                                        + " \n and Projection Name - " + tempList.get(1) + " ";
+                                        msgContent = msgContent + NEW_PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0)
+                                        + AND_PROJECTION_NAME + tempList.get(1) + " ";
                                     }
                                 } else if (session.getModuleName().equalsIgnoreCase(ADD_TRADING_PARTNER.getConstant())) {
                                     msgHeader = MessageUtil.getErrorCode(Message.ADD_SUCCESS);
                                     msgContent = "The selected Customer has been added successfully";
                                     if (tempList != null && !tempList.isEmpty()) {
-                                        msgContent = msgContent + "'\n new Projection created with forecasting type -" + tempList.get(0)
-                                        + " \n and Projection Name - " + tempList.get(1) + " ";
+                                        msgContent = msgContent + NEW_PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0)
+                                        + AND_PROJECTION_NAME + tempList.get(1) + " ";
                                     }
                                 } else if (session.getModuleName().equalsIgnoreCase(TRADING_PARTNER_UPDATE.getConstant())) {
                                     msgHeader = MessageUtil.getErrorCode(Message.UPDATE_SUCCESS);
                                     msgContent = "The selected Customer has been updated successfully.";
                                     if (tempList != null && !tempList.isEmpty()) {
-                                        msgContent = msgContent + "'\n new Projection created with forecasting type -" + tempList.get(0)
-                                        + " \n and Projection Name - " + tempList.get(1) + " ";
+                                        msgContent = msgContent + NEW_PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0)
+                                        + AND_PROJECTION_NAME + tempList.get(1) + " ";
                                     }
                                 } else {
                                     msgHeader = MessageUtil.getErrorCode(Message.TRANSFER_SUCCESS);
@@ -542,15 +549,15 @@ public class SummaryTab extends VerticalLayout {
      */
     private Panel addSelectionCriteriaLayout() {
         selCriteriaGrid.addComponent(companyNo);
-        companyNo.setWidth("130px");
+        companyNo.setWidth(ONE_THIRTY_PX);
         companyNumber.setEnabled(false);
         selCriteriaGrid.addComponent(companyNumber);
         selCriteriaGrid.addComponent(companyName);
-        companyName.setWidth("130px");
+        companyName.setWidth(ONE_THIRTY_PX);
         companyNameField.setEnabled(false);
         selCriteriaGrid.addComponent(companyNameField);
         selCriteriaGrid.addComponent(companyType);
-        companyType.setWidth("130px");
+        companyType.setWidth(ONE_THIRTY_PX);
         companyTypeField.setEnabled(false);
         selCriteriaGrid.addComponent(companyTypeField);
         selCriteriaGrid.addComponent(companyCategory);
@@ -558,7 +565,7 @@ public class SummaryTab extends VerticalLayout {
         companyCategoryField.setEnabled(false);
         selCriteriaGrid.addComponent(companyCategoryField);
         selCriteriaGrid.addComponent(tradeClass);
-        tradeClass.setWidth("130px");
+        tradeClass.setWidth(ONE_THIRTY_PX);
         tradeClassField.setEnabled(false);
         selCriteriaGrid.addComponent(tradeClassField);
         selCriteriaLayout.setMargin(true);
@@ -569,11 +576,11 @@ public class SummaryTab extends VerticalLayout {
 
     private void configureSecurityPermissions() {
         try {
-            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Customer Management", "Add Customer", "Add Customer Screen");
-            previous.setVisible(CommonLogic.isButtonVisibleAccess("previous", functionHM));
-            close.setVisible(CommonLogic.isButtonVisibleAccess("close", functionHM));
-            functionalButton.setVisible(CommonLogic.isButtonVisibleAccess("functionalButton", functionHM));
+            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(USER_ID));
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, GCM_CUSTOMER_MANAGEMENT, "Add Customer", "Add Customer Screen");
+            previous.setVisible(CommonLogic.isButtonVisibleAccess(PREVIOUS_BTN, functionHM));
+            close.setVisible(CommonLogic.isButtonVisibleAccess(CLOSE_BTN, functionHM));
+            functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
 
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -582,11 +589,11 @@ public class SummaryTab extends VerticalLayout {
 
     private void configureSecurityPermissionsForTransfer() {
         try {
-            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Customer Management", "Transfer Customer", "TranferContractTab");
-            previous.setVisible(CommonLogic.isButtonVisibleAccess("previous", functionHM));
-            close.setVisible(CommonLogic.isButtonVisibleAccess("close", functionHM));
-            functionalButton.setVisible(CommonLogic.isButtonVisibleAccess("functionalButton", functionHM));
+            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(USER_ID));
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, GCM_CUSTOMER_MANAGEMENT, "Transfer Customer", "TranferContractTab");
+            previous.setVisible(CommonLogic.isButtonVisibleAccess(PREVIOUS_BTN, functionHM));
+            close.setVisible(CommonLogic.isButtonVisibleAccess(CLOSE_BTN, functionHM));
+            functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
 
             } catch (Exception ex) {
             LOGGER.error(ex);
@@ -594,11 +601,11 @@ public class SummaryTab extends VerticalLayout {
     }
     private void configureSecurityPermissionsUpdate() {
         try {
-            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Customer Management", "UpdateCustomer", "SummaryTab");
-            previous.setVisible(CommonLogic.isButtonVisibleAccess("previous", functionHM));
-            close.setVisible(CommonLogic.isButtonVisibleAccess("close", functionHM));
-            functionalButton.setVisible(CommonLogic.isButtonVisibleAccess("functionalButton", functionHM));
+            String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(USER_ID));
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, GCM_CUSTOMER_MANAGEMENT, "UpdateCustomer", "SummaryTab");
+            previous.setVisible(CommonLogic.isButtonVisibleAccess(PREVIOUS_BTN, functionHM));
+            close.setVisible(CommonLogic.isButtonVisibleAccess(CLOSE_BTN, functionHM));
+            functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
@@ -91,9 +92,9 @@ public class Copycomponents extends CustomComponent {
     public ExtPagedTable contractComponent = new ExtPagedTable(CopyComponentsResultLogic);
     public ExtPagedTable componentDetailsTable = new ExtPagedTable(CopyComponentsSearchLogic);
     public ExtPagedTable contractInformationTable = new ExtPagedTable(ComponentInfoLogic);
-    private final BeanItemContainer<CopyComponentDTO> copycontractResultsContainer = new BeanItemContainer<CopyComponentDTO>(CopyComponentDTO.class);
-    private final BeanItemContainer<CopyComponentDTO> contractComponentContainer = new BeanItemContainer<CopyComponentDTO>(CopyComponentDTO.class);
-    private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<CopyComponentDTO>(CopyComponentDTO.class);
+    private final BeanItemContainer<CopyComponentDTO> copycontractResultsContainer = new BeanItemContainer<>(CopyComponentDTO.class);
+    private final BeanItemContainer<CopyComponentDTO> contractComponentContainer = new BeanItemContainer<>(CopyComponentDTO.class);
+    private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
     public static final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     ItemQueries Queries = new ItemQueries();
@@ -173,8 +174,8 @@ public class Copycomponents extends CustomComponent {
     public TextField rsEndDate;
     @UiField("rsBasic")
     public TextField rsBasic;
-    @UiField("ComponentDetailsLayout")
-    public VerticalLayout ComponentDetailsLayout;
+    @UiField("ComponentDetailsTableLayout")
+    public VerticalLayout ComponentDetailsTableLayout;
 
     List<ContractSelectionDTO> selectedList;
     @UiField("populateBtn")
@@ -246,6 +247,7 @@ public class Copycomponents extends CustomComponent {
             ComponenttypeNC.addItem(Constants.PRICE_SCHEDULE);
             ComponenttypeNC.addItem(Constants.REBATE_SCHEDULE);
             ComponenttypeNC.select(Constants.COMPANY_FAMILY_PLAN);
+            ComponenttypeNC.setValue(Constants.COMPANY_FAMILY_PLAN);
 
             SearchfieldNC.setEnabled(false);
             SearchvaluedNC.setEnabled(false);
@@ -253,15 +255,15 @@ public class Copycomponents extends CustomComponent {
             contractDashBoardTable.markAsDirty();
             contractDashBoardTable.setImmediate(true);
             contractDashBoardTable.setContainerDataSource(dashBoardContainer);
-            contractDashBoardTable.setVisibleColumns(Constants.COPYCONTRACT_DASHBOARD_RESULTS_COLUMNS);
-            contractDashBoardTable.setColumnHeaders(Constants.COPYCONTRACT_DASHBOARD_RESULTS_HEADERS);
+            contractDashBoardTable.setVisibleColumns(Constants.getInstance().copycontractDashboardResultsColumns);
+            contractDashBoardTable.setColumnHeaders(Constants.getInstance().copycontractDashboardResultsHeaders);
             contractDashBoardTable.setWidth("670px");
             contractDashBoardTable.setSelectable(true);
             contractDashBoardTable.setMultiSelect(false);
             TblLayout.addComponent(contractComponent);
             TblLayout.addComponent(CopyComponentsResultLogic.createControls());
-            ComponentDetailsLayout.addComponent(componentDetailsTable);
-            ComponentDetailsLayout.addComponent(CopyComponentsSearchLogic.createControls());
+            ComponentDetailsTableLayout.addComponent(componentDetailsTable);
+            ComponentDetailsTableLayout.addComponent(CopyComponentsSearchLogic.createControls());
             infolayout.addComponent(contractInformationTable);
             infolayout.addComponent(ComponentInfoLogic.createControls());
 
@@ -270,10 +272,10 @@ public class Copycomponents extends CustomComponent {
             ComponentInfoLogic.setContainerDataSource(contractInfoContainer);
             ComponentInfoLogic.setPageLength(NumericConstants.FIVE);
             ComponentInfoLogic.sinkItemPerPageWithPageLength(false);
-            contractInformationTable.setVisibleColumns(Constants.CONTRACT_INFO_COLUMNS);
-            contractInformationTable.setColumnHeaders(Constants.CONTRACT_INFO_HEADERS);
-            contractInformationTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
-            contractInformationTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
+            contractInformationTable.setVisibleColumns(Constants.getInstance().contractInfoColumns);
+            contractInformationTable.setColumnHeaders(Constants.getInstance().contractInfoHeaders);
+            contractInformationTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
+            contractInformationTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
             contractInformationTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             contractInformationTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             SearchfieldNC.setEnabled(false);
@@ -286,8 +288,8 @@ public class Copycomponents extends CustomComponent {
             CopyComponentsResultLogic.setPageLength(NumericConstants.FIVE);
             CopyComponentsResultLogic.sinkItemPerPageWithPageLength(false);
             contractComponent.setEditable(true);
-            contractComponent.setVisibleColumns(Constants.CONTRACT_COMPONENT_COLUMNS);
-            contractComponent.setColumnHeaders(Constants.CONTRACT_COMPONENT_HEADERS);
+            contractComponent.setVisibleColumns(Constants.getInstance().contractComponentColumns);
+            contractComponent.setColumnHeaders(Constants.getInstance().contractComponentHeaders);
             contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
             contractComponent.setColumnAlignment("contractStartDate", ExtCustomTable.Align.CENTER);
             contractComponent.setColumnAlignment("contractEndDate", ExtCustomTable.Align.CENTER);
@@ -302,11 +304,11 @@ public class Copycomponents extends CustomComponent {
                     return field;
                 }
             });
-
+            
             contractComponent.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (CopyComponentDTO temp : contractComponentContainer.getItemIds()) {
-                        contractComponentContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
+                        contractComponentContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());                        
                     }
                 }
             });
@@ -326,10 +328,10 @@ public class Copycomponents extends CustomComponent {
             CopyComponentsSearchLogic.setContainerDataSource(copycontractResultsContainer);
             CopyComponentsSearchLogic.setPageLength(NumericConstants.FIVE);
             componentDetailsTable.setSelectable(true);
-            componentDetailsTable.setVisibleColumns(UiUtils.CC_COMPANY_DETAILS_COLUMNS);
-            componentDetailsTable.setColumnHeaders(UiUtils.NEW_COMPANY_DETAILS_HEADERS);
-            componentDetailsTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
-            componentDetailsTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
+            componentDetailsTable.setVisibleColumns(UiUtils.getInstance().ccCompanyDetailsColumns);
+            componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newCompanyDetailsHeaders);
+            componentDetailsTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
+            componentDetailsTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsTable.setWidth(Constants.NINE_SEVENTY_PXL);
 
             componentDetailsTable.setColumnWidth(Constants.COMPANY_NO, NumericConstants.TWO_HUNDRED);
@@ -354,7 +356,7 @@ public class Copycomponents extends CustomComponent {
             psDetailsGrid.setVisible(false);
             rsDetailsGrid.setVisible(false);
 
-            loadContractComponentTable();
+            loadContractComponentTable();            
             contractComponent.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
                  * Method is called when results value is changed
@@ -371,9 +373,16 @@ public class Copycomponents extends CustomComponent {
                  */
                 public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
                     if (propertyId.equals(Constants.CHECK)) {
-                        final CheckBox select = new CheckBox();
+                        final ExtCustomCheckBox select = new ExtCustomCheckBox();
                         select.setImmediate(true);
-                        select.setValue(false);
+                        select.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
+                            public void click(ExtCustomCheckBox.ClickEvent event) {
+                                if(select.getValue() == true){
+                                    resultsItemClick(itemId);
+                                }
+                            }
+                        });
                         return select;
                     }
                     return null;
@@ -384,71 +393,11 @@ public class Copycomponents extends CustomComponent {
             LOGGER.error(ex);
         }
 
-        ComponenttypeNC.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                String compType = String.valueOf(ComponenttypeNC.getValue());
-                if (compType.equals(Constants.COMPANY_FAMILY_PLAN)) {
-                    cfpComponent.setVisible(true);
-                    ifpComponent.setVisible(false);
-                    psComponent.setVisible(false);
-                    rsComponent.setVisible(false);
-
-                    componentDetailsTable.removeAllItems();
-                    componentDetailsTable.setVisibleColumns(UiUtils.CC_COMPANY_DETAILS_COLUMNS);
-                    componentDetailsTable.setColumnHeaders(UiUtils.NEW_COMPANY_DETAILS_HEADERS);
-                    componentDetailsTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
-                    componentDetailsTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
-                } else if (compType.equals(Constants.ITEM_FAMILY_PLAN)) {
-                    cfpComponent.setVisible(false);
-                    ifpComponent.setVisible(true);
-                    psComponent.setVisible(false);
-                    rsComponent.setVisible(false);
-
-                    componentDetailsTable.removeAllItems();
-                    componentDetailsTable.setVisibleColumns(UiUtils.CC_IFP_DETAILS_COLUMNS);
-                    componentDetailsTable.setColumnHeaders(UiUtils.NEW_IFP_DETAILS_HEADERS);
-                    componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
-                    componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
-                } else if (compType.equals(Constants.PRICE_SCHEDULE)) {
-                    cfpComponent.setVisible(false);
-                    ifpComponent.setVisible(false);
-                    psComponent.setVisible(true);
-                    rsComponent.setVisible(false);
-
-                    componentDetailsTable.removeAllItems();
-                    componentDetailsTable.setVisibleColumns(UiUtils.CC_PS_DETAILS_COLUMNS);
-                    componentDetailsTable.setColumnHeaders(UiUtils.NEW_PS_DETAILS_HEADERS);
-                    componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
-                    componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
-                } else if (compType.equals(Constants.REBATE_SCHEDULE)) {
-                    cfpComponent.setVisible(false);
-                    ifpComponent.setVisible(false);
-                    psComponent.setVisible(false);
-                    rsComponent.setVisible(true);
-
-                    componentDetailsTable.removeAllItems();
-                    componentDetailsTable.setVisibleColumns(UiUtils.CC_RS_DETAILS_COLUMNS);
-                    componentDetailsTable.setColumnHeaders(UiUtils.NEW_RS_DETAILS_HEADERS);
-                    componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
-                    componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
-                }
-                contractComponent.removeAllItems();
-                try {
-                    loadContractComponentTable();
-                } catch (ParseException ex) {
-                    LOGGER.error(ex);
-                }
-            }
-        });
+        componentTypeValueChange();
         componentDetailsLayout.setSizeUndefined();
     }
 
-    private void loadContractComponentTable() throws ParseException {
+    private void loadContractComponentTable() {
 
         CopyComponentsResultLogic.setData(selectedList);
     }
@@ -472,7 +421,7 @@ public class Copycomponents extends CustomComponent {
                         cfpStartDate.setValue(date);
                     } else {
                         cfpStartDate.setValue(Constants.EMPTY);
-                    }
+    }
                     if (object[NumericConstants.FIVE] != null) {
                         cfpfileName.setValue(String.valueOf(object[NumericConstants.FIVE]));
                     } else {
@@ -581,17 +530,16 @@ public class Copycomponents extends CustomComponent {
                 if (checked) {
                     checkedFlag = true;
                     if (!flag) {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_Id).getValue());
+                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
                         ids = cfpId;
                         flag = true;
                     } else {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_Id).getValue());
+                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
                         ids = ids + Constants.COMMA + cfpId;
                     }
                 }
             }
-            if (ids.equals(Constants.EMPTY)) {
-            } else {
+            if (!ids.isEmpty()) {
                 String companyQuery = queryUtils.getCompanyMasterSid(ids);
                 String value = Constants.EMPTY;
                 List companyids = ccDao.searchList(companyQuery);
@@ -625,17 +573,16 @@ public class Copycomponents extends CustomComponent {
                 if (checked) {
                     checkedFlag = true;
                     if (!flag) {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_Id).getValue());
+                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
                         ids = cfpId;
                         flag = true;
                     } else {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_Id).getValue());
+                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
                         ids = ids + Constants.COMMA + cfpId;
                     }
                 }
             }
-            if (ids.equals(Constants.EMPTY)) {
-            } else {
+            if (!ids.isEmpty()) {                
                 String componentQuery = queryUtils.getItemMasterDetails(ids);
                 CopyComponentsSearchLogic.setData(Constants.IFP, componentQuery);
                 Object[] visibleColumns = componentDetailsTable.getVisibleColumns();
@@ -662,8 +609,7 @@ public class Copycomponents extends CustomComponent {
                     }
                 }
             }
-            if (ids.equals(Constants.EMPTY)) {
-            } else {
+            if (!ids.isEmpty()) {
                 String componentQuery = queryUtils.getPSDetails(ids);
                 CopyComponentsSearchLogic.setData(Constants.PS, componentQuery);
                 Object[] visibleColumns = componentDetailsTable.getVisibleColumns();
@@ -689,8 +635,7 @@ public class Copycomponents extends CustomComponent {
                     }
                 }
             }
-            if (ids.equals(Constants.EMPTY)) {
-            } else {
+            if (!ids.isEmpty()) {
                 String componentQuery = queryUtils.getRSDetails(ids);
                 CopyComponentsSearchLogic.setData(Constants.RS, componentQuery);
                 Object[] visibleColumns = componentDetailsTable.getVisibleColumns();
@@ -744,11 +689,11 @@ public class Copycomponents extends CustomComponent {
                         for (Object item : returnList) {
                             Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                             if (checked) {
-                                String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_Id).getValue());
+                                String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
                                 setA.add(cfpId);
                             }
                         }
-                        List<String> tmp = new ArrayList<String>();
+                        List<String> tmp = new ArrayList<>();
                         for (Object cfpContId : setA) {
                             String id = String.valueOf(cfpContId);
                             String query = queryUtils.cfpValue(id);
@@ -785,11 +730,11 @@ public class Copycomponents extends CustomComponent {
                         for (Object item : returnList) {
                             Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                             if (checked) {
-                                String ifpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_Id).getValue());
+                                String ifpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
                                 setA.add(ifpId);
                             }
                         }
-                        List<String> tmp = new ArrayList<String>();
+                        List<String> tmp = new ArrayList<>();
                         for (Object ifpContId : setA) {
                             String id = String.valueOf(ifpContId);
                             String query = queryUtils.getIFP(id);
@@ -830,7 +775,7 @@ public class Copycomponents extends CustomComponent {
                             }
                         }
                         Boolean psFlag = true;
-                        List<String> tmp = new ArrayList<String>();
+                        List<String> tmp = new ArrayList<>();
                         for (Object psContId : setA) {
                             String id = String.valueOf(psContId);
                             String query = queryUtils.psValue(id);
@@ -878,7 +823,7 @@ public class Copycomponents extends CustomComponent {
                                 setA.add(rsId);
                             }
                         }
-                        List<String> tmp = new ArrayList<String>();
+                        List<String> tmp = new ArrayList<>();
                         for (Object rsContId : setA) {
                             String id = String.valueOf(rsContId);
                             String query = queryUtils.rsValue(id);
@@ -945,8 +890,8 @@ public class Copycomponents extends CustomComponent {
                 }
                 String componentQuery = queryUtils.populateQuery(value);
                 ComponentInfoLogic.setData(Constants.CFP, componentQuery);
-                contractInformationTable.setVisibleColumns(Constants.CC_COMPONENT_DETAILS_COLUMNS);
-                contractInformationTable.setColumnHeaders(Constants.CC_COMPONENT_DETAILS_HEADERS);
+                contractInformationTable.setVisibleColumns(Constants.getInstance().ccComponentDetailsColumns);
+                contractInformationTable.setColumnHeaders(Constants.getInstance().ccComponentDetailsHeaders);
                 cfpDetailsGrid.setVisible(true);
                 ifpDetailsGrid.setVisible(false);
                 psDetailsGrid.setVisible(false);
@@ -964,7 +909,7 @@ public class Copycomponents extends CustomComponent {
                 }
             } else if (level.equals(Constants.TWO) || level.equals(Constants.THREE) || level.equals(Constants.FOUR)) {
                 String ifpId = String.valueOf(contractDashBoardTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
-                String componentQuery = Constants.EMPTY;
+                String componentQuery;
                 if (level.equals(Constants.TWO)) {
                     componentQuery = queryUtils.getItemMasterDetails(ifpId);
                     ComponentInfoLogic.setData(Constants.IFP, componentQuery);
@@ -975,8 +920,8 @@ public class Copycomponents extends CustomComponent {
                     componentQuery = queryUtils.getRSDetails(ifpId);
                     ComponentInfoLogic.setData(Constants.RS, componentQuery);
                 }
-                contractInformationTable.setVisibleColumns(Constants.COMPONENT_DETAILS_ITEM_COLUMNS);
-                contractInformationTable.setColumnHeaders(Constants.COMPONENT_DETAILS_ITEM_HEADERS);
+                contractInformationTable.setVisibleColumns(Constants.getInstance().componentDetailsItemColumns);
+                contractInformationTable.setColumnHeaders(Constants.getInstance().componentDetailsItemHeaders);
                 if (level.equals(Constants.TWO)) {
                     cfpDetailsGrid.setVisible(false);
                     ifpDetailsGrid.setVisible(true);
@@ -1061,7 +1006,7 @@ public class Copycomponents extends CustomComponent {
         }
     }
 
-    public void savecontract(Object item) throws SystemException, PortalException, ParseException {
+    public void savecontract(Object item) throws SystemException {
         try {
             String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.SESSION_ID));
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
@@ -1112,118 +1057,117 @@ public class Copycomponents extends CustomComponent {
                 CAM.setContractMasterSid(contractMasterSid);
                 ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
             } else if (level.equals(Constants.ONE)) {
-                String cfpContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
-                Object contractItem = contractDashBoardTable.getParent(item);
-                String contractSid = String.valueOf(contractDashBoardTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Date date = new Date();
-                String createdDate = dbDate.format(date);
-                String query = queryUtils.cfpContractDetailsInsert(contractSid, createdDate, cfpContractSId);
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
-                String query1 = queryUtils.idenCFPQuery();
-                List ids = ccDao.searchList(query1);
-                if (ids != null && ids.size() > 0) {
-                    String id = String.valueOf(ids.get(0));
-                    contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
-                    String cfpModelQuery = queryUtils.cfpModelQuery(id);
-                    List cfpModel = ccDao.searchList(cfpModelQuery);
-                    if (cfpModel != null && cfpModel.size() > 0) {
-                        String cfpModelId = String.valueOf(cfpModel.get(0));
-                        SaveCFP(String.valueOf(id), String.valueOf(cfpModelId));
-                    }
-                }
+                saveCFP(item);
             } else if (level.equals(Constants.TWO)) {
-                String ifpContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
-                Object parentItem = contractDashBoardTable.getParent(item);
-                String parentCFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Object contractItem = contractDashBoardTable.getParent(parentItem);
-                String contractSid = String.valueOf(contractDashBoardTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Date date = new Date();
-                String createdDate = dbDate.format(date);
-                String query = queryUtils.ifpContractDetailsInsert(parentCFPId, contractSid, createdDate, ifpContractSId);
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
-                String query1 = queryUtils.idenIFPQuery();
-                List ids = ccDao.searchList(query1);
-                if (ids != null && ids.size() > 0) {
-                    String id = String.valueOf(ids.get(0));
-                    contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
-                    String ifpModelQuery = queryUtils.ifpModelQuery(id);
-                    List ifpModel = ccDao.searchList(ifpModelQuery);
-                    if (ifpModel != null && ifpModel.size() > 0) {
-                        String ifpModelId = String.valueOf(ifpModel.get(0));
-                        SaveIFP(String.valueOf(id), String.valueOf(ifpModelId));
-                    }
-                }
+                saveIFP(item);
             } else if (level.equals(Constants.THREE)) {
-                String psContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
-                Object parentItem = contractDashBoardTable.getParent(item);
-                String parentIFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Object parentCFPItem = contractDashBoardTable.getParent(parentItem);
-                String parentCFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentCFPItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Object contractItem = contractDashBoardTable.getParent(parentCFPItem);
-                String contractSid = String.valueOf(contractDashBoardTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Date date = new Date();
-                String createdDate = dbDate.format(date);
-                String query = queryUtils.psContractDetailsInsert(contractSid, parentCFPId, parentIFPId, createdDate, psContractSId);
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
-                String query1 = queryUtils.idenPSQuery();
-                List ids = ccDao.searchList(query1);
-                if (ids != null && ids.size() > 0) {
-                    String id = String.valueOf(ids.get(0));
-                    contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
-                    String psModelQuery = queryUtils.psModelQuery(id);
-                    List psModel = ccDao.searchList(psModelQuery);
-                    if (psModel != null && psModel.size() > 0) {
-                        String psModelId = String.valueOf(psModel.get(0));
-                        SavePS(String.valueOf(id), String.valueOf(psModelId));
-                    }
-                }
+                savePS(item);
             } else if (level.equals(Constants.FOUR)) {
-                String rsContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
-                Object psParentItem = contractDashBoardTable.getParent(item);
-                String parentPSId = String.valueOf(contractDashBoardTable.getContainerProperty(psParentItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Object parentIFPItem = contractDashBoardTable.getParent(psParentItem);
-                String parentIFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentIFPItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Object parentCFPItem = contractDashBoardTable.getParent(parentIFPItem);
-                String parentCFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentCFPItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Object contractItem = contractDashBoardTable.getParent(parentCFPItem);
-                String contractSid = String.valueOf(contractDashBoardTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
-                Date date = new Date();
-                String createdDate = dbDate.format(date);
-                String query = queryUtils.rsContractDetailsInsert(contractSid, parentCFPId, parentIFPId, parentPSId, createdDate, rsContractSId);
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
-                String query1 = queryUtils.idenRSQuery();
-                List ids = ccDao.searchList(query1);
-                if (ids != null && ids.size() > 0) {
-                    String id = String.valueOf(ids.get(0));
-                    contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
-                    String rsModelQuery = queryUtils.rsModelQuery(id);
-                    List rsModel = ccDao.searchList(rsModelQuery);
-                    if (rsModel != null && rsModel.size() > 0) {
-                        String rsModelId = String.valueOf(rsModel.get(0));
-                        SaveRS(String.valueOf(id), String.valueOf(rsModelId));
-                    }
-                }
+                saveRS(item);
             }
         } catch (Exception e) {
             LOGGER.error(e);
         }
     }
 
-    public void SaveCFP(String cfpId, String cfpModelId) {
-        copyContractLogic.SaveCFPForCopyComponent(cfpId, cfpModelId);
+    public void saveCFP(Object item) {
+        String cfpContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
+        Object contractItem = contractDashBoardTable.getParent(item);
+        String contractSid = String.valueOf(contractDashBoardTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Date date = new Date();
+        String createdDate = dbDate.format(date);
+        String query = queryUtils.cfpContractDetailsInsert(contractSid, createdDate, cfpContractSId);
+        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        String query1 = queryUtils.idenCFPQuery();
+        List ids = ccDao.searchList(query1);
+        if (ids != null && ids.size() > 0) {
+            String id = String.valueOf(ids.get(0));
+            contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
+            String cfpModelQuery = queryUtils.cfpModelQuery(id);
+            List cfpModel = ccDao.searchList(cfpModelQuery);
+            if (cfpModel != null && cfpModel.size() > 0) {
+                String cfpModelId = String.valueOf(cfpModel.get(0));
+                copyContractLogic.SaveCFPForCopyComponent(String.valueOf(id), cfpModelId);
+            }
+        }        
     }
 
-    public void SaveIFP(String ifpId, String ifpModelId) {
-        copyContractLogic.SaveIFPForCopyComponent(ifpId, ifpModelId);
+    public void saveIFP(Object item) {
+        String ifpContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
+        Object parentItem = contractDashBoardTable.getParent(item);
+        String parentCFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Object contractItem = contractDashBoardTable.getParent(parentItem);
+        String contractSid = String.valueOf(contractDashBoardTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Date date = new Date();
+        String createdDate = dbDate.format(date);
+        String query = queryUtils.ifpContractDetailsInsert(parentCFPId, contractSid, createdDate, ifpContractSId);
+        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        String query1 = queryUtils.idenIFPQuery();
+        List ids = ccDao.searchList(query1);
+        if (ids != null && ids.size() > 0) {
+            String id = String.valueOf(ids.get(0));
+            contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
+            String ifpModelQuery = queryUtils.ifpModelQuery(id);
+            List ifpModel = ccDao.searchList(ifpModelQuery);
+            if (ifpModel != null && ifpModel.size() > 0) {
+                String ifpModelId = String.valueOf(ifpModel.get(0));
+                copyContractLogic.SaveIFPForCopyComponent(String.valueOf(id), String.valueOf(ifpModelId));
+            }
+        }
     }
 
-    public void SavePS(String psid, String psModelId) {
-        copyContractLogic.SavePSForCopyComponent(psid, psModelId);
+    public void savePS(Object item) {
+        String psContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
+        Object parentItem = contractDashBoardTable.getParent(item);
+        String parentIFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Object parentCFPItem = contractDashBoardTable.getParent(parentItem);
+        String parentCFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentCFPItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Object contractItem = contractDashBoardTable.getParent(parentCFPItem);
+        String contractSid = String.valueOf(contractDashBoardTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Date date = new Date();
+        String createdDate = dbDate.format(date);
+        String query = queryUtils.psContractDetailsInsert(contractSid, parentCFPId, parentIFPId, createdDate, psContractSId);
+        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        String query1 = queryUtils.idenPSQuery();
+        List ids = ccDao.searchList(query1);
+        if (ids != null && ids.size() > 0) {
+            String id = String.valueOf(ids.get(0));
+            contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
+            String psModelQuery = queryUtils.psModelQuery(id);
+            List psModel = ccDao.searchList(psModelQuery);
+            if (psModel != null && psModel.size() > 0) {
+                String psModelId = String.valueOf(psModel.get(0));
+                copyContractLogic.SavePSForCopyComponent(String.valueOf(id), String.valueOf(psModelId));
+            }
+        }
     }
 
-    public void SaveRS(String rsid, String rsModelId) {
-        copyContractLogic.SaveRSForCopyComponent(rsid, rsModelId);
-
+    public void saveRS(Object item) {
+        String rsContractSId = String.valueOf(contractDashBoardTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
+        Object psParentItem = contractDashBoardTable.getParent(item);
+        String parentPSId = String.valueOf(contractDashBoardTable.getContainerProperty(psParentItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Object parentIFPItem = contractDashBoardTable.getParent(psParentItem);
+        String parentIFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentIFPItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Object parentCFPItem = contractDashBoardTable.getParent(parentIFPItem);
+        String parentCFPId = String.valueOf(contractDashBoardTable.getContainerProperty(parentCFPItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Object contractItem = contractDashBoardTable.getParent(parentCFPItem);
+        String contractSid = String.valueOf(contractDashBoardTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
+        Date date = new Date();
+        String createdDate = dbDate.format(date);
+        String query = queryUtils.rsContractDetailsInsert(contractSid, parentCFPId, parentIFPId, parentPSId, createdDate, rsContractSId);
+        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        String query1 = queryUtils.idenRSQuery();
+        List ids = ccDao.searchList(query1);
+        if (ids != null && ids.size() > 0) {
+            String id = String.valueOf(ids.get(0));
+            contractDashBoardTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(id);
+            String rsModelQuery = queryUtils.rsModelQuery(id);
+            List rsModel = ccDao.searchList(rsModelQuery);
+            if (rsModel != null && rsModel.size() > 0) {
+                String rsModelId = String.valueOf(rsModel.get(0));
+                copyContractLogic.SaveRSForCopyComponent(String.valueOf(id), String.valueOf(rsModelId));
+            }
+        }
     }
 
     /**
@@ -1252,6 +1196,66 @@ public class Copycomponents extends CustomComponent {
 
     public void setFunctionHM(Map<String, AppPermission> functionHM) {
         this.functionHM = functionHM;
+    }
+    
+    private void componentTypeValueChange() {
+        ComponenttypeNC.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                String compType = String.valueOf(ComponenttypeNC.getValue());
+                if (compType.equals(Constants.COMPANY_FAMILY_PLAN)) {
+                    cfpComponent.setVisible(true);
+                    ifpComponent.setVisible(false);
+                    psComponent.setVisible(false);
+                    rsComponent.setVisible(false);
+
+                    componentDetailsTable.removeAllItems();
+                    componentDetailsTable.setVisibleColumns(UiUtils.getInstance().ccCompanyDetailsColumns);
+                    componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newCompanyDetailsHeaders);
+                    componentDetailsTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
+                    componentDetailsTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
+                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+                } else if (compType.equals(Constants.ITEM_FAMILY_PLAN)) {
+                    cfpComponent.setVisible(false);
+                    ifpComponent.setVisible(true);
+                    psComponent.setVisible(false);
+                    rsComponent.setVisible(false);
+
+                    componentDetailsTable.removeAllItems();
+                    componentDetailsTable.setVisibleColumns(UiUtils.getInstance().ccIfpDetailsColumns);
+                    componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newIfpDetailsHeaders);
+                    componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
+                    componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
+                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+                } else if (compType.equals(Constants.PRICE_SCHEDULE)) {
+                    cfpComponent.setVisible(false);
+                    ifpComponent.setVisible(false);
+                    psComponent.setVisible(true);
+                    rsComponent.setVisible(false);
+
+                    componentDetailsTable.removeAllItems();
+                    componentDetailsTable.setVisibleColumns(UiUtils.getInstance().ccPsDetailsColumns);
+                    componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newPsDetailsHeaders);
+                    componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
+                    componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
+                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+                } else if (compType.equals(Constants.REBATE_SCHEDULE)) {
+                    cfpComponent.setVisible(false);
+                    ifpComponent.setVisible(false);
+                    psComponent.setVisible(false);
+                    rsComponent.setVisible(true);
+
+                    componentDetailsTable.removeAllItems();
+                    componentDetailsTable.setVisibleColumns(UiUtils.getInstance().ccRsDetailsColumns);
+                    componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newRsDetailsHeaders);
+                    componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
+                    componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
+                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+                }
+                contractComponent.removeAllItems();
+                loadContractComponentTable();
+            }
+        });
     }
 
 }

@@ -25,6 +25,7 @@ import com.vaadin.server.VaadinSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,11 +43,14 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class DataSelectionQueryUtils {
 
-    private static final NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
+     private static final NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
      public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-
+     public static final String AFALSE_STRING = "false";
+     public static final String FILTERBUSINESS_UNIT_NAME = "filter~businessUnitName";
+     public static final String FILTERCREATED_BY = "filter~createdBy";
+     
     public List loadResultsTable(String projectionName, String getSelectedProducts, Object companyValueId, Object thearupeticValueId, int productGroupId, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns,Object businessUnit) throws PortalException, SystemException, ParseException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
@@ -56,15 +60,6 @@ public class DataSelectionQueryUtils {
                     if (!"createdBy".equals(stringFilter.getPropertyId())) {
                         parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
                     } else {
-                        String lastName = StringUtils.EMPTY;
-                        if (filterString.contains(",")) {
-                            String array[] = filterString.split(",");
-                            lastName = array[0].trim();
-                        } else {
-                            lastName = filterString;
-                            lastName = lastName.trim();
-                        }
-
                         try {
 
                             filterString = stringFilter.getFilterString();
@@ -77,14 +72,14 @@ public class DataSelectionQueryUtils {
                     Between betweenFilter = (Between) filter;
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
-                    parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + "~from", String.valueOf(startValue));
+                    parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + Constant.TILT_FROM, String.valueOf(startValue));
                     parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + "~to", String.valueOf(endValue));
                 } else if (filter instanceof Compare) {
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     Date value = (Date) compare.getValue();
                     if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(Constant.FILTER + compare.getPropertyId() + "~from", String.valueOf(value));
+                        parameters.put(Constant.FILTER + compare.getPropertyId() + Constant.TILT_FROM, String.valueOf(value));
                     } else {
                         parameters.put(Constant.FILTER + compare.getPropertyId() + "~to", String.valueOf(value));
                     }
@@ -110,9 +105,9 @@ public class DataSelectionQueryUtils {
         if (!projName.equals(StringUtils.EMPTY)) {
 
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
@@ -120,9 +115,9 @@ public class DataSelectionQueryUtils {
         }
         if (companyId != 0) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" CM.COMPANY_MASTER_SID = ").append(companyId);
@@ -130,9 +125,9 @@ public class DataSelectionQueryUtils {
         }
         if (itemGroupId != 0) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" IG.ITEM_GROUP_SID = ").append(itemGroupId);
@@ -140,210 +135,209 @@ public class DataSelectionQueryUtils {
         }
         if (therapeuticId != 0) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" IM.THERAPEUTIC_CLASS = ").append(therapeuticId);
         }
         if (!"0".equals(String.valueOf(businessUnit)) && !"null".equals(String.valueOf(businessUnit))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" NAM.BUSINESS_UNIT =  ").append(businessUnit);
         }
-        if (parameters.containsKey("filter~businessUnitName")) {
+        if (parameters.containsKey(FILTERBUSINESS_UNIT_NAME)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" CM1.COMPANY_NAME like '").append(String.valueOf(parameters.get("filter~businessUnitName"))).append("'  \n ");
+            sql.append(" CM1.COMPANY_NAME like '").append(String.valueOf(parameters.get(FILTERBUSINESS_UNIT_NAME))).append(Constant.SLASH_N);
 
         }
 
-        if (parameters.containsKey("filter~projectionName")) {
+        if (parameters.containsKey(Constant.FILTERPROJECTION_NAME)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" NAM.NA_PROJ_NAME like '").append(String.valueOf(parameters.get("filter~projectionName"))).append("'  \n ");
+            sql.append(" NAM.NA_PROJ_NAME like '").append(String.valueOf(parameters.get(Constant.FILTERPROJECTION_NAME))).append(Constant.SLASH_N);
 
         }
 
-        if (parameters.containsKey("filter~company")) {
+        if (parameters.containsKey(Constant.FILTER_COMPANY)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" CM.COMPANY_NAME like '").append(String.valueOf(parameters.get("filter~company"))).append("'  \n ");
+            sql.append(" CM.COMPANY_NAME like  '").append(String.valueOf(parameters.get(Constant.FILTER_COMPANY))).append(Constant.SLASH_N);
 
         }
 
-        if (parameters.containsKey("filter~productGroup")) {
+        if (parameters.containsKey(Constant.FILTER_PRODUCT_GROUP)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" IG.ITEM_GROUP_NAME like '").append(String.valueOf(parameters.get("filter~productGroup"))).append("'  \n ");
+            sql.append(" IG.ITEM_GROUP_NAME like '").append(String.valueOf(parameters.get(Constant.FILTER_PRODUCT_GROUP))).append(Constant.SLASH_N);
 
         }
 
-        if (parameters.containsKey("filter~therapeuticClass")) {
+        if (parameters.containsKey(Constant.FILTER_THERAPEUTIC_CLASS)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
-            sql.append("  HT.DESCRIPTION like '").append(String.valueOf(parameters.get("filter~therapeuticClass"))).append("'  \n ");
+            sql.append("  HT.DESCRIPTION like '").append(String.valueOf(parameters.get(Constant.FILTER_THERAPEUTIC_CLASS))).append(Constant.SLASH_N);
 
         }
 
-        if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                && (parameters.get("filter~createdDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+        if ((parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))))) {
 
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" NAM.CREATED_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
+            String from = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))));
             sql.append(from);
-            sql.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
+            sql.append(Constant.AND_SPACE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))));
             sql.append(to);
             sql.append("' ");
-        } else if ((parameters.get("filter~createdDateSearch~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                && (parameters.get("filter~createdDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+        } else if ((parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))))) {
 
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append("  NAM.CREATED_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
+            String to = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))));
             sql.append(to);
             sql.append("' ");
-        } else if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                && (parameters.get("filter~createdDateSearch~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+        } else if ((parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO) == null || Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
             sql.append("  NAM.CREATED_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
+            String from = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))));
             sql.append(from);
             sql.append("' ");
         }
-        if ((parameters.get("filter~modifiedDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                && (parameters.get("filter~modifiedDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+        if ((parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append("  NAM.MODIFIED_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
+            String from = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))));
             sql.append(from);
-            sql.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
+            sql.append(Constant.AND_SPACE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))));
             sql.append(to);
             sql.append("' ");
-        } else if ((parameters.get("filter~modifiedDateSearch~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                && (parameters.get("filter~modifiedDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+        } else if ((parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append("  NAM.MODIFIED_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
+            String to = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))));
             sql.append(to);
             sql.append("' ");
-        } else if ((parameters.get("filter~modifiedDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                && (parameters.get("filter~modifiedDateSearch~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+        } else if ((parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO) == null || Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append("  NAM.MODIFIED_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
+            String from = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))));
             sql.append(from);
             sql.append("' ");
         }
-        if (parameters.get("filter~createdBy") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdBy")))) {
+        if (parameters.get(FILTERCREATED_BY) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCREATED_BY)))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append("  NAM.CREATED_BY in(" + parameters.get("filter~createdBy") + ")");
+            sql.append("  NAM.CREATED_BY in(" + parameters.get(FILTERCREATED_BY) + ")");
 
         }
 
         if (flag) {
-            sql.append(" and");
+            sql.append(Constant.SPACE_AND_SMALL);
         } else {
-            sql.append(" where ");
-            flag = true;
+            sql.append(Constant.SPACE_WHERE_SMALL);
         }
 
         sql.append("  NAM.SAVE_FLAG = 1");
 
-        parameters.put(Constant.ISORDERED, "false");
+        parameters.put(Constant.ISORDERED, AFALSE_STRING);
 
         for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
             SortByColumn orderByColumn = (SortByColumn) iterator.next();
@@ -357,44 +351,44 @@ public class DataSelectionQueryUtils {
             }
         }
 
-        if (parameters.get(Constant.ISORDERED) == null || "false".equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
+        if (parameters.get(Constant.ISORDERED) == null || AFALSE_STRING.equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
             sql.append(" ORDER BY NAM.CREATED_DATE DESC ");
         } else if (parameters.get(Constant.ISORDERED) != null && Constant.TRUE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
-            if (parameters.get("orderBy~projectionName") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~projectionName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~projectionName")))) {
+            if (parameters.get(Constant.ORDER_BYPROJECTION_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPROJECTION_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPROJECTION_NAME)))) {
                 sql.append(" ORDER BY NAM.NA_PROJ_NAME ");
-                sql.append(String.valueOf(parameters.get("orderBy~projectionName")));
+                sql.append(String.valueOf(parameters.get(Constant.ORDER_BYPROJECTION_NAME)));
             }
 
-            if (parameters.get("orderBy~company") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~company"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~company")))) {
+            if (parameters.get(Constant.ORDER_BYCOMPANY) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY)))) {
                 sql.append(" ORDER BY CM.COMPANY_NAME ");
-                sql.append(String.valueOf(parameters.get("orderBy~company")));
+                sql.append(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY)));
             }
-            if (parameters.get("orderBy~productGroup") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productGroup"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productGroup")))) {
+            if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP)))) {
                 sql.append(" ORDER BY IG.ITEM_GROUP_NAME ");
-                sql.append(String.valueOf(parameters.get("orderBy~productGroup")));
+                sql.append(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP)));
             }
-            if (parameters.get("orderBy~therapeuticClass") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~therapeuticClass"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~therapeuticClass")))) {
+            if (parameters.get(Constant.ORDER_BYTHERAPEUTIC_CLASS) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYTHERAPEUTIC_CLASS))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYTHERAPEUTIC_CLASS)))) {
                 sql.append(" ORDER BY HT.DESCRIPTION ");
-                sql.append(String.valueOf(parameters.get("orderBy~therapeuticClass")));
+                sql.append(String.valueOf(parameters.get(Constant.ORDER_BYTHERAPEUTIC_CLASS)));
             }
-            if (parameters.get("orderBy~createdDateSearch") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~createdDateSearch"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~createdDateSearch")))) {
+            if (parameters.get(Constant.ORDER_BYCREATED_DATE_SEARCH) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYCREATED_DATE_SEARCH))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYCREATED_DATE_SEARCH)))) {
                 sql.append(" ORDER BY NAM.CREATED_DATE ");
-                sql.append(String.valueOf(parameters.get("orderBy~createdDateSearch")));
+                sql.append(String.valueOf(parameters.get(Constant.ORDER_BYCREATED_DATE_SEARCH)));
             }
-            if (parameters.get("orderBy~modifiedDateSearch") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~modifiedDateSearch"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~modifiedDateSearch")))) {
+            if (parameters.get(Constant.ORDER_BYMODIFIED_DATE_SEARCH) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYMODIFIED_DATE_SEARCH))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYMODIFIED_DATE_SEARCH)))) {
                 sql.append(" ORDER BY NAM.MODIFIED_DATE ");
-                sql.append(String.valueOf(parameters.get("orderBy~modifiedDateSearch")));
+                sql.append(String.valueOf(parameters.get(Constant.ORDER_BYMODIFIED_DATE_SEARCH)));
             }
-            if (parameters.get("orderBy~createdBy") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~createdBy"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~createdBy")))) {
+            if (parameters.get(Constant.ORDER_BYCREATED_BY) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYCREATED_BY))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYCREATED_BY)))) {
                 sql.append(" ORDER BY NAM.CREATED_BY ");
-                sql.append(String.valueOf(parameters.get("orderBy~createdBy")));
+                sql.append(String.valueOf(parameters.get(Constant.ORDER_BYCREATED_BY)));
             }
-            if (parameters.get("orderBy~businessUnitName") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~businessUnitName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~businessUnitName")))) {
+            if (parameters.get(Constant.ORDER_BYBUSINESS_UNIT_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYBUSINESS_UNIT_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYBUSINESS_UNIT_NAME)))) {
                 sql.append(" ORDER BY NAM.BUSINESS_UNIT ");
-                sql.append(String.valueOf(parameters.get("orderBy~businessUnitName")));
+                sql.append(String.valueOf(parameters.get(Constant.ORDER_BYBUSINESS_UNIT_NAME)));
         }
         }
-        sql.append(" OFFSET ").append(startIndex).append(" ROWS FETCH NEXT ").append(offset).append(" ROWS ONLY");
+        sql.append(" OFFSET ").append(startIndex).append(Constant.ROWS_FETCH_NEXT_SPACE).append(offset).append(Constant.ROWS_ONLY_SPACE);
 
         resultsList = (List) DAO.executeSelectQuery(String.valueOf(sql));
         return resultsList;
@@ -402,7 +396,7 @@ public class DataSelectionQueryUtils {
 
     public int loadResultsTableCount(String projectionName, String getSelectedProducts, Object companyValueId, Object thearupeticValueId, int productGroupId, Set<Container.Filter> filters,Object businessUnit) throws PortalException, SystemException, ParseException {
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
@@ -413,15 +407,6 @@ public class DataSelectionQueryUtils {
                         parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
 
                     } else {
-                        String lastName = StringUtils.EMPTY;
-                        if (filterString.contains(",")) {
-                            String array[] = filterString.split(",");
-                            lastName = array[0].trim();
-                        } else {
-                            lastName = filterString;
-                            lastName = lastName.trim();
-                        }
-
                         try {
                             filterString = stringFilter.getFilterString();
                             parameters.put(Constant.FILTER + stringFilter.getPropertyId(), CommonUtils.filterUser(filterString));
@@ -434,14 +419,14 @@ public class DataSelectionQueryUtils {
                     Between betweenFilter = (Between) filter;
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
-                    parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + "~from", String.valueOf(startValue));
+                    parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + Constant.TILT_FROM, String.valueOf(startValue));
                     parameters.put(Constant.FILTER + betweenFilter.getPropertyId() + "~to", String.valueOf(endValue));
                 } else if (filter instanceof Compare) {
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     Date value = (Date) compare.getValue();
                     if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(Constant.FILTER + compare.getPropertyId() + "~from", String.valueOf(value));
+                        parameters.put(Constant.FILTER + compare.getPropertyId() + Constant.TILT_FROM, String.valueOf(value));
                     } else {
                         parameters.put(Constant.FILTER + compare.getPropertyId() + "~to", String.valueOf(value));
                     }
@@ -466,19 +451,19 @@ public class DataSelectionQueryUtils {
         if (!projName.equals(StringUtils.EMPTY)) {
 
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" NAM.NA_PROJ_NAME like '").append(projName).append("' ");
+            sql.append("  NAM.NA_PROJ_NAME like '").append(projName).append("' ");
         }
         if (companyId != 0) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" CM.COMPANY_MASTER_SID = ").append(companyId);
@@ -486,9 +471,9 @@ public class DataSelectionQueryUtils {
         }
         if (itemGroupId != 0) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" IG.ITEM_GROUP_SID = ").append(itemGroupId);
@@ -496,203 +481,202 @@ public class DataSelectionQueryUtils {
         }
         if (therapeuticId != 0) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" IM.THERAPEUTIC_CLASS =  ").append(therapeuticId);
         }
         if (!"0".equals(String.valueOf(businessUnit)) && !"null".equals(String.valueOf(businessUnit))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" NAM.BUSINESS_UNIT =  ").append(businessUnit);
         }
-        if (parameters.containsKey("filter~businessUnitName")) {
+        if (parameters.containsKey(FILTERBUSINESS_UNIT_NAME)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" CM1.COMPANY_NAME like '").append(String.valueOf(parameters.get("filter~businessUnitName"))).append("'  \n ");
+            sql.append(" CM1.COMPANY_NAME like '").append(String.valueOf(parameters.get(FILTERBUSINESS_UNIT_NAME))).append(Constant.SLASH_N);
 
         }
-        if (parameters.containsKey("filter~projectionName")) {
+        if (parameters.containsKey(Constant.FILTERPROJECTION_NAME)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" NAM.NA_PROJ_NAME like '").append(String.valueOf(parameters.get("filter~projectionName"))).append("'  \n ");
+            sql.append(" NAM.NA_PROJ_NAME like  '").append(String.valueOf(parameters.get(Constant.FILTERPROJECTION_NAME))).append(Constant.SLASH_N);
 
         }
 
-        if (parameters.containsKey("filter~company")) {
+        if (parameters.containsKey(Constant.FILTER_COMPANY)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" CM.COMPANY_NAME like '").append(String.valueOf(parameters.get("filter~company"))).append("'  \n ");
+            sql.append("  CM.COMPANY_NAME like '").append(String.valueOf(parameters.get(Constant.FILTER_COMPANY))).append(Constant.SLASH_N);
 
         }
 
-        if (parameters.containsKey("filter~productGroup")) {
+        if (parameters.containsKey(Constant.FILTER_PRODUCT_GROUP)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append(" IG.ITEM_GROUP_NAME like '").append(String.valueOf(parameters.get("filter~productGroup"))).append("'  \n ");
+            sql.append(" IG.ITEM_GROUP_NAME like '").append(String.valueOf(parameters.get(Constant.FILTER_PRODUCT_GROUP))).append(Constant.SLASH_N);
 
         }
 
-        if (parameters.containsKey("filter~therapeuticClass")) {
+        if (parameters.containsKey(Constant.FILTER_THERAPEUTIC_CLASS)) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
-            sql.append("  HT.DESCRIPTION like '").append(String.valueOf(parameters.get("filter~therapeuticClass"))).append("'  \n ");
+            sql.append("  HT.DESCRIPTION like '").append(String.valueOf(parameters.get(Constant.FILTER_THERAPEUTIC_CLASS))).append(Constant.SLASH_N);
 
         }
-        if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                && (parameters.get("filter~createdDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+        if ((parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))))) {
 
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append(" NAM.CREATED_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
+            String from = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))));
             sql.append(from);
-            sql.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
+            sql.append(Constant.AND_SPACE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))));
             sql.append(to);
             sql.append("' ");
-        } else if ((parameters.get("filter~createdDateSearch~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                && (parameters.get("filter~createdDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+        } else if ((parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))))) {
 
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append("  NAM.CREATED_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
+            String to = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))));
             sql.append(to);
             sql.append("' ");
-        } else if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                && (parameters.get("filter~createdDateSearch~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+        } else if ((parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO) == null || Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHTO))))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
             sql.append("  NAM.CREATED_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
+            String from = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERCREATED_DATE_SEARCHFROM))));
             sql.append(from);
             sql.append("' ");
         }
-        if ((parameters.get("filter~modifiedDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                && (parameters.get("filter~modifiedDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+        if ((parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append("  NAM.MODIFIED_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
+            String from = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))));
             sql.append(from);
-            sql.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
+            sql.append(Constant.AND_SPACE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))));
             sql.append(to);
             sql.append("' ");
-        } else if ((parameters.get("filter~modifiedDateSearch~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                && (parameters.get("filter~modifiedDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+        } else if ((parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append("  NAM.MODIFIED_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
+            String to = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))));
             sql.append(to);
             sql.append("' ");
-        } else if ((parameters.get("filter~modifiedDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                && (parameters.get("filter~modifiedDateSearch~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+        } else if ((parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))))
+                && (parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO) == null || Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHTO))))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
             sql.append("  NAM.MODIFIED_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat parse = new SimpleDateFormat(Constant.EEE_MMM_DD_H_HMMSS_Z_YYYY);
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT.getConstant());
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
+            String from = format.format(parse.parse(String.valueOf(parameters.get(Constant.FILTERMODIFIED_DATE_SEARCHFROM))));
             sql.append(from);
             sql.append("' ");
         }
-        if (parameters.get("filter~createdBy") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdBy")))) {
+        if (parameters.get(FILTERCREATED_BY) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCREATED_BY)))) {
             if (flag) {
-                sql.append(" and");
+                sql.append(Constant.SPACE_AND_SMALL);
             } else {
-                sql.append(" where ");
+                sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
 
-            sql.append("  NAM.CREATED_BY in(" + parameters.get("filter~createdBy") + ")");
+            sql.append("  NAM.CREATED_BY in(" + parameters.get(FILTERCREATED_BY) + ")");
 
         }
 
         if (flag) {
-            sql.append(" and");
+            sql.append(Constant.SPACE_AND_SMALL);
         } else {
-            sql.append(" where ");
-            flag = true;
+            sql.append(Constant.SPACE_WHERE_SMALL);
         }
 
         sql.append(" NAM.SAVE_FLAG = 1");
@@ -723,7 +707,7 @@ public class DataSelectionQueryUtils {
 
     public String deleteResultsTable(int projMasterId) throws PortalException, SystemException {
 
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
         String customSql = CustomSQLUtil.get("na.deleteMain");
 
@@ -748,7 +732,7 @@ public class DataSelectionQueryUtils {
     }
 
     public static int loadProductGroupsCount(String productGroupNo, String productGroupName, Set<Container.Filter> filters) {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
@@ -765,11 +749,11 @@ public class DataSelectionQueryUtils {
         boolean whereAppend = true;
         if (StringUtils.isNotBlank(productGroupNo)) {
             if (whereAppend) {
-                sql = sql + " WHERE ";
+                sql = sql + Constant.WHERE_SPACE;
                 whereAppend = false;
             }
             if (andAppend) {
-                sql = sql + " AND ";
+                sql = sql + Constant.SPACE_AND_SPACE;
             }
             sql += " ITEM_GROUP_NO LIKE '" + productGroupNo + "' ";
             andAppend = true;
@@ -777,51 +761,50 @@ public class DataSelectionQueryUtils {
 
         if (StringUtils.isNotBlank(productGroupName)) {
             if (whereAppend) {
-                sql = sql + " WHERE ";
+                sql = sql + Constant.WHERE_SPACE;
                 whereAppend = false;
             }
             if (andAppend) {
-                sql = sql + " AND ";
+                sql = sql + Constant.SPACE_AND_SPACE;
             }
             sql += " ITEM_GROUP_NAME LIKE '" + productGroupName + "' ";
             andAppend = true;
         }
-        if (parameters.containsKey("filter~productGroupName")) {
+        if (parameters.containsKey(FILTER_PRODUCT_GROUP_NAME)) {
             if (whereAppend) {
-                sql = sql + " WHERE ";
+                sql = sql + Constant.WHERE_SPACE;
                 whereAppend = false;
             }
             if (andAppend) {
-                sql = sql + " AND ";
+                sql = sql + Constant.SPACE_AND_SPACE;
             }
 
-            sql += " ITEM_GROUP_NAME like '" + String.valueOf(parameters.get("filter~productGroupName")) + "'  \n ";
+            sql += " ITEM_GROUP_NAME like '" + String.valueOf(parameters.get(FILTER_PRODUCT_GROUP_NAME)) + Constant.SLASH_N;
 
         }
 
-        if (parameters.containsKey("filter~productGroup")) {
+        if (parameters.containsKey(Constant.FILTER_PRODUCT_GROUP)) {
             if (whereAppend) {
-                sql = sql + " WHERE ";
+                sql = sql + Constant.WHERE_SPACE;
                 whereAppend = false;
             }
             if (andAppend) {
-                sql = sql + " AND ";
+                sql = sql + Constant.SPACE_AND_SPACE;
             }
 
-            sql += (" IG.ITEM_GROUP_NO like '") + (String.valueOf(parameters.get("filter~productGroup"))) + ("'  \n ");
+            sql += (" IG.ITEM_GROUP_NO like '") + (String.valueOf(parameters.get(Constant.FILTER_PRODUCT_GROUP))) + (Constant.SLASH_N);
 
         }
 
-        if (parameters.containsKey("filter~company")) {
+        if (parameters.containsKey(Constant.FILTER_COMPANY)) {
             if (whereAppend) {
-                sql = sql + " WHERE ";
-                whereAppend = false;
+                sql = sql + Constant.WHERE_SPACE;
             }
             if (andAppend) {
-                sql = sql + " AND ";
+                sql = sql + Constant.SPACE_AND_SPACE;
             }
 
-            sql += (" CM.COMPANY_NAME like '") + (String.valueOf(parameters.get("filter~company"))) + ("'  \n ");
+            sql += (" CM.COMPANY_NAME  like '") + (String.valueOf(parameters.get(Constant.FILTER_COMPANY))) + (Constant.SLASH_N);
 
         }
 
@@ -839,6 +822,7 @@ public class DataSelectionQueryUtils {
         return count;
 
     }
+    public static final String FILTER_PRODUCT_GROUP_NAME = "filter~productGroupName";
 
     /**
      * This method is used to get Product Group based on Search Criteria
@@ -853,10 +837,10 @@ public class DataSelectionQueryUtils {
      * @param sortByColumns
      * @return list
      */
-    public List getProductGroups(String productGroupNo, String productGroupName, String company, String segment, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
+    public List getProductGroups(String productGroupNo, String productGroupName, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
 
         try {
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             if (filters != null) {
                 for (Container.Filter filter : filters) {
                     if (filter instanceof SimpleStringFilter) {
@@ -871,11 +855,11 @@ public class DataSelectionQueryUtils {
             boolean whereAppend = true;
             if (StringUtils.isNotBlank(productGroupNo)) {
                 if (whereAppend) {
-                    sql = sql + " WHERE ";
+                    sql = sql + Constant.WHERE_SPACE;
                     whereAppend = false;
                 }
                 if (andAppend) {
-                    sql = sql + " AND ";
+                    sql = sql + Constant.SPACE_AND_SPACE;
                 }
                 sql += " ITEM_GROUP_NO LIKE '" + productGroupNo + "' ";
                 andAppend = true;
@@ -883,69 +867,68 @@ public class DataSelectionQueryUtils {
 
             if (StringUtils.isNotBlank(productGroupName)) {
                 if (whereAppend) {
-                    sql = sql + " WHERE ";
+                    sql = sql + Constant.WHERE_SPACE;
                     whereAppend = false;
                 }
                 if (andAppend) {
-                    sql = sql + " AND ";
+                    sql = sql + Constant.SPACE_AND_SPACE;
                 }
                 sql += " ITEM_GROUP_NAME LIKE '" + productGroupName + "' ";
                 andAppend = true;
             }
 
-            if (parameters.containsKey("filter~productGroupName")) {
+            if (parameters.containsKey(FILTER_PRODUCT_GROUP_NAME)) {
                 if (whereAppend) {
-                    sql = sql + " WHERE ";
+                    sql = sql + Constant.WHERE_SPACE;
                     whereAppend = false;
                 }
                 if (andAppend) {
-                    sql = sql + " AND ";
+                    sql = sql + Constant.SPACE_AND_SPACE;
                 }
 
-                sql += " ITEM_GROUP_NAME like '" + String.valueOf(parameters.get("filter~productGroupName")) + "'  \n ";
+                sql += " ITEM_GROUP_NAME like '" + String.valueOf(parameters.get(FILTER_PRODUCT_GROUP_NAME)) + Constant.SLASH_N;
 
             }
 
-            if (parameters.containsKey("filter~productGroup")) {
+            if (parameters.containsKey(Constant.FILTER_PRODUCT_GROUP)) {
                 if (whereAppend) {
-                    sql = sql + " WHERE ";
+                    sql = sql + Constant.WHERE_SPACE;
                     whereAppend = false;
                 }
                 if (andAppend) {
-                    sql = sql + " AND ";
+                    sql = sql + Constant.SPACE_AND_SPACE;
                 }
 
-                sql += (" IG.ITEM_GROUP_NO like '") + (String.valueOf(parameters.get("filter~productGroup"))) + ("'  \n ");
+                sql += (" IG.ITEM_GROUP_NO like '") + (String.valueOf(parameters.get(Constant.FILTER_PRODUCT_GROUP))) + (Constant.SLASH_N);
 
             }
 
             if (parameters.containsKey("filter~productGroupDescription")) {
                 if (whereAppend) {
-                    sql = sql + " WHERE ";
+                    sql = sql + Constant.WHERE_SPACE;
                     whereAppend = false;
                 }
                 if (andAppend) {
-                    sql = sql + " AND ";
+                    sql = sql + Constant.SPACE_AND_SPACE;
                 }
 
-                sql += (" IG.ITEM_GROUP_DESCRIPTION like '") + (String.valueOf(parameters.get("filter~productGroupDescription"))) + ("'  \n ");
+                sql += (" IG.ITEM_GROUP_DESCRIPTION like '") + (String.valueOf(parameters.get("filter~productGroupDescription"))) + (Constant.SLASH_N);
 
             }
 
-            if (parameters.containsKey("filter~company")) {
+            if (parameters.containsKey(Constant.FILTER_COMPANY)) {
                 if (whereAppend) {
-                    sql = sql + " WHERE ";
-                    whereAppend = false;
+                    sql = sql + Constant.WHERE_SPACE;
                 }
                 if (andAppend) {
-                    sql = sql + " AND ";
+                    sql = sql + Constant.SPACE_AND_SPACE;
                 }
 
-                sql += (" CM.COMPANY_NAME like '") + (String.valueOf(parameters.get("filter~company"))) + ("'  \n ");
+                sql += (" CM.COMPANY_NAME like '") + (String.valueOf(parameters.get(Constant.FILTER_COMPANY))) + (Constant.SLASH_N);
 
             }
 
-            parameters.put(Constant.ISORDERED, "false");
+            parameters.put(Constant.ISORDERED, AFALSE_STRING);
 
             for (Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
                 SortByColumn orderByColumn = (SortByColumn) iterator.next();
@@ -959,35 +942,36 @@ public class DataSelectionQueryUtils {
                 }
             }
 
-            if (parameters.get(Constant.ISORDERED) == null || "false".equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
+            if (parameters.get(Constant.ISORDERED) == null || AFALSE_STRING.equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
                 sql = sql + (" ORDER BY ITEM_GROUP_NAME DESC ");
             } else if (parameters.get(Constant.ISORDERED) != null && Constant.TRUE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
-                if (parameters.get("orderBy~productGroupName") != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productGroupName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productGroupName")))) {
+                if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP_NAME) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_NAME)))) {
                     sql = sql + (" ORDER BY ITEM_GROUP_NAME ");
-                    sql = sql + (String.valueOf(parameters.get("orderBy~productGroupName")));
+                    sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_NAME)));
                 }
 
-                if (parameters.get("orderBy~productGroup") != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productGroup"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productGroup")))) {
+                if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP)))) {
                     sql = sql + (" ORDER BY ITEM_GROUP_NO ");
-                    sql = sql + (String.valueOf(parameters.get("orderBy~productGroup")));
+                    sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP)));
                 }
-                if (parameters.get("orderBy~company") != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get("orderBy~company"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~company")))) {
+                if (parameters.get(Constant.ORDER_BYCOMPANY) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY)))) {
                     sql = sql + (" ORDER BY CM.COMPANY_NAME ");
-                    sql = sql + (String.valueOf(parameters.get("orderBy~company")));
+                    sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY)));
                 }
-                if (parameters.get("orderBy~productGroupDescription") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productGroupDescription"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productGroupDescription")))) {
+                if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP_DESCRIPTION) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_DESCRIPTION))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_DESCRIPTION)))) {
                     sql = sql + (" ORDER BY IG.ITEM_GROUP_DESCRIPTION ");
-                    sql = sql + (String.valueOf(parameters.get("orderBy~productGroupDescription")));
+                    sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_DESCRIPTION)));
                 }
             }
-            sql += (" OFFSET ") + (startIndex) + (" ROWS FETCH NEXT ") + (offset) + (" ROWS ONLY");
+            sql += (" OFFSET ") + (startIndex) + (Constant.ROWS_FETCH_NEXT_SPACE) + (offset) + (Constant.ROWS_ONLY_SPACE);
             return (List) DAO.executeSelectQuery(sql);
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         } finally {
         }
     }
+    
     public List getProductGroupresults(Object companyValue, Object therapeuticClassValue, Object productGroupValue,Object businessUnit) {
         try {
             Map<String, Object> input = new HashMap<>();

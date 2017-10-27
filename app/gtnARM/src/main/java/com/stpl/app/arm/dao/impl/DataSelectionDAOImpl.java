@@ -47,7 +47,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
     public ProjectionMaster updateProjectionMaster(final ProjectionMaster projectionMaster) throws PortalException, SystemException {
         return ProjectionMasterLocalServiceUtil.updateProjectionMaster(projectionMaster);
     }
-    
+
     /**
      * Gets the projection master.
      *
@@ -58,13 +58,13 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public ProjectionMaster getProjectionMaster(final int systemId) throws PortalException, SystemException{
+    public ProjectionMaster getProjectionMaster(final int systemId) throws PortalException, SystemException {
         return ProjectionMasterLocalServiceUtil.getProjectionMaster(systemId);
     }
-    
+
     @Override
     public Object tempOperation(Map<String, Object> input, String queryName) throws SystemException {
         return ProjectionMasterLocalServiceUtil.tempOperation(input, queryName);
     }
-    
+
 }

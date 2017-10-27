@@ -10,6 +10,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDT
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractBPLogic;
 import com.stpl.app.arm.supercode.Criteria;
 import com.stpl.app.arm.supercode.DataResult;
+import com.stpl.app.arm.utils.CommonConstant;
 import java.util.List;
 
 /**
@@ -17,21 +18,20 @@ import java.util.List;
  * @author Asha.Ravi
  */
 public class PIRatesLogic<T extends AdjustmentDTO> extends AbstractBPLogic<T> {
-    
+
     @Override
     public int getCount(Criteria criteria) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
-   
 
     @Override
     public DataResult<T> getData(Criteria criteria) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

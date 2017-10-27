@@ -3,6 +3,7 @@ package com.stpl.app.contract.global.dto;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.dashboard.dto.TempPricingDTO;
 import com.stpl.app.contract.dashboard.util.ContractUtils;
+import com.stpl.app.contract.global.logic.CFPSearchLogic;
 import com.stpl.app.contract.global.logic.IfpLogic;
 import com.stpl.app.contract.global.util.CommonUtils;
 import com.stpl.app.contract.util.AbstractNotificationUtils;
@@ -10,6 +11,7 @@ import com.stpl.app.contract.util.CommonUIUtils;
 import com.stpl.app.contract.util.Constants;
 import com.stpl.app.contract.util.ErrorCodeUtil;
 import com.stpl.app.contract.util.ErrorCodes;
+import com.stpl.app.contract.util.QueryUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -19,6 +21,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
@@ -81,6 +84,18 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
     Map<Integer, String> priceType;
     SessionDTO sessionDTO;
 
+    private CFPSearchLogic cfpLogic;
+
+    private String userId;
+
+    private String sessionId;
+
+    List checkUpdate = new ArrayList();
+
+    List checkSelect = new ArrayList();
+
+    private int check;
+
     /**
      *
      * @param saveContainer
@@ -90,7 +105,7 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
      * @param sessionDTO
      * @param itemDetailsTable
      */
-    public ItemPricingGenerator(BeanItemContainer<TempPricingDTO> saveContainer, final Object[] dates, final Object[] psDates, final Map<String, List> tempDate,SessionDTO sessionDTO, ExtPagedTable itemDetailsTable) {
+    public ItemPricingGenerator(BeanItemContainer<TempPricingDTO> saveContainer, final Object[] dates, final Object[] psDates, final Map<String, List> tempDate, SessionDTO sessionDTO, ExtPagedTable itemDetailsTable) {
         this.saveContainer = saveContainer;
         this.dates = dates;
         this.tempDate = tempDate;
@@ -98,12 +113,11 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
         this.sessionDTO = sessionDTO;
         this.itemDetailsTable = itemDetailsTable;
         try {
-            ContractUtils tempUtil = new ContractUtils();
-            priceTypeList = tempUtil.getPriceType();
-            ptTypeList = tempUtil.getPriceToleranceType();
-            ptIntervalList = tempUtil.getPriceToleranceInterval();
-            ptfrequencyList = tempUtil.getPriceToleranceFrequency();
-            itemStatusList = new ContractUtils().getItemStatus();
+            priceTypeList = ContractUtils.getInstance().getPriceType();
+            ptTypeList = ContractUtils.getInstance().getPriceToleranceType();
+            ptIntervalList = ContractUtils.getInstance().getPriceToleranceInterval();
+            ptfrequencyList = ContractUtils.getInstance().getPriceToleranceFrequency();
+            itemStatusList = ContractUtils.getInstance().getItemStatus();
         } catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             LOGGER.error(errorMsg);
@@ -128,6 +142,8 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
             tempDateList.add(temp.getCpStartDate());
             tempDateList.add(temp.getCpEndDate());
             tempDate.put(temp.getItemId(), tempDateList);
+            final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
+            sessionId = sessionDTO.getUiSessionId();
 
             if (Constants.CHECK_BOX.equals(propertyId)) {
                 final CheckBox checkbox = new CheckBox();
@@ -138,8 +154,35 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
 
                     @Override
                     public void valueChange(ValueChangeEvent event) {
+                        if (temp.getCheckbox() != null) {
+                            saveContainer.addItem(itemId);
+                            check = temp.getCheckbox() ? 1 : 0;
+                            checkUpdate = new ArrayList();
 
-                        saveContainer.addItem(itemId);
+                            checkUpdate.add(check);
+                            checkUpdate.add(sessionId);
+                            checkUpdate.add(userId);
+                            checkUpdate.add(temp.getTempItemPriceRebateSystemId());
+
+                            QueryUtil.updateAppData(checkUpdate, "ItemPricingCheckUpdate");
+                            checkUpdate = new ArrayList();
+
+                            checkUpdate.add(sessionId);
+                            checkUpdate.add(userId);
+
+                            checkSelect = new ArrayList();
+
+                            checkSelect = QueryUtil.getAppData(checkUpdate, "ItemPricingCheckSelect", null);
+
+                            if (checkSelect.size() == 0) {
+                                itemDetailsTable.setCurrentPage(itemDetailsTable.getCurrentPage());
+                                itemDetailsTable.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, true);
+                            } else {
+                                itemDetailsTable.setCurrentPage(itemDetailsTable.getCurrentPage());
+                                itemDetailsTable.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, false);
+                            }
+
+                        }
                         IfpLogic.updateTempCheck(sessionDTO, temp.getTempItemPriceRebateSystemId(), checkbox.getValue());
 
                     }
@@ -177,7 +220,7 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
                     comboBox.setNullSelectionAllowed(true);
                     comboBox.setNullSelectionItemId(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
                     comboBox.setValue(temp.getPriceType());
-                    
+
                     List<HelperDTO> contractPriceTypeList = IfpLogic.getCPPriceTypeResults();
                     if(!contractPriceTypeList.isEmpty() && temp.getPriceType().equals(contractPriceTypeList.get(0)) && !"0.00".equals(temp.getPrice())){
                         comboBox.setReadOnly(true);
@@ -222,7 +265,7 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
                 globalItemStatus.addItem(Constants.ZEROSTRING);
                 globalItemStatus.setItemCaption(Constants.ZEROSTRING, Constants.SELECT_ONE);
                 globalItemStatus.setImmediate(true);
-                new ContractUtils().getPriceTypeNative(globalItemStatus, itemStatusList);
+                ContractUtils.getInstance().getPriceTypeNative(globalItemStatus, itemStatusList);
 
                 if (StringUtils.isEmpty(temp.getGlobalitemstatus())) {
                     globalItemStatus.select(Constants.ZEROSTRING);
@@ -257,7 +300,7 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
                 priceToleranceType.setNullSelectionItemId(Constants.SELECT_ONE);
                 priceToleranceType.addItem(Constants.SELECT_ONE);
                 priceToleranceType.setDescription(String.valueOf(temp.getPriceToleranceType()));
-                new ContractUtils().getNativeSelect(priceToleranceType, ptTypeList);
+                ContractUtils.getInstance().getNativeSelect(priceToleranceType, ptTypeList);
                 if (StringUtils.isEmpty(temp.getPriceToleranceType())) {
                     priceToleranceType.setValue(Constants.SELECT_ONE);
                 } else {
@@ -289,7 +332,7 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
                 priceToleranceInterval.setNullSelectionItemId(Constants.ZEROSTRING);
                 priceToleranceInterval.addItem(Constants.ZEROSTRING);
                 priceToleranceInterval.setItemCaption(Constants.ZEROSTRING, Constants.SELECT_ONE);
-                new ContractUtils().getPriceTypeNative(priceToleranceInterval, ptIntervalList);
+                ContractUtils.getInstance().getPriceTypeNative(priceToleranceInterval, ptIntervalList);
                 if (!temp.getPriceToleranceInterval().equals(Constants.NULL)) {
                     if (StringUtils.isBlank(temp.getPriceToleranceInterval()) || Integer.parseInt(temp.getPriceToleranceInterval()) == 0) {
                         priceToleranceInterval.select(0);
@@ -325,7 +368,7 @@ public class ItemPricingGenerator extends DefaultFieldFactory {
                 priceToleranceFrequency.setNullSelectionItemId(Constants.ZEROSTRING);
                 priceToleranceFrequency.addItem(Constants.ZEROSTRING);
                 priceToleranceFrequency.setItemCaption(Constants.ZEROSTRING, Constants.SELECT_ONE);
-                new ContractUtils().getPriceTypeNative(priceToleranceFrequency, ptfrequencyList);
+                ContractUtils.getInstance().getPriceTypeNative(priceToleranceFrequency, ptfrequencyList);
                 if (StringUtils.isEmpty(temp.getPriceToleranceFrequency()) || Integer.parseInt(temp.getPriceToleranceFrequency()) == 0) {
                     priceToleranceFrequency.select(0);
                 } else {

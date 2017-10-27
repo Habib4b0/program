@@ -56,8 +56,6 @@ public class SPRUnitChart {
      */
     private static final Logger LOGGER = Logger.getLogger(SPRChart.class);
 
-    private int fromDate = 0;
-    private int toDate = 0;
     private int projId = 0;
     private String projType;
     private boolean isStack;

@@ -12,7 +12,6 @@ import com.stpl.portal.kernel.exception.SystemException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.lang.StringUtils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -45,12 +44,11 @@ public final class UISecurityUtil {
 
     public static TableResultCustom getTableColumnsPermission(List<Object> resultList, Object[] obj, Map<String, AppPermission> fieldIfpHM, String mode) {
         TableResultCustom tableResultCustom = new TableResultCustom();
-        try {
             List<Object> strList = Arrays.asList(obj);
-            List<String> columnList = new ArrayList<String>();
-            List<Object> columnList1 = new ArrayList<Object>();
-            List<String> headerList = new ArrayList<String>();
-            List<String> headerList2 = new ArrayList<String>();
+            List<String> columnList = new ArrayList<>();
+            List<Object> columnList1 = new ArrayList<>();
+            List<String> headerList = new ArrayList<>();
+            List<String> headerList2 = new ArrayList<>();
             for (int i = 0; i < resultList.size(); i++) {
                 Object[] objResult = (Object[]) resultList.get(i);
                 String value = objResult[1].toString();
@@ -70,11 +68,6 @@ public final class UISecurityUtil {
             tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
 
 
-        } catch (SystemException ex) {
-            Logger.getLogger(UISecurityUtil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PortalException ex) {
-            Logger.getLogger(UISecurityUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return tableResultCustom;
     }
 
@@ -87,12 +80,12 @@ public final class UISecurityUtil {
      * @param fieldHM - HashMap contain userId and description.
      * @return the table result custom
      */
-    public static TableResultCustom modifyTableResult(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM) throws SystemException, PortalException {
+    public static TableResultCustom modifyTableResult(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM) {
 
         final TableResultCustom tblResultCustom = new TableResultCustom();
 
 
-        String str = StringUtils.EMPTY;
+        String str;
         final List<Object> objResultList = new ArrayList();
         final List<String> objResultHeaderList = new ArrayList();
 
@@ -115,12 +108,12 @@ public final class UISecurityUtil {
         return tblResultCustom;
     }
 
-    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode) throws SystemException, PortalException {
+    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode)  {
 
         final TableResultCustom tblResultCustom = new TableResultCustom();
         boolean appPerm = false;
 
-        String str = StringUtils.EMPTY;
+        String str;
         final List<Object> objResultList = new ArrayList();
         final List<String> objResultHeaderList = new ArrayList();
 

@@ -26,6 +26,8 @@ public class ContractSearchTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         if (generate) {
+             binderDTO.setIsCount(false);
+            binderDTO.setFilters(getFilters());
             return CommonUtils.getDataCount("Copy Contract-contract Search Count", logic.getInputForContractSearch(binderDTO,0,0,true,this.getSortByColumns()));
         }
         return 0;
@@ -33,6 +35,10 @@ public class ContractSearchTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
+         binderDTO.setStartIndex(start);
+            binderDTO.setEndIndex(offset);
+            binderDTO.setIsCount(true);
+            binderDTO.setFilters(getFilters());
         return logic.getPlaceHolderContractData(binderDTO,start,offset,this.getSortByColumns());
     }
 

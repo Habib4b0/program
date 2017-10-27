@@ -343,7 +343,7 @@ public class CommonUtils {
     public ItemSearchLogic getItemLogic() {
         return itemLogic;
     }
-    public  ComboBox getSelectNull(final ComboBox select) throws SystemException {
+    public  ComboBox getSelectNull(final ComboBox select) {
         select.setNullSelectionAllowed(true);
         select.markAsDirty();
         select.setPageLength(NumericConstants.SEVEN);
@@ -396,7 +396,7 @@ public class CommonUtils {
         columnNames.put("companyFamilyPlanCategory", "category");
         columnNames.put("companyFamilyPlanDesignation", "CFP_DESIGNATION");
         columnNames.put("parentCompanyFamilyPlanId", "PARENT_ID");
-        columnNames.put("parentCompanyFamilyPlanName", "PARENT_CFP_NAME");
+        columnNames.put("parentCompanyFamilyPlanName", "PARENT_NO");
         columnNames.put("modifiedBy", "MODIFIED_BY");
         columnNames.put("modifiedDate", "MODIFIED_DATE");
         columnNames.put("createdBy", "CREATED_BY");
@@ -408,9 +408,9 @@ public class CommonUtils {
         return columnNames.get(visibleColumnName);
     }
     
-    public static Map<Integer, String> getCodeDescription() throws PortalException, SystemException{
+    public static Map<Integer, String> getCodeDescription() throws SystemException{
         CompanyFamilyplanDAO dao = new CFPSearchLogicDAOImpl();
-        Map<Integer, String> helperTableMap = new HashMap<Integer, String>();
+        Map<Integer, String> helperTableMap = new HashMap<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName();
         for(HelperTable helperTable: list){
             helperTableMap.put(helperTable.getHelperTableSid(), helperTable.getDescription());

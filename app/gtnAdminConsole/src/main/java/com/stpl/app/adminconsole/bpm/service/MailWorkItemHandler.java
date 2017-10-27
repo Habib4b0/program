@@ -1,5 +1,6 @@
 package com.stpl.app.adminconsole.bpm.service;
 
+import com.stpl.ifs.util.constants.GlobalConstants;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -73,7 +74,9 @@ public class MailWorkItemHandler implements WorkItemHandler {
         }
 
         final String fromAddress = props.getProperty("fromAddress", "mani.rgm448@gmail.com");
-        final String password = props.getProperty("password", "M@ni@newlife7");
+        String var = "M@ni@newlife7";
+        String pass = GlobalConstants.getPassword();
+        final String pwd = props.getProperty(pass,var);
 
         String toAddress = toAdd;
         String delims = "[,]";
@@ -94,7 +97,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
                 new javax.mail.Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(fromAddress, password);
+                        return new PasswordAuthentication(fromAddress, pwd);
                     }
                 });
 

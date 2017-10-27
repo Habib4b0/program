@@ -181,8 +181,9 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         Object treeLastItem = treeTable.lastItemId();
           LOGGER.debug("treeLastItem.getLevelNo()=" + ((Leveldto) treeLastItem).getLevelNo());
         Object movingItem = table.getValue();
-          LOGGER.debug("movingItem.getLevelNo()=" + ((Leveldto) movingItem).getLevelNo());
+          
         if (movingItem != null && getLastLevelNo(hierarchyIndicator, treeLastItem) < ((Leveldto) movingItem).getLevelNo()) {
+            LOGGER.debug("movingItem.getLevelNo()=" + ((Leveldto) movingItem).getLevelNo());
                 return true;
         }
         return false;
@@ -229,7 +230,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                         relationBuildLogic.executeDelete(String.valueOf(customId));
                     }
                     returnBack = CommonLogic.customViewSaveLogic(session, customId, viewName, treecontainer.getItemIds());
-//                    relationBuildLogic.getData_custom_view(String.valueOf(session.getProjectionId()), String.valueOf(returnBack));
                 } else {
                     AbstractNotificationUtils.getErrorNotification("Error", "That view name is taken. Please enter a new View name.");
                 }

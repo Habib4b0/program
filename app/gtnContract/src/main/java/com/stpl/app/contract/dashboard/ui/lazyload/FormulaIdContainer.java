@@ -7,6 +7,7 @@ package com.stpl.app.contract.dashboard.ui.lazyload;
 
 import com.stpl.app.contract.dashboard.logic.DashBoardLogic;
 import com.stpl.ifs.util.HelperDTO;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -51,7 +52,7 @@ public class FormulaIdContainer implements DAO<HelperDTO> {
            LOGGER.error(portException);
                    
                 }
-         return null;
+         return Collections.emptyList();
     }
     
 }

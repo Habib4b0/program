@@ -33,39 +33,43 @@ import org.jboss.logging.Logger;
 public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
 
     private static final Logger LOGGER = Logger.getLogger(AdjustmentDetailDemand.class);
+    private boolean creditFlag;
 
     public AdjustmentDetailDemand(AbstractSelectionDTO selectionDto) {
         super(new DADetailsLogic(), selectionDto);
         init();
-        configureWorkFlow();
+        configuresWorkFlow();
     }
 
     /**
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetail_Level(level.getValue().toString());
-        selection.setDetail_variables(Arrays.asList(variableValue));
+        selection.setDetailLevel(level.getValue().toString());
+        selection.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetail_reserveAcount(account.size() > 0 ? account.get(0) : null);
+        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetail_amountFilter(amtFilter.size() > 0 ? amtFilter : null);
+        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
-        selection.setSave_detail_variables(selectedVariable.size() > 0 ? selectedVariable.get(0) : null);
+        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        creditFlag = logic.cerditDebitEqualCheck(selection);
     }
 
     @Override
     protected void generateBtn() {
         try {
             setSelection();
-            if (logic.generateButtonCheck(selection)) {
+            if (logic.generateButtonCheck(selection) && !creditFlag) {
                 super.generateBtn();
                 tableLogic.loadSetData(Boolean.TRUE);
+            } else if (creditFlag && isGenerateFlag() && !selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL)) {
+                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageMsgHeader003(), ARMMessages.getGenerateMessageMsgId006());
             } else if (isGenerateFlag()) {
                 AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in generateBtn :"+ex);
         }
     }
 
@@ -84,8 +88,8 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
 
     @Override
     protected void loadVariable() {
-        variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE_COMBOBOX : ARMUtils.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE_COMBOBOX;
-        variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE : VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE;
+        variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.getAdjustmentDemandPipelineReserveVariableCombobox() : ARMUtils.getAdjustmentDemandPipelineGtnVariableCombobox();
+        variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.getAdjustmentDemandPipelineReserveVariable() : VariableConstants.getAdjustmentDemandPipelineGtnVariable();
     }
 
     /**
@@ -94,8 +98,8 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
     @Override
     protected void variableDefaultSelection() {
         List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
-                ? VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE_DEFAULT_SELECTION
-                : VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE_DEFAULT_SELECTION);
+                ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
+                : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
             if (list.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(Boolean.TRUE);
@@ -108,17 +112,18 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
         return level;
     }
 
-    private void configureFieldsOnViewMode() {
+    private void configureFieldOnViewMode() {
         reset.setEnabled(false);
     }
 
+    @Override
     public void loadDetails() {
         List<Object[]> list = CommonLogic.loadPipelineAccrual(selection.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
-            Object[] obj = (Object[]) list.get(i);
-            if ("detail_Level".equals(String.valueOf(obj[0]))) {
+            Object[] obj = list.get(i);
+            if ("detailLevel".equals(String.valueOf(obj[0]))) {
                 level.setValue(String.valueOf(obj[1]));
-            } else if ("detail_variables".equals(String.valueOf(obj[0]))) {
+            } else if ("detailvariables".equals(String.valueOf(obj[0]))) {
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -126,8 +131,8 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
                     str3 = strings;
                 }
                 CommonUtils.checkMenuBarItem(customMenuItem, str3);
-                selection.setDetail_variables(Arrays.asList(str2));
-            } else if ("detail_reserveAcount".equals(String.valueOf(obj[0]))) {
+                selection.setDetailvariables(Arrays.asList(str2));
+            } else if ("detailreserveAcount".equals(String.valueOf(obj[0]))) {
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -135,7 +140,7 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
                     str3 = strings;
                 }
                 CommonUtils.checkMenuBarItem(reserveMenuItem, str3);
-                selection.setDetail_reserveAcount(Arrays.asList(str2));
+                selection.setDetailreserveAcount(Arrays.asList(str2));
             } else if (VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0]))) {
                 amountFilterItem.removeChildren();
                 loadAmountFilter();
@@ -147,36 +152,36 @@ public class AdjustmentDetailDemand extends AbstractAdjustmentDetails {
                     str3 = strings;
                     CommonUtils.checkMenuBarItemCaption(amountFilterItem, str3);
                 }
-                selection.setDetail_amountFilter(Arrays.asList(str2));
+                selection.setDetailamountFilter(Arrays.asList(str2));
 
-            } else if (!"sales_variables".equals(String.valueOf(obj[0])) && !"summary_deductionValues".equals(String.valueOf(obj[0]))
-                    && !"summary_variables".equals(String.valueOf(obj[0]))) {
+            } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
                     BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in loadDetails :"+ex);
                 }
 
             }
         }
 
-        String frequency = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selection.getSummary_demand_frequency()));
-        selection.setSummary_demand_frequency(frequency);
+        String frequency = HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selection.getSummarydemandfrequency()));
+        selection.setSummarydemandfrequency(frequency);
     }
 
-    private void configureWorkFlow() {
+    private void configuresWorkFlow() {
         if (selection.getSessionDTO().isWorkFlow()) {
             loadDetails();
             generateBtn();
             tableLogic.loadSetData(Boolean.TRUE);
             if (ARMUtils.VIEW_SMALL.equals(selection.getSessionDTO().getAction())) {
-                configureFieldsOnViewMode();
+                configureFieldOnViewMode();
             }
         }
     }
 
     @Override
     protected void columnAlignmentChanges() {
+        LOGGER.debug("Inside columnAlignmentChanges Method");
     }
 
     public boolean isDetailsGenerated() {

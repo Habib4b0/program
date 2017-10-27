@@ -13,6 +13,12 @@ import org.apache.commons.lang.StringUtils;
  */
 public class BPMCommonUtils {
 
+    private BPMCommonUtils() {
+        /*
+        Empty Constructor
+         */
+    }
+
     public static String groupId = "com.stpl.app.bpm";
     public static String artifactId = "Non-Mandated";
     public static String version = "1.0";
@@ -41,7 +47,7 @@ public class BPMCommonUtils {
 
     public static List<Date> getStartDate(String quarter, int year) {
 
-        List<Date> dateList = new ArrayList<Date>();
+        List<Date> dateList = new ArrayList<>();
         int result = getQuarter(quarter);
         Calendar startDate = Calendar.getInstance();
         Calendar endDate = Calendar.getInstance();

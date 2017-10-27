@@ -53,7 +53,7 @@ public class DeductionTableLogic extends PageTreeTableLogic {
     @Override
      public Map<Integer, Object> loadData(int start, int offset) {
           LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
-          Map<Integer, Object> finalMap = new HashMap<Integer, Object>();
+          Map<Integer, Object> finalMap = new HashMap<>();
             List<TableDTO> list = null;
             try {
                 list = logic.getDeductionDetailsData(getLastParent(), deductionDTO, getTableDTO(), start, offset,sessionDTO);
@@ -100,7 +100,8 @@ public class DeductionTableLogic extends PageTreeTableLogic {
         }
         return dto;
     }
-    public void loadExpandData(boolean isExpand, int rowIndex)  {
+    public void loadExpandData()  {
+        return;
       
     }
 

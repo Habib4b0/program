@@ -57,20 +57,20 @@ public final class UIUtils {
     /**
      * Constant Object array SEARCH_COLUMNS.
      */
-    public static final Object[] SEARCH_COLUMNS = {"contractId", "contractNo", "contractName", "contractStatus", "contractType", "tradeClass", "tradingPartnerName"};
+    public final Object[] searchColumns = {"contractId", "contractNo", "contractName", "contractStatus", "contractType", "tradeClass", "tradingPartnerName"};
     /**
      * Constant String array SEARCHCOLUMS_HEADER.
      */
-    public static final String[] SEARCHCOLUMS_HEADER = {"Contract ID", "Contract No", "Contract Name", "Contract Status", "Contract Type", "Trade Class", "Trading Partner"};
+    public final String[] searchColumnsHeader = {"Contract ID", "Contract No", "Contract Name", "Contract Status", "Contract Type", "Trade Class", ConstantsUtils.TRADING_PARTNER};
     /**
      * Constant Object array ALIAS_COLUMNS.
      */
-    public static final Object[] ALIAS_COLUMNS = {"tpCompanyMasterSid", "contractAliasNo", "contractAliasName", "contractAliasType", "startDate", "endDate"};
+    public final Object[] aliasColumns = {"tpCompanyMasterSid", "contractAliasNo", "contractAliasName", "contractAliasType", "startDate", "endDate"};
 
     /**
      * Constant String array ALIAS_COLUMNS_HEADER.
      */
-    public static final String[] ALIAS_COLUMNS_HEADER = {"Trading Partner", "Contract Alias No", "Contract Alias Name", "Contract Alias Type", "Alias Start Date", "Alias End Date"};
+    public final String[] aliasColumnHeaders = {ConstantsUtils.TRADING_PARTNER, "Contract Alias No", "Contract Alias Name", "Contract Alias Type", "Alias Start Date", "Alias End Date"};
     /**
      * Constant int PAGE_LENGTH.
      */
@@ -78,19 +78,19 @@ public final class UIUtils {
     /**
      * Constant Object array TRADING_LOOKUP_COLUMNS.
      */
-    public static final Object[] TRADING_LOOKUP_COLUMNS = new Object[]{"companyId", "companyNo", "companyName", "companyStatus", "companyType"};
+    public final Object[] tradingLookupColumns = new Object[]{"companyId", "companyNo", "companyName", "companyStatus", "companyType"};
     /**
      * Constant String array TRADING_LOOKUP_HEADERS.
      */
-    public static final String[] TRADING_LOOKUP_HEADERS = new String[]{"Company ID", "Company No", "Company Name", "Company Status", "Company Type"};
+    public final String[] tradingLookupHeaders = new String[]{"Company ID", "Company No", "Company Name", "Company Status", "Company Type"};
     /**
      * Constant Object array DASHBOARD_ALIAS_COLUMNS.
      */
-    public static final Object[] DASHBOARD_ALIAS_COLUMNS = {"contractAliasDesc", "tradingName", "contractAliasNo", "contractAliasName", "startDate", "endDate"};
+    public final Object[] dashboardAliasColumns = {"contractAliasDesc", "tradingName", "contractAliasNo", "contractAliasName", "startDate", "endDate"};
     /**
      * Constant String array DASHBOARD_ALIAS_COLUMNS_HEADER.
      */
-    public static final String[] DASHBOARD_ALIAS_COLUMNS_HEADER = {"Alias Type", "Trading Partner", "Contract Alias No", "Contract Alias Name", "Alias Start Date", "Alias End Date"};
+    public final String[] dashboardAliasColumnHeader = {"Alias Type", ConstantsUtils.TRADING_PARTNER, "Contract Alias No", "Contract Alias Name", "Alias Start Date", "Alias End Date"};
 
     /**
      * String constant PAYMENT_TERMS.
@@ -281,7 +281,7 @@ public final class UIUtils {
     /** The Constant CFP_STATUS. */
     public static final String CFP_STATUS="STATUS";
     /** The Constant CFP_SEARCH. */
-    public static final Object[] CFP_SEARCH = new Object[] {"systemId",
+    public final Object[] cfpSearch = new Object[] {"systemId",
                     "companyFamilyPlanId", "companyFamilyPlanNo", "companyFamilyPlanName","companyFamilyPlanType",
                     "companyFamilyPlanStatus","companyFamilyPlanCategory",ConstantsUtils.CFP_START_DATE, ConstantsUtils.CFP_END_DATE ,
                     "companyFamilyPlanDesignation",
@@ -289,7 +289,7 @@ public final class UIUtils {
                      ConstantsUtils.CREATEDBY,ConstantsUtils.CREATEDDATE};
 
     /** The Constant CFP_SEARCH_HEADER. */
-    public static final String[] CFP_SEARCH_HEADER = new String[] {"System ID", "CFP ID", Constants.COMPANYFAMILYPLANNO,
+    public final String[] cfpSearchHeader = new String[] {"System ID", "CFP ID", Constants.COMPANYFAMILYPLANNO,
                     Constants.COMPANYFAMILYPLANNAME, Constants.COMPANYFAMILYPLANTYPE,Constants.COMPANYFAMILYPLANSTATUS,Constants.COMPANYFAMILYPLANCATEGORY, "Start Date", 
                     "End Date",Constants.COMPANYFAMILYPLANDESIGNATION,"Parent ID","Parent Name",ConstantsUtils.MODIFIED_DATE,ConstantsUtils.MODIFIED_BY,
                     ConstantsUtils.CREATED_BY,ConstantsUtils.CREATED_DATE1};
@@ -352,5 +352,14 @@ public final class UIUtils {
      */
     private UIUtils() {
         //Empty Constructor
+    }
+    
+    private static UIUtils object;
+
+    public static UIUtils getInstance() {
+        if (object == null) {
+            object = new UIUtils();
+        }
+        return object;
     }
 }

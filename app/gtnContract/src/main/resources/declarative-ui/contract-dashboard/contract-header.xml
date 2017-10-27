@@ -51,7 +51,7 @@
                             <Label id="termLabel" value="Term" contentMode="HTML" />
                             <TextField id="term"  immediate="true" />
 		
-                            <Label id="tradingPartnerLabel" value="Trading Partner" contentMode="HTML" />
+                            <Label id="tradingPartnerLabel"  value="Trading Partner" styleName="mandatory" contentMode="HTML" />
                             <b:CustomTextField id="tradingPartnerName" styleName="searchicon" inputPrompt=""/>
 		
                             <Label id="reNegotiationStartDateLabel" value="Re-Negotiation Start Date" contentMode="HTML" />

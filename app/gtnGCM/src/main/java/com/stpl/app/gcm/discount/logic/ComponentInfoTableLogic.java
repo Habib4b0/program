@@ -36,7 +36,7 @@ public class ComponentInfoTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<RemoveDiscountDto> list = new ArrayList<>();
+        List<RemoveDiscountDto> list;
         list = logic.getSelectedContract(start, offset, userId, sessionId, rebateList, indicator, getFilters(), dto, summaryFlag);
         return list;
     }

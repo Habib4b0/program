@@ -1324,6 +1324,34 @@ public interface IvldItemMasterModel extends BaseModel<IvldItemMaster> {
      */
     public void setCheckRecord(boolean checkRecord);
 
+    /**
+     * Returns the base cpi precision of this ivld item master.
+     *
+     * @return the base cpi precision of this ivld item master
+     */
+    public int getBaseCpiPrecision();
+
+    /**
+     * Sets the base cpi precision of this ivld item master.
+     *
+     * @param baseCpiPrecision the base cpi precision of this ivld item master
+     */
+    public void setBaseCpiPrecision(int baseCpiPrecision);
+
+    /**
+     * Returns the baseline amp precision of this ivld item master.
+     *
+     * @return the baseline amp precision of this ivld item master
+     */
+    public int getBaselineAmpPrecision();
+
+    /**
+     * Sets the baseline amp precision of this ivld item master.
+     *
+     * @param baselineAmpPrecision the baseline amp precision of this ivld item master
+     */
+    public void setBaselineAmpPrecision(int baselineAmpPrecision);
+
     @Override
     public boolean isNew();
 

@@ -42,9 +42,9 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated && offset > 0) {
-            List<String> indexList = new ArrayList<String>(getNonFetchableData().keySet());
+            List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);
             List<SalesProjectionResultsDTO> list = sprLogic.getConfiguredSalesProjectionResultsMandated(getLastParent(), start, offset, projSelDTO);
             int i = start;
@@ -83,7 +83,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
 
         this.projSelDTO = projSelDTO;
         projSelDTO.setProjTabName(spr);
-        sprLogic.projectionTotalList = new ArrayList<SalesProjectionResultsDTO>();
+        sprLogic.projectionTotalList = new ArrayList<>();
         firstTotal = isTotal;
         firstGenerated = true;
         clearAll();

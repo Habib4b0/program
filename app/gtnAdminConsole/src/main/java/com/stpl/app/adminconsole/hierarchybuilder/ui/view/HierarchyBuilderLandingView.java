@@ -40,7 +40,7 @@ public class HierarchyBuilderLandingView extends VerticalLayout implements View 
     /**
      * The hierarchy builder binder.
      */
-    private CustomFieldGroup hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+    private CustomFieldGroup hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<>(hierarchyBuilderDTO));
 
     /**
      * Gets the hierarchy builder binder.

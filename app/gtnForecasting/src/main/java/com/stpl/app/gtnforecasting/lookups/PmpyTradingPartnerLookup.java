@@ -101,12 +101,12 @@ public class PmpyTradingPartnerLookup extends Window {
     /**
      * The Constant TRADING_PARTNER_COLUMNS.
      */
-    public static final Object[] TRADING_PARTNER_COLUMNS = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
+    public final Object[] tradingPartnerColumns = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
 
     /**
      * The Constant TRADING_PARTNER_HEADER.
      */
-    public static final String[] TRADING_PARTNER_HEADER = new String[]{"Trading Partner #", "Trading Partner Name"};
+    public final String[] tradingPartnerHeaders = new String[]{"Trading Partner #", "Trading Partner Name"};
 
     /**
      * The trading partner.
@@ -121,7 +121,7 @@ public class PmpyTradingPartnerLookup extends Window {
     /**
      * The search binder.
      */
-    private CustomFieldGroup searchBinder = new CustomFieldGroup(new BeanItem<PmpyTradingPartnerDTO>(new PmpyTradingPartnerDTO()));
+    private CustomFieldGroup searchBinder = new CustomFieldGroup(new BeanItem<>(new PmpyTradingPartnerDTO()));
 
     /**
      * The error msg.
@@ -365,7 +365,7 @@ public class PmpyTradingPartnerLookup extends Window {
         final PmpyTradingPartnerDTO bean = new PmpyTradingPartnerDTO();
 
         LOGGER.debug("Entering getBinder method");
-        searchBinder = new CustomFieldGroup(new BeanItem<PmpyTradingPartnerDTO>(bean));
+        searchBinder = new CustomFieldGroup(new BeanItem<>(bean));
         searchBinder.setBuffered(true);
         searchBinder.bindMemberFields(this);
         searchBinder.setErrorDisplay(errorMsg);
@@ -460,9 +460,7 @@ public class PmpyTradingPartnerLookup extends Window {
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     searchLogic();
-                } catch (SystemException e) {
-                    LOGGER.error(e);
-                } catch (CommitException e) {
+                }  catch (CommitException e) {
                     LOGGER.error(e);
                 } catch (Exception e) {
                     LOGGER.error(e);
@@ -500,7 +498,7 @@ public class PmpyTradingPartnerLookup extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void searchLogic() throws CommitException, SystemException {
+    private void searchLogic() throws CommitException  {
         LOGGER.debug("Entering searchLogic method");
         if (StringUtils.isEmpty(tradingPartnerNo.getValue().toString()) && StringUtils.isEmpty(tradingPartnerName.getValue().toString())) {
             AbstractNotificationUtils.getErrorNotification("No Search Criteria", "Please enter a value to search for.");
@@ -570,8 +568,8 @@ public class PmpyTradingPartnerLookup extends Window {
      * @param key
      */
     public void setTableDefaultConfig() {
-        resultsTableTP.setVisibleColumns(TRADING_PARTNER_COLUMNS);
-        resultsTableTP.setColumnHeaders(TRADING_PARTNER_HEADER);
+        resultsTableTP.setVisibleColumns(tradingPartnerColumns);
+        resultsTableTP.setColumnHeaders(tradingPartnerHeaders);
         resultsTableTP.markAsDirtyRecursive();
         resultsTableTP.setImmediate(true);
         resultsTableTP.setWidth("510px");

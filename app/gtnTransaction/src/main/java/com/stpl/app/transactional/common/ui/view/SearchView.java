@@ -36,7 +36,7 @@ public class SearchView extends VerticalLayout implements View {
 	/**
 	 * The Constructor.
 	 */
-	public SearchView() throws PortalException, SystemException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException{
+	public SearchView() throws PortalException, SystemException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException, InstantiationException{
 		super();
 		LOGGER.debug("Entering ForecastSearchView");
 		setStyleName("bootstrap-company");

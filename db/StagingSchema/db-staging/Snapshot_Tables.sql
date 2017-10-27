@@ -2749,6 +2749,49 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
+--------------CEL-1445---------------------cel-1611
+IF EXISTS (SELECT *
+           FROM   SYS.stats
+           WHERE  NAME = 'BASE_CPI_PRECISION'
+                  AND Object_name(object_id) = 'SNAP_ITEM_MASTER')
+  BEGIN
+      DROP STATISTICS dbo.SNAP_ITEM_MASTER.BASE_CPI_PRECISION 
+  END 
+
+GO
+IF EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'SNAP_ITEM_MASTER'
+			AND column_name = 'BASE_CPI_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE SNAP_ITEM_MASTER DROP COLUMN BASE_CPI_PRECISION
+END
+	GO
+IF EXISTS (SELECT *
+           FROM   SYS.stats
+           WHERE  NAME = 'BASELINE_AMP_PRECISION'
+                  AND Object_name(object_id) = 'SNAP_ITEM_MASTER')
+  BEGIN
+      DROP STATISTICS dbo.SNAP_ITEM_MASTER.BASELINE_AMP_PRECISION 
+  END 
+
+GO	
+IF EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'SNAP_ITEM_MASTER'
+			AND column_name = 'BASELINE_AMP_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE SNAP_ITEM_MASTER DROP COLUMN BASELINE_AMP_PRECISION
+END
+	GO
+
+--------------CEL-1445---------------------cel-1611
 
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.DEFAULT_CONSTRAINTS
@@ -2889,6 +2932,29 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
+
+--------CEL-1445,CEL-1611---------------------
+IF EXISTS (SELECT *
+           FROM   SYS.stats
+           WHERE  NAME = 'ITEM_PRICE_PRECISION'
+                  AND Object_name(object_id) = 'SNAP_ITEM_PRICING')
+  BEGIN
+      DROP STATISTICS dbo.SNAP_ITEM_PRICING.ITEM_PRICE_PRECISION 
+  END 
+
+GO
+IF EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'SNAP_ITEM_PRICING'
+			AND column_name = 'ITEM_PRICE_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE SNAP_ITEM_PRICING DROP COLUMN ITEM_PRICE_PRECISION
+END
+	GO
+------------------------------CEL-1445,CEL-1611
 
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.DEFAULT_CONSTRAINTS
@@ -6345,3 +6411,147 @@ WHILE @@FETCH_STATUS = 0
 CLOSE CUR1
 DEALLOCATE CUR1
 GO
+
+  --------------------------------SNAP_ITEM_UOM--------------------------------------------
+
+ IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'SNAP_ITEM_UOM'---2
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[SNAP_ITEM_UOM]
+        (          
+		   [ITEM_UOM_CONVERSION_ID]         INT NOT NULL,             
+           [ITEM_ID]                           VARCHAR(200) NULL,
+           [ITEM_NO]                           VARCHAR(200) NULL,
+           [ITEM_NAME]                         VARCHAR(200) NULL,
+           [PRIMARY_UOM_BASELINE_FACTOR]       VARCHAR(200)  NULL,
+           [PRIMARY_UOM_CODE]                  VARCHAR(200)  NULL,
+           [PRIMARY_UOM_NAME]                  VARCHAR(200)  NULL,
+           [SECONDARY_UOM_CONVERSION_FACTOR]   VARCHAR(200)  NULL,
+           [SECONDARY_UOM_CODE]                VARCHAR(200)  NULL,
+           [SECONDARY_UOM_NAME]                VARCHAR(200)  NULL,
+           [STATUS]                            VARCHAR(200)  NULL,
+           [UPLOAD_DATE]                       DATETIME NULL,
+           [MODIFIED_BY]                       VARCHAR(200) NULL,
+           [MODIFIED_DATE]                     DATETIME NULL,
+           [CREATED_BY]                        VARCHAR(200) NULL,
+           [CREATED_DATE]                      DATETIME NULL,
+           [INTF_INSERTED_DATE] 			   DATETIME  NULL,
+           [ADD_CHG_DEL_INDICATOR]             VARCHAR(200)  NULL,
+           [BATCH_ID]					       VARCHAR(200)  NULL,
+           [SOURCE]                      	   VARCHAR(200) NULL
+     )
+  END
+GO
+  -----DEFAULT CONSTRAINT-------------
+   
+   IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('dbo.SNAP_ITEM_UOM')
+                      AND NAME = 'DF_SNAP_ITEM_UOM_INTF_INSERTED_DATE')
+  BEGIN
+      ALTER TABLE [dbo].SNAP_ITEM_UOM
+        ADD CONSTRAINT DF_SNAP_ITEM_UOM_INTF_INSERTED_DATE DEFAULT (Getdate()) FOR INTF_INSERTED_DATE
+
+  END
+        
+        GO
+   
+   
+   
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'SNAP_ITEM_UOM'--TABLE NAME
+SET @SCHEMANAME1 ='dbo' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+DEALLOCATE CUR1
+GO
+   

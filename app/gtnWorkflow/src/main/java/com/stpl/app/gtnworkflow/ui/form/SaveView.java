@@ -79,6 +79,7 @@ public class SaveView extends Window {
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     private void configureFields() {
@@ -196,7 +197,7 @@ public class SaveView extends Window {
         LOGGER.debug("Ending SaveView configureFields");
     }
 
-    private boolean isDuplicateView(final String viewName) throws SystemException {
+    private boolean isDuplicateView(final String viewName) {
         LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
         return logic.isDuplicateView(viewName);
     }

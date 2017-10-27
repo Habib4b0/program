@@ -15,6 +15,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.jboss.logging.Logger;
@@ -115,7 +116,7 @@ public class AvailableCompaniesContainer implements BeanDAO<CompanyMasterDTO> {
         try {
             LOGGER.debug("Entering inside available find  Method ");
             if (availableTable.getData() == null) {
-                return null;
+                return Collections.emptyList();
             } else {
                 CommonLazyUtilDTO dto = (CommonLazyUtilDTO) availableTable.getData();
                 if (dto.getSearchFields() != null && dto.getSearchValue() != null) {
@@ -173,6 +174,6 @@ public class AvailableCompaniesContainer implements BeanDAO<CompanyMasterDTO> {
                 msg.getButton(ButtonId.OK).focus();
         }
         
-        return null;
+        return Collections.emptyList();
     }
 }

@@ -100,7 +100,8 @@ public class VwItemMasterPersistenceImpl extends BasePersistenceImpl<VwItemMaste
                 "clottingFactorEndDate", "dra", "brandId", "baseCpiPeriod",
                 "newFormulationIndicator", "lastLotExpirationDate", "batchId",
                 "itemCode", "clottingFactorStartDate",
-                "nonFederalExpirationDate"
+                "nonFederalExpirationDate", "baseCpiPrecision",
+                "baselineAmpPrecision"
             });
     private static VwItemMaster _nullVwItemMaster = new VwItemMasterImpl() {
             @Override
@@ -427,6 +428,8 @@ public class VwItemMasterPersistenceImpl extends BasePersistenceImpl<VwItemMaste
         vwItemMasterImpl.setItemCode(vwItemMaster.getItemCode());
         vwItemMasterImpl.setClottingFactorStartDate(vwItemMaster.getClottingFactorStartDate());
         vwItemMasterImpl.setNonFederalExpirationDate(vwItemMaster.getNonFederalExpirationDate());
+        vwItemMasterImpl.setBaseCpiPrecision(vwItemMaster.getBaseCpiPrecision());
+        vwItemMasterImpl.setBaselineAmpPrecision(vwItemMaster.getBaselineAmpPrecision());
 
         return vwItemMasterImpl;
     }

@@ -39,7 +39,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
@@ -66,7 +65,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     protected final boolean isEditMode;
     protected final boolean isViewMode;
     CommonUIUtils commonUiUtil = new CommonUIUtils();
-
     /**
      * The logo.
      */
@@ -76,7 +74,8 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     /**
      * The notes history.
      */
-    public AdditionalInformationForm(String moduleName, String dbModuleName, int projectionIds, String mode) {
+
+    public AdditionalInformationForm(String moduleName, int projectionIds, String mode)  {
         super(moduleName, projectionIds, mode);
 
         mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
@@ -181,7 +180,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+              LOGGER.error(ex);
         }
 
     }
@@ -230,13 +229,14 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     @Override
     public void removeButtonLogic(ClickEvent event) {
         String temp = tableBean.getUserName();
-        if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
-            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "Please select an attachment to remove ");
-        } else if (CommonUtils.getUserNameById(userId).equalsIgnoreCase(temp)) {
+        if (tableBeanId == null || !table.isSelected(tableBeanId)) {
+            AbstractNotificationUtils.getErrorNotification(Constant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
+        } else {
+            if (CommonUtils.getUserNameById(userId).equalsIgnoreCase(temp)) {
             AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-
+                    return;
                 }
 
                 @Override
@@ -250,13 +250,14 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                     tableBean = null;
                 }
             };
-            notification.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
+            notification.getConfirmationMessage(Constant.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+            AbstractNotificationUtils.getErrorNotification(Constant.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
+        }
         }
     }
-
+        
     @Override
     public void itemClickLogic(ItemClickEvent event) {
         try {
@@ -265,7 +266,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             if (tableBeanId instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) tableBeanId;
             } else if (tableBeanId instanceof NotesDTO) {
-                targetItem = new BeanItem<NotesDTO>((NotesDTO) tableBeanId);
+                targetItem = new BeanItem<>((NotesDTO) tableBeanId);
             }
             tableBean = (NotesDTO) targetItem.getBean();
             if (event.isDoubleClick()) {
@@ -281,6 +282,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     @Override
     public void refreshTable() {
+        return;
     }
 
     public void saveNotesInformation(int projectionIdValue, String moduleName) {
@@ -302,11 +304,10 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             List<NotesDTO> removedAttachments = removeDetailsList();
             for (NotesDTO removed : removedAttachments) {
                 if (removed.getDocDetailsId() != 0) {
-                    logic.deleteUploadedFile(removed.getDocDetailsId(), StringUtils.EMPTY, StringUtils.EMPTY);
+                    logic.deleteUploadedFile(removed.getDocDetailsId(),  StringUtils.EMPTY);
                 }
             }
             removedAttachments.clear();
-            loadAttachments(projectionId);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -314,6 +315,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     @Override
     public void addNotesBtn() {
+        return;
     }
 
     public void addSecurity() {
@@ -338,7 +340,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     }
 
-    public void security() throws PortalException, SystemException {
+    public void security() throws PortalException, SystemException{
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION_RESULTS);
 
@@ -353,17 +355,5 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
         } else {
             remove.setVisible(false);
         }
-    }
-    /**
-     * 
-     * Method to re load Attachment Table after save
-     * @param projectionId
-     * @throws Exception 
-     */
-    public void loadAttachments(int projectionId) throws Exception {
-        attachmentsListBean.removeAllItems();
-        final List<NotesDTO> allFiles = logic.getAttachmentDTOList(projectionId, moduleName, fileUploadPath);
-
-        attachmentsListBean.addAll(logic.addUserFile(allFiles));
     }
 }

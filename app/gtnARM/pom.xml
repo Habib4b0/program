@@ -191,6 +191,11 @@
             <version>${com.stpl.portal.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>sonar-maven-plugin</artifactId>
+              <version>2.6</version>
+       </dependency>
     </dependencies>
     
     
@@ -223,6 +228,13 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>2.6</version>
+       </plugin>
+       
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

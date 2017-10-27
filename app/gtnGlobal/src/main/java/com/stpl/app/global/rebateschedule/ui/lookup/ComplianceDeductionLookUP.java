@@ -334,7 +334,7 @@ public class ComplianceDeductionLookUP  extends Window {
             if (obj instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) obj;
             } else if (obj instanceof SearchResultsDTO) {
-                targetItem = new BeanItem<SearchResultsDTO>(
+                targetItem = new BeanItem<>(
                         (SearchResultsDTO) obj);
             }
         }
@@ -367,13 +367,13 @@ public class ComplianceDeductionLookUP  extends Window {
         this.searchResultsDTO = netSalesDTO;
     }
     
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = resultsTable.getContainerDataSource().size();
         ExcelExportforBB.createWorkSheet(resultsTable.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.RS_REBATE_SETUP);

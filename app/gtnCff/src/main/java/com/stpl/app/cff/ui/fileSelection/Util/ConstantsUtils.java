@@ -92,6 +92,7 @@ public final class ConstantsUtils {
      * The Constant SELECT_ONE.
      */
     public static final String SELECT_ONE = "-Select One-";
+    public final static String PROCESS_NAME="processName";
     /**
      * The Constant YES.
      */
@@ -488,7 +489,7 @@ public final class ConstantsUtils {
     /**
      * The Constant RESET_.
      */
-    public static final String RESET_ = "Reset";
+    public static final String RESET_CAPTION = "Reset";
     /**
      * The Constant LEVEL_VALUES.
      */
@@ -960,7 +961,7 @@ public final class ConstantsUtils {
      * The Constant DEDUCTION_GROUP_SYS_ID.
      */
     public static final String DEDUCTION_GROUP_SYS_ID = "DeductionGroupSid";
-    public static String[] MANUAL_PROCESS_SCHEDULAR_HEADER = { "isSelected", "processName", "lastRunDate"};
+    public final String[] MANUAL_PROCESS_SCHEDULAR_HEADER = { "isSelected", PROCESS_NAME, "lastRunDate"};
 
     /**
      *
@@ -1126,17 +1127,16 @@ public final class ConstantsUtils {
      public static final String INVENTORY_WITHDRAWAL_SUMMARY="Inventory Withdrawal - Forecast Summary";
      public final static String MODE="mode";
      public final static String PROCESS_TYPE="PROCESS_TYPE";
-     public final static String PROCESS_NAME="processName";
      public static final String CUSTOMERGTS="Customer Sales";
       /**
      * Returns
      */
     public static final String NATIONAL_ASSUMPTIONS = "National Assumptions";
     
-    public static final Object PROCESS_MONITOR_COLUMNS[] = new Object[]{
-        "processName", "processType", "calender", "modifiedDate", "modifiedBy"};
+    public final Object PROCESS_MONITOR_COLUMNS[] = new Object[]{
+        PROCESS_NAME, "processType", "calender", "modifiedDate", "modifiedBy"};
     
-    public static final String PROCESS_MONITOR_HEADER[] = new String[]{
+    public final String PROCESS_MONITOR_HEADER[] = new String[]{
         "Monitor Name", "Process Type", "Calendar", "Modified Date", "Modified By"};
 
     /**
@@ -1148,7 +1148,7 @@ public final class ConstantsUtils {
          * The indicator Base Rate index.
          */
         INDICATOR_BASE_RATE_INDEX("BaseRateIndex"),
-        SELECT_ONE("-Select One-"),
+        SELECT_ONE(SELECTONE),
         INDICATOR_FIXED_DOLLAR_INDEX("FixedDollarAdjustIndex"),
         INDICATOR_MAIL_SERVER_INDEX("MailServerConfigIndex"),
         INDICATOR_PROCESS_SCHEDULER_INDEX("ProcessScheduler"),
@@ -1190,7 +1190,7 @@ public final class ConstantsUtils {
         NDC10("NDC10"),
         NDC11("NDC11"),
         BRAND("Brand"),
-        NDCs("NDC"),
+        NDCS("NDC"),
         DEMAND("Demand"),
         PIPELINE("Pipeline"),
         AUTO_RECONCILE("Auto Reconcile"),
@@ -1215,9 +1215,9 @@ public final class ConstantsUtils {
         INDICATOR_PRIVATE_VIEW("Private View"),
         PROJECTIONS("Projections"),
         ITEM("Item"),
-        MMddyyyy("MM/dd/yyyy"),
-        yyyyMMddhhmmssSSS("yyyy-MM-dd hh:mm:ss.SSS"),
-        MMddyyyyhhmmss("MM/dd/yyyy hh:mm:ss"),
+        MMDDYYYY("MM/dd/yyyy"),
+        YYYYMMDDHHMMSSSSS("yyyy-MM-dd hh:mm:ss.SSS"),
+        MMDDYYYYHHMMSS("MM/dd/yyyy hh:mm:ss"),
         HOUR("24");
         /**
          * The constant.

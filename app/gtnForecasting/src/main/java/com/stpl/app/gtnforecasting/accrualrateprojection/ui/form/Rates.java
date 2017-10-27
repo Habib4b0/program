@@ -132,7 +132,7 @@ public class Rates extends CustomComponent {
         configurePermission();
         configureFields();
         initializeResultTable();
-        if (AccrualRateUtils.add.equalsIgnoreCase(session.getAction())) {
+        if (AccrualRateUtils.ADD_CASE.equalsIgnoreCase(session.getAction())) {
             configureTable();
         }
     }
@@ -157,7 +157,7 @@ public class Rates extends CustomComponent {
         frequencyDdlb.setReadOnly(true);
 
         historyDdlb.setImmediate(true);
-        historyDdlb.addItems(AccrualRateUtils.HISTORY_PERIODS_12);
+        historyDdlb.addItems(AccrualRateUtils.getInstance().historyPeriods12);
         historyDdlb.setNullSelectionAllowed(true);
         historyDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
         historyDdlb.select(null);
@@ -246,7 +246,7 @@ public class Rates extends CustomComponent {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
-
+                return;
             }
 
             @Override
@@ -290,7 +290,7 @@ public class Rates extends CustomComponent {
                 } else if ((AccrualRateUtils.EDIT.equalsIgnoreCase(session.getAction()) || AccrualRateUtils.VIEW.equalsIgnoreCase(session.getAction())) && (!session.isFileNotChanged() && !session.isNewFileCalculationNeeded())) {
                     AbstractNotificationUtils.getInfoNotification("Confirmation", alertMsg.getString("ACR_MSG_ID_07"));
                 }
-                accrualRateSelectionDTO.setIsFilterValid(!isNotValidFilter && StringUtils.isNotBlank((String) fromDdlb.getValue()));
+                accrualRateSelectionDTO.setIsFilterValid(StringUtils.isNotBlank((String) fromDdlb.getValue()));
                 accrualRateSelectionDTO.setRateOrAmount(AccrualRateUtils.RATE.equals(variables.getValue()));
                 accrualRateSelectionDTO.setRateBasis(rateBasisDdlb.getValue().toString());
                 tableVerticalLayout.removeAllComponents();
@@ -304,7 +304,7 @@ public class Rates extends CustomComponent {
                 }
                 generateLogic();
                 loadFromAndToPeriods();
-                map.put("Rate Basis", rateBasisDdlb.getValue());
+                map.put(Constant.RATE_BASIS, rateBasisDdlb.getValue());
                 map.put(Constant.IS_RATES_GENERATED, true);
             }
         } catch (Exception ex) {
@@ -417,11 +417,11 @@ public class Rates extends CustomComponent {
                 historyDdlb.setValue(String.valueOf(value));
                 historyDdlb.setImmediate(true);
             }
-            value = map.get("Rate Basis");
+            value = map.get(Constant.RATE_BASIS);
             if (value != null) {
                 rateBasisDdlb.setValue(String.valueOf(value));
             }
-            this.map.put("Rate Basis", rateBasisDdlb.getValue());
+            this.map.put(Constant.RATE_BASIS, rateBasisDdlb.getValue());
             value = map.get(Constant.VARIABLES);
             if (value != null) {
                 variables.setValue(String.valueOf(value));
@@ -443,7 +443,7 @@ public class Rates extends CustomComponent {
     public void saveTabSelection() {
         Map map = new HashMap();
         map.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
-        map.put("Rate Basis", String.valueOf(rateBasisDdlb.getValue()));
+        map.put(Constant.RATE_BASIS, String.valueOf(rateBasisDdlb.getValue()));
         map.put(Constant.VARIABLES, String.valueOf(variables.getValue()));
         map.put("FromDDLB", String.valueOf(fromDdlb.getValue()));
         map.put("ToDDLB", String.valueOf(toDdlb.getValue()));

@@ -170,6 +170,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>STATUS</name>
         <rename>STATUS_N</rename>
@@ -2146,7 +2152,8 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
 
 var STATUS_N=&quot;C&quot;;
 var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
+var INTERFACE_RUN_END_DATE=new Date();
+var APPLICATION_PROCESS=&quot;ADJUSTED_DEMAND_ACTUAL_INTERFACE&quot;;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
         <rename>STATUS_N</rename>
         <type>String</type>
@@ -2162,6 +2169,12 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
       </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
         <rename>INTERFACE_RUN_END_DATE</rename>
         <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>APPLICATION_PROCESS</name>
+        <rename>APPLICATION_PROCESS</rename>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>

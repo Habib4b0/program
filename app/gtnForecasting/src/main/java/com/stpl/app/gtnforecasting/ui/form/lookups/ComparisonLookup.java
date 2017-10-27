@@ -107,8 +107,8 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      * Channels
      * @param comparisonLookup Textfield which opens this lookup
      */
-    public ComparisonLookup(final String windowName, final String moduleIndicator, final CustomTextField comparisonLookup,final int currentProjId, List<ComparisonLookupDTO> selectedList) {
-        super(windowName, moduleIndicator, comparisonLookup);
+    public ComparisonLookup(final String windowName, final CustomTextField comparisonLookup,final int currentProjId, List<ComparisonLookupDTO> selectedList) {
+        super(windowName, comparisonLookup);
         this.comparisonLookup = comparisonLookup;
         this.currentProjId= currentProjId;
         this.selectedList = selectedList;
@@ -144,7 +144,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         submitBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-
+                return;
           
             }
         });
@@ -211,7 +211,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-
+        return;
     }
     
     

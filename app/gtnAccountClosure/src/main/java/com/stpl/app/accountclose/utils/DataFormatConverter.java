@@ -26,7 +26,6 @@ public class DataFormatConverter implements Converter<String, String> {
     private String indicator = null;
     public static final String INDICATOR_PERCENT = "%";
     public static final String INDICATOR_DOLLAR = "$";
-    private final String numericRegex = "[^\\d.]";
     private final String numericDashRegex = "[^\\d.-]";
     private final String exponentialDashRegex = "[^\\d.Ee-]";
 

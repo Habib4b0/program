@@ -10,6 +10,7 @@ import com.stpl.app.global.abstractsearch.view.AbstractSearchView;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.compliancededuction.dto.CDRDto;
 import com.stpl.app.global.compliancededuction.logic.CDRLogic;
+import com.stpl.app.global.compliancededuction.ui.view.CDRView;
 import com.stpl.app.global.ifp.logic.IFPLogic;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -26,6 +27,7 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet;
@@ -93,6 +95,7 @@ public class CDRForm extends StplCustomComponent {
     NotesTabForm notesTabForm;
     ErrorfulFieldGroup binder;
     SessionDTO sessionDTO;
+    int selectedTabIndex = 0;
 
     public CDRForm(final ErrorfulFieldGroup binder, final SessionDTO sessionDTO) {
         try {
@@ -121,6 +124,8 @@ public class CDRForm extends StplCustomComponent {
         mainTab.setImmediate(true);
         mainTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
+                Component component = event.getTabSheet().getSelectedTab();
+                selectedTabIndex = event.getTabSheet().getTabPosition(event.getTabSheet().getTab(component));
             }
         });
         mainTab.addTab(ruleInfo.getContent(binder, sessionDTO), "Rule Information", null, 0);
@@ -198,8 +203,11 @@ public class CDRForm extends StplCustomComponent {
                         if (buttonId.name().equals("YES")) {
                             try {
                                 if (ConstantsUtils.ADD.equals(sessionDTO.getMode())) {
-                                    ruleInfo.resetMethod();
-                                    notesTabForm.resetAddMode();
+                                    if (selectedTabIndex == 0) {
+                                        ruleInfo.resetMethod();
+                                    } else {
+                                        notesTabForm.resetAddMode();
+                                    }
                                 } else {
                                     ruleInfo.preLoadData();
                                     notesTabForm.resetBtnLogic(ruleInfo.getNoteshistory());
@@ -260,7 +268,7 @@ public class CDRForm extends StplCustomComponent {
                                         ruleInfo.loadSavedRulesDetails(CDRLogic.getSavedRuleDetails(sessionDTO.getSystemId()));
                                         ruleInfo.setDeletedRuleInformations(new ArrayList());
                                         notesTabForm.setMasterTableSid(String.valueOf(sessionDTO.getSystemId()));
-
+                                        getUI().getNavigator().navigateTo(CDRView.NAME);
                                         final Notification notif = new Notification(String.valueOf(binder.getField("ruleNo").getValue()) + " has been successfully Saved", Notification.Type.HUMANIZED_MESSAGE);
                                         notif.setPosition(Position.MIDDLE_CENTER);
                                         notif.setStyleName(ConstantsUtils.MY_STYLE);

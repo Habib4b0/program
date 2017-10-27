@@ -67,10 +67,12 @@ public final class ValidationUtils {
     public static final String SPECIAL_CHAR_MAIL_MSG = "Enter valid mail address";
 
     public static final String MAIL_PATTERN = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-    
+
     public static final String INTEGER_VALIDATION = "^[0-9]+$|0";
     public static final String NEGATIVE_INTEGER_VALIDATION = "^\\-[0-9]+$|0";
-    
+
+    public static final String NUMERIC_VALIDATION_VAR = "([\\-|0-9]{1,22}+(\\.[0-9]{1,6}+)?$)";
+
     private ValidationUtils() {
 
     }

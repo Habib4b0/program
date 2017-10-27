@@ -9,6 +9,7 @@ import com.stpl.app.arm.accountconfiguration.dto.AccountConfigDTO;
 import com.stpl.app.arm.accountconfiguration.dto.AccountConfigSelection;
 import com.stpl.app.arm.accountconfiguration.logic.AccountConfigLogic;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.Container;
@@ -81,19 +82,19 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
             Object value = event.getProperty().getValue();
             if (event.getProperty() instanceof ComboBox) {
                 Container container = (Container) map.get(ARMUtils.CONTAINER);
-                if (propertyId.equals("companyNoHelperDto")) {
+                if ("companyNoHelperDto".equals(propertyId)) {
                     int company = dto.getCompanyNoHelperDto() != null ? dto.getCompanyNoHelperDto().getId() : NumericConstants.ZERO;
                     int businessUnit = dto.getBusinessNoHelperDto() != null ? dto.getBusinessNoHelperDto().getId() : NumericConstants.ZERO;
                     value = company;
-                    ComboBox accountCombo = (ComboBox) dto.getFieldFactoryComponentMap().get("account");
+                    ComboBox accountCombo = (ComboBox) dto.getFieldFactoryComponentMap().get(CommonConstant.ACCOUNT);
                     logic.loadAccount(accountCombo, company, businessUnit);
                     dto.setCompanyName(dto.getCompanyNoHelperDto() != null ? dto.getCompanyNoHelperDto().getDescription() : StringUtils.EMPTY);
                     container.getContainerProperty(itemId, "companyName").setValue(dto.getCompanyNoHelperDto() != null ? dto.getCompanyNoHelperDto().getDescription() : StringUtils.EMPTY);
-                } else if (propertyId.equals("businessNoHelperDto")) {
+                } else if ("businessNoHelperDto".equals(propertyId)) {
                     int company = dto.getCompanyNoHelperDto() != null ? dto.getCompanyNoHelperDto().getId() : NumericConstants.ZERO;
                     int businessUnit = dto.getBusinessNoHelperDto() != null ? dto.getBusinessNoHelperDto().getId() : NumericConstants.ZERO;
                     value = businessUnit;
-                    ComboBox accountCombo = (ComboBox) dto.getFieldFactoryComponentMap().get("account");
+                    ComboBox accountCombo = (ComboBox) dto.getFieldFactoryComponentMap().get(CommonConstant.ACCOUNT);
                     logic.loadAccount(accountCombo, company, businessUnit);
                     dto.setBusinessUnitName(dto.getBusinessNoHelperDto() != null ? dto.getBusinessNoHelperDto().getDescription() : StringUtils.EMPTY);
                     container.getContainerProperty(itemId, "businessUnitName").setValue(dto.getBusinessNoHelperDto() != null ? dto.getBusinessNoHelperDto().getDescription() : StringUtils.EMPTY);
@@ -133,7 +134,7 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
             map.put(ARMUtils.PROPERTY_ID, propertyId);
             map.put(ARMUtils.ITEM_ID, itemId);
             map.put(ARMUtils.CONTAINER, container);
-            if (propertyId.equals("checkRecord")) {
+            if ("checkRecord".equals(propertyId)) {
                 final ExtCustomCheckBox check = new ExtCustomCheckBox();
                 fieldFactoryValuesDTO.addFieldFactoryMap(propertyId.toString(), check);
                 check.addClickListener(new ExtCustomCheckBox.ClickListener() {
@@ -154,7 +155,7 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
 
                 return check;
             }
-            if (propertyId.equals("costCentre")) {
+            if ("costCentre".equals(propertyId)) {
                 final TextField costCentre = new TextField();
                 costCentre.setImmediate(true);
                 fieldFactoryValuesDTO.addFieldFactoryMap(propertyId.toString(), costCentre);
@@ -163,11 +164,11 @@ public class AccountConfigFieldFactory implements TableFieldFactory {
 
                 return costCentre;
             }
-            if (ArrayUtils.contains(ARMUtils.ACCOUNT_CONFIG_COMBOBOX_PROPERTIES, propertyId.toString())) {
+            if (ArrayUtils.contains(ARMUtils.getAccountConfigComboboxProperties(), propertyId.toString())) {
                 final ComboBox comboBox = new ComboBox();
                 comboBox.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
                 comboBox.setImmediate(true);
-                if ("account".equals(propertyId.toString())) {
+                if (CommonConstant.ACCOUNT.equals(propertyId.toString())) {
                     comboBox.setImmediate(true);
                     int company = fieldFactoryValuesDTO.getCompanyNoHelperDto() != null ? fieldFactoryValuesDTO.getCompanyNoHelperDto().getId() : NumericConstants.ZERO;
                     int businessUnit = fieldFactoryValuesDTO.getBusinessNoHelperDto() != null ? fieldFactoryValuesDTO.getBusinessNoHelperDto().getId() : NumericConstants.ZERO;

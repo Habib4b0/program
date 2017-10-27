@@ -14,16 +14,10 @@ import java.util.List;
  * @generated
  */
 public class NmDiscountProjectionSoap implements Serializable {
-    private String _adjustmentMethodology;
-    private String _adjustmentBasis;
     private int _periodSid;
     private double _projectionRate;
     private int _projectionDetailsSid;
-    private boolean _adjustmentVariable;
-    private double _adjustmentValue;
-    private String _adjustmentType;
     private double _projectionSales;
-    private double _discountRate;
 
     public NmDiscountProjectionSoap() {
     }
@@ -32,16 +26,10 @@ public class NmDiscountProjectionSoap implements Serializable {
         NmDiscountProjection model) {
         NmDiscountProjectionSoap soapModel = new NmDiscountProjectionSoap();
 
-        soapModel.setAdjustmentMethodology(model.getAdjustmentMethodology());
-        soapModel.setAdjustmentBasis(model.getAdjustmentBasis());
         soapModel.setPeriodSid(model.getPeriodSid());
         soapModel.setProjectionRate(model.getProjectionRate());
         soapModel.setProjectionDetailsSid(model.getProjectionDetailsSid());
-        soapModel.setAdjustmentVariable(model.getAdjustmentVariable());
-        soapModel.setAdjustmentValue(model.getAdjustmentValue());
-        soapModel.setAdjustmentType(model.getAdjustmentType());
         soapModel.setProjectionSales(model.getProjectionSales());
-        soapModel.setDiscountRate(model.getDiscountRate());
 
         return soapModel;
     }
@@ -94,22 +82,6 @@ public class NmDiscountProjectionSoap implements Serializable {
         setProjectionDetailsSid(pk.projectionDetailsSid);
     }
 
-    public String getAdjustmentMethodology() {
-        return _adjustmentMethodology;
-    }
-
-    public void setAdjustmentMethodology(String adjustmentMethodology) {
-        _adjustmentMethodology = adjustmentMethodology;
-    }
-
-    public String getAdjustmentBasis() {
-        return _adjustmentBasis;
-    }
-
-    public void setAdjustmentBasis(String adjustmentBasis) {
-        _adjustmentBasis = adjustmentBasis;
-    }
-
     public int getPeriodSid() {
         return _periodSid;
     }
@@ -134,47 +106,11 @@ public class NmDiscountProjectionSoap implements Serializable {
         _projectionDetailsSid = projectionDetailsSid;
     }
 
-    public boolean getAdjustmentVariable() {
-        return _adjustmentVariable;
-    }
-
-    public boolean isAdjustmentVariable() {
-        return _adjustmentVariable;
-    }
-
-    public void setAdjustmentVariable(boolean adjustmentVariable) {
-        _adjustmentVariable = adjustmentVariable;
-    }
-
-    public double getAdjustmentValue() {
-        return _adjustmentValue;
-    }
-
-    public void setAdjustmentValue(double adjustmentValue) {
-        _adjustmentValue = adjustmentValue;
-    }
-
-    public String getAdjustmentType() {
-        return _adjustmentType;
-    }
-
-    public void setAdjustmentType(String adjustmentType) {
-        _adjustmentType = adjustmentType;
-    }
-
     public double getProjectionSales() {
         return _projectionSales;
     }
 
     public void setProjectionSales(double projectionSales) {
         _projectionSales = projectionSales;
-    }
-
-    public double getDiscountRate() {
-        return _discountRate;
-    }
-
-    public void setDiscountRate(double discountRate) {
-        _discountRate = discountRate;
     }
 }

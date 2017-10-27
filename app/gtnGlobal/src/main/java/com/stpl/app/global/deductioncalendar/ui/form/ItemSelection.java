@@ -152,11 +152,11 @@ public class ItemSelection extends CustomComponent {
     /**
      * Bean container for available result table.
      */
-    protected final BeanItemContainer<SelectionDTO> availableResultsContainer = new BeanItemContainer<SelectionDTO>(SelectionDTO.class);
+    protected final BeanItemContainer<SelectionDTO> availableResultsContainer = new BeanItemContainer<>(SelectionDTO.class);
     /**
      * Bean container for Selected result table.
      */
-    protected final BeanItemContainer<SelectionDTO> selectedResultsContainer = new BeanItemContainer<SelectionDTO>(SelectionDTO.class);
+    protected final BeanItemContainer<SelectionDTO> selectedResultsContainer = new BeanItemContainer<>(SelectionDTO.class);
     /**
      * Selection Table Logic
      */
@@ -183,6 +183,8 @@ public class ItemSelection extends CustomComponent {
     private final ErrorfulFieldGroup binder;
     private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
     public Boolean isSelected=false;
+    private final HeaderUtils headerUtils = new HeaderUtils();
+
     
 
     public ItemSelection(SessionDTO sessionDTO, DeductionCalendarForm deductionCalendarForm) {
@@ -222,7 +224,7 @@ public class ItemSelection extends CustomComponent {
      */
     public ErrorfulFieldGroup getBinder() {
         final SelectionDTO bean = new SelectionDTO();
-        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<SelectionDTO>(bean));
+        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -262,7 +264,7 @@ public class ItemSelection extends CustomComponent {
             String mode = sessionDTO.getMode();
 
             List<Object> resultList = ifpLogic.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.ITEM_SELECTION);
-            Object[] objColumn = HeaderUtils.ITEM_COLUMNS;
+            Object[] objColumn = headerUtils.itemColumns;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode.equals("Copy")?"Edit":mode);
             
             availableItemTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -277,22 +279,22 @@ public class ItemSelection extends CustomComponent {
             availableItemTable.setFilterDecorator(new ExtDemoFilterDecorator());
             availableItemTable.addStyleName("filtertable");
             availableItemTable.addStyleName("table-header-normal");
-            Arrays.asList(HeaderUtils.ITEM_COLUMNS);
-            availableItemTable.setColumnAlignment("itemStartDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("itemEndDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("packageSizeIntroDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("authorizedGenericStartDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("authorizedGenericEndDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("firstSaleDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("marketTerminationDate", ExtPagedTable.Align.CENTER);
+            Arrays.asList(headerUtils.itemColumns);
+            availableItemTable.setColumnAlignment(ConstantsUtils.ITEM_START_DATE, ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.ITEM_END_DATE, ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.PACKAGE_SIZE_INTRO_DATE, ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.AUTHORIZED_GENERIC_START_DATE, ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.AUTHORIZED_GENERIC_END_DATE, ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.FIRST_SALE_DATE, ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.MARKER_TERMINATION_DATE, ExtPagedTable.Align.CENTER);
             availableItemTable.setColumnAlignment("newFormulationStartDate", ExtPagedTable.Align.CENTER);
             availableItemTable.setColumnAlignment("newFormulationEndDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("pediatricExclusiveEndDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("pediatricExclusiveStartDate", ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.PEDIATRIC_EXCLUSIVE_END_DATE, ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE, ExtPagedTable.Align.CENTER);
             availableItemTable.setColumnAlignment("clottingFactorStartDate", ExtPagedTable.Align.CENTER);
             availableItemTable.setColumnAlignment("clottingFactorEndDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("discontinuationDate", ExtPagedTable.Align.CENTER);
-            availableItemTable.setColumnAlignment("lastLotExpirationDate", ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.DISCOUNT_DATE, ExtPagedTable.Align.CENTER);
+            availableItemTable.setColumnAlignment(ConstantsUtils.LAST_LOT_EXP_DATE, ExtPagedTable.Align.CENTER);
             selectedResultsTableLayout.addComponent(selectedItemTable);
             selectedResultsTableLayout.addComponent(getResponsiveControls(selectedTableLogic.createControls()));
             selectedTableLogic.setContainerDataSource(selectedResultsContainer);
@@ -312,30 +314,30 @@ public class ItemSelection extends CustomComponent {
             selectedItemTable.setFilterDecorator(new ExtDemoFilterDecorator());
             selectedItemTable.addStyleName("filtertable");
             selectedItemTable.addStyleName("table-header-normal");
-            selectedItemTable.setColumnAlignment("itemStartDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("itemEndDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("packageSizeIntroDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("authorizedGenericStartDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("authorizedGenericEndDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("firstSaleDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("marketTerminationDate", ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.ITEM_START_DATE, ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.ITEM_END_DATE, ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.PACKAGE_SIZE_INTRO_DATE, ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.AUTHORIZED_GENERIC_START_DATE, ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.AUTHORIZED_GENERIC_END_DATE, ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.FIRST_SALE_DATE, ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.MARKER_TERMINATION_DATE, ExtPagedTable.Align.CENTER);
             selectedItemTable.setColumnAlignment("newFormulationStartDate", ExtPagedTable.Align.CENTER);
             selectedItemTable.setColumnAlignment("newFormulationEndDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("pediatricExclusiveEndDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("pediatricExclusiveStartDate", ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.PEDIATRIC_EXCLUSIVE_END_DATE, ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE, ExtPagedTable.Align.CENTER);
             selectedItemTable.setColumnAlignment("clottingFactorStartDate", ExtPagedTable.Align.CENTER);
             selectedItemTable.setColumnAlignment("clottingFactorEndDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("discontinuationDate", ExtPagedTable.Align.CENTER);
-            selectedItemTable.setColumnAlignment("lastLotExpirationDate", ExtPagedTable.Align.CENTER);       
-            exportBtn.setIcon(new ThemeResource("../../icons/excel.png"));
-            exportBtn.setIcon(new ThemeResource("../../icons/excel.png"));
+            selectedItemTable.setColumnAlignment(ConstantsUtils.DISCOUNT_DATE, ExtPagedTable.Align.CENTER);
+            selectedItemTable.setColumnAlignment(ConstantsUtils.LAST_LOT_EXP_DATE, ExtPagedTable.Align.CENTER);       
+            exportBtn.setIcon(new ThemeResource(ConstantsUtils.ICONS_EXCEL_PNG));
+            exportBtn.setIcon(new ThemeResource(ConstantsUtils.ICONS_EXCEL_PNG));
             exportBtn.setStyleName("link");
             exportBtn.setDescription("Export to excel");
             exportBtn.setIconAlternateText("Excel export");
             exportBtn.setHtmlContentAllowed(true);
 
-            exportButton.setIcon(new ThemeResource("../../icons/excel.png"));
-            exportButton.setIcon(new ThemeResource("../../icons/excel.png"));
+            exportButton.setIcon(new ThemeResource(ConstantsUtils.ICONS_EXCEL_PNG));
+            exportButton.setIcon(new ThemeResource(ConstantsUtils.ICONS_EXCEL_PNG));
             exportButton.setStyleName("link");
             exportButton.setDescription("Export to excel");
             exportButton.setIconAlternateText("Excel export");
@@ -457,16 +459,16 @@ public class ItemSelection extends CustomComponent {
         }
         return (SelectionDTO) targetItem.getBean();
     }
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
-        final int recordCount = isSelected ? selectionLogic.getSelectedTableCount(sessionDTO,null,null):selectionLogic.getAvailableTableCount(binder,null,null);
-        ExcelExportforBB.createWorkSheet(HeaderUtils.ITEM_HEADERS, recordCount, this, getUI(), TabNameUtil.ITEM_SELECTION_EXPORT);
+        final int recordCount = isSelected ? selectionLogic.getSelectedTableCount(sessionDTO,null):selectionLogic.getAvailableTableCount(binder,null,null);
+        ExcelExportforBB.createWorkSheet(headerUtils.itemHeaders, recordCount, this, getUI(), TabNameUtil.ITEM_SELECTION_EXPORT);
         LOGGER.debug("Ending createWorkSheet");
     }
     
@@ -537,7 +539,7 @@ public class ItemSelection extends CustomComponent {
 
         }
     }
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, ParseException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         SelectionDTO dto;
         final List<SelectionDTO> searchList = isSelected ? selectionLogic.getSelectedTableResult(sessionDTO, start, end, null, null) : selectionLogic.getAvailableTableResult(binder, start, end,null,null);
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
@@ -642,7 +644,7 @@ public class ItemSelection extends CustomComponent {
                         AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.NO_RECORD_SELECTED_HEADER), MessageUtil.getMessage(Message.NO_RECORD_SELECTED_MESSAGE));
                         return;
                     }
-                    List<Integer> selectedItemSID= new ArrayList<Integer>();
+                    List<Integer> selectedItemSID= new ArrayList<>();
                     for (SelectionDTO selection : selectionDTO) {
                         if (selection != null && StringUtils.isNotBlank(selection.getItemSystemID())) {
                             selectedItemSID.add(Integer.valueOf(selection.getItemSystemID()));
@@ -737,8 +739,6 @@ public class ItemSelection extends CustomComponent {
                     selectionLogic.removeItem(StringUtils.join(ids, ","), sessionDTO, false);
                     deductionCalendarForm.setNeedRefresh(true);
                     loadInEdit();
-                } catch (PortalException ex) {
-                    LOGGER.error(ex);
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
@@ -777,8 +777,6 @@ public class ItemSelection extends CustomComponent {
                     // that is used to pass the  used id , sessionid
                     deductionCalendarForm.setNeedRefresh(true);
                     loadInEdit();
-                } catch (PortalException ex) {
-                    java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
                     java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -819,7 +817,7 @@ public class ItemSelection extends CustomComponent {
     public  void resetBtnLogic(){
        LOGGER.debug("Entering reset Button in Deduction Calendar Form");
        binder.getErrorDisplay().clearError();
-       binder.setItemDataSource(new BeanItem<SelectionDTO>(new SelectionDTO()));
+       binder.setItemDataSource(new BeanItem<>(new SelectionDTO()));
        brandDdlb.select(dto);
        excelEligible = false;
        availableItemTable.setFilterGenerator(new ItemMasterGenerate());
@@ -828,54 +826,47 @@ public class ItemSelection extends CustomComponent {
        availableTableLogic.getFilters().clear();
        LOGGER.debug("Ending reset Button in Deduction Calendar Form");
     }
-     public String parseDateLogic(Object object) throws ParseException{  
+     public String parseDateLogic(Object object) {  
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         String date = formatter.format(object);
         return date;
     }
      
      private void addAllItemsButtonClick(boolean isAddAll, List<Integer> selectedItemSID) {
-                try {
-                    selectionLogic.addAllItemsAndSaveToTempTable(sessionDTO,binder, isAddAll, selectedItemSID,availableTableLogic.getFilters());
-                    loadInEdit();
-                    
-                } catch (SystemException ex) {
-                    java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (PortalException ex) {
-                    java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
-                }
+         selectionLogic.addAllItemsAndSaveToTempTable(sessionDTO,binder, isAddAll, selectedItemSID,availableTableLogic.getFilters());
+         loadInEdit();
             }
 
     private void dateConverter() {
         
-        availableItemTable.setConverter("itemStartDate", new DateToStringConverter());
-        availableItemTable.setConverter("itemEndDate", new DateToStringConverter());
-        availableItemTable.setConverter("packageSizeIntroDate", new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.ITEM_START_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.ITEM_END_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.PACKAGE_SIZE_INTRO_DATE, new DateToStringConverter());
         availableItemTable.setConverter("acquisitionDate", new DateToStringConverter());
-        availableItemTable.setConverter("authorizedGenericStartDate", new DateToStringConverter());
-        availableItemTable.setConverter("authorizedGenericEndDate", new DateToStringConverter());
-        availableItemTable.setConverter("pediatricExclusiveStartDate", new DateToStringConverter());
-        availableItemTable.setConverter("pediatricExclusiveEndDate", new DateToStringConverter());
-        availableItemTable.setConverter("packageSizeIntroDate", new DateToStringConverter());
-        availableItemTable.setConverter("marketTerminationDate", new DateToStringConverter());
-        availableItemTable.setConverter("lastLotExpirationDate", new DateToStringConverter());
-        availableItemTable.setConverter("discontinuationDate", new DateToStringConverter());
-        availableItemTable.setConverter("firstSaleDate", new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.AUTHORIZED_GENERIC_START_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.AUTHORIZED_GENERIC_END_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.PEDIATRIC_EXCLUSIVE_END_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.PACKAGE_SIZE_INTRO_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.MARKER_TERMINATION_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.LAST_LOT_EXP_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.DISCOUNT_DATE, new DateToStringConverter());
+        availableItemTable.setConverter(ConstantsUtils.FIRST_SALE_DATE, new DateToStringConverter());
         availableItemTable.setConverter("baseYearCPI", new DateToStringConverter());
 
-        selectedItemTable.setConverter("itemStartDate", new DateToStringConverter());
-        selectedItemTable.setConverter("itemEndDate", new DateToStringConverter());
-        selectedItemTable.setConverter("packageSizeIntroDate", new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.ITEM_START_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.ITEM_END_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.PACKAGE_SIZE_INTRO_DATE, new DateToStringConverter());
         selectedItemTable.setConverter("acquisitionDate", new DateToStringConverter());
-        selectedItemTable.setConverter("authorizedGenericStartDate", new DateToStringConverter());
-        selectedItemTable.setConverter("authorizedGenericEndDate", new DateToStringConverter());
-        selectedItemTable.setConverter("pediatricExclusiveStartDate", new DateToStringConverter());
-        selectedItemTable.setConverter("pediatricExclusiveEndDate", new DateToStringConverter());
-        selectedItemTable.setConverter("packageSizeIntroDate", new DateToStringConverter());
-        selectedItemTable.setConverter("marketTerminationDate", new DateToStringConverter());
-        selectedItemTable.setConverter("lastLotExpirationDate", new DateToStringConverter());
-        selectedItemTable.setConverter("discontinuationDate", new DateToStringConverter());
-        selectedItemTable.setConverter("firstSaleDate", new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.AUTHORIZED_GENERIC_START_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.AUTHORIZED_GENERIC_END_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.PEDIATRIC_EXCLUSIVE_END_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.PACKAGE_SIZE_INTRO_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.MARKER_TERMINATION_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.LAST_LOT_EXP_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.DISCOUNT_DATE, new DateToStringConverter());
+        selectedItemTable.setConverter(ConstantsUtils.FIRST_SALE_DATE, new DateToStringConverter());
         selectedItemTable.setConverter("baseYearCPI", new DateToStringConverter());
     }
 }

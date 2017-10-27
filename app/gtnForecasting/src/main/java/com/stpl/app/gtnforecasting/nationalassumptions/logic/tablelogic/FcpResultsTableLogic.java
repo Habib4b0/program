@@ -42,9 +42,9 @@ public class FcpResultsTableLogic extends PageTreeTableLogic {
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated && offset > 0) {
-            List<String> indexList = new ArrayList<String>(getNonFetchableData().keySet());
+            List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);
             List<TableDTO> list = fcpResLogic.getConfiguredFcpResults(getLastParent(), start, offset, projSelDTO,sessionDTO);
             int i = start;
@@ -91,7 +91,7 @@ public class FcpResultsTableLogic extends PageTreeTableLogic {
     }
 
     public void loadExpandData(boolean isExpand, int rowIndex) {
-        List<String> expandedList = new ArrayList<String>(getExpandedTreeList().keySet());
+        List<String> expandedList = new ArrayList<>(getExpandedTreeList().keySet());
         clearAll();
         projSelDTO.setLevelNo(0);
         int count = fcpResLogic.getConfiguredFcpResultsCount(new Object(), projSelDTO);

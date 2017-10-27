@@ -4,8 +4,11 @@
  */
 package com.stpl.app.gcm.globalchange.fieldfactory;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
+import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.add.dto.AddItemTableDTO;
+import com.stpl.app.gcm.itemmanagement.add.form.AddContractSelection;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
@@ -14,6 +17,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.form.ComponentLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.FormulaLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.util.Constants;
+import com.stpl.app.serviceUtils.UIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.data.Container;
@@ -46,7 +50,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  */
 public class AddItemContractFieldFactory implements TableFieldFactory {
 
-    List<AddItemTableDTO> selectedItemList = new ArrayList<AddItemTableDTO>();
+    List<AddItemTableDTO> selectedItemList = new ArrayList<>();
     AbstractLogic logic = AbstractLogic.getInstance();
     SelectionDTO selection;
     public ExtPagedTable contractSelectionTable;
@@ -84,7 +88,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("status")) {
             final ComboBox itemStatus = new ComboBox();
             itemStatus.setImmediate(true);
-            abstractLogic.loaDDLB(itemStatus, "STATUS", "HELPER_TABLE", false, "helperTableQuery");
+            CommonUtil.getComboBoxByListName(itemStatus, UIUtils.STATUS, false);
             itemStatus.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
 
@@ -143,9 +147,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                 if (itemstartDate.getValue() != null && startDate != null && itemstartDate.getValue().after(startDate)) {
                                     itemstartDate.setValue(null);
                                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                                        MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this Item Start Date since it does not come after the End Date you have entered on the previous screen.", ButtonId.OK);
+                                        MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.START_DATE_HEADER, "You cannot proceed with this Item Start Date since it does not come after the End Date you have entered on the previous screen.", ButtonId.OK);
                                     } else {
-                                        MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this Item Start Date since it does not come after the Item End Date.", ButtonId.OK);
+                                        MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.START_DATE_HEADER, "You cannot proceed with this Item Start Date since it does not come after the Item End Date.", ButtonId.OK);
                                     }
                                 } else {
                                     dto.setStartDate(itemstartDate.getValue());
@@ -187,7 +191,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                 Date startDate = dto.getStartDate();
                                 if (startDate != null && itemendDate.getValue() != null && itemendDate.getValue().before(startDate)) {
                                     itemendDate.setValue(null);
-                                    MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this Item End Date since it does not come after the Start Date.", ButtonId.OK);
+                                    MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.START_DATE_HEADER, "You cannot proceed with this Item End Date since it does not come after the Start Date.", ButtonId.OK);
                                 } else {
                                     dto.setEndDate(itemendDate.getValue());
                                     dto.setColumnName("END_DATE");
@@ -261,7 +265,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                 Date startDate = abstractLogic.getStartDateCheck(dto, selection, "CONTRACT_PRICE_START_DATE");
                                 if (startDate != null && cpendDate.getValue() != null && cpendDate.getValue().before(startDate)) {
                                     cpendDate.setValue(null);
-                                    MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this CP End Date since it does not come after the CP Start Date.", ButtonId.OK);
+                                    MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.START_DATE_HEADER, "You cannot proceed with this CP End Date since it does not come after the CP Start Date.", ButtonId.OK);
                                 } else {
                                     dto.setEndDate(cpendDate.getValue());
                                     dto.setColumnName("CONTRACT_PRICE_END_DATE");
@@ -337,7 +341,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                 Date startDate = abstractLogic.getStartDateCheck(dto, selection, "PRICE_PROTECTION_START_DATE");
                                 if (startDate != null && priceProtectionEndDate.getValue() != null && priceProtectionEndDate.getValue().before(startDate)) {
                                     priceProtectionEndDate.setValue(null);
-                                    MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this Price Protection End Date since it does not come after the Price Protection Start Date.", ButtonId.OK);
+                                    MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.START_DATE_HEADER, "You cannot proceed with this Price Protection End Date since it does not come after the Price Protection Start Date.", ButtonId.OK);
                                 } else {
                                     dto.setPriceProtectionEndDate(priceProtectionEndDate.getValue());
                                     dto.setColumnName("PRICE_PROTECTION_END_DATE");
@@ -365,7 +369,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("priceToleranceType")) {
             final ComboBox priceToleranceType = new ComboBox();
             priceToleranceType.setImmediate(true);
-            abstractLogic.loaDDLB(priceToleranceType, "PRICE_TOLERANCE_TYPE", "HELPER_TABLE", false, "helperTableQuery");
+            CommonUtil.getComboBoxByListName(priceToleranceType, "PRICE_TOLERANCE_TYPE", false);
             priceToleranceType.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     priceToleranceType.addValueChangeListener(new Property.ValueChangeListener() {
@@ -425,8 +429,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                     priceTolerance.removeFocusListener(this);
                 }
             });
-            priceTolerance.addValidator(
-                    new RegexpValidator(ConstantsUtil.NUMERIC, "Only Numeric characters can be entered"));
+            priceTolerance.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
 
             return priceTolerance;
 
@@ -435,7 +438,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("priceToleranceFrequency")) {
             final ComboBox priceToleranceFrequency = new ComboBox();
             priceToleranceFrequency.setImmediate(true);
-            abstractLogic.loaDDLB(priceToleranceFrequency, "PRICE_TOLERANCE_FREQUENCY", "HELPER_TABLE", false, "helperTableQuery");
+            CommonUtil.getComboBoxByListName(priceToleranceFrequency, "PRICE_TOLERANCE_FREQUENCY", false);
             priceToleranceFrequency.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     priceToleranceFrequency.addValueChangeListener(new Property.ValueChangeListener() {
@@ -471,7 +474,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("priceToleranceInterval")) {
             final ComboBox priceToleranceInterval = new ComboBox();
             priceToleranceInterval.setImmediate(true);
-            abstractLogic.loaDDLB(priceToleranceInterval, "PRICE_TOLERANCE_INTERVAL", "HELPER_TABLE", false, "helperTableQuery");
+            CommonUtil.getComboBoxByListName(priceToleranceInterval, "PRICE_TOLERANCE_INTERVAL", false);
             priceToleranceInterval.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     priceToleranceInterval.addValueChangeListener(new Property.ValueChangeListener() {
@@ -506,7 +509,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("basePrice")) {
             final CustomTextField basePrice = new CustomTextField();
             basePrice.setImmediate(true);
-            basePrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, "Only Numeric characters can be entered"));
+            basePrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             basePrice.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     basePrice.addValueChangeListener(new Property.ValueChangeListener() {
@@ -536,7 +539,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("price")) {
             final CustomTextField Price = new CustomTextField();
             Price.setImmediate(true);
-            Price.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, "Only Numeric characters can be entered"));
+            Price.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             Price.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     Price.addValueChangeListener(new Property.ValueChangeListener() {
@@ -566,7 +569,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("contractPrice")) {
             final CustomTextField Contractprice = new CustomTextField();
             Contractprice.setImmediate(true);
-            Contractprice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, "Only Numeric characters can be entered"));
+            Contractprice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             Contractprice.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     Contractprice.addValueChangeListener(new Property.ValueChangeListener() {
@@ -645,7 +648,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                 Date startDate = abstractLogic.getStartDateCheck(dto, selection, "ITEM_REBATE_START_DATE");
                                 if (startDate != null && rsendDate.getValue() != null && rsendDate.getValue().before(startDate)) {
                                     rsendDate.setValue(null);
-                                    MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this RS End Date since it does not come after the RS Start Date.", ButtonId.OK);
+                                    MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.START_DATE_HEADER, "You cannot proceed with this RS End Date since it does not come after the RS Start Date.", ButtonId.OK);
                                 } else {
                                     dto.setEndDate(rsendDate.getValue());
                                     dto.setColumnName("ITEM_REBATE_END_DATE");
@@ -740,7 +743,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("formulaMethodId")) {
             final CustomTextField formulaMethodId = new CustomTextField();
             formulaMethodId.setImmediate(true);
-            formulaMethodId.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, "Only Numeric characters can be entered"));
+            formulaMethodId.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             formulaMethodId.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     formulaMethodId.addValueChangeListener(new Property.ValueChangeListener() {
@@ -771,7 +774,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("rebateAmount")) {
             final CustomTextField rebateAmount = new CustomTextField();
             rebateAmount.setImmediate(true);
-            rebateAmount.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, "Only Numeric characters can be entered"));
+            rebateAmount.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             rebateAmount.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     rebateAmount.addValueChangeListener(new Property.ValueChangeListener() {
@@ -799,8 +802,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
             return rebateAmount;
         }
-        return null;
-    }
+        
+        
+    return null;
+        }
 
     private void saveTempItemDetails(final AbstractContractSearchDTO dto) {
         boolean flag = logic.getEditedItemDetails(dto, selection);

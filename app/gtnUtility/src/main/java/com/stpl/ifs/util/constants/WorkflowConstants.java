@@ -92,7 +92,7 @@ public final class WorkflowConstants {
     public static String[] getOtherUserGroups(){
         return properties.getProperty("OTHER_ROLES").split(",");
     }
-    
+
     public static List getBusinessProcess(String projectName) {
         List list = Arrays.asList(properties.getProperty("BP_" + projectName).split(","));
         return list;

@@ -4,6 +4,7 @@
  */
 package com.stpl.app.adminconsole.serverlogging.form;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.serverlogging.dto.LoggingDto;
 import com.stpl.app.adminconsole.serverlogging.logic.LoggingTableLogic;
@@ -51,7 +52,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
     private Button viewBtn;
     @UiField("deleteBtn")
     private Button deleteBtn;
-    private Button downloadBtn=new Button("DOWNLOAD");
+    private Button downloadBtn=new Button(StringConstantUtils.DOWNLOAD);
     @UiField("buttonLayout2")
     private HorizontalLayout buttonLayout2;
     public LoggingDto loggingDTO = new LoggingDto();
@@ -62,16 +63,16 @@ public class LoggingSearchIndex extends CustomComponent implements View {
     /**
      * The results bean.
      */
-    public BeanItemContainer<LoggingDto> resultsBean = new BeanItemContainer<LoggingDto>(LoggingDto.class);
+    public BeanItemContainer<LoggingDto> resultsBean = new BeanItemContainer<>(LoggingDto.class);
     /**
      * The Constant LOGGING_TABLE_COLUMNS.
      */
-    public static final Object[] LOGGING_TABLE_COLUMNS = new Object[]{
+    public final Object[] loggingTableColumns = new Object[]{
         "logDestination", "active", "messagesSelected"};
     /**
      * The Constant LOGGING_TABLE_HEADER.
      */
-    public static final String[] LOGGING_TABLE_HEADER = new String[]{"Log Destination", "Active", "Messages Selected"};
+    public final String[] loggingTableHeader = new String[]{"Log Destination", "Active", "Messages Selected"};
     @UiField("tableLayout")
     VerticalLayout tableLayout;
     @UiField("buttonLayout")
@@ -112,7 +113,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
     private void init() {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/LoggingSearchIndex.xml"), this));
         configureTable();
-        downloadBtn = new Button("DOWNLOAD");
+        downloadBtn = new Button(StringConstantUtils.DOWNLOAD);
         buttonLayout2.addComponent(downloadBtn);
     }
 
@@ -124,6 +125,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /**
@@ -181,8 +183,8 @@ public class LoggingSearchIndex extends CustomComponent implements View {
 
     public void setTableDefaultConfig() {
         try {
-            results.setVisibleColumns(LOGGING_TABLE_COLUMNS);
-            results.setColumnHeaders(LOGGING_TABLE_HEADER);
+            results.setVisibleColumns(loggingTableColumns);
+            results.setColumnHeaders(loggingTableHeader);
             results.markAsDirtyRecursive();
             results.setImmediate(true);
             results.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -212,10 +214,10 @@ public class LoggingSearchIndex extends CustomComponent implements View {
                         VaadinSession.getCurrent().setAttribute("LOG_DESTINATION", logDestinationValue);
                         UI.getCurrent().getNavigator().navigateTo(ViewLog.NAME);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("Error", "Selected Record is inactive");
+                        AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Selected Record is inactive");
                     }
                 } else {
-                    AbstractNotificationUtils.getErrorNotification("Error", "Please Select any record");
+                    AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please Select any record");
                 }
             }
         });
@@ -226,7 +228,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
                     tableLogic.configureSearchData();
                     AbstractNotificationUtils.getInfoNotification("Success", "Log File Removed Scucessfully");
                 } else {
-                    AbstractNotificationUtils.getErrorNotification("Error", "Please Select any record");
+                    AbstractNotificationUtils.getErrorNotification(StringConstantUtils.ERROR, "Please Select any record");
                 }
             }
         });
@@ -247,7 +249,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
             if (obj instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) obj;
             } else if (obj instanceof LoggingDto) {
-                targetItem = new BeanItem<LoggingDto>((LoggingDto) obj);
+                targetItem = new BeanItem<>((LoggingDto) obj);
             } else {
                 targetItem = NULLOBJECT;
             }
@@ -255,7 +257,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
             logDestinationValue = ((LoggingDto) targetItem.getBean()).getLogDestination();
             if(isActive){
                 buttonLayout2.removeComponent(downloadBtn);
-                downloadBtn = new Button("DOWNLOAD");
+                downloadBtn = new Button(StringConstantUtils.DOWNLOAD);
                 Resource res = new FileResource(new File(logDestinationValue));
                 FileDownloader fd = new FileDownloader(res);
                 fd.extend(downloadBtn);

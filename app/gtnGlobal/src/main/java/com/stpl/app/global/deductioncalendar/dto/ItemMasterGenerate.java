@@ -100,13 +100,11 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
                 }
 
                 if (ConstantsUtils.ITEM_TYPE.equals(propertyId)) {
-                    try {
+                    
                         ComboBox itemType = new ComboBox();
                           commonUtil.loadComboBox(itemType, UIUtils.ITEM_TYPE, true);
                         return itemType;
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                    }
+                   
                 }
                 if ("brand".equals(propertyId)) {
                     ComboBox brandDdlb = new ComboBox();
@@ -195,10 +193,12 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

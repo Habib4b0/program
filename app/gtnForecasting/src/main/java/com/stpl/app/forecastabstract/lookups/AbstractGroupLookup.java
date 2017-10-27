@@ -180,27 +180,27 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
                 if (INDICATOR_CUSTOMER_GROUP.getConstant().equalsIgnoreCase(indicator)) {
                     groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
                     groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
-                    resultTableColumns = TableHeaderColumnsUtil.ACCRUAL_CUSTOMER_LOOKUP_COLUMNS;
-                    resultTableHeaders = TableHeaderColumnsUtil.ACCRUAL_CUSTOMER_LOOKUP_HEADERS;
+                    resultTableColumns = TableHeaderColumnsUtil.getInstance().accrualCustomerLookupColumns;
+                    resultTableHeaders = TableHeaderColumnsUtil.getInstance().accrualCustomerLookupHeaders;
 
                 } else if (INDICATOR_PRODUCT_GROUP.getConstant().equalsIgnoreCase(indicator)) {
                     groupNameLabel = PRODUCT_GROUP_NAME.getConstant();
                     groupNoLabel = PRODUCT_GROUP_NO.getConstant();
-                    resultTableColumns = TableHeaderColumnsUtil.ACCRUAL_PRODUCT_LOOKUP_COLUMNS;
-                    resultTableHeaders = TableHeaderColumnsUtil.ACCRUAL_PRODUCT_LOOKUP_HEADERS;
+                    resultTableColumns = TableHeaderColumnsUtil.getInstance().accrualProductLookupColumns;
+                    resultTableHeaders = TableHeaderColumnsUtil.getInstance().accrualProductLookUpHeaders;
                 }
 
             } else {
                 if (INDICATOR_CUSTOMER_GROUP.getConstant().equalsIgnoreCase(indicator)) {
                     groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
                     groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
-                    resultTableColumns = TableHeaderColumnsUtil.CUSTOMER_GROUP_LOOKUP_COLUMNS;
-                    resultTableHeaders = TableHeaderColumnsUtil.CUSTOMER_GROUP_LOOKUP_HEADERS;
+                    resultTableColumns = TableHeaderColumnsUtil.getInstance().customerGroupLookupColumns;
+                    resultTableHeaders = TableHeaderColumnsUtil.getInstance().customerGroupLookupHeaders;
                 } else if (INDICATOR_PRODUCT_GROUP.getConstant().equalsIgnoreCase(indicator)) {
                     groupNameLabel = PRODUCT_GROUP_NAME.getConstant();
                     groupNoLabel = PRODUCT_GROUP_NO.getConstant();
-                    resultTableColumns = TableHeaderColumnsUtil.PRODUCT_GROUP_LOOKUP_COLUMNS;
-                    resultTableHeaders = TableHeaderColumnsUtil.PRODUCT_GROUP_LOOKUP_HEADERS;
+                    resultTableColumns = TableHeaderColumnsUtil.getInstance().productGroupLookupColumns;
+                    resultTableHeaders = TableHeaderColumnsUtil.getInstance().productGroupLookupHeaders;
                 }
             }
         } catch (Exception ex) {
@@ -250,7 +250,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
         VerticalLayout resultLayout = (VerticalLayout) UiUtils.getLayout(VerticalLayout.class);
         resultLayout.setSizeFull();
         resultLayout.addComponent(results);
-        List<Integer> pageLength = new ArrayList<Integer>();
+        List<Integer> pageLength = new ArrayList<>();
         pageLength.add(NumericConstants.TEN);
         pageLength.add(NumericConstants.FIFTEEN);
         pageLength.add(NumericConstants.TWENTY);
@@ -259,7 +259,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
         pageLength.add(NumericConstants.HUNDRED);
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pageLength); 
         
-        if (createControls && tableLogic != null) {
+        if (createControls) {
             resultLayout.addComponent(tableLogic.createControls());
         }
         resultsPanel.setContent(resultLayout);
@@ -362,7 +362,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 
                     @Override
                     public void noMethod() {
-                       
+                       return;
                     }
                 };
                 notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");

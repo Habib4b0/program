@@ -137,7 +137,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>Y</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field Type 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type 2</from><to>Table output 3</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type 2</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Data Validator</to><enabled>Y</enabled> </hop>  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>Y</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field Type 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type 2</from><to>Table output 3</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type 2</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Data Validator</to><enabled>Y</enabled> </hop>  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables</to><enabled>N</enabled> </hop>  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>N</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
@@ -169,6 +169,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>RECEIVED_RECORD_COUNT</name>
         <rename>received_record_count</rename>
@@ -186,7 +192,7 @@
     <name>Add constants</name>
     <type>Constant</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -268,11 +274,22 @@
         <length>10</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ACCRUAL_INBOUND_INTERFACE</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>324</xloc>
-      <yloc>920</yloc>
+      <xloc>323</xloc>
+      <yloc>916</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -287,7 +304,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT}</filename>
+    <filename>${FILE_LOCAL_PATH}&#47;ACCRUAL_INBOUND_INTERFACE1.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -566,7 +583,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>AMOUNT</name>
+        <name>DEDUCTION_AMOUNT</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -719,6 +736,204 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
+      <field>
+        <name>COMPANY_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BU_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ITEM_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BRAND_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_CATEGORY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_SCHEDULE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_PROGRAM_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SALES_AMOUNT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>QUANTITY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC4</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC5</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC6</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -803,6 +1018,38 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </step>
 
   <step>
+    <name>Get Variables</name>
+    <type>GetVariable</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>userid</name>
+        <variable>${userid}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>505</xloc>
+      <yloc>158</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>INVALID_TABLE 2 2</name>
     <type>TableOutput</type>
     <description/>
@@ -843,8 +1090,16 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCOUNT_NO</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_INTFID</column_name>
+          <stream_name>ACCRUAL_INBOUND_INTERFACE_ID</stream_name>
         </field>
         <field>
           <column_name>ACCRUAL_PERIOD_END_DATE</column_name>
@@ -855,8 +1110,40 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_TYPE</column_name>
           <stream_name>ACCRUAL_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
         </field>
         <field>
           <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
@@ -867,16 +1154,32 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
-        </field>
-        <field>
           <column_name>BATCH_ID</column_name>
           <stream_name>BATCH_ID</stream_name>
         </field>
         <field>
           <column_name>BRAND_ID</column_name>
           <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CATEGORY_ID</column_name>
@@ -891,6 +1194,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>COMPANY_ID</stream_name>
         </field>
         <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
           <column_name>COMPANY_NO</column_name>
           <stream_name>COMPANY_NO</stream_name>
         </field>
@@ -903,6 +1210,14 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CONTRACT_ID</stream_name>
         </field>
         <field>
+          <column_name>CONTRACT_NAME</column_name>
+          <stream_name>CONTRACT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_NO</column_name>
+          <stream_name>CONTRACT_NO</stream_name>
+        </field>
+        <field>
           <column_name>CREATED_BY</column_name>
           <stream_name>userid</stream_name>
         </field>
@@ -911,8 +1226,20 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CREATED_DATE</stream_name>
         </field>
         <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
+        </field>
+        <field>
           <column_name>DOCUMENT_TYPE</column_name>
           <stream_name>DOCUMENT_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>error_code_fieldname</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>Missing Required Field__</stream_name>
         </field>
         <field>
           <column_name>GL_ACCOUNT</column_name>
@@ -929,6 +1256,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>ITEM_IDENT_CODE_QUALIFIER</column_name>
           <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
         </field>
         <field>
           <column_name>ITEM_NO</column_name>
@@ -951,8 +1282,20 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>PROVISION_ID</stream_name>
         </field>
         <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Missing Required Field_description</stream_name>
+        </field>
+        <field>
           <column_name>RECORD_CREATED_DATE</column_name>
           <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SALES_MASTER_ID</column_name>
@@ -969,22 +1312,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>SUB_LEDGER_TYPE</column_name>
           <stream_name>SUB_LEDGER_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Missing Required Field_description</stream_name>
-        </field>
-        <field>
-          <column_name>ACCRUAL_INTFID</column_name>
-          <stream_name>ACCRUAL_INBOUND_INTERFACE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_CODE</column_name>
-          <stream_name>error_code_fieldname</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_FIELD</column_name>
-          <stream_name>Missing Required Field__</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -1036,6 +1363,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCOUNT_NO</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
         </field>
@@ -1052,8 +1383,40 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_TYPE</column_name>
           <stream_name>ACCRUAL_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
         </field>
         <field>
           <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
@@ -1064,16 +1427,32 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
-        </field>
-        <field>
           <column_name>BATCH_ID</column_name>
           <stream_name>BATCH_ID</stream_name>
         </field>
         <field>
           <column_name>BRAND_ID</column_name>
           <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CATEGORY_ID</column_name>
@@ -1088,6 +1467,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>COMPANY_ID</stream_name>
         </field>
         <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
           <column_name>COMPANY_NO</column_name>
           <stream_name>COMPANY_NO</stream_name>
         </field>
@@ -1100,12 +1483,24 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CONTRACT_ID</stream_name>
         </field>
         <field>
+          <column_name>CONTRACT_NAME</column_name>
+          <stream_name>CONTRACT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_NO</column_name>
+          <stream_name>CONTRACT_NO</stream_name>
+        </field>
+        <field>
           <column_name>CREATED_BY</column_name>
           <stream_name>userid</stream_name>
         </field>
         <field>
           <column_name>CREATED_DATE</column_name>
           <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>DOCUMENT_TYPE</column_name>
@@ -1136,6 +1531,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
           <column_name>ITEM_NO</column_name>
           <stream_name>ITEM_NO</stream_name>
         </field>
@@ -1156,12 +1555,20 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>PROVISION_ID</stream_name>
         </field>
         <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
           <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Invalid Field Length_description</stream_name>
+          <stream_name>Missing Required Field_description</stream_name>
         </field>
         <field>
           <column_name>RECORD_CREATED_DATE</column_name>
           <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SALES_MASTER_ID</column_name>
@@ -1229,6 +1636,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCOUNT_NO</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
         </field>
@@ -1245,8 +1656,40 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_TYPE</column_name>
           <stream_name>ACCRUAL_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
         </field>
         <field>
           <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
@@ -1257,16 +1700,32 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
-        </field>
-        <field>
           <column_name>BATCH_ID</column_name>
           <stream_name>BATCH_ID</stream_name>
         </field>
         <field>
           <column_name>BRAND_ID</column_name>
           <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CATEGORY_ID</column_name>
@@ -1281,6 +1740,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>COMPANY_ID</stream_name>
         </field>
         <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
           <column_name>COMPANY_NO</column_name>
           <stream_name>COMPANY_NO</stream_name>
         </field>
@@ -1293,6 +1756,14 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CONTRACT_ID</stream_name>
         </field>
         <field>
+          <column_name>CONTRACT_NAME</column_name>
+          <stream_name>CONTRACT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_NO</column_name>
+          <stream_name>CONTRACT_NO</stream_name>
+        </field>
+        <field>
           <column_name>CREATED_BY</column_name>
           <stream_name>userid</stream_name>
         </field>
@@ -1301,8 +1772,20 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CREATED_DATE</stream_name>
         </field>
         <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
+        </field>
+        <field>
           <column_name>DOCUMENT_TYPE</column_name>
           <stream_name>DOCUMENT_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>error_code_fieldname</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>Invalid Field Type__</stream_name>
         </field>
         <field>
           <column_name>GL_ACCOUNT</column_name>
@@ -1319,6 +1802,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>ITEM_IDENT_CODE_QUALIFIER</column_name>
           <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
         </field>
         <field>
           <column_name>ITEM_NO</column_name>
@@ -1341,12 +1828,20 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>PROVISION_ID</stream_name>
         </field>
         <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
           <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Invalid Field Type_description</stream_name>
+          <stream_name>Missing Required Field_description</stream_name>
         </field>
         <field>
           <column_name>RECORD_CREATED_DATE</column_name>
           <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SALES_MASTER_ID</column_name>
@@ -1363,14 +1858,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>SUB_LEDGER_TYPE</column_name>
           <stream_name>SUB_LEDGER_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_CODE</column_name>
-          <stream_name>error_code_fieldname</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_FIELD</column_name>
-          <stream_name>Invalid Field Type__</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -1422,6 +1909,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCOUNT_NO</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
         </field>
@@ -1438,8 +1929,40 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_TYPE</column_name>
           <stream_name>ACCRUAL_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
         </field>
         <field>
           <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
@@ -1450,16 +1973,32 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
-        </field>
-        <field>
           <column_name>BATCH_ID</column_name>
           <stream_name>BATCH_ID</stream_name>
         </field>
         <field>
           <column_name>BRAND_ID</column_name>
           <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CATEGORY_ID</column_name>
@@ -1474,6 +2013,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>COMPANY_ID</stream_name>
         </field>
         <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
           <column_name>COMPANY_NO</column_name>
           <stream_name>COMPANY_NO</stream_name>
         </field>
@@ -1486,12 +2029,24 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CONTRACT_ID</stream_name>
         </field>
         <field>
+          <column_name>CONTRACT_NAME</column_name>
+          <stream_name>CONTRACT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_NO</column_name>
+          <stream_name>CONTRACT_NO</stream_name>
+        </field>
+        <field>
           <column_name>CREATED_BY</column_name>
           <stream_name>userid</stream_name>
         </field>
         <field>
           <column_name>CREATED_DATE</column_name>
           <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>DOCUMENT_TYPE</column_name>
@@ -1522,6 +2077,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
           <column_name>ITEM_NO</column_name>
           <stream_name>ITEM_NO</stream_name>
         </field>
@@ -1542,12 +2101,20 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>PROVISION_ID</stream_name>
         </field>
         <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
           <column_name>REASON_FOR_FAILURE</column_name>
           <stream_name>Invalid Field Type_description</stream_name>
         </field>
         <field>
           <column_name>RECORD_CREATED_DATE</column_name>
           <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SALES_MASTER_ID</column_name>
@@ -1584,9 +2151,9 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<validate_all>N</validate_all>
-<concat_errors>N</concat_errors>
-<concat_separator>|</concat_separator>
+<validate_all>Y</validate_all>
+<concat_errors>Y</concat_errors>
+<concat_separator>,</concat_separator>
        <validator_field><name>ACCRUAL_INBOUND_INTERFACE_ID</name>
 <validation_name>ACCRUAL_INBOUND_INTERFACE_ID</validation_name>
 <max_length/>
@@ -1769,32 +2336,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>ITEM_ID</name>
-<validation_name>ITEM_ID</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>ITEM_ID</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
        <validator_field><name>ADD_CHG_DEL_INDICATOR</name>
 <validation_name>ADD_CHG_DEL_INDICATOR</validation_name>
 <max_length/>
@@ -1951,8 +2492,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>AMOUNT</name>
-<validation_name>AMOUNT</validation_name>
+       <validator_field><name>DEDUCTION_AMOUNT</name>
+<validation_name>DEDUCTION_AMOUNT</validation_name>
 <max_length/>
 <min_length/>
 <null_allowed>N</null_allowed>
@@ -1972,7 +2513,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
-<error_description>AMOUNT</error_description>
+<error_description>DEDUCTION_AMOUNT</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -2051,6 +2592,58 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
 <error_description>DOCUMENT_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUSINESS_UNIT_ID</name>
+<validation_name>BUSINESS_UNIT_ID</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>BUSINESS_UNIT_ID</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>DEDUCTION_AMOUNT</name>
+<validation_name>DEDUCTION_AMOUNT</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>-</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>DEDUCTION_AMOUNT</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -2861,6 +3454,474 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
+       <validator_field><name>COMPANY_NAME</name>
+<validation_name>COMPANY_NAME</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>COMPANY_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUSINESS_UNIT_ID</name>
+<validation_name>BUSINESS_UNIT_ID</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>BUSINESS_UNIT_ID</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUSINESS_UNIT_NO</name>
+<validation_name>BUSINESS_UNIT_NO</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>BUSINESS_UNIT_NO</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BU_IDENT_CODE_QUALIFIER</name>
+<validation_name>BU_IDENT_CODE_QUALIFIER</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>BU_IDENT_CODE_QUALIFIER</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUSINESS_UNIT_NAME</name>
+<validation_name>BUSINESS_UNIT_NAME</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>BUSINESS_UNIT_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ITEM_NAME</name>
+<validation_name>ITEM_NAME</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ITEM_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BRAND_NAME</name>
+<validation_name>BRAND_NAME</validation_name>
+<max_length>30</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>BRAND_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_CATEGORY</name>
+<validation_name>ACCRUAL_CATEGORY</validation_name>
+<max_length>25</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_CATEGORY</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_SCHEDULE_TYPE</name>
+<validation_name>ACCRUAL_SCHEDULE_TYPE</validation_name>
+<max_length>25</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_SCHEDULE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_PROGRAM_TYPE</name>
+<validation_name>ACCRUAL_PROGRAM_TYPE</validation_name>
+<max_length>25</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_PROGRAM_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>SALES_AMOUNT</name>
+<validation_name>SALES_AMOUNT</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>SALES_AMOUNT</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>QUANTITY</name>
+<validation_name>QUANTITY</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description/>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC1</name>
+<validation_name>ACCRUAL_UDC1</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_UDC1</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC2</name>
+<validation_name>ACCRUAL_UDC2</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_UDC2</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC3</name>
+<validation_name>ACCRUAL_UDC3</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_UDC3</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC4</name>
+<validation_name>ACCRUAL_UDC4</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_UDC4</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC5</name>
+<validation_name>ACCRUAL_UDC5</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_UDC5</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC6</name>
+<validation_name>ACCRUAL_UDC6</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description/>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>318</xloc>
@@ -3636,6 +4697,422 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
+       <validator_field><name>COMPANY_NAME</name>
+<validation_name>COMPANY_NAME</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>COMPANY_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUSINESS_UNIT_ID</name>
+<validation_name>BUSINESS_UNIT_ID</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>BUSINESS_UNIT_ID</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUSINESS_UNIT_NO</name>
+<validation_name>BUSINESS_UNIT_NO</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>BUSINESS_UNIT_NO</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BU_IDENT_CODE_QUALIFIER</name>
+<validation_name>BU_IDENT_CODE_QUALIFIER</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>BU_IDENT_CODE_QUALIFIER</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BUSINESS_UNIT_NAME</name>
+<validation_name>BUSINESS_UNIT_NAME</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>BUSINESS_UNIT_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ITEM_NAME</name>
+<validation_name>ITEM_NAME</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ITEM_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BRAND_NAME</name>
+<validation_name>BRAND_NAME</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>BRAND_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_CATEGORY</name>
+<validation_name>ACCRUAL_CATEGORY</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_CATEGORY</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_SCHEDULE_TYPE</name>
+<validation_name>ACCRUAL_SCHEDULE_TYPE</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_SCHEDULE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_PROGRAM_TYPE</name>
+<validation_name>ACCRUAL_PROGRAM_TYPE</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_PROGRAM_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC1</name>
+<validation_name>ACCRUAL_UDC1</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_UDC1</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC2</name>
+<validation_name>ACCRUAL_UDC2</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_UDC2</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC3</name>
+<validation_name>ACCRUAL_UDC3</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_UDC3</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC4</name>
+<validation_name>ACCRUAL_UDC4</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_UDC4</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC5</name>
+<validation_name>ACCRUAL_UDC5</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_UDC5</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_UDC6</name>
+<validation_name>ACCRUAL_UDC6</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>ACCRUAL_UDC6</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>326</xloc>
@@ -3717,6 +5194,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCOUNT_NO</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
         </field>
@@ -3733,16 +5214,44 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_TYPE</column_name>
           <stream_name>ACCRUAL_TYPE</stream_name>
         </field>
         <field>
-          <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
-          <stream_name>ACCT_IDENT_CODE_QUALIFIER</stream_name>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>ACCT_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>BATCH_ID</column_name>
@@ -3751,6 +5260,26 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>BRAND_ID</column_name>
           <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CATEGORY_ID</column_name>
@@ -3763,6 +5292,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>COMPANY_ID</column_name>
           <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
         </field>
         <field>
           <column_name>COMPANY_NO</column_name>
@@ -3785,6 +5318,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CREATED_DATE</stream_name>
         </field>
         <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
+        </field>
+        <field>
           <column_name>DOCUMENT_TYPE</column_name>
           <stream_name>DOCUMENT_TYPE</stream_name>
         </field>
@@ -3803,6 +5340,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>ITEM_IDENT_CODE_QUALIFIER</column_name>
           <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
         </field>
         <field>
           <column_name>ITEM_NO</column_name>
@@ -3825,8 +5366,16 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>PROVISION_ID</stream_name>
         </field>
         <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
           <column_name>RECORD_CREATED_DATE</column_name>
           <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SALES_MASTER_ID</column_name>
@@ -3894,6 +5443,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCOUNT_NO</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
         </field>
@@ -3910,16 +5463,44 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_TYPE</column_name>
           <stream_name>ACCRUAL_TYPE</stream_name>
         </field>
         <field>
-          <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
-          <stream_name>ACCT_IDENT_CODE_QUALIFIER</stream_name>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>ACCT_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>BATCH_ID</column_name>
@@ -3928,6 +5509,26 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>BRAND_ID</column_name>
           <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CATEGORY_ID</column_name>
@@ -3940,6 +5541,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>COMPANY_ID</column_name>
           <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
         </field>
         <field>
           <column_name>COMPANY_NO</column_name>
@@ -3962,6 +5567,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CREATED_DATE</stream_name>
         </field>
         <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
+        </field>
+        <field>
           <column_name>DOCUMENT_TYPE</column_name>
           <stream_name>DOCUMENT_TYPE</stream_name>
         </field>
@@ -3980,6 +5589,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>ITEM_IDENT_CODE_QUALIFIER</column_name>
           <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
         </field>
         <field>
           <column_name>ITEM_NO</column_name>
@@ -4002,8 +5615,16 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>PROVISION_ID</stream_name>
         </field>
         <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
           <column_name>RECORD_CREATED_DATE</column_name>
           <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SALES_MASTER_ID</column_name>
@@ -4059,20 +5680,120 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <return_field>COMPANY_MASTER_INTERFACE_ID</return_field>
     <fields>
         <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NAME</column_name>
+          <stream_name>ACCOUNT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NO</column_name>
+          <stream_name>ACCOUNT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
         </field>
         <field>
-          <column_name>SALES_MASTER_ID</column_name>
-          <stream_name>SALES_MASTER_ID</stream_name>
+          <column_name>ACCRUAL_INTFID</column_name>
+          <stream_name>ACCRUAL_INBOUND_INTERFACE_ID</stream_name>
         </field>
         <field>
-          <column_name>GL_ACCOUNT</column_name>
-          <stream_name>GL_ACCOUNT</stream_name>
+          <column_name>ACCRUAL_PERIOD_END_DATE</column_name>
+          <stream_name>ACCRUAL_PERIOD_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_PERIOD_START_DATE</column_name>
+          <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_TYPE</column_name>
+          <stream_name>ACCRUAL_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>ACCT_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_ID</column_name>
+          <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>CATEGORY_ID</column_name>
+          <stream_name>CATEGORY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_COST_CENTER</column_name>
+          <stream_name>COMPANY_COST_CENTER</stream_name>
         </field>
         <field>
           <column_name>COMPANY_ID</column_name>
           <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
         </field>
         <field>
           <column_name>COMPANY_NO</column_name>
@@ -4083,108 +5804,48 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>COMP_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
-          <column_name>COMPANY_COST_CENTER</column_name>
-          <stream_name>COMPANY_COST_CENTER</stream_name>
-        </field>
-        <field>
-          <column_name>ACCOUNT_ID</column_name>
-          <stream_name>ACCOUNT_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ACCOUNT_NO</column_name>
-          <stream_name>ACCOUNT_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ACCOUNT_NAME</column_name>
-          <stream_name>ACCOUNT_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
-          <stream_name>ACCT_IDENT_CODE_QUALIFIER</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NO</column_name>
-          <stream_name>ITEM_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_IDENT_CODE_QUALIFIER</column_name>
-          <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
-        </field>
-        <field>
           <column_name>CONTRACT_ID</column_name>
           <stream_name>CONTRACT_ID</stream_name>
         </field>
         <field>
-          <column_name>BRAND_ID</column_name>
-          <stream_name>BRAND_ID</stream_name>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>userid</stream_name>
         </field>
         <field>
-          <column_name>CATEGORY_ID</column_name>
-          <stream_name>CATEGORY_ID</stream_name>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
         </field>
         <field>
-          <column_name>PROVISION_ID</column_name>
-          <stream_name>PROVISION_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ACCRUAL_TYPE</column_name>
-          <stream_name>ACCRUAL_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>ACCRUAL_PERIOD_START_DATE</column_name>
-          <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ACCRUAL_PERIOD_END_DATE</column_name>
-          <stream_name>ACCRUAL_PERIOD_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
-        </field>
-        <field>
-          <column_name>SUB_LEDGER</column_name>
-          <stream_name>SUB_LEDGER</stream_name>
-        </field>
-        <field>
-          <column_name>SUB_LEDGER_TYPE</column_name>
-          <stream_name>SUB_LEDGER_TYPE</stream_name>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>DOCUMENT_TYPE</column_name>
           <stream_name>DOCUMENT_TYPE</stream_name>
         </field>
         <field>
-          <column_name>POSTING_DATE</column_name>
-          <stream_name>POSTING_DATE</stream_name>
+          <column_name>GL_ACCOUNT</column_name>
+          <stream_name>GL_ACCOUNT</stream_name>
         </field>
         <field>
           <column_name>GL_DATE</column_name>
           <stream_name>GL_DATE</stream_name>
         </field>
         <field>
-          <column_name>RECORD_CREATED_DATE</column_name>
-          <stream_name>RECORD_CREATED_DATE</stream_name>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
         </field>
         <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
+          <column_name>ITEM_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
         </field>
         <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
         </field>
         <field>
           <column_name>MODIFIED_BY</column_name>
@@ -4195,8 +5856,40 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>MODIFIED_DATE</stream_name>
         </field>
         <field>
-          <column_name>ACCRUAL_INTFID</column_name>
-          <stream_name>ACCRUAL_INBOUND_INTERFACE_ID</stream_name>
+          <column_name>POSTING_DATE</column_name>
+          <stream_name>POSTING_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PROVISION_ID</column_name>
+          <stream_name>PROVISION_ID</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>RECORD_CREATED_DATE</column_name>
+          <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_MASTER_ID</column_name>
+          <stream_name>SALES_MASTER_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>SUB_LEDGER</column_name>
+          <stream_name>SUB_LEDGER</stream_name>
+        </field>
+        <field>
+          <column_name>SUB_LEDGER_TYPE</column_name>
+          <stream_name>SUB_LEDGER_TYPE</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -4248,6 +5941,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCOUNT_NO</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
         </field>
@@ -4264,16 +5961,44 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_TYPE</column_name>
           <stream_name>ACCRUAL_TYPE</stream_name>
         </field>
         <field>
-          <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
-          <stream_name>ACCT_IDENT_CODE_QUALIFIER</stream_name>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>ACCT_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>BATCH_ID</column_name>
@@ -4282,6 +6007,26 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>BRAND_ID</column_name>
           <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CATEGORY_ID</column_name>
@@ -4294,6 +6039,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>COMPANY_ID</column_name>
           <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
         </field>
         <field>
           <column_name>COMPANY_NO</column_name>
@@ -4309,11 +6058,15 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         </field>
         <field>
           <column_name>CREATED_BY</column_name>
-          <stream_name>userid</stream_name>
+          <stream_name>CREATED_BY</stream_name>
         </field>
         <field>
           <column_name>CREATED_DATE</column_name>
           <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>DOCUMENT_TYPE</column_name>
@@ -4336,6 +6089,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
           <column_name>ITEM_NO</column_name>
           <stream_name>ITEM_NO</stream_name>
         </field>
@@ -4356,8 +6113,16 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>PROVISION_ID</stream_name>
         </field>
         <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
           <column_name>RECORD_CREATED_DATE</column_name>
           <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SALES_MASTER_ID</column_name>
@@ -4425,6 +6190,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCOUNT_NO</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_ID</column_name>
           <stream_name>ACCRUAL_ID</stream_name>
         </field>
@@ -4441,8 +6210,40 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ACCRUAL_PERIOD_START_DATE</stream_name>
         </field>
         <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_TYPE</column_name>
           <stream_name>ACCRUAL_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
         </field>
         <field>
           <column_name>ACCT_IDENT_CODE_QUALIFIER</column_name>
@@ -4453,16 +6254,32 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
-        </field>
-        <field>
           <column_name>BATCH_ID</column_name>
           <stream_name>BATCH_ID</stream_name>
         </field>
         <field>
           <column_name>BRAND_ID</column_name>
           <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CATEGORY_ID</column_name>
@@ -4475,6 +6292,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>COMPANY_ID</column_name>
           <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
         </field>
         <field>
           <column_name>COMPANY_NO</column_name>
@@ -4505,6 +6326,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>CREATED_DATE</stream_name>
         </field>
         <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
+        </field>
+        <field>
           <column_name>DOCUMENT_TYPE</column_name>
           <stream_name>DOCUMENT_TYPE</stream_name>
         </field>
@@ -4523,6 +6348,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>ITEM_IDENT_CODE_QUALIFIER</column_name>
           <stream_name>ITEM_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
         </field>
         <field>
           <column_name>ITEM_NO</column_name>
@@ -4545,8 +6374,16 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <stream_name>PROVISION_ID</stream_name>
         </field>
         <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
           <column_name>RECORD_CREATED_DATE</column_name>
           <stream_name>RECORD_CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SALES_MASTER_ID</column_name>

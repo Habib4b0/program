@@ -37,16 +37,11 @@ public class NmSalesProjectionWrapper implements NmSalesProjection,
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("adjustmentMethodology", getAdjustmentMethodology());
-        attributes.put("adjustmentBasis", getAdjustmentBasis());
         attributes.put("periodSid", getPeriodSid());
         attributes.put("productGrowth", getProductGrowth());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("adjustmentValues", getAdjustmentValues());
-        attributes.put("adjustmentVariable", getAdjustmentVariable());
         attributes.put("accountGrowth", getAccountGrowth());
         attributes.put("projectionUnits", getProjectionUnits());
-        attributes.put("adjustmentType", getAdjustmentType());
         attributes.put("projectionSales", getProjectionSales());
 
         return attributes;
@@ -54,19 +49,6 @@ public class NmSalesProjectionWrapper implements NmSalesProjection,
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        String adjustmentMethodology = (String) attributes.get(
-                "adjustmentMethodology");
-
-        if (adjustmentMethodology != null) {
-            setAdjustmentMethodology(adjustmentMethodology);
-        }
-
-        String adjustmentBasis = (String) attributes.get("adjustmentBasis");
-
-        if (adjustmentBasis != null) {
-            setAdjustmentBasis(adjustmentBasis);
-        }
-
         Integer periodSid = (Integer) attributes.get("periodSid");
 
         if (periodSid != null) {
@@ -86,19 +68,6 @@ public class NmSalesProjectionWrapper implements NmSalesProjection,
             setProjectionDetailsSid(projectionDetailsSid);
         }
 
-        Double adjustmentValues = (Double) attributes.get("adjustmentValues");
-
-        if (adjustmentValues != null) {
-            setAdjustmentValues(adjustmentValues);
-        }
-
-        Boolean adjustmentVariable = (Boolean) attributes.get(
-                "adjustmentVariable");
-
-        if (adjustmentVariable != null) {
-            setAdjustmentVariable(adjustmentVariable);
-        }
-
         Double accountGrowth = (Double) attributes.get("accountGrowth");
 
         if (accountGrowth != null) {
@@ -109,12 +78,6 @@ public class NmSalesProjectionWrapper implements NmSalesProjection,
 
         if (projectionUnits != null) {
             setProjectionUnits(projectionUnits);
-        }
-
-        String adjustmentType = (String) attributes.get("adjustmentType");
-
-        if (adjustmentType != null) {
-            setAdjustmentType(adjustmentType);
         }
 
         Double projectionSales = (Double) attributes.get("projectionSales");
@@ -143,46 +106,6 @@ public class NmSalesProjectionWrapper implements NmSalesProjection,
     public void setPrimaryKey(
         com.stpl.app.service.persistence.NmSalesProjectionPK primaryKey) {
         _nmSalesProjection.setPrimaryKey(primaryKey);
-    }
-
-    /**
-    * Returns the adjustment methodology of this nm sales projection.
-    *
-    * @return the adjustment methodology of this nm sales projection
-    */
-    @Override
-    public java.lang.String getAdjustmentMethodology() {
-        return _nmSalesProjection.getAdjustmentMethodology();
-    }
-
-    /**
-    * Sets the adjustment methodology of this nm sales projection.
-    *
-    * @param adjustmentMethodology the adjustment methodology of this nm sales projection
-    */
-    @Override
-    public void setAdjustmentMethodology(java.lang.String adjustmentMethodology) {
-        _nmSalesProjection.setAdjustmentMethodology(adjustmentMethodology);
-    }
-
-    /**
-    * Returns the adjustment basis of this nm sales projection.
-    *
-    * @return the adjustment basis of this nm sales projection
-    */
-    @Override
-    public java.lang.String getAdjustmentBasis() {
-        return _nmSalesProjection.getAdjustmentBasis();
-    }
-
-    /**
-    * Sets the adjustment basis of this nm sales projection.
-    *
-    * @param adjustmentBasis the adjustment basis of this nm sales projection
-    */
-    @Override
-    public void setAdjustmentBasis(java.lang.String adjustmentBasis) {
-        _nmSalesProjection.setAdjustmentBasis(adjustmentBasis);
     }
 
     /**
@@ -246,56 +169,6 @@ public class NmSalesProjectionWrapper implements NmSalesProjection,
     }
 
     /**
-    * Returns the adjustment values of this nm sales projection.
-    *
-    * @return the adjustment values of this nm sales projection
-    */
-    @Override
-    public double getAdjustmentValues() {
-        return _nmSalesProjection.getAdjustmentValues();
-    }
-
-    /**
-    * Sets the adjustment values of this nm sales projection.
-    *
-    * @param adjustmentValues the adjustment values of this nm sales projection
-    */
-    @Override
-    public void setAdjustmentValues(double adjustmentValues) {
-        _nmSalesProjection.setAdjustmentValues(adjustmentValues);
-    }
-
-    /**
-    * Returns the adjustment variable of this nm sales projection.
-    *
-    * @return the adjustment variable of this nm sales projection
-    */
-    @Override
-    public boolean getAdjustmentVariable() {
-        return _nmSalesProjection.getAdjustmentVariable();
-    }
-
-    /**
-    * Returns <code>true</code> if this nm sales projection is adjustment variable.
-    *
-    * @return <code>true</code> if this nm sales projection is adjustment variable; <code>false</code> otherwise
-    */
-    @Override
-    public boolean isAdjustmentVariable() {
-        return _nmSalesProjection.isAdjustmentVariable();
-    }
-
-    /**
-    * Sets whether this nm sales projection is adjustment variable.
-    *
-    * @param adjustmentVariable the adjustment variable of this nm sales projection
-    */
-    @Override
-    public void setAdjustmentVariable(boolean adjustmentVariable) {
-        _nmSalesProjection.setAdjustmentVariable(adjustmentVariable);
-    }
-
-    /**
     * Returns the account growth of this nm sales projection.
     *
     * @return the account growth of this nm sales projection
@@ -333,26 +206,6 @@ public class NmSalesProjectionWrapper implements NmSalesProjection,
     @Override
     public void setProjectionUnits(double projectionUnits) {
         _nmSalesProjection.setProjectionUnits(projectionUnits);
-    }
-
-    /**
-    * Returns the adjustment type of this nm sales projection.
-    *
-    * @return the adjustment type of this nm sales projection
-    */
-    @Override
-    public java.lang.String getAdjustmentType() {
-        return _nmSalesProjection.getAdjustmentType();
-    }
-
-    /**
-    * Sets the adjustment type of this nm sales projection.
-    *
-    * @param adjustmentType the adjustment type of this nm sales projection
-    */
-    @Override
-    public void setAdjustmentType(java.lang.String adjustmentType) {
-        _nmSalesProjection.setAdjustmentType(adjustmentType);
     }
 
     /**

@@ -151,11 +151,9 @@ public class ContractHeader extends CustomComponent {
      * Object for contract header logic.
      */
     private ContractMasterDTO contractMasterDTO;
-    CommonUIUtils commonUIUtils= new CommonUIUtils();
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    /** 
-     * The common util. 
-     */
+   CommonUIUtils commonUIUtils= new CommonUIUtils();
+   CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+  /** The common util. */
     private com.stpl.app.contract.abstractsearch.util.CommonUtils commonUtil = com.stpl.app.contract.abstractsearch.util.CommonUtils.getInstance();
 
     /**
@@ -183,7 +181,7 @@ public class ContractHeader extends CustomComponent {
         binder.bindMemberFields(this);
     }
 
-    private void configureFields() throws PortalException, SystemException {
+    private void configureFields() {
 
         contractId.setData("maxlengthvalidation,maxlengthvalidationcontractid,null,null");
         contractId.setImmediate(true);
@@ -431,30 +429,23 @@ public class ContractHeader extends CustomComponent {
              * @param event - FocusEvent
              */
             public void click(final CustomTextField.ClickEvent event) {
-                try {
-                    if(tpLookUp==null){
-                   tpLookUp = new TradingPartnerLookUp(tradingPartnerSystemId, tradingPartnerName);
+                if(tpLookUp==null){
+                    tpLookUp = new TradingPartnerLookUp(tradingPartnerSystemId, tradingPartnerName);
                     UI.getCurrent().addWindow(tpLookUp);
-                    }
-                    tpLookUp.addCloseListener(new Window.CloseListener() {
-                        /**
-                         * To catch window close event
-                         *
-                         * @param event - WindowCloseEvent
-                         */
-                        @SuppressWarnings("PMD")
-                        public void windowClose(final Window.CloseEvent event) {
-
-                            renegotiationStartDate.focus();
-                            tpLookUp=null;
-                        }
-                    });
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-
                 }
+                tpLookUp.addCloseListener(new Window.CloseListener() {
+                    /**
+                     * To catch window close event
+                     *
+                     * @param event - WindowCloseEvent
+                     */
+                    @SuppressWarnings("PMD")
+                    public void windowClose(final Window.CloseEvent event) {
+                        
+                        renegotiationStartDate.focus();
+                        tpLookUp=null;
+                    }
+                });
             }
         });
 
@@ -475,8 +466,6 @@ public class ContractHeader extends CustomComponent {
         if (startDate.getValue() == null || endDate.getValue() == null) {
             term.setReadOnly(false);
             term.setValue("0");
-            term.setReadOnly(true);
-
         } else {
             term.setReadOnly(false);
             final Date dateObj1 = startDate.getValue();
@@ -486,7 +475,6 @@ public class ContractHeader extends CustomComponent {
             if (diffDays >= Constants.ZERO) {
                 term.setValue(String.valueOf(diffDays));
             }
-            term.setReadOnly(true);
         }
         LOGGER.debug("termSetValue method ends ");
     }
@@ -550,7 +538,7 @@ public class ContractHeader extends CustomComponent {
          * @param value - Object
          * @throws InvalidValueException the invalid value exception
          */
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method for start date and end date");
             if (startDate.getValue() != null && endDate.getValue() != null) {
                 if (startDate.getValue().after(endDate.getValue())) {
@@ -621,7 +609,7 @@ public class ContractHeader extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method for renegotiationStartDate and renegotiationEndDate");
             if (renegotiationStartDate.getValue() != null && renegotiationEndDate.getValue() != null) {
                 if (renegotiationStartDate.getValue().after(renegotiationEndDate.getValue())) {
@@ -694,7 +682,7 @@ public class ContractHeader extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method ");
             if (priceprotectionStartDate.getValue() != null && priceprotectionEndDate.getValue() != null) {
                 if (priceprotectionStartDate.getValue().after(priceprotectionEndDate.getValue())) {

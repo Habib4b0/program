@@ -39,7 +39,7 @@ public class ProductGroupTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<ProductGroupLookUpDTO> resultList = new ArrayList<ProductGroupLookUpDTO>();
+        List<ProductGroupLookUpDTO> resultList = new ArrayList<>();
         try {
             resultList = new ProductGroupLogic().getProductGroups(productGroupNo, productGroupName, start, offset, getFilters(), getSortByColumns()); 
         } catch (Exception ex) {
@@ -76,6 +76,7 @@ public class ProductGroupTableLogic extends PageTableLogic {
 
     @Override
     public void saveCurrentPage() {
+        return;
     }
 
     @Override

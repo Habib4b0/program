@@ -39,10 +39,39 @@ public class Constant {
     public static final String IFP_CATEGORY = "Item Family Plan";
     public static final String PS_CATEGORY = "Price Schedule";
     public static final String RS_CATEGORY = "Rebate Schedule";
-    public static final String[] CONTRACT_SEARCH = {"Contract No", "Contract Name", "Contract ID"};
-    public static final String[] CFP_SEARCH = {"CFP No", "CFP Name", "CFP ID"};
-    public static final String[] IFP_SEARCH = {Constants.IFP_NO, Constants.IfpNAME, Constants.IFP_ID};
-    public static final String[] PS_SEARCH = {"PS No", "PS Name", "PS ID"};
-    public static final String[] RS_SEARCH = {"RS No", "RS Name", "RS ID"};
+    public final String[] contractSearch = {"Contract No", "Contract Name", "Contract ID"};
+    public final String[] cfpSearch = {"CFP No", "CFP Name", "CFP ID"};
+    private static final String[] IFP_SEARCH = {Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.IFP_ID};
+    private static final String[] PS_SEARCH = {"PS No", "PS Name", "PS ID"};
+    private static final String[] RS_SEARCH = {"RS No", "RS Name", "RS ID"};
     public static final HelperDTO HELPER_DTO = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    
+    public static String[] getIFPSEARCH() {
+        return IFP_SEARCH;
+    }
+
+    public static String[] getPSSEARCH() {
+        return PS_SEARCH;
+    }
+
+    public static String[] getRSSEARCH() {
+        return RS_SEARCH;
+    }
+    private static Constant object;
+    /**
+    * Constructor
+    */
+    private Constant() {
+        /*
+            Constructor
+        */
+    }
+
+    public static Constant getInstance() {
+        if (object == null) {
+            object = new Constant();
+        }
+        return object;
+    }
+    
 }

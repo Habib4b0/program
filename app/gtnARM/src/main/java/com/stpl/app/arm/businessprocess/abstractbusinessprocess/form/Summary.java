@@ -17,7 +17,7 @@ import org.asi.container.ExtTreeContainer;
  *
  * @author Karthikeyan.Subraman
  */
-public interface Summary extends View, Component,GenerateAble,DefaultFocusable,HasSave {
+public interface Summary extends View, Component, GenerateAble, DefaultFocusable, HasSave {
 
     public ExtTreeContainer<AdjustmentDTO> getResultBeanContainer();
 }

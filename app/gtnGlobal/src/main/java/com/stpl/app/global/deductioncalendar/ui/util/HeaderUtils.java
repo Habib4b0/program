@@ -25,19 +25,19 @@ public class HeaderUtils {
     /**
      * Customer visible columns
      */
-    public static final Object[] CUSTOMER_COLUMNS = new Object[]{"organisationKey", "customerId", "customerNo", "customerName", "tradeClass", "tradeClassStartDate", "tradeClassEndDate", "customerType", "customerStatus", "lives", "customerStartDate", "customerEndDate", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "customerGroup", "financialSystem", "address1", "address2", "city", "state", "zipCode", "country", "regionCode", "parentCustomerNo", "parentStartDate", "parentEndDate", "priorParentStartDate", "priorParentCustomerNo"};
+    public final Object[] customerColumns = new Object[]{"organisationKey", "customerId", "customerNo", "customerName", "tradeClass", "tradeClassStartDate", "tradeClassEndDate", "customerType", "customerStatus", "lives", "customerStartDate", "customerEndDate", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "customerGroup", "financialSystem", "address1", "address2", "city", "state", "zipCode", "country", "regionCode", "parentCustomerNo", "parentStartDate", "parentEndDate", "priorParentStartDate", "priorParentCustomerNo"};
     /**
      * Customer column headers
      */
-    public static final String[] CUSTOMER_HEADERS = new String[]{"Organization Key", "Customer ID", "Customer No", "Customer Name", "Trade Class", "Trade Class Start Date", "Trade Class End Date", "Customer Type", "Customer Status ", "Lives ", "Customer Start Date", "Customer End Date", "UDC1", "UDC2", "UDC3", "UDC4", "UDC5", "UDC6", "Customer Group", "Financial System", "Address 1", "Address 2", "City", "State", "Zip Code", "Country", "Region Code", "Parent Customer No", "Parent Start Date", "Parent End Date", "Prior Parent Start Date", "Prior Parent Customer No"};
+    public final String[] customerHeaders = new String[]{"Organization Key", "Customer ID", "Customer No", "Customer Name", "Trade Class", "Trade Class Start Date", "Trade Class End Date", "Customer Type", "Customer Status ", "Lives ", "Customer Start Date", "Customer End Date", "UDC1", "UDC2", "UDC3", "UDC4", "UDC5", "UDC6", "Customer Group", "Financial System", "Address 1", "Address 2", "City", "State", "Zip Code", "Country", "Region Code", "Parent Customer No", "Parent Start Date", "Parent End Date", "Prior Parent Start Date", "Prior Parent Customer No"};
     /**
      * Item visible columns
      */
-    public static final Object[] ITEM_COLUMNS = new Object[]{"itemId", "item", "itemCode", "itemName", "itemDesc", "itemStartDate", "itemEndDate", "itemStatus", "therapeuticClass", "brand", "form", "strength", "packageSizeCode", "packageSizeIntroDate", "psUP", "manufacturerID", "manufacturerNO", "manufacturerName", "labelerCode", "productOrganizationKey", "acquisitionDate", "authorizedGeneric", "authorizedGenericStartDate", "authorizedGenericEndDate", "firstSaleDate", "itemTypeIndicator", "itemClass", "itemType", "marketTerminationDate", "newFormulationIndicator", "newFormulation", "newFormulationStartDate", "newFormulationEndDate", "pediatricExclusiveIndicator", "pediatricExclusiveEndDate", "pediatricExclusiveStartDate", "clottingFactorIndicator", "clottingFactorStartDate", "clottingFactorEndDate", "primaryUOM", "secondaryUOM", "shelfLife", "shelfLifeType", "dualPricingIndicator", "itemFamilyID", "psUDC1", "psUDC2", "psUDC3", "psUDC4", "psUDC5", "psUDC6", "acquiredAMP", "acquiredBAMP", "psOBRABAMP", "psDRA", "dosesperUnit", "discontinuationDate", "lastLotExpirationDate", "psNDC9", "psNDC8", "displayBrand", "innovatorCode", "baselineAMP", "baseYearCPI"};
+    public final Object[] itemColumns = new Object[]{"itemId", "item", "itemCode", "itemName", "itemDesc", "itemStartDate", "itemEndDate", "itemStatus", "therapeuticClass", "brand", "form", "strength", "packageSizeCode", "packageSizeIntroDate", "psUP", "manufacturerID", "manufacturerNO", "manufacturerName", "labelerCode", "productOrganizationKey", "acquisitionDate", "authorizedGeneric", "authorizedGenericStartDate", "authorizedGenericEndDate", "firstSaleDate", "itemTypeIndicator", "itemClass", "itemType", "marketTerminationDate", "newFormulationIndicator", "newFormulation", "newFormulationStartDate", "newFormulationEndDate", "pediatricExclusiveIndicator", "pediatricExclusiveEndDate", "pediatricExclusiveStartDate", "clottingFactorIndicator", "clottingFactorStartDate", "clottingFactorEndDate", "primaryUOM", "secondaryUOM", "shelfLife", "shelfLifeType", "dualPricingIndicator", "itemFamilyID", "psUDC1", "psUDC2", "psUDC3", "psUDC4", "psUDC5", "psUDC6", "acquiredAMP", "acquiredBAMP", "psOBRABAMP", "psDRA", "dosesperUnit", "discontinuationDate", "lastLotExpirationDate", "psNDC9", "psNDC8", "displayBrand", "innovatorCode", "baselineAMP", "baseYearCPI"};
     /**
      * Item column headers
      */
-    public static final String[] ITEM_HEADERS = new String[]{"Item ID", "Item No", "Item Code", "Item Name", "Item Desc", "Item Start Date", "Item End Date", "Item Status", "Therapeutic Class", "Brand", "Form", "Strength", "Package Size Code", "Package Size Intro Date", "UPPS", "Manufacturer ID", "Manufacturer NO", "Manufacturer Name", "Labeler Code", "Organization Key", "Acquisition Date", "Authorized Generic", "Authorized Generic Start Date", "Authorized Generic End Date", "First Sale Date", "Item Type Indicator", "Item Class", "Item Type", "Market Termination Date", "New Formulation Indicator", "New Formulation", "New Formulation Start Date", "New Formulation End Date", "Pediatric Exclusive Indicator", "Pediatric Exclusive Start Date", "Pediatric Exclusive End Date", "Clotting Factor Indicator", "Clotting Factor Start Date", "Clotting Factor End Date", "Primary UOM", "Secondary UOM", "Shelf Life", "Shelf Life Type", "Dual Pricing Indicator", "Item Family ID", "UDC1", "UDC2", "UDC3", "UDC4", "UDC5", "UDC6", "Acquired AMP", "Acquired BAMP", "OBRA BAMP", "DRA", "Doses per Unit", "Discontinuation Date", "Last Lot Expiration Date", "NDC9", "NDC8", "Display Brand", "Innovator Code", "Baseline AMP", "Base Year CPI"};
+    public final String[] itemHeaders = new String[]{"Item ID", "Item No", "Item Code", "Item Name", "Item Desc", "Item Start Date", "Item End Date", "Item Status", "Therapeutic Class", "Brand", "Form", "Strength", "Package Size Code", "Package Size Intro Date", "UPPS", "Manufacturer ID", "Manufacturer NO", "Manufacturer Name", "Labeler Code", "Organization Key", "Acquisition Date", "Authorized Generic", "Authorized Generic Start Date", "Authorized Generic End Date", "First Sale Date", "Item Type Indicator", "Item Class", "Item Type", "Market Termination Date", "New Formulation Indicator", "New Formulation", "New Formulation Start Date", "New Formulation End Date", "Pediatric Exclusive Indicator", "Pediatric Exclusive Start Date", "Pediatric Exclusive End Date", "Clotting Factor Indicator", "Clotting Factor Start Date", "Clotting Factor End Date", "Primary UOM", "Secondary UOM", "Shelf Life", "Shelf Life Type", "Dual Pricing Indicator", "Item Family ID", "UDC1", "UDC2", "UDC3", "UDC4", "UDC5", "UDC6", "Acquired AMP", "Acquired BAMP", "OBRA BAMP", "DRA", "Doses per Unit", "Discontinuation Date", "Last Lot Expiration Date", "NDC9", "NDC8", "Display Brand", "Innovator Code", "Baseline AMP", "Base Year CPI"};
 
     static HashMap<String, String> columnNames = new HashMap<String, String>();
 
@@ -65,10 +65,10 @@ public class HeaderUtils {
         int endPeriod = 0;
         int endMonth = 0;
         int startYearLoop = Integer.valueOf(String.valueOf(fullFromDateArr[0]));
-        if ("Quarterly".equalsIgnoreCase(detailsDto.getFrequency())) {
+        if (ConstantsUtils.QUARTERLY.equalsIgnoreCase(detailsDto.getFrequency())) {
             endPeriod = detailsDto.getDetailsToDate()==null || StringUtils.EMPTY.equals(detailsDto.getDetailsToDate()) || ConstantsUtils.NULL.equals(detailsDto.getDetailsToDate()) ? NumericConstants.FOUR : QUATER_VALUE[Integer.valueOf(String.valueOf(fullToDateArr[1]))-1];
             startPeriod = QUATER_VALUE[Integer.valueOf(String.valueOf(fullFromDateArr[1])) - 1];
-        } else if ("Semi-Annual".equalsIgnoreCase(detailsDto.getFrequency())) {
+        } else if (ConstantsUtils.SEMI_ANNUAL.equalsIgnoreCase(detailsDto.getFrequency())) {
             endPeriod = detailsDto.getDetailsToDate()==null || StringUtils.EMPTY.equals(detailsDto.getDetailsToDate()) || ConstantsUtils.NULL.equals(detailsDto.getDetailsToDate()) ? NumericConstants.TWO : SEMI_VALUE[Integer.valueOf(String.valueOf(fullToDateArr[1]))-1];
             startPeriod = SEMI_VALUE[Integer.valueOf(String.valueOf(fullFromDateArr[1])) - 1];
         } else if ("Monthly".equalsIgnoreCase(detailsDto.getFrequency())) {
@@ -83,13 +83,13 @@ public class HeaderUtils {
                 if (i == endYear) {
                     endMonth = endPeriod;
                 } else {
-                    endMonth = "Quarterly".equalsIgnoreCase(detailsDto.getFrequency()) ? NumericConstants.FOUR : "Semi-Annual".equalsIgnoreCase(detailsDto.getFrequency()) ? NumericConstants.TWO : NumericConstants.TWELVE; 
+                    endMonth =ConstantsUtils.QUARTERLY.equalsIgnoreCase(detailsDto.getFrequency()) ? NumericConstants.FOUR : ConstantsUtils.SEMI_ANNUAL.equalsIgnoreCase(detailsDto.getFrequency()) ? NumericConstants.TWO : NumericConstants.TWELVE; 
                 }
                 for (int j = startPeriod; j <= endMonth; j++) {
-                    if ("Quarterly".equalsIgnoreCase(detailsDto.getFrequency())) {
+                    if (ConstantsUtils.QUARTERLY.equalsIgnoreCase(detailsDto.getFrequency())) {
                         tableHeaderDTO.addSingleColumn("q" + j + StringUtils.EMPTY + startYearLoop, "Q" + j + " " + startYearLoop, String.class);
                         fullHeaderDTO.addSingleColumn("q" + j + StringUtils.EMPTY + startYearLoop, "Q" + j + " " + startYearLoop, String.class);
-                    } else if ("Semi-Annual".equalsIgnoreCase(detailsDto.getFrequency())) {
+                    } else if (ConstantsUtils.SEMI_ANNUAL.equalsIgnoreCase(detailsDto.getFrequency())) {
                         tableHeaderDTO.addSingleColumn("s" + j + StringUtils.EMPTY + startYearLoop, "S" + j + " " + startYearLoop, String.class);
                         fullHeaderDTO.addSingleColumn("s" + j + StringUtils.EMPTY + startYearLoop, "S" + j + " " + startYearLoop, String.class);
                     } else if ("Monthly".equalsIgnoreCase(detailsDto.getFrequency())) {

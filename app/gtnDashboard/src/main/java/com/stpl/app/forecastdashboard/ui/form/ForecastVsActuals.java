@@ -51,7 +51,6 @@ public class ForecastVsActuals extends VerticalLayout implements View {
      /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ForecastVsActuals.class);
     String[] yearsList;
     VerticalLayout mainLayout = new VerticalLayout();
     List<Object[]> commonLevelDtoList = new ArrayList<Object[]>();

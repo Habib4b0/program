@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  *
- * @author 
+ * @author
  */
 public class ViewLookupDTO implements Serializable {
 
@@ -22,7 +22,7 @@ public class ViewLookupDTO implements Serializable {
     private Date createdDate;
     private String viewSid = StringUtils.EMPTY;
     private String fieldName = StringUtils.EMPTY;
-    private Boolean checkFlag = false;
+    private Boolean checkFlag;
     private boolean viewTypeFlag = false;
     private String detailsValue = StringUtils.EMPTY;
     private String viewCategory = StringUtils.EMPTY;

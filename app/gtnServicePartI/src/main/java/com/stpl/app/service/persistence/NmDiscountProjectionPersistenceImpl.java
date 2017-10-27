@@ -79,10 +79,8 @@ public class NmDiscountProjectionPersistenceImpl extends BasePersistenceImpl<NmD
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(NmDiscountProjectionPersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "adjustmentMethodology", "adjustmentBasis", "periodSid",
-                "projectionRate", "projectionDetailsSid", "adjustmentVariable",
-                "adjustmentValue", "adjustmentType", "projectionSales",
-                "discountRate"
+                "periodSid", "projectionRate", "projectionDetailsSid",
+                "projectionSales"
             });
     private static NmDiscountProjection _nullNmDiscountProjection = new NmDiscountProjectionImpl() {
             @Override
@@ -340,16 +338,10 @@ public class NmDiscountProjectionPersistenceImpl extends BasePersistenceImpl<NmD
         nmDiscountProjectionImpl.setNew(nmDiscountProjection.isNew());
         nmDiscountProjectionImpl.setPrimaryKey(nmDiscountProjection.getPrimaryKey());
 
-        nmDiscountProjectionImpl.setAdjustmentMethodology(nmDiscountProjection.getAdjustmentMethodology());
-        nmDiscountProjectionImpl.setAdjustmentBasis(nmDiscountProjection.getAdjustmentBasis());
         nmDiscountProjectionImpl.setPeriodSid(nmDiscountProjection.getPeriodSid());
         nmDiscountProjectionImpl.setProjectionRate(nmDiscountProjection.getProjectionRate());
         nmDiscountProjectionImpl.setProjectionDetailsSid(nmDiscountProjection.getProjectionDetailsSid());
-        nmDiscountProjectionImpl.setAdjustmentVariable(nmDiscountProjection.isAdjustmentVariable());
-        nmDiscountProjectionImpl.setAdjustmentValue(nmDiscountProjection.getAdjustmentValue());
-        nmDiscountProjectionImpl.setAdjustmentType(nmDiscountProjection.getAdjustmentType());
         nmDiscountProjectionImpl.setProjectionSales(nmDiscountProjection.getProjectionSales());
-        nmDiscountProjectionImpl.setDiscountRate(nmDiscountProjection.getDiscountRate());
 
         return nmDiscountProjectionImpl;
     }

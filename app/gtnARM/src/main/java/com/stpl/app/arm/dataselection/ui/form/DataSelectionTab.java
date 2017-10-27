@@ -5,7 +5,7 @@
  */
 package com.stpl.app.arm.dataselection.ui.form;
 
-import com.stpl.app.arm.AbstractForms.AbstractDataSelection;
+import com.stpl.app.arm.abstractforms.AbstractDataSelection;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
@@ -14,6 +14,7 @@ import com.stpl.app.arm.dataselection.dto.LevelDTO;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
 import static com.stpl.app.arm.dataselection.ui.form.DataSelection.getBeanFromId;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -67,6 +68,7 @@ public class DataSelectionTab extends AbstractDataSelection {
     }
 
     public void init() {
+        panel1.setCaption("Adjustment Options");
         if (sessionDTO.isWorkFlow()) {
             configureDataSelection();
             setViewDetails();
@@ -80,115 +82,127 @@ public class DataSelectionTab extends AbstractDataSelection {
 
     @Override
     public void loadCustRelationAndLevel(int hierSid, CustomTextField.ClickEvent event) {
+        LOGGER.debug("Inside loadCustRelationAndLevel Method");
 
     }
 
     @Override
     public void loadProdRelationAndLevel(int hierSid, int glComp, CustomTextField.ClickEvent event) {
-
+        LOGGER.debug("Inside loadProdRelationAndLevel Method");
     }
 
     public void loadAvailableCustProd(int hierSid, int relSid, Property.ValueChangeEvent event) {
-
+        LOGGER.debug("Inside loadAvailableCustProd Method" + hierSid + relSid + event);
     }
 
     @Override
     public void loadAvailableCustomers() {
-
+        LOGGER.debug("Inside loadAvailableCustomers Method");
     }
 
     @Override
     public void loadAvailableProducts() {
-
+        LOGGER.debug("Inside loadAvailableProducts Method");
     }
 
     @Override
     public void customerHierarchyCloseListener() {
-
+        LOGGER.debug("Inside customerHierarchyCloseListener Method");
     }
 
     @Override
     public void productHierarchyCloseListener() {
-
+        LOGGER.debug("Inside productHierarchyCloseListener Method");
     }
 
     @Override
     public void moveLeftCustomersButtonLogic() {
-
+        LOGGER.debug("Inside moveLeftCustomersButtonLogic Method");
     }
 
     @Override
     public void moveRightCustomersButtonLogic() {
-
+        LOGGER.debug("Inside moveRightCustomersButtonLogic Method");
     }
 
     @Override
     public void customerRelationValueChange(Object value) {
-
+        LOGGER.debug("Inside customerRelationValueChange Method");
     }
 
     @Override
     public void productRelationValueChange(Object value) {
-
+        LOGGER.debug("Inside productRelationValueChange Method");
     }
 
     @Override
     public void moveLeftProductsButtonLogic() {
-
+        LOGGER.debug("Inside moveLeftProductsButtonLogic Method");
     }
 
     @Override
     public void moveRightProductsButtonLogic() {
-
+        LOGGER.debug("Inside moveRightProductsButtonLogic Method");
     }
 
     @Override
     public void moveAllProductsButtonLogic() {
-
+        LOGGER.debug("Inside moveAllProductsButtonLogic Method");
     }
 
     @Override
     public void moveAllCustomersButtonLogic() {
+        LOGGER.debug("Inside moveAllCustomersButtonLogic Method");
     }
 
     @Override
     public void generateButtonLogicForScreens() {
+        LOGGER.debug("Inside generateButtonLogicForScreens Method");
     }
 
     @Override
     public void loadPrivateViewLook() {
+        LOGGER.debug("Inside loadPrivateViewLook Method");
     }
 
     @Override
     public void loadPublicViewLook() {
+        LOGGER.debug("Inside loadPublicViewLook Method");
     }
 
     @Override
     public void loadAvailableDeductions() {
+        LOGGER.debug("Inside loadAvailableDeductions Method");
     }
 
     @Override
     public void moveLeftToRightDeductions() {
+        LOGGER.debug("Inside moveLeftToRightDeductions Method");
     }
 
     @Override
     public void privateLookupCloseListener() {
+        LOGGER.debug("Inside privateLookupCloseListener Method");
     }
 
     @Override
     public void publicLookupCloseListener() {
+        LOGGER.debug("Inside publicLookupCloseListener Method");
     }
 
     @Override
     public void moveAllDeductions() {
+        LOGGER.debug("Inside moveAllDeductions Method");
     }
 
     @Override
     public void moveRightToLeftDeductions() {
+        LOGGER.debug("Inside moveRightToLeftDeductions Method");
     }
 
     @Override
     public void saveViewLogic() {
+        LOGGER.debug("Inside saveViewLogic Method");
     }
 
     public void configureDataSelection() {
@@ -210,12 +224,12 @@ public class DataSelectionTab extends AbstractDataSelection {
         selectedDeduction.setContainerDataSource(selection.getSelectedDeductionContainer());
         selectedCustomer.setContainerDataSource(selection.getSelectedCustomerContainer());
         selectedProduct.setContainerDataSource(selection.getSelectedProductContainer());
-        selectedCustomer.setVisibleColumns(new Object[]{"displayValue"});
+        selectedCustomer.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
         selectedCustomer.setColumnHeaders(new String[]{"Selected Customers"});
         selectedDeduction.setVisibleColumns("levelValue");
         selectedDeduction.setColumnHeader("levelValue", "Selected Deductions");
-        selectedProduct.setVisibleColumns("displayValue");
-        selectedProduct.setColumnHeader("displayValue", "Selected Products");
+        selectedProduct.setVisibleColumns(CommonConstant.DISPLAY_VALUE);
+        selectedProduct.setColumnHeader(CommonConstant.DISPLAY_VALUE, "Selected Products");
         CommonLogic.loadCompanyAndBusinessUnit(company, "getCompanyQueryForDS");
         CommonLogic.loadCompanyAndBusinessUnit(businessUnit, "getBusinessQueryForDS");
         logic.loadCustomerRelation(customerRelation, selection.getCustomerHierarchySid());
@@ -230,7 +244,7 @@ public class DataSelectionTab extends AbstractDataSelection {
         productLevel.select(selection.getProductHierarchyLevel());
         deductionLevel.select(HelperListUtil.getInstance().getIdHelperDTOMap().get(selection.getDeductionLevel()));
         company.select(selection.getCompanyMasterSid());
-        businessUnit.select(selection.getBu_companyMasterSid());
+        businessUnit.select(selection.getBucompanyMasterSid());
         if (ARMConstants.getPipelineAccrual().equalsIgnoreCase(selection.getAdjustmentType()) || ARMConstants.getPipelineInventoryTrueUp().equalsIgnoreCase(selection.getAdjustmentType())
                 || ARMConstants.getTransaction6().equalsIgnoreCase(selection.getAdjustmentType())
                 || ARMConstants.getTransaction7().equalsIgnoreCase(selection.getAdjustmentType())) {
@@ -271,15 +285,15 @@ public class DataSelectionTab extends AbstractDataSelection {
         toPeriod.setReadOnly(true);
         adjustmentType.setReadOnly(true);
         description.setReadOnly(true);
-        customer_MoveAllBtn.setEnabled(false);
-        customer_moveLeftBtn.setEnabled(false);
-        customer_moveRightBtn.setEnabled(false);
-        product_moveAllBtn.setEnabled(false);
-        product_moveLeftProduct.setEnabled(false);
-        product_moveRightProduct.setEnabled(false);
-        deduction_moveAllBtn.setEnabled(false);
-        deduction_moveLeftBtn.setEnabled(false);
-        deduction_moveRightBtn.setEnabled(false);
+        customerMoveAllBtn.setEnabled(false);
+        customerMoveLeftBtn.setEnabled(false);
+        customerMoveRightBtn.setEnabled(false);
+        productMoveAllBtn.setEnabled(false);
+        productMoveLeftProduct.setEnabled(false);
+        productMoveRightProduct.setEnabled(false);
+        deductionMoveAllBtn.setEnabled(false);
+        deductionMoveLeftBtn.setEnabled(false);
+        deductionMoveRightBtn.setEnabled(false);
         generateBtn.setVisible(false);
         resetBtn.setVisible(false);
         saveViewBtn.setVisible(false);
@@ -318,7 +332,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             CommonLogic.loadCompanyAndBusinessUnit(company, "getCompanyQueryForDS");
             CommonLogic.loadCompanyAndBusinessUnit(businessUnit, "getBusinessQueryForDS");
             company.select(selection.getCompanyMasterSid());
-            businessUnit.select(selection.getBu_companyMasterSid());
+            businessUnit.select(selection.getBucompanyMasterSid());
             customerDescriptionMap = logic.getLevelValueMap(String.valueOf(selection.getCustRelationshipBuilderSid()));
             productDescriptionMap = logic.getLevelValueMap(String.valueOf(selection.getProdRelationshipBuilderSid()));
             initializeCustomerHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getCustomerHierarchyLevel()));
@@ -336,7 +350,7 @@ public class DataSelectionTab extends AbstractDataSelection {
                 toPeriod.select(0);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in setViewDetails :"+e);
         }
     }
 
@@ -363,7 +377,7 @@ public class DataSelectionTab extends AbstractDataSelection {
      * @param projectionId
      * @throws java.lang.Exception
      */
-    public void initializeCustomerHierarchy(final int projectionId, int customerLevel)  {
+    public void initializeCustomerHierarchy(final int projectionId, int customerLevel) {
         DataSelectionLogic logic = new DataSelectionLogic();
 
         List<LevelDTO> reslistOne;
@@ -376,7 +390,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             } else {
                 for (Object tempselection : selectedCustomerContainer.getItemIds()) {
                     if (selection.getParentNode().contains("~")) {
-                        String parentarr[] = selection.getParentNode().split("~");
+                        String[] parentarr = selection.getParentNode().split("~");
                         String parentName = parentarr[1];
                         if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
                             selectedCustomerContainer.addBean(selection);
@@ -394,7 +408,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             }
         }
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-        selectedCustomer.setVisibleColumns(new Object[]{"displayValue"});
+        selectedCustomer.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
         selectedCustomer.setColumnHeaders(new String[]{"Customer Hierarchy Group Builder"});
         for (LevelDTO ddo : selectedCustomerContainer.getItemIds()) {
             selectedCustomer.setCollapsed(ddo, false);
@@ -420,7 +434,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             } else {
                 for (Object tempselection : selectedProductContainer.getItemIds()) {
                     if (selection.getParentNode().contains("~")) {
-                        String parentarr[] = selection.getParentNode().split("~");
+                        String[] parentarr = selection.getParentNode().split("~");
                         String parentName = parentarr[1];
                         if (getBeanFromId(tempselection).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
                             selectedProductContainer.addBean(selection);
@@ -446,7 +460,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             }
         }
         selectedProduct.setContainerDataSource(selectedProductContainer);
-        selectedProduct.setVisibleColumns(new Object[]{"displayValue"});
+        selectedProduct.setVisibleColumns(new Object[]{CommonConstant.DISPLAY_VALUE});
         selectedProduct.setColumnHeaders(new String[]{"Product Hierarchy Group Builder"});
         for (LevelDTO ddo : selectedProductContainer.getItemIds()) {
             selectedProduct.setCollapsed(ddo, false);
@@ -500,7 +514,7 @@ public class DataSelectionTab extends AbstractDataSelection {
             toPeriod.removeAllItems();
             configurePeriodDropDown(fromPeriod);
             configurePeriodDropDown(toPeriod);
-            DataSelectionLogic.getDates(buscinessProcess, glCompId, bUnitCompSid, fromPeriod, toPeriod,true);
+            DataSelectionLogic.getDates(buscinessProcess, glCompId, bUnitCompSid, fromPeriod, toPeriod, true,selection);
             fromPeriod.select(selection.getFromPeriod());
             toPeriod.select(selection.getToPeriod());
             if (ARMConstants.getPipelineAccrual().equalsIgnoreCase(selection.getAdjustmentType())

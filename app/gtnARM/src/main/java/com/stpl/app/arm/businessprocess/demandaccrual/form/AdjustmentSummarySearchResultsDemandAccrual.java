@@ -32,13 +32,13 @@ public class AdjustmentSummarySearchResultsDemandAccrual extends AbstractDemandS
     }
 
     @Override
-    public DASummaryLogic getLogic() {
-        return (DASummaryLogic) super.getLogic();
+    public DASummaryLogic getSummaryLogic() {
+        return (DASummaryLogic) super.getSummaryLogic();
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return getLogic();
+        return getSummaryLogic();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AdjustmentSummarySearchResultsDemandAccrual extends AbstractDemandS
     }
 
     @Override
-    protected  String getTableNameForEdit() {
+    protected String getTableNameForEdit() {
         return "ST_ARM_DEMAND_ADJ_SUMMARY";
     }
 }

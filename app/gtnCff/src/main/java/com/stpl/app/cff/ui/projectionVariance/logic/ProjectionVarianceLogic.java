@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.ui.projectionVariance.logic;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
@@ -28,6 +29,7 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TOTAL;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TOTAL_DISCOUNT;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
+import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.HeaderUtils;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
@@ -83,18 +85,22 @@ public class ProjectionVarianceLogic {
      */
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
+    public static final String DISCOUNT_PERCENT = "Discount %";
+    public static final String DISCOUNT_DOLLAR = "Discount $";
+    
     /**
      * The Percent Two Decimal Places Format.
      */
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
+    public static final String TWO_DECIMAL = "#,##0.00";
     /**
      * The Constant RATE.
      */
-    private static final DecimalFormat RATE_PER = new DecimalFormat("#,##0.00");
+    private static final DecimalFormat RATE_PER = new DecimalFormat(TWO_DECIMAL);
     /**
      * RATE_PER_THREE
      */
-    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
+    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(TWO_DECIMAL);
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
     private static final String ZERO = "0";
     private static final String DETAIL = "Detail";
@@ -136,27 +142,29 @@ public class ProjectionVarianceLogic {
     CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     PVSelectionDTO selectionDTO = new PVSelectionDTO();
     List<ProjectionVarianceDTO> projDTOList1 = new ArrayList<>();
-    List<List> currentDiscount = new ArrayList<List>();
-    List<List> currentSales = new ArrayList<List>();
-    List<List> currentTotal = new ArrayList<List>();
-    List<Integer> priorIdTotal = new ArrayList<Integer>();
-    List<List> currentTotalDiscount = new ArrayList<List>();
-    List<Integer> priorProjIdDiscountList = new ArrayList<Integer>();
-    List<Integer> priorProjIdSalesList = new ArrayList<Integer>();
-    List<Integer> priorProjIdTotalList = new ArrayList<Integer>();
-    List<List> currentPivotGTSTotal = new ArrayList<List>();
-    List<Integer> pivotPriorProjIdList = new ArrayList<Integer>();
-    List<List> currentDiscountDol = new ArrayList<List>();
-    List<List> currentDiscountPPADol = new ArrayList<List>();
-    List<List> currentDiscountPer = new ArrayList<List>();
-    List<List> currentDiscountPPAPer = new ArrayList<List>();
-    List<Object> pivotTotalList = new ArrayList<Object>();
-    List<Object> pivotDiscountList = new ArrayList<Object>();
+    List<List> currentDiscount = new ArrayList<>();
+    List<List> currentSales = new ArrayList<>();
+    List<List> currentTotal = new ArrayList<>();
+    List<Integer> priorIdTotal = new ArrayList<>();
+    List<List> currentTotalDiscount = new ArrayList<>();
+    List<Integer> priorProjIdDiscountList = new ArrayList<>();
+    List<Integer> priorProjIdSalesList = new ArrayList<>();
+    List<Integer> priorProjIdTotalList = new ArrayList<>();
+    List<List> currentPivotGTSTotal = new ArrayList<>();
+    List<Integer> pivotPriorProjIdList = new ArrayList<>();
+    List<List> currentDiscountDol = new ArrayList<>();
+    List<List> currentDiscountPPADol = new ArrayList<>();
+    List<List> currentDiscountPer = new ArrayList<>();
+    List<List> currentDiscountPPAPer = new ArrayList<>();
+    List<Object> pivotTotalList = new ArrayList<>();
+    List<Object> pivotDiscountList = new ArrayList<>();
     int currentProjId;
     private static final String PRC_CFF_RESULTS = "Prc_cff_results";
     private List chartList;
     private static Thread procedureThread;
     private static RunnableJob runnableJob;
+    private static final int COLUMN_COUNT_DISCOUNT = NumericConstants.TWELVE;
+    private static final int COLUMN_COUNT_TOTAL = NumericConstants.NINTY_SIX;
 
     public List getChartList() {
         return chartList;
@@ -212,17 +220,17 @@ public class ProjectionVarianceLogic {
         String toValue = String.valueOf(toDate);
         String[] fromArray = fromValue.split(" ");
         String[] toArray = toValue.split(" ");
-        List<Object> visibleDoubleCol = new ArrayList<Object>(rightHeader.getDoubleColumns());
-        List<String> visibleDoubleHeader = new ArrayList<String>(rightHeader.getDoubleHeaders());
-        List<Object> visibleSingleCol = new ArrayList<Object>();
-        List<Object> visibleSingleColumn = new ArrayList<Object>(rightHeader.getSingleColumns());
-        List<String> visibleSingleHeader = new ArrayList<String>(rightHeader.getSingleHeaders());
-        List<String> visibleSingleHead = new ArrayList<String>();
+        List<Object> visibleDoubleCol = new ArrayList<>(rightHeader.getDoubleColumns());
+        List<String> visibleDoubleHeader = new ArrayList<>(rightHeader.getDoubleHeaders());
+        List<Object> visibleSingleCol = new ArrayList<>();
+        List<Object> visibleSingleColumn = new ArrayList<>(rightHeader.getSingleColumns());
+        List<String> visibleSingleHeader = new ArrayList<>(rightHeader.getSingleHeaders());
+        List<String> visibleSingleHead = new ArrayList<>();
 
         Map<Object, Object[]> doubleMap = rightHeader.getDoubleHeaderMaps();
-        Map<Object, Object[]> doubleFinalMap = new HashMap<Object, Object[]>();
-        List<Object> finalVisList = new ArrayList<Object>();
-        List<String> finalHeaderList = new ArrayList<String>();
+        Map<Object, Object[]> doubleFinalMap = new HashMap<>();
+        List<Object> finalVisList = new ArrayList<>();
+        List<String> finalHeaderList = new ArrayList<>();
         String from = StringUtils.EMPTY;
         String to = StringUtils.EMPTY;
         for (int i = 0; i < fromArray.length; i++) {
@@ -265,7 +273,7 @@ public class ProjectionVarianceLogic {
         rightTable.setDoubleHeaderColumnHeaders(finalHeaderList.toArray(new String[finalHeaderList.size()]));
         rightTable.setDoubleHeaderMap(doubleFinalMap);
         // For Chart and Excel Header when date range is selected
-        Object singleCol = "group";
+        Object singleCol = StringConstantsUtil.GROUP_PROPERTY;
         newFullHeader.addSingleColumn(singleCol, " ", String.class);
         for (int i = 0; i < visibleSingleCol.size(); i++) {
             String singleHeader = fullHeader.getSingleHeader(visibleSingleCol.get(i));
@@ -281,7 +289,7 @@ public class ProjectionVarianceLogic {
      * @return list
      */
     public List<ComparisonLookupDTO> getCustomizedComparisonList(final List list) throws PortalException, SystemException {
-        final List<ComparisonLookupDTO> finalList = new ArrayList<ComparisonLookupDTO>();
+        final List<ComparisonLookupDTO> finalList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 ComparisonLookupDTO comparisonLookupDTO = new ComparisonLookupDTO();
@@ -351,51 +359,49 @@ public class ProjectionVarianceLogic {
     public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup) throws PortalException, SystemException {
         String ASTERIK = "*";
         String PERCENT = "%";
-        String andOperator = StringUtils.EMPTY;
+        String andOperator;
         List inputList = getComparisonInput(comparisonLookup);
         StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, "comparisonLoadData");
         query.append(" where ");
         if (comparisonLookup.getContract() != null && !comparisonLookup.getContract().isEmpty()) {
             query.append(" CONTRACT LIKE ").append("'").append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
             query.append(" CONTRACT LIKE ").append("'%'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getMarketType() != null && !comparisonLookup.getMarketType().isEmpty()) {
-            query.append(andOperator).append("  MARKET_TYPE LIKE ").append("'").append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            query.append(andOperator).append("  MARKET_TYPE LIKE  ").append("'").append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append("'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
-            query.append(andOperator).append("  MARKET_TYPE LIKE ").append("'%'");
-            andOperator = " AND ";
+            query.append(andOperator).append("  MARKET_TYPE LIKE  ").append("'%'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getCustomer() != null && !comparisonLookup.getCustomer().isEmpty()) {
             query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append("'").append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
             query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append("'%'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getNdcName() != null && !comparisonLookup.getNdcName().isEmpty()) {
-            query.append(andOperator).append("  ITEM_NAME LIKE ").append("'").append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            query.append(andOperator).append("  ITEM_NAME LIKE   ").append("'").append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append("'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
-            query.append(andOperator).append("  ITEM_NAME LIKE ").append("'%'");
-            andOperator = " AND ";
+            query.append(andOperator).append("  ITEM_NAME LIKE   ").append("'%'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getNdcNo() != null && !comparisonLookup.getNdcNo().isEmpty()) {
             query.append(andOperator).append("  ITEM_NO LIKE ").append("'").append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
             query.append(andOperator).append("  ITEM_NO LIKE ").append("'%'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getBrand() != null && !comparisonLookup.getBrand().isEmpty()) {
-            query.append(andOperator).append("  BRAND LIKE ").append("'").append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append("' ");
-            andOperator = " AND ";
+            query.append(andOperator).append("   BRAND LIKE ").append("'").append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append("' ");
         } else {
-            query.append(andOperator).append("  BRAND LIKE ").append("'%' ");
-            andOperator = " AND ";
+            query.append(andOperator).append("   BRAND LIKE ").append("'%' ");
         }
         StringBuilder orderBy = AbstractFilterLogic.getInstance().orderByQueryGenerator(comparisonLookup.getSortColumns(), getOrderByMap());
         query.append(orderBy.toString());
@@ -412,7 +418,7 @@ public class ProjectionVarianceLogic {
      * @return list
      */
     public List<ComparisonLookupDTO> getCustomizedPVComparisonList(final List list) throws PortalException, SystemException {
-        final List<ComparisonLookupDTO> finalList = new ArrayList<ComparisonLookupDTO>();
+        final List<ComparisonLookupDTO> finalList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 ComparisonLookupDTO comparisonLookupDTO = new ComparisonLookupDTO();
@@ -494,7 +500,7 @@ public class ProjectionVarianceLogic {
         try {
             SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
             SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
-            Date date = new Date();
+            Date date;
             date = inputDateFormatter.parse(stringDate);
             return outputDateFormatter.format(date);
         } catch (ParseException ex) {
@@ -506,52 +512,50 @@ public class ProjectionVarianceLogic {
     public Integer getComparisonCount(ComparisonLookupDTO comparisonLookup) {
         String ASTERIK = "*";
         String PERCENT = "%";
-        String andOperator = StringUtils.EMPTY;
+        String andOperator;
         List inputList = getComparisonInput(comparisonLookup);
         StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, "comparisonSearchCount");
         query.append(" where ");
         if (comparisonLookup.getContract() != null && !comparisonLookup.getContract().isEmpty()) {
-            query.append(" CONTRACT LIKE ").append("'").append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            query.append(" CONTRACT LIKE  ").append("'").append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append("'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
-            query.append(" CONTRACT LIKE ").append("'%'");
-            andOperator = " AND ";
+            query.append(" CONTRACT LIKE  ").append("'%'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getMarketType() != null && !comparisonLookup.getMarketType().isEmpty()) {
             query.append(andOperator).append("  MARKET_TYPE LIKE ").append("'").append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
             query.append(andOperator).append("  MARKET_TYPE LIKE ").append("'%'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
 
         }
         if (comparisonLookup.getCustomer() != null && !comparisonLookup.getCustomer().isEmpty()) {
-            query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append("'").append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            query.append(andOperator).append("  CONTRACT_HOLDER LIKE  ").append("'").append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append("'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
-            query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append("'%'");
-            andOperator = " AND ";
+            query.append(andOperator).append("  CONTRACT_HOLDER LIKE  ").append("'%'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getNdcName() != null && !comparisonLookup.getNdcName().isEmpty()) {
             query.append(andOperator).append("  ITEM_NAME LIKE ").append("'").append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
             query.append(andOperator).append("  ITEM_NAME LIKE ").append("'%'");
-            andOperator = " AND ";
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getNdcNo() != null && !comparisonLookup.getNdcNo().isEmpty()) {
-            query.append(andOperator).append("  ITEM_NO LIKE ").append("'").append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
+            query.append(andOperator).append("  ITEM_NO LIKE  ").append("'").append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append("'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         } else {
-            query.append(andOperator).append("  ITEM_NO LIKE ").append("'%'");
-            andOperator = " AND ";
+            query.append(andOperator).append("  ITEM_NO LIKE  ").append("'%'");
+            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
         }
         if (comparisonLookup.getBrand() != null && !comparisonLookup.getBrand().isEmpty()) {
             query.append(andOperator).append("  BRAND LIKE ").append("'").append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = " AND ";
         } else {
             query.append(andOperator).append("  BRAND LIKE ").append("'%'");
-            andOperator = " AND ";
         }
 
         List result = (List) commonDao.executeSelectQuery(query.toString(), null, null);
@@ -684,7 +688,7 @@ public class ProjectionVarianceLogic {
         boolean isDiscountExpand = false;
         pVSelectionDTO.setGroupCount(false);
         if (parentDto != null) {
-            if (parentDto.getGroup().contains("Discount $") || parentDto.getGroup().contains("Discount %") || parentDto.getGroup().contains("RPU")) {
+            if (parentDto.getGroup().contains(DISCOUNT_DOLLAR) || parentDto.getGroup().contains(DISCOUNT_PERCENT) || parentDto.getGroup().contains("RPU")) {
                 pVSelectionDTO.setGroup(parentDto.getGroup());
                 isDiscountExpand = true;
             }
@@ -717,7 +721,7 @@ public class ProjectionVarianceLogic {
             pVSelectionDTO.setDiscountFlag(true);
         }
         if (parentDto != null) {
-            if (parentDto.getGroup().contains("Discount $") || parentDto.getGroup().contains("Discount %") || parentDto.getGroup().contains("RPU") || (parentDto.getGroup().contains("Discount % of Ex-Factory"))) {
+            if (parentDto.getGroup().contains(DISCOUNT_DOLLAR) || parentDto.getGroup().contains(DISCOUNT_PERCENT) || parentDto.getGroup().contains("RPU") || (parentDto.getGroup().contains("Discount % of Ex-Factory"))) {
                 pVSelectionDTO.setGroup(parentDto.getGroup());
                 isDiscountExpand = true;
                 if (parentDto.getGroup().contains("RPU")) {
@@ -743,48 +747,48 @@ public class ProjectionVarianceLogic {
                     pVSelectionDTO.setIsTotal(false);
                     List<ProjectionVarianceDTO> resultsDto = new ArrayList<>();
                      if (parentDto.getGroup().contains("Discount % of Ex-Factory")) {
-                        if (parentDto.getGroup().contains("Value")) {
-                            pVSelectionDTO.setVarIndicator(VALUE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.TEN, NumericConstants.EIGHT, Boolean.TRUE));
-                        } else if (parentDto.getGroup().contains("Variance")) {
-                            pVSelectionDTO.setVarIndicator(VARIANCE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.TEN, NumericConstants.EIGHT, Boolean.TRUE));
-                        } else if (parentDto.getGroup().contains("%Change")) {
-                            pVSelectionDTO.setVarIndicator(CHANGE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.TEN, NumericConstants.EIGHT, Boolean.TRUE));
+                        if (parentDto.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
+                            pVSelectionDTO.setVarIndicator(Constants.VALUE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FOURTEEN, Boolean.TRUE));
+                        } else if (parentDto.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
+                            pVSelectionDTO.setVarIndicator(Constants.VARIANCE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FOURTEEN, Boolean.TRUE));
+                        } else if (parentDto.getGroup().contains(CHANGE1)) {
+                            pVSelectionDTO.setVarIndicator(Constants.CHANGE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FOURTEEN, Boolean.TRUE));
                         }
-                    } else if (parentDto.getGroup().contains("Discount $")) {
-                        if (parentDto.getGroup().contains("Value")) {
-                            pVSelectionDTO.setVarIndicator(VALUE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FOUR, NumericConstants.EIGHT, Boolean.FALSE));
-                        } else if (parentDto.getGroup().contains("Variance")) {
-                            pVSelectionDTO.setVarIndicator(VARIANCE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FOUR, NumericConstants.EIGHT, Boolean.FALSE));
-                        } else if (parentDto.getGroup().contains("%Change")) {
-                            pVSelectionDTO.setVarIndicator(CHANGE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FOUR, NumericConstants.EIGHT, Boolean.FALSE));
+                    } else if (parentDto.getGroup().contains(DISCOUNT_DOLLAR)) {
+                        if (parentDto.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
+                            pVSelectionDTO.setVarIndicator(Constants.VALUE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FIVE, Boolean.FALSE));
+                        } else if (parentDto.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
+                            pVSelectionDTO.setVarIndicator(Constants.VARIANCE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FIVE, Boolean.FALSE));
+                        } else if (parentDto.getGroup().contains(CHANGE1)) {
+                            pVSelectionDTO.setVarIndicator(Constants.CHANGE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FIVE, Boolean.TRUE));
                         }
-                    } else if (parentDto.getGroup().contains("Discount %")) {
-                        if (parentDto.getGroup().contains("Value")) {
-                            pVSelectionDTO.setVarIndicator(VALUE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.SIX, NumericConstants.EIGHT, Boolean.TRUE));
-                        } else if (parentDto.getGroup().contains("Variance")) {
-                            pVSelectionDTO.setVarIndicator(VARIANCE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.SIX, NumericConstants.EIGHT, Boolean.TRUE));
-                        } else if (parentDto.getGroup().contains("%Change")) {
-                            pVSelectionDTO.setVarIndicator(CHANGE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.SIX, NumericConstants.EIGHT, Boolean.TRUE));
+                    } else if (parentDto.getGroup().contains(DISCOUNT_PERCENT)) {
+                        if (parentDto.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
+                            pVSelectionDTO.setVarIndicator(Constants.VALUE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.EIGHT, Boolean.TRUE));
+                        } else if (parentDto.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
+                            pVSelectionDTO.setVarIndicator(Constants.VARIANCE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.EIGHT, Boolean.TRUE));
+                        } else if (parentDto.getGroup().contains(CHANGE1)) {
+                            pVSelectionDTO.setVarIndicator(Constants.CHANGE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.EIGHT, Boolean.TRUE));
                         }
                     } else if (parentDto.getGroup().contains("RPU")) {
-                        if (parentDto.getGroup().contains("Value")) {
-                            pVSelectionDTO.setVarIndicator(VALUE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.EIGHT, NumericConstants.EIGHT, Boolean.FALSE));
-                        } else if (parentDto.getGroup().contains("Variance")) {
-                            pVSelectionDTO.setVarIndicator(VARIANCE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.EIGHT, NumericConstants.EIGHT, Boolean.FALSE));
-                        } else if (parentDto.getGroup().contains("%Change")) {
-                            pVSelectionDTO.setVarIndicator(CHANGE.getConstant());
-                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.EIGHT, NumericConstants.EIGHT, Boolean.FALSE));
+                        if (parentDto.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
+                            pVSelectionDTO.setVarIndicator(Constants.VALUE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.ELEVEN, Boolean.FALSE));
+                        } else if (parentDto.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
+                            pVSelectionDTO.setVarIndicator(Constants.VARIANCE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.ELEVEN, Boolean.FALSE));
+                        } else if (parentDto.getGroup().contains(CHANGE1)) {
+                            pVSelectionDTO.setVarIndicator(Constants.CHANGE);
+                            resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.ELEVEN, Boolean.FALSE));
                         }
                     } 
                     tobeAddedList.addAll(resultsDto);
@@ -792,7 +796,7 @@ public class ProjectionVarianceLogic {
                     if (pVSelectionDTO.getLevel().equals(DETAIL)) {
                         getResultsFromProcedure(pVSelectionDTO, Boolean.TRUE);
                     }
-                    List<ProjectionVarianceDTO> allList = getCustPeriodVariance(pivotTotalList, pivotTotalList, pVSelectionDTO, parentDto);
+                    List<ProjectionVarianceDTO> allList = getCustPeriodVariance(pivotTotalList, pVSelectionDTO, parentDto);
                     tobeAddedList.addAll(allList);
                 }
                 setChartList(tobeAddedList);
@@ -813,6 +817,7 @@ public class ProjectionVarianceLogic {
         return projDTOList;
 
     }
+    public static final String CHANGE1 = "%Change";
 
     /**
      * Discount procedure
@@ -821,16 +826,16 @@ public class ProjectionVarianceLogic {
      */
     List<Object[]> geDiscountResultsFromPrc(PVSelectionDTO projSelDTO) {
         String frequency = projSelDTO.getFrequency();
-        List<String> projectionIdList = new ArrayList<String>();
-        pivotDiscountList = new ArrayList<Object>();
-        if (frequency.equals("Quarterly")) {
-            frequency = "QUARTERLY";
-        } else if (frequency.equals("Semi-Annually")) {
+        List<String> projectionIdList = new ArrayList<>();
+        pivotDiscountList = new ArrayList<>();
+        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
+            frequency = StringConstantsUtil.QUARTERLY_LABEL;
+        } else if (frequency.equals(StringConstantsUtil.SEMI_ANNUALLY_FREQ)) {
             frequency = "SEMI-ANNUAL";
-        } else if (frequency.equals("Monthly")) {
-            frequency = "MONTHLY";
+        } else if (frequency.equals(StringConstantsUtil.MONTHLY_FREQ)) {
+            frequency = StringConstantsUtil.MONTHLY_LABEL;
         } else {
-            frequency = "ANNUAL";
+            frequency = StringConstantsUtil.ANNUAL_LABEL;
         }
         projectionIdList.add(String.valueOf(selectionDTO.getCurrentProjId()));
         for (Integer projId : projSelDTO.getProjIdList()) {
@@ -850,6 +855,7 @@ public class ProjectionVarianceLogic {
     /**
      * get Customized period variance
      *
+     * @param baseVariables
      * @return List
      */
     public int getCustPeriodVarianceCount(final PVSelectionDTO baseVariables) {
@@ -1102,29 +1108,60 @@ public class ProjectionVarianceLogic {
                 }
             }
             //Net Sales % of Ex-Factory
-        if (baseVariables.isNetSalesExFactory()) {
-            if (baseVariables.isColValue()) {
-                count++;
+            if (baseVariables.isNetSalesExFactory()) {
+                if (baseVariables.isColValue()) {
+                    count++;
+                }
+                if (baseVariables.isColVariance()) {
+                    count++;
+                }
+                if (baseVariables.isColPercentage()) {
+                    count++;
+                }
             }
-            if (baseVariables.isColVariance()) {
-                count++;
+            //DiscountPerExFactory
+            if (baseVariables.isDiscountPerExFactory()) {
+                if (baseVariables.isColValue()) {
+                    count++;
+                }
+                if (baseVariables.isColVariance()) {
+                    count++;
+                }
+                if (baseVariables.isColPercentage()) {
+                    count++;
+                }
             }
-            if (baseVariables.isColPercentage()) {
-                count++;
+
+            if (P.equals(baseVariables.getHierarchyIndicator())) {
+                /**
+                 * Net Sales % of Ex-Factory
+                 */
+                if (baseVariables.isNetExFactorySales()) {
+                    if (baseVariables.isColValue()) {
+                        count++;
+                    }
+                    if (baseVariables.isColVariance()) {
+                        count++;
+                    }
+                    if (baseVariables.isColPercentage()) {
+                        count++;
+                    }
+                }
+                /**
+                 * Net Ex-Factory Sales as % of Ex-Factory Sales
+                 */
+                if (baseVariables.isNetExFactorySalesPerExFactory()) {
+                    if (baseVariables.isColValue()) {
+                        count++;
+                    }
+                    if (baseVariables.isColVariance()) {
+                        count++;
+                    }
+                    if (baseVariables.isColPercentage()) {
+                        count++;
+                    }
+                }
             }
-        }
-        //DiscountPerExFactory
-        if (baseVariables.isDiscountPerExFactory()) {
-            if (baseVariables.isColValue()) {
-                count++;
-            }
-            if (baseVariables.isColVariance()) {
-                count++;
-            }
-            if (baseVariables.isColPercentage()) {
-                count++;
-            }
-        }
             return count;
 
         } catch (Exception e) {
@@ -1181,7 +1218,7 @@ public class ProjectionVarianceLogic {
 
         CommonLogic commonLogic = new CommonLogic();
         List<ProjectionVarianceDTO> resultList = new ArrayList<>();
-        int resultStart = start;
+        int resultStart;
         if (maxRecord == -1) {
             resultStart = start;
         } else {
@@ -1274,73 +1311,55 @@ public class ProjectionVarianceLogic {
         int started = start;
         int maxRecord = pvsdto.getPeriodList().size();
 
-        List<ProjectionVarianceDTO> projDTOList = new ArrayList<ProjectionVarianceDTO>();
-        if (started < maxRecord || pvsdto.getLevel().equals(TOTAL.getConstant())) {
-            if (pvsdto.getLevel().equals(TOTAL.getConstant())) {
-                getResultsFromProcedure(pvsdto, Boolean.FALSE);
-                List<Object> currentPivotDiscount = new ArrayList<Object>();
-                if (!pvsdto.getDiscountLevel().equals(TOTAL_DISCOUNT.getConstant())) {
-                    currentPivotDiscount.addAll(pivotDiscountList.isEmpty() ? geDiscountResultsFromPrc(pvsdto) : pivotDiscountList);
-                }
-                List<ProjectionVarianceDTO> finalList = getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList, pvsdto, pivotDiscountList);
-                for (int i = started; (i < finalList.size()) && (neededRecord > 0); i++) {
-                    projDTOList.add(finalList.get(i));
-                    neededRecord--;
-                }
-            } else if (parent instanceof ProjectionVarianceDTO) {
-                getResultsFromProcedure(pvsdto, Boolean.TRUE);
-                geDiscountResultsFromPrc(pvsdto);
-                List<ProjectionVarianceDTO> dto = getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList, pvsdto, pivotDiscountList);
-                for (int i = started; (i < dto.size()) && (neededRecord > 0); i++) {
-                    projDTOList.add(dto.get(i));
-                    neededRecord--;
+        List<ProjectionVarianceDTO> projDTOList = new ArrayList<>();
+            if (started < maxRecord || pvsdto.getLevel().equals(TOTAL.getConstant())) {
+                if (pvsdto.getLevel().equals(TOTAL.getConstant())) {
+                    getResultsFromProcedure(pvsdto, Boolean.FALSE);
+                    List<Object> currentPivotDiscount = new ArrayList<>();
+                    if (!pvsdto.getDiscountLevel().equals(TOTAL_DISCOUNT.getConstant())) {
+                        currentPivotDiscount.addAll(pivotDiscountList.isEmpty() ? geDiscountResultsFromPrc(pvsdto) : pivotDiscountList);
+                    }
+                    List<ProjectionVarianceDTO> finalList = getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList, pvsdto, pivotDiscountList);
+                    for (int i = started; (i < finalList.size()) && (neededRecord > 0); i++) {
+                        projDTOList.add(finalList.get(i));
+                        neededRecord--;
+                    }
+                } else if (parent instanceof ProjectionVarianceDTO) {
+                    getResultsFromProcedure(pvsdto, Boolean.TRUE);
+                    geDiscountResultsFromPrc(pvsdto);
+                    List<ProjectionVarianceDTO> dto = getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList, pvsdto, pivotDiscountList);
+                    for (int i = started; (i < dto.size()) && (neededRecord > 0); i++) {
+                        projDTOList.add(dto.get(i));
+                        neededRecord--;
+                    }
                 }
             }
-        }
-        setChartList(projDTOList);
-        if (!pvsdto.isIsLevel() && neededRecord > 0 && !pvsdto.getLevel().equals(TOTAL.getConstant())) {
-            pvsdto.setTreeLevelNo(pvsdto.getTreeLevelNo() + 1);
-            pvsdto.setLevelNo(pvsdto.getTreeLevelNo() + 1);
-            List<ProjectionVarianceDTO> resultList = configureLevels(start, neededRecord, pvsdto, maxRecord);
-            for (int i = 0; i < resultList.size(); i++) {
-                projDTOList.addAll(resultList);
+            setChartList(projDTOList);
+            if (!pvsdto.isIsLevel() && neededRecord > 0 && !pvsdto.getLevel().equals(TOTAL.getConstant())) {
+                pvsdto.setTreeLevelNo(pvsdto.getTreeLevelNo() + 1);
+                pvsdto.setLevelNo(pvsdto.getTreeLevelNo() + 1);
+                List<ProjectionVarianceDTO> resultList = configureLevels(start, neededRecord, pvsdto, maxRecord);
+                for (int i = 0; i < resultList.size(); i++) {
+                    projDTOList.addAll(resultList);
+                }
             }
-        }
         return projDTOList;
     }
 
-    public List<ProjectionVarianceDTO> getDetailsPivotVariance(final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto) {
-        List<Object> currentPivotDiscount = new ArrayList<Object>();
-        pvsdto.setYear("ALL");
-        pvsdto.setProjectionId(selectionDTO.getCurrentProjId());
-        String ccpQuery = CommonLogic.getCCPQuery(pvsdto) + "\n" + CommonLogic.getTempCCPQueryForCOGS(pvsdto) + "\n" + CommonLogic.getTemp_CCPD_RetrunsQuery() + "\n" + CommonLogic.getTempRetrunsQuery();
-        String query = ccpQuery + "\n" + queryUtils.getProjectionResultsMainPivotQuery(pvsdto);
-        List<Object> currentPivotDetails = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
-        if (!pvsdto.getDiscountLevel().equals(TOTAL_DISCOUNT.getConstant())) {
-            String discountQuery = ccpQuery + "\n" + queryUtils.getPVMainDiscountPivotQuery(pvsdto);
-            currentPivotDiscount = (List<Object>) CommonLogic.executeSelectQuery(discountQuery, null, null);
-        }
-        List<Integer> priorProjIdList = new ArrayList<Integer>();
-        for (Integer projId : pvsdto.getProjIdList()) {
-            priorProjIdList.add(projId);
-        }
-        List<ProjectionVarianceDTO> projDTOList = getCustomizedPivotDetailResults(pivotTotalList, currentPivotDetails, currentPivotDiscount, pvsdto.getDiscountNameList(), parentDto, priorProjIdList, pvsdto);
-        return projDTOList;
-    }
 
     public void getResultsFromProcedure(PVSelectionDTO pvsdto, final boolean isDetail) {
         String frequency = pvsdto.getFrequency();
-        List<String> projectionIdList = new ArrayList<String>();
-        pivotTotalList = new ArrayList<Object>();
-        pivotPriorProjIdList = new ArrayList<Integer>();
-        if ("Quarterly".equals(frequency)) {
-            frequency = "QUARTERLY";
-        } else if ("Semi-Annually".equals(frequency)) {
+        List<String> projectionIdList = new ArrayList<>();
+        pivotTotalList = new ArrayList<>();
+        pivotPriorProjIdList = new ArrayList<>();
+        if (StringConstantsUtil.QUARTERLY_FREQ.equals(frequency)) {
+            frequency = StringConstantsUtil.QUARTERLY_LABEL;
+        } else if (StringConstantsUtil.SEMI_ANNUALLY_FREQ.equals(frequency)) {
             frequency = "SEMI-ANNUAL";
-        } else if ("Monthly".equals(frequency)) {
-            frequency = "MONTHLY";
+        } else if (StringConstantsUtil.MONTHLY_FREQ.equals(frequency)) {
+            frequency = StringConstantsUtil.MONTHLY_LABEL;
         } else {
-            frequency = "ANNUAL";
+            frequency = StringConstantsUtil.ANNUAL_LABEL;
         }
         projectionIdList.add(String.valueOf(selectionDTO.getCurrentProjId()));
         for (Integer projId : pvsdto.getProjIdList()) {
@@ -1371,16 +1390,16 @@ public class ProjectionVarianceLogic {
         DataSource datasource;
         CallableStatement statement = null;
         ResultSet rs = null;
-        if (frequency.equals("Quarterly")) {
-            frequency = "QUARTERLY";
-        } else if (frequency.equals("Semi-Annually")) {
+        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
+            frequency = StringConstantsUtil.QUARTERLY_LABEL;
+        } else if (frequency.equals(StringConstantsUtil.SEMI_ANNUALLY_FREQ)) {
             frequency = "SEMI_ANNUAL";
-        } else if (frequency.equals("Monthly")) {
-            frequency = "MONTHLY";
+        } else if (frequency.equals(StringConstantsUtil.MONTHLY_FREQ)) {
+            frequency = StringConstantsUtil.MONTHLY_LABEL;
         } else {
-            frequency = "ANNUAL";
+            frequency = StringConstantsUtil.ANNUAL_LABEL;
         }
-        List<Object[]> objectList = new ArrayList<Object[]>();
+        List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
@@ -1388,7 +1407,9 @@ public class ProjectionVarianceLogic {
                 connection = datasource.getConnection();
             }
             if (connection != null) {
-                statement = connection.prepareCall("{call " + procedureName + "(?,?,?,?,?)}");
+                StringBuilder statementBuilder = new StringBuilder("{call ");
+                statementBuilder.append(procedureName).append("(?,?,?,?,?)}");
+                statement = connection.prepareCall(statementBuilder.toString());
                 statement.setInt(1, projectionId);
                 statement.setString(NumericConstants.TWO, frequency);
                 statement.setString(NumericConstants.THREE, discountId);
@@ -1437,7 +1458,7 @@ public class ProjectionVarianceLogic {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
 
     }
 
@@ -1458,7 +1479,7 @@ public class ProjectionVarianceLogic {
      * @return
      */
     private List<Object[]> convertResultSetToList(ResultSet rs) {
-        List<Object[]> objList = new ArrayList<Object[]>();
+        List<Object[]> objList = new ArrayList<>();
 
         try {
             ResultSetMetaData rsMetaData = rs.getMetaData();
@@ -1488,25 +1509,6 @@ public class ProjectionVarianceLogic {
         return objList;
     }
 
-    public List<List> getDiscountExpandQuery(PVSelectionDTO projSelDTO) {
-        LOGGER.debug("Inside getDiscountExpandQuery");
-        List<List> projDTOList = new ArrayList<List>();
-        List<Object> list0;
-        String query = StringUtils.EMPTY;
-        String ccpQuery = CommonLogic.getCCPQuery(projSelDTO);
-        if (projSelDTO.isIsTotal()) {
-            query = ccpQuery + queryUtils.getProjectionResultsTotalDiscountPerQuery(projSelDTO);
-            list0 = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
-            projDTOList.add(list0);
-        } else {
-            query = ccpQuery + CommonLogic.getTempCCPQueryForCOGS(projSelDTO) + "\n" + CommonLogic.getTemp_CCPD_RetrunsQuery()
-                    + " \n" + CommonLogic.getTempRetrunsQuery() + " \n" + queryUtils.getPeriodDiscountExpand(projSelDTO);
-            list0 = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
-            projDTOList.add(list0);
-        }
-        LOGGER.debug("Ending getDiscountExpandQuery");
-        return projDTOList;
-    }
 
     public List<ProjectionVarianceDTO> getCustomizedPivotTotalResults(final List<Object> results, List<Integer> priorProjGtsList, PVSelectionDTO pvsdto, List totalDiscount) {
         List<String> periodList = new ArrayList<>(pvsdto.getPeriodList());
@@ -1514,8 +1516,7 @@ public class ProjectionVarianceLogic {
         List<ProjectionVarianceDTO> projDTOList = new ArrayList<>();
         String[] singleColumn = new String[NumericConstants.THREE];
         int frequencyDivision = pvsdto.getFrequencyDivision();
-        boolean actualBasis = "Actuals".equalsIgnoreCase(pvsdto.getComparisonBasis());
-        int prPos = NumericConstants.SIXTY;
+        int prPos = COLUMN_COUNT_TOTAL;
         if (results != null && !results.isEmpty()) {
             for (int i = 0; i < results.size(); i++) {
                 final Object[] row = (Object[]) results.get(i);
@@ -1524,1369 +1525,315 @@ public class ProjectionVarianceLogic {
                 List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, year, period);
                 String pcommonColumn = common.get(0);
                 String commonHeader = common.get(1);
-                String commonDoubleColumn = StringUtils.EMPTY;
-                String column = StringUtils.EMPTY;
-                String columnAct = StringUtils.EMPTY;
-                String currentValue = StringUtils.EMPTY;
-                String actualValue = StringUtils.EMPTY;
-//                String column = "";
                 pcommonColumn = getCommonColumn(frequencyDivision, pcommonColumn);
                 if (periodList.contains(pcommonColumn)) {
                     periodList.remove(pcommonColumn);
                     List<String> columnList = new ArrayList<>(pvsdto.getColumns());
-                    columnList.remove("group");
+                    columnList.remove(StringConstantsUtil.GROUP_PROPERTY);
                     ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
                     projDTO.setGroup(commonHeader);
-                    String variableValue = StringUtils.EMPTY;
+                    String variableValue;
                     //Exfactory Sales
                     if ((pvsdto.isVarExFacSales())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.TWO];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.THREE];
                         if (pvsdto.isColValue()) {
-                            customizePivot("ExFacValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.EX_FAC_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FOUR, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("ExFacVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.EX_FAC_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FOUR, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("ExFacPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.EX_FAC_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FOUR, row,Boolean.TRUE);
                         }
                     }
-                   //CustExFacSales
-                   if ((pvsdto.isVarExFacCustomer())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FORTY_EIGHT];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_NINE];
+                    //CustExFacSales
+                    if ((pvsdto.isVarExFacCustomer())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("CustExFacValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot("CustExFacValue", Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SEVENTY_THREE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("CustExFacVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot("CustExFacVariance", Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SEVENTY_THREE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("CustExFacPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("CustExFacPer", Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.SEVENTY_THREE, row,Boolean.TRUE);
                         }
                     }
-                   //Demand Sales
-                   if ((pvsdto.isVarDemandSales())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.TWENTY_EIGHT];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.TWENTY_NINE];
+                    //Demand Sales
+                    if ((pvsdto.isVarDemandSales())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("DemandSalesValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.DEMAND_SALES_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FORTY_THREE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("DemandSalesVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.DEMAND_SALES_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FORTY_THREE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("DemandSalesPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.DEMAND_SALES_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FORTY_THREE, row,Boolean.TRUE);
                         }
                     }
                     //AdjDemandSales
-                     if ((pvsdto.isVarAdjDemand())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FORTY_SIX];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_SEVEN];
+                    if ((pvsdto.isVarAdjDemand())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("AdjDemandValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot("AdjDemandValue", Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SEVENTY, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("AdjDemandVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot("AdjDemandVariance", Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SEVENTY, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("AdjDemandPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("AdjDemandPer", Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.SEVENTY, row,Boolean.TRUE);
                         }
                     }
-                   //InvWithSummary
-                   if ((pvsdto.isVarInvSales())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.THIRTY];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_ONE];
+                    //InvWithSummary
+                    if ((pvsdto.isVarInvSales())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("InvWithValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.INV_WITH_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FORTY_SIX, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("InvWithVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.INV_WITH_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FORTY_SIX, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("InvWithPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.INV_WITH_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FORTY_SIX, row,Boolean.TRUE);
                         }
                     }
-                   //InvWithDetails
-                   if ((pvsdto.isVarIwDetails())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FIFTY];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_ONE];
+                    //InvWithDetails
+                    if ((pvsdto.isVarIwDetails())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("InvWithDetailsValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot("InvWithDetailsValue", Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SEVENTY_SIX, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("InvWithDetailsVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot("InvWithDetailsVariance", Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SEVENTY_SIX, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("InvWithDetailsPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("InvWithDetailsPer", Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.SEVENTY_SIX, row,Boolean.TRUE);
                         }
                     }
-                   //PerExFac
-                   if ((pvsdto.isVarPerExFacSales())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.TWELVE];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.THIRTEEN];
+                    //PerExFac
+                    if ((pvsdto.isVarPerExFacSales())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("PerExFacValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_EX_FAC_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINETEEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("PerExFacVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_EX_FAC_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINETEEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("PerExFacPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_EX_FAC_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINETEEN, row,Boolean.TRUE);
                         }
                     }
-                   //PerCustExFac
-                   if ((pvsdto.isVarPerExFacCustomer())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_FOUR];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_FIVE];
+                    //PerCustExFac
+                    if ((pvsdto.isVarPerExFacCustomer())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("PerCustExFacValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerCustExFacValue", Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_TWO, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("PerCustExFacVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerCustExFacVariance", Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_TWO, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("PerCustExFacPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerCustExFacPer", Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_TWO, row,Boolean.TRUE);
                         }
                     }
-                   //PerDemandSales
+                    //PerDemandSales
                     if ((pvsdto.isVarPerDemandSales())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_TWO];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_THREE];
                         if (pvsdto.isColValue()) {
-                            customizePivot("PerDemandSalesValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_DEMAND_SALES_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.FORTY_NINE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("PerDemandSalesVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_DEMAND_SALES_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.FORTY_NINE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("PerDemandSalesPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_DEMAND_SALES_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FORTY_NINE, row,Boolean.TRUE);
                         }
                     }
-                   //PerAdjDemand
-                   if ((pvsdto.isVarPerAdjDemand())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_TWO];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_THREE];
+                    //PerAdjDemand
+                    if ((pvsdto.isVarPerAdjDemand())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("PerAdjDemandValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerAdjDemandValue", Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.SEVENTY_NINE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("PerAdjDemandSalesVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerAdjDemandSalesVariance", Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.SEVENTY_NINE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("PerAdjDemandSalesPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerAdjDemandSalesPer", Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.SEVENTY_NINE, row,Boolean.TRUE);
                         }
                     }
                     //PerInvWith
-                     if ((pvsdto.isVarPerInvSales())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_FOUR];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_FIVE];
+                    if ((pvsdto.isVarPerInvSales())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("PerInvWithValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_INV_WITH_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.FIFTY_TWO, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("PerInvWithVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_INV_WITH_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.FIFTY_TWO, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("PerInvWithPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.PER_INV_WITH_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FIFTY_TWO, row,Boolean.TRUE);
                         }
                     }
-                   //PerInvWithDetails
-                   if ((pvsdto.isVarPerIwDetails())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_SIX];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_SEVEN];
+                    //PerInvWithDetails
+                    if ((pvsdto.isVarPerIwDetails())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("PerInvWithDetailsValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerInvWithDetailsValue", Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_FIVE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("PerInvWithDetailsVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerInvWithDetailsVariance", Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_FIVE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("PerInvWithDetailsPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("PerInvWithDetailsPer", Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_FIVE, row,Boolean.TRUE);
                         }
                     }
                     //ContractSalesWAC
-                     if ((pvsdto.isVarContractsales())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FOUR];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FIVE];
+                    if ((pvsdto.isVarContractsales())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("ContractSalesWACValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.CONTRACT_SALES_WAC_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SEVEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("ContractSalesWACVar", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.CONTRACT_SALES_WAC_VAR, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SEVEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("ContractSalesWACVarPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.CONTRACT_SALES_WAC_VAR_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.SEVEN, row,Boolean.TRUE);
                         }
                     }
-                  //ContractUnits
-                  if ((pvsdto.isVarContractUnits())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.SIX];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.SEVEN];
+                    //ContractUnits
+                    if ((pvsdto.isVarContractUnits())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("ContractUnitsValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT_UNITS);
+                            customizePivot(StringConstantsUtil.CONTRACT_UNITS_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT_UNITS, NumericConstants.TEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("ContractUnitsVar", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT_UNITS);
+                            customizePivot(StringConstantsUtil.CONTRACT_UNITS_VAR, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT_UNITS, NumericConstants.TEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("ContractUnitsPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.CONTRACT_UNITS_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.TEN, row,Boolean.TRUE);
                         }
                     }
                     //DiscountSales
-                     if ((pvsdto.isVarDisRate())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.TEN];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.ELEVEN];
+                    if ((pvsdto.isVarDisRate())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("DiscountSalesValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.DISCOUNT_SALES_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.SIXTEEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("DiscountSalesVar", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.DISCOUNT_SALES_VAR, Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.SIXTEEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("DiscountSalesPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.DISCOUNT_SALES_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.SIXTEEN, row,Boolean.TRUE);
                         }
                     }
                     //DiscountAmount
-                     if ((pvsdto.isVarDisAmount())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.EIGHT];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.NINE];
+                    if ((pvsdto.isVarDisAmount())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("DiscountAmountValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.THIRTEEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("DiscountAmountVar", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_VAR, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.THIRTEEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("DiscountAmountPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.THIRTEEN, row,Boolean.TRUE);
                         }
                     }
-                   //RPU
-                     if ((pvsdto.isVarRPU())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FORTY];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_ONE];
+                    //RPU
+                    if ((pvsdto.isVarRPU())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("RPUValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.RPU_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FIFTY_FIVE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("RPUVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.RPU_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FIFTY_FIVE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("RPUPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.RPU_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FIFTY_FIVE, row,Boolean.TRUE);
                         }
                     }
-                     //DiscountPerExFactory
-                     if ((pvsdto.isDiscountPerExFactory())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.SIXTY];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.SIXTY_ONE];
+                    //DiscountPerExFactory
+                    if ((pvsdto.isDiscountPerExFactory())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("DiscountPerExFactoryValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.DISCOUNT_PER_EX_FACTORY_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINTY_ONE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("DiscountPerExFactoryVar", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.DISCOUNT_PER_EX_FACTORY_VAR, Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINTY_ONE, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("DiscountPerExFactoryPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.DISCOUNT_PER_EX_FACTORY_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINTY_ONE, row,Boolean.TRUE);
                         }
                     }
-                   //NetSales
-                     if ((pvsdto.isVarNetSales())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.TWENTY_SIX];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.TWENTY_SEVEN];
+                    //NetSales
+                    if ((pvsdto.isVarNetSales())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("NetSalesValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.NET_SALES_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FORTY, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("NetSalesVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.NET_SALES_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FORTY, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("NetSalesPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.NET_SALES_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FORTY, row,Boolean.TRUE);
                         }
                     }
-                     //Net Sales ExFactory Percentage
-                     if ((pvsdto.isNetSalesExFactory())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_EIGHT];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_NINE];
+                    //Net Sales ExFactory Percentage
+                    if ((pvsdto.isNetSalesExFactory())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("NetSalesExFactoryValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("NetSalesExFactoryValue", Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_EIGHT, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("NetSalesExFactoryVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("NetSalesExFactoryVariance", Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_EIGHT, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("NetSalesExFactoryPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot("NetSalesExFactoryPer", Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHTY_EIGHT, row,Boolean.TRUE);
                         }
                     }
+
+                    if (ConstantsUtil.DETAIL.equals(pvsdto.getLevel()) && (Constants.PRODUCT_LABEL.equals(pvsdto.getView()) || Constants.LabelConstants.CUSTOM.toString().equals(pvsdto.getView()))
+                            && P.equals(pvsdto.getHierarchyIndicator())) {
+                        /**
+                         * Net Ex-Factory Sales
+                         */
+                        if ((pvsdto.isNetExFactorySales())) {
+                            if (pvsdto.isColValue()) {
+                                customizePivot(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.NINTY_FOUR, row,Boolean.TRUE);
+                            }
+                            if (pvsdto.isColVariance()) {
+                                customizePivot(ConstantsUtil.NET_EXFACT_SALES_COLUMN_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.NINTY_FOUR, row,Boolean.TRUE);
+                            }
+                            if (pvsdto.isColPercentage()) {
+                                customizePivot(ConstantsUtil.NET_EXFACT_SALES_COLUMN_PER_CHANGE, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINTY_FOUR, row,Boolean.TRUE);
+                            }
+                        }
+                        /**
+                         * Net Ex-Factory Sales as % of Ex-Factory Sales
+                         */
+                        if ((pvsdto.isNetExFactorySalesPerExFactory())) {
+                            if (pvsdto.isColValue()) {
+                                customizePivot(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINTY_SEVEN, row,Boolean.TRUE);
+                            }
+                            if (pvsdto.isColVariance()) {
+                                customizePivot(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINTY_SEVEN, row,Boolean.TRUE);
+                            }
+                            if (pvsdto.isColPercentage()) {
+                                customizePivot(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT_COLUMN_PER_CHANGE, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.NINTY_SEVEN, row,Boolean.TRUE);
+                            }
+                        }
+                    }
+
                     //COGC
-                     if ((pvsdto.isVarCOGC())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FORTY_TWO];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_THREE];
+                    if ((pvsdto.isVarCOGC())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("COGCValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.COGC_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SIXTY_FOUR, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("COGCVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.COGC_VARIANCE, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SIXTY_FOUR, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("COGCPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.COGC_PER, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.SIXTY_FOUR, row,Boolean.TRUE);
                         }
                     }
                     //NetProfit
-                     if ((pvsdto.isVarNetProfit())) {
-                        actualValue = StringUtils.EMPTY + row[NumericConstants.FORTY_FOUR];
-                        currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_FIVE];
+                    if ((pvsdto.isVarNetProfit())) {
                         if (pvsdto.isColValue()) {
-                            customizePivot("NetProfitValue", Constants.VALUE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.NET_PROFIT_VALUE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SIXTY_SEVEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColVariance()) {
-                            customizePivot("NetProfitVariance", Constants.VARIANCE, currentValue, actualValue, pvsdto, projDTO, columnList,AMOUNT);
+                            customizePivot(StringConstantsUtil.NET_PROFIT_VARIANCE, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.SIXTY_SEVEN, row,Boolean.TRUE);
                         }
                         if (pvsdto.isColPercentage()) {
-                            customizePivot("NetProfitPer", Constants.CHANGE, currentValue, actualValue, pvsdto, projDTO, columnList,RATE);
+                            customizePivot(StringConstantsUtil.NET_PROFIT_PER, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.SIXTY_SEVEN, row,Boolean.TRUE);
                         }
-                    }
-                    for (int j = 0; j < priorProjGtsList.size(); j++) {
-                        String actualValueCurrent;
-                        //ExFac Product
-                        if (pvsdto.isVarExFacSales()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.TWO];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.THREE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.THREE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "ExFacValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "ExFacVariance" + priorProjGtsList.get(j);
-
-                                if (actualBasis) {
-                                    String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val);
-                                        columnList.remove(column);
-                                    }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, AMOUNT);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "ExFacPer" + priorProjGtsList.get(j);
-                                 if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //ExFac Customer
-                        if (pvsdto.isVarExFacCustomer()) {
-                             actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FORTY_EIGHT];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_NINE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FORTY_NINE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "CustExFacValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "CustExFacVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, AMOUNT);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "CustExFacPer" + priorProjGtsList.get(j);
-                               if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Demand
-                        if (pvsdto.isVarDemandSales()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.TWENTY_EIGHT];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.TWENTY_NINE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.TWENTY_NINE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "DemandSalesValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "DemandSalesVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, AMOUNT);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val);
-                                        columnList.remove(column);
-                                    }
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "DemandSalesPer" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                    String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        // Adjusted Demand
-                        if (pvsdto.isVarAdjDemand()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FORTY_SIX];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_SEVEN];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FORTY_SEVEN + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "AdjDemandValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "AdjDemandVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, AMOUNT);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val);
-                                        columnList.remove(column);
-                                    }
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "AdjDemandPer" + priorProjGtsList.get(j);
-                                 if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Inventory Summary
-                        if (pvsdto.isVarInvSales()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.THIRTY];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_ONE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_ONE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "InvWithValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "InvWithVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                    String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val);
-                                        columnList.remove(column);
-                                    }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, AMOUNT);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "InvWithPer" + priorProjGtsList.get(j);
-                                 if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Inventory Detials 
-                        if (pvsdto.isVarIwDetails()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FIFTY];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_ONE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_ONE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "InvWithDetailsValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "InvWithDetailsVariance" + priorProjGtsList.get(j);
-                               if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, AMOUNT);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val);
-                                        columnList.remove(column);
-                                    }
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "InvWithDetailsPer" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Percentage of Ex Fac Product
-                        if (pvsdto.isVarPerExFacSales()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.TWELVE];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.THIRTEEN];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.THIRTEEN + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "PerExFacValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerExFacVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val+ PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, RATE_PER);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val+ PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerExFacPer" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                    String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Percentage of Ex Fac customer
-                        if (pvsdto.isVarPerExFacCustomer()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FIFTY_FOUR];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_FIVE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_FIVE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "PerCustExFacValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerCustExFacVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                    String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, RATE_PER);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerCustExFacPer" + priorProjGtsList.get(j);
-                               if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Percentage of Demand
-                        if (pvsdto.isVarPerDemandSales()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.THIRTY_TWO];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_THREE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_THREE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "PerDemandSalesValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerDemandSalesVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, RATE_PER);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerDemandSalesPer" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                    String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Percentage of AdjDemand
-                        if (pvsdto.isVarPerAdjDemand()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FIFTY_TWO];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_THREE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_THREE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "PerAdjDemandValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerAdjDemandSalesVariance" + priorProjGtsList.get(j);
-                                 if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String val = getVariance(currentValue, priorValue, RATE_PER);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, val + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerAdjDemandSalesPer" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Percentage of Inv Summary
-                        if (pvsdto.isVarPerInvSales()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.THIRTY_FOUR];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_FIVE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.THIRTY_FIVE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "PerInvWithValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerInvWithVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerInvWithPer" + priorProjGtsList.get(j);
-                                 if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Percentage of Inv Details
-                        if (pvsdto.isVarPerIwDetails()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FIFTY_SIX];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_SEVEN];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_SEVEN + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "PerInvWithDetailsValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerInvWithDetailsVariance" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerInvWithDetailsPer" + priorProjGtsList.get(j);
-                                if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Contract Sales
-                        if (pvsdto.isVarContractsales()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FOUR];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FIVE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FIVE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "ContractSalesWACValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "ContractSalesWACVar" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "ContractSalesWACVarPer" + priorProjGtsList.get(j);
-                                   if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                        }
-                        }
-                        //Contract Units
-                        if (pvsdto.isVarContractUnits()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.SIX];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.SEVEN];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.SEVEN + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "ContractUnitsValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(AMOUNT_UNITS, priorValue);
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "ContractUnitsVar" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT_UNITS);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, AMOUNT_UNITS);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "ContractUnitsPer" + priorProjGtsList.get(j);
-                                   if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-
-                        //Discount Percentage
-                        if (pvsdto.isVarDisRate()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.TEN];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.ELEVEN];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.ELEVEN + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "DiscountSalesValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "DiscountSalesVar" + priorProjGtsList.get(j);
-                              
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "DiscountSalesPer" + priorProjGtsList.get(j);
-                              
-                                     if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        //Discount Dollar
-                        if (pvsdto.isVarDisAmount()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.EIGHT];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.NINE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.NINE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "DiscountAmountValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "DiscountAmountVar" + priorProjGtsList.get(j);
-                             
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "DiscountAmountPer" + priorProjGtsList.get(j);
-                              
-                                    if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                        }
-                        //RPU
-                        if (pvsdto.isVarRPU()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FORTY];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_ONE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FORTY_ONE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "RPUValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "RPUVariance" + priorProjGtsList.get(j);
-                              
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "RPUPer" + priorProjGtsList.get(j);
-                            
-                                    if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                        }
-                        //Netsales
-                        if (pvsdto.isVarNetSales()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.TWENTY_SIX];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.TWENTY_SEVEN];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.TWENTY_SEVEN + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "NetSalesValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "NetSalesVariance" + priorProjGtsList.get(j);
-                             
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "NetSalesPer" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                        }
-                        //COGC
-                        if (pvsdto.isVarCOGC()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FORTY_TWO];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_THREE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FORTY_THREE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "COGCValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "COGCVariance" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "COGCPer" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                        }
-                        //Net Profite
-                        if (pvsdto.isVarNetProfit()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FORTY_FOUR];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FORTY_FIVE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FORTY_FIVE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "NetProfitValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "NetProfitVariance" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, AMOUNT);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val);
-                                            columnList.remove(column);
-                                        }
-                                    }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "NetProfitPer" + priorProjGtsList.get(j);
-                               
-                                    if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        
-                         //NetSalesExValue
-                        if (pvsdto.isNetSalesExFactory()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.FIFTY_EIGHT];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_NINE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.FIFTY_NINE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "NetSalesExFactoryValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "NetSalesExFactoryVariance" + priorProjGtsList.get(j);
-                            
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "NetSalesExFactoryPer" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        
-                           //DiscountPerExFactory
-                        if (pvsdto.isDiscountPerExFactory()) {
-                            actualValueCurrent = StringUtils.EMPTY + row[NumericConstants.SIXTY];
-                            currentValue = StringUtils.EMPTY + row[NumericConstants.SIXTY_ONE];
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.SIXTY_ONE + ((j + 1) * prPos)];
-                            if (pvsdto.isColValue()) {
-                                column = "DiscountPerExFactoryValue" + priorProjGtsList.get(j);
-                                if (pvsdto.hasColumn(column)) {
-                                    String baseValue = getFormattedValue(RATE_PER, priorValue);
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "DiscountPerExFactoryVar" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValueCurrent, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    } else {
-                                        String val = getVariance(currentValue, priorValue, RATE_PER);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, val + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "DiscountPerExFactoryPer" + priorProjGtsList.get(j);
-                                    if (actualBasis) {
-                                        String baseValu = getPerChange(actualValueCurrent, priorValue, RATE);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValu + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorValue, RATE);
-                                    if (pvsdto.hasColumn(column)) {
-                                        projDTO.addStringProperties(column, baseValu + PERCENT);
-                                        columnList.remove(column);
-                                    }
-                                }
-                            }
-                        }
-                        
                     }
                     if (!pvsdto.getDiscountLevel().equals(TOTAL_DISCOUNT.getConstant())) {
 
                         // Individual discount level
-                        Set<String> noOfDiscount = new HashSet<String>();
+                        Set<String> noOfDiscount = new HashSet<>();
                         for (Object discountsName : totalDiscount) {
                             final Object[] disc = (Object[]) discountsName;
                             if (disc[NumericConstants.TWO] != null) {
@@ -2906,403 +1853,54 @@ public class ProjectionVarianceLogic {
                                     String disName = String.valueOf(discountRow[NumericConstants.TWO]);
 
                                     String head = disName.replace(" ", StringUtils.EMPTY) + discountNames.indexOf(disName);
-                                    
-                                    
+
                                     if ((pvsdto.isVarDisAmount())) {
-                                        actualValue = StringUtils.EMPTY + discountRow[NumericConstants.THREE];
-                                        currentValue = StringUtils.EMPTY + discountRow[NumericConstants.FOUR];
-                                        if ((pvsdto.isColValue())) {
-                                            //Actual
-                                            columnAct = "DiscountAmountValue" + head + ACTUAL + pvsdto.getCurrentProjId();
-                                            String baseValueAct = getFormattedValue(AMOUNT, actualValue);
-                                                if (pvsdto.hasColumn(columnAct)) {
-                                                    projDTO.addStringProperties(columnAct, baseValueAct);
-                                                    columnList.remove(columnAct);
-                                                }
-                                            //Current
-                                            column = "DiscountAmountValue" + head + CURRENT + pvsdto.getCurrentProjId();
-                                            baseValueAct = getFormattedValue(AMOUNT, currentValue);
-                                            if (pvsdto.hasColumn(column)) {
-                                                projDTO.addStringProperties(column, baseValueAct);
-                                                columnList.remove(column);
-                                            }
-
+                                        if (pvsdto.isColValue()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_VALUE + head, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FIVE, discountRow,Boolean.FALSE);
                                         }
-                                        
-
-                                        if (actualBasis) {
-                                                if ((pvsdto.isColVariance())) {
-                                                    column = "DiscountAmountVar" + head + CURRENT + pvsdto.getCurrentProjId();
-                                                    //  for CURRENT
-                                                    String val = getVariance(actualValue, currentValue, AMOUNT);
-                                                    if (pvsdto.hasColumn(column)) {
-                                                        projDTO.addStringProperties(column, val);
-                                                        columnList.remove(column);
-                                                    }
-
-                                                }
-                                                if ((pvsdto.isColPercentage())) {
-                                                    column = "DiscountAmountPer" + head + CURRENT + pvsdto.getCurrentProjId();
-                                                    //for CURRENT
-                                                    String val = getPerChange(actualValue, currentValue, RATE);
-                                                    if (pvsdto.hasColumn(column)) {
-                                                        projDTO.addStringProperties(column, val + PERCENT);
-                                                        columnList.remove(column);
-                                                    }
-                                                }
+                                        if (pvsdto.isColVariance()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_VAR + head, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FIVE, discountRow,Boolean.FALSE);
+                                        }
+                                        if (pvsdto.isColPercentage()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_PER + head, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FIVE, discountRow,Boolean.FALSE);
                                         }
                                     }
                                     if ((pvsdto.isVarDisRate())) {
-                                        actualValue = StringUtils.EMPTY + discountRow[NumericConstants.FIVE];
-                                        currentValue = StringUtils.EMPTY + discountRow[NumericConstants.SIX];
-                                        if ((pvsdto.isColValue())) {
-                                            //Actual
-                                            columnAct = "DiscountSalesValue" + head + ACTUAL + pvsdto.getCurrentProjId();
-                                            String baseValueAct = getFormattedValue(RATE, actualValue);
-                                                if (pvsdto.hasColumn(columnAct)) {
-                                                    projDTO.addStringProperties(columnAct, baseValueAct + PERCENT);
-                                                    columnList.remove(columnAct);
-                                                }
-                                            //Current
-                                            column = "DiscountSalesValue" + head + CURRENT + pvsdto.getCurrentProjId();
-                                            baseValueAct = getFormattedValue(RATE, currentValue);
-                                            if (pvsdto.hasColumn(column)) {
-                                                projDTO.addStringProperties(column, baseValueAct + PERCENT);
-                                                columnList.remove(column);
-                                            }
-
+                                        if (pvsdto.isColValue()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_SALES_VALUE + head, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHT, discountRow,Boolean.FALSE);
                                         }
-
-                                        if (actualBasis) {
-                                                if ((pvsdto.isColVariance())) {
-                                                    column = "DiscountSalesVar" + head + CURRENT + pvsdto.getCurrentProjId();
-                                                    //  for CURRENT
-                                                    String val = getVariance(actualValue, currentValue, RATE);
-                                                    if (pvsdto.hasColumn(column)) {
-                                                        projDTO.addStringProperties(column, val + PERCENT);
-                                                        columnList.remove(column);
-                                                    }
-
-                                                }
-                                                if ((pvsdto.isColPercentage())) {
-                                                    column = "DiscountSalesPer" + head + CURRENT + pvsdto.getCurrentProjId();
-                                                    //for CURRENT
-                                                    String val = getPerChange(actualValue, currentValue, RATE);
-                                                    if (pvsdto.hasColumn(column)) {
-                                                        projDTO.addStringProperties(column, val + PERCENT);
-                                                        columnList.remove(column);
-                                                    }
-                                                }
+                                        if (pvsdto.isColVariance()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_SALES_VAR + head, Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHT, discountRow,Boolean.FALSE);
+                                        }
+                                        if (pvsdto.isColPercentage()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_SALES_PER + head, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHT, discountRow,Boolean.FALSE);
                                         }
                                     }
-                                    
+
                                     if ((pvsdto.isVarRPU())) {
-                                        actualValue = StringUtils.EMPTY + discountRow[NumericConstants.SEVEN];
-                                        currentValue = StringUtils.EMPTY + discountRow[NumericConstants.EIGHT];
-                                        if ((pvsdto.isColValue())) {
-                                            //Actual
-                                            columnAct = "RPUValue" + head + ACTUAL + pvsdto.getCurrentProjId();
-                                            String baseValueAct = getFormattedValue(AMOUNT, actualValue);
-                                                if (pvsdto.hasColumn(columnAct)) {
-                                                    projDTO.addStringProperties(columnAct, baseValueAct);
-                                                    columnList.remove(columnAct);
-                                                }
-                                            //Current
-                                            column = "RPUValue" + head + CURRENT + pvsdto.getCurrentProjId();
-                                            baseValueAct = getFormattedValue(AMOUNT, currentValue);
-                                            if (pvsdto.hasColumn(column)) {
-                                                projDTO.addStringProperties(column, baseValueAct);
-                                                columnList.remove(column);
-                                            }
-
+                                        if (pvsdto.isColValue()) {
+                                            customizePivot(StringConstantsUtil.RPU_VALUE + head, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.ELEVEN, discountRow,Boolean.FALSE);
                                         }
-
-                                        if (actualBasis) {
-                                                if ((pvsdto.isColVariance())) {
-                                                    column = "RPUVariance" + head + CURRENT + pvsdto.getCurrentProjId();
-                                                    //  for CURRENT
-                                                    String val = getVariance(actualValue, currentValue, AMOUNT);
-                                                    if (pvsdto.hasColumn(column)) {
-                                                        projDTO.addStringProperties(column, val);
-                                                        columnList.remove(column);
-                                                    }
-
-                                                }
-                                                if ((pvsdto.isColPercentage())) {
-                                                    column = "RPUPer" + head + CURRENT + pvsdto.getCurrentProjId();
-                                                    //for CURRENT
-                                                    String val = getPerChange(actualValue, currentValue, RATE);
-                                                    if (pvsdto.hasColumn(column)) {
-                                                        projDTO.addStringProperties(column, val + PERCENT);
-                                                        columnList.remove(column);
-                                                    }
-                                                }
+                                        if (pvsdto.isColVariance()) {
+                                            customizePivot(StringConstantsUtil.RPU_VARIANCE + head, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.ELEVEN, discountRow,Boolean.FALSE);
+                                        }
+                                        if (pvsdto.isColPercentage()) {
+                                            customizePivot(StringConstantsUtil.RPU_PER + head, Constants.CHANGE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.ELEVEN, discountRow,Boolean.FALSE);
                                         }
                                     }
                                     //discount per of exfactory
-                                     if ((pvsdto.isDiscountPerExFactory())) {
-                                        actualValue = StringUtils.EMPTY + discountRow[NumericConstants.NINE];
-                                        currentValue = StringUtils.EMPTY + discountRow[NumericConstants.TEN];
-                                        if ((pvsdto.isColValue())) {
-                                            //Actual
-                                            columnAct = "DiscountPerExFactoryValue" + head + ACTUAL + pvsdto.getCurrentProjId();
-                                            String baseValueAct = getFormattedValue(RATE, actualValue);
-                                                if (pvsdto.hasColumn(columnAct)) {
-                                                    projDTO.addStringProperties(columnAct, baseValueAct + PERCENT);
-                                                    columnList.remove(columnAct);
-                                                }
-                                            //Current
-                                            column = "DiscountPerExFactoryValue" + head + CURRENT + pvsdto.getCurrentProjId();
-                                            baseValueAct = getFormattedValue(RATE, currentValue);
-                                            if (pvsdto.hasColumn(column)) {
-                                                projDTO.addStringProperties(column, baseValueAct + PERCENT);
-                                                columnList.remove(column);
-                                            }
-
+                                    if ((pvsdto.isDiscountPerExFactory())) {
+                                        if (pvsdto.isColValue()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_PER_EX_FACTORY_VALUE + head, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.FOURTEEN, discountRow,Boolean.FALSE);
                                         }
-
-                                        if (actualBasis) {
-                                                if ((pvsdto.isColVariance())) {
-                                                    column = "DiscountPerExFactoryVar" + head + CURRENT + pvsdto.getCurrentProjId();
-                                                    //  for CURRENT
-                                                    String val = getVariance(actualValue, currentValue, RATE);
-                                                    if (pvsdto.hasColumn(column)) {
-                                                        projDTO.addStringProperties(column, val + PERCENT);
-                                                        columnList.remove(column);
-                                                    }
-
-                                                }
-                                                if ((pvsdto.isColPercentage())) {
-                                                    column = "DiscountPerExFactoryPer" + head + CURRENT + pvsdto.getCurrentProjId();
-                                                    //for CURRENT
-                                                    String val = getPerChange(actualValue, currentValue, RATE);
-                                                    if (pvsdto.hasColumn(column)) {
-                                                        projDTO.addStringProperties(column, val + PERCENT);
-                                                        columnList.remove(column);
-                                                    }
-                                                }
+                                        if (pvsdto.isColVariance()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_PER_EX_FACTORY_VAR + head, Constants.VARIANCE, pvsdto, projDTO, columnList, RATE, NumericConstants.FOURTEEN, discountRow,Boolean.FALSE);
                                         }
-                                    }
-                                    for (int k = 0; k < priorProjGtsList.size(); k++) {
-                                        //Discount Percentage
-                                        if (pvsdto.isVarDisRate()) {
-                                            singleColumn[0] = "DiscountSalesValue" + head + priorProjGtsList.get(k);
-                                            singleColumn[1] = "DiscountSalesVar" + head + priorProjGtsList.get(k);
-                                            singleColumn[NumericConstants.TWO] = "DiscountSalesPer" + head + priorProjGtsList.get(k);
-                                            getPivotCommonCustomization(pvsdto, discountRow, projDTO, singleColumn, NumericConstants.SIX, k, NumericConstants.EIGHT, columnList, Boolean.TRUE);
-                                        }
-
-                                        //Discount Dollor
-                                        if (pvsdto.isVarDisAmount()) {
-                                            singleColumn[0] = "DiscountAmountValue" + head + priorProjGtsList.get(k);
-                                            singleColumn[1] = "DiscountAmountVar" + head + priorProjGtsList.get(k);
-                                            singleColumn[NumericConstants.TWO] = "DiscountAmountPer" + head + priorProjGtsList.get(k);
-                                            getPivotCommonCustomization(pvsdto, discountRow, projDTO, singleColumn, NumericConstants.FOUR, k, NumericConstants.EIGHT, columnList, Boolean.FALSE);
-                                        }
-                                        //RPU
-                                        if (pvsdto.isVarRPU()) {
-                                            singleColumn[0] = "RPUValue" + head + priorProjGtsList.get(k);
-                                            singleColumn[1] = "RPUVariance" + head + priorProjGtsList.get(k);
-                                            singleColumn[NumericConstants.TWO] = "RPUPer" + head + priorProjGtsList.get(k);
-                                            getPivotCommonCustomization(pvsdto, discountRow, projDTO, singleColumn, NumericConstants.EIGHT, k, NumericConstants.EIGHT, columnList, Boolean.FALSE);
-                                        }
-                                        //Discount Per Exfactory
-                                        if (pvsdto.isDiscountPerExFactory()) {
-                                            singleColumn[0] = "DiscountPerExFactoryValue" + head + priorProjGtsList.get(k);
-                                            singleColumn[1] = "DiscountPerExFactoryVar" + head + priorProjGtsList.get(k);
-                                            singleColumn[NumericConstants.TWO] = "DiscountPerExFactoryPer" + head + priorProjGtsList.get(k);
-                                            getPivotCommonCustomization(pvsdto, discountRow, projDTO, singleColumn, NumericConstants.TEN, k, NumericConstants.EIGHT, columnList, Boolean.TRUE);
+                                        if (pvsdto.isColPercentage()) {
+                                            customizePivot(StringConstantsUtil.DISCOUNT_PER_EX_FACTORY_PER + head, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FOURTEEN, discountRow,Boolean.FALSE);
                                         }
                                     }
                                 }
-                            }
-                        }
-
-                        // PPA Total Discount $
-                        if (pvsdto.isColValue()) {
-                            column = "DiscountAmountValuePPA" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.EIGHT], "Amount");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        // PPA Total Discount %
-                        if (pvsdto.isColValue()) {
-                            column = "DiscountSalesValuePPA" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.NINE], "Rate");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        // Mandated Total Discount %
-                        if (pvsdto.isColValue()) {
-                            column = "DiscountSalesValueMANDATED" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.TWELVE], "Rate");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        // Supplemental Total Discount %
-                        if (pvsdto.isColValue()) {
-                            column = "DiscountSalesValueSUPPLEMENTAL" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.THIRTEEN], "Rate");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                            }
-                        }
-                        // PPA Total Discount RPU
-                        if (pvsdto.isColValue()) {
-                            column = "RPUValuePPA" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.TWENTY_ONE], "Amount");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        // Returns Total Discount $
-                        if (pvsdto.isColValue()) {
-                            column = "DiscountAmountValueReturns" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.FIFTEEN], "Amount");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        // Returns Total Discount %
-                        if (pvsdto.isColValue()) {
-                            column = "DiscountSalesValueReturns" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.TWENTY_FIVE], "Rate");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        // Returns Total Discount RPU
-                        if (pvsdto.isColValue()) {
-                            column = "RPUValueReturns" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.TWENTY_SIX], "Amount");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        // Mandated Total Discount $
-                        if (pvsdto.isColValue()) {
-                            column = "DiscountAmountValueMANDATED" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.TEN], "Amount");
-                            if (pvsdto.hasColumn(column)) {
-                                if (baseValue.equals(StringUtils.EMPTY)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                } else {
-                                    projDTO.addStringProperties(column, baseValue);
-                                }
-                                columnList.remove(column);
-                            }
-                        }
-                        // Supplemental Total Discount $
-                        if (pvsdto.isColValue()) {
-                            column = "DiscountAmountValueSUPPLEMENTAL" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.ELEVEN], "Amount");
-                            if (pvsdto.hasColumn(column)) {
-                                if (baseValue.equals(StringUtils.EMPTY)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                } else {
-                                    projDTO.addStringProperties(column, baseValue);
-                                }
-                                columnList.remove(column);
-                            }
-                        }
-                        // MANDATED Total Discount $
-                        if (pvsdto.isColValue()) {
-                            column = "RPUValueMANDATED" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.NINE], "Rate");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        // Supplemental Total Discount $
-                        if (pvsdto.isColValue()) {
-                            column = "RPUValueSUPPLEMENTAL" + CURRENT + pvsdto.getCurrentProjId();
-                            String baseValue = getCellValue(row[NumericConstants.NINE], "Rate");
-                            if (pvsdto.hasColumn(column)) {
-                                projDTO.addStringProperties(column, baseValue);
-                                columnList.remove(column);
-                            }
-                        }
-                        for (int j = 0; j < priorProjGtsList.size(); j++) {
-                            //Discount Percentage
-                            if (pvsdto.isVarDisRate()) {
-                                //PPA
-                                singleColumn[0] = "DiscountSalesValuePPA" + priorProjGtsList.get(j);
-                                singleColumn[1] = "DiscountSalesVarPPA" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "DiscountSalesPerPPA" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.EIGHT, j, prPos, columnList, Boolean.TRUE);
-                                //Returns
-                                singleColumn[0] = "DiscountSalesValueReturns" + priorProjGtsList.get(j);
-                                singleColumn[1] = "DiscountSalesVarReturns" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "DiscountSalesPerReturns" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.TWENTY_FIVE, j, prPos, columnList, Boolean.TRUE);
-                                //Mandated
-                                singleColumn[0] = "DiscountSalesValueMANDATED" + priorProjGtsList.get(j);
-                                singleColumn[1] = "DiscountSalesVarMANDATED" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "DiscountSalesPerMANDATED" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.TWELVE, j, prPos, columnList, Boolean.TRUE);
-                                //Supplemental
-                                singleColumn[0] = "DiscountSalesValueSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                singleColumn[1] = "DiscountSalesVarSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "DiscountSalesPerSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.THIRTEEN, j, prPos, columnList, Boolean.TRUE);
-                            }
-                            //Discount Dollar
-                            if (pvsdto.isVarDisAmount()) {
-                                //PPA
-                                singleColumn[0] = "DiscountAmountValuePPA" + priorProjGtsList.get(j);
-                                singleColumn[1] = "DiscountAmountVarPPA" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "DiscountAmountPerPPA" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.NINE, j, prPos, columnList, Boolean.FALSE);
-                                //Returns
-                                singleColumn[0] = "DiscountAmountValueReturns" + priorProjGtsList.get(j);
-                                singleColumn[1] = "DiscountAmountVarReturns" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "DiscountAmountPerReturns" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.FIFTEEN, j, prPos, columnList, Boolean.FALSE);
-                                //Mandated
-                                singleColumn[0] = "DiscountAmountValueMANDATED" + priorProjGtsList.get(j);
-                                singleColumn[1] = "DiscountAmountVarMANDATED" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "DiscountAmountPerMANDATED" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.TEN, j, prPos, columnList, Boolean.FALSE);
-                                //Supplemental
-                                singleColumn[0] = "DiscountAmountValueSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                singleColumn[1] = "DiscountAmountVarSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "DiscountAmountPerSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.ELEVEN, j, prPos, columnList, Boolean.FALSE);
-                            }
-                            //RPU
-                            if (pvsdto.isVarRPU()) {
-                                //PPA
-                                singleColumn[0] = "RPUValuePPA" + priorProjGtsList.get(j);
-                                singleColumn[1] = "RPUVariancePPA" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "RPUPerPPA" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.NINETEEN, j, prPos, columnList, Boolean.FALSE);
-                                //Returns
-                                singleColumn[0] = "RPUValueReturns" + priorProjGtsList.get(j);
-                                singleColumn[1] = "RPUVarianceReturns" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "RPUPerReturns" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.TWENTY_SIX, j, prPos, columnList, Boolean.FALSE);
-                                //Mandated
-                                singleColumn[0] = "RPUValueMANDATED" + priorProjGtsList.get(j);
-                                singleColumn[1] = "RPUVarianceMANDATED" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "RPUPerMANDATED" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.NINETEEN, j, prPos, columnList, Boolean.FALSE);
-                                //Supplemental
-                                singleColumn[0] = "RPUValueSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                singleColumn[1] = "RPUVarianceSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                singleColumn[NumericConstants.TWO] = "RPUPerSUPPLEMENTAL" + priorProjGtsList.get(j);
-                                getPivotCommonCustomization(pvsdto, row, projDTO, singleColumn, NumericConstants.TWENTY_FIVE, j, prPos, columnList, Boolean.FALSE);
-
                             }
                         }
                     }
@@ -3310,8 +1908,9 @@ public class ProjectionVarianceLogic {
                 }
             }
         }
-        List<String> columnList = new ArrayList<String>(pvsdto.getColumns());
-        columnList.remove("group");
+
+        List<String> columnList = new ArrayList<>(pvsdto.getColumns());
+        columnList.remove(StringConstantsUtil.GROUP_PROPERTY);
         boolean leftFlag = false;
         for (String ob : periodList) {
             leftFlag = true;
@@ -3358,7 +1957,7 @@ public class ProjectionVarianceLogic {
      */
     private void getPivotCommonCustomization(PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String[] columns, int index, int priorIndex, int column, List columnList, final Boolean isPer) {
         String visibleColumn = "";
-        boolean actualBasis = "Actuals".equalsIgnoreCase(pvsdto.getComparisonBasis());
+        boolean actualBasis = StringConstantsUtil.ACTUALS1.equalsIgnoreCase(pvsdto.getComparisonBasis());
         if (pvsdto.isColValue()) {
             if (row[index + ((priorIndex + 1) * column)] == null) {
                 visibleColumn = columns[0];
@@ -3437,1224 +2036,14 @@ public class ProjectionVarianceLogic {
             }
         }
     }
-
-    public List<ProjectionVarianceDTO> getCustomizedPivotDetailResults(final List gtsList, final List results, List discountList, List<String> discountName, ProjectionVarianceDTO parentDto, List<Integer> priorProjGtsList, PVSelectionDTO pvsdto) {
-        List<String> periodList = new ArrayList<String>(pvsdto.getPeriodList());
-        Map<String, String> periodListMap = new HashMap<String, String>(pvsdto.getPeriodListMap());
-        List<ProjectionVarianceDTO> projDTOList = new ArrayList<ProjectionVarianceDTO>();
-        boolean isGts = false;
-        int frequencyDivision = pvsdto.getFrequencyDivision();
-        if (results != null && !results.isEmpty() && !gtsList.isEmpty()) {
-            for (int i = 0; i < results.size(); i++) {
-                final Object[] row = (Object[]) results.get(i);
-                final Object[] gtsRow = (Object[]) gtsList.get(i);
-                int year = Integer.valueOf(String.valueOf(row[0]));
-                int period = row[1] != null ? Integer.valueOf(String.valueOf(row[1])) : 0;
-                List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, year, period);
-                String pcommonColumn = common.get(0);
-                String commonHeader = common.get(1);
-                String column = "";
-                if (gtsList.size() >= results.size() && gtsRow.length >= row.length) {
-                    isGts = true;
-                }
-                if (periodList.contains(pcommonColumn)) {
-                    periodList.remove(pcommonColumn);
-                    List<String> columnList = new ArrayList<String>(pvsdto.getColumns());
-                    columnList.remove("group");
-                    ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
-                    projDTO.setGroup(commonHeader);
-                    if (pvsdto.isVarExFacSales() && pvsdto.isColValue()) {
-                        column = "ExFacValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentGts = NULL.getConstant();
-                        if (isGts) {
-                            currentGts = String.valueOf(gtsRow[NumericConstants.TWO]);
-                        }
-                        String baseValue = getFormattedValue(AMOUNT, currentGts);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarDemandSales() && pvsdto.isColValue()) {
-                        column = "DemandSalesValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentGts = NULL.getConstant();
-                        if (isGts) {
-                            currentGts = String.valueOf(gtsRow[NumericConstants.THREE]);
-                        }
-                        String baseValue = getFormattedValue(AMOUNT, currentGts);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarInvSales() && pvsdto.isColValue()) {
-                        column = "InvWithValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentGts = NULL.getConstant();
-                        if (isGts) {
-                            currentGts = String.valueOf(gtsRow[NumericConstants.FOUR]);
-                        }
-                        String baseValue = getFormattedValue(AMOUNT, currentGts);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarPerExFacSales() && pvsdto.isColValue()) {
-                        column = "PerExFacValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentPob = NULL.getConstant();
-                        if (isGts) {
-                            currentPob = String.valueOf(gtsRow[NumericConstants.FIVE]);
-                        }
-                        String baseValue = getFormattedValue(RATE, currentPob);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarPerDemandSales() && pvsdto.isColValue()) {
-                        column = "PerDemandSalesValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentPob = NULL.getConstant();
-                        if (isGts) {
-                            currentPob = String.valueOf(gtsRow[NumericConstants.SIX]);
-                        }
-                        String baseValue = getFormattedValue(RATE, currentPob);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarPerInvSales() && pvsdto.isColValue()) {
-                        column = "PerInvWithValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentPob = NULL.getConstant();
-                        if (isGts) {
-                            currentPob = String.valueOf(gtsRow[NumericConstants.SEVEN]);
-                        }
-                        String baseValue = getFormattedValue(RATE, currentPob);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarContractsales() && pvsdto.isColValue()) {
-                        column = "ContractSalesWACValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentSales = StringUtils.EMPTY + row[NumericConstants.TWO];
-                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarContractUnits() && pvsdto.isColValue()) {
-                        column = "ContractUnitsValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentSales = StringUtils.EMPTY + row[NumericConstants.THREE];
-                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarDisRate() && pvsdto.isColValue()) {
-                        column = "DiscountSalesValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentSales = StringUtils.EMPTY + row[NumericConstants.FOUR];
-                        String baseValue = getFormattedValue(RATE, currentSales);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue + PERCENT);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarDisAmount() && pvsdto.isColValue()) {
-                        column = "DiscountAmountValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentSales = StringUtils.EMPTY + row[NumericConstants.FIVE];
-                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarRPU() && pvsdto.isColValue()) {
-                        column = "RPUValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentSales = StringUtils.EMPTY + row[NumericConstants.SEVEN];
-                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarNetSales() && pvsdto.isColValue()) {
-                        column = "NetSalesValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentSales = StringUtils.EMPTY + row[NumericConstants.SIX];
-                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarCOGC() && pvsdto.isColValue()) {
-                        column = "COGCValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentSales = StringUtils.EMPTY + row[NumericConstants.EIGHT];
-                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (pvsdto.isVarNetProfit() && pvsdto.isColValue()) {
-                        column = "NetProfitValue" + CURRENT + pvsdto.getCurrentProjId();
-                        String currentSales = StringUtils.EMPTY + row[NumericConstants.NINE];
-                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, baseValue);
-                            columnList.remove(column);
-                        }
-                    }
-                    for (int j = 0; j < priorProjGtsList.size(); j++) {
-                        //Ex Fact
-                        if (pvsdto.isVarExFacSales()) {
-                            String value1 = NULL.getConstant();
-                            if (isGts) {
-                                value1 = String.valueOf(gtsRow[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                            }
-                            if (pvsdto.isColValue()) {
-                                column = "ExFacValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "ExFacVariance" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "ExFacPer" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        } //Demand Sales
-                        if (pvsdto.isVarDemandSales()) {
-                            String value1 = NULL.getConstant();
-                            if (isGts) {
-                                value1 = String.valueOf(gtsRow[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                            }
-                            if (pvsdto.isColValue()) {
-                                column = "DemandSalesValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "DemandSalesVariance" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "DemandSalesPer" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        } //Inv Sales
-                        if (pvsdto.isVarInvSales()) {
-                            String value1 = NULL.getConstant();
-                            if (isGts) {
-                                value1 = String.valueOf(gtsRow[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                            }
-                            if (pvsdto.isColValue()) {
-                                column = "InvWithValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "InvWithVariance" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "InvWithPer" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-                        //Percentage of Ex Factory Sales
-                        if (pvsdto.isVarPerExFacSales()) {
-                            String value1 = NULL.getConstant();
-                            if (isGts) {
-                                value1 = String.valueOf(gtsRow[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                            }
-                            if (pvsdto.isColValue()) {
-                                column = "PerExFacValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerExFacVariance" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(RATE, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerExFacPer" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-                        //Percentage of Ex Demad Sales
-                        if (pvsdto.isVarPerDemandSales()) {
-                            String value1 = NULL.getConstant();
-                            if (isGts) {
-                                value1 = String.valueOf(gtsRow[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                            }
-                            if (pvsdto.isColValue()) {
-                                column = "PerDemandSalesValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerDemandSalesVariance" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(RATE, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerDemandSalesPer" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-                        //Percentage of Inv
-                        if (pvsdto.isVarPerInvSales()) {
-                            String value1 = NULL.getConstant();
-                            if (isGts) {
-                                value1 = String.valueOf(gtsRow[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                            }
-                            if (pvsdto.isColValue()) {
-                                column = "PerInvWithValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "PerInvWithVariance" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(RATE, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "PerInvWithPer" + priorProjGtsList.get(j);
-                                String priorVal = NULL.getConstant();
-                                if (isGts) {
-                                    priorVal = String.valueOf(gtsRow[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY_ONE)]);
-                                }
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-                        //Contract Sales
-                        if (pvsdto.isVarContractsales()) {
-                            String priorValue = StringUtils.EMPTY + row[NumericConstants.TWO + ((j + 1) * NumericConstants.EIGHT)];
-                            if (pvsdto.isColValue()) {
-                                column = "ContractSalesWACValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, priorValue);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "ContractSalesWACVar" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.TWO + ((j + 1) * NumericConstants.EIGHT)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "ContractSalesWACVarPer" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.TWO + ((j + 1) * NumericConstants.EIGHT)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-
-                        //Contract Units
-                        if (pvsdto.isVarContractUnits()) {
-                            String value1 = StringUtils.EMPTY + row[NumericConstants.THREE + ((j + 1) * NumericConstants.EIGHT)];
-                            if (pvsdto.isColValue()) {
-                                column = "ContractUnitsValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "ContractUnitsVar" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.THREE + ((j + 1) * NumericConstants.EIGHT)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "ContractUnitsPer" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.THREE + ((j + 1) * NumericConstants.EIGHT)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-
-                        //Discount Dollor
-                        if (pvsdto.isVarDisRate()) {
-                            String value1 = StringUtils.EMPTY + row[NumericConstants.FOUR + ((j + 1) * NumericConstants.EIGHT)];
-                            if (pvsdto.isColValue()) {
-                                column = "DiscountSalesValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(RATE, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "DiscountSalesVar" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.FOUR + ((j + 1) * NumericConstants.EIGHT)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(RATE, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "DiscountSalesPer" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.FOUR + ((j + 1) * NumericConstants.EIGHT)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-                        //Discount percentage
-                        if (pvsdto.isVarDisAmount()) {
-                            String value1 = StringUtils.EMPTY + row[NumericConstants.FIVE + ((j + 1) * NumericConstants.EIGHT)];
-                            if (pvsdto.isColValue()) {
-                                column = "DiscountAmountValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "DiscountAmountVar" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.FIVE + ((j + 1) * NumericConstants.EIGHT)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "DiscountAmountPer" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.FIVE + ((j + 1) * NumericConstants.EIGHT)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                    columnList.remove(column);
-                                }
-                            }
-                        } //RPU
-                        if (pvsdto.isVarRPU()) {
-                            String value1 = StringUtils.EMPTY + row[NumericConstants.SEVEN + ((j + 1) * NumericConstants.EIGHT)];
-                            if (pvsdto.isColValue()) {
-                                column = "RPUValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "RPUVariance" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.SEVEN + ((j + 1) * NumericConstants.EIGHT)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "RPUPer" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.SEVEN + ((j + 1) * NumericConstants.EIGHT)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-                        //Netsales
-                        if (pvsdto.isVarNetSales()) {
-                            String value1 = StringUtils.EMPTY + row[NumericConstants.SIX + ((j + 1) * NumericConstants.EIGHT)];
-                            if (pvsdto.isColValue()) {
-                                column = "NetSalesValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "NetSalesVariance" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.SIX + ((j + 1) * NumericConstants.EIGHT)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "NetSalesPer" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.SIX + ((j + 1) * NumericConstants.EIGHT)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        } //COGC
-                        if (pvsdto.isVarCOGC()) {
-                            String value1 = StringUtils.EMPTY + row[NumericConstants.EIGHT + ((j + 1) * NumericConstants.EIGHT)];
-                            if (pvsdto.isColValue()) {
-                                column = "COGCValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "COGCVariance" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.EIGHT + ((j + 1) * NumericConstants.EIGHT)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "COGCPer" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.EIGHT + ((j + 1) * NumericConstants.EIGHT)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        } //Net Profit
-                        if (pvsdto.isVarNetProfit()) {
-                            String value1 = StringUtils.EMPTY + row[NumericConstants.NINE + ((j + 1) * NumericConstants.EIGHT)];
-                            if (pvsdto.isColValue()) {
-                                column = "NetProfitValue" + priorProjGtsList.get(j);
-                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                            if (pvsdto.isColVariance()) {
-                                column = "NetProfitVariance" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.NINE + ((j + 1) * NumericConstants.EIGHT)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.valueOf(isNull(priorVal)));
-                                String baseValue = getFormattedValue(AMOUNT, variance);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-
-                            }
-                            if (pvsdto.isColPercentage()) {
-                                column = "NetProfitPer" + priorProjGtsList.get(j);
-                                String priorVal = StringUtils.EMPTY + row[NumericConstants.NINE + ((j + 1) * NumericConstants.EIGHT)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                                if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                    perChange = 0.0;
-                                }
-                                String change = String.valueOf(perChange);
-                                String baseValue = getFormattedValue(RATE, change);
-                                if (pvsdto.hasColumn(column)) {
-                                    projDTO.addStringProperties(column, baseValue);
-                                    columnList.remove(column);
-                                }
-                            }
-                        }
-                    }
-                    if (!pvsdto.getDiscountLevel().equals(TOTAL_DISCOUNT.getConstant())) {
-                        Set<String> noOfDiscount = new HashSet<String>();
-                        for (Object discountsName : discountList) {
-                            final Object[] disc = (Object[]) discountsName;
-                            if (disc[NumericConstants.TWO] != null) {
-                                noOfDiscount.add(String.valueOf(disc[NumericConstants.TWO]));
-                            }
-                        }
-                        for (int j = 0; j < discountList.size(); j++) {
-                            Object[] discountRow = (Object[]) discountList.get(j);
-                            int dyear = Integer.valueOf(String.valueOf(discountRow[0]));
-                            int dperiod = Integer.valueOf(String.valueOf(discountRow[1]));
-                            List<String> dcommon = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, dyear, dperiod);
-                            String dcommonColumn = dcommon.get(0);
-                            if (pcommonColumn.equals(dcommonColumn)) {
-                                for (int disc = 0; disc < noOfDiscount.size(); disc++) {
-                                    String head = String.valueOf(discountRow[NumericConstants.TWO]).replace(" ", StringUtils.EMPTY) + disc;
-                                    if (pvsdto.isVarDisAmount() && pvsdto.isColValue()) {
-                                        column = "DiscountAmountValue" + head + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.THREE];
-                                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                                    if (pvsdto.isVarDisRate() && pvsdto.isColValue()) {
-                                        column = "DiscountSalesValue" + head + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.SIX];
-                                        String baseValue = getFormattedValue(RATE, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                                    if (pvsdto.isVarRPU() && pvsdto.isColValue()) {
-                                        column = "RPUValue" + head + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.NINE];
-                                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue);
-                                            columnList.remove(column);
-                                        }
-                                    }
-
-                                    //  Returns Discount $
-                                    if (pvsdto.isVarDisAmount() && pvsdto.isColValue()) {
-                                        column = "DiscountAmountValueReturns" + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.TWELVE];
-                                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                                    //  PPA Discount $
-                                    if (pvsdto.isVarDisAmount() && pvsdto.isColValue()) {
-                                        column = "DiscountAmountValuePPA" + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_ONE];
-                                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                                    //  Returns Discount %
-                                    if (pvsdto.isVarDisRate() && pvsdto.isColValue()) {
-                                        column = "DiscountSalesValueReturns" + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.FIFTEEN];
-                                        String baseValue = getFormattedValue(RATE, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                                    //  PPA Discount %
-                                    if (pvsdto.isVarDisRate() && pvsdto.isColValue()) {
-                                        column = "DiscountSalesValuePPA" + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_FOUR];
-                                        String baseValue = getFormattedValue(RATE, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue + PERCENT);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                                    //  Returns  RPU
-                                    if (pvsdto.isVarRPU() && pvsdto.isColValue()) {
-                                        column = "RPUValueReturns" + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.EIGHTEEN];
-                                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                                    //  PPA  RPU
-                                    if (pvsdto.isVarRPU() && pvsdto.isColValue()) {
-                                        column = "RPUValuePPA" + CURRENT + pvsdto.getCurrentProjId();
-                                        String currentSales = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_SEVEN];
-                                        String baseValue = getFormattedValue(AMOUNT, currentSales);
-                                        if (pvsdto.hasColumn(column)) {
-                                            projDTO.addStringProperties(column, baseValue);
-                                            columnList.remove(column);
-                                        }
-                                    }
-                                    for (int k = 0; k < priorProjGtsList.size(); k++) {
-                                        //Discount Percentage
-                                        if (pvsdto.isVarDisRate()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.SIX + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "DiscountSalesValue" + head + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(RATE, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "DiscountSalesVar" + head + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.SEVEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "DiscountSalesPer" + head + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.EIGHT + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-
-                                        // Returns Discount % 
-                                        if (pvsdto.isVarDisRate()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.FIFTEEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "DiscountSalesValueReturns" + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(RATE, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "DiscountSalesVarReturns" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.SIXTEEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "DiscountSalesPerReturns" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.SEVENTEEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-
-                                        // PPA Discount % 
-                                        if (pvsdto.isVarDisRate()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_FOUR + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "DiscountSalesValuePPA" + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(RATE, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "DiscountSalesVarPPA" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_FIVE + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "DiscountSalesPerPPA" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_SIX + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-
-                                        //Discount Dollor
-                                        if (pvsdto.isVarDisAmount()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.THREE + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "DiscountAmountValue" + head + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "DiscountAmountVar" + head + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.FOUR + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(AMOUNT, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "DiscountAmountPer" + head + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.FIVE + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-                                        // Returns Discount $
-                                        if (pvsdto.isVarDisAmount()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.TWELVE + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "DiscountAmountValueReturns" + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "DiscountAmountVarReturns" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.THIRTEEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(AMOUNT, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "DiscountAmountPerReturns" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.FOURTEEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-                                        // PPA Discount $
-                                        if (pvsdto.isVarDisAmount()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_ONE + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "DiscountAmountValuePPA" + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "DiscountAmountVarPPA" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_TWO + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(AMOUNT, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "DiscountAmountPerPPA" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_THREE + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-                                        //RPU
-                                        if (pvsdto.isVarRPU()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.NINE + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "RPUValue" + head + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "RPUVariance" + head + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.TEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(AMOUNT, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "RPUPer" + head + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.ELEVEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE_PER_THREE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-                                        // Retruns RPU
-                                        if (pvsdto.isVarRPU()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.EIGHTEEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "RPUValueReturns" + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "RPUVarianceReturns" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.NINETEEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(AMOUNT, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "RPUPerReturns" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE_PER_THREE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-                                        // PPA RPU
-                                        if (pvsdto.isVarRPU()) {
-                                            String value1 = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_SEVEN + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                            if (pvsdto.isColValue()) {
-                                                column = "RPUValuePPA" + priorProjGtsList.get(k);
-                                                String baseValue = getFormattedValue(AMOUNT, value1);
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                            if (pvsdto.isColVariance()) {
-                                                column = "RPUVariancePPA" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_EIGHT + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(AMOUNT, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue);
-                                                    columnList.remove(column);
-                                                }
-
-                                            }
-                                            if (pvsdto.isColPercentage()) {
-                                                column = "RPUPerPPA" + priorProjGtsList.get(k);
-                                                String priorVal = StringUtils.EMPTY + discountRow[NumericConstants.TWENTY_NINE + ((k + 1) * NumericConstants.TWENTY_SEVEN)];
-                                                String baseValue = getFormattedValue(RATE_PER_THREE, isNull(priorVal));
-                                                if (pvsdto.hasColumn(column)) {
-                                                    projDTO.addStringProperties(column, baseValue + PERCENT);
-                                                    columnList.remove(column);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    projDTOList.add(projDTO);
-                }
-            }
-        }
-        List<String> columnList = new ArrayList<String>(pvsdto.getColumns());
-        columnList.remove("group");
-        boolean leftFlag = false;
-        for (String ob : periodList) {
-            leftFlag = true;
-            ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
-            projDTO.setParent(0);
-            projDTO.setGroup(periodListMap.get(ob));
-            for (String columns : columnList) {
-                projDTO.addStringProperties(columns, getFormattedValue(AMOUNT, "null"));
-            }
-            projDTOList.add(projDTO);
-        }
-
-        if (pvsdto.getProjectionOrder().equals(Constants.CommonConstantsForChannels.ASCENDING)) {
-            if (leftFlag) {
-                Collections.sort(projDTOList, new ProjectionVarianceDTO());
-            }
-        } else {
-            if (leftFlag) {
-                Collections.sort(projDTOList, new ProjectionVarianceDTO());
-            }
-            Collections.reverse(projDTOList);
-        }
-        return projDTOList;
-    }
-
-    /**
-     * Get ProjectionS results
-     *
-     * @param pvsdto
-     * @param parentDto
-     * @return
-     */
-    public List<Object> getProjVarianceResults(final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto) {
-        pvsdto.setYear("ALL");
-        pvsdto.setProjectionId(pvsdto.getCurrentProjId());
-        String query = CommonLogic.getCCPQuery(pvsdto) + CommonLogic.getTempCCPQueryForCOGS(pvsdto) + "\n" + CommonLogic.getTemp_CCPD_RetrunsQuery()
-                + " \n" + CommonLogic.getTempRetrunsQuery() + "\n" + queryUtils.getProjectionResultsMainPivotQuery(pvsdto);
-        List<Object> currentPivotDetails = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
-        pvsdto.setProjectionId(pvsdto.getCurrentProjId());
-        return currentPivotDetails;
-    }
-
     /**
      * get Customized period variance
      *
      * @return List
      */
-    public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final List<Object> dataList, final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto) {
-        boolean actualBasis = ("Actuals").equals(pvsdto.getComparisonBasis());
-        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<ProjectionVarianceDTO>();
-        ProjectionVarianceDTO exFacValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO exFacVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO exFacPer = new ProjectionVarianceDTO();
-
-        ProjectionVarianceDTO demandValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO demandVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO demandPer = new ProjectionVarianceDTO();
-
-        ProjectionVarianceDTO invWithValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO invWithVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO invWithPer = new ProjectionVarianceDTO();
-
-        ProjectionVarianceDTO salesValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO salesVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO salesPer = new ProjectionVarianceDTO();
-
-        ProjectionVarianceDTO custExFacValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO custExFacVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO custExFacPer = new ProjectionVarianceDTO();
-
-        ProjectionVarianceDTO adjDemandValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO adjDemandVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO adjDemandPer = new ProjectionVarianceDTO();
-
-        ProjectionVarianceDTO iwDetialsValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO iwDetialsVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO iwDetialsPer = new ProjectionVarianceDTO();
-
+    public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto) {
+        boolean actualBasis = (StringConstantsUtil.ACTUALS1).equals(pvsdto.getComparisonBasis());
+        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
         boolean isDetail = false;
         if (pvsdto.getLevel().equals(DETAIL)) {
             isDetail = true;
@@ -4663,470 +2052,233 @@ public class ProjectionVarianceLogic {
             dto.setGroup("CFF Total");
             projectionVarianceDTO.add(dto);
         }
-        // GTS and Sales for POB starts
-        if (isDetail) {
-            //Ex fac for detail start
-            if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                exFacValue = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), gtsList, gtsList, NumericConstants.THREE, NumericConstants.SIXTY, NumericConstants.THREE, NumericConstants.SIXTY, pvsdto, AMOUNT, false ,actualBasis);
-            }
-            if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                exFacVar = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), gtsList, gtsList, NumericConstants.THREE, NumericConstants.SIXTY, NumericConstants.THREE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                exFacPer = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), gtsList, gtsList, NumericConstants.THREE, NumericConstants.SIXTY, NumericConstants.THREE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-            }
-            //Ex fac for detail end
-
-            // Customer ExFac Sales for detail start 
-            if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                custExFacValue = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), gtsList, gtsList, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                custExFacVar = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), gtsList, gtsList, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                custExFacPer = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), gtsList, gtsList, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-            }
-            // Customer ExFac Sales for detail end 
-
-            //Demand - start
-            if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                demandValue = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(), gtsList, gtsList, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                demandVar = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(), gtsList, gtsList, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                demandPer = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(), gtsList, gtsList, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-            }
-            //Demand - end
-
-            // Adjusted Demand  start 
-            if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                adjDemandValue = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(), gtsList, gtsList, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                adjDemandVar = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(), gtsList, gtsList, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                adjDemandPer = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(), gtsList, gtsList, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-            }
-            // Adjusted Demand end 
-
-            //Inv with drawal sale for detail - start
-            if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                invWithValue = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(), gtsList, gtsList, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                invWithVar = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(), gtsList, gtsList, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                invWithPer = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(), gtsList, gtsList, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-            }
-            //Inv with drawal sale for detail - end
-
-            // Inventary withdrawal Details for detail start 
-            if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                iwDetialsValue = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(), gtsList, gtsList, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                iwDetialsVar = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(), gtsList, gtsList, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                iwDetialsPer = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(), gtsList, gtsList, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-            }
-            // Inventary withdrawal Details for detail end 
-
-            //Sales for POB
-            if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                salesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), gtsList, dataList, NumericConstants.FIVE, NumericConstants.SIXTY, NumericConstants.FIVE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                salesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), gtsList, dataList, NumericConstants.FIVE, NumericConstants.SIXTY, NumericConstants.FIVE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-            }
-            if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                salesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), gtsList, dataList, NumericConstants.FIVE, NumericConstants.SIXTY, NumericConstants.FIVE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-            }
-        }
-        // Total View   
-
         // ExFac Sales 
         if (pvsdto.isVarExFacSales()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), gtsList, dataList, NumericConstants.THREE, NumericConstants.SIXTY, NumericConstants.THREE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(exFacValue);
-                }
+                ProjectionVarianceDTO exFacValue = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(),Constants.VALUE, gtsList, NumericConstants.FOUR, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(exFacValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), gtsList, dataList, NumericConstants.THREE, NumericConstants.SIXTY, NumericConstants.THREE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(exFacVar);
-                }
+                ProjectionVarianceDTO exFacVar = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(),Constants.VARIANCE, gtsList, NumericConstants.FOUR, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(exFacVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), gtsList, dataList, NumericConstants.THREE, NumericConstants.SIXTY, NumericConstants.THREE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(exFacPer);
-                }
+                ProjectionVarianceDTO exFacPer = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(),Constants.CHANGE, gtsList, NumericConstants.FOUR, pvsdto, RATE, false, actualBasis);
+                projectionVarianceDTO.add(exFacPer);
             }
         }
         // ExFac Customer
         if (pvsdto.isVarExFacCustomer()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), gtsList, dataList, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(custExFacValue);
-                }
+                ProjectionVarianceDTO custExFacValue = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(),Constants.VALUE, gtsList, NumericConstants.SEVENTY_THREE, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(custExFacValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), gtsList, dataList, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(custExFacVar);
-                }
+                ProjectionVarianceDTO custExFacVar = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(),Constants.VARIANCE, gtsList, NumericConstants.SEVENTY_THREE, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(custExFacVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), gtsList, dataList, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, NumericConstants.FORTY_NINE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(custExFacPer);
-                }
+                ProjectionVarianceDTO custExFacPer = getCommonCustomizedDTO(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(),Constants.CHANGE, gtsList, NumericConstants.SEVENTY_THREE, pvsdto, RATE, false, actualBasis);
+                projectionVarianceDTO.add(custExFacPer);
             }
         }
 
         // Demand Sales
         if (pvsdto.isVarDemandSales()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(), gtsList, dataList, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(demandValue);
-                }
+                ProjectionVarianceDTO demandValue = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(),Constants.VALUE, gtsList, NumericConstants.FORTY_THREE, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(demandValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(), gtsList, dataList, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(demandVar);
-                }
+                ProjectionVarianceDTO demandVar = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(),Constants.VARIANCE, gtsList, NumericConstants.FORTY_THREE, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(demandVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(), gtsList, dataList, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, NumericConstants.TWENTY_NINE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(demandPer);
-                }
+                ProjectionVarianceDTO demandPer = getCommonCustomizedDTO(Constants.PVVariables.DEMAND.toString(),Constants.CHANGE, gtsList, NumericConstants.FORTY_THREE, pvsdto, RATE, false, actualBasis);
+                projectionVarianceDTO.add(demandPer);
             }
         }
         // Adjusted Demand
         if (pvsdto.isVarAdjDemand()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(), gtsList, dataList, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(adjDemandValue);
-                }
+                ProjectionVarianceDTO adjDemandValue = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(),Constants.VALUE, gtsList, NumericConstants.SEVENTY, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(adjDemandValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(), gtsList, dataList, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(adjDemandVar);
-                }
+                ProjectionVarianceDTO adjDemandVar = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.VARIANCE,gtsList, NumericConstants.SEVENTY, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(adjDemandVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(), gtsList, dataList, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FORTY_SEVEN, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(adjDemandPer);
-                }
+                ProjectionVarianceDTO adjDemandPer = getCommonCustomizedDTO(Constants.PVVariables.ADJUSTED_DEMAND.toString(),Constants.CHANGE, gtsList, NumericConstants.SEVENTY, pvsdto, RATE, false, actualBasis);
+                projectionVarianceDTO.add(adjDemandPer);
             }
         }
         // Inventory Sales Withdrawal
         if (pvsdto.isVarInvSales()) {
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(VALUE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(), gtsList, dataList, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(invWithValue);
-                }
+                ProjectionVarianceDTO invWithValue = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(),Constants.VALUE, gtsList, NumericConstants.FORTY_SIX, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(invWithValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(), gtsList, dataList, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(invWithVar);
-                }
+                ProjectionVarianceDTO invWithVar = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(),Constants.VARIANCE, gtsList, NumericConstants.FORTY_SIX, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(invWithVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(), gtsList, dataList, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, NumericConstants.THIRTY_ONE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(invWithPer);
-                }
+                ProjectionVarianceDTO invWithPer = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_SUMMARY.toString(),Constants.CHANGE, gtsList, NumericConstants.FORTY_SIX, pvsdto, RATE, false, actualBasis);
+                projectionVarianceDTO.add(invWithPer);
             }
         }
         // iw Details
         if (pvsdto.isVarIwDetails()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(), gtsList, dataList, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(iwDetialsValue);
-                }
+                ProjectionVarianceDTO iwDetialsValue = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(),Constants.VALUE, gtsList, NumericConstants.SEVENTY_SIX, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(iwDetialsValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(), gtsList, dataList, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(iwDetialsVar);
-                }
+                ProjectionVarianceDTO iwDetialsVar = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(),Constants.VARIANCE, gtsList, NumericConstants.SEVENTY_SIX, pvsdto, AMOUNT, false, actualBasis);
+                projectionVarianceDTO.add(iwDetialsVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO salesData = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(), gtsList, dataList, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, NumericConstants.FIFTY_ONE, NumericConstants.SIXTY, pvsdto, RATE, false,actualBasis);
-                    projectionVarianceDTO.add(salesData);
-                } else {
-                    projectionVarianceDTO.add(iwDetialsPer);
-                }
+                ProjectionVarianceDTO iwDetialsPer = getCommonCustomizedDTO(Constants.PVVariables.INVENTORY_DETAILS.toString(),Constants.CHANGE, gtsList, NumericConstants.SEVENTY_SIX, pvsdto, RATE, false, actualBasis);
+                projectionVarianceDTO.add(iwDetialsPer);
             }
         }
 
         //% Of Ex Factory Product
         if (pvsdto.isVarPerExFacSales()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), gtsList, dataList, NumericConstants.THIRTEEN, NumericConstants.SIXTY, NumericConstants.THIRTEEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(),Constants.VALUE, gtsList, NumericConstants.NINETEEN, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), gtsList, dataList, NumericConstants.THIRTEEN, NumericConstants.SIXTY, NumericConstants.THIRTEEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(),Constants.VARIANCE, gtsList, NumericConstants.NINETEEN, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), gtsList, dataList, NumericConstants.THIRTEEN, NumericConstants.SIXTY, NumericConstants.THIRTEEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(),Constants.CHANGE, gtsList, NumericConstants.NINETEEN, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
         }
         // % Of Ex factory customer
         if (pvsdto.isVarPerExFacCustomer()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), gtsList, dataList, NumericConstants.FIFTY_FIVE, NumericConstants.SIXTY, NumericConstants.FIFTY_FIVE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(),Constants.VALUE, gtsList, NumericConstants.EIGHTY_TWO, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), gtsList, dataList, NumericConstants.FIFTY_FIVE, NumericConstants.SIXTY, NumericConstants.FIFTY_FIVE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(),Constants.VARIANCE, gtsList, NumericConstants.EIGHTY_TWO, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), gtsList, dataList, NumericConstants.FIFTY_FIVE, NumericConstants.SIXTY, NumericConstants.FIFTY_FIVE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(),Constants.CHANGE, gtsList, NumericConstants.EIGHTY_TWO, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
         }
         // % Of Demand Sales
         if (pvsdto.isVarPerDemandSales()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_DEMAND.toString(), gtsList, dataList, NumericConstants.THIRTY_THREE, NumericConstants.SIXTY, NumericConstants.THIRTY_THREE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_DEMAND.toString(),Constants.VALUE, gtsList, NumericConstants.FORTY_NINE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_DEMAND.toString(), gtsList, dataList, NumericConstants.THIRTY_THREE, NumericConstants.SIXTY, NumericConstants.THIRTY_THREE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_DEMAND.toString(),Constants.VARIANCE, gtsList, NumericConstants.FORTY_NINE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_DEMAND.toString(), gtsList, dataList, NumericConstants.THIRTY_THREE, NumericConstants.SIXTY, NumericConstants.THIRTY_THREE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_DEMAND.toString(),Constants.CHANGE, gtsList, NumericConstants.FORTY_NINE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
         }
         // % Of Adjusted Demand 
         if (pvsdto.isVarPerAdjDemand()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), gtsList, dataList, NumericConstants.FIFTY_THREE, NumericConstants.SIXTY, NumericConstants.FIFTY_THREE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(),Constants.VALUE, gtsList, NumericConstants.SEVENTY_NINE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), gtsList, dataList, NumericConstants.FIFTY_THREE, NumericConstants.SIXTY, NumericConstants.FIFTY_THREE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(),Constants.VARIANCE, gtsList, NumericConstants.SEVENTY_NINE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), gtsList, dataList, NumericConstants.FIFTY_THREE, NumericConstants.SIXTY, NumericConstants.FIFTY_THREE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(),Constants.CHANGE, gtsList, NumericConstants.SEVENTY_NINE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
         }
         // % Of Inv Summary
         if (pvsdto.isVarPerInvSales()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), gtsList, dataList, NumericConstants.THIRTY_FIVE, NumericConstants.SIXTY, NumericConstants.THIRTY_FIVE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(),Constants.VALUE, gtsList, NumericConstants.FIFTY_TWO, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), gtsList, dataList, NumericConstants.THIRTY_FIVE, NumericConstants.SIXTY, NumericConstants.THIRTY_FIVE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(),Constants.VARIANCE, gtsList, NumericConstants.FIFTY_TWO, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), gtsList, dataList, NumericConstants.THIRTY_FIVE, NumericConstants.SIXTY, NumericConstants.THIRTY_FIVE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(),Constants.CHANGE, gtsList, NumericConstants.FIFTY_TWO, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
         }
         // % Of Inventry withdrawal Detials 
         if (pvsdto.isVarPerIwDetails()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), gtsList, dataList, NumericConstants.FIFTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FIFTY_SEVEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(),Constants.VALUE, gtsList, NumericConstants.EIGHTY_FIVE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), gtsList, dataList, NumericConstants.FIFTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FIFTY_SEVEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(),Constants.VARIANCE, gtsList, NumericConstants.EIGHTY_FIVE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), gtsList, dataList, NumericConstants.FIFTY_SEVEN, NumericConstants.SIXTY, NumericConstants.FIFTY_SEVEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO pob = getCommonCustomizedDTO(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(),Constants.CHANGE, gtsList, NumericConstants.EIGHTY_FIVE, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(pob);
             }
         }
         //Contract Sales
         if (pvsdto.isVarContractsales()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                if (!isDetail) {
-                    System.out.println("==insdie not details============");
-                    ProjectionVarianceDTO sales = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), gtsList, dataList, NumericConstants.FIVE, NumericConstants.SIXTY, NumericConstants.FIVE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
-                    projectionVarianceDTO.add(sales);
-                } else {
-                    projectionVarianceDTO.add(salesValue);
-                }
+                ProjectionVarianceDTO salesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(),Constants.VALUE, gtsList, NumericConstants.SEVEN, pvsdto, AMOUNT, true, actualBasis);
+                projectionVarianceDTO.add(salesValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO sales = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), gtsList, dataList, NumericConstants.FIVE, NumericConstants.SIXTY, NumericConstants.FIVE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
-                    projectionVarianceDTO.add(sales);
-                } else {
-                    projectionVarianceDTO.add(salesVar);
-                }
+                ProjectionVarianceDTO salesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(),Constants.VARIANCE, gtsList, NumericConstants.SEVEN, pvsdto, AMOUNT, true, actualBasis);
+                projectionVarianceDTO.add(salesVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                if (!isDetail) {
-                    ProjectionVarianceDTO sales = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), gtsList, dataList, NumericConstants.FIVE, NumericConstants.SIXTY, NumericConstants.FIVE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
-                    projectionVarianceDTO.add(sales);
-                } else {
-                    projectionVarianceDTO.add(salesPer);
-                }
+                ProjectionVarianceDTO salesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_SALES.toString(),Constants.CHANGE, gtsList, NumericConstants.SEVEN, pvsdto, RATE, true, actualBasis);
+                projectionVarianceDTO.add(salesPer);
             }
         }
         //Contract Units
         if (pvsdto.isVarContractUnits()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO units = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), gtsList, dataList, NumericConstants.SEVEN, NumericConstants.SIXTY, NumericConstants.SEVEN, NumericConstants.SIXTY, pvsdto, AMOUNT_UNITS, true,actualBasis);
+                ProjectionVarianceDTO units = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(),Constants.VALUE, gtsList, NumericConstants.TEN, pvsdto, AMOUNT_UNITS, true, actualBasis);
                 projectionVarianceDTO.add(units);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO units = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), gtsList, dataList, NumericConstants.SEVEN, NumericConstants.SIXTY, NumericConstants.SEVEN, NumericConstants.SIXTY, pvsdto, AMOUNT_UNITS, true,actualBasis);
+                ProjectionVarianceDTO units = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(),Constants.VARIANCE, gtsList, NumericConstants.TEN, pvsdto, AMOUNT_UNITS, true, actualBasis);
                 projectionVarianceDTO.add(units);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO units = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), gtsList, dataList, NumericConstants.SEVEN, NumericConstants.SIXTY, NumericConstants.SEVEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO units = getCommonCustomizedDTO(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(),Constants.CHANGE, gtsList, NumericConstants.TEN, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(units);
             }
         }
         //Discount $ 
         if (pvsdto.isVarDisAmount()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO discountDol = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), gtsList, dataList, NumericConstants.NINE, NumericConstants.SIXTY, NumericConstants.NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO discountDol = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_AMOUNT.toString(),Constants.VALUE, gtsList, NumericConstants.THIRTEEN, pvsdto, AMOUNT, true, actualBasis);
                 discountDol = setDataObjects(discountDol, parentDto, pvsdto);
                 projectionVarianceDTO.add(discountDol);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO discountDol = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), gtsList, dataList, NumericConstants.NINE, NumericConstants.SIXTY, NumericConstants.NINE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO discountDol = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_AMOUNT.toString(),Constants.VARIANCE, gtsList, NumericConstants.THIRTEEN, pvsdto, AMOUNT, true, actualBasis);
                 discountDol = setDataObjects(discountDol, parentDto, pvsdto);
                 projectionVarianceDTO.add(discountDol);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO discountDol = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), gtsList, dataList, NumericConstants.NINE, NumericConstants.SIXTY, NumericConstants.NINE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO discountDol = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_AMOUNT.toString(),Constants.CHANGE, gtsList, NumericConstants.THIRTEEN, pvsdto, RATE, true, actualBasis);
                 discountDol = setDataObjects(discountDol, parentDto, pvsdto);
                 projectionVarianceDTO.add(discountDol);
             }
@@ -5134,20 +2286,17 @@ public class ProjectionVarianceLogic {
         //Discount % 
         if (pvsdto.isVarDisRate()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_RATE.toString(), gtsList, dataList, NumericConstants.ELEVEN, NumericConstants.SIXTY, NumericConstants.ELEVEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_RATE.toString(),Constants.VALUE, gtsList, NumericConstants.SIXTEEN, pvsdto, RATE, true, actualBasis);
                 discountPer = setDataObjects(discountPer, parentDto, pvsdto);
                 projectionVarianceDTO.add(discountPer);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_RATE.toString(), gtsList, dataList, NumericConstants.ELEVEN, NumericConstants.SIXTY, NumericConstants.ELEVEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_RATE.toString(),Constants.VARIANCE, gtsList, NumericConstants.SIXTEEN, pvsdto, RATE, true, actualBasis);
                 discountPer = setDataObjects(discountPer, parentDto, pvsdto);
                 projectionVarianceDTO.add(discountPer);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_RATE.toString(), gtsList, dataList, NumericConstants.ELEVEN, NumericConstants.SIXTY, NumericConstants.ELEVEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_DIS_RATE.toString(),Constants.CHANGE, gtsList, NumericConstants.SIXTEEN, pvsdto, RATE, true, actualBasis);
                 discountPer = setDataObjects(discountPer, parentDto, pvsdto);
                 projectionVarianceDTO.add(discountPer);
             }
@@ -5155,117 +2304,140 @@ public class ProjectionVarianceLogic {
         // RPU
         if (pvsdto.isVarRPU()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_RPU.toString(), gtsList, dataList, NumericConstants.FORTY_ONE, NumericConstants.SIXTY, NumericConstants.FORTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_RPU.toString(),Constants.VALUE, gtsList, NumericConstants.FIFTY_FIVE, pvsdto, AMOUNT, true, actualBasis);
                 netSalesValue = setDataObjects(netSalesValue, parentDto, pvsdto);
                 projectionVarianceDTO.add(netSalesValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_RPU.toString(), gtsList, dataList, NumericConstants.FORTY_ONE, NumericConstants.SIXTY, NumericConstants.FORTY_ONE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_RPU.toString(),Constants.VARIANCE, gtsList, NumericConstants.FIFTY_FIVE, pvsdto, AMOUNT, true, actualBasis);
                 netSalesVar = setDataObjects(netSalesVar, parentDto, pvsdto);
                 projectionVarianceDTO.add(netSalesVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_RPU.toString(), gtsList, dataList, NumericConstants.FORTY_ONE, NumericConstants.SIXTY, NumericConstants.FORTY_ONE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_RPU.toString(),Constants.CHANGE, gtsList, NumericConstants.FIFTY_FIVE, pvsdto, RATE, true, actualBasis);
                 netSalesPer = setDataObjects(netSalesPer, parentDto, pvsdto);
                 projectionVarianceDTO.add(netSalesPer);
             }
         }
-        
+
         // DiscountPerExFactory
         if (pvsdto.isDiscountPerExFactory()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), gtsList, dataList, NumericConstants.SIXTY_ONE, NumericConstants.SIXTY, NumericConstants.SIXTY_ONE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(),Constants.VALUE, gtsList, NumericConstants.NINTY_ONE, pvsdto, RATE, true, actualBasis);
                 netSalesValue = setDataObjects(netSalesValue, parentDto, pvsdto);
                 projectionVarianceDTO.add(netSalesValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), gtsList, dataList, NumericConstants.SIXTY_ONE, NumericConstants.SIXTY, NumericConstants.SIXTY_ONE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(),Constants.VARIANCE, gtsList, NumericConstants.NINTY_ONE, pvsdto, RATE, true, actualBasis);
                 netSalesVar = setDataObjects(netSalesVar, parentDto, pvsdto);
                 projectionVarianceDTO.add(netSalesVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), gtsList, dataList, NumericConstants.SIXTY_ONE, NumericConstants.SIXTY, NumericConstants.SIXTY_ONE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(),Constants.CHANGE, gtsList, NumericConstants.NINTY_ONE, pvsdto, RATE, true, actualBasis);
                 netSalesPer = setDataObjects(netSalesPer, parentDto, pvsdto);
                 projectionVarianceDTO.add(netSalesPer);
             }
         }
-        
-      //NetSales 
+
+        //NetSales 
         if (pvsdto.isVarNetSales()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_NETSALES.toString(), gtsList, dataList, NumericConstants.TWENTY_SEVEN, NumericConstants.SIXTY, NumericConstants.TWENTY_SEVEN, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_NETSALES.toString(),Constants.VALUE, gtsList, NumericConstants.FORTY, pvsdto, AMOUNT, true, actualBasis);
                 projectionVarianceDTO.add(netSalesValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_NETSALES.toString(), gtsList, dataList, NumericConstants.TWENTY_SEVEN, NumericConstants.SIXTY, NumericConstants.TWENTY_SEVEN, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_NETSALES.toString(),Constants.VARIANCE, gtsList, NumericConstants.FORTY, pvsdto, AMOUNT, true, actualBasis);
                 projectionVarianceDTO.add(netSalesVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_NETSALES.toString(), gtsList, dataList, NumericConstants.TWENTY_SEVEN, NumericConstants.SIXTY, NumericConstants.TWENTY_SEVEN, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_NETSALES.toString(),Constants.CHANGE, gtsList, NumericConstants.FORTY, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(netSalesPer);
             }
         }
-        
-           //NetSalesExFactory 
+
+        //NetSalesExFactory 
         if (pvsdto.isNetSalesExFactory()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), gtsList, dataList, NumericConstants.FIFTY_NINE, NumericConstants.SIXTY, NumericConstants.FIFTY_NINE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(),Constants.VALUE, gtsList, NumericConstants.EIGHTY_EIGHT, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(netSalesValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), gtsList, dataList, NumericConstants.FIFTY_NINE, NumericConstants.SIXTY, NumericConstants.FIFTY_NINE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(),Constants.VARIANCE, gtsList, NumericConstants.EIGHTY_EIGHT, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(netSalesVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), gtsList, dataList, NumericConstants.FIFTY_NINE, NumericConstants.SIXTY, NumericConstants.FIFTY_NINE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(),Constants.CHANGE, gtsList, NumericConstants.EIGHTY_EIGHT, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(netSalesPer);
             }
         }
+
+        if (isDetail && (Constants.PRODUCT_LABEL.equals(pvsdto.getView()) || Constants.LabelConstants.CUSTOM.toString().equals(pvsdto.getView())) && P.equals(pvsdto.getHierarchyIndicator())) {
+            /**
+             * Net Ex-Factory Sales
+             */
+            if (pvsdto.isNetExFactorySales()) {
+                if (pvsdto.isColValue()) {
+                    ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(ConstantsUtil.NET_EXFACT_SALES,Constants.VALUE, gtsList, NumericConstants.NINTY_FOUR, pvsdto, AMOUNT, true, actualBasis);
+                    projectionVarianceDTO.add(netSalesValue);
+                }
+                if (pvsdto.isColVariance()) {
+                    ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(ConstantsUtil.NET_EXFACT_SALES,Constants.VARIANCE, gtsList, NumericConstants.NINTY_FOUR, pvsdto, AMOUNT, true, actualBasis);
+                    projectionVarianceDTO.add(netSalesVar);
+                }
+                if (pvsdto.isColPercentage()) {
+                    ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(ConstantsUtil.NET_EXFACT_SALES,Constants.CHANGE, gtsList, NumericConstants.NINTY_FOUR, pvsdto, RATE, true, actualBasis);
+                    projectionVarianceDTO.add(netSalesPer);
+                }
+            }
+            /**
+             * Net Ex-Factory Sales as % of Ex-Factory Sales
+             */
+            if (pvsdto.isNetExFactorySalesPerExFactory()) {
+                if (pvsdto.isColValue()) {
+                    ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT,Constants.VALUE, gtsList, NumericConstants.NINTY_SEVEN, pvsdto, RATE, true, actualBasis);
+                    discountPer = setDataObjects(discountPer, parentDto, pvsdto);
+                    projectionVarianceDTO.add(discountPer);
+                }
+                if (pvsdto.isColVariance()) {
+                    ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT,Constants.VARIANCE, gtsList, NumericConstants.NINTY_SEVEN, pvsdto, RATE, true, actualBasis);
+                    discountPer = setDataObjects(discountPer, parentDto, pvsdto);
+                    projectionVarianceDTO.add(discountPer);
+                }
+                if (pvsdto.isColPercentage()) {
+                    ProjectionVarianceDTO discountPer = getCommonCustomizedDTO(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT,Constants.CHANGE, gtsList, NumericConstants.NINTY_SEVEN, pvsdto, RATE, true, actualBasis);
+                    discountPer = setDataObjects(discountPer, parentDto, pvsdto);
+                    projectionVarianceDTO.add(discountPer);
+                }
+            }
+        }
+
         //COGS
         if (pvsdto.isVarCOGC()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_COGS.toString(), gtsList, dataList, NumericConstants.FORTY_THREE, NumericConstants.SIXTY, NumericConstants.FORTY_THREE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_COGS.toString(),Constants.VALUE, gtsList, NumericConstants.SIXTY_FOUR, pvsdto, AMOUNT, true, actualBasis);
                 projectionVarianceDTO.add(netSalesValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_COGS.toString(), gtsList, dataList, NumericConstants.FORTY_THREE, NumericConstants.SIXTY, NumericConstants.FORTY_THREE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_COGS.toString(),Constants.VARIANCE, gtsList, NumericConstants.SIXTY_FOUR, pvsdto, AMOUNT, true, actualBasis);
                 projectionVarianceDTO.add(netSalesVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_COGS.toString(), gtsList, dataList, NumericConstants.FORTY_THREE, NumericConstants.SIXTY, NumericConstants.FORTY_THREE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_COGS.toString(),Constants.CHANGE, gtsList, NumericConstants.SIXTY_FOUR, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(netSalesPer);
             }
         }
         //Net Profit
         if (pvsdto.isVarNetProfit()) {
             if (pvsdto.isColValue()) {
-                pvsdto.setVarIndicator(VALUE.getConstant());
-                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_NET_PROFITE.toString(), gtsList, dataList, NumericConstants.FORTY_FIVE, NumericConstants.SIXTY, NumericConstants.FORTY_FIVE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO netSalesValue = getCommonCustomizedDTO(Constants.PVVariables.VAR_NET_PROFITE.toString(),Constants.VALUE, gtsList, NumericConstants.SIXTY_SEVEN, pvsdto, AMOUNT, true, actualBasis);
                 projectionVarianceDTO.add(netSalesValue);
             }
             if (pvsdto.isColVariance()) {
-                pvsdto.setVarIndicator(VARIANCE.getConstant());
-                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_NET_PROFITE.toString(), gtsList, dataList, NumericConstants.FORTY_FIVE, NumericConstants.SIXTY, NumericConstants.FORTY_FIVE, NumericConstants.SIXTY, pvsdto, AMOUNT, true,actualBasis);
+                ProjectionVarianceDTO netSalesVar = getCommonCustomizedDTO(Constants.PVVariables.VAR_NET_PROFITE.toString(),Constants.VARIANCE, gtsList, NumericConstants.SIXTY_SEVEN, pvsdto, AMOUNT, true, actualBasis);
                 projectionVarianceDTO.add(netSalesVar);
             }
             if (pvsdto.isColPercentage()) {
-                pvsdto.setVarIndicator(CHANGE.getConstant());
-                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_NET_PROFITE.toString(), gtsList, dataList, NumericConstants.FORTY_FIVE, NumericConstants.SIXTY, NumericConstants.FORTY_FIVE, NumericConstants.SIXTY, pvsdto, RATE, true,actualBasis);
+                ProjectionVarianceDTO netSalesPer = getCommonCustomizedDTO(Constants.PVVariables.VAR_NET_PROFITE.toString(),Constants.CHANGE, gtsList, NumericConstants.SIXTY_SEVEN, pvsdto, RATE, true, actualBasis);
                 projectionVarianceDTO.add(netSalesPer);
             }
         }
@@ -5274,18 +2446,19 @@ public class ProjectionVarianceLogic {
 
     public ProjectionVarianceDTO getCustomisedProjectionResultsDiscount(List<Object> list, String discountName, PVSelectionDTO projSelDTO) {
         LOGGER.debug("Inside getCustomisedProjectionResultsDiscount");
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
-        columnList.remove("group");
+
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
+        columnList.remove(StringConstantsUtil.GROUP_PROPERTY);
         ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
         projDTO.setLevelValue(projSelDTO.getLevelValue());
         projDTO.setLevelNo(projSelDTO.getLevelNo());
         projDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         projDTO.setGroup(null);
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountNameList());
+        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountNameList());
         boolean start = true;
         String discount = null;
-        List<Integer> priorList = new ArrayList<Integer>(projSelDTO.getProjIdList());
+        List<Integer> priorList = new ArrayList<>(projSelDTO.getProjIdList());
         if (list != null && !list.isEmpty()) {
             for (int i = projSelDTO.getDiscountIndex(); i < list.size() && start; i++) {
                 projSelDTO.setDiscountIndex(i);
@@ -5315,7 +2488,7 @@ public class ProjectionVarianceLogic {
                     column1 = column + CURRENT + projSelDTO.getCurrentProjId();
                     if (projSelDTO.hasColumn(column1)) {
                         String value = "" + discountRow[NumericConstants.THREE];
-                        if (projSelDTO.getSales().contains("SALES")) {
+                        if (projSelDTO.getSales().contains(StringConstantsUtil.SALES1)) {
                             value = getFormattedValue(AMOUNT, value);
                         } else if (projSelDTO.getSales().contains("RATE")) {
                             value = getFormattedValue(RATE_PER_THREE, value);
@@ -5328,7 +2501,7 @@ public class ProjectionVarianceLogic {
                         column1 = column + priorList.get(j);
                         if (projSelDTO.hasColumn(column1)) {
                             String priorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + discountRow[NumericConstants.THREE + ((j + 1) * NumericConstants.THREE)])));
-                            if (projSelDTO.getSales().contains("SALES")) {
+                            if (projSelDTO.getSales().contains(StringConstantsUtil.SALES1)) {
                                 priorVal = getFormattedValue(AMOUNT, priorVal);
                             } else if (projSelDTO.getSales().contains("RATE")) {
                                 priorVal = getFormattedValue(RATE_PER_THREE, priorVal);
@@ -5351,7 +2524,7 @@ public class ProjectionVarianceLogic {
             projDTO.setCustomerHierarchyNo(projSelDTO.getCustomerHierarchyNo());
             projDTO.setProductHierarchyNo(projSelDTO.getProductHierarchyNo());
             projDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
-            if (projSelDTO.getSales().contains("SALES")) {
+            if (projSelDTO.getSales().contains(StringConstantsUtil.SALES1)) {
                 projDTO.setGroup("Total Discount $");
             } else {
                 projDTO.setGroup("Total Discount %");
@@ -5392,8 +2565,8 @@ public class ProjectionVarianceLogic {
     }
 
     public Map<Object, Object> getNMProjectionSelection(final int projectionId, final String screenName) {
-        List<Object[]> list = new ArrayList<Object[]>();
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        List<Object[]> list = new ArrayList<>();
+        Map<Object, Object> map = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
         query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionId));
         query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
@@ -5433,7 +2606,7 @@ public class ProjectionVarianceLogic {
     }
 
     public void saveNMPVSelection(Map map, int projectionID, String screenName) {
-        List<NmProjectionSelection> list = new ArrayList<NmProjectionSelection>();
+        List<NmProjectionSelection> list = new ArrayList<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
         query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionID));
         query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
@@ -5498,233 +2671,26 @@ public class ProjectionVarianceLogic {
     }
 
     /**
-     * Ex Factory Sales
+     * Common Customization
      *
      * @param pvsdto
      * @return
      */
-    public ProjectionVarianceDTO getCommonCustomizedDTO(final String groupName, List<Object> gtsList, List<Object> dataList, final int totalListPostion, final int totalPrPos, final int detailsListPos, final int detailsPrPos, PVSelectionDTO pvsdto, final DecimalFormat FORMAT, boolean inclusionFlag,boolean actualBasis) {
+    public ProjectionVarianceDTO getCommonCustomizedDTO(final String groupName,String varibaleCat,List<Object> gtsList, final int totalListPostion,PVSelectionDTO pvsdto, final DecimalFormat FORMAT, boolean inclusionFlag, boolean actualBasis) {
         ProjectionVarianceDTO pvDTO = new ProjectionVarianceDTO();
         try {
             LOGGER.debug("Inside getExFactorySales");
             int frequencyDivision = pvsdto.getFrequencyDivision();
-
-            if (pvsdto.getVarIndicator().equals(VALUE.getConstant())) {
-                pvDTO.setGroup(groupName.concat(Constants.VALUE));
-            } else if (pvsdto.getVarIndicator().equals(VARIANCE.getConstant())) {
-                pvDTO.setGroup(groupName.concat(Constants.VARIANCE));
-            } else {
-                pvDTO.setGroup(groupName.concat(Constants.CHANGE));
-            }
+            boolean isPer = FORMAT.equals(RATE);
+            pvDTO.setGroup(groupName.concat(varibaleCat));
             if (!pvsdto.getDiscountLevel().equals("Total Discount") && (pvDTO.getGroup().contains("Discount") || pvDTO.getGroup().contains("RPU"))) {
                 pvDTO.setParent(1);
             }
             pvDTO.setCcpIds(pvsdto.getLevel().equals(TOTAL.getConstant()) ? StringUtils.EMPTY : pvsdto.getCcpIds());
-            List<Integer> priorList = new ArrayList<Integer>(pvsdto.getProjIdList());
+            List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
             if (gtsList != null && !gtsList.isEmpty()) {
-                if (pvsdto.getLevel().equals(TOTAL.getConstant())) {
-                    //   System.out.println("==gts list size================>>>>" + gtsList.size());
-                    for (int i = 0; i < gtsList.size(); i++) {
-                        final Object[] obj = (Object[]) gtsList.get(i);
-                        String commonColumn = StringUtils.EMPTY;
-                        if (frequencyDivision == NumericConstants.FOUR) {
-                            commonColumn = "Q" + obj[1] + StringUtils.EMPTY + obj[0];
-                        } else if (frequencyDivision == NumericConstants.TWO) {
-                            commonColumn = "S" + obj[1] + StringUtils.EMPTY + obj[0];
-                        } else if (frequencyDivision == 1) {
-                            commonColumn = StringUtils.EMPTY + obj[0];
-                        } else if (frequencyDivision == NumericConstants.TWELVE) {
-                            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
-                            commonColumn = monthName.toLowerCase() + obj[0];
-                        }
-                        String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[totalListPostion - 1])));
-                        String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[totalListPostion])));
-                        if (pvsdto.getVarIndicator().equals(VALUE.getConstant())) {
-                            if (inclusionFlag) {
-                                if (obj[totalListPostion] == null) {
-                                    String baseValue = getFormattedValue(FORMAT, "0.00");
-                                    pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), groupName.contains("%") ? baseValue + PERCENT : baseValue);
-                                } else {
-//                                    String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[totalListPostion])));
-                                    String baseValue = getFormattedValue(FORMAT, actualValue);
-                                    pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), groupName.contains("%") ? baseValue + PERCENT : baseValue);
-                                    baseValue = getFormattedValue(FORMAT, currentValue);
-                                    pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), groupName.contains("%") ? baseValue + PERCENT : baseValue);
-                                }
-                            } else {
-//                                String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[totalListPostion])));
-                                String baseValue = getFormattedValue(FORMAT, actualValue);
-                                pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), groupName.contains("%") ? baseValue + PERCENT : baseValue);
-                                baseValue = getFormattedValue(FORMAT, currentValue);
-                                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), groupName.contains("%") ? baseValue + PERCENT : baseValue);
-                            }
-
-                        }
-//                        else {
-//                            pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), "");
-//                        }
-
-                        if (actualBasis) {
-                            if (pvsdto.getVarIndicator().equals(VARIANCE.getConstant())) {
-//                        for CURRENT
-                                String val = getVariance(actualValue, currentValue, FORMAT);
-                                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), groupName.contains("%") ? val + PERCENT : val);
-                            }
-                            if (pvsdto.getVarIndicator().equals(CHANGE.getConstant())) {
-//                        for CURRENT
-                                String val = getPerChange(actualValue, currentValue, FORMAT);
-                                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), val + PERCENT);
-                            }
-                        }
-                        for (int j = 0; j < priorList.size(); j++) {
-                            String priorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[totalListPostion + ((j + 1) * totalPrPos)])));
-                            if (pvsdto.getVarIndicator().equals(VALUE.getConstant())) {
-                                if (obj[totalListPostion + ((j + 1) * totalPrPos)] == null) {
-                                    String val = getFormattedValue(FORMAT, "0.00");
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                } else {
-                                    String val = getFormattedValue(FORMAT, priorVal);
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                }
-
-                            } else if (pvsdto.getVarIndicator().equals(VARIANCE.getConstant())) {
-                                if (obj[totalListPostion + ((j + 1) * totalPrPos)] == null && obj[totalListPostion] == null) {
-                                    String val = getFormattedValue(FORMAT, "0.00");
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                } else if (actualBasis) {
-                                    String val = getVariance(actualValue, priorVal, FORMAT);
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                } else {
-                                    String val = getVariance(currentValue, priorVal, FORMAT);
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                }
-
-                            } else if (obj[totalListPostion + ((j + 1) * totalPrPos)] == null && obj[totalListPostion] == null) {
-                                String val = getFormattedValue(FORMAT, "0.00");
-                                pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
-                            } else 
-                                if (actualBasis) {
-                                    String baseValu = getPerChange(actualValue, priorVal, RATE_PER);
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), baseValu + PERCENT);
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorVal, RATE_PER);
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), baseValu + PERCENT);
-                                }
-                             
-                            }
-                        }
-                } else {
-                    for (int i = 0; i < dataList.size(); i++) {
-                        final Object[] obj = (Object[]) dataList.get(i);
-                        String commonColumn = StringUtils.EMPTY;
-                        if (frequencyDivision == NumericConstants.FOUR) {
-                            commonColumn = "Q" + obj[1] + StringUtils.EMPTY + obj[0];
-                        } else if (frequencyDivision == NumericConstants.TWO) {
-                            commonColumn = "S" + obj[1] + StringUtils.EMPTY + obj[0];
-                        } else if (frequencyDivision == 1) {
-                            commonColumn = StringUtils.EMPTY + obj[0];
-                        } else if (frequencyDivision == NumericConstants.TWELVE) {
-                            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
-                            commonColumn = monthName.toLowerCase() + obj[0];
-                        }
-                        String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[detailsListPos - 1])));
-                        String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[detailsListPos])));
-                        if (pvsdto.getVarIndicator().equals(VALUE.getConstant())) {
-                            if (obj[detailsListPos] == null) {
-                                String val = getFormattedValue(FORMAT, "0.00");
-                                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(),  groupName.contains("%") ? val + PERCENT : val);
-                            } else {
-                                String baseValue = getFormattedValue(FORMAT, actualValue);
-                                pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), groupName.contains("%") ? baseValue + PERCENT : baseValue);
-                                baseValue = getFormattedValue(FORMAT, currentValue);
-                                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), groupName.contains("%") ? baseValue + PERCENT : baseValue);
-                            }
-
-                        } 
-                         if (actualBasis) {
-                            if (pvsdto.getVarIndicator().equals(VARIANCE.getConstant())) {
-//                        for ACTUAL
-                                String val = getVariance(actualValue, currentValue, FORMAT);
-                                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), groupName.contains("%") ? val + PERCENT : val);
-                            }
-                            if (pvsdto.getVarIndicator().equals(CHANGE.getConstant())) {
-//                        for CURRENT
-                                String val = getPerChange(actualValue, currentValue, FORMAT);
-                                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), val + PERCENT);
-                            }
-                        }
-                        for (int j = 0; j < priorList.size(); j++) {
-                            String priorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[detailsListPos + ((j + 1) * detailsPrPos)])));
-                            if (pvsdto.getVarIndicator().equals(VALUE.getConstant())) {
-                                if (obj[detailsListPos + ((j + 1) * detailsPrPos)] == null) {
-                                    String val = getFormattedValue(FORMAT, "0.00");
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                } else {
-                                    String val = getFormattedValue(FORMAT, priorVal);
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                }
-
-                            } else if (pvsdto.getVarIndicator().equals(VARIANCE.getConstant())) {
-                                if (obj[detailsListPos + ((j + 1) * detailsPrPos)] == null && obj[detailsListPos] == null) {
-                                    String val = getFormattedValue(FORMAT, "0.00");
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                } else {
-                                    if (actualBasis) {
-                                        String val = getVariance(actualValue, priorVal, FORMAT);
-                                        pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                    } else {
-                                        String val = getVariance(currentValue, priorVal, FORMAT);
-                                        pvDTO.addStringProperties(commonColumn + priorList.get(j), groupName.contains("%") ? val + PERCENT : val);
-                                    }
-                                }
-
-                            } else if (obj[detailsListPos + ((j + 1) * detailsPrPos)] == null && obj[detailsListPos] == null) {
-                                String val = getFormattedValue(FORMAT, "0.00");
-                                pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
-                            } else {
-                                if (actualBasis) {
-                                    String baseValu = getPerChange(actualValue, priorVal, RATE_PER);
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), baseValu + PERCENT);
-                                } else {
-                                    String baseValu = getPerChange(currentValue, priorVal, RATE_PER);
-                                    pvDTO.addStringProperties(commonColumn + priorList.get(j), baseValu + PERCENT);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-        return pvDTO;
-    }
-
-    /**
-     * Per
-     *
-     * @param pvsdto
-     * @return
-     */
-    public ProjectionVarianceDTO getCommonCustPerDTO(final String groupName, final List<Object> dataList, final int totPos, final int totPrPos, ProjectionVarianceDTO gtsDto, ProjectionVarianceDTO salesDto, PVSelectionDTO pvsdto) {
-        int frequencyDivision = pvsdto.getFrequencyDivision();
-        ProjectionVarianceDTO pvDTO = new ProjectionVarianceDTO();
-        if (pvsdto.getVarIndicator().equals(VALUE.getConstant())) {
-            pvDTO.setGroup(groupName.concat(Constants.VALUE));
-        } else if (pvsdto.getVarIndicator().equals(VARIANCE.getConstant())) {
-            pvDTO.setGroup(groupName.concat(Constants.VARIANCE));
-        } else {
-            pvDTO.setGroup(groupName.concat(Constants.CHANGE));
-        }
-        for (Object nullObj : pvsdto.getRightHeader().getSingleColumns()) {
-            pvDTO.addStringProperties(nullObj, DASH);
-        }
-        List<Integer> priorList = new ArrayList<Integer>(pvsdto.getProjIdList());
-        if (pvsdto.getLevel().equals(TOTAL.getConstant())) {
-            if (dataList != null && !dataList.isEmpty()) {
-                for (int i = 0; i < dataList.size(); i++) {
-                    final Object[] obj = (Object[]) dataList.get(i);
+                for (int i = 0; i < gtsList.size(); i++) {
+                    final Object[] obj = (Object[]) gtsList.get(i);
                     String commonColumn = StringUtils.EMPTY;
                     if (frequencyDivision == NumericConstants.FOUR) {
                         commonColumn = "Q" + obj[1] + StringUtils.EMPTY + obj[0];
@@ -5736,65 +2702,20 @@ public class ProjectionVarianceLogic {
                         String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName.toLowerCase() + obj[0];
                     }
-                    if (pvsdto.getVarIndicator().equals(VALUE.getConstant())) {
-                        String value = StringUtils.EMPTY + obj[totPos];
-                        String baseValue = getFormattedValue(RATE, value);
-                        pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), baseValue + PERCENT);
-
-                    }
+                    PVCommonLogic.customizePeriod(commonColumn, varibaleCat, pvsdto, pvDTO, FORMAT, totalListPostion, obj, isPer);
                     for (int j = 0; j < priorList.size(); j++) {
-                        if (pvsdto.getVarIndicator().equals(VALUE.getConstant())) {
-                            String priorVal = StringUtils.EMPTY + obj[totPos + ((j + 1) * totPrPos)];
-                            String val = getFormattedValue(RATE, isNull(priorVal));
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
-
-                        } else if (pvsdto.getVarIndicator().equals(VARIANCE.getConstant())) {
-                            String priorVal = StringUtils.EMPTY + obj[totPos + ((j + 1) * totPrPos)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[totPos])) - Double.valueOf(isNull(priorVal)));
-                            String val = getFormattedValue(RATE, variance);
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
-
-                        } else {
-                            String priorVal = StringUtils.EMPTY + obj[totPos + ((j + 1) * totPrPos)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[totPos])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
-                            if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
-                                perChange = 0.0;
-                            }
-                            String change = String.valueOf(perChange);
-                            String baseValu = getFormattedValue(RATE_PER, change);
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), baseValu + PERCENT);
-
-                        }
+                        PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn + priorList.get(j), totalListPostion, j, isPer, COLUMN_COUNT_TOTAL, FORMAT);
                     }
                 }
             }
-        } else {
-            List<String> columnList = new ArrayList<String>(pvsdto.getColumns());
-            columnList.remove("group");
-            for (Object nullObj : pvsdto.getRightHeader().getSingleColumns()) {
-                pvDTO.addStringProperties(nullObj, DASH);
-            }
-            for (Object object : columnList) {
-                String gts = StringUtils.EMPTY + String.valueOf(gtsDto.getPropertyValue(object)).replace("$", "").replace("%", "").replace(",", "").replace("-", "0");
-                String sales = StringUtils.EMPTY + String.valueOf(salesDto.getPropertyValue(object)).replace("$", "").replace("%", "").replace(",", "").replace("-", "0");
-                Double pob = Double.valueOf(isNull(sales)) / Double.valueOf(isNull(gts));
-                if (pob.isInfinite() || pob.isNaN()) {
-                    pob = 0.0;
-                }
-                if (pvDTO.getGroup().equals(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString().concat(Constants.CHANGE))) {
-                    String POB = getFormattedValue(RATE_PER, String.valueOf(pob));
-                    pvDTO.addStringProperties(object, POB + PERCENT);
-                } else {
-                    String POB = getFormattedValue(RATE, String.valueOf(pob));
-                    pvDTO.addStringProperties(object, POB + PERCENT);
-                }
 
-            }
+        } catch (Exception e) {
+            LOGGER.error(e);
         }
         return pvDTO;
     }
 
-    public List<ProjectionVarianceDTO> getCustomisedDiscount(List<Object> dataList, PVSelectionDTO projSelDTO, int index, int priorIndex, boolean isPer) {
+    public List<ProjectionVarianceDTO> getCustomisedDiscount(List<Object> dataList, PVSelectionDTO projSelDTO, int index, boolean isPer) {
         LOGGER.debug("Inside getCustomisedProjectionResultsTotalDiscount");
         String lastValue = StringUtils.EMPTY;
         List<ProjectionVarianceDTO> resultDto = new ArrayList<>();
@@ -5804,10 +2725,7 @@ public class ProjectionVarianceLogic {
         pvDTO.setLevelNo(projSelDTO.getLevelNo());
         pvDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         pvDTO.setParent(0);
-        boolean actualBasis = "Actuals".equalsIgnoreCase(projSelDTO.getComparisonBasis());
-        String currentValue = StringUtils.EMPTY;
-        String actValue = StringUtils.EMPTY;
-        String column = StringUtils.EMPTY;
+        boolean actualBasis = StringConstantsUtil.ACTUALS1.equalsIgnoreCase(projSelDTO.getComparisonBasis());
         List<Integer> priorList = new ArrayList<>(projSelDTO.getProjIdList());
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
@@ -5831,81 +2749,9 @@ public class ProjectionVarianceLogic {
                     commonColumn = monthName.toLowerCase() + obj[0];
                 }
 
-                actValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index - 1])));
-                currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
-                if (projSelDTO.getVarIndicator().equals(VALUE.getConstant())) {
-                    if (obj[index] == null) {
-                        String baseValue = getFormattedValue(isPer ? RATE : AMOUNT, "0.00");
-                        pvDTO.addStringProperties(commonColumn + CURRENT + projSelDTO.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
-                    } else {
-                        String baseValue = getFormattedValue(isPer ? RATE : AMOUNT, actValue);
-                        pvDTO.addStringProperties(commonColumn + ACTUAL + projSelDTO.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
-                        baseValue = getFormattedValue(isPer ? RATE : AMOUNT, currentValue);
-                        pvDTO.addStringProperties(commonColumn + CURRENT + projSelDTO.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
-                    }
-                } 
-                 if (actualBasis) {
-                        if (projSelDTO.getVarIndicator().equals(VARIANCE.getConstant())) {
-                            column = commonColumn + CURRENT + projSelDTO.getCurrentProjId();
-//                        for CURRENT
-                            String val = getVariance(actValue, currentValue, isPer ? RATE : AMOUNT);
-                            pvDTO.addStringProperties(column, isPer ? val + PERCENT : val);
-                        }
-                        if (projSelDTO.getVarIndicator().equals(CHANGE.getConstant())) {
-                            column = commonColumn + CURRENT + projSelDTO.getCurrentProjId();
-//                        for CURRENT
-                            String val = getPerChange(actValue, currentValue, RATE);
-                            pvDTO.addStringProperties(column,val + PERCENT);
-                        }
-                   
-                }
+                PVCommonLogic.customizePeriod(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, obj, isPer);
                 for (int j = 0; j < priorList.size(); j++) {
-                    if (projSelDTO.getVarIndicator().equals(VALUE.getConstant())) {
-                        if (obj[index + ((j + 1) * priorIndex)] == null) {
-                            String baseValue = getFormattedValue(isPer ? RATE : AMOUNT, "0.00");
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), isPer ? baseValue + PERCENT : baseValue);
-                        } else {
-                            String priorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index + ((j + 1) * priorIndex)])));
-                            String val = getFormattedValue(isPer ? RATE : AMOUNT, priorVal);
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), isPer ? val + PERCENT : val);
-                        }
-                    } else if (projSelDTO.getVarIndicator().equals(VARIANCE.getConstant())) {
-                        if (obj[index + ((j + 1) * priorIndex)] == null && obj[index] == null) {
-                            String baseValue = getFormattedValue(isPer ? RATE : AMOUNT, "0.00");
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), isPer ? baseValue + PERCENT : baseValue);
-                        } else {
-                            String priorVal = StringUtils.EMPTY + obj[index + ((j + 1) * priorIndex)];
-                             String val = StringUtils.EMPTY;
-                           if (actualBasis) {
-                                if (isPer) {
-                                    val = getVariance(actValue, priorVal, RATE_PER);
-                                } else {
-                                    val = getVariance(actValue, priorVal, AMOUNT);
-                                }
-                                pvDTO.addStringProperties(commonColumn + priorList.get(j), isPer ? val + PERCENT : val);
-                        } else {
-                            if (isPer) {
-                                val = getVariance(currentValue, priorVal, RATE_PER);
-                            } else {
-                                val = getVariance(currentValue, priorVal, AMOUNT);
-                            }
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), isPer ? val + PERCENT : val);
-                        }
-                        }
-                    } else if (obj[index + ((j + 1) * priorIndex)] == null && obj[index] == null) {
-                        String baseValue = getFormattedValue(isPer ? RATE : AMOUNT, "0.00");
-                        pvDTO.addStringProperties(commonColumn + priorList.get(j), isPer ? baseValue + PERCENT : baseValue);
-                    } else {
-                        String priorVal = StringUtils.EMPTY + obj[index + ((j + 1) * priorIndex)];
-                        String val = StringUtils.EMPTY;
-                        if (actualBasis) {
-                            String baseValu = getPerChange(actValue, priorVal, RATE_PER);
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), baseValu + PERCENT);
-                        } else {
-                            String baseValu = getPerChange(currentValue, priorVal, RATE_PER);
-                            pvDTO.addStringProperties(commonColumn + priorList.get(j), baseValu + PERCENT);
-                        }
-                    }
+                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn + priorList.get(j), index, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT);
                 }
                 if (i == dataList.size() - 1) {
                     resultDto.add(pvDTO);
@@ -5972,7 +2818,7 @@ public class ProjectionVarianceLogic {
         String ASTERIK = "*";
         String PERCENT = "%";
         List inputList = new ArrayList();
-        if (comparisonLookup.getWorkflowStatus() != null && !comparisonLookup.getWorkflowStatus().equals(Constants.SELECT_ONE)) { //Added for GAL-9231
+        if (comparisonLookup.getWorkflowStatus() != null && !comparisonLookup.getWorkflowStatus().equals(Constants.SELECT_ONE_LABEL)) { //Added for GAL-9231
             if (!comparisonLookup.getWorkflowStatus().equals("Saved")) {
                 inputList.add(comparisonLookup.getWorkflowStatus());
             } else {
@@ -6030,8 +2876,7 @@ public class ProjectionVarianceLogic {
         map.put("contract", "C.CONTRACT_NAME");
         map.put("brand", "BM.BRAND_NAME");
         map.put("createdDateFrom", "PM.CREATED_DATE");
-        map.put("createdBy", "PM.CREATED_BY");
-        map.put("createdBy", "PM.CFF_MASTER_SID");
+        map.put(StringConstantsUtil.CREATED_BY1, "PM.CREATED_BY");
         return map;
     }
 
@@ -6044,13 +2889,13 @@ public class ProjectionVarianceLogic {
         map.put("contract", "CONTRACT");
         map.put("brand", "BRAND");
         map.put("createdDateFrom", "CTE.CREATED_DATE");
-        map.put("createdBy", "CTE.CREATED_BY");
-        map.put("createdBy", "CTE.CFF_MASTER_SID");
+        map.put(StringConstantsUtil.CREATED_BY1, "CTE.CREATED_BY");
+        map.put(StringConstantsUtil.CREATED_BY1, "CTE.CFF_MASTER_SID");
         return map;
     }
 
     private String getCommonColumn(int frequencyDivision, String column) {
-        String returnString = StringUtils.EMPTY;
+        String returnString;
         if (frequencyDivision == NumericConstants.FOUR) {
             returnString = column.replace("q", "Q");
             return returnString;
@@ -6072,7 +2917,7 @@ public class ProjectionVarianceLogic {
             return returnValue;
         } else {
             returnValue = StringUtils.EMPTY + obj;
-            if ("Amount".equals(component)) {
+            if (StringConstantsUtil.AMOUNT1.equals(component)) {
                 returnValue = getFormattedValue(AMOUNT, returnValue);
             } else if ("Rate".equals(component)) {
                 returnValue = getFormattedValue(RATE, returnValue);
@@ -6100,16 +2945,11 @@ public class ProjectionVarianceLogic {
         Double val = Double.valueOf(isNull(actualValue));
         Double val1 = Double.valueOf(isNull(priorVal));
         String value;
-        String variance = StringUtils.EMPTY;
+        String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
-//            if (val1 > val) {
-//                value = String.valueOf(roundToFraction(Double.valueOf(val1 - val), 10000));
-//                value = roundToFraction(Double.valueOf(value), 100) + "";
-//            } else {
                 
                 value = String.valueOf(roundToFraction((val - val1), 10000));
                 value = roundToFraction(Double.valueOf(value), 100) + "";
-//            }
             value = getFormattedValue(format, value);
         } else {
             variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
@@ -6119,20 +2959,15 @@ public class ProjectionVarianceLogic {
     }
 
     public String getPerChange(String actualValue, String priorVal, DecimalFormat format) {
-        DecimalFormat formatter = new DecimalFormat("#,##0.00"); 
+        DecimalFormat formatter = new DecimalFormat(TWO_DECIMAL); 
         Double val = Double.valueOf(isNull(actualValue));
         Double val1 = Double.valueOf(isNull(priorVal));
         String value;
-        String variance = StringUtils.EMPTY;
+        String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
-//            if (val1 > val) {
-//                value = String.valueOf(roundToFraction(Double.valueOf(val1 - val), 10000));
-//                value = roundToFraction(Double.valueOf(value), 100) + "";
-//            } else {
                 
                 value = String.valueOf(roundToFraction((val - val1), 10000));
                 value = roundToFraction(Double.valueOf(value), 100) + "";
-//            }
         } else {
             variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
             value = getFormattedValue(formatter, variance);
@@ -6159,52 +2994,12 @@ public class ProjectionVarianceLogic {
     }
     
     
-    public void customizePivot(String variableValue, String variableCategory, String currentSales, String actualSales, PVSelectionDTO pvsdto, ProjectionVarianceDTO projDTO, List<String> columnList,DecimalFormat format) {
+    public void customizePivot(String variableValue, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO projDTO, List<String> columnList, DecimalFormat format, int index, Object[] obj,boolean isTotalLevel) {
         try {
-            String column = StringUtils.EMPTY;
-            String columnAct = StringUtils.EMPTY;
-            boolean actualBasis = "Actuals".equalsIgnoreCase(pvsdto.getComparisonBasis());
-            boolean actualCheck = "null".equalsIgnoreCase(actualSales);
-            boolean isPer = format.equals(RATE);
-
-            if (variableCategory.equals(Constants.VALUE)) {
-                //for current
-                columnAct = variableValue + ACTUAL + pvsdto.getCurrentProjId();
-                String baseValueAct = getFormattedValue(format, actualSales);
-                if (pvsdto.hasColumn(columnAct)) {
-                        projDTO.addStringProperties(columnAct, isPer ? baseValueAct + PERCENT : baseValueAct);
-                    
-                    columnList.remove(columnAct);
-                }
-                //for current
-                column = variableValue + CURRENT + pvsdto.getCurrentProjId();
-                String baseValue = getFormattedValue(format, currentSales);
-                if (pvsdto.hasColumn(column)) {
-                    projDTO.addStringProperties(column, isPer ? baseValue + PERCENT : baseValue);
-                    columnList.remove(column);
-                }
-            }
-
-            if (actualBasis) {
-
-                    if (variableCategory.equals(Constants.VARIANCE)) {
-                        column = variableValue + CURRENT + pvsdto.getCurrentProjId();
-//                        for CURRENT
-                        String val = getVariance(actualSales, currentSales, format);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, isPer ? val + PERCENT : val);
-                            columnList.remove(column);
-                        }
-                    }
-                    if (variableCategory.equals(Constants.CHANGE)) {
-                        column = variableValue + CURRENT + pvsdto.getCurrentProjId();
-//                        for CURRENT
-                        String val = getPerChange(actualSales, currentSales, format);
-                        if (pvsdto.hasColumn(column)) {
-                            projDTO.addStringProperties(column, val + PERCENT);
-                            columnList.remove(column);
-                        }
-                    }
+            List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
+            PVCommonLogic.customizePeriod(variableValue, variableCategory, pvsdto, projDTO, format, index, obj, format.equals(RATE));
+            for (int j = 0; j < priorList.size(); j++) {
+                PVCommonLogic.getPriorCommonCustomization(variableCategory, pvsdto, obj, projDTO, variableValue + priorList.get(j), index, j, format.equals(RATE), isTotalLevel ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DISCOUNT, format);
             }
 
         } catch (Exception e) {

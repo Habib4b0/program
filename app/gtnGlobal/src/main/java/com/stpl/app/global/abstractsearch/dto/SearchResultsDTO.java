@@ -174,14 +174,14 @@ public class SearchResultsDTO implements Serializable {
     private String parentCompanyFamilyPlanId = StringUtils.EMPTY;
     private String companyFamilyPlanCategory = StringUtils.EMPTY;
     private String companyFamilyPlanTradeClass = StringUtils.EMPTY;
-    private int companyFamilyPlanSystemId;
+   private String companyFamilyPlanSystemId  = StringUtils.EMPTY;
     private Date cfpmodifiedDate;
     private String cfpmodifiedBy;
     private String cfpcreatedBy;
     private Date cfpcreatedDate;
 
     //Item Family Plan
-    private int itemFamilyplanSystemId;
+    private String itemFamilyplanSystemId = StringUtils.EMPTY;
     private String ifpId = StringUtils.EMPTY;
     private String ifpNo = StringUtils.EMPTY;
     private String ifpName = StringUtils.EMPTY;
@@ -1510,11 +1510,11 @@ public class SearchResultsDTO implements Serializable {
         this.companyFamilyPlanTradeClass = companyFamilyPlanTradeClass;
     }
 
-    public int getCompanyFamilyPlanSystemId() {
+    public String getCompanyFamilyPlanSystemId() {
         return companyFamilyPlanSystemId;
     }
 
-    public void setCompanyFamilyPlanSystemId(int companyFamilyPlanSystemId) {
+    public void setCompanyFamilyPlanSystemId(String companyFamilyPlanSystemId) {
         this.companyFamilyPlanSystemId = companyFamilyPlanSystemId;
     }
 
@@ -1550,11 +1550,11 @@ public class SearchResultsDTO implements Serializable {
         this.cfpcreatedDate = cfpcreatedDate;
     }
 
-    public int getItemFamilyplanSystemId() {
+   public String getItemFamilyplanSystemId() {
         return itemFamilyplanSystemId;
     }
 
-    public void setItemFamilyplanSystemId(int itemFamilyplanSystemId) {
+    public void setItemFamilyplanSystemId(String itemFamilyplanSystemId) {
         this.itemFamilyplanSystemId = itemFamilyplanSystemId;
     }
 

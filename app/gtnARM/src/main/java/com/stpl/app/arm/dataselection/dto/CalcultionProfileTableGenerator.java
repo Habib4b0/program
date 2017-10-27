@@ -34,21 +34,22 @@ public class CalcultionProfileTableGenerator extends DefaultFieldFactory {
      * @param uiContext
      * @return
      */
+    @Override
     public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
         Field<?> field = null;
 
-        if (propertyId.equals("include")) {
+        if ("include".equals(propertyId)) {
             final CheckBox checkbox = new CheckBox();
             checkbox.setReadOnly(false);
             checkbox.setImmediate(true);
             field = checkbox;
         }
-        if (propertyId.equals("accountType")) {
+        if ("accountType".equals(propertyId)) {
             ComboBox indicator = new ComboBox();
             CommonUtils.loadComboBoxWithIntegerForComboBox(indicator, "ARM_ACCOUNT_TYPE", false);
             field = indicator;
         }
-        if (propertyId.equals("indicator")) {
+        if ("indicator".equals(propertyId)) {
             ComboBox indicator = new ComboBox();
             loadComboBoxWithIntegerForIndicator(indicator, false);
             field = indicator;
@@ -58,32 +59,19 @@ public class CalcultionProfileTableGenerator extends DefaultFieldFactory {
         return field;
     }
 
-//    public ComboBox loadIndicator(ComboBox massCombo, boolean isFilter) {
-//        String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE;
-//        massCombo.removeAllItems();
-//        massCombo.addItem(defaultValue);
-//        massCombo.setNullSelectionAllowed(true);
-//        massCombo.setImmediate(true);
-//        massCombo.addItem("+");
-//        massCombo.addItem("-");
-//        massCombo.setNullSelectionItemId(defaultValue);
-//        return massCombo;
-//    }
-//    
-      public static ComboBox loadComboBoxWithIntegerForIndicator(final ComboBox select, boolean isFilter) {
+    public static ComboBox loadComboBoxWithIntegerForIndicator(final ComboBox select, boolean isFilter) {
         try {
             select.setImmediate(true);
             select.setNullSelectionAllowed(false);
-//            select.setData(listName);
             select.addItem(0);
             select.setItemCaption(0, isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE);
-          
-                    select.addItem(1);
-                    select.setItemCaption(1, "+");
-                    
-                    select.addItem(-1);
-                    select.setItemCaption(-1, "-");
-             
+
+            select.addItem(1);
+            select.setItemCaption(1, "+");
+
+            select.addItem(-1);
+            select.setItemCaption(-1, "-");
+
             select.select(0);
             select.markAsDirty();
             select.setDescription((String) (select.getValue() == DASH ? ConstantsUtils.SELECT_ONE : select.getItemCaption(select.getValue())));
@@ -92,5 +80,5 @@ public class CalcultionProfileTableGenerator extends DefaultFieldFactory {
         }
         return select;
     }
-    
+
 }

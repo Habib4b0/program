@@ -909,6 +909,8 @@
         <column db-name="SHELF_LIFE" name="shelfLife" primary="false" type="String"/>
         <column db-name="MARKET_TERMINATION_DATE" name="marketTerminationDate" primary="false" type="String"/>
         <column db-name="CHECK_RECORD" name="checkRecord" primary="false" type="boolean"/>
+        <column db-name="BASE_CPI_PRECISION" name="baseCpiPrecision" primary="false" type="int"/>
+        <column db-name="BASELINE_AMP_PRECISION" name="baselineAmpPrecision" primary="false" type="int"/>
     </entity>
     
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="IvldItemPricing" remote-service="false" session-factory="appSessionFactory" table="IVLD_ITEM_PRICING" tx-manager="appTransactionManager">
@@ -938,6 +940,7 @@
         <column db-name="ITEM_PRICE" name="itemPrice" primary="false" type="String"/>
         <column db-name="INTF_INSERTED_DATE" name="intfInsertedDate" primary="false" type="Date"/>
         <column db-name="CHECK_RECORD" name="checkRecord" primary="false" type="boolean"/>
+        <column db-name="ITEM_PRICE_PRECISION" name="itemPriceprecision" primary="false" type="String"/>
     </entity>
     
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="IvldItemIdentifier" remote-service="false" session-factory="appSessionFactory" table="IVLD_ITEM_IDENTIFIER" tx-manager="appTransactionManager">
@@ -1043,6 +1046,7 @@
         <column db-name="ITEM_PRICING_SID" name="itemPricingSid" primary="true" type="int"/>
         <column db-name="PRICING_CODE_STATUS" name="pricingCodeStatus" primary="false" type="String"/>
         <column db-name="PRICING_CODE_QUALIFIER_NAME" name="pricingCodeQualifierName" primary="false" type="String"/>
+        <column db-name="ITEM_PRICE_PRECISION" name="itemPriceprecision" primary="false" type="int"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="VwCompanyIdentifier" remote-service="false" session-factory="appSessionFactory" table="VW_COMPANY_IDENTIFIER" tx-manager="appTransactionManager">
         <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
@@ -1176,6 +1180,8 @@
         <column db-name="ITEM_CODE" name="itemCode" primary="false" type="String"/>
         <column db-name="CLOTTING_FACTOR_START_DATE" name="clottingFactorStartDate" primary="false" type="Date"/>
         <column db-name="NON_FEDERAL_EXPIRATION_DATE" name="nonFederalExpirationDate" primary="false" type="Date"/>
+        <column db-name="BASE_CPI_PRECISION" name="baseCpiPrecision" primary="false" type="int"/>
+        <column db-name="BASELINE_AMP_PRECISION" name="baselineAmpPrecision" primary="false" type="int"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="VwCompanyMaster" remote-service="false" session-factory="appSessionFactory" table="VW_COMPANY_MASTER" tx-manager="appTransactionManager">
         <column db-name="STATE" name="state" primary="false" type="String"/>

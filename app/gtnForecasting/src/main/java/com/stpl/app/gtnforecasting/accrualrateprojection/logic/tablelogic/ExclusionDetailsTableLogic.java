@@ -37,10 +37,10 @@ public class ExclusionDetailsTableLogic  extends PageTableLogic {
         int count = 0;
         switch (tableName) {           
             case AccrualRateUtils.AVAILABLE_VALUES:
-            count = searchLogic.getCompanysCount(this.getSortByColumns(), this.getFilters());               
+            count = searchLogic.getCompanysCount(this.getFilters());               
                 break;
             case AccrualRateUtils.EXCLUDED_VALUES:    
-                 count = searchLogic.getExcludedCompanysCount(accrualRateSelectionDTO, this.getSortByColumns(), this.getFilters(), isViewMode);
+                 count = searchLogic.getExcludedCompanysCount(accrualRateSelectionDTO, this.getFilters(), isViewMode);
                 break;           
             default:
                 LOGGER.warn("Count - Table Name is not valid: " + tableName);

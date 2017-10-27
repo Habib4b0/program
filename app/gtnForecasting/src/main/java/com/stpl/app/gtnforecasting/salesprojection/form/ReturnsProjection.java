@@ -57,12 +57,12 @@ public class ReturnsProjection extends ForecastSalesProjection {
     private static final Logger LOGGER = Logger.getLogger(ReturnsProjection.class);
     private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
 
-    public ReturnsProjection(SessionDTO session, String screenName) throws PortalException, Exception  {
+    public ReturnsProjection(SessionDTO session, String screenName) throws Exception  {
         super(session, screenName);
         init();
     }
 
-    public void init() throws PortalException, Exception  {
+    public void init()   {
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
         populateLevel.setVisible(true);
@@ -160,7 +160,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
 
     @Override
     protected void enableDisableFields() {
-
+        return;
     }
 
     @Override
@@ -170,7 +170,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
 
     @Override
     protected void adjustmentLogic() {
-
+        return;
     }
 
     @Override
@@ -218,17 +218,17 @@ public class ReturnsProjection extends ForecastSalesProjection {
 
     @Override
     protected void massUpdateLogic() {
-
+        return;
     }
 
     @Override
     protected void viewChangeOption() {
-
+        return;
     }
 
     @Override
     protected void customDdlbChangeOption() {
-
+        return;
     }
 
     @Override
@@ -283,7 +283,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
 
     @Override
     protected void pmpyLogic() {
-      
+        return;
     }
 
     private void addResultTable() {
@@ -300,7 +300,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
         List<Integer> pagelength = CommonLogic.getPageNumber();
         mSalesProjectionTableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         excelHeader = new CustomTableHeaderDTO();
-        leftHeader = HeaderUtils.getProjectionReturnsLeftTableColumns(projectionDTO, excelHeader);
+        leftHeader = HeaderUtils.getProjectionReturnsLeftTableColumns(excelHeader);
         rightHeader = HeaderUtils.getSalesProjectionRightTableColumns(projectionDTO, fullHeader, excelHeader);
 
         customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
@@ -331,9 +331,9 @@ public class ReturnsProjection extends ForecastSalesProjection {
         rightTable.setDoubleHeaderMap(rightHeader.getDoubleHeaderMaps());
         leftTable.setDoubleHeaderMap(leftHeader.getDoubleHeaderMaps());
         loadPeriods();
-        resultsTable.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        resultsTable.setHeight(Constant.SIX_FIFTY_PX);
+        leftTable.setHeight(Constant.SIX_FIFTY_PX);
+        rightTable.setHeight(Constant.SIX_FIFTY_PX);
         leftTable.setSortEnabled(false);
         rightTable.setSortEnabled(false);
         List headerList = rightHeader.getSingleColumns();
@@ -376,7 +376,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
             map.put(Constant.HISTORY_CAPS, historyDdlb.getValue().toString());
             map.put("Actuals/Projections", actualsProjections.getValue().toString());
             map.put(Constant.PERIOD_ORDER, proPeriodOrd.getValue().toString());
-            sprCommonLogic.saveReturnsSPSelection(map, session.getProjectionId(), "Sales Projection");
+            sprCommonLogic.saveReturnsSPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

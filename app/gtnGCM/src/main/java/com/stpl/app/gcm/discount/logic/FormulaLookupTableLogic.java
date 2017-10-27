@@ -52,7 +52,7 @@ public class FormulaLookupTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
-        List<LookupDTO> resultList = new ArrayList<LookupDTO>();
+        List<LookupDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.getFormulaSearchResults(binderDto);
         } catch (Exception ex) {

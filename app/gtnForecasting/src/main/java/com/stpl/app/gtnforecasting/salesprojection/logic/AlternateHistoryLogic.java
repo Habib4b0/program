@@ -11,6 +11,7 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.logic.DataSelectio
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getMonthForInt;
 import com.stpl.app.gtnforecasting.utils.TabNameUtil;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
@@ -58,27 +59,33 @@ public class AlternateHistoryLogic {
     String PROJECTED_SALES = "projectionSales";
     String PROJECTED_UNITS = "projectionUnits";
     String ACTUAL_PAYMENT = "actualPayments";
+    
+    public static final String PROJECTION_DETAILS_SID = "[$PROJECTION_DETAILS_SID]";
+    public static final String END_DATE = "[$END_DATE]";
+    public static final String START_DATE = "[$START_DATE]";
+    public static final String TABLE_NAME = "[$TABLE_NAME]";
+    
     String PROJECTED_PAYMENT = "projectionPayments";
     /**
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = Logger.getLogger(AlternateHistoryLogic.class);
 
-    public int companySearchCount(CustomFieldGroup customerSearchBinder, AlternateHistoryDTO altHistoryDTO, 
-            Set<Container.Filter> filters,SessionDTO session) throws PortalException, SystemException {
+    public int companySearchCount(AlternateHistoryDTO altHistoryDTO, 
+            Set<Container.Filter> filters,SessionDTO session)  {
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         LOGGER.debug("--customer No-----" + altHistoryDTO.getCustomerNo());
         if (isValidCriteria(altHistoryDTO.getContractHolder())) {
             String contractHolder = altHistoryDTO.getContractHolder();
             contractHolder = contractHolder.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("contractHolder", contractHolder);
+            parameters.put(Constant.CONTRACT_HOLDER, contractHolder);
         }
 
         if (isValidCriteria(altHistoryDTO.getContractNo())) {
             String contractNo = altHistoryDTO.getContractNo();
             contractNo = contractNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("contractNo", contractNo);
+            parameters.put(Constant.CONTRACT_NO1, contractNo);
         }
 
         if (isValidCriteria(altHistoryDTO.getCustomerNo())) {
@@ -89,13 +96,13 @@ public class AlternateHistoryLogic {
         if (isValidCriteria(altHistoryDTO.getMarketType())) {
             String marketType = altHistoryDTO.getMarketType();
             marketType = marketType.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("marketType", marketType);
+            parameters.put(Constant.MARKET_TYPE, marketType);
         }
 
         if (isValidCriteria(altHistoryDTO.getContractName())) {
             String contractName = altHistoryDTO.getContractName();
             contractName = contractName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("contractName", contractName);
+            parameters.put(Constant.CONTRACT_NAME, contractName);
         }
 
         if (isValidCriteria(altHistoryDTO.getCustomerName())) {
@@ -118,22 +125,22 @@ public class AlternateHistoryLogic {
 
     
 
-    public List<AlternateHistoryDTO> searchCompany(CustomFieldGroup customerSearchBinder, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset, SessionDTO session) {
+    public List<AlternateHistoryDTO> searchCompany(AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset, SessionDTO session) {
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         List list=Collections.EMPTY_LIST;
         try{
         if (isValidCriteria(altHistoryDTO.getContractHolder())) {
             String contractHolder = altHistoryDTO.getContractHolder();
             contractHolder = contractHolder.replace(CommonUtils.CHAR_ASTERISK, '%');
 
-            parameters.put("contractHolder", contractHolder);
+            parameters.put(Constant.CONTRACT_HOLDER, contractHolder);
         }
 
         if (isValidCriteria(altHistoryDTO.getContractNo())) {
             String contractNo = altHistoryDTO.getContractNo();
             contractNo = contractNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("contractNo", contractNo);
+            parameters.put(Constant.CONTRACT_NO1, contractNo);
         }
 
         if (isValidCriteria(altHistoryDTO.getCustomerNo())) {
@@ -144,13 +151,13 @@ public class AlternateHistoryLogic {
         if (isValidCriteria(altHistoryDTO.getMarketType())) {
             String marketType = altHistoryDTO.getMarketType();
             marketType = marketType.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("marketType", marketType);
+            parameters.put(Constant.MARKET_TYPE, marketType);
         }
 
         if (isValidCriteria(altHistoryDTO.getContractName())) {
             String contractName = altHistoryDTO.getContractName();
             contractName = contractName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("contractName", contractName);
+            parameters.put(Constant.CONTRACT_NAME, contractName);
         }
 
         if (isValidCriteria(altHistoryDTO.getCustomerName())) {
@@ -191,7 +198,7 @@ public class AlternateHistoryLogic {
 
     private List<AlternateHistoryDTO> getCustomizedDTO(List list) {
 
-        List<AlternateHistoryDTO> companyList = new ArrayList<AlternateHistoryDTO>();
+        List<AlternateHistoryDTO> companyList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             int size = list.size();
             for (int i = 0; i < size; i++) {
@@ -217,8 +224,8 @@ public class AlternateHistoryLogic {
 
 
 
-    public int itemsSearchCount(CustomFieldGroup customerSearchBinder, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, SessionDTO session) throws PortalException, SystemException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public int itemsSearchCount(AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, SessionDTO session)  {
+        Map<String, Object> parameters = new HashMap<>();
         if (isValidCriteria(altHistoryDTO.getItemNo())) {
             String itemNo = altHistoryDTO.getItemNo();
             itemNo = itemNo.replace(CommonUtils.CHAR_ASTERISK, '%');
@@ -228,23 +235,23 @@ public class AlternateHistoryLogic {
         if (!Constant.NULL.equals(altHistoryDTO.getItemName())) {
             String itemName = altHistoryDTO.getItemName();
             itemName = itemName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("itemName", itemName);
+            parameters.put(Constant.ITEM_NAME_SMALL_PROPERY, itemName);
         }
         if (!Constant.NULL.equals(altHistoryDTO.getBusinessUnitNo())) {
             String businessUnitNo = altHistoryDTO.getBusinessUnitNo();
             businessUnitNo = businessUnitNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("businessUnitNo", businessUnitNo);
+            parameters.put(Constant.BUSINESS_UNIT_NO_PROPERTY, businessUnitNo);
         }
         if (!Constant.NULL.equals(altHistoryDTO.getBusinessUnitName())) {
             String businessUnitName = altHistoryDTO.getBusinessUnitName();
             businessUnitName = businessUnitName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("businessUnitName", businessUnitName);
+            parameters.put(Constant.BUSINESS_UNIT_NAME_PROPERTY, businessUnitName);
         }
 
         if (!Constant.NULL.equals(altHistoryDTO.getTheraputicClass())) {
             String theraputicClass = altHistoryDTO.getTheraputicClass();
             theraputicClass = theraputicClass.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("theraputicClass", theraputicClass);
+            parameters.put(Constant.THERAPUTIC_CLASS_PROPERTY, theraputicClass);
         }
 
         if (!Constant.NULL.equals(altHistoryDTO.getBrand())) {
@@ -253,13 +260,13 @@ public class AlternateHistoryLogic {
         }
         if (!Constant.NULL.equals(altHistoryDTO.getItemIdentifierType())) {
             String itemIdentifierType = altHistoryDTO.getItemIdentifierType();
-            parameters.put("itemIdentifierType", itemIdentifierType);
+            parameters.put(Constant.ITEM_IDENTIFIER_TYPE, itemIdentifierType);
         }
 
         if (!Constant.NULL.equals(altHistoryDTO.getItemIdentifier())) {
             String itemIdentifier = altHistoryDTO.getItemIdentifier();
             itemIdentifier = itemIdentifier.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("itemIdentifier", itemIdentifier);
+            parameters.put(Constant.ITEM_IDENTIFIER, itemIdentifier);
         }
 
         if (filters != null) {
@@ -277,9 +284,9 @@ public class AlternateHistoryLogic {
 
     }
 
-    public List<AlternateHistoryDTO> searchItems(CustomFieldGroup customerSearchBinder, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset, SessionDTO session, boolean isAddAll) {
+    public List<AlternateHistoryDTO> searchItems(AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset, SessionDTO session) {
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
 
         boolean isIdentifierSelected = false;
         if (isValidCriteria(altHistoryDTO.getItemNo())) {
@@ -291,22 +298,22 @@ public class AlternateHistoryLogic {
         if (!Constant.NULL.equals(altHistoryDTO.getItemName())) {
             String itemName = altHistoryDTO.getItemName();
             itemName = itemName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("itemName", itemName);
+            parameters.put(Constant.ITEM_NAME_SMALL_PROPERY, itemName);
         }
         if (!Constant.NULL.equals(altHistoryDTO.getBusinessUnitNo())) {
             String businessUnitNo = altHistoryDTO.getBusinessUnitNo();
             businessUnitNo = businessUnitNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("businessUnitNo", businessUnitNo);
+            parameters.put(Constant.BUSINESS_UNIT_NO_PROPERTY, businessUnitNo);
         }
         if (!Constant.NULL.equals(altHistoryDTO.getBusinessUnitName())) {
             String businessUnitName = altHistoryDTO.getBusinessUnitName();
             businessUnitName = businessUnitName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("businessUnitName", businessUnitName);
+            parameters.put(Constant.BUSINESS_UNIT_NAME_PROPERTY, businessUnitName);
         }
         if (!Constant.NULL.equals(altHistoryDTO.getTheraputicClass())) {
             String theraputicClass = altHistoryDTO.getTheraputicClass();
             theraputicClass = theraputicClass.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("theraputicClass", theraputicClass);
+            parameters.put(Constant.THERAPUTIC_CLASS_PROPERTY, theraputicClass);
         }
 
         if (!Constant.NULL.equals(altHistoryDTO.getBrand())) {
@@ -316,13 +323,13 @@ public class AlternateHistoryLogic {
 
         if (!Constant.NULL.equals(altHistoryDTO.getItemIdentifierType())) {
             String itemIdentifierType = altHistoryDTO.getItemIdentifierType();
-            parameters.put("itemIdentifierType", itemIdentifierType);
+            parameters.put(Constant.ITEM_IDENTIFIER_TYPE, itemIdentifierType);
             isIdentifierSelected = true;
         }
         if (!Constant.NULL.equals(altHistoryDTO.getItemIdentifier())) {
             String itemIdentifier = altHistoryDTO.getItemIdentifier();
             itemIdentifier = itemIdentifier.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("itemIdentifier", itemIdentifier);
+            parameters.put(Constant.ITEM_IDENTIFIER, itemIdentifier);
         }
 
         if (filters != null) {
@@ -375,16 +382,16 @@ public class AlternateHistoryLogic {
         return itemsList;
     }
         
-    public int getCheckedItemsCount(CustomFieldGroup customerSearchBinder, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, SessionDTO sessionDto) {
+    public int getCheckedItemsCount(AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, SessionDTO sessionDto) {
         List list;
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
                 }
             }
 
@@ -401,36 +408,36 @@ public class AlternateHistoryLogic {
         int count = 0;
 
         //For Filters
-        if (parameters.containsKey("filter~businessUnitName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~businessUnitName")))) {
-            query = query + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~businessUnitName")) + "'";
+        if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)))) {
+            query = query + " AND CM.COMPANY_NAME  like '" + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemIdentifierType") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemIdentifierType")))) {
-            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get("filter~itemIdentifierType")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)))) {
+            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)) + "'";
         }
 
-        if (parameters.containsKey("filter~businessUnitNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~businessUnitNo")))) {
-            query = query + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get("filter~businessUnitNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)))) {
+            query = query + "  AND CM.COMPANY_NO  like '" + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemName")))) {
-            query = query + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get("filter~itemName")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
+            query = query + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~theraputicClass") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~theraputicClass")))) {
-            query = query + " AND HT1.DESCRIPTION like '" + String.valueOf(parameters.get("filter~theraputicClass")) + "'";
+        if (parameters.containsKey(Constant.FILTERTHERAPUTIC_CLASS) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)))) {
+            query = query + " AND HT1.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemNo")))) {
-            query = query + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get("filter~itemNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
+            query = query + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~brand") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~brand")))) {
-            query = query + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get("filter~brand")) + "'";
+        if (parameters.containsKey(Constant.FILTERBRAND) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBRAND)))) {
+            query = query + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get(Constant.FILTERBRAND)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemIdentifier") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemIdentifier")))) {
-            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get("filter~itemIdentifier")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)))) {
+            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)) + "'";
         }
         query = query + ") TMP_COUNT;";
 
@@ -445,16 +452,16 @@ public class AlternateHistoryLogic {
         return count;
     }
 
-    public List<AlternateHistoryDTO> getCheckedItemsFromTemptable(CustomFieldGroup customerSearchBinder, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset,SessionDTO sessionDto) {
+    public List<AlternateHistoryDTO> getCheckedItemsFromTemptable( AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset,SessionDTO sessionDto) {
 
         List list;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
 
                 }
             }
@@ -470,38 +477,38 @@ public class AlternateHistoryLogic {
             isIdentifierSelected = false;
         }
 
-        if (parameters.containsKey("filter~businessUnitName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~businessUnitName")))) {
-            query = query + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~businessUnitName")) + "'";
+        if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)))) {
+            query = query + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemIdentifierType") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemIdentifierType")))) {
-            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get("filter~itemIdentifierType")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)))) {
+            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)) + "'";
         }
 
-        if (parameters.containsKey("filter~businessUnitNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~businessUnitNo")))) {
-            query = query + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get("filter~businessUnitNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)))) {
+            query = query + "  AND CM.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemName")))) {
-            query = query + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get("filter~itemName")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
+            query = query + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~theraputicClass") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~theraputicClass")))) {
-            query = query + " AND HT1.DESCRIPTION like '" + String.valueOf(parameters.get("filter~theraputicClass")) + "'";
+        if (parameters.containsKey(Constant.FILTERTHERAPUTIC_CLASS) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)))) {
+            query = query + " AND HT1.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemNo")))) {
-            query = query + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get("filter~itemNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
+            query = query + "  AND IM.ITEM_NO like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~brand") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~brand")))) {
-            query = query + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get("filter~brand")) + "'";
+        if (parameters.containsKey(Constant.FILTERBRAND) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBRAND)))) {
+            query = query + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get(Constant.FILTERBRAND)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemIdentifier") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemIdentifier")))) {
-            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get("filter~itemIdentifier")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)))) {
+            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)) + "'";
         }
-        query += " ORDER BY ITEM_NAME OFFSET " + start + "  ROWS FETCH NEXT " + offset + " ROWS ONLY";
+        query += " ORDER BY ITEM_NAME OFFSET " + start + "  ROWS FETCH NEXT " + offset + Constant.ROWS_ONLY_SPACE;
 
         list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()));
 
@@ -540,7 +547,7 @@ public class AlternateHistoryLogic {
     }
 
     public List<AlternateHistoryDTO> alternateSelectionList(SessionDTO session, AlternateHistoryDTO dto, Set<Container.Filter> filters,final int start,final int offset,final boolean isExcelExport,final Set checkedCCPSet) {
-        List<AlternateHistoryDTO> actualsList = new ArrayList<AlternateHistoryDTO>();
+        List<AlternateHistoryDTO> actualsList = new ArrayList<>();
         try {
         AlternateHistoryDTO dto2 = new AlternateHistoryDTO();
         dto2.setContractName("test Contract");
@@ -554,14 +561,14 @@ public class AlternateHistoryLogic {
 
         String projection = dto.getActualsOrProjections();
         AlternateHistoryDTO altDTO = null;
-        String commonColumn = StringUtils.EMPTY;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        String commonColumn;
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
                 }
             }
         }
@@ -569,33 +576,33 @@ public class AlternateHistoryLogic {
         String itemFilter = StringUtils.EMPTY;
         String contractFilter = StringUtils.EMPTY;
         
-         if (parameters.containsKey("filter~contractNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractNo")))) {
-            contractFilter = contractFilter + " AND CON.CONTRACT_NO like '" + String.valueOf(parameters.get("filter~contractNo")) + "'";
+         if (parameters.containsKey(Constant.FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)))) {
+            contractFilter = contractFilter + " AND CON.CONTRACT_NO like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~contractName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractName")))) {
-            contractFilter = contractFilter + " AND CON.CONTRACT_NAME like '" + String.valueOf(parameters.get("filter~contractName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
+            contractFilter = contractFilter + " AND CON.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~customerNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerNo")))) {
-            companyFilter = companyFilter + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get("filter~customerNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
+            companyFilter = companyFilter + " AND CM.COMPANY_NO  like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~customerName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerName")))) {
-            companyFilter = companyFilter + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~customerName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
+            companyFilter = companyFilter + " AND CM.COMPANY_NAME like  '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemNo")))) {
-            itemFilter = itemFilter + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get("filter~itemNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
+            itemFilter = itemFilter + " AND IM.ITEM_NO like  '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemName")))) {
-            itemFilter = itemFilter + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get("filter~itemName")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
+            itemFilter = itemFilter + "  AND  IM.ITEM_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
         }
         
         String frequency;
         String filterFrequency = StringUtils.EMPTY;
-        String innerFrequency = StringUtils.EMPTY;
+        String innerFrequency;
         
          
         if (freq.equals(Constant.QUARTERLY)) {
@@ -649,12 +656,12 @@ public class AlternateHistoryLogic {
                 Object[] obj = (Object[]) list.get(i);
                 String ccpId = String.valueOf(obj[NumericConstants.EIGHT]);
                 if (ccpId.equals(currentccpId)) {
-                    if ("Sales Projection".equals(session.getForecastName())) {
+                    if (Constant.SALES_PROJECTION.equals(session.getForecastName())) {
                         if (projection.contains(Constant.BOTH) || projection.contains(ACTUALS.getConstant())) {
                             commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_SALES;
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[0]));
                        commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_UNITS;
-                            if(freq.equals("Annually")){
+                            if(freq.equals(ANNUALLY.getConstant())){
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.TEN]));
                             }else{
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.ELEVEN]));
@@ -665,7 +672,7 @@ public class AlternateHistoryLogic {
 
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[1]));
                               commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + PROJECTED_UNITS;
-                            if(freq.equals("Annually")){
+                            if(freq.equals(ANNUALLY.getConstant())){
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.ELEVEN]));
                             }else{
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.TWELVE]));
@@ -691,7 +698,7 @@ public class AlternateHistoryLogic {
 
                     currentccpId = ccpId;
                     altDTO = new AlternateHistoryDTO();
-                    if(freq.equals("Annually")){
+                    if(freq.equals(ANNUALLY.getConstant())){
                      altDTO = new AlternateHistoryDTO();
                     altDTO.setContractName(String.valueOf(obj[NumericConstants.SIX]));
                     altDTO.setContractNo(String.valueOf(obj[NumericConstants.FIVE]));
@@ -713,14 +720,14 @@ public class AlternateHistoryLogic {
 
                     altDTO.setCheck(checkedCCPSet.contains(altDTO.getCcpDetailsId()));             
                     
-                    if ("Sales Projection".equals(session.getForecastName())) {
+                    if (Constant.SALES_PROJECTION.equals(session.getForecastName())) {
                         if (projection.contains(Constant.BOTH) || projection.contains(ACTUALS.getConstant())) {
                             commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_SALES;
 
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[0]));
                             commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + ACTUAL_UNITS;
 
-                            if(freq.equals("Annually")){
+                            if(freq.equals(ANNUALLY.getConstant())){
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.TEN]));
                             }else{
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.ELEVEN]));
@@ -731,7 +738,7 @@ public class AlternateHistoryLogic {
 
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[1]));
                               commonColumn = getCommonColumn(freq, obj[NumericConstants.TWO], obj[NumericConstants.THREE]) + PROJECTED_UNITS;
-                            if(freq.equals("Annually")){
+                            if(freq.equals(ANNUALLY.getConstant())){
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.ELEVEN]));
                             }else{
                             altDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.TWELVE]));
@@ -787,12 +794,12 @@ public class AlternateHistoryLogic {
     }
 
     public List<AlternateHistoryDTO> getAlloc(AlternateHistoryDTO altHistoryDTO, SessionDTO session, boolean addToQueue, Set<Container.Filter> filters, int start, int offset, boolean iscount) {
-        List<AlternateHistoryDTO> allocationList = new ArrayList<AlternateHistoryDTO>();
-        List<AlternateHistoryDTO> totalList = new ArrayList<AlternateHistoryDTO>();
+        List<AlternateHistoryDTO> allocationList = new ArrayList<>();
+        List<AlternateHistoryDTO> totalList = new ArrayList<>();
         AlternateHistoryDTO altDTO = new AlternateHistoryDTO();
         AlternateHistoryDTO totDTO = new AlternateHistoryDTO();
-        String commonColumn = StringUtils.EMPTY;
-        String commonPerColumn = StringUtils.EMPTY;
+        String commonColumn;
+        String commonPerColumn;
         String projection = Constant.BOTH;
         String annualFreq = StringUtils.EMPTY;
         String freqQuery = StringUtils.EMPTY;
@@ -808,7 +815,7 @@ public class AlternateHistoryLogic {
         }
         List list;
         List totalLevelList;
-        String query = StringUtils.EMPTY;
+        String query;
         switch (altHistoryDTO.getFrequency()) {
             case Constants.QUARTERLY:
                 freqQuery = "I.\"YEAR\",I.QUARTER";
@@ -825,13 +832,13 @@ public class AlternateHistoryLogic {
                 break;
 
         }
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
                 }
             }
         }
@@ -839,32 +846,32 @@ public class AlternateHistoryLogic {
         String itemFilter = StringUtils.EMPTY;
         String contractFilter = StringUtils.EMPTY;
 
-        if (parameters.containsKey("filter~contractNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractNo")))) {
-            contractFilter = contractFilter + " AND CN.CONTRACT_NO like '" + String.valueOf(parameters.get("filter~contractNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)))) {
+            contractFilter = contractFilter + " AND CN.CONTRACT_NO like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~contractName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractName")))) {
-            contractFilter = contractFilter + " AND CN.CONTRACT_NAME like '" + String.valueOf(parameters.get("filter~contractName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
+            contractFilter = contractFilter + " AND CN.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~customerNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerNo")))) {
-            companyFilter = companyFilter + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get("filter~customerNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
+            companyFilter = companyFilter + " AND  CM.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~customerName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerName")))) {
-            companyFilter = companyFilter + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~customerName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
+            companyFilter = companyFilter + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemNo")))) {
-            itemFilter = itemFilter + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get("filter~itemNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
+            itemFilter = itemFilter + " AND IM.ITEM_NO  like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemName")))) {
-            itemFilter = itemFilter + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get("filter~itemName")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
+            itemFilter = itemFilter + " AND IM.ITEM_NAME  like  '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
         }
 
-        String totalQuery = "select " + freqQuery + ",ISNULL(SUM(TOTAL_ACTUAL_AMOUNT),0) as ACTUAL_AMOUNT,ISNULL(SUM(TOTAL_PROJECTION_AMOUNT),0) as PROJECTION_AMOUNT\n";
-        if (session.getForecastName().equals("Sales Projection")) {
+        String totalQuery;
+        if (session.getForecastName().equals(Constant.SALES_PROJECTION)) {
             totalQuery = "select " + freqQuery + ",ISNULL(SUM(TOTAL_ACTUAL_UNITS),0) as ACTUAL_UNITS,ISNULL(SUM(TOTAL_PROJECTION_UNITS),0) as PROJECTION_UNITS\n";
             totalQuery += " from dbo.ST_ALTERNATE_HIST_ALLOCATION ST JOIN\n";
         } else {
@@ -873,19 +880,19 @@ public class AlternateHistoryLogic {
         }
         totalQuery += " \"PERIOD\" I ON ST.PERIOD_SID = I.PERIOD_SID  where "
                 + "I.PERIOD_SID BETWEEN "
-                + "(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\"  = '" + fromYear + "' and \"MONTH\" = '" + fromMonth + "')"
+                + "(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\"  =  '" + fromYear + Constant.AND_MONTH_EQUAL + fromMonth + "')"
                 + "AND"
-                + "(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\"  = '" + toYear + "' and \"MONTH\" = '" + toMonth + "')"
+                + "(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\"  = '" + toYear + Constant.AND_MONTH_EQUAL + toMonth + "')"
                 + " group by ST.CCP_DETAILS_SID," + freqQuery;
 
-        if (session.getForecastName().equals("Sales Projection")) {
-            query = "select * from ( select ST.CCP_DETAILS_SID," +(Constants.ANNUALLY.equals(altHistoryDTO.getFrequency()) ? annualFreq : freqQuery)  + ",CN.CONTRACT_MASTER_SID,CN.CONTRACT_NO,CN.CONTRACT_NAME,\n"
+        if (session.getForecastName().equals(Constant.SALES_PROJECTION)) {
+            query = "select * from ( select ST.CCP_DETAILS_SID," +(Constants.ANNUALLY.equals(altHistoryDTO.getFrequency()) ? annualFreq : freqQuery)  + ", CN.CONTRACT_MASTER_SID,CN.CONTRACT_NO,CN.CONTRACT_NAME,\n"
                     + " CM.COMPANY_NO, CM.COMPANY_NAME, IM.ITEM_NO,IM.ITEM_NAME,\n"
                     + " AVG(ST.ACTUAL_ALLOCATION_PERCENT) as ACTUAL_ALLOCATION_PERCENT,\n"
                     + "SUM(ST.ACTUAL_UNITS) as ACTUAL_UNITS,\n"
                     + "AVG(ST.PROJECTION_ALLOCATION_PERCENT) as PROJECTION_ALLOCATION_PERCENT,\n"
                     + "SUM(ST.PROJECTION_UNITS) as PROJECTION_UNITS,"                    
-                    + (addToQueue ? " ST.SELECTED_CHECKBOX " :" ST.AVAILABLE_CHECKBOX " )
+                    + (addToQueue ? " ST.SELECTED_CHECKBOX  " :" ST.AVAILABLE_CHECKBOX " )
                     + ", DENSE_RANK() OVER (\n" +
                         "   ORDER BY ST.CCP_DETAILS_SID\n" +
                         "    ) AS ROW_ID  from ST_ALTERNATE_HIST_ALLOCATION ST  \n";
@@ -903,7 +910,7 @@ public class AlternateHistoryLogic {
 
         }
 
-        query = query + " JOIN\n"
+        query = query + " JOIN \n"
                 + " \"PERIOD\" I ON ST.PERIOD_SID = I.PERIOD_SID RIGHT  JOIN\n"
                 + " CCP_DETAILS CCP ON ST.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID JOIN\n"
                 + " CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID " + contractFilter + " JOIN\n"
@@ -912,9 +919,9 @@ public class AlternateHistoryLogic {
                 + "where \n"
                 + check
                 + "I.PERIOD_SID BETWEEN "
-                + "(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\"  = '" + fromYear + "' and \"MONTH\" = '" + fromMonth + "')"
+                + "(SELECT PERIOD_SID FROM \"PERIOD\" where  \"YEAR\"  = '" + fromYear + Constant.AND_MONTH_EQUAL + fromMonth + "')"
                 + "AND"
-                + "(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\"  = '" + toYear + "' and \"MONTH\" = '" + toMonth + "')"
+                + "(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\"  = '" + toYear + Constant.AND_MONTH_EQUAL + toMonth + "')"
                 + "group by ST.CCP_DETAILS_SID," + freqQuery + ",CN.CONTRACT_MASTER_SID,CN.CONTRACT_NO,CN.CONTRACT_NAME,\n"
                 + " CM.COMPANY_NO, CM.COMPANY_NAME, IM.ITEM_NO,IM.ITEM_NAME,"
                 + (addToQueue ? " ST.SELECTED_CHECKBOX " :" ST.AVAILABLE_CHECKBOX  " ) +" ) A ";
@@ -943,14 +950,14 @@ public class AlternateHistoryLogic {
                     if (projection.contains(Constant.BOTH) || projection.contains(ACTUALS.getConstant())) {
                         commonPerColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + Constant.ACTALLOCATION;
                         totDTO.addStringProperties(commonPerColumn, "0.00");
-                        commonColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + ("Sales Projection".equalsIgnoreCase(session.getForecastName()) ? "Actual Units" : ACTUAL_PAYMENTS.getConstant());
+                        commonColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + (Constant.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName()) ? "Actual Units" : ACTUAL_PAYMENTS.getConstant());
                         totDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.TWO]));
                     }
                     if (projection.contains(Constant.BOTH) || projection.contains(PROJECTIONS.getConstant())) {
                         commonPerColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + Constant.PROJALLOCATION;
 
                         totDTO.addStringProperties(commonPerColumn, "0.00");
-                        commonColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + ("Sales Projection".equalsIgnoreCase(session.getForecastName()) ? "Projected Units" : PROJECTED_PAYMENTS.getConstant());
+                        commonColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + (Constant.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName()) ? "Projected Units" : PROJECTED_PAYMENTS.getConstant());
 
                         totDTO.addStringProperties(commonColumn, String.valueOf(obj[NumericConstants.THREE]));
                     }
@@ -985,7 +992,7 @@ public class AlternateHistoryLogic {
                     commonPerColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + Constant.ACTALLOCATION;
 
                     altDTO.addStringProperties(commonPerColumn, obj[NumericConstants.TEN] == null ? "0.00" : String.valueOf(obj[NumericConstants.TEN]));
-                    commonColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + ("Sales Projection".equalsIgnoreCase(session.getForecastName()) ? "Actual Units" : ACTUAL_PAYMENTS.getConstant());
+                    commonColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + (Constant.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName()) ? "Actual Units" : ACTUAL_PAYMENTS.getConstant());
 
                     altDTO.addStringProperties(commonColumn, obj[NumericConstants.ELEVEN] == null ? "0.0" : String.valueOf(obj[NumericConstants.ELEVEN]));
                 }
@@ -993,7 +1000,7 @@ public class AlternateHistoryLogic {
                     commonPerColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + Constant.PROJALLOCATION;
 
                     altDTO.addStringProperties(commonPerColumn, obj[NumericConstants.TWELVE] == null ? "0.00" : String.valueOf(obj[NumericConstants.TWELVE]));
-                    commonColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + ("Sales Projection".equalsIgnoreCase(session.getForecastName()) ? "Projected Units" : PROJECTED_PAYMENTS.getConstant());
+                    commonColumn = getCommonColumn(altHistoryDTO.getFrequency(), fre, year) + (Constant.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName()) ? "Projected Units" : PROJECTED_PAYMENTS.getConstant());
 
                     altDTO.addStringProperties(commonColumn, obj[NumericConstants.THIRTEEN] == null ? "0.0" : String.valueOf(obj[NumericConstants.THIRTEEN]));
                 }
@@ -1008,25 +1015,26 @@ public class AlternateHistoryLogic {
             int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Line_Level_Available_Checkbox");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
-        query = query.replace("[$START_DATE]", startDate.toString());
-        query = query.replace("[$END_DATE]", endDate.toString());
-        query = query.replace("[$PROJECTION_DETAILS_SID]", String.valueOf(dto.getProjDetailSid()));
+        query = query.replace(START_DATE, startDate.toString());
+        query = query.replace(END_DATE, endDate.toString());
+        query = query.replace(PROJECTION_DETAILS_SID, String.valueOf(dto.getProjDetailSid()));
         query = query.replace("[$AVAILABLE_CHECKBOX] ", String.valueOf(checkOrUncheck));
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
+    
    public void checkAll_available_allocationTab(SessionDTO session,int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Available_CheckAll");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
-        query = query.replace("[$START_DATE]", startDate.toString());
-        query = query.replace("[$END_DATE]", endDate.toString());
+        query = query.replace(START_DATE, startDate.toString());
+        query = query.replace(END_DATE, endDate.toString());
         query = query.replace("[$AVAILABLE_CHECKBOX] ", String.valueOf(checkOrUncheck));
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
@@ -1078,13 +1086,13 @@ public class AlternateHistoryLogic {
         return true;
     }
 
-    public void call(Object[] orderedArg, SessionDTO session, String procedureName) {
+    public void call(Object[] orderedArg,String procedureName) {
         CommonLogic.callProcedure(procedureName, orderedArg);
     }
 
     public String getProjDetaSid(String ccpIds, int projectionSid) {
         String projDetSid = StringUtils.EMPTY;
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list;
         String query = "select distinct PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS "
                 + "where CCP_DETAILS_SID in( " + ccpIds + " )"
                 + "and PROJECTION_MASTER_SID=" + projectionSid;
@@ -1108,7 +1116,7 @@ public class AlternateHistoryLogic {
         return detailsSid;
     }
 
-    public String buildCCPCountQuery(boolean isCustomer, SessionDTO sessionDto) {
+    public String buildCCPCountQuery(boolean isCustomer) {
         StringBuilder query = new StringBuilder();
         if (isCustomer) {
             query.append("SELECT Count(DISTINCT CCPD.Company_MASTER_SID) ");
@@ -1122,7 +1130,7 @@ public class AlternateHistoryLogic {
 
     public int getCCPCount(String query,SessionDTO sessionDto) {
         int count = 0;
-        List<Object> objList = new ArrayList<Object>();
+        List<Object> objList;
         objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()), null, null);
 
         if (objList != null && !objList.isEmpty()) {
@@ -1134,7 +1142,7 @@ public class AlternateHistoryLogic {
 
     }
 
-    public boolean checkActuals(SessionDTO session, boolean isCustomer) {
+    public boolean checkActuals(SessionDTO session) {
         boolean flag = true;
         String query = "IF Object_id('TEMPDB..#TEMP_CCP') IS NOT NULL\n"
                 + "  DROP TABLE #TEMP_CCP\n"
@@ -1160,8 +1168,9 @@ public class AlternateHistoryLogic {
                 + "HAVING Sum (AM.SALES_AMOUNT) = 0\n"
                 + "        OR Sum(AM.SALES_AMOUNT) IS NULL";
         List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-        LOGGER.debug("--list size---->>>>" + list.size());
+        
         if (list != null && list.size() > 0) {
+            LOGGER.debug("--list size---->>>>" + list.size());
             StringBuilder ccps = new StringBuilder(StringUtils.EMPTY);
 
             flag = false;
@@ -1186,7 +1195,7 @@ public class AlternateHistoryLogic {
 
     public void executeDelete(final SessionDTO session, boolean isSales) {
         
-        String query = StringUtils.EMPTY;
+        String query;
         deleteCustomersAndItemsFromTempTable(session);
         if (isSales) {
             query = " DELETE FROM ST_ALTERNATE_HIST_ALLOCATION "
@@ -1244,7 +1253,7 @@ public class AlternateHistoryLogic {
     
   
     
-    public List getCompanyList(int start, int offset, CustomFieldGroup customerSearchBinder, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, Boolean isCount, SessionDTO session) throws PortalException, SystemException {
+    public List getCompanyList(int start, int offset,Set<Container.Filter> filters, Boolean isCount, SessionDTO session)  {
         List list;
         String query = StringUtils.EMPTY;
         Map<String, Object> parameters = new HashMap();
@@ -1267,38 +1276,38 @@ public class AlternateHistoryLogic {
         String andClause = " AND ";
         boolean isWhereClaues = true;
         //For Filters
-        if (parameters.containsKey("filter~customerNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerNo")))) {
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
           
-            query = query + (isWhereClaues ? whereClause : andClause) + " CM1.COMPANY_NO like '" + String.valueOf(parameters.get("filter~customerNo")) + "'";
+            query = query + (isWhereClaues ? whereClause : andClause) + " CM1.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractHolder") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractHolder")))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~contractHolder")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_HOLDER) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_HOLDER)))) {
+            query = query + (isWhereClaues ? whereClause : andClause) + "  CM.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_HOLDER)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractNo")))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get("filter~contractNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)))) {
+            query = query + (isWhereClaues ? whereClause : andClause) + "  CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractName")))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "   CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get("filter~contractName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
+            query = query + (isWhereClaues ? whereClause : andClause) + "   CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~customerName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerName")))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  CM1.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~customerName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
+            query = query + (isWhereClaues ? whereClause : andClause) + "  CM1.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~marketType") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~marketType")))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  HT.DESCRIPTION like '" + String.valueOf(parameters.get("filter~marketType")) + "'";
+        if (parameters.containsKey(Constant.FILTERMARKET_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)))) {
+            query = query + (isWhereClaues ? whereClause : andClause) + "  HT.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)) + "'";
             isWhereClaues = false;
         }
-        if (parameters.containsKey("filter~check") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~check")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CS.SELECTED_CHECKBOX like '" + String.valueOf(parameters.get("filter~check")) + "'";
+        if (parameters.containsKey(Constant.FILTERCHECK) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCHECK)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CS.SELECTED_CHECKBOX like '" + String.valueOf(parameters.get(Constant.FILTERCHECK)) + "'";
         }
         if (isCount) {
             query += ") TEMP_DETAILS ;";
@@ -1313,13 +1322,13 @@ public class AlternateHistoryLogic {
     public int alternateSelectionCount(final SessionDTO sessionDTO, Set<Container.Filter> filters) {
         int count;
         
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
                 }
             }
         }
@@ -1327,28 +1336,28 @@ public class AlternateHistoryLogic {
         String itemFilter = StringUtils.EMPTY;
         String contractFilter = StringUtils.EMPTY;
         
-         if (parameters.containsKey("filter~contractNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractNo")))) {
-            contractFilter = contractFilter + " AND CON.CONTRACT_NO like '" + String.valueOf(parameters.get("filter~contractNo")) + "'";
+         if (parameters.containsKey(Constant.FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)))) {
+            contractFilter = contractFilter + " AND CON.CONTRACT_NO like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~contractName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractName")))) {
-            contractFilter = contractFilter + " AND CON.CONTRACT_NAME like '" + String.valueOf(parameters.get("filter~contractName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
+            contractFilter = contractFilter + " AND CON.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~customerNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerNo")))) {
-            companyFilter = companyFilter + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get("filter~customerNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
+            companyFilter = companyFilter + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~customerName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerName")))) {
-            companyFilter = companyFilter + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~customerName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
+            companyFilter = companyFilter + " AND  CM.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemNo")))) {
-            itemFilter = itemFilter + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get("filter~itemNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
+            itemFilter = itemFilter + " AND  IM.ITEM_NO like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemName")))) {
-            itemFilter = itemFilter + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get("filter~itemName")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
+            itemFilter = itemFilter + "  AND IM.ITEM_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
         }
         
         String query = SQlUtil.getQuery("alternate-history-selection-count");
@@ -1404,13 +1413,13 @@ public class AlternateHistoryLogic {
                 String contractHolder = altHistoryDTO.getContractHolder();
                 contractHolder = contractHolder.replace(CommonUtils.CHAR_ASTERISK, '%');
 
-                parameters.put("contractHolder", contractHolder);
+                parameters.put(Constant.CONTRACT_HOLDER, contractHolder);
             }
 
             if (isValidCriteria(altHistoryDTO.getContractNo())) {
                 String contractNo = altHistoryDTO.getContractNo();
                 contractNo = contractNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put("contractNo", contractNo);
+                parameters.put(Constant.CONTRACT_NO1, contractNo);
             }
 
             if (isValidCriteria(altHistoryDTO.getCustomerNo())) {
@@ -1421,13 +1430,13 @@ public class AlternateHistoryLogic {
             if (isValidCriteria(altHistoryDTO.getMarketType())) {
                 String marketType = altHistoryDTO.getMarketType();
                 marketType = marketType.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put("marketType", marketType);
+                parameters.put(Constant.MARKET_TYPE, marketType);
             }
 
             if (isValidCriteria(altHistoryDTO.getContractName())) {
                 String contractName = altHistoryDTO.getContractName();
                 contractName = contractName.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put("contractName", contractName);
+                parameters.put(Constant.CONTRACT_NAME, contractName);
             }
 
             if (isValidCriteria(altHistoryDTO.getCustomerName())) {
@@ -1459,9 +1468,9 @@ public class AlternateHistoryLogic {
     public boolean check_available_customerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO) {
         String query;
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_INSERT_OR_UPDATE_SINGLE_RECORD");
-        query = query.replace("[$CONTRACT_MASTER_SID]", String.valueOf(altHistoryDTO.getContractMasterSid()));
-        query = query.replace("[$COMPANY_MASTER_SID]", String.valueOf(altHistoryDTO.getCompanymasterSid()));
-        query = query.replace("[$AVAILABLE_CHECKBOX]", "1");
+        query = query.replace(Constant.CONTRACT_MASTER_SID_DOLLAR, String.valueOf(altHistoryDTO.getContractMasterSid()));
+        query = query.replace(Constant.COMPANY_MASTER_SID_DOLLAR, String.valueOf(altHistoryDTO.getCompanymasterSid()));
+        query = query.replace(Constant.AVAILABLE_CHECKBOX, "1");
          
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         return true;
@@ -1471,9 +1480,9 @@ public class AlternateHistoryLogic {
         String query;
 
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_SINGLE_UPDATE_QUERY_AVALILABLE");
-        query = query.replace("[$CONTRACT_MASTER_SID]", String.valueOf(altHistoryDTO.getContractMasterSid()));
-        query = query.replace("[$COMPANY_MASTER_SID]", String.valueOf(altHistoryDTO.getCompanymasterSid()));
-        query = query.replace("[$AVAILABLE_CHECKBOX]","0");
+        query = query.replace(Constant.CONTRACT_MASTER_SID_DOLLAR, String.valueOf(altHistoryDTO.getContractMasterSid()));
+        query = query.replace(Constant.COMPANY_MASTER_SID_DOLLAR, String.valueOf(altHistoryDTO.getCompanymasterSid()));
+        query = query.replace(Constant.AVAILABLE_CHECKBOX,"0");
          
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         return true;
@@ -1491,9 +1500,9 @@ public class AlternateHistoryLogic {
     public boolean check_uncheck_selected_customerSelection(SessionDTO session, AlternateHistoryDTO altHistoryDTO, boolean values) {
         String query;
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_CHECK_UNCHECK_SELECTED");
-        query = query.replace("[$CONTRACT_MASTER_SID]", String.valueOf(altHistoryDTO.getContractMasterSid()));
-        query = query.replace("[$COMPANY_MASTER_SID]", String.valueOf(altHistoryDTO.getCompanymasterSid()));
-        query = query.replace("[$SELECTED_CHECKBOX]", String.valueOf(values ? 1 : 0));
+        query = query.replace(Constant.CONTRACT_MASTER_SID_DOLLAR, String.valueOf(altHistoryDTO.getContractMasterSid()));
+        query = query.replace(Constant.COMPANY_MASTER_SID_DOLLAR, String.valueOf(altHistoryDTO.getCompanymasterSid()));
+        query = query.replace(Constant.SELECTED_CHECKBOX, String.valueOf(values ? 1 : 0));
          
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         return true;
@@ -1520,7 +1529,7 @@ public class AlternateHistoryLogic {
         String query;
 
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_SELECTED_CHECK_ALL_QUERY");
-        query = query.replace("[$SELECTED_CHECKBOX]", value ? "1" : "0");
+        query = query.replace(Constant.SELECTED_CHECKBOX, value ? "1" : "0");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
          
         return true;
@@ -1530,7 +1539,7 @@ public class AlternateHistoryLogic {
         String query;
 
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_CHECK_COUNT");
-        query = query.replace("[$AVAILABLE_CHECKBOX]", "1");
+        query = query.replace(Constant.AVAILABLE_CHECKBOX, "1");
          
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         return list.isEmpty() || (list.get(0) == null) ? false : ((int)list.get(0) > 0);
@@ -1540,7 +1549,7 @@ public class AlternateHistoryLogic {
         String query;
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_CHECK_COUNT");
         query = query.replace("AVAILABLE_CHECKBOX", "SELECTED_CHECKBOX");
-        query = query.replace("[$SELECTED_CHECKBOX]", "1");
+        query = query.replace(Constant.SELECTED_CHECKBOX, "1");
          
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         return list.isEmpty() || (list.get(0) == null) ? false : (Integer.valueOf(list.get(0).toString()) > 0);
@@ -1552,7 +1561,7 @@ public class AlternateHistoryLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(removeQuery, session.getCurrentTableNames()));
     }
     
-    public void updateTableOnAddorCheckAll(CustomFieldGroup customerSearchBinder, AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, int start, int offset, SessionDTO session, boolean isAddAllOrCheckAll,final String checkValue) {
+    public void updateTableOnAddorCheckAll( AlternateHistoryDTO altHistoryDTO, Set<Container.Filter> filters, SessionDTO session, boolean isAddAllOrCheckAll,final String checkValue) {
 
         Map<String, Object> parameters = new HashMap<>();        
         
@@ -1565,22 +1574,22 @@ public class AlternateHistoryLogic {
         if (!Constant.NULL.equals(altHistoryDTO.getItemName())) {
             String itemName = altHistoryDTO.getItemName();
             itemName = itemName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("itemName", itemName);
+            parameters.put(Constant.ITEM_NAME_SMALL_PROPERY, itemName);
         }
         if (!Constant.NULL.equals(altHistoryDTO.getBusinessUnitNo())) {
             String businessUnitNo = altHistoryDTO.getBusinessUnitNo();
             businessUnitNo = businessUnitNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("businessUnitNo", businessUnitNo);
+            parameters.put(Constant.BUSINESS_UNIT_NO_PROPERTY, businessUnitNo);
         }
         if (!Constant.NULL.equals(altHistoryDTO.getBusinessUnitName())) {
             String businessUnitName = altHistoryDTO.getBusinessUnitName();
             businessUnitName = businessUnitName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("businessUnitName", businessUnitName);
+            parameters.put(Constant.BUSINESS_UNIT_NAME_PROPERTY, businessUnitName);
         }
         if (!Constant.NULL.equals(altHistoryDTO.getTheraputicClass())) {
             String theraputicClass = altHistoryDTO.getTheraputicClass();
             theraputicClass = theraputicClass.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("theraputicClass", theraputicClass);
+            parameters.put(Constant.THERAPUTIC_CLASS_PROPERTY, theraputicClass);
         }
 
         if (!Constant.NULL.equals(altHistoryDTO.getBrand())) {
@@ -1590,12 +1599,12 @@ public class AlternateHistoryLogic {
 
         if (!Constant.NULL.equals(altHistoryDTO.getItemIdentifierType())) {
             String itemIdentifierType = altHistoryDTO.getItemIdentifierType();
-            parameters.put("itemIdentifierType", itemIdentifierType);            
+            parameters.put(Constant.ITEM_IDENTIFIER_TYPE, itemIdentifierType);            
         }
         if (!Constant.NULL.equals(altHistoryDTO.getItemIdentifier())) {
             String itemIdentifier = altHistoryDTO.getItemIdentifier();
             itemIdentifier = itemIdentifier.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put("itemIdentifier", itemIdentifier);
+            parameters.put(Constant.ITEM_IDENTIFIER, itemIdentifier);
         }
 
         if (filters != null) {
@@ -1607,7 +1616,7 @@ public class AlternateHistoryLogic {
                 }
             }
         }
-        queryUtils.mergeForAddOrCheckAll(parameters, start, offset, session, isAddAllOrCheckAll, checkValue);
+        queryUtils.mergeForAddOrCheckAll(parameters, session, isAddAllOrCheckAll, checkValue);
     }
 
     public void removeAllItems(final SessionDTO session) {
@@ -1624,7 +1633,7 @@ public class AlternateHistoryLogic {
         String checkValue = isChecked ? "1" : "0";
         String updateQuery;
         updateQuery = isChecked ? SQlUtil.getQuery("add-item-to-temp-table-on-check") : SQlUtil.getQuery("update-temp-table-on-available-uncheck");
-        updateQuery = updateQuery.replace("[$AVAILABLE_CHECKBOX]", checkValue);
+        updateQuery = updateQuery.replace(Constant.AVAILABLE_CHECKBOX, checkValue);
         updateQuery = updateQuery.replace("[$ITEM_MASTER_SID]", itemMasterSid);
         
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, session.getCurrentTableNames()));
@@ -1633,7 +1642,7 @@ public class AlternateHistoryLogic {
     public void updateSelectedTableCheckUnCheck(final boolean isChecked, final SessionDTO session, String itemMasterSid) {
         String checkValue = isChecked ? "1" : "0";
         String updateQuery = SQlUtil.getQuery("update-temp-table-on-selected-check-uncheck");
-        updateQuery = updateQuery.replace("[$SELECTED_CHECKBOX]", checkValue);
+        updateQuery = updateQuery.replace(Constant.SELECTED_CHECKBOX, checkValue);
         updateQuery = updateQuery.replace("[$ITEM_MASTER_SID]", itemMasterSid);
         
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, session.getCurrentTableNames()));
@@ -1642,14 +1651,14 @@ public class AlternateHistoryLogic {
     
     public void updateSelectedTableOnCheckAll(final boolean isChecked, final SessionDTO session) {
         String updateQuery = SQlUtil.getQuery("update-on-selected-item-on-checkall");
-        updateQuery = updateQuery.replace("[$SELECTED_CHECKBOX]", isChecked ? "1" : "0");
+        updateQuery = updateQuery.replace(Constant.SELECTED_CHECKBOX, isChecked ? "1" : "0");
         
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, session.getCurrentTableNames()));
     }
     
     public void updateAllAvailableCheckBox(final SessionDTO session) {
         String updateQuery = SQlUtil.getQuery("update-all-available-checkbox");
-        updateQuery = updateQuery.replace("[$AVAILABLE_CHECKBOX]", "0");
+        updateQuery = updateQuery.replace(Constant.AVAILABLE_CHECKBOX, "0");
         
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, session.getCurrentTableNames()));
     }
@@ -1710,12 +1719,12 @@ public class AlternateHistoryLogic {
 
         String query = SQlUtil.getQuery("Count_Available_Table");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
-        query = query.replace("[$START_DATE]", startDate.toString());
-        query = query.replace("[$END_DATE]", endDate.toString());
+        query = query.replace(START_DATE, startDate.toString());
+        query = query.replace(END_DATE, endDate.toString());
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         int count = 0;
         if (list != null && !list.isEmpty()) {
@@ -1793,12 +1802,12 @@ public class AlternateHistoryLogic {
               
         boolean isNotAllocated = true;
         String query = SQlUtil.getQuery("allocation-check");
-        query = query.replace("[$FREQUENCY]", freq);
+        query = query.replace(Constant.FREQUENCY_DOLLAR, freq);
         query = query.replace("[$START_PERIOD]", startFrom);
         query = query.replace("[$START_YEAR]", yearFrom);
         query = query.replace("[$END_PERIOD]", startTo);
         query = query.replace("[$END_YEAR]", yearTo);
-        query = query.replace("[$TABLE_NAME]", screenName.equals(TabNameUtil.SALES_PROJECTION) ? "ST_ALTERNATE_HIST_ALLOCATION" : "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+        query = query.replace(TABLE_NAME, screenName.equals(TabNameUtil.SALES_PROJECTION) ? Constant.ST_ALTERNATE_HIST_ALLOCATION : Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         query = query.replace("[$ALLOCATED_PERIODS]", selectedPeriods);
         
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
@@ -1813,12 +1822,12 @@ public class AlternateHistoryLogic {
 
         String query = SQlUtil.getQuery("Add_To_Queue_Update");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
-        query = query.replace("[$START_DATE]", startDate.toString());
-        query = query.replace("[$END_DATE]", endDate.toString());
+        query = query.replace(START_DATE, startDate.toString());
+        query = query.replace(END_DATE, endDate.toString());
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
@@ -1826,26 +1835,26 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
             int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Selected_Line_Level_Check");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
-        query = query.replace("[$START_DATE]", startDate.toString());
-        query = query.replace("[$END_DATE]", endDate.toString());
-        query = query.replace("[$PROJECTION_DETAILS_SID]", String.valueOf(dto.getProjDetailSid()));
-        query = query.replace("[$SELECTED_CHECKBOX]", String.valueOf(checkOrUncheck));
+        query = query.replace(START_DATE, startDate.toString());
+        query = query.replace(END_DATE, endDate.toString());
+        query = query.replace(PROJECTION_DETAILS_SID, String.valueOf(dto.getProjDetailSid()));
+        query = query.replace(Constant.SELECTED_CHECKBOX, String.valueOf(checkOrUncheck));
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
     public void checkAll_selected_allocationTab(SessionDTO session, int checkOrUncheck, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Selected_Check_All");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
-        query = query.replace("[$START_DATE]", startDate.toString());
-        query = query.replace("[$END_DATE]", endDate.toString());
+        query = query.replace(START_DATE, startDate.toString());
+        query = query.replace(END_DATE, endDate.toString());
         query = query.replace("[$SELECTED_CHECKBOX] ", String.valueOf(checkOrUncheck));
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
@@ -1853,12 +1862,12 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
     public int count_selected_allocationTab(SessionDTO session, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Count_Selected_Table");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
-        query = query.replace("[$START_DATE]", startDate.toString());
-        query = query.replace("[$END_DATE]", endDate.toString());
+        query = query.replace(START_DATE, startDate.toString());
+        query = query.replace(END_DATE, endDate.toString());
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         return (int) list.get(0);
     }
@@ -1866,21 +1875,21 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
     public void remove_selected_allocationTab(SessionDTO session, java.sql.Date startDate, java.sql.Date endDate) {
         String query = SQlUtil.getQuery("Selected_Remove");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
-        query = query.replace("[$START_DATE]", startDate.toString());
-        query = query.replace("[$END_DATE]", endDate.toString());
+        query = query.replace(START_DATE, startDate.toString());
+        query = query.replace(END_DATE, endDate.toString());
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
 
     public void removeAll_selected_allocationTab(SessionDTO session) {
         String query = SQlUtil.getQuery("Selected_Remove_All");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
     }
@@ -1893,9 +1902,9 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
     public int getCount_allocationTab(SessionDTO session, boolean addToQueue, Set<Container.Filter> filters) {
         String query = SQlUtil.getQuery("Get_Count_Allocation_Tables");
         if (TabNameUtil.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName())) {
-            query = query.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
         } else {
-            query = query.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            query = query.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
         }
         String filter = getFilterQuery(filters);
         if (filter.length() > 0) {
@@ -1923,34 +1932,34 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(Constant.FILTER + stringFilter.getPropertyId(), filterString);
                 }
             }
         }
         StringBuilder filter = new StringBuilder();
 
-        if (parameters.containsKey("filter~contractNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractNo")))) {
-            filter.append(" AND CO.CONTRACT_NO like '").append(parameters.get("filter~contractNo")).append("'");
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)))) {
+            filter.append(" AND CO.CONTRACT_NO like '").append(parameters.get(Constant.FILTERCONTRACT_NO)).append("'");
         }
 
-        if (parameters.containsKey("filter~contractName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractName")))) {
-            filter.append(" AND CO.CONTRACT_NAME like '").append(parameters.get("filter~contractName")).append("'");
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
+            filter.append(" AND CO.CONTRACT_NAME like '").append(parameters.get(Constant.FILTERCONTRACT_NAME)).append("'");
         }
 
-        if (parameters.containsKey("filter~customerNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerNo")))) {
-            filter.append(" AND CM.COMPANY_NO like '").append(parameters.get("filter~customerNo")).append("'");
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
+            filter.append(" AND CM.COMPANY_NO like '").append(parameters.get(Constant.FILTERCUSTOMER_NO)).append("'");
         }
 
-        if (parameters.containsKey("filter~customerName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerName")))) {
-            filter.append(" AND CM.COMPANY_NAME like '").append(parameters.get("filter~customerName")).append("'");
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
+            filter.append(" AND  CM.COMPANY_NAME like '").append(parameters.get(Constant.FILTERCUSTOMER_NAME)).append("'");
         }
 
-        if (parameters.containsKey("filter~itemNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemNo")))) {
-            filter.append(" AND IM.ITEM_NO like '").append(parameters.get("filter~itemNo")).append("'");
+        if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
+            filter.append(" AND IM.ITEM_NO like '").append(parameters.get(Constant.FILTERITEM_NO)).append("'");
         }
 
-        if (parameters.containsKey("filter~itemName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemName")))) {
-            filter.append(" AND IM.ITEM_NAME like '").append(parameters.get("filter~itemName")).append("'");
+        if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
+            filter.append(" AND  IM.ITEM_NAME like '").append(parameters.get(Constant.FILTERITEM_NAME)).append("'");
         }
         return filter.toString();
     }
@@ -1965,11 +1974,11 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
      * @param frequency
      * @param session 
      */
-    public void updateAllocationOnEdit(String propertyid, final int projDetSid, Double incDec, Double oldNumber, final String frequency, final SessionDTO session) {
+    public void updateAllocationOnEdit(String propertyid, final int projDetSid, Double incDec, final String frequency, final SessionDTO session) {
 
         String updateQuery;
                 
-        if ("Sales Projection".equalsIgnoreCase(session.getForecastName().trim())) {
+        if (Constant.SALES_PROJECTION.equalsIgnoreCase(session.getForecastName().trim())) {
             if (propertyid.contains("Units")) {
                 updateQuery = SQlUtil.getQuery("update-allocation-unit-amount");
                 updateQuery = updateQuery.replace("[$NEW_VALUE]", StringUtils.EMPTY + incDec);
@@ -1978,15 +1987,15 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
                 updateQuery = updateQuery.replace("[$ALLOCATION_PERCENT]", StringUtils.EMPTY + incDec);
             }
             if (propertyid.contains("Proj")) {
-                updateQuery = updateQuery.replace("[$TOTAL_COLUMN]", "TOTAL_PROJECTION_UNITS");
-                updateQuery = updateQuery.replace("[$UPDATE_COLUMN]", "PROJECTION_UNITS");
-                updateQuery = updateQuery.replace("[$ALLOCATION_PERCENT_COLUMN]", "PROJECTION_ALLOCATION_PERCENT");
+                updateQuery = updateQuery.replace(Constant.TOTAL_COLUMN, "TOTAL_PROJECTION_UNITS");
+                updateQuery = updateQuery.replace(Constant.UPDATE_COLUMN, "PROJECTION_UNITS");
+                updateQuery = updateQuery.replace(Constant.ALLOCATION_PERCENT_COLUMN, "PROJECTION_ALLOCATION_PERCENT");
             } else {
-                updateQuery = updateQuery.replace("[$TOTAL_COLUMN]", "TOTAL_ACTUAL_UNITS");
-                updateQuery = updateQuery.replace("[$UPDATE_COLUMN]", "ACTUAL_UNITS");
-                updateQuery = updateQuery.replace("[$ALLOCATION_PERCENT_COLUMN]", "ACTUAL_ALLOCATION_PERCENT");
+                updateQuery = updateQuery.replace(Constant.TOTAL_COLUMN, "TOTAL_ACTUAL_UNITS");
+                updateQuery = updateQuery.replace(Constant.UPDATE_COLUMN, "ACTUAL_UNITS");
+                updateQuery = updateQuery.replace(Constant.ALLOCATION_PERCENT_COLUMN, "ACTUAL_ALLOCATION_PERCENT");
             }
-            updateQuery = updateQuery.replace("[$TABLE_NAME]", "ST_ALTERNATE_HIST_ALLOCATION");
+            updateQuery = updateQuery.replace(TABLE_NAME, Constant.ST_ALTERNATE_HIST_ALLOCATION);
 
         } else {
             if (propertyid.contains("Payments")) {
@@ -1997,19 +2006,19 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
                 updateQuery = updateQuery.replace("[$ALLOCATION_PERCENT]", StringUtils.EMPTY + incDec);
             }
             if (propertyid.contains("Proj")) {
-                updateQuery = updateQuery.replace("[$TOTAL_COLUMN]", "TOTAL_PROJECTION_AMOUNT");
-                updateQuery = updateQuery.replace("[$UPDATE_COLUMN]", "PROJECTION_AMOUNT");
-                updateQuery = updateQuery.replace("[$ALLOCATION_PERCENT_COLUMN]", "PROJECTION_ALLOCATION_PERCENT");
+                updateQuery = updateQuery.replace(Constant.TOTAL_COLUMN, "TOTAL_PROJECTION_AMOUNT");
+                updateQuery = updateQuery.replace(Constant.UPDATE_COLUMN, "PROJECTION_AMOUNT");
+                updateQuery = updateQuery.replace(Constant.ALLOCATION_PERCENT_COLUMN, "PROJECTION_ALLOCATION_PERCENT");
             } else {
-                updateQuery = updateQuery.replace("[$TOTAL_COLUMN]", "TOTAL_ACTUAL_AMOUNT");
-                updateQuery = updateQuery.replace("[$UPDATE_COLUMN]", "ACTUAL_AMOUNT");
-                updateQuery = updateQuery.replace("[$ALLOCATION_PERCENT_COLUMN]", "ACTUAL_ALLOCATION_PERCENT");
+                updateQuery = updateQuery.replace(Constant.TOTAL_COLUMN, "TOTAL_ACTUAL_AMOUNT");
+                updateQuery = updateQuery.replace(Constant.UPDATE_COLUMN, "ACTUAL_AMOUNT");
+                updateQuery = updateQuery.replace(Constant.ALLOCATION_PERCENT_COLUMN, "ACTUAL_ALLOCATION_PERCENT");
             }
-            updateQuery = updateQuery.replace("[$TABLE_NAME]", "ST_DISC_ALTERNATE_HIST_ALLOCATION");
+            updateQuery = updateQuery.replace(TABLE_NAME, Constant.ST_DISC_ALTERNATE_HIST_ALLOCATION);
 
         }
 
-        updateQuery = updateQuery.replace("[$PROJECTION_DETAILS_SID]", StringUtils.EMPTY + projDetSid);
+        updateQuery = updateQuery.replace(PROJECTION_DETAILS_SID, StringUtils.EMPTY + projDetSid);
 
         String temp = StringUtils.EMPTY;
 
@@ -2029,16 +2038,16 @@ public void check_selected_allocationTab(AlternateHistoryDTO dto, SessionDTO ses
         
         if (Constant.MONTHLY.equals(frequency)) {
             String periodVar = String.valueOf(CommonUtils.getMonthNumber(temp.substring(0, temp.length() - NumericConstants.FOUR)));
-            updateQuery = updateQuery.replace("[$FREQUENCY_COLUMN]", "\"MONTH\"");
-            updateQuery = updateQuery.replace("[$FREQUENCY]", periodVar);
+            updateQuery = updateQuery.replace(Constant.FREQUENCY_COLUMN, "\"MONTH\"");
+            updateQuery = updateQuery.replace(Constant.FREQUENCY_DOLLAR, periodVar);
         } else if (Constant.SEMI_ANNUALLY.equals(frequency)) {
             String periodVar = temp.substring(1, temp.length() - NumericConstants.FOUR);
-            updateQuery = updateQuery.replace("[$FREQUENCY_COLUMN]", "SEMI_ANNUAL");
-            updateQuery = updateQuery.replace("[$FREQUENCY]", periodVar);
+            updateQuery = updateQuery.replace(Constant.FREQUENCY_COLUMN, Constant.SEMI_ANNUAL);
+            updateQuery = updateQuery.replace(Constant.FREQUENCY_DOLLAR, periodVar);
         } else if ("Quarterly".equals(frequency)) {
             String periodVar = temp.substring(1, temp.length() - NumericConstants.FOUR);
-            updateQuery = updateQuery.replace("[$FREQUENCY_COLUMN]", "QUARTER");
-            updateQuery = updateQuery.replace("[$FREQUENCY]", periodVar);
+            updateQuery = updateQuery.replace(Constant.FREQUENCY_COLUMN, Constant.QUARTER);
+            updateQuery = updateQuery.replace(Constant.FREQUENCY_DOLLAR, periodVar);
         } else {
             updateQuery = updateQuery.replace("AND PER.[$FREQUENCY_COLUMN] = [$FREQUENCY]", StringUtils.EMPTY);
         }

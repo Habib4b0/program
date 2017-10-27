@@ -78,14 +78,8 @@ public class CfpContractDetailsFinderImpl extends BasePersistenceImpl<CfpContrac
             String companyTradeClass = String.valueOf(filterMap.get("tradeClass"));
             String companyCategory = String.valueOf(filterMap.get("companyCategory"));
             String companyGroup = String.valueOf(filterMap.get("companyGroup"));
-
-            sql = "SELECT cm.COMPANY_MASTER_SID, cm.COMPANY_ID, cm.COMPANY_NO, cm.COMPANY_NAME, cm.COMPANY_TYPE, cm.COMPANY_STATUS, cm.COMPANY_START_DATE, cm.COMPANY_END_DATE, htype.DESCRIPTION as ctype, hstatus.DESCRIPTION as cstatus"
-                    + " , htrade.DESCRIPTION as ctrade, hcategory.DESCRIPTION as ccategory, hgroup.DESCRIPTION as cgroup from COMPANY_MASTER cm JOIN COMPANY_TRADE_CLASS ctc on ctc.COMPANY_MASTER_SID=cm.COMPANY_MASTER_SID AND ctc.INBOUND_STATUS <> 'D' LEFT JOIN HelPER_TABLE htype on htype.HELPER_TABLE_SID =  cm.COMPANY_TYPE"
-                    + " LEFT JOIN HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  cm.COMPANY_STATUS"
-                    + " LEFT JOIN HELPER_TABLE htrade on htrade.HELPER_TABLE_SID=ctc.COMPANY_TRADE_CLASS"
-                    + " LEFT JOIN HELPER_TABLE hcategory on hcategory.HELPER_TABLE_SID=cm.COMPANY_CATEGORY"
-                    + " LEFT JOIN HELPER_TABLE hgroup on hgroup.HELPER_TABLE_SID=cm.COMPANY_GROUP"
-                    + " WHERE cm.INBOUND_STATUS <> 'D'";
+            String andOperator = "";
+            String whereCondition = " WHERE ";
             sql = ";WITH CTE\n"
                     + "     AS (SELECT DISTINCT cm.COMPANY_MASTER_SID,\n"
                     + "                         cm.COMPANY_ID,\n"
@@ -123,37 +117,7 @@ public class CfpContractDetailsFinderImpl extends BasePersistenceImpl<CfpContrac
                 }
             }
 
-            if (StringUtils.isNotBlank(companyNo)) {
-                sql += " AND cm.COMPANY_NO LIKE '" + companyNo + "'";
-            }
-
-            if (StringUtils.isNotBlank(companyId)) {
-                sql += " AND cm.COMPANY_ID LIKE '" + companyId + "'";
-            }
-
-            if (StringUtils.isNotBlank(companyName)) {
-                sql += " AND cm.COMPANY_NAME LIKE '" + companyName + "'";
-            }
-
-            if (StringUtils.isNotBlank(companyStatus)) {
-                sql += " AND hstatus.DESCRIPTION LIKE '" + companyStatus + "'";
-            }
-
-            if (StringUtils.isNotBlank(companyType)) {
-                sql += " AND htype.DESCRIPTION LIKE '" + companyType + "'";
-            }
-
-            if (!StringUtils.EMPTY.equals(companyTradeClass)) {
-                sql += " AND htrade.DESCRIPTION LIKE '" + companyTradeClass + "'";
-            }
-
-            if (!StringUtils.EMPTY.equals(companyCategory)) {
-                sql += " AND hcategory.DESCRIPTION LIKE '" + companyCategory + "'";
-            }
-
-            if (!StringUtils.EMPTY.equals(companyGroup)) {
-                sql += " AND hgroup.DESCRIPTION LIKE '" + companyGroup + "'";
-            }
+            
             sql += "),\n"
                     + "     TRADE_CLASS\n"
                     + "     AS (SELECT COMPANY_MASTER_SID,\n"
@@ -208,8 +172,55 @@ public class CfpContractDetailsFinderImpl extends BasePersistenceImpl<CfpContrac
                     + "       LEFT JOIN HELPER_TABLE hcategory\n"
                     + "              ON hcategory.HELPER_TABLE_SID = C.COMPANY_CATEGORY\n"
                     + "       LEFT JOIN HELPER_TABLE hgroup\n"
-                    + "              ON hgroup.HELPER_TABLE_SID = C.COMPANY_GROUP\n";
+                    + "              ON hgroup.HELPER_TABLE_SID = C.COMPANY_GROUP \n"
+                    + "       LEFT JOIN HELPER_TABLE htrade\n"
+                    + "              ON htrade.HELPER_TABLE_SID = C.COMPANY_TRADE_CLASS  \n";
 
+            if (StringUtils.isNotBlank(companyNo)) {
+                sql += whereCondition + andOperator + "  c.COMPANY_NO LIKE '" + companyNo + "'";
+                whereCondition = "";
+                andOperator = " AND ";
+            }
+
+            if (StringUtils.isNotBlank(companyId)) {
+                sql += whereCondition + andOperator + " c.COMPANY_ID LIKE '" + companyId + "'";
+                whereCondition = "";
+                andOperator= " AND ";
+            }
+
+            if (StringUtils.isNotBlank(companyName)) {
+                sql += whereCondition + andOperator+ " c.COMPANY_NAME LIKE '" + companyName + "'";
+                whereCondition = "";
+                andOperator= " AND ";
+            }
+
+            if (StringUtils.isNotBlank(companyStatus)) {
+                sql += whereCondition + andOperator+ " C.COMPANY_STATUS = " + companyStatus ;
+                whereCondition = "";
+                andOperator= " AND ";
+            }
+
+            if (StringUtils.isNotBlank(companyType)) {
+                sql += whereCondition + andOperator+ " C.COMPANY_TYPE = " + companyType;
+                whereCondition = "";
+                andOperator= " AND ";
+            }
+
+            if (!StringUtils.EMPTY.equals(companyTradeClass)) {
+                sql += whereCondition + andOperator+ " T.COMPANY_TRADE_CLASS LIKE '" + companyTradeClass + "'";
+                whereCondition = "";
+                andOperator= " AND ";
+            }
+
+            if (!StringUtils.EMPTY.equals(companyCategory)) {
+                sql += whereCondition + andOperator+ " C.COMPANY_CATEGORY =" + companyCategory ;
+                whereCondition = "";
+                andOperator= " AND ";
+            }
+
+            if (!StringUtils.EMPTY.equals(companyGroup)) {
+                sql += whereCondition+andOperator + " C.COMPANY_GROUP = " + companyGroup ;
+            } 
             
             sql += ")\n"
                     + "B where rn=1";

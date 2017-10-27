@@ -68,10 +68,10 @@ import com.stpl.app.adminconsole.itemgroup.util.CommonUtils;
  */
 public class CustomerGroupSearchIndex extends CustomComponent implements View {
 
-    public static final Object[] CUSTOMER_GROUP_RESULTS_COLUMNS = new Object[]{
+    public final Object[] customerGroupResultsColumns = new Object[]{
         "customerGroupName", "customerGroupDesc", "customerGroupNo", "versionNo", "createdDate", "modifiedDate", "createdBy"};
 
-    public static final String[] CUSTOMER_GROUP_RESULTS_HEADER = new String[]{
+    public final String[] customerGroupResultHeaders = new String[]{
         "Customer Group Name", "Customer Group Description", "Customer Group No", "Version No", "Creation Date", "Modified Date", "Created By"};
 
     private final Label space = new Label("&nbsp;", ContentMode.HTML);
@@ -112,7 +112,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
 
     private ExtPagedFilterTable results = new ExtPagedFilterTable();
 
-    private final BeanItemContainer<CustomerGroupDTO> resultsBean = new BeanItemContainer<CustomerGroupDTO>(CustomerGroupDTO.class);
+    private final BeanItemContainer<CustomerGroupDTO> resultsBean = new BeanItemContainer<>(CustomerGroupDTO.class);
 
     private final Button searchResultsExcelExport = new Button();
 
@@ -128,7 +128,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
 
     private String searchCriteria = ConstantsUtils.EMPTY;
 
-    private final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
 
     private Button prevColumn = new Button("<<");
 
@@ -148,7 +148,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public CustomerGroupSearchIndex(final CustomerGroupDTO customerGroupDTO, final CustomFieldGroup customerGroupBinder, final Button prevColumn, final Button nextColumn) throws SystemException, PortalException {
+    public CustomerGroupSearchIndex(final CustomerGroupDTO customerGroupDTO, final CustomFieldGroup customerGroupBinder, final Button prevColumn, final Button nextColumn) {
         super();
         LOGGER.debug("CustomerGroupSearchIndex Constructor initiated ");
         this.customerGroupDTO = customerGroupDTO;
@@ -321,7 +321,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public final void init() throws SystemException, PortalException {
+    public final void init() {
         LOGGER.debug("init Method Started ");
         setCompositionRoot(addToContent());
         LOGGER.debug("init Method Ended ");
@@ -336,7 +336,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private Component addToContent() throws SystemException, PortalException {
+    private Component addToContent() {
         LOGGER.debug("addToContent method started ");
         final VerticalLayout content = new VerticalLayout();
         space.setHeight("20");
@@ -375,7 +375,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
 
         LOGGER.debug("getBinder method Started ");
         customerGroupBinder.bindMemberFields(this);
-        customerGroupBinder.setItemDataSource(new BeanItem<CustomerGroupDTO>(customerGroupDTO));
+        customerGroupBinder.setItemDataSource(new BeanItem<>(customerGroupDTO));
         customerGroupBinder.setBuffered(true);
         customerGroupBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getBinder method RETURNS customerGroupBinder - Binder ");
@@ -438,15 +438,15 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
         results.setFilterDecorator(new ExtDemoFilterDecorator());
         results.setContainerDataSource(resultsBean);
         results.sinkItemPerPageWithPageLength(false);
-        Object[] objColumn = CUSTOMER_GROUP_RESULTS_COLUMNS;
+        Object[] objColumn = customerGroupResultsColumns;
         for (Object objColumn1 : objColumn) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
                 results.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
             }
         }
-        results.setVisibleColumns(CUSTOMER_GROUP_RESULTS_COLUMNS);
-        results.setColumnHeaders(CUSTOMER_GROUP_RESULTS_HEADER);
+        results.setVisibleColumns(customerGroupResultsColumns);
+        results.setColumnHeaders(customerGroupResultHeaders);
         results.setPageLength(NumericConstants.FIVE);
         results.setSizeFull();
 
@@ -465,7 +465,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
         results.setErrorHandler(new ErrorHandler() {
 
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
 
@@ -625,7 +625,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
                                     Integer.parseInt(customerGroupSystemId.getValue().toString().replaceAll(ConstantsUtils.COMMA, ConstantsUtils.EMPTY)));
                             VaadinSession.getCurrent().setAttribute(ConstantsUtils.FROM_VIEW_PAGE, ConstantsUtils.OPTION_NO);
                             VaadinSession.getCurrent().setAttribute(ConstantsUtils.VERSION_NO, version);
-                            VaadinSession.getCurrent().setAttribute(CommonUtils.LOGIC, "edit");
+                            VaadinSession.getCurrent().setAttribute(CommonUtils.LOGIC_ATTRIBUTE_TXT, "edit");
                             LOGGER.debug("In configureFields editButtonClickLogic navigateTo CustomerGroupView");
                             getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
                         } else {
@@ -652,7 +652,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
                                 Integer.parseInt(customerGroupSystemId.getValue().toString().replaceAll(ConstantsUtils.COMMA, ConstantsUtils.EMPTY)));
                         VaadinSession.getCurrent().setAttribute(ConstantsUtils.FROM_VIEW_PAGE, ConstantsUtils.YES);
                         VaadinSession.getCurrent().setAttribute(ConstantsUtils.VERSION_NO, version);
-                        VaadinSession.getCurrent().setAttribute(CommonUtils.LOGIC, "view");
+                        VaadinSession.getCurrent().setAttribute(CommonUtils.LOGIC_ATTRIBUTE_TXT, "view");
                         LOGGER.debug("In configureFields viewButtonClickLogic navigateTo CustomerGroupView");
                         getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
                     } catch (Exception e) {
@@ -688,7 +688,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
                                                         Integer.parseInt(customerGroupSystemId.getValue().toString().replaceAll(ConstantsUtils.COMMA, ConstantsUtils.EMPTY)));
                                                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.FROM_VIEW_PAGE, ConstantsUtils.COPY);
                                                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.VERSION_NO, version);
-                                                VaadinSession.getCurrent().setAttribute(CommonUtils.LOGIC, "copy");
+                                                VaadinSession.getCurrent().setAttribute(CommonUtils.LOGIC_ATTRIBUTE_TXT, "copy");
                                                 LOGGER.debug("In configureFields copyButtonClickLogic navigateTo CustomerGroupView");
                                                 getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
                                             } else {
@@ -709,15 +709,9 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
         delete.addClickListener(new ClickListener() {
 
             public void buttonClick(final ClickEvent event) {
-                try {
-                    LOGGER.debug("In configureFields delete.addClickListener started");
-                    deleteButtonClickLogic(event);
-                    LOGGER.debug("In configureFields delete.addClickListener Ended");
-                } catch (SystemException ex) {
-                    LOGGER.error(ex);
-                } catch (PortalException ex) {
-                    LOGGER.error(ex);
-                }
+                LOGGER.debug("In configureFields delete.addClickListener started");
+                deleteButtonClickLogic();
+                LOGGER.debug("In configureFields delete.addClickListener Ended");
             }
         });
 
@@ -730,7 +724,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
                     List<List> exportList;
                     final List<String> dollarList = new ArrayList();
                     dollarList.add("AdminConsole");
-                    exportList = new ArrayList<List>();
+                    exportList = new ArrayList<>();
                     exportList.add(dollarList);
                     exportList.add(null);
                     exportList.add(null);
@@ -754,7 +748,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
     protected void resetButtonClickLogic() {
 
         LOGGER.debug("resetButtonClickLogic method Started ");
-        final List<Object> collapsedColumns = new ArrayList<Object>();
+        final List<Object> collapsedColumns = new ArrayList<>();
         for (final Object item : results.getVisibleColumns()) {
             if (results.isColumnCollapsed(item)) {
 
@@ -781,7 +775,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
      *
      * @param event the event
      */
-    protected void deleteButtonClickLogic(final ClickEvent event) throws SystemException, PortalException {
+    protected void deleteButtonClickLogic() {
 
         LOGGER.debug("deleteButtonClickLogic method Started ");
         if (customerGroupSystemId.getValue() == null || ConstantsUtils.EMPTY.equals(customerGroupSystemId.getValue()) || ConstantsUtils.ZERO.equals(customerGroupSystemId.getValue())) {
@@ -808,8 +802,8 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
                                         customerGroupBinder.commit();
                                         resultsBean.removeAllItems();
 
-                                        results.setVisibleColumns(CUSTOMER_GROUP_RESULTS_COLUMNS);
-                                        results.setColumnHeaders(CUSTOMER_GROUP_RESULTS_HEADER);
+                                        results.setVisibleColumns(customerGroupResultsColumns);
+                                        results.setColumnHeaders(customerGroupResultHeaders);
 
                                     }
                                 } catch (SystemException e) {
@@ -856,7 +850,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
             if (systemId instanceof BeanItem<?>) {
                 targetCustomer = (BeanItem<?>) systemId;
             } else if (systemId instanceof CustomerGroupDTO) {
-                targetCustomer = new BeanItem<CustomerGroupDTO>((CustomerGroupDTO) systemId);
+                targetCustomer = new BeanItem<>((CustomerGroupDTO) systemId);
             } else {
                 targetCustomer = NULLOBJECT;
             }
@@ -875,7 +869,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -916,7 +910,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
         if (identifier instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) identifier;
         } else if (identifier instanceof CustomerGroupDTO) {
-            targetItem = new BeanItem<CustomerGroupDTO>((CustomerGroupDTO) identifier);
+            targetItem = new BeanItem<>((CustomerGroupDTO) identifier);
         }
         dto = (CustomerGroupDTO) targetItem.getBean();
         return dto;
@@ -1079,7 +1073,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
     private static String[] getCollapsibleColumns600Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1095,7 +1089,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
     private static String[] getCollapsibleColumns480Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1111,7 +1105,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
     private static String[] getCollapsibleColumns978Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1129,7 +1123,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
     private static String[] getCollapsibleColumnsDefault1515Px(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1147,7 +1141,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
     private static String[] getCollapsibleColumnsDefault(final ExtFilterTable table) {
         final Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        final List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        final List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
 
         for (int i = 0; i < NumericConstants.TEN && !list.isEmpty(); i++) {
             list.remove(propertyIds[i]);
@@ -1163,7 +1157,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
      * @param table the new default table width
      */
     public void setDefaultTableWidth(final ExtFilterTable table) {
-        final BeanItemContainer<CustomerGroupDTO> resetBeans = new BeanItemContainer<CustomerGroupDTO>(CustomerGroupDTO.class);
+        final BeanItemContainer<CustomerGroupDTO> resetBeans = new BeanItemContainer<>(CustomerGroupDTO.class);
         table.setContainerDataSource(resetBeans);
 
         try {
@@ -1188,7 +1182,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
                     table.setColumnCollapsed(propertyId, false);
                 }
 
-                if (table != null && table.getItemIds().isEmpty()) {
+                if (table.getItemIds().isEmpty()) {
                     for (final Object propertyId : getCollapsibleColumns978Px(table)) {
                         table.setColumnCollapsed(propertyId, true);
                     }
@@ -1236,9 +1230,9 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
             public void buttonClick(final Button.ClickEvent event) {
 
                 // List of all visible columns
-                final List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(results.getVisibleColumns()));
+                final List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(results.getVisibleColumns()));
 
-                final List<Object> collapsedColumns = new ArrayList<Object>();
+                final List<Object> collapsedColumns = new ArrayList<>();
                 int index = 0;
                 for (final Object item : results.getVisibleColumns()) {
                     if (!results.isColumnCollapsed(item)) {
@@ -1271,9 +1265,9 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
             public void buttonClick(final Button.ClickEvent event) {
 
                 // List of all visible columns
-                final List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(results.getVisibleColumns()));
+                final List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(results.getVisibleColumns()));
                 // List of columns currently visible in the table
-                final List<Object> collapsedColumns = new ArrayList<Object>();
+                final List<Object> collapsedColumns = new ArrayList<>();
                 int index = 0;
                 for (final Object item : results.getVisibleColumns()) {
                     if (!results.isColumnCollapsed(item)) {
@@ -1287,7 +1281,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
                 }
 
                 //A column is added and a refreshed list is needed to enable and disable the buttons
-                final List<Object> updatedCollapsedColumns = new ArrayList<Object>();
+                final List<Object> updatedCollapsedColumns = new ArrayList<>();
                 for (final Object item : results.getVisibleColumns()) {
                     if (!results.isColumnCollapsed(item)) {
                         updatedCollapsedColumns.add(item);
@@ -1385,7 +1379,7 @@ public class CustomerGroupSearchIndex extends CustomComponent implements View {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0; i < NumericConstants.SIX; i++) {
             list.remove(propertyIds[i]);
         }

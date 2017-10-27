@@ -34,35 +34,29 @@ import org.jboss.logging.Logger;
 public class ResponsiveUtils {
 
     private final static Logger LOGGER = Logger.getLogger(ResponsiveUtils.class);
-
+    public static final String SPAN_STYLECOLOR_PADDING = " <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>";
+    public static final String PREVNEXTLAYOUT = "prev-next-layout";
+    public static final String PREVCOLUMNBUTTON = "prev-column-button";
+    public static final String NEXTCOLUMNBUTTON = "next-column-button";
+    
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder("");
         sb.append(value);
         if (isMandatory) {
-            sb.append(" <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>");
+            sb.append(SPAN_STYLECOLOR_PADDING);
         }
         Label label = new Label(sb.toString(), ContentMode.HTML);
         return label;
     }
+    
     
     public static Label makeLabel(Label label, boolean isMandatory) {
         StringBuilder sb = new StringBuilder("");
         sb.append(label.getValue());
         if (isMandatory) {
-            sb.append(" <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>");
+            sb.append(SPAN_STYLECOLOR_PADDING);
         }
         label.setValue(sb.toString());        
-        return label;
-    }
-    
-    public static Label makeLabel(String value, String styleName,boolean isMandatory) {
-        StringBuilder sb = new StringBuilder("");
-        sb.append(value);
-        if (isMandatory) {
-            sb.append(" <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>");
-        }
-        Label label = new Label(sb.toString(), ContentMode.HTML);
-        label.addStyleName("filenamelable");
         return label;
     }
     
@@ -153,7 +147,7 @@ public class ResponsiveUtils {
     private static String[] getCollapsibleColumns(Table table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -164,7 +158,7 @@ public class ResponsiveUtils {
     private static String[] getCollapsibleOneColumn(Table table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
@@ -237,23 +231,24 @@ public class ResponsiveUtils {
         Button prevColumn = new Button("<<");
         Button nextColumn = new Button(">>");
         HorizontalLayout layout = new HorizontalLayout();
-        layout.setStyleName("prev-next-layout");
+        layout.setStyleName(PREVNEXTLAYOUT);
         layout.addComponent(prevColumn);
         layout.addComponent(nextColumn);
-        prevColumn.setStyleName("prev-column-button");
-        nextColumn.setStyleName("next-column-button");
+        prevColumn.setStyleName(PREVCOLUMNBUTTON);
+        nextColumn.setStyleName(NEXTCOLUMNBUTTON);
         addButtonListeners(table, prevColumn, nextColumn);
         return layout;
     }
+    
     public static HorizontalLayout addNaviButton(ExtFilterTable table) {
             Button prevColumn = new Button("<<");
             Button nextColumn = new Button(">>");
             HorizontalLayout layout = new HorizontalLayout();
-            layout.setStyleName("prev-next-layout");
+            layout.setStyleName(PREVNEXTLAYOUT);
             layout.addComponent(prevColumn);
             layout.addComponent(nextColumn);
-            prevColumn.setStyleName("prev-column-button");
-            nextColumn.setStyleName("next-column-button");
+            prevColumn.setStyleName(PREVCOLUMNBUTTON);
+            nextColumn.setStyleName(NEXTCOLUMNBUTTON);
             addButtonListeners(table, prevColumn, nextColumn);
             return layout;
         }
@@ -261,17 +256,17 @@ public class ResponsiveUtils {
         Button prevColumn = new Button("<<");
         Button nextColumn = new Button(">>");
         HorizontalLayout layout = new HorizontalLayout();
-        layout.setStyleName("prev-next-layout");
+        layout.setStyleName(PREVNEXTLAYOUT);
         layout.addComponent(prevColumn);
         layout.addComponent(nextColumn);
-        prevColumn.setStyleName("prev-column-button");
-        nextColumn.setStyleName("next-column-button");
+        prevColumn.setStyleName(PREVCOLUMNBUTTON);
+        nextColumn.setStyleName(NEXTCOLUMNBUTTON);
         addFilterButtonListeners(table, prevColumn, nextColumn);
         return layout;
     }
 
     public static void addFilterButtonListeners(final CustomePagedFilterTable table, final Button prevColumn, final Button nextColumn) {
-        List<Object> collapsedColumns1 = new ArrayList<Object>();
+        List<Object> collapsedColumns1 = new ArrayList<>();
 
         for (Object item : table.getVisibleColumns()) {
             if (!table.isColumnCollapsed(item)) {
@@ -281,8 +276,8 @@ public class ResponsiveUtils {
         prevColumn.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -300,7 +295,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(true);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -318,8 +313,8 @@ public class ResponsiveUtils {
         nextColumn.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -339,7 +334,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(false);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -380,7 +375,7 @@ public class ResponsiveUtils {
     }
 
     public static void addButtonListeners(final Table table, final Button prevColumn, final Button nextColumn) {
-        List<Object> collapsedColumns1 = new ArrayList<Object>();
+        List<Object> collapsedColumns1 = new ArrayList<>();
 
         for (Object item : table.getVisibleColumns()) {
             if (!table.isColumnCollapsed(item)) {
@@ -390,8 +385,8 @@ public class ResponsiveUtils {
         prevColumn.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -409,7 +404,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(true);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -427,8 +422,8 @@ public class ResponsiveUtils {
         nextColumn.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -449,7 +444,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(false);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -489,7 +484,7 @@ public class ResponsiveUtils {
                     });
     }
  public static void addButtonListeners(final ExtFilterTable table, final Button prevColumn, final Button nextColumn) {
-        List<Object> collapsedColumns1 = new ArrayList<Object>();
+        List<Object> collapsedColumns1 = new ArrayList<>();
 
         for (Object item : table.getVisibleColumns()) {
             if (!table.isColumnCollapsed(item)) {
@@ -499,8 +494,8 @@ public class ResponsiveUtils {
         prevColumn.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -518,7 +513,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(true);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -536,8 +531,8 @@ public class ResponsiveUtils {
         nextColumn.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -558,7 +553,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(false);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -623,7 +618,7 @@ public class ResponsiveUtils {
     private static String[] getPagedCollapsibleOneColumn(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
@@ -643,7 +638,7 @@ public class ResponsiveUtils {
     private static String[] getPagedCollapsibleColumns(CustomePagedFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -652,7 +647,7 @@ public class ResponsiveUtils {
 
     public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout) {
         HorizontalLayout controlBar = new HorizontalLayout();
-        controlBar.setStyleName("responsivePagedTable");
+        controlBar.setStyleName(RESPONSIVE_PAGED_TABLE);
 
         HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
         HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
@@ -667,12 +662,16 @@ public class ResponsiveUtils {
         controlBar.addComponent(cssLayout);
         return controlBar;
     }
+    public static final String RESPONSIVE_PAGED_TABLE = "responsivePagedTable";
 
     public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout,boolean flag){
-        HorizontalLayout controlBar = new HorizontalLayout();
-                        controlBar.setStyleName("responsivePagedTable");
+                        LOGGER.debug(flag);
+                        HorizontalLayout controlBar = new HorizontalLayout();
+                        controlBar.setStyleName(RESPONSIVE_PAGED_TABLE);
+                        
                         HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
                         HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
+                        
                         VerticalLayout layout = new VerticalLayout();
                         layout.addComponent(pageSize);
                         CssLayout cssLayout = new CssLayout();
@@ -698,7 +697,7 @@ public class ResponsiveUtils {
     }
     public static void getResponsiveControls(HorizontalLayout tempLayout, HorizontalLayout controlBar) {
 
-		controlBar.setStyleName("responsivePagedTable");
+		controlBar.setStyleName(RESPONSIVE_PAGED_TABLE);
 		HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
 		HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
 
@@ -722,8 +721,8 @@ public class ResponsiveUtils {
         prevColumn.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -751,8 +750,8 @@ public class ResponsiveUtils {
         nextColumn.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(Button.ClickEvent event) {
-                List<Object> visibleColumnsList = new ArrayList<Object>(Arrays.asList(table.getVisibleColumns()));
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
+                List<Object> collapsedColumns = new ArrayList<>();
                 int lastIndex = 0;
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {
@@ -773,7 +772,7 @@ public class ResponsiveUtils {
                     nextColumn.setEnabled(false);
                 }
 
-                List<Object> collapsedColumns1 = new ArrayList<Object>();
+                List<Object> collapsedColumns1 = new ArrayList<>();
 
                 for (Object item : table.getVisibleColumns()) {
                     if (!table.isColumnCollapsed(item)) {

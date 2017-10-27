@@ -38,6 +38,7 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
     private String _inboundStatus;
     private int _itemPricingSid;
     private int _pricingCodeStatus;
+    private int _itemPricePrecision;
     private BaseModel<?> _itemPricingRemoteModel;
 
     public ItemPricingClp() {
@@ -94,6 +95,7 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
         attributes.put("inboundStatus", getInboundStatus());
         attributes.put("itemPricingSid", getItemPricingSid());
         attributes.put("pricingCodeStatus", getPricingCodeStatus());
+        attributes.put("itemPricePrecision", getItemPricePrecision());
 
         return attributes;
     }
@@ -202,6 +204,13 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
 
         if (pricingCodeStatus != null) {
             setPricingCodeStatus(pricingCodeStatus);
+        }
+
+        Integer itemPricePrecision = (Integer) attributes.get(
+                "itemPricePrecision");
+
+        if (itemPricePrecision != null) {
+            setItemPricePrecision(itemPricePrecision);
         }
     }
 
@@ -587,6 +596,29 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
         }
     }
 
+    @Override
+    public int getItemPricePrecision() {
+        return _itemPricePrecision;
+    }
+
+    @Override
+    public void setItemPricePrecision(int itemPricePrecision) {
+        _itemPricePrecision = itemPricePrecision;
+
+        if (_itemPricingRemoteModel != null) {
+            try {
+                Class<?> clazz = _itemPricingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setItemPricePrecision",
+                        int.class);
+
+                method.invoke(_itemPricingRemoteModel, itemPricePrecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getItemPricingRemoteModel() {
         return _itemPricingRemoteModel;
     }
@@ -671,6 +703,7 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
         clone.setInboundStatus(getInboundStatus());
         clone.setItemPricingSid(getItemPricingSid());
         clone.setPricingCodeStatus(getPricingCodeStatus());
+        clone.setItemPricePrecision(getItemPricePrecision());
 
         return clone;
     }
@@ -716,7 +749,7 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(35);
+        StringBundler sb = new StringBundler(37);
 
         sb.append("{itemMasterSid=");
         sb.append(getItemMasterSid());
@@ -752,6 +785,8 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
         sb.append(getItemPricingSid());
         sb.append(", pricingCodeStatus=");
         sb.append(getPricingCodeStatus());
+        sb.append(", itemPricePrecision=");
+        sb.append(getItemPricePrecision());
         sb.append("}");
 
         return sb.toString();
@@ -759,7 +794,7 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(55);
+        StringBundler sb = new StringBundler(58);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ItemPricing");
@@ -832,6 +867,10 @@ public class ItemPricingClp extends BaseModelImpl<ItemPricing>
         sb.append(
             "<column><column-name>pricingCodeStatus</column-name><column-value><![CDATA[");
         sb.append(getPricingCodeStatus());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>itemPricePrecision</column-name><column-value><![CDATA[");
+        sb.append(getItemPricePrecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

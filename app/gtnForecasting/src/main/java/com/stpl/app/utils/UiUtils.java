@@ -195,7 +195,7 @@ public class UiUtils {
      * @return a new resultTable
      */
     public static Table addResultTable() {
-        resourceBundle = ResourceBundle.getBundle("configurations/default");
+        resourceBundle = ResourceBundle.getBundle(Constant.CONFIGURATIONS_DEFAULT);
         Table resultTable = new Table();
         resultTable.setSelectable(Boolean.valueOf(resourceBundle.getString("table_selectable")));
         resultTable.setSizeFull();
@@ -210,7 +210,7 @@ public class UiUtils {
      * @return a new resultTable
      */
     public static ExtFilterTable addFilterResultTable() {
-        resourceBundle = ResourceBundle.getBundle("configurations/default");
+        resourceBundle = ResourceBundle.getBundle(Constant.CONFIGURATIONS_DEFAULT);
         ExtFilterTable resultTable = new ExtFilterTable();
         resultTable.setSelectable(Boolean.valueOf(resourceBundle.getString("table_selectable")));
         resultTable.setSizeFull();
@@ -276,7 +276,7 @@ public class UiUtils {
      * @return VerticalLayout or HorizontalLayout or FormLayout
      */
     public static AbstractOrderedLayout getLayout(Class<?> theClass) {
-        resourceBundle = ResourceBundle.getBundle("configurations/default");
+        resourceBundle = ResourceBundle.getBundle(Constant.CONFIGURATIONS_DEFAULT);
         AbstractOrderedLayout layout = null;
         try {
             layout = (AbstractOrderedLayout) Class.forName(theClass.getName()).newInstance();
@@ -301,7 +301,7 @@ public class UiUtils {
      * @param selectedTree selected customer or product table
      */
     public static void configureHierarchyTables(final TreeTable availableTree, final TreeTable selectedTree) {
-        resourceBundle = ResourceBundle.getBundle("configurations/default");
+        resourceBundle = ResourceBundle.getBundle(Constant.CONFIGURATIONS_DEFAULT);
         float tableWidth = Float.valueOf(resourceBundle.getString("table_group_heirarchy_width"));
         availableTree.setWidth(tableWidth, Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
         selectedTree.setWidth(tableWidth, Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
@@ -337,6 +337,7 @@ public class UiUtils {
                     } else if (component instanceof ExtFilterTable) {
                         ExtFilterTable tempTable = (ExtFilterTable) component;
                         tempTable.getContainerDataSource().removeAllItems();
+                        tempTable.resetFilters();
                     } else if (component instanceof TreeTable) {
                         TreeTable tempTreeTable = (TreeTable) component;
                         tempTreeTable.getContainerDataSource().removeAllItems();
@@ -394,7 +395,7 @@ public class UiUtils {
     }
 
     public static List<Integer> convertStringListToIngeter(List<String> stringList) {
-        List<Integer> integerList = new ArrayList<Integer>();
+        List<Integer> integerList = new ArrayList<>();
 
         for (String sid : stringList) {
             integerList.add(Integer.parseInt(sid));
@@ -404,7 +405,7 @@ public class UiUtils {
     }
 
     public static List<Integer> convertStringListToParsedIngeter(List<String> stringList) {
-        List<Integer> integerList = new ArrayList<Integer>();
+        List<Integer> integerList = new ArrayList<>();
 
         for (String sid : stringList) {
             if (!StringUtils.EMPTY.equals(String.valueOf(parseStringToInteger(sid))) && !Constant.DASH.equals(String.valueOf(parseStringToInteger(sid)))) {
@@ -416,7 +417,7 @@ public class UiUtils {
     }
 
     public static List<String> convertIngeterListToString(List<Integer> integetList) {
-        List<String> stringList = new ArrayList<String>();
+        List<String> stringList = new ArrayList<>();
 
         for (int sid : integetList) {
             stringList.add(String.valueOf(sid));
@@ -449,7 +450,7 @@ public class UiUtils {
     }
 
     public static List<String> objectListToStringList(List<Object> objectList) {
-        List<String> stringList = new ArrayList<String>();
+        List<String> stringList = new ArrayList<>();
         if (objectList != null) {
             for (Object object : objectList) {
                 stringList.add(String.valueOf(object));

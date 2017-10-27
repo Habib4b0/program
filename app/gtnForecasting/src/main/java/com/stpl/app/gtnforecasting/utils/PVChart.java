@@ -102,9 +102,9 @@ public class PVChart extends Window {
         try {
             final Chart chart = new Chart(ChartType.COLUMN);
 
-            List<String> visibleColumns = new ArrayList<String>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
+            List<String> visibleColumns = new ArrayList<>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
             visibleColumns.remove("relationshipLevelName");
-            List<String> visibleHeaders = new ArrayList<String>(rightDto.getSingleHeaders());
+            List<String> visibleHeaders = new ArrayList<>(rightDto.getSingleHeaders());
             visibleHeaders.remove(Constant.CUSTOMER_SMALL);
             visibleHeaders.remove(Constant.GROUPFCAPS);
             String[] visHeaders = visibleHeaders.toArray(new String[visibleHeaders.size()]);
@@ -164,7 +164,7 @@ public class PVChart extends Window {
                     }
                 }
             } else {
-                List<String> periodList = new ArrayList<String>();
+                List<String> periodList = new ArrayList<>();
                 for (ProjectionVarianceDTO pDto : dto) {
                     if (projSelDTO.getPeriodListMap().containsValue(pDto.getGroup())) {
                         periodList.add(pDto.getGroup());

@@ -247,7 +247,7 @@ public class RelationBuilderLogicDAOImpl implements RelationBuilderLogicDAO {
 	 * @throws SystemException the system exception
 	 */
 	public List getRelationshipLevelList(final DynamicQuery query) throws SystemException {
-		LOGGER.debug("In query-getRelationshipLevelList started with P1:DynamicQuery query");
+		LOGGER.debug("In query-getRelationshipLevelList started with P1:DynamicQuery query ");
 		return RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery(query);
 	}
         
@@ -260,7 +260,7 @@ public class RelationBuilderLogicDAOImpl implements RelationBuilderLogicDAO {
 	 * @throws SystemException the system exception
 	 */
 	public List getHistRelationshipLevelList(final DynamicQuery query) throws SystemException {
-		LOGGER.debug("In query-getRelationshipLevelList started with P1:DynamicQuery query");
+		LOGGER.debug("In query-getRelationshipLevelList started with P1:getHistRelationshipLevelList query");
 		return HistRelationshipLevelDefnLocalServiceUtil.dynamicQuery(query);
 	}
 

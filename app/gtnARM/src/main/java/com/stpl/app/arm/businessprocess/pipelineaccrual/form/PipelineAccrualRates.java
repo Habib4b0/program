@@ -15,7 +15,9 @@ import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.supercode.ExcelInterface;
 import com.stpl.app.arm.utils.ARMUtils;
 import static com.stpl.app.arm.utils.ARMUtils.SalesVariables.ST_ARM_PIPELINE_RATE;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.utils.CommonUtils;
 import java.util.Map;
 
 /**
@@ -72,6 +74,17 @@ public class PipelineAccrualRates extends AbstractPipelineRates {
         generate.setVisible(CommonLogic.isButtonVisibleAccess("generate", functionHM));
         ratesResults.getExpandbtn().setVisible(CommonLogic.isButtonVisibleAccess("expandbtn", functionHM));
         ratesResults.getCollapseBtn().setVisible(CommonLogic.isButtonVisibleAccess("collapseBtn", functionHM));
+    }
+    
+    @Override
+    public void configureFields() {
+        customMenuItem = CommonUtils.loadSummaryDeductionsDdlb(deductionLevelDdlb, deductionValueDdlb, selection.getDataSelectionDTO().getProjectionId());
+        CommonUtils.loadComboBoxWithIntegerForComboBox(rateBasisDdlb, CommonConstant.ARM_RATE_BASIS, false);
+        rateBasisDdlb.removeItem(helperId.getIdByDesc(CommonConstant.ARM_RATE_BASIS, "Contract Terms"));
+        rateBasisDdlb.removeItem(helperId.getIdByDesc(CommonConstant.ARM_RATE_BASIS, "Contract Details"));
+        rateBasisDdlb.removeItem(helperId.getIdByDesc(CommonConstant.ARM_RATE_BASIS, "Calculated"));
+        CommonUtils.loadComboBoxWithIntegerForComboBox(rateFrequencyDdlb, "PAYMENT_FREQUENCY", false);
+        setDefaultValue();
     }
 
 }

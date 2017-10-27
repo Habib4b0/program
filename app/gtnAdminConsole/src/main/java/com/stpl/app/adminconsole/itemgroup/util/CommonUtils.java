@@ -62,7 +62,7 @@ public final class CommonUtils {
     public static final String TEXT1 = "text1";
     public static final String TEXT3 = "text3";
     public static final String TEXT2 = "text2";
-    public static final String LOGIC = "logic";
+    public static final String LOGIC_ATTRIBUTE_TXT = "logic";
     public static final String FROM_PERIOD = "fromPeriod";
     public static final String FORECAST_NAME = "forecastName";
     public static final String TO_PERIOD = "toPeriod";
@@ -86,12 +86,12 @@ public final class CommonUtils {
      * @throws java.lang.Exception
      */
     @SuppressWarnings("unchecked")
-    public static List<HelperDTO> getCompanyWithIds(final int start, final int end, final String marketType, final String tempFilterText) throws SystemException, PortalException {
+    public static List<HelperDTO> getCompanyWithIds(final int start, final int end, final String marketType, final String tempFilterText) throws SystemException {
         LOGGER.debug("getCompanyWithIds started with P1:int start=" + start + " P2:int end=" + end + " P3:String marketType=" + marketType + " P4:String filterText" + tempFilterText);
         final String filterText = StringUtils.trimToEmpty(tempFilterText) + "%";
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         final DynamicQuery helperDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
-        helperDynamicQuery.add(RestrictionsFactoryUtil.eq("description", "GLCOMP"));
+        helperDynamicQuery.add(RestrictionsFactoryUtil.eq("description", COMP_TYPE));
         helperDynamicQuery.add(RestrictionsFactoryUtil.eq("listName", "COMP_TYPE"));
         List<HelperTable> helperList = HelperTableLocalServiceUtil.dynamicQuery(helperDynamicQuery);
         if (helperList != null) {
@@ -105,7 +105,7 @@ public final class CommonUtils {
         companyDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.COMPANY_NO, filterText));
         companyDynamicQuery.setLimit(start, end);
         List<Object[]> resultList;
-        final List<HelperDTO> results = new ArrayList<HelperDTO>();
+        final List<HelperDTO> results = new ArrayList<>();
 
         resultList = dao.getCompanyMasterList(companyDynamicQuery);
         HelperDTO dto;
@@ -129,7 +129,7 @@ public final class CommonUtils {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @throws java.lang.Exception
      */
-    public static Map getCompanyInfo() throws SystemException, PortalException {
+    public static Map getCompanyInfo() throws SystemException {
         LOGGER.debug("getCompanyInfo started");
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -163,7 +163,7 @@ public final class CommonUtils {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @throws java.lang.Exception
      */
-    public static String convertDateToString(final Date aDate) throws SystemException, PortalException {
+    public static String convertDateToString(final Date aDate) {
         return getDateTime(MMDDYYYY, aDate);
     }
 
@@ -209,14 +209,14 @@ public final class CommonUtils {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @throws java.lang.Exception
      */
-    public static int getLazyCustomerNamesCount(final String marketType, final String tempFilterText) throws SystemException, PortalException {
+    public static int getLazyCustomerNamesCount(final String marketType, final String tempFilterText) throws SystemException {
         LOGGER.debug("getLazyCustomerNamesCount started with P1:String marketType=" + marketType + " P2:String filterText=" + tempFilterText);
         List<String> resultList;
 
         final String filterText = StringUtils.trimToEmpty(tempFilterText) + "%";
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         final DynamicQuery helperDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
-        helperDynamicQuery.add(RestrictionsFactoryUtil.eq("description", "GLCOMP"));
+        helperDynamicQuery.add(RestrictionsFactoryUtil.eq("description", COMP_TYPE));
         helperDynamicQuery.add(RestrictionsFactoryUtil.eq("listName", "COMP_TYPE"));
         List<HelperTable> helperList = HelperTableLocalServiceUtil.dynamicQuery(helperDynamicQuery);
         if (helperList != null) {
@@ -239,7 +239,7 @@ public final class CommonUtils {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @throws java.lang.Exception
      */
-    public static Map getCompanyInformation() throws SystemException, PortalException {
+    public static Map getCompanyInformation() throws SystemException {
         LOGGER.debug("getCompanyInfo started");
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();

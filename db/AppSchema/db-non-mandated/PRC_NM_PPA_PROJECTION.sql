@@ -1,3 +1,4 @@
+
 IF EXISTS (SELECT 'X'
            FROM   INFORMATION_SCHEMA.ROUTINES
            WHERE  ROUTINE_NAME = 'PRC_NM_PPA_PROJECTION'
@@ -558,25 +559,17 @@ SELECT REBATE_FREQUENCY1,TTE,RESET_PERIODS_RN
                             NC.NEP_RESULT,
                             NC.WAC_RESULT,
                             NC.RESET_GRP,
-                           /* CASE 
+                            CASE 
 							  WHEN ISNULL(INITIAL_NEP,0)=ISNULL(NEP_RESULT,0) AND RESET_GRP=1 AND NULLIF(INITIAL_NEP,0) IS NOT NULL THEN
 							  0 ELSE 
 							TR.NET_BASE_PRICE   END          NET_BASE_PRICE_VALUE,------cel-1465
 							--TR.NET_BASE_PRICE              NET_BASE_PRICE_VALUE,
                             TR.NET_PRICE,
                             TR.NET_RESET_PRICE,
-                            TR.NET_SUBSEQUENT_PERIOD_PRICE NET_SUBSEQUENT_PERIOD_PRICE_VALUE*/
-							 CASE 
-							  WHEN ISNULL(INITIAL_NEP,0)=ISNULL(NEP_RESULT,0) AND nc.RESET_GRP=1 AND NULLIF(INITIAL_NEP,0) IS NOT NULL THEN
-							  0 ELSE 
-							TR1.NET_BASE_PRICE   END          NET_BASE_PRICE_VALUE,------cel-1465
-							--TR.NET_BASE_PRICE              NET_BASE_PRICE_VALUE,
-                            TR.NET_PRICE,
-                            TR1.NET_RESET_PRICE,
-                            TR1.NET_SUBSEQUENT_PERIOD_PRICE NET_SUBSEQUENT_PERIOD_PRICE_VALUE
+                            TR.NET_SUBSEQUENT_PERIOD_PRICE NET_SUBSEQUENT_PERIOD_PRICE_VALUE
 							,NC.INITIAL_NEP ------CEL-1465
 							, CASE 
-							  WHEN ISNULL(INITIAL_NEP,0)=ISNULL(NEP_RESULT,0) AND nc.RESET_GRP=1 AND NULLIF(INITIAL_NEP,0) IS NOT NULL THEN
+							  WHEN ISNULL(INITIAL_NEP,0)=ISNULL(NEP_RESULT,0) AND RESET_GRP=1 AND NULLIF(INITIAL_NEP,0) IS NOT NULL THEN
 							  1 ELSE 
 							  0 END          NETTING_EXCLUSION------CEL-1465
                      FROM   #NETTING_LOGIC_CCPS NC
@@ -584,58 +577,11 @@ SELECT REBATE_FREQUENCY1,TTE,RESET_PERIODS_RN
                               ON TR.CCP_DETAILS_SID = NC.CCP_DETAILS_SID
                                  AND TR.RS_CONTRACT_SID = NC.RS_CONTRACT_SID
                                  AND TR.PERIOD_SID = NC.PERIOD_SID
-							JOIN 	 ( SELECT * FROM (SELECT TR.CCP_DETAILS_SID,TR.RS_CONTRACT_SID,TR.PERIOD_SID ,ROW_NUMBER() OVER( PARTITION BY TR.CCP_DETAILS_SID,TR.RS_CONTRACT_SID ORDER BY TR.PERIOD_SID,RESET_GRP) RN,RESET_GRP,TR.NET_BASE_PRICE,TR.NET_RESET_PRICE,TR.NET_SUBSEQUENT_PERIOD_PRICE FROM  #NETTING_LOGIC_CCPS NC
-                            JOIN #TEMP_REBATES TR
-                              ON TR.CCP_DETAILS_SID = NC.CCP_DETAILS_SID
-                                 AND TR.RS_CONTRACT_SID = NC.RS_CONTRACT_SID
-                                 AND TR.PERIOD_SID = NC.PERIOD_SID WHERE RESET_PERIODS_RN = 1)A WHERE RN=1
-								 ) TR1-------------AGN-395
-                              ON TR1.CCP_DETAILS_SID = NC.CCP_DETAILS_SID
-                                 AND TR1.RS_CONTRACT_SID = NC.RS_CONTRACT_SID
-                                 AND TR1.RESET_GRP = NC.RESET_GRP
                      WHERE  RESET_PERIODS_RN = 1
                             AND LEFT(NC.PRICE_TOLERANCE_TYPE, 1) = 'P'
                              AND not exists(select 1 from  #NETTING_LOGIC_CCPS d where d.CCP_DETAILS_SID=NC.CCP_DETAILS_SID
 						and d.RS_CONTRACT_SID=NC.RS_CONTRACT_SID and d.PERIOD_SID=nc.PERIOD_SID and d.RESET_ELIGIBLE='yes' and d.RESET_TYPE='VIOLATION DATE')),
-					CTE2
-                 AS (
-						SELECT A.CCP_DETAILS_SID,
-                            A.RS_CONTRACT_SID,
-                            A.PERIOD_SID,
-                            CASE
-							  WHEN ISNULL(INITIAL_NEP,0)=ISNULL(NEP_RESULT,0) AND RESET_GRP=1 AND NULLIF(INITIAL_NEP,0) IS NOT NULL THEN NEP_RESULT	------CEL-1465
-                              WHEN ( NEP_RESULT - RES ) > 0 THEN ( NEP_RESULT - RES )
-                              ELSE 0
-                            END AS RESULT,
-							NEP_RESULT,cs.RES ---,cs.NEW_RN,cs.NET_BASE_PRICE_VALUE,cs.FIRST_RESET_VAL,cs.NET_SUBSEQUENT_PERIOD_PRICE_VALUE,cs.MX_NEW_RN
-                            ,RESET_GRP
-                     FROM   CTE A
-                            CROSS APPLY (SELECT max(( B.NET_BASE_PRICE_VALUE * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION) ) 							
-							+ CASE
-                                                                                                                                       WHEN MX_NEW_RN = NEW_RN THEN ( B.FIRST_RESET_VAL * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION) )
-                                                                                                                                       ELSE 0
-                                                                                                                                     END + ( IIF(B.NET_SUBSEQUENT_PERIOD_PRICE = 'YES', B.NET_SUBSEQUENT_PERIOD_PRICE_VALUE, 0) * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION) ))-------------AGN-395
-										 AS RES
-                                         -- ,NEW_RN,B.NET_BASE_PRICE_VALUE,B.FIRST_RESET_VAL,B.NET_SUBSEQUENT_PERIOD_PRICE_VALUE,MX_NEW_RN
-                                         FROM   (SELECT MAX(NEW_RN)
-                                                          OVER() AS MX_NEW_RN,
-                                                        *
-                                                 FROM   (SELECT ROW_NUMBER()
-                                                                  OVER(
-                                                                    PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
-                                                                    ORDER BY PERIOD_SID DESC) NEW_RN,
-                                                                FIRST_VALUE(NET_RESET_PRICE)
-                                                                  OVER(
-                                                                    PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
-                                                                    ORDER BY PERIOD_SID )     AS FIRST_RESET_VAL,
-                                                                *
-                                                         FROM   CTE B
-                                                         WHERE  A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
-                                                                AND A.RS_CONTRACT_SID = B.RS_CONTRACT_SID
-                                                                AND A.RESET_GRP = B.RESET_GRP
-                                                                AND A.PERIOD_SID >= B.PERIOD_SID)C)B																
-                                                        ) CS)
-                 /*CTE2
+                 CTE2
                  AS (SELECT A.CCP_DETAILS_SID,
                             A.RS_CONTRACT_SID,
                             A.PERIOD_SID,
@@ -667,7 +613,7 @@ SELECT REBATE_FREQUENCY1,TTE,RESET_PERIODS_RN
                                                          WHERE  A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
                                                                 AND A.RS_CONTRACT_SID = B.RS_CONTRACT_SID
                                                                 AND A.RESET_GRP = B.RESET_GRP
-                                                                AND A.PERIOD_SID >= B.PERIOD_SID)C)B) CS)*/
+                                                                AND A.PERIOD_SID >= B.PERIOD_SID)C)B) CS)
             UPDATE TM
             SET    NET_MAP = C2.RESULT,
                    RESET_GRP = C2.RESET_GRP
@@ -726,73 +672,25 @@ SELECT REBATE_FREQUENCY1,TTE,RESET_PERIODS_RN
                             NC.NEP_RESULT,
                             NC.WAC_RESULT,
                             NC.RESET_GRP,
-							/*CASE 
+							CASE 
 							  WHEN ISNULL(INITIAL_NEP,0)=ISNULL(NEP_RESULT,0) AND RESET_GRP=1 THEN
 							  0 ELSE 
 							TR.NET_BASE_PRICE   END          NET_BASE_PRICE_VALUE,------cel-1465
                             TR.NET_PRICE,
                             TR.NET_RESET_PRICE,
-                            TR.NET_SUBSEQUENT_PERIOD_PRICE NET_SUBSEQUENT_PERIOD_PRICE_VALUE*/
-							CASE 
-							  WHEN ISNULL(INITIAL_NEP,0)=ISNULL(NEP_RESULT,0) AND nc.RESET_GRP=1 THEN
-							  0 ELSE 
-							TR1.NET_BASE_PRICE   END          NET_BASE_PRICE_VALUE,------cel-1465
-                            TR.NET_PRICE,
-                            TR1.NET_RESET_PRICE,
-                            TR1.NET_SUBSEQUENT_PERIOD_PRICE NET_SUBSEQUENT_PERIOD_PRICE_VALUE
+                            TR.NET_SUBSEQUENT_PERIOD_PRICE NET_SUBSEQUENT_PERIOD_PRICE_VALUE
 							,NC.INITIAL_NEP------cel-1465
                      FROM   #NETTING_LOGIC_CCPS NC
                             JOIN #TEMP_REBATES TR
                               ON TR.CCP_DETAILS_SID = NC.CCP_DETAILS_SID
                                  AND TR.RS_CONTRACT_SID = NC.RS_CONTRACT_SID
                                  AND TR.PERIOD_SID = NC.PERIOD_SID
-							JOIN 	 ( SELECT * FROM (SELECT TR.CCP_DETAILS_SID,TR.RS_CONTRACT_SID,TR.PERIOD_SID ,ROW_NUMBER() OVER( PARTITION BY TR.CCP_DETAILS_SID,TR.RS_CONTRACT_SID ORDER BY TR.PERIOD_SID,RESET_GRP) RN,RESET_GRP,TR.NET_BASE_PRICE,TR.NET_RESET_PRICE,TR.NET_SUBSEQUENT_PERIOD_PRICE FROM  #NETTING_LOGIC_CCPS NC
-                            JOIN #TEMP_REBATES TR
-                              ON TR.CCP_DETAILS_SID = NC.CCP_DETAILS_SID
-                                 AND TR.RS_CONTRACT_SID = NC.RS_CONTRACT_SID
-                                 AND TR.PERIOD_SID = NC.PERIOD_SID WHERE RESET_PERIODS_RN = 1)A WHERE RN=1
-								 ) TR1-------------AGN-395
-                              ON TR1.CCP_DETAILS_SID = NC.CCP_DETAILS_SID
-                                 AND TR1.RS_CONTRACT_SID = NC.RS_CONTRACT_SID
-                                 AND TR1.RESET_GRP = NC.RESET_GRP
                      WHERE  RESET_PERIODS_RN = 1
                             AND LEFT(NC.PRICE_TOLERANCE_TYPE, 1) = 'D'
                                AND not exists(select 1 from  #NETTING_LOGIC_CCPS d where d.CCP_DETAILS_SID=NC.CCP_DETAILS_SID
 						and d.RS_CONTRACT_SID=NC.RS_CONTRACT_SID and d.PERIOD_SID=nc.PERIOD_SID and d.RESET_ELIGIBLE='yes' and d.RESET_TYPE='VIOLATION DATE')),
-						CTE2 AS(SELECT A.CCP_DETAILS_SID,
-                            A.RS_CONTRACT_SID,
-                            A.PERIOD_SID,
-                            CASE
-							  WHEN ISNULL(INITIAL_NEP,0)=ISNULL(NEP_RESULT,0) AND RESET_GRP=1 THEN NEP_RESULT
-                              WHEN ( NEP_RESULT - RES ) > 0 THEN ( NEP_RESULT - RES )
-                              ELSE 0
-                            END AS RESULT,RES,
-                            RESET_GRP
-                     FROM   CTE A
-                            CROSS APPLY (SELECT MAX(( B.NET_BASE_PRICE_VALUE ) + CASE
-                                                                                   WHEN MX_NEW_RN = NEW_RN THEN ( B.FIRST_RESET_VAL )
-                                                                                   ELSE 0
-                                                                                 END + ( IIF(B.NET_SUBSEQUENT_PERIOD_PRICE = 'YES', B.NET_SUBSEQUENT_PERIOD_PRICE_VALUE, 0) )) AS RES-------------AGN-395
-                                         -- ,NEW_RN,B.NET_BASE,B.FIRST_RESET_VAL,B.NET_SUBSEQUENT,B.RNO,MX_NEW_RN
-                                         FROM   (SELECT MAX(NEW_RN)
-                                                          OVER() AS MX_NEW_RN,
-                                                        *
-                                                 FROM   (SELECT ROW_NUMBER()
-                                                                  OVER(
-                                                                    PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
-                                                                    ORDER BY PERIOD_SID DESC) NEW_RN,
-                                                                FIRST_VALUE(NET_RESET_PRICE)
-                                                                  OVER(
-                                                                    PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
-                                                                    ORDER BY PERIOD_SID )     AS FIRST_RESET_VAL,
-                                                                *
-                                                         FROM   CTE B
-                                                         WHERE  A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
-                                                                AND A.RS_CONTRACT_SID = B.RS_CONTRACT_SID
-                                                                AND A.RESET_GRP = B.RESET_GRP
-                                                                AND A.PERIOD_SID >= B.PERIOD_SID)C)B) CS)
     
-                /* CTE2
+                 CTE2
                  AS (SELECT A.CCP_DETAILS_SID,
                             A.RS_CONTRACT_SID,
                             A.PERIOD_SID,
@@ -824,7 +722,7 @@ SELECT REBATE_FREQUENCY1,TTE,RESET_PERIODS_RN
                                                          WHERE  A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
                                                                 AND A.RS_CONTRACT_SID = B.RS_CONTRACT_SID
                                                                 AND A.RESET_GRP = B.RESET_GRP
-                                                                AND A.PERIOD_SID >= B.PERIOD_SID)C)B) CS)*/
+                                                                AND A.PERIOD_SID >= B.PERIOD_SID)C)B) CS)
             UPDATE TM
             SET    NET_MAP = C2.RESULT,
                    RESET_GRP = C2.RESET_GRP
@@ -1319,7 +1217,10 @@ WHERE   EXISTS (SELECT 1
                           AND NLC.RS_CONTRACT_SID = RP.RS_CONTRACT_SID) ')
 
 
-						  END
+						  end
   END 
 
+
 GO
+
+

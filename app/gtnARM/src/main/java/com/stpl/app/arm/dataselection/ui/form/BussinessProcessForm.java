@@ -25,9 +25,11 @@ import com.stpl.app.arm.businessprocess.Transaction4;
 import com.stpl.app.arm.businessprocess.Transaction5;
 import com.stpl.app.arm.businessprocess.Transaction6;
 import com.stpl.app.arm.businessprocess.Transaction7;
+import com.stpl.app.arm.businessprocess.Transaction8;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.arm.workflow.dto.WorkflowMasterDTO;
 import com.stpl.app.arm.workflow.logic.WorkflowLogic;
@@ -39,6 +41,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.utils.CommonUtils;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -113,7 +116,7 @@ public class BussinessProcessForm extends Window {
     /**
      * binder used to bind the fields from the page
      */
-    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<AdjustmentReserveDTO>(binderDto));
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     String adjustmentType;
     DataSelectionDTO dataselectionDTO;
     private SessionDTO sessionDTO;
@@ -155,7 +158,9 @@ public class BussinessProcessForm extends Window {
         configurePermission();
         configureWorkflow();
         if (!sessionDTO.isWorkFlow()) {
-            InsertToReserveCCP();
+            insertToReserveCCP();
+            insertToSummaryCCP();
+            callInsertCcpProcedure();
         }
 
     }
@@ -180,12 +185,13 @@ public class BussinessProcessForm extends Window {
                     transaction = new Transaction6(tabSheet, binder, adjustmentType, dataselectionDTO, sessionDTO);
                 } else if (ARMConstants.getTransaction7().equals(adjustmentType)) {
                     transaction = new Transaction7(tabSheet, binder, adjustmentType, dataselectionDTO, sessionDTO);
-
+                } else if (ARMConstants.getTransaction8().equals(adjustmentType)) {
+                    transaction = new Transaction8(tabSheet, binder, adjustmentType, dataselectionDTO, sessionDTO);
                 }
                 transaction.initializeTabs();
                 transaction.configurePermission();
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("Error in initializeTabs"+e);
             }
             if (tabSheet.getTab(0).getCaption().equals(ARMConstants.getDataSelection())) {
                 previousBtn.setVisible(false);
@@ -196,7 +202,7 @@ public class BussinessProcessForm extends Window {
             tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
                 @Override
                 public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
-                    final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
+                    final TabSheet.Tab tab = event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                     tabPosition = event.getTabSheet().getTabPosition(tab);
                     transaction.setTabPosition(tabPosition);
                     if (tabPosition == 0) {
@@ -221,7 +227,7 @@ public class BussinessProcessForm extends Window {
                         submitBtn.setVisible(true);
                     }
 
-                    if (tab.getCaption().equals("Additional Information")) {
+                    if ("Additional Information".equals(tab.getCaption())) {
                         nextBtn.setVisible(false);
                     } else {
                         nextBtn.setVisible(true);
@@ -229,10 +235,9 @@ public class BussinessProcessForm extends Window {
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in tabSheet addSelectedTabChangeListener"+ex);
         }
 
-      
     }
 
     private void configureWindow() {
@@ -255,12 +260,23 @@ public class BussinessProcessForm extends Window {
 
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<AdjustmentReserveDTO>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }
 
     private final CustomNotification notifier = new CustomNotification();
+
+    private void insertToSummaryCCP() {
+        List input = new ArrayList();
+        input.add(dataselectionDTO.getProjectionId());
+        QueryUtils.itemUpdate(input, "armSummaryInsertCcp");
+    }
+
+    private void callInsertCcpProcedure() {
+        Object[] orderedArgs = {dataselectionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId()};
+        CommonUtils.callInsertProcedure("PRC_ARM_CURRENT_BALANCE", orderedArgs);
+    }
 
     class CustomNotification extends AbstractNotificationUtils {
 
@@ -269,6 +285,7 @@ public class BussinessProcessForm extends Window {
 
         @Override
         public void noMethod() {
+            LOGGER.debug("inside CustomNotification NO Method");
         }
 
         @Override
@@ -277,12 +294,15 @@ public class BussinessProcessForm extends Window {
             if (null != buttonName) {
                 switch (buttonName) {
                     case "close":
+                        CommonLogic.dropDynamicTables(String.valueOf(sessionDTO.getUserId()), String.valueOf(sessionDTO.getSessionId()));
                         close();
                         break;
                     case "submit":
                         break;
                     case "next":
                         tabSheet.setSelectedTab(tabNo + 1);
+                        break;
+                    default:
                 }
             }
         }
@@ -309,9 +329,8 @@ public class BussinessProcessForm extends Window {
                         notifier.setButtonName("close");
                         notifier.getOkCancelMessage(ARMMessages.getCloseMessageName_001(), "Are you sure you want to close the Fixed Dollar Adjustment -'" + dataselectionDTO.getAdjustmentCaption() + "' ? Nothing will be submitted.");
                     }
-                    CommonLogic.dropDynamicTables(String.valueOf(sessionDTO.getUserId()), String.valueOf(sessionDTO.getSessionId()));
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("Error in closeButton"+e);
                 }
             }
         });
@@ -335,29 +354,29 @@ public class BussinessProcessForm extends Window {
                                         @Override
                                         public void windowClose(Window.CloseEvent e) {
                                             try {
-                                                if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+                                                if (WorkFlowNotesLookup.submitFlag.equals(CommonConstant.SUCCESS)) {
                                                     CommonLogic.saveTempToMain(dataselectionDTO.getProjectionId(), sessionDTO.getCurrentTableNames(), adjustmentType);
                                                     transaction.saveAssets();
                                                     saveProjection();
                                                     submitProjection(popup.getNotes().getValue(), adjustmentType, popup.getUploadedData());
                                                     CommonLogic.dropDynamicTables(String.valueOf(sessionDTO.getUserId()), String.valueOf(sessionDTO.getSessionId()));
                                                     close();
-                                                    WorkFlowNotesLookup.submitFlag = "Failed";
+                                                    WorkFlowNotesLookup.submitFlag = CommonConstant.FAILED;
                                                 }
 
-                                            } catch (SystemException ex) {
-                                                LOGGER.error(ex);
-                                            } catch (PortalException ex) {
-                                                LOGGER.error(ex);
+                                            } catch (SystemException | PortalException ex) {
+                                                LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER+ex);
                                             } catch (Exception ex) {
-                                                LOGGER.error(ex);
+                                                LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER+ex);
                                             }
                                         }
+
                                     });
                                 }
 
                                 @Override
                                 public void noMethod() {
+                                    LOGGER.debug("inside submitBtn NO Method");
                                 }
                                 //Changed for GAL-8113
                             }.getConfirmationMessage("Submit Confirmation", "Are you sure you want to submit this Fixed Dollar Adjustment - " + dataselectionDTO.getAdjustmentCaption() + " for approval? ");
@@ -369,46 +388,51 @@ public class BussinessProcessForm extends Window {
                         AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageName_001(), transaction.submitErrorMessage());
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    
+                    LOGGER.error(VariableConstants.ERROR_IN_SUBMIT_BTNADD_CLICK_LISTENER + ex);
                 }
             }
         });
     }
+
+    
 
     /**
      * Submits the projection. Saves and calls the workflow
      */
     private void submitProjection(final String notesVal, final String screenName, final List<NotesDTO> getUploadedData) throws SystemException, PortalException {
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put(ARMUtils.PROJECTION_ID, dataselectionDTO.getProjectionId());
-        String workflowStatus = getWorkflowStatus(dataselectionDTO.getProjectionId());
-        if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
-            ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
-            User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
-            List<String> roleList = new ArrayList<String>();
-            boolean workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
-            Long processInstanceId = processInstance.getId();
-            try {
+        Map<String, Object> params = new HashMap<>();
+        try {
+            params.put(ARMUtils.PROJECTION_ID, dataselectionDTO.getProjectionId());
+            String workflowStatus = getWorkflowStatus(dataselectionDTO.getProjectionId());
+            if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
+                ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
+                User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
+                List<String> roleList = new ArrayList<>();
+                boolean workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
+                Long processInstanceId = processInstance.getId();
+
                 TaskSummary taskSummary = DSCalculationLogic.startAndCompleteTask(userModel, dataselectionDTO.getProjectionId(), processInstanceId);
                 processInstanceId = taskSummary.getProcessInstanceId();
                 sessionDTO.setProcessId(processInstanceId);
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            if (workflowFlag) {
-                submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
 
-            } else {
-                StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
-                if (roleList != null && !roleList.isEmpty()) {
-                    notiMsg.append("\n Only " + roleList + " can submit a projection.");
+                if (workflowFlag) {
+                    submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
+
+                } else {
+                    StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
+                    if (roleList != null && !roleList.isEmpty()) {
+                        notiMsg.append("\n Only " + roleList + " can submit a projection.");
+                    }
+                    AbstractNotificationUtils.getWarningNotification("Permission Denied", notiMsg.toString());
+
                 }
-                AbstractNotificationUtils.getWarningNotification("Permission Denied", notiMsg.toString());
-
+            } else {
+                submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
             }
-        } else {
-            submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
+        } catch (Exception e) {
+            LOGGER.error("Error in submitProjection"+e);
         }
     }
 
@@ -430,7 +454,7 @@ public class BussinessProcessForm extends Window {
             if (!noOfUsers.isEmpty()) {
                 LOGGER.debug("no of users : " + noOfUsers);
                 String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
-                String approvedFlag = StringUtils.EMPTY;
+                String approvedFlag;
                 approvedFlag = ARMUtils.SUBMITTED;
                 if (workflowId != null && !workflowId.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
                     callWorkflowInboxRefresh();
@@ -442,6 +466,7 @@ public class BussinessProcessForm extends Window {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (sessionDTO.getWorkflowId() != 0) {
                                 submitBtn.setEnabled(false);
@@ -457,7 +482,7 @@ public class BussinessProcessForm extends Window {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in submitProjToWorkflow"+ex);
         }
     }
 
@@ -469,31 +494,30 @@ public class BussinessProcessForm extends Window {
     }
 
     public String getWorkflowStatus(int projectionId) {
-        DynamicQuery projectionDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(ProjectionMaster.class);
-        projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(
-                "forecastingType", VariableConstants.ARM));
-        projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(ARMUtils.PROJECTION_MASTER_SID,
-                projectionId));
         String workflowStatus = StringUtils.EMPTY;
-        List<ProjectionMaster> resultList;
-
         try {
+            DynamicQuery projectionDynamicQuery = DynamicQueryFactoryUtil
+                    .forClass(ProjectionMaster.class);
+            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(
+                    "forecastingType", VariableConstants.ARM));
+            projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(ARMUtils.PROJECTION_MASTER_SID,
+                    projectionId));
+
+            List<ProjectionMaster> resultList;
+
             resultList = dataSelection.getProjectionMaster(projectionDynamicQuery);
 
             for (ProjectionMaster pm : resultList) {
                 workflowStatus = pm.getIsApproved();
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error("Error in getWorkflowStatus"+ex);
         }
         return workflowStatus;
     }
 
     public Object deleteTempBySession(final SessionDTO inputDto) throws SystemException {
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?UID", inputDto.getUserId());
         input.put("?SID", inputDto.getSessionId());
         return dataSelection.tempOperation(input, "bp.dleteTemp");
@@ -530,7 +554,7 @@ public class BussinessProcessForm extends Window {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in submitProjectionLogic"+e);
             return "Not Saved";
         }
         LOGGER.debug("Ending submitProjection ");
@@ -628,6 +652,7 @@ public class BussinessProcessForm extends Window {
 
         btnApprove.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnApproveLogic();
             }
@@ -635,12 +660,14 @@ public class BussinessProcessForm extends Window {
         });
         btnReject.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnRejectLogic();
             }
         });
         btnWithdraw.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnWithdrawLogic();
             }
@@ -658,6 +685,7 @@ public class BussinessProcessForm extends Window {
     protected void btnApproveLogic() {
         if (dataSelectionLogic.dateCheckforGLCompAndBu(dataselectionDTO, true)) {
             MessageBox.showPlain(Icon.QUESTION, "Confirm Approve", "Are you sure you want to approve the projection " + " ?", new MessageBoxListener() {
+                @Override
                 public void buttonClicked(ButtonId buttonId) {
                     if (buttonId.name().equals(ARMUtils.YES)) {
 
@@ -668,14 +696,14 @@ public class BussinessProcessForm extends Window {
                             @Override
                             public void windowClose(Window.CloseEvent e) {
                                 try {
-                                    if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+                                    if (WorkFlowNotesLookup.submitFlag.equals(CommonConstant.SUCCESS)) {
                                         int projectionId = sessionDTO.getProjectionId();
-                                        String userId = String.valueOf(sessionDTO.getUserId());
-                                        int userIdInt = Integer.parseInt(userId);
+                                        String userIds = String.valueOf(sessionDTO.getUserId());
+                                        int userIdInt = Integer.parseInt(userIds);
                                         int workflowId = sessionDTO.getWorkflowId();
                                         WorkflowLogic wfLogic = new WorkflowLogic();
-                                        String workflowIdUpdate = StringUtils.EMPTY;
-                                        WorkflowMasterDTO wfMasterDto = new WorkflowMasterDTO();
+                                        String workflowIdUpdate;
+                                        WorkflowMasterDTO wfMasterDto;
                                         wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getApprovedStatus(), popup.getNotes().getValue(), sessionDTO.getApprovalLevel());
                                         workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                         if (sessionDTO.getNoOfApproval() > sessionDTO.getApprovalLevel()) {
@@ -684,20 +712,21 @@ public class BussinessProcessForm extends Window {
                                         } else {
                                             List input = new ArrayList();
                                             input.add(sessionDTO.getProjectionId());
-                                            input.add(dataselectionDTO.getAdjustmentId());
                                             if (!"GTN Detail".equals(sessionDTO.getConfigType())) {
-                                                input.add(dataselectionDTO.getAdjustmentId());
+                                                input.add(transaction.getTableName());
                                             }
+                                            input.add(transaction.getTableName());
+                                            input.add(dataselectionDTO.getAdjustmentId());
                                             QueryUtils.itemUpdate(input,
                                                     "GTN Detail".equals(sessionDTO.getConfigType()) ? transaction.getGtnQuery() : transaction.getReserveQuery());
                                         }
                                         if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                            Map<String, Object> params = new HashMap<String, Object>();
-                                            params.put("approveFlag", "approve");
+                                            Map<String, Object> params = new HashMap<>();
+                                            params.put(CommonConstant.APPROVE_FLAG, "approve");
                                             VarianceCalculationLogic.submitWorkflow(String.valueOf(sessionDTO.getUserId()), sessionDTO.getProcessId(), params);
                                             callWorkflowInboxRefresh();
-                                            AbstractNotificationUtils.getInfoNotification("Approved Information", "Workflow Id " + workflowIdUpdate + " approved successfully");
+                                            AbstractNotificationUtils.getInfoNotification("Approved Information", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
                                             // For Mail
 
                                             btnApprove.setEnabled(false);
@@ -707,10 +736,10 @@ public class BussinessProcessForm extends Window {
                                         } else {
                                             CommonUIUtils.getMessageNotification("The projection not approved properly");
                                         }
-                                        WorkFlowNotesLookup.submitFlag = "Failed";
+                                        WorkFlowNotesLookup.submitFlag = CommonConstant.FAILED;
                                     }
                                 } catch (Exception ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error("Error in btnApproveLogic"+ex);
                                 }
                             }
                         });
@@ -725,6 +754,7 @@ public class BussinessProcessForm extends Window {
 
     protected void btnRejectLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reject", "Are you sure you want to reject the projection " + " ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(ARMUtils.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
@@ -734,7 +764,7 @@ public class BussinessProcessForm extends Window {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
                             try {
-                                if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+                                if (WorkFlowNotesLookup.submitFlag.equals(CommonConstant.SUCCESS)) {
                                     int projectionId = sessionDTO.getProjectionId();
                                     String userId = String.valueOf(sessionDTO.getUserId());
                                     int userIdInt = Integer.parseInt(userId);
@@ -743,12 +773,13 @@ public class BussinessProcessForm extends Window {
                                     WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getRejectedStatus(), popup.getNotes().getValue(), sessionDTO.getApprovalLevel());
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
-                                        Map<String, Object> params = new HashMap<String, Object>();
-                                        params.put("approveFlag", "reject-RWC");
+
+                                        Map<String, Object> params = new HashMap<>();
+                                        params.put(CommonConstant.APPROVE_FLAG, "reject-RWC");
                                         VarianceCalculationLogic.submitWorkflow(String.valueOf(sessionDTO.getUserId()), sessionDTO.getProcessId(), params);
                                         // For Mail
                                         callWorkflowInboxRefresh();
-                                        AbstractNotificationUtils.getInfoNotification("Rejected Information ", "Workflow Id " + workflowIdUpdate + " rejected successfully");
+                                        AbstractNotificationUtils.getInfoNotification("Rejected Information ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
 
                                         btnApprove.setEnabled(false);
                                         btnWithdraw.setEnabled(false);
@@ -757,10 +788,10 @@ public class BussinessProcessForm extends Window {
                                     } else {
                                         CommonUIUtils.getMessageNotification("The projection not rejected properly");
                                     }
-                                    WorkFlowNotesLookup.submitFlag = "Failed";
+                                    WorkFlowNotesLookup.submitFlag = CommonConstant.FAILED;
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("Error in btnRejectLogic"+ex);
                             }
                         }
                     });
@@ -771,6 +802,7 @@ public class BussinessProcessForm extends Window {
 
     protected void btnWithdrawLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Withdraw", "Are you sure you want to withdraw the projection " + " ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(ARMUtils.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
@@ -780,7 +812,7 @@ public class BussinessProcessForm extends Window {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
                             try {
-                                if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+                                if (WorkFlowNotesLookup.submitFlag.equals(CommonConstant.SUCCESS)) {
                                     int projectionId = sessionDTO.getProjectionId();
                                     String userId = String.valueOf(sessionDTO.getUserId());
                                     int userIdInt = Integer.parseInt(userId);
@@ -789,11 +821,12 @@ public class BussinessProcessForm extends Window {
                                     WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getWithdrawnStatus(), popup.getNotes().getValue(), sessionDTO.getApprovalLevel());
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
-                                        Map<String, Object> params = new HashMap<String, Object>();
-                                        params.put("approveFlag", "withdraw-RWC");
+
+                                        Map<String, Object> params = new HashMap<>();
+                                        params.put(CommonConstant.APPROVE_FLAG, "withdraw-RWC");
                                         VarianceCalculationLogic.submitWorkflow(String.valueOf(sessionDTO.getUserId()), sessionDTO.getProcessId(), params);
                                         callWorkflowInboxRefresh();
-                                        AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", "Workflow Id " + workflowIdUpdate + " withdrawn successfully");
+                                        AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
                                         // For Mail
 
                                         btnApprove.setEnabled(false);
@@ -803,10 +836,10 @@ public class BussinessProcessForm extends Window {
                                     } else {
                                         CommonUIUtils.getMessageNotification("The projection not withdrawn properly");
                                     }
-                                    WorkFlowNotesLookup.submitFlag = "Failed";
+                                    WorkFlowNotesLookup.submitFlag = CommonConstant.FAILED;
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("Error in btnWithdrawLogic"+ex);
                             }
                         }
                     });
@@ -817,6 +850,7 @@ public class BussinessProcessForm extends Window {
 
     protected void btnCancelLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Cancel", "Are you sure you want to cancel the projection " + " ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(ARMUtils.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
@@ -826,7 +860,7 @@ public class BussinessProcessForm extends Window {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
                             try {
-                                if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+                                if (WorkFlowNotesLookup.submitFlag.equals(CommonConstant.SUCCESS)) {
                                     int projectionId = sessionDTO.getProjectionId();
                                     String userId = String.valueOf(sessionDTO.getUserId());
                                     int userIdInt = Integer.parseInt(userId);
@@ -836,14 +870,14 @@ public class BussinessProcessForm extends Window {
                                     String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                     if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                        Map<String, Object> params = new HashMap<String, Object>();
-                                        params.put("approveFlag", "cancel-RWC");
+                                        Map<String, Object> params = new HashMap<>();
+                                        params.put(CommonConstant.APPROVE_FLAG, "cancel-RWC");
 
                                         VarianceCalculationLogic.submitWorkflow(String.valueOf(sessionDTO.getUserId()), sessionDTO.getProcessId(), params);
                                         callWorkflowInboxRefresh();
-                                        AbstractNotificationUtils.getInfoNotification("Cancel Information", "Workflow Id " + workflowIdUpdate + " cancelled successfully");
+                                        AbstractNotificationUtils.getInfoNotification("Cancel Information", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
                                         // For Mail
-                                        StringBuffer sb = new StringBuffer("Hi,<br /><br />");
+                                        StringBuilder sb = new StringBuilder("Hi,<br /><br />");
                                         sb.append("The workflow with workflow Id " + workflowIdUpdate + " is cancelled Succesfully.");
                                         sb.append("<br /><br />Thanks,<br />BPI Technical Team");
                                         MailWorkItemHandler.sendMail("support@bpitechnologies.com", "Workflow Cancelled Succesfully", sb);
@@ -854,10 +888,10 @@ public class BussinessProcessForm extends Window {
                                     } else {
                                         CommonUIUtils.getMessageNotification("The projection not cancelled properly");
                                     }
-                                    WorkFlowNotesLookup.submitFlag = "Failed";
+                                    WorkFlowNotesLookup.submitFlag = CommonConstant.FAILED;
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("Error in btnCancelLogic"+ex);
                             }
                         }
                     });
@@ -870,7 +904,7 @@ public class BussinessProcessForm extends Window {
         return transaction.isGenerated();
     }
 
-    private void InsertToReserveCCP() {
+    private void insertToReserveCCP() {
         List input = new ArrayList();
         input.add(dataselectionDTO.getProjectionId());
         QueryUtils.itemUpdate(input, "Insert To Reserve CCP");
@@ -905,32 +939,39 @@ public class BussinessProcessForm extends Window {
                     .getAttribute(com.stpl.app.utils.ConstantsUtils.USER_ID));
 
             final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.FIXED_DOLLAR_ADJUSTMENT + ConstantUtil.COMMA + com.stpl.app.utils.ConstantsUtils.ADJUSTMENT_DETAILS);
-            if (functionCfpHM.get("submitBtn") != null && ((AppPermission) functionCfpHM.get("submitBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get("submitBtn") != null && (functionCfpHM.get("submitBtn")).isFunctionFlag()) {
                 submitBtn();
             } else {
                 submitBtn.setVisible(false);
             }
-            if (functionCfpHM.get("nextBtn") != null && ((AppPermission) functionCfpHM.get("nextBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get("nextBtn") != null && (functionCfpHM.get("nextBtn")).isFunctionFlag()) {
                 nextBtn();
             } else {
                 nextBtn.setVisible(false);
             }
-            if (functionCfpHM.get("previousBtn") != null && ((AppPermission) functionCfpHM.get("previousBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get("previousBtn") != null && (functionCfpHM.get("previousBtn")).isFunctionFlag()) {
                 previousBtn();
             } else {
                 previousBtn.setVisible(false);
             }
-            if (functionCfpHM.get("closeButton") != null && ((AppPermission) functionCfpHM.get("closeButton")).isFunctionFlag()) {
+            if (functionCfpHM.get("closeButton") != null && (functionCfpHM.get("closeButton")).isFunctionFlag()) {
                 closeButton();
             } else {
                 closeButton.setVisible(false);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error("Error in configurePermission"+ex);
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

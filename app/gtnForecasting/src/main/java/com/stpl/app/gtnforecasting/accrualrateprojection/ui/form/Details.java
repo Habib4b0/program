@@ -138,7 +138,7 @@ public class Details extends CustomComponent {
         configurePermission();
         configureFields();
         initializeResultTable();
-        if (AccrualRateUtils.add.equalsIgnoreCase(session.getAction())) {
+        if (AccrualRateUtils.ADD_CASE.equalsIgnoreCase(session.getAction())) {
             configureTable();
         }
     }
@@ -163,7 +163,7 @@ public class Details extends CustomComponent {
         frequencyDdlb.setReadOnly(true);
 
         historyDdlb.setImmediate(true);
-        historyDdlb.addItems(AccrualRateUtils.HISTORY_PERIODS_12);
+        historyDdlb.addItems(AccrualRateUtils.getInstance().historyPeriods12);
         historyDdlb.setNullSelectionAllowed(true);
         historyDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
         historyDdlb.select(null);
@@ -309,7 +309,7 @@ public class Details extends CustomComponent {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
-
+                return;
             }
 
             @Override
@@ -350,7 +350,7 @@ public class Details extends CustomComponent {
                 } else if ((AccrualRateUtils.EDIT.equalsIgnoreCase(session.getAction()) || AccrualRateUtils.VIEW.equalsIgnoreCase(session.getAction())) && (!session.isFileNotChanged() && !session.isNewFileCalculationNeeded())) {
                     AbstractNotificationUtils.getInfoNotification("Confirmation", alertMsg.getString("ACR_MSG_ID_07"));
                 }
-                accrualRateSelectionDTO.setPeriodBasis(map.containsKey("Period Basis") ? map.get("Period Basis") : StringUtils.EMPTY);
+                accrualRateSelectionDTO.setPeriodBasis(map.containsKey(Constant.PERIOD_BASIS) ? map.get(Constant.PERIOD_BASIS) : StringUtils.EMPTY);
                 accrualRateSelectionDTO.setRateBasis(map.containsKey("Rate Basis") ? map.get("Rate Basis") : StringUtils.EMPTY);
                 accrualRateSelectionDTO.setIsFilterValid(!isNotValidFilter && StringUtils.isNotBlank((String) fromDdlb.getValue()));
                 tableVerticalLayout.removeAllComponents();
@@ -496,12 +496,12 @@ public class Details extends CustomComponent {
 
     public void saveTabSelection() {
         Map map = new HashMap();
-        String actionValue = StringUtils.EMPTY;
+        String actionValue;
         map.put(Constant.FREQUENCY_SMALL, String.valueOf(frequencyDdlb.getValue()));
         map.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
         map.put(Constant.CUSTOMER_SMALL, String.valueOf(customerDdlb.getValue()));
         map.put(Constant.BRAND_CAPS, String.valueOf(brandDdlb.getValue()));
-        map.put(Constant.PRODUCT, String.valueOf(productDdlb.getValue()));
+        map.put(Constant.PRODUCT_LABEL, String.valueOf(productDdlb.getValue()));
         map.put("FromDDLB", String.valueOf(fromDdlb.getValue()));
         map.put("TODDLB", String.valueOf(toDdlb.getValue()));
         String varValue = StringUtils.EMPTY;
@@ -515,13 +515,13 @@ public class Details extends CustomComponent {
             }
         }
         map.put(Constant.VARIABLES, varValue);
-        dsLogic.saveScreenSelection(session.getProjectionId(), map, "Details", actionValue);
+        dsLogic.saveScreenSelection(session.getProjectionId(), map, Constant.DETAILS, actionValue);
     }
 
     private void configureOnEditOrView() {
         Map<Object, Object> map = null;
 
-        map = dsLogic.getProjectionSelection(session.getProjectionId(), "Details");
+        map = dsLogic.getProjectionSelection(session.getProjectionId(), Constant.DETAILS);
         if (map != null && !map.isEmpty()) {
             Object value = map.get(Constant.FREQUENCY_SMALL);
             if (value != null) {
@@ -537,7 +537,7 @@ public class Details extends CustomComponent {
             if (value != null) {
                 customerDdlb.setValue(String.valueOf(value));
             }
-            value = map.get(Constant.PRODUCT);
+            value = map.get(Constant.PRODUCT_LABEL);
             if (value != null) {
                 productDdlb.setValue(String.valueOf(value));
             }
@@ -581,7 +581,7 @@ public class Details extends CustomComponent {
     }
 
     public void callDetailsProcedure() {
-        final Object[] parameters = {accrualRateSelectionDTO.getProjectionId(), map.get("Period Basis"), accrualRateSelectionDTO.getUserId(), accrualRateSelectionDTO.getSessionId()};
+        final Object[] parameters = {accrualRateSelectionDTO.getProjectionId(), map.get(Constant.PERIOD_BASIS), accrualRateSelectionDTO.getUserId(), accrualRateSelectionDTO.getSessionId()};
         accrualRateProjectionLogic.callARPProcedure(parameters, "PRC_ACCRUAL_DETAILS");
     }
 
@@ -600,7 +600,7 @@ public class Details extends CustomComponent {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(session.getUserId());
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Accrual Rate Projection" + "," + "Details");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Accrual Rate Projection" + "," + Constant.DETAILS);
             if (functionHM.get("generateBtn") != null && !((AppPermission) functionHM.get("generateBtn")).isFunctionFlag()) {
                 generateBtn.setVisible(false);
             } else {

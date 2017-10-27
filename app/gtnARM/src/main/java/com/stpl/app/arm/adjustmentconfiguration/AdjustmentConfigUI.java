@@ -40,7 +40,7 @@ public class AdjustmentConfigUI extends UI {
      * UserId and session Id though out the UI Object(views, forms and sub
      * classes)
      */
-    SessionDTO sessionDTO=new SessionDTO();
+    SessionDTO sessionDTO = new SessionDTO();
 
     /**
      * The method is used to adding styles, navigator initialization and view
@@ -54,7 +54,7 @@ public class AdjustmentConfigUI extends UI {
     protected void init(VaadinRequest request) {
         try {
             LOGGER.debug("Enters inside the Adjustment Config UI");
-             CommonLogic.beforeUnloadCloseUi(this);
+            CommonLogic.beforeUnloadCloseUi(this);
             addStyleName("bootstrap bootstrap-ui bootstrap-forecast bootstrap-nm");
             final String userId = request.getRemoteUser();
             if (userId != null) {
@@ -63,15 +63,25 @@ public class AdjustmentConfigUI extends UI {
                 VaadinSession.getCurrent().setAttribute(ConstantsUtils.SESSION_ID, sessionId);
                 sessionDTO.setUserId(Integer.valueOf(userId));
                 HelperListUtil.getInstance().loadValuesWithListName("ADJUSTMENT_CONFIGURATION");
-                LOGGER.info("USER_ID :"+userId);
-                LOGGER.info("SESSION_ID :"+sessionId);
+                LOGGER.info("USER_ID :" + userId);
+                LOGGER.info("SESSION_ID :" + sessionId);
                 navigator = new Navigator(this, this);
                 navigator.addView(AdjustmentConfigForm.NAME, new AdjustmentConfigForm(sessionDTO));
-            }           
+            }
             LOGGER.debug("Exits the Adjustment Reserve UI");
         } catch (Exception ex) {
             LOGGER.error("Error While Creating AdjustmentRateUI " + ex);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

@@ -22,7 +22,7 @@ import java.util.Map;
 public class ActualsMasterClp extends BaseModelImpl<ActualsMaster>
     implements ActualsMaster {
     private String _quantityInclusion;
-    private double _mandatedDiscountAmount;
+    private String _mandatedDiscountAmount;
     private String _itemNo;
     private String _analysisCode;
     private String _recordSequence;
@@ -50,7 +50,7 @@ public class ActualsMasterClp extends BaseModelImpl<ActualsMaster>
     private String _salesAmount;
     private Date _accrualActualStartDate;
     private String _settlementNo;
-    private double _price;
+    private String _price;
     private Date _uploadDate;
     private String _claimIndicator;
     private String _itemId;
@@ -171,7 +171,7 @@ public class ActualsMasterClp extends BaseModelImpl<ActualsMaster>
             setQuantityInclusion(quantityInclusion);
         }
 
-        Double mandatedDiscountAmount = (Double) attributes.get(
+        String mandatedDiscountAmount = (String) attributes.get(
                 "mandatedDiscountAmount");
 
         if (mandatedDiscountAmount != null) {
@@ -346,7 +346,7 @@ public class ActualsMasterClp extends BaseModelImpl<ActualsMaster>
             setSettlementNo(settlementNo);
         }
 
-        Double price = (Double) attributes.get("price");
+        String price = (String) attributes.get("price");
 
         if (price != null) {
             setPrice(price);
@@ -488,12 +488,12 @@ public class ActualsMasterClp extends BaseModelImpl<ActualsMaster>
     }
 
     @Override
-    public double getMandatedDiscountAmount() {
+    public String getMandatedDiscountAmount() {
         return _mandatedDiscountAmount;
     }
 
     @Override
-    public void setMandatedDiscountAmount(double mandatedDiscountAmount) {
+    public void setMandatedDiscountAmount(String mandatedDiscountAmount) {
         _mandatedDiscountAmount = mandatedDiscountAmount;
 
         if (_actualsMasterRemoteModel != null) {
@@ -501,7 +501,7 @@ public class ActualsMasterClp extends BaseModelImpl<ActualsMaster>
                 Class<?> clazz = _actualsMasterRemoteModel.getClass();
 
                 Method method = clazz.getMethod("setMandatedDiscountAmount",
-                        double.class);
+                        String.class);
 
                 method.invoke(_actualsMasterRemoteModel, mandatedDiscountAmount);
             } catch (Exception e) {
@@ -1118,19 +1118,19 @@ public class ActualsMasterClp extends BaseModelImpl<ActualsMaster>
     }
 
     @Override
-    public double getPrice() {
+    public String getPrice() {
         return _price;
     }
 
     @Override
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         _price = price;
 
         if (_actualsMasterRemoteModel != null) {
             try {
                 Class<?> clazz = _actualsMasterRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setPrice", double.class);
+                Method method = clazz.getMethod("setPrice", String.class);
 
                 method.invoke(_actualsMasterRemoteModel, price);
             } catch (Exception e) {

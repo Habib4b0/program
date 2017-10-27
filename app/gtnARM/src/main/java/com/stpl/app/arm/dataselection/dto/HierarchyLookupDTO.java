@@ -9,15 +9,27 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  *
- * @author sathyaseelan.v
+ * @author sathyaseelan
  */
 public class HierarchyLookupDTO {
 
-    public String hierarchyName, highestLevel, lowestLevel, createdDate, modifiedDate;
-    public int hierarchyId = 0, versionNo = 0;
-    public String hierarchySearchType = StringUtils.EMPTY;
-    public String hierarchySearchName = StringUtils.EMPTY;
-    public String lookupSearchName = StringUtils.EMPTY;
+    public HierarchyLookupDTO() {
+        /*
+
+        EMPTY CONSTRUTOR
+         */
+    }
+
+    private String hierarchyName;
+    private String highestLevel;
+    private String lowestLevel;
+    private String createdDate;
+    private String modifiedDate;
+    private int hierarchyId = 0;
+    private int versionNo = 0;
+    private String hierarchySearchType = StringUtils.EMPTY;
+    private String hierarchySearchName = StringUtils.EMPTY;
+    private String lookupSearchName = StringUtils.EMPTY;
 
     public String getHierarchyName() {
         return hierarchyName;

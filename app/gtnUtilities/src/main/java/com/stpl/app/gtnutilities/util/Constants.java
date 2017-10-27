@@ -75,7 +75,7 @@ public class Constants {
     /**
      * The Constant CPU_TABLE_HEADER.
      */
-    public static final String[] QUERY_TABLE_HEADER = new String[]{"Database", "Query", "Value"};
+    public static final String[] QUERY_TABLE_HEADER = new String[]{"Database", Query, "Value"};
     public static final String[] interFacesList = new String[]{"ACCRUAL_INBOUND_INTERFACE", "COMPANY_TRADE_CLASS_INTERFACE",
         "GL_COST_CENTER_INTERFACE", "ITEM_MASTER_INTERFACE", "ACTUAL_MASTER_INTERFACE",
         "CONTRACT_HEADER_INTERFACE", "GL_POSTING_INTERFACE", "ITEM_PRICING_INTERFACE",
@@ -104,7 +104,7 @@ public class Constants {
     /**
      * The Constant CPU_TABLE_HEADER.
      */
-    public static final String[] PROCEDURE_TABLE_HEADER = new String[]{"Database", "Procedure Name", "Query", "Value"};
+    public static final String[] PROCEDURE_TABLE_HEADER = new String[]{"Database", "Procedure Name", Query, "Value"};
     /**
      * The Constant CPU_IO_TABLE_COLUMNS.
      */
@@ -125,4 +125,45 @@ public class Constants {
      */
     public static final String[] JOB_TABLE_HEADER = new String[]{"Name", "Enabled", "Description",
         "Occurs", "Occurs detail", "Frequency", "Last Execution Duration", "Last Execution Date", "Last Execution Status"};
+    public static final String TIMEONLY = "time-only";
+    public static final String DOWNLOAD = "DOWNLOAD";
+    public static final String RETURN_RESERVE_INTERFACE = "RETURN_RESERVE_INTERFACE";
+    public static final String BEST_PRICE_INTERFACE = "BEST_PRICE_INTERFACE";
+    public static final String CPI_INTERFACE = "CPI_INTERFACE";
+    public static final String CUSTOMER_GTS_FORECAST_INTERFACE = "CUSTOMER_GTS_FORECAST_INTERFACE";
+    public static final String MASTER_DATA_ATTRIBUTE_INTERFACE = "MASTER_DATA_ATTRIBUTE_INTERFACE";
+    public static final String FORMULA_DETAILS_INTERFACE = "FORMULA_DETAILS_INTERFACE";
+    public static final String ACTUAL_MASTER_INTERFACE = "ACTUAL_MASTER_INTERFACE";
+    public static final String RETURNS_INTERFACE = "RETURNS_INTERFACE";
+    public static final String ITEM_IDENTIFIER_INTERFACE = "ITEM_IDENTIFIER_INTERFACE";
+    public static final String INVENTORY_WITHDRAWAL_PROJECTED_DETAIL_INT = "INVENTORY_WITHDRAWAL_PROJECTED_DETAIL_INTERFACE";
+    public static final String DEMAND_ACTUAL_INTERFACE = "DEMAND_ACTUAL_INTERFACE";
+    public static final String DEMAND_FORECAST_INTERFACE = "DEMAND_FORECAST_INTERFACE";
+    public static final String CONTRACT_HEADER_INTERFACE = "CONTRACT_HEADER_INTERFACE";
+    public static final String COMPANY_TRADE_CLASS_INTERFACE = "COMPANY_TRADE_CLASS_INTERFACE";
+    public static final String INVENTORY_WITHDRAWAL_PROJECTED_SUMMARY_IN = "INVENTORY_WITHDRAWAL_PROJECTED_SUMMARY_INTERFACE";
+    public static final String AVERAGE_SHELF_LIFE_INTERFACE = "AVERAGE_SHELF_LIFE_INTERFACE";
+    public static final String INVENTORY_WITHDRAWAL_ACTUAL_SUMMARY_INTER = "INVENTORY_WITHDRAWAL_ACTUAL_SUMMARY_INTERFACE";
+    public static final String COMPANY_PARENT_INTERFACE = "COMPANY_PARENT_INTERFACE";
+    public static final String ADJUSTED_DEMAND_ACTUAL_INTERFACE = "ADJUSTED_DEMAND_ACTUAL_INTERFACE";
+    public static final String PRICE_SCHEDULE_INTERFACE = "PRICE_SCHEDULE_INTERFACE";
+    public static final String COMPANY_MASTER_INTERFACE = "COMPANY_MASTER_INTERFACE";
+    public static final String FORECAST_SALES_INTERFACE = "FORECAST_SALES_INTERFACE";
+    public static final String REBATE_SCHEDULE_INTERFACE = "REBATE_SCHEDULE_INTERFACE";
+    public static final String CUSTOMER_GTS_ACTUAL_INTERFACE = "CUSTOMER_GTS_ACTUAL_INTERFACE";
+    public static final String GL_BALANCE_INTERFACE = "GL_BALANCE_INTERFACE";
+    public static final String GL_POSTING_INTERFACE = "GL_POSTING_INTERFACE";
+    public static final String ITEM_FAMILY_PLAN_INTERFACE = "ITEM_FAMILY_PLAN_INTERFACE";
+    public static final String LOT_MASTER_INTERFACE = "LOT_MASTER_INTERFACE";
+    public static final String ITEM_HIERARCHY_DEFINATION_INTERFACE = "ITEM_HIERARCHY_DEFINATION_INTERFACE";
+    public static final String INVENTORY_WITHDRAWAL_ACTUAL_DETAIL_INTERF = "INVENTORY_WITHDRAWAL_ACTUAL_DETAIL_INTERFACE";
+    public static final String COMPANY_FAMILY_PLAN_INTERFACE = "COMPANY_FAMILY_PLAN_INTERFACE";
+    public static final String ADJUSTED_DEMAND_FORECAST_INTERFACE = "ADJUSTED_DEMAND_FORECAST_INTERFACE";
+    public static final String ITEM_MASTER_INTERFACE = "ITEM_MASTER_INTERFACE";
+    public static final String REBATE_PLAN_INTERFACE = "REBATE_PLAN_INTERFACE";
+    public static final String COMPANY_IDENTIFIER_INTERFACE = "COMPANY_IDENTIFIER_INTERFACE";
+    public static final String SALES_MASTER_INTERFACE = "SALES_MASTER_INTERFACE";
+    public static final String ITEM_HIERARCHY_INTERFACE = "ITEM_HIERARCHY_INTERFACE";
+    public static final String ITEM_PRICING_INTERFACE = "ITEM_PRICING_INTERFACE";
+    public static final String GL_COST_CENTER_INTERFACE = "GL_COST_CENTER_INTERFACE";
 }

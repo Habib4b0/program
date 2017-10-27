@@ -5,6 +5,7 @@
  */
 package com.stpl.app.adminconsole.processscheduler.logic;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.AbstractFilterLogic;
 import com.stpl.app.adminconsole.dao.CommonDAO;
@@ -41,6 +42,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -72,7 +74,7 @@ public class ProcessSchedulerLogic {
         LOGGER.debug("Entering getSearchResult");
         try {
             boolean asc = false;
-            String columnName = StringUtils.EMPTY;
+            String columnName;
             String dbColumnName = StringUtils.EMPTY;
             loadDbColumnName();
             if(!count){
@@ -89,7 +91,6 @@ public class ProcessSchedulerLogic {
                 }
             }
             String query = CommonUtil.workFlowQuery(start, offset, count, scheduler,dbColumnName,asc);
-//            String query = CommonUtil.workFlowQuery(start, offset, count, scheduler,null,false);
             LOGGER.debug("======schedule===query=======" + query);
             List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (count) {
@@ -99,7 +100,7 @@ public class ProcessSchedulerLogic {
             }
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
         public static String getDBColumnName(String visibleColumnName) {
@@ -121,7 +122,7 @@ public class ProcessSchedulerLogic {
 
     private List getCustomizedSchedulerProcessing(List list)  throws SystemException{
         LOGGER.debug("Entering getCustomizedSchedulerProcessing" + list.size());
-        List<ProcessSchedulerDTO> returnList = new ArrayList<ProcessSchedulerDTO>();
+        List<ProcessSchedulerDTO> returnList = new ArrayList<>();
         SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         SimpleDateFormat date1 = new SimpleDateFormat("MM/dd/yyyy");
         final HashMap<String, String> userInfoMap = (HashMap<String, String>) com.stpl.app.adminconsole.common.util.CommonUtil.getCreatedByUser();
@@ -132,7 +133,7 @@ public class ProcessSchedulerLogic {
                 dto.setProcessSid(Integer.valueOf(String.valueOf(obj[0])));
                 LOGGER.debug("==========obj[1]=======" + obj[1]);
                 dto.setProcessName(String.valueOf(obj[1]));
-                    dto.setStatus("Y".equals(String.valueOf(obj[NumericConstants.TWO])) ? "Active" : "N".equals(String.valueOf(obj[NumericConstants.TWO])) ? "Inactive" : StringUtils.EMPTY);
+                    dto.setStatus("Y".equals(String.valueOf(obj[NumericConstants.TWO])) ? ACTIVE_LABEL : "N".equals(String.valueOf(obj[NumericConstants.TWO])) ? "Inactive" : StringUtils.EMPTY);
                 
                 if (obj[NumericConstants.THREE] != null && !ConstantsUtils.EMPTY.equals(String.valueOf(obj[NumericConstants.THREE])) && !"null".equals(String.valueOf(obj[NumericConstants.THREE]))) {
                     dto.setStartDate(new Date(date.format(obj[NumericConstants.THREE])));
@@ -157,6 +158,7 @@ public class ProcessSchedulerLogic {
         LOGGER.debug("Ending getCustomizedSchedulerProcessing" + returnList.size());
         return returnList;
     }
+    public static final String ACTIVE_LABEL = "Active";
 
     public ProcessSchedulerDTO getProcessScheduleByID(int sid) {
         try {
@@ -167,7 +169,7 @@ public class ProcessSchedulerLogic {
             dto.setProcessName(profile.getProcessName());
             dto.setProcessDisplayName(profile.getProcessDisplayName());
             dto.setFrequencyRadio(profile.getFrequency());
-            dto.setStatus("Y".equals(profile.getActiveFlag()) ? "Active" : "N".equals(profile.getActiveFlag()) ? "Inactive" : StringUtils.EMPTY);
+            dto.setStatus("Y".equals(profile.getActiveFlag()) ? ACTIVE_LABEL : "N".equals(profile.getActiveFlag()) ? "Inactive" : StringUtils.EMPTY);
 
             if ("Interval".equals(dto.getFrequencyRadio())) {
                 dto.setRunHours(String.valueOf(profile.getStartHour()));
@@ -190,7 +192,7 @@ public class ProcessSchedulerLogic {
         }
     }
 
-    public static void update(ProcessSchedulerDTO ProcessDTO, final SessionDTO sessionDTO) {
+    public static void update(ProcessSchedulerDTO ProcessDTO) {
         try {
             LOGGER.debug("Entering update");
             if (ProcessDTO.getProcessSid() != 0) {
@@ -200,7 +202,7 @@ public class ProcessSchedulerLogic {
                 profile.setProcessName(ProcessDTO.getProcessName());
                 profile.setProcessDisplayName(ProcessDTO.getProcessDisplayName());
                 profile.setFrequency(ProcessDTO.getFrequencyRadio());
-                if ("Active".equals(ProcessDTO.getStatus())) {
+                if (ACTIVE_LABEL.equals(ProcessDTO.getStatus())) {
                     profile.setActiveFlag("Y");
                 } else {
                     profile.setActiveFlag("N");
@@ -355,7 +357,7 @@ public class ProcessSchedulerLogic {
         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap()).toString();
         if (filterQuery != null) {
             filterQuery = filterQuery.replace("where", "AND");
-            countQuery=countQuery.replace("@FILTERQUERY",filterQuery);
+            countQuery=countQuery.replace(FILTERQUERY,filterQuery);
             parameters.add(filterQuery);
         } else {
             parameters.add(" ");
@@ -365,6 +367,7 @@ public class ProcessSchedulerLogic {
         LOGGER.debug("Count For method" + count);
         return count;
     }
+    public static final String FILTERQUERY = "@FILTERQUERY";
 
    /**
     * Gets the search results.
@@ -378,7 +381,7 @@ public class ProcessSchedulerLogic {
         LOGGER.debug("Inside Search Results");
         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap()).toString();
         String orderBy = AbstractFilterLogic.getInstance().orderByQueryGenerator(binderDto.getOrderByColumns(), getFilterMap(), "CFF_OUTBOUND").toString();
-        List<ProcessSchedulerDTO> cffMasterList = new ArrayList<ProcessSchedulerDTO>();
+        List<ProcessSchedulerDTO> cffMasterList;
         List<Object[]> resultList;
         String searchQuery = SQlUtil.getQuery("searchQuery");
         searchQuery = searchQuery.replace("@USER_ID", sessionDTO.getUserId());
@@ -387,9 +390,9 @@ public class ProcessSchedulerLogic {
         searchQuery = searchQuery.replace("@END_INDEX", StringUtils.EMPTY + binderDto.getEndIndex());
         if (filterQuery != null) {
             filterQuery = filterQuery.replace("where", "AND");
-            searchQuery = searchQuery.replace("@FILTERQUERY", filterQuery);
+            searchQuery = searchQuery.replace(FILTERQUERY, filterQuery);
         } else {
-            searchQuery = searchQuery.replace("@FILTERQUERY", "");
+            searchQuery = searchQuery.replace(FILTERQUERY, "");
         }
         if (orderBy != null) {
             searchQuery = searchQuery.replace("@ORDER_BY", orderBy);
@@ -407,26 +410,26 @@ public class ProcessSchedulerLogic {
      */
       private Map<String, String> getFilterMap() {
         Map<String, String> filterMap = new HashMap<>();
-        filterMap.put("financialForecastId", "FINANCIAL_FORECAST_ID");
-        filterMap.put("financialForecastName", "FINANCIAL_FORECAST_NAME");
+        filterMap.put(StringConstantUtils.FINANCIAL_FORECAST_ID, "FINANCIAL_FORECAST_ID");
+        filterMap.put(StringConstantUtils.FINANCIAL_FORECAST_NAME, "FINANCIAL_FORECAST_NAME");
         filterMap.put("typeDesc", "TYPE");
         filterMap.put("projectID", "PROJECT_ID");
-        filterMap.put("projectionName", "PROJECTION_NAME");
+        filterMap.put(StringConstantUtils.PROJECTION_NAME, "PROJECTION_NAME");
         filterMap.put("year", "YEAR");
         filterMap.put("month", "MONTH");
         filterMap.put("contractId", "CONTRACT_ID");
-        filterMap.put("contractNo", "CONTRACT_NO");
-        filterMap.put("contractName", "CONTRACT_NAME");
+        filterMap.put(StringConstantUtils.CONTRACT_NO, "CONTRACT_NO");
+        filterMap.put(StringConstantUtils.CONTRACT_NAME, "CONTRACT_NAME");
         filterMap.put("contractType", "CONTRACT_TYPE");
         filterMap.put("contractHolderId", "CONTRACT_HOLDER_ID");
         filterMap.put("contractHolderNo", "CONTRACT_HOLDER_NO");
         filterMap.put("contractHolderName", "CONTRACT_HOLDER_NAME");
         filterMap.put("customerId", "CUSTOMER_ID");
-        filterMap.put("customerNo", "CUSTOMER_NO");
-        filterMap.put("customerName", "CUSTOMER_NAME");
+        filterMap.put(StringConstantUtils.CUSTOMER_NO, "CUSTOMER_NO");
+        filterMap.put(StringConstantUtils.CUSTOMER_NAME, "CUSTOMER_NAME");
         filterMap.put("itemId", "ITEM_ID");
-        filterMap.put("itemNo", "ITEM_NO");
-        filterMap.put("itemName", "ITEM_NAME");
+        filterMap.put(StringConstantUtils.ITEM_NO_PROPERTY, "ITEM_NO");
+        filterMap.put(StringConstantUtils.ITEM_NAME, "ITEM_NAME");
         filterMap.put("salesDollars", "SALES_DOLLARS");
         filterMap.put("salesUnits", "SALES_UNITS");
         filterMap.put("salesInclusion", "SALES_INCLUSION");
@@ -482,9 +485,9 @@ public class ProcessSchedulerLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public static List<HelperDTO> getDropDownList(final String listName) throws SystemException, PortalException {
+    public static List<HelperDTO> getDropDownList(final String listName) throws SystemException {
         LOGGER.debug("Entering getDropDownList p1:" + listName);
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(listName);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -590,9 +593,8 @@ public class ProcessSchedulerLogic {
     public static List<Object[]> cffOutboundProcedure(String ids) throws NamingException, SQLException {
         Connection connection = null;
         DataSource datasource;
-        CallableStatement statement = null;
         ResultSet resultSet = null;
-        List<Object[]> objectList = new ArrayList<Object[]>();
+        List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup("java:jboss/datasources/jdbc/appDataPool");
@@ -602,19 +604,17 @@ public class ProcessSchedulerLogic {
                 LOGGER.debug("Failed to lookup datasource.");
             }
             if (connection != null) {
-                statement = connection.prepareCall("{call " + "PRC_CFF_OUTBOUND" + "(?)}");
-                statement.setString(1, ids);
-                resultSet = statement.executeQuery();
-                objectList = convertResultSetToList(resultSet);
-                LOGGER.debug("After Converting objectList size " + objectList.size());
+                try (CallableStatement statement = connection.prepareCall("{call " + "PRC_CFF_OUTBOUND" + "(?)}");) {
+                    statement.setString(1, ids);
+                    resultSet = statement.executeQuery();
+                    objectList = convertResultSetToList(resultSet);
+                    LOGGER.debug("After Converting objectList size " + objectList.size());
+                }
             }
 
         } finally {
             if (resultSet != null) {
                 resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
             }
             if (connection != null) {
                 connection.close();
@@ -625,7 +625,7 @@ public class ProcessSchedulerLogic {
     }
 
     private static List<Object[]> convertResultSetToList(ResultSet rs) throws SQLException {
-        List<Object[]> objList = new ArrayList<Object[]>();
+        List<Object[]> objList = new ArrayList<>();
 
         try {
             while (rs.next()) {
@@ -639,9 +639,9 @@ public class ProcessSchedulerLogic {
             }
 
         } finally {
-            if (rs != null) {
+           
                 rs.close();
-            }
+            
         }
         return objList;
     }
@@ -688,7 +688,7 @@ public class ProcessSchedulerLogic {
         try {
             String query = "";
             if (!isScheduler) {
-                query = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + sessionDTO.getUserId() + " AND SESSION_ID = " + sessionDTO.getSessionId() + ";";
+                query = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + sessionDTO.getUserId() + AND_SESSION_ID + sessionDTO.getSessionId() + ";";
             } else {
                 query = "DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = 1 AND SESSION_ID = 1;";
             }
@@ -698,6 +698,7 @@ public class ProcessSchedulerLogic {
         }
         LOGGER.debug("End of deleteTempCffOutbound method");
     }
+    public static final String AND_SESSION_ID = " AND SESSION_ID = ";
     
     /**
      * Check record update query
@@ -709,13 +710,13 @@ public class ProcessSchedulerLogic {
     public void updateTempCffOutbound(ProcessSchedulerDTO dto, SessionDTO sessionDTO, Boolean isCheckAll, Boolean check) {
         LOGGER.debug("Enters updateTempCffOutbound method");
         int value = check ? 1 : 0;
-        String query = StringUtils.EMPTY;
+        String query;
         if (isCheckAll) {
             query = "UPDATE ST_CFF_OUTBOUND_MASTER SET CHECK_RECORD = " + value + " \n"
-                    + "WHERE USER_ID = " + sessionDTO.getUserId() + " AND SESSION_ID = " + sessionDTO.getSessionId() + " ;";
+                    + "WHERE USER_ID = " + sessionDTO.getUserId() + AND_SESSION_ID + sessionDTO.getSessionId() + " ;";
         } else {
             query = "UPDATE ST_CFF_OUTBOUND_MASTER SET CHECK_RECORD = " + value + " \n"
-                    + "WHERE USER_ID = " + sessionDTO.getUserId() + " AND SESSION_ID = " + sessionDTO.getSessionId() + " AND CFF_DETAILS_SID = " + dto.getCffDetailSid()+ " "
+                    + "WHERE USER_ID = " + sessionDTO.getUserId() + AND_SESSION_ID + sessionDTO.getSessionId() + " AND CFF_DETAILS_SID = " + dto.getCffDetailSid()+ " "
                     + "AND RS_MODEL_SID = " + dto.getRsModelSid() + " AND PERIOD_SID = " + dto.getPeriodSid() + ";";
         }
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
@@ -730,51 +731,51 @@ public class ProcessSchedulerLogic {
     public String getSearchCriteria(CustomFieldGroup cffSearchBinder) {
         LOGGER.debug("Enters getCFFDetailsSid method");
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        String value = StringUtils.EMPTY;
+        String value;
         String query = StringUtils.EMPTY;
 
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("financialForecastId")))) {
-            value = String.valueOf(cffSearchBinder.getField("financialForecastId").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.FINANCIAL_FORECAST_ID)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.FINANCIAL_FORECAST_ID).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.FINANCIAL_FORECAST_ID LIKE '" + value + "' ";
         }
         if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("projectionId")))) {
             value = String.valueOf(cffSearchBinder.getField("projectionId").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.PROJECT_ID LIKE '" + value + "' ";
         }
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("customerNo")))) {
-            value = String.valueOf(cffSearchBinder.getField("customerNo").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.CUSTOMER_NO)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.CUSTOMER_NO).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.CUSTOMER_NO LIKE '" + value + "' ";
         }
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("financialForecastName")))) {
-            value = String.valueOf(cffSearchBinder.getField("financialForecastName").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.FINANCIAL_FORECAST_NAME)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.FINANCIAL_FORECAST_NAME).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.FINANCIAL_FORECAST_NAME LIKE '" + value + "' ";
         }
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("projectionName")))) {
-            value = String.valueOf(cffSearchBinder.getField("projectionName").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.PROJECTION_NAME)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.PROJECTION_NAME).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.PROJECTION_NAME LIKE '" + value + "' ";
         }
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("customerName")))) {
-            value = String.valueOf(cffSearchBinder.getField("customerName").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.CUSTOMER_NAME)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.CUSTOMER_NAME).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.CUSTOMER_NAME LIKE '" + value + "' ";
         }
         if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("typeDdlb")))) {
             value = String.valueOf(((HelperDTO) cffSearchBinder.getField("typeDdlb").getValue()).getId());
             query += " AND CFFOM.TYPE = " + value + " ";
         }
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("contractNo")))) {
-            value = String.valueOf(cffSearchBinder.getField("contractNo").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.CONTRACT_NO)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.CONTRACT_NO).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.CONTRACT_NO LIKE '" + value + "'";
         }
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("itemNo")))) {
-            value = String.valueOf(cffSearchBinder.getField("itemNo").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.ITEM_NO_PROPERTY)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.ITEM_NO_PROPERTY).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.ITEM_NO LIKE '" + value + "' ";
         }
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("contractName")))) {
-            value = String.valueOf(cffSearchBinder.getField("contractName").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.CONTRACT_NAME)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.CONTRACT_NAME).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.CONTRACT_NAME LIKE '" + value + "' ";
         }
-        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("itemName")))) {
-            value = String.valueOf(cffSearchBinder.getField("itemName").getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField(StringConstantUtils.ITEM_NAME)))) {
+            value = String.valueOf(cffSearchBinder.getField(StringConstantUtils.ITEM_NAME).getValue()).replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
             query += " AND CFFOM.ITEM_NAME LIKE '" + value + "' ";
         }
         if (CommonUtils.isValidCriteria(String.valueOf(cffSearchBinder.getField("cffCreationDateFrom")))) {
@@ -803,7 +804,7 @@ public class ProcessSchedulerLogic {
      * @return 
      */
     public Boolean checkETLRecords(final SessionDTO sessionDTO) {
-        String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET ETL_CHECK_RECORD = 1 WHERE USER_ID = "+sessionDTO.getUserId()+" AND SESSION_ID = "+sessionDTO.getSessionId()+" AND CHECK_RECORD = 1";
+        String query = "UPDATE ST_CFF_OUTBOUND_MASTER SET ETL_CHECK_RECORD = 1 WHERE USER_ID = "+sessionDTO.getUserId()+AND_SESSION_ID+sessionDTO.getSessionId()+" AND CHECK_RECORD = 1";
         int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
         return count > 0;
     }
@@ -815,9 +816,10 @@ public class ProcessSchedulerLogic {
      * @param cffIds 
      */
     public void cffOutboundInsertProc(final String userId, final String sessionId, final List cffIds) {
-        LOGGER.debug("Inside cffOutboundInsertProc with cffids" + cffIds.size());
+        
         if (cffIds != null && cffIds.size() != 0) {
             try {
+                LOGGER.debug("Inside cffOutboundInsertProc with cffids" + cffIds.size());
                 StringBuilder sb = new StringBuilder("DECLARE @CFF_DETAILS_SID UDT_ITEM\n"
                         + "INSERT INTO  @CFF_DETAILS_SID\n");
                 for (int i = 0; i < cffIds.size(); i++) {
@@ -889,7 +891,7 @@ public class ProcessSchedulerLogic {
      * @return 
      */
     public Boolean existsQuery(final String userId, final String sessionId) {
-        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + userId + " AND SESSION_ID = " + sessionId + " AND ETL_CHECK_RECORD = 1";
+        String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = " + userId + AND_SESSION_ID + sessionId + " AND ETL_CHECK_RECORD = 1";
         List count = HelperTableLocalServiceUtil.executeSelectQuery(query);
         int c = Integer.valueOf(String.valueOf(count.get(0)));
         return c > 0;

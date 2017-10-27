@@ -23,9 +23,7 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
     implements NmActualDiscount {
     private double _actualRate;
     private int _periodSid;
-    private double _actualProjectionSales;
     private int _projectionDetailsSid;
-    private double _actualProjectionRate;
     private double _actualSales;
     private BaseModel<?> _nmActualDiscountRemoteModel;
 
@@ -69,9 +67,7 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
 
         attributes.put("actualRate", getActualRate());
         attributes.put("periodSid", getPeriodSid());
-        attributes.put("actualProjectionSales", getActualProjectionSales());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("actualProjectionRate", getActualProjectionRate());
         attributes.put("actualSales", getActualSales());
 
         return attributes;
@@ -91,25 +87,11 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
             setPeriodSid(periodSid);
         }
 
-        Double actualProjectionSales = (Double) attributes.get(
-                "actualProjectionSales");
-
-        if (actualProjectionSales != null) {
-            setActualProjectionSales(actualProjectionSales);
-        }
-
         Integer projectionDetailsSid = (Integer) attributes.get(
                 "projectionDetailsSid");
 
         if (projectionDetailsSid != null) {
             setProjectionDetailsSid(projectionDetailsSid);
-        }
-
-        Double actualProjectionRate = (Double) attributes.get(
-                "actualProjectionRate");
-
-        if (actualProjectionRate != null) {
-            setActualProjectionRate(actualProjectionRate);
         }
 
         Double actualSales = (Double) attributes.get("actualSales");
@@ -164,30 +146,6 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
     }
 
     @Override
-    public double getActualProjectionSales() {
-        return _actualProjectionSales;
-    }
-
-    @Override
-    public void setActualProjectionSales(double actualProjectionSales) {
-        _actualProjectionSales = actualProjectionSales;
-
-        if (_nmActualDiscountRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmActualDiscountRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setActualProjectionSales",
-                        double.class);
-
-                method.invoke(_nmActualDiscountRemoteModel,
-                    actualProjectionSales);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
     public int getProjectionDetailsSid() {
         return _projectionDetailsSid;
     }
@@ -204,29 +162,6 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
                         int.class);
 
                 method.invoke(_nmActualDiscountRemoteModel, projectionDetailsSid);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public double getActualProjectionRate() {
-        return _actualProjectionRate;
-    }
-
-    @Override
-    public void setActualProjectionRate(double actualProjectionRate) {
-        _actualProjectionRate = actualProjectionRate;
-
-        if (_nmActualDiscountRemoteModel != null) {
-            try {
-                Class<?> clazz = _nmActualDiscountRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setActualProjectionRate",
-                        double.class);
-
-                method.invoke(_nmActualDiscountRemoteModel, actualProjectionRate);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -326,9 +261,7 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
 
         clone.setActualRate(getActualRate());
         clone.setPeriodSid(getPeriodSid());
-        clone.setActualProjectionSales(getActualProjectionSales());
         clone.setProjectionDetailsSid(getProjectionDetailsSid());
-        clone.setActualProjectionRate(getActualProjectionRate());
         clone.setActualSales(getActualSales());
 
         return clone;
@@ -369,18 +302,14 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(9);
 
         sb.append("{actualRate=");
         sb.append(getActualRate());
         sb.append(", periodSid=");
         sb.append(getPeriodSid());
-        sb.append(", actualProjectionSales=");
-        sb.append(getActualProjectionSales());
         sb.append(", projectionDetailsSid=");
         sb.append(getProjectionDetailsSid());
-        sb.append(", actualProjectionRate=");
-        sb.append(getActualProjectionRate());
         sb.append(", actualSales=");
         sb.append(getActualSales());
         sb.append("}");
@@ -390,7 +319,7 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(16);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.NmActualDiscount");
@@ -405,16 +334,8 @@ public class NmActualDiscountClp extends BaseModelImpl<NmActualDiscount>
         sb.append(getPeriodSid());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>actualProjectionSales</column-name><column-value><![CDATA[");
-        sb.append(getActualProjectionSales());
-        sb.append("]]></column-value></column>");
-        sb.append(
             "<column><column-name>projectionDetailsSid</column-name><column-value><![CDATA[");
         sb.append(getProjectionDetailsSid());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>actualProjectionRate</column-name><column-value><![CDATA[");
-        sb.append(getActualProjectionRate());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>actualSales</column-name><column-value><![CDATA[");

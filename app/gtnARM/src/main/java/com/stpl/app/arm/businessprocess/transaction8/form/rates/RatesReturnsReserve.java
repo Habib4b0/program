@@ -1,0 +1,202 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.stpl.app.arm.businessprocess.transaction8.form.rates;
+
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractPipelineRates;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.form.AbstractRatesSearchResults;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractBPLogic;
+import com.stpl.app.arm.businessprocess.transaction8.logic.RRRatesLogic;
+import com.stpl.app.arm.common.CommonLogic;
+import com.stpl.app.arm.supercode.ExcelInterface;
+import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.HelperListUtil;
+import com.stpl.app.utils.CommonUtils;
+import com.stpl.app.utils.VariableConstants;
+import com.stpl.ifs.ui.util.AbstractNotificationUtils;
+import static com.stpl.ifs.ui.util.AbstractNotificationUtils.LOGGER;
+import com.stpl.ifs.util.constants.ARMConstants;
+import com.stpl.ifs.util.constants.ARMMessages;
+import com.vaadin.ui.Button;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
+/**
+ *
+ * @author
+ */
+public class RatesReturnsReserve extends AbstractPipelineRates {
+
+    RatesReturnReserveSearchResults searchResults;
+
+    RRRatesLogic rrRatesLogic = new RRRatesLogic();
+
+    private final RatesReturnsReserve.CustomNotification notifier = new RatesReturnsReserve.CustomNotification();
+
+    private final Logger loggerRates = Logger.getLogger(getClass());
+
+    public RatesReturnsReserve(AbstractSelectionDTO selection) {
+        super(selection);
+    }
+
+    @Override
+    public void setDefaultValue() {
+        try {
+            rateFrequencyDdlb.setVisible(false);
+            ratePeriodDdlb.setVisible(false);
+            rateFrequencyDdlbLabel.setVisible(false);
+            ratePeriodDdlbLabel.setVisible(false);
+            deductionLevelDdlb.setValue(0);
+            rateBasisDdlb.select(HelperListUtil.getInstance().getIdByDesc("ARM_RATE_BASIS", "Calculated"));
+            rateBasisDdlb.setReadOnly(true);
+        } catch (Exception e) {
+            loggerRates.error("Error in setDefaultValue :"+e);
+        }
+    }
+
+    @UiHandler("reset")
+    public void resetBtnLogic(Button.ClickEvent event) {
+        notifier.setButtonName("reset");
+        notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID004());
+    }
+
+    @Override
+    public AbstractRatesSearchResults getResultsObject(AbstractBPLogic logic, AbstractSelectionDTO selectionDto) {
+        selectionDto.setModuleName(ARMConstants.getTransaction8());
+        boolean isView = selectionDto.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
+
+        if (isView) {
+            selectionDto.setTableName("ARM_RETURN_RATE");
+        } else {
+            selectionDto.setTableName(selectionDto.getSessionDTO().getCurrentTableNames().get("ST_ARM_RETURN_RATE"));
+        }
+
+        return new RatesReturnReserveSearchResults(logic, selectionDto);
+    }
+
+    @Override
+    public AbstractBPLogic getRatelogicObject() {
+        return new RRRatesLogic();
+    }
+
+    @Override
+    public boolean saveAssets() {
+        return true;
+    }
+
+    @Override
+    public ExcelInterface getExcelLogic() {
+        return getRatelogicObject();
+    }
+
+    public class CustomNotification extends AbstractNotificationUtils {
+
+        String buttonName;
+
+        @Override
+        public void noMethod() {
+            LOGGER.debug("Inside CustomNotification NO Method");
+        }
+
+        @Override
+        public void yesMethod() {
+            LOGGER.debug("buttonName :" + buttonName);
+            if (null != buttonName && "reset".equals(buttonName)) {
+                deductionLevelDdlb.select(0);
+                CommonUtils.unCheckMenuBarItem(customMenuItem);
+
+            }
+        }
+
+        public void setButtonName(String buttonName) {
+            this.buttonName = buttonName;
+        }
+
+    }
+
+    @Override
+    public void setSelection() {
+        selection.setRateDeductionLevel((Integer) deductionLevelDdlb.getValue());
+        selection.setRateDeductionLevelName(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue()));
+        selection.setRateRateColumnList(CommonUtils.getSelectedVariables(customMenuItem, true));
+        StringBuilder deductionValues = new StringBuilder(StringUtils.EMPTY);
+        if (!selection.getRateColumnList().isEmpty()) {
+            List<String> listSize = new ArrayList(selection.getRateColumnList().get(0));
+            if (!listSize.isEmpty()) {
+                for (int i = 0; i < listSize.size(); i++) {
+                    String value = listSize.get(i);
+                    if (value.contains(".")) {
+                        value = value.substring(0, value.lastIndexOf('.'));
+                    }
+                    listSize.set(i, value.replace(" ", StringUtils.EMPTY).trim());
+                    if (i != listSize.size() - 1) {
+                        deductionValues.append("'").append(value).append("',");
+                    } else {
+                        deductionValues.append("'").append(value).append("'");
+                    }
+                }
+            }
+        }
+        selection.setRateDeductionValue(deductionValues.toString());
+        selection.setRateBasisValue((Integer) rateBasisDdlb.getValue());
+        selection.setRateBasisName(rateBasisDdlb.getItemCaption(rateBasisDdlb.getValue()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+    
+    @Override
+    public void loadDetails() {
+        try {
+            StringBuilder variablesBuilder = new StringBuilder();
+            variablesBuilder.append(VariableConstants.RATE_DEDUCTION_LEVEL_FIELD).append(ARMUtils.COMMA)
+                    .append(VariableConstants.RATE_DEDUCTION_VALUE_FIELD).append(ARMUtils.COMMA)
+                    .append(VariableConstants.RATE_BASIS_FIELD);
+            List<Object[]> list = CommonLogic.loadReturnReserve(selection.getDataSelectionDTO().getProjectionId(), variablesBuilder.toString());
+            for (Object[] obj :list) {
+                if (VariableConstants.RATE_DEDUCTION_VALUE.equals(String.valueOf(obj[0]))) {
+                    deductionLevelDdlb.setValue(selection.getRateDeductionLevel());
+                    String[] values = String.valueOf(obj[1]).split(",");
+                    for (String value : values) {
+                        CommonUtils.checkMenuBarItem(customMenuItem, value);
+                    }
+                } else {
+                    BeanUtils.setProperty(selection, String.valueOf(obj[0]), obj[1]);
+                }
+            }
+        } catch (InvocationTargetException | IllegalAccessException ex) {
+            loggerRates.error(ex);
+        }
+
+    }
+    
+    @Override
+    public void configureWorkFlow() {
+        if (selection.getSessionDTO().isWorkFlow()) {
+            ratesResults.setValueChangeAllowed(false);
+            loadDetails();
+            rateBasisDdlb.setValue(selection.getRateBasis());
+            generateButtonClick(null);
+            if (ARMUtils.VIEW_SMALL.equals(selection.getSessionDTO().getAction())) {
+                configureFieldsOnViewMode();
+            }
+        }
+
+    }
+    
+}

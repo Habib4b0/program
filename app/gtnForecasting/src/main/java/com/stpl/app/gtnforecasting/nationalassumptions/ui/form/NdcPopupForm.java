@@ -63,7 +63,7 @@ public class NdcPopupForm extends Window {
     /**
      * The tabsheet map.
      */
-    Map<Integer, Boolean> tabsheetMap = new HashMap<Integer, Boolean>();
+    Map<Integer, Boolean> tabsheetMap = new HashMap<>();
 
     private MedicaidNdcPopUp medicaidNdcPopUp;
     private FederalNdcPopup federalNdcPopup;

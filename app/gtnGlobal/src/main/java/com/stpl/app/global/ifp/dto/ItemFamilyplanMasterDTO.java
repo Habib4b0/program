@@ -428,24 +428,24 @@ public class ItemFamilyplanMasterDTO implements Serializable{
 	public void setModifiedDate(final Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
-	
+
 	/**
 	 * Gets the item familyplan system id.
 	 *
 	 * @return the item familyplan system id
 	 */
 	public int getItemFamilyplanSystemId() {
-		return itemFamilyplanSystemId;
-	}
-	
+            return itemFamilyplanSystemId;
+        }
+
 	/**
 	 * Sets the item familyplan system id.
 	 *
 	 * @param itemFamilyplanSystemId the new item familyplan system id
 	 */
 	public void setItemFamilyplanSystemId(final int itemFamilyplanSystemId) {
-		this.itemFamilyplanSystemId = itemFamilyplanSystemId;
-	}
+            this.itemFamilyplanSystemId = itemFamilyplanSystemId;
+        }
 	
 	/**
 	 * Gets the item familyplan name.

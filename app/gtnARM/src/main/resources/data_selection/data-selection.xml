@@ -3,7 +3,7 @@
 <Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield">
     <VerticalLayout id="dsLayout" spacing = "true" margin = "true" styleName="forecast-dataselection" >
         <!--<VerticalLayout spacing = "true" margin = "true">-->
-        <Panel id="panel1" caption="Adjustment Options"  >
+        <Panel id="panel1" >
 
             <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" immediate="true">
                 <VerticalLayout id = "selectionVerticalLayout">

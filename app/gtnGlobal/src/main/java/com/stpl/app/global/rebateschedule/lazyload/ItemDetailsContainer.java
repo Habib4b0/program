@@ -9,6 +9,7 @@ package com.stpl.app.global.rebateschedule.lazyload;
 import com.stpl.app.global.rebateschedule.dto.ItemDetailsDTO;
 import com.stpl.ifs.ui.CustomePagedFilterTable;
 import com.vaadin.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.vaadin.addons.lazycontainer.BeanDAO;
 import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
@@ -63,6 +64,6 @@ public class ItemDetailsContainer implements BeanDAO<ItemDetailsDTO> {
      */
     public List<ItemDetailsDTO> find(final BeanSearchCriteria searchCriteria, final int startIndex, final int end, final List<OrderByColumn> list) {
 
-        return null;       
+        return Collections.emptyList();       
     }  
 }

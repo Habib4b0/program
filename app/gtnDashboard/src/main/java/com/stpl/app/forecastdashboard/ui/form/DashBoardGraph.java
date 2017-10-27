@@ -39,7 +39,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DashBoardGraph extends VerticalLayout implements View {
  
- private final Resource graphImage = new ThemeResource("../../icons/chart-4 (1).png");
     LiferayIPC liferayIPC;
    public Button graphIcon=new Button();
    private int proId=0;

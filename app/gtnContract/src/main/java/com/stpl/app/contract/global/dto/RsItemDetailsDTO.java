@@ -108,7 +108,7 @@ public class RsItemDetailsDTO implements Serializable {
     /**
      * The rs list.
      */
-    private List<RsItemDetailsDTO> rsList = new ArrayList<RsItemDetailsDTO>();
+    private List<RsItemDetailsDTO> rsList = new ArrayList<>();
     /**
      * The rs master attached.
      */

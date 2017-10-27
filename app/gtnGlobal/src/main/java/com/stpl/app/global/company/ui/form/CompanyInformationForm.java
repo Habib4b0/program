@@ -46,7 +46,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger; 
+import org.jboss.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -289,7 +289,7 @@ public class CompanyInformationForm {
      * The modified date.
      */
     @UiField("modifiedDate")
-    PopupDateField modifiedDate;   
+    PopupDateField modifiedDate;
     /**
      * The created by.
      */
@@ -310,37 +310,44 @@ public class CompanyInformationForm {
      */
     @UiField("modifiedDateLB")
     Label modifiedDateLB;
-    /** The common util. */
+    /**
+     * The common util.
+     */
     private CommonUtil commonUtil = CommonUtil.getInstance();
-    /** The Company Master DTO */
+    /**
+     * The Company Master DTO
+     */
     CompanyMasterDTO companyMasterDTO = new CompanyMasterDTO();
-    /** The binder */
+    /**
+     * The binder
+     */
     private ErrorfulFieldGroup binder;
     SessionDTO sessionDTO;
 
     CommonUIUtils commonUiUtil = new CommonUIUtils();
     IFPLogic ifpLogic = new IFPLogic();
     private static final Logger LOGGER = Logger.getLogger(CompanyAddView.class);
-  CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     TabSheet tabSheet;
-    public VerticalLayout getContent(ErrorfulFieldGroup binder,final SessionDTO sessionDTO,TabSheet tabSheet ) throws PortalException, SystemException {
-        this.tabSheet=tabSheet;
+
+    public VerticalLayout getContent(ErrorfulFieldGroup binder, final SessionDTO sessionDTO, TabSheet tabSheet) throws PortalException, SystemException {
+        this.tabSheet = tabSheet;
         VerticalLayout vLayout = new VerticalLayout();
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
         final Map<String, AppPermission> fieldCompanyHM = stplSecurity
-                .getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_MASTER+ConstantsUtils.COMMA+"Company Information",false);
+                .getFieldOrColumnPermission(userId, UISecurityUtil.COMPANY_MASTER + ConstantsUtils.COMMA + "Company Information", false);
         this.binder = binder;
         this.sessionDTO = sessionDTO;
         vLayout.addComponent(Clara.create(getClass().getResourceAsStream("/clara/companyMaster/CompanyInformationForm.xml"), this));
         getFirstTab1(fieldCompanyHM);
         if ((ConstantsUtils.ADD).equals(sessionDTO.getMode())) {
-        getBinder();
-        configureFields();
-        }else{
-         configureFields();  
-          getBinder();
-        
+            getBinder();
+            configureFields();
+        } else {
+            configureFields();
+            getBinder();
+
         }
         return vLayout;
     }
@@ -419,24 +426,7 @@ public class CompanyInformationForm {
                  * @param event
                  */
                 public void valueChange(final Property.ValueChangeEvent event) {
-                    try {
-                        companyStartDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(companyStartDate.getValue()));
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                    }
+                    companyStartDateMethod();
                 }
             });
             companyEndDate.setDateFormat(ConstantsUtils.DATE_FORMAT);
@@ -451,28 +441,10 @@ public class CompanyInformationForm {
                  * @param event
                  */
                 public void valueChange(final Property.ValueChangeEvent event) {
-                    try {
-                        companyEndDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(companyEndDate.getValue()));
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                        
-                    }
+                    companyEndDateMethod();
                 }
             });
-           
+
             companyStartDate.addStyleName(UIUtils.MANDATORY_DATE_PICKER);
 
             commonUtil.loadComboBox(companyGroup, UIUtils.COMPANY_GROUP, false);
@@ -515,38 +487,7 @@ public class CompanyInformationForm {
                  * @param event
                  */
                 public void valueChange(final Property.ValueChangeEvent event) {
-                    try {
-                        DecimalFormat formatLives = new DecimalFormat("###,###,###");
-                        String value = lives.getValue();
-                        value = value.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
-                        if (!Double.isNaN(Double.valueOf(value))) {
-                            if (value.contains(ConstantsUtils.COMMA) && StringUtils.isNotBlank(value)) {
-                                value = value.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
-                                lives.setDescription(formatLives.format(Double.valueOf(value)));
-                                lives.setValue(formatLives.format(Double.valueOf(value)));
-                            } else if (StringUtils.isNotBlank(value)) {
-                                value = value.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
-                                lives.setDescription(formatLives.format(Double.valueOf(value)));
-                                lives.setValue(formatLives.format(Double.valueOf(value)));
-                            }
-                        }
-                    } catch (Exception e) {
-                        LOGGER.error(e);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the message box is
-                             * pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-
-                    }
+                    livesValueChangeListener();
                 }
             });
         } catch (Exception ex) {
@@ -556,12 +497,13 @@ public class CompanyInformationForm {
         createdBy.setImmediate(true);
         createdBy.setReadOnly(true);
         createdBy.setEnabled(false);
-        
+
         createdDate.setValue(new Date());
         createdDate.setImmediate(true);
         createdDate.setReadOnly(true);
         createdDate.setEnabled(false);
     }
+
     private class DateValidator extends AbstractValidator {
 
         /**
@@ -592,7 +534,7 @@ public class CompanyInformationForm {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             if (companyStartDate.getValue() != null && companyEndDate.getValue() != null) {
                 if (companyStartDate.getValue().after(companyEndDate.getValue())) {
                     throw new Validator.InvalidValueException("Company End date should be greater than Company Start date");
@@ -632,16 +574,17 @@ public class CompanyInformationForm {
     private void getFirstTab1(final Map<String, AppPermission> fieldCompanyHM) {
         LOGGER.debug("Entering getFirstTab1");
         try {
-        String mode = sessionDTO.getMode();
-        
-        List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPANY_MASTER,"Company Information");
-        commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldCompanyHM, mode);
-        }catch(Exception ex){
+            String mode = sessionDTO.getMode();
+
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPANY_MASTER, "Company Information");
+            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldCompanyHM, mode);
+        } catch (Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("Ending getFirstTab1");
 
     }
+
     public void attachCompanyTypeListener() {
         companyType.addValueChangeListener(new Property.ValueChangeListener() {
             /**
@@ -650,7 +593,7 @@ public class CompanyInformationForm {
              * @param event
              */
             public void valueChange(final Property.ValueChangeEvent event) {
-                if (companyType.getValue() != null && (((HelperDTO) companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.GLCOMP) ||((HelperDTO) companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.DIVISION)|| ((HelperDTO) companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT))) {
+                if (companyType.getValue() != null && (((HelperDTO) companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.GLCOMP) || ((HelperDTO) companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.DIVISION) || ((HelperDTO) companyType.getValue()).getDescription().equalsIgnoreCase(ConstantsUtils.BUSINESS_UNIT))) {
                     tabSheet.getTab(NumericConstants.FIVE).setVisible(Boolean.TRUE);
                 } else {
                     tabSheet.getTab(NumericConstants.FIVE).setVisible(Boolean.FALSE);
@@ -658,5 +601,82 @@ public class CompanyInformationForm {
             }
         });
     }
-   
+
+    public void companyStartDateMethod() {
+        try {
+            companyStartDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(companyStartDate.getValue()));
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
+
+    public void companyEndDateMethod() {
+        try {
+            companyEndDate.setDescription(CommonUIUtils.convert2DigitTo4DigitYear(companyEndDate.getValue()));
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+
+        }
+    }
+
+    public void livesValueChangeListener() {
+        try {
+            DecimalFormat formatLives = new DecimalFormat("###,###,###");
+            String value = lives.getValue();
+            value = value.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
+            if (!Double.isNaN(Double.valueOf(value))) {
+                if (value.contains(ConstantsUtils.COMMA) && StringUtils.isNotBlank(value)) {
+                    value = value.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
+                    lives.setDescription(formatLives.format(Double.valueOf(value)));
+                    lives.setValue(formatLives.format(Double.valueOf(value)));
+                } else if (StringUtils.isNotBlank(value)) {
+                    value = value.replace(ConstantsUtils.COMMA, StringUtils.EMPTY);
+                    lives.setDescription(formatLives.format(Double.valueOf(value)));
+                    lives.setValue(formatLives.format(Double.valueOf(value)));
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+
+        }
+    }
 }

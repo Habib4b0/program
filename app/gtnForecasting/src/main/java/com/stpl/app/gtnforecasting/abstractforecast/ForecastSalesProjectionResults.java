@@ -201,7 +201,7 @@ public abstract class ForecastSalesProjectionResults extends CustomComponent imp
         LOGGER.debug("Entering excelButton");
         excelButtonLogic();
         LOGGER.debug("Ending excelButton");
-    }
+        }
     
     @UiHandler("editBtn")
     public void editHierarchyBtn(Button.ClickEvent event) {

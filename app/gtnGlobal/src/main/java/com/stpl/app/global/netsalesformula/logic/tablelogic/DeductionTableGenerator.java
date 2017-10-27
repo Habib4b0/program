@@ -202,6 +202,7 @@ public class DeductionTableGenerator extends DefaultFieldFactory {
                     formulaNameLookup.addCloseListener(new Window.CloseListener() {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
+                            return;
                         }
                     });
                 }

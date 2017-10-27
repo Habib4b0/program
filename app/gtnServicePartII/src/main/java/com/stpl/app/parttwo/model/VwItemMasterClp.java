@@ -98,6 +98,8 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
     private String _itemCode;
     private Date _clottingFactorStartDate;
     private Date _nonFederalExpirationDate;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
     private BaseModel<?> _vwItemMasterRemoteModel;
 
     public VwItemMasterClp() {
@@ -218,6 +220,8 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
         attributes.put("itemCode", getItemCode());
         attributes.put("clottingFactorStartDate", getClottingFactorStartDate());
         attributes.put("nonFederalExpirationDate", getNonFederalExpirationDate());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -702,6 +706,19 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
 
         if (nonFederalExpirationDate != null) {
             setNonFederalExpirationDate(nonFederalExpirationDate);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -2431,6 +2448,51 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
         }
     }
 
+    @Override
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+
+        if (_vwItemMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _vwItemMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBaseCpiPrecision", int.class);
+
+                method.invoke(_vwItemMasterRemoteModel, baseCpiPrecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
+
+        if (_vwItemMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _vwItemMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBaselineAmpPrecision",
+                        int.class);
+
+                method.invoke(_vwItemMasterRemoteModel, baselineAmpPrecision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getVwItemMasterRemoteModel() {
         return _vwItemMasterRemoteModel;
     }
@@ -2575,6 +2637,8 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
         clone.setItemCode(getItemCode());
         clone.setClottingFactorStartDate(getClottingFactorStartDate());
         clone.setNonFederalExpirationDate(getNonFederalExpirationDate());
+        clone.setBaseCpiPrecision(getBaseCpiPrecision());
+        clone.setBaselineAmpPrecision(getBaselineAmpPrecision());
 
         return clone;
     }
@@ -2620,7 +2684,7 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(155);
+        StringBundler sb = new StringBundler(159);
 
         sb.append("{itemStatus=");
         sb.append(getItemStatus());
@@ -2776,6 +2840,10 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
         sb.append(getClottingFactorStartDate());
         sb.append(", nonFederalExpirationDate=");
         sb.append(getNonFederalExpirationDate());
+        sb.append(", baseCpiPrecision=");
+        sb.append(getBaseCpiPrecision());
+        sb.append(", baselineAmpPrecision=");
+        sb.append(getBaselineAmpPrecision());
         sb.append("}");
 
         return sb.toString();
@@ -2783,7 +2851,7 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(235);
+        StringBundler sb = new StringBundler(241);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.parttwo.model.VwItemMaster");
@@ -3096,6 +3164,14 @@ public class VwItemMasterClp extends BaseModelImpl<VwItemMaster>
         sb.append(
             "<column><column-name>nonFederalExpirationDate</column-name><column-value><![CDATA[");
         sb.append(getNonFederalExpirationDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baseCpiPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaseCpiPrecision());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baselineAmpPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaselineAmpPrecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

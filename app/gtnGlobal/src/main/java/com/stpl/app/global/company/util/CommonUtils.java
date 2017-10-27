@@ -323,7 +323,7 @@ public class CommonUtils {
     }
 
         public static String loadDescription(int code) throws PortalException, SystemException {
-        String descValue=StringUtils.EMPTY;
+        String descValue;
            HelperTable description=HelperTableLocalServiceUtil.getHelperTable(code);
             descValue=description.getDescription();
         
@@ -340,7 +340,7 @@ public class CommonUtils {
        columnName.put("companyFamilyPlanId", "cfpId");
        columnName.put("companyFamilyPlanNo", "cfpNo");
        columnName.put("companyFamilyPlanName", "cfpName");
-       columnName.put("companyFamilyPlanStatus", "cfpStatus");
+       columnName.put(ConstantsUtils.CFP_STATUS, "cfpStatus");
        columnName.put("companyFamilyPlanType", "cfpType");
        columnName.put(ConstantsUtils.CFP_START_DATE, "cfpStartDate");
        columnName.put(ConstantsUtils.CFP_END_DATE, "cfpEndDate");
@@ -358,7 +358,7 @@ public class CommonUtils {
      } 
         
    public static HashMap<String, String> loadTempColumnName() {
-       columnNameForTemp.put("companyFamilyPlanStatus", ConstantsUtils.C_STATUS);
+       columnNameForTemp.put(ConstantsUtils.CFP_STATUS, ConstantsUtils.C_STATUS);
        columnNameForTemp.put(ConstantsUtils.CFP_START_DATE, "CFP_DETAILS_START_DATE");
        columnNameForTemp.put(ConstantsUtils.CFP_END_DATE, "CFP_DETAILS_END_DATE");
        columnNameForTemp.put("companyId", "COMPANY_ID");
@@ -368,11 +368,11 @@ public class CommonUtils {
        columnNameForTemp.put("companyStartDate", "COMPANY_START_DATE");
        columnNameForTemp.put("companyEndDate", "COMPANY_END_DATE");
        columnNameForTemp.put("companyStatusValue", "ccstatus");
-       columnNameForTemp.put("companyTypeValue", "ctype");
+       columnNameForTemp.put("companyTypeValue", ConstantsUtils.C_TYPE);
        columnNameForTemp.put("tradingPartnerContractNo", "TRADING_PARTNER_CONTRACT_NO");
        columnNameForTemp.put("attachedDate","CFP_DETAILS_ATTACHED_DATE");
-       columnNameForTemp.put("createdBy","CREATED_BY");
-       columnNameForTemp.put("modifiedBy","MODIFIED_BY");
+       columnNameForTemp.put("createdBy","CFP_DETAILS_CREATED_BY");
+       columnNameForTemp.put("modifiedBy","CFP_DETAILS_MODIFIED_BY");
        return columnNameForTemp;
    }
    
@@ -385,15 +385,15 @@ public class CommonUtils {
        columnNames.put("companyFamilyPlanId", "CFP_ID");
        columnNames.put("companyFamilyPlanNo", "CFP_NO");
        columnNames.put("companyFamilyPlanName", "CFP_NAME");
-       columnNames.put("companyFamilyPlanStatus", ConstantsUtils.C_STATUS);
-       columnNames.put("companyFamilyPlanType", "ctype");
+       columnNames.put(ConstantsUtils.CFP_STATUS, ConstantsUtils.C_STATUS);
+       columnNames.put("companyFamilyPlanType", ConstantsUtils.C_TYPE);
        columnNames.put(ConstantsUtils.CFP_START_DATE, "CFP_START_DATE");
        columnNames.put(ConstantsUtils.CFP_END_DATE, "CFP_END_DATE");
        columnNames.put("companyFamilyPlanTradeClass", "trade");
        columnNames.put("companyFamilyPlanCategory", "category");
        columnNames.put("companyFamilyPlanDesignation", "CFP_DESIGNATION");
        columnNames.put(ConstantsUtils.PARENT_CFP_ID, "PARENT_ID");
-       columnNames.put(ConstantsUtils.PARENT_CFP_NAME, "PARENT_CFP_NAME");
+       columnNames.put(ConstantsUtils.PARENT_CFP_NAME, "PARENT_NO");
         columnNames.put("modifiedBy", "MODIFIED_BY");
          columnNames.put("modifiedDate", "MODIFIED_DATE");
           columnNames.put("createdBy", "CREATED_BY");
@@ -415,7 +415,7 @@ public class CommonUtils {
          viewColumnNameForTemp.put("companyStartDate","C_StartDate");
          viewColumnNameForTemp.put("companyEndDate","C_EndDate");
          viewColumnNameForTemp.put("companyStatusValue",ConstantsUtils.C_STATUS);
-         viewColumnNameForTemp.put("companyTypeValue","ctype");
+         viewColumnNameForTemp.put("companyTypeValue",ConstantsUtils.C_TYPE);
          viewColumnNameForTemp.put("tradingPartnerContractNo","TRADING_PARTNER_CONTRACT_NO");
          viewColumnNameForTemp.put("attachedDate","COMPANY_CFP_ATTACHED_DATE");
          return viewColumnNameForTemp;

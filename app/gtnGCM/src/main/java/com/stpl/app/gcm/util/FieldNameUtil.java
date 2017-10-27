@@ -12,7 +12,7 @@ import java.util.HashMap;
  * @author pvinoth
  */
 public class FieldNameUtil {
-    static HashMap<String, String> companyColumnName=new HashMap<String, String>();
+    static HashMap<String, String> companyColumnName=new HashMap<>();
     
     public static String getDBColumnName(String visibleColumnName) {
          return companyColumnName.get(visibleColumnName);  

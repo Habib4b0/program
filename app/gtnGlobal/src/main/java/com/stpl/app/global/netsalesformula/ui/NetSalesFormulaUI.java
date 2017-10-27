@@ -103,9 +103,7 @@ public class NetSalesFormulaUI extends UI implements VaadinPortletSession.Portle
 		} catch (SystemException ex) {
                         final  String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                         LOGGER.error(errorMsg);
-                } catch (PortalException pe) {
-			LOGGER.error(pe);
-		} catch (Exception e) {
+                } catch (Exception e) {
 			LOGGER.error(e);
 		}
 	}
@@ -126,13 +124,16 @@ public class NetSalesFormulaUI extends UI implements VaadinPortletSession.Portle
 
     @Override
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
+        return;
     }
 
     @Override
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
+        return;
     }
 
     @Override
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
+        return;
     }
 }

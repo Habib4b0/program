@@ -83,7 +83,8 @@ public class VwItemPricingPersistenceImpl extends BasePersistenceImpl<VwItemPric
                 "modifiedDate", "entityCode", "startDate", "createdDate",
                 "createdBy", "source", "batchId", "addChgDelIndicator",
                 "itemName", "itemUom", "modifiedBy", "itemNo", "itemPricingSid",
-                "pricingCodeStatus", "pricingCodeQualifierName"
+                "pricingCodeStatus", "pricingCodeQualifierName",
+                "itemPriceprecision"
             });
     private static VwItemPricing _nullVwItemPricing = new VwItemPricingImpl() {
             @Override
@@ -354,6 +355,7 @@ public class VwItemPricingPersistenceImpl extends BasePersistenceImpl<VwItemPric
         vwItemPricingImpl.setItemPricingSid(vwItemPricing.getItemPricingSid());
         vwItemPricingImpl.setPricingCodeStatus(vwItemPricing.getPricingCodeStatus());
         vwItemPricingImpl.setPricingCodeQualifierName(vwItemPricing.getPricingCodeQualifierName());
+        vwItemPricingImpl.setItemPriceprecision(vwItemPricing.getItemPriceprecision());
 
         return vwItemPricingImpl;
     }

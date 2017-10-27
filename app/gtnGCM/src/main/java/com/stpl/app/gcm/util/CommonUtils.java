@@ -45,14 +45,7 @@ public class CommonUtils {
      * The Constant CHAR_PERCENT.
      */
     public static final char CHAR_PERCENT = '%';
-    public static final Object[] visibleColumnItemSearch = {"checkRecord", "systemId", "company", "itemId", "itemNo", "itemName", "itemDesc", "therapeuticClass", "brand", "form", "strength", "placeHolder", "ndc9", "itemCategory", "itemType"};
-    public static final String[] columnHeaderItemSearch = {"", "System ID", "Company", Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, "Item Desc", "Therapeutic Class", Constants.BRAND, Constants.FORM, Constants.STRENGTH, "Place Holder", "NDC9", "Item Category", Constants.ITEM_TYPE};
-    public static final Object[] excelVisibleColumnItemSearch = {"systemId", "company", "itemId", "itemNo", "itemName", "itemDesc", "therapeuticClass", "brand", "form", "strength", "placeHolder", "ndc9", "itemCategory", "itemType"};
-    public static final String[] excelColumnHeaderItemSearch = {"System ID", "Company", Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, "Item Desc", "Therapeutic Class", Constants.BRAND, Constants.FORM, Constants.STRENGTH, "Place Holder", "NDC9", "Item Category", Constants.ITEM_TYPE};
-    public static final Object[] visibleColumnItem = {"systemId", "company", "itemId", "itemNo", "itemName", "itemDesc", "therapeuticClass", "brand", "form", "strength", "placeHolder", "ndc9", "itemCategory", "itemType"};
-    public static final String[] columnHeaderItem = {"System ID", "Company", Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, "Item Desc", "Therapeutic Class", Constants.BRAND, Constants.FORM, Constants.STRENGTH, "Place Holder", "NDC9", "Item Category", Constants.ITEM_TYPE};
-    public static final Object[] TRANSFER_VISBLE = {Constants.CHECK_RECORD, "itemId", "itemNo", "itemName", "itemIdTo", "itemNoTo", "itemNameTo"};
-    public static final String[] TRANSFER_HEADER = {"", "Item ID - From", "Item No - From", "Item Name - From", "Item ID - To", "Item No - To", "Item Name - To"};
+    public static final String THERAPEUTIC_CLASS_PROPERTY = "therapeuticClass";
 
     /**
      *
@@ -63,7 +56,7 @@ public class CommonUtils {
     }
 
     public static List<Integer> convertStringListToInteger(List<String> stringList) {
-        List<Integer> integerList = new ArrayList<Integer>();
+        List<Integer> integerList = new ArrayList<>();
 
         for (String sid : stringList) {
             integerList.add(Integer.parseInt(sid));

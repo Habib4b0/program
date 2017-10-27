@@ -48,12 +48,12 @@ public class HierarchyBuilderEdit extends VerticalLayout implements View {
     /**
      * The hierarchy builder level dto bean.
      */
-    private final BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<HierarchyBuilderLevelDTO>(HierarchyBuilderLevelDTO.class);
+    private final BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<>(HierarchyBuilderLevelDTO.class);
 
     /**
      * The level dto bean.
      */
-    private final BeanItemContainer<LevelDTO> levelDTOBean = new BeanItemContainer<LevelDTO>(LevelDTO.class);
+    private final BeanItemContainer<LevelDTO> levelDTOBean = new BeanItemContainer<>(LevelDTO.class);
 
     /**
      * Gets the hierarchy builder dto.
@@ -117,12 +117,12 @@ public class HierarchyBuilderEdit extends VerticalLayout implements View {
             LOGGER.debug("In enter ViewChangeEvent Started");
             markAsDirty();
             this.removeAllComponents();
-            final CustomFieldGroup hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+            final CustomFieldGroup hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<>(hierarchyBuilderDTO));
             final int systemId = Integer.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.SYS_ID).toString());
             final HierarchyBuilderLogic hierarchyLogic = new HierarchyBuilderLogic();
             hierarchyLogic.deleteTempLevelValues();
             hierarchyBuilderDTO = hierarchyLogic.gethierarchyBuilderDTO(Integer.valueOf(systemId));
-            hierarchyBuilderBinder.setItemDataSource(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+            hierarchyBuilderBinder.setItemDataSource(new BeanItem<>(hierarchyBuilderDTO));
             hierarchyBuilderLevelDTOBean.removeAllItems();
             hierarchyBuilderLevelDTOBean.addAll(hierarchyLogic.getHierarchyLevelDTOByDefinitionSystemId(hierarchyBuilderDTO.getHierarchyDefinitionSystemId()));
             if (hierarchyBuilderLevelDTOBean.size() != ConstantsUtils.ZERO_NUM) {

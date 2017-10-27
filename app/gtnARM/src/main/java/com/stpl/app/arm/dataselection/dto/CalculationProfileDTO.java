@@ -10,31 +10,30 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  *
- * @author Vinodhini.Chandrasek
+ * @author 
  */
-public class CalculationProfileDTO implements Serializable{
+public class CalculationProfileDTO implements Serializable {
 
     /**
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 613970373488326921L;
-    
-    private String systemId= StringUtils.EMPTY;
-    private String adjustmentType= StringUtils.EMPTY;
-    private int accountType=0;
+
+    private String systemId = StringUtils.EMPTY;
+    private String adjustmentType = StringUtils.EMPTY;
+    private int accountType = 0;
     private boolean include;
-    private int indicator= 0;
-    
-    private String calculationProfileId= "0";
-    private String profileName= StringUtils.EMPTY;
-    private String profileDesc= StringUtils.EMPTY;
-    private String viewName= StringUtils.EMPTY;
-    private String viewType= StringUtils.EMPTY;
-    
-    private String query= StringUtils.EMPTY;
-    private String updateViewQuery= StringUtils.EMPTY;
+    private int indicator = 0;
+
+    private String calculationProfileId = "0";
+    private String profileName = StringUtils.EMPTY;
+    private String profileDesc = StringUtils.EMPTY;
+    private String viewName = StringUtils.EMPTY;
+    private String viewType = StringUtils.EMPTY;
+
+    private String query = StringUtils.EMPTY;
+    private String updateViewQuery = StringUtils.EMPTY;
     private boolean addUpdateFlag;
-    
 
     public String getSystemId() {
         return systemId;

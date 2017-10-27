@@ -73,20 +73,6 @@ public interface NmActualDiscountModel extends BaseModel<NmActualDiscount> {
     public void setPeriodSid(int periodSid);
 
     /**
-     * Returns the actual projection sales of this nm actual discount.
-     *
-     * @return the actual projection sales of this nm actual discount
-     */
-    public double getActualProjectionSales();
-
-    /**
-     * Sets the actual projection sales of this nm actual discount.
-     *
-     * @param actualProjectionSales the actual projection sales of this nm actual discount
-     */
-    public void setActualProjectionSales(double actualProjectionSales);
-
-    /**
      * Returns the projection details sid of this nm actual discount.
      *
      * @return the projection details sid of this nm actual discount
@@ -99,20 +85,6 @@ public interface NmActualDiscountModel extends BaseModel<NmActualDiscount> {
      * @param projectionDetailsSid the projection details sid of this nm actual discount
      */
     public void setProjectionDetailsSid(int projectionDetailsSid);
-
-    /**
-     * Returns the actual projection rate of this nm actual discount.
-     *
-     * @return the actual projection rate of this nm actual discount
-     */
-    public double getActualProjectionRate();
-
-    /**
-     * Sets the actual projection rate of this nm actual discount.
-     *
-     * @param actualProjectionRate the actual projection rate of this nm actual discount
-     */
-    public void setActualProjectionRate(double actualProjectionRate);
 
     /**
      * Returns the actual sales of this nm actual discount.

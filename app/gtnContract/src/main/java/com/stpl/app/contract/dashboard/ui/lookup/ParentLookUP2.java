@@ -25,12 +25,10 @@ import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -43,6 +41,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 import elemental.events.KeyboardEvent;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class ParentLookUP2.
@@ -123,6 +122,14 @@ public final class ParentLookUP2 extends Window {
     
     @UiField("errorLB")
     private ErrorLabel errorMsg;
+    
+    @UiField("selectBtn")
+    Button selectBtn;
+    /**
+     * The close button.
+     */
+    @UiField("closeBtn")
+    Button closeBtn;
     /**
      * The binder.
      */
@@ -135,7 +142,7 @@ public final class ParentLookUP2 extends Window {
      * A dummy BeanItemContainer to avoid load issue in empty lazy bean
      * container
      */
-    private BeanItemContainer<RebateScheduleMasterDTO> dummySearchResulbeans = new BeanItemContainer<RebateScheduleMasterDTO>(RebateScheduleMasterDTO.class);
+    private BeanItemContainer<RebateScheduleMasterDTO> dummySearchResulbeans = new BeanItemContainer<>(RebateScheduleMasterDTO.class);
     /** The common util. */
     private CommonUtil commonUtil = CommonUtil.getInstance();    
 
@@ -297,7 +304,7 @@ public final class ParentLookUP2 extends Window {
      * @param parentRebateScheduleId the parent rebate schedule id
      * @param parentRebateScheduleName the parent rebate schedule name
      */
-    public ParentLookUP2(final TextField parentRebateScheduleId, final TextField parentRebateScheduleName) throws SystemException {
+    public ParentLookUP2(final TextField parentRebateScheduleId, final TextField parentRebateScheduleName) {
         super("Parent Rebate Schedule");
         this.parentRebateScheduleId = parentRebateScheduleId;
         this.parentRebateScheduleName = parentRebateScheduleName;
@@ -313,7 +320,7 @@ public final class ParentLookUP2 extends Window {
      */
     private ErrorfulFieldGroup getBinder() {
         LOGGER.debug("Entering getBinder method");
-        binder = new ErrorfulFieldGroup(new BeanItem<RebateScheduleMasterDTO>(new RebateScheduleMasterDTO()));
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new RebateScheduleMasterDTO()));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -324,7 +331,7 @@ public final class ParentLookUP2 extends Window {
     /**
      * Inits the.
      */
-    private void init() throws SystemException {
+    private void init() {
         LOGGER.debug("Entering init method");
 
         center();
@@ -397,23 +404,19 @@ public final class ParentLookUP2 extends Window {
         table.setFilterBarVisible(true);
         table.setFilterGenerator(new RsLookupFilterGenerator());
         table.setFilterDecorator(new ExtDemoFilterDecorator());
-        table.addItemClickListener(new ItemClickListener() {
-            /**
-             * Method used to table logic and its item click listener
-             */
-            @SuppressWarnings("PMD")
-            public void itemClick(final ItemClickEvent event) {
-                LOGGER.debug("Entering table itemClick method");
-                final RebateScheduleMasterDTO companySearchDto = (RebateScheduleMasterDTO) searchResults.getItem(event.getItemId()).getBean();
-                parentRebateScheduleId.setValue(companySearchDto.rebateScheduleNo);
-                parentRebateScheduleName.setReadOnly(false);
-                parentRebateScheduleName.setValue(companySearchDto.rebateScheduleName);
-                parentRebateScheduleName.setReadOnly(true);
-                close();
-                LOGGER.debug("End of table itemClick method");
-
+        selectBtn.setEnabled(false);
+        closeBtn.setEnabled(true);
+        table.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (table.getValue() != null) {
+                    selectBtn.setEnabled(true);
+                } else {
+                    selectBtn.setEnabled(false);
+                }
             }
         });
+
         setDefaultTableColumns();
         LOGGER.debug("End of addTabel1 method");
         return table;
@@ -434,7 +437,7 @@ public final class ParentLookUP2 extends Window {
     /**
      * Configure fields.
      */
-    protected void configureFields() throws SystemException {
+    protected void configureFields() {
         LOGGER.debug("Entering configureFields method");
         addStyleName("bootstrap");
         addStyleName("bootstrap-bb");
@@ -454,7 +457,7 @@ public final class ParentLookUP2 extends Window {
                 try {
                     LOGGER.debug("Entering search buttonClick method");
                     RsCriteria searchCriteria = new RsCriteria();
-                    List<Object> collapsedColumns = new ArrayList<Object>();
+                    List<Object> collapsedColumns = new ArrayList<>();
                     for (Object item : table.getVisibleColumns()) {
                         if (table.isColumnCollapsed(item)) {
                             collapsedColumns.add(item);
@@ -493,13 +496,13 @@ public final class ParentLookUP2 extends Window {
              */
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug("Entering reset buttonClick method");
-                List<Object> collapsedColumns = new ArrayList<Object>();
+                List<Object> collapsedColumns = new ArrayList<>();
                     for (Object item : table.getVisibleColumns()) {
                         if (table.isColumnCollapsed(item)) {
                             collapsedColumns.add(item);
                         }
                     }
-                binder.setItemDataSource(new BeanItem<RebateScheduleMasterDTO>(new RebateScheduleMasterDTO()));
+                binder.setItemDataSource(new BeanItem<>(new RebateScheduleMasterDTO()));
                 searchResults.removeAllItems();
                 binder.getErrorDisplay().clearError();
 
@@ -577,7 +580,7 @@ public final class ParentLookUP2 extends Window {
     private static String[] getCollapsibleColumns450Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
@@ -586,7 +589,7 @@ public final class ParentLookUP2 extends Window {
     private static String[] getCollapsibleColumns850Px(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -595,12 +598,26 @@ public final class ParentLookUP2 extends Window {
     private static String[] getDefaultCollapsibleColumns(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
         list.remove(propertyIds[NumericConstants.THREE]);
         list.remove(propertyIds[NumericConstants.FOUR]);
         propertyIds = list.toArray(new String[list.size()]);
         return propertyIds;
+    }
+        @UiHandler("closeBtn")
+    public void closeBtn(Button.ClickEvent event) {
+        close();
+    }
+
+    @UiHandler("selectBtn")
+    public void selectBtn(Button.ClickEvent event) {
+         final RebateScheduleMasterDTO companySearchDto = (RebateScheduleMasterDTO) table.getValue();
+                parentRebateScheduleId.setValue(companySearchDto.rebateScheduleNo);
+                parentRebateScheduleName.setReadOnly(false);
+                parentRebateScheduleName.setValue(companySearchDto.rebateScheduleName);
+                parentRebateScheduleName.setReadOnly(true);
+        close();
     }
 }

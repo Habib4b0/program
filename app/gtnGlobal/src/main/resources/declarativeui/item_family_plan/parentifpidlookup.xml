@@ -27,7 +27,9 @@
             </CssLayout>
         </HorizontalLayout>
        
-        <customTable:ExtFilterTable id="resultTable" immediate="true" /> 
+        <VerticalLayout id="tableLayout">
+            <HorizontalLayout id="controlLayout"/>
+        </VerticalLayout>
         <HorizontalLayout styleName="responsiveTabGrid">
             <CssLayout width="100%" height="100%">
                 <Button id="selectBtn" caption="Select" />

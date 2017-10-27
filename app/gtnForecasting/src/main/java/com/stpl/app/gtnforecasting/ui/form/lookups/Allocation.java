@@ -18,7 +18,6 @@ import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.data.Container;
-import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -130,12 +129,12 @@ public class Allocation extends CustomComponent implements View {
     public Button exportBtn;
     CustomTableHeaderDTO rightDTO;
     
-    DataFormatConverter percentFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_PERCENT);
-    DataFormatConverter salesFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
-    DataFormatConverter salesFormatallocation = new DataFormatConverter("#,##0.00", StringUtils.EMPTY);
-    private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<AlternateHistoryDTO>(
+    DataFormatConverter percentFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_PERCENT);
+    DataFormatConverter salesFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_DOLLAR);
+    DataFormatConverter salesFormatallocation = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, StringUtils.EMPTY);
+    private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<>(
             AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
-    private ExtContainer<AlternateHistoryDTO> resultDetBean = new ExtContainer<AlternateHistoryDTO>(
+    private ExtContainer<AlternateHistoryDTO> resultDetBean = new ExtContainer<>(
             AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
     AlternateHistoryDTO altDto = new AlternateHistoryDTO();
     CommonUtils commonUtil = new CommonUtils();
@@ -147,11 +146,11 @@ public class Allocation extends CustomComponent implements View {
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private ExtCustomTable exportTable;
     String excelName = "All Item Information";
-    private ExtTreeContainer<AlternateHistoryDTO> excelResultBean = new ExtTreeContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
-    List<Object> projDetList = new ArrayList<Object>();
+    private ExtTreeContainer<AlternateHistoryDTO> excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
+    List<Object> projDetList = new ArrayList<>();
     boolean allocation = false;
     Set headerno = new HashSet();
-    Map allocationCheck = new HashMap<Integer,Set>();
+    Map allocationCheck = new HashMap<>();
     Integer oldSid=0;
     Date start_stamp;
     Date end_stamp;
@@ -192,12 +191,6 @@ public class Allocation extends CustomComponent implements View {
             frequency.setValue(Constant.QUARTERLY);
         }
         frequency.focus();
-
-        frequency.addValueChangeListener(new Property.ValueChangeListener() {
-
-            public void valueChange(Property.ValueChangeEvent event) {
-            }
-        });
         loadFrequency(frequency.getValue().toString());
         from.addItem(session.getAltFromPeriod());
         to.addItem(session.getAltToPeriod());
@@ -262,15 +255,15 @@ public class Allocation extends CustomComponent implements View {
      */
     public void configureTable()  {
         LOGGER.debug("configureTable method starts");
-        projectionDTO.setForecastDTO(getHistoricalPeriods(session.getForecastDTO()));
+        projectionDTO.setForecastDTO(getHistoricalPeriods());
         projectionDTO.setHistoryNum(0);
         fullHeader = new CustomTableHeaderDTO();
         CustomTableHeaderDTO leftDTO = HeaderUtils.getAltHistAllocLeftTableColumns(fullHeader);
         projectionDTO.setFrequency(frequency.getValue().toString());
         projectionDTO.setProjectionOrder(Constant.ASCENDING);
         projectionDTO.setScreenName(session.getForecastName());
-        rightHeader = HeaderUtils.getAltHistAllocRightTableColumns(projectionDTO, session, fullHeader);
-        resultBean = new ExtContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
+        rightHeader = HeaderUtils.getAltHistAllocRightTableColumns(projectionDTO, fullHeader);
+        resultBean = new ExtContainer<>(AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
         resultBean.setColumnProperties(leftDTO.getProperties());
         resultBean.setColumnProperties(rightHeader.getProperties());
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -287,15 +280,15 @@ public class Allocation extends CustomComponent implements View {
         leftTable.setDoubleHeaderVisible(Boolean.TRUE);
         leftTable.setDoubleHeaderVisibleColumns(leftDTO.getDoubleColumns().toArray());
         leftTable.setDoubleHeaderColumnHeaders(leftDTO.getDoubleHeaders().toArray(new String[leftDTO.getDoubleHeaders().size()]));
-        leftTable.addStyleName("table-header-center");
-        resultsTable.setHeight("390px");
-        leftTable.setHeight("390px");
-        rightTable.setHeight("390px");
+        leftTable.addStyleName(Constant.TABLE_HEADER_CENTER);
+        resultsTable.setHeight(Constant.PX_390);
+        leftTable.setHeight(Constant.PX_390);
+        rightTable.setHeight(Constant.PX_390);
         rightTable.setEditable(true);
         resultsTable.getRightFreezeAsTable().setEditable(true);
         rightTable.setDoubleHeaderVisible(Boolean.TRUE);
 
-              List<Object> rightVisibleColumns=new ArrayList<Object>();
+              List<Object> rightVisibleColumns;
          rightVisibleColumns=rightHeader.getSingleColumns();
         
         rightTable.setVisibleColumns(rightVisibleColumns.toArray());
@@ -325,7 +318,7 @@ public class Allocation extends CustomComponent implements View {
         tableLogic.loadSetData(altDto, session, addToQueue);
         leftTable.setColumnCheckBox(Constant.CHECKRECORD, true,false);
         leftTable.setEditable(true);
-        rightTable.addStyleName("table-header-center");
+        rightTable.addStyleName(Constant.TABLE_HEADER_CENTER);
         selectedCustomerTableLayout.removeAllComponents();
         selectedCustomerTableLayout.addComponent(resultsTable);
         HorizontalLayout controls = tableLogic.createControls();
@@ -432,7 +425,7 @@ public class Allocation extends CustomComponent implements View {
                                             throwErrorPopUp();
                                             return;
                                         }
-                                        Double incOrDec = 0.0;
+                                        Double incOrDec;
                                         Double oldNumber = 0.0;
                                         if (String.valueOf(propertyId).contains(Constant.PERCENT)) {
                                             incOrDec = Double.valueOf(blurValue);
@@ -441,7 +434,7 @@ public class Allocation extends CustomComponent implements View {
                                         }
                                         AlternateHistoryDTO dto = (AlternateHistoryDTO) itemId;
                                         dto.addStringProperties(propertyId, blurValue);
-                                        logic.updateAllocationOnEdit(String.valueOf(propertyId), dto.getProjDetailSid(), incOrDec, oldNumber,(String)frequency.getValue(),session);
+                                        logic.updateAllocationOnEdit(String.valueOf(propertyId), dto.getProjDetailSid(), incOrDec,(String)frequency.getValue(),session);
                                     }
                                 }
                             });
@@ -481,7 +474,7 @@ public class Allocation extends CustomComponent implements View {
      */
     public void configureDetailsTable()  {
         LOGGER.debug("configureDetailsTable method starts");
-        projectionDTO.setForecastDTO(getHistoricalPeriods(session.getForecastDTO()));
+        projectionDTO.setForecastDTO(getHistoricalPeriods());
         projectionDTO.setHistoryNum(0);
         fullDetHeader = new CustomTableHeaderDTO();
         CustomTableHeaderDTO leftDetDTO = HeaderUtils.getAltHistAllocLeftTableColumns(fullDetHeader);
@@ -490,9 +483,9 @@ public class Allocation extends CustomComponent implements View {
         frequency.setEnabled(false);
         projectionDTO.setProjectionOrder(Constant.ASCENDING);
         projectionDTO.setScreenName(session.getForecastName());
-        leftHeader = HeaderUtils.getAltHistAllocRightTableColumns(projectionDTO, session, fullDetHeader);
+        leftHeader = HeaderUtils.getAltHistAllocRightTableColumns(projectionDTO, fullDetHeader);
 
-        resultDetBean = new ExtContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
+        resultDetBean = new ExtContainer<>(AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
         resultDetBean.setColumnProperties(leftDetDTO.getProperties());
         resultDetBean.setColumnProperties(leftHeader.getProperties());
         tableDetLogic.sinkItemPerPageWithPageLength(false);
@@ -510,10 +503,10 @@ public class Allocation extends CustomComponent implements View {
         leftDetTable.setVisibleColumns(leftDetDTO.getSingleColumns().toArray());
         leftDetTable.setColumnHeaders(leftDetDTO.getSingleHeaders().toArray(new String[leftDetDTO.getSingleHeaders().size()]));
         leftDetTable.setDoubleHeaderVisible(Boolean.FALSE);
-        resultsDetTable.setHeight("390px");
+        resultsDetTable.setHeight(Constant.PX_390);
         leftDetTable.setColumnCheckBox(Constant.CHECKRECORD, true);
-        leftDetTable.setHeight("390px");
-        rightDetTable.setHeight("390px");
+        leftDetTable.setHeight(Constant.PX_390);
+        rightDetTable.setHeight(Constant.PX_390);
         rightDetTable.setDoubleHeaderVisible(Boolean.TRUE);
         rightDetTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
         rightDetTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
@@ -531,8 +524,8 @@ public class Allocation extends CustomComponent implements View {
             leftDetTable.setColumnAlignment(leftDetDTO.getSingleColumns().get(i), ExtCustomTable.Align.CENTER);
         }
         rightDetTable.setDoubleHeaderMap(leftHeader.getDoubleHeaderMaps());
-        rightDetTable.addStyleName("table-header-center");
-        leftDetTable.addStyleName("table-header-center");
+        rightDetTable.addStyleName(Constant.TABLE_HEADER_CENTER);
+        leftDetTable.addStyleName(Constant.TABLE_HEADER_CENTER);
         leftDetTable.setDoubleHeaderMap(leftDetDTO.getDoubleHeaderMaps());
         leftDetTable.setFilterFieldVisible(Constant.CHECKRECORD, false);
         leftDetTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -581,10 +574,10 @@ public class Allocation extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
-    private ForecastDTO getHistoricalPeriods(final ForecastDTO forecastDTO) {
+    private ForecastDTO getHistoricalPeriods() {
         ForecastDTO dto = new ForecastDTO();
         String[] sDate = session.getStartDate().split("-");
         String[] eDate = session.getEndDate().split("-");
@@ -724,7 +717,7 @@ public class Allocation extends CustomComponent implements View {
 
         new AbstractNotificationUtils() {
             public void noMethod() {
-
+                return;
             }
 
             @Override
@@ -764,7 +757,7 @@ public class Allocation extends CustomComponent implements View {
     public void throwErrorPopUp(){
 
 
-     AbstractNotificationUtils.getErrorNotification(" Error", "Please change either Allocation Percentage or "+(session.getForecastName().equals("Sales Projection")?"Units":"Payment")+" for all periods.");
+     AbstractNotificationUtils.getErrorNotification(" Error", "Please change either Allocation Percentage or "+(session.getForecastName().equals(Constant.SALES_PROJECTION)?"Units":"Payment")+" for all periods.");
             
     }
     
@@ -774,7 +767,7 @@ public class Allocation extends CustomComponent implements View {
     
     private void loadDateRange(String freq) {
         LOGGER.debug("loadDateRange method starts");
-        List<String> dateList = new ArrayList<String>();
+        List<String> dateList = new ArrayList<>();
     
         int currentQuarter = 0;
         int currentsemiannual = 0;
@@ -889,7 +882,7 @@ public class Allocation extends CustomComponent implements View {
 
     private void configureSelectionExcelResultTable() {
 
-        excelResultBean = new ExtTreeContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
         exportTable = new ExtCustomTable();
         selectedCustomerTableLayout.addComponent(exportTable);
         exportTable.setRefresh(Boolean.FALSE);
@@ -913,7 +906,7 @@ public class Allocation extends CustomComponent implements View {
 
     private void configureAvailableExcelResultTable() {
 
-        excelResultBean = new ExtTreeContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
         exportTable = new ExtCustomTable();
         allocationDetailsLayout.addComponent(exportTable);
         exportTable.setRefresh(Boolean.FALSE);
@@ -984,7 +977,7 @@ public class Allocation extends CustomComponent implements View {
     }
     
     private String getSelectedColumn(String propertyId){
-       String returnValue=StringUtils.EMPTY;
+       String returnValue;
         String value = String.valueOf(propertyId);
         if (value.contains("Actual")) {
             returnValue = "Actual";

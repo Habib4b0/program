@@ -5,6 +5,7 @@
  */
 package com.stpl.app.contract.global.dto;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.contractheader.util.UIUtils;
@@ -86,7 +87,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
     String value="";
     Object[] dates;
     Map<String, List> tempDate;
-    List<Date> tempDateList = new ArrayList<Date>();
+    List<Date> tempDateList = new ArrayList<>();
     SimpleDateFormat format = new SimpleDateFormat("MM/dd/YYYY");
     SessionDTO sessionDTO;
      final CustomFieldGroup contractMasterBinder;
@@ -98,7 +99,6 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
         this.sessionDTO = sessionDTO;
         this.contractMasterBinder=contractMasterBinder;
     }
-
     /**
      * This method is used to set the components to the column in the Table
      * container.
@@ -143,7 +143,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                 priceTolerance.addValueChangeListener(new Property.ValueChangeListener() {
                     public void valueChange(Property.ValueChangeEvent event) {
                         if (event.getProperty().getValue() != null) {
-                            if(String.valueOf(priceTolerance.getValue()).matches("^[0-9]+(\\.[0-9]{1,2})?$")||String.valueOf(priceTolerance.getValue()).isEmpty()
+                            if(String.valueOf(priceTolerance.getValue()).matches(ConstantUtil.SPECIAL_CHAR)||String.valueOf(priceTolerance.getValue()).isEmpty()
                                     ||String.valueOf(priceTolerance.getValue()).equals("null")){
                                 if(!itemDetailsResultBean.containsId(itemId)) {
                                     itemDetailsResultBean.addItem(itemId);
@@ -220,14 +220,15 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                             if(!itemDetailsResultBean.containsId(itemId)) {
                                     itemDetailsResultBean.addItem(itemId);
                             }
-                            itemDetailsResultBean.getItem(itemId).getItemProperty("priceType").setValue(new HelperDTO(0, Constants.SELECT_ONE));
-                            table.getItem(itemId).getItemProperty("priceType").setReadOnly(true);
-                            itemDetailsResultBean.getItem(itemId).getItemProperty("priceType").setReadOnly(true);
+                            itemDetailsResultBean.getItem(itemId).getItemProperty(ConstantUtil.PRICE_TYPE).setValue(new HelperDTO(0, Constants.SELECT_ONE));
+                            table.getItem(itemId).getItemProperty(ConstantUtil.PRICE_TYPE).setReadOnly(true);
+                            itemDetailsResultBean.getItem(itemId).getItemProperty(ConstantUtil.PRICE_TYPE).setReadOnly(true);
                         }else{
-                            table.getItem(itemId).getItemProperty("priceType").setReadOnly(false);
-                            itemDetailsResultBean.getItem(itemId).getItemProperty("priceType").setReadOnly(false);
+                            table.getItem(itemId).getItemProperty(ConstantUtil.PRICE_TYPE).setReadOnly(false);
+                            itemDetailsResultBean.getItem(itemId).getItemProperty(ConstantUtil.PRICE_TYPE).setReadOnly(false);
                         }
                     }
+                   
                 });
                 price.addTextChangeListener(new TextChangeListener() {
                     private static final long serialVersionUID = 8721337946386845992L;
@@ -266,7 +267,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                 basePrice.addValueChangeListener(new Property.ValueChangeListener() {
                     public void valueChange(Property.ValueChangeEvent event) {
                         if (event.getProperty().getValue() != null) {
-                             if (String.valueOf(basePrice.getValue()).matches("^[0-9]+(\\.[0-9]{1,2})?$")||String.valueOf(basePrice.getValue()).isEmpty()
+                             if (String.valueOf(basePrice.getValue()).matches(ConstantUtil.SPECIAL_CHAR)||String.valueOf(basePrice.getValue()).isEmpty()
                                     ||String.valueOf(basePrice.getValue()).equals("null")) {
                                 updateChangedInfo(userId, itemId);
                                 if(!itemDetailsResultBean.containsId(itemId)) {
@@ -312,7 +313,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
             } else if ("nepFormula".equals(propertyId)) {
                 final CustomTextField nepFormula = new CustomTextField();
                 nepFormula.setImmediate(true);
-                nepFormula.addStyleName("searchicon");
+                nepFormula.addStyleName(ConstantUtil.SEARCHICON);
                 nepFormula.setValue(psDTO.getNepFormula());
                 nepFormula.addClickListener(new CustomTextField.ClickListener() {
                     /**
@@ -322,17 +323,21 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
 
                         try {                            
                             
-                            final NetSalesFormulaLookup nepFormulaLookup = new NetSalesFormulaLookup(false, nepFormula);
+                            final NetSalesFormulaLookup nepFormulaLookup = new NetSalesFormulaLookup(true, nepFormula);
                             UI.getCurrent().addWindow(nepFormulaLookup);
                             nepFormulaLookup.addCloseListener(new Window.CloseListener() {
                                 @Override
                                 public void windowClose(Window.CloseEvent e) {                                       
                                     NepFormulaLookUpDTO dto = nepFormulaLookup.getNepFormulaDTO();
-                                    ((TempPricingDTO)itemId).setNepFormulaId(dto.getNepFormulaSystemID());
-                                    if(!itemDetailsResultBean.containsId(itemId)) {
-                                    itemDetailsResultBean.addItem(itemId);
-                            }
-                                    nepFormula.setValue(dto.getNepFormulaName());
+                                    if (nepFormulaLookup.isSelected()) {
+                                        ((TempPricingDTO) itemId).setNepFormulaId(dto.getNepFormulaSystemID());
+                                        if (!itemDetailsResultBean.containsId(itemId)) {
+                                            itemDetailsResultBean.addItem(itemId);
+                                        }
+                                        nepFormula.setValue(dto.getNepFormulaName());
+                                    }else{
+                                    nepFormula.setValue(StringUtils.EMPTY);
+                                    }
                                 }
                             });
                         } catch (Exception ex) {
@@ -344,7 +349,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
             } else if ("netBasePriceFormula".equals(propertyId)) {
                 final CustomTextField nepFormula = new CustomTextField();
                 nepFormula.setImmediate(true);
-                nepFormula.addStyleName("searchicon");
+                nepFormula.addStyleName(ConstantUtil.SEARCHICON);
                 nepFormula.setValue(psDTO.getNetBasePriceFormula());
                 nepFormula.addClickListener(new CustomTextField.ClickListener() {
                     /**
@@ -359,13 +364,16 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                             nepFormulaLookup.addCloseListener(new Window.CloseListener() {
                                 @Override
                                 public void windowClose(Window.CloseEvent e) {
-                                        
-                                    NepFormulaLookUpDTO dto = nepFormulaLookup.getNepFormulaDTO();
-                                    ((TempPricingDTO)itemId).setNetBasePriceFormulaID(dto.getNepFormulaSystemID());
-                                    if(!itemDetailsResultBean.containsId(itemId)) {
-                                    itemDetailsResultBean.addItem(itemId);
-                            }
-                                    nepFormula.setValue(dto.getNepFormulaName());  
+                                    if (nepFormulaLookup.isSelected()) {
+                                        NepFormulaLookUpDTO dto = nepFormulaLookup.getNepFormulaDTO();
+                                        ((TempPricingDTO) itemId).setNetBasePriceFormulaID(dto.getNepFormulaSystemID());
+                                        if (!itemDetailsResultBean.containsId(itemId)) {
+                                            itemDetailsResultBean.addItem(itemId);
+                                        }
+                                        nepFormula.setValue(dto.getNepFormulaName());
+                                    } else {
+                                        nepFormula.setValue(StringUtils.EMPTY);
+                                    }
                                 }
                             });
                         } catch (Exception ex) {
@@ -377,7 +385,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
             }else if ("netSubsequentPriceFormula".equals(propertyId)) {
                 final CustomTextField nepFormula = new CustomTextField();
                 nepFormula.setImmediate(true);
-                nepFormula.addStyleName("searchicon");
+                nepFormula.addStyleName(ConstantUtil.SEARCHICON);
                 nepFormula.setValue(psDTO.getNetResetPriceFormula());
                 nepFormula.addClickListener(new CustomTextField.ClickListener() {
                     /**
@@ -392,12 +400,16 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                             nepFormulaLookup.addCloseListener(new Window.CloseListener() {
                                 @Override
                                 public void windowClose(Window.CloseEvent e) {
-                                    NepFormulaLookUpDTO dto = nepFormulaLookup.getNepFormulaDTO();
-                                    ((TempPricingDTO) itemId).setNetSubsequentPriceFormulaID(dto.getNepFormulaSystemID());
-                                    if(!itemDetailsResultBean.containsId(itemId)) {
-                                    itemDetailsResultBean.addItem(itemId);
-                            }
-                                    nepFormula.setValue(dto.getNepFormulaName());
+                                    if (nepFormulaLookup.isSelected()) {
+                                        NepFormulaLookUpDTO dto = nepFormulaLookup.getNepFormulaDTO();
+                                        ((TempPricingDTO) itemId).setNetSubsequentPriceFormulaID(dto.getNepFormulaSystemID());
+                                        if (!itemDetailsResultBean.containsId(itemId)) {
+                                            itemDetailsResultBean.addItem(itemId);
+                                        }
+                                        nepFormula.setValue(dto.getNepFormulaName());
+                                    } else {
+                                        nepFormula.setValue(StringUtils.EMPTY);
+                                    }
                                 }
                             });
                         } catch (Exception ex) {
@@ -409,7 +421,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
             }else if ("netResetPriceFormula".equals(propertyId)) {
                 final CustomTextField nepFormula = new CustomTextField();
                 nepFormula.setImmediate(true);
-                nepFormula.addStyleName("searchicon");
+                nepFormula.addStyleName(ConstantUtil.SEARCHICON);
                 nepFormula.setValue(psDTO.getNetResetPriceFormula());
                 nepFormula.addClickListener(new CustomTextField.ClickListener() {
                     /**
@@ -422,12 +434,16 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                             nepFormulaLookup.addCloseListener(new Window.CloseListener() {
                                 @Override
                                 public void windowClose(Window.CloseEvent e) {
-                                    NepFormulaLookUpDTO dto = nepFormulaLookup.getNepFormulaDTO();
-                                        ((TempPricingDTO)itemId).setNetResetPriceFormulaID(dto.getNepFormulaSystemID());
-                                        if(!itemDetailsResultBean.containsId(itemId)) {
-                                    itemDetailsResultBean.addItem(itemId);
-                            }
+                                    if (nepFormulaLookup.isSelected()) {
+                                        NepFormulaLookUpDTO dto = nepFormulaLookup.getNepFormulaDTO();
+                                        ((TempPricingDTO) itemId).setNetResetPriceFormulaID(dto.getNepFormulaSystemID());
+                                        if (!itemDetailsResultBean.containsId(itemId)) {
+                                            itemDetailsResultBean.addItem(itemId);
+                                        }
                                         nepFormula.setValue(dto.getNepFormulaName());
+                                    } else {
+                                        nepFormula.setValue(StringUtils.EMPTY);
+                                    }
                                 }
                             });
                         } catch (Exception ex) {
@@ -443,7 +459,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                 maxIncChange.addValueChangeListener(new Property.ValueChangeListener() {
                     public void valueChange(Property.ValueChangeEvent event) {
                         if (event.getProperty().getValue() != null) {
-                            if (String.valueOf(maxIncChange.getValue()).matches("^[0-9]+(\\.[0-9]{1,2})?$")||String.valueOf(maxIncChange.getValue()).isEmpty()
+                            if (String.valueOf(maxIncChange.getValue()).matches(ConstantUtil.SPECIAL_CHAR)||String.valueOf(maxIncChange.getValue()).isEmpty()
                                     ||String.valueOf(maxIncChange.getValue()).equals("null")) {
                                 updateChangedInfo(userId, itemId);
                                 if(!itemDetailsResultBean.containsId(itemId)) {
@@ -603,7 +619,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
             } else if ("pricePlanID".equals(propertyId)) {
                 final CustomTextField pricePlanID = new CustomTextField();
                 pricePlanID.setImmediate(true);
-                pricePlanID.addStyleName("searchicon");
+                pricePlanID.addStyleName(ConstantUtil.SEARCHICON);
                 pricePlanID.setEnabled(false);
                 pricePlanID.setValue(psDTO.getMaxIncrementalChange());
                 pricePlanID.addValueChangeListener(new Property.ValueChangeListener() {
@@ -861,7 +877,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                     basePrice.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
                         public void valueChange(Property.ValueChangeEvent event) {
-                            if (String.valueOf(basePrice.getValue()).matches("^[0-9]+(\\.[0-9]{1,2})?$")||String.valueOf(basePrice.getValue()).isEmpty()
+                            if (String.valueOf(basePrice.getValue()).matches(ConstantUtil.SPECIAL_CHAR)||String.valueOf(basePrice.getValue()).isEmpty()
                                     ||String.valueOf(basePrice.getValue()).equals("null")) {
                                 psDTO.setBasePriceEntry(ContractUtils.checkNullValues(basePrice.getValue()) ? "0" : basePrice.getValue());
                                 if(!itemDetailsResultBean.containsId(itemId)) {
@@ -934,7 +950,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
             } else if ("netPriceTypeFormula".equals(propertyId)) {
                 final CustomTextField netPriceTypeFormula = new CustomTextField();
                 netPriceTypeFormula.setImmediate(true);
-                netPriceTypeFormula.addStyleName("searchicon");
+                netPriceTypeFormula.addStyleName(ConstantUtil.SEARCHICON);
                 netPriceTypeFormula.setValue(psDTO.getNetPriceTypeFormula());
                 netPriceTypeFormula.addClickListener(new CustomTextField.ClickListener() {
                     /**
@@ -975,23 +991,7 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
             } 
             return null;
 
-        } catch (SystemException ex) {
-            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            LOGGER.error(errorMsg);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {    
-                /**            
-                 * The method is triggered when a button of the message box is   
-                 * pressed .        
-                 *          
-                 * @param buttonId The buttonId of the pressed button.     
-                 */           
-                @SuppressWarnings("PMD")           
-                public void buttonClicked(final ButtonId buttonId) { 
-                    
-                }           
-            }, ButtonId.OK);  
-            msg.getButton(ButtonId.OK).focus();
-        }  catch (Exception exception) {
+        }catch (Exception exception) {
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {    
                 /**            
                  * The method is triggered when a button of the message box is   
@@ -1001,13 +1001,19 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                  */           
                 @SuppressWarnings("PMD")           
                 public void buttonClicked(final ButtonId buttonId) { 
-                    
+                    return;
                 }           
             }, ButtonId.OK);  
             msg.getButton(ButtonId.OK).focus();
             LOGGER.error(exception);
 
         }
+        /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */
         final Field field = super.createField(container, itemId, propertyId, uiContext);
         field.setReadOnly(true);
                 return field;
@@ -1052,13 +1058,13 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                     if ("priceProtectionStartDate".equals(component)) {
                         tempDateList = tempDate.get(temp.getItemId());
                         if (((PopupDateField) field).getValue().before((Date) dates[0])) {
-                            AbstractNotificationUtils.getErrorNotification("Populate Error", "Start date cannot be before " + format.format(dates[0]));
+                            AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "Start date cannot be before " + format.format(dates[0]));
                             detachListeners(field);
                             ((PopupDateField) field).setValue(tempDateList.get(0));
                             attachListeners(field, component, itemId, temp, userId);
                             return;
                         } else if ((Date) dates[1] != null && ((PopupDateField) field).getValue().after((Date) dates[1])) {
-                            AbstractNotificationUtils.getErrorNotification("Populate Error", "Start date cannot be after " + format.format(dates[1]));
+                            AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "Start date cannot be after " + format.format(dates[1]));
                             detachListeners(field);
                             ((PopupDateField) field).setValue(tempDateList.get(0));
                             attachListeners(field, component, itemId, temp, userId);
@@ -1075,13 +1081,13 @@ public class PriceProtectionFieldFactory extends DefaultFieldFactory{
                         if ((Date) dates[1] != null && ((PopupDateField) field).getValue().after((Date) dates[1])) {
                             detachListeners(field);
                             ((PopupDateField) field).setValue(tempDateList.get(1) != null ? tempDateList.get(1) : null);
-                            AbstractNotificationUtils.getErrorNotification("Populate Error", "End date cannot be after " + format.format(dates[1]));
+                            AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "End date cannot be after " + format.format(dates[1]));
                             attachListeners(field, component, itemId, temp, userId);
                             return;
                         } else if (((PopupDateField) field).getValue().before((Date) dates[0])) {
                             detachListeners(field);
                             ((PopupDateField) field).setValue(tempDateList.get(1) != null ? tempDateList.get(1) : null);
-                            AbstractNotificationUtils.getErrorNotification("Populate Error", "End date cannot be before " + format.format(dates[0]));
+                            AbstractNotificationUtils.getErrorNotification(ConstantUtil.POPULATE_ERROR, "End date cannot be before " + format.format(dates[0]));
                             attachListeners(field, component, itemId, temp, userId);
                             return;
                         } else {

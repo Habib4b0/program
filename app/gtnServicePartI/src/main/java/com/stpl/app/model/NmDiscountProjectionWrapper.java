@@ -38,35 +38,16 @@ public class NmDiscountProjectionWrapper implements NmDiscountProjection,
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("adjustmentMethodology", getAdjustmentMethodology());
-        attributes.put("adjustmentBasis", getAdjustmentBasis());
         attributes.put("periodSid", getPeriodSid());
         attributes.put("projectionRate", getProjectionRate());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("adjustmentVariable", getAdjustmentVariable());
-        attributes.put("adjustmentValue", getAdjustmentValue());
-        attributes.put("adjustmentType", getAdjustmentType());
         attributes.put("projectionSales", getProjectionSales());
-        attributes.put("discountRate", getDiscountRate());
 
         return attributes;
     }
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        String adjustmentMethodology = (String) attributes.get(
-                "adjustmentMethodology");
-
-        if (adjustmentMethodology != null) {
-            setAdjustmentMethodology(adjustmentMethodology);
-        }
-
-        String adjustmentBasis = (String) attributes.get("adjustmentBasis");
-
-        if (adjustmentBasis != null) {
-            setAdjustmentBasis(adjustmentBasis);
-        }
-
         Integer periodSid = (Integer) attributes.get("periodSid");
 
         if (periodSid != null) {
@@ -86,35 +67,10 @@ public class NmDiscountProjectionWrapper implements NmDiscountProjection,
             setProjectionDetailsSid(projectionDetailsSid);
         }
 
-        Boolean adjustmentVariable = (Boolean) attributes.get(
-                "adjustmentVariable");
-
-        if (adjustmentVariable != null) {
-            setAdjustmentVariable(adjustmentVariable);
-        }
-
-        Double adjustmentValue = (Double) attributes.get("adjustmentValue");
-
-        if (adjustmentValue != null) {
-            setAdjustmentValue(adjustmentValue);
-        }
-
-        String adjustmentType = (String) attributes.get("adjustmentType");
-
-        if (adjustmentType != null) {
-            setAdjustmentType(adjustmentType);
-        }
-
         Double projectionSales = (Double) attributes.get("projectionSales");
 
         if (projectionSales != null) {
             setProjectionSales(projectionSales);
-        }
-
-        Double discountRate = (Double) attributes.get("discountRate");
-
-        if (discountRate != null) {
-            setDiscountRate(discountRate);
         }
     }
 
@@ -137,46 +93,6 @@ public class NmDiscountProjectionWrapper implements NmDiscountProjection,
     public void setPrimaryKey(
         com.stpl.app.service.persistence.NmDiscountProjectionPK primaryKey) {
         _nmDiscountProjection.setPrimaryKey(primaryKey);
-    }
-
-    /**
-    * Returns the adjustment methodology of this nm discount projection.
-    *
-    * @return the adjustment methodology of this nm discount projection
-    */
-    @Override
-    public java.lang.String getAdjustmentMethodology() {
-        return _nmDiscountProjection.getAdjustmentMethodology();
-    }
-
-    /**
-    * Sets the adjustment methodology of this nm discount projection.
-    *
-    * @param adjustmentMethodology the adjustment methodology of this nm discount projection
-    */
-    @Override
-    public void setAdjustmentMethodology(java.lang.String adjustmentMethodology) {
-        _nmDiscountProjection.setAdjustmentMethodology(adjustmentMethodology);
-    }
-
-    /**
-    * Returns the adjustment basis of this nm discount projection.
-    *
-    * @return the adjustment basis of this nm discount projection
-    */
-    @Override
-    public java.lang.String getAdjustmentBasis() {
-        return _nmDiscountProjection.getAdjustmentBasis();
-    }
-
-    /**
-    * Sets the adjustment basis of this nm discount projection.
-    *
-    * @param adjustmentBasis the adjustment basis of this nm discount projection
-    */
-    @Override
-    public void setAdjustmentBasis(java.lang.String adjustmentBasis) {
-        _nmDiscountProjection.setAdjustmentBasis(adjustmentBasis);
     }
 
     /**
@@ -240,76 +156,6 @@ public class NmDiscountProjectionWrapper implements NmDiscountProjection,
     }
 
     /**
-    * Returns the adjustment variable of this nm discount projection.
-    *
-    * @return the adjustment variable of this nm discount projection
-    */
-    @Override
-    public boolean getAdjustmentVariable() {
-        return _nmDiscountProjection.getAdjustmentVariable();
-    }
-
-    /**
-    * Returns <code>true</code> if this nm discount projection is adjustment variable.
-    *
-    * @return <code>true</code> if this nm discount projection is adjustment variable; <code>false</code> otherwise
-    */
-    @Override
-    public boolean isAdjustmentVariable() {
-        return _nmDiscountProjection.isAdjustmentVariable();
-    }
-
-    /**
-    * Sets whether this nm discount projection is adjustment variable.
-    *
-    * @param adjustmentVariable the adjustment variable of this nm discount projection
-    */
-    @Override
-    public void setAdjustmentVariable(boolean adjustmentVariable) {
-        _nmDiscountProjection.setAdjustmentVariable(adjustmentVariable);
-    }
-
-    /**
-    * Returns the adjustment value of this nm discount projection.
-    *
-    * @return the adjustment value of this nm discount projection
-    */
-    @Override
-    public double getAdjustmentValue() {
-        return _nmDiscountProjection.getAdjustmentValue();
-    }
-
-    /**
-    * Sets the adjustment value of this nm discount projection.
-    *
-    * @param adjustmentValue the adjustment value of this nm discount projection
-    */
-    @Override
-    public void setAdjustmentValue(double adjustmentValue) {
-        _nmDiscountProjection.setAdjustmentValue(adjustmentValue);
-    }
-
-    /**
-    * Returns the adjustment type of this nm discount projection.
-    *
-    * @return the adjustment type of this nm discount projection
-    */
-    @Override
-    public java.lang.String getAdjustmentType() {
-        return _nmDiscountProjection.getAdjustmentType();
-    }
-
-    /**
-    * Sets the adjustment type of this nm discount projection.
-    *
-    * @param adjustmentType the adjustment type of this nm discount projection
-    */
-    @Override
-    public void setAdjustmentType(java.lang.String adjustmentType) {
-        _nmDiscountProjection.setAdjustmentType(adjustmentType);
-    }
-
-    /**
     * Returns the projection sales of this nm discount projection.
     *
     * @return the projection sales of this nm discount projection
@@ -327,26 +173,6 @@ public class NmDiscountProjectionWrapper implements NmDiscountProjection,
     @Override
     public void setProjectionSales(double projectionSales) {
         _nmDiscountProjection.setProjectionSales(projectionSales);
-    }
-
-    /**
-    * Returns the discount rate of this nm discount projection.
-    *
-    * @return the discount rate of this nm discount projection
-    */
-    @Override
-    public double getDiscountRate() {
-        return _nmDiscountProjection.getDiscountRate();
-    }
-
-    /**
-    * Sets the discount rate of this nm discount projection.
-    *
-    * @param discountRate the discount rate of this nm discount projection
-    */
-    @Override
-    public void setDiscountRate(double discountRate) {
-        _nmDiscountProjection.setDiscountRate(discountRate);
     }
 
     @Override

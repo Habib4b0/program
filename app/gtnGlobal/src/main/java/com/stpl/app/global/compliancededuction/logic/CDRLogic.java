@@ -13,6 +13,7 @@ import com.stpl.app.global.compliancededuction.dto.CDRDto;
 import com.stpl.app.global.dao.impl.ComplianceDeductionDaoImpl;
 import com.stpl.app.global.dao.impl.StplSecurityDAOImpl;
 import com.stpl.app.model.CdrModel;
+import com.stpl.app.security.StplSecurity;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
@@ -37,6 +38,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
@@ -87,9 +89,9 @@ public class CDRLogic {
      */
     public int getCDRCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, true);
-        queryBuilder = getFilterQuery(filterSet, queryBuilder);
+            queryBuilder = getFilterQuery(filterSet, queryBuilder);
         LOGGER.debug(queryBuilder.toString());
         List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
         if (masterData != null && !masterData.isEmpty()) {
@@ -100,10 +102,10 @@ public class CDRLogic {
     }
 
     public List<SearchResultsDTO> loadCDRResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException {
-        List<SearchResultsDTO> searchList = new ArrayList<SearchResultsDTO>();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<SearchResultsDTO> searchList;
         LOGGER.debug("Entering searchRebatePlan with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, false);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
         if (columns.isEmpty()) {
@@ -144,7 +146,6 @@ public class CDRLogic {
             }
         }
         queryBuilder.append(false ? StringUtils.EMPTY : (" OFFSET " + start + " ROWS FETCH NEXT " + (end) + " ROWS ONLY"));
-        LOGGER.debug(" Final Query ----- >>> " + String.valueOf(queryBuilder));
         final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
 
         searchList = getCustomizedSearchFormToDTO(list);
@@ -172,10 +173,10 @@ public class CDRLogic {
         for (String fields : keys) {
 
             if ((ConstantsUtils.COMBO1.equals(fields) || ConstantsUtils.COMBO6.equals(fields)) && searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString())) {
-                queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append(ConstantsUtils.SINGLE_QUOTE);
+                queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append(ConstantsUtils.SINGLE_QUOTE);
 
             } else if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append(ConstantsUtils.SINGLE_QUOTE);
+                queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append(ConstantsUtils.SINGLE_QUOTE);
             }
         }
         queryBuilder = new StringBuilder(queryBuilder.toString().replace("WHERE AND", " WHERE "));
@@ -183,7 +184,7 @@ public class CDRLogic {
     }
 
     private List<SearchResultsDTO> getCustomizedSearchFormToDTO(List list) {
-        final List<SearchResultsDTO> searchResultsList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> searchResultsList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final SearchResultsDTO searchDto = new SearchResultsDTO();
@@ -238,15 +239,23 @@ public class CDRLogic {
     }
 
     private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
+        Map<Integer, String> userMap = StplSecurity.userMap;
+                if (userMap.isEmpty()) {
+            try {
+                userMap = StplSecurity.getUserName();
+            } catch (SystemException ex) {
+                java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
         if (filterSet != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (!"createdBy".equals(stringFilter.getPropertyId().toString()) && !"modifiedBy".equals(stringFilter.getPropertyId().toString())) {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" LIKE '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                     } else {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" = '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" like '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                     }
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;

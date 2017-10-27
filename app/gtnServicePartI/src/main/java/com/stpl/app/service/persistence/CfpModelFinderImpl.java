@@ -159,7 +159,7 @@ public class CfpModelFinderImpl extends BasePersistenceImpl<CfpModel> implements
             }
             if ((parameters.get("cfpStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("cfpStartDateto"))))) {
                 String startDate = parameters.get("cfpStartDateto").toString();
-                sql.append(andOperator).append(" cfp.CFP_START_DATE <= '").append(startDate).append("' ");
+                sql.append(andOperator).append(" CAST(cfp.CFP_START_DATE AS DATE) <= '").append(startDate).append("' ");
                 andOperator = " AND ";
             }
             if ((parameters.get("cfpEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("cfpEndDatefrom"))))) {
@@ -169,7 +169,7 @@ public class CfpModelFinderImpl extends BasePersistenceImpl<CfpModel> implements
             }
             if ((parameters.get("cfpEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("cfpEndDateto"))))) {
                 String endDate = parameters.get("cfpEndDateto").toString();
-                sql.append(andOperator).append(" cfp.CFP_END_DATE <= '").append(endDate).append("' ");
+                sql.append(andOperator).append(" CAST(cfp.CFP_END_DATE AS DATE) <= '").append(endDate).append("' ");
                 andOperator = " AND ";
             }
 
@@ -180,7 +180,7 @@ public class CfpModelFinderImpl extends BasePersistenceImpl<CfpModel> implements
             }
             if ((parameters.get("modifiedDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("modifiedDateto"))))) {
                 String endDate = parameters.get("modifiedDateto").toString();
-                sql.append(andOperator).append(" cfp.MODIFIED_DATE <= '").append(endDate).append("' ");
+                sql.append(andOperator).append(" CAST(cfp.MODIFIED_DATE AS DATE) <= '").append(endDate).append("' ");
                 andOperator = " AND ";
             }
 
@@ -191,7 +191,7 @@ public class CfpModelFinderImpl extends BasePersistenceImpl<CfpModel> implements
             }
             if ((parameters.get("createdDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("createdDateto"))))) {
                 String endDate = parameters.get("createdDateto").toString();
-                sql.append(andOperator).append(" cfp.CREATED_DATE <= '").append(endDate).append("' ");
+                sql.append(andOperator).append(" CAST(cfp.CREATED_DATE AS DATE) <= '").append(endDate).append("' ");
                 andOperator = " AND ";
             }
             if ((parameters.get("cfpcreatedBy") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("cfpcreatedBy"))))) {
@@ -202,6 +202,11 @@ public class CfpModelFinderImpl extends BasePersistenceImpl<CfpModel> implements
             if ((parameters.get("cfpmodifiedBy") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("cfpmodifiedBy"))))) {
                 String cfpmodifiedBy = parameters.get("cfpmodifiedBy").toString();
                 sql.append(andOperator).append(" cfp.MODIFIED_BY = ").append(cfpmodifiedBy);
+                andOperator = " AND ";
+            }
+            if ((parameters.get("companyFamilyPlanSystemId") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("companyFamilyPlanSystemId"))))) {
+                String companyFamilyPlanSystemId = parameters.get("companyFamilyPlanSystemId").toString();
+                sql.append(andOperator).append(" cfp.CFP_MODEL_SID like '").append(companyFamilyPlanSystemId).append("' ");
                 andOperator = " AND ";
             }
            

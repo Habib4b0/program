@@ -169,6 +169,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>RECEIVED_RECORD_COUNT</name>
         <rename>received_record_count</rename>
@@ -266,6 +272,17 @@
         <group/>
         <nullif>R</nullif>
         <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>FORMULA_DETAILS_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -611,6 +628,127 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>323</xloc>
       <yloc>206</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>FORMULA_DETAILS_INTERFACE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>staging</connection>
+    <schema/>
+    <table>FORMULA_DETAILS_INTERFACE</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_ID</column_name>
+          <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_PRICE_1</column_name>
+          <stream_name>CONTRACT_PRICE_1</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_PRICE_2</column_name>
+          <stream_name>CONTRACT_PRICE_2</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_PRICE_3</column_name>
+          <stream_name>CONTRACT_PRICE_3</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>userid</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>END_DATE</column_name>
+          <stream_name>END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_DESC</column_name>
+          <stream_name>FORMULA_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_DETAILS_INTERFACE_ID</column_name>
+          <stream_name>FORMULA_DETAILS_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_ID</column_name>
+          <stream_name>FORMULA_ID</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_NO</column_name>
+          <stream_name>FORMULA_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PERCENT_1</column_name>
+          <stream_name>REBATE_PERCENT_1</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PERCENT_2</column_name>
+          <stream_name>REBATE_PERCENT_2</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PERCENT_3</column_name>
+          <stream_name>REBATE_PERCENT_3</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>START_DATE</column_name>
+          <stream_name>START_DATE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>328</xloc>
+      <yloc>608</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2439,127 +2577,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </GUI>
     </step>
 
-  <step>
-    <name>FORMULA_DETAILS_INTERFACE</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>staging</connection>
-    <schema/>
-    <table>FORMULA_DETAILS_INTERFACE</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>COMPANY_ID</column_name>
-          <stream_name>COMPANY_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_PRICE_1</column_name>
-          <stream_name>CONTRACT_PRICE_1</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_PRICE_2</column_name>
-          <stream_name>CONTRACT_PRICE_2</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_PRICE_3</column_name>
-          <stream_name>CONTRACT_PRICE_3</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>userid</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>END_DATE</column_name>
-          <stream_name>END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_DESC</column_name>
-          <stream_name>FORMULA_DESC</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_DETAILS_INTERFACE_ID</column_name>
-          <stream_name>FORMULA_DETAILS_INTERFACE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_ID</column_name>
-          <stream_name>FORMULA_ID</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_NO</column_name>
-          <stream_name>FORMULA_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PERCENT_1</column_name>
-          <stream_name>REBATE_PERCENT_1</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PERCENT_2</column_name>
-          <stream_name>REBATE_PERCENT_2</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PERCENT_3</column_name>
-          <stream_name>REBATE_PERCENT_3</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>START_DATE</column_name>
-          <stream_name>START_DATE</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>328</xloc>
-      <yloc>608</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step_error_handling>
       <error>
         <source_step>Data Validator</source_step>
@@ -2569,6 +2586,18 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <descriptions_valuename/>
         <fields_valuename>Invalid Field Type__</fields_valuename>
         <codes_valuename>error_code_fieldname</codes_valuename>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>FORMULA_DETAILS_INTERFACE</source_step>
+        <target_step>Data Validator</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
         <max_errors/>
         <max_pct_errors/>
         <min_pct_rows/>
@@ -2605,18 +2634,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <descriptions_valuename/>
         <fields_valuename>Invalid Field Type__</fields_valuename>
         <codes_valuename>error_code_fieldname</codes_valuename>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
-        <source_step>FORMULA_DETAILS_INTERFACE</source_step>
-        <target_step>Data Validator</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
         <max_errors/>
         <max_pct_errors/>
         <min_pct_rows/>

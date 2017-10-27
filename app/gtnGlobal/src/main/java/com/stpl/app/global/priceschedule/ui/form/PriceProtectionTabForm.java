@@ -208,11 +208,6 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
     private final String mode;
 
     /**
-     * The Constant logger.
-     */
-    private static final Logger logger = Logger.getLogger(PriceProtectionTabForm.class.getName());
-
-    /**
      * The ps logic.
      */
     private PSLogic psLogic;
@@ -243,7 +238,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
     /**
      * Map to store DDLB Listname
      */
-    private Map<String, String> listValueMap = new HashMap<String, String>();
+    private Map<String, String> listValueMap = new HashMap<>();
 
     private CommonUtil commonUtil = CommonUtil.getInstance();
     @UiField("excel")
@@ -264,7 +259,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
         
         final StplSecurity stplSecurity = new StplSecurity();
         
-         private static final Logger LOGGER = Logger.getLogger(PriceProtectionTabForm.class);
+         private static final Logger logger = Logger.getLogger(PriceProtectionTabForm.class);
 
     /**
      * Instantiates a new price protection tab form.
@@ -280,7 +275,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
      */
     public PriceProtectionTabForm(final ErrorfulFieldGroup binder, final BeanItemContainer<PSIFPDTO> itemDetailsResultBean,
 
-            final String mode, String userId, String sessionId, String tempCreatedDate, final PSDTO psDTO, ErrorLabel errorMsg, PSLogic psLogic, Map<String, AppPermission> fieldPsHM, BeanItemContainer<PSIFPDTO> itemDetailsContainer, final PSDTO psMaster, final SessionDTO sessionDTO) {
+            final String mode, String userId, String sessionId, String tempCreatedDate, final PSDTO psDTO, ErrorLabel errorMsg, PSLogic psLogic, BeanItemContainer<PSIFPDTO> itemDetailsContainer, final PSDTO psMaster, final SessionDTO sessionDTO) {
         this.itemDetailsResultBean = itemDetailsResultBean;
         this.binder = binder;
         this.mode = mode;
@@ -301,8 +296,8 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
             getBinder();
             configureFields();
             userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.PRICE_SCHEDULE + "," + "Price Protection", false);
-            final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.PRICE_SCHEDULE + "," + "Price Protection");
+            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.PRICE_SCHEDULE + "," + ConstantsUtils.PRICE_PROTECTION, false);
+            final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.PRICE_SCHEDULE + "," + ConstantsUtils.PRICE_PROTECTION);
             configurePermission(fieldRsHM);
             if (functionRsHM.get(FunctionNameUtil.POPULATE_CFP) != null && ((AppPermission) functionRsHM.get(FunctionNameUtil.POPULATE_CFP)).isFunctionFlag()) {
                 configurePopulateBtn();
@@ -315,7 +310,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                 btnAllPopulate.setVisible(false);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            logger.error(ex);
         }
     }
 
@@ -326,18 +321,19 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
 
     }
 
     private void configurePermission(final Map<String, AppPermission> fieldPsHM) {
-        LOGGER.debug("Entering configurePermission");
+        logger.debug("Entering configurePermission");
         try {
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.PRICE_SCHEDULE, "Price Protection");
-            commonUiUtil.removeComponentOnPermission(resultList, cssLayout, fieldPsHM, mode, binder);
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.PRICE_SCHEDULE, ConstantsUtils.PRICE_PROTECTION);
+            commonUiUtil.removeComponentOnPermission(resultList, cssLayout, fieldPsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode, binder);
         } catch (Exception ex) {
             logger.error(ex);
         }
-        LOGGER.debug("Ending configurePermission");
+        logger.debug("Ending configurePermission");
     }
 
     /**
@@ -347,7 +343,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
     private ErrorfulFieldGroup getBinder() {
 
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<PSDTO>(psDTO));
+        binder.setItemDataSource(new BeanItem<>(psDTO));
         binder.setBuffered(true);
         binder.setErrorDisplay(errorMsg);
         errorMsg.setId("ErrorMessage");
@@ -383,9 +379,6 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
     private void configureFields() {
 
         try {
-            if (mode.equals("Add")) {
-                recordCheck.setReadOnly(true);
-            }
             recordCheck.addItems(ConstantsUtils.CURRENT, ConstantsUtils.HISTORY, ConstantsUtils.FUTURE);
             recordCheck.addValueChangeListener(new Property.ValueChangeListener() {
 
@@ -411,29 +404,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                  * Value change Listener for Mass Check
                  */
                 public void valueChange(final ValueChangeEvent event) {
-                    try {
-                        massCheck.setDescription((String) massCheck.getValue());
-                        massCheck.focus();
-                        massField.select(ConstantsUtils.SELECT_ONE);
-                        massCheckOnChangeEvent(event.getProperty().getValue());
-                    } catch (Exception exception) {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the
-                             * message box is pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed
-                             * button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing  
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                        logger.error(exception);
-
-                    }
+                   massCheckListener(event);
                     massCheck.focus();
                 }
             });
@@ -461,17 +432,19 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                             || Constants.PRICE_TOLERANCE_INTERVAL.equals(value) || Constants.PRICE_TOLERANCE_FREQUENCY.equals(value)
                             || Constants.PRICE_TOLERANCE_TYPE.equals(value) || Constants.RESET_TYPE.equals(value) || Constants.RESET_FREQUENCY.equals(value)
                             || Constants.RESET_INTERVAL.equals(value)) {
-                        try {
+                      
+                            valueforddlb.setVisible(true);
+
                             priceProtectionMassValue.setVisible(false);
                             priceProtectionMassDate.setVisible(false);
                             massSelect.setVisible(true);
                             massLookup.setVisible(false);
                             commonUtil.loadComboBox(massSelect, listValueMap.get(value), false);
-                        } catch (Exception ex) {
-                            logger.error(ex);
-                        }
+                        
                     } else if (Constants.RESET_ELIGIBLE.equals(value) || Constants.NET_PRICE_TYPE.equals(value)) {
-                        try {
+                        
+                            valueforddlb.setVisible(true);
+
                             priceProtectionMassValue.setVisible(false);
                             priceProtectionMassDate.setVisible(false);
                             massSelect.setVisible(true);
@@ -480,9 +453,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                             massSelect.setNullSelectionAllowed(true);
                             massSelect.setImmediate(true);
                             commonUtil.loadComboBox(massSelect, "LOCKED_STATUS", false);
-                        } catch (Exception ex) {
-                            logger.error(ex);
-                        }
+                       
                     } else if (Constants.PRICE_PROTECTION_START_DATE.equals(value) || Constants.PRICE_PROTECTION_END_DATE.equals(value)
                             || Constants.RESET_DATE.equals(value)) {
                         priceProtectionMassDate.setValue(null);
@@ -571,32 +542,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
 
                 @Override
                 public void click(CustomTextField.ClickEvent event) {
-                    try {
-                        if (massField.getValue() != null && Constants.NEP_FORMULA.equals(massField.getValue())
-                                || massField.getValue() != null && Constants.NET_PRICE_TYPE_FORMULA.equals(massField.getValue())) {
-                            if (nepFormulaLookup == null) {
-                                nepFormulaLookup = new NEPFormulaLookUp(Constants.NEP_FORMULA.equals(massField.getValue()) ? "NEP" : "");
-                                UI.getCurrent().addWindow(nepFormulaLookup);
-                            }
-                            nepFormulaLookup.addCloseListener(new Window.CloseListener() {
-                                @Override
-                                public void windowClose(Window.CloseEvent e) {
-                                    PSNepFormulaDTO psNepFormulaDTO = nepFormulaLookup.getNepFormulaDTO();
-                                    massLookup.setValue(psNepFormulaDTO.getNepFormulaNo());
-                                    final Map<String, String> map = new HashMap<>();
-                                    map.put("formulaNo", psNepFormulaDTO.getNepFormulaNo());
-                                    map.put("formulaName", psNepFormulaDTO.getNepFormulaName());
-                                    map.put("formulaID", psNepFormulaDTO.getNepFormulaID());
-                                    map.put("formulaSystemSID", String.valueOf(psNepFormulaDTO.getNepFormulaSystemID()));
-                                    massLookup.setData(map);
-                                    nepFormulaLookup = null;
-                                }
-                            });
-                        }
-                    } catch (Exception ex) {
-                    LOGGER.error(ex);
-                    logger.error(ex);
-                }
+                   massLookUpListener();
 
                 }
             });
@@ -689,10 +635,10 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
 
         psProtectionTableLogic.setSearchData(itemDetailsResultBean, binder, mode, psMaster, sessionDTO);
         psProtectionTableLogic.setCurrentPage(1);
-        priceProtectionTable.setVisibleColumns(PsUtils.PRICE_PROTECTION_COL);
-        priceProtectionTable.setColumnHeaders(PsUtils.PRICE_PROTECTION_COL_HEADER);
+        priceProtectionTable.setVisibleColumns(PsUtils.getInstance().priceProtectionCol);
+        priceProtectionTable.setColumnHeaders(PsUtils.getInstance().priceProtectionColHeader);
 
-        priceProtectionTable.setFilterBarVisible(!isViewMode);
+        priceProtectionTable.setFilterBarVisible(true);
         priceProtectionTable.setFilterDecorator(new ExtDemoFilterDecorator());
         priceProtectionTable.setFilterFieldVisible(ConstantsUtils.CHECK_RECORD, false);
         priceProtectionTable.setFilterFieldVisible("basePriceValue", false);
@@ -702,11 +648,11 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
         if (!isViewMode) {
             priceProtectionTable.setSelectable(true);
             priceProtectionTable.setColumnCheckBox(ConstantsUtils.CHECK_RECORD, true, false);
-            priceProtectionTable.setTableFieldFactory(new PSTableGenerator(priceProtectionTable, itemDetailsResultBean, "Add",psMaster));
+            priceProtectionTable.setTableFieldFactory(new PSTableGenerator(priceProtectionTable, itemDetailsResultBean, "Add",psMaster,sessionDTO));
             priceProtectionTable.setEditable(true);
         } else {
-            priceProtectionTable.setVisibleColumns(Arrays.copyOfRange(PsUtils.PRICE_PROTECTION_COL, 1, PsUtils.PRICE_PROTECTION_COL.length));
-            priceProtectionTable.setColumnHeaders(Arrays.copyOfRange(PsUtils.PRICE_PROTECTION_COL_HEADER, 1, PsUtils.PRICE_PROTECTION_COL_HEADER.length));
+            priceProtectionTable.setVisibleColumns(Arrays.copyOfRange(PsUtils.getInstance().priceProtectionCol, 1, PsUtils.getInstance().priceProtectionCol.length));
+            priceProtectionTable.setColumnHeaders(Arrays.copyOfRange(PsUtils.getInstance().priceProtectionColHeader, 1, PsUtils.getInstance().priceProtectionColHeader.length));
         }
 
         priceProtectionTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
@@ -821,7 +767,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     logger.error(errorMsg);
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
+                    logger.error(ex);
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     logger.error(errorMsg);
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
@@ -838,7 +784,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
                 } catch (Exception exception) {
-                    LOGGER.error(exception.getMessage());
+                    logger.error(exception.getMessage());
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1002), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message
@@ -880,7 +826,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
 
         if (massField.getValue() != null) {
             if ("Base Price".equals(String.valueOf(massField.getValue())) && (basePriceType.getValue()==null||((HelperDTO)basePriceType.getValue())==null||((HelperDTO)basePriceType.getValue()).getId()==0)) {
-                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please select Value for Base Price Type to populate Base Price", new MessageBoxListener() {
+                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please select Value for Base Price Type to populate Base Price", new MessageBoxListener() {
                             /**
                              * The method is triggered when a button of the
                              * message box is pressed .
@@ -924,7 +870,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                 if (!isPopulateAll) {
                     List<Object> itemList = psLogic.validateNull(userId, sessionId, tempCreatedDate, "tempCheckedCount");
                     if (itemList.isEmpty()) {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please select an item to populate", new MessageBoxListener() {
+                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please select an item to populate", new MessageBoxListener() {
                             /**
                              * The method is triggered when a button of the
                              * message box is pressed .
@@ -1029,12 +975,12 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                     } else if (Constants.NEP_FORMULA.equals(fieldMass)) {
                         populateField = "NEP_FORMULA";
                         Map<String, String> map = (HashMap) massLookup.getData();
-                        populateValue = String.valueOf(map.get("formulaSystemSID"));
+                        populateValue = String.valueOf(map.get(ConstantsUtils.FORMULA_SYSTEM_SID));
 
                     } else if (Constants.NET_PRICE_TYPE_FORMULA.equals(fieldMass)) {
                         populateField = "NET_PRICE_TYPE_FORMULA";
                         Map<String, String> map = (HashMap) massLookup.getData();
-                        populateValue = String.valueOf(map.get("formulaSystemSID"));
+                        populateValue = String.valueOf(map.get(ConstantsUtils.FORMULA_SYSTEM_SID));
                     } else {
                         populateField = StringUtils.EMPTY;
                         populateValue = StringUtils.EMPTY;
@@ -1049,7 +995,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                 massField.setValue(StringUtils.EMPTY);
 
             } else {
-                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
+                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
                     /**
                      * The method is triggered when a button of the message box
                      * is pressed .
@@ -1064,7 +1010,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                 msg.getButton(ButtonId.OK).focus();
             }
         } else {
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please Select a field to Populate", new MessageBoxListener() {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please Select a field to Populate", new MessageBoxListener() {
                 /**
                  * The method is triggered when a button of the message box is
                  * pressed .
@@ -1110,7 +1056,7 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     logger.error(errorMsg);
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
+                    logger.error(ex);
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     logger.error(errorMsg);
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
@@ -1176,13 +1122,13 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
      * @throws Exception
      */
     public void excelExportLogic() throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        LOGGER.debug("Entering excelExportLogic");
+        logger.debug("Entering excelExportLogic");
         if (itemDetailsResultBean.size() > 0) {
             psLogic.saveToTemp(itemDetailsResultBean.getItemIds(), binder);
             itemDetailsResultBean.removeAllItems();
         }
         createWorkSheet();
-        LOGGER.debug("Ending excelExportLogic");
+        logger.debug("Ending excelExportLogic");
     }
 
     /**
@@ -1195,11 +1141,11 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
      * @throws InvocationTargetException
      * @throws Exception
      */
-    private void createWorkSheet() throws PortalException, SystemException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        LOGGER.debug("Entering createWorkSheet");
+    private void createWorkSheet() throws PortalException, SystemException,  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        logger.debug("Entering createWorkSheet");
         int recordCount = 0;
 
-        List<Object[]> list = psLogic.getItemPriceDetails(null, 0, 0, binder, new ArrayList<SortByColumn>(), mode, psMaster, true);
+        List<Object[]> list = psLogic.getItemPriceDetails(null, 0, 0, new ArrayList<SortByColumn>(), mode, psMaster, true);
         recordCount = Integer.valueOf(String.valueOf(list.get(0)));
         String[] strArray = new String[priceProtectionTable.getColumnHeaders().length - 1];
         if (sessionDTO.getMode().equalsIgnoreCase("View")) {
@@ -1213,20 +1159,74 @@ public class PriceProtectionTabForm extends CustomComponent implements View {
             }
         }
         ExcelExportforBB.createWorkSheet(strArray, recordCount, this, getUI(), "Price_Protection");
-        LOGGER.debug("Ending createWorkSheet");
+        logger.debug("Ending createWorkSheet");
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws PortalException, SystemException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws PortalException, SystemException,  NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
-        LOGGER.debug("Entering createWorkSheetContent method");
+        logger.debug("Entering createWorkSheetContent method");
         List<PSIFPDTO> exportCompany = null;
-        List<Object[]> returnList = psLogic.getItemPriceDetails(null, start, end, binder, null, mode, psMaster, false);
+        List<Object[]> returnList = psLogic.getItemPriceDetails(null, start, end, null, mode, psMaster, false);
         exportCompany = getCustomizedItemPriceDTO(returnList, mode, psMaster);
         Object[] columns = priceProtectionTable.getVisibleColumns();
         columns = ArrayUtils.removeElement(columns, ConstantsUtils.CHECK_RECORD);
 
         ExcelExportforBB.createFileContent(columns, exportCompany, printWriter);
-        LOGGER.debug("End of createWorkSheetContent method");
+        logger.debug("End of createWorkSheetContent method");
 
+    }
+
+    public void massCheckListener(final ValueChangeEvent event) {
+        try {
+            massCheck.setDescription((String) massCheck.getValue());
+            massCheck.focus();
+            massField.select(ConstantsUtils.SELECT_ONE);
+            massCheckOnChangeEvent(event.getProperty().getValue());
+        } catch (Exception exception) {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing  
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+            logger.error(exception);
+
+        }
+    }
+
+    public void massLookUpListener() {
+        try {
+            if (massField.getValue() != null && Constants.NEP_FORMULA.equals(massField.getValue())
+                    || massField.getValue() != null && Constants.NET_PRICE_TYPE_FORMULA.equals(massField.getValue())) {
+                if (nepFormulaLookup == null) {
+                    nepFormulaLookup = new NEPFormulaLookUp(Constants.NEP_FORMULA.equals(massField.getValue()) ? "NEP" : "");
+                    UI.getCurrent().addWindow(nepFormulaLookup);
+                }
+                nepFormulaLookup.addCloseListener(new Window.CloseListener() {
+                    @Override
+                    public void windowClose(Window.CloseEvent e) {
+                        PSNepFormulaDTO psNepFormulaDTO = nepFormulaLookup.getNepFormulaDTO();
+                        massLookup.setValue(psNepFormulaDTO.getNepFormulaNo());
+                        final Map<String, String> map = new HashMap<>();
+                        map.put("formulaNo", psNepFormulaDTO.getNepFormulaNo());
+                        map.put("formulaName", psNepFormulaDTO.getNepFormulaName());
+                        map.put("formulaID", psNepFormulaDTO.getNepFormulaID());
+                        map.put(ConstantsUtils.FORMULA_SYSTEM_SID, String.valueOf(psNepFormulaDTO.getNepFormulaSystemID()));
+                        massLookup.setData(map);
+                        nepFormulaLookup = null;
+                    }
+                });
+            }
+        } catch (Exception ex) {
+            logger.error(ex);
+            logger.error(ex);
+        }
     }
 }

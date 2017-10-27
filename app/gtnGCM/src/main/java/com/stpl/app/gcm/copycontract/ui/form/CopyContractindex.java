@@ -21,6 +21,7 @@ import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.ui.errorhandling.ErrorLabel;
 import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
+import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -31,8 +32,10 @@ import com.vaadin.data.Container;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener;
+import com.stpl.ifs.util.ExcelExportforBB;
+import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -45,8 +48,11 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -69,7 +75,7 @@ public class CopyContractindex extends VerticalLayout {
 
     SessionDTO session;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CopyContractindex.class);
-    private BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<ContractSearchDTO>(ContractSearchDTO.class);
+    private BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     @UiField("copycontractTableLayout")
     public VerticalLayout copycontractTableLayout;
     @UiField("copyBtn")
@@ -106,16 +112,18 @@ public class CopyContractindex extends VerticalLayout {
     public PopupDateField aliasStartDate;
     @UiField("aliasEndDate")
     public PopupDateField aliasEndDate;
+    @UiField("excelBtn")
+    public Button excel;
     private final ContractSearchLogic logic = new ContractSearchLogic();
     private final ErrorfulFieldGroup binder;
     TextField hiddenId = new TextField();
     CommonUtil commonUtils = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
     ContractSearchTableLogic tablelogic = new ContractSearchTableLogic();
     public ExtPagedTable copycontractResultsTable = new ExtPagedTable(tablelogic);
     final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     ContractSearchDTO binderDTO;
     List<ContractSearchDTO> selectionList = new ArrayList<>();
+    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     public CopyContractindex() throws SystemException {
         addComponent(Clara.create(getClass().getResourceAsStream("/CopyContract.xml"), this));
         configuretable();
@@ -125,22 +133,24 @@ public class CopyContractindex extends VerticalLayout {
         
     }
     
-    protected void configureFields() throws SystemException {
+    protected void configureFields() {
         try {
             contractHolder.focus();
-            commonUtils.loadComboBox(aliastypecc, UIUtils.CONTRACT_ALIAS_TYPE, false);
-            commonUtils.loadComboBox(marketType, UIUtils.CONTRACT_TYPE, false);
+            commonUtils.loadComboBox(aliastypecc, UiUtils.CONTRACT_ALIAS_TYPE, false);
+            commonUtils.loadComboBox(marketType, UiUtils.CONTRACT_TYPE, false);
             marketType.setValidationVisible(true);
             aliastypecc.setValidationVisible(true);
             hiddenId.setVisible(false);
-            aliasStartDate.setStyleName("dateFieldCenter");
-            aliasEndDate.setStyleName("dateFieldCenter");
+            aliasStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+            aliasEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
             aliasStartDate.setDateFormat(Constants.MM_DD_YYYY);
             aliasEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            startDate.setStyleName("dateFieldCenter");
+            startDate.setStyleName(Constants.DATE_FIELD_CENTER);
             startDate.setDateFormat(Constants.MM_DD_YYYY);
-            endDate.setStyleName("dateFieldCenter");
+            endDate.setStyleName(Constants.DATE_FIELD_CENTER);
             endDate.setDateFormat(Constants.MM_DD_YYYY);
+            excel.setPrimaryStyleName("link");
+            excel.setIcon(excelExportImage, "Excel Export");
             
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -149,7 +159,7 @@ public class CopyContractindex extends VerticalLayout {
     }
     
     public final ErrorfulFieldGroup getBinder() {
-        final ErrorfulFieldGroup binderLocal = new ErrorfulFieldGroup(new BeanItem<ContractSearchDTO>(new ContractSearchDTO()));
+        final ErrorfulFieldGroup binderLocal = new ErrorfulFieldGroup(new BeanItem<>(new ContractSearchDTO()));
         try {
             binderLocal.setBuffered(true);
             binderLocal.bindMemberFields(this);
@@ -161,7 +171,7 @@ public class CopyContractindex extends VerticalLayout {
         return binderLocal;
     }
 
-    public void configuretable() throws SystemException {
+    public void configuretable() {
         try {
             copycontractResultsTable.setImmediate(true);
             copycontractResultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -172,15 +182,15 @@ public class CopyContractindex extends VerticalLayout {
             tablelogic.setContainerDataSource(resultContainer);
             copycontractTableLayout.addComponent(copycontractResultsTable);
             copycontractTableLayout.addComponent(tablelogic.createControls());
-            copycontractResultsTable.setVisibleColumns(HeaderUtil.CONTRACT_SEARCH_COLUMN);
-            copycontractResultsTable.setColumnHeaders(HeaderUtil.CONTRACT_SEARCH_HEADER);
+            copycontractResultsTable.setVisibleColumns(HeaderUtil.getInstance().contractSearchColumn);
+            copycontractResultsTable.setColumnHeaders(HeaderUtil.getInstance().contractSearchHeader);
             copycontractResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             copycontractResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
-            copycontractResultsTable.setColumnCheckBox(HeaderUtil.CONTRACT_SEARCH_COLUMN[0], Boolean.TRUE);
+            copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
             copycontractResultsTable.setTableFieldFactory(new TableFieldFactory() {
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                     Field field;
-                    if (String.valueOf(HeaderUtil.CONTRACT_SEARCH_COLUMN[0]).equals(propertyId)) {
+                    if (String.valueOf(HeaderUtil.getInstance().contractSearchColumn[0]).equals(propertyId)) {
                         final ExtCustomCheckBox check = new ExtCustomCheckBox();
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             @Override
@@ -217,9 +227,9 @@ public class CopyContractindex extends VerticalLayout {
     }
 
     @UiHandler("copyBtn")
-    public void copyBtn(Button.ClickEvent event) {
-        List<ContractSelectionDTO> selectedList = new ArrayList<ContractSelectionDTO>();
-        Set<String> set = new HashSet<String>();
+    public void copyBtnClickLogic(Button.ClickEvent event) {
+        List<ContractSelectionDTO> selectedList = new ArrayList<>();
+        Set<String> set = new HashSet<>();
         int chechvalue = 0;
         for (ContractSearchDTO temp : selectionList) {
             ContractSelectionDTO dto = new ContractSelectionDTO();
@@ -275,23 +285,23 @@ public class CopyContractindex extends VerticalLayout {
     }
 
     @UiHandler("Btnsearch")
-    public void Btnsearch(Button.ClickEvent event) {
+    public void searchBtnClickLogic(Button.ClickEvent event) {
         try {
             binder.commit();
             binderDTO = ((BeanItem<ContractSearchDTO>) (binder.getItemDataSource())).getBean();
             createSessionID(binderDTO);
             if (endDate.getValue() != null && startDate.getValue().after(endDate.getValue())) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Contract End date should be after Contract Start Date.");
+                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract End date should be after Contract Start Date.");
             } else if (endDate.getValue() != null && startDate.getValue().getTime() == endDate.getValue().getTime()) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Contract Start date and Contract End date are equal.");
+                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Start date and Contract End date are equal.");
 
             } else if (aliasEndDate.getValue() != null && aliasStartDate.getValue().after(aliasEndDate.getValue())) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Contract Alias End date should be after Contract Alias Start Date.");
+                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias End date should be after Contract Alias Start Date.");
             } else if (aliasEndDate.getValue() != null && aliasStartDate.getValue().getTime() == aliasEndDate.getValue().getTime()) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Contract Alias Start date and Contract Alias End date are equal.");
+                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias Start date and Contract Alias End date are equal.");
 
             } else if (logic.isSearch(binder)) {
-                copycontractResultsTable.setColumnCheckBox(HeaderUtil.CONTRACT_SEARCH_COLUMN[0], Boolean.TRUE);
+                copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
                 if (tablelogic.loadSetDate(binderDTO, true)) {
                     CommonUIUtils.successNotification(Constants.MessageConstants.SEARCH_COMPLETED.getConstant());
 
@@ -309,6 +319,50 @@ public class CopyContractindex extends VerticalLayout {
         }
     }
 
+    
+    
+    @UiHandler("excelBtn")
+    public void excelExport(Button.ClickEvent event) {
+        try {
+            if (resultContainer.size() > 0) {
+                createWorkSheet("Contract_Details", copycontractResultsTable);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+    }
+
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException, IllegalArgumentException, SystemException {
+        long recordCount = 0;
+        List<String> visibleList = Arrays.asList(copycontractResultsTable.getColumnHeaders()).subList(1, copycontractResultsTable.getVisibleColumns().length);
+        if (resultTable.size() != 0) {
+            binderDTO.setIsCount(false);
+            binderDTO.setFilters(tablelogic.getFilters());
+            recordCount = CommonUtils.getDataCount("Copy Contract-contract Search Count", logic.getInputForContractSearch(binderDTO,0,0,true,null));
+        }
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+    }
+
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
+        binderDTO.setStartIndex(start);
+        binderDTO.setEndIndex(end);
+        binderDTO.setIsCount(true);
+        List visibleList = Arrays.asList(copycontractResultsTable.getVisibleColumns()).subList(1, copycontractResultsTable.getVisibleColumns().length);
+        try {
+            if (end != 0) {
+                binderDTO.setFilters(tablelogic.getFilters());
+                final List<ContractSearchDTO> searchList = logic.getPlaceHolderContractData(binderDTO,start,end,null);
+                ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+    }
+
+    
+    
+    
     @UiHandler("btnreset")
     public void resetButtonClickLogic(Button.ClickEvent event
     ) {
@@ -320,7 +374,7 @@ public class CopyContractindex extends VerticalLayout {
             @Override
             public void yesMethod() {
                 try {
-                    binder.setItemDataSource(new BeanItem<ContractSearchDTO>(new ContractSearchDTO()));
+                    binder.setItemDataSource(new BeanItem<>(new ContractSearchDTO()));
                     resultContainer.removeAllItems();
                     copycontractResultsTable.resetFilters();
                     aliastypecc.setValue(Constant.HELPER_DTO);
@@ -355,7 +409,8 @@ public class CopyContractindex extends VerticalLayout {
         }
     }
 
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
+    public void enter() {
+        return;
     }
 
     private void insertIntoTable(Object itemId, Boolean value) {

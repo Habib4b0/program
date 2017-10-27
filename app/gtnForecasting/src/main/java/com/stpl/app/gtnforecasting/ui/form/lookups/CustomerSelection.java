@@ -105,10 +105,10 @@ public class CustomerSelection extends CustomComponent implements View {
     ExtPagedTable availableCustomerTable = new ExtPagedTable(availablecustomerTableLoic);
     AlternateHistoryTableLogic selectedcustomerTableLoic = new AlternateHistoryTableLogic();
     ExtPagedTable selectedCustomerTable = new ExtPagedTable(selectedcustomerTableLoic);
-    private BeanItemContainer<AlternateHistoryDTO> availableCustomerContainer = new BeanItemContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class);
-    private BeanItemContainer<AlternateHistoryDTO> selectedCustomerContainer = new BeanItemContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class);
+    private BeanItemContainer<AlternateHistoryDTO> availableCustomerContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
+    private BeanItemContainer<AlternateHistoryDTO> selectedCustomerContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
     public AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
-    public CustomFieldGroup customerSearchBinder = new CustomFieldGroup(new BeanItem<AlternateHistoryDTO>(altHistoryDTO));
+    public CustomFieldGroup customerSearchBinder = new CustomFieldGroup(new BeanItem<>(altHistoryDTO));
     CommonLogic commonLogic = new CommonLogic();
     CommonUtil commonUtil = CommonUtil.getInstance();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
@@ -116,10 +116,10 @@ public class CustomerSelection extends CustomComponent implements View {
     /**
      * The Constant Avilable Customer Header.
      */
-    public static final String AVAILABLE_CUSTOMER_HEADERS[] = new String[]{
+    public final String[] availableCustomerHeader = new String[]{
         StringUtils.EMPTY, "Contract Holder", "Market Type", "Contract No", "Contract Name", "Customer No", "Customer Name"};
-    public static final Object AVAILABLE_CUSTOMER_VISIBLE_COLUMNS[] = new Object[]{
-        Constant.CHECK, "contractHolder", "marketType", "contractNo", "contractName", Constant.CUSTOMER_NO, Constant.CUSTOMER_NAME};
+    public final Object[] availableCustomerColumns = new Object[]{
+        Constant.CHECK, "contractHolder", Constant.MARKET_TYPE, "contractNo", "contractName", Constant.CUSTOMER_NO, Constant.CUSTOMER_NAME};
 
     public CustomerSelection(SessionDTO session) {
         try {
@@ -134,7 +134,7 @@ public class CustomerSelection extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -303,11 +303,11 @@ public class CustomerSelection extends CustomComponent implements View {
     public void configureTable() {
 
         availableCustomerTableLayout.addComponent(availableCustomerTable);
-        HorizontalLayout hLayout = new HorizontalLayout();
+        HorizontalLayout hLayout;
         hLayout = availablecustomerTableLoic.createControls();
         availableCustomerTableLayout.addComponent(hLayout);
         selectedCustomerTableLayout.addComponent(selectedCustomerTable);
-        HorizontalLayout hLayout1 = new HorizontalLayout();
+        HorizontalLayout hLayout1;
         hLayout1 = selectedcustomerTableLoic.createControls();
         selectedCustomerTableLayout.addComponent(hLayout1);
         
@@ -318,8 +318,8 @@ public class CustomerSelection extends CustomComponent implements View {
         availableCustomerTable.setPageLength(NumericConstants.FIVE);
         availableCustomerTable.setSortEnabled(false);
         availablecustomerTableLoic.setContainerDataSource(availableCustomerContainer);
-        availableCustomerTable.setVisibleColumns(AVAILABLE_CUSTOMER_VISIBLE_COLUMNS);
-        availableCustomerTable.setColumnHeaders(AVAILABLE_CUSTOMER_HEADERS);
+        availableCustomerTable.setVisibleColumns(availableCustomerColumns);
+        availableCustomerTable.setColumnHeaders(availableCustomerHeader);
         availableCustomerTable.setEditable(true);
         availableCustomerTable.setColumnWidth(Constant.CHECK, NumericConstants.FIFTY);
         availableCustomerTable.setFilterBarVisible(true);
@@ -327,7 +327,7 @@ public class CustomerSelection extends CustomComponent implements View {
         availableCustomerTable.addStyleName(Constant.FILTER_TABLE);
         availableCustomerTable.addStyleName("table-header-normal");
         availableCustomerTable.addStyleName("table-header-center");
-        Object[] availableColumn = AVAILABLE_CUSTOMER_VISIBLE_COLUMNS;
+        Object[] availableColumn = availableCustomerColumns;
         for (Object objColumn1 : availableColumn) {
             availableCustomerTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
         }
@@ -354,9 +354,11 @@ public class CustomerSelection extends CustomComponent implements View {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -405,8 +407,8 @@ public class CustomerSelection extends CustomComponent implements View {
         selectedCustomerTable.setPageLength(NumericConstants.FIVE);
         selectedCustomerTable.setSortEnabled(false);
         selectedcustomerTableLoic.setContainerDataSource(selectedCustomerContainer);
-        selectedCustomerTable.setVisibleColumns(AVAILABLE_CUSTOMER_VISIBLE_COLUMNS);
-        selectedCustomerTable.setColumnHeaders(AVAILABLE_CUSTOMER_HEADERS);
+        selectedCustomerTable.setVisibleColumns(availableCustomerColumns);
+        selectedCustomerTable.setColumnHeaders(availableCustomerHeader);
         selectedCustomerTable.setEditable(true);
         selectedCustomerTable.setFilterBarVisible(true);
         selectedCustomerTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -429,7 +431,7 @@ public class CustomerSelection extends CustomComponent implements View {
             }
         });
 
-        Object[] selectedColumn = AVAILABLE_CUSTOMER_VISIBLE_COLUMNS;
+        Object[] selectedColumn = availableCustomerColumns;
         for (Object objColumn1 : selectedColumn) {
             selectedCustomerTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
         }
@@ -493,7 +495,7 @@ public class CustomerSelection extends CustomComponent implements View {
     public void availableCustomerExport(Button.ClickEvent event) {
         try {
             contractExcelFlag = true;
-            final int recordCount = logic.companySearchCount(customerSearchBinder, altHistoryDTO, availablecustomerTableLoic.getFilters(),session);
+            final int recordCount = logic.companySearchCount( altHistoryDTO, availablecustomerTableLoic.getFilters(),session);
             if (recordCount > 0) {
                 createWorkSheet("Available_Customer", availableCustomerTable, recordCount);
             }
@@ -505,7 +507,7 @@ public class CustomerSelection extends CustomComponent implements View {
     }
 
     /* This Method is used to create work sheet content */
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         List<String> header = Arrays.asList(resultTable.getColumnHeaders());
         List<String> list = header.subList(1, header.size());
@@ -514,17 +516,17 @@ public class CustomerSelection extends CustomComponent implements View {
     }
 
     /* This Method is used to write the table content in csv */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter)  {
         try {
             if (end != 0) {
                 if (contractExcelFlag) {
-                    List<AlternateHistoryDTO> searchList = logic.searchCompany(customerSearchBinder, altHistoryDTO,  availablecustomerTableLoic.getFilters(), start, end,  session);
+                    List<AlternateHistoryDTO> searchList = logic.searchCompany(altHistoryDTO,  availablecustomerTableLoic.getFilters(), start, end,  session);
                     List<Object> visibleColumns = Arrays.asList(availableCustomerTable.getVisibleColumns());
                     visibleColumns = visibleColumns.subList(1, visibleColumns.size());
 
                     ExcelExportforBB.createFileContent(visibleColumns.toArray(new String[visibleColumns.size()]), searchList, printWriter);
                 } else if (infoExcelFlag) {
-                    List<AlternateHistoryDTO> searchList = logic.getCompanyList(start, end, customerSearchBinder, altHistoryDTO, selectedcustomerTableLoic.getFilters(), Boolean.FALSE, session);
+                    List<AlternateHistoryDTO> searchList = logic.getCompanyList(start, end, selectedcustomerTableLoic.getFilters(), Boolean.FALSE, session);
                     List<Object> visibleColumns = Arrays.asList(selectedCustomerTable.getVisibleColumns());
                     visibleColumns = visibleColumns.subList(1, visibleColumns.size());
                     ExcelExportforBB.createFileContent(visibleColumns.toArray(new String[visibleColumns.size()]), searchList, printWriter);
@@ -544,7 +546,7 @@ public class CustomerSelection extends CustomComponent implements View {
     public void selectedCustomerExport(Button.ClickEvent event) {
         try {
             infoExcelFlag = true;
-            final int recordCount = (Integer)logic.getCompanyList(0, 0, customerSearchBinder, altHistoryDTO, selectedcustomerTableLoic.getFilters(), Boolean.TRUE, session).get(0);
+            final int recordCount = (Integer)logic.getCompanyList(0, 0, selectedcustomerTableLoic.getFilters(), Boolean.TRUE, session).get(0);
             if (recordCount > 0) {
                 createWorkSheet("Selected_Customer", selectedCustomerTable, recordCount);
             }

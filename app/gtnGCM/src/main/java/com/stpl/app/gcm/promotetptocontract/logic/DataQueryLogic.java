@@ -5,10 +5,11 @@
  */
 package com.stpl.app.gcm.promotetptocontract.logic;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.promotetptocontract.dao.PromoteTpDAO;
 import com.stpl.app.gcm.promotetptocontract.dao.impl.PromoteTpDAOImpl;
 import com.stpl.app.gcm.util.Constants;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +35,7 @@ public class DataQueryLogic {
             LOGGER.debug("Entering getContractHolders method");
 
             StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-            if (parameters.get("indicator") != null && "ContractHolder".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+            if (parameters.get(StringConstantsUtil.INDICATOR) != null && "ContractHolder".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
 
                 queryString.append("select distinct CON.CONT_HOLD_COMPANY_MASTER_SID, CM.COMPANY_NO, CM.COMPANY_NAME, compStatus.DESCRIPTION as companyStatus,\n"
                         + " compType.DESCRIPTION as companyType\n"
@@ -44,48 +45,48 @@ public class DataQueryLogic {
                         + " LEFT JOIN HELPER_TABLE compStatus on compStatus.HELPER_TABLE_SID = CM.COMPANY_STATUS"
                         + " WHERE CON.INBOUND_STATUS <>'D'");
 
-                if (parameters.get("contractHolderId") != null
-                        && !StringUtils.isEmpty(String.valueOf(parameters.get("contractHolderId")))
-                        && !StringUtils.isBlank(String.valueOf(parameters.get("contractHolderId")))) {
+                if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_ID) != null
+                        && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_ID)))
+                        && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_ID)))) {
                     queryString.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID LIKE '");
-                    queryString.append(String.valueOf(parameters.get("contractHolderId")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_ID)));
                     queryString.append("'");
                 }
-                if (parameters.get("contractHolderNo") != null
-                        && !StringUtils.isEmpty(String.valueOf(parameters.get("contractHolderNo")))
-                        && !StringUtils.isBlank(String.valueOf(parameters.get("contractHolderNo")))) {
+                if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NO) != null
+                        && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NO)))
+                        && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NO)))) {
                     queryString.append(" AND CM.COMPANY_NO LIKE '");
-                    queryString.append(String.valueOf(parameters.get("contractHolderNo")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NO)));
                     queryString.append("'");
                 }
-                if (parameters.get("contractHolderName") != null
-                        && !StringUtils.isEmpty(String.valueOf(parameters.get("contractHolderName")))
-                        && !StringUtils.isBlank(String.valueOf(parameters.get("contractHolderName")))) {
+                if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NAME) != null
+                        && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NAME)))
+                        && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NAME)))) {
                     queryString.append(" AND CM.COMPANY_NAME LIKE '");
-                    queryString.append(String.valueOf(parameters.get("contractHolderName")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NAME)));
                     queryString.append("'");
                 }
 
-                if (parameters.get("contractHolderStatus") != null && !Constants.NULL.equals(parameters.get("contractHolderStatus"))) {
+                if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_STATUS) != null && !Constants.NULL.equals(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_STATUS))) {
                     queryString.append(" AND CM.COMPANY_STATUS in (select HT.HELPER_TABLE_SID from HELPER_TABLE HT where HT.DESCRIPTION='");
-                    queryString.append(String.valueOf(parameters.get("contractHolderStatus")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_STATUS)));
                     queryString.append("')");
                 }
-                if (parameters.get("contractHolderType") != null && !Constants.NULL.equals(parameters.get("contractHolderType"))) {
+                if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_TYPE) != null && !Constants.NULL.equals(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_TYPE))) {
                     queryString.append(" AND CM.COMPANY_TYPE in (select HT.HELPER_TABLE_SID from HELPER_TABLE HT where HT.DESCRIPTION='");
-                    queryString.append(String.valueOf(parameters.get("contractHolderType")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_TYPE)));
                     queryString.append("')");
                 }
             }
             LOGGER.debug("Contract Holder Query---->" + queryString.toString());
             PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
-            List list2 = new ArrayList();
+            List list2;
             list2 = (List) promoteTpDAO.executeSelectQuery(queryString.toString());
             return list2;
 
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -101,7 +102,7 @@ public class DataQueryLogic {
             LOGGER.debug("Entering getRebatePlanInfo method");
 
             StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-            if (parameters.get("indicator") != null && "RebatePlan".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+            if (parameters.get(StringConstantsUtil.INDICATOR) != null && "RebatePlan".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
 
                 queryString.append("SELECT \n"
                         + "  RPM.REBATE_PLAN_MASTER_SID,\n"
@@ -117,48 +118,48 @@ public class DataQueryLogic {
                         + "  AND HT.LIST_NAME='STATUS'\n"
                         + "  WHERE RPM.INBOUND_STATUS <>'D' ");
 
-                if (parameters.get("rebatePlanId") != null
-                        && !StringUtils.isEmpty(String.valueOf(parameters.get("rebatePlanId")))
-                        && !StringUtils.isBlank(String.valueOf(parameters.get("rebatePlanId")))) {
+                if (parameters.get(StringConstantsUtil.REBATE_PLAN_ID) != null
+                        && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_ID)))
+                        && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_ID)))) {
                     queryString.append(" AND RPM.REBATE_PLAN_ID LIKE '");
-                    queryString.append(String.valueOf(parameters.get("rebatePlanId")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_ID)));
                     queryString.append("'");
                 }
-                if (parameters.get("rebatePlanNo") != null
-                        && !StringUtils.isEmpty(String.valueOf(parameters.get("rebatePlanNo")))
-                        && !StringUtils.isBlank(String.valueOf(parameters.get("rebatePlanNo")))) {
+                if (parameters.get(StringConstantsUtil.REBATE_PLAN_NO) != null
+                        && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NO)))
+                        && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NO)))) {
                     queryString.append(" AND RPM.REBATE_PLAN_NO LIKE '");
-                    queryString.append(String.valueOf(parameters.get("rebatePlanNo")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NO)));
                     queryString.append("'");
                 }
-                if (parameters.get("rebatePlanName") != null
-                        && !StringUtils.isEmpty(String.valueOf(parameters.get("rebatePlanName")))
-                        && !StringUtils.isBlank(String.valueOf(parameters.get("rebatePlanName")))) {
+                if (parameters.get(StringConstantsUtil.REBATE_PLAN_NAME) != null
+                        && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NAME)))
+                        && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NAME)))) {
                     queryString.append(" AND RPM.REBATE_PLAN_NAME LIKE '");
-                    queryString.append(String.valueOf(parameters.get("rebatePlanName")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NAME)));
                     queryString.append("'");
                 }
 
-                if (parameters.get("rebatePlanStatus") != null && !Constants.NULL.equals(parameters.get("rebatePlanStatus"))) {
+                if (parameters.get(StringConstantsUtil.REBATE_PLAN_STATUS) != null && !Constants.NULL.equals(parameters.get(StringConstantsUtil.REBATE_PLAN_STATUS))) {
                     queryString.append(" AND RPM.REBATE_PLAN_STATUS in (select HT.HELPER_TABLE_SID from HELPER_TABLE HT where HT.DESCRIPTION='");
-                    queryString.append(String.valueOf(parameters.get("rebatePlanStatus")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_STATUS)));
                     queryString.append("')");
                 }
-                if (parameters.get("rebatePlanType") != null && !Constants.NULL.equals(parameters.get("rebatePlanType"))) {
+                if (parameters.get(StringConstantsUtil.REBATE_PLAN_TYPE) != null && !Constants.NULL.equals(parameters.get(StringConstantsUtil.REBATE_PLAN_TYPE))) {
                     queryString.append(" AND RPM.REBATE_PLAN_TYPE in (select HT.HELPER_TABLE_SID from HELPER_TABLE HT where HT.DESCRIPTION='");
-                    queryString.append(String.valueOf(parameters.get("rebatePlanType")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_TYPE)));
                     queryString.append("')");
                 }
             }
             LOGGER.debug("Rebate Plan Query---->" + queryString.toString());
             PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
-            List list2 = new ArrayList();
+            List list2;
             list2 = (List) promoteTpDAO.executeSelectQuery(queryString.toString());
             return list2;
 
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 }

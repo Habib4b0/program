@@ -851,7 +851,8 @@ WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
 	@TH_CLASS varchar(50)=?TID
 
 SELECT IM.NDC9,
-       IM.ITEM_DESC
+       IM.ITEM_DESC,
+       IM.ITEM_MASTER_SID
 FROM   NA_PROJ_MASTER PM,
        NA_PROJ_DETAILS PD,
        ITEM_MASTER IM
@@ -963,5 +964,5 @@ ORDER  BY [source],
     ]]>
 
     </sql>   
-      
+    
 </custom-sql>

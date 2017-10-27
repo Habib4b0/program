@@ -10,6 +10,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ManualLogic {
         LOGGER.debug("Entering getSearchResult");
         try {
             boolean asc = false;
-            String columnName = StringUtils.EMPTY;
+            String columnName;
             String dbColumnName = StringUtils.EMPTY;
             loadDbColumnName();
             if(!count){
@@ -59,7 +60,7 @@ public class ManualLogic {
             }
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
     public static String getDBColumnName(String visibleColumnName) {
@@ -74,10 +75,11 @@ public class ManualLogic {
    }
 
     private List getCustomizedSchedulerProcessing(List list)  {
-        LOGGER.debug("Entering getCustomizedSchedulerProcessing" + list.size());
-        List<ProcessSchedulerDTO> returnList = new ArrayList<ProcessSchedulerDTO>();
+        
+        List<ProcessSchedulerDTO> returnList = new ArrayList<>();
         SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         if (list != null && !list.isEmpty()) {
+            LOGGER.debug("Entering getCustomizedSchedulerProcessing" + list.size());
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
                 ProcessSchedulerDTO dto = new ProcessSchedulerDTO();

@@ -99,10 +99,12 @@ public class VwItemMasterCacheModel implements CacheModel<VwItemMaster>,
     public String itemCode;
     public long clottingFactorStartDate;
     public long nonFederalExpirationDate;
+    public int baseCpiPrecision;
+    public int baselineAmpPrecision;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(155);
+        StringBundler sb = new StringBundler(159);
 
         sb.append("{itemStatus=");
         sb.append(itemStatus);
@@ -258,6 +260,10 @@ public class VwItemMasterCacheModel implements CacheModel<VwItemMaster>,
         sb.append(clottingFactorStartDate);
         sb.append(", nonFederalExpirationDate=");
         sb.append(nonFederalExpirationDate);
+        sb.append(", baseCpiPrecision=");
+        sb.append(baseCpiPrecision);
+        sb.append(", baselineAmpPrecision=");
+        sb.append(baselineAmpPrecision);
         sb.append("}");
 
         return sb.toString();
@@ -734,6 +740,9 @@ public class VwItemMasterCacheModel implements CacheModel<VwItemMaster>,
                     nonFederalExpirationDate));
         }
 
+        vwItemMasterImpl.setBaseCpiPrecision(baseCpiPrecision);
+        vwItemMasterImpl.setBaselineAmpPrecision(baselineAmpPrecision);
+
         vwItemMasterImpl.resetOriginalValues();
 
         return vwItemMasterImpl;
@@ -818,6 +827,8 @@ public class VwItemMasterCacheModel implements CacheModel<VwItemMaster>,
         itemCode = objectInput.readUTF();
         clottingFactorStartDate = objectInput.readLong();
         nonFederalExpirationDate = objectInput.readLong();
+        baseCpiPrecision = objectInput.readInt();
+        baselineAmpPrecision = objectInput.readInt();
     }
 
     @Override
@@ -1187,5 +1198,7 @@ public class VwItemMasterCacheModel implements CacheModel<VwItemMaster>,
 
         objectOutput.writeLong(clottingFactorStartDate);
         objectOutput.writeLong(nonFederalExpirationDate);
+        objectOutput.writeInt(baseCpiPrecision);
+        objectOutput.writeInt(baselineAmpPrecision);
     }
 }

@@ -92,12 +92,10 @@ public class FixedDollarAdditionalInformation extends CustomComponent implements
      * The excel export image.
      */
     public User user;
-    private final Resource wordImage = new ThemeResource("../../icons/word.png");
     private final static String FILENAME = "Notes_History_FDA";
     /**
      * The graph image.
      */
-    private final Resource pdfImage = new ThemeResource("../../icons/pdf.png");
     public String sessionId = (String) VaadinSession.getCurrent().getAttribute(Constants.SESSION_ID);
     /**
      * The pdf btn.
@@ -506,10 +504,10 @@ public class FixedDollarAdditionalInformation extends CustomComponent implements
                         LOGGER.error(errorMsg);
                         AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), errorMsg);
                     } catch (PortalException e) {
-                        LOGGER.error(e.getMessage());
+                        LOGGER.error(e);
                         AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
                     } catch (Exception e) {
-                        LOGGER.error(e.getMessage());
+                        LOGGER.error(e);
                         AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
                     }
                 }
@@ -535,10 +533,10 @@ public class FixedDollarAdditionalInformation extends CustomComponent implements
             LOGGER.error(errorMsg);
             AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), errorMsg);
         } catch (PortalException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e);
             AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e);
             AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
         }
 
@@ -623,7 +621,7 @@ public class FixedDollarAdditionalInformation extends CustomComponent implements
                 try {
                     removeBtn.focus();
                 } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage());
+                    LOGGER.error(ex);
                     AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5025));
 
                 }
@@ -661,10 +659,10 @@ public class FixedDollarAdditionalInformation extends CustomComponent implements
                             LOGGER.error(errorMsg);
                             AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), errorMsg);
                         } catch (PortalException e) {
-                            LOGGER.error(e.getMessage());
+                            LOGGER.error(e);
                             AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5011));
                         } catch (Exception e) {
-                            LOGGER.error(e.getMessage());
+                            LOGGER.error(e);
                             AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5011));
                         }
                     }
@@ -720,7 +718,7 @@ public class FixedDollarAdditionalInformation extends CustomComponent implements
                         LOGGER.error(errorMsg);
                         AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), errorMsg);
                     } catch (Exception e) {
-                        LOGGER.error(e.getMessage());
+                        LOGGER.error(e);
                         AbstractNotificationUtils.getErrorNotification(CommonUtil.getMessage("FDA_MSG_1001"), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5027));
                     }
                 }

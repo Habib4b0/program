@@ -7,7 +7,6 @@ and open the template in the editor.
 <sql>
     <entity id="updateCfpDetailsAttched">
         <query>
-            
             <![CDATA[					       
                 DECLARE @CFP_MODEL_SID      VARCHAR(100) = '?',
                         @USERS_SID          VARCHAR(100) = '?',

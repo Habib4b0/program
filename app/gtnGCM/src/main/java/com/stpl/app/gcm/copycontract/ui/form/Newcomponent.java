@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.copycontract.ui.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.common.CommonUtil;
@@ -44,6 +45,7 @@ import com.stpl.app.service.RsContractLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
+import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.model.GcmCompanyDetails;
 import com.stpl.app.model.GcmGlobalDetails;
@@ -144,10 +146,10 @@ public class Newcomponent extends CustomComponent {
     @UiField("componentSelectionGrid")
     public GridLayout componentSelectionGrid;
     CopyContractLogic CopyContractLogic = new CopyContractLogic();
-    private final BeanItemContainer<NewComponentDTO> componentSearchContainer = new BeanItemContainer<NewComponentDTO>(NewComponentDTO.class);
-    private final BeanItemContainer<NewComponentDTO> componentResultsContainer = new BeanItemContainer<NewComponentDTO>(NewComponentDTO.class);
+    private final BeanItemContainer<NewComponentDTO> componentSearchContainer = new BeanItemContainer<>(NewComponentDTO.class);
+    private final BeanItemContainer<NewComponentDTO> componentResultsContainer = new BeanItemContainer<>(NewComponentDTO.class);
     ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
-    private final BeanItemContainer<NewComponentDTO> contractInfoContainer = new BeanItemContainer<NewComponentDTO>(NewComponentDTO.class);
+    private final BeanItemContainer<NewComponentDTO> contractInfoContainer = new BeanItemContainer<>(NewComponentDTO.class);
     QueryUtils queryUtils = new QueryUtils();
     DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     @UiField("dashboardid")
@@ -271,6 +273,10 @@ public class Newcomponent extends CustomComponent {
     NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
     public ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
     CopyContractLogic logic = new CopyContractLogic();
+    public static final String REGEX_STRING = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
+    public static final String SELECT_ATLEAST_ONE_RECORD = "Please Select Atleast one Record at Component Details Section";
+    public static final String STRING_REGEX = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
+    public static final String PLEASE_ENTER_ALL_THE_FIELDS = "Please Enter All the fields in Component selection section";
 
     public Newcomponent(TreeTable dashboardTable, ExtTreeContainer<CopyComponentDTO> dashBoardContainer) {
         this.dashBoardContainer = dashBoardContainer;
@@ -324,10 +330,10 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSearchTable.setPageLength(NumericConstants.FIVE);
             componentDetailsSearchTable.setContainerDataSource(componentSearchContainer);
             componentDetailsSearchTable.setEditable(true);
-            componentDetailsSearchTable.setVisibleColumns(Constants.NEW_COMPANY_DETAILS_COLUMNS);
-            componentDetailsSearchTable.setColumnHeaders(Constants.NEW_COMPANY_DETAILS_HEADERS);
-            componentDetailsSearchTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
-            componentDetailsSearchTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
+            componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().newCompanyDetailsColumns);
+            componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
+            componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
+            componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
 
             Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
@@ -362,8 +368,8 @@ public class Newcomponent extends CustomComponent {
             dashboardResultsTable.markAsDirty();
             dashboardResultsTable.setImmediate(true);
             dashboardResultsTable.setContainerDataSource(dashBoardContainer);
-            dashboardResultsTable.setVisibleColumns(Constants.COPYCONTRACT_DASHBOARD_RESULTS_COLUMNS);
-            dashboardResultsTable.setColumnHeaders(Constants.COPYCONTRACT_DASHBOARD_RESULTS_HEADERS);
+            dashboardResultsTable.setVisibleColumns(Constants.getInstance().copycontractDashboardResultsColumns);
+            dashboardResultsTable.setColumnHeaders(Constants.getInstance().copycontractDashboardResultsHeaders);
             dashboardResultsTable.setWidth("670px");
             dashboardResultsTable.setSelectable(true);
             dashboardResultsTable.setMultiSelect(false);
@@ -389,8 +395,8 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSelectedItem.setPageLength(NumericConstants.FIVE);
             componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
             componentDetailsSelectedItem.setEditable(true);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "companyNo", "companyName", "companyStatus", Constants.START_DATE, Constants.END_DATE);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, "Status", "Start Date", "End Date");
+            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
             componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
             componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
@@ -406,7 +412,7 @@ public class Newcomponent extends CustomComponent {
                     if (Constants.CHECK.equals(propertyId)) {
                         field = new CheckBox();
                     }
-                    if ("companyStatus".equals(propertyId) || "status".equals(propertyId) || "itemStatus".equals(propertyId)) {
+                    if (Constants.COMPANY_STATUS.equals(propertyId) || Constants.STATUS_S.equals(propertyId) || Constants.ITEM_STATUS_PROPERTY.equals(propertyId)) {
                         ComboBox status = new ComboBox();
                         getSelectNull(status);
                         try {
@@ -445,8 +451,8 @@ public class Newcomponent extends CustomComponent {
             levelDetailsResultsTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             levelDetailsResultsTable.setPageLength(NumericConstants.NINE);
             levelDetailsResultsTable.setContainerDataSource(contractInfoContainer);
-            levelDetailsResultsTable.setVisibleColumns("companyNo", "companyName", "companyStatus", Constants.PS_START_DATE, Constants.PS_END_DATE);
-            levelDetailsResultsTable.setColumnHeaders(Constants.COMPANYNO, Constants.COMPANYNAME, "Status", "Start Date", "End Date");
+            levelDetailsResultsTable.setVisibleColumns(Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.PS_START_DATE, Constants.PS_END_DATE);
+            levelDetailsResultsTable.setColumnHeaders(Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
             levelDetailsResultsTable.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
             levelDetailsResultsTable.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
             Object[] vColumns1 = levelDetailsResultsTable.getVisibleColumns();
@@ -454,8 +460,8 @@ public class Newcomponent extends CustomComponent {
                 levelDetailsResultsTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
             }
             enableDisableRadio.addItem("Enable");
-            enableDisableRadio.addItem("Disable");
-            enableDisableRadio.select("Disable");
+            enableDisableRadio.addItem(DISABLE.getConstant());
+            enableDisableRadio.select(DISABLE.getConstant());
             fieldDdlb.setEnabled(false);
             statusddlb.setEnabled(false);
             populateBtn.setEnabled(false);
@@ -466,9 +472,9 @@ public class Newcomponent extends CustomComponent {
             SearchfieldNC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             componentDetailsSearch.setWidth("205px");
             fieldDdlb.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            fieldDdlb.addItem("Status");
-            fieldDdlb.addItem("Start Date");
-            fieldDdlb.addItem("End Date");
+            fieldDdlb.addItem(Constants.STATUS_FIELD);
+            fieldDdlb.addItem(Constants.START_DATE_HEADER);
+            fieldDdlb.addItem(Constants.END_DATE_HEADER);
             fieldDdlb.setNullSelectionAllowed(true);
             fieldDdlb.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             fieldDdlb.setImmediate(true);
@@ -501,10 +507,10 @@ public class Newcomponent extends CustomComponent {
         tablelogic.setContainerDataSource(componentSearchContainer);
         tablelogic.sinkItemPerPageWithPageLength(false);
         componentDetailsSearchTable.setEditable(true);
-        componentDetailsSearchTable.setVisibleColumns(Constants.NEW_COMPANY_DETAILS_COLUMNS);
-        componentDetailsSearchTable.setColumnHeaders(Constants.NEW_COMPANY_DETAILS_HEADERS);
-        componentDetailsSearchTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
-        componentDetailsSearchTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
+        componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().newCompanyDetailsColumns);
+        componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
+        componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
+        componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
         componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
 
         Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
@@ -533,7 +539,7 @@ public class Newcomponent extends CustomComponent {
 
     }
 
-    private void loadcomponentSelectionGrid() throws SystemException {
+    private void loadcomponentSelectionGrid() {
         componentDetailsSelectedItem.removeAllItems();
         componentResultsContainer.removeAllItems();
         componentSearchContainer.removeAllItems();
@@ -552,11 +558,11 @@ public class Newcomponent extends CustomComponent {
                     CopyContractLogic.getSelectNull(cfpStatus);
                     commonUtil.loadComboBox(cfpStatus, UiUtils.STATUS, false);
                     componentDetailsSearchTable.setContainerDataSource(componentSearchContainer);
-                    componentDetailsSearchTable.setVisibleColumns(Constants.NEW_COMPANY_DETAILS_COLUMNS);
-                    componentDetailsSearchTable.setColumnHeaders(Constants.NEW_COMPANY_DETAILS_HEADERS);
-                    componentDetailsSearchTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
-                    componentDetailsSearchTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
-                    componentDetailsSearchTable.setColumnCheckBox(Constants.NEW_COMPANY_DETAILS_COLUMNS[0], Boolean.TRUE);
+                    componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().newCompanyDetailsColumns);
+                    componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
+                    componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
+                    componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
+                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newCompanyDetailsColumns[0], Boolean.TRUE);
 
                     Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
                     for (Object column : visibleColumns) {
@@ -590,8 +596,8 @@ public class Newcomponent extends CustomComponent {
                     psComponent.setVisible(false);
                     rsComponent.setVisible(false);
                     componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
-                    componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "companyNo", "companyName", "companyStatus", Constants.START_DATE, Constants.END_DATE);
-                    componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, "Status", "Start Date", "End Date");
+                    componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
+                    componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
                     componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSearch.setEnabled(true);
@@ -610,12 +616,12 @@ public class Newcomponent extends CustomComponent {
                     ifpStatus.setValidationVisible(true);
                     commonUtil.loadComboBox(ifptype, UiUtils.IFP_TYPE, false);
                     componentDetailsSearchTable.setContainerDataSource(componentSearchContainer);
-                    componentDetailsSearchTable.setVisibleColumns(Constants.NEW_IFP_DETAILS_COLUMNS);
-                    componentDetailsSearchTable.setColumnHeaders(Constants.NEW_IFP_DETAILS_HEADERS);
+                    componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().newIfpDetailsColumns);
+                    componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newIfpDetailsHeaders);
                     componentDetailsSearchTable.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSearchTable.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
 
-                    componentDetailsSearchTable.setColumnCheckBox(Constants.NEW_IFP_DETAILS_COLUMNS[0], Boolean.TRUE);
+                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newIfpDetailsColumns[0], Boolean.TRUE);
                     componentDetailsSelectedItem.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSelectedItem.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
                     Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
@@ -640,8 +646,8 @@ public class Newcomponent extends CustomComponent {
                     psComponent.setVisible(false);
                     rsComponent.setVisible(false);
                     componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
-                    componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "itemNo", "itemName", "therapyClass", "brand", "status", Constants.START_DATE, Constants.END_DATE);
-                    componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Status", "Start Date", "End Date");
+                    componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE);
+                    componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
 
                     componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
@@ -659,8 +665,8 @@ public class Newcomponent extends CustomComponent {
                 rsComponent.setVisible(false);
                 componentSearchContainer.removeAllItems();
                 componentDetailsSearchTable.setContainerDataSource(componentSearchContainer);
-                componentDetailsSearchTable.setVisibleColumns(Constants.NEW_PS_DETAILS_COLUMNS);
-                componentDetailsSearchTable.setColumnHeaders(Constants.NEW_PS_DETAILS_HEADERS);
+                componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().newPsDetailsColumns);
+                componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newPsDetailsHeaders);
                 componentDetailsSearchTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSearchTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
 
@@ -670,12 +676,12 @@ public class Newcomponent extends CustomComponent {
                 }
                 componentDetailsSearch.addItem(Constants.IFP_ID);
                 componentDetailsSearch.addItem(Constants.IFP_NO);
-                componentDetailsSearch.addItem(Constants.IfpNAME);
+                componentDetailsSearch.addItem(Constants.IFP_NAME_LABEL);
                 componentDetailsSearch.addItem(Constants.IFP_STATUS);
                 componentDetailsSearch.addItem(Constants.IFPTYPE);
                 componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
-                componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "itemNo", "itemName", "therapyClass", "brand", "status", Constants.START_DATE, Constants.END_DATE, "priceType", "ppStartDate");
-                componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Status", "Start Date", "End Date", "Price Type", "Price Protection Start Date");
+                componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "priceType", "ppStartDate");
+                componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Price Type", "Price Protection Start Date");
                 componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
 
@@ -690,13 +696,13 @@ public class Newcomponent extends CustomComponent {
             } else if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
                 componentDetailsSearch.addItem(Constants.IFP_ID);
                 componentDetailsSearch.addItem(Constants.IFP_NO);
-                componentDetailsSearch.addItem(Constants.IfpNAME);
+                componentDetailsSearch.addItem(Constants.IFP_NAME_LABEL);
                 componentDetailsSearch.addItem(Constants.IFP_STATUS);
                 componentDetailsSearch.addItem(Constants.IFPTYPE);
                 fieldDdlb.removeAllItems();
-                fieldDdlb.addItem("Status");
-                fieldDdlb.addItem("Start Date");
-                fieldDdlb.addItem("End Date");
+                fieldDdlb.addItem(Constants.STATUS_FIELD);
+                fieldDdlb.addItem(Constants.START_DATE_HEADER);
+                fieldDdlb.addItem(Constants.END_DATE_HEADER);
 
                 cfpComponent.setVisible(false);
                 ifpComponent.setVisible(false);
@@ -704,21 +710,21 @@ public class Newcomponent extends CustomComponent {
                 rsComponent.setVisible(true);
                 componentSearchContainer.removeAllItems();
                 componentDetailsSearchTable.setContainerDataSource(componentSearchContainer);
-                componentDetailsSearchTable.setVisibleColumns(Constants.NEW_RS_DETAILS_COLUMNS);
-                componentDetailsSearchTable.setColumnHeaders(Constants.NEW_RS_DETAILS_HEADERS);
+                componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().newRsDetailsColumns);
+                componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newRsDetailsHeaders);
                 componentDetailsSearchTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSearchTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
                 componentResultsContainer.removeAllItems();
                 componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
-                componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "itemNo", "itemName", "therapyClass", "brand", "status", Constants.START_DATE, Constants.END_DATE, "rebatePlan", "formulaId");
-                componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Status", "Start Date", "End Date", "Rebate Plan", "Formula ID");
+                componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.REBATE_PLAN_PROPERTY, Constants.FORMULA_ID_PROPERTY);
+                componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Rebate Plan", "Formula ID");
                 componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSelectedItem.setTableFieldFactory(new TableFieldFactory() {
                     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                         Field field;
 
-                        if (propertyId.equals("rebatePlan")) {
+                        if (propertyId.equals(Constants.REBATE_PLAN_PROPERTY)) {
                             final CustomTextField rebatePlan = new CustomTextField();
                             rebatePlan.addStyleName("searchicon");
                             rebatePlan.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
@@ -727,13 +733,14 @@ public class Newcomponent extends CustomComponent {
                                     RebatePlanLookup lookup = new RebatePlanLookup(rebatePlan);
                                     lookup.addCloseListener(new Window.CloseListener() {
                                         public void windowClose(Window.CloseEvent e) {
+                                            return;
                                         }
                                     });
                                     UI.getCurrent().addWindow(lookup);
                                 }
                             });
                             return rebatePlan;
-                        } else if (propertyId.equals("formulaId")) {
+                        } else if (propertyId.equals(Constants.FORMULA_ID_PROPERTY)) {
                             final CustomTextField formulaId = new CustomTextField();
                             formulaId.addStyleName("searchicon");
                             formulaId.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
@@ -806,13 +813,13 @@ public class Newcomponent extends CustomComponent {
     }
 
     @UiHandler("componenttype")
-    public void componenttypeChange(Property.ValueChangeEvent event) throws SystemException {
+    public void componenttypeChange(Property.ValueChangeEvent event) {
         loadcomponentSelectionGrid();
         loadComponentDetailsSearchSection();
     }
 
     @UiHandler("fieldDdlb")
-    public void fieldDdlbChange(Property.ValueChangeEvent event) throws SystemException {
+    public void fieldDdlbChange(Property.ValueChangeEvent event) {
         changeMassUpdateField();
     }
 
@@ -830,7 +837,7 @@ public class Newcomponent extends CustomComponent {
     }
 
     @UiHandler("componentSearch")
-    public void componentSearchLogic(Button.ClickEvent event) throws ParseException {
+    public void componentSearchLogic(Button.ClickEvent event) {
         String cType = String.valueOf(componenttype.getValue());
         if (componentDetailsSearch.getValue() != null) {
             String searchValueString = StringUtils.EMPTY;
@@ -859,7 +866,7 @@ public class Newcomponent extends CustomComponent {
         Boolean flag = false;
         String ids = Constants.EMPTY;
         componentResultsContainer.removeAllItems();
-        List<NewComponentDTO> list = new ArrayList<NewComponentDTO>();
+        List<NewComponentDTO> list = new ArrayList<>();
         for (Object item : returnList) {
             Boolean checked = (Boolean) componentSearchContainer.getContainerProperty(item, Constants.CHECK).getValue();
             if (checked) {
@@ -878,12 +885,12 @@ public class Newcomponent extends CustomComponent {
         if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
             componentDetailsSelectedItem.setEditable(true);
             componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "companyNo", "companyName", "companyStatus", Constants.START_DATE, Constants.END_DATE);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, "Status", "Start Date", "End Date");
+            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
             componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
-            fieldDdlb.addItem("Status");
-            fieldDdlb.addItem("Start Date");
-            fieldDdlb.addItem("End Date");
+            fieldDdlb.addItem(Constants.STATUS_FIELD);
+            fieldDdlb.addItem(Constants.START_DATE_HEADER);
+            fieldDdlb.addItem(Constants.END_DATE_HEADER);
             Object[] vColumns = componentDetailsSelectedItem.getVisibleColumns();
             for (Object column : vColumns) {
                 componentDetailsSelectedItem.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
@@ -958,8 +965,8 @@ public class Newcomponent extends CustomComponent {
                 list.add(itemDTO);
             }
             componentResultsContainer.addAll(list);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "itemNo", "itemName", "therapyClass", "brand", "itemStatus", Constants.START_DATE, Constants.END_DATE);
-            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Status", "Start Date", "End Date");
+            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
         }
         if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
 
@@ -1011,8 +1018,8 @@ public class Newcomponent extends CustomComponent {
                 componentResultsContainer.addAll(list);
             }
             componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
-            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "itemNo", "itemName", "therapyClass", "brand", "price", "status", Constants.START_DATE, Constants.END_DATE, "priceType", "ppStartDate");
-            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Price", "Status", "Start Date", "End Date", "Price Type", "Price Protection Start Date");
+            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, StringConstantsUtil.PRICE_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "priceType", "ppStartDate");
+            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Price", Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Price Type", "Price Protection Start Date");
             componentDetailsSelectedItem.setEditable(true);
             Object[] visibleColumns = componentDetailsSelectedItem.getVisibleColumns();
             for (Object column : visibleColumns) {
@@ -1057,8 +1064,8 @@ public class Newcomponent extends CustomComponent {
                 }
                 componentResultsContainer.addAll(list);
             }
-            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, "itemNo", "itemName", "therapyClass", "brand", "status", Constants.START_DATE, Constants.END_DATE, "rebatePlan", "formulaId");
-            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Status", "Start Date", "End Date", "Rebate Plan", "Formula ID");
+            componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.REBATE_PLAN_PROPERTY, Constants.FORMULA_ID_PROPERTY);
+            componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Rebate Plan", "Formula ID");
             componentDetailsSelectedItem.setEditable(true);
             Object[] visibleColumns = componentDetailsSelectedItem.getVisibleColumns();
             for (Object column : visibleColumns) {
@@ -1198,15 +1205,15 @@ public class Newcomponent extends CustomComponent {
     }
 
     private void loadMassUpdateField() {
-        fieldDdlb.addItem("Status");
-        fieldDdlb.addItem("Start Date");
-        fieldDdlb.addItem("End Date");
+        fieldDdlb.addItem(Constants.STATUS_FIELD);
+        fieldDdlb.addItem(Constants.START_DATE_HEADER);
+        fieldDdlb.addItem(Constants.END_DATE_HEADER);
     }
 
-    private void changeMassUpdateField() throws SystemException {
+    private void changeMassUpdateField() {
         startPeriod.setValue(null);
         String searchField = String.valueOf(fieldDdlb.getValue());
-        if (searchField.equals("Status")) {
+        if (searchField.equals(Constants.STATUS_FIELD)) {
             try {
                 CopyContractLogic.getSelectNull(statusddlb);
                 commonUtil.loadComboBox(statusddlb, UiUtils.STATUS, false);
@@ -1228,11 +1235,11 @@ public class Newcomponent extends CustomComponent {
     }
 
     @UiHandler("populateBtn")
-    public void massPopulateLogic(Button.ClickEvent event) throws SystemException {
+    public void massPopulateLogic(Button.ClickEvent event) {
         if (componenttype.getValue() != null && (String.valueOf(componenttype.getValue()).equals(Constants.PRICE_SCHEDULE) || String.valueOf(componenttype.getValue()).equals(Constants.COMPANY_FAMILY_PLAN) || String.valueOf(componenttype.getValue()).equals(Constants.ITEM_FAMILY_PLAN))) {
             if (fieldDdlb.getValue() != null && !fieldDdlb.getValue().equals(Constants.SELECT_ONE)) {
                 String searchField = String.valueOf(fieldDdlb.getValue());
-                if (searchField.equals("Status")) {
+                if (searchField.equals(Constants.STATUS_FIELD)) {
                     Boolean flag = true;
                     if (statusddlb.getValue() != null) {
                         String value = String.valueOf(statusddlb.getValue());
@@ -1242,24 +1249,24 @@ public class Newcomponent extends CustomComponent {
                             if (checked) {
                                 flag = false;
                                 if (String.valueOf(componenttype.getValue()).equals(Constants.COMPANY_FAMILY_PLAN)) {
-                                    componentResultsContainer.getContainerProperty(item, "companyStatus").setValue(value);
+                                    componentResultsContainer.getContainerProperty(item, Constants.COMPANY_STATUS).setValue(value);
                                 }
                                 if (String.valueOf(componenttype.getValue()).equals(Constants.ITEM_FAMILY_PLAN)) {
-                                    componentResultsContainer.getContainerProperty(item, "itemStatus").setValue(value);
+                                    componentResultsContainer.getContainerProperty(item, Constants.ITEM_STATUS_PROPERTY).setValue(value);
                                 } else {
-                                    componentResultsContainer.getContainerProperty(item, "status").setValue(value);
+                                    componentResultsContainer.getContainerProperty(item, Constants.STATUS_S).setValue(value);
                                 }
 
                             }
                         }
                         if (flag) {
-                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Atleast one Record at Component Details Section");
+                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, SELECT_ATLEAST_ONE_RECORD);
                         }
                     } else {
                         AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Value");
                     }
                 }
-                if (searchField.equals("Start Date")) {
+                if (searchField.equals(Constants.START_DATE_HEADER)) {
                     if (startPeriod.getValue() != null) {
                         Date value = startPeriod.getValue();
                         Collection<?> returnList = componentDetailsSelectedItem.getItemIds();
@@ -1272,7 +1279,7 @@ public class Newcomponent extends CustomComponent {
                     } else {
                         AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Start Date");
                     }
-                } else if (searchField.equals("End Date")) {
+                } else if (searchField.equals(Constants.END_DATE_HEADER)) {
                     if (startPeriod.getValue() != null) {
                         Date value = startPeriod.getValue();
                         Collection<?> returnList = componentDetailsSelectedItem.getItemIds();
@@ -1293,7 +1300,7 @@ public class Newcomponent extends CustomComponent {
     }
 
     @UiHandler("addToTree")
-    public void addToTreeLogic(Button.ClickEvent event) throws ParseException, SystemException, PortalException {
+    public void addToTreeLogic(Button.ClickEvent event) throws ParseException, SystemException {
 
         try {
             Object root = dashboardResultsTable.getValue();
@@ -1337,21 +1344,21 @@ public class Newcomponent extends CustomComponent {
                                 }
                             }
                             if (cfpId.getValue().toString().length() > NumericConstants.THIRTY_EIGHT) {
-                                AbstractNotificationUtils.getErrorNotification("Error", "CFP ID length should be less than 38 characters.");
-                            } else if (!cfpId.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*")) {
-                                AbstractNotificationUtils.getErrorNotification("Error", "CFP ID Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP ID length should be less than 38 characters.");
+                            } else if (!cfpId.getValue().matches(STRING_REGEX)) {
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP ID Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
                             } else if (cfpNo.getValue().toString().length() > NumericConstants.FIFTY) {
-                                AbstractNotificationUtils.getErrorNotification("Error", "CFP No length should be less than 50 characters.");
-                            } else if (!cfpNo.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*")) {
-                                AbstractNotificationUtils.getErrorNotification("Error", "CFP No Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP No length should be less than 50 characters.");
+                            } else if (!cfpNo.getValue().matches(STRING_REGEX)) {
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP No Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
                             } else if (cfpName.getValue().toString().length() > NumericConstants.HUNDRED) {
-                                AbstractNotificationUtils.getErrorNotification("Error", "CFP Name length should be less than NumericConstants.HUNDRED characters.");
-                            } else if (!cfpName.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*")) {
-                                AbstractNotificationUtils.getErrorNotification("Error", "CFP Name Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP Name length should be less than NumericConstants.HUNDRED characters.");
+                            } else if (!cfpName.getValue().matches(STRING_REGEX)) {
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP Name Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
                             } else if (cfpEndDate.getValue() != null && cfpStartDate.getValue().after(cfpEndDate.getValue())) {
-                                AbstractNotificationUtils.getErrorNotification("Error", "CFP End date should be after CFP Start Date.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP End date should be after CFP Start Date.");
                             } else if (cfpEndDate.getValue() != null && cfpStartDate.getValue().getTime() == cfpEndDate.getValue().getTime()) {
-                                AbstractNotificationUtils.getErrorNotification("Error", "CFP Start date and CFP End date are equal.");
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP Start date and CFP End date are equal.");
 
                             } else if (listcId != null && listcId.size() > 0) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different CFP ID since the CFP ID  already exists");
@@ -1360,7 +1367,7 @@ public class Newcomponent extends CustomComponent {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different CFP No since the CFP No  already exists");
                             } else if (!flag) {
 
-                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Atleast one Record at Component Details Section");
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, SELECT_ATLEAST_ONE_RECORD);
                             } else {
                                 final Object rootId = dashboardResultsTable.addItem();
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.CFP);
@@ -1371,7 +1378,7 @@ public class Newcomponent extends CustomComponent {
                                 HelperDTO cfpStatusdto = new HelperDTO();
                                 cfpStatusdto.setId(0);
                                 cfpStatusdto.setDescription(String.valueOf(cfpStatus.getValue()));
-                                dashboardResultsTable.getContainerProperty(rootId, "status").setValue(cfpStatusdto);
+                                dashboardResultsTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(cfpStatusdto);
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.START_DATE).setValue(cfpStartDate.getValue());
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.END_DATE).setValue(cfpEndDate.getValue());
 
@@ -1404,11 +1411,11 @@ public class Newcomponent extends CustomComponent {
                                     if (checked) {
                                         String companysid = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.MODEL_ID).getValue());
                                         setA.add(companysid);
-                                        String cname = String.valueOf(componentResultsContainer.getContainerProperty(item, "companyName").getValue());
-                                        String cno = String.valueOf(componentResultsContainer.getContainerProperty(item, "companyNo").getValue());
+                                        String cname = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.COMPANY_NAME).getValue());
+                                        String cno = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.COMPANY_NO).getValue());
                                         Date startDate = (Date) componentResultsContainer.getContainerProperty(item, Constants.START_DATE).getValue();
                                         Date endDate = (Date) componentResultsContainer.getContainerProperty(item, Constants.END_DATE).getValue();
-                                        String companyStatus = String.valueOf(componentResultsContainer.getContainerProperty(item, "companyStatus").getValue());
+                                        String companyStatus = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.COMPANY_STATUS).getValue());
                                         GcmCompanyDetails tempCFP = GcmCompanyDetailsLocalServiceUtil.createGcmCompanyDetails(0);
                                         tempCFP.setCompanyMasterSid(Integer.valueOf(companysid));
                                         tempCFP.setCompanyId(companysid);
@@ -1439,10 +1446,10 @@ public class Newcomponent extends CustomComponent {
                             }
 
                         } else {
-                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Enter All the fields in Component selection section");
+                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_ENTER_ALL_THE_FIELDS);
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Correct Node");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 }
                 if (component.equals(Constants.ITEM_FAMILY_PLAN)) {
@@ -1476,27 +1483,27 @@ public class Newcomponent extends CustomComponent {
                                     }
                                 }
                                 if (ifpId.getValue().length() > NumericConstants.FIFTY) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "IFP ID length should be less than 50 characters.");
-                                } else if (!ifpId.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "IFP ID Allowed Special characters are @,*,#,.,$,&,_,-");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP ID length should be less than 50 characters.");
+                                } else if (!ifpId.getValue().matches(REGEX_STRING)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP ID Allowed Special characters are @,*,#,.,$,&,_,-");
                                 } else if (ifpNo.getValue().length() > NumericConstants.FIFTY) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "IFP No length should be less than 50 characters.");
-                                } else if (!ifpNo.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "IFP No Allowed Special characters are @,*,#,.,$,&,_,-");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP No length should be less than 50 characters.");
+                                } else if (!ifpNo.getValue().matches(REGEX_STRING)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP No Allowed Special characters are @,*,#,.,$,&,_,-");
                                 } else if (ifpName.getValue().length() > NumericConstants.HUNDRED) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "IFP Name length should be less than NumericConstants.HUNDRED characters.");
-                                } else if (!ifpName.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "IFP Name Allowed Special characters are @,*,#,.,$,&,_,-");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP Name length should be less than NumericConstants.HUNDRED characters.");
+                                } else if (!ifpName.getValue().matches(REGEX_STRING)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP Name Allowed Special characters are @,*,#,.,$,&,_,-");
                                 } else if (ifpEndDate.getValue() != null && ifpStartDate.getValue().after(ifpEndDate.getValue())) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "IFP End date should be after IFP Start Date.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP End date should be after IFP Start Date.");
                                 } else if (ifpEndDate.getValue() != null && ifpStartDate.getValue().getTime() == ifpEndDate.getValue().getTime()) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "IFP Start date and IFP End date are equal.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "IFP Start date and IFP End date are equal.");
 
                                 } else if (listcId != null && listcId.size() > 0) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different IFP ID since the IFP ID  already exists");
 
                                 } else if (!flag) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Atleast one Record at Component Details Section");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, SELECT_ATLEAST_ONE_RECORD);
                                 } else {
                                     final Object rootId = dashboardResultsTable.addItem();
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.IFP);
@@ -1507,7 +1514,7 @@ public class Newcomponent extends CustomComponent {
                                     HelperDTO cfpStatusdto = new HelperDTO();
                                     cfpStatusdto.setId(0);
                                     cfpStatusdto.setDescription(String.valueOf(cfpStatus.getValue()));
-                                    dashboardResultsTable.getContainerProperty(rootId, "status").setValue(cfpStatusdto);
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(cfpStatusdto);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.START_DATE).setValue(ifpStartDate.getValue());
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.END_DATE).setValue(ifpEndDate.getValue());
 
@@ -1544,11 +1551,11 @@ public class Newcomponent extends CustomComponent {
                                                 String itemsid = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.MODEL_ID).getValue());
                                                 setA.add(itemsid);
                                                 tempIFP.setItemMasterSid(Integer.valueOf(itemsid));
-                                                String iname = String.valueOf(componentResultsContainer.getContainerProperty(item, "itemName").getValue());
-                                                String cno = String.valueOf(componentResultsContainer.getContainerProperty(item, "itemNo").getValue());
+                                                String iname = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.ITEM_NAME_PROPERTY).getValue());
+                                                String cno = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.ITEM_NO_PROPERTY).getValue());
                                                 Date startDate = (Date) componentResultsContainer.getContainerProperty(item, Constants.START_DATE).getValue();
                                                 Date endDate = (Date) componentResultsContainer.getContainerProperty(item, Constants.END_DATE).getValue();
-                                                String itemStatus = String.valueOf(componentResultsContainer.getContainerProperty(item, "itemStatus").getValue());
+                                                String itemStatus = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.ITEM_STATUS_PROPERTY).getValue());
                                                 tempIFP.setItemNo(cno);
                                                 tempIFP.setItemName(iname);
                                                 tempIFP.setItemStatus(itemStatus);
@@ -1579,10 +1586,10 @@ public class Newcomponent extends CustomComponent {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Enter Start date for all the selected item");
                             }
                         } else {
-                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Enter All the fields in Component selection section");
+                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_ENTER_ALL_THE_FIELDS);
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Correct Node");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 }
                 if (component.equals(Constants.PRICE_SCHEDULE)) {
@@ -1605,13 +1612,13 @@ public class Newcomponent extends CustomComponent {
                                         flag = true;
                                         Object sDate = componentResultsContainer.getContainerProperty(item, Constants.START_DATE).getValue();
                                         if (sDate == null) {
-                                            String itemName = String.valueOf(componentResultsContainer.getContainerProperty(item, "itemName").getValue());
+                                            String itemName = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.ITEM_NAME_PROPERTY).getValue());
                                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please select " + itemName + " Start Date");
                                             return;
                                         }
-                                        String price = String.valueOf(componentResultsContainer.getContainerProperty(item, "price").getValue());
+                                        String price = String.valueOf(componentResultsContainer.getContainerProperty(item, StringConstantsUtil.PRICE_PROPERTY).getValue());
                                         if (price.equals(StringUtils.EMPTY)) {
-                                            String itemName = String.valueOf(componentResultsContainer.getContainerProperty(item, "itemName").getValue());
+                                            String itemName = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.ITEM_NAME_PROPERTY).getValue());
                                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Enter " + itemName + " Price");
                                             return;
                                         }
@@ -1621,24 +1628,24 @@ public class Newcomponent extends CustomComponent {
                                 if (psId.getValue().length() > NumericConstants.FIFTY) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS ID length should be less than 50 characters.");
                                     return;
-                                } else if (!psId.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
+                                } else if (!psId.getValue().matches(REGEX_STRING)) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS ID Allowed Special characters are @,*,#,.,$,&,_,-");
                                 } else if (psNo.getValue().length() > NumericConstants.FIFTY) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS No length should be less than 50 characters.");
                                     return;
-                                } else if (!psNo.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
+                                } else if (!psNo.getValue().matches(REGEX_STRING)) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS No Allowed Special characters are @,*,#,.,$,&,_,-");
                                     return;
                                 } else if (psName.getValue().length() > NumericConstants.HUNDRED) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS Name length should be less than NumericConstants.HUNDRED characters.");
                                     return;
-                                } else if (!psName.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
+                                } else if (!psName.getValue().matches(REGEX_STRING)) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS Name Allowed Special characters are @,*,#,.,$,&,_,-");
                                     return;
                                 }
 
                                 if (!flag) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Atleast one Record at Component Details Section");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, SELECT_ATLEAST_ONE_RECORD);
                                 }
                                 String priceScheduleId = String.valueOf(psId.getValue());
                                 String priceScheduleNo = psNo.getValue();
@@ -1679,9 +1686,9 @@ public class Newcomponent extends CustomComponent {
                                         Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
                                         if (checked) {
                                             String ifpModelId = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.MODEL_ID).getValue());
-                                            String itemId = String.valueOf(componentResultsContainer.getContainerProperty(item, "itemMasterId").getValue());
+                                            String itemId = String.valueOf(componentResultsContainer.getContainerProperty(item, StringConstantsUtil.ITEM_MASTER_ID).getValue());
                                             Object startDate = componentResultsContainer.getContainerProperty(item, Constants.START_DATE).getValue();
-                                            String price = String.valueOf(componentResultsContainer.getContainerProperty(item, "price").getValue());
+                                            String price = String.valueOf(componentResultsContainer.getContainerProperty(item, StringConstantsUtil.PRICE_PROPERTY).getValue());
                                             String sDate = df.format(startDate);
                                             String eDate = Constants.EMPTY;
                                             if (componentResultsContainer.getContainerProperty(item, Constants.END_DATE).getValue() != null) {
@@ -1703,7 +1710,7 @@ public class Newcomponent extends CustomComponent {
                                             imtdPsDetails.setCreatedDate(new Date());
                                             imtdPsDetails.setModifiedBy(1);
                                             imtdPsDetails.setModifiedDate(new Date());
-                                            imtdPsDetails = ImtdPsDetailsLocalServiceUtil.addImtdPsDetails(imtdPsDetails);
+                                            ImtdPsDetailsLocalServiceUtil.addImtdPsDetails(imtdPsDetails);
 
                                             clearPSFields();
                                         }
@@ -1712,13 +1719,13 @@ public class Newcomponent extends CustomComponent {
                                     LOGGER.error(ex);
                                 }
                             } else {
-                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Enter All the fields in Component selection section");
+                                AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_ENTER_ALL_THE_FIELDS);
                             }
                         } else {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select the same items that are in IFP");
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Correct Node");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 }
                 if (component.equals(Constants.REBATE_SCHEDULE)) {
@@ -1740,7 +1747,7 @@ public class Newcomponent extends CustomComponent {
                                         flag = true;
                                         Object sDate = componentResultsContainer.getContainerProperty(item, Constants.START_DATE).getValue();
                                         if (sDate == null) {
-                                            String itemName = String.valueOf(componentResultsContainer.getContainerProperty(item, "itemName").getValue());
+                                            String itemName = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.ITEM_NAME_PROPERTY).getValue());
                                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please select " + itemName + " Start Date");
                                             return;
                                         }
@@ -1748,32 +1755,32 @@ public class Newcomponent extends CustomComponent {
                                 }
 
                                 if (rsId.getValue().length() > NumericConstants.FIFTY) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "RS ID length should be less than 50 characters.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "RS ID length should be less than 50 characters.");
                                     return;
-                                } else if (!rsId.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "RS ID Allowed Special characters are @,*,#,.,$,&,_,-");
+                                } else if (!rsId.getValue().matches(REGEX_STRING)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "RS ID Allowed Special characters are @,*,#,.,$,&,_,-");
                                 } else if (rsNumber.getValue().length() > NumericConstants.FIFTY) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "RS No length should be less than 50 characters.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "RS No length should be less than 50 characters.");
                                     return;
-                                } else if (!rsNumber.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "RS No Allowed Special characters are @,*,#,.,$,&,_,-");
+                                } else if (!rsNumber.getValue().matches(REGEX_STRING)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "RS No Allowed Special characters are @,*,#,.,$,&,_,-");
                                     return;
                                 } else if (rsName.getValue().length() > NumericConstants.HUNDRED) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "RS Name length should be less than NumericConstants.HUNDRED characters.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "RS Name length should be less than NumericConstants.HUNDRED characters.");
                                     return;
-                                } else if (!rsName.getValue().matches("([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*")) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "RS Name Allowed Special characters are @,*,#,.,$,&,_,-");
+                                } else if (!rsName.getValue().matches(REGEX_STRING)) {
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "RS Name Allowed Special characters are @,*,#,.,$,&,_,-");
                                     return;
                                 } else if (rsEndDate.getValue() != null && rsStartDate.getValue().after(rsEndDate.getValue())) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "RS End date should be after RS Start Date.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "RS End date should be after RS Start Date.");
                                     return;
                                 } else if (rsEndDate.getValue() != null && rsStartDate.getValue().getTime() == rsEndDate.getValue().getTime()) {
-                                    AbstractNotificationUtils.getErrorNotification("Error", "RS Start date and RS End date are equal.");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "RS Start date and RS End date are equal.");
                                     return;
                                 }
 
                                 if (!flag) {
-                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Atleast one Record at Component Details Section");
+                                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR, SELECT_ATLEAST_ONE_RECORD);
                                 }
                                 String rebateScheduleId = String.valueOf(rsId.getValue());
                                 String rebateScheduleNo = rsNumber.getValue();
@@ -1827,7 +1834,7 @@ public class Newcomponent extends CustomComponent {
                                         Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
                                         if (checked) {
                                             String ifpModelId = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.MODEL_ID).getValue());
-                                            String itemId = String.valueOf(componentResultsContainer.getContainerProperty(item, "itemMasterId").getValue());
+                                            String itemId = String.valueOf(componentResultsContainer.getContainerProperty(item, StringConstantsUtil.ITEM_MASTER_ID).getValue());
                                             Object sDate1 = componentResultsContainer.getContainerProperty(item, Constants.START_DATE).getValue();
                                             String sDate = df.format(sDate1);
 
@@ -1856,7 +1863,7 @@ public class Newcomponent extends CustomComponent {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select the same items that are in IFP and PS");
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Correct Node");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 }
             } else {
@@ -1907,9 +1914,9 @@ public class Newcomponent extends CustomComponent {
         }
     }
 
-    public void savecontract(Object item) throws SystemException, PortalException, ParseException {
+    public void savecontract(Object item) throws SystemException, ParseException {
         try {
-            Map<String, String> map = new HashMap<String, String>();
+            Map<String, String> map = new HashMap<>();
             int psModelSid = 0;
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
             int contractMasterSid = 0;
@@ -1920,7 +1927,7 @@ public class Newcomponent extends CustomComponent {
                 String contractName = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
                 String contractHolder = String.valueOf(dashboardResultsTable.getContainerProperty(item, "contractHolder").getValue());
                 int contractType = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()).getId();
-                int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, "status").getValue()).getId();
+                int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue()).getId();
                 Date startDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.START_DATE).getValue();
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.END_DATE).getValue();
                 ContractMaster contractMaster;
@@ -2086,7 +2093,7 @@ public class Newcomponent extends CustomComponent {
                 String contractNo = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NUMBER).getValue());
                 String contractName = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
                 int contractType = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()).getId();
-                int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, "status").getValue()).getId();
+                int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue()).getId();
                 Date startDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.START_DATE).getValue();
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.END_DATE).getValue();
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
@@ -2130,7 +2137,7 @@ public class Newcomponent extends CustomComponent {
                 cfpMasterAttached.setRecordLockStatus(false);
                 cfpMasterAttached.setInboundStatus("A");
                 CfpContract cm1 = CfpContractLocalServiceUtil.addCfpContract(cfpMasterAttached);
-                dashboardResultsTable.getContainerProperty(item, "savedSystemId").setValue(String.valueOf(cm1.getCfpContractSid()));
+                dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(cm1.getCfpContractSid()));
                 SaveCFP(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
 
             } else if (level.equals(Constants.TWO)) {
@@ -2138,7 +2145,7 @@ public class Newcomponent extends CustomComponent {
                 String No = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NUMBER).getValue());
                 String Name = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
                 int Type = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()).getId();
-                int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, "status").getValue()).getId();
+                int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue()).getId();
                 Date startDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.START_DATE).getValue();
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.END_DATE).getValue();
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
@@ -2180,7 +2187,7 @@ public class Newcomponent extends CustomComponent {
                 ifpMasterAttached.setRecordLockStatus(false);
                 ifpMasterAttached.setInboundStatus("A");
                 Object parentItem = dashboardResultsTable.getParent(item);
-                String parentCFPId = String.valueOf(dashboardResultsTable.getContainerProperty(parentItem, "savedSystemId").getValue());
+                String parentCFPId = String.valueOf(dashboardResultsTable.getContainerProperty(parentItem, Constants.SAVED_SYSTEM_ID).getValue());
                 Object contractItem = dashboardResultsTable.getParent(parentItem);
                 String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
                 ifpMasterAttached.setContractMasterSid(Integer.valueOf(contractSId));
@@ -2188,7 +2195,7 @@ public class Newcomponent extends CustomComponent {
                 updatePsAndRSModelSid(dashboardResultsTable.getChildren(item), itemFamily.getIfpModelSid());
                 IfpContract im1 = IfpContractLocalServiceUtil.addIfpContract(ifpMasterAttached);
                 SaveIFP(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
-                dashboardResultsTable.getContainerProperty(item, "savedSystemId").setValue(String.valueOf(im1.getIfpContractSid()));
+                dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getIfpContractSid()));
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -2232,7 +2239,7 @@ public class Newcomponent extends CustomComponent {
         contractInfoContainer.removeAllItems();
         levelDetailsResultsTable.removeAllItems();
         Object root = dashboardResultsTable.getValue();
-        List<NewComponentDTO> list = new ArrayList<NewComponentDTO>();
+        List<NewComponentDTO> list = new ArrayList<>();
         if (root != null) {
             String level = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.LEVELNO).getValue());
             if (level.equals(Constants.ONE)) {
@@ -2276,8 +2283,8 @@ public class Newcomponent extends CustomComponent {
                     contractInfoContainer.addAll(list);
                 }
                 levelDetailsResultsTable.setContainerDataSource(contractInfoContainer);
-                levelDetailsResultsTable.setVisibleColumns("companyNo", "companyName", "companyStatus", Constants.PS_START_DATE, Constants.PS_END_DATE);
-                levelDetailsResultsTable.setColumnHeaders(Constants.COMPANYNO, Constants.COMPANYNAME, "Status", "Start Date", "End Date");
+                levelDetailsResultsTable.setVisibleColumns(Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.PS_START_DATE, Constants.PS_END_DATE);
+                levelDetailsResultsTable.setColumnHeaders(Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
             } else if (level.equals(Constants.TWO)) {
 
                 cfpDetailsGrid.setVisible(false);
@@ -2322,8 +2329,8 @@ public class Newcomponent extends CustomComponent {
                     list.add(itemDTO);
                 }
                 contractInfoContainer.addAll(list);
-                levelDetailsResultsTable.setVisibleColumns("itemNo", "itemName", "therapyClass", "brand", "itemStatus", Constants.PS_START_DATE, Constants.PS_END_DATE);
-                levelDetailsResultsTable.setColumnHeaders(Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Status", "Start Date", "End Date");
+                levelDetailsResultsTable.setVisibleColumns(Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, Constants.ITEM_STATUS_PROPERTY, Constants.PS_START_DATE, Constants.PS_END_DATE);
+                levelDetailsResultsTable.setColumnHeaders(Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
 
             } else if (level.equals(Constants.THREE)) {
                 contractInfoContainer.removeAllItems();
@@ -2375,8 +2382,8 @@ public class Newcomponent extends CustomComponent {
                 contractInfoContainer.addAll(list);
 
                 levelDetailsResultsTable.setContainerDataSource(contractInfoContainer);
-                levelDetailsResultsTable.setVisibleColumns("itemNo", "itemName", "therapyClass", "brand", "status", Constants.PS_START_DATE, Constants.PS_END_DATE);
-                levelDetailsResultsTable.setColumnHeaders(Constants.ITEM_NO, Constants.ITEM_NAME, "Theraphy Class", Constants.BRAND, "Status", "Start Date", "End Date");
+                levelDetailsResultsTable.setVisibleColumns(Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.PS_START_DATE, Constants.PS_END_DATE);
+                levelDetailsResultsTable.setColumnHeaders(Constants.ITEM_NO, Constants.ITEM_NAME, "Theraphy Class", Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
                 contractInfoTableAlign();
 
             } else if (level.equals(Constants.FOUR)) {
@@ -2429,8 +2436,8 @@ public class Newcomponent extends CustomComponent {
                 contractInfoContainer.addAll(list);
 
                 levelDetailsResultsTable.setContainerDataSource(contractInfoContainer);
-                levelDetailsResultsTable.setVisibleColumns("itemNo", "itemName", "therapyClass", "brand", "status", Constants.PS_START_DATE, Constants.PS_END_DATE);
-                levelDetailsResultsTable.setColumnHeaders(Constants.ITEM_NO, Constants.ITEM_NAME, "Theraphy Class", Constants.BRAND, "Status", "Start Date", "End Date");
+                levelDetailsResultsTable.setVisibleColumns(Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.THERAPY_CLASS_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.PS_START_DATE, Constants.PS_END_DATE);
+                levelDetailsResultsTable.setColumnHeaders(Constants.ITEM_NO, Constants.ITEM_NAME, "Theraphy Class", Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
                 contractInfoTableAlign();
 
             }
@@ -2536,7 +2543,7 @@ public class Newcomponent extends CustomComponent {
         List<Object> list = ItemQueries.getItemData(input, queryName, null);
         List dataList = new ArrayList<>();
         for (Object data : itemIds) {
-            Integer itemId = Integer.valueOf(String.valueOf(componentResultsContainer.getContainerProperty(data, "itemMasterId").getValue()));
+            Integer itemId = Integer.valueOf(String.valueOf(componentResultsContainer.getContainerProperty(data, StringConstantsUtil.ITEM_MASTER_ID).getValue()));
             dataList.add(itemId);
         }
         for (Object dataList1 : list) {
@@ -2552,7 +2559,7 @@ public class Newcomponent extends CustomComponent {
 
         // Component Details
         if (fieldDdlb.getValue() != null && !fieldDdlb.getValue().equals(Constants.SELECT_ONE)) {
-            if (fieldDdlb.getValue().equals("Status")) {
+            if (fieldDdlb.getValue().equals(Constants.STATUS_FIELD)) {
                 statusddlb.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             } else {
                 startPeriod.setValue(null);
@@ -2568,7 +2575,7 @@ public class Newcomponent extends CustomComponent {
             }
         }
 
-        enableDisableRadio.select("Disable");
+        enableDisableRadio.select(DISABLE.getConstant());
         cfpDetailsNo.setValue(StringUtils.EMPTY);
         cfpDetailsName.setValue(StringUtils.EMPTY);
         cfpDetailsNo.setEnabled(false);

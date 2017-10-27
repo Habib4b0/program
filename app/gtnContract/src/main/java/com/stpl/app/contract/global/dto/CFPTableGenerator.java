@@ -1,16 +1,22 @@
 package com.stpl.app.contract.global.dto;
 
+import com.stpl.app.contract.common.dto.SessionDTO;
+import com.stpl.app.contract.global.logic.CFPSearchLogic;
 import com.stpl.app.contract.global.logic.RebateScheduleLogic;
 import com.stpl.app.contract.global.util.CommonUtils;
 import com.stpl.app.contract.util.AbstractNotificationUtils;
 import com.stpl.app.contract.util.CommonUIUtils;
 import com.stpl.app.contract.util.Constants;
+import com.stpl.app.contract.util.QueryUtil;
+import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.ifs.ui.CustomePagedFilterTable;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
@@ -41,18 +47,37 @@ public class CFPTableGenerator extends DefaultFieldFactory {
     
     private BeanItemContainer<CFPCompanyDTO> saveContainer;
     
+    CustomePagedFilterTable table;
+    
     Object[] dates;
 
     SimpleDateFormat format = new SimpleDateFormat("MM/dd/YYYY");
     
     Map<String,List> tempDate;
 
-    List<Date> tempDateList = new ArrayList<Date>();
-
-    public CFPTableGenerator(BeanItemContainer<CFPCompanyDTO> saveContainer,final Object[] dates, Map<String,List> tempDate){
+    List<Date> tempDateList = new ArrayList<>();
+    
+    
+    private CFPSearchLogic cfpLogic;
+     
+    private String userId;
+    
+    private String sessionId;
+    
+    List checkUpdate=new ArrayList();
+    
+    List checkSelect=new ArrayList();
+    
+    SessionDTO sessionDTO;
+    
+    private int check;
+    
+    public CFPTableGenerator(BeanItemContainer<CFPCompanyDTO> saveContainer,final Object[] dates, Map<String,List> tempDate, CustomePagedFilterTable table, SessionDTO sessionDTO){
         this.saveContainer=saveContainer;
         this.dates = dates;
         this.tempDate = tempDate;
+        this.table=table;
+        this.sessionDTO=sessionDTO;
     }
     /**
      * Creates the field based on propertyId.
@@ -69,19 +94,51 @@ public class CFPTableGenerator extends DefaultFieldFactory {
         tempDateList.add(temp.getCompanyFamilyPlanStartDate());
         tempDateList.add(temp.getCompanyFamilyPlanEndDate());
         tempDate.put(temp.getCompanyId(), tempDateList);
+        final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
+        sessionId =sessionDTO.getUiSessionId();
         
         if (Constants.CHECK_BOX.equals(propertyId)) {
             final CheckBox checkbox = new CheckBox();
             checkbox.setValue(temp.getCheckbox());
             checkbox.setReadOnly(false);
             checkbox.setId("contractdashboardcheckbox");
+            
+            
             checkbox.addValueChangeListener(new Property.ValueChangeListener() {
 
                 @Override
                 public void valueChange(ValueChangeEvent event) {
-                    
-                    saveContainer.addItem(itemId);
-                   
+                    if (temp.getCheckbox() != null) {
+                       saveContainer.addItem(itemId);
+                       check=temp.getCheckbox()?1:0;
+                        checkUpdate=new ArrayList();
+                        
+
+                        checkUpdate.add(check);
+                        checkUpdate.add(sessionId);
+                        checkUpdate.add(userId);
+                        checkUpdate.add(temp.getCompanySystemId());
+
+                        QueryUtil.updateAppData(checkUpdate, "CFPCheckUpdate");
+
+                        checkUpdate = new ArrayList();
+
+                        checkUpdate.add(sessionId);
+                        checkUpdate.add(userId);
+                        
+                        checkSelect=new ArrayList();
+
+                        checkSelect = QueryUtil.getAppData(checkUpdate,"CFPCheckSelect", null);
+
+                        if (checkSelect.size() == 0) {
+                            table.setCurrentPage(table.getCurrentPage());
+                            table.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, true);
+                        } else {
+                            table.setCurrentPage(table.getCurrentPage());
+                            table.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, false);
+                        }
+
+                    }
                 }
             });
             return checkbox;

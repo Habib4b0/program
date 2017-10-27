@@ -447,7 +447,7 @@ public final class AbstractSearchForm extends CustomComponent {
      */
     public ErrorfulFieldGroup getBinder() {
         final SearchCriteriaDTO bean = new SearchCriteriaDTO();
-        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<SearchCriteriaDTO>(bean));
+        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -487,7 +487,7 @@ public final class AbstractSearchForm extends CustomComponent {
     }
 
     private void configureTable() {
-        List<Integer> pageLength = new ArrayList<Integer>();
+        List<Integer> pageLength = new ArrayList<>();
         pageLength.add(NumericConstants.TEN);
         pageLength.add(NumericConstants.FIFTEEN);
         pageLength.add(NumericConstants.TWENTY);
@@ -623,7 +623,7 @@ public final class AbstractSearchForm extends CustomComponent {
     @UiHandler("searchBtn")
     public void btnSearchLogic(Button.ClickEvent event) {
         binder.getErrorDisplay().clearError();
-        List<Object> collapsedColumns = new ArrayList<Object>();
+        List<Object> collapsedColumns = new ArrayList<>();
         for (Object item : resultTable.getVisibleColumns()) {
             if (resultTable.isColumnCollapsed(item)) {
                 collapsedColumns.add(item);
@@ -706,13 +706,13 @@ public final class AbstractSearchForm extends CustomComponent {
                 if (buttonId.name().equalsIgnoreCase(ConstantUtil.YES_VARIABLE)) {
                     LOGGER.debug("Entering Reset operation");
                     binder.getErrorDisplay().clearError();
-                    binder.setItemDataSource(new BeanItem<SearchCriteriaDTO>(new SearchCriteriaDTO()));
+                    binder.setItemDataSource(new BeanItem<>(new SearchCriteriaDTO()));
                     if (ConstantUtil.ITEM_MASTER.equalsIgnoreCase(moduleName)) {
                         binder.getField("text7").setEnabled(false);
                     }
                     if (ConstantUtil.NET_SALES_FORMULA.equalsIgnoreCase(moduleName) || ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equalsIgnoreCase(moduleName) || ConstantUtil.REBATE_PLAN.equalsIgnoreCase(moduleName) || ConstantUtil.DEDUCTION_CALENDAR.equalsIgnoreCase(moduleName)) {
                         binder.getErrorDisplay().clearError();
-                        binder.setItemDataSource(new BeanItem<SearchCriteriaDTO>(new SearchCriteriaDTO()));
+                        binder.setItemDataSource(new BeanItem<>(new SearchCriteriaDTO()));
                     } else {
                         tableLogic.clearAll();
                         tableLogic.setReset(true);
@@ -899,7 +899,7 @@ public final class AbstractSearchForm extends CustomComponent {
             combo8.setVisible(false);
             label17.setVisible(false);
             text9.setVisible(false);
-        } else if (ConstantUtil.COMPANY_FAMILY_PLAN.equals(moduleName) || ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName) || ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
+        } else if (ConstantUtil.COMPANY_FAMILY_PLAN.equals(moduleName) || ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
 
             label4.setVisible(false);
             text4.setVisible(false);
@@ -919,8 +919,38 @@ public final class AbstractSearchForm extends CustomComponent {
             combo8.setVisible(false);
             label17.setVisible(false);
             text9.setVisible(false);
+            if (ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
+                copyBtn.setVisible(true);
+                deleteBtn.setVisible(false);
+            }
 
-        } else if (ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
+        }
+        else if (ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName)) {
+
+            label4.setVisible(false);
+            text4.setVisible(false);
+            label5.setVisible(false);
+            text5.setVisible(false);
+            label9.setVisible(false);
+            combo3.setVisible(false);
+            label10.setVisible(false);
+            combo4.setVisible(false);
+            label11.setVisible(false);
+            combo5.setVisible(false);
+            label13.setVisible(false);
+            combo6.setVisible(false);
+            label14.setVisible(false);
+            combo7.setVisible(false);
+            label15.setVisible(false);
+            combo8.setVisible(false);
+            label17.setVisible(false);
+            text9.setVisible(false);
+            copyBtn.setVisible(true);
+            deleteBtn.setVisible(false);
+
+        }
+        
+        else if (ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
             label4.setVisible(false);
             text4.setVisible(false);
             label5.setVisible(false);
@@ -931,6 +961,8 @@ public final class AbstractSearchForm extends CustomComponent {
             combo5.setVisible(false);
             label15.setVisible(false);
             combo8.setVisible(false);
+            copyBtn.setVisible(true);
+            deleteBtn.setVisible(false);
         } else if (ConstantUtil.REBATE_PLAN.equals(moduleName)) {
             label4.setVisible(false);
             text4.setVisible(false);
@@ -1127,7 +1159,7 @@ public final class AbstractSearchForm extends CustomComponent {
             text1.setData("maxlengthvalidation,maxlengthvalidationcompanyid,null,null");
             text2.setData("maxlengthvalidationfifty,maxlengthvalidationcompanyno,null,null");
             text3.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyname,null,null");
-            text8.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyidentifier,alphaNumericChars,alphaNumericCharsMessage");
+            text8.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyidentifier,null,null");
             text1.focus();
             text8.setEnabled(false);
             text8.setValidationVisible(true);
@@ -1171,20 +1203,20 @@ public final class AbstractSearchForm extends CustomComponent {
             text2.setData("maxlengthvalidationfifty,maxlengthvalidationrebateplanno,null,null");
             text3.setData("maxlengthvalidationhundred,maxlengthvalidationrebateplanname,null,null");
         } else if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            text6.setData("null,null,null,null");
-            text7.setData("null,null,null,null");
-            text8.setData("null,null,null,null");
+            text6.setData(ConstantUtil.NULL_DATA);
+            text7.setData(ConstantUtil.NULL_DATA);
+            text8.setData(ConstantUtil.NULL_DATA);
         } else if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
             combo1.focus();
-            text6.setData("null,null,null,null");
-            text7.setData("null,null,null,null");
+            text6.setData(ConstantUtil.NULL_DATA);
+            text7.setData(ConstantUtil.NULL_DATA);
         }
 
     }
 
     private void configureAlignment(String key) {
         if (moduleName.equals(ConstantUtil.DEDUCTION_CALENDAR)) {
-            List<Object> coloumnList = new ArrayList<Object>();
+            List<Object> coloumnList;
             coloumnList = Arrays.asList(getColumns(true, ConstantUtil.ITEM_MASTER.equalsIgnoreCase(moduleName) || ConstantUtil.COMPANY_MAST.equalsIgnoreCase(moduleName) ? key : moduleName));
             for (Object object : coloumnList) {
                 if (object.equals("dcCreationDate") || object.equals("dcModifiedDate")) {
@@ -1192,7 +1224,7 @@ public final class AbstractSearchForm extends CustomComponent {
                 }
             }
         } else if (moduleName.equals(ConstantUtil.COMPLIANCE_DEDUCTION_RULES) || moduleName.equals(ConstantUtil.NET_SALES_FORMULA) || moduleName.equals(ConstantUtil.REBATE_PLAN)) {
-            List<Object> coloumnList = new ArrayList<Object>();
+            List<Object> coloumnList;
             coloumnList = Arrays.asList(getColumns(true, ConstantUtil.ITEM_MASTER.equalsIgnoreCase(moduleName) || ConstantUtil.COMPANY_MAST.equalsIgnoreCase(moduleName) ? key : moduleName));
             for (Object object : coloumnList) {
                 if (object.equals("cdrCreatedDate") || object.equals("cdrModifiedDate")) {
@@ -1240,7 +1272,7 @@ public final class AbstractSearchForm extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
 
             markAsDirty();
             if (!isValidValue(value) && hasValue(combo5.getValue())) {
@@ -1272,7 +1304,7 @@ public final class AbstractSearchForm extends CustomComponent {
          * @return true, if checks for value
          */
         private boolean hasValue(final Object obj) {
-            LOGGER.debug("Enters hasValue() " + obj.toString());
+            LOGGER.debug("Enters hasValue() " + obj);
 
             if (obj == null || ConstantUtil.SELECT_ONE.equals(obj.toString())) {
                 return false;
@@ -1502,7 +1534,7 @@ public final class AbstractSearchForm extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
 
             markAsDirty();
             if (!isValidValue(value) && hasValue(combo6.getValue())) {
@@ -1534,7 +1566,7 @@ public final class AbstractSearchForm extends CustomComponent {
          * @return true, if checks for value
          */
         private boolean hasValue(final Object obj) {
-            LOGGER.debug("Enters hasValue() " + obj.toString());
+            LOGGER.debug("Enters hasValue() " + obj);
 
             if (obj == null || ConstantUtil.SELECT_ONE.equals(obj.toString())) {
                 return false;
@@ -1542,7 +1574,7 @@ public final class AbstractSearchForm extends CustomComponent {
                 return !StringUtils.isEmpty(obj.toString());
 
             }
-        }
+            }
 
         /**
          * Default method.
@@ -1700,6 +1732,23 @@ public final class AbstractSearchForm extends CustomComponent {
             VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantUtil.COPY);
             sessionDTO.setMode(ConstantUtil.COPY);
             getUI().getNavigator().navigateTo(RebatePlanView.NAME);
+            resultTable.unselect(resultTable.getValue());
+        }
+        else if (ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName) || ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName) || ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
+            VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantUtil.COPY);
+            sessionDTO.setMode(ConstantUtil.COPY);
+            if(ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName))
+            {
+            getUI().getNavigator().navigateTo(IFPAddView.NAME);
+            }
+            if(ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName))
+            {
+            getUI().getNavigator().navigateTo(PSView.NAME);
+            }
+            if(ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName))
+            {
+            getUI().getNavigator().navigateTo(RebateScheduleAddView.NAME);
+            }
             resultTable.unselect(resultTable.getValue());
         }
     }
@@ -1942,6 +1991,15 @@ public final class AbstractSearchForm extends CustomComponent {
             if (functionCfpHM.get(FunctionNameUtil.VIEW) != null && !((AppPermission) functionCfpHM.get(FunctionNameUtil.VIEW)).isFunctionFlag()) {
                 viewBtn.setVisible(false);
             }
+            if (functionCfpHM.get(ConstantUtil.DELETE_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.DELETE_BUTTON)).isFunctionFlag()) {
+                deleteBtn.setVisible(false);
+            }
+            if (functionCfpHM.get(ConstantUtil.COPY_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.COPY_BUTTON)).isFunctionFlag()) {
+                copyBtn.setVisible(false);
+            }
+            if (functionCfpHM.get(ConstantUtil.TABLE_RESET_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.TABLE_RESET_BUTTON)).isFunctionFlag()) {
+                reset.setVisible(false);
+            }
         }
         if (ConstantUtil.PRICE_SCHEDULE_MASTER.equalsIgnoreCase(moduleName)) {
             final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.PRICE_SCHEDULE + ConstantUtil.COMMA + ConstantsUtils.SEARCH_SCREEN);
@@ -1957,6 +2015,15 @@ public final class AbstractSearchForm extends CustomComponent {
             if (functionCfpHM.get(FunctionNameUtil.VIEW) != null && !((AppPermission) functionCfpHM.get(FunctionNameUtil.VIEW)).isFunctionFlag()) {
                 viewBtn.setVisible(false);
             }
+             if (functionCfpHM.get(ConstantUtil.DELETE_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.DELETE_BUTTON)).isFunctionFlag()) {
+                deleteBtn.setVisible(false);
+            }
+            if (functionCfpHM.get(ConstantUtil.COPY_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.COPY_BUTTON)).isFunctionFlag()) {
+                copyBtn.setVisible(false);
+            }
+            if (functionCfpHM.get(ConstantUtil.TABLE_RESET_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.TABLE_RESET_BUTTON)).isFunctionFlag()) {
+                reset.setVisible(false);
+            }
         }
         if (ConstantUtil.REBATE_SCHEDULE_MASTER.equalsIgnoreCase(moduleName)) {
             final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.REBATE_SCHEDULE + ConstantUtil.COMMA + ConstantsUtils.SEARCH_SCREEN);
@@ -1971,6 +2038,15 @@ public final class AbstractSearchForm extends CustomComponent {
             }
             if (functionCfpHM.get(FunctionNameUtil.VIEW) != null && !((AppPermission) functionCfpHM.get(FunctionNameUtil.VIEW)).isFunctionFlag()) {
                 viewBtn.setVisible(false);
+            }
+             if (functionCfpHM.get(ConstantUtil.DELETE_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.DELETE_BUTTON)).isFunctionFlag()) {
+                deleteBtn.setVisible(false);
+            }
+            if (functionCfpHM.get(ConstantUtil.COPY_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.COPY_BUTTON)).isFunctionFlag()) {
+                copyBtn.setVisible(false);
+            }
+            if (functionCfpHM.get(ConstantUtil.TABLE_RESET_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.TABLE_RESET_BUTTON)).isFunctionFlag()) {
+                reset.setVisible(false);
             }
         }
         if (ConstantUtil.REBATE_PLAN.equalsIgnoreCase(moduleName)) {
@@ -1991,28 +2067,28 @@ public final class AbstractSearchForm extends CustomComponent {
 
         if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equalsIgnoreCase(moduleName)) {
             final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.COMPLIANCE_DEDUCTION_RULES + ConstantUtil.COMMA + "Compliance Deduction Landing Screen");
-            if (functionCfpHM.get("resetBtn") != null && !((AppPermission) functionCfpHM.get("resetBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.RESET_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.RESET_BUTTON)).isFunctionFlag()) {
                 resetBtn.setVisible(false);
             }
-            if (functionCfpHM.get("addBtn") != null && !((AppPermission) functionCfpHM.get("addBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.ADD_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.ADD_BUTTON)).isFunctionFlag()) {
                 addBtn.setVisible(false);
             }
-            if (functionCfpHM.get("editBtn") != null && !((AppPermission) functionCfpHM.get("editBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.EDIT_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.EDIT_BUTTON)).isFunctionFlag()) {
                 editBtn.setVisible(false);
             }
-            if (functionCfpHM.get("viewBtn") != null && !((AppPermission) functionCfpHM.get("viewBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.VIEW_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.VIEW_BUTTON)).isFunctionFlag()) {
                 viewBtn.setVisible(false);
             }
-            if (functionCfpHM.get("searchBtn") != null && !((AppPermission) functionCfpHM.get("searchBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.SEARCH_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.SEARCH_BUTTON)).isFunctionFlag()) {
                 searchBtn.setVisible(false);
             }
-            if (functionCfpHM.get("deleteBtn") != null && !((AppPermission) functionCfpHM.get("deleteBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.DELETE_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.DELETE_BUTTON)).isFunctionFlag()) {
                 deleteBtn.setVisible(false);
             }
-            if (functionCfpHM.get("copyBtn") != null && !((AppPermission) functionCfpHM.get("copyBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.COPY_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.COPY_BUTTON)).isFunctionFlag()) {
                 copyBtn.setVisible(false);
             }
-            if (functionCfpHM.get("tableResetBtn") != null && !((AppPermission) functionCfpHM.get("tableResetBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.TABLE_RESET_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.TABLE_RESET_BUTTON)).isFunctionFlag()) {
                 reset.setVisible(false);
             }
             if (functionCfpHM.get("exportBtn") != null && !((AppPermission) functionCfpHM.get("exportBtn")).isFunctionFlag()) {

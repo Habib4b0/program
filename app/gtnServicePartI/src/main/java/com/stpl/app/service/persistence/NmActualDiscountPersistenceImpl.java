@@ -79,8 +79,7 @@ public class NmActualDiscountPersistenceImpl extends BasePersistenceImpl<NmActua
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(NmActualDiscountPersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "actualRate", "periodSid", "actualProjectionSales",
-                "projectionDetailsSid", "actualProjectionRate", "actualSales"
+                "actualRate", "periodSid", "projectionDetailsSid", "actualSales"
             });
     private static NmActualDiscount _nullNmActualDiscount = new NmActualDiscountImpl() {
             @Override
@@ -336,9 +335,7 @@ public class NmActualDiscountPersistenceImpl extends BasePersistenceImpl<NmActua
 
         nmActualDiscountImpl.setActualRate(nmActualDiscount.getActualRate());
         nmActualDiscountImpl.setPeriodSid(nmActualDiscount.getPeriodSid());
-        nmActualDiscountImpl.setActualProjectionSales(nmActualDiscount.getActualProjectionSales());
         nmActualDiscountImpl.setProjectionDetailsSid(nmActualDiscount.getProjectionDetailsSid());
-        nmActualDiscountImpl.setActualProjectionRate(nmActualDiscount.getActualProjectionRate());
         nmActualDiscountImpl.setActualSales(nmActualDiscount.getActualSales());
 
         return nmActualDiscountImpl;

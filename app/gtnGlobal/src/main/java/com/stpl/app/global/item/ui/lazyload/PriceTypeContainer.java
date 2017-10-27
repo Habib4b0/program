@@ -17,6 +17,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -48,7 +49,7 @@ private boolean priceType;
             }
             else
                 return ItemSearchLogic.getLazyPriceTypeCount(searchCriteria.getFilter(),priceType)+1;
-        } catch (SystemException ex) {
+        }catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             LOGGER.error(errorMsg);
            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {     
@@ -64,29 +65,21 @@ private boolean priceType;
                         }          
                     }, ButtonId.OK);       
                     msg.getButton(ButtonId.OK).focus();
-        } catch (PortalException portException) {
-            LOGGER.error(portException);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {     
-                        /**             
-                         * The method is triggered when a button of the message box is    
-                         * pressed .           
-                         *         
-                         * @param buttonId The buttonId of the pressed button.      
-                         */             
-                        @SuppressWarnings("PMD")      
-                        public void buttonClicked(final ButtonId buttonId) {   
-                            // Do Nothing        
-                        }          
-                    }, ButtonId.OK);       
-                    msg.getButton(ButtonId.OK).focus();
         }
+    /**
+     * The method is triggered when a button of the message box is
+     * pressed .
+     *
+     * @param buttonId The buttonId of the pressed button.
+     */
+    // Do Nothing
         return 0;
     }
 
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             return ItemSearchLogic.getLazyPriceTypeResults(startIndex, startIndex + offset, searchCriteria.getFilter(),priceType);
-        } catch (SystemException ex) {
+        }catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             LOGGER.error(errorMsg);
            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {     
@@ -102,23 +95,15 @@ private boolean priceType;
                         }          
                     }, ButtonId.OK);       
                     msg.getButton(ButtonId.OK).focus();
-        } catch (PortalException portException) {
-            LOGGER.error(portException);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {     
-                        /**             
-                         * The method is triggered when a button of the message box is    
-                         * pressed .           
-                         *         
-                         * @param buttonId The buttonId of the pressed button.      
-                         */             
-                        @SuppressWarnings("PMD")      
-                        public void buttonClicked(final ButtonId buttonId) {   
-                            // Do Nothing        
-                        }          
-                    }, ButtonId.OK);       
-                    msg.getButton(ButtonId.OK).focus();
         }
-        return null;
+    /**
+     * The method is triggered when a button of the message box is
+     * pressed .
+     *
+     * @param buttonId The buttonId of the pressed button.
+     */
+    // Do Nothing
+        return Collections.emptyList();
     }
 }
 

@@ -36,6 +36,7 @@ public class ViewTableGenerator implements ExtFilterGenerator {
     private static final Logger LOGGER = LogManager.getLogger(HistoryTableGenerator.class);
 
     public ViewTableGenerator() {
+        LOGGER.debug("ViewTableGenerator");
     }
     
     @Override
@@ -110,10 +111,12 @@ public class ViewTableGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

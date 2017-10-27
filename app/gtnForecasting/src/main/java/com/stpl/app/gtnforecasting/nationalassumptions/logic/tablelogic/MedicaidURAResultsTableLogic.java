@@ -51,11 +51,11 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
     @Override
      public Map<Integer, Object> loadData(int start, int offset) {
           LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated && offset > 0) {
-            List<String> indexList = new ArrayList<String>(getNonFetchableData().keySet());
+            List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);                
-            List<TableDTO> list =  medResLogic.getConfiguredMedicaidResults(getLastParent(), start, offset, projSelDTO,this.getFilters(),sessionDTO);
+            List<TableDTO> list =  medResLogic.getConfiguredMedicaidResults(getLastParent(), start, offset, projSelDTO,sessionDTO);
             int i = start;
             for (TableDTO dto : list) {
                 while (projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + i)) {
@@ -78,7 +78,7 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
         if (firstGenerated) {
           
             try {
-                count = medResLogic.getConfiguredMedicaidResultsCount(getLastParent(), projSelDTO,this.getFilters());
+                count = medResLogic.getConfiguredMedicaidResultsCount(getLastParent(), projSelDTO);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             } 
@@ -101,15 +101,15 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
         return dto;
     }
  public void loadExpandData(boolean isExpand, int rowIndex)  {
-        List<String> expandedList = new ArrayList<String>(getExpandedTreeList().keySet());
+        List<String> expandedList = new ArrayList<>(getExpandedTreeList().keySet());
         clearAll();
         projSelDTO.setLevelNo(0);
-        int count = medResLogic.getConfiguredMedicaidResultsCount(new Object(), projSelDTO,null);
+        int count = medResLogic.getConfiguredMedicaidResultsCount(new Object(), projSelDTO);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(StringUtils.EMPTY, levelMap);
 
         if (isExpand) {
-            List<TableDTO> levelList = medResLogic.getConfiguredMedicaidResults(new Object(), 0, count, projSelDTO,null,sessionDTO);
+            List<TableDTO> levelList = medResLogic.getConfiguredMedicaidResults(new Object(), 0, count, projSelDTO,sessionDTO);
             int size = levelList.size();
             int index = count - size + 1;
             for (int j = 0; j < size; j++) {
@@ -118,7 +118,7 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
                 if (expandedList.contains(customTreeLevel) || currentTreeLevel.equals(customTreeLevel) || rowIndex == -1) {
                     TableDTO levelDto = levelList.get(j);
                     addExpandedTreeList(customTreeLevel, levelDto);
-                    count =  medResLogic.getConfiguredMedicaidResultsCount(levelDto, projSelDTO,null);
+                    count =  medResLogic.getConfiguredMedicaidResultsCount(levelDto, projSelDTO);
                     addlevelMap(customTreeLevel, new LevelMap(count, getColumnIdToFilterMap()));
                 }
             }
@@ -126,7 +126,7 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
             if (rowIndex == -1) { // collapse all
                 getExpandedTreeList().clear();
             } else if (!expandedList.isEmpty()) { // To collapse a single node
-                List<TableDTO> levelList =  medResLogic.getConfiguredMedicaidResults(new Object(), 0, count, projSelDTO,null,sessionDTO);
+                List<TableDTO> levelList =  medResLogic.getConfiguredMedicaidResults(new Object(), 0, count, projSelDTO,sessionDTO);
                 int size = levelList.size();
                 int index = count - size + 1;
                 for (int j = 0; j < size; j++) {
@@ -135,7 +135,7 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
                     if (expandedList.contains(customTreeLevel) && !currentTreeLevel.equals(customTreeLevel)) {// expanding the already expanded nodes 
                         TableDTO levelDto = levelList.get(j);
                         addExpandedTreeList(customTreeLevel, levelDto);
-                        count =  medResLogic.getConfiguredMedicaidResultsCount(levelDto, projSelDTO,null);
+                        count =  medResLogic.getConfiguredMedicaidResultsCount(levelDto, projSelDTO);
                         addlevelMap(customTreeLevel, new LevelMap(count, getColumnIdToFilterMap()));
                     }
                 }

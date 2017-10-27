@@ -55,6 +55,7 @@ public class ChartsForm extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /**

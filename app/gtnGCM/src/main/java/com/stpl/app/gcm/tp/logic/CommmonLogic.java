@@ -6,6 +6,7 @@
  */
 package com.stpl.app.gcm.tp.logic;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.HelperListUtil;
 import com.stpl.app.gcm.common.dao.CommonDao;
@@ -78,10 +79,21 @@ public class CommmonLogic {
     static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     public static final Logger LOGGER = Logger.getLogger(CommmonLogic.class);
+    public static final String FILTERCFP_NAME = "filter~cfpName";
+    public static final String FILTERIFP_NAME = "filter~ifpName";
+    public static final String FILTERCFP_NO = "filter~cfpNo";
+    public static final String FILTERIFP_NO = "filter~ifpNo";
+    public static final String SLASH_N = "'  \n ";
+    public static final String FILTERCONT_END_DATETO = "filter~contEndDate~to";
+    public static final String FILTERCONT_END_DATEFROM = "filter~contEndDate~from";
+    public static final String SLASH_N_SPACE = "' \n ";
+    public static final String AND_QUOTE = "' AND '";
+    public static final String YYYY_M_MDD_H_HMMSS_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String FILTER = "filter~";
 
     public List<IdDescriptionDTO> loadDdlbs(String fieldName) {
         List list = new ArrayList();
-        List<IdDescriptionDTO> resultList = new ArrayList<IdDescriptionDTO>();
+        List<IdDescriptionDTO> resultList = new ArrayList<>();
         IdDescriptionDTO idDescription = null;
         try {
             DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
@@ -118,7 +130,7 @@ public class CommmonLogic {
 
     public String buildContractSearchQuery(ContractSelectionDTO conSelDTO, String userId, String sessionId, int start, int end, Set<Container.Filter> filters) throws ParseException {
 
-        List<String> companyMasterSidsList = new ArrayList<String>();
+        List<String> companyMasterSidsList;
         if (conSelDTO.getModuleName().equals(PROJECTION_DETAILS_TRANSFER.getConstant()) && conSelDTO.getScreenName().equals(TAB_TRANSFER_CONTRACT.getConstant())) {
             companyMasterSidsList = conSelDTO.getPhCompanyMasterSids();
         } else {
@@ -127,27 +139,27 @@ public class CommmonLogic {
 
         String companyMasterSids = CommonUtils.CollectionToString(companyMasterSidsList, true);
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(FILTER + stringFilter.getPropertyId(), filterString);
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
-                    parameters.put("filter~" + betweenFilter.getPropertyId() + "~from", String.valueOf(startValue));
-                    parameters.put("filter~" + betweenFilter.getPropertyId() + "~to", String.valueOf(endValue));
+                    parameters.put(FILTER + betweenFilter.getPropertyId() + StringConstantsUtil.FROM_FILTER, String.valueOf(startValue));
+                    parameters.put(FILTER + betweenFilter.getPropertyId() + StringConstantsUtil.TO_FILTER, String.valueOf(endValue));
                 } else if (filter instanceof Compare) {
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     Date value = (Date) compare.getValue();
                     if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put("filter~" + compare.getPropertyId() + "~from", String.valueOf(value));
+                        parameters.put(FILTER + compare.getPropertyId() + StringConstantsUtil.FROM_FILTER, String.valueOf(value));
                     } else {
-                        parameters.put("filter~" + compare.getPropertyId() + "~to", String.valueOf(value));
+                        parameters.put(FILTER + compare.getPropertyId() + StringConstantsUtil.TO_FILTER, String.valueOf(value));
                     }
                 }
             }
@@ -227,7 +239,7 @@ public class CommmonLogic {
         query.append(" INNER JOIN GCM_GLOBAL_DETAILS TEMP_TABLE ON TEMP_TABLE.CFP_CONTRACT_SID=CFP_CON.CFP_CONTRACT_SID AND \n");
         query.append(" TEMP_TABLE.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND TEMP_TABLE.IFP_CONTRACT_SID=IFP_CON.IFP_CONTRACT_SID  \n");
         query.append(" AND TEMP_TABLE.RS_CONTRACT_SID=RS_CON.RS_CONTRACT_SID AND TEMP_TABLE.PS_CONTRACT_SID=PS_CON.PS_CONTRACT_SID \n");
-        query.append(" AND TEMP_TABLE.USER_ID='").append(userId).append("' AND TEMP_TABLE.SESSION_ID='").append(sessionId).append("' \n");
+        query.append(" AND TEMP_TABLE.USER_ID ='").append(userId).append("' AND  TEMP_TABLE.SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
             query.append(" AND TEMP_TABLE.SCREEN_NAME = '").append(conSelDTO.getScreenName()).append("'");
@@ -277,9 +289,9 @@ public class CommmonLogic {
         if (!conSelDTO.getContractNo().equals(StringUtils.EMPTY) && !conSelDTO.getContractNo().equals(Constants.NULL)) {
             String contractNo = conSelDTO.getContractNo().replace('*', '%');
             if (where) {
-                query.append(" AND CON.CONTRACT_NO like '").append(contractNo).append("'");
+                query.append(" AND CON.CONTRACT_NO  like '").append(contractNo).append("'");
             } else {
-                query.append(" WHERE CON.CONTRACT_NO like '").append(contractNo).append("' \n ");
+                query.append(" WHERE CON.CONTRACT_NO  like '").append(contractNo).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -287,61 +299,61 @@ public class CommmonLogic {
         if (where) {
             query.append("AND CM1.COMPANY_MASTER_SID " + symbol + " (" + companyMasterSids + ")  \n ");
         } else {
-            query.append(" WHERE CM1.COMPANY_MASTER_SID " + symbol + " (" + companyMasterSids + ") \n ");
+            query.append(" WHERE CM1.COMPANY_MASTER_SID " + symbol + " (" + companyMasterSids + ")  \n ");
             where = true;
         }
 
         if (!conSelDTO.getContractName().equals(StringUtils.EMPTY) && !conSelDTO.getContractName().equals(Constants.NULL)) {
             String contractName = conSelDTO.getContractName().replace('*', '%');
             if (where) {
-                query.append(" AND CON.CONTRACT_NAME like '").append(contractName).append("'  \n ");
+                query.append(" AND CON.CONTRACT_NAME like  '").append(contractName).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONTRACT_NAME like '").append(contractName).append("'  \n ");
+                query.append(" WHERE CON.CONTRACT_NAME like  '").append(contractName).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getContractHolder().equals(StringUtils.EMPTY) && !conSelDTO.getContractHolder().equals(Constants.NULL)) {
             String contractHolder = conSelDTO.getContractHolder();
             if (where) {
-                query.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID='").append(contractHolder).append("'  \n ");
+                query.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID='").append(contractHolder).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONT_HOLD_COMPANY_MASTER_SID ='").append(contractHolder).append("'  \n ");
+                query.append(" WHERE CON.CONT_HOLD_COMPANY_MASTER_SID ='").append(contractHolder).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getMarketType().equals(StringUtils.EMPTY) && !conSelDTO.getMarketType().equals(Constants.NULL)) {
             String contractType = conSelDTO.getMarketType();
             if (where) {
-                query.append(" AND HEL.HELPER_TABLE_SID= '").append(contractType).append("'  \n ");
+                query.append(" AND HEL.HELPER_TABLE_SID= '").append(contractType).append(SLASH_N);
             } else {
-                query.append(" WHERE HEL.HELPER_TABLE_SID ='").append(contractType).append("'  \n ");
+                query.append(" WHERE HEL.HELPER_TABLE_SID ='").append(contractType).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleId().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleId().equals(Constants.NULL)) {
             String rsId = conSelDTO.getRebateScheduleId().replace('*', '%');
             if (where) {
-                query.append(" AND RS_CON.RS_ID like '").append(rsId).append("'  \n ");
+                query.append(" AND RS_CON.RS_ID like '").append(rsId).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.RS_ID like '").append(rsId).append("'  \n ");
+                query.append(" WHERE RS_CON.RS_ID like '").append(rsId).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleName().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleName().equals(Constants.NULL)) {
             String rsName = conSelDTO.getRebateScheduleName().replace('*', '%');
             if (where) {
-                query.append(" AND RS_CON.RS_NAME like '").append(rsName).append("'  \n ");
+                query.append(" AND RS_CON.RS_NAME like  '").append(rsName).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.RS_NAME like '").append(rsName).append("'  \n ");
+                query.append(" WHERE RS_CON.RS_NAME  like '").append(rsName).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleType().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleType().equals(Constants.NULL)) {
             String rsType = conSelDTO.getRebateScheduleType();
             if (where) {
-                query.append(" AND RS_CON.RS_TYPE ='").append(rsType).append("' \n ");
+                query.append(" AND RS_CON.RS_TYPE ='").append(rsType).append(SLASH_N_SPACE);
             } else {
-                query.append(" WHERE RS_CON.RS_TYPE='").append(rsType).append("' \n ");
+                query.append(" WHERE RS_CON.RS_TYPE='").append(rsType).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -359,26 +371,26 @@ public class CommmonLogic {
                 }
             }
             if (where) {
-                query.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2='").append(integer).append("')");
+                query.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(integer).append("')");
             } else {
-                query.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2='").append(integer).append("')");
+                query.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(integer).append("')");
             }
         }
         if (!conSelDTO.getRebateScheduleNo().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleNo().equals(Constants.NULL)) {
             String rsNo = conSelDTO.getRebateScheduleNo().replace('*', '%');
             if (where) {
-                query.append(" AND RS_CON.RS_NO like '").append(rsNo).append("' \n ");
+                query.append(" AND RS_CON.RS_NO like  '").append(rsNo).append(SLASH_N_SPACE);
             } else {
-                query.append(" WHERE RS_CON.RS_NO like '").append(rsNo).append("' \n ");
+                query.append(" WHERE RS_CON.RS_NO  like '").append(rsNo).append(SLASH_N_SPACE);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             if (where) {
-                query.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append("' \n ");
+                query.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append(SLASH_N_SPACE);
             } else {
-                query.append(" WHERE RS_CON.RS_CATEGORY='").append(rsCategory).append("' \n ");
+                query.append(" WHERE RS_CON.RS_CATEGORY='").append(rsCategory).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -386,313 +398,313 @@ public class CommmonLogic {
         if (!conSelDTO.getRebateProgramType().equals(StringUtils.EMPTY) && !conSelDTO.getRebateProgramType().equals(Constants.NULL)) {
             String rsProgType = conSelDTO.getRebateProgramType();
             if (where) {
-                query.append(" AND RS_CON.REBATE_PROGRAM_TYPE ='").append(rsProgType).append("'  \n ");
+                query.append(" AND RS_CON.REBATE_PROGRAM_TYPE ='").append(rsProgType).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.REBATE_PROGRAM_TYPE='").append(rsProgType).append("' \n ");
+                query.append(" WHERE RS_CON.REBATE_PROGRAM_TYPE='").append(rsProgType).append(SLASH_N_SPACE);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleAlias().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleAlias().equals(Constants.NULL)) {
             String rsAlias = conSelDTO.getRebateScheduleNo().replace('*', '%');
             if (where) {
-                query.append(" AND RS_CON.RS_NO like '").append(rsAlias).append("' ");
+                query.append(" AND RS_CON.RS_NO  like '").append(rsAlias).append("' ");
             } else {
-                query.append(" WHERE RS_CON.RS_NO like '").append(rsAlias).append("' ");
+                query.append(" WHERE RS_CON.RS_NO  like '").append(rsAlias).append("' ");
             }
         }
         if (!conSelDTO.getCfpNo().equals(StringUtils.EMPTY) && !conSelDTO.getCfpNo().equals(Constants.NULL)) {
             String cfpNo = conSelDTO.getCfpNo();
             if (where) {
-                query.append(" AND CFP_CON.CFP_NO='").append(cfpNo).append("'  \n ");
+                query.append(" AND CFP_CON.CFP_NO='").append(cfpNo).append(SLASH_N);
             } else {
-                query.append(" WHERE CFP_CON.CFP_NO ='").append(cfpNo).append("'  \n ");
+                query.append(" WHERE CFP_CON.CFP_NO ='").append(cfpNo).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getIfpNo().equals(StringUtils.EMPTY) && !conSelDTO.getIfpNo().equals(Constants.NULL)) {
             String ifpNo = conSelDTO.getIfpNo();
             if (where) {
-                query.append(" AND IFP_CON.IFP_NO='").append(ifpNo).append("'  \n ");
+                query.append(" AND IFP_CON.IFP_NO='").append(ifpNo).append(SLASH_N);
             } else {
-                query.append(" WHERE IFP_CON.IFP_NO ='").append(ifpNo).append("'  \n ");
+                query.append(" WHERE IFP_CON.IFP_NO ='").append(ifpNo).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getPsNo().equals(StringUtils.EMPTY) && !conSelDTO.getPsNo().equals(Constants.NULL)) {
             String psNo = conSelDTO.getPsNo();
             if (where) {
-                query.append(" AND PS_CON.PS_NO='").append(psNo).append("'  \n ");
+                query.append(" AND PS_CON.PS_NO='").append(psNo).append(SLASH_N);
             } else {
-                query.append(" WHERE PS_CON.PS_NO ='").append(psNo).append("'  \n ");
+                query.append(" WHERE PS_CON.PS_NO ='").append(psNo).append(SLASH_N);
                 where = true;
             }
         }
 
-        if (parameters.containsKey("filter~contractHolder")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERCONTRACT_HOLDER)) {
 
             if (where) {
-                query.append(" AND CM.COMPANY_NAME like '").append(String.valueOf(parameters.get("filter~contractHolder"))).append("'  \n ");
+                query.append(" AND CM.COMPANY_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_HOLDER))).append(SLASH_N);
             } else {
-                query.append(" WHERE CM.COMPANY_NAME like '").append(String.valueOf(parameters.get("contractHolder"))).append("' \n ");
+                query.append(" WHERE CM.COMPANY_NAME like '").append(String.valueOf(parameters.get("contractHolder"))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~cfpName")) {
+        if (parameters.containsKey(FILTERCFP_NAME)) {
 
             if (where) {
-                query.append(" AND CFP_CON.CFP_NAME like '").append(String.valueOf(parameters.get("filter~cfpName"))).append("'  \n ");
+                query.append(" AND CFP_CON.CFP_NAME like '").append(String.valueOf(parameters.get(FILTERCFP_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE CFP_CON.CFP_NAME like '").append(String.valueOf(parameters.get("filter~cfpName"))).append("' \n ");
+                query.append(" WHERE CFP_CON.CFP_NAME like '").append(String.valueOf(parameters.get(FILTERCFP_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~ifpName")) {
+        if (parameters.containsKey(FILTERIFP_NAME)) {
 
             if (where) {
-                query.append(" AND IFP_CON.IFP_NAME like '").append(String.valueOf(parameters.get("filter~ifpName"))).append("'  \n ");
+                query.append(" AND IFP_CON.IFP_NAME like '").append(String.valueOf(parameters.get(FILTERIFP_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE IFP_CON.IFP_NAME like '").append(String.valueOf(parameters.get("filter~ifpName"))).append("' \n ");
+                query.append(" WHERE IFP_CON.IFP_NAME like '").append(String.valueOf(parameters.get(FILTERIFP_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~rSName")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERR_S_NAME)) {
 
             if (where) {
-                query.append(" AND RS_CON.RS_NAME like '").append(String.valueOf(parameters.get("filter~rSName"))).append("'  \n ");
+                query.append(" AND RS_CON.RS_NAME like  '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERR_S_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.RS_NAME like '").append(String.valueOf(parameters.get("filter~rSName"))).append("' \n ");
+                query.append(" WHERE RS_CON.RS_NAME  like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERR_S_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~pSName")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERP_S_NAME)) {
 
             if (where) {
-                query.append(" AND PS_CON.PS_NAME like '").append(String.valueOf(parameters.get("filter~pSName"))).append("'  \n ");
+                query.append(" AND PS_CON.PS_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERP_S_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE PS_CON.PS_NAME like '").append(String.valueOf(parameters.get("filter~pSName"))).append("' \n ");
+                query.append(" WHERE PS_CON.PS_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERP_S_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~contractNo")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERCONTRACT_NO)) {
 
             if (where) {
-                query.append(" AND CON.CONTRACT_NO like '").append(String.valueOf(parameters.get("filter~contractNo"))).append("'  \n ");
+                query.append(" AND CON.CONTRACT_NO  like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONTRACT_NO like '").append(String.valueOf(parameters.get("filter~contractNo"))).append("' \n ");
+                query.append(" WHERE  CON.CONTRACT_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~contractName")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERCONTRACT_NAME)) {
 
             if (where) {
-                query.append(" AND CON.CONTRACT_NAME like '").append(String.valueOf(parameters.get("filter~contractName"))).append("'  \n ");
+                query.append(" AND CON.CONTRACT_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONTRACT_NAME like '").append(String.valueOf(parameters.get("filter~contractName"))).append("' \n ");
+                query.append(" WHERE CON.CONTRACT_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~cfpNo")) {
+        if (parameters.containsKey(FILTERCFP_NO)) {
 
             if (where) {
-                query.append(" AND CFP_CON.CFP_NO like '").append(String.valueOf(parameters.get("filter~cfpNo"))).append("'  \n ");
+                query.append(" AND CFP_CON.CFP_NO like '").append(String.valueOf(parameters.get(FILTERCFP_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE CFP_CON.CFP_NO like '").append(String.valueOf(parameters.get("filter~cfpNo"))).append("' \n ");
+                query.append(" WHERE CFP_CON.CFP_NO like '").append(String.valueOf(parameters.get(FILTERCFP_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~ifpNo")) {
+        if (parameters.containsKey(FILTERIFP_NO)) {
 
             if (where) {
-                query.append(" AND IFP_CON.IFP_NO like '").append(String.valueOf(parameters.get("filter~ifpNo"))).append("'  \n ");
+                query.append(" AND IFP_CON.IFP_NO like '").append(String.valueOf(parameters.get(FILTERIFP_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE IFP_CON.IFP_NO like '").append(String.valueOf(parameters.get("filter~ifpNo"))).append("' \n ");
+                query.append(" WHERE IFP_CON.IFP_NO like '").append(String.valueOf(parameters.get(FILTERIFP_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~rSNo")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERR_S_NO)) {
 
             if (where) {
-                query.append(" AND RS_CON.RS_NO like '").append(String.valueOf(parameters.get("filter~rSNo"))).append("'  \n ");
+                query.append(" AND RS_CON.RS_NO  like  '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERR_S_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.RS_NO like '").append(String.valueOf(parameters.get("filter~rSNo"))).append("' \n ");
+                query.append(" WHERE  RS_CON.RS_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERR_S_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~pSNo")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERP_S_NO)) {
 
             if (where) {
-                query.append(" AND PS_CON.PS_NO like '").append(String.valueOf(parameters.get("filter~pSNo"))).append("'  \n ");
+                query.append(" AND PS_CON.PS_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERP_S_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE PS_CON.PS_NO like '").append(String.valueOf(parameters.get("filter~pSNo"))).append("' \n ");
+                query.append(" WHERE PS_CON.PS_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERP_S_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~contractType")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERCONTRACT_TYPE)) {
 
             if (where) {
-                query.append(" AND CON.CONTRACT_TYPE like '").append(String.valueOf(parameters.get("filter~contractType"))).append("'  \n ");
+                query.append(" AND CON.CONTRACT_TYPE like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_TYPE))).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONTRACT_TYPE like '").append(String.valueOf(parameters.get("filter~contractType"))).append("' \n ");
+                query.append(" WHERE CON.CONTRACT_TYPE like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_TYPE))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~rARCategory")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERR_AR_CATEGORY)) {
             HelperDTO type = new HelperDTO(0, Constants.SELECT_ONE);
-            if (parameters.get("filter~rARCategory") != null) {
-                type = (HelperDTO) parameters.get("filter~rARCategory");
+            if (parameters.get(StringConstantsUtil.FILTERR_AR_CATEGORY) != null) {
+                type = (HelperDTO) parameters.get(StringConstantsUtil.FILTERR_AR_CATEGORY);
             }
             if (where) {
-                query.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2='").append(type.getId()).append("')");
+                query.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2 ='").append(type.getId()).append("')");
             } else {
-                query.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2='").append(type.getId()).append("')");
+                query.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2= '").append(type.getId()).append("')");
             }
         }
-        if ((parameters.get("filter~contStartDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~from"))))
-                && (parameters.get("filter~contStartDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~to"))))) {
+        if ((parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~contStartDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
             query.append(from);
-            query.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~contStartDate~to"))));
+            query.append(AND_QUOTE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~contStartDate~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~from"))))
-                && (parameters.get("filter~contStartDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~contStartDate~to"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~contStartDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~from"))))
-                && (parameters.get("filter~contStartDate~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~contStartDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
             query.append(from);
             query.append("' ");
         }
-        if ((parameters.get("filter~contEndDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~from"))))
-                && (parameters.get("filter~contEndDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~to"))))) {
+        if ((parameters.get(FILTERCONT_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))))
+                && (parameters.get(FILTERCONT_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~contEndDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))));
             query.append(from);
-            query.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~contEndDate~to"))));
+            query.append(AND_QUOTE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~contEndDate~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~from"))))
-                && (parameters.get("filter~contEndDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~to"))))) {
+        } else if ((parameters.get(FILTERCONT_END_DATEFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))))
+                && (parameters.get(FILTERCONT_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~contEndDate~to"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~contEndDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~from"))))
-                && (parameters.get("filter~contEndDate~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~to"))))) {
+        } else if ((parameters.get(FILTERCONT_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))))
+                && (parameters.get(FILTERCONT_END_DATETO) == null || Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATETO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~contEndDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))));
             query.append(from);
             query.append("' ");
         }
-        if ((parameters.get("filter~compStartDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~from"))))
-                && (parameters.get("filter~compStartDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~to"))))) {
+        if ((parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~compStartDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
             query.append(from);
-            query.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~compStartDate~to"))));
+            query.append(AND_QUOTE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~compStartDate~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~from"))))
-                && (parameters.get("filter~compStartDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~compStartDate~to"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~compStartDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~from"))))
-                && (parameters.get("filter~compStartDate~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~compStartDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
             query.append(from);
             query.append("' ");
         }
-        if ((parameters.get("filter~compEndDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~from"))))
-                && (parameters.get("filter~compEndDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~to"))))) {
+        if ((parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~compEndDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
             query.append(from);
-            query.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~compEndDate~to"))));
+            query.append(AND_QUOTE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~compEndDate~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~from"))))
-                && (parameters.get("filter~compEndDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~compEndDate~to"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~compEndDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~from"))))
-                && (parameters.get("filter~compEndDate~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~compEndDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
             query.append(from);
             query.append("' ");
         }
-        if (parameters.containsKey("filter~status")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERSTATUS)) {
 
             if (where) {
-                query.append(" AND TEMP_TABLE.STATUS like '").append(String.valueOf(parameters.get("filter~status"))).append("'  \n ");
+                query.append(" AND TEMP_TABLE.STATUS like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERSTATUS))).append(SLASH_N);
             } else {
-                query.append(" WHERE TEMP_TABLE.STATUS like '").append(String.valueOf(parameters.get("filter~status"))).append("' \n ");
+                query.append(" WHERE TEMP_TABLE.STATUS like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERSTATUS))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~projectionIdLink")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERPROJECTION_ID_LINK)) {
 
             if (where) {
-                query.append(" AND TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(parameters.get("filter~projectionIdLink"))).append("'  \n ");
+                query.append(" AND TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERPROJECTION_ID_LINK))).append(SLASH_N);
             } else {
-                query.append(" WHERE TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(parameters.get("filter~projectionIdLink"))).append("' \n ");
+                query.append(" WHERE TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERPROJECTION_ID_LINK))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~workflowStatus")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERWORKFLOW_STATUS)) {
 
             if (where) {
-                query.append(" AND WF.WORKFLOW_STATUS like '").append(String.valueOf(parameters.get("filter~workflowStatus"))).append("'  \n ");
+                query.append(" AND WF.WORKFLOW_STATUS like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERWORKFLOW_STATUS))).append(SLASH_N);
             } else {
-                query.append(" WHERE WF.WORKFLOW_STATUS like '").append(String.valueOf(parameters.get("filter~workflowStatus"))).append("' \n ");
+                query.append(" WHERE WF.WORKFLOW_STATUS like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERWORKFLOW_STATUS))).append(SLASH_N_SPACE);
             }
         }
         query.append(" ORDER BY  CFP_CON.CFP_CONTRACT_SID,RS_CON.RS_CONTRACT_SID,IFP_CON.IFP_CONTRACT_SID,PS_CON.PS_CONTRACT_SID OFFSET ").append(start).append(" ROWS FETCH NEXT ").append(end).append(" ROWS ONLY ");
@@ -700,48 +712,41 @@ public class CommmonLogic {
     }
 
     public List<ContractResultDTO> getContractResults(List list) {
-        List<ContractResultDTO> resultList = new ArrayList<ContractResultDTO>();
+        List<ContractResultDTO> resultList = new ArrayList<>();
         ContractResultDTO dto = null;
         Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
 
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                try {
-                    Object obj[] = (Object[]) list.get(i);
-                    dto = new ContractResultDTO();
-
-                    dto.setContractHolder(Converters.convertNullToEmpty(obj[0]));
-                    dto.setContractNo(String.valueOf(obj[1]));
-                    dto.setContractName(String.valueOf(obj[NumericConstants.TWO]));
-                    dto.setContractType(idHelperDTOMap.get(obj[NumericConstants.THREE]));
-                    dto.setContStartDate(!String.valueOf(obj[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(convertToSrting((Date) obj[NumericConstants.FOUR], "MM/dd/yyyy")) : null);
-                    dto.setContEndDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertToSrting((Date) obj[NumericConstants.FIVE], "MM/dd/yyyy")) : null);
-                    dto.setCfpName(String.valueOf(obj[NumericConstants.SIX]));
-                    dto.setCfpNo(String.valueOf(obj[NumericConstants.SEVEN]));
-                    dto.setIfpName(String.valueOf(obj[NumericConstants.EIGHT]));
-                    dto.setIfpNo(String.valueOf(obj[NumericConstants.NINE]));
-                    dto.setpSName(String.valueOf(obj[NumericConstants.TEN]));
-                    dto.setpSNo(String.valueOf(obj[NumericConstants.ELEVEN]));
-
-                    dto.setrSName(String.valueOf(obj[NumericConstants.TWELVE]));
-                    dto.setrSNo(String.valueOf(obj[NumericConstants.THIRTEEN]));
-
-                    dto.setrARCategory(String.valueOf(obj[NumericConstants.FOURTEEN]));
-                    dto.setCfpContSid(String.valueOf(obj[NumericConstants.FIFTEEN]));
-                    dto.setRsContSid(String.valueOf(obj[NumericConstants.SIXTEEN]));
-                    dto.setIfpContSid(String.valueOf(obj[NumericConstants.SEVENTEEN]));
-                    dto.setPsContSid(String.valueOf(obj[NumericConstants.EIGHTEEN]));
-                    dto.setContractMasterSid(String.valueOf(obj[NumericConstants.NINETEEN]));
-                    dto.setCompStartDate(!String.valueOf(obj[NumericConstants.TWENTY]).equals("null") ? new Date(convertToSrting((Date) obj[NumericConstants.TWENTY], "MM/dd/yyyy")) : null);
-                    dto.setCompEndDate(!String.valueOf(obj[NumericConstants.TWENTY_ONE]).equals("null") ? new Date(convertToSrting((Date) obj[NumericConstants.TWENTY_ONE], "MM/dd/yyyy")) : null);
-                    dto.setStatusString(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
-                    dto.setStatusDescription(idHelperDTOMap.get(obj[NumericConstants.TWENTY_TWO]));
-                    dto.setCheckRecord(!String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.TRUE) ? true : false : false);
-                   dto.setTpstatus(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
-                    resultList.add(dto);
-                } catch (ParseException ex) {
-                    LOGGER.error(ex);
-                }
+                Object obj[] = (Object[]) list.get(i);
+                dto = new ContractResultDTO();
+                dto.setContractHolder(Converters.convertNullToEmpty(obj[0]));
+                dto.setContractNo(String.valueOf(obj[1]));
+                dto.setContractName(String.valueOf(obj[NumericConstants.TWO]));
+                dto.setContractType(idHelperDTOMap.get(obj[NumericConstants.THREE]));
+                dto.setContStartDate(!String.valueOf(obj[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(convertToSrting((Date) obj[NumericConstants.FOUR], Constants.DATE_FORMAT)) : null);
+                dto.setContEndDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertToSrting((Date) obj[NumericConstants.FIVE], Constants.DATE_FORMAT)) : null);
+                dto.setCfpName(String.valueOf(obj[NumericConstants.SIX]));
+                dto.setCfpNo(String.valueOf(obj[NumericConstants.SEVEN]));
+                dto.setIfpName(String.valueOf(obj[NumericConstants.EIGHT]));
+                dto.setIfpNo(String.valueOf(obj[NumericConstants.NINE]));
+                dto.setpSName(String.valueOf(obj[NumericConstants.TEN]));
+                dto.setpSNo(String.valueOf(obj[NumericConstants.ELEVEN]));
+                dto.setrSName(String.valueOf(obj[NumericConstants.TWELVE]));
+                dto.setrSNo(String.valueOf(obj[NumericConstants.THIRTEEN]));
+                dto.setrARCategory(String.valueOf(obj[NumericConstants.FOURTEEN]));
+                dto.setCfpContSid(String.valueOf(obj[NumericConstants.FIFTEEN]));
+                dto.setRsContSid(String.valueOf(obj[NumericConstants.SIXTEEN]));
+                dto.setIfpContSid(String.valueOf(obj[NumericConstants.SEVENTEEN]));
+                dto.setPsContSid(String.valueOf(obj[NumericConstants.EIGHTEEN]));
+                dto.setContractMasterSid(String.valueOf(obj[NumericConstants.NINETEEN]));
+                dto.setCompStartDate(!String.valueOf(obj[NumericConstants.TWENTY]).equals("null") ? new Date(convertToSrting((Date) obj[NumericConstants.TWENTY], Constants.DATE_FORMAT)) : null);
+                dto.setCompEndDate(!String.valueOf(obj[NumericConstants.TWENTY_ONE]).equals("null") ? new Date(convertToSrting((Date) obj[NumericConstants.TWENTY_ONE], Constants.DATE_FORMAT)) : null);
+                dto.setStatusString(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
+                dto.setStatusDescription(idHelperDTOMap.get(obj[NumericConstants.TWENTY_TWO]));
+                dto.setCheckRecord(!String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.TRUE) ? true : false : false);
+                dto.setTpstatus(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
+                resultList.add(dto);
             }
         }
 
@@ -759,27 +764,27 @@ public class CommmonLogic {
         }
 
         String companyMasterSids = CommonUtils.CollectionToString(companyMasterSidsList, true);
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     String filterString = "%" + stringFilter.getFilterString() + "%";
-                    parameters.put("filter~" + stringFilter.getPropertyId(), filterString);
+                    parameters.put(FILTER + stringFilter.getPropertyId(), filterString);
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
-                    parameters.put("filter~" + betweenFilter.getPropertyId() + "~from", String.valueOf(startValue));
-                    parameters.put("filter~" + betweenFilter.getPropertyId() + "~to", String.valueOf(endValue));
+                    parameters.put(FILTER + betweenFilter.getPropertyId() + StringConstantsUtil.FROM_FILTER, String.valueOf(startValue));
+                    parameters.put(FILTER + betweenFilter.getPropertyId() + StringConstantsUtil.TO_FILTER, String.valueOf(endValue));
                 } else if (filter instanceof Compare) {
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     Date value = (Date) compare.getValue();
                     if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put("filter~" + compare.getPropertyId() + "~from", String.valueOf(value));
+                        parameters.put(FILTER + compare.getPropertyId() + StringConstantsUtil.FROM_FILTER, String.valueOf(value));
                     } else {
-                        parameters.put("filter~" + compare.getPropertyId() + "~to", String.valueOf(value));
+                        parameters.put(FILTER + compare.getPropertyId() + StringConstantsUtil.TO_FILTER, String.valueOf(value));
                     }
                 }
             }
@@ -844,7 +849,7 @@ public class CommmonLogic {
         query.append(" INNER JOIN GCM_GLOBAL_DETAILS TEMP_TABLE ON TEMP_TABLE.CFP_CONTRACT_SID=CFP_CON.CFP_CONTRACT_SID AND \n");
         query.append(" TEMP_TABLE.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID AND TEMP_TABLE.IFP_CONTRACT_SID=IFP_CON.IFP_CONTRACT_SID  \n");
         query.append(" AND TEMP_TABLE.RS_CONTRACT_SID=RS_CON.RS_CONTRACT_SID AND TEMP_TABLE.PS_CONTRACT_SID=PS_CON.PS_CONTRACT_SID \n "
-        ).append(" AND TEMP_TABLE.USER_ID='").append(userId).append("' AND TEMP_TABLE.SESSION_ID='").append(sessionId).append("' \n");
+        ).append(" AND TEMP_TABLE.USER_ID= '").append(userId).append("' AND  TEMP_TABLE.SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
             query.append(" AND TEMP_TABLE.SCREEN_NAME = '").append(conSelDTO.getScreenName()).append("'  \n");
@@ -893,7 +898,7 @@ public class CommmonLogic {
             if (where) {
                 query.append(" AND CON.CONTRACT_NO like '").append(contractNo).append("'");
             } else {
-                query.append(" WHERE CON.CONTRACT_NO like '").append(contractNo).append("' \n ");
+                query.append(" WHERE CON.CONTRACT_NO like '").append(contractNo).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -908,54 +913,54 @@ public class CommmonLogic {
         if (!conSelDTO.getContractName().equals(StringUtils.EMPTY) && !conSelDTO.getContractName().equals(Constants.NULL)) {
             String contractName = conSelDTO.getContractName().replace('*', '%');
             if (where) {
-                query.append(" AND CON.CONTRACT_NAME like '").append(contractName).append("'  \n ");
+                query.append(" AND CON.CONTRACT_NAME  like '").append(contractName).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONTRACT_NAME like '").append(contractName).append("'  \n ");
+                query.append(" WHERE CON.CONTRACT_NAME like '").append(contractName).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getContractHolder().equals(StringUtils.EMPTY) && !conSelDTO.getContractHolder().equals(Constants.NULL)) {
             String contractHolder = conSelDTO.getContractHolder();
             if (where) {
-                query.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID='").append(contractHolder).append("'  \n ");
+                query.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID='").append(contractHolder).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONT_HOLD_COMPANY_MASTER_SID ='").append(contractHolder).append("'  \n ");
+                query.append(" WHERE CON.CONT_HOLD_COMPANY_MASTER_SID ='").append(contractHolder).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getMarketType().equals(StringUtils.EMPTY) && !conSelDTO.getMarketType().equals(Constants.NULL)) {
             String contractType = conSelDTO.getMarketType();
             if (where) {
-                query.append(" AND  HEL.HELPER_TABLE_SID='").append(contractType).append("'  \n ");
+                query.append(" AND  HEL.HELPER_TABLE_SID='").append(contractType).append(SLASH_N);
             } else {
-                query.append(" WHERE  HEL.HELPER_TABLE_SID='").append(contractType).append("'  \n ");
+                query.append(" WHERE  HEL.HELPER_TABLE_SID='").append(contractType).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleId().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleId().equals(Constants.NULL)) {
             String rsId = conSelDTO.getRebateScheduleId().replace('*', '%');
             if (where) {
-                query.append(" AND RS_CON.RS_ID like '").append(rsId).append("'  \n ");
+                query.append(" AND RS_CON.RS_ID like '").append(rsId).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.RS_ID like '").append(rsId).append("'  \n ");
+                query.append(" WHERE RS_CON.RS_ID like '").append(rsId).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleName().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleName().equals(Constants.NULL)) {
             String rsName = conSelDTO.getRebateScheduleName().replace('*', '%');
             if (where) {
-                query.append(" AND RS_CON.RS_NAME like '").append(rsName).append("'  \n ");
+                query.append(" AND RS_CON.RS_NAME like '").append(rsName).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.RS_NAME like '").append(rsName).append("'  \n ");
+                query.append(" WHERE RS_CON.RS_NAME like '").append(rsName).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleType().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleType().equals(Constants.NULL)) {
             String rsType = conSelDTO.getRebateScheduleType();
             if (where) {
-                query.append(" AND RS_CON.RS_TYPE ='").append(rsType).append("' \n ");
+                query.append(" AND RS_CON.RS_TYPE ='").append(rsType).append(SLASH_N_SPACE);
             } else {
-                query.append(" WHERE RS_CON.RS_TYPE='").append(rsType).append("' \n ");
+                query.append(" WHERE RS_CON.RS_TYPE='").append(rsType).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -981,18 +986,18 @@ public class CommmonLogic {
         if (!conSelDTO.getRebateScheduleNo().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleNo().equals(Constants.NULL)) {
             String rsNo = conSelDTO.getRebateScheduleNo().replace('*', '%');
             if (where) {
-                query.append(" AND RS_CON.RS_NO like '").append(rsNo).append("' \n ");
+                query.append(" AND  RS_CON.RS_NO like '").append(rsNo).append(SLASH_N_SPACE);
             } else {
-                query.append(" WHERE RS_CON.RS_NO like '").append(rsNo).append("' \n ");
+                query.append("  WHERE  RS_CON.RS_NO like '").append(rsNo).append(SLASH_N_SPACE);
                 where = true;
             }
         }
         if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
             if (where) {
-                query.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append("' \n ");
+                query.append(" AND RS_CON.RS_CATEGORY ='").append(rsCategory).append(SLASH_N_SPACE);
             } else {
-                query.append(" WHERE RS_CON.RS_CATEGORY='").append(rsCategory).append("' \n ");
+                query.append(" WHERE RS_CON.RS_CATEGORY='").append(rsCategory).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -1000,9 +1005,9 @@ public class CommmonLogic {
         if (!conSelDTO.getRebateProgramType().equals(StringUtils.EMPTY) && !conSelDTO.getRebateProgramType().equals(Constants.NULL)) {
             String rsProgType = conSelDTO.getRebateProgramType();
             if (where) {
-                query.append(" AND RS_CON.REBATE_PROGRAM_TYPE ='").append(rsProgType).append("'  \n ");
+                query.append(" AND RS_CON.REBATE_PROGRAM_TYPE ='").append(rsProgType).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.REBATE_PROGRAM_TYPE='").append(rsProgType).append("' \n ");
+                query.append(" WHERE RS_CON.REBATE_PROGRAM_TYPE='").append(rsProgType).append(SLASH_N_SPACE);
                 where = true;
             }
         }
@@ -1018,129 +1023,129 @@ public class CommmonLogic {
         if (!conSelDTO.getCfpNo().equals(StringUtils.EMPTY) && !conSelDTO.getCfpNo().equals(Constants.NULL)) {
             String cfpNo = conSelDTO.getCfpNo();
             if (where) {
-                query.append(" AND CFP_CON.CFP_NO='").append(cfpNo).append("'  \n ");
+                query.append(" AND CFP_CON.CFP_NO='").append(cfpNo).append(SLASH_N);
             } else {
-                query.append(" WHERE CFP_CON.CFP_NO ='").append(cfpNo).append("'  \n ");
+                query.append(" WHERE CFP_CON.CFP_NO ='").append(cfpNo).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getIfpNo().equals(StringUtils.EMPTY) && !conSelDTO.getIfpNo().equals(Constants.NULL)) {
             String ifpNo = conSelDTO.getIfpNo();
             if (where) {
-                query.append(" AND IFP_CON.IFP_NO='").append(ifpNo).append("'  \n ");
+                query.append(" AND IFP_CON.IFP_NO='").append(ifpNo).append(SLASH_N);
             } else {
-                query.append(" WHERE IFP_CON.IFP_NO ='").append(ifpNo).append("'  \n ");
+                query.append(" WHERE IFP_CON.IFP_NO ='").append(ifpNo).append(SLASH_N);
                 where = true;
             }
         }
         if (!conSelDTO.getPsNo().equals(StringUtils.EMPTY) && !conSelDTO.getPsNo().equals(Constants.NULL)) {
             String psNo = conSelDTO.getPsNo();
             if (where) {
-                query.append(" AND PS_CON.PS_NO='").append(psNo).append("'  \n ");
+                query.append(" AND PS_CON.PS_NO='").append(psNo).append(SLASH_N);
             } else {
-                query.append(" WHERE PS_CON.PS_NO ='").append(psNo).append("'  \n ");
+                query.append(" WHERE PS_CON.PS_NO ='").append(psNo).append(SLASH_N);
                 where = true;
             }
         }
-        if (parameters.containsKey("filter~contractHolder")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERCONTRACT_HOLDER)) {
             if (where) {
-                query.append(" AND CM.COMPANY_NAME like '").append(String.valueOf(parameters.get("filter~contractHolder"))).append("'  \n ");
+                query.append(" AND CM.COMPANY_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_HOLDER))).append(SLASH_N);
             } else {
-                query.append(" WHERE CM.COMPANY_NAME like '").append(String.valueOf(parameters.get("filter~contractHolder"))).append("' \n ");
+                query.append(" WHERE CM.COMPANY_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_HOLDER))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~cfpName")) {
+        if (parameters.containsKey(FILTERCFP_NAME)) {
 
             if (where) {
-                query.append(" AND CFP_CON.CFP_NAME like '").append(String.valueOf(parameters.get("filter~cfpName"))).append("'  \n ");
+                query.append(" AND CFP_CON.CFP_NAME like '").append(String.valueOf(parameters.get(FILTERCFP_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE CFP_CON.CFP_NAME like '").append(String.valueOf(parameters.get("filter~cfpName"))).append("' \n ");
+                query.append(" WHERE CFP_CON.CFP_NAME like '").append(String.valueOf(parameters.get(FILTERCFP_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~ifpName")) {
+        if (parameters.containsKey(FILTERIFP_NAME)) {
 
             if (where) {
-                query.append(" AND IFP_CON.IFP_NAME like '").append(String.valueOf(parameters.get("filter~ifpName"))).append("'  \n ");
+                query.append(" AND IFP_CON.IFP_NAME like '").append(String.valueOf(parameters.get(FILTERIFP_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE IFP_CON.IFP_NAME like '").append(String.valueOf(parameters.get("filter~ifpName"))).append("' \n ");
+                query.append(" WHERE IFP_CON.IFP_NAME like '").append(String.valueOf(parameters.get(FILTERIFP_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~rSName")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERR_S_NAME)) {
 
             if (where) {
-                query.append(" AND RS_CON.RS_NAME like '").append(String.valueOf(parameters.get("filter~rSName"))).append("'  \n ");
+                query.append(" AND RS_CON.RS_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERR_S_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.RS_NAME like '").append(String.valueOf(parameters.get("filter~rSName"))).append("' \n ");
+                query.append(" WHERE RS_CON.RS_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERR_S_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~pSName")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERP_S_NAME)) {
 
             if (where) {
-                query.append(" AND PS_CON.PS_NAME like '").append(String.valueOf(parameters.get("filter~pSName"))).append("'  \n ");
+                query.append(" AND PS_CON.PS_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERP_S_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE PS_CON.PS_NAME like '").append(String.valueOf(parameters.get("filter~pSName"))).append("' \n ");
+                query.append(" WHERE PS_CON.PS_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERP_S_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~contractNo")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERCONTRACT_NO)) {
 
             if (where) {
-                query.append(" AND CON.CONTRACT_NO like '").append(String.valueOf(parameters.get("filter~contractNo"))).append("'  \n ");
+                query.append(" AND CON.CONTRACT_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONTRACT_NO like '").append(String.valueOf(parameters.get("filter~contractNo"))).append("' \n ");
+                query.append(" WHERE CON.CONTRACT_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~contractName")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERCONTRACT_NAME)) {
 
             if (where) {
-                query.append(" AND CON.CONTRACT_NAME like '").append(String.valueOf(parameters.get("filter~contractName"))).append("'  \n ");
+                query.append(" AND CON.CONTRACT_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_NAME))).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONTRACT_NAME like '").append(String.valueOf(parameters.get("filter~contractName"))).append("' \n ");
+                query.append(" WHERE  CON.CONTRACT_NAME like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_NAME))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~cfpNo")) {
+        if (parameters.containsKey(FILTERCFP_NO)) {
 
             if (where) {
-                query.append(" AND CFP_CON.CFP_NO like '").append(String.valueOf(parameters.get("filter~cfpNo"))).append("'  \n ");
+                query.append(" AND CFP_CON.CFP_NO like '").append(String.valueOf(parameters.get(FILTERCFP_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE CFP_CON.CFP_NO like '").append(String.valueOf(parameters.get("filter~cfpNo"))).append("' \n ");
+                query.append(" WHERE CFP_CON.CFP_NO like '").append(String.valueOf(parameters.get(FILTERCFP_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~ifpNo")) {
+        if (parameters.containsKey(FILTERIFP_NO)) {
 
             if (where) {
-                query.append(" AND IFP_CON.IFP_NO like '").append(String.valueOf(parameters.get("filter~ifpNo"))).append("'  \n ");
+                query.append(" AND IFP_CON.IFP_NO like '").append(String.valueOf(parameters.get(FILTERIFP_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE IFP_CON.IFP_NO like '").append(String.valueOf(parameters.get("filter~ifpNo"))).append("' \n ");
+                query.append(" WHERE IFP_CON.IFP_NO like '").append(String.valueOf(parameters.get(FILTERIFP_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~rSNo")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERR_S_NO)) {
 
             if (where) {
-                query.append(" AND RS_CON.RS_NO like '").append(String.valueOf(parameters.get("filter~rSNo"))).append("'  \n ");
+                query.append(" AND RS_CON.RS_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERR_S_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE RS_CON.RS_NO like '").append(String.valueOf(parameters.get("filter~rSNo"))).append("' \n ");
+                query.append(" WHERE RS_CON.RS_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERR_S_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~pSNo")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERP_S_NO)) {
 
             if (where) {
-                query.append(" AND PS_CON.PS_NO like '").append(String.valueOf(parameters.get("filter~pSNo"))).append("'  \n ");
+                query.append(" AND PS_CON.PS_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERP_S_NO))).append(SLASH_N);
             } else {
-                query.append(" WHERE PS_CON.PS_NO like '").append(String.valueOf(parameters.get("filter~pSNo"))).append("' \n ");
+                query.append(" WHERE PS_CON.PS_NO like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERP_S_NO))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~contractType")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERCONTRACT_TYPE)) {
 
             if (where) {
-                query.append(" AND CON.CONTRACT_TYPE like '").append(String.valueOf(parameters.get("filter~contractType"))).append("'  \n ");
+                query.append(" AND CON.CONTRACT_TYPE like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_TYPE))).append(SLASH_N);
             } else {
-                query.append(" WHERE CON.CONTRACT_TYPE like '").append(String.valueOf(parameters.get("filter~contractType"))).append("' \n ");
+                query.append(" WHERE CON.CONTRACT_TYPE like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONTRACT_TYPE))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~rARCategory")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERR_AR_CATEGORY)) {
             HelperDTO type = new HelperDTO(0, Constants.SELECT_ONE);
-            if (parameters.get("filter~rARCategory") != null) {
-                type = (HelperDTO) parameters.get("filter~rARCategory");
+            if (parameters.get(StringConstantsUtil.FILTERR_AR_CATEGORY) != null) {
+                type = (HelperDTO) parameters.get(StringConstantsUtil.FILTERR_AR_CATEGORY);
             }
             if (where) {
                 query.append(" AND RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2='").append(type.getId()).append("')");
@@ -1148,164 +1153,164 @@ public class CommmonLogic {
                 query.append(" WHERE RS_CON.RS_MODEL_SID IN(select MASTER_SID from dbo.UDCS where MASTER_TYPE='RS_MODEL' AND UDC2='").append(type.getId()).append("')");
             }
         }
-        if ((parameters.get("filter~contStartDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~from"))))
-                && (parameters.get("filter~contStartDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~to"))))) {
+        if ((parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~contStartDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
             query.append(from);
-            query.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~contStartDate~to"))));
+            query.append(AND_QUOTE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~contStartDate~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~from"))))
-                && (parameters.get("filter~contStartDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~contStartDate~to"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~contStartDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~from"))))
-                && (parameters.get("filter~contStartDate~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~contStartDate~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~contStartDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
             query.append(from);
             query.append("' ");
         }
-        if ((parameters.get("filter~contEndDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~from"))))
-                && (parameters.get("filter~contEndDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~to"))))) {
+        if ((parameters.get(FILTERCONT_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))))
+                && (parameters.get(FILTERCONT_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~contEndDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))));
             query.append(from);
-            query.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~contEndDate~to"))));
+            query.append(AND_QUOTE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~contEndDate~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~from"))))
-                && (parameters.get("filter~contEndDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~to"))))) {
+        } else if ((parameters.get(FILTERCONT_END_DATEFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))))
+                && (parameters.get(FILTERCONT_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~contEndDate~to"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~contEndDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~from"))))
-                && (parameters.get("filter~contEndDate~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~contEndDate~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contEndDate~to"))))) {
+        } else if ((parameters.get(FILTERCONT_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))))
+                && (parameters.get(FILTERCONT_END_DATETO) == null || Constants.NULL.equals(String.valueOf(parameters.get(FILTERCONT_END_DATETO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~contEndDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))));
             query.append(from);
             query.append("' ");
         }
-        if ((parameters.get("filter~compStartDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~from"))))
-                && (parameters.get("filter~compStartDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~to"))))) {
+        if ((parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~compStartDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
             query.append(from);
-            query.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~compStartDate~to"))));
+            query.append(AND_QUOTE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~compStartDate~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~from"))))
-                && (parameters.get("filter~compStartDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~compStartDate~to"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~compStartDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compStartDate~from"))))
-                && (parameters.get("filter~compStartDate~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~compStartDate~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~contStartDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~compStartDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
             query.append(from);
             query.append("' ");
         }
-        if ((parameters.get("filter~compEndDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~from"))))
-                && (parameters.get("filter~compEndDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~to"))))) {
+        if ((parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE BETWEEN '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~compEndDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
             query.append(from);
-            query.append("' AND '");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~compEndDate~to"))));
+            query.append(AND_QUOTE);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~compEndDate~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~from")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~from"))))
-                && (parameters.get("filter~compEndDate~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~to")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE < '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~compEndDate~to"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))));
             query.append(to);
             query.append("' ");
-        } else if ((parameters.get("filter~compEndDate~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~from")))
-                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~from"))))
-                && (parameters.get("filter~compEndDate~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~compEndDate~to")))
-                || StringUtils.isBlank(String.valueOf(parameters.get("filter~compEndDate~to"))))) {
+        } else if ((parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM)))
+                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))))
+                && (parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO)))
+                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE > '");
-            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~compEndDate~from"))));
+            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
             query.append(from);
             query.append("' ");
         }
-        if (parameters.containsKey("filter~status")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERSTATUS)) {
 
             if (where) {
-                query.append(" AND TEMP_TABLE.STATUS like '").append(String.valueOf(parameters.get("filter~status"))).append("'  \n ");
+                query.append(" AND TEMP_TABLE.STATUS like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERSTATUS))).append(SLASH_N);
             } else {
-                query.append(" WHERE TEMP_TABLE.STATUS like '").append(String.valueOf(parameters.get("filter~status"))).append("' \n ");
+                query.append(" WHERE TEMP_TABLE.STATUS like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERSTATUS))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~projectionIdLink")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERPROJECTION_ID_LINK)) {
 
             if (where) {
-                query.append(" AND TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(parameters.get("filter~projectionIdLink"))).append("'  \n ");
+                query.append(" AND TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERPROJECTION_ID_LINK))).append(SLASH_N);
             } else {
-                query.append(" WHERE TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(parameters.get("filter~projectionIdLink"))).append("' \n ");
+                query.append(" WHERE TEMP_TABLE.PROJECTION_MASTER_SID like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERPROJECTION_ID_LINK))).append(SLASH_N_SPACE);
             }
         }
-        if (parameters.containsKey("filter~workflowStatus")) {
+        if (parameters.containsKey(StringConstantsUtil.FILTERWORKFLOW_STATUS)) {
 
             if (where) {
-                query.append(" AND WF.WORKFLOW_STATUS like '").append(String.valueOf(parameters.get("filter~workflowStatus"))).append("'  \n ");
+                query.append(" AND WF.WORKFLOW_STATUS like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERWORKFLOW_STATUS))).append(SLASH_N);
             } else {
-                query.append(" WHERE WF.WORKFLOW_STATUS like '").append(String.valueOf(parameters.get("filter~workflowStatus"))).append("' \n ");
+                query.append(" WHERE WF.WORKFLOW_STATUS like '").append(String.valueOf(parameters.get(StringConstantsUtil.FILTERWORKFLOW_STATUS))).append(SLASH_N_SPACE);
             }
         }
 
@@ -1332,7 +1337,7 @@ public class CommmonLogic {
     public String convertStringToDate(String stringDate, String inputFormat, String outputFormat) throws ParseException {
         SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
         SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
-        Date date = new Date();
+        Date date;
         date = inputDateFormatter.parse(stringDate);
         return outputDateFormatter.format(date);
     }
@@ -1343,17 +1348,17 @@ public class CommmonLogic {
         query.append("UPDATE IMTD SET  CHECK_RECORD='").append(checkValue ? 1 : 0).append("'");
         query.append("FROM   GCM_GLOBAL_DETAILS IMTD\n"
                 + " WHERE CONTRACT_MASTER_SID='").append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0).append("'  ");
-        query.append("AND CFP_CONTRACT_SID='").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
-        query.append("AND IFP_CONTRACT_SID='").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append("'  ");
-        query.append("AND RS_CONTRACT_SID='").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0).append("'  ");
-        query.append("AND PS_CONTRACT_SID='").append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0).append("'  ");
+        query.append("AND CFP_CONTRACT_SID= '").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
+        query.append("AND IFP_CONTRACT_SID= '").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append("'  ");
+        query.append("AND RS_CONTRACT_SID= '").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0).append("'  ");
+        query.append("AND PS_CONTRACT_SID= '").append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0).append("'  ");
         if (!dto.getProjectionId().isEmpty()) {
-            query.append("AND PROJECTION_MASTER_SID='").append(dto.getProjectionId()).append("'  ");
+            query.append("AND PROJECTION_MASTER_SID= '").append(dto.getProjectionId()).append("'  ");
         }
-        query.append("AND USER_ID='").append(session.getUserId()).append("'  ");
-        query.append("AND SESSION_ID='").append(session.getSessionId()).append("'  ");
+        query.append("AND USER_ID= '").append(session.getUserId()).append("'  ");
+        query.append("AND SESSION_ID= '").append(session.getSessionId()).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME='").append(contractType).append("'");
+            query.append("AND SCREEN_NAME ='").append(contractType).append("'");
         }
 
         count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
@@ -1370,7 +1375,7 @@ public class CommmonLogic {
             query.append(" (CHECK_RECORD,CONTRACT_MASTER_SID,CFP_MODEL_SID,IFP_MODEL_SID,RS_MODEL_SID,PS_MODEL_SID,USERS_SID,SESSION_ID)  ");
         }
 
-        query.append("VALUES(  ");
+        query.append("VALUES (  ");
         query.append("'").append(checkValue ? 1 : 0).append("'");
         query.append(",").append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0);
         query.append(",").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
@@ -1390,7 +1395,7 @@ public class CommmonLogic {
 
     public int callDateUpdate(Date date, ContractResultDTO dto, SessionDTO session, String contractType, String startOrEnd) {
         int count = 0;
-        SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat dateFormater = new SimpleDateFormat(YYYY_M_MDD_H_HMMSS_SSS);
         StringBuilder query = new StringBuilder("   ");
 
         query.append("UPDATE GCM_GLOBAL_DETAILS SET  ").append(startOrEnd).append("='").append(dateFormater.format(date)).append("'");
@@ -1400,10 +1405,10 @@ public class CommmonLogic {
         query.append("AND RS_CONTRACT_SID='").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0).append("'  ");
         query.append("AND PS_CONTRACT_SID='").append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0).append("'  ");
         query.append("AND PROJECTION_MASTER_SID='").append(dto.getProjectionId()).append("'  ");
-        query.append("AND USER_ID='").append(session.getUserId()).append("'  ");
-        query.append("AND SESSION_ID='").append(session.getSessionId()).append("'  ");
+        query.append("AND USER_ID= '").append(session.getUserId()).append("'  ");
+        query.append("AND SESSION_ID= '").append(session.getSessionId()).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME='").append(contractType).append("'");
+            query.append("AND SCREEN_NAME= '").append(contractType).append("'");
         }
 
         count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
@@ -1412,7 +1417,7 @@ public class CommmonLogic {
 
     public int callDateInsert(Date date, ContractResultDTO dto, SessionDTO session, String contractType, String startOrEnd) {
         int count = 0;
-        SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat dateFormater = new SimpleDateFormat(YYYY_M_MDD_H_HMMSS_SSS);
 
         StringBuilder query = new StringBuilder("   ");
         query.append("INSERT INTO GCM_GLOBAL_DETAILS ");
@@ -1422,7 +1427,7 @@ public class CommmonLogic {
             query.append(" (").append(startOrEnd).append(",CONTRACT_MASTER_SID,CFP_CONTRACT_SID,IFP_CONTRACT_SID,RS_CONTRACT_SID,PS_CONTRACT_SID,USER_ID,SESSION_ID)  ");
         }
 
-        query.append("VALUES(  ");
+        query.append("VALUES (  ");
         query.append("'").append(dateFormater.format(date)).append("'");
         query.append(",").append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0);
         query.append(",").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
@@ -1491,7 +1496,7 @@ public class CommmonLogic {
     public boolean massUpdate(String fieldName, String userId, String sessionId, String contractType, Object value) {
         boolean updateStatus = false;
 
-        SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat dateFormater = new SimpleDateFormat(YYYY_M_MDD_H_HMMSS_SSS);
         StringBuilder query = new StringBuilder("   ");
         query.append("UPDATE GCM_GLOBAL_DETAILS SET   ");
         if (fieldName.equals("Status")) {
@@ -1579,7 +1584,7 @@ public class CommmonLogic {
 
         query.append(" select distinct CON_M.CONTRACT_ID  as conId,CON_M.CONTRACT_NO as conNo,CON_M.CONTRACT_NAME as conName,CON_M.CONTRACT_MASTER_SID  as sysId from CONTRACT_MASTER CON_M     ");
         query.append(" join GCM_GLOBAL_DETAILS TEMP_TABLE ON TEMP_TABLE.CONTRACT_MASTER_SID=CON_M.CONTRACT_MASTER_SID     ");
-        query.append(" AND TEMP_TABLE.USER_ID='").append(userId).append("' AND TEMP_TABLE.SESSION_ID='").append(sessionId).append("'  AND TEMP_TABLE.OPERATION='2'      ");
+        query.append(" AND TEMP_TABLE.USER_ID = '").append(userId).append("' AND TEMP_TABLE.SESSION_ID ='").append(sessionId).append("'  AND TEMP_TABLE.OPERATION='2'      ");
 
         return query.toString();
     }
@@ -1590,7 +1595,7 @@ public class CommmonLogic {
         query.append(" select distinct CFP_MOD.CFP_ID as cfpId,CFP_M.CFP_NO as cfpNo,CFP_M.CFP_NAME as cfpName,CFP_M.CFP_CONTRACT_SID as sysId from CFP_CONTRACT CFP_M        ");
         query.append(" join GCM_GLOBAL_DETAILS TEMP_TABLE ON TEMP_TABLE.CFP_CONTRACT_SID=CFP_M.CFP_CONTRACT_SID    ");
         query.append(" LEFT JOIN CFP_MODEL CFP_MOD ON CFP_MOD.CFP_MODEL_SID=CFP_M.CFP_MODEL_SID    ");
-        query.append(" AND TEMP_TABLE.USER_ID='").append(userId).append("' AND TEMP_TABLE.SESSION_ID='").append(sessionId).append("'   AND TEMP_TABLE.OPERATION='2'    ");
+        query.append(" AND  TEMP_TABLE.USER_ID='").append(userId).append("' AND TEMP_TABLE.SESSION_ID= '").append(sessionId).append("'   AND TEMP_TABLE.OPERATION='2'    ");
         query.append(" where CFP_MOD.CFP_ID IS NOT NULL and CFP_M.CFP_NO IS NOT NULL AND CFP_M.CFP_NAME IS NOT NULL AND CFP_M.CONTRACT_MASTER_SID='").append(contractSid).append("'   ");
 
         return query.toString();
@@ -1602,7 +1607,7 @@ public class CommmonLogic {
         query.append(" select distinct IFP_MOD.IFP_ID as ifpId,IFP_M.IFP_NO as ifpNo,IFP_M.IFP_NAME as ifpName,IFP_M.IFP_CONTRACT_SID as sysId from IFP_CONTRACT IFP_M        ");
         query.append(" join GCM_GLOBAL_DETAILS TEMP_TABLE ON TEMP_TABLE.IFP_CONTRACT_SID=IFP_M.IFP_CONTRACT_SID    ");
         query.append(" LEFT JOIN IFP_MODEL IFP_MOD ON IFP_MOD.iFP_MODEL_SID=iFP_M.IFP_MODEL_SID    ");
-        query.append(" AND TEMP_TABLE.USER_ID='").append(userId).append("'  AND TEMP_TABLE.SESSION_ID='").append(sessionId).append("' AND TEMP_TABLE.OPERATION='2'    ");
+        query.append(" AND  TEMP_TABLE.USER_ID='").append(userId).append("'  AND TEMP_TABLE.SESSION_ID='").append(sessionId).append("' AND TEMP_TABLE.OPERATION='2'    ");
         query.append(" where IFP_MOD.IFP_ID IS NOT NULL and IFP_M.IFP_NO IS NOT NULL AND IFP_M.IFP_NAME IS NOT NULL AND IFP_M.CONTRACT_MASTER_SID='").append(contractSid).append("' AND IFP_M.CFP_CONTRACT_SID='").append(cfpSid).append("'   ");
 
         return query.toString();
@@ -1636,8 +1641,8 @@ public class CommmonLogic {
     }
 
     public List<ContractsDetailsDto> getDasboardResults(String query, int levelIndicator, int contractSid, int cfpSid, int ifpSid, int psSid, ContractsDetailsDto parent1, ContractsDetailsDto parent2, ContractsDetailsDto parent3, ContractsDetailsDto parent4) {
-        List list = new ArrayList();
-        List<ContractsDetailsDto> resultList = new ArrayList<ContractsDetailsDto>();
+        List list;
+        List<ContractsDetailsDto> resultList = new ArrayList<>();
         ContractsDetailsDto dto = null;
 
         list = (List) DAO.executeSelect(query);
@@ -1717,7 +1722,7 @@ public class CommmonLogic {
 
     }
 
-    public ExtTreeContainer<ContractsDetailsDto> loadContainerData(List<ContractsDetailsDto> resultList, final ExtTreeContainer<ContractsDetailsDto> container, ContractsDetailsDto parent) throws SystemException {
+    public ExtTreeContainer<ContractsDetailsDto> loadContainerData(List<ContractsDetailsDto> resultList, final ExtTreeContainer<ContractsDetailsDto> container, ContractsDetailsDto parent) {
         if (parent != null) {
             if (parent.getLevel() == 1) {
                 container.removeAllItems();
@@ -1792,8 +1797,8 @@ public class CommmonLogic {
 
     public List<ContractResultDTO> getContractSelectionResults(String query, boolean isExcelExport) {
 
-        List list = new ArrayList();
-        List<ContractResultDTO> resultList = new ArrayList<ContractResultDTO>();
+        List list;
+        List<ContractResultDTO> resultList = new ArrayList<>();
         ContractResultDTO dto = null;
         Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
         list = (List) DAO.executeSelect(query);
@@ -1813,48 +1818,48 @@ public class CommmonLogic {
                     dto.setContractNo(String.valueOf(obj[NumericConstants.THREE]));
                     dto.setContractName(String.valueOf(obj[NumericConstants.FOUR]));
                     dto.setContractType(idHelperDTOMap.get(obj[NumericConstants.FIVE]));
-                    dto.setContStartDate(!String.valueOf(obj[NumericConstants.SIX]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SIX].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
-                    dto.setContEndDate(!String.valueOf(obj[NumericConstants.SEVEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SEVEN].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
+                    dto.setContStartDate(!String.valueOf(obj[NumericConstants.SIX]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SIX].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setContEndDate(!String.valueOf(obj[NumericConstants.SEVEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SEVEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
                     dto.setCfpName(String.valueOf(obj[NumericConstants.EIGHT]));
                     dto.setCfpNo(String.valueOf(obj[NumericConstants.NINE]));
                     dto.setCfpId(String.valueOf(obj[NumericConstants.TEN]));
-                    dto.setCfpStatus(String.valueOf(obj[NumericConstants.ELEVEN]));
-                    dto.setCfpStartDate(!String.valueOf(obj[NumericConstants.TWELVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWELVE].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
-                    dto.setCfpEndDate(!String.valueOf(obj[NumericConstants.THIRTEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTEEN].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
+                    dto.setCfpStatus(idHelperDTOMap.get(obj[NumericConstants.ELEVEN]));
+                    dto.setCfpStartDate(!String.valueOf(obj[NumericConstants.TWELVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWELVE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setCfpEndDate(!String.valueOf(obj[NumericConstants.THIRTEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
 
                     dto.setIfpName(String.valueOf(obj[NumericConstants.FOURTEEN]));
                     dto.setIfpNo(String.valueOf(obj[NumericConstants.FIFTEEN]));
                     dto.setIfpId(String.valueOf(obj[NumericConstants.SIXTEEN]));
-                    dto.setIfpStatus(String.valueOf(obj[NumericConstants.SEVENTEEN]));
-                    dto.setIfpStartDate(!String.valueOf(obj[NumericConstants.EIGHTEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.EIGHTEEN].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
-                    dto.setIfpEndDate(!String.valueOf(obj[NumericConstants.NINETEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.NINETEEN].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
+                    dto.setIfpStatus(idHelperDTOMap.get(obj[NumericConstants.SEVENTEEN]));
+                    dto.setIfpStartDate(!String.valueOf(obj[NumericConstants.EIGHTEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.EIGHTEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setIfpEndDate(!String.valueOf(obj[NumericConstants.NINETEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.NINETEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
 
                     dto.setpSName(String.valueOf(obj[NumericConstants.TWENTY]));
                     dto.setpSNo(String.valueOf(obj[NumericConstants.TWENTY_ONE]));
                     dto.setpSId(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
-                    dto.setpSStatus(String.valueOf(obj[NumericConstants.TWENTY_THREE]));
-                    dto.setpStartDate(!String.valueOf(obj[NumericConstants.TWENTY_FOUR]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWENTY_FOUR].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
-                    dto.setpSEndDate(!String.valueOf(obj[NumericConstants.TWENTY_FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWENTY_FIVE].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
+                    dto.setpSStatus(idHelperDTOMap.get(obj[NumericConstants.TWENTY_THREE]));
+                    dto.setpStartDate(!String.valueOf(obj[NumericConstants.TWENTY_FOUR]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWENTY_FOUR].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setpSEndDate(!String.valueOf(obj[NumericConstants.TWENTY_FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWENTY_FIVE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
 
                     dto.setrSName(String.valueOf(obj[NumericConstants.TWENTY_SIX]));
                     dto.setrSNo(obj[NumericConstants.TWENTY_SEVEN] != null ? String.valueOf(obj[NumericConstants.TWENTY_SEVEN]) : StringUtils.EMPTY);
                     dto.setrARCategory(String.valueOf(obj[NumericConstants.TWENTY_EIGHT]).trim().equalsIgnoreCase(Constants.SELECT_ONE) || obj[NumericConstants.TWENTY_EIGHT] == null ? StringUtils.EMPTY : String.valueOf(obj[NumericConstants.TWENTY_EIGHT]));
                     dto.setrSId(String.valueOf(obj[NumericConstants.TWENTY_NINE]));
-                    dto.setrSStatus(String.valueOf(obj[NumericConstants.THIRTY]));
-                    dto.setrStartDate(!String.valueOf(obj[NumericConstants.THIRTY_ONE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_ONE].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
-                    dto.setrSEndDate(!String.valueOf(obj[NumericConstants.THIRTY_TWO]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_TWO].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
+                    dto.setrSStatus(idHelperDTOMap.get(obj[NumericConstants.THIRTY]));
+                    dto.setrStartDate(!String.valueOf(obj[NumericConstants.THIRTY_ONE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_ONE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setrSEndDate(!String.valueOf(obj[NumericConstants.THIRTY_TWO]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_TWO].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
 
                     dto.setCfpContSid(String.valueOf(obj[NumericConstants.THIRTY_THREE]));
                     dto.setRsContSid(String.valueOf(obj[NumericConstants.THIRTY_FOUR]));
                     dto.setIfpContSid(String.valueOf(obj[NumericConstants.THIRTY_FIVE]));
                     dto.setPsContSid(String.valueOf(obj[NumericConstants.THIRTY_SIX]));
                     dto.setContractMasterSid(String.valueOf(obj[NumericConstants.THIRTY_SEVEN]));
-                    dto.setCompStartDate(!String.valueOf(obj[NumericConstants.THIRTY_EIGHT]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_EIGHT].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
-                    dto.setCompEndDate(!String.valueOf(obj[NumericConstants.THIRTY_NINE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_NINE].toString(), "yyyy-MM-dd HH:mm:ss.SSS", "MM/dd/yyyy")) : null);
+                    dto.setCompStartDate(!String.valueOf(obj[NumericConstants.THIRTY_EIGHT]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_EIGHT].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setCompEndDate(!String.valueOf(obj[NumericConstants.THIRTY_NINE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_NINE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
                     HelperDTO status = new HelperDTO();
                     status.setId(!String.valueOf(obj[NumericConstants.FORTY]).equals(Constants.NULL) ? Integer.parseInt(String.valueOf(obj[NumericConstants.FORTY])) : 0);
                     status.setDescription(!String.valueOf(obj[NumericConstants.FORTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.FORTY_THREE]) : Constants.SELECT_ONE);
-                    dto.setStatus(status);
+                    dto.setStatus(idHelperDTOMap.get(obj[NumericConstants.FORTY]));
                     dto.setCheckRecord(!String.valueOf(obj[NumericConstants.FORTY_ONE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.FORTY_ONE]).equals(Constants.TRUE) : false);
                     dto.setStatusString(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
                     dto.setStatusDescription(new HelperDTO(String.valueOf(obj[NumericConstants.FORTY_TWO])));
@@ -1887,7 +1892,7 @@ public class CommmonLogic {
     public List<IdDescriptionDTO> loadCompanyQualifier() {
 
         List list = new ArrayList();
-        List<IdDescriptionDTO> resultList = new ArrayList<IdDescriptionDTO>();
+        List<IdDescriptionDTO> resultList = new ArrayList<>();
         IdDescriptionDTO idDescription = null;
         try {
             DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyQualifier.class);
@@ -2055,7 +2060,7 @@ public class CommmonLogic {
                     tradeClass.setCreatedDate(new Date());
                     tradeClass.setModifiedDate(new Date());
                     tradeClass.setInboundStatus("A");
-                    tradeClass = CompanyTradeClassLocalServiceUtil.addCompanyTradeClass(tradeClass);
+                    CompanyTradeClassLocalServiceUtil.addCompanyTradeClass(tradeClass);
                 }
 
             }
@@ -2070,7 +2075,7 @@ public class CommmonLogic {
     }
 
     public Date stringToDateForIden(final String dateString) throws ParseException {
-        final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        final DateFormat inputFormat = new SimpleDateFormat(YYYY_M_MDD_H_HMMSS_SSS);
         Date date;
         date = inputFormat.parse(dateString);
         return date;
@@ -2166,7 +2171,7 @@ public class CommmonLogic {
         return count;
     }
 
-    public String convertToSrting(Date date, String outputFormat) throws ParseException {
+    public String convertToSrting(Date date, String outputFormat) {
         SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
 
         return outputDateFormatter.format(date);
@@ -2219,7 +2224,7 @@ public class CommmonLogic {
         input.add(session.getSessionId());
         input.add(compSid);
         query = query + ItemQueries.getQuery(input, "get Actual Paid List Count");
-        List<ContractResultDTO> resultList = new ArrayList<ContractResultDTO>();
+        List<ContractResultDTO> resultList = new ArrayList<>();
         ContractResultDTO dto = null;
 
         List list = (List) DAO.executeSelect(query);
@@ -2230,7 +2235,7 @@ public class CommmonLogic {
             resultList.add(dto);
 
         } else {
-            SimpleDateFormat outputDateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat outputDateFormatter = new SimpleDateFormat(Constants.DATE_FORMAT);
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
                     Object obj[] = (Object[]) list.get(i);
@@ -2264,7 +2269,7 @@ public class CommmonLogic {
 
     public static void loaDDLBForListLoading(final ComboBox comboBox, String columnName, Boolean isFilter) {
         comboBox.setPageLength(NumericConstants.SEVEN);
-        BeanItemContainer<HelperDTO> container = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         comboBox.setContainerDataSource(container);
         if (isFilter) {
             comboBox.setNullSelectionItemId(ddlbShowAllValue);
@@ -2282,7 +2287,7 @@ public class CommmonLogic {
             List input = new ArrayList();
             input.add(columnName);
             List<Object[]> list = ItemQueries.getItemData(input, "Combobox List Loading", null);
-            List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+            List<HelperDTO> resultList = new ArrayList<>();
             if (isFilter) {
                 HelperDTO defaultValue = new HelperDTO(0, Constants.SHOW_ALL);
                 resultList.add(defaultValue);

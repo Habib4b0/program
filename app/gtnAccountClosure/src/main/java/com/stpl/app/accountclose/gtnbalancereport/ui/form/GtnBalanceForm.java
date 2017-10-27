@@ -105,12 +105,10 @@ public class GtnBalanceForm extends CustomComponent implements View {
      */
     private NotesTabForm additionalInformation;
     
-    private CustomFieldGroup dataSelectionBinder;
     GtnBalanceEditWindow editWindow;
     GtnBalanceViewWindow viewWindow;
     ExtFilterTable resultTable;
     DataSelectionDTO dsdto;
-    private final Map<String, Boolean> pushMap = new HashMap<String, Boolean>();
     public int tempTabPosition = 0;
     boolean dsFlag = true;
     int lastPosition;

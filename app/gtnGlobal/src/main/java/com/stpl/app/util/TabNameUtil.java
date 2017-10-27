@@ -25,7 +25,7 @@ public final class TabNameUtil {
 	public static final String REBATE_SCHEDULE_INFO="Rebate Schedule Information";
 	
 	/** The Constant RS_ITEM_ADDITION. */
-	public static final String RS_ITEM_ADDITION="Item Addition";
+	public static final String ITEM_ADDITION="Item Addition";
 	
 	/** The Constant RS_REBATE_SETUP. */
 	public static final String RS_REBATE_SETUP="Rebate Setup";
@@ -48,17 +48,11 @@ public final class TabNameUtil {
 	/** The Constant IFP_INFO. */
 	public static final String IFP_INFO="IFP Information";
 	
-	/** The Constant IFP_ITEM_ADDITION. */
-	public static final String IFP_ITEM_ADDITION="Item Addition";
-	
 	/** The Constant IFP_ITEMS. */
 	public static final String IFP_ITEMS="Items";
 
 	/** The Constant PRICE_SCHEDULE_INFO. */
 	public static final String PRICE_SCHEDULE_INFO="Price Schedule Information";
-	
-	/** The Constant PS_ITEM_ADDITION. */
-	public static final String PS_ITEM_ADDITION="Item Addition";
 	
 	/** The Constant PS_PRICING. */
 	public static final String PS_PRICING="Pricing";

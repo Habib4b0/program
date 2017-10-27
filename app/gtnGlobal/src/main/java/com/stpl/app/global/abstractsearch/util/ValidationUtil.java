@@ -37,7 +37,7 @@ public class ValidationUtil {
      */
     public static String getMC(final String key) {
         try {
-            if (key !=null && resouceBundle.containsKey(key)) {
+            if (key != null && resouceBundle.containsKey(key)) {
                 return resouceBundle.getString(key);
             }
             return "";
@@ -72,12 +72,12 @@ public class ValidationUtil {
 
     public static String getLC(final String key) {
         try {
-            if(key!=null && label.containsKey(key)){
+            if (key != null && label.containsKey(key)) {
                 return label.getString(key);
             }
-             return "";
+            return "";
         } catch (MissingResourceException e) {
-           LOGGER.info("Resource label for the given key is not available in the bundle ");
+            LOGGER.error(e);
             return "";
         }
     }

@@ -38,7 +38,7 @@ public class ExistingComponentSearchTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         newDiscountTabDto.setStartIndex(start);
         newDiscountTabDto.setEndIndex(offset);
-        List<ComponentInfoDTO> resultList = new ArrayList<ComponentInfoDTO>();
+        List<ComponentInfoDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.getRebateSchedule(newDiscountTabDto);
         } catch (Exception ex) {

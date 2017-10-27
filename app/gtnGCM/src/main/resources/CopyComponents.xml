@@ -136,7 +136,7 @@ and open the template in the editor.
                             <VerticalLayout spacing="true" margin="true" >
                            
                                 <!-- <a:ExtFilterTable id="componentDetailsTable" height="100px" pageLength="8" immediate="true" />-->
-                                <VerticalLayout id="ComponentDetailsLayout">
+                                <VerticalLayout id="ComponentDetailsTableLayout">
                                 </VerticalLayout>                         
                                 <HorizontalLayout spcing="true" margin="true">
                                

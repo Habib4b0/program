@@ -27,19 +27,20 @@ public class BPMManagerBean {
     private static BPMManagerBean bpmManagerBean;
     private Properties properties = DroolsProperties.getPropertiesData();
     protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
+
     private BPMManagerBean() {
         try {
-            String identifier = "com.stpl.app.bpm:ARMWorkflow:1.0";
-            ReleaseId releaseId = new ReleaseIdImpl(properties.getProperty("ARMWorkflow_groupId","com.stpl.app.bpm"), properties.getProperty("ARMWorkflow_artifactId","ARMWorkflow"), properties.getProperty("ARMWorkflow_version","1.0"));
+            String identifier = "com.sample:example:1.0";
+            ReleaseId releaseIds = new ReleaseIdImpl(properties.getProperty("ARMWorkflow_groupId","com.stpl.app.bpm"), properties.getProperty("ARMWorkflow_artifactId","ARMWorkflow"), properties.getProperty("ARMWorkflow_version", "1.0"));
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
-            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId).entityManagerFactory(emf).userGroupCallback(new CustomUserCallBack());
-            if (registry.isRegistered(identifier)){
+            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseIds).entityManagerFactory(emf).userGroupCallback(new CustomUserCallBack());
+            if (registry.isRegistered(identifier)) {
                 registry.remove(identifier);
             }
             runtimeEngine = RuntimeManagerFactory.Factory.get().newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
             runtimeEngine.getKieSession().getWorkItemManager().registerWorkItemHandler("Email", new MailWorkItemHandler());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in BPMManagerBean :"+e);
         }
     }
 

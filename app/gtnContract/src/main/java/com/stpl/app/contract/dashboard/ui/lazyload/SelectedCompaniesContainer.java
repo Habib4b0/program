@@ -38,13 +38,7 @@ public class SelectedCompaniesContainer implements BeanDAO<CFPCompanyDTO> {
     @Override
     public int count(final BeanSearchCriteria searchCriteria) {
         int count = 0;
-        try {
-            count = cfpSearchLogic.getLazySelectedCompaniesDetailsCount(0, 0, false, null, searchCriteria, true);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-             LOGGER.error(ex);
-        }
+        count = cfpSearchLogic.getLazySelectedCompaniesDetailsCount(0, 0, false, null, searchCriteria, true);
         return count;
     }
 
@@ -58,14 +52,7 @@ public class SelectedCompaniesContainer implements BeanDAO<CFPCompanyDTO> {
      */
     @Override
     public List<CFPCompanyDTO> find(final BeanSearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
-        try {
-            LOGGER.debug("Entering AvailableCompanyAddition find method :");
-            return cfpSearchLogic.getLazySelectedCompaniesDeatils(startIndex, offset, false, list,searchCriteria,false,StringUtils.EMPTY, Boolean.FALSE);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        }
-        return new ArrayList<CFPCompanyDTO>();
-    }
+        LOGGER.debug("Entering AvailableCompanyAddition find method :");
+        return cfpSearchLogic.getLazySelectedCompaniesDeatils(startIndex, offset, false, list,searchCriteria,false,StringUtils.EMPTY, Boolean.FALSE);
+}
 }

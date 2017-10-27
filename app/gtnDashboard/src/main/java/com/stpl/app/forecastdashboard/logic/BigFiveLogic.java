@@ -70,7 +70,7 @@ public class BigFiveLogic {
             list = (List<Object[]>) dao.getResultList(sql.toString());
         } catch (Exception ex) {
 
-            LOGGER.error(ex.getMessage());
+            LOGGER.error(ex);
         }
 
         return list;

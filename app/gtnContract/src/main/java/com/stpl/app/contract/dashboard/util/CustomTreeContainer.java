@@ -41,11 +41,11 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
     /**
      * Set of IDs of those contained Items that can't have children.
      */
-    private final Set<Object> noChildrenAllowed = new HashSet<Object>();
+    private final Set<Object> noChildrenAllowed = new HashSet<>();
     /**
      * Mapping from Item ID to parent Item ID.
      */
-    private final Map<Object, Object> parent = new HashMap<Object, Object>();
+    private final Map<Object, Object> parent = new HashMap<>();
     /**
      * Mapping from Item ID to parent Item ID for items included in the filtered
      * container.
@@ -54,7 +54,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
     /**
      * Mapping from Item ID to a list of child IDs.
      */
-    private final Map<Object, LinkedList<Object>> children = new HashMap<Object, LinkedList<Object>>();
+    private final Map<Object, LinkedList<Object>> children = new HashMap<>();
     /**
      * Mapping from Item ID to a list of child IDs when filtered.
      */
@@ -62,7 +62,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
     /**
      * List that contains all root elements of the container.
      */
-    private final List<Object> roots = new LinkedList<Object>();
+    private final List<Object> roots = new LinkedList<>();
     /**
      * List that contains all filtered root elements of the container.
      */
@@ -249,7 +249,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
      * @param type the type
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public CustomTreeContainer(final Class<? super E> type) throws IllegalArgumentException {
+    public CustomTreeContainer(final Class<? super E> type) {
         super(type);
     }
 
@@ -260,7 +260,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
      * @param collection the collection
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public CustomTreeContainer(final Class<? super E> type, final Collection<? extends E> collection) throws IllegalArgumentException {
+    public CustomTreeContainer(final Class<? super E> type, final Collection<? extends E> collection) {
         super(type, collection);
     }
 
@@ -270,7 +270,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
      * @param collection the collection
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public CustomTreeContainer(final Collection<? extends E> collection) throws IllegalArgumentException {
+    public CustomTreeContainer(final Collection<? extends E> collection) {
         super(collection);
     }
 
@@ -481,7 +481,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
         if (pcl == null) {
             // Create an empty list for holding children if one were not
             // previously created
-            pcl = new LinkedList<Object>();
+            pcl = new LinkedList<>();
             children.put(newParentId, pcl);
         }
         pcl.add(itemId);
@@ -875,14 +875,14 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
         }
 
         // Reset data structures
-        filteredRoots = new LinkedList<Object>();
-        filteredChildren = new HashMap<Object, LinkedList<Object>>();
-        filteredParent = new HashMap<Object, Object>();
+        filteredRoots = new LinkedList<>();
+        filteredChildren = new HashMap<>();
+        filteredParent = new HashMap<>();
 
         if (includeParentsWhenFiltering) {
             // Filter so that parents for items that match the filter are also
             // included
-            final HashSet<Object> includedItems = new HashSet<Object>();
+            final HashSet<Object> includedItems = new HashSet<>();
             for (int i = 0; i < roots.size(); i++) {
                 final Object rootId = roots.get(i);
                 if (filterIncludingParents(rootId, includedItems)) {
@@ -933,7 +933,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
     private void addFilteredChild(final Object parentItemId, final Object childItemId) {
         LinkedList<Object> parentToChildrenList = filteredChildren.get(parentItemId);
         if (parentToChildrenList == null) {
-            parentToChildrenList = new LinkedList<Object>();
+            parentToChildrenList = new LinkedList<>();
             filteredChildren.put(parentItemId, parentToChildrenList);
         }
         filteredParent.put(childItemId, parentItemId);
@@ -1022,7 +1022,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
      */
     @Override
     public List<E> getItemIds() {
-        return new ArrayList<E>(super.getItemIds());
+        return new ArrayList<>(super.getItemIds());
     }
 
     /**
@@ -1048,7 +1048,7 @@ public class CustomTreeContainer<E> extends BeanItemContainer<E> implements Hier
      * @throws UnsupportedOperationException the unsupported operation exception
      */
     @Override
-    public boolean addContainerProperty(final Object propertyId, final Class<?> type, final Object defaultValue) throws UnsupportedOperationException {
+    public boolean addContainerProperty(final Object propertyId, final Class<?> type, final Object defaultValue) {
         return super.addContainerProperty(propertyId, type, defaultValue);
     }
 }

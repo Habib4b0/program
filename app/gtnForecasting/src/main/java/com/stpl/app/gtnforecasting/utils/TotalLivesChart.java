@@ -125,10 +125,10 @@ public class TotalLivesChart extends Window {
         plot.setPointPadding(NumericConstants.DOUBLE_ZERO_TWO);
         plot.setBorderWidth(0);
 
-        Map<Integer, Double> values = new HashMap<Integer, Double>();
+        Map<Integer, Double> values = new HashMap<>();
         ListSeries listSeries = null;
 
-        Map<String, Map<Integer, Double>> finalMap = new HashMap<String, Map<Integer, Double>>();
+        Map<String, Map<Integer, Double>> finalMap = new HashMap<>();
         SalesProjectionLogic logic = new SalesProjectionLogic();
         Object[] inputs = new Object[NumericConstants.THREE];
         inputs[0] = session.getProjectionId();
@@ -136,13 +136,13 @@ public class TotalLivesChart extends Window {
         inputs[NumericConstants.TWO] = session;
         try {
             finalMap = logic.getLivesForSelectedCustomers(inputs);
-            List<String> xSet = new ArrayList<String>();
-            Set<String> treeSet = new TreeSet<String>();
+            List<String> xSet = new ArrayList<>();
+            Set<String> treeSet = new TreeSet<>();
             int endPeriod = Integer.parseInt(session.getForecastDTO().getForecastEndYear() + StringUtils.EMPTY + logic.getQuator(session.getForecastDTO().getForecastEndMonth()));
             int tempNum = 0;
             int startYear = session.getForecastDTO().getHistoryStartYear();
             int startQuator = logic.getQuator(session.getForecastDTO().getHistoryStartMonth());
-            List<Integer> allKeyList = new ArrayList<Integer>();
+            List<Integer> allKeyList = new ArrayList<>();
             while (tempNum != endPeriod) {
                 tempNum = Integer.parseInt(startYear + StringUtils.EMPTY + startQuator);
                 allKeyList.add(tempNum);
@@ -160,7 +160,7 @@ public class TotalLivesChart extends Window {
                 values = finalMap.get(companyKey);
                 values.putAll(values);
                 listSeries = new ListSeries();
-                List<Integer> keyList = new ArrayList<Integer>();
+                List<Integer> keyList = new ArrayList<>();
                 for (Integer key : values.keySet()) {
                     keyList.add(key);
 

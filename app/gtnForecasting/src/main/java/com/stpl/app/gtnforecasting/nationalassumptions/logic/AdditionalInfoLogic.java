@@ -79,7 +79,7 @@ public class AdditionalInfoLogic {
         List<DocDetails> docDetailsList;
         DocDetails docDetails;
 
-        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName "
+        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName  "
                 + moduleName);
 
         docDetailsList = addInfoDao.getAttachmentDTOList(dynamicQuery);
@@ -133,7 +133,7 @@ public class AdditionalInfoLogic {
      */
     public List<AttachmentDTO> getAttachmentDTOList(final int projectionId, final String moduleName,final File filePath) throws SystemException{
         final SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_FORMAT.getConstant());
-        final List<AttachmentDTO> attachmentDTOList = new ArrayList<AttachmentDTO>();
+        final List<AttachmentDTO> attachmentDTOList = new ArrayList<>();
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
@@ -214,7 +214,7 @@ public class AdditionalInfoLogic {
      * @return List of AttachmentDTO Object .
      */
     public List<AttachmentDTO> addUserFile(final List<AttachmentDTO> list) {
-        final List<AttachmentDTO> finalList = new ArrayList<AttachmentDTO>();
+        final List<AttachmentDTO> finalList = new ArrayList<>();
         LOGGER.debug("Entering addUserFile method with list size " + list.size());
         for (final Iterator<AttachmentDTO> iterator = list.iterator(); iterator.hasNext();) {
             final AttachmentDTO dto = iterator.next();
@@ -235,7 +235,7 @@ public class AdditionalInfoLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public String getNotes(final int projectionId, final String moduleName,List<String> notesListTemp) throws SystemException{
+    public String getNotes(final int projectionId, final String moduleName,List<String> notesListTemp) throws SystemException {
 
         LOGGER.debug("Entering getNotes method with projectionId " + projectionId + " moduleName " + moduleName);
 

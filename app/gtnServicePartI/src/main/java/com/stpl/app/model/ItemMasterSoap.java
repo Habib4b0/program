@@ -82,6 +82,8 @@ public class ItemMasterSoap implements Serializable {
     private Date _clottingFactorStartDate;
     private Date _nonFederalExpirationDate;
     private String _internalNotes;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
 
     public ItemMasterSoap() {
     }
@@ -158,6 +160,8 @@ public class ItemMasterSoap implements Serializable {
         soapModel.setClottingFactorStartDate(model.getClottingFactorStartDate());
         soapModel.setNonFederalExpirationDate(model.getNonFederalExpirationDate());
         soapModel.setInternalNotes(model.getInternalNotes());
+        soapModel.setBaseCpiPrecision(model.getBaseCpiPrecision());
+        soapModel.setBaselineAmpPrecision(model.getBaselineAmpPrecision());
 
         return soapModel;
     }
@@ -761,5 +765,21 @@ public class ItemMasterSoap implements Serializable {
 
     public void setInternalNotes(String internalNotes) {
         _internalNotes = internalNotes;
+    }
+
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+    }
+
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
     }
 }

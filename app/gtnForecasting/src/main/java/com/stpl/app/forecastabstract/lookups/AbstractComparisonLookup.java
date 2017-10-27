@@ -5,8 +5,6 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
-import static com.stpl.app.forecastabstract.lookups.AbstractComparisonLookup.COMPARISON_RESULTS_COLUMNS;
-import static com.stpl.app.forecastabstract.lookups.AbstractComparisonLookup.COMPARISON_RESULTS_HEADER;
 
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
@@ -59,6 +57,9 @@ import org.jboss.logging.Logger;
  */
 public abstract class AbstractComparisonLookup extends AbstractLookup {
 
+    public static final String SIX_FIFTY_PX = "650px";
+    public static final String THERAPEUTIC_CLASS = "Therapeutic Class";
+
     private TextField comparisonLookup;
     private NativeSelect workflowStatus;
     private TextField marketType;
@@ -79,17 +80,17 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
      * The record selected flag.
      */
     private Boolean recordSelectedFlag = false;
-    private BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<ComparisonLookupDTO>(ComparisonLookupDTO.class);
-    private BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<ComparisonLookupDTO>(ComparisonLookupDTO.class);
+    private BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
+    private BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
     /**
      * The Constant COMPARISON_RESULTS_COLUMNS.
      */
-    public static final Object[] COMPARISON_RESULTS_COLUMNS = new Object[]{
-        Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION, "marketType", "contractHolder", Constant.CONTRACT, Constant.BRAND, "createdDateFrom", "createdBy"};
+    public final Object[] comparisonResultsColumns = new Object[]{
+        Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION, Constant.MARKET_TYPE, "contractHolder", Constant.CONTRACT, Constant.BRAND, "createdDateFrom", "createdBy"};
     /**
      * The Constant COMPARISON_RESULTS_HEADER.
      */
-    public static final String[] COMPARISON_RESULTS_HEADER = new String[]{
+    public final String[] comparisonResultsHeader = new String[]{
         "Projection Name", "Description", "Market Type", "Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By"};
     private static final Logger LOGGER = Logger.getLogger(AbstractComparisonLookup.class);
     Button addButton = new Button(BTN_ADD.getConstant());
@@ -102,7 +103,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
      * Channels
      * @param comparisonLookup Textfield which opens this lookup
      */
-    public AbstractComparisonLookup(final String windowName, final String moduleIndicator,
+    public AbstractComparisonLookup(final String windowName,
             final TextField comparisonLookup) {
         super(windowName);
         this.comparisonLookup = comparisonLookup;
@@ -166,11 +167,9 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
         mainLayout.setMargin(false);
         mainLayout.setStyleName(Constant.WIDTH_AUTO);
         HorizontalLayout searchCriteria = (HorizontalLayout) UiUtils.getLayout(HorizontalLayout.class);
-
         VerticalLayout vLayout = new VerticalLayout();
         vLayout.setSpacing(true);
         vLayout.addStyleName("comparisonlookup");
-
         GridLayout searchLayout = new GridLayout(NumericConstants.SIX, NumericConstants.THREE);
         searchLayout.setSpacing(true);
 
@@ -228,15 +227,15 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 
         resultsPanel.setContent(results);
         results.setContainerDataSource(resultsBean);
-        Object[] objColumn = COMPARISON_RESULTS_COLUMNS;
+        Object[] objColumn = comparisonResultsColumns;
         for (Object objColumn1 : objColumn) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
                 results.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
             }
         }
-        results.setVisibleColumns(COMPARISON_RESULTS_COLUMNS);
-        results.setColumnHeaders(COMPARISON_RESULTS_HEADER);
+        results.setVisibleColumns(comparisonResultsColumns);
+        results.setColumnHeaders(comparisonResultsHeader);
         results.setSelectable(true);
         results.setMultiSelect(true);
         results.setFilterBarVisible(true);
@@ -286,8 +285,8 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
         Panel selectedProjections = UiUtils.addCommonPanel(PROJECTIONS.getConstant());
         selectedProjections.setContent(selectedProjection);
         selectedProjection.setContainerDataSource(selectedResultsBean);
-        selectedProjection.setVisibleColumns(COMPARISON_RESULTS_COLUMNS);
-        selectedProjection.setColumnHeaders(COMPARISON_RESULTS_HEADER);
+        selectedProjection.setVisibleColumns(comparisonResultsColumns);
+        selectedProjection.setColumnHeaders(comparisonResultsHeader);
         selectedProjection.setSelectable(true);
         selectedProjection.setMultiSelect(true);
         selectedProjection.setFilterBarVisible(true);
@@ -485,6 +484,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
         this.selectedProjection = selectedProjection;
     }
 
+    @Override
     protected Button getSearchButton() {
         Button search = new Button("Search");
 
@@ -518,7 +518,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
                         if (workFlowState.equals(Constant.SUBMITTED)) {
                             workFlowState = WorkflowConstants.getPendingStatus();
                         }
-                        List<String> projId = new ArrayList<String>();
+                        List<String> projId = new ArrayList<>();
                         projId.add(toDate);
 
                         String notSearchProjId = "'" + currentProjId + "'";
@@ -533,7 +533,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
                         List result = (List) CommonLogic.executeSelectQuery(resultString, null, null);
                         List<ComparisonLookupDTO> searchResults = pvLogic.getCustomizedComparisonList(result);
                         if (searchResults.isEmpty()) {
-                            MessageBox.showPlain(Icon.INFO, "Error", "No results could be found that match the entered search criteria.", ButtonId.OK);
+                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
                         } else {
                             resultsBean.addAll(searchResults);
                             addButton.setEnabled(true);
@@ -542,7 +542,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 
                         }
                     } else {
-                        MessageBox.showPlain(Icon.INFO, "Error", "Please select a Workflow Status", ButtonId.OK);
+                        MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please select a Workflow Status", ButtonId.OK);
                     }
 
                 } catch (Exception e) {
@@ -588,10 +588,10 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
         addButton.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 if (recordSelectedFlag) {
-                    addItemsButtonClick(event);
+                    addItemsButtonClick();
                     recordSelectedFlag = false;
                 } else {
-                    MessageBox.showPlain(Icon.INFO, "Error", "Please select a projection to add.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please select a projection to add.", ButtonId.OK);
                 }
 
             }
@@ -607,10 +607,10 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void addItemsButtonClick(final Button.ClickEvent event) {
+    protected void addItemsButtonClick() {
         final java.util.Set<ComparisonLookupDTO> itemMasterDetailsList = (java.util.Set<ComparisonLookupDTO>) results.getValue();
         boolean flag = false;
-        List<ComparisonLookupDTO> addedItem = new ArrayList<ComparisonLookupDTO>();
+        List<ComparisonLookupDTO> addedItem = new ArrayList<>();
         if ((itemMasterDetailsList.size()) <= (NumericConstants.FIVE - selectedResultsBean.getItemIds().size())) {
             for (final Iterator<ComparisonLookupDTO> iterator = itemMasterDetailsList.iterator(); iterator.hasNext();) {
                 final ComparisonLookupDTO item = iterator.next();
@@ -645,7 +645,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
             selectedProjection.setValue(null);
             results.setValue(null);
         } else {
-            MessageBox.showPlain(Icon.INFO, "Error", "Cannot Add more than Five items.  Please select five records or below and try again.", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Cannot Add more than Five items.  Please select five records or below and try again.", ButtonId.OK);
         }
         if (resultsBean.size() > 0) {
             addButton.setEnabled(true);
@@ -663,15 +663,16 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
      *
      * @return Submit button
      */
+    @Override
     public Button getRemoveBtn() {
         Button btnRemove = new Button(BTN_REMOVE.getConstant());
         btnRemove.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 if (recordSelectedFlag) {
-                    removeItemsButtonClick(event);
+                    removeItemsButtonClick();
                     recordSelectedFlag = false;
                 } else {
-                    MessageBox.showPlain(Icon.INFO, "Error", "Please select a projection to remove. ", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please select a projection to remove. ", ButtonId.OK);
                 }
 
             }
@@ -686,7 +687,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void removeItemsButtonClick(final Button.ClickEvent event) {
+    protected void removeItemsButtonClick() {
 
         final Object itemId = selectedProjection.getValue();
         selectedResultsBean.removeItem(itemId);
@@ -715,6 +716,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
      * @param results The table to be reseted
      * @return The reset button
      */
+    @Override
     protected Button getResetResultsButton(final ExtFilterTable results) {
         Button reset = new Button(BTN_RESET.getConstant());
         reset.addClickListener(new Button.ClickListener() {
@@ -763,7 +765,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
             public void buttonClick(Button.ClickEvent event) {
                 if (!selectedProjection.getItemIds().isEmpty()) {
                     ComparisonLookupDTO dto = new ComparisonLookupDTO();
-                    List<ComparisonLookupDTO> selected = new ArrayList<ComparisonLookupDTO>();
+                    List<ComparisonLookupDTO> selected = new ArrayList<>();
                     for (Object item : selectedProjection.getItemIds()) {
                         selected.add((ComparisonLookupDTO) item);
                         dto.setSelected(selected);
@@ -782,7 +784,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
                     }
                     close();
                 } else {
-                    MessageBox.showPlain(Icon.INFO, "Error", "No Data is available to submit", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constant.ERROR, "No Data is available to submit", ButtonId.OK);
                 }
             }
         });

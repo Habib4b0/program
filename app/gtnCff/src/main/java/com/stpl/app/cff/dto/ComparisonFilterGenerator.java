@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.dto;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
@@ -36,6 +37,8 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
     boolean sprFlag=false;
     boolean pvFlag=false;
     boolean mmDprFlag = false;
+    public static final String CUSTOM = "Custom";
+    public static final String PRODUCT = "Product";
 
 
     String indicator = StringUtils.EMPTY;
@@ -81,9 +84,9 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
         }
 
 
-        if ("relationshipLevelName".equals(propertyId) && pvFlag) {
+        if (StringConstantsUtil.RELATIONSHIP_LEVEL_NAME.equals(propertyId) && pvFlag) {
 
-            if ("Product".equals(pvSelectionDTO.getView())) {
+            if (PRODUCT.equals(pvSelectionDTO.getView())) {
                 indicator = "P";
                 pvSelectionDTO.setLevelName("'Product','Ndc','NDC'");
                 levelNo = pvSelectionDTO.getProductLevelNo();
@@ -96,8 +99,8 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             contractType.setNullSelectionAllowed(true);
             contractType.setNullSelectionItemId(SELECT_ONE);
             contractType.setImmediate(true);
-            contractType.addStyleName("filterCombobox");
-            if (detailFlag && !"Custom".equals(pvSelectionDTO.getView())) {
+            contractType.addStyleName(StringConstantsUtil.FILTER_COMBOBOX);
+            if (detailFlag && !CUSTOM.equals(pvSelectionDTO.getView())) {
                 contractType.addItem(ZERO);
                 contractType.setItemCaption(ZERO, SELECT_ONE);
                 
@@ -124,11 +127,11 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
         } 
         
 
-        if("relationshipLevelName".equals(propertyId) && prFlag ){
+        if(StringConstantsUtil.RELATIONSHIP_LEVEL_NAME.equals(propertyId) && prFlag ){
 
 
 
-            if ("Product".equals(sprProjectionDTO.getView())) {
+            if (PRODUCT.equals(sprProjectionDTO.getView())) {
                 indicator = "P";
                 sprProjectionDTO.setLevelName("'Product','Ndc','NDC'");
                 levelNo = sprProjectionDTO.getProductLevelNo();
@@ -141,9 +144,9 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             contractType.setNullSelectionAllowed(true);
             contractType.setNullSelectionItemId(SELECT_ONE);
             contractType.setImmediate(true);
-            contractType.addStyleName("filterCombobox");
+            contractType.addStyleName(StringConstantsUtil.FILTER_COMBOBOX);
             contractType.setValue(SELECT_ONE);
-            if (!"Custom".equals(sprProjectionDTO.getView())) {
+            if (!CUSTOM.equals(sprProjectionDTO.getView())) {
             contractType.addItem(ZERO);
             contractType.setItemCaption(ZERO, SELECT_ONE);
                 contractType.select(ZERO);
@@ -159,7 +162,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 contractType.setNullSelectionAllowed(true);
                 contractType.setNullSelectionItemId(SELECT_ONE);
                 contractType.setImmediate(true);
-                contractType.addStyleName("filterCombobox");
+                contractType.addStyleName(StringConstantsUtil.FILTER_COMBOBOX);
                 contractType.setValue(SELECT_ONE);
                 mmDprFlag = false;
                 return contractType;
@@ -170,7 +173,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             }
 
         }
-        if ("relationshipLevelName".equals(propertyId) && sprFlag) {
+        if (StringConstantsUtil.RELATIONSHIP_LEVEL_NAME.equals(propertyId) && sprFlag) {
 
              
 
@@ -179,9 +182,9 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             filterBox.setNullSelectionAllowed(true);
             filterBox.setNullSelectionItemId(SELECT_ONE);
             filterBox.setImmediate(true);
-            filterBox.addStyleName("filterCombobox");
-            if (!"Custom".equals(sprProjectionDTO.getView())) {
-                if ("Product".equals(sprProjectionDTO.getView())) {
+            filterBox.addStyleName(StringConstantsUtil.FILTER_COMBOBOX);
+            if (!CUSTOM.equals(sprProjectionDTO.getView())) {
+                if (PRODUCT.equals(sprProjectionDTO.getView())) {
                     indicator = "P";
                     pvSelectionDTO.setLevelName("'Brand'");
                     sprProjectionDTO.setLevelName("'Brand'");

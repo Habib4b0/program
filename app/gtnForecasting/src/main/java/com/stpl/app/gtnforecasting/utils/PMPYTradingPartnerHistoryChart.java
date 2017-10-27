@@ -97,7 +97,7 @@ public class PMPYTradingPartnerHistoryChart {
         conf.addyAxis(yAxis);
         final Legend legend = new Legend();
         legend.setLayout(LayoutDirection.VERTICAL);
-        legend.setBackgroundColor("#FFFFFF");
+        legend.setBackgroundColor(Constant.FF_BG_COLOR);
         legend.setHorizontalAlign(HorizontalAlign.LEFT);
         legend.setVerticalAlign(VerticalAlign.TOP);
         legend.setX(NumericConstants.HUNDRED);
@@ -129,7 +129,7 @@ public class PMPYTradingPartnerHistoryChart {
             xAxis.setCategories(temp);
             for (String key : values.keySet()) {
                 if (!key.equals("type")) {
-                    listSeries.addData(Double.valueOf(values.get(key).replace(",", StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY)));
+                    listSeries.addData(Double.valueOf(values.get(key).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY)));
                 }
             }
 
@@ -151,7 +151,7 @@ public class PMPYTradingPartnerHistoryChart {
         conf1.addyAxis(yAxis1);
         final Legend legend1 = new Legend();
         legend1.setLayout(LayoutDirection.VERTICAL);
-        legend1.setBackgroundColor("#FFFFFF");
+        legend1.setBackgroundColor(Constant.FF_BG_COLOR);
         legend1.setHorizontalAlign(HorizontalAlign.LEFT);
         legend1.setVerticalAlign(VerticalAlign.TOP);
         legend1.setX(NumericConstants.HUNDRED);
@@ -184,7 +184,7 @@ public class PMPYTradingPartnerHistoryChart {
             xAxis1.setCategories(temp);
             for (String key : values1.keySet()) {
                 if (!key.equals("type")) {
-                    listSeries1.addData(Double.valueOf(values1.get(key).replace(",", StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY)));
+                    listSeries1.addData(Double.valueOf(values1.get(key).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY)));
                 }
             }
 
@@ -213,7 +213,7 @@ public class PMPYTradingPartnerHistoryChart {
 
         final Legend legend2 = new Legend();
         legend2.setLayout(LayoutDirection.VERTICAL);
-        legend2.setBackgroundColor("#FFFFFF");
+        legend2.setBackgroundColor(Constant.FF_BG_COLOR);
         legend2.setHorizontalAlign(HorizontalAlign.LEFT);
         legend2.setVerticalAlign(VerticalAlign.TOP);
         legend2.setX(NumericConstants.HUNDRED);
@@ -246,7 +246,7 @@ public class PMPYTradingPartnerHistoryChart {
             xAxis2.setCategories(temp);
             for (String key : values2.keySet()) {
                 if (!key.equals("type")) {
-                    listSeries2.addData(Double.valueOf(values2.get(key).replace(",", StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY)));
+                    listSeries2.addData(Double.valueOf(values2.get(key).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY)));
                 }
             }
             listSeries2.setName(tpName);

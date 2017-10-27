@@ -42,7 +42,7 @@ public class HeaderUtils {
     public static String OCT = "OCT";
     public static String NOV = "NOV";
     public static String DECEMBER = "DECEMBER";
-    public static String[] MONTHS = {JAN, FEB, MARCH, APRIL, MAY, JUNE, JULY, AUG, SEP, OCT, NOV, DECEMBER};
+    public String[] months = {JAN, FEB, MARCH, APRIL, MAY, JUNE, JULY, AUG, SEP, OCT, NOV, DECEMBER};
     public static String Q1 = "q1";
     public static String Q2 = "q2";
     public static String Q3 = "q3";
@@ -121,8 +121,8 @@ public class HeaderUtils {
 
    public static class NonMantaded {
 
-        public static final Object[] SALES_PROJ_RESULTS_COLUMNS = new Object[]{GROUP};
-        public static final String[] SALES_PROJ_RESULTS__HEADER = new String[]{GROUP_CAPS};
+        public final Object[] salesProjResultsColumns = new Object[]{GROUP};
+        public final String[] salesProjResultsHeader = new String[]{GROUP_CAPS};
     }
 
    /**
@@ -195,7 +195,7 @@ public class HeaderUtils {
                         i = NumericConstants.ELEVEN;
                     }
                     visibleColomns.add(HIST_VALUE + (loop + 1));
-                    header.add(year + " " + MONTHS[i]);
+                    header.add(year + " " + months[i]);
                     i--;
                 }
                 Collections.reverse(header);
@@ -275,7 +275,7 @@ public class HeaderUtils {
                     i = 0;
                 }
                 visibleColomns.add(PROJ_VALUE + (loop + 1));
-                header.add(year + " " + MONTHS[i]);
+                header.add(year + " " + months[i]);
                 i++;
             }
         }
@@ -412,13 +412,13 @@ public class HeaderUtils {
                         visibleColomns.add(HIST_ACTUALS + (loop + 1));
                     }
                     if (actuals) {
-                        header.add(year + " " + MONTHS[i] + " Actuals " + discTypeString);
+                        header.add(year + " " + months[i] + " Actuals " + discTypeString);
                     }
                     if (proj) {
                         visibleColomns.add(HIST_PROJ + (loop + 1));
                     }
                     if (proj) {
-                        header.add(year + " " + MONTHS[i] + " " + discTypeString);
+                        header.add(year + " " + months[i] + " " + discTypeString);
                     }
                     i--;
                 }
@@ -610,9 +610,9 @@ public class HeaderUtils {
                     i = 0;
                 }
                 visibleColomns.add(PROJ_RATE + (loop + 1));
-                header.add(year + " " + MONTHS[i] +RATE );
+                header.add(year + " " + months[i] +RATE );
                 visibleColomns.add(PROJ_AMOUNT + (loop + 1));
-                header.add(year + " " + MONTHS[i] +AMOUNT );
+                header.add(year + " " + months[i] +AMOUNT );
                 i++;
             }
         }
@@ -712,7 +712,7 @@ public class HeaderUtils {
                     i = 0;
                 }
                 visibleColomns.add(PROJ_VALUE + (loop + 1));
-                header.add(year + " " + MONTHS[i]);
+                header.add(year + " " + months[i]);
                 i++;
             }
         }

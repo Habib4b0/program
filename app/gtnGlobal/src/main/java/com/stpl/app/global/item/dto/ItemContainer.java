@@ -137,7 +137,7 @@ public class ItemContainer implements BeanDAO<SearchResultsDTO> {
                 LOGGER.error(e);
                 }
 
-		return new ArrayList<SearchResultsDTO>();
+		return new ArrayList<>();
 	}
 
 			}

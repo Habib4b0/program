@@ -117,9 +117,11 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
             { "BATCH_ID", Types.VARCHAR },
             { "ITEM_CODE", Types.VARCHAR },
             { "CLOTTING_FACTOR_START_DATE", Types.TIMESTAMP },
-            { "NON_FEDERAL_EXPIRATION_DATE", Types.TIMESTAMP }
+            { "NON_FEDERAL_EXPIRATION_DATE", Types.TIMESTAMP },
+            { "BASE_CPI_PRECISION", Types.INTEGER },
+            { "BASELINE_AMP_PRECISION", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table VW_ITEM_MASTER (ITEM_STATUS VARCHAR(75) null,ITEM_DESC VARCHAR(75) null,ACQUIRED_AMP VARCHAR(75) null,AUTHORIZED_GENERIC_START_DATE DATE null,NEW_FORMULATION_START_DATE DATE null,MARKET_TERMINATION_DATE DATE null,OBRA_BAMP VARCHAR(75) null,BRAND VARCHAR(75) null,MANUFACTURER_NO VARCHAR(75) null,MODIFIED_DATE DATE null,THERAPEUTIC_CLASS VARCHAR(75) null,ORGANIZATION_KEY VARCHAR(75) null,ACQUIRED_BAMP VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_END_DATE DATE null,SOURCE VARCHAR(75) null,NEW_FORMULATION VARCHAR(75) null,ADD_CHG_DEL_INDICATOR VARCHAR(75) null,DIVESTITURE_DATE DATE null,SHELF_LIFE VARCHAR(75) null,PRIMARY_UOM VARCHAR(75) null,NEW_FORMULATION_END_DATE DATE null,MODIFIED_BY VARCHAR(75) null,PACKAGE_SIZE_CODE VARCHAR(75) null,SECONDARY_UOM VARCHAR(75) null,UDC6 VARCHAR(75) null,UDC5 VARCHAR(75) null,DISCONTINUATION_DATE DATE null,UDC4 VARCHAR(75) null,UDC1 VARCHAR(75) null,UDC2 VARCHAR(75) null,PACKAGE_SIZE_INTRO_DATE DATE null,UDC3 VARCHAR(75) null,ITEM_END_DATE DATE null,MANUFACTURER_ID VARCHAR(75) null,ITEM_FAMILY_ID VARCHAR(75) null,STRENGTH VARCHAR(75) null,ITEM_CATEGORY VARCHAR(75) null,UPPS DOUBLE,SHELF_LIFE_TYPE VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_INDICATOR VARCHAR(75) null,ITEM_TYPE_INDICATION VARCHAR(75) null,ACQUISITION_DATE DATE null,CLOTTING_FACTOR_INDICATOR VARCHAR(75) null,FORM VARCHAR(75) null,ITEM_NAME VARCHAR(75) null,MANUFACTURER_NAME VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_START_DATE DATE null,FIRST_SALE_DATE DATE null,ITEM_MASTER_SID INTEGER not null primary key,ITEM_TYPE VARCHAR(75) null,ITEM_ID VARCHAR(75) null,BASELINE_AMP VARCHAR(75) null,DOSES_PER_UNIT VARCHAR(75) null,DUAL_PRICING_INDICATOR VARCHAR(75) null,BASE_CPI VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY VARCHAR(75) null,ITEM_START_DATE DATE null,AUTHORIZED_GENERIC VARCHAR(75) null,NDC9 VARCHAR(75) null,AUTHORIZED_GENERIC_END_DATE DATE null,ITEM_NO VARCHAR(75) null,PACKAGE_SIZE VARCHAR(75) null,NDC8 VARCHAR(75) null,ITEM_CLASS VARCHAR(75) null,LABELER_CODE VARCHAR(75) null,DISPLAY_BRAND VARCHAR(75) null,CLOTTING_FACTOR_END_DATE DATE null,DRA VARCHAR(75) null,BRAND_ID VARCHAR(75) null,BASE_CPI_PERIOD DATE null,NEW_FORMULATION_INDICATOR VARCHAR(75) null,LAST_LOT_EXPIRATION_DATE DATE null,BATCH_ID VARCHAR(75) null,ITEM_CODE VARCHAR(75) null,CLOTTING_FACTOR_START_DATE DATE null,NON_FEDERAL_EXPIRATION_DATE DATE null)";
+    public static final String TABLE_SQL_CREATE = "create table VW_ITEM_MASTER (ITEM_STATUS VARCHAR(75) null,ITEM_DESC VARCHAR(75) null,ACQUIRED_AMP VARCHAR(75) null,AUTHORIZED_GENERIC_START_DATE DATE null,NEW_FORMULATION_START_DATE DATE null,MARKET_TERMINATION_DATE DATE null,OBRA_BAMP VARCHAR(75) null,BRAND VARCHAR(75) null,MANUFACTURER_NO VARCHAR(75) null,MODIFIED_DATE DATE null,THERAPEUTIC_CLASS VARCHAR(75) null,ORGANIZATION_KEY VARCHAR(75) null,ACQUIRED_BAMP VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_END_DATE DATE null,SOURCE VARCHAR(75) null,NEW_FORMULATION VARCHAR(75) null,ADD_CHG_DEL_INDICATOR VARCHAR(75) null,DIVESTITURE_DATE DATE null,SHELF_LIFE VARCHAR(75) null,PRIMARY_UOM VARCHAR(75) null,NEW_FORMULATION_END_DATE DATE null,MODIFIED_BY VARCHAR(75) null,PACKAGE_SIZE_CODE VARCHAR(75) null,SECONDARY_UOM VARCHAR(75) null,UDC6 VARCHAR(75) null,UDC5 VARCHAR(75) null,DISCONTINUATION_DATE DATE null,UDC4 VARCHAR(75) null,UDC1 VARCHAR(75) null,UDC2 VARCHAR(75) null,PACKAGE_SIZE_INTRO_DATE DATE null,UDC3 VARCHAR(75) null,ITEM_END_DATE DATE null,MANUFACTURER_ID VARCHAR(75) null,ITEM_FAMILY_ID VARCHAR(75) null,STRENGTH VARCHAR(75) null,ITEM_CATEGORY VARCHAR(75) null,UPPS DOUBLE,SHELF_LIFE_TYPE VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_INDICATOR VARCHAR(75) null,ITEM_TYPE_INDICATION VARCHAR(75) null,ACQUISITION_DATE DATE null,CLOTTING_FACTOR_INDICATOR VARCHAR(75) null,FORM VARCHAR(75) null,ITEM_NAME VARCHAR(75) null,MANUFACTURER_NAME VARCHAR(75) null,PEDIATRIC_EXCLUSIVE_START_DATE DATE null,FIRST_SALE_DATE DATE null,ITEM_MASTER_SID INTEGER not null primary key,ITEM_TYPE VARCHAR(75) null,ITEM_ID VARCHAR(75) null,BASELINE_AMP VARCHAR(75) null,DOSES_PER_UNIT VARCHAR(75) null,DUAL_PRICING_INDICATOR VARCHAR(75) null,BASE_CPI VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY VARCHAR(75) null,ITEM_START_DATE DATE null,AUTHORIZED_GENERIC VARCHAR(75) null,NDC9 VARCHAR(75) null,AUTHORIZED_GENERIC_END_DATE DATE null,ITEM_NO VARCHAR(75) null,PACKAGE_SIZE VARCHAR(75) null,NDC8 VARCHAR(75) null,ITEM_CLASS VARCHAR(75) null,LABELER_CODE VARCHAR(75) null,DISPLAY_BRAND VARCHAR(75) null,CLOTTING_FACTOR_END_DATE DATE null,DRA VARCHAR(75) null,BRAND_ID VARCHAR(75) null,BASE_CPI_PERIOD DATE null,NEW_FORMULATION_INDICATOR VARCHAR(75) null,LAST_LOT_EXPIRATION_DATE DATE null,BATCH_ID VARCHAR(75) null,ITEM_CODE VARCHAR(75) null,CLOTTING_FACTOR_START_DATE DATE null,NON_FEDERAL_EXPIRATION_DATE DATE null,BASE_CPI_PRECISION INTEGER,BASELINE_AMP_PRECISION INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table VW_ITEM_MASTER";
     public static final String ORDER_BY_JPQL = " ORDER BY vwItemMaster.itemMasterSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY VW_ITEM_MASTER.ITEM_MASTER_SID ASC";
@@ -216,6 +218,8 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
     private String _itemCode;
     private Date _clottingFactorStartDate;
     private Date _nonFederalExpirationDate;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
     private VwItemMaster _escapedModel;
 
     public VwItemMasterModelImpl() {
@@ -336,6 +340,8 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
         attributes.put("itemCode", getItemCode());
         attributes.put("clottingFactorStartDate", getClottingFactorStartDate());
         attributes.put("nonFederalExpirationDate", getNonFederalExpirationDate());
+        attributes.put("baseCpiPrecision", getBaseCpiPrecision());
+        attributes.put("baselineAmpPrecision", getBaselineAmpPrecision());
 
         return attributes;
     }
@@ -820,6 +826,19 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
 
         if (nonFederalExpirationDate != null) {
             setNonFederalExpirationDate(nonFederalExpirationDate);
+        }
+
+        Integer baseCpiPrecision = (Integer) attributes.get("baseCpiPrecision");
+
+        if (baseCpiPrecision != null) {
+            setBaseCpiPrecision(baseCpiPrecision);
+        }
+
+        Integer baselineAmpPrecision = (Integer) attributes.get(
+                "baselineAmpPrecision");
+
+        if (baselineAmpPrecision != null) {
+            setBaselineAmpPrecision(baselineAmpPrecision);
         }
     }
 
@@ -1811,6 +1830,26 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
     }
 
     @Override
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    @Override
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+    }
+
+    @Override
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    @Override
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
+    }
+
+    @Override
     public VwItemMaster toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (VwItemMaster) ProxyUtil.newProxyInstance(_classLoader,
@@ -1901,6 +1940,8 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
         vwItemMasterImpl.setItemCode(getItemCode());
         vwItemMasterImpl.setClottingFactorStartDate(getClottingFactorStartDate());
         vwItemMasterImpl.setNonFederalExpirationDate(getNonFederalExpirationDate());
+        vwItemMasterImpl.setBaseCpiPrecision(getBaseCpiPrecision());
+        vwItemMasterImpl.setBaselineAmpPrecision(getBaselineAmpPrecision());
 
         vwItemMasterImpl.resetOriginalValues();
 
@@ -2562,12 +2603,16 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
             vwItemMasterCacheModel.nonFederalExpirationDate = Long.MIN_VALUE;
         }
 
+        vwItemMasterCacheModel.baseCpiPrecision = getBaseCpiPrecision();
+
+        vwItemMasterCacheModel.baselineAmpPrecision = getBaselineAmpPrecision();
+
         return vwItemMasterCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(155);
+        StringBundler sb = new StringBundler(159);
 
         sb.append("{itemStatus=");
         sb.append(getItemStatus());
@@ -2723,6 +2768,10 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
         sb.append(getClottingFactorStartDate());
         sb.append(", nonFederalExpirationDate=");
         sb.append(getNonFederalExpirationDate());
+        sb.append(", baseCpiPrecision=");
+        sb.append(getBaseCpiPrecision());
+        sb.append(", baselineAmpPrecision=");
+        sb.append(getBaselineAmpPrecision());
         sb.append("}");
 
         return sb.toString();
@@ -2730,7 +2779,7 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(235);
+        StringBundler sb = new StringBundler(241);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.parttwo.model.VwItemMaster");
@@ -3043,6 +3092,14 @@ public class VwItemMasterModelImpl extends BaseModelImpl<VwItemMaster>
         sb.append(
             "<column><column-name>nonFederalExpirationDate</column-name><column-value><![CDATA[");
         sb.append(getNonFederalExpirationDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baseCpiPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaseCpiPrecision());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>baselineAmpPrecision</column-name><column-value><![CDATA[");
+        sb.append(getBaselineAmpPrecision());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

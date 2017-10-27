@@ -10,10 +10,9 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.util.QueryUtil;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -55,6 +54,7 @@ public class CommonQueryUtils {
                 queryBuilder.append(" WHERE PROJECTION_MASTER_SID = '").append(projectionID).append(" ' AND SCREEN_NAME = '").append(screenName).append("' AND FIELD_NAME ='").append(obj[i]).append("'\n");
             }
         }
+        if(screenName.equalsIgnoreCase("Discount Projection")){
         queryBuilder.append("Delete NM_PROJECTION_SELECTION\n"
                 + "WHERE PROJECTION_MASTER_SID=" + projectionID);
         queryBuilder.append("\n   AND SCREEN_NAME='Discount Projection' \n"
@@ -63,12 +63,13 @@ public class CommonQueryUtils {
                 + "VALUES(" + projectionID);
         queryBuilder.append(" ,'Discount Projection','SelectedDiscountsSids','");
         queryBuilder.append(map.get("SelectedDiscountsSids").toString() + "');");
+        }
         commonDao.executeBulkUpdateQuery(queryBuilder.toString(), null, null);
     }
 
     public List getPriceGroupType(List<String> discountName,SessionDTO session) {
         try {
-            String selectedDiscounts = StringUtils.EMPTY;
+            String selectedDiscounts;
             selectedDiscounts = CommonUtils.CollectionToString(discountName, true);
             String customSql = "select Distinct DM.RS_CONTRACT_SID,DM.PRICE_GROUP_TYPE from ST_NM_DISCOUNT_PROJ_MASTER DM, RS_CONTRACT RS,PROJECTION_DETAILS D where  DM.PRICE_GROUP_TYPE IS NOT NULL "
                     + "and D.PROJECTION_MASTER_SID = " + session.getProjectionId()
@@ -78,7 +79,7 @@ public class CommonQueryUtils {
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
     

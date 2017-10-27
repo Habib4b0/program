@@ -13,6 +13,7 @@ import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.lazyLoad.VarianceTableLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
+import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Constants.LabelConstants;
 import static com.stpl.app.cff.util.Constants.LabelConstants.CUSTOM;
@@ -25,6 +26,7 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -241,12 +243,12 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
      * Full header
      */
     protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    protected ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<ProjectionVarianceDTO>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The table control Layout.
      */
     public HorizontalLayout controlLayout;
-    protected List<CffCustomViewMaster> customViewList = new ArrayList<CffCustomViewMaster>();
+    protected List<CffCustomViewMaster> customViewList = new ArrayList<>();
     /**
      * Property file for alert message
      */
@@ -309,16 +311,19 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         
         comparisonBasis.addItem("Actuals");
         comparisonBasis.addItem("Current Projection");
+        if (CommonUtils.isValueEligibleForLoading()) {
+            comparisonBasis.addItem("Accruals");
+        }
         comparisonBasis.select("Current Projection");
 
         view.addStyleName(ConstantsUtils.HORIZONTAL);
         view.addItem(Constants.CommonConstantsForChannels.CUSTOMER.toString());
-        view.addItem(Constants.PRODUCT);
+        view.addItem(Constants.PRODUCT_LABEL);
         view.addItem(Constants.LabelConstants.CUSTOM.toString());
         view.setValue(Constants.CommonConstantsForChannels.CUSTOMER.toString());
 
         pivotView.addItem(Constants.PERIOD);
-        pivotView.addItem(Constants.VARIABLE);
+        pivotView.addItem(Constants.VARIABLE_LABEL);
         pivotView.select(Constants.PERIOD);
         pivotView.addStyleName(ConstantsUtils.HORIZONTAL);
         pivotView.addStyleName(Constants.OPTION_GROUP_WIDTH);
@@ -338,10 +343,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         customDdlb.setNullSelectionItemId(SELECT_ONE);
         customDdlb.select(SELECT_ONE);
 
-//        variableCategory.addStyleName(ConstantsUtils.HORIZONTAL);
-//        variableCategory.addItem(Constants.VALUE);
-//        variableCategory.addItem(Constants.VARIANCE);
-//        variableCategory.addItem(Constants.CHANGE);
 
         comparison.setReadOnly(true);
         comparison.focus();
@@ -386,15 +387,9 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
 
     public void configureExcelTable() {
         tableVerticalLayout.addComponent(excelTable);
-        resultExcelContainer = new ExtTreeContainer<ProjectionVarianceDTO>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultExcelContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
         resultExcelContainer.setColumnProperties(fullHeader.getProperties());
         excelTable.setContainerDataSource(resultExcelContainer);
-        excelTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
-        excelTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
-        excelTable.setDoubleHeaderVisible(true);
-        excelTable.setDoubleHeaderVisibleColumns(fullHeader.getDoubleColumns().toArray());
-        excelTable.setDoubleHeaderColumnHeaders(fullHeader.getDoubleHeaders().toArray(new String[fullHeader.getDoubleHeaders().size()]));
-        excelTable.setDoubleHeaderMap(fullHeader.getDoubleHeaderMaps());
 
         excelTable.setVisible(false);
     }
@@ -534,7 +529,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
 
     protected String getCheckedValues() {
         if (customMenuItem != null && customMenuItem.getSize() > 0) {
-            List<String> result = new ArrayList<String>();
+            List<String> result = new ArrayList<>();
             List<CustomMenuBar.CustomMenuItem> items = customMenuItem.getChildren();
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
@@ -560,7 +555,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
      */
     protected String getCheckedVariableCategoryValues() {
         if (variableCategoryCustomMenuItem != null && variableCategoryCustomMenuItem.getSize() > 0) {
-            List<String> results = new ArrayList<String>();
+            List<String> results = new ArrayList<>();
                 List<CustomMenuBar.CustomMenuItem> items = variableCategoryCustomMenuItem.getChildren();
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();

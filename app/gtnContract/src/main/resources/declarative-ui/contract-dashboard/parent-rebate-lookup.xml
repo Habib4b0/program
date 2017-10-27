@@ -34,4 +34,8 @@ xmlns:errorMsg="urn:import:com.stpl.ifs.ui.errorhandling" xmlns:b="urn:import:or
 		<Button id="nextColumnBtn" caption="&gt;&gt;" styleName="next-column-button" immediate="true"/>
 	</HorizontalLayout>
 	<b:ExtFilterTable id="resultsTable" />
+        <HorizontalLayout immediate="true" spacing="true">
+        <Button id="selectBtn" caption="SELECT" immediate="true" width="80" />
+        <Button id="closeBtn" caption="CLOSE" immediate="true" width="80" />
+    </HorizontalLayout>
 </VerticalLayout>

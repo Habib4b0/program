@@ -11,6 +11,7 @@ import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.RETURNS;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 
 import static com.stpl.app.utils.Constants.ButtonConstants.*;
@@ -105,7 +106,7 @@ public class PrivatePublicView extends AbstractViewLookup {
      * @param lookup To refer the textfield that opens this lookup
      * @param windowName the window name for lookup
      */
-    public PrivatePublicView(final String indicator, final CustomTextField lookup, final String windowName, final String screenName) {
+    public PrivatePublicView(final String indicator,final String windowName, final String screenName) {
         super(windowName);
         LOGGER.debug("Entering PrivatePublicView");
         this.indicator = indicator;
@@ -129,7 +130,7 @@ public class PrivatePublicView extends AbstractViewLookup {
         btnSelect = new Button(BTN_SELECT.getConstant());
         btnClose = new Button(BTN_CLOSE.getConstant());
         results = new ExtFilterTable();
-        viewContainer = new BeanItemContainer<ViewDTO>(ViewDTO.class);
+        viewContainer = new BeanItemContainer<>(ViewDTO.class);
         LOGGER.debug("End of initializeComponents");
     }
 
@@ -151,15 +152,15 @@ public class PrivatePublicView extends AbstractViewLookup {
         LOGGER.debug("Entering configureField");
         //Configure the table
         results.setContainerDataSource(viewContainer);
-        if (screenName.equals("Returns")) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLUMNS_RETURNS);
-            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADERS_RETURNS);
+        if (screenName.equals(RETURNS.getConstant())) {
+            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumnReturns);
+            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeadersReturns);
         } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLUMNS_ARP);
-            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADERS_ARP);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumnsArp);
+            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeadersARP);
         } else {
-            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLUMNS);
-            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADERS);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumns);
+            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeaders);
         }
         results.setSortEnabled(true);
         results.setSelectable(true);
@@ -190,7 +191,7 @@ public class PrivatePublicView extends AbstractViewLookup {
 
                     @Override
                     public void noMethod() {
-
+                        return;
                     }
                 };
                 notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");

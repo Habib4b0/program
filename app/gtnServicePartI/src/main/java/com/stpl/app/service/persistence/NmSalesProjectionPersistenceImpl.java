@@ -79,10 +79,8 @@ public class NmSalesProjectionPersistenceImpl extends BasePersistenceImpl<NmSale
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(NmSalesProjectionPersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "adjustmentMethodology", "adjustmentBasis", "periodSid",
-                "productGrowth", "projectionDetailsSid", "adjustmentValues",
-                "adjustmentVariable", "accountGrowth", "projectionUnits",
-                "adjustmentType", "projectionSales"
+                "periodSid", "productGrowth", "projectionDetailsSid",
+                "accountGrowth", "projectionUnits", "projectionSales"
             });
     private static NmSalesProjection _nullNmSalesProjection = new NmSalesProjectionImpl() {
             @Override
@@ -337,16 +335,11 @@ public class NmSalesProjectionPersistenceImpl extends BasePersistenceImpl<NmSale
         nmSalesProjectionImpl.setNew(nmSalesProjection.isNew());
         nmSalesProjectionImpl.setPrimaryKey(nmSalesProjection.getPrimaryKey());
 
-        nmSalesProjectionImpl.setAdjustmentMethodology(nmSalesProjection.getAdjustmentMethodology());
-        nmSalesProjectionImpl.setAdjustmentBasis(nmSalesProjection.getAdjustmentBasis());
         nmSalesProjectionImpl.setPeriodSid(nmSalesProjection.getPeriodSid());
         nmSalesProjectionImpl.setProductGrowth(nmSalesProjection.getProductGrowth());
         nmSalesProjectionImpl.setProjectionDetailsSid(nmSalesProjection.getProjectionDetailsSid());
-        nmSalesProjectionImpl.setAdjustmentValues(nmSalesProjection.getAdjustmentValues());
-        nmSalesProjectionImpl.setAdjustmentVariable(nmSalesProjection.isAdjustmentVariable());
         nmSalesProjectionImpl.setAccountGrowth(nmSalesProjection.getAccountGrowth());
         nmSalesProjectionImpl.setProjectionUnits(nmSalesProjection.getProjectionUnits());
-        nmSalesProjectionImpl.setAdjustmentType(nmSalesProjection.getAdjustmentType());
         nmSalesProjectionImpl.setProjectionSales(nmSalesProjection.getProjectionSales());
 
         return nmSalesProjectionImpl;

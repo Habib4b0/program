@@ -36,23 +36,23 @@ public class CompanyAddView extends VerticalLayout implements View {
     /**
      * The binder.
      */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyMasterDTO>(companyMasterDTO));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(companyMasterDTO));
     /**
      * The identifier results bean.
      */
-    private final BeanItemContainer<CompanyCrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<CompanyCrtIdentifierDTO>(CompanyCrtIdentifierDTO.class);
+    private final BeanItemContainer<CompanyCrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
     /**
      * The trade class results bean.
      */
-    private BeanItemContainer<CompanyMasterDTO> tradeClassResultsBean = new BeanItemContainer<CompanyMasterDTO>(CompanyMasterDTO.class);
+    private BeanItemContainer<CompanyMasterDTO> tradeClassResultsBean = new BeanItemContainer<>(CompanyMasterDTO.class);
     /**
      * the parent company results bean.
      */
-    private BeanItemContainer<CompanyMasterDTO> parentCompanyResultsBean = new BeanItemContainer<CompanyMasterDTO>(CompanyMasterDTO.class);
+    private BeanItemContainer<CompanyMasterDTO> parentCompanyResultsBean = new BeanItemContainer<>(CompanyMasterDTO.class);
     CompanyAddForm companyAddFormForm;
     SessionDTO sessionDTO;
 
-    public CompanyAddView(final SessionDTO sessionDTO) throws PortalException, SystemException {
+    public CompanyAddView(final SessionDTO sessionDTO) {
         super();
         setStyleName("bootstrap-company");
         setSpacing(true);
@@ -79,7 +79,7 @@ public class CompanyAddView extends VerticalLayout implements View {
                 final CompanySearchLogic companyLogic = new CompanySearchLogic();
                 final int systemId = sessionDTO.getSystemId();
                 companyMasterDTO = companyLogic.getCompanyMasterById(Integer.valueOf(systemId));
-                binder = new ErrorfulFieldGroup(new BeanItem<CompanyMasterDTO>(companyMasterDTO));
+                binder = new ErrorfulFieldGroup(new BeanItem<>(companyMasterDTO));
 
                 identifierResultsBean.removeAllItems();
                 identifierResultsBean.addAll(companyMasterDTO.getCompanyIdentifierList());
@@ -89,13 +89,13 @@ public class CompanyAddView extends VerticalLayout implements View {
                 parentCompanyResultsBean.addAll(companyLogic.getParentCompanyTable(systemId));
                 companyAddFormForm = new CompanyAddForm(companyMasterDTO, binder, identifierResultsBean, tradeClassResultsBean, parentCompanyResultsBean, sessionDTO);
                 addComponent(companyAddFormForm);
-                binder.setItemDataSource(new BeanItem<CompanyMasterDTO>(companyMasterDTO));
+                binder.setItemDataSource(new BeanItem<>(companyMasterDTO));
                 companyAddFormForm.enableDisableAndInformationTab(mode);
                 this.setDefaultFocus();
             } else if ((ConstantsUtils.VIEW).equals(mode)) {
                 markAsDirty();
                 this.removeAllComponents();
-                binder = new ErrorfulFieldGroup(new BeanItem<CompanyMasterDTO>(new CompanyMasterDTO()));
+                binder = new ErrorfulFieldGroup(new BeanItem<>(new CompanyMasterDTO()));
                 final CompanySearchLogic companyLogic = new CompanySearchLogic();
                 final int systemId = sessionDTO.getSystemId();
                 LOGGER.debug("System ID:-->" + systemId);
@@ -109,7 +109,7 @@ public class CompanyAddView extends VerticalLayout implements View {
                 parentCompanyResultsBean.addAll(companyLogic.getParentCompanyTable(systemId));
                 CompanyAddForm companyAddForm = new CompanyAddForm(companyMasterDTO, binder, identifierResultsBean, tradeClassResultsBean, parentCompanyResultsBean, sessionDTO);
                 addComponent(companyAddForm);
-                binder.setItemDataSource(new BeanItem<CompanyMasterDTO>(companyMasterDTO));
+                binder.setItemDataSource(new BeanItem<>(companyMasterDTO));
                 companyAddForm.enableDisableAndInformationTab(mode);
                 binder.setReadOnly(true);
                 companyAddForm.viewModeConfig();

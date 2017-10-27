@@ -19,8 +19,8 @@ public static final String NUM_NEG_MSG = "MSG_ID_005";
 public static final String IDENTIFIER_SPCHAR_MSG = "MSG_ID_006";
 public static final String ZIPCODE_CHAR_MSG = "MSG_ID_007";
 public static final String QUALIFIER_SPCHAR_MSG = "MSG_ID_008";
-public static final String specialCharacterMessage = "MSG_ID_009";
-public static final String alphaNumericCharsMessage = "MSG_ID_010";
+public static final String SPCHAR_MSG = "MSG_ID_009";
+public static final String ALP_NUM_CHAR_MSG = "MSG_ID_010";
 public static final String PRICE_MSG ="MSG_ID_011";
 public static final String SEARCH_SPCHAR_MSG ="MSG_ID_012";
 public static final String SEARCH_CRITERIA_HEADER ="MSG_ID_013";
@@ -38,6 +38,8 @@ public static final String NO_RECORD_SELECTED_MESSAGE ="MSG_ID_030";
 public static final String NO_RECORD_SELECTED_MESSAGE1 ="MSG_ID_031";
 public static final String DC_RESET_ALL_HEADER ="MSG_ID_040";
 public static final String DC_RESET_ALL_MESSAGE ="MSG_ID_041";
+public static final String NO_RECORD_SELECTED_MESSAGE2 = "MSG_ID_047";
+
     /**
      * Constructor.
      */

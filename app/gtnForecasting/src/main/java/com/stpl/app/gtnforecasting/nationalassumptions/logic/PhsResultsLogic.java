@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -55,14 +54,14 @@ public class PhsResultsLogic {
      * The Numeric Unit Decimal Places Format.
      */
     private static final DecimalFormat UNITS = new DecimalFormat("#0.00");
-    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private static final String DATASOURCECONTEXT = "java:jboss/datasources/jdbc/appDataPool";
 
     private final PhsQueryUtils queryUtil = new PhsQueryUtils();
 
     public List<TableDTO> getConfiguredPhsResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
         List<TableDTO> resultList;
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
-            projSelDTO.setActualsOrProjections("Actuals and Projections");
+            projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
         }
         if (parentId instanceof TableDTO) {
             TableDTO parentDto = (TableDTO) parentId;
@@ -84,27 +83,23 @@ public class PhsResultsLogic {
             projSelDTO.setGroup(StringUtils.EMPTY);
             projSelDTO.setPageOffSet(offset);
             projSelDTO.setPageStart(start);
-            resultList = getPhsResults(start, offset, projSelDTO);
+            resultList = getPhsResults(projSelDTO);
 
         }
 
         return resultList;
     }
-
+    
     public List<TableDTO> getPhsChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, int parentSid,SessionDTO session) {
-        LOGGER.debug("getPhsChildren start=" + start + "   offset=" + offset);
+        LOGGER.debug("getPhsChildren started");
         int neededRecord = offset;
         int started = start;
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getPhsChild(projSelDTO, parentSid,session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; k++, neededRecord--) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
-            }
-            if (resultList != null) {
-                resultList = null;
             }
         }
         LOGGER.debug("getPhsChildren ends");
@@ -113,7 +108,7 @@ public class PhsResultsLogic {
 
     public List<TableDTO> getPhsChild(ProjectionSelectionDTO projSelDTO, int parentSid,SessionDTO session) {
         LOGGER.debug("getPhsChild method started ");
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
         try {
             List<Object[]> phsList;
             if (projSelDTO.getVariables().contains(PERCENTAGE.getConstant())) {
@@ -126,10 +121,7 @@ public class PhsResultsLogic {
             } else {
                 projDTOList = getCustomizedPriceTypeChild(phsList, projSelDTO);
             }
-            if (phsList != null) {
-                phsList = null;
-            }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getPhsChild method ends ");
@@ -137,11 +129,12 @@ public class PhsResultsLogic {
     }
 
     public List<TableDTO> getCustPhsChild(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
         boolean wac = false;
         boolean phs = false;
         boolean totalURA = false;
         boolean phsDiscount = false;
+        boolean amp = false;
 
         List<String> priceList = projSelDTO.getPriceTypeList();
         try {
@@ -158,25 +151,12 @@ public class PhsResultsLogic {
                 if (TOTAL_URA.getConstant().equalsIgnoreCase(priceList.get(i))) {
                     totalURA = true;
                 }
-                
+                if (AMP.getConstant().equalsIgnoreCase(priceList.get(i))) {
+                    amp = true;
+                }
+
             }
-            if (wac) {
-                List<TableDTO> wacList = getCustomizedPhsChild(list, projSelDTO, WAC.getConstant());
-                projDTOList.addAll(wacList);
-            }
-            if (phs) {
-                List<TableDTO> phsList = getCustomizedPhsChild(list, projSelDTO, PHS.getConstant());
-                projDTOList.addAll(phsList);
-            }
-            if (phsDiscount) {
-                List<TableDTO> phsDiscountList = getCustomizedPhsChild(list, projSelDTO, PHS_DISCOUNT.getConstant());
-                projDTOList.addAll(phsDiscountList);
-            }
-            if (totalURA) {
-                List<TableDTO> uraList = getCustomizedPhsChild(list, projSelDTO, TOTAL_URA.getConstant());
-                projDTOList.addAll(uraList);
-            }
-             
+            getCustPhsChildCustomization(wac, list, projSelDTO, projDTOList, phs, phsDiscount, totalURA, amp);
 
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -184,8 +164,31 @@ public class PhsResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getPhsResults(int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        LOGGER.debug("getPhsResults start=" + start + "   offset=" + offset);
+    public void getCustPhsChildCustomization(boolean wac, List<Object[]> list, ProjectionSelectionDTO projSelDTO, List<TableDTO> projDTOList, boolean phs, boolean phsDiscount, boolean totalURA, boolean amp) {
+        if (wac) {
+            List<TableDTO> wacList = getCustomizedPhsChild(list, projSelDTO, WAC.getConstant());
+            projDTOList.addAll(wacList);
+        }
+        if (phs) {
+            List<TableDTO> phsList = getCustomizedPhsChild(list, projSelDTO, PHS.getConstant());
+            projDTOList.addAll(phsList);
+        }
+        if (phsDiscount) {
+            List<TableDTO> phsDiscountList = getCustomizedPhsChild(list, projSelDTO, PHS_DISCOUNT.getConstant());
+            projDTOList.addAll(phsDiscountList);
+        }
+        if (totalURA) {
+            List<TableDTO> uraList = getCustomizedPhsChild(list, projSelDTO, TOTAL_URA.getConstant());
+            projDTOList.addAll(uraList);
+        }
+        if (amp) {
+            List<TableDTO> ampList = getCustomizedPhsChild(list, projSelDTO, AMP.getConstant());
+            projDTOList.addAll(ampList);
+        }
+    }
+
+    public List<TableDTO> getPhsResults(ProjectionSelectionDTO projSelDTO) {
+        LOGGER.debug("getPhsResults started");
         List<TableDTO> projDTOList = getPhs(projSelDTO);
         LOGGER.debug("getPhsResults ends");
         return projDTOList;
@@ -195,7 +198,7 @@ public class PhsResultsLogic {
         int count = 0;
 
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
-            projSelDTO.setActualsOrProjections("Actuals and Projections");
+            projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
         }
         if (parentId instanceof TableDTO) {
             TableDTO parentDto = (TableDTO) parentId;
@@ -210,40 +213,42 @@ public class PhsResultsLogic {
             count += getPhsCount(projSelDTO);
         } else {
             try {
-                projSelDTO.setIsProjectionTotal(true);
-                projSelDTO.setIsTotal(true);
-                projSelDTO.setTreeLevelNo(0);
-                projSelDTO.setGroup(StringUtils.EMPTY);
-                int projMasterId = projSelDTO.getProjectionId();
-                int brandSid = projSelDTO.getBrandMasterId();
-                int therapeutic = projSelDTO.getTherapeuticSid().getId();
-                List<Object[]> phsList;
-                phsList = queryUtil.loadPhsResultsTable(projMasterId, brandSid, "getPhsParentCount", projSelDTO.getLevelNo(), 0, therapeutic);
-                if (phsList != null && !phsList.isEmpty()) {
-                    count += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(phsList.get(0))) ? String.valueOf(phsList.get(0)) : Constant.STRING_ONE);
-                }
-                if (phsList != null) {
-                    phsList = null;
-                }
-            } catch (PortalException ex) {
-                java.util.logging.Logger.getLogger(PhsResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SystemException ex) {
-                java.util.logging.Logger.getLogger(PhsResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
+                count = getPhsParentCount(projSelDTO);
+            } catch (PortalException | SystemException ex) {
+                LOGGER.error(ex);
             }
 
         }
         return count;
     }
 
+    public int getPhsParentCount(ProjectionSelectionDTO projSelDTO) throws SystemException, PortalException {
+        projSelDTO.setIsProjectionTotal(true);
+        projSelDTO.setIsTotal(true);
+        projSelDTO.setTreeLevelNo(0);
+        projSelDTO.setGroup(StringUtils.EMPTY);
+        int projMasterId = projSelDTO.getProjectionId();
+        int brandSid = projSelDTO.getBrandMasterId();
+        int therapeutic = projSelDTO.getTherapeuticSid().getId();
+        List<Object[]> phsList;
+        int phsParentCount = 0; 
+        phsList = queryUtil.loadPhsResultsTable(projMasterId, brandSid, "getPhsParentCount", projSelDTO.getLevelNo(), 0, therapeutic);
+        if (phsList != null && !phsList.isEmpty()) {
+             phsParentCount += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(phsList.get(0))) ? String.valueOf(phsList.get(0)) : Constant.STRING_ONE);
+        }
+        return phsParentCount;
+    }
+
     public int getPhsCount(ProjectionSelectionDTO projSelDTO) {
         int count = 0;
+        int phsCount = 0;
         if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
-            count = count + projSelDTO.getPriceTypeList().size();
+             phsCount = count + projSelDTO.getPriceTypeList().size();
         } else {
-            count = count + projSelDTO.getPeriodList().size();
+            phsCount = count + projSelDTO.getPeriodList().size();
         }
 
-        return count;
+        return phsCount;
     }
 
     public List<TableDTO> getPhs(ProjectionSelectionDTO projSelDTO) {
@@ -251,7 +256,7 @@ public class PhsResultsLogic {
         int projMasterId = projSelDTO.getProjectionId();
         int brandSid = projSelDTO.getBrandMasterId();
         int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
         try {
             com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session = new com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO();
             session.setPageFlag(true);
@@ -259,12 +264,9 @@ public class PhsResultsLogic {
             session.setStart(projSelDTO.getPageStart());
             List<Object[]> phsList = queryUtil.loadPhsParent(projMasterId, brandSid, projSelDTO.getLevelNo(), session, therapeuticSid);
             if (phsList != null) {
-                projDTOList = getCustomizedProjectionTotal(phsList, projSelDTO);
+                projDTOList = getCustomizedProjectionTotal(phsList);
             }
-            if (phsList != null) {
-                phsList = null;
-            }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
            LOGGER.error(e);
         }
         LOGGER.debug("getPhs method ends ");
@@ -274,65 +276,28 @@ public class PhsResultsLogic {
     public List<TableDTO> getCustomizedPhsChild(List<Object[]> list, ProjectionSelectionDTO projSelDTO, String groupIndicator) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         String projections = projSelDTO.getActualsOrProjections();
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
         TableDTO phsDTO = new TableDTO();
         phsDTO.setParent(0);
 
         phsDTO.setGroup(groupIndicator);
 
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
                 String group = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
                 if (group.equalsIgnoreCase(groupIndicator.trim())) {
-
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE]));
-                    int period = Integer.valueOf(String.valueOf(obj[NumericConstants.SIX]));
+                    int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE]));
+                    int period = Integer.parseInt(String.valueOf(obj[NumericConstants.SIX]));
                     List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = common.get(0);
                     String source = StringUtils.EMPTY + obj[NumericConstants.EIGHT];
                     if (PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables())) {
-                        if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                column = commonColumn + ACTUALS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                    value = getFormattedValue(PER_TWO, value);
-                                    phsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
-                        }
-                        if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                column = commonColumn + PROJECTIONS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                    value = getFormattedValue(PER_TWO, value);
-                                    phsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
-                        }
+                        getCustomizedPhsChildPercentage(source, projections, commonColumn, projSelDTO, obj, phsDTO, columnList);
                     } else {
-                        if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                column = commonColumn + ACTUALS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                    value = getFormattedValue(CUR_ZERO, value);
-                                    phsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
-                        }
-                            if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                column = commonColumn + PROJECTIONS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                    value = getFormattedValue(CUR_ZERO, value);
-                                    phsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
-                            }
-
+                        getCustomizedPhsChildAmount(source, projections, commonColumn, projSelDTO, obj, phsDTO, columnList);
                     }
                 }
             }
@@ -344,23 +309,69 @@ public class PhsResultsLogic {
         return projDTOList;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(Constant.NULL) || StringUtils.isBlank(value)) {
-            value = StringUtils.EMPTY;
-        } else if (value.contains(DASH.getConstant())) {
-            value = DASH.getConstant();
-        } else {
-            Double newValue = Double.valueOf(value);
-            if (FORMAT.toPattern().contains(Constant.PERCENT)) {
-                newValue = newValue / NumericConstants.HUNDRED;
+    public void getCustomizedPhsChildAmount(String source, String projections, String commonColumn, ProjectionSelectionDTO projSelDTO, final Object[] obj, TableDTO phsDTO, List<String> columnList) {
+        String column;
+        if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
+            column = commonColumn + ACTUALS.getConstant();
+            if (projSelDTO.hasColumn(column)) {
+                String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                value = getFormattedValue(CUR_ZERO, value);
+                phsDTO.addStringProperties(column, value);
+                columnList.remove(column);
             }
-            value = FORMAT.format(newValue);
         }
-        return value;
+        if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
+            column = commonColumn + PROJECTIONS.getConstant();
+            if (projSelDTO.hasColumn(column)) {
+                String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                value = getFormattedValue(CUR_ZERO, value);
+                phsDTO.addStringProperties(column, value);
+                columnList.remove(column);
+            }
+        }
     }
 
-    public List<TableDTO> getCustomizedProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+    public void getCustomizedPhsChildPercentage(String source, String projections, String commonColumn, ProjectionSelectionDTO projSelDTO, final Object[] obj, TableDTO phsDTO, List<String> columnList) {
+        String column;
+        if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
+            column = commonColumn + ACTUALS.getConstant();
+            if (projSelDTO.hasColumn(column)) {
+                String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                value = getFormattedValue(PER_TWO, value);
+                phsDTO.addStringProperties(column, value);
+                columnList.remove(column);
+            }
+        }
+        if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
+            column = commonColumn + PROJECTIONS.getConstant();
+            if (projSelDTO.hasColumn(column)) {
+                String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                value = getFormattedValue(PER_TWO, value);
+                phsDTO.addStringProperties(column, value);
+                columnList.remove(column);
+            }
+        }
+        
+    }
+
+    public String getFormattedValue(DecimalFormat format, String value) {
+        String formatValue;
+        if (value.contains(Constant.NULL) || StringUtils.isBlank(value)) {
+            formatValue = StringUtils.EMPTY;
+        } else if (value.contains(DASH.getConstant())) {
+            formatValue = DASH.getConstant();
+        } else {
+            Double newValue = Double.valueOf(value);
+            if (format.toPattern().contains(Constant.PERCENT)) {
+                newValue = newValue / NumericConstants.HUNDRED;
+            }
+            formatValue = format.format(newValue);
+        }
+        return formatValue;
+    }
+
+    public List<TableDTO> getCustomizedProjectionTotal(List<Object[]> list) {
+        List<TableDTO> projDTOList = new ArrayList<>();
 
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
@@ -385,11 +396,11 @@ public class PhsResultsLogic {
     }
 
 // Master Phs Worksheet starts
-    public List<TableDTO> getConfiguredPhsWorkSheetResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo,SessionDTO session) {
-        List<TableDTO> resultList = new ArrayList<TableDTO>();
+    public List<TableDTO> getConfiguredPhsWorkSheetResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, int levelNo,SessionDTO session) {
+        List<TableDTO> resultList = new ArrayList<>();
         if (levelNo == 0) {
-            projSelDTO.setYear(Constant.All);
-            projSelDTO.setActualsOrProjections("Actuals and Projections");
+            projSelDTO.setYear(Constant.ALL);
+            projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
             if (parentId instanceof TableDTO) {
                 TableDTO parentDto = (TableDTO) parentId;
                 projSelDTO.setLevelNo(parentDto.getLevelNo());
@@ -401,19 +412,15 @@ public class PhsResultsLogic {
                 projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
                 projSelDTO.setGroup(parentDto.getGroup());
                 projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
-                hierarchyNo = parentDto.getHierarchyNo();
-
-                int parentSid = parentDto.getItemMasterSid();
-                resultList = getPhsWorksheetChildren(start, offset, projSelDTO, hierarchyNo, parentSid,session);
+                resultList = getPhsWorksheetChildren(start, offset, projSelDTO, session);
             } else {
                 projSelDTO.setIsProjectionTotal(true);
                 projSelDTO.setIsTotal(true);
                 projSelDTO.setTreeLevelNo(0);
                 projSelDTO.setLevelNo(0);
                 projSelDTO.setGroup(StringUtils.EMPTY);
-                hierarchyNo = null;
 
-                resultList = getPhsWorksheetResults(start, offset, projSelDTO, hierarchyNo,session);
+                resultList = getPhsWorksheetResults(start, offset, projSelDTO, session);
 
             }
 
@@ -426,9 +433,9 @@ public class PhsResultsLogic {
         return resultList;
     }
 
-    public int getConfiguredPhsWorkSheetCount(Object parentId, ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo, boolean isLevelsCount) {
+    public int getConfiguredPhsWorkSheetCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
         int count = 0;
-        projSelDTO.setActualsOrProjections("Actuals and Projections");
+        projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
         if (parentId instanceof TableDTO) {
             TableDTO parentDto = (TableDTO) parentId;
             projSelDTO.setLevelNo(parentDto.getLevelNo());
@@ -440,7 +447,6 @@ public class PhsResultsLogic {
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
             projSelDTO.setGroup(parentDto.getGroup());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
-            hierarchyNo = parentDto.getHierarchyNo();
             if (parentDto.getGroup().startsWith("PHS")) {
                 count += NumericConstants.THREE;
             } else if (parentDto.getGroup().equalsIgnoreCase(Constant.AMP)) {
@@ -454,61 +460,51 @@ public class PhsResultsLogic {
             projSelDTO.setTreeLevelNo(0);
             projSelDTO.setLevelNo(0);
             projSelDTO.setGroup(StringUtils.EMPTY);
-            hierarchyNo = null;
             count += NumericConstants.SIX;
         }
         return count;
     }
 
-    public List<TableDTO> getPhsWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO, String hierarchyNo,SessionDTO session) {
-        LOGGER.debug("getPhsWorksheetResults start=" + start + "   offset=" + offset);
+    public List<TableDTO> getPhsWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+        LOGGER.debug("getPhsWorksheetResults started");
         int neededRecord = offset;
         int started = start;
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getPHSWorksheet(projSelDTO,session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; k++,  neededRecord--) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         }
         LOGGER.debug("getPhsWorksheetResults ends");
         return projDTOList;
     }
 
-    public List<TableDTO> getPhsWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, String hierarchyNo, int parentSid,SessionDTO session) {
-        LOGGER.debug("getPhsWorksheetChildren start=" + start + "   offset=" + offset);
+    public List<TableDTO> getPhsWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+        LOGGER.debug("getPhsWorksheetChildren started");
         int neededRecord = offset;
         int started = start;
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
-            List<TableDTO> resultList = getPhsWorksheetChild(projSelDTO, parentSid,session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            List<TableDTO> resultList = getPhsWorksheetChild(projSelDTO, session);
+            for (int k = started; k < resultList.size() && neededRecord > 0; k++,  neededRecord--) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
-            }
-            if (resultList != null) {
-                resultList = null;
             }
         }
         LOGGER.debug("getPhsWorksheetChildren ends");
         return projDTOList;
     }
 
-    public List<TableDTO> getPhsWorksheetChild(ProjectionSelectionDTO projSelDTO, int parentSid,SessionDTO session) {
+    public List<TableDTO> getPhsWorksheetChild(ProjectionSelectionDTO projSelDTO,SessionDTO session) {
         LOGGER.debug("getPhsWorksheetChild method started ");
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
         try {
             int ndcSid = projSelDTO.getNdcSid().getId();
             List<Object[]> pfsWSList = queryUtil.loadPhsWorksheet(session, ndcSid, projSelDTO.isAdjust());
             projDTOList = getCustPHSWorksheetChild(projSelDTO, pfsWSList);
-
-            if (pfsWSList != null) {
-                pfsWSList = null;
-            }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getPhsWorksheetChild method ends ");
@@ -516,7 +512,7 @@ public class PhsResultsLogic {
     }
 
     public List<TableDTO> getCustPHSWorksheetChild(ProjectionSelectionDTO projSelDTO, List<Object[]> pfsWSList) {
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
 
         boolean phsPrice = false;
         boolean totalUra = false;
@@ -578,14 +574,11 @@ public class PhsResultsLogic {
     public List<TableDTO> getPHSWorksheet(ProjectionSelectionDTO projSelDTO,SessionDTO session) {
         LOGGER.debug("getPHSWorksheet method starts ");
         int ndcSid = projSelDTO.getNdcSid().getId();
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
         try {
             List<Object[]> phsWSList = queryUtil.loadPhsWorksheet(session, ndcSid, projSelDTO.isAdjust());
             projDTOList = getCustomizedPhsWorksheet(projSelDTO, phsWSList);
-            if (phsWSList != null) {
-                phsWSList = null;
-            }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getPHSWorksheet method ends ");
@@ -594,7 +587,7 @@ public class PhsResultsLogic {
 
     public List<TableDTO> getCustomizedPhsWorksheet(ProjectionSelectionDTO projSelDTO, List<Object[]> pfsWSList) {
 
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
 
         TableDTO phsPriceDTO = new TableDTO();
         phsPriceDTO.setGroup("PHS Price");
@@ -635,7 +628,7 @@ public class PhsResultsLogic {
         CallableStatement statement = null;
         try {
             Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            datasource = (DataSource) initialContext.lookup(DATASOURCECONTEXT);
             if (datasource != null) {
                 connection = datasource.getConnection();
             }
@@ -668,24 +661,25 @@ public class PhsResultsLogic {
 
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         String projections = projSelDTO.getActualsOrProjections();
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
+        List<TableDTO> projDTOList = new ArrayList<>();
         TableDTO tableDTO;
         try {
 
-            Map<String, String> actualColumns = new HashMap<String, String>();
+            Map<String, String> actualColumns = new HashMap<>();
             actualColumns.put(WAC.getConstant(), "wacActuals");
             actualColumns.put(PHS.getConstant(), "phsActuals");
             actualColumns.put(PHS_DISCOUNT.getConstant(), "phsdiscountActuals");
             actualColumns.put(Constant.TOTAL_URA, "totaluraActuals");
-            
+            actualColumns.put(Constant.AMP, "ampActuals");
 
-            Map<String, String> projColumns = new HashMap<String, String>();
+            Map<String, String> projColumns = new HashMap<>();
             projColumns.put(WAC.getConstant(), "wacProjections");
             projColumns.put(PHS.getConstant(), "phsProjections");
             projColumns.put(PHS_DISCOUNT.getConstant(), "phsdiscountProjections");
             projColumns.put(Constant.TOTAL_URA, "totaluraProjections");
-           
-            List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+            projColumns.put(Constant.AMP, "ampProjections");
+
+            List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             List<String> selectedColumn = projSelDTO.getPeriodList();
             List<String> selectedHeader = projSelDTO.getPivotList();
 
@@ -696,52 +690,51 @@ public class PhsResultsLogic {
                 tableDTO.setGroup(selectedHeader.get(j));
                 if (list != null && !list.isEmpty()) {
                     for (int i = 0; i < list.size(); i++) {
-
-                        final Object[] obj = (Object[]) list.get(i);
-
-                        int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE]));
-                        int period = Integer.valueOf(String.valueOf(obj[NumericConstants.SIX]));
+                        final Object[] obj = list.get(i);
+                        int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE]));
+                        int period = Integer.parseInt(String.valueOf(obj[NumericConstants.SIX]));
                         List<String> periodList = getCommonColumnHeader(frequencyDivision, year, period);
                         if ((selectedColumn.get(j)).contains(periodList.get(0))) {
                             String source = StringUtils.EMPTY + obj[NumericConstants.EIGHT];
-                            String column = StringUtils.EMPTY;
                             if (PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables())) {
+                                String column;
                                 if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                        column = actualColumns.get(String.valueOf(obj[NumericConstants.SEVEN]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                            value = getFormattedValue(PER_TWO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    column = actualColumns.get(String.valueOf(obj[NumericConstants.SEVEN]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                        value = getFormattedValue(PER_TWO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                                 if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                        column = projColumns.get(String.valueOf(obj[NumericConstants.SEVEN]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                            value = getFormattedValue(PER_TWO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    column = projColumns.get(String.valueOf(obj[NumericConstants.SEVEN]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                                        value = getFormattedValue(PER_TWO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                             } else {
+                                String column;
                                 if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                        column = actualColumns.get(String.valueOf(obj[NumericConstants.SEVEN]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                            value = getFormattedValue(CUR_ZERO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    column = actualColumns.get(String.valueOf(obj[NumericConstants.SEVEN]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                        value = getFormattedValue(CUR_ZERO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                                 if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                        column = projColumns.get(String.valueOf(obj[NumericConstants.SEVEN]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                            value = getFormattedValue(CUR_ZERO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    column = projColumns.get(String.valueOf(obj[NumericConstants.SEVEN]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                                        value = getFormattedValue(CUR_ZERO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                             }
                             for (String columns : columnList) {
@@ -762,60 +755,70 @@ public class PhsResultsLogic {
     public List<TableDTO> getWorksheetData(List<Object[]> list, ProjectionSelectionDTO projSelDTO, TableDTO phsDTO, String groupIndicator, DecimalFormat format) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         String projections = projSelDTO.getActualsOrProjections();
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
-
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<TableDTO> projDTOList = new ArrayList<>();
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
                 String group = StringUtils.EMPTY + obj[0];
                 if (group.equalsIgnoreCase(groupIndicator.trim())) {
-
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
-                    int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                    List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
-                    String commonColumn = common.get(0);
-                    String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
-                    if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                            column = commonColumn + ACTUALS.getConstant();
-                            if (projSelDTO.hasColumn(column)) {
-                                if (phsDTO.getGroup().startsWith(Constant.FORECAST)) {
-                                    phsDTO.addStringProperties(column, DASH.getConstant());
-                                } else if (phsDTO.getGroup().startsWith(Constant.ADJUSTMENT)) {
-                                    phsDTO.addStringProperties(column, StringUtils.EMPTY);
-                                } else {
-                                    String value = StringUtils.EMPTY + obj[1];
-                                    value = getFormattedValue(format, value);
-                                    phsDTO.addStringProperties(column, value);
-                                }
-                                columnList.remove(column);
-                            }
-
-                    }
-                        if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                            column = commonColumn + PROJECTIONS.getConstant();
-                            if (projSelDTO.hasColumn(column)) {
-                                if (phsDTO.getGroup().startsWith("Historical")) {
-                                    phsDTO.addStringProperties(column, DASH.getConstant());
-                                } else {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
-                                    value = getFormattedValue(format, value);
-                                    phsDTO.addStringProperties(column, value);
-                                }
-                                columnList.remove(column);
-                            }
-                        }
+                    getWorksheetDataCondition(obj, frequencyDivision, projections, projSelDTO, phsDTO, format, columnList);
                 }
             }
-
         }
         for (String columns : columnList) {
             phsDTO.addStringProperties(columns, getFormattedValue(format, DASH.getConstant()));
         }
         projDTOList.add(phsDTO);
         return projDTOList;
+    }
+
+    public void getWorksheetDataCondition(final Object[] obj, int frequencyDivision, String projections, ProjectionSelectionDTO projSelDTO, TableDTO phsDTO, DecimalFormat format, List<String> columnList) {
+        int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
+        int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+        List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
+        String commonColumn = common.get(0);
+        String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
+        if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
+            getWorksheetDataActuals(commonColumn, projSelDTO, phsDTO, obj, format, columnList);
+            
+        }
+        if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
+            getWorksheetDataProjection(commonColumn, projSelDTO, phsDTO, obj, format, columnList);
+        }
+    }
+
+    public void getWorksheetDataProjection(String commonColumn, ProjectionSelectionDTO projSelDTO, TableDTO phsDTO, final Object[] obj, DecimalFormat format, List<String> columnList) {
+        String column;
+        column = commonColumn + PROJECTIONS.getConstant();
+        if (projSelDTO.hasColumn(column)) {
+            if (phsDTO.getGroup().startsWith("Historical")) {
+                phsDTO.addStringProperties(column, DASH.getConstant());
+            } else {
+                String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
+                value = getFormattedValue(format, value);
+                phsDTO.addStringProperties(column, value);
+            }
+            columnList.remove(column);
+        }
+    }
+
+    public void getWorksheetDataActuals(String commonColumn, ProjectionSelectionDTO projSelDTO, TableDTO phsDTO, final Object[] obj, DecimalFormat format, List<String> columnList) {
+        String column;
+        column = commonColumn + ACTUALS.getConstant();
+        if (projSelDTO.hasColumn(column)) {
+            if (phsDTO.getGroup().startsWith(Constant.FORECAST)) {
+                phsDTO.addStringProperties(column, DASH.getConstant());
+            } else if (phsDTO.getGroup().startsWith(Constant.ADJUSTMENT)) {
+                phsDTO.addStringProperties(column, StringUtils.EMPTY);
+            } else {
+                String value = StringUtils.EMPTY + obj[1];
+                value = getFormattedValue(format, value);
+                phsDTO.addStringProperties(column, value);
+            }
+            columnList.remove(column);
+        }
     }
 
     public int getPhsRowIndex(ProjectionSelectionDTO projSelDTO) {
@@ -838,26 +841,25 @@ public class PhsResultsLogic {
 
     public List<TableDTO> getWorksheetOverrideData(List<Object[]> list, ProjectionSelectionDTO projSelDTO, TableDTO phsDTO, String groupIndicator, DecimalFormat format) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<TableDTO> projDTOList = new ArrayList<TableDTO>();
-        Map<String, String[]> notesMap = new HashMap<String, String[]>();
+        List<TableDTO> projDTOList = new ArrayList<>();
+        Map<String, String[]> notesMap = new HashMap<>();
 
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 String group = StringUtils.EMPTY + obj[0];
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
                 if (PROJ_CAPS.getConstant().equals(source)) {
                     column = commonColumn + PROJECTIONS.getConstant();
                     if (projSelDTO.hasColumn(column)) {
-
-                        String value = StringUtils.EMPTY;
+                        String value;
                         String[] notesArray = new String[NumericConstants.TWO];
                         if (obj[NumericConstants.SIX] != null) {
                             notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
@@ -883,7 +885,6 @@ public class PhsResultsLogic {
                     }
                 }
             }
-
         }
         for (String columns : columnList) {
             phsDTO.addStringProperties(columns, getFormattedValue(format, DASH.getConstant()));
@@ -892,4 +893,5 @@ public class PhsResultsLogic {
         projDTOList.add(phsDTO);
         return projDTOList;
     }
+
 }

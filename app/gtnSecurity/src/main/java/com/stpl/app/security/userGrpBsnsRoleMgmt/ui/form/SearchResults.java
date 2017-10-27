@@ -40,7 +40,6 @@ public class SearchResults extends CustomComponent {
 		space.setHeight("20");
 
 		addToContent();
-		configureFields();
 	}
 
 	private void addToContent() {
@@ -57,7 +56,7 @@ public class SearchResults extends CustomComponent {
 	private Table addToTable() {
 		table.markAsDirty();
 		table.setContainerDataSource(searchResultbeans);
-		table.setVisibleColumns(UIUtils.BUSINESS_ROLE_MODULE_MASTER_COL);
+		table.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterCol);
 		table.setTableFieldFactory(new DefaultFieldFactory() {
 		    @Override
 		    public Field<?> createField(Container container, Object itemId,
@@ -90,8 +89,5 @@ public class SearchResults extends CustomComponent {
 		table.setSelectable(true);
 		
 		return table;
-	}
-
-	private void configureFields() {
 	}
 }

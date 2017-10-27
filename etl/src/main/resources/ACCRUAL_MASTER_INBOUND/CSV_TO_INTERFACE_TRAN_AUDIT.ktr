@@ -138,7 +138,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>AUDIT SORT 2</from><to>AUDIT UNIQUE 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT UNIQUE 2</from><to>RECEIVED COUNT 2</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT UNIQUE 2</from><to>SET AUDIT STATUS 3</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>AUDIT SORT 2</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Detect empty stream</to><enabled>N</enabled> </hop>  <hop> <from>Detect empty stream</from><to>Modified Java Script Value</to><enabled>N</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>Mail</to><enabled>N</enabled> </hop>  <hop> <from>Modified Java Script Value</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>RECEIVED COUNT 2</from><to>SET AUDIT STATUS 3</to><enabled>N</enabled> </hop>  <hop> <from>SET AUDIT STATUS 3</from><to>Database join 2</to><enabled>Y</enabled> </hop>  <hop> <from>If field value is null 2</from><to>Audit Insert &#47; Update 3</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2</from><to>Database join 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>If field value is null 2</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>AUDIT SORT 2</from><to>AUDIT UNIQUE 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT UNIQUE 2</from><to>RECEIVED COUNT 2</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT UNIQUE 2</from><to>SET AUDIT STATUS 3</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>AUDIT SORT 2</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Detect empty stream</to><enabled>Y</enabled> </hop>  <hop> <from>Detect empty stream</from><to>Modified Java Script Value</to><enabled>N</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>Mail</to><enabled>N</enabled> </hop>  <hop> <from>Modified Java Script Value</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>RECEIVED COUNT 2</from><to>SET AUDIT STATUS 3</to><enabled>N</enabled> </hop>  <hop> <from>SET AUDIT STATUS 3</from><to>Database join 2</to><enabled>Y</enabled> </hop>  <hop> <from>If field value is null 2</from><to>Audit Insert &#47; Update 3</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2</from><to>Database join 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>If field value is null 2</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>AUDIT SORT 2</name>
     <type>SortRows</type>
@@ -223,6 +223,12 @@
         <condition>=</condition>
         <name2/>
       </key>
+      <key>
+        <name>ZERO</name>
+        <field>AUDIT_INBOUND_SID</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
       <value>
         <name>INTERFACE_RUN_START_DATE</name>
         <rename>Interface_Run_Start_Date</rename>
@@ -271,8 +277,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>697</xloc>
-      <yloc>680</yloc>
+      <xloc>699</xloc>
+      <yloc>681</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -287,7 +293,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT}</filename>
+    <filename>${FILE_LOCAL_PATH}&#47;ACCRUAL_INBOUND_INTERFACE1.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -719,6 +725,204 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
+      <field>
+        <name>COMPANY_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BU_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ITEM_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BRAND_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_CATEGORY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_SCHEDULE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_PROGRAM_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SALES_AMOUNT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>QUANTITY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC4</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC5</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC6</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -993,7 +1197,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <jsScript_name>Script 1</jsScript_name>
         <jsScript_script>&#47;&#47;Script here
 
-var SUBJECT=&quot;ACTUAL MASTER INTERFACE&quot;+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
+var SUBJECT=&quot;ACCRUAL_INBOUND_INTERFACE&quot;+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
 var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;No data present in CSV file.&lt;br&gt;&lt;br&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
 </jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
@@ -1063,7 +1267,7 @@ var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;No data present
 
 var STATUS_A=&quot;R&quot;;
 var APPLICATION_PROCESS=&quot;ACCRUAL_INBOUND_INTERFACE&quot;;
-var FILE_NAME=&quot;Accrual_Inbound_Intf.ksh&quot;
+var FILE_NAME=&quot;Accrual_Master_Intf.sh&quot;
 var Interface_Run_Start_Date=new Date();
 var ZERO=0;
 &#47;&#47; var Interface_Run_Start_Date=date2str(new Date(),&quot;dd.MM.yyyy HH:mm:ss&quot;);</jsScript_script>

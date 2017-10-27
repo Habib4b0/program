@@ -5,7 +5,6 @@
  */
 package com.stpl.app.arm.dao.impl;
 
-
 import com.stpl.app.arm.dao.CommonDao;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;

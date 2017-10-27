@@ -199,7 +199,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
     /**
      * The ps ifp list.
      */
-    private final List<PSIFPDTO> psIfpList = new ArrayList<PSIFPDTO>();
+    private final List<PSIFPDTO> psIfpList = new ArrayList<>();
     /**
      * The item details results bean.
      */
@@ -240,7 +240,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
             getBinder();
             configureFields();
             configurePermission(fieldPsHM);
-            final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.PRICE_SCHEDULE + "," + "Pricing");
+            final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.PRICE_SCHEDULE + "," + ConstantsUtils.PRICING);
             if (functionRsHM.get(FunctionNameUtil.POPULATE) != null && ((AppPermission) functionRsHM.get(FunctionNameUtil.POPULATE)).isFunctionFlag()) {
                 configurePopulateBtn();
             } else {
@@ -259,8 +259,8 @@ public class PSPricingTabForm extends CustomComponent implements View {
     private void configurePermission(final Map<String, AppPermission> fieldPsHM) {
         logger.debug("Entering configurePermission");
         try {
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.PRICE_SCHEDULE, "Pricing");
-            commonUiUtil.removeComponentOnPermission(resultList, cssLayout, fieldPsHM, mode, binder);
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.PRICE_SCHEDULE, ConstantsUtils.PRICING);
+            commonUiUtil.removeComponentOnPermission(resultList, cssLayout, fieldPsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode, binder);
         } catch (Exception ex) {
             logger.error(ex);
         }
@@ -294,6 +294,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
                  * Method used to mass select logic and its listener.
                  */
                 public void valueChange(final ValueChangeEvent event) {
+                    return;
                 }
             });
 
@@ -329,116 +330,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
                  * Method used to mass field logic and its listener.
                  */
                 public void valueChange(final ValueChangeEvent event) {
-                    try {
-                        final String value = massField.getValue() == null ? StringUtils.EMPTY : String.valueOf(massField.getValue());
-                        massValue.setValue(StringUtils.EMPTY);
-                        massDate.setValue(null);
-                        if (Constants.CONTRACT_PRICE.equals(value) || Constants.BASE_PRICE.equals(value) || Constants.PRICE_TOLERENCE.equals(value) || Constants.PRICE.equals(value)
-                                || Constants.SUGGESTED_PRICE.equals(value)) {
-
-                            massValue.setVisible(true);
-                            massDate.setVisible(false);
-                            massSelect.setVisible(false);
-                            massPriceType.setVisible(false);
-                            btnPopulate.setEnabled(true);
-                        } else if (Constants.CP_START_DATE.equals(value) || Constants.CP_END_DATE.equals(value) || Constants.PRICE_PROTECTION_START_DATE.equals(value)
-                                || Constants.PRICE_PROTECTION_END_DATE.equals(value) || Constants.REVISION_DATE.equals(value)) {
-                            massValue.setVisible(false);
-                            massDate.setVisible(true);
-                            massSelect.setVisible(false);
-                            massPriceType.setVisible(false);
-                            btnPopulate.setEnabled(true);
-
-                        } else if (ConstantsUtils.PRICE_TYPE1.equals(value)) {
-                            massValue.setVisible(false);
-                            massDate.setVisible(false);
-                            massSelect.setVisible(false);
-                            massPriceType.setVisible(true);
-                            massPriceType.removeAllItems();
-                            btnPopulate.setEnabled(true);
-                            massPriceType.setNullSelectionItemId(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
-
-                            final LazyContainer priceTypeContainer = new LazyContainer(HelperDTO.class, new PriceTypeLazyContainer(null), new PriceTypeCriteria());
-                            priceTypeContainer.setMinFilterLength(0);
-                            massPriceType.setContainerDataSource(priceTypeContainer);
-
-                        } else if ("Price Tolerance Type".equals(value)) {
-                            massValue.setVisible(false);
-                            massDate.setVisible(false);
-                            massPriceType.setVisible(false);
-                            massSelect.setVisible(true);
-                            massSelect.removeAllItems();
-                            btnPopulate.setEnabled(true);
-                            massSelect.setContainerDataSource(new IndexedContainer(psLogic.getPriceToleranceType()));
-                            massSelect.select(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
-                        } else if ("Price Tolerance Interval".equals(value)) {
-                            massValue.setVisible(false);
-                            massDate.setVisible(false);
-                            massPriceType.setVisible(false);
-                            massSelect.setVisible(true);
-                            massSelect.removeAllItems();
-                            btnPopulate.setEnabled(true);
-                            massSelect.setContainerDataSource(new IndexedContainer(psLogic.getPriceToleranceInterval()));
-                            massSelect.select(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
-
-                        } else if ("Price Tolerance Frequency".equals(value)) {
-                            massValue.setVisible(false);
-                            massDate.setVisible(false);
-                            massPriceType.setVisible(false);
-                            massSelect.setVisible(true);
-                            massSelect.removeAllItems();
-                            btnPopulate.setEnabled(true);
-                            massSelect.setContainerDataSource(new IndexedContainer(psLogic.getPriceToleranceFrequency()));
-                            massSelect.select(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
-                        } else if (ConstantsUtils.STATIUS.equalsIgnoreCase(value)) {
-                            massValue.setVisible(false);
-                            massDate.setVisible(false);
-                            massPriceType.setVisible(false);
-                            massSelect.setVisible(true);
-                            massSelect.removeAllItems();
-                            btnPopulate.setEnabled(true);
-                            commonUtil.loadComboBox(massSelect, UIUtils.STATUS, false);
-                        } else {
-                            massValue.setVisible(false);
-                            massDate.setVisible(false);
-                            massPriceType.setVisible(false);
-                            massSelect.setVisible(false);
-                        }
-                    } catch (SystemException ex) {
-                        final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                        logger.error(errorMsg);
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the
-                             * message box is pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed
-                             * button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing     
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                    } catch (Exception exception) {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the
-                             * message box is pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed
-                             * button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing     
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                        logger.error(exception);
-
-                    }
+                    maasFieldListener();
                 }
             });
             massCheck.addValueChangeListener(new Property.ValueChangeListener() {
@@ -446,29 +338,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
                  * Value change Listener for Mass Check
                  */
                 public void valueChange(final ValueChangeEvent event) {
-                    try {
-                        massCheck.setDescription((String) massCheck.getValue());
-                        massCheck.focus();
-                        massField.select(ConstantsUtils.SELECT_ONE);
-                        massCheckOnChangeEvent(event.getProperty().getValue());
-                    } catch (Exception exception) {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
-                            /**
-                             * The method is triggered when a button of the
-                             * message box is pressed .
-                             *
-                             * @param buttonId The buttonId of the pressed
-                             * button.
-                             */
-                            @SuppressWarnings("PMD")
-                            public void buttonClicked(final ButtonId buttonId) {
-                                // Do Nothing     
-                            }
-                        }, ButtonId.OK);
-                        msg.getButton(ButtonId.OK).focus();
-                        logger.error(exception);
-
-                    }
+                    massCheckListener(event);
                     massCheck.focus();
                 }
             });
@@ -525,7 +395,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
     private ErrorfulFieldGroup getBinder() {
 
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<PSDTO>(psMaster));
+        binder.setItemDataSource(new BeanItem<>(psMaster));
         binder.setBuffered(true);
         binder.setErrorDisplay(errorMsg);
         errorMsg.setId("ErrorMessage");
@@ -552,10 +422,10 @@ public class PSPricingTabForm extends CustomComponent implements View {
         psPricingTableLogic.setSearchData(itemDetailsResultBean, binder, mode, psMaster, sessionDTO);
         psPricingTableLogic.setCurrentPage(1);
 
-        itemDetailsTable.setVisibleColumns(PsUtils.ITEM_DETAILS_COL);
-        itemDetailsTable.setColumnHeaders(PsUtils.ITEM_DETAILS_COL_HEADER);
+        itemDetailsTable.setVisibleColumns(PsUtils.getInstance().itemDetailsCol);
+        itemDetailsTable.setColumnHeaders(PsUtils.getInstance().itemDetailsColHeader);
 
-        itemDetailsTable.setFilterBarVisible(!isViewMode);
+        itemDetailsTable.setFilterBarVisible(true);
         itemDetailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         itemDetailsTable.setFilterFieldVisible(ConstantsUtils.CHECK_RECORD, false);
         itemDetailsTable.setPageLength(NumericConstants.SEVEN);
@@ -565,11 +435,11 @@ public class PSPricingTabForm extends CustomComponent implements View {
         if (!isViewMode) {
             itemDetailsTable.setSelectable(true);
             itemDetailsTable.setColumnCheckBox(ConstantsUtils.CHECK_RECORD, true, false);
-            itemDetailsTable.setTableFieldFactory(new PSTableGenerator(itemDetailsTable, itemDetailsResultBean, "Add", psMaster));
+            itemDetailsTable.setTableFieldFactory(new PSTableGenerator(itemDetailsTable, itemDetailsResultBean, "Add", psMaster, sessionDTO));
             itemDetailsTable.setEditable(true);
         } else {
-            itemDetailsTable.setVisibleColumns(Arrays.copyOfRange(PsUtils.ITEM_DETAILS_COL, 1, PsUtils.ITEM_DETAILS_COL.length));
-            itemDetailsTable.setColumnHeaders(Arrays.copyOfRange(PsUtils.ITEM_DETAILS_COL_HEADER, 1, PsUtils.ITEM_DETAILS_COL_HEADER.length));
+            itemDetailsTable.setVisibleColumns(Arrays.copyOfRange(PsUtils.getInstance().itemDetailsCol, 1, PsUtils.getInstance().itemDetailsCol.length));
+            itemDetailsTable.setColumnHeaders(Arrays.copyOfRange(PsUtils.getInstance().itemDetailsColHeader, 1, PsUtils.getInstance().itemDetailsColHeader.length));
         }
         itemDetailsTable.setErrorHandler(new ErrorHandler() {
             /**
@@ -698,7 +568,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
 
                             List<Object> itemList = psLogic.validateNull(userId, sessionId, tempCreatedDate, "tempCheckedCount");
                             if (itemList.isEmpty()) {
-                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please select an item to populate", new MessageBoxListener() {
+                                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please select an item to populate", new MessageBoxListener() {
                                     /**
                                      * The method is triggered when a button of
                                      * the message box is pressed .
@@ -746,13 +616,13 @@ public class PSPricingTabForm extends CustomComponent implements View {
                                 } else if ("Price Tolerance".equals(fieldMass)) {
                                     populateField = "PS_DETAILS_PRICE_TOLERANCE";
                                     populateValue = String.valueOf(massValue.getValue());
-                                } else if ("Price Tolerance Type".equals(fieldMass)) {
+                                } else if (ConstantsUtils.PRICE_TOLERANCE_TYPE_LABEL.equals(fieldMass)) {
                                     populateField = "PS_DTLS_PRICE_TOLERANCE_TYPE";
                                     populateValue = String.valueOf(((HelperDTO) massSelect.getValue()).getId());
-                                } else if ("Price Tolerance Interval".equals(fieldMass)) {
+                                } else if (ConstantsUtils.PRICE_TOLERANCE_INTERVAL_LABEL.equals(fieldMass)) {
                                     populateField = "PS_DTLS_PRICE_TOLERANCE_INTRVL";
                                     populateValue = String.valueOf(((HelperDTO) massSelect.getValue()).getId());
-                                } else if ("Price Tolerance Frequency".equals(fieldMass)) {
+                                } else if (ConstantsUtils.PRICE_TOLERANCE_FREQUENCY.equals(fieldMass)) {
                                     populateField = "PS_DTLS_PRICE_TOLERANCE_FREQ";
                                     populateValue = String.valueOf(((HelperDTO) massSelect.getValue()).getId());
                                 } else if ("Revision Date".equals(fieldMass)) {
@@ -778,7 +648,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
                             massField.setValue(StringUtils.EMPTY);
 
                         } else {
-                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
+                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
                                 /**
                                  * The method is triggered when a button of the
                                  * message box is pressed .
@@ -794,7 +664,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
                             msg.getButton(ButtonId.OK).focus();
                         }
                     } else {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please Select a field to Populate", new MessageBoxListener() {
+                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please Select a field to Populate", new MessageBoxListener() {
                             /**
                              * The method is triggered when a button of the
                              * message box is pressed .
@@ -947,13 +817,13 @@ public class PSPricingTabForm extends CustomComponent implements View {
                                 } else if ("Price Tolerance".equals(fieldMass)) {
                                     populateField = "PS_DETAILS_PRICE_TOLERANCE";
                                     populateValue = String.valueOf(massValue.getValue());
-                                } else if ("Price Tolerance Type".equals(fieldMass)) {
+                                } else if (ConstantsUtils.PRICE_TOLERANCE_TYPE_LABEL.equals(fieldMass)) {
                                     populateField = "PS_DTLS_PRICE_TOLERANCE_TYPE";
                                     populateValue = String.valueOf(((HelperDTO) massSelect.getValue()).getId());
-                                } else if ("Price Tolerance Interval".equals(fieldMass)) {
+                                } else if (ConstantsUtils.PRICE_TOLERANCE_INTERVAL_LABEL.equals(fieldMass)) {
                                     populateField = "PS_DTLS_PRICE_TOLERANCE_INTRVL";
                                     populateValue = String.valueOf(((HelperDTO) massSelect.getValue()).getId());
-                                } else if ("Price Tolerance Frequency".equals(fieldMass)) {
+                                } else if (ConstantsUtils.PRICE_TOLERANCE_FREQUENCY.equals(fieldMass)) {
                                     populateField = "PS_DTLS_PRICE_TOLERANCE_FREQ";
                                     populateValue = String.valueOf(((HelperDTO) massSelect.getValue()).getId());
                                 } else if ("Revision Date".equals(fieldMass)) {
@@ -970,7 +840,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
                                 psPricingTableLogic.setCurrentPage(psPricingTableLogic.getCurrentPage());
                             }
                         } else {
-                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
+                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
                                 /**
                                  * The method is triggered when a button of the
                                  * message box is pressed .
@@ -986,7 +856,7 @@ public class PSPricingTabForm extends CustomComponent implements View {
                             msg.getButton(ButtonId.OK).focus();
                         }
                     } else {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please Select a field to Populate", new MessageBoxListener() {
+                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please Select a field to Populate", new MessageBoxListener() {
                             /**
                              * The method is triggered when a button of the
                              * message box is pressed .
@@ -1166,24 +1036,24 @@ public class PSPricingTabForm extends CustomComponent implements View {
      * @throws InvocationTargetException
      * @throws Exception
      */
-    private void createWorkSheet() throws PortalException, SystemException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void createWorkSheet() throws PortalException, SystemException,  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         logger.debug("Entering createWorkSheet");
         int recordCount = 0;
-        List<Object[]> list = psLogic.getItemPriceDetails(null, 0, 0, binder, new ArrayList<SortByColumn>(), mode, psMaster, true);
+        List<Object[]> list = psLogic.getItemPriceDetails(null, 0, 0, new ArrayList<SortByColumn>(), mode, psMaster, true);
         recordCount = Integer.valueOf(String.valueOf(list.get(0)));
         String[] header = itemDetailsTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
         header = (String[]) ArrayUtils.removeElement(header, ConstantsUtils.BLANK_SPACE);
-        ExcelExportforBB.createWorkSheet(header, recordCount, this, getUI(), "Pricing");
+        ExcelExportforBB.createWorkSheet(header, recordCount, this, getUI(), ConstantsUtils.PRICING);
         logger.debug("Ending createWorkSheet");
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws PortalException, SystemException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws PortalException, SystemException, NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         logger.debug("Entering createWorkSheetContent");
         if (itemDetailsTable.size() > 0) {
-            final List<SortByColumn> columns = new ArrayList<SortByColumn>();
+            final List<SortByColumn> columns = new ArrayList<>();
             List<PSIFPDTO> dtoList = null;
-            List<Object[]> list = psLogic.getItemPriceDetails(null, start, end, binder, columns, mode, psMaster, false);
+            List<Object[]> list = psLogic.getItemPriceDetails(null, start, end, columns, mode, psMaster, false);
             dtoList = getCustomizedItemPriceDTO(list, mode, psMaster);
 
             Object[] column = itemDetailsTable.getVisibleColumns();
@@ -1193,4 +1063,154 @@ public class PSPricingTabForm extends CustomComponent implements View {
         }
     }
 
+    public void massCheckListener(final ValueChangeEvent event) {
+        try {
+            massCheck.setDescription((String) massCheck.getValue());
+            massCheck.focus();
+            massField.select(ConstantsUtils.SELECT_ONE);
+            massCheckOnChangeEvent(event.getProperty().getValue());
+        } catch (Exception exception) {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing     
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+            logger.error(exception);
+
+        }
+    }
+
+    public void maasFieldListener() {
+        try {
+            final String value = massField.getValue() == null ? StringUtils.EMPTY : String.valueOf(massField.getValue());
+            massValue.setValue(StringUtils.EMPTY);
+            massDate.setValue(null);
+            if (Constants.CONTRACT_PRICE.equals(value) || Constants.BASE_PRICE.equals(value) || Constants.PRICE_TOLERENCE.equals(value) || Constants.PRICE.equals(value)
+                    || Constants.SUGGESTED_PRICE.equals(value)) {
+                valueforddlb.setVisible(true);
+
+                massValue.setVisible(true);
+                massDate.setVisible(false);
+                massSelect.setVisible(false);
+                massPriceType.setVisible(false);
+                btnPopulate.setEnabled(true);
+            } else if (Constants.CP_START_DATE.equals(value) || Constants.CP_END_DATE.equals(value) || Constants.PRICE_PROTECTION_START_DATE.equals(value)
+                    || Constants.PRICE_PROTECTION_END_DATE.equals(value) || Constants.REVISION_DATE.equals(value)) {
+                valueforddlb.setVisible(true);
+
+                massValue.setVisible(false);
+                massDate.setVisible(true);
+                massSelect.setVisible(false);
+                massPriceType.setVisible(false);
+                btnPopulate.setEnabled(true);
+
+            } else if (ConstantsUtils.PRICE_TYPE1.equals(value)) {
+                valueforddlb.setVisible(true);
+
+                massValue.setVisible(false);
+                massDate.setVisible(false);
+                massSelect.setVisible(false);
+                massPriceType.setVisible(true);
+                massPriceType.removeAllItems();
+                btnPopulate.setEnabled(true);
+                massPriceType.setNullSelectionItemId(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
+
+                final LazyContainer priceTypeContainer = new LazyContainer(HelperDTO.class, new PriceTypeLazyContainer(null), new PriceTypeCriteria());
+                priceTypeContainer.setMinFilterLength(0);
+                massPriceType.setContainerDataSource(priceTypeContainer);
+
+            } else if (ConstantsUtils.PRICE_TOLERANCE_TYPE_LABEL.equals(value)) {
+                valueforddlb.setVisible(true);
+
+                massValue.setVisible(false);
+                massDate.setVisible(false);
+                massPriceType.setVisible(false);
+                massSelect.setVisible(true);
+                massSelect.removeAllItems();
+                btnPopulate.setEnabled(true);
+                massSelect.setContainerDataSource(new IndexedContainer(psLogic.getPriceToleranceType()));
+                massSelect.select(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
+            } else if (ConstantsUtils.PRICE_TOLERANCE_INTERVAL_LABEL.equals(value)) {
+                valueforddlb.setVisible(true);
+
+                massValue.setVisible(false);
+                massDate.setVisible(false);
+                massPriceType.setVisible(false);
+                massSelect.setVisible(true);
+                massSelect.removeAllItems();
+                btnPopulate.setEnabled(true);
+                massSelect.setContainerDataSource(new IndexedContainer(psLogic.getPriceToleranceInterval()));
+                massSelect.select(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
+
+            } else if (ConstantsUtils.PRICE_TOLERANCE_FREQUENCY.equals(value)) {
+                valueforddlb.setVisible(true);
+
+                massValue.setVisible(false);
+                massDate.setVisible(false);
+                massPriceType.setVisible(false);
+                massSelect.setVisible(true);
+                massSelect.removeAllItems();
+                btnPopulate.setEnabled(true);
+                massSelect.setContainerDataSource(new IndexedContainer(psLogic.getPriceToleranceFrequency()));
+                massSelect.select(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
+            } else if (ConstantsUtils.STATIUS.equalsIgnoreCase(value)) {
+                valueforddlb.setVisible(true);
+
+                massValue.setVisible(false);
+                massDate.setVisible(false);
+                massPriceType.setVisible(false);
+                massSelect.setVisible(true);
+                massSelect.removeAllItems();
+                btnPopulate.setEnabled(true);
+                commonUtil.loadComboBox(massSelect, UIUtils.STATUS, false);
+            } else {
+                valueforddlb.setVisible(false);
+
+                massValue.setVisible(false);
+                massDate.setVisible(false);
+                massPriceType.setVisible(false);
+                massSelect.setVisible(false);
+            }
+        } catch (SystemException ex) {
+            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
+            logger.error(errorMsg);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing     
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        } catch (Exception exception) {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing     
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+            logger.error(exception);
+
+        }
+    }
 }

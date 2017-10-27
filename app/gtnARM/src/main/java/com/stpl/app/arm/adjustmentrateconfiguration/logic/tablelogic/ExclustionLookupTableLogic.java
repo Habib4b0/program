@@ -16,49 +16,48 @@ import org.jboss.logging.Logger;
 
 /**
  *
- * @author 
+ * @author
  */
 public class ExclustionLookupTableLogic extends PageTableLogic {
 
-    LookUpDTO exRateDTO=new LookUpDTO();
-    AdjustmentRateLogic logic=new AdjustmentRateLogic();
+    LookUpDTO exRateDTO = new LookUpDTO();
+    AdjustmentRateLogic logic = new AdjustmentRateLogic();
     boolean isGenerate = false;
     private static final Logger LOGGER = Logger.getLogger(ExclustionLookupTableLogic.class);
-    
+
     @Override
     public int getCount() {
-       try {
+        try {
             List<Object> count = logic.searchLogicForExclusionLookUp(exRateDTO, true, 0, 0, null, this.getFilters());
             return Integer.valueOf(count.get(0).toString());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getcount :"+ex);
             return 0;
         }
     }
 
     @Override
     public List loadData(int start, int offset) {
-      try {
+        try {
             if (isGenerate) {
-                List<LookUpDTO> list = logic.searchLogicForExclusionLookUp(exRateDTO, false, start, offset, this.getSortByColumns(), this.getFilters());
-                return list;
-            }else{
-                return Collections.EMPTY_LIST;
+                return logic.searchLogicForExclusionLookUp(exRateDTO, false, start, offset, this.getSortByColumns(), this.getFilters());
+            } else {
+                return Collections.emptyList();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
-            return null;
+            LOGGER.error("Error in loadData :"+ex);
+            return Collections.emptyList();
         }
     }
 
     @Override
     public Object configureContainer(Object object, Container container) {
-       LookUpDTO dto = (LookUpDTO) object;
+        LookUpDTO dto = (LookUpDTO) object;
         ((BeanItemContainer<LookUpDTO>) container).addBean(dto);
         return dto;
     }
 
-      public boolean configureSearchData(LookUpDTO exRateDTO, boolean isGenerate) {
+    public boolean configureSearchData(LookUpDTO exRateDTO, boolean isGenerate) {
         this.isGenerate = isGenerate;
         this.exRateDTO = exRateDTO;
         clearAll();
@@ -66,5 +65,5 @@ public class ExclustionLookupTableLogic extends PageTableLogic {
         setCurrentPage(1);
         return getRecordCount() != 0;
     }
-    
+
 }

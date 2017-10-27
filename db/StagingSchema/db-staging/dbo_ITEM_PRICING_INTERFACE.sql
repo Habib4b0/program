@@ -28,3 +28,16 @@ IF NOT EXISTS (SELECT 'X'
         )
   END
 GO
+-----------cel-1445,cel-1611
+IF EXISTS (
+		SELECT 1
+		FROM information_schema.columns
+		WHERE table_name = 'ITEM_PRICING_INTERFACE'
+			AND column_name = 'ITEM_PRICE_PRECISION'
+			AND table_schema = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ITEM_PRICING_INTERFACE DROP COLUMN ITEM_PRICE_PRECISION
+END
+	GO
+-----------cel-1445,cel-1611	

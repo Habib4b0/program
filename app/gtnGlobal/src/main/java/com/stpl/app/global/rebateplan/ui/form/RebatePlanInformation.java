@@ -166,7 +166,7 @@ public class RebatePlanInformation extends CustomComponent {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    private void configureFields() throws SystemException {
+    private void configureFields() {
 
         rebatePlanSystemId.setImmediate(Boolean.TRUE);
         formulaType.addItem(ConstantsUtils.SIMPLE);

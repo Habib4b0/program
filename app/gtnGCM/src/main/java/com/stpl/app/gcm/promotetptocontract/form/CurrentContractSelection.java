@@ -210,44 +210,36 @@ public class CurrentContractSelection extends CustomComponent implements View {
     @UiField("rebatePlanLevelLabel")
     private Label rebatePlanLevelLabel;
 
-    private BeanItemContainer<ComponentInfoDTO> componentInfoContainer = new BeanItemContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
+    private BeanItemContainer<ComponentInfoDTO> componentInfoContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     LazyBeanItemContainer<CurrentContractDTO> resultsLazyContainer;
     public CurrentContractDTO currentContractDTO = new CurrentContractDTO();
     ExtFilterTable resultTable;
     PromoteTPLogic logic = new PromoteTPLogic();
     public CurrentContractTableLogic tableLogic = new CurrentContractTableLogic();
     public ExtPagedTable currentTradingPartnerTable2 = new ExtPagedTable(tableLogic);
-    List<CurrentContractDTO> selecteditemList = new ArrayList<CurrentContractDTO>();
-    BeanItemContainer<CurrentContractDTO> searchContainer = new BeanItemContainer<CurrentContractDTO>(CurrentContractDTO.class);
+    List<CurrentContractDTO> selecteditemList = new ArrayList<>();
+    BeanItemContainer<CurrentContractDTO> searchContainer = new BeanItemContainer<>(CurrentContractDTO.class);
     CurrentContractDTO binderDto = new CurrentContractDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<CurrentContractDTO>(binderDto));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     public ExtFilterTable compInfoTable = new ExtFilterTable();
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    List<String> selection = new ArrayList<String>();
+    List<String> selection = new ArrayList<>();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     boolean summaryRefreshed;
     List<CompanyMaster> companyMasters;
     private String screenName = StringUtils.EMPTY;
-    public List<ComponentInfoDTO> componentInformation = new ArrayList<ComponentInfoDTO>();
-    public List<CurrentContractDTO> contractInfo = new ArrayList<CurrentContractDTO>();
+    private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
+    public List<CurrentContractDTO> contractInfo = new ArrayList<>();
     String excelName = "Rebate Schedule Information";
-    private ExtTreeContainer<ComponentInfoDTO> excelResultBean = new ExtTreeContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
-    private ExtCustomTable contractExportPeriodViewTable;
+    private ExtTreeContainer<ComponentInfoDTO> excelResultBean = new ExtTreeContainer<>(ComponentInfoDTO.class);
+    private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     public static final String NUM = "Number :";
-    public static List<CurrentContractDTO> selectedContract = new ArrayList<CurrentContractDTO>();
+    public static List<CurrentContractDTO> selectedContract = new ArrayList<>();
     Boolean contractExcelFlag = false;
     Boolean infoExcelFlag = false;
-    List<Integer> contractid = new ArrayList<Integer>();
+    private List<Integer> contractid = new ArrayList<>();
     final StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
-
-    public List<CurrentContractDTO> getSelectedContract() {
-        return selectedContract;
-    }
-
-    public void setSelectedContract(List<CurrentContractDTO> selectedContract) {
-        this.selectedContract = selectedContract;
-    }
 
     /**
      * The from date.
@@ -338,8 +330,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
             rebateScheduleAlias.setValidationVisible(true);
 
             massStartDate.setEnabled(false);
-            massStartDate.setDateFormat("MM/dd/yyyy");
-            massEndDate.setDateFormat("MM/dd/yyyy");
+            massStartDate.setDateFormat(Constants.DATE_FORMAT);
+            massEndDate.setDateFormat(Constants.DATE_FORMAT);
             massUpdateRadio.setImmediate(true);
             massUpdateRadio.addItem(ENABLE.getConstant());
             massUpdateRadio.addItem(DISABLE.getConstant());
@@ -387,8 +379,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         RebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
                         PaymentFrequency.setVisible(false);
-                        compInfoTable.setVisibleColumns(Constants.COMPONENT_INFO_COLUMNS_CFP);
-                        compInfoTable.setColumnHeaders(Constants.COMPONENT_INFO_HEADERS_CFP);
+                        compInfoTable.setVisibleColumns(Constants.getInstance().componentInfoColumnsCfp);
+                        compInfoTable.setColumnHeaders(Constants.getInstance().componentInfoHeadersCfp);
                     }
                     if (compType.equals(Constants.ITEM_FAMILY_PLAN)) {
                         rsIdLabel.setCaption("IFP ID:");
@@ -408,8 +400,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         RebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
                         PaymentFrequency.setVisible(false);
-                        compInfoTable.setVisibleColumns(Constants.AD_COMPONENT_DETAILS_COLUMNS_IFP);
-                        compInfoTable.setColumnHeaders(Constants.AD_COMPONENT_DETAILS_HEADERS_IFP);
+                        compInfoTable.setVisibleColumns(Constants.getInstance().adComponentDetailsColumnsIfp);
+                        compInfoTable.setColumnHeaders(Constants.getInstance().adComponentDetailsHeadersIfp);
                     }
                     if (compType.equals(Constants.PRICE_SCHEDULE)) {
                         rsIdLabel.setCaption("PS ID:");
@@ -429,8 +421,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         RebatePlanlevel.setVisible(false);
                         paymentFrequencyLabel.setVisible(false);
                         PaymentFrequency.setVisible(false);
-                        compInfoTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_PS);
-                        compInfoTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_PS);
+                        compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+                        compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
                     }
                     if (compType.equals(Constants.REBATE_SCHEDULE)) {
                         rsIdLabel.setCaption("RS ID:");
@@ -450,18 +442,19 @@ public class CurrentContractSelection extends CustomComponent implements View {
                         RebatePlanlevel.setVisible(true);
                         paymentFrequencyLabel.setVisible(true);
                         PaymentFrequency.setVisible(true);
-                        compInfoTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_RS);
-                        compInfoTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_RS);
+                        compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
+                        compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
                     }
                     loadComponentInformation(String.valueOf(event.getProperty().getValue()), currentTradingPartnerTable2.getValue());
                 }
             });
 
             currTradingPartnerTableLayout.addComponent(currentTradingPartnerTable2);
-            configureCurrentTradingPartnerTable();
             HorizontalLayout controls = tableLogic.createControls();
             currTradingPartnerTableLayout.addComponent(controls);
             componentInfoPanelTableLayout.addComponent(compInfoTable);
+            configureCurrentTradingPartnerTable();
+            
             excelBtn1.setIcon(excelExportImage);
             excelBtn2.setIcon(excelExportImage);
             configureCompInfoTable();
@@ -479,7 +472,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
 
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<CurrentContractDTO>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }
@@ -489,23 +482,22 @@ public class CurrentContractSelection extends CustomComponent implements View {
      *
      */
     private void configureCurrentTradingPartnerTable() {
-        tableLogic.setContainerDataSource(searchContainer);
-        tableLogic.setPageLength(NumericConstants.HUNDRED);
-        tableLogic.sinkItemPerPageWithPageLength(true);
-        currentTradingPartnerTable2.setVisibleColumns(Constants.CURRENT_TRADING_PARTNER_COLUMNS);
-        currentTradingPartnerTable2.setColumnHeaders(Constants.CURRENT_TRADING_PARTNER_HEADERS);
+        tableLogic.setContainerDataSource(searchContainer);        
+        tableLogic.setPageLength(NumericConstants.TEN);
+        tableLogic.sinkItemPerPageWithPageLength(false);
+        currentTradingPartnerTable2.setVisibleColumns(Constants.getInstance().currentTradingPartnerColumns);
+        currentTradingPartnerTable2.setColumnHeaders(Constants.getInstance().currentTradingPartnerHeaders);
         currentTradingPartnerTable2.setSizeFull();
         currentTradingPartnerTable2.setEditable(true);
         currentTradingPartnerTable2.markAsDirty();
         currentTradingPartnerTable2.setSelectable(true);
-        currentTradingPartnerTable2.setWidth("1660px");
         currentTradingPartnerTable2.setHeight("290px");
         currentTradingPartnerTable2.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         currentTradingPartnerTable2.setColumnCheckBox(Constants.CHECK_RECORD, true);
 
         currentTradingPartnerTable2.setTableFieldFactory(new TableFieldFactory() {
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
-                if (propertyId.equals("checkRecord")) {
+                if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
@@ -514,15 +506,12 @@ public class CurrentContractSelection extends CustomComponent implements View {
                                 CurrentContractDTO dto = (CurrentContractDTO) itemId;
                                 contractid.add(dto.getContractSid());
                                 session.setContractSystemId(dto.getContractSid());
-                            }
-                            logic.callCheckRecUpdate(check.getValue(), (CurrentContractDTO) itemId, screenName, session);
-
-                            if (!check.getValue()) {
+                            } else {
                                 currentTradingPartnerTable2.removeColumnCheckListener(checkListener);
                                 currentTradingPartnerTable2.setColumnCheckBox("check", true, false);
                                 currentTradingPartnerTable2.addColumnCheckListener(checkListener);
-
                             }
+                            logic.callCheckRecUpdate(check.getValue(), (CurrentContractDTO) itemId, screenName, session);
                         }
                     });
                     return check;
@@ -531,7 +520,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
                 if (propertyId.equals("companyEndDate")) {
                     final PopupDateField compEndDate = new PopupDateField();
                     compEndDate.setDateFormat(Constants.MM_DD_YYYY);
-                    compEndDate.setStyleName("dateFieldCenter");
+                    compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     compEndDate.setImmediate(true);
                     compEndDate.addValueChangeListener(new Property.ValueChangeListener() {
 
@@ -546,7 +535,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     final PopupDateField contEndDate = new PopupDateField();
                     contEndDate.setDateFormat(Constants.MM_DD_YYYY);
 
-                    contEndDate.setStyleName("dateFieldCenter");
+                    contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     contEndDate.setEnabled(false);
 
                     return contEndDate;
@@ -597,12 +586,12 @@ public class CurrentContractSelection extends CustomComponent implements View {
     public void configureCompInfoTable() {
         LOGGER.debug(" Inside configureCompInfoTable method ");
         compInfoTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        compInfoTable.setWidth("1660px");
+        compInfoTable.setSizeFull();
         compInfoTable.setHeight("270px");
         compInfoTable.setPageLength(NumericConstants.FIVE);
         compInfoTable.setContainerDataSource(componentInfoContainer);
-        compInfoTable.setVisibleColumns(Constants.PTP_COMPONENT_INFO_COLUMNS);
-        compInfoTable.setColumnHeaders(Constants.PTP_COMPONENT_INFO_HEADERS);
+        compInfoTable.setVisibleColumns(Constants.getInstance().ptpComponentInfoColumns);
+        compInfoTable.setColumnHeaders(Constants.getInstance().ptpComponentInfoHeaders);
         LOGGER.debug("configureCompInfoTable method Ended");
     }
 
@@ -626,9 +615,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
      * Current Contract Search Functionality
      *
      * @param event
-     * @throws SystemException
-     * @throws PortalException
-     * @throws Exception
      */
     @UiHandler("searchBtn")
     public void searchButtonLogic(Button.ClickEvent event) {
@@ -806,7 +792,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     public void checkClearAll(boolean checkValue) {
         List<CurrentContractDTO> containerList = searchContainer.getItemIds();
         for (CurrentContractDTO dto : containerList) {
-            currentTradingPartnerTable2.getContainerProperty(dto, "checkRecord").setValue(checkValue);
+            currentTradingPartnerTable2.getContainerProperty(dto, Constants.CHECK_RECORD).setValue(checkValue);
         }
     }
 
@@ -887,15 +873,15 @@ public class CurrentContractSelection extends CustomComponent implements View {
         String fieldValue = String.valueOf(fieldDdlb.getValue());
 
         if (!this.logic.isAnyRecordSelected(session.getUserId(), session.getSessionId(), screenName)) {
-            AbstractNotificationUtils.getErrorNotification("Mass Update Error", "Please select at least one contract to apply the Mass Update to.");
+            AbstractNotificationUtils.getErrorNotification(Constants.MASS_UPDATE_ERROR, "Please select at least one contract to apply the Mass Update to.");
             return;
         }
         if (Constants.NULL.equals(fieldValue)) {
-            AbstractNotificationUtils.getAlertNotification("Mass Update Error", "Please select a Field to Mass Update.");
+            AbstractNotificationUtils.getAlertNotification(Constants.MASS_UPDATE_ERROR, "Please select a Field to Mass Update.");
             return;
         } else if ("Company End Date".equals(String.valueOf(fieldDdlb.getValue()))) {
             if (!String.valueOf(massEndDate.getValue()).isEmpty() && Constants.NULL.equals(String.valueOf(massEndDate.getValue()))) {
-                AbstractNotificationUtils.getAlertNotification("Mass Update Error", "Please enter an End Date to Mass Update.");
+                AbstractNotificationUtils.getAlertNotification(Constants.MASS_UPDATE_ERROR, "Please enter an End Date to Mass Update.");
                 return;
             }
             logic.massUpdate(String.valueOf(fieldDdlb.getValue()), session.getUserId(), session.getSessionId(), screenName, massEndDate.getValue());
@@ -919,7 +905,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     @UiHandler(Constants.CONTRACT_HOLDER)
     public void contractHolderLookup(CustomTextField.ClickEvent event) {
 
-        final TPContractHolderLookUp contractHolderLookUpWindow = new TPContractHolderLookUp("Contract Holder", contractHolder, StringUtils.EMPTY);
+        final TPContractHolderLookUp contractHolderLookUpWindow = new TPContractHolderLookUp("Contract Holder", contractHolder);
         contractHolderLookUpWindow.setWidth("1320px");
         contractHolderLookUpWindow.setHeight("830px");
         UI.getCurrent().addWindow(contractHolderLookUpWindow);
@@ -995,14 +981,14 @@ public class CurrentContractSelection extends CustomComponent implements View {
         componentInfoContainer.removeAllItems();
         if (tableData != null && !tableData.isEmpty()) {
             if (REBATE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-                compInfoTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_RS);
-                compInfoTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_RS);
+                compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
+                compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
             } else if (PRICE_SCHEDULE.getConstant().equals(componentSelectionValue)) {
-                compInfoTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_PS);
-                compInfoTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_PS);
+                compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsPs);
+                compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersPs);
             } else if (ITEM_FAMILY_PLAN.getConstant().equals(componentSelectionValue)) {
-                compInfoTable.setVisibleColumns(Constants.TP_COMPONENT_INFORMATION_COLUMNS_IFP);
-                compInfoTable.setColumnHeaders(Constants.TP_COMPONENT_INFORMATION_HEADERS_IFP);
+                compInfoTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsIfp);
+                compInfoTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersIfp);
             }
             componentInfoContainer.addAll(tableData);
         }
@@ -1061,7 +1047,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         this.currentTradingPartnerTable2 = currentTradingPartnerTable2;
     }
 
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
         ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
@@ -1074,7 +1060,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     int recordCount = currentTradingPartnerTable2.getContainerDataSource().size();
                     final List<CurrentContractDTO> searchList = logic.getSelectedTPContractResults(logic.getContractQuery(binderDto, session.getUserId(), session.getSessionId(), 0, recordCount, false));
                     Object[] columns = currentTradingPartnerTable2.getVisibleColumns();
-                    columns = ArrayUtils.removeElement(columns, "checkRecord");
+                    columns = ArrayUtils.removeElement(columns, Constants.CHECK_RECORD);
                     ExcelExportforBB.createFileContent(columns, searchList, printWriter);
                 } else if (infoExcelFlag) {
                     final List<ComponentInfoDTO> searchList = componentInfoContainer.getItemIds();

@@ -77,9 +77,7 @@ public class NmActualPpaPersistenceImpl extends BasePersistenceImpl<NmActualPpa>
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(NmActualPpaPersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "actualRate", "periodSid", "actualProjDiscountDollar",
-                "actualProjectionSales", "projectionDetailsSid",
-                "actualProjectionRate", "actualProjDiscountUnits",
+                "actualRate", "periodSid", "projectionDetailsSid",
                 "actualDiscountDollar", "actualDiscountUnits", "actualSales"
             });
     private static NmActualPpa _nullNmActualPpa = new NmActualPpaImpl() {
@@ -331,11 +329,7 @@ public class NmActualPpaPersistenceImpl extends BasePersistenceImpl<NmActualPpa>
 
         nmActualPpaImpl.setActualRate(nmActualPpa.getActualRate());
         nmActualPpaImpl.setPeriodSid(nmActualPpa.getPeriodSid());
-        nmActualPpaImpl.setActualProjDiscountDollar(nmActualPpa.getActualProjDiscountDollar());
-        nmActualPpaImpl.setActualProjectionSales(nmActualPpa.getActualProjectionSales());
         nmActualPpaImpl.setProjectionDetailsSid(nmActualPpa.getProjectionDetailsSid());
-        nmActualPpaImpl.setActualProjectionRate(nmActualPpa.getActualProjectionRate());
-        nmActualPpaImpl.setActualProjDiscountUnits(nmActualPpa.getActualProjDiscountUnits());
         nmActualPpaImpl.setActualDiscountDollar(nmActualPpa.getActualDiscountDollar());
         nmActualPpaImpl.setActualDiscountUnits(nmActualPpa.getActualDiscountUnits());
         nmActualPpaImpl.setActualSales(nmActualPpa.getActualSales());

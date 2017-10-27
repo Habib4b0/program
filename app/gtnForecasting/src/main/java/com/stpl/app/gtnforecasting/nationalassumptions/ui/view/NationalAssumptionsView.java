@@ -49,7 +49,7 @@ public class NationalAssumptionsView extends VerticalLayout implements View {
             int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
             
             if (projectionId != 0) {
-                nationalAssumptions.reloadTable(projectionId);
+                nationalAssumptions.reloadTable();
             }
 
         } catch (Exception ex) {

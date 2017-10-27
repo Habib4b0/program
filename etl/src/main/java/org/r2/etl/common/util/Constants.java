@@ -1,6 +1,6 @@
 package org.r2.etl.common.util;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Constant Interface for setting the constants.
  * 
@@ -237,5 +237,11 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE = "ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE";
+	/**
+	 * variable for the ETLInterface.
+	 */
+	public static final String ITEM_UOM_INTERFACE = "ITEM_UOM_INTERFACE";
 	
+        private Constants(){
+        }
 }

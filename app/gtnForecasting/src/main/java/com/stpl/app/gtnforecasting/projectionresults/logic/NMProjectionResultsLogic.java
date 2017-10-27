@@ -17,6 +17,7 @@ import com.stpl.ifs.util.QueryUtil;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +38,7 @@ public class NMProjectionResultsLogic {
      * The Percent Two Decimal Places Format.
      */
     private static final DecimalFormat PER_TWO = new DecimalFormat("#,##0.00%");
+    public static final String IMONTH_AS_PERIODS_SLASH = "I.\"MONTH\" as PERIODS, \n";
     /**
      * Percent Three Decimal Format
      */
@@ -52,7 +54,7 @@ public class NMProjectionResultsLogic {
     List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     
     private static final String CURRENCY = "$";
-     private static final String Percentage = "%";
+     private static final String PERCENTAGE = "%";
     private static final DecimalFormat CUR_TWO = new DecimalFormat("#,##0.00");
     int pPACount=0;
     boolean isFirst=true;
@@ -75,8 +77,7 @@ public class NMProjectionResultsLogic {
     public List getTotalRPUDollar(ProjectionSelectionDTO projSelDTO, Boolean isVariable,int value) {
         LOGGER.debug("= = = Inside getTotalRPUDollar = = =");
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
-//        projSelDTO.setSales("TOT");
-        projSelDTO.setSales(value == 1 || value == 3 ? Constant.SALES_WHOLE_CAPS : Constant.DISCOUNT_ExFAC_SALES);
+        projSelDTO.setSales(value == 1 || value == 3 ? Constant.SALES_WHOLE_CAPS : Constant.DISCOUNT_EXFAC_SALES);
         CommonLogic commonLogic = new CommonLogic();
         String query = " IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL\n"
                 + "  DROP TABLE #SELECTED_REBATE\n"
@@ -159,7 +160,7 @@ public class NMProjectionResultsLogic {
 
     public List<ProjectionResultsDTO> getDiscountDollar(ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("= = = Inside getDiscountDollar = = =");
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
           CommonLogic commonLogic = new CommonLogic();
           String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
@@ -180,20 +181,18 @@ public class NMProjectionResultsLogic {
         List<Object> list = null;
         String query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
          query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
-        query += "DECLARE @FROM_DATE DATE\n"
-                + "     , @STARTFROM DATE\n"
-                + "     , @PROJECTION_DATE DATE\n"
-                + "     , @START_PERIOD_SID INT\n"
-                + "     , @END_PERIOD_SID INT\n"
-                + "SELECT TOP 1 @STARTFROM = DATEADD(YY, DATEDIFF(YY, 0, DATEADD(YY, - 3, GETDATE())), 0)\n"
-                + "     , @PROJECTION_DATE = DATEADD(M, DATEDIFF(M, 0, DATEADD(DAY, - 1, DATEADD(QQ, DATEDIFF(QQ, 0, TO_DATE) + 1, 0))), 0)\n"
-                + "FROM PROJECTION_MASTER\n"
-                + "WHERE PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n";
+        query += "DECLARE @FROM_DATE DATE \n"
+                + "     , @STARTFROM DATE \n"
+                + "     , @PROJECTION_DATE DATE \n"
+                + "     , @START_PERIOD_SID INT \n"
+                + "     , @END_PERIOD_SID INT \n"
+                + "SELECT TOP 1 @STARTFROM = DATEADD(YY, DATEDIFF(YY, 0, DATEADD(YY, - 3, GETDATE())), 0) \n"
+                + "     , @PROJECTION_DATE = DATEADD(M, DATEDIFF(M, 0, DATEADD(DAY, - 1, DATEADD(QQ, DATEDIFF(QQ, 0, TO_DATE) + 1, 0))), 0) \n"
+                + "FROM PROJECTION_MASTER \n"
+                + "WHERE PROJECTION_MASTER_SID =  " + projSelDTO.getProjectionId() + "\n";
 
         if (projSelDTO.isIsTotal()) {
-//            System.out.println("projSelDTO.isIsTotal() = = = ");
             query += getProjectionResultsTotalDiscount(projSelDTO);
-//            System.out.println(" Total getTotalDiscountLevels = = = "+QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
             projDTOList1 = getCustomizedProjectionTotalDiscount(list, projSelDTO);
         } else if (value == 1 || value == NumericConstants.TWO || value == NumericConstants.THREE || value == NumericConstants.FOUR) {
@@ -205,8 +204,8 @@ public class NMProjectionResultsLogic {
     }
 
     private List getCustomizedProjectionTotalDiscount(List list, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> resultList = new ArrayList<ProjectionResultsDTO>();
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<ProjectionResultsDTO> resultList = new ArrayList<>();
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO totalDiscountPerDto = new ProjectionResultsDTO();
         ProjectionResultsDTO totalRPUDto = new ProjectionResultsDTO();
@@ -268,7 +267,7 @@ public class NMProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = (obj[0] == null) ? 0 : Integer.valueOf(String.valueOf(obj[0]));
                 int period = (obj[1] == null) ? 0 : Integer.valueOf(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
@@ -276,26 +275,22 @@ public class NMProjectionResultsLogic {
                 int col = NumericConstants.THREE;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    String value = StringUtils.EMPTY;
-                    String value1 = StringUtils.EMPTY;
+                    String value;
+                    String value1;
                     value = StringUtils.EMPTY + obj[col];
-                    value1 = StringUtils.EMPTY;
                     value = getFormattedValue(PER_TWO, value);
                     value1 = getFormattedValue(PER_TWO, "0.00");
                     totalDiscountPerDto.addStringProperties(column,!"null".equals(obj[col]) && obj[col]!=null? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
-                    value1 = StringUtils.EMPTY ;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
                     totalDiscountAmtDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.THREE]) && obj[col + NumericConstants.THREE]!=null? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.SIX];
-                    value1 = StringUtils.EMPTY;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
                     totalRPUDto.addStringProperties(column,!"null".equals(obj[col + NumericConstants.SIX]) && obj[col + NumericConstants.SIX]!=null? value :value1);
                    
                     value = StringUtils.EMPTY + obj[col + NumericConstants.NINE];
-                    value1 = StringUtils.EMPTY;
                     value = getFormattedValue(PER_TWO, value);
                     value1 = getFormattedValue(PER_TWO, "0.00");
                     totaldisPerExfacDto.addStringProperties(column,!"null".equals(obj[col + NumericConstants.NINE]) && obj[col + NumericConstants.NINE]!=null? value :value1);
@@ -305,26 +300,23 @@ public class NMProjectionResultsLogic {
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     String value = StringUtils.EMPTY + obj[col + 1];
-                    String value1 = StringUtils.EMPTY;
+                    String value1;
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormattedValue(PER_TWO, value);
                     value1 = getFormattedValue(PER_TWO, "0.00");
                     totalDiscountPerDto.addStringProperties(column, !"null".equals(obj[col + 1]) && obj[col + 1]!=null? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.FOUR];
-                    value1 = StringUtils.EMPTY;
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
                     totalDiscountAmtDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.FOUR]) && obj[col + NumericConstants.FOUR]!=null? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.SEVEN];
-                    value1 = StringUtils.EMPTY;
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
                     totalRPUDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.SEVEN]) && obj[col + NumericConstants.SEVEN]!=null? value :value1);
                     
                     value = StringUtils.EMPTY + obj[col + NumericConstants.TEN];
-                    value1 = StringUtils.EMPTY;
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormattedValue(PER_TWO, value);
                     value1 = getFormattedValue(PER_TWO, "0.00");
@@ -380,7 +372,7 @@ public class NMProjectionResultsLogic {
     
     
      public List<ProjectionResultsDTO> PPARPUtest(ProjectionSelectionDTO projSelDTO) {
-            List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
+            List<ProjectionResultsDTO> projDTOList;
         projSelDTO.setSales(Constant.RATE);
         String query = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPPARPU(projSelDTO);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
@@ -400,10 +392,10 @@ public class NMProjectionResultsLogic {
         ppaDto.setParent(0);
         return ppaDto;
     }
-    List<String> discountList = new ArrayList<String>();
+    List<String> discountList = new ArrayList<>();
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO, boolean isPPA,int value,boolean isNetSales) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         projSelDTO.setDiscountIndex(0);
         if (!projSelDTO.isIsTotal() && !isPPA) {
             projDTOList = loadDiscounts(list, StringUtils.EMPTY, projSelDTO, value);
@@ -415,7 +407,7 @@ public class NMProjectionResultsLogic {
     }
 
     public ProjectionResultsDTO getCustomisedProjectionResultsDiscount(List<Object> list, String discountName, ProjectionSelectionDTO projSelDTO,boolean isNetSales ) {
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
         projDTO.setLevelValue(projSelDTO.getLevelValue());
@@ -448,7 +440,7 @@ public class NMProjectionResultsLogic {
                     }
                     if (start) {
                         discount = discountRow[NumericConstants.TWO].toString();
-                        String column = StringUtils.EMPTY;
+                        String column;
                         int year = Integer.valueOf(String.valueOf(discountRow[0]));
                         int period = Integer.valueOf(String.valueOf(discountRow[1]));
                         List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
@@ -467,7 +459,7 @@ public class NMProjectionResultsLogic {
                             } else if (projSelDTO.getSales().contains("TOT")) {
                                 value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                                 value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                            } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_ExFAC_SALES)) {
+                            } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
                                 value = getFormattedValue(PER_TWO, value);
                                 value1 = getFormattedValue(PER_TWO, "0.00");
                             }
@@ -491,7 +483,7 @@ public class NMProjectionResultsLogic {
                                 value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                                 value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                                 value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                            } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_ExFAC_SALES)) {
+                            } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
                                 value = getFormattedValue(PER_TWO, value);
                                 value1 = getFormattedValue(PER_TWO, "0.00");
                             }
@@ -539,8 +531,8 @@ public class NMProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsSales(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDtoList = new ArrayList<ProjectionResultsDTO>();
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<ProjectionResultsDTO> projDtoList = new ArrayList<>();
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO projSalesDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO projUnitDTO = new ProjectionResultsDTO();
@@ -558,7 +550,7 @@ public class NMProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = Integer.valueOf(String.valueOf(obj[0]));
                 int period = Integer.valueOf(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -567,12 +559,11 @@ public class NMProjectionResultsLogic {
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     String value = StringUtils.EMPTY + obj[col];
-                    String value1 = StringUtils.EMPTY ;
+                    String value1;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
                     projSalesDTO.addStringProperties(column, !"null".equals(obj[col]) && obj[col]!=null? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.TWO];
-                    value1 = StringUtils.EMPTY;
                     value = getFormattedValue(NUM_ZERO, value);
                     value1 = getFormattedValue(NUM_ZERO, "0.00");
                     projUnitDTO.addStringProperties(column, !"null".equals(obj[col + NumericConstants.TWO]) && obj[col + NumericConstants.TWO]!=null? value :value1);
@@ -581,16 +572,13 @@ public class NMProjectionResultsLogic {
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     String value = StringUtils.EMPTY + obj[col + 1];
-                    String value1 = StringUtils.EMPTY;
+                    String value1;
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
-                    value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
                     projSalesDTO.addStringProperties(column, !"null".equals(obj[col + 1]) && obj[col + 1]!=null? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
                      value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
-                    value1 = StringUtils.EMPTY;
-                    value1 = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormattedValue(NUM_ZERO, value);
                     value1 = getFormattedValue(NUM_ZERO, "0.00");
                     projUnitDTO.addStringProperties(column, !"null".equals(obj[col + NumericConstants.THREE]) && obj[col + NumericConstants.THREE]!=null? value :value1);
@@ -609,10 +597,9 @@ public class NMProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getContractSalesAndUnits(ProjectionSelectionDTO projSelDTO) {
-//        LOGGER.info("= = = Inside getContractSalesAndUnits = = =");
         CommonLogic commonLogic = new CommonLogic();
         projSelDTO.setSales(Constant.SALES_WHOLE_CAPS);
-         String query =StringUtils.EMPTY;
+         String query;
          query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
           query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
          query += getProjectionResultsSalesQuery(projSelDTO,false);
@@ -623,7 +610,7 @@ public class NMProjectionResultsLogic {
     }
     
     public List<ProjectionResultsDTO> getProjectionPivot(ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList;
         CommonLogic commonLogic = new CommonLogic();
         String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
         CCPQuery += commonLogic.getGroupFilterJoinQuery(projSelDTO);
@@ -646,7 +633,6 @@ public class NMProjectionResultsLogic {
                 + "WHERE PERIOD_DATE = @PROJECTION_DATE\n"
                 + "\n";
         String gtsListQuery = cogsSelect + " \n " + CCPQuery + " \n" + getProjectionResultsPivotQuery(projSelDTO);
-//        System.out.println("Pivot gtsList query = " + QueryUtil.replaceTableNames(gtsListQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(gtsListQuery, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
         List discountList = getTotalRPUDollar(projSelDTO, Boolean.TRUE, 0);
         projDTOList = getCustomizedProjectionPivot(gtsList, discountList, projSelDTO);
@@ -655,29 +641,28 @@ public class NMProjectionResultsLogic {
     
     public List<ProjectionResultsDTO> getCustomizedProjectionPivot(List<Object> list, List<Object> discountList,  ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
-        String oldDiscount = "old";
-        String newDiscount = "new";
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
+        String newDiscount;
         int discountIndex = 0;
         int col = NumericConstants.TWO;
         int dcol = NumericConstants.TWO;
         for (Object rows : list) {
             final Object[] row = (Object[]) rows;
-            String column = StringUtils.EMPTY;
+            String column;
             int year = Integer.valueOf(String.valueOf(row[0]));
             int period = Integer.valueOf(String.valueOf(row[1]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
-            String commonColumn = StringUtils.EMPTY;
+            String commonColumn;
             if (periodList.contains(pcommonColumn)) {
                 periodList.remove(pcommonColumn);
                 ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
-                List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+                List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
                 columnList.remove(Constant.GROUP);
                 projDTO.setGroup(commonHeader);
-                String value = Constant.NULL;
+                String value;
                 commonColumn = "exFactory";
                 value = "...";
                 column = commonColumn + ACTUALS.getConstant();
@@ -775,7 +760,7 @@ public class NMProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisPer;
+                commonColumn = Constant.TOT_DIS_PER;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.FOUR];
@@ -790,7 +775,7 @@ public class NMProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisDol;
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.SIX];
@@ -805,7 +790,7 @@ public class NMProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totalRPU;
+                commonColumn = Constant.TOTAL_RPU;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.TEN];
@@ -904,11 +889,10 @@ public class NMProjectionResultsLogic {
                     List<String> dcommon = getCommonColumnHeader(frequencyDivision, dyear, dperiod);
                     String dcommonColumn = dcommon.get(0);
                     if (pcommonColumn.equals(dcommonColumn)) {
-                        newDiscount = String.valueOf(discountRow[NumericConstants.NINE]);
                             String head = String.valueOf(discountRow[NumericConstants.NINE]).replace(" ", StringUtils.EMPTY);
-                            String commonColumn1 = Constant.totDisDol + head;
-                            String commonColumn2 = Constant.totDisPer + head;
-                            String commonColumn3 = Constant.totalRPU + head;
+                            String commonColumn1 = Constant.TOTAL_DISCOUNT_DOLLAR + head;
+                            String commonColumn2 = Constant.TOT_DIS_PER + head;
+                            String commonColumn3 = Constant.TOTAL_RPU + head;
                             String commonColumn4 = Constant.DISCOUNT_PER_OF_EX_FACTORY + head;
                             column = commonColumn2 + ACTUALS.getConstant();
                             if (projSelDTO.hasColumn(column)) {
@@ -966,19 +950,18 @@ public class NMProjectionResultsLogic {
                                 projDTO.addStringProperties(column, value);
                                 columnList.remove(column);
                             }
-                        oldDiscount = newDiscount;
                     }
                 }
                 projDTO.setParent(0);
                 projDTO.setProjectionTotal(0);
                 for (String columns : columnList) {
-                    projDTO.addStringProperties(columns, value = getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
+                    projDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
                 }
                 projDTOList.add(projDTO);
             }
 
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         boolean leftFlag = false;
         for (String ob : periodList) {
@@ -1024,9 +1007,8 @@ public class NMProjectionResultsLogic {
     public void getCustomizedProjectionPivotTotal(List<Object[]> list, List<Object[]> discountList, ProjectionSelectionDTO projSelDTO) {
         projectionTotalList.clear();
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<String> periodList = new ArrayList<String>(projSelDTO.getPeriodList());
-        String oldDiscount = "old";
-        String newDiscount = "new";
+        List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
+        String newDiscount;
         int discountIndex = 0;
         int col = NumericConstants.FIVE;
         int dcol = NumericConstants.THREE;
@@ -1035,20 +1017,20 @@ public class NMProjectionResultsLogic {
         }
         for (Object[] row : list) {
 
-            String column = StringUtils.EMPTY;
+            String column;
             int year = Integer.valueOf(String.valueOf(row[col - 1]));
             int period = Integer.valueOf(String.valueOf(row[NumericConstants.FOUR]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
-            String commonColumn = StringUtils.EMPTY;
+            String commonColumn;
             if (periodList.contains(pcommonColumn)) {
                 periodList.remove(pcommonColumn);
                 ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
-                List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+                List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
                 columnList.remove(Constant.GROUP);
                 projDTO.setGroup(commonHeader);
-                String value = Constant.NULL;
+                String value;
                 commonColumn = "exFactory";
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
@@ -1169,7 +1151,7 @@ public class NMProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisPer;
+                commonColumn = Constant.TOT_DIS_PER;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.SIX];
@@ -1184,7 +1166,7 @@ public class NMProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totalRPU;
+                commonColumn = Constant.TOTAL_RPU;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.TWENTY_EIGHT];
@@ -1199,7 +1181,7 @@ public class NMProjectionResultsLogic {
                     projDTO.addStringProperties(column, value);
                     columnList.remove(column);
                 }
-                commonColumn = Constant.totDisDol;
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
                     value = StringUtils.EMPTY + row[col + NumericConstants.FOUR];
@@ -1297,11 +1279,10 @@ public class NMProjectionResultsLogic {
                     List<String> dcommon = getCommonColumnHeader(frequencyDivision, dyear, dperiod);
                     String dcommonColumn = dcommon.get(0);
                     if (pcommonColumn.equals(dcommonColumn)) {
-                        newDiscount = String.valueOf(discountRow[NumericConstants.TEN]);
                             String head = String.valueOf(discountRow[NumericConstants.TEN]).replace(" ", StringUtils.EMPTY);
-                            String commonColumn1 = Constant.totDisDol + head;
-                            String commonColumn3 = Constant.totalRPU + head;
-                            String commonColumn2 = Constant.totDisPer + head;
+                            String commonColumn1 = Constant.TOTAL_DISCOUNT_DOLLAR + head;
+                            String commonColumn3 = Constant.TOTAL_RPU + head;
+                            String commonColumn2 = Constant.TOT_DIS_PER + head;
                             String commonColumn4 = Constant.DISCOUNT_PER_OF_EX_FACTORY + head;
                             column = commonColumn1 + ACTUALS.getConstant();
                             if (projSelDTO.hasColumn(column)) {
@@ -1360,9 +1341,6 @@ public class NMProjectionResultsLogic {
                                 projDTO.addStringProperties(column, value);
                                 columnList.remove(column);
                             }
-                            
-                            
-                        oldDiscount = newDiscount;
                 }
                 }
                 for (String columns : columnList) {
@@ -1374,7 +1352,7 @@ public class NMProjectionResultsLogic {
             }
 
         }
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         boolean leftFlag = false;
         for (String ob : periodList) {
@@ -1420,7 +1398,7 @@ public class NMProjectionResultsLogic {
     public List<ProjectionResultsDTO> getCustomizedProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO,boolean isExcel) {
         LOGGER.debug("= = = Inside getCustomizedProjectionTotal = = =");
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         ProjectionResultsDTO exFactoryDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO demandDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO inventoryDTO = new ProjectionResultsDTO();
@@ -1519,7 +1497,7 @@ public class NMProjectionResultsLogic {
         netSalesExfacSalesDTO.setParent(0);
         netSalesExfacSalesDTO.setGroup(Constant.NET_SALES_PER_OF_EX_FACTORY_HEADER);
 
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
             int col = NumericConstants.FIVE;
@@ -1528,7 +1506,7 @@ public class NMProjectionResultsLogic {
             }
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
 
                 int year = Integer.valueOf(String.valueOf(obj[col - 1]));
                 int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
@@ -1740,159 +1718,170 @@ public class NMProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getProjectionTotalDiscounts(ProjectionSelectionDTO projSelDTO, Object[] orderedArgs) {
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if (projSelDTO.isIsFrequencyChanged()|| projSelDTO.isIsHistroryChanged()||prjTotalDisDolDtoList.isEmpty() || prjTotalDisPerDtoList.isEmpty() || prjTotalRPUDtoList.isEmpty() || prjDisDolExfacDtoList.isEmpty()) {
             Object[] orderedArgs1 = {orderedArgs[0], orderedArgs[1], orderedArgs[NumericConstants.TWO], orderedArgs[NumericConstants.THREE], orderedArgs[NumericConstants.FOUR], orderedArgs[NumericConstants.FIVE], 1,"PROGRAM"};
             List<Object[]> gtsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArgs1);
             getCustomizedDiscountsProjectionTotal(gtsList, projSelDTO);
         }
         if (projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT) ) {
-            projDTOList = new ArrayList<ProjectionResultsDTO>(prjTotalDisDolDtoList);
+            projDTOList = new ArrayList<>(prjTotalDisDolDtoList);
         } else if (projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE) && !projSelDTO.getGroup().contains(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER) ) {
-            projDTOList = new ArrayList<ProjectionResultsDTO>(prjTotalDisPerDtoList);
+            projDTOList = new ArrayList<>(prjTotalDisPerDtoList);
         } else if (projSelDTO.getGroup().contains(Constant.Total_RPU)) {
-            projDTOList = new ArrayList<ProjectionResultsDTO>(prjTotalRPUDtoList);
+            projDTOList = new ArrayList<>(prjTotalRPUDtoList);
         } else if (projSelDTO.getGroup().contains(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER)) {
-            projDTOList = new ArrayList<ProjectionResultsDTO>(prjDisDolExfacDtoList);
+            projDTOList = new ArrayList<>(prjDisDolExfacDtoList);
         }
         return projDTOList;
     }
 
     public void getCustomizedDiscountsProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
-            int frequencyDivision = projSelDTO.getFrequencyDivision();
-            List<ProjectionResultsDTO> projDolDTOList = new ArrayList<ProjectionResultsDTO>();
-            List<ProjectionResultsDTO> projRPUDTOList = new ArrayList<ProjectionResultsDTO>();
-            List<ProjectionResultsDTO> projPerDTOList = new ArrayList<ProjectionResultsDTO>();
-            List<ProjectionResultsDTO> projDisPerExfacDTOList = new ArrayList<ProjectionResultsDTO>();
-            List<String> discountList = new ArrayList<String>(projSelDTO.getDiscountNameList());
-            //PPA
-            List list1 = CommonLogic.getPPADiscountNameListPR(projSelDTO, Boolean.TRUE);
-            if (list.get(0) != null) {
-                discountList.addAll(list1);
-            }
-            String oldDiscountName = "old";
-            String newDiscountName = "oldDiscountName";
-            if (list != null && !list.isEmpty()) {
-                ProjectionResultsDTO projDolDTO = new ProjectionResultsDTO();
-                ProjectionResultsDTO projRPUDTO = new ProjectionResultsDTO();
-                ProjectionResultsDTO projPerDTO = new ProjectionResultsDTO();
-                ProjectionResultsDTO projDisPerDTO = new ProjectionResultsDTO();
-                int col = NumericConstants.THREE;
-                boolean add = false;
-                List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
-                columnList.remove(Constant.GROUP);
-                for (int i = 0; i < list.size(); i++) {
-                    final Object[] obj = (Object[]) list.get(i);
-                    String column = StringUtils.EMPTY;
-                    int year = Integer.valueOf(String.valueOf(obj[1]));
-                    int period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-                    List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
-                    String commonColumn = common.get(0);
-                    oldDiscountName = newDiscountName;
-                    newDiscountName = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                    if (!oldDiscountName.equals(newDiscountName)) {
-                        add = false;
-                        if (discountList.contains(newDiscountName)) {
-                            add = true;
-                            discountList.remove(newDiscountName);
-                            projDolDTO = new ProjectionResultsDTO();
-                            projRPUDTO = new ProjectionResultsDTO();
-                            projPerDTO = new ProjectionResultsDTO();
-                            projDisPerDTO = new ProjectionResultsDTO();
-                            projDolDTO.setParent(0);
-                            projRPUDTO.setParent(0);
-                            projPerDTO.setParent(0);
-                            projDisPerDTO.setParent(0);
-                            projDolDTO.setGroup(newDiscountName);
-                            projRPUDTO.setGroup(newDiscountName);
-                            projPerDTO.setGroup(newDiscountName);
-                            projDisPerDTO.setGroup(newDiscountName);
-                            projDolDTOList.add(projDolDTO);
-                            projRPUDTOList.add(projRPUDTO);
-                            projPerDTOList.add(projPerDTO);
-                            projDisPerExfacDTOList.add(projDisPerDTO);
-                            for (String columns : columnList) {
-                                projDolDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
-                                projRPUDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
-                                projPerDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
-                                projDisPerDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
-                            }
-                            columnList = new ArrayList<String>(projSelDTO.getColumns());
-                            columnList.remove(Constant.GROUP);
-                        }
+        int frequencyDivision = projSelDTO.getFrequencyDivision();
+        List<ProjectionResultsDTO> projDolDTOList = new ArrayList<>();
+        List<ProjectionResultsDTO> projRPUDTOList = new ArrayList<>();
+        List<ProjectionResultsDTO> projPerDTOList = new ArrayList<>();
+        List<ProjectionResultsDTO> projDisPerExfacDTOList = new ArrayList<>();
+        List<String> newList = new ArrayList<String>();
+        Iterator<String> iterator = projSelDTO.getDiscountNameList().iterator();
+        Iterator<String> iterator1 = projSelDTO.getDiscountNoList().iterator();
+        boolean ppaFlag = Boolean.FALSE;
 
-                    }
-                    if (add) {
-                        column = commonColumn + ACTUALS.getConstant();
-                        if (projSelDTO.hasColumn(column)) {
-                            String value = StringUtils.EMPTY + obj[col + 1];
-                            value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
-                            projDolDTO.addStringProperties(column, value);
-                            value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
-                            value = getFormattedValue(PER_TWO, value);
-                            projPerDTO.addStringProperties(column, value);
-                            value = StringUtils.EMPTY + obj[col + NumericConstants.FIVE];
-                            value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
-                            projRPUDTO.addStringProperties(column, value);
-                            value = StringUtils.EMPTY + obj[col + NumericConstants.EIGHT];
-                            value = getFormattedValue(PER_TWO, value);
-                            projDisPerDTO.addStringProperties(column, value);
-                            columnList.remove(column);
-                        }
-                        column = commonColumn + PROJECTIONS.getConstant();
-                        if (projSelDTO.hasColumn(column)) {
-                            String value = StringUtils.EMPTY + obj[col + NumericConstants.TWO];
-                            value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
-                            projDolDTO.addStringProperties(column, value);
-                            value = StringUtils.EMPTY + obj[col + NumericConstants.FOUR];
-                            value = getFormattedValue(PER_TWO, value);
-                            projPerDTO.addStringProperties(column, value);
-                            value = StringUtils.EMPTY + obj[col + NumericConstants.SIX];
-                            value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
-                            projRPUDTO.addStringProperties(column, value);
-                            value = StringUtils.EMPTY + obj[col + NumericConstants.NINE];
-                            value = getFormattedValue(PER_TWO, value);
-                            projDisPerDTO.addStringProperties(column, value);
-                            columnList.remove(column);
-                        }
-                    }
-                }
-
-            }
-            List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        while (iterator.hasNext() && iterator1.hasNext()) {
+            String RsNo = iterator.next();
+            String RsName = iterator1.next();
+            newList.add(RsNo + "~" + RsName);
+            // add FirstName and LastName to the new list here
+        }
+        //PPA
+        List list1 = CommonLogic.getPPADiscountNameListPR(projSelDTO, Boolean.TRUE);
+        if (list.get(0) != null) {
+            newList.addAll(list1);
+            ppaFlag = Boolean.TRUE;
+        }
+        String oldDiscountName;
+        String newDiscountName = "oldDiscountName";
+        if (list != null && !list.isEmpty()) {
+            ProjectionResultsDTO projDolDTO = new ProjectionResultsDTO();
+            ProjectionResultsDTO projRPUDTO = new ProjectionResultsDTO();
+            ProjectionResultsDTO projPerDTO = new ProjectionResultsDTO();
+            ProjectionResultsDTO projDisPerDTO = new ProjectionResultsDTO();
+            int col = NumericConstants.THREE;
+            boolean add = false;
+            List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             columnList.remove(Constant.GROUP);
-            for (String ob : discountList) {
-                ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
-                projDTO.setParent(0);
-                projDTO.setProjectionTotal(1);
-                projDTO.setGroup(ob);
-                ProjectionResultsDTO projDTO2 = new ProjectionResultsDTO();
-                projDTO2.setParent(0);
-                projDTO2.setProjectionTotal(1);
-                projDTO2.setGroup(ob);
-                ProjectionResultsDTO projDTO1 = new ProjectionResultsDTO();
-                projDTO1.setParent(0);
-                projDTO1.setProjectionTotal(1);
-                projDTO1.setGroup(ob);
-                ProjectionResultsDTO projDTO4 = new ProjectionResultsDTO();
-                projDTO4.setParent(0);
-                projDTO4.setProjectionTotal(1);
-                projDTO4.setGroup(ob);
-                for (String columns : columnList) {
-                    projDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
-                    projDTO1.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
-                    projDTO2.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
-                    projDTO4.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
+            for (int i = 0; i < list.size(); i++) {
+                final Object[] obj = (Object[]) list.get(i);
+                String column;
+                int year = Integer.valueOf(String.valueOf(obj[1]));
+                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
+                String commonColumn = common.get(0);
+                oldDiscountName = newDiscountName;
+                newDiscountName = obj[NumericConstants.THREE]+"~"+obj[NumericConstants.TEN];
+                if (!oldDiscountName.equals(newDiscountName)) {
+                    add = false;
+                    if (newList.contains(newDiscountName) || ppaFlag) {
+                        add = true;
+                        newList.remove(newDiscountName);
+                        projDolDTO = new ProjectionResultsDTO();
+                        projRPUDTO = new ProjectionResultsDTO();
+                        projPerDTO = new ProjectionResultsDTO();
+                        projDisPerDTO = new ProjectionResultsDTO();
+                        projDolDTO.setParent(0);
+                        projRPUDTO.setParent(0);
+                        projPerDTO.setParent(0);
+                        projDisPerDTO.setParent(0);
+                        projDolDTO.setGroup(newDiscountName.split("~")[0]);
+                        projRPUDTO.setGroup(newDiscountName.split("~")[0]);
+                        projPerDTO.setGroup(newDiscountName.split("~")[0]);
+                        projDisPerDTO.setGroup(newDiscountName.split("~")[0]);
+                        projDolDTOList.add(projDolDTO);
+                        projRPUDTOList.add(projRPUDTO);
+                        projPerDTOList.add(projPerDTO);
+                        projDisPerExfacDTOList.add(projDisPerDTO);
+                        for (String columns : columnList) {
+                            projDolDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
+                            projRPUDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
+                            projPerDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
+                            projDisPerDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
+                        }
+                        columnList = new ArrayList<>(projSelDTO.getColumns());
+                        columnList.remove(Constant.GROUP);
+                    }
+
                 }
+                if (add) {
+                    column = commonColumn + ACTUALS.getConstant();
+                    if (projSelDTO.hasColumn(column)) {
+                        String value = StringUtils.EMPTY + obj[col + 1];
+                        value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
+                        projDolDTO.addStringProperties(column, value);
+                        value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
+                        value = getFormattedValue(PER_TWO, value);
+                        projPerDTO.addStringProperties(column, value);
+                        value = StringUtils.EMPTY + obj[col + NumericConstants.FIVE];
+                        value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
+                        projRPUDTO.addStringProperties(column, value);
+                        value = StringUtils.EMPTY + obj[col + NumericConstants.EIGHT];
+                        value = getFormattedValue(PER_TWO, value);
+                        projDisPerDTO.addStringProperties(column, value);
+                        columnList.remove(column);
+                    }
+                    column = commonColumn + PROJECTIONS.getConstant();
+                    if (projSelDTO.hasColumn(column)) {
+                        String value = StringUtils.EMPTY + obj[col + NumericConstants.TWO];
+                        value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
+                        projDolDTO.addStringProperties(column, value);
+                        value = StringUtils.EMPTY + obj[col + NumericConstants.FOUR];
+                        value = getFormattedValue(PER_TWO, value);
+                        projPerDTO.addStringProperties(column, value);
+                        value = StringUtils.EMPTY + obj[col + NumericConstants.SIX];
+                        value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
+                        projRPUDTO.addStringProperties(column, value);
+                        value = StringUtils.EMPTY + obj[col + NumericConstants.NINE];
+                        value = getFormattedValue(PER_TWO, value);
+                        projDisPerDTO.addStringProperties(column, value);
+                        columnList.remove(column);
+                    }
+                }
+            }
+
+        }
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
+        columnList.remove(Constant.GROUP);
+        for (String ob : discountList) {
+            ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
+            projDTO.setParent(0);
+            projDTO.setProjectionTotal(1);
+            projDTO.setGroup(ob);
+            ProjectionResultsDTO projDTO2 = new ProjectionResultsDTO();
+            projDTO2.setParent(0);
+            projDTO2.setProjectionTotal(1);
+            projDTO2.setGroup(ob);
+            ProjectionResultsDTO projDTO1 = new ProjectionResultsDTO();
+            projDTO1.setParent(0);
+            projDTO1.setProjectionTotal(1);
+            projDTO1.setGroup(ob);
+            ProjectionResultsDTO projDTO4 = new ProjectionResultsDTO();
+            projDTO4.setParent(0);
+            projDTO4.setProjectionTotal(1);
+            projDTO4.setGroup(ob);
+            for (String columns : columnList) {
+                projDTO.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
+                projDTO1.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
+                projDTO2.addStringProperties(columns, getFormatTwoDecimalValue(CUR_TWO, Constant.NULL, CURRENCY));
+                projDTO4.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
+            }
                 projDolDTOList.add(projDTO);
                 projRPUDTOList.add(projDTO2);
                 projPerDTOList.add(projDTO1);
                 projDisPerExfacDTOList.add(projDTO4);
             }
-            prjTotalDisDolDtoList = new ArrayList<ProjectionResultsDTO>(projDolDTOList);
-            prjTotalDisPerDtoList = new ArrayList<ProjectionResultsDTO>(projPerDTOList);
-            prjTotalRPUDtoList = new ArrayList<ProjectionResultsDTO>(projRPUDTOList);
-            prjDisDolExfacDtoList = new ArrayList<ProjectionResultsDTO>(projDisPerExfacDTOList);
+            prjTotalDisDolDtoList = new ArrayList<>(projDolDTOList);
+            prjTotalDisPerDtoList = new ArrayList<>(projPerDTOList);
+            prjTotalRPUDtoList = new ArrayList<>(projRPUDTOList);
+            prjDisDolExfacDtoList = new ArrayList<>(projDisPerExfacDTOList);
          
     }
 
@@ -1917,7 +1906,7 @@ public class NMProjectionResultsLogic {
             LOGGER.debug("= = = Ending getNetSales = = =");
             resultList.add(netSalesDto);
             // for Net Sales % ExFactory
-            projSelDTO.setSales(Constant.DISCOUNT_ExFAC_SALES);
+            projSelDTO.setSales(Constant.DISCOUNT_EXFAC_SALES);
             projDTOList = getCustomizedProjectionResultsDiscount(list, projSelDTO, false,2,true);
             if (projDTOList != null && !projDTOList.isEmpty()) {
                 netSalesDto = projDTOList.get(0);
@@ -1929,7 +1918,7 @@ public class NMProjectionResultsLogic {
             return resultList;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1946,8 +1935,8 @@ public class NMProjectionResultsLogic {
                 + String.format("%02d", projSelDTO.getStartMonth()) + "-"
                 + String.format("%02d", projSelDTO.getStartDay());
             
-            String query = StringUtils.EMPTY;
-            List<ProjectionResultsDTO> projDTOList = null;
+            String query;
+            List<ProjectionResultsDTO> projDTOList;
             String cogsSelect = " DECLARE @FROM_DATE        DATE,\n"
                     + "        @STARTFROM        DATE,\n"
                     + "        @PROJECTION_DATE  DATE,\n"
@@ -1963,15 +1952,15 @@ public class NMProjectionResultsLogic {
                     + "        @END_SID   INT\n"
                     + "\n"
                     + " SELECT @START_SID = PERIOD_SID\n"
-                    + " FROM   PERIOD\n"
+                    + " FROM   PERIOD \n"
                     + "   WHERE  PERIOD_DATE = '"+startDate+"'\n"
                     + "\n"
                     + " SELECT @END_SID = PERIOD_SID\n"
-                    + " FROM   PERIOD\n"
+                    + " FROM   PERIOD\n "
                     + " WHERE  PERIOD_DATE = (SELECT Dateadd(MM, Datediff(MM, 0, '"+endDate+"'), 0))\n"
                     + "\n"
                     + " SELECT @START_PERIOD_SID = PERIOD_SID\n"
-                    + " FROM   PERIOD\n"
+                    + " FROM   PERIOD  \n"
                     + " WHERE  PERIOD_DATE = @STARTFROM\n"
                     + "\n"
                     + " SELECT @END_PERIOD_SID = PERIOD_SID\n"
@@ -1987,13 +1976,13 @@ public class NMProjectionResultsLogic {
             return projDTOList;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
    
     private List getCustomizedCOGSandNetProfit(List list, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> resultList = new ArrayList<ProjectionResultsDTO>();
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<ProjectionResultsDTO> resultList = new ArrayList<>();
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO cogsDto = new ProjectionResultsDTO();
         ProjectionResultsDTO netprofitDto = new ProjectionResultsDTO();
@@ -2016,7 +2005,7 @@ public class NMProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = (obj[0] == null) ? 0 : Integer.valueOf(String.valueOf(obj[0]));
                 int period = (obj[1] == null) ? 0 : Integer.valueOf(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
@@ -2024,8 +2013,8 @@ public class NMProjectionResultsLogic {
                 int col = NumericConstants.TWO;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    String value = StringUtils.EMPTY;
-                    String value1 = StringUtils.EMPTY;
+                    String value;
+                    String value1;
                     value = StringUtils.EMPTY + obj[col];
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
@@ -2038,8 +2027,8 @@ public class NMProjectionResultsLogic {
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    String value = StringUtils.EMPTY + obj[col + 1];
-                    String value1 = StringUtils.EMPTY;
+                    String value;
+                    String value1;
                     value = StringUtils.EMPTY + obj[col + 1];
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
@@ -2047,7 +2036,6 @@ public class NMProjectionResultsLogic {
                     cogsDto.addStringProperties(column, !"null".equals(obj[col + 1]) &&obj[col + 1]!=null? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
-                    value1 = StringUtils.EMPTY;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
                     netprofitDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.THREE]) && obj[col + NumericConstants.THREE]!=null? value :value1);
@@ -2073,13 +2061,13 @@ public class NMProjectionResultsLogic {
         int started = start;
         int neededRecord = offset;
         int mayBeAdded = 0;
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         String discList = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
         String freq = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == 1) {
             freq = "ANNUAL";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            freq = "SEMI-ANNUAL";
+            freq = Constant.SEMIANNUAL_CAPS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             freq = "QUARTERLY";
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
@@ -2087,8 +2075,8 @@ public class NMProjectionResultsLogic {
         }
         projSelDTO.setProjectionHeaderList(CommonUtils.prepareProjectionPeriodList(projSelDTO));
         Object[] orderedArgs = {projSelDTO.getProjectionId(), freq, discList, "ASSUMPTIONS", projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId()};
-        if (!projSelDTO.getGroup().startsWith(Constant.All)
-                && !projSelDTO.getGroup().contains(Constant.Sales)
+        if (!projSelDTO.getGroup().startsWith(Constant.ALL)
+                && !projSelDTO.getGroup().contains(Constant.SALES_)
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
                 if ((projSelDTO.isIsTotal()) && (projSelDTO.isIsProjectionTotal())) {
@@ -2107,9 +2095,7 @@ public class NMProjectionResultsLogic {
             if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 String salesUnits = projSelDTO.getSalesOrUnit();
                 if (projSelDTO.isIsTotal()) {
-//                    LOGGER.info("= = = Inside Period isTotal method = = =");
                     if (projSelDTO.isIsProjectionTotal()) {
-//                        LOGGER.info("= = = Inside Period isTotal = = = isIsProjectionTotal method = = =");
                         if (projectionTotalList.isEmpty() || projSelDTO.isIsFrequencyChanged() || projSelDTO.isIsHistroryChanged()) {
                             getProjectionTotal(orderedArgs, projSelDTO);
                         }
@@ -2414,7 +2400,7 @@ public class NMProjectionResultsLogic {
 
                     if (projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE) && !projSelDTO.getGroup().contains(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER)) {
                         if (started < (projSelDTO.getDiscountNameList().size() + ppaCount)) {
-                            List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<ProjectionResultsDTO>();
+                            List<ProjectionResultsDTO> discountPerDtoList;
                             if (projSelDTO.isIsProjectionTotal()) {
                                 discountPerDtoList = getProjectionTotalDiscounts(projSelDTO, orderedArgs);
                             } else {
@@ -2432,7 +2418,7 @@ public class NMProjectionResultsLogic {
                     }
                     if (projSelDTO.getGroup().contains(Constant.Total_RPU)) {
                         if (started < (projSelDTO.getDiscountNameList().size()+ ppaCount)) {
-                            List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<ProjectionResultsDTO>();
+                            List<ProjectionResultsDTO> discountPerDtoList;
                             if (projSelDTO.isIsProjectionTotal()) {
                                 discountPerDtoList = getProjectionTotalDiscounts(projSelDTO, orderedArgs);
                             } else {
@@ -2450,7 +2436,7 @@ public class NMProjectionResultsLogic {
                     }
                     if (neededRecord > 0 && projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT)) {
                         if (started < (projSelDTO.getDiscountNameList().size()+ ppaCount)) {
-                            List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<ProjectionResultsDTO>();
+                            List<ProjectionResultsDTO> discountPerDtoList;
                             if (projSelDTO.isIsProjectionTotal()) {
                                 discountPerDtoList = getProjectionTotalDiscounts(projSelDTO, orderedArgs);
                             } else {
@@ -2468,7 +2454,7 @@ public class NMProjectionResultsLogic {
                     }
                      if (neededRecord > 0 && projSelDTO.getGroup().contains(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER)) {
                         if (started < (projSelDTO.getDiscountNameList().size()+ ppaCount)) {
-                            List<ProjectionResultsDTO> discountPerDtoList = new ArrayList<ProjectionResultsDTO>();
+                            List<ProjectionResultsDTO> discountPerDtoList;
                             if (projSelDTO.isIsProjectionTotal()) {
                                 discountPerDtoList = getProjectionTotalDiscounts(projSelDTO, orderedArgs);
                             } else {
@@ -2494,7 +2480,7 @@ public class NMProjectionResultsLogic {
                     mayBeAddedRecord = 0;
                 }
                 if (mayBeAddedRecord < projSelDTO.getPeriodList().size()) {
-                    List<ProjectionResultsDTO> projectionDtoList = new ArrayList<ProjectionResultsDTO>();
+                    List<ProjectionResultsDTO> projectionDtoList;
                     if (projSelDTO.isIsProjectionTotal()) {
                         projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
                     } else {
@@ -2514,8 +2500,8 @@ public class NMProjectionResultsLogic {
         if (!(projSelDTO.isIsCustomHierarchy() && projSelDTO.getCustomId() == 0)) {
                 if ((neededRecord > 0 && projSelDTO.isIsTotal() && !projSelDTO.isIsFilter()) && ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                         && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY))))
-                        && !projSelDTO.getGroup().startsWith(Constant.All)
-                        && !projSelDTO.getGroup().contains(Constant.Sales)
+                        && !projSelDTO.getGroup().startsWith(Constant.ALL)
+                        && !projSelDTO.getGroup().contains(Constant.SALES_)
                         && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                         && !projSelDTO.getGroup().contains(Constant.PPA)) {
 
@@ -2539,9 +2525,6 @@ public class NMProjectionResultsLogic {
                         dto.setParent(1);
                         projDTOList.add(dto);
                     }
-                    started++;
-
-                    neededRecord--;
                 } else {
                     int mayBeAddedRecord = started - mayBeAdded;
                     if (mayBeAddedRecord < 0) {
@@ -2558,12 +2541,12 @@ public class NMProjectionResultsLogic {
 
     public List<ProjectionResultsDTO> getConfiguredProjectionResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
         try {
-            List<ProjectionResultsDTO> resultList = new ArrayList<>();
+            List<ProjectionResultsDTO> resultList;
             if (!projSelDTO.isIsFilter() || (parentId instanceof ProjectionResultsDTO)) {
-                projSelDTO.setYear(Constant.All);
+                projSelDTO.setYear(Constant.ALL);
 
                 if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                    projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                    projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
                 }
                 if (parentId instanceof ProjectionResultsDTO) {
                     ProjectionResultsDTO parentDto = (ProjectionResultsDTO) parentId;
@@ -2618,13 +2601,13 @@ public class NMProjectionResultsLogic {
         } catch (Exception ex) {
                 LOGGER.error(ex);
 
-            return null;
+            return Collections.emptyList();
         }
     }
 
     public List<ProjectionResultsDTO> configureLevels(int start, int offset, int started, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
-        List<ProjectionResultsDTO> resultList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> resultList = new ArrayList<>();
         if (neededRecord > 0) {
             resultList=getLevelListforNonmandated(start, offset, started, projSelDTO,neededRecord);
         }
@@ -2635,10 +2618,10 @@ public class NMProjectionResultsLogic {
         int count = 0;
         projSelDTO.setGroupCount(false);
         if (!projSelDTO.isIsFilter() || (parentId instanceof ProjectionResultsDTO)) {
-            projSelDTO.setYear(Constant.All);
+            projSelDTO.setYear(Constant.ALL);
 
             if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
-                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + " and " + PROJECTIONS.getConstant());
+                projSelDTO.setActualsOrProjections(ACTUALS.getConstant() + Constant.AND_SMALL_SPACE + PROJECTIONS.getConstant());
             }
             if (parentId instanceof ProjectionResultsDTO) {
                 ProjectionResultsDTO parentDto = (ProjectionResultsDTO) parentId;
@@ -2691,8 +2674,8 @@ public class NMProjectionResultsLogic {
         int count = 0;
          CommonLogic commonLogic = new CommonLogic();
          String query = StringUtils.EMPTY;
-        if (!projSelDTO.getGroup().startsWith(Constant.All)
-                && !projSelDTO.getGroup().contains(Constant.Sales)
+        if (!projSelDTO.getGroup().startsWith(Constant.ALL)
+                && !projSelDTO.getGroup().contains(Constant.SALES_)
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
             if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
@@ -2721,7 +2704,7 @@ public class NMProjectionResultsLogic {
                         Object ob = list.get(0);
                         count = count + Integer.valueOf(String.valueOf(ob));
                     }
-                    query = ccpQuery + getPPACount(projSelDTO, Boolean.FALSE);
+                    query = ccpQuery + getPPACount(Boolean.FALSE);
                    list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
                     if (list != null && !list.isEmpty()) {
                         Object ob = list.get(0);
@@ -2740,8 +2723,8 @@ public class NMProjectionResultsLogic {
         } else if (projSelDTO.isIsTotal() && isLevelsCount && !projSelDTO.isIsFilter()) {
             if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                     && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
-                    && !projSelDTO.getGroup().startsWith(Constant.All)
-                    && !projSelDTO.getGroup().contains(Constant.Sales)
+                    && !projSelDTO.getGroup().startsWith(Constant.ALL)
+                    && !projSelDTO.getGroup().contains(Constant.SALES_)
                     && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                     && !projSelDTO.getGroup().contains(Constant.PPA)) {
                 count = count + 1;
@@ -2769,34 +2752,34 @@ public class NMProjectionResultsLogic {
     }
 
     public String getProjectionResultsDiscountsQuery(ProjectionSelectionDTO projSelDTO, String orderBy) {
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String whereClause = StringUtils.EMPTY;
-        String groupBy = " I.\"YEAR\" \n";
+        String groupBy = Constant.IYEAR_N;
 
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
 
-        selectClause += "I.\"YEAR\" as YEARS, ";
+        selectClause += " I.\"YEAR\" as YEARS, ";
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
             whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectClause += "I.QUARTER as PERIODS, \n";
+            selectClause += "I.QUARTER as  PERIODS, \n";
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.QUARTER";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
+            selectClause += "I.SEMI_ANNUAL as PERIODS,  \n";
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.SEMI_ANNUAL";
+            groupBy += Constant.ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectClause += "'0' as PERIODS,\n ";
+            selectClause += Constant.AS_PERIODS_SLASH_N;
             whereClause += StringUtils.EMPTY;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
+            selectClause += IMONTH_AS_PERIODS_SLASH;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.\"MONTH\"";
+            groupBy += Constant.IMONTH;
         }
 
         // To filter the data according to selected period
@@ -2827,51 +2810,51 @@ public class NMProjectionResultsLogic {
         customSql += " and A.RS_CONTRACT_SID = B.RS_CONTRACT_SID \n"
                 + "and A.PERIOD_SID = I.PERIOD_SID and \n"
                 + periodFilter
-                + whereClause + " group by " + groupBy;
+                + whereClause + " group by  " + groupBy;
 
         String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as ACTUAL_SALES, \n"
-                + " sum(A.ACTUAL_PROJECTION_SALES) as PROJECTION_SALES \n"
+                + " 0 as PROJECTION_SALES \n"
                 + " from ST_NM_ACTUAL_DISCOUNT A, \n "
                 + customSql;
         String futureQuery = selectClause + " 0 as ACTUAL_SALES , \n"
                 + " sum(A.PROJECTION_SALES) as PROJECTION_SALES \n"
                 + " from ST_NM_DISCOUNT_PROJECTION A, \n "
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(1) + " and HISTORY.DISCOUNTS=FUTURE.DISCOUNTS";
-        String finalSelectClause = "select " + list.get(0) + " Isnull(HISTORY.DISCOUNTS, FUTURE.DISCOUNTS) as DISCOUNTS,\n Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES ";
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond + orderBy;
+        String finalSelectClause = "select       " + list.get(0) + " Isnull(HISTORY.DISCOUNTS, FUTURE.DISCOUNTS) as DISCOUNTS,\n Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES ";
+        customQuery = finalSelectClause + Constant.FROM_SLASH_N + historyQuery + "\n) HISTORY FULL OUTER JOIN  (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond + orderBy;
 
         return customQuery;
     }
 
     public String getProjectionResultsPPAQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String whereClause = StringUtils.EMPTY;
-        String groupBy = " I.\"YEAR\" \n";
-        String customQuery = StringUtils.EMPTY;
+        String groupBy = Constant.IYEAR_N;
+        String customQuery;
         selectClause += "I.\"YEAR\" as YEARS, ";
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
             whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectClause += "I.QUARTER as PERIODS, \n";
+            selectClause += "I.QUARTER  as PERIODS, \n";
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.QUARTER";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
+            selectClause += "I.SEMI_ANNUAL as PERIODS, \n ";
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.SEMI_ANNUAL";
+            groupBy += Constant.ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectClause += "'0' as PERIODS, \n";
+            selectClause += ZERO_AS_PERIODS_N;
             whereClause += StringUtils.EMPTY;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
+            selectClause += IMONTH_AS_PERIODS_SLASH;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.\"MONTH\"";
+            groupBy += Constant.IMONTH;
         }
         selectClause += "'PPA Discount' as DISCOUNTS,\n ";
         // To filter the data according to selected period
@@ -2887,7 +2870,7 @@ public class NMProjectionResultsLogic {
                 + "                                                    AND A.PERIOD_SID = SNAS.PERIOD_SID AND \n"
                 + periodFilter
                 + whereClause
-                + " group by " + groupBy;
+                + " group by  " + groupBy;
         String customSqlFuture = " \"PERIOD\" I, \n"
                 + " #SELECTED_HIERARCHY_NO CCP,\n"
                   + " ST_NM_SALES_PROJECTION SNSP "
@@ -2897,87 +2880,88 @@ public class NMProjectionResultsLogic {
 "                                                    AND A.PERIOD_SID = SNSP.PERIOD_SID AND \n" 
                 + periodFilter
                 + whereClause
-                + " group by " + groupBy;
+                + "  group by " + groupBy;
 
         String historyQuery = selectClause + " sum(A.ACTUAL_DISCOUNT_DOLLAR) as ACTUAL_SALES,\n"
-                + " sum(A.ACTUAL_PROJECTION_SALES) as PROJECTION_SALES "
-                + ", SUM(A.ACTUAL_PROJECTION_RATE) AS PPA_ACTUAL_RPU,\n"
+                + " 0 as PROJECTION_SALES "
+                + ", 0 AS PPA_ACTUAL_RPU,\n"
                 + "                                                    SUM(\n"
-                + "                                                        CASE\n"
+                + "                                            CASE\n"
                 + "                                                            WHEN A.ACTUAL_DISCOUNT_DOLLAR <> 0 THEN SNAS.ACTUAL_SALES\n"
-                + "                                                            ELSE 0\n"
-                + "                                                        END\n"
+                + "                                                  ELSE 0\n"
+                + "                                                    END\n"
                 + "                                                    ) AS SALES_ACTUALS,\n"
                 + "                                                    SUM(\n"
-                + "                                                        CASE\n"
+                + "                           CASE\n"
                 + "                                                            WHEN A.ACTUAL_DISCOUNT_DOLLAR <> 0 THEN SNAS.ACTUAL_UNITS\n"
-                + "                                                            ELSE 0\n"
-                + "                                                        END\n"
+                + "                                                       ELSE 0\n"
+                + "            END\n"
                 + "                                                    ) AS UNITS_ACTUALS\n"
                 + " from ST_NM_ACTUAL_PPA A,\n "
                 + customSql;
         String futureQuery = selectClause + " 0 as ACTUAL_SALES, \n"
                 + " sum(A.PROJECTION_DISCOUNT_DOLLAR) as PROJECTION_SALES , SUM(A.PROJECTION_RATE) AS PPA_PROJECTED_RPU,\n"
-                + "                                                    SUM(\n"
+                + "                                              SUM(\n"
                 + "                                                        CASE\n"
                 + "                                                            WHEN A.PROJECTION_DISCOUNT_DOLLAR <> 0 THEN SNSP.PROJECTION_SALES\n"
-                + "                                                            ELSE 0\n"
-                + "                                                        END\n"
+                + "                                                   ELSE 0\n"
+                + "                                            END\n"
                 + "                                                    ) AS SALES_PROJECTED,\n"
-                + "                                                    SUM(\n"
+                + "                                       SUM(\n"
                 + "                                                        CASE\n"
                 + "                                                            WHEN A.PROJECTION_DISCOUNT_DOLLAR <> 0 THEN SNSP.PROJECTION_UNITS\n"
-                + "                                                            ELSE 0\n"
-                + "                                                        END\n"
+                + "                                           ELSE 0\n"
+                + "                       END\n"
                 + "                                                    ) AS UNITS_PROJECTED \n"
                 + " from ST_NM_PPA_PROJECTION A,\n "
                 + customSqlFuture;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(1);
         String finalSelectClause = "select " + list.get(0) + "'PPA Discount' as DISCOUNTS,\n Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES"
                 + "              ,ISNULL(HISTORY.PPA_ACTUAL_RPU,0)AS PPA_ACTUAL_RPU\n"
                 + "              ,ISNULL(FUTURE.PPA_PROJECTED_RPU,0)AS PPA_PROJECTED_RPU,ISNULL(\n"
                 + "                                                HISTORY.SALES_ACTUALS,\n"
-                + "                                                0\n"
+                + "                                              0\n"
                 + "                                            ) AS SALES_ACTUALS,\n"
-                + "                                            ISNULL(\n"
+                + "                                        ISNULL(\n"
                 + "                                                HISTORY.UNITS_ACTUALS,\n"
-                + "                                                0\n"
+                + "                                   0\n"
                 + "                                            ) AS UNITS_ACTUALS,\n"
                 + "                                            ISNULL(\n"
                 + "                                                FUTURE.SALES_PROJECTED,\n"
-                + "                                                0\n"
+                + "                                               0\n"
                 + "                                            ) AS SALES_PROJECTED,\n"
                 + "                                            ISNULL(\n"
                 + "                                                FUTURE.UNITS_PROJECTED,\n"
-                + "                                                0\n"
+                + "                    0\n"
                 + "                                            ) AS UNITS_PROJECTED ";
 
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+        customQuery = finalSelectClause + Constant.FROM_SLASH_N + historyQuery + "\n)  HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
         return customQuery;
     }
+    public static final String ZERO_AS_PERIODS_N = "'0' as PERIODS, \n";
 
     public String getProjectionResultsPPARPUQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String whereClause = StringUtils.EMPTY;
-        String customQuery = StringUtils.EMPTY;
-        selectClause += "I.\"YEAR\" as YEARS, ";
+        String customQuery;
+        selectClause += "I.\"YEAR\"  as  YEARS, ";
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
-            whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
+            whereClause += " and  I.\"YEAR\" = " + projSelDTO.getYear();
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += "I.QUARTER as PERIODS, \n";
             whereClause += StringUtils.EMPTY;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
+            selectClause += "I.SEMI_ANNUAL as PERIODS, \n  ";
             whereClause += StringUtils.EMPTY;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectClause += "'0' as PERIODS, \n";
+            selectClause += ZERO_AS_PERIODS_N;
             whereClause += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
+            selectClause += IMONTH_AS_PERIODS_SLASH;
             whereClause += StringUtils.EMPTY;
         }
         
@@ -3001,7 +2985,7 @@ public class NMProjectionResultsLogic {
                 + "AND  A.RS_CONTRACT_SID=B.RS_CONTRACT_SID INNER JOIN \"PERIOD\" I ON I.PERIOD_SID = A.PERIOD_SID \n"
                 + " INNER JOIN RS_CONTRACT j"
                 + " ON j.RS_CONTRACT_SID=a.RS_CONTRACT_SID \n"
-                + " where \n"
+                + "     where \n"
                 + "  I.PERIOD_SID BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID "
                 + " )a\n"
                 + whereClause
@@ -3012,9 +2996,9 @@ public class NMProjectionResultsLogic {
                 + " sum(ACTUAL_PROJECTION_SALES) as PROJECTION_SALES,"
                 + "SUM(ACTUAL_PROJECTION_RATE) AS PPA_ACTUAL_RPU,\n"
                 + " RS_CONTRACT_SID  from (\n"
-                + selectClause + " A.ACTUAL_DISCOUNT_DOLLAR , A.ACTUAL_PROJECTION_SALES\n, a.ACTUAL_PROJECTION_RATE,\n"
+                + selectClause + " A.ACTUAL_DISCOUNT_DOLLAR , 0 as ACTUAL_PROJECTION_SALES\n,0 as ACTUAL_PROJECTION_RATE,\n"
                 + " J.RS_CONTRACT_SID"
-                + " from #SELECTED_HIERARCHY_NO CCP"
+                + " from #SELECTED_HIERARCHY_NO CCP "
                 + " INNER JOIN ST_NM_ACTUAL_PPA A ON\n "
                 + "  A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID INNER JOIN "
                 + customSql;
@@ -3028,7 +3012,7 @@ public class NMProjectionResultsLogic {
                 + " INNER JOIN ST_NM_PPA_PROJECTION A ON\n "
                 + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID INNER JOIN "
                 + customSqlFuture;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(1);
         String finalSelectClause = "select " + list.get(0) + "coalesce(history.ppa_DISCOUNTS ,future.ppa_DISCOUNTS) AS DISCOUNTS"
                 + ",Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES"
@@ -3036,35 +3020,35 @@ public class NMProjectionResultsLogic {
                 + "              ,ISNULL(FUTURE.PPA_PROJECTED_RPU,0)AS PPA_PROJECTED_RPU,"
                 + "ISNULL(HISTORY.RS_CONTRACT_SID,FUTURE.RS_CONTRACT_SID)AS RS_CONTRACT_SID  ";
 
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond +" AND HISTORY.ppa_DISCOUNTS=FUTURE.ppa_DISCOUNTS AND HISTORY.RS_CONTRACT_SID=FUTURE.RS_CONTRACT_SID )PPA ";
+        customQuery = finalSelectClause + Constant.FROM_SLASH_N + historyQuery + "\n) HISTORY  FULL OUTER JOIN (\n" + futureQuery + "\n)  FUTURE  \n  " + finalWhereCond +" AND HISTORY.ppa_DISCOUNTS=FUTURE.ppa_DISCOUNTS AND HISTORY.RS_CONTRACT_SID=FUTURE.RS_CONTRACT_SID )PPA ";
         return customQuery;
     }
 
     public String getProjectionResultsSalesQuery(ProjectionSelectionDTO projSelDTO,Boolean period) {
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String groupBy = " I.\"YEAR\"\n" ;
-        String customQuery = StringUtils.EMPTY;
-        selectClause += "I.\"YEAR\" as YEARS, ";
+        String customQuery;
+        selectClause += "I.\"YEAR\" as YEARS,  ";
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectClause += "I.QUARTER as PERIODS, \n";
-            groupBy += ", I.QUARTER";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
-            groupBy += ", I.SEMI_ANNUAL";
+            selectClause += "I.SEMI_ANNUAL as PERIODS,    \n  ";
+            groupBy += Constant.ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectClause += "'0' as PERIODS, \n";
+            selectClause += ZERO_AS_PERIODS_N;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
-            groupBy += ", I.\"MONTH\"";
+            selectClause += IMONTH_AS_PERIODS_SLASH;
+            groupBy += Constant.IMONTH;
         }
 
         // To filter the data according to selected period
-        String periodFilter = StringUtils.EMPTY;
+        String periodFilter;
         if(period){
             periodFilter = " I.PERIOD_SID BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID ";
         }else{
@@ -3072,14 +3056,14 @@ public class NMProjectionResultsLogic {
         }
 
         String customSql = " \"PERIOD\" I ON I.PERIOD_SID = A.PERIOD_SID \n"
-                + " where \n"
+                + " where    \n"
                 + periodFilter
-                + " group by " + groupBy;
+                + "  group by  " + groupBy;
 
-        String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as SALES_ACTUAL_SALES, \n"
-                + " sum(A.HISTORY_PROJECTION_SALES) as SALES_PROJECTION_SALES, \n"
+        String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as SALES_ACTUAL_SALES,  \n"
+                + " 0 as  SALES_PROJECTION_SALES, \n"
                 + " sum(A.ACTUAL_UNITS)as ACTUAL_UNITS, \n"
-                + " sum(A.HISTORY_PROJECTION_UNITS) as PROJECTION_UNITS \n"
+                + " 0 as PROJECTION_UNITS \n"
                 + "    from #SELECTED_HIERARCHY_NO CCP"
                 + " INNER JOIN ST_NM_ACTUAL_SALES A ON \n "
                 + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID INNER JOIN "
@@ -3090,65 +3074,65 @@ public class NMProjectionResultsLogic {
                 + " sum(A.PROJECTION_UNITS) as PROJECTION_UNITS \n"
                 + " from #SELECTED_HIERARCHY_NO CCP"
                 + " INNER JOIN ST_NM_SALES_PROJECTION A ON\n"
-                + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID INNER JOIN "
+                + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID INNER  JOIN "
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(1);
-        String finalSelectClause = "select " + list.get(0) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES,\n Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES,"
+        String finalSelectClause = "    select   " + list.get(0) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES,\n Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES,"
                 + "\n Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) as ACTUAL_UNITS,\n Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) as PROJECTION_UNITS  ";
 
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+        customQuery = finalSelectClause + Constant.FROM_SLASH_N + historyQuery + "\n) HISTORY FULL OUTER JOIN   (\n" + futureQuery + "\n)  FUTURE  \n " + finalWhereCond;
 
         return customQuery;
     }
     
     
     public String getProjectionResultsTotalDiscountSalesQuery(ProjectionSelectionDTO projSelDTO,Boolean period) {
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String groupBy = " I.\"YEAR\"\n" ;
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
         selectClause += "I.\"YEAR\" as YEARS, ";
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectClause += "I.QUARTER as PERIODS, \n";
-            groupBy += ", I.QUARTER";
+            selectClause += " I.QUARTER as PERIODS, \n";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
             selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
-            groupBy += ", I.SEMI_ANNUAL";
+            groupBy += Constant.ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectClause += "'0' as PERIODS, \n";
+            selectClause += ZERO_AS_PERIODS_N;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
-            groupBy += ", I.\"MONTH\"";
+            selectClause += IMONTH_AS_PERIODS_SLASH;
+            groupBy += Constant.IMONTH;
         }
 
         // To filter the data according to selected period
-        String periodFilter = StringUtils.EMPTY;
+        String periodFilter;
         if(period){
-            periodFilter = " I.PERIOD_SID BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID "
+            periodFilter = " I.PERIOD_SID  BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID "
                     + " AND B.RS_CONTRACT_SID IN ("+CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false)+")";
         }else{
             periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO)+ " AND B.RS_CONTRACT_SID IN ("+CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false)+") ";
         }
 
         String customSql = " \"PERIOD\" I ON I.PERIOD_SID = A.PERIOD_SID \n"
-                + " where \n"
+                + "  where  \n"
                 + periodFilter
                 + " group by " + groupBy + " , B.RS_CONTRACT_SID , RS_NAME";
 
         String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as SALES_ACTUAL_SALES, \n"
-                + " sum(A.HISTORY_PROJECTION_SALES) as SALES_PROJECTION_SALES, \n"
+                + " 0 as SALES_PROJECTION_SALES, \n"
                 + " sum(A.ACTUAL_UNITS)as ACTUAL_UNITS, \n"
-                + " sum(A.HISTORY_PROJECTION_UNITS) as PROJECTION_UNITS \n"
-                + ",B.RS_CONTRACT_SID\n"
-                + ",RS_NAME"
+                + " 0 as PROJECTION_UNITS \n"
+                + ",B.RS_CONTRACT_SID \n"
+                + ",RS_NAME "
                 + " from #SELECTED_HIERARCHY_NO CCP"
                 + " INNER JOIN ST_NM_ACTUAL_SALES A ON \n "
-                + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
+                + "  A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
                 + " INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER B on B.CCP_DETAILS_SID=A.CCP_DETAILS_SID "
                 + " INNER JOIN RS_CONTRACT R\n"
                 + " ON R.RS_CONTRACT_SID=B.RS_CONTRACT_SID INNER JOIN "
@@ -3156,19 +3140,19 @@ public class NMProjectionResultsLogic {
         String futureQuery = selectClause + " 0 as SALES_ACTUAL_SALES, \n"
                 + " sum(A.PROJECTION_SALES) as SALES_PROJECTION_SALES, \n"
                 + " 0 as ACTUAL_UNITS, \n"
-                + " sum(A.PROJECTION_UNITS) as PROJECTION_UNITS \n"
-                + ",B.RS_CONTRACT_SID\n"
-                + ",RS_NAME"
-                + " from #SELECTED_HIERARCHY_NO CCP"
+                + " sum(A.PROJECTION_UNITS)  as PROJECTION_UNITS \n"
+                + ",B.RS_CONTRACT_SID \n"
+                + ", RS_NAME"
+                + "  from #SELECTED_HIERARCHY_NO CCP"
                 + " INNER JOIN ST_NM_SALES_PROJECTION A ON\n"
-                + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
+                + " A.CCP_DETAILS_SID =  CCP.CCP_DETAILS_SID "
                 + " INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER B on B.CCP_DETAILS_SID=A.CCP_DETAILS_SID "
-                + " INNER JOIN RS_CONTRACT R\n"
+                + " INNER  JOIN RS_CONTRACT R\n"
                 + " ON R.RS_CONTRACT_SID=B.RS_CONTRACT_SID INNER JOIN "
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(1);
-        String finalSelectClause = "select " + list.get(0) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES"
+        String finalSelectClause = "select  " + list.get(0) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES"
                 + ", Isnull(FUTURE.SALES_PROJECTION_SALES"
                 + ", HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES"
                 + ", Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) as ACTUAL_UNITS"
@@ -3176,76 +3160,76 @@ public class NMProjectionResultsLogic {
                 + ", Isnull(FUTURE.RS_CONTRACT_SID, HISTORY.RS_CONTRACT_SID) AS RS_CONTRACT_SID"
                 + ", ISNULL(FUTURE.RS_NAME, HISTORY.RS_NAME) AS DISCOUNTS  ";
 
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond +" AND history.RS_CONTRACT_SID=future.RS_CONTRACT_SID";
+        customQuery = finalSelectClause + Constant.FROM_SLASH_N + historyQuery + "\n) HISTORY FULL  OUTER JOIN  (\n" + futureQuery + "\n) FUTURE \n  " + finalWhereCond +" AND history.RS_CONTRACT_SID=future.RS_CONTRACT_SID";
 
         return customQuery;
     }
     
     public String getProjectionResultsPPASalesQuery(ProjectionSelectionDTO projSelDTO,Boolean period) {
-        String selectClause = " select ";
-        String groupBy = " I.\"YEAR\"\n" ;
-        String customQuery = StringUtils.EMPTY;
-        selectClause += "I.\"YEAR\" as YEARS, ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String groupBy = "  I.\"YEAR\"\n" ;
+        String customQuery;
+        selectClause += "I.\"YEAR\"  as YEARS, ";
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectClause += "I.QUARTER as PERIODS, \n";
-            groupBy += ", I.QUARTER";
+            selectClause += "I.QUARTER as  PERIODS, \n";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
             selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
-            groupBy += ", I.SEMI_ANNUAL";
+            groupBy += Constant.ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectClause += "'0' as PERIODS, \n";
+            selectClause += ZERO_AS_PERIODS_N;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
-            groupBy += ", I.\"MONTH\"";
+            selectClause += IMONTH_AS_PERIODS_SLASH;
+            groupBy += Constant.IMONTH;
         }
 
         // To filter the data according to selected period
-        String periodFilter = StringUtils.EMPTY;
+        String periodFilter;
         if(period){
-            periodFilter = " I.PERIOD_SID BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID ";
+            periodFilter = " I.PERIOD_SID BETWEEN  @START_PERIOD_SID AND @END_PERIOD_SID ";
         } else {
             periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
         }
 
-        String customSql = " \"PERIOD\" I ON I.PERIOD_SID = A.PERIOD_SID \n"
-                + " where \n"
+        String customSql = " \"PERIOD\" I  ON I.PERIOD_SID = A.PERIOD_SID \n"
+                + " where  \n"
                 + periodFilter
                 + " group by " + groupBy + " , B.RS_CONTRACT_SID , RS_NAME";
 
         String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as SALES_ACTUAL_SALES, \n"
-                + " sum(A.HISTORY_PROJECTION_SALES) as SALES_PROJECTION_SALES, \n"
-                + " sum(A.ACTUAL_UNITS)as ACTUAL_UNITS, \n"
-                + " sum(A.HISTORY_PROJECTION_UNITS) as PROJECTION_UNITS \n"
+                + " 0 as SALES_PROJECTION_SALES, \n"
+                + "  sum(A.ACTUAL_UNITS)as ACTUAL_UNITS, \n"
+                + " 0 as PROJECTION_UNITS \n"
                 + ",B.RS_CONTRACT_SID\n"
                 + ",RS_NAME"
-                + " from #SELECTED_HIERARCHY_NO CCP"
-                + " INNER JOIN ST_NM_ACTUAL_SALES A ON \n "
+                + " from #SELECTED_HIERARCHY_NO  CCP"
+                + " INNER JOIN  ST_NM_ACTUAL_SALES A ON \n "
                 + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
                 + " INNER JOIN ST_NM_PPA_PROJECTION_MASTER B on B.CCP_DETAILS_SID=A.CCP_DETAILS_SID"
-                + " INNER JOIN RS_CONTRACT R\n"
+                + " INNER JOIN  RS_CONTRACT R\n"
                 + "ON R.RS_CONTRACT_SID=B.RS_CONTRACT_SID INNER JOIN "
                 + customSql;
-        String futureQuery = selectClause + " 0 as SALES_ACTUAL_SALES, \n"
-                + " sum(A.PROJECTION_SALES) as SALES_PROJECTION_SALES, \n"
-                + " 0 as ACTUAL_UNITS, \n"
-                + " sum(A.PROJECTION_UNITS) as PROJECTION_UNITS \n"
+        String futureQuery = selectClause + " 0 as  SALES_ACTUAL_SALES, \n"
+                + "  sum(A.PROJECTION_SALES) as SALES_PROJECTION_SALES, \n"
+                + " 0 as ACTUAL_UNITS,  \n"
+                + " sum(A.PROJECTION_UNITS) as  PROJECTION_UNITS \n"
                 + ",B.RS_CONTRACT_SID\n"
                 + ",RS_NAME"
-                + " from #SELECTED_HIERARCHY_NO CCP"
-                + " INNER JOIN ST_NM_SALES_PROJECTION A ON\n"
+                + " from  #SELECTED_HIERARCHY_NO CCP"
+                + "  INNER JOIN ST_NM_SALES_PROJECTION A ON\n"
                 + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID "
                 + " INNER JOIN ST_NM_PPA_PROJECTION_MASTER B on B.CCP_DETAILS_SID=A.CCP_DETAILS_SID "
                 + " INNER JOIN RS_CONTRACT R\n"
-                + " ON R.RS_CONTRACT_SID=B.RS_CONTRACT_SID INNER JOIN "
+                + " ON R.RS_CONTRACT_SID=B.RS_CONTRACT_SID INNER  JOIN "
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(1);
-        String finalSelectClause = "select " + list.get(0) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES"
+        String finalSelectClause = "  select " + list.get(0) + "\n Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) as SALES_ACTUAL_SALES"
                 + ", Isnull(FUTURE.SALES_PROJECTION_SALES"
                 + ", HISTORY.SALES_PROJECTION_SALES) as SALES_PROJECTION_SALES"
                 + ", Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) as ACTUAL_UNITS"
@@ -3253,14 +3237,14 @@ public class NMProjectionResultsLogic {
                 + ", Isnull(FUTURE.RS_CONTRACT_SID, HISTORY.RS_CONTRACT_SID) AS RS_CONTRACT_SID"
                 + ", ISNULL(FUTURE.RS_NAME, HISTORY.RS_NAME) AS DISCOUNTS  ";
 
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond + " AND HISTORY.RS_CONTRACT_SID = FUTURE.RS_CONTRACT_SID";
+        customQuery = finalSelectClause + Constant.FROM_SLASH_N + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE  \n" + finalWhereCond + " AND HISTORY.RS_CONTRACT_SID = FUTURE.RS_CONTRACT_SID";
 
         return customQuery;
     }
 
     public String getProjectionResultsPPAPerQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
         List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.PPA_SMALL, "SALE", "on");
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
@@ -3269,13 +3253,13 @@ public class NMProjectionResultsLogic {
                 + " PROJECTION_RATE=Isnull(PPA.PROJECTION_SALES / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO,false);
-        customQuery = selectClause + " from (\n" + ppaQuery + "\n) PPA LEFT JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + Constant.FROM_SLASH_N + ppaQuery + "\n) PPA LEFT JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
         return customQuery;
     }
 
     public String getProjectionResultsPPARPU(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
         List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.PPA_SMALL, "SALE", "on");
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
@@ -3284,17 +3268,17 @@ public class NMProjectionResultsLogic {
                 + "       ,PPA_PROJECTED_RPU=(Isnull(PPA.PPA_PROJECTED_RPU / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0))";
         String ppaQuery = getProjectionResultsPPARPUQuery(projSelDTO);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO,false);
-        customQuery = selectClause + " from (\n" + ppaQuery +"and history.ppa_DISCOUNTS=future.ppa_DISCOUNTS"+ "\n)  PPA LEFT JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + Constant.FROM_SLASH_N + ppaQuery +"and history.ppa_DISCOUNTS=future.ppa_DISCOUNTS"+ "\n)  PPA LEFT JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
         return customQuery;
     }
 
     public String getProjectionResultsTotalDiscountDolQuery(ProjectionSelectionDTO projSelDTO) {
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
         if (projSelDTO.isPpa()) {
-            String selectClause = " select ";
+            String selectClause = Constant.SELECT_SMALL_SPACE;
 
-            List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", Constant.PPA_SMALL, "on");
+            List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, Constant.PPA_SMALL, "on");
             selectClause += list.get(0);
             String finalWhereCond = list.get(1);
             selectClause += "'Total Discount $' as DISCOUNTS, \n";
@@ -3302,7 +3286,7 @@ public class NMProjectionResultsLogic {
                     + "  PROJECTION_SALES=Isnull(TODIS.PROJECTION_SALES, 0)+Isnull(PPA.PROJECTION_SALES, 0) \n";
 
             String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-            customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond;
+            customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN  (\n" + ppaQuery + "\n) PPA  \n" + finalWhereCond;
 
         } else {
             customQuery = totalDiscountQuery;
@@ -3311,9 +3295,9 @@ public class NMProjectionResultsLogic {
     }
 
     public String getProjectionResultsDiscountsPerQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", "on");
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", "on");
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "TODIS.DISCOUNTS, \n";
@@ -3321,30 +3305,30 @@ public class NMProjectionResultsLogic {
                 + " PROJECTION_RATE=Isnull(TODIS.PROJECTION_SALES / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO,false);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS LEFT JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond + "\n order by TODIS.DISCOUNTS";
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS LEFT JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond + "\n order by TODIS.DISCOUNTS";
         return customQuery;
     }
 
     public String getProjectionResultsTotalDiscountPerQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", true);
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on", true);
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "'Total Discount %' as DISCOUNTS, \n";
         selectClause += " ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)";
 
-            selectClause += "+Isnull(PPA.ACTUAL_SALES, 0)";
+            selectClause += "+Isnull( PPA.ACTUAL_SALES, 0)";
         selectClause += ") / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100,\n PROJECTION_RATE=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)";
-            selectClause += "+Isnull(PPA.PROJECTION_SALES, 0)";
+            selectClause += "+Isnull(PPA.PROJECTION_SALES, 0) ";
 
         selectClause += ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO,false);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n)  TODIS FULL OUTER JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
             String finalWhereCond1 = list.get(NumericConstants.TWO);
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
+            customQuery += " FULL OUTER JOIN  (\n" + ppaQuery + "\n) PPA \n " + finalWhereCond1;
 
         return customQuery;
     }
@@ -3361,17 +3345,17 @@ public class NMProjectionResultsLogic {
         
         
         
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", true);
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on", true);
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "'Net Sales' as NETSALES, \n";
         selectClause += " ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)";
 
-            selectClause += "+Isnull(PPA.ACTUAL_SALES, 0)";
+            selectClause += "+Isnull(PPA.ACTUAL_SALES , 0)";
         selectClause += ")),\n PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)";
-            selectClause += "+Isnull(PPA.PROJECTION_SALES, 0)";
+            selectClause += "+Isnull(PPA.PROJECTION_SALES, 0) ";
 
         selectClause += ")) \n";
         selectClause += " ,'Net Sales % of Ex-factory' as NETSALES_EX_FACTORY,\n"
@@ -3381,57 +3365,57 @@ public class NMProjectionResultsLogic {
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO,false);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS  FULL OUTER JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
 
             String finalWhereCond1 = list.get(NumericConstants.TWO);
             
            String newjoin = "\n FULL OUTER JOIN \n"
                 + " (select i.YEAR YEARS" + getselectedFrequencyPeriod(projSelDTO) +",sum(fd.EXFACTORY_ACTUAL_SALES) EXFACTORY_ACTUAL,sum(coalesce(fd.EXFACTORY_FORECAST_SALES,fd.EXFACTORY_ACTUAL_SALES)) EXFACTORY_FORECAST from "
-                + projSelDTO.getSessionDTO().getCurrentTableNames().get("ST_PRODUCT_FILE") + " fd join period I on I.PERIOD_SID=fd.period_sid \n"
+                + projSelDTO.getSessionDTO().getCurrentTableNames().get(Constant.ST_PRODUCT_FILE) + " fd join period I on I.PERIOD_SID=fd.period_sid \n"
                 + "where exists (select 1 from #SELECTED_HIERARCHY_NO s join ccp_details c on s.ccp_details_Sid=c.ccp_details_sid \n"
                 + " where c.item_master_sid=fd.item_master_sid) \n"
-                + " and  PERIOD_DATE BETWEEN ('"+startDate+"') and ('"+endDate+"') group by  I.\"YEAR\" \n"
+                + " and  PERIOD_DATE BETWEEN ('"+startDate+"')  and  ('"+endDate+"') group by  I.\"YEAR\" \n"
                 + getselectedFrequency(projSelDTO) + " ) file_data     on    file_data.YEARS = SALE.YEARS \n"
                 + " AND file_data.PERIODS = SALE.PERIODS \n"; 
            
            
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1 + newjoin;
+            customQuery += " FULL OUTER JOIN  (\n" + ppaQuery + " \n) PPA \n" + finalWhereCond1 + newjoin;
         return customQuery;
     }
 
     public String getCostQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
-                + "     DROP TABLE #TEMP_CCP;\n"
-                + "CREATE TABLE #TEMP_CCP (\n"
+        String selectClause = "  IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
+                + "    DROP TABLE #TEMP_CCP;\n"
+                + "CREATE  TABLE #TEMP_CCP (\n"
                 + "     COMPANY_MASTER_SID INT\n"
-                + "     , CONTRACT_MASTER_SID INT\n"
-                + "     , ITEM_MASTER_SID INT\n"
+                + "     , CONTRACT_MASTER_SID INT \n"
+                + "     , ITEM_MASTER_SID INT  \n"
                 + "     , PROJECTION_DETAILS_SID INT \n"
                 + "     , PROJECTION_MASTER_SID INT\n"
                 + "     )\n"
-                + "INSERT INTO #TEMP_CCP (\n"
-                + "     COMPANY_MASTER_SID\n"
-                + "     , CONTRACT_MASTER_SID\n"
-                + "     , ITEM_MASTER_SID\n"
+                + "INSERT INTO #TEMP_CCP ( \n "
+                + "       COMPANY_MASTER_SID \n "
+                + "     , CONTRACT_MASTER_SID \n"
+                + "     , ITEM_MASTER_SID \n"
                 + "     , PROJECTION_DETAILS_SID\n"
                 + "     , PROJECTION_MASTER_SID\n"
-                + "     )\n"
-                + "SELECT C.COMPANY_MASTER_SID\n"
-                + "     , C.CONTRACT_MASTER_SID\n"
-                + "     , C.ITEM_MASTER_SID\n"
+                + "    )\n"
+                + "SELECT C.COMPANY_MASTER_SID \n"
+                + "     , C.CONTRACT_MASTER_SID \n"
+                + "     , C.ITEM_MASTER_SID \n"
                 + "     , PD.PROJECTION_DETAILS_SID\n"
                 + "     , pm.PROJECTION_MASTER_SID\n"
-                + "FROM \n"
+                + " FROM  \n"
                 + "      CCP_DETAILS C\n"
                 + "     , PROJECTION_DETAILS PD\n"
                 + "     , PROJECTION_MASTER PM\n"
-                + "WHERE PD.CCP_DETAILS_SID = C.CCP_DETAILS_SID\n"
+                + "WHERE PD.CCP_DETAILS_SID = C.CCP_DETAILS_SID \n"
                 + "     AND PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID\n"
                 + "     AND PM.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
                 + "	 and EXISTS (SELECT 1 FROM \n"
                 + "	 @CCP CCP WHERE CCP.CCP_DETAILS_SID = C.CCP_DETAILS_SID)"
                 + "DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
-                + "INSERT INTO @ITEMID\n"
+                + "INSERT INTO @ITEMID \n"
                 + "SELECT IM.ITEM_MASTER_SID\n"
                 + "FROM ITEM_MASTER IM\n"
                 + "WHERE EXISTS (\n"
@@ -3440,9 +3424,9 @@ public class NMProjectionResultsLogic {
                 + "            WHERE PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
                 + "                   AND IM.ITEM_MASTER_SID = A.ITEM_MASTER_SID\n"
                 + "            ) ";
-        selectClause += " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
+        selectClause += Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "COGS_ACTUAL = ISNULL(SALE.COGS_ACTUAL, 0)\n"
@@ -3457,10 +3441,10 @@ public class NMProjectionResultsLogic {
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String cogsQuery = getProjectionResultsCOGSQuery(projSelDTO);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + cogsQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL  OUTER JOIN (\n" + cogsQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
 
             String finalWhereCond1 = list.get(NumericConstants.TWO);
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
+            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n)  PPA  \n" + finalWhereCond1;
         return customQuery;
     }
    
@@ -3477,20 +3461,20 @@ public class NMProjectionResultsLogic {
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
             selectedPeriod += "P.QUARTER as PERIODS, \n";
             groupBy += ", P.QUARTER";
-            groupQuery += ", PERIODS";
+            groupQuery += Constant.PERIODS_QUOTE;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
             selectedPeriod += "P.SEMI_ANNUAL as PERIODS, \n";
             groupBy += ", P.SEMI_ANNUAL";
-            groupQuery += ", PERIODS";
+            groupQuery += Constant.PERIODS_QUOTE;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectedPeriod += "'0' as PERIODS,\n ";
+            selectedPeriod += Constant.AS_PERIODS_SLASH_N;
             groupBy += StringUtils.EMPTY;
-            groupQuery += ", PERIODS";
+            groupQuery += Constant.PERIODS_QUOTE;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
             selectedPeriod += "P.\"MONTH\" as PERIODS, \n";
             groupBy += ", P.\"MONTH\"";
-            groupQuery += ", PERIODS";
+            groupQuery += Constant.PERIODS_QUOTE;
         }
 
         String query
@@ -3522,7 +3506,7 @@ public class NMProjectionResultsLogic {
                 + " \n"
                 + "  DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
                 + " \n"
-                + "INSERT INTO @ITEMID\n"
+                + "INSERT INTO  @ITEMID\n"
                 + "SELECT DISTINCT IM.ITEM_MASTER_SID\n"
                 + "FROM   ITEM_MASTER IM\n"
                 + " \n"
@@ -3543,10 +3527,10 @@ public class NMProjectionResultsLogic {
                 + "                                         \n" + selectedPeriod
                 + "                                         'Total Discount $'             AS DISCOUNTS,\n"
                 + "                                         Sum(A.ACTUAL_SALES)            AS ACTUAL_SALES,\n"
-                + "                                         Sum(A.ACTUAL_PROJECTION_SALES) AS PROJECTION_SALES\n"
+                + "                                         0 AS PROJECTION_SALES\n"
                 + "                                  FROM   #TEMP_CCP T\n"
                 + "                                  JOIN  ST_NM_ACTUAL_DISCOUNT A ON A.CCP_DETAILS_SID = T.CCP_DETAILS_SID\n"
-                + "                                  JOIN   PERIOD P ON P.PERIOD_SID = A.PERIOD_SID\n"
+                + "                              JOIN   PERIOD P ON P.PERIOD_SID = A.PERIOD_SID\n"
                 + "                                  JOIN   #SELECTED_HIERARCHY_NO CCP ON T.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 +"                                   INNER JOIN RS_CONTRACT R\n" +
                                                      " ON A.RS_CONTRACT_SID = R.RS_CONTRACT_SID\n" +
@@ -3562,7 +3546,7 @@ public class NMProjectionResultsLogic {
                 + "                                         Sum(A.PROJECTION_SALES) AS PROJECTION_SALES\n"
                 + "                                  FROM   #TEMP_CCP T\n"
                 + "                                  JOIN  ST_NM_DISCOUNT_PROJECTION A ON A.CCP_DETAILS_SID = T.CCP_DETAILS_SID\n"
-                + "                                  JOIN   PERIOD P ON P.PERIOD_SID = A.PERIOD_SID\n"
+                + "                                JOIN   PERIOD P ON P.PERIOD_SID = A.PERIOD_SID\n"
                 + "                                  JOIN  #SELECTED_HIERARCHY_NO CCP ON T.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 +"                                   INNER JOIN RS_CONTRACT R\n" +
                  "                                   ON A.RS_CONTRACT_SID = R.RS_CONTRACT_SID\n" +
@@ -3584,16 +3568,16 @@ public class NMProjectionResultsLogic {
                 + "                 FROM      (SELECT YEARS,\n"
                 + "                                   PERIODS,\n"
                 + "                                   Sum(A.ACTUAL_SALES)             AS SALES_ACTUAL_SALES,\n"
-                + "                                   Sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES,\n"
+                + "                                   0 AS SALES_PROJECTION_SALES,\n"
                 + "                                   Sum(A.ACTUAL_UNITS)             AS ACTUAL_UNITS,\n"
-                + "                                   Sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS,\n"
+                + "                                   0 AS PROJECTION_UNITS,\n"
                 + "                                   Sum(COGS_ACTUAL)                AS COGS_ACTUAL\n"
                 + "                            FROM   (SELECT \n" + selectedPeriod
                 + "                                           \n"
                 + "                                           A.ACTUAL_SALES,\n"
-                + "                                           A.HISTORY_PROJECTION_SALES,\n"
+                + "                                           0 as HISTORY_PROJECTION_SALES,\n"
                 + "                                           A.ACTUAL_UNITS,\n"
-                + "                                           A.HISTORY_PROJECTION_UNITS,\n"
+                + "                                           0 as HISTORY_PROJECTION_UNITS,\n"
                 + "                                           COGS_ACTUAL = ( ISNULL(A.ACTUAL_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0) )\n"
                 + "                                    FROM   #TEMP_CCP T\n"
                 + "                                    JOIN  ST_NM_ACTUAL_SALES A ON A.CCP_DETAILS_SID = T.CCP_DETAILS_SID\n"
@@ -3635,30 +3619,30 @@ public class NMProjectionResultsLogic {
                 + "                                 ISNULL(HISTORY.PPA_ACTUAL_RPU, 0)                         AS PPA_ACTUAL_RPU,\n"
                 + "                                 ISNULL(FUTURE.PPA_PROJECTED_RPU, 0)                       AS PPA_PROJECTED_RPU\n"
                 + "                 FROM            (SELECT \n" + selectedPeriod
-                + "                                         \n"
+                + "                                       \n"
                 + "                                         'PPA Discount'                 AS DISCOUNTS,\n"
                 + "                                         Sum(A.ACTUAL_DISCOUNT_DOLLAR)  AS ACTUAL_SALES,\n"
-                + "                                         Sum(A.ACTUAL_PROJECTION_SALES) AS PROJECTION_SALES,\n"
-                + "                                         Sum(A.ACTUAL_PROJECTION_RATE)  AS PPA_ACTUAL_RPU\n"
-                + "                                  FROM   #TEMP_CCP T\n"
+                + "                                         0 AS PROJECTION_SALES,\n"
+                + "                                         0  AS PPA_ACTUAL_RPU\n"
+                + "                                 FROM   #TEMP_CCP T\n"
                 + "                                  JOIN  ST_NM_ACTUAL_PPA A ON A.CCP_DETAILS_SID = T.CCP_DETAILS_SID\n"
                 + "                                  JOIN   PERIOD P ON P.PERIOD_SID = A.PERIOD_SID\n"
-                + "                                  JOIN   #SELECTED_HIERARCHY_NO CCP ON T.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + "                    JOIN   #SELECTED_HIERARCHY_NO CCP ON T.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "                                  WHERE P.PERIOD_SID BETWEEN @START_SID AND @END_SID\n" 
-                + "                                  GROUP  BY \n" + groupBy
+                + "             GROUP  BY \n" + groupBy
                 + "                                            ) HISTORY\n"
                 + "                 FULL OUTER JOIN (SELECT \n" + selectedPeriod
-                + "                                         \n"
+                + "                               \n"
                 + "                                         'PPA Discount'                    AS DISCOUNTS,\n"
                 + "                                         0                                 AS ACTUAL_SALES,\n"
                 + "                                         Sum(A.PROJECTION_DISCOUNT_DOLLAR) AS PROJECTION_SALES,\n"
                 + "                                         Sum(A.PROJECTION_RATE)            AS PPA_PROJECTED_RPU\n"
-                + "                                  FROM   #TEMP_CCP T\n"
+                + "                          FROM   #TEMP_CCP T\n"
                 + "                                  JOIN  ST_NM_PPA_PROJECTION A ON A.CCP_DETAILS_SID = T.CCP_DETAILS_SID\n"
                 + "                                  JOIN   PERIOD P ON P.PERIOD_SID = A.PERIOD_SID\n"
-                + "                                  JOIN   #SELECTED_HIERARCHY_NO CCP ON T.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
+                + "                        JOIN   #SELECTED_HIERARCHY_NO CCP ON T.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "                                  WHERE  P.PERIOD_SID BETWEEN @START_SID AND @END_SID\n" 
-                + "                                  GROUP  BY \n" + groupBy
+                + "                             GROUP  BY \n" + groupBy
                 + "                                           ) FUTURE ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + "                                                             AND HISTORY.PERIODS = FUTURE.PERIODS) PPA ON TODIS.YEARS = PPA.YEARS\n"
                 + "                                                                                                      AND TODIS.PERIODS = PPA.PERIODS";
@@ -3667,29 +3651,29 @@ public class NMProjectionResultsLogic {
     }
 
     public String getNetProfitQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
+        String selectClause = " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT  NULL\n"
                 + "     DROP TABLE #TEMP_CCP;\n"
-                + "CREATE TABLE #TEMP_CCP (\n"
+                + " CREATE TABLE #TEMP_CCP (\n"
                 + "     COMPANY_MASTER_SID INT\n"
                 + "     , CONTRACT_MASTER_SID INT\n"
                 + "     , ITEM_MASTER_SID INT\n"
                 + "     , PROJECTION_DETAILS_SID INT PRIMARY KEY\n"
                 + "     , PROJECTION_MASTER_SID INT\n"
-                + "     )\n"
+                + "   )\n"
                 + "INSERT INTO #TEMP_CCP (\n"
-                + "     COMPANY_MASTER_SID\n"
+                + " COMPANY_MASTER_SID\n"
                 + "     , CONTRACT_MASTER_SID\n"
                 + "     , ITEM_MASTER_SID\n"
                 + "     , PROJECTION_DETAILS_SID\n"
                 + "     , PROJECTION_MASTER_SID\n"
-                + "     )\n"
-                + "SELECT C.COMPANY_MASTER_SID\n"
+                + "    )\n"
+                + " SELECT C.COMPANY_MASTER_SID\n"
                 + "     , C.CONTRACT_MASTER_SID\n"
                 + "     , C.ITEM_MASTER_SID\n"
                 + "     , PD.PROJECTION_DETAILS_SID\n"
                 + "     , pm.PROJECTION_MASTER_SID\n"
-                + "FROM \n"
-                + "      CCP_DETAILS C\n"
+                + " FROM \n"
+                + "    CCP_DETAILS C\n"
                 + "     , PROJECTION_DETAILS PD\n"
                 + "     , PROJECTION_MASTER PM\n"
                 + "WHERE PD.CCP_DETAILS_SID = C.CCP_DETAILS_SID\n"
@@ -3697,7 +3681,7 @@ public class NMProjectionResultsLogic {
                 + "     AND PM.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
                 + "	 and EXISTS (SELECT 1 FROM \n"
                 + "	 @CCP CCP WHERE CCP.CCP_DETAILS_SID = C.CCP_DETAILS_SID)"
-                + "DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
+                + " DECLARE @ITEMID [DBO].[UDT_ITEM] \n "
                 + "INSERT INTO @ITEMID\n"
                 + "SELECT IM.ITEM_MASTER_SID\n"
                 + "FROM ITEM_MASTER IM\n"
@@ -3707,9 +3691,9 @@ public class NMProjectionResultsLogic {
                 + "            WHERE PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
                 + "                   AND IM.ITEM_MASTER_SID = A.ITEM_MASTER_SID\n"
                 + "            ) ";
-        selectClause += " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
+        selectClause += Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "'Cost Of Goods Sold' as COGS, \n";
@@ -3720,11 +3704,11 @@ public class NMProjectionResultsLogic {
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO,false);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         String cogsQuery = getProjectionResultsCOGSQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond + "\n";
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL OUTER  JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond + "\n";
         customQuery += " FULL OUTER JOIN (" + cogsQuery;
 
             String finalWhereCond1 = list.get(NumericConstants.TWO);
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
+            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n " + finalWhereCond1;
         return customQuery;
     }
 
@@ -3739,33 +3723,33 @@ public class NMProjectionResultsLogic {
                 + String.format("%02d", projSelDTO.getStartDay());
         
         projSelDTO.setIsTotal(true);
-        String selectClause = " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
+        String selectClause = " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U')  IS NOT NULL\n"
                 + "     DROP TABLE #TEMP_CCP;\n"
                 + "CREATE TABLE #TEMP_CCP (\n"
-                + "     COMPANY_MASTER_SID INT\n"
+                + "   COMPANY_MASTER_SID INT\n"
                 + "     , CONTRACT_MASTER_SID INT\n"
                 + "     , ITEM_MASTER_SID INT\n"
                 + "     )\n"
-                + "INSERT INTO #TEMP_CCP (\n"
-                + "     COMPANY_MASTER_SID\n"
+                + "INSERT INTO #TEMP_CCP  (\n"
+                + "  COMPANY_MASTER_SID\n"
                 + "     , CONTRACT_MASTER_SID\n"
                 + "     , ITEM_MASTER_SID\n"
-                + "     )\n"
-                + "SELECT C.COMPANY_MASTER_SID\n"
+                + "     ) \n"
+                + "SELECT C.COMPANY_MASTER_SID\n "
                 + "     , C.CONTRACT_MASTER_SID\n"
                 + "     , C.ITEM_MASTER_SID\n"
                 + "FROM \n"
-                + "      CCP_DETAILS C\n"
+                + "      CCP_DETAILS  C\n"
                 + " WHERE EXISTS (SELECT 1 FROM #SELECTED_HIERARCHY_NO S WHERE S.CCP_DETAILS_SID=C.CCP_DETAILS_SID)\n"
-                + "DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
-                + "INSERT INTO @ITEMID\n"
+                + "DECLARE @ITEMID [DBO].[UDT_ITEM] \n "
+                + "INSERT INTO   @ITEMID  \n"
                 + "SELECT DISTINCT IM.ITEM_MASTER_SID\n"
-                + "FROM ITEM_MASTER IM\n";
+                + "FROM  ITEM_MASTER IM\n";
                 
         
         selectClause += "\n select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", true);
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on", true);
 
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
@@ -3810,20 +3794,20 @@ public class NMProjectionResultsLogic {
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         String totalDiscountLevelQuery = getProjectionResultsPivotTotalDiscountsQuery(projSelDTO);
 
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond + " \n";
-        customQuery += " FULL OUTER JOIN (\n" + totalDiscountLevelQuery + "\n ) DIS_SALE ON TODIS.YEARS = DIS_SALE.YEARS\n"
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n " + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond + " \n";
+        customQuery += " FULL OUTER  JOIN (\n" + totalDiscountLevelQuery + "\n ) DIS_SALE ON TODIS.YEARS = DIS_SALE.YEARS\n"
                 + "       AND TODIS.PERIODS = DIS_SALE.PERIODS";
-        customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n ON PPA.YEARS = SALE.YEARS\n"
+        customQuery += " FULL OUTER  JOIN (\n" + ppaQuery + "\n) PPA \n ON PPA.YEARS = SALE.YEARS\n"
                 + "		AND PPA.PERIODS = SALE.PERIODS \n"
                 + "		FULL OUTER JOIN \n"
                 + "		(select i.YEAR YEARS" + getselectedFrequencyPeriod(projSelDTO) +",sum(fd.EXFACTORY_ACTUAL_SALES) EXFACTORY_ACTUAL,sum(fd.EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST from \n"
-                + projSelDTO.getSessionDTO().getCurrentTableNames().get("ST_PRODUCT_FILE") + "  fd join period I on I.PERIOD_SID=fd.period_sid \n"
-                + "	and  PERIOD_DATE BETWEEN ('"+startDate+"') and ('"+endDate+"') "
+                + projSelDTO.getSessionDTO().getCurrentTableNames().get(Constant.ST_PRODUCT_FILE) + "  fd join period I on I.PERIOD_SID=fd.period_sid \n"
+                + "   and  PERIOD_DATE BETWEEN ('"+startDate+"')  and  ('"+endDate+"') "
                 + " where exists (select * from #TEMP_CCP tc where tc.item_master_sid=fd.item_master_sid )"
                 + " group by  I.\"YEAR\"\n"   
                 + getselectedFrequency(projSelDTO) + " ) file_data     on    file_data.YEARS = SALE.YEARS \n"  
                 + "	AND file_data.PERIODS = SALE.PERIODS\n";
-        customQuery += " order by " + orderBy;
+        customQuery += " order by  " + orderBy;
 
         return customQuery;
     }
@@ -3831,90 +3815,90 @@ public class NMProjectionResultsLogic {
     public String getProjectionResultsReturnsQuery(ProjectionSelectionDTO projSelDTO) {
         String selectPeriod = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectPeriod = ", I.QUARTER AS PERIODS";
+            selectPeriod = Constant.IQUARTER_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectPeriod = ", I.SEMI_ANNUAL AS PERIODS";
+            selectPeriod = Constant.ISEMI_ANNUAL_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectPeriod = ",'0' AS  PERIODS";
+            selectPeriod = Constant.ZERO_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectPeriod = ", I.MONTH AS PERIODS";
+            selectPeriod = Constant.IMONTH_AS_PERIODS;
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
 
-        String customQuery = "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
-                + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS\n"
-                + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
-                + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "              , Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
-                + "              , Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
+        String customQuery = "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS \n"
+                + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS \n"
+                + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES \n"
+                + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES \n"
+                + "              , Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) AS ACTUAL_UNITS \n"
+                + "              , Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) AS PROJECTION_UNITS \n"
                 + "              , Isnull(HISTORY.COGS_ACTUAL, 0) AS COGS_ACTUAL\n"
                 + "              , Isnull(FUTURE.COGS_PROJECTED, 0) AS COGS_PROJECTED\n"
-                + "       FROM (\n"
-                + "              SELECT YEARS\n"
-                + "                     , PERIODS\n"
-                + "                     , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
-                + "                     , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "                     , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
-                + "                     , sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS\n"
-                + "                     , SUM(COGS_ACTUAL) AS COGS_ACTUAL\n"
-                + "                     FROM\n"
-                + "                     (SELECT I.\"YEAR\" AS YEARS\n"
-                + "                     " + selectPeriod + "\n"
-                + "                     , A.ACTUAL_SALES\n"
-                + "                     , A.HISTORY_PROJECTION_SALES\n"
-                + "                     , A.ACTUAL_UNITS\n"
-                + "                     , A.HISTORY_PROJECTION_UNITS\n"
+                + "       FROM (\n "
+                + "              SELECT YEARS\n "
+                + "                     , PERIODS \n "
+                + "                     , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES \n "
+                + "                     , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES \n "
+                + "                     , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS \n "
+                + "                     , sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS \n "
+                + "                     , SUM(COGS_ACTUAL) AS COGS_ACTUAL\n "
+                + "                     FROM\n "
+                + "                     (SELECT I.\"YEAR\" AS YEARS\n "
+                + "                    " + selectPeriod + "\n"
+                + "                     , A.ACTUAL_SALES \n"
+                + "                     , 0 as HISTORY_PROJECTION_SALES \n"
+                + "                     , A.ACTUAL_UNITS \n"
+                + "                     , 0 as HISTORY_PROJECTION_UNITS \n"
                 + "                     , COGS_ACTUAL = (ISNULL(A.ACTUAL_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0))\n"
                 + "              FROM ST_NM_ACTUAL_SALES A\n"
-                + "                     INNER JOIN PERIOD I\n"
-                + "                           ON A.PERIOD_SID = I.PERIOD_SID\n"
+                + "                INNER JOIN PERIOD I\n"
+                + "          ON A.PERIOD_SID = I.PERIOD_SID\n"
                 + "                     INNER JOIN #SELECTED_HIERARCHY_NO CCP\n"
                 + "                           ON  CCP.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
-                + "                     INNER JOIN CCP_DETAILS CC\n"
+                + "              INNER JOIN CCP_DETAILS CC\n"
                 + "                           ON CC.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
-                + "                                  AND A.PERIOD_SID = I.PERIOD_SID\n"
+                + "                                 AND A.PERIOD_SID = I.PERIOD_SID\n"
 
                 + "                     INNER JOIN [DBO].[UDF_ITEM_PRICING](@ITEMID, 'COGS', @START_PERIOD_SID, @END_PERIOD_SID, 'EACH') U\n"
                 + "                           ON U.ITEM_MASTER_SID = CC.ITEM_MASTER_SID\n"
                 + "                                  AND A.PERIOD_SID = U.PERIOD_SID\n"
                 + "                     WHERE A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND " + periodFilter + "\n"
                 + "                     ) A\n"
-                + "              GROUP BY YEARS\n"
-                + "                     , PERIODS\n"
-                + "              ) HISTORY\n"
-                + "       FULL JOIN (\n"
-                + "              SELECT YEARS\n"
-                + "                     , PERIODS\n"
-                + "                     , 0 AS SALES_ACTUAL_SALES\n"
-                + "                     , sum(P.PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "                     , 0 AS ACTUAL_UNITS\n"
-                + "                     , sum(P.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
+                + "              GROUP  BY YEARS\n"
+                + Constant.PERIODS_SPACE_QUERY
+                + "              ) HISTORY \n"
+                + "        FULL JOIN (\n"
+                + "          SELECT YEARS\n"
+                + Constant.PERIODS_SPACE_QUERY
+                + "                     , 0 AS SALES_ACTUAL_SALES \n"
+                + "                     , sum(P.PROJECTION_SALES) AS SALES_PROJECTION_SALES \n"
+                + "                     , 0 AS ACTUAL_UNITS \n"
+                + "                     , sum(P.PROJECTION_UNITS) AS PROJECTION_UNITS \n"
                 + "                     , SUM(COGS_PROJECTED) AS COGS_PROJECTED\n"
-                + "              FROM (\n"
-                + "                     SELECT I.\"YEAR\" AS YEARS\n"
-                + "                           " + selectPeriod + "\n"
-                + "                           , A.PROJECTION_SALES\n"
-                + "                           , A.PROJECTION_UNITS\n"
+                + "          FROM (\n"
+                + "    SELECT I.\"YEAR\" AS YEARS\n"
+                + "                    " + selectPeriod + "\n"
+                + "                           , A.PROJECTION_SALES \n"
+                + "                           , A.PROJECTION_UNITS \n"
                 + "                           , COGS_PROJECTED = (ISNULL(A.PROJECTION_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0))\n"
                 + "                     FROM ST_NM_SALES_PROJECTION A\n"
-                + "                     INNER JOIN PERIOD I\n"
-                + "                           ON A.PERIOD_SID = I.PERIOD_SID\n"
+                + "                       INNER JOIN PERIOD I\n"
+                + "                           ON A.PERIOD_SID =  I.PERIOD_SID\n"
                 + "                     INNER JOIN #SELECTED_HIERARCHY_NO CCP\n"
                 + "                             ON  CCP.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
-                + "                     INNER JOIN CCP_DETAILS CC\n"
+                + "                    INNER JOIN CCP_DETAILS CC\n"
                 + "                           ON CC.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
-                + "                                  AND A.PERIOD_SID = I.PERIOD_SID\n"
+                + "             AND A.PERIOD_SID = I.PERIOD_SID\n"
 
                 + "                     INNER JOIN [DBO].[UDF_ITEM_PRICING](@ITEMID, 'COGS', @START_PERIOD_SID, @END_PERIOD_SID, 'EACH') U\n"
                 + "                           ON U.ITEM_MASTER_SID = CC.ITEM_MASTER_SID\n"
                 + "                                  AND A.PERIOD_SID = U.PERIOD_SID\n"
                 + "                     WHERE  A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND " + periodFilter + "\n"
                 + "                     ) P\n"
-                + "              GROUP BY YEARS\n"
-                + "                     , PERIODS\n"
-                + "              ) FUTURE\n"
-                + "              ON HISTORY.YEARS = FUTURE.YEARS\n"
+                + "            GROUP BY YEARS\n"
+                + Constant.PERIODS_SPACE_QUERY
+                + "              ) FUTURE \n"
+                + "              ON HISTORY.YEARS = FUTURE.YEARS \n"
                 + "                     AND HISTORY.PERIODS = FUTURE.PERIODS";
         return customQuery;
     }
@@ -3922,80 +3906,80 @@ public class NMProjectionResultsLogic {
     public String getProjectionResultsPivotTotalDiscountsQuery(ProjectionSelectionDTO projSelDTO) {
         String selectPeriod = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectPeriod = ", I.QUARTER AS PERIODS";
+            selectPeriod = Constant.IQUARTER_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectPeriod = ", I.SEMI_ANNUAL AS PERIODS";
+            selectPeriod = Constant.ISEMI_ANNUAL_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectPeriod = ",'0' AS  PERIODS";
+            selectPeriod = Constant.ZERO_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectPeriod = ", I.MONTH AS PERIODS";
+            selectPeriod = Constant.IMONTH_AS_PERIODS;
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
 
         String customQuery = "SELECT Isnull(HISTORY.YEARS, FUTURE.YEARS) AS YEARS\n"
-                + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS\n"
-                + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
-                + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "              , Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
-                + "              , Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
+                + "              , Isnull(HISTORY.PERIODS, FUTURE.PERIODS) AS PERIODS \n"
+                + "              , Isnull(HISTORY.SALES_ACTUAL_SALES, FUTURE.SALES_ACTUAL_SALES) AS SALES_ACTUAL_SALES \n"
+                + "              , Isnull(FUTURE.SALES_PROJECTION_SALES, HISTORY.SALES_PROJECTION_SALES) AS SALES_PROJECTION_SALES \n"
+                + "              , Isnull(HISTORY.ACTUAL_UNITS, FUTURE.ACTUAL_UNITS) AS ACTUAL_UNITS \n"
+                + "              , Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) AS PROJECTION_UNITS \n"
                 + "       FROM (\n"
-                + "              SELECT YEARS\n"
-                + "                     , PERIODS\n"
-                + "                     , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
-                + "                     , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
+                + "             SELECT YEARS\n"
+                + Constant.PERIODS_SPACE_QUERY
+                + "                 , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
+                + "                   , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
                 + "                     , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
-                + "                     , sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS\n"
+                + "                    , sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS\n"
                 + "                     FROM\n"
                 + "                     (SELECT I.\"YEAR\" AS YEARS\n"
                 + "                     " + selectPeriod + "\n"
-                + "                     , A.ACTUAL_SALES\n"
-                + "                     , A.HISTORY_PROJECTION_SALES\n"
-                + "                     , A.ACTUAL_UNITS\n"
-                + "                     , A.HISTORY_PROJECTION_UNITS\n"
+                + "                     , A.ACTUAL_SALES \n"
+                + "                     , 0 as HISTORY_PROJECTION_SALES \n"
+                + "                     , A.ACTUAL_UNITS \n"
+                + "                     , 0 as HISTORY_PROJECTION_UNITS \n"
                 + "              FROM ST_NM_ACTUAL_SALES A\n"
                 + "                     INNER JOIN PERIOD I\n"
                 + "                           ON A.PERIOD_SID = I.PERIOD_SID\n"
-                + "                     INNER JOIN #SELECTED_HIERARCHY_NO CCP\n"
+                + "                    INNER JOIN #SELECTED_HIERARCHY_NO CCP\n"
                 + "                           ON  CCP.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
                 + "                     INNER JOIN CCP_DETAILS CC\n"
-                + "                           ON CC.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
+                + "                          ON CC.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
                 + "                                  AND A.PERIOD_SID = I.PERIOD_SID\n"
                 + "                     WHERE A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND " + periodFilter + "\n"
                 + "                     AND exists (SELECT 1 from ST_NM_DISCOUNT_PROJ_MASTER b\n"
                 + "                                  where CCP.CCP_DETAILS_SID=b.ccp_details_sid\n"
                 + "                                  and B.RS_CONTRACT_SID IN (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + "))  ) A\n"
-                + "              GROUP BY YEARS\n"
-                + "                     , PERIODS\n"
-                + "              ) HISTORY\n"
-                + "       FULL JOIN (\n"
-                + "              SELECT YEARS\n"
-                + "                     , PERIODS\n"
-                + "                     , 0 AS SALES_ACTUAL_SALES\n"
-                + "                     , sum(P.PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
+                + " GROUP BY YEARS\n"
+                + Constant.PERIODS_SPACE_QUERY
+                + "              ) HISTORY \n"
+                + "       FULL JOIN  (\n"
+                + "  SELECT YEARS\n"
+                + Constant.PERIODS_SPACE_QUERY
+                + "                     , 0 AS SALES_ACTUAL_SALES \n"
+                + "                   , sum(P.PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
                 + "                     , 0 AS ACTUAL_UNITS\n"
                 + "                     , sum(P.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
-                + "              FROM (\n"
+                + "             FROM (\n"
                 + "                     SELECT I.\"YEAR\" AS YEARS\n"
-                + "                           " + selectPeriod + "\n"
+                + "        " + selectPeriod + "\n"
                 + "                           , A.PROJECTION_SALES\n"
                 + "                           , A.PROJECTION_UNITS\n"
-                + "                     FROM ST_NM_SALES_PROJECTION A\n"
-                + "                     INNER JOIN PERIOD I\n"
-                + "                           ON A.PERIOD_SID = I.PERIOD_SID\n"
-                + "                     INNER JOIN #SELECTED_HIERARCHY_NO CCP\n"
+                + "                      FROM ST_NM_SALES_PROJECTION A\n"
+                + " INNER JOIN PERIOD I\n"
+                + "                           ON A.PERIOD_SID =   I.PERIOD_SID\n"
+                + "                INNER JOIN #SELECTED_HIERARCHY_NO CCP\n"
                 + "                             ON  CCP.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
                 + "                     INNER JOIN CCP_DETAILS CC\n"
-                + "                           ON CC.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
+                + "               ON CC.CCP_DETAILS_SID = A.CCP_DETAILS_SID\n"
                 + "                                  AND A.PERIOD_SID = I.PERIOD_SID\n"
                 + "                     WHERE  A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND " + periodFilter + "\n"
                 + "                     AND exists (SELECT 1 from ST_NM_DISCOUNT_PROJ_MASTER b\n"
                 + "                                  where CCP.CCP_DETAILS_SID=b.ccp_details_sid\n"
                 + "                                  and B.RS_CONTRACT_SID IN (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")) "
                 + ") P\n"
-                + "              GROUP BY YEARS\n"
-                + "                     , PERIODS\n"
-                + "              ) FUTURE\n"
+                + "               GROUP BY YEARS \n"
+                + Constant.PERIODS_SPACE_QUERY
+                + "              ) FUTURE \n"
                 + "              ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + "                     AND HISTORY.PERIODS = FUTURE.PERIODS";
         return customQuery;
@@ -4004,13 +3988,13 @@ public class NMProjectionResultsLogic {
     public String getProjectionResultsCOGSQuery(ProjectionSelectionDTO projSelDTO) {
         String selectPeriod = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectPeriod = ", I.QUARTER AS PERIODS";
+            selectPeriod = Constant.IQUARTER_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectPeriod = ", I.SEMI_ANNUAL AS PERIODS";
+            selectPeriod = Constant.ISEMI_ANNUAL_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectPeriod = ",'0' AS  PERIODS";
+            selectPeriod = Constant.ZERO_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectPeriod = ", I.MONTH AS PERIODS";
+            selectPeriod = Constant.IMONTH_AS_PERIODS;
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
@@ -4023,23 +4007,23 @@ public class NMProjectionResultsLogic {
                 + "              , Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
                 + "              ,Isnull(HISTORY.COGS_ACTUAL, 0) AS COGS_ACTUAL\n"
                 + "              ,Isnull(FUTURE.COGS_PROJECTED, 0) AS COGS_PROJECTED\n"
-                + "       FROM (\n"
+                + "     FROM (\n"
                 + "              SELECT  YEARS\n"
                 + "                      ,  PERIODS \n"
-                + "                     , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
-                + "                     , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
+                + "                  , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
+                + "                   , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
                 + "                     , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
                 + "                     , sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS\n"
                 + "                     ,SUM(COGS_ACTUAL)AS COGS_ACTUAL\n"
                 + "                     FROM\n"
-                + "                     (SELECT I.\"YEAR\" AS YEARS\n"
-                + "                     " + selectPeriod + "\n"
+                + "    (SELECT I.\"YEAR\" AS YEARS\n"
+                + "   " + selectPeriod + "\n"
                 + "                     , A.ACTUAL_SALES\n"
                 + "                     , A.HISTORY_PROJECTION_SALES\n"
                 + "                     , A.ACTUAL_UNITS\n"
                 + "                     , A.HISTORY_PROJECTION_UNITS\n"
                 + "                     , COGS_ACTUAL = (ISNULL(A.ACTUAL_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0))\n"
-                + "              FROM ST_NM_ACTUAL_SALES A\n"
+                + "            FROM ST_NM_ACTUAL_SALES A\n"
                 + "                     , \"PERIOD\" I\n"
                 + "                     , #SELECTED_HIERARCHY_NO CCP\n"
                 + "                     ,ccp_details cc\n"
@@ -4051,19 +4035,19 @@ public class NMProjectionResultsLogic {
                 + "                     AND A.PERIOD_SID=U.PERIOD_SID\n"
                 + "                     AND A.PERIOD_SID = I.PERIOD_SID AND \n" + periodFilter + ")A\n"
                 + "              GROUP BY YEARS\n"
-                + "                     ,  PERIODS\n"
+                + "                   ,  PERIODS\n"
                 + "              ) HISTORY\n"
-                + "       FULL JOIN (\n"
+                + "       FULL JOIN(\n"
                 + "              SELECT  YEARS\n"
-                + "                     ,  PERIODS\n"
+                + "                     ,   PERIODS\n"
                 + "                     ,0 AS SALES_ACTUAL_SALES\n"
                 + "                     , sum(P.PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
                 + "                     ,0 AS ACTUAL_UNITS\n"
                 + "                     , sum(P.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
                 + "                     ,SUM(COGS_PROJECTED) AS COGS_PROJECTED\n"
-                + "                     FROM\n"
+                + "                       FROM\n"
                 + "                     (SELECT I.\"YEAR\" AS YEARS\n"
-                + "                     " + selectPeriod + "\n"
+                + "         " + selectPeriod + "\n"
                 + "                     , A.PROJECTION_SALES\n"
                 + "                     , A.PROJECTION_UNITS\n"
                 + "                     , COGS_PROJECTED = (ISNULL(A.PROJECTION_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0))\n"
@@ -4080,7 +4064,7 @@ public class NMProjectionResultsLogic {
                 + "                     AND A.PERIOD_SID = I.PERIOD_SID AND \n" + periodFilter + ")P\n"
                 + "              GROUP BY  YEARS\n"
                 + "                     ,  PERIODS\n"
-                + "              ) FUTURE\n"
+                + "           ) FUTURE \n"
                 + "              ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + " AND HISTORY.PERIODS = FUTURE.PERIODS";
         return customQuery;
@@ -4090,13 +4074,13 @@ public class NMProjectionResultsLogic {
     public String getProjectionResultsTotalDiscountsQuery(ProjectionSelectionDTO projSelDTO) {
         String selectPeriod = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectPeriod = ", I.QUARTER AS PERIODS";
+            selectPeriod = Constant.IQUARTER_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectPeriod = ", I.SEMI_ANNUAL AS PERIODS";
+            selectPeriod = Constant.ISEMI_ANNUAL_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectPeriod = ",'0' AS  PERIODS";
+            selectPeriod = Constant.ZERO_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectPeriod = ", I.MONTH AS PERIODS";
+            selectPeriod = Constant.IMONTH_AS_PERIODS;
         }
 
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(projSelDTO);
@@ -4110,28 +4094,28 @@ public class NMProjectionResultsLogic {
          
                 
                 
-                + "       FROM (\n"
-                + "              SELECT  YEARS\n"
+                + "       FROM  (\n"
+                + "              SELECT   YEARS\n"
                 + "                      ,  PERIODS \n"
-                + "                     , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
+                + "                  , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
                 + "                     , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "                     , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
+                + "                    , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
                 + "                     , sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS \n"
                 
                 
                 
-                + "                     FROM\n"
-                + "                     (SELECT I.\"YEAR\" AS YEARS\n"
+                + "                   FROM\n"
+                + "                    (SELECT I.\"YEAR\" AS YEARS\n"
                 + "                     " + selectPeriod + "\n"
                 + "                     , A.ACTUAL_SALES\n"
-                + "                     , A.HISTORY_PROJECTION_SALES\n"
+                + "                     , 0 as HISTORY_PROJECTION_SALES\n"
                 + "                     , A.ACTUAL_UNITS\n"
-                + "                     , A.HISTORY_PROJECTION_UNITS\n"
+                + "                     , 0 as HISTORY_PROJECTION_UNITS\n"
                
                 
               
                 
-                + "              FROM ST_NM_ACTUAL_SALES A\n"
+                + "             FROM ST_NM_ACTUAL_SALES A\n"
                 + "       INNER JOIN PERIOD I\n"
                 + "              ON A.PERIOD_SID = I.PERIOD_SID\n"
                 + "       INNER JOIN #SELECTED_HIERARCHY_NO CCP\n"
@@ -4148,7 +4132,7 @@ public class NMProjectionResultsLogic {
                 + "GROUP BY YEARS\n"
                 + "       , PERIODS       "
                 + "              ) HISTORY\n"
-                + "       FULL JOIN (\n"
+                + "   FULL JOIN (\n"
                 + "              SELECT  YEARS,\n"
                 + "                             PERIODS,\n"
                 + "                             Sum(P.SALES_ACTUAL_SALES)AS SALES_ACTUAL_SALES,\n"
@@ -4156,9 +4140,9 @@ public class NMProjectionResultsLogic {
                 + "                             Sum(ACTUAL_UNITS)        AS ACTUAL_UNITS,\n"
                 + "                             Sum(P.PROJECTION_UNITS)  AS PROJECTION_UNITS\n"
                
-                + "                     FROM\n"
-                + "                     (SELECT I.\"YEAR\" AS YEARS\n"
-                + "                     " + selectPeriod + "\n"
+                + "          FROM\n"
+                + "            (SELECT I.\"YEAR\" AS YEARS\n"
+                + "                " + selectPeriod + "\n"
                 + "                     , 0         AS SALES_ACTUAL_SALES,\n"
                 + "                                     A.PROJECTION_SALES,\n"
                 + "                                     0         AS ACTUAL_UNITS,\n"
@@ -4174,9 +4158,9 @@ public class NMProjectionResultsLogic {
                 + "					where CCP.CCP_DETAILS_SID=b.ccp_details_sid\n"
                 + "					and B.RS_CONTRACT_SID IN (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")) )P \n"
                 + "              GROUP BY  YEARS\n"
-                + "                     ,  PERIODS\n"
+                + Constant.PERIODS_SPACE_QUERY
                 + "              ) FUTURE\n"
-                + "              ON HISTORY.YEARS = FUTURE.YEARS\n"
+                + "             ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + " AND HISTORY.PERIODS = FUTURE.PERIODS";
         return customQuery;
 
@@ -4184,17 +4168,17 @@ public class NMProjectionResultsLogic {
 
     public String getCOGSQuery(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(true);
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        String ppa_actuals = StringUtils.EMPTY;
-        String ppa_projection = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        String ppa_actuals;
+        String ppa_projection;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         String orderBy = list.get(NumericConstants.THREE);
 
-            ppa_actuals = "+Isnull(PPA.ACTUAL_SALES, 0)";
-            ppa_projection = "+Isnull(PPA.PROJECTION_SALES, 0)";
+            ppa_actuals = "+Isnull( PPA.ACTUAL_SALES , 0)";
+            ppa_projection = "+Isnull(PPA.PROJECTION_SALES , 0)";
         selectClause += " SALE.SALES_ACTUAL_SALES as CONTRACT_ACTUAL_SALES \n"
                 + ", SALE.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES \n"
                 + ", SALE.ACTUAL_UNITS as CONTRACT_ACTUAL_UNITS \n"
@@ -4221,11 +4205,11 @@ public class NMProjectionResultsLogic {
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO,false);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         String cogsQuery = getProjectionResultsCOGSQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond + " \n";
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond + " \n";
         customQuery += " FULL OUTER JOIN (" + cogsQuery;
 
             String finalWhereCond1 = list.get(NumericConstants.TWO);
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
+            customQuery += " FULL  OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
         customQuery += " order by " + orderBy;
 
         return customQuery;
@@ -4233,9 +4217,9 @@ public class NMProjectionResultsLogic {
 
     public String getProjectionResultsDiscountsPivotQuery(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(false);
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", "on");
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", "on");
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         String orderBy = list.get(NumericConstants.TWO);
@@ -4257,9 +4241,9 @@ public class NMProjectionResultsLogic {
 
     public String getProjectionResultsTotalTotalRPU(ProjectionSelectionDTO projSelDTO) {
 
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         selectClause += "'Total RPU' as DISCOUNTS, \n";
@@ -4269,13 +4253,13 @@ public class NMProjectionResultsLogic {
         }
         selectClause += ") / NULLIF(SALE.ACTUAL_UNITS, 0), 0) ,\n PROJECTION_RPU=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)";
         if (projSelDTO.isPpa()) {
-            selectClause += "+Isnull(PPA.PROJECTION_SALES, 0)";
+            selectClause += "+Isnull(PPA.PROJECTION_SALES , 0)";
         }
         selectClause += ") / NULLIF(SALE.PROJECTION_UNITS, 0), 0) \n";
         String totalDiscountQuery = getProjectionResultsDiscountsRPUQuery(projSelDTO, StringUtils.EMPTY);
         String salesQuery = getProjectionResultsSalesQuery(projSelDTO,false);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond;
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
         customQuery +="SELECT  DISTINCT YEARS, PERIODS,RS_NAME,ACTUAL_DOLLAR, PROJECTION_DOLLAR,ACTUAL_RATE,PROJECTION_RATE,ACTUAL_RPU, PROJECTION_RPU FROM  @DISCOUNT_PPA";
         customQuery +="CROSS APPLY ( VALUES(DISCOUNT,\n" +
 "            DISC_ACTUAL_DOLLAR, DISC_PROJECTION_DOLLAR,DISC_ACTUAL_RATE,DISC_PROJECTION_RATE,\n DISC_ACTUAL_RPU,DISC_PROJECTED_RPU),\n(PPA,\n" +
@@ -4287,40 +4271,40 @@ public class NMProjectionResultsLogic {
 "            PPA_PROJECTED_RPU)) CS (RS_NAME, ACTUAL_DOLLAR, PROJECTION_DOLLAR, ACTUAL_RATE, PROJECTION_RATE, ACTUAL_RPU, PROJECTION_RPU)";
         if (projSelDTO.isPpa()) {
             String finalWhereCond1 = list.get(NumericConstants.TWO);
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
+            customQuery += "   FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA \n" + finalWhereCond1;
         }
         return customQuery;
     }
 
     public String getProjectionResultsDiscountsRPUQuery(ProjectionSelectionDTO projSelDTO, String orderBy) {
-        String selectClause = " select ";
+        String selectClause = Constant.SELECT_SMALL_SPACE;
         String whereClause = StringUtils.EMPTY;
-        String groupBy = " I.\"YEAR\" \n";
+        String groupBy = Constant.IYEAR_N;
 
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
 
-        selectClause += "I.\"YEAR\" as YEARS, ";
+        selectClause += "I.\"YEAR\" as  YEARS, ";
         if (CommonUtils.isInteger(projSelDTO.getYear())) {
 
-            whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
+            whereClause += "  and I.\"YEAR\" = " + projSelDTO.getYear();
         }
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectClause += "I.QUARTER as PERIODS, \n";
+            selectClause += "I.QUARTER  as  PERIODS, \n";
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.QUARTER";
+            groupBy += Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectClause += "I.SEMI_ANNUAL as PERIODS, \n";
+            selectClause += "I.SEMI_ANNUAL  as PERIODS, \n";
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.SEMI_ANNUAL";
+            groupBy += Constant.ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectClause += "'0' as PERIODS,\n ";
+            selectClause += Constant.AS_PERIODS_SLASH_N;
             whereClause += StringUtils.EMPTY;
             groupBy += StringUtils.EMPTY;
 
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectClause += "I.\"MONTH\" as PERIODS, \n";
+            selectClause += IMONTH_AS_PERIODS_SLASH;
             whereClause += StringUtils.EMPTY;
-            groupBy += ", I.\"MONTH\"";
+            groupBy += Constant.IMONTH;
         }
 
 
@@ -4341,7 +4325,7 @@ public class NMProjectionResultsLogic {
         if (projSelDTO.getDiscountNoList() != null && !projSelDTO.getDiscountNoList().isEmpty()) {
             customSql += " and B.RS_CONTRACT_SID in (" + CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false) + ")  \n";
         }
-        customSql += whereClause + " group by " + "RS_NAME,"+groupBy+",J.RS_CONTRACT_SID  \n";
+        customSql += whereClause + "   group by " + "RS_NAME,"+groupBy+",J.RS_CONTRACT_SID  \n";
 
         String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as ACTUAL_SALES, \n"
                 + " 0 as PROJECTION_SALES,J.RS_CONTRACT_SID \n"
@@ -4357,10 +4341,10 @@ public class NMProjectionResultsLogic {
                  +" A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID"
                 +" INNER JOIN "
                 + customSql;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("HISTORY", "FUTURE", "on");
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.HISTORY1, Constant.FUTURE, "on");
         String finalWhereCond = list.get(1) + " and HISTORY.DISCOUNTS=FUTURE.DISCOUNTS AND HISTORY.RS_CONTRACT_SID=FUTURE.RS_CONTRACT_SID";
-        String finalSelectClause = "select " + list.get(0) + " Isnull(HISTORY.DISCOUNTS, FUTURE.DISCOUNTS) as DISCOUNTS,\n Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES,ISNULL(FUTURE.RS_CONTRACT_SID,HISTORY.RS_CONTRACT_SID) AS RS_CONTRACT_SID ";
-        customQuery = finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond + orderBy;
+        String finalSelectClause = " select " + list.get(0) + " Isnull(HISTORY.DISCOUNTS, FUTURE.DISCOUNTS) as DISCOUNTS,\n Isnull(HISTORY.ACTUAL_SALES, FUTURE.ACTUAL_SALES) as ACTUAL_SALES,\n Isnull(FUTURE.PROJECTION_SALES, HISTORY.PROJECTION_SALES) as PROJECTION_SALES,ISNULL(FUTURE.RS_CONTRACT_SID,HISTORY.RS_CONTRACT_SID) AS RS_CONTRACT_SID ";
+        customQuery = finalSelectClause + Constant.FROM_SLASH_N + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n)  FUTURE \n" + finalWhereCond + orderBy;
 
         return customQuery;
     }
@@ -4376,9 +4360,9 @@ public class NMProjectionResultsLogic {
                 + String.format("%02d", projSelDTO.getStartDay());
         
         
-        String selectClause = " select ";
-        String customQuery = StringUtils.EMPTY;
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", "on");
+        String selectClause = Constant.SELECT_SMALL_SPACE;
+        String customQuery;
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", "on");
         selectClause += list.get(0);
         selectClause += "TODIS.DISCOUNTS, TODIS.ACTUAL_SALES   AS DISC_ACTUAL_DOLLAR,TODIS.PROJECTION_SALES   AS DISC_PROJECTION_DOLLAR,\n";
 
@@ -4389,7 +4373,6 @@ public class NMProjectionResultsLogic {
                 + ",TODIS.RS_CONTRACT_SID";
         String totalDiscountQuery = getProjectionResultsDiscountsRPUQuery(projSelDTO, StringUtils.EMPTY);
         String ppaQuery = getProjectionResultsPPARPUQuery(projSelDTO);
-//        String salesQuery = getProjectionResultsSalesQuery(projSelDTO, isVariable);
         String salesQuery = getProjectionResultsTotalDiscountSalesQuery(projSelDTO, isVariable);
         String ppaSalesQuery = getProjectionResultsPPASalesQuery(projSelDTO, isVariable);
         String unionSales = " SELECT Isnull(ppa.YEARS, SALE.YEARS) AS YEARS\n"
@@ -4403,7 +4386,7 @@ public class NMProjectionResultsLogic {
                 + "	, DISC_ACTUAL_RPU = (ISNULL(PPA.ACTUAL_SALES / NULLIF(SALE.ACTUAL_UNITS, 0), 0)) \n"
                 + "	, DISC_PROJECTED_RPU = (ISNULL(PPA.PROJECTION_SALES / NULLIF(SALE.PROJECTION_UNITS, 0), 0))"
                 + "     , PPA.RS_CONTRACT_SID FROM (";
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS INNER JOIN (\n" + salesQuery + "\n )SALE ON TODIS.YEARS = SALE.YEARS\n"
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS INNER JOIN (\n" + salesQuery + "\n )SALE ON TODIS.YEARS = SALE.YEARS\n"
                 + "		AND TODIS.PERIODS = SALE.PERIODS "
                 + " AND TODIS.RS_CONTRACT_SID=SALE.RS_CONTRACT_SID\n"
                 + "       AND TODIS.DISCOUNTS=SALE.DISCOUNTS "
@@ -4419,7 +4402,7 @@ public class NMProjectionResultsLogic {
                 + "		(select i.YEAR YEARS" + getselectedFrequencyPeriod(projSelDTO) + ""
                 + ",sum(fd.EXFACTORY_ACTUAL_SALES) EXFACTORY_ACTUAL,sum(fd.EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST"
                 + ",SHN.RS_CONTRACT_SID from \n"
-                + projSelDTO.getSessionDTO().getCurrentTableNames().get("ST_PRODUCT_FILE") + "  fd "
+                + projSelDTO.getSessionDTO().getCurrentTableNames().get(Constant.ST_PRODUCT_FILE) + "  fd "
                 + " JOIN period I on I.PERIOD_SID=fd.period_sid \n"
                 + "	and  PERIOD_DATE BETWEEN ('" + startDate + "') and ('" + endDate + "') "
                 + " JOIN ( select distinct  RS_CONTRACT_SID,SHN.ITEM_MASTER_SID\n"
@@ -4458,31 +4441,31 @@ public class NMProjectionResultsLogic {
         String selectClause = "IF Object_id('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
                 + "       DROP TABLE #TEMP_CCP;\n"
                 + "\n"
-                + "CREATE TABLE #TEMP_CCP (\n"
-                + "       COMPANY_MASTER_SID INT\n"
-                + "       , CONTRACT_MASTER_SID INT\n"
-                + "       , ITEM_MASTER_SID INT\n"
-                + "       , CCP_DETAILS_SID INT \n"
-                + "       )\n"
+                + "CREATE TABLE #TEMP_CCP  (\n"
+                + "        COMPANY_MASTER_SID INT\n"
+                + "       , CONTRACT_MASTER_SID INT \n"
+                + "       , ITEM_MASTER_SID INT \n"
+                + "      , CCP_DETAILS_SID INT \n"
+                + SLASH_SPACE_N
                 + "\n"
-                + "INSERT INTO #TEMP_CCP (\n"
-                + "       COMPANY_MASTER_SID\n"
-                + "       , CONTRACT_MASTER_SID\n"
-                + "       , ITEM_MASTER_SID\n"
+                + "INSERT  INTO #TEMP_CCP (\n"
+                + "       COMPANY_MASTER_SID \n"
+                + "       , CONTRACT_MASTER_SID \n"
+                + "       , ITEM_MASTER_SID \n"
                 + "       , CCP_DETAILS_SID\n"
-                + "       )\n"
-                + "SELECT C.COMPANY_MASTER_SID\n"
+                + SLASH_SPACE_N
+                + " SELECT C.COMPANY_MASTER_SID \n "
                 + "       , C.CONTRACT_MASTER_SID\n"
                 + "       , C.ITEM_MASTER_SID\n"
                 + "       , C.CCP_DETAILS_SID\n"
                 + "FROM #SELECTED_HIERARCHY_NO CCP\n"
                 + "       , CCP_DETAILS C\n"
                 + "WHERE CCP.CCP_DETAILS_SID = C.CCP_DETAILS_SID\n"
-                + "DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
+                + "DECLARE @ITEMID  [DBO].[UDT_ITEM]\n"
                 + "\n"
-                + "INSERT INTO @ITEMID\n"
+                + "INSERT  INTO @ITEMID\n"
                 + "SELECT distinct IM.ITEM_MASTER_SID\n"
-                + "FROM ITEM_MASTER IM\n"
+                + "FROM ITEM_MASTER IM \n "
                 + "\n";
                
                 
@@ -4490,9 +4473,9 @@ public class NMProjectionResultsLogic {
         
         
         selectClause += " SELECT ";
-        String customQuery = StringUtils.EMPTY;
+        String customQuery;
 
-        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", Constant.PPA_SMALL, "on",true);
+        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on",true);
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         
@@ -4523,13 +4506,13 @@ public class NMProjectionResultsLogic {
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
         String cogsQuery = getProjectionResultsTotalDiscountsQuery(projSelDTO);
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + cogsQuery + "\n) SALE \n" + finalWhereCond + "\n";
-            customQuery += " FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA ON SALE.YEARS=PPA.YEARS AND SALE.PERIODS=PPA.PERIODS \n" ;
+        customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n ) TODIS FULL OUTER JOIN (\n" + cogsQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond + "\n";
+            customQuery += "  FULL OUTER JOIN (\n" + ppaQuery + "\n) PPA ON SALE.YEARS=PPA.YEARS AND SALE.PERIODS=PPA.PERIODS \n" ;
             
 
             customQuery += "\n FULL OUTER JOIN  \n" 
                     + " (select i.YEAR YEARS"+ getselectedFrequencyPeriod(projSelDTO) +",sum(fd.EXFACTORY_ACTUAL_SALES) EXFACTORY_ACTUAL,sum(COALESCE(fd.EXFACTORY_FORECAST_SALES,fd.EXFACTORY_ACTUAL_SALES)) EXFACTORY_FORECAST from "
-                    + projSelDTO.getSessionDTO().getCurrentTableNames().get("ST_PRODUCT_FILE") + "   fd join period I on I.PERIOD_SID=fd.period_sid  \n"
+                    + projSelDTO.getSessionDTO().getCurrentTableNames().get(Constant.ST_PRODUCT_FILE) + "   fd join period I on I.PERIOD_SID=fd.period_sid  \n"
                     + "where exists (select 1 from #SELECTED_HIERARCHY_NO s join ccp_details c on s.ccp_details_Sid=c.ccp_details_sid  \n" 
                     + "where c.item_master_sid=fd.item_master_sid) \n" 
                    + "	and  PERIOD_DATE BETWEEN ('"+startDate+"') and ('"+endDate+"') group by  I.\"YEAR\"\n"
@@ -4537,11 +4520,12 @@ public class NMProjectionResultsLogic {
                     + "AND file_data.PERIODS = SALE.PERIODS order by YEARS , PERIODS \n"; 
         return customQuery;
     }
+    public static final String SLASH_SPACE_N = "       )\n";
 
     public List<ProjectionResultsDTO> getReturns(ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("= = = Inside getReturns = = =");
 
-        List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
+        List<ProjectionResultsDTO> projDTOList;
         List<Object> list = null;
         String query = "DECLARE @FROM_DATE DATE\n"
                 + "     , @STARTFROM DATE\n"
@@ -4556,14 +4540,14 @@ public class NMProjectionResultsLogic {
         query += "\n" + CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n";
         query += getReturnsQuery(projSelDTO);
         list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
-        projDTOList = getCustomizedProjectionResultsReturns(list, projSelDTO, false);
+        projDTOList = getCustomizedProjectionResultsReturns(list, projSelDTO);
         LOGGER.debug("= = = Ending getReturns = = =");
         return projDTOList;
     }
 
-    public List<ProjectionResultsDTO> getCustomizedProjectionResultsReturns(List<Object> list, ProjectionSelectionDTO projSelDTO, boolean isPPA) {
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
-        List<ProjectionResultsDTO> projDTO = new ArrayList<ProjectionResultsDTO>();
+    public List<ProjectionResultsDTO> getCustomizedProjectionResultsReturns(List<Object> list, ProjectionSelectionDTO projSelDTO) {
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
+        List<ProjectionResultsDTO> projDTO = new ArrayList<>();
         columnList.remove(Constant.GROUP);
         ProjectionResultsDTO returnPerDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO returnRPUDTO = new ProjectionResultsDTO();
@@ -4583,7 +4567,7 @@ public class NMProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = (obj[0] == null) ? 0 : Integer.valueOf(String.valueOf(obj[0]));
                 int period = (obj[1] == null) ? 0 : Integer.valueOf(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
@@ -4591,7 +4575,7 @@ public class NMProjectionResultsLogic {
                 int col = NumericConstants.THREE;
                 column = commonColumn + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    String value = StringUtils.EMPTY;
+                    String value;
                     value = StringUtils.EMPTY + obj[col + NumericConstants.FOUR];
                     value = getFormattedValue(PER_TWO, value);
                     returnPerDTO.addStringProperties(column, value);
@@ -4635,33 +4619,33 @@ public class NMProjectionResultsLogic {
 
         String selectPeriod = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectPeriod = ", I.QUARTER AS PERIODS";
+            selectPeriod = Constant.IQUARTER_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectPeriod = ", I.SEMI_ANNUAL AS PERIODS";
+            selectPeriod = Constant.ISEMI_ANNUAL_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
-            selectPeriod = ",'0' AS  PERIODS";
+            selectPeriod = Constant.ZERO_AS_PERIODS;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
-            selectPeriod = ", I.MONTH AS PERIODS";
+            selectPeriod = Constant.IMONTH_AS_PERIODS;
         }
 
         String query = "IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
                 + "       DROP TABLE #TEMP_CCP;\n"
                 + "\n"
-                + "CREATE TABLE #TEMP_CCP (\n"
-                + "       COMPANY_MASTER_SID INT\n"
+                + "CREATE TABLE #TEMP_CCP ( \n"
+                + " COMPANY_MASTER_SID INT\n"
                 + "       , CONTRACT_MASTER_SID INT\n"
-                + "       , ITEM_MASTER_SID INT\n"
+                + "       , ITEM_MASTER_SID INT \n"
                 + "       , PROJECTION_DETAILS_SID INT PRIMARY KEY\n"
                 + "       , PROJECTION_MASTER_SID INT\n"
-                + "       )\n"
+                + SLASH_SPACE_N
                 + "\n"
-                + "INSERT INTO #TEMP_CCP (\n"
-                + "       COMPANY_MASTER_SID\n"
-                + "       , CONTRACT_MASTER_SID\n"
-                + "       , ITEM_MASTER_SID\n"
-                + "       , PROJECTION_DETAILS_SID\n"
-                + "       , PROJECTION_MASTER_SID\n"
-                + "       )\n"
+                + "INSERT INTO  #TEMP_CCP (\n"
+                + "    COMPANY_MASTER_SID\n"
+                + "       , CONTRACT_MASTER_SID \n"
+                + "       , ITEM_MASTER_SID \n"
+                + "       , PROJECTION_DETAILS_SID \n"
+                + "       , PROJECTION_MASTER_SID \n"
+                + SLASH_SPACE_N
                 + "SELECT C.COMPANY_MASTER_SID\n"
                 + "       , C.CONTRACT_MASTER_SID\n"
                 + "       , C.ITEM_MASTER_SID\n"
@@ -4677,24 +4661,24 @@ public class NMProjectionResultsLogic {
                 + "              SELECT 1\n"
                 + "              FROM @CCP CCP\n"
                 + "              WHERE CCP.CCP_DETAILS_SID = C.CCP_DETAILS_SID\n"
-                + "              )\n"
+                + "          )\n"
                 + "\n"
-                + "DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
+                + "DECLARE  @ITEMID [DBO].[UDT_ITEM]\n"
                 + "\n"
-                + "INSERT INTO @ITEMID\n"
-                + "SELECT DISTINCT IM.ITEM_MASTER_SID\n"
-                + "FROM ITEM_MASTER IM\n"
+                + " INSERT INTO @ITEMID\n"
+                + "SELECT DISTINCT IM.ITEM_MASTER_SID \n"
+                + "FROM ITEM_MASTER IM \n"
                 + "\n"
                 + "IF Object_id('TEMPDB..#TEMP_CCPD') IS NOT NULL\n"
                 + "       DROP TABLE #TEMP_CCPD\n"
                 + "\n"
                 + "CREATE TABLE #TEMP_CCPD (\n"
-                + "       COMPANY_MASTER_SID INT\n"
+                + "       COMPANY_MASTER_SID INT \n "
                 + "       , CONTRACT_MASTER_SID INT\n"
                 + "       , ITEM_MASTER_SID INT\n"
                 + "       , PROJECTION_DETAILS_SID INT\n"
                 + "       , PROJECTION_MASTER_SID INT\n"
-                + "       )\n"
+                + SLASH_SPACE_N
                 + "\n"
                 + "INSERT INTO #TEMP_CCPD (\n"
                 + "       COMPANY_MASTER_SID\n"
@@ -4702,7 +4686,7 @@ public class NMProjectionResultsLogic {
                 + "       , ITEM_MASTER_SID\n"
                 + "       , PROJECTION_DETAILS_SID\n"
                 + "       , PROJECTION_MASTER_SID\n"
-                + "       )\n"
+                + SLASH_SPACE_N
                 + "SELECT DISTINCT COMPANY_MASTER_SID\n"
                 + "       , CONTRACT_MASTER_SID\n"
                 + "       , ITEM_MASTER_SID\n"
@@ -4750,7 +4734,7 @@ public class NMProjectionResultsLogic {
                 + "CREATE TABLE #ITEM (\n"
                 + "       ID INT IDENTITY(1, 1)\n"
                 + "       , ITEM_MASTER_SID INT\n"
-                + "       )\n"
+                + SLASH_SPACE_N
                 + "\n"
                 + "INSERT INTO #ITEM (ITEM_MASTER_SID)\n"
                 + "SELECT ITEM_MASTER_SID\n"
@@ -4770,7 +4754,7 @@ public class NMProjectionResultsLogic {
                 + "       , PERIOD_SID INT\n"
                 + "       , ACTUAL_RATE NUMERIC(22, 6)\n"
                 + "       , PROJECTED_RATE NUMERIC(22, 6)\n"
-                + "       )\n"
+                + SLASH_SPACE_N
                 + "\n"
                 + "WHILE (@I <= @COUNT)\n"
                 + "BEGIN\n"
@@ -4810,7 +4794,7 @@ public class NMProjectionResultsLogic {
                 + "              , COALESCE(R_ACTUALS.PERIOD_SID, R_PROJ.PERIOD_SID) AS PERIOD_SID\n"
                 + "              , R_ACTUALS.ACTUAL_RETURN_PERCENT\n"
                 + "              , R_PROJ.PROJECTED_RETURN_PERCENT\n"
-                + "       FROM (\n"
+                + "      FROM (\n"
                 + "              SELECT RETURNS_DETAILS_SID\n"
                 + "                     , PERIOD_SID\n"
                 + "                     , ACTUAL_RETURN_PERCENT\n"
@@ -4824,7 +4808,7 @@ public class NMProjectionResultsLogic {
                 + "                           WHERE IMPD.RN = 1\n"
                 + "                           )\n"
                 + "              ) R_ACTUALS\n"
-                + "       FULL JOIN (\n"
+                + "       FULL JOIN  (\n "
                 + "              SELECT RETURNS_DETAILS_SID\n"
                 + "                     , PERIOD_SID\n"
                 + "                     , PROJECTED_RETURN_PERCENT\n"
@@ -4865,17 +4849,17 @@ public class NMProjectionResultsLogic {
                 + "              , Isnull(FUTURE.RETURNS_PROJECTED, 0) AS RETURNS_PROJECTED\n"
                 + "              , Isnull(HISTORY.ACTUAL_RATE, 0) AS RETURNS_ACTUAL_RATE\n"
                 + "              , Isnull(FUTURE.PROJECTED_RATE, 0) AS RETURNS_PROJECTED_RATE\n"
-                + "       FROM (\n"
+                + "       FROM   (\n"
                 + "              SELECT YEARS\n"
-                + "                     , PERIODS\n"
+                + Constant.PERIODS_SPACE_QUERY
                 + "                     , sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
                 + "                     , sum(A.HISTORY_PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
-                + "                     , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
+                + "                    , sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
                 + "                     , sum(A.HISTORY_PROJECTION_UNITS) AS PROJECTION_UNITS\n"
                 + "                     , ACTUAL_RATE = Avg(A.ACTUAL_RATE)\n"
                 + "                     , RETURNS_ACTUAL = Sum(A.ACTUAL_SALES) * Avg(A.ACTUAL_RATE)\n"
-                + "              FROM (\n"
-                + "                     SELECT I.\"YEAR\" AS YEARS\n"
+                + "   FROM (\n"
+                + "                   SELECT I.\"YEAR\" AS YEARS\n"
                 + "                           " + selectPeriod + "\n"
                 + "                           , A.ACTUAL_SALES\n"
                 + "                           , A.HISTORY_PROJECTION_SALES\n"
@@ -4885,13 +4869,13 @@ public class NMProjectionResultsLogic {
                 + "                     FROM ST_NM_ACTUAL_SALES A\n"
                 + "                     INNER JOIN PROJECTION_DETAILS E\n"
                 + "                           ON A.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID\n"
-                + "                     INNER JOIN PERIOD I\n"
+                + "                    INNER JOIN PERIOD I\n"
                 + "                           ON A.PERIOD_SID = I.PERIOD_SID\n"
                 + "                     INNER JOIN @CCP CCP\n"
                 + "                           ON CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID\n"
-                + "                     INNER JOIN CCP_DETAILS CC\n"
+                + "    INNER JOIN CCP_DETAILS CC\n"
                 + "                           ON CC.CCP_DETAILS_SID = E.CCP_DETAILS_SID\n"
-                + "                                  AND A.PERIOD_SID = I.PERIOD_SID\n"
+                + "                                 AND A.PERIOD_SID = I.PERIOD_SID\n"
                 + "                     LEFT JOIN (\n"
                 + "                           SELECT A.ITEM_MASTER_sID\n"
                 + "                                  , A.PERIOD_sID\n"
@@ -4908,20 +4892,20 @@ public class NMProjectionResultsLogic {
                 + "                     WHERE E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
                 + "                           AND CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID AND \n" + CommonLogic.getPeriodRestrictionQuery(projSelDTO) + "\n"
                 + "                     ) A\n"
-                + "              GROUP BY YEARS\n"
-                + "                     , PERIODS\n"
-                + "              ) HISTORY\n"
+                + "              GROUP BY YEARS \n "
+                + Constant.PERIODS_SPACE_QUERY
+                + "              ) HISTORY \n "
                 + "       FULL JOIN (\n"
                 + "              SELECT YEARS\n"
-                + "                     , PERIODS\n"
+                + Constant.PERIODS_SPACE_QUERY
                 + "                     , 0 AS SALES_ACTUAL_SALES\n"
                 + "                     , sum(P.PROJECTION_SALES) AS SALES_PROJECTION_SALES\n"
                 + "                     , 0 AS ACTUAL_UNITS\n"
-                + "                     , sum(P.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
+                + "                     , sum(P.PROJECTION_UNITS) AS PROJECTION_UNITS \n"
                 + "                     , PROJECTED_RATE = Avg(P.PROJECTED_RATE)\n"
                 + "                     , RETURNS_PROJECTED = Sum(P.PROJECTION_SALES) * Avg(PROJECTED_RATE)\n"
                 + "              FROM (\n"
-                + "                     SELECT I.\"YEAR\" AS YEARS\n"
+                + "                 SELECT I.\"YEAR\" AS YEARS\n"
                 + "                           " + selectPeriod + "\n"
                 + "                           , A.PROJECTION_SALES\n"
                 + "                           , A.PROJECTION_UNITS\n"
@@ -4929,13 +4913,13 @@ public class NMProjectionResultsLogic {
                 + "                     FROM ST_NM_SALES_PROJECTION A\n"
                 + "                     INNER JOIN PROJECTION_DETAILS E\n"
                 + "                           ON A.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID\n"
-                + "                     INNER JOIN PERIOD I\n"
-                + "                           ON A.PERIOD_SID = I.PERIOD_SID\n"
+                + "           INNER JOIN PERIOD I\n"
+                + "                           ON A.PERIOD_SID = I.PERIOD_SID \n"
                 + "                     INNER JOIN @CCP CCP\n"
                 + "                           ON CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID\n"
-                + "                     INNER JOIN CCP_DETAILS CC\n"
+                + "                 INNER JOIN CCP_DETAILS CC\n"
                 + "                           ON CC.CCP_DETAILS_SID = E.CCP_DETAILS_SID\n"
-                + "                                  AND A.PERIOD_SID = I.PERIOD_SID\n"
+                + "                                   AND A.PERIOD_SID = I.PERIOD_SID\n"
                 + "                     LEFT JOIN (\n"
                 + "                           SELECT A.ITEM_MASTER_sID\n"
                 + "                                  , A.PERIOD_sID\n"
@@ -4953,9 +4937,9 @@ public class NMProjectionResultsLogic {
                 + "                           AND CCP.CCP_DETAILS_SID = E.CCP_DETAILS_SID AND \n" + CommonLogic.getPeriodRestrictionQuery(projSelDTO) + "\n"
                 + "                     ) P\n"
                 + "              GROUP BY YEARS\n"
-                + "                     , PERIODS\n"
+                + Constant.PERIODS_SPACE_QUERY
                 + "              ) FUTURE\n"
-                + "              ON HISTORY.YEARS = FUTURE.YEARS\n"
+                + "          ON HISTORY.YEARS = FUTURE.YEARS\n"
                 + "                     AND HISTORY.PERIODS = FUTURE.PERIODS\n"
                 + "       ) SALE\n"
                 + "       ON TODIS.YEARS = SALE.YEARS\n"
@@ -4964,226 +4948,6 @@ public class NMProjectionResultsLogic {
         return query;
     }
 
-//    public String getProjectionResultsPivotReturnQuery(ProjectionSelectionDTO projSelDTO) {
-//        projSelDTO.setIsTotal(true);
-//        String selectClause = " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
-//                + "     DROP TABLE #TEMP_CCP;\n"
-//                + "CREATE TABLE #TEMP_CCP (\n"
-//                + "     COMPANY_MASTER_SID INT\n"
-//                + "     , CONTRACT_MASTER_SID INT\n"
-//                + "     , ITEM_MASTER_SID INT\n"
-//                + "     , PROJECTION_DETAILS_SID INT PRIMARY KEY\n"
-//                + "     , PROJECTION_MASTER_SID INT\n"
-//                + "     )\n"
-//                + "INSERT INTO #TEMP_CCP (\n"
-//                + "     COMPANY_MASTER_SID\n"
-//                + "     , CONTRACT_MASTER_SID\n"
-//                + "     , ITEM_MASTER_SID\n"
-//                + "     , PROJECTION_DETAILS_SID\n"
-//                + "     , PROJECTION_MASTER_SID\n"
-//                + "     )\n"
-//                + "SELECT C.COMPANY_MASTER_SID\n"
-//                + "     , C.CONTRACT_MASTER_SID\n"
-//                + "     , C.ITEM_MASTER_SID\n"
-//                + "     , PD.PROJECTION_DETAILS_SID\n"
-//                + "     , pm.PROJECTION_MASTER_SID\n"
-//                + "FROM \n"
-//                + "      CCP_DETAILS C\n"
-//                + "     , PROJECTION_DETAILS PD\n"
-//                + "     , PROJECTION_MASTER PM\n"
-//                + "WHERE PD.CCP_DETAILS_SID = C.CCP_DETAILS_SID\n"
-//                + "     AND PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID\n"
-//                + "     AND PM.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
-//                + "	 and EXISTS (SELECT 1 FROM \n"
-//                + "	 @CCP CCP WHERE CCP.CCP_DETAILS_SID = C.CCP_DETAILS_SID)"
-//                + "DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
-//                + "INSERT INTO @ITEMID\n"
-//                + "SELECT IM.ITEM_MASTER_SID\n"
-//                + "FROM ITEM_MASTER IM\n"
-//                + "WHERE EXISTS (\n"
-//                + "            SELECT 1\n"
-//                + "            FROM #TEMP_CCP A\n"
-//                + "            WHERE PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId() + "\n"
-//                + "                   AND IM.ITEM_MASTER_SID = A.ITEM_MASTER_SID\n"
-//                + "            ) ";
-//        selectClause += " IF Object_id('TEMPDB..#TEMP_CCPD') IS NOT NULL\n"
-//                + "       DROP TABLE #TEMP_CCPD\n"
-//                + "\n"
-//                + "CREATE TABLE #TEMP_CCPD (\n"
-//                + "       COMPANY_MASTER_SID INT\n"
-//                + "       , CONTRACT_MASTER_SID INT\n"
-//                + "       , ITEM_MASTER_SID INT\n"
-//                + "       , PROJECTION_DETAILS_SID INT\n"
-//                + "       , PROJECTION_MASTER_SID INT\n"
-//                + "       )\n"
-//                + "\n"
-//                + "INSERT INTO #TEMP_CCPD (\n"
-//                + "       COMPANY_MASTER_SID\n"
-//                + "       , CONTRACT_MASTER_SID\n"
-//                + "       , ITEM_MASTER_SID\n"
-//                + "       , PROJECTION_DETAILS_SID\n"
-//                + "       , PROJECTION_MASTER_SID\n"
-//                + "       )\n"
-//                + "SELECT DISTINCT COMPANY_MASTER_SID\n"
-//                + "       , CONTRACT_MASTER_SID\n"
-//                + "       , ITEM_MASTER_SID\n"
-//                + "       , PROJECTION_DETAILS_SID\n"
-//                + "       , PROJECTION_MASTER_SID\n"
-//                + "FROM (\n"
-//                + "       SELECT COMPANY_MASTER_SID\n"
-//                + "              , T_CCP.CONTRACT_MASTER_SID\n"
-//                + "              , T_CCP.ITEM_MASTER_SID\n"
-//                + "              , PROJECTION_DETAILS_SID\n"
-//                + "              , PROJECTION_MASTER_SID\n"
-//                + "              , RS_ID\n"
-//                + "              , RS_TYPE\n"
-//                + "       FROM #TEMP_CCP T_CCP\n"
-//                + "       INNER JOIN RS_CONTRACT RS\n"
-//                + "              ON T_CCP.CONTRACT_MASTER_SID = RS.CONTRACT_MASTER_SID\n"
-//                + "       INNER JOIN RS_CONTRACT_DETAILS RSC\n"
-//                + "              ON RS.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID\n"
-//                + "                     AND T_CCP.ITEM_MASTER_SID = RSC.ITEM_MASTER_SID\n"
-//                + "       WHERE EXISTS (\n"
-//                + "                     SELECT 1\n"
-//                + "                     FROM CFP_CONTRACT CF\n"
-//                + "                     INNER JOIN CFP_CONTRACT_DETAILS CFD\n"
-//                + "                           ON CF.CFP_CONTRACT_SID = CFD.CFP_CONTRACT_SID\n"
-//                + "                                  AND T_CCP.COMPANY_MASTER_SID = CFD.COMPANY_MASTER_SID\n"
-//                + "                                  AND RS.CFP_CONTRACT_SID = CF.CFP_CONTRACT_SID\n"
-//                + "                                  AND CF.CONTRACT_MASTER_SID = T_CCP.CONTRACT_MASTER_SID\n"
-//                + "                     )\n"
-//                + "       ) R\n"
-//                + "INNER JOIN HELPER_TABLE HT\n"
-//                + "       ON R.RS_TYPE = HT.HELPER_TABLE_SID\n"
-//                + "WHERE HT.DESCRIPTION = 'Returns'\n"
-//                + "\n"
-//                + "DECLARE @ITEM_ID [DBO].[UDT_ITEM]\n"
-//                + "\n"
-//                + "INSERT INTO @ITEM_ID\n"
-//                + "SELECT DISTINCT ITEM_MASTER_SID\n"
-//                + "FROM #TEMP_CCPD A\n"
-//                + "\n"
-//                + "DECLARE @COUNT INT\n"
-//                + "\n"
-//                + "IF Object_id('TEMPDB..#ITEM') IS NOT NULL\n"
-//                + "       DROP TABLE #ITEM\n"
-//                + "\n"
-//                + "CREATE TABLE #ITEM (\n"
-//                + "       ID INT IDENTITY(1, 1)\n"
-//                + "       , ITEM_MASTER_SID INT\n"
-//                + "       )\n"
-//                + "\n"
-//                + "INSERT INTO #ITEM (ITEM_MASTER_SID)\n"
-//                + "SELECT ITEM_MASTER_SID\n"
-//                + "FROM @ITEMID\n"
-//                + "\n"
-//                + "SET @COUNT = @@ROWCOUNT\n"
-//                + "\n"
-//                + "DECLARE @I INT = 1\n"
-//                + "DECLARE @ITEM INT\n"
-//                + "\n"
-//                + "IF Object_id('TEMPDB..#TEMP_RETURNS') IS NOT NULL\n"
-//                + "       DROP TABLE #TEMP_RETURNS\n"
-//                + "\n"
-//                + "CREATE TABLE #TEMP_RETURNS (\n"
-//                + "       ITEM_MASTER_SID INT\n"
-//                + "       , RETURNS_DETAILS_SID INT\n"
-//                + "       , PERIOD_SID INT\n"
-//                + "       , ACTUAL_RATE NUMERIC(22, 6)\n"
-//                + "       , PROJECTED_RATE NUMERIC(22, 6)\n"
-//                + "       )\n"
-//                + "\n"
-//                + "WHILE (@I <= @COUNT)\n"
-//                + "BEGIN\n"
-//                + "       SET @ITEM = (\n"
-//                + "                     SELECT ITEM_MASTER_SID\n"
-//                + "                     FROM #ITEM\n"
-//                + "                     WHERE id = @I\n"
-//                + "                     );\n"
-//                + "\n"
-//                + "       WITH ITEM_PROJ_DETAILS\n"
-//                + "       AS (\n"
-//                + "              SELECT ROW_NUMBER() OVER (\n"
-//                + "                           PARTITION BY ITEM_MASTER_SID ORDER BY LASTEST_DATE DESC\n"
-//                + "                           ) RN\n"
-//                + "                     , ITEM_MASTER_SID\n"
-//                + "                     , PM.PROJECTION_MASTER_SID\n"
-//                + "                     , RETURNS_DETAILS_SID\n"
-//                + "              FROM RETURNS_DETAILS RD\n"
-//                + "              INNER JOIN PROJECTION_MASTER PM\n"
-//                + "                     ON RD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID\n"
-//                + "              CROSS APPLY (\n"
-//                + "                     VALUES (MODIFIED_DATE)\n"
-//                + "                           , (CREATED_DATE)\n"
-//                + "                     ) CS(LASTEST_DATE)\n"
-//                + "              WHERE SAVE_FLAG = 1\n"
-//                + "                     AND ITEM_MASTER_SID = @ITEM\n"
-//                + "              )\n"
-//                + "       INSERT INTO #TEMP_RETURNS (\n"
-//                + "              ITEM_MASTER_SID\n"
-//                + "              , RETURNS_DETAILS_SID\n"
-//                + "              , PERIOD_SID\n"
-//                + "              , ACTUAL_RATE\n"
-//                + "              , PROJECTED_RATE\n"
-//                + "              )\n"
-//                + "       SELECT @ITEM AS ITEM_MASTER_SID\n"
-//                + "              , COALESCE(R_ACTUALS.RETURNS_DETAILS_SID, R_PROJ.RETURNS_DETAILS_SID) AS RETURNS_DETAILS_SID\n"
-//                + "              , COALESCE(R_ACTUALS.PERIOD_SID, R_PROJ.PERIOD_SID) AS PERIOD_SID\n"
-//                + "              , R_ACTUALS.ACTUAL_RETURN_PERCENT\n"
-//                + "              , R_PROJ.PROJECTED_RETURN_PERCENT\n"
-//                + "       FROM (\n"
-//                + "              SELECT RETURNS_DETAILS_SID\n"
-//                + "                     , PERIOD_SID\n"
-//                + "                     , ACTUAL_RETURN_PERCENT\n"
-//                + "              FROM RETURNS_ACTUALS NAP\n"
-//                + "              WHERE EXISTS (\n"
-//                + "                           SELECT 1\n"
-//                + "                           FROM RETURNS_DETAILS RD\n"
-//                + "                           INNER JOIN ITEM_PROJ_DETAILS IMPD\n"
-//                + "                                  ON IMPD.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID\n"
-//                + "                                         AND RD.RETURNS_DETAILS_SID = NAP.RETURNS_DETAILS_SID\n"
-//                + "                           WHERE IMPD.RN = 1\n"
-//                + "                           )\n"
-//                + "              ) R_ACTUALS\n"
-//                + "       FULL JOIN (\n"
-//                + "              SELECT RETURNS_DETAILS_SID\n"
-//                + "                     , PERIOD_SID\n"
-//                + "                     , PROJECTED_RETURN_PERCENT\n"
-//                + "              FROM RETURNS_PROJ_DETAILS NPP\n"
-//                + "              WHERE EXISTS (\n"
-//                + "                           SELECT 1\n"
-//                + "                           FROM RETURNS_DETAILS RD\n"
-//                + "                           INNER JOIN ITEM_PROJ_DETAILS IMPD\n"
-//                + "                                  ON IMPD.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID\n"
-//                + "                                         AND RD.RETURNS_DETAILS_SID = NPP.RETURNS_DETAILS_SID\n"
-//                + "                           WHERE IMPD.RN = 1\n"
-//                + "                           )\n"
-//                + "              ) R_PROJ\n"
-//                + "              ON R_ACTUALS.RETURNS_DETAILS_SID = R_PROJ.RETURNS_DETAILS_SID\n"
-//                + "                     AND R_ACTUALS.PERIOD_SID = R_PROJ.PERIOD_SID\n"
-//                + "\n"
-//                + "       SET @I = @I + 1\n"
-//                + "END";
-//
-//        selectClause += "\n select ";
-//        String customQuery = StringUtils.EMPTY;
-//        List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause("TODIS", "SALE", "on");
-//        selectClause += list.get(0);
-//        String finalWhereCond = list.get(1);
-//
-//        selectClause += "  'Returns' AS DISCOUNTS\n"
-//                + "       , RETURNS_ACTUAL_AMOUNT = ISNULL(SALE.RETURNS_ACTUAL, 0)\n"
-//                + "       , RETURNS_ACTUAL_AMOUNT = ISNULL(SALE.RETURNS_PROJECTED, 0)\n"
-//                + "       , RETURNS_ACTUAL_RPU = Isnull((Isnull(SALE.RETURNS_ACTUAL, 0)) / NULLIF(SALE.ACTUAL_UNITS, 0), 0)\n"
-//                + "       , RETURNS_PROJECTED_RPU = Isnull((Isnull(SALE.RETURNS_PROJECTED, 0)) / NULLIF(SALE.ACTUAL_UNITS, 0), 0)\n"
-//                + "       , RETURNS_ACTUAL_RATE = Isnull(SALE.RETURNS_ACTUAL_PERCENT, 0)\n"
-//                + "       , RETURNS_PROJECTED_RATE = Isnull(SALE.RETURNS_PROJECTED_PERCENT, 0)";
-//
-//        String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
-//        String salesQuery = getProjectionResultsReturnsQuery(projSelDTO);
-//        customQuery = selectClause + " from (\n" + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + "\n) SALE \n" + finalWhereCond + " \n";
-//        return customQuery;
-//    }
 
     /**
      * Used to load PPA static row and discount under Total Discount
@@ -5194,9 +4958,9 @@ public class NMProjectionResultsLogic {
      * @return List<ProjectionResultsDTO>
      */
     public List<ProjectionResultsDTO> loadDiscounts(List<Object> list, String discountName, ProjectionSelectionDTO projSelDTO, int pos) {
-        List<String> columnList = new ArrayList<String>(projSelDTO.getColumns());
+        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
-        List<ProjectionResultsDTO> projDtoList = new ArrayList<ProjectionResultsDTO>();
+        List<ProjectionResultsDTO> projDtoList = new ArrayList<>();
         ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
         projDTO.setLevelValue(projSelDTO.getLevelValue());
         projDTO.setLevelNo(projSelDTO.getLevelNo());
@@ -5216,7 +4980,7 @@ public class NMProjectionResultsLogic {
                     projDTO.setRelationshipLevelName(discountName);
                 }
 
-                String column = StringUtils.EMPTY;
+                String column;
                 int year = Integer.valueOf(String.valueOf(discountRow[0]));
                 int period = Integer.valueOf(String.valueOf(discountRow[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
@@ -5234,9 +4998,9 @@ public class NMProjectionResultsLogic {
                         value = getFormattedValue(PER_TWO, value);
                         value1 = getFormattedValue(PER_TWO, "0.00");
                     } else if (projSelDTO.getSales().contains("TOT")) {
-                        value = getFormatTwoDecimalValue(CUR_TWO, value, pos == NumericConstants.TWO ?Percentage:CURRENCY);
-                        value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", pos == NumericConstants.TWO ?Percentage:CURRENCY);
-                    } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_ExFAC_SALES)) {
+                        value = getFormatTwoDecimalValue(CUR_TWO, value, pos == NumericConstants.TWO ?PERCENTAGE:CURRENCY);
+                        value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", pos == NumericConstants.TWO ?PERCENTAGE:CURRENCY);
+                    } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
                         value = getFormattedValue(PER_TWO, value);
                         value1 = getFormattedValue(PER_TWO, "0.00");
                     }
@@ -5258,9 +5022,9 @@ public class NMProjectionResultsLogic {
                         value1 = getFormattedValue(PER_TWO, "0.00");
                     } else if (projSelDTO.getSales().contains("TOT")) {
                         value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
-                        value = getFormatTwoDecimalValue(CUR_TWO, value, pos == NumericConstants.TWO ?Percentage:CURRENCY);
-                        value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", pos == NumericConstants.TWO ?Percentage:CURRENCY);
-                    } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_ExFAC_SALES)) {
+                        value = getFormatTwoDecimalValue(CUR_TWO, value, pos == NumericConstants.TWO ?PERCENTAGE:CURRENCY);
+                        value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", pos == NumericConstants.TWO ?PERCENTAGE:CURRENCY);
+                    } else if (projSelDTO.getSales().contains(Constant.DISCOUNT_EXFAC_SALES)) {
                         value = getFormattedValue(PER_TWO, value);
                         value1 = getFormattedValue(PER_TWO, "0.00");
                     }
@@ -5296,7 +5060,7 @@ public class NMProjectionResultsLogic {
 
     }
     
-    private String getPPACount(ProjectionSelectionDTO projSelDTO, Boolean isTotal) {
+    private String getPPACount(Boolean isTotal) {
         String query = "SELECT COUNT(DISTINCT RS.RS_NAME) "
                 + "FROM ST_NM_PPA_PROJECTION_MASTER TEMP \n";
         if (!isTotal) {
@@ -5342,7 +5106,7 @@ public class NMProjectionResultsLogic {
                for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
                     if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
-                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo),started,neededRecord, hierarchyNoList.size(),i));
+                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo), hierarchyNoList.size(),i));
                      
                     }
                 started++;
@@ -5356,7 +5120,7 @@ public class NMProjectionResultsLogic {
             for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
                     if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
-                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),started,neededRecord,hierarchyNoList.size(),i));
+                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),hierarchyNoList.size(),i));
                 }
                     started++;
                 neededRecord--;
@@ -5372,7 +5136,7 @@ public class NMProjectionResultsLogic {
      * @param detailsList
      * @return
      */
-    public ProjectionResultsDTO configureDetailsInDTO(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator,int levelNo, List detailsList,int started,int neededRecord,int listSize,int i) {
+    public ProjectionResultsDTO configureDetailsInDTO(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator,int levelNo, List detailsList,int listSize,int i) {
                      ProjectionResultsDTO dto = new ProjectionResultsDTO();
                      dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO).toString()));
                      dto.setTreeLevelNo(levelNo);
@@ -5415,9 +5179,9 @@ public class NMProjectionResultsLogic {
     public String getselectedFrequency(ProjectionSelectionDTO projSelDTO) {
         String selectedGroup = StringUtils.EMPTY;
         if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            selectedGroup = ", I.QUARTER";
+            selectedGroup = Constant.IQUARTER;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            selectedGroup = ", I.SEMI_ANNUAL";
+            selectedGroup = Constant.ISEMI_ANNUAL;
         } else if (projSelDTO.getFrequencyDivision() == 1) {
             selectedGroup = StringUtils.EMPTY;
         } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {

@@ -45,18 +45,18 @@ public class ErrorCodeUtilTest {
     @Before
     public void setUp() {
         
-        assertNegativeList=new ArrayList<String>();
+        assertNegativeList=new ArrayList<>();
         assertNegativeList.add("");
         assertNegativeList.add(null);
         assertNegativeList.add("null");
         assertNegativeList.add("$@^!");
         
-        assertPositiveList=new ArrayList<String>();
+        assertPositiveList=new ArrayList<>();
         for(int msgNo=0;msgNo<=NumericConstants.TWO;msgNo++){
             assertPositiveList.add("ERROR_CODE_100"+msgNo);
         }
         
-        exception=new ArrayList<Exception>();
+        exception=new ArrayList<>();
         exception.add(new IOException());
         exception.add(new RuntimeException());
     }

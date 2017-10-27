@@ -343,9 +343,9 @@ public class SalesBasis extends CustomComponent {
         companyNo.setImmediate(true);
         marketType.setImmediate(true);
         netSalesRule.setImmediate(true);
-        contractSelection.addItem("Existing Contract");
-        contractSelection.addItem("Select Contract");
-        contractSelection.select("Existing Contract");
+        contractSelection.addItem(ConstantsUtils.EXISTING_CONTRACT);
+        contractSelection.addItem(ConstantsUtils.SELECT_CONTRACT);
+        contractSelection.select(ConstantsUtils.EXISTING_CONTRACT);
         contractSelection.setMultiSelect(false);
         massCheck.addItem(ConstantsUtils.ENABLE);
         massCheck.addItem(ConstantsUtils.DISABLE);
@@ -359,10 +359,10 @@ public class SalesBasis extends CustomComponent {
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         massField.addItem(ConstantsUtils.SELECT_ONE);
-        massField.addItem("Net Sales Rule No");
+        massField.addItem(ConstantsUtils.NET_SALES_RULE_NO);
         massField.select(ConstantsUtils.SELECT_ONE);
-
-        List<Integer> pageLength = new ArrayList<Integer>();
+ 
+        List<Integer> pageLength = new ArrayList<>();
         pageLength.add(NumericConstants.TEN);
         pageLength.add(NumericConstants.FIFTEEN);
         pageLength.add(NumericConstants.TWENTY);
@@ -479,7 +479,7 @@ public class SalesBasis extends CustomComponent {
             @Override
             public void click(CustomTextField.ClickEvent event) {
                 try {
-                    lookUp = new NetSalesRuleLookUp(netSalesRule,"Sales Basis");
+                    lookUp = new NetSalesRuleLookUp(netSalesRule,ConstantsUtils.SALES_BASIS);
                     UI.getCurrent().addWindow(lookUp);
                     lookUp.addCloseListener(new Window.CloseListener() {
                         @SuppressWarnings("PMD")
@@ -518,7 +518,7 @@ public class SalesBasis extends CustomComponent {
                     selectedCustomersTable.removeAllItems();
                     availableCustomersTable.removeAllItems();
                     availableContractsTable.removeAllItems();
-                    if (contractSelection.getValue().toString().equals("Select Contract")) {
+                    if (contractSelection.getValue().toString().equals(ConstantsUtils.SELECT_CONTRACT)) {
                         netSalesRule.setEnabled(false);
                         cssLayout2.setEnabled(true);
                         resetBtn.setEnabled(true);
@@ -581,13 +581,13 @@ public class SalesBasis extends CustomComponent {
         massField.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                if (("Net Sales Rule No").equals(massField.getValue())) {
+                if ((ConstantsUtils.NET_SALES_RULE_NO).equals(massField.getValue())) {
                     massValue.setVisible(true);
                     massValue.addClickListener(new CustomTextField.ClickListener() {
                         @Override
                         public void click(CustomTextField.ClickEvent event) {
                             try {
-                                    lookUp = new NetSalesRuleLookUp(massValue,"Sales Basis");
+                                    lookUp = new NetSalesRuleLookUp(massValue,ConstantsUtils.SALES_BASIS);
                                     UI.getCurrent().addWindow(lookUp);
                                 lookUp.addCloseListener(new Window.CloseListener() {
                                     @SuppressWarnings("PMD")
@@ -597,7 +597,7 @@ public class SalesBasis extends CustomComponent {
                                             final Map<String, String> map = new HashMap<>();
                                             map.put("ruleNo", nsfDTO.getRuleNo());
                                             map.put("ruleName", nsfDTO.getRuleName());
-                                            map.put("ruleSystemSID", nsfDTO.getRuleSystemId());
+                                            map.put(ConstantsUtils.RULE_SYSTEM_ID, nsfDTO.getRuleSystemId());
                                             massValue.setData(map);
                                         }
                                     }
@@ -613,7 +613,7 @@ public class SalesBasis extends CustomComponent {
                 }
             }
         });
-        contractSelection.setValue("Existing Contract");
+        contractSelection.setValue(ConstantsUtils.EXISTING_CONTRACT);
 
         excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
         excelExport.setStyleName("link");
@@ -690,7 +690,7 @@ public class SalesBasis extends CustomComponent {
                     public void buttonClicked(final ButtonId buttonId) {
                         if (ButtonId.YES.equals(buttonId)) {
                             binder.getErrorDisplay().clearError();
-                            binder.setItemDataSource(new BeanItem<SalesBasisDto>(new SalesBasisDto()));
+                            binder.setItemDataSource(new BeanItem<>(new SalesBasisDto()));
                             }
                         }
                 }, ButtonId.YES, ButtonId.NO);
@@ -747,7 +747,7 @@ public class SalesBasis extends CustomComponent {
                     if (SalesLogic.isChecked(userId, sessiondto.getUiSessionId())) {
                         populateLogic();
                     } else {
-                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please select atleast one record to populate", new MessageBoxListener() {
+                        final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please select atleast one record to populate", new MessageBoxListener() {
                             /**
                              * The method is triggered when a button of the
                              * message box is pressed .
@@ -763,26 +763,18 @@ public class SalesBasis extends CustomComponent {
                         msg.getButton(ButtonId.OK).focus();
                     }
 
-                } catch (FieldGroup.CommitException ex) {
+                }catch (FieldGroup.CommitException ex) {
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     LOGGER.error(errorMsg);
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message
-                         * box is pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing  
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (Exception exception) {
+                }
+                /**
+                 * The method is triggered when a button of the message
+                 * box is pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                 catch (Exception exception) {
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1002), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message
@@ -817,7 +809,7 @@ public class SalesBasis extends CustomComponent {
 
                     }else{
         binder.getErrorDisplay().clearError();
-        List<Object> collapsedColumns = new ArrayList<Object>();
+        List<Object> collapsedColumns = new ArrayList<>();
         for (Object item : availableContractsTable.getVisibleColumns()) {
             if (availableContractsTable.isColumnCollapsed(item)) {
                 collapsedColumns.add(item);
@@ -898,7 +890,7 @@ public class SalesBasis extends CustomComponent {
 
     public String isTableSelected() {
         String errorMessage = StringUtils.EMPTY;
-        if (contractSelection.getValue().toString().equals("Select Contract") && selectedCustomersTable.size() == 0) {
+        if (contractSelection.getValue().toString().equals(ConstantsUtils.SELECT_CONTRACT) && selectedCustomersTable.size() == 0) {
                  errorMessage = "Select at least one Customer in Sales Basis tab ";
         }
         return errorMessage;
@@ -950,7 +942,7 @@ public class SalesBasis extends CustomComponent {
 
     }
 
-    private void populateLogic() throws FieldGroup.CommitException, PortalException, SystemException {
+    private void populateLogic() throws FieldGroup.CommitException {
         binder.getErrorDisplay().clearError();
         binder.commit();
         String fieldMass = "";
@@ -964,10 +956,10 @@ public class SalesBasis extends CustomComponent {
                     final String populateField;
                     final String populateValue;
                     fieldMass = massField.getValue().toString();
-                    if ("Net Sales Rule No".equalsIgnoreCase(fieldMass)) {
+                    if (ConstantsUtils.NET_SALES_RULE_NO.equalsIgnoreCase(fieldMass)) {
                         populateField = "CDR_MODEL_SID";
                         Map<String, String> map = (HashMap) massValue.getData();
-                        populateValue = "0".equals(map.get("ruleSystemSID"))?null:map.get("ruleSystemSID");
+                        populateValue = "0".equals(map.get(ConstantsUtils.RULE_SYSTEM_ID))?null:map.get(ConstantsUtils.RULE_SYSTEM_ID);
                     } else {
                         populateField = StringUtils.EMPTY;
                         populateValue = StringUtils.EMPTY;
@@ -980,7 +972,7 @@ public class SalesBasis extends CustomComponent {
                 massField.setValue("");
 
             } else {
-                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
+                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please enter value for the " + massField.getValue(), new MessageBoxListener() {
                     /**
                      * The method is triggered when a button of the message box
                      * is pressed .
@@ -995,7 +987,7 @@ public class SalesBasis extends CustomComponent {
                 msg.getButton(ButtonId.OK).focus();
             }
         } else {
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Populate Error", "Please Select a field to Populate", new MessageBoxListener() {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ConstantsUtils.POPULATE_ERROR, "Please Select a field to Populate", new MessageBoxListener() {
                 /**
                  * The method is triggered when a button of the message box is
                  * pressed .
@@ -1038,20 +1030,20 @@ public class SalesBasis extends CustomComponent {
 
     }
 
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException , NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException , NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = logic.tempTableCount(null, sessiondto);
         ExcelExportforBB.createWorkSheet(selectedCustomersTable.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.SALES_BASIS);
         LOGGER.debug("Ending createWorkSheet");
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, ParseException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         SalesBasisDto dto;
      if(end !=0){
         final List<SalesBasisDto> searchList = logic.tempTableResults(sessiondto, start, start + end, null,null);
@@ -1088,14 +1080,14 @@ public class SalesBasis extends CustomComponent {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
             final Map<String, AppPermission> fieldNsfHM = stplSecurity
-                    .getFieldOrColumnPermission(userId, UISecurityUtil.NET_SALES_FORMULA + "," + "Sales Basis", false);
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.NET_SALES_FORMULA, "Sales Basis");
+                    .getFieldOrColumnPermission(userId, UISecurityUtil.NET_SALES_FORMULA + "," + ConstantsUtils.SALES_BASIS, false);
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.NET_SALES_FORMULA, ConstantsUtils.SALES_BASIS);
             securityLogic.removeComponentOnPermission(resultList, cssLayout, fieldNsfHM, sessiondto.getMode().equalsIgnoreCase("Copy")?"Add":sessiondto.getMode());
             securityLogic.removeComponentOnPermission(resultList, cssLayout2, fieldNsfHM,sessiondto.getMode().equalsIgnoreCase("Copy")?"Add":sessiondto.getMode());
             Object[] obj;
             Object[] obj1;
             Object[] obj2;
-            if (contractSelection.getValue().toString().equals("Select Contract")) {
+            if (contractSelection.getValue().toString().equals(ConstantsUtils.SELECT_CONTRACT)) {
                 availableCustomersTable.setVisibleColumns(UIUtils.AVAILABLE_CUSTOMER_COL);
                 selectedCustomersTable.setVisibleColumns(UIUtils.SELECTED_CUSTOMER_COL1);
                 obj1 = UIUtils.AVAILABLE_CUSTOMER_COL;
@@ -1158,7 +1150,7 @@ public class SalesBasis extends CustomComponent {
 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-        final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.NET_SALES_FORMULA + "," + "Sales Basis");
+        final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.NET_SALES_FORMULA + "," + ConstantsUtils.SALES_BASIS);
         if (functionHM.get("searchBtn") == null ||  !((AppPermission) functionHM.get("searchBtn")).isFunctionFlag()) {
             searchBtn.setVisible(false);
         }
@@ -1193,7 +1185,7 @@ public class SalesBasis extends CustomComponent {
     public void setRuleSystemId(String ruleSystemId) {
         this.ruleSystemId = ruleSystemId;
     }
-      public void saveSalesBasisSelections(int nsfId) throws PortalException {
+      public void saveSalesBasisSelections(int nsfId) {
         LOGGER.debug("saveSalesProjection method starts");
         Map map = new HashMap();
 
@@ -1201,7 +1193,7 @@ public class SalesBasis extends CustomComponent {
         sbLogic.getDisplaySearchMap(binder,map);
           if (!map.isEmpty()) {
               map.put("contractMasterSid", salesBasisDto.getContractMasterSid());  
-              nsfLogic.saveProjectionSelection(map, nsfId, "Sales Basis");
+              nsfLogic.saveProjectionSelection(map, nsfId, ConstantsUtils.SALES_BASIS);
           }
         LOGGER.debug("saveSalesProjection method ends");
 
@@ -1222,7 +1214,7 @@ public class SalesBasis extends CustomComponent {
           try {
             binder.commit();
 
-            tableLogic.configureSearchData(binder, this);
+            tableLogic.configureSearchData(binder);
             availableContractsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             availableContractsTable.setFilterGenerator(new NsfFilterGenerator());
             availableContractsTable.setImmediate(true);

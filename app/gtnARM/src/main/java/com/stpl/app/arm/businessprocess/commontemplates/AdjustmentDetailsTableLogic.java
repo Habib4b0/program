@@ -24,7 +24,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  * @author Karthikeyan.Subraman
  * @param <T>
  */
-public class AdjustmentDetailsTableLogic<T extends AdjustmentDTO> extends PageTableLogic implements TableLogicAble<T>,HasLogic<T> {
+public class AdjustmentDetailsTableLogic<T extends AdjustmentDTO> extends PageTableLogic implements TableLogicAble<T>, HasLogic<T> {
 
     AbstractAdjustmentDetailsLogic logic;
     AbstractSelectionDTO selection;
@@ -34,29 +34,31 @@ public class AdjustmentDetailsTableLogic<T extends AdjustmentDTO> extends PageTa
         this.logic = logic;
         this.selection = selection;
     }
+
     @Override
     public int getCount(Criteria criteria) {
-        return getLogic().getCount(criteria);
+        return getSummaryLogic().getCount(criteria);
     }
 
     @Override
     public DataResult getData(Criteria criteria) {
-        return getLogic().getData(criteria);
+        return getSummaryLogic().getData(criteria);
     }
 
     @Override
-    public LogicAble<T> getLogic() {
+    public LogicAble<T> getSummaryLogic() {
         return logic;
     }
+
     @Override
     public int getCount() {
         int count = 0;
         if (isGenerate) {
-            SelectionCriteria criteria=new SelectionCriteria();
-            criteria.setFilters(getFilters());            
+            SelectionCriteria criteria = new SelectionCriteria();
+            criteria.setFilters(getFilters());
             criteria.setSelectionDto(selection);
             criteria.setParent(null);
-            count = getCount(criteria);             
+            count = getCount(criteria);
         }
         return count;
     }
@@ -78,15 +80,14 @@ public class AdjustmentDetailsTableLogic<T extends AdjustmentDTO> extends PageTa
 
     @Override
     public List<AdjustmentDTO> loadData(int start, int offset) {
-        SelectionCriteria criteria=new SelectionCriteria();
-            criteria.setFilters(getFilters());
-            criteria.setSortByColumns(getSortByColumns());
-            criteria.setSelectionDto(selection);
-            criteria.setParent(null);
-            criteria.setStart(start);
-            criteria.setOffset(offset);
-        List<AdjustmentDTO> list = getData(criteria).getDataResults();
-        return list;
+        SelectionCriteria criteria = new SelectionCriteria();
+        criteria.setFilters(getFilters());
+        criteria.setSortByColumns(getSortByColumns());
+        criteria.setSelectionDto(selection);
+        criteria.setParent(null);
+        criteria.setStart(start);
+        criteria.setOffset(offset);
+        return getData(criteria).getDataResults();
     }
 
 }

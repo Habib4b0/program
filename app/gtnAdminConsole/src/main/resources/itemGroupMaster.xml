@@ -10,13 +10,13 @@
                     <VerticalLayout spacing="true" margin="true" immediate="true" >
                     <HorizontalLayout styleName="responsiveTabGrid">
                         <CssLayout id="cssLayout" width="100%" height="100%">
-                            <Label value="Item Group Name" contentMode="HTML" />
+                            <Label id="itemGroupNameLabel" value="Item Group Name" contentMode="HTML" />
                             <TextField id="itemGroupName"  immediate="true" />
-                            <Label  value="Item Group No" contentMode="HTML" />
+                            <Label  id="itemGroupNoLabel" value="Item Group No" contentMode="HTML" />
                             <TextField id="itemGroupNo"  immediate="true" />
-                            <Label  value="Item Group Description"  contentMode="HTML" />
+                            <Label  id="itemGroupDescLabel" value="Item Group Description"  contentMode="HTML" />
                             <TextField id="itemGroupDesc"  immediate="true" />
-                            <Label value="Company"  contentMode="HTML" />
+                            <Label id="companyDdlbLabel" value="Company"  contentMode="HTML" />
                             <ComboBox id="companyDdlb"  immediate="true" nullSelectionAllowed="true" inputPrompt="-Select One-" />
                         </CssLayout>
                     </HorizontalLayout>

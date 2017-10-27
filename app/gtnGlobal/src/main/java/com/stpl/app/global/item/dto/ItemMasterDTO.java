@@ -251,10 +251,10 @@ private String manufacturerId=StringUtils.EMPTY;
 	private Character inboundStatus;
 	
 	/** The item identifier list. */
-	private List<ItemIrtIdentifierDTO> itemIdentifierList=new ArrayList<ItemIrtIdentifierDTO>();
+	private List<ItemIrtIdentifierDTO> itemIdentifierList=new ArrayList<>();
 	
 	/** The pricing identifier list. */
-	private List<ItemPricingDTO> pricingIdentifierList=new ArrayList<ItemPricingDTO>();
+	private List<ItemPricingDTO> pricingIdentifierList=new ArrayList<>();
 	
 	/** The record lock status. */
 	private String recordLockStatus;
@@ -277,6 +277,9 @@ private String manufacturerId=StringUtils.EMPTY;
     
     /** The divestiture date. */
     private Date divestitureDate;
+    
+    private int baselineAmpPrecision;
+      private int baseCpiPrecision;
     
     /** The non federal expiration date. */
     private Date nonFederalExpirationDate;
@@ -1689,6 +1692,22 @@ private com.stpl.app.util.HelperDTO manufacturerIdDDLB;
 
     public void setItemBatchId(String itemBatchId) {
         this.itemBatchId = itemBatchId;
+    }
+
+    public int getBaselineAmpPrecision() {
+        return baselineAmpPrecision;
+    }
+
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        this.baselineAmpPrecision = baselineAmpPrecision;
+    }
+
+    public int getBaseCpiPrecision() {
+        return baseCpiPrecision;
+    }
+
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        this.baseCpiPrecision = baseCpiPrecision;
     }
 
     }

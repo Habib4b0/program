@@ -105,8 +105,8 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
         tradingPartnerDetailsTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         tradingPartnerDetailsTable.setPageLength(NumericConstants.FIVE);
         tradingPartnerDetailsTable.setContainerDataSource(tradingPartnerDetailsContainer);
-        tradingPartnerDetailsTable.setVisibleColumns(Constants.REMOVE_TP_SUMMARY_CONTRACT_SELECTION_COLUMNS);
-        tradingPartnerDetailsTable.setColumnHeaders(Constants.REMOVE_TP_CONTRACT_SELECTION_HEADERS);
+        tradingPartnerDetailsTable.setVisibleColumns(Constants.getInstance().removeTpSummaryContractSelectionColumns);
+        tradingPartnerDetailsTable.setColumnHeaders(Constants.getInstance().removeTpContractSelectionHeaders);
         tradingPartnerDetailsTable.setColumnAlignment("contStartDate", ExtCustomTable.Align.CENTER);
         tradingPartnerDetailsTable.setColumnAlignment("contEndDate", ExtCustomTable.Align.CENTER);
         tradingPartnerDetailsTable.setColumnAlignment("compStartDate", ExtCustomTable.Align.CENTER);
@@ -114,7 +114,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
         tradingPartnerDetailsTable.setEditable(true);
         tradingPartnerDetailsTable.setTableFieldFactory(new TableFieldFactory() {
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
-                if (propertyId.equals("checkRecord")) {
+                if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -138,36 +138,36 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
 
                 if (propertyId.equals("compStartDate")) {
                     final PopupDateField compStartDate = new PopupDateField();
-                    compStartDate.setDateFormat("MM/dd/yyyy");
-                    compStartDate.setStyleName("dateFieldCenter");
-                    compStartDate.addStyleName("datefieldcentered");
+                    compStartDate.setDateFormat(Constants.DATE_FORMAT);
+                    compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compStartDate.setEnabled(false);
                     return compStartDate;
                 }
 
                 if (propertyId.equals("compEndDate")) {
                     final PopupDateField compEndDate = new PopupDateField();
-                    compEndDate.setDateFormat("MM/dd/yyyy");
-                    compEndDate.setStyleName("dateFieldCenter");
-                    compEndDate.addStyleName("datefieldcentered");
+                    compEndDate.setDateFormat(Constants.DATE_FORMAT);
+                    compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compEndDate.setEnabled(false);
                     return compEndDate;
                 }
 
                 if (propertyId.equals("contEndDate")) {
                     final PopupDateField contEndDate = new PopupDateField();
-                    contEndDate.setDateFormat("MM/dd/yyyy");
-                    contEndDate.setStyleName("dateFieldCenter");
-                    contEndDate.addStyleName("datefieldcentered");
+                    contEndDate.setDateFormat(Constants.DATE_FORMAT);
+                    contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contEndDate.setEnabled(false);
                     return contEndDate;
                 }
 
                 if (propertyId.equals("contStartDate")) {
                     final PopupDateField contStartDate = new PopupDateField();
-                    contStartDate.setDateFormat("MM/dd/yyyy");
-                    contStartDate.setStyleName("dateFieldCenter");
-                    contStartDate.addStyleName("datefieldcentered");
+                    contStartDate.setDateFormat(Constants.DATE_FORMAT);
+                    contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contStartDate.setEnabled(false);
                     return contStartDate;
                 }
@@ -190,6 +190,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
             }
         }
         tradingPartnerDetailsTable.resetFilters();
+        tradingPartnerDetailsTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
     }
 
     @UiHandler("rebuild")
@@ -230,7 +231,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     }
 
     private void removeCheckedItems(BeanItemContainer<ContractResultDTO> tpDetailsContainer) {
-        List<ContractResultDTO> checkedContracts = new ArrayList<ContractResultDTO>();
+        List<ContractResultDTO> checkedContracts = new ArrayList<>();
         ContractSelectionLogic csLogic = new ContractSelectionLogic();
         List<ContractResultDTO> tableRecords = tpDetailsContainer.getItemIds();
         String contractName = StringUtils.EMPTY;
@@ -269,7 +270,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
 
     @Override
     public void setTransferContractRefresh(boolean transferContractRefresh) {
-
+        return;
     }
 
     @UiHandler("excelBtn")
@@ -299,14 +300,14 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
         }
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
         try {
             CommmonLogic logic = new CommmonLogic();
             if (tradingPartnerDetailsContainer.size() > 0) {
                 List<ContractResultDTO> checkedContractList = logic.getContractResults(CommmonLogic.getSubmittedRecords(session, StringUtils.EMPTY, false));
                 Object[] columns = tradingPartnerDetailsTable.getVisibleColumns();
-                columns = ArrayUtils.removeElement(columns, "checkRecord");
+                columns = ArrayUtils.removeElement(columns, Constants.CHECK_RECORD);
                 ExcelExportforBB.createFileContent(columns, checkedContractList, printWriter);
             }
         } catch (Exception e) {

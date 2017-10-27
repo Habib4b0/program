@@ -6,6 +6,7 @@
 package com.stpl.app.global.deductioncalendar.ui.util;
 
 import com.stpl.app.global.common.util.CommonUtil;
+import com.stpl.app.global.company.util.UIUtils;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.data.Container;
@@ -65,36 +66,64 @@ public class DeductionCustomerFilerGenerator implements ExtFilterGenerator {
 
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, "STATUS", false);
-                comboBox.select(0);
-                comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
-                comboBox.select(ConstantsUtils.ZERO_INT);
+                commonMsg.loadComboBox(comboBox, "STATUS", true);
                 return comboBox;
 
             }else if ("customerType".equals(propertyId)) {
 
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, "COMPANY_TYPE", false);
-                comboBox.select(0);
-                comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
-                comboBox.select(ConstantsUtils.ZERO_INT);
+                commonMsg.loadComboBox(comboBox, "COMPANY_TYPE", true);
                 return comboBox;
 
             }else if ("tradeClass".equals(propertyId)) {
 
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, "COMPANY_TRADE_CLASS", false);
-                comboBox.select(0);
-                comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
-                comboBox.select(ConstantsUtils.ZERO_INT);
+                commonMsg.loadComboBox(comboBox, "COMPANY_TRADE_CLASS", true);
                 return comboBox;
 
-            }             
+            }else if(ConstantsUtils.UDC1.equals(propertyId)){
+                comboBox = new ComboBox();
+                comboBox.setImmediate(true);
+                commonMsg.loadComboBox(comboBox, UIUtils.UDC1, true);
+                return comboBox;
+            }else if(ConstantsUtils.UDC2.equals(propertyId)){
+                comboBox = new ComboBox();
+                comboBox.setImmediate(true);
+                commonMsg.loadComboBox(comboBox, UIUtils.UDC2, true);
+                return comboBox;
+            }else if(ConstantsUtils.UDC3.equals(propertyId)){
+                comboBox = new ComboBox();
+                comboBox.setImmediate(true);
+                commonMsg.loadComboBox(comboBox, UIUtils.UDC3, true);
+                return comboBox;
+            }else if(ConstantsUtils.UDC4.equals(propertyId)){
+                comboBox = new ComboBox();
+                comboBox.setImmediate(true);
+                commonMsg.loadComboBox(comboBox, UIUtils.UDC4, true);
+                return comboBox;
+            }else if(ConstantsUtils.UDC5.equals(propertyId)){
+                comboBox = new ComboBox();
+                comboBox.setImmediate(true);
+                commonMsg.loadComboBox(comboBox, UIUtils.UDC5, true);
+                return comboBox;
+            }else if(ConstantsUtils.UDC6.equals(propertyId)){
+                comboBox = new ComboBox();
+                comboBox.setImmediate(true);
+                commonMsg.loadComboBox(comboBox, UIUtils.UDC6, true);
+                return comboBox;
+            }else if("organisationKey".equals(propertyId)){
+                comboBox = new ComboBox();
+                comboBox.setImmediate(true);
+                commonMsg.loadComboBox(comboBox, UIUtils.ORGANIZATION_KEY, true);
+                return comboBox;
+            }else if("customerGroup".equals(propertyId)){
+                comboBox = new ComboBox();
+                comboBox.setImmediate(true);
+                commonMsg.loadComboBox(comboBox, UIUtils.COMPANY_GROUP, true);
+                return comboBox;
+            }
         } catch (Exception ex) {
             LOGGER.error(ex);
         } 
@@ -103,10 +132,12 @@ public class DeductionCustomerFilerGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

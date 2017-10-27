@@ -1,6 +1,10 @@
 package com.stpl.app.adminconsole.bpm.dto;
 
 public class VwHelperListDto {
+    
+    public VwHelperListDto() {
+        super();
+    }
 
 	private String uniqueId;
 	private String actualTableName;

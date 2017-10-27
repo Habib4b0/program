@@ -60,11 +60,9 @@ import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,11 +88,6 @@ public class PMPYCalculator extends Window {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(PMPYCalculator.class);
-
-    /**
-     * The date.
-     */
-    private Date date = new Date();
 
     /**
      * The space.
@@ -221,7 +214,7 @@ public class PMPYCalculator extends Window {
      * The df calculated amount.
      */
 
-    final DecimalFormat unitFormat = new DecimalFormat("####.0");
+    final DecimalFormat unitFormat = new DecimalFormat(Constant.SINGLE_DECIMAL_FORMAT);
     public static final DecimalFormat MONEY_TWO_DECIMAL = new DecimalFormat("$#,###.00");
     public static final DecimalFormat MONEY_NO_DECIMAL = new DecimalFormat("$#,###");
     final DecimalFormat noDecimalPlace = new DecimalFormat("####");
@@ -322,16 +315,16 @@ public class PMPYCalculator extends Window {
 
     private FreezeFilterTable contractHolderTable = new FreezeFilterTable();
     private FreezeFilterTable tradingHistoryTable = new FreezeFilterTable();
-    private ExtTreeContainer<PMPYRowDto> chContainer = new ExtTreeContainer<PMPYRowDto>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
-    private ExtTreeContainer<PMPYRowDto> tpContainer = new ExtTreeContainer<PMPYRowDto>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<PMPYRowDto> chContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<PMPYRowDto> tpContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
 
     String historyPeriods = StringUtils.EMPTY;
     List projectionDetailsId;
 
-    List<Object> visiColumn = new ArrayList<Object>();
-    List<String> visiHeaders = new ArrayList<String>();
-    private List<String> chtCheckBoxMap = new ArrayList<String>();
-    private List<String> tptCheckBoxMap = new ArrayList<String>();
+    List<Object> visiColumn = new ArrayList<>();
+    List<String> visiHeaders = new ArrayList<>();
+    private List<String> chtCheckBoxMap = new ArrayList<>();
+    private List<String> tptCheckBoxMap = new ArrayList<>();
     boolean valueChange = Boolean.TRUE;
 
     /**
@@ -373,8 +366,8 @@ public class PMPYCalculator extends Window {
      * @param originalBean the original bean
      * @param generateBtn the generate btn
      */
-    public PMPYCalculator(final String history, final List projectionDetailsId, final Button generateBtn, final CustomTableHeaderDTO rightHeader, String tradeName, String tradeNo, String contractHolder, SessionDTO session, List doubleProjectedColumns) {
-        super("PMPY Calculator");
+    public PMPYCalculator(final String history, final List projectionDetailsId, final CustomTableHeaderDTO rightHeader, String tradeName, String tradeNo, String contractHolder, SessionDTO session, List doubleProjectedColumns) {
+        super(Constant.PMPY_CALCULATOR);
         LOGGER.debug("Entering PMPYCalculator");
         this.historyPeriods = history;
         this.projectionDetailsId = projectionDetailsId;
@@ -429,8 +422,8 @@ public class PMPYCalculator extends Window {
             salesOrUnits.select(Constant.SALES_DOLLARS);
             loadContractHolder();
 
-            marketShare.setValue("100.0%");
-            marketShare1.setValue("100.0%");
+            marketShare.setValue(Constant.HUNDRED_PERCENT);
+            marketShare1.setValue(Constant.HUNDRED_PERCENT);
             analogLives.setImmediate(true);
             analogLives.addValidator(new RegexpValidator(regex, "Should contain only number"));
             sales.setEnabled(false);
@@ -472,8 +465,8 @@ public class PMPYCalculator extends Window {
                             Double value = Double.valueOf(String.valueOf(marketShare1.getValue()));
                             marketShare1.setValue(unitFormat.format(value) + Constant.PERCENT);
                         } else {
-                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please Enter the correct value .", ButtonId.OK);
-                            marketShare1.setValue("100.0%");
+                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, Constant.PLEASE_ENTER_THE_CORRECT_VALUE_DOT, ButtonId.OK);
+                            marketShare1.setValue(Constant.HUNDRED_PERCENT);
                         }
 
                     }
@@ -488,8 +481,8 @@ public class PMPYCalculator extends Window {
                             Double value = Double.valueOf(String.valueOf(marketShare.getValue()));
                             marketShare.setValue(unitFormat.format(value) + Constant.PERCENT);
                         } else {
-                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please Enter the correct value .", ButtonId.OK);
-                            marketShare.setValue("100.0%");
+                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, Constant.PLEASE_ENTER_THE_CORRECT_VALUE_DOT, ButtonId.OK);
+                            marketShare.setValue(Constant.HUNDRED_PERCENT);
                         }
 
                     }
@@ -505,7 +498,7 @@ public class PMPYCalculator extends Window {
                             Double value = Double.valueOf(String.valueOf(analogLives.getValue()));
                             analogLives.setValue(noDecimalPlace.format(value));
                         } else {
-                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please Enter the correct value .", ButtonId.OK);
+                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, Constant.PLEASE_ENTER_THE_CORRECT_VALUE_DOT, ButtonId.OK);
                             analogLives.setValue(StringUtils.EMPTY);
                         }
                     }
@@ -520,7 +513,7 @@ public class PMPYCalculator extends Window {
                             Double value = Double.valueOf(String.valueOf(projectedLives.getValue()));
                             projectedLives.setValue(noDecimalPlace.format(value));
                         } else {
-                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please Enter the correct value .", ButtonId.OK);
+                            MessageBox.showPlain(Icon.INFO, Constant.ERROR, Constant.PLEASE_ENTER_THE_CORRECT_VALUE_DOT, ButtonId.OK);
                             projectedLives.setValue(StringUtils.EMPTY);
                         }
                     }
@@ -543,10 +536,10 @@ public class PMPYCalculator extends Window {
                                 // reset the fields here
                                 valueChange = Boolean.FALSE;
                                 sales.setValue(StringUtils.EMPTY);
-                                marketShare.setValue("100.0%");
+                                marketShare.setValue(Constant.HUNDRED_PERCENT);
                                 analogLives.setValue(StringUtils.EMPTY);
                                 valuePerLife.setValue(StringUtils.EMPTY);
-                                marketShare1.setValue("100.0%");
+                                marketShare1.setValue(Constant.HUNDRED_PERCENT);
                                 projectedLives.setValue(StringUtils.EMPTY);
                                 totalSales.setValue(StringUtils.EMPTY);
                                 projectionPeriodTotal.setValue(StringUtils.EMPTY);
@@ -607,7 +600,7 @@ public class PMPYCalculator extends Window {
                 public void click(final MouseEvents.ClickEvent event) {
                     final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart(chContainer.getBeans(), (String) contract.getValue(), rightDto.getDoubleHistoryColumns());
 
-                    final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), "PMPY Calculator");
+                    final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), Constant.PMPY_CALCULATOR);
                     UI.getCurrent().addWindow(salesGraphWindow);
                 }
             });
@@ -635,7 +628,7 @@ public class PMPYCalculator extends Window {
                 public void click(final MouseEvents.ClickEvent event) {
                     final PMPYTradingPartnerHistoryChart chart = new PMPYTradingPartnerHistoryChart(tpContainer.getBeans(), tradingPartner.getValue(), rightDto.getDoubleHistoryColumns());
 
-                    final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), "PMPY Calculator");
+                    final NmSalesGraphWindow salesGraphWindow = new NmSalesGraphWindow(chart.getCharts(), Constant.PMPY_CALCULATOR);
                     UI.getCurrent().addWindow(salesGraphWindow);
 
                 }
@@ -682,13 +675,6 @@ public class PMPYCalculator extends Window {
                         } else {
                             generateButtonLogic();
                         }
-                    } catch (SystemException e) {
-
-                        LOGGER.error(e);
-
-                    } catch (PortalException e) {
-                        LOGGER.error(e);
-
                     } catch (Exception e) {
                         LOGGER.error(e);
 
@@ -706,7 +692,7 @@ public class PMPYCalculator extends Window {
                     final boolean tpValue = isTpCheckBoxSelectd();
 
                     if (chValue || tpValue) {
-                        populateButtonLogic(history.getValue(), chValue, tpValue);
+                        populateButtonLogic(chValue, tpValue);
                     } else {
                         AbstractNotificationUtils.getErrorNotification("No Periods Selected",
                                 "There are no historical periods selected from the Contract Holder History list view or the Trading Partner History list view.  "
@@ -716,15 +702,7 @@ public class PMPYCalculator extends Window {
 
             });
             LOGGER.debug("End of configureFields method");
-        } catch (SystemException e) {
-
-            LOGGER.error(e);
-
-        } catch (PortalException e) {
-
-            LOGGER.error(e);
-
-        } catch (Exception e) {
+        }  catch (Exception e) {
 
             LOGGER.error(e);
 
@@ -818,7 +796,7 @@ public class PMPYCalculator extends Window {
         gridLayout.addComponent(tradingPartnerName);
         vLayout.setStyleName(Constant.WIDTH_AUTO);
         vLayout.addStyleName("pmpycriteria");
-        gridLayout.setStyleName("adjust-label");
+        gridLayout.setStyleName(Constant.ADJUST_LABEL);
         vLayout.addComponent(gridLayout);
         panel.setContent(vLayout);
         panel.setSizeFull();
@@ -837,7 +815,7 @@ public class PMPYCalculator extends Window {
         final VerticalLayout vLayout = new VerticalLayout();
         final GridLayout gridLayout = new GridLayout(10, 1);
         final Panel panel = new Panel();
-        gridLayout.setStyleName("adjust-label");
+        gridLayout.setStyleName(Constant.ADJUST_LABEL);
         LOGGER.debug("Entering addSelectionCriteria method");
         gridLayout.setSpacing(true);
         gridLayout.setMargin(false);
@@ -969,12 +947,12 @@ public class PMPYCalculator extends Window {
         table1.addComponent(contractHolderTable);
         table1.addComponent(addChExportButtons());
         content1.addComponent(table1);
-        contractHolderTable.setHeight("200px");
-        contractHolderTable.getLeftFreezeAsTable().setHeight("200px");
-        contractHolderTable.getRightFreezeAsTable().setHeight("200px");
-        tradingHistoryTable.setHeight("200px");
-        tradingHistoryTable.getLeftFreezeAsTable().setHeight("200px");
-        tradingHistoryTable.getRightFreezeAsTable().setHeight("200px");
+        contractHolderTable.setHeight(Constant.TWO_HUNDRED_PX);
+        contractHolderTable.getLeftFreezeAsTable().setHeight(Constant.TWO_HUNDRED_PX);
+        contractHolderTable.getRightFreezeAsTable().setHeight(Constant.TWO_HUNDRED_PX);
+        tradingHistoryTable.setHeight(Constant.TWO_HUNDRED_PX);
+        tradingHistoryTable.getLeftFreezeAsTable().setHeight(Constant.TWO_HUNDRED_PX);
+        tradingHistoryTable.getRightFreezeAsTable().setHeight(Constant.TWO_HUNDRED_PX);
         table2.setCaption("Trading Partner History");
         table2.addComponent(tradingHistoryTable);
         table2.addComponent(addTpExportButtons());
@@ -1053,7 +1031,7 @@ public class PMPYCalculator extends Window {
      */
     private VerticalLayout getCalculator() {
         final VerticalLayout content2 = new VerticalLayout();
-        content2.setStyleName("adjust-label");
+        content2.setStyleName(Constant.ADJUST_LABEL);
         LOGGER.debug("Entering getCalculator method");
         content2.setSpacing(true);
         content2.setMargin(true);
@@ -1150,7 +1128,7 @@ public class PMPYCalculator extends Window {
              */
 
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         btnRemove.addClickListener(new ClickListener() {
@@ -1185,13 +1163,13 @@ public class PMPYCalculator extends Window {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void loadContractHolder() throws SystemException, PortalException {
+    private void loadContractHolder()  {
         LOGGER.debug("Entering loadContractHolder method");
         contract.setNullSelectionAllowed(Boolean.TRUE);
         contract.setNullSelectionItemId(Constant.SELECT_ONE);
         contract.addItem(Constant.SELECT_ONE);
         contract.select(Constant.SELECT_ONE);
-        contract = nonMandatedLogic.loadPMPYContractHolders(projectionId, contract, contHolder);
+        contract = nonMandatedLogic.loadPMPYContractHolders(contract);
         LOGGER.debug("End of loadContractHolder method");
     }
 
@@ -1202,7 +1180,7 @@ public class PMPYCalculator extends Window {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void generateButtonLogic() throws SystemException, PortalException {
+    private void generateButtonLogic()  {
         LOGGER.debug("Entering generateButtonLogic method");
         chContainer.removeAllItems();
         tpContainer.removeAllItems();
@@ -1242,7 +1220,7 @@ public class PMPYCalculator extends Window {
      *
      * @param history the history
      */
-    private void populateButtonLogic(final String history, boolean chValue, boolean tpValue) {
+    private void populateButtonLogic(boolean chValue, boolean tpValue) {
 
         LOGGER.debug("Entering populateButtonLogic method");
         calculatedSalesValue = 0.0;
@@ -1264,12 +1242,12 @@ public class PMPYCalculator extends Window {
                     }
                 }
 
-                Double salesValue = 0.0;
-                Double unitsValue = 0.0;
+                Double salesValue;
+                Double unitsValue;
                 for (Object key : chtCheckBoxMap) {
 
-                    salesValue = Double.valueOf(String.valueOf(actualSalesDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY));
-                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY));
+                    salesValue = Double.valueOf(String.valueOf(actualSalesDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
                     calculatedSalesValue += salesValue;
                     calculatedUnitsValue += unitsValue;
                 }
@@ -1284,11 +1262,11 @@ public class PMPYCalculator extends Window {
                         actualUnitsDto = dto;
                     }
                 }
-                Double salesValue = 0.0;
-                Double unitsValue = 0.0;
+                Double salesValue;
+                Double unitsValue;
                 for (Object key : tptCheckBoxMap) {
-                    salesValue = Double.valueOf(String.valueOf(actualSalesDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY));
-                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY));
+                    salesValue = Double.valueOf(String.valueOf(actualSalesDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
                     calculatedSalesValue += salesValue;
                     calculatedUnitsValue += unitsValue;
                 }
@@ -1315,7 +1293,7 @@ public class PMPYCalculator extends Window {
      */
     public Double getSales(final Object obj) {
         LOGGER.debug("Entering of getSales method");
-        Double value = 0.0;
+        Double value;
 
         value = Double.valueOf(String.valueOf(obj));
         dfSales.format(value);
@@ -1392,7 +1370,7 @@ public class PMPYCalculator extends Window {
             valuePerLife.setValue(StringUtils.EMPTY);
             return;
         }
-        final String tempSales = String.valueOf(sales.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY);
+        final String tempSales = String.valueOf(sales.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
         Double salesValue = 1.0;
         if (sales.getValue() != null && !StringUtils.EMPTY.equals(tempSales) && !Constant.NULL.equals(tempSales) && isNumeric(tempSales) && Double.valueOf(tempSales) != 0.0) {
 
@@ -1401,7 +1379,7 @@ public class PMPYCalculator extends Window {
                 salesValue = Double.valueOf(salesFormat.format(Double.valueOf(tempSales)));
 
             } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
-                final DecimalFormat unitFormat = new DecimalFormat("####.0");
+                final DecimalFormat unitFormat = new DecimalFormat(Constant.SINGLE_DECIMAL_FORMAT);
                 salesValue = Double.valueOf(unitFormat.format(Double.valueOf(tempSales)));
 
             }
@@ -1447,7 +1425,7 @@ public class PMPYCalculator extends Window {
             projectionPeriodTotal.setValue(StringUtils.EMPTY);
             return;
         }
-        final String tempValuePerLifeValue = String.valueOf(valuePerLife.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY);
+        final String tempValuePerLifeValue = String.valueOf(valuePerLife.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
 
         Double valuePerLifeValue = 1.0;
 
@@ -1482,11 +1460,11 @@ public class PMPYCalculator extends Window {
         final Double totalValue = (valuePerLifeValue * (marketShareValue / 100)) * projectedLivesValue;
         if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
             totalSales.setValue(String.valueOf(MONEY_NO_DECIMAL.format(totalValue)));
-            projectionPeriodTotalValue = projectionPeriodTotalCalculation(totalValue, true);
+            projectionPeriodTotalValue = projectionPeriodTotalCalculation(totalValue);
             projectionPeriodTotal.setValue(String.valueOf(MONEY_NO_DECIMAL.format(projectionPeriodTotalValue)));
         } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
             totalSales.setValue(String.valueOf(dfCalculatedUnit.format(totalValue)));
-            projectionPeriodTotalValue = projectionPeriodTotalCalculation(totalValue, false);
+            projectionPeriodTotalValue = projectionPeriodTotalCalculation(totalValue);
             projectionPeriodTotal.setValue(String.valueOf(dfCalculatedUnit.format(projectionPeriodTotalValue)));
         }
         LOGGER.debug("End of secondCalculation method");
@@ -1499,9 +1477,9 @@ public class PMPYCalculator extends Window {
      * @param totalSales the total SALES_SMALL
      * @return the double
      */
-    public Double projectionPeriodTotalCalculation(Double totalSales, boolean isSales) {
+    public Double projectionPeriodTotalCalculation(Double totalSales) {
         LOGGER.debug("Entering of projectionPeriodTotalCalculation method");
-        Double totalSalesValue = 0.0;
+        Double totalSalesValue;
         int count = 1;
         if (isContractCheckBoxSelected()) {
             count = chtCheckBoxMap.size();
@@ -1570,13 +1548,13 @@ public class PMPYCalculator extends Window {
 
         final String variableValue = getVariableValue();
 
-        value = value.replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.$, StringUtils.EMPTY);
+        value = value.replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
 
         if (Constant.SALES.equalsIgnoreCase(variableValue)) {
             final DecimalFormat salesFormat = new DecimalFormat("####");
             value = String.valueOf(salesFormat.format(Double.valueOf(value)));
         } else if (Constant.UNITS.equalsIgnoreCase(variableValue)) {
-            final DecimalFormat unitFormat = new DecimalFormat("####.0");
+            final DecimalFormat unitFormat = new DecimalFormat(Constant.SINGLE_DECIMAL_FORMAT);
             value = String.valueOf(unitFormat.format(Double.valueOf(value)));
         }
         if (effectivePeriod.getValue() == null) {
@@ -1599,8 +1577,7 @@ public class PMPYCalculator extends Window {
             for (int i = 0; i < yearArray.length; i++) {
                 yearArrayList.add(yearArray[i]);
             }
-            final SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
-            int annual = Integer.parseInt(yearFormatter.format(date));
+            int annual;
             Double calculatedValue = 0.0;
 
             if (Constant.SALES.equals(variableValue)) {
@@ -1683,7 +1660,7 @@ public class PMPYCalculator extends Window {
         if (identifier instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) identifier;
         } else if (identifier instanceof SalesProjectionResultsDTO) {
-            targetItem = new BeanItem<SalesProjectionResultsDTO>((SalesProjectionResultsDTO) identifier);
+            targetItem = new BeanItem<>((SalesProjectionResultsDTO) identifier);
         }
         LOGGER.debug("End of getBeanFromId method");
 
@@ -1775,12 +1752,12 @@ public class PMPYCalculator extends Window {
         tradingHistoryTable.setWidth(NumericConstants.NINE_HUNDRED, UNITS_PIXELS);
         contractHolderTable.markAsDirty();
         tradingHistoryTable.markAsDirty();
-        chContainer = new ExtTreeContainer<PMPYRowDto>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
-        tpContainer = new ExtTreeContainer<PMPYRowDto>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
+        chContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
+        tpContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
 
         tradingHistoryTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         contractHolderTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        Map<Object, Class> properties = new HashMap<Object, Class>();
+        Map<Object, Class> properties = new HashMap<>();
         properties.put("type", String.class);
         for (Object obj : visiColumn) {
             properties.put(String.valueOf(obj), String.class);

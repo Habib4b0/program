@@ -1,5 +1,6 @@
 package com.stpl.app.contract.dashboard.util;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,8 +11,10 @@ import org.jboss.logging.Logger;
 
 import com.stpl.app.contract.dashboard.logic.DashboardComponentSearchLogic;
 import com.stpl.app.contract.util.Constants;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.util.HelperDTO;
+import java.util.List;
 
 public class QueryUtil {
 	
@@ -52,23 +55,23 @@ public class QueryUtil {
 					+" Left Join HELPER_TABLE ht on ht.HELPER_TABLE_SID=con.CONTRACT_TYPE where con.INBOUND_STATUS <> 'D'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftContractId").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftContractId").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftContractId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_ID).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_ID).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND con.CONTRACT_ID like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftContractNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftContractNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftContractNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND con.CONTRACT_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftContractName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftContractName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftContractName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND con.CONTRACT_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftContractType").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftContractType").getValue()).getId()!=0){
-			query.append(" AND con.CONTRACT_TYPE ="+((HelperDTO)leftSearchBinder.getField("leftContractType").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_TYPE).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_TYPE).getValue()).getId()!=0){
+			query.append(" AND con.CONTRACT_TYPE ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_TYPE).getValue()).getId());
 		}
 		
 		if(leftSearchBinder.getField("leftContractStartDate").getValue()!=null){
@@ -81,23 +84,23 @@ public class QueryUtil {
 			query.append(" AND con.END_DATE ='"+wildCardValue+"'");
 		}
 				
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftContractHolderNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftContractHolderNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftContractHolderNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_HOLDER_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_HOLDER_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_HOLDER_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cm.COMPANY_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftContractHolderName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftContractHolderName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftContractHolderName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_HOLDER_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_HOLDER_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CONTRACT_HOLDER_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cm.COMPANY_NAME like '"+wildCardValue+"'");
 		}
                 
-                if(filterMap.get("memberId")!=null){
-                    wildCardValue=String.valueOf(filterMap.get("memberId"));
+                if(filterMap.get(ConstantUtil.MEMBER_ID)!=null){
+                    wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_ID));
                     query.append(" AND con.CONTRACT_ID like '"+wildCardValue+"'");
                 }
                 
-                if(filterMap.get("memberNo")!=null){
-			wildCardValue=String.valueOf(filterMap.get("memberNo"));
+                if(filterMap.get(ConstantUtil.MEMBER_NO)!=null){
+			wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_NO));
 			query.append(" AND con.CONTRACT_NO like '"+wildCardValue+"'");
 		}
 		
@@ -106,12 +109,12 @@ public class QueryUtil {
 			query.append(" AND con.CONTRACT_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(filterMap.get("memberType")!=null){
-                    query.append(" AND con.CONTRACT_TYPE ="+String.valueOf(filterMap.get("memberType")));
+		if(filterMap.get(ConstantUtil.MEMBER_TYPE)!=null){
+                    query.append(" AND con.CONTRACT_TYPE ="+String.valueOf(filterMap.get(ConstantUtil.MEMBER_TYPE)));
 		}
 		
 		if(!countFlag){
-			query.append(" ORDER BY " + sortColumn + " " + order + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + sortColumn + " " + order + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
             }
 		
 		LOGGER.debug("Exits Contract Component Search Query Util");
@@ -141,60 +144,62 @@ public class QueryUtil {
 						+"	Join CFP_DETAILS cfd on cfd.CFP_MODEL_SID=cf.CFP_MODEL_SID"
 						+"	Join COMPANY_MASTER cm on cm.COMPANY_MASTER_SID=cfd.COMPANY_MASTER_SID"
 						+"	Left Join Helper_Table ht on ht.HELPER_TABLE_SID=cf.CFP_TYPE"
+                                                +"	Left Join Helper_Table htcat on htcat.HELPER_TABLE_SID = cm.COMPANY_CATEGORY"
 						+"	where cf.INBOUND_STATUS <> 'D'");
 		}else{
 			query.append("select count(DISTINCT cf.CFP_MODEL_SID) from CFP_MODEL cf"
 						+"	Join CFP_DETAILS cfd on cfd.CFP_MODEL_SID=cf.CFP_MODEL_SID"
 						+"	Join COMPANY_MASTER cm on cm.COMPANY_MASTER_SID=cfd.COMPANY_MASTER_SID"
 						+"	Left Join Helper_Table ht on ht.HELPER_TABLE_SID=cf.CFP_TYPE"
+						+"	Left Join Helper_Table htcat on htcat.HELPER_TABLE_SID = cm.COMPANY_CATEGORY"
 						+"	where cf.INBOUND_STATUS <> 'D'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftCfpId").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftCfpId").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftCfpId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_ID).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_ID).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cf.CFP_ID like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftCfpNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftCfpNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftCfpNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cf.CFP_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftCfpName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftCfpName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftCfpName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cf.CFP_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftCfpType").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftCfpType").getValue()).getId()!=0){
-			query.append(" AND cf.CFP_TYPE ="+((HelperDTO)leftSearchBinder.getField("leftCfpType").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_CFP_TYPE).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_CFP_TYPE).getValue()).getId()!=0){
+			query.append(" AND cf.CFP_TYPE ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_CFP_TYPE).getValue()).getId());
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftCompanyNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftCompanyNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftCompanyNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cm.COMPANY_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftCompanyName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftCompanyName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftCompanyName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cm.COMPANY_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftCompanyType").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftCompanyType").getValue()).getId()!=0){
-			query.append(" AND cm.COMPANY_TYPE ="+((HelperDTO)leftSearchBinder.getField("leftCompanyType").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_TYPE).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_TYPE).getValue()).getId()!=0){
+			query.append(" AND cm.COMPANY_TYPE ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_TYPE).getValue()).getId());
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftCompanyCategory").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftCompanyCategory").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftCompanyCategory").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND cm.COMPANY_CATEGORY like '"+wildCardValue+"'");
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_CATEGORY).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_CATEGORY).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_COMPANY_CATEGORY).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+			query.append(" AND htcat.DESCRIPTION like '"+wildCardValue+"'");
 		}
                 
-                 if(filterMap.get("memberId")!=null){
-                    wildCardValue=String.valueOf(filterMap.get("memberId"));
+                 if(filterMap.get(ConstantUtil.MEMBER_ID)!=null){
+                    wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_ID));
                     query.append(" AND cf.CFP_ID like '"+wildCardValue+"'");
                 }
                 
-                if(filterMap.get("memberNo")!=null){
-			wildCardValue=String.valueOf(filterMap.get("memberNo"));
+                if(filterMap.get(ConstantUtil.MEMBER_NO)!=null){
+			wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_NO));
 			query.append(" AND cf.CFP_NO like '"+wildCardValue+"'");
 		}
 		
@@ -203,13 +208,13 @@ public class QueryUtil {
 			query.append(" AND cf.CFP_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(filterMap.get("memberType")!=null){
+		if(filterMap.get(ConstantUtil.MEMBER_TYPE)!=null){
                     
-			query.append(" AND cf.CFP_TYPE ="+String.valueOf(filterMap.get("memberType")));
+			query.append(" AND cf.CFP_TYPE ="+String.valueOf(filterMap.get(ConstantUtil.MEMBER_TYPE)));
 		}
 		
 		if(!countFlag){
-			query.append(" ORDER BY " + sortColumn + " " + order + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + sortColumn + " " + order + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
             }
 		
 		LOGGER.debug("Exits CFP Component Search Query Util");
@@ -237,7 +242,7 @@ public class QueryUtil {
 		if(!countFlag){
 			query.append("select DISTINCT ifm.IFP_MODEL_SID,ifm.IFP_ID,ifm.IFP_NO,ifm.IFP_NAME,ht.DESCRIPTION as ifpType, ifm.IFP_START_DATE, ifm.IFP_END_DATE from IFP_MODEL ifm"
 						+" Join IFP_DETAILS ifd on ifd.IFP_MODEL_SID=ifm.IFP_MODEL_SID"
-						+" Join ITEM_MASTER im on im.ITEM_MASTER_SID=ifd.ITEM_MASTER_SID"
+						+" Join ITEM_MASTER im on im.ITEM_MASTER_SID=ifd.ITEM_MASTER_SID "
 						+" Left Join HELPER_TABLE ht on ht.HELPER_TABLE_SID=ifm.IFP_TYPE"
 						+" where ifm.INBOUND_STATUS <> 'D'");
 		}else{
@@ -248,50 +253,50 @@ public class QueryUtil {
 					+" where ifm.INBOUND_STATUS <> 'D'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftIfpId").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftIfpId").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftIfpId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ID).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ID).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifm.IFP_ID like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftIfpNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftIfpNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftIfpNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifm.IFP_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftIfpName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftIfpName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftIfpName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifm.IFP_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftIfpType").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftIfpType").getValue()).getId()!=0){
-			query.append(" AND ifm.IFP_TYPE ="+((HelperDTO)leftSearchBinder.getField("leftIfpType").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_TYPE).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_IFP_TYPE).getValue()).getId()!=0){
+			query.append(" AND ifm.IFP_TYPE ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_IFP_TYPE).getValue()).getId());
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftIfpItemNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftIfpItemNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftIfpItemNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND im.ITEM_NO like '"+wildCardValue+"'");
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ITEM_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ITEM_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ITEM_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+			query.append(ConstantUtil.AND_IM_ITEM_NO_LIKE+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftIfpItemName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftIfpItemName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftIfpItemName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND im.ITEM_NAME like '"+wildCardValue+"'");
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ITEM_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ITEM_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_ITEM_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+			query.append(ConstantUtil.AND_IM_ITEM_NAME_LIKE+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftIfpTherapeuticClass").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftIfpTherapeuticClass").getValue()).getId()!=0){
-			query.append(" AND im.THERAPEUTIC_CLASS ="+((HelperDTO)leftSearchBinder.getField("leftIfpTherapeuticClass").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_THERAPEUTIC_CLASS).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_IFP_THERAPEUTIC_CLASS).getValue()).getId()!=0){
+			query.append(" AND im.THERAPEUTIC_CLASS ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_IFP_THERAPEUTIC_CLASS).getValue()).getId());
 		}
 		
-		if(leftSearchBinder.getField("leftIfpBrandName").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftIfpBrandName").getValue()).getId()!=0){
-			query.append(" AND im.BRAND_MASTER_SID ="+((HelperDTO)leftSearchBinder.getField("leftIfpBrandName").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_IFP_BRAND_NAME).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_IFP_BRAND_NAME).getValue()).getId()!=0){
+			query.append(" AND im.BRAND_MASTER_SID = "+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_IFP_BRAND_NAME).getValue()).getId());
 		}
                 
-                if(filterMap.get("memberId")!=null){
-                    wildCardValue=String.valueOf(filterMap.get("memberId"));
+                if(filterMap.get(ConstantUtil.MEMBER_ID)!=null){
+                    wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_ID));
                     query.append(" AND ifm.IFP_ID like '"+wildCardValue+"'");
                 }
                 
-                if(filterMap.get("memberNo")!=null){
-			wildCardValue=String.valueOf(filterMap.get("memberNo"));
+                if(filterMap.get(ConstantUtil.MEMBER_NO)!=null){
+			wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_NO));
 			query.append(" AND ifm.IFP_NO like '"+wildCardValue+"'");
 		}
 		
@@ -300,13 +305,13 @@ public class QueryUtil {
 			query.append(" AND ifm.IFP_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(filterMap.get("memberType")!=null){
+		if(filterMap.get(ConstantUtil.MEMBER_TYPE)!=null){
                     
-			query.append(" AND ifm.IFP_TYPE ="+String.valueOf(filterMap.get("memberType")));
+			query.append(" AND ifm.IFP_TYPE ="+String.valueOf(filterMap.get(ConstantUtil.MEMBER_TYPE)));
 		}
 		
 		if(!countFlag){
-			query.append(" ORDER BY " + sortColumn + " " + order + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + sortColumn + " " + order + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
             }
 		
 		LOGGER.debug("Exits IFP Component Search Query Util");
@@ -335,7 +340,7 @@ public class QueryUtil {
 		if(!countFlag){
 			query.append("select DISTINCT ps.PS_MODEL_SID,ps.PS_ID,ps.PS_NO,ps.PS_NAME,ht.DESCRIPTION as psType, ps.PS_START_DATE,ps.PS_END_DATE from PS_MODEL ps"
 						+" Join PS_DETAILS psd on psd.PS_MODEL_SID=ps.PS_MODEL_SID"
-						+" Join ITEM_MASTER im on im.ITEM_MASTER_SID=psd.ITEM_MASTER_SID"
+						+" Join ITEM_MASTER im on im.ITEM_MASTER_SID=psd.ITEM_MASTER_SID "
 						+" Left Join HELPER_TABLE ht on ht.HELPER_TABLE_SID=ps.PS_TYPE"
 						+" where ps.INBOUND_STATUS <> 'D'");
 		}else{
@@ -346,50 +351,50 @@ public class QueryUtil {
 						+" where ps.INBOUND_STATUS <> 'D'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftPsId").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftPsId").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftPsId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ID).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ID).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ps.PS_ID like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftPsNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftPsNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftPsNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ps.PS_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftPsName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftPsName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftPsName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ps.PS_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftPsType").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftPsType").getValue()).getId()!=0){
-			query.append(" AND ps.PS_TYPE ="+((HelperDTO)leftSearchBinder.getField("leftPsType").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_PS_TYPE).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_PS_TYPE).getValue()).getId()!=0){
+			query.append(" AND ps.PS_TYPE ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_PS_TYPE).getValue()).getId());
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftPsItemNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftPsItemNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftPsItemNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND im.ITEM_NO like '"+wildCardValue+"'");
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ITEM_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ITEM_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ITEM_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+			query.append(ConstantUtil.AND_IM_ITEM_NO_LIKE+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftPsItemName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftPsItemName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftPsItemName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND im.ITEM_NAME like '"+wildCardValue+"'");
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ITEM_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ITEM_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_PS_ITEM_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+			query.append(ConstantUtil.AND_IM_ITEM_NAME_LIKE+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftPsTherapeuticClass").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftPsTherapeuticClass").getValue()).getId()!=0){
-			query.append(" AND im.THERAPEUTIC_CLASS ="+((HelperDTO)leftSearchBinder.getField("leftPsTherapeuticClass").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_PS_THERAPEUTIC_CLASS).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_PS_THERAPEUTIC_CLASS).getValue()).getId()!=0){
+			query.append(" AND im.THERAPEUTIC_CLASS ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_PS_THERAPEUTIC_CLASS).getValue()).getId());
 		}
 		
-		if(leftSearchBinder.getField("leftPsBrandName").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftPsBrandName").getValue()).getId()!=0){
-			query.append(" AND im.BRAND_MASTER_SID ="+((HelperDTO)leftSearchBinder.getField("leftPsBrandName").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_PS_BRAND_NAME).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_PS_BRAND_NAME).getValue()).getId()!=0){
+			query.append(" AND im.BRAND_MASTER_SID ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_PS_BRAND_NAME).getValue()).getId());
 		}
                 
-                if(filterMap.get("memberId")!=null){
-                    wildCardValue=String.valueOf(filterMap.get("memberId"));
+                if(filterMap.get(ConstantUtil.MEMBER_ID)!=null){
+                    wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_ID));
                     query.append(" AND ps.PS_ID like '"+wildCardValue+"'");
                 }
                 
-                if(filterMap.get("memberNo")!=null){
-			wildCardValue=String.valueOf(filterMap.get("memberNo"));
+                if(filterMap.get(ConstantUtil.MEMBER_NO)!=null){
+			wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_NO));
 			query.append(" AND ps.PS_NO like '"+wildCardValue+"'");
 		}
 		
@@ -398,14 +403,14 @@ public class QueryUtil {
 			query.append(" AND ps.PS_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(filterMap.get("memberType")!=null){
+		if(filterMap.get(ConstantUtil.MEMBER_TYPE)!=null){
                     
-			query.append(" AND ps.PS_TYPE ="+String.valueOf(filterMap.get("memberType")));
+			query.append(" AND ps.PS_TYPE ="+String.valueOf(filterMap.get(ConstantUtil.MEMBER_TYPE)));
 		}
                 
 		
 		if(!countFlag){
-			query.append(" ORDER BY " + sortColumn + " " + order + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + sortColumn + " " + order + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
             }
 		
 		LOGGER.debug("Exits PS Component Search Query Util");
@@ -433,7 +438,7 @@ public class QueryUtil {
 		if(!countFlag){
 			query.append("select DISTINCT rsm.RS_MODEL_SID,rsm.RS_ID,rsm.RS_NO,rsm.RS_NAME,ht.DESCRIPTION as rsType, rsm.RS_START_DATE,rsm.RS_END_DATE from RS_MODEL rsm"
 						+" Join RS_DETAILS rsd on rsd.RS_MODEL_SID=rsm.RS_MODEL_SID"
-						+" Join ITEM_MASTER im on im.ITEM_MASTER_SID=rsd.ITEM_MASTER_SID"
+						+" Join ITEM_MASTER im on im.ITEM_MASTER_SID=rsd.ITEM_MASTER_SID "
 						+" Left Join HELPER_TABLE ht on ht.HELPER_TABLE_SID=rsm.RS_TYPE"
 						+" where rsm.INBOUND_STATUS <> 'D'");
 		}else{
@@ -444,50 +449,50 @@ public class QueryUtil {
 					+" where rsm.INBOUND_STATUS <> 'D'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftRsId").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftRsId").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftRsId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ID).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ID).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND rsm.RS_ID like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftRsNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftRsNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftRsNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND rsm.RS_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftRsName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftRsName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftRsName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND rsm.RS_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftRsType").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftRsType").getValue()).getId()!=0){
-			query.append(" AND rsm.RS_TYPE ="+((HelperDTO)leftSearchBinder.getField("leftRsType").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_RS_TYPE).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_RS_TYPE).getValue()).getId()!=0){
+			query.append(" AND rsm.RS_TYPE ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_RS_TYPE).getValue()).getId());
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftRsItemNo").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftRsItemNo").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftRsItemNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND im.ITEM_NO like '"+wildCardValue+"'");
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ITEM_NO).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ITEM_NO).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ITEM_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+			query.append(ConstantUtil.AND_IM_ITEM_NO_LIKE+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField("leftRsItemName").getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField("leftRsItemName").getValue()))){
-			wildCardValue=String.valueOf(leftSearchBinder.getField("leftRsItemName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND im.ITEM_NAME like '"+wildCardValue+"'");
+		if(StringUtils.isNotBlank(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ITEM_NAME).getValue()))&& !"null".equals(String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ITEM_NAME).getValue()))){
+			wildCardValue=String.valueOf(leftSearchBinder.getField(ConstantUtil.LEFT_RS_ITEM_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+			query.append(ConstantUtil.AND_IM_ITEM_NAME_LIKE+wildCardValue+"'");
 		}
 		
-		if(leftSearchBinder.getField("leftRsBrandName").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftRsBrandName").getValue()).getId()!=0){
-			query.append(" AND im.BRAND_MASTER_SID ="+((HelperDTO)leftSearchBinder.getField("leftRsBrandName").getValue()).getId());
+		if(leftSearchBinder.getField(ConstantUtil.LEFT_RS_BRAND_NAME).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_RS_BRAND_NAME).getValue()).getId()!=0){
+			query.append(" AND im.BRAND_MASTER_SID ="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_RS_BRAND_NAME).getValue()).getId());
 		}
                 
-                if(leftSearchBinder.getField("leftRsProgramCategory").getValue()!=null && ((HelperDTO)leftSearchBinder.getField("leftRsProgramCategory").getValue()).getId()!=0){
-			query.append(" AND rsm.RS_MODEL_SID in (select distinct master_sid from udcs where master_type='RS_MODEL' and udc2="+((HelperDTO)leftSearchBinder.getField("leftRsProgramCategory").getValue()).getId()+")");
+                if(leftSearchBinder.getField(ConstantUtil.LEFT_RS_PROGRAM_CATEGORY).getValue()!=null && ((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_RS_PROGRAM_CATEGORY).getValue()).getId()!=0){
+			query.append(" AND rsm.RS_MODEL_SID in (select distinct master_sid from udcs where master_type='RS_MODEL' and udc2="+((HelperDTO)leftSearchBinder.getField(ConstantUtil.LEFT_RS_PROGRAM_CATEGORY).getValue()).getId()+")");
 		}
 		
-                if(filterMap.get("memberId")!=null){
-                    wildCardValue=String.valueOf(filterMap.get("memberId"));
+                if(filterMap.get(ConstantUtil.MEMBER_ID)!=null){
+                    wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_ID));
                     query.append(" AND rsm.RS_ID like '"+wildCardValue+"'");
                 }
                 
-                if(filterMap.get("memberNo")!=null){
-			wildCardValue=String.valueOf(filterMap.get("memberNo"));
+                if(filterMap.get(ConstantUtil.MEMBER_NO)!=null){
+			wildCardValue=String.valueOf(filterMap.get(ConstantUtil.MEMBER_NO));
 			query.append(" AND rsm.RS_NO like '"+wildCardValue+"'");
 		}
 		
@@ -496,12 +501,12 @@ public class QueryUtil {
 			query.append(" AND rsm.RS_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(filterMap.get("memberType")!=null){
-                    query.append(" AND rsm.RS_TYPE ="+String.valueOf(filterMap.get("memberType")));
+		if(filterMap.get(ConstantUtil.MEMBER_TYPE)!=null){
+                    query.append(" AND rsm.RS_TYPE ="+String.valueOf(filterMap.get(ConstantUtil.MEMBER_TYPE)));
 		}
                 
 		if(!countFlag){
-			query.append(" ORDER BY " + sortColumn + " " + order + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + sortColumn + " " + order + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
             }
 		
 		LOGGER.debug("Exits RS Component Search Query Util");
@@ -554,23 +559,23 @@ public class QueryUtil {
                                         +"      Left Join ITEM_MASTER rsIm on rsIm.ITEM_MASTER_SID=rsd.ITEM_MASTER_SID"
 					+"	where cm.PROCESS_STATUS = 1");
                 }
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightContractId").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightContractId").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightContractId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_ID).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_ID).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cm.CONTRACT_ID like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightContractNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightContractNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightContractNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cm.CONTRACT_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightContractName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightContractName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightContractName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cm.CONTRACT_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(rightSearchBinder.getField("rightContractType").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightContractType").getValue()).getId()!=0){
-			query.append(" AND cm.CONTRACT_TYPE ="+((HelperDTO)rightSearchBinder.getField("rightContractType").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_TYPE).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_TYPE).getValue()).getId()!=0){
+			query.append(" AND cm.CONTRACT_TYPE ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_TYPE).getValue()).getId());
 		}
 		
 		if(rightSearchBinder.getField("rightContractStartDate").getValue()!=null){
@@ -583,187 +588,196 @@ public class QueryUtil {
 			query.append(" AND cm.END_DATE ='"+wildCardValue+"'");
 		}
 				
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightContractHolderNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightContractHolderNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightContractHolderNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_HOLDER_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_HOLDER_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_HOLDER_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND com.COMPANY_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightContractHolderName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightContractHolderName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightContractHolderName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_HOLDER_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_HOLDER_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CONTRACT_HOLDER_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND com.COMPANY_NAME like '"+wildCardValue+"'");
 		}
                 
                 
-                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightCfpId").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightCfpId").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightCfpId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_ID).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_ID).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cfc.CFP_MODEL_SID in (select cfid.CFP_MODEL_SID from CFP_MODEL cfid where cfid.CFP_ID like '"+wildCardValue+"')");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightCfpNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightCfpNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightCfpNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cfc.CFP_MODEL_SID in (select cfno.CFP_MODEL_SID from CFP_MODEL cfno where cfno.CFP_NO like '"+wildCardValue+"')");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightCfpName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightCfpName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightCfpName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cfc.CFP_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(rightSearchBinder.getField("rightCfpType").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightCfpType").getValue()).getId()!=0){
-			query.append(" AND cfc.CFP_TYPE ="+((HelperDTO)rightSearchBinder.getField("rightCfpType").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_TYPE).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_TYPE).getValue()).getId()!=0){
+			query.append(" AND cfc.CFP_TYPE ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_CFP_TYPE).getValue()).getId());
 		}
 		
-                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightCompanyId").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightCompanyId").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightCompanyId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_ID).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_ID).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cfpcomp.COMPANY_ID like '"+wildCardValue+"'");
 		}
                 
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightCompanyNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightCompanyNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightCompanyNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND cfpcomp.COMPANY_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightCompanyName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightCompanyName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightCompanyName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND cfpcomp.COMPANY_NAME like '"+wildCardValue+"'");
-		}
-		
-		if(rightSearchBinder.getField("rightCompanyType").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightCompanyType").getValue()).getId()!=0){
-			query.append(" AND cfpcomp.COMPANY_TYPE ="+((HelperDTO)rightSearchBinder.getField("leftCompanyType").getValue()).getId());
-		}
-		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightCompanyCategory").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightCompanyCategory").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightCompanyCategory").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
-			query.append(" AND cfpcomp.COMPANY_CATEGORY like '"+wildCardValue+"'");
-		}
+		          if (StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_NAME).getValue())) && !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_NAME).getValue()))) {
+                wildCardValue = String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+                query.append(" AND cfpcomp.COMPANY_NAME like '" + wildCardValue + "'");
+            }
+
+            if (rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_TYPE).getValue() != null && ((HelperDTO) rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_TYPE).getValue()).getId() != 0) {
+
+                final HelperDTO helperDTO = (HelperDTO) rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_TYPE).getValue();
+
+                if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
+
+                    wildCardValue = String.valueOf(helperDTO.getId());
+
+                    query.append(" AND cfpcomp.COMPANY_TYPE like '" + wildCardValue + "'");
+                }
+            }
+
+            if (StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_CATEGORY).getValue())) && !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_CATEGORY).getValue()))) {
+                String sql = "select HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION like " + "'" + String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_COMPANY_CATEGORY).getValue()) + "'";
+                List helperid = HelperTableLocalServiceUtil.executeSelectQuery(sql);
+                query.append(" AND cfpcomp.COMPANY_CATEGORY like '" + helperid.get(0) + "'");
+            }
                 
-                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightIfpId").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightIfpId").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightIfpId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ID).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ID).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifc.IFP_MODEL_SID in (select ifid.IFP_MODEL_SID from IFP_MODEL ifid where ifid.IFP_ID like '"+wildCardValue+"')");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightIfpNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightIfpNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightIfpNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifc.IFP_MODEL_SID in (select ifno.IFP_MODEL_SID from IFP_MODEL ifno where ifno.IFP_NO like '"+wildCardValue+"')");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightIfpName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightIfpName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightIfpName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifc.IFP_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(rightSearchBinder.getField("rightIfpType").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightIfpType").getValue()).getId()!=0){
-			query.append(" AND ifc.IFP_TYPE ="+((HelperDTO)rightSearchBinder.getField("rightIfpType").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_TYPE).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_TYPE).getValue()).getId()!=0){
+			query.append(" AND ifc.IFP_TYPE ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_TYPE).getValue()).getId());
 		}
 		
-                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightIfpItemId").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightIfpItemId").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightIfpItemId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_ID).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_ID).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifpIm.ITEM_ID like '"+wildCardValue+"'");
 		}
                 
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightIfpItemNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightIfpItemNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightIfpItemNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifpIm.ITEM_NO like '"+wildCardValue+"'");
 		}
 		
-                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightIfpItemName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightIfpItemName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightIfpItemName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_ITEM_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND ifpIm.ITEM_NAME like '"+wildCardValue+"'");
 		}
                 
-		if(rightSearchBinder.getField("rightIfpTherapeuticClass").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightIfpTherapeuticClass").getValue()).getId()!=0){
-			query.append(" AND ifpIm.THERAPEUTIC_CLASS ="+((HelperDTO)rightSearchBinder.getField("rightIfpTherapeuticClass").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_THERAPEUTIC_CLASS).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_THERAPEUTIC_CLASS).getValue()).getId()!=0){
+			query.append(" AND ifpIm.THERAPEUTIC_CLASS ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_THERAPEUTIC_CLASS).getValue()).getId());
 		}
 		
-		if(rightSearchBinder.getField("rightIfpBrandName").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightIfpBrandName").getValue()).getId()!=0){
-			query.append(" AND ifpIm.BRAND_MASTER_SID ="+((HelperDTO)rightSearchBinder.getField("rightIfpBrandName").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_BRAND_NAME).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_BRAND_NAME).getValue()).getId()!=0){
+			query.append(" AND ifpIm.BRAND_MASTER_SID ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_IFP_BRAND_NAME).getValue()).getId());
 		}
                 
-                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightPsId").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightPsId").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightPsId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ID).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ID).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND psc.PS_MODEL_SID in (select psid.PS_MODEL_SID from PS_MODEL psid where psid.PS_ID like '"+wildCardValue+"')");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightPsNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightPsNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightPsNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND psc.PS_MODEL_SID in (select psno.PS_MODEL_SID from PS_MODEL psno where psno.PS_ID like '"+wildCardValue+"')");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightPsName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightPsName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightPsName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND psc.PS_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(rightSearchBinder.getField("rightPsType").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightPsType").getValue()).getId()!=0){
-			query.append(" AND psc.PS_TYPE ="+((HelperDTO)rightSearchBinder.getField("rightPsType").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_TYPE).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_PS_TYPE).getValue()).getId()!=0){
+			query.append(" AND psc.PS_TYPE ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_PS_TYPE).getValue()).getId());
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightPsItemNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightPsItemNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightPsItemNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ITEM_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ITEM_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ITEM_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND psIm.ITEM_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightPsItemName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightPsItemName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightPsItemName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ITEM_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ITEM_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_ITEM_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND psIm.ITEM_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(rightSearchBinder.getField("rightPsTherapeuticClass").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightPsTherapeuticClass").getValue()).getId()!=0){
-			query.append(" AND psIm.THERAPEUTIC_CLASS ="+((HelperDTO)rightSearchBinder.getField("rightPsTherapeuticClass").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_THERAPEUTIC_CLASS).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_PS_THERAPEUTIC_CLASS).getValue()).getId()!=0){
+			query.append(" AND psIm.THERAPEUTIC_CLASS ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_PS_THERAPEUTIC_CLASS).getValue()).getId());
 		}
 		
-		if(rightSearchBinder.getField("rightPsBrandName").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightPsBrandName").getValue()).getId()!=0){
-			query.append(" AND psIm.BRAND_MASTER_SID ="+((HelperDTO)rightSearchBinder.getField("rightPsBrandName").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_PS_BRAND_NAME).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_PS_BRAND_NAME).getValue()).getId()!=0){
+			query.append(" AND psIm.BRAND_MASTER_SID ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_PS_BRAND_NAME).getValue()).getId());
 		}
 		
-                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightRsId").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightRsId").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightRsId").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+                if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ID).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ID).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ID).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND rsc.RS_ID like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightRsNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightRsNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightRsNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND rsc.RS_NO like '"+wildCardValue+"'");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightRsName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightRsName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightRsName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND rsc.RS_NAME like '"+wildCardValue+"'");
 		}
 		
-		if(rightSearchBinder.getField("rightRsType").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightRsType").getValue()).getId()!=0){
-			query.append(" AND rsc.RS_TYPE ="+((HelperDTO)rightSearchBinder.getField("rightRsType").getValue()).getId());
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_TYPE).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_RS_TYPE).getValue()).getId()!=0){
+			query.append(" AND rsc.RS_TYPE ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_RS_TYPE).getValue()).getId());
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightRsItemNo").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightRsItemNo").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightRsItemNo").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ITEM_NO).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ITEM_NO).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ITEM_NO).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND rsd.ITEM_MASTER_SID in (select rsdimid.ITEM_MASTER_SID from ITEM_MASTER rsdimid where rsdimid.ITEM_ID like '"+wildCardValue+"')");
 		}
 		
-		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField("rightRsItemName").getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField("rightRsItemName").getValue()))){
-			wildCardValue=String.valueOf(rightSearchBinder.getField("rightRsItemName").getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
+		if(StringUtils.isNotBlank(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ITEM_NAME).getValue()))&& !"null".equals(String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ITEM_NAME).getValue()))){
+			wildCardValue=String.valueOf(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_ITEM_NAME).getValue()).replace(Constants.CHAR_ASTERISK, Constants.CHAR_PERCENT);
 			query.append(" AND rsd.ITEM_MASTER_SID in (select rsdimid.ITEM_MASTER_SID from ITEM_MASTER rsdimid where rsdimid.ITEM_NAME like '"+wildCardValue+"')");
 		}
 		
-		if(rightSearchBinder.getField("rightRsBrandName").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightRsBrandName").getValue()).getId()!=0){
-			query.append(" AND rsd.ITEM_MASTER_SID in (select rsdBrnd.ITEM_MASTER_SID from ITEM_MASTER rsdBrnd where rsdBrnd.BRAND_MASTER_SID ="+((HelperDTO)rightSearchBinder.getField("rightRsBrandName").getValue()).getId()+")");
+		if(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_BRAND_NAME).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_RS_BRAND_NAME).getValue()).getId()!=0){
+			query.append(" AND rsd.ITEM_MASTER_SID in (select rsdBrnd.ITEM_MASTER_SID from ITEM_MASTER rsdBrnd where rsdBrnd.BRAND_MASTER_SID ="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_RS_BRAND_NAME).getValue()).getId()+")");
 		}
                 
-                if(rightSearchBinder.getField("rightRsProgramCategory").getValue()!=null && ((HelperDTO)rightSearchBinder.getField("rightRsProgramCategory").getValue()).getId()!=0){
-			query.append(" AND rsc.RS_CONTRACT_SID in (select distinct master_sid from udcs where master_type='RS_CONTRACT' and udc2="+((HelperDTO)rightSearchBinder.getField("rightRsProgramCategory").getValue()).getId()+")");
+                if(rightSearchBinder.getField(ConstantUtil.RIGHT_RS_PROGRAM_CATEGORY).getValue()!=null && ((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_RS_PROGRAM_CATEGORY).getValue()).getId()!=0){
+			query.append(" AND rsc.RS_CONTRACT_SID in (select distinct master_sid from udcs where master_type='RS_CONTRACT' and udc2="+((HelperDTO)rightSearchBinder.getField(ConstantUtil.RIGHT_RS_PROGRAM_CATEGORY).getValue()).getId()+")");
 		}
                 
                 if(!countFlag && start!=0 && offset!=0){
-			query.append(" ORDER BY " + "cm.CONTRACT_MASTER_SID" + " " + "ASC" + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + "cm.CONTRACT_MASTER_SID" + " " + "ASC" + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
                  }else if(countFlag){
                     query.append(") a");
                 }
                 LOGGER.debug("Exits Right Contract Component Search Query Util");
-		
+                
 		return query.toString();
 	}
 	
-	public String getCFPDetails(int modelSid,int start,int offset,boolean countFlag){
+	public String getCFPDetails(int modelSid,int start,int offset,boolean countFlag,Map<String,Object> filterMap){
             LOGGER.debug("Inside CFP Detail Component Search Query Util");
 		StringBuilder query = new StringBuilder("");
                 if(countFlag){
@@ -778,9 +792,31 @@ public class QueryUtil {
                                 " Left Join Helper_Table htCategory on htCategory.HELPER_TABLE_SID=cm.COMPANY_CATEGORY" +
                                 " Left Join Helper_Table htStatus on htStatus.HELPER_TABLE_SID=cf.CFP_STATUS" +
                                 " where cfd.INBOUND_STATUS <> 'D' and  cfd.CFP_MODEL_SID="+modelSid);
+                    
+                    
+            if (filterMap.get("no") != null) {
+                String wildCardValue = String.valueOf(filterMap.get("no"));
+                query.append(" AND cm.COMPANY_NO like '%").append(wildCardValue).append("%'");
+            }
+
+            if (filterMap.get("name") != null) {
+                String wildCardValue = String.valueOf(filterMap.get("name"));
+                query.append(" AND cm.COMPANY_NAME like '%").append(wildCardValue).append("%'");
+            }
+
+            if (filterMap.get(ConstantUtil.STATUS_PROPERTY) != null) {
+                query.append(" AND cf.CFP_STATUS =").append(String.valueOf(filterMap.get(ConstantUtil.STATUS_PROPERTY)));
+            }
+            if (filterMap.get("category") != null) {
+                query.append(" AND cm.COMPANY_CATEGORY =").append(String.valueOf(filterMap.get("category")));
+            }
+            if (filterMap.get("type") != null) {
+                query.append(" AND cm.COMPANY_TYPE =").append(String.valueOf(filterMap.get("type")));
+            }
+            
             
             if(!countFlag){
-			query.append(" ORDER BY " + "cfd.CFP_DETAILS_SID" + " " + "ASC" + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + "cfd.CFP_DETAILS_SID" + " " + "ASC" + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
                  }
             LOGGER.debug("Exits CFP Detail Component Search Query Util"); 
             return query.toString();
@@ -806,40 +842,40 @@ public class QueryUtil {
 
             if(filterMap.get("no")!=null){
                     wildCardValue=String.valueOf(filterMap.get("no"));
-                    query.append(" AND im.ITEM_NO like '"+wildCardValue+"'");
+                    query.append(ConstantUtil.AND_IM_ITEM_NO_LIKE+wildCardValue+"'");
             }
 
             if(filterMap.get("name")!=null){
                     wildCardValue=String.valueOf(filterMap.get("name"));
-                    query.append(" AND im.ITEM_NAME like '"+wildCardValue+"'");
+                    query.append(ConstantUtil.AND_IM_ITEM_NAME_LIKE+wildCardValue+"'");
             }
 
-            if(filterMap.get("status")!=null){
-                query.append(" AND ifm.IFP_STATUS ="+String.valueOf(filterMap.get("status")));
+            if(filterMap.get(ConstantUtil.STATUS_PROPERTY)!=null){
+                query.append(" AND ifm.IFP_STATUS ="+String.valueOf(filterMap.get(ConstantUtil.STATUS_PROPERTY)));
             }    
                 
                 
-            if (filterMap.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("startDatefrom")))) { 
-                String startDate = filterMap.get("startDatefrom").toString();
+            if (filterMap.get(ConstantUtil.START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.START_DATEFROM)))) { 
+                String startDate = filterMap.get(ConstantUtil.START_DATEFROM).toString();
                 query.append(" AND ifm.IFP_START_DATE >= '").append(startDate).append("' ");
                 
             }
-              if (filterMap.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("startDateto")))) { 
-                String startDate = filterMap.get("startDateto").toString();
+              if (filterMap.get(ConstantUtil.START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.START_DATETO)))) { 
+                String startDate = filterMap.get(ConstantUtil.START_DATETO).toString();
                 query.append(" AND ifm.IFP_START_DATE <= '").append(startDate).append("' ");
             }
-              if (filterMap.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("endDatefrom")))) { 
-                String endDate = filterMap.get("endDatefrom").toString();
+              if (filterMap.get(ConstantUtil.END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.END_DATEFROM)))) { 
+                String endDate = filterMap.get(ConstantUtil.END_DATEFROM).toString();
                 query.append(" AND ifm.IFP_END_DATE >= '").append(endDate).append("' ");
             }
-              if (filterMap.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("endDateto")))) { 
-                String endDate = filterMap.get("endDateto").toString();
+              if (filterMap.get(ConstantUtil.END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.END_DATETO)))) { 
+                String endDate = filterMap.get(ConstantUtil.END_DATETO).toString();
                 query.append(" AND ifm.IFP_END_DATE <= '").append(endDate).append("' ");
             }
                 
                 
             if(!countFlag){
-			query.append(" ORDER BY " + "ifd.IFP_DETAILS_SID" + " " + "ASC" + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + "ifd.IFP_DETAILS_SID" + " " + "ASC" + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
                  }
             LOGGER.debug("Exits IFP Detail Component Search Query Util"); 
             return query.toString();
@@ -862,40 +898,40 @@ public class QueryUtil {
                 
                 if(filterMap.get("no")!=null){
                         wildCardValue=String.valueOf(filterMap.get("no"));
-                        query.append(" AND im.ITEM_NO like '"+wildCardValue+"'");
+                        query.append(ConstantUtil.AND_IM_ITEM_NO_LIKE+wildCardValue+"'");
                 }
 
                 if(filterMap.get("name")!=null){
                         wildCardValue=String.valueOf(filterMap.get("name"));
-                        query.append(" AND im.ITEM_NAME like '"+wildCardValue+"'");
+                        query.append(ConstantUtil.AND_IM_ITEM_NAME_LIKE+wildCardValue+"'");
                 }
 
-                if(filterMap.get("status")!=null){
-                    query.append(" AND ps.PS_STATUS ="+String.valueOf(filterMap.get("status")));
+                if(filterMap.get(ConstantUtil.STATUS_PROPERTY)!=null){
+                    query.append(" AND ps.PS_STATUS ="+String.valueOf(filterMap.get(ConstantUtil.STATUS_PROPERTY)));
                 }    
 
 
-                if (filterMap.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("startDatefrom")))) { 
-                    String startDate = filterMap.get("startDatefrom").toString();
+                if (filterMap.get(ConstantUtil.START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.START_DATEFROM)))) { 
+                    String startDate = filterMap.get(ConstantUtil.START_DATEFROM).toString();
                     query.append(" AND ps.PS_START_DATE >= '").append(startDate).append("' ");
 
                 }
-                  if (filterMap.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("startDateto")))) { 
-                    String startDate = filterMap.get("startDateto").toString();
-                    query.append(" ps.PS_START_DATE <= '").append(startDate).append("' ");
+                  if (filterMap.get(ConstantUtil.START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.START_DATETO)))) { 
+                    String startDate = filterMap.get(ConstantUtil.START_DATETO).toString();
+                    query.append(" AND ps.PS_START_DATE <= '").append(startDate).append("' ");
                 }
-                  if (filterMap.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("endDatefrom")))) { 
-                    String endDate = filterMap.get("endDatefrom").toString();
+                  if (filterMap.get(ConstantUtil.END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.END_DATEFROM)))) { 
+                    String endDate = filterMap.get(ConstantUtil.END_DATEFROM).toString();
                     query.append(" AND ps.PS_END_DATE >= '").append(endDate).append("' ");
                 }
-                  if (filterMap.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("endDateto")))) { 
-                    String endDate = filterMap.get("endDateto").toString();
+                  if (filterMap.get(ConstantUtil.END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.END_DATETO)))) { 
+                    String endDate = filterMap.get(ConstantUtil.END_DATETO).toString();
                     query.append(" AND ps.PS_END_DATE <= '").append(endDate).append("' ");
                 }
                 
                 
               if(!countFlag){
-			query.append(" ORDER BY " + "psd.PS_DETAILS_SID" + " " + "ASC" + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + "psd.PS_DETAILS_SID" + " " + "ASC" + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
                  }
              LOGGER.debug("Exits PS Detail Component Search Query Util");
             return query.toString();
@@ -918,40 +954,40 @@ public class QueryUtil {
             
             if(filterMap.get("no")!=null){
                     wildCardValue=String.valueOf(filterMap.get("no"));
-                    query.append(" AND im.ITEM_NO like '"+wildCardValue+"'");
+                    query.append(ConstantUtil.AND_IM_ITEM_NO_LIKE+wildCardValue+"'");
             }
 
             if(filterMap.get("name")!=null){
                     wildCardValue=String.valueOf(filterMap.get("name"));
-                    query.append(" AND im.ITEM_NAME like '"+wildCardValue+"'");
+                    query.append(ConstantUtil.AND_IM_ITEM_NAME_LIKE+wildCardValue+"'");
             }
 
-            if(filterMap.get("status")!=null){
-                query.append(" AND rs.RS_STATUS ="+String.valueOf(filterMap.get("status")));
+            if(filterMap.get(ConstantUtil.STATUS_PROPERTY)!=null){
+                query.append(" AND rs.RS_STATUS ="+String.valueOf(filterMap.get(ConstantUtil.STATUS_PROPERTY)));
             }    
                 
                 
-            if (filterMap.get("startDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("startDatefrom")))) { 
-                String startDate = filterMap.get("startDatefrom").toString();
+            if (filterMap.get(ConstantUtil.START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.START_DATEFROM)))) { 
+                String startDate = filterMap.get(ConstantUtil.START_DATEFROM).toString();
                 query.append(" AND rs.RS_START_DATE >= '").append(startDate).append("' ");
                 
             }
-              if (filterMap.get("startDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("startDateto")))) { 
-                String startDate = filterMap.get("startDateto").toString();
+              if (filterMap.get(ConstantUtil.START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.START_DATETO)))) { 
+                String startDate = filterMap.get(ConstantUtil.START_DATETO).toString();
                 query.append(" AND rs.RS_START_DATE <= '").append(startDate).append("' ");
             }
-              if (filterMap.get("endDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("endDatefrom")))) { 
-                String endDate = filterMap.get("endDatefrom").toString();
+              if (filterMap.get(ConstantUtil.END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.END_DATEFROM)))) { 
+                String endDate = filterMap.get(ConstantUtil.END_DATEFROM).toString();
                 query.append(" AND rs.RS_END_DATE >= '").append(endDate).append("' ");
             }
-              if (filterMap.get("endDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get("endDateto")))) { 
-                String endDate = filterMap.get("endDateto").toString();
+              if (filterMap.get(ConstantUtil.END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(filterMap.get(ConstantUtil.END_DATETO)))) { 
+                String endDate = filterMap.get(ConstantUtil.END_DATETO).toString();
                 query.append(" AND rs.RS_END_DATE <= '").append(endDate).append("' ");
             }
             
             
              if(!countFlag){
-			query.append(" ORDER BY " + "rsd.RS_DETAILS_SID" + " " + "ASC" + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY");
+			query.append(ConstantUtil.ORDER_BY + "rsd.RS_DETAILS_SID" + " " + "ASC" + ConstantUtil.OFFSET + start + ConstantUtil.ROWS_FETCH_NEXT + offset + ConstantUtil.ROWS_ONLY);
                  }
             LOGGER.debug("Exits RS Detail Component Search Query Util");
             return query.toString();
@@ -966,100 +1002,97 @@ public class QueryUtil {
         }
         
         public String getForecastTypeContractValidationQuery(int contractSid){
-            LOGGER.debug("Enters Forecast Type Validation Query Util");
+            LOGGER.debug("Enters Forecast Type getForecastTypeContractValidationQuery Query");
             final StringBuilder queryBuilder = new StringBuilder("");
             queryBuilder.append("select DISTINCT FORECASTING_TYPE FROM   PROJECTION_MASTER pm" +
-                        " JOIN PROJECTION_DETAILS pd" +
-                        " ON pm.PROJECTION_MASTER_SID = pd.PROJECTION_MASTER_SID" +
-                        " INNER JOIN CCP_DETAILS cd" +
-                        " ON pd.CCP_DETAILS_SID = cd.CCP_DETAILS_SID" +
-                        " WHERE  contract_master_sid ="+contractSid+" AND SAVE_FLAG = 1");
+                        " JOIN PROJECTION_DETAILS pd " +
+                        ConstantUtil.ON_PM_PROJECTION_MASTER_SID_PD_PROJECTION +
+                        " INNER JOIN CCP_DETAILS cd " +
+                        ConstantUtil.ON_PD_CCP_DETAILS_SID_CD_CCP_DETAILS_SID +
+                        " WHERE  contract_master_sid = "+contractSid+"  AND SAVE_FLAG = 1");
            LOGGER.debug("Exits Forecast Type Validation Query Util");
            return queryBuilder.toString();
         }
         
         public String getNMSalesContractValidationQuery(int contractSid){
-            LOGGER.debug("Enters Forecast Type Validation Query Util");
+            LOGGER.debug("Enters Forecast Type getNMSalesContractValidationQuery Query Util");
             final StringBuilder queryBuilder = new StringBuilder("");
             queryBuilder.append("select count(*) from NM_SALES_PROJECTION where PROJECTION_DETAILS_SID in (" +
-                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm" +
+                                " select PROJECTION_DETAILS_SID FROM  PROJECTION_MASTER pm" +
                                 " JOIN PROJECTION_DETAILS pd" +
-                                " ON pm.PROJECTION_MASTER_SID = pd.PROJECTION_MASTER_SID" +
-                                " INNER JOIN CCP_DETAILS cd" +
-                                " ON pd.CCP_DETAILS_SID = cd.CCP_DETAILS_SID" +
-                                " WHERE  contract_master_sid ="+contractSid+" and save_flag = 1)");
-           LOGGER.debug("Exits Forecast Type Validation Query Util");
+                                ConstantUtil.ON_PM_PROJECTION_MASTER_SID_PD_PROJECTION +
+                                " INNER JOIN CCP_DETAILS cd " +
+                                ConstantUtil.ON_PD_CCP_DETAILS_SID_CD_CCP_DETAILS_SID +
+                                "  WHERE  contract_master_sid ="+contractSid+ ConstantUtil.AND_SAVE_FLAG);
+           LOGGER.debug("Exits Forecast Type getNMSalesContractValidationQuery Query Util");
            return queryBuilder.toString();
         }
         
         public String getNMDiscountContractValidationQuery(int contractSid){
-            LOGGER.debug("Enters Forecast Type Validation Query Util");
+            LOGGER.debug("Enters Forecast Type getNMDiscountContractValidationQuery Query Util");
             final StringBuilder queryBuilder = new StringBuilder("");
             queryBuilder.append("select count(*) from NM_DISCOUNT_PROJECTION where PROJECTION_DETAILS_SID in (" +
-                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm" +
-                                " JOIN PROJECTION_DETAILS pd" +
-                                " ON pm.PROJECTION_MASTER_SID = pd.PROJECTION_MASTER_SID" +
-                                " INNER JOIN CCP_DETAILS cd" +
-                                " ON pd.CCP_DETAILS_SID = cd.CCP_DETAILS_SID" +
-                                " WHERE  contract_master_sid ="+contractSid+" and save_flag = 1)");
-           LOGGER.debug("Exits Forecast Type Validation Query Util");
+                                "select PROJECTION_DETAILS_SID FROM  PROJECTION_MASTER pm" +
+                                " JOIN PROJECTION_DETAILS pd " +
+                                ConstantUtil.ON_PM_PROJECTION_MASTER_SID_PD_PROJECTION +
+                                "  INNER JOIN CCP_DETAILS cd" +
+                                ConstantUtil.ON_PD_CCP_DETAILS_SID_CD_CCP_DETAILS_SID +
+                                "  WHERE  contract_master_sid ="+contractSid+ConstantUtil.AND_SAVE_FLAG);
+           LOGGER.debug("Exits Forecast Type getNMDiscountContractValidationQuery Query Util");
            return queryBuilder.toString();
         }
         
         public String getMSalesContractValidationQuery(int contractSid){
-            LOGGER.debug("Enters Forecast Type Validation Query Util");
+            LOGGER.debug("Enters Forecast Type getMSalesContractValidationQuery Query Util");
             final StringBuilder queryBuilder = new StringBuilder("");
             queryBuilder.append("select count(*) from M_SALES_PROJECTION where PROJECTION_DETAILS_SID in (" +
-                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm" +
+                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm " +
                                 " JOIN PROJECTION_DETAILS pd" +
-                                " ON pm.PROJECTION_MASTER_SID = pd.PROJECTION_MASTER_SID" +
-                                " INNER JOIN CCP_DETAILS cd" +
-                                " ON pd.CCP_DETAILS_SID = cd.CCP_DETAILS_SID" +
-                                " WHERE  contract_master_sid ="+contractSid+" and save_flag = 1)");
-           LOGGER.debug("Exits Forecast Type Validation Query Util");
+                                ConstantUtil.ON_PM_PROJECTION_MASTER_SID_PD_PROJECTION +
+                                "  INNER JOIN CCP_DETAILS cd" +
+                                ConstantUtil.ON_PD_CCP_DETAILS_SID_CD_CCP_DETAILS_SID +
+                                " WHERE  contract_master_sid = "+contractSid+ConstantUtil.AND_SAVE_FLAG);
+           LOGGER.debug("Exits Forecast Type getMSalesContractValidationQuery Query Util");
            return queryBuilder.toString();
         }
         
         public String getMDiscountContractValidationQuery(int contractSid){
-            LOGGER.debug("Enters Forecast Type Validation Query Util");
+            LOGGER.debug("Enters Forecast Type getMDiscountContractValidationQuery Query Util");
             final StringBuilder queryBuilder = new StringBuilder("");
             queryBuilder.append("select count(*) from M_DISCOUNT_PROJECTION where PROJECTION_DETAILS_SID in (" +
-                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm" +
-                                " JOIN PROJECTION_DETAILS pd" +
-                                " ON pm.PROJECTION_MASTER_SID = pd.PROJECTION_MASTER_SID" +
-                                " INNER JOIN CCP_DETAILS cd" +
-                                " ON pd.CCP_DETAILS_SID = cd.CCP_DETAILS_SID" +
-                                " WHERE  contract_master_sid ="+contractSid+" and save_flag = 1)");
-           LOGGER.debug("Exits Forecast Type Validation Query Util");
+                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm JOIN PROJECTION_DETAILS pd " +
+                                ConstantUtil.ON_PM_PROJECTION_MASTER_SID_PD_PROJECTION +
+                                "  INNER JOIN CCP_DETAILS cd " +
+                                ConstantUtil.ON_PD_CCP_DETAILS_SID_CD_CCP_DETAILS_SID +
+                                " WHERE  contract_master_sid ="+contractSid+ConstantUtil.AND_SAVE_FLAG);
+           LOGGER.debug("Exits Forecast Type getMDiscountContractValidationQuery Query Util");
            return queryBuilder.toString();
         }
         
         
         public String getCHSalesContractValidationQuery(int contractSid){
-            LOGGER.debug("Enters Forecast Type Validation Query Util");
+            LOGGER.debug("Enters Forecast Type getCHSalesContractValidationQuery Query Util");
             final StringBuilder queryBuilder = new StringBuilder("");
             queryBuilder.append("select count(*) from CH_SALES_PROJECTION where PROJECTION_DETAILS_SID in (" +
-                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm" +
-                                " JOIN PROJECTION_DETAILS pd" +
-                                " ON pm.PROJECTION_MASTER_SID = pd.PROJECTION_MASTER_SID" +
-                                " INNER JOIN CCP_DETAILS cd" +
-                                " ON pd.CCP_DETAILS_SID = cd.CCP_DETAILS_SID" +
-                                " WHERE  contract_master_sid ="+contractSid+" and save_flag = 1)");
-           LOGGER.debug("Exits Forecast Type Validation Query Util");
+                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm  JOIN PROJECTION_DETAILS pd" +
+                                ConstantUtil.ON_PM_PROJECTION_MASTER_SID_PD_PROJECTION +
+                                "  INNER JOIN CCP_DETAILS cd " +
+                                ConstantUtil.ON_PD_CCP_DETAILS_SID_CD_CCP_DETAILS_SID +
+                                " WHERE  contract_master_sid ="+contractSid+ConstantUtil.AND_SAVE_FLAG);
+           LOGGER.debug("Exits Forecast Type getCHSalesContractValidationQuery Query Util");
            return queryBuilder.toString();
         }
         
         public String getCHDiscountContractValidationQuery(int contractSid){
-            LOGGER.debug("Enters Forecast Type Validation Query Util");
+            LOGGER.debug("Enters Forecast Type getCHDiscountContractValidationQuery Query Util");
             final StringBuilder queryBuilder = new StringBuilder("");
             queryBuilder.append("select count(*) from CH_PROJECTION_DISCOUNT where PROJECTION_DETAILS_SID in (" +
-                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm" +
-                                " JOIN PROJECTION_DETAILS pd" +
-                                " ON pm.PROJECTION_MASTER_SID = pd.PROJECTION_MASTER_SID" +
+                                "select PROJECTION_DETAILS_SID FROM   PROJECTION_MASTER pm JOIN PROJECTION_DETAILS pd" +
+                                ConstantUtil.ON_PM_PROJECTION_MASTER_SID_PD_PROJECTION +
                                 " INNER JOIN CCP_DETAILS cd" +
-                                " ON pd.CCP_DETAILS_SID = cd.CCP_DETAILS_SID" +
-                                " WHERE  contract_master_sid ="+contractSid+" and save_flag = 1)");
-           LOGGER.debug("Exits Forecast Type Validation Query Util");
+                                ConstantUtil.ON_PD_CCP_DETAILS_SID_CD_CCP_DETAILS_SID +
+                                "  WHERE  contract_master_sid = "+contractSid+ConstantUtil.AND_SAVE_FLAG);
+           LOGGER.debug("Exits Forecast Type getCHDiscountContractValidationQuery Query Util");
            return queryBuilder.toString();
         }
         

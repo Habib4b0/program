@@ -15,8 +15,10 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.utils.Constants.CommonConstants.CONTRACT_DETAILS;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
+import com.stpl.app.utils.Constants.*;
 
 /**
  *
@@ -35,6 +38,7 @@ public class QueryUtils {
 
     private static final CommonDAOImpl commonDao = new CommonDAOImpl();
     private static final Logger LOGGER = Logger.getLogger(QueryUtils.class);
+    public static final String CONTRACT_HOLDER = "contractHolder";
     public static final String TILT = "~";
 
     /*
@@ -44,22 +48,23 @@ public class QueryUtils {
         String startYearValue = period.substring(period.length() - NumericConstants.FOUR);
         String startFreqNoValue = period.substring(1, NumericConstants.TWO);
         int startYear = isInteger(startYearValue) ? Integer.valueOf(startYearValue) : 0;
-        String where = StringUtils.EMPTY;
+        String where;
 
         if (fre.equals(MONTHLY.getConstant())) {
             String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
             int startFreqNo = CommonUtils.getIntegerForMonth(startMonthValue);
-            where = "where \"MONTH\" = '" + startFreqNo + "' and \"YEAR\" = '" + startYear + "'";
+            where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
         } else if (fre.equals(QUARTERLY.getConstant())) {
-            where = "where QUARTER = '" + startFreqNoValue + "' and \"YEAR\" = '" + startYear + "'";
-        } else if (fre.equals(ANNUALLY.getConstant())) {
+            where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
+        } else if (fre.equals(ANNUALLY.getConstant()) || fre.equals(ANNUAL.getConstant())) {
             where = "where  \"YEAR\" = '" + startYear + "'";
         } else {
-            where = "where SEMI_ANNUAL = '" + startFreqNoValue + "' and \"YEAR\" = '" + startYear + "'";
+            where = "where SEMI_ANNUAL = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
         }
         String query = "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
         return query;
     }
+    public static final String AND_YEAR_EQUAL = "' and \"YEAR\" = '";
 
     /**
      * This method will update the table before calling calculation procedure
@@ -73,19 +78,19 @@ public class QueryUtils {
      * @param allocationMethodology
      * @param periodsMap
      */
-    public void updateDiscProjMasterCalc(int projectionId, String userId, String sessionId, ProjectionSelectionDTO projectionSelection, String levelType,
-            String allocationMethodology, Map<String, Map<String, List<String>>> periodsMap,List<String> selectedDiscount,Boolean isProgram) {
+    public void updateDiscProjMasterCalc(ProjectionSelectionDTO projectionSelection,
+             Map<String, Map<String, List<String>>> periodsMap,List<String> selectedDiscount,Boolean isProgram) {
         LOGGER.debug(" entering updateInputsForCalc");
         try {
 
-            String baselinePeriods = StringUtils.EMPTY;
+            String baselinePeriods;
             List<String> baselinePeriodsList;
             List<String> selectedPeriodsList;
             List<String> periodsList = new ArrayList<>();
             if (projectionSelection.getMethodology().equals(CONTRACT_DETAILS.getConstant())) {
                 baselinePeriods = " ";
-                for (String discountName : selectedDiscount) {
-                     updateBaseLinePeriods(baselinePeriods, projectionSelection, levelType, discountName, projectionId, userId, sessionId,isProgram);
+                for (String discountName : periodsMap.keySet()) {
+                     updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName,isProgram);
                 }
             } else {
                 for (String discountName : periodsMap.keySet()) {
@@ -107,7 +112,7 @@ public class QueryUtils {
                         baselinePeriods = CommonUtils.replaceShortMonthForMonth(baselinePeriods);
                     }
 
-                    updateBaseLinePeriods(baselinePeriods, projectionSelection, levelType, discountName, projectionId, userId, sessionId,isProgram);
+                    updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName,isProgram);
                 }
             }
 
@@ -123,8 +128,8 @@ public class QueryUtils {
         int count = 0;
         String query = "SELECT COUNT (*) FROM (";
         query += SQlUtil.getQuery("CUSTOMER_SELECTION_AVAILABLE_SEARCH_QUERY");
-        query = query.replace("[$USER_ID]", session.getUserId());
-        query = query.replace("[$SESSION_ID]", session.getSessionId());
+        query = query.replace(Constant.USER_ID_DOLLAR, session.getUserId());
+        query = query.replace(Constant.SESSION_ID_DOLLAR, session.getSessionId());
 
         String customer = String.valueOf(parameters.get(Constant.CUSTOMER_NO));
 
@@ -138,24 +143,24 @@ public class QueryUtils {
             isWhereClaues = false;
         }
 
-        String contractHolder = String.valueOf(parameters.get("contractHolder"));
+        String contractHolder = String.valueOf(parameters.get(CONTRACT_HOLDER));
 
         if (!contractHolder.equals(Constant.NULL)) {
             query = query + (isWhereClaues ? whereClause : andClause) + "  CM.COMPANY_NAME like '" + contractHolder + "'";
              isWhereClaues = false;
         }
 
-        String contractNo = String.valueOf(parameters.get("contractNo"));
+        String contractNo = String.valueOf(parameters.get(Constant.CONTRACT_NO));
 
         if (!contractNo.equals(Constant.NULL)) {
             query = query + (isWhereClaues ? whereClause : andClause) + "  CON_M.CONTRACT_NO like '" + contractNo + "'";
              isWhereClaues = false;
         }
 
-        String contractName = String.valueOf(parameters.get("contractName"));
+        String contractName = String.valueOf(parameters.get(Constant.CONTRACT_NAME));
 
         if (!contractName.equals(Constant.NULL)) {
-            query = query +  (isWhereClaues ? whereClause : andClause) +"  CON_M.CONTRACT_NAME like '" + contractName + "'";
+            query = query +  (isWhereClaues ? whereClause : andClause) +"   CON_M.CONTRACT_NAME like '" + contractName + "'";
              isWhereClaues = false;
         }
         String customerName = String.valueOf(parameters.get(Constant.CUSTOMER_NAME));
@@ -164,44 +169,44 @@ public class QueryUtils {
             query = query + (isWhereClaues ? whereClause : andClause) + "  CM1.COMPANY_NAME like '" + customerName + "'";
              isWhereClaues = false;
         }
-        String marketType = String.valueOf(parameters.get("marketType"));
+        String marketType = String.valueOf(parameters.get(Constant.MARKET_TYPE));
 
         if (!marketType.equals(Constant.NULL) && !marketType.equals(Constant.SELECT_ONE)) {
             query = query +  (isWhereClaues ? whereClause : andClause) +"  HT.DESCRIPTION = '" + marketType + "'";
              isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~customerNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerNo")))) {
-            query = query +  (isWhereClaues ? whereClause : andClause) +"  CM1.COMPANY_NO like '" + String.valueOf(parameters.get("filter~customerNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
+            query = query +  (isWhereClaues ? whereClause : andClause) +" CM1.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + "'";
              isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractHolder") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractHolder")))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~contractHolder")) + "'";
+        if (parameters.containsKey(FILTERCONTRACT_HOLDER) && !Constant.NULL.equals(String.valueOf(parameters.get(FILTERCONTRACT_HOLDER)))) {
+            query = query + (isWhereClaues ? whereClause : andClause) + "  CM.COMPANY_NAME like '" + String.valueOf(parameters.get(FILTERCONTRACT_HOLDER)) + "'";
              isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractNo")))) {
-            query = query +  (isWhereClaues ? whereClause : andClause) +"  CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get("filter~contractNo")) + "'";
+        if (parameters.containsKey(FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(FILTERCONTRACT_NO)))) {
+            query = query +  (isWhereClaues ? whereClause : andClause) +"  CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get(FILTERCONTRACT_NO)) + "'";
              isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractName")))) {
-            query = query +  (isWhereClaues ? whereClause : andClause) +"  CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get("filter~contractName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
+            query = query +  (isWhereClaues ? whereClause : andClause) +" CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + "'";
              isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~customerName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerName")))) {
-            query = query +  (isWhereClaues ? whereClause : andClause) +"  CM1.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~customerName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
+            query = query +  (isWhereClaues ? whereClause : andClause) +"  CM1.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + "'";
              isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~marketType") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~marketType"))) && !Constant.SELECT_ONE.equals(String.valueOf(parameters.get("filter~marketType")))) {
-            query = query +  (isWhereClaues ? whereClause : andClause) +"  HT.DESCRIPTION like '" + String.valueOf(parameters.get("filter~marketType")) + "'";
+        if (parameters.containsKey(Constant.FILTERMARKET_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE))) && !Constant.SELECT_ONE.equals(String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)))) {
+            query = query +  (isWhereClaues ? whereClause : andClause) +"  HT.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)) + "'";
              isWhereClaues = false;
         }
-        if (parameters.containsKey("filter~check") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~check")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CS.AVAILABLE_CHECKBOX like '" + String.valueOf(parameters.get("filter~check")) + "'";
+        if (parameters.containsKey(Constant.FILTERCHECK) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCHECK)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CS.AVAILABLE_CHECKBOX like '" + String.valueOf(parameters.get(Constant.FILTERCHECK)) + "'";
         }
         query = query + " ) TMP_COUNT";
 
@@ -216,14 +221,16 @@ public class QueryUtils {
         }
         return count;
     }
+    public static final String FILTERCONTRACT_HOLDER = "filter~contractHolder";
+    public static final String FILTERCONTRACT_NO = "filter~contractNo";
 
     public String companyValues(Map<String, Object> parameters, int start, int offset, SessionDTO session) {
 
-        String query = StringUtils.EMPTY;
+        String query;
 
         query = SQlUtil.getQuery("CUSTOMER_SELECTION_AVAILABLE_SEARCH_QUERY");
-        query = query.replace("[$USER_ID]", session.getUserId());
-        query = query.replace("[$SESSION_ID]", session.getSessionId());
+        query = query.replace(Constant.USER_ID_DOLLAR, session.getUserId());
+        query = query.replace(Constant.SESSION_ID_DOLLAR, session.getSessionId());
         
           String whereClause=" WHERE ";
         String andClause = " AND ";
@@ -233,75 +240,74 @@ public class QueryUtils {
         String customer = String.valueOf(parameters.get(Constant.CUSTOMER_NO));
 
         if (!customer.equals(Constant.NULL)) {
-            query = query +(isWhereClaues ? whereClause : andClause)+ "  CM1.COMPANY_NO like '" + customer + "'";
+            query = query +(isWhereClaues ? whereClause : andClause)+ "   CM1.COMPANY_NO like '" + customer + "'";
             isWhereClaues = false;
         }
 
-        String contractHolder = String.valueOf(parameters.get("contractHolder"));
+        String contractHolder = String.valueOf(parameters.get(CONTRACT_HOLDER));
         if (!contractHolder.equals(Constant.NULL)) {
-            query = query + (isWhereClaues ? whereClause : andClause)+"  CM.COMPANY_NAME like '" + contractHolder + "'";
+            query = query + (isWhereClaues ? whereClause : andClause)+"  CM.COMPANY_NAME  like '" + contractHolder + "'";
             isWhereClaues = false;
         }
 
-        String contractNo = String.valueOf(parameters.get("contractNo"));
+        String contractNo = String.valueOf(parameters.get(Constant.CONTRACT_NO));
         if (!contractNo.equals(Constant.NULL)) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CON_M.CONTRACT_NO like '" + contractNo + "'";
+            query = query + (isWhereClaues ? whereClause : andClause)+ " CON_M.CONTRACT_NO like '" + contractNo + "'";
             isWhereClaues = false;
         }
 
-        String contractName = String.valueOf(parameters.get("contractName"));
+        String contractName = String.valueOf(parameters.get(Constant.CONTRACT_NAME));
         if (!contractName.equals(Constant.NULL)) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CON_M.CONTRACT_NAME like '" + contractName + "'";
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CON_M.CONTRACT_NAME  like '" + contractName + "'";
             isWhereClaues = false;
         }
         String customerName = String.valueOf(parameters.get(Constant.CUSTOMER_NAME));
         if (!customerName.equals(Constant.NULL)) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CM1.COMPANY_NAME like '" + customerName + "'";
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CM1.COMPANY_NAME  like '" + customerName + "'";
             isWhereClaues = false;
         }
 
-        String marketType = String.valueOf(parameters.get("marketType"));
+        String marketType = String.valueOf(parameters.get(Constant.MARKET_TYPE));
         if (!marketType.equals(Constant.NULL) && !marketType.equals(Constant.SELECT_ONE)) {
             query = query + (isWhereClaues ? whereClause : andClause)+ "  HT.DESCRIPTION = '" + marketType + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~customerNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerNo")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CM1.COMPANY_NO like '" + String.valueOf(parameters.get("filter~customerNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CM1.COMPANY_NO  like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractHolder") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractHolder")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~contractHolder")) + "'";
+        if (parameters.containsKey(FILTERCONTRACT_HOLDER) && !Constant.NULL.equals(String.valueOf(parameters.get(FILTERCONTRACT_HOLDER)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CM.COMPANY_NAME like  '" + String.valueOf(parameters.get(FILTERCONTRACT_HOLDER)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractNo")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get("filter~contractNo")) + "'";
+        if (parameters.containsKey(FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(FILTERCONTRACT_NO)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "   CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get(FILTERCONTRACT_NO)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~contractName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractName")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get("filter~contractName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~customerName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerName")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CM1.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~customerName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CM1.COMPANY_NAME like  '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + "'";
             isWhereClaues = false;
         }
-        if (parameters.containsKey("filter~check") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~check")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  CS.AVAILABLE_CHECKBOX like '" + String.valueOf(parameters.get("filter~check")) + "'";
+        if (parameters.containsKey(Constant.FILTERCHECK) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCHECK)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  CS.AVAILABLE_CHECKBOX like '" + String.valueOf(parameters.get(Constant.FILTERCHECK)) + "'";
             isWhereClaues = false;
         }
 
-        if (parameters.containsKey("filter~marketType") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~marketType"))) && !Constant.SELECT_ONE.equals(String.valueOf(parameters.get("filter~marketType")))) {
-            query = query + (isWhereClaues ? whereClause : andClause)+ "  HT.DESCRIPTION like '" + String.valueOf(parameters.get("filter~marketType")) + "'";
-            isWhereClaues = false;
+        if (parameters.containsKey(Constant.FILTERMARKET_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE))) && !Constant.SELECT_ONE.equals(String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)))) {
+            query = query + (isWhereClaues ? whereClause : andClause)+ "  HT.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)) + "'";
         }
       
 
-            query += "ORDER BY CON_M.CONTRACT_NO OFFSET " + start + "  ROWS FETCH NEXT " + offset + " ROWS ONLY";
+            query += "ORDER BY CON_M.CONTRACT_NO OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
 
         return query;
     }
@@ -310,7 +316,7 @@ public class QueryUtils {
 
     public List itemValues(Map<String, Object> parameters, int start, int offset, SessionDTO session, boolean isAddAll) {
         String query = StringUtils.EMPTY;
-        String addAllCondtion = StringUtils.EMPTY;
+        String addAllCondtion;
         if (isAddAll) {
             query = "INSERT INTO DBO.AH_TEMP_DETAILS(BUSINESS_UNIT_NO,BUSINESS_UNIT_NAME,THERAPUTIC_CLASS,"
                     + "BRAND_NAME,ITEM_NO,ITEM_NAME,ITEM_IDENTIFIER_TYPE,ITEM_IDENTIFIER,"
@@ -365,7 +371,7 @@ public class QueryUtils {
         String itemNo = String.valueOf(parameters.get(Constant.ITEM_NO));
 
         if (!itemNo.equals(StringUtils.EMPTY) && !itemNo.equals(Constant.NULL)) {
-            query = query + " AND IM.ITEM_NO like '" + itemNo + "'";
+            query = query + " AND IM.ITEM_NO like  '" + itemNo + "'";
         }
         String itemName = String.valueOf(parameters.get("itemName"));
 
@@ -376,7 +382,7 @@ public class QueryUtils {
         String businessUnitName = String.valueOf(parameters.get("businessUnitName"));
 
         if (!businessUnitName.equals(StringUtils.EMPTY) && !businessUnitName.equals(Constant.NULL)) {
-            query = query + " AND CM.COMPANY_NAME like '" + businessUnitName + "'";
+            query = query + Constant.AND_CMCOMPANY_NAME_LIKE + businessUnitName + "'";
         }
 
         String businessUnitNo = String.valueOf(parameters.get("businessUnitNo"));
@@ -393,52 +399,52 @@ public class QueryUtils {
         String brand = String.valueOf(parameters.get(Constant.BRAND));
 
         if (!brand.equals(StringUtils.EMPTY) && !brand.equals(Constant.NULL)) {
-            query = query + " AND BM.BRAND_NAME like '" + brand + "'";
+            query = query + " AND BM.BRAND_NAME like  '" + brand + "'";
         }
 
-        String itemIdentifierType = String.valueOf(parameters.get("itemIdentifierType"));
+        String itemIdentifierType = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER_TYPE));
 
         if (!itemIdentifierType.equals(StringUtils.EMPTY) && !itemIdentifierType.equals(Constant.NULL)) {
-            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + itemIdentifierType + "'";
+            query = query + " AND II.ITEM_IDENTIFIER_VALUE like   '" + itemIdentifierType + "'";
         }
-        String itemIdentifier = String.valueOf(parameters.get("itemIdentifier"));
+        String itemIdentifier = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER));
 
         if (!itemIdentifier.equals(StringUtils.EMPTY) && !itemIdentifier.equals(Constant.NULL)) {
-            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + itemIdentifier + "'";
+            query = query + " AND IQ.ITEM_QUALIFIER_NAME like  '" + itemIdentifier + "'";
         }
 
         /* Used for Filter */
-        if (parameters.containsKey("filter~itemNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemNo")))) {
-            query = query + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get("filter~itemNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
+            query = query + " AND IM.ITEM_NO  like  '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~businessUnitName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~businessUnitName")))) {
-            query = query + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~businessUnitName")) + "'";
+        if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)))) {
+            query = query + Constant.AND_CMCOMPANY_NAME_LIKE + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemName")))) {
-            query = query + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get("filter~itemName")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
+            query = query + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~businessUnitNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~businessUnitNo")))) {
-            query = query + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get("filter~businessUnitNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)))) {
+            query = query + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)) + "'";
         }
-        if (parameters.containsKey("filter~brand") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~brand")))) {
-            query = query + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get("filter~brand")) + "'";
-        }
-
-        if (parameters.containsKey("filter~itemIdentifierType") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemIdentifierType")))) {
-            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get("filter~itemIdentifierType")) + "'";
+        if (parameters.containsKey(Constant.FILTERBRAND) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBRAND)))) {
+            query = query + " AND BM.BRAND_NAME like  '" + String.valueOf(parameters.get(Constant.FILTERBRAND)) + "'";
         }
 
-        if (parameters.containsKey("filter~theraputicClass") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~theraputicClass")))) {
-            query = query + " AND HT1.DESCRIPTION like '" + String.valueOf(parameters.get("filter~theraputicClass")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)))) {
+            query = query + " AND II.ITEM_IDENTIFIER_VALUE  like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)) + "'";
         }
-        if (parameters.containsKey("filter~itemIdentifier") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemIdentifier")))) {
-            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get("filter~itemIdentifier")) + "'";
+
+        if (parameters.containsKey(Constant.FILTERTHERAPUTIC_CLASS) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)))) {
+            query = query + " AND HT1.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)) + "'";
+        }
+        if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)))) {
+            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)) + "'";
         }
         if (!isAddAll) {
-            query += " ORDER BY ITEM_NAME OFFSET " + start + "  ROWS FETCH NEXT " + offset + " ROWS ONLY";
+            query += " ORDER BY ITEM_NAME OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
         } else {
             query += ")";
         }
@@ -515,17 +521,17 @@ public class QueryUtils {
             sourceTableQuery = sourceTableQuery + " WHERE CM1.COMPANY_NO like '" + customer + "'";
         }
 
-        String contractHolder = String.valueOf(parameters.get("contractHolder"));
+        String contractHolder = String.valueOf(parameters.get(CONTRACT_HOLDER));
         if (!contractHolder.equals(Constant.NULL)) {
-            sourceTableQuery = sourceTableQuery + " AND CM.COMPANY_NAME like '" + contractHolder + "'";
+            sourceTableQuery = sourceTableQuery + Constant.AND_CMCOMPANY_NAME_LIKE + contractHolder + "'";
         }
 
-        String contractNo = String.valueOf(parameters.get("contractNo"));
+        String contractNo = String.valueOf(parameters.get(Constant.CONTRACT_NO));
         if (!contractNo.equals(Constant.NULL)) {
             sourceTableQuery = sourceTableQuery + " AND CON_M.CONTRACT_NO like '" + contractNo + "'";
         }
 
-        String contractName = String.valueOf(parameters.get("contractName"));
+        String contractName = String.valueOf(parameters.get(Constant.CONTRACT_NAME));
         if (!contractName.equals(Constant.NULL)) {
             sourceTableQuery = sourceTableQuery + " AND CON_M.CONTRACT_NAME like '" + contractName + "'";
         }
@@ -534,33 +540,33 @@ public class QueryUtils {
             sourceTableQuery = sourceTableQuery + " AND CM1.COMPANY_NAME like '" + customerName + "'";
         }
 
-        String marketType = String.valueOf(parameters.get("marketType"));
+        String marketType = String.valueOf(parameters.get(Constant.MARKET_TYPE));
         if (!marketType.equals(Constant.NULL) && !marketType.equals(Constant.SELECT_ONE)) {
             sourceTableQuery = sourceTableQuery + " AND HT.DESCRIPTION = '" + marketType + "'";
         }
 
-        if (parameters.containsKey("filter~customerNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerNo")))) {
-            sourceTableQuery = sourceTableQuery + " AND CM1.COMPANY_NO like '" + String.valueOf(parameters.get("filter~customerNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
+            sourceTableQuery = sourceTableQuery + " AND CM1.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~contractHolder") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractHolder")))) {
-            sourceTableQuery = sourceTableQuery + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~contractHolder")) + "'";
+        if (parameters.containsKey(FILTERCONTRACT_HOLDER) && !Constant.NULL.equals(String.valueOf(parameters.get(FILTERCONTRACT_HOLDER)))) {
+            sourceTableQuery = sourceTableQuery + Constant.AND_CMCOMPANY_NAME_LIKE + String.valueOf(parameters.get(FILTERCONTRACT_HOLDER)) + "'";
         }
 
-        if (parameters.containsKey("filter~contractNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractNo")))) {
-            sourceTableQuery = sourceTableQuery + " AND CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get("filter~contractNo")) + "'";
+        if (parameters.containsKey(FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(FILTERCONTRACT_NO)))) {
+            sourceTableQuery = sourceTableQuery + " AND CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get(FILTERCONTRACT_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~contractName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~contractName")))) {
-            sourceTableQuery = sourceTableQuery + " AND CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get("filter~contractName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
+            sourceTableQuery = sourceTableQuery + " AND CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~customerName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~customerName")))) {
-            sourceTableQuery = sourceTableQuery + " AND CM1.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~customerName")) + "'";
+        if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
+            sourceTableQuery = sourceTableQuery + " AND CM1.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~marketType") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~marketType"))) && !Constant.SELECT_ONE.equals(String.valueOf(parameters.get("filter~marketType")))) {
-            sourceTableQuery = sourceTableQuery + " AND HT.DESCRIPTION like '" + String.valueOf(parameters.get("filter~marketType")) + "'";
+        if (parameters.containsKey(Constant.FILTERMARKET_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE))) && !Constant.SELECT_ONE.equals(String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)))) {
+            sourceTableQuery = sourceTableQuery + " AND HT.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)) + "'";
         }
          query = query.replace("[$SOURCE_TABLE]", sourceTableQuery);
           
@@ -571,16 +577,16 @@ public class QueryUtils {
     public int itemCount(Map<String, Object> parameters, SessionDTO session) {
 
         String query = StringUtils.EMPTY;
-        String itemIdentifierType = String.valueOf(parameters.get("itemIdentifierType"));
-        String itemIdentifier = String.valueOf(parameters.get("itemIdentifier"));
+        String itemIdentifierType = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER_TYPE));
+        String itemIdentifier = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER));
         if (!itemIdentifierType.equals(StringUtils.EMPTY) && !itemIdentifierType.equals(Constant.NULL)
                 && !itemIdentifier.equals(StringUtils.EMPTY) && !itemIdentifier.equals(Constant.NULL)) {
             query += SQlUtil.getQuery("items-count-with-identifier");
         } else {
             query += SQlUtil.getQuery("items-count");
         }
-        query = query.replace("[$USER_ID]", session.getUserId());
-        query = query.replace("[$SESSION_ID]", session.getSessionId());
+        query = query.replace(Constant.USER_ID_DOLLAR, session.getUserId());
+        query = query.replace(Constant.SESSION_ID_DOLLAR, session.getSessionId());
         query = customizeItemSearchQuery(query, parameters);
         query = query + ") TMP_COUNT;";
         
@@ -591,8 +597,8 @@ public class QueryUtils {
     public List itemsSearch(Map<String, Object> parameters, int start, int offset, SessionDTO session) {
 
         String query = StringUtils.EMPTY;
-        String itemIdentifierType = String.valueOf(parameters.get("itemIdentifierType"));
-        String itemIdentifier = String.valueOf(parameters.get("itemIdentifier"));
+        String itemIdentifierType = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER_TYPE));
+        String itemIdentifier = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER));
 
         if (!itemIdentifierType.equals(StringUtils.EMPTY) && !itemIdentifierType.equals(Constant.NULL)
                 && !itemIdentifier.equals(StringUtils.EMPTY) && !itemIdentifier.equals(Constant.NULL)) {
@@ -600,10 +606,10 @@ public class QueryUtils {
         } else {
             query += SQlUtil.getQuery("items-search");
         }
-        query = query.replace("[$USER_ID]", session.getUserId());
-        query = query.replace("[$SESSION_ID]", session.getSessionId());
+        query = query.replace(Constant.USER_ID_DOLLAR, session.getUserId());
+        query = query.replace(Constant.SESSION_ID_DOLLAR, session.getSessionId());
         query = customizeItemSearchQuery(query, parameters);
-        query += " ORDER BY ITEM_NAME OFFSET " + start + "  ROWS FETCH NEXT " + offset + " ROWS ONLY";
+        query += " ORDER BY ITEM_NAME OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
         
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         return list;
@@ -619,24 +625,24 @@ public class QueryUtils {
         String itemName = String.valueOf(parameters.get("itemName"));
 
         if (itemName != null && !itemName.equals(StringUtils.EMPTY) && !itemName.equals(Constant.NULL)) {
-            query = query + " AND IM.ITEM_NAME like '" + itemName + "'";
+            query = query + " AND  IM.ITEM_NAME like '" + itemName + "'";
         }
 
         String businessUnitName = String.valueOf(parameters.get("businessUnitName"));
 
         if (!businessUnitName.equals(StringUtils.EMPTY) && !businessUnitName.equals(Constant.NULL)) {
-            query = query + " AND CM.COMPANY_NAME like '" + businessUnitName + "'";
+            query = query + Constant.AND_CMCOMPANY_NAME_LIKE + businessUnitName + "'";
         }
 
         String businessUnitNo = String.valueOf(parameters.get("businessUnitNo"));
 
         if (!businessUnitNo.equals(StringUtils.EMPTY) && !businessUnitNo.equals(Constant.NULL)) {
-            query = query + " AND CM.COMPANY_NO like '" + businessUnitNo + "'";
+            query = query + " AND  CM.COMPANY_NO like '" + businessUnitNo + "'";
         }
         String theraputicClass = String.valueOf(parameters.get("theraputicClass"));
 
         if (!theraputicClass.equals(StringUtils.EMPTY) && !theraputicClass.equals(Constant.NULL)) {
-            query = query + " AND HT1.DESCRIPTION like '" + theraputicClass + "'";
+            query = query + " AND HT1.DESCRIPTION  like '" + theraputicClass + "'";
         }
 
         String brand = String.valueOf(parameters.get(Constant.BRAND));
@@ -645,13 +651,13 @@ public class QueryUtils {
             query = query + " AND BM.BRAND_NAME like '" + brand + "'";
         }
 
-        String itemIdentifierType = String.valueOf(parameters.get("itemIdentifierType"));
+        String itemIdentifierType = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER_TYPE));
 
         if (!itemIdentifierType.equals(StringUtils.EMPTY) && !itemIdentifierType.equals(Constant.NULL)) {
             
              query = query + " AND IQ.ITEM_QUALIFIER_SID = " + itemIdentifierType + " ";
         }
-        String itemIdentifier = String.valueOf(parameters.get("itemIdentifier"));
+        String itemIdentifier = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER));
 
         if (!itemIdentifier.equals(StringUtils.EMPTY) && !itemIdentifier.equals(Constant.NULL)) {
             
@@ -660,34 +666,34 @@ public class QueryUtils {
         }
 
         /* Used for Filter */
-        if (parameters.containsKey("filter~itemNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemNo")))) {
-            query = query + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get("filter~itemNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
+            query = query + " AND IM.ITEM_NO like '" + String.valueOf(parameters.get(Constant.FILTERITEM_NO)) + "'";
         }
 
-        if (parameters.containsKey("filter~businessUnitName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~businessUnitName")))) {
-            query = query + " AND CM.COMPANY_NAME like '" + String.valueOf(parameters.get("filter~businessUnitName")) + "'";
+        if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)))) {
+            query = query + Constant.AND_CMCOMPANY_NAME_LIKE + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~itemName") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemName")))) {
-            query = query + " AND IM.ITEM_NAME like '" + String.valueOf(parameters.get("filter~itemName")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
+            query = query + " AND IM.ITEM_NAME like  '" + String.valueOf(parameters.get(Constant.FILTERITEM_NAME)) + "'";
         }
 
-        if (parameters.containsKey("filter~businessUnitNo") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~businessUnitNo")))) {
-            query = query + " AND CM.COMPANY_NO like '" + String.valueOf(parameters.get("filter~businessUnitNo")) + "'";
+        if (parameters.containsKey(Constant.FILTERBUSINESS_UNIT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)))) {
+            query = query + " AND  CM.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERBUSINESS_UNIT_NO)) + "'";
         }
-        if (parameters.containsKey("filter~brand") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~brand")))) {
-            query = query + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get("filter~brand")) + "'";
-        }
-
-        if (parameters.containsKey("filter~itemIdentifierType") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemIdentifierType")))) {            
-            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get("filter~itemIdentifierType")) + "'";
+        if (parameters.containsKey(Constant.FILTERBRAND) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERBRAND)))) {
+            query = query + " AND BM.BRAND_NAME like '" + String.valueOf(parameters.get(Constant.FILTERBRAND)) + "'";
         }
 
-        if (parameters.containsKey("filter~theraputicClass") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~theraputicClass")))) {
-            query = query + " AND HT1.DESCRIPTION like '" + String.valueOf(parameters.get("filter~theraputicClass")) + "'";
+        if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)))) {            
+            query = query + " AND IQ.ITEM_QUALIFIER_NAME like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER_TYPE)) + "'";
         }
-        if (parameters.containsKey("filter~itemIdentifier") && !Constant.NULL.equals(String.valueOf(parameters.get("filter~itemIdentifier")))) {
-            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get("filter~itemIdentifier")) + "'";
+
+        if (parameters.containsKey(Constant.FILTERTHERAPUTIC_CLASS) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)))) {
+            query = query + " AND HT1.DESCRIPTION like  '" + String.valueOf(parameters.get(Constant.FILTERTHERAPUTIC_CLASS)) + "'";
+        }
+        if (parameters.containsKey(Constant.FILTERITEM_IDENTIFIER) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)))) {
+            query = query + " AND II.ITEM_IDENTIFIER_VALUE like '" + String.valueOf(parameters.get(Constant.FILTERITEM_IDENTIFIER)) + "'";
         }
         return query;
     }
@@ -700,11 +706,11 @@ public class QueryUtils {
      * @param session
      * @param isAddAllOrCheckAll
      */
-    public void mergeForAddOrCheckAll(Map<String, Object> parameters, int start, int offset, SessionDTO session, final boolean isAddAllOrCheckAll,final String checkValue) {
+    public void mergeForAddOrCheckAll(Map<String, Object> parameters, SessionDTO session, final boolean isAddAllOrCheckAll,final String checkValue) {
 
         String tempTableQuery = StringUtils.EMPTY;
-        String itemIdentifierType = String.valueOf(parameters.get("itemIdentifierType"));
-        String itemIdentifier = String.valueOf(parameters.get("itemIdentifier"));
+        String itemIdentifierType = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER_TYPE));
+        String itemIdentifier = String.valueOf(parameters.get(Constant.ITEM_IDENTIFIER));
         if (!itemIdentifierType.equals(StringUtils.EMPTY) && !itemIdentifierType.equals(Constant.NULL)
                 && !itemIdentifier.equals(StringUtils.EMPTY) && !itemIdentifier.equals(Constant.NULL)) {
             tempTableQuery += SQlUtil.getQuery("temp-insert-merge-with-identifier");
@@ -723,7 +729,7 @@ public class QueryUtils {
 
     }
 
-    private void updateBaseLinePeriods(String baselinePeriods, ProjectionSelectionDTO projectionSelection, String levelType, String discountName, int projectionId,String userId, String sessionId,Boolean isProgram) {
+    private void updateBaseLinePeriods(String baselinePeriods, ProjectionSelectionDTO projectionSelection, String discountName,Boolean isProgram) {
        LOGGER.debug(" Baseline Periods " + baselinePeriods);
        String masterTableUpdateQuery;
                 masterTableUpdateQuery = SQlUtil.getQuery("BASELINE_UPDATE_QUERY");
@@ -808,7 +814,6 @@ public class QueryUtils {
        String sql=StringUtils.EMPTY;
         try {
              sql = SQlUtil.getQuery(queryName);
-//            sql = CustomSQLUtil.get(queryName);
             if(input !=null){
             for (String key : input.keySet()) {
                 sql = sql.replace(key, String.valueOf(input.get(key)));
@@ -819,4 +824,23 @@ public class QueryUtils {
         }
         return sql;
     }
+    
+    public static Boolean updateAppDataUsingSessionTables(List input, String queryName, SessionDTO session) {
+        LOGGER.debug("Inside updateAppDataUsingSessionTables");
+        StringBuilder sql ;
+        try {
+
+            sql = new StringBuilder(SQlUtil.getQuery(queryName));
+            for (Object temp : input) {
+                sql.replace(sql.indexOf(StringConstants.QUESTION.getConstant()), sql.indexOf(StringConstants.QUESTION.getConstant()) + 1, String.valueOf(temp));
+            }
+            int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(sql.toString(), session.getCurrentTableNames()));
+            return count > 0 ? Boolean.TRUE : Boolean.FALSE;
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+        LOGGER.debug("End of updateAppDataUsingSessionTables");
+        return Boolean.FALSE;
+    }
+    
 }

@@ -6,7 +6,6 @@
 package com.stpl.app.forecastabstract.lookups;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.util.AbstractContainer;
@@ -16,9 +15,6 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.Window;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.asi.ui.container.ExtTreeContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -71,12 +67,12 @@ public abstract class AbstractCustomTreeView extends Window {
     /**
      * The Constant CUST_ID_TRANSF_COLUMNS.
      */
-    public static final Object[] CUST_ID_TRANSF_COLUMNS = new Object[]{"level"};
+    public final Object[] custIdTransfColumns = new Object[]{"level"};
 
     /**
      * The Constant CUST_ID_TRANSF_HEADER.
      */
-    public static final String[] CUST_ID_TRANSF_HEADER = new String[]{"LEVEL"};
+    public final String[] custIdTransfHeader = new String[]{"LEVEL"};
     @UiField("addCustomer")
     private Button addCustomer;
     @UiField("removeCustomer")
@@ -126,8 +122,8 @@ public abstract class AbstractCustomTreeView extends Window {
         viewName.setValue(getCustomMasterData());
         viewName.setMaxLength(NumericConstants.TWO_HUNDRED);
         treeTable.setContainerDataSource(getCustomTreeContainer());
-        treeTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        treeTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        treeTable.setVisibleColumns(custIdTransfColumns);
+        treeTable.setColumnHeaders(custIdTransfHeader);
         treeTable.setSizeFull();
         treeTable.setSizeUndefined();
         treeTable.setSelectable(true);
@@ -135,24 +131,24 @@ public abstract class AbstractCustomTreeView extends Window {
         treeTable.setWidth("370px");
         loadCustomTree();
         productTable.setContainerDataSource(getProductsContainer());
-        productTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        productTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        productTable.setVisibleColumns(custIdTransfColumns);
+        productTable.setColumnHeaders(custIdTransfHeader);
         productTable.setSizeFull();
         productTable.setSizeUndefined();
         productTable.setSelectable(true);
         productTable.setPageLength(NumericConstants.TEN);
-        productTable.setHeight("210px");
-        productTable.setWidth("210px");
+        productTable.setHeight(Constant.TWO_TEN_PX);
+        productTable.setWidth(Constant.TWO_TEN_PX);
         loadProducts();
         customerTable.setContainerDataSource(getCustomersContainer());
-        customerTable.setVisibleColumns(CUST_ID_TRANSF_COLUMNS);
-        customerTable.setColumnHeaders(CUST_ID_TRANSF_HEADER);
+        customerTable.setVisibleColumns(custIdTransfColumns);
+        customerTable.setColumnHeaders(custIdTransfHeader);
         customerTable.setSizeFull();
         customerTable.setSizeUndefined();
         customerTable.setSelectable(true);
         customerTable.setPageLength(NumericConstants.TEN);
-        customerTable.setHeight("210px");
-        customerTable.setWidth("210px");
+        customerTable.setHeight(Constant.TWO_TEN_PX);
+        customerTable.setWidth(Constant.TWO_TEN_PX);
         loadCustomers();
 
         save.addClickListener(new Button.ClickListener() {
@@ -162,6 +158,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
                     @Override
                     public void noMethod() {
+                        return;
                     }
 
                     @Override
@@ -183,6 +180,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
 
                         @Override

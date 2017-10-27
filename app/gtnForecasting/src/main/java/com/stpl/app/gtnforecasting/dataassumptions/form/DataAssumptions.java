@@ -78,8 +78,8 @@ public class DataAssumptions extends CustomComponent {
         tableLayout.addComponent(controlLayout);
 
         tableLogic.setContainerDataSource(resultsContainer);
-        resultTable.setVisibleColumns(TableHeaderColumnsUtil.DATA_ASSUMPTION_COLUMNS);
-        resultTable.setColumnHeaders(TableHeaderColumnsUtil.DATA_ASSUMPTION_HEADERS);
+        resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataAssumptionColumns);
+        resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataAssumptionHeaders);
         resultTable.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultTable.setComponentError(null);
@@ -118,7 +118,7 @@ public class DataAssumptions extends CustomComponent {
     private void createWorkSheet() {
         LOGGER.info("Entering createWorkSheet");
         try {
-            CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.DATA_ASSUMPTION_COLUMNS_EXCEL , tableLogic, "Data Assumptions");
+            CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.getInstance().dataAssumptionsColumnsExcel , tableLogic, "Data Assumptions");
         } catch (Exception e) {
             LOGGER.error(e);
         }

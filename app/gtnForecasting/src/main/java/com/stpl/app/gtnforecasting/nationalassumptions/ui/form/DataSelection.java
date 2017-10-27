@@ -122,17 +122,17 @@ public class DataSelection extends CustomComponent implements View {
     /**
      * The available product bean.
      */
-    private BeanItemContainer<DataSelectionDTO> availableProductBean = new BeanItemContainer<DataSelectionDTO>(DataSelectionDTO.class);
+    private BeanItemContainer<DataSelectionDTO> availableProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The selected product bean.
      */
-    private BeanItemContainer<DataSelectionDTO> selectedProductBean = new BeanItemContainer<DataSelectionDTO>(DataSelectionDTO.class);
+    private BeanItemContainer<DataSelectionDTO> selectedProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The table bean.
      */
-    private BeanItemContainer<DataSelectionDTO> tableBean = new BeanItemContainer<DataSelectionDTO>(DataSelectionDTO.class);
+    private BeanItemContainer<DataSelectionDTO> tableBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The generate.
@@ -222,13 +222,14 @@ public class DataSelection extends CustomComponent implements View {
     private boolean updateOnTabChange = false;
     private boolean reloadAfterUpdate = false;
 
-    List<Integer> existItems = new ArrayList<Integer>();
+    List<Integer> existItems = new ArrayList<>();
 
-    List<Integer> currentItems = new ArrayList<Integer>();
+    List<Integer> currentItems = new ArrayList<>();
 
     List<NaProjDetails> detailsList;
      com.stpl.app.gtnforecasting.logic.DataSelectionLogic dsLogic = new com.stpl.app.gtnforecasting.logic.DataSelectionLogic();
      SessionDTO sessionDTO;
+     CommonUiUtils commonUiUtils = new CommonUiUtils();
      
 
     /**
@@ -237,7 +238,7 @@ public class DataSelection extends CustomComponent implements View {
      * @param dtoValue the dto value
      * @param mode the mode
      */
-    public DataSelection(DataSelectionDTO dtoValue, OptionGroup mode, CustomFieldGroup dataSelectionBinder,SessionDTO sessionDTO) {
+    public DataSelection(CustomFieldGroup dataSelectionBinder,SessionDTO sessionDTO) {
         super();
         this.sessionDTO=sessionDTO;
         nationalAssumptions= new NationalAssumptions(sessionDTO);
@@ -272,6 +273,7 @@ public class DataSelection extends CustomComponent implements View {
      * .ViewChangeEvent)
      */
     public void enter(ViewChangeEvent event) {
+        return;
     }
 
     /**
@@ -317,7 +319,7 @@ public class DataSelection extends CustomComponent implements View {
                 public void valueChange(Property.ValueChangeEvent event) {
 
                     selectedProductBean.removeAllItems();
-                    companyOnChangeEvent(event.getProperty().getValue());
+                    companyOnChangeEvent();
                 }
             });
 
@@ -343,7 +345,7 @@ public class DataSelection extends CustomComponent implements View {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     selectedProductBean.removeAllItems();
-                    companyOnChangeEvent(event.getProperty().getValue());
+                    companyOnChangeEvent();
                 }
             });
 
@@ -353,7 +355,7 @@ public class DataSelection extends CustomComponent implements View {
             private static final long serialVersionUID = 1L;
 
             public void valueChange(Property.ValueChangeEvent event) {
-                companyOnChangeEvent(event.getProperty().getValue());
+                companyOnChangeEvent();
             }
         });
 
@@ -417,9 +419,9 @@ public class DataSelection extends CustomComponent implements View {
             public void buttonClick(Button.ClickEvent event) {
                 List<DataSelectionDTO> tempAvaliable = availableProductBean.getItemIds();
                 if (selectedProductBean.size() > 0) {
-                    List<DataSelectionDTO> availableProducts = new ArrayList<DataSelectionDTO>();
+                    List<DataSelectionDTO> availableProducts = new ArrayList<>();
                     List<DataSelectionDTO> selectedIdList = selectedProductBean.getItemIds();
-                    Map<Integer, String> selectedId = new HashMap<Integer, String>();
+                    Map<Integer, String> selectedId = new HashMap<>();
 
                     availableProducts.addAll(tempAvaliable);
 
@@ -491,7 +493,7 @@ public class DataSelection extends CustomComponent implements View {
      *
      * @param companyValue the company value
      */
-    protected void companyOnChangeEvent(Object companyValue) {
+    protected void companyOnChangeEvent() {
         loadOnChangeEvent();
 
     }
@@ -548,13 +550,13 @@ public class DataSelection extends CustomComponent implements View {
         availableProduct.markAsDirty();
         availableProduct.setFilterBarVisible(true);
         availableProduct.setContainerDataSource(availableProductBean);
-        availableProduct.setVisibleColumns(CommonUiUtils.VISIBLECOLUMN);
-        availableProduct.setColumnHeaders(CommonUiUtils.VISIBLEHEADER);
+        availableProduct.setVisibleColumns(commonUiUtils.visibleColumn);
+        availableProduct.setColumnHeaders(commonUiUtils.visibleHeader);
         availableProduct.setPageLength(NumericConstants.TEN);
         availableProduct.setImmediate(true);
         availableProduct.setSelectable(true);
         availableProduct.setSizeFull();
-        availableProduct.setWidth("390px");
+        availableProduct.setWidth(Constant.PX_390);
         availableProduct.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             /**
              *
@@ -585,13 +587,13 @@ public class DataSelection extends CustomComponent implements View {
         selectedProducts.markAsDirty();
         selectedProducts.setFilterBarVisible(true);
         selectedProducts.setContainerDataSource(selectedProductBean);
-        selectedProducts.setVisibleColumns(CommonUiUtils.VISIBLECOLUMN);
-        selectedProducts.setColumnHeaders(CommonUiUtils.VISIBLEHEADER);
+        selectedProducts.setVisibleColumns(commonUiUtils.visibleColumn);
+        selectedProducts.setColumnHeaders(commonUiUtils.visibleHeader);
         selectedProducts.setPageLength(NumericConstants.TEN);
         selectedProducts.setImmediate(true);
         selectedProducts.setSelectable(true);
         selectedProducts.setSizeFull();
-        selectedProducts.setWidth("390px");
+        selectedProducts.setWidth(Constant.PX_390);
 
         return selectedProducts;
     }
@@ -607,8 +609,8 @@ public class DataSelection extends CustomComponent implements View {
         resultTable.setStyleName(Constant.FILTER_TABLE);
         resultTable.markAsDirty();
         resultTable.setContainerDataSource(tableBean);
-        resultTable.setVisibleColumns(CommonUiUtils.VISIBLESEARCHCOLUMN);
-        resultTable.setColumnHeaders(CommonUiUtils.VISIBLESEARCHHEADER);
+        resultTable.setVisibleColumns(commonUiUtils.visibleSearchColumn);
+        resultTable.setColumnHeaders(commonUiUtils.visibleSearchHeader);
         resultTable.setPageLength(NumericConstants.TEN);
         resultTable.setImmediate(true);
         resultTable.setSelectable(true);
@@ -662,7 +664,7 @@ public class DataSelection extends CustomComponent implements View {
                 String msg = StringUtils.EMPTY;
                 if (modeOption.getValue() != null && Constant.ADD_SMALL.equals(modeOption.getValue())) {
                     // Save the Projection
-                    List<DataSelectionDTO> selectedProducts = new ArrayList<DataSelectionDTO>();
+                    List<DataSelectionDTO> selectedProducts = new ArrayList<>();
                     for (int i = 0; i < selectedProductBean.size(); i++) {
                         DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
                         selectedProducts.add(dataSelectionDto);
@@ -695,7 +697,7 @@ public class DataSelection extends CustomComponent implements View {
                 } else {
                 }
             } else {
-                AbstractNotificationUtils.getErrorNotification("Missing Data", "Please select all required fields before clicking the Generate button.");
+                AbstractNotificationUtils.getErrorNotification(Constant.MISSING_DATA, Constant.PLEASE_SELECT_ALL_REQUIRED_FIELDS_BEFORE);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -813,9 +815,9 @@ public class DataSelection extends CustomComponent implements View {
         Integer projId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
         List list = logic.getProjection(projId);
         detailsList = (List<NaProjDetails>) list.get(1);
-        List<Integer> existItemsList = new ArrayList<Integer>();
+        List<Integer> existItemsList = new ArrayList<>();
 
-        List<Integer> currentItemsList = new ArrayList<Integer>();
+        List<Integer> currentItemsList = new ArrayList<>();
         for (NaProjDetails naProjDetails : detailsList) {
             existItemsList.add(naProjDetails.getItemMasterSid());
         }
@@ -841,6 +843,7 @@ public class DataSelection extends CustomComponent implements View {
         searchBtn.setEnabled(false);
         if ("View".equalsIgnoreCase(mode)) {
             company.setReadOnly(true);
+            businessUnit.setReadOnly(true);
             productGroup.setReadOnly(true);
             therapeuticClass.setReadOnly(true);
             availableProduct.setReadOnly(true);
@@ -887,7 +890,7 @@ public class DataSelection extends CustomComponent implements View {
         if (id instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) id;
         } else if (id instanceof DataSelectionDTO) {
-            targetItem = new BeanItem<DataSelectionDTO>(
+            targetItem = new BeanItem<>(
                     (DataSelectionDTO) id);
         }
         return (DataSelectionDTO) targetItem.getBean();
@@ -899,14 +902,14 @@ public class DataSelection extends CustomComponent implements View {
 
     public void updateDataSelection() {
         if (company.getValue() == null || Constant.SELECTONE.equals(company.getValue())) {
-            AbstractNotificationUtils.getErrorNotification("Missing Data", "Please select all required fields before clicking the Generate button.");
+            AbstractNotificationUtils.getErrorNotification(Constant.MISSING_DATA, Constant.PLEASE_SELECT_ALL_REQUIRED_FIELDS_BEFORE);
         } else if (selectedProducts.size() == 0) {
-            AbstractNotificationUtils.getErrorNotification("Missing Data", "Please select all required fields before clicking the Generate button.");
+            AbstractNotificationUtils.getErrorNotification(Constant.MISSING_DATA, Constant.PLEASE_SELECT_ALL_REQUIRED_FIELDS_BEFORE);
         } else {
             loadData();
             try {
                 // Save the Projection
-                List<DataSelectionDTO> selectedProducts = new ArrayList<DataSelectionDTO>();
+                List<DataSelectionDTO> selectedProducts = new ArrayList<>();
                 for (int i = 0; i < selectedProductBean.size(); i++) {
                     DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
                     selectedProducts.add(dataSelectionDto);
@@ -919,12 +922,12 @@ public class DataSelection extends CustomComponent implements View {
                 Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                     thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
                 logic.saveProjection(values, selectedProducts, true,sessionDTO);
-                List<Integer> existList = new ArrayList<Integer>(existItems);
-                List<Integer> currentList = new ArrayList<Integer>(currentItems);
+                List<Integer> existList = new ArrayList<>(existItems);
+                List<Integer> currentList = new ArrayList<>(currentItems);
                 existItems.removeAll(currentItems);
                 currentList.removeAll(existList);
-                List<Integer> removeList = new ArrayList<Integer>();
-                List<Integer> insertList = new ArrayList<Integer>(currentList);
+                List<Integer> removeList = new ArrayList<>();
+                List<Integer> insertList = new ArrayList<>(currentList);
                 for (NaProjDetails naProjDetails : detailsList) {
                     for (Integer integer : existItems) {
                         if (naProjDetails.getItemMasterSid() == integer) {
@@ -934,11 +937,7 @@ public class DataSelection extends CustomComponent implements View {
                     existItems.add(naProjDetails.getItemMasterSid());
                 }
                 logic.updateProducts((Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID), insertList, removeList);
-                nationalAssumptions.getNDCSetup();
-                existList = null;
-                currentList = null;
-                removeList = null;
-                insertList = null;
+                nationalAssumptions.getNDCSetup(String.valueOf(sessionDTO.getProjectionId()));
             } catch (Exception ex) {
                 LOGGER.error(ex);
             } finally {

@@ -11,16 +11,13 @@ import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.supercode.DefaultFocusable;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.app.utils.VariableConstants;
-import static com.stpl.app.utils.VariableConstants.MONTHS;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-import static com.stpl.ifs.ui.util.AbstractNotificationUtils.LOGGER;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -62,9 +59,9 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
      * Allows the user to select the adjustment types they want displayed in the
      * list view. Multiple values can be selected. Options will be will
      * determined by the Adjustment Types that have been configured in the
-     * “Adjustment Configuration UI. Example are the following: Pipeline Accrual
-     * Demand Accrual Pipeline Inventory True-Up Demand Payment True-Up Demand
-     * Accrual Reforecast Inflation Adjustment Distribution Fees Etc.
+     * â€œAdjustment Configuration UI. Example are the following: Pipeline
+     * Accrual Demand Accrual Pipeline Inventory True-Up Demand Payment True-Up
+     * Demand Accrual Reforecast Inflation Adjustment Distribution Fees Etc.
      *
      */
     @UiField("adjustmentType")
@@ -96,11 +93,11 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
      * be all of the unique values under Deduction Program (maps to Contract >
      * Rebate tab > Rebate Program Type) Allows the user to select multiple
      * values from the drop down. The user must select at least one variable to
-     * generate the list view. When the “Deduction Level = Deduction”, the
-     * Deduction Values DDLB will show the possible values as “Rebate Schedule
-     * ID – Rebate Schedule Name”. In the list views it will also display as
-     * “Rebate Schedule ID – Rebate Schedule Name”. Yes, at least one must be
-     * selected	Format: Alphanumeric Justification: Left *
+     * generate the list view. When the â€œDeduction Level = Deductionâ€�, the
+     * Deduction Values DDLB will show the possible values as â€œRebate Schedule
+     * ID â€“ Rebate Schedule Nameâ€�. In the list views it will also display as
+     * â€œRebate Schedule ID â€“ Rebate Schedule Nameâ€�. Yes, at least one must
+     * be selected	Format: Alphanumeric Justification: Left *
      */
     @UiField("deductionValue")
     private CustomMenuBar deductionValue;
@@ -115,10 +112,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
 
     @UiField("toDate")
     protected ComboBox toDate;
-    /**
-     * SummaryLogic logic has all depended methods for all summary logic classes
-     */
-    SummaryLogic logic = new SummaryLogic();
+
     /**
      * SummarySelection is used to bind and pass through out the class
      * hierarchies
@@ -142,7 +136,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
 
     private void init() throws Exception {
         loadInitialSelection();
-        adjustmentResults = new AdjustmentSummaryResults(logic, selection);
+        adjustmentResults = new AdjustmentSummaryResults(new SummaryLogic(), selection);
         adjustmentResults.getResults();
         adjustmentResults.init();
         addComponent(Clara.create(getClass().getResourceAsStream("/bussinessprocess/adjustmentSummaryDetails.xml"), this));
@@ -161,6 +155,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
     }
 
     private void loadExpandCollapseddLb() {
+        LOGGER.debug("Inside loadExpandCollapseddLb Method");
 
     }
 
@@ -186,9 +181,9 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         } else {
             isDeductionNotSelected = true;
         }
-        selection.setSummary_deductionLevel((int) deductionlevelDdlb.getValue());
-        selection.setSummary_deductionLevelDes(String.valueOf(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
-        String deductions = StringUtils.EMPTY;
+        selection.setSummarydeductionLevel((int) deductionlevelDdlb.getValue());
+        selection.setSummarydeductionLevelDes(String.valueOf(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
+        String deductions;
         List<String> listSize = selection.getDeductionVariablesName();
         List finalDeductionList = new ArrayList();
         if (!listSize.isEmpty()) {
@@ -198,31 +193,31 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             }
         }
         deductions = "'" + StringUtils.join(finalDeductionList.toArray(), "','") + "'";
-        selection.setSummary_deductionValues(deductions);
+        selection.setSummarydeductionValues(deductions);
 
         if (isAdjustNotSelected || isDeductionNotSelected || checkMandatoryFields() || VariableConstants.SELECT_ONE.equals(String.valueOf(fromDate.getValue()))) {
             CustomNotification.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_002());
             return false;
         }
         selection.setFrequency(frequencyDdlb.getItemCaption(frequencyDdlb.getValue()));
-        selection.setSummary_FrequencyName(selection.getFrequency());
+        selection.setSummaryFrequencyName(selection.getFrequency());
         selection.setFromDate(String.valueOf(fromDate.getValue()));
         if (toDate.getValue() != null && !VariableConstants.SELECT_ONE.equals(String.valueOf(toDate.getValue()))) {
             selection.setToDate(String.valueOf(toDate.getValue()));
         } else {
             selection.setToDate(defaultToDate);
         }
-        LOGGER.debug("String.valueOf(fromDate.getValue()---->>" + String.valueOf(fromDate.getValue()));
-        LOGGER.debug("String.valueOf(toDate.getValue()---->>" + String.valueOf(toDate.getValue()));
+        LOGGER.debug("String.valueOf(fromDate.getValue()---->>" + fromDate.getValue().toString());
+        LOGGER.debug("String.valueOf(toDate.getValue()---->>" + toDate.getValue().toString());
         List<List> statusValues = CommonUtils.getSelectedVariables(adjustmentResults.statusMenuItem, Boolean.FALSE);
         selection.setStatus(statusValues.get(1).toString().toUpperCase());
-        selection.setSummary_StatusID(statusValues.get(NumericConstants.TWO).toString());
+        selection.setSummaryStatusID(statusValues.get(NumericConstants.TWO).toString());
         return true;
     }
 
     private boolean checkMandatoryFields() {
         if (Integer.valueOf(frequencyDdlb.getValue().toString()) == 0 || Integer.valueOf(deductionlevelDdlb.getValue().toString()) == 0
-                || selection.getSelectedAdjustmentTypeValues().size() < 1 || selection.getDeductionVariableIds().size() < 1
+                || selection.getSelectedAdjustmentTypeValues().isEmpty() || selection.getDeductionVariableIds().isEmpty()
                 || VariableConstants.SELECT_ONE.equals(selection.getStatus())) {
             return Boolean.TRUE;
         }
@@ -243,7 +238,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
                 if (loadSeletion()) {
                     adjustmentResults.generateBtnLogic();
                     loadExpandCollapseddLb();
-    }
+                }
             }
         });
     }
@@ -254,6 +249,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
@@ -261,10 +257,11 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             LOGGER.debug("buttonName :" + buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
-                    case "reset":
+                    case CommonConstant.RESET:
                         break;
                     case "save":
                         break;
+                    default:
                 }
             }
         }
@@ -294,16 +291,18 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
                         deductionlevelDdlb.setValue(0);
                         CommonUtils.loadAdjustmentTypeDdlb(adjustmentType, selecetedAdjustment);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in resetButtonClick :"+ex);
                     }
                 }
 
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("Inside the resetButtonClick Listener NO Method");
+
                 }
             }.getConfirmationMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in resetButtonClick:"+e);
         }
     }
 
@@ -316,7 +315,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
                 loadExpandCollapseddLb();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in generateButtonClick :"+e);
         }
     }
 
@@ -327,7 +326,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
      */
     protected List<String> getCheckedValues() {
         if (selecetedAdjustment != null && selecetedAdjustment.getSize() > 0) {
-            List<String> result = new ArrayList<String>();
+            List<String> result = new ArrayList<>();
             List<CustomMenuBar.CustomMenuItem> items = selecetedAdjustment.getChildren();
             for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
@@ -337,7 +336,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             }
             return result;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     /**
@@ -361,7 +360,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             }
             return result;
         }
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     protected void loadFromAndTo(SummarySelection selection) {
@@ -370,8 +369,8 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
 
             String fd = selection.getDataSelectionDTO().getFromPeriod();
             String td = selection.getDataSelectionDTO().getToPeriod();
-            Date from = ARMUtils.DATE_FORMATER.parse(fd);
-            Date to = ARMUtils.DATE_FORMATER.parse(td);
+            Date from = ARMUtils.getInstance().getDateFormatter().parse(fd);
+            Date to = ARMUtils.getInstance().getDateFormatter().parse(td);
             Calendar fromPeriod = Calendar.getInstance();
             Calendar toPeriod = Calendar.getInstance();
             fromPeriod.setTime(from);
@@ -381,8 +380,8 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             int startYear = fromPeriod.get(Calendar.YEAR);
             int endYear = toPeriod.get(Calendar.YEAR);
             while (fromPeriod.before(toPeriod) || (startYear == endYear && startMonth <= endMonth)) {
-                String item = ARMUtils.DATE_FORMATER.format(fromPeriod.getTime());
-                String caption = MONTHS[fromPeriod.get(Calendar.MONTH)] + " " + fromPeriod.get(Calendar.YEAR);
+                String item = ARMUtils.getInstance().getDateFormatter().format(fromPeriod.getTime());
+                String caption = VariableConstants.getMONTHS()[fromPeriod.get(Calendar.MONTH)] + " " + fromPeriod.get(Calendar.YEAR);
                 fromDate.addItem(item);
                 fromDate.setItemCaption(item, caption);
                 toDate.addItem(item);
@@ -399,7 +398,7 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
             fromDate.setImmediate(true);
             toDate.setImmediate(true);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in loadFromAndTo :"+ex);
         }
     }
 
@@ -432,31 +431,41 @@ public class AdjustmentSummary extends VerticalLayout implements View, DefaultFo
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
         Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + "," + "Landing screen");
-        if (functionHM.get("reset") != null && !((AppPermission) functionHM.get("reset")).isFunctionFlag()) {
+        if (functionHM.get(CommonConstant.RESET) != null && !(functionHM.get(CommonConstant.RESET)).isFunctionFlag()) {
             reset.setVisible(false);
         } else {
             reset.setVisible(true);
         }
-        if (functionHM.get("generate") != null && !((AppPermission) functionHM.get("generate")).isFunctionFlag()) {
+        if (functionHM.get("generate") != null && !(functionHM.get("generate")).isFunctionFlag()) {
             generate.setVisible(false);
         } else {
             generate.setVisible(true);
         }
-        if (functionHM.get("expandbtn") != null && !((AppPermission) functionHM.get("expandbtn")).isFunctionFlag()) {
+        if (functionHM.get("expandbtn") != null && !(functionHM.get("expandbtn")).isFunctionFlag()) {
             adjustmentResults.getExpandbtn().setVisible(false);
         } else {
             adjustmentResults.getExpandbtn().setVisible(true);
         }
-        if (functionHM.get("collapseBtn") != null && !((AppPermission) functionHM.get("collapseBtn")).isFunctionFlag()) {
+        if (functionHM.get("collapseBtn") != null && !(functionHM.get("collapseBtn")).isFunctionFlag()) {
             adjustmentResults.getCollapseBtn().setVisible(false);
         } else {
             adjustmentResults.getCollapseBtn().setVisible(true);
         }
-        if (functionHM.get("BBExport") != null && !((AppPermission) functionHM.get("BBExport")).isFunctionFlag()) {
-            adjustmentResults.getBBExport().setVisible(false);
+        if (functionHM.get("BBExport") != null && !(functionHM.get("BBExport")).isFunctionFlag()) {
+            adjustmentResults.getBbExport().setVisible(false);
         } else {
-            adjustmentResults.getBBExport().setVisible(true);
+            adjustmentResults.getBbExport().setVisible(true);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

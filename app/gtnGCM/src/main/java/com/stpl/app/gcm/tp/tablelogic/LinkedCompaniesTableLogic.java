@@ -9,6 +9,7 @@ import com.stpl.app.gcm.tp.dto.CompanyLinkDTO;
 import com.stpl.app.gcm.tp.logic.CompanySearchLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -43,7 +44,7 @@ public class LinkedCompaniesTableLogic extends PageTableLogic {
             return logic.getLinkedCompanies(tpDTo, start, offset, getFilters(), searchSessionid);
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
 
     }

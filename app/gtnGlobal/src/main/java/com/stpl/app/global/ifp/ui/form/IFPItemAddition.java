@@ -61,6 +61,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
 import org.vaadin.teemu.clara.Clara;
@@ -146,16 +147,17 @@ public class IFPItemAddition extends CustomComponent {
     private LazyBeanItemContainer lazySelectedContainer;
     private LazyBeanItemContainer lazyAvailableContainer;
 
-    private final BeanItemContainer<ItemMasterDTO> emptyContainer = new BeanItemContainer<ItemMasterDTO>(ItemMasterDTO.class);
+    private final BeanItemContainer<ItemMasterDTO> emptyContainer = new BeanItemContainer<>(ItemMasterDTO.class);
 
     /**
      * The available item result bean.
      */
-    private final BeanItemContainer<ItemMasterDTO> availableItemResultBean = new BeanItemContainer<ItemMasterDTO>(ItemMasterDTO.class);
+    private final BeanItemContainer<ItemMasterDTO> availableItemResultBean = new BeanItemContainer<>(ItemMasterDTO.class);
 
     private final ItemFamilyplanMasterDTO ifpMaster;
     
     CommonUIUtils commonUiUtil = new CommonUIUtils();
+    private final IfpUtils ifpUtils = new IfpUtils();
     String mode;
     
     private CommonUtil commonUtil = CommonUtil.getInstance();
@@ -217,12 +219,12 @@ public class IFPItemAddition extends CustomComponent {
     }
 
     private void configureFields() {
-        final IfpUtils ifpUtils = new IfpUtils();
+        final IfpUtils ifpUTils = new IfpUtils();
 
         searchFields.focus();
         searchFields.setNullSelectionAllowed(true);
         searchFields.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
-        ifpUtils.searchFields(searchFields);
+        ifpUTils.searchFields(searchFields);
         searchFields.select(ConstantsUtils.SELECT_ONE);
         searchFields.setDescription((String) searchFields.getValue());
         searchFields.addValueChangeListener(new Property.ValueChangeListener() {
@@ -439,8 +441,8 @@ public class IFPItemAddition extends CustomComponent {
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.ITEM_ADDITION,false);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_FAMILY_PLAN, ConstantsUtils.ITEM_ADDITION);
-            Object[] obj = IfpUtils.AVAILABLE_ITEM_COL;
-            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
+            Object[] obj = ifpUtils.availableItemColumn;
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, ConstantsUtils.COPY.equals(mode)  ? ConstantsUtils.EDIT : mode);
             availableTable.setContainerDataSource(lazyAvailableContainer);
             
             availableTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -456,13 +458,13 @@ public class IFPItemAddition extends CustomComponent {
     
     public void resetAvailableTable(){
          try {
-            BeanItemContainer<ItemMasterDTO> emptyContainer = new BeanItemContainer<ItemMasterDTO>(ItemMasterDTO.class);
+            BeanItemContainer<ItemMasterDTO> emptyContainer = new BeanItemContainer<>(ItemMasterDTO.class);
             final StplSecurity stplSecurity = new StplSecurity();
             userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.ITEM_ADDITION,false);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_FAMILY_PLAN, ConstantsUtils.ITEM_ADDITION);
-            Object[] obj = IfpUtils.AVAILABLE_ITEM_COL;
+            Object[] obj = ifpUtils.availableItemColumn;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM,mode);
             
             availableTable.setContainerDataSource(emptyContainer);
@@ -540,7 +542,7 @@ public class IFPItemAddition extends CustomComponent {
                     }
                     for (ItemMasterDTO item : itemMasterDetailsList) {
                         if (item != null) {
-                            ifpLogic.addToTempTable(item, ifpMaster.getItemFamilyplanSystemId());                           
+                            ifpLogic.addToTempTable(item, Integer.valueOf(ifpMaster.getItemFamilyplanSystemId()));                            
                         }
                     }
                     loadAvailableTable();
@@ -617,10 +619,8 @@ public class IFPItemAddition extends CustomComponent {
                         return;
                     }
                     for (TempItemDTO dto : itemMasterDetailsList) {
-                        if (itemMasterDetailsList != null) {
                             ifpLogic.removeFromTempTable(dto);
-                        }
-                    }
+                     }
                     loadAvailableTable();
                     loadSelectedTable();
                     LOGGER.debug("Ending  MOVE_LEFT Method ");
@@ -662,26 +662,16 @@ public class IFPItemAddition extends CustomComponent {
                 LOGGER.debug("Entering inside IFPTabsheetForm MOVE_ALL_RIGHT  method ");
 
                 try {
-                    addAllCompanyButtonClick(event);
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message box is
-                         * pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (PortalException portException) {
-                    LOGGER.error(portException);
-                } catch (Exception exception) {
+                    addAllCompanyButtonClick();
+                }
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                // Do Nothing
+                 catch (Exception exception) {
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message box is
@@ -711,7 +701,7 @@ public class IFPItemAddition extends CustomComponent {
      * @throws com.stpl.portal.kernel.exception.SystemException
      * @throws com.stpl.portal.kernel.exception.PortalException
      */
-    private void addAllCompanyButtonClick(final Button.ClickEvent event) throws SystemException, PortalException {
+    private void addAllCompanyButtonClick() {
         ifpLogic.addAllToTempTable(tempSearchField, tempSearchValue);
         loadAvailableTable();
         loadSelectedTable();
@@ -745,33 +735,18 @@ public class IFPItemAddition extends CustomComponent {
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering inside  MOVE_ALL_LEFT  method ");
 
-                try {
-                    removeAllCompanyButtonClick(event);
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
-                        /**
-                         * The method is triggered when a button of the message box is
-                         * pressed .
-                         *
-                         * @param buttonId The buttonId of the pressed button.
-                         */
-                        @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
-                            // Do Nothing
-                        }
-                    }, ButtonId.OK);
-                    msg.getButton(ButtonId.OK).focus();
-                } catch (PortalException portException) {
-                    LOGGER.error(portException);
-                }
+                removeAllCompanyButtonClick(); /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */ // Do Nothing
                 LOGGER.debug("Ending  MOVE_ALL_LEFT  method ");
             }
         });
     }
 
-    public void removeAllCompanyButtonClick(final Button.ClickEvent event) throws SystemException, PortalException {
+    public void removeAllCompanyButtonClick() {
         ifpLogic.removeAllFromTempTable(Boolean.FALSE);
         loadAvailableTable();
         loadSelectedTable();
@@ -787,8 +762,8 @@ public class IFPItemAddition extends CustomComponent {
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.ITEM_ADDITION,false);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_FAMILY_PLAN, ConstantsUtils.ITEM_ADDITION);
-            Object[] obj = IfpUtils.SELECTED_ITEM_COL;
-            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
+            Object[] obj = ifpUtils.selectedItemColumn;
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
             if(tableResultCustom.getObjResult().length > 0){
             selectedTable.setContainerDataSource(lazySelectedContainer);
             selectedTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -817,8 +792,8 @@ public class IFPItemAddition extends CustomComponent {
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_FAMILY_PLAN+ConstantsUtils.COMMA+ConstantsUtils.ITEM_ADDITION,false);
             
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_FAMILY_PLAN, ConstantsUtils.ITEM_ADDITION);
-            Object[] obj = IfpUtils.AVAILABLE_ITEM_COL;
-            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
+            Object[] obj = ifpUtils.availableItemColumn;
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
             
             availableTable.setContainerDataSource(availableItemResultBean);
             if(tableResultCustom.getObjResult().length > 0){
@@ -854,6 +829,7 @@ public class IFPItemAddition extends CustomComponent {
                  */
                 @SuppressWarnings("PMD")
                 public void itemClick(final ItemClickEvent event) {
+                    return;
                 }
             });
             availableTable.setErrorHandler(new ErrorHandler() {
@@ -925,11 +901,11 @@ public class IFPItemAddition extends CustomComponent {
         });
     }
 
-    public void resetItemAdditionTab() throws SystemException, PortalException {
-        removeAllCompanyButtonClick(null);
+    public void resetItemAdditionTab() {
+        removeAllCompanyButtonClick();
         availableTable.setContainerDataSource(emptyContainer);
-        availableTable.setVisibleColumns(IfpUtils.AVAILABLE_ITEM_COL);
-        availableTable.setColumnHeaders(IfpUtils.AVAILABLE_ITEM_COL_HEADER);
+        availableTable.setVisibleColumns(ifpUtils.availableItemColumn);
+        availableTable.setColumnHeaders(ifpUtils.availableItemColumnHeader);
     }
 
     private void addResultsTable() {
@@ -937,13 +913,19 @@ public class IFPItemAddition extends CustomComponent {
             viewResultsTable.markAsDirty();
             LazyBeanItemContainer lazyResultsContainer = new LazyBeanItemContainer(TempItemDTO.class, new SelectedViewContainer(sessionDTO), new TempSelectedCriteria());
             viewResultsTable.setContainerDataSource(lazyResultsContainer);
-            viewResultsTable.setVisibleColumns(IfpUtils.SELECTED_ITEM_COL);
-            viewResultsTable.setColumnHeaders(IfpUtils.SELECTED_ITEM_COL_HEADER);
+            viewResultsTable.setVisibleColumns(ifpUtils.selectedItemColumn);
+            viewResultsTable.setColumnHeaders(ifpUtils.selectedItemColumnHeader);
             viewResultsTable.setPageLength(NumericConstants.ELEVEN);
             viewResultsTable.setImmediate(true);
             viewResultsTable.setSelectable(true);
             viewResultsTable.setSizeFull();
             viewResultsTable.setWidth("99%");
+            viewResultsTable.setFilterBarVisible(true);
+            viewResultsTable.addStyleName(ConstantsUtils.FILTER_BAR);
+            viewResultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
+            viewResultsTable.setFilterBarVisible(true);
+            viewResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
+            viewResultsTable.setFilterGenerator(new IFPFilterGenerator());
             
             viewResultsTable.setErrorHandler(new ErrorHandler() {
                 

@@ -42,7 +42,7 @@ public class PromoteTpSearchDao implements BeanDAO<PromoteTpToChDto> {
 
     @Override
     public List<PromoteTpToChDto> find(BeanSearchCriteria sc, int startIndex, int offset, List<OrderByColumn> orderByColumns) {
-        List<PromoteTpToChDto> resultList = new ArrayList<PromoteTpToChDto>();
+        List<PromoteTpToChDto> resultList = new ArrayList<>();
         try {
             resultList = logic.searchCompaniesLazy(promoteTpToChDto, startIndex, offset,orderByColumns);
         } catch (Exception ex) {

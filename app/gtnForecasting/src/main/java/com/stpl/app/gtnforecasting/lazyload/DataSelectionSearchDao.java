@@ -39,7 +39,7 @@ public class DataSelectionSearchDao implements BeanDAO<DataSelectionDTO> {
 
     @Override
     public List<DataSelectionDTO> find(BeanSearchCriteria sc, int startIndex, int offset, List<OrderByColumn> orderByColumns) {
-        List<DataSelectionDTO> resultList = new ArrayList<DataSelectionDTO>();
+        List<DataSelectionDTO> resultList = new ArrayList<>();
 
         return resultList;
     }

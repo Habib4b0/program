@@ -50,7 +50,7 @@ public class AdditionalInfoLogic {
      */
     public List<NotesDTO> getAttachmentDTOList(final int projectionId, final String moduleName) throws SystemException {
         final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy");
-        final List<NotesDTO> attachmentDTOList = new ArrayList<NotesDTO>();
+        final List<NotesDTO> attachmentDTOList = new ArrayList<>();
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffDocDetails.class);
         dynamicQuery.add(RestrictionsFactoryUtil.eq("cffMasterSid", projectionId));
         List<CffDocDetails> docDetailsList;
@@ -87,7 +87,7 @@ public class AdditionalInfoLogic {
      * @return List of AttachmentDTO Object .
      */
     public List<NotesDTO> addUserFile(final List<NotesDTO> list) {
-        final List<NotesDTO> finalList = new ArrayList<NotesDTO>();
+        final List<NotesDTO> finalList = new ArrayList<>();
         LOGGER.debug("Entering addUserFile method with list size " + list.size());
         for (final Iterator<NotesDTO> iterator = list.iterator(); iterator.hasNext();) {
             final NotesDTO dto = iterator.next();
@@ -110,7 +110,7 @@ public class AdditionalInfoLogic {
      */
     public String getNotes(final int projectionId, final String moduleName) throws SystemException {
 
-        LOGGER.debug("Entering getNotes method with projectionId " + projectionId + " moduleName " + moduleName);
+        LOGGER.debug("Entering getNotes method with projectionId " + projectionId + " moduleName  " + moduleName);
 
         final StringBuilder notes = new StringBuilder();
         notes.append(StringUtils.EMPTY);

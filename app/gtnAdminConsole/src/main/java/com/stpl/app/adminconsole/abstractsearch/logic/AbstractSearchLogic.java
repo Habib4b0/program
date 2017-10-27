@@ -16,6 +16,7 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -50,11 +51,15 @@ public class AbstractSearchLogic {
                     isvalid = true;
                     break;
                 }
-            } else if (object != null && object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.SELECT_ONE.equals(((ComboBox) object).getValue().toString())) {
+            } else if (object != null && object instanceof ComboBox && ((ComboBox) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((ComboBox) object).getValue())) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(((ComboBox) object).getValue()))) {
                     isvalid = true;
                     break;
+                }
+            else if (object != null && object instanceof PopupDateField && ((PopupDateField) object).isVisible() && !ConstantsUtils.NULL.equals(String.valueOf(((PopupDateField) object).getValue()))) {
+                    isvalid = true;
+                    break;
+                }
             }
-        }
         return isvalid;
     }
     
@@ -165,7 +170,7 @@ public class AbstractSearchLogic {
         return list;
     }    
    
-    private Object loadCustomerGroupMasterLogic(ErrorfulFieldGroup binder, String version, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws SystemException {
+    private Object loadCustomerGroupMasterLogic(ErrorfulFieldGroup binder, String version, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
 
         Object object;
         CustomerGroupLogic customerGroupLogic = new CustomerGroupLogic();

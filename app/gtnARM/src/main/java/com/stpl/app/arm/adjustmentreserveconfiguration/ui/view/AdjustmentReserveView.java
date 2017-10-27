@@ -13,7 +13,6 @@ import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
-
 /**
  * The View Class for the Adjustment Reserve Configuration.
  *
@@ -25,7 +24,7 @@ public class AdjustmentReserveView extends VerticalLayout implements View {
      * The Adjustment Reserve Configuration Form for Search Mode.
      */
     AdjustmentReserveSearchForm adjustmentReserveSearchForm;
-  
+
     /**
      * View Name For UI
      */
@@ -60,6 +59,16 @@ public class AdjustmentReserveView extends VerticalLayout implements View {
         this.removeAllComponents();
         adjustmentReserveSearchForm = new AdjustmentReserveSearchForm(sessionDTO);
         addComponent(adjustmentReserveSearchForm);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

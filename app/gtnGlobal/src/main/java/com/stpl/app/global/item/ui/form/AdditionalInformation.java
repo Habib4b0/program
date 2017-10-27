@@ -5,7 +5,9 @@
  */
 package com.stpl.app.global.item.ui.form;
 
+import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.common.util.CommonUtil;
+import com.stpl.app.global.company.util.QueryUtils;
 import com.stpl.app.global.ifp.logic.IFPLogic;
 import com.stpl.app.global.item.logic.ItemSearchLogic;
 import com.stpl.app.global.item.util.CommonUtils;
@@ -22,6 +24,8 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
@@ -33,14 +37,18 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
 /**
  * The class Additional Information for tab in Item Master
+ *
  * @author sooriya.lakshmanan
  */
 public class AdditionalInformation extends CustomComponent implements View {
@@ -236,7 +244,7 @@ public class AdditionalInformation extends CustomComponent implements View {
 
     @UiField("obraBampLB")
     private Label obraBampLB;
-    
+
     @UiField("ObraBamp")
     private TextField obraBamp;
 
@@ -265,21 +273,33 @@ public class AdditionalInformation extends CustomComponent implements View {
     CommonUtil util = CommonUtil.getInstance();
     String mode;
 
-CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    /**
+     * CEL-395 (CEL-194 : Item Master - Baseline AMP & CPI) baseCpi text field
+     * it will be rounded upto 3 decimals baseAmp text field it will be rounded
+     * upto 6 decimals
+     *
+     * @param event
+     */
+
+    SessionDTO sessionDTO;
+
+    DecimalFormat format4 = new DecimalFormat();
+
     /**
      * The Constructor
-     * 
+     *
      * @param binder
-     * @throws Exception 
+     * @throws Exception
      */
-    public AdditionalInformation(final ErrorfulFieldGroup binder, final String mode) {
+    public AdditionalInformation(final ErrorfulFieldGroup binder, final String mode, SessionDTO sessionDTO) {
         this.binder = binder;
-        this.mode=mode;
+        this.mode = mode;
+        this.sessionDTO = sessionDTO;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarativeui/itemmaster/additionalinformation.xml"), this));
-           
 
         init();
-       
+
     }
 
     private void init() {
@@ -288,22 +308,21 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             final StplSecurity stplSecurity = new StplSecurity();
 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-              if (ConstantsUtils.EDIT.equals(mode) 
-                || ConstantsUtils.VIEW.equals(mode) ) {
-            configureFields();
-            binder.bindMemberFields(this);
+            if (ConstantsUtils.EDIT.equals(mode)
+                    || ConstantsUtils.VIEW.equals(mode)) {
+                configureFields();
+                binder.bindMemberFields(this);
 
+            } else {
+                binder.bindMemberFields(this);
+                configureFields();
 
-             } else {
-               binder.bindMemberFields(this);
-            configureFields();
-     
-        }
+            }
 
             final Map<String, AppPermission> fieldItemHM = stplSecurity
-                    .getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER+ConstantsUtils.COMMA+ConstantsUtils.ADDITIONAL_INFO,false);
+                    .getFieldOrColumnPermission(userId, UISecurityUtil.ITEM_MASTER + ConstantsUtils.COMMA + ConstantsUtils.ADDITIONAL_INFO, false);
             getResponsiveTab(fieldItemHM);
-          
+
             addValidationForTextField(binder);
         } catch (PortalException ex) {
             LOGGER.error(ex);
@@ -324,7 +343,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
         try {
 
             List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.ITEM_MASTER, ConstantsUtils.ADDITIONAL_INFO);
-     commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
+            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -410,10 +429,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                lastLotExpirationDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(lastLotExpirationDate
-                                                .getValue()));
-                           
+                            lastLotExpirationDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(lastLotExpirationDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -432,10 +451,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
                             authorizedGeneric
-                            .setDescription((String) authorizedGeneric
-                                    .getValue());
+                                    .setDescription((String) authorizedGeneric
+                                            .getValue());
                             if (ConstantsUtils.YES_VARIABLE
-                            .equals(authorizedGeneric.getValue())) {
+                                    .equals(authorizedGeneric.getValue())) {
                                 authorizedGenericStartDate.setImmediate(true);
                                 authorizedGenericStartDate.setEnabled(true);
                                 authorizedGenericEndDate.setImmediate(true);
@@ -465,10 +484,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
                             pediatricExclusiveIndicator
-                            .setDescription((String) pediatricExclusiveIndicator
-                                    .getValue());
+                                    .setDescription((String) pediatricExclusiveIndicator
+                                            .getValue());
                             if (ConstantsUtils.YES_VARIABLE
-                            .equals(pediatricExclusiveIndicator.getValue())) {
+                                    .equals(pediatricExclusiveIndicator.getValue())) {
                                 pediatricExclusiveStartDate.setImmediate(true);
                                 pediatricExclusiveStartDate.setEnabled(true);
                                 pediatricExclusiveEndDate.setImmediate(true);
@@ -498,10 +517,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
                             clottingFactorIndicator
-                            .setDescription((String) clottingFactorIndicator
-                                    .getValue());
+                                    .setDescription((String) clottingFactorIndicator
+                                            .getValue());
                             if (ConstantsUtils.YES_VARIABLE
-                            .equals(clottingFactorIndicator.getValue())) {
+                                    .equals(clottingFactorIndicator.getValue())) {
                                 clottingFactorStartDate.setImmediate(true);
                                 clottingFactorStartDate.setEnabled(true);
                                 clottingFactorEndDate.setImmediate(true);
@@ -532,8 +551,8 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                         @SuppressWarnings("PMD")
                         public void valueChange(final Property.ValueChangeEvent event) {
                             dualPricingIndicator
-                            .setDescription((String) dualPricingIndicator
-                                    .getValue());
+                                    .setDescription((String) dualPricingIndicator
+                                            .getValue());
                         }
                     });
 
@@ -543,7 +562,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             authorizedGenericStartDate.setValidationVisible(true);
             authorizedGenericStartDate
                     .addValidator(new DateValidatorAuthorizedGeneric(
-                                    ConstantsUtils.END_DATE_AFTER_START_DATE));
+                            ConstantsUtils.END_DATE_AFTER_START_DATE));
             authorizedGenericStartDate
                     .addValueChangeListener(new Property.ValueChangeListener() {
                         /**
@@ -553,10 +572,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                authorizedGenericStartDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(authorizedGenericStartDate
-                                                .getValue()));
-                            
+                            authorizedGenericStartDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(authorizedGenericStartDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -566,7 +585,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
             authorizedGenericEndDate.setValidationVisible(true);
             authorizedGenericEndDate
                     .addValidator(new DateValidatorAuthorizedGeneric(
-                                    ConstantsUtils.END_DATE_AFTER_START_DATE));
+                            ConstantsUtils.END_DATE_AFTER_START_DATE));
             authorizedGenericEndDate
                     .addValueChangeListener(new Property.ValueChangeListener() {
                         /**
@@ -576,10 +595,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                authorizedGenericEndDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(authorizedGenericEndDate
-                                                .getValue()));
-                            
+                            authorizedGenericEndDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(authorizedGenericEndDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -598,10 +617,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                pediatricExclusiveStartDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(pediatricExclusiveStartDate
-                                                .getValue()));
-                            
+                            pediatricExclusiveStartDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(pediatricExclusiveStartDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -620,10 +639,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                pediatricExclusiveEndDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(pediatricExclusiveEndDate
-                                                .getValue()));
-                            
+                            pediatricExclusiveEndDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(pediatricExclusiveEndDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -641,10 +660,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                clottingFactorStartDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(clottingFactorStartDate
-                                                .getValue()));
-                            
+                            clottingFactorStartDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(clottingFactorStartDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -663,10 +682,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                clottingFactorEndDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(clottingFactorEndDate
-                                                .getValue()));
-                            
+                            clottingFactorEndDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(clottingFactorEndDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -681,10 +700,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                discontinuationDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(discontinuationDate
-                                                .getValue()));
-                            
+                            discontinuationDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(discontinuationDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -699,10 +718,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                divestitureDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(divestitureDate
-                                                .getValue()));
-                           
+                            divestitureDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(divestitureDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -722,10 +741,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
                             newFormulationIndicator
-                            .setDescription((String) newFormulationIndicator
-                                    .getValue());
+                                    .setDescription((String) newFormulationIndicator
+                                            .getValue());
                             if (ConstantsUtils.YES_VARIABLE
-                            .equals(newFormulationIndicator.getValue())) {
+                                    .equals(newFormulationIndicator.getValue())) {
                                 newFormulationStartDate.setImmediate(true);
                                 newFormulationStartDate.setEnabled(true);
                                 newFormulationEndDate.setImmediate(true);
@@ -750,8 +769,34 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                  *
                  * @param event
                  */
+
+                @Override
                 public void valueChange(final Property.ValueChangeEvent event) {
                     baselineAmp.setDescription(baselineAmp.getValue());
+                }
+            });
+
+            baselineAmp.addBlurListener(new BlurListener() {
+                /**
+                 * CEL-395 (CEL-194 : Item Master - Baseline AMP & CPI) In item
+                 * master after entering value in baseline amp text field it
+                 * will be rounded upto 6 decimals
+                 *
+                 * @param event
+                 */
+
+                @Override
+                public void blur(BlurEvent event) {
+                    // Make the entire item read-only
+                    List input = new ArrayList();
+                    String value = ConstantsUtils.BASE_AMP;
+                    input.add(ConstantsUtils.ITEM_MASTER_TABLE);
+                    input.add(value);
+                    List<Object> list = QueryUtils.getAppData(input, ConstantsUtils.PRECISION_SELECTION, null);
+                    if (list != null && !list.isEmpty() && !StringUtils.isBlank(baselineAmp.getValue())) {
+                        format4.applyPattern(ItemSearchLogic.pattern(Integer.valueOf(String.valueOf(list.get(0)))));
+                        baselineAmp.setValue(String.valueOf(format4.format(Double.valueOf(baselineAmp.getValue()))));
+                    }
                 }
             });
 
@@ -766,10 +811,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                acquisitionDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(acquisitionDate
-                                                .getValue()));
-                            
+                            acquisitionDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(acquisitionDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -789,6 +834,29 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                 }
             });
 
+            baseCpi.addBlurListener(new BlurListener() {
+                /**
+                 * CEL-395 (CEL-194 : Item Master - Baseline AMP & CPI) After
+                 * entering value in baseCpi text field it will be rounded upto
+                 * 3 decimals
+                 *
+                 * @param event
+                 */
+
+                @Override
+                public void blur(BlurEvent event) {
+                    // Make the entire item read-only
+                    List input = new ArrayList();
+                    String value = ConstantsUtils.BASE_CPI_CAPS;
+                    input.add(ConstantsUtils.ITEM_MASTER_TABLE);
+                    input.add(value);
+                    List<Object> list = QueryUtils.getAppData(input, ConstantsUtils.PRECISION_SELECTION, null);
+                    if (list != null && !list.isEmpty() && !StringUtils.isBlank(baseCpi.getValue())) {
+                        format4.applyPattern(ItemSearchLogic.pattern(Integer.valueOf(String.valueOf(list.get(0)))));
+                        baseCpi.setValue(String.valueOf(format4.format(Double.valueOf(baseCpi.getValue()))));
+                    }
+                }
+            });
             acquiredAmp.setData("maxlengthvalidationfifty,maxlengthvalidationacquiredamp,pricevalidation,specialcharvalidationacquiredamp");
             acquiredAmp.setValidationVisible(true);
             acquiredAmp.setImmediate(true);
@@ -814,10 +882,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                marketTerminationDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(marketTerminationDate
-                                                .getValue()));
-                            
+                            marketTerminationDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(marketTerminationDate
+                                            .getValue()));
+
                         }
                     });
             newFormulationStartDate.setImmediate(true);
@@ -835,10 +903,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                newFormulationStartDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(newFormulationStartDate
-                                                .getValue()));
-                            
+                            newFormulationStartDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(newFormulationStartDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -857,10 +925,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                newFormulationEndDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(newFormulationEndDate
-                                                .getValue()));
-                            
+                            newFormulationEndDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(newFormulationEndDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -875,10 +943,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * @param event
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                baseCpiPeriod.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(baseCpiPeriod
-                                                .getValue()));
-                            
+                            baseCpiPeriod.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(baseCpiPeriod
+                                            .getValue()));
+
                         }
                     });
 
@@ -937,10 +1005,10 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
                          * After changing the value, function will be executed.
                          */
                         public void valueChange(final Property.ValueChangeEvent event) {
-                                nonFederalExpirationDate.setDescription(CommonUIUtils
-                                        .convert2DigitTo4DigitYear(nonFederalExpirationDate
-                                                .getValue()));
-                            
+                            nonFederalExpirationDate.setDescription(CommonUIUtils
+                                    .convert2DigitTo4DigitYear(nonFederalExpirationDate
+                                            .getValue()));
+
                         }
                     });
 
@@ -978,7 +1046,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             if (authorizedGenericStartDate.getValue() != null
                     && authorizedGenericEndDate.getValue() != null) {
                 if (authorizedGenericStartDate.getValue().after(
@@ -1054,7 +1122,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             if (pediatricExclusiveStartDate.getValue() != null
                     && pediatricExclusiveEndDate.getValue() != null) {
                 if (pediatricExclusiveStartDate.getValue().after(
@@ -1130,7 +1198,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             if (clottingFactorStartDate.getValue() != null
                     && clottingFactorEndDate.getValue() != null) {
                 if (clottingFactorStartDate.getValue().after(
@@ -1206,7 +1274,7 @@ CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             if (newFormulationStartDate.getValue() != null
                     && newFormulationEndDate.getValue() != null) {
                 if (newFormulationStartDate.getValue().after(

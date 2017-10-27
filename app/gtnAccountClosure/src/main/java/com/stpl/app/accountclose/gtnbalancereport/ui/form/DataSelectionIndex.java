@@ -258,7 +258,6 @@ public class DataSelectionIndex extends CustomComponent implements View {
     /**
      * The company ddlb lazy container
      */
-    private LazyContainer companyDdlbLazyContainer;
     public AvailableCustomerTableLogic availableCustomerTableLogic = new AvailableCustomerTableLogic();
     public SelectedCustomerTableLogic selectedCustomerTableLogic = new SelectedCustomerTableLogic();
     public AvailableProductTableLogic availableProductTableLogic = new AvailableProductTableLogic();

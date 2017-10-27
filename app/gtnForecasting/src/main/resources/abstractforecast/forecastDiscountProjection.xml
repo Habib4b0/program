@@ -141,7 +141,7 @@
                         <OptionGroup multiSelect="false" id="basis" enable="true" styleName = "horizontal"/>
                         <Label caption="Adjustment: " contentMode="HTML" />  
                         <TextField id="adjustment" enable="true"/>
-                        <Label caption="Allocation Methodology: " contentMode="HTML" width = "175px"/>
+                        <Label caption="Allocation Methododlogy: " contentMode="HTML" width = "175px"/>
                         <ComboBox id="allocMethodology" nullSelectionAllowed = "true" styleName = "comboxsize"/>   
                         <Label caption="Adjustment Programs: " id="adjprogramsLb" contentMode="HTML" width = "155px"/>  
                         <OptionGroup multiSelect="false" id="adjprograms" enable="true" styleName = "horizontal"/> 

@@ -406,8 +406,88 @@ WHERE
                 WHERE RP.REBATE_PLAN_ID LIKE '@REBATE_PLAN_ID'
                 AND RP.REBATE_PLAN_NO LIKE '@REBATE_PLAN_NO'
                 AND RP.REBATE_PLAN_NAME LIKE '@REBATE_PLAN_NAME'
-                AND RP.INBOUND_STATUS <> 'D'             
+                AND RP.INBOUND_STATUS <> 'D'              
              ]]>
         </query>
     </entity>
+    <entity id="CFPCheckUpdate">
+        <query>
+    	<![CDATA[
+                    UPDATE IMTD_CFP_DETAILS SET CHECK_RECORD=? WHERE  SESSION_ID='?' AND USERS_SID=?  AND COMPANY_ID=?        
+             ]]>
+        </query>
+    </entity>
+    
+     <entity id="CFPCheckSelect">
+        <query>
+    	<![CDATA[
+                    SELECT * FROM  IMTD_CFP_DETAILS WHERE  SESSION_ID='?' AND USERS_SID=? AND CHECK_RECORD=0      
+             ]]>
+        </query>
+    </entity>
+     <entity id="PSCheckUpdate">
+        <query>
+    	<![CDATA[
+                    UPDATE IMTD_PS_DETAILS SET CHECK_RECORD=? WHERE  SESSION_ID='?' AND USERS_SID=?  AND ITEM_ID='?'       
+             ]]>
+        </query>
+    </entity>
+    
+     <entity id="PSCheckSelect">
+        <query>
+    	<![CDATA[
+                    SELECT * FROM  IMTD_PS_DETAILS WHERE  SESSION_ID='?' AND USERS_SID=? AND CHECK_RECORD=0      
+             ]]>
+        </query>
+    </entity>
+     <entity id="RSCheckUpdate">
+        <query>
+    	<![CDATA[
+                    UPDATE IMTD_RS_DETAILS SET CHECK_RECORD=? WHERE  SESSION_ID='?' AND USERS_SID=?  AND ITEM_ID='?'       
+             ]]>
+        </query>
+    </entity>
+    
+     <entity id="RSCheckSelect">
+        <query>
+    	<![CDATA[
+                    SELECT * FROM  IMTD_RS_DETAILS WHERE  SESSION_ID='?' AND USERS_SID=? AND CHECK_RECORD=0      
+             ]]>
+        </query>
+    </entity>
+     <entity id="IFPCheckUpdate">
+        <query>
+    	<![CDATA[
+                    UPDATE IMTD_IFP_DETAILS SET CHECK_BOX=? WHERE  SESSION_ID='?' AND USERS_SID=?  AND ITEM_ID='?'        
+             ]]>
+        </query>
+    </entity>
+    
+     <entity id="IFPCheckSelect">
+        <query>
+    	<![CDATA[
+                    SELECT * FROM  IMTD_IFP_DETAILS WHERE  SESSION_ID='?' AND USERS_SID=? AND CHECK_BOX=0      
+             ]]>
+        </query>
+    </entity>
+    
+    <entity id="getifpParentdataQuery">
+        <query> <![CDATA[
+        
+          SELECT DISTINCT ifp.IFP_MODEL_SID,ifp.IFP_ID,ifp.IFP_NO, ifp.IFP_NAME,ifp.IFP_STATUS,
+                    ifp.IFP_TYPE,ifp.IFP_CATEGORY, ifp.IFP_START_DATE, ifp.IFP_END_DATE,ifp.IFP_DESIGNATION,
+                    ifp.PARENT_IFP_ID,ifp.PARENT_IFP_NAME,ifp.TOTAL_DOLLAR_COMMITMENT,ifp.COMMITMENT_PERIOD,ifp.TOTAL_VOLUME_COMMITMENT,
+                    ifp.TOTAL_MARKETSHARE_COMMITMENT, ifp.CREATED_BY,ifp.CREATED_DATE, htype.DESCRIPTION as itype,hstatus.DESCRIPTION as istatus,
+                    hcategory.DESCRIPTION as icategory,hdegin.DESCRIPTION as idesign,ifp.RECORD_LOCK_STATUS
+                    from IFP_MODEL ifp JOIN IFP_DETAILS ifd on ifp.IFP_MODEL_SID=ifd.IFP_MODEL_SID JOIN ITEM_MASTER im on ifd.ITEM_MASTER_SID=im.ITEM_MASTER_SID
+                    LEFT JOIN HELPER_TABLE htype on htype.HELPER_TABLE_SID =  ifp.IFP_TYPE​
+                    LEFT JOIN HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  ifp.IFP_STATUS
+                    LEFT JOIN HELPER_TABLE hcategory on hcategory.HELPER_TABLE_SID =  ifp.IFP_CATEGORY
+                    LEFT JOIN HELPER_TABLE hdegin on hdegin.HELPER_TABLE_SID =  ifp.IFP_DESIGNATION
+                    WHERE ifp.INBOUND_STATUS <> 'D'
+        
+           
+        ]]></query>
+    </entity>
+    
 </sql>

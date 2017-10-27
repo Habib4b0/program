@@ -94,12 +94,12 @@ public class PMPYTradingPartnerLookup extends Window {
     /**
      * The Constant TRADING_PARTNER_COLUMNS.
      */
-    public static final Object[] TRADING_PARTNER_COLUMNS = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
+    public final Object[] tradingPartnerColumns = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
 
     /**
      * The Constant TRADING_PARTNER_HEADER.
      */
-    public static final String[] TRADING_PARTNER_HEADER = new String[]{"Trading Partner #", "Trading Partner Name"};
+    public final String[] tradingPartnerHeaders = new String[]{"Trading Partner #", "Trading Partner Name"};
 
     /**
      * The results table tp.
@@ -114,7 +114,7 @@ public class PMPYTradingPartnerLookup extends Window {
     /**
      * The results tp bean.
      */
-    private BeanItemContainer<PMPYTradingPartnerDTO> resultsTPBean = new BeanItemContainer<PMPYTradingPartnerDTO>(PMPYTradingPartnerDTO.class);
+    private BeanItemContainer<PMPYTradingPartnerDTO> resultsTPBean = new BeanItemContainer<>(PMPYTradingPartnerDTO.class);
 
     /**
      * The non mandated logic.
@@ -124,7 +124,7 @@ public class PMPYTradingPartnerLookup extends Window {
     /**
      * The search binder.
      */
-    private CustomFieldGroup searchBinder = new CustomFieldGroup(new BeanItem<PMPYTradingPartnerDTO>(new PMPYTradingPartnerDTO()));
+    private CustomFieldGroup searchBinder = new CustomFieldGroup(new BeanItem<>(new PMPYTradingPartnerDTO()));
 
     /**
      * The error msg.
@@ -394,7 +394,7 @@ public class PMPYTradingPartnerLookup extends Window {
         final PMPYTradingPartnerDTO bean = new PMPYTradingPartnerDTO();
 
         LOGGER.debug("Entering getBinder method");
-        searchBinder = new CustomFieldGroup(new BeanItem<PMPYTradingPartnerDTO>(bean));
+        searchBinder = new CustomFieldGroup(new BeanItem<>(bean));
         searchBinder.setBuffered(true);
         searchBinder.bindMemberFields(this);
         searchBinder.setErrorDisplay(errorMsg);
@@ -426,7 +426,7 @@ public class PMPYTradingPartnerLookup extends Window {
         setClosable(true);
         setModal(true);
         setWidth("580px");
-        setHeight("650px");
+        setHeight(Constant.SIX_FIFTY_PX);
 
         addStyleName(Constant.BOOTSTRAP_UI);
         addStyleName(Constant.BOOTSTRAP);
@@ -725,8 +725,8 @@ public class PMPYTradingPartnerLookup extends Window {
         resultsTableTP.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
         resultsTableTP.setSelectable(true);
         resultsTableTP.setContainerDataSource(resultsTPBean);
-        resultsTableTP.setVisibleColumns(TRADING_PARTNER_COLUMNS);
-        resultsTableTP.setColumnHeaders(TRADING_PARTNER_HEADER);
+        resultsTableTP.setVisibleColumns(tradingPartnerColumns);
+        resultsTableTP.setColumnHeaders(tradingPartnerHeaders);
         resultsTableTP.setPageLength(NumericConstants.SIX);
         panel.setContent(resultsTableTP);
         LOGGER.debug("End of addResultsTable method");

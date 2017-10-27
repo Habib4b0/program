@@ -3,6 +3,7 @@
  */
 package com.stpl.app.contract.dashboard.ui.form;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.common.util.HelperListUtil;
@@ -138,13 +139,13 @@ public class ItemAdditionTab extends CustomComponent {
      * The selected item result bean.
      */
 
-    private BeanItemContainer<TempPricingDTO> saveContainer = new BeanItemContainer<TempPricingDTO>(TempPricingDTO.class);
+    private BeanItemContainer<TempPricingDTO> saveContainer = new BeanItemContainer<>(TempPricingDTO.class);
 
     /**
      * Dummy lazy bean container to clear the Table
      */
-    private final BeanItemContainer<ItemMasterDTO> tableContainer = new BeanItemContainer<ItemMasterDTO>(ItemMasterDTO.class);
-    private final BeanItemContainer<IfpItemDTO> selectedTableContainer = new BeanItemContainer<IfpItemDTO>(IfpItemDTO.class);
+    private final BeanItemContainer<ItemMasterDTO> tableContainer = new BeanItemContainer<>(ItemMasterDTO.class);
+    private final BeanItemContainer<IfpItemDTO> selectedTableContainer = new BeanItemContainer<>(IfpItemDTO.class);
 
     private String tempSearchField = StringUtils.EMPTY;
 
@@ -169,15 +170,15 @@ public class ItemAdditionTab extends CustomComponent {
     HelperListUtil helperListUtil = HelperListUtil.getInstance();
     final StplSecurity stplSecurity = new StplSecurity();
     String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-    final Map<String, AppPermission> fieldContract = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Item Addition", false);
-    List<Object> resultList = contractHL.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Item Addition");
+    final Map<String, AppPermission> fieldContract = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.ITEM_ADDITION, false);
+    List<Object> resultList = contractHL.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.ITEM_ADDITION);
     SessionDTO sessionDTO;
 
     AvailableTableLogic tableLogic = new AvailableTableLogic();
     SelectedTableLogic selectedTableLogic = new SelectedTableLogic();
     private ExtPagedTable availableTable = new ExtPagedTable(tableLogic);
     private ExtPagedTable selectedTable = new ExtPagedTable(selectedTableLogic);
-    List<Integer> pageLength = new ArrayList<Integer>();
+    List<Integer> pageLength = new ArrayList<>();
     boolean validationFlag=true;
 
     /**
@@ -188,8 +189,7 @@ public class ItemAdditionTab extends CustomComponent {
      * @param itemDetailsResultsBean the item details results bean
      * @param itemMap the item map
      */
-    public ItemAdditionTab(final BeanItemContainer<ItemMasterDTO> availableItemResultBean, final BeanItemContainer<ItemMasterDTO> selectedItemResultBean,
-            final BeanItemContainer<TempPricingDTO> saveContainer, final BeanItemContainer<VwContractPriceInfoDTO> itemDetailsResultsBean, final Map<String, String> itemMap, final boolean isEditable, final SessionDTO sessionDTO)
+    public ItemAdditionTab(final BeanItemContainer<TempPricingDTO> saveContainer, final BeanItemContainer<VwContractPriceInfoDTO> itemDetailsResultsBean, final Map<String, String> itemMap, final boolean isEditable, final SessionDTO sessionDTO)
             throws SystemException, PortalException {
         super();
         LOGGER.debug("Entering ItemsAndPricingTab");
@@ -204,7 +204,7 @@ public class ItemAdditionTab extends CustomComponent {
 
     private void init() throws SystemException ,PortalException {
 
-        final Map<String, AppPermission> fieldItemAddition = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Item Addition", false);
+        final Map<String, AppPermission> fieldItemAddition = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.ITEM_ADDITION, false);
         addResponsiveGrid(fieldItemAddition);
         pageLength.add(NumericConstants.TEN);
         pageLength.add(NumericConstants.FIFTEEN);
@@ -242,12 +242,12 @@ public class ItemAdditionTab extends CustomComponent {
 
     private void configureButton() {
         try {
-            final Map<String, AppPermission> funItemAdditionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + "Item Addition");
+            final Map<String, AppPermission> funItemAdditionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_DASHBOARD + Constants.COMMA + ConstantUtil.ITEM_ADDITION);
             add();
             remove();
             addAll();
             removeAll();
-            if (!(funItemAdditionHM.get(CHFunctionNameUtils.ItemSearch) != null) || !((AppPermission) funItemAdditionHM.get(CHFunctionNameUtils.ItemSearch)).isFunctionFlag()) {
+            if (!(funItemAdditionHM.get(CHFunctionNameUtils.ITEM_SEARCH) != null) || !((AppPermission) funItemAdditionHM.get(CHFunctionNameUtils.ITEM_SEARCH)).isFunctionFlag()) {
                 btnFind.setVisible(false);
             } else {
                 addFindBtn();
@@ -300,18 +300,18 @@ public class ItemAdditionTab extends CustomComponent {
                     int value = 0;
                     LOGGER.debug("Entering btnFind buttonClick method");
                     if (searchFields == null || searchFields.getValue() == null) {
-                        AbstractNotificationUtils.getWarningNotification("Search Criteria", "Please select the search field");
+                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.SEARCH_CRITERIA, "Please select the search field");
                         return;
                     }
                     if (searchFields.getValue() != null && searchValue.isVisible() && (searchValue.getValue() == null || StringUtils.isEmpty(searchValue.getValue().trim()))) {
-                        AbstractNotificationUtils.getWarningNotification("Search Criteria", "Please enter a Value to search");
+                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.SEARCH_CRITERIA, "Please enter a Value to search");
                         return;
                     }
                     if (valueList.getValue() != null) {
                         value = ((HelperDTO) (valueList.getValue())).getId();
                     }
                     if (searchFields.getValue() != null && valueList.isVisible() && value == 0) {
-                        AbstractNotificationUtils.getWarningNotification("Search Criteria", "Please select the value to search");
+                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.SEARCH_CRITERIA, "Please select the value to search");
                         return;
                     }
 
@@ -323,8 +323,8 @@ public class ItemAdditionTab extends CustomComponent {
                             tempSearchValue = String.valueOf(((HelperDTO) (valueList.getValue())).getId());
                         }
                         availableTable.clearFilters();
-                        tableLogic.configureSearchData(tempSearchField, tempSearchValue,"Available",sessionDTO);
-                        Object[] objAvail = ContractUtils.AVAILABLE_ITEM_COL;
+                        tableLogic.configureSearchData(tempSearchField, tempSearchValue,sessionDTO);
+                        Object[] objAvail = ContractUtils.getInstance().availableItemCol;
                         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objAvail, fieldContract, Constants.EDIT);
                         if (tableResultCustom.getObjResult().length > 0) {
                             availableTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -359,7 +359,7 @@ public class ItemAdditionTab extends CustomComponent {
      */
     public void addAvailableTable() {
         LOGGER.debug("Entering addAvailableTable method");
-        Object[] objAvail = ContractUtils.AVAILABLE_ITEM_COL;
+        Object[] objAvail = ContractUtils.getInstance().availableItemCol;
         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objAvail, fieldContract, Constants.EDIT);      
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pageLength);
         availableTableLayout.addComponent(availableTable);
@@ -384,7 +384,7 @@ public class ItemAdditionTab extends CustomComponent {
         availableTable.setFilterGenerator(new IfpAvailableTableGenerator());
         availableTable.setFilterDecorator(new ExtDemoFilterDecorator());
         availableTable.setValidationVisible(false);
-        availableTable.addStyleName("filterbar");
+        availableTable.addStyleName(ConstantUtil.FILTERBAR);
         availableTable.setWidth("390px");
         LOGGER.debug("End of addAvailableTable method");
     }
@@ -395,7 +395,7 @@ public class ItemAdditionTab extends CustomComponent {
      * @return the Selected table
      */
     public void addSelectedTable() {
-        LOGGER.debug("Entering addSelectedTable method");
+        LOGGER.debug("Entering addSelectedTable method ");
         availableTable.markAsDirty();
         selectedTableLogic.getControlConfig().setPageLengthsAndCaptions(pageLength);
         selectedTableLayout.addComponent(selectedTable);
@@ -408,7 +408,7 @@ public class ItemAdditionTab extends CustomComponent {
         selectedTable.setImmediate(true);
         selectedTable.setSelectable(true);
         selectedTable.setFilterBarVisible(true);
-        selectedTable.addStyleName("filterbar");
+        selectedTable.addStyleName(ConstantUtil.FILTERBAR);
         selectedTable.setWidth("390px");
         selectedTable.setFilterGenerator(new IfpAvailableTableGenerator());
         selectedTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -419,7 +419,7 @@ public class ItemAdditionTab extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-              
+                return;
             }
         });
         LOGGER.debug("End of addSelectedTable method");
@@ -548,7 +548,7 @@ public class ItemAdditionTab extends CustomComponent {
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug(" ButtonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
                 try {
-                    addAllCompanyButtonClick(event);
+                    addAllCompanyButtonClick();
                 } catch (SystemException ex) {
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     LOGGER.error(errorMsg);
@@ -564,13 +564,13 @@ public class ItemAdditionTab extends CustomComponent {
      *
      * @param event the event
      */
-    protected void addAllCompanyButtonClick(final ClickEvent event) throws SystemException {
+    protected void addAllCompanyButtonClick() throws SystemException {
         LOGGER.debug("inside ItemsAndPricingTab addAllCompanyButtonClick");
         if(availableTable.size()>0){
         ifpLogic.addToTempIFP(tempSearchField, tempSearchValue);
         if ("IFP No".equalsIgnoreCase(tempSearchField) || "IFP Name".equalsIgnoreCase(tempSearchField) || "Brand Name".equalsIgnoreCase(tempSearchField)) {
             selectedTableLogic.configureSearchData(sessionDTO);
-            Object[] objSelected = ContractUtils.SELECTED_ITEM_COL;
+            Object[] objSelected = ContractUtils.getInstance().selectedItemCol;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objSelected, fieldContract, Constants.EDIT);
             if (tableResultCustom.getObjResult().length > 0) {
                 selectedTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -610,7 +610,7 @@ public class ItemAdditionTab extends CustomComponent {
                 LOGGER.debug("Entering btnRemove buttonClick method");
                 try {
                     try {
-                        removeAllCompanyButtonClick(event);
+                        removeAllCompanyButtonClick();
                     } catch (PortalException ex) {
                         LOGGER.error(ex);
                     }
@@ -631,7 +631,7 @@ public class ItemAdditionTab extends CustomComponent {
      *
      * @param event the event
      */
-    protected void removeAllCompanyButtonClick(final ClickEvent event) throws SystemException, PortalException {
+    protected void removeAllCompanyButtonClick() throws SystemException, PortalException {
         LOGGER.debug("Entering removeAllCompanyButtonClick method");
         if (saveContainer.size() > 0) {
             ifpLogic.saveToTempIFP(saveContainer.getItemIds(), isEditable);
@@ -643,7 +643,7 @@ public class ItemAdditionTab extends CustomComponent {
     }
 
     public void loadSelectedTable() {
-        Object[] objSelected = ContractUtils.SELECTED_ITEM_COL;
+        Object[] objSelected = ContractUtils.getInstance().selectedItemCol;
         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objSelected, fieldContract, Constants.EDIT);
         selectedTableLogic.configureSearchData(sessionDTO);
         if (tableResultCustom.getObjResult().length > 0) {
@@ -662,11 +662,10 @@ public class ItemAdditionTab extends CustomComponent {
      *
      * @throws SystemException
      */
-    public void configureFields() throws SystemException {
+    public void configureFields()  {
         LOGGER.debug("Entering configureFields method");
 
         searchValue.setImmediate(true);
-        final ContractUtils ifpUtils = new ContractUtils();
         searchFields.setNullSelectionAllowed(true);
         searchFields.setNullSelectionItemId(Constants.SELECT_ONE);
           
@@ -688,7 +687,7 @@ public class ItemAdditionTab extends CustomComponent {
                 try {
                       availableTable.setValue(null);
                      selectedTable.setValue(null);
-                    if (searchFields.getValue() != null && !String.valueOf(searchFields.getValue()).equals(StringUtils.EMPTY) | !String.valueOf(searchFields.getValue()).equals(Constants.NULL)) {
+                    if (searchFields.getValue() != null && !String.valueOf(searchFields.getValue()).equals(StringUtils.EMPTY) || !String.valueOf(searchFields.getValue()).equals(Constants.NULL)) {
                         final String value = String.valueOf(searchFields.getValue());
                         if ("Form".equals(value)) {
                             searchValue.setVisible(false);
@@ -725,10 +724,6 @@ public class ItemAdditionTab extends CustomComponent {
                         searchValue.setVisible(true);
                         valueList.setVisible(false);
                     }
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                 } catch (Exception ex) {
                   LOGGER.error(ex);
                 }
@@ -738,10 +733,10 @@ public class ItemAdditionTab extends CustomComponent {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     try {
-                        searchFields.setContainerDataSource(ifpUtils.searchFields("IFP".equalsIgnoreCase(String.valueOf(searchType.getValue()))));
+                        searchFields.setContainerDataSource(ContractUtils.getInstance().searchFields("IFP".equalsIgnoreCase(String.valueOf(searchType.getValue()))));
                         searchFields.select(Constants.SELECT_ONE);
                     } catch (Exception e) {
-                       LOGGER.error(e.getMessage());
+                       LOGGER.error(e);
                     }
                 }
             });
@@ -765,8 +760,8 @@ public class ItemAdditionTab extends CustomComponent {
      */
     public void addSelectedTableForView() {
         LOGGER.debug("Entering addSelectedTable method");
-        Object[] objSelected = ContractUtils.SELECTED_ITEM_COL;
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objSelected, fieldContract, Constants.ViewMode);
+        Object[] objSelected = ContractUtils.getInstance().selectedItemCol;
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objSelected, fieldContract, Constants.VIEW_MODE);
         LOGGER.debug("Entering addSelectedTable method");
         availableTable.markAsDirty();
         selectedTable.setVisible(true);
@@ -789,7 +784,7 @@ public class ItemAdditionTab extends CustomComponent {
         selectedTable.setImmediate(true);
         selectedTable.setSelectable(true);
         selectedTable.setFilterBarVisible(false);
-        selectedTable.addStyleName("filterbar");
+        selectedTable.addStyleName(ConstantUtil.FILTERBAR);
         selectedTable.setFilterGenerator(new IfpAvailableTableGenerator());
         selectedTable.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedTable.setSizeFull();
@@ -799,6 +794,7 @@ public class ItemAdditionTab extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         LOGGER.debug("End of addSelectedTable method");
@@ -807,11 +803,15 @@ public class ItemAdditionTab extends CustomComponent {
 
     private void addResponsiveGrid(Map<String, AppPermission> fieldItemAddition) {
         try {
-            List<Object> resultList = contractHL.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, "Item Addition");
+            List<Object> resultList = contractHL.getFieldsForSecurity(UISecurityUtil.CONTRACT_DASHBOARD, ConstantUtil.ITEM_ADDITION);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldItemAddition, Constants.EDIT);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
+    }
+
+    void refreshTable() {
+        selectedTableLogic.setCurrentPage(1);
     }
 
 }

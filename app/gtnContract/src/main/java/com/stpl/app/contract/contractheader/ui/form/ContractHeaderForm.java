@@ -24,7 +24,6 @@ import com.stpl.app.contract.util.CHFunctionNameUtils;
 import com.stpl.app.contract.util.Constants;
 import com.stpl.app.contract.util.ErrorCodeUtil;
 import com.stpl.app.contract.util.ErrorCodes;
-import com.stpl.app.model.ContractMaster;
 import com.stpl.app.security.impl.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.CustomFieldGroup;
@@ -126,7 +125,7 @@ public final class ContractHeaderForm extends CustomComponent {
      *
      */
     ContractMasterDTO masterDto = new ContractMasterDTO();
-    private final List<ContractAliasMasterDTO> aliasList = new ArrayList<ContractAliasMasterDTO>();
+    private final List<ContractAliasMasterDTO> aliasList = new ArrayList<>();
 
     public ContractMasterDTO getContractMasterDTO() {
         return contractMasterDTO;
@@ -217,7 +216,7 @@ public final class ContractHeaderForm extends CustomComponent {
     /**
      * Adds the components in the page to layout.
      */
-    private void addToContent() throws SystemException, PortalException {
+    private void addToContent() {
         LOGGER.debug("Entering addToContent method ");
         this.setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarative-ui/tab-sheet-form.xml"), this));
         vLayout.addComponent(new InformationLayout(Constants.CONTRACT, String.valueOf(contractMasterDTO.getContractId()), String.valueOf(contractMasterDTO.getContractNo()), String.valueOf(contractMasterDTO.getContractName())));
@@ -262,20 +261,20 @@ public final class ContractHeaderForm extends CustomComponent {
 
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.CONTRACT_HEADER+Constants.COMMA+"Contract Header");
-        if (functionHM.get(CHFunctionNameUtils.Save) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.Save)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.SAVE) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.SAVE)).isFunctionFlag()) {
             btnSave.setVisible(false);
            
         }else{
             editButton();
         }
         excelBtn.setVisible(false);
-        if (functionHM.get(CHFunctionNameUtils.ResetButton) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.ResetButton)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.RESET_BUTTON) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.RESET_BUTTON)).isFunctionFlag()) {
              resetButton.setVisible(false);
         }else{
            resetButton();
             
         }
-        if (functionHM.get(CHFunctionNameUtils.Delete) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.Delete)).isFunctionFlag()) {
+        if (functionHM.get(CHFunctionNameUtils.DELETE) != null && !((AppPermission) functionHM.get(CHFunctionNameUtils.DELETE)).isFunctionFlag()) {
                deleteBtn.setVisible(false); 
         }else{
                   
@@ -423,6 +422,7 @@ public final class ContractHeaderForm extends CustomComponent {
              * @param event - ErrorEvent
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         LOGGER.debug(" backButton method is ended");
@@ -431,7 +431,7 @@ public final class ContractHeaderForm extends CustomComponent {
     /**
      * Configures and adds the button this layout.
      */
-    private void editButton() throws SystemException {
+    private void editButton() {
         LOGGER.debug(" entering EditButton method");
         if (!isViewMode) {
             btnSave.addClickListener(new ClickListener() {
@@ -474,6 +474,7 @@ public final class ContractHeaderForm extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
         deleteBtn.addClickListener(new ClickListener() {
@@ -594,6 +595,18 @@ public final class ContractHeaderForm extends CustomComponent {
                         flag = true;
                 
             } 
+           /**
+            * cel-211
+            */
+           if (StringUtils.isBlank(String.valueOf(binder.getField(Constants.TRADING_PARTNER_NAME).getValue()))) {
+                 if (flag) {
+                            errorMessage.append(Constants.COMMA);
+                        }
+                        errorMessage.append(Constants.TRADING_PARTNER_NAME);
+                        flag = true;
+                
+            } 
+
             if (StringUtils.isBlank(String.valueOf(binder.getField(Constants.CONTRACT_NO).getValue()))) {
                  if (flag) {
                             errorMessage.append(Constants.COMMA);
@@ -608,6 +621,14 @@ public final class ContractHeaderForm extends CustomComponent {
                         errorMessage.append(Constants.CONTRACT_NAME1);
                         flag = true;
             } 
+            if (StringUtils.isBlank(String.valueOf(binder.getField(Constants.CONTRACT_NAME).getValue()))) {
+                 if (flag) {
+                            errorMessage.append(Constants.COMMA);
+                        }
+                        errorMessage.append(Constants.CONTRACT_NAME1);
+                        flag = true;
+            }  
+             
             if (binder.getField(Constants.CONTRACT_TYPE).getValue() == null || ((com.stpl.ifs.util.HelperDTO) binder.getField(Constants.CONTRACT_TYPE).getValue()).getId() == 0) {
                
                 if (flag) {
@@ -753,6 +774,17 @@ public final class ContractHeaderForm extends CustomComponent {
                         flag = true;
                 
             }
+          
+            
+            if (StringUtils.isBlank(String.valueOf(binder.getField(Constants.TRADING_PARTNER_NAME).getValue()))) {
+               
+                if (flag) {
+                              errorMessage = errorMessage+Constants.COMMA;
+                        }
+                         errorMessage = errorMessage +(Constants.TRADING_PARTNER_NAME);
+                        flag = true;
+                
+            }
             if (binder.getField(Constants.CONTRACT_STATUS).getValue() == null || ((com.stpl.ifs.util.HelperDTO) binder.getField(Constants.CONTRACT_STATUS).getValue()).getId() == 0) {
                 if (flag) {
                              errorMessage = errorMessage+Constants.COMMA;
@@ -784,6 +816,7 @@ public final class ContractHeaderForm extends CustomComponent {
                         flag = true;
                 
             } 
+            
             
              if (flag) {
                          binder.getErrorDisplay().setError(errorMessage.toString());
@@ -862,7 +895,7 @@ public final class ContractHeaderForm extends CustomComponent {
                 ComboBox status = (ComboBox) binder.getField(CHFieldNameUtils.contractStatus);
                 status.setValue(masterDto.getContractStatus());
                 ComboBox docType = (ComboBox) binder.getField(CHFieldNameUtils.docType);
-                docType.setValue(0);
+                docType.setValue(null);
                 PopupDateField startDateField = (PopupDateField) binder.getField(CHFieldNameUtils.startDate);
                 startDateField.setValue(null);
                 PopupDateField endDateField = (PopupDateField) binder.getField(CHFieldNameUtils.endDate);
@@ -877,7 +910,7 @@ public final class ContractHeaderForm extends CustomComponent {
                 companyName.setValue("0");
 
                 ComboBox tradeClass = (ComboBox) binder.getField(CHFieldNameUtils.tradeClass);
-                tradeClass.setValue(0);
+                tradeClass.setValue(null);
 
                 TextField tradingPartner = (TextField) binder.getField(CHFieldNameUtils.tradingPartnerName);
                 tradingPartner.setReadOnly(false);

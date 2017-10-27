@@ -85,7 +85,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
     /**
      * The available results bean.
      */
-    public BeanItemContainer<ProjectionNameDTO> availableResultsBean = new BeanItemContainer<ProjectionNameDTO>(ProjectionNameDTO.class);
+    public BeanItemContainer<ProjectionNameDTO> availableResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
 
     /**
      * The projection name dto.
@@ -104,12 +104,12 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
     /**
      * The Constant PROJECTION_NAME_TABLE_COLUMNS.
      */
-    public static final Object[] PROJECTION_NAME_TABLE_COLUMNS = new Object[]{
+    public final Object[] projectionNameTableColumns = new Object[]{
         "businessProcessType", "selectedAttributes", "createdBy", "modifiedBy"};
     /**
      * The Constant PROJECTION_NAME_TABLE_HEADER.
      */
-    public static final String[] PROJECTION_NAME_TABLE_HEADER = new String[]{
+    public final String[] projectionNameTableHeader = new String[]{
         "Business Process Type", "Selected Attributes", "Created By", "Modified By"};
 
     /**
@@ -189,8 +189,8 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
      *
      * @return the forecast table columns
      */
-    public static Object[] getForecastTableColumns() {
-        return PROJECTION_NAME_TABLE_COLUMNS;
+    public Object[] getForecastTableColumns() {
+        return projectionNameTableColumns;
     }
 
     /**
@@ -198,8 +198,8 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
      *
      * @return the forecast table header
      */
-    public static String[] getForecastTableHeader() {
-        return PROJECTION_NAME_TABLE_HEADER;
+    public String[] getForecastTableHeader() {
+        return projectionNameTableHeader;
     }
 
     /**
@@ -223,7 +223,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void init() throws SystemException, PortalException {
+    private void init() {
         LOGGER.debug("ProjNameConfigIndex init method is started");
         setCompositionRoot(addToContent());
 
@@ -238,7 +238,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private VerticalLayout addToContent() throws SystemException, PortalException {
+    private VerticalLayout addToContent() {
         LOGGER.debug("ProjNameConfigIndex addToContent method is started");
         final VerticalLayout content = new VerticalLayout();
         content.setSpacing(true);
@@ -288,8 +288,8 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
         availableResults.setFilterDecorator(new ExtDemoFilterDecorator());
         availableResults.setContainerDataSource(availableResultsBean);
         availableResults.setCaption("Results");
-        availableResults.setVisibleColumns(PROJECTION_NAME_TABLE_COLUMNS);
-        availableResults.setColumnHeaders(PROJECTION_NAME_TABLE_HEADER);
+        availableResults.setVisibleColumns(projectionNameTableColumns);
+        availableResults.setColumnHeaders(projectionNameTableHeader);
         availableResults.setPageLength(NumericConstants.FIVE);
         availableResults.setWidth("100%");
         availableResults.setImmediate(true);
@@ -338,7 +338,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -391,8 +391,6 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
                     final String businessProces = "<" + businessProcess.getValue().toString() + ">";
                     final List<ProjectionNameDTO> availableNameResults = nameConfigLogic.getAvailableNameTemplate(businessProces);
                     availableResultsBean.addAll(availableNameResults);
-                } catch (PortalException ex) {
-                    LOGGER.error(ex);
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
@@ -424,7 +422,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
         if (systemId instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) systemId;
         } else if (systemId instanceof ProjectionNameDTO) {
-            targetItem = new BeanItem<ProjectionNameDTO>((ProjectionNameDTO) systemId);
+            targetItem = new BeanItem<>((ProjectionNameDTO) systemId);
         } else {
             targetItem = NULL_OBJECT;
         }

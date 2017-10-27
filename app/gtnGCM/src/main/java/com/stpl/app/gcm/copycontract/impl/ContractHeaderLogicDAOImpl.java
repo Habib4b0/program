@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gcm.copycontract.impl;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
@@ -19,7 +20,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.util.dao.orm.CustomSQLUtil;
-import java.util.ArrayList;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
@@ -51,9 +51,9 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public List<CFPCompanyDTO> getCFPdetails(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
-        List<CFPCompanyDTO> resultLists = new ArrayList<CFPCompanyDTO>();
+        List<CFPCompanyDTO> resultLists;
         String query = queryUtils.getCFPcount(CFPCompanyDTO);
-        query = query + "  order by  cfp.CFP_ID " + "  OFFSET  " + startIndex + "  ROWS FETCH NEXT " + offset + " ROWS ONLY;";
+        query = query + "  order by  cfp.CFP_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<CFPCompanyDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
 
@@ -68,9 +68,9 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public List getCompanydetails(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
-        List<CFPCompanyDTO> resultLists = new ArrayList<CFPCompanyDTO>();
+        List<CFPCompanyDTO> resultLists;
         String query = queryUtils.getCFPAttachedCompanies(CFPCompanyDTO);
-        query = query + "  order by  cm.COMPANY_ID " + "  OFFSET  " + startIndex + "  ROWS FETCH NEXT " + offset + " ROWS ONLY;";
+        query = query + "  order by  cm.COMPANY_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<CFPCompanyDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
@@ -83,9 +83,9 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public List getIFPdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
-        List<IFPItemDTO> resultLists = new ArrayList<IFPItemDTO>();
+        List<IFPItemDTO> resultLists;
         String query = queryUtils.getIFPcount(IFPItemDTO);
-        query = query + "  order by  ifp.IFP_ID " + "  OFFSET  " + startIndex + "  ROWS FETCH NEXT " + offset + " ROWS ONLY;";
+        query = query + "  order by  ifp.IFP_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS  FETCH  NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<IFPItemDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
@@ -98,9 +98,9 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public List getPSdetails(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
-        List<PSIFPDTO> resultLists = new ArrayList<PSIFPDTO>();
+        List<PSIFPDTO> resultLists;
         String query = queryUtils.getPScount(PSIFPDTO);
-        query = query + "  order by  ps.PS_ID " + "  OFFSET  " + startIndex + "  ROWS FETCH NEXT " + offset + " ROWS ONLY;";
+        query = query + "  order by  ps.PS_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "   ROWS FETCH NEXT  " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<PSIFPDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
@@ -112,9 +112,9 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public List getRsdetails(RsIfpDto RsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
-        List<RsIfpDto> resultLists = new ArrayList<RsIfpDto>();
+        List<RsIfpDto> resultLists;
         String query = queryUtils.getRScount(RsIfpDto);
-        query = query + "  order by  rs.RS_ID " + "  OFFSET  " + startIndex + "  ROWS FETCH NEXT " + offset + " ROWS ONLY;";
+        query = query + "  order by  rs.RS_ID " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH NEXT   " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<RsIfpDto>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
@@ -128,9 +128,9 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public List getIFPItemdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
-        List<IFPItemDTO> resultLists = new ArrayList<IFPItemDTO>();
+        List<IFPItemDTO> resultLists;
         String query = queryUtils.GetIFPAttachedItems(IFPItemDTO);
-        query = query + "  order by  im.ITEM_NO " + "  OFFSET  " + startIndex + "  ROWS FETCH NEXT " + offset + " ROWS ONLY;";
+        query = query + "  order by  im.ITEM_NO " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS FETCH  NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<IFPItemDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
@@ -143,9 +143,9 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public List getPSAttachedItemdetails(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
-        List<PSIFPDTO> resultLists = new ArrayList<PSIFPDTO>();
+        List<PSIFPDTO> resultLists;
         String query = queryUtils.getPSItemcount(PSIFPDTO);
-        query = query + "  order by im.ITEM_NO " + "  OFFSET  " + startIndex + "  ROWS FETCH NEXT " + offset + " ROWS ONLY;";
+        query = query + "  order by im.ITEM_NO " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS  FETCH NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<PSIFPDTO>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
@@ -158,9 +158,9 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public List getRsItemdetails(RsIfpDto RsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
-        List<RsIfpDto> resultLists = new ArrayList<RsIfpDto>();
+        List<RsIfpDto> resultLists;
         String query = queryUtils.getRSAttachedItems(RsIfpDto);
-        query = query + "  order by im.ITEM_NO " + "  OFFSET  " + startIndex + "  ROWS FETCH NEXT " + offset + " ROWS ONLY;";
+        query = query + "  order by im.ITEM_NO " + StringConstantsUtil.SPACE_OFFSET_SPACE + startIndex + "  ROWS  FETCH NEXT " + offset + StringConstantsUtil.ROWS_ONLY;
         resultLists = (List<RsIfpDto>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }

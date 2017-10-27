@@ -40,13 +40,13 @@ public class RebateScheduleAddView extends VerticalLayout implements View {
     /**
      * The item family plan masters.
      */
-    private final BeanItemContainer<IFPDetailsDTO> selectedItemResultBean = new BeanItemContainer<IFPDetailsDTO>(
+    private final BeanItemContainer<IFPDetailsDTO> selectedItemResultBean = new BeanItemContainer<>(
             IFPDetailsDTO.class);
 
     /**
      * The item masters.
      */
-    private final BeanItemContainer<ItemDetailsDTO> itemResultBean = new BeanItemContainer<ItemDetailsDTO>(
+    private final BeanItemContainer<ItemDetailsDTO> itemResultBean = new BeanItemContainer<>(
             ItemDetailsDTO.class);
 
     /**
@@ -58,7 +58,7 @@ public class RebateScheduleAddView extends VerticalLayout implements View {
      * The binder.
      */
     private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
-            new BeanItem<RebateScheduleMasterDTO>(rebateScheduleMaster));
+            new BeanItem<>(rebateScheduleMaster));
 
     /**
      * The Constant LOGGER.
@@ -72,7 +72,7 @@ public class RebateScheduleAddView extends VerticalLayout implements View {
     /**
      * Instantiates a new rebate schedule add view.
      */
-    public RebateScheduleAddView(final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public RebateScheduleAddView(final SessionDTO sessionDTO) {
         super();
         setSpacing(true);
 try{
@@ -137,7 +137,7 @@ try{
             sessionDTO.setSessionDate(fmt.format(tempDate));
             sessionDTO.setUiSessionId(fmtID.format(tempDate));
             
-            binder = new ErrorfulFieldGroup(new BeanItem<RebateScheduleMasterDTO>(
+            binder = new ErrorfulFieldGroup(new BeanItem<>(
                     new RebateScheduleMasterDTO()));
             selectedItemResultBean.removeAllItems();
             itemResultBean.removeAllItems();
@@ -152,7 +152,7 @@ try{
                 final int systemId = Integer.valueOf(idValue);
                 rebateScheduleLogic.loadFormulaToImtdRsdFr(Integer.valueOf(idValue));
                 rebateScheduleMaster = rebateScheduleLogic.getRebateScheduleMasterById(systemId);
-                binder.setItemDataSource(new BeanItem<RebateScheduleMasterDTO>(rebateScheduleMaster));
+                binder.setItemDataSource(new BeanItem<>(rebateScheduleMaster));
                 selectedItemResultBean.addAll(rebateScheduleLogic.getItemFamilyPlanFromRSID(systemId));
 
                 itemResultBean.addAll(rebateScheduleLogic.getItemDetails(systemId,StringUtils.EMPTY));
@@ -162,19 +162,23 @@ try{
                 binder.getField("calculationRule").setEnabled(false);
                 binder.getField("rebateScheduleTransRefNo").setEnabled(false);
                 binder.getField("evaluationRuleAssociation").setEnabled(false);
-            } else if (ConstantsUtils.EDIT.equals(mode)) {
-                try{
+            } else if (ConstantsUtils.EDIT.equals(mode) || (ConstantsUtils.COPY).equals(mode)) {
+
                 final String idValue = String.valueOf(sessionDTO.getSystemId());
                 final int systemId = Integer.valueOf(idValue);
                 rebateScheduleLogic.loadItemDetailsFromIfp(idValue);
                 rebateScheduleMaster = rebateScheduleLogic.getRebateScheduleMasterById(systemId);
-                binder.setItemDataSource(new BeanItem<RebateScheduleMasterDTO>(rebateScheduleMaster));
+                binder.setItemDataSource(new BeanItem<>(rebateScheduleMaster));
                 selectedItemResultBean.addAll(rebateScheduleLogic.getItemFamilyPlanFromRSID(systemId));
                 rsAddForm = new RebateScheduleAddForm(rebateScheduleMaster, binder, selectedItemResultBean, itemResultBean, mode, sessionDTO);
-                }catch(Exception e){
-                LOGGER.error(e);
+                if (ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
+                    rebateScheduleMaster.setRebateScheduleId(StringUtils.EMPTY);
+                    rebateScheduleMaster.setRebateScheduleName(StringUtils.EMPTY);
+                    rebateScheduleMaster.setRebateScheduleNo(StringUtils.EMPTY);
+                    rebateScheduleMaster.setModifiedBy(StringUtils.EMPTY);
                 }
-            }                        
+
+            }                
             addComponent(rsAddForm);
             rsAddForm.getInfoTab().setDefaultFocus();
             binder.getField("internalNotes").setEnabled(false);

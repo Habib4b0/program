@@ -48,12 +48,9 @@ public class CopyContractWindow extends CustomWindow {
         setPositionX(Constants.ZERO);
         setPositionY(Constants.ZERO);
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
-        loadSessionDTO();
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setContent(new CopyContractform(this, selectedList, Count));
     }
 
-    private void loadSessionDTO() {
-    }
 }

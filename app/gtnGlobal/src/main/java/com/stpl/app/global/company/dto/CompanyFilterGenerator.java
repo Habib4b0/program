@@ -72,7 +72,7 @@ public class CompanyFilterGenerator implements ExtFilterGenerator {
         if ("status".equals(propertyId)) {
 
             ComboBox groupTesting = new ComboBox();
-            List<String> result = new ArrayList<String>();
+            List<String> result = new ArrayList<>();
             result.add(ConstantUtil.SHOW_ALL);
             result.add("Active");
             result.add("Discontinued");
@@ -250,10 +250,12 @@ public class CompanyFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

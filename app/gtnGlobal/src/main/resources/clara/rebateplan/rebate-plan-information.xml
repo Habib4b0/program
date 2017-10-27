@@ -9,7 +9,7 @@
             <Label id="rebatePlanNameLabel" value="Rebate Plan Name" styleName= "mandatory" contentMode="HTML" />
             <TextField id="rebatePlanName"  immediate="true" />
                 
-            <Label id="rebatePlanTypeLabel" value="Rebate Plan Type"  contentMode="HTML" />
+            <Label id="rebatePlanTypeLabel" value="Rebate Plan Type"  styleName= "mandatory" contentMode="HTML" />
             <ComboBox id="rebatePlanType"  immediate="true" />
                 
             <Label id="rebatePlanNoLabel" value="Rebate Plan No" styleName= "mandatory" contentMode="HTML" />

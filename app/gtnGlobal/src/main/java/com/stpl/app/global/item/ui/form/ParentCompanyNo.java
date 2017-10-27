@@ -149,14 +149,13 @@ public final class ParentCompanyNo extends Window {
      * The parent sys id.
      */
     private TextField parentSysId;
-    SessionDTO sessionDTO=new SessionDTO();
-
+    SessionDTO sessionDTO = new SessionDTO();
 
     /**
      * The parent company number.
      */
     public TextField parentCompanyNumber;
-    final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<SearchDTO>(new SearchDTO()));
+    final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(new SearchDTO()));
     final com.stpl.app.global.abstractsearch.util.CommonUtils abstractUtils = new com.stpl.app.global.abstractsearch.util.CommonUtils();
 
     /**
@@ -180,48 +179,48 @@ public final class ParentCompanyNo extends Window {
         } catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             LOGGER.error(errorMsg);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {   
-                /**         
-                 * The method is triggered when a button of the message box is     
-                 * pressed .        
-                 *             
-                 * @param buttonId The buttonId of the pressed button.  
-                 */           
-                @SuppressWarnings("PMD")  
-                public void buttonClicked(final ButtonId buttonId) {   
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing   
-                }        
-            }, ButtonId.OK);    
+                }
+            }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
         } catch (PortalException ex) {
             LOGGER.error(ex);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {      
-                /**      
-                 * The method is triggered when a button of the message box is     
-                 * pressed .             
-                 *           
-                 * @param buttonId The buttonId of the pressed button.   
-                 */            
-                @SuppressWarnings("PMD") 
-                public void buttonClicked(final ButtonId buttonId) {     
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing      
-                }           
-            }, ButtonId.OK);  
+                }
+            }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
         } catch (Exception ex) {
             LOGGER.error(ex);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() { 
-                /**        
-                 * The method is triggered when a button of the message box is  
-                 * pressed .            
-                 *            
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
                  * @param buttonId The buttonId of the pressed button.
-                 */             
-                @SuppressWarnings("PMD")       
-                public void buttonClicked(final ButtonId buttonId) {        
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing     
-                }        
-            }, ButtonId.OK);    
+                }
+            }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
         }
 
@@ -251,7 +250,7 @@ public final class ParentCompanyNo extends Window {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    private void addToContent() throws SystemException, PortalException {
+    private void addToContent() {
         addToTable();
     }
 
@@ -275,11 +274,11 @@ public final class ParentCompanyNo extends Window {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    protected void configureFields() throws PortalException, SystemException {                                                      
+    protected void configureFields() throws PortalException, SystemException {
         LOGGER.debug("configureFields");
         addStyleName(ConstantsUtils.BOOTSTRAP);
         addStyleName(ConstantsUtils.BOOTSTRAP_BB);
-        
+
         btnSelect.setEnabled(false);
         setResizable(false);
         table.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -364,7 +363,7 @@ public final class ParentCompanyNo extends Window {
     @UiHandler("searchBtn")
     public void btnSearchLogic(Button.ClickEvent event) {
         LOGGER.debug("Entering btnSearchLogic - ParentCompanyNo Search operation");
-        List<Object> collapsedColumns = new ArrayList<Object>();
+        List<Object> collapsedColumns = new ArrayList<>();
         try {
             for (Object item : table.getVisibleColumns()) {
                 if (table.isColumnCollapsed(item)) {
@@ -374,14 +373,14 @@ public final class ParentCompanyNo extends Window {
 
             if (binder.getField("companyId").getValue().toString().trim().isEmpty() && binder.getField("companyNo").getValue().toString().trim().isEmpty() && binder.getField("companyName").getValue().toString().trim().isEmpty()
                     && (binder.getField("companyStatus").getValue() == null || (Integer) binder.getField("companyStatus").getValue() == 0)
-                    && (binder.getField("companyType").getValue() == null || (Integer) binder.getField("companyType").getValue() == 0)
-                    ) {
+                    && (binder.getField("companyType").getValue() == null || (Integer) binder.getField("companyType").getValue() == 0)) {
                 MessageBox.showPlain(Icon.INFO, "Search Criteria", "Please enter Search Criteria", new MessageBoxListener() {
                     /**
                      * After clicking button, function will be executed.
                      */
                     @SuppressWarnings("PMD")
                     public void buttonClicked(final ButtonId buttonId) {
+                        return;
 
                     }
                 }, ButtonId.OK);
@@ -389,17 +388,17 @@ public final class ParentCompanyNo extends Window {
 
                 searchCriteria.setCustomDirty(true);
                 searchCriteria = new CompanyCriteria();
-                
+
                 final LazyBeanItemContainer searchResults = new LazyBeanItemContainer(
                         SearchCompanyForm.class, new CompanyContainer(binder),
                         searchCriteria);
-                
+
                 table.setContainerDataSource(searchResults);
-                    table.markAsDirtyRecursive();
-                    table.setImmediate(true);
-                    table.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
-                    table.setVisibleColumns(UIUtils.PARENT_COMPANY_NO_COLUMNS_ITEM);
-                    table.setColumnHeaders(UIUtils.PARENT_COMPANY_NO_HEADERS_ITEM);
+                table.markAsDirtyRecursive();
+                table.setImmediate(true);
+                table.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
+                table.setVisibleColumns(UIUtils.getInstance().parentCompanyNoColumnItem);
+                table.setColumnHeaders(UIUtils.getInstance().parentCompanyNoHeadersItem);
 
                 if (searchResults.size() > com.stpl.app.util.GeneralCommonUtils.ZERO) {
                     CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
@@ -416,24 +415,7 @@ public final class ParentCompanyNo extends Window {
                     @SuppressWarnings("PMD")
                     public void itemClick(final ItemClickEvent event) {
                         LOGGER.debug("Entering btnSearchLogic - ParentCompanyNo Search operation - itemClick");
-                        try {
-                            itemSelectLogic(event, searchResults);
-                        } catch (Exception ex) {
-                            LOGGER.error(ex);
-                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {    
-                                /**           
-                                 * The method is triggered when a button of the message box is    
-                                 * pressed .       
-                                 *               
-                                 * @param buttonId The buttonId of the pressed button.         
-                                 */             
-                                @SuppressWarnings("PMD")  
-                                public void buttonClicked(final ButtonId buttonId) {       
-                                    // Do Nothing   
-                                }       
-                            }, ButtonId.OK);  
-                            msg.getButton(ButtonId.OK).focus();
-                        }
+                        tableItemClickListener(event, searchResults);
                         btnSelect.setEnabled(true);
                         LOGGER.debug("Ending btnSearchLogic - ParentCompanyNo Search operation - itemClick");
 
@@ -458,19 +440,19 @@ public final class ParentCompanyNo extends Window {
     @UiHandler("resetBtn")
     public void btnResetLogic(Button.ClickEvent event) {
         LOGGER.debug("Entering btnResetLogic - ParentCompanyNo Search operation");
-        List<Object> collapsedColumns = new ArrayList<Object>();
+        List<Object> collapsedColumns = new ArrayList<>();
         for (Object item : table.getVisibleColumns()) {
             if (table.isColumnCollapsed(item)) {
                 collapsedColumns.add(item);
             }
         }
         table.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
-        binder.setItemDataSource(new BeanItem<SearchDTO>(new SearchDTO()));
+        binder.setItemDataSource(new BeanItem<>(new SearchDTO()));
         binder.getErrorDisplay().clearError();
-        final BeanItemContainer<SearchCompanyForm> searchResultbeans = new BeanItemContainer<SearchCompanyForm>(SearchCompanyForm.class);
+        final BeanItemContainer<SearchCompanyForm> searchResultbeans = new BeanItemContainer<>(SearchCompanyForm.class);
         table.setContainerDataSource(searchResultbeans);
-        table.setVisibleColumns(UIUtils.PARENT_COMPANY_NO_COLUMNS_ITEM);
-        table.setColumnHeaders(UIUtils.PARENT_COMPANY_NO_HEADERS_ITEM);
+        table.setVisibleColumns(UIUtils.getInstance().parentCompanyNoColumnItem);
+        table.setColumnHeaders(UIUtils.getInstance().parentCompanyNoHeadersItem);
         btnSelect.setEnabled(false);
 
         searchCriteria.setCustomDirty(false);
@@ -506,13 +488,13 @@ public final class ParentCompanyNo extends Window {
      *
      * @return Table
      */
-    public void addToTable() throws SystemException, PortalException {
+    public void addToTable() {
         LOGGER.debug("Entering addToTable ");
-        final BeanItemContainer<SearchCompanyForm> searchResultbeans = new BeanItemContainer<SearchCompanyForm>(SearchCompanyForm.class);
+        final BeanItemContainer<SearchCompanyForm> searchResultbeans = new BeanItemContainer<>(SearchCompanyForm.class);
         table.markAsDirty();
         table.setContainerDataSource(searchResultbeans);
-        table.setVisibleColumns(UIUtils.PARENT_COMPANY_NO_COLUMNS_ITEM);
-        table.setColumnHeaders(UIUtils.PARENT_COMPANY_NO_HEADERS_ITEM);
+        table.setVisibleColumns(UIUtils.getInstance().parentCompanyNoColumnItem);
+        table.setColumnHeaders(UIUtils.getInstance().parentCompanyNoHeadersItem);
         table.setPageLength(NumericConstants.SIX);
         table.setComponentError(null);
         table.setFilterBarVisible(true);
@@ -536,4 +518,24 @@ public final class ParentCompanyNo extends Window {
 
     }
 
+    public void tableItemClickListener(final ItemClickEvent event, final LazyBeanItemContainer searchResults) {
+        try {
+            itemSelectLogic(event, searchResults);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing   
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
 }

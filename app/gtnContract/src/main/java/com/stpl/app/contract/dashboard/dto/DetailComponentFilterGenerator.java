@@ -10,6 +10,7 @@ import com.stpl.app.contract.contractheader.logic.ContractHeaderLogic;
 import com.stpl.app.contract.contractheader.util.CommonUtils;
 import com.stpl.app.contract.dashboard.util.ContractUtils;
 import com.stpl.app.contract.util.Constants;
+import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
@@ -19,6 +20,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.jboss.logging.Logger;
+import com.stpl.app.contract.contractheader.util.UIUtils;
 
 /**
  *
@@ -67,7 +69,21 @@ public class DetailComponentFilterGenerator implements ExtFilterGenerator{
         if ("type".equals(propertyId) && ContractUtils.CFP_COMPONENT.equals(componentType)) {
            ComboBox type = new ComboBox();
                 try {
-                    type=commonsUtil.getNativeSelect(type, contractHL.getDropDownList("COMP_TYPE"));
+                    type=commonsUtil.getNativeSelect(type, contractHL.getDropDownList(UIUtils.COMP_TYPE));
+                    
+                } catch (SystemException ex) {
+                    LOGGER.error(ex);
+                }
+            type.setImmediate(true);
+            type.setNullSelectionAllowed(true);
+            type.setNullSelectionItemId(Constants.ZEROSTRING);
+            type.setPageLength(NumericConstants.SEVEN);
+            return type;
+        }
+        if ("category".equals(propertyId) && ContractUtils.CFP_COMPONENT.equals(componentType)) {
+           ComboBox type = new ComboBox();
+                try {
+                    type=commonsUtil.getNativeSelect(type, contractHL.getDropDownList(UIUtils.COMPANY_CATEGORY_LIST_NAME));
                     
                 } catch (SystemException ex) {
                     LOGGER.error(ex);
@@ -83,13 +99,13 @@ public class DetailComponentFilterGenerator implements ExtFilterGenerator{
            ComboBox status = new ComboBox();
                 try {
                     if(ContractUtils.CFP_COMPONENT.equals(componentType)){
-                        status=commonsUtil.getNativeSelect(status, contractHL.getDropDownList("STATUS"));
+                        status=commonsUtil.getNativeSelect(status, contractHL.getDropDownList(ConstantsUtils.STATUS));
                     }else if(ContractUtils.IFP_COMPONENT.equals(componentType)){
-                        status=commonsUtil.getNativeSelect(status, contractHL.getDropDownList("STATUS"));
+                        status=commonsUtil.getNativeSelect(status, contractHL.getDropDownList(ConstantsUtils.STATUS));
                     }else if(ContractUtils.PS_COMPONENT.equals(componentType)){
-                        status=commonsUtil.getNativeSelect(status, contractHL.getDropDownList("STATUS"));
+                        status=commonsUtil.getNativeSelect(status, contractHL.getDropDownList(ConstantsUtils.STATUS));
                     }else if(ContractUtils.RS_COMPONENT.equals(componentType)){
-                        status=commonsUtil.getNativeSelect(status, contractHL.getDropDownList("STATUS"));
+                        status=commonsUtil.getNativeSelect(status, contractHL.getDropDownList(ConstantsUtils.STATUS));
                     }
                 } catch (SystemException ex) {
                     LOGGER.error(ex);
@@ -106,11 +122,13 @@ public class DetailComponentFilterGenerator implements ExtFilterGenerator{
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
       
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
       
     }
 

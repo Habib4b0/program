@@ -147,9 +147,9 @@ public class FileManagementIndex extends CustomComponent implements View {
 
     String[] fileString = new String[NumericConstants.TWO];
 
-    final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+    final Map<Integer, Boolean> reloadMap = new HashMap<>();
 
-    private final BeanItemContainer<FileMananagementResultDTO> resultsBean = new BeanItemContainer<FileMananagementResultDTO>(FileMananagementResultDTO.class);
+    private final BeanItemContainer<FileMananagementResultDTO> resultsBean = new BeanItemContainer<>(FileMananagementResultDTO.class);
 
     private final FileMananagementResultDTO fileMgtDTO = new FileMananagementResultDTO();
     private ExtFilterTable excelTable;
@@ -221,7 +221,7 @@ public class FileManagementIndex extends CustomComponent implements View {
         this.fileHistoryTable = fileHistoryTable;
     }
 
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<FileMananagementResultDTO>(fileMgtDTO));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(fileMgtDTO));
 
     /**
      * Instantiates a new file management index.
@@ -291,7 +291,7 @@ public class FileManagementIndex extends CustomComponent implements View {
     private ErrorfulFieldGroup getBinder() {
         LOGGER.debug("Entering getCustomerGroupBinder method");
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<FileMananagementResultDTO>(fileMgtDTO));
+        binder.setItemDataSource(new BeanItem<>(fileMgtDTO));
         binder.setBuffered(true);
 
         LOGGER.debug("getCustomerGroupBinder method RETURNS customerGroupBinder ");
@@ -410,7 +410,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                      * Executed by clicking No
                      */
                     public void noMethod() {
-
+                        return;
                     }
                 };
                 notificationUtils.getConfirmationMessage(ConstantsUtils.CONFORMATION, "Are you sure you want to reset the page to default/previous values?");
@@ -473,8 +473,6 @@ public class FileManagementIndex extends CustomComponent implements View {
                     }
 
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
-                } catch (PortalException ex) {
                     LOGGER.error(ex);
                 } catch (Exception ex) {
                     LOGGER.error(ex);
@@ -695,10 +693,6 @@ public class FileManagementIndex extends CustomComponent implements View {
                         final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
                         LOGGER.error(e);
                         AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                    } catch (PortalException e) {
-
-                        LOGGER.error(e);
-                        AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4007));
                     } catch (Exception e) {
 
                         LOGGER.error(e);
@@ -719,7 +713,7 @@ public class FileManagementIndex extends CustomComponent implements View {
     }
 
     private void fileType() throws SystemException {
-        List<HelperDTO> fileTypeList = new ArrayList<HelperDTO>();
+        List<HelperDTO> fileTypeList = new ArrayList<>();
         CommonUtil.getFileTypeComboBox(fileType, "FILE_TYPE", fileTypeList);
 
         fileType.setNullSelectionAllowed(true);
@@ -772,23 +766,13 @@ public class FileManagementIndex extends CustomComponent implements View {
 
                             currentFile.setValue(selectFile.getValue());
                             selectFile.setValue(StringUtils.EMPTY);
-                            MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Do you want to Activate the file and automatically recalculate Forecasting Projections in Pending or Approved?", new MessageBoxListener() {
-
-                                @Override
-                                public void buttonClicked(ButtonId buttonId) {
-
-                                }
-
-                            }, ButtonId.YES, ButtonId.NO);
+                            //Removed Alert message based on CEL-281 online CR
                             Date gtsDate = new com.stpl.app.adminconsole.util.CommonUtils().getCurrentGTSToDate(ConstantsUtils.EX_FACTORY_SALES);
                             fileMgtLogic.updateAutoModeProcess(gtsDate);
                         } catch (SystemException e) {
                             final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
                             LOGGER.error(e);
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                        } catch (PortalException e) {
-                            LOGGER.error(e);
-                            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
                         } catch (Exception e) {
                             LOGGER.error(e);
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
@@ -807,7 +791,7 @@ public class FileManagementIndex extends CustomComponent implements View {
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     private void configureTable() {
@@ -833,8 +817,8 @@ public class FileManagementIndex extends CustomComponent implements View {
 
     public void setTableDefaultConfig() {
 
-        fileHistoryTable.setVisibleColumns(CommonUIUtil.FILE_MGT_HISTORY_RESULT_COLUMNS);
-        fileHistoryTable.setColumnHeaders(CommonUIUtil.FILE_MGT_HISTORY_RESULT_HEADER);
+        fileHistoryTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtHistoryResultColumns);
+        fileHistoryTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtHistoryResultHeader);
         fileHistoryTable.markAsDirtyRecursive();
         fileHistoryTable.setImmediate(true);
         fileHistoryTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -848,8 +832,8 @@ public class FileManagementIndex extends CustomComponent implements View {
         tableLayout.addComponent(excelTable);
         excelTable.setVisible(false);
         excelTable.setContainerDataSource(excelTableBean);
-        excelTable.setVisibleColumns(CommonUIUtil.FILE_MGT_HISTORY_RESULT_COLUMNS);
-        excelTable.setColumnHeaders(CommonUIUtil.FILE_MGT_HISTORY_RESULT_HEADER);
+        excelTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtHistoryResultColumns);
+        excelTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtHistoryResultHeader);
         excelTable.markAsDirtyRecursive();
 
     }

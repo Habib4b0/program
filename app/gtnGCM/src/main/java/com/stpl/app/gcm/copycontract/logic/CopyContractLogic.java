@@ -50,13 +50,14 @@ public class CopyContractLogic {
     public static final Logger LOGGER = Logger.getLogger(CopyContractLogic.class);
     private final ContractHeaderDAO dao = new ContractHeaderLogicDAOImpl();
     DateFormat format = new SimpleDateFormat("MM/dd/yyy");
-    private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
+    public static final String SPACE_COUNT = " COUNT";
+    private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
     DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     TradingPartnerDAO ccDao = new TradingPartnerDAOImpl();
     SimpleDateFormat sdfSource = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
@@ -147,10 +148,10 @@ public class CopyContractLogic {
 
     public List<ExistingComponentDTO> getRSAttachedItemSearch(RsIfpDto RsIfpDto, int startIndex,
             int offset, BeanSearchCriteria bsc, List<OrderByColumn> list) throws ParseException {
-        List resultList = new ArrayList();
+        List resultList;
         String dbColumnName = StringUtils.EMPTY;
         boolean asc = false;
-        List<ExistingComponentDTO> searchList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> searchList;
         resultList = dao.getRsItemdetails(RsIfpDto, bsc, startIndex, offset, list, dbColumnName, asc);
         searchList = setRSmainValues(resultList);
         return searchList;
@@ -167,7 +168,7 @@ public class CopyContractLogic {
             CFPCompanyDto.setCompanyNo(String.valueOf(objects[1]));
             CFPCompanyDto.setCompanyName(String.valueOf(objects[NumericConstants.TWO]));
             if (objects[NumericConstants.THREE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.THREE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.THREE]));
                 String finalString = format.format(date);
                 CFPCompanyDto.setTradeClassStartDate(finalString);
                 CFPCompanyDto.setStartDate(finalString);
@@ -177,7 +178,7 @@ public class CopyContractLogic {
             }
 
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = format.format(date);
                 CFPCompanyDto.setTradeClassEndDate(finalString);
                 CFPCompanyDto.setEndDate(finalString);
@@ -196,7 +197,7 @@ public class CopyContractLogic {
 
     public List<ExistingComponentDTO> setCFPMainValues(List list) throws ParseException {
 
-        List<ExistingComponentDTO> returnList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO CFPCompanyDto;
         for (int i = 0; i < list.size(); i++) {
             Object objects[] = (Object[]) list.get(i);
@@ -213,14 +214,14 @@ public class CopyContractLogic {
 
             CFPCompanyDto.setCompanyFamilyPlanStatusValue(String.valueOf(objects[NumericConstants.THIRTEEN]));
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = format.format(date);
                 CFPCompanyDto.setCompanyFamilyPlanStartDate(finalString);
             } else {
                 CFPCompanyDto.setCompanyFamilyPlanStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.SIX] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.SIX]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.SIX]));
                 String finalString = format.format(date);
                 CFPCompanyDto.setCompanyFamilyPlanEndDate(finalString);
             } else {
@@ -241,7 +242,7 @@ public class CopyContractLogic {
     }
 
     public List<ExistingComponentDTO> setIFPValues(List list) throws ParseException {
-        List<ExistingComponentDTO> returnList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO IFPItemDTO;
         for (int i = 0; i < list.size(); i++) {
             Object objects[] = (Object[]) list.get(i);
@@ -257,7 +258,7 @@ public class CopyContractLogic {
             IFPItemDTO.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
             IFPItemDTO.setItemStatus(Constants.NULL.equals(String.valueOf(objects[NumericConstants.SIX])) ? StringUtils.EMPTY : objects[NumericConstants.SIX].toString());
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = format.format(date);
                 IFPItemDTO.setItemStartDate(finalString);
                 IFPItemDTO.setStartDate(finalString);
@@ -266,7 +267,7 @@ public class CopyContractLogic {
                 IFPItemDTO.setStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = format.format(date);
                 IFPItemDTO.setItemEndDate(finalString);
                 IFPItemDTO.setEndDate(finalString);
@@ -282,7 +283,7 @@ public class CopyContractLogic {
     }
 
     public List<ExistingComponentDTO> setIFPmainValues(List list) throws ParseException {
-        List<ExistingComponentDTO> returnList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO IFPItemDTO;
         for (int i = 0; i < list.size(); i++) {
             Object objects[] = (Object[]) list.get(i);
@@ -292,14 +293,14 @@ public class CopyContractLogic {
             IFPItemDTO.setItemFamilyplanNo(String.valueOf(objects[NumericConstants.TWO]));
             IFPItemDTO.setItemFamilyplanName(String.valueOf(objects[NumericConstants.THREE]));
             if (objects[NumericConstants.SEVEN] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.SEVEN]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.SEVEN]));
                 String finalString = format.format(date);
                 IFPItemDTO.setIfpStartDate(finalString);
             } else {
                 IFPItemDTO.setIfpStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.EIGHT] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.EIGHT]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.EIGHT]));
                 String finalString = format.format(date);
                 IFPItemDTO.setIfpEndDate(finalString);
             } else {
@@ -332,7 +333,7 @@ public class CopyContractLogic {
     }
 
     public List<ExistingComponentDTO> setPSValues(List list) throws ParseException {
-        List<ExistingComponentDTO> returnList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO PSIFPDTO;
         for (int i = 0; i < list.size(); i++) {
             Object objects[] = (Object[]) list.get(i);
@@ -345,7 +346,7 @@ public class CopyContractLogic {
             PSIFPDTO.setItemStatus(String.valueOf(objects[NumericConstants.SIX]));
 
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = format.format(date);
                 PSIFPDTO.setItemStartDate(finalString);
                 PSIFPDTO.setStartDate(finalString);
@@ -354,7 +355,7 @@ public class CopyContractLogic {
                 PSIFPDTO.setStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = format.format(date);
                 PSIFPDTO.setItemEndDate(finalString);
                 PSIFPDTO.setEndDate(finalString);
@@ -387,7 +388,7 @@ public class CopyContractLogic {
     }
 
     public List<ExistingComponentDTO> setPSmainValues(List list) throws ParseException {
-        List<ExistingComponentDTO> returnList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO PSIFPDTO;
         for (int i = 0; i < list.size(); i++) {
             Object objects[] = (Object[]) list.get(i);
@@ -399,7 +400,7 @@ public class CopyContractLogic {
             PSIFPDTO.setPriceScheduleNameValue(String.valueOf(objects[NumericConstants.THREE]));
             PSIFPDTO.setPriceScheduleStatusValue(Constants.NULL.equals(String.valueOf(objects[NumericConstants.FOURTEEN])) ? StringUtils.EMPTY : objects[NumericConstants.FOURTEEN].toString());
             if (objects[NumericConstants.SEVEN] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.SEVEN]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.SEVEN]));
                 String finalString = format.format(date);
                 PSIFPDTO.setPriceScheduleStartDate(finalString);
 
@@ -408,7 +409,7 @@ public class CopyContractLogic {
             }
 
             if (objects[NumericConstants.EIGHT] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.EIGHT]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.EIGHT]));
                 String finalString = format.format(date);
                 PSIFPDTO.setPriceScheduleEndDate(finalString);
             } else {
@@ -446,7 +447,7 @@ public class CopyContractLogic {
     }
 
     public List<ExistingComponentDTO> setRSmainValues(List list) throws ParseException {
-        List<ExistingComponentDTO> returnList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO rsIfpDto;
         for (int i = 0; i < list.size(); i++) {
             Object objects[] = (Object[]) list.get(i);
@@ -457,14 +458,14 @@ public class CopyContractLogic {
             rsIfpDto.setRebateScheduleName(String.valueOf(objects[NumericConstants.THREE]));
             rsIfpDto.setStatusRebate(String.valueOf(objects[NumericConstants.EIGHT]));
             if (objects[NumericConstants.ELEVEN] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.ELEVEN]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.ELEVEN]));
                 String finalString = format.format(date);
                 rsIfpDto.setItemRebateStartDate(finalString);
             } else {
                 rsIfpDto.setItemRebateStartDate(StringUtils.EMPTY);
             }
             if (objects[NumericConstants.TWELVE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.TWELVE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.TWELVE]));
                 String finalString = format.format(date);
                 rsIfpDto.setItemRebateEndDate(finalString);
             } else {
@@ -483,7 +484,7 @@ public class CopyContractLogic {
     }
 
     public List<ExistingComponentDTO> setRSValues(List list) throws ParseException {
-        List<ExistingComponentDTO> returnList = new ArrayList<ExistingComponentDTO>();
+        List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO rsIfpDto;
         for (int i = 0; i < list.size(); i++) {
             Object objects[] = (Object[]) list.get(i);
@@ -495,7 +496,7 @@ public class CopyContractLogic {
             rsIfpDto.setBrand(Constants.NULL.equals(String.valueOf(objects[NumericConstants.THREE])) ? StringUtils.EMPTY : objects[NumericConstants.THREE].toString());
             rsIfpDto.setItemStatus(String.valueOf(objects[NumericConstants.SIX]));
             if (objects[NumericConstants.FOUR] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.FOUR]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.FOUR]));
                 String finalString = format.format(date);
                 rsIfpDto.setItemStartDate(finalString);
                 rsIfpDto.setStartDate(finalString);
@@ -506,7 +507,7 @@ public class CopyContractLogic {
             }
 
             if (objects[NumericConstants.FIVE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(objects[NumericConstants.FIVE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(objects[NumericConstants.FIVE]));
                 String finalString = format.format(date);
                 rsIfpDto.setItemEndDate(finalString);
                 rsIfpDto.setEndDate(finalString);
@@ -536,91 +537,91 @@ public class CopyContractLogic {
     }
 
     public void SaveCFP(String cfpid, Integer cfpmodelid) {
-        List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(cfpid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(cfpmodelid);
         dao.updateCFP(input);
     }
 
     public void SaveIFP(String ifpId, Integer cfpmodelid) {
-        List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(ifpId);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(cfpmodelid);
         dao.updateIFP(input);
     }
 
     public void SavePS(String psid, Integer cfpmodelid) {
-        List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(psid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(cfpmodelid);
         dao.updatePS(input);
     }
 
     public void SaveRS(String rsid, Integer RSmodalid) {
-        List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(rsid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(RSmodalid);
         dao.updateRS(input);
 
     }
 
     public void SaveCFPForCopyComponent(String cfpid, String cfpModelSId) {
-        List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(cfpid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(cfpModelSId);
         dao.updateCFP(input);
 
     }
 
     public void SaveIFPForCopyComponent(String ifpId, String ifpModelSid) {
-        List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(ifpId);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(ifpModelSid);
         dao.updateIFP(input);
     }
 
     public void SavePSForCopyComponent(String psid, String psModelSid) {
-        List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(psid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(psModelSid);
         dao.updatePS(input);
     }
 
     public void SaveRSForCopyComponent(String rsid, String rsModelSid) {
-        List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(rsid);
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(1);
-        input.add(FORMAT.format(new java.util.Date()));
+        input.add(DATE_FORMAT.format(new java.util.Date()));
         input.add(rsModelSid);
         dao.updateRS(input);
 
@@ -633,14 +634,14 @@ public class CopyContractLogic {
         if (componentType.equals(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
             queryName = "Copy Contract-Components Details PS Search";
             getDTOForRSandPS(selection, componentInnerType, searchValue);
-            List input = new ArrayList<Object>();
+            List input = new ArrayList<>();
             input.add(selection.getIfpId());
             input.add(selection.getIfpNo());
             input.add(selection.getIfpName());
             input.add(selection.getIfpStatus());
             input.add(selection.getIfpType());
             if (isCount) {
-                queryName = queryName + " COUNT";
+                queryName = queryName + SPACE_COUNT;
                 List list = ItemQueries.getItemData(input, queryName, null);
                 return CommonUtils.getDdlbCountThroughList(list);
             }
@@ -651,7 +652,7 @@ public class CopyContractLogic {
         } else if (componentType.equals(Constants.REBATE_SCHEDULE)) {
             queryName = "Copy Contract-Components Details RS Search";
             if (isCount) {
-                queryName = queryName + " COUNT";
+                queryName = queryName + SPACE_COUNT;
             }
             getDTOForRSandPS(selection, componentInnerType, searchValue);
             List list = ItemQueries.getDataByDTO(queryName, selection);
@@ -662,7 +663,7 @@ public class CopyContractLogic {
         } else if (componentType.equals(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
             queryName = "Copy Contract-Components Details CFP Search";
             if (isCount) {
-                queryName = queryName + " COUNT";
+                queryName = queryName + SPACE_COUNT;
             }
             selection.setCompanyStatus(Constants.PERCENT);
             selection.setTradeClass(Constants.PERCENT);
@@ -691,6 +692,8 @@ public class CopyContractLogic {
                 case "Company No":
                     selection.setCompanyNo(searchValue.replace("*", Constants.PERCENT));
                     break;
+                default:
+                    break;
 
             }
             List list = ItemQueries.getDataByDTO(queryName, selection);
@@ -702,7 +705,7 @@ public class CopyContractLogic {
         } else if (componentType.equals(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
             queryName = "Copy Contract-Components Details IFP Search";
             if (isCount) {
-                queryName = queryName + " COUNT";
+                queryName = queryName + SPACE_COUNT;
             }
             selection.setItemStatus(Constants.PERCENT);
             selection.setItemType(Constants.PERCENT);
@@ -741,6 +744,8 @@ public class CopyContractLogic {
                 case "Brand":
                     selection.setBrand(searchValue);
                     break;
+                default:
+                    break;
             }
 
             List list = ItemQueries.getDataByDTO(queryName, selection);
@@ -776,6 +781,8 @@ public class CopyContractLogic {
             case "IFP Type":
                 selection.setIfpType(searchValue);
                 break;
+            default:
+                break;
         }
     }
 
@@ -790,14 +797,14 @@ public class CopyContractLogic {
                 itemDTO.setBrand(obje[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
                 itemDTO.setItemStatus(obje[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
                 if (obje[NumericConstants.FOUR] != null) {
-                    Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                    Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
                     String finalString = df.format(date);
                     itemDTO.setPsStartDate(finalString);
                 } else {
                     itemDTO.setPsStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.FIVE] != null) {
-                    Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                    Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
                     String finalString = df.format(date);
                     itemDTO.setPsEndDate(finalString);
                 } else {
@@ -828,14 +835,14 @@ public class CopyContractLogic {
                 itemDTO.setBrand(obje[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
                 itemDTO.setItemStatus(obje[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
                 if (obje[NumericConstants.FOUR] != null) {
-                    Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
+                    Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
                     String finalString = df.format(date);
                     itemDTO.setPsStartDate(finalString);
                 } else {
                     itemDTO.setPsStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.FIVE] != null) {
-                    Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                    Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
                     String finalString = df.format(date);
                     itemDTO.setPsEndDate(finalString);
                 } else {
@@ -846,14 +853,14 @@ public class CopyContractLogic {
                 itemDTO.setPricePlanName(obje[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHT]));
                 itemDTO.setPriceProtectionStatus(obje[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.NINE]));
                 if (obje[NumericConstants.TEN] != null) {
-                    Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.TEN]));
+                    Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.TEN]));
                     String finalString = df.format(date);
                     itemDTO.setCompanyStartDate(finalString);
                 } else {
                     itemDTO.setCompanyStartDate(StringUtils.EMPTY);
                 }
                 if (obje[NumericConstants.ELEVEN] != null) {
-                    Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.ELEVEN]));
+                    Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.ELEVEN]));
                     String finalString = df.format(date);
                     itemDTO.setCompanyEndDate(finalString);
                 } else {
@@ -879,7 +886,7 @@ public class CopyContractLogic {
     }
 
     private Object getCustomizedCFPData(List list) throws ParseException {
-        List<NewComponentDTO> companylist = new ArrayList<NewComponentDTO>();
+        List<NewComponentDTO> companylist = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             NewComponentDTO Company = new NewComponentDTO();
             Object[] obje = (Object[]) list.get(i);
@@ -889,14 +896,14 @@ public class CopyContractLogic {
             Company.setCompanyName(String.valueOf(obje[NumericConstants.THREE]));
             Company.setCompanyType(String.valueOf(obje[NumericConstants.FOUR]));
             if (obje[NumericConstants.FIVE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
                 String finalString = df.format(date);
                 Company.setPsStartDate(finalString);
             } else {
                 Company.setPsStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.SIX] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.SIX]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.SIX]));
                 String finalString = df.format(date);
                 Company.setPsEndDate(finalString);
             } else {
@@ -911,7 +918,7 @@ public class CopyContractLogic {
     }
 
     private Object getCustomizedIFPData(List list) throws ParseException {
-        List<NewComponentDTO> companylist = new ArrayList<NewComponentDTO>();
+        List<NewComponentDTO> companylist = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             NewComponentDTO Company = new NewComponentDTO();
             Object[] obje = (Object[]) list.get(i);
@@ -939,14 +946,14 @@ public class CopyContractLogic {
             Company.setStrength(obje[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVEN]));
 
             if (obje[NumericConstants.NINE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.NINE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.NINE]));
                 String finalString = df.format(date);
                 Company.setPsStartDate(finalString);
             } else {
                 Company.setPsStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.TEN] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.TEN]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.TEN]));
                 String finalString = df.format(date);
                 Company.setPsEndDate(finalString);
             } else {
@@ -964,7 +971,7 @@ public class CopyContractLogic {
             case "Company Family Plan":
                 queryName = "Copy Contract- Existing Components Details CFP Search";
                 if (isCount) {
-                    queryName = queryName + " COUNT";
+                    queryName = queryName + SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
@@ -975,7 +982,7 @@ public class CopyContractLogic {
             case "Item Family Plan":
                 queryName = "Copy Contract- Existing Components Details IFP Search";
                 if (isCount) {
-                    queryName = queryName + " COUNT";
+                    queryName = queryName + SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
@@ -986,7 +993,7 @@ public class CopyContractLogic {
             case Constants.PRICE_SCHEDULE:
                 queryName = "Copy Contract- Existing Components Details PS Search";
                 if (isCount) {
-                    queryName = queryName + " COUNT";
+                    queryName = queryName + SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
@@ -996,13 +1003,15 @@ public class CopyContractLogic {
             case Constants.REBATE_SCHEDULE:
                 queryName = "Copy Contract- Existing Components Details RS Search";
                 if (isCount) {
-                    queryName = queryName + " COUNT";
+                    queryName = queryName + SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
                     input.add(offset);
                     return setRSmainValues(ItemQueries.getItemData(input, queryName, null));
                 }
+            default:
+                break;
         }
         return 0;
     }
@@ -1015,7 +1024,7 @@ public class CopyContractLogic {
                 queryName = "Copy Contract- Existing Components Data Company Search";
                 input.add(dto.getCompanyFamilyPlanSystemId());
                 if (isCount) {
-                    queryName += " COUNT";
+                    queryName += SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
@@ -1027,7 +1036,7 @@ public class CopyContractLogic {
                 queryName = "Copy Contract- Existing Components Data item Search";
                 input.add(dto.getIfpDetailsSystemId());
                 if (isCount) {
-                    queryName += " COUNT";
+                    queryName += SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
@@ -1039,7 +1048,7 @@ public class CopyContractLogic {
                 queryName = "Copy Contract- Existing Components Data PS Search";
                 input.add(dto.getPriceScheduleSystemId());
                 if (isCount) {
-                    queryName += " COUNT";
+                    queryName += SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
@@ -1050,13 +1059,15 @@ public class CopyContractLogic {
                 queryName = "Copy Contract- Existing Components Data RS Search";
                 input.add(dto.getRebateScheduleSystemId());
                 if (isCount) {
-                    queryName += " COUNT";
+                    queryName += SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
                     input.add(offset);
                     return setRSValues(ItemQueries.getItemData(input, queryName, null));
                 }
+            default:
+                break;
         }
         return 0;
     }
@@ -1069,7 +1080,7 @@ public class CopyContractLogic {
             case 1:
                 queryName = "Copy Contract- Existing Leve Data CFP Search";
                 if (isCount) {
-                    queryName = queryName + " COUNT";
+                    queryName = queryName + SPACE_COUNT;
                     return CommonUtils.getDataCount(queryName, input);
                 } else {
                     input.add(start);
@@ -1086,9 +1097,11 @@ public class CopyContractLogic {
             case NumericConstants.FOUR:
                 queryName = "Copy Contract- Existing Leve Data RS Search";
                 break;
+            default:
+                break;
         }
         if (isCount) {
-            queryName = queryName + " COUNT";
+            queryName = queryName + SPACE_COUNT;
             return CommonUtils.getDataCount(queryName, input);
         } else {
             input.add(start);
@@ -1098,8 +1111,8 @@ public class CopyContractLogic {
 
     }
 
-    private List getCustomizedCFP(List itemData) throws ParseException {
-        List<CopyComponentDTO> companyList = new ArrayList<CopyComponentDTO>();
+    private List getCustomizedCFP(List itemData) {
+        List<CopyComponentDTO> companyList = new ArrayList<>();
         if (itemData != null && itemData.size() > 0) {
             for (int i = 0; i < itemData.size(); i++) {
                 CopyComponentDTO companyDTO = new CopyComponentDTO();
@@ -1126,24 +1139,24 @@ public class CopyContractLogic {
     }
 
     private Object getCustomizedPSandRS(List itemData) throws ParseException {
-        List<CopyComponentDTO> itemList = new ArrayList<CopyComponentDTO>();
+        List<CopyComponentDTO> itemList = new ArrayList<>();
         for (int i = 0; i < itemData.size(); i++) {
             CopyComponentDTO itemDTO = new CopyComponentDTO();
             Object[] obje = (Object[]) itemData.get(i);
             itemDTO.setItemNo(String.valueOf(obje[0]));
             itemDTO.setItemName(String.valueOf(obje[1]));
-            itemDTO.setTherapyClass(Constants.NULL.equals(String.valueOf(obje[NumericConstants.TWO])) ? StringUtils.EMPTY : obje[NumericConstants.TWO].toString());
+            itemDTO.setTherapyClass(Constants.NULL.equals(String.valueOf(obje[NumericConstants.TWO])) || Constants.SELECT_ONE.equals(String.valueOf(obje[NumericConstants.TWO])) ? StringUtils.EMPTY : obje[NumericConstants.TWO].toString());
             itemDTO.setBrand(Constants.NULL.equals(String.valueOf(obje[NumericConstants.THREE])) ? StringUtils.EMPTY : obje[NumericConstants.THREE].toString());
             itemDTO.setIfpStatus(String.valueOf(obje[NumericConstants.FOUR]));
             if (obje[NumericConstants.FIVE] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.FIVE]));
                 String finalString = format.format(date);
                 itemDTO.setIfpStartDate(finalString);
             } else {
                 itemDTO.setIfpStartDate(StringUtils.EMPTY);
             }
             if (obje[NumericConstants.SIX] != null) {
-                Date date = (Date) FORMAT.parse(String.valueOf(obje[NumericConstants.SIX]));
+                Date date = (Date) DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.SIX]));
                 String finalString = format.format(date);
                 itemDTO.setIfpEndDate(finalString);
             } else {
@@ -1160,14 +1173,14 @@ public class CopyContractLogic {
         return componentList.size();
     }
 
-    public List<CopyComponentDTO> getComponentinfoResults(List<ContractSelectionDTO> selectedlist, int start, int end) throws ParseException {
+    public List<CopyComponentDTO> getComponentinfoResults(List<ContractSelectionDTO> selectedlist) throws ParseException {
 
         return SelectedContracts(selectedlist);
 
     }
 
     public List<CopyComponentDTO> SelectedContracts(List<ContractSelectionDTO> selectedList) throws ParseException {
-        List<CopyComponentDTO> copyList = new ArrayList<CopyComponentDTO>();
+        List<CopyComponentDTO> copyList = new ArrayList<>();
         if (selectedList != null && selectedList.size() > 0) {
 
             for (int i = 0; i < selectedList.size(); i++) {
@@ -1194,7 +1207,7 @@ public class CopyContractLogic {
                     dto.setContractStartDate(Constants.EMPTY);
                 }
                 if (!contractDto.getEndDate().equals(Constants.NULL)) {
-                    Date date = (Date) FORMAT.parse(String.valueOf(contractDto.getEndDate()));
+                    Date date = (Date) DATE_FORMAT.parse(String.valueOf(contractDto.getEndDate()));
                     String finalString = df.format(date);
                     dto.setContractEndDate(finalString);
                 } else {
@@ -1214,10 +1227,10 @@ public class CopyContractLogic {
         return copyList;
     }
 
-    public List<CopyComponentDTO> getComponentResults(String componentType, String Query, int start, int offset) throws ParseException {
+    public List<CopyComponentDTO> getComponentResults(String componentType, String Query, int start, int offset) {
         String qry = Query;
         qry += " ORDER BY 1 OFFSET " + start + "  ROWS FETCH NEXT " + offset + " ROWS ONLY";
-        List<CopyComponentDTO> result = new ArrayList<CopyComponentDTO>();
+        List<CopyComponentDTO> result = new ArrayList<>();
         List componentList = ccDao.searchList(qry);
         if (componentType.equalsIgnoreCase(Constants.CFP)) {
             result = setCompanyValues(componentList);
@@ -1231,8 +1244,8 @@ public class CopyContractLogic {
         return result;
     }
 
-    public List<CopyComponentDTO> setCompanyValues(List componentList) throws ParseException {
-        List<CopyComponentDTO> companyList = new ArrayList<CopyComponentDTO>();
+    public List<CopyComponentDTO> setCompanyValues(List componentList) {
+        List<CopyComponentDTO> companyList = new ArrayList<>();
         if (componentList != null && componentList.size() > 0) {
             for (int i = 0; i < componentList.size(); i++) {
                 CopyComponentDTO companyDTO = new CopyComponentDTO();
@@ -1261,7 +1274,7 @@ public class CopyContractLogic {
     }
 
     public List<CopyComponentDTO> setIFPAttatchedItems(List componentList) {
-        List<CopyComponentDTO> itemList = new ArrayList<CopyComponentDTO>();
+        List<CopyComponentDTO> itemList = new ArrayList<>();
 
         if (componentList != null && componentList.size() > 0) {
             for (int i = 0; i < componentList.size(); i++) {
@@ -1291,7 +1304,7 @@ public class CopyContractLogic {
     }
 
     public List<CopyComponentDTO> setPSAttatchedItems(List componentList) {
-        List<CopyComponentDTO> priceList = new ArrayList<CopyComponentDTO>();
+        List<CopyComponentDTO> priceList = new ArrayList<>();
 
         if (componentList != null && componentList.size() > 0) {
 
@@ -1349,7 +1362,7 @@ public class CopyContractLogic {
     }
 
     public List<CopyComponentDTO> setRSAttatchedItems(List componentList) {
-        List<CopyComponentDTO> rebateList = new ArrayList<CopyComponentDTO>();
+        List<CopyComponentDTO> rebateList = new ArrayList<>();
         if (componentList != null && componentList.size() > 0) {
 
             for (int i = 0; i < componentList.size(); i++) {

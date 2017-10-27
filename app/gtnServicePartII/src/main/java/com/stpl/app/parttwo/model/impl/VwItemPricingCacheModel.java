@@ -41,10 +41,11 @@ public class VwItemPricingCacheModel implements CacheModel<VwItemPricing>,
     public int itemPricingSid;
     public String pricingCodeStatus;
     public String pricingCodeQualifierName;
+    public int itemPriceprecision;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(39);
+        StringBundler sb = new StringBundler(41);
 
         sb.append("{pricingCodeQualifier=");
         sb.append(pricingCodeQualifier);
@@ -84,6 +85,8 @@ public class VwItemPricingCacheModel implements CacheModel<VwItemPricing>,
         sb.append(pricingCodeStatus);
         sb.append(", pricingCodeQualifierName=");
         sb.append(pricingCodeQualifierName);
+        sb.append(", itemPriceprecision=");
+        sb.append(itemPriceprecision);
         sb.append("}");
 
         return sb.toString();
@@ -203,6 +206,8 @@ public class VwItemPricingCacheModel implements CacheModel<VwItemPricing>,
             vwItemPricingImpl.setPricingCodeQualifierName(pricingCodeQualifierName);
         }
 
+        vwItemPricingImpl.setItemPriceprecision(itemPriceprecision);
+
         vwItemPricingImpl.resetOriginalValues();
 
         return vwItemPricingImpl;
@@ -229,6 +234,7 @@ public class VwItemPricingCacheModel implements CacheModel<VwItemPricing>,
         itemPricingSid = objectInput.readInt();
         pricingCodeStatus = objectInput.readUTF();
         pricingCodeQualifierName = objectInput.readUTF();
+        itemPriceprecision = objectInput.readInt();
     }
 
     @Override
@@ -326,5 +332,7 @@ public class VwItemPricingCacheModel implements CacheModel<VwItemPricing>,
         } else {
             objectOutput.writeUTF(pricingCodeQualifierName);
         }
+
+        objectOutput.writeInt(itemPriceprecision);
     }
 }

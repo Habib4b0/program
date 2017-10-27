@@ -82,7 +82,7 @@ public class SearchResults extends CustomComponent {
 	private Table addToTable() {
 		table.markAsDirty();
 		table.setContainerDataSource(searchResultbeans);
-		table.setVisibleColumns(UIUtils.BUSINESS_ROLE_MODULE_MASTER_COL);
+		table.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterCol);
 		// Set a custom field factory that overrides the default factory
 		table.setTableFieldFactory(new DefaultFieldFactory() {
 			@Override
@@ -126,7 +126,7 @@ public class SearchResults extends CustomComponent {
 		tableResult.markAsDirty();
 		tableResult.setContainerDataSource(searchFieldResult);
 		tableResult
-				.setVisibleColumns(UIUtils.BUSINESS_ROLE_MODULE_MASTER_FIELDS);
+				.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterFields);
 		
 		add.setValue(setAddFlag(searchFieldResult));
 		// Set a custom field factory that overrides the default factory

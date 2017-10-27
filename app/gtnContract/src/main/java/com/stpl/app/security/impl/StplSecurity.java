@@ -74,7 +74,7 @@ public class StplSecurity {
      * @return the user group id
      */
     public Collection<Object> getUserGroupId(final long userId) throws PortalException ,SystemException {
-        final Collection<Object> userGroupId = new ArrayList<Object>();
+        final Collection<Object> userGroupId = new ArrayList<>();
         LOGGER.debug("Enters getUserGroupId method");
         final User user = new UserLocalServiceUtil().getUser(userId);
         for (int i = 0; i < user.getUserGroups().size(); i++) {
@@ -163,10 +163,10 @@ public class StplSecurity {
         Map<String, AppPermission> fieldHm = null;
         try{
         LOGGER.debug("Enters getBusinessColumnPermission()");
-         List tabPermissionList = new ArrayList();
-         Set addPermission = new HashSet();
-         Set viewPermission = new HashSet();
-         Set editPermission = new HashSet();
+         List tabPermissionList;
+         Set addPermission;
+         Set viewPermission;
+         Set editPermission;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
         if(column==true){
@@ -196,9 +196,9 @@ public class StplSecurity {
      * @param type the type
      * @return the hash map< string, app permission>
      */
-    public Map<String, AppPermission> listToAppPermissionMap(final List permissionList, final int type) throws PortalException, SystemException {
+    public Map<String, AppPermission> listToAppPermissionMap(final List permissionList, final int type) {
         LOGGER.debug("Entering listToAppPermissionMap()");
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
 
         if (type == Constants.ZERO) {
@@ -256,9 +256,9 @@ public class StplSecurity {
      * @param type the type
      * @return the hash map< string, app permission>
      */
-    public Map<String, AppPermission> listOfFieldAppPermissionMap(final List permissionList,final Set addpermission,final Set viewpermission ,final Set editpermission, final int type) throws PortalException ,SystemException {
+    public Map<String, AppPermission> listOfFieldAppPermissionMap(final List permissionList,final Set addpermission,final Set viewpermission ,final Set editpermission, final int type) {
         LOGGER.debug("Entering listToAppPermissionMap()");
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
 
        
@@ -303,9 +303,9 @@ public class StplSecurity {
     }
 
     private List getBuisnessColumn(String businessRoleIds, String moduleName) {
-        List columnList = new ArrayList();
+        List columnList;
 
-        String query = StringUtils.EMPTY;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(Constants.COMMA)) {
@@ -337,7 +337,7 @@ public class StplSecurity {
     }
 
     public List fetchColumnForSecurity(String moduleName, String tabName) {
-        List columnList = new ArrayList();
+        List columnList;
         String query = "SELECT DISPLAY_NAME, PROPERTY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '" + moduleName + "' "
                 + " AND TAB_NAME = '" + tabName + "' AND CATEGORY_NAME IN ('List view Header') ";
         columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -346,8 +346,8 @@ public class StplSecurity {
 
     private Set getModePermission(String businessRoleIds, String moduleName , boolean add ,boolean view ,boolean edit,boolean column) {
        Set field = new HashSet();
-        List columnList = new ArrayList();
-        String query = StringUtils.EMPTY;
+        List columnList;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(Constants.COMMA)) {

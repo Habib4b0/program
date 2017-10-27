@@ -559,8 +559,8 @@ WHERE
  IF EXISTS(SELECT GL_COMPANY_MASTER_SID, 
                  BU_COMPANY_MASTER_SID, 
                  ACCOUNT, 
-                 BRAND_MASTER_SID, 
-                 COST_CENTER, 
+                 BRAND_MASTER_SID,
+                 COST_CENTER,
                  COUNT(1) AS CNT 
           FROM   ? 
           WHERE DELETE_RECORD=0
@@ -569,6 +569,7 @@ WHERE
                     ACCOUNT, 
                     BRAND_MASTER_SID, 
                     COST_CENTER 
+                   
           HAVING COUNT(1) > 1) 
   SELECT 0
 ELSE 
@@ -592,8 +593,8 @@ ELSE
                             AND AC.BU_COMPANY_MASTER_SID = ST.BU_COMPANY_MASTER_SID 
                             AND AC.ACCOUNT = ST.ACCOUNT 
                             AND AC.BRAND_MASTER_SID = ST.BRAND_MASTER_SID 
-                            AND AC.COST_CENTER = ST.COST_CENTER 
-                WHERE  SAVE_RECORD = 0 AND ST.DELETE_RECORD=0) 
+                            AND AC.COST_CENTER = ST.COST_CENTER
+                            WHERE  SAVE_RECORD = 0 AND ST.DELETE_RECORD=0) 
         SELECT 0
       ELSE 
         BEGIN 

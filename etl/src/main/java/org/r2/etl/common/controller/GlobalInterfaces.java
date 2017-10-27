@@ -42,16 +42,26 @@ private GlobalInterfaces(){
 	 */
 		public static String runCompanyMaster()throws BPIETLException{
 			
-		//final R2ETL r2etl = new R2ETL();
-		//final String logpath = CommonUtils.getFilePath();
+
 		LOGGER.info("The Company Master started executing");
 		 filename = logpath
 					+ FilePathUtil.COMPANY_MASTER_INTERFACE;
 			r2etl.runJob(filename);
-			//System.out.println("after returning job:");
+
 			return Constants.SUCCESS;
 		
 		}
+  
+    public static String commonMetodtoLoadAllFile(String interFaceName, String  fileName) throws BPIETLException {
+        System.out.println("The " + interFaceName + " started executing");
+        LOGGER.info("The " + interFaceName + " started executing");
+        r2etl.runJob(logpath + fileName);
+
+        return Constants.SUCCESS;
+
+    }
+
+                
 		/**
 		 * This method is used to invoke Company Master Historical Interface.
 		 * @return SUCCESS
@@ -61,8 +71,6 @@ private GlobalInterfaces(){
 		 */
 		public static String runCompanyMasterHistory()throws BPIETLException{
 			
-			//final R2ETL r2etl = new R2ETL();
-			//final String logpath = CommonUtils.getFilePath();
 			LOGGER.info("The Company Master History started executing");
 			 filename = logpath
 					+ FilePathUtil.COMPANY_MASTER_INTERFACE_HISTORY;
@@ -78,8 +86,7 @@ private GlobalInterfaces(){
 		 */
 		public static String runCompanyParent()throws BPIETLException{
 			
-			//final R2ETL r2etl = new R2ETL();
-			//final String logpath = CommonUtils.getFilePath();
+
 			LOGGER.info("The Company Parent started executing");
 			 filename = logpath
 					+ FilePathUtil.COMPANY_PARENT_INTERFACE;
@@ -95,8 +102,7 @@ private GlobalInterfaces(){
 		 */
 		public static String runCompanyParentHistory()throws BPIETLException{
 			
-			//final R2ETL r2etl = new R2ETL();
-			//final String logpath = CommonUtils.getFilePath();
+
 			 filename = logpath
 					+ FilePathUtil.COMPANY_PARENT_INTERFACE_HISTORY;
 			r2etl.runJob(filename);
@@ -111,8 +117,7 @@ private GlobalInterfaces(){
 		 */
 		public static String runCompanyTradeClass()throws BPIETLException{
 			
-			//final R2ETL r2etl = new R2ETL();
-			//final String logpath = CommonUtils.getFilePath();
+	
 			LOGGER.info("The Company Trade Class started executing");
 			 filename = logpath
 					+ FilePathUtil.COMPANY_TRADE_CLASS_INTERFACE;
@@ -129,8 +134,7 @@ private GlobalInterfaces(){
 		 */
 		public static String runCompanyTradeClassHistory()throws BPIETLException{
 			
-			//final R2ETL r2etl = new R2ETL();
-			//final String logpath = CommonUtils.getFilePath();
+	
 			 filename = logpath
 					+ FilePathUtil.COMPANY_TRADE_CLASS_INTERFACE_HISTORY;
 			r2etl.runJob(filename);
@@ -145,9 +149,7 @@ private GlobalInterfaces(){
 		 * 
 		 */
 			public static String runCompanyIdentifier()throws BPIETLException{
-				
-				//final R2ETL r2etl = new R2ETL();
-				//final String logpath = CommonUtils.getFilePath();
+	
 				LOGGER.info("The Company Identifier started executing");
 				 filename = logpath
 						+ FilePathUtil.COMPANY_IDENTIFIER_INTERFACE;
@@ -163,9 +165,7 @@ private GlobalInterfaces(){
 			 * 
 			 */
 				public static String runCompanyIdentifierHistory()throws BPIETLException{
-					
-					//final R2ETL r2etl = new R2ETL();
-					//final String logpath = CommonUtils.getFilePath();
+		
 					LOGGER.info("The Company Identifier started executing");
 					 filename = logpath
 							+ FilePathUtil.COMPANY_IDENTIFIER_INTERFACE_HISTORY;
@@ -180,9 +180,7 @@ private GlobalInterfaces(){
 		 * @throws EtlException 
 		 */
 			public static String runItemMaster()throws BPIETLException{
-				
-				//final R2ETL r2etl = new R2ETL();
-				//final String logpath = CommonUtils.getFilePath();
+		
 				LOGGER.info("The ITEM Master Master started executing");
 				 filename = logpath
 						+ FilePathUtil.ITEM_MASTER_INTERFACE;
@@ -198,9 +196,7 @@ private GlobalInterfaces(){
 			 * @throws EtlException 
 			 */
 				public static String runItemMasterHistory()throws BPIETLException{
-					
-					//final R2ETL r2etl = new R2ETL();
-					//final String logpath = CommonUtils.getFilePath();
+		
 					LOGGER.info("The ITEM Master Master started executing");
 					 filename = logpath
 							+ FilePathUtil.ITEM_MASTER_INTERFACE_HISTORY;
@@ -217,8 +213,7 @@ private GlobalInterfaces(){
 			 */
 			public static String runItemIdentifier()throws BPIETLException{
 				
-				//final R2ETL r2etl = new R2ETL();
-				//final String logpath = CommonUtils.getFilePath();
+
 				LOGGER.info("The Item Identifier started executing");
 				 filename = logpath
 						+ FilePathUtil.ITEM_IDENTIFIER_INTERFACE;
@@ -234,8 +229,7 @@ private GlobalInterfaces(){
 			 */
 			public static String runItemIdentifierHistory()throws BPIETLException{
 				
-				//final R2ETL r2etl = new R2ETL();
-				//final String logpath = CommonUtils.getFilePath();
+
 				LOGGER.info("The Item Identifier started executing");
 				 filename = logpath
 						+ FilePathUtil.ITEM_IDENTIFIER_INTERFACE_HISTORY;
@@ -252,8 +246,7 @@ private GlobalInterfaces(){
 		 */
 			public static String runItemPricing()throws BPIETLException{
 				
-				//final R2ETL r2etl = new R2ETL();
-				//final String logpath = CommonUtils.getFilePath();
+
 				LOGGER.info("The Item Pricing started executing");
 				 filename = logpath
 						+ FilePathUtil.ITEM_PRICING_INTERFACE;
@@ -271,8 +264,7 @@ private GlobalInterfaces(){
 			 */
 				public static String runItemPricingHistory()throws BPIETLException{
 					
-					//final R2ETL r2etl = new R2ETL();
-					//final String logpath = CommonUtils.getFilePath();
+
 					LOGGER.info("The Item Pricing started executing");
 					 filename = logpath
 							+ FilePathUtil.ITEM_PRICING_INTERFACE_HISTORY;

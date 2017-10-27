@@ -123,9 +123,9 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
         setContractResults(contractResults);
         setBrandResults(brandResults);
         setCustomer(UiUtils.addDefaultNativeSelect());
-        contractContainer = new BeanItemContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class);
+        contractContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
         contractResults.setSelectable(true);
-        brandContainer = new BeanItemContainer<AlternateHistoryDTO>(AlternateHistoryDTO.class);
+        brandContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
         brandResults.setSelectable(true);
         contractResults.setContainerDataSource(contractContainer);
         brandResults.setContainerDataSource(brandContainer);
@@ -242,7 +242,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
         LOGGER.debug("Entering getBinder");
         final AlternateHistoryDTO bean = new AlternateHistoryDTO();
 
-        searchBinder = new CustomFieldGroup(new BeanItem<AlternateHistoryDTO>(bean));
+        searchBinder = new CustomFieldGroup(new BeanItem<>(bean));
         searchBinder.setBuffered(true);
         searchBinder.bindMemberFields(this);
         searchBinder.setErrorDisplay(errorMsg);
@@ -328,7 +328,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof AlternateHistoryDTO) {
-            targetItem = new BeanItem<AlternateHistoryDTO>((AlternateHistoryDTO) obj);
+            targetItem = new BeanItem<>((AlternateHistoryDTO) obj);
         }
         return (AlternateHistoryDTO) targetItem.getBean();
     }
@@ -375,7 +375,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
         customerDDLB.addItem(Constant.SELECT_ONE);
         customerDDLB.setNullSelectionAllowed(true);
         customerDDLB.setNullSelectionItemId(Constant.SELECT_ONE);
-        List<Object[]> list = saleslogic.loadAlternateCustomer(session.getMarketType());
+        List<Object[]> list = saleslogic.loadAlternateCustomer();
         for (Object[] obj : list) {
             customerDDLB.addItem(obj[0]);
             customerDDLB.setItemCaption(obj[0], String.valueOf(obj[1]));
@@ -425,7 +425,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-
+        return;
     }
      
 

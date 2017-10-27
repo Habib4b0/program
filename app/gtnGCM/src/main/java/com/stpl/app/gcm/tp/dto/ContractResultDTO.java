@@ -27,27 +27,27 @@ public class ContractResultDTO {
     private String cfpName = StringUtils.EMPTY;
     private String cfpNo = StringUtils.EMPTY;
     private String cfpId = StringUtils.EMPTY;
-    private String cfpStatus = StringUtils.EMPTY;
+    private HelperDTO cfpStatus = new HelperDTO(0, Constants.SELECT_ONE);
     private Date cfpStartDate;
     private Date cfpEndDate;
     private String ifpName = StringUtils.EMPTY;
     private String ifpNo = StringUtils.EMPTY;
     private String ifpId = StringUtils.EMPTY;
-    private String ifpStatus = StringUtils.EMPTY;
+    private HelperDTO ifpStatus = new HelperDTO(0, Constants.SELECT_ONE);
     private Date ifpStartDate;
     private Date ifpEndDate;
 
     private String pSName = StringUtils.EMPTY;
     private String pSNo = StringUtils.EMPTY;
     private String pSId = StringUtils.EMPTY;
-    private String pSStatus = StringUtils.EMPTY;
+    private HelperDTO pSStatus = new HelperDTO(0, Constants.SELECT_ONE);
     private Date pStartDate;
     private Date pSEndDate;
     private String rSName = StringUtils.EMPTY;
     private String rSNo = StringUtils.EMPTY;
     private String rSId = StringUtils.EMPTY;
     private String rARCategory = StringUtils.EMPTY;
-    private String rSStatus = StringUtils.EMPTY;
+    private HelperDTO rSStatus = new HelperDTO(0, Constants.SELECT_ONE);
     private Date rStartDate;
     private Date rSEndDate;
 
@@ -290,11 +290,11 @@ public class ContractResultDTO {
         this.cfpId = cfpId;
     }
 
-    public String getCfpStatus() {
+    public HelperDTO getCfpStatus() {
         return cfpStatus;
     }
 
-    public void setCfpStatus(String cfpStatus) {
+    public void setCfpStatus(HelperDTO cfpStatus) {
         this.cfpStatus = cfpStatus;
     }
 
@@ -322,14 +322,6 @@ public class ContractResultDTO {
         this.ifpId = ifpId;
     }
 
-    public String getIfpStatus() {
-        return ifpStatus;
-    }
-
-    public void setIfpStatus(String ifpStatus) {
-        this.ifpStatus = ifpStatus;
-    }
-
     public Date getIfpStartDate() {
         return ifpStartDate;
     }
@@ -353,15 +345,6 @@ public class ContractResultDTO {
     public void setpSId(String pSId) {
         this.pSId = pSId;
     }
-
-    public String getpSStatus() {
-        return pSStatus;
-    }
-
-    public void setpSStatus(String pSStatus) {
-        this.pSStatus = pSStatus;
-    }
-
     public Date getpStartDate() {
         return pStartDate;
     }
@@ -376,14 +359,6 @@ public class ContractResultDTO {
 
     public void setpSEndDate(Date pSEndDate) {
         this.pSEndDate = pSEndDate;
-    }
-
-    public String getrSStatus() {
-        return rSStatus;
-    }
-
-    public void setrSStatus(String rSStatus) {
-        this.rSStatus = rSStatus;
     }
 
     public Date getrStartDate() {
@@ -472,6 +447,30 @@ public class ContractResultDTO {
 
     public void setTpstatus(String tpstatus) {
         this.tpstatus = tpstatus;
+    }
+
+    public HelperDTO getIfpStatus() {
+        return ifpStatus;
+    }
+
+    public void setIfpStatus(HelperDTO ifpStatus) {
+        this.ifpStatus = ifpStatus;
+    }
+
+    public HelperDTO getpSStatus() {
+        return pSStatus;
+    }
+
+    public void setpSStatus(HelperDTO pSStatus) {
+        this.pSStatus = pSStatus;
+    }
+
+    public HelperDTO getrSStatus() {
+        return rSStatus;
+    }
+
+    public void setrSStatus(HelperDTO rSStatus) {
+        this.rSStatus = rSStatus;
     }
 
 }

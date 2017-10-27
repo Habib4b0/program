@@ -28,7 +28,7 @@
 
 
 		<portlet-info>
-			<title>Header</title>
+			<title>Contract Header</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>
@@ -55,7 +55,7 @@
 
 
 		<portlet-info>
-			<title>Dashboard</title>
+			<title>Contract Dashboard</title>
 			<short-title>Portlet Short Title</short-title>
 			<keywords>put keywords here</keywords>
 		</portlet-info>

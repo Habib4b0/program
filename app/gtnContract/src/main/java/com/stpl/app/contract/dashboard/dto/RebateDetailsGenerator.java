@@ -24,7 +24,6 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
  * @author shrihariharan
  */
 public class RebateDetailsGenerator implements ExtFilterGenerator {
-
     CommonUtils commonsUtil = new CommonUtils();
     /**
      * The common util.
@@ -68,9 +67,6 @@ public class RebateDetailsGenerator implements ExtFilterGenerator {
             try {
                 commonUtil.loadComboBox(itemType, "ITEM_TYPE", true);
 
-            } catch (SystemException ex) {
-                Logger.getLogger(RebateDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
-
             } catch (Exception ex) {
                 Logger.getLogger(RebateDetailsGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -91,10 +87,12 @@ public class RebateDetailsGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

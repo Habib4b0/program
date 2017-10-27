@@ -43,6 +43,7 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.jboss.logging.Logger;
@@ -324,7 +325,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
     public List<HierarchyLookupDTO> getHierarchyData(final String indicator,
             final String hierarchyName, final String hierarchyType) {
 
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -360,7 +361,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      */
     @Override
     public void saveNMProjection(int projectionId) {
-        
+        return;
     }
 
     /**
@@ -370,6 +371,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      */
     @Override
     public void submitNMProjection(int projectionId) {
+        return;
 
     }
 
@@ -394,7 +396,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
              LOGGER.error(ex);
 
         }
-        return null;
+        return Collections.emptyList();
     }
 
     /**

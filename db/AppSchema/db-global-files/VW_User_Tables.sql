@@ -1,15 +1,15 @@
 ﻿IF EXISTS (SELECT 'X'
            FROM   INFORMATION_SCHEMA.VIEWS
-           WHERE  TABLE_NAME = 'vw_USER_TABLES'
+           WHERE  TABLE_NAME = 'VW_USER_TABLES'
                   AND TABLE_SCHEMA = 'dbo')
   BEGIN
-      DROP VIEW [dbo].[vw_USER_TABLES]
+      DROP VIEW [dbo].[VW_USER_TABLES]
   END
 GO
 
-CREATE VIEW [DBO].[vw_USER_TABLES]
+CREATE VIEW [DBO].[VW_USER_TABLES]
 AS
-  SELECT     Row_number()
+  SELECT     ROW_NUMBER()
                OVER(
                  ORDER BY ST.TABLE_NAME) UNIQUE_ID,
              ST.TABLE_NAME,
@@ -24,6 +24,5 @@ AS
               FROM   SYS.COLUMNS) SC
           ON ST.OBJECT_ID = SC.OBJECT_ID
   WHERE      ST.TYPE_DESC = 'USER_TABLE'
-             AND IS_MS_SHIPPED = 0
+             AND ST.IS_MS_SHIPPED = 0
 GO
-

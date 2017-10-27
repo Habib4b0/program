@@ -19,6 +19,8 @@ import com.vaadin.ui.NativeSelect;
 public class CommonUtils {
 	
     public static final String EMPTY = "";
+    public static final String NOT_IN = " not in (";
+    public static final String IN_BRACES = " in (";
     public static final String STRING_ASTERISK = "*";
     public static final String MMDDYYYY = "MM/dd/yyyy";
     public static final String MMDDYYYYHHMMMSS = "yyyy-MM-dd HH:mm:ss";
@@ -78,12 +80,13 @@ public class CommonUtils {
 	 * @param strDate - input date in string format
 	 * @return Date - The Date object of the strDate in the format of "MM/dd/yyyy"
 	 */
-	public static Date convertStringToDate(String strDate)throws ParseException, java.text.ParseException {
+	public static Date convertStringToDate(String strDate)throws  java.text.ParseException {
 		Date aDate = null;
-		if (strDate == null || strDate.equals(EMPTY) || strDate.equals(STRING_NULL))
-		return null;
-		aDate = convertStringToDate(MMDDYYYY, strDate);
-		return aDate;
+		          if (strDate == null || strDate.equals(EMPTY) || strDate.equals(STRING_NULL)) {
+                return null;
+            }
+            aDate = convertStringToDate(MMDDYYYY, strDate);
+            return aDate;
 	}
 
 	/*
@@ -91,7 +94,7 @@ public class CommonUtils {
 	 * @param strDate - input date in string format
 	 * @return Date - The Date object of the strDate 
 	 */
-	public static final Date convertStringToDate(String aMask, String strDate)throws ParseException, java.text.ParseException{
+	public static final Date convertStringToDate(String aMask, String strDate) throws java.text.ParseException{
 		SimpleDateFormat df = null;
 		Date date = null;
 		df = new SimpleDateFormat(aMask);
@@ -132,12 +135,12 @@ public class CommonUtils {
 		return returnValue;
 	}
 	public static final String convertIntToString(int aMask){
-		String returnValue=EMPTY;		
+		String returnValue;		
 		returnValue=""+aMask;		
 		return returnValue;
 	}
 	public static final String convertDoubleToString(Double aMask){
-		String returnValue=EMPTY;
+		String returnValue;
 		returnValue=""+aMask;
 		return returnValue;
 	}
@@ -151,7 +154,7 @@ public class CommonUtils {
 	
 	// Method to convert Char to String
 	public static final String convertCharToString(char aMask){
-		String returnValue= EMPTY;		
+		String returnValue;		
 		returnValue = Character.toString(aMask);
 		return returnValue;		
 	}
@@ -190,11 +193,11 @@ public class CommonUtils {
 
 	         			if(a==NumericConstants.NINE_NINTY_NINE){
 	         				if(subqueryNocount==0){
-	         				memberIdquery = " " + requiredColumnName + " in ("+arrayToString2(memberIdArraytemp,",")+")";
+	         				memberIdquery = " " + requiredColumnName + IN_BRACES+arrayToString2(memberIdArraytemp,",")+")";
 	         				subqueryNocount = 1;
 	         				}
 	         				else{
-	         					memberIdquery = memberIdquery + " or "+requiredColumnName+" in ("+arrayToString2(memberIdArraytemp,",")+")";
+	         					memberIdquery = memberIdquery + " or "+requiredColumnName+IN_BRACES+arrayToString2(memberIdArraytemp,",")+")";
 
 	         				}
 	         				a=0;
@@ -222,13 +225,13 @@ public class CommonUtils {
 		            			count= count + 1;
 						}
 
-						memberIdquery = " " + requiredColumnName + " in ("+arrayToString2(memberIdArraytemp,",")+")";
+						memberIdquery = " " + requiredColumnName + IN_BRACES+arrayToString2(memberIdArraytemp,",")+")";
 	        	      }
 	        	      else{
 	        	    	  if(memList.size()==NumericConstants.NINE_NINTY_NINE){
-	        	                               memberIdquery = "  " + requiredColumnName + " in (" + arrayToString2(memberIdArraytemp, ",") + ")";
+	        	                               memberIdquery = "  " + requiredColumnName + IN_BRACES + arrayToString2(memberIdArraytemp, ",") + ")";
                                      } else {
-                                         memberIdquery = memberIdquery + " or " + requiredColumnName + " in (" + arrayToString2(memberIdArraytemp, ",") + ")";
+                                         memberIdquery = memberIdquery + " or " + requiredColumnName + IN_BRACES + arrayToString2(memberIdArraytemp, ",") + ")";
                                      }
                                  }
 
@@ -264,11 +267,11 @@ public class CommonUtils {
 
 		         			if(a==NumericConstants.NINE_NINTY_NINE){
 		         				if(subqueryNocount==0){
-		         				memberIdquery = " " + requiredColumnName + " not in ("+arrayToString(memberIdArraytemp,",")+")";
+		         				memberIdquery = " " + requiredColumnName + NOT_IN+arrayToString(memberIdArraytemp,",")+")";
 		         				subqueryNocount = 1;
 		         				}
 		         				else{
-		         					memberIdquery = memberIdquery + " and "+requiredColumnName+" not in ("+arrayToString(memberIdArraytemp,",")+")";
+		         					memberIdquery = memberIdquery + " and "+requiredColumnName+NOT_IN+arrayToString(memberIdArraytemp,",")+")";
 
 		         				}
 		         				a=0;
@@ -294,14 +297,14 @@ public class CommonUtils {
 			            			count= count + 1;
 							}
 
-							memberIdquery = " " + requiredColumnName + " not in ("+arrayToString(memberIdArraytemp,",")+")";
+							memberIdquery = " " + requiredColumnName + NOT_IN+arrayToString(memberIdArraytemp,",")+")";
 		        	      }
 		        	      else{
 		        	    	  if(memList.size()==NumericConstants.NINE_NINTY_NINE){
-		        	    		  memberIdquery = "  " + requiredColumnName + " not in ("+arrayToString(memberIdArraytemp,",")+")";
+		        	    		  memberIdquery = "  " + requiredColumnName + NOT_IN+arrayToString(memberIdArraytemp,",")+")";
 		        	    	  }
 		        	    	  else{
-		        	    	  memberIdquery = memberIdquery + " and " + requiredColumnName + " not in ("+arrayToString(memberIdArraytemp,",")+")";
+		        	    	  memberIdquery = memberIdquery + " and " + requiredColumnName + NOT_IN+arrayToString(memberIdArraytemp,",")+")";
 		        	    	  }
 		        	      }
 
@@ -316,14 +319,16 @@ public class CommonUtils {
 		 
 		 public static String arrayToString(String a[], String separator){
 		        String result = "";
-		        if (a.length > 0) {
-		        	if(a[0] != null)
-		            result = "'"+a[0]+"'";    // start with the first element
-		            for (int i=1; i<a.length; i++) {
-		            	if(a[i] != null){
-                                    result = result + separator + "'"+a[i]+"'";}
-		            }
-		        }
+		                   if (a.length > 0) {
+                         if (a[0] != null) {
+                             result = "'" + a[0] + "'";    // start with the first element
+                         }
+                         for (int i = 1; i < a.length; i++) {
+                             if (a[i] != null) {
+                                 result = result + separator + "'" + a[i] + "'";
+                             }
+                         }
+                     }
 		        
 		        return result;
 		    }
@@ -358,12 +363,13 @@ public class CommonUtils {
 			 * @param strDate - input date in string format
 			 * @return Date - The Date object of the strDate in the format of "MM/dd/yyyy"
 			 */
-			public static Date convertStringToDateTime(String strDate)throws ParseException, java.text.ParseException {
+			public static Date convertStringToDateTime(String strDate)throws  java.text.ParseException {
 				Date aDate = null;
-				if (strDate == null || strDate.equals(EMPTY) || strDate.equals(STRING_NULL))
-				return null;
-				aDate = convertStringToDate(MMDDYYYYHHMMMSS, strDate);
-				return aDate;
+				                        if (strDate == null || strDate.equals(EMPTY) || strDate.equals(STRING_NULL)) {
+                                return null;
+                            }
+                            aDate = convertStringToDate(MMDDYYYYHHMMMSS, strDate);
+                            return aDate;
 			}
 	
 }

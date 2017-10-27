@@ -44,10 +44,9 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
             { "CALCULATION_PERIODS", Types.VARCHAR },
             { "USER_GROUP", Types.VARCHAR },
             { "PROJECTION_DETAILS_SID", Types.INTEGER },
-            { "METHODOLOGY", Types.VARCHAR },
-            { "CALCULATION_BASED", Types.VARCHAR }
+            { "METHODOLOGY", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table NM_SALES_PROJECTION_MASTER (CHECK_RECORD BOOLEAN,CALCULATION_PERIODS VARCHAR(75) null,USER_GROUP VARCHAR(75) null,PROJECTION_DETAILS_SID INTEGER not null primary key IDENTITY,METHODOLOGY VARCHAR(75) null,CALCULATION_BASED VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table NM_SALES_PROJECTION_MASTER (CHECK_RECORD BOOLEAN,CALCULATION_PERIODS VARCHAR(75) null,USER_GROUP VARCHAR(75) null,PROJECTION_DETAILS_SID INTEGER not null primary key IDENTITY,METHODOLOGY VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table NM_SALES_PROJECTION_MASTER";
     public static final String ORDER_BY_JPQL = " ORDER BY nmSalesProjectionMaster.projectionDetailsSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY NM_SALES_PROJECTION_MASTER.PROJECTION_DETAILS_SID ASC";
@@ -72,7 +71,6 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
     private String _userGroup;
     private int _projectionDetailsSid;
     private String _methodology;
-    private String _calculationBased;
     private NmSalesProjectionMaster _escapedModel;
 
     public NmSalesProjectionMasterModelImpl() {
@@ -117,7 +115,6 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
         attributes.put("userGroup", getUserGroup());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
         attributes.put("methodology", getMethodology());
-        attributes.put("calculationBased", getCalculationBased());
 
         return attributes;
     }
@@ -154,12 +151,6 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
 
         if (methodology != null) {
             setMethodology(methodology);
-        }
-
-        String calculationBased = (String) attributes.get("calculationBased");
-
-        if (calculationBased != null) {
-            setCalculationBased(calculationBased);
         }
     }
 
@@ -231,20 +222,6 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
     }
 
     @Override
-    public String getCalculationBased() {
-        if (_calculationBased == null) {
-            return StringPool.BLANK;
-        } else {
-            return _calculationBased;
-        }
-    }
-
-    @Override
-    public void setCalculationBased(String calculationBased) {
-        _calculationBased = calculationBased;
-    }
-
-    @Override
     public NmSalesProjectionMaster toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (NmSalesProjectionMaster) ProxyUtil.newProxyInstance(_classLoader,
@@ -263,7 +240,6 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
         nmSalesProjectionMasterImpl.setUserGroup(getUserGroup());
         nmSalesProjectionMasterImpl.setProjectionDetailsSid(getProjectionDetailsSid());
         nmSalesProjectionMasterImpl.setMethodology(getMethodology());
-        nmSalesProjectionMasterImpl.setCalculationBased(getCalculationBased());
 
         nmSalesProjectionMasterImpl.resetOriginalValues();
 
@@ -345,20 +321,12 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
             nmSalesProjectionMasterCacheModel.methodology = null;
         }
 
-        nmSalesProjectionMasterCacheModel.calculationBased = getCalculationBased();
-
-        String calculationBased = nmSalesProjectionMasterCacheModel.calculationBased;
-
-        if ((calculationBased != null) && (calculationBased.length() == 0)) {
-            nmSalesProjectionMasterCacheModel.calculationBased = null;
-        }
-
         return nmSalesProjectionMasterCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(11);
 
         sb.append("{checkRecord=");
         sb.append(getCheckRecord());
@@ -370,8 +338,6 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
         sb.append(getProjectionDetailsSid());
         sb.append(", methodology=");
         sb.append(getMethodology());
-        sb.append(", calculationBased=");
-        sb.append(getCalculationBased());
         sb.append("}");
 
         return sb.toString();
@@ -379,7 +345,7 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.NmSalesProjectionMaster");
@@ -404,10 +370,6 @@ public class NmSalesProjectionMasterModelImpl extends BaseModelImpl<NmSalesProje
         sb.append(
             "<column><column-name>methodology</column-name><column-value><![CDATA[");
         sb.append(getMethodology());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>calculationBased</column-name><column-value><![CDATA[");
-        sb.append(getCalculationBased());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

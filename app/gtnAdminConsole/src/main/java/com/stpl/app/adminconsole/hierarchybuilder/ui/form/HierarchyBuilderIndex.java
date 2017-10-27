@@ -5,6 +5,7 @@
 package com.stpl.app.adminconsole.hierarchybuilder.ui.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +147,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     /**
      * The hierarchy builder dto bean.
      */
-    private BeanItemContainer<HierarchyBuilderDTO> hierarchyBuilderDTOBean = new BeanItemContainer<HierarchyBuilderDTO>(HierarchyBuilderDTO.class);
+    private BeanItemContainer<HierarchyBuilderDTO> hierarchyBuilderDTOBean = new BeanItemContainer<>(HierarchyBuilderDTO.class);
     /**
      * The btn reset.
      */
@@ -433,7 +434,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public HierarchyBuilderIndex(final CustomFieldGroup hierarchyBuilderBinder, final HierarchyBuilderDTO hierarchyBuilderDTO, final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public HierarchyBuilderIndex(final CustomFieldGroup hierarchyBuilderBinder, final HierarchyBuilderDTO hierarchyBuilderDTO, final SessionDTO sessionDTO) throws SystemException {
         super();
         LOGGER.debug("HierarchyBuilderIndex constructor started");
         this.hierarchyBuilderBinder = hierarchyBuilderBinder;
@@ -452,7 +453,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void init() throws SystemException, PortalException {
+    public void init() throws SystemException {
         LOGGER.debug("init method started");
         space.setHeight("20");
         addToContent();
@@ -469,7 +470,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private CustomFieldGroup getBinder() {
         LOGGER.debug("getBinder method started");
         hierarchyBuilderBinder.bindMemberFields(this);
-        hierarchyBuilderBinder.setItemDataSource(new BeanItem<HierarchyBuilderDTO>(new HierarchyBuilderDTO()));
+        hierarchyBuilderBinder.setItemDataSource(new BeanItem<>(new HierarchyBuilderDTO()));
         hierarchyBuilderBinder.setBuffered(true);
         hierarchyBuilderBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getBinder method returns getBinder");
@@ -483,7 +484,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void addToContent() throws SystemException, PortalException {
+    private void addToContent() {
         LOGGER.debug("addToContent method started");
         space.setHeight("20");
         final VerticalLayout content = new VerticalLayout();
@@ -512,7 +513,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     /**
      * Configure fields.
      */
-    private void configureFields() throws SystemException, PortalException {
+    private void configureFields() throws SystemException {
         LOGGER.debug("configureFields method started");
         createdDateFrom.setDescription(ConstantsUtils.DATE_DES);
         createdDateTo.setDescription(ConstantsUtils.DATE_DES);
@@ -589,7 +590,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
                      */
                     @SuppressWarnings("PMD")
                     public void yesMethod() {
-                        List<Object> collapsedColumns = new ArrayList<Object>();
+                        List<Object> collapsedColumns = new ArrayList<>();
                         for (Object item : resultFilterTable.getVisibleColumns()) {
                             if (resultFilterTable.isColumnCollapsed(item)) {
 
@@ -616,7 +617,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
                      * Called when a Button has been clicked.
                      */
                     public void noMethod() {
-
+                        return;
                     }
                 };
                 notificationUtils.getConfirmationMessage(ConstantsUtils.CONFORMATION, "Are you sure you want to reset the page to default/previous values?");
@@ -644,7 +645,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
                 if (hierarchyDefinitionSystemId.getValue() == null || ConstantsUtils.EMPTY.equals(hierarchyDefinitionSystemId.getValue())
                         || ConstantsUtils.ZERO.equals(hierarchyDefinitionSystemId.getValue())) {
 
-                    MessageBox.showPlain(Icon.INFO, "Edit", "No Hierarchy Definition has been selected. Please select a Hierarchy Definition and try again.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, "Edit", StringConstantUtils.NO_HIERARCHY_DEFINITION_HAS_BEEN_SELECTED, ButtonId.OK);
 
                 } else {
                     try {
@@ -659,8 +660,6 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
                             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "Please select latest hierarchy  from the Results section to Edit.", ButtonId.OK);
                         }
                     } catch (SystemException ex) {
-                        LOGGER.error(ex);
-                    } catch (PortalException ex) {
                         LOGGER.error(ex);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -693,7 +692,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
 
                 if (hierarchyDefinitionSystemId.getValue() == null || ConstantsUtils.EMPTY.equals(hierarchyDefinitionSystemId.getValue())
                         || ConstantsUtils.ZERO.equals(hierarchyDefinitionSystemId.getValue())) {
-                    MessageBox.showPlain(Icon.INFO, "View", "No Hierarchy Definition has been selected. Please select a Hierarchy Definition and try again.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, "View", StringConstantUtils.NO_HIERARCHY_DEFINITION_HAS_BEEN_SELECTED, ButtonId.OK);
                 } else {
                     try {
                         VaadinSession.getCurrent().setAttribute(ConstantsUtils.SYS_ID,
@@ -717,7 +716,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
              */
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In configureFields btnDelete.addClickListener Started");
-                deleteButtonClickLogic(event);
+                deleteButtonClickLogic();
                 LOGGER.debug("In configureFields btnDelete.addClickListener Ended");
 
             }
@@ -735,7 +734,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private HorizontalLayout addButtons() {
         LOGGER.debug("addButtons method Started");
         final HorizontalLayout searchButtons = new HorizontalLayout();
-        searchButtons.setStyleName("responsiveGrid");
+        searchButtons.setStyleName(StringConstantUtils.RESPONSIVE_GRID);
         searchButtons.addComponent(addSearchButton());
         searchButtons.addComponent(addAuditSearchButton());
         searchButtons.setSpacing(true);
@@ -766,7 +765,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
                             || (!StringUtils.isBlank(levelValues.getValue()))
                             || (createdDateFrom.getValue() != null) || (createdDateTo.getValue() != null)
                             || ((hierarchyCategory.getValue() != null) && !String.valueOf(hierarchyCategory.getValue()).equals(ConstantsUtils.SELECT_ONE))) {
-                        searchButtonClickLogic(event, ConstantsUtils.SEARCH);
+                        searchButtonClickLogic(ConstantsUtils.SEARCH);
                     } else {
                         MessageBox.showPlain(Icon.INFO, "Search", "Please enter at least one value/selection to search upon.", ButtonId.OK);
                     }
@@ -799,7 +798,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
                     if (!StringUtils.isBlank(hierarchyName.getValue()) || !StringUtils.isBlank(levelName.getValue()) || !StringUtils.isBlank(levelValues.getValue())
                             || createdDateFrom.getValue() != null || createdDateTo.getValue() != null
                             || ((hierarchyCategory.getValue() != null) && !String.valueOf(hierarchyCategory.getValue()).equals(ConstantsUtils.SELECT_ONE))) {
-                        searchButtonClickLogic(event, ConstantsUtils.AUDIT_SEARCH);
+                        searchButtonClickLogic(ConstantsUtils.AUDIT_SEARCH);
                     } else {
                         MessageBox.showPlain(Icon.INFO, "Search", "Please enter at least one value/selection to search upon.", ButtonId.OK);
                     }
@@ -818,7 +817,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
      * @param event the event
      * @param flag the flag
      */
-    protected void searchButtonClickLogic(final Button.ClickEvent event, final String flag) {
+    protected void searchButtonClickLogic(final String flag) {
         LOGGER.debug("searchButtonClickLogic Method started");
 
         try {
@@ -827,7 +826,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
             hierarchyBuilderBinder.commit();
             hierarchyBuilderDTOBean.removeAllItems();
             searchCriteria = flag;
-            List<HierarchyBuilderDTO> searchList = new ArrayList<HierarchyBuilderDTO>();
+            List<HierarchyBuilderDTO> searchList = new ArrayList<>();
 
             if (searchList.size() > ConstantsUtils.ZERO_NUM) {
                 hierarchyBuilderDTOBean.addAll(searchList);
@@ -856,7 +855,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private HorizontalLayout searchSection() {
         LOGGER.debug("searchSection method Started");
         final HorizontalLayout hlayout1 = new HorizontalLayout();
-        hlayout1.setStyleName("responsiveGrid");
+        hlayout1.setStyleName(StringConstantUtils.RESPONSIVE_GRID);
         hlayout1.addStyleName("minWidth50px");
         final CssLayout cssLayout = new CssLayout();
         cssLayout.setSizeFull();
@@ -900,8 +899,8 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
         resultFilterTable.setFilterBarVisible(true);
         resultFilterTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultFilterTable.setContainerDataSource(hierarchyBuilderDTOBean);
-        resultFilterTable.setVisibleColumns(CommonUIUtil.AC_HB_SEARCH_RESULT_COLUMNS);
-        resultFilterTable.setColumnHeaders(CommonUIUtil.AC_HB_SEARCH_RESULT_HEADER);
+        resultFilterTable.setVisibleColumns(CommonUIUtil.getInstance().acHbSearchResultColumns);
+        resultFilterTable.setColumnHeaders(CommonUIUtil.getInstance().acHbSearchResultHeader);
         resultFilterTable.setPageLength(NumericConstants.FIVE);
         resultFilterTable.sinkItemPerPageWithPageLength(false);
         resultFilterTable.setImmediate(true);
@@ -928,7 +927,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         LOGGER.debug("resultTable method returns resultTable");
@@ -944,7 +943,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private HorizontalLayout crudButtons() {
         LOGGER.debug("crudButtons method Started");
         final HorizontalLayout hLayout = new HorizontalLayout();
-        hLayout.setStyleName("responsiveGrid");
+        hLayout.setStyleName(StringConstantUtils.RESPONSIVE_GRID);
         hLayout.setSpacing(true);
         hLayout.addComponent(btnReset);
         hLayout.addComponent(btnAdd);
@@ -966,11 +965,11 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
      *
      * @param event the event
      */
-    protected void deleteButtonClickLogic(final Button.ClickEvent event) {
+    protected void deleteButtonClickLogic() {
 
         LOGGER.debug("deleteButtonClickLogic method Started");
         if (hierarchyDefinitionSystemId.getValue() == null || ConstantsUtils.EMPTY.equals(hierarchyDefinitionSystemId.getValue()) || ConstantsUtils.ZERO.equals(hierarchyDefinitionSystemId.getValue())) {
-            MessageBox.showPlain(Icon.INFO, "Delete", "No Hierarchy Definition has been selected. Please select a Hierarchy Definition and try again.", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, "Delete", StringConstantUtils.NO_HIERARCHY_DEFINITION_HAS_BEEN_SELECTED, ButtonId.OK);
             return;
         } else {
             MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Are you sure you want to delete record " + heirarchyName + "?", new MessageBoxListener() {
@@ -989,7 +988,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
                             } else {
                                 CommonUIUtils.getMessageNotification("'" + heirarchyName + "' has been deleted Successfully");
                                 hierarchyBuilderDTOBean.removeAllItems();
-                                final List<HierarchyBuilderDTO> hierarchyInfo = new ArrayList<HierarchyBuilderDTO>();
+                                final List<HierarchyBuilderDTO> hierarchyInfo = new ArrayList<>();
 
                                 hierarchyBuilderDTOBean.addAll(hierarchyInfo);
                             }
@@ -997,9 +996,6 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
                         } catch (SystemException ex) {
                             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                            LOGGER.error(ex);
-                        } catch (PortalException ex) {
-                            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
                             LOGGER.error(ex);
                         } catch (Exception ex) {
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
@@ -1030,7 +1026,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
             if (systemId instanceof BeanItem<?>) {
                 targetCustomer = (BeanItem<?>) systemId;
             } else if (systemId instanceof HierarchyBuilderDTO) {
-                targetCustomer = new BeanItem<HierarchyBuilderDTO>((HierarchyBuilderDTO) systemId);
+                targetCustomer = new BeanItem<>((HierarchyBuilderDTO) systemId);
             } else {
                 targetCustomer = NULLOBJECT;
             }
@@ -1050,7 +1046,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -1093,7 +1089,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
          * com.vaadin.data.validator.AbstractValidator#validate(java.lang.Object)
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("validate Method started");
             if (createdDateFrom.getValue() != null && createdDateTo.getValue() != null) {
                 if (createdDateFrom.getValue().after(createdDateTo.getValue())) {
@@ -1151,7 +1147,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof HierarchyBuilderDTO) {
-            targetItem = new BeanItem<HierarchyBuilderDTO>((HierarchyBuilderDTO) obj);
+            targetItem = new BeanItem<>((HierarchyBuilderDTO) obj);
         }
         LOGGER.debug("End of getBeanFromId method");
         return (HierarchyBuilderDTO) targetItem.getBean();
@@ -1173,7 +1169,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     }
 
     public void addResponsiveSearchTableCollapse(final ExtFilterTable table) {
-        final Map<Integer, Boolean> reloadMap = new HashMap<Integer, Boolean>();
+        final Map<Integer, Boolean> reloadMap = new HashMap<>();
         reloadMap.put(NumericConstants.ONE_THREE_FIVE_ZERO, true);
         reloadMap.put(NumericConstants.NINE_SEVEN_EIGHT, true);
         reloadMap.put(NumericConstants.SIX_HUNDRED, true);
@@ -1310,7 +1306,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private static String[] getCollapsibleColumns600Px(final ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1320,7 +1316,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private static String[] getCollapsibleColumns480Px(final ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         propertyIds = list.toArray(new String[list.size()]);
@@ -1330,7 +1326,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private static String[] getCollapsibleColumns978Px(final ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1342,7 +1338,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private static String[] getCollapsibleColumnsDefault1515Px(final ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         list.remove(propertyIds[1]);
         list.remove(propertyIds[NumericConstants.TWO]);
@@ -1354,7 +1350,7 @@ public final class HierarchyBuilderIndex extends CustomComponent implements View
     private static String[] getCollapsibleColumnsDefault(final ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         String[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
-        List<String> list = new ArrayList<String>(Arrays.asList(propertyIds));
+        List<String> list = new ArrayList<>(Arrays.asList(propertyIds));
         for (int i = 0; i < NumericConstants.TEN && !list.isEmpty(); i++) {
             list.remove(propertyIds[i]);
         }

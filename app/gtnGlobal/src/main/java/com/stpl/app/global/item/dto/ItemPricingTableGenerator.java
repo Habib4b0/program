@@ -1,6 +1,8 @@
 package com.stpl.app.global.item.dto;
 
 import com.stpl.app.global.common.util.CommonUtil;
+import com.stpl.app.global.company.util.QueryUtils;
+import com.stpl.app.global.item.logic.ItemSearchLogic;
 import org.jboss.logging.Logger;
 
 import com.stpl.app.global.item.ui.form.ParentCompanyNo;
@@ -27,6 +29,8 @@ import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import org.asi.ui.customtextfield.CustomTextField;
 
 // TODO: Auto-generated Javadoc
@@ -48,7 +52,7 @@ public class ItemPricingTableGenerator extends DefaultFieldFactory {
      * The common util.
      */
     private CommonUtil commonUtil = CommonUtil.getInstance();
-
+    String qualifier;
     /**
      * (non-Javadoc).
      *
@@ -60,6 +64,9 @@ public class ItemPricingTableGenerator extends DefaultFieldFactory {
      */
     public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
         try {
+            if(ConstantsUtils.ITEM_PRICING_QUALIFIER_NAME.equals(propertyId)){
+                qualifier = ((ItemPricingDTO) itemId).getItemPricingQualifierName();
+            }
             if ("checkbox".equals(propertyId)) {
                 final CheckBox checkbox = new CheckBox();
                 checkbox.setReadOnly(false);
@@ -79,21 +86,24 @@ public class ItemPricingTableGenerator extends DefaultFieldFactory {
                      * @param event
                      */
                     public void valueChange(final ValueChangeEvent event) {
+                        final List input = new ArrayList();
+                        input.add("ITEM_PRICING");
+                        input.add(qualifier);
+                        List<Object> precisionList = QueryUtils.getAppData(input, "PrecisionSelection", null);
                         String value = String.valueOf(event.getProperty().getValue());
 
-                        final DecimalFormat decimalFormat = new DecimalFormat("###,###,###.00##");
+                        final DecimalFormat decimalFormat = new DecimalFormat();
                         if (value.contains(ConstantsUtils.DOLLAR)) {
                             value = value.replace(ConstantsUtils.DOLLAR, "");
                             value = value.replace(",", "");
-                            value = decimalFormat.format(Double.valueOf(value));
-                            value = ConstantsUtils.DOLLAR + value;
-                            itemPrice.setValue(value);
-                        } else {
-                            value = decimalFormat.format(Double.valueOf(value));
-                            value = ConstantsUtils.DOLLAR + value;
-                            itemPrice.setValue(value);
                         }
-
+                        if (precisionList != null && !precisionList.isEmpty()) {
+                            decimalFormat.applyPattern(ItemSearchLogic.pattern(Integer.valueOf(String.valueOf(precisionList.get(0)))));
+                            itemPrice.setValue(ConstantsUtils.DOLLAR + decimalFormat.format(Double.valueOf(value)));
+                        } else {
+                            itemPrice.setValue(ConstantsUtils.DOLLAR + value);
+                            ((ItemPricingDTO) itemId).setItemPricePrecision(ItemSearchLogic.getPrecisionValues(value));
+                        }
                     }
                 });
 
@@ -114,7 +124,7 @@ public class ItemPricingTableGenerator extends DefaultFieldFactory {
                      * @param event
                      */
                     public void click(final CustomTextField.ClickEvent event) {
-                        try {
+                    
                             final ParentCompanyNo lookUp = new ParentCompanyNo(priceEntityCodeName, priceEntityCode, priceEntityCodeSid);
                             UI.getCurrent().addWindow(lookUp);
                             lookUp.addCloseListener(new Window.CloseListener() {
@@ -127,9 +137,7 @@ public class ItemPricingTableGenerator extends DefaultFieldFactory {
                                     }
                                 }
                             });
-                        } catch (Exception ex) {
-                            LOGGER.error(ex);
-                        }
+                       
                     }
                 });
                 return priceEntityCode;

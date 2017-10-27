@@ -58,7 +58,7 @@ public class SummaryTableLogic extends PageTreeTableLogic {
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         List<AbstractSummaryDTO> list;
         if (isSales) {
             list = logic.getConfiguredSalesTabResults(getLastParent(), tabSelectionDTO, false);

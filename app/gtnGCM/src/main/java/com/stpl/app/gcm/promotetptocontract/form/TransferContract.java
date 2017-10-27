@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gcm.promotetptocontract.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
@@ -69,7 +70,7 @@ public class TransferContract extends VerticalLayout implements View {
     private NewComponents newComponents;
     private ExistingComponents existingComponents;
     private TabSheet tabSheet;
-    private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
     private int tabPosition;
     @UiField("marketType")
     public ComboBox marketType;
@@ -111,9 +112,9 @@ public class TransferContract extends VerticalLayout implements View {
     TreeTable contractDashBoardTable1 = new TreeTable();
     TreeTable contractDashBoardTable2 = new TreeTable();
     CommonUtil commonUtil=CommonUtil.getInstance();
-    UiUtils UIUtils=new UiUtils();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     PromoteTPLogic tpLogic=new PromoteTPLogic();
+    public static final String ALREADY_EXIST_IN_THE_SYSTEM = " Already exist in the system.";
     public PopupDateField getStartDate() {
         return startDate;
     }
@@ -231,21 +232,20 @@ public class TransferContract extends VerticalLayout implements View {
             number.setImmediate(true);
             number.setValidationVisible(true);
 
-            startDate.setDateFormat("MM/dd/yyyy");
-            endDate.setDateFormat("MM/dd/yyyy");
-            cfpSDate.setDateFormat("MM/dd/yyyy");
-            cfpEDate.setDateFormat("MM/dd/yyyy");
-            aliasStartDate.setDateFormat("MM/dd/yyyy");
-            aliasEndDate.setDateFormat("MM/dd/yyyy");
+            startDate.setDateFormat(Constants.DATE_FORMAT);
+            endDate.setDateFormat(Constants.DATE_FORMAT);
+            cfpSDate.setDateFormat(Constants.DATE_FORMAT);
+            cfpEDate.setDateFormat(Constants.DATE_FORMAT);
+            aliasStartDate.setDateFormat(Constants.DATE_FORMAT);
+            aliasEndDate.setDateFormat(Constants.DATE_FORMAT);
 
             contractHolder.setEnabled(false);
-            commonUtil.loadComboBox(marketType, UIUtils.CONTRACT_TYPE, false);
+            commonUtil.loadComboBox(marketType, UiUtils.CONTRACT_TYPE, false);
             marketType.setValidationVisible(true);
 
-            commonUtil.loadComboBox(type, UIUtils.CONTRACT_ALIAS_TYPE, false);
+            commonUtil.loadComboBox(type, UiUtils.CONTRACT_ALIAS_TYPE, false);
             type.setValidationVisible(true);
             
-            cfpStatus.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             cfpStatus.setNullSelectionAllowed(true);
             cfpStatus.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             cfpStatus.addItems(CommonLogic.getDropDownList("STATUS"));
@@ -269,7 +269,7 @@ public class TransferContract extends VerticalLayout implements View {
      * @throws SystemException
      */
     @UiHandler("populateBtn1")
-    public void populateBtn1Logic(Button.ClickEvent event) throws ParseException, SystemException {
+    public void populateBtn1Logic(Button.ClickEvent event) {
        
         String cName = contractName.getValue();
         String cNo = contractNo.getValue();
@@ -292,7 +292,7 @@ public class TransferContract extends VerticalLayout implements View {
                 || StringUtils.EMPTY.equals(compFamilyPlanName) || Constants.NULL.equals(cfpStartDate) || Constants.NULL.equals(cfpEndDate)|| StringUtils.EMPTY.equals(cfpIdvalue) || StringUtils.EMPTY.equals(cfpNovalue)
                || cfpStatusValue.equals(Constants.NULL)) {
 
-            AbstractNotificationUtils.getErrorNotification("Error", "Please Enter All the Fields in Contract Header Section");
+            AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Enter All the Fields in Contract Header Section");
 
         } else {
             String cfpStDate = simpleDateFormat.format(cfpSDate.getValue());
@@ -300,34 +300,34 @@ public class TransferContract extends VerticalLayout implements View {
             
           Boolean contractNoFlag=tpLogic.duplicateCheck("CONTRACT_NO", cNo, "Contract");
           if(contractNoFlag){
-              AbstractNotificationUtils.getErrorNotification("Error", "Entered Contract No "+ cNo+" Already exist in the system.");
+              AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Contract No "+ cNo+ALREADY_EXIST_IN_THE_SYSTEM);
               return;
           } Boolean contractNameFlag=tpLogic.duplicateCheck("CONTRACT_NAME", cName, "Contract");
           if(contractNameFlag){
-              AbstractNotificationUtils.getErrorNotification("Error", "Entered Contract Name "+ cName+" Already exist in the system.");
+              AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Contract Name "+ cName+ALREADY_EXIST_IN_THE_SYSTEM);
               return;
           }Boolean cfpNameFlag=tpLogic.duplicateCheck("CFP_NAME", compFamilyPlanName, "cfp");
           if(cfpNameFlag){
-              AbstractNotificationUtils.getErrorNotification("Error", "Entered CFP Name "+ compFamilyPlanName+" Already exist in the system.");
+              AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered CFP Name "+ compFamilyPlanName+ALREADY_EXIST_IN_THE_SYSTEM);
               return;
           }
           Boolean cfpIdFlag=tpLogic.duplicateCheck("CFP_ID", cfpIdvalue, "cfp");
           if(cfpIdFlag){
-              AbstractNotificationUtils.getErrorNotification("Error", "Entered CFP ID "+ cfpIdvalue+" Already exist in the system.");
+              AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered CFP ID "+ cfpIdvalue+ALREADY_EXIST_IN_THE_SYSTEM);
               return;
           }Boolean cfpNoFlag=tpLogic.duplicateCheck("CFP_NO", cfpNovalue, "cfp");
           if(cfpNoFlag){
-              AbstractNotificationUtils.getErrorNotification("Error", "Entered CFP NO "+ cfpNovalue+" Already exist in the system.");
+              AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered CFP NO "+ cfpNovalue+ALREADY_EXIST_IN_THE_SYSTEM);
               return;
           }
             
             if (tabPosition == NumericConstants.TWO && contractDashBoardTable.getItemIds().isEmpty()) {
                     final Object rootId = contractDashBoardTable.addItem();
-                    contractDashBoardTable.getContainerProperty(rootId, "category").setValue("Contract Header");
-                    contractDashBoardTable.getContainerProperty(rootId, "dashboardId").setValue(cNo);
-                    contractDashBoardTable.getContainerProperty(rootId, "dashboardNumber").setValue(cNo);
-                    contractDashBoardTable.getContainerProperty(rootId, "dashboardName").setValue(cName);
-                    contractDashBoardTable.getContainerProperty(rootId, "levelNo").setValue(Constants.ZEROSTRING);
+                    contractDashBoardTable.getContainerProperty(rootId, StringConstantsUtil.CATEGORY).setValue(StringConstantsUtil.CONTRACT_HEADER);
+                    contractDashBoardTable.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_ID).setValue(cNo);
+                    contractDashBoardTable.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_NUMBER).setValue(cNo);
+                    contractDashBoardTable.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_NAME).setValue(cName);
+                    contractDashBoardTable.getContainerProperty(rootId, StringConstantsUtil.LEVEL_NO).setValue(Constants.ZEROSTRING);
                     contractDashBoardTable.getContainerProperty(rootId, Constants.MARKET_TYPE).setValue(mType);
                     contractDashBoardTable.getContainerProperty(rootId, Constants.CONTRACT_HOLDER).setValue(cHolder);
                     contractDashBoardTable.getContainerProperty(rootId, Constants.START_DATE).setValue(sDate);
@@ -336,9 +336,9 @@ public class TransferContract extends VerticalLayout implements View {
                     contractDashBoardTable.getContainerProperty(rootId, Constants.CFP_START_DATE).setValue(cfpStartDate);
                     contractDashBoardTable.getContainerProperty(rootId, Constants.CFP_END_DATE).setValue(cfpEndDate);
                     contractDashBoardTable.getContainerProperty(rootId, "type").setValue(aliasType);
-                    contractDashBoardTable.getContainerProperty(rootId, "aliasStartDate").setValue(aliasSDATE);
-                    contractDashBoardTable.getContainerProperty(rootId, "number").setValue(aliasNumber);
-                    contractDashBoardTable.getContainerProperty(rootId, "aliasEndDate").setValue(aliasEDATE);
+                    contractDashBoardTable.getContainerProperty(rootId, StringConstantsUtil.ALIAS_START_DATE).setValue(aliasSDATE);
+                    contractDashBoardTable.getContainerProperty(rootId, StringConstantsUtil.NUMBER).setValue(aliasNumber);
+                    contractDashBoardTable.getContainerProperty(rootId, StringConstantsUtil.ALIAS_END_DATE).setValue(aliasEDATE);
                     contractDashBoardTable.addItem(rootId);
 
                     contractDashBoardTable.addItem(rootId);
@@ -348,19 +348,19 @@ public class TransferContract extends VerticalLayout implements View {
                     for (Object obj : list) {
                         Object ob = obj;
                         final Object rootId1 = contractDashBoardTable.addItem();
-                        contractDashBoardTable.getContainerProperty(rootId1, "category").setValue(Constants.CFP);
-                        contractDashBoardTable.getContainerProperty(rootId1, "dashboardId").setValue(cfpIdvalue);
-                        contractDashBoardTable.getContainerProperty(rootId1, "dashboardNumber").setValue(cfpNovalue);
-                        contractDashBoardTable.getContainerProperty(rootId1, "dashboardName").setValue(compFamilyPlanName);
-                        contractDashBoardTable.getContainerProperty(rootId1, "levelNo").setValue("1");
+                        contractDashBoardTable.getContainerProperty(rootId1, StringConstantsUtil.CATEGORY).setValue(Constants.CFP);
+                        contractDashBoardTable.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_ID).setValue(cfpIdvalue);
+                        contractDashBoardTable.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_NUMBER).setValue(cfpNovalue);
+                        contractDashBoardTable.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_NAME).setValue(compFamilyPlanName);
+                        contractDashBoardTable.getContainerProperty(rootId1, StringConstantsUtil.LEVEL_NO).setValue("1");
                         contractDashBoardTable.getContainerProperty(rootId1, Constants.CFP_START_DATE).setValue(cfpStDate);
                         contractDashBoardTable.getContainerProperty(rootId1, Constants.CFP_END_DATE).setValue(cfpEnDate);
                         contractDashBoardTable.getContainerProperty(rootId1, Constants.CFP_NAME).setValue(compFamilyPlanName);
                         contractDashBoardTable.getContainerProperty(rootId1, "id").setValue(cfpIdvalue);
-                        contractDashBoardTable.getContainerProperty(rootId1, "cfpNo").setValue(cfpNovalue);
+                        contractDashBoardTable.getContainerProperty(rootId1, StringConstantsUtil.CFP_NO).setValue(cfpNovalue);
                         HelperDTO statusDTO=(HelperDTO)cfpStatus.getValue();
                         String cStatus=String.valueOf(statusDTO.getId());
-                        contractDashBoardTable.getContainerProperty(rootId1, "cfpStatus").setValue(cStatus);
+                        contractDashBoardTable.getContainerProperty(rootId1, StringConstantsUtil.CFP_STATUS).setValue(cStatus);
                         contractDashBoardTable.addItem(rootId1);
                         contractDashBoardTable.addItem(rootId1);
                         contractDashBoardTable.setParent(rootId1, ob);
@@ -372,11 +372,11 @@ public class TransferContract extends VerticalLayout implements View {
             }
             if (tabPosition == 1 && contractDashBoardTable1.getItemIds().isEmpty()) {
                 final Object rootId = contractDashBoardTable1.addItem();
-                contractDashBoardTable1.getContainerProperty(rootId, "category").setValue("Contract Header");
-                contractDashBoardTable1.getContainerProperty(rootId, "dashboardId").setValue(cNo);
-                contractDashBoardTable1.getContainerProperty(rootId, "dashboardNumber").setValue(cNo);
-                contractDashBoardTable1.getContainerProperty(rootId, "dashboardName").setValue(cName);
-                contractDashBoardTable1.getContainerProperty(rootId, "levelNo").setValue(Constants.ZEROSTRING);
+                contractDashBoardTable1.getContainerProperty(rootId, StringConstantsUtil.CATEGORY).setValue(StringConstantsUtil.CONTRACT_HEADER);
+                contractDashBoardTable1.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_ID).setValue(cNo);
+                contractDashBoardTable1.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_NUMBER).setValue(cNo);
+                contractDashBoardTable1.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_NAME).setValue(cName);
+                contractDashBoardTable1.getContainerProperty(rootId, StringConstantsUtil.LEVEL_NO).setValue(Constants.ZEROSTRING);
                 contractDashBoardTable1.getContainerProperty(rootId, Constants.MARKET_TYPE).setValue(mType);
                 contractDashBoardTable1.getContainerProperty(rootId, Constants.CONTRACT_HOLDER).setValue(cHolder);
                 contractDashBoardTable1.getContainerProperty(rootId, Constants.START_DATE).setValue(sDate);
@@ -386,9 +386,9 @@ public class TransferContract extends VerticalLayout implements View {
                 contractDashBoardTable1.getContainerProperty(rootId, Constants.CFP_START_DATE).setValue(cfpStartDate);
                 contractDashBoardTable1.getContainerProperty(rootId, Constants.CFP_END_DATE).setValue(cfpEndDate);
                 contractDashBoardTable1.getContainerProperty(rootId, "type").setValue(aliasType);
-                contractDashBoardTable1.getContainerProperty(rootId, "aliasStartDate").setValue(aliasSDATE);
-                contractDashBoardTable1.getContainerProperty(rootId, "number").setValue(aliasNumber);
-                contractDashBoardTable1.getContainerProperty(rootId, "aliasEndDate").setValue(aliasEDATE);
+                contractDashBoardTable1.getContainerProperty(rootId, StringConstantsUtil.ALIAS_START_DATE).setValue(aliasSDATE);
+                contractDashBoardTable1.getContainerProperty(rootId, StringConstantsUtil.NUMBER).setValue(aliasNumber);
+                contractDashBoardTable1.getContainerProperty(rootId, StringConstantsUtil.ALIAS_END_DATE).setValue(aliasEDATE);
                 contractDashBoardTable1.addItem(rootId);
                 contractDashBoardTable1.setChildrenAllowed(rootId, true);
 
@@ -396,19 +396,19 @@ public class TransferContract extends VerticalLayout implements View {
                 for (Object obj : list) {
                     Object ob = obj;
                     final Object rootId1 = contractDashBoardTable1.addItem();
-                    contractDashBoardTable1.getContainerProperty(rootId1, "category").setValue(Constants.CFP);
-                    contractDashBoardTable1.getContainerProperty(rootId1, "dashboardId").setValue(cfpIdvalue);
-                    contractDashBoardTable1.getContainerProperty(rootId1, "dashboardNumber").setValue(cfpNovalue);
-                    contractDashBoardTable1.getContainerProperty(rootId1, "dashboardName").setValue(compFamilyPlanName);
+                    contractDashBoardTable1.getContainerProperty(rootId1, StringConstantsUtil.CATEGORY).setValue(Constants.CFP);
+                    contractDashBoardTable1.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_ID).setValue(cfpIdvalue);
+                    contractDashBoardTable1.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_NUMBER).setValue(cfpNovalue);
+                    contractDashBoardTable1.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_NAME).setValue(compFamilyPlanName);
                     contractDashBoardTable1.getContainerProperty(rootId1, Constants.CFP_NAME).setValue(compFamilyPlanName);
-                    contractDashBoardTable1.getContainerProperty(rootId1, "levelNo").setValue("1");
+                    contractDashBoardTable1.getContainerProperty(rootId1, StringConstantsUtil.LEVEL_NO).setValue("1");
                     contractDashBoardTable1.getContainerProperty(rootId1, Constants.CFP_START_DATE).setValue(cfpStDate);
                     contractDashBoardTable1.getContainerProperty(rootId1, Constants.CFP_END_DATE).setValue(cfpEnDate);
                     contractDashBoardTable1.getContainerProperty(rootId1, "id").setValue(cfpIdvalue);
-                    contractDashBoardTable1.getContainerProperty(rootId1, "cfpNo").setValue(cfpNovalue);
+                    contractDashBoardTable1.getContainerProperty(rootId1, StringConstantsUtil.CFP_NO).setValue(cfpNovalue);
                     HelperDTO statusDTO=(HelperDTO)cfpStatus.getValue();
                     String cStatus=String.valueOf(statusDTO.getId());
-                    contractDashBoardTable1.getContainerProperty(rootId1, "cfpStatus").setValue(cStatus);
+                    contractDashBoardTable1.getContainerProperty(rootId1, StringConstantsUtil.CFP_STATUS).setValue(cStatus);
                     contractDashBoardTable1.addItem(rootId1);
                     contractDashBoardTable1.setParent(rootId1, ob);
                     contractDashBoardTable1.setChildrenAllowed(rootId1, true);
@@ -416,14 +416,14 @@ public class TransferContract extends VerticalLayout implements View {
 
                 }
             }
-
+ 
             if (tabPosition == 0 && contractDashBoardTable2.getItemIds().isEmpty()) {
                 final Object rootId = contractDashBoardTable2.addItem();
-                contractDashBoardTable2.getContainerProperty(rootId, "category").setValue("Contract Header");
-                contractDashBoardTable2.getContainerProperty(rootId, "dashboardId").setValue(cNo);
-                contractDashBoardTable2.getContainerProperty(rootId, "dashboardNumber").setValue(cNo);
-                contractDashBoardTable2.getContainerProperty(rootId, "dashboardName").setValue(cName);
-                contractDashBoardTable2.getContainerProperty(rootId, "levelNo").setValue(Constants.ZEROSTRING);
+                contractDashBoardTable2.getContainerProperty(rootId, StringConstantsUtil.CATEGORY).setValue(StringConstantsUtil.CONTRACT_HEADER);
+                contractDashBoardTable2.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_ID).setValue(cNo);
+                contractDashBoardTable2.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_NUMBER).setValue(cNo);
+                contractDashBoardTable2.getContainerProperty(rootId, StringConstantsUtil.DASHBOARD_NAME).setValue(cName);
+                contractDashBoardTable2.getContainerProperty(rootId, StringConstantsUtil.LEVEL_NO).setValue(Constants.ZEROSTRING);
                 contractDashBoardTable2.getContainerProperty(rootId, Constants.MARKET_TYPE).setValue(mType);
                 contractDashBoardTable2.getContainerProperty(rootId, Constants.CONTRACT_HOLDER).setValue(cHolder);
                 contractDashBoardTable2.getContainerProperty(rootId, Constants.START_DATE).setValue(sDate);
@@ -433,9 +433,9 @@ public class TransferContract extends VerticalLayout implements View {
                 contractDashBoardTable2.getContainerProperty(rootId, Constants.CFP_START_DATE).setValue(cfpStartDate);
                 contractDashBoardTable2.getContainerProperty(rootId, Constants.CFP_END_DATE).setValue(cfpEndDate);
                 contractDashBoardTable2.getContainerProperty(rootId, "type").setValue(aliasType);
-                contractDashBoardTable2.getContainerProperty(rootId, "aliasStartDate").setValue(aliasSDATE);
-                contractDashBoardTable2.getContainerProperty(rootId, "number").setValue(aliasNumber);
-                contractDashBoardTable2.getContainerProperty(rootId, "aliasEndDate").setValue(aliasEDATE);
+                contractDashBoardTable2.getContainerProperty(rootId, StringConstantsUtil.ALIAS_START_DATE).setValue(aliasSDATE);
+                contractDashBoardTable2.getContainerProperty(rootId, StringConstantsUtil.NUMBER).setValue(aliasNumber);
+                contractDashBoardTable2.getContainerProperty(rootId, StringConstantsUtil.ALIAS_END_DATE).setValue(aliasEDATE);
                 contractDashBoardTable2.addItem(rootId);
                 contractDashBoardTable2.setChildrenAllowed(rootId, true);
 
@@ -443,19 +443,19 @@ public class TransferContract extends VerticalLayout implements View {
                 for (Object obj : list) {
                     Object ob = obj;
                     final Object rootId1 = contractDashBoardTable2.addItem();
-                    contractDashBoardTable2.getContainerProperty(rootId1, "category").setValue(Constants.CFP);
-                    contractDashBoardTable2.getContainerProperty(rootId1, "dashboardId").setValue(cfpIdvalue);
-                    contractDashBoardTable2.getContainerProperty(rootId1, "dashboardNumber").setValue(cfpNovalue);
-                    contractDashBoardTable2.getContainerProperty(rootId1, "dashboardName").setValue(compFamilyPlanName);
-                    contractDashBoardTable2.getContainerProperty(rootId1, "levelNo").setValue("1");
+                    contractDashBoardTable2.getContainerProperty(rootId1, StringConstantsUtil.CATEGORY).setValue(Constants.CFP);
+                    contractDashBoardTable2.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_ID).setValue(cfpIdvalue);
+                    contractDashBoardTable2.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_NUMBER).setValue(cfpNovalue);
+                    contractDashBoardTable2.getContainerProperty(rootId1, StringConstantsUtil.DASHBOARD_NAME).setValue(compFamilyPlanName);
+                    contractDashBoardTable2.getContainerProperty(rootId1, StringConstantsUtil.LEVEL_NO).setValue("1");
                     contractDashBoardTable2.getContainerProperty(rootId1, Constants.CFP_START_DATE).setValue(cfpStDate);
                     contractDashBoardTable2.getContainerProperty(rootId1, Constants.CFP_END_DATE).setValue(cfpEnDate);
                     contractDashBoardTable2.getContainerProperty(rootId1, Constants.CFP_NAME).setValue(compFamilyPlanName);
                     contractDashBoardTable2.getContainerProperty(rootId1, "id").setValue(cfpIdvalue);
-                    contractDashBoardTable2.getContainerProperty(rootId1, "cfpNo").setValue(cfpNovalue);
+                    contractDashBoardTable2.getContainerProperty(rootId1, StringConstantsUtil.CFP_NO).setValue(cfpNovalue);
                     HelperDTO statusDTO=(HelperDTO)cfpStatus.getValue();
                     String cStatus=String.valueOf(statusDTO.getId());
-                    contractDashBoardTable2.getContainerProperty(rootId1, "cfpStatus").setValue(cStatus);
+                    contractDashBoardTable2.getContainerProperty(rootId1, StringConstantsUtil.CFP_STATUS).setValue(cStatus);
                     contractDashBoardTable2.addItem(rootId1);
                     contractDashBoardTable2.setParent(rootId1, ob);
                     contractDashBoardTable2.setChildrenAllowed(rootId1, true);
@@ -475,7 +475,7 @@ public class TransferContract extends VerticalLayout implements View {
 
     public void loadTransferComponenttable(ExtPagedTable table) {
         BeanItemContainer<CurrentContractDTO> transferCompContainer1 = transferComponents.getTransferCompContainer1();
-        List<CurrentContractDTO> selectedList = new ArrayList<CurrentContractDTO>();
+        List<CurrentContractDTO> selectedList = new ArrayList<>();
         Collection list = table.getItemIds();
         for (final Iterator<Object> iterator = list.iterator(); iterator.hasNext();) {
             final Object item = iterator.next();
@@ -519,6 +519,7 @@ public class TransferContract extends VerticalLayout implements View {
                      String.valueOf(list.get(0));
                  }
                  logic.callCcpInsertProcedure();
+                 logic.callActualsDetailsInsertProcedure();
              } catch (SystemException ex) {
                  java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
              } catch (PortalException ex) {

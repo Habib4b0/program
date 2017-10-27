@@ -134,7 +134,7 @@ public class ProjNameConfigMainView extends VerticalLayout implements View {
      * @param event the event
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
 }

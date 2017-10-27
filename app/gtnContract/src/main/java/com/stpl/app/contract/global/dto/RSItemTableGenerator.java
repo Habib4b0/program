@@ -1,5 +1,6 @@
 package com.stpl.app.contract.global.dto;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.common.util.HelperListUtil;
@@ -14,11 +15,13 @@ import com.stpl.app.contract.dashboard.ui.lookup.NetSalesRuleLookup;
 import com.stpl.app.contract.dashboard.ui.lookup.RebateFormulaPopup;
 import com.stpl.app.contract.dashboard.ui.lookup.RebatePlanLookup;
 import com.stpl.app.contract.dashboard.ui.lookup.RsDeductionLookup;
+import com.stpl.app.contract.global.logic.CFPSearchLogic;
 import com.stpl.app.contract.global.logic.IfpLogic;
 import static com.stpl.app.contract.global.logic.RebateScheduleLogic.getImtdFormulaDescList;
 import com.stpl.app.contract.util.AbstractNotificationUtils;
 import com.stpl.app.contract.util.CommonUIUtils;
 import com.stpl.app.contract.util.Constants;
+import com.stpl.app.contract.util.QueryUtil;
 import com.stpl.app.model.FormulaDetailsMaster;
 import com.stpl.app.service.FormulaDetailsMasterLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -33,6 +36,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -53,7 +57,6 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.jboss.logging.Logger;
 
-
 /**
  * The Class RSItemTableGenerator.
  */
@@ -69,12 +72,18 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
     SessionDTO sessionDTO;
     private CommonUtil commonUtil = CommonUtil.getInstance();
     Map<String, List> tempDate;
-    List<Date> tempDateList = new ArrayList<Date>();
+    List<Date> tempDateList = new ArrayList<>();
     Object[] dates;
     SimpleDateFormat format = new SimpleDateFormat("MM/dd/YYYY");
     HelperListUtil helperList = HelperListUtil.getInstance();
     private HashMap rpNameMap = new HashMap();
     private HashMap rpAmtMap = new HashMap();
+    private CFPSearchLogic cfpLogic;
+    private String userId;
+    private String sessionId;
+    List checkUpdate = new ArrayList();
+    List checkSelect = new ArrayList();
+    private int check;
 
     public RSItemTableGenerator(CustomePagedFilterTable table, BeanItemContainer<TempRebateDTO> saveContainer, final SessionDTO sessionDTO, final Map<String, List> tempDate, final Object[] dates) {
         this.saveContainer = saveContainer;
@@ -98,8 +107,10 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
         tempDateList.add(temp.getRebateStartDate());
         tempDateList.add(temp.getRebateEndDate());
         tempDate.put(temp.getItemId(), tempDateList);
+        final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
+        sessionId = sessionDTO.getUiSessionId();
         if (Constants.CHECK_BOX.equals(propertyId)) {
-             final ExtCustomCheckBox checkbox = new ExtCustomCheckBox();
+            final ExtCustomCheckBox checkbox = new ExtCustomCheckBox();
             checkbox.setValue(temp.getCheckbox());
             checkbox.setReadOnly(false);
             checkbox.setId("contractdashboardcheckbox");
@@ -110,12 +121,57 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                     temp.getTempItemPriceRebateSystemId();
                     IfpLogic.updateTempCheck(sessionDTO,temp.getTempItemPriceRebateSystemId(),checkbox.getValue());
                 }
-                }
+            }
             );
+            checkbox.addValueChangeListener(new Property.ValueChangeListener() {
+
+                @Override
+                public void valueChange(ValueChangeEvent event) {
+
+                    saveContainer.addItem(itemId);
+                    IfpLogic.updateTempCheck(sessionDTO, temp.getTempItemPriceRebateSystemId(), checkbox.getValue());
+                    
+
+                    if (temp.getCheckbox() != null) {
+                        saveContainer.addItem(itemId);
+                        check = temp.getCheckbox() ? 1 : 0;
+
+                        checkUpdate = new ArrayList();
+
+                        checkUpdate.add(check);
+                        checkUpdate.add(sessionId);
+                        checkUpdate.add(userId);
+                        checkUpdate.add(temp.getTempItemPriceRebateSystemId());
+
+                        QueryUtil.updateAppData(checkUpdate, "ItemPricingCheckUpdate");
+                        
+                        checkUpdate = new ArrayList();
+
+                        checkUpdate.add(sessionId);
+                        checkUpdate.add(userId);
+
+                        checkSelect = new ArrayList();
+
+                        checkSelect = QueryUtil.getAppData(checkUpdate, "ItemPricingCheckSelect", null);
+
+                        if (checkSelect.size() == 0) {
+                            table.setCurrentPage(table.getCurrentPage());
+                            table.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, true);
+                        } else {
+                            table.setCurrentPage(table.getCurrentPage());
+                            table.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, false);
+                        }
+
+                    }
+
+                }
+
+            });
+
             return checkbox;
         }
 
-        if ("rebateStartDate".equals(propertyId)) {
+        if (ConstantUtil.REBATE_START_DATE.equals(propertyId)) {
             try {
                 final PopupDateField startDate = new PopupDateField();
                 startDate.setRequired(true);
@@ -124,21 +180,21 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                 startDate.setRequiredError("Start Date should  be present");
                 startDate.setDescription(Constants.DATE);
                 startDate.setValue(temp.getRebateStartDate());
-                attachListeners(startDate, "rebateStartDate", itemId, temp);
+                attachListeners(startDate, ConstantUtil.REBATE_START_DATE, itemId, temp);
                 return startDate;
             } catch (Exception ex) {
                 LOGGER.error(ex);
                 return null;
             }
         }
-        if ("rebateEndDate".equals(propertyId)) {
+        if (ConstantUtil.REBATE_END_DATE.equals(propertyId)) {
             try {
                 final PopupDateField endDate = new PopupDateField();
                 endDate.setDateFormat(Constants.MM_DD_YYYY);
                 endDate.setImmediate(true);
                 endDate.setDescription(Constants.DATE);
                 endDate.setValue(temp.getRebateEndDate());
-                attachListeners(endDate, "rebateEndDate", itemId, temp);
+                attachListeners(endDate, ConstantUtil.REBATE_END_DATE, itemId, temp);
                 return endDate;
 
             } catch (Exception ex) {
@@ -163,7 +219,7 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                     int imtdContRsdSid = Integer.valueOf(temp.getTempItemPriceRebateSystemId());
                     int itemSid = Integer.parseInt(temp.getItemSystemId());
                     if (lookUp == null) {
-                        lookUp = new RebateFormulaPopup(imtdContRsdSid, 0, 0, itemSid, temp.getItemId(), sessionDTO);
+                        lookUp = new RebateFormulaPopup(imtdContRsdSid, itemSid, sessionDTO);
                         UI.getCurrent().addWindow(lookUp);
                         lookUp.addCloseListener(new Window.CloseListener() {
                             /**
@@ -174,11 +230,11 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                                 try {
                                     DynamicQuery query = DynamicQueryFactoryUtil.forClass(FormulaDetailsMaster.class);
                                     List<Integer> formulaIdList = getImtdFormulaDescList(Integer.parseInt(temp.getItemSystemId()), sessionDTO);
-                                    List<String> newList = new ArrayList<String>(formulaIdList.size());
+                                    List<String> newList = new ArrayList<>(formulaIdList.size());
                                     for (Integer myInt : formulaIdList) {
                                         newList.add(String.valueOf(myInt));
                                     }
-                                    if (formulaIdList != null && !formulaIdList.isEmpty()) {
+                                    if (!formulaIdList.isEmpty()) {
                                         query.add(RestrictionsFactoryUtil.in(Constants.FORMULA_ID, newList));
                                         query.add(RestrictionsFactoryUtil.eq(Constants.ITEM_ID, temp.getItemId()));
                                         query.add(RestrictionsFactoryUtil.le(Constants.START_DATE, new Date()));
@@ -233,7 +289,6 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
             return rebateAmount;
         }
 
-
         if (propertyId.equals(Constants.REBATE_BUNDLE_NO)) {
             final TextField bundleNo = new TextField();
             bundleNo.setValue((String) container.getItem(itemId).getItemProperty(Constants.REBATE_BUNDLE_NO).getValue());
@@ -286,38 +341,38 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
             return attachedStatus;
         }
 
-            if (propertyId.equals(ConstantsUtils.FORMULA_NO)) {
-                final CustomTextField formulaNo = new CustomTextField();
-                formulaNo.setImmediate(true);
-                formulaNo.setReadOnly(false);
-                formulaNo.setValue(temp.getFormulaNo());
-                formulaNo.setReadOnly(true);
-                formulaNo.addStyleName(Constants.SEARCH_ICON_STYLE);
+        if (propertyId.equals(ConstantsUtils.FORMULA_NO)) {
+            final CustomTextField formulaNo = new CustomTextField();
+            formulaNo.setImmediate(true);
+            formulaNo.setReadOnly(false);
+            formulaNo.setValue(temp.getFormulaNo());
+            formulaNo.setReadOnly(true);
+            formulaNo.addStyleName(Constants.SEARCH_ICON_STYLE);
 
-                formulaNo.addClickListener(new CustomTextField.ClickListener() {
-                    /**
-                     * Method used for formulaNo
-                     */
-                    public void click(final CustomTextField.ClickEvent event) {
+            formulaNo.addClickListener(new CustomTextField.ClickListener() {
+                /**
+                 * Method used for formulaNo
+                 */
+                public void click(final CustomTextField.ClickEvent event) {
 
-                        try {
-                            final FormulaLookup formulaLookup = new FormulaLookup(temp.getItemId());
-                            UI.getCurrent().addWindow(formulaLookup);
-                            formulaLookup.addCloseListener(new Window.CloseListener() {
-                                @Override
-                                public void windowClose(Window.CloseEvent e) {
-                                    if (formulaLookup.isSelected()) {
-                                        PriceProtectionFormulaDTO rSFormulaDTO = formulaLookup.getSelectedItem();
-                                        formulaNo.setReadOnly(false);
-                                        formulaNo.setValue(rSFormulaDTO.getFormulaNo());
-                                        formulaNo.setReadOnly(true);
-                                        container.getContainerProperty(itemId, propertyId).setValue(rSFormulaDTO.getFormulaNo());
-                                        table.getContainerProperty(itemId, "formulaName").setValue(rSFormulaDTO.getFormulaName());
-                                        table.getItem(itemId).getItemProperty("formulaSystemId").setValue(String.valueOf(rSFormulaDTO.getFormulaID()));
-                                        saveContainer.addItem(updateChanged(itemId, rSFormulaDTO.getFormulaID(), rSFormulaDTO.getFormulaNo(), rSFormulaDTO.getFormulaName()));
-                                        saveContainer.addItem(itemId);
-                                    }
+                    try {
+                        final FormulaLookup formulaLookup = new FormulaLookup(temp.getItemId());
+                        UI.getCurrent().addWindow(formulaLookup);
+                        formulaLookup.addCloseListener(new Window.CloseListener() {
+                            @Override
+                            public void windowClose(Window.CloseEvent e) {
+                                if (formulaLookup.isSelected()) {
+                                    PriceProtectionFormulaDTO rSFormulaDTO = formulaLookup.getSelectedItem();
+                                    formulaNo.setReadOnly(false);
+                                    formulaNo.setValue(rSFormulaDTO.getFormulaNo());
+                                    formulaNo.setReadOnly(true);
+                                    container.getContainerProperty(itemId, propertyId).setValue(rSFormulaDTO.getFormulaNo());
+                                    table.getContainerProperty(itemId, "formulaName").setValue(rSFormulaDTO.getFormulaName());
+                                    table.getItem(itemId).getItemProperty("formulaSystemId").setValue(String.valueOf(rSFormulaDTO.getFormulaID()));
+                                    saveContainer.addItem(updateChanged(itemId, rSFormulaDTO.getFormulaID(), rSFormulaDTO.getFormulaNo(), rSFormulaDTO.getFormulaName()));
+                                    saveContainer.addItem(itemId);
                                 }
+                            }
                         });
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -336,7 +391,7 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                 public void click(CustomTextField.ClickEvent event) {
                     try {
                         HelperDTO tempDto = new HelperDTO();
-                        for (HelperDTO helperDto : helperList.getListNameMap().get("RULE_TYPE")) {
+                        for (HelperDTO helperDto : helperList.getListNameMap().get(ConstantUtil.RULE_TYPE_LIST)) {
                             if (helperDto.getDescription().equalsIgnoreCase("Evaluation")) {
                                 tempDto.setId(helperDto.getId());
                                 tempDto.setDescription(helperDto.getDescription());
@@ -378,7 +433,7 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                 public void click(final CustomTextField.ClickEvent event) {
 
                     try {
-                        final NetSalesFormulaLookup netSalesLookup = new NetSalesFormulaLookup(true,netSalesFormulaNo);
+                        final NetSalesFormulaLookup netSalesLookup = new NetSalesFormulaLookup(true, netSalesFormulaNo);
                         UI.getCurrent().addWindow(netSalesLookup);
                         netSalesLookup.addCloseListener(new Window.CloseListener() {
                             @Override
@@ -413,7 +468,7 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                 public void click(CustomTextField.ClickEvent event) {
                     try {
                         HelperDTO tempDto = new HelperDTO();
-                        for (HelperDTO helperDto : helperList.getListNameMap().get("RULE_TYPE")) {
+                        for (HelperDTO helperDto : helperList.getListNameMap().get(ConstantUtil.RULE_TYPE_LIST)) {
                             if (helperDto.getDescription().equalsIgnoreCase("Net Sales")) {
                                 tempDto.setId(helperDto.getId());
                                 tempDto.setDescription(helperDto.getDescription());
@@ -488,7 +543,7 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                 public void click(CustomTextField.ClickEvent event) {
                     try {
                         HelperDTO tempDto = new HelperDTO();
-                        for (HelperDTO helperDto : helperList.getListNameMap().get("RULE_TYPE")) {
+                        for (HelperDTO helperDto : helperList.getListNameMap().get(ConstantUtil.RULE_TYPE_LIST)) {
                             if (helperDto.getDescription().equalsIgnoreCase("Calculation")) {
                                 tempDto.setId(helperDto.getId());
                                 tempDto.setDescription(helperDto.getDescription());
@@ -506,8 +561,8 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                                     netSalesLookup.setData(searchDTO.getRuleSystemId());
                                     table.getItem(itemId).getItemProperty("calculationSystemId").setValue(searchDTO.getRuleSystemId());
                                     saveContainer.addItem(itemId);
-                    }
-            }
+                                }
+                            }
                         });
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -534,18 +589,19 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
 
                             @Override
                             public void windowClose(Window.CloseEvent e) {
-                                    if (rebatePlanLookup.isSelected()) {
-                                        RebatePlanDTO rebatePlanDTO = rebatePlanLookup.getSelectedItem();
-                                        customTextField.setReadOnly(false);
-                                        customTextField.setValue(rebatePlanDTO.getRebatePlanNo());
-                                        customTextField.setReadOnly(true);
-                                        container.getContainerProperty(itemId, propertyId).setValue(rebatePlanDTO.getRebatePlanNo());                                        
-                                        table.getContainerProperty(itemId, "rebatePlanName").setValue(rebatePlanDTO.getRebatePlanName());
-                                        customTextField.setData(rebatePlanDTO.getRebatePlanSystemId());
-                                        table.getItem(itemId).getItemProperty("rebatePlanSystemId").setValue(rebatePlanDTO.getRebatePlanSystemId());
-                                        saveContainer.addItem(itemId);
-                                    }
+                                if (rebatePlanLookup.isSelected()) {
+                                    RebatePlanDTO rebatePlanDTO = rebatePlanLookup.getSelectedItem();
+                                    customTextField.setReadOnly(false);
+                                    customTextField.setValue(rebatePlanDTO.getRebatePlanNo());
+                                    customTextField.setReadOnly(true);
+                                    container.getContainerProperty(itemId, propertyId).setValue(rebatePlanDTO.getRebatePlanNo());
+                                    table.getContainerProperty(itemId, "rebatePlanName").setValue(rebatePlanDTO.getRebatePlanName());
+                                    customTextField.setData(rebatePlanDTO.getRebatePlanSystemId());
+                                    table.getItem(itemId).getItemProperty("rebatePlanSystemId").setValue(rebatePlanDTO.getRebatePlanSystemId());
+                                    saveContainer.addItem(itemId);
+                                    table.setRefresh(true);
                                 }
+                            }
                         });
                     } catch (Exception ex) {
                         LOGGER.error(ex);
@@ -555,46 +611,46 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
             customTextField.setReadOnly(true);
             return customTextField;
         }
-        
+
         if (propertyId.equals(Constants.DEDUCTION_CALENDAR_NO)) {
-                  final CustomTextField deductionCalendarNo = new CustomTextField();
-                  deductionCalendarNo.setImmediate(true);
-                  deductionCalendarNo.setReadOnly(false);
-                  deductionCalendarNo.setValue(temp.getFormulaNo());
-                  deductionCalendarNo.setReadOnly(true);
-                  deductionCalendarNo.addStyleName(Constants.SEARCH_ICON_STYLE);
+            final CustomTextField deductionCalendarNo = new CustomTextField();
+            deductionCalendarNo.setImmediate(true);
+            deductionCalendarNo.setReadOnly(false);
+            deductionCalendarNo.setValue(temp.getFormulaNo());
+            deductionCalendarNo.setReadOnly(true);
+            deductionCalendarNo.addStyleName(Constants.SEARCH_ICON_STYLE);
 
-                  deductionCalendarNo.addClickListener(new CustomTextField.ClickListener() {
-                      /**
-                       * Method used for formulaNo
-                       */
-                      public void click(final CustomTextField.ClickEvent event) {
+            deductionCalendarNo.addClickListener(new CustomTextField.ClickListener() {
+                /**
+                 * Method used for formulaNo
+                 */
+                public void click(final CustomTextField.ClickEvent event) {
 
-                          try {
-                              final RsDeductionLookup deductionLookup = new RsDeductionLookup(deductionCalendarNo);
-                              UI.getCurrent().addWindow(deductionLookup);
-                              deductionLookup.addCloseListener(new Window.CloseListener() {
-                                  @Override
-                                  public void windowClose(Window.CloseEvent e) {
-                                      if (deductionLookup.isSelected) {
-                                          RsDeductionLookupDto deductionDto = deductionLookup.getDeductionDto();
-                                          container.getContainerProperty(itemId, propertyId).setValue(deductionDto.getDeductionNo());
-                                          table.getContainerProperty(itemId, Constants.DEDUCTION_CALENDAR_NAME).setValue(deductionDto.getDeductionName());
-                                          deductionCalendarNo.setData(deductionDto.getDeductionSystemId());
-                                          table.getItem(itemId).getItemProperty("deductionSystemId").setValue(deductionDto.getDeductionSystemId());
-                                          saveContainer.addItem(itemId);
-                                          table.setRefresh(true);
-                                      }
-                                  }
-                              });
-                          } catch (Exception ex) {
-                              LOGGER.error(ex);
-                          }
-                      }
-                  });
-                return deductionCalendarNo;
-            }
-        
+                    try {
+                        final RsDeductionLookup deductionLookup = new RsDeductionLookup(deductionCalendarNo);
+                        UI.getCurrent().addWindow(deductionLookup);
+                        deductionLookup.addCloseListener(new Window.CloseListener() {
+                            @Override
+                            public void windowClose(Window.CloseEvent e) {
+                                if (deductionLookup.isSelected) {
+                                    RsDeductionLookupDto deductionDto = deductionLookup.getDeductionDto();
+                                    container.getContainerProperty(itemId, propertyId).setValue(deductionDto.getDeductionNo());
+                                    table.getContainerProperty(itemId, Constants.DEDUCTION_CALENDAR_NAME).setValue(deductionDto.getDeductionName());
+                                    deductionCalendarNo.setData(deductionDto.getDeductionSystemId());
+                                    table.getItem(itemId).getItemProperty("deductionSystemId").setValue(deductionDto.getDeductionSystemId());
+                                    saveContainer.addItem(itemId);
+                                    table.setRefresh(true);
+                                }
+                            }
+                        });
+                    } catch (Exception ex) {
+                        LOGGER.error(ex);
+                    }
+                }
+            });
+            return deductionCalendarNo;
+        }
+
         if (propertyId.equals(ConstantsUtils.FORMULA_TYPE)) {
             ComboBox formulaType = new ComboBox();
             formulaType.addItem("-Select One-");
@@ -613,7 +669,7 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
             });
             return formulaType;
         }
-        
+
         return null;
     }
 
@@ -624,21 +680,21 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
         return itemId;
     }
 
-    public void attachListeners(final AbstractField field, final String component, final Object itemId, final TempRebateDTO temp)  {
+    public void attachListeners(final AbstractField field, final String component, final Object itemId, final TempRebateDTO temp) {
         field.setImmediate(true);
         field.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(ValueChangeEvent event) {
                 try {
-                    if ("rebateStartDate".equals(component)) {
+                    if (ConstantUtil.REBATE_START_DATE.equals(component)) {
                         tempDateList = tempDate.get(temp.getItemId());
-                        if (((PopupDateField) field).getValue()!=null && ((PopupDateField) field).getValue().before((Date) dates[0])) {
+                        if (((PopupDateField) field).getValue() != null && ((PopupDateField) field).getValue().before((Date) dates[0])) {
                             AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be before " + format.format(dates[0]));
                             detachListeners(field);
                             ((PopupDateField) field).setValue(tempDateList.get(0));
                             attachListeners(field, component, itemId, temp);
                             return;
-                        } else if (((PopupDateField) field).getValue()!=null && (Date) dates[1] != null && ((PopupDateField) field).getValue().after((Date) dates[1])) {
+                        } else if (((PopupDateField) field).getValue() != null && (Date) dates[1] != null && ((PopupDateField) field).getValue().after((Date) dates[1])) {
                             AbstractNotificationUtils.getErrorNotification(Constants.POPULATE_ERROR, "Start date cannot be after " + format.format(dates[1]));
                             detachListeners(field);
                             ((PopupDateField) field).setValue(tempDateList.get(0));
@@ -649,7 +705,7 @@ public class RSItemTableGenerator extends DefaultFieldFactory {
                             saveContainer.addItem(itemId);
                             ((PopupDateField) field).setDescription(CommonUIUtils.convert2DigitTo4DigitYear(((PopupDateField) field).getValue()));
                         }
-                    } else if ("rebateEndDate".equals(component)) {
+                    } else if (ConstantUtil.REBATE_END_DATE.equals(component)) {
                         tempDateList = tempDate.get(temp.getItemId());
                         if ((Date) dates[1] != null && ((PopupDateField) field).getValue().after((Date) dates[1])) {
                             detachListeners(field);

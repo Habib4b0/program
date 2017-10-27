@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.logic;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.ui.projectionresults.dto.LevelMapKey;
 import com.stpl.app.cff.util.HelperListUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
@@ -80,7 +81,7 @@ public class CustomViewLogic {
           LOGGER.debug("select the Data from CUSTOM_CCP_MAP  table :");
         String query = SQlUtil.getQuery(queryName);
         query = query.replace("[$PROJECTION_MASTER_SID]", projectionId);
-        query = query.replace("[$CUSTOM_VIEW_MASTER_SID]", customViewMasterSid);
+        query = query.replace(StringConstantsUtil.DOLLAR_CUSTOM_VIEW_MASTER_SID, customViewMasterSid);
         List<Object[]> rawList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return rawList;
 
@@ -90,14 +91,14 @@ public class CustomViewLogic {
         LOGGER.debug("Insert the Data in CUSTOM_CCP_MAP table :"+customViewMasterSid+"  query name==="+queryName);
         String query = SQlUtil.getQuery(queryName);
         query = query.replace("[$PROJECTION_MASTER_SID]", projectionId);
-        query = query.replace("[$CUSTOM_VIEW_MASTER_SID]", customViewMasterSid);
+        query = query.replace(StringConstantsUtil.DOLLAR_CUSTOM_VIEW_MASTER_SID, customViewMasterSid);
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
     }
 
     public void executeDelete(String customViewMasterSid) {
         String query = SQlUtil.getQuery("DELETE_CUSTOM_VIEW_TABLES");
-        query = query.replace("[$CUSTOM_VIEW_MASTER_SID]", customViewMasterSid);
+        query = query.replace(StringConstantsUtil.DOLLAR_CUSTOM_VIEW_MASTER_SID, customViewMasterSid);
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
     }

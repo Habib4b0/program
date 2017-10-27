@@ -97,6 +97,7 @@ public class FileUploadForm extends CustomComponent implements View, Upload.Succ
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /**

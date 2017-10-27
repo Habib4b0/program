@@ -69,7 +69,7 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
         try {
             switch (tabName) {
                 case AccrualRateUtils.SALES:
-                    list = searchLogic.getDataForSales(accrualRateSelectionDTO, selectedVariables, start, offset, false, isViewMode);
+                    list = searchLogic.getDataForSales(accrualRateSelectionDTO, start, offset, false, isViewMode);
                     break;
                 case AccrualRateUtils.RATES:
                     list = searchLogic.getDataForRates(accrualRateSelectionDTO, start, offset, false, isViewMode);

@@ -6,6 +6,8 @@
 package com.stpl.app.cff.util;
 
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import static com.stpl.app.cff.util.ConstantsUtil.NET_EXFACT_SALES;
+import static com.stpl.app.cff.util.ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT;
 import java.util.Arrays;
 import java.util.Calendar;
 import org.apache.commons.lang.ArrayUtils;
@@ -17,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Constants {
 
-    public static String[] RESON_CODES = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
+    public final String[] RESON_CODES = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
     public static final String NULL = "null";
-    public static final String SELECT_ONE = "-Select One-";
-    public static final String VARIABLE = "Variable";
+    public static final String SELECT_ONE_LABEL = "-Select One-";
+    public static final String VARIABLE_LABEL = "Variable";
     public static final String PERIOD = "Period";
     public static final String VALUE = " Value";
     public static final String VARIANCE = " Variance";
@@ -40,14 +42,14 @@ public class Constants {
     public final static String CANCELLED = "Cancelled";
     public final static String FILTER_TABLE = "filtertable";
     public final static String RESPONSIVE_PAGED_TABLE = "responsivePagedTable";
-    public final static String bootstrap_ui = "bootstrap-ui";
-    public final static String bootstrap = "bootstrap";
-    public final static String bootstrap_forecast_bootstrap_nm = "bootstrap-forecast bootstrap-nm";
+    public final static String BOOTSTRAP_UI = "bootstrap-ui";
+    public final static String BOOTSTRAP = "bootstrap";
+    public final static String BOOTSTRAP_FORECAST_BOOTSTRAP_NM = "bootstrap-forecast bootstrap-nm";
     public final static String OPTION_GROUP_WIDTH = "optiongroupwidth";
     public final static String ADD = "add";
-    public final static String PRODUCT = "Product";
+    public final static String PRODUCT_LABEL = "Product";
     public final static String POPUPCONTENTCOMBOSIZE = "popupContentComboSize";
-    public final static String DESCENDING = "Descending";
+    public final static String DESCENDING_LABEL = "Descending";
     public final static String SYS_SCHEMA = "sys.schema.jndi.name";
     public final static String SPACE = " ";
     public final static String DASH_NO_DATA = "-";
@@ -66,9 +68,9 @@ public class Constants {
      */
     public enum LabelConstants {
 
-        PRODUCT_HIERARCHY("Product"),
+        PRODUCT_HIERARCHY(PRODUCT_LABEL),
         METHODOLOGY_MOVING_AVERAGE("Moving Average"),
-        LEVEL_BRAND("Brand"),
+        LEVEL_BRAND(BRAND_LABEL),
         LEVEL_NDC("NDC"),
         PROJECTION_SEARCH("Projection Search"),
         PROJECTION_NAME("Projection Name"),
@@ -101,8 +103,8 @@ public class Constants {
         CFF_PROJECTIONS_COL("CFFProjections"),
         PROJECTIONS("Projections"),
         ACTUAL_RATE("Actual Rate"),
-        PROJECTED_RATE("Projected Rate"),
-        CFF_PROJECTED_RATE("Projected Rate"),
+        PROJECTED_RATE(PROJECTED_RATE_LABEL),
+        CFF_PROJECTED_RATE(PROJECTED_RATE_LABEL),
         ACTUALRATE("ActualsRate"),
         PROJECTEDRATE("ProjectionsRate"),
         CFF_PROJECTEDRATE("ProjectionsRate"),
@@ -124,17 +126,17 @@ public class Constants {
         PRODUCT_GROUP_NAME("Product Group Name"),
         PRODUCT_GROUP_NO("Product Group #"),
         ASCENDING("Ascending"),
-        DESCENDING("Descending"),
+        DESCENDING(DESCENDING_LABEL),
         PROGRAM("Program"),
         PROGRAM_CATEGORY("Program Category"),
         BRAND_TYPE("Brand Type"),
-        BRAND("Brand"),
-        CONTRACT("Contract"),
+        BRAND(BRAND_LABEL),
+        CONTRACT(CONTRACT_LABEL),
         CONTRACT_NAME("Contract Name"),
         CONTRACT_NO("Contract No"),
         CUSTOMER_ID("Customer ID"),
         CONTRACT_HOLDER_NAME("Contract Holder Name"),
-        COMPANY("Company"),
+        COMPANY(COMPANY_LABEL),
         CONTRACTED("Contracted"),
         ALL_BRANDS("All Brands"),
         MODE("Mode"),
@@ -171,7 +173,7 @@ public class Constants {
         TREE_VIEW_NAME("Tree View Name"),
         SALES("Sales"),
         UNITS("Units"),
-        VARIABLE("Variable"),
+        VARIABLE(VARIABLE_LABEL),
         LEVEL_FILTER("Level Filter"),
         VIEW("View"),
         PIVOT_VIEW("Pivot View"),
@@ -182,14 +184,14 @@ public class Constants {
         OVERRIDE("Override"),
         AMOUNT("Amount"),
         PERCENTAGE("Percentage"),
-        CUSTOMER("Customer"),
-        PRODUCT("Product"),
-        CUSTOM("Custom"),
+        CUSTOMER(CUSTOMER_LABEL),
+        PRODUCT(PRODUCT_LABEL),
+        CUSTOM(CUSTOM_LABEL),
         BRAND_SEARCH("Brand Search"),
         TIME_PERIOD("Time Period"),
         CUSTOMER_GROUP("Customer Group"),
         PRODUCT_GROUP("Product Group"),
-        ENABLE("Enable"),
+        ENABLE(ENABLE_LABEL),
         PROJECTION_VARIANCE_SELECTION("Projection Variance Selection"),
         COMPARISON("Comparison"),
         FREQUENCY("Frequency :"),
@@ -212,8 +214,8 @@ public class Constants {
         EX_FACTORY_CUSTOMER("Ex-Factory Customer"),
         DEMAND_SALES("Demand"),
         ADJUSTED_DEMAND("Adjusted Demand"),
-        INVENTORY_WITHDRAW("Inventory Withdraw Summary"),
-        INVENTORY_WITHDRAW_DETAILS("Inventory Withdraw Details"),
+        INVENTORY_WITHDRAW("Inventory Withdrawal Summary"),
+        INVENTORY_WITHDRAW_DETAILS("Inventory Withdrawal Details"),
         PERC_OF_EX_FACTORY("% of Ex-Factory Product"),
         PERC_OF_EX_FACTORY_CUST("% of Ex-Factory Customer"),
         PERC_OF_DEMAND("% of Demand"),
@@ -238,7 +240,7 @@ public class Constants {
         COMPARISON_LOOKUP("Comparison Lookup"),
         PERIOD_PIVOT_VIEW("Period Pivot View"),
         VARIABLE_PIVOT_VIEW("Variable Pivot View"),
-        DISABLE("Disable"),
+        DISABLE(DISABLE1),
         CIDT_INDICATOR("cidtIndicator"),
         SALES_INDICATOR("salesIndicator"),
         DISCOUNT_INDICATOR("discountIndicator"),
@@ -249,8 +251,8 @@ public class Constants {
         SPRDASH("---"),
         LEVEL_NDC_8("NDC 8"),
         LEVEL_NDC_10("NDC 10"),
-        CUSTOMER_HIERARCHY("Customer"),
-        CUSTOM_HIERARCHY("Custom"),
+        CUSTOMER_HIERARCHY(CUSTOMER_LABEL),
+        CUSTOM_HIERARCHY(CUSTOM_LABEL),
         LEVEL_NDC_11("NDC 11"),
         TAB_SALES_ALLOCATION("Sales Allocation"),
         THERAPEUTIC_CLASS("therapeuticClass"),
@@ -278,6 +280,14 @@ public class Constants {
             return constant;
         }
     }
+    public static final String DISABLE1 = "Disable";
+    public static final String COMPANY_LABEL = "Company";
+    public static final String CUSTOMER_LABEL = "Customer";
+    public static final String CONTRACT_LABEL = "Contract";
+    public static final String PROJECTED_RATE_LABEL = "Projected Rate";
+    public static final String CUSTOM_LABEL = "Custom";
+    public static final String BRAND_LABEL = "Brand";
+    public static final String ENABLE_LABEL = "Enable";
 
     /**
      * Enum for Button constants
@@ -349,8 +359,8 @@ public class Constants {
         INDICATOR_PRODUCT_HIERARCHY("Product Hierachy"),
         INDICATOR_PUBLIC_VIEW("Public View"),
         INDICATOR_PRIVATE_VIEW("Private View"),
-        INDICATOR_CUSTOMER("Customer"),
-        INDICATOR_BRAND("Brand"),
+        INDICATOR_CUSTOMER(CUSTOMER_LABEL),
+        INDICATOR_BRAND(BRAND_LABEL),
         INDICATOR_DATA_SELECTION_TAB("DataSelectionTab"),
         INDICATOR_DATA_SELECTION_INDEX("DataSelectionIndex"),
         INDICATOR_MODULE_NON_MANDATED("Non Mandated"),
@@ -373,7 +383,7 @@ public class Constants {
         SALES_LEVEL_WHOLE_SALER("SalesLevelWholeSaler"),
         SALES_LEVEL_SPECIALITY_DISTRIBUTOR("SalesLevelSpecialityDistributor"),
         SALES_LEVEL_INDIVIDUAL_OWNER("SalesLevelContract"),
-        SALES_LEVEL_FILTER_BRAND("Brand"),
+        SALES_LEVEL_FILTER_BRAND(BRAND_LABEL),
         SALES_LEVEL_FILTER_NDC("NDC"),
         SALES_LEVEL_FILTER_TOTAL_CUSTOMER("Total Customer"),
         SALES_LEVEL_FILTER_COMPANY("Wholesales/Speciality Distributor"),
@@ -446,7 +456,9 @@ public class Constants {
         PER_EX_FACTORY("% Of Ex-Factory"),
         DEMAND_SALES("Demand Sales"),
         INVENTORY_SALES("Inventory Withdrawal Sales"),
-        PER_INVENORY_WITHDRAW("% Of Inventory Withdrawal Sales");
+        PER_INVENORY_WITHDRAW("% Of Inventory Withdrawal Sales"),
+        NET_EX_FACTORY_SALES(NET_EXFACT_SALES),
+        NET_EX_FACTORY_SALES_PER_EX_FACTORY(NET_EXFACT_SALES_PER_EXFACT);
         
         private String constant;
 
@@ -476,9 +488,9 @@ public class Constants {
         SPACE(" "),
         COLON(":"),
         HTML_SPACE("&nbsp;"),
-        SELECT_ONE("-Select One-"),
+        SELECT_ONE(SELECT_ONE_LABEL),
         SELECTMETHODOLOGY("- Select Methodology -"),
-        DATE_FORMAT("MM/dd/yyyy"),
+        DATE_FORMAT(MM_DD_YYYY),
         REASON_CODE("Reason Code"),
         NULL("null"),
         ACTION_EDIT("edit"),
@@ -510,6 +522,7 @@ public class Constants {
             return constant;
         }
     }
+    public static final String MM_DD_YYYY = "MM/dd/yyyy";
 
     /**
      * Enum for Frequency constants
@@ -549,25 +562,25 @@ public class Constants {
      */
     public enum LevelConstants {
 
-        LEVEL_SEGMENT_GROUP("Segment Group"),
-        LEVEL_SEGMENT("Segment"),
-        LEVEL_MARKET_TYPE("Market Type"),
-        LEVEL_CONTRACT_HOLDER("Contract Holder"),
-        LEVEL_CONTRACT("Contract"),
-        LEVEL_TRADING_PARTNER("Trading Partner"),
-        LEVEL_COMPANY("Company"),
-        LEVEL_THERAPEUTIC_CLASS("Therapeutic Class"),
-        LEVEL_BRAND("Brand"),
+        LEVEL_SEGMENT_GROUP(SEGMENT_GROUP_LABEL),
+        LEVEL_SEGMENT(SEGMENT_LABEL),
+        LEVEL_MARKET_TYPE(MARKET_TYPE_LABEL),
+        LEVEL_CONTRACT_HOLDER(CONTRACT_HOLDER_LABEL),
+        LEVEL_CONTRACT(CONTRACT_LABEL),
+        LEVEL_TRADING_PARTNER(TRADING_PARTNER_LABEL),
+        LEVEL_COMPANY(COMPANY_LABEL),
+        LEVEL_THERAPEUTIC_CLASS(THERAPEUTIC_CLASS_LABEL),
+        LEVEL_BRAND(BRAND_LABEL),
         LEVEL_NDC("NDC"),
-        LEVEL_1_CUSTOMER("Segment Group"),
-        LEVEL_2_CUSTOMER("Segment"),
-        LEVEL_3_CUSTOMER("Market Type"),
-        LEVEL_4_CUSTOMER("Contract Holder"),
-        LEVEL_5_CUSTOMER("Contract"),
-        LEVEL_6_CUSTOMER("Trading Partner"),
-        LEVEL_1_BRAND("Company"),
-        LEVEL_2_BRAND("Therapeutic Class"),
-        LEVEL_3_BRAND("Brand"),
+        LEVEL_1_CUSTOMER(SEGMENT_GROUP_LABEL),
+        LEVEL_2_CUSTOMER(SEGMENT_LABEL),
+        LEVEL_3_CUSTOMER(MARKET_TYPE_LABEL),
+        LEVEL_4_CUSTOMER(CONTRACT_HOLDER_LABEL),
+        LEVEL_5_CUSTOMER(CONTRACT_LABEL),
+        LEVEL_6_CUSTOMER(TRADING_PARTNER_LABEL),
+        LEVEL_1_BRAND(COMPANY_LABEL),
+        LEVEL_2_BRAND(THERAPEUTIC_CLASS_LABEL),
+        LEVEL_3_BRAND(BRAND_LABEL),
         LEVEL_4_BRAND("NDC"),
         LEVEL_1("Level 1"),
         LEVEL_2("Level 2"),
@@ -590,6 +603,12 @@ public class Constants {
             return constant;
         }
     }
+    public static final String CONTRACT_HOLDER_LABEL = "Contract Holder";
+    public static final String MARKET_TYPE_LABEL = "Market Type";
+    public static final String THERAPEUTIC_CLASS_LABEL = "Therapeutic Class";
+    public static final String SEGMENT_LABEL = "Segment";
+    public static final String SEGMENT_GROUP_LABEL = "Segment Group";
+    public static final String TRADING_PARTNER_LABEL = "Trading Partner";
 
     /**
      * Enum for Regex constants
@@ -677,15 +696,15 @@ public class Constants {
         HEADER_PRODUCT_HIERARCHY("Product Hierarchy"),
         HEADER_PRODUCT_LEVEL("Product Level"),
         HEADER_LEVEL("Level"),
-        HEADER_MARKET_TYPE("Market Type"),
-        HEADER_COMPANY("Company"),
-        HEADER_THERAPEUTIC_CLASS("Therapeutic Class"),
-        HEADER_SEGMENT_GROUP("Segment Group"),
-        HEADER_SEGMENT("Segment"),
-        HEADER_CONTRACT_HOLDER("Contract Holder"),
-        HEADER_CONTRACT("Contract"),
-        HEADER_TRADING_PARTNER("Trading Partner"),
-        HEADER_BRAND("Brand"),
+        HEADER_MARKET_TYPE(MARKET_TYPE_LABEL),
+        HEADER_COMPANY(COMPANY_LABEL),
+        HEADER_THERAPEUTIC_CLASS(THERAPEUTIC_CLASS_LABEL),
+        HEADER_SEGMENT_GROUP(SEGMENT_GROUP_LABEL),
+        HEADER_SEGMENT(SEGMENT_LABEL),
+        HEADER_CONTRACT_HOLDER(CONTRACT_HOLDER_LABEL),
+        HEADER_CONTRACT(CONTRACT_LABEL),
+        HEADER_TRADING_PARTNER(TRADING_PARTNER_LABEL),
+        HEADER_BRAND(BRAND_LABEL),
         HEADER_NDC("NDC"),
         NDC11("NDC 11"),
         SALES_GTS_HEADER("Gross Trade Sales"),
@@ -1187,9 +1206,9 @@ public class Constants {
      */
     public enum DateFormatConstants {
 
-        MMddyyyy("MM/dd/yyyy"),
-        yyyyMMddhhmmssSSS("yyyy-MM-dd hh:mm:ss.SSS"),
-        MMddyyyyhhmmss("MM/dd/yyyy hh:mm:ss");
+        MMDDYYYY(MM_DD_YYYY),
+        YYYYMMDDHHMMSSSSS("yyyy-MM-dd hh:mm:ss.SSS"),
+        MMDDYYYYHHMMSS("MM/dd/yyyy hh:mm:ss");
         private String constant;
 
         private DateFormatConstants(String constant) {
@@ -1214,8 +1233,8 @@ public class Constants {
         SPACE(" "),
         COLON(":"),
         HTML_SPACE("&nbsp;"),
-        SELECT_ONE("-Select One-"),
-        DATE_FORMAT("MM/dd/yyyy"),
+        SELECT_ONE(SELECT_ONE_LABEL),
+        DATE_FORMAT(MM_DD_YYYY),
         REASON_CODE("Reason Code"),
         NULL("null"),
         ACTION_EDIT("edit"),
@@ -1226,22 +1245,22 @@ public class Constants {
         VARIANCE("variance"),
         CHANGE("change"),
         FLAT("Flat"),
-        CUSTOM("Custom"),
-        CUSTOMER("Customer"),
-        PRODUCT("Product"),
+        CUSTOM(CUSTOM_LABEL),
+        CUSTOMER(CUSTOMER_LABEL),
+        PRODUCT(PRODUCT_LABEL),
         PROJECTED("Projected"),
         PROJECTIONS("Projections"),
         ASCENDING("Ascending"),
-        DESCENDING("Descending"),
+        DESCENDING(DESCENDING_LABEL),
         HORIZONTAL("horizontal"),
-        OPTIONGROUPWIDTH("optiongroupwidth"),
+        OPTIONGROUPWIDTH(OPTION_GROUP_WIDTH),
         ACTUAL_RATE("ActualsRate"),
-        PROJECTED_RATE("Projected Rate"),
+        PROJECTED_RATE(PROJECTED_RATE_LABEL),
         DISCOUNT("Discount"),
         BOTH("Both"),
         SALES("Sales"),
         UNITS("Units"),
-        VARIABLE("Variable"),
+        VARIABLE(VARIABLE_LABEL),
         INCREMENTAL("Incremental"),
         OVERRIDE("Override"),
         AMOUNT("Amount"),
@@ -1250,8 +1269,8 @@ public class Constants {
         DOLLAR("$"),
         ALL("All"),
         SELECTED("Selected"),
-        ENABLE("Enable"),
-        DISABLE("Disable"),
+        ENABLE(ENABLE_LABEL),
+        DISABLE(DISABLE1),
         ACTUALS("Actuals");
         private String constant;
 
@@ -1412,11 +1431,11 @@ public class Constants {
         /**
          * Constant for Enable.
          */
-        ENABLE("Enable"),
+        ENABLE(ENABLE_LABEL),
         /**
          * Constant for Disable.
          */
-        DISABLE("Disable");
+        DISABLE(DISABLE1);
         /**
          * The constant.
          */
@@ -1453,9 +1472,9 @@ public class Constants {
     /**
      * The Constant Avilable Customer Header.
      */
-    public static final String AVAILABLE_ITEMS_HEADERS[] = new String[]{
+    public final String AVAILABLE_ITEMS_HEADERS[] = new String[]{
         "", "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand Name", "Item No", "Item Name", "Item Identifier Type", "Item Identifier"};
-    public static final Object AVAILABLE_ITEMS_VISIBLE_COLUMNS[] = new Object[]{
+    public final Object AVAILABLE_ITEMS_VISIBLE_COLUMNS[] = new Object[]{
         "check", "businessUnitNo", "businessUnitName", "theraputicClass", "brand", "itemNo", "itemName", "itemIdentifierType", "itemIdentifier"};
 }
 

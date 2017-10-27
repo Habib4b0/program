@@ -110,7 +110,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL_CAPS);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
 
@@ -121,7 +121,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 new CommonUtils().getNativeSelectForFilter(comboBox, cfpLogic.getDropDownList(UIUtils.CFP_DESIGNATION));
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL_CAPS);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
 
@@ -147,7 +147,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
 
@@ -158,7 +158,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 new CommonUtils().getNativeSelectForFilter(comboBox, cfpLogic.getDropDownList(UIUtils.TRADE_CLASS));
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL_CAPS);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
 
@@ -169,7 +169,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 new CommonUtils().getNativeSelectForFilter(comboBox, cfpLogic.getDropDownList(UIUtils.COMPANY_CATEGORY_LIST_NAME));
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL_CAPS);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
 
@@ -180,18 +180,14 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 new CommonUtils().getNativeSelectForFilter(comboBox, cfpLogic.getDropDownList(UIUtils.COMPANY_TRADE_CLASS));
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL_CAPS);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
 
             }if("companyGroupValue".equals(propertyId)) {
             ComboBox group = new ComboBox();
             group.addItem(ConstantsUtils.SHOW_ALL);
-            try {
-                new com.stpl.app.global.company.util.CommonUtils().getNativeSelectForFilter(group, logic.getCompanyGroup());
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
+            getNativeSelectForFilter(group,logic);
             group.removeItem(0);
             group.setNullSelectionAllowed(true);
             group.setNullSelectionItemId(ConstantsUtils.SHOW_ALL);
@@ -204,7 +200,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 new CommonUtils().getNativeSelectForFilter(comboBox, cfpLogic.getDropDownList(UIUtils.CFP_CATAGORY));
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL_CAPS);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
 
@@ -213,7 +209,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 comboBox.setImmediate(true);
                 new CommonUtils().getNativeSelectForFilter(comboBox, cfpLogic.getDropDownList(UIUtils.CFP_STATUS));
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL_CAPS);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
             } else if (ConstantsUtils.COMPANY_TYPE_VALUE.equals(propertyId)) {                
@@ -221,7 +217,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                 comboBox.setImmediate(true);
                 new CommonUtils().getNativeSelectForFilter(comboBox, cfpLogic.getDropDownList(UIUtils.COMPANY_TYPE_LIST_NAME));
                 comboBox.setNullSelectionAllowed(true);
-                comboBox.setNullSelectionItemId(ConstantsUtils.Show_All);
+                comboBox.setNullSelectionItemId(ConstantsUtils.SHOW_ALL_CAPS);
                 comboBox.select(ConstantsUtils.ZERO_INT);
                 return comboBox;
          } else if ("createdBy".equals(propertyId)) {       
@@ -273,7 +269,7 @@ public class CFPTestGenerator implements ExtFilterGenerator {
                     return comboBox;
                     }
             
-        } catch (SystemException | PortalException ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
@@ -281,15 +277,24 @@ public class CFPTestGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override
     public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {        
    return null;
+    }
+    public void getNativeSelectForFilter(ComboBox group,CompanySearchLogic logic ){
+          try {
+                new com.stpl.app.global.company.util.CommonUtils().getNativeSelectForFilter(group, logic.getCompanyGroup());
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
     }
 
 }

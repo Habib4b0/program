@@ -39,7 +39,7 @@ public class NewComponentSearchTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         componentInfoDTO.setStartIndex(start);
         componentInfoDTO.setEndIndex(offset);
-        List<ComponentInfoDTO> resultList = new ArrayList<ComponentInfoDTO>();
+        List<ComponentInfoDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.getComponentItemSearchResult(componentInfoDTO);
         } catch (Exception ex) {

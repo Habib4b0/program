@@ -137,6 +137,7 @@ public class NSFMainTab extends StplCustomComponent implements AddBaseForm {
     
     @Override
     public void addLogic() {
+        return;
     }
 
     @Override
@@ -178,8 +179,9 @@ public class NSFMainTab extends StplCustomComponent implements AddBaseForm {
                                         logic.saveNsf(sessionDto, binder, deductions.getFormulaType(), salesBasis.getContractSelected(),Integer.valueOf(salesBasis.getRuleSystemId()));
                                         navigateToNsf();
                                 }
+                                
                                 if (buttonId.name().equalsIgnoreCase("NO")) {
-                                    navigateToNsf();
+                                 getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
                                 }
                             } catch (Exception ex) {
                                 LOGGER.error(ex);
@@ -226,7 +228,7 @@ public class NSFMainTab extends StplCustomComponent implements AddBaseForm {
      * @param event the event
      */
     @UiHandler("saveBtn")
-    public void saveBtn(Button.ClickEvent event) throws PortalException {
+    public void saveBtn(Button.ClickEvent event) {
        if(!validateSave()){
         
            String msg = logic.duplicateCheck(binder);
@@ -270,7 +272,7 @@ public class NSFMainTab extends StplCustomComponent implements AddBaseForm {
                 errorMessage.append("Formula No");
                 flag = true;
             }
-            if (binder.getField("formulaName").getValue().toString().isEmpty()) {
+            if (binder.getField(ConstantsUtils.FORMULA_NAME).getValue().toString().isEmpty()) {
                 if (flag) {
                     errorMessage.append(", ");
                 }
@@ -355,7 +357,7 @@ public class NSFMainTab extends StplCustomComponent implements AddBaseForm {
                         }
                         // logic to navigate to edit mode once saved
                         logic.removeAllFromTempTable(sessionDto);
-                        final Notification notif = new Notification(commonMsg.getSavedSuccessfulMessage(binder.getField("formulaId").getValue().toString(), binder.getField("formulaName").toString()), Notification.Type.HUMANIZED_MESSAGE);
+                        final Notification notif = new Notification(commonMsg.getSavedSuccessfulMessage(binder.getField("formulaId").getValue().toString(), binder.getField(ConstantsUtils.FORMULA_NAME).toString()), Notification.Type.HUMANIZED_MESSAGE);
                         notif.setPosition(Position.MIDDLE_CENTER);
                         notif.setStyleName("mystyle");
                         notif.show(Page.getCurrent());
@@ -366,7 +368,7 @@ public class NSFMainTab extends StplCustomComponent implements AddBaseForm {
                     }
                 }
 
-            }.getConfirmationMessage("Save Confirmation", "Save record " + String.valueOf(binder.getField("formulaName").getValue()) + " ?");
+            }.getConfirmationMessage("Save Confirmation", "Save record " + String.valueOf(binder.getField(ConstantsUtils.FORMULA_NAME).getValue()) + " ?");
   
     }
     void navigateToNsf() {
@@ -384,8 +386,8 @@ public class NSFMainTab extends StplCustomComponent implements AddBaseForm {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
             final Map<String, AppPermission> fieldItemHM = stplSecurity
-                    .getFieldOrColumnPermission(userId, UISecurityUtil.NET_SALES_FORMULA + ConstantsUtils.COMMA + "NetSalesFormula Main Tab", false);
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.NET_SALES_FORMULA, "NetSalesFormula Main Tab");
+                    .getFieldOrColumnPermission(userId, UISecurityUtil.NET_SALES_FORMULA + ConstantsUtils.COMMA + ConstantsUtils.NET_SALES_FORMULA_MAIN_TAB, false);
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.NET_SALES_FORMULA, ConstantsUtils.NET_SALES_FORMULA_MAIN_TAB);
             securityLogic.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, sessionDto.getMode());
        
 
@@ -398,7 +400,7 @@ public class NSFMainTab extends StplCustomComponent implements AddBaseForm {
       
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.NET_SALES_FORMULA+ConstantsUtils.COMMA+"NetSalesFormula Main Tab");
+            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.NET_SALES_FORMULA+ConstantsUtils.COMMA+ConstantsUtils.NET_SALES_FORMULA_MAIN_TAB);
               if (functionHM.get("saveBtn") == null ||  !((AppPermission) functionHM.get("saveBtn")).isFunctionFlag()) {
   
                  saveBtn.setVisible(false);

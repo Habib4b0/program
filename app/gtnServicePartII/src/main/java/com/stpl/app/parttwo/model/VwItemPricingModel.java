@@ -325,6 +325,20 @@ public interface VwItemPricingModel extends BaseModel<VwItemPricing> {
      */
     public void setPricingCodeQualifierName(String pricingCodeQualifierName);
 
+    /**
+     * Returns the item priceprecision of this vw item pricing.
+     *
+     * @return the item priceprecision of this vw item pricing
+     */
+    public int getItemPriceprecision();
+
+    /**
+     * Sets the item priceprecision of this vw item pricing.
+     *
+     * @param itemPriceprecision the item priceprecision of this vw item pricing
+     */
+    public void setItemPriceprecision(int itemPriceprecision);
+
     @Override
     public boolean isNew();
 

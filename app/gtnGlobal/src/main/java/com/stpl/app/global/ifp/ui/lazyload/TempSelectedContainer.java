@@ -78,6 +78,6 @@ public class TempSelectedContainer implements BeanDAO<TempItemDTO> {
             }, ButtonId.OK);      
             msg.getButton(ButtonId.OK).focus();
         }
-         return new ArrayList<TempItemDTO>();
+         return new ArrayList<>();
     }
 }

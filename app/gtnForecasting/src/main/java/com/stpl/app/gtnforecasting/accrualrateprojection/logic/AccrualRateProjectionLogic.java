@@ -5,13 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.accrualrateprojection.logic;
 
-import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateProjectionDTO;
-import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateSelectionDTO;
-import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
-import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.ui.ComboBox;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,22 +12,30 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.jboss.logging.Logger;
+
+import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateProjectionDTO;
+import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateSelectionDTO;
+import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
+import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.SimpleStringFilter;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import com.vaadin.ui.ComboBox;
 
 /**
  *
@@ -135,9 +136,9 @@ public final class AccrualRateProjectionLogic {
      */
     public int getProductsCount(final AccrualRateSelectionDTO accrualRateSelectionDTO,final boolean isViewMode) {
         String query = SQlUtil.getQuery("ARP-get-products-count");
-        query = query.replace("@TABLE_NAME", isViewMode?"ACCRUAL_PROJ_DETAILS":"ST_ACCRUAL_PROJ_DETAILS");
-        query = query.replace("@PROJECTION_MASTER_SID", accrualRateSelectionDTO.getProjectionId());
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
+        query = query.replace(Constant.AT_TABLE_NAME, isViewMode?Constant.ACCRUAL_PROJ_DETAILS:Constant.ST_ACCRUAL_PROJ_DETAILS);
+        query = query.replace(Constant.AT_PROJECTION_MASTER_SID, accrualRateSelectionDTO.getProjectionId());
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         return list == null || list.get(0) == null ? 0 : Integer.valueOf(list.get(0).toString());
     }
 
@@ -155,7 +156,7 @@ public final class AccrualRateProjectionLogic {
         final Timestamp startTimestamp = new Timestamp(accrualRateSelectionDTO.getStartDate().getTime());
         final Timestamp endTimestamp = new Timestamp(accrualRateSelectionDTO.getEndDate().getTime());
         String query = SQlUtil.getQuery(isViewMode ? "get-data-for-rates-arp-view" : "get-data-for-rates-arp");
-        query = query.replace("@PROJECTION_MASTER_SID", accrualRateSelectionDTO.getProjectionId());
+        query = query.replace(Constant.AT_PROJECTION_MASTER_SID, accrualRateSelectionDTO.getProjectionId());
         query = query.replace("@START_TIME_STAMP", startTimestamp.toString());
         query = query.replace("@END_TIME_STAMP", endTimestamp.toString());
         if (isExcelExport) {
@@ -165,8 +166,7 @@ public final class AccrualRateProjectionLogic {
         }
         query = query.replace("@START", StringUtils.EMPTY + start);
         query = query.replace("@OFFSET", StringUtils.EMPTY + offset);
-//        System.out.println("+++"+QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         return customizeRatesToDTO(list, accrualRateSelectionDTO);
     }
 
@@ -209,24 +209,23 @@ public final class AccrualRateProjectionLogic {
                         rateBasis = "DEMAND";
                         break;
                     case AccrualRateUtils.EX_FACTORY:
-                        rateBasis = "GROSS_TRADE_SALES";
+                        rateBasis = Constant.GROSS_TRADE_SALES;
                         break;
                     case AccrualRateUtils.INVENTORY_WITHDRAWALS:
                         rateBasis = "INVENTORY_WITHDRAWALS";
                         break;
                     default:
-                        rateBasis = "GROSS_TRADE_SALES";
+                        rateBasis = Constant.GROSS_TRADE_SALES;
                         LOGGER.warn("Accrual Rate Details: Rate Basis is Empty." + rateBasis);
                 }
             } else {
-                rateBasis = "GROSS_TRADE_SALES";
+                rateBasis = Constant.GROSS_TRADE_SALES;
             }
             query = query.replace("#SELECTED_RATE_BASIS", rateBasis);
         } catch (Exception e) {           
             LOGGER.error(e);
             LOGGER.error("ARP DETAILS QUERY: " + query);
         }        
-//        System.out.println("*****************"+QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         return customizeDetailsToDTO(accrualRateSelectionDTO, list, start, offset, isExcelExport);
     }
@@ -272,7 +271,7 @@ public final class AccrualRateProjectionLogic {
         return resultList;
     }
 
-    public List<AccrualRateProjectionDTO> customizeSalesToDTO(final List list, final AccrualRateSelectionDTO accrualRateSelectionDTO, final List<String> selectedVariables) {
+    public List<AccrualRateProjectionDTO> customizeSalesToDTO(final List list, final AccrualRateSelectionDTO accrualRateSelectionDTO) {
         List<AccrualRateProjectionDTO> resultList = new ArrayList<>();
         AccrualRateProjectionDTO accrualRateProjectionDTO = new AccrualRateProjectionDTO();
         List availableVisibleColumns = accrualRateSelectionDTO.getAvailableVisibleColumns();
@@ -297,23 +296,23 @@ public final class AccrualRateProjectionLogic {
 
             if (Constant.TRUE.equals(String.valueOf(object[NumericConstants.FOURTEEN]))) {
 
-                if (availableVisibleColumns.contains(key + "TotalUnits" + AccrualRateUtils.DOT + (j))) {
-                    accrualRateProjectionDTO.addStringProperties(key + "TotalUnits" + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.FOUR] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.FOUR])));
+                if (availableVisibleColumns.contains(key + Constant.TOTAL_UNITS + AccrualRateUtils.DOT + (j))) {
+                    accrualRateProjectionDTO.addStringProperties(key + Constant.TOTAL_UNITS + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.FOUR] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.FOUR])));
 
                 }
 
-                if (availableVisibleColumns.contains(key + "ExcludedUnits" + AccrualRateUtils.DOT + (j))) {
-                    accrualRateProjectionDTO.addStringProperties(key + "ExcludedUnits" + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.FIVE] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.FIVE])));
+                if (availableVisibleColumns.contains(key + Constant.EXCLUDED_UNITS + AccrualRateUtils.DOT + (j))) {
+                    accrualRateProjectionDTO.addStringProperties(key + Constant.EXCLUDED_UNITS + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.FIVE] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.FIVE])));
 
                 }
 
-                if (availableVisibleColumns.contains(key + "NetUnits" + AccrualRateUtils.DOT + (j))) {
-                    accrualRateProjectionDTO.addStringProperties(key + "NetUnits" + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.SIX] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.SIX])));
+                if (availableVisibleColumns.contains(key + Constant.NET_UNITS + AccrualRateUtils.DOT + (j))) {
+                    accrualRateProjectionDTO.addStringProperties(key + Constant.NET_UNITS + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.SIX] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.SIX])));
 
                 }
 
-                if (availableVisibleColumns.contains(key + "Price" + AccrualRateUtils.DOT + (j))) {
-                    accrualRateProjectionDTO.addStringProperties(key + "Price" + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.SEVEN] == null ? 0.00 : AccrualRateUtils.DOLLAR_FORMAT.format(object[NumericConstants.SEVEN])));
+                if (availableVisibleColumns.contains(key + Constant.PRICE + AccrualRateUtils.DOT + (j))) {
+                    accrualRateProjectionDTO.addStringProperties(key + Constant.PRICE + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.SEVEN] == null ? 0.00 : AccrualRateUtils.DOLLAR_FORMAT.format(object[NumericConstants.SEVEN])));
 
                 }
 
@@ -323,23 +322,23 @@ public final class AccrualRateProjectionLogic {
                 }
             } else {
 
-                if (availableVisibleColumns.contains(key + "TotalUnits" + AccrualRateUtils.DOT + (j))) {
-                    accrualRateProjectionDTO.addStringProperties(key + "TotalUnits" + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.NINE] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.NINE])));
+                if (availableVisibleColumns.contains(key + Constant.TOTAL_UNITS + AccrualRateUtils.DOT + (j))) {
+                    accrualRateProjectionDTO.addStringProperties(key + Constant.TOTAL_UNITS + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.NINE] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.NINE])));
 
                 }
 
-                if (availableVisibleColumns.contains(key + "ExcludedUnits" + AccrualRateUtils.DOT + (j))) {
-                    accrualRateProjectionDTO.addStringProperties(key + "ExcludedUnits" + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.TEN] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.TEN])));
+                if (availableVisibleColumns.contains(key + Constant.EXCLUDED_UNITS + AccrualRateUtils.DOT + (j))) {
+                    accrualRateProjectionDTO.addStringProperties(key + Constant.EXCLUDED_UNITS + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.TEN] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.TEN])));
 
                 }
 
-                if (availableVisibleColumns.contains(key + "NetUnits" + AccrualRateUtils.DOT + (j))) {
-                    accrualRateProjectionDTO.addStringProperties(key + "NetUnits" + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.ELEVEN] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.ELEVEN])));
+                if (availableVisibleColumns.contains(key + Constant.NET_UNITS + AccrualRateUtils.DOT + (j))) {
+                    accrualRateProjectionDTO.addStringProperties(key + Constant.NET_UNITS + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.ELEVEN] == null ? 0 : AccrualRateUtils.NO_DECIMAL_FORMAT.format(object[NumericConstants.ELEVEN])));
 
                 }
 
-                if (availableVisibleColumns.contains(key + "Price" + AccrualRateUtils.DOT + (j))) {
-                    accrualRateProjectionDTO.addStringProperties(key + "Price" + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.TWELVE] == null ? 0.00 : AccrualRateUtils.DOLLAR_FORMAT.format(object[NumericConstants.TWELVE])));
+                if (availableVisibleColumns.contains(key + Constant.PRICE + AccrualRateUtils.DOT + (j))) {
+                    accrualRateProjectionDTO.addStringProperties(key + Constant.PRICE + AccrualRateUtils.DOT + (j++), String.valueOf(object[NumericConstants.TWELVE] == null ? 0.00 : AccrualRateUtils.DOLLAR_FORMAT.format(object[NumericConstants.TWELVE])));
 
                 }
 
@@ -443,13 +442,13 @@ public final class AccrualRateProjectionLogic {
         return value;
     }
 
-    public List<AccrualRateProjectionDTO> getDataForSales(final AccrualRateSelectionDTO accrualRateSelectionDTO, final List<String> selectedVariables, int start, int offset, boolean isExcel,final boolean isViewMode) {
+    public List<AccrualRateProjectionDTO> getDataForSales(final AccrualRateSelectionDTO accrualRateSelectionDTO, int start, int offset, boolean isExcel,final boolean isViewMode) {
         final Timestamp startTimestamp = new Timestamp(accrualRateSelectionDTO.getStartDate().getTime());
         final Timestamp endTimestamp = new Timestamp(accrualRateSelectionDTO.getEndDate().getTime());
 
         String actualTableName = isViewMode ? "ACCRUAL_SALES_ACTUALS" : "ST_ACCRUAL_SALES_ACTUALS";
         String projectionTableName = isViewMode ? "ACCRUAL_SALES_DETAILS" : "ST_ACCRUAL_SALES_DETAILS";
-        String detailsTableName = isViewMode ? "ACCRUAL_PROJ_DETAILS" : "ST_ACCRUAL_PROJ_DETAILS";
+        String detailsTableName = isViewMode ? Constant.ACCRUAL_PROJ_DETAILS : Constant.ST_ACCRUAL_PROJ_DETAILS;
         
         StringBuilder query = new StringBuilder();
         if (!isExcel) {
@@ -459,7 +458,7 @@ public final class AccrualRateProjectionLogic {
                     + "            JOIN   CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = APD.CCP_DETAILS_SID\n"
                     + "                                  AND APD.PROJECTION_MASTER_SID ='" + accrualRateSelectionDTO.getProjectionId() + "' \n"
                     + "            ORDER  BY ITEM_MASTER_SID\n"
-                    + "                    OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY) \n");
+                    + "                    OFFSET " + start + " ROWS FETCH NEXT  " + offset + " ROWS ONLY) \n");
         }
         query.append("select SA.ITEM_MASTER_SID,IM.ITEM_NO,P.MONTH,P.YEAR,SA.TOTAL_UNITS as actTotalUnits,\n"
                 + "SA.EXCLUDED_UNITS as actExcludedUnits,\n"
@@ -502,8 +501,8 @@ public final class AccrualRateProjectionLogic {
         query.append("WHERE SD.PROJECTION_MASTER_SID=").append(accrualRateSelectionDTO.getProjectionId()).append("\n");
         query.append(" ORDER BY SA.ITEM_MASTER_SID,IM.ITEM_NO,IM.ITEM_NAME,P.YEAR,P.MONTH");
         LOGGER.debug("QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()) = " + QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
-        return customizeSalesToDTO(list, accrualRateSelectionDTO, selectedVariables);
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
+        return customizeSalesToDTO(list, accrualRateSelectionDTO);
     }
 
     /**
@@ -514,10 +513,10 @@ public final class AccrualRateProjectionLogic {
      */
     public void loadCustomers(final ComboBox comboBox, final String projectionId,final boolean isViewMode,final GtnSmallHashMap tableNames) {
         String query = SQlUtil.getQuery("ARP-load-customers");
-         query = query.replace("@TABLE_NAME", isViewMode?"ACCRUAL_PROJ_DETAILS":"ST_ACCRUAL_PROJ_DETAILS");
-        query = query.replace("@PROJECTION_MASTER_SID", projectionId);
+         query = query.replace(Constant.AT_TABLE_NAME, isViewMode?Constant.ACCRUAL_PROJ_DETAILS:Constant.ST_ACCRUAL_PROJ_DETAILS);
+        query = query.replace(Constant.AT_PROJECTION_MASTER_SID, projectionId);
         
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, tableNames));
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, tableNames));
         customizeDataForDDLB(list, comboBox);
     }
 
@@ -530,14 +529,14 @@ public final class AccrualRateProjectionLogic {
      */
     public void loadBrands(final ComboBox comboBox, final Object companyMasterId, final String projectionId,final boolean isViewMode,final GtnSmallHashMap tableNames) {
         String query = SQlUtil.getQuery("ARP-load-brands");
-         query = query.replace("@TABLE_NAME", isViewMode?"ACCRUAL_PROJ_DETAILS":"ST_ACCRUAL_PROJ_DETAILS");
+         query = query.replace(Constant.AT_TABLE_NAME, isViewMode?Constant.ACCRUAL_PROJ_DETAILS:Constant.ST_ACCRUAL_PROJ_DETAILS);
         if (companyMasterId == null) {
             query = query.replace("AND CM.COMPANY_MASTER_SID = @COMPANY_MASTER_SID", StringUtils.EMPTY);
         } else {
-            query = query.replace("@COMPANY_MASTER_SID", companyMasterId.toString());
+            query = query.replace(Constant.AT_COMPANY_MASTER_SID, companyMasterId.toString());
         }
-        query = query.replace("@PROJECTION_MASTER_SID", projectionId);
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, tableNames));
+        query = query.replace(Constant.AT_PROJECTION_MASTER_SID, projectionId);
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, tableNames));
         customizeDataForDDLB(list, comboBox);
     }
 
@@ -551,19 +550,19 @@ public final class AccrualRateProjectionLogic {
      */
     public void loadProducts(final ComboBox comboBox, final Object companyMasterId, final Object brandMasterId, final String projectionId,final boolean isViewMode,final GtnSmallHashMap tableNames) {
         String query = SQlUtil.getQuery("ARP-load-products");
-         query = query.replace("@TABLE_NAME", isViewMode?"ACCRUAL_PROJ_DETAILS":"ST_ACCRUAL_PROJ_DETAILS");
+         query = query.replace(Constant.AT_TABLE_NAME, isViewMode?Constant.ACCRUAL_PROJ_DETAILS:Constant.ST_ACCRUAL_PROJ_DETAILS);
         if (companyMasterId == null) {
             query = query.replace("AND CM.COMPANY_MASTER_SID = @COMPANY_MASTER_SID", StringUtils.EMPTY);
         } else {
-            query = query.replace("@COMPANY_MASTER_SID", companyMasterId.toString());
+            query = query.replace(Constant.AT_COMPANY_MASTER_SID, companyMasterId.toString());
         }
         if (brandMasterId == null) {
             query = query.replace("AND IM.BRAND_MASTER_SID = @BRAND_MASTER_SID", StringUtils.EMPTY);
         } else {
             query = query.replace("@BRAND_MASTER_SID", brandMasterId.toString());
         }
-        query = query.replace("@PROJECTION_MASTER_SID", projectionId);
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, tableNames));
+        query = query.replace(Constant.AT_PROJECTION_MASTER_SID, projectionId);
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, tableNames));
         customizeDataForDDLB(list, comboBox);
     }
 
@@ -602,7 +601,9 @@ public final class AccrualRateProjectionLogic {
                     arguments.append("?,");
                 }
                 String args = arguments.substring(0, arguments.length() - 1) + ")}";
-                statement = connection.prepareCall("{CALL " + procedureName + args);
+                StringBuilder procedureBuilder = new StringBuilder("{CALL ");
+                procedureBuilder.append(procedureName).append(args);
+                statement = connection.prepareCall(procedureBuilder.toString());
                 LOGGER.debug("Procedure Name: " + procedureName);
                 for (int i = 0; i < parameters.length; i++) {
                     LOGGER.debug("Parameter: " + (i + 1) + " ---- " + parameters[i]);
@@ -622,23 +623,23 @@ public final class AccrualRateProjectionLogic {
         }
     }
 
-    public int getCompanysCount(final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+    public int getCompanysCount(final Set<Container.Filter> filterSet) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT COUNT( DISTINCT A.COMPANY_MASTER_SID)\n"
                 + "FROM   CUSTOMER_GTS_FORECAST A\n"
-                + "JOIN   (SELECT     TOP 1 FT.FORECAST_NAME,\n"
-                + "                         FT.[VERSION]\n"
-                + "        FROM       FILE_MANAGEMENT FT\n"
-                + "        INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FT.FILE_TYPE\n"
-                + "        WHERE      ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())\n"
-                + "                     AND FT.FROM_PERIOD IS NOT NULL )\n"
-                + "                   AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())\n"
-                + "                          OR FT.TO_PERIOD IS NULL )\n"
-                + "                   AND HT.LIST_NAME = 'FILE_TYPE'\n"
-                + "                   AND HT.[DESCRIPTION] IN ( 'CUSTOMER SALES' )\n"
-                + "        ORDER      BY FT.FROM_PERIOD DESC) B ON A.FORECAST_NAME = B.FORECAST_NAME\n"
-                + "                                            AND A.FORECAST_VER = B.VERSION\n"
-                + "JOIN   COMPANY_MASTER C ON A.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID");
+                + "JOIN   (SELECT     TOP 1 FT.FORECAST_NAME, \n"
+                + "                         FT.[VERSION] \n"
+                + "        FROM       FILE_MANAGEMENT FT \n"
+                + "        INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FT.FILE_TYPE \n"
+                + "        WHERE      ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate()) \n"
+                + "                     AND FT.FROM_PERIOD IS NOT NULL ) \n"
+                + "                   AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate()) \n"
+                + "                          OR FT.TO_PERIOD IS NULL ) \n"
+                + "                   AND HT.LIST_NAME = 'FILE_TYPE' \n"
+                + "                   AND HT.[DESCRIPTION] IN ( 'CUSTOMER SALES' ) \n"
+                + "        ORDER      BY FT.FROM_PERIOD DESC) B ON A.FORECAST_NAME = B.FORECAST_NAME \n"
+                + "                                            AND A.FORECAST_VER = B.VERSION \n"
+                + "JOIN   COMPANY_MASTER C ON A.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID ");
 
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -655,7 +656,7 @@ public final class AccrualRateProjectionLogic {
             }
         }
 
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         return list == null || list.get(0) == null ? 0 : Integer.valueOf(list.get(0).toString());
     }
 
@@ -697,13 +698,13 @@ public final class AccrualRateProjectionLogic {
         boolean sortOrder = false;
         if (columns != null) {
             for (final Iterator<SortByColumn> iterator = columns.iterator(); iterator.hasNext();) {
-                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+                final SortByColumn sortByColumn = iterator.next();
                 sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
                 orderByColumn = sortByColumn.getName();
                 if (null != orderByColumn) {
                     switch (orderByColumn) {
                         case AccrualRateUtils.COMPANY_ID:
-                            query.append(" ORDER BY A.COMPANY_ID ").append((!sortOrder) ? " ASC " : " DESC ");
+                            query.append(" ORDER BY A.COMPANY_ID ").append((!sortOrder) ? Constant.ASC_SPACE : Constant.DESC_SPACE);
                             break;
                         default:
                             query.append(" ORDER BY A.COMPANY_ID  ASC ");
@@ -717,9 +718,9 @@ public final class AccrualRateProjectionLogic {
             query.append(" ORDER BY A.COMPANY_ID  ASC ");
         }
         query.append(" OFFSET ").append(start);
-        query.append(" ROWS FETCH NEXT ").append(end).append(" ROWS ONLY;");
+        query.append(Constant.ROWS_FETCH_NEXT_SPACE).append(end).append(" ROWS ONLY;");
 
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         return customizeAvalableValuesToDTO(list);
 
     }
@@ -769,7 +770,7 @@ public final class AccrualRateProjectionLogic {
 
     }
 
-    public int getExcludedCompanysCount(AccrualRateSelectionDTO dto, final List<SortByColumn> columns, final Set<Container.Filter> filterSet,final boolean isViewMode) {
+    public int getExcludedCompanysCount(AccrualRateSelectionDTO dto, final Set<Container.Filter> filterSet,final boolean isViewMode) {
         StringBuilder query = new StringBuilder();
 
         String tableName = isViewMode ? "EXCLUSION_DETAILS" : "ST_EXCLUSION_DETAILS";
@@ -805,7 +806,7 @@ public final class AccrualRateProjectionLogic {
             }
         }
 
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), dto.getSessionDto().getCurrentTableNames()));
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), dto.getSessionDto().getCurrentTableNames()));
         return list == null || list.get(0) == null ? 0 : Integer.valueOf(list.get(0).toString());
     }
 
@@ -845,16 +846,16 @@ public final class AccrualRateProjectionLogic {
         boolean sortOrder = false;
         if (sortByColumns != null) {
             for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+                final SortByColumn sortByColumn = iterator.next();
                 sortOrder = sortByColumn.getType() != SortByColumn.Type.ASC;
                 orderByColumn = sortByColumn.getName();
                 if (null != orderByColumn) {
                     switch (orderByColumn) {
                         case AccrualRateUtils.EXCLUDED_FIELD:
-                            query.append(" ORDER BY CM.COMPANY_ID ").append((!sortOrder) ? " ASC " : " DESC ");
+                            query.append(" ORDER BY CM.COMPANY_ID ").append((!sortOrder) ? Constant.ASC_SPACE : Constant.DESC_SPACE);
                             break;
                         case AccrualRateUtils.COMPANY_NAME:
-                            query.append(" ORDER BY CM.COMPANY_NAME ").append((!sortOrder) ? " ASC " : " DESC ");
+                            query.append(" ORDER BY CM.COMPANY_NAME ").append((!sortOrder) ? Constant.ASC_SPACE : Constant.DESC_SPACE);
                             break;
                         default:
                             query.append(" ORDER BY CM.COMPANY_NAME  ASC ");
@@ -870,8 +871,8 @@ public final class AccrualRateProjectionLogic {
         }
 
         query.append(" OFFSET ").append(start);
-        query.append(" ROWS FETCH NEXT ").append(end).append(" ROWS ONLY;");
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
+        query.append(Constant.ROWS_FETCH_NEXT_SPACE).append(end).append(" ROWS ONLY;");
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         return customizeExludedValuesToDTO(list);
     }
 
@@ -983,7 +984,7 @@ public final class AccrualRateProjectionLogic {
                 String saveQuery = SQlUtil.getQuery(queryId);
                 saveQuery = saveQuery.replace("@USER_ID", userId);
                 saveQuery = saveQuery.replace("@SESSION_ID", sessionId);
-                saveQuery = saveQuery.replace("@PROJECTION_MASTER_SID", projectionId);
+                saveQuery = saveQuery.replace(Constant.AT_PROJECTION_MASTER_SID, projectionId);
                 saveQuery=QueryUtil.replaceTableNames(saveQuery,accrualRateSelectionDTO.getSessionDto().getCurrentTableNames());
                 HelperTableLocalServiceUtil.executeUpdateQuery(saveQuery);
                 latch.countDown();

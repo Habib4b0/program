@@ -5,6 +5,27 @@
  */
 package com.stpl.app.arm.accountconfiguration.form;
 
+import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
+
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.customwindow.CustomWindow;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.stpl.app.arm.accountconfiguration.dto.AccountConfigDTO;
 import com.stpl.app.arm.accountconfiguration.dto.AccountConfigSelection;
 import com.stpl.app.arm.accountconfiguration.dto.SearchResultsTableGenerator;
@@ -13,22 +34,18 @@ import com.stpl.app.arm.accountconfiguration.logic.tablelogic.AccountConfigTable
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.utils.CommonUtils;
-import static com.stpl.app.utils.ResponsiveUtils.getResponsiveControls;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-import static com.stpl.ifs.ui.util.AbstractNotificationUtils.LOGGER;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
@@ -41,23 +58,6 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customwindow.CustomWindow;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -68,20 +68,18 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     @UiField("horizontalDetailsLayout")
     protected HorizontalLayout horizontalDetailsLayout;
 
-   
-
     /**
      * The Table Layout
      */
     @UiField("resultsTableLayout")
-     VerticalLayout resultsTableLayout;
+    VerticalLayout resultsTableLayout;
 
     /**
      * The View Option Group determines the List View to show the current
      * Records or the Historical Records
      */
     @UiField("viewOpg")
-    protected OptionGroup viewOpg;    
+    protected OptionGroup viewOpg;
     /**
      * The Mass Update Combo box shows the field to be populated.Options will be
      * all of the columns available in the list view (based on Configuration
@@ -123,7 +121,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     protected Button populateBtn;
     @UiField("addPanel")
     protected Panel addPanel;
-    
+
     @UiField("labelMassUpdate")
     protected Label labelMassUpdate;
     @UiField("labelField")
@@ -172,12 +170,12 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     Map<String, String> companyAndBuMap = new HashMap<>();
     boolean isTableLoaded = false;
 
-    public AbstractAccountConfig(String caption, SessionDTO sessionDTO, AccountConfigSelection selection) {        
+    public AbstractAccountConfig(String caption, SessionDTO sessionDTO, AccountConfigSelection selection) {
         super(caption);
         this.sessionDTO = sessionDTO;
         this.selection = selection;
         init();
-        }
+    }
 
     /**
      * Configuring Fields For Add/Edit/View Mode In Account Config Configuration
@@ -191,8 +189,8 @@ public abstract class AbstractAccountConfig extends CustomWindow {
         loadFieldFactoryValuesMap();
         loadCompanyAndBU();
         loadMassfield();
-        massValueDdlb.setVisible(Boolean.FALSE);
-        massValueDdlb.setImmediate(Boolean.TRUE);
+        massValueDdlb.setVisible(false);
+        massValueDdlb.setImmediate(true);
         configureTable();
 
         exportBtn.setPrimaryStyleName("link");
@@ -211,7 +209,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             }
         });
         massfieldDdlb.focus();
-        }
+    }
 
     /**
      * Initialization Of the UI Components and Reading XML files and adding
@@ -302,7 +300,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             massValueDdlb.setItemCaption(0, GlobalConstants.getSelectOne());
             massValueDdlb.setNullSelectionAllowed(true);
             massValueDdlb.setNullSelectionItemId(0);
-        } else if (ArrayUtils.contains(ARMUtils.ACCOUNT_CONFIG_COMBOBOX, massfieldDdlbValue)) {
+        } else if (ArrayUtils.contains(ARMUtils.getAccountConfigCombobox(), massfieldDdlbValue)) {
             massValueDdlb.removeAllItems();
             massValueDdlb.setVisible(true);
             this.massValue.setVisible(false);
@@ -321,7 +319,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
      * @throws com.vaadin.data.fieldgroup.FieldGroup.CommitException
      */
     @UiHandler("addLineBtn")
-    public void addLineButtonLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
+    public void addLineButtonLogic(Button.ClickEvent event) {
         addLineBtnLogic();
     }
 
@@ -340,7 +338,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             }
         }
         if (finalList.isEmpty()) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getRemoveLineMessageID001());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getRemoveLineMessageID001());
         } else {
             new AbstractNotificationUtils() {
                 @Override
@@ -351,18 +349,19 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                             detailsTableContainer.removeItem(finalList.get(i));
                         }
                         if (list.isEmpty()) {
-                            resultsTable.setColumnCheckBox("checkRecord", true, false);
+                            resultsTable.setColumnCheckBox(CommonConstant.CHECK_RECORD, true, false);
                         }
                         detailsTableLogic.loadsetData(true, selection);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("Error in removeLineButtonLogic :"+ex);
                     }
                 }
 
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("Inside the removeLineButtonLogic Listener NO Method");
                 }
-            }.getConfirmationMessage("Confirmation", ARMMessages.getRemoveLineMessageID002());
+            }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getRemoveLineMessageID002());
         }
     }
 
@@ -377,38 +376,49 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             LOGGER.info("massValueDdlbRes.getValue() = " + massfieldDdlb.getValue());
             Object value = massValueDdlb.isVisible() ? massValueDdlb.getValue() : massValue.getValue();
             if (value != null && !String.valueOf(value).isEmpty()) {
-                List<AccountConfigDTO> list = detailsTableContainer.getItemIds();
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getCheckRecord()) {
-                        if (value instanceof HelperDTO) {
-                            HelperDTO compNameDto = (HelperDTO) value;
-                            resultsTable.getContainerProperty(list.get(i), companyAndBuMap.get(massfieldDdlb.getValue())).setValue(compNameDto.getDescription());
-                            int companyNo = "companyName".equals(companyAndBuMap.get(String.valueOf(massfieldDdlb.getValue())))
-                                    ? compNameDto.getId() : list.get(i).getCompanyNoHelperDto().getId();
-                            int businessUnitNo = "businessUnitName".equals(companyAndBuMap.get(String.valueOf(massfieldDdlb.getValue())))
-                                    ? compNameDto.getId() : list.get(i).getBusinessNoHelperDto().getId();
-                            logic.loadAccount((ComboBox) list.get(i).getFieldFactoryComponent("account"), companyNo, businessUnitNo);
-                        }
-                        resultsTable.getContainerProperty(list.get(i), massfieldDdlb.getValue()).setValue(value);
-                    }
-                }
-                if (value instanceof HelperDTO) {
-                    HelperDTO dto = (HelperDTO) value;
-                    value = dto.getId();
-                }
-                if (logic.isCheckedAtleastOneItem(selection.getTempTableName())) {
-                    logic.massUpdateValue(value, selection, updateFieldFactoryValues.get(massfieldDdlb.getValue().toString()));
-                } else {
-                    AbstractNotificationUtils.getErrorNotification("Error", "No Items are selected");
-                }
-//                detailsTableLogic.loadsetData(true, selection);
+                populateBtnIterator(value);
             } else {
-                AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getPropertyMessage002());
+                AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage002());
             }
         } else {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getPropertyMessage002());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getPropertyMessage002());
         }
 
+    }
+
+    private void populateBtnIterator(Object value) {
+        Object values;
+        List<AccountConfigDTO> list = detailsTableContainer.getItemIds();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getCheckRecord()) {
+                populateHelperDto(value, list, i);
+            }
+        }
+        if (value instanceof HelperDTO) {
+            HelperDTO dto = (HelperDTO) value;
+            values = dto.getId();
+        } else {
+            values = value;
+        }
+        if (logic.isCheckedAtleastOneItem(selection.getTempTableName())) {
+            logic.massUpdateValue(values, selection, updateFieldFactoryValues.get(massfieldDdlb.getValue().toString()));
+        } else {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, "No Items are selected");
+        }
+    }
+
+    public void populateHelperDto(Object value, List<AccountConfigDTO> list, int i) {
+        if (value instanceof HelperDTO) {
+
+            HelperDTO compNameDto = (HelperDTO) value;
+            resultsTable.getContainerProperty(list.get(i), companyAndBuMap.get(massfieldDdlb.getValue())).setValue(compNameDto.getDescription());
+            int companyNo = "companyName".equals(companyAndBuMap.get(String.valueOf(massfieldDdlb.getValue())))
+                    ? compNameDto.getId() : list.get(i).getCompanyNoHelperDto().getId();
+            int businessUnitNo = "businessUnitName".equals(companyAndBuMap.get(String.valueOf(massfieldDdlb.getValue())))
+                    ? compNameDto.getId() : list.get(i).getBusinessNoHelperDto().getId();
+            logic.loadAccount((ComboBox) list.get(i).getFieldFactoryComponent(CommonConstant.ACCOUNT), companyNo, businessUnitNo);
+        }
+        resultsTable.getContainerProperty(list.get(i), massfieldDdlb.getValue()).setValue(value);
     }
 
     /**
@@ -418,9 +428,9 @@ public abstract class AbstractAccountConfig extends CustomWindow {
      * @throws CloneNotSupportedException
      */
     @UiHandler("copyLineBtn")
-    public void copyLineBtnResButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
+    public void copyLineBtnResButtonLogic(Button.ClickEvent event) {
         if (!logic.isCheckedAtleastOneItem(selection.getTempTableName())) {
-            AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getCopyLineMessageID001());
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getCopyLineMessageID001());
         } else {
             new AbstractNotificationUtils() {
                 @Override
@@ -431,9 +441,10 @@ public abstract class AbstractAccountConfig extends CustomWindow {
 
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("Inside the copyLineBtnResButtonLogic Listener NO Method");
                 }
 
-            }.getConfirmationMessage("Confirmation", ARMMessages.getCopyLineMessageID002());
+            }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getCopyLineMessageID002());
         }
     }
 
@@ -445,14 +456,16 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     @UiHandler("saveBtn")
     public void saveButtonLogic(Button.ClickEvent event) {
         if (resultsTable.size() == 0) {
-            AbstractNotificationUtils.getErrorNotification("Error", "At least one record is needed to Save.");
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, "At least one record is needed to Save.");
             return;
         }
-        if (logic.mandatoryAndDuplicateCheckForSave(Arrays.asList(new String[]{selection.getTempTableName(), selection.getTempTableName(), selection.getTempTableName()}), "Duplicatecheck for save")) {
-            AbstractNotificationUtils.getErrorNotification("Error", "Please ensure that each unique combination of Company, Business Unit, Account, Brand, and Cost Center is only in the list view once.");
+        String[] tableNames = new String[]{selection.getTempTableName(), selection.getTempTableName(), selection.getTempTableName()};
+        if (logic.mandatoryAndDuplicateCheckForSave(Arrays.asList(tableNames), "Duplicatecheck for save")) {
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, "Please ensure that each unique combination of Company, Business Unit, Account, Brand, and Cost Center is only in the list view once.");
             return;
         }
-        if (logic.mandatoryAndDuplicateCheckForSave(Arrays.asList(new String[]{selection.getTempTableName()}), "Mandatory check for save")) {
+        String[] tableName = new String[]{selection.getTempTableName()};
+        if (logic.mandatoryAndDuplicateCheckForSave(Arrays.asList(tableName), "Mandatory check for save")) {
             new AbstractNotificationUtils() {
                 @Override
                 public void yesMethod() {
@@ -462,12 +475,13 @@ public abstract class AbstractAccountConfig extends CustomWindow {
 
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("Inside the saveButtonLogic Listener NO Method");
                 }
-            }.getConfirmationMessage("Confirmation", "Save record ?");
+            }.getConfirmationMessage(CommonConstant.CONFIRMATION, "Save record ?");
 
             return;
         }
-        AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getSaveMessageID006());
+        AbstractNotificationUtils.getErrorNotification(CommonConstant.ERROR, ARMMessages.getSaveMessageID006());
     }
 
     public void setTableFieldFactory() {
@@ -487,29 +501,30 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             public void yesMethod() {
                 try {
                     logic.resetLineLogic(selection.getTempTableName());
-                    detailsTableLogic.loadsetData(Boolean.TRUE, selection);
+                    detailsTableLogic.loadsetData(true, selection);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in resetLineBtnResLogic :"+ex);
                 }
             }
 
             @Override
             public void noMethod() {
+                LOGGER.debug("Inside the resetLineBtnResLogic Listener NO Method");
             }
-        }.getConfirmationMessage("Confirmation", ARMMessages.getResetMessage());
+        }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getResetMessage());
     }
 
     @UiHandler("viewOpg")
-    public void viewModeChange(Property.ValueChangeEvent event) throws SystemException {
+    public void viewModeChange(Property.ValueChangeEvent event) {
         if (isTableLoaded) {
             if (viewOpg.getValue().equals(GlobalConstants.getCurrent())) {
                 resultsTable.setVisibleColumns(getVisibleColumns());
                 resultsTable.setColumnHeaders(getColumnHeaders());
                 selection.setCurrentView(true);
             } else {
-                resultsTable.setVisibleColumns(ARMUtils.ACCOUNT_CONFIG_VIEWMODE_COLUMNS);
-                resultsTable.setColumnHeaders(ARMUtils.ACCOUNT_CONFIG_VIEWMODE_HEADERS);
-                resultsTable.setSelectable(Boolean.FALSE);
+                resultsTable.setVisibleColumns(ARMUtils.getAccountConfigViewmodeColumns());
+                resultsTable.setColumnHeaders(ARMUtils.getAccountConfigViewmodeHeaders());
+                resultsTable.setSelectable(false);
                 selection.setCurrentView(false);
             }
             resultsTable.setColumnAlignment(VariableConstants.CHECK_RECORD, ExtCustomTable.Align.CENTER);
@@ -520,7 +535,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             massValueDdlb.setEnabled(selection.isCurrentView());
             massValue.setEnabled(selection.isCurrentView());
             massfieldDdlb.setEnabled(selection.isCurrentView());
-            resultsTable.setColumnCheckBox("checkRecord", selection.isCurrentView());
+            resultsTable.setColumnCheckBox(CommonConstant.CHECK_RECORD, selection.isCurrentView());
             resetLineBtn.setEnabled(!selection.isViewMode() && selection.isCurrentView());
             addLineBtn.setEnabled(!selection.isViewMode() && selection.isCurrentView());
             removeLineBtn.setEnabled(!selection.isViewMode() && selection.isCurrentView());
@@ -544,16 +559,16 @@ public abstract class AbstractAccountConfig extends CustomWindow {
      * @param event
      */
     @UiHandler("exportBtn")
-    public void exportButtonLogic(Button.ClickEvent event) throws Exception, SystemException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void exportButtonLogic(Button.ClickEvent event) {
         try {
             createWorkSheet("Account Configuration", resultsTable);
 
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("Error in exportButtonLogic :"+ex);
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws Exception, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         try {
 
@@ -561,13 +576,13 @@ public abstract class AbstractAccountConfig extends CustomWindow {
             if (resultTable.size() != 0) {
                 recordCount = selection.isViewMode() && selection.isCurrentView() ? 1 : logic.getAccountConfigCount(selection, detailsTableLogic.getFilters());
             }
-            ExcelExportforBB.createWorkSheet(ARMUtils.EXCEL_ACCOUNT_CONFIG_SEARCH_HEADERS, recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+            ExcelExportforBB.createWorkSheet(ARMUtils.getExcelAccountConfigSearchHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("Error in createWorkSheet :"+ex);
         }
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
 
         try {
             if (end != 0) {
@@ -577,10 +592,10 @@ public abstract class AbstractAccountConfig extends CustomWindow {
                 } else {
                     searchList = logic.getAccountConfigData(selection, start, end, detailsTableLogic.getFilters(), detailsTableLogic.getSortByColumns());
                 }
-                ExcelExportforBB.createFileContent(ARMUtils.EXCEL_ACCOUNT_CONFIG_SEARCH_COLUMNS, searchList, printWriter);
+                ExcelExportforBB.createFileContent(ARMUtils.getExcelAccountConfigSearchColumns(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in createWorkSheetContent :"+e);
         }
     }
 
@@ -595,7 +610,7 @@ public abstract class AbstractAccountConfig extends CustomWindow {
         List input = new ArrayList<>();
         input.add(sysid);
         List dataList = QueryUtils.getItemData(input, "Load_Company_No", null);
-        if (dataList.size() < 1) {
+        if (dataList.isEmpty()) {
             return StringUtils.EMPTY;
         }
         return String.valueOf(dataList.get(0));
@@ -611,66 +626,73 @@ public abstract class AbstractAccountConfig extends CustomWindow {
 
             @Override
             public void noMethod() {
+                LOGGER.debug("Inside the closeBtnLogic Listener NO Method");
             }
-        }.getConfirmationMessage("Confirmation", ARMMessages.getCloseMessageID001());
+        }.getConfirmationMessage(CommonConstant.CONFIRMATION, ARMMessages.getCloseMessageID001());
     }
 
     private void loadMassValueDdlb(String massfieldDdlbValue) {
         massValueDdlb.removeAllItems();
         switch (massfieldDdlbValue) {
-            case "account": {
-                massValueDdlb.addItem(GlobalConstants.getSelectOne());
-                massValueDdlb.setItemCaption(GlobalConstants.getSelectOne(), GlobalConstants.getSelectOne());
-                List<Object[]> ddlbList = QueryUtils.getItemData(new ArrayList(), "loadAccountFilterDdlb", null);
-                for (Object[] obj : ddlbList) {
-                    if (obj[NumericConstants.ONE] != null) {
-                        massValueDdlb.addItem(obj[NumericConstants.ONE]);
-                        massValueDdlb.setItemCaption(obj[NumericConstants.ONE], "" + obj[NumericConstants.ONE]);
-                    }
-                }
-                massValueDdlb.setNullSelectionAllowed(true);
-                massValueDdlb.setNullSelectionItemId(GlobalConstants.getSelectOne());
+            case CommonConstant.ACCOUNT:
+                loadMassValueDdlbForAccount();
                 break;
-            }
-            case "brandDdlb": {
-                massValueDdlb.addItem(0);
-                massValueDdlb.setItemCaption(NumericConstants.ZERO, GlobalConstants.getSelectOne());
-                List<Object[]> ddlbList = QueryUtils.getItemData(new ArrayList(), "loadBrand", null);
-                for (Object[] obj : ddlbList) {
-                    if (obj[NumericConstants.ONE] != null) {
-                        massValueDdlb.addItem(obj[NumericConstants.ZERO]);
-                        massValueDdlb.setItemCaption(obj[NumericConstants.ZERO], "" + obj[NumericConstants.TWO]);
-                    }
-                }
-                massValueDdlb.setNullSelectionAllowed(true);
-                massValueDdlb.setNullSelectionItemId(NumericConstants.ZERO);
+            case "brandDdlb":
+                loadMassValueDdlbForBrandDdlb();
                 break;
-            }
-
-            case "businessNoHelperDto": {
+            case CommonConstant.BUSINESS_NO_HELPER_DTO:
                 logic.loadCompanyOrBusinessUnitDdlb(massValueDdlb, resultsBusinessUnitFactoryDdlbList, "getBusinessQuery", Boolean.FALSE, Boolean.FALSE);
                 break;
-            }
-            case "companyNoHelperDto": {
+            case CommonConstant.COMPANY_NO_HELPER_DTO:
                 logic.loadCompanyOrBusinessUnitDdlb(massValueDdlb, resultsCompanyFactoryDdlbList, "getCompanyQuery", Boolean.FALSE, Boolean.FALSE);
                 break;
-            }
+            default:
+
         }
 
     }
 
+    private void loadMassValueDdlbForAccount() {
+        massValueDdlb.addItem(GlobalConstants.getSelectOne());
+        massValueDdlb.setItemCaption(GlobalConstants.getSelectOne(), GlobalConstants.getSelectOne());
+        List<Object[]> ddlbList = QueryUtils.getItemData(new ArrayList(), "loadAccountFilterDdlb", null);
+        for (Object[] obj : ddlbList) {
+            if (obj[NumericConstants.ONE] != null) {
+                massValueDdlb.addItem(obj[NumericConstants.ONE]);
+                massValueDdlb.setItemCaption(obj[NumericConstants.ONE], "" + obj[NumericConstants.ONE]);
+            }
+        }
+        massValueDdlb.setNullSelectionAllowed(true);
+        massValueDdlb.setNullSelectionItemId(GlobalConstants.getSelectOne());
+
+    }
+
+    private void loadMassValueDdlbForBrandDdlb() {
+        massValueDdlb.addItem(0);
+        massValueDdlb.setItemCaption(NumericConstants.ZERO, GlobalConstants.getSelectOne());
+        List<Object[]> ddlbList = QueryUtils.getItemData(new ArrayList(), "loadBrand", null);
+        for (Object[] obj : ddlbList) {
+            if (obj[NumericConstants.ONE] != null) {
+                massValueDdlb.addItem(obj[NumericConstants.ZERO]);
+                massValueDdlb.setItemCaption(obj[NumericConstants.ZERO], "" + obj[NumericConstants.TWO]);
+            }
+        }
+        massValueDdlb.setNullSelectionAllowed(true);
+        massValueDdlb.setNullSelectionItemId(NumericConstants.ZERO);
+    }
+
     private void loadFieldFactoryValuesMap() {
-        updateFieldFactoryValues.put("companyNoHelperDto", "GL_COMPANY_MASTER_SID");
-        updateFieldFactoryValues.put("businessNoHelperDto", "BU_COMPANY_MASTER_SID");
-        updateFieldFactoryValues.put("account", "ACCOUNT");
+        updateFieldFactoryValues.put(CommonConstant.COMPANY_NO_HELPER_DTO, "GL_COMPANY_MASTER_SID");
+        updateFieldFactoryValues.put(CommonConstant.BUSINESS_NO_HELPER_DTO, "BU_COMPANY_MASTER_SID");
+        updateFieldFactoryValues.put(CommonConstant.ACCOUNT, "ACCOUNT");
         updateFieldFactoryValues.put("brandDdlb", "BRAND_MASTER_SID");
         updateFieldFactoryValues.put("costCentre", "COST_CENTER");
-        updateFieldFactoryValues.put("checkRecord", "CHECK_RECORD");
+        updateFieldFactoryValues.put(CommonConstant.CHECK_RECORD, "CHECK_RECORD");
     }
 
     private void loadCompanyAndBU() {
-        companyAndBuMap.put("companyNoHelperDto", "companyName");
-        companyAndBuMap.put("businessNoHelperDto", "businessUnitName");
+        companyAndBuMap.put(CommonConstant.COMPANY_NO_HELPER_DTO, "companyName");
+        companyAndBuMap.put(CommonConstant.BUSINESS_NO_HELPER_DTO, "businessUnitName");
     }
 
     protected abstract void loadSelection();
@@ -737,13 +759,15 @@ public abstract class AbstractAccountConfig extends CustomWindow {
     public Button getPopulateBtn() {
         return populateBtn;
     }
-     public HorizontalLayout getHorizontalDetailsLayout() {
+
+    public HorizontalLayout getHorizontalDetailsLayout() {
         return horizontalDetailsLayout;
     }
-     public OptionGroup getViewOpg() {
+
+    public OptionGroup getViewOpg() {
         return viewOpg;
     }
-     
+
     public Label getLabelMassUpdate() {
         return labelMassUpdate;
     }
@@ -758,5 +782,15 @@ public abstract class AbstractAccountConfig extends CustomWindow {
 
     public Label getLabelView() {
         return labelView;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

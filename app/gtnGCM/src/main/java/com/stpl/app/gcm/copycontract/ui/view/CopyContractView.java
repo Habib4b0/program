@@ -44,15 +44,5 @@ public class CopyContractView extends VerticalLayout {
         this.selectedList = selectedList;
         addDiscountForm = new CopyContractform(this.addWindow, selectedList, Count);
         addComponent(addDiscountForm);
-        enter();
     }
-
-    /**
-     * This method is always called before the view is shown on screen.
-     *
-     * @param event the event
-     */
-    public void enter() {
-    }
-
 }

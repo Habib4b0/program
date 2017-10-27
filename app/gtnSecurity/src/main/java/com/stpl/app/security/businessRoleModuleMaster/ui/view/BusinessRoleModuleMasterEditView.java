@@ -29,5 +29,6 @@ public class BusinessRoleModuleMasterEditView extends VerticalLayout implements 
 	}
 	
 	public void enter(ViewChangeEvent event) {
+            return;
 	}
 }

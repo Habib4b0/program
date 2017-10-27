@@ -66,7 +66,7 @@ public class CommonUtils {
 
     public static List<String> loadHistory(String frequency, String period, SelectionDTO session) {
 
-        List<String> history = new ArrayList<String>();
+        List<String> history;
         history = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
@@ -139,7 +139,7 @@ public class CommonUtils {
     }
 
     public static Map<String, Integer> getHistoryEndDetails(SelectionDTO session, String frequency) {
-        Map<String, Integer> history = new HashMap<String, Integer>();
+        Map<String, Integer> history;
         history = session.getHistoryEndDetails(frequency);
         if (history == null || history.isEmpty()) {
             history = getHistoryEndDetail(session, frequency);
@@ -166,7 +166,7 @@ public class CommonUtils {
     }
 
     private static Map<String, Integer> getHistoryEndDetail(SelectionDTO session, String frequency) {
-        Map<String, Integer> history = new HashMap<String, Integer>();
+        Map<String, Integer> history = new HashMap<>();
         session.setForecastDTO(setHistoryLimit());
         int frequencyDivision = 1;
         int historyEndPeriod = 1;

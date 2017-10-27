@@ -69,7 +69,7 @@ public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
 
     @Override
     public List<CompanyDdlbDto> find(SearchCriteria sc, int startIndex, int offset, List<OrderByColumn> list) {
-        List<CompanyDdlbDto> resultList = new ArrayList<CompanyDdlbDto>();
+        List<CompanyDdlbDto> resultList = new ArrayList<>();
         try {
             if (Constant.DISCOUNT_SMALL.equals(componentName)) {
                 resultList = logic.getDiscounts(startIndex, startIndex + offset, sc.getFilter(), companyDdlbDefault,selectedDiscount);

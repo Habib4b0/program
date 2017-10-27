@@ -5,7 +5,7 @@
  */
 package com.stpl.app.arm.businessprocess.pipelineinventory.tablelogic;
 
-import com.stpl.app.arm.AbstractForms.AbstractFilter;
+import com.stpl.app.arm.abstractforms.AbstractFilter;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.pipelineinventory.dto.CustomerGroupDTO;
 import com.stpl.app.arm.businessprocess.pipelineinventory.logic.PipelineInventoryLookupLogic;
@@ -27,7 +27,7 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
     boolean generate = false;
     CustomerGroupDTO binderDto;
     PipelineInventoryLookupLogic commonLogic = new PipelineInventoryLookupLogic();
-    BeanItemContainer<CustomerGroupDTO> resultsinventoryContainer = new BeanItemContainer<CustomerGroupDTO>(CustomerGroupDTO.class);
+    BeanItemContainer<CustomerGroupDTO> resultsinventoryContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     boolean firstCount = true;
     AbstractSelectionDTO selectionDto;
 
@@ -41,8 +41,7 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
                     resultsinventoryContainer.removeAllContainerFilters();
                     resultsinventoryContainer.removeAllItems();
                     commonLogic.getInventCustomerProductGroupCount(binderDto, resultsinventoryContainer, binderDto.isViewFlag(), selectionDto);
-                    
-//                    firstCount = false;
+
                 }
                 for (Container.Filter fil : getFilters()) {
                     binderDto.addFilter(fil);
@@ -63,7 +62,7 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
                 return resultsinventoryContainer.size();
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in getCount :"+ex);
             }
         }
         return 0;
@@ -71,7 +70,7 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<CustomerGroupDTO> resultList = new ArrayList<CustomerGroupDTO>();
+        List<CustomerGroupDTO> resultList = new ArrayList<>();
 
         try {
             binderDto.clearFilters();
@@ -95,7 +94,7 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
             AbstractFilter.getInstance().orderByQueryForContainer(binderDto.getSortedColumns(), resultsinventoryContainer);
             resultList = resultsinventoryContainer.getItemIds(start, offset);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in loadData :"+ex);
         }
         return resultList;
     }
@@ -106,6 +105,7 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
         ((BeanItemContainer<CustomerGroupDTO>) container).addBean(dto);
         return dto;
     }
+
     /* Method to setting up the data which we pass to logic
      *
      * @param binderDto
@@ -113,7 +113,6 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
      * @param reset
      * @return 
      */
-
     public boolean loadSetData(CustomerGroupDTO binderDto, boolean reset, AbstractSelectionDTO selectionDto) {
         this.binderDto = binderDto;
         this.selectionDto = selectionDto;
@@ -134,7 +133,7 @@ public class CustomerGrpAvailableTableLogic extends PageTableLogic {
     }
 
     public void setFirstCount(boolean firstCount) {
-       this.firstCount=firstCount;
+        this.firstCount = firstCount;
     }
 
 }

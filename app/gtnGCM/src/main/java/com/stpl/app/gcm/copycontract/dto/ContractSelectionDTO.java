@@ -33,8 +33,6 @@ public class ContractSelectionDTO implements Serializable {
     String status = StringUtils.EMPTY;
     String rebateFrequency = StringUtils.EMPTY;
     String start = StringUtils.EMPTY;
-    String rsId = StringUtils.EMPTY;
-    String rsName = StringUtils.EMPTY;
     String rarType = StringUtils.EMPTY;
     String basis = StringUtils.EMPTY;
     String end = StringUtils.EMPTY;
@@ -53,8 +51,8 @@ public class ContractSelectionDTO implements Serializable {
     String IFPname = StringUtils.EMPTY;
     String PSname = StringUtils.EMPTY;
     String RSname = StringUtils.EMPTY;
-    List<String> companyMasterSids = new ArrayList<String>();
-    List<String> phCompanyMasterSids = new ArrayList<String>();
+    List<String> companyMasterSids = new ArrayList<>();
+    List<String> phCompanyMasterSids = new ArrayList<>();
 
     String moduleName = StringUtils.EMPTY;
     String screenName = StringUtils.EMPTY;
@@ -231,22 +229,6 @@ public class ContractSelectionDTO implements Serializable {
 
     public void setStart(String start) {
         this.start = start;
-    }
-
-    public String getRsId() {
-        return rsId;
-    }
-
-    public void setRsId(String rsId) {
-        this.rsId = rsId;
-    }
-
-    public String getRsName() {
-        return rsName;
-    }
-
-    public void setRsName(String rsName) {
-        this.rsName = rsName;
     }
 
     public String getRarType() {

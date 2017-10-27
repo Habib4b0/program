@@ -42,7 +42,7 @@ public final class Constants {
     /**
      * The Bundle no.
      */
-    public static final String Bundle_No = "bundleNo";
+    public static final String BUNDLE_NO = "bundleNo";
     /**
      * The CONTRAC t_ n o1.
      */
@@ -469,11 +469,11 @@ public final class Constants {
     /**
      * The public static final String asterisk.
      */
-    public static final String _ASTERISK = "*";
+    public static final String ASTERISK = "*";
     /**
      * The public static final String zero.
      */
-    public static final String _ZERO = "0";
+    public static final String ZERO_STR = "0";
     /**
      * The char percent.
      */
@@ -1043,7 +1043,7 @@ public final class Constants {
     public static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
 
     public static String alphaNumericCharsMessage = "Special Characters are not allowed in ";
-    public final static String itemClickFlag = "ITEM_CLICK_FLAG";
+    public final static String ITEM_CLICK_FLAG = "ITEM_CLICK_FLAG";
 
     /**
      * The Constant PRICE.
@@ -1058,10 +1058,10 @@ public final class Constants {
 
     public static final String VIEW = "View";
 
-    public static final String ViewMode = "view";
+    public static final String VIEW_MODE = "view";
 
     public static final String EXCEL_CLOSE = "excelClose";
-    public final static String PRICE_PROTECTION_START_DATE_VALUE = "Price Protection Start Date";
+    public static final  String PRICE_PROTECTION_START_DATE_VALUE = "Price Protection Start Date";
     public final static String PRICE_PROTECTION_STATUS = "Price Protection Status";
     public final static String PRICE_PROTECTION_PRICE_TYPE = "Price Protection Price Type";
     public final static String NEP = "NEP";
@@ -1117,7 +1117,6 @@ public final class Constants {
     public final static String FORMULA_TYPE = "formulaType";
     public static final String REBATE_PLAN_FORMULA_TYPE = "FORMULA_TYPE";
     public static final String SUGGESTED_PRICE = "suggestedPrice";
-    public final static String MASS_PRICE_PROTECTION_START_DATE = "Price Protection Start Date";
     public final static String MASS_PRICE_PROTECTION_STATUS = "Price Protection Status";
     public final static String MASS_PRICE_PROTECTION_PRICE_TYPE = "Price Protection Price Type";
     public final static String MASS_NEP = "NEP";
@@ -1134,7 +1133,6 @@ public final class Constants {
     public final static String MASS_NET_PRICE_TYPE = "Net Price Type";
     public final static String MASS_NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
     public final static String MASS_PRICE_PROTECTION_END_DATE = "Price Protection End Date";
-    public final static String MASS_PRICE_TOLERENCE = "Price Tolerance";
     public final static String MASS_BASE_PRICE = "Base Price";
     
     public static final String DB_STATUS = "STATUS";
@@ -1291,4 +1289,5 @@ public final class Constants {
     public static final String WORKFLOW_STATUS = "WorkflowStatus";
     public static final String WORKFLOW_APPROVAL = "Interface - Workflow Approval";
     public static final String WORKFLOW_SUBMIT = "Interface - Workflow Submission";    
+    public static final String MODIFIED_BY = "modifiedBy";    
 }

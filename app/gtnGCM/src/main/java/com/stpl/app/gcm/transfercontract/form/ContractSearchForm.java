@@ -119,11 +119,10 @@ public class ContractSearchForm extends VerticalLayout {
     @UiField("aliasEndDate")
     public PopupDateField aliasEndDate;
 
-    private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<ContractSearchDTO>(ContractSearchDTO.class);
+    private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     private final ContractSearchLogic logic = new ContractSearchLogic();
     public static final Logger LOGGER = Logger.getLogger(ContractSearchLogic.class);
     CommonUtil commonUtil=CommonUtil.getInstance();
-    UiUtils UIUtils=new UiUtils();
     /**
      * The binder.
      */
@@ -142,7 +141,7 @@ public class ContractSearchForm extends VerticalLayout {
      * @return the binder
      */
     public final ErrorfulFieldGroup getBinder() {
-        final ErrorfulFieldGroup binderLocal = new ErrorfulFieldGroup(new BeanItem<ContractSearchDTO>(new ContractSearchDTO()));
+        final ErrorfulFieldGroup binderLocal = new ErrorfulFieldGroup(new BeanItem<>(new ContractSearchDTO()));
         binderLocal.setBuffered(true);
         binderLocal.bindMemberFields(this);
         binderLocal.setErrorDisplay(errorMsg);
@@ -151,8 +150,8 @@ public class ContractSearchForm extends VerticalLayout {
 
     private void configureFields() {
         try {
-            commonUtil.loadComboBox(aliasType, UIUtils.CONTRACT_ALIAS_TYPE, false);
-            commonUtil.loadComboBox(marketType, UIUtils.CONTRACT_TYPE, false);
+            commonUtil.loadComboBox(aliasType, UiUtils.CONTRACT_ALIAS_TYPE, false);
+            commonUtil.loadComboBox(marketType, UiUtils.CONTRACT_TYPE, false);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -166,14 +165,14 @@ public class ContractSearchForm extends VerticalLayout {
         resultTable.setPageLength(NumericConstants.FIVE);
         resultTable.setEditable(Boolean.TRUE);
         resultTable.setContainerDataSource(resultContainer);
-        resultTable.setVisibleColumns(HeaderUtil.CONTRACT_SEARCH_COLUMN);
-        resultTable.setColumnHeaders(HeaderUtil.CONTRACT_SEARCH_HEADER);
-        resultTable.setColumnCheckBox(HeaderUtil.CONTRACT_SEARCH_COLUMN[0], Boolean.TRUE);
+        resultTable.setVisibleColumns(HeaderUtil.getInstance().contractSearchColumn);
+        resultTable.setColumnHeaders(HeaderUtil.getInstance().contractSearchHeader);
+        resultTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
         resultTable.setTableFieldFactory(new TableFieldFactory() {
 
             public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                 Field field;
-                if (String.valueOf(HeaderUtil.CONTRACT_SEARCH_COLUMN[0]).equals(propertyId)) {
+                if (String.valueOf(HeaderUtil.getInstance().contractSearchColumn[0]).equals(propertyId)) {
                     field = new CheckBox();
                 } else {
                     field = null;
@@ -195,7 +194,7 @@ public class ContractSearchForm extends VerticalLayout {
     @UiHandler("transferBtn")
     public void transferButtonClickLogic(Button.ClickEvent event) {
         try {
-            Map<String, Set<String>> resultMap = new HashMap<String, Set<String>>();
+            Map<String, Set<String>> resultMap = new HashMap<>();
             Set<String> contractMap = new HashSet();
             Set<String> psMap = new HashSet();
             Set<String> rsMap = new HashSet();
@@ -233,7 +232,7 @@ public class ContractSearchForm extends VerticalLayout {
     public void resetButtonClickLogic(Button.ClickEvent event) {
         try {
 
-            binder.setItemDataSource(new BeanItem<ContractSearchDTO>(new ContractSearchDTO()));
+            binder.setItemDataSource(new BeanItem<>(new ContractSearchDTO()));
             resultContainer.removeAllItems();
             resultTable.resetFilters();
         } catch (Exception ex) {

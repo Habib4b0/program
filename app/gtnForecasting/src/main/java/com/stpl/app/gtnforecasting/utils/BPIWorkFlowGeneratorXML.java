@@ -41,8 +41,8 @@ public class BPIWorkFlowGeneratorXML {
      */
     public String generateId(String fileWithPath, String moduleName) {
         
-        HashMap hmCounterAndDate = new HashMap();
-        HashMap hmBPIConterAndUpdateValues = new HashMap();
+        HashMap hmCounterAndDate;
+        HashMap hmBPIConterAndUpdateValues;
 
       
         hmCounterAndDate = readBPICounterXML(fileWithPath, moduleName);

@@ -33,9 +33,9 @@ public class Contractselectionpopup extends Window {
 
     public Contractselectionpopup(List<ContractSelectionDTO> selectedList) {
         super();
-        addStyleName(Constants.bootstrap);
+        addStyleName(Constants.BOOTSTRAP);
         addStyleName("bootstrap-bb");
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         center();
         this.selectedList = selectedList;
         setModal(true);

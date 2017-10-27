@@ -5,6 +5,7 @@
 
 package com.stpl.app.adminconsole.filemanagement.ui.form;
 import static com.stpl.app.adminconsole.filemanagement.ui.form.Emailer.properties;
+import com.stpl.ifs.util.constants.GlobalConstants;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -23,13 +24,12 @@ import org.jboss.logging.Logger;
 public class Emailer {
     private static final Logger LOGGER = Logger.getLogger(Emailer.class);
 
-     final static String from = "support@bpitechnologies.com";
-    final static String password = "MyVibes$$$";
+     final static String FROM = "support@bpitechnologies.com";
     final static Properties properties = new Properties();
-public Emailer(){
-    
-}
-    
+
+    public Emailer() {
+        LOGGER.debug("Emailer");
+    }
     static {
 
         properties.put("mail.smtp.starttls.enable", "true");
@@ -45,11 +45,11 @@ public Emailer(){
             Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(from, password);
+                    return new PasswordAuthentication(FROM, GlobalConstants.getSupportPassword());
                 }
             });
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
+            message.setFrom(new InternetAddress(FROM));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
             if(!ccAddress.isEmpty()){
             message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(ccAddress,false));

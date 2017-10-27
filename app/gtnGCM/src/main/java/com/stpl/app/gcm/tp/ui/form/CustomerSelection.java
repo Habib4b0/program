@@ -134,25 +134,25 @@ public class CustomerSelection extends VerticalLayout {
      */
     private static final Logger LOGGER = Logger.getLogger(CustomerSelection.class);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    final transient StplSecurity stplSecurity = new StplSecurity();
+    transient Map<String, AppPermission> functionHM = new HashMap<>();
 
     TransferTPForm transferTpForm;
     SessionDTO session;
 
-    CompanySearchLogic logic = new CompanySearchLogic();
-    List<IdDescriptionDTO> resultList;
-    CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
-    CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
-    LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
+    transient CompanySearchLogic logic = new CompanySearchLogic();
+    transient List<IdDescriptionDTO> resultList;
+    transient CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
+    transient CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
+    transient LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
 
     public ExtPagedTable selectedCustomersTable = new ExtPagedTable(selectedCustomersLogic);
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
     public ExtPagedTable transferCustomerTable = new ExtPagedTable(transferCustomerTableLogic);
 
-    private BeanItemContainer<TradingPartnerDTO> selectedCustomersContainer = new BeanItemContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
-    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<TradingPartnerDTO>(TradingPartnerDTO.class);
-    private BeanItemContainer<CompanyLinkDTO> transferCustomerContainer = new BeanItemContainer<CompanyLinkDTO>(CompanyLinkDTO.class);
+    private BeanItemContainer<TradingPartnerDTO> selectedCustomersContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    private BeanItemContainer<CompanyLinkDTO> transferCustomerContainer = new BeanItemContainer<>(CompanyLinkDTO.class);
 
     boolean isPlaceholdersAssociated = false;
     boolean transferFlag = false;
@@ -163,15 +163,14 @@ public class CustomerSelection extends VerticalLayout {
     String customerSearchSessionId = StringUtils.EMPTY;
 
     public TradingPartnerDTO tpDto = new TradingPartnerDTO();
-    public CompanyLinkDTO companyDto = new CompanyLinkDTO();
+    transient public CompanyLinkDTO companyDto = new CompanyLinkDTO();
     final ErrorLabel errorMsg = new ErrorLabel();
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    UiUtils UIUtils = new UiUtils();
+    transient CommonUtil commonUtil = CommonUtil.getInstance();
 
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<TradingPartnerDTO>(tpDto));
+    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
 
     @UiField("Excellayout")
     public HorizontalLayout Excellayout;
@@ -189,10 +188,6 @@ public class CustomerSelection extends VerticalLayout {
         configureSecurityPermissionsForProjectionDetails();
     }
 
-    CustomerSelection() {
-    }
-
-
     public void configureFields() {
         try {
             LOGGER.debug(" Entering configureFields");
@@ -203,9 +198,9 @@ public class CustomerSelection extends VerticalLayout {
             selectedCustomersTableLayout.addComponent(selectedCustomersTable);
             companySearchResultsLayout.addComponent(companySearchResultsTable);
             transferCustomerTableLayout.addComponent(transferCustomerTable);
-            commonUtil.loadComboBox(tradeClass, UIUtils.COMPANY_TRADE_CLASS, false);
-            commonUtil.loadComboBox(companyCategory, UIUtils.COMPANY_CATEGORY, false);
-            commonUtil.loadComboBox(companyType, UIUtils.COMPANY_TYPE, false);
+            commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, false);
+            commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, false);
+            commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, false);
 
             resultList = logic.loadIdentifierTypeDdlb();
             logic.setIdDescription(resultList, identifierType);
@@ -221,6 +216,7 @@ public class CustomerSelection extends VerticalLayout {
             companyLogic.setContainerDataSource(companyResultsContainer);
             transferCustomerTable.setContainerDataSource(transferCustomerContainer);
             transferCustomerTableLogic.setContainerDataSource(transferCustomerContainer);
+            transferCustomerTableLogic.sinkItemPerPageWithPageLength(false);
 
             transferCustomerTable.setFilterGenerator(new ExtFilterGenerator() {
                 public Container.Filter generateFilter(Object propertyId, Object value) {
@@ -241,9 +237,11 @@ public class CustomerSelection extends VerticalLayout {
                 }
 
                 public void filterRemoved(Object propertyId) {
+                    //empty
                 }
 
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                    //empty
                 }
 
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -257,12 +255,12 @@ public class CustomerSelection extends VerticalLayout {
             transferCustomerTable.setFilterBarVisible(true);
             transferCustomerTable.setFilterDecorator(new ExtDemoFilterDecorator());
 
-            selectedCustomersTable.setVisibleColumns(Constants.COMPANY_SEARCH_COLUMNS_WITHOUT_CHECK);
-            selectedCustomersTable.setColumnHeaders(Constants.COMPANY_SEARCH_HEADERS_WITHOUT_CHECK);
-            companySearchResultsTable.setVisibleColumns(Constants.COMPANY_SEARCH_COLUMNS_WITHOUT_CHECK);
-            companySearchResultsTable.setColumnHeaders(Constants.COMPANY_SEARCH_HEADERS_WITHOUT_CHECK);
-            transferCustomerTable.setVisibleColumns(Constants.LINKED_COMPANY_COLUMNS);
-            transferCustomerTable.setColumnHeaders(Constants.LINKED_COMPANY_HEADERS);
+            selectedCustomersTable.setVisibleColumns(Constants.getInstance().companySearchColumnsWithoutCheck);
+            selectedCustomersTable.setColumnHeaders(Constants.getInstance().companySearchHeadersWithoutCheck);
+            companySearchResultsTable.setVisibleColumns(Constants.getInstance().companySearchColumnsWithoutCheck);
+            companySearchResultsTable.setColumnHeaders(Constants.getInstance().companySearchHeadersWithoutCheck);
+            transferCustomerTable.setVisibleColumns(Constants.getInstance().linkedCompanyColumns);
+            transferCustomerTable.setColumnHeaders(Constants.getInstance().linkedCompanyHeaders);
 
             configureTable(selectedCustomersTable);
             configureTable(companySearchResultsTable);
@@ -272,11 +270,11 @@ public class CustomerSelection extends VerticalLayout {
             HorizontalLayout layout1 = selectedCustomersLogic.createControls();
             selectedCustomersTableLayout.addComponent(layout1);
 
-            HorizontalLayout layout2 = new HorizontalLayout();
+            HorizontalLayout layout2;
             layout2 = companyLogic.createControls();
             companySearchResultsLayout.addComponent(layout2);
 
-            HorizontalLayout layout3 = new HorizontalLayout();
+            HorizontalLayout layout3;
             layout3 = transferCustomerTableLogic.createControls();
             transferCustomerTableLayout.addComponent(layout3);
 
@@ -308,9 +306,11 @@ public class CustomerSelection extends VerticalLayout {
                 }
                 
                 public void filterRemoved(Object propertyId) {
+                    return;
                 }
                 
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                    return;
                 }
                 
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -324,7 +324,7 @@ public class CustomerSelection extends VerticalLayout {
                             companyType.setImmediate(true);
                             companyType.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             companyType.setHeight("39px");
-                            commonUtil.loadComboBox(companyType, UIUtils.COMPANY_TYPE, true);
+                            commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
                             return companyType;
                         }
                         if (propertyId.equals("companyCategory")) {
@@ -332,7 +332,7 @@ public class CustomerSelection extends VerticalLayout {
                             companyCategory.setImmediate(true);
                             companyCategory.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             companyCategory.setHeight("39px");
-                            commonUtil.loadComboBox(companyCategory, UIUtils.COMPANY_CATEGORY, true);
+                            commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
                             return companyCategory;
                         }
                         if (propertyId.equals("tradeClass")) {
@@ -340,7 +340,7 @@ public class CustomerSelection extends VerticalLayout {
                             tradeClass.setImmediate(true);
                             tradeClass.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             tradeClass.setHeight("39px");
-                            commonUtil.loadComboBox(tradeClass, UIUtils.COMPANY_TRADE_CLASS, true);
+                            commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
                             return tradeClass;
                         }
                         if (propertyId.equals("state")) {
@@ -348,7 +348,7 @@ public class CustomerSelection extends VerticalLayout {
                             state.setImmediate(true);
                             state.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             state.setHeight("39px");
-                            commonUtil.loadComboBox(state, UIUtils.STATE, true);
+                            commonUtil.loadComboBox(state, UiUtils.STATE, true);
                             return state;
                         }
                     } catch (Exception ex) {
@@ -388,9 +388,11 @@ public class CustomerSelection extends VerticalLayout {
                 }
                 
                 public void filterRemoved(Object propertyId) {
+                    return;
                 }
                 
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                    return;
                 }
                 
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -404,7 +406,7 @@ public class CustomerSelection extends VerticalLayout {
                             companyType.setImmediate(true);
                             companyType.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             companyType.setHeight("39px");
-                            commonUtil.loadComboBox(companyType, UIUtils.COMPANY_TYPE, true);
+                            commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
                             return companyType;
                         }
                         if (propertyId.equals("companyCategory")) {
@@ -412,7 +414,7 @@ public class CustomerSelection extends VerticalLayout {
                             companyCategory.setImmediate(true);
                             companyCategory.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             companyCategory.setHeight("39px");
-                            commonUtil.loadComboBox(companyCategory, UIUtils.COMPANY_CATEGORY, true);
+                            commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
                             return companyCategory;
                         }
                         if (propertyId.equals("tradeClass")) {
@@ -420,7 +422,7 @@ public class CustomerSelection extends VerticalLayout {
                             tradeClass.setImmediate(true);
                             tradeClass.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             tradeClass.setHeight("39px");
-                            commonUtil.loadComboBox(tradeClass, UIUtils.COMPANY_TRADE_CLASS, true);
+                            commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
                             return tradeClass;
                         }
                         if (propertyId.equals("state")) {
@@ -428,7 +430,7 @@ public class CustomerSelection extends VerticalLayout {
                             state.setImmediate(true);
                             state.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             state.setHeight("39px");
-                            commonUtil.loadComboBox(state, UIUtils.STATE, true);
+                            commonUtil.loadComboBox(state, UiUtils.STATE, true);
                             return state;
                         }
                     } catch (Exception ex) {
@@ -488,6 +490,7 @@ public class CustomerSelection extends VerticalLayout {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
+        transferCustomerTable.setFilterFieldVisible("check", false);
     }
 
     public void configureTable(ExtPagedTable pagedTable) {
@@ -501,7 +504,7 @@ public class CustomerSelection extends VerticalLayout {
 
     private CustomFieldGroup getBinder() {
         dataSelectionBinder.bindMemberFields(this);
-        dataSelectionBinder.setItemDataSource(new BeanItem<TradingPartnerDTO>(tpDto));
+        dataSelectionBinder.setItemDataSource(new BeanItem<>(tpDto));
         dataSelectionBinder.setBuffered(true);
         dataSelectionBinder.setErrorDisplay(errorMsg);
         return dataSelectionBinder;
@@ -553,7 +556,7 @@ public class CustomerSelection extends VerticalLayout {
     public void searchBtnLogic(Button.ClickEvent event) {
         LOGGER.debug(" Entering searchBtnLogic");
         companyResultsContainer.removeAllItems();
-        Map<Integer, String> users = new HashMap<Integer, String>();
+        Map<Integer, String> users;
         String recordLockStatus = "1";
         String userid= "";
 
@@ -576,7 +579,7 @@ public class CustomerSelection extends VerticalLayout {
                         userid = entry.getKey().toString();
                     }
                 }
-                logic.insertIntoTempTablecustomer(customerSearchSessionId, userid, PROJECTION_DETAILS_TRANSFER.getConstant());
+                logic.insertIntoTempTablecustomer(customerSearchSessionId,  PROJECTION_DETAILS_TRANSFER.getConstant());
                 tpDto.setReset(Boolean.FALSE);
                 tpDto.setCompanyRestrictionSessionId(linkedCustomersSessionId);
                 companyLogic.loadSetData(tpDto, parentCompanyNo, parentCompanyName, recordLockStatus, customerSearchSessionId);
@@ -806,4 +809,3 @@ public class CustomerSelection extends VerticalLayout {
         }
     }
 }
-

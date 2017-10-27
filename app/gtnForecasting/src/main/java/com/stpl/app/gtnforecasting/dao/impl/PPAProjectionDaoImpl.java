@@ -10,6 +10,7 @@ import com.stpl.app.service.NmSalesProjectionMasterLocalServiceUtil;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import java.util.Collections;
 
 public class PPAProjectionDaoImpl implements PPAProjectionDao {
 
@@ -32,7 +33,7 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
 	public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
 			String level, String discountLevel) throws SystemException, PortalException {
 		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptyList();
 	}
 /**
  * 
@@ -53,7 +54,7 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
 
     @Override
     public void saveCheckRecord(int startQuater, int endQuater, int startYear, int endYear, Double priceCap) {
-       
+       return;
 }
 
     @Override

@@ -29,7 +29,7 @@ public class RebateTableLogic extends PageTableLogic {
      */
     @Override
     public int getCount() {
-        if (!generate) {
+        if (generate) {
             return logic.getContractSearchCount(discountChBinder, getFilters());
         }
         return 0;
@@ -73,7 +73,7 @@ public class RebateTableLogic extends PageTableLogic {
         this.discountChBinder = discountChBinder;
         clearAll();
         setRequiredCount(true);
-        generate = binderDto.isReset();
+       generate = binderDto.isSearch();
         setCurrentPage(1);
         return getRecordCount() != 0;
     }

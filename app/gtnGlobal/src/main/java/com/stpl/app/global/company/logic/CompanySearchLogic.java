@@ -90,7 +90,6 @@ import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
 import org.vaadin.addons.lazycontainer.OrderByColumn;
 
 // TODO: Auto-generated Javadoc
-
 /**
  * The Class CompanySearchLogic holds all business logic for company.
  */
@@ -123,12 +122,12 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
     /**
      * The Stpl Security related DAO.
      */
-    private final  StplSecurityDAO securityDto = new StplSecurityDAOImpl();
+    private final StplSecurityDAO securityDto = new StplSecurityDAOImpl();
     /**
      * The Notes tab logic related Object.
      */
     private NotesTabLogic notesLogic = new NotesTabLogic();
-    HelperListUtil helperListUtil=HelperListUtil.getInstance();
+    HelperListUtil helperListUtil = HelperListUtil.getInstance();
     SessionDTO sessionDTO;
 
     /**
@@ -136,8 +135,9 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public CompanySearchLogic(SessionDTO sessionDTO) {
         super(SearchCompanyForm.class);
-        this.sessionDTO=sessionDTO;
+        this.sessionDTO = sessionDTO;
     }
+
     public CompanySearchLogic() {
         super(SearchCompanyForm.class);
     }
@@ -156,7 +156,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         int temp = 0;
         final SearchCompanyForm searchForm = new SearchCompanyForm();
         String itemIdentifier = StringUtils.EMPTY;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         int qualifierId = 0;
         String companyId = StringUtils.EMPTY;
         String companyNo = StringUtils.EMPTY;
@@ -181,7 +181,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             companyName = searchCompanyForm.getField(ConstantsUtils.COMPANY_NAME).getValue().toString().trim();
             companyName = CommonUtil.buildSearchCriteria(companyName);
         }
-        
+
         if (searchCompanyForm.getField(ConstantsUtils.IDENTIFIER) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue()).equals(ConstantsUtils.NULL)) {
             itemIdentifier = searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue().toString().trim();
         }
@@ -199,7 +199,6 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         if (searchCompanyForm.getField(ConstantsUtils.COMPANY_STATUS).getValue() != null) {
             companyStatus = searchCompanyForm.getField(ConstantsUtils.COMPANY_STATUS).getValue().toString();
         }
-
 
         if (searchCompanyForm.getField(ConstantsUtils.COMPANY_CATEGORY) != null && searchCompanyForm.getField(ConstantsUtils.COMPANY_CATEGORY).getValue() != null) {
             companyCategory = searchCompanyForm.getField(ConstantsUtils.COMPANY_CATEGORY).getValue().toString();
@@ -220,7 +219,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (ConstantsUtils.COMPANY_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COMPANY_STATUS, Integer.valueOf(stringFilter.getFilterString()));
-                        
+
                     } else if (ConstantsUtils.COM_TYPE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COM_TYPE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
@@ -255,12 +254,12 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                         String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
                         parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId(), filterString);
                     }
-                } else if (filter instanceof Between) { 
-                    Between betweenFilter = (Between) filter; 
-                    Date startValue = (Date) betweenFilter.getStartValue(); 
-                    Date endValue = (Date) betweenFilter.getEndValue(); 
+                } else if (filter instanceof Between) {
+                    Between betweenFilter = (Between) filter;
+                    Date startValue = (Date) betweenFilter.getStartValue();
+                    Date endValue = (Date) betweenFilter.getEndValue();
                     parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(startValue)));
-                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue))); 
+                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue)));
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
                     Compare.Operation operation = stringFilter.getOperation();
@@ -288,14 +287,14 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                             parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
                         }
                     }
-                     if (stringFilter.getValue() instanceof Date) {
-                    Date value = (Date) stringFilter.getValue();
-                    if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
-                    } else {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                    if (stringFilter.getValue() instanceof Date) {
+                        Date value = (Date) stringFilter.getValue();
+                        if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
+                        } else {
+                            parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                        }
                     }
-                     }
                 } else if (filter instanceof And) {
                     And stringFilter = (And) filter;
                     Collection<Filter> value = stringFilter.getFilters();
@@ -323,12 +322,12 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             flag = 1;
         }
         if (flag == Constants.ZERO) {
-            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, null, false, null, null,parameters);
+            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, null, false, null, null, parameters);
 
             temp = itemMasterList.size();
         }
         if (flag == Constants.ONE) {
-            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, null, false, null, null,parameters);
+            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, null, false, null, null, parameters);
 
             temp = itemMasterList.size();
         }
@@ -356,7 +355,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         LOGGER.debug("searchCompany p1: SearchCompanyForm p2:" + start + " p3:" + end + " p4: List<OrderByColumn> size" + orderByColumns.size());
         FiledNameUtils.loadDbColumnName();
         final SearchCompanyForm searchForm = new SearchCompanyForm();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         String itemIdentifier = StringUtils.EMPTY;
         int qualifierId = 0;
         String companyId = StringUtils.EMPTY;
@@ -367,11 +366,11 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         String companyGroup = StringUtils.EMPTY;
         String tradeClass = StringUtils.EMPTY;
         String companyStatus = StringUtils.EMPTY;
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         String dbColumnName = StringUtils.EMPTY;
         List itemMasterList = null;
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-        List<SearchCompanyForm> searchList = new ArrayList<SearchCompanyForm>();
+        List<SearchCompanyForm> searchList = new ArrayList<>();
         if (searchCompanyForm.getField(ConstantsUtils.COMPANY_ID).getValue().toString() != null) {
             companyId = searchCompanyForm.getField(ConstantsUtils.COMPANY_ID).getValue().toString().trim();
             companyId = companyId.replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
@@ -389,7 +388,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             companyName = companyName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
         if (searchCompanyForm.getField(ConstantsUtils.IDENTIFIER) != null && searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue().toString() != null) {
-                itemIdentifier = searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue().toString().trim();
+            itemIdentifier = searchCompanyForm.getField(ConstantsUtils.IDENTIFIER).getValue().toString().trim();
         }
         if (searchCompanyForm.getField(ConstantsUtils.IDENTIFIER_TYPE_DESC) != null) {
             final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.IDENTIFIER_TYPE_DESC).getValue();
@@ -415,8 +414,6 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         if (searchCompanyForm.getField(ConstantsUtils.TRADE_CLASS) != null && searchCompanyForm.getField(ConstantsUtils.TRADE_CLASS).getValue() != null) {
             tradeClass = searchCompanyForm.getField(ConstantsUtils.TRADE_CLASS).getValue().toString().trim();
         }
-
-
 
         int flag = 0;
 
@@ -449,7 +446,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (ConstantsUtils.COMPANY_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COMPANY_STATUS, Integer.valueOf(stringFilter.getFilterString()));
-                        
+
                     } else if (ConstantsUtils.COM_TYPE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COM_TYPE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
@@ -458,7 +455,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                         parameters.put(ConstantsUtils.COMPANY_GROUP, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.COMPANY_CATEGORY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COMPANY_CATEGORY, Integer.valueOf(stringFilter.getFilterString()));
-                    }else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                    } else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.ORG_KEY, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.UDC1, Integer.valueOf(stringFilter.getFilterString()));
@@ -476,21 +473,19 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                         parameters.put(ConstantsUtils.STATE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.COUNTRY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COUNTRY, Integer.valueOf(stringFilter.getFilterString()));
-                    }  else if (ConstantsUtils.IDENTIFIER_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                    } else if (ConstantsUtils.IDENTIFIER_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.IDENTIFIER_STATUS, Integer.valueOf(stringFilter.getFilterString()));
                     } else {
                         String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
                         parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId(), filterString);
                     }
-                } 
-                else if (filter instanceof Between) { 
-                    Between betweenFilter = (Between) filter; 
-                    Date startValue = (Date) betweenFilter.getStartValue(); 
-                    Date endValue = (Date) betweenFilter.getEndValue(); 
+                } else if (filter instanceof Between) {
+                    Between betweenFilter = (Between) filter;
+                    Date startValue = (Date) betweenFilter.getStartValue();
+                    Date endValue = (Date) betweenFilter.getEndValue();
                     parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(startValue)));
-                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue))); 
-                }
-                else if (filter instanceof Compare) {
+                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue)));
+                } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
                     Compare.Operation operation = stringFilter.getOperation();
                     if (operation.EQUAL.toString().equals(operation.name())) {
@@ -517,14 +512,14 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                             parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
                         }
                     }
-                     if (stringFilter.getValue() instanceof Date) {
-                    Date value = (Date) stringFilter.getValue();
-                    if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
-                    } else {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                    if (stringFilter.getValue() instanceof Date) {
+                        Date value = (Date) stringFilter.getValue();
+                        if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
+                        } else {
+                            parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                        }
                     }
-                     }
                 } else if (filter instanceof And) {
                     And stringFilter = (And) filter;
                     Collection<Filter> value = stringFilter.getFilters();
@@ -543,11 +538,11 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             }
         }
         if (flag == Constants.ZERO) {
-            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, dbColumnName, asc, start, end,parameters);
+            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, dbColumnName, asc, start, end, parameters);
             searchList = getCustomizedSearchFormFromObjectParentNoLookup(itemMasterList);
         }
         if (flag == Constants.ONE) {
-            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, dbColumnName, asc, start, end,parameters);
+            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, dbColumnName, asc, start, end, parameters);
             searchList = getCustomizedSearchFormFromObjectParentNoLookup(itemMasterList);
         }
 
@@ -555,6 +550,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
 
         return searchList;
     }
+
     /**
      * Gets the customized list of SearchCompanyForm from list of CompanyMaster.
      *
@@ -563,7 +559,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @throws Exception the exception
      */
     public List<SearchCompanyForm> getCustomizedSearchFormFromObjectParentNoLookup(final List list) throws PortalException, SystemException {
-        final List<SearchCompanyForm> searchItemList = new ArrayList<SearchCompanyForm>();
+        final List<SearchCompanyForm> searchItemList = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedSearchFormFromObject p1:" + ((list == null) ? list : list.size()));
 
         if (list != null) {
@@ -642,10 +638,10 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     searchCompanyForm.setTradeEndDate(EndDate);
                     searchCompanyForm.setTradeClassEndDate(CommonUtils.convertDateToString(EndDate));
                 }
-                if (obj[NumericConstants.FORTY_THREE] != null && !ConstantsUtils.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_THREE]))&& StringUtils.isNotBlank(obj[NumericConstants.FORTY_THREE].toString()) ) {
+                if (obj[NumericConstants.FORTY_THREE] != null && !ConstantsUtils.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_THREE])) && StringUtils.isNotBlank(obj[NumericConstants.FORTY_THREE].toString())) {
                     searchCompanyForm.setParentCompanyNo(obj[NumericConstants.FORTY_THREE].toString());
                 }
-                if (obj[NumericConstants.FORTY_ONE]!= null) {
+                if (obj[NumericConstants.FORTY_ONE] != null) {
                     Date startDate = (Date) obj[NumericConstants.FORTY_ONE];
                     searchCompanyForm.setParentSDate(startDate);
                     searchCompanyForm.setParentStartDate(CommonUtils.convertDateToString(startDate));
@@ -662,6 +658,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
 
         return searchItemList;
     }
+
     /**
      * Gets the total count of Company Master.
      *
@@ -686,13 +683,12 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @throws Exception the exception
      */
     public int getSearchCount(final ErrorfulFieldGroup searchCompanyForm, final BeanSearchCriteria search) throws SystemException, PortalException {
- 
-        
+
         LOGGER.debug("getSearchCount p1: SearchCompanyForm");
         int temp = 0;
         final SearchResultsDTO searchForm = new SearchResultsDTO();
         String itemIdentifier = StringUtils.EMPTY;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         int qualifierId = 0;
         String companyId = StringUtils.EMPTY;
         String companyNo = StringUtils.EMPTY;
@@ -703,221 +699,212 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         String companyGroup = StringUtils.EMPTY;
         String tradeClass = StringUtils.EMPTY;
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-     try{
-        List itemMasterList = null;
-        if (searchCompanyForm.getField(ConstantsUtils.TEXT1).getValue().toString() != null) {
-            companyId = searchCompanyForm.getField(ConstantsUtils.TEXT1).getValue().toString().trim();
-            companyId = companyId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-        }
-        if (searchCompanyForm.getField(ConstantsUtils.TEXT2).getValue().toString() != null) {
+        try {
+            List itemMasterList = null;
+            if (searchCompanyForm.getField(ConstantsUtils.TEXT1).getValue().toString() != null) {
+                companyId = searchCompanyForm.getField(ConstantsUtils.TEXT1).getValue().toString().trim();
+                companyId = companyId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            }
+            if (searchCompanyForm.getField(ConstantsUtils.TEXT2).getValue().toString() != null) {
 
-            companyNo = searchCompanyForm.getField(ConstantsUtils.TEXT2).getValue().toString().trim();
-            companyNo = companyNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-        }
-        if (searchCompanyForm.getField(ConstantsUtils.TEXT3).getValue().toString() != null) {
-            companyName = searchCompanyForm.getField(ConstantsUtils.TEXT3).getValue().toString().trim();
-            companyName = companyName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-        }
-        if (searchCompanyForm.getField(ConstantsUtils.TEXT8) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.TEXT8).getValue()).equals(ConstantsUtils.NULL)) {
-            itemIdentifier = searchCompanyForm.getField(ConstantsUtils.TEXT8).getValue().toString().trim();
-        }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO6) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()).equals(ConstantsUtils.NULL)&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()))) {
-            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue();
-            if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
+                companyNo = searchCompanyForm.getField(ConstantsUtils.TEXT2).getValue().toString().trim();
+                companyNo = companyNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            }
+            if (searchCompanyForm.getField(ConstantsUtils.TEXT3).getValue().toString() != null) {
+                companyName = searchCompanyForm.getField(ConstantsUtils.TEXT3).getValue().toString().trim();
+                companyName = companyName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            }
+            if (searchCompanyForm.getField(ConstantsUtils.TEXT8) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.TEXT8).getValue()).equals(ConstantsUtils.NULL)) {
+                itemIdentifier = searchCompanyForm.getField(ConstantsUtils.TEXT8).getValue().toString().trim();
+            }
+            if (searchCompanyForm.getField(ConstantsUtils.COMBO6) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()).equals(ConstantsUtils.NULL) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()))) {
+                final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue();
+                if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                qualifierId = helperDTO.getId();
-                
+                    qualifierId = helperDTO.getId();
+
+                }
+            }
+            if (searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue()))) {
+
+                final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue();
+                if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
+
+                    companyType = String.valueOf(helperDTO.getId());
+
+                }
+            }
+            if (searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue()))) {
+
+                final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue();
+                if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
+
+                    companyStatus = String.valueOf(helperDTO.getId());
+
+                }
 
             }
-        }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue() != null&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue()))) {
-            
-               final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue();
-            if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                companyType = String.valueOf(helperDTO.getId()) ;
-        
-            }
-        }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue() != null&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue()))) {
-            
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue();
-            if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
+            if (searchCompanyForm.getField(ConstantsUtils.COMBO3) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue()))) {
 
-                companyStatus =String.valueOf(helperDTO.getId());
-        
-            }
-            
-            
-        }
+                final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue();
+                if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
+                    companyCategory = String.valueOf(helperDTO.getId());
 
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO3) != null  && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue()))) {
-            
-            
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue();
-            if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
-
-                companyCategory = String.valueOf(helperDTO.getId());
-         
-            }
-            
-        }
-
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO4) != null  && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue()))) {
-           
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue();
-            if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
-
-                companyGroup =String.valueOf(helperDTO.getId());
+                }
 
             }
-            
-            
-        }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO5) != null &&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue()))) {
-           
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue();
-            if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                tradeClass = String.valueOf(helperDTO.getId());
+            if (searchCompanyForm.getField(ConstantsUtils.COMBO4) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue()))) {
+
+                final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue();
+                if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
+
+                    companyGroup = String.valueOf(helperDTO.getId());
+
+                }
+
             }
-            
-            
-            
-        }
+            if (searchCompanyForm.getField(ConstantsUtils.COMBO5) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue()))) {
 
-        int flag = 0;
-        if (search != null && search.getFilters() != null) {
+                final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue();
+                if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-            for (Container.Filter filter : search.getFilters()) {
-                if (filter instanceof SimpleStringFilter) {
-                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    if (ConstantsUtils.COMPANY_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.COMPANY_STATUS, Integer.valueOf(stringFilter.getFilterString()));
-                        
-                    } else if (ConstantsUtils.COM_TYPE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.COM_TYPE, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.TRADE_CLASS, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.COMPANY_GROUP.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.COMPANY_GROUP, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.COMPANY_CATEGORY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.COMPANY_CATEGORY, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.ORG_KEY, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.UDC1, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.UDC2.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.UDC2, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.UDC3.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.UDC3, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.UDC4.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.UDC4, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.UDC5.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.UDC5, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.UDC6.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.UDC6, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.UDC7.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.UDC7, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.UDC8.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.UDC8, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.STATE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.STATE, Integer.valueOf(stringFilter.getFilterString()));
-                    } else if (ConstantsUtils.COUNTRY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
-                        parameters.put(ConstantsUtils.COUNTRY, Integer.valueOf(stringFilter.getFilterString()));
-                    } else {
-                        String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
-                        parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId(), filterString);
-                    }
-                } else if (filter instanceof Between) { 
-                    Between betweenFilter = (Between) filter; 
-                    Date startValue = (Date) betweenFilter.getStartValue(); 
-                    Date endValue = (Date) betweenFilter.getEndValue(); 
-                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(startValue)));
-                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue))); 
-                } else if (filter instanceof Compare) {
-                    Compare stringFilter = (Compare) filter;
-                    Compare.Operation operation = stringFilter.getOperation();
-                    if (operation.EQUAL.toString().equals(operation.name())) {
-                        if (((Integer) stringFilter.getValue()) == 0) {
-                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~=", String.valueOf(stringFilter.getValue()) + "--" + "0");
+                    tradeClass = String.valueOf(helperDTO.getId());
+                }
+
+            }
+
+            int flag = 0;
+            if (search != null && search.getFilters() != null) {
+
+                for (Container.Filter filter : search.getFilters()) {
+                    if (filter instanceof SimpleStringFilter) {
+                        SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
+                        if (ConstantsUtils.COMPANY_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.COMPANY_STATUS, Integer.valueOf(stringFilter.getFilterString()));
+
+                        } else if (ConstantsUtils.COM_TYPE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.COM_TYPE, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.TRADE_CLASS, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.COMPANY_GROUP.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.COMPANY_GROUP, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.COMPANY_CATEGORY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.COMPANY_CATEGORY, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.ORG_KEY, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.UDC1, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.UDC2.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.UDC2, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.UDC3.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.UDC3, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.UDC4.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.UDC4, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.UDC5.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.UDC5, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.UDC6.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.UDC6, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.UDC7.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.UDC7, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.UDC8.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.UDC8, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.STATE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.STATE, Integer.valueOf(stringFilter.getFilterString()));
+                        } else if (ConstantsUtils.COUNTRY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                            parameters.put(ConstantsUtils.COUNTRY, Integer.valueOf(stringFilter.getFilterString()));
                         } else {
+                            String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
+                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId(), filterString);
+                        }
+                    } else if (filter instanceof Between) {
+                        Between betweenFilter = (Between) filter;
+                        Date startValue = (Date) betweenFilter.getStartValue();
+                        Date endValue = (Date) betweenFilter.getEndValue();
+                        parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(startValue)));
+                        parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue)));
+                    } else if (filter instanceof Compare) {
+                        Compare stringFilter = (Compare) filter;
+                        Compare.Operation operation = stringFilter.getOperation();
+                        if (operation.EQUAL.toString().equals(operation.name())) {
+                            if (((Integer) stringFilter.getValue()) == 0) {
+                                parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~=", String.valueOf(stringFilter.getValue()) + "--" + "0");
+                            } else {
+                                int val = (Integer) stringFilter.getValue();
+                                parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~=", String.valueOf(val) + "--" + "=");
+                            }
+                        }
+                        if (operation.GREATER.toString().equals(operation.name())) {
                             int val = (Integer) stringFilter.getValue();
-                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~=", String.valueOf(val) + "--" + "=");
+                            if (val < 0) {
+                                parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">0");
+                            } else {
+                                parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">");
+                            }
                         }
-                    }
-                    if (operation.GREATER.toString().equals(operation.name())) {
-                        int val = (Integer) stringFilter.getValue();
-                        if (val < 0) {
-                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">0");
-                        } else {
-                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~>", String.valueOf(val) + "--" + ">");
+                        if (operation.LESS.toString().equals(operation.name())) {
+                            int val = (Integer) stringFilter.getValue();
+                            if (val > 0) {
+                                parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<0");
+                            } else {
+                                parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
+                            }
                         }
-                    }
-                    if (operation.LESS.toString().equals(operation.name())) {
-                        int val = (Integer) stringFilter.getValue();
-                        if (val > 0) {
-                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<0");
-                        } else {
-                            parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
+                        if (stringFilter.getValue() instanceof Date) {
+                            Date value = (Date) stringFilter.getValue();
+                            if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                                parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
+                            } else {
+                                parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                            }
                         }
-                    }
-                     if (stringFilter.getValue() instanceof Date) {
-                    Date value = (Date) stringFilter.getValue();
-                    if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
-                    } else {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
-                    }
-                     }
-                } else if (filter instanceof And) {
-                    And stringFilter = (And) filter;
-                    Collection<Filter> value = stringFilter.getFilters();
-                    for (Filter filter1 : value) {
-                        if (filter1 instanceof Compare.Less) {
+                    } else if (filter instanceof And) {
+                        And stringFilter = (And) filter;
+                        Collection<Filter> value = stringFilter.getFilters();
+                        for (Filter filter1 : value) {
+                            if (filter1 instanceof Compare.Less) {
 
-                            Compare.Less less = (Compare.Less) filter1;
-                            parameters.put(ConstantsUtils.FILTER + less.getPropertyId() + "~<<", String.valueOf(less.getValue()) + "--" + "<<");
-                        }
-                        if (filter1 instanceof Compare.Greater) {
-                            Compare.Greater greater = (Compare.Greater) filter1;
-                            parameters.put(ConstantsUtils.FILTER + greater.getPropertyId() + "~>>", String.valueOf(greater.getValue()) + "--" + ">>");
+                                Compare.Less less = (Compare.Less) filter1;
+                                parameters.put(ConstantsUtils.FILTER + less.getPropertyId() + "~<<", String.valueOf(less.getValue()) + "--" + "<<");
+                            }
+                            if (filter1 instanceof Compare.Greater) {
+                                Compare.Greater greater = (Compare.Greater) filter1;
+                                parameters.put(ConstantsUtils.FILTER + greater.getPropertyId() + "~>>", String.valueOf(greater.getValue()) + "--" + ">>");
+                            }
                         }
                     }
                 }
             }
-        }
-        if (qualifierId != Constants.ZERO) {
-            searchForm.setQualifierFlag(true);
-            if (StringUtils.isNotBlank(itemIdentifier)) {
-                searchForm.setIdentifierFlag(true);
-                itemIdentifier = itemIdentifier.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            if (qualifierId != Constants.ZERO) {
+                searchForm.setQualifierFlag(true);
+                if (StringUtils.isNotBlank(itemIdentifier)) {
+                    searchForm.setIdentifierFlag(true);
+                    itemIdentifier = itemIdentifier.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+                }
+                flag = 1;
             }
-            flag = 1;
-        }
-        if (flag == Constants.ZERO) {
-            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, null, false, null, null,parameters);
+            if (flag == Constants.ZERO) {
+                itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, null, false, null, null, parameters);
 
-            temp = itemMasterList.size();
-        }
-        if (flag == Constants.ONE) {
-            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, null, false, null, null,parameters);
+                temp = itemMasterList.size();
+            }
+            if (flag == Constants.ONE) {
+                itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, null, false, null, null, parameters);
 
-            temp = itemMasterList.size();
-        }
-        LOGGER.debug("return:" + temp);
-       
-        
-      } catch(Exception e)
-      {
-      LOGGER.error(e);
-      }
+                temp = itemMasterList.size();
+            }
+            LOGGER.debug("return:" + temp);
 
-         return temp;
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+
+        return temp;
 
     }
-    
+
     /**
      * Gets the records from Company Master table based on user selection with
      * start and end index.
@@ -936,7 +923,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         LOGGER.debug("searchCompany p1: SearchCompanyForm p2:" + start + " p3:" + end + " p4: List<OrderByColumn> size" + orderByColumns.size());
         FiledNameUtils.loadDbColumnName();
         final SearchResultsDTO searchForm = new SearchResultsDTO();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         String itemIdentifier = StringUtils.EMPTY;
         int qualifierId = 0;
         String companyId = StringUtils.EMPTY;
@@ -947,20 +934,17 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         String companyGroup = StringUtils.EMPTY;
         String tradeClass = StringUtils.EMPTY;
         String companyStatus = StringUtils.EMPTY;
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         String dbColumnName = StringUtils.EMPTY;
         List itemMasterList = null;
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-        List<SearchResultsDTO> searchList = new ArrayList<SearchResultsDTO>();
-        
-        
-        
-        
+        List<SearchResultsDTO> searchList = new ArrayList<>();
+
         if (searchCompanyForm.getField(ConstantsUtils.TEXT1).getValue().toString() != null) {
             companyId = searchCompanyForm.getField(ConstantsUtils.TEXT1).getValue().toString().trim();
             companyId = companyId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
-        
+
         if (searchCompanyForm.getField(ConstantsUtils.TEXT2).getValue().toString() != null) {
 
             companyNo = searchCompanyForm.getField(ConstantsUtils.TEXT2).getValue().toString().trim();
@@ -973,66 +957,60 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         if (searchCompanyForm.getField(ConstantsUtils.TEXT8) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.TEXT8).getValue()).equals(ConstantsUtils.NULL)) {
             itemIdentifier = searchCompanyForm.getField(ConstantsUtils.TEXT8).getValue().toString().trim();
         }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO6) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()).equals(ConstantsUtils.NULL)&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()))) {
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO6) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()).equals(ConstantsUtils.NULL) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()))) {
             final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
                 qualifierId = helperDTO.getId();
 
             }
-         }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue() != null&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue()))) {
-            
-               final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue();
+        }
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue()))) {
+
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                companyType = String.valueOf(helperDTO.getId()) ;
+                companyType = String.valueOf(helperDTO.getId());
             }
         }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue() != null&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue()))) {
-            
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue();
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue()))) {
+
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                companyStatus =String.valueOf(helperDTO.getId());
+                companyStatus = String.valueOf(helperDTO.getId());
             }
-            
-            
+
         }
 
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO3) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue()))) {
 
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO3) != null  && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue()))) {
-            
-            
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue();
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
                 companyCategory = String.valueOf(helperDTO.getId());
             }
-            
+
         }
 
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO4) != null  && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue()))) {
-           
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue();
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO4) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue()))) {
+
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                companyGroup =String.valueOf(helperDTO.getId());
+                companyGroup = String.valueOf(helperDTO.getId());
             }
-            
-            
+
         }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO5) != null &&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue()))) {
-           
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue();
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO5) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue()))) {
+
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
                 tradeClass = String.valueOf(helperDTO.getId());
             }
-        
+
         }
-
-
 
         int flag = 0;
 
@@ -1064,7 +1042,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (ConstantsUtils.COMPANY_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COMPANY_STATUS, Integer.valueOf(stringFilter.getFilterString()));
-                        
+
                     } else if (ConstantsUtils.COM_TYPE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COM_TYPE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
@@ -1073,7 +1051,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                         parameters.put(ConstantsUtils.COMPANY_GROUP, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.COMPANY_CATEGORY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COMPANY_CATEGORY, Integer.valueOf(stringFilter.getFilterString()));
-                    }else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                    } else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.ORG_KEY, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.UDC1, Integer.valueOf(stringFilter.getFilterString()));
@@ -1091,20 +1069,18 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                         parameters.put(ConstantsUtils.STATE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.COUNTRY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COUNTRY, Integer.valueOf(stringFilter.getFilterString()));
-                    }  else if (ConstantsUtils.IDENTIFIER_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                    } else if (ConstantsUtils.IDENTIFIER_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.IDENTIFIER_STATUS, Integer.valueOf(stringFilter.getFilterString()));
                     } else {
                         parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId(), CommonUtil.buildFilterCriteria(stringFilter.getFilterString()));
                     }
-                } 
-                else if (filter instanceof Between) { 
-                    Between betweenFilter = (Between) filter; 
-                    Date startValue = (Date) betweenFilter.getStartValue(); 
-                    Date endValue = (Date) betweenFilter.getEndValue(); 
+                } else if (filter instanceof Between) {
+                    Between betweenFilter = (Between) filter;
+                    Date startValue = (Date) betweenFilter.getStartValue();
+                    Date endValue = (Date) betweenFilter.getEndValue();
                     parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(startValue)));
-                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue))); 
-                }
-                else if (filter instanceof Compare) {
+                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue)));
+                } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
                     Compare.Operation operation = stringFilter.getOperation();
                     if (operation.EQUAL.toString().equals(operation.name())) {
@@ -1131,14 +1107,14 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                             parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
                         }
                     }
-                     if (stringFilter.getValue() instanceof Date) {
-                    Date value = (Date) stringFilter.getValue();
-                    if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
-                    } else {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                    if (stringFilter.getValue() instanceof Date) {
+                        Date value = (Date) stringFilter.getValue();
+                        if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
+                        } else {
+                            parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                        }
                     }
-                     }
                 } else if (filter instanceof And) {
                     And stringFilter = (And) filter;
                     Collection<Container.Filter> value = stringFilter.getFilters();
@@ -1157,14 +1133,14 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             }
         }
         if (flag == Constants.ZERO) {
-            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, dbColumnName, asc, start, end,parameters);
+            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, dbColumnName, asc, start, end, parameters);
             searchList = getCustomizedSearchFormFromObject(itemMasterList);
         }
         if (flag == Constants.ONE) {
-            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, dbColumnName, asc, start, end,parameters);
+            itemMasterList = dao.findCompanyMasterV1(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, dbColumnName, asc, start, end, parameters);
             searchList = getCustomizedSearchFormFromObject(itemMasterList);
         }
-        
+
         LOGGER.debug("return count :" + searchList.size());
 
         return searchList;
@@ -1178,12 +1154,12 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @throws Exception the exception
      */
     public List<SearchResultsDTO> getCustomizedSearchFormFromObject(final List list) throws ParseException {
-        final List<SearchResultsDTO> searchItemList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> searchItemList = new ArrayList<>();
         LOGGER.debug("Entering getCustomizedSearchFormFromObject p1:" + ((list == null) ? list : list.size()));
-  
+
         if (list != null) {
             HelperListUtil helperUtil = HelperListUtil.getInstance();
-            Map<Integer,String> helperMap = helperUtil.getIdDescMap();
+            Map<Integer, String> helperMap = helperUtil.getIdDescMap();
             for (int i = 0; i < list.size(); i++) {
                 final SearchResultsDTO searchCompanyForm = new SearchResultsDTO();
                 final Object[] obj = (Object[]) list.get(i);
@@ -1193,7 +1169,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 searchCompanyForm.setCompanyId(HelperUtils.getString(obj[1]));
                 searchCompanyForm.setCompanyNo(HelperUtils.getString(obj[NumericConstants.TWO]));
                 searchCompanyForm.setCompanyName(HelperUtils.getString(obj[NumericConstants.THREE]));
-                    searchCompanyForm.setCompanyType(HelperUtils.getString(obj[NumericConstants.FOUR]));
+                searchCompanyForm.setCompanyType(HelperUtils.getString(obj[NumericConstants.FOUR]));
                 if (obj[NumericConstants.FIVE] != null && StringUtils.isNotBlank(obj[NumericConstants.FIVE].toString()) && (Integer) obj[NumericConstants.FIVE] != 0) {
                     searchCompanyForm.setCompanyStatus(helperMap.get((Integer) obj[NumericConstants.FIVE]));
                 }
@@ -1220,8 +1196,8 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     EndDate = df.parse(searchCompanyForm.getCompanyEndDate());
                     searchCompanyForm.setComEndDate(EndDate);
                 }
-                    searchCompanyForm.setCompanyGroup(HelperUtils.getString(obj[NumericConstants.TWELVE]));
-                    searchCompanyForm.setCompanyCategory(HelperUtils.getString(obj[NumericConstants.TWENTY_NINE]));
+                searchCompanyForm.setCompanyGroup(HelperUtils.getString(obj[NumericConstants.TWELVE]));
+                searchCompanyForm.setCompanyCategory(HelperUtils.getString(obj[NumericConstants.TWENTY_NINE]));
                 searchCompanyForm.setAddress1(HelperUtils.getString(obj[NumericConstants.FOURTEEN]));
                 searchCompanyForm.setAddress2(HelperUtils.getString(obj[NumericConstants.FIFTEEN]));
                 searchCompanyForm.setCity(HelperUtils.getString(obj[NumericConstants.SIXTEEN]));
@@ -1234,7 +1210,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 }
                 searchCompanyForm.setRegionCode(HelperUtils.getString(obj[NumericConstants.TWENTY]));
                 searchCompanyForm.setFinancialSystem(HelperUtils.getString(obj[NumericConstants.THIRTEEN]));
-                    searchCompanyForm.setOrganizationKey(HelperUtils.getString(obj[NumericConstants.THIRTY]));
+                searchCompanyForm.setOrganizationKey(HelperUtils.getString(obj[NumericConstants.THIRTY]));
                 if (obj[NumericConstants.NINE] != null) {
                     searchCompanyForm.setLives(String.valueOf(obj[NumericConstants.NINE]));
                 }
@@ -1244,7 +1220,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 searchCompanyForm.setUdc4((obj[NumericConstants.THIRTY_FOUR] != null && (Integer) obj[NumericConstants.THIRTY_FOUR] != 0) ? helperMap.get((Integer) obj[NumericConstants.THIRTY_FOUR]) : StringUtils.EMPTY);
                 searchCompanyForm.setUdc5((obj[NumericConstants.THIRTY_FIVE] != null && (Integer) obj[NumericConstants.THIRTY_FIVE] != 0) ? helperMap.get((Integer) obj[NumericConstants.THIRTY_FIVE]) : StringUtils.EMPTY);
                 searchCompanyForm.setUdc6((obj[NumericConstants.THIRTY_SIX] != null && (Integer) obj[NumericConstants.THIRTY_SIX] != 0) ? helperMap.get((Integer) obj[NumericConstants.THIRTY_SIX]) : StringUtils.EMPTY);
-                    searchCompanyForm.setTradeClass(HelperUtils.getString(obj[NumericConstants.THIRTY_SEVEN]));
+                searchCompanyForm.setTradeClass(HelperUtils.getString(obj[NumericConstants.THIRTY_SEVEN]));
                 if (obj[NumericConstants.THIRTY_EIGHT] != null) {
                     Date startDate = (Date) obj[NumericConstants.THIRTY_EIGHT];
                     searchCompanyForm.setComTradeStartDate(startDate);
@@ -1254,14 +1230,14 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     searchCompanyForm.setComTradeStartDate(startDate);
                 }
                 if (obj[NumericConstants.THIRTY_NINE] != null) {
-                   Date EndDate = (Date) obj[NumericConstants.THIRTY_NINE];
-                   searchCompanyForm.setComTradeEndDate(EndDate);
-                   DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-                   EndDate = df.parse(CommonUtils.convertDateToString(EndDate));
-                   searchCompanyForm.setTradeEndDate(EndDate);
-                   searchCompanyForm.setComTradeEndDate(EndDate);
+                    Date EndDate = (Date) obj[NumericConstants.THIRTY_NINE];
+                    searchCompanyForm.setComTradeEndDate(EndDate);
+                    DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+                    EndDate = df.parse(CommonUtils.convertDateToString(EndDate));
+                    searchCompanyForm.setTradeEndDate(EndDate);
+                    searchCompanyForm.setComTradeEndDate(EndDate);
                 }
-                if (obj[NumericConstants.FORTY_THREE] != null && !ConstantsUtils.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_THREE]))&& StringUtils.isNotBlank(obj[NumericConstants.FORTY_THREE].toString()) ) {
+                if (obj[NumericConstants.FORTY_THREE] != null && !ConstantsUtils.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_THREE])) && StringUtils.isNotBlank(obj[NumericConstants.FORTY_THREE].toString())) {
                     searchCompanyForm.setParentCompanyNo(obj[NumericConstants.FORTY_THREE].toString());
                 }
                 if (obj[NumericConstants.FORTY_ONE] != null) {
@@ -1284,7 +1260,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     searchCompanyForm.setComParentEDate(EndDate);
                     searchCompanyForm.setParentEDate(EndDate);
                 }
-                if (obj[NumericConstants.FORTY_FOUR] != null && !ConstantsUtils.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_FOUR]))&& StringUtils.isNotBlank(obj[NumericConstants.FORTY_FOUR].toString()) ) {
+                if (obj[NumericConstants.FORTY_FOUR] != null && !ConstantsUtils.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FORTY_FOUR])) && StringUtils.isNotBlank(obj[NumericConstants.FORTY_FOUR].toString())) {
                     searchCompanyForm.setPriorParentCompanyNo(obj[NumericConstants.FORTY_FOUR].toString());
                 }
                 if (obj[NumericConstants.FORTY_FIVE] != null) {
@@ -1338,80 +1314,61 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<CompanyMasterDTO> getCustomisedTradeClassList(final List companyTradeClass) {
         LOGGER.debug("Entering getCustomisedTradeClassList p1: " + ((companyTradeClass == null) ? companyTradeClass : companyTradeClass.size()));
-        final List<CompanyMasterDTO> companyTrade = new ArrayList<CompanyMasterDTO>();
+        final List<CompanyMasterDTO> companyTrade = new ArrayList<>();
         try {
-        Map<Integer, String> map = getCodeDescription(UIUtils.TRADE_CLASS);
+            Map<Integer, String> map = getCodeDescription(UIUtils.TRADE_CLASS);
             CompanyMasterDTO dto;
-            if(companyTradeClass !=null && !companyTradeClass.isEmpty() ){
-            for (int i = 0; i < companyTradeClass.size(); i++) {
-                dto = new CompanyMasterDTO();
-                final Object[] obj = (Object[]) companyTradeClass.get(i);
-                if (!ConstantsUtils.INBOUND_STATUS_D.equalsIgnoreCase(String.valueOf(obj[NumericConstants.NINE]))) {
-                    if (obj[0] == null) {
-                        dto.setTradeClass1(helperListUtil.getIdHelperDTOMap().get(0));
-                    } else {
-                        dto.setTradeClass1(helperListUtil.getIdHelperDTOMap().get((Integer) obj[0]));
-                    }                 
-                    dto.setTradeClass(map.get(Integer.parseInt(obj[0].toString())));
-                    dto.setOldTC(String.valueOf(obj[0]));
-                    try {
+            if (companyTradeClass != null && !companyTradeClass.isEmpty()) {
+                for (int i = 0; i < companyTradeClass.size(); i++) {
+                    dto = new CompanyMasterDTO();
+                    final Object[] obj = (Object[]) companyTradeClass.get(i);
+                    if (!ConstantsUtils.INBOUND_STATUS_D.equalsIgnoreCase(String.valueOf(obj[NumericConstants.NINE]))) {
+                        if (obj[0] == null) {
+                            dto.setTradeClass1(helperListUtil.getIdHelperDTOMap().get(0));
+                        } else {
+                            dto.setTradeClass1(helperListUtil.getIdHelperDTOMap().get((Integer) obj[0]));
+                        }
+                        dto.setTradeClass(map.get(Integer.parseInt(obj[0].toString())));
+                        dto.setOldTC(String.valueOf(obj[0]));
 
                         dto.setTradeClassSDate(dateToDateConvert((Date) obj[1]));
                         dto.setOldTCDate(dateToDateConvert((Date) obj[1]));
-                    } catch (Exception e) {
-                        LOGGER.error(e);
-                    }
 
-                    if (obj[NumericConstants.TWO] != null) {
-                        dto.setTradeClassEDate(dateToDateConvert((Date) obj[NumericConstants.TWO]));
+                        if (obj[NumericConstants.TWO] != null) {
+                            dto.setTradeClassEDate(dateToDateConvert((Date) obj[NumericConstants.TWO]));
 
-                    }
+                        }
 
-                    dto.setCompanySystemId(String.valueOf(obj[NumericConstants.THREE]));
-                    if (obj[NumericConstants.FOUR] != null) {
-                        String tradeClass = !(String.valueOf(obj[NumericConstants.FOUR])).equals("0") ? String.valueOf(obj[NumericConstants.FOUR]) : StringUtils.EMPTY;
-                        dto.setPriorTradeClass(tradeClass);
-                    }
-                    if (obj[NumericConstants.FIVE] != null) {
-                        dto.setCreatedBy(String.valueOf(obj[NumericConstants.FIVE]));
-                        try {
-                            User createdUser = (dto.getCreatedBy() == "0") ? null : ((User) securityDto.getUserByUserId(Integer.parseInt(dto.getCreatedBy())));
-                            dto.setCreatedBy(createdUser == null ? StringUtils.EMPTY : createdUser.getFullName());
-                            dto.setCreatedUserId(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                        dto.setCompanySystemId(String.valueOf(obj[NumericConstants.THREE]));
+                        if (obj[NumericConstants.FOUR] != null) {
+                            String tradeClass = !(String.valueOf(obj[NumericConstants.FOUR])).equals("0") ? String.valueOf(obj[NumericConstants.FOUR]) : StringUtils.EMPTY;
+                            dto.setPriorTradeClass(tradeClass);
+                        }
+                        if (obj[NumericConstants.FIVE] != null) {
+                            dto.setCreatedBy(String.valueOf(obj[NumericConstants.FIVE]));
+                            createdAndModifiedUser(dto,"created",obj );
                             
-                        } catch (Exception e) {
-                            LOGGER.error(e);
                         }
-                    }
-                    if (obj[NumericConstants.SIX] != null) {
-                        dto.setCreatedDate(dateToDateConvert((Date) (obj[NumericConstants.SIX])));
-                    }
-                    if (obj[NumericConstants.SEVEN] != null) {
-                        dto.setTradeClassSysId(Integer.valueOf(obj[NumericConstants.SEVEN].toString()));
-                    }
-                    if (obj[NumericConstants.EIGHT] != null) {
-                        dto.setPriorTradeClassStartDate((Date) (obj[NumericConstants.EIGHT]));
-                    }
-                    if (obj[NumericConstants.TEN] != null) {
-                        dto.setModifiedBy(String.valueOf(obj[NumericConstants.TEN]));
-                        try {
-                            if (Integer.parseInt(dto.getModifiedBy()) != 0) {
-                                User ModifiedUser = (Integer.parseInt(dto.getModifiedBy()) == 0) ? null : ((User) securityDto.getUserByUserId(Integer.parseInt(dto.getModifiedBy())));
-                                dto.setModifiedBy(ModifiedUser == null ? StringUtils.EMPTY : ModifiedUser.getFullName());
-                            } else {
-                                dto.setModifiedBy(StringUtils.EMPTY);
-                            }
-                        } catch (Exception e) {
-                            LOGGER.error(e);
+                        if (obj[NumericConstants.SIX] != null) {
+                            dto.setCreatedDate(dateToDateConvert((Date) (obj[NumericConstants.SIX])));
                         }
+                        if (obj[NumericConstants.SEVEN] != null) {
+                            dto.setTradeClassSysId(Integer.valueOf(obj[NumericConstants.SEVEN].toString()));
+                        }
+                        if (obj[NumericConstants.EIGHT] != null) {
+                            dto.setPriorTradeClassStartDate((Date) (obj[NumericConstants.EIGHT]));
+                        }
+                        if (obj[NumericConstants.TEN] != null) {
+                            dto.setModifiedBy(String.valueOf(obj[NumericConstants.TEN]));
+                           createdAndModifiedUser(dto,"Modified",obj );
+                        }
+                        if (obj[NumericConstants.ELEVEN] != null) {
+                            dto.setModifiedDate(dateToDateConvert((Date) (obj[NumericConstants.ELEVEN])));
+                        }
+                        companyTrade.add(dto);
                     }
-                    if (obj[NumericConstants.ELEVEN] != null) {
-                        dto.setModifiedDate(dateToDateConvert((Date) (obj[NumericConstants.ELEVEN])));
-                    }
-                    companyTrade.add(dto);
                 }
             }
-        }
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -1431,7 +1388,6 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    
     public CompanyMasterDTO getCompanyMasterById(final int systemId) throws ParseException, SystemException, PortalException {
         LOGGER.debug("Entering getCompanyMasterById p1:" + systemId);
         DecimalFormat formatLives = new DecimalFormat("###,###,###");
@@ -1464,8 +1420,8 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         String orgKey = companyMaster.getOrgKey();
         companyMasterDTO.setOrganizationKey(helperListUtil.getIdHelperDTOMap().get(StringUtils.isEmpty(orgKey) ? 0 : Integer.valueOf(companyMaster.getOrgKey())));
         companyMasterDTO.setRegionCode(companyMaster.getRegionCode());
-        if(companyMaster.getLives()!=0 && StringUtils.isNotBlank(String.valueOf(companyMaster.getLives()))){
-        companyMasterDTO.setLives(formatLives.format(Double.valueOf(String.valueOf(companyMaster.getLives()))));
+        if (companyMaster.getLives() != 0 && StringUtils.isNotBlank(String.valueOf(companyMaster.getLives()))) {
+            companyMasterDTO.setLives(formatLives.format(Double.valueOf(String.valueOf(companyMaster.getLives()))));
         }
         companyMasterDTO.setFinancialSystem(companyMaster.getFinancialSystem());
 
@@ -1500,11 +1456,11 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         companyMasterDTO.setCreatedDate(companyMaster.getCreatedDate());
         companyMasterDTO.setModifiedDate(companyMaster.getModifiedDate());
 
-        Map<Integer,String> userMap = StplSecurity.userMap;
-        
-        companyMasterDTO.setCreatedBy(userMap.get(companyMaster.getCreatedBy()) ==null ? StringUtils.EMPTY : userMap.get(companyMaster.getCreatedBy()));
-        companyMasterDTO.setModifiedBy(userMap.get(companyMaster.getModifiedBy()) ==null ? StringUtils.EMPTY : userMap.get(companyMaster.getModifiedBy()));
-       
+        Map<Integer, String> userMap = StplSecurity.userMap;
+
+        companyMasterDTO.setCreatedBy(userMap.get(companyMaster.getCreatedBy()) == null ? StringUtils.EMPTY : userMap.get(companyMaster.getCreatedBy()));
+        companyMasterDTO.setModifiedBy(userMap.get(companyMaster.getModifiedBy()) == null ? StringUtils.EMPTY : userMap.get(companyMaster.getModifiedBy()));
+
         companyMasterDTO.setInternalNotes(companyMaster.getInternalNotes());
 
         final List<CompanyIdentifier> crtList = dao.getCompanyIdentifierByCompanySystemId(systemId);
@@ -1537,20 +1493,20 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 identifierDTO.setCrtIdentifierSystemId(identifier.getCompanyIdentifierSid());
                 identifierDTO.setCreatedDate(dateToDateConvert(identifier.getCreatedDate()));
                 identifierDTO.setModifiedDate(dateToDateConvert(identifier.getModifiedDate()));
-                if(identifier.getCreatedDate()!=null){
-                identifierDTO.setViewCreatedDate(CommonUtils.convertDateToString(identifier.getCreatedDate()));
-            }else{
+                if (identifier.getCreatedDate() != null) {
+                    identifierDTO.setViewCreatedDate(CommonUtils.convertDateToString(identifier.getCreatedDate()));
+                } else {
                     identifierDTO.setViewCreatedDate(StringUtils.EMPTY);
-                    }
-                if(identifier.getModifiedDate()!=null){
-                identifierDTO.setViewModifiedDate(CommonUtils.convertDateToString(identifier.getModifiedDate()));
-                }else{
+                }
+                if (identifier.getModifiedDate() != null) {
+                    identifierDTO.setViewModifiedDate(CommonUtils.convertDateToString(identifier.getModifiedDate()));
+                } else {
                     identifierDTO.setViewModifiedDate(StringUtils.EMPTY);
                 }
-               
-                identifierDTO.setCreatedBy((userMap.get(identifier.getCreatedBy()) ==null) ? StringUtils.EMPTY : userMap.get(identifier.getCreatedBy()));
-               
-                identifierDTO.setModifiedBy((userMap.get(identifier.getModifiedBy()) ==null) ? StringUtils.EMPTY : userMap.get(identifier.getModifiedBy()));
+
+                identifierDTO.setCreatedBy((userMap.get(identifier.getCreatedBy()) == null) ? StringUtils.EMPTY : userMap.get(identifier.getCreatedBy()));
+
+                identifierDTO.setModifiedBy((userMap.get(identifier.getModifiedBy()) == null) ? StringUtils.EMPTY : userMap.get(identifier.getModifiedBy()));
 
                 companyCrtIdentifierList.add(identifierDTO);
             }
@@ -1569,7 +1525,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public String convertStringDateToString(final String date) throws SystemException, PortalException, ParseException {
+    public String convertStringDateToString(final String date) throws ParseException {
         LOGGER.debug("Entering ConvertStringDateToString p1:" + date);
         final DateFormat formatter = new SimpleDateFormat(ConstantsUtils.SIMPLE_DATE_FORMAT);
 
@@ -1650,7 +1606,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @return the date
      * @throws Exception the exception
      */
-    public Date stringToDate(final String dateString) throws ParseException  {
+    public Date stringToDate(final String dateString) throws ParseException {
         LOGGER.debug("Entering StringToDate p1:" + dateString);
         final DateFormat inputFormat = new SimpleDateFormat(ConstantsUtils.SIMPLE_DATE_FORMAT);
         Date date;
@@ -1688,7 +1644,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
     public String saveCompanyMaster(final ErrorfulFieldGroup companyMasterForm, final List<CompanyCrtIdentifierDTO> identifierList, final List<CompanyMasterDTO> companyTradeList,
             final List<CompanyMasterDTO> parentCompanyList, final List<NotesDTO> availableUploadedInformation, final String addedNotes, final List<NotesDTO> removeDetailsList) {
         LOGGER.debug("SaveCompanyMaster p1: ErrorfulFieldGroup p2: List<CompanyCrtIdentifierDTO> size " + identifierList.size() + " p3:List<CompanyMasterDTO> size " + companyTradeList.size());
-        CompanyMaster company ;
+        CompanyMaster company;
         List<CompanyIdentifier> idenList = null;
         boolean flag = false;
         try {
@@ -1734,7 +1690,6 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             company.setCompanyStatus(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.COMPANY_STATUS)).getValue()).getId());
             company.setCompanyCategory((companyMasterForm.getField(ConstantsUtils.COMPANY_CATEGORY).getValue() == null || StringUtils.isBlank(companyMasterForm.getField(ConstantsUtils.COMPANY_CATEGORY).getValue().toString())) ? 0 : ((com.stpl.ifs.util.HelperDTO) companyMasterForm.getField(ConstantsUtils.COMPANY_CATEGORY).getValue()).getId());
             company.setCompanyGroup(companyMasterForm.getField(ConstantsUtils.COMPANY_GROUP).getValue() == null ? StringUtils.EMPTY : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.COMPANY_GROUP).getValue())).getId()));
-           
 
             // Added by Beena
             company.setCompanyStartDate(stringToDate(String.valueOf(companyMasterForm.getField(ConstantsUtils.COMPANY_START_DATE).getValue())));
@@ -1748,11 +1703,10 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     .toString().trim());
             company.setSource(companyMasterForm.getField(ConstantsUtils.SOURCE).getValue() == null ? StringUtils.EMPTY : companyMasterForm.getField(ConstantsUtils.SOURCE).getValue()
                     .toString().trim());
-            company.setOrgKey(companyMasterForm.getField(ConstantsUtils.ORGANIZATION_KEY).getValue() == null ? StringUtils.EMPTY : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.ORGANIZATION_KEY).getValue()
-                    )).getId()));
+            company.setOrgKey(companyMasterForm.getField(ConstantsUtils.ORGANIZATION_KEY).getValue() == null ? StringUtils.EMPTY : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.ORGANIZATION_KEY).getValue())).getId()));
             if (!StringUtils.EMPTY.equals(companyMasterForm.getField(ConstantsUtils.LIVES).getValue())) {
-                String value=companyMasterForm.getField(ConstantsUtils.LIVES).getValue().toString().trim();
-                value=value.replace(",", StringUtils.EMPTY);
+                String value = companyMasterForm.getField(ConstantsUtils.LIVES).getValue().toString().trim();
+                value = value.replace(",", StringUtils.EMPTY);
                 company.setLives(Integer.parseInt(value));
             } else {
                 company.setLives(0);
@@ -1787,7 +1741,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 companyDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_ID, company.getCompanyId()));
 
                 final List<CompanyMaster> companymasterList = dao.getCompanyMasterList(companyDynamicQuery);
-                try {
+       
                     if (companymasterList.size() < 1 && companymasterNoList.size() < 1) {
                         final Date createdDate = new Date();
                         company.setCreatedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
@@ -1803,12 +1757,12 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
 
                             udc.setMasterSid(result.getCompanyMasterSid());
                             udc.setMasterType(ConstantsUtils.COMPANY_MASTER);
-                    String udc1 = companyMasterForm.getField(ConstantsUtils.UDC1).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC1).getValue())).getId());
-                    String udc2 = companyMasterForm.getField(ConstantsUtils.UDC2).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC2).getValue())).getId());
-                    String udc3 = companyMasterForm.getField(ConstantsUtils.UDC3).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC3).getValue())).getId());
-                    String udc4 = companyMasterForm.getField(ConstantsUtils.UDC4).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC4).getValue())).getId());
-                    String udc5 = companyMasterForm.getField(ConstantsUtils.UDC5).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC5).getValue())).getId());
-                    String udc6 = companyMasterForm.getField(ConstantsUtils.UDC6).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC6).getValue())).getId());
+                            String udc1 = companyMasterForm.getField(ConstantsUtils.UDC1).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC1).getValue())).getId());
+                            String udc2 = companyMasterForm.getField(ConstantsUtils.UDC2).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC2).getValue())).getId());
+                            String udc3 = companyMasterForm.getField(ConstantsUtils.UDC3).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC3).getValue())).getId());
+                            String udc4 = companyMasterForm.getField(ConstantsUtils.UDC4).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC4).getValue())).getId());
+                            String udc5 = companyMasterForm.getField(ConstantsUtils.UDC5).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC5).getValue())).getId());
+                            String udc6 = companyMasterForm.getField(ConstantsUtils.UDC6).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC6).getValue())).getId());
                             if (!udc1.equals(ConstantsUtils.NULL)) {
                                 udc.setUdc1(Integer.valueOf(udc1));
                             }
@@ -1848,7 +1802,6 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                             UDCIncrementCheck.increment(company.getOrgKey(), UIUtils.ORGANIZATION_KEY);
                         }
 
-
                         if (udc.getUdc1() != 0) {
                             UDCIncrementCheck.increment(String.valueOf(udc.getUdc1()), UIUtils.UDC1);
                         }
@@ -1879,9 +1832,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                         LOGGER.debug("return duplicateNo");
                         return "duplicateNo";
                     }
-                } catch (Exception e) {
-                    LOGGER.error(e);
-                }
+                
             } else {
                 final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
 
@@ -1957,17 +1908,16 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     }
                     result = dao.updateCompanyMaster(company);
 
-
                     DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Udcs.class);
                     dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.MASTER_SID, result.getCompanyMasterSid()));
                     dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.MASTER_TYPE, ConstantsUtils.COMPANY_MASTER));
                     List<Udcs> list = UdcsLocalServiceUtil.dynamicQuery(dynamicQuery);
-                    String udc1 = companyMasterForm.getField(ConstantsUtils.UDC1).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC1).getValue())).getId());
-                    String udc2 = companyMasterForm.getField(ConstantsUtils.UDC2).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC2).getValue())).getId());
-                    String udc3 = companyMasterForm.getField(ConstantsUtils.UDC3).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC3).getValue())).getId());
-                    String udc4 = companyMasterForm.getField(ConstantsUtils.UDC4).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC4).getValue())).getId());
-                    String udc5 = companyMasterForm.getField(ConstantsUtils.UDC5).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC5).getValue())).getId());
-                    String udc6 = companyMasterForm.getField(ConstantsUtils.UDC6).getValue() == null ? ConstantUtil.ZERO :String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC6).getValue())).getId());
+                    String udc1 = companyMasterForm.getField(ConstantsUtils.UDC1).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC1).getValue())).getId());
+                    String udc2 = companyMasterForm.getField(ConstantsUtils.UDC2).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC2).getValue())).getId());
+                    String udc3 = companyMasterForm.getField(ConstantsUtils.UDC3).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC3).getValue())).getId());
+                    String udc4 = companyMasterForm.getField(ConstantsUtils.UDC4).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC4).getValue())).getId());
+                    String udc5 = companyMasterForm.getField(ConstantsUtils.UDC5).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC5).getValue())).getId());
+                    String udc6 = companyMasterForm.getField(ConstantsUtils.UDC6).getValue() == null ? ConstantUtil.ZERO : String.valueOf(((com.stpl.ifs.util.HelperDTO) (companyMasterForm.getField(ConstantsUtils.UDC6).getValue())).getId());
                     if (!list.isEmpty()) { // Added for GAL-7698
                         for (int j = 0; j < list.size(); j++) {
                             Udcs obj1 = list.get(j);
@@ -2060,7 +2010,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     if (removeDetailsList.size() != 0) {
                         for (int i = 0; i < removeDetailsList.size(); i++) {
 
-                        	NotesDTO dtoValue = removeDetailsList.get(i);
+                            NotesDTO dtoValue = removeDetailsList.get(i);
 
                             if (dtoValue.getDocDetailsId() != 0) {
 
@@ -2134,34 +2084,32 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     companyIdentifier.setIdentifierStatus(identifier.getIdentifierStatus());
                     companyIdentifier.setCompanyIdentifierValue(identifier.getCompanyIdentifierValue());
                     companyIdentifier.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
-                    identifier.setSource(ConstantsUtils.GTN);                    
-                    companyIdentifier.setModifiedDate(new Date());                    
+                    identifier.setSource(ConstantsUtils.GTN);
+                    companyIdentifier.setModifiedDate(new Date());
                     companyIdentifier.setModifiedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
 
                     final CompanyIdentifier crt = dao.updateCompanyCrtIdentifier(companyIdentifier);
                     if (crt.getIdentifierStatus() != 0) {
                         UDCIncrementCheck.increment(String.valueOf(crt.getIdentifierStatus()), UIUtils.IDENTIFIER_STATUS);
                     }
+                } else if (identifierForm.getCrtIdentifierSystemId() == falseFlag) {
+                    identifier.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
+                    identifier.setSource(ConstantsUtils.GTN);
+                    identifier.setCreatedDate(new Date());
+                    identifier.setCreatedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
+                    final CompanyIdentifier crt = dao.saveCompanyCrtIdentifier(identifier);
+
+                    if (crt.getIdentifierStatus() != 0) {
+                        UDCIncrementCheck.increment(String.valueOf(crt.getIdentifierStatus()), UIUtils.IDENTIFIER_STATUS);
+                    }
                 } else {
-                    if (identifierForm.getCrtIdentifierSystemId() == falseFlag) {
-                        identifier.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
-                        identifier.setSource(ConstantsUtils.GTN);
-                        identifier.setCreatedDate(new Date());
-                        identifier.setCreatedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID).toString()));
-                        final CompanyIdentifier crt = dao.saveCompanyCrtIdentifier(identifier);
+                    identifier.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
+                    identifier.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
+                    identifier.setSource(ConstantsUtils.GTN);
+                    final CompanyIdentifier crt = dao.saveCompanyCrtIdentifier(identifier);
 
-                        if (crt.getIdentifierStatus() != 0) {
-                            UDCIncrementCheck.increment(String.valueOf(crt.getIdentifierStatus()), UIUtils.IDENTIFIER_STATUS);
-                        }
-                    } else {
-                        identifier.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
-                        identifier.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
-                        identifier.setSource(ConstantsUtils.GTN);
-                        final CompanyIdentifier crt = dao.saveCompanyCrtIdentifier(identifier);
-
-                        if (crt.getIdentifierStatus() != 0) {
-                            UDCIncrementCheck.increment(String.valueOf(crt.getIdentifierStatus()), UIUtils.IDENTIFIER_STATUS);
-                        }
+                    if (crt.getIdentifierStatus() != 0) {
+                        UDCIncrementCheck.increment(String.valueOf(crt.getIdentifierStatus()), UIUtils.IDENTIFIER_STATUS);
                     }
                 }
 
@@ -2185,7 +2133,6 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 tradeClass.setRecordLockStatus(false);//unlocked
                 tradeClass.setCompanyMasterSid(result.getCompanyMasterSid());
                 tradeClass.setCompanyTradeClass(companyTradeList.get(i).getTradeClass1().getId());
-
 
                 if (companyTradeList.get(i).getTradeClassSDate() != null && !StringUtils.EMPTY.equals(companyTradeList.get(i).getTradeClassSDate())) {
                     tradeClass.setTradeClassStartDate(companyTradeList.get(i).getTradeClassSDate());
@@ -2211,35 +2158,35 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     companyTradeClass.setTradeClassStartDate(tradeClass.getTradeClassStartDate());
                     companyTradeClass.setTradeClassEndDate(tradeClass.getTradeClassEndDate());
                     CompanyTradeClassLocalServiceUtil.updateCompanyTradeClass(companyTradeClass);
+                } else if (companyTradeList.get(i).getTradeClassSysId() == Constants.ZERO) {
+                    tradeClass.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
+                    tradeClass.setCreatedDate(new Date());
+                    tradeClass.setModifiedDate(new Date());
+                    tradeClass.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
+                    tradeClass.setSource(ConstantsUtils.GTN);
+                    CompanyTradeClassLocalServiceUtil.addCompanyTradeClass(tradeClass);
                 } else {
-                    if (companyTradeList.get(i).getTradeClassSysId() == Constants.ZERO) {
-                        tradeClass.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
-                        tradeClass.setCreatedDate(new Date());
-                        tradeClass.setModifiedDate(new Date());
-                        tradeClass.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
-                        tradeClass.setSource(ConstantsUtils.GTN);
-                        CompanyTradeClassLocalServiceUtil.addCompanyTradeClass(tradeClass);
+                    tradeClass.setCompanyTradeClassSid(companyTradeList.get(i).getTradeClassSysId());
+                    if (String.valueOf(companyTradeList.get(i).getTradeClass1()).equals(companyTradeList.get(i).getOldTC())) {
+                        if (!StringUtils.EMPTY.equals(companyTradeList.get(i).getPriorTradeClass())) {
+                            tradeClass.setPriorTradeClass(Integer.parseInt(companyTradeList.get(i).getPriorTradeClass()));
+                        } else {
+                            tradeClass.setPriorTradeClass(Integer.parseInt("0"));
+                        }
                     } else {
-                        tradeClass.setCompanyTradeClassSid(companyTradeList.get(i).getTradeClassSysId());
-                        if (String.valueOf(companyTradeList.get(i).getTradeClass1()).equals(companyTradeList.get(i).getOldTC())) {
-                            if(!StringUtils.EMPTY.equals(companyTradeList.get(i).getPriorTradeClass()))
-                                    tradeClass.setPriorTradeClass(Integer.parseInt(companyTradeList.get(i).getPriorTradeClass()));
-                            else
-                                tradeClass.setPriorTradeClass(Integer.parseInt("0"));
-                        } else {
-                            tradeClass.setPriorTradeClass(Integer.parseInt(companyTradeList.get(i).getOldTC()));
-                        }
-                        if (companyTradeList.get(i).getTradeClassSDate() == companyTradeList.get(i).getOldTCDate()) {
-                            tradeClass.setPriorTradeClassStartDate(companyTradeList.get(i).getPriorTradeClassStartDate());
-                        } else {
-                            tradeClass.setPriorTradeClassStartDate(companyTradeList.get(i).getOldTCDate());
-                        }
-                        tradeClass.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
-                        tradeClass.setModifiedDate(new Date());
-                        tradeClass.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
-                        tradeClass.setSource(ConstantsUtils.GTN);
-                        CompanyTradeClassLocalServiceUtil.updateCompanyTradeClass(tradeClass);
+                        tradeClass.setPriorTradeClass(Integer.parseInt(companyTradeList.get(i).getOldTC()));
                     }
+                    if (companyTradeList.get(i).getTradeClassSDate() == companyTradeList.get(i).getOldTCDate()) {
+                        tradeClass.setPriorTradeClassStartDate(companyTradeList.get(i).getPriorTradeClassStartDate());
+                    } else {
+                        tradeClass.setPriorTradeClassStartDate(companyTradeList.get(i).getOldTCDate());
+                    }
+                    tradeClass.setCreatedDate(companyTradeList.get(i).getCreatedDate());
+                    tradeClass.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
+                    tradeClass.setModifiedDate(new Date());
+                    tradeClass.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
+                    tradeClass.setSource(ConstantsUtils.GTN);
+                    CompanyTradeClassLocalServiceUtil.updateCompanyTradeClass(tradeClass);
                 }
 
             }
@@ -2256,13 +2203,13 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                  *
                  * @param buttonId The buttonId of the pressed button.
                  */
-            	@SuppressWarnings("PMD")
+                @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
-            
+
         }
 
     }
@@ -2309,32 +2256,29 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     companyParentDetails.setParentEndDate(parentCompany.getParentEndDate());
                     companyParentDetails.setPriorParentCmpyMasterSid(parentCompany.getPriorParentCmpyMasterSid());
                     CompanyParentDetailsLocalServiceUtil.updateCompanyParentDetails(companyParentDetails);
+                } else if (parentCompanyList.get(i).getParentCompanyDetailsSysId() == Constants.ZERO) {
+                    parentCompany.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
+                    parentCompany.setCreatedDate(new Date());
+                    parentCompany.setModifiedDate(new Date());
+                    parentCompany.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
+                    parentCompany.setSource(ConstantsUtils.GTN);
+                    CompanyParentDetailsLocalServiceUtil.addCompanyParentDetails(parentCompany);
                 } else {
-
-
-                    if (parentCompanyList.get(i).getParentCompanyDetailsSysId() == Constants.ZERO) {
-                        parentCompany.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
-                        parentCompany.setCreatedDate(new Date());
-                        parentCompany.setModifiedDate(new Date());
-                        parentCompany.setInboundStatus(ConstantsUtils.INBOUND_STATUS_A);
-                        parentCompany.setSource(ConstantsUtils.GTN);
-                        CompanyParentDetailsLocalServiceUtil.addCompanyParentDetails(parentCompany);
-                    } else {
-                        if (parentCompanyList.get(i).getPriorParentCompanySysId() != parentCompany.getParentCompanyMasterSid()) {
-                            parentCompany.setPriorParentCmpyMasterSid(parentCompanyList.get(i).getPriorParentCompanySysId() == 0 ? null : String.valueOf(parentCompanyList.get(i).getPriorParentCompanySysId()));
-                            if (parentCompanyList.get(i).getParentStartDate() == parentCompanyList.get(i).getOldParentStartDate()) {
-                                parentCompany.setPriorParentStartDate(parentCompanyList.get(i).getPriorParentStartDate());
-                            } else {
-                                parentCompany.setPriorParentStartDate(parentCompanyList.get(i).getOldParentStartDate());
-                            }
+                    if (parentCompanyList.get(i).getPriorParentCompanySysId() != parentCompany.getParentCompanyMasterSid()) {
+                        parentCompany.setPriorParentCmpyMasterSid(parentCompanyList.get(i).getPriorParentCompanySysId() == 0 ? null : String.valueOf(parentCompanyList.get(i).getPriorParentCompanySysId()));
+                        if (parentCompanyList.get(i).getParentStartDate() == parentCompanyList.get(i).getOldParentStartDate()) {
+                            parentCompany.setPriorParentStartDate(parentCompanyList.get(i).getPriorParentStartDate());
+                        } else {
+                            parentCompany.setPriorParentStartDate(parentCompanyList.get(i).getOldParentStartDate());
                         }
-                        parentCompany.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
-                        parentCompany.setSource(ConstantsUtils.GTN);
-                        parentCompany.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
-                        parentCompany.setModifiedDate(new Date());
-                        parentCompany.setCompanyParentDetailsSid(parentCompanyList.get(i).getParentCompanyDetailsSysId());
-                        CompanyParentDetailsLocalServiceUtil.updateCompanyParentDetails(parentCompany);
                     }
+                    parentCompany.setInboundStatus(ConstantsUtils.INBOUND_STATUS_C);
+                    parentCompany.setSource(ConstantsUtils.GTN);
+                    parentCompany.setCreatedDate(parentCompanyList.get(i).getCreatedDate());
+                    parentCompany.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID)));
+                    parentCompany.setModifiedDate(new Date());
+                    parentCompany.setCompanyParentDetailsSid(parentCompanyList.get(i).getParentCompanyDetailsSysId());
+                    CompanyParentDetailsLocalServiceUtil.updateCompanyParentDetails(parentCompany);
                 }
             } catch (SystemException ex) {
                 LOGGER.error(ex);
@@ -2342,8 +2286,8 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 LOGGER.error(errorMsg);
                 final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
                     /**
-                     * The method is triggered when a button of the message box is
-                     * pressed .
+                     * The method is triggered when a button of the message box
+                     * is pressed .
                      *
                      * @param buttonId The buttonId of the pressed button.
                      */
@@ -2353,7 +2297,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     }
                 }, ButtonId.OK);
                 msg.getButton(ButtonId.OK).focus();
-                
+
             }
         }
 
@@ -2440,7 +2384,6 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             UDCIncrementCheck.decrement(company.getOrgKey(), UIUtils.ORGANIZATION_KEY);
         }
 
-
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(Udcs.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.MASTER_SID, companySystemId));
         List<Udcs> udc = UdcsLocalServiceUtil.dynamicQuery(cfpDynamicQuery);
@@ -2492,7 +2435,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
     public List<HelperDTO> getCompanyQualifier() throws PortalException, SystemException {
         LOGGER.debug("Entering getCompanyQualifier");
         List<CompanyQualifier> qualifierList;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
 
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyQualifier.class);
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.COMPANY_QUALIFIER_NAME));
@@ -2520,7 +2463,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<HelperDTO> getDropDownList(final String listName) throws SystemException, PortalException {
         LOGGER.debug("Entering getDropDownList p1:" + listName);
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(listName);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -2543,9 +2486,9 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public List<HelperDTO> getCompanyType(final String listType) throws SystemException, PortalException {
+    public List<HelperDTO> getCompanyType(final String listType) throws SystemException {
         LOGGER.debug("Entering getDropDownList p1:" + listType);
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME, listType));
@@ -2573,7 +2516,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<HelperDTO> getCompanyGroup() throws SystemException, PortalException {
         LOGGER.debug("Entering getCompanyGroup");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(UIUtils.COMPANY_GROUP);
 
         if (list != null) {
@@ -2596,7 +2539,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<HelperDTO> getCompanyCategory() throws SystemException, PortalException {
         LOGGER.debug("Entering getCompanyCategory");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(UIUtils.COMPANY_CATEGORY);
 
         if (list != null) {
@@ -2619,7 +2562,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<HelperDTO> getOrganization() throws SystemException, PortalException {
         LOGGER.debug("Entering getOrganization");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(UIUtils.ORGANIZATION_KEY);
 
         if (list != null) {
@@ -2644,7 +2587,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
     public List<HelperDTO> getUDCS(final String udcNo) throws SystemException, PortalException {
         LOGGER.debug("Entering getUDCS");
         List<HelperTable> list;
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         list = dao.getHelperTableDetailsByListName(udcNo);
 
         if (list != null) {
@@ -2667,7 +2610,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<HelperDTO> getState() throws SystemException, PortalException {
         LOGGER.debug("Entering getState");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(UIUtils.STATE);
 
         if (list != null) {
@@ -2690,7 +2633,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<HelperDTO> getCountry() throws SystemException, PortalException {
         LOGGER.debug("Entering getCountry");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(UIUtils.COUNTRY);
 
         if (list != null) {
@@ -2726,9 +2669,9 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<CompanyCrtIdentifierDTO> getCompanyQualifierForEditList() throws PortalException, SystemException {
         LOGGER.debug("Entering getCompanyQualifierForEditList");
-        final List<CompanyCrtIdentifierDTO> list = new ArrayList<CompanyCrtIdentifierDTO>();
+        final List<CompanyCrtIdentifierDTO> list = new ArrayList<>();
         final List<CompanyQualifier> qualifierList = dao.getCompanyCrtQualifiersByLimit(0, dao.getCompanyCrtQualifierTotalCount());
-        final Map<Integer,String> userMap = StplSecurity.userMap;
+        final Map<Integer, String> userMap = StplSecurity.userMap;
         for (int i = 0; i < qualifierList.size(); i++) {
 
             final CompanyCrtIdentifierDTO companyIden = new CompanyCrtIdentifierDTO();
@@ -2760,7 +2703,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<CompanyCrtIdentifierDTO> deleteCrtQualifer(final int qualifierId) throws SystemException, PortalException {
         LOGGER.debug("Entering deleteCrtIdentifier p1:" + qualifierId);
-        List<CompanyCrtIdentifierDTO> object = new ArrayList<CompanyCrtIdentifierDTO>();
+        List<CompanyCrtIdentifierDTO> object = new ArrayList<>();
         try {
 
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(CompanyIdentifier.class);
@@ -2771,19 +2714,19 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 object = getCompanyQualifierForEditList();
             } else {
                 final MessageBox msg = MessageBox.showPlain(Icon.INFO, "Delete Failed", "Can not delete the selected Qualifier,Since it is associated with another Company", new MessageBoxListener() {
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-            	@SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                    // Do Nothing
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
-                
+                    /**
+                     * The method is triggered when a button of the message box
+                     * is pressed .
+                     *
+                     * @param buttonId The buttonId of the pressed button.
+                     */
+                    @SuppressWarnings("PMD")
+                    public void buttonClicked(final ButtonId buttonId) {
+                        // Do Nothing
+                    }
+                }, ButtonId.OK);
+                msg.getButton(ButtonId.OK).focus();
+
             }
 
         } catch (Exception e) {
@@ -2806,8 +2749,8 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         final int companyCrtQualifierId = Integer.valueOf(binder.getField("companyCrtQualifierId").getValue().toString());
         final String companyCrtQualifierName = binder.getField("companyCrtQualifierName").getValue().toString().trim();
         final String companyIdentifier = binder.getField("companyQualifier").getValue().toString().trim();
-        final String effectiveDates=binder.getField("effectiveDates").getValue().toString().trim();
-        final String notes=binder.getField("notes").getValue().toString().trim();
+        final String effectiveDates = binder.getField("effectiveDates").getValue().toString().trim();
+        final String notes = binder.getField("notes").getValue().toString().trim();
         final CompanyQualifier identifier = CompanyQualifierLocalServiceUtil.createCompanyQualifier(0);
         identifier.setCompanyQualifierSid(companyCrtQualifierId);
         identifier.setCompanyQualifierName(companyCrtQualifierName);
@@ -2903,7 +2846,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @return the company crt qualifier by qualifier name
      */
     public CompanyQualifier getCompanyCrtQualifierByQualifierName(final String companyCrtQualifierName) {
-        CompanyQualifier companyCrtQualifier = null ;
+        CompanyQualifier companyCrtQualifier = null;
         try {
             companyCrtQualifier = dao.getCompanyCrtQualifierByQualifierName(companyCrtQualifierName.trim());
 
@@ -2926,7 +2869,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             return companyCrtQualifier;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -2938,7 +2881,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public CompanyMaster getCompanyMasterBySystemId(final int companySystemId) {
 
-          CompanyMaster companyMaster = CompanyMasterLocalServiceUtil.createCompanyMaster(0);
+        CompanyMaster companyMaster = CompanyMasterLocalServiceUtil.createCompanyMaster(0);
         try {
             companyMaster = dao.getCompanyMasterBySystemId(companySystemId);
 
@@ -2975,7 +2918,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @return the parent company table
      */
     public List<CompanyMasterDTO> getParentCompanyTable(final int companySystemId) {
-        List<CompanyMasterDTO> parentCompany = new ArrayList<CompanyMasterDTO>();
+        List<CompanyMasterDTO> parentCompany;
         List<CompanyParentDetails> companyParentDetails = null;
         try {
             final DynamicQuery parentDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyParentDetails.class);
@@ -2996,7 +2939,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @return the customised parent company list
      */
     public List<CompanyMasterDTO> getCustomisedParentCompanyList(final List<CompanyParentDetails> parentCompanyDetails) {
-        final List<CompanyMasterDTO> parentCompany = new ArrayList<CompanyMasterDTO>();
+        final List<CompanyMasterDTO> parentCompany = new ArrayList<>();
         CompanyMasterDTO dto;
         try {
 
@@ -3027,19 +2970,14 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     }
                     dto.setCreatedDate(dateToDateConvert(parentInfo.getCreatedDate()));
                     dto.setModifiedDate(dateToDateConvert(parentInfo.getModifiedDate()));
-                    try {
-                        User createdUser = (parentInfo.getCreatedBy() == 0) ? null : ((User) securityDto.getUserByUserId(parentInfo.getCreatedBy()));
-                        dto.setCreatedBy(createdUser != null ? createdUser.getFullName() : StringUtils.EMPTY);
-                        dto.setCreatedUserId(parentInfo.getCreatedBy());
-                    } catch (Exception e) {
-                        LOGGER.error(e);
-                    }
-                    try {
-                        User ModifiedUser = (parentInfo.getModifiedBy() == 0) ? null : ((User) securityDto.getUserByUserId(parentInfo.getModifiedBy()));
-                        dto.setModifiedBy(ModifiedUser != null ? ModifiedUser.getFullName() : StringUtils.EMPTY);
-                    } catch (Exception e) {
-                        LOGGER.error(e);
-                    }
+
+                    User createdUser = createdUser("createdUser", parentInfo);
+                    dto.setCreatedBy(createdUser != null ? createdUser.getFullName() : StringUtils.EMPTY);
+                    dto.setCreatedUserId(parentInfo.getCreatedBy());
+
+                    User ModifiedUser = createdUser("ModifiedUser", parentInfo);
+                    dto.setModifiedBy(ModifiedUser != null ? ModifiedUser.getFullName() : StringUtils.EMPTY);
+
                     parentCompany.add(dto);
                 }
             }
@@ -3057,11 +2995,11 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      */
     public List<CompanyMasterDTO> getCustomizedTradeClassList(final List companyTradeClass) {
 
-        final List<CompanyMasterDTO> companyTrade = new ArrayList<CompanyMasterDTO>();
+        final List<CompanyMasterDTO> companyTrade = new ArrayList<>();
         final CompanyMasterDTO dto = new CompanyMasterDTO();
         for (int i = 0; i < companyTradeClass.size(); i++) {
             final Object[] obj = (Object[]) companyTradeClass.get(i);
-             dto.setTradeClass1(obj[0] == null ? helperListUtil.getIdHelperDTOMap().get(0) : helperListUtil.getIdHelperDTOMap().get((Integer) obj[0]));
+            dto.setTradeClass1(obj[0] == null ? helperListUtil.getIdHelperDTOMap().get(0) : helperListUtil.getIdHelperDTOMap().get((Integer) obj[0]));
 
             try {
                 dto.setTradeClassSDate(dateToDateConvert((Date) obj[1]));
@@ -3190,7 +3128,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
      * @throws PortalException the portal exception
      * @throws SystemException the system exception
      */
-    public static int getLazyCompanyQualifierNameCount(String filterText,boolean isEditList) throws PortalException, SystemException {
+    public static int getLazyCompanyQualifierNameCount(String filterText, boolean isEditList) throws PortalException, SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText);
         List<Object[]> qualifierList;
@@ -3201,8 +3139,8 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.COMPANY_QUALIFIER_NAME, StringUtils.EMPTY)));
         qualifierList = dao.getCompanyCrtQualifierNameList(cfpDynamicQuery);
         companyQualifierNameCount = Integer.parseInt(String.valueOf(qualifierList.get(0)));
-        if(companyQualifierNameCount==0 && isEditList){
-           companyQualifierNameCount++; 
+        if (companyQualifierNameCount == 0 && isEditList) {
+            companyQualifierNameCount++;
         }
         LOGGER.debug("Ending getLazyCompanyQualifierNameCount method : returning count :" + companyQualifierNameCount);
         return companyQualifierNameCount;
@@ -3223,9 +3161,9 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         String filterText = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filter);
         List<Object[]> qualifierList;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
-        int startValue = start;
-        int endValue = end;
+        final List<HelperDTO> list = new ArrayList<>();
+        int startValue;
+        int endValue;
         if (start == Constants.ZERO) {
             startValue = start;
             endValue = end - 1;
@@ -3240,11 +3178,11 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.COMPANY_QUALIFIER_NAME));
         cfpDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projectionList));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.COMPANY_QUALIFIER_NAME));
-        if(filter != null){
-        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.COMPANY_QUALIFIER_NAME, filterText));
+        if (filter != null) {
+            cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.COMPANY_QUALIFIER_NAME, filterText));
         }
         qualifierList = dao.getCompanyCrtQualifierNameList(cfpDynamicQuery);
-        
+
         HelperDTO dto;
         if (start == Constants.ZERO) {
             dto = new HelperDTO();
@@ -3264,12 +3202,12 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             filterText = filterText.toUpperCase(Locale.ENGLISH);
             if (!StringUtils.EMPTY.equals(filterText) && Constants.EDIT_LIST.startsWith(filterText)) {
                 dto = new HelperDTO();
-                dto.setDescription(UIUtils.EDIT_LIST);
+                dto.setDescription(UIUtils.getInstance().EDIT_LIST);
                 list.add(dto);
             }
             if (StringUtils.EMPTY.equals(filterText) && companyQualifierNameCount != 0 && companyQualifierNameCount == end - NumericConstants.TWO) {
                 dto = new HelperDTO();
-                dto.setDescription(UIUtils.EDIT_LIST);
+                dto.setDescription(UIUtils.getInstance().EDIT_LIST);
                 list.add(dto);
             }
         }
@@ -3298,7 +3236,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
     }
 
     public Map<Integer, String> getCodeDescription(final String listName) throws PortalException, SystemException {
-        Map<Integer, String> helperTableMap = new HashMap<Integer, String>();
+        Map<Integer, String> helperTableMap = new HashMap<>();
         final List<HelperTable> list = dao.getHelperTableDetailsByListName(listName);
         for (HelperTable helperTable : list) {
             helperTableMap.put(helperTable.getHelperTableSid(), helperTable.getDescription());
@@ -3310,7 +3248,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         try {
             final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
             dynamicQuery.add(RestrictionsFactoryUtil.eq("helperTableSid", sysId));
-            String descr = StringUtils.EMPTY;
+            String descr;
             List<HelperTable> list1 = UdcsLocalServiceUtil.dynamicQuery(dynamicQuery);
             for (int j = 0; j < list1.size(); j++) {
                 descr = list1.get(0).getDescription();
@@ -3395,84 +3333,82 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             } else if (ConstantsUtils.COUNTRY.equals(columnName)) {
                 Collections.sort(searchList, SearchCompanyForm.countryAsc);
             }
-        } else {
-            if (ConstantsUtils.COMPANY_ID.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyIdDsc);
-            } else if (ConstantsUtils.COMPANY_NO.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyNoDsc);
-            } else if (ConstantsUtils.COMPANY_NAME.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyNameDsc);
-            } else if (ConstantsUtils.COMPANY_STATUS.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyStatusDsc);
-            } else if (ConstantsUtils.COM_TYPE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyTypeDsc);
-            } else if (ConstantsUtils.IDENTIFIER_TYPE_DESC.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyQualifierNameDsc);
-            } else if (ConstantsUtils.IDENTIFIER.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyIdentiferDsc);
-            } else if (ConstantsUtils.COMPANY_START_DATE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyStartDateDsc);
-            } else if (ConstantsUtils.COMPANY_END_DATE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyEndDateDsc);
-            } else if (ConstantsUtils.TRADE_CLASS.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyTradeClassDsc);
-            } else if (ConstantsUtils.TRADE_CLASS_START_DATE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyTcStartDateDsc);
-            } else if (ConstantsUtils.TRADE_CLASS_END_DATE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyTcEndDateDsc);
-            } else if (ConstantsUtils.LIVES.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyLivesDsc);
-            } else if (ConstantsUtils.COMPANY_GROUP.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyGroupDsc);
-            } else if (ConstantsUtils.COMPANY_CATEGORY.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyCategoryDsc);
-            } else if (ConstantsUtils.ORGANIZATION_KEY.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.organisationDsc);
-            } else if (ConstantsUtils.FINANCIAL_SYSTEM.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.financialDsc);
-            } else if (ConstantsUtils.PARENT_COMPANY_NO.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.parentNoDsc);
-            } else if (ConstantsUtils.PARENT_START_DATE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.parentStartDateDsc);
-            } else if (ConstantsUtils.PARENT_END_DATE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.parentEndDateDsc);
-            } else if (ConstantsUtils.PRIOR_PARENT_COMPANY_NO.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.priorParentNoDsc);
-            } else if (ConstantsUtils.PRIOR_PARENT_START_DATE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.priorParentStartDateDsc);
-            } else if (ConstantsUtils.REGION_CODE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.regionCodeDsc);
-            } else if (ConstantsUtils.UDC1.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.udc1Dsc);
-            } else if (ConstantsUtils.UDC2.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.udc2Dsc);
-            } else if (ConstantsUtils.UDC3.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.udc3Dsc);
-            } else if (ConstantsUtils.UDC4.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.udc4Dsc);
-            } else if (ConstantsUtils.UDC5.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.udc5Dsc);
-            } else if (ConstantsUtils.UDC6.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.udc6Dsc);
-            } else if (ConstantsUtils.ADDRESS1.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyAddess1Dsc);
-            } else if (ConstantsUtils.ADDRESS2.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.companyAddess2Dsc);
-            } else if (ConstantsUtils.ZIPCODE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.zipCodeDsc);
-            } else if (ConstantsUtils.CITY.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.cityDsc);
-            } else if (ConstantsUtils.STATE.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.stateDsc);
-            } else if (ConstantsUtils.COUNTRY.equals(columnName)) {
-                Collections.sort(searchList, SearchCompanyForm.countryDsc);
-            }
+        } else if (ConstantsUtils.COMPANY_ID.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyIdDsc);
+        } else if (ConstantsUtils.COMPANY_NO.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyNoDsc);
+        } else if (ConstantsUtils.COMPANY_NAME.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyNameDsc);
+        } else if (ConstantsUtils.COMPANY_STATUS.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyStatusDsc);
+        } else if (ConstantsUtils.COM_TYPE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyTypeDsc);
+        } else if (ConstantsUtils.IDENTIFIER_TYPE_DESC.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyQualifierNameDsc);
+        } else if (ConstantsUtils.IDENTIFIER.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyIdentiferDsc);
+        } else if (ConstantsUtils.COMPANY_START_DATE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyStartDateDsc);
+        } else if (ConstantsUtils.COMPANY_END_DATE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyEndDateDsc);
+        } else if (ConstantsUtils.TRADE_CLASS.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyTradeClassDsc);
+        } else if (ConstantsUtils.TRADE_CLASS_START_DATE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyTcStartDateDsc);
+        } else if (ConstantsUtils.TRADE_CLASS_END_DATE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyTcEndDateDsc);
+        } else if (ConstantsUtils.LIVES.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyLivesDsc);
+        } else if (ConstantsUtils.COMPANY_GROUP.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyGroupDsc);
+        } else if (ConstantsUtils.COMPANY_CATEGORY.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyCategoryDsc);
+        } else if (ConstantsUtils.ORGANIZATION_KEY.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.organisationDsc);
+        } else if (ConstantsUtils.FINANCIAL_SYSTEM.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.financialDsc);
+        } else if (ConstantsUtils.PARENT_COMPANY_NO.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.parentNoDsc);
+        } else if (ConstantsUtils.PARENT_START_DATE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.parentStartDateDsc);
+        } else if (ConstantsUtils.PARENT_END_DATE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.parentEndDateDsc);
+        } else if (ConstantsUtils.PRIOR_PARENT_COMPANY_NO.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.priorParentNoDsc);
+        } else if (ConstantsUtils.PRIOR_PARENT_START_DATE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.priorParentStartDateDsc);
+        } else if (ConstantsUtils.REGION_CODE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.regionCodeDsc);
+        } else if (ConstantsUtils.UDC1.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.udc1Dsc);
+        } else if (ConstantsUtils.UDC2.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.udc2Dsc);
+        } else if (ConstantsUtils.UDC3.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.udc3Dsc);
+        } else if (ConstantsUtils.UDC4.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.udc4Dsc);
+        } else if (ConstantsUtils.UDC5.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.udc5Dsc);
+        } else if (ConstantsUtils.UDC6.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.udc6Dsc);
+        } else if (ConstantsUtils.ADDRESS1.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyAddess1Dsc);
+        } else if (ConstantsUtils.ADDRESS2.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.companyAddess2Dsc);
+        } else if (ConstantsUtils.ZIPCODE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.zipCodeDsc);
+        } else if (ConstantsUtils.CITY.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.cityDsc);
+        } else if (ConstantsUtils.STATE.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.stateDsc);
+        } else if (ConstantsUtils.COUNTRY.equals(columnName)) {
+            Collections.sort(searchList, SearchCompanyForm.countryDsc);
         }
     }
 
     public static Map<Integer, String> getCompanyQualifiers() throws PortalException, SystemException {
 
-        Map<Integer, String> companyQualifierMap = new HashMap<Integer, String>();
+        Map<Integer, String> companyQualifierMap = new HashMap<>();
 
         final DynamicQuery qualifierDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyQualifier.class);
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
@@ -3482,8 +3418,6 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         qualifierDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.COMPANY_QUALIFIER_NAME));
 
         List<Object[]> qualifierArray = dao.getCompanyCrtQualifierNameList(qualifierDynamicQuery);
-
-
 
         for (Object[] qualifier : qualifierArray) {
             companyQualifierMap.put((Integer) qualifier[0], String.valueOf(qualifier[1]));
@@ -3508,26 +3442,26 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             LOGGER.error(e);
         }
     }
-    
+
     /**
-     * 
+     *
      * @param searchCompanyForm
      * @param start
      * @param end
      * @param sortByColumns
      * @param filterSet
-     * @return 
+     * @return
      * @throws SystemException
      * @throws PortalException
-     * @throws Exception 
+     * @throws Exception
      */
-    public Object getResultsForCompany(final ErrorfulFieldGroup searchCompanyForm, final int start, final int end, final List<SortByColumn> sortByColumns, final Set<Filter> filterSet,boolean isCount) throws SystemException,
+    public Object getResultsForCompany(final ErrorfulFieldGroup searchCompanyForm, final int start, final int end, final List<SortByColumn> sortByColumns, final Set<Filter> filterSet, boolean isCount) throws SystemException,
             PortalException,
             ParseException {
-        LOGGER.debug("searchCompany p1 : SearchCompanyForm p2:" + start + " p3:" + end );
+        LOGGER.debug("searchCompany p1 : SearchCompanyForm p2:" + start + " p3:" + end);
         FiledNameUtils.loadDbColumnName();
         final SearchResultsDTO searchForm = new SearchResultsDTO();
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         String itemIdentifier = StringUtils.EMPTY;
         int qualifierId = 0;
         String companyId = StringUtils.EMPTY;
@@ -3538,21 +3472,17 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         String companyGroup = StringUtils.EMPTY;
         String tradeClass = StringUtils.EMPTY;
         String companyStatus = StringUtils.EMPTY;
-        String columnName = StringUtils.EMPTY;
+        String columnName;
         String dbColumnName = StringUtils.EMPTY;
-        
+
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-        
-        
-        
-        
-        
+
         if (searchCompanyForm.getField(ConstantsUtils.TEXT1).getValue().toString() != null) {
             companyId = searchCompanyForm.getField(ConstantsUtils.TEXT1).getValue().toString().trim();
             companyId = companyId.replace(CommonUtils.PERCENT, CommonUtils.SLASH_PERCENT);
             companyId = companyId.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
-        
+
         if (searchCompanyForm.getField(ConstantsUtils.TEXT2).getValue().toString() != null) {
 
             companyNo = searchCompanyForm.getField(ConstantsUtils.TEXT2).getValue().toString().trim();
@@ -3567,66 +3497,60 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
         if (searchCompanyForm.getField(ConstantsUtils.TEXT8) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.TEXT8).getValue()).equals(ConstantsUtils.NULL)) {
             itemIdentifier = searchCompanyForm.getField(ConstantsUtils.TEXT8).getValue().toString().trim();
         }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO6) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()).equals(ConstantsUtils.NULL)&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()))) {
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO6) != null && !String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()).equals(ConstantsUtils.NULL) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue()))) {
             final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO6).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
                 qualifierId = helperDTO.getId();
 
             }
-         }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue() != null&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue()))) {
-            
-               final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue();
+        }
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue()))) {
+
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO2).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                companyType = String.valueOf(helperDTO.getId()) ;
+                companyType = String.valueOf(helperDTO.getId());
             }
         }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue() != null&&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue()))) {
-            
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue();
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue()))) {
+
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO1).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                companyStatus =String.valueOf(helperDTO.getId());
+                companyStatus = String.valueOf(helperDTO.getId());
             }
-            
-            
+
         }
 
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO3) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue()))) {
 
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO3) != null  && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue()))) {
-            
-            
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue();
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO3).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
                 companyCategory = String.valueOf(helperDTO.getId());
             }
-            
+
         }
 
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO4) != null  && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue()))) {
-           
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue();
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO4) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue()))) {
+
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO4).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
-                companyGroup =String.valueOf(helperDTO.getId());
+                companyGroup = String.valueOf(helperDTO.getId());
             }
-            
-            
+
         }
-        if (searchCompanyForm.getField(ConstantsUtils.COMBO5) != null &&!ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue()))) {
-           
-                     final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue();
+        if (searchCompanyForm.getField(ConstantsUtils.COMBO5) != null && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue()))) {
+
+            final HelperDTO helperDTO = (HelperDTO) searchCompanyForm.getField(ConstantsUtils.COMBO5).getValue();
             if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription())) {
 
                 tradeClass = String.valueOf(helperDTO.getId());
             }
-        
+
         }
-
-
 
         int flag = 0;
 
@@ -3639,19 +3563,19 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
             flag = 1;
         }
         boolean asc = false;
-     if(sortByColumns != null){
-        for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
-            final SortByColumn sortByColumn = (SortByColumn) iterator.next();
+        if (sortByColumns != null) {
+            for (final Iterator<SortByColumn> iterator = sortByColumns.iterator(); iterator.hasNext();) {
+                final SortByColumn sortByColumn = (SortByColumn) iterator.next();
 
-            columnName = sortByColumn.getName();
-            dbColumnName = FiledNameUtils.getDBColumnName(columnName);
-            if (sortByColumn.getType() == SortByColumn.Type.ASC) {
-                asc = false;
-            } else {
-                asc = true;
+                columnName = sortByColumn.getName();
+                dbColumnName = FiledNameUtils.getDBColumnName(columnName);
+                if (sortByColumn.getType() == SortByColumn.Type.ASC) {
+                    asc = false;
+                } else {
+                    asc = true;
+                }
             }
         }
-    }
 
         if (filterSet != null) {
 
@@ -3660,7 +3584,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (ConstantsUtils.COMPANY_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COMPANY_STATUS, Integer.valueOf(stringFilter.getFilterString()));
-                        
+
                     } else if (ConstantsUtils.COM_TYPE.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COM_TYPE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
@@ -3669,7 +3593,7 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                         parameters.put(ConstantsUtils.COMPANY_GROUP, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.COMPANY_CATEGORY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COMPANY_CATEGORY, Integer.valueOf(stringFilter.getFilterString()));
-                    }else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                    } else if (ConstantsUtils.ORGANIZATION_KEY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.ORG_KEY, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.UDC1, Integer.valueOf(stringFilter.getFilterString()));
@@ -3687,21 +3611,19 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                         parameters.put(ConstantsUtils.STATE, Integer.valueOf(stringFilter.getFilterString()));
                     } else if (ConstantsUtils.COUNTRY.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.COUNTRY, Integer.valueOf(stringFilter.getFilterString()));
-                    }  else if (ConstantsUtils.IDENTIFIER_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
+                    } else if (ConstantsUtils.IDENTIFIER_STATUS.equals(stringFilter.getPropertyId()) && Integer.valueOf(stringFilter.getFilterString()) != 0) {
                         parameters.put(ConstantsUtils.IDENTIFIER_STATUS, Integer.valueOf(stringFilter.getFilterString()));
                     } else {
                         String filterString = CommonUtil.buildFilterCriteria(stringFilter.getFilterString());
                         parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId(), filterString);
                     }
-                } 
-                else if (filter instanceof Between) { 
-                    Between betweenFilter = (Between) filter; 
-                    Date startValue = (Date) betweenFilter.getStartValue(); 
-                    Date endValue = (Date) betweenFilter.getEndValue(); 
+                } else if (filter instanceof Between) {
+                    Between betweenFilter = (Between) filter;
+                    Date startValue = (Date) betweenFilter.getStartValue();
+                    Date endValue = (Date) betweenFilter.getEndValue();
                     parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(startValue)));
-                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue))); 
-                }
-                else if (filter instanceof Compare) {
+                    parameters.put(betweenFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(endValue)));
+                } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
                     Compare.Operation operation = stringFilter.getOperation();
                     if (operation.EQUAL.toString().equals(operation.name())) {
@@ -3728,14 +3650,14 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                             parameters.put(ConstantsUtils.FILTER + stringFilter.getPropertyId() + "~<", String.valueOf(val) + "--" + "<");
                         }
                     }
-                     if (stringFilter.getValue() instanceof Date) {
-                    Date value = (Date) stringFilter.getValue();
-                    if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
-                    } else {
-                        parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                    if (stringFilter.getValue() instanceof Date) {
+                        Date value = (Date) stringFilter.getValue();
+                        if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            parameters.put(stringFilter.getPropertyId() + ConstantsUtils.FROM, String.valueOf(dateFormat.format(value)));
+                        } else {
+                            parameters.put(stringFilter.getPropertyId() + ConstantsUtils.TO, String.valueOf(dateFormat.format(value)));
+                        }
                     }
-                     }
                 } else if (filter instanceof And) {
                     And stringFilter = (And) filter;
                     Collection<Container.Filter> value = stringFilter.getFilters();
@@ -3753,23 +3675,22 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
                 }
             }
         }
-        
-        
+
         Object object = new Object();
         if (flag == Constants.ZERO) {
-            String sql = getQueryForCompanyMaster(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, dbColumnName, asc, start, end,parameters,isCount);                    
-            List resultList = (List) CompanyMasterLocalServiceUtil.executeSelectQuery(sql, null, null);                    
+            String sql = getQueryForCompanyMaster(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, 0, null, dbColumnName, asc, start, end, parameters, isCount);
+            List resultList = (List) CompanyMasterLocalServiceUtil.executeSelectQuery(sql, null, null);
             if (isCount) {
-                object = (Integer) resultList.get(0);                
+                object = (Integer) resultList.get(0);
             } else {
                 object = getCustomizedSearchFormFromObject(resultList);
-            }            
+            }
         }
         if (flag == Constants.ONE) {
-            String sql = getQueryForCompanyMaster(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, dbColumnName, asc, start, end,parameters,isCount);                        
-            List resultList = (List) CompanyMasterLocalServiceUtil.executeSelectQuery(sql, null, null);                    
+            String sql = getQueryForCompanyMaster(companyId, companyNo, companyName, companyStatus, companyType, companyCategory, companyGroup, tradeClass, qualifierId, itemIdentifier, dbColumnName, asc, start, end, parameters, isCount);
+            List resultList = (List) CompanyMasterLocalServiceUtil.executeSelectQuery(sql, null, null);
             if (isCount) {
-                object = (Integer) resultList.get(0);                
+                object = (Integer) resultList.get(0);
             } else {
                 object = getCustomizedSearchFormFromObject(resultList);
             }
@@ -3777,426 +3698,460 @@ public class CompanySearchLogic extends BeanItemContainer<SearchCompanyForm> imp
 
         return object;
     }
-    
-     public String getQueryForCompanyMaster(String companyId, String companyNo,
+
+    public String getQueryForCompanyMaster(String companyId, String companyNo,
             String companyName, String companyStatus, String companyType, String companyCategory, String companyGroup,
-            String tradeClass, int identifierType, String identifier, String orderByColumn, Boolean sortOrder, Object index, Object next,Map<String, Object> parameters,boolean isCount) {
-            StringBuilder sql;
-            String andOperator = StringUtils.EMPTY;
-            if (identifierType == 0 && identifier == null) {
-                if(isCount){
-                    sql = new StringBuilder(CustomSQLUtil.get("findCompanyMasterWithoutIdentifierCount"));
-                }else{
-                sql = new StringBuilder(CustomSQLUtil.get("com.companymaster.service.persistence.CompanyMasterFinder.findCompanyMasterWithoutIdentifier"));
-                }
-                sql.append(" where ");
+            String tradeClass, int identifierType, String identifier, String orderByColumn, Boolean sortOrder, Object index, Object next, Map<String, Object> parameters, boolean isCount) {
+        StringBuilder sql;
+        String andOperator = StringUtils.EMPTY;
+        if (identifierType == 0 && identifier == null) {
+            if (isCount) {
+                sql = new StringBuilder(CustomSQLUtil.get("findCompanyMasterWithoutIdentifierCount"));
             } else {
-                if(isCount){
-                    sql = new StringBuilder(CustomSQLUtil.get("findCompanyMasterWithIdentifierCount"));
-                }else{
+                sql = new StringBuilder(CustomSQLUtil.get("com.companymaster.service.persistence.CompanyMasterFinder.findCompanyMasterWithoutIdentifier"));
+            }
+            sql.append(" where ");
+        } else {
+            if (isCount) {
+                sql = new StringBuilder(CustomSQLUtil.get("findCompanyMasterWithIdentifierCount"));
+            } else {
                 sql = new StringBuilder(CustomSQLUtil.get("com.companymaster.service.persistence.CompanyMasterFinder.findCompanyMasterWithIdentifier"));
-                }
-                sql.append(" where ");
-                if (identifierType != 0) {
-                    sql.append(" crti.COMPANY_QUALIFIER_SID=").append(identifierType).append(" ");
-                    andOperator = ConstantsUtils.AND;
-                }
-                if (identifier.length() != 0) {
-                    identifier = identifier.replace('*', '%');
-                    sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(identifier).append("' ");
-                    andOperator = ConstantsUtils.AND;
-                }
-
             }
-
-            if (companyId.length() != 0) {
-                if (companyId.contains(CommonUtils.SLASH_PERCENT)) {
-                    sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_ID).append(companyId).append("' ").append(CommonUtils.ESCAPE_SLASH);
-                    andOperator = ConstantsUtils.AND;
-                } else {
-                    sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_ID).append(companyId).append("' ");
-                    andOperator = ConstantsUtils.AND;
-                }
+            sql.append(" where ");
+            if (identifierType != 0) {
+                sql.append(" crti.COMPANY_QUALIFIER_SID=").append(identifierType).append(" ");
+                andOperator = ConstantsUtils.AND;
+            }
+            if (identifier.length() != 0) {
+                identifier = identifier.replace('*', '%');
+                identifier = identifier.replace("\'", "''");
+                sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(identifier).append("' ");
+                andOperator = ConstantsUtils.AND;
             }
 
-            if (companyNo.length() != 0) {
-                if (companyNo.contains(CommonUtils.SLASH_PERCENT)) {
-                    sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NO).append(companyNo).append("' ").append(CommonUtils.ESCAPE_SLASH);
-                    andOperator = ConstantsUtils.AND;
-                } else {
-                    sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NO).append(companyNo).append("' ");
-                    andOperator = ConstantsUtils.AND;
-
-                }
-            }
-
-            if (companyName.length() != 0) {
-                if (companyName.contains(CommonUtils.SLASH_PERCENT)) {
-                    sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NAME).append(companyName).append("' ").append(CommonUtils.ESCAPE_SLASH);
-                    andOperator = ConstantsUtils.AND;
-                } else {
-                    sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NAME).append(companyName).append("' ");
-                    andOperator = ConstantsUtils.AND;
-                }
-            }
-
-            if (!"0".equals(companyStatus) && StringUtils.isNotBlank(companyStatus)) {
-                sql.append(andOperator).append(" cm.COMPANY_STATUS='").append(companyStatus).append("' ");
-                andOperator = ConstantsUtils.AND;
-
-            }
-
-            if (!"0".equals(companyType) && StringUtils.isNotBlank(companyType)) {
-                sql.append(andOperator).append(" cm.COMPANY_TYPE='").append(companyType).append("' ");
-                andOperator = ConstantsUtils.AND;
-
-            }
-            if (!"0".equals(companyCategory) && StringUtils.isNotBlank(companyCategory)) {
-                sql.append(andOperator).append(" cm.COMPANY_CATEGORY='").append(companyCategory).append("' ");
-                andOperator = ConstantsUtils.AND;
-
-            }
-            if (!"0".equals(companyGroup) && StringUtils.isNotBlank(companyGroup)) {
-                sql.append(andOperator).append(" cm.COMPANY_GROUP='").append(companyGroup).append("' ");
-                andOperator = ConstantsUtils.AND;
-
-            }
-            if (!"0".equals(tradeClass) && StringUtils.isNotBlank(tradeClass)) {
-                sql.append(andOperator).append(" trade.COMPANY_TRADE_CLASS='").append(tradeClass).append("' ");
-                andOperator = ConstantsUtils.AND;
-
-            }
-
-            sql.append(andOperator).append(" cm.INBOUND_STATUS <> 'D' ");
-            andOperator = ConstantsUtils.AND;
-            
-            if (parameters.get(ConstantsUtils.QUERY_START_DATE_FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_START_DATE_FORM)))) { 
-                String startDate = parameters.get(ConstantsUtils.QUERY_START_DATE_FORM).toString();
-                sql.append(andOperator).append(" cm.COMPANY_START_DATE >= '").append(startDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_START_DATE_TO)))) {
-                String endDate = parameters.get(ConstantsUtils.QUERY_START_DATE_TO).toString();
-                sql.append(andOperator).append(" cm.COMPANY_START_DATE <= '").append(endDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.CREATED_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATED_DATE_FROM)))) { 
-                String startDate = parameters.get(ConstantsUtils.CREATED_DATE_FROM).toString();
-                sql.append(andOperator).append(" crti.CREATED_DATE >= '").append(startDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.CREATED_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATED_DATE_TO)))) {
-                String endDate = parameters.get(ConstantsUtils.CREATED_DATE_TO).toString();
-                sql.append(andOperator).append(" crti.CREATED_DATE <= '").append(endDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_END_DATE_FROM)))) { 
-                String startDate = parameters.get(ConstantsUtils.QUERY_END_DATE_FROM).toString();
-                sql.append(andOperator).append(" cm.COMPANY_END_DATE >= '").append(startDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_END_DATE_TO)))) {
-                String endDate = parameters.get(ConstantsUtils.QUERY_END_DATE_TO).toString();
-                sql.append(andOperator).append(" cm.COMPANY_END_DATE <= '").append(endDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_FROM)))) { 
-                String startDate = parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_FROM).toString();
-                sql.append(andOperator).append(" trade.TRADE_CLASS_START_DATE >= '").append(startDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_TO)))) {
-                String endDate = parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_TO).toString();
-                sql.append(andOperator).append(" trade.TRADE_CLASS_START_DATE <= '").append(endDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_FROM)))) { 
-                String startDate = parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_FROM).toString();
-                sql.append(andOperator).append(" trade.TRADE_CLASS_END_DATE >= '").append(startDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_TO)))) {
-                String endDate = parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_TO).toString();
-                sql.append(andOperator).append(" trade.TRADE_CLASS_END_DATE <= '").append(endDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_S_DATE_FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_S_DATE_FORM)))) { 
-                String startDate = parameters.get(ConstantsUtils.QUERY_S_DATE_FORM).toString();
-                sql.append(andOperator).append(" parent.PARENT_START_DATE >= '").append(startDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_S_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_S_DATE_TO)))) {
-                String endDate = parameters.get(ConstantsUtils.QUERY_S_DATE_TO).toString();
-                sql.append(andOperator).append(" parent.PARENT_START_DATE <= '").append(endDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_FROM)))) { 
-                String startDate = parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_FROM).toString();
-                sql.append(andOperator).append(" parent.PARENT_END_DATE >= '").append(startDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_TO)))) {
-                String endDate = parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_TO).toString();
-                sql.append(andOperator).append(" parent.PARENT_END_DATE <= '").append(endDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_FROM)))) { 
-                String startDate = parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_FROM).toString();
-                sql.append(andOperator).append(" parent.PRIOR_PARENT_START_DATE >= '").append(startDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_TO)))) {
-                String endDate = parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_TO).toString();
-                sql.append(andOperator).append(" parent.PRIOR_PARENT_START_DATE <= '").append(endDate).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~companyId") != null) {
-                String company= parameters.get("filter~companyId").toString();
-                sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_ID).append(company).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~parentCompanyNo") != null) {
-                String compNo= parameters.get("filter~parentCompanyNo").toString();
-                sql.append(andOperator).append(" comp.COMPANY_NO like '").append(compNo).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~companyNo") != null) {
-                String compNo= parameters.get("filter~companyNo").toString();
-                sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NO).append(compNo).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~companyName") != null) {
-                String compName= parameters.get("filter~companyName").toString();
-                sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NAME).append(compName).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~companySystemId") != null) {
-                String sysId = parameters.get("filter~companySystemId").toString();
-                sql.append(andOperator).append(" cm.COMPANY_MASTER_SID like '").append(sysId).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~priorParentCompanyNo") != null) {
-                String priorParentCompanyNo = parameters.get("filter~priorParentCompanyNo").toString();
-                sql.append(andOperator).append(" comp1.COMPANY_NO like '").append(priorParentCompanyNo).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.COMPANY_STATUS) != null) {
-                String compStatus= parameters.get(ConstantsUtils.COMPANY_STATUS).toString();
-                sql.append(andOperator).append(" cm.COMPANY_STATUS = '").append(compStatus).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.COM_TYPE) != null) {
-                String compType= parameters.get(ConstantsUtils.COM_TYPE).toString();
-                sql.append(andOperator).append(" cm.COMPANY_TYPE like '").append(compType).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~companyStartDate") != null) {
-                String compStart= parameters.get("filter~companyStartDate").toString();
-                sql.append(andOperator).append(" cm.COMPANY_START_DATE like '").append(compStart).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.TRADE_CLASS) != null) {
-                String trade= parameters.get(ConstantsUtils.TRADE_CLASS).toString();
-                sql.append(andOperator).append(" trade.COMPANY_TRADE_CLASS like '").append(trade).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~lives") != null) {
-                String lives= parameters.get("filter~lives").toString();
-                sql.append(andOperator).append(" cm.LIVES like '").append(lives).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~identifier") != null) {
-                String iden = parameters.get("filter~identifier").toString();
-                sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(iden).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.COMPANY_GROUP) != null) {
-                String group= parameters.get(ConstantsUtils.COMPANY_GROUP).toString();
-                sql.append(andOperator).append(" cm.COMPANY_GROUP like '").append(group).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.COMPANY_CATEGORY) != null) {
-                String category= parameters.get(ConstantsUtils.COMPANY_CATEGORY).toString();
-                sql.append(andOperator).append(" cm.COMPANY_CATEGORY like '").append(category).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.ORG_KEY) != null) {
-                String orgKey= parameters.get(ConstantsUtils.ORG_KEY).toString();
-                sql.append(andOperator).append(" cm.ORGANIZATION_KEY like '").append(orgKey).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~identifierTypeDesc") != null) {
-                String qualifier= parameters.get("filter~identifierTypeDesc").toString();
-                sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_QUALIFIER).append(qualifier).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            
-            if (parameters.get("filter~identifierType") != null) {
-                String qualifier= parameters.get("filter~identifierType").toString();
-                sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_QUALIFIER).append(qualifier).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~companyQualifierName") != null) {
-                String qualifier= parameters.get("filter~companyQualifierName").toString();
-                sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_QUALIFIER).append(qualifier).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            
-            if (parameters.get("filter~financialSystem") != null) {
-                String company= parameters.get("filter~financialSystem").toString();
-                sql.append(andOperator).append(" cm.FINANCIAL_SYSTEM like '").append(company).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~regionCode") != null) {
-                String code= parameters.get("filter~regionCode").toString();
-                sql.append(andOperator).append(" cm.REGION_CODE like '").append(code).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.UDC1) != null) {
-                String udc1= parameters.get(ConstantsUtils.UDC1).toString();
-                sql.append(andOperator).append(" udc.UDC1 like '").append(udc1).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.UDC2) != null) {
-                String udc2= parameters.get(ConstantsUtils.UDC2).toString();
-                sql.append(andOperator).append(" udc.UDC2 like '").append(udc2).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.UDC3) != null) {
-                String udc3= parameters.get(ConstantsUtils.UDC3).toString();
-                sql.append(andOperator).append(" udc.UDC3 like '").append(udc3).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.UDC4) != null) {
-                String udc4= parameters.get(ConstantsUtils.UDC4).toString();
-                sql.append(andOperator).append(" udc.UDC4 like '").append(udc4).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.UDC5) != null) {
-                String udc5= parameters.get(ConstantsUtils.UDC5).toString();
-                sql.append(andOperator).append(" udc.UDC5 like '").append(udc5).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.UDC6) != null) {
-                String udc6= parameters.get(ConstantsUtils.UDC6).toString();
-                sql.append(andOperator).append(" udc.UDC6 like '").append(udc6).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~address1") != null) {
-                String address1= parameters.get("filter~address1").toString();
-                sql.append(andOperator).append(" cm.ADDRESS1 like '").append(address1).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~address2") != null) {
-                String address2= parameters.get("filter~address2").toString();
-                sql.append(andOperator).append(" cm.ADDRESS2 like '").append(address2).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~zipCode") != null) {
-                String zipCode= parameters.get("filter~zipCode").toString();
-                sql.append(andOperator).append(" cm.ZIP_CODE like '").append(zipCode).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~city") != null) {
-                String city= parameters.get("filter~city").toString();
-                sql.append(andOperator).append(" cm.CITY like '").append(city).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.STATE) != null) {
-                String state= parameters.get(ConstantsUtils.STATE).toString();
-                sql.append(andOperator).append(" cm.STATE like '").append(state).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.COUNTRY) != null) {
-                String country= parameters.get(ConstantsUtils.COUNTRY).toString();
-                sql.append(andOperator).append(" cm.COUNTRY like '").append(country).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get(ConstantsUtils.IDENTIFIER_STATUS) != null) {
-                String identifierStatus = parameters.get(ConstantsUtils.IDENTIFIER_STATUS).toString();
-                sql.append(andOperator).append(" crti.IDENTIFIER_STATUS like '").append(identifierStatus).append("' ");
-                andOperator = ConstantsUtils.AND;
-            }
-            if (parameters.get("filter~systemId~>") != null) {
-                String value = parameters.get("filter~systemId~>").toString();
-                String[] value1 = value.split("--");
-                String companySid = value1[0];
-                String operator = value1[1];
-                if (operator.equals(">0")) {
-                    sql.append(" AND (cm.COMPANY_MASTER_SID >'").append(companySid).append("' ").append(" or");
-                    sql.append(" cm.COMPANY_MASTER_SID ='").append("0").append("' )");
-                }
-                if (operator.equals(">")) {
-                    sql.append(" AND cm.COMPANY_MASTER_SID >'").append(companySid).append("' ");
-                }
-            }
-            if (parameters.get("filter~systemId~<") != null) {
-                String value = parameters.get("filter~systemId~<").toString();
-                String[] value1 = value.split("--");
-                String companySid = value1[0];
-                String operator = value1[1];
-                if (operator.equals("<0")) {
-                    sql.append(" AND (cm.COMPANY_MASTER_SID <'").append(companySid).append("' ").append(" or");
-                    sql.append(" cm.COMPANY_MASTER_SID ='").append("0").append("') ");
-                }
-                if (operator.equals("<")) {
-                    sql.append(" AND cm.COMPANY_MASTER_SID <'").append(companySid).append("' ");
-                }
-            }
-            if (parameters.get("filter~systemId~=") != null) {
-                String value = parameters.get("filter~systemId~=").toString();
-                String[] value1 = value.split("--");
-                String companySid = value1[0];
-                String operator = value1[1];
-                if (operator.equals("0") || operator.equals("=")) {
-                    sql.append(" AND cm.COMPANY_MASTER_SID ='").append(companySid).append("' ");
-                }
-            }
-            if (parameters.get("filter~systemId~<<") != null || parameters.get("filter~systemId~>>") != null) {
-                String lesser = parameters.get("filter~systemId~<<").toString();
-                String greater = parameters.get("filter~systemId~>>").toString();
-                String[] lesser1 = lesser.split("--");
-                String[] greater1 = greater.split("--");
-                String companySidLesser = lesser1[0];
-                String companySidGreater = greater1[0];
-                sql.append(" AND CM.COMPANY_MASTER_SID > '");
-                sql.append(companySidGreater).append("'");
-                sql.append(" AND CM.COMPANY_MASTER_SID < '");
-                sql.append(companySidLesser).append("'");
-            }
-          
-
-
-
-            if (!isCount) {
-
-                if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
-                    sql.append(" ORDER BY COMPANY_MASTER_SID").append((!sortOrder) ? " ASC " : " DESC ");
-                } else {
-                    sql.append("ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
-                }
-
-                sql.append(" " + "OFFSET ");
-                sql.append(index);
-                sql.append(" ROWS FETCH NEXT ");
-                sql.append((Integer) next - (Integer) index);
-                sql.append(" ROWS ONLY;");
-            }
-            
-           return sql.toString();
         }
 
-    public void insertToCPDetails(int systemId) {
-        String query= CustomSQLUtil.get("company-CP").replace("?SID", String.valueOf(systemId));
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);  
+        if (companyId.length() != 0) {
+            if (companyId.contains(CommonUtils.SLASH_PERCENT)) {
+                sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_ID).append(companyId).append("' ").append(CommonUtils.ESCAPE_SLASH);
+                andOperator = ConstantsUtils.AND;
+            } else {
+                sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_ID).append(companyId).append("' ");
+                andOperator = ConstantsUtils.AND;
+            }
+        }
+
+        if (companyNo.length() != 0) {
+            if (companyNo.contains(CommonUtils.SLASH_PERCENT)) {
+                sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NO).append(companyNo).append("' ").append(CommonUtils.ESCAPE_SLASH);
+                andOperator = ConstantsUtils.AND;
+            } else {
+                sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NO).append(companyNo).append("' ");
+                andOperator = ConstantsUtils.AND;
+
+            }
+        }
+
+        if (companyName.length() != 0) {
+            if (companyName.contains(CommonUtils.SLASH_PERCENT)) {
+                sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NAME).append(companyName).append("' ").append(CommonUtils.ESCAPE_SLASH);
+                andOperator = ConstantsUtils.AND;
+            } else {
+                sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NAME).append(companyName).append("' ");
+                andOperator = ConstantsUtils.AND;
+            }
+        }
+
+        if (!"0".equals(companyStatus) && StringUtils.isNotBlank(companyStatus)) {
+            sql.append(andOperator).append(" cm.COMPANY_STATUS='").append(companyStatus).append("' ");
+            andOperator = ConstantsUtils.AND;
+
+        }
+
+        if (!"0".equals(companyType) && StringUtils.isNotBlank(companyType)) {
+            sql.append(andOperator).append(" cm.COMPANY_TYPE='").append(companyType).append("' ");
+            andOperator = ConstantsUtils.AND;
+
+        }
+        if (!"0".equals(companyCategory) && StringUtils.isNotBlank(companyCategory)) {
+            sql.append(andOperator).append(" cm.COMPANY_CATEGORY='").append(companyCategory).append("' ");
+            andOperator = ConstantsUtils.AND;
+
+        }
+        if (!"0".equals(companyGroup) && StringUtils.isNotBlank(companyGroup)) {
+            sql.append(andOperator).append(" cm.COMPANY_GROUP='").append(companyGroup).append("' ");
+            andOperator = ConstantsUtils.AND;
+
+        }
+        if (!"0".equals(tradeClass) && StringUtils.isNotBlank(tradeClass)) {
+            sql.append(andOperator).append(" trade.COMPANY_TRADE_CLASS='").append(tradeClass).append("' ");
+            andOperator = ConstantsUtils.AND;
+
+        }
+
+        sql.append(andOperator).append(" cm.INBOUND_STATUS <> 'D' ");
+        andOperator = ConstantsUtils.AND;
+
+        if (parameters.get(ConstantsUtils.QUERY_START_DATE_FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_START_DATE_FORM)))) {
+            String startDate = parameters.get(ConstantsUtils.QUERY_START_DATE_FORM).toString();
+            sql.append(andOperator).append(" cm.COMPANY_START_DATE >= '").append(startDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_START_DATE_TO)))) {
+            String endDate = parameters.get(ConstantsUtils.QUERY_START_DATE_TO).toString();
+            sql.append(andOperator).append(" cm.COMPANY_START_DATE <= '").append(endDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.CREATED_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATED_DATE_FROM)))) {
+            String startDate = parameters.get(ConstantsUtils.CREATED_DATE_FROM).toString();
+            sql.append(andOperator).append(" crti.CREATED_DATE >= '").append(startDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.CREATED_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CREATED_DATE_TO)))) {
+            String endDate = parameters.get(ConstantsUtils.CREATED_DATE_TO).toString();
+            sql.append(andOperator).append(" crti.CREATED_DATE <= '").append(endDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_END_DATE_FROM)))) {
+            String startDate = parameters.get(ConstantsUtils.QUERY_END_DATE_FROM).toString();
+            sql.append(andOperator).append(" cm.COMPANY_END_DATE >= '").append(startDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_END_DATE_TO)))) {
+            String endDate = parameters.get(ConstantsUtils.QUERY_END_DATE_TO).toString();
+            sql.append(andOperator).append(" cm.COMPANY_END_DATE <= '").append(endDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_FROM)))) {
+            String startDate = parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_FROM).toString();
+            sql.append(andOperator).append(" trade.TRADE_CLASS_START_DATE >= '").append(startDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_TO)))) {
+            String endDate = parameters.get(ConstantsUtils.QUERY_TRADE_START_DATE_TO).toString();
+            sql.append(andOperator).append(" trade.TRADE_CLASS_START_DATE <= '").append(endDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_FROM)))) {
+            String startDate = parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_FROM).toString();
+            sql.append(andOperator).append(" trade.TRADE_CLASS_END_DATE >= '").append(startDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_TO)))) {
+            String endDate = parameters.get(ConstantsUtils.QUERY_TRADE_END_DATE_TO).toString();
+            sql.append(andOperator).append(" trade.TRADE_CLASS_END_DATE <= '").append(endDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_S_DATE_FORM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_S_DATE_FORM)))) {
+            String startDate = parameters.get(ConstantsUtils.QUERY_S_DATE_FORM).toString();
+            sql.append(andOperator).append(" parent.PARENT_START_DATE >= '").append(startDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_S_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_S_DATE_TO)))) {
+            String endDate = parameters.get(ConstantsUtils.QUERY_S_DATE_TO).toString();
+            sql.append(andOperator).append(" parent.PARENT_START_DATE <= '").append(endDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_FROM)))) {
+            String startDate = parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_FROM).toString();
+            sql.append(andOperator).append(" parent.PARENT_END_DATE >= '").append(startDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_TO)))) {
+            String endDate = parameters.get(ConstantsUtils.QUERY_PARENT_E_DATE_TO).toString();
+            sql.append(andOperator).append(" parent.PARENT_END_DATE <= '").append(endDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_FROM)))) {
+            String startDate = parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_FROM).toString();
+            sql.append(andOperator).append(" parent.PRIOR_PARENT_START_DATE >= '").append(startDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_TO)))) {
+            String endDate = parameters.get(ConstantsUtils.QUERY_PRIOR_PARENT_S_DATE_TO).toString();
+            sql.append(andOperator).append(" parent.PRIOR_PARENT_START_DATE <= '").append(endDate).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~companyId") != null) {
+            String company = parameters.get("filter~companyId").toString();
+            sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_ID).append(company).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~parentCompanyNo") != null) {
+            String compNo = parameters.get("filter~parentCompanyNo").toString();
+            sql.append(andOperator).append(" comp.COMPANY_NO like '").append(compNo).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~companyNo") != null) {
+            String compNo = parameters.get("filter~companyNo").toString();
+            sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NO).append(compNo).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~companyName") != null) {
+            String compName = parameters.get("filter~companyName").toString();
+            sql.append(andOperator).append(ConstantsUtils.QUERY_COMPANY_NAME).append(compName).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~companySystemId") != null) {
+            String sysId = parameters.get("filter~companySystemId").toString();
+            sql.append(andOperator).append(" cm.COMPANY_MASTER_SID like '").append(sysId).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~priorParentCompanyNo") != null) {
+            String priorParentCompanyNo = parameters.get("filter~priorParentCompanyNo").toString();
+            sql.append(andOperator).append(" comp1.COMPANY_NO like '").append(priorParentCompanyNo).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.COMPANY_STATUS) != null) {
+            String compStatus = parameters.get(ConstantsUtils.COMPANY_STATUS).toString();
+            sql.append(andOperator).append(" cm.COMPANY_STATUS = '").append(compStatus).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.COM_TYPE) != null) {
+            String compType = parameters.get(ConstantsUtils.COM_TYPE).toString();
+            sql.append(andOperator).append(" cm.COMPANY_TYPE like '").append(compType).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~companyStartDate") != null) {
+            String compStart = parameters.get("filter~companyStartDate").toString();
+            sql.append(andOperator).append(" cm.COMPANY_START_DATE like '").append(compStart).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.TRADE_CLASS) != null) {
+            String trade = parameters.get(ConstantsUtils.TRADE_CLASS).toString();
+            sql.append(andOperator).append(" trade.COMPANY_TRADE_CLASS like '").append(trade).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~lives") != null) {
+            String lives = parameters.get("filter~lives").toString();
+            sql.append(andOperator).append(" cm.LIVES like '").append(lives).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~identifier") != null) {
+            String iden = parameters.get("filter~identifier").toString();
+            sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(iden).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.COMPANY_GROUP) != null) {
+            String group = parameters.get(ConstantsUtils.COMPANY_GROUP).toString();
+            sql.append(andOperator).append(" cm.COMPANY_GROUP like '").append(group).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.COMPANY_CATEGORY) != null) {
+            String category = parameters.get(ConstantsUtils.COMPANY_CATEGORY).toString();
+            sql.append(andOperator).append(" cm.COMPANY_CATEGORY like '").append(category).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.ORG_KEY) != null) {
+            String orgKey = parameters.get(ConstantsUtils.ORG_KEY).toString();
+            sql.append(andOperator).append(" cm.ORGANIZATION_KEY like '").append(orgKey).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~identifierTypeDesc") != null) {
+            String qualifier = parameters.get("filter~identifierTypeDesc").toString();
+            sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_QUALIFIER).append(qualifier).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+
+        if (parameters.get("filter~identifierType") != null) {
+            String qualifier = parameters.get("filter~identifierType").toString();
+            sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_QUALIFIER).append(qualifier).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~companyQualifierName") != null) {
+            String qualifier = parameters.get("filter~companyQualifierName").toString();
+            sql.append(andOperator).append(ConstantsUtils.QUERY_COMP_QUALIFIER).append(qualifier).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+
+        if (parameters.get("filter~financialSystem") != null) {
+            String company = parameters.get("filter~financialSystem").toString();
+            sql.append(andOperator).append(" cm.FINANCIAL_SYSTEM like '").append(company).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~regionCode") != null) {
+            String code = parameters.get("filter~regionCode").toString();
+            sql.append(andOperator).append(" cm.REGION_CODE like '").append(code).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.UDC1) != null) {
+            String udc1 = parameters.get(ConstantsUtils.UDC1).toString();
+            sql.append(andOperator).append(" udc.UDC1 like '").append(udc1).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.UDC2) != null) {
+            String udc2 = parameters.get(ConstantsUtils.UDC2).toString();
+            sql.append(andOperator).append(" udc.UDC2 like '").append(udc2).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.UDC3) != null) {
+            String udc3 = parameters.get(ConstantsUtils.UDC3).toString();
+            sql.append(andOperator).append(" udc.UDC3 like '").append(udc3).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.UDC4) != null) {
+            String udc4 = parameters.get(ConstantsUtils.UDC4).toString();
+            sql.append(andOperator).append(" udc.UDC4 like '").append(udc4).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.UDC5) != null) {
+            String udc5 = parameters.get(ConstantsUtils.UDC5).toString();
+            sql.append(andOperator).append(" udc.UDC5 like '").append(udc5).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.UDC6) != null) {
+            String udc6 = parameters.get(ConstantsUtils.UDC6).toString();
+            sql.append(andOperator).append(" udc.UDC6 like '").append(udc6).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~address1") != null) {
+            String address1 = parameters.get("filter~address1").toString();
+            sql.append(andOperator).append(" cm.ADDRESS1 like '").append(address1).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~address2") != null) {
+            String address2 = parameters.get("filter~address2").toString();
+            sql.append(andOperator).append(" cm.ADDRESS2 like '").append(address2).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~zipCode") != null) {
+            String zipCode = parameters.get("filter~zipCode").toString();
+            sql.append(andOperator).append(" cm.ZIP_CODE like '").append(zipCode).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get("filter~city") != null) {
+            String city = parameters.get("filter~city").toString();
+            sql.append(andOperator).append(" cm.CITY like '").append(city).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.STATE) != null) {
+            String state = parameters.get(ConstantsUtils.STATE).toString();
+            sql.append(andOperator).append(" cm.STATE like '").append(state).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.COUNTRY) != null) {
+            String country = parameters.get(ConstantsUtils.COUNTRY).toString();
+            sql.append(andOperator).append(" cm.COUNTRY like '").append(country).append("' ");
+            andOperator = ConstantsUtils.AND;
+        }
+        if (parameters.get(ConstantsUtils.IDENTIFIER_STATUS) != null) {
+            String identifierStatus = parameters.get(ConstantsUtils.IDENTIFIER_STATUS).toString();
+            sql.append(andOperator).append(" crti.IDENTIFIER_STATUS like '").append(identifierStatus).append("' ");
+        }
+        if (parameters.get("filter~systemId~>") != null) {
+            String value = parameters.get("filter~systemId~>").toString();
+            String[] value1 = value.split("--");
+            String companySid = value1[0];
+            String operator = value1[1];
+            if (operator.equals(">0")) {
+                sql.append(" AND (cm.COMPANY_MASTER_SID >'").append(companySid).append("' ").append(" or");
+                sql.append(" cm.COMPANY_MASTER_SID ='").append("0").append("' )");
+            }
+            if (operator.equals(">")) {
+                sql.append(" AND cm.COMPANY_MASTER_SID >'").append(companySid).append("' ");
+            }
+        }
+        if (parameters.get("filter~systemId~<") != null) {
+            String value = parameters.get("filter~systemId~<").toString();
+            String[] value1 = value.split("--");
+            String companySid = value1[0];
+            String operator = value1[1];
+            if (operator.equals("<0")) {
+                sql.append(" AND (cm.COMPANY_MASTER_SID <'").append(companySid).append("' ").append(" or");
+                sql.append(" cm.COMPANY_MASTER_SID ='").append("0").append("') ");
+            }
+            if (operator.equals("<")) {
+                sql.append(" AND cm.COMPANY_MASTER_SID <'").append(companySid).append("' ");
+            }
+        }
+        if (parameters.get("filter~systemId~=") != null) {
+            String value = parameters.get("filter~systemId~=").toString();
+            String[] value1 = value.split("--");
+            String companySid = value1[0];
+            String operator = value1[1];
+            if (operator.equals("0") || operator.equals("=")) {
+                sql.append(" AND cm.COMPANY_MASTER_SID ='").append(companySid).append("' ");
+            }
+        }
+        if (parameters.get("filter~systemId~<<") != null || parameters.get("filter~systemId~>>") != null) {
+            String lesser = parameters.get("filter~systemId~<<").toString();
+            String greater = parameters.get("filter~systemId~>>").toString();
+            String[] lesser1 = lesser.split("--");
+            String[] greater1 = greater.split("--");
+            String companySidLesser = lesser1[0];
+            String companySidGreater = greater1[0];
+            sql.append(" AND CM.COMPANY_MASTER_SID > '");
+            sql.append(companySidGreater).append("'");
+            sql.append(" AND CM.COMPANY_MASTER_SID < '");
+            sql.append(companySidLesser).append("'");
+        }
+
+        if (!isCount) {
+
+            if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
+                sql.append(" ORDER BY COMPANY_MASTER_SID").append((!sortOrder) ? " ASC " : " DESC ");
+            } else {
+                sql.append("ORDER BY ").append(orderByColumn).append((!sortOrder) ? " ASC " : " DESC ");
+            }
+
+            sql.append(" " + "OFFSET ");
+            sql.append(index);
+            sql.append(" ROWS FETCH NEXT ");
+            sql.append((Integer) next - (Integer) index);
+            sql.append(" ROWS ONLY;");
+        }
+
+        return sql.toString();
     }
-    
+
+    public void insertToCPDetails(int systemId) {
+        String query = CustomSQLUtil.get("company-CP").replace("?SID", String.valueOf(systemId));
+        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+    }
+
     public boolean checkDifferentQualifier(int companyIdentifierId, String companyIdentifier) {
         String query = "SELECT COMPANY_QUALIFIER_VALUE FROM DBO.COMPANY_QUALIFIER WHERE COMPANY_QUALIFIER_SID =" + companyIdentifierId;
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         String val = list == null || list.isEmpty() ? StringUtils.EMPTY : list.get(0).toString().trim();
-        return val.isEmpty() ? false : !val.equals(companyIdentifier);        
+        return val.isEmpty() ? false : !val.equals(companyIdentifier);
     }
-     
-     
+
+    public User createdUser(String userValue, CompanyParentDetails parentInfo) {
+        try {
+            if (userValue.equalsIgnoreCase("createdUser")) {
+                return (parentInfo.getCreatedBy() == 0) ? null : ((User) securityDto.getUserByUserId(parentInfo.getCreatedBy()));
+
+            }
+            return (parentInfo.getModifiedBy() == 0) ? null : ((User) securityDto.getUserByUserId(parentInfo.getModifiedBy()));
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
+
+    public void createdAndModifiedUser(CompanyMasterDTO dto, String Value,final Object[] obj ) {
+        if (Value.equalsIgnoreCase("Modified")) {
+            try {
+                if (Integer.parseInt(dto.getModifiedBy()) != 0) {
+                    User ModifiedUser = (Integer.parseInt(dto.getModifiedBy()) == 0) ? null : ((User) securityDto.getUserByUserId(Integer.parseInt(dto.getModifiedBy())));
+                    dto.setModifiedBy(ModifiedUser == null ? StringUtils.EMPTY : ModifiedUser.getFullName());
+                } else {
+                    dto.setModifiedBy(StringUtils.EMPTY);
+                }
+            } catch (Exception e) {
+                LOGGER.error(e);
+            }
+        }
+        else{
+        try {
+            User createdUser = (dto.getCreatedBy() == "0") ? null : ((User) securityDto.getUserByUserId(Integer.parseInt(dto.getCreatedBy())));
+            dto.setCreatedBy(createdUser == null ? StringUtils.EMPTY : createdUser.getFullName());
+            dto.setCreatedUserId(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+        }
+
+    }
 }

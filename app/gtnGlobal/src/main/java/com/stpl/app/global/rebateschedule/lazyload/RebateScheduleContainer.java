@@ -53,46 +53,20 @@ public class RebateScheduleContainer implements BeanDAO<IFPDetailsDTO> {
     }
 
     public int count(BeanSearchCriteria sc) {
-        try {            
-            return rebateScheduleLogic.getIfpMastersCount(0,0,ifpNumber, ifpName, ifpType, startDate, endDate, itemName, itemNo,null,sc,ConstantsUtils.COUNT,String.valueOf(ifpCategory),String.valueOf(ifpStatus));                         
-        } catch (SystemException ex) {
-            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {  
-                /**            
-                 * The method is triggered when a button of the message box is 
-                 * pressed .          
-                 *               
-                 * @param buttonId The buttonId of the pressed button.     
-                 */             
-                @SuppressWarnings("PMD")          
-                public void buttonClicked(final ButtonId buttonId) {      
-                    // Do Nothing              
-                }         
-            }, ButtonId.OK);      
-            msg.getButton(ButtonId.OK).focus();
-        } 
-        return 0;
+        return rebateScheduleLogic.getIfpMastersCount(0,0,ifpNumber, ifpName, ifpType, startDate, endDate, itemName, itemNo,null,sc,ConstantsUtils.COUNT,String.valueOf(ifpCategory),String.valueOf(ifpStatus)); /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */ // Do Nothing
     }
 
     public List<IFPDetailsDTO> find(BeanSearchCriteria sc, int i, int i1, List<OrderByColumn> list) {
-        try {             
-            return rebateScheduleLogic.getIfpMastersResult(i, i1, ifpNumber, ifpName, ifpType, startDate, endDate, itemName, itemNo,list,sc,"list",String.valueOf(ifpCategory),String.valueOf(ifpStatus));
-        }catch (SystemException ex) {
-            final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {  
-                /**            
-                 * The method is triggered when a button of the message box is 
-                 * pressed .          
-                 *               
-                 * @param buttonId The buttonId of the pressed button.     
-                 */             
-                @SuppressWarnings("PMD")          
-                public void buttonClicked(final ButtonId buttonId) {      
-                    // Do Nothing              
-                }         
-            }, ButtonId.OK);      
-            msg.getButton(ButtonId.OK).focus();
-        } 
-        return new ArrayList<IFPDetailsDTO>();
+        return rebateScheduleLogic.getIfpMastersResult(i, i1, ifpNumber, ifpName, ifpType, startDate, endDate, itemName, itemNo,list,sc,"list",String.valueOf(ifpCategory),String.valueOf(ifpStatus)); /**
+         * The method is triggered when a button of the message box is
+         * pressed .
+         *
+         * @param buttonId The buttonId of the pressed button.
+         */ // Do Nothing
     }
 }

@@ -36,17 +36,17 @@ public class PhsWorksheetTableLogic extends PageTreeTableLogic {
         int count = 0;
 
         if (firstGenerated) {
-            count = phsResLogic.getConfiguredPhsWorkSheetCount(getLastParent(), projSelDTO, levelNo, hierarchyNo, true);
+            count = phsResLogic.getConfiguredPhsWorkSheetCount(getLastParent(), projSelDTO);
         }
         return count;
     }
 
      @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
-        List<TableDTO> list = new ArrayList<TableDTO>();
+        Map<Integer, Object> map = new HashMap<>();
+        List<TableDTO> list = new ArrayList<>();
         if (firstGenerated) {
-            list = (List<TableDTO>) phsResLogic.getConfiguredPhsWorkSheetResults(lastParent, start, offset, projSelDTO, levelNo, hierarchyNo,sessionDTO);
+            list = (List<TableDTO>) phsResLogic.getConfiguredPhsWorkSheetResults(lastParent, start, offset, projSelDTO, levelNo, sessionDTO);
         }
         levelNo = 0;
 
@@ -80,7 +80,7 @@ public class PhsWorksheetTableLogic extends PageTreeTableLogic {
         return levelMap;
     }
     
-   public void setProjectionResultsData(ProjectionSelectionDTO selection, boolean isTotal,SessionDTO sessionDTO) {
+   public void setProjectionResultsData(ProjectionSelectionDTO selection, SessionDTO sessionDTO) {
 
         firstGenerated = true;
         clearAll();

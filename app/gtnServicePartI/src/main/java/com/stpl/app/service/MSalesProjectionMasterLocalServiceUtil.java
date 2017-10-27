@@ -3,6 +3,7 @@ package com.stpl.app.service;
 import com.stpl.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.stpl.portal.kernel.util.ReferenceRegistry;
 import com.stpl.portal.service.InvokableLocalService;
+import org.jboss.logging.Logger;
 
 /**
  * Provides the local service utility for MSalesProjectionMaster. This utility wraps
@@ -20,6 +21,7 @@ import com.stpl.portal.service.InvokableLocalService;
  */
 public class MSalesProjectionMasterLocalServiceUtil {
     private static MSalesProjectionMasterLocalService _service;
+    private static final Logger LOGGER = Logger.getLogger(MSalesProjectionMasterLocalServiceUtil.class);
 
     /*
      * NOTE FOR DEVELOPERS:
@@ -264,17 +266,20 @@ public class MSalesProjectionMasterLocalServiceUtil {
 
     public static java.lang.Object executeSelectQuery(java.lang.String string,
         java.lang.Object o, java.lang.Object o1) {
+        LOGGER.debug(string);
         return getService().executeSelectQuery(string, o, o1);
     }
 
     public static java.util.List executeUpdateQuery(java.lang.String query,
         java.lang.Object obj1, java.lang.Object obj2) {
+        LOGGER.debug(query);
         return getService().executeUpdateQuery(query, obj1, obj2);
     }
 
     public static java.lang.Object executeUpdateQuery(
         java.util.List<java.lang.StringBuilder> queryList,
         java.lang.Object obj1, java.lang.Object obj2) {
+        LOGGER.debug(queryList.toString());
         return getService().executeUpdateQuery(queryList, obj1, obj2);
     }
 
@@ -291,6 +296,7 @@ public class MSalesProjectionMasterLocalServiceUtil {
     public static java.lang.Object executeUpdateQuery(
         java.util.List<?> nmSalesList, java.lang.Object udc1,
         java.lang.Object udc2, java.lang.Object udc3) {
+        LOGGER.debug(nmSalesList.toString());
         return getService().executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
     }
 

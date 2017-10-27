@@ -107,7 +107,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
     ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
 
-    List<List<String>> discountlist = new ArrayList<List<String>>();
+    List<List<String>> discountlist = new ArrayList<>();
     List checkedValues = new ArrayList<>();
     boolean generated = false;
     boolean firstGenerated = false;
@@ -115,6 +115,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     int tradingPartnerNo = 0;
     ForecastForm form;
     public HorizontalLayout controlLayout;
+    boolean isTabVisible = true;
     Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
         public void valueChange(Property.ValueChangeEvent event) {            
@@ -127,7 +128,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         super(screenName, session);
         this.session = session;
         this.screenName = screenName;
-        this.projectionDTO.setTabName("Discount Projection Results");
+        this.projectionDTO.setTabName(Constant.DISCOUNT_PROJECTION_RESULTS);
         this.projectionDTO.setScreenName(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED);
         this.form = form;
         if (flag) {
@@ -179,7 +180,6 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             firstGenerated = true;
             if (loadProjectionSelection()) {
                 if (discountlist != null && discountlist.size() > 1 && discountlist.get(1).size() > 0) {
-                    try {
                         projectionDTO.setIsGenerate(true);
                         tableVerticalLayout.removeAllComponents();
                         tableLogic = new DPRTableLogic();
@@ -192,18 +192,13 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                         addResultTable();
                         String groupFilter = String.valueOf(groupDdlb.getValue());
                         if (groupFilter.equals(Constant.NULL)) {
-                            groupFilter = "All Discount Groups";
+                            groupFilter = Constant.ALL_DISCOUNT_GROUP;
                         } 
                         projectionDTO.setGroupFilter(groupFilter);
                         loadTradingPartner();
                         generateLogic();
                         tableLogic.setItemsPerPage(NumericConstants.TWENTY);
                         projectionDTO.setIsGenerate(false);
-                    } catch (SystemException ex) {
-                        java.util.logging.Logger.getLogger(NMDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (PortalException ex) {
-                        java.util.logging.Logger.getLogger(NMDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                 }
             } else {
                 MessageBox.showPlain(Icon.INFO, "Error", "Please select a frequency and/or history and try again.", ButtonId.OK);
@@ -236,7 +231,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                 ForecastUI.EXCEL_CLOSE = true;
                 if (i == 0) {
-                    exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, "Discount Projection Results", "Discount_Projection_Results.xls", false);
+                    exp = new ExcelExport(new ExtCustomTableHolder(exceltable), sheetName, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
                 } else {
                     exp.setNextTableHolder(new ExtCustomTableHolder(exceltable), sheetName);
                 }
@@ -247,7 +242,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 }
             }
         } else {
-             exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Discount Projection Results", "Discount Projection Results", "Discount_Projection_Results.xls", false);
+             exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.DISCOUNT_PROJECTION_RESULTS, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
             exp.export();
         }
     }
@@ -265,7 +260,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         }
         projectionDTO.setTpLevel(tpNo);
         projectionDTO.setCustomId(customId);
-        projectionDTO.setView(Constant.CUSTOM);
+        projectionDTO.setView(Constant.CUSTOM_LABEL);
         if (!generated && firstGenerated) {
             generateLogic();
         }
@@ -276,7 +271,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     @Override
     protected void graphExportLogics() {
         LOGGER.debug("graphExportLogic method starts");
-        List<DiscountProjectionResultsDTO> chartList = new ArrayList<DiscountProjectionResultsDTO>();
+        List<DiscountProjectionResultsDTO> chartList = new ArrayList<>();
         for (DiscountProjectionResultsDTO dto : resultBeanContainer.getBeans()) {
             chartList.add(dto);
         }
@@ -284,7 +279,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             projectionDTO.setActualsOrProjections("Actuals and Projections");
         }
         final DPRChart chart = new DPRChart(chartList, projectionDTO, fullHeader);
-        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), "Discount Projection Results");
+        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), Constant.DISCOUNT_PROJECTION_RESULTS);
         UI.getCurrent().addWindow(prGraphWindow);
         prGraphWindow.focus();
         LOGGER.debug("graphExportLogic method ends");
@@ -325,7 +320,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             }
 
         frequencyDdlb.setValue(QUARTERLY);
-        historyDdlb.setValue("4 Quarters");
+        frequencyDdlb.focus();
+        historyDdlb.setValue(Constant.FOUR_QUARTERS);
         discountOpg.setImmediate(true);
         discountOpg.addStyleName(Constant.HORIZONTAL);
         discountOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
@@ -354,8 +350,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         pivotViewOpg.setValue(Constant.PERIOD);
         viewOpg.addStyleName("forecast-tab");
         viewOpg.addItem(Constant.CUSTOMER_SMALL);
-        viewOpg.addItem(Constant.PRODUCT);
-        viewOpg.addItem(Constant.CUSTOM);
+        viewOpg.addItem(Constant.PRODUCT_LABEL);
+        viewOpg.addItem(Constant.CUSTOM_LABEL);
         viewOpg.setValue(Constant.CUSTOMER_SMALL);
             makeCheckedVariableMenuItem();
             getCheckedValues();
@@ -389,7 +385,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     }
 
     public void loadGroupFilter() throws SystemException, PortalException {
-
+        return;
     }
 
     /**
@@ -437,7 +433,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 if (freq.equals(QUARTERLY)) {
                     historyNum = Integer.valueOf(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Semi-Annual", StringUtils.EMPTY).trim());
+                    historyNum = Integer.valueOf(String.valueOf(hist).replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(MONTHLY)) {
                     historyNum = Integer.valueOf(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
@@ -475,7 +471,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             projectionDTO.setForecastConfigPeriods(CommonUtils.prepareProjectionPeriodList(projectionDTO));
             projectionDTO.setCustomId(customId);
             projectionDTO.setView(String.valueOf(viewOpg.getValue()));
-            projectionDTO.setDiscountList(new ArrayList<List<String>>(discountlist));
+            projectionDTO.setDiscountList(new ArrayList<>(discountlist));
             projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
             projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
             List asd = getCheckedValues();
@@ -493,7 +489,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
             tableLogic.sinkItemPerPageWithPageLength(false);
             fullHeader = new CustomTableHeaderDTO();
-            leftHeader = HeaderUtils.getNMDiscountProjectionResultsLeftTableColumns(projectionDTO, fullHeader);
+            leftHeader = HeaderUtils.getNMDiscountProjectionResultsLeftTableColumns(fullHeader);
             rightHeader = HeaderUtils.getNMDiscountProjectionResultsRightTableColumns(projectionDTO, fullHeader);
 
             resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
@@ -509,9 +505,9 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
             rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
             rightTable.setColumnHeaders(rightHeader.getSingleHeaders().toArray(new String[rightHeader.getSingleHeaders().size()]));
-            resultsTable.setHeight("650px");
-            leftTable.setHeight("650px");
-            rightTable.setHeight("650px");
+            resultsTable.setHeight(Constant.SIX_FIFTY_PX);
+            leftTable.setHeight(Constant.SIX_FIFTY_PX);
+            rightTable.setHeight(Constant.SIX_FIFTY_PX);
             for (Object propertyId : rightTable.getVisibleColumns()) {
                 rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
             }
@@ -540,7 +536,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 projectionDTO.setHierarchyIndicator(StringUtils.EMPTY);
                 projectionDTO.setIsCustomHierarchy(true);
                 groupDdlb.setValue(null);
-                projectionDTO.setGroupFilter("All Discount Groups");
+                projectionDTO.setGroupFilter(Constant.ALL_DISCOUNT_GROUP);
 
                 if (firstGenerated && !generated) {
                     tableLogic.clearAll();
@@ -597,7 +593,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         levelFilterDdlb.setValue(SELECT_ONE);
         if (projectionDTO.isIsCustomHierarchy()) {
             if (!session.getCustomHierarchyMap().isEmpty() && customId != 0) {
-                Utility.loadLevelValueForResult(levelDdlb, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM);
+                Utility.loadLevelValueForResult(levelDdlb, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
             }
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
             Utility.loadLevelValueForResult(levelDdlb, levelFilterDdlb, null, session.getCustomerHierarchyList(), viewOpg.getValue().toString());
@@ -631,7 +627,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             projectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
             projectionDTO.setView(String.valueOf(viewOpg.getValue()));
             projectionDTO.setProjectionOrder(String.valueOf(periodOrderOpg.getValue()));
-            tableLogic.setProjectionResultsData(projectionDTO, false, screenName);
+            tableLogic.setProjectionResultsData(projectionDTO, screenName);
             resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
             resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
             projectionDTO.setProjectionId(projectionId);
@@ -675,14 +671,13 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     }
     
  public void loadDataToContainer(String hierarchyNo,boolean isPeriodView) {
-     try{
          CommonLogic commonLogic = new CommonLogic();
          CommercialDPRLogic commercialDPRLogic = new CommercialDPRLogic();
             ExcelUtils excelUtils = new ExcelUtils();
             String levelNo = commonLogic.getFirstLevelNo(projectionDTO.getProjectionId(), projectionDTO.getHierarchyIndicator());
             List<String> hierarchy = commonLogic.getSelectedHierarchyForExcel(session, hierarchyNo.equals("0") ? "" : hierarchyNo, projectionDTO.getHierarchyIndicator(), Integer.valueOf(levelNo));
             List<DiscountProjectionResultsDTO> resultList = commercialDPRLogic.getProjectionTotal(projectionDTO, isPeriodView);
-            List<DiscountProjectionResultsDTO> discountList = commercialDPRLogic.getAllRSDiscount(0, 0, projectionDTO, isPeriodView);
+            List<DiscountProjectionResultsDTO> discountList = commercialDPRLogic.getAllRSDiscount(projectionDTO, isPeriodView);
             List mainList = commercialDPRLogic.configureLevelsForExcel(0, Integer.valueOf(hierarchy.get(0)), projectionDTO, isPeriodView, hierarchy.get(1));
             List discountListForContract = commercialDPRLogic.getDiscountForAllContractExcel(projectionDTO, isPeriodView, hierarchy.get(1));
          ExcelUtils.setStaticRowToExcelContainer(excelResultBeanContainer, resultList);
@@ -696,9 +691,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
          } else {
                 excelUtils.setDataToExcelContainerForDPRCustom(mainList, discountListForContract, projectionDTO, excelResultBeanContainer, isPeriodView);
          }
-        } catch (NumberFormatException | SystemException | PortalException | IllegalAccessException | InvocationTargetException e) {
-        LOGGER.error(e);
-     }
+       
  }
  
 
@@ -734,7 +727,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             if (customIdToSelect == 0) {
                 levelDdlb.setEnabled(false);
                 customDdlb.setValue(SELECT_ONE);
-                if (firstGenerated && !generated) {
+                if (firstGenerated) {
                     generateLogic();
                 }
             } else {
@@ -767,8 +760,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         }
     }
 
-    private void loadTradingPartner() throws SystemException, PortalException {
-        if (String.valueOf(viewOpg.getValue()).equals(Constant.PRODUCT)) {
+    private void loadTradingPartner()  {
+        if (String.valueOf(viewOpg.getValue()).equals(Constant.PRODUCT_LABEL)) {
             projectionDTO.setTpLevel(0);
         } else if (session.getTradingPartner() == 0) {
             DiscountProjectionResultsLogic logic = new DiscountProjectionResultsLogic();
@@ -788,7 +781,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     @SuppressWarnings("serial")
     private void configureExcelResultTable() {
 
-        excelResultBeanContainer = new ExtTreeContainer<DiscountProjectionResultsDTO>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
+        excelResultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
         exceltable.setRefresh(Boolean.FALSE);
         exceltable.setContainerDataSource(excelResultBeanContainer);
@@ -823,7 +816,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     }
 
     public void setProjectionSelection() {
-        Map<Object, Object> map = CommonLogic.getNMProjectionSelection(projectionId, "Discount Projection Results");
+        Map<Object, Object> map = CommonLogic.getNMProjectionSelection(projectionId, Constant.DISCOUNT_PROJECTION_RESULTS);
         if (map != null && !map.isEmpty()) {
             Object value = map.get(Constant.FREQUENCY_SMALL);
             if (value != null) {
@@ -890,25 +883,26 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
     public void saveButtonLogic() {
         try {
-            Map map = new HashMap();
-            map.put(Constant.FREQUENCY_SMALL, String.valueOf(frequencyDdlb.getValue()));
-            map.put(Constant.PERIOD_ORDER, String.valueOf(periodOrderOpg.getValue()));
-            map.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
-            map.put("Actuals/Projections", String.valueOf(actualOrProjectionsOpg.getValue()));
-            map.put("Pivot", String.valueOf(pivotViewOpg.getValue()));
-            map.put("View", String.valueOf(viewOpg.getValue()));
-            CommonLogic.saveProjectionSelection(map, session.getProjectionId(), "Discount Projection Results");
+            if (isIsTabVisible()) {
+                Map map = new HashMap();
+                map.put(Constant.FREQUENCY_SMALL, String.valueOf(frequencyDdlb.getValue()));
+                map.put(Constant.PERIOD_ORDER, String.valueOf(periodOrderOpg.getValue()));
+                map.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
+                map.put("Actuals/Projections", String.valueOf(actualOrProjectionsOpg.getValue()));
+                map.put("Pivot", String.valueOf(pivotViewOpg.getValue()));
+                map.put("View", String.valueOf(viewOpg.getValue()));
+                CommonLogic.saveProjectionSelection(map, session.getProjectionId(), Constant.DISCOUNT_PROJECTION_RESULTS);
+            }
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-
     }
 
     public void securityForButton() {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.DISCOUNT_PROJECTION_RESULTS);
-            if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON_SALES) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON_SALES)).isFunctionFlag())) {
+            if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
                 generateBtn.setVisible(Boolean.FALSE);
                 expandBtn.setVisible(Boolean.FALSE);
                 collapseBtn.setVisible(Boolean.FALSE);
@@ -937,6 +931,18 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 string.setChecked(true);
             }
         }
+    }
+
+    public void defaultFocus() {
+        frequencyDdlb.focus();
+}
+
+    public boolean isIsTabVisible() {
+        return isTabVisible;
+    }
+
+    public void setIsTabVisible(boolean isTabVisible) {
+        this.isTabVisible = isTabVisible;
     }
 
 }

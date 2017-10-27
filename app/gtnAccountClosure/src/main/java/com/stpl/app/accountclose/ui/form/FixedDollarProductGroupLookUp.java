@@ -134,15 +134,7 @@ public class FixedDollarProductGroupLookUp extends Window {
         configureFields();
     }
 
-    private ExtFilterTable addCustomerTable() {
-        resultTable.setContainerDataSource(resultContainer);
-        resultTable.setVisibleColumns(HeaderUtils.PROD_VISIBLE_COLUMN);
-        resultTable.setColumnHeaders(HeaderUtils.PROD_COLUMN_HEADER);
-        resultTable.setSelectable(true);
-        resultTable.setImmediate(true);
-
-        return resultTable;
-    }
+    
 
     /**
      * Configure fields.

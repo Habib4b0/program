@@ -50,7 +50,7 @@ public class HierarchyBuilderView extends VerticalLayout implements View {
     /**
      * The hierarchy builder level dto bean.
      */
-    private final BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<HierarchyBuilderLevelDTO>(HierarchyBuilderLevelDTO.class);
+    private final BeanItemContainer<HierarchyBuilderLevelDTO> hierarchyBuilderLevelDTOBean = new BeanItemContainer<>(HierarchyBuilderLevelDTO.class);
 
     /**
      * Gets the hierarchy builder dto.
@@ -101,7 +101,7 @@ public class HierarchyBuilderView extends VerticalLayout implements View {
         try {
             markAsDirty();
             this.removeAllComponents();
-            final CustomFieldGroup hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+            final CustomFieldGroup hierarchyBuilderBinder = new CustomFieldGroup(new BeanItem<>(hierarchyBuilderDTO));
             final int systemId = Integer.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.SYS_ID).toString());
             final HierarchyBuilderLogic hierarchyLogic = new HierarchyBuilderLogic();
             hierarchyLogic.deleteTempLevelValues();
@@ -109,12 +109,12 @@ public class HierarchyBuilderView extends VerticalLayout implements View {
             if (view.equalsIgnoreCase(ConstantsUtils.YES)) {
                 final int version = (Integer) VaadinSession.getCurrent().getAttribute(ConstantsUtils.VERSION_NO);
                 hierarchyBuilderDTO = hierarchyLogic.getHistHierarchyBuilderDTO(Integer.valueOf(systemId), version);
-                hierarchyBuilderBinder.setItemDataSource(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+                hierarchyBuilderBinder.setItemDataSource(new BeanItem<>(hierarchyBuilderDTO));
                 hierarchyBuilderLevelDTOBean.removeAllItems();
                 hierarchyBuilderLevelDTOBean.addAll(hierarchyLogic.getHistHierarchyLevelDTO(hierarchyBuilderDTO.getHierarchyDefinitionSystemId(), version));
             } else {
                 hierarchyBuilderDTO = hierarchyLogic.gethierarchyBuilderDTO(Integer.valueOf(systemId));
-                hierarchyBuilderBinder.setItemDataSource(new BeanItem<HierarchyBuilderDTO>(hierarchyBuilderDTO));
+                hierarchyBuilderBinder.setItemDataSource(new BeanItem<>(hierarchyBuilderDTO));
                 hierarchyBuilderLevelDTOBean.removeAllItems();
                 hierarchyBuilderLevelDTOBean.addAll(hierarchyLogic.getHierarchyLevelDTOByDefinitionSystemId(hierarchyBuilderDTO.getHierarchyDefinitionSystemId()));
             }

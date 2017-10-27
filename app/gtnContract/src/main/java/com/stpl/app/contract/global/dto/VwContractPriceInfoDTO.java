@@ -152,11 +152,11 @@ public class VwContractPriceInfoDTO implements Serializable {
     /**
      * The contract price info dto.
      */
-    private List<VwContractPriceInfoDTO> contractPriceInfoDTO = new ArrayList<VwContractPriceInfoDTO>();
+    private List<VwContractPriceInfoDTO> contractPriceInfoDTO = new ArrayList<>();
     /**
      * The item list.
      */
-    private List<ItemMasterDTO> itemList = new ArrayList<ItemMasterDTO>();
+    private List<ItemMasterDTO> itemList = new ArrayList<>();
     
     private String tempItemPriceRebateSystemId;
     

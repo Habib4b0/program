@@ -113,21 +113,21 @@ public class ComplianceDeductionUI extends UI implements VaadinPortletSession.Po
 
     @Override
     public void handleRenderRequest(RenderRequest request, RenderResponse response, UI uI) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException(ConstantUtil.NOT_SUPPORTED_YET); 
     }
 
     @Override
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException(ConstantUtil.NOT_SUPPORTED_YET); 
     }
 
     @Override
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(ConstantUtil.NOT_SUPPORTED_YET);
     }
 
     @Override
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException(ConstantUtil.NOT_SUPPORTED_YET); 
     }
 }

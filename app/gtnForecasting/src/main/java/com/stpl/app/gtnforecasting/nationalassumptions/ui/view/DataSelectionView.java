@@ -38,13 +38,13 @@ public class DataSelectionView extends VerticalLayout implements View {
         super();
         setSpacing(true);
         this.session=session;
-        addComponent(new DataSelectionIndex(dtoValue, dataSelectionBinder, mode,session));
+        addComponent(new DataSelectionIndex(dtoValue, dataSelectionBinder, session));
     }
 
     @Override
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        addComponent(new DataSelectionIndex(dtoValue, dataSelectionBinder,mode,session));
+        addComponent(new DataSelectionIndex(dtoValue, dataSelectionBinder,session));
        
 
        

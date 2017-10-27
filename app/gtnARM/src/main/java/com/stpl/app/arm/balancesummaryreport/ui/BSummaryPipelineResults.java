@@ -23,14 +23,13 @@ public class BSummaryPipelineResults extends AbstractBalanceSummaryResutls {
 
     public BSummaryPipelineResults(AbstractBSummaryLogic logic, SummarySelection selection) {
         super(logic, selection);
-        this.selection = selection;
     }
 
     @Override
     public void setExcelVisibleColumn() {
         try {
             Map properties = new HashMap();
-            List<Object> header = getLogic().getRightTableHeaders(selection);
+            List<Object> header = getSummaryLogic().getRightTableHeaders(getSummarySelection());
             List rightSingleVisibleColumn = (ArrayList) header.get(0);
             List rightSingleVisibleHeader = (ArrayList) header.get(1);
             List<String> rightDoubleVisibleColumn = (ArrayList) header.get(2);
@@ -40,12 +39,12 @@ public class BSummaryPipelineResults extends AbstractBalanceSummaryResutls {
             }
             getExcelContainer().setColumnProperties(properties);
             getExcelContainer().setRecordHeader(rightSingleVisibleColumn);
-            List right_singleVisibleColumn1 = new ArrayList(rightSingleVisibleColumn);
-            right_singleVisibleColumn1.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
+            List rightsingleVisibleColumn1 = new ArrayList(rightSingleVisibleColumn);
+            rightsingleVisibleColumn1.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
             rightSingleVisibleHeader.add(0, ARMUtils.CUSTOMERORPRODUCT);
             rightDoubleVisibleColumn.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
             rightDoubleVisibleHeader.add(0, "");
-            getExcelTable().setVisibleColumns(right_singleVisibleColumn1.toArray());
+            getExcelTable().setVisibleColumns(rightsingleVisibleColumn1.toArray());
             getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
             getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
             getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
@@ -53,30 +52,30 @@ public class BSummaryPipelineResults extends AbstractBalanceSummaryResutls {
             getExcelTable().setDoubleHeaderMap((Map) header.get(5));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in setExcelVisibleColumn :"+ex);
         }
     }
 
     @Override
-    public AbstractBSummaryLogic getLogic() {
-        return (AbstractBSummaryLogic) super.getLogic();
+    public AbstractBSummaryLogic getSummaryLogic() {
+        return  super.getSummaryLogic();
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return getLogic();
+        return getSummaryLogic();
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
-        return getSelection().getSummery_hierarchy();
+        return getSelection().getSummeryhierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        selection.setSummery_hierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        getSummarySelection().setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
     }
-    
+
     @Override
     public String getExcelFileName() {
         return "Balance Summary Report-Pipeline";

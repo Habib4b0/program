@@ -6,6 +6,7 @@
 package com.stpl.app.cff.ui.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFDTO;
 import com.stpl.app.cff.dto.CFFResultsDTO;
@@ -17,7 +18,6 @@ import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.table.CFFPagedFilterTable;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import static com.stpl.app.cff.ui.projectionresults.form.ProjectionResults.LOGGER;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
@@ -62,7 +62,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -80,6 +79,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author shrihariharan
  */
+
 public class ApprovalTab extends CustomComponent {
 
     String projectionIdHidden = "";
@@ -192,7 +192,7 @@ public class ApprovalTab extends CustomComponent {
     /**
      * Approval Table Container
      */
-    private BeanItemContainer<ApprovalDetailsDTO> approvalContainer = new BeanItemContainer<ApprovalDetailsDTO>(ApprovalDetailsDTO.class);
+    private BeanItemContainer<ApprovalDetailsDTO> approvalContainer = new BeanItemContainer<>(ApprovalDetailsDTO.class);
     /**
      * The cff binder.
      */
@@ -200,7 +200,7 @@ public class ApprovalTab extends CustomComponent {
     /**
      * The results bean.
      */
-    public BeanItemContainer<CFFResultsDTO> resultsBean = new BeanItemContainer<CFFResultsDTO>(
+    public BeanItemContainer<CFFResultsDTO> resultsBean = new BeanItemContainer<>(
             CFFResultsDTO.class);
     /**
      * The cff dto.
@@ -223,6 +223,7 @@ public class ApprovalTab extends CustomComponent {
      */
     private final CommonUtils commonUtils = new CommonUtils();
     CFFResultsDTO cffResultsDTO = new CFFResultsDTO();
+    public static final String ALERT = "Alert";
     CFFLogic cffLogic = new CFFLogic();
     private NotesTabForm notestab;
     @UiField("excelExport")
@@ -280,10 +281,10 @@ public class ApprovalTab extends CustomComponent {
             closeBtnLogic();
             excelTable = new ExtPagedFilterTable();
             excelTable.setContainerDataSource(resultsBean);
-            excelTable.setVisibleColumns(TableHeaderUtils.APPROVED_RESULT_TABLE_VISIBLE_COLUMN);
-            excelTable.setColumnHeaders(TableHeaderUtils.APPROVED_RESULT_TABLE_HEADER);
-            excelTable.setColumnAlignment(TableHeaderUtils.APPROVED_RESULT_TABLE_VISIBLE_COLUMN[NumericConstants.TWO], ExtCustomTable.Align.CENTER);
-            excelTable.setColumnAlignment(TableHeaderUtils.APPROVED_RESULT_TABLE_VISIBLE_COLUMN[NumericConstants.FOUR], ExtCustomTable.Align.CENTER);
+            excelTable.setVisibleColumns(TableHeaderUtils.getInstance().approvedResultTableVisibleColumn);
+            excelTable.setColumnHeaders(TableHeaderUtils.getInstance().approvedResultTableHeader);
+            excelTable.setColumnAlignment(TableHeaderUtils.getInstance().approvedResultTableVisibleColumn[NumericConstants.TWO], ExtCustomTable.Align.CENTER);
+            excelTable.setColumnAlignment(TableHeaderUtils.getInstance().approvedResultTableVisibleColumn[NumericConstants.FOUR], ExtCustomTable.Align.CENTER);
             excelTable.setFilterBarVisible(true);
             excelTable.setSizeFull();
             excelTable.setImmediate(true);
@@ -295,11 +296,11 @@ public class ApprovalTab extends CustomComponent {
 
             latestEstimateName.setImmediate(true);
             latestEstimateName.addValidator(new StringLengthValidator("Latest Estimate name should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
-            latestEstimateName.addValidator(new RegexpValidator(ConstantsUtil.alphaNumericChars, "Latest Estimate name should be alphanumeric"));
+            latestEstimateName.addValidator(new RegexpValidator(ConstantsUtil.ALPHA_NUM_CHARS, "Latest Estimate name should be alphanumeric"));
 
             updateCycleName.setImmediate(true);
             updateCycleName.addValidator(new StringLengthValidator("Update Cycle name should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
-            updateCycleName.addValidator(new RegexpValidator(ConstantsUtil.alphaNumericChars, "Update Cycle name should be alphanumeric"));
+            updateCycleName.addValidator(new RegexpValidator(ConstantsUtil.ALPHA_NUM_CHARS, "Update Cycle name should be alphanumeric"));
 
             latestEstimate.addItem(ConstantsUtil.SELECT_ONE);
             try {
@@ -443,20 +444,18 @@ public class ApprovalTab extends CustomComponent {
             status.setReadOnly(true);
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Consolidated Financial Forecast" + ConstantsUtils.COMMA + "Approval Details", false);
-            List<Object> resultList = getFieldsForSecurity("Consolidated Financial Forecast", "Approval Details");
-            Object[] obj = TableHeaderUtils.APPROVAL_TABLE_VISIBLE_COLUMN;
+            final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, StringConstantsUtil.CONSOLIDATED_FINANCIAL_FORECAST + ConstantsUtils.COMMA + EXCEL_HEADER, false);
+            List<Object> resultList = getFieldsForSecurity(StringConstantsUtil.CONSOLIDATED_FINANCIAL_FORECAST, EXCEL_HEADER);
+            Object[] obj = TableHeaderUtils.getInstance().approvalTableVisibleColumn;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, "Add");
             if (tableResultCustom.getObjResult().length == 0) {
                 approvalDetailsTable.setVisible(false);
             }
             approvalDetailsTable = new ExtPagedFilterTable();
             approvalDetailsTable.setContainerDataSource(approvalContainer);
-//            approvalDetailsTable.setVisibleColumns(TableHeaderUtils.APPROVAL_TABLE_VISIBLE_COLUMN);
-//            approvalDetailsTable.setColumnHeaders(TableHeaderUtils.APPROVAL_TABLE_HEADER);
             approvalDetailsTable.setVisibleColumns(tableResultCustom.getObjResult());
             approvalDetailsTable.setColumnHeaders(tableResultCustom.getObjResultHeader());
-            approvalDetailsTable.setColumnAlignment(TableHeaderUtils.APPROVAL_TABLE_VISIBLE_COLUMN[1], ExtCustomTable.Align.CENTER);
+            approvalDetailsTable.setColumnAlignment(TableHeaderUtils.getInstance().approvalTableVisibleColumn[1], ExtCustomTable.Align.CENTER);
             approvalDetailsTable.setFilterBarVisible(true);
             approvalDetailsTable.setSizeFull();
             approvalDetailsTable.setImmediate(true);
@@ -478,19 +477,17 @@ public class ApprovalTab extends CustomComponent {
             approvalLayout.addComponent(approvalDetailsTable);
             approvalLayout.addComponent(approvalPagination);
 
-            Object[] objects = TableHeaderUtils.APPROVED_RESULT_TABLE_VISIBLE_COLUMN;
+            Object[] objects = TableHeaderUtils.getInstance().approvedResultTableVisibleColumn;
             TableResultCustom tableResultCustoms = commonSecurityLogic.getTableColumnsPermission(resultList, objects, fieldIfpHM, "Add");
             if (tableResultCustoms.getObjResult().length == 0) {
                 resultTable.setVisible(false);
             }
             resultTable = new CFFPagedFilterTable();
             resultTable.setContainerDataSource(resultsBean);
-//            resultTable.setVisibleColumns(TableHeaderUtils.APPROVED_RESULT_TABLE_VISIBLE_COLUMN);
-//            resultTable.setColumnHeaders(TableHeaderUtils.APPROVED_RESULT_TABLE_HEADER);
             resultTable.setVisibleColumns(tableResultCustoms.getObjResult());
             resultTable.setColumnHeaders(tableResultCustoms.getObjResultHeader());
-            resultTable.setColumnAlignment(TableHeaderUtils.APPROVED_RESULT_TABLE_VISIBLE_COLUMN[NumericConstants.TWO], ExtCustomTable.Align.CENTER);
-            resultTable.setColumnAlignment(TableHeaderUtils.APPROVED_RESULT_TABLE_VISIBLE_COLUMN[NumericConstants.FOUR], ExtCustomTable.Align.CENTER);
+            resultTable.setColumnAlignment(TableHeaderUtils.getInstance().approvedResultTableVisibleColumn[NumericConstants.TWO], ExtCustomTable.Align.CENTER);
+            resultTable.setColumnAlignment(TableHeaderUtils.getInstance().approvedResultTableVisibleColumn[NumericConstants.FOUR], ExtCustomTable.Align.CENTER);
             resultTable.setFilterBarVisible(true);
             resultTable.setSizeFull();
             resultTable.setImmediate(true);
@@ -578,7 +575,7 @@ public class ApprovalTab extends CustomComponent {
         String workflowStatus = null;
         String canApprove = "yes";
         String workflowId = null;
-        List<Integer> list = Collections.EMPTY_LIST;
+        List<Integer> list;
         if (dto != null) {
 
             int projectionSysId = dto.getProjectionMasterSid();
@@ -614,7 +611,7 @@ public class ApprovalTab extends CustomComponent {
                 link.setDescription("Open Commercial Forecasting");
             }
             furl += parameter;
-            LOGGER.info("Redirecting to URL : " + furl);
+            LOGGER.debug("Redirecting to URL Ready : --------------" + furl);
             link.setResource(new ExternalResource(furl));
         } else {
             projectionIdHidden = null;
@@ -686,7 +683,7 @@ public class ApprovalTab extends CustomComponent {
                         final int cffMasterSystemId = dto.getCffMasterSid();
                         final String userId = sessionDTO.getUserId();
 
-                        result = cffLogic.approveCffInformation(cffMasterSystemId, userId);
+                        cffLogic.approveCffInformation(cffMasterSystemId, userId);
                         result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_APPROVED).get(0).toString();
 
                         if (!result.equals(CommonUtils.FAIL)) {
@@ -728,7 +725,7 @@ public class ApprovalTab extends CustomComponent {
                 final int cffMasterSystemId = dto.getCffMasterSid();
                 final String userId = sessionDTO.getUserId();
 
-                result = cffLogic.approveCffInformation(cffMasterSystemId, userId);
+                cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                 result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_REJECTED).get(0).toString();
 
@@ -768,7 +765,7 @@ public class ApprovalTab extends CustomComponent {
                 final int cffMasterSystemId = dto.getCffMasterSid();
                 final String userId = sessionDTO.getUserId();
 
-                result = cffLogic.approveCffInformation(cffMasterSystemId, userId);
+                cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                 result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_CANCELLED).get(0).toString();
 
@@ -799,7 +796,7 @@ public class ApprovalTab extends CustomComponent {
              * @param buttonId The buttonId of the pressed button.
              */
             public void yesMethod() {
-                String result = StringUtils.EMPTY;
+                String result;
                 final int cffMasterSystemId = sessionDTO.getProjectionId();
                 cffLogic.deleteCff(cffMasterSystemId, ConstantsUtil.CFF_MASTER);
                 cffLogic.deleteCff(cffMasterSystemId, ConstantsUtil.CFF_APPROVE_MASTER);
@@ -879,19 +876,19 @@ public class ApprovalTab extends CustomComponent {
     public Boolean submitLogic() {
         if (sessionDTO.getAction().equals("edit")) {
             cffLogic.getNoOfLevelFromJbpm(sessionDTO, String.valueOf(dto.getCffMasterSid()), sessionDTO.getUserId());
-            String noOfLevel = cffLogic.getNoOfLevelFromDB(sessionDTO, String.valueOf(dto.getCffMasterSid()), sessionDTO.getUserId());
-            cffLogic.submitCffPendingDetails(sessionDTO.getUserId(), dto.getCffMasterSid(), noOfLevel, Boolean.TRUE);
+            String noOfLevel = cffLogic.getNoOfLevelFromDB(String.valueOf(dto.getCffMasterSid()));
+            cffLogic.submitCffPendingDetails(sessionDTO.getUserId(), dto.getCffMasterSid(), noOfLevel);
             CommonUIUtils.getMessageNotification("CFF Re-Submitted Successfully");
             return Boolean.TRUE;
         } else {
             final int cffMasterSystemId = dto.getCffMasterSid();
             final String userId = sessionDTO.getUserId();
-            Map<String, Object> valueMap = new HashMap<String, Object>();
+            Map<String, Object> valueMap = new HashMap<>();
 
-            valueMap.put("latestEstimate", latestEstimate.getValue());
+            valueMap.put(StringConstantsUtil.LATEST_ESTIMATE, latestEstimate.getValue());
             valueMap.put("latestEstimateName", latestEstimateName.getValue());
-            valueMap.put("updateCycle", updateCycle.getValue());
-            valueMap.put("updateCycleName", updateCycleName.getValue());
+            valueMap.put(StringConstantsUtil.UPDATE_CYCLE, updateCycle.getValue());
+            valueMap.put(StringConstantsUtil.UPDATE_CYCLE_NAME, updateCycleName.getValue());
             try {
                 final String result = cffLogic.saveCffInformation(cffMasterSystemId, userId, valueMap, sessionDTO);
                 notestab.saveAdditionalInformation(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("projectionId"))), userId, sessionDTO);
@@ -922,10 +919,6 @@ public class ApprovalTab extends CustomComponent {
             LOGGER.debug("Entering Approval Details createWorkSheet");
             final long recordCount = resultsBean.size();
             ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, getUI(), EXCEL_HEADER);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
         } catch (NoSuchMethodException ex) {
             LOGGER.error(ex);
         } catch (IllegalAccessException ex) {
@@ -948,7 +941,7 @@ public class ApprovalTab extends CustomComponent {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
+    public void createWorkSheetContent(final PrintWriter printWriter) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ExcelExportUtil.DATE_FORMAT, Locale.getDefault());
         CFFResultsDTO cffResultsDTO;
         final List<CFFResultsDTO> reultList = cffLogic.loadLatestCCP(sessionDTO);
@@ -1001,33 +994,33 @@ public class ApprovalTab extends CustomComponent {
                 || ConstantsUtil.SELECT_ONE.equals(String.valueOf(latestEstimate.getValue())) || "NO".equals(String.valueOf(latestEstimate.getValue())))
                 && (StringUtils.isBlank(String.valueOf(updateCycle.getValue())) || "null".equals(String.valueOf(updateCycle.getValue()))
                 || ConstantsUtil.SELECT_ONE.equals(String.valueOf(updateCycle.getValue())) || "NO".equals(String.valueOf(updateCycle.getValue())))) {
-            AbstractNotificationUtils.getErrorNotification("Alert", "Latest Estimate or Update Cycle should be selected 'Yes'");
+            AbstractNotificationUtils.getErrorNotification(ALERT, "Latest Estimate or Update Cycle should be selected 'Yes'");
             return Boolean.FALSE;
         }
 
         if (ConstantsUtils.YES.equals(String.valueOf(latestEstimate.getValue())) && StringUtils.isBlank(String.valueOf(latestEstimateName.getValue()))) {
-            AbstractNotificationUtils.getErrorNotification("Alert", "Latest Estimate Name should be Entered");
+            AbstractNotificationUtils.getErrorNotification(ALERT, "Latest Estimate Name should be Entered");
             return Boolean.FALSE;
         }
 
         if (ConstantsUtils.YES.equals(String.valueOf(updateCycle.getValue()))
                 && StringUtils.isBlank(String.valueOf(updateCycleName.getValue()))) {
-            AbstractNotificationUtils.getErrorNotification("Alert", "Update Cycle Name should be Entered");
+            AbstractNotificationUtils.getErrorNotification(ALERT, "Update Cycle Name should be Entered");
             return Boolean.FALSE;
         }
-        if (!(String.valueOf(latestEstimateName.getValue()).matches(ConstantsUtil.alphaNumericChars))) {
+        if (!(String.valueOf(latestEstimateName.getValue()).matches(ConstantsUtil.ALPHA_NUM_CHARS))) {
             cffBinder.setErrorDisplay(errorLabel);
             cffBinder.getErrorDisplay().setError("Latest Estimate name should be alphanumeric");
             return Boolean.FALSE;
         }
-        if (!(String.valueOf(updateCycleName.getValue()).matches(ConstantsUtil.alphaNumericChars))) {
+        if (!(String.valueOf(updateCycleName.getValue()).matches(ConstantsUtil.ALPHA_NUM_CHARS))) {
             cffBinder.setErrorDisplay(errorLabel);
             cffBinder.getErrorDisplay().setError("Update Cycle name should be alphanumeric");
             return Boolean.FALSE;
         }
 
-        if (resultsBean == null || (resultsBean != null && resultsBean.size() == 0)) {
-            AbstractNotificationUtils.getErrorNotification("Alert", "Please populate the approval details before submitting the workflow for approval");
+        if ((resultsBean != null && resultsBean.size() == 0)) {
+            AbstractNotificationUtils.getErrorNotification(ALERT, "Please populate the approval details before submitting the workflow for approval");
             return false;
         }
         ErrorDisplay msg = cffBinder.getErrorDisplay();
@@ -1041,15 +1034,15 @@ public class ApprovalTab extends CustomComponent {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Consolidated Financial Forecast" + "," + "Approval Details");
-            if (functionHM.get("updateCycle") != null && !((AppPermission) functionHM.get("updateCycle")).isFunctionFlag()) {
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, StringConstantsUtil.CONSOLIDATED_FINANCIAL_FORECAST + "," + "Approval Details");
+            if (functionHM.get(StringConstantsUtil.UPDATE_CYCLE) != null && !((AppPermission) functionHM.get(StringConstantsUtil.UPDATE_CYCLE)).isFunctionFlag()) {
                 updateCycle.setVisible(false);
                 updateCycleLabel.setVisible(false);
             } else {
                 updateCycle.setVisible(true);
                 updateCycleLabel.setVisible(true);
             }
-            if (functionHM.get("latestEstimate") != null && !((AppPermission) functionHM.get("latestEstimate")).isFunctionFlag()) {
+            if (functionHM.get(StringConstantsUtil.LATEST_ESTIMATE) != null && !((AppPermission) functionHM.get(StringConstantsUtil.LATEST_ESTIMATE)).isFunctionFlag()) {
                 latestEstimate.setVisible(false);
                 latestEstimateLabel.setVisible(false);
             } else {
@@ -1063,7 +1056,7 @@ public class ApprovalTab extends CustomComponent {
                 latestEstimateName.setVisible(true);
                 latestEstimateNameLabel.setVisible(true);
             }
-            if (functionHM.get("updateCycleName") != null && !((AppPermission) functionHM.get("updateCycleName")).isFunctionFlag()) {
+            if (functionHM.get(StringConstantsUtil.UPDATE_CYCLE_NAME) != null && !((AppPermission) functionHM.get(StringConstantsUtil.UPDATE_CYCLE_NAME)).isFunctionFlag()) {
                 updateCycleName.setVisible(false);
                 updateCycleNameLabel.setVisible(false);
             } else {
@@ -1097,7 +1090,7 @@ public class ApprovalTab extends CustomComponent {
      * @return object of list or count
      */
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {

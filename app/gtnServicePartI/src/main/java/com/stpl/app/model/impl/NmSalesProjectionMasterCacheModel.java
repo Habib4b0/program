@@ -25,11 +25,10 @@ public class NmSalesProjectionMasterCacheModel implements CacheModel<NmSalesProj
     public String userGroup;
     public int projectionDetailsSid;
     public String methodology;
-    public String calculationBased;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(11);
 
         sb.append("{checkRecord=");
         sb.append(checkRecord);
@@ -41,8 +40,6 @@ public class NmSalesProjectionMasterCacheModel implements CacheModel<NmSalesProj
         sb.append(projectionDetailsSid);
         sb.append(", methodology=");
         sb.append(methodology);
-        sb.append(", calculationBased=");
-        sb.append(calculationBased);
         sb.append("}");
 
         return sb.toString();
@@ -74,12 +71,6 @@ public class NmSalesProjectionMasterCacheModel implements CacheModel<NmSalesProj
             nmSalesProjectionMasterImpl.setMethodology(methodology);
         }
 
-        if (calculationBased == null) {
-            nmSalesProjectionMasterImpl.setCalculationBased(StringPool.BLANK);
-        } else {
-            nmSalesProjectionMasterImpl.setCalculationBased(calculationBased);
-        }
-
         nmSalesProjectionMasterImpl.resetOriginalValues();
 
         return nmSalesProjectionMasterImpl;
@@ -92,7 +83,6 @@ public class NmSalesProjectionMasterCacheModel implements CacheModel<NmSalesProj
         userGroup = objectInput.readUTF();
         projectionDetailsSid = objectInput.readInt();
         methodology = objectInput.readUTF();
-        calculationBased = objectInput.readUTF();
     }
 
     @Override
@@ -118,12 +108,6 @@ public class NmSalesProjectionMasterCacheModel implements CacheModel<NmSalesProj
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
             objectOutput.writeUTF(methodology);
-        }
-
-        if (calculationBased == null) {
-            objectOutput.writeUTF(StringPool.BLANK);
-        } else {
-            objectOutput.writeUTF(calculationBased);
         }
     }
 }

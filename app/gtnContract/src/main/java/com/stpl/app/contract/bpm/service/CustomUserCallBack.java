@@ -1,5 +1,6 @@
 package com.stpl.app.contract.bpm.service;
 
+import com.stpl.app.serviceUtils.ConstantsUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +35,11 @@ public class CustomUserCallBack implements UserGroupCallback {
             for (Role role : groupList) {
                 roleMap.put(role.getName(), role);
             }
-            if (userMap.containsKey("Administrator")) {
-                userMap.remove("Administrator");
+            if (userMap.containsKey(ConstantsUtils.ADMINISTRATOR)) {
+                userMap.remove(ConstantsUtils.ADMINISTRATOR);
             }
-            if (roleMap.containsKey("Administrator")) {
-                roleMap.remove("Administrator");
+            if (roleMap.containsKey(ConstantsUtils.ADMINISTRATOR)) {
+                roleMap.remove(ConstantsUtils.ADMINISTRATOR);
             }
         } catch (SystemException e) {
             // TODO Auto-generated catch block
@@ -48,7 +49,7 @@ public class CustomUserCallBack implements UserGroupCallback {
 
     @Override
     public boolean existsUser(String userId) {
-        return userMap.containsKey(userId) || userId.equals("Administrator");
+        return userMap.containsKey(userId) || userId.equals(ConstantsUtils.ADMINISTRATOR);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class CustomUserCallBack implements UserGroupCallback {
                 LOGGER.error(e);
             }
             for (Role role : roles) {
-                if (!"Administrator".equals(role.getName())) {
+                if (!ConstantsUtils.ADMINISTRATOR.equals(role.getName())) {
                     userRoles.add(role.getName());
                 }
             }

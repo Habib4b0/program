@@ -102,7 +102,7 @@ public class CompanyDAO implements BeanDAO<CompanyResultsDTO> {
                 LOGGER.debug("End of find method ");
                 return salesList;
             } else {
-                salesList = new ArrayList<CompanyResultsDTO>();
+                salesList = new ArrayList<>();
             }
 
             LOGGER.debug("End of find method ");
@@ -112,7 +112,7 @@ public class CompanyDAO implements BeanDAO<CompanyResultsDTO> {
             LOGGER.error("Exception in count -" + errorMsg);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
         }
-        return new ArrayList<CompanyResultsDTO>();
+        return new ArrayList<>();
     }
 
     /**

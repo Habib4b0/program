@@ -28,8 +28,8 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
         List<String> reserveHeader = new ArrayList<>();
         List<String> reserveProperty = new ArrayList<>();
         List<List> finalList = new ArrayList<>();
-        String value = StringUtils.EMPTY;
-        String property = StringUtils.EMPTY;
+        StringBuilder value;
+        StringBuilder property;
         String isReserveValue = isReserve ? "0" : "1";
 
         if (selection.getSessionDTO().isWorkFlow()) {
@@ -38,14 +38,14 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
             replaceList.add(selection.getDataSelectionDTO().getProjectionId());
             replaceList.add(selection.getDataSelectionDTO().getProjectionId());
             replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-            replaceList.add(selection.getDataSelectionDTO().getBu_companyMasterSid());
+            replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
         } else {
             replaceList.add(isReserveValue);
             replaceList.add(selection.getDataSelectionDTO().getAdjustmentId());
             replaceList.add(selection.getDataSelectionDTO().getProjectionId());
             replaceList.add(selection.getDataSelectionDTO().getProjectionId());
             replaceList.add(selection.getDataSelectionDTO().getCompanyMasterSid());
-            replaceList.add(selection.getDataSelectionDTO().getBu_companyMasterSid());
+            replaceList.add(selection.getDataSelectionDTO().getBucompanyMasterSid());
         }
         StringBuilder query;
         if (selection.getSessionDTO().isWorkFlow()) {
@@ -63,22 +63,22 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
 
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                value = StringUtils.EMPTY;
-                property = StringUtils.EMPTY;
+                value = new StringBuilder(StringUtils.EMPTY);
+                property = new StringBuilder(StringUtils.EMPTY);
                 if (isValid(obj[0])) {
-                    value = helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0])));
-                    property = String.valueOf(obj[0]);
+                    value = new StringBuilder(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[0]))));
+                    property = new StringBuilder(String.valueOf(obj[0]));
                 }
                 if (isValid(obj[1])) {
-                    value += DASH + helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1])));
-                    property += DASH + String.valueOf(obj[1]);
+                    value.append(DASH).append(helperId.getDescriptionByID(Integer.valueOf(String.valueOf(obj[1]))));
+                    property.append(DASH).append(String.valueOf(obj[1]));
                 }
                 if (isValid(obj[NumericConstants.TWO])) {
-                    value += DASH + String.valueOf(obj[NumericConstants.TWO]);
-                    property += DASH + String.valueOf(obj[NumericConstants.TWO]);
+                    value.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
+                    property.append(DASH).append(String.valueOf(obj[NumericConstants.TWO]));
                 }
-                reserveHeader.add(value);
-                reserveProperty.add(property);
+                reserveHeader.add(value.toString());
+                reserveProperty.add(property.toString());
             }
             finalList.add(reserveHeader);
             finalList.add(reserveProperty);
@@ -94,7 +94,7 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     @Override
     protected String getTableNameForView() {
         return "ARM_DEMAND_ADJ_SUMMARY";
-}
+    }
 
     @Override
     protected String getTableNameForEdit() {
@@ -110,15 +110,15 @@ public class DADetailsLogic<T extends AdjustmentDTO> extends AbstractAdjustmentD
     protected String getAmountFilterCondition(List<String> condition, String tableAliasName) {
         String conditionStr = StringUtils.EMPTY;
         if (condition != null && !condition.isEmpty() && condition.size() < NumericConstants.THREE) {
-            String grlStr = StringUtils.EMPTY;
+            StringBuilder grlStr = new StringBuilder(StringUtils.EMPTY);
             for (int i = 0; i < condition.size(); i++) {
                 String str = condition.get(i);
-                grlStr += tableAliasName + "ACCRUAL_AMOUNT " + String.valueOf(str.charAt(0)) + " 0.00";
+                grlStr.append(tableAliasName + "ACCRUAL_AMOUNT ").append(String.valueOf(str.charAt(0))).append(" 0.00");
                 if (condition.size() > 1 && i != 1) {
-                    grlStr += " OR ";
+                    grlStr.append(" OR ");
                 }
             }
-            conditionStr = "(" + grlStr + " ) AND ";
+            conditionStr = "(" + grlStr.toString() + " ) AND ";
         }
         return conditionStr;
     }

@@ -75,9 +75,9 @@ public class SummaryLogic {
      * @return
      */
     public List<ContractDashboardDTO> configureDashBoardLevel(SelectionDTO projSelDTO, List input) {
-        List<ContractDashboardDTO> resultList = new ArrayList<ContractDashboardDTO>();
+        List<ContractDashboardDTO> resultList = new ArrayList<>();
         List<Object[]> list = ItemQueries.getItemData(input, projSelDTO.getDataQueryName(), null);
-        Set<String> levelName = new HashSet<String>();
+        Set<String> levelName = new HashSet<>();
         ContractDashboardDTO dto = new ContractDashboardDTO();
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
@@ -168,7 +168,7 @@ public class SummaryLogic {
         input.add(start);
         input.add(offset);
         List<Object[]> list = ItemQueries.getItemData(input, "SU-Contracts", null);
-        List<SummaryDTO> finalResult = new ArrayList<SummaryDTO>();
+        List<SummaryDTO> finalResult = new ArrayList<>();
         for (Object[] str : list) {
             SummaryDTO dto = new SummaryDTO();
             dto.setContractHolder(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));

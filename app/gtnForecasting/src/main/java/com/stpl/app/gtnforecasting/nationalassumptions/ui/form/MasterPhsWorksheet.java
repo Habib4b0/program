@@ -41,7 +41,6 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.FieldEvents;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
@@ -181,21 +180,22 @@ public class MasterPhsWorksheet extends Window {
     CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    public static final String MASTER_PHS_WORKSHEET = "Master PHS Worksheet";
     ProjectionSelectionDTO projectionDTO;
     LazyContainer ndcContainer;
     LazyContainer brandContainer;
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
     ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     Property.ValueChangeListener valueChangeListener = null;
     Property.ValueChangeListener valueChangeListenerTA = null;
     private boolean valueChange = false;
     private boolean valueTAChange = false;
     String description = StringUtils.EMPTY;
-    Map<String, String> adjustedValues = new HashMap<String, String>();
-    Map<String, String> editedNotes = new HashMap<String, String>();
+    Map<String, String> adjustedValues = new HashMap<>();
+    Map<String, String> editedNotes = new HashMap<>();
     PhsQueryUtils queryUtil = new PhsQueryUtils();
     FcpQueryUtils fcpQueryUtil = new FcpQueryUtils();    
     boolean submitFlag = false;
@@ -210,7 +210,7 @@ public class MasterPhsWorksheet extends Window {
      * @param projSelection
      */
     public MasterPhsWorksheet(ProjectionSelectionDTO projSelection,SessionDTO sessionDTO) {
-        super("Master PHS Worksheet");
+        super(MASTER_PHS_WORKSHEET);
         LOGGER.debug("MasterPhsWorksheet Constructor initiated ");
         this.projectionDTO = projSelection;
         this.ndcResultdto = projSelection.getNdcWSdto();
@@ -359,21 +359,6 @@ public class MasterPhsWorksheet extends Window {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener
-     * .ViewChangeEvent)
-     */
-    /**
-     * Enter.
-     *
-     * @param event the event
-     */
-    public void enter(ViewChangeEvent event) {
-    }
-
     /**
      * Initialize Result Table.
      */
@@ -393,7 +378,7 @@ public class MasterPhsWorksheet extends Window {
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getPhsWorkSheetLeftTableColumns(fullHeader);
         rightHeader = CommonUiUtils.getPhsWorkSheetRightTableColumns(projectionDTO, fullHeader);
-        resultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
         tableLogic.setTreeNodeMultiClick(false);
@@ -412,9 +397,9 @@ public class MasterPhsWorksheet extends Window {
         }
 
         periodTableId.setDoubleHeaderVisible(true);
-        periodTableId.setHeight("353px");
-        leftTable.setHeight("353px");
-        rightTable.setHeight("353px");
+        periodTableId.setHeight(Constant.THREE_FIFTY_THREE_PX);
+        leftTable.setHeight(Constant.THREE_FIFTY_THREE_PX);
+        rightTable.setHeight(Constant.THREE_FIFTY_THREE_PX);
         leftTable
                 .setDoubleHeaderVisibleColumns(leftHeader.getDoubleColumns().toArray());
         leftTable
@@ -436,6 +421,7 @@ public class MasterPhsWorksheet extends Window {
             /**
              * To create editable fields inside table .
              */
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
@@ -610,7 +596,7 @@ public class MasterPhsWorksheet extends Window {
             tableLogic.clearAll();
             tableLogic.setRefresh(false);
             projectionDTO.clearNonFetchableIndex();
-            tableLogic.setProjectionResultsData(projectionDTO, true,sessionDTO);
+            tableLogic.setProjectionResultsData(projectionDTO, sessionDTO);
             tableLogic.setRefresh(true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -751,7 +737,7 @@ public class MasterPhsWorksheet extends Window {
         if (id instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) id;
         } else if (id instanceof TableDTO) {
-            targetItem = new BeanItem<TableDTO>(
+            targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
         return (TableDTO) targetItem.getBean();
@@ -781,14 +767,14 @@ public class MasterPhsWorksheet extends Window {
         LOGGER.debug("excelBtn click listener started");
         configureExcelResultTable();
         loadExcelResultTable();
-        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Master PHS Worksheet", "Master PHS Worksheet", "Master_PHS_Worksheet.xls", false);
+        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), MASTER_PHS_WORKSHEET, MASTER_PHS_WORKSHEET, "Master_PHS_Worksheet.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);
         LOGGER.debug("excelBtn click listener ends");
     }
 
     private void configureExcelResultTable() {
-        excelResultBeanContainer = new ExtTreeContainer<TableDTO>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
         exceltable = new ExtCustomTreeTable();
         tableVerticalLayout.addComponent(exceltable);
@@ -832,7 +818,7 @@ public class MasterPhsWorksheet extends Window {
 
     public void addLowerLevelsForExport(TableDTO id) {
         projectionDTO.setGroup(id.getGroup());
-        List<TableDTO> resultList = phsResLogic.getPhsWorksheetChild(projectionDTO, id.getItemMasterSid(),sessionDTO);
+        List<TableDTO> resultList = phsResLogic.getPhsWorksheetChild(projectionDTO,sessionDTO);
         loadDataToContainer(resultList, id);
     }
 
@@ -887,6 +873,7 @@ public class MasterPhsWorksheet extends Window {
         if (submitMsg) {
             new AbstractNotificationUtils() {
                 public void noMethod() {
+                    return;
                 }
 
                 @Override

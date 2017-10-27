@@ -25,6 +25,10 @@ public abstract class AbstractNotificationUtils {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = Logger.getLogger(AbstractNotificationUtils.class);
+    public static final String REDEMPTION_PERIOD = "redemptionPeriod";
+    public static final String PRIMARY_KEY = "primaryKey.";
+    public static final String CPI_INDEX_MASTER = "CpiIndexMaster";
+    public static final String INTF_INSERTED_DATE = "intfInsertedDate";
 
 	/**
 	 * Gets the confirmation message.
@@ -88,6 +92,7 @@ public abstract class AbstractNotificationUtils {
 				 */
 				@SuppressWarnings("PMD")
 				public void buttonClicked(final ButtonId buttonId) {
+                                    return;
 				}
 			}, ButtonId.OK);
 			msg.getButton(ButtonId.OK).focus();
@@ -124,6 +129,7 @@ public abstract class AbstractNotificationUtils {
 				 */
 				@SuppressWarnings("PMD")
 				public void buttonClicked(final ButtonId buttonId) {
+                                    return;
 				}
 			}, ButtonId.OK);
 			msg.getButton(ButtonId.OK).focus();
@@ -158,6 +164,7 @@ public abstract class AbstractNotificationUtils {
 				 */
 				@SuppressWarnings("PMD")
 				public void buttonClicked(final ButtonId buttonId) {
+                                    return;
 				}
 			}, ButtonId.OK);
 			msg.getButton(ButtonId.OK).focus();

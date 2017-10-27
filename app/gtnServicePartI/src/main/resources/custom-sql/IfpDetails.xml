@@ -251,7 +251,7 @@ com_ItemFamilyPlanDetails.AttachedDate
         
         <sql id="ifpViewTempTableCount">
             <![CDATA[   
-                 SELECT COUNT(ITEM_MASTER_SID) FROM IFP_DETAILS WHERE INBOUND_STATUS <> 'D' AND INBOUND_STATUS IS NOT NULL
+                 SELECT COUNT(A.ITEM_MASTER_SID) FROM IFP_DETAILS A JOIN ITEM_MASTER B ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID WHERE A.INBOUND_STATUS <> 'D' AND A.INBOUND_STATUS IS NOT NULL
 		]]>
         </sql>
         

@@ -35,8 +35,6 @@ import com.stpl.app.model.HistHierarchyLevelDefn;
 import com.stpl.app.model.HistHierarchyLevelValues;
 import com.stpl.app.model.HistRelationshipBuilder;
 import com.stpl.app.model.HistRelationshipLevelDefn;
-import com.stpl.app.model.ProjectionCustHierarchy;
-import com.stpl.app.model.ProjectionProdHierarchy;
 import com.stpl.app.model.RelationshipBuilder;
 import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.adminconsole.relationshipbuilder.dto.HierarchyLevelsDTO;
@@ -47,8 +45,6 @@ import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.ErrorCodeUtil;
 import com.stpl.app.adminconsole.util.ErrorCodes;
-import com.stpl.app.model.CcpMap;
-import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
@@ -72,10 +68,8 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
+import java.text.SimpleDateFormat;
 
-import de.steinwedel.messagebox.ButtonId;
-import de.steinwedel.messagebox.Icon;
-import de.steinwedel.messagebox.MessageBox;
 import java.util.Set;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
@@ -155,11 +149,12 @@ public class RelationBuilderLogic {
         List<HierarchyLevelDefinition> hierarchyLevelsList;
         final DynamicQuery itemgroupDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyLevelDefinition.class);
         itemgroupDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HIERARCHY_DEFINATION_SID, selectedHierarchyId));
-        itemgroupDynamicQuery.addOrder(OrderFactoryUtil.asc("levelNo"));
+        itemgroupDynamicQuery.addOrder(OrderFactoryUtil.asc(LEVEL_NO));
         hierarchyLevelsList = dao.getHierarchyLevelDefinitionList(itemgroupDynamicQuery);
         LOGGER.debug("getHierarchyLevels return List<HierarchyLevelDefinition> hierarchyLevelsList");
         return hierarchyLevelsList;
     }
+    public static final String LEVEL_NO = "levelNo";
 
     /**
      * Gets the hierarchy levels from hist.
@@ -176,9 +171,9 @@ public class RelationBuilderLogic {
         List<HistHierarchyLevelDefn> hierarchyLevelsList;
         final DynamicQuery itemgroupDynamicQuery = DynamicQueryFactoryUtil.forClass(HistHierarchyLevelDefn.class);
         itemgroupDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HIERARCHY_DEFINATION_SID, selectedHierarchyId));
-        itemgroupDynamicQuery.addOrder(OrderFactoryUtil.asc("levelNo"));
+        itemgroupDynamicQuery.addOrder(OrderFactoryUtil.asc(LEVEL_NO));
         itemgroupDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.PRIMARY_KEY + ConstantsUtils.VERSION_NO, versionNo));
-        itemgroupDynamicQuery.add(RestrictionsFactoryUtil.ne("primaryKey.actionFlag", "D"));
+        itemgroupDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.PRIMARY_KEY + ConstantsUtils.ACTION_FLAG, "D"));
         hierarchyLevelsList = dao.getHistHierarchyLevelDefinitionList(itemgroupDynamicQuery);
         LOGGER.debug("getHierarchyLevels return List<HierarchyLevelDefinition> hierarchyLevelsList");
         return hierarchyLevelsList;
@@ -195,7 +190,7 @@ public class RelationBuilderLogic {
     public List<SearchResultsDTO> getSearchResults(final ErrorfulFieldGroup relationBuilderForm, final String flag, final int startIndex,
             final int endIndex, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, boolean isCount) throws SystemException {
         LOGGER.debug("getSearchResults started with P1:CustomFieldGroup relationBuilderForm");
-        List<SearchResultsDTO> itemGroupList = new ArrayList<SearchResultsDTO>();
+        List<SearchResultsDTO> itemGroupList = new ArrayList<>();
         Date startDateFrom;
         Date startDateTo;
         Date creationDateFrom;
@@ -231,24 +226,12 @@ public class RelationBuilderLogic {
                 final String relationshipDesc = relationBuilderForm.getField(ConstantsUtils.TEXT4).getValue().toString().trim();
                 final String relationshipDesc1 = relationshipDesc.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
                 if (ConstantsUtils.SEARCH.equals(flag)) {
-                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.ilike("relationshipDescription", relationshipDesc1));
+                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.ilike(RELATIONSHIP_DESCRIPTION, relationshipDesc1));
                 } else {
-                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.ilike("relationshipDescription", relationshipDesc1));
+                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.ilike(RELATIONSHIP_DESCRIPTION, relationshipDesc1));
                 }
 
             }
-//            if (relationBuilderForm.getField(ConstantsUtils.OPTION1).getValue() != null
-//                    && StringUtils.isNotBlank(relationBuilderForm.getField(ConstantsUtils.OPTION1).getValue().toString())) {
-//                final String relationshipType = relationBuilderForm.getField(ConstantsUtils.OPTION1).getValue().toString();
-//                final int relationshipType1 = CommonUtil.getIDFromHelper(relationshipType);
-//
-//                if (ConstantsUtils.SEARCH.equals(flag)) {
-//                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RELATIONSHIP_TYPE, relationshipType1));
-//                } else {
-//                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RELATIONSHIP_TYPE, relationshipType1));
-//                }
-//
-//            }
             if (relationBuilderForm.getField(ConstantsUtils.COMBO1).getValue() != null && StringUtils.isNotBlank(relationBuilderForm.getField(ConstantsUtils.COMBO1).getValue().toString())
                     && ((HelperDTO) relationBuilderForm.getField(ConstantsUtils.COMBO1).getValue()).getId() != 0) {
                 if (ConstantsUtils.SEARCH.equals(flag)) {
@@ -287,18 +270,19 @@ public class RelationBuilderLogic {
             if (relationBuilderForm.getField(ConstantsUtils.DATE3).getValue() != null && relationBuilderForm.getField(ConstantsUtils.DATE4).getValue() == null) {
                 creationDateFrom = (Date) relationBuilderForm.getField(ConstantsUtils.DATE3).getValue();
                 if (ConstantsUtils.SEARCH.equals(flag)) {
-                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.ge("createdDate", creationDateFrom));
+                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CREATED_DATE, creationDateFrom));
                 } else {
-                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.ge("createdDate", creationDateFrom));
+                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.CREATED_DATE, creationDateFrom));
                 }
 
             }
             if (relationBuilderForm.getField(ConstantsUtils.DATE3).getValue() == null && relationBuilderForm.getField(ConstantsUtils.DATE4).getValue() != null) {
                 creationDateTo = (Date) relationBuilderForm.getField(ConstantsUtils.DATE4).getValue();
                 if (ConstantsUtils.SEARCH.equals(flag)) {
-                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.le("createdDate", creationDateTo));
+                    SimpleDateFormat convert=new SimpleDateFormat("MM/dd/YYYY");
+                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.sqlRestriction(" CAST(CREATED_DATE AS DATE) <= '"+convert.format(creationDateTo)+"'"));
                 } else {
-                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.le("createdDate", creationDateTo));
+                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.le(ConstantsUtils.CREATED_DATE, creationDateTo));
                 }
 
             }
@@ -306,14 +290,15 @@ public class RelationBuilderLogic {
                 creationDateFrom = (Date) relationBuilderForm.getField(ConstantsUtils.DATE3).getValue();
                 creationDateTo = (Date) relationBuilderForm.getField(ConstantsUtils.DATE4).getValue();
                 if (ConstantsUtils.SEARCH.equals(flag)) {
-                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.between("createdDate", creationDateFrom, creationDateTo));
+                     SimpleDateFormat convert=new SimpleDateFormat("MM/dd/YYYY");
+                    relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.sqlRestriction(" CAST(CREATED_DATE AS DATE) >= '"+convert.format(creationDateFrom)+"'"+ "AND CAST(CREATED_DATE AS DATE) <= '"+convert.format(creationDateTo)+"'"));
                 } else {
-                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.between("createdDate", creationDateFrom, creationDateTo));
+                    relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.between(ConstantsUtils.CREATED_DATE, creationDateFrom, creationDateTo));
                 }
 
             }
             if (!ConstantsUtils.SEARCH.equals(flag)) {
-                relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.ne("primaryKey.actionFlag", "D"));
+                relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.PRIMARY_KEY + ConstantsUtils.ACTION_FLAG, "D"));
             }
             if (filterSet != null) {
                 for (Container.Filter filter : filterSet) {
@@ -342,9 +327,9 @@ public class RelationBuilderLogic {
                         }
                         if (ConstantsUtils.RELATIONSHIP_DESC.equals(stringFilter.getPropertyId())) {
                             if (ConstantsUtils.SEARCH.equals(flag)) {
-                                relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.ilike("relationshipDescription", filterString));
+                                relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.ilike(RELATIONSHIP_DESCRIPTION, filterString));
                             } else {
-                                relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.ilike("relationshipDescription", filterString));
+                                relationBuilderHistDynamicQuery.add(RestrictionsFactoryUtil.ilike(RELATIONSHIP_DESCRIPTION, filterString));
                             }
                         }
                         if (ConstantsUtils.RELATIONSHIP_NAME.equals(stringFilter.getPropertyId())) {
@@ -359,7 +344,7 @@ public class RelationBuilderLogic {
                             if (ConstantsUtils.SEARCH.equals(flag)) {
 
                                 List<String> resultList = CommonUtils.getCreatedBy(filterString);
-                                List<Integer> list = new ArrayList<Integer>();
+                                List<Integer> list = new ArrayList<>();
                                 if (!resultList.isEmpty()) {
                                     for (int i = 0; i < resultList.size(); i++) {
                                         list.add(Integer.valueOf(String.valueOf(resultList.get(i))));
@@ -372,7 +357,7 @@ public class RelationBuilderLogic {
                             } else {
 
                                 List<String> resultList = CommonUtils.getCreatedBy(filterString);
-                                List<Integer> list = new ArrayList<Integer>();
+                                List<Integer> list = new ArrayList<>();
                                 if (!resultList.isEmpty()) {
                                     for (int i = 0; i < resultList.size(); i++) {
                                         list.add(Integer.valueOf(String.valueOf(resultList.get(i))));
@@ -513,6 +498,7 @@ public class RelationBuilderLogic {
         LOGGER.debug("getSearchResults return List<RelationshipBuilderDTO> itemGroupList=" + itemGroupList.size());
         return itemGroupList;
     }
+    public static final String RELATIONSHIP_DESCRIPTION = "relationshipDescription";
 
     public static String getDBColumnName(String visibleColumnName) {
         return columnNames.get(visibleColumnName);
@@ -521,12 +507,12 @@ public class RelationBuilderLogic {
     public static HashMap<String, String> loadColumnName() {
 
         columnNames.put("relationshipName", "relationshipName");
-        columnNames.put("relationshipDesc", "relationshipDescription");
+        columnNames.put("relationshipDesc", RELATIONSHIP_DESCRIPTION);
         columnNames.put("relationshipType", "relationshipType");
         columnNames.put("hierarchyName", "hierarchyDefinitionSid");
-        columnNames.put("versionNo", "versionNo");
+        columnNames.put(ConstantsUtils.VERSION_NO, ConstantsUtils.VERSION_NO);
         columnNames.put("startDate", "startDate");
-        columnNames.put("createdDate", "createdDate");
+        columnNames.put(ConstantsUtils.CREATED_DATE, ConstantsUtils.CREATED_DATE);
         columnNames.put("modifiedDate", "modifiedDate");
         columnNames.put("createdBy", "createdBy");
 
@@ -541,7 +527,7 @@ public class RelationBuilderLogic {
      */
     private List<SearchResultsDTO> getCustomizedResults(final List<RelationshipBuilder> resultList) throws SystemException, PortalException {
         LOGGER.debug("getCustomizedResults started with P1:List<RelationshipBuilder> resultList");
-        final List<SearchResultsDTO> relationBuilderList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> relationBuilderList = new ArrayList<>();
         final Map hierarchyInfo = CommonUtils.getHierarchyInfo();
         final HashMap<String, String> userInfoMap = (HashMap<String, String>) CommonUtil.getCreatedByUser();
 
@@ -581,7 +567,7 @@ public class RelationBuilderLogic {
      */
     private List<SearchResultsDTO> getCustomizedHistoryResults(final List<HistRelationshipBuilder> resultList) throws SystemException, PortalException {
         LOGGER.debug("getCustomizedHistoryResults started :List<RelationshipBuilder> resultList");
-        final List<SearchResultsDTO> relationBuilderList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> relationBuilderList = new ArrayList<>();
         final Map hierarchyInfo = CommonUtils.getHierarchyInfo();
         final HashMap<String, String> userInfoMap = (HashMap<String, String>) CommonUtil.getCreatedByUser();
 
@@ -624,13 +610,13 @@ public class RelationBuilderLogic {
     public Map<String, List<HierarchyLevelsDTO>> getAllLevelValues(final List<HierarchyLevelDefinition> levelsList) throws SystemException, PortalException {
         LOGGER.debug("getAllLevelValues started with P1:List<HierarchyLevelDefinition> levelsList");
 
-        final Map<String, List<HierarchyLevelsDTO>> hierarchyLevelsList = new HashMap<String, List<HierarchyLevelsDTO>>();
+        final Map<String, List<HierarchyLevelsDTO>> hierarchyLevelsList = new HashMap<>();
         List<HierarchyLevelValues> levelValuesList;
         final List levelSystemIds = new ArrayList();
         HierarchyLevelsDTO levelValuesDTO;
         final HashMap levelNamesMap = new HashMap();
         final HashMap levelNosMap = new HashMap();
-        final Map<Integer, String> linkedLevelNamesMap = new HashMap<Integer, String>();
+        final Map<Integer, String> linkedLevelNamesMap = new HashMap<>();
         final int hierarchySystemId = levelsList.get(0).getHierarchyDefinitionSid();
         final DynamicQuery hierarchyDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
         hierarchyDynamicQuery.add(RestrictionsFactoryUtil.eq("hierarchyDefinitionSid", hierarchySystemId));
@@ -646,7 +632,7 @@ public class RelationBuilderLogic {
 
         for (int i = 0; i < levelsList.size(); i++) {
             final HierarchyLevelDefinition levelObj = levelsList.get(i);
-            if (levelObj.getLevelValueReference().equals("User Defined")) {
+            if (levelObj.getLevelValueReference().equals(USER_DEFINED_LABEL)) {
                 levelSystemIds.add(levelObj.getHierarchyLevelDefinitionSid());
             } else {
                 linkedLevelNamesMap.put(levelObj.getHierarchyLevelDefinitionSid(), levelObj.getTableName() + "," + levelObj.getFieldName());
@@ -710,6 +696,7 @@ public class RelationBuilderLogic {
         LOGGER.debug("getAllLevelValues return Map<String, List<HierarchyLevelsDTO>> hierarchyLevelsList");
         return hierarchyLevelsList;
     }
+    public static final String USER_DEFINED_LABEL = "User Defined";
 
     /**
      * Gets the all level values.
@@ -724,14 +711,14 @@ public class RelationBuilderLogic {
     public Map<String, List<HierarchyLevelsDTO>> getHistAllLevelValues(final List<HistHierarchyLevelDefn> levelsList, final SessionDTO sessionDTO) throws SystemException, PortalException {
         LOGGER.debug("getAllLevelValues started with P1:List<HierarchyLevelDefinition> levelsList");
 
-        final Map<String, List<HierarchyLevelsDTO>> hierarchyLevelsList = new HashMap<String, List<HierarchyLevelsDTO>>();
+        final Map<String, List<HierarchyLevelsDTO>> hierarchyLevelsList = new HashMap<>();
         final int versionNo = sessionDTO.getHierarchyVersion();
         List<HistHierarchyLevelValues> levelValuesList;
         final List levelSystemIds = new ArrayList();
         HierarchyLevelsDTO levelValuesDTO;
         final HashMap levelNamesMap = new HashMap();
         final HashMap levelNosMap = new HashMap();
-        final Map<Integer, String> linkedLevelNamesMap = new LinkedHashMap<Integer, String>();
+        final Map<Integer, String> linkedLevelNamesMap = new LinkedHashMap<>();
         final int hierarchySystemId = levelsList.get(0).getHierarchyDefinitionSid();
 
         final DynamicQuery hierarchyDynamicQuery = DynamicQueryFactoryUtil.forClass(HistHierarchyDefinition.class);
@@ -752,7 +739,7 @@ public class RelationBuilderLogic {
 
         for (int i = 0; i < levelsList.size(); i++) {
             final HistHierarchyLevelDefn levelObj = levelsList.get(i);
-            if (levelObj.getLevelValueReference().equals("User Defined")) {
+            if (levelObj.getLevelValueReference().equals(USER_DEFINED_LABEL)) {
                 levelSystemIds.add(levelObj.getHierarchyLevelDefinitionSid());
             } else {
                 String rules = inclustionExculstionRules.get(levelObj.getLevelNo());
@@ -792,7 +779,7 @@ public class RelationBuilderLogic {
             Map<String, VwHelperListDto> dependenciesMap = BpmLogic.getDependenciesList();
             for (final Iterator<Entry<Integer, String>> iterator = linkedLevelNamesMap.entrySet().iterator(); iterator.hasNext();) {
                 final Map.Entry<Integer, String> entry = iterator.next();
-                List levelValues = new ArrayList();
+                List levelValues;
                 final int levelSystemId = entry.getKey();
                 final String tableFieldValue = entry.getValue();
                 final String[] tableFieldValueArr = tableFieldValue.split("~");
@@ -830,7 +817,7 @@ public class RelationBuilderLogic {
         return hierarchyLevelsList;
     }
 
-    String finderImplInLogic(String tableName, String columnName, List hierListValues) throws PortalException, SystemException {
+    String finderImplInLogic(String tableName, String columnName, List hierListValues) {
 
 
         String hierarchyType = hierListValues.get(0).toString();
@@ -839,10 +826,10 @@ public class RelationBuilderLogic {
         String rule = String.valueOf(hierListValues.get(NumericConstants.THREE));
         Map<String, VwHelperListDto> dependenciesMap = (HashMap<String, VwHelperListDto>) hierListValues.get(NumericConstants.FOUR);
         VwHelperListDto dto = dependenciesMap.get(tableName + "|" + columnName);
-        String sqlString = ConstantsUtils.EMPTY;
+        String sqlString;
         if (dto != null) {
             String joinCondition = ConstantsUtils.EMPTY;
-            String whereCondition = ConstantsUtils.EMPTY;
+            String whereCondition;
             sqlString = "SELECT DISTINCT SUB." + dto.getReferenceColumnName() + ", SUB." + dto.getMappingColumnName() + " FROM " + tableName + " MAIN ";
             joinCondition += " JOIN " + dto.getReferenceTableName() + " SUB ON SUB." + dto.getMappingColumnName() + " = MAIN." + dto.getActualColumnName();
             if (StringUtils.isNotBlank(dto.getListName()) && !"null".equals(dto.getListName())) {
@@ -885,7 +872,7 @@ public class RelationBuilderLogic {
         boolean companyTreeExists;
         final DynamicQuery itemDynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipLevelDefinition.class);
         itemDynamicQuery.add(RestrictionsFactoryUtil.eq("relationshipLevelValues", companyValue));
-        itemDynamicQuery.add(RestrictionsFactoryUtil.eq("levelNo", "1"));
+        itemDynamicQuery.add(RestrictionsFactoryUtil.eq(LEVEL_NO, "1"));
         final List<RelationshipLevelDefinition> treeList = dao.getRelationshipLevelList(itemDynamicQuery);
         if (treeList.isEmpty()) {
             companyTreeExists = false;
@@ -925,20 +912,20 @@ public class RelationBuilderLogic {
      */
     public List<Integer> saveRelationshipBuilder(final CustomFieldGroup relationshipForm, final List<HierarchyLevelsDTO> selectedLevelValues, final SessionDTO sessionDTO) throws SystemException, PortalException {
         LOGGER.debug("saveRelationshipBuilder started with P1:CustomFieldGroup relationshipForm and P2:List<HierarchyLevelsDTO> selectedLevelValues ");
-        final List<Integer> idList = new ArrayList<Integer>();
+        final List<Integer> idList = new ArrayList<>();
         RelationshipBuilder relationshipBuilder;
         final int selectedRelationshipId = sessionDTO.getSystemId();
         final int selectedHierarchyId = sessionDTO.getSelectedHierarchySessionId();
         final int userId = Integer.valueOf(sessionDTO.getUserId());
         int versionNo = 0;
-        String value = ConstantsUtils.EMPTY;
-        if (selectedRelationshipId == ConstantsUtils.ZERO_NUM) {
+        String value;
+        if (selectedRelationshipId == ConstantsUtils.ZERO_NUM || ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
             relationshipBuilder = RelationshipBuilderLocalServiceUtil.createRelationshipBuilder(0);
             relationshipBuilder.setRelationshipName(String.valueOf(relationshipForm.getField(ConstantsUtils.RELATIONSHIP_NAME).getValue()).trim());
             relationshipBuilder.setRelationshipDescription(String.valueOf(relationshipForm.getField(ConstantsUtils.RELATIONSHIP_DESC).getValue()).trim());
             relationshipBuilder.setRelationshipType(CommonUtil.getIDFromHelper(String.valueOf(relationshipForm.getField(ConstantsUtils.RELATIONSHIP_TYPE).getValue()),"RELATIONSHIP_TYPE"));
             relationshipBuilder.setHierarchyDefinitionSid(selectedHierarchyId);
-            relationshipBuilder.setHierarchyVersion(Integer.valueOf(String.valueOf(relationshipForm.getField("versionNo").getValue())));
+            relationshipBuilder.setHierarchyVersion(Integer.valueOf(String.valueOf(relationshipForm.getField(ConstantsUtils.VERSION_NO).getValue())));
             relationshipBuilder.setStartDate((Date) relationshipForm.getField(ConstantsUtils.START_DATE).getValue());
             relationshipBuilder.setCreatedBy(userId);
             relationshipBuilder.setCreatedDate(new Date());
@@ -956,7 +943,7 @@ public class RelationBuilderLogic {
             relationshipBuilder.setRelationshipDescription(String.valueOf(relationshipForm.getField(ConstantsUtils.RELATIONSHIP_DESC).getValue()).trim());
             relationshipBuilder.setRelationshipType(CommonUtil.getIDFromHelper(String.valueOf(relationshipForm.getField(ConstantsUtils.RELATIONSHIP_TYPE).getValue())));
             relationshipBuilder.setHierarchyDefinitionSid(selectedHierarchyId);
-            relationshipBuilder.setHierarchyVersion(Integer.valueOf(String.valueOf(relationshipForm.getField("versionNo").getValue())));
+            relationshipBuilder.setHierarchyVersion(Integer.valueOf(String.valueOf(relationshipForm.getField(ConstantsUtils.VERSION_NO).getValue())));
             relationshipBuilder.setStartDate((Date) relationshipForm.getField(ConstantsUtils.START_DATE).getValue());
             relationshipBuilder.setCreatedBy(relationshipBuilder.getCreatedBy());
             relationshipBuilder.setCreatedDate(relationshipBuilder.getCreatedDate());
@@ -1018,20 +1005,20 @@ public class RelationBuilderLogic {
             relationshipLevel.setCreatedDate(date);
             relationshipLevel.setModifiedDate(date);
             // to ensure that particular Item Group ADD or EDIT
-            if (relationBuilderSessionId == ConstantsUtils.ZERO_NUM) {
+            if (relationBuilderSessionId == ConstantsUtils.ZERO_NUM || ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
                 relationshipLevel.setVersionNo(relationshipBuilder.getVersionNo());
-                relationshipLevel = dao.addRelationshipLevelDefinition(relationshipLevel);
+                dao.addRelationshipLevelDefinition(relationshipLevel);
             } else {// to save new Item group details info
                 // To ensure that specific item already exists in Item Group or
                 // not
                 if (savedLevelValuesMap.containsKey(hierarchyLevelDTO.getRelationshipLevelSystemId())) {
                     relationshipLevel = (RelationshipLevelDefinition) savedLevelValuesMap.get(hierarchyLevelDTO.getRelationshipLevelSystemId());
                     relationshipLevel.setVersionNo(relationshipBuilder.getVersionNo());
-                    relationshipLevel = dao.updateRelationshipLevelDefinition(relationshipLevel);
+                    dao.updateRelationshipLevelDefinition(relationshipLevel);
                     savedLevelValuesMap.remove(hierarchyLevelDTO.getRelationshipLevelSystemId());
                 } else {// to save new Item in existing item group
                     relationshipLevel.setVersionNo(relationshipBuilder.getVersionNo());
-                    relationshipLevel = dao.addRelationshipLevelDefinition(relationshipLevel);
+                    dao.addRelationshipLevelDefinition(relationshipLevel);
                 }
             }
         }
@@ -1055,15 +1042,15 @@ public class RelationBuilderLogic {
         final int rbSystemId = sessionDTO.getSystemId();
         final String fromViewPage = sessionDTO.getFromViewPage();
         final int versionNo = sessionDTO.getVersionNo();
-        Map hierarchyInfo = new HashMap();
-        RelationshipBuilder relationBuilder = null;
+        Map hierarchyInfo;
+        RelationshipBuilder relationBuilder;
         List<HistRelationshipBuilder> resultList;
         if (fromViewPage.equalsIgnoreCase(String.valueOf("Yes")) || fromViewPage.equalsIgnoreCase(ConstantsUtils.EDIT)) {
 
             hierarchyInfo = CommonUtils.getRelationShipHierarchyInfo();
             final DynamicQuery query = DynamicQueryFactoryUtil.forClass(HistRelationshipBuilder.class);
             query.add(RestrictionsFactoryUtil.eq("primaryKey.relationshipBuilderSid", rbSystemId));
-            query.add(RestrictionsFactoryUtil.eq("primaryKey.versionNo", versionNo));
+            query.add(RestrictionsFactoryUtil.eq(PRIMARY_KEYVERSION_NO, versionNo));
             resultList = dao.getHistRelationshipBuilder(query);
 
             for (int i = 0; i < resultList.size(); i++) {
@@ -1107,6 +1094,7 @@ public class RelationBuilderLogic {
         return relationBuilderDTO;
 
     }
+    public static final String PRIMARY_KEYVERSION_NO = "primaryKey.versionNo";
 
     /**
      * Gets the saved level values list.
@@ -1120,7 +1108,7 @@ public class RelationBuilderLogic {
     public List<Map<String, List<HierarchyLevelsDTO>>> getSavedLevelValuesList(final Map<String, List<HierarchyLevelsDTO>> levelValuesMap, final List<HierarchyLevelDefinition> levelsList,
             final SessionDTO sessionDTO) throws SystemException {
         LOGGER.debug("getSavedLevelValuesList started with P1:Map<String, List<HierarchyLevelsDTO>> levelValuesMap and P2:List<HierarchyLevelDefinition> levelsList");
-        final List<Map<String, List<HierarchyLevelsDTO>>> availSavedLevelValuesCollection = new ArrayList<Map<String, List<HierarchyLevelsDTO>>>();
+        final List<Map<String, List<HierarchyLevelsDTO>>> availSavedLevelValuesCollection = new ArrayList<>();
         List<RelationshipLevelDefinition> levelValuesList;
         final int rbSystemId = sessionDTO.getSystemId();
 
@@ -1134,9 +1122,9 @@ public class RelationBuilderLogic {
             levelNosMap.put(String.valueOf(levelObj.getHierarchyLevelDefinitionSid()), String.valueOf(levelObj.getLevelNo()));
         }
         if (rbSystemId != ConstantsUtils.ZERO_NUM) {
-            final List<HierarchyLevelsDTO> finalSavedLevelValues = new ArrayList<HierarchyLevelsDTO>();
-            final Map<String, List<HierarchyLevelsDTO>> finalSavedLevelValuesListMap = new HashMap<String, List<HierarchyLevelsDTO>>();
-            final Map<String, List<HierarchyLevelsDTO>> savedLevelValuesListMap = new HashMap<String, List<HierarchyLevelsDTO>>();
+            final List<HierarchyLevelsDTO> finalSavedLevelValues = new ArrayList<>();
+            final Map<String, List<HierarchyLevelsDTO>> finalSavedLevelValuesListMap = new HashMap<>();
+            final Map<String, List<HierarchyLevelsDTO>> savedLevelValuesListMap = new HashMap<>();
             final DynamicQuery levelValuesDynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipLevelDefinition.class);
             levelValuesDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RELATIONSHIP_BUILDER_SYSTEM_ID, rbSystemId));
             levelValuesList = dao.getRelationshipLevelList(levelValuesDynamicQuery);
@@ -1159,11 +1147,11 @@ public class RelationBuilderLogic {
             }
 
             final Map<String, List<HierarchyLevelsDTO>> totalHierarchyLevelValuesMap = levelValuesMap;
-            final Map<String, List<HierarchyLevelsDTO>> availableLevelValuesMap = new HashMap<String, List<HierarchyLevelsDTO>>();
+            final Map<String, List<HierarchyLevelsDTO>> availableLevelValuesMap = new HashMap<>();
             for (final Iterator<Entry<String, List<HierarchyLevelsDTO>>> iterator = totalHierarchyLevelValuesMap.entrySet().iterator(); iterator.hasNext();) {
                 final Map.Entry<String, List<HierarchyLevelsDTO>> entry = iterator.next();
-                final List<HierarchyLevelsDTO> availableLevelValuesList = new ArrayList<HierarchyLevelsDTO>();
-                List<HierarchyLevelsDTO> savedLevelValues = new ArrayList<HierarchyLevelsDTO>();
+                final List<HierarchyLevelsDTO> availableLevelValuesList = new ArrayList<>();
+                List<HierarchyLevelsDTO> savedLevelValues;
                 savedLevelValues = savedLevelValuesListMap.get(entry.getKey());
                 if (!savedLevelValues.isEmpty()) {
                     for (int i = 0; i < savedLevelValues.size(); i++) {
@@ -1198,7 +1186,7 @@ public class RelationBuilderLogic {
     public List<Map<String, List<HierarchyLevelsDTO>>> getSavedHistLevelValuesList(final Map<String, List<HierarchyLevelsDTO>> levelValuesMap, final List<HistHierarchyLevelDefn> levelsList,
             final SessionDTO sessionDTO) throws SystemException {
         LOGGER.debug("getSavedLevelValuesList started with P1:Map<String, List<HierarchyLevelsDTO>> levelValuesMap and P2:List<HierarchyLevelDefinition> levelsList");
-        final List<Map<String, List<HierarchyLevelsDTO>>> availSavedLevelValuesCollection = new ArrayList<Map<String, List<HierarchyLevelsDTO>>>();
+        final List<Map<String, List<HierarchyLevelsDTO>>> availSavedLevelValuesCollection = new ArrayList<>();
         List<HistRelationshipLevelDefn> levelValuesList;
         final int rbSystemId = sessionDTO.getSystemId();
         final int versionNo = sessionDTO.getVersionNo();
@@ -1214,13 +1202,13 @@ public class RelationBuilderLogic {
         if (rbSystemId != ConstantsUtils.ZERO_NUM) {
 
             try {
-                final List<HierarchyLevelsDTO> finalSavedLevelValues = new ArrayList<HierarchyLevelsDTO>();
-                final Map<String, List<HierarchyLevelsDTO>> finalSavedLevelValuesListMap = new HashMap<String, List<HierarchyLevelsDTO>>();
-                final Map<String, List<HierarchyLevelsDTO>> savedLevelValuesListMap = new HashMap<String, List<HierarchyLevelsDTO>>();
+                final List<HierarchyLevelsDTO> finalSavedLevelValues = new ArrayList<>();
+                final Map<String, List<HierarchyLevelsDTO>> finalSavedLevelValuesListMap = new HashMap<>();
+                final Map<String, List<HierarchyLevelsDTO>> savedLevelValuesListMap = new HashMap<>();
                 final DynamicQuery levelValuesDynamicQuery = DynamicQueryFactoryUtil.forClass(HistRelationshipLevelDefn.class);
                 levelValuesDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RELATIONSHIP_BUILDER_SYSTEM_ID, rbSystemId));
-                levelValuesDynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey.versionNo", versionNo));
-                levelValuesDynamicQuery.add(RestrictionsFactoryUtil.ne("primaryKey.actionFlag", "D"));
+                levelValuesDynamicQuery.add(RestrictionsFactoryUtil.eq(PRIMARY_KEYVERSION_NO, versionNo));
+                levelValuesDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.PRIMARY_KEY + ConstantsUtils.ACTION_FLAG, "D"));
 
                 levelValuesList = dao.getHistRelationshipLevelList(levelValuesDynamicQuery);
 
@@ -1243,7 +1231,7 @@ public class RelationBuilderLogic {
                         String refType = String.valueOf(obj[0]);
                         String tableName = String.valueOf(obj[1]);
                         String columnName = String.valueOf(obj[NumericConstants.TWO]);
-                        if (refType.equals("User Defined")) {
+                        if (refType.equals(USER_DEFINED_LABEL)) {
                             String query2 = "select LEVEL_VALUES,HIERARCHY_LEVEL_VALUES_SID from dbo.HIST_HIERARCHY_LEVEL_VALUES where HIERARCHY_LEVEL_VALUES_SID='" + relationshipValue + "'";
                             List listValue = HistRelationshipBuilderLocalServiceUtil.executeQuery(query2);
                             if (listValue != null && listValue.size() > 0) {
@@ -1318,12 +1306,12 @@ public class RelationBuilderLogic {
                 }
 
                 final Map<String, List<HierarchyLevelsDTO>> totalHierarchyLevelValuesMap = levelValuesMap;
-                final Map<String, List<HierarchyLevelsDTO>> availableLevelValuesMap = new HashMap<String, List<HierarchyLevelsDTO>>();
+                final Map<String, List<HierarchyLevelsDTO>> availableLevelValuesMap = new HashMap<>();
 
                 for (final Iterator<Entry<String, List<HierarchyLevelsDTO>>> iterator = totalHierarchyLevelValuesMap.entrySet().iterator(); iterator.hasNext();) {
                     final Map.Entry<String, List<HierarchyLevelsDTO>> entry = iterator.next();
-                    final List<HierarchyLevelsDTO> availableLevelValuesList = new ArrayList<HierarchyLevelsDTO>();
-                    List<HierarchyLevelsDTO> savedLevelValues = new ArrayList<HierarchyLevelsDTO>();
+                    final List<HierarchyLevelsDTO> availableLevelValuesList = new ArrayList<>();
+                    List<HierarchyLevelsDTO> savedLevelValues;
 
                     savedLevelValues = savedLevelValuesListMap.get(entry.getKey());
                     if (savedLevelValues != null && !savedLevelValues.isEmpty()) {
@@ -1360,16 +1348,16 @@ public class RelationBuilderLogic {
      * @return the string
      * @throws com.stpl.portal.kernel.exception.SystemException
      * @throws com.stpl.portal.kernel.exception.PortalException
-     * @throws java.lang.Exception
      */
     public String deleteRelationship(final int rbSystemId) throws SystemException, PortalException {
         RelationshipBuilder relationshipBuilder;
-        String deletedRelationName;
+        String deletedRelationName = StringUtils.EMPTY;
         List<RelationshipLevelDefinition> relationshipLevelValues;
         LOGGER.debug("deleteRelationship started with P1:int rbSystemId=" + rbSystemId);
         final DynamicQuery itemDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipLevelDefinition.class);
         itemDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.RELATIONSHIP_BUILDER_SYSTEM_ID, rbSystemId));
         relationshipLevelValues = dao.getRelationshipLevelList(itemDetailsDynamicQuery);
+
         if (relationshipLevelValues != null && !relationshipLevelValues.isEmpty()) {
             for (int i = 0; i < relationshipLevelValues.size(); i++) {
                 final RelationshipLevelDefinition levelValue = relationshipLevelValues.get(i);
@@ -1387,11 +1375,10 @@ public class RelationBuilderLogic {
      *
      * @return results
      * @throws com.stpl.portal.kernel.exception.SystemException
-     * @throws java.lang.Exception
      */
     public Map<String,String> getExistingRelationshipNames() throws SystemException {
         LOGGER.debug("getExistingRelationshipNames Started");
-        final HashMap<String,String> results = new HashMap<String,String>();
+        final HashMap<String,String> results = new HashMap<>();
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipBuilder.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property(ConstantsUtils.RELATIONSHIP_BUILDER_SYSTEM_ID));
@@ -1416,7 +1403,7 @@ public class RelationBuilderLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static int getLazyHierarchyNameCount(final String filterText) throws PortalException, SystemException {
+    public static int getLazyHierarchyNameCount(final String filterText) throws SystemException {
         final String filterText1 = StringUtils.trimToEmpty(filterText) + "%";
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText1);
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
@@ -1439,10 +1426,10 @@ public class RelationBuilderLogic {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<HelperDTO> getLazyHierarchyNameResults(final int start, final int end, final String filteredText) throws PortalException, SystemException {
+    public static List<HelperDTO> getLazyHierarchyNameResults(final int start, final int end, final String filteredText) throws SystemException {
         final String filterText = StringUtils.trimToEmpty(filteredText) + "%";
         LOGGER.debug("Entering getLazyHierarchyNameResults method with filterText" + filterText);
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        final List<HelperDTO> list = new ArrayList<>();
 
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
         dynamicQuery.setLimit(start, end);
@@ -1483,7 +1470,7 @@ public class RelationBuilderLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public int getExistingVersion(final int selectedRelationshipId) throws SystemException, PortalException {
+    public int getExistingVersion(final int selectedRelationshipId) throws SystemException {
         LOGGER.debug("getExistingItemgroupNames started");
         int version = 0;
 
@@ -1492,9 +1479,9 @@ public class RelationBuilderLogic {
         rBHistoryDynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey.relationshipBuilderSid", selectedRelationshipId));
 
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
-        projList.add(ProjectionFactoryUtil.property("primaryKey.versionNo"));
+        projList.add(ProjectionFactoryUtil.property(PRIMARY_KEYVERSION_NO));
         rBHistoryDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
-        final List<Integer> finalList = new ArrayList<Integer>();
+        final List<Integer> finalList = new ArrayList<>();
         final List<Integer> historyList = dao.getRelationshipBuilderHistoryList(rBHistoryDynamicQuery);
         finalList.addAll(historyList);
         final int size = finalList.size();
@@ -1516,7 +1503,7 @@ public class RelationBuilderLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public int getExistingHierarchyVersion(final int selectedRelationshipId) throws SystemException, PortalException {
+    public int getExistingHierarchyVersion(final int selectedRelationshipId) throws SystemException {
         LOGGER.debug("getExistingItemgroupNames started");
         int version = 0;
         final DynamicQuery rBHistoryDynamicQuery = DynamicQueryFactoryUtil.forClass(HistHierarchyDefinition.class);
@@ -1524,7 +1511,7 @@ public class RelationBuilderLogic {
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property(ConstantsUtils.PRIMARY_KEY + ConstantsUtils.VERSION_NO));
         rBHistoryDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
-        final List<Integer> finalList = new ArrayList<Integer>();
+        final List<Integer> finalList = new ArrayList<>();
         final List<Integer> historyList = dao.getHistHierachyDefinitionList(rBHistoryDynamicQuery);
         finalList.addAll(historyList);
         final int size = finalList.size();
@@ -1539,8 +1526,8 @@ public class RelationBuilderLogic {
     public boolean relationshipIsUsed(final int relationBuilderSId) {
         boolean check = false;
         try {
-            String projQuery = "SELECT COUNT(*) FROM PROJECTION_MASTER WHERE (CUST_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+" OR PROD_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+") AND SAVE_FLAG = 1";
-            String cffQuery = "SELECT COUNT(*) FROM CFF_MASTER WHERE (CUST_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+" OR PROD_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+") AND (CFF_NAME != '' OR CFF_TYPE !=0)";
+            String projQuery = "SELECT COUNT(*) FROM PROJECTION_MASTER WHERE (CUST_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+"  OR  PROD_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+") AND SAVE_FLAG = 1";
+            String cffQuery = "SELECT COUNT(*) FROM CFF_MASTER WHERE  (CUST_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+" OR PROD_RELATIONSHIP_BUILDER_SID  = "+relationBuilderSId+") AND (CFF_NAME != '' OR CFF_TYPE !=0)";
             List<Object[]> projResultList = HelperTableLocalServiceUtil.executeSelectQuery(projQuery);
             List<Object[]> cffResultList = HelperTableLocalServiceUtil.executeSelectQuery(cffQuery);
             int projCount = !projResultList.isEmpty() ? Integer.valueOf(String.valueOf(projResultList.get(0))) : 0;
@@ -1558,8 +1545,8 @@ public class RelationBuilderLogic {
     public boolean relationshipIsCurentlyInUse(final int relationBuilderSId) {
         boolean check = false;
         try {
-            String projQuery = "SELECT COUNT(*) FROM PROJECTION_MASTER WHERE (CUST_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+" OR PROD_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+") AND SAVE_FLAG = 0";
-            String cffQuery = "SELECT COUNT(*) FROM CFF_MASTER WHERE (CUST_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+" OR PROD_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+") AND (CFF_NAME = '' OR CFF_TYPE =0)";
+            String projQuery = "SELECT COUNT(*) FROM PROJECTION_MASTER WHERE  (CUST_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+"  OR PROD_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+") AND SAVE_FLAG = 0";
+            String cffQuery = "SELECT COUNT(*) FROM CFF_MASTER WHERE (CUST_RELATIONSHIP_BUILDER_SID  = "+relationBuilderSId+" OR  PROD_RELATIONSHIP_BUILDER_SID = "+relationBuilderSId+") AND (CFF_NAME = '' OR CFF_TYPE =0)";
             List<Object[]> projResultList = HelperTableLocalServiceUtil.executeSelectQuery(projQuery);
             List<Object[]> cffResultList = HelperTableLocalServiceUtil.executeSelectQuery(cffQuery);
             int projCount = !projResultList.isEmpty() ? Integer.valueOf(String.valueOf(projResultList.get(0))) : 0;
@@ -1582,7 +1569,7 @@ public class RelationBuilderLogic {
     private void deleteAssociatedHierarchy(int selectedRelationshipId) {
         LOGGER.debug("Delete the associated Hierarchy --> " + selectedRelationshipId);
         CommonDAO commonDAO = new CommonDAOImpl();
-            String query = "DELETE FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_BUILDER_SID = " + selectedRelationshipId;
-            commonDAO.executeBulkUpdateQuery(query, null, null);
+        String query = "DELETE FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_BUILDER_SID = " + selectedRelationshipId;
+        commonDAO.executeBulkUpdateQuery(query, null, null);
     }
 }

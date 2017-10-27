@@ -95,11 +95,11 @@ public class MedicaidNdcPopUp extends CustomComponent {
     /**
      * The ndc results bean.
      */
-    BeanItemContainer<NewNdcDTO> nDCLineExtensionBean = new BeanItemContainer<NewNdcDTO>(NewNdcDTO.class);
+    BeanItemContainer<NewNdcDTO> nDCLineExtensionBean = new BeanItemContainer<>(NewNdcDTO.class);
     int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
-    BeanItemContainer<String> availableNDCBean = new BeanItemContainer<String>(
+    BeanItemContainer<String> availableNDCBean = new BeanItemContainer<>(
             String.class);
-    Map<Integer, String> ndc9Map = new HashMap<Integer, String>();
+    Map<Integer, String> ndc9Map = new HashMap<>();
     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     CommonLogic commonLogic = new CommonLogic();
     DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
@@ -109,8 +109,9 @@ public class MedicaidNdcPopUp extends CustomComponent {
     public String ItemName = StringUtils.EMPTY;
     NewNdcDTO deletedItem = new NewNdcDTO();
     public NationalAssumptionLogic nationalAssumptionLogic = new NationalAssumptionLogic();
-    public List<NewNdcDTO> removedMedicaidNdc = new ArrayList<NewNdcDTO>();
+    public List<NewNdcDTO> removedMedicaidNdc = new ArrayList<>();
     Map<Integer, Object> medicaidMap;
+    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
     /**
      * The Constant LOGGER.
      */
@@ -120,7 +121,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
     /**
      * Instantiates a new new ndc pop up.
      */
-    public MedicaidNdcPopUp(NewNdcDTO newNdcDto, Map<Integer, Object> medicaidMap,SessionDTO sessionDTO) throws SystemException {
+    public MedicaidNdcPopUp(NewNdcDTO newNdcDto, Map<Integer, Object> medicaidMap,SessionDTO sessionDTO)  {
         this.sessionDTO=sessionDTO;
         this.listNDC = newNdcDto.getListNDC9();
         this.wACList = newNdcDto.getWacHashMap();
@@ -134,7 +135,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
     /**
      * Inits the.
      */
-    private void init() throws SystemException {
+    private void init()  {
 
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/nationalassumption/MedicaidNdcPopup.xml"), this));
 
@@ -162,16 +163,16 @@ public class MedicaidNdcPopUp extends CustomComponent {
 
         ndcTable.markAsDirty();
         ndcTable.setContainerDataSource(nDCLineExtensionBean);
-        ndcTable.setVisibleColumns(CommonUiUtils.NEW_NDC_COLUMNS);
-        ndcTable.setColumnHeaders(CommonUiUtils.NEW_NDC_HEADER);
+        ndcTable.setVisibleColumns(commonUiUtils.newNdcColumns);
+        ndcTable.setColumnHeaders(commonUiUtils.newNdcHeader);
         ndcTable.setFilterBarVisible(true);
         ndcTable.setFilterDecorator(new ExtDemoFilterDecorator());
         ndcTable.addStyleName(Constant.FILTER_TABLE);
         ndcTable.addStyleName("table-header-center");
-        ndcTable.setColumnAlignment(CommonUiUtils.NEW_NDC_COLUMNS[0], ExtFilterTable.Align.LEFT);
-        int length = CommonUiUtils.NEW_NDC_COLUMNS.length;
+        ndcTable.setColumnAlignment(commonUiUtils.newNdcColumns[0], ExtFilterTable.Align.LEFT);
+        int length = commonUiUtils.newNdcColumns.length;
         for (int i = 1; i < length; i++) {
-            ndcTable.setColumnAlignment(CommonUiUtils.NEW_NDC_COLUMNS[i], ExtFilterTable.Align.RIGHT);
+            ndcTable.setColumnAlignment(commonUiUtils.newNdcColumns[i], ExtFilterTable.Align.RIGHT);
         }
         loadNdcList();
 
@@ -443,9 +444,9 @@ public class MedicaidNdcPopUp extends CustomComponent {
         return flag;
     }
 
-    public void resetTableLogic() throws SystemException {
+    public void resetTableLogic()  {
         NewNdcDTO projection = (NewNdcDTO) ndcTable.getValue();
-        String value = StringUtils.EMPTY;
+        String value;
         List listCount = nationalAssumptionLogic.listCount(projection.getNdc9(), sessionDTO);
         if (listCount.isEmpty()) {
             nDCLineExtensionBean.removeItem(projection);

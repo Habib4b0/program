@@ -5,12 +5,14 @@
  */
 package com.stpl.app.contract.dashboard.ui.lookup;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.contractheader.util.UIUtils;
 import com.stpl.app.contract.dashboard.SearchPriceScheduleDTO;
 import com.stpl.app.contract.dashboard.dto.PSContainerParentLookup;
 import com.stpl.app.contract.dashboard.dto.PSCriteria;
 import com.stpl.app.contract.dashboard.dto.PSDTO;
+import com.stpl.app.contract.dashboard.dto.PsParentFilterGenerator;
 import com.stpl.app.contract.dashboard.util.ContractUtils;
 import com.stpl.app.contract.ui.ErrorfulFieldGroup;
 import com.stpl.app.contract.util.CommonUIUtils;
@@ -221,7 +223,7 @@ public class PsParentLookup extends Window {
     /**
      * Initialize the UI Content.
      */
-    public void init() throws PortalException, SystemException {
+    public void init() {
         center();
         setClosable(true);
         setModal(true);
@@ -239,7 +241,7 @@ public class PsParentLookup extends Window {
      */
     private ErrorfulFieldGroup getBinder() {
 
-        binder = new ErrorfulFieldGroup(new BeanItem<PSDTO>(psMaster));
+        binder = new ErrorfulFieldGroup(new BeanItem<>(psMaster));
         binder.setBuffered(true);
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
@@ -252,7 +254,7 @@ public class PsParentLookup extends Window {
      *
      * @return layout
      */
-    private void addToContent() throws PortalException, SystemException {
+    private void addToContent() {
         addResponsivenessToGrid();
         configureTabel();
     }
@@ -262,7 +264,7 @@ public class PsParentLookup extends Window {
      *
      * @return grid
      */
-    protected void addResponsivenessToGrid() throws PortalException, SystemException {
+    protected void addResponsivenessToGrid() {
         ResponsiveUtils.addComponentInCssLayout(cssLayout, ResponsiveUtils.makeLabel(priceScheduleIdLb, false), priceScheduleId, true);
         ResponsiveUtils.addComponentInCssLayout(cssLayout, ResponsiveUtils.makeLabel(priceScheduleNoLb, false), priceScheduleNo, true);
         ResponsiveUtils.addComponentInCssLayout(cssLayout, ResponsiveUtils.makeLabel(priceScheduleNameLb, false), priceScheduleName, true);
@@ -278,21 +280,22 @@ public class PsParentLookup extends Window {
      *
      * @return table
      */
-    private ExtFilterTable configureTabel() throws PortalException, SystemException {
+    private ExtFilterTable configureTabel() {
         final LazyBeanItemContainer searchResults = new LazyBeanItemContainer(SearchPriceScheduleDTO.class, new PSContainerParentLookup(), new PSCriteria());
         table.setPageLength(NumericConstants.TEN);
         table.setImmediate(true);
         table.setSelectable(true);
         table.setContainerDataSource(searchResults);
-        table.setVisibleColumns(ContractUtils.PS_SEARCH_TABLE);
-        table.setColumnHeaders(ContractUtils.PS_COL_HEADERS);
+        table.setVisibleColumns(ContractUtils.getInstance().psSearchTable);
+        table.setColumnHeaders(ContractUtils.getInstance().psColHeaders);
         table.setFilterBarVisible(true);
+        table.setFilterGenerator(new PsParentFilterGenerator());
         table.setFilterDecorator(new ExtDemoFilterDecorator());
         table.addStyleName("filterbar");
         table.addStyleName("table-header-normal");
         table.setWidth(NumericConstants.NINETY_EIGHT, Unit.PERCENTAGE);
         selectBtn.setEnabled(false);
-        closeBtn.setEnabled(false);
+        closeBtn.setEnabled(true);
         table.addItemClickListener(new ItemClickListener() {
 
             /**
@@ -320,7 +323,7 @@ public class PsParentLookup extends Window {
     /**
      * Customizing the Fields.
      */
-    protected void configureFields() throws PortalException, SystemException {
+    protected void configureFields() {
 
         itemName.addValidator(new RegexpValidator(ConstantsUtils.SPECIAL_CHAR, "Item Name can only be Alphanumeric"));
         itemName.addValidator(new StringLengthValidator("Item Name should be less than NumericConstants.HUNDRED characters", 0, NumericConstants.HUNDRED, true));
@@ -340,7 +343,7 @@ public class PsParentLookup extends Window {
         addStyleName("bootstrap");
         addStyleName("bootstrap-bb");
         priceScheduleName.addValidator(new StringLengthValidator("Price Schedule Name should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
-        priceScheduleName.addValidator(new RegexpValidator("([0-9|a-z|A-Z|\\_|\\*|\\s])*", "Price Schedule Name  can contain only digits,alphabets"));
+        priceScheduleName.addValidator(new RegexpValidator(ConstantUtil.AZ_AZ_S, "Price Schedule Name  can contain only digits,alphabets"));
         priceScheduleName.setImmediate(true);
         priceScheduleName.setValidationVisible(true);
         priceScheduleName.setDescription((String) priceScheduleName.getValue());
@@ -358,7 +361,7 @@ public class PsParentLookup extends Window {
         priceScheduleNo.setImmediate(true);
         priceScheduleNo.setValidationVisible(true);
         priceScheduleNo.addValidator(new StringLengthValidator("Price Schedule No should be less than 50 characters", 0, NumericConstants.FIFTY, true));
-        priceScheduleNo.addValidator(new RegexpValidator("([0-9|a-z|A-Z|\\_|\\*|\\s])*", "Price Schedule No can contain only digits,alphabets"));
+        priceScheduleNo.addValidator(new RegexpValidator(ConstantUtil.AZ_AZ_S, "Price Schedule No can contain only digits,alphabets"));
         priceScheduleNo.setDescription((String) priceScheduleNo.getValue());
         priceScheduleNo.addValueChangeListener(new Property.ValueChangeListener() {
             /**
@@ -375,7 +378,7 @@ public class PsParentLookup extends Window {
         priceScheduleId.focus();
         setCloseShortcut(ShortcutAction.KeyCode.ESCAPE);
         priceScheduleId.addValidator(new StringLengthValidator("Price Schedule Id should be less than 38 characters", 0, NumericConstants.THIRTY_EIGHT, true));
-        priceScheduleId.addValidator(new RegexpValidator("([0-9|a-z|A-Z|\\_|\\*|\\s])*", "Price Schedule Id can contain only digits,alphabets"));
+        priceScheduleId.addValidator(new RegexpValidator(ConstantUtil.AZ_AZ_S, "Price Schedule Id can contain only digits,alphabets"));
         priceScheduleId.setDescription((String) priceScheduleId.getValue());
         priceScheduleId.addValueChangeListener(new Property.ValueChangeListener() {
             /**
@@ -400,7 +403,7 @@ public class PsParentLookup extends Window {
                 LOGGER.debug("Entering ParentLookup search operation");
                 try {
                     PSCriteria searchCriteria = new PSCriteria();
-                    List<Object> collapsedColumns = new ArrayList<Object>();
+                    List<Object> collapsedColumns = new ArrayList<>();
                     for (Object item : table.getVisibleColumns()) {
                         if (table.isColumnCollapsed(item)) {
                             collapsedColumns.add(item);
@@ -410,11 +413,16 @@ public class PsParentLookup extends Window {
                     binder.commit();
 
                     if (StringUtils.isBlank(String.valueOf(binder.getField("priceScheduleId").getValue())) && StringUtils.isBlank(String.valueOf(binder.getField("priceScheduleNo").getValue()))
-                            && binder.getField("priceScheduleType").getValue() == null && binder.getField("priceScheduleStatus").getValue() == null
+                            && (binder.getField("priceScheduleType").getValue() == null || ConstantsUtils.SELECT_ONE.equals(String.valueOf(binder.getField("priceScheduleType").getValue()))) 
+                            && (binder.getField("priceScheduleStatus").getValue() == null  || ConstantsUtils.SELECT_ONE.equals(String.valueOf(binder.getField("priceScheduleStatus").getValue())))
                             && StringUtils.isBlank(String.valueOf(binder.getField("priceScheduleName").getValue())) && StringUtils.isBlank(String.valueOf(binder.getField("itemId").getValue()))
                             && StringUtils.isBlank(String.valueOf(binder.getField("itemNo").getValue())) && StringUtils.isBlank(String.valueOf(binder.getField("itemName").getValue()))) {
-                        table.removeAllItems();
                         MessageBox.showPlain(Icon.ERROR, "Search Error", "Please enter Search Criteria", ButtonId.OK);
+                        
+                        final BeanItemContainer<PSDTO> searchResultbeans = new BeanItemContainer<>(PSDTO.class);
+                        table.setContainerDataSource(searchResultbeans);
+                        table.setVisibleColumns(ContractUtils.getInstance().psSearchTable);
+                        table.setColumnHeaders(ContractUtils.getInstance().psColHeaders);
                     } else {
                         searchCriteria.setCustomDirty(true);
                         final LazyBeanItemContainer searchResults = new LazyBeanItemContainer(SearchPriceScheduleDTO.class, new PSContainerParentLookup(binder), searchCriteria);
@@ -424,8 +432,8 @@ public class PsParentLookup extends Window {
                         } else {
                             CommonUIUtils.successNotification(ConstantsUtils.NO_RESULTS_COMPLETED);
                         }
-                        table.setVisibleColumns(ContractUtils.PS_SEARCH_TABLE);
-                        table.setColumnHeaders(ContractUtils.PS_COL_HEADERS);
+                        table.setVisibleColumns(ContractUtils.getInstance().psSearchTable);
+                        table.setColumnHeaders(ContractUtils.getInstance().psColHeaders);
                         table.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                         table.setSelectable(true);
                         searchCriteria.setCustomDirty(false);
@@ -447,7 +455,7 @@ public class PsParentLookup extends Window {
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-                            
+                            return;
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
@@ -473,7 +481,7 @@ public class PsParentLookup extends Window {
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals("YES")) {
                             selectBtn.setEnabled(false);
-                            closeBtn.setEnabled(false);
+                            closeBtn.setEnabled(true);
                             refresh();
                         }
                     }
@@ -495,19 +503,19 @@ public class PsParentLookup extends Window {
 
     public void refresh() {
         try {
-            List<Object> collapsedColumns = new ArrayList<Object>();
+            List<Object> collapsedColumns = new ArrayList<>();
             for (Object item : table.getVisibleColumns()) {
                 if (table.isColumnCollapsed(item)) {
                     collapsedColumns.add(item);
                 }
             }
-            binder.setItemDataSource(new BeanItem<PSDTO>(new PSDTO()));
+            binder.setItemDataSource(new BeanItem<>(new PSDTO()));
 
             binder.getErrorDisplay().clearError();
-            final BeanItemContainer<PSDTO> searchResultbeans = new BeanItemContainer<PSDTO>(PSDTO.class);
+            final BeanItemContainer<PSDTO> searchResultbeans = new BeanItemContainer<>(PSDTO.class);
             table.setContainerDataSource(searchResultbeans);
-            table.setVisibleColumns(ContractUtils.PS_SEARCH_TABLE);
-            table.setColumnHeaders(ContractUtils.PS_COL_HEADERS);
+            table.setVisibleColumns(ContractUtils.getInstance().psSearchTable);
+            table.setColumnHeaders(ContractUtils.getInstance().psColHeaders);
             binder.getErrorDisplay().clearError();
             for (Object propertyId : collapsedColumns) {
                 table.setColumnCollapsed(propertyId, true);

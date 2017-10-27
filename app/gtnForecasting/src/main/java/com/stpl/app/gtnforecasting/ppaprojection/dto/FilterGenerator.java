@@ -23,10 +23,7 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 public class FilterGenerator implements ExtFilterGenerator {
 
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(FilterGenerator.class);
-
-    public FilterGenerator() {
-    }
-
+    
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
         return null;
@@ -89,12 +86,13 @@ public class FilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
 
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-
+        return;
     }
 
     @Override

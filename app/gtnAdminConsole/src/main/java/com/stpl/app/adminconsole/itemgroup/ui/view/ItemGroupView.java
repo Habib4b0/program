@@ -44,12 +44,12 @@ public class ItemGroupView extends VerticalLayout implements View {
 
     private ItemDetailsDTO itemDTO = new ItemDetailsDTO();
 
-    private ErrorfulFieldGroup itemGroupBinder = new ErrorfulFieldGroup(new BeanItem<ItemGroupDTO>(itemGroupDTO));
+    private ErrorfulFieldGroup itemGroupBinder = new ErrorfulFieldGroup(new BeanItem<>(itemGroupDTO));
 
-    private ErrorfulFieldGroup itemBinder = new ErrorfulFieldGroup(new BeanItem<ItemDetailsDTO>(itemDTO));
+    private ErrorfulFieldGroup itemBinder = new ErrorfulFieldGroup(new BeanItem<>(itemDTO));
 
-    private BeanItemContainer<ItemDetailsDTO> selectedResultsBean = new BeanItemContainer<ItemDetailsDTO>(ItemDetailsDTO.class);
-    private BeanItemContainer<ItemDetailsDTO> availableResultsBean = new BeanItemContainer<ItemDetailsDTO>(ItemDetailsDTO.class);
+    private BeanItemContainer<ItemDetailsDTO> selectedResultsBean = new BeanItemContainer<>(ItemDetailsDTO.class);
+    private BeanItemContainer<ItemDetailsDTO> availableResultsBean = new BeanItemContainer<>(ItemDetailsDTO.class);
 
     private ItemGroupInfo itemGroupInfo;
 
@@ -107,7 +107,7 @@ public class ItemGroupView extends VerticalLayout implements View {
      * @throws PortalException
      * @throws SystemException
      */
-    public ItemGroupView(final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public ItemGroupView(final SessionDTO sessionDTO) {
         super();
         try {
             this.sessionDTO = sessionDTO;
@@ -134,24 +134,24 @@ public class ItemGroupView extends VerticalLayout implements View {
             final int itemGroupSystemId = sessionDTO.getSystemId();
             Boolean flag = false;
             this.removeAllComponents();
-            itemGroupBinder = new ErrorfulFieldGroup(new BeanItem<ItemGroupDTO>(itemGroupDTO));
-            itemBinder = new ErrorfulFieldGroup(new BeanItem<ItemDetailsDTO>(itemDTO));
+            itemGroupBinder = new ErrorfulFieldGroup(new BeanItem<>(itemGroupDTO));
+            itemBinder = new ErrorfulFieldGroup(new BeanItem<>(itemDTO));
             itemGroupDTO = new ItemGroupDTO();
             itemDTO = new ItemDetailsDTO();
             itemGroupInfo = new ItemGroupInfo(itemGroupDTO, itemGroupBinder, itemBinder, itemDTO, selectedResultsBean, availableResultsBean, sessionDTO);
             addComponent(itemGroupInfo);
             setStyleName("bootstrap");
             if (itemGroupSystemId == ConstantsUtils.ZERO_NUM) {
-                itemGroupBinder = new ErrorfulFieldGroup(new BeanItem<ItemGroupDTO>(itemGroupDTO));
-                itemBinder = new ErrorfulFieldGroup(new BeanItem<ItemDetailsDTO>(itemDTO));
+                itemGroupBinder = new ErrorfulFieldGroup(new BeanItem<>(itemGroupDTO));
+                itemBinder = new ErrorfulFieldGroup(new BeanItem<>(itemDTO));
             } else {
-                itemBinder = new ErrorfulFieldGroup(new BeanItem<ItemDetailsDTO>(itemDTO));
+                itemBinder = new ErrorfulFieldGroup(new BeanItem<>(itemDTO));
 
                 selectedResultsBean.removeAllItems();
                 availableResultsBean.removeAllItems();
                 String pageName = sessionDTO.getLogic();
-                List<ItemDetailsDTO> itemDetails = new ArrayList<ItemDetailsDTO>();
-                List<ItemDetailsDTO> availableContainer = new ArrayList<ItemDetailsDTO>();
+                List<ItemDetailsDTO> itemDetails = new ArrayList<>();
+                List<ItemDetailsDTO> availableContainer = new ArrayList<>();
                 if (ConstantsUtils.LOWERCASE_EDIT.equalsIgnoreCase(pageName) || ConstantsUtils.VIEW.equalsIgnoreCase(pageName) || ConstantsUtils.LOWERCASE_COPY.equalsIgnoreCase(pageName)) {
 
                     final int version = sessionDTO.getVersionNo();

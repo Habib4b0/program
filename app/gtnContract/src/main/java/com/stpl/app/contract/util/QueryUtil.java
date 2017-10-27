@@ -7,6 +7,7 @@ package com.stpl.app.contract.util;
 
 import com.stpl.app.contract.dao.CommonDAO;
 import com.stpl.app.contract.dao.impl.CommonImpl;
+import com.stpl.app.contract.util.xmlparser.SQLUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ public class QueryUtil {
     public static List getItemData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
          if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(CustomSQLUtil.get(queryName));
@@ -92,7 +93,79 @@ public class QueryUtil {
         }
         return sql.toString();
     }
+    
+     public static List getAppData(List input, String queryName, String queryName2) {
+        LOGGER.debug("Inside item get data");
+        List list = new ArrayList();
+        StringBuilder sql;
+        if (queryName != null && !queryName.isEmpty()) {
+            try {
+                sql = new StringBuilder(SQLUtil.getQuery(queryName));
+                if (queryName2 != null && !queryName2.equals(StringUtils.EMPTY)) {
+                    sql.append(" ");
+                    sql.append(SQLUtil.getQuery(queryName2));
+                }
+                for (Object temp : input) {
+                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                }
+                System.out.println("sql = " + sql);
+                list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+        }
+
+        LOGGER.debug("End of item get Data");
+        return list;
+    }
+
+    public static Boolean updateAppData(List input, String queryName) {
+        LOGGER.debug("Inside Item Update");
+        StringBuilder sql = new StringBuilder();
+        try {
+            sql = new StringBuilder(SQLUtil.getQuery(queryName));
+            for (Object temp : input) {
+                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+            }
+            System.out.println("sql = " + sql);
+            Integer count = (Integer) ITEMDAO.executeUpdate(sql.toString());
+            if (count > 0) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+        LOGGER.debug("End of Item Update");
+        return Boolean.FALSE;
+    }
+
+    public static String getAppDataQuery(List input, String queryName) {
+        try {
+            StringBuilder sql = new StringBuilder(SQLUtil.getQuery(queryName));
+            for (Object temp : input) {
+                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+            }
+            return sql.toString();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public static List executeSelectQuery(String queryName) {
+        List list = new ArrayList();
+        try {
+            list = (List<Object[]>) ITEMDAO.executeSelect(queryName);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+
+        return list;
+    }
+}
 
 
    
-}

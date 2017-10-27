@@ -287,10 +287,10 @@ public final class LabelUtils {
 	/** The Constant pricingCodeStatus. */
 	public static final String PRICINGCODESTATUS= "Pricing Status";
 	/** The Constant pricingStartDate. */
-        public static final String pricingStartDate= "Start Date";
+        public static final String PRICING_START_DATE= "Start Date";
 	
 	/** The Constant pricingEndDate. */
-	public static final String pricingEndDate= "End Date";
+	public static final String PRICING_END_DATE= "End Date";
 	
 	/** The Constant priceEntityCode. */
 	public static final String PRICEENTITYCODE= "Entity Code";

@@ -93,9 +93,9 @@ public class ChannelSPRChart1 {
     public Component getChart() {
         LOGGER.debug("Entering getChart method ");
         final Chart chart = new Chart(ChartType.COLUMN);
-        List<String> visibleColumns = new ArrayList<String>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
+        List<String> visibleColumns = new ArrayList<>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
         visibleColumns.remove("levelValue");
-        List<String> visibleHeaders = new ArrayList<String>(rightDto.getSingleHeaders());
+        List<String> visibleHeaders = new ArrayList<>(rightDto.getSingleHeaders());
         visibleHeaders.remove("Level Name");
         String[] visHeaders = visibleHeaders.toArray(new String[visibleHeaders.size()]);
         final Configuration conf = chart.getConfiguration();
@@ -151,7 +151,7 @@ public class ChannelSPRChart1 {
                 }
             }
         } else {
-            List<String> periodList = new ArrayList<String>();
+            List<String> periodList = new ArrayList<>();
             for (SalesProjectionResultsDTO pDto : dto) {
                 if (projSelDTO.getPeriodListMap().containsValue(pDto.getLevelValue())) {
                     periodList.add(pDto.getLevelValue());

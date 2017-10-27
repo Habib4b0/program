@@ -25,8 +25,6 @@ public class BrandNameDAO implements DAO<HelperDTO> {
 	public int count(SearchCriteria arg0) {
 		try {
 			return ifpLogic.getLazyBrandNameCount(arg0.getFilter());
-		} catch (PortalException e) {
-			LOGGER.error(e);
 		} catch (SystemException e) {
 			LOGGER.error(e);
 		}
@@ -36,11 +34,9 @@ public class BrandNameDAO implements DAO<HelperDTO> {
 	@Override
 	public List<HelperDTO> find(SearchCriteria arg0, int start, int offset,
 			List<OrderByColumn> arg3) {
-		List<HelperDTO> list = new ArrayList<HelperDTO>();
+		List<HelperDTO> list = new ArrayList<>();
 		try {
 			return ifpLogic.getLazyBrandName(arg0.getFilter(),start,start+offset);
-		} catch (PortalException e) {
-			LOGGER.error(e);
 		} catch (SystemException e) {
 			LOGGER.error(e);
 		}

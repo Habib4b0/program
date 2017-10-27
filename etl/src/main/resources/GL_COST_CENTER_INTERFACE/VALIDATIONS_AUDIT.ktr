@@ -42,7 +42,7 @@
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
-    <size_rowset>10000</size_rowset>
+    <size_rowset>1000</size_rowset>
     <sleep_time_empty>50</sleep_time_empty>
     <sleep_time_full>50</sleep_time_full>
     <unique_connections>N</unique_connections>
@@ -115,7 +115,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>AUDIT COMPLETION WAIT</from><to>UPDATE STATUS</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT SORT </from><to>AUDIT UNIQUE </to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT UNIQUE </from><to>REMOVE FIELDS</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>AUDIT COMPLETION WAIT</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>HTML GROUP</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>STAGING AUDIT</to><enabled>N</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>AUDIT INSERT WAIT 4</to><enabled>N</enabled> </hop>  <hop> <from>Invalid_wait</from><to>INVALID COUNT</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT</from><to>Mail</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS</from><to>Invalid_wait</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT</to><enabled>N</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>UPDATE STATUS</from><to>AUDIT_STATUS_UPDATE </to><enabled>N</enabled> </hop>  <hop> <from>TEMP</from><to>AUDIT SORT </to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Dummy</to><enabled>N</enabled> </hop>  <hop> <from>Update 2</from><to>Dummy</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT 4</from><to>Set Audit Status 2</to><enabled>N</enabled> </hop>  <hop> <from>Set Audit Status 2</from><to>INVALID UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT </from><to>FINAL AUDIT GENERATION</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS</from><to>FINAL AUDIT WAIT </to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>Set Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>Database join</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE </from><to>Dummy</to><enabled>N</enabled> </hop>  <hop> <from>HTML GROUP</from><to>Database join 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2</from><to>MAIL CREATION</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 3 2</from><to>Dummy (do nothing) 5 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3 2</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>INBOUND PROCESSED</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>Filter rows 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT 2</from><to>SET VARIABLES 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT 2 2</from><to>SET VARIABLES 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2</from><to>MAIL CREATION 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>MAIL CREATION 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 3</from><to>REMOVE FIELDS 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 3 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>AUDIT COMPLETION WAIT 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>FOR HTML GROUP 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>STAGING AUDIT 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>AUDIT COMPLETION WAIT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>STAGING AUDIT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2 2</from><to>Filter rows 3 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP 2</from><to>Database join 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP 2 2</from><to>Database join 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3 2 2 2</from><to>FINAL AUDIT GENERATION 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3 2 2 2</from><to>Modified Java Script Value</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2</from><to>REMOVE FIELDS 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL CREATION 2 2</from><to>Split field to rows 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Modified Java Script Value</from><to>FINAL AUDIT GENERATION 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2 2</from><to>Mail 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2 2 2</from><to>PICK UNIQUE CONTENT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2 2 2</from><to>AUDIT_STATUS_UPDATE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2</from><to>Update 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2 2</from><to>Update 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2 2</from><to>Database join 3</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2</from><to>GET MAIL PARAMETERS 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2</from><to>REMOVE FIELDS 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>Database join 3 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>GET MAIL PARAMETERS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT </from><to>FINAL AUDIT GENERATION 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Execute SQL script 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2</from><to>Dummy (do nothing) 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 3 2</from><to>Dummy (do nothing) 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy (do nothing) 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS</from><to>INVALID COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>OUTBOUND_FLAG</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>OUTBOUND_FLAG</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>OUTBOUND PROCESSED</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>AUDIT COMPLETION WAIT</from><to>UPDATE STATUS</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT SORT </from><to>AUDIT UNIQUE </to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT UNIQUE </from><to>REMOVE FIELDS</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>AUDIT COMPLETION WAIT</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>HTML GROUP</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>STAGING AUDIT</to><enabled>N</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>AUDIT INSERT WAIT 4</to><enabled>N</enabled> </hop>  <hop> <from>Invalid_wait</from><to>INVALID COUNT</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT</from><to>Mail</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS</from><to>Invalid_wait</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT</to><enabled>N</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>UPDATE STATUS</from><to>AUDIT_STATUS_UPDATE </to><enabled>N</enabled> </hop>  <hop> <from>TEMP</from><to>AUDIT SORT </to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Dummy</to><enabled>N</enabled> </hop>  <hop> <from>Update 2</from><to>Dummy</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT 4</from><to>Set Audit Status 2</to><enabled>N</enabled> </hop>  <hop> <from>Set Audit Status 2</from><to>INVALID UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT </from><to>FINAL AUDIT GENERATION</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS</from><to>FINAL AUDIT WAIT </to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>Set Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>Database join</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE </from><to>Dummy</to><enabled>N</enabled> </hop>  <hop> <from>HTML GROUP</from><to>Database join 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2</from><to>MAIL CREATION</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 3 2</from><to>Dummy (do nothing) 5 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3 2</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>INBOUND PROCESSED</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>Filter rows 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT 2</from><to>SET VARIABLES 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT 2 2</from><to>SET VARIABLES 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2</from><to>MAIL CREATION 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>MAIL CREATION 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 3</from><to>REMOVE FIELDS 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 3 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>AUDIT COMPLETION WAIT 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>FOR HTML GROUP 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>STAGING AUDIT 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>AUDIT COMPLETION WAIT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>STAGING AUDIT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2 2</from><to>Filter rows 3 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP 2</from><to>Database join 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP 2 2</from><to>Database join 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3 2 2 2</from><to>FINAL AUDIT GENERATION 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3 2 2 2</from><to>Modified Java Script Value</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2</from><to>REMOVE FIELDS 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL CREATION 2 2</from><to>Split field to rows 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Modified Java Script Value</from><to>FINAL AUDIT GENERATION 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2 2</from><to>Mail 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2 2 2</from><to>PICK UNIQUE CONTENT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2 2 2</from><to>AUDIT_STATUS_UPDATE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2</from><to>Update 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2 2</from><to>Update 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2 2</from><to>Database join 3</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2</from><to>GET MAIL PARAMETERS 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2</from><to>REMOVE FIELDS 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>Database join 3 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>GET MAIL PARAMETERS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT </from><to>FINAL AUDIT GENERATION 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2</from><to>Dummy (do nothing) 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 3 2</from><to>Dummy (do nothing) 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy (do nothing) 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS</from><to>INVALID COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>OUTBOUND_FLAG</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>OUTBOUND_FLAG</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>OUTBOUND PROCESSED</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>AUDIT COMPLETION WAIT</name>
     <type>BlockUntilStepsFinish</type>
@@ -220,7 +220,7 @@
            </partitioning>
       <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
-      <sort_size>50000</sort_size>
+      <sort_size>5000</sort_size>
       <free_memory/>
       <compress>N</compress>
       <compress_variable/>
@@ -343,6 +343,12 @@
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>STATUS</name>
         <rename>STATUS_N</rename>
@@ -388,6 +394,12 @@
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
         <condition>=</condition>
         <name2/>
         </key>
@@ -724,36 +736,6 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>874</xloc>
       <yloc>727</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Execute SQL script 2</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <execute_each_row>N</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <sql>UPDATE A SET INBOUND_STATUS = &apos;D&apos; FROM   GL_COST_CENTER_MASTER A
-WHERE NOT EXISTS(SELECT * FROM STAG_GL_COST_CENTER SID WHERE SID.COMPANY_COST_CENTER = A.COMPANY_COST_CENTER AND SID.COMPANY_CODE = A.COMPANY_CODE AND SID.NDC8 = A.NDC8)</sql>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>3020</xloc>
-      <yloc>1006</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1937,6 +1919,12 @@ FROM   IVLD_GL_COST_CENTER
         <condition>=</condition>
         <name2/>
         </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
       <value>
         <name>INVALID_RECORD_COUNT</name>
         <rename>INVALID_COUNT</rename>
@@ -2699,6 +2687,273 @@ var RECENT_CONTENT=&quot;&quot;;</jsScript_script>
     </step>
 
   <step>
+    <name>OUTBOUND PROCESSED</name>
+    <type>TextFileOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <separator>|</separator>
+    <enclosure>&quot;</enclosure>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine/>
+    <fileNameInField>Y</fileNameInField>
+    <fileNameField>b</fileNameField>
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>D:\GALDERMA\file</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>csv</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>N</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>GL_COST_CENTER_INTFID</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>COMPANY_COST_CENTER</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>COMPANY_CODE</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>NDC8</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>UPLOAD_DATE</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CREATED_BY</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CREATED_DATE</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>MODIFIED_BY</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>MODIFIED_DATE</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BATCH_ID</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SOURCE</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ADD_CHG_DEL_INDICATOR</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REASON_FOR_FAILURE</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>INTF_INSERTED_DATE</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ERROR_CODE</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ERROR_FIELD</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>IVLD_GL_COST_CENTER_SID</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REPROCESSED_FLAG</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>773</xloc>
+      <yloc>1170</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>OUTBOUND_FLAG</name>
     <type>DBJoin</type>
     <description/>
@@ -2948,7 +3203,8 @@ var RECENT_CONTENT=&quot;&quot;;</jsScript_script>
 
 var STATUS_N=&quot;C&quot;;
 var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
+var INTERFACE_RUN_END_DATE=new Date();
+var APPLICATION_PROCESS=&quot;GL_COST_CENTER_INTERFACE&quot;;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
         <rename>STATUS_N</rename>
         <type>String</type>
@@ -2967,6 +3223,12 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
+      </field>      <field>        <name>APPLICATION_PROCESS</name>
+        <rename>APPLICATION_PROCESS</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>3086</xloc>
@@ -2993,7 +3255,8 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
 
 var STATUS_N=&quot;C&quot;;
 var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
+var INTERFACE_RUN_END_DATE=new Date();
+var APPLICATION_PROCESS=&quot;GL_COST_CENTER_INTERFACE&quot;;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
         <rename>STATUS_N</rename>
         <type>String</type>
@@ -3012,6 +3275,12 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
+      </field>      <field>        <name>APPLICATION_PROCESS</name>
+        <rename>APPLICATION_PROCESS</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>2180</xloc>
@@ -3163,6 +3432,17 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
         <group/>
         <nullif>R</nullif>
         <length>5</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>GL_COST_CENTER_INTERFACE</nullif>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -3443,273 +3723,6 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>2987</xloc>
       <yloc>714</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>OUTBOUND PROCESSED</name>
-    <type>TextFileOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <separator>|</separator>
-    <enclosure>&quot;</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>Y</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding/>
-    <endedLine/>
-    <fileNameInField>Y</fileNameInField>
-    <fileNameField>b</fileNameField>
-    <create_parent_folder>N</create_parent_folder>
-    <file>
-      <name>D:\GALDERMA\file</name>
-      <is_command>N</is_command>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
-      <extention>csv</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>N</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>GL_COST_CENTER_INTFID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>COMPANY_COST_CENTER</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>COMPANY_CODE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>NDC8</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>UPLOAD_DATE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>CREATED_BY</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>CREATED_DATE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>MODIFIED_BY</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>MODIFIED_DATE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>BATCH_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SOURCE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ADD_CHG_DEL_INDICATOR</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>REASON_FOR_FAILURE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>INTF_INSERTED_DATE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ERROR_CODE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ERROR_FIELD</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>IVLD_GL_COST_CENTER_SID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>REPROCESSED_FLAG</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>773</xloc>
-      <yloc>1170</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

@@ -53,7 +53,7 @@
                                     <OptionGroup id="variable" multiSelect="false" enable="true" styleName = "horizontal" immediate="true"/>
                                     <Label  id="adjustment1" styleName="mandatory" value="Adjustment:" contentMode="HTML"  />  
                                     <TextField id="adjustment" enable="true"/>
-                                    <Label  id="allocation" styleName="mandatory" value="Allocation Methodology:" contentMode="HTML" />
+                                    <Label  id="allocation" styleName="mandatory" value="Allocation Methododlogy:" contentMode="HTML" />
                                     <ComboBox id="allocationMethododlogyDdlb" styleName="comboxsize" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" />
                                     <Label  id="adjustments" styleName="mandatory" value="Adjustment Periods:" contentMode="HTML"/>  
                                     <OptionGroup id="adjustmentPeriods" multiSelect="false" enable="true" styleName = "horizontal"/> 

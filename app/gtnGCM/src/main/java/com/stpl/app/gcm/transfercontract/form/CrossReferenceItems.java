@@ -37,9 +37,9 @@ public class CrossReferenceItems extends VerticalLayout {
      @UiField("massField")
     public ComboBox massField;
 
-    private final ExtTreeContainer<TransferToDTO> toResultContainer = new ExtTreeContainer<TransferToDTO>(TransferToDTO.class);
-    private final BeanItemContainer<ComponentDetailsDTO> componentDetailsContainer = new BeanItemContainer<ComponentDetailsDTO>(ComponentDetailsDTO.class);
-    private final BeanItemContainer<DetailsDTO> ifpResultsContainer = new BeanItemContainer<DetailsDTO>(DetailsDTO.class);
+    private final ExtTreeContainer<TransferToDTO> toResultContainer = new ExtTreeContainer<>(TransferToDTO.class);
+    private final BeanItemContainer<ComponentDetailsDTO> componentDetailsContainer = new BeanItemContainer<>(ComponentDetailsDTO.class);
+    private final BeanItemContainer<DetailsDTO> ifpResultsContainer = new BeanItemContainer<>(DetailsDTO.class);
 
     public CrossReferenceItems() {
         addComponent(Clara.create(getClass().getResourceAsStream("/TransferContract/crossRefItems.xml"), this));
@@ -50,16 +50,16 @@ public class CrossReferenceItems extends VerticalLayout {
     private void configureTables() {
 
         toResultTableItem.setContainerDataSource(toResultContainer);
-        toResultTableItem.setVisibleColumns(HeaderUtil.TRANSFOR_TO_COLUMN);
-        toResultTableItem.setColumnHeaders(HeaderUtil.TRANSFOR_TO_HEADER);
+        toResultTableItem.setVisibleColumns(HeaderUtil.getInstance().transforToColumn);
+        toResultTableItem.setColumnHeaders(HeaderUtil.getInstance().transforToHeader);
 
         componentDetailsTable.setContainerDataSource(componentDetailsContainer);
-        componentDetailsTable.setVisibleColumns(HeaderUtil.COMPONENT_DETAILS_ITEM_COLUMN);
-        componentDetailsTable.setColumnHeaders(HeaderUtil.COMPONENT_DETAILS_ITEM_HEADER);
+        componentDetailsTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
+        componentDetailsTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
 
         ifpResults.setContainerDataSource(ifpResultsContainer);
-        ifpResults.setVisibleColumns(HeaderUtil.IFP_DETAILS_COLUMN);
-        ifpResults.setColumnHeaders(HeaderUtil.IFP_DETAILS_HEADER);
+        ifpResults.setVisibleColumns(HeaderUtil.getInstance().ifpDetailsColumn);
+        ifpResults.setColumnHeaders(HeaderUtil.getInstance().ifpDetailsHeader);
 
     }
      public void configureFields(){

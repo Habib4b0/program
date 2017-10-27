@@ -22,7 +22,7 @@ import org.jboss.logging.Logger;
  */
 public class SQlUtil {
 
-    private final Map<String, StringBuilder> QUERY_MAP = new HashMap<>();
+    private final Map<String, String> QUERY_MAP = new HashMap<>();
     private static SQlUtil sqlUtil = null;
     private File[] files = null;
     private static final Logger LOGGER = Logger.getLogger(SQlUtil.class);
@@ -58,18 +58,18 @@ public class SQlUtil {
                 Sql que = (Sql) jaxbUnmarshaller.unmarshal(file);
                 List<SqlEntity> list = que.getSqlEntity();
                 for (SqlEntity ans : list) {
-                    QUERY_MAP.put(ans.getSqlID(), new StringBuilder(ans.getSqlQuery()));
+                    QUERY_MAP.put(ans.getSqlID(), ans.getSqlQuery());
                 }
             }
         }
 
     }
 
-    private Map<String, StringBuilder> getQUERY_MAP() {
+    private Map<String, String> getQUERY_MAP() {
         return QUERY_MAP;
     }
 
-    public static StringBuilder getQuery(String sqlId) {
+    public static String getQuery(String sqlId) {
         return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
     }
 

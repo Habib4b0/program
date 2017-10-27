@@ -16,82 +16,98 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
 import java.util.List;
+
 /**
  * DAO operations for Security
+ *
  * @author shrihariharan
  *
  */
-public class StplSecurityDAOImpl implements StplSecurityDAO{
+public class StplSecurityDAOImpl implements StplSecurityDAO {
 
-	/**
-	 * Returns the user details corresponding to the userId
-	 * @param userId
-	 * @return User modal object
-	 * @throws SystemException
-	 * @throws PortalException
-	 */
-	public User getUserByUserId(final long userId)throws SystemException,PortalException{
-		return UserLocalServiceUtil.getUser(userId);
-	}
-	/**
-	 * Performs a dynamic query on the database and returns the matching rows
-	 * @param query - dynamic query of UsergroupBusinessroleMaster
-	 * @return list of UsergroupBusinessroleMaster
-	 * @throws SystemException
-	 */
-	public List<UsergroupBusinessrole> getUsergroupBusinessroleMasterList(final DynamicQuery query)throws PortalException, SystemException{
-		return UsergroupBusinessroleLocalServiceUtil.dynamicQuery(query);
-	}
-	
-	/**
-	 * Performs a dynamic query on the database and returns the matching rows.
-	 * @param query - dynamic query of UsergroupDomainMaster
-	 * @return list of UsergroupDomainMaster
-	 * @throws SystemException
-	 */
-	public List<UsergroupDomainMaster> getUsergroupDomainMasterList(final DynamicQuery query)throws SystemException{
-		return UsergroupDomainMasterLocalServiceUtil.dynamicQuery(query);
-	}
+    /**
+     * Returns the user details corresponding to the userId
+     *
+     * @param userId
+     * @return User modal object
+     * @throws SystemException
+     * @throws PortalException
+     */
+    @Override
+    public User getUserByUserId(final long userId) throws SystemException, PortalException {
+        return UserLocalServiceUtil.getUser(userId);
+    }
 
-	/**
-	 * Returns the list of BusinessroleModuleMaster
-	 * @param businessRoleIds
-	 * @param moduleName
-	 * @return list of BusinessroleModuleMaster
-	 * @throws SystemException
-	 * @throws PortalException
-	 */public List getBusinessroleModuleMasterTabList(final String businessRoleIds,final String moduleName){
-		return BusinessroleModuleLocalServiceUtil.getBusinessTabPermission(businessRoleIds, moduleName);
-	}
-	
-	/**
-	 * Returns the list of BusinessroleModuleMaster
-	 * @param businessRoleIds
-	 * @param moduleName
-	 * @return list of BusinessroleModuleMaster
-	 * @throws SystemException
-	 * @throws PortalException
-	 */
-	public List getBusinessroleModuleMasterFieldList(final String businessRoleIds,final String moduleName) throws PortalException, SystemException {
-		return BusinessroleModuleLocalServiceUtil.getBusinessFieldPermission(businessRoleIds, moduleName);
-	}
-	
-	/**
-	 * Returns the list of BusinessroleModuleMaster
-	 * @param businessRoleIds
-	 * @param moduleName
-	 * @return list of BusinessroleModuleMaster
-	 * @throws SystemException
-	 * @throws PortalException
-	 */
-	public List getBusinessroleModuleMasterFunctionList(final String businessRoleIds,final String moduleName)  throws PortalException, SystemException{
-		return BusinessroleModuleLocalServiceUtil.getBusinessFunctionPermission(businessRoleIds, moduleName);
-	}
-	/**
-	 * To get permission for accessing Business fields.
-	 * 
-	 * @param businessRoleId
-	 * @param moduleName
-	 * @return
-	 */
-	}
+    /**
+     * Performs a dynamic query on the database and returns the matching rows
+     *
+     * @param query - dynamic query of UsergroupBusinessroleMaster
+     * @return list of UsergroupBusinessroleMaster
+     * @throws SystemException
+     */
+    @Override
+    public List<UsergroupBusinessrole> getUsergroupBusinessroleMasterList(final DynamicQuery query) throws PortalException, SystemException {
+        return UsergroupBusinessroleLocalServiceUtil.dynamicQuery(query);
+    }
+
+    /**
+     * Performs a dynamic query on the database and returns the matching rows.
+     *
+     * @param query - dynamic query of UsergroupDomainMaster
+     * @return list of UsergroupDomainMaster
+     * @throws SystemException
+     */
+    @Override
+    public List<UsergroupDomainMaster> getUsergroupDomainMasterList(final DynamicQuery query) throws SystemException {
+        return UsergroupDomainMasterLocalServiceUtil.dynamicQuery(query);
+    }
+
+    /**
+     * Returns the list of BusinessroleModuleMaster
+     *
+     * @param businessRoleIds
+     * @param moduleName
+     * @return list of BusinessroleModuleMaster
+     * @throws SystemException
+     * @throws PortalException
+     */
+    @Override
+    public List getBusinessroleModuleMasterTabList(final String businessRoleIds, final String moduleName) {
+        return BusinessroleModuleLocalServiceUtil.getBusinessTabPermission(businessRoleIds, moduleName);
+    }
+
+    /**
+     * Returns the list of BusinessroleModuleMaster
+     *
+     * @param businessRoleIds
+     * @param moduleName
+     * @return list of BusinessroleModuleMaster
+     * @throws SystemException
+     * @throws PortalException
+     */
+    @Override
+    public List getBusinessroleModuleMasterFieldList(final String businessRoleIds, final String moduleName) throws PortalException, SystemException {
+        return BusinessroleModuleLocalServiceUtil.getBusinessFieldPermission(businessRoleIds, moduleName);
+    }
+
+    /**
+     * Returns the list of BusinessroleModuleMaster
+     *
+     * @param businessRoleIds
+     * @param moduleName
+     * @return list of BusinessroleModuleMaster
+     * @throws SystemException
+     * @throws PortalException
+     */
+    @Override
+    public List getBusinessroleModuleMasterFunctionList(final String businessRoleIds, final String moduleName) throws PortalException, SystemException {
+        return BusinessroleModuleLocalServiceUtil.getBusinessFunctionPermission(businessRoleIds, moduleName);
+    }
+    /**
+     * To get permission for accessing Business fields.
+     *
+     * @param businessRoleId
+     * @param moduleName
+     * @return
+     */
+}

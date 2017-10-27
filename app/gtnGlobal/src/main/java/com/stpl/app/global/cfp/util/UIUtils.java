@@ -94,26 +94,26 @@ public final class UIUtils {
 			ConstantsUtils.COMPANY_NO,ConstantsUtils.COMPANY_NAME,ConstantsUtils.CFP_STATUS_VALUE,
 			ConstantsUtils.CFP_START_DATE, ConstantsUtils.CFP_END_DATE ,
 			ConstantsUtils.COMPANY_STATUS_VALUE,ConstantsUtils.COMPANY_TYPE_VALUE,ConstantsUtils.TRADE_CLASS,ConstantsUtils.COMPANY_CATEGORY,
-                        ConstantsUtils.TRADING_PARTNER_CONTRACT_NO,ConstantsUtils.Cfp_Attached_Date,ConstantsUtils.MODIFIEDDATE,ConstantsUtils.MODIFIEDBY,ConstantsUtils.CREATEDDATE,ConstantsUtils.CREATEDBY };
+                        ConstantsUtils.TRADING_PARTNER_CONTRACT_NO,ConstantsUtils.CFP_ATTACHED_DATE_COL,ConstantsUtils.MODIFIEDDATE,ConstantsUtils.MODIFIEDBY,ConstantsUtils.CREATEDDATE,ConstantsUtils.CREATEDBY };
 	
 	/** The Constant ITEM_DETAILS_COL_HEADER. */
 	public static final String[] ITEM_COL_HEADER = new String[] { "",ConstantsUtils.COMPANYID,ConstantsUtils.COMPANYNO,
 			ConstantsUtils.COMPANYNAME,LabelUtils.COMPANYFAMILYPLANSTATUS,LabelUtils.COMPANYFAMILYPLANSTARTDATE, LabelUtils.COMPANYFAMILYPLANENDDATE,
 			ConstantsUtils.COMPANYSTATUS,ConstantsUtils.COMPANYTYPE,ConstantsUtils.COMPANY_TRADE_CLASS,ConstantsUtils.COMPANY_CATEGRY,
-			ConstantsUtils.TRADING_PARTNER_CONTRACT_No,ConstantsUtils.ATTACHED_DATE,ConstantsUtils.MODIFIED_DATE,ConstantsUtils.MODIFIED_BY,ConstantsUtils.CREATED_DATE1,ConstantsUtils.CREATED_BY};
+			ConstantsUtils.TRADING_PARTNER_CONTRACT_NO_LABEL,ConstantsUtils.ATTACHED_DATE,ConstantsUtils.MODIFIED_DATE,ConstantsUtils.MODIFIED_BY,ConstantsUtils.CREATED_DATE1,ConstantsUtils.CREATED_BY};
 	
 	/** The Constant ITEM_DETAILS_COL_VIEW. */
 	public static final Object[] ITEM_COL_VIEW = new Object[] {ConstantsUtils.COMPANY_ID,
 			ConstantsUtils.COMPANY_NO,ConstantsUtils.COMPANY_NAME,ConstantsUtils.CFP_STATUS_VALUE,
 			ConstantsUtils.CFP_START_DATE, ConstantsUtils.CFP_END_DATE ,
 			ConstantsUtils.COMPANY_STATUS_VALUE,ConstantsUtils.COMPANY_TYPE_VALUE,ConstantsUtils.TRADE_CLASS,ConstantsUtils.COMPANY_CATEGORY,
-                        ConstantsUtils.TRADING_PARTNER_CONTRACT_NO,ConstantsUtils.Cfp_Attached_Date,ConstantsUtils.MODIFIEDDATE,ConstantsUtils.MODIFIEDBY,ConstantsUtils.CREATEDDATE,ConstantsUtils.CREATEDBY };
+                        ConstantsUtils.TRADING_PARTNER_CONTRACT_NO,ConstantsUtils.CFP_ATTACHED_DATE_COL,ConstantsUtils.MODIFIEDDATE,ConstantsUtils.MODIFIEDBY,ConstantsUtils.CREATEDDATE,ConstantsUtils.CREATEDBY };
 	
 	/** The Constant ITEM_DETAILS_COL_HEADER_VIEW. */
 	public static final String[] ITEM_HEADER_VIEW = new String[] {ConstantsUtils.COMPANYID,ConstantsUtils.COMPANYNO,
 			ConstantsUtils.COMPANYNAME,LabelUtils.COMPANYFAMILYPLANSTATUS,LabelUtils.COMPANYFAMILYPLANSTARTDATE, LabelUtils.COMPANYFAMILYPLANENDDATE,
 			ConstantsUtils.COMPANYSTATUS,ConstantsUtils.COMPANYTYPE,ConstantsUtils.COMPANY_TRADE_CLASS,ConstantsUtils.COMPANY_CATEGRY,
-			ConstantsUtils.TRADING_PARTNER_CONTRACT_No,ConstantsUtils.ATTACHED_DATE,ConstantsUtils.MODIFIED_DATE,ConstantsUtils.MODIFIED_BY,ConstantsUtils.CREATED_DATE1,ConstantsUtils.CREATED_BY};
+			ConstantsUtils.TRADING_PARTNER_CONTRACT_NO_LABEL,ConstantsUtils.ATTACHED_DATE,ConstantsUtils.MODIFIED_DATE,ConstantsUtils.MODIFIED_BY,ConstantsUtils.CREATED_DATE1,ConstantsUtils.CREATED_BY};
 	
 	/**
 	 * Constructor

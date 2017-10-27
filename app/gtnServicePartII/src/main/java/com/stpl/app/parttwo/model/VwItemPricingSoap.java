@@ -32,6 +32,7 @@ public class VwItemPricingSoap implements Serializable {
     private int _itemPricingSid;
     private String _pricingCodeStatus;
     private String _pricingCodeQualifierName;
+    private int _itemPriceprecision;
 
     public VwItemPricingSoap() {
     }
@@ -58,6 +59,7 @@ public class VwItemPricingSoap implements Serializable {
         soapModel.setItemPricingSid(model.getItemPricingSid());
         soapModel.setPricingCodeStatus(model.getPricingCodeStatus());
         soapModel.setPricingCodeQualifierName(model.getPricingCodeQualifierName());
+        soapModel.setItemPriceprecision(model.getItemPriceprecision());
 
         return soapModel;
     }
@@ -256,5 +258,13 @@ public class VwItemPricingSoap implements Serializable {
 
     public void setPricingCodeQualifierName(String pricingCodeQualifierName) {
         _pricingCodeQualifierName = pricingCodeQualifierName;
+    }
+
+    public int getItemPriceprecision() {
+        return _itemPriceprecision;
+    }
+
+    public void setItemPriceprecision(int itemPriceprecision) {
+        _itemPriceprecision = itemPriceprecision;
     }
 }

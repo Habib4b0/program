@@ -17,9 +17,9 @@ public class ArmDateToStringConverter implements Converter<String, Date> {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
     public Date convertToModel(String value, Class<? extends Date> targetType,
-            Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            Locale locale) {
         if (targetType != getModelType()) {
             throw new ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
@@ -30,27 +30,26 @@ public class ArmDateToStringConverter implements Converter<String, Date> {
             return null;
         }
 
-        value = value.trim();
+        String values = value.trim();
 
         ParsePosition parsePosition = new ParsePosition(0);
-        Date parsedValue = getFormat(locale).parse(value, parsePosition);
-        if (parsePosition.getIndex() != value.length()) {
-            throw new ConversionException("Could not convert '" + value
+        Date parsedValue = getFormat(locale).parse(values, parsePosition);
+        if (parsePosition.getIndex() != values.length()) {
+            throw new ConversionException("Could not convert '" + values
                     + "' to " + getModelType().getName());
         }
 
         return parsedValue;
     }
 
+    @Override
     public String convertToPresentation(Date value,
-            Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            Class<? extends String> targetType, Locale locale) {
         if (value == null) {
             return null;
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat(ARMUtils.MM_dd_yyyy_hh_mm_ss);
-        String dateStr = dateFormat.format(value);
-        return dateStr;
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ARMUtils.MM_DD_YYYY_HH_MM_SS);
+        return dateFormat.format(value);
     }
 
     /*
@@ -58,7 +57,7 @@ public class ArmDateToStringConverter implements Converter<String, Date> {
      * 
      * @see com.vaadin.data.util.converter.Converter#getModelType()
      */
-
+    @Override
     public Class<Date> getModelType() {
         return Date.class;
     }
@@ -68,6 +67,7 @@ public class ArmDateToStringConverter implements Converter<String, Date> {
      * 
      * @see com.vaadin.data.util.converter.Converter#getPresentationType()
      */
+    @Override
     public Class<String> getPresentationType() {
         return String.class;
     }
@@ -81,12 +81,15 @@ public class ArmDateToStringConverter implements Converter<String, Date> {
      * @return A DateFormat instance
      */
     protected DateFormat getFormat(Locale locale) {
+        Locale locales;
         if (locale == null) {
-            locale = Locale.getDefault();
+            locales = Locale.getDefault();
+        } else {
+            locales = locale;
         }
 
         DateFormat f = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-                DateFormat.MEDIUM, locale);
+                DateFormat.MEDIUM, locales);
         f.setLenient(false);
         return f;
     }

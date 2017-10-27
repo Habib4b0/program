@@ -190,9 +190,9 @@ public class ViewLog extends CustomComponent implements View {
 
     String searchFile(String filePath, String lineTo, String filterText, String customcommand) {
         Process process;
-        String line = StringUtils.EMPTY;
+        String line;
         String output = StringUtils.EMPTY;
-        String execcommand = StringUtils.EMPTY;
+        String execcommand;
         if ( filePath==null||filePath.isEmpty() ) {
             return StringUtils.EMPTY;
         }
@@ -219,6 +219,7 @@ public class ViewLog extends CustomComponent implements View {
             LOGGER.error(e);
             return StringUtils.EMPTY;
         } catch (IOException ex) {
+                LOGGER.info(ex);
            return "Invalid command :"+execcommand;
         }
     }

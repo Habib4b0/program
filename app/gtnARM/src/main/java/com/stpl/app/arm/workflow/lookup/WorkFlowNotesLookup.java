@@ -5,7 +5,22 @@
  */
 package com.stpl.app.arm.workflow.lookup;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.workflow.utils.FileUploader;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.CommonUtils;
@@ -35,27 +50,14 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Upload;
-import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Window;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
 
 /**
  *
  * @author Asha.Ravi
  */
 public class WorkFlowNotesLookup extends Window {
-    
+
     private static final Logger LOGGER = Logger.getLogger(WorkFlowNotesLookup.class);
 
     @UiField("fileNameField")
@@ -91,17 +93,18 @@ public class WorkFlowNotesLookup extends Window {
     protected String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
     protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
     protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
-    protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<NotesDTO>(NotesDTO.class);
+    protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;
     protected File fileUpload;
     protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(new File("tst")));
     protected String fileName;
     protected String fileUploadPath;
-    public List<NotesDTO> removeDetailsList = new ArrayList<NotesDTO>();
+    private List<NotesDTO> removeDetailsList = new ArrayList<>();
     protected String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
     private NotesDTO tableBean = new NotesDTO();
 
-    public static String submitFlag="";
+    public static String submitFlag = "";
+
     public WorkFlowNotesLookup() {
         init();
     }
@@ -134,7 +137,7 @@ public class WorkFlowNotesLookup extends Window {
         uploader.setStyleName(ARMUtils.SEARCH_TEXT);
         uploader.setImmediate(true);
         uploader.setEnabled(false);
-        uploadReceiver = (Receiver) new FileUploader(StringUtils.EMPTY + "/" + userId);
+        uploadReceiver = new FileUploader(StringUtils.EMPTY + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
         fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + "/" + userId + "/";
         uploadComponent.setButtonCaption(ARMUtils.ADD);
@@ -169,8 +172,7 @@ public class WorkFlowNotesLookup extends Window {
                 try {
                     String value = String.valueOf(arguments.get(0));
                     if (StringUtils.isNotEmpty(value)) {
-
-                        fileUpload = new File(fileUploadPath + value);
+                          fileUpload = new File(fileUploadPath + value);
                         String name = fileUpload.getAbsolutePath();
                         if (name.contains("\\")) {
                             String replace = name.replace("\\", ",");
@@ -193,7 +195,7 @@ public class WorkFlowNotesLookup extends Window {
                         fileNameField.setValue(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("Error in call :"+ex);
                 }
                 uploader.focus();
             }
@@ -250,6 +252,7 @@ public class WorkFlowNotesLookup extends Window {
              */
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 try {
                     itemClickLogic(event);
@@ -296,7 +299,7 @@ public class WorkFlowNotesLookup extends Window {
         try {
             String file = fileNameField.getValue();
             if (file.matches(ARMUtils.SPECIAL_CHAR)) {
-                
+
                 StringBuilder sb = new StringBuilder(event.getFilename());
                 int index = sb.lastIndexOf(".");
                 sb.replace(0, index, file);
@@ -306,7 +309,7 @@ public class WorkFlowNotesLookup extends Window {
                 File destFileUpload = new File(fileUploadPath + event.getFilename());
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
-                File renameFileUpload = new File(fileUploadPath + name);
+                 File renameFileUpload = new File(fileUploadPath + name);
                 destFileUpload.renameTo(renameFileUpload);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
@@ -330,7 +333,7 @@ public class WorkFlowNotesLookup extends Window {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in uploadComponentSucceededLogic :"+ex);
         }
 
     }
@@ -370,22 +373,23 @@ public class WorkFlowNotesLookup extends Window {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in uploadComponentStartedLogic :"+ex);
         }
 
     }
 
     public void removeButtonLogic(Button.ClickEvent event) {
-        
+
         String temp = tableBean.getUserName();
         if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
-            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "Please select an attachment to remove ");
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
         }
-      
+
         if (CommonUtils.getUserNameById(userId).equalsIgnoreCase(temp)) {
             AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("inside removeButtonLogic NO Method");
                 }
 
                 @Override
@@ -399,10 +403,10 @@ public class WorkFlowNotesLookup extends Window {
                     tableBean = null;
                 }
             };
-            notification.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
+            notification.getConfirmationMessage(CommonConstant.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");
 
         } else {
-            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+            AbstractNotificationUtils.getErrorNotification(CommonConstant.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
         }
     }
 
@@ -413,7 +417,7 @@ public class WorkFlowNotesLookup extends Window {
             if (tableBeanId instanceof BeanItem<?>) {
                 targetItem = (BeanItem<?>) tableBeanId;
             } else if (tableBeanId instanceof NotesDTO) {
-                targetItem = new BeanItem<NotesDTO>((NotesDTO) tableBeanId);
+                targetItem = new BeanItem<>((NotesDTO) tableBeanId);
             }
             tableBean = (NotesDTO) targetItem.getBean();
             if (event.isDoubleClick()) {
@@ -423,7 +427,7 @@ public class WorkFlowNotesLookup extends Window {
                 downloadFile(uploadedFile);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in itemClickLogic :"+e);
         }
     }
 
@@ -452,9 +456,8 @@ public class WorkFlowNotesLookup extends Window {
                 Page.getCurrent().open(res, "_blank", true);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in downloadFile :"+ex);
         }
     }
-    
-}
 
+}

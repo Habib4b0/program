@@ -49,7 +49,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -134,8 +133,8 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
     @UiField("selectedTable")
     private ExtFilterTable selectedTable;
     @UiField("resultsTable")
-    private Table resultsTable;
-    
+    private ExtFilterTable resultsTable;
+   
     /**
      * The ifp type.
      */
@@ -176,8 +175,8 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
     private final IFPLogic ifpLogic = new IFPLogic();
     CommonUIUtils commonUiUtil = new CommonUIUtils();
     CommonUtil commonUtil = CommonUtil.getInstance();
-    List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, "Item Addition");
-    Object[] obj = CommonUIUtils.IFP_COLUMNS_IN_RS;
+    List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, ConstantsUtils.ITEM_ADDITION);
+    Object[] obj = commonUiUtil.ifpColumnsInRs;
     private RSRebateSetupTabForm rsRebateSetupTabForm;
      CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     SessionDTO sessionDTO;
@@ -201,12 +200,12 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
             addToContent();
             configureFields();
 
-            final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Item Addition");
-            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Item Addition",false);
+            final Map<String, AppPermission> functionRsHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.ITEM_ADDITION);
+            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.ITEM_ADDITION,false);
 
 
             addResponsiveness(fieldRsHM);
-            if (functionRsHM.get(FunctionNameUtil.SEARCH) != null && ((AppPermission) functionRsHM.get(FunctionNameUtil.SEARCH)).isFunctionFlag()) {
+            if (functionRsHM.get(FunctionNameUtil.SEARCH) != null && (functionRsHM.get(FunctionNameUtil.SEARCH)).isFunctionFlag()) {
                 configureSearchButton();
             }else{
                 searchBtn.setVisible(false);
@@ -236,15 +235,16 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
             addAvailableTable();
             addSelectedTable();
         }
-
+        
         hlayout2.addStyleName("dataTransferGridForPS");
         hlayout2.addStyleName("responsiveTabGrid");
 
     }
 
     public ExtFilterTable addAvailableTable() throws PortalException, SystemException {
-        final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Item Addition",false);
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
+
+        final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.ITEM_ADDITION,false);
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
         if (tableResultCustom.getObjResult().length == 0) {
             availableTable.setVisible(false);
             prevColumn.setVisible(false);
@@ -262,19 +262,13 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
         availableTable.setFilterGenerator(new RSFilterGenerate());
         availableTable.setFilterDecorator(new ExtDemoFilterDecorator());
         availableTable.setWidth("380px");
-        availableTable.addItemClickListener(new ItemClickListener() {
-
-            public void itemClick(ItemClickEvent event) {
-
-            }
-        });
 
         availableTable.setErrorHandler(new ErrorHandler() {
             /**
              * Method used to Error Handling for Selected Table
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                LOGGER.debug("Inside Available Table Error Handler");
             }
         });
 
@@ -282,11 +276,11 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
     }
 
     public ExtFilterTable addSelectedTable() throws PortalException, SystemException {
-        final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Item Addition",false);
-        List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, "Item Addition");
-        Object[] obj = CommonUIUtils.IFP_COLUMNS_IN_RS;
-        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
- if (tableResultCustom.getObjResult().length == 0) {
+        final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.ITEM_ADDITION,false);
+        List<Object> resultListForSecurity = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, ConstantsUtils.ITEM_ADDITION);
+        Object[] columnsInRs = commonUiUtil.ifpColumnsInRs;
+        TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultListForSecurity, columnsInRs, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
+    if (tableResultCustom.getObjResult().length == 0) {
             selectedTable.setVisible(false);
              prevColumn.setVisible(false);
             nextColumn.setVisible(false);
@@ -368,38 +362,9 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
                     if (ifpNo.getValue().isEmpty() && ifpName.getValue().isEmpty() && ifpType.getValue() == null && ifpStartDate.getValue() == null && ifpEndDate.getValue() == null && itemName.getValue().isEmpty() && itemID.getValue().isEmpty() && ifpStatus.getValue() == null && ifpCategory.getValue() == null ) {
                         binder.getErrorDisplay().setError("Please Select or Enter the Value to search");
                     } else {
-                        availableTable.clearFilters();
-                        String tempIFPNo = ifpNo.getValue();
-                        String tempIFPName = ifpName.getValue();
-                        Object tempIFPType = ((HelperDTO)ifpType.getValue()) != null ? ((HelperDTO)ifpType.getValue()).getId() : 0 ;
-                        Date tempIFPStartDate = ifpStartDate.getValue();
-                        Date tempIFPEndDate = ifpEndDate.getValue() ;
-                        String tempItemNo = itemID.getValue() != null ? itemID.getValue() : StringUtils.EMPTY;
-                        String tempItemName = itemName.getValue() != null ? itemName.getValue() : StringUtils.EMPTY;
-                        Object tempIFPCategory = ((HelperDTO)ifpCategory.getValue()) != null ? ((HelperDTO)ifpCategory.getValue()).getId() : 0;
-                        Object tempIFPStatus = ((HelperDTO)ifpStatus.getValue()) != null ? ((HelperDTO)ifpStatus.getValue()).getId() : 0;
-                                                
-                        LazyBeanItemContainer searchResults = new LazyBeanItemContainer(IFPDetailsDTO.class, new RebateScheduleContainer(tempIFPNo, tempIFPName, tempIFPType,tempIFPStartDate ,tempIFPEndDate , tempItemName,tempItemNo ,tempIFPCategory,tempIFPStatus), new RebateScheduleCriteria());
-                        availableTable.setContainerDataSource(searchResults);
-                        if (searchResults.size() > (Constants.ZERO)) {
-                            CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
-                        } else {
-                            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "No Records Found", "There were no records found that match the search criteria entered.", new MessageBoxListener() {  
-                                /**            
-                                 * The method is triggered when a button of the message box is 
-                                 * pressed .          
-                                 *               
-                                 * @param buttonId The buttonId of the pressed button.     
-                                 */             
-                                @SuppressWarnings("PMD")          
-                                public void buttonClicked(final ButtonId buttonId) {      
-                                    // Do Nothing              
-                                }         
-                            }, ButtonId.OK);      
-                            msg.getButton(ButtonId.OK).focus();
-                        }
-                        availableTable.setVisibleColumns(CommonUIUtils.IFP_COLUMNS_IN_RS);
-                        availableTable.setColumnHeaders(CommonUIUtils.IFP_HEADER_IN_RS);
+                        searchButtonClick();
+                        availableTable.setVisibleColumns(commonUiUtil.ifpColumnsInRs);
+                        availableTable.setColumnHeaders(commonUiUtil.ifpHeadersinRs);
                     }
                     LOGGER.debug("Ending Rebate Schedule Search operation in Add");
                 } catch (Exception exception) {
@@ -424,49 +389,56 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
 
         return searchBtn;
     }
+    
+    public void searchButtonClick() {
+        availableTable.clearFilters();
+        String tempIFPNo = ifpNo.getValue();
+        String tempIFPName = ifpName.getValue();
+        Object tempIFPType = ((HelperDTO) ifpType.getValue()) != null ? ((HelperDTO) ifpType.getValue()).getId() : 0;
+        Date tempIFPStartDate = ifpStartDate.getValue();
+        Date tempIFPEndDate = ifpEndDate.getValue();
+        String tempItemNo = itemID.getValue() != null ? itemID.getValue() : StringUtils.EMPTY;
+        String tempItemName = itemName.getValue() != null ? itemName.getValue() : StringUtils.EMPTY;
+        Object tempIFPCategory = ((HelperDTO) ifpCategory.getValue()) != null ? ((HelperDTO) ifpCategory.getValue()).getId() : 0;
+        Object tempIFPStatus = ((HelperDTO) ifpStatus.getValue()) != null ? ((HelperDTO) ifpStatus.getValue()).getId() : 0;
 
+        LazyBeanItemContainer searchResults = new LazyBeanItemContainer(IFPDetailsDTO.class, new RebateScheduleContainer(tempIFPNo, tempIFPName, tempIFPType, tempIFPStartDate, tempIFPEndDate, tempItemName, tempItemNo, tempIFPCategory, tempIFPStatus), new RebateScheduleCriteria());
+        availableTable.setContainerDataSource(searchResults);
+        if (searchResults.size() > (Constants.ZERO)) {
+            CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
+        } else {
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "No Records Found", "There were no records found that match the search criteria entered.", new MessageBoxListener() {
+                /**
+                 * The method is triggered when a button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                @SuppressWarnings("PMD")
+                public void buttonClicked(final ButtonId buttonId) {
+                    // Do Nothing
+                }
+            }, ButtonId.OK);
+            msg.getButton(ButtonId.OK).focus();
+        }
+    }
+    
     public void configureAddRemoveButons() {
         addBtn.setCaption(">");
         addBtn.setDescription(ConstantsUtils.MOVE_RIGHT);
         addBtn.setImmediate(true);
         addBtn.setWidth(ConstantsUtils.WIDTH);
-        addBtn.addClickListener(new ClickListener() {
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                LOGGER.debug("Entering AddFormForPS Move Right operation");
-                    final Object itemId = availableTable.getValue();
-                    binder.getErrorDisplay().clearError();
-
-                    if (availableTable.size() > 0) {
-                        if (itemId == null) {
-                            binder.getErrorDisplay().setError("Please select the IFP to Add");
-                        } else {
-                            if (selectedItemResultBean.size() < Constants.ONE) {
-                                final IFPDetailsDTO item = (IFPDetailsDTO) itemId;
-
-                                selectedItemResultBean.addItem(item);
-                                selectedIfp.setValue(String.valueOf(item.getItemFamilyplanSystemId()));
-                                String ifpSysId = String.valueOf(item.getItemFamilyplanSystemId());
-                                final String idValue = String.valueOf(sessionDTO.getSystemId());
-                                if (item.getItemFamilyplanSystemId() != 0) {
-                                    rebateLogic.addItemDetailsFromIfp(ifpSysId, idValue);
-                                }
-                            }
-                        }
-                    } else {
-                        binder.getErrorDisplay().setError("There are no IFP to move");
-                    }
-                LOGGER.debug("Ending AddFormForPS Move Right operation");
-            }
-
-        });
-
+        addButtonClickListener();
         removeBtn.setCaption("<");
         removeBtn.setDescription("Move selected items to left");
         removeBtn.setWidth(ConstantsUtils.WIDTH);
-        removeBtn.addClickListener(new ClickListener() {
+        removeButtonClickListener();
 
+    }
+
+    public void removeButtonClickListener() {
+        removeBtn.addClickListener(new ClickListener() {
+            
             @Override
             public void buttonClick(ClickEvent event) {
                 
@@ -477,7 +449,7 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
                         binder.getErrorDisplay().setError("Please select the IFP to Remove");
                     } else {
                         selectedItemResultBean.removeAllItems();
-                        rebateLogic.removeRsItems();                        
+                        rebateLogic.removeRsItems();
                         itemResultsBean.removeAllItems();   
                         rsRebateSetupTabForm.clearRebateSetupData();
                         selectedIfp.setValue(StringUtils.EMPTY);
@@ -485,8 +457,41 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
 
                 }
             }
-        });        
+        });
+    }
 
+    public void addButtonClickListener() {
+        addBtn.addClickListener(new ClickListener() {
+            
+            @Override
+            public void buttonClick(ClickEvent event) {
+                LOGGER.debug("Entering AddFormForPS Move Right operation");
+                final Object itemId = availableTable.getValue();
+                binder.getErrorDisplay().clearError();
+                
+                if (availableTable.size() > 0) {
+                    if (itemId == null) {
+                        binder.getErrorDisplay().setError("Please select the IFP to Add");
+                    } else {
+                        if (selectedItemResultBean.size() < Constants.ONE) {
+                            final IFPDetailsDTO item = (IFPDetailsDTO) itemId;
+                            
+                            selectedItemResultBean.addItem(item);
+                            selectedIfp.setValue(String.valueOf(item.getItemFamilyplanSystemId()));
+                            String ifpSysId = String.valueOf(item.getItemFamilyplanSystemId());
+                            final String idValue = String.valueOf(sessionDTO.getSystemId());
+                            if (item.getItemFamilyplanSystemId() != 0) {
+                                rebateLogic.addItemDetailsFromIfp(ifpSysId, idValue);
+                            }
+                        }
+                    }
+                } else {
+                    binder.getErrorDisplay().setError("There are no IFP to move");
+                }
+                LOGGER.debug("Ending AddFormForPS Move Right operation");
+            }
+            
+        });
     }
 
     private void configureFields() {
@@ -782,7 +787,7 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
+            LOGGER.debug("Inside Enter Method");
 
     }
 
@@ -803,9 +808,9 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
     public void configureResultsTableForView() {
         try {
             resultsTable.setContainerDataSource(selectedItemResultBean);
-            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+"Item Addition",false);
+            final Map<String, AppPermission> fieldRsHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.REBATE_SCHEDULE+","+ConstantsUtils.ITEM_ADDITION,false);
 
-            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, mode);
+            TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
             if (tableResultCustom.getObjResult().length == 0) {
                 resultsTable.setVisible(false);
                 prevColumn.setVisible(false);
@@ -820,6 +825,12 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
             resultsTable.setSelectable(false);
             resultsTable.setSizeFull();
             resultsTable.setEditable(false);
+            resultsTable.setFilterBarVisible(true);
+            resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
+            resultsTable.setValidationVisible(false);
+            resultsTable.addStyleName(ConstantsUtils.FILTER_BAR);
+
+            resultsTable.setFilterGenerator(new RSFilterGenerate());
             ResponsiveUtils.addButtonListeners(resultsTable, prevColumn, nextColumn);
         } catch (Exception e) {
            LOGGER.error(e);
@@ -829,8 +840,9 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
     private void addResponsiveness(final Map<String, AppPermission> fieldRsHM) {
         LOGGER.debug("Entering configurePermission");
         try {
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, "Item Addition");
-            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, mode);
+
+            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.REBATE_SCHEDULE, ConstantsUtils.ITEM_ADDITION);
+            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, ConstantsUtils.COPY.equals(mode)? "Edit" : mode);
             
         } catch (Exception ex) {
             LOGGER.error(ex);            
@@ -857,7 +869,7 @@ public class RSItemAdditionTabForm extends CustomComponent implements View {
     
     
     public void resetForItemDetails() {
-        final IFPDetailsDTO item = (IFPDetailsDTO) selectedItemResultBean.lastItemId();
+        final IFPDetailsDTO item = selectedItemResultBean.lastItemId();
         selectedIfp.setValue(String.valueOf(item.getItemFamilyplanSystemId()));
         String ifpSysId = String.valueOf(item.getItemFamilyplanSystemId());
         final String idValue = String.valueOf(sessionDTO.getSystemId());        

@@ -58,9 +58,7 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 		} catch (SystemException e) {
 			LOGGER.error(e);
 			
-		} catch (PortalException e) {
-			LOGGER.error(e);
-		}
+		} 
 		searchResultbeans.addAll(searchResults);
 		
 	}
@@ -76,6 +74,7 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 	}
 	
 	public void enter(ViewChangeEvent event) {
+            return;
 	}
 
 }

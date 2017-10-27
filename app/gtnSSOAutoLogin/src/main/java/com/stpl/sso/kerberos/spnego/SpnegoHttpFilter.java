@@ -511,5 +511,15 @@ public final class SpnegoHttpFilter implements Filter {
 		 */
 		public static final String SERVER_MODULE = "spnego.login.server.module";
 
+                /**
+		 * Servlet init param name in web.xml <b>spnego.preauth.password</b>.
+		 *
+		 * <p>
+		 * Network Domain password. For Windows, this is sometimes known as the
+		 * Windows NT password.
+		 * </p>
+		 */
+		public static final String SPECIALCHAR_EMAIL = "specialchar.email";
+
 	}
 }

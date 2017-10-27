@@ -79,12 +79,9 @@ public class CommonLogic {
     public static final DataSelectionDAO dataSelection = new DataSelectionDaoImpl();
     public static final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     CommonQuery commonQuery = new CommonQuery();
-    private String CHAR_PERCENT = "%";
-    private String CHAR_ASTERISK = "*";
     BaseRateDAO dao = new BaseRateDAOImpl();
     public static final Logger LOGGER = Logger.getLogger(CommonLogic.class);
     CommonUtils utils = new CommonUtils();
-    private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("###0.00%");
     private static final DecimalFormat BR_PERCENTAGE_FORMAT = new DecimalFormat("###0.0000%");
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
 
@@ -978,7 +975,7 @@ public class CommonLogic {
             try {
                 statement.close();
                 connection.close();
-                System.gc();
+               
             } catch (SQLException ex) {
                 LOGGER.error(ex);
             }

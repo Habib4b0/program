@@ -51,7 +51,7 @@ public class NationalAssumptionsDAOImpl implements NationalAssumptionsDAO {
                return NaProjDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
         }
   public List<StNewNdc> getStNewNdc(final DynamicQuery dynamicQuery)
-			throws PortalException, SystemException{
+			throws SystemException{
         return StNewNdcLocalServiceUtil.dynamicQuery(dynamicQuery);
         
   }

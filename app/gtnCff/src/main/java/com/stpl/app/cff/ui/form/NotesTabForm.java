@@ -4,6 +4,7 @@
  */
 package com.stpl.app.cff.ui.form;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.AdditionalInfoLogic;
 import com.stpl.app.cff.security.StplSecurity;
@@ -64,7 +65,7 @@ public class NotesTabForm extends AbstractNotesTab {
      * The common logic.
      */
     private AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
-    public List<NotesDTO> removeDetailsList = new ArrayList<NotesDTO>();
+    public List<NotesDTO> removeDetailsList = new ArrayList<>();
     private Double fileSize = 0.00;
     protected final String mode = "";
     CommonUIUtils commonUiUtil = new CommonUIUtils();
@@ -82,7 +83,7 @@ public class NotesTabForm extends AbstractNotesTab {
         this.approvalWindow = approvalWindow;
         userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
         userName = StplSecurity.userMap.get(Integer.valueOf(userId));
-        
+
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID));
         Object[] obj = new Object[]{"documentName", "dateAdded", "userName"};
         String[] objHeaders = new String[]{"Document Name", "Date Added", "User Name"};
@@ -96,17 +97,17 @@ public class NotesTabForm extends AbstractNotesTab {
 
         LOGGER.debug("userid :" + userId + " Username : " + userName);
     }
-    
+
     @Override
     public void intailizingObject() {
-        uploadReceiver = (Upload.Receiver) new FileUploader(basepath, moduleName);
+        uploadReceiver = (Upload.Receiver) new FileUploader(basepath, MODULE_NAME);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-        filePath = new File(basepath + File.separator + "Documents" + File.separator + moduleName);
+        filePath = new File(basepath + File.separator + "Documents" + File.separator + MODULE_NAME);
         wordFile = new File(filePath + File.separator + fileName + ExportWord.DOC_EXT);
         pdfFile = new File(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
-        fileUploadPath = FileUploader.FILE_PATH + moduleName + "/";
+        fileUploadPath = FileUploader.FILE_PATH + MODULE_NAME + "/" ;
     }
-    
+
     @Override
     public void addEnteredNotes(Button.ClickEvent event, final AbstractNotificationUtils.Parameter flag) {
         if (!"".equals(String.valueOf(newNote.getValue()).trim()) && !"null".equals(String.valueOf(newNote.getValue()))) {
@@ -114,9 +115,9 @@ public class NotesTabForm extends AbstractNotesTab {
                 @Override
                 public void noMethod() {
                     flag.setOk(false);
-                
+
                 }
-                
+
                 @Override
                 public void yesMethod() {
                     SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
@@ -135,9 +136,9 @@ public class NotesTabForm extends AbstractNotesTab {
             AbstractNotificationUtils.getInfoNotification("Enter New Note", "Please enter a new note", flag);
             newNote.focus();
         }
-        
+
     }
-    
+
     @Override
     public void uploadComponentSucceededLogic(Upload.SucceededEvent event) {
         try {
@@ -148,9 +149,6 @@ public class NotesTabForm extends AbstractNotesTab {
                 StringBuilder sb = new StringBuilder(event.getFilename());
                 int index = sb.lastIndexOf(".");
                 sb.replace(0, index, file);
-                Date date = new Date();
-                long value = date.getTime();
-                sb.insert(sb.lastIndexOf("."), "_" + value);
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 attachmentDTO.setDocumentName(name);
@@ -171,9 +169,9 @@ public class NotesTabForm extends AbstractNotesTab {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        
+
     }
-    
+
     @Override
     public void uploadComponentStartedLogic(Upload.StartedEvent event) {
         try {
@@ -206,16 +204,16 @@ public class NotesTabForm extends AbstractNotesTab {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        
+
     }
-    
+
     @Override
     public void removeButtonLogic(Button.ClickEvent event) {
         if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
-            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "Please select an attachment to remove ");
+            AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.REMOVE_ATTACHMENT, "Please select an attachment to remove ");
         } else {
             if (!tableBean.getUserName().equalsIgnoreCase(userName)) {
-                AbstractNotificationUtils.getInfoNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+                AbstractNotificationUtils.getInfoNotification(StringConstantsUtil.REMOVE_ATTACHMENT, "You can only remove attachments that you have uploaded.");
             } else {
                 AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                     @Override
@@ -223,7 +221,7 @@ public class NotesTabForm extends AbstractNotesTab {
                         // To change body of generated methods, choose Tools
                         // | Templates.
                     }
-                    
+
                     @Override
                     public void yesMethod() {
                         NotesDTO dtoValue = new NotesDTO();
@@ -235,12 +233,12 @@ public class NotesTabForm extends AbstractNotesTab {
                         tableBean = null;
                     }
                 };
-                notification.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
-                
+                notification.getConfirmationMessage(StringConstantsUtil.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");
+
             }
         }
     }
-    
+
     @Override
     public void itemClickLogic(ItemClickEvent event) {
         tableBeanId = event.getItemId();
@@ -248,7 +246,7 @@ public class NotesTabForm extends AbstractNotesTab {
         if (tableBeanId instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableBeanId;
         } else if (tableBeanId instanceof NotesDTO) {
-            targetItem = new BeanItem<NotesDTO>((NotesDTO) tableBeanId);
+            targetItem = new BeanItem<>((NotesDTO) tableBeanId);
         }
         tableBean = (NotesDTO) targetItem.getBean();
         if (event.isDoubleClick()) {
@@ -257,13 +255,13 @@ public class NotesTabForm extends AbstractNotesTab {
             fileDownloader.setFileDownloadResource(res);
             downloadFile(uploadedFile);
         }
-        
+
     }
-    
+
     @Override
     public void refreshTable() {
         try {
-            String masterTableSidValue = StringUtils.EMPTY;
+            String masterTableSidValue;
             binder.commit();
             if ("Compliance Deduction Rules".equals(this.moduleName)) {
                 masterTableSidValue = masterTableSid;
@@ -280,17 +278,17 @@ public class NotesTabForm extends AbstractNotesTab {
             LOGGER.error("Error while commiting the binder :" + e);
         }
     }
-    
+
     public String getMasterTableSid() {
         return masterTableSid;
     }
-    
+
     public void setMasterTableSid(String masterTableSid) {
         this.masterTableSid = masterTableSid;
     }
 
     public void configureFields() {
-        
+
         close.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -299,20 +297,20 @@ public class NotesTabForm extends AbstractNotesTab {
                         // To change body of generated methods, choose Tools
                         // | Templates.
                     }
-                    
+
                     public void yesMethod() {
-                        
+
                         approvalWindow.close();
                     }
                 };
                 notification.getConfirmationMessage("Close Confirmation", "Are you sure you want to close the Consolidated Financial Forecast Approval window");
-                
+
             }
         });
     }
-    
+
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
@@ -320,15 +318,15 @@ public class NotesTabForm extends AbstractNotesTab {
         }
         return resultList;
     }
-    
+
     public CffApprovalDetailsForm getApprovalWindow() {
         return approvalWindow;
     }
-    
+
     public void setApprovalWindow(CffApprovalDetailsForm approvalWindow) {
         this.approvalWindow = approvalWindow;
     }
-    
+
     public void saveAdditionalInformation(int cffmastersystemid, String userid, SessionDTO sessionDTO) throws SystemException, PortalException {
         LOGGER.debug("Entering saveAdditionalInformation");
         int projectionId = cffmastersystemid;
@@ -352,12 +350,12 @@ public class NotesTabForm extends AbstractNotesTab {
         setValues(true, sessionDTO);
         LOGGER.debug("Exists saveAdditionalInformation");
     }
-    
+
     public List<NotesDTO> getRemoveDocDetailsItem() {
         return removeDetailsList;
     }
-    
-    public void setValues(boolean saveFlag, SessionDTO sessionDTO) throws SystemException  {
+
+    public void setValues(boolean saveFlag, SessionDTO sessionDTO) throws SystemException {
         LOGGER.debug("Inside of AdditionalInformation setValues Method");
         String mode = sessionDTO.getAction();
         if ("edit".equalsIgnoreCase(mode) || "view".equalsIgnoreCase(mode) || saveFlag) {
@@ -365,7 +363,7 @@ public class NotesTabForm extends AbstractNotesTab {
             attachmentsListBean.removeAllItems();
             final int projectionId = sessionDTO.getProjectionId();
             final List<NotesDTO> allFiles = addInfoLogic.getAttachmentDTOList(projectionId, MODULE_NAME);
-            
+
             attachmentsListBean.addAll(addInfoLogic.addUserFile(allFiles));
             String notes = addInfoLogic.getNotes(projectionId, MODULE_NAME);
             internalNotes.setReadOnly(false);

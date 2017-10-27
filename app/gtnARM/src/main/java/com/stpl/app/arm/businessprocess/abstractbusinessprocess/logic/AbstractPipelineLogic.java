@@ -8,10 +8,12 @@ package com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.pipelineinventory.dto.PipelineInventorySelectionDTO;
+import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import edu.emory.mathcs.backport.java.util.Collections;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,8 +67,10 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         String period = StringUtils.EMPTY;
         String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(ratePeriod)).trim();
         if (StringUtils.isNotBlank(frequency) && StringUtils.isNotBlank(description)) {
-            int monthNo = description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
-            int currentMinus = description.contains("-") ? -1 * getFreqDistribution(frequency.trim().charAt(0)) : description.contains("+") ? 1 * getFreqDistribution(frequency.trim().charAt(0)) : 0;
+            int monthNoWithPlus = description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
+            int monthNo = description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
+            int currentPlus = description.contains("+") ? 1 * getFreqDistribution(frequency.trim().charAt(0)) : 0;
+            int currentMinus = description.contains("-") ? -1 * getFreqDistribution(frequency.trim().charAt(0)) : currentPlus;
             monthNo = currentMinus * monthNo;
             String freq = frequency.trim().toUpperCase();
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
@@ -86,8 +90,10 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             month = calendar.get(Calendar.MONTH);
             quarter = String.valueOf(month / NumericConstants.THREE + 1);
             semi = String.valueOf(month / NumericConstants.SIX + 1);
-            period = freq.startsWith("M") ? months[month] + " " + year : freq.startsWith("Q") ? "Q" + quarter + " " + year
-                    : freq.startsWith("S") ? "S" + semi + " " + year : year;
+            String periodWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
+            String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
+                    : periodWithS;
+            period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
         }
         /**
          * This block is for returning the default value. This block is added
@@ -115,12 +121,13 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         }
         return period;
     }
+
     /**
-     * This is same method as above method - getRatePeriod
-     * But this method returns Date in String format based on the DATA selection from Date.
+     * This is same method as above method - getRatePeriod But this method
+     * returns Date in String format based on the DATA selection from Date.
      *
      * This changes is pertaining to GALUAT - 725
-     * 
+     *
      * @param ratePeriod
      * @param frequency
      * @param startPeriod
@@ -128,12 +135,14 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
      * @param fromDate - Data se
      * @return
      */
-    public String getRatePeriodFromDS(String ratePeriod, String frequency, String startPeriod, List<String> periodList,Date fromDate) {
+    public String getRatePeriodFromDS(String ratePeriod, String frequency, String startPeriod, List<String> periodList, Date fromDate) {
         String period = StringUtils.EMPTY;
         String description = ratePeriod.contains("CURRENT") ? ratePeriod : HelperListUtil.getInstance().getDescriptionByID(Integer.valueOf(ratePeriod)).trim();
         if (StringUtils.isNotBlank(frequency) && StringUtils.isNotBlank(description)) {
-            int monthNo = description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
-            int currentMinus = description.contains("-") ? -1 * getFreqDistribution(frequency.trim().charAt(0)) : description.contains("+") ? 1 * getFreqDistribution(frequency.trim().charAt(0)) : 0;
+            int monthNoWithPlus = description.contains("+") ? Integer.valueOf(description.split("[+]")[1].trim()) : 0;
+            int monthNo = description.contains("-") ? Integer.valueOf(description.split("-")[1].trim()) : monthNoWithPlus;
+            int currentPlus = description.contains("+") ? 1 * getFreqDistribution(frequency.trim().charAt(0)) : 0;
+            int currentMinus = description.contains("-") ? -1 * getFreqDistribution(frequency.trim().charAt(0)) : currentPlus;
             monthNo = currentMinus * monthNo;
             String freq = frequency.trim().toUpperCase();
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
@@ -154,8 +163,10 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             month = calendar.get(Calendar.MONTH);
             quarter = String.valueOf(month / NumericConstants.THREE + 1);
             semi = String.valueOf(month / NumericConstants.SIX + 1);
-            period = freq.startsWith("M") ? months[month] + " " + year : freq.startsWith("Q") ? "Q" + quarter + " " + year
-                    : freq.startsWith("S") ? "S" + semi + " " + year : year;
+            String periodWithS = freq.startsWith("S") ? "S" + semi + " " + year : year;
+            String periodWithQ = freq.startsWith("Q") ? "Q" + quarter + " " + year
+                    : periodWithS;
+            period = freq.startsWith("M") ? months[month] + " " + year : periodWithQ;
         }
         /**
          * This block is for returning the default value. This block is added
@@ -201,9 +212,9 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         List<String> singleVisibleColumn = new ArrayList<>();
         List<String> singleVisibleHeader = new ArrayList<>();
 
-        for (int i = 0; i < selection.getSales_variables().size(); i++) {
-            String column = selection.getSales_variables().get(i)[0];
-            String header = selection.getSales_variables().get(i)[1];
+        for (int i = 0; i < selection.getSalesVariables().size(); i++) {
+            String column = selection.getSalesVariables().get(i)[0];
+            String header = selection.getSalesVariables().get(i)[1];
             singleVisibleColumn.add(column);
             singleVisibleHeader.add(header);
         }
@@ -230,7 +241,7 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
         defaultColumn.add("priceOverride");
         defaultColumn.add("returnReserve");
         defaultColumn.add("netPipelineValue");
-        List<String> columnList = getColumns(selection.getSales_variables());
+        List<String> columnList = getColumns(selection.getSalesVariables());
         String[] variableVisibleColumn = selection.getVariableVisibleColumns();
         HashMap<String, String> map = new HashMap<>();
         for (int i = 0; i < variableVisibleColumn.length; i++) {
@@ -239,15 +250,15 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
 
             if (columnList.contains(column)) {
                 int listIndex = columnList.indexOf(column);
-                String visibleColumn = selection.getSales_variables().get(listIndex)[0] + "." + index;
-                String header = selection.getSales_variables().get(listIndex)[1];
+                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + "." + index;
+                String header = selection.getSalesVariables().get(listIndex)[1];
                 singleVisibleColumn.add(visibleColumn);
                 singleVisibleHeader.add(header);
             }
 
             if (column.contains("~") && columnList.contains(column)) {
                 int listIndex = columnList.indexOf(column);
-                String visibleColumn = selection.getSales_variables().get(listIndex)[0] + "." + index;
+                String visibleColumn = selection.getSalesVariables().get(listIndex)[0] + "." + index;
                 defaultVisibleColumn.add(visibleColumn);
             } else if (!column.contains("~")) {
                 String column1 = defaultColumn.get(defaultindex++);
@@ -260,9 +271,9 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
 
         finalList.add(singleVisibleColumn);
         finalList.add(singleVisibleHeader);
-        selection.setSummary_columnList(defaultVisibleColumn);
-        selection.setInventory_columnList(defaultVisibleColumn);
-        ((PipelineInventorySelectionDTO) selection).setInventory_fixed_ColumnList(map);
+        selection.setSummarycolumnList(defaultVisibleColumn);
+        selection.setInventorycolumnList(defaultVisibleColumn);
+        ((PipelineInventorySelectionDTO) selection).setInventoryfixedColumnList(map);
         return finalList;
     }
 
@@ -273,6 +284,24 @@ public abstract class AbstractPipelineLogic<T extends AdjustmentDTO, E extends A
             column.add(object[0]);
         }
         return column;
+    }
+
+    public boolean updateOverride(List input) {
+        try {
+            QueryUtils.itemUpdate(input, "OVERRIDE_QUERY");
+        } catch (Exception e) {
+            LOGGER.error("Error in updateOverride :" + e);
+            return false;
+        }
+        return true;
+    }
+
+    public List getTableInput(SessionDTO sessionDTO) {
+        return Collections.emptyList();
+    }
+
+    public boolean getCondition(AdjustmentDTO dto, Object propertyId,AbstractSelectionDTO selection) {
+        return false;
     }
 
 }

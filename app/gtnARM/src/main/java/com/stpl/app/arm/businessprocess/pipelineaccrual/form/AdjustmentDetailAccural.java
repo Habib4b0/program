@@ -32,6 +32,7 @@ import org.jboss.logging.Logger;
 public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
 
     public static final Logger LOGGER = Logger.getLogger(AdjustmentDetailAccural.class);
+    private boolean creditFlag;
 
     public AdjustmentDetailAccural(AbstractSelectionDTO selectionDto) {
         super(new PADetailsLogic(), selectionDto);
@@ -43,28 +44,32 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetail_Level(level.getValue().toString());
-        selection.setDetail_variables(Arrays.asList(variableValue));
+        selection.setDetailLevel(level.getValue().toString());
+        selection.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetail_reserveAcount(account.size() > 0 ? account.get(0) : null);
+        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         List<String> amtFilter = CommonUtils.getSelectedVariables(amountFilterItem);
-        selection.setDetail_amountFilter(amtFilter.size() > 0 ? amtFilter : null);
+        selection.setDetailamountFilter(!amtFilter.isEmpty() ? amtFilter : null);
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
-        selection.setSave_detail_variables(selectedVariable.size() > 0 ? selectedVariable.get(0) : null);
+
+        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
+        creditFlag = logic.cerditDebitEqualCheck(selection);
     }
 
     @Override
     protected void generateBtn() {
         try {
             setSelection();
-            if (logic.generateButtonCheck(selection)) {
+            if (logic.generateButtonCheck(selection) && !creditFlag) {
                 super.generateBtn();
                 tableLogic.loadSetData(Boolean.TRUE);
+            } else if (creditFlag && isGenerateFlag()) {
+                AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageMsgHeader003(), ARMMessages.getGenerateMessageMsgId006());
             } else if (isGenerateFlag()) {
                 AbstractNotificationUtils.getErrorNotification(WorkflowMessages.getCW_SubmitMandoryValidationHeader(), ARMMessages.getGenerateMessageMsgId_004());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in generateBtn :"+ex);
         }
     }
 
@@ -78,13 +83,13 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
         List<List> list = logic.getReserveAccountDetails(selection, level.getValue().toString().equals(GlobalConstants.getReserveDetail()));
         CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
                 Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
-        CommonUtils.CheckAllMenuBarItem(reserveMenuItem);
+        CommonUtils.checkAllMenuBarItem(reserveMenuItem);
     }
 
     @Override
     protected void loadVariable() {
-        variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE_COMBOBOX : ARMUtils.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE_COMBOBOX;
-        variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE : VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE;
+        variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.getAdjustmentDemandPipelineReserveVariableCombobox() : ARMUtils.getAdjustmentDemandPipelineGtnVariableCombobox();
+        variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.getAdjustmentDemandPipelineReserveVariable() : VariableConstants.getAdjustmentDemandPipelineGtnVariable();
     }
 
     /**
@@ -93,8 +98,8 @@ public class AdjustmentDetailAccural extends AbstractAdjustmentDetails {
     @Override
     protected void variableDefaultSelection() {
         List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
-                ? VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_RESERVE_VARIABLE_DEFAULT_SELECTION
-                : VariableConstants.ADJUSTMENT_DEMAND_PIPELINE_GTN_VARIABLE_DEFAULT_SELECTION);
+                ? VariableConstants.getAdjustmentDemandPipelineReserveVariableDefaultSelection()
+                : VariableConstants.getAdjustmentDemandPipelineGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
             if (list.contains(object.getMenuItem().getWindow())) {
                 object.setChecked(Boolean.TRUE);

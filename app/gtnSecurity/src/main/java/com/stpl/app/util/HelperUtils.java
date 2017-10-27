@@ -31,17 +31,17 @@ public class HelperUtils {
 	public static final String MEMBER_DRT_QUALIFIER_NAME="MEMBER_DRT_QUALIFIER_NAME";
 	public static final String ITEM_IRT_QUALIFIER_NAME="ITEM_IRT_QUALIFIER_NAME";
 
-	public static final String RebateProgramType="RebateProgramType";
-	public static final String PaymentTerms="PaymentTerms";
-	public static final String RebateFrequency="RebateFrequency";
-	public static final String PaymentFrequency="PaymentFrequency";
-	public static final String RebatePlanLevel="RebatePlanLevel";
-	public static final String Calendar="Calendar";
-	public static final String ValidationProfile="ValidationProfile";
-	public static final String RebateStructure="RebateStructure";
-	public static final String PaymentMethod="PaymentMethod";
-	public static final String RebateBasedOn="RebateBasedOn";
-	public static final String RebateRangeBasedOn="RebateRangeBasedOn";
+	public static final String REBATE_PROGRAM_TYPE="RebateProgramType";
+	public static final String PAYMENT_TERMS="PaymentTerms";
+	public static final String REBATE_FREQUENCY="RebateFrequency";
+	public static final String PAYMENT_FREQUENCY="PaymentFrequency";
+	public static final String REBATE_PLAN_LEVEL="RebatePlanLevel";
+	public static final String CALENDER="Calendar";
+	public static final String VALIDATION_PROFILE="ValidationProfile";
+	public static final String REBATE_STRUCTURE="RebateStructure";
+	public static final String PAYMENT_METHOD="PaymentMethod";
+	public static final String REBATE_BASED_ON="RebateBasedOn";
+	public static final String REBATE_RANGE_BASED_ON="RebateRangeBasedOn";
 
 	
 	public static List<String> getStatus() {

@@ -93,7 +93,7 @@ public final class CommonUtils {
     public static ComboBox getHierarchy(final ComboBox select) throws SystemException {
         LOGGER.debug("Entering getHierarchy method");
         List<Object[]> resultList;
-        final List<HelperDTO> results = new ArrayList<HelperDTO>();
+        final List<HelperDTO> results = new ArrayList<>();
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("hierarchyDefinitionSid"));
@@ -142,7 +142,7 @@ public final class CommonUtils {
         LOGGER.debug("Entering getHierarchy method");
         final int hierarchyVersion = sessionDTO.getHierarchyVersion();
         List<Object[]> resultList;
-        final List<HelperDTO> results = new ArrayList<HelperDTO>();
+        final List<HelperDTO> results = new ArrayList<>();
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(HistHierarchyDefinition.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("primaryKey.hierarchyDefinitionSid"));
@@ -365,7 +365,7 @@ public final class CommonUtils {
         return helperTable.getDescription();
     }
 
-    public static String getTableSystemId(String tableName) throws PortalException, SystemException {
+    public static String getTableSystemId(String tableName) {
         String sqlQuery = "SELECT DISTINCT PRIMARY_KEY_COLUMN_NAME FROM VW_HELPER_LIST WHERE ACTUAL_TABLE_NAME = '" + tableName + "'";
         List list = HistRelationshipBuilderLocalServiceUtil.executeQuery(sqlQuery);
         String systemIdColumnName = "'0'";
@@ -375,7 +375,7 @@ public final class CommonUtils {
         return systemIdColumnName;
     }
     public static List<String> getCreatedBy(String filterString) {
-                 List<String> strList = new ArrayList<String>();
+                 List<String> strList = new ArrayList<>();
         try {
                     final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
             if (!filterString.contains(" ")) {

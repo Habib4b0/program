@@ -52,7 +52,7 @@ public final class IdenQualifierEditList extends Window {
     private final Table qualifierTable = new Table();
     
     /** The company qualifier. */
-    private final BeanItemContainer<CompanyCrtIdentifierDTO> companyQualifier = new BeanItemContainer<CompanyCrtIdentifierDTO>(
+    private final BeanItemContainer<CompanyCrtIdentifierDTO> companyQualifier = new BeanItemContainer<>(
             CompanyCrtIdentifierDTO.class);
     
     /** The identifier dto. */
@@ -78,7 +78,7 @@ public final class IdenQualifierEditList extends Window {
     
     /** The binder. */
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
-            new BeanItem<CompanyCrtIdentifierDTO>(identifierDTO));
+            new BeanItem<>(identifierDTO));
 
     /**
 	 * @return the space
@@ -257,7 +257,7 @@ public final class IdenQualifierEditList extends Window {
     private Table addToTable() {
         LOGGER.debug("Entering IdenQualifierEditList addToTable");
         qualifierTable.setContainerDataSource(companyQualifier);
-		qualifierTable.setVisibleColumns(UIUtils.QUALIFIER_COMPANY);
+		qualifierTable.setVisibleColumns(UIUtils.getInstance().qualifierCompany);
 		qualifierTable.setPageLength(NumericConstants.SEVEN);
 		qualifierTable.setImmediate(true);
 		qualifierTable.setSelectable(true);
@@ -274,7 +274,7 @@ public final class IdenQualifierEditList extends Window {
 					}
 		        
 		        final CompanyCrtIdentifierDTO companyDTO = companyQualifier.getItem(event.getItemId()).getBean();
-		        binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(companyDTO));
+		        binder.setItemDataSource(new BeanItem<>(companyDTO));
 		        btnSave.setCaption(ConstantsUtils.UPDATE);
                         LOGGER.debug("Ending IdenQualifierEditList table itemClick");		       
 		    }
@@ -327,7 +327,7 @@ public final class IdenQualifierEditList extends Window {
 		            companyQualifier.removeAllItems();
 		            companyQualifier.addAll(companylogic.saveCrtQualifer(binder));
 		            binder.discard();
-		            binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
+		            binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
 		            btnSave.setCaption(ConstantsUtils.SAVE);
 		               LOGGER.debug("Ending IdenQualifierEditList  SAVE  method ");
 		        } catch(CommitException ex){
@@ -405,7 +405,7 @@ public final class IdenQualifierEditList extends Window {
                 companyQualifier.removeAllItems();
                 companyQualifier.addAll(companylogic.deleteCrtQualifer(Integer.valueOf(binder.getField("companyCrtQualifierId").getValue().toString())));
                 binder.discard();
-                binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
+                binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
                  LOGGER.debug("Ending IdenQualifierEditList  DELETE  method ");
             	} catch(CommitException ex){
                     LOGGER.error(ex);
@@ -492,7 +492,7 @@ public final class IdenQualifierEditList extends Window {
             public void buttonClick(final ClickEvent event) {
                 LOGGER.debug("Entering inside IdenQualifierEditList RESET  method ");
 				binder.discard();
-				binder.setItemDataSource(new BeanItem<CompanyCrtIdentifierDTO>(new CompanyCrtIdentifierDTO()));
+				binder.setItemDataSource(new BeanItem<>(new CompanyCrtIdentifierDTO()));
 				btnSave.setCaption(ConstantsUtils.SAVE);
 				 LOGGER.debug("Ending IdenQualifierEditList RESET  method ");
 

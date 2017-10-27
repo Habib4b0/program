@@ -25,9 +25,6 @@ import org.jboss.logging.Logger;
 public class FileManagementFilterGenerator implements ExtFilterGenerator {
 
     private static final Logger LOGGER = Logger.getLogger(FileManagementFilterGenerator.class);
-    public FileManagementFilterGenerator() {
-
-    }
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
         // For other properties, use the default filter
@@ -119,10 +116,12 @@ public class FileManagementFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

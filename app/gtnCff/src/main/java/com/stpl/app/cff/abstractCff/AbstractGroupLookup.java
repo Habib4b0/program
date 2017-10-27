@@ -167,13 +167,13 @@ public abstract class AbstractGroupLookup extends AbstractLookup{
         if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
             groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
             groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
-            resultTableColumns = TableHeaderColumnsUtil.CUSTOMER_GROUP_LOOKUP_COLUMNS;
-            resultTableHeaders = TableHeaderColumnsUtil.CUSTOMER_GROUP_LOOKUP_HEADERS;
+            resultTableColumns = TableHeaderColumnsUtil.getInstance().customerGroupLookupColumns;
+            resultTableHeaders = TableHeaderColumnsUtil.getInstance().customerGroupLookupHeaders;
         } else if (INDICATOR_PRODUCT_GROUP.getConstant().equals(indicator)) {
             groupNameLabel = PRODUCT_GROUP_NAME.getConstant();
             groupNoLabel = PRODUCT_GROUP_NO.getConstant();
-            resultTableColumns = TableHeaderColumnsUtil.PRODUCT_GROUP_LOOKUP_COLUMNS;
-            resultTableHeaders = TableHeaderColumnsUtil.PRODUCT_GROUP_LOOKUP_HEADERS;
+            resultTableColumns = TableHeaderColumnsUtil.getInstance().productGroupLookupColumns;
+            resultTableHeaders = TableHeaderColumnsUtil.getInstance().productGroupLookupHeaders;
         }
     }
 

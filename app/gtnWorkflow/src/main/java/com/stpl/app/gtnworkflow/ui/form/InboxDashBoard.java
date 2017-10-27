@@ -290,9 +290,10 @@ public class InboxDashBoard extends CustomComponent implements View {
         configureTable();
         configureFields();
         configureSecurityPermissions();
-    }
+        }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /*
@@ -318,11 +319,11 @@ public class InboxDashBoard extends CustomComponent implements View {
 
         tableLogic.setContainerDataSource(inboxDashboardBean);
         if (WorkflowConstants.getBusinessProcessNameArm().equalsIgnoreCase(String.valueOf(businessProcess.getValue()))) {
-            resultTable.setVisibleColumns(CommonUtils.INBOX_DASHBOARD_COLUMNS_SEARCH);
-            resultTable.setColumnHeaders(CommonUtils.INBOX_DASHBOARD_HEADER_SEARCH);
+            resultTable.setVisibleColumns(ConstantUtils.getInstance().inboxDashboardColumnsSearch);
+            resultTable.setColumnHeaders(ConstantUtils.getInstance().inboxDashboardHeaderSearch);
         } else {
-            resultTable.setVisibleColumns(CommonUtils.INBOX_DASHBOARD_COLUMNS);
-            resultTable.setColumnHeaders(CommonUtils.INBOX_DASHBOARD_HEADER);
+            resultTable.setVisibleColumns(ConstantUtils.getInstance().inboxDashboardColumns);
+            resultTable.setColumnHeaders(ConstantUtils.getInstance().inboxDashboardHeader);
         }
         tableLogic.setPageLength(NumericConstants.FIFTEEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -345,7 +346,7 @@ public class InboxDashBoard extends CustomComponent implements View {
                 resultsItemClick(event.getItemId());
             }
         });
-    }
+        }
 
     BrowserWindowOpener opener;
 
@@ -360,15 +361,15 @@ public class InboxDashBoard extends CustomComponent implements View {
         String userType = null;
         String workflowId = null;
         String portletName = StringUtils.EMPTY;
-        String contractStructure = StringUtils.EMPTY;
-        String adjustmentType = StringUtils.EMPTY;
-        String adjustmentTypevalue = StringUtils.EMPTY;
-        String configurationType = StringUtils.EMPTY;
-        String customerHierSid = StringUtils.EMPTY;
-        String customerHierarchyLevel = StringUtils.EMPTY;
-        String custRelationshipBuilderSid = StringUtils.EMPTY;
-        String productHierarchyLevel = StringUtils.EMPTY;
-        String prodRelationshipBuilderSid = StringUtils.EMPTY;
+        String contractStructure;
+        String adjustmentType;
+        String adjustmentTypevalue;
+        String configurationType;
+        String customerHierSid;
+        String customerHierarchyLevel;
+        String custRelationshipBuilderSid;
+        String productHierarchyLevel;
+        String prodRelationshipBuilderSid;
 
         if (id != null) {
             BeanItem<?> targetItem = null;
@@ -466,25 +467,29 @@ public class InboxDashBoard extends CustomComponent implements View {
                 LOGGER.error("Exception at submitter check" + e);
             }
             String furl = StringUtils.EMPTY;
-
-            String location=Page.getCurrent().getLocation().toString().replaceAll("workflow-inbox", "%s");
-            if (workflowId.startsWith(WorkflowConstants.getComWorkflowParameter())) {
-                furl = String.format(location, "commercial?nmFlow='true'");
-            } else if (workflowId.startsWith(WorkflowConstants.getGovWorkflowParameter())) {
-                furl = String.format(location, "government?nmFlow='true'");
-            } else if (workflowId.startsWith(ConstantsUtils.BR)) {
-                furl = String.format(location, "base-rate?nmFlow='true'");
-            } else if (workflowId.startsWith(ConstantsUtils.FD)) {
-                furl = String.format(location, "fixed-dollar-adjustment?nmFlow='true'");
-            } else if (workflowId.startsWith(WorkflowConstants.getAccrualWorkflowParameter())) {
-                furl = String.format(location, "accrual-rate-projection?arFlow='true'");
-            } else if (workflowId.startsWith(WorkflowConstants.getContractWorkflowParameter())) {
-                furl = String.format(location, "contract-dashboard?cwFlow='true'");
-            } else if (workflowId.startsWith(WorkflowConstants.getRetWorkflowParameter())) {
-                furl = String.format(location, "forecast-returns?retFlow='true'");
-            } else if (workflowId.startsWith(WorkflowConstants.getBusinessProcessNameArm())) {
-                furl = String.format(location, "fixed-dollar-adjustment?armFlow='true'");
+            String location = Page.getCurrent().getLocation().toString();
+            if(location.contains("global-change-mgmt")){
+                location = location.replaceAll("global-change-mgmt", "%s");
+            } else {
+                location = location.replaceAll("workflow-inbox", "%s");
             }
+                if (workflowId.startsWith(WorkflowConstants.getComWorkflowParameter())) {
+                furl = String.format(location, "commercial?nmFlow='true'");
+                } else if (workflowId.startsWith(WorkflowConstants.getGovWorkflowParameter())) {
+                furl = String.format(location, "government?nmFlow='true'");
+                } else if (workflowId.startsWith(ConstantsUtils.BR)) {
+                furl = String.format(location, "base-rate?nmFlow='true'");
+                } else if (workflowId.startsWith(ConstantsUtils.FD)) {
+                furl = String.format(location, "fixed-dollar-adjustment?nmFlow='true'");
+                } else if (workflowId.startsWith(WorkflowConstants.getAccrualWorkflowParameter())) {
+                furl = String.format(location, "accrual-rate-projection?arFlow='true'");
+                } else if (workflowId.startsWith(WorkflowConstants.getContractWorkflowParameter())) {
+                furl = String.format(location, "contract-dashboard?cwFlow='true'");
+                } else if (workflowId.startsWith(WorkflowConstants.getRetWorkflowParameter())) {
+                furl = String.format(location, "forecast-returns?retFlow='true'");
+                } else if (workflowId.startsWith(WorkflowConstants.getBusinessProcessNameArm())) {
+                furl = String.format(location, "fixed-dollar-adjustment?armFlow='true'");
+                }
             LOGGER.info("Redirecting to URL :" + furl);
             opener = new BrowserWindowOpener(furl);
             opener.setFeatures("height=800,width=1000,resizable,scrollbars=1");
@@ -638,6 +643,7 @@ public class InboxDashBoard extends CustomComponent implements View {
 
                         @Override
                         public void noMethod() {
+                            return;
                         }
                     }.getConfirmationMessage(commonUtils.getResetConfirmation(), commonUtils.getResetMessage());
                 }
@@ -671,6 +677,7 @@ public class InboxDashBoard extends CustomComponent implements View {
                              */
                             @SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
+                                return;
                             }
                         }, ButtonId.OK);
                         msg.getButton(ButtonId.OK).focus();
@@ -686,6 +693,7 @@ public class InboxDashBoard extends CustomComponent implements View {
                              */
                             @SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
+                                return;
                             }
                         }, ButtonId.OK);
                         msg.getButton(ButtonId.OK).focus();
@@ -723,6 +731,7 @@ public class InboxDashBoard extends CustomComponent implements View {
                                  */
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
+                                    return;
                                 }
                             }, ButtonId.OK);
                             msg.getButton(ButtonId.OK).focus();
@@ -1001,9 +1010,9 @@ public class InboxDashBoard extends CustomComponent implements View {
                         deductionValue.setValue(CommonUtils.SELECT_ONE);
 
                         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-                        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Workflow Inbox" + ConstantsUtils.COMMA + "Landing screen", false);
-                        List<Object> resultList = logic.getFieldsForSecurity("Workflow Inbox", "Landing screen");
-                        Object[] obj = CommonUtils.INBOX_DASHBOARD_COLUMNS;
+                        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonUtils.WORKFLOW_INBOX + ConstantsUtils.COMMA + CommonUtils.LANDING_SCREEN, false);
+                        List<Object> resultList = logic.getFieldsForSecurity(CommonUtils.WORKFLOW_INBOX, CommonUtils.LANDING_SCREEN);
+                        Object[] obj = ConstantUtils.getInstance().inboxDashboardColumns;
                         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, "Add");
                         if (tableResultCustom.getObjResult().length == 0) {
                             resultTable.setVisible(false);
@@ -1034,9 +1043,9 @@ public class InboxDashBoard extends CustomComponent implements View {
                         businessUnitNameLb.setVisible(true);
 
                         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-                        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Workflow Inbox" + ConstantsUtils.COMMA + "Landing screen", false);
-                        List<Object> resultList = logic.getFieldsForSecurity("Workflow Inbox", "Landing screen");
-                        Object[] obj = CommonUtils.INBOX_DASHBOARD_COLUMNS;
+                        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonUtils.WORKFLOW_INBOX + ConstantsUtils.COMMA + CommonUtils.LANDING_SCREEN, false);
+                        List<Object> resultList = logic.getFieldsForSecurity(CommonUtils.WORKFLOW_INBOX, CommonUtils.LANDING_SCREEN);
+                        Object[] obj = ConstantUtils.getInstance().inboxDashboardColumns;
                         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, "Add");
                         if (tableResultCustom.getObjResult().length == 0) {
                             resultTable.setVisible(false);
@@ -1080,9 +1089,9 @@ public class InboxDashBoard extends CustomComponent implements View {
                         CommonUtils.loadAdjustmentTypeDdlb(adjustmentTypeValue, customMenuItem);// Ends here
 
                         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-                        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Workflow Inbox" + ConstantsUtils.COMMA + "Landing screen", false);
-                        List<Object> resultList = logic.getFieldsForSecurity("Workflow Inbox", "Landing screen");
-                        Object[] obj = CommonUtils.INBOX_DASHBOARD_COLUMNS_SEARCH;
+                        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonUtils.WORKFLOW_INBOX + ConstantsUtils.COMMA + CommonUtils.LANDING_SCREEN, false);
+                        List<Object> resultList = logic.getFieldsForSecurity(CommonUtils.WORKFLOW_INBOX, CommonUtils.LANDING_SCREEN);
+                        Object[] obj = ConstantUtils.getInstance().inboxDashboardColumnsSearch;
                         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, "Add");
                         if (tableResultCustom.getObjResult().length == 0) {
                             resultTable.setVisible(false);
@@ -1106,9 +1115,9 @@ public class InboxDashBoard extends CustomComponent implements View {
                         businessUnitNameLb.setVisible(false);
 
                         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-                        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, "Workflow Inbox" + ConstantsUtils.COMMA + "Landing screen", false);
-                        List<Object> resultList = logic.getFieldsForSecurity("Workflow Inbox", "Landing screen");
-                        Object[] obj = CommonUtils.INBOX_DASHBOARD_COLUMNS_OTHERS;
+                        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, CommonUtils.WORKFLOW_INBOX + ConstantsUtils.COMMA + CommonUtils.LANDING_SCREEN, false);
+                        List<Object> resultList = logic.getFieldsForSecurity(CommonUtils.WORKFLOW_INBOX,CommonUtils.LANDING_SCREEN);
+                        Object[] obj = ConstantUtils.getInstance().inboxDashboardColumnsOthers;
                         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, "Add");
                         if (tableResultCustom.getObjResult().length == 0) {
                             resultTable.setVisible(false);
@@ -1170,7 +1179,6 @@ public class InboxDashBoard extends CustomComponent implements View {
         publicView.setImmediate(true);
         privateView.setStyleName(CommonUtils.SEARCH_ICON);
         publicView.setStyleName(CommonUtils.SEARCH_ICON);
-
         customMenuItem = adjustmentTypeValue.addItem("  - Select Value -  ", null);
         CommonUtils.loadAdjustmentTypeDdlb(adjustmentTypeValue, customMenuItem);
         try {
@@ -1213,7 +1221,7 @@ public class InboxDashBoard extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter)  {
         InboxDashboardDTO dto;
         final List<InboxDashboardDTO> searchList = logic.getWorkflowSearchResults(inboxDashboardDTO, start, end, tableLogic.getSortByColumns(), tableLogic.getFilters(), false);
         final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantUtils.DATEFORMATM_MMDDYY);
@@ -1258,11 +1266,11 @@ public class InboxDashBoard extends CustomComponent implements View {
         tableLogic.clearAll();
         resultTable.setContainerDataSource(inboxDashboardBean);
         if (WorkflowConstants.getBusinessProcessNameArm().equalsIgnoreCase(String.valueOf(businessProcess.getValue()))) {
-            resultTable.setVisibleColumns(CommonUtils.INBOX_DASHBOARD_COLUMNS_SEARCH);
-            resultTable.setColumnHeaders(CommonUtils.INBOX_DASHBOARD_HEADER_SEARCH);
+            resultTable.setVisibleColumns(ConstantUtils.getInstance().inboxDashboardColumnsSearch);
+            resultTable.setColumnHeaders(ConstantUtils.getInstance().inboxDashboardHeaderSearch);
         } else {
-            resultTable.setVisibleColumns(CommonUtils.INBOX_DASHBOARD_COLUMNS);
-            resultTable.setColumnHeaders(CommonUtils.INBOX_DASHBOARD_HEADER);
+            resultTable.setVisibleColumns(ConstantUtils.getInstance().inboxDashboardColumns);
+            resultTable.setColumnHeaders(ConstantUtils.getInstance().inboxDashboardHeader);
         }
         companyValue.setValue(0);
         businessUnitValue.setValue(0);
@@ -1277,7 +1285,7 @@ public class InboxDashBoard extends CustomComponent implements View {
     private void addResposivenessToInformationPanel(final Map<String, AppPermission> fieldRsHM) {
         LOGGER.debug("Entering configurePermission");
         try {
-            String mode = "search";
+            String mode = CommonUtils.SEARCH;
             List<Object> resultList = logic.getFieldsForSecurity(CommonUtils.WORKFLOW_INBOX, "LandingScreen");
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldRsHM, mode);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayoutBtn, fieldRsHM, mode);
@@ -1416,9 +1424,9 @@ public class InboxDashBoard extends CustomComponent implements View {
         inboxDashboardDTO.setCompanyValue(Integer.parseInt(String.valueOf(companyValue.getValue())));
         inboxDashboardDTO.setBusinessUnitValue(Integer.parseInt(String.valueOf(businessUnitValue.getValue())));
         inboxDashboardDTO.setAdjustmentType(list);
-        inboxDashboardDTO.setBusinessUnitId(businessUnitId.getValue());
-        inboxDashboardDTO.setBusinessUnitNo(businessUnitNo.getValue());
-        inboxDashboardDTO.setBusinessUnitName(businessUnitName.getValue());
+        inboxDashboardDTO.setBusinessUnitId(businessUnitId.getValue() == null || "null".equals(businessUnitId.getValue()) ? StringUtils.EMPTY :businessUnitId.getValue());
+        inboxDashboardDTO.setBusinessUnitNo(businessUnitNo.getValue() == null || "null".equals(businessUnitNo.getValue()) ? StringUtils.EMPTY : businessUnitNo.getValue());
+        inboxDashboardDTO.setBusinessUnitName(businessUnitName.getValue() == null || "null".equals(businessUnitName.getValue()) ? StringUtils.EMPTY : businessUnitName.getValue());
     }
 
     private void clearTableDto() {
@@ -1484,8 +1492,8 @@ public class InboxDashBoard extends CustomComponent implements View {
     private void configureSecurityPermissions() {
         try {
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(CommonUtils.USER_ID));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Workflow Inbox" + "," + "Landing screen");
-            if (functionHM.get("search") != null && !((AppPermission) functionHM.get("search")).isFunctionFlag()) {
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonUtils.WORKFLOW_INBOX+ "," + CommonUtils.LANDING_SCREEN);
+            if (functionHM.get(CommonUtils.SEARCH) != null && !((AppPermission) functionHM.get(CommonUtils.SEARCH)).isFunctionFlag()) {
                 search.setVisible(false);
             } else {
                 search.setVisible(true);

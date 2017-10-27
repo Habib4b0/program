@@ -15,7 +15,6 @@ import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.model.CcpDetails;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.ContractMaster;
-import com.stpl.app.model.MasterDataAttribute;
 import com.stpl.app.model.ProjectionDetails;
 import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
@@ -72,7 +71,7 @@ public class SalesProjectionLogic {
      * @param selections the selections
      * @return the list
      */
-    public List<SalesProjectionDTO> generateSalesResult(Object selections[]) {
+    public List<SalesProjectionDTO> generateSalesResult() {
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             DynamicQuery query = null;
@@ -85,7 +84,7 @@ public class SalesProjectionLogic {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -156,7 +155,7 @@ public class SalesProjectionLogic {
         } catch (Exception ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return Collections.emptyList();
 
     }
 
@@ -226,25 +225,10 @@ public class SalesProjectionLogic {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        return Collections.emptyList();
 
     }
 
-    /**
-     * to call the Mass Update procedure.
-     *
-     * @param selections the selections
-     * @return true, if successful
-     */
-    public boolean callMassUpdateProcedure(Object selections[]) {
-        try {
-
-        } catch (Exception ex) {
-           LOGGER.error(ex);
-        }
-
-        return true;
-    }
 
     public int LoadHistoryValues(int projectionId) {
         int totalQuators = NumericConstants.FOUR;
@@ -257,7 +241,7 @@ public class SalesProjectionLogic {
         dynamicquerryFrom.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
         try {
             List list = ProjectionMasterLocalServiceUtil.dynamicQuery(dynamicquerryFrom);
-            String tempDate = StringUtils.EMPTY;
+            String tempDate;
             tempDate = String.valueOf(list.get(0));
 
             Date currentDate = new Date();
@@ -285,7 +269,7 @@ public class SalesProjectionLogic {
 
     public String loadTotalLives(Object[] inputs) {
         Double lives = 0.0;
-        List<String> list = new ArrayList<String>();
+        List<String> list;
         list = MasterDataAttributeLocalServiceUtil.getTotalLives(inputs);
         if (list != null) {
             for (String live : list) {
@@ -297,7 +281,7 @@ public class SalesProjectionLogic {
 
     public List<PeriodDTO> loadAlternateHistory(final Object[] inputs) throws SystemException, SQLException {
 
-        List<PeriodDTO> list = new ArrayList<PeriodDTO>();
+        List<PeriodDTO> list = new ArrayList<>();
         if (callAlternateHistoryProcedure(inputs)) {
 
         }
@@ -397,10 +381,10 @@ public class SalesProjectionLogic {
 
     public Map<String, Map<Integer, Double>> getLivesForSelectedCustomers(Object inputs[]) {
 
-        List list = new ArrayList<MasterDataAttribute>();
+        List list;
         SessionDTO session = (SessionDTO) inputs[NumericConstants.TWO];
-        Map<String, Map<Integer, Double>> finalMap = new HashMap<String, Map<Integer, Double>>();
-        List<LivesDTO> livesDto = new ArrayList<LivesDTO>();
+        Map<String, Map<Integer, Double>> finalMap = new HashMap<>();
+        List<LivesDTO> livesDto = new ArrayList<>();
         list = MasterDataAttributeLocalServiceUtil.getTotalLives(inputs);
         LivesDTO lives = null;
         Date startDate = null;
@@ -444,7 +428,7 @@ public class SalesProjectionLogic {
                 companyDto = livesDto.get(i);
                 if (tempcompName.equals(STRING_EMPTY)) {
                     tempcompName = companyDto.getComp_Name();
-                    livesList = new ArrayList<LivesDTO>();
+                    livesList = new ArrayList<>();
 
                 }
 
@@ -454,7 +438,7 @@ public class SalesProjectionLogic {
                 } else {
                     tempcompName = companyDto.getComp_Name();
                     companyList.add(livesList);
-                    livesList = new ArrayList<LivesDTO>();
+                    livesList = new ArrayList<>();
                     livesList.add(companyDto);
                 }
                 if (i == (livesDto.size() - 1)) {
@@ -467,7 +451,7 @@ public class SalesProjectionLogic {
             String tempCompanyName = STRING_EMPTY;
             for (int i = 0; i < companyList.size(); i++) {
                 List<LivesDTO> livesDtoList = (List<LivesDTO>) companyList.get(i);
-                values = new HashMap<Integer, Double>();
+                values = new HashMap<>();
 
                 Collections.sort(livesDtoList, new Comparator<LivesDTO>() {
                     @Override
@@ -561,13 +545,13 @@ public class SalesProjectionLogic {
         return status;
     }
 
-    public List<SalesRowDto> loadSalesProjection(Object salesSelection[]) {
-        List<SalesRowDto> resultList = new ArrayList<SalesRowDto>();
+    public List<SalesRowDto> loadSalesProjection() {
+        List<SalesRowDto> resultList = new ArrayList<>();
      
         return resultList;
     }
 
-    public boolean checkAll(int projectionMasterSid) {
+    public boolean checkAll() {
         boolean status = false;
 
         return status;
@@ -611,7 +595,7 @@ public class SalesProjectionLogic {
         return true;
     }
 
-    private List callPMPYProcedure(Object inputs[]) throws SystemException, SQLException {
+    private List callPMPYProcedure(Object inputs[]) throws SQLException {
 
         List list = null;
 
@@ -674,23 +658,20 @@ public class SalesProjectionLogic {
 
     public List<PMPYRowDto> getPMPYResultList(Object[] inputs) {
 
-        List<PMPYRowDto> resultList = new ArrayList<PMPYRowDto>();
+        List<PMPYRowDto> resultList = new ArrayList<>();
 
         List list = null;
         try {
             list = callPMPYProcedure(inputs);
-        } catch (SystemException ex) {
+        }  catch (SQLException ex) {
 
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
 
         List<Object> propertyList = (List<Object>) inputs[NumericConstants.FOUR];
 
         if (list != null) {
-            List<PeriodDTO> tempList = new ArrayList<PeriodDTO>();
+            List<PeriodDTO> tempList = new ArrayList<>();
             PeriodDTO periodDTO = null;
             for (int i = 0; i < list.size(); i++) {
                 Object obj[] = (Object[]) list.get(i);
@@ -730,9 +711,9 @@ public class SalesProjectionLogic {
             PMPYRowDto pmpyRowDto2 = new PMPYRowDto();
             PMPYRowDto pmpyRowDto3 = new PMPYRowDto();
 
-            Map<String, String> properties1 = new HashMap<String, String>();
-            Map<String, String> properties2 = new HashMap<String, String>();
-            Map<String, String> properties3 = new HashMap<String, String>();
+            Map<String, String> properties1 = new HashMap<>();
+            Map<String, String> properties2 = new HashMap<>();
+            Map<String, String> properties3 = new HashMap<>();
             for (Object obj : propertyList) {
 
                 properties1.put(String.valueOf(obj), "0.0");
@@ -799,7 +780,7 @@ public class SalesProjectionLogic {
 
     public List<SalesRowDto> getLevelFilterValues(Object input[]) {
 
-        List<SalesRowDto> levelList = new ArrayList<SalesRowDto>();
+        List<SalesRowDto> levelList = new ArrayList<>();
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         List list = null;
         try {
@@ -864,7 +845,7 @@ public class SalesProjectionLogic {
 
     public List getTradingPartnerInfo(int prDetId) {
         List list = new ArrayList();
-        List<String> resultList = new ArrayList<String>();
+        List<String> resultList = new ArrayList<>();
         String tradingName = StringUtils.EMPTY;
         String tradingNo = StringUtils.EMPTY;
         String contractHolder = StringUtils.EMPTY;
@@ -1048,7 +1029,7 @@ public class SalesProjectionLogic {
     }
 
     public List<String> loadGroup(Object[] input) {
-        List<String> groupList = new ArrayList<String>();
+        List<String> groupList = new ArrayList<>();
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             groupList = salesProjectionDAO.getSalesProjection(input);
@@ -1106,7 +1087,7 @@ public class SalesProjectionLogic {
 
     public List<Integer> getCheckedRecords(Object[] input) {
 
-        List<Integer> projectionDetailsIdList = new ArrayList<Integer>();
+        List<Integer> projectionDetailsIdList = new ArrayList<>();
 
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -1156,14 +1137,14 @@ public class SalesProjectionLogic {
     }
 
     public BigDecimal getTotalLives(SessionDTO session) {
-        Double lastValue = 0.0;
+        Double lastValue;
         int year = session.getCurrentDate().getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         int quator = getQuator(session.getCurrentDate().getMonth() + 1);
 
-        Map<Integer, Double> values = new HashMap<Integer, Double>();
+        Map<Integer, Double> values;
         BigDecimal totalValue = new BigDecimal(0.0);
 
-        Map<String, Map<Integer, Double>> finalMap = new HashMap<String, Map<Integer, Double>>();
+        Map<String, Map<Integer, Double>> finalMap;
         SalesProjectionLogic logic = new SalesProjectionLogic();
         Object[] inputs = new Object[NumericConstants.THREE];
         inputs[0] = session.getProjectionId();
@@ -1176,7 +1157,7 @@ public class SalesProjectionLogic {
         int tempNum = 0;
         int startYear = session.getForecastDTO().getHistoryStartYear();
         int startQuator = logic.getQuator(session.getForecastDTO().getHistoryStartMonth());
-        List<Integer> allKeyList = new ArrayList<Integer>();
+        List<Integer> allKeyList = new ArrayList<>();
         while (tempNum != endPeriod) {
             tempNum = Integer.parseInt(startYear + StringUtils.EMPTY + startQuator);
             allKeyList.add(tempNum);
@@ -1199,7 +1180,7 @@ public class SalesProjectionLogic {
     }
 
     public Map<String, Boolean> getCheckRecordDetails(Object[] inputs) {
-        Map<String, Boolean> checkDetails = new HashMap<String, Boolean>();
+        Map<String, Boolean> checkDetails = new HashMap<>();
         List list = null;
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {

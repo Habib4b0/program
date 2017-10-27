@@ -19,7 +19,7 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
-import static com.stpl.app.gcm.util.Constants.DateFormatConstants.MMddyyyy;
+import static com.stpl.app.gcm.util.Constants.DateFormatConstants.MMDDYYYY;
 import com.stpl.app.gcm.util.HeaderUtils;
 import com.stpl.app.gcm.util.ResponsiveUtils;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -44,6 +44,7 @@ import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +84,6 @@ public class Summary extends CustomComponent {
     public TextField contractEndDate;
     @UiField("rebuildBtn")
     public Button rebuildBtn;
-    RemoveDiscountLookUp lookup;
     SummaryTableLogic tableLogic = new SummaryTableLogic();
     ComponentInfoTableLogic infoLogic = new ComponentInfoTableLogic();
     public ExtPagedTable summaryResultsTable = new ExtPagedTable(infoLogic);
@@ -93,7 +93,7 @@ public class Summary extends CustomComponent {
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightDTO;
     RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
-    private BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<RemoveDiscountDto>(RemoveDiscountDto.class);
+    private BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     public static final Logger LOGGER = Logger.getLogger(Summary.class);
     DiscountLogic discountLogic = new DiscountLogic();
     List contractList = new ArrayList();
@@ -101,24 +101,24 @@ public class Summary extends CustomComponent {
     List rsList = new ArrayList();
     List<RemoveDiscountDto> selecteditemList;
     public TreeTable dashboardTreeTable = new TreeTable();
-    private ExtTreeContainer<DiscountDTO> resultBean = new ExtTreeContainer<DiscountDTO>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<DiscountDTO> resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
     final CommonLogic commonLogic = new CommonLogic();
     StplSecurity stplSecurity = new StplSecurity();
     SessionDTO session;
     /**
      * The map left visible columns.
      */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     /**
      * The map right visible columns.
      */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     ContractsDetailsDto dto;
     TabSheet mainTab;
     RemoveDiscountLookUp lookUp;
     CommonUtils commonUtils = new CommonUtils();
     RemoveDiscount removeDiscount;
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMddyyyy.getConstant());
+    public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
 
     public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, TabSheet mainTab, RemoveDiscount removeDiscount) {
         VerticalLayout vLayout = new VerticalLayout();
@@ -127,6 +127,7 @@ public class Summary extends CustomComponent {
         this.selecteditemList = selecteditemList;
         this.dto = dto;
         vLayout.addComponent(Clara.create(getClass().getResourceAsStream("/discount/removeDiscountSummary.xml"), this));
+        rebuildBtn = new Button(); // To resolve CEL-1223
         configureFields();
         configureSecurityPermissions();
         return vLayout;
@@ -150,12 +151,11 @@ public class Summary extends CustomComponent {
         infoLogic.setPageLength(NumericConstants.TEN);
         infoLogic.sinkItemPerPageWithPageLength(false);
         summaryResultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        summaryResultsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
+        summaryResultsTable.setSizeFull();
         summaryResultsTable.setHeight("370px");
-        summaryResultsTable.setPageLength(NumericConstants.FIVE);
         summaryResultsTable.setSelectable(true);
-        summaryResultsTable.setVisibleColumns(Constants.SUMMARY_SEARCH_COLUMNS);
-        summaryResultsTable.setColumnHeaders(Constants.SUMMARY_SEARCH_HEADERS);
+        summaryResultsTable.setVisibleColumns(Constants.getInstance().summarySearchColumns);
+        summaryResultsTable.setColumnHeaders(Constants.getInstance().summarySearchHeaders);
         for (Object propertyId : summaryResultsTable.getVisibleColumns()) {
             summaryResultsTable.setColumnWidth(propertyId, NumericConstants.ONE_SIX_FIVE);
         }
@@ -163,11 +163,10 @@ public class Summary extends CustomComponent {
         summaryResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         summaryResultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         summaryResultsTable.addStyleName(ConstantsUtil.FILTERCOMBOBOX);
-        summaryResultsTable.setWidth("1500px");
         for (Object propertyId : summaryResultsTable.getVisibleColumns()) {
             summaryResultsTable.setColumnWidth(propertyId, -1);
         }
-        Object[] objColumn = Constants.COMPONENT_RESULTS_COLUMNS;
+        Object[] objColumn = Constants.getInstance().componentResultsColumns;
         for (Object objColumn1 : objColumn) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
@@ -194,9 +193,11 @@ public class Summary extends CustomComponent {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -215,7 +216,7 @@ public class Summary extends CustomComponent {
         });
         summaryResultsTable.setFilterBarVisible(true);
         summaryResultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        Object[] objColumnSel = Constants.SUMMARY_SEARCH_COLUMNS;
+        Object[] objColumnSel = Constants.getInstance().summarySearchColumns;
         for (Object objColumn1 : objColumnSel) {
             String value = objColumn1.toString();
             if (value.endsWith("Date")) {
@@ -226,7 +227,7 @@ public class Summary extends CustomComponent {
 
         dto.setContractSid(selecteditemList.get(0).getContractSid());
         if (!Constants.ZEROSTRING.equals(dto.getRsSystemId()) && !Constants.NULL.equals(dto.getRsSystemId()) && !StringUtils.EMPTY.equals(dto.getRsSystemId())) {
-            infoLogic.loadSetData(removeDiscount.getUserId(), removeDiscount.getSessionId(), new ArrayList<String>(), "summary", dto, true);
+            infoLogic.loadSetData(removeDiscount.getUserId(), removeDiscount.getSessionId(), Collections.EMPTY_LIST, "summary", dto, true);
         }
         for (RemoveDiscountDto remove : selecteditemList) {
             contractList.add(remove.getContractSid());
@@ -240,7 +241,7 @@ public class Summary extends CustomComponent {
         fullHeader = new CustomTableHeaderDTO();
         rightDTO = HeaderUtils.getSalesTabsRightTableColumns(fullHeader, Constants.QUARTERLY);
         CustomTableHeaderDTO leftDTO = HeaderUtils.getSalesTabLeftTableColumnsForPromoteTP(fullHeader);
-        resultBean = new ExtTreeContainer<DiscountDTO>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
+        resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
         resultBean.setColumnProperties(leftDTO.getProperties());
         resultBean.setColumnProperties(rightDTO.getProperties());
         tableLogic.setContainerDataSource(resultBean);
@@ -299,12 +300,9 @@ public class Summary extends CustomComponent {
     }
 
     public List<String> removeRebate() {
-        List<String> tempTransferList = new ArrayList<String>();
+        List<String> tempTransferList = new ArrayList<>();
         if (!discountLogic.getActuals(removeDiscountDto)) {
-            discountLogic.updateRebate(dto.getRsSystemId());
-            tempTransferList = commonLogic.copyProjection(removeDiscountDto.getProjectionSid(), false, companyList,
-                    contractList, rsList,new SessionDTO());
-            discountLogic.updateRebate(dto.getRsSystemId());
+            discountLogic.updateRebate(dto.getRsSystemId()); // Removed Create projection logic over here because Projections will not get created on Rmeove Discount as per FD
         } else {
             AbstractNotificationUtils.getAlertNotification("Invalid rebate",
                     "The following Contract/RS Combination: " + contractName + " , " + dto.getRsName() + " has actual payments and cannot be removed");
@@ -320,27 +318,28 @@ public class Summary extends CustomComponent {
     @UiHandler("rebuildBtn")
     public void rebuildBtnLogic(Button.ClickEvent event) {
         if (summaryResultsTable.getValue() != null) {
-            new AbstractNotificationUtils() {
-                @Override
-                public void yesMethod() {
-                    try {
-                        RemoveDiscountDto removeDto = (RemoveDiscountDto) summaryResultsTable.getValue();
-                        summaryResultsTable.removeItem(removeDto);
-                    } catch (Exception e) {
-                        LOGGER.error(e);
+                new AbstractNotificationUtils() {
+                    @Override
+                    public void yesMethod() {
+                        try {
+                            RemoveDiscountDto removeDto = (RemoveDiscountDto) summaryResultsTable.getValue();
+                            summaryResultsTable.removeItem(removeDto);
+                        } catch (Exception e) {
+                            LOGGER.error(e);
+                        }
                     }
-                }
 
-                @Override
-                public void noMethod() {
-                }
-            }.getConfirmationMessage("Confirmation", "Are you sure you want to keep this discount on contract ");
+                    @Override
+                    public void noMethod() {
+                        return;
+                    }
+                }.getConfirmationMessage("Confirmation", "Are you sure you want to keep this discount on contract ");
 
-        } else {
-            AbstractNotificationUtils.getErrorNotification("No Records Selected",
-                    "Please select a records to Rebuild.");
+            } else {
+                AbstractNotificationUtils.getErrorNotification("No Records Selected",
+                        "Please select a record to Rebuild.");
+            }
         }
-    }
 
     private void configureSecurityPermissions() {
         try {

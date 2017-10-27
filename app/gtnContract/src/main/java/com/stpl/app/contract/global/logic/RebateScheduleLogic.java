@@ -93,7 +93,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     
     static HashMap<String, String> deductionCriteria = new HashMap<>();
     static HashMap<String, String> deductionFilter = new HashMap<>();
-    public static ResourceBundle constantProperties = ResourceBundle.getBundle("properties.constants");
+    public static final ResourceBundle constantProperties = ResourceBundle.getBundle("properties.constants");
 
     /**
      * Default Constructor.
@@ -118,13 +118,13 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
      */
     public List<HelperDTO> getHelperDetails(final String listType) throws SystemException {
         LOGGER.debug("Entering getHelperDetails()");
-        final List<HelperDTO> returnList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> returnList = new ArrayList<>();
 
         final List<HelperTable> list = dao.findByHelperTableDetails(listType);
         returnList.add(new HelperDTO(0, Constants.SELECT_ONE));
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                final HelperTable helperTable = (HelperTable) list.get(i);
+                final HelperTable helperTable = list.get(i);
                 returnList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
             }
         }
@@ -141,14 +141,14 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
      */
     public List<String> getHelperDetailsDesc(final String listType) {
         LOGGER.debug("Entering getHelperDetails()");
-        final List<String> returnList = new ArrayList<String>();
+        final List<String> returnList = new ArrayList<>();
         try {
             final List<HelperTable> list = dao.findByHelperTableDetails(listType);
 
             returnList.add(Constants.SELECT_ONE);
             if (list != null) {
                 for (int i = 0; i < list.size(); i++) {
-                    final HelperTable helperTable = (HelperTable) list.get(i);
+                    final HelperTable helperTable = list.get(i);
                     returnList.add(helperTable.getDescription());
                 }
             }
@@ -246,7 +246,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                     } else if (stringFilter.getPropertyId().equals("rebateScheduleName")) {
                         rebateScheduleDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.RS_NAME1, filterText));
                     } else if (stringFilter.getPropertyId().equals("displayRsStatus")) {
-                        rebateScheduleDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.RS_STATUS1, Integer.valueOf(stringFilter.getFilterString())));
+                        rebateScheduleDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.RS_STATUS1, Integer.valueOf(stringFilter.getFilterString())));
                     } else if (stringFilter.getPropertyId().equals(Constants.RS_TYPE1)) {
                         rebateScheduleDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.RS_TYPE1, Integer.valueOf(stringFilter.getFilterString())));
                     } else if (stringFilter.getPropertyId().equals("displayRsType")) {
@@ -355,9 +355,34 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         for (final Iterator<OrderByColumn> iterator = columns.iterator(); iterator.hasNext();) {
             final OrderByColumn orderByColumn = (OrderByColumn) iterator.next();
             if (orderByColumn.getType() == Type.ASC) {
-                rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.asc(orderByColumn.getName()));
+                if (orderByColumn.getName().equals("rebateScheduleId")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.RS_ID1));
+                } else if (orderByColumn.getName().equals("rebateScheduleName")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.RS_NAME1));
+                } else if (orderByColumn.getName().equals("rebateScheduleNo")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.RS_NO1));
+                } else if (orderByColumn.getName().equals("displayRsType")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.RS_TYPE1));
+                } else if (orderByColumn.getName().equals("displayRsStatus")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.RS_STATUS1));
+                } else if (orderByColumn.getName().equals("displayRpType")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.REBATE_PROGRAM_TYPE));
+                }
+
             } else {
-                rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.desc(orderByColumn.getName()));
+                if (orderByColumn.getName().equals("rebateScheduleId")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.desc(Constants.RS_ID1));
+                } else if (orderByColumn.getName().equals("rebateScheduleName")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.desc(Constants.RS_NAME1));
+                } else if (orderByColumn.getName().equals("rebateScheduleNo")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.desc(Constants.RS_NO1));
+                } else if (orderByColumn.getName().equals("displayRsType")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.desc(Constants.RS_TYPE1));
+                } else if (orderByColumn.getName().equals("displayRsStatus")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.desc(Constants.RS_STATUS1));
+                } else if (orderByColumn.getName().equals("displayRpType")) {
+                    rebateScheduleDynamicQuery.addOrder(OrderFactoryUtil.desc(Constants.REBATE_PROGRAM_TYPE));
+                }
             }
         }
 
@@ -374,7 +399,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                     } else if (stringFilter.getPropertyId().equals("rebateScheduleName")) {
                         rebateScheduleDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.RS_NAME1, filterText));
                     } else if (stringFilter.getPropertyId().equals("displayRsStatus")) {
-                        rebateScheduleDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.RS_STATUS1, Integer.valueOf(stringFilter.getFilterString())));
+                        rebateScheduleDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.RS_STATUS1, Integer.valueOf(stringFilter.getFilterString())));
                     } else if (stringFilter.getPropertyId().equals("displayRsType")) {
                         rebateScheduleDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.RS_TYPE1, Integer.valueOf(stringFilter.getFilterString())));
                     } else if (stringFilter.getPropertyId().equals("displayRpType")) {
@@ -400,7 +425,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     private List<RebateScheduleMasterDTO> getCustomizedModel(final List<RsModel> searchList) {
         LOGGER.debug("Entering getCustomizedModel()");
         if (searchList != null) {
-            final List<RebateScheduleMasterDTO> rsDTOlist = new ArrayList<RebateScheduleMasterDTO>();
+            final List<RebateScheduleMasterDTO> rsDTOlist = new ArrayList<>();
 
             for (int i = 0; i < searchList.size(); i++) {
                 final RsModel rsMaster = searchList.get(i);
@@ -462,7 +487,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
             LOGGER.debug("End of getCustomizedModel()");
             return rsDTOlist;
         }
-        return null;
+        return  Collections.emptyList();
     }
 
     /**
@@ -474,7 +499,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         return dao;
     }
 
-    public int getLazySelectedCompaniesCount() throws PortalException, SystemException {
+    public int getLazySelectedCompaniesCount() throws SystemException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ImtdItemPriceRebateDetails.class);
@@ -488,11 +513,11 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
 
 
 
-    public void loadTempIFP(Object cfpSystemId, Object contractSystemId) throws SystemException {
+    public void loadTempIFP(Object cfpSystemId, Object contractSystemId) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String tempDate = String.valueOf(sessionDTO.getSessionDate());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         input.add(tempDate);
@@ -502,18 +527,18 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, StringUtils.EMPTY);
     }
 
-    public void addToTempIFP(Object searchField, String searchValue) throws SystemException {
+    public void addToTempIFP(Object searchField, String searchValue) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
         final String cfpSystemId = String.valueOf(sessionDTO.getCfpSystemId());
         final String contractSystemId = String.valueOf(sessionDTO.getContractSystemId());
         final String tempDate = String.valueOf(sessionDTO.getSessionDate());
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put("Company No", Constants.COMPANY_NO);
         map.put("Company Name", Constants.COMPANY_NAME);
         map.put("Company Type", Constants.COMPANY_TYPE);
         map.put("Company Status", Constants.COMPANY_STATUS);
-        final List<Object> input = new ArrayList<Object>(NumericConstants.EIGHT);
+        final List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
         input.add(cfpSystemId);
         input.add(contractSystemId);
         input.add(tempDate);
@@ -525,19 +550,19 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         ImtdItemPriceRebateDetailsLocalServiceUtil.loadTempItemdetails(input, "Add");
     }
 
-    public void clearTempIFP() throws SystemException {
+    public void clearTempIFP() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdItemPriceRebateDetailsLocalServiceUtil.deleteAll(input, "Back");
     }
 
-    public void populateToTempIFP(Object populateField, Object populateValue, Boolean flag) throws SystemException {
+    public void populateToTempIFP(Object populateField, Object populateValue, Boolean flag) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(populateField);
         input.add(populateValue);
         input.add(userId);
@@ -549,18 +574,18 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         }
     }
 
-    public static Boolean saveToTempIFP() throws PortalException, SystemException {
-        List<ImtdItemPriceRebateDetails> saveDetailsList = new ArrayList<ImtdItemPriceRebateDetails>();
+    public static Boolean saveToTempIFP() {
+        List<ImtdItemPriceRebateDetails> saveDetailsList = new ArrayList<>();
         
-        List<Object> input = new ArrayList<Object>(1);
+        List<Object> input = new ArrayList<>(1);
         input.add(saveDetailsList);
         return ImtdItemPriceRebateDetailsLocalServiceUtil.saveItem(input, "SaveDetails");
     }
 
-    public void removeAll() throws SystemException {
+    public void removeAll() {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdItemPriceRebateDetailsLocalServiceUtil.updateAll(input, "Temp");
@@ -569,7 +594,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     public void removeItem(int tempIfpSystemId) throws SystemException, PortalException {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
         ImtdItemPriceRebateDetails temp = ImtdItemPriceRebateDetailsLocalServiceUtil.getImtdItemPriceRebateDetails(tempIfpSystemId);
@@ -581,10 +606,10 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         }
     }
 
-    public void addItem(ItemMasterDTO companyDto) throws SystemException {
+    public void addItem(ItemMasterDTO companyDto) {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         final String sessionId = String.valueOf(sessionDTO.getUiSessionId());
-        final List<Object> input = new ArrayList<Object>(NumericConstants.FIVE);
+        final List<Object> input = new ArrayList<>(NumericConstants.FIVE);
         input.add(userId);
         input.add(sessionId);
     }
@@ -624,7 +649,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         filter = StringUtils.trimToEmpty(filter) + Constants.PERCENT;
         List<Object[]> rebateList;
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(RebatePlanMaster.class);
-        dynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", Constants.STATUS_D));
+        dynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.INBOUND_STATUS, Constants.STATUS_D));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.RP_NAME, filter));
 
         if (rebatePlan != null && rebatePlan.getId() != 0) {
@@ -648,9 +673,9 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         LOGGER.debug("Entering getLazyBrandCount method ");
         filter = StringUtils.trimToEmpty(filter) + Constants.PERCENT;
         List<Object[]> qualifierList;
-        final List<HelperDTO> list = new ArrayList<HelperDTO>();
-        int startValue = start;
-        int endValue = end;
+        final List<HelperDTO> list = new ArrayList<>();
+        int startValue;
+        int endValue;
         if (start == Constants.ZERO) {
             startValue = start;
             endValue = end - 1;
@@ -665,7 +690,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         if (rebatePlan != null && rebatePlan.getId() != 0) {
             dynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.REBATE_PLAN_MASTER_SID, rebatePlan.getId()));
         }
-        dynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", Constants.STATUS_D));
+        dynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.INBOUND_STATUS, Constants.STATUS_D));
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
         projectionList.add(ProjectionFactoryUtil.property(Constants.REBATE_PLAN_MASTER_SID));
         projectionList.add(ProjectionFactoryUtil.property(Constants.RP_NAME));
@@ -707,7 +732,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
 
     public List<RSFormulaDTO> getForecastingFormula(int start, int end) {
 
-        List<RSFormulaDTO> resultList = new ArrayList<RSFormulaDTO>();
+        List<RSFormulaDTO> resultList = new ArrayList<>();
 
         final DynamicQuery forecastingFormula = DynamicQueryFactoryUtil.forClass(ForecastingFormula.class);
         forecastingFormula.setLimit(start, end);
@@ -723,7 +748,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     }
 
     public List<RSFormulaDTO> getCustomisedForecastingFormula(List<ForecastingFormula> list) {
-        List<RSFormulaDTO> resultList = new ArrayList<RSFormulaDTO>();
+        List<RSFormulaDTO> resultList = new ArrayList<>();
         RSFormulaDTO dto;
         try {
             if (list != null) {
@@ -784,7 +809,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     }
 
     public List<ImtdContRsDetailsFrDTO> getImtdRsDetailsFr(int itemMasterId, int start, int offset) {
-        List<ImtdContRsDetailsFrDTO> resultList = new ArrayList<ImtdContRsDetailsFrDTO>();
+        List<ImtdContRsDetailsFrDTO> resultList = new ArrayList<>();
         try {
 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
@@ -810,7 +835,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     }
 
     public static List<Integer> getImtdFormulaDescList(int itemMasterId, SessionDTO sessionDTO) {
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         try {
 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
@@ -837,7 +862,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     }
 
     public List<ImtdContRsDetailsFrDTO> getCustomisedImtdContRsDetailsFr(List<ImtdRsContractDetailsFr> list) {
-        List<ImtdContRsDetailsFrDTO> resultList = new ArrayList<ImtdContRsDetailsFrDTO>();
+        List<ImtdContRsDetailsFrDTO> resultList = new ArrayList<>();
         ImtdContRsDetailsFrDTO dto;
         for (ImtdRsContractDetailsFr bean : list) {
             try {
@@ -891,7 +916,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
 
             DynamicQuery query = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
             query.add(RestrictionsFactoryUtil.eq("rsContractSid", rsContractSId));
-            query.add(RestrictionsFactoryUtil.ne("inboundStatus", Constants.STATUS_D));
+            query.add(RestrictionsFactoryUtil.ne(Constants.INBOUND_STATUS, Constants.STATUS_D));
             List<RsContractDetails> list = RsDetailsLocalServiceUtil.dynamicQuery(query);
 
             for (RsContractDetails bean : list) {
@@ -920,7 +945,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
 
     public List<RSFormulaDTO> getLoadForecastingFormula() {
 
-        List<RSFormulaDTO> resultList = new ArrayList<RSFormulaDTO>();
+        List<RSFormulaDTO> resultList = new ArrayList<>();
 
         final DynamicQuery forecastingFormula = DynamicQueryFactoryUtil.forClass(ForecastingFormula.class);
 
@@ -936,7 +961,7 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     }
 
     public List<ImtdContRsDetailsFrDTO> getLoadImtdContRsDetailsFr(int itemMasterId) {
-        List<ImtdContRsDetailsFrDTO> resultList = new ArrayList<ImtdContRsDetailsFrDTO>();
+        List<ImtdContRsDetailsFrDTO> resultList = new ArrayList<>();
         try {
 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
@@ -1046,9 +1071,9 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
         }
     }
 
-    public int getDeductionCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) throws ParseException {
+    public int getDeductionCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet) {
         int count = 0;
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildDeductionSearchQuery(searchFields, true);
         queryBuilder = getDeductionFilterQuery(filterSet, queryBuilder);
 
@@ -1062,10 +1087,10 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
     }
 
     public List<RsDeductionLookupDto> loadDeductionResults(
-            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) throws ParseException {
-        List<RsDeductionLookupDto> searchList = new ArrayList<>();
+            final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
+        List<RsDeductionLookupDto> searchList;
         LOGGER.debug("Entering loadDeductionResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
-        StringBuilder queryBuilder = new StringBuilder();
+        StringBuilder queryBuilder;
         queryBuilder = buildDeductionSearchQuery(searchFields, false);
         queryBuilder = getDeductionFilterQuery(filterSet, queryBuilder);
         queryBuilder = getDeductionOrderQuery(queryBuilder, columns, start, end);
@@ -1088,16 +1113,16 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
           
             if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(String.valueOf(searchFields.getField(fields).getValue())) && !String.valueOf(searchFields.getField(fields).getValue()).trim().isEmpty()) {
                     if ("category".equalsIgnoreCase(fields)) {
-                        queryBuilder.append(" AND ").append(deductionCriteria.get(fields)).append(" = '").append(checkEmptyDataFromFields(fields, searchFields) ? com.stpl.app.serviceUtils.Constants.ZERO : ((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
+                        queryBuilder.append(ConstantUtil.AND_SPACE).append(deductionCriteria.get(fields)).append(" = '").append(checkEmptyDataFromFields(fields, searchFields) ? com.stpl.app.serviceUtils.Constants.ZERO : ((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
                     } else {
-                        queryBuilder.append(" AND ").append(deductionCriteria.get(fields)).append(" LIKE '").append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace("*", Constants.PERCENT)).append("'");
+                        queryBuilder.append(ConstantUtil.AND_SPACE).append(deductionCriteria.get(fields)).append(" LIKE '").append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace("*", Constants.PERCENT)).append("'");
                     }
             }
         }
         return queryBuilder;
     }
     
-    private StringBuilder getDeductionFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) throws ParseException {
+    private StringBuilder getDeductionFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         if (deductionFilter.isEmpty()) {
             deductionFilter.clear();
             deductionFilter.put("deductionNo", "DEDUCTION_CALENDAR_NO");
@@ -1116,8 +1141,11 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                 if (filter instanceof SimpleStringFilter) {
                    
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder.append(" AND ").append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" LIKE '%").append(stringFilter.getFilterString()).append("%'");
-               
+                    if (stringFilter.getPropertyId().equals("createdBy") || stringFilter.getPropertyId().equals("modifiedBy")) {
+                        stringBuilder.append(ConstantUtil.AND_SPACE).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" = ").append(stringFilter.getFilterString());
+                    } else {
+                        stringBuilder.append(ConstantUtil.AND_SPACE).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" LIKE '%").append(stringFilter.getFilterString()).append("%'");
+                    }
                 } else if (filter instanceof Between) {
 
                     Between stringFilter = (Between) filter;
@@ -1125,10 +1153,10 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                     String endValue = dbDateFormat.format(stringFilter.getEndValue());
 
                     if (startValue != null) {
-                        stringBuilder.append(" AND ").append(deductionFilter.get(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
+                        stringBuilder.append(ConstantUtil.AND_SPACE).append(deductionFilter.get(stringFilter.getPropertyId().toString())).append(" >= '").append(startValue).append("' ");
                     }
                     if (endValue != null) {
-                        stringBuilder.append(" AND ").append(deductionFilter.get(stringFilter.getPropertyId().toString())).append(" <= '").append(endValue).append("' ");
+                        stringBuilder.append(ConstantUtil.AND_SPACE).append(deductionFilter.get(stringFilter.getPropertyId().toString())).append(" <= '").append(endValue).append("' ");
                     }
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
@@ -1136,9 +1164,9 @@ public class RebateScheduleLogic extends BeanItemContainer<RsModel> implements R
                     if (stringFilter.getValue() instanceof Date) {
                         String filterString = dbDateFormat.format(stringFilter.getValue());
                         if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                            stringBuilder.append(" AND ").append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" >= '").append(filterString).append("' ");
+                            stringBuilder.append(ConstantUtil.AND_SPACE).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" >= '").append(filterString).append("' ");
                         } else {
-                            stringBuilder.append(" AND ").append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" <= '").append(filterString).append("' ");
+                            stringBuilder.append(ConstantUtil.AND_SPACE).append(deductionFilter.get(String.valueOf(stringFilter.getPropertyId()))).append(" <= '").append(filterString).append("' ");
                         }
                     }
                 }

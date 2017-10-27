@@ -86,19 +86,19 @@ public class SummaryTPDetails extends CustomComponent implements View {
     @UiField("transferRemove")
     public Button transferRemove;
     ExtPagedFilterTable transferTradingPartnerTable = new ExtPagedFilterTable();
-    private BeanItemContainer<CurrentContractDTO> transferTpResultsContainer = new BeanItemContainer<CurrentContractDTO>(CurrentContractDTO.class);
+    private BeanItemContainer<CurrentContractDTO> transferTpResultsContainer = new BeanItemContainer<>(CurrentContractDTO.class);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     CurrentContractDTO currentContractDTO = new CurrentContractDTO();
     public CurrentContractTableLogic tableLogic = new CurrentContractTableLogic();
     public ExtPagedTable currentTradingPartnerTable = new ExtPagedTable(tableLogic);
-    BeanItemContainer<CurrentContractDTO> currentTradingPartnerResultsContainer = new BeanItemContainer<CurrentContractDTO>(CurrentContractDTO.class);
-    List<Object> selecteditemList = new ArrayList<Object>();
-    List<Object> selItemList = new ArrayList<Object>();
+    BeanItemContainer<CurrentContractDTO> currentTradingPartnerResultsContainer = new BeanItemContainer<>(CurrentContractDTO.class);
+    List<Object> selecteditemList = new ArrayList<>();
+    List<Object> selItemList = new ArrayList<>();
     ExtFilterTable resultTable;
     boolean isLoad = false;
     boolean isRebateLoad = false;
     PromoteTPLogic logic = new PromoteTPLogic();
-    public List<CurrentContractDTO> transTpInfoList = new ArrayList<CurrentContractDTO>();
+    public List<CurrentContractDTO> transTpInfoList = new ArrayList<>();
     Boolean contractExcelFlag = false;
     Boolean infoExcelFlag = false;
     final StplSecurity stplSecurity = new StplSecurity();
@@ -135,8 +135,8 @@ public class SummaryTPDetails extends CustomComponent implements View {
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(true);
 
-        currentTradingPartnerTable.setVisibleColumns(Constants.CURRENT_TRADING_PARTNER_COLUMNS);
-        currentTradingPartnerTable.setColumnHeaders(Constants.CURRENT_TRADING_PARTNER_HEADERS);
+        currentTradingPartnerTable.setVisibleColumns(Constants.getInstance().currentTradingPartnerColumns);
+        currentTradingPartnerTable.setColumnHeaders(Constants.getInstance().currentTradingPartnerHeaders);
         currentTradingPartnerTable.setSizeFull();
         currentTradingPartnerTable.setEditable(true);
         currentTradingPartnerTable.setFilterBarVisible(false);
@@ -181,6 +181,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
 
         currentTradingPartnerTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             public void itemClick(ItemClickEvent event) {
+                return;
             }
         });
     }
@@ -193,8 +194,8 @@ public class SummaryTPDetails extends CustomComponent implements View {
         transferTradingPartnerTable.setSelectable(true);
         transferTradingPartnerTable.setEditable(true);
         transferTradingPartnerTable.setContainerDataSource(transferTpResultsContainer);
-        transferTradingPartnerTable.setVisibleColumns(Constants.SUMMARY_TP_RESULTS_COLUMNS);
-        transferTradingPartnerTable.setColumnHeaders(Constants.SUMMARY_TP_RESULTS_HEADERS);
+        transferTradingPartnerTable.setVisibleColumns(Constants.getInstance().summaryTpResultsColumns);
+        transferTradingPartnerTable.setColumnHeaders(Constants.getInstance().summaryTpResultsHeaders);
         transferTradingPartnerTable.setColumnCheckBox(Constants.CHECK_RECORD, true);
 
         transferTradingPartnerTable.setTableFieldFactory(new TableFieldFactory() {
@@ -347,26 +348,26 @@ public class SummaryTPDetails extends CustomComponent implements View {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException, SystemException, PortalException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
         ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
 
     }
 
-    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) {
         try {
             if (end != 0) {
                 if (contractExcelFlag) {
                     int recordCount = logic.getSelectedTPContractCount(currentContractDTO, session.getUserId(), session.getSessionId());
                     final List<CurrentContractDTO> searchList = logic.getSelectedTPContractResults(logic.getContractQuery(currentContractDTO, session.getUserId(), session.getSessionId(), 0, recordCount, false));
                     Object[] columns = currentTradingPartnerTable.getVisibleColumns();
-                    columns = ArrayUtils.removeElement(columns, "checkRecord");
+                    columns = ArrayUtils.removeElement(columns, Constants.CHECK_RECORD);
                     ExcelExportforBB.createFileContent(columns, searchList, printWriter);
                 } else if (infoExcelFlag) {
                     List<CurrentContractDTO> searchList = transferTpResultsContainer.getItemIds();
                     Object[] columns = transferTradingPartnerTable.getVisibleColumns();
-                    columns = ArrayUtils.removeElement(columns, "checkRecord");
+                    columns = ArrayUtils.removeElement(columns, Constants.CHECK_RECORD);
                     ExcelExportforBB.createFileContent(columns, searchList, printWriter);
                 }
             }

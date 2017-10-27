@@ -4,22 +4,22 @@
     <description/>
     <extended_description/>
     <job_version/>
-  <directory>&#47;</directory>
+  <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2015&#47;09&#47;21 12:26:31.910</created_date>
+  <created_date>2015&#x2f;09&#x2f;21 12&#x3a;26&#x3a;31.910</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2015&#47;09&#47;21 12:26:31.910</modified_date>
+  <modified_date>2015&#x2f;09&#x2f;21 12&#x3a;26&#x3a;31.910</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -36,13 +36,13 @@
   </connection>
   <connection>
     <name>staging</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -65,7 +65,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -86,7 +86,7 @@
       <filename/>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
         </field>
       </fields>
       <parallel>N</parallel>
@@ -101,7 +101,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE_TRAN.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -120,6 +120,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -131,34 +132,7 @@
       <name>ERROR CODE </name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @batch_id VARCHAR(20)= (SELECT TOP 1 batch_id
-   FROM   IVLD_ACTUAL_MASTER
-   ORDER  BY INTF_INSERTED_DATE DESC)
-
-UPDATE IVLD_ACTUAL_MASTER
-SET    ERROR_FIELD = Substring(CASE WHEN ACTUAL_ID IS NULL THEN &apos;,ACTUAL_ID&apos; ELSE &apos;&apos; END + CASE WHEN CONTRACT_ID IS NULL THEN &apos;,CONTRACT_ID&apos; ELSE &apos;&apos; END + CASE WHEN PROVISION_ID IS NULL THEN &apos;,PROVISION_ID&apos; ELSE &apos;&apos; END + CASE WHEN ACCRUAL_ACTUAL_START_DATE IS NULL THEN &apos;,ACCRUAL_ACTUAL_START_DATE&apos; ELSE &apos;&apos; END + CASE WHEN ACCRUAL_ACTUAL_END_DATE IS NULL THEN &apos;,ACCRUAL_ACTUAL_END_DATE&apos; ELSE &apos;&apos; END + CASE WHEN ITEM_ID IS NULL THEN &apos;,ITEM_ID&apos; ELSE &apos;&apos; END + CASE WHEN CASH_PAID_DATE IS NULL THEN &apos;,CASH_PAID_DATE&apos; ELSE &apos;&apos; END + CASE WHEN AMOUNT IS NULL THEN &apos;,AMOUNT&apos; ELSE &apos;&apos; END + CASE WHEN QUANTITY IS NULL THEN &apos;,QUANTITY&apos; ELSE &apos;&apos; END + CASE WHEN QUANTITY_INCLUSION IS NULL THEN &apos;,QUANTITY_INCLUSION&apos; ELSE &apos;&apos; END + CASE WHEN ACCOUNT_ID IS NULL THEN &apos;,ACCOUNT_ID&apos; ELSE &apos;&apos; END + CASE WHEN SALES_AMOUNT IS NULL THEN &apos;,SALES_AMOUNT&apos; ELSE &apos;&apos; END + CASE WHEN ORGANIZATION_KEY IS NULL THEN &apos;,ORGANIZATION_KEY&apos; ELSE &apos;&apos; END
-                               + CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &apos;,ADD_CHG_DEL_INDICATOR&apos; ELSE &apos;&apos; END + CASE WHEN BATCH_ID IS NULL THEN &apos;,BATCH_ID&apos; ELSE &apos;&apos; END, 2, 100000)
-WHERE  BATCH_ID = @batch_id   and ERROR_CODE=&apos;E01&apos;
-
-
-update IVLD_ACTUAL_MASTER set ERROR_FIELD=
-        CASE WHEN  Isdate(UPLOAD_DATE)=0  and UPLOAD_DATE is not null THEN &apos;UPLOAD_DATE&apos; ELSE &apos;&apos; END +
-  CASE WHEN  Isdate(ACCRUAL_ACTUAL_START_DATE)=0 and ACCRUAL_ACTUAL_START_DATE is not null THEN &apos;,ACCRUAL_ACTUAL_START_DATE&apos; ELSE &apos;&apos; END +
- CASE WHEN   Isdate(ACCRUAL_ACTUAL_END_DATE)=0 and  ACCRUAL_ACTUAL_END_DATE is not null THEN &apos;,ACCRUAL_ACTUAL_END_DATE&apos; ELSE &apos;&apos; END +
- CASE WHEN   Isdate(CASH_PAID_DATE)=0 and CASH_PAID_DATE is not null THEN &apos;,CASH_PAID_DATE&apos; ELSE &apos;&apos; END  + 
-  CASE WHEN   Isdate(DISPENSED_DATE)=0 and DISPENSED_DATE is not null THEN &apos;,DISPENSED_DATE&apos; ELSE &apos;&apos; END  + 
- CASE WHEN   Isdate(CREATED_DATE)=0 and CREATED_DATE is not null THEN &apos;,CREATED_DATE&apos; ELSE &apos;&apos; END  + 
-  CASE WHEN   Isdate(MODIFIED_DATE)=0 and MODIFIED_DATE is not null THEN &apos;,MODIFIED_DATE&apos; ELSE &apos;&apos; END  
-
-WHERE      (Isdate(UPLOAD_DATE) = 0 and UPLOAD_DATE is not null)
- OR (Isdate(ACCRUAL_ACTUAL_START_DATE) = 0 and ACCRUAL_ACTUAL_START_DATE is not null)
- OR (Isdate(ACCRUAL_ACTUAL_END_DATE) = 0 and  ACCRUAL_ACTUAL_END_DATE is not null)
- OR (Isdate(CASH_PAID_DATE) = 0  and CASH_PAID_DATE is not null)
-  OR (Isdate(DISPENSED_DATE) = 0  and DISPENSED_DATE is not null)
- OR (Isdate(CREATED_DATE) = 0  and CREATED_DATE is not null)
- OR (Isdate(MODIFIED_DATE) = 0  and MODIFIED_DATE is not null)
-      and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;UPLOAD_DATE&apos;
-		 </sql>
+      <sql>DECLARE &#x40;batch_id VARCHAR&#x28;20&#x29;&#x3d; &#x28;SELECT TOP 1 batch_id&#xd;&#xa;FROM   IVLD_ACTUAL_MASTER&#xd;&#xa;ORDER  BY INTF_INSERTED_DATE DESC&#x29;&#xd;&#xa; &#xd;&#xa;UPDATE IVLD_ACTUAL_MASTER&#xd;&#xa;SET    ERROR_FIELD &#x3d; Substring&#x28;CASE WHEN ACTUAL_ID IS NULL THEN &#x27;,ACTUAL_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN CONTRACT_ID IS NULL THEN &#x27;,CONTRACT_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN PROVISION_ID IS NULL THEN &#x27;,PROVISION_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ACCRUAL_ACTUAL_START_DATE IS NULL THEN &#x27;,ACCRUAL_ACTUAL_START_DATE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ACCRUAL_ACTUAL_END_DATE IS NULL THEN &#x27;,ACCRUAL_ACTUAL_END_DATE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ITEM_ID IS NULL THEN &#x27;,ITEM_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN CASH_PAID_DATE IS NULL THEN &#x27;,CASH_PAID_DATE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN AMOUNT IS NULL THEN &#x27;,AMOUNT&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN QUANTITY IS NULL THEN &#x27;,QUANTITY&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN QUANTITY_INCLUSION IS NULL THEN &#x27;,QUANTITY_INCLUSION&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ACCOUNT_ID IS NULL THEN &#x27;,ACCOUNT_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN SALES_AMOUNT IS NULL THEN &#x27;,SALES_AMOUNT&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ORGANIZATION_KEY IS NULL THEN &#x27;,ORGANIZATION_KEY&#x27; ELSE &#x27;&#x27; END&#xd;&#xa;&#x2b; CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &#x27;,ADD_CHG_DEL_INDICATOR&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN BATCH_ID IS NULL THEN &#x27;,BATCH_ID&#x27; ELSE &#x27;&#x27; END, 2, 100000&#x29;&#xd;&#xa;WHERE  BATCH_ID &#x3d; &#x40;batch_id   and ERROR_CODE&#x3d;&#x27;E01&#x27;&#xd;&#xa; &#xd;&#xa; &#xd;&#xa;update IVLD_ACTUAL_MASTER set ERROR_FIELD&#x3d;&#xd;&#xa;CASE WHEN  Isdate&#x28;UPLOAD_DATE&#x29;&#x3d;0  and UPLOAD_DATE is not null THEN &#x27;UPLOAD_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xd;&#xa;CASE WHEN  Isdate&#x28;ACCRUAL_ACTUAL_START_DATE&#x29;&#x3d;0 and ACCRUAL_ACTUAL_START_DATE is not null THEN &#x27;,ACCRUAL_ACTUAL_START_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xd;&#xa;CASE WHEN   Isdate&#x28;ACCRUAL_ACTUAL_END_DATE&#x29;&#x3d;0 and  ACCRUAL_ACTUAL_END_DATE is not null THEN &#x27;,ACCRUAL_ACTUAL_END_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xd;&#xa;CASE WHEN   Isdate&#x28;CASH_PAID_DATE&#x29;&#x3d;0 and CASH_PAID_DATE is not null THEN &#x27;,CASH_PAID_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b;&#xd;&#xa;CASE WHEN   Isdate&#x28;DISPENSED_DATE&#x29;&#x3d;0 and DISPENSED_DATE is not null THEN &#x27;,DISPENSED_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b;&#xd;&#xa;CASE WHEN   Isdate&#x28;CREATED_DATE&#x29;&#x3d;0 and CREATED_DATE is not null THEN &#x27;,CREATED_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b;&#xd;&#xa;CASE WHEN   Isdate&#x28;MODIFIED_DATE&#x29;&#x3d;0 and MODIFIED_DATE is not null THEN &#x27;,MODIFIED_DATE&#x27; ELSE &#x27;&#x27; END&#xd;&#xa; &#xd;&#xa;WHERE      &#x28;Isdate&#x28;UPLOAD_DATE&#x29; &#x3d; 0 and UPLOAD_DATE is not null&#x29;&#xd;&#xa;OR &#x28;Isdate&#x28;ACCRUAL_ACTUAL_START_DATE&#x29; &#x3d; 0 and ACCRUAL_ACTUAL_START_DATE is not null&#x29;&#xd;&#xa;OR &#x28;Isdate&#x28;ACCRUAL_ACTUAL_END_DATE&#x29; &#x3d; 0 and  ACCRUAL_ACTUAL_END_DATE is not null&#x29;&#xd;&#xa;OR &#x28;Isdate&#x28;CASH_PAID_DATE&#x29; &#x3d; 0  and CASH_PAID_DATE is not null&#x29;&#xd;&#xa;OR &#x28;Isdate&#x28;DISPENSED_DATE&#x29; &#x3d; 0  and DISPENSED_DATE is not null&#x29;&#xd;&#xa;OR &#x28;Isdate&#x28;CREATED_DATE&#x29; &#x3d; 0  and CREATED_DATE is not null&#x29;&#xd;&#xa;OR &#x28;Isdate&#x28;MODIFIED_DATE&#x29; &#x3d; 0  and MODIFIED_DATE is not null&#x29;&#xd;&#xa;and BATCH_ID &#x3d; &#x40;batch_id and ERROR_CODE&#x3d;&#x27;E03&#x27; and ERROR_FIELD&#x3d;&#x27;UPLOAD_DATE&#x27;&#xd;&#xa; &#xd;&#xa; &#xd;&#xa; &#xd;&#xa;update IVLD_ACTUAL_MASTER&#xd;&#xa;set ERROR_FIELD&#x3d;&#xd;&#xa;CASE WHEN  isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,SALES_AMOUNT &#x29;&#x29;&#x3d;0  and SALES_AMOUNT is not null THEN &#x27;SALES_AMOUNT&#x27; ELSE &#x27;&#x27; END &#x2b;&#xd;&#xa;CASE WHEN  isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,AMOUNT &#x29;&#x29;&#x3d;0  and AMOUNT is not null THEN &#x27;AMOUNT&#x27; ELSE &#x27;&#x27; END &#x2b;&#xd;&#xa;CASE WHEN  isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,PRICE &#x29;&#x29;&#x3d;0 and PRICE is not null THEN &#x27;,PRICE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xd;&#xa;CASE WHEN  isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,QUANTITY &#x29;&#x29;&#x3d;0 and QUANTITY is not null THEN &#x27;,QUANTITY&#x27; ELSE &#x27;&#x27; END&#x2b;&#xd;&#xa;CASE WHEN  isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,MANDATED_DISCOUNT_AMOUNT &#x29;&#x29;&#x3d;0 and  MANDATED_DISCOUNT_AMOUNT is not null THEN &#x27;,MANDATED_DISCOUNT_AMOUNT&#x27; ELSE &#x27;&#x27; END&#xd;&#xa; &#xd;&#xa; &#xd;&#xa;WHERE &#xd;&#xa;   &#x28;isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,SALES_AMOUNT &#x29;&#x29; &#x3d; 0 and SALES_AMOUNT is not null&#x29;&#xd;&#xa;OR &#x28;isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,AMOUNT&#x29; &#x29; &#x3d; 0 and AMOUNT is not null&#x29;&#xd;&#xa;OR &#x28;isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,PRICE&#x29; &#x29; &#x3d; 0 and PRICE is not null&#x29;&#xd;&#xa;OR &#x28;isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,QUANTITY &#x29;&#x29; &#x3d; 0 and QUANTITY is not null&#x29;&#xd;&#xa;OR &#x28;isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,MANDATED_DISCOUNT_AMOUNT &#x29;&#x29; &#x3d; 0 and  MANDATED_DISCOUNT_AMOUNT is not null&#x29;&#xd;&#xa; &#xd;&#xa;and BATCH_ID &#x3d; &#x40;batch_id and ERROR_CODE&#x3d;&#x27;E03&#x27; and ERROR_FIELD&#x3d;&#x27;UPLOAD_DATE&#x27;&#xd;&#xa;&#xa;		 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -191,18 +165,18 @@ WHERE      (Isdate(UPLOAD_DATE) = 0 and UPLOAD_DATE is not null)
       <yloc>43</yloc>
       </entry>
     <entry>
-      <name>DELETE FIILES IN FILE PROCESS (2)</name>
+      <name>DELETE FIILES IN FILE PROCESS &#x28;2&#x29;</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;ACTUAL_MASTER_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -220,11 +194,11 @@ WHERE      (Isdate(UPLOAD_DATE) = 0 and UPLOAD_DATE is not null)
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Processed&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
       </fields>
@@ -238,17 +212,7 @@ WHERE      (Isdate(UPLOAD_DATE) = 0 and UPLOAD_DATE is not null)
       <name>DATE FORMAT</name>
       <description/>
       <type>SQL</type>
-      <sql>
-update actual_master_interface
-set UPLOAD_DATE=cast(left(UPLOAD_DATE,12) as date) 
-update actual_master_interface
-set ACCRUAL_ACTUAL_START_DATE=cast(left(ACCRUAL_ACTUAL_START_DATE,12) as date) 
-update actual_master_interface
-set ACCRUAL_ACTUAL_END_DATE=cast(left(ACCRUAL_ACTUAL_END_DATE,12) as date) 
-update actual_master_interface
-set CASH_PAID_DATE=cast(left(CASH_PAID_DATE,12) as date) 
-update actual_master_interface
-set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
+      <sql>&#xa;update actual_master_interface&#xa;set UPLOAD_DATE&#x3d;cast&#x28;left&#x28;UPLOAD_DATE,12&#x29; as date&#x29; &#xa;update actual_master_interface&#xa;set ACCRUAL_ACTUAL_START_DATE&#x3d;cast&#x28;left&#x28;ACCRUAL_ACTUAL_START_DATE,12&#x29; as date&#x29; &#xa;update actual_master_interface&#xa;set ACCRUAL_ACTUAL_END_DATE&#x3d;cast&#x28;left&#x28;ACCRUAL_ACTUAL_END_DATE,12&#x29; as date&#x29; &#xa;update actual_master_interface&#xa;set CASH_PAID_DATE&#x3d;cast&#x28;left&#x28;CASH_PAID_DATE,12&#x29; as date&#x29; &#xa;update actual_master_interface&#xa;set DISPENSED_DATE&#x3d;cast&#x28;left&#x28;DISPENSED_DATE,12&#x29; as date&#x29; </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -310,8 +274,8 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -329,7 +293,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;ACTUAL_MASTER_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -345,7 +309,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;csv_inject.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;csv_inject.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -364,6 +328,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -401,8 +366,8 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -418,7 +383,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE_TRAN_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -437,6 +402,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -461,7 +427,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;HEADER_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;HEADER_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -480,15 +446,16 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1580</xloc>
+      <xloc>1581</xloc>
       <yloc>788</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO ERROR (2)</name>
+      <name>FILEPROCESS TO ERROR &#x28;2&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -517,8 +484,8 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -532,7 +499,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ACTUAL_MASTER_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ACTUAL_MASTER_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -545,7 +512,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <yloc>1139</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED (2)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</name>
       <description/>
       <type>COPY_FILES</type>
       <copy_empty_folders>Y</copy_empty_folders>
@@ -558,8 +525,10 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -570,7 +539,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <yloc>444</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -599,8 +568,8 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -611,7 +580,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <yloc>539</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED (3)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</name>
       <description/>
       <type>COPY_FILES</type>
       <copy_empty_folders>Y</copy_empty_folders>
@@ -624,8 +593,10 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -636,7 +607,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <yloc>1059</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -665,8 +636,8 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -690,8 +661,10 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -731,8 +704,8 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -748,7 +721,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN_USER.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE_TRAN_USER.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -767,6 +740,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -778,16 +752,7 @@ set DISPENSED_DATE=cast(left(DISPENSED_DATE,12) as date) </sql>
       <name>RECEIVED_COUNT</name>
       <description/>
       <type>SQL</type>
-      <sql>UPDATE A 
-SET    A.RECEIVED_RECORD_COUNT = B.NEW_COUNT 
-FROM   AUDIT_MASTER_INBOUND A 
-       INNER JOIN (SELECT COUNT(*) AS NEW_COUNT, 
-                          BATCH_ID 
-                   FROM   ${STAGING_DB}..ACTUAL_MASTER_INTERFACE 
-                   GROUP  BY BATCH_ID)B 
-               ON A.BATCH_ID = B.BATCH_ID 
-                  AND A.STATUS = &apos;R&apos; 
-                  AND A.APPLICATION_PROCESS = &apos;ACTUAL_MASTER_INTERFACE&apos; </sql>
+      <sql>UPDATE A &#xa;SET    A.RECEIVED_RECORD_COUNT &#x3d; B.NEW_COUNT &#xa;FROM   AUDIT_MASTER_INBOUND A &#xa;       INNER JOIN &#x28;SELECT COUNT&#x28;&#x2a;&#x29; AS NEW_COUNT, &#xa;                          BATCH_ID &#xa;                   FROM   &#x24;&#x7b;STAGING_DB&#x7d;..ACTUAL_MASTER_INTERFACE &#xa;                   GROUP  BY BATCH_ID&#x29;B &#xa;               ON A.BATCH_ID &#x3d; B.BATCH_ID &#xa;                  AND A.STATUS &#x3d; &#x27;R&#x27; &#xa;                  AND A.APPLICATION_PROCESS &#x3d; &#x27;ACTUAL_MASTER_INTERFACE&#x27; </sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -829,8 +794,8 @@ FROM   AUDIT_MASTER_INBOUND A
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -841,57 +806,14 @@ FROM   AUDIT_MASTER_INBOUND A
       <yloc>495</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS 2</name>
-      <description/>
-      <type>ABORT</type>
-      <message>INVALID FILE</message>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>1220</xloc>
-      <yloc>722</yloc>
-      </entry>
-    <entry>
-      <name>MAIL 2</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;INVALID_FAIL_MAIL.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>1215</xloc>
-      <yloc>594</yloc>
-      </entry>
-    <entry>
-      <name>DELETE TEMP FIILES IN FILE PROCESS (2)</name>
+      <name>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;ACTUAL_MASTER_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -902,18 +824,18 @@ FROM   AUDIT_MASTER_INBOUND A
       <yloc>311</yloc>
       </entry>
     <entry>
-      <name>DELETE FIILES IN FILE PROCESS (2) 2</name>
+      <name>DELETE FIILES IN FILE PROCESS &#x28;2&#x29; 2</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;ACTUAL_MASTER_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -953,8 +875,8 @@ FROM   AUDIT_MASTER_INBOUND A
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -972,11 +894,11 @@ FROM   AUDIT_MASTER_INBOUND A
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Processed&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
       </fields>
@@ -1016,8 +938,8 @@ FROM   AUDIT_MASTER_INBOUND A
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -1031,7 +953,7 @@ FROM   AUDIT_MASTER_INBOUND A
       <name>STOP PROCESS AUDIT 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ACTUAL_MASTER_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ACTUAL_MASTER_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1049,7 +971,7 @@ FROM   AUDIT_MASTER_INBOUND A
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1071,7 +993,7 @@ FROM   AUDIT_MASTER_INBOUND A
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1093,7 +1015,7 @@ FROM   AUDIT_MASTER_INBOUND A
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1108,6 +1030,39 @@ FROM   AUDIT_MASTER_INBOUND A
       <nr>0</nr>
       <xloc>258</xloc>
       <yloc>667</yloc>
+      </entry>
+    <entry>
+      <name>CSV_TO_INTERFACE_FAIL_MAIL</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;CSV_TO_INTERFACE_FAIL_MAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>279</xloc>
+      <yloc>1145</yloc>
       </entry>
   </entries>
   <hops>
@@ -1167,7 +1122,7 @@ FROM   AUDIT_MASTER_INBOUND A
     </hop>
     <hop>
       <from>FILEPROCESS TO PROCESSED</from>
-      <to>DELETE FIILES IN FILE PROCESS (2)</to>
+      <to>DELETE FIILES IN FILE PROCESS &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1184,7 +1139,7 @@ FROM   AUDIT_MASTER_INBOUND A
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO ERROR (2)</from>
+      <from>FILEPROCESS TO ERROR &#x28;2&#x29;</from>
       <to>MAIL</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1211,8 +1166,8 @@ FROM   AUDIT_MASTER_INBOUND A
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED (2)</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1220,8 +1175,8 @@ FROM   AUDIT_MASTER_INBOUND A
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</from>
-      <to>FILEPROCESS TO ERROR (2)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</from>
+      <to>FILEPROCESS TO ERROR &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1229,8 +1184,8 @@ FROM   AUDIT_MASTER_INBOUND A
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED (3)</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1238,7 +1193,7 @@ FROM   AUDIT_MASTER_INBOUND A
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</from>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</from>
       <to>FILEPROCESS TO PROCESSED</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1301,26 +1256,8 @@ FROM   AUDIT_MASTER_INBOUND A
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO ERROR 2</from>
-      <to>MAIL 2</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>MAIL 2</from>
-      <to>STOP PROCESS 2</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>REARRANGING THE HEADER IN ORDER</from>
-      <to>DELETE TEMP FIILES IN FILE PROCESS (2)</to>
+      <to>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1329,7 +1266,7 @@ FROM   AUDIT_MASTER_INBOUND A
     </hop>
     <hop>
       <from>FILEPROCESS TO PROCESSED 2</from>
-      <to>DELETE FIILES IN FILE PROCESS (2) 2</to>
+      <to>DELETE FIILES IN FILE PROCESS &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1355,7 +1292,7 @@ FROM   AUDIT_MASTER_INBOUND A
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>DELETE TEMP FIILES IN FILE PROCESS (2)</from>
+      <from>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</from>
       <to>Simple evaluation</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1365,7 +1302,7 @@ FROM   AUDIT_MASTER_INBOUND A
     </hop>
     <hop>
       <from>Simple evaluation</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED (2)</to>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1392,7 +1329,7 @@ FROM   AUDIT_MASTER_INBOUND A
     </hop>
     <hop>
       <from>Simple evaluation 2</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED (3)</to>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1435,7 +1372,35 @@ FROM   AUDIT_MASTER_INBOUND A
       <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT 2</from>
+      <to>CSV_TO_INTERFACE_FAIL_MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT</from>
+      <to>CSV_TO_INTERFACE_FAIL_MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO ERROR 2</from>
+      <to>MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
   </hops>
   <notepads>
   </notepads>
+
 </job>

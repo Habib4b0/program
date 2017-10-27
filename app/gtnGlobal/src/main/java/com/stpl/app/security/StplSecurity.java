@@ -56,7 +56,7 @@ public class StplSecurity {
  	private static final List<String> DOMAINIDS1 = null;
         
         /** UserMap - Contains User System ID and User Name */
-        public static Map<Integer,String> userMap=new ConcurrentHashMap<Integer,String>();   
+        public static final Map<Integer,String> userMap=new ConcurrentHashMap<>();   
 
         /**
      * Gets the dao.
@@ -76,7 +76,7 @@ public StplSecurityDAO getDto() {
 	 * @throws SystemException the system exception
 	 */
     public Collection<Object> getUserGroupId(final long userId)  throws PortalException, SystemException {   
-        final Collection<Object> userGroupId = new ArrayList<Object>();
+        final Collection<Object> userGroupId = new ArrayList<>();
             final User user = dao.getUserByUserId(userId);
             for (int i = 0; i < user.getUserGroups().size(); i++) {
                 final Long userGroup = user.getUserGroups().get(i).getUserGroupId();
@@ -123,7 +123,7 @@ public StplSecurityDAO getDto() {
      * @return List<String>
      */
     public List<String> getDomainIds(final Collection<Object> userGroupId) {
-        List<String> domainIds = new ArrayList<String>();
+        List<String> domainIds = new ArrayList<>();
         final DynamicQuery ugDomainDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(UsergroupDomainMaster.class);
         ugDomainDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
@@ -180,7 +180,7 @@ public StplSecurityDAO getDto() {
      */
     public Map<String, AppPermission> getBusinessFunctionPermission(final String userId,final String moduleName) throws PortalException, SystemException {
         LOGGER.debug(StringUtils.EMPTY+userId);
-         Map<String, AppPermission> functionHm = new HashMap<String, AppPermission>();
+         Map<String, AppPermission> functionHm;
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
@@ -200,7 +200,7 @@ public StplSecurityDAO getDto() {
      */
 
     public Map<String, AppPermission> getBusinessFieldPermission(final String userId,final String moduleName) throws PortalException, SystemException {
-            Map<String, AppPermission> fieldHm =new HashMap<String, AppPermission>();
+            Map<String, AppPermission> fieldHm;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
         final List tabPermissionList = dao.getBusinessroleModuleMasterFieldList(businessRoleIds, moduleName);
@@ -254,7 +254,7 @@ public StplSecurityDAO getDto() {
      * @return HashMap<String, AppPermission>
      */
     public Map<String, AppPermission> listToAppPermissionMap(final List permissionList,final int type) {
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
         final int listSize = permissionList.size();
         AppPermission appPermission;
@@ -327,10 +327,10 @@ public StplSecurityDAO getDto() {
     } 
          public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName ,final boolean column) throws PortalException, SystemException {
         LOGGER.debug("Enters getBusinessColumnPermission()");
-         List tabPermissionList = new ArrayList();
-         Set addPermission = new HashSet();
-         Set viewPermission = new HashSet();
-         Set editPermission = new HashSet();
+         List tabPermissionList;
+         Set addPermission;
+         Set viewPermission;
+         Set editPermission;
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
         if(column==true){
@@ -352,7 +352,7 @@ public StplSecurityDAO getDto() {
     }
   public Map<String, AppPermission> listOfFieldAppPermissionMap(final List permissionList,final Set addpermission,final Set viewpermission ,final Set editpermission, final int type) {
         LOGGER.debug("Entering listToAppPermissionMap()");
-        final Map<String, AppPermission> permissionHm = new HashMap<String, AppPermission>();
+        final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
 
         
@@ -381,9 +381,9 @@ public StplSecurityDAO getDto() {
         return permissionHm;
     }
   private List getBuisnessColumn(String businessRoleIds, String moduleName) {
-        List columnList = new ArrayList();
+        List columnList;
 
-        String query = StringUtils.EMPTY;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(ConstantsUtils.COMMA)) {
@@ -415,7 +415,7 @@ public StplSecurityDAO getDto() {
     }
 
     public List fetchColumnForSecurity(String moduleName, String tabName) {
-        List columnList = new ArrayList();
+        List columnList;
         String query = "SELECT DISPLAY_NAME, PROPERTY_NAME FROM MODULE_PROPERTIES WHERE MODULE_NAME = '" + moduleName + "' "
                 + " AND TAB_NAME = '" + tabName + "' AND CATEGORY_NAME IN ('List view Header') ";
         columnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -424,8 +424,8 @@ public StplSecurityDAO getDto() {
 
     private Set getModePermission(String businessRoleIds, String moduleName , boolean add ,boolean view ,boolean edit,boolean column) {
        Set field = new HashSet();
-        List columnList = new ArrayList();
-        String query = StringUtils.EMPTY;
+        List columnList;
+        String query;
         String[] str = null;
         String mod;
         if (moduleName.contains(ConstantsUtils.COMMA)) {

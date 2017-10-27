@@ -118,7 +118,8 @@ public class CommonUtils {
     /**
      * The Constant historyBean.
      */
-    final public static BeanItemContainer<String> historyBean = new BeanItemContainer<String>(String.class);
+    final public static BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    public static final String YEARS1 = "Years";
     /**
      * The Constant CHAR_PERCENT.
      */
@@ -192,8 +193,6 @@ public class CommonUtils {
     public static final String BTN_CLOSE = "btnClose";
     public static final String BTN_SUBMIT = "btnSubmit";
     /*Buttons For Sales Projection*/
-    public static final String GENERATE_BUTTON_SALES = "generateBtn";
-    public static final String RESET_SALES = "resetBtn";
     public static final String POPULATE_SALES = "populate";
     public static final String POPULATE_BTN = "populateBtn";
     public static final String CALCULATE = "calculate";
@@ -209,6 +208,7 @@ public class CommonUtils {
     public static final String ADJUST_BTN = "adjustBtn";
     public static final String PMPY = "pmpy";
     public static final String PROGRAM_SELECTION = "programSelectionLookup";
+    public static final String ALT_HISTORY_BTN = "altHistoryBtn";
     /*
      * Projection Variance variables
      */
@@ -250,8 +250,6 @@ public class CommonUtils {
 
     public static final String RESET_BTN = "resetBtn";
 
-    public static final String EDIT_BTN = "editBtn";
-
     public static final String VIEW_BTN = "viewBtn";
 
     public static final String DELETE_BTN = "deleteBtn";
@@ -272,40 +270,38 @@ public class CommonUtils {
 
     public static final String ALL_BTN1 = "allBtn";
 
-    public static final String PRODUCT_ALL_BTN = "allProductBtn";
-
     /**
      * The Constant NONMANDATED.
      */
     /**
      * The Constant HISTORY LOOKUP CONTRACT COLUMNS.
      */
-    public static Object[] HISTORY_LOOKUP_CONTRACT_COLUMNS_MANDATED = new Object[]{"customer", "contractNumber", "contractName"};
+    public Object[] historyLookupContractColumnsMandated = new Object[]{"customer", "contractNumber", "contractName"};
 
     /**
      * The Constant HISTORY LOOKUP CONTRACT HEADERS.
      */
-    public static String[] HISTORY_LOOKUP_CONTRACT_HEADERS_MANDATED = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
+    public String[] historyLookupContractHeadersMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
 
     /**
      * The Constant HISTORY LOOKUP CONTRACT COLUMNS.
      */
-    public static Object[] HISTORY_LOOKUP_CONTRACT_COLUMNS_NONMANDATED = new Object[]{"customer", "contractNumber", "contractName"};
+    public Object[] historyLookupContractColumnsNonMandated = new Object[]{"customer", "contractNumber", "contractName"};
 
     /**
      * The Constant HISTORY LOOKUP CONTRACT HEADERS.
      */
-    public static String[] HISTORY_LOOKUP_CONTRACT_HEADERS_NONMANDATED = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
+    public String[] historyLookupContractHeaderNonMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
 
     /**
      * The Constant HISTORY LOOKUP BRAND COLUMNS.
      */
-    public static final Object[] HISTORY_LOOKUP_BRAND_COLUMNS = new Object[]{Constant.BRAND};
+    public final Object[] historyLookupBrandColumns = new Object[]{Constant.BRAND};
 
     /**
      * The Constant HISTORY LOOKUP BRAND HEADERS.
      */
-    public static final String[] HISTORY_LOOKUP_BRAND_HEADERS = new String[]{"Brand Name"};
+    public final String[] historyLookupBrandHeaders = new String[]{"Brand Name"};
 
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
     public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
@@ -333,12 +329,6 @@ public class CommonUtils {
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String BUSINESS_PROCESS_TYPE_COMMERCIAL = "Commercial";
     public static final String BUSINESS_PROCESS_TYPE_GOVERNMENT = "Government";
-
-    /**
-     * The Constructor.
-     */
-    public CommonUtils() {
-    }
 
     /**
      * Gets the current calendar.
@@ -433,7 +423,7 @@ public class CommonUtils {
      * @return map containing the configuration for customer
      */
     public static final Map<String, String> customerLevelConfiguration() {
-        final Map<String, String> customerMap = new HashMap<String, String>();
+        final Map<String, String> customerMap = new HashMap<>();
         customerMap.put(LEVEL_1.getConstant(), LEVEL_SEGMENT_GROUP.getConstant());
         customerMap.put(LEVEL_2.getConstant(), LEVEL_SEGMENT.getConstant());
         customerMap.put(LEVEL_3.getConstant(), LEVEL_MARKET_TYPE.getConstant());
@@ -449,7 +439,7 @@ public class CommonUtils {
      * @return map containing the configuration for product
      */
     public static final Map<String, String> productLevelConfiguration() {
-        final Map<String, String> productMap = new HashMap<String, String>();
+        final Map<String, String> productMap = new HashMap<>();
         productMap.put(LEVEL_1.getConstant(), LEVEL_COMPANY.getConstant());
         productMap.put(LEVEL_2.getConstant(), LEVEL_THERAPEUTIC_CLASS.getConstant());
         productMap.put(LEVEL_3.getConstant(), LEVEL_BRAND.getConstant());
@@ -577,24 +567,24 @@ public class CommonUtils {
     }
 
     public static List<Date> getStartandTodate() {
-        List<Date> result = new ArrayList<Date>();
+        List<Date> result = new ArrayList<>();
         ForecastConfig forecastConfig = getTimePeriod();
         Date fromDate = null;
         Date toDate = null;
         if (forecastConfig != null) {
             if (forecastConfig.getProcessMode()) {      // Interval
-                if ("Month".equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
-                    fromDate = DataSelectionUtil.calculateHistory("Month", forecastConfig.getHistValue());
-                    toDate = DataSelectionUtil.calculateProjection("Month", forecastConfig.getProjValue());
-                } else if ("Quarter".equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
-                    fromDate = DataSelectionUtil.calculateHistory("Quarter", forecastConfig.getHistValue());
-                    toDate = DataSelectionUtil.calculateProjection("Quarter", forecastConfig.getProjValue());
-                } else if ("SemiAnnual".equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
-                    fromDate = DataSelectionUtil.calculateHistory("SemiAnnual", forecastConfig.getHistValue());
-                    toDate = DataSelectionUtil.calculateProjection("SemiAnnual", forecastConfig.getProjValue());
-                } else if ("Annual".equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
-                    fromDate = DataSelectionUtil.calculateHistory("Annual", forecastConfig.getHistValue());
-                    toDate = DataSelectionUtil.calculateProjection("Annual", forecastConfig.getProjValue());
+                if (Constant.MONTH1.equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
+                    fromDate = DataSelectionUtil.calculateHistory(Constant.MONTH1, forecastConfig.getHistValue());
+                    toDate = DataSelectionUtil.calculateProjection(Constant.MONTH1, forecastConfig.getProjValue());
+                } else if (Constant.QUARTER1.equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
+                    fromDate = DataSelectionUtil.calculateHistory(Constant.QUARTER1, forecastConfig.getHistValue());
+                    toDate = DataSelectionUtil.calculateProjection(Constant.QUARTER1, forecastConfig.getProjValue());
+                } else if (Constant.SEMI_ANNUAL_SMALL.equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
+                    fromDate = DataSelectionUtil.calculateHistory(Constant.SEMI_ANNUAL_SMALL, forecastConfig.getHistValue());
+                    toDate = DataSelectionUtil.calculateProjection(Constant.SEMI_ANNUAL_SMALL, forecastConfig.getProjValue());
+                } else if (Constant.ANNUAL.equalsIgnoreCase(String.valueOf(forecastConfig.getHistFreq()))) {
+                    fromDate = DataSelectionUtil.calculateHistory(Constant.ANNUAL, forecastConfig.getHistValue());
+                    toDate = DataSelectionUtil.calculateProjection(Constant.ANNUAL, forecastConfig.getProjValue());
                 }
             } else {
 
@@ -813,7 +803,7 @@ public class CommonUtils {
     }
 
     public static Map<String, Integer> getHistoryEndDetails(SessionDTO session, String frequency) {
-        Map<String, Integer> history = new HashMap<String, Integer>();
+        Map<String, Integer> history;
         history = session.getHistoryEndDetails(frequency);
         if (history == null || history.isEmpty()) {
             history = getHistoryEndDetail(session, frequency);
@@ -823,7 +813,7 @@ public class CommonUtils {
     }
 
     private static Map<String, Integer> getHistoryEndDetail(SessionDTO session, String frequency) {
-        Map<String, Integer> history = new HashMap<String, Integer>();
+        Map<String, Integer> history = new HashMap<>();
         int frequencyDivision = 1;
         int historyEndPeriod = 1;
         int historyEndMonth = 1;
@@ -1171,17 +1161,17 @@ public class CommonUtils {
                 .replace(array[NumericConstants.ELEVEN], "M12");
     }
 
-    public static List getHistoryDdlbList(int endValue, String frequency, String period) {
+    public static List getHistoryDdlbList(int endValue, String period) {
         List history = new ArrayList();
         if (period.equals(Constant.YEAR)) {
-            period = "Years";
+            period = YEARS1;
         } else if (period.equals(SEMI_ANNUAL.getConstant())) {
             period = "Semi-Annual Periods";
         }
         for (int i = 1; i <= endValue; i++) {
             if ((i == 1)
                     && (QUARTERS.getConstant().equals(period) || MONTHS
-                    .getConstant().equals(period) || "Years".equals(period) || "Semi-Annual Periods".equals(period))) {
+                    .getConstant().equals(period) || YEARS1.equals(period) || "Semi-Annual Periods".equals(period))) {
                 String freq = period.replace(Constant.S_SMALL, StringUtils.EMPTY);
                 history.add(String.valueOf(i) + SPACE.getConstant() + freq);
             } else {
@@ -1281,14 +1271,14 @@ public class CommonUtils {
 
     public static List<String> loadHistory(String frequency, String period, SessionDTO session) {
         LOGGER.debug("Entering loadHistory method");
-        List<String> history = new ArrayList<String>();
+        List<String> history;
         history = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
             Map<String, Integer> historyEndDetails = getHistoryEndDetails(session, frequency);
             endValue = getProjections(session.getForecastDTO().getHistoryStartDate(), getDate(historyEndDetails.get(HISTORY_END_MONTH.getConstant()), historyEndDetails.get(HISTORY_END_YEAR.getConstant())), frequency);
 
-            history = CommonUtils.getHistoryDdlbList(endValue, frequency, period);
+            history = CommonUtils.getHistoryDdlbList(endValue, period);
             session.addFrequencyAndQuater(frequency, history);
         }
         LOGGER.debug("End of loadHistory method");
@@ -1352,9 +1342,9 @@ public class CommonUtils {
 
     }
 
-    public static Map<String, String> getAllUsers() throws PortalException, SystemException {
-        List<Object> userList = new ArrayList<Object>();
-        Map<String, String> userMap = new HashMap<String, String>();
+    public static Map<String, String> getAllUsers()  {
+        List<Object> userList = new ArrayList<>();
+        Map<String, String> userMap = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.USER_ID));
@@ -1368,7 +1358,6 @@ public class CommonUtils {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            userList = null;
             LOGGER.error(ex);
         }
         return userMap;
@@ -1386,9 +1375,9 @@ public class CommonUtils {
         return "''";
     }
 
-    public static Map<String, String> getAllUserIds() throws PortalException, SystemException {
-        List<Object> userList = new ArrayList<Object>();
-        Map<String, String> userMap = new HashMap<String, String>();
+    public static Map<String, String> getAllUserIds()  {
+        List<Object> userList = new ArrayList<>();
+        Map<String, String> userMap = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.USER_ID));
@@ -1402,15 +1391,14 @@ public class CommonUtils {
                 userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]), String.valueOf(array[0]));
             }
         } catch (Exception ex) {
-            userList = null;
             LOGGER.error(ex);
         }
         return userMap;
     }
 
-    public static Map<String, String> getAllDiscounts() throws PortalException, SystemException {
-        List<Object> discountList = new ArrayList<Object>();
-        Map<String, String> userMap = new HashMap<String, String>();
+    public static Map<String, String> getAllDiscounts()  {
+        List<Object> discountList = new ArrayList<>();
+        Map<String, String> userMap = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.HELPER_TABLE_SID));
@@ -1424,7 +1412,6 @@ public class CommonUtils {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            discountList = null;
             LOGGER.error(ex);
         }
         return userMap;
@@ -1623,13 +1610,13 @@ public class CommonUtils {
         return monthName;
     }
 
-    public static List getHistoryDdlbListMM(int endValue, String frequency, String period) {
+    public static List getHistoryDdlbListMM(int endValue, String period) {
         List history = new ArrayList();
 
         for (int i = 1; i <= endValue; i++) {
             if ((i == 1)
                     && (QUARTERS.getConstant().equals(period) || MONTHS
-                    .getConstant().equals(period) || "Years".equals(period))) {
+                    .getConstant().equals(period) || YEARS1.equals(period))) {
                 String freq = period.replace(Constant.S_SMALL, StringUtils.EMPTY);
                 history.add(String.valueOf(i) + SPACE.getConstant() + freq);
             } else {
@@ -1668,7 +1655,7 @@ public class CommonUtils {
             String quarter = value.substring(0, 1);
             if (quarter.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
-                    date = year + "-01-01";
+                    date = year + ONE_ONE;
                 } else {
                     date = year + "-03-31";
                 }
@@ -1682,7 +1669,7 @@ public class CommonUtils {
             }
             if (quarter.equals("3")) {
                 if (isFromDate) {
-                    date = year + "-07-01";
+                    date = year + SEVEN_ONE;
                 } else {
                     date = year + "-09-30";
                 }
@@ -1691,7 +1678,7 @@ public class CommonUtils {
                 if (isFromDate) {
                     date = year + "-10-01";
                 } else {
-                    date = year + "-12-31";
+                    date = year + TWO_THIRTYONE;
                 }
             }
         } else if (freq.equals(Constant.SEMI_ANNUALLY)) {
@@ -1699,23 +1686,23 @@ public class CommonUtils {
             String semiAnnual = value.substring(0, 1);
             if (semiAnnual.equals(Constant.STRING_ONE)) {
                 if (isFromDate) {
-                    date = year + "-01-01";
+                    date = year + ONE_ONE;
                 } else {
                     date = year + "-06-31";
                 }
             }
             if (semiAnnual.equals("2")) {
                 if (isFromDate) {
-                    date = year + "-07-01";
+                    date = year + SEVEN_ONE;
                 } else {
-                    date = year + "-12-31";
+                    date = year + TWO_THIRTYONE;
                 }
             }
         } else if (freq.equals(Constant.ANNUALLY)) {
             if (isFromDate) {
-                date = year + "-01-01";
+                date = year + ONE_ONE;
             } else {
-                date = year + "-12-31";
+                date = year + TWO_THIRTYONE;
 
             }
 
@@ -1729,7 +1716,7 @@ public class CommonUtils {
 
             if (startMonth == 1) {
                 if (isFromDate) {
-                    date = year + "-01-01";
+                    date = year + ONE_ONE;
                 } else {
                     date = year + "-01-31";
                 }
@@ -1765,7 +1752,7 @@ public class CommonUtils {
                 }
             } else if (startMonth == NumericConstants.SEVEN) {
                 if (isFromDate) {
-                    date = year + "-07-01";
+                    date = year + SEVEN_ONE;
                 } else {
                     date = year + "-07-31";
                 }
@@ -1797,13 +1784,16 @@ public class CommonUtils {
                 if (isFromDate) {
                     date = year + "-12-01";
                 } else {
-                    date = year + "-12-31";
+                    date = year + TWO_THIRTYONE;
                 }
             }
         }
 
         return date;
     }
+    public static final String ONE_ONE = "-01-01";
+    public static final String SEVEN_ONE = "-07-01";
+    public static final String TWO_THIRTYONE = "-12-31";
 
     public static List<String> prepareProjectionPeriodList(ProjectionSelectionDTO projSelDTO) {
         List<String> projectionPeriodList = new ArrayList<>();
@@ -1811,11 +1801,11 @@ public class CommonUtils {
             String frequency = projSelDTO.getFrequency();
             String projectionStartDate = String.valueOf(projSelDTO.getForecastDTO().getProjectionStartDate());
             String projectionEndDate = String.valueOf(projSelDTO.getForecastDTO().getProjectionEndDate());
-            if (frequency.contains("Month")) {
+            if (frequency.contains(Constant.MONTH1)) {
                 projectionPeriodList = monthList(projectionStartDate, projectionEndDate);
             } else if (frequency.contains("Semi")) {
                 projectionPeriodList = semiAnnualList(projectionStartDate, projectionEndDate);
-            } else if (frequency.contains("Quarter")) {
+            } else if (frequency.contains(Constant.QUARTER1)) {
                 projectionPeriodList = quarterList(projectionStartDate, projectionEndDate);
             } else {
                 projectionPeriodList = new ArrayList<>();
@@ -1828,9 +1818,9 @@ public class CommonUtils {
     }
 
     private static List<String> quarterList(String startDateString, String endDateString) throws ParseException {
-        List<String> quartersList = new ArrayList<String>();
+        List<String> quartersList = new ArrayList<>();
         int startYear = 0, endYear = 0, startMonth = 0, endMonth = 0, startQuarter = 0, endQuarter = 0;
-        SimpleDateFormat parser = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+        SimpleDateFormat parser = new SimpleDateFormat(Constant.EEE_MMM_Z_YYYY);
         SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
         SimpleDateFormat formatMonth = new SimpleDateFormat("MM");
         int limit = NumericConstants.FOUR;
@@ -1864,8 +1854,8 @@ public class CommonUtils {
     }
 
     private static List<String> semiAnnualList(String startDateString, String endDateString) throws ParseException {
-        List<String> semiAnnualList = new ArrayList<String>();
-        SimpleDateFormat parser = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+        List<String> semiAnnualList = new ArrayList<>();
+        SimpleDateFormat parser = new SimpleDateFormat(Constant.EEE_MMM_Z_YYYY);
         parser.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date startDate = parser.parse(startDateString);
         Date endDate = parser.parse(endDateString);
@@ -1899,8 +1889,8 @@ public class CommonUtils {
     }
 
     private static List<String> monthList(String startDateString, String endDateString) throws ParseException {
-        List<String> monthList = new ArrayList<String>();
-        SimpleDateFormat parser = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+        List<String> monthList = new ArrayList<>();
+        SimpleDateFormat parser = new SimpleDateFormat(Constant.EEE_MMM_Z_YYYY);
         parser.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date startDate = parser.parse(startDateString);
         Date endDate = parser.parse(endDateString);
@@ -1959,5 +1949,4 @@ public class CommonUtils {
         }
         return Boolean.FALSE;
     }
-
 }

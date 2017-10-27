@@ -12,6 +12,7 @@ import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.supercode.DataResult;
 import com.stpl.app.arm.supercode.OriginalDataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
+import com.stpl.app.arm.utils.CommonConstant;
 import static com.stpl.app.utils.ExcelUtils.getKey;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.lang.reflect.InvocationTargetException;
@@ -35,12 +36,12 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
 
     @Override
     protected List getQueryTableinput(SessionDTO sessionDTO) {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override
     public List getTableInput(SessionDTO sessionDTO) {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override
@@ -62,12 +63,12 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
     protected String getTotalQueryName() {
         return "BSummaryLoadTotalData-Demand";
     }
-    
+
     @Override
     protected String getExcelQueryName() {
         return "getBSummaryExcelQuery-Demand";
     }
-    
+
     @Override
     protected DataResult getCustomizedData(SelectionDTO data, List list) {
         List<Object[]> listObj = list;
@@ -78,8 +79,6 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         Map<Object, String> headerValueMap = selection.getHeaderVisibleColumnMap();
         AdjustmentDTO dto = null;
         DecimalFormat decimalformat = new DecimalFormat("$#,##0");
-        DecimalFormat percentformat = new DecimalFormat("#,##0");
-        DecimalFormat decimalformatt = new DecimalFormat("$#,#0");
         DecimalFormat decimalformatto = new DecimalFormat("#,#0%");
         boolean isChild = !Collections.max(selection.getSummaryLevel().keySet()).equals(selection.getLevelNo());
         for (Object[] list1 : listObj) {
@@ -87,15 +86,15 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
             if (!lastMasterSid.equals(mastersId) || dto == null) {
                 dto = new AdjustmentDTO();
                 finalList.add(dto);
-                dto.setBrand_item_masterSid(mastersId);
+                dto.setBranditemmasterSid(mastersId);
                 dto.setMasterIds(selection.getMasterSids());
                 dto.setLevelNo(selection.getLevelNo());
                 dto.setGroup(String.valueOf(list1[0]));
-                dto.setChildrenAllowed((!"Total".equalsIgnoreCase(dto.getGroup()) && selection.getSummary_levelFilterNo() == 0) ? isChild : false);
+                dto.setChildrenAllowed((!CommonConstant.TOTAL.equalsIgnoreCase(dto.getGroup()) && selection.getSummarylevelFilterNo() == 0) ? isChild : false);
             }
 
-            int period = Integer.valueOf(list1[NumericConstants.TWO].toString());
-            int year = Integer.valueOf(list1[NumericConstants.THREE].toString());
+            int period = Integer.parseInt(list1[NumericConstants.TWO].toString());
+            int year = Integer.parseInt(list1[NumericConstants.THREE].toString());
 
             if (list1[9] != null) {
                 String headerKey = StringUtils.EMPTY;
@@ -104,14 +103,15 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                         headerKey = StringUtils.EMPTY + period + year;
                         break;
                     case "1":
-                        headerKey = "Total";
+                        headerKey = CommonConstant.TOTAL;
                         break;
                     case "2":
                         headerKey = "Cumulative Balance";
                         break;
+                    default:
                 }
                 if (selection.getSelectedAdjustmentTypeValues().contains("Actual Payments")) {
-                dto.setDTOValues(headerValueMap, headerKey + "Actual Payments", list1[6], decimalformat);
+                    dto.setDTOValues(headerValueMap, headerKey + "Actual Payments", list1[6], decimalformat);
                 }
                 if (selection.getSelectedAdjustmentTypeValues().contains("Payment Ratio")) {
                     dto.setDTOValues(headerValueMap, headerKey + "Payment Ratio", list1[7], decimalformatto);
@@ -134,30 +134,28 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         int j = 1;
         int keyParam = j;
         String oldC = StringUtils.EMPTY;
-        String newC = StringUtils.EMPTY;
-        String column = StringUtils.EMPTY;
+        String newC;
+        String column;
         AdjustmentDTO dto = null;
-        List<Map<String, AdjustmentDTO>> mapList = new ArrayList<Map<String, AdjustmentDTO>>();
+        List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
         mapList.add(new HashMap<String, AdjustmentDTO>());
-        int size = mapList.size();
+        int size;
         String key = "0.";
         if (resultList != null && !resultList.isEmpty()) {
             for (int i = 0; i < resultList.size(); i++) {
                 Object[] resultSet = (Object[]) resultList.get(i);
                 newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
                 if (!"0".equals(newC)) {
-                    if (!newC.equals("null")) {
-                        if (!oldC.equals(newC)) {
-                            oldC = "";
-                            if (object.length > keyParam) {
-                                keyParam++;
-                                if (String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
-                                    j++;
-                                }
+                    if (!"null".equals(newC)) {
+                        if (!oldC.equals(newC) && object.length > keyParam) {
+
+                            keyParam++;
+                            if ("null".equalsIgnoreCase(String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]))) {
+                                j++;
                             }
                         }
-                    } else if (!oldC.equals("null")) {
-                        oldC = "";
+                    } else if (!"null".equals(oldC)) {
+
                         j = 1;
                         keyParam = 1;
                     }
@@ -176,7 +174,7 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                     dto = new AdjustmentDTO();
                     Map<String, AdjustmentDTO> map = mapList.get(size - 1);
                     if (map.size() >= NumericConstants.THOUSAND) {
-                        map = new HashMap<String, AdjustmentDTO>();
+                        map = new HashMap<>();
                         mapList.add(map);
                     }
                     map.put(key, dto);
@@ -190,11 +188,12 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                             headerKey = String.valueOf(resultSet[6]).replace(" ", "").replace("-", StringUtils.EMPTY);
                             break;
                         case "1":
-                            headerKey = "Total";
+                            headerKey = CommonConstant.TOTAL;
                             break;
                         case "2":
                             headerKey = "CumulativeBalance";
                             break;
+                        default:
                     }
                     column = visibleColumnsList.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
                     Object value = resultSet[9];
@@ -213,11 +212,9 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
                         value = resultSet[12];
                     }
 
-                    if (column.startsWith(gatheredColumn)) {
-                        if (column.matches("[a-zA-Z0-9-~\\s]+\\.\\d+$")) {
-                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
-                        }
-                        
+                    if (column.startsWith(gatheredColumn) && column.matches("[a-zA-Z0-9-~\\s]+\\.\\d+$")) {
+                        dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+
                     }
                 }
                 dto.setGroup(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
@@ -226,10 +223,14 @@ public class BSummaryDemandLogic extends AbstractBSummaryLogic {
         }
         return mapList;
     }
+
+    @Override
+    public List getQueryTableinputparameter(SessionDTO sessionDTO) {
+        return Collections.emptyList();
+    }
     
     @Override
-       public List getQueryTableinputparameter(SessionDTO sessionDTO) {
-        return Collections.EMPTY_LIST;
+    protected String getExcelTotalQueryName() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

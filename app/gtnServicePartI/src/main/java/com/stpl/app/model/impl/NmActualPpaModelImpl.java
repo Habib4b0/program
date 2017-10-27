@@ -42,16 +42,12 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
     public static final Object[][] TABLE_COLUMNS = {
             { "ACTUAL_RATE", Types.DOUBLE },
             { "PERIOD_SID", Types.INTEGER },
-            { "ACTUAL_PROJ_DISCOUNT_DOLLAR", Types.DOUBLE },
-            { "ACTUAL_PROJECTION_SALES", Types.DOUBLE },
             { "PROJECTION_DETAILS_SID", Types.INTEGER },
-            { "ACTUAL_PROJECTION_RATE", Types.DOUBLE },
-            { "ACTUAL_PROJ_DISCOUNT_UNITS", Types.DOUBLE },
             { "ACTUAL_DISCOUNT_DOLLAR", Types.DOUBLE },
             { "ACTUAL_DISCOUNT_UNITS", Types.DOUBLE },
             { "ACTUAL_SALES", Types.DOUBLE }
         };
-    public static final String TABLE_SQL_CREATE = "create table NM_ACTUAL_PPA (ACTUAL_RATE DOUBLE,PERIOD_SID INTEGER not null IDENTITY,ACTUAL_PROJ_DISCOUNT_DOLLAR DOUBLE,ACTUAL_PROJECTION_SALES DOUBLE,PROJECTION_DETAILS_SID INTEGER not null IDENTITY,ACTUAL_PROJECTION_RATE DOUBLE,ACTUAL_PROJ_DISCOUNT_UNITS DOUBLE,ACTUAL_DISCOUNT_DOLLAR DOUBLE,ACTUAL_DISCOUNT_UNITS DOUBLE,ACTUAL_SALES DOUBLE,primary key (PERIOD_SID, PROJECTION_DETAILS_SID))";
+    public static final String TABLE_SQL_CREATE = "create table NM_ACTUAL_PPA (ACTUAL_RATE DOUBLE,PERIOD_SID INTEGER not null IDENTITY,PROJECTION_DETAILS_SID INTEGER not null IDENTITY,ACTUAL_DISCOUNT_DOLLAR DOUBLE,ACTUAL_DISCOUNT_UNITS DOUBLE,ACTUAL_SALES DOUBLE,primary key (PERIOD_SID, PROJECTION_DETAILS_SID))";
     public static final String TABLE_SQL_DROP = "drop table NM_ACTUAL_PPA";
     public static final String ORDER_BY_JPQL = " ORDER BY nmActualPpa.id.periodSid ASC, nmActualPpa.id.projectionDetailsSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY NM_ACTUAL_PPA.PERIOD_SID ASC, NM_ACTUAL_PPA.PROJECTION_DETAILS_SID ASC";
@@ -73,11 +69,7 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
         };
     private double _actualRate;
     private int _periodSid;
-    private double _actualProjDiscountDollar;
-    private double _actualProjectionSales;
     private int _projectionDetailsSid;
-    private double _actualProjectionRate;
-    private double _actualProjDiscountUnits;
     private double _actualDiscountDollar;
     private double _actualDiscountUnits;
     private double _actualSales;
@@ -123,11 +115,7 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
 
         attributes.put("actualRate", getActualRate());
         attributes.put("periodSid", getPeriodSid());
-        attributes.put("actualProjDiscountDollar", getActualProjDiscountDollar());
-        attributes.put("actualProjectionSales", getActualProjectionSales());
         attributes.put("projectionDetailsSid", getProjectionDetailsSid());
-        attributes.put("actualProjectionRate", getActualProjectionRate());
-        attributes.put("actualProjDiscountUnits", getActualProjDiscountUnits());
         attributes.put("actualDiscountDollar", getActualDiscountDollar());
         attributes.put("actualDiscountUnits", getActualDiscountUnits());
         attributes.put("actualSales", getActualSales());
@@ -149,39 +137,11 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
             setPeriodSid(periodSid);
         }
 
-        Double actualProjDiscountDollar = (Double) attributes.get(
-                "actualProjDiscountDollar");
-
-        if (actualProjDiscountDollar != null) {
-            setActualProjDiscountDollar(actualProjDiscountDollar);
-        }
-
-        Double actualProjectionSales = (Double) attributes.get(
-                "actualProjectionSales");
-
-        if (actualProjectionSales != null) {
-            setActualProjectionSales(actualProjectionSales);
-        }
-
         Integer projectionDetailsSid = (Integer) attributes.get(
                 "projectionDetailsSid");
 
         if (projectionDetailsSid != null) {
             setProjectionDetailsSid(projectionDetailsSid);
-        }
-
-        Double actualProjectionRate = (Double) attributes.get(
-                "actualProjectionRate");
-
-        if (actualProjectionRate != null) {
-            setActualProjectionRate(actualProjectionRate);
-        }
-
-        Double actualProjDiscountUnits = (Double) attributes.get(
-                "actualProjDiscountUnits");
-
-        if (actualProjDiscountUnits != null) {
-            setActualProjDiscountUnits(actualProjDiscountUnits);
         }
 
         Double actualDiscountDollar = (Double) attributes.get(
@@ -226,26 +186,6 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
     }
 
     @Override
-    public double getActualProjDiscountDollar() {
-        return _actualProjDiscountDollar;
-    }
-
-    @Override
-    public void setActualProjDiscountDollar(double actualProjDiscountDollar) {
-        _actualProjDiscountDollar = actualProjDiscountDollar;
-    }
-
-    @Override
-    public double getActualProjectionSales() {
-        return _actualProjectionSales;
-    }
-
-    @Override
-    public void setActualProjectionSales(double actualProjectionSales) {
-        _actualProjectionSales = actualProjectionSales;
-    }
-
-    @Override
     public int getProjectionDetailsSid() {
         return _projectionDetailsSid;
     }
@@ -253,26 +193,6 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
     @Override
     public void setProjectionDetailsSid(int projectionDetailsSid) {
         _projectionDetailsSid = projectionDetailsSid;
-    }
-
-    @Override
-    public double getActualProjectionRate() {
-        return _actualProjectionRate;
-    }
-
-    @Override
-    public void setActualProjectionRate(double actualProjectionRate) {
-        _actualProjectionRate = actualProjectionRate;
-    }
-
-    @Override
-    public double getActualProjDiscountUnits() {
-        return _actualProjDiscountUnits;
-    }
-
-    @Override
-    public void setActualProjDiscountUnits(double actualProjDiscountUnits) {
-        _actualProjDiscountUnits = actualProjDiscountUnits;
     }
 
     @Override
@@ -321,11 +241,7 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
 
         nmActualPpaImpl.setActualRate(getActualRate());
         nmActualPpaImpl.setPeriodSid(getPeriodSid());
-        nmActualPpaImpl.setActualProjDiscountDollar(getActualProjDiscountDollar());
-        nmActualPpaImpl.setActualProjectionSales(getActualProjectionSales());
         nmActualPpaImpl.setProjectionDetailsSid(getProjectionDetailsSid());
-        nmActualPpaImpl.setActualProjectionRate(getActualProjectionRate());
-        nmActualPpaImpl.setActualProjDiscountUnits(getActualProjDiscountUnits());
         nmActualPpaImpl.setActualDiscountDollar(getActualDiscountDollar());
         nmActualPpaImpl.setActualDiscountUnits(getActualDiscountUnits());
         nmActualPpaImpl.setActualSales(getActualSales());
@@ -380,15 +296,7 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
 
         nmActualPpaCacheModel.periodSid = getPeriodSid();
 
-        nmActualPpaCacheModel.actualProjDiscountDollar = getActualProjDiscountDollar();
-
-        nmActualPpaCacheModel.actualProjectionSales = getActualProjectionSales();
-
         nmActualPpaCacheModel.projectionDetailsSid = getProjectionDetailsSid();
-
-        nmActualPpaCacheModel.actualProjectionRate = getActualProjectionRate();
-
-        nmActualPpaCacheModel.actualProjDiscountUnits = getActualProjDiscountUnits();
 
         nmActualPpaCacheModel.actualDiscountDollar = getActualDiscountDollar();
 
@@ -401,22 +309,14 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(21);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{actualRate=");
         sb.append(getActualRate());
         sb.append(", periodSid=");
         sb.append(getPeriodSid());
-        sb.append(", actualProjDiscountDollar=");
-        sb.append(getActualProjDiscountDollar());
-        sb.append(", actualProjectionSales=");
-        sb.append(getActualProjectionSales());
         sb.append(", projectionDetailsSid=");
         sb.append(getProjectionDetailsSid());
-        sb.append(", actualProjectionRate=");
-        sb.append(getActualProjectionRate());
-        sb.append(", actualProjDiscountUnits=");
-        sb.append(getActualProjDiscountUnits());
         sb.append(", actualDiscountDollar=");
         sb.append(getActualDiscountDollar());
         sb.append(", actualDiscountUnits=");
@@ -430,7 +330,7 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(34);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.NmActualPpa");
@@ -445,24 +345,8 @@ public class NmActualPpaModelImpl extends BaseModelImpl<NmActualPpa>
         sb.append(getPeriodSid());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>actualProjDiscountDollar</column-name><column-value><![CDATA[");
-        sb.append(getActualProjDiscountDollar());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>actualProjectionSales</column-name><column-value><![CDATA[");
-        sb.append(getActualProjectionSales());
-        sb.append("]]></column-value></column>");
-        sb.append(
             "<column><column-name>projectionDetailsSid</column-name><column-value><![CDATA[");
         sb.append(getProjectionDetailsSid());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>actualProjectionRate</column-name><column-value><![CDATA[");
-        sb.append(getActualProjectionRate());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>actualProjDiscountUnits</column-name><column-value><![CDATA[");
-        sb.append(getActualProjDiscountUnits());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>actualDiscountDollar</column-name><column-value><![CDATA[");

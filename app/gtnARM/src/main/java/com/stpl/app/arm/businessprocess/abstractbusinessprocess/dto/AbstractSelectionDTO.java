@@ -12,6 +12,7 @@ import com.stpl.app.arm.dataselection.ui.form.BalanceSummaryReportDataSelectionT
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,31 +23,32 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  *
- * @author Karthikeyan.Subraman
+ * @author Karthikeyan.S
  */
 public abstract class AbstractSelectionDTO implements SelectionDTO {
 
     /*----------------------------------Variables used in Summary----------------------------------------------------*/
-    private int summary_frequency = 0;
-    private List<String[]> summary_variables;
-    private List<String[]> summary_deductionVariables;
-    private List<String> summary_columnList;
-    private List<String> inventory_columnList;
-    private List<String> summary_glList;
-    private int summary_deductionLevel = 0;
-    private String summary_deductionLevelDes = StringUtils.EMPTY;
-    private String summary_month = StringUtils.EMPTY;
-    private String summary_deductionValues = StringUtils.EMPTY;
-    private String summary_demand_view = StringUtils.EMPTY;
-    private String summary_demand_toDate = StringUtils.EMPTY;
-    private String summary_demand_fromDate = StringUtils.EMPTY;
-    private String summary_demand_frequency = StringUtils.EMPTY;
-    private Map<Integer, String> summary_demand_Level;
-    private int summary_demand_MultipleLevel;
-    private int summary_levelFilterNo;
-    private String summary_levelFilterValue;
-    private List<Integer> summary_deductionVariableIds;
-    private String summary_viewType = StringUtils.EMPTY;
+    private int summaryfrequency = 0;
+    private List<String[]> summaryvariables;
+    private List<String[]> summarydeductionVariables;
+    private List<String> summarycolumnList;
+    private List<String> inventorycolumnList;
+    private List<String> summaryglList;
+    private int summarydeductionLevel = 0;
+    private String summarydeductionLevelDes = StringUtils.EMPTY;
+    private String summaryDeductionView = StringUtils.EMPTY;
+    private String summarymonth = StringUtils.EMPTY;
+    private String summarydeductionValues = StringUtils.EMPTY;
+    private String summarydemandview = StringUtils.EMPTY;
+    private String summarydemandtoDate = StringUtils.EMPTY;
+    private String summarydemandfromDate = StringUtils.EMPTY;
+    private String summarydemandfrequency = StringUtils.EMPTY;
+    private Map<Integer, String> summarydemandLevel;
+    private int summarydemandMultipleLevel;
+    private int summarylevelFilterNo;
+    private String summarylevelFilterValue;
+    private List<Integer> summarydeductionVariableIds;
+    private String summaryviewType = StringUtils.EMPTY;
     private int projectionMasterSid = 0;
     private int companyMasterSid = 0;
 
@@ -56,37 +58,41 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
 
     public List<String> selectedAdjustmentType;
 
-    public String detail_Level = StringUtils.EMPTY;
+    public String detailLevel = StringUtils.EMPTY;
 
-    public List<String> detail_reserveAcount;
-    
-    public List<String> detail_amountFilter;
+    public List<String> detailreserveAcount;
 
-    public List<String> detail_variables;
-    
-    public List<String> save_detail_variables;
+    private List<String> detailamountFilter;
 
-    public String summary_glDate = StringUtils.EMPTY;
-    public String summary_fromDate = StringUtils.EMPTY;
-    public String summary_toDate = StringUtils.EMPTY;
+    public List<String> detailvariables;
+
+    private List<String> savedetailvariables;
+
+    public String summaryglDate = StringUtils.EMPTY;
 
     private final Map<String, Object> procedureInputs = new HashMap<>();
     String fromDate;
     String toDate;
+    private String fromDateFilter;
+    private String toDateFilter;
+    private String dataSelectionFromDate;
+    private String dataSelectionToDate;
+    private int summaryPeriods;
+    private List<Object> periodSidList = new ArrayList<>();
 
-    private int summary_valueSid = 0;
+    private int summaryvalueSid = 0;
     private String deductionLevelValue = StringUtils.EMPTY;
-    private String sales_levelFilterValue = StringUtils.EMPTY;
+    private String saleslevelFilterValue = StringUtils.EMPTY;
     private String dateType = StringUtils.EMPTY;
     private String price = StringUtils.EMPTY;
 
-    List<String[]> sales_variables;
+    List<String[]> salesVariables;
     private String[] variableVisibleColumns;
-    public String inventoryDetailsDdlb = StringUtils.EMPTY;
-    public String baseLinePrice = StringUtils.EMPTY;
-    public String adjustedPrice = StringUtils.EMPTY;
-    private String inventory_reserveDate = StringUtils.EMPTY;
-    private String inventory_Details = StringUtils.EMPTY;
+    private String inventoryDetailsDdlb = StringUtils.EMPTY;
+    private String baseLinePrice = StringUtils.EMPTY;
+    private String adjustedPrice = StringUtils.EMPTY;
+    private String inventoryreserveDate = StringUtils.EMPTY;
+    private String inventoryDetails = StringUtils.EMPTY;
     private List<String> excelVisibleColumn;
     private boolean isMultiple;
     private List<String> selectedAdjustmentTypeValues = new ArrayList<>();
@@ -94,48 +100,50 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
     private List<String> customerList = new ArrayList<>();
 
     /*----------------------------------RATES----------------------------------------------------*/
-    private int rate_DeductionLevel = 0;
+    private int rateDeductionLevel = 0;
 
-    private String rate_DeductionLevelName = StringUtils.EMPTY;
+    private String rateDeductionLevelName = StringUtils.EMPTY;
 
-    private String rate_DeductionValue = StringUtils.EMPTY;
+    private String rateDeductionValue = StringUtils.EMPTY;
 
-    private String rate_DeductionView = StringUtils.EMPTY;
+    private String rateDeductionView = StringUtils.EMPTY;
 
-    private int rate_Basis = 0;
+    private int rateBasisValue = 0;
 
-    private String rate_BasisName = StringUtils.EMPTY;
+    private String rateBasisName = StringUtils.EMPTY;
 
-    private int rate_Frequency = 0;
+    private int rateFrequencyValue = 0;
 
-    private String rate_FrequencyName = StringUtils.EMPTY;
+    private String rateFrequencyName = StringUtils.EMPTY;
 
-    private String rate_Period = StringUtils.EMPTY;
+    private String ratePeriodValue = StringUtils.EMPTY;
 
-    private List<List> rate_ColumnList = new ArrayList<>();
+    private List<List> rateColumnList = new ArrayList<>();
 
-    private String rate_LevelName = StringUtils.EMPTY;
+    private String rateLevelName = StringUtils.EMPTY;
 
     private String moduleName = StringUtils.EMPTY;
 
     private String tableName = StringUtils.EMPTY;
 
-    private int rates_levelFilterNo = 0;
-    //-----------------------------Hierarchy------------------------
-    private Map<Integer, String> sales_hierarchy;
-    private Map<Integer, String> rates_hierarchy;
-    private Map<Integer, String> summery_hierarchy;
+    private int rateslevelFilterNo = 0;
+    
+    private int ratesOverrideFlag = 0;
+    // -----------------------------Hierarchy------------------------
+    private Map<Integer, String> saleshierarchy;
+    private Map<Integer, String> rateshierarchy;
+    private Map<Integer, String> summeryhierarchy;
 
     /*----------------------------------RATES----------------------------------------------------*/
     private int levelNo;
 
     private String status;
 
-    private List<String[]> summary_frequencyList;
+    private List<String[]> summaryfrequencyList;
 
-    private String Summary_FrequencyName = StringUtils.EMPTY;
+    private String summaryFrequencyName = StringUtils.EMPTY;
 
-    private String Summary_StatusID = StringUtils.EMPTY;
+    private String summaryStatusID = StringUtils.EMPTY;
 
     private String rateBasis = StringUtils.EMPTY;
 
@@ -152,73 +160,107 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
     private Integer userId;
 
     private Integer sessionId;
-    
+
     private boolean totalFlag;
-    
+
     boolean isWorkFlow = false;
 
-    public Set<String> customerGroupSidSet = new HashSet<>();
+    private Set<String> customerGroupSidSet = new HashSet<>();
+
+    private boolean reloadFlag = false;
     
-    public boolean reloadFlag = false;
+    private List<String> returnsdatavariables;
     
-    public BalanceSummaryReportDataSelectionTab balanceSummaryDataSelectionTab;
+    private List<String> returnsdataSelectedvariables;
 
-    public int getSummary_frequency() {
-        return summary_frequency;
+    private List<List> returnReserveDataVariables;
+
+    private Date originalSaleLimiter;
+
+    private String originalSaleLimiterVal = StringUtils.EMPTY;
+
+    private int removeClosedBatches;
+
+    private int excludeBasedOnLoeDate;
+
+    private boolean cancelOverride;
+
+    private Map<Integer, String> returnReserveDataHierarchy;
+
+    private String returnReserveDataLevelName = StringUtils.EMPTY;
+
+    private String returnReserveDataDeductionView = StringUtils.EMPTY;
+    
+    private String returnReserveDeductionValue = StringUtils.EMPTY;
+    
+    private int returnReserveDatalevelFilterNo = 0;
+    
+    private BalanceSummaryReportDataSelectionTab balanceSummaryDataSelectionTab;
+
+    public int getSummaryfrequency() {
+        return summaryfrequency;
     }
 
-    public void setSummary_frequency(int summary_frequency) {
-        this.summary_frequency = summary_frequency;
+    public void setSummaryfrequency(int summaryfrequency) {
+        this.summaryfrequency = summaryfrequency;
     }
 
-    public List<String[]> getSummary_variables() {
-        return summary_variables;
+    @Override
+    public List<String[]> getSummaryvariables() {
+        return summaryvariables;
     }
 
-    public void setSummary_variables(List<String[]> summary_variables) {
-        this.summary_variables = summary_variables;
+    @Override
+    public void setSummaryvariables(List<String[]> summaryvariables) {
+        this.summaryvariables = summaryvariables;
     }
 
-    public List<String[]> getSummary_deductionVariables() {
-        return summary_deductionVariables;
+    @Override
+    public List<String[]> getSummarydeductionVariables() {
+        return summarydeductionVariables;
     }
 
-    public void setSummary_deductionVariables(List<String[]> summary_deductionVariables) {
-        this.summary_deductionVariables = summary_deductionVariables;
+    public void setSummarydeductionVariables(List<String[]> summarydeductionVariables) {
+        this.summarydeductionVariables = summarydeductionVariables;
     }
 
-    public List<String> getSummary_columnList() {
-        return summary_columnList;
+    @Override
+    public List<String> getSummarycolumnList() {
+        return summarycolumnList;
     }
 
-    public void setSummary_columnList(List<String> summary_columnList) {
-        this.summary_columnList = summary_columnList;
+    public void setSummarycolumnList(List<String> summarycolumnList) {
+        this.summarycolumnList = summarycolumnList;
     }
 
-    public int getSummary_deductionLevel() {
-        return summary_deductionLevel;
+    @Override
+    public int getSummarydeductionLevel() {
+        return summarydeductionLevel;
     }
 
-    public void setSummary_deductionLevel(int summary_deductionLevel) {
-        this.summary_deductionLevel = summary_deductionLevel;
+    public void setSummarydeductionLevel(int summarydeductionLevel) {
+        this.summarydeductionLevel = summarydeductionLevel;
     }
 
-    public String getSummary_deductionLevelDes() {
-        return summary_deductionLevelDes;
+    @Override
+    public String getSummarydeductionLevelDes() {
+        return summarydeductionLevelDes;
     }
 
-    public void setSummary_deductionLevelDes(String summary_deductionLevelDes) {
-        this.summary_deductionLevelDes = summary_deductionLevelDes;
+    public void setSummarydeductionLevelDes(String summarydeductionLevelDes) {
+        this.summarydeductionLevelDes = summarydeductionLevelDes;
     }
 
-    public String getSummary_month() {
-        return summary_month;
+    @Override
+    public String getSummarymonth() {
+        return summarymonth;
     }
 
-    public void setSummary_month(String summary_month) {
-        this.summary_month = summary_month;
+    public void setSummarymonth(String summarymonth) {
+        this.summarymonth = summarymonth;
     }
 
+    @Override
     public int getProjectionMasterSid() {
         return projectionMasterSid;
     }
@@ -227,6 +269,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.projectionMasterSid = projectionMasterSid;
     }
 
+    @Override
     public int getCompanyMasterSid() {
         return companyMasterSid;
     }
@@ -235,14 +278,16 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.companyMasterSid = companyMasterSid;
     }
 
-    public String getSummary_deductionValues() {
-        return summary_deductionValues;
+    @Override
+    public String getSummarydeductionValues() {
+        return summarydeductionValues;
     }
 
-    public void setSummary_deductionValues(String summary_deductionValues) {
-        this.summary_deductionValues = summary_deductionValues;
+    public void setSummarydeductionValues(String summarydeductionValues) {
+        this.summarydeductionValues = summarydeductionValues;
     }
 
+    @Override
     public DataSelectionDTO getDataSelectionDTO() {
         return dataSelectionDTO;
     }
@@ -251,6 +296,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.dataSelectionDTO = dataSelectionDTO;
     }
 
+    @Override
     public SessionDTO getSessionDTO() {
         return sessionDTO;
     }
@@ -259,6 +305,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.sessionDTO = sessionDTO;
     }
 
+    @Override
     public List<String> getSelectedAdjustmentType() {
         return selectedAdjustmentType;
     }
@@ -267,38 +314,43 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.selectedAdjustmentType = selectedAdjustmentType;
     }
 
-    public String getDetail_Level() {
-        return detail_Level;
+    @Override
+    public String getDetailLevel() {
+        return detailLevel;
     }
 
-    public void setDetail_Level(String detail_Level) {
-        this.detail_Level = detail_Level;
+    public void setDetailLevel(String detailLevel) {
+        this.detailLevel = detailLevel;
     }
 
-    public List<String> getDetail_reserveAcount() {
-        return detail_reserveAcount;
+    @Override
+    public List<String> getDetailreserveAcount() {
+        return detailreserveAcount;
     }
 
-    public void setDetail_reserveAcount(List<String> detail_reserveAcount) {
-        this.detail_reserveAcount = detail_reserveAcount;
+    public void setDetailreserveAcount(List<String> detailreserveAcount) {
+        this.detailreserveAcount = detailreserveAcount;
     }
 
-    public List<String> getDetail_variables() {
-        return detail_variables;
+    @Override
+    public List<String> getDetailvariables() {
+        return detailvariables;
     }
 
-    public void setDetail_variables(List<String> detail_variables) {
-        this.detail_variables = detail_variables;
+    public void setDetailvariables(List<String> detailvariables) {
+        this.detailvariables = detailvariables;
     }
 
-    public String getSummary_glDate() {
-        return summary_glDate;
+    @Override
+    public String getSummaryglDate() {
+        return summaryglDate;
     }
 
-    public void setSummary_glDate(String summary_glDate) {
-        this.summary_glDate = summary_glDate;
+    public void setSummaryglDate(String summaryglDate) {
+        this.summaryglDate = summaryglDate;
     }
 
+    @Override
     public String getFromDate() {
         return fromDate;
     }
@@ -307,6 +359,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.fromDate = fromDate;
     }
 
+    @Override
     public String getToDate() {
         return toDate;
     }
@@ -315,6 +368,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.toDate = toDate;
     }
 
+    @Override
     public String getDeductionLevelValue() {
         return deductionLevelValue;
     }
@@ -324,14 +378,15 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
     }
 
     @Override
-    public String getSales_levelFilterValue() {
-        return sales_levelFilterValue;
+    public String getSaleslevelFilterValue() {
+        return saleslevelFilterValue;
     }
 
-    public void setSales_levelFilterValue(String sales_levelFilterValue) {
-        this.sales_levelFilterValue = sales_levelFilterValue;
+    public void setSaleslevelFilterValue(String saleslevelFilterValue) {
+        this.saleslevelFilterValue = saleslevelFilterValue;
     }
 
+    @Override
     public String getDateType() {
         return dateType;
     }
@@ -340,6 +395,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.dateType = dateType;
     }
 
+    @Override
     public String getPrice() {
         return price;
     }
@@ -348,6 +404,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.price = price;
     }
 
+    @Override
     public int getLevelNo() {
         return levelNo;
     }
@@ -356,6 +413,7 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.levelNo = levelNo;
     }
 
+    @Override
     public String getStatus() {
         return status;
     }
@@ -364,92 +422,103 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.status = status;
     }
 
-    public int getRate_DeductionLevel() {
-        return rate_DeductionLevel;
+    @Override
+    public int getRateDeductionLevel() {
+        return rateDeductionLevel;
     }
 
-    public void setRate_DeductionLevel(int rate_DeductionLevel) {
-        this.rate_DeductionLevel = rate_DeductionLevel;
+    public void setRateDeductionLevel(int rateDeductionLevel) {
+        this.rateDeductionLevel = rateDeductionLevel;
     }
 
-    public String getRate_DeductionLevelName() {
-        return rate_DeductionLevelName;
+    @Override
+    public String getRateDeductionLevelName() {
+        return rateDeductionLevelName;
     }
 
-    public void setRate_DeductionLevelName(String rate_DeductionLevelName) {
-        this.rate_DeductionLevelName = rate_DeductionLevelName;
+    public void setRateDeductionLevelName(String rateDeductionLevelName) {
+        this.rateDeductionLevelName = rateDeductionLevelName;
     }
 
-    public String getRate_DeductionValue() {
-        return rate_DeductionValue;
+    @Override
+    public String getRateDeductionValue() {
+        return rateDeductionValue;
     }
 
-    public void setRate_DeductionValue(String rate_DeductionValue) {
-        this.rate_DeductionValue = rate_DeductionValue;
+    public void setRateDeductionValue(String rateDeductionValue) {
+        this.rateDeductionValue = rateDeductionValue;
     }
 
-    public String getRate_DeductionView() {
-        return rate_DeductionView;
+    @Override
+    public String getRateDeductionView() {
+        return rateDeductionView;
     }
 
-    public void setRate_DeductionView(String rate_DeductionView) {
-        this.rate_DeductionView = rate_DeductionView;
+    public void setRateDeductionView(String rateDeductionView) {
+        this.rateDeductionView = rateDeductionView;
     }
 
-    public int getRate_Basis() {
-        return rate_Basis;
+    @Override
+    public int getRateBasisValue() {
+        return rateBasisValue;
     }
 
-    public void setRate_Basis(int rate_Basis) {
-        this.rate_Basis = rate_Basis;
+    public void setRateBasisValue(int rateBasisValue) {
+        this.rateBasisValue = rateBasisValue;
     }
 
-    public String getRate_BasisName() {
-        return rate_BasisName;
+    @Override
+    public String getRateBasisName() {
+        return rateBasisName;
     }
 
-    public void setRate_BasisName(String rate_BasisName) {
-        this.rate_BasisName = rate_BasisName;
+    public void setRateBasisName(String rateBasisName) {
+        this.rateBasisName = rateBasisName;
     }
 
-    public int getRate_Frequency() {
-        return rate_Frequency;
+    @Override
+    public int getRateFrequencyValue() {
+        return rateFrequencyValue;
     }
 
-    public void setRate_Frequency(int rate_Frequency) {
-        this.rate_Frequency = rate_Frequency;
+    public void setRateFrequencyValue(int rateFrequencyValue) {
+        this.rateFrequencyValue = rateFrequencyValue;
     }
 
-    public String getRate_FrequencyName() {
-        return rate_FrequencyName;
+    @Override
+    public String getRateFrequencyName() {
+        return rateFrequencyName;
     }
 
-    public void setRate_FrequencyName(String rate_FrequencyName) {
-        this.rate_FrequencyName = rate_FrequencyName;
+    public void setRateFrequencyName(String rateFrequencyName) {
+        this.rateFrequencyName = rateFrequencyName;
     }
 
-    public String getRate_Period() {
-        return rate_Period;
+    @Override
+    public String getRatePeriodValue() {
+        return ratePeriodValue;
     }
 
-    public void setRate_Period(String rate_Period) {
-        this.rate_Period = rate_Period;
+    public void setRatePeriodValue(String ratePeriodValue) {
+        this.ratePeriodValue = ratePeriodValue;
     }
 
-    public List<List> getRate_ColumnList() {
-        return rate_ColumnList;
+    @Override
+    public List<List> getRateColumnList() {
+        return rateColumnList;
     }
 
-    public void setRate_RateColumnList(List<List> rate_RateColumnList) {
-        this.rate_ColumnList = rate_RateColumnList;
+    public void setRateRateColumnList(List<List> rateRateColumnList) {
+        this.rateColumnList = rateRateColumnList;
     }
 
-    public String getRate_LevelName() {
-        return rate_LevelName;
+    @Override
+    public String getRateLevelName() {
+        return rateLevelName;
     }
 
-    public void setRate_LevelName(String rate_LevelName) {
-        this.rate_LevelName = rate_LevelName;
+    public void setRateLevelName(String rateLevelName) {
+        this.rateLevelName = rateLevelName;
     }
 
     /**
@@ -457,12 +526,15 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
      *
      * @return
      */
+    @Override
     public boolean isRateGenerateAllowed() {
-        return this.getRate_DeductionLevel() != 0 && StringUtils.isNotBlank(this.getRate_DeductionValue())
-                && this.getRate_Basis() != 0 && this.getRate_Frequency() != 0 && StringUtils.isNotBlank(this.getRate_Period())
-                && !ConstantsUtils.SELECT_ONE.equals(this.getRate_Period());
+        return this.getRateDeductionLevel() != 0 && StringUtils.isNotBlank(this.getRateDeductionValue())
+                && this.getRateBasisValue() != 0 && this.getRateFrequencyValue() != 0
+                && StringUtils.isNotBlank(this.getRatePeriodValue())
+                && !ConstantsUtils.SELECT_ONE.equals(this.getRatePeriodValue());
     }
 
+    @Override
     public String getModuleName() {
         return moduleName;
     }
@@ -471,73 +543,79 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.moduleName = moduleName;
     }
 
-    public List<String[]> getSummary_frequencyList() {
-        return summary_frequencyList;
+    @Override
+    public List<String[]> getSummaryfrequencyList() {
+        return summaryfrequencyList;
     }
 
-    public void setSummary_frequencyList(List<String[]> summary_frequencyList) {
-        this.summary_frequencyList = summary_frequencyList;
+    public void setSummaryfrequencyList(List<String[]> summaryfrequencyList) {
+        this.summaryfrequencyList = summaryfrequencyList;
     }
 
-    public String getSummary_demand_view() {
-        return summary_demand_view;
+    @Override
+    public String getSummarydemandview() {
+        return summarydemandview;
     }
 
-    public void setSummary_demand_view(String summary_demand_view) {
-        this.summary_demand_view = summary_demand_view;
+    public void setSummarydemandview(String summarydemandview) {
+        this.summarydemandview = summarydemandview;
     }
 
-    public String getSummary_demand_toDate() {
-        return summary_demand_toDate;
+    @Override
+    public String getSummarydemandtoDate() {
+        return summarydemandtoDate;
     }
 
-    public void setSummary_demand_toDate(String summary_demand_toDate) {
-        this.summary_demand_toDate = summary_demand_toDate;
+    public void setSummarydemandtoDate(String summarydemandtoDate) {
+        this.summarydemandtoDate = summarydemandtoDate;
     }
 
-    public String getSummary_demand_fromDate() {
-        return summary_demand_fromDate;
+    @Override
+    public String getSummarydemandfromDate() {
+        return summarydemandfromDate;
     }
 
-    public void setSummary_demand_fromDate(String summary_demand_fromDate) {
-        this.summary_demand_fromDate = summary_demand_fromDate;
+    public void setSummarydemandfromDate(String summarydemandfromDate) {
+        this.summarydemandfromDate = summarydemandfromDate;
     }
 
-    public String getSummary_demand_frequency() {
-        return summary_demand_frequency;
+    @Override
+    public String getSummarydemandfrequency() {
+        return summarydemandfrequency;
     }
 
-    public void setSummary_demand_frequency(String summary_demand_frequency) {
-        this.summary_demand_frequency = summary_demand_frequency;
+    public void setSummarydemandfrequency(String summarydemandfrequency) {
+        this.summarydemandfrequency = summarydemandfrequency;
     }
 
+    @Override
     public Object getProcedureInputs(String feild) {
         return procedureInputs.get(feild);
     }
 
+    @Override
     public void setProcedureInputs(String feild, Object value) {
         this.procedureInputs.put(feild, value);
     }
 
+    @Override
     public boolean isFieldInput(String feild) {
         for (Map.Entry<String, Object> me : procedureInputs.entrySet()) {
-            if (me.getKey().equals(feild)) {
-                return true;
-            } else {
-                return false;
-            }
+            return me.getKey().equals(feild) ? true : false;
         }
         return true;
     }
 
-    public List<String[]> getSales_variables() {
-        return sales_variables;
+    @Override
+    public List<String[]> getSalesVariables() {
+        return salesVariables;
     }
 
-    public void setSales_variables(List<String[]> sales_variables) {
-        this.sales_variables = sales_variables;
+    public void setSalesVariables(List<String[]> salesVariables) {
+        this.salesVariables = salesVariables;
     }
 
+    @Override
     public String[] getVariableVisibleColumns() {
         return variableVisibleColumns;
     }
@@ -546,38 +624,46 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.variableVisibleColumns = variableVisibleColumns;
     }
 
-    public String getInventory_reserveDate() {
-        return inventory_reserveDate;
+    @Override
+    public String getInventoryreserveDate() {
+        return inventoryreserveDate;
     }
 
-    public void setInventory_reserveDate(String inventory_reserveDate) {
-        this.inventory_reserveDate = inventory_reserveDate;
+    public void setInventoryreserveDate(String inventoryreserveDate) {
+        this.inventoryreserveDate = inventoryreserveDate;
     }
 
+    @Override
     public String getTableName() {
         return tableName;
     }
 
+    @Override
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
 
+    @Override
     public String getRateBasis() {
         return rateBasis;
     }
 
+    @Override
     public void setRateBasis(String rateBasis) {
         this.rateBasis = rateBasis;
     }
 
+    @Override
     public String getRateFrequency() {
         return rateFrequency;
     }
 
+    @Override
     public void setRateFrequency(String rateFrequency) {
         this.rateFrequency = rateFrequency;
     }
 
+    @Override
     public String getRatePeriod() {
         return ratePeriod;
     }
@@ -586,64 +672,73 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.ratePeriod = ratePeriod;
     }
 
-    public Map<Integer, String> getSummary_demand_Level() {
-        return summary_demand_Level;
-    }
-
-    public void setSummary_demand_Level(Map<Integer, String> summary_demand_Level) {
-        this.summary_demand_Level = summary_demand_Level;
-    }
-
-    public int getSummary_demand_MultipleLevel() {
-        return summary_demand_MultipleLevel;
-    }
-
-    public void setSummary_demand_MultipleLevel(int summary_demand_MultipleLevel) {
-        this.summary_demand_MultipleLevel = summary_demand_MultipleLevel;
-
-    }
-
-    public String getInventory_Details() {
-        return inventory_Details;
-    }
-
-    public void setInventory_Details(String inventory_Details) {
-        this.inventory_Details = inventory_Details;
+    @Override
+    public Map<Integer, String> getSummarydemandLevel() {
+        return summarydemandLevel;
     }
 
     @Override
-    public String getSummary_viewType() {
-        return summary_viewType;
+    public void setSummarydemandLevel(Map<Integer, String> summarydemandLevel) {
+        this.summarydemandLevel = summarydemandLevel;
     }
 
-    public void setSummary_viewType(String summary_viewType) {
-        this.summary_viewType = summary_viewType;
+    @Override
+    public int getSummarydemandMultipleLevel() {
+        return summarydemandMultipleLevel;
     }
 
-    public int getSummary_levelFilterNo() {
-        return summary_levelFilterNo;
+    @Override
+    public void setSummarydemandMultipleLevel(int summarydemandMultipleLevel) {
+        this.summarydemandMultipleLevel = summarydemandMultipleLevel;
+
     }
 
-    public void setSummary_levelFilterNo(int summary_levelFilterNo) {
-        this.summary_levelFilterNo = summary_levelFilterNo;
+    @Override
+    public String getInventoryDetails() {
+        return inventoryDetails;
     }
 
-    public String getSummary_levelFilterValue() {
-        return summary_levelFilterValue;
+    public void setInventoryDetails(String inventoryDetails) {
+        this.inventoryDetails = inventoryDetails;
     }
 
-    public void setSummary_levelFilterValue(String summary_levelFilterValue) {
-        this.summary_levelFilterValue = summary_levelFilterValue;
+    @Override
+    public String getSummaryviewType() {
+        return summaryviewType;
     }
 
-    public int getRates_levelFilterNo() {
-        return rates_levelFilterNo;
+    public void setSummaryviewType(String summaryviewType) {
+        this.summaryviewType = summaryviewType;
     }
 
-    public void setRates_levelFilterNo(int rates_levelFilterNo) {
-        this.rates_levelFilterNo = rates_levelFilterNo;
+    @Override
+    public int getSummarylevelFilterNo() {
+        return summarylevelFilterNo;
     }
 
+    public void setSummarylevelFilterNo(int summarylevelFilterNo) {
+        this.summarylevelFilterNo = summarylevelFilterNo;
+    }
+
+    @Override
+    public String getSummarylevelFilterValue() {
+        return summarylevelFilterValue;
+    }
+
+    public void setSummarylevelFilterValue(String summarylevelFilterValue) {
+        this.summarylevelFilterValue = summarylevelFilterValue;
+    }
+
+    @Override
+    public int getRateslevelFilterNo() {
+        return rateslevelFilterNo;
+    }
+
+    public void setRateslevelFilterNo(int rateslevelFilterNo) {
+        this.rateslevelFilterNo = rateslevelFilterNo;
+    }
+
+    @Override
     public TreeMap<String, Integer> getMasterSids() {
         return masterSids;
     }
@@ -652,12 +747,14 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.masterSids = masterSids;
     }
 
-    public List<String> getSummary_glList() {
-        return summary_glList;
+    @Override
+    public List<String> getSummaryglList() {
+        return summaryglList;
     }
 
-    public void setSummary_glList(List<String> summary_glList) {
-        this.summary_glList = summary_glList;
+    @Override
+    public void setSummaryglList(List<String> summaryglList) {
+        this.summaryglList = summaryglList;
     }
 
     public String getInventoryOptionGroup() {
@@ -668,53 +765,61 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.inventoryOptionGroup = inventoryOptionGroup;
     }
 
+    @Override
     public Integer getUserId() {
         return userId;
     }
 
+    @Override
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
+    @Override
     public Integer getSessionId() {
         return sessionId;
     }
 
+    @Override
     public void setSessionId(Integer sessionId) {
         this.sessionId = sessionId;
     }
 
-    public List<Integer> getSummary_deductionVariableIds() {
-        return summary_deductionVariableIds;
+    @Override
+    public List<Integer> getSummarydeductionVariableIds() {
+        return summarydeductionVariableIds;
     }
 
-    public void setSummary_deductionVariableIds(List<Integer> summary_deductionVariableIds) {
-        this.summary_deductionVariableIds = summary_deductionVariableIds;
+    public void setSummarydeductionVariableIds(List<Integer> summarydeductionVariableIds) {
+        this.summarydeductionVariableIds = summarydeductionVariableIds;
     }
 
-    //-----------------------------Hierarchy------------------------
-    public Map<Integer, String> getSales_hierarchy() {
-        return sales_hierarchy;
+    // -----------------------------Hierarchy------------------------
+    @Override
+    public Map<Integer, String> getSaleshierarchy() {
+        return saleshierarchy;
     }
 
-    public void setSales_hierarchy(Map<Integer, String> sales_hierarchy) {
-        this.sales_hierarchy = sales_hierarchy;
+    public void setSaleshierarchy(Map<Integer, String> saleshierarchy) {
+        this.saleshierarchy = saleshierarchy;
     }
 
-    public Map<Integer, String> getRates_hierarchy() {
-        return rates_hierarchy;
+    @Override
+    public Map<Integer, String> getRateshierarchy() {
+        return rateshierarchy;
     }
 
-    public void setRates_hierarchy(Map<Integer, String> rates_hierarchy) {
-        this.rates_hierarchy = rates_hierarchy;
+    public void setRateshierarchy(Map<Integer, String> rateshierarchy) {
+        this.rateshierarchy = rateshierarchy;
     }
 
-    public Map<Integer, String> getSummery_hierarchy() {
-        return summery_hierarchy;
+    @Override
+    public Map<Integer, String> getSummeryhierarchy() {
+        return summeryhierarchy;
     }
 
-    public void setSummery_hierarchy(Map<Integer, String> summery_hierarchy) {
-        this.summery_hierarchy = summery_hierarchy;
+    public void setSummeryhierarchy(Map<Integer, String> summeryhierarchy) {
+        this.summeryhierarchy = summeryhierarchy;
     }
 
     public List<String> getExcelVisibleColumn() {
@@ -741,22 +846,23 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.isMultiple = isMultiple;
     }
 
-    public String getSummary_FrequencyName() {
-        return Summary_FrequencyName;
+    public String getSummaryFrequencyName() {
+        return summaryFrequencyName;
     }
 
-    public void setSummary_FrequencyName(String Summary_FrequencyName) {
-        this.Summary_FrequencyName = Summary_FrequencyName;
+    public void setSummaryFrequencyName(String summaryFrequencyName) {
+        this.summaryFrequencyName = summaryFrequencyName;
     }
 
-    public String getSummary_StatusID() {
-        return Summary_StatusID;
+    public String getSummaryStatusID() {
+        return summaryStatusID;
     }
 
-    public void setSummary_StatusID(String Summary_StatusID) {
-        this.Summary_StatusID = Summary_StatusID;
+    public void setSummaryStatusID(String summaryStatusID) {
+        this.summaryStatusID = summaryStatusID;
     }
 
+    @Override
     public List<String> getSelectedAdjustmentTypeValues() {
         return selectedAdjustmentTypeValues;
     }
@@ -766,12 +872,12 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
     }
 
     @Override
-    public int getSummary_valueSid() {
-        return summary_valueSid;
+    public int getSummaryvalueSid() {
+        return summaryvalueSid;
     }
 
-    public void setSummary_valueSid(int summary_value) {
-        this.summary_valueSid = summary_value;
+    public void setSummaryvalueSid(int summaryvalue) {
+        this.summaryvalueSid = summaryvalue;
     }
 
     public List<String> getCustomerGroupList() {
@@ -830,39 +936,41 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
         this.isWorkFlow = isWorkFlow;
     }
 
-    public List<String> getDetail_amountFilter() {
-        return detail_amountFilter;
+    @Override
+    public List<String> getDetailamountFilter() {
+        return detailamountFilter != null ? new ArrayList<>(detailamountFilter):detailamountFilter;
     }
 
-    public void setDetail_amountFilter(List<String> detail_amountFilter) {
-        this.detail_amountFilter = detail_amountFilter;
+    public void setDetailamountFilter(List<String> detailamountFilter) {
+        this.detailamountFilter = detailamountFilter != null ? new ArrayList<>(detailamountFilter):detailamountFilter;
     }
 
-    public List<String> getInventory_columnList() {
-        return inventory_columnList;
+    @Override
+    public List<String> getInventorycolumnList() {
+        return inventorycolumnList;
     }
 
-    public void setInventory_columnList(List<String> inventory_columnList) {
-        this.inventory_columnList = inventory_columnList;
+    public void setInventorycolumnList(List<String> inventorycolumnList) {
+        this.inventorycolumnList = inventorycolumnList;
     }
 
-    public List<String> getSave_detail_variables() {
-        return save_detail_variables;
+    public List<String> getSavedetailvariables() {
+        return new ArrayList<>(savedetailvariables);
     }
 
-    public void setSave_detail_variables(List<String> save_detail_variables) {
-        this.save_detail_variables = save_detail_variables;
+    public void setSavedetailvariables(List<String> savedetailvariables) {
+        this.savedetailvariables = new ArrayList<>(savedetailvariables);
     }
-    
+
     public Set<String> getCustomerGroupSidSet() {
-        return customerGroupSidSet;
-}
+        return new HashSet<>(customerGroupSidSet);
+    }
 
     public void addCustomerGroupSidSet(String value) {
         customerGroupSidSet.add(value);
     }
-    
-     public void removeCustomerGroupSidSet(String value) {
+
+    public void removeCustomerGroupSidSet(String value) {
         customerGroupSidSet.remove(value);
     }
 
@@ -881,5 +989,179 @@ public abstract class AbstractSelectionDTO implements SelectionDTO {
     public void setBalanceSummaryDataSelectionTab(BalanceSummaryReportDataSelectionTab balanceSummaryDataSelectionTab) {
         this.balanceSummaryDataSelectionTab = balanceSummaryDataSelectionTab;
     }
-    
+
+    @Override
+    public List<String> getReturnsdatavariables() {
+        return new ArrayList<>(returnsdatavariables);
+    }
+
+    public void setReturnsdatavariables(List<String> returnsdatavariables) {
+        this.returnsdatavariables = new ArrayList<>(returnsdatavariables);
+    }
+
+    public List<List> getReturnReserveDataVariables() {
+        return returnReserveDataVariables;
+    }
+
+    public void setReturnReserveDataVariables(List<List> returnReserveDataVariables) {
+        this.returnReserveDataVariables = returnReserveDataVariables;
+    }
+
+    public Date getOriginalSaleLimiter() {
+        return originalSaleLimiter;
+    }
+
+    public void setOriginalSaleLimiter(Date originalSaleLimiter) {
+        this.originalSaleLimiter = originalSaleLimiter;
+    }
+
+    public int getRemoveClosedBatches() {
+        return removeClosedBatches;
+    }
+
+    public void setRemoveClosedBatches(int removeClosedBatches) {
+        this.removeClosedBatches = removeClosedBatches;
+    }
+
+    public int getExcludeBasedOnLoeDate() {
+        return excludeBasedOnLoeDate;
+    }
+
+    public void setExcludeBasedOnLoeDate(int excludeBasedOnLoeDate) {
+        this.excludeBasedOnLoeDate = excludeBasedOnLoeDate;
+    }
+
+    public boolean isReturnsReserveDataGenerated() {
+        return returnReserveDataVariables != null && !returnReserveDataVariables.get(0).isEmpty();
+    }
+
+    public Map<Integer, String> getReturnReserveDataHierarchy() {
+        return returnReserveDataHierarchy;
+    }
+
+    public void setReturnReserveDataHierarchy(Map<Integer, String> returnReserveDataHierarchy) {
+        this.returnReserveDataHierarchy = returnReserveDataHierarchy;
+    }
+
+    public String getReturnReserveDataLevelName() {
+        return returnReserveDataLevelName;
+    }
+
+    public void setReturnReserveDataLevelName(String returnReserveDataLevelName) {
+        this.returnReserveDataLevelName = returnReserveDataLevelName;
+    }
+
+    public String getReturnReserveDataDeductionView() {
+        return returnReserveDataDeductionView;
+    }
+
+    public void setReturnReserveDataDeductionView(String returnReserveDataDeductionView) {
+        this.returnReserveDataDeductionView = returnReserveDataDeductionView;
+    }
+
+    public String getOriginalSaleLimiterVal() {
+        return originalSaleLimiterVal;
+    }
+
+    public void setOriginalSaleLimiterVal(String originalSaleLimiterVal) {
+        this.originalSaleLimiterVal = originalSaleLimiterVal;
+    }
+
+    @Override
+    public boolean isCancelOverride() {
+        return cancelOverride;
+    }
+
+    public void setCancelOverride(boolean cancelOverride) {
+        this.cancelOverride = cancelOverride;
+    }
+
+    public String getReturnReserveDeductionValue() {
+        return returnReserveDeductionValue;
+    }
+
+    public void setReturnReserveDeductionValue(String returnReserveDeductionValue) {
+        this.returnReserveDeductionValue = returnReserveDeductionValue;
+    }
+
+    public int getReturnReserveDatalevelFilterNo() {
+        return returnReserveDatalevelFilterNo;
+    }
+
+    public void setReturnReserveDatalevelFilterNo(int returnReserveDatalevelFilterNo) {
+        this.returnReserveDatalevelFilterNo = returnReserveDatalevelFilterNo;
+    }
+
+    @Override
+    public List<String> getReturnsdataSelectedvariables() {
+        return returnsdataSelectedvariables;
+    }
+
+    public void setReturnsdataSelectedvariables(List<String> returnsdataSelectedvariables) {
+        this.returnsdataSelectedvariables = returnsdataSelectedvariables;
+    }
+
+    public String getFromDateFilter() {
+        return fromDateFilter;
+    }
+
+    public void setFromDateFilter(String fromDateFilter) {
+        this.fromDateFilter = fromDateFilter;
+    }
+
+    public String getToDateFilter() {
+        return toDateFilter;
+    }
+
+    public void setToDateFilter(String toDateFilter) {
+        this.toDateFilter = toDateFilter;
+    }
+
+    public String getDataSelectionFromDate() {
+        return dataSelectionFromDate;
+    }
+
+    public void setDataSelectionFromDate(String dataSelectionFromDate) {
+        this.dataSelectionFromDate = dataSelectionFromDate;
+    }
+
+    public String getDataSelectionToDate() {
+        return dataSelectionToDate;
+    }
+
+    public void setDataSelectionToDate(String dataSelectionToDate) {
+        this.dataSelectionToDate = dataSelectionToDate;
+    }
+
+    public String getSummaryDeductionView() {
+        return summaryDeductionView;
+    }
+
+    public void setSummaryDeductionView(String summaryDeductionView) {
+        this.summaryDeductionView = summaryDeductionView;
+    }
+    @Override
+    public int getRatesOverrideFlag() {
+        return ratesOverrideFlag;
+    }
+
+    public void setRatesOverrideFlag(int ratesOverrideFlag) {
+        this.ratesOverrideFlag = ratesOverrideFlag;
+    }
+
+    public int getSummaryPeriods() {
+        return summaryPeriods;
+    }
+
+    public void setSummaryPeriods(int summaryPeriods) {
+        this.summaryPeriods = summaryPeriods;
+    }
+
+    public List<Object> getPeriodSidList() {
+        return new ArrayList(periodSidList);
+    }
+
+    public void setPeriodSidList(List<Object> periodSidList) {
+        this.periodSidList = periodSidList;
+    }
 }

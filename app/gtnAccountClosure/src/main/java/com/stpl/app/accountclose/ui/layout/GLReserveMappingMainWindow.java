@@ -23,7 +23,6 @@ public class GLReserveMappingMainWindow
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(GLReserveMappingMainWindow.class);
 
     public GLReserveMappingMainWindow(final SessionDTO session, String mode) throws Exception {
         super("Reserve Configuration");

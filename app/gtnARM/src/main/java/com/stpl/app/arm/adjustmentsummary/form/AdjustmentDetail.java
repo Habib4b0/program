@@ -53,13 +53,13 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
      * To set the values to the DTO This method will be called before generate
      */
     public void setSelection() {
-        selection.setDetail_Level(level.getValue().toString());
-        selection.setDetail_variables(Arrays.asList(variableValue));
+        selection.setDetailLevel(level.getValue().toString());
+        selection.setDetailvariables(Arrays.asList(variableValue));
         List<List> account = CommonUtils.getSelectedVariables(reserveMenuItem, Boolean.FALSE);
-        selection.setDetail_reserveAcount(account.size() > 0 ? account.get(0) : null);
+        selection.setDetailreserveAcount(!account.isEmpty() ? account.get(0) : null);
         selection.setStatus(selectionDto.getStatus());
         List<List> selectedVariable = CommonUtils.getSelectedVariables(customMenuItem, Boolean.FALSE);
-        selection.setSave_detail_variables(selectedVariable.size() > 0 ? selectedVariable.get(0) : null);
+        selection.setSavedetailvariables(!selectedVariable.isEmpty() ? selectedVariable.get(0) : null);
     }
 
     @Override
@@ -84,14 +84,14 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
         if (!list.isEmpty()) {
             CommonUtils.loadCustomMenu(reserveMenuItem, Arrays.copyOf(list.get(0).toArray(), list.get(0).size(), String[].class),
                     Arrays.copyOf(list.get(1).toArray(), list.get(1).size(), String[].class));
-            CommonUtils.CheckAllMenuBarItem(reserveMenuItem);
+            CommonUtils.checkAllMenuBarItem(reserveMenuItem);
         }
     }
 
     @Override
     protected void loadVariable() {
-        variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.ADJUSTMENT_DEMAND_SUMMARY_RESERVE_VARIABLE_COMBOBOX : ARMUtils.ADJUSTMENT_DEMAND_SUMMARY_GTN_VARIABLE_COMBOBOX;
-        variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.ADJUSTMENT_DEMAND_SUMMARY_RESERVE_VARIABLE : VariableConstants.ADJUSTMENT_DEMAND_SUMMARY_GTN_VARIABLE;
+        variableHeader = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? ARMUtils.getAdjustmentDemandSummaryReserveVariableCombobox() : ARMUtils.getAdjustmentDemandSummaryGtnVariableCombobox();
+        variableValue = level.getValue().toString().equals(GlobalConstants.getReserveDetail()) ? VariableConstants.getAdjustmentDemandSummaryReserveVariable() : VariableConstants.getAdjustmentDemandSummaryGtnVariable();
     }
 
     /**
@@ -100,8 +100,8 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
     @Override
     protected void variableDefaultSelection() {
         List list = Arrays.asList(level.getValue().toString().equals(GlobalConstants.getReserveDetail())
-                ? VariableConstants.ADJUSTMENT_DEMAND_SUMMARY_RESERVE_VARIABLE_DEFAULT_SELECTION
-                : VariableConstants.ADJUSTMENT_DEMAND_SUMMARY_GTN_VARIABLE_DEFAULT_SELECTION);
+                ? VariableConstants.getAdjustmentDemandSummaryReserveVariableDefaultSelection()
+                : VariableConstants.getAdjustmentDemandSummaryGtnVariableDefaultSelection());
         for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
             object.setChecked(Boolean.FALSE);
             if (list.contains(object.getMenuItem().getWindow())) {
@@ -117,27 +117,37 @@ public class AdjustmentDetail extends AbstractAdjustmentDetails {
 
     @Override
     protected void columnAlignmentChanges() {
+        return;
     }
 
     private void configureSecurity() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
         Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Adjustment Summary" + "," + "Landing screen");
-        if (functionHM.get("reset") != null && !((AppPermission) functionHM.get("reset")).isFunctionFlag()) {
+        if (functionHM.get("reset") != null && !(functionHM.get("reset")).isFunctionFlag()) {
             getReset().setVisible(false);
         } else {
             getReset().setVisible(true);
         }
-        if (functionHM.get("generate") != null && !((AppPermission) functionHM.get("generate")).isFunctionFlag()) {
+        if (functionHM.get("generate") != null && !(functionHM.get("generate")).isFunctionFlag()) {
             getGenerate().setVisible(false);
         } else {
             getGenerate().setVisible(true);
         }
-        if (functionHM.get("export") != null && !((AppPermission) functionHM.get("export")).isFunctionFlag()) {
+        if (functionHM.get("export") != null && !(functionHM.get("export")).isFunctionFlag()) {
             getExport().setVisible(false);
         } else {
             getExport().setVisible(true);
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

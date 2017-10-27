@@ -31,7 +31,6 @@ import org.jboss.logging.Logger;
  */
 public class BigFive extends VerticalLayout implements View {
 
-    private static final Logger LOGGER = Logger.getLogger(BigFive.class);
     ExtPagedFilterTable productTable = new ExtPagedFilterTable();
     ExtPagedFilterTable customerTable = new ExtPagedFilterTable();
     VerticalLayout layout = new VerticalLayout();

@@ -30,21 +30,21 @@ public class NewNdcDTO implements Serializable {
         private String fssOGA;
         private String itemNo;
         private int itemMasterSid=0;
-        private Map<String, String> federalWacMap = new HashMap<String, String>();
+        private Map<String, String> federalWacMap = new HashMap<>();
 
         // New Ndc Setup
-        private List<String> listNDC9 = new ArrayList<String>();
+        private List<String> listNDC9 = new ArrayList<>();
         private List<Integer> DeletedItems = new ArrayList();
-        private Map<String, String> wacHashMap = new HashMap<String, String>();
-        private Map<String, String> cpiHashMap = new HashMap<String, String>();
+        private Map<String, String> wacHashMap = new HashMap<>();
+        private Map<String, String> cpiHashMap = new HashMap<>();
 
-        private Map<Integer, String> ndc9Map = new HashMap<Integer, String>();
-        private Map<Integer, String> ItemMasterSidMap = new HashMap<Integer, String>();
-        private Map<String, String> itemNoMap = new HashMap<String, String>();
-        private Map<String, String> ampHashMap = new HashMap<String, String>();
-        private List<String> listItemNo = new ArrayList<String>();
-        private Map<String, String> nonFampMap = new HashMap<String, String>();
-        private Map<String, String> fssMap = new HashMap<String, String>();
+        private Map<Integer, String> ndc9Map = new HashMap<>();
+        private Map<Integer, String> ItemMasterSidMap = new HashMap<>();
+        private Map<String, String> itemNoMap = new HashMap<>();
+        private Map<String, String> ampHashMap = new HashMap<>();
+        private List<String> listItemNo = new ArrayList<>();
+        private Map<String, String> nonFampMap = new HashMap<>();
+        private Map<String, String> fssMap = new HashMap<>();
         private String indicator=StringUtils.EMPTY;
         private boolean fssFlag=false;
         private boolean federalFlag=false;

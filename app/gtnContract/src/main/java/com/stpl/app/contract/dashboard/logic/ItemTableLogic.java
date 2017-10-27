@@ -14,7 +14,6 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  * @author karthikraja.k
  */
 public class ItemTableLogic extends PageTableLogic {
-
     @Override
     public int getCount() {
            return 0;   
@@ -31,6 +30,7 @@ public class ItemTableLogic extends PageTableLogic {
     }
    
     public void configureSearchData(){
+        return;
 }
     
 }

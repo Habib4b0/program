@@ -102,9 +102,9 @@ public class MandatedChartUtils {
     public Component getChart() {
         LOGGER.debug("Entering getChart method ");
         final Chart chart = new Chart(ChartType.COLUMN);
-        List<String> visibleColumns = new ArrayList<String>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
+        List<String> visibleColumns = new ArrayList<>(CommonUtils.objectListToStringList(rightDto.getSingleColumns()));
         visibleColumns.remove("relationshipLevelName");
-        List<String> visibleHeaders = new ArrayList<String>(rightDto.getSingleHeaders());
+        List<String> visibleHeaders = new ArrayList<>(rightDto.getSingleHeaders());
         visibleHeaders.remove(Constant.CUSTOMER_SMALL);
         visibleHeaders.remove(Constant.GROUPFCAPS);
         String[] visHeaders = visibleHeaders.toArray(new String[visibleHeaders.size()]);
@@ -192,7 +192,7 @@ public class MandatedChartUtils {
                 xAxis.setCategories(visHeaders);
 
                 if (dto != null && dto.size() > 0) {
-                    if ("Sales Projection Results".equals(screenName)) {
+                    if (Constant.SALES_PROJECTION_RESULTS.equals(screenName)) {
                         List<SalesProjectionResultsDTO> salesdto = (List<SalesProjectionResultsDTO>) dto;
 
                         for (SalesProjectionResultsDTO pDto : salesdto) {
@@ -206,7 +206,7 @@ public class MandatedChartUtils {
                             }
                             conf.addSeries(listSeries);
                         }
-                    } else if ("Projection Results".equals(screenName)) {
+                    } else if (Constant.PROJECTION_RESULTS.equals(screenName)) {
                         List<ProjectionResultsDTO> prdto = (List<ProjectionResultsDTO>) dto;
                         for (ProjectionResultsDTO pDto : prdto) {
                             ListSeries listSeries = new ListSeries();
@@ -230,15 +230,15 @@ public class MandatedChartUtils {
                     }
                 }
             } else {
-                List<String> periodList = new ArrayList<String>();
-                if ("Sales Projection Results".equals(screenName)) {
+                List<String> periodList = new ArrayList<>();
+                if (Constant.SALES_PROJECTION_RESULTS.equals(screenName)) {
                     List<SalesProjectionResultsDTO> salesdto = (List<SalesProjectionResultsDTO>) dto;
                     for (SalesProjectionResultsDTO pDto : salesdto) {
                         if (projSelDTO.getPeriodListMap().containsValue(pDto.getLevelValue())) {
                             periodList.add(pDto.getLevelValue());
                         }
                     }
-                } else if ("Projection Results".equals(screenName)) {
+                } else if (Constant.PROJECTION_RESULTS.equals(screenName)) {
                     List<ProjectionResultsDTO> prDto = (List<ProjectionResultsDTO>) dto;
                     for (ProjectionResultsDTO pDto : prDto) {
                         if (projSelDTO.getPeriodListMap().containsValue(pDto.getGroup())) {
@@ -252,7 +252,7 @@ public class MandatedChartUtils {
                 for (Object header : visibleColumns) {
                     ListSeries listSeries = new ListSeries();
                     listSeries.setName(visibleHeaders.get(i));
-                    if ("Sales Projection Results".equals(screenName)) {
+                    if (Constant.SALES_PROJECTION_RESULTS.equals(screenName)) {
                         List<SalesProjectionResultsDTO> salesdto = (List<SalesProjectionResultsDTO>) dto;
                         for (SalesProjectionResultsDTO pDto : salesdto) {
                             if (periodList.contains(pDto.getLevelValue())) {
@@ -268,7 +268,7 @@ public class MandatedChartUtils {
                                 }
                             }
                         }
-                    } else if ("Projection Results".equals(screenName)) {
+                    } else if (Constant.PROJECTION_RESULTS.equals(screenName)) {
                         List<ProjectionResultsDTO> prDto = (List<ProjectionResultsDTO>) dto;
                         for (ProjectionResultsDTO pDto : prDto) {
                             if (periodList.contains(pDto.getGroup())) {

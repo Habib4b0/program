@@ -15,6 +15,7 @@ import com.stpl.app.arm.supercode.DataResult;
 import com.stpl.app.arm.supercode.OriginalDataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -39,25 +40,25 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     @Override
     protected DataResult<T> getSummaryData(List<Object> inputs, Criteria criteria, TreeMap<String, Integer> masterIds) {
         boolean totalFlag = false;
-        if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage()) && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) && (criteria.getSelectionDto().getSummary_levelFilterNo() == 0)) {
-                totalFlag = true;
-                int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString());
-                offset = offset - 1;
-                inputs.set(inputs.size() - 1, offset);
+        if (((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getCurrentPage() == criteria.getLastPage()) && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
+            totalFlag = true;
+            int offset = Integer.parseInt(inputs.get(inputs.size() - 1).toString());
+            offset = offset - 1;
+            inputs.set(inputs.size() - 1, offset);
         }
         boolean isView = criteria.getSelectionDto().getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         List<Object[]> data;
-        String tableName = criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get("ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY");
+        String tableName = criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY);
         if (isView) {
             tableName = "ARM_DEMAND_RF_TRUE_UP_SUMMARY";
         }
-        data = QueryUtils.getItemData(inputs, "Summary_DReforecast_generate", "Summary_DReforecast_generate_data", null, "Summary_DReforecast_generate_data_orderby", tableName, "", "WHERE RANK_VIEW BETWEEN ? AND ?");
+        data = QueryUtils.getItemData(inputs, CommonConstant.SUMMARY_D_REFORECAST_GENERATE, "Summary_DReforecast_generate_data", null, "Summary_DReforecast_generate_data_orderby", tableName, "", "WHERE RANK_VIEW BETWEEN ? AND ?");
         DataResult<T> result = cutomize(data, criteria.getSelectionDto(), masterIds, criteria);
         if (totalFlag) {
             int listSize = inputs.size() - NumericConstants.TWO;
             List<Object[]> totaldata;
             String viewData = "= CASE WHEN @MULTIPLE_PERIOD = 1 THEN '' ELSE  DEDUCTION_SET_1 END";
-            totaldata = QueryUtils.getItemData(inputs.subList(0, listSize), "Summary_DReforecast_generate", "Total_Level_Summary_Demand_Reforecast", "Summary_DReforecast_generate_data", null, tableName, viewData, "");
+            totaldata = QueryUtils.getItemData(inputs.subList(0, listSize), CommonConstant.SUMMARY_D_REFORECAST_GENERATE, "Total_Level_Summary_Demand_Reforecast", "Summary_DReforecast_generate_data", null, tableName, viewData, "");
 
             List<T> l = result.getDataResults();
             l.addAll((cutomize(totaldata, criteria.getSelectionDto(), masterIds, criteria)).getDataResults());
@@ -72,20 +73,20 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
         try {
             boolean isView = criteria.getSelectionDto().getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
             List resultList;
-            String tableName = StringUtils.EMPTY;
+            String tableName;
             if (!isView) {
-                tableName = criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get("ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY");
-                resultList = QueryUtils.getItemData(inputs, "Summary_DReforecast_generate", "Summary_DReforecast_generate_count", null, null, tableName, "", null);
+                tableName = criteria.getSelectionDto().getSessionDTO().getCurrentTableNames().get(CommonConstant.ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY);
+                resultList = QueryUtils.getItemData(inputs, CommonConstant.SUMMARY_D_REFORECAST_GENERATE, "Summary_DReforecast_generate_count", null, null, tableName, "", null);
             } else {
                 tableName = "ARM_DEMAND_RF_TRUE_UP_SUMMARY";
-                resultList = QueryUtils.getItemData(inputs, "Summary_DReforecast_generate", "Summary_DReforecast_generate_count", null, null, tableName, "", null);
+                resultList = QueryUtils.getItemData(inputs, CommonConstant.SUMMARY_D_REFORECAST_GENERATE, "Summary_DReforecast_generate_count", null, null, tableName, "", null);
             }
             count = (int) resultList.get(0);
-            if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))) && (criteria.getSelectionDto().getSummary_levelFilterNo() == 0)) {
-                    count = count + 1;
+            if ((count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
+                count = count + 1;
             }
         } catch (Exception e) {
-           LOGGER.error(e);
+            LOGGER.error("Error in getSummaryCount :"+e);
         }
         return count;
     }
@@ -99,15 +100,15 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     public Boolean generateButtonCheck(SelectionDTO selection) {
         LOGGER.debug("Inside generate ButtonClick Btn");
         try {
-            if (selection.getSummary_deductionLevel() == 0 || selection.getSummary_variables().size() == 0
-                    || (selection.getSummary_deductionVariables() != null && selection.getSummary_deductionVariables().size() == 0)
-                    || ConstantsUtils.SELECT_ONE.equals(selection.getSummary_demand_fromDate()) || ConstantsUtils.SELECT_ONE.equals(selection.getSummary_demand_toDate())) {
+            if (selection.getSummarydeductionLevel() == 0 || selection.getSummaryvariables().isEmpty()
+                    || (selection.getSummarydeductionVariables() != null && selection.getSummarydeductionVariables().isEmpty())
+                    || ConstantsUtils.SELECT_ONE.equals(selection.getSummarydemandfromDate()) || ConstantsUtils.SELECT_ONE.equals(selection.getSummarydemandtoDate())) {
                 return Boolean.FALSE;
             }
 
             return Boolean.TRUE;
         } catch (Exception e) {
-           LOGGER.error(e);
+            LOGGER.error("Error in generateButtonCheck :"+e);
         }
         return Boolean.FALSE;
     }
@@ -115,19 +116,19 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
     private DataResult<T> cutomize(List<Object[]> data, SelectionDTO selection, TreeMap<String, Integer> masterSids, Criteria criteria) {
         List resultList = new ArrayList<>();
         Map<String, Integer> indexMap = new HashMap();
-        List<String> variables = selection.getSummary_columnList();
+        List<String> variables = selection.getSummarycolumnList();
         int totalColumnIndex = 0;
-        if (ARMConstants.getMultiplePeriod().equals(selection.getSummary_demand_view())) {
-            totalColumnIndex = selection.getSummary_frequencyList().size() * NumericConstants.EIGHT;
+        if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview())) {
+            totalColumnIndex = selection.getSummaryfrequencyList().size() * NumericConstants.EIGHT;
         } else {
-            totalColumnIndex = selection.getSummary_deductionVariables().size() * NumericConstants.EIGHT;
+            totalColumnIndex = selection.getSummarydeductionVariables().size() * NumericConstants.EIGHT;
         }
         AdjustmentDTO parent = null;
         if (criteria.getParent() != null && criteria.getParent() instanceof AdjustmentDTO) {
             parent = (AdjustmentDTO) criteria.getParent();
         }
         int indexAdd = 0;
-        for (String[] summary_deductionVariable : selection.getSummary_deductionVariables()) {
+        for (String[] summary_deductionVariable : selection.getSummarydeductionVariables()) {
             indexMap.put(summary_deductionVariable[0], indexAdd);
             indexAdd++;
         }
@@ -149,17 +150,27 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                 totalColumnValue = new double[NumericConstants.NINE];
                 dto.setMonth(brand);
                 dto.setLevelNo((int) get[NumericConstants.TEN]);
-                dto.setChildrenAllowed((selection.getSummary_levelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.ELEVEN]);
-                dto.setBrand_item_masterSid(String.valueOf(get[NumericConstants.TWELVE]));
+                dto.setChildrenAllowed((selection.getSummarylevelFilterNo() != 0 || isTotal) ? false : (boolean) get[NumericConstants.ELEVEN]);
+                dto.setBranditemmasterSid(String.valueOf(get[NumericConstants.TWELVE]));
                 if (masterSids != null) {
                     dto.setMasterIds(masterSids);
                 }
                 resultList.add(dto);
-                if (ARMConstants.getMultiplePeriod().equals(selection.getSummary_demand_view()) || (!selection.getSummary_viewType().equals(ARMConstants.getDeductionCustomerContract()) && !selection.getSummary_viewType().equals(ARMConstants.getDeductionCustomer()))) {
+                if (ARMConstants.getMultiplePeriod().equals(selection.getSummarydemandview()) || (!selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract()) && !selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomer()))) {
                     index = 0;
                 } else if (dto.getLevelNo() >= 1) {
-                    index = 0 + ((parent == null ? indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) : parent.getDemand_summary_indexAdd()) * NumericConstants.EIGHT);
-                    dto.setDemand_summary_indexAdd(parent == null ? indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) : parent.getDemand_summary_indexAdd());
+                    index = 0 + ((parent == null ? indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) : parent.getDemandsummaryindexAdd()) * NumericConstants.EIGHT);
+                    dto.setDemandsummaryindexAdd(parent == null ? indexMap.get(get[0].toString().replace(" ", StringUtils.EMPTY)) : parent.getDemandsummaryindexAdd());
+                }
+                for (int i = 0; i < variables.size(); i++) {
+                    if (variables.get(i).contains(String.valueOf(get[0])) && ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview()))  {
+                        index = variables.indexOf(variables.get(i));
+                        i = i + NumericConstants.EIGHT;
+                    } else {
+                        if (variables.get(i).contains("override")) {
+                            dto.addStringProperties(variables.get(i), org.apache.commons.lang.StringUtils.EMPTY);
+                        }
+                    }
                 }
             }
             if (dto != null) {
@@ -170,7 +181,7 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.FIVE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.FIVE]))));
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.SIX] == null ? StringUtils.EMPTY : percentageformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SIX]))) + "%");
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.SEVEN]))));
-                    dto.addStringProperties(variables.get(index++), get[NumericConstants.EIGHT] == null || dto.getChildrenAllowed() || isTotal ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.EIGHT]))));
+                    dto.addStringProperties(variables.get(index++), get[NumericConstants.EIGHT] == null || dto.getChildrenAllowed() || isTotal? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.EIGHT]))));
                     dto.addStringProperties(variables.get(index++), get[NumericConstants.NINE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(get[NumericConstants.NINE]))));
                     totalColumnValue[0] += Double.valueOf(String.valueOf(get[NumericConstants.TWO]));
                     totalColumnValue[1] += Double.valueOf(String.valueOf(get[NumericConstants.THREE]));
@@ -202,18 +213,18 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             dto.setUserId(selection.getSessionDTO().getUserId());
             dto.setSessionId(selection.getSessionDTO().getSessionId());
         }
-        OriginalDataResult<T> dataResult = new OriginalDataResult<T>();
+        OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(resultList);
         return dataResult;
     }
 
     @Override
     protected Object[] generateInputs(Object dto, SelectionDTO selection) {
-        List<String[]> frequency = selection.getSummary_frequencyList();
+        List<String[]> frequency = selection.getSummaryfrequencyList();
         Object[] returnObj = new Object[NumericConstants.TWO];
         List<Object> inputs = new ArrayList<>();
         inputs.add(selection.getProjectionMasterSid());
-        inputs.add(selection.getSummary_deductionLevelDes());
+        inputs.add(selection.getSummarydeductionLevelDes());
 
         String viewType = "";
         String currentViewType = "";
@@ -223,63 +234,63 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
             int levelNo = val.getLevelNo();
             LOGGER.debug("levelNo----" + levelNo);
             masterSids = val.getMasterIds();
-            if (ARMConstants.getSinglePeriod().equals(selection.getSummary_demand_view())) {
-                if (selection.getSummary_viewType().equals(ARMConstants.getDeductionCustomerContract())) {
-                    currentViewType = ARMUtils.getDemandSummaryLevel_singlePeriod().get(levelNo);
-                    viewType = ARMUtils.getDemandSummaryLevel_singlePeriod().get(++levelNo);
+            if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
+                if (selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
+                    currentViewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(levelNo);
+                    viewType = ARMUtils.getDemandSummaryLevelsinglePeriod().get(++levelNo);
                 } else {
                     currentViewType = ARMUtils.getSummaryLevel().get(levelNo);
                     viewType = ARMUtils.getSummaryLevel().get(++levelNo);
                 }
                 inputs.add(0);
             } else {
-                currentViewType = selection.getSummary_demand_Level().get(levelNo);
-                viewType = selection.getSummary_demand_Level().get(++levelNo);
+                currentViewType = selection.getSummarydemandLevel().get(levelNo);
+                viewType = selection.getSummarydemandLevel().get(++levelNo);
                 inputs.add(1);
             }
-            masterSids.put(currentViewType, Integer.valueOf(val.getBrand_item_masterSid()));
+            masterSids.put(currentViewType, Integer.valueOf(val.getBranditemmasterSid()));
         } else {
             masterSids = new TreeMap<>();
-            if (ARMConstants.getSinglePeriod().equals(selection.getSummary_demand_view())) {
-                viewType = getView(selection.getSummary_deductionLevelDes(), selection.getSummary_viewType());
+            if (ARMConstants.getSinglePeriod().equals(selection.getSummarydemandview())) {
+                viewType = getView(selection.getSummarydeductionLevelDes(), selection.getSummaryviewType());
                 inputs.add(0);
             } else {
-                viewType = selection.getSummary_demand_Level().get(1);
+                viewType = selection.getSummarydemandLevel().get(1);
                 inputs.add(1);
             }
-            if (selection.getSummary_levelFilterNo() != 0) {
-                viewType = selection.getSummary_levelFilterValue();
+            if (selection.getSummarylevelFilterNo() != 0) {
+                viewType = selection.getSummarylevelFilterValue();
             }
-            if (selection.getSummary_valueSid() != 0) {
-                masterSids.put(selection.getSummary_levelFilterValue(), selection.getSummary_valueSid());
-            } else if (selection.getSummary_levelFilterNo() != 0) {
-                masterSids.remove(selection.getSummary_levelFilterValue());
+            if (selection.getSummaryvalueSid() != 0) {
+                masterSids.put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
+            } else if (selection.getSummarylevelFilterNo() != 0) {
+                masterSids.remove(selection.getSummarylevelFilterValue());
             }
         }
         if (viewType.equals(ARMConstants.getDeduction())) {
-            viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummary_deductionLevelDes());
+            viewType = ARMUtils.getDeductionLevelQueryName(selection.getSummarydeductionLevelDes());
         }
         inputs.add(viewType);
-        inputs.add(ARMUtils.getSummaryViewType(selection.getSummary_viewType()));
+        inputs.add(ARMUtils.getSummaryViewType(selection.getSummaryviewType()));
         inputs.add(frequency.get(0)[1]);
         inputs.add(frequency.get(frequency.size() - 1)[1]);
-        
-        if (selection.getSummary_demand_frequency().matches("^[-+]?\\d+(\\.\\d+)?$")) {
-            inputs.add(HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selection.getSummary_demand_frequency())));
+
+        if (selection.getSummarydemandfrequency().matches("^[-+]?\\d+(\\.\\d+)?$")) {
+            inputs.add(HelperListUtil.getInstance().getIdDescMap().get(Integer.valueOf(selection.getSummarydemandfrequency())));
         } else {
-            inputs.add(selection.getSummary_demand_frequency());
+            inputs.add(selection.getSummarydemandfrequency());
         }
         String viewUserID = StringUtils.EMPTY;
         String viewSessionId = StringUtils.EMPTY;
         inputs.add(viewUserID);
         inputs.add(viewSessionId);
-        inputs.add(ARMUtils.getDeductionValuesMapForMultiplePeriod().get(selection.getSummary_deductionLevelDes()));
+        inputs.add(ARMUtils.getDeductionValuesMapForMultiplePeriod().get(selection.getSummarydeductionLevelDes()));
         inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
         inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
         inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
         inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.BRAND.toString()));
         inputs.add(masterSids.get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : masterSids.get(ARMUtils.levelVariablesVarables.ITEM.toString()));
-        inputs.add(selection.getSummary_deductionValues());
+        inputs.add(selection.getSummarydeductionValues());
         returnObj[0] = inputs;
         returnObj[1] = masterSids;
 
@@ -298,58 +309,59 @@ public class DRSummaryLogic<T extends AdjustmentDTO> extends AbstractDemandSumma
 
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
-        String query = StringUtils.EMPTY;
+        String query;
         boolean isView = selection.getSessionDTO().getAction().equals(ARMUtils.VIEW_SMALL);
         if (selection.isIsMultiple()) {
             query = SQlUtil.getQuery(isView ? "getDRSummaryMultiPeriodExcelQueryView" : "getDRSummaryMultiPeriodExcelQuery");
-            if (selection.getSummary_demand_view().equals(ARMConstants.getSinglePeriod()) && selection.getSummary_viewType().equals(ARMConstants.getDeductionCustomerContract())) {
+            if (selection.getSummarydemandview().equals(ARMConstants.getSinglePeriod()) && selection.getSummaryviewType().equals(ARMConstants.getDeductionCustomerContract())) {
                 query = query.replace("@SHIFT_VALUE", String.valueOf("S"));
             } else {
                 query = query.replace("@SHIFT_VALUE", String.valueOf("M"));
             }
         } else {
- 
+
             query = SQlUtil.getQuery(isView ? "getDRSummarySinglePeriodExcelQueryView" : "getDRSummarySinglePeriodExcelQuery");
         }
-        List<String[]> frequency = selection.getSummary_frequencyList(); 
+        List<String[]> frequency = selection.getSummaryfrequencyList();
         Object[] value = selection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", "'" + StringUtils.join(value, ",") + "'");
-        String val = selection.getSummary_deductionLevelDes();
+        String val = selection.getSummarydeductionLevelDes();
         if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION_PROGRAM.toString())) {
             val += " TYPE";
         }
-        if(StringUtils.isNumeric(selection.getSummary_demand_frequency())){ 
-            selection.setSummary_demand_frequency(HelperListUtil.getInstance().getIdHelperDTOMap().get(Integer.valueOf(selection.getSummary_demand_frequency())).getDescription());
+        if (StringUtils.isNumeric(selection.getSummarydemandfrequency())) {
+            selection.setSummarydemandfrequency(HelperListUtil.getInstance().getIdHelperDTOMap().get(Integer.valueOf(selection.getSummarydemandfrequency())).getDescription());
         }
         query = query.replace("@DEDUCTIONLEVEL", val);
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummary_deductionValues().replace("'", "''"));
-        query = query.replace("@FREQUENCYSELECTED", selection.getSummary_demand_frequency());
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@FREQUENCYSELECTED", selection.getSummarydemandfrequency());
         query = query.replace("@STARTPERIOD", frequency.get(0)[1]);
         query = query.replace("@ENDPERIOD", frequency.get(frequency.size() - 1)[1]);
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getProjectionMasterSid()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(CommonLogic.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
     }
 
     @Override
     public List getTableInput(SessionDTO sessionDTO) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     protected List getQueryTableinput(SessionDTO sessionDTO) {
         List input = new ArrayList<>();
-        input.add(sessionDTO.getCurrentTableNames().get("ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY"));
+        input.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY));
         return input;
     }
-    
+
     @Override
-       public List getQueryTableinputparameter(SessionDTO sessionDTO) {
+    public List getQueryTableinputparameter(SessionDTO sessionDTO) {
         List input = new ArrayList<>();
-        input.add(sessionDTO.getCurrentTableNames().get("ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY"));
-        input.add(sessionDTO.getCurrentTableNames().get("ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY"));
+        input.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY));
+        input.add(sessionDTO.getCurrentTableNames().get("ST_ARM_ADJUSTMENTS"));
+        input.add(sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY));
         return input;
     }
-    
+
 }

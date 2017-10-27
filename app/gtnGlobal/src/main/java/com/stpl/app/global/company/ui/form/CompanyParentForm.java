@@ -102,7 +102,7 @@ public class CompanyParentForm extends StplCustomComponent {
      */
     @UiField("parentExcelExport")
     private Button parentExcelExport;
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
     //Labels
     /**
      * The parentCompanyName
@@ -183,7 +183,7 @@ public class CompanyParentForm extends StplCustomComponent {
      * The Company Master DTO Object
      */
     CompanyMasterDTO companyMasterDTO = new CompanyMasterDTO();
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<CompanyMasterDTO>(companyMasterDTO));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(companyMasterDTO));
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanyAddView.class);
     CommonUIUtils commonUiUtil = new CommonUIUtils();
     IFPLogic ifpLogic = new IFPLogic();
@@ -200,7 +200,7 @@ public class CompanyParentForm extends StplCustomComponent {
 
             vLayout.addComponent(Clara.create(getClass().getResourceAsStream("/clara/companyMaster/CompanyParentNo.xml"), this));
 
-            addResponsiveVerticalTabFiveLayout(vLayout);
+            addResponsiveVerticalTabFiveLayout();
             getBinder();
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
@@ -262,6 +262,7 @@ public class CompanyParentForm extends StplCustomComponent {
     }
 
     private void setMandatory() {
+        return;
     }
 
     public void configureFields() throws PortalException, SystemException {
@@ -416,7 +417,7 @@ public class CompanyParentForm extends StplCustomComponent {
 
         String mode = sessionDTO.getMode();
         List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPANY_MASTER, TabNameUtil.PARENT_COMPANY);
-        Object[] obj = UIUtils.PARENT_COMPANY_COLUMNS;
+        Object[] obj = UIUtils.getInstance().parentCompanyColumns;
         TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldIfpHM, mode);
             if(tableResultCustom.getObjResult().length == 0){
               parentDetailsTable.setVisible(false);
@@ -581,6 +582,7 @@ public class CompanyParentForm extends StplCustomComponent {
              * Error Handler
              */
             public void error(final com.vaadin.server.ErrorEvent event) {
+                return;
             }
         });
 
@@ -618,7 +620,7 @@ public class CompanyParentForm extends StplCustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             if (parentStartDate.getValue() != null && parentEndDate.getValue() != null) {
                 if (parentStartDate.getValue().after(parentEndDate.getValue())) {
                     throw new Validator.InvalidValueException("Parent End Date should be greater than Parent Start Date");
@@ -879,20 +881,20 @@ public class CompanyParentForm extends StplCustomComponent {
         }
     }
 
-    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected void excelExportLogic() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException , IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException , IllegalAccessException, InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final long recordCount = parentDetailsTable.getContainerDataSource().size();
         ExcelExportforBB.createWorkSheet(parentDetailsTable.getColumnHeaders(), recordCount, this, getUI(), TabNameUtil.PARENT_COMPANY_EXP);
         LOGGER.debug("Ending createWorkSheet");
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final PrintWriter printWriter) {
         CompanyMasterDTO dto;
         final List<CompanyMasterDTO> searchList;
         SimpleDateFormat format = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
@@ -940,7 +942,7 @@ public class CompanyParentForm extends StplCustomComponent {
     private static Object[] getCollapsibleOneColumn(ExtFilterTable table) {
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(propertyIds));
+        List<Object> list = new ArrayList<>(Arrays.asList(propertyIds));
         list.remove(propertyIds[0]);
         propertyIds = list.toArray(new Object[list.size()]);
 
@@ -952,7 +954,7 @@ public class CompanyParentForm extends StplCustomComponent {
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = list.size(); i < j; i++) {
             list.remove(propertyIds[i]);
         }
@@ -969,7 +971,7 @@ public class CompanyParentForm extends StplCustomComponent {
         return propertyIds;
     }
 
-    public void addResponsiveVerticalTabFiveLayout(final VerticalLayout verticalLayout) {
+    public void addResponsiveVerticalTabFiveLayout() {
 
         reloadVerticalLayoutTabFiveMap.put(NumericConstants.ONE_FIVE_ONE_SIX, true);
         reloadVerticalLayoutTabFiveMap.put(NumericConstants.THOUSAND_THREE_HUNDRED, true);

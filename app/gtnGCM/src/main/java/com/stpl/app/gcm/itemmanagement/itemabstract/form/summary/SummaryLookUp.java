@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.itemabstract.form.summary;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
@@ -37,7 +38,7 @@ public class SummaryLookUp extends CustomComponent {
     SelectionDTO selection;
     TabSheet mainTab = new TabSheet();
     int tabPosition = 0;
-    List<Integer> tabList = new ArrayList<Integer>();
+    List<Integer> tabList = new ArrayList<>();
     Summary sales;
     List<ItemIndexDto> itemList;
     Summary rebate;
@@ -48,7 +49,7 @@ public class SummaryLookUp extends CustomComponent {
      */
     public static final Logger LOGGER = Logger.getLogger(SummaryLookUp.class);
     final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    Map<String, AppPermission> functionHM = new HashMap<>();
 
     public SummaryLookUp(List<ItemIndexDto> itemList, SelectionDTO selection) {
     }
@@ -139,20 +140,20 @@ public class SummaryLookUp extends CustomComponent {
     public void configureSecurityPermissions(String screenName) {
         try {
             if (ConstantsUtil.DELETE.equals(screenName)) {
-                functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Remove", "Summary");
-                itemDetails.getCancelremove().setVisible(CommonLogic.isButtonVisibleAccess("cancelremove", functionHM));
+                functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), StringConstantsUtil.GCM_ITEM_MANAGEMENT, "Item Remove", StringConstantsUtil.SUMMARY_FIELD);
+                itemDetails.getCancelremove().setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CANCEL_REMOVE, functionHM));
             } else if (ConstantsUtil.EDIT.equals(screenName)) {
-                functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Update", "Summary Tab");
-                itemDetails.getCancelremove().setVisible(CommonLogic.isButtonVisibleAccess("cancelremove", functionHM));
-                itemDetails.getCancelremoveForTransfer().setVisible(CommonLogic.isButtonVisibleAccess("cancelremoveForTransfer", functionHM));
+                functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), StringConstantsUtil.GCM_ITEM_MANAGEMENT, "Item Update", "Summary Tab");
+                itemDetails.getCancelremove().setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CANCEL_REMOVE, functionHM));
+                itemDetails.getCancelremoveForTransfer().setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CANCELREMOVE_FOR_TRANSFER, functionHM));
             } else if (ConstantsUtil.TRANSFER.equals(screenName)) {
-                functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Transfer", "Summary");
-                itemDetails.getCancelremove().setVisible(CommonLogic.isButtonVisibleAccess("cancelremove", functionHM));
-                itemDetails.getCancelremoveForTransfer().setVisible(CommonLogic.isButtonVisibleAccess("cancelremoveForTransfer", functionHM));
+                functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), StringConstantsUtil.GCM_ITEM_MANAGEMENT, "Item Transfer", StringConstantsUtil.SUMMARY_FIELD);
+                itemDetails.getCancelremove().setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CANCEL_REMOVE, functionHM));
+                itemDetails.getCancelremoveForTransfer().setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CANCELREMOVE_FOR_TRANSFER, functionHM));
             } else if (ConstantsUtil.PROJECTIONTRANSFER.equals(screenName)) {
-                functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Projection details Transfer-Item", "Summary");
-                itemDetails.getCancelremove().setVisible(CommonLogic.isButtonVisibleAccess("cancelremove", functionHM));
-                itemDetails.getCancelremoveForTransfer().setVisible(CommonLogic.isButtonVisibleAccess("cancelremoveForTransfer", functionHM));
+                functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), StringConstantsUtil.GCM_ITEM_MANAGEMENT, "Projection details Transfer-Item", StringConstantsUtil.SUMMARY_FIELD);
+                itemDetails.getCancelremove().setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CANCEL_REMOVE, functionHM));
+                itemDetails.getCancelremoveForTransfer().setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CANCELREMOVE_FOR_TRANSFER, functionHM));
             }
             setFunctionHM(functionHM);
         } catch (Exception ex) {

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Manasa
+ * @author 
  */
 public class SessionDTO {
     
@@ -25,7 +25,7 @@ public class SessionDTO {
     private int selectedHierarchySessionId;
     private int hierarchyVersion;
     private String arpSessionId;
-    private List<String> selectedItems= new ArrayList<String>();
+    private List<String> selectedItems= new ArrayList<>();
     
     
     public int getSystemId() {

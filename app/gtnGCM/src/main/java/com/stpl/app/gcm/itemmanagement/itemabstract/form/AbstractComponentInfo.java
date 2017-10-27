@@ -7,6 +7,7 @@
 package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
@@ -138,23 +139,24 @@ public class AbstractComponentInfo extends CustomComponent {
     TextField rebatePlanLevelText = new TextField();
     ComponentInfoTableLogic tablelogic = new ComponentInfoTableLogic();
     public ExtPagedTable currentComponentTable = new ExtPagedTable(tablelogic);
-    BeanItemContainer<ComponentInfoDTO> searchContainer = new BeanItemContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
+    BeanItemContainer<ComponentInfoDTO> searchContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     String layoutIndicator = new String();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    public static final Object[] IFP_COL = {"itemNo", "itemName", "brand", "status", Constants.START_DATE, Constants.END_DATE, "attachedDate"};
-    public static final String[] IFP_HEADER = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, "Status", "Start Date", "End Date", "Attached Date"};
-    public static final Object[] CFP_COL = {"itemNo", "itemName", "itemStatus", Constants.START_DATE, Constants.END_DATE, "status", "tradeClass", "attachedDate"};
-    public static final String[] CFP_HEADER = {Constants.COMPANYNO, Constants.COMPANYNAME, "Company status", "Start Date", "End Date", "Status", Constants.TRADECLASS, "Attached Date"};
-    public static final Object[] PS_COL = {"itemNo", "itemName", "brand", "status", Constants.START_DATE, Constants.END_DATE, "priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "priceProtectionStartDate", "priceProtectionEndDate", "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency", "priceToleranceType", "priceTolerance", "maxIncrementalChange", "resetEligible", "resetType", "resetDate", "resetInterval", "resetFrequency", "attachedDate"};
-    public static final String[] PS_HEADER = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, "Status", "Start Date", "End Date", "Price Type", "Price Plan No", "Price Plan Name", "Price Protection Status", "Price Protection Start Date", "Price Protection EndDate", "PriceProtection Price Type", "Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", "Attached Date"};
-    public static final Object[] RS_COL = {"itemNo", "itemName", "brand", "status", Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", "attachedDate"};
-    public static final String[] RS_HEADER = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, "Status", "Start Date", "End Date", "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", "Attached Date"};
+    public final Object[] ifpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY};
+    public final String[] ifpHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ATTACHED_DATE_FIELD};
+    public final Object[] cfpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, "itemStatus", Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
+    public final String[] cfpHeader = {Constants.COMPANYNO, Constants.COMPANYNAME, "Company status", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD};
+    public final Object[] psCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "priceProtectionStartDate", "priceProtectionEndDate", "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency", "priceToleranceType", "priceTolerance", "maxIncrementalChange", "resetEligible", "resetType", "resetDate", "resetInterval", "resetFrequency", Constants.ATTACHED_DATE_PROPERTY};
+    public final String[] psHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Price Type", "Price Plan No", "Price Plan Name", "Price Protection Status", "Price Protection Start Date", "Price Protection EndDate", "PriceProtection Price Type", "Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", Constants.ATTACHED_DATE_FIELD};
+    public final Object[] rsCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
+    public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     ComponentInfoDTO binderDto = new ComponentInfoDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ComponentInfoDTO>(binderDto));
+    public static final String FILTERBAR = "filterbar";
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     String componentFlag = StringUtils.EMPTY;
-    private BeanItemContainer<ComponentInfoDTO> contractExcelResultBean = new BeanItemContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
+    private BeanItemContainer<ComponentInfoDTO> contractExcelResultBean = new BeanItemContainer<>(ComponentInfoDTO.class);
     private ExtCustomTable contractExcelTable;
     VerticalLayout contractDashboardLay = new VerticalLayout();
     ComponentInfoDTO componentDto = new ComponentInfoDTO();
@@ -181,8 +183,8 @@ public class AbstractComponentInfo extends CustomComponent {
         tablelogic.setContainerDataSource(searchContainer);
         tablelogic.setPageLength(NumericConstants.FIVE);
         tablelogic.sinkItemPerPageWithPageLength(false);
-        currentComponentTable.setVisibleColumns(RS_COL);
-        currentComponentTable.setColumnHeaders(RS_HEADER);
+        currentComponentTable.setVisibleColumns(rsCol);
+        currentComponentTable.setColumnHeaders(rsHeader);
         currentComponentTable.setWidth("1800px");
         currentComponentTable.markAsDirty();
         currentComponentTable.setSelectable(false);
@@ -230,13 +232,12 @@ public class AbstractComponentInfo extends CustomComponent {
 
     public void loadData(String value) throws FieldGroup.CommitException {
         if (value.equals(Constants.PS)) {
-            currentComponentTable.setVisibleColumns(PS_COL);
-            currentComponentTable.setColumnHeaders(PS_HEADER);
-            currentComponentTable.addStyleName("filterbar");
+            currentComponentTable.setVisibleColumns(psCol);
+            currentComponentTable.setColumnHeaders(psHeader);
+            currentComponentTable.addStyleName(FILTERBAR);
             removeFilter();
             setFilter();
             currentComponentTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
-            currentComponentTable.setHeight(NumericConstants.FOUR_HUNDRED, Sizeable.Unit.PIXELS);
             currentComponentTable.setPageLength(NumericConstants.FIVE);
             for (Object object : currentComponentTable.getVisibleColumns()) {
                 if (String.valueOf(object).contains("Date")) {
@@ -254,13 +255,12 @@ public class AbstractComponentInfo extends CustomComponent {
             setFlags();
             loadTextFields(selection.getPsContractSid());
         } else if (value.equals(Constants.IFP)) {
-            currentComponentTable.setVisibleColumns(IFP_COL);
-            currentComponentTable.setColumnHeaders(IFP_HEADER);
-            currentComponentTable.addStyleName("filterbar");
+            currentComponentTable.setVisibleColumns(ifpCol);
+            currentComponentTable.setColumnHeaders(ifpHeader);
+            currentComponentTable.addStyleName(FILTERBAR);
             removeFilter();
             setFilter();
             currentComponentTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
-            currentComponentTable.setHeight(NumericConstants.FOUR_HUNDRED, Sizeable.Unit.PIXELS);
             currentComponentTable.setPageLength(NumericConstants.FIVE);
             for (Object object : currentComponentTable.getVisibleColumns()) {
                 if (String.valueOf(object).contains("Date")) {
@@ -278,13 +278,12 @@ public class AbstractComponentInfo extends CustomComponent {
             setFlags();
             loadTextFields(selection.getIfpConteractSid());
         } else if (value.equals(Constants.CFP)) {
-            currentComponentTable.setVisibleColumns(CFP_COL);
-            currentComponentTable.setColumnHeaders(CFP_HEADER);
-            currentComponentTable.addStyleName("filterbar");
+            currentComponentTable.setVisibleColumns(cfpCol);
+            currentComponentTable.setColumnHeaders(cfpHeader);
+            currentComponentTable.addStyleName(FILTERBAR);
             removeFilter();
             setFilter();
             currentComponentTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
-            currentComponentTable.setHeight(NumericConstants.FOUR_HUNDRED, Sizeable.Unit.PIXELS);
             currentComponentTable.setPageLength(NumericConstants.FIVE);
             for (Object object : currentComponentTable.getVisibleColumns()) {
                 if (String.valueOf(object).contains("Date")) {
@@ -299,13 +298,12 @@ public class AbstractComponentInfo extends CustomComponent {
             setFlags();
             loadTextFields(selection.getCfpContractSid());
         } else if (value.equals(Constants.RS)) {
-            currentComponentTable.setVisibleColumns(RS_COL);
-            currentComponentTable.setColumnHeaders(RS_HEADER);
-            currentComponentTable.addStyleName("filterbar");
+            currentComponentTable.setVisibleColumns(rsCol);
+            currentComponentTable.setColumnHeaders(rsHeader);
+            currentComponentTable.addStyleName(FILTERBAR);
             removeFilter();
             setFilter();
             currentComponentTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
-            currentComponentTable.setHeight(NumericConstants.FOUR_HUNDRED, Sizeable.Unit.PIXELS);
             currentComponentTable.setPageLength(NumericConstants.FIVE);
 
             for (Object object : currentComponentTable.getVisibleColumns()) {
@@ -354,9 +352,11 @@ public class AbstractComponentInfo extends CustomComponent {
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -366,39 +366,39 @@ public class AbstractComponentInfo extends CustomComponent {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                
                 if (componentSelection.getValue() != null && !"null".equals(String.valueOf(componentSelection.getValue()))) {
-                    if (componentSelection.getValue().equals(Constants.CFP) && ("status".equals(propertyId) || "itemStatus".equals(propertyId))) {
+                    if (componentSelection.getValue().equals(Constants.CFP) && (Constants.STATUS_S.equals(propertyId) || "itemStatus".equals(propertyId))) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, "Load Item Status Count", "Load Item Status", true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
                             return status;
                     }
 
                     if (componentSelection.getValue().equals(Constants.IFP)) {
-                        if ("status".equals(propertyId)) {
+                        if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, "Load Item Status Count", "Load Item Status", true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
                             return status;
                         }
-                        if ("brand".equals(propertyId)) {
+                        if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", true);
+                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
                             return brandDdlb;
                         }
                     }
 
                     if (componentSelection.getValue().equals(Constants.PS)) {
-                        if ("status".equals(propertyId)) {
+                        if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, "Load Item Status Count", "Load Item Status", true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
                             return status;
                         }
-                        if ("brand".equals(propertyId)) {
+                        if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", true);
+                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
                             return brandDdlb;
                         }
                         if ("priceProtectionStatus".equals(propertyId)) {
                             ComboBox priceToleranceType = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(priceToleranceType, "Load Item Status Count", "Load Item Status", true);
+                            abstractLogic.LazyLoadDdlb(priceToleranceType, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
                             return priceToleranceType;
                         }
 
@@ -406,14 +406,14 @@ public class AbstractComponentInfo extends CustomComponent {
 
                     if (componentSelection.getValue().equals(Constants.RS)) {
 
-                        if ("brand".equals(propertyId)) {
+                        if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", true);
+                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
                             return brandDdlb;
                         }
-                        if ("status".equals(propertyId)) {
+                        if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, "Load Item Status Count", "Load Item Status", true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
                             return status;
                         }
                     }
@@ -634,7 +634,7 @@ public class AbstractComponentInfo extends CustomComponent {
      */
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<ComponentInfoDTO>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }
@@ -643,40 +643,31 @@ public class AbstractComponentInfo extends CustomComponent {
     public void rsTypeDdlbChange(Property.ValueChangeEvent event) throws FieldGroup.CommitException {
         binder.commit();
         tablelogic.loadSetData(binderDto, selection);
-        print();
     }
 
     @UiHandler("rsProgramType")
     public void rsProgramCategoryDdlbChange(Property.ValueChangeEvent event) throws FieldGroup.CommitException {
         binder.commit();
         tablelogic.loadSetData(binderDto, selection);
-        print();
     }
 
     @UiHandler("rsCategory")
     public void rsCategoryDdlbChange(Property.ValueChangeEvent event) throws FieldGroup.CommitException {
         binder.commit();
         tablelogic.loadSetData(binderDto, selection);
-        print();
     }
 
     @UiHandler("paymentFrequency")
     public void paymentDdlbChange(Property.ValueChangeEvent event) throws FieldGroup.CommitException {
         binder.commit();
         tablelogic.loadSetData(binderDto, selection);
-        print();
     }
 
     @UiHandler("rebatePlanLevel")
     public void RPLevelDdlbChange(Property.ValueChangeEvent event) throws FieldGroup.CommitException {
         binder.commit();
         tablelogic.loadSetData(binderDto, selection);
-        print();
     }
-
-    void print() {
-    }
-
     @UiHandler("exportBtn")
     public void exportButton(Button.ClickEvent event) {
         try {
@@ -689,7 +680,7 @@ public class AbstractComponentInfo extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         if (resultTable.size() != 0) {
             binderDto.setIsCount(false);
@@ -733,7 +724,7 @@ public class AbstractComponentInfo extends CustomComponent {
     }
 
     private void configureContractExcelResultTable() {
-        contractExcelResultBean = new BeanItemContainer<ComponentInfoDTO>(ComponentInfoDTO.class);
+        contractExcelResultBean = new BeanItemContainer<>(ComponentInfoDTO.class);
         contractExcelTable = new ExtCustomTable();
         tableLayout.addComponent(contractDashboardLay);
         contractDashboardLay.addComponent(contractExcelTable);

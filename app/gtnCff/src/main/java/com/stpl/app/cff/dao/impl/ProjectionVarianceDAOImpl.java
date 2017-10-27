@@ -9,6 +9,7 @@ import com.stpl.app.service.ProjectionCustHierarchyLocalServiceUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
@@ -32,7 +33,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
             String level, String discountLevel) throws SystemException, PortalException {
 
 
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -78,7 +79,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
             throws SystemException, PortalException {
 
         // TODO Auto-generated method stub
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -117,6 +118,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
      */
     @Override
     public void saveProjectionVarianceView(String indicator, int projectionId) {
+        return;
     }
     @Override
     public List getPVResultsSales(int projectionId, String frequency,List<Integer> periods, String actualsOrProjections,String parentName, String year, int levelNo, String sales) {

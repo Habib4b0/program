@@ -115,7 +115,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>AUDIT COMPLETION WAIT 2 2</from><to>SET VARIABLES 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>MAIL CREATION 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>MAIL CREATION 3</to><enabled>N</enabled> </hop>  <hop> <from>Database join 3 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>AUDIT COMPLETION WAIT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>STAGING AUDIT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP 2 2</from><to>Database join 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 2 2</from><to>Split field to rows 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2 2</from><to>Mail 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2 2 2</from><to>PICK UNIQUE CONTENT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2 2 2</from><to>AUDIT_STATUS_UPDATE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2 2</from><to>Update 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>Database join 3 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>GET MAIL PARAMETERS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FINAL AUDIT GENERATION 2 3 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3 2</from><to>FOR HTML GROUP 2 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>FINAL AUDIT GENERATION 2 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3 2 2</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>ACCRUAL_DETAILS</from><to>FINAL AUDIT GENERATION 2 2</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>AUDIT COMPLETION WAIT 2 2</from><to>SET VARIABLES 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>MAIL CREATION 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>MAIL CREATION 3</to><enabled>N</enabled> </hop>  <hop> <from>Database join 3 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>AUDIT COMPLETION WAIT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 2</from><to>STAGING AUDIT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP 2 2</from><to>Database join 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 2 2</from><to>Split field to rows 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2 2</from><to>Mail 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2 2 2</from><to>PICK UNIQUE CONTENT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2 2 2</from><to>AUDIT_STATUS_UPDATE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2 2</from><to>Update 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>Database join 3 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>GET MAIL PARAMETERS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2 2 2</from><to>REMOVE FIELDS 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2 2</from><to>Dummy (do nothing) 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FINAL AUDIT GENERATION 2 3 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3 2</from><to>FOR HTML GROUP 2 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>FINAL AUDIT GENERATION 2 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3 2 2</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT SORT</from><to>AUDIT UNIQUE</to><enabled>Y</enabled> </hop>  <hop> <from>ACCRUAL_DETAILS</from><to>AUDIT SORT</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT UNIQUE</from><to>FINAL AUDIT GENERATION 2 2</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ACCRUAL_DETAILS</name>
     <type>TableInput</type>
@@ -1189,6 +1189,62 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1243</xloc>
       <yloc>807</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>AUDIT SORT</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <sort_size>50000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>BATCH_ID</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>574</xloc>
+      <yloc>180</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>AUDIT UNIQUE</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>Y</count_rows>
+      <count_field>SENT_COUNT</count_field>
+      <reject_duplicate_row>N</reject_duplicate_row>
+      <error_description/>
+    <fields>      <field>        <name>BATCH_ID</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>711</xloc>
+      <yloc>252</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

@@ -39,22 +39,38 @@ import org.apache.commons.lang.StringUtils;
 public class HeaderUtils {
 
     public static final Logger LOGGER = Logger.getLogger(HeaderUtils.class);
+    public static final String NET_PROFIT1_PROPERTY = "netProfit";
+    public static final String NET_SALES1 = "netSales";
+    public static final String UNIT_VOL1 = "unitVol";
+    public static final String CON_SALES_WAC = "conSalesWac";
+    public static final String TOT_RPU = "totRPU";
 
     /**
      * The Constant Mandated Projection Results Right Table Columns.
      */
-    public static final Object[] PR_RIGHT_TABLE_ONE_COLUMNS = new Object[]{
-        "efs", "dms", "iws", "perOfExfac", "perOfDemand", "perOfInvwithdraw", "conSalesWac", "unitVol",
-        Constant.totDisPer, "totDisPerMandatedDiscount", "totDisPerSupplementalDiscount", "totRPU", "totRPUMandatedDiscount", "totRPUSupplementalDiscount",
-        Constant.totDisDol, "totDisDolMandatedDiscount", "totDisDolSupplementalDiscount", "netSales", "cogs", "netProfit"};
+    public final Object[] prRightTableOneColumns = new Object[]{
+        "efs", "dms", "iws", "perOfExfac", "perOfDemand", "perOfInvwithdraw", CON_SALES_WAC, UNIT_VOL1,
+        Constant.TOT_DIS_PER, "totDisPerMandatedDiscount", "totDisPerSupplementalDiscount", TOT_RPU, "totRPUMandatedDiscount", "totRPUSupplementalDiscount",
+        Constant.TOTAL_DISCOUNT_DOLLAR, "totDisDolMandatedDiscount", "totDisDolSupplementalDiscount", NET_SALES1, "cogs", NET_PROFIT1_PROPERTY};
+    
+    public static final String COST_OF_GOODS_SOLD_COGS = "Cost of Goods Sold (COGS)";
+    public static final String PERCENT_OF_EX_FACTORY = "% of Ex-Factory";
+    public static final String NET_PROFIT = "Net Profit";
+    public static final String TOTAL_DISCOUNT_AMOUNT_DOLLAR = "Total Discount $";
+    public static final String TOTAL_DISCOUNT_PERCENT_AMOUNT = "Total Discount %";
+    public static final String PERCENT_OF_INVENTORY_WITHDRAWAL = "% of Inventory Withdrawal";
+    public static final String PERCENT_OF_DEMAND = "% of Demand";
+    public static final String INVENTORY_WITHDRAWAL_SALES = "Inventory Withdrawal Sales";
+    public static final String DEMAND_SALES = "Demand Sales";
+    public static final String CONTRACT_SALES_WAC_AT = "Contract Sales @ WAC";
+    public static final String NET_SALES_LABEL = "Net Sales";
 
     /**
      * The Constant Mandated Projection Results Right Table Headers.
      */
-    public static final String[] PR_RIGHT_TABLE_ONE_HEADERS = new String[]{
-        "Ex-Factory Sales", "Demand Sales", "Inventory Withdrawal Sales", "% of Ex-Factory", "% of Demand", "% of Inventory Withdrawal", "Contract Sales @ WAC", Constant.UNIT_VOLUME,
-        "Total Discount %", Constant.MANDATED_DISCOUNT, "Supplemental Discount", Constant.Total_RPU, Constant.MANDATED_DISCOUNT, "Supplemental Discount", "Total Discount $",
-        Constant.MANDATED_DISCOUNT, "Supplemental Discount", "Net Sales", "Cost of Goods Sold (COGS)", "Net Profit"};
+    public final String[] prRightTableOneHeaders = new String[]{
+        Constant.EX_FACTORY_SALES_LABEL, DEMAND_SALES, INVENTORY_WITHDRAWAL_SALES, PERCENT_OF_EX_FACTORY, PERCENT_OF_DEMAND, PERCENT_OF_INVENTORY_WITHDRAWAL, CONTRACT_SALES_WAC_AT, Constant.UNIT_VOLUME, TOTAL_DISCOUNT_PERCENT_AMOUNT, Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, Constant.Total_RPU, Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, TOTAL_DISCOUNT_AMOUNT_DOLLAR,
+        Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, NET_SALES_LABEL, COST_OF_GOODS_SOLD_COGS, NET_PROFIT};
 
     /**
      * Private Constructor to avoid object instantiation outside the class.
@@ -71,18 +87,20 @@ public class HeaderUtils {
      * @param fullHeaderDTO
      * @return
      */
-    public static CustomTableHeaderDTO getProjectionResultsLeftTableColumns(final ProjectionSelectionDTO projSelDTO, final CustomTableHeaderDTO fullHeaderDTO) {
+    public static CustomTableHeaderDTO getProjectionResultsLeftTableColumns(final CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         Object doubleCol = "group1";
         Object[] singleCol = {Constant.GROUP};
-        tableHeaderDTO.addSingleColumn(singleCol[0], "Group:", String.class);
-        tableHeaderDTO.addDoubleColumn(doubleCol, "Group:");
+        tableHeaderDTO.addSingleColumn(singleCol[0], GROUP_COLON, String.class);
+        tableHeaderDTO.addDoubleColumn(doubleCol, GROUP_COLON);
         tableHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
         fullHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
-        fullHeaderDTO.addDoubleColumn(doubleCol, "Group:");
+        fullHeaderDTO.addDoubleColumn(doubleCol, GROUP_COLON);
         fullHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
         return tableHeaderDTO;
     }
+    
+    public static final String GROUP_COLON = "Group:";
 
     /**
      * Method creates the header for the right table in Commercial , Government
@@ -569,8 +587,6 @@ public class HeaderUtils {
 
             //Calculating history
             startPr = projSelDTO.getHistoryStartPeriod();
-            lastPr = frequencyDivision;
-            historyStartIndex = 0;
             int historyStartYear = projSelDTO.getHistoryStartYear();
             int historyEndYear = projSelDTO.getHistoryEndYear();
             lastPr = projSelDTO.getHistoryEndPeriod();
@@ -585,7 +601,6 @@ public class HeaderUtils {
 
             //Calculating forecast
             startPr = projSelDTO.getForecastStartPeriod();
-            lastPr = frequencyDivision;
 
             int forecastStartYear = projSelDTO.getForecastDTO().getForecastStartYear();
             int forecastEndYear = projSelDTO.getForecastDTO().getForecastEndYear();
@@ -733,71 +748,71 @@ public class HeaderUtils {
 
         for (int i = 0; i < NumericConstants.SIXTEEN; i++) {
             String commonColumn = StringUtils.EMPTY;
-            String oldCommonColumn = StringUtils.EMPTY;
+            String oldCommonColumn;
             String commonHeader = StringUtils.EMPTY;
             if (i == 0) {
                 commonColumn = "exFactory";
-                commonHeader = "Ex-Factory Sales";
+                commonHeader = Constant.EX_FACTORY_SALES_LABEL;
             } else if (i == 1) {
                 commonColumn = "demand";
-                commonHeader = "Demand Sales";
+                commonHeader = DEMAND_SALES;
             } else if (i == NumericConstants.TWO) {
                 commonColumn = "inventory";
-                commonHeader = "Inventory Withdrawal Sales";
+                commonHeader = INVENTORY_WITHDRAWAL_SALES;
             } else if (i == NumericConstants.THREE) {
                 commonColumn = "perExFactory";
-                commonHeader = "% of Ex-Factory";
+                commonHeader = PERCENT_OF_EX_FACTORY;
             } else if (i == NumericConstants.FOUR) {
                 commonColumn = "perDemand";
-                commonHeader = "% of Demand";
+                commonHeader = PERCENT_OF_DEMAND;
             } else if (i == NumericConstants.FIVE) {
                 commonColumn = "perInventory";
-                commonHeader = "% of Inventory Withdrawal";
+                commonHeader = PERCENT_OF_INVENTORY_WITHDRAWAL;
             } else if (i == NumericConstants.SIX) {
                 if (projSelDTO.getSalesOrUnit().equals(BOTH.getConstant()) || projSelDTO.getSalesOrUnit().equals(SALES.getConstant())) {
-                    commonColumn = "conSalesWac";
-                    commonHeader = "Contract Sales @ WAC";
+                    commonColumn = CON_SALES_WAC;
+                    commonHeader = CONTRACT_SALES_WAC_AT;
                 } else {
                     continue;
                 }
             } else if (i == NumericConstants.SEVEN) {
                 if (projSelDTO.getSalesOrUnit().equals(BOTH.getConstant()) || projSelDTO.getSalesOrUnit().equals(UNITS.getConstant())) {
-                    commonColumn = "unitVol";
+                    commonColumn = UNIT_VOL1;
                     commonHeader = Constant.UNIT_VOLUME;
                 } else {
                     continue;
                 }
             } else if (i == NumericConstants.EIGHT) {
-                commonColumn = Constant.totDisPer;
-                commonHeader = "Total Discount %";
+                commonColumn = Constant.TOT_DIS_PER;
+                commonHeader = TOTAL_DISCOUNT_PERCENT_AMOUNT;
             } else if (i == NumericConstants.NINE) {
-                commonColumn = Constant.totalRPU;
+                commonColumn = Constant.TOTAL_RPU;
                 commonHeader = Constant.Total_RPU;
             } else if (i == NumericConstants.TEN) {
-                commonColumn = Constant.totDisDol;
-                commonHeader = "Total Discount $";
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
+                commonHeader = TOTAL_DISCOUNT_AMOUNT_DOLLAR;
              } else if (i == NumericConstants.ELEVEN) { 
                 commonColumn = Constant.DISCOUNT_PER_OF_EX_FACTORY;
                 commonHeader = Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER;   
             } else if (i == NumericConstants.TWELVE) {
-                commonColumn = "netSales";
-                commonHeader = "Net Sales";
+                commonColumn = NET_SALES1;
+                commonHeader = NET_SALES_LABEL;
             } else if (i == NumericConstants.THIRTEEN) { 
                 commonColumn = Constant.NET_SALES_PER_OF_EX_FACTORY;
                 commonHeader = Constant.NET_SALES_PER_OF_EX_FACTORY_HEADER;
             } else if (i == NumericConstants.FOURTEEN) {
                 commonColumn = "cogs";
-                commonHeader = "Cost of Goods Sold (COGS)";
+                commonHeader = COST_OF_GOODS_SOLD_COGS;
             } else if (i == NumericConstants.FIFTEEN) { 
-                commonColumn = "netProfit";
-                commonHeader = "Net Profit";
+                commonColumn = NET_PROFIT1_PROPERTY;
+                commonHeader = NET_PROFIT;
             }
 
             oldCommonColumn = commonColumn;
             int j = -1;
             boolean disc = true;
             while (disc) {
-                List<Object> dmap = new ArrayList<Object>();
+                List<Object> dmap = new ArrayList<>();
                 if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
                     Object singleColumn = commonColumn + ACTUALS.getConstant();
                     dmap.add(singleColumn);
@@ -853,64 +868,64 @@ public class HeaderUtils {
             String commonHeader = StringUtils.EMPTY;
             if (i == 0) {
                 commonColumn = "efs";
-                commonHeader = "Ex-Factory Sales";
+                commonHeader = Constant.EX_FACTORY_SALES_LABEL;
             } else if (i == 1) {
                 commonColumn = "dms";
-                commonHeader = "Demand Sales";
+                commonHeader = DEMAND_SALES;
             } else if (i == NumericConstants.TWO) {
                 commonColumn = "iws";
-                commonHeader = "Inventory Withdrawal Sales";
+                commonHeader = INVENTORY_WITHDRAWAL_SALES;
             } else if (i == NumericConstants.THREE) {
                 commonColumn = "perOfExfac";
-                commonHeader = "% of Ex-Factory";
+                commonHeader = PERCENT_OF_EX_FACTORY;
             } else if (i == NumericConstants.FOUR) {
                 commonColumn = "perOfDemand";
-                commonHeader = "% of Demand";
+                commonHeader = PERCENT_OF_DEMAND;
             } else if (i == NumericConstants.FIVE) {
                 commonColumn = "perOfInvwithdraw";
-                commonHeader = "% of Inventory Withdrawal";
+                commonHeader = PERCENT_OF_INVENTORY_WITHDRAWAL;
             } else if (i == NumericConstants.SIX) {
-                commonColumn = "conSalesWac";
-                commonHeader = "Contract Sales @ WAC";
+                commonColumn = CON_SALES_WAC;
+                commonHeader = CONTRACT_SALES_WAC_AT;
             } else if (i == NumericConstants.SEVEN) {
-                commonColumn = "unitVol";
+                commonColumn = UNIT_VOL1;
                 commonHeader = Constant.UNIT_VOLUME;
             } else if (i == NumericConstants.EIGHT) {
-                commonColumn = Constant.totDisPer;
-                commonHeader = "Total Discount %";
+                commonColumn = Constant.TOT_DIS_PER;
+                commonHeader = TOTAL_DISCOUNT_PERCENT_AMOUNT;
             } else if (i == NumericConstants.NINE) {
-                commonColumn = Constant.totDisPer + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim();
-                commonHeader = Mandated_Discount.getConstant();
+                commonColumn = Constant.TOT_DIS_PER + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim(); 
+                commonHeader = MANDATED_DISCOUNT.getConstant();
             } else if (i == NumericConstants.TEN) {
-                commonColumn = Constant.totDisPer + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim();
-                commonHeader = Supplemental_Discount.getConstant();
+                commonColumn = Constant.TOT_DIS_PER + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim();
+                commonHeader = SUPPLEMENTAL_DISCOUNT.getConstant();
             } else if (i == NumericConstants.ELEVEN) {
-                commonColumn = "totRPU";
+                commonColumn = TOT_RPU;
                 commonHeader = Constant.Total_RPU;
             } else if (i == NumericConstants.TWELVE) {
-                commonColumn = "totRPU" + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim();
-                commonHeader = Mandated_Discount.getConstant();
+                commonColumn = TOT_RPU + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim();
+                commonHeader = MANDATED_DISCOUNT.getConstant();
             } else if (i == NumericConstants.THIRTEEN) {
-                commonColumn = "totRPU" + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim();
-                commonHeader = Supplemental_Discount.getConstant();
+                commonColumn = TOT_RPU + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim();
+                commonHeader = SUPPLEMENTAL_DISCOUNT.getConstant();
             } else if (i == NumericConstants.FOURTEEN) {
-                commonColumn = Constant.totDisDol;
-                commonHeader = "Total Discount $";
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
+                commonHeader = TOTAL_DISCOUNT_AMOUNT_DOLLAR;
             } else if (i == NumericConstants.FIFTEEN) {
-                commonColumn = Constant.totDisDol + Mandated_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim();
-                commonHeader = Mandated_Discount.getConstant();
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim();
+                commonHeader = MANDATED_DISCOUNT.getConstant();
             } else if (i == NumericConstants.SIXTEEN) {
-                commonColumn = Constant.totDisDol + Supplemental_Discount.getConstant().replace(" ", StringUtils.EMPTY).trim();
-                commonHeader = Supplemental_Discount.getConstant();
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR + SUPPLEMENTAL_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim();
+                commonHeader = SUPPLEMENTAL_DISCOUNT.getConstant();
             } else if (i == NumericConstants.SEVENTEEN) {
-                commonColumn = "netSales";
-                commonHeader = "Net Sales";
+                commonColumn = NET_SALES1;
+                commonHeader = NET_SALES_LABEL;
             } else if (i == NumericConstants.EIGHTEEN) {
                 commonColumn = "cogs";
-                commonHeader = "Cost of Goods Sold (COGS)";
+                commonHeader = COST_OF_GOODS_SOLD_COGS;
             } else if (i == NumericConstants.NINETEEN) {
-                commonColumn = "netProfit";
-                commonHeader = "Net Profit";
+                commonColumn = NET_PROFIT1_PROPERTY;
+                commonHeader = NET_PROFIT;
             }
             oldCommonColumn = commonColumn;
             int j = -1;
@@ -976,23 +991,23 @@ public class HeaderUtils {
                 commonHeader = "% of Business";
             } else if (i == NumericConstants.TWO) {
                 if (projSelDTO.getSalesOrUnit().equals(BOTH.getConstant()) || projSelDTO.getSalesOrUnit().equals(SALES.getConstant())) {
-                    commonColumn = "conSalesWac";
-                    commonHeader = "Contract Sales @ WAC";
+                    commonColumn = CON_SALES_WAC;
+                    commonHeader = CONTRACT_SALES_WAC_AT;
                 } else {
                     continue;
                 }
             } else if (i == NumericConstants.THREE) {
                 if (projSelDTO.getSalesOrUnit().equals(BOTH.getConstant()) || projSelDTO.getSalesOrUnit().equals(UNITS.getConstant())) {
-                    commonColumn = "unitVol";
+                    commonColumn = UNIT_VOL1;
                     commonHeader = Constant.UNIT_VOLUME;
                 } else {
                     continue;
                 }
             } else if (i == NumericConstants.FOUR) {
-                commonColumn = Constant.totDisPer;
+                commonColumn = Constant.TOT_DIS_PER;
                 commonHeader = CommonUtils.VAR_DIS_RATE;
             } else if (i == NumericConstants.FIVE) {
-                commonColumn = Constant.totDisDol;
+                commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 commonHeader = CommonUtils.VAR_DIS_AMOUNT;
             }
 

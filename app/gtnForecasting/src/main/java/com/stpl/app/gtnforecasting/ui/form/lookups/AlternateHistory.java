@@ -83,7 +83,7 @@ public class AlternateHistory extends CustomWindow {
      * @param custom
      * @throws Exception
      */
-    public AlternateHistory(SessionDTO session,List<String> variableList) throws SystemException{
+    public AlternateHistory(SessionDTO session,List<String> variableList) {
         this.session = session;
         this.projectionSelection = null;
         this.tableLogic = null;
@@ -93,7 +93,7 @@ public class AlternateHistory extends CustomWindow {
 
     }
 
-    public void configInConstructor() throws SystemException {
+    public void configInConstructor() {
         center();
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         setPositionX(0);
@@ -111,7 +111,7 @@ public class AlternateHistory extends CustomWindow {
         tabSheet.setSelectedTab(0);
     }
 
-    public AlternateHistory(SessionDTO session, ProjectionSelectionDTO projectionSelection, NMDiscountTableLoadLogic tableLogic, String ccpList, int rsModelSid, String rsName) throws SystemException{
+    public AlternateHistory(SessionDTO session, ProjectionSelectionDTO projectionSelection, NMDiscountTableLoadLogic tableLogic, String ccpList, int rsModelSid, String rsName) {
         this.session = session;
         this.projectionSelection = projectionSelection;
         this.tableLogic = tableLogic;
@@ -157,11 +157,11 @@ public class AlternateHistory extends CustomWindow {
         tabSheet.addTab((Component) customerSelection, "Customer Selection", null, 0);
         tabSheet.addTab((Component) itemSelection, "Item Selection", null, 1);
         tabSheet.addTab((Component) altHistorySelection, "Alt History Selection", null, NumericConstants.TWO);
-        tabSheet.addTab((Component) allocation, "Allocation", null, NumericConstants.THREE);
+        tabSheet.addTab((Component) allocation, Constant.ALLOCATION, null, NumericConstants.THREE);
         if (session.getForecastName().equals(TabNameUtil.DISCOUNT_PROJECTION)) {
-            tabSheet.addTab(discountSummary, "Summary", null, NumericConstants.FOUR);
+            tabSheet.addTab(discountSummary, Constant.SUMMARY, null, NumericConstants.FOUR);
         } else {
-            tabSheet.addTab(summary, "Summary", null, NumericConstants.FOUR);
+            tabSheet.addTab(summary, Constant.SUMMARY, null, NumericConstants.FOUR);
         }
         attachTabChangeListener();
     }
@@ -199,7 +199,7 @@ public class AlternateHistory extends CustomWindow {
                         if (lastPosition == 0 && lastPosition != tabPosition) {
                             boolean flag = logic.checkSelectedCustomers(session);
                             if (!flag) {
-                                AbstractNotificationUtils.getErrorNotification("Error",
+                                AbstractNotificationUtils.getErrorNotification(Constant.ERROR,
                                         "Please select a Customer record and move it to the ‘Selected Customers’ list view. Then try again.");
                                 event.getTabSheet().setSelectedTab(lastPosition);
                                 resetTab(tabPosition, lastPosition);
@@ -212,7 +212,7 @@ public class AlternateHistory extends CustomWindow {
                         if (lastPosition == 1 && lastPosition != tabPosition) {
                             boolean flag = logic.checkSelectedItems(session);
                             if (!flag && tabPosition != 0) {
-                                AbstractNotificationUtils.getErrorNotification("Error",
+                                AbstractNotificationUtils.getErrorNotification(Constant.ERROR,
                                         "Please select at least one Item record and move it to the ‘Selected Items’ list view. Then try again.");
                                 event.getTabSheet().setSelectedTab(lastPosition);
                                 resetTab(tabPosition, lastPosition);
@@ -225,7 +225,7 @@ public class AlternateHistory extends CustomWindow {
                             boolean flag = altHistorySelection.getSelectedItems();
                             List list = altHistorySelection.getselectedPeriod();
                             allocation.setAllocatedPeriods(list);
-                            if ("Allocation".equals(tabName) && altHistorySelection.getAllocationCheck()) {
+                            if (Constant.ALLOCATION.equals(tabName) && altHistorySelection.getAllocationCheck()) {
                                 logic.resetTablesOnAllocation(session);
                                 altHistorySelection.setAllocationCheck(false);                                
                             }
@@ -235,12 +235,12 @@ public class AlternateHistory extends CustomWindow {
                                 return;
                             }
                         }
-                        if ("Allocation".equals(tabName)) {
+                        if (Constant.ALLOCATION.equals(tabName)) {
                             String ccpId =altHistorySelection.getCcpIds();
                             if (session.getForecastName().equals(TabNameUtil.DISCOUNT_PROJECTION)) {
                                 Object[] orderedArg = {session.getCcps(), logic.getProjDetaSid(ccpList, session.getProjectionId()), rsModelSid, session.getUserId(), session.getSessionId()};
 
-                                logic.call(orderedArg, session, "PRC_DISC_ALTERNATE_HIST_INSERT");
+                                logic.call(orderedArg, "PRC_DISC_ALTERNATE_HIST_INSERT");
                                 logic.insertforDiscountTotal(session , ccpId);
 
                             } else {                           
@@ -299,14 +299,14 @@ public class AlternateHistory extends CustomWindow {
                 tabSheet.setSelectedTab(lastPosition);
                 break;    
             case NumericConstants.THREE:
-                tabSheet.addTab((Component) allocation, "Allocation", null, NumericConstants.THREE);
+                tabSheet.addTab((Component) allocation, Constant.ALLOCATION, null, NumericConstants.THREE);
                 tabSheet.setSelectedTab(lastPosition);
                 break;    
             case NumericConstants.FOUR: 
                 if (session.getForecastName().equals(TabNameUtil.DISCOUNT_PROJECTION)) {
-                    tabSheet.addTab(discountSummary, "Summary", null, NumericConstants.FOUR);
+                    tabSheet.addTab(discountSummary, Constant.SUMMARY, null, NumericConstants.FOUR);
                 } else {
-                    tabSheet.addTab(summary, "Summary", null, NumericConstants.FOUR);
+                    tabSheet.addTab(summary, Constant.SUMMARY, null, NumericConstants.FOUR);
                 }
                 tabSheet.setSelectedTab(lastPosition);
                 break; 
@@ -324,7 +324,7 @@ public class AlternateHistory extends CustomWindow {
         if (tabPosition == 0) {
             boolean flag = logic.checkSelectedCustomers(session);
             if (!flag) {
-                AbstractNotificationUtils.getErrorNotification("Error",
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR,
                         "Please select a Customer record and move it to the ‘Selected Customers’ list view. Then try again.");
                 return;
             }else{
@@ -334,7 +334,7 @@ public class AlternateHistory extends CustomWindow {
         if (tabPosition == 1) {
             boolean flag = logic.checkSelectedItems(session);
             if (!flag) {
-                AbstractNotificationUtils.getErrorNotification("Error",
+                AbstractNotificationUtils.getErrorNotification(Constant.ERROR,
                         "Please select at least one Item record and move it to the ‘Selected Items’ list view. Then try again.");
                 return;
             }else{
@@ -382,14 +382,14 @@ public class AlternateHistory extends CustomWindow {
             new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-
+                    return;
                 }
 
                 @Override
                 public void yesMethod() {
 
                     Object[] orderedArg = {String.valueOf(session.getProjectionId()), tableLogic.getFrequency(), session.getUserId(), session.getSessionId()};
-                    logic.call(orderedArg, session, "PRC_DISC_ALTERNATE_HIST");
+                    logic.call(orderedArg, "PRC_DISC_ALTERNATE_HIST");
                     logic.executeDelete(session, false);
                     tableLogic.setDiscountVariablesForLogic(session, projectionSelection, tableLogic.getStartAndEndPeriods(), true,
                             tableLogic.getDiscountList(), tableLogic.getLevelNo(), true, tableLogic.getRightDto(), tableLogic.getHierarchyIndicator(), 
@@ -405,14 +405,14 @@ public class AlternateHistory extends CustomWindow {
             new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-
+                    return;
                 }
 
                 @Override
                 public void yesMethod() {
                     
                     Object[] orderedArg = {session.getProjectionId(), session.getFrequency(), session.getStartDate(), session.getEndDate(), session.getUserId(), session.getSessionId()};
-                    logic.call(orderedArg, session, "PRC_SALES_ALTERNATE_HISTORY");
+                    logic.call(orderedArg, "PRC_SALES_ALTERNATE_HISTORY");
                     logic.executeDelete(session, true);
                     
                     close();

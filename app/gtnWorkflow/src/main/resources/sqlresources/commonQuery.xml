@@ -39,11 +39,7 @@
                      WHERE  H1.DESCRIPTION NOT IN ( '-Select One-' )
                         AND H2.DESCRIPTION NOT IN ( '-Select One-' )
                         AND H3.DESCRIPTION NOT IN ( '-Select One-' )
-                        AND H5.DESCRIPTION NOT IN ( '-Select One-' )
-                        AND H6.DESCRIPTION NOT IN ( '-Select One-' )
-                        AND H7.DESCRIPTION NOT IN ( '-Select One-' )
-                        AND H8.DESCRIPTION NOT IN ( '-Select One-' )
-                        AND H9.DESCRIPTION NOT IN ( '-Select One-' )
+                        
                     ORDER BY 
             ]]>    
         </query>

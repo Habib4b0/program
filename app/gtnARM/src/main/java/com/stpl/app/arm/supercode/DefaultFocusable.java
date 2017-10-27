@@ -12,7 +12,7 @@ import com.vaadin.ui.Component.Focusable;
  * @author Manasa.Tippireddy
  */
 public interface DefaultFocusable {
-    
+
     public Focusable getDefaultFocusComponent();
-    
+
 }

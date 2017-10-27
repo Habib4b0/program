@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.index.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.add.form.AddContractSelection;
@@ -55,8 +56,8 @@ public class ItemManagementLookup extends CustomWindow {
 
     TabSheet mainTab = new TabSheet();
     int tabPosition;
-    List<Integer> tabList = new ArrayList<Integer>();
-    List<ItemIndexDto> itemList = new ArrayList<ItemIndexDto>();
+    List<Integer> tabList = new ArrayList<>();
+    List<ItemIndexDto> itemList = new ArrayList<>();
     SelectionDTO selection;
     Button closeBtn = new Button("CLOSE");
     Button nextBtn = new Button("NEXT");
@@ -76,11 +77,11 @@ public class ItemManagementLookup extends CustomWindow {
     ItemSelection itemSelectionTransfer;
     CommonLogic commonLogic = new CommonLogic();
     final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<String, AppPermission>();
+    Map<String, AppPermission> functionHM = new HashMap<>();
     Integer lasttabPosition = 0;
     boolean valueChange = false;
     public static final Logger LOGGER = Logger.getLogger(ItemManagementLookup.class);
-    List<Integer> addedTabList = new ArrayList<Integer>();
+    List<Integer> addedTabList = new ArrayList<>();
     boolean addSummaryFlag = false;
     SessionDTO session = new SessionDTO();
 
@@ -95,8 +96,8 @@ public class ItemManagementLookup extends CustomWindow {
         setMinimizeToTray();
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         configureFields();
     }
 
@@ -120,38 +121,38 @@ public class ItemManagementLookup extends CustomWindow {
             addBtn.setVisible(false);
             mainTab.addTab(contractSelection.getContent(itemList, selection), "Contract Selection", null, 0);
             removeSummary.getContent(itemList, selection);
-            mainTab.addTab(itemsummary, "Summary", null, 1);
+            mainTab.addTab(itemsummary, StringConstantsUtil.SUMMARY_FIELD, null, 1);
         } else if (selection.getButtonMode().equals(ConstantsUtil.DELETE)) {
             removeContractSelection = new RemoveContractSelection(selection, itemList);
-            mainTab.addTab(removeContractSelection.getContent(), "Current Contract", null, 0);
+            mainTab.addTab(removeContractSelection.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 0);
             removeSummary.getContent(itemList, selection);
             removeSummary.configureSecurityPermissions(ConstantsUtil.DELETE);
-            mainTab.addTab(removeSummary, "Summary", null, 1);
+            mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, 1);
         } else if (selection.getButtonMode().equals(ConstantsUtil.EDIT)) {
             updateitem = new UpdateItem(selection, itemList);
-            mainTab.addTab(updateitem.getContent(), "Current Contract", null, 0);
+            mainTab.addTab(updateitem.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 0);
             removeSummary.getContent(itemList, selection);
             removeSummary.configureSecurityPermissions(ConstantsUtil.EDIT);
-            mainTab.addTab(removeSummary, "Summary", null, 1);
+            mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, 1);
         } else if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
             transferBtn.setVisible(false);
             contractTransfer = new CurrentContractTransfer(selection, itemList);
             transferContract = new TransferContract(selection, itemList);
-            mainTab.addTab(contractTransfer.getContent(), "Current Contract", null, 0);
+            mainTab.addTab(contractTransfer.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 0);
             mainTab.addTab(transferContract.getContent(), "Transfer Contract", null, 1);
             removeSummary.getContent(itemList, selection);
             removeSummary.configureSecurityPermissions(ConstantsUtil.TRANSFER);
-            mainTab.addTab(removeSummary, "Summary", null, NumericConstants.TWO);
+            mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, NumericConstants.TWO);
         } else if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             contractTransfer = new CurrentContractTransfer(selection, itemList);
             transferContract = new TransferContract(selection, itemList);
             itemSelectionTransfer = new ItemSelection(selection, itemList);
             mainTab.addTab(itemSelectionTransfer.getContent(), "Item Selection", null, 0);
-            mainTab.addTab(contractTransfer.getContent(), "Current Contract", null, 1);
+            mainTab.addTab(contractTransfer.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 1);
             mainTab.addTab(transferContract.getContent(), "Transfer Contract", null, NumericConstants.TWO);
             removeSummary.getContent(itemList, selection);
             removeSummary.configureSecurityPermissions(ConstantsUtil.PROJECTIONTRANSFER);
-            mainTab.addTab(removeSummary, "Summary", null, NumericConstants.THREE);
+            mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, NumericConstants.THREE);
 
         }
 
@@ -216,36 +217,31 @@ public class ItemManagementLookup extends CustomWindow {
                 if (!itemsummary.isItemSelected()) {
                     addButtonLogic();
                 } else {
-                    AbstractNotificationUtils.getErrorNotification("No records submitted", "No Valid records found in Add Item Results.\n Please submit any record to Continue.");
+                    AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, "No Valid records found in Add Item Results.\n Please submit any record to Continue.");
                 }
             }
         });
         editBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
-                boolean isContainerEmpty = false;
-                if (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() > 0) {
-                    isContainerEmpty = true;
-                } else {
-                    AbstractNotificationUtils.getErrorNotification("No records submitted", "No Valid records found in Current Item Details.\n Please submit any record to Continue.");
+                if (removeSummary.getItemDetails(Boolean.FALSE)==null || (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() == 0)) {
+                    AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, StringConstantsUtil.NO_VALID_RECORDS);
                     return;
                 }
-                if (isContainerEmpty) {
+             
                     editButtonLogic();
-                }
+               
             }
+           
         });
         removeBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
-                boolean isContainerEmpty = false;
-                if (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() > 0) {
-                    isContainerEmpty = true;
-                } else {
-                    AbstractNotificationUtils.getErrorNotification("No records submitted", "No Valid records found in Current Item Details.\n Please submit any record to Continue.");
+               
+                if (removeSummary.getItemDetails(Boolean.FALSE) == null || (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() == 0)) {
+                    AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, StringConstantsUtil.NO_VALID_RECORDS_FOUND_IN_CURRENT_ITEM);
                     return;
                 }
-                if (isContainerEmpty) {
                     removeButtonLogic();
-                }
+                
             }
         });
         transferBtn.addClickListener(new Button.ClickListener() {
@@ -300,7 +296,7 @@ public class ItemManagementLookup extends CustomWindow {
                 previousBtn.setVisible(true);
                 previousBtn.setImmediate(true);
                 addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", itemsummary.getFunctionHM()));
-                closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", itemsummary.getFunctionHM()));
+                closeBtn.setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CLOSE_BTN, itemsummary.getFunctionHM()));
             } else if (selection.getButtonMode().equals(ConstantsUtil.EDIT)) {
                 nextBtn.setVisible(false);
                 editBtn.setVisible(true);
@@ -392,22 +388,23 @@ public class ItemManagementLookup extends CustomWindow {
                 ItemQueries.itemUpdate(input, "PS Add Insert");
                 ItemQueries.itemUpdate(input, "RS Add Insert");
                 AbstractLogic.callProcedure("PRC_CCP_POPULATION", new String[]{});
+                AbstractLogic.callProcedure("PRC_ACTUAL_DETAILS_POPULATION", new String[]{});
                 close();
                 List list = getCloneProjectionParametrs(ConstantsUtil.SUMMARY);
                 CommonLogic logic = new CommonLogic();
                 String builderType = logic.getRelationBuilderType((Integer) list.get(0));
 
-                if (!builderType.equals(StringUtils.EMPTY) && !builderType.equalsIgnoreCase("Automatic")) {
-                    AbstractNotificationUtils.getErrorNotification("No Projection Created", "There is some error in creating projection. "
-                            + "\n kindly check whether the selected Projection has relationship that is set to Automatic");
+                if (!builderType.equals(StringUtils.EMPTY) && !builderType.equalsIgnoreCase(StringConstantsUtil.AUTOMATIC_LABEL)) {
+                    AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_PROJECTION_CREATED, StringConstantsUtil.SOME_ERROR_IN_CREATING_PROJECTION
+                            + StringConstantsUtil.CHECK_WHETHER_THE_SELECTED_PROJECTION_HAS_RELATION);
                 } else {
-                    List<String> tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) list.get(0), (List<String>) list.get(1), Boolean.FALSE, Boolean.TRUE,session);
+                    List<String> tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) list.get(0), (List<String>) list.get(1), Boolean.FALSE, Boolean.TRUE, session);
                     int newProjectionId = logic.getNewProjectionId();
                     String msgContent = "The selected Item has been added successfully";
 
                     if (tempTransferList != null && !tempTransferList.isEmpty()) {
-                        msgContent = msgContent + "'\n new Projection created with forecasting type -" + tempTransferList.get(0)
-                                + " \n and Projection Name - " + tempTransferList.get(1) + " ";
+                        msgContent = msgContent + StringConstantsUtil.NEW_PROJECTION_CREATED_WITH_FORECASTING + tempTransferList.get(0)
+                                + StringConstantsUtil.AND_PROJECTION_NAME + tempTransferList.get(1) + " ";
                     }
                     Object[] orderedArgs = {list.get(0), newProjectionId, selection.getForecastingType()};
                     AbstractLogic.callProcedure("PRC_FE_ADD_EVENT", orderedArgs);
@@ -423,14 +420,15 @@ public class ItemManagementLookup extends CustomWindow {
                     }, ButtonId.OK);
                 }
             }
-
+            
             @Override
             public void noMethod() {
+                return;
             }
-        }.getConfirmationMessage("Confirmation", "Are you sure you want to Add the Selected Item to the selected Contract(s)?");
+        }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, "Are you sure you want to Add the Selected Item to the selected Contract(s)?");
 
     }
-
+    
     private void editButtonLogic() {
         new AbstractNotificationUtils() {
             @Override
@@ -465,8 +463,8 @@ public class ItemManagementLookup extends CustomWindow {
                     ItemQueries.itemUpdate(updateInput, "Update sales in projection");
                     String msgContent = "The selected Item has been Updated successfully";
                     if (tempTransferList != null && !tempTransferList.isEmpty()) {
-                        msgContent = msgContent + "'\n new Projection created with forecasting type -" + tempTransferList.get(0)
-                                + " \n and Projection Name - " + tempTransferList.get(1) + " ";
+                        msgContent = msgContent + StringConstantsUtil.NEW_PROJECTION_CREATED_WITH_FORECASTING + tempTransferList.get(0)
+                                + StringConstantsUtil.AND_PROJECTION_NAME + tempTransferList.get(1) + " ";
                     }
                     MessageBox.showPlain(Icon.INFO, "Updated Successfully", msgContent, new MessageBoxListener() {
                         /**
@@ -483,8 +481,9 @@ public class ItemManagementLookup extends CustomWindow {
 
             @Override
             public void noMethod() {
+                return;
             }
-        }.getConfirmationMessage("Confirmation", "Are you sure you want to Update the Selected Item (or Items) on the selected Contract(s)");
+        }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, "Are you sure you want to Update the Selected Item (or Items) on the selected Contract(s)");
     }
 
     private void removeButtonLogic() {
@@ -518,8 +517,8 @@ public class ItemManagementLookup extends CustomWindow {
                     ItemQueries.itemUpdate(updateInput, "Remove sales in projection");
                     String msgContent = "The selected Item has been Removed successfully";
                     if (tempTransferList != null && !tempTransferList.isEmpty()) {
-                        msgContent = msgContent + "'\n new Projection created with forecasting type -" + tempTransferList.get(0)
-                                + " \n and Projection Name - " + tempTransferList.get(1) + " ";
+                        msgContent = msgContent + StringConstantsUtil.NEW_PROJECTION_CREATED_WITH_FORECASTING + tempTransferList.get(0)
+                                + StringConstantsUtil.AND_PROJECTION_NAME + tempTransferList.get(1) + " ";
                     }
                     MessageBox.showPlain(Icon.INFO, "Removed Successfully", msgContent, new MessageBoxListener() {
                         /**
@@ -536,28 +535,27 @@ public class ItemManagementLookup extends CustomWindow {
 
             @Override
             public void noMethod() {
+                return;
             }
-        }.getConfirmationMessage("Confirmation", "Are you sure you want to Remove the Selected Items in the selected Contract(s)?");
+        }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, "Are you sure you want to Remove the Selected Items in the selected Contract(s)?");
     }
 
     private void transferButtonLogic() {
-        boolean isContainerEmpty = false;
         if (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() > 0) {
-            if (removeSummary.getItemDetails(Boolean.TRUE) != null && removeSummary.getItemDetails(Boolean.TRUE).size() > 0) {
-                isContainerEmpty = true;
-            } else {
-                AbstractNotificationUtils.getErrorNotification("No records submitted", "No Valid records found in Current Item Details.\n Please submit any record to Continue.");
+            if (removeSummary.getItemDetails(Boolean.TRUE) != null && removeSummary.getItemDetails(Boolean.TRUE).size() == 0) {
+                AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, StringConstantsUtil.NO_VALID_RECORDS_FOUND_IN_CURRENT_ITEM);
                 return;
             }
         } else {
-            AbstractNotificationUtils.getErrorNotification("No records submitted", "No Valid records found in Current Item Details.\n Please submit any record to Continue.");
+            AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, StringConstantsUtil.NO_VALID_RECORDS_FOUND_IN_CURRENT_ITEM);
             return;
         }
-        if (isContainerEmpty) {
+        
             new AbstractNotificationUtils() {
                 @Override
                 public void yesMethod() {
                     selection.setReset(true);
+                    session.setProcessName("Item Management");
                     List input = new ArrayList();
                     input.add(selection.getSessionId());
                     input.add(logic.getItemIds(itemList));
@@ -569,6 +567,7 @@ public class ItemManagementLookup extends CustomWindow {
                     inputForCurrent.add(selection.getSessionId());
                     ItemQueries.itemUpdate(inputForCurrent, "UPDATING END DATE FOR CURRENT CONTRACT");
                     AbstractLogic.callProcedure("PRC_CCP_POPULATION", new String[]{});
+                    AbstractLogic.callProcedure("PRC_ACTUAL_DETAILS_POPULATION", new String[]{});
                     List correntTransfer = getCloneProjectionParametrs(ConstantsUtil.CURRENT_SUMMARY);
                     List transferContract = getCloneProjectionParametrs(ConstantsUtil.TRANSFER_SUMMARY);
                     CommonLogic logic = new CommonLogic();
@@ -576,25 +575,24 @@ public class ItemManagementLookup extends CustomWindow {
                     int toProjection = Integer.valueOf(transferContract.get(0).toString());                    
                     session.setFromProjectionId(fromProjection);
                     session.setToProjectionId(toProjection);
-                    List<String> tempTransferList = new ArrayList<String>();
-                    List<String> tempTransferList1 = new ArrayList<String>();
+                    List<String> tempTransferList = new ArrayList<>();
+                    List<String> tempTransferList1 = new ArrayList<>();
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                        tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) correntTransfer.get(0), (List<String>) correntTransfer.get(1), Boolean.FALSE, Boolean.FALSE,session);
+                        tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) correntTransfer.get(0), (List<String>) correntTransfer.get(1), Boolean.FALSE, Boolean.FALSE, session);
                     }
                     if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                        tempTransferList = logic.copyProjection(fromProjection, true, null, null, null,session);
+                        tempTransferList = logic.copyProjection(fromProjection, false, null, null, null, session);
                     }
 
                     int transferFromProjection = Integer.parseInt(tempTransferList.get(NumericConstants.TWO).toString());
-                    
 
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                        tempTransferList1 = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), toProjection, (List<String>) transferContract.get(1), Boolean.FALSE, Boolean.FALSE,session);
+                        tempTransferList1 = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), toProjection, (List<String>) transferContract.get(1), Boolean.FALSE, Boolean.FALSE, session);
                     }
                     if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                        tempTransferList1 = logic.copyProjection(toProjection, false, null, null, null,null);
+                        tempTransferList1 = logic.copyProjection(toProjection, false, null, null, null, session);
                     }
-                    int transferToProjection = Integer.parseInt(tempTransferList1.get(NumericConstants.TWO).toString());
+                    int transferToProjection = Integer.parseInt(tempTransferList1.get(NumericConstants.TWO));
                     List inputForInputTable = getTransferInput(fromProjection, transferFromProjection, toProjection, transferToProjection);
                     ItemQueries.itemUpdate(inputForInputTable, "Transfer Input table Insert");
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
@@ -606,15 +604,15 @@ public class ItemManagementLookup extends CustomWindow {
 
                     close();
                     String msgContent = "The selected Item has been Transfered successfully";
-                    if (tempTransferList != null && !tempTransferList.isEmpty()) {
+                    if (!tempTransferList.isEmpty()) {
                         String forecastType;
                         if (tempTransferList.get(0).equals(tempTransferList1.get(0))) {
                             forecastType = tempTransferList.get(0);
                         } else {
                             forecastType = tempTransferList.get(0) + " , " + tempTransferList1.get(0);
                         }
-                        msgContent = msgContent + "'\n new Projection created with forecasting type -" + forecastType
-                                + " \n and Projection Name - " + tempTransferList1.get(1) + " ," + tempTransferList.get(1);
+                        msgContent = msgContent + StringConstantsUtil.NEW_PROJECTION_CREATED_WITH_FORECASTING + forecastType
+                                + StringConstantsUtil.AND_PROJECTION_NAME + tempTransferList1.get(1) + " ," + tempTransferList.get(1);
                     }
                     MessageBox.showPlain(Icon.INFO, "Transfered Successfully", msgContent, new MessageBoxListener() {
                         /**
@@ -626,13 +624,14 @@ public class ItemManagementLookup extends CustomWindow {
                             close();
                         }
                     }, ButtonId.OK);
-                }
+                   }
 
                 @Override
                 public void noMethod() {
+                    return;
                 }
-            }.getConfirmationMessage("Confirmation", "Are you sure you want to Transfer the Selected Item from the selected Contract(s)to the selected Contract(s)?");
-        }
+            }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, "Are you sure you want to Transfer the Selected Item from the selected Contract(s)to the selected Contract(s)?");
+    
     }
 
     private List getInputForInsert() {
@@ -654,8 +653,9 @@ public class ItemManagementLookup extends CustomWindow {
 
             @Override
             public void noMethod() {
+                return;
             }
-        }.getConfirmationMessage("Confirmation", "Are you sure you want to close out ?  No values will be saved.");
+        }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, "Are you sure you want to close out ?  No values will be saved.");
 
     }
 
@@ -752,7 +752,7 @@ public class ItemManagementLookup extends CustomWindow {
         selectionDTO.setItemList(itemList);
         RemoveItemLogic.getIdAndForecastingType(selectionDTO, selection);
         finalList.add(selectionDTO.getSummaryProjectionId());
-        List<String> itemIdList = new ArrayList<String>();
+        List<String> itemIdList = new ArrayList<>();
         for (ItemIndexDto dto : itemList) {
             itemIdList.add(dto.getSystemId());
         }
@@ -787,7 +787,7 @@ public class ItemManagementLookup extends CustomWindow {
                         AbstractNotificationUtils.getErrorNotification("No Item information selected",
                                 "Please select a contract to transfer the selected Item to. Then select a Status, and an Item Start Date");
                     } else {
-                        MessageBox.showPlain(Icon.ERROR, "No Item Information Submitted", "Please submit a contract to transfer the selected Item to. ", ButtonId.OK);
+                        MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.NO_ITEM_INFORMATION_SUBMITTED, "Please submit a contract to transfer the selected Item to. ", ButtonId.OK);
                     }
                     break;
                 default:
@@ -820,7 +820,7 @@ public class ItemManagementLookup extends CustomWindow {
 
     private List getTransferInput(int fromProjection, int transferFromProjection, int toProjection, int transferToProjection) {
         List input = new ArrayList();
-        List<String> fromItemList = new ArrayList<String>();
+        List<String> fromItemList = new ArrayList<>();
         input.add(fromProjection);
         input.add(transferFromProjection);
         input.add(toProjection);
@@ -847,7 +847,7 @@ public class ItemManagementLookup extends CustomWindow {
         tabPosition = lasttabPosition;
         valueChange = false;
         mainTab.removeTab(mainTab.getTab(tab));
-        mainTab.addTab(removeSummary, "Summary", null, tab);
+        mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, tab);
     }
 
     private void tabChangeSubmitCheck() {
@@ -867,9 +867,9 @@ public class ItemManagementLookup extends CustomWindow {
                     forceTabRefresh(NumericConstants.TWO);
 
                     if (lasttabPosition == 0) {
-                        MessageBox.showPlain(Icon.ERROR, "No Item Information Submitted", "Please submit a contract to transfer the selected Item from. ", ButtonId.OK);
+                        MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.NO_ITEM_INFORMATION_SUBMITTED, StringConstantsUtil.PLEASE_SUBMIT_A_CONTRACT_FROM, ButtonId.OK);
                     } else if (lasttabPosition == 1) {
-                        MessageBox.showPlain(Icon.ERROR, "No Item Information Submitted", "Please submit a contract to transfer the selected Item to. ", ButtonId.OK);
+                        MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.NO_ITEM_INFORMATION_SUBMITTED, "Please submit a contract to transfer the selected Item to. ", ButtonId.OK);
                     }
                 }
             } else {
@@ -892,7 +892,7 @@ public class ItemManagementLookup extends CustomWindow {
                             " Please complete the matching of all Items in the ‘Selected Items’ list view before you proceed. with OK command button", ButtonId.OK);
                 } else if (!addedTabList.contains(1) && (tabPosition == NumericConstants.TWO || lasttabPosition == NumericConstants.THREE)) {
                     forceTabRefresh(NumericConstants.THREE);
-                    MessageBox.showPlain(Icon.ERROR, "No Item Information Submitted", "Please submit a contract to transfer the selected Item from. ", ButtonId.OK);
+                    MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.NO_ITEM_INFORMATION_SUBMITTED, "Please submit a contract to transfer the selected Item from. ", ButtonId.OK);
                 } else {
                     addedTabList.add(lasttabPosition);
                 }
@@ -909,7 +909,7 @@ public class ItemManagementLookup extends CustomWindow {
                     if (!addedTabList.contains(tabPosition)) {
                         forceTabRefresh(NumericConstants.THREE);
                         if (lasttabPosition == 1) {
-                            MessageBox.showPlain(Icon.ERROR, "No Item Information Submitted", "Please submit a contract to transfer the selected Item from. ", ButtonId.OK);
+                            MessageBox.showPlain(Icon.ERROR, StringConstantsUtil.NO_ITEM_INFORMATION_SUBMITTED, "Please submit a contract to transfer the selected Item from. ", ButtonId.OK);
                         }
                     }
                 } else {

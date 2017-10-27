@@ -28,7 +28,7 @@ import org.jboss.logging.Logger;
  */
 public class VarianceTableLogic extends PageTreeTableLogic{
 
-    List<Leveldto> currentHierarchy = new ArrayList<Leveldto>();
+    List<Leveldto> currentHierarchy = new ArrayList<>();
     PVSelectionDTO projSelDTO = new PVSelectionDTO();
     int levelNo;
     String hierarchyNo;

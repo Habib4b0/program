@@ -51,9 +51,6 @@ public class ContractHolderDAO implements DAO<HelperDTO> {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
             LOGGER.error(e);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-        } catch (PortalException e) {
-            LOGGER.error(e);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
         } catch (Exception e) {
             LOGGER.error(e);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
@@ -72,16 +69,13 @@ public class ContractHolderDAO implements DAO<HelperDTO> {
      */
     public List<HelperDTO> find(final SearchCriteria criteria, final int startIndex, final int offset, final List<OrderByColumn> columns) {
         LOGGER.debug("find method starts with startIndex" + startIndex + "offset " + offset + " columns list size:" + columns.size());
-        List<HelperDTO> salesList = new ArrayList<HelperDTO>();
+        List<HelperDTO> salesList = new ArrayList<>();
         try {
             salesList = CommonUtils.getCompanyWithIds(startIndex, startIndex + offset, marketType, criteria.getFilter());
         } catch (SystemException e) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
             LOGGER.error(e);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-        } catch (PortalException e) {
-            LOGGER.error(e);
-            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
         } catch (Exception e) {
             LOGGER.error(e);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));

@@ -5,6 +5,22 @@
  */
 package com.stpl.app.arm.businessprocess.abstractbusinessprocess.form;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
@@ -28,20 +44,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.VerticalLayout;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.custommenubar.CustomMenuBar;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -62,25 +65,26 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
     @UiField("variablesDdlb")
     private CustomMenuBar variablesDdlb;
     @UiField("glImpactDate")
-    protected PopupDateField glImpactDate;
+    public PopupDateField glImpactDate;
     Date date;
     protected String[] variableHeader;
-    protected String[] variableHeader_deduction;
+    protected String[] variableHeaderDeduction;
     public CustomMenuBar.CustomMenuItem customMenuItem;
     public CustomMenuBar.CustomMenuItem deductionCustomMenuItem;
     CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
     protected final AbstractPipelineSummaryResults summaryResults;
     protected String[] variableVisibleColumns;
-    protected String[] variableVisibleColumns_deduction;
+    protected String[] variableVisibleColumnsDeduction;
     protected final AbstractSelectionDTO selectionDto;
     protected HelperListUtil helperId = HelperListUtil.getInstance();
     private String format = "MM/dd/yyyy";
-    DateFormat dateFormat = new SimpleDateFormat(format);
+    public DateFormat dateFormat = new SimpleDateFormat(format);
     public DataSelectionLogic dataSelectionLogic = new DataSelectionLogic();
     private Date glChangeDate;
     protected Date defaultWorkFlowDate;
     protected Date resetWorkFlowDate;
-    private Logger LOGGER = Logger.getLogger(AbstractPipelineSummary.class);
+    protected Logger logger = Logger.getLogger(AbstractPipelineSummary.class);
+
     public AbstractPipelineSummary(AbstractSummaryLogic logic, AbstractSelectionDTO selectionDto) {
         this.logic = logic;
         this.selectionDto = selectionDto;
@@ -95,7 +99,6 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
         addComponent(summaryResults);
         configureFields(selectionDto.getProjectionMasterSid());
         configureWorkFlow();
-        generate();
         reset();
     }
 
@@ -111,34 +114,31 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
         public void yesMethod() {
             LOGGER.debug("buttonName :" + buttonName);
-            if (null != buttonName) {
-                switch (buttonName) {
-                    case "reset":
-                        try {
-                            defaultFocus();
-                            CommonUtils.unCheckMenuBarItem(customMenuItem);
-                            CommonUtils.unCheckMenuBarItem(deductionCustomMenuItem);
-                            if (selectionDto.getSessionDTO().isWorkFlow()) {
-                                glImpactDate.removeValueChangeListener(glWorkflowListener);
-                                glImpactDate.setValue(resetWorkFlowDate);
-                                selectionDto.setSummary_glDate(dateFormat.format(resetWorkFlowDate));
-                                defaultWorkFlowDate = resetWorkFlowDate;
-                                glImpactDate.addValueChangeListener(glWorkflowListener);
-                            } else {
-                                glImpactDate.removeValueChangeListener(glListener);
-                                glImpactDate.setValue(glChangeDate);
-                                selectionDto.setSummary_glDate(dateFormat.format(glChangeDate));
-                                glImpactDate.addValueChangeListener(glListener);
-                            }
-                        } catch (Exception e) {
-                            LOGGER.error(e);
-                        }
-                        break;
+            if (null != buttonName && "reset".equals(buttonName)) {
+                try {
+                    defaultFocus();
+                    CommonUtils.unCheckMenuBarItem(customMenuItem);
+                    CommonUtils.unCheckMenuBarItem(deductionCustomMenuItem);
+                    if (selectionDto.getSessionDTO().isWorkFlow()) {
+                        glImpactDate.removeValueChangeListener(glWorkflowListener);
+                        glImpactDate.setValue(resetWorkFlowDate);
+                        selectionDto.setSummaryglDate(dateFormat.format(resetWorkFlowDate));
+                        defaultWorkFlowDate = resetWorkFlowDate;
+                        glImpactDate.addValueChangeListener(glWorkflowListener);
+                    } else {
+                        glImpactDate.removeValueChangeListener(glListener);
+                        glImpactDate.setValue(glChangeDate);
+                        selectionDto.setSummaryglDate(dateFormat.format(glChangeDate));
+                        glImpactDate.addValueChangeListener(glListener);
+                    }
+                } catch (Exception e) {
+                    LOGGER.error("Error in CustomNotification"+e);
                 }
             }
         }
@@ -157,58 +157,54 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                     notifier.setButtonName("reset");
                     notifier.getOkCancelMessage(ARMMessages.getResetMessageName_001(), ARMMessages.getResetMessageID002());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    logger.error("Error in reset"+e);
                 }
             }
         });
     }
 
-    public void generate() {
-        generate.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                try {
-                    selectionDto.setSummary_variables(CommonUtils.getCheckedValues(customMenuItem));
-                    selectionDto.setSummary_deductionVariables(CommonUtils.getCheckedValues(deductionCustomMenuItem));
-                    selectionDto.setSummary_deductionLevel((int) deductionLevelDdlb.getValue());
+    @UiHandler("generate")
+    public void generateButtonClick(Button.ClickEvent event) {
+        try {
+            selectionDto.setSummaryvariables(CommonUtils.getCheckedValues(customMenuItem));
+            selectionDto.setSummarydeductionVariables(CommonUtils.getCheckedValues(deductionCustomMenuItem));
+            selectionDto.setSummarydeductionLevel((int) deductionLevelDdlb.getValue());
 
-                    selectionDto.setSummary_deductionLevelDes(String.valueOf(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue())));
-                    List<String[]> listSize = selectionDto.getSummary_deductionVariables();
-                    String deductionValues = StringUtils.EMPTY;
-                    if (!listSize.isEmpty()) {
-                        for (int i = 0; i < listSize.size(); i++) {
-                            String value = listSize.get(i)[0];
-                            listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
-                            if (i != listSize.size() - 1) {
-                                deductionValues += "'" + value + "',";
-                            } else {
-                                deductionValues += "'" + value + "'";
-                            }
-                        }
+            selectionDto.setSummarydeductionLevelDes(String.valueOf(deductionLevelDdlb.getItemCaption(deductionLevelDdlb.getValue())));
+            List<String[]> listSize = selectionDto.getSummarydeductionVariables();
+            StringBuilder deductionValues = new StringBuilder();
+            if (!listSize.isEmpty()) {
+                for (int i = 0; i < listSize.size(); i++) {
+                    String value = listSize.get(i)[0];
+                    listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
+                    if (i != listSize.size() - 1) {
+                        deductionValues.append("'").append(value).append("',");
+                    } else {
+                        deductionValues.append("'").append(value).append("'");
                     }
-                    selectionDto.setSummary_deductionValues(deductionValues);
-
-                    if (!logic.generateButtonCheck(selectionDto)) {
-
-                        if (ARMConstants.getPipelineInventoryTrueUp().equals(selectionDto.getDataSelectionDTO().getAdjustmentType())) {
-                            AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_Demand());
-                        } else if (ARMConstants.getTransaction6().equals(selectionDto.getDataSelectionDTO().getAdjustmentType())) {
-                            AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_Demand());
-                        } else {
-                            AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_003());
-                        }
-                        return;
-                    }
-                    String[] arry = (String[]) ArrayUtils.clone(variableVisibleColumns_deduction);
-                    summaryResults.generateButtonLogic(arry);
-
-                    int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDto.getDetail_Level());
-                    logic.saveGLImpact(glImpactDate.getValue(), configLevelid, selectionDto.getProjectionMasterSid());
-                } catch (Exception e) {
-                    LOGGER.error(e);
                 }
             }
-        });
+            selectionDto.setSummarydeductionValues(deductionValues.toString());
+
+            if (!logic.generateButtonCheck(selectionDto)) {
+
+                if (ARMConstants.getPipelineInventoryTrueUp().equals(selectionDto.getDataSelectionDTO().getAdjustmentType())) {
+                    AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_Demand());
+                } else if (ARMConstants.getTransaction6().equals(selectionDto.getDataSelectionDTO().getAdjustmentType())) {
+                    AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_Demand());
+                } else {
+                    AbstractNotificationUtils.getErrorNotification(ARMMessages.getGenerateMessageName_001(), ARMMessages.getGenerateMessage_MsgId_003());
+                }
+                return;
+            }
+            String[] arry = (String[]) ArrayUtils.clone(variableVisibleColumnsDeduction);
+            summaryResults.generateButtonLogic(arry);
+
+            int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDto.getDetailLevel());
+            logic.saveGLImpact(glImpactDate.getValue(), configLevelid, selectionDto.getProjectionMasterSid());
+        } catch (Exception e) {
+            logger.error("Error in generate" + e);
+        }
     }
 
     public void configureFields(int projectionId) {
@@ -221,7 +217,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
             glChangeDate = logic.getGlImpactDate(selectionDto);
             glImpactDate.setValue(glChangeDate);
             glImpactDate.addValueChangeListener(glListener);
-            deductionCustomMenuItem = CommonUtils.loadSummaryDeductionsDdlb(deductionLevelDdlb, deductionValueDdlb, projectionId);
+            loadDeductionValue(projectionId);
             variablesDdlb.setScrollable(true);
             variablesDdlb.setPageLength(NumericConstants.FOUR);
             configureSummary();
@@ -229,7 +225,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
 
             loadVariablesDdlb();
 
-            selectionDto.setSummary_glDate(dateFormat.format(glChangeDate));
+            selectionDto.setSummaryglDate(dateFormat.format(glChangeDate));
             deductionLevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
                 @Override
@@ -240,7 +236,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
 
             defaultFocus();
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error("Error in configurefield"+e);
         }
         deductionValueDdlb.addStyleName("deductioncombobox");
     }
@@ -256,80 +252,80 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
     }
 
     private void deductionLevelValue(Property.ValueChangeEvent event) {
-        LOGGER.debug("Inside deductionLevelDdlb ValueChange");
+        logger.debug("Inside deductionLevelDdlb ValueChange");
         try {
 
             String deductionType = String.valueOf(deductionLevelDdlb.getItemCaption(event.getProperty().getValue()));
             if (deductionType.equals(ARMConstants.getDeduction())) {
-                variablesDdlb.setPageLength(variableHeader_deduction.length);
-                CommonUtils.loadCustomMenu(customMenuItem, variableHeader_deduction, variableVisibleColumns_deduction);
+                variablesDdlb.setPageLength(variableHeaderDeduction.length);
+                CommonUtils.loadCustomMenu(customMenuItem, variableHeaderDeduction, variableVisibleColumnsDeduction);
             } else {
                 variablesDdlb.setPageLength(variableHeader.length);
                 CommonUtils.loadCustomMenu(customMenuItem, variableHeader, variableVisibleColumns);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error("Error in deductionvalue :"+e);
         }
     }
 
     @Override
     public boolean saveAssets() {
 
-        int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDto.getDetail_Level());
+        int configLevelid = HelperListUtil.getInstance().getIdByDesc("ARM_CONFIGURATION_TYPE", selectionDto.getDetailLevel());
         return logic.saveGLImpact(glImpactDate.getValue(), configLevelid, selectionDto.getProjectionMasterSid());
     }
 
+    @Override
     public ExtTreeContainer<AdjustmentDTO> getResultBeanContainer() {
-        return summaryResults.getResultBeanContainer();
+        return summaryResults.getResultBeanContainerVal();
     }
 
-    private void configureWorkFlow() {
+    public void configureWorkFlow() {
         if (selectionDto.getSessionDTO().isWorkFlow()) {
             try {
                 loadDetails();
-                selectionDto.setSummary_deductionVariables(CommonUtils.getCheckedValues(deductionCustomMenuItem));
-                selectionDto.setSummary_variables(CommonUtils.getCheckedValues(customMenuItem));
-                String dedLevel = helperId.getDescriptionByID(selectionDto.getSummary_deductionLevel());
-                selectionDto.setSummary_deductionLevelDes(dedLevel);
-                List<String[]> listSize = selectionDto.getSummary_deductionVariables();
-                String deductionValues = StringUtils.EMPTY;
+                selectionDto.setSummarydeductionVariables(CommonUtils.getCheckedValues(deductionCustomMenuItem));
+                selectionDto.setSummaryvariables(CommonUtils.getCheckedValues(customMenuItem));
+                String dedLevel = helperId.getDescriptionByID(selectionDto.getSummarydeductionLevel());
+                selectionDto.setSummarydeductionLevelDes(dedLevel);
+                List<String[]> listSize = selectionDto.getSummarydeductionVariables();
+                StringBuilder deductionValues = new StringBuilder();
                 if (!listSize.isEmpty()) {
                     for (int i = 0; i < listSize.size(); i++) {
                         String value = listSize.get(i)[0];
                         listSize.get(i)[0] = value.replace(" ", StringUtils.EMPTY).trim();
                         if (i != listSize.size() - 1) {
-                            deductionValues += "'" + value + "',";
+                            deductionValues.append("'").append(value).append("',");
                         } else {
-                            deductionValues += "'" + value + "'";
+                            deductionValues.append("'").append(value).append("'");
                         }
                     }
                 }
-                selectionDto.setSummary_deductionValues(deductionValues);
-                String[] arry = (String[]) ArrayUtils.clone(variableVisibleColumns_deduction);
-                selectionDto.setSummary_deductionLevel((int) deductionLevelDdlb.getValue());
-                glImpactDate.setValue(dateFormat.parse(selectionDto.getSummary_glDate()));
+                selectionDto.setSummarydeductionValues(deductionValues.toString());
+                String[] arry = (String[]) ArrayUtils.clone(variableVisibleColumnsDeduction);
+                selectionDto.setSummarydeductionLevel((int) deductionLevelDdlb.getValue());
+                glImpactDate.setValue(dateFormat.parse(selectionDto.getSummaryglDate()));
                 summaryResults.generateButtonLogic(arry);
                 if (ARMUtils.VIEW_SMALL.equals(selectionDto.getSessionDTO().getAction())) {
-
                     configureFieldsOnViewMode();
                 }
             } catch (ParseException ex) {
-                LOGGER.error(ex);
+                logger.error("Error in configureworkflow"+ex);
             }
         }
     }
 
-    private void configureFieldsOnViewMode() {
+    public void configureFieldsOnViewMode() {
         glImpactDate.setEnabled(false);
         reset.setEnabled(false);
     }
 
     public void loadDetails() {
-        deductionLevelDdlb.setValue(selectionDto.getSummary_deductionLevel());
+        deductionLevelDdlb.setValue(selectionDto.getSummarydeductionLevel());
         List<Object[]> list = CommonLogic.loadPipelineAccrual(selectionDto.getProjectionMasterSid());
         for (int i = 0; i < list.size(); i++) {
-            Object[] obj = (Object[]) list.get(i);
-            if ("summary_deductionValues".equals(String.valueOf(obj[0]))) {
+            Object[] obj = list.get(i);
+            if (VariableConstants.SUMMARY_DEDUCTION_VALUE.equals(String.valueOf(obj[0]))) {
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -337,7 +333,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                     str3 = strings;
                     CommonUtils.checkMenuBarItem(deductionCustomMenuItem, str3);
                 }
-            } else if ("summary_variables".equals(String.valueOf(obj[0]))) {
+            } else if (VariableConstants.SUMMARY_VARIABLES.equals(String.valueOf(obj[0]))) {
                 String str1 = (String) obj[1];
                 String[] str2 = str1.split(",");
                 String str3 = null;
@@ -346,13 +342,11 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                     CommonUtils.checkMenuBarItem(customMenuItem, str3);
                 }
 
-            } else if (!"detail_variables".equals(String.valueOf(obj[0])) && !"detail_reserveAcount".equals(String.valueOf(obj[0]))
-                    && !"sales_variables".equals(String.valueOf(obj[0]))
-                    && !"rate_DeductionValue".equals(String.valueOf(obj[0])) && !VariableConstants.DETAIL_AMOUNT_FILTER.equals(String.valueOf(obj[0]))) {
+            } else if (!CommonLogic.getInstance().getVariablesList().contains(obj[0])) {
                 try {
                     BeanUtils.setProperty(selectionDto, String.valueOf(obj[0]), obj[1]);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    logger.error("Error in loadDetails :"+ex);
 
                 }
 
@@ -416,17 +410,17 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                 Calendar glDateCal = Calendar.getInstance();
                 glDateCal.setTime(glDate);
                 dataSelectionLogic.dateCheckforGLCompAndBu(selectionDto.getDataSelectionDTO(), false);
-                List closedList = selectionDto.getDataSelectionDTO().getNewClosedSummary_glList();
+                List closedList = selectionDto.getDataSelectionDTO().getNewClosedSummaryglList();
                 String selectGlDate = glDateCal.get(Calendar.MONTH) + 1 + "-" + glDateCal.get(Calendar.YEAR);
                 String dateString = dateFormat.format(glDate);
-                if (closedList != null && !closedList.isEmpty() && closedList.contains(selectGlDate) && !(dateString.equals(selectionDto.getSummary_glDate()))) {
+                if (closedList != null && !closedList.isEmpty() && closedList.contains(selectGlDate) && !(dateString.equals(selectionDto.getSummaryglDate()))) {
                     AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getGLImpactMessageId001());
-                    glImpactDate.setValue(dateFormat.parse(selectionDto.getSummary_glDate()));
+                    glImpactDate.setValue(dateFormat.parse(selectionDto.getSummaryglDate()));
                 } else {
-                    selectionDto.setSummary_glDate(dateFormat.format(glDate));
+                    selectionDto.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                logger.error("Error in glListener :"+ex);
             }
         }
     };
@@ -439,7 +433,7 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                 Calendar glDateCal = Calendar.getInstance();
                 glDateCal.setTime(glDate);
                 dataSelectionLogic.dateCheckforGLCompAndBu(selectionDto.getDataSelectionDTO(), false);
-                List closedList = selectionDto.getDataSelectionDTO().getNewClosedSummary_glList();
+                List closedList = selectionDto.getDataSelectionDTO().getNewClosedSummaryglList();
                 String selectGlDate = glDateCal.get(Calendar.MONTH) + 1 + "-" + glDateCal.get(Calendar.YEAR);
                 String dateString = dateFormat.format(glDate);
                 if (defaultWorkFlowDate != null) {
@@ -448,19 +442,37 @@ public abstract class AbstractPipelineSummary extends VerticalLayout implements 
                 if (closedList != null && !closedList.isEmpty() && closedList.contains(selectGlDate)) {
                     if (defaultWorkFlowDateString.equals(dateString)) {
                         glImpactDate.setValue(defaultWorkFlowDate);
-                        selectionDto.setSummary_glDate(dateFormat.format(defaultWorkFlowDate));
+                        selectionDto.setSummaryglDate(dateFormat.format(defaultWorkFlowDate));
                     } else {
                         AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getGLImpactMessageId001());
-                        glImpactDate.setValue(dateFormat.parse(selectionDto.getSummary_glDate()));
+                        glImpactDate.setValue(dateFormat.parse(selectionDto.getSummaryglDate()));
                     }
                 } else {
                     defaultWorkFlowDate = null;
-                    selectionDto.setSummary_glDate(dateFormat.format(glDate));
+                    selectionDto.setSummaryglDate(dateFormat.format(glDate));
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                logger.error("Error in glWorkflowListener :"+ex);
             }
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public void loadDeductionValue(int projectionId) {
+        deductionCustomMenuItem = CommonUtils.loadSummaryDeductionsDdlb(deductionLevelDdlb, deductionValueDdlb, projectionId);
+    }
+
+    public CustomMenuBar getDeductionValueDdlb() {
+        return deductionValueDdlb;
+    }
 
 }

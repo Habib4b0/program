@@ -170,7 +170,7 @@ public class PSContainerParentLookup implements BeanDAO<SearchPriceScheduleDTO> 
 
 		}
 
-		return new ArrayList<SearchPriceScheduleDTO>();
+		return new ArrayList<>();
 	}
 
 	/**

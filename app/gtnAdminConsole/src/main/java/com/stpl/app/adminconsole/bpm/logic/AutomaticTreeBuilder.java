@@ -29,7 +29,7 @@ public class AutomaticTreeBuilder {
                 detachTree(availableLevelsBeanList, hierarchyTree, listOfLevels);
             }
             hierarchyTree.removeAllItems();
-            List<HierarchyLevelsDTO> parents = new ArrayList<HierarchyLevelsDTO>();
+            List<HierarchyLevelsDTO> parents = new ArrayList<>();
             if (listOfLevels != null && !listOfLevels.isEmpty()) {
                 for (int i = 0; i < listOfLevels.size(); i++) {
                     HistHierarchyLevelDefn hierarchyLevelDef = listOfLevels.get(i);
@@ -48,19 +48,19 @@ public class AutomaticTreeBuilder {
                             availableLevelsBeanList.get(i).removeItem(temp);
                         }
                     } else {
-                        List<HierarchyLevelsDTO> tempParents = new ArrayList<HierarchyLevelsDTO>();
+                        List<HierarchyLevelsDTO> tempParents = new ArrayList<>();
                         for (int j = 0; j < parents.size(); j++) {
                             HierarchyLevelsDTO parentDTO = parents.get(j);
                             int levelNo = Integer.valueOf(parentDTO.getLevelNo());
                             if (levelNo < availableLevelsBeanList.size()) {
-                                List<String> levelValues = new ArrayList<String>();
+                                List<String> levelValues = new ArrayList<>();
                                 String levelValue = parentDTO.getLevelValue();
                                 levelValues.add("");
                                 levelValues.add(levelValue);
-                                List<String> primarykeyColumnList = new ArrayList<String>();
+                                List<String> primarykeyColumnList = new ArrayList<>();
                                 primarykeyColumnList.add(StringUtils.EMPTY);
                                 primarykeyColumnList.add(parentDTO.getPrimaryKeyColumn());
-                                List<String> primarySIDList = new ArrayList<String>();
+                                List<String> primarySIDList = new ArrayList<>();
                                 primarySIDList.add(StringUtils.EMPTY);
                                 primarySIDList.add(parentDTO.getHiddenId());
                                 Object childItemId = parentDTO;
@@ -69,7 +69,7 @@ public class AutomaticTreeBuilder {
                                     HierarchyLevelsDTO parent;
                                     BeanItem<HierarchyLevelsDTO> tempItem = null;
                                     if (parentItemId instanceof HierarchyLevelsDTO) {
-                                        tempItem = new BeanItem<HierarchyLevelsDTO>((HierarchyLevelsDTO) parentItemId);
+                                        tempItem = new BeanItem<>((HierarchyLevelsDTO) parentItemId);
                                     }
                                     parent = (HierarchyLevelsDTO) tempItem.getBean();
                                     levelValues.add(parent.getLevelValue());
@@ -79,7 +79,7 @@ public class AutomaticTreeBuilder {
                                 }
                               
                                 List<HierarchyLevelsDTO> filteredValues = BpmLogic.getFilteredValues(selectedHierarchyId, levelNo, levelValues, primarykeyColumnList, primarySIDList);
-                                if (filteredValues != null) {
+                                if (filteredValues != null && !filteredValues.isEmpty() ) {
                                     for (int k = 0; k < filteredValues.size(); k++) {
                                         addItem(hierarchyTree, filteredValues.get(k), parentDTO);
                                         if (i + 1 == listOfLevels.size()) {
@@ -125,7 +125,7 @@ public class AutomaticTreeBuilder {
     }
 
     private static void detachTree(List<BeanItemContainer<HierarchyLevelsDTO>> availableLevelsBeanList, Tree hierarchyTree, List<HistHierarchyLevelDefn> listOfLevels) {
-        List<HierarchyLevelsDTO> parents = new ArrayList<HierarchyLevelsDTO>();
+        List<HierarchyLevelsDTO> parents = new ArrayList<>();
         for (int i = 0; i < listOfLevels.size(); i++) {
             if (i == 0) {
                 for (final Iterator<?> it = hierarchyTree.rootItemIds().iterator(); it.hasNext();) {
@@ -134,7 +134,7 @@ public class AutomaticTreeBuilder {
                     parents.add(parent);
                 }
             } else {
-                List<HierarchyLevelsDTO> tempParents = new ArrayList<HierarchyLevelsDTO>();
+                List<HierarchyLevelsDTO> tempParents = new ArrayList<>();
                 for (HierarchyLevelsDTO parent : parents) {
                     Collection<?> childs = hierarchyTree.getChildren(parent);
                     if (childs != null && !childs.isEmpty()) {

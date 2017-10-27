@@ -38,15 +38,15 @@ public class HelperListUtil {
     /**
      * The list name map.
      */
-    private Map<String, List<HelperDTO>> listNameMap = new HashMap<String, List<HelperDTO>>();
+    private Map<String, List<HelperDTO>> listNameMap = new HashMap<>();
 
     /**
      * The id desc map.
      */
-    private Map<Integer, String> idDescMap = new HashMap<Integer, String>();
+    private Map<Integer, String> idDescMap = new HashMap<>();
 
     /** The id helper dto map. */
-    private Map<Integer, HelperDTO> idHelperDTOMap = new HashMap<Integer, HelperDTO>();
+    private Map<Integer, HelperDTO> idHelperDTOMap = new HashMap<>();
 
     /**
      * The list name bundle.
@@ -104,7 +104,7 @@ public class HelperListUtil {
                                 if (helperList != null) {
                                     listNameMap.put(currentListName, helperList);
                                 }
-                                helperList = new ArrayList<HelperDTO>();
+                                helperList = new ArrayList<>();
                             }
                             helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
                                     .getDescription()));

@@ -102,7 +102,7 @@ public final class CommonUtil {
     public static final String FORECAST_YEAR = "forcastYear";
     public static final String CHECK = "check";
     public CommonUtil() {
-
+        LOGGER.debug("CommonUtil");
     }
 
     /**
@@ -212,8 +212,8 @@ public final class CommonUtil {
      */
     public static NativeSelect getDropDown(final NativeSelect select, final String listName) throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
-        LOGGER.debug("Entering getDropDown P1:select and P2:listName=" + listName);
+        final List<HelperDTO> helperList = new ArrayList<>();
+        LOGGER.debug("Entering getDropDown P1:select  and P2:listName=" + listName);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
@@ -244,7 +244,7 @@ public final class CommonUtil {
      */
     public static ComboBox getComboBox(final ComboBox select, final String listName) throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Entering getDropDown P1:select and P2:listName=" + listName);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
 
@@ -271,8 +271,8 @@ public final class CommonUtil {
 
     public static ComboBox getFileTypeComboBox(final ComboBox select, final String listName, List<HelperDTO> fileTypeList) throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
-        LOGGER.debug("Entering getDropDown P1:select and P2:listName=" + listName);
+        final List<HelperDTO> helperList = new ArrayList<>();
+        LOGGER.debug("Entering getDropDown  P1:select and P2:listName=" + listName);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         final HelperDTO fileTypeNullDto = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
         helperList.add(fileTypeNullDto);
@@ -294,7 +294,7 @@ public final class CommonUtil {
             fileTypeList.add(helperDTO);
         }
         select.select(0);
-        LOGGER.debug("getDropDown RETURN NativeSelect select" + select.size());
+        LOGGER.debug("getDropDown RETURN NativeSelect  select" + select.size());
 
         return select;
     }
@@ -308,7 +308,7 @@ public final class CommonUtil {
     public static Map<String, String> getCreatedByUser() throws SystemException {
 
         LOGGER.debug("Entering getCreatedByUser()");
-        final HashMap<String, String> userMap = new HashMap<String, String>();
+        final HashMap<String, String> userMap = new HashMap<>();
         final DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
         final List<User> users = hierarchyBuilderLogicDAO.getUsersList(userGroupDynamicQuery);
 
@@ -377,7 +377,7 @@ public final class CommonUtil {
      */
     public static NativeSelect getBrandDropDown(final NativeSelect select) throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         final DynamicQuery brandDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -410,7 +410,7 @@ public final class CommonUtil {
      */
     public static ComboBox getBrandComboBox(final ComboBox select) throws SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         final DynamicQuery brandDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -455,17 +455,17 @@ public final class CommonUtil {
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public static int getIDFromHelper(final String description, final String listName) throws SystemException, PortalException {
+    public static int getIDFromHelper(final String description, final String listName) throws SystemException {
 
         LOGGER.debug("Entering getIDFromHelper()");
         int helperId = 0;
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("helperTableSid"));
-        if (!description.isEmpty() && description != null) {
+        if (description != null && !description.isEmpty()) {
             dynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.DESCRIPTION, description));
         }
-        if (!listName.isEmpty() && listName != null) {
+        if (listName != null && !listName.isEmpty() ) {
             dynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         }
         dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
@@ -478,7 +478,7 @@ public final class CommonUtil {
     }
 
     public static List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
 
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
@@ -531,39 +531,32 @@ public final class CommonUtil {
 
     public TableResultCustom getTableColumnsPermission(List<Object> resultList, Object[] obj, Map<String, AppPermission> fieldIfpHM, String mode) {
         TableResultCustom tableResultCustom = new TableResultCustom();
-        try {
-            List<Object> strList = Arrays.asList(obj);
-            List<String> columnList = new ArrayList<String>();
-            List<Object> columnList1 = new ArrayList<Object>();
-            List<String> headerList = new ArrayList<String>();
-            List<String> headerList2 = new ArrayList<String>();
-            for (int i = 0; i < resultList.size(); i++) {
-                Object[] objResult = (Object[]) resultList.get(i);
-                String value = objResult[1].toString();
-                if (strList.contains(value)) {
-                    columnList.add(value.toString());
-                    headerList.add(objResult[0].toString());
-                }
+        List<Object> strList = Arrays.asList(obj);
+        List<String> columnList = new ArrayList<>();
+        List<Object> columnList1 = new ArrayList<>();
+        List<String> headerList = new ArrayList<>();
+        List<String> headerList2 = new ArrayList<>();
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] objResult = (Object[]) resultList.get(i);
+            String value = objResult[1].toString();
+            if (strList.contains(value)) {
+                columnList.add(value.toString());
+                headerList.add(objResult[0].toString());
             }
-            for (Object headerList1 : strList) {
-                if (columnList.contains(headerList1.toString())) {
-                    columnList1.add(headerList1);
-                    headerList2.add(headerList.get(columnList.indexOf(headerList1.toString())));
-                }
-            }
-            String[] headerArray = new String[headerList2.size()];
-            headerArray = headerList2.toArray(headerArray);
-            tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
-
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
         }
+        for (Object headerList1 : strList) {
+            if (columnList.contains(headerList1.toString())) {
+                columnList1.add(headerList1);
+                headerList2.add(headerList.get(columnList.indexOf(headerList1.toString())));
+            }
+        }
+        String[] headerArray = new String[headerList2.size()];
+        headerArray = headerList2.toArray(headerArray);
+        tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
         return tableResultCustom;
     }
 
-    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode) throws SystemException, PortalException {
+    public static TableResultCustom modifyTableResultSecurity(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM, String mode)  {
 
         final TableResultCustom tblResultCustom = new TableResultCustom();
         boolean appPerm = false;
@@ -612,7 +605,7 @@ public final class CommonUtil {
         return tblResultCustom;
     }
 
-    public static TableResultCustom modifySearchTableResult(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM) throws SystemException, PortalException {
+    public static TableResultCustom modifySearchTableResult(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM) {
 
         final TableResultCustom tblResultCustom = new TableResultCustom();
         String str;

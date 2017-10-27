@@ -243,7 +243,10 @@
       <name>DELETE</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE ETL_CHECK_RECORD=1</sql>
+      <sql>DELETE FROM ST_CFF_OUTBOUND_MASTER WHERE ETL_CHECK_RECORD=1
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CFF_OUTBOUND_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -323,7 +326,8 @@
       <name>SQL 2 2 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update st_CFF_OUTBOUND_MASTER set created_date=getdate()</sql>
+      <sql>UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;CFF_OUTBOUND_INTERFACE&apos;
+</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -400,17 +404,27 @@ WHERE  A.etl_check_record = 1
       <xloc>423</xloc>
       <yloc>478</yloc>
       </entry>
+    <entry>
+      <name>WORKFLOW_PROFILE </name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CFF_OUTBOUND_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>794</xloc>
+      <yloc>378</yloc>
+      </entry>
   </entries>
   <hops>
-    <hop>
-      <from>MAIL</from>
-      <to>STOP PROCESS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
     <hop>
       <from>AUDIT_ENTRY</from>
       <to>CFF_TEMP_TO_MASTER</to>
@@ -457,15 +471,6 @@ WHERE  A.etl_check_record = 1
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>CFF_TEMP_TO_MASTER</from>
       <to>CFF_EMPTY_MAIL</to>
       <from_nr>0</from_nr>
@@ -497,7 +502,7 @@ WHERE  A.etl_check_record = 1
       <to>SQL 2 2 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
     </hop>
@@ -506,7 +511,7 @@ WHERE  A.etl_check_record = 1
       <to>AUDIT_ENTRY</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
@@ -515,7 +520,7 @@ WHERE  A.etl_check_record = 1
       <to>AUDIT_ENTRY</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
     </hop>
@@ -571,6 +576,33 @@ WHERE  A.etl_check_record = 1
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATION_FAIL_MAIL</from>
+      <to>WORKFLOW_PROFILE </to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL</from>
+      <to>WORKFLOW_PROFILE </to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>WORKFLOW_PROFILE </from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

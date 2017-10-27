@@ -54,7 +54,7 @@ public class CopyPopup extends Window {
 
     private RelationshipBuilderDTO copyDto = new RelationshipBuilderDTO();
 
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<RelationshipBuilderDTO>(copyDto));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(copyDto));
 
     private RelationBuilderLogic logic = new RelationBuilderLogic();
 
@@ -87,7 +87,7 @@ public class CopyPopup extends Window {
 
     private void getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<RelationshipBuilderDTO>(copyDto));
+        binder.setItemDataSource(new BeanItem<>(copyDto));
         binder.setBuffered(true);
         binder.setErrorDisplay(errorMsg);
     }

@@ -9,120 +9,142 @@ package com.stpl.app.cff.util;
  * @author mohamed.hameed
  */
 public class TableHeaderColumnsUtil {
+
     /**
      * Hierarchy lookup visible columns
      */
-    public static final Object[] HIERARCHY_LOOKUP_COLUMNS = new Object[]{"hierarchyName", "highestLevel", "lowestLevel", "createdDateSearch", "modifiedDateSearch"};
+    public final Object[] hierarchyLookupColumns = new Object[]{"hierarchyName", "highestLevel", "lowestLevel", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH};
+    
 
     /**
      * Hierarchy lookup column headers
      */
-    public static final String[] HIERARCHY_LOOKUP_HEADERS = new String[]{"Hierarchy Name", "Highest Level", "Lowest Level", "Created Date", "Modified Date"};
+    public final String[] hierarchyLookupHeaders = new String[]{"Hierarchy Name", "Highest Level", "Lowest Level", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL};
+    
 
     /**
      * Dataselection results visible columns
      */
-    public static final Object[] DATASELECTION_COLUMNS = new Object[]{"projectionName", "description", "customerHierarchy", "customerHierarchyLevel", "productHierarchy", "productHierarchyLevel", "createdBy", "createdDateSearch", "modifiedDateSearch"};
+    public final Object[] dataselectionColumns = new Object[]{"projectionName", StringConstantsUtil.DESCRIPTION1, "customerHierarchy", "customerHierarchyLevel", StringConstantsUtil.PRODUCT_HIERARCHY1, "productHierarchyLevel", StringConstantsUtil.CREATED_BY1, StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH};
     /**
      * Dataselection results column headers
      */
-    public static final String[] DATASELECTION_HEADERS = new String[]{"Projection Name", "Description", "Customer Hierarchy", "Customer Level", "Product Hierarchy", "Product Level", "Created By", "Created Date", "Last Modified Date"};
+    public final String[] dataselectionHeaders = new String[]{"Projection Name", StringConstantsUtil.DESCRIPTION, "Customer Hierarchy", "Customer Level", StringConstantsUtil.PRODUCT_HIERARCHY_LABEL, StringConstantsUtil.PRODUCT_LEVEL_LABEL, StringConstantsUtil.CREATED_BY_LABEL, StringConstantsUtil.CREATED_DATE_LABEL, "Last Modified Date"};
     
         /**
      * Dataselection results visible columns
      */
-    public static final Object[] DATASELECTION_COLUMNS_RETURNS = new Object[]{"projectionName", "description", "productHierarchy", "productHierarchyLevel", "createdBy", "createdDateSearch", "modifiedDateSearch"};
+    public final Object[] dataselectionColumnsReturns = new Object[]{"projectionName", StringConstantsUtil.DESCRIPTION1, StringConstantsUtil.PRODUCT_HIERARCHY1, "productHierarchyLevel", StringConstantsUtil.CREATED_BY1, StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH};
     /**
      * Dataselection results column headers
      */
-    public static final String[] DATASELECTION_HEADERS_RETURNS = new String[]{"Projection Name", "Description", "Product Hierarchy", "Product Level", "Created By", "Created Date", "Last Modified Date"};
+    public final String[] dataselectionHeadersReturns = new String[]{"Projection Name", StringConstantsUtil.DESCRIPTION, StringConstantsUtil.PRODUCT_HIERARCHY_LABEL, StringConstantsUtil.PRODUCT_LEVEL_LABEL, StringConstantsUtil.CREATED_BY_LABEL, StringConstantsUtil.CREATED_DATE_LABEL, "Last Modified Date"};
     
     /**
      * Customer group lookup visible columns
      */
-    public static final Object[] CUSTOMER_GROUP_LOOKUP_COLUMNS = new Object[]{"customerGroupName", "customerGroupNo", "customergroupDescription"};
+    public final Object[] customerGroupLookupColumns = new Object[]{"customerGroupName", "customerGroupNo", "customergroupDescription"};
 
     /**
      * Customer group lookup results column headers
      */
-    public static final String[] CUSTOMER_GROUP_LOOKUP_HEADERS = new String[]{"Customer Group Name", "Customer Group #", "Customer Group Description"};
+    public final String[] customerGroupLookupHeaders = new String[]{"Customer Group Name", "Customer Group #", "Customer Group Description"};
 
     /**
      * Product group lookup visible columns
      */
-    public static final Object[] PRODUCT_GROUP_LOOKUP_COLUMNS = new Object[]{"productGroupName", "productGroupNo", "productgroupDescription", "company"};
+    public final Object[] productGroupLookupColumns = new Object[]{"productGroupName", "productGroupNo", "productgroupDescription", StringConstantsUtil.COMPANY_PROPERTY};
+  
 
     /**
      * Product group lookup results column headers
      */
-    public static final String[] PRODUCT_GROUP_LOOKUP_HEADERS = new String[]{"Product Group Name", "Product Group #","Product Group Description", "Company"};
+    public final String[] productGroupLookupHeaders = new String[]{"Product Group Name", "Product Group #","Product Group Description", StringConstantsUtil.COMPANY_LABEL};
 
     /**
      * Visible columns for public/private view lookup tables
      */
-    public static final Object[] VIEW_LOOKUP_COLUMNS = new Object[]{"viewName", "description", "from", "to", "customerHierarchy", "customerLevel", "customerGroup", "company", "brandType", "productHierarchy", "productLevel", "productGroup", "createdDateSearch", "modifiedDateSearch", "createdBy"};
+    public final Object[] viewLookupColumns = new Object[]{StringConstantsUtil.COMPANY_PROPERTY, "businessUnitSystemName","viewName", StringConstantsUtil.DESCRIPTION1, "from", "to", "customerHierarchy", "customerLevel", "customerGroup","brandType", StringConstantsUtil.PRODUCT_HIERARCHY1, "productLevel", "productGroup", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH, StringConstantsUtil.CREATED_BY1};
     
-    public static final Object[] VIEW_LOOKUP_COLUMNS_RETURNS = new Object[]{"viewName", "description", "from", "to", "company","productHierarchy", "productLevel", "productGroup", "createdDateSearch", "modifiedDateSearch", "createdBy"};
+    public final Object[] viewLookupColumnsReturns = new Object[]{"viewName", StringConstantsUtil.DESCRIPTION1, "from", "to", StringConstantsUtil.COMPANY_PROPERTY, StringConstantsUtil.PRODUCT_HIERARCHY1, "productLevel", "productGroup", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH, StringConstantsUtil.CREATED_BY1};
     /**
      * Column headers for public/private view lookup tables
      */
-    public static final String[] VIEW_LOOKUP_HEADERS = new String[]{"View Name", "Description", "Time Period: From", "Time Period: To", "Customer Hierarchy", "Customer Level", "Customer Group", "Company", "Brand Type", "Product Hierarchy", "Product Level", "Product Group", "Created Date", "Modified Date", "Created By"};
+    public final String[] viewLookupHeaders = new String[]{StringConstantsUtil.COMPANY_LABEL,"Business Unit","View Name", StringConstantsUtil.DESCRIPTION, "Time Period: From", "Time Period: To", "Customer Hierarchy", "Customer Level", "Customer Group", "Brand Type", StringConstantsUtil.PRODUCT_HIERARCHY_LABEL, StringConstantsUtil.PRODUCT_LEVEL_LABEL, "Product Group", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL, StringConstantsUtil.CREATED_BY_LABEL};
 
-    public static final String[] VIEW_LOOKUP_HEADERS_RETURNS = new String[]{"View Name", "Description", "Time Period: From", "Time Period: To", "Company", "Product Hierarchy", "Product Level", "Product Group", "Created Date", "Modified Date", "Created By"};
+    public final String[] viewLookupHeadersReturns = new String[]{"View Name", StringConstantsUtil.DESCRIPTION, "Time Period: From", "Time Period: To", StringConstantsUtil.COMPANY_LABEL, StringConstantsUtil.PRODUCT_HIERARCHY_LABEL, StringConstantsUtil.PRODUCT_LEVEL_LABEL, "Product Group", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL, StringConstantsUtil.CREATED_BY_LABEL};
     /**
      * Visible columns for Alternate Contract lookup table
      */
-    public static final Object[] HISTORY_LOOKUP_CONTRACT_COLUMNS = new Object[]{"customer", "contractNumber", "contractName"};
+    public final Object[] historyLookupContractColumns = new Object[]{"customer", "contractNumber", "contractName"};
     /**
      * Visible columns for Alternate Contract lookup table for NM
      */
-    public static final Object[] HISTORY_LOOKUP_CONTRACT_COLUMNS_NM = new Object[]{"customerId", "contractHolder"};
+    public final Object[] historyLookupContractColumnsNm = new Object[]{"customerId", "contractHolder"};
 
     /**
      * Visible columns for Alternate brand lookup table
      */
-    public static final Object[] HISTORY_LOOKUP_BRAND_COLUMNS = new Object[]{"brandSearch"};
+    public final Object[] historyLookupBrandColumns = new Object[]{"brandSearch"};
     /**
      * Column headers for Alternate brand lookup table
      */
-    public static final String[] HISTORY_LOOKUP_BRAND_HEADERS = new String[]{"Brand Name"};
+    public final String[] historyLookupBrandHeaders = new String[]{"Brand Name"};
 
     /**
      * Column headers for Alternate Contract lookup table
      */
-    public static final String[] HISTORY_LOOKUP_CONTRACT_HEADERS = new String[]{"Customer", "Contract Number", "Contract Name"};
+    public final String[] historyLookupContractHeaders = new String[]{"Customer", "Contract Number", "Contract Name"};
     /**
      * Column headers for Alternate Contract lookup table for NM
      */
-    public static final String[] HISTORY_LOOKUP_CONTRACT_HEADERS_NM = new String[]{"Customer ID", "Contract Holder"};
+    public final String[] historyLookupContractHeadersNm = new String[]{"Customer ID", "Contract Holder"};
 
     /**
      * Visible columns for available and selected customer and products
      */
-    public static final Object[] AVAILABLE_SELECTED_CUSTOMER_PRODUCTS_VC = new Object[]{"relationshipLevelValue"};
+    public final Object[] availableSelectedCustomerProductsVc = new Object[]{"relationshipLevelValue"};
 
     /**
      * Visible columns for available products when level is NDC
      */
-    public static final Object[] AVAILABLE_PRODUCTS_NDC_VC = new Object[]{"relationshipLevelValue", "form", "strength"};
+    public final Object[] availableProductsNdcVc = new Object[]{"relationshipLevelValue", "form", "strength"};
 
     /**
      * Column headers for available products when level is NDC
      */
-    public static final String[] AVAILABLE_PRODUCTS_NDC_CH = new String[]{"NDC", "Form", "Strength"};
+    public final String[] availableProductsNdcCh = new String[]{"NDC", "Form", "Strength"};
 
     /**
      * Column headers for available customer and products
      */
-    public static final String[] SELECTED_CUSTOMER_CH = new String[]{"Customer Hierarchy Group Builder"};
+    public final String[] selectedCustomerCh = new String[]{"Customer Hierarchy Group Builder"};
 
     /**
      * Column headers for available customer and products
      */
-    public static final String[] AVAILABLE_CUSTOMER_PRODUCTS_DEFAULT_CH = new String[]{"Level"};
+    public final String[] availableCustomerProductsDefaultCh = new String[]{"Level"};
 
     /**
      * Column headers for selected customer and products
      */
-    public static final String[] SELECTED_PRODUCTS_CH = new String[]{"Product Hierarchy Group Builder"};
+    public final String[] selectedProductsCh = new String[]{"Product Hierarchy Group Builder"};
+    
+    private static TableHeaderColumnsUtil object;
+
+    /**
+     * Constructor
+     */
+    private TableHeaderColumnsUtil() {
+        /*
+            Constructor
+        */
+    }
+
+    public static TableHeaderColumnsUtil getInstance() {
+        if (object == null) {
+            object = new TableHeaderColumnsUtil();
+        }
+        return object;
+    }
 }

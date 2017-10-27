@@ -33,7 +33,7 @@
         	<HorizontalLayout>
                 <Panel id="levelPanel" caption="Relationship Levels">
                 </Panel>
-                <Panel id="treePanel" caption="Relationship Tree:"  height="2000px">
+                <Panel id="treePanel" caption="Relationship Tree:">
                     <VerticalLayout id="layout2" styleName = "width-auto"  >              
  
                     </VerticalLayout>

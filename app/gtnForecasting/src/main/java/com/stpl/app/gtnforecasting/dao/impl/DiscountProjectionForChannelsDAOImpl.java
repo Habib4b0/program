@@ -23,6 +23,7 @@ import com.stpl.portal.service.persistence.impl.BasePersistenceImpl;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -79,14 +80,14 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         try {
 
             String freq = StringUtils.EMPTY;
-            String customQuery = StringUtils.EMPTY;
+            String customQuery;
 
             String hierarchy = StringUtils.EMPTY;
             // C indicates customer, P indicates product
             if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                hierarchy = "PROJECTION_CUST_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
             } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                hierarchy = "PROJECTION_PROD_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
             }
 
             String levelSelectionStatement = StringUtils.EMPTY;
@@ -126,11 +127,11 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     }
 
                     if (hierarchyNumbers.isEmpty()) {
-                        return new ArrayList<DiscountProjectionDTO>();
+                        return new ArrayList<>();
                     }
                 }
 
-                String ccpDetails = StringUtils.EMPTY;
+                String ccpDetails;
                 if (customViewDetails.isEmpty()) {
 
                     String connector = StringUtils.EMPTY;
@@ -163,7 +164,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
                     }
                 }
-                Map<String, Object> input = new HashMap<String, Object>();
+                Map<String, Object> input = new HashMap<>();
                 LOGGER.debug("?SID" + session.getSessionId());
                 LOGGER.debug("?PM" + session.getProjectionId());
                 LOGGER.debug("?HIE" + hierarchyNo);
@@ -203,7 +204,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getDiscountProjection");
         }
@@ -220,13 +221,13 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
             String customSql = "SELECT DISTINCT CCP.HIERARCHY_NO  \n"
                     + " FROM " + ccpDetails + "\n"
-                    + " order by CCP.HIERARCHY_NO OFFSET " + startIndex + " ROWS FETCH NEXT " + endIndex + " ROWS ONLY ";
+                    + " order by CCP.HIERARCHY_NO OFFSET " + startIndex + Constant.ROWS_FETCH_NEXT_SPACE + endIndex + " ROWS ONLY ";
 
             List<String> list = (List<String>) ChSalesProjectionMasterLocalServiceUtil.executeSelectQuery(customSql, null, null);
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getHierarchyList");
         }
@@ -238,8 +239,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         LOGGER.debug("Entering updateCheckRecord");
         try {
             String hierarchy = StringUtils.EMPTY;
-            String ccpDetails = StringUtils.EMPTY;
-            String customSql = StringUtils.EMPTY;
+            String ccpDetails;
+            String customSql;
             int projectionId = session.getProjectionId();
             String userId = session.getUserId();
             String sessionId = session.getSessionId();
@@ -247,9 +248,9 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
             // C indicates customer, P indicates product
             if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                hierarchy = "PROJECTION_CUST_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
             } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                hierarchy = "PROJECTION_PROD_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
             }
 
             if (isCustomView && customViewDetails != null && !customViewDetails.isEmpty()) {
@@ -286,10 +287,10 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                         + "    WHERE HLD" + hierarchyIndicator + ".HIERARCHY_NO = '" + hierarchyNo + "'"
                         + ") CCP";
 
-                customSql = "UPDATE M SET CHECK_RECORD = " + check + " FROM ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B, \n" + ccpDetails
+                customSql = Constant.UPDATE_M_SET_CHECK_RECORD + check + " FROM ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B, \n" + ccpDetails
                         + " WHERE M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID  "
                         + " and M.USER_ID = " + userId + "\n"
-                        + " and M.SESSION_ID = " + sessionId + "\n"
+                        + Constant.AND_MSESSION_ID + sessionId + "\n"
                         + " AND B.PROJECTION_MASTER_SID='" + projectionId + "'  \n"
                         + " AND CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID ";
 
@@ -314,17 +315,17 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                         + "                         AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n"
                         + "  WHERE HLD.HIERARCHY_NO in('" + hierarchyNo + "'))CCP";
 
-                customSql = "UPDATE M SET CHECK_RECORD = " + check + "\n"
+                customSql = Constant.UPDATE_M_SET_CHECK_RECORD + check + "\n"
                         + " From ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
                         + " Where M.USER_ID = " + userId + " \n"
-                        + " and M.SESSION_ID = " + sessionId + "\n"
+                        + Constant.AND_MSESSION_ID + sessionId + "\n"
                         + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
                         + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
                         + " AND M.PROJECTION_DETAILS_SID  \n"
                         + " in (SELECT M.PROJECTION_DETAILS_SID FROM ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B, \n" + ccpDetails
                         + " WHERE M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID  "
                         + " and M.USER_ID = " + userId + "\n"
-                        + " and M.SESSION_ID = " + sessionId + "\n"
+                        + Constant.AND_MSESSION_ID + sessionId + "\n"
                         + " AND B.PROJECTION_MASTER_SID='" + projectionId + "'  \n"
                         + " AND CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID \n"
                         + " GROUP  BY  M.PROJECTION_DETAILS_SID) \n";
@@ -376,8 +377,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         int startYear = 0;
         int endYear = 0;
         int freqcount = 1;
-        String query = StringUtils.EMPTY;
-        if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
+        String query;
+        if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
             startFreq = startAndEndPeriods.get(0);
             if (startAndEndPeriods.size() > 1) {
                 startYear = startAndEndPeriods.get(1);
@@ -455,7 +456,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         Date sDate = commonUtils.getDate(01, startMonth - 1, startYear);
 
         Date eDate = commonUtils.getLastDate(endMonth, endYear);
-        query = queryUtils.massUpdateQuery(sDate, eDate, startYear, endYear, fieldValue, session, selectedField, freqcount);
+        query = queryUtils.massUpdateQuery(sDate, eDate,  fieldValue, session, selectedField);
         ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(query, null, null);
         LOGGER.debug(" Ending massUpdate");
     }
@@ -471,9 +472,9 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         try {
 
             // To updated DISCOUNT_PROJ_MASTER Table
-            String baselinePeriods = StringUtils.EMPTY;
-            String selectedPeriods = StringUtils.EMPTY;
-            String masterTableUpdateQuery = StringUtils.EMPTY;
+            String baselinePeriods;
+            String selectedPeriods;
+            String masterTableUpdateQuery;
 
             baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
             selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
@@ -566,7 +567,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             }
             Date sDate = commonUtils.getDate(01, startMonth - 1, yearToSave);
             Date eDate = commonUtils.getLastDate(endMonth, yearToSave);
-            String query = queryUtils.saveDiscountProjectionListView(sDate, yearToSave, eDate, isCustomHierarchy, customViewDetails, hierarchy, session, hierarchyNo, fieldValue, selectedField);
+            String query = queryUtils.saveDiscountProjectionListView(sDate, eDate, isCustomHierarchy, customViewDetails, hierarchy, session, hierarchyNo, fieldValue, selectedField);
             ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(query, null, null);
             return true;
         } catch (Exception e) {
@@ -578,7 +579,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
     }
 
-    public List getLevelvalues(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, int customId, boolean isCustomHierarchy, boolean isLevelFilter) {
+    public List getLevelvalues(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, boolean isCustomHierarchy, boolean isLevelFilter) {
         Session session = null;
         LOGGER.debug(" entering getLevelvalues");
         try {
@@ -587,10 +588,10 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             isCustomHierarchy = true;
             // C indicates customer, P indicates product
             if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                hierarchy = "PROJECTION_CUST_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
                 isCustomHierarchy = false;
             } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                hierarchy = "PROJECTION_PROD_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
                 isCustomHierarchy = false;
             }
 
@@ -599,7 +600,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getLevelvalues");
             closeSession(session);
@@ -614,10 +615,10 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             isCustomHierarchy = true;
             // C indicates customer, P indicates product
             if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                hierarchy = "PROJECTION_CUST_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
                 isCustomHierarchy = false;
             } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                hierarchy = "PROJECTION_PROD_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
                 isCustomHierarchy = false;
             }
 
@@ -626,7 +627,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
-            return null;
+            return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getLevelvalues");
 
@@ -706,10 +707,10 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
     public void checkClearAll(int projectionId, String userId, String sessionId, boolean checkValue) {
 
         int check = checkValue ? 1 : 0;
-        String query = "UPDATE M SET CHECK_RECORD = " + check
+        String query = Constant.UPDATE_M_SET_CHECK_RECORD + check
                 + " From ST_CH_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
                 + " Where M.USER_ID = " + userId + " \n"
-                + " and M.SESSION_ID = " + sessionId + "\n"
+                + Constant.AND_MSESSION_ID + sessionId + "\n"
                 + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
                 + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID ";
         ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(query, null, null);

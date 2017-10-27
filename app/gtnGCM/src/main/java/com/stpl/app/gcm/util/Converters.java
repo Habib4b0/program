@@ -39,8 +39,8 @@ public class Converters {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<PromoteTpToChDto> searchTPCompany(List resultList) throws ParseException, PortalException, SystemException {
-        List<PromoteTpToChDto> promoteTpToChList = new ArrayList<PromoteTpToChDto>();
+    public static List<PromoteTpToChDto> searchTPCompany(List resultList) {
+        List<PromoteTpToChDto> promoteTpToChList = new ArrayList<>();
         PromoteTpToChDto promoteTpToChDto;
         int listSize = resultList.size();
         try {
@@ -76,8 +76,8 @@ public class Converters {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<TradingPartnerDTO> searchCompany(List resultList) throws ParseException, PortalException, SystemException {
-        List<TradingPartnerDTO> promoteTpToChDtos = new ArrayList<TradingPartnerDTO>();
+    public static List<TradingPartnerDTO> searchCompany(List resultList) throws ParseException {
+        List<TradingPartnerDTO> promoteTpToChDtos = new ArrayList<>();
         TradingPartnerDTO tpDto;
         int size = resultList.size();
         for (int loop = 0, limit = size; loop < limit; loop++) {
@@ -137,8 +137,8 @@ public class Converters {
     public static String formatDate(String value) throws ParseException {
         String date = StringUtils.EMPTY;
         try {
-            SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.yyyyMMddhhmmssSSS.getConstant());
-            SimpleDateFormat format = new SimpleDateFormat(DateFormatConstants.MMddyyyy.getConstant());
+            SimpleDateFormat parse = new SimpleDateFormat(DateFormatConstants.YYYYMMDDHHMMSSSSS.getConstant());
+            SimpleDateFormat format = new SimpleDateFormat(DateFormatConstants.MMDDYYYY.getConstant());
             if (value != null && !StringUtils.EMPTY.equals(value) && !Constants.NULL.equals(value)) {
                 date = format.format(parse.parse(value));
             }
@@ -148,8 +148,8 @@ public class Converters {
         return date;
     }
 
-    public static List<CompanyTypeDdlbDTO> setCompanyTypes(List resultList) throws ParseException, PortalException, SystemException {
-        List<CompanyTypeDdlbDTO> companyTypeDdlbDTOList = new ArrayList<CompanyTypeDdlbDTO>();
+    public static List<CompanyTypeDdlbDTO> setCompanyTypes(List resultList) {
+        List<CompanyTypeDdlbDTO> companyTypeDdlbDTOList = new ArrayList<>();
         CompanyTypeDdlbDTO companyTypeDdlbDTO;
         int listSize = resultList.size();
         try {
@@ -175,8 +175,8 @@ public class Converters {
      * @throws PortalException
      * @throws SystemException
      */
-    public static List<CurrentContractDTO> setCurrentContracts(List resultList) throws ParseException, PortalException, SystemException {
-        List<CurrentContractDTO> CurrentContractList = new ArrayList<CurrentContractDTO>();
+    public static List<CurrentContractDTO> setCurrentContracts(List resultList) throws ParseException {
+        List<CurrentContractDTO> CurrentContractList = new ArrayList<>();
         CurrentContractDTO currentContractDTO;
         int listSize = resultList.size();
         try {
@@ -211,7 +211,7 @@ public class Converters {
      * @return
      */
     public static List<ContractHolderDTO> convertContractHolderList(final List resultList) {
-        List<ContractHolderDTO> returnList = new ArrayList<ContractHolderDTO>();
+        List<ContractHolderDTO> returnList = new ArrayList<>();
         ContractHolderDTO contractHolderDTO;
         int resultSize = resultList.size();
         try {
@@ -240,7 +240,7 @@ public class Converters {
      * @return
      */
     public static List<RebatePlanDTO> convertRebatePlanList(final List resultList) {
-        List<RebatePlanDTO> returnList = new ArrayList<RebatePlanDTO>();
+        List<RebatePlanDTO> returnList = new ArrayList<>();
         RebatePlanDTO rebatePlanDTO;
         int resultSize = resultList.size();
         try {

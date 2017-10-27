@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.logic.tablelogic;
 
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -35,9 +34,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
         if (loadData) {
             try {
                 count = new NonMandatedLogic().searchDSProjectionsCount(dataSelectionDTO, getFilters());
-            } catch (PortalException ex) {
-               LOGGER.error(ex);
-            } catch (SystemException ex) {
+            }  catch (SystemException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -46,7 +43,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<DataSelectionDTO> resultList = new ArrayList<DataSelectionDTO>();
+        List<DataSelectionDTO> resultList = new ArrayList<>();
         try {
             resultList = new NonMandatedLogic().searchDSProjectionsLazy(dataSelectionDTO, start, offset, getFilters(), getSortByColumns());
         } catch (Exception ex) {
@@ -65,6 +62,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
     public boolean fireSetData(DataSelectionDTO dataSelectionDTO, boolean isReset) {
         this.dataSelectionDTO = dataSelectionDTO;
         clearAll();
+        getFilters().clear();
         setRequiredCount(true);
         loadData = !isReset;
         setCurrentPage(1);
@@ -73,6 +71,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
 
     @Override
     public void saveCurrentPage() {
+        return;
     }
 
     @Override

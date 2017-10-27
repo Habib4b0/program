@@ -101,7 +101,6 @@ public class HistoryTab extends CustomComponent{
     /**
      * The excel export image.
      */
-    private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     HistoryTabTableLogic tableLogic = new HistoryTabTableLogic();
     public FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     private ExtFilterTreeTable leftTable;

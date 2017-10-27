@@ -143,7 +143,6 @@ public class ExclusionDetailsLookup extends Window {
     @UiHandler("moveLeftBtn")
     public void moveLeftBtn(Button.ClickEvent event) {
         LOGGER.debug("moveLeftBtn button click starts");
-//        AccrualRateSelectionDTO selectedCompanyDto = (AccrualRateSelectionDTO) excludedFieldsTable.getValue();
         AccrualRateSelectionDTO selectedCompanyDto = new AccrualRateSelectionDTO();
         Object value = excludedFieldsTable.getValue();
            boolean isSelected = false;
@@ -162,7 +161,7 @@ public class ExclusionDetailsLookup extends Window {
                  */
                 @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
-                   
+                    return;
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
@@ -177,20 +176,20 @@ public class ExclusionDetailsLookup extends Window {
                  */
                 @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
-                  
+                    return;
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
             return;
         }
-        if (selectedCompanyDto != null) {
+       
             excludedresultBeanContainer.removeItem(selectedCompanyDto);
             logic.removeFromTempTable(sid,accrualRateSelectionDTO, true);
             List<String> selectedCompanysList = AccrualRateProjectionLogic.getSelectedCompanyList();
             if (selectedCompanysList.contains(selectedCompanyDto.getCompanyMasterSid())) {
                 AccrualRateProjectionLogic.selectedCompanyList.remove(selectedCompanyDto.getCompanyMasterSid());
             }
-        }        
+             
         LOGGER.debug("moveLeftBtn button click ends");
         }
 
@@ -215,7 +214,7 @@ public class ExclusionDetailsLookup extends Window {
                  */
                 @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
-                   
+                    return;
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
@@ -230,13 +229,16 @@ public class ExclusionDetailsLookup extends Window {
                  */
                 @SuppressWarnings("PMD")
                 public void buttonClicked(final ButtonId buttonId) {
-                  
+                    return;
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
             return;
         }
         List<String> selectedCompanyMasterSid = AccrualRateProjectionLogic.getSelectedCompanyList();
+        if (excludedFieldsTable.size() == 0) {
+            selectedCompanyMasterSid.clear();
+        }
         if (!selectedCompanyMasterSid.isEmpty()) {
             if (!selectedCompanyMasterSid.contains(selectedCompanyDto.getCompanyMasterSid())) {
                 logic.addToTempTable(sid,accrualRateSelectionDTO);
@@ -280,7 +282,7 @@ public class ExclusionDetailsLookup extends Window {
         LOGGER.debug("Reset button click starts");
         new AbstractNotificationUtils() {
             public void noMethod() {
-                
+                return;
             }
 
             @Override
@@ -332,8 +334,8 @@ public class ExclusionDetailsLookup extends Window {
             availableTable.setSortEnabled(true);
             availableTable.markAsDirty();
             avalableTableLogic.setContainerDataSource(availableresultBeanContainer);
-            availableTable.setVisibleColumns(AccrualRateUtils.AVAILABLE_VALUES_VISIBLE_COLUMNS);
-            availableTable.setColumnHeaders(AccrualRateUtils.AVAILABLE_VALUES_VISIBLE_HEADERS);
+            availableTable.setVisibleColumns(AccrualRateUtils.getInstance().availableValuesVisibleColumns);
+            availableTable.setColumnHeaders(AccrualRateUtils.getInstance().availableValuesVisibleHeaders);
         } catch (Exception e) {
            LOGGER.error(e);
         }
@@ -352,8 +354,8 @@ public class ExclusionDetailsLookup extends Window {
         excludedFieldsTable.setSelectable(true);
         excludedFieldsTable.markAsDirty();
         exclusionDetailsTableLogic.setContainerDataSource(excludedresultBeanContainer);
-        excludedFieldsTable.setVisibleColumns(AccrualRateUtils.EXCLUDED_VALUES_VISIBLE_COLUMNS);
-        excludedFieldsTable.setColumnHeaders(AccrualRateUtils.EXCLUDED_VALUES_VISIBLE_HEADERS);
+        excludedFieldsTable.setVisibleColumns(AccrualRateUtils.getInstance().excludedValuesVisibleColumns);
+        excludedFieldsTable.setColumnHeaders(AccrualRateUtils.getInstance().excludedValuesVisibleHeaders);
 
         LOGGER.debug("configureExcludedTable ends");
 

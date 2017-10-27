@@ -14,14 +14,16 @@ import java.util.List;
  */
 public class PipelineAccrualSelectionDTO extends AbstractSelectionDTO {
 
-    List<String[]> sales_variables;
+    List<String[]> salesVariablesList;
 
-    public List<String[]> getSales_variables() {
-        return sales_variables;
+    @Override
+    public List<String[]> getSalesVariables() {
+        return salesVariablesList;
     }
 
-    public void setSales_variables(List<String[]> sales_variables) {
-        this.sales_variables = sales_variables;
+    @Override
+    public void setSalesVariables(List<String[]> salesVariables) {
+        this.salesVariablesList = salesVariables;
     }
 
 }

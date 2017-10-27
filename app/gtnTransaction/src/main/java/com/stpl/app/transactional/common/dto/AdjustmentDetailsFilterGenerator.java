@@ -28,9 +28,6 @@ public class AdjustmentDetailsFilterGenerator implements ExtFilterGenerator {
     public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AdjustmentDetailsFilterGenerator.class);
     CommonLogic commonLogic = new CommonLogic();
 
-    public AdjustmentDetailsFilterGenerator() {
-    }
-
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
             return null;
@@ -98,7 +95,7 @@ public class AdjustmentDetailsFilterGenerator implements ExtFilterGenerator {
                     LOGGER.error(ex);
                 }
 
-            }
+                    }
 
         } catch (SystemException ex) {
             LOGGER.error(ex);

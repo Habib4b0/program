@@ -1098,7 +1098,7 @@ public class ProjectionMasterFinderImpl extends BasePersistenceImpl<ProjectionMa
                 queryBuilder.append("'");
             }
 //            queryBuilder = getRelationLevelList(queryBuilder, parameters);
-            if ("AccrualRateProjection".equalsIgnoreCase(String.valueOf(parameters.get("screenName"))) && ( !"Segment Group".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) &&!"Segment".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) &&!"Segments".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) &&!"Company".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
+            if ("AccrualRateProjection".equalsIgnoreCase(String.valueOf(parameters.get("screenName"))) && ( !"Segment Group".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) &&!"Segment".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) &&!"Segments".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) &&!"Company".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) &&!"GL Company".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) && !"Business Unit".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
                 queryBuilder.append("and RLD.relationship_Level_Values IN (");
 
                 if (parameters.get("levelName") != null && ("Market Type".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) || "MarketType".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {

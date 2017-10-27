@@ -74,7 +74,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         return dto;
     }
 
-    public void configureSearchData(final ErrorfulFieldGroup binder, String moduleName, AbstractSearchForm obj, String searchType, int versionNo) {
+    public void configureSearchData(final ErrorfulFieldGroup binder, String moduleName, String searchType) {
         isFirstLoad = true;
         isReset = false;
         this.clearAll();

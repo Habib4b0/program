@@ -14,7 +14,8 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  *
  * @author Abhiram.Giri
  */
-public interface Criteria  {
+public interface Criteria {
+
     List<SortByColumn> getSortByColumns();
 
     Set<Container.Filter> getFilters();
@@ -24,10 +25,12 @@ public interface Criteria  {
     int getStart();
 
     int getOffset();
-    
+
     Object getParent();
-    
-     public int getCurrentPage();
+
+    public int getCurrentPage();
+
     public int getLastPage();
+
     public int getSiblingCount();
 }

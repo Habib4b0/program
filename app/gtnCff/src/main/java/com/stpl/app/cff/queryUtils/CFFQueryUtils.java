@@ -63,7 +63,7 @@ public class CFFQueryUtils {
         } catch (Exception e) {
             LOGGER.error(e);
             LOGGER.debug("getCCPCombinationForDisplay method ended");
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -73,7 +73,7 @@ public class CFFQueryUtils {
      * @return
      */
     public List getLatestCCP(int projectionId) {
-        LOGGER.debug("Inside getLatestCCP method");
+        LOGGER.debug("Inside  getLatestCCP method");
         String query = SQlUtil.getQuery("getLatestCCPProjection");
         query = query.replace("?", String.valueOf(projectionId));
         try {
@@ -81,7 +81,7 @@ public class CFFQueryUtils {
             return list;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -97,10 +97,10 @@ public class CFFQueryUtils {
             return (List) DAO.executeSelectQuery(sql);
         } catch (PortalException ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -117,10 +117,10 @@ public class CFFQueryUtils {
             return (List) DAO.executeSelectQuery(sql);
         } catch (PortalException ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
     public static List<Integer> getApprovedDetails(int projectionId) {
@@ -167,10 +167,10 @@ public class CFFQueryUtils {
             return (List) DAO.executeSelectQuery(sql);
         } catch (PortalException ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -185,7 +185,7 @@ public class CFFQueryUtils {
         for (int i = 0; i < createdTablesList.size(); i++) {
             Object[] ob = (Object[]) createdTablesList.get(i);
             session.addCurrentTableNames(ob[0].toString(), ob[1].toString());
-        }
+}
     }
     public static Boolean updateDataFromMap(final Map<String, String> input, final String queryName) {
         StringBuilder queryString = new StringBuilder(SQlUtil.getQuery(queryName));

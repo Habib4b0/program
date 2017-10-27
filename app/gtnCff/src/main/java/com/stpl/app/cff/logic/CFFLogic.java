@@ -1,6 +1,7 @@
 package com.stpl.app.cff.logic;
 
 import com.stpl.app.bpm.dto.WorkflowRuleDTO;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
 import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
 import com.stpl.app.cff.bpm.logic.VarianceCalculationLogic;
@@ -32,7 +33,6 @@ import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffMaster;
 import com.stpl.app.parttwo.model.CffProdHierarchy;
 import com.stpl.app.parttwo.model.impl.CffApprovalDetailsImpl;
-import com.stpl.app.parttwo.model.impl.CffMasterImpl;
 import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
@@ -89,7 +89,7 @@ public class CFFLogic {
      */
     public CommonUtils commonUtils = new CommonUtils();
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
-    public static Map<String, String> userMap = new HashMap<String, String>();
+    public static Map<String, String> userMap = new HashMap<>();
     FileSelectionDTO dto = new FileSelectionDTO();
     DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
 
@@ -99,7 +99,7 @@ public class CFFLogic {
      * @return the cff details for add
      */
     public List<CFFResultsDTO> getCffDetailsForAdd() {
-        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<CFFResultsDTO>();
+        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<>();
         final CFFDTO cffDTO = new CFFDTO();
         List resultsList;
         try {
@@ -121,10 +121,10 @@ public class CFFLogic {
         List resultsList;
         try {
             resultsList = cffQueryUtils.getLatestCCP(sessionDTO.getProjectionId());
-            return commonUtils.getCustomisedCFF(resultsList, sessionDTO);
+            return commonUtils.getCustomisedCFF(resultsList);
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return new ArrayList<CFFResultsDTO>();
+            return new ArrayList<>();
         }
     }
 
@@ -140,7 +140,7 @@ public class CFFLogic {
             return commonUtils.getCustomisedCFFDeatils(resultsList);
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return new ArrayList<CFFResultsDTO>();
+            return new ArrayList<>();
         }
     }
 
@@ -155,7 +155,7 @@ public class CFFLogic {
      */
     public static List<HelperDTO> getDropDownList(final String listName) throws PortalException, SystemException {
         LOGGER.debug("Entering getDropDownList p1:" + listName);
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(listName);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -176,12 +176,12 @@ public class CFFLogic {
      */
     public static List<HelperDTO> loadStatusDdlb(final String listName) throws PortalException, SystemException {
 
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtil.LIST_NAME, listName));
-        List<String> statusList = new ArrayList<String>();
+        List<String> statusList = new ArrayList<>();
         statusList.add("Withdrawn");
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.in(ConstantsUtil.DESCRIPTION, statusList)));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtil.DESCRIPTION));
@@ -213,7 +213,7 @@ public class CFFLogic {
         String result = "";
         String cffName = "";
         String cffType = "";
-        String cffMasterSid = String.valueOf(VaadinSession.getCurrent().getAttribute("projectionId"));
+        String cffMasterSid = String.valueOf(VaadinSession.getCurrent().getAttribute(StringConstantsUtil.PROJECTION_ID));
         if (ConstantsUtils.YES.equals(String.valueOf(valueMap.get("latestEstimate")))) {
             cffName = valueMap.get("latestEstimateName").toString();
             cffType = String.valueOf(CommonUtils.getHelperTableSId(CommonUtils.LATEST_ESTIMATE, CommonUtils.CFF_TYPE));
@@ -235,14 +235,14 @@ public class CFFLogic {
 
         VaadinSession.getCurrent().setAttribute(CommonUtils.CFF_MASTER_SYSTEM_ID_SESSION, cffMasterSystemId);
         String noOfLevel = getNoOfLevelFromJbpm(sessionDTO, cffMasterSid, userId);
-        result = submitCffPendingDetails(userId, Integer.valueOf(cffMasterSid), noOfLevel, Boolean.FALSE);
+        result = submitCffPendingDetails(userId, Integer.valueOf(cffMasterSid), noOfLevel);
         if (result.equals(CommonUtils.FAIL) || noOfLevel.isEmpty()) {
             return CommonUtils.FAIL;
         }
         LOGGER.debug("Exits save cff method");
         return result;
     }
-
+    
     /**
      * Update cff information
      *
@@ -255,12 +255,12 @@ public class CFFLogic {
         try {
             LOGGER.debug("inside update cff method");
 
-            CffMaster cffMaster = new CffMasterImpl();
+            CffMaster cffMaster;
             cffMaster = DAO.getCffMaster(cffMasterSystemId);
             cffMaster.setModifiedBy(Integer.valueOf(userId));
             cffMaster.setModifiedDate(new Date());
             cffMaster.setInboundStatus(ConstantsUtil.INBOUND_STATUS_UPDATE);
-            cffMaster = DAO.updateCffMaster(cffMaster);
+            DAO.updateCffMaster(cffMaster);
 
         } catch (SystemException ex) {
             LOGGER.error(ex);
@@ -347,9 +347,9 @@ public class CFFLogic {
             return "Fail";
         }
 
-        return "Success";
+        return StringConstantsUtil.SUCCESS;
     }
-
+    
     /**
      * Delete from Cff Details Table
      *
@@ -373,7 +373,7 @@ public class CFFLogic {
             return "Fail";
         }
 
-        return "Success";
+        return StringConstantsUtil.SUCCESS;
     }
 
     /**
@@ -395,7 +395,7 @@ public class CFFLogic {
             LOGGER.error(ex);
             return null;
         }
-        return "Success";
+        return StringConstantsUtil.SUCCESS;
     }
 
     /**
@@ -409,16 +409,16 @@ public class CFFLogic {
         final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
         final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
         CffApprovalDetails cffApprovalDetailsOld;
-        List<CffApprovalDetails> resultsList = new ArrayList<CffApprovalDetails>();
+        List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
         try {
             cffApprovalDetails.setApprovedBy(Integer.valueOf(userId));
             cffApprovalDetails.setApprovedDate(new Date());
             cffApprovalDetails.setCffMasterSid(cffId);
             cffApprovalDetails.setInboundStatus(ConstantsUtil.INBOUND_STATUS_ADD);
-            cffDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq("cffMasterSid", cffId));
+            cffDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CFF_MASTER_SID, cffId));
             cffDetailsDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
-            cffDetailsDynamicQuery.addOrder(OrderFactoryUtil.desc("approvalSequence"));
+            cffDetailsDynamicQuery.addOrder(OrderFactoryUtil.desc(StringConstantsUtil.APPROVAL_SEQUENCE));
             resultsList = CffDetailsLocalServiceUtil.dynamicQuery(cffDetailsDynamicQuery);
             if (resultsList == null || resultsList.isEmpty()) {
                 cffApprovalDetails.setApprovalSequence(1);
@@ -437,6 +437,7 @@ public class CFFLogic {
         }
         return CommonUtils.SUCCESS;
     }
+    
 
     /**
      * Save cff approve details.
@@ -445,7 +446,7 @@ public class CFFLogic {
      * @param cffId the cff id
      * @return the string
      */
-    public String submitCffPendingDetails(String userId, int cffId, String noOfLevel, boolean isRejected) {
+    public String submitCffPendingDetails(String userId, int cffId, String noOfLevel) {
         List list = new ArrayList();
         list.add(cffId);
         List<Object[]> listSeq = CommonQueryUtils.getAppData(list, "selectCFFAPP", null);
@@ -510,15 +511,18 @@ public class CFFLogic {
                     callOutboundPrc = true;
                     input.add("GETDATE()");
                     input.add(CommonUtils.WORKFLOW_STATUS_APPROVED);
+                    input.add(CommonUtils.WORKFLOW_STATUS_APPROVED);
                     updateActiveFromDate(cffId);
                 } else {
                     callOutboundPrc = false;
                     input.add(null);
                     input.add(CommonUtils.WORKFLOW_STATUS_PENDING);
+                    input.add(CommonUtils.WORKFLOW_STATUS_PENDING);
                 }
             } else {
                 input.add(null);
                 input.add(status);
+                input.add(CommonUtils.WORKFLOW_STATUS_CANCELLED.equals(status) ? "Canceled" : status);
             }
             input.add(cffId);
             CommonQueryUtils.updateAppData(input, "updateapprovaldetails");
@@ -544,15 +548,15 @@ public class CFFLogic {
         final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
         final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
         CffApprovalDetails cffApprovalDetailsOld;
-        List<CffApprovalDetails> resultsList = new ArrayList<CffApprovalDetails>();
+        List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
         try {
             cffApprovalDetails.setApprovedBy(Integer.valueOf(userId));
             cffApprovalDetails.setApprovedDate(new Date());
             cffApprovalDetails.setCffMasterSid(cffId);
             cffApprovalDetails.setInboundStatus(ConstantsUtil.INBOUND_STATUS_ADD);
-            cffDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq("cffMasterSid", cffId));
-            cffDetailsDynamicQuery.addOrder(OrderFactoryUtil.desc("approvalSequence"));
+            cffDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CFF_MASTER_SID, cffId));
+            cffDetailsDynamicQuery.addOrder(OrderFactoryUtil.desc(StringConstantsUtil.APPROVAL_SEQUENCE));
             resultsList = CffDetailsLocalServiceUtil.dynamicQuery(cffDetailsDynamicQuery);
 
             cffApprovalDetailsOld = resultsList.get(0);
@@ -579,15 +583,15 @@ public class CFFLogic {
         final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
         final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
         CffApprovalDetails cffApprovalDetailsOld;
-        List<CffApprovalDetails> resultsList = new ArrayList<CffApprovalDetails>();
+        List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
         try {
             cffApprovalDetails.setApprovedBy(Integer.valueOf(userId));
             cffApprovalDetails.setApprovedDate(new Date());
             cffApprovalDetails.setCffMasterSid(cffId);
             cffApprovalDetails.setInboundStatus(ConstantsUtil.INBOUND_STATUS_ADD);
-            cffDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq("cffMasterSid", cffId));
-            cffDetailsDynamicQuery.addOrder(OrderFactoryUtil.desc("approvalSequence"));
+            cffDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CFF_MASTER_SID, cffId));
+            cffDetailsDynamicQuery.addOrder(OrderFactoryUtil.desc(StringConstantsUtil.APPROVAL_SEQUENCE));
             resultsList = CffDetailsLocalServiceUtil.dynamicQuery(cffDetailsDynamicQuery);
 
             cffApprovalDetailsOld = resultsList.get(0);
@@ -609,7 +613,7 @@ public class CFFLogic {
         List resultCountList;
         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap(false)).toString();
         parameters = getParametersForCffSearch(binderDto);
-        filterQuery = filterQuery.replace("where", "AND");
+        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, "AND");
         parameters.add(filterQuery);
         resultCountList = CommonQueryUtils.getAppData(parameters, "getCffSearchCount", null);
         count = getCount(resultCountList);
@@ -698,12 +702,12 @@ public class CFFLogic {
         LOGGER.debug("Inside Search Results");
         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap(false)).toString();
         String orderBy = AbstractFilterLogic.getInstance().orderByQueryGenerator(binderDto.getOrderByColumns(), getFilterMap(true)).toString();
-        List<CFFSearchDTO> cffMasterList = new ArrayList<CFFSearchDTO>();
+        List<CFFSearchDTO> cffMasterList;
         List parameterslist;
         parameterslist = getParametersForCffSearch(binderDto);
         List<Object[]> resultList;
         if (filterQuery != null) {
-            filterQuery = filterQuery.replace("where", "AND");
+            filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, "AND");
             parameterslist.add(filterQuery);
         } else {
             parameterslist.add(" ");
@@ -725,7 +729,7 @@ public class CFFLogic {
      * @return List of Customised Approval list data for a cff
      */
     public List<ApprovalDetailsDTO> getApprovalDetailsForCff(int cffSid) {
-        List<ApprovalDetailsDTO> approvalList = new ArrayList<ApprovalDetailsDTO>();
+        List<ApprovalDetailsDTO> approvalList = new ArrayList<>();
         try {
 
             List<CffApprovalDetails> approvaldetails = DAO.getApprovalDetails(cffSid);
@@ -738,8 +742,8 @@ public class CFFLogic {
     }
 
     public static String filterUser(String filter) {
-        List<String> keys = new ArrayList<String>();
-        String userIds = StringUtils.EMPTY;
+        List<String> keys = new ArrayList<>();
+        String userIds;
         if (userMap != null) {
             for (Map.Entry<String, String> entry : userMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
@@ -761,8 +765,8 @@ public class CFFLogic {
     }
 
     public static Map<String, String> getAllUsers() {
-        List<Object> userList = new ArrayList<Object>();
-        Map<String, String> userMap = new HashMap<String, String>();
+        List<Object> userList = new ArrayList<>();
+        Map<String, String> userMap = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.USER_ID));
@@ -776,7 +780,6 @@ public class CFFLogic {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            userList = null;
             LOGGER.error(ex + " in CommonUtils ~ getAllUsers");
         }
         return userMap;
@@ -806,21 +809,22 @@ public class CFFLogic {
             filterMap.put("statusDesc", "approval_status");
             filterMap.put("approvedBy", " approval_status=(SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME = 'WorkFlowStatus' AND DESCRIPTION = 'Approved') AND APPROVED_BY");
         }
-        filterMap.put("activeFromDate", "ACTIVE_FROM_DATE");
-        filterMap.put("activeToDate", "ACTIVE_TO_DATE");
+        filterMap.put(StringConstantsUtil.ACTIVE_FROM_DATE, "ACTIVE_FROM_DATE");
+        filterMap.put(StringConstantsUtil.ACTIVE_TO_DATE, "ACTIVE_TO_DATE");
         return filterMap;
     }
+    
 
     public Object getFileName(boolean count, SessionDTO sessionDTO, Set<Container.Filter> filters, String businessUnit) {
         LOGGER.debug("Inside getFileName");
-        List<Object[]> resultList = new ArrayList<Object[]>();
-        List<FileSelectionDTO> retList = new ArrayList<FileSelectionDTO>();
+        List<Object[]> resultList = new ArrayList<>();
+        List<FileSelectionDTO> retList = new ArrayList<>();
         List list = new ArrayList();
         try {
             if (!count) {
                 String mode = sessionDTO.getAction();
                 if (mode.equals("edit") || mode.equals("view")) {
-                    String projId = String.valueOf(VaadinSession.getCurrent().getAttribute("projectionId"));
+                    String projId = String.valueOf(VaadinSession.getCurrent().getAttribute(StringConstantsUtil.PROJECTION_ID));
                     resultList = getFileSelection(projId, filters);
                     if (resultList != null) {
                         for (int i = 0; i < resultList.size(); i++) {
@@ -849,7 +853,7 @@ public class CFFLogic {
                     list.add(sessionDTO.getCompanySystemId());
                     if (filters != null) {
                         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionMap()).toString();
-                        filterQuery = filterQuery.replace("where", " AND ");
+                        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.SPACE_AND_SPACE);
                         list.add(filterQuery);
                     } else {
                         list.add(StringUtils.EMPTY);
@@ -875,7 +879,7 @@ public class CFFLogic {
             } else {
                 String mode = sessionDTO.getAction();
                 if (mode.equals("edit") || mode.equals("view")) {
-                    String projId = String.valueOf(VaadinSession.getCurrent().getAttribute("projectionId"));
+                    String projId = String.valueOf(VaadinSession.getCurrent().getAttribute(StringConstantsUtil.PROJECTION_ID));
                     int fileCount = getFileSelectionCount(projId, filters);
                     return fileCount;
                 } else {
@@ -884,7 +888,7 @@ public class CFFLogic {
                     list.add(sessionDTO.getCompanySystemId());
                     if (filters != null) {
                         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionMap()).toString();
-                        filterQuery = filterQuery.replace("where", " AND ");
+                        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.SPACE_AND_SPACE);
                         list.add(filterQuery);
                     } else {
                         list.add(StringUtils.EMPTY);
@@ -899,6 +903,7 @@ public class CFFLogic {
         }
         return null;
     }
+    
 
     /**
      * Generates Saves a projection.
@@ -976,11 +981,11 @@ public class CFFLogic {
      * @throws java.lang.Exception
      */
     public void saveProductHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids, final int projectionId, final List<String> addLevels, final String indicator) throws SystemException {
-        LOGGER.debug("saveProductHierarchyLogic endLevelSids size:" + endLevelSids.size() + " projectionId " + projectionId);
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("indicator", "getChildLevelRLSid");
+        LOGGER.debug("saveProductHierarchyLogic projectionId" + projectionId);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(StringConstantsUtil.INDICATOR, "getChildLevelRLSid");
         parameters.put("rlSids", endLevelSids);
-        parameters.put("projectionId", projectionId);
+        parameters.put(StringConstantsUtil.PROJECTION_ID, projectionId);
         parameters.put("tableName", "CFF_PROD_HIERARCHY");
         parameters.put("module", "cff");
         List<Object> endLevels = null;
@@ -1014,6 +1019,7 @@ public class CFFLogic {
             LOGGER.debug(e + " saveProductHierarchyLogic");
         }
     }
+    
 
     /**
      * Save customer hierarchy logic.
@@ -1023,10 +1029,10 @@ public class CFFLogic {
      * @throws java.lang.Exception
      */
     public void saveCustomerHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids, final int projectionId, final List<String> addLevels, final String indicator) throws SystemException {
-        LOGGER.debug("saveCustomerHierarchyLogic endLevelSids size:" + endLevelSids.size() + " projectionId " + projectionId);
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("indicator", "getChildLevelRLSid");
-        parameters.put("projectionId", projectionId);
+        LOGGER.debug("saveCustomerHierarchyLogic  projectionId " + projectionId);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(StringConstantsUtil.INDICATOR, "getChildLevelRLSid");
+        parameters.put(StringConstantsUtil.PROJECTION_ID, projectionId);
         parameters.put("rlSids", endLevelSids);
         parameters.put("tableName", "CFF_CUST_HIERARCHY");
         parameters.put("module", "cff");
@@ -1064,31 +1070,21 @@ public class CFFLogic {
 
     public void insertToCcpMap(List<String> relationshipBuilderSids, String screenName) throws SystemException {
         List<String> relationshipBuilderSidsList = null;
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
-            relationshipBuilderSidsList = new ArrayList<String>(relationshipBuilderSids);
+            relationshipBuilderSidsList = new ArrayList<>(relationshipBuilderSids);
         }
-        parameters.put("indicator", "insertToCcpMap");
+        parameters.put(StringConstantsUtil.INDICATOR, "insertToCcpMap");
         parameters.put("relationshipBuilderSids", relationshipBuilderSidsList);
         parameters.put("scrennName", screenName);
         dataSelectionDAO.saveCcp(parameters);
 
     }
 
-    public void saveCcp(final List<Leveldto> customerEndLevels, final String productHierarchyEndLevelsHierNos, final String indicator, final String projectionId, final Map<String, String> tempTableNames) {
+    public void saveCcp(final List<Leveldto> customerEndLevels, final String projectionId, final Map<String, String> tempTableNames) {
         if (customerEndLevels != null && !customerEndLevels.isEmpty()) {
-//            String param = " RLD.HIERARCHY_NO like '?'";
-//            StringBuilder sb = new StringBuilder();
             List list = new ArrayList();
-//            for (int i = 0; i < customerEndLevels.size(); i++) {
-//                Leveldto dto = (Leveldto) customerEndLevels.get(i);
-//                sb.append(param.replace("?", dto.getHierarchyNo() + "%"));
-//                if (i < (customerEndLevels.size() - 1)) {
-//                    sb.append(" OR ");
-//                }
-//            }
             list.add(projectionId);
-//            list.add(sb.toString());
             String query = CommonQueryUtils.getAppQuery(list, "CFFDETAILSINSERT");
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, tempTableNames));
             updateInclusionFlag(Integer.valueOf(projectionId));
@@ -1158,14 +1154,14 @@ public class CFFLogic {
 
 
     public String getNoOfLevelFromJbpm(SessionDTO sessionDTO, String cffMasterSid, String userId) {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         String noOfLevel = StringUtils.EMPTY;
         WorkflowRuleDTO dto = new WorkflowRuleDTO();
         params.put("out_workflowDTO", dto);
-        params.put("projectionId", cffMasterSid);
+        params.put(StringConstantsUtil.PROJECTION_ID, cffMasterSid);
         if (null == sessionDTO.getWorkflowStatus()) {
             try {
-                List<String> roleList = new ArrayList<String>();
+                List<String> roleList = new ArrayList<>();
                 ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
                 User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
                 boolean workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
@@ -1181,7 +1177,7 @@ public class CFFLogic {
                     noOfLevel = BPMProcessBean.getProcessVariableLog(processInstanceId, "NoOfUsers");
                 } else {
                     StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
-                    if (roleList != null || !roleList.isEmpty()) {
+                    if (!roleList.isEmpty()) {
                         notiMsg.append("\n Only " + roleList + " can submit a projection.");
                     }
                     NotificationUtils.getAlertNotification("Permission Denined", notiMsg.toString());
@@ -1200,7 +1196,7 @@ public class CFFLogic {
         return noOfLevel;
     }
 
-    public String getNoOfLevelFromDB(SessionDTO sessionDTO, String cffMasterSid, String userId) {
+    public String getNoOfLevelFromDB(String cffMasterSid) {
         List list = new ArrayList();
         String noOfLevel = StringUtils.EMPTY;
         list.add(cffMasterSid);
@@ -1228,11 +1224,11 @@ public class CFFLogic {
 
     public int getFileSelectionCount(String cffMasterId, Set<Container.Filter> filters) {
         int count = 0;
-        String recordCount = StringUtils.EMPTY;
+        String recordCount;
         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionFilterMap()).toString();
         String query = SQlUtil.getQuery("getFileSelectionCount");
         query = query.replace("?", cffMasterId);
-        filterQuery = filterQuery.replace("where", " AND ");
+        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.SPACE_AND_SPACE);
         query += filterQuery;
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null) {
@@ -1246,11 +1242,11 @@ public class CFFLogic {
     }
 
     public List getFileSelection(String cffMasterId, Set<Container.Filter> filters) {
-        List list = new ArrayList();
+        List list;
         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionFilterMap()).toString();
         String query = SQlUtil.getQuery("getFileSelection");
         query = query.replace("?", cffMasterId);
-        filterQuery = filterQuery.replace("where", " AND ");
+        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.SPACE_AND_SPACE);
         query += filterQuery;
         list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
@@ -1271,8 +1267,8 @@ public class CFFLogic {
         filterMap.put("fileName", "A.FILE_NAME");
         filterMap.put("fileType", "HT.DESCRIPTION");
         filterMap.put("version", "A.VERSION");
-        filterMap.put("activeFromDate", "A.ACTIVE_FROM");
-        filterMap.put("activeToDate", "A.ACTIVE_TO");
+        filterMap.put(StringConstantsUtil.ACTIVE_FROM_DATE, "A.ACTIVE_FROM");
+        filterMap.put(StringConstantsUtil.ACTIVE_TO_DATE, "A.ACTIVE_TO");
         return filterMap;
     }
 
@@ -1281,8 +1277,8 @@ public class CFFLogic {
         filterMap.put("fileName", "FORECAST_NAME");
         filterMap.put("fileType", "FILE_TYPE");
         filterMap.put("version", "VERSION");
-        filterMap.put("activeFromDate", "FROM_PERIOD");
-        filterMap.put("activeToDate", "TO_PERIOD");
+        filterMap.put(StringConstantsUtil.ACTIVE_FROM_DATE, "FROM_PERIOD");
+        filterMap.put(StringConstantsUtil.ACTIVE_TO_DATE, "TO_PERIOD");
         return filterMap;
     }
 
@@ -1345,12 +1341,12 @@ public class CFFLogic {
         String[] ccpHierarchyQuery = new String[NumericConstants.THREE];
 
         if (contractList.isEmpty()) {
-            ccpHierarchyQuery[0] = getCCPValues(dsDTO.getCustRelationshipBuilderSid(), logic.formInqueryStringValue(hierarchyNoList, "HIERARCHY_NO"), "GET_CONTRACT_LEVEL");
+            ccpHierarchyQuery[0] = getCCPValues(dsDTO.getCustRelationshipBuilderSid(), logic.formInqueryStringValue(hierarchyNoList, StringConstantsUtil.HIERARCHY_NO), "GET_CONTRACT_LEVEL");
         } else {
             ccpHierarchyQuery[0] = formQueryWithUnionAll(contractList);
         }
         if (customerList.isEmpty()) {
-            ccpHierarchyQuery[1] = getCCPValues(dsDTO.getCustRelationshipBuilderSid(), logic.formInqueryStringValue(hierarchyNoList, "HIERARCHY_NO"), "GET_CUSTOMER_LEVEL");
+            ccpHierarchyQuery[1] = getCCPValues(dsDTO.getCustRelationshipBuilderSid(), logic.formInqueryStringValue(hierarchyNoList, StringConstantsUtil.HIERARCHY_NO), "GET_CUSTOMER_LEVEL");
         } else {
             ccpHierarchyQuery[1] = formQueryWithUnionAll(customerList);
         }
@@ -1360,12 +1356,13 @@ public class CFFLogic {
         getProductSelectionHierarchyNo(productList, hierarchyNoList, productSelection, Integer.valueOf(dsDTO.getProductHierarchyLevel()));
 
         if (productList.isEmpty()) {
-            ccpHierarchyQuery[NumericConstants.TWO] = getCCPValues(dsDTO.getProdRelationshipBuilderSid(), logic.formInqueryStringValue(hierarchyNoList, "HIERARCHY_NO"), "GET_PRODUCT_LEVEL");
+            ccpHierarchyQuery[NumericConstants.TWO] = getCCPValues(dsDTO.getProdRelationshipBuilderSid(), logic.formInqueryStringValue(hierarchyNoList, StringConstantsUtil.HIERARCHY_NO), "GET_PRODUCT_LEVEL");
         } else {
             ccpHierarchyQuery[NumericConstants.TWO] = formQueryWithUnionAll(productList);
         }
         callCCPHierarchyInsertion(ccpHierarchyQuery, tempTableNames, topLevelName, isDataSelectionTab);
     }
+   
 
     /**
      * Used to get the HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES,LEVEL_NO for
@@ -1384,7 +1381,7 @@ public class CFFLogic {
     private void getCustomerSelectionHierarchyNo(List<Object[]> contractList, List<Object[]> customerList, List<String> hierarchyNoList, List<Leveldto> selectedCustomer, final int customerLevel) {
         for (Leveldto dto : selectedCustomer) {
             switch (dto.getLevel()) {
-                case "Contract":
+                case StringConstantsUtil.CONTRACT:
                     contractList.add(new Object[]{dto.getHierarchyNo(), dto.getRelationshipLevelValue(), dto.getLevelNo()});
                     break;
                 case "Trading Partner":
@@ -1397,6 +1394,7 @@ public class CFFLogic {
             }
         }
     }
+    
 
     /**
      * Used to form the query from selection container of customer and product
@@ -1455,13 +1453,13 @@ public class CFFLogic {
             builder.append(QueryUtil.replaceTableNames(SQlUtil.getQuery("DELETION").replace("@TABLE_NAME", "ST_CCP_HIERARCHY"), tempTableNames));
         }
         builder.append(SQlUtil.getQuery("CCP_HIERARCHY_INSERT"));
-        builder.replace(builder.indexOf("@CONTRACT"), "@CONTRACT".length() + builder.lastIndexOf("@CONTRACT"), ccpHierarchyQuery[0]);
-        builder.replace(builder.indexOf("@CUSTOMER"), "@CUSTOMER".length() + builder.lastIndexOf("@CUSTOMER"), ccpHierarchyQuery[1]);
-        builder.replace(builder.indexOf("@PRODUCT"), "@PRODUCT".length() + builder.lastIndexOf("@PRODUCT"), ccpHierarchyQuery[NumericConstants.TWO]);
-        if ("Contract".equalsIgnoreCase(topLevelName)) {
-            builder.replace(builder.indexOf("@FILTER"), "@FILTER".length() + builder.lastIndexOf("@FILTER"), "COM.HIERARCHY_NO LIKE C.HIERARCHY_NO");
+        builder.replace(builder.indexOf(StringConstantsUtil.CONTRACT1), StringConstantsUtil.CONTRACT1.length() + builder.lastIndexOf(StringConstantsUtil.CONTRACT1), ccpHierarchyQuery[0]);
+        builder.replace(builder.indexOf(StringConstantsUtil.CUSTOMER), StringConstantsUtil.CUSTOMER.length() + builder.lastIndexOf(StringConstantsUtil.CUSTOMER), ccpHierarchyQuery[1]);
+        builder.replace(builder.indexOf(StringConstantsUtil.PRODUCT), StringConstantsUtil.PRODUCT.length() + builder.lastIndexOf(StringConstantsUtil.PRODUCT), ccpHierarchyQuery[NumericConstants.TWO]);
+        if (StringConstantsUtil.CONTRACT.equalsIgnoreCase(topLevelName)) {
+            builder.replace(builder.indexOf(StringConstantsUtil.FILTER), StringConstantsUtil.FILTER.length() + builder.lastIndexOf(StringConstantsUtil.FILTER), "COM.HIERARCHY_NO LIKE C.HIERARCHY_NO");
         } else {
-            builder.replace(builder.indexOf("@FILTER"), "@FILTER".length() + builder.lastIndexOf("@FILTER"), "C.HIERARCHY_NO LIKE COM.HIERARCHY_NO");
+            builder.replace(builder.indexOf(StringConstantsUtil.FILTER), StringConstantsUtil.FILTER.length() + builder.lastIndexOf(StringConstantsUtil.FILTER), "C.HIERARCHY_NO LIKE COM.HIERARCHY_NO");
         }
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
     }
@@ -1476,8 +1474,8 @@ public class CFFLogic {
      */
     private String getCCPValues(String value, String formInqueryStringValue, final String queryName) {
         StringBuilder builder = new StringBuilder(SQlUtil.getQuery(queryName));
-        builder.replace(builder.indexOf("@RELATION_SID"), "@RELATION_SID".length() + builder.lastIndexOf("@RELATION_SID"), value);
-        builder.replace(builder.indexOf("@HIERARCHY_DETAILS"), "@HIERARCHY_DETAILS".length() + builder.lastIndexOf("@HIERARCHY_DETAILS"), formInqueryStringValue);
+        builder.replace(builder.indexOf(StringConstantsUtil.RELATION_SID), StringConstantsUtil.RELATION_SID.length() + builder.lastIndexOf(StringConstantsUtil.RELATION_SID), value);
+        builder.replace(builder.indexOf(StringConstantsUtil.HIERARCHY_DETAILS), StringConstantsUtil.HIERARCHY_DETAILS.length() + builder.lastIndexOf(StringConstantsUtil.HIERARCHY_DETAILS), formInqueryStringValue);
         return builder.toString();
     }
 
@@ -1567,7 +1565,7 @@ public class CFFLogic {
     public String getTopLevelInHierarchy(final String hierarchySid) {
         List<String> list = (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("GET_TOP_LEVEL_NAME").replace("@HIERARCHY_SID", hierarchySid));
         for (String levelName : list) {
-            if ("Customer".equals(levelName) || "Trading Partner".equals(levelName) || "TradingPartner".equals(levelName) || "Contract".equals(levelName)) {
+            if ("Customer".equals(levelName) || "Trading Partner".equals(levelName) || "TradingPartner".equals(levelName) || StringConstantsUtil.CONTRACT.equals(levelName)) {
                 return levelName;
             }
         }

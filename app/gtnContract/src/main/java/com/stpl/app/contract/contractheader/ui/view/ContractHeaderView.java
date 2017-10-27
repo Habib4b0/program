@@ -37,7 +37,7 @@ public class ContractHeaderView extends VerticalLayout implements View {
      * The results bean.
      */
 
-    private final BeanItemContainer<ContractAliasMasterDTO> resultsBean = new BeanItemContainer<ContractAliasMasterDTO>(ContractAliasMasterDTO.class);
+    private final BeanItemContainer<ContractAliasMasterDTO> resultsBean = new BeanItemContainer<>(ContractAliasMasterDTO.class);
     /**
      * The contract master dto.
      */
@@ -45,7 +45,7 @@ public class ContractHeaderView extends VerticalLayout implements View {
     /**
      * The binder.
      */
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ContractMasterDTO>(contractMasterDTO));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(contractMasterDTO));
     /**
      * The logger.
      */
@@ -90,7 +90,7 @@ public class ContractHeaderView extends VerticalLayout implements View {
     /**
      * Default constructor. Adds the Add form to this VerticalLayout.
      */
-    public ContractHeaderView(final SessionDTO sessionDTO) throws SystemException, PortalException {
+    public ContractHeaderView(final SessionDTO sessionDTO) {
         super();        
         this.sessionDTO=sessionDTO;
     }
@@ -107,7 +107,7 @@ public class ContractHeaderView extends VerticalLayout implements View {
             this.removeAllComponents();
             String mode = (String) sessionDTO.getMode();
             LOGGER.debug("Enters enter method with mode :" + mode);
-            binder = new CustomFieldGroup(new BeanItem<ContractMasterDTO>(new ContractMasterDTO()));
+            binder = new CustomFieldGroup(new BeanItem<>(new ContractMasterDTO()));
             final ContractHeaderLogic contractHL = new ContractHeaderLogic(sessionDTO);
             if (Constants.ADD.equals(mode)) {
                 resultsBean.removeAllItems();
@@ -119,9 +119,9 @@ public class ContractHeaderView extends VerticalLayout implements View {
                 final int systemId = (Integer) sessionDTO.getSystemId();
                 LOGGER.debug("ContractsystemId=" + systemId);
                 contractMasterDTO = contractHL.getContractMasterById(systemId);
-                binder.setItemDataSource(new BeanItem<ContractMasterDTO>(contractMasterDTO));
+                binder.setItemDataSource(new BeanItem<>(contractMasterDTO));
                 addComponent(new ContractHeaderForm(contractMasterDTO, binder, resultsBean, mode, sessionDTO));
-                binder.setItemDataSource(new BeanItem<ContractMasterDTO>(contractMasterDTO));  
+                binder.setItemDataSource(new BeanItem<>(contractMasterDTO));  
                 binder.getField("internalNotes").setReadOnly(true);
                 binder.getField("tradingPartnerName").setReadOnly(true);
                 binder.getField("companyLabel").setReadOnly(true);
@@ -131,9 +131,9 @@ public class ContractHeaderView extends VerticalLayout implements View {
                 final int contractSystemId = (Integer) sessionDTO.getSystemId();
                 LOGGER.debug("contractSystemId=" + contractSystemId);
                 contractMasterDTO = contractHL.getContractMasterById(contractSystemId);
-                binder.setItemDataSource(new BeanItem<ContractMasterDTO>(contractMasterDTO));
+                binder.setItemDataSource(new BeanItem<>(contractMasterDTO));
                 addComponent(new ContractHeaderForm(contractMasterDTO, binder, resultsBean, mode, sessionDTO));
-                binder.setItemDataSource(new BeanItem<ContractMasterDTO>(contractMasterDTO));
+                binder.setItemDataSource(new BeanItem<>(contractMasterDTO));
                 binder.setReadOnly(true);
                 binder.setEnabled(false);
                 resultsBean.removeAllItems();

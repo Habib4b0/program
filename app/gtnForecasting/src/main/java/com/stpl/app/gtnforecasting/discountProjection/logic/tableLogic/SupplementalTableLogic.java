@@ -51,9 +51,9 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated && offset > 0) {
-            List<String> indexList = new ArrayList<String>(getNonFetchableData().keySet());
+            List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);
             List<DiscountProjectionDTO> list = sdpLogic.getConfiguredSupplementalDiscount(getLastParent(), start, offset, projSelDTO);
             int i = start;
@@ -74,7 +74,7 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
     public int getCount() {
         int count = 0;
         if (firstGenerated) {
-            count = sdpLogic.getConfiguredSupplementalDiscountCount(getLastParent(), projSelDTO, true);
+            count = sdpLogic.getConfiguredSupplementalDiscountCount(getLastParent(), projSelDTO);
         }
         LOGGER.debug("Return Count " + count);
         return count;
@@ -155,7 +155,7 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
         projSelDTO.setIsFilter(false);
-        int count = sdpLogic.getConfiguredSupplementalDiscountCount(parentId, projSelDTO, true);
+        int count = sdpLogic.getConfiguredSupplementalDiscountCount(parentId, projSelDTO);
         PageTreeLogicBase.LevelMap levelMap = new PageTreeLogicBase.LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
         if (expandLevelNo >= projSelDTO.getSupplementalLevelNo()) {

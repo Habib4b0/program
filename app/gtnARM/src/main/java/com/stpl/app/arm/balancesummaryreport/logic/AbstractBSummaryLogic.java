@@ -5,23 +5,8 @@
  */
 package com.stpl.app.arm.balancesummaryreport.logic;
 
-import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
-import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
-import static com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractBPLogic.LOGGER;
-import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
-import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
-import com.stpl.app.arm.common.CommonLogic;
-import com.stpl.app.arm.supercode.Criteria;
-import com.stpl.app.arm.supercode.DataResult;
-import com.stpl.app.arm.supercode.SelectionDTO;
-import com.stpl.app.arm.utils.ARMUtils;
-import com.stpl.app.arm.utils.QueryUtils;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.utils.xmlparser.SQlUtil;
-import com.stpl.ifs.ui.util.NumericConstants;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormatSymbols;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,8 +14,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
+import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
+import com.stpl.app.arm.common.CommonLogic;
+import com.stpl.app.arm.supercode.Criteria;
+import com.stpl.app.arm.supercode.DataResult;
+import com.stpl.app.arm.supercode.SelectionDTO;
+import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
+import com.stpl.app.arm.utils.QueryUtils;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.utils.xmlparser.SQlUtil;
+import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  *
@@ -57,8 +58,8 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
         return finalList;
     }
 
-    public List getRightTableHeaders(SummarySelection selection) throws ParseException {
-        
+    public List getRightTableHeaders(SummarySelection selection) {
+
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
         String[] months = dateFormatSymbols.getShortMonths();
         Date frmDate = new Date();
@@ -128,12 +129,12 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             if (ARMUtils.frequencyVarables.MONTHLY.toString().equals(selection.getFrequency())) {
                 tempPeriod = startMonth / frequencyDivision;
             } else {
-              tempPeriod = (startMonth / frequencyDivision) + 1;
+                tempPeriod = (startMonth / frequencyDivision) + 1;
             }
             HashMap<Object, String> headerVlaueMap = new HashMap<>();
             List<String> selectedVariables = selection.getSelectedAdjustmentTypeValues();
             List<String> selectedToatalAndCumulative = removeTotalAndCumulative(selectedVariables);
-       
+
             for (int i = 0; i < ((totalMonth / frequencyDivision) + NumericConstants.ONE); i++) {
                 if (tempPeriod > (NumericConstants.TWELVE / frequencyDivision)) {
                     tempPeriod = NumericConstants.ONE;
@@ -153,8 +154,8 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
                         doubleHeaders.add(months[tempPeriod - NumericConstants.ONE] + " " + year);
                         break;
                     case NumericConstants.TWELVE:
-                        doubleColumn = "" + year;
-                        doubleHeaders.add("" + year);
+                        doubleColumn = String.valueOf(year);
+                        doubleHeaders.add(String.valueOf(year));
                         break;
                     default:
                         break;
@@ -209,20 +210,37 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             }
             for (String selectedTotal : selectedToatalAndCumulative) {
                 tempList.clear();
-                doubleColumn = selectedTotal.replace(" ", StringUtils.EMPTY);
-                doubleHeaders.add(selectedTotal);
-                doubleColumns.add(doubleColumn);
-                for (int j = 0; j < selectedVariables.size(); j++) {
-                    String adjType = selection.getSelectedAdjustmentTypeValues().get(j);
-                    column = doubleColumn + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                    visibleHeaders.add(adjType);
-                    tempList.add(column);
-                    visibleColumn.add(column);
-                    headerVlaueMap.put(StringUtils.EMPTY + selectedTotal + selectedVariables.get(j), column);
-                    index++;
+                if (CommonConstant.BEGINNING_BALANCE.equals(selectedTotal)) {
+                    doubleColumn = selectedTotal.replace(" ", StringUtils.EMPTY);
+                    doubleHeaders.add(0,selectedTotal);
+                    doubleColumns.add(0,doubleColumn);
+                    for (int j = 0; j < selectedVariables.size() ; j++) {
+                        String adjType = selection.getSelectedAdjustmentTypeValues().get(j);
+                        column = doubleColumn + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                        visibleHeaders.add(j,adjType);
+                        tempList.add(j,column);
+                        visibleColumn.add(j,column);
+                        headerVlaueMap.put(StringUtils.EMPTY + selectedTotal + selectedVariables.get(j), column);
+                        index++;
+                    }
+                    headerMap.put(doubleColumn, tempList.toArray());
+                    excelHeaderMap.put(doubleColumn, tempList.toArray());
+                } else {
+                    doubleColumn = selectedTotal.replace(" ", StringUtils.EMPTY);
+                    doubleHeaders.add(selectedTotal);
+                    doubleColumns.add(doubleColumn);
+                    for (int j = 0; j < selectedVariables.size(); j++) {
+                        String adjType = selection.getSelectedAdjustmentTypeValues().get(j);
+                        column = doubleColumn + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
+                        visibleHeaders.add(adjType);
+                        tempList.add(column);
+                        visibleColumn.add(column);
+                        headerVlaueMap.put(StringUtils.EMPTY + selectedTotal + selectedVariables.get(j), column);
+                        index++;
+                    }
+                    headerMap.put(doubleColumn, tempList.toArray());
+                    excelHeaderMap.put(doubleColumn, tempList.toArray());
                 }
-                headerMap.put(doubleColumn, tempList.toArray());
-                excelHeaderMap.put(doubleColumn, tempList.toArray());
             }
 
             selection.setHeaderVisibleColumnMap(headerVlaueMap);
@@ -234,12 +252,12 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             finalList.add(doubleHeaders);
             finalList.add(headerMap);
             finalList.add(excelHeaderMap);
-            
+
             addTotalAndCumulative(selectedVariables, selectedToatalAndCumulative);
-            
+
             return finalList;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public static final int getMonthsDifference(Date date1, Date date2) {
@@ -257,17 +275,21 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
 
     private List<String> removeTotalAndCumulative(List<String> selectedVariables) {
         List<String> selectedTotal = new ArrayList();
-        if (selectedVariables.contains("Total")) {
-            selectedTotal.add("Total");
-            selectedVariables.remove("Total");
+        if (selectedVariables.contains(CommonConstant.TOTAL)) {
+            selectedTotal.add(CommonConstant.TOTAL);
+            selectedVariables.remove(CommonConstant.TOTAL);
         }
-        if (selectedVariables.contains("Cumulative Balance")) {
-            selectedTotal.add("Cumulative Balance");
-            selectedVariables.remove("Cumulative Balance");
+        if (selectedVariables.contains(CommonConstant.CUMULATIVE_BALANCE)) {
+            selectedTotal.add(CommonConstant.CUMULATIVE_BALANCE);
+            selectedVariables.remove(CommonConstant.CUMULATIVE_BALANCE);
+        }
+        if (selectedVariables.contains(CommonConstant.BEGINNING_BALANCE)) {
+            selectedTotal.add(CommonConstant.BEGINNING_BALANCE);
+            selectedVariables.remove(CommonConstant.BEGINNING_BALANCE);
         }
         return selectedTotal;
     }
-   
+
     @Override
     protected Object[] generateInputs(Object dto, SelectionDTO data) {
         Object[] returnObj = new Object[2];
@@ -286,57 +308,59 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
                 AdjustmentDTO val = (AdjustmentDTO) dto;
                 int levelNo = val.getLevelNo();
                 masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
-                masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBrand_item_masterSid()));
+                masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
                 selection.setMasterSids(masterSids);
                 if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
-                    nextLevel = selection.getSummary_deductionLevelDes();
+                    nextLevel = selection.getSummarydeductionLevelDes();
                 } else {
                     nextLevel = selection.getSummaryLevel().get(levelNo);
                 }
-                selection.setSummary_viewType(selection.getSummaryLevel().get(levelNo));
+                selection.setSummaryviewType(selection.getSummaryLevel().get(levelNo));
                 selection.setLevelNo(levelNo);
             } else {
                 selection.setLevelNo(1);
                 // Do not change the order of the below code
                 // This condition will work when Level filter is not used
                 if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
-                    nextLevel = selection.getSummary_deductionLevelDes();
+                    nextLevel = selection.getSummarydeductionLevelDes();
                 } else {
                     nextLevel = selection.getSummaryLevel().get(1);
                 }
                 // This condition will work for Value Ddlb
-                if (selection.getSummary_valueSid() != 0) {
-                    selection.getMasterSids().put(selection.getSummary_levelFilterValue(), selection.getSummary_valueSid());
-                } else if (selection.getSummary_levelFilterNo() != 0) {
-                    selection.getMasterSids().put(selection.getSummary_levelFilterValue(), null);
+                if (selection.getSummaryvalueSid() != 0) {
+                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
+                } else if (selection.getSummarylevelFilterNo() != 0) {
+                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
                 }
                 //This will ovverride the default first Level (For Level Filter)
-                if (selection.getSummary_levelFilterNo() != 0) {
-                    if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummary_levelFilterValue())) {
-                        nextLevel = selection.getSummary_deductionLevelDes();
+                if (selection.getSummarylevelFilterNo() != 0) {
+                    if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
+                        nextLevel = selection.getSummarydeductionLevelDes();
                     } else {
-                        nextLevel = selection.getSummary_levelFilterValue();
+                        nextLevel = selection.getSummarylevelFilterValue();
                     }
                 }
 
             }
             inputs.add(nextLevel);
-            inputs.add(selection.getFromDate());
-            inputs.add(selection.getToDate());
+            inputs.add(selection.getDataSelectionFromDate());
+            inputs.add(selection.getDataSelectionToDate());
             inputs.add(selection.getSessionDTO().getUserId());
             inputs.add(selection.getSessionDTO().getSessionId());
-            rebateRecord = "WHERE" + ARMUtils.getDeductionValuesMap().get(selection.getSummary_deductionLevelDes()) + " IN ('" + StringUtils.join(selection.getDeductionVariableIds(), "','") + "' )";
+            rebateRecord = "WHERE" + ARMUtils.getDeductionValuesMap().get(selection.getSummarydeductionLevelDes()) + " IN ('" + StringUtils.join(selection.getDeductionVariableIds(), "','") + "' )";
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
-            inputs.add(ARMUtils.getDeductionValuesMapForLevel().get(selection.getSummary_deductionLevelDes()));
+            inputs.add(ARMUtils.getDeductionValuesMapForLevel().get(selection.getSummarydeductionLevelDes()));
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()));
             inputs.add(rebateRecord);
+            inputs.add(selection.getFromDateFilter());
+            inputs.add(selection.getToDateFilter());
             returnObj[0] = inputs;
             returnObj[1] = new TreeMap();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in generateInputs:"+ex);
         }
         return returnObj;
     }
@@ -346,9 +370,9 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
         boolean totalFlag = false;
         boolean dataFlag = true;
         if ((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))
-                && (criteria.getCurrentPage() == criteria.getLastPage()) && criteria.getSelectionDto().getSummary_levelFilterNo() == 0 && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) {
+                && (criteria.getCurrentPage() == criteria.getLastPage()) && criteria.getSelectionDto().getSummarylevelFilterNo() == 0 && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) {
             totalFlag = true;
-            int start = Integer.valueOf(inputs.get(inputs.size() - 2).toString());
+            int start = Integer.parseInt(inputs.get(inputs.size() - 2).toString());
             int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
             dataFlag = offset >= start;
@@ -369,7 +393,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
             l.addAll((getCustomizedData(criteria.getSelectionDto(), totaldata)).getDataResults());
             result.setDataResults(l);
         }
-        
+
         return result;
     }
 
@@ -377,7 +401,7 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
     protected int getSummaryCount(List<Object> inputs, Criteria criteria) {
         int count;
         count = CommonLogic.getCount(QueryUtils.getItemData(inputs, getCommonQueryName(), getCountQueryName()));
-        if (count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getSelectionDto().getSummary_levelFilterNo() == 0)) {
+        if (count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
             count = count + 1;
         }
         return count;
@@ -397,31 +421,49 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
     @Override
     public List getExcelResultList(AbstractSelectionDTO selection) {
         String query = SQlUtil.getQuery(getExcelQueryName());
-        Object[] value = selection.getExcelHierarchy(); 
+        Object[] value = selection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
-        query = query.replace("@DEDUCTIONLEVEL", selection.getSummary_deductionLevelDes());
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummary_deductionValues().replace("'", "''"));
-        query = query.replace("@FREQUENCYSELECTED", selection.getSummary_FrequencyName());
+        query = query.replace("@DEDUCTIONLEVEL", selection.getSummarydeductionLevelDes());
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@FREQUENCYSELECTED", selection.getSummaryFrequencyName());
+        query = query.replace("@STARTPERIOD", selection.getDataSelectionFromDate());
+        query = query.replace("@ENDPERIOD", selection.getDataSelectionToDate());
+        query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
+        query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
+        query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
+        query = query.replace("@STARTFILTER", String.valueOf(selection.getPeriodSidList().get(0)));
+        query = query.replace("@ENDFILTER", selection.getPeriodSidList().size() > 1 ? String.valueOf(selection.getPeriodSidList().get(1)) : String.valueOf(selection.getPeriodSidList().get(0)));
+        List deductionList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        query = SQlUtil.getQuery(getExcelTotalQueryName());
+        query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
+        query = query.replace("@DEDUCTIONLEVEL", selection.getSummarydeductionLevelDes());
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@FREQUENCYSELECTED", selection.getSummaryFrequencyName());
         query = query.replace("@STARTPERIOD", selection.getFromDate());
         query = query.replace("@ENDPERIOD", selection.getToDate());
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
         query = query.replace("@USERID", String.valueOf(selection.getSessionDTO().getUserId()));
         query = query.replace("@SESSIONID", String.valueOf(selection.getSessionDTO().getSessionId()));
-
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return list;
+        List totalList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        List returnList = new ArrayList();
+        returnList.add(deductionList);
+        returnList.add(totalList);
+        return returnList;
     }
 
     private List<String> addTotalAndCumulative(List<String> selectedVariables, List<String> selectedTotal) {
-        if (selectedTotal.contains("Total")) {
-            selectedVariables.add("Total");
+        if (selectedTotal.contains(CommonConstant.TOTAL)) {
+            selectedVariables.add(CommonConstant.TOTAL);
         }
-        if (selectedTotal.contains("Cumulative Balance")) {
-            selectedVariables.add("Cumulative Balance");
+        if (selectedTotal.contains(CommonConstant.CUMULATIVE_BALANCE)) {
+            selectedVariables.add(CommonConstant.CUMULATIVE_BALANCE);
+        }
+        if (selectedTotal.contains(CommonConstant.BEGINNING_BALANCE)) {
+            selectedVariables.add(NumericConstants.ZERO, CommonConstant.BEGINNING_BALANCE);
         }
         return selectedTotal;
     }
-    
+
     protected abstract String getCommonQueryName();
 
     protected abstract String getLoadDataQueryName();
@@ -429,11 +471,13 @@ public abstract class AbstractBSummaryLogic<T extends AdjustmentDTO> extends Abs
     protected abstract String getCountQueryName();
 
     protected abstract String getTotalQueryName();
-    
+
     protected abstract String getExcelQueryName();
     
+    protected abstract String getExcelTotalQueryName();
+
     protected abstract DataResult getCustomizedData(SelectionDTO data, List list);
-    
-    public abstract List<Map<String, AdjustmentDTO>> bsExcelCustomizer(final List resultList, final Object[] object, final List<String> visibleColumns, final boolean isFixedColumns, final int interval, final int discountColumnNeeded, AbstractSelectionDTO selection) throws IllegalAccessException, InvocationTargetException ;
-    
+
+    public abstract List<Map<String, AdjustmentDTO>> bsExcelCustomizer(final List resultList, final Object[] object, final List<String> visibleColumns, final boolean isFixedColumns, final int interval, final int discountColumnNeeded, AbstractSelectionDTO selection) throws IllegalAccessException, InvocationTargetException;
+
 }

@@ -227,7 +227,7 @@ public final class ParentLookup extends Window {
 	/**
 	 * Initialize the UI Content.
 	 */
-	public void init() throws PortalException, SystemException {
+	public void init() {
 		center();
 		setClosable(true);
 		setModal(true);
@@ -245,7 +245,7 @@ public final class ParentLookup extends Window {
 	 */
 	private ErrorfulFieldGroup getBinder() {
 
-		binder = new ErrorfulFieldGroup(new BeanItem<PSDTO>(psMaster));
+		binder = new ErrorfulFieldGroup(new BeanItem<>(psMaster));
 		binder.setBuffered(true);
 		binder.bindMemberFields(this);
 		binder.setErrorDisplay(errorMsg);
@@ -290,8 +290,8 @@ public final class ParentLookup extends Window {
 		table.setImmediate(true);
 		table.setSelectable(true);
 		table.setContainerDataSource(searchResults);
-		table.setVisibleColumns(PsUtils.PS_SEARCH_TABLE);
-		table.setColumnHeaders(PsUtils.PS_COL_HEADERS);
+		table.setVisibleColumns(PsUtils.getInstance().psSearchTable);
+		table.setColumnHeaders(PsUtils.getInstance().psColHeaders);
 		table.setFilterBarVisible(true);
 		table.setFilterDecorator(new ExtDemoFilterDecorator());
 		table.addStyleName(ConstantsUtils.FILTER_BAR);
@@ -343,7 +343,7 @@ public final class ParentLookup extends Window {
 	/**
 	 * Customizing the Fields.
 	 */
-	protected void configureFields() throws PortalException, SystemException {
+	protected void configureFields() {
 
 		itemName.addValidator(new StringLengthValidator("Item Name should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
 		itemName.setImmediate(true);
@@ -417,7 +417,7 @@ public final class ParentLookup extends Window {
 				LOGGER.debug("Entering ParentLookup search operation");
 				try {
 					PSCriteria searchCriteria = new PSCriteria();
-					List<Object> collapsedColumns = new ArrayList<Object>();
+					List<Object> collapsedColumns = new ArrayList<>();
 					for (Object item : table.getVisibleColumns()) {
 						if (table.isColumnCollapsed(item)) {
 							collapsedColumns.add(item);
@@ -441,8 +441,8 @@ public final class ParentLookup extends Window {
 						} else {
 							CommonUIUtils.successNotification(ConstantsUtils.NO_RESULTS_COMPLETED);
 						}
-						table.setVisibleColumns(PsUtils.PS_SEARCH_TABLE);
-						table.setColumnHeaders(PsUtils.PS_COL_HEADERS);
+						table.setVisibleColumns(PsUtils.getInstance().psSearchTable);
+						table.setColumnHeaders(PsUtils.getInstance().psColHeaders);
 						table.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
 						table.setSelectable(true);
 						searchCriteria.setCustomDirty(false);
@@ -510,19 +510,19 @@ public final class ParentLookup extends Window {
 
 	public void refresh() {
 		try {
-			List<Object> collapsedColumns = new ArrayList<Object>();
+			List<Object> collapsedColumns = new ArrayList<>();
 			for (Object item : table.getVisibleColumns()) {
 				if (table.isColumnCollapsed(item)) {
 					collapsedColumns.add(item);
 				}
 			}
-			binder.setItemDataSource(new BeanItem<PSDTO>(new PSDTO()));
+			binder.setItemDataSource(new BeanItem<>(new PSDTO()));
 
 			binder.getErrorDisplay().clearError();
-			final BeanItemContainer<PSDTO> searchResultbeans = new BeanItemContainer<PSDTO>(PSDTO.class);
+			final BeanItemContainer<PSDTO> searchResultbeans = new BeanItemContainer<>(PSDTO.class);
 			table.setContainerDataSource(searchResultbeans);
-			table.setVisibleColumns(PsUtils.PS_SEARCH_TABLE);
-			table.setColumnHeaders(PsUtils.PS_COL_HEADERS);
+			table.setVisibleColumns(PsUtils.getInstance().psSearchTable);
+			table.setColumnHeaders(PsUtils.getInstance().psColHeaders);
 			binder.getErrorDisplay().clearError();
 			for (Object propertyId : collapsedColumns) {
 				table.setColumnCollapsed(propertyId, true);

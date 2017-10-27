@@ -37,9 +37,9 @@ public class CrossReferencePricing extends VerticalLayout {
     @UiField("massField")
     public ComboBox massField;
 
-    private final ExtTreeContainer<TransferToDTO> toResultContainer = new ExtTreeContainer<TransferToDTO>(TransferToDTO.class);
-    private final BeanItemContainer<ComponentDetailsDTO> componentDetailsContainer = new BeanItemContainer<ComponentDetailsDTO>(ComponentDetailsDTO.class);
-    private final BeanItemContainer<DetailsDTO> psResultsContainer = new BeanItemContainer<DetailsDTO>(DetailsDTO.class);
+    private final ExtTreeContainer<TransferToDTO> toResultContainer = new ExtTreeContainer<>(TransferToDTO.class);
+    private final BeanItemContainer<ComponentDetailsDTO> componentDetailsContainer = new BeanItemContainer<>(ComponentDetailsDTO.class);
+    private final BeanItemContainer<DetailsDTO> psResultsContainer = new BeanItemContainer<>(DetailsDTO.class);
 
     public CrossReferencePricing() {
         addComponent(Clara.create(getClass().getResourceAsStream("/TransferContract/crossRefPricing.xml"), this));
@@ -50,16 +50,16 @@ public class CrossReferencePricing extends VerticalLayout {
     private void configureTables() {
 
         toResultTablePricing.setContainerDataSource(toResultContainer);
-        toResultTablePricing.setVisibleColumns(HeaderUtil.TRANSFOR_TO_COLUMN);
-        toResultTablePricing.setColumnHeaders(HeaderUtil.TRANSFOR_TO_HEADER);
+        toResultTablePricing.setVisibleColumns(HeaderUtil.getInstance().transforToColumn);
+        toResultTablePricing.setColumnHeaders(HeaderUtil.getInstance().transforToHeader);
 
         componentDetailsTable.setContainerDataSource(componentDetailsContainer);
-        componentDetailsTable.setVisibleColumns(HeaderUtil.COMPONENT_DETAILS_ITEM_COLUMN);
-        componentDetailsTable.setColumnHeaders(HeaderUtil.COMPONENT_DETAILS_ITEM_HEADER);
+        componentDetailsTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
+        componentDetailsTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
 
         psResults.setContainerDataSource(psResultsContainer);
-        psResults.setVisibleColumns(HeaderUtil.PS_DETAILS_COLUMN);
-        psResults.setColumnHeaders(HeaderUtil.PS_DETAILS_HEADER);
+        psResults.setVisibleColumns(HeaderUtil.getInstance().psDetailsColumn);
+        psResults.setColumnHeaders(HeaderUtil.getInstance().psDetailsHeader);
 
     }
      public void configureFields(){

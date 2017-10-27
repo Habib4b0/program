@@ -8,7 +8,6 @@ package com.stpl.app.gcm.discount.logic;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
-import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
@@ -34,7 +33,7 @@ public class RemoveDiscountRsSearchLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        List<RemoveDiscountDto> list = new ArrayList<>();
+        List<RemoveDiscountDto> list;
         list = logic.getRebateSearch(field, value, contractSid, rsSid);
         return list;
     }

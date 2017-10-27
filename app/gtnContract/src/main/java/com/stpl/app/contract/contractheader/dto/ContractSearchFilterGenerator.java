@@ -23,12 +23,12 @@ import org.jboss.logging.Logger;
  * @author shrihariharan
  */
 public class ContractSearchFilterGenerator implements ExtFilterGenerator{
-private final ContractHeaderLogic contractHL = new ContractHeaderLogic();
+    private final ContractHeaderLogic contractHL = new ContractHeaderLogic();
     CommonUtils commonsUtil = new CommonUtils();
      /**
-     * The Constant LOGGER.
+     * The Constant logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(ContractSearchFilterGenerator.class);
+    private final Logger logger = Logger.getLogger(ContractSearchFilterGenerator.class);
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
@@ -68,7 +68,7 @@ private final ContractHeaderLogic contractHL = new ContractHeaderLogic();
             try {
                 commonsUtil.getNativeSelect(contractStatus, contractHL.getDropDownList(UIUtils.STATUS));
             } catch (Exception ex) {
-              LOGGER.error(ex);
+              logger.error(ex);
             }
             contractStatus.setImmediate(true);
             contractStatus.setNullSelectionAllowed(true);
@@ -82,7 +82,7 @@ private final ContractHeaderLogic contractHL = new ContractHeaderLogic();
             try {
                 commonsUtil.getNativeSelect(contractType, contractHL.getDropDownList(UIUtils.CONTRACT_TYPE));
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                logger.error(ex);
             }
             contractType.setImmediate(true);
             contractType.setNullSelectionAllowed(true);
@@ -96,10 +96,12 @@ private final ContractHeaderLogic contractHL = new ContractHeaderLogic();
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

@@ -10,12 +10,12 @@ import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
 public class BSummaryDemandSummary extends AbstractBSummaryReportSummary {
 
     BSummaryDemandResults results;
-    String[] defaultColumnsHeader = {"Actual Payments", "Period Balance", "Payment Ratio", "Total", "Cumulative Balance"};
-    String[] defaultColumns = {"Actual_Payments", "Period_Balance", "Payment_Ratio", "Total", "Cumulative_Balance"};
+    String[] defaultColumns = {"Beginning_Balance", "Demand_Accrual", "Demand_Reforecast", "Payment_True_up", "Actual_Payments", "Period_Balance", "Payment_Ratio", "Total"};
+    String[] defaultColumnsHeader = {"Beginning Balance", "Demand Accrual", "Demand Reforecast", "Payment True-up", "Actual Payments", "Period Balance", "Payment Ratio", "Total"};
 
     public BSummaryDemandSummary(SummarySelection tselection, BSummaryDemandLogic logic) {
         super(logic, tselection);
-        results = new BSummaryDemandResults(logic, selection);
+        results = new BSummaryDemandResults(logic, getSelection());
         init();
     }
 
@@ -36,7 +36,7 @@ public class BSummaryDemandSummary extends AbstractBSummaryReportSummary {
 
     @Override
     public String getProcedureName() {
-        return "PRC_BALANCE_REPORT_DEMAND";
+        return "PRC_ARM_BSR_DEMAND";
     }
 
     @Override
@@ -44,4 +44,23 @@ public class BSummaryDemandSummary extends AbstractBSummaryReportSummary {
         return "ARM_BSR_DEMAND";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+    
+    @Override
+    public String[] getAdjustmentTypeHeader() {
+        return defaultColumnsHeader;
+    }
+
+    @Override
+    public String[] getAdjustmentTypeColumn() {
+        return defaultColumns;
+    }
 }

@@ -31,8 +31,18 @@ IF NOT EXISTS (SELECT 1
       ALTER TABLE ARM_ACC_CONFIG
        ADD  ARM_ACC_CONFIG_SID INT IDENTITY(1,1) NOT NULL
   END
+--GAL-11498 Changes for Delete Button functionality
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_ACC_CONFIG' 
+                      AND COLUMN_NAME = 'DELETE_CHECK_RECORD' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_ACC_CONFIG 
+        ADD DELETE_CHECK_RECORD BIT NULL
+  END 
 
-
+GO
 
 
 ------ DEFAULT CONSTRAINT FOR ARM_ACC_CONFIG---------------------------- 
@@ -79,6 +89,19 @@ IF NOT EXISTS (SELECT 'X'
   END 
 
 GO 
+
+------ Default Constraints for GAL-11498
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ACC_CONFIG')
+                      AND NAME = 'DF_ARM_ACC_CONFIG_DELETE_CHECK_RECORD')
+  BEGIN
+      ALTER TABLE [DBO].ARM_ACC_CONFIG
+        ADD CONSTRAINT DF_ARM_ACC_CONFIG_DELETE_CHECK_RECORD DEFAULT (0) FOR DELETE_CHECK_RECORD
+  END
+
+GO
+
 
 ---------UNIQUE KEY CONSTRAINTS-------------------- 
 IF NOT EXISTS (SELECT 'X' 
@@ -229,8 +252,17 @@ IF NOT EXISTS (SELECT 1
        ADD  ARM_ACC_CONFIG_SID INT  NOT NULL
   END
 
-
-
+--GAL-11498 Changes
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_ARM_ACC_CONFIG'
+                  AND COLUMN_NAME = 'DELETE_CHECK_RECORD'
+                  AND TABLE_SCHEMA = 'DBO'
+				  )
+  BEGIN
+      ALTER TABLE HIST_ARM_ACC_CONFIG
+      ADD DELETE_CHECK_RECORD BIT NULL
+  END
 
 IF EXISTS (SELECT 'X' 
            FROM   SYS.TRIGGERS 
@@ -265,7 +297,8 @@ AS
                      MODIFIED_DATE, 
                      ACTION_FLAG, 
                      ACTION_DATE,
-					 SOURCE) 
+					 SOURCE,
+					 DELETE_CHECK_RECORD) 
         SELECT ARM_ACC_CONFIG_SID,
 		       GL_COMPANY_MASTER_SID, 
                BU_COMPANY_MASTER_SID, 
@@ -278,7 +311,8 @@ AS
                MODIFIED_DATE, 
                'C', 
                GETDATE(),
-			   SOURCE
+			   SOURCE,
+			   DELETE_CHECK_RECORD
         FROM   INSERTED 
   END 
 
@@ -315,7 +349,8 @@ AS
                      MODIFIED_DATE, 
                      ACTION_FLAG, 
                      ACTION_DATE,
-					 SOURCE) 
+					 SOURCE,
+					 DELETE_CHECK_RECORD) 
         SELECT ARM_ACC_CONFIG_SID,
 		       GL_COMPANY_MASTER_SID, 
                BU_COMPANY_MASTER_SID, 
@@ -328,7 +363,8 @@ AS
                MODIFIED_DATE, 
                'A', 
                GETDATE(),
-			   SOURCE
+			   SOURCE,
+			   DELETE_CHECK_RECORD
         FROM   INSERTED 
   END 
 
@@ -365,7 +401,8 @@ AS
                      MODIFIED_DATE, 
                      ACTION_FLAG, 
                      ACTION_DATE,
-					 SOURCE) 
+					 SOURCE,
+					 DELETE_CHECK_RECORD) 
         SELECT ARM_ACC_CONFIG_SID,
 		       GL_COMPANY_MASTER_SID, 
                BU_COMPANY_MASTER_SID, 
@@ -378,7 +415,8 @@ AS
                MODIFIED_DATE, 
                'D', 
                GETDATE(),
-			   SOURCE
+			   SOURCE,
+			   DELETE_CHECK_RECORD
         FROM   DELETED 
   END 
 

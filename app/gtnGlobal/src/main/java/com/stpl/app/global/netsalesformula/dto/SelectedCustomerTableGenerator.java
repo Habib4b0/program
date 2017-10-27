@@ -90,24 +90,7 @@ public class SelectedCustomerTableGenerator extends DefaultFieldFactory {
                 netSalesRule.addClickListener(new CustomTextField.ClickListener() {
                     @Override
                     public void click(CustomTextField.ClickEvent event) {
-                        try {
-                           
-                            final NetSalesRuleLookUp lookUp = new NetSalesRuleLookUp(netSalesRule,"Sales Basis");
-                            UI.getCurrent().addWindow(lookUp);
-                            lookUp.addCloseListener(new Window.CloseListener() {
-                                @Override
-                                public void windowClose(final Window.CloseEvent e) {
-                                    if (!"".equals(lookUp.getDetailsDto().getRuleSystemId())) {
-                                        logic.updateRuleToTempTable(lookUp.getDetailsDto().getRuleSystemId(), (SalesBasisDto) itemId);
-                                        salesBasis.refreshLazyTable();
-                                        selectedCustomersTable.setCurrentPage(selectedCustomersTable.getCurrentPage());
-                                    }
-                                }
-                            });
-                        } catch (Exception e) {
-                            LOGGER.error(e);
-
-                        }
+                        netSalesRuleClickEvent(netSalesRule,itemId);
                     }
                 });
                 netSalesRule.setEnabled(isEnabled);
@@ -134,6 +117,7 @@ public class SelectedCustomerTableGenerator extends DefaultFieldFactory {
                             ruleDetailsLookup.addCloseListener(new Window.CloseListener() {
                                 @Override
                                 public void windowClose(Window.CloseEvent e) {
+                                    return;
                                 }
                             });
                         
@@ -183,5 +167,25 @@ public class SelectedCustomerTableGenerator extends DefaultFieldFactory {
         final Field field = super.createField(container, itemId, propertyId, uiContext);
         field.setReadOnly(true);
         return field;
+    }
+    public void netSalesRuleClickEvent(final CustomTextField netSalesRule,final Object itemId){
+        try {
+                           
+                            final NetSalesRuleLookUp lookUp = new NetSalesRuleLookUp(netSalesRule,"Sales Basis");
+                            UI.getCurrent().addWindow(lookUp);
+                            lookUp.addCloseListener(new Window.CloseListener() {
+                                @Override
+                                public void windowClose(final Window.CloseEvent e) {
+                                    if (!"".equals(lookUp.getDetailsDto().getRuleSystemId())) {
+                                        logic.updateRuleToTempTable(lookUp.getDetailsDto().getRuleSystemId(), (SalesBasisDto) itemId);
+                                        salesBasis.refreshLazyTable();
+                                        selectedCustomersTable.setCurrentPage(selectedCustomersTable.getCurrentPage());
+                                    }
+                                }
+                            });
+                        } catch (Exception e) {
+                            LOGGER.error(e);
+
+                        } 
     }
 }

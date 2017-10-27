@@ -124,7 +124,8 @@ public class PeriodConfigSearchView extends VerticalLayout implements View {
 
         super();
         LOGGER.debug("PeriodConfigSearchView constructor initiated ");
-        forecastIndex = new PeriodConfigSearchIndex(forecastBinder,sessionDTO);
+        this.sessionDTO=sessionDTO;
+        forecastIndex = new PeriodConfigSearchIndex(sessionDTO);
         setSpacing(true);
         addComponent(forecastIndex);
         setStyleName("bootstrap");
@@ -141,7 +142,7 @@ public class PeriodConfigSearchView extends VerticalLayout implements View {
         try {
             LOGGER.debug("Inside enter -- ?>>>> ");
             this.removeAllComponents();
-            forecastIndex = new PeriodConfigSearchIndex(forecastBinder,sessionDTO);
+            forecastIndex = new PeriodConfigSearchIndex(sessionDTO);
             addComponent(forecastIndex);
 
         } catch (Exception ex) {

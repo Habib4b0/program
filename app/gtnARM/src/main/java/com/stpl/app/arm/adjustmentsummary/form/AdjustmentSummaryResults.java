@@ -8,23 +8,23 @@ import com.stpl.app.utils.CommonUtils;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.ui.GridLayout;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.utils.ExcelUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-import static com.stpl.ifs.ui.util.AbstractNotificationUtils.LOGGER;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.Property;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.Label;
+
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -34,7 +34,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author Asha
  */
-public final class AdjustmentSummaryResults extends AbstractSummarySearchResults {
+public final class AdjustmentSummaryResults extends AbstractSummarySearchResults implements Serializable {
 
     String[] righttablesingleheaders = {"Demand Accrual", "Projected Demand Accrual", "Variance"};
     Object[] doubleheadercolumns = {"rate"};
@@ -44,34 +44,34 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     String[] doubleheader = {"Managed Care Base"};
     @UiField("BB-calculate")
-    private Button BBCalculate;
+    private Button bbCalculate;
     @UiField("valueLabel")
     private Label valueLabel;
     @UiField("BB-export")
-    private Button BBExport;
+    private Button bbExportButton;
     @UiField("BB-searchResultsGrid")
-    private GridLayout searchResultsGrid;
+    private GridLayout searchResultsGrids;
     @UiField("cancelOverride")
-    private Button cancelOverride;
-    SummaryLogic logic;
-    SummarySelection selection;
+    private Button cancelOverrideButton;
+    SummaryLogic summaryLogic;
+    SummarySelection selectionAdj;
     private final Label labelStatus = new Label("Status");
 
-        protected final CustomMenuBar statusDdlb = new CustomMenuBar();
+    protected final CustomMenuBar statusDdlb = new CustomMenuBar();
 
     protected CustomMenuBar.CustomMenuItem statusMenuItem;
 
     boolean isValueChange;
-    String leftHeader = "Customer";
+    String leftHeader = CommonConstant.CUSTOMER;
     /**
-     * The Constant LOGGER.
+     * The Constant LOGGERSUMMARYRESULT.
      */
-    private static final Logger LOGGER = Logger.getLogger(AdjustmentSummaryResults.class);
+    private static final Logger LOGGERSUMMARYRESULT = Logger.getLogger(AdjustmentSummaryResults.class);
 
     public AdjustmentSummaryResults(SummaryLogic logic, SummarySelection selection) {
         super(logic, selection);
-        this.logic = logic;
-        this.selection = selection;
+        this.summaryLogic = logic;
+        this.selectionAdj = selection;
     }
 
     public void init() {
@@ -81,7 +81,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     public void setVisibleColumnsAndHeaders() {
-        Object[] list = logic.getLeftTableHeaders();
+        Object[] list = summaryLogic.getLeftTableHeaders();
         leftTable.setVisibleColumns((Object[]) (list[0]));
         leftTable.setColumnHeaders((String[]) (list[1]));
         leftTable.setDoubleHeaderVisibleColumns((Object[]) (list[NumericConstants.TWO]));
@@ -103,11 +103,11 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
         rightTable.setColumnHeaders(righttablesingleheaders);
         rightTable.setDoubleHeaderVisibleColumns(doubleheadercolumns);
         rightTable.setDoubleHeaderColumnHeaders(doubleheader);
-        rightTable.setDoubleHeaderMap(configure_RightDoubleHeaderMap());
+        rightTable.setDoubleHeaderMap(configureRightDoubleHeaderMap());
         abstractSearchContent.setWidth("100%");
     }
 
-    private Map<Object, Object[]> configure_RightDoubleHeaderMap() {
+    private Map<Object, Object[]> configureRightDoubleHeaderMap() {
         Map<Object, Object[]> headerMap = new HashMap<>();
         headerMap.put("rate", singleheader);
         return headerMap;
@@ -117,43 +117,43 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
     public void setExcelVisibleColumn() {
         try {
             Map properties = new HashMap();
-            List<Object> header = logic.getRightTableHeaders(selection);
-            List right_singleVisibleColumn = (ArrayList) header.get(0);
-            List right_singleVisibleHeader = (ArrayList) header.get(1);
-            List<String> right_doubleVisibleColumn = (ArrayList) header.get(NumericConstants.TWO);
-            List<String> right_doubleVisibleHeader = (ArrayList) header.get(NumericConstants.THREE);
-            for (Object variableColumn : right_singleVisibleColumn) {
+            List<Object> header = summaryLogic.getRightTableHeaders(selectionAdj);
+            List rightSingleVisibleColumn = (ArrayList) header.get(0);
+            List rightSingleVisibleHeader = (ArrayList) header.get(1);
+            List<String> rightDoubleVisibleColumn = (ArrayList) header.get(NumericConstants.TWO);
+            List<String> rightDoubleVisibleHeader = (ArrayList) header.get(NumericConstants.THREE);
+            for (Object variableColumn : rightSingleVisibleColumn) {
                 properties.put(variableColumn, String.class);
             }
             getExcelContainer().setColumnProperties(properties);
-            getExcelContainer().setRecordHeader(right_singleVisibleColumn);
-            List right_singleVisibleColumn1 = new ArrayList(right_singleVisibleColumn);
-            right_singleVisibleColumn1.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
-            right_singleVisibleHeader.add(0, ARMUtils.CUSTOMERORPRODUCT);
-            right_doubleVisibleColumn.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
-            right_doubleVisibleHeader.add(0, "");
-            getExcelTable().setVisibleColumns(right_singleVisibleColumn1.toArray());
-            getExcelTable().setColumnHeaders(Arrays.copyOf((right_singleVisibleHeader).toArray(), (right_singleVisibleHeader).size(), String[].class));
+            getExcelContainer().setRecordHeader(rightSingleVisibleColumn);
+            List rightSingleVisibleColumn1 = new ArrayList(rightSingleVisibleColumn);
+            rightSingleVisibleColumn1.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
+            rightSingleVisibleHeader.add(0, ARMUtils.CUSTOMERORPRODUCT);
+            rightDoubleVisibleColumn.add(0, ARMUtils.CUSTOMERORPRODUCT_COLUMN);
+            rightDoubleVisibleHeader.add(0, "");
+            getExcelTable().setVisibleColumns(rightSingleVisibleColumn1.toArray());
+            getExcelTable().setColumnHeaders(Arrays.copyOf((rightSingleVisibleHeader).toArray(), (rightSingleVisibleHeader).size(), String[].class));
             getExcelTable().setDoubleHeaderVisible(Boolean.TRUE);
-            getExcelTable().setDoubleHeaderVisibleColumns(right_doubleVisibleColumn.toArray());
-            getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(right_doubleVisibleHeader.toArray(), right_doubleVisibleHeader.size(), String[].class));
+            getExcelTable().setDoubleHeaderVisibleColumns(rightDoubleVisibleColumn.toArray());
+            getExcelTable().setDoubleHeaderColumnHeaders(Arrays.copyOf(rightDoubleVisibleHeader.toArray(), rightDoubleVisibleHeader.size(), String[].class));
             getExcelTable().setDoubleHeaderMap((Map) header.get(NumericConstants.FIVE));
             setConverter(getExcelTable(), getExcelTable().getVisibleColumns());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGERSUMMARYRESULT.error("Error in setExcelVisibleColumn :"+ex);
         }
     }
 
     protected void loadSelection() {
-        LOGGER.debug("customerProductView.getValue()-->>" + customerProductView.getValue());
-        selection.setSummaryLevel(ARMUtils.getADJ_SummaryLevel(String.valueOf(customerProductView.getValue())));
+        LOGGERSUMMARYRESULT.debug("customerProductView.getValue()-->>" + customerProductView.getValue());
+        selectionAdj.setSummaryLevel(ARMUtils.getADJSummaryLevel(String.valueOf(customerProductView.getValue())));
     }
 
     @Override
     protected void customerProductValueChange() {
         if (isValueChange) {
             String viewType = String.valueOf(customerProductView.getValue());
-            leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? "Product" : "Customer";
+            leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? "Product" : CommonConstant.CUSTOMER;
             leftTable.setColumnHeaders(leftHeader);
             setRespectiveHierarchy(viewType);
             configureLevelAndLevelFilter();
@@ -169,20 +169,20 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     protected boolean setRespectiveLevelFileterValue(String levelValue, int levelNo) {
-        selection.setSummary_levelFilterNo(levelNo);
-        selection.setSummary_levelFilterValue(levelValue);
-        selection.setSummary_valueSid(0);
+        selectionAdj.setSummarylevelFilterNo(levelNo);
+        selectionAdj.setSummarylevelFilterValue(levelValue);
+        selectionAdj.setSummaryvalueSid(0);
         return true;
     }
 
     @Override
-    public SummaryLogic getLogic() {
-        return (SummaryLogic) super.getLogic();
+    public SummaryLogic getSummaryLogic() {
+        return (SummaryLogic) super.getSummaryLogic();
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return getLogic();
+        return getSummaryLogic();
     }
 
     @Override
@@ -192,7 +192,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
         for (int i = 0; i < hierarchy.size(); i++) {
             String val = hierarchy.get(i + 1);
             if (val.equalsIgnoreCase(ARMUtils.levelVariablesVarables.DEDUCTION.toString())) {
-                val = getSelection().getSummary_deductionLevelDes().toUpperCase();
+                val = getSelection().getSummarydeductionLevelDes().toUpperCase();
             }
             value[i] = ARMUtils.getLevelExcelQueryName(val);
         }
@@ -207,7 +207,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     public String getExcelFileName() {
-        return "Adjustment Summary";
+        return "AdjustmentSummary";
     }
 
     @Override
@@ -236,17 +236,19 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
         @Override
         public void noMethod() {
+            LOGGERSUMMARYRESULT.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
         public void yesMethod() {
-            LOGGER.debug("buttonName :" + buttonName);
+            LOGGERSUMMARYRESULT.debug("buttonName :" + buttonName);
             if (null != buttonName) {
                 switch (buttonName) {
                     case "reset":
                         break;
                     case "save":
                         break;
+                    default:
                 }
             }
         }
@@ -261,12 +263,12 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
     public void configureFields() {
         super.configureFields();
         valueLabel.setCaption("Value:");
-        BBExport.setPrimaryStyleName("link");
-        BBExport.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
-        BBCalculate.setVisible(false);
-        cancelOverride.setVisible(false);
-        searchResultsGrid.addComponent(labelStatus);
-        searchResultsGrid.addComponent(statusDdlb);
+        bbExportButton.setPrimaryStyleName("link");
+        bbExportButton.setIcon(ARMUtils.EXCEL_EXPORT_IMAGE, "Excel Export");
+        bbCalculate.setVisible(false);
+        cancelOverrideButton.setVisible(false);
+        searchResultsGrids.addComponent(labelStatus);
+        searchResultsGrids.addComponent(statusDdlb);
         statusDdlb.setImmediate(true);
         statusDdlb.addStyleName("menuleft");
         statusDdlb.addStyleName("custommenumulticheck");
@@ -291,10 +293,10 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
     }
 
     private void loadTableHeaderForGenerate() {
-        Object[] list = logic.getLeftTableHeaders();
+        Object[] list = summaryLogic.getLeftTableHeaders();
         leftTable.setVisibleColumns((Object[]) (list[0]));
         String viewType = String.valueOf(customerProductView.getValue());
-        leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? "Product" : "Customer";
+        leftHeader = viewType.equals(ARMConstants.getDeductionProduct()) ? "Product" : CommonConstant.CUSTOMER;
         leftTable.setColumnHeaders(leftHeader);
         leftTable.setDoubleHeaderVisibleColumns((Object[]) (list[NumericConstants.TWO]));
         leftTable.setDoubleHeaderColumnHeaders((String[]) list[NumericConstants.THREE]);
@@ -304,33 +306,29 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
 
     @Override
     public void configureRightTable() {
-        try {
-            table.constructRightFreeze(true);
-            List rightList = logic.getRightTableHeaders(selection);
-            Map<Object, Class> properties = new HashMap<>();
+        table.constructRightFreeze(true);
+        List rightList = summaryLogic.getRightTableHeaders((SummarySelection) selection);
+        Map<Object, Class> properties = new HashMap<>();
 
-            for (Object obj : (List) rightList.get(0)) {
-                properties.put(obj, String.class);
-            }
-            rightTable = table.getRightFreezeAsTable();
-            rightTable.setImmediate(true);
-            rightTable.setDoubleHeaderVisible(Boolean.TRUE);
-            rightTable.setContainerDataSource(resultBeanContainer);
-            resultBeanContainer.setColumnProperties(properties);
-            rightTable.setVisibleColumns(((List) rightList.get(0)).toArray());
-            resultBeanContainer.setRecordHeader((List) rightList.get(0));
-            rightTable.setColumnHeaders(Arrays.copyOf(((List) rightList.get(1)).toArray(), ((List) rightList.get(1)).toArray().length, String[].class));
-            rightTable.setDoubleHeaderVisibleColumns(((List) rightList.get(NumericConstants.TWO)).toArray());
-            rightTable.setDoubleHeaderColumnHeaders(Arrays.copyOf(((List) rightList.get(NumericConstants.THREE)).toArray(), ((List) rightList.get(NumericConstants.THREE)).toArray().length, String[].class));
-            rightTable.setDoubleHeaderMap((Map) rightList.get(NumericConstants.FOUR));
-            for (Object propertyId : rightTable.getVisibleColumns()) {
-                rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
-            }
-            setConverter(rightTable, rightTable.getVisibleColumns());
-
-        } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(AdjustmentSummaryResults.class.getName()).log(Level.SEVERE, null, ex);
+        for (Object obj : (List) rightList.get(0)) {
+            properties.put(obj, String.class);
         }
+        rightTable = table.getRightFreezeAsTable();
+        rightTable.setImmediate(true);
+        rightTable.setDoubleHeaderVisible(Boolean.TRUE);
+        rightTable.setContainerDataSource(resultBeanContainer);
+        resultBeanContainer.setColumnProperties(properties);
+        rightTable.setVisibleColumns(((List) rightList.get(0)).toArray());
+        resultBeanContainer.setRecordHeader((List) rightList.get(0));
+        rightTable.setColumnHeaders(Arrays.copyOf(((List) rightList.get(1)).toArray(), ((List) rightList.get(1)).toArray().length, String[].class));
+        rightTable.setDoubleHeaderVisibleColumns(((List) rightList.get(NumericConstants.TWO)).toArray());
+        rightTable.setDoubleHeaderColumnHeaders(Arrays.copyOf(((List) rightList.get(NumericConstants.THREE)).toArray(), ((List) rightList.get(NumericConstants.THREE)).toArray().length, String[].class));
+        rightTable.setDoubleHeaderMap((Map) rightList.get(NumericConstants.FOUR));
+        for (Object propertyId : rightTable.getVisibleColumns()) {
+            rightTable.setColumnAlignment(propertyId, ExtCustomTable.Align.RIGHT);
+        }
+        setConverter(rightTable, rightTable.getVisibleColumns());
+
     }
 
     /**
@@ -340,31 +338,31 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
      */
     @UiHandler("valueDdlb")
     public void valueDdlb(Property.ValueChangeEvent event) {
-        LOGGER.debug("valueDdlb value change listener starts");
+        LOGGERSUMMARYRESULT.debug("valueDdlb value change listener starts");
     }
 
     @Override
     public Map<Integer, String> getHierarchy() {
-        return getSelection().getSummery_hierarchy();
+        return getSelection().getSummeryhierarchy();
     }
 
     @Override
     public void setRespectiveHierarchy(String viewType) {
-        selection.setSummery_hierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
+        selection.setSummeryhierarchy(ARMUtils.getLevelAndLevelFilterMultiPeriod(viewType));
     }
 
     @Override
     protected void valueDdlbValueChange(int masterSid) {
-        LOGGER.debug("ADJ levelFilterValue masterSid " + masterSid);
+        LOGGERSUMMARYRESULT.debug("ADJ levelFilterValue masterSid " + masterSid);
         if (isLevelFilterValueDdlbEnable()) {
-            getSelection().setSummary_valueSid(masterSid);
+            getSelection().setSummaryvalueSid(masterSid);
             tableLogic.loadSetData(Boolean.FALSE);
         }
     }
 
     @Override
     protected void callExcelCustomization(List list, Object[] excelHierarchy) throws IllegalAccessException, InvocationTargetException {
-        List excelMapList = ExcelUtils.AdjustmentSummaryModuleCustomizer(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getisFixedColumns(), getInterval(), discountColumnNeeded());
+        List excelMapList = ExcelUtils.adjustmentSummaryModuleCustomizer(list, getExcelHierarchy(), getExcelExportVisibleColumn(), getisFixedColumns(), getInterval(), discountColumnNeeded());
         ExcelUtils.setExcelHierarchyData(excelMapList, getExcelContainer());
     }
 
@@ -374,7 +372,7 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
         getLevelFilterValueDdlb().addItem(0);
         getLevelFilterValueDdlb().setItemCaption(0, GlobalConstants.getSelectOne());
         if (!levelValue.equals(GlobalConstants.getSelectOne())) {
-            Map<Integer, String> levelVal = getLogic().getLevelFilterValueData(levelValue, selection.getProjectionMasterSid(), selection.getSummary_deductionLevel(), selection.getSummary_deductionValues());
+            Map<Integer, String> levelVal = getSummaryLogic().getLevelFilterValueData(levelValue, selection.getProjectionMasterSid(), selection.getSummarydeductionLevel(), selection.getSummarydeductionValues());
             for (Map.Entry<Integer, String> entry : levelVal.entrySet()) {
                 getLevelFilterValueDdlb().addItem(entry.getKey());
                 getLevelFilterValueDdlb().setItemCaption(entry.getKey(), entry.getValue());
@@ -386,5 +384,15 @@ public final class AdjustmentSummaryResults extends AbstractSummarySearchResults
     @Override
     protected boolean getIsDemandSreen() {
         return Boolean.FALSE;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

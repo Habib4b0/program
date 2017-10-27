@@ -109,10 +109,10 @@ public class RsDAO implements BeanDAO<RebateScheduleMasterDTO> {
                 LOGGER.error(errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
             }
-            return new ArrayList<RebateScheduleMasterDTO>();
+            return new ArrayList<>();
         }
         LOGGER.debug("End of find()");
-        return new ArrayList<RebateScheduleMasterDTO>();
+        return new ArrayList<>();
     }
 
     /**

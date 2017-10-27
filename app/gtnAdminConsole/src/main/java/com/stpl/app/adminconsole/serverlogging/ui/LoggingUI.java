@@ -94,7 +94,6 @@ public class LoggingUI extends UI implements VaadinPortletSession.PortletListene
                         cause += t.getClass().getName();
                     }
                 }
-//                    Notification.show("Download failed because of "+ event.getThrowable().getCause(), Notification.Type.ERROR_MESSAGE);
                 LOGGER.error(cause);
                
             }
@@ -103,15 +102,18 @@ public class LoggingUI extends UI implements VaadinPortletSession.PortletListene
     }
 
     public void handleRenderRequest(RenderRequest request, RenderResponse response, UI uI) {
-//       getUI().getNavigator().navigateTo(LoggingView.NAME);
+        return;
     }
 
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
+        return;
     }
 
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
+        return;
     }
 
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
+        return;
     }
 }

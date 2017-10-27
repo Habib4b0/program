@@ -21,8 +21,8 @@ import org.jboss.logging.Logger;
  */
 public class CustomUserCallBack implements UserGroupCallback {
 
-    Map<String, User> userMap = new HashMap<String, User>();
-    Map<String, Role> roleMap = new HashMap<String, Role>();
+    Map<String, User> userMap = new HashMap<>();
+    Map<String, Role> roleMap = new HashMap<>();
     private static final Logger LOGGER = Logger.getLogger(CustomUserCallBack.class);
 
     public CustomUserCallBack() {
@@ -43,14 +43,16 @@ public class CustomUserCallBack implements UserGroupCallback {
             }
         } catch (SystemException e) {
 
-            LOGGER.error(e);
+            LOGGER.error("Error in CustomUserCallBack :"+e);
         }
     }
 
+    @Override
     public boolean existsUser(String userId) {
         return userMap.containsKey(userId) || userId.equals(VariableConstants.ADMINISTRATOR);
     }
 
+    @Override
     public boolean existsGroup(String groupId) {
         if (groupId.contains(",")) {
             String[] groups = groupId.split(",");
@@ -66,14 +68,15 @@ public class CustomUserCallBack implements UserGroupCallback {
         return roleMap.containsKey(groupId);
     }
 
+    @Override
     public List<String> getGroupsForUser(String userId, List<String> roleIds, List<String> allExistingGroupIds) {
-        List<String> userRoles = new ArrayList<String>();
+        List<String> userRoles = new ArrayList<>();
         List<Role> roles = null;
         if (userMap.containsKey(userId)) {
             try {
                 roles = RoleLocalServiceUtil.getUserRoles(userMap.get(userId).getUserId());
             } catch (SystemException e) {
-                LOGGER.error(e);
+                LOGGER.error("Error in getGroupsForUser :"+e);
             }
             for (Role role : roles) {
                 if (!VariableConstants.ADMINISTRATOR.equals(role.getName())) {

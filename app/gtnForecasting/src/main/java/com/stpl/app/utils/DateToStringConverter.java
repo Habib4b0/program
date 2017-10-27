@@ -19,7 +19,7 @@ public class DateToStringConverter implements Converter<String, Date> {
 
     public Date convertToModel(String value, Class<? extends Date> targetType,
             Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+             {
         if (targetType != getModelType()) {
             throw new Converter.ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
@@ -43,7 +43,7 @@ public class DateToStringConverter implements Converter<String, Date> {
 
     public String convertToPresentation(Date value,
             Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+             {
         if (value == null) {
             return null;
         }

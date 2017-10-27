@@ -35,8 +35,8 @@ public class ProductGroupLogic {
     public List<ProductGroupLookUpDTO> getProductGroups(
             String productGroupNo, String productGroupName, int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
         DataSelectionQueryUtils dsUtils = new DataSelectionQueryUtils();
-        List<ProductGroupLookUpDTO> resultList = new ArrayList<ProductGroupLookUpDTO>();
-        List obtainedResultList = new ArrayList();
+        List<ProductGroupLookUpDTO> resultList;
+        List obtainedResultList;
         if (productGroupNo != null && !StringUtils.EMPTY.equals(productGroupNo)) {
             productGroupNo = productGroupNo.replace(
                     CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
@@ -45,7 +45,7 @@ public class ProductGroupLogic {
             productGroupName = productGroupName.replace(
                     CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
         }
-        obtainedResultList = dsUtils.getProductGroups(productGroupNo, productGroupName, StringUtils.EMPTY, StringUtils.EMPTY, startIndex, offset, filters, sortByColumns);
+        obtainedResultList = dsUtils.getProductGroups(productGroupNo, productGroupName, startIndex, offset, filters, sortByColumns);
         resultList = convertToProductGroupDTO(obtainedResultList);
 
         return resultList;
@@ -81,7 +81,7 @@ public class ProductGroupLogic {
      * @return
      */
     public List<ProductGroupLookUpDTO> convertToProductGroupDTO(List obtainedList) {
-        List<ProductGroupLookUpDTO> resultList = new ArrayList<ProductGroupLookUpDTO>();
+        List<ProductGroupLookUpDTO> resultList = new ArrayList<>();
         for (Object record : obtainedList) {
             Object[] obtainedObject = (Object[]) record;
             ProductGroupLookUpDTO productGroupDTO = new ProductGroupLookUpDTO();

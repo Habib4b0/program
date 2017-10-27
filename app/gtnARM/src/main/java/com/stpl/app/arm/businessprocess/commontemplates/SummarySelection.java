@@ -6,6 +6,8 @@
 package com.stpl.app.arm.businessprocess.commontemplates;
 
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +16,7 @@ import java.util.Map;
  *
  * @author Asha.Ravi
  */
-public class SummarySelection extends AbstractSelectionDTO {
+public class SummarySelection extends AbstractSelectionDTO implements Serializable {
 
     private List<String[]> variables;
     private List<String> deductionVariablesValues;
@@ -83,10 +85,12 @@ public class SummarySelection extends AbstractSelectionDTO {
         this.summaryLevel = summaryLevel;
     }
 
+    @Override
     public int getLevelNo() {
         return levelNo;
     }
 
+    @Override
     public void setLevelNo(int levelNo) {
         this.levelNo = levelNo;
     }

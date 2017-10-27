@@ -133,7 +133,7 @@ public class ContractHeaderLogic implements HeaderLogic {
         String tradeClass;
         int tradingPartner;
         UIUtils.loadColumnName();
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         LOGGER.debug("Enters searchContractMaster with parameters start= " + start + " ,end=" + end + ", orderByColumns size =" + orderByColumns.size());
         if (searchItemForm.getField(Constants.TEXT_ONE) == null || searchItemForm.getField(Constants.TEXT_ONE).getValue().toString() == null) {
             contractId = Constants.PERCENT;
@@ -267,7 +267,7 @@ public class ContractHeaderLogic implements HeaderLogic {
      */
     public List<ContractMasterDTO> getCustomizedSearchFormFromModel(final List<ContractMaster> list) throws SystemException, PortalException {
         LOGGER.debug("Enters getCustomizedSearchFormFromModel method");
-        final List<ContractMasterDTO> searchItemList = new ArrayList<ContractMasterDTO>();
+        final List<ContractMasterDTO> searchItemList = new ArrayList<>();
         if (list != null) {
             ContractMasterDTO searchItemForm;
             Map<Integer, String> statusMap = cfpSearchLogic.getCodeDescription(UIUtils.STATUS);
@@ -300,9 +300,9 @@ public class ContractHeaderLogic implements HeaderLogic {
         return searchItemList;
     }
 
-    public List<SearchResultsDTO> getCustomizedSearchFilter(final List list) throws SystemException, PortalException {
+    public List<SearchResultsDTO> getCustomizedSearchFilter(final List list) {
         LOGGER.debug("Enters getCustomizedSearchFormFromModel method");
-        final List<SearchResultsDTO> searchItemList = new ArrayList<SearchResultsDTO>();
+        final List<SearchResultsDTO> searchItemList = new ArrayList<>();
         SearchResultsDTO searchItemForm;
         for (int i = Constants.ZERO; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
@@ -398,7 +398,7 @@ public class ContractHeaderLogic implements HeaderLogic {
         contractMasterDTO.setAwardStatus(helperListUtil.getIdHelperDTOMap().get(contractMaster.getAwardStatus()));
         contractMasterDTO.setLastUpdatedDate(contractMaster.getLastUpdatedDate());
         contractMasterDTO.setPriceEscalationClause(contractMaster.getPriceEscalationClause());
-        contractMasterDTO.setExemptFromLowPrice(StringUtils.isNotBlank(contractMaster.getExemptFromLowPrice()) ? StringUtils.EMPTY  : contractMaster.getExemptFromLowPrice());
+        contractMasterDTO.setExemptFromLowPrice(StringUtils.isNotBlank(contractMaster.getExemptFromLowPrice()) ? contractMaster.getExemptFromLowPrice() : StringUtils.EMPTY);
         int priceResetIndicator = (contractMaster.getPriceResetIndicator() == null || StringUtils.isBlank(contractMaster.getPriceResetIndicator())) ? Constants.ZERO : Integer.valueOf(contractMaster.getPriceResetIndicator());
         contractMasterDTO.setPriceResetIndicator(helperListUtil.getIdHelperDTOMap().get(priceResetIndicator));
         contractMasterDTO.setCancellationClause(contractMaster.getCancellationClause());
@@ -417,7 +417,7 @@ public class ContractHeaderLogic implements HeaderLogic {
         }
 
         final List<ContractAliasMaster> aliasList = dao.findByContractSystemId(contractSystemId);
-        final List<ContractAliasMasterDTO> contractAliasMasterDTO = new ArrayList<ContractAliasMasterDTO>();
+        final List<ContractAliasMasterDTO> contractAliasMasterDTO = new ArrayList<>();
         ContractAliasMasterDTO aliasMasterDTO;
         Map<Integer, String> aliasTypeMap = cfpSearchLogic.getCodeDescription(UIUtils.CONTRACT_ALIAS_TYPE);
         aliasTypeMap.put(Constants.ZERO, StringUtils.EMPTY);
@@ -1027,9 +1027,9 @@ public class ContractHeaderLogic implements HeaderLogic {
      * @return the drop down list
      */
     public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
-        LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+        LOGGER.debug("entering getDropDownList method with paramater listType = " + listType);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -1044,7 +1044,7 @@ public class ContractHeaderLogic implements HeaderLogic {
             }
         }
 
-        LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+        LOGGER.debug(" getDropDownList method ends with return value strList size" + helperList.size());
 
         return helperList;
     }
@@ -1056,7 +1056,7 @@ public class ContractHeaderLogic implements HeaderLogic {
      * @return the drop down list
      */
     public List<HelperDTO> getDropDownListWithoutNull(final String listType) throws SystemException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
@@ -1072,7 +1072,7 @@ public class ContractHeaderLogic implements HeaderLogic {
             }
         }
 
-        LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+        LOGGER.debug(" getDropDownListWithoutNull method ends with return value strList size =" + helperList.size());
 
         return helperList;
     }
@@ -1084,7 +1084,7 @@ public class ContractHeaderLogic implements HeaderLogic {
      * @return the drop down list
      */
     public List<HelperDTO> getCompanyDropDownListWithoutNull(final String listType) throws SystemException {
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
@@ -1112,9 +1112,9 @@ public class ContractHeaderLogic implements HeaderLogic {
      * @return the drop down list
      */
     public List<String> getDropDownListDesc(final String listType) throws SystemException {
-        final List<String> helperList = new ArrayList<String>();
+        final List<String> helperList = new ArrayList<>();
 
-        LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+        LOGGER.debug("entering getDropDownList method with paramater listType = " + listType);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -1127,7 +1127,7 @@ public class ContractHeaderLogic implements HeaderLogic {
 
             }
         }
-        LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+        LOGGER.debug(" getDropDownListDesc method ends with return value strList size =" + helperList.size());
 
         return helperList;
     }
@@ -1139,7 +1139,7 @@ public class ContractHeaderLogic implements HeaderLogic {
      */
     public List<HelperDTO> getTradingPartnerNameList() throws SystemException {
         LOGGER.debug("Entering  getTradingPartnerNameList method ");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         HelperDTO helperTable;
         final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         companyDynamicQuery.add(RestrictionsFactoryUtil.ne(Constants.COMPANY_TYPE, Constants.MANUFACTURER));
@@ -1162,7 +1162,7 @@ public class ContractHeaderLogic implements HeaderLogic {
      */
     public List<HelperDTO> getCompanyNameList() throws SystemException {
         LOGGER.debug("entering getCompanyNameList method ");
-        final List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        final List<HelperDTO> helperList = new ArrayList<>();
         HelperDTO helperTable;
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(Constants.COMPANY_TYPE, "BUNIT"));
@@ -1192,9 +1192,9 @@ public class ContractHeaderLogic implements HeaderLogic {
         String contractName;
         int contractType;
         int contractStatus;
-        String tradeClass = Constants.PERCENT;
-        int tradingPartner = Constants.ZERO;
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        String tradeClass;
+        int tradingPartner;
+        Map<String, Object> filterMap = new HashMap<>();
 
         if (searchItemForm.getField(Constants.TEXT_ONE) == null || searchItemForm.getField(Constants.TEXT_ONE).getValue().toString() == null) {
             contractId = Constants.PERCENT;
@@ -1375,7 +1375,7 @@ public class ContractHeaderLogic implements HeaderLogic {
     @SuppressWarnings("unchecked")
     public List<AdditionalInfoDTO> getAttachmentDTOList(int masterTableSid,
             String moduleName, String filepath) {
-        List<AdditionalInfoDTO> attachmentDTOList = new ArrayList<AdditionalInfoDTO>();
+        List<AdditionalInfoDTO> attachmentDTOList = new ArrayList<>();
         DynamicQuery docDetailsDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(MasterDataFiles.class);
         docDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.MASTER_TABLE_SID,
@@ -1469,7 +1469,7 @@ public class ContractHeaderLogic implements HeaderLogic {
      *Security Implementation for  Fields
      */
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ContractMasterLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
@@ -1500,7 +1500,7 @@ public class ContractHeaderLogic implements HeaderLogic {
         int tradingPartner;
 
         UIUtils.loadColumnName();
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         LOGGER.debug("Enters searchContractResults with parameters start= " + start + " ,end=" + end + ", sortByColumns size =" + sortByColumns.size());
         if (searchItemForm.getField(Constants.TEXT_ONE) == null || searchItemForm.getField(Constants.TEXT_ONE).getValue().toString() == null) {
             contractId = Constants.PERCENT;
@@ -1646,9 +1646,9 @@ public class ContractHeaderLogic implements HeaderLogic {
         String contractName;
         int contractType;
         int contractStatus;
-        String tradeClass = Constants.PERCENT;
-        int tradingPartner = Constants.ZERO;
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        String tradeClass;
+        int tradingPartner;
+        Map<String, Object> filterMap = new HashMap<>();
 
         if (searchItemForm.getField(Constants.TEXT_ONE) == null || searchItemForm.getField(Constants.TEXT_ONE).getValue().toString() == null) {
             contractId = Constants.PERCENT;

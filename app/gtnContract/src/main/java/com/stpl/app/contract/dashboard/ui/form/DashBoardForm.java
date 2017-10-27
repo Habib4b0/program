@@ -18,6 +18,7 @@ import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.contractheader.logic.ContractHeaderLogic;
@@ -136,7 +137,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import org.jboss.logging.Logger;
 
-
 /**
  * The Class DashBoardForm contains all the UI components and its configurations
  * in .
@@ -149,7 +149,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
     private static final Logger LOGGER = Logger.getLogger(DashBoardForm.class);
 
     private static final String TREE_HEIGHT = "30px";
-    
+
     /**
      * The error msg.
      */
@@ -636,11 +636,11 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
     /**
      * The table container.
      */
-    private final BeanItemContainer<ContractMember> tableContainer = new BeanItemContainer<ContractMember>(ContractMember.class);
+    private final BeanItemContainer<ContractMember> tableContainer = new BeanItemContainer<>(ContractMember.class);
 
-    private final BeanItemContainer<ContractMember> tContainer = new BeanItemContainer<ContractMember>(ContractMember.class);
+    private final BeanItemContainer<ContractMember> tContainer = new BeanItemContainer<>(ContractMember.class);
 
-    private final BeanItemContainer<DetailSearchDTO> detailNormalContainer = new BeanItemContainer<DetailSearchDTO>(DetailSearchDTO.class);
+    private final BeanItemContainer<DetailSearchDTO> detailNormalContainer = new BeanItemContainer<>(DetailSearchDTO.class);
 
     /**
      * The contract.
@@ -670,9 +670,9 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
     /**
      * The hierarchical container.
      */
-    private CustomTreeContainer<ContractMember> hierarchicalContainer = new CustomTreeContainer<ContractMember>(ContractMember.class);
+    private CustomTreeContainer<ContractMember> hierarchicalContainer = new CustomTreeContainer<>(ContractMember.class);
 
-    private CustomTreeContainer<ContractMember> hContainer = new CustomTreeContainer<ContractMember>(ContractMember.class);
+    private CustomTreeContainer<ContractMember> hContainer = new CustomTreeContainer<>(ContractMember.class);
     /**
      * The visible columns.
      */
@@ -775,18 +775,18 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
     LazyBeanItemContainer detailSearchResults;
     private CustomFieldGroup binder = new CustomFieldGroup(NULL_OBJECT);
 
-    private CustomFieldGroup leftSearchBinder = new CustomFieldGroup(new BeanItem<LeftSearchComponentDTO>(new LeftSearchComponentDTO()));
+    private CustomFieldGroup leftSearchBinder = new CustomFieldGroup(new BeanItem<>(new LeftSearchComponentDTO()));
 
-    private CustomFieldGroup rightSearchBinder = new CustomFieldGroup(new BeanItem<RightSearchComponentDTO>(new RightSearchComponentDTO()));
+    private CustomFieldGroup rightSearchBinder = new CustomFieldGroup(new BeanItem<>(new RightSearchComponentDTO()));
 
     private String leftComponentValue = StringUtils.EMPTY;
 
     private ExtFilterTreeTable exceltable;
-    private CustomTreeContainer<ContractMember> excelContainer = new CustomTreeContainer<ContractMember>(ContractMember.class);
-    List<Object> childList = new ArrayList<Object>();
+    private CustomTreeContainer<ContractMember> excelContainer = new CustomTreeContainer<>(ContractMember.class);
+    List<Object> childList = new ArrayList<>();
     /* Current Page Number */
     public int currentPageNo = 1;
-    
+
     public DateFormat mmddyyyy = new SimpleDateFormat("MM/dd/yyyy");
 
     /**
@@ -1118,7 +1118,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
     /**
      * Inits Method load while calling constructor method.
      */
-    public void init() throws SystemException, PortalException{
+    public void init() throws SystemException, PortalException {
         LOGGER.debug("Entering init method");
 
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarative-ui/contract-dashboard/contract-dashboard-landing-screen.xml"), this));
@@ -1143,7 +1143,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
      */
     private CustomFieldGroup getLeftBinder() {
         LOGGER.debug("Entering getLeftBinder method ");
-        leftSearchBinder.setItemDataSource(new BeanItem<LeftSearchComponentDTO>(new LeftSearchComponentDTO()));
+        leftSearchBinder.setItemDataSource(new BeanItem<>(new LeftSearchComponentDTO()));
         leftSearchBinder.bindMemberFields(this);
         leftSearchBinder.setBuffered(true);
         leftSearchBinder.setErrorDisplay(errorMsg);
@@ -1159,7 +1159,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
      */
     private CustomFieldGroup getRightBinder() {
         LOGGER.debug("Entering getRightBinder method ");
-        rightSearchBinder.setItemDataSource(new BeanItem<RightSearchComponentDTO>(new RightSearchComponentDTO()));
+        rightSearchBinder.setItemDataSource(new BeanItem<>(new RightSearchComponentDTO()));
         rightSearchBinder.bindMemberFields(this);
         rightSearchBinder.setBuffered(true);
         rightSearchBinder.setErrorDisplay(errorMsg);
@@ -1179,7 +1179,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         return grid;
     }
 
-    private void basic() throws SystemException, PortalException{
+    private void basic() throws SystemException, PortalException {
         LOGGER.debug("Entering basic method");
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
@@ -1188,7 +1188,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         verticalSplitPanel.setSplitPosition(30f);
 
         btnSearch.setWidth("75");
-        btnSearch.addStyleName("button-padding");
+        btnSearch.addStyleName(ConstantUtil.BUTTONPADDING);
         btnSearch.addClickListener(new Button.ClickListener() {
             /**
              * Called when a Button has been clicked.
@@ -1207,7 +1207,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(leftContractName.getValue())) || Constants.NULL.equals(String.valueOf(leftContractName.getValue())))
                                     && (leftContractType.getValue() == null || ((HelperDTO) leftContractType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 loadTableValues(leftSearchBinder);
 
@@ -1222,7 +1222,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(leftContractHolderNo.getValue())) || Constants.NULL.equals(String.valueOf(leftContractHolderNo.getValue())))
                                     && (StringUtils.isBlank(String.valueOf(leftContractHolderName.getValue())) || Constants.NULL.equals(String.valueOf(leftContractHolderName.getValue())))) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
 
                             } else {
 
@@ -1237,7 +1237,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(leftCfpName.getValue())) || Constants.NULL.equals(String.valueOf(leftCfpName.getValue())))
                                     && (leftCfpType.getValue() == null || ((HelperDTO) leftCfpType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
 
                                 loadTableValues(leftSearchBinder);
@@ -1253,7 +1253,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (leftCompanyType.getValue() == null || ((HelperDTO) leftCompanyType.getValue()).getId() == 0)
                                     && (StringUtils.isBlank(String.valueOf(leftCompanyCategory.getValue())) || Constants.NULL.equals(String.valueOf(leftCompanyCategory.getValue())))) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 loadTableValues(leftSearchBinder);
 
@@ -1266,7 +1266,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(leftIfpName.getValue())) || Constants.NULL.equals(String.valueOf(leftIfpName.getValue())))
                                     && (leftIfpType.getValue() == null || ((HelperDTO) leftIfpType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 loadTableValues(leftSearchBinder);
 
@@ -1282,7 +1282,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (leftIfpTherapeuticClass.getValue() == null || ((HelperDTO) leftIfpTherapeuticClass.getValue()).getId() == 0)
                                     && (leftIfpBrandName.getValue() == null || ((HelperDTO) leftIfpBrandName.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
 
                                 loadTableValues(leftSearchBinder);
@@ -1295,7 +1295,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(leftPsName.getValue())) || Constants.NULL.equals(String.valueOf(leftPsName.getValue())))
                                     && (leftPsType.getValue() == null || ((HelperDTO) leftPsType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 loadTableValues(leftSearchBinder);
 
@@ -1310,7 +1310,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (leftPsTherapeuticClass.getValue() == null || ((HelperDTO) leftPsTherapeuticClass.getValue()).getId() == 0)
                                     && (leftPsBrandName.getValue() == null || ((HelperDTO) leftPsBrandName.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
 
                                 loadTableValues(leftSearchBinder);
@@ -1323,7 +1323,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(leftRsName.getValue())) || Constants.NULL.equals(String.valueOf(leftRsName.getValue())))
                                     && (leftRsType.getValue() == null || ((HelperDTO) leftRsType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
 
                                 loadTableValues(leftSearchBinder);
@@ -1338,7 +1338,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (leftRsProgramCategory.getValue() == null || ((HelperDTO) leftRsProgramCategory.getValue()).getId() == 0)
                                     && (leftRsBrandName.getValue() == null || ((HelperDTO) leftRsBrandName.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
 
                                 loadTableValues(leftSearchBinder);
@@ -1380,7 +1380,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     LOGGER.error(errorMsg);
                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                 } catch (Exception ex) {
-                    LOGGER.error("Error While Adding to right side tree node :"+ex);
+                    LOGGER.error("Error While Adding to right side tree node :" + ex);
                 }
             }
         });
@@ -1401,7 +1401,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
 
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         resultsExportBtn.addClickListener(new Button.ClickListener() {
@@ -1420,26 +1420,25 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             }
         });
 
-
-        if ((functionContractDashboardHM.get(CHFunctionNameUtils.ResetButton) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.ResetButton)).isFunctionFlag()) {
+        if ((functionContractDashboardHM.get(CHFunctionNameUtils.RESET_BUTTON) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.RESET_BUTTON)).isFunctionFlag()) {
             resetbtn.setVisible(false);
         }
-        if ((functionContractDashboardHM.get(CHFunctionNameUtils.SearchResetbtn) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.SearchResetbtn)).isFunctionFlag()) {
+        if ((functionContractDashboardHM.get(CHFunctionNameUtils.SEARCH_RESET_BTN) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.SEARCH_RESET_BTN)).isFunctionFlag()) {
             lresetbtn.setVisible(false);
         }
-        if ((functionContractDashboardHM.get(CHFunctionNameUtils.Process) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.Process)).isFunctionFlag()) {
+        if ((functionContractDashboardHM.get(CHFunctionNameUtils.PROCESS) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.PROCESS)).isFunctionFlag()) {
             processedbtn.setVisible(false);
         }
-        if ((functionContractDashboardHM.get(CHFunctionNameUtils.RebuildBtn) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.RebuildBtn)).isFunctionFlag()) {
+        if ((functionContractDashboardHM.get(CHFunctionNameUtils.REBUILD_BTN) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.REBUILD_BTN)).isFunctionFlag()) {
             editbtn.setVisible(false);
         }
-        if ((functionContractDashboardHM.get(CHFunctionNameUtils.TreeSave) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.TreeSave)).isFunctionFlag()) {
+        if ((functionContractDashboardHM.get(CHFunctionNameUtils.TREE_SAVE) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.TREE_SAVE)).isFunctionFlag()) {
             treeSaveBtn.setVisible(false);
         }
-        if ((functionContractDashboardHM.get(CHFunctionNameUtils.TreeRemoveBtn) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.TreeRemoveBtn)).isFunctionFlag()) {
+        if ((functionContractDashboardHM.get(CHFunctionNameUtils.TREE_REMOVE_BTN) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.TREE_REMOVE_BTN)).isFunctionFlag()) {
             treeRemoveBtn.setVisible(false);
         }
-        if ((functionContractDashboardHM.get(CHFunctionNameUtils.AddToTree) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.AddToTree)).isFunctionFlag()) {
+        if ((functionContractDashboardHM.get(CHFunctionNameUtils.ADD_TO_TREE) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.ADD_TO_TREE)).isFunctionFlag()) {
             addToTreeBtn.setVisible(false);
         }
 
@@ -1518,7 +1517,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(Constants.YES)) {
                                     try {
-                                        saveTree(idList);
+                                        saveTree(idList, StringUtils.EMPTY);
                                         tree.removeAllItems();
                                         final Notification notif = new Notification(util.getSavedSuccessfulMessage(contractIden, contractNam), Notification.Type.HUMANIZED_MESSAGE);
                                         notif.setDelayMsec(Constants.NOTIF_DEPALY_MSEC);
@@ -1544,7 +1543,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             }
         });
 
-        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.TreeRemoveBtn) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.TreeRemoveBtn)).isFunctionFlag()) {
+        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.TREE_REMOVE_BTN) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.TREE_REMOVE_BTN)).isFunctionFlag()) {
             treeButtonLayout.removeComponent(treeRemoveBtn);
         }
 
@@ -1623,13 +1622,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(rightContractName.getValue())) || Constants.NULL.equals(String.valueOf(rightContractName.getValue())))
                                     && (rightContractType.getValue() == null || ((HelperDTO) rightContractType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
 
@@ -1660,14 +1659,14 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(rightRsNo.getValue())) || Constants.NULL.equals(String.valueOf(rightRsNo.getValue())))
                                     && (StringUtils.isBlank(String.valueOf(rightRsName.getValue())) || Constants.NULL.equals(String.valueOf(rightRsName.getValue())))) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
 
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
                         }
@@ -1678,13 +1677,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(rightCfpName.getValue())) || Constants.NULL.equals(String.valueOf(rightCfpName.getValue())))
                                     && (leftCfpType.getValue() == null || ((HelperDTO) leftCfpType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
 
@@ -1698,13 +1697,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (rightCompanyType.getValue() == null || ((HelperDTO) rightCompanyType.getValue()).getId() == 0)
                                     && (StringUtils.isBlank(String.valueOf(rightCompanyCategory.getValue())) || Constants.NULL.equals(String.valueOf(rightCompanyCategory.getValue())))) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
                         }
@@ -1715,13 +1714,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(rightIfpName.getValue())) || Constants.NULL.equals(String.valueOf(rightIfpName.getValue())))
                                     && (rightIfpType.getValue() == null || ((HelperDTO) rightIfpType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
 
@@ -1735,13 +1734,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (rightIfpTherapeuticClass.getValue() == null || ((HelperDTO) rightIfpTherapeuticClass.getValue()).getId() == 0)
                                     && (rightIfpBrandName.getValue() == null || ((HelperDTO) rightIfpBrandName.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
                         }
@@ -1752,13 +1751,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(rightPsName.getValue())) || Constants.NULL.equals(String.valueOf(rightPsName.getValue())))
                                     && (rightPsType.getValue() == null || ((HelperDTO) rightPsType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
                         } else if (Constants.DETAILS.equals(String.valueOf(rightSearchType.getValue()))) {
@@ -1771,13 +1770,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (rightPsTherapeuticClass.getValue() == null || ((HelperDTO) rightPsTherapeuticClass.getValue()).getId() == 0)
                                     && (rightPsBrandName.getValue() == null || ((HelperDTO) rightPsBrandName.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
                         }
@@ -1788,13 +1787,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (StringUtils.isBlank(String.valueOf(rightRsName.getValue())) || Constants.NULL.equals(String.valueOf(rightRsName.getValue())))
                                     && (rightRsType.getValue() == null || ((HelperDTO) rightRsType.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
                         } else if (Constants.DETAILS.equals(String.valueOf(rightSearchType.getValue()))) {
@@ -1807,13 +1806,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                     && (rightRsProgramCategory.getValue() == null || ((HelperDTO) rightRsProgramCategory.getValue()).getId() == 0)
                                     && (rightRsBrandName.getValue() == null || ((HelperDTO) rightRsBrandName.getValue()).getId() == 0)) {
 
-                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, "Please enter Search Criteria", ButtonId.OK);
+                                MessageBox.showPlain(Icon.ERROR, Constants.SEARCH_ERROR, ConstantUtil.PLEASE_ENTER_SEARCH_CRITERIA, ButtonId.OK);
                             } else {
                                 getProcessedTree(rightSearchBinder);
                                 if (hierarchicalContainer.size() > Constants.ZERO) {
-                                    CommonUIUtils.successNotification("Search Completed");
+                                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                                 } else {
-                                    CommonUIUtils.successNotification("No results found");
+                                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
                                 }
                             }
                         }
@@ -1893,7 +1892,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                 Notification.show(successMessage, Notification.Type.HUMANIZED_MESSAGE);
                                 ((HierarchicalContainer) processTreeTable.getContainerDataSource()).removeItemRecursively(tableBeanId);
                             } else {
-                                final String message = "The selected " + tableBean.getCategory() + " - " + tableBean.getMemberId() + " can not be disassembled";
+                                final String message = ConstantUtil.THE_SELECTED + tableBean.getCategory() + " - " + tableBean.getMemberId() + " can not be disassembled";
                                 AbstractNotificationUtils.getWarningNotification("Cannot Disassemble", message);
                             }
                         } else {
@@ -1913,7 +1912,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             }
         });
 
-        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.RebuildBtn) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.RebuildBtn)).isFunctionFlag()) {
+        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.REBUILD_BTN) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.REBUILD_BTN)).isFunctionFlag()) {
             processResultsLayout.removeComponent(editbtn);
         }
 
@@ -1941,8 +1940,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                         if (tableBean.getCategory().equals(Constants.CONTRACT)) {
                             ContractMaster contract = dashBoardLogic.getContractMaster(tableBean.getInternalId());
                             if (dashBoardLogic.validateContractToProcess(contract)) {
-                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                        + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                        + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                     /**
                                      * Invoked when yes is clicked.
                                      *
@@ -1958,7 +1957,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                                     Notification.show(successMessage, Notification.Type.HUMANIZED_MESSAGE);
                                                 } else {
                                                     tree.removeAllItems();
-                                                    final String message = "The selected " + tableBean.getCategory() + " - " + tableBean.getMemberId() + " can not be rebuilt";
+                                                    final String message = ConstantUtil.THE_SELECTED + tableBean.getCategory() + " - " + tableBean.getMemberId() + " can not be rebuilt";
                                                     AbstractNotificationUtils.getWarningNotification("Cannot Rebuild", message);
                                                 }
                                             } catch (SystemException ex) {
@@ -1989,7 +1988,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                                     Notification.show(successMessage, Notification.Type.HUMANIZED_MESSAGE);
                                                 } else {
                                                     tree.removeAllItems();
-                                                    final String message = "The selected " + tableBean.getCategory() + " - " + tableBean.getMemberId() + " can not be rebuilt";
+                                                    final String message = ConstantUtil.THE_SELECTED + tableBean.getCategory() + " - " + tableBean.getMemberId() + " can not be rebuilt";
                                                     AbstractNotificationUtils.getWarningNotification("Cannot Rebuild", message);
                                                 }
                                             } catch (SystemException ex) {
@@ -2032,7 +2031,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                         loadExcelResultTable();
                     }
                     VaadinSession.getCurrent().setAttribute(Constants.EXCEL_CLOSE, "true");
-                    ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Contract Dashboard" , "Contract Dashboard", "Contract_Dashboard.xls", false);
+                    ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), "Contract Dashboard", "Contract Dashboard", "Contract_Dashboard.xls", false);
                     exp.export();
                     hLayout.removeComponent(exceltable);
                 } catch (Exception e) {
@@ -2040,17 +2039,17 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 }
             }
         });
-        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.ContractProcessedSearch) != null)
-                && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.ContractProcessedSearch)).isFunctionFlag()) {
+        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.CONTRACT_PROCESSED_SEARCH) != null)
+                && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.CONTRACT_PROCESSED_SEARCH)).isFunctionFlag()) {
             /*added this style to make buttons spaced out*/
-            processedbtnSearch.addStyleName("button-padding");
+            processedbtnSearch.addStyleName(ConstantUtil.BUTTONPADDING);
             processSearchLayout.removeComponent(processedbtnSearch);
         }
 
-        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.SearchResetbtn) != null)
-                && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.SearchResetbtn)).isFunctionFlag()) {
+        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.SEARCH_RESET_BTN) != null)
+                && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.SEARCH_RESET_BTN)).isFunctionFlag()) {
             /*added this style to make buttons spaced out*/
-            lresetbtn.addStyleName("button-padding");
+            lresetbtn.addStyleName(ConstantUtil.BUTTONPADDING);
             processSearchLayout.removeComponent(lresetbtn);
         }
 
@@ -2064,6 +2063,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     @Override
                     public void buttonClicked(ButtonId buttonId) {
                         if (buttonId.name().equals(Constants.YES)) {
+                            rightComponent.select(ContractUtils.CONTRACT_DETAILS_COMPONENT);
                             getRightBinder();
                             processTreeTable.removeAllItems();
                             hierarchicalContainer.removeAllItems();
@@ -2086,8 +2086,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         processTreeTable.setColumnHeaders(new String[]{Constants.CATEGORY_HEADER, "ID", "No", "Name"});
         HorizontalLayout tempLayout = ResponsiveUtils.getResponsiveControls(configureControls());
         paginationLayout.addComponent(tempLayout);
-        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.Process) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.Process)).isFunctionFlag()) {
-            processedbtn.addStyleName("button-padding");
+        if (!(functionContractDashboardHM.get(CHFunctionNameUtils.PROCESS) != null) && !((AppPermission) functionContractDashboardHM.get(CHFunctionNameUtils.PROCESS)).isFunctionFlag()) {
+            processedbtn.addStyleName(ConstantUtil.BUTTONPADDING);
             processResultsLayout.removeComponent(processedbtn);
         }
         LOGGER.debug("End of basic method");
@@ -2101,9 +2101,9 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         LOGGER.debug("Ending excelExportLogic operation");
     }
 
-    private void createWorkSheet() throws SystemException, PortalException{
-        try{
-        LOGGER.debug("Entering createWorkSheet operation");
+    private void createWorkSheet() throws SystemException, PortalException {
+        try {
+            LOGGER.debug("Entering createWorkSheet operation");
             if (ContractUtils.CONTRACT_DETAILS_COMPONENT.equals(String.valueOf(leftComponent.getValue()))) {
                 final long recordCount = table.getContainerDataSource().size();
                 ExcelExportforBB.createWorkSheet(table.getColumnHeaders(), recordCount, this, getUI(), "Component_Search");
@@ -2111,9 +2111,9 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 final long recordCount = detailsTable.getContainerDataSource().size();
                 ExcelExportforBB.createWorkSheet(detailsTable.getColumnHeaders(), recordCount, this, getUI(), "Component_Search");
             }
-        LOGGER.debug("Ending createWorkSheet operation");
-        }catch(Exception e){
-        LOGGER.error(e);
+            LOGGER.debug("Ending createWorkSheet operation");
+        } catch (Exception e) {
+            LOGGER.error(e);
         }
     }
 
@@ -2126,7 +2126,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
      */
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter)  {
 
         DetailSearchDTO searchItemForm;
         ContractMember searchItemFormcon;
@@ -2342,10 +2342,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             searchResults = new LazyBeanItemContainer(ContractMember.class, new DashboardSearchDAO(leftSearchBinder, String.valueOf(leftComponent.getValue())), new DashboardCriteria());
             table.setContainerDataSource(searchResults);
             if (searchResults.size() > Constants.ZERO) {
-                CommonUIUtils.successNotification("Search Completed");
+                CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
 
             } else {
-                CommonUIUtils.successNotification("No results found");
+                CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_FOUND);
 
             }
         } else {
@@ -2376,7 +2376,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 if (srcTableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) srcTableBeanId;
                 } else if (srcTableBeanId instanceof ContractMember) {
-                    targetItem = new BeanItem<ContractMember>((ContractMember) srcTableBeanId);
+                    targetItem = new BeanItem<>((ContractMember) srcTableBeanId);
                 } else {
                     targetItem = NULL_OBJECT;
                 }
@@ -2385,23 +2385,23 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     if (ContractUtils.CFP_COMPONENT.equals(String.valueOf(leftComponent.getValue()))) {
                         detailSearchResults = new LazyBeanItemContainer(DetailSearchDTO.class, new DetailTableDAO(srcTableBean.getInternalId(), String.valueOf(leftComponent.getValue())), new DetailTableCriteria());
                         detailsTable.setContainerDataSource(detailSearchResults);
-                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "type", "category", "status"});
+                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "type", "category", ConstantUtil.STATUS_PROPERTY});
                         detailsTable.setColumnHeaders(new String[]{"Company No", "Company Name", "Company Type", "Company Category", "CFP Status"});
                     } else if (ContractUtils.IFP_COMPONENT.equals(String.valueOf(leftComponent.getValue()))) {
                         detailSearchResults = new LazyBeanItemContainer(DetailSearchDTO.class, new DetailTableDAO(srcTableBean.getInternalId(), String.valueOf(leftComponent.getValue())), new DetailTableCriteria());
                         detailsTable.setContainerDataSource(detailSearchResults);
-                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "status", "startDate", "endDate"});
-                        detailsTable.setColumnHeaders(new String[]{"Item No", "Item Name", "IFP Status", "IFP Start Date", "IFP End Date"});
+                        detailsTable.setVisibleColumns(new Object[]{"no", "name", ConstantUtil.STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE});
+                        detailsTable.setColumnHeaders(new String[]{Constants.ITEM_NO2, Constants.ITEM_NAME2, "IFP Status", "IFP Start Date", "IFP End Date"});
                     } else if (ContractUtils.PS_COMPONENT.equals(String.valueOf(leftComponent.getValue()))) {
                         detailSearchResults = new LazyBeanItemContainer(DetailSearchDTO.class, new DetailTableDAO(srcTableBean.getInternalId(), String.valueOf(leftComponent.getValue())), new DetailTableCriteria());
                         detailsTable.setContainerDataSource(detailSearchResults);
-                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "status", "startDate", "endDate"});
-                        detailsTable.setColumnHeaders(new String[]{"Item No", "Item Name", "PS Status", "PS Start Date", "PS End Date"});
+                        detailsTable.setVisibleColumns(new Object[]{"no", "name", ConstantUtil.STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE});
+                        detailsTable.setColumnHeaders(new String[]{Constants.ITEM_NO2, Constants.ITEM_NAME2, "PS Status", "PS Start Date", "PS End Date"});
                     } else if (ContractUtils.RS_COMPONENT.equals(String.valueOf(leftComponent.getValue()))) {
                         detailSearchResults = new LazyBeanItemContainer(DetailSearchDTO.class, new DetailTableDAO(srcTableBean.getInternalId(), String.valueOf(leftComponent.getValue())), new DetailTableCriteria());
                         detailsTable.setContainerDataSource(detailSearchResults);
-                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "status", "startDate", "endDate"});
-                        detailsTable.setColumnHeaders(new String[]{"Item No", "Item Name", "RS Status", "RS Start Date", "RS End Date"});
+                        detailsTable.setVisibleColumns(new Object[]{"no", "name", ConstantUtil.STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE});
+                        detailsTable.setColumnHeaders(new String[]{Constants.ITEM_NO2, Constants.ITEM_NAME2, "RS Status", "RS Start Date", "RS End Date"});
 
                     }
                     detailsTable.setFilterGenerator(new DetailComponentFilterGenerator(String.valueOf(leftComponent.getValue())));
@@ -2451,7 +2451,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 if (treeBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) treeBeanId;
                 } else if (treeBeanId instanceof ContractMember) {
-                    targetItem = new BeanItem<ContractMember>((ContractMember) treeBeanId);
+                    targetItem = new BeanItem<>((ContractMember) treeBeanId);
                 } else {
 
                     targetItem = NULL_OBJECT;
@@ -2510,13 +2510,13 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 if (sourceItemId instanceof BeanItem<?>) {
                     beanItem = (BeanItem<?>) sourceItemId;
                 } else if (sourceItemId instanceof ContractMember) {
-                    beanItem = new BeanItem<ContractMember>((ContractMember) sourceItemId);
+                    beanItem = new BeanItem<>((ContractMember) sourceItemId);
                 }
 
                 if (targetItemId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) targetItemId;
                 } else if (targetItemId instanceof ContractMember) {
-                    targetItem = new BeanItem<ContractMember>((ContractMember) targetItemId);
+                    targetItem = new BeanItem<>((ContractMember) targetItemId);
                 }
 
                 final ContractMember bean = (ContractMember) beanItem.getBean();
@@ -2532,67 +2532,33 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                         setTreeNode(beanItem, bean, VerticalDropLocation.MIDDLE, targetItemId);
                     } else {
                         final String message = Constants.CANNOT_MAKE + bean.getCategory() + " as contracts header";
-                        AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.CRITERIA_MISMATCH, message);
                     }
                 } else {
                     tree.setHeight(99f, Sizeable.Unit.PERCENTAGE);
                     if (bean.getCategory().equals(Constants.CONTRACT)) {
                         final String message = Constants.CANNOT_MAKE + bean.getCategory() + " as child node";
-                        AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.CRITERIA_MISMATCH, message);
                     } else {
                         final ContractMember targetBean = (ContractMember) targetItem.getBean();
                         if (bean.getCategory().equals(targetBean.getCategory())) {
                             final String message = bean.getCategory() + " cannot be added to  " + targetBean.getCategory();
-                            AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                            AbstractNotificationUtils.getWarningNotification(ConstantUtil.CRITERIA_MISMATCH, message);
                         } else {
                             try {
-                                if (bean.getCategory().equals(Constants.PS_VALUE) && targetBean.getCategory().equals(Constants.IFP)) {
+                                if (bean.getCategory().equals(Constants.PS_VALUE) && targetBean.getCategory().equals(Constants.IFP) && nodeDuplicateCheck()) {
                                     final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
 
-                                    psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", bean.getInternalId()));
-                                    psDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+                                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.PS_MODEL_SID, bean.getInternalId()));
+                                    psDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.INBOUND_STATUS, "D"));
                                     psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.IFP_SYSTEM_ID)));
                                     final List<PsDetails> priceScheduleDetailsList = dashBoardLogic.priceScheduleDetailsDynamicQuery(psDynamicQuery);
                                     if (priceScheduleDetailsList.isEmpty()) {
-                                        AbstractNotificationUtils.getWarningNotification("No Items", "No items Exists in PS");
+                                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.NO_ITEMS, "No items Exists in PS");
                                     } else {
                                         final String psSystem = String.valueOf(priceScheduleDetailsList.get(0)).trim();
                                         if (psSystem.equals(String.valueOf(targetBean.getModelSysId()).trim())) {
 
-                                            Object rootItemID = getRootContract(targetItemId);
-
-                                            if (tree.hasChildren(rootItemID == null ? targetItemId : rootItemID)) {
-                                                childList.clear();
-                                                final Collection<Object> collection = getAllChildren(rootItemID == null ? targetItemId : rootItemID);
-                                                for (final Iterator<Object> iterator = collection.iterator(); iterator.hasNext();) {
-                                                    final Object childId = iterator.next();
-                                                    final ContractMember object = getBeanFromId(childId);
-                                                    if (bean.getInternalId() == object.getModelSysId() && bean.getCategory().equals(object.getCategory())) {
-                                                        final String messageStr = bean.getCategory() + Constants.ALREADY_ADDED;
-                                                        AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", messageStr);
-                                                        return;
-                                                    }
-                                                }
-                                            }
-                                            //Added this condition to avoid attaching same IFP,PS and RS under multiple CFP
-                                            if (!tree.rootItemIds().isEmpty()) {
-                                                final Collection list = tree.rootItemIds();
-                                                for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                                                    final Object idValue = iterator.next();
-                                                    final ContractMember contract = getBeanFromId(idValue);
-                                                    final ContractMember targetContract = getBeanFromId(targetItemId);
-                                                    childList.clear();
-                                                    final Collection<Object> collection = getAllChildren(idValue);
-                                                    for (final Object id : collection) {
-                                                        final ContractMember object = getBeanFromId(id);
-                                                        if ((contract.getInternalId() == targetContract.getContractId() || (targetContract.getParent1() != null && contract.getInternalId() == targetContract.getParent1().getContractId())) && bean.getInternalId() == object.getModelSysId() && bean.getCategory().equals(object.getCategory())) {
-                                                            final String message = bean.getCategory() + " Already Added";
-                                                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                                            return;
-                                                        }
-                                                    }
-                                                }
-                                            }
                                             if (Constants.CONTRACT.equals(getBeanFromID(targetItemId).getCategory())) {
                                                 getBeanFromID(targetItem).setContractId(getBeanFromID(targetItemId).getInternalId());
                                                 getBeanFromID(beanItem).setContractId(getBeanFromID(targetItemId).getInternalId()); // Added newly to get contractId to avoid hierarchy duplication
@@ -2602,55 +2568,23 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                             }
                                             setTreeNode(beanItem, bean, location, targetItemId);
                                         } else {
-                                            final String message = bean.getCategory() + " does not associate with  " + targetBean.getCategory();
+                                            final String message = bean.getCategory() + ConstantUtil.DOES_NOT_ASSOCIATE_WITH + targetBean.getCategory();
                                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, message);
                                         }
                                     }
-                                } else if (bean.getCategory().equals(Constants.RS_VALUE) && targetBean.getCategory().equals(Constants.IFP)) {
+                                } else if (bean.getCategory().equals(Constants.RS_VALUE) && targetBean.getCategory().equals(Constants.IFP) && nodeDuplicateCheck()) {
                                     LOGGER.debug("Inside Expected Code");
                                     final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
-                                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", bean.getInternalId()));
-                                    rsDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+                                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RS_MODEL_SID, bean.getInternalId()));
+                                    rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.INBOUND_STATUS, "D"));
                                     rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.IFP_SYSTEM_ID)));
                                     final List<RsDetails> rebateScheduleDetailsList = dashBoardLogic.priceScheduleDetailsDynamicQuery(rsDynamicQuery);
                                     if (rebateScheduleDetailsList.isEmpty()) {
 
-                                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "No items Exists in RS");
+                                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, ConstantUtil.NO_ITEMS_EXISTS_IN_RS);
                                     } else {
                                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
                                         if (rsSystem.equals(String.valueOf(targetBean.getModelSysId()).trim())) {
-                                            Object rootItemID = getRootContract(targetItemId);
-                                            if (tree.hasChildren(rootItemID == null ? targetItemId : rootItemID)) {
-                                                childList.clear();
-                                                final Collection<Object> collection = getAllChildren(rootItemID == null ? targetItemId : rootItemID);
-                                                for (final Object id : collection) {
-                                                    final ContractMember object = getBeanFromId(id);
-                                                    if (bean.getInternalId() == object.getModelSysId() && bean.getCategory().equals(object.getCategory())) {
-                                                        final String message = bean.getCategory() + " Already Added";
-                                                        AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                                        return;
-                                                    }
-                                                }
-                                            }
-                                            //Added this condition to avoid attaching same IFP,PS and RS under multiple CFP
-                                            if (!tree.rootItemIds().isEmpty()) {
-                                                final Collection list = tree.rootItemIds();
-                                                for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                                                    final Object idValue = iterator.next();
-                                                    final ContractMember contract = getBeanFromId(idValue);
-                                                    final ContractMember targetContract = getBeanFromId(targetItemId);
-                                                    childList.clear();
-                                                    final Collection<Object> collection = getAllChildren(idValue);
-                                                    for (final Object id : collection) {
-                                                        final ContractMember object = getBeanFromId(id);
-                                                        if ((contract.getInternalId() == targetContract.getContractId() || (targetContract.getParent1() != null && contract.getInternalId() == targetContract.getParent1().getContractId())) && bean.getInternalId() == object.getModelSysId() && bean.getCategory().equals(object.getCategory())) {
-                                                            final String message = bean.getCategory() + " Already Added";
-                                                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                                            return;
-                                                        }
-                                                    }
-                                                }
-                                            }
                                             if (Constants.CONTRACT.equals(getBeanFromID(targetItemId).getCategory())) {
                                                 getBeanFromID(targetItem).setContractId(getBeanFromID(targetItemId).getInternalId());
                                                 getBeanFromID(beanItem).setContractId(getBeanFromID(targetItemId).getInternalId()); // Added newly to get contractId to avoid hierarchy duplication
@@ -2660,63 +2594,31 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                             }
                                             setTreeNode(beanItem, bean, location, targetItemId);
                                         } else {
-                                            final String message = bean.getCategory() + " does not associate with  " + targetBean.getCategory();
+                                            final String message = bean.getCategory() + ConstantUtil.DOES_NOT_ASSOCIATE_WITH + targetBean.getCategory();
                                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, message);
                                         }
                                     }
-                                } else if (bean.getCategory().equals(Constants.RS_VALUE) && targetBean.getCategory().equals(Constants.PS_VALUE)) {
+                                } else if (bean.getCategory().equals(Constants.RS_VALUE) && targetBean.getCategory().equals(Constants.PS_VALUE) && nodeDuplicateCheck()) {
 
                                     final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
 
-                                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", bean.getInternalId()));
-                                    rsDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+                                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RS_MODEL_SID, bean.getInternalId()));
+                                    rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.INBOUND_STATUS, "D"));
                                     rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.IFP_SYSTEM_ID)));
                                     final List<RsDetails> rebateScheduleDetailsList = dashBoardLogic.priceScheduleDetailsDynamicQuery(rsDynamicQuery);
                                     if (rebateScheduleDetailsList.isEmpty()) {
 
-                                        AbstractNotificationUtils.getWarningNotification("No Items", "No items Exists in RS");
+                                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.NO_ITEMS, ConstantUtil.NO_ITEMS_EXISTS_IN_RS);
                                     } else {
                                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
 
                                         final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
-                                        psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", targetBean.getModelSysId()));
-                                        psDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+                                        psDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.PS_MODEL_SID, targetBean.getModelSysId()));
+                                        psDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.INBOUND_STATUS, "D"));
                                         psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.IFP_SYSTEM_ID)));
                                         final List<PsDetails> priceScheduleDetailsList = dashBoardLogic.priceScheduleDetailsDynamicQuery(psDynamicQuery);
 
                                         if (rsSystem.equals(String.valueOf(priceScheduleDetailsList.get(0)).trim())) {
-                                            Object rootItemID = getRootContract(targetItemId);
-                                            if (tree.hasChildren(rootItemID == null ? targetItemId : rootItemID)) {
-                                                childList.clear();
-                                                final Collection<Object> collection = getAllChildren(rootItemID == null ? targetItemId : rootItemID);
-                                                for (final Object id : collection) {
-                                                    final ContractMember object = getBeanFromId(id);
-                                                    if (bean.getInternalId() == object.getModelSysId() && bean.getCategory().equals(object.getCategory())) {
-                                                        final String message = bean.getCategory() + " Already Added";
-                                                        AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                                        return;
-                                                    }
-                                                }
-                                            }
-                                            //Added this condition to avoid attaching same IFP,PS and RS under multiple CFP
-                                            if (!tree.rootItemIds().isEmpty()) {
-                                                final Collection list = tree.rootItemIds();
-                                                for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                                                    final Object idValue = iterator.next();
-                                                    final ContractMember contract = getBeanFromId(idValue);
-                                                    final ContractMember targetContract = getBeanFromId(targetItemId);
-                                                    childList.clear();
-                                                    final Collection<Object> collection = getAllChildren(idValue);
-                                                    for (final Object id : collection) {
-                                                        final ContractMember object = getBeanFromId(id);
-                                                        if ((contract.getInternalId() == targetContract.getContractId() || (targetContract.getParent1() != null && contract.getInternalId() == targetContract.getParent1().getContractId())) && bean.getInternalId() == object.getModelSysId() && bean.getCategory().equals(object.getCategory())) {
-                                                            final String message = bean.getCategory() + " Already Added";
-                                                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                                            return;
-                                                        }
-                                                    }
-                                                }
-                                            }
                                             if (Constants.CONTRACT.equals(getBeanFromID(targetItemId).getCategory())) {
                                                 getBeanFromID(targetItem).setContractId(getBeanFromID(targetItemId).getInternalId());
                                                 getBeanFromID(beanItem).setContractId(getBeanFromID(targetItemId).getInternalId()); // Added newly to get contractId to avoid hierarchy duplication
@@ -2726,43 +2628,32 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                             }
                                             setTreeNode(beanItem, bean, location, targetItemId);
                                         } else {
-                                            final String message = bean.getCategory() + " does not associate with  " + targetBean.getCategory();
+                                            final String message = bean.getCategory() + ConstantUtil.DOES_NOT_ASSOCIATE_WITH + targetBean.getCategory();
                                             AbstractNotificationUtils.getWarningNotification(Constants.ERROR, message);
                                         }
                                     }
                                 } else {
                                     Object rootItemID = getRootContract(targetItemId);
-                                    if (tree.hasChildren(rootItemID == null ? targetItemId : rootItemID)) {
-                                        childList.clear();
-                                        final Collection<Object> collection = getAllChildren(rootItemID == null ? targetItemId : rootItemID);
-                                        for (final Object id : collection) {
-                                            final ContractMember object = getBeanFromId(id);
-                                            if (bean.getInternalId() == object.getModelSysId() && bean.getCategory().equals(object.getCategory())) {
-                                                final String message = bean.getCategory() + " Already Added";
-                                                AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                                return;
-                                            }
-                                        }
+                                    if (tree.hasChildren(rootItemID == null ? treeBeanId : rootItemID)) {
+                        childList.clear();
+                        final Collection<?> collection = tree.getChildren(treeBeanId );
+                        if (collection != null) {
+                            for (final Object id : collection) {
+                                final ContractMember object = getBeanFromId(id);
+                                if (srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
+                                    if ("CFP".equals(srcTableBean.getCategory())) {
+                                        final String message = srcTableBean.getCategory() + ConstantUtil.ALREADY_ADDED;
+                                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.DUPLICATE_CRITERIA, message);
+                                        return ;
+                                    } else {
+                                        final String message = srcTableBean.getCategory() + ConstantUtil.ALREADY_ADDED_IFP + treeBean.getCategory();
+                                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.DUPLICATE_CRITERIA, message);
+                                        return ;
                                     }
-                                    //Added this condition to avoid attaching same IFP,PS and RS under multiple CFP
-                                    if (!tree.rootItemIds().isEmpty()) {
-                                        final Collection list = tree.rootItemIds();
-                                        for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                                            final Object idValue = iterator.next();
-                                            final ContractMember contract = getBeanFromId(idValue);
-                                            final ContractMember targetContract = getBeanFromId(targetItemId);
-                                            childList.clear();
-                                            final Collection<Object> collection = getAllChildren(idValue);
-                                            for (final Object id : collection) {
-                                                final ContractMember object = getBeanFromId(id);
-                                            if ((contract.getInternalId() == targetContract.getContractId()|| (targetContract.getParent1() != null && contract.getInternalId() == targetContract.getParent1().getContractId())) && bean.getInternalId() == object.getModelSysId() && bean.getCategory().equals(object.getCategory())) {
-                                                    final String message = bean.getCategory() + " Already Added";
-                                                    AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                                    return;
-                                                }
-                                            }
-                                        }
-                                    }
+                                }
+                            }
+                        }
+                    }
                                     if (Constants.CONTRACT.equals(getBeanFromID(targetItemId).getCategory())) {
                                         getBeanFromID(targetItem).setContractId(getBeanFromID(targetItemId).getInternalId());
                                         getBeanFromID(beanItem).setContractId(getBeanFromID(targetItemId).getInternalId()); // Added newly to get contractId to avoid hierarchy duplication
@@ -2962,7 +2853,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                         break;
                 }
                 int temp = parentList.indexOf(event.getItemId());
-                if(temp != -1){
+                if (temp != -1) {
                     for (int i = temp; i < parentList.size();) {
                         parentList.remove(i);
                     }
@@ -3037,7 +2928,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     case ContractMember.LEVEL3:
                         configureLevel(event.getItemId());
                         setTotalAmountOfPages(cdbLogic.getPSCount(contractMember.getSystemId(), contractMember.getParent2().getInternalId(), contractMember.getInternalId()));
-                        processTreeTable.setContainerDataSource(contractDashboardLogic.getLevel4Hierarchy(contractMember, hierarchicalContainer, 0, tempPageLength -NumericConstants.THREE));
+                        processTreeTable.setContainerDataSource(contractDashboardLogic.getLevel4Hierarchy(contractMember, hierarchicalContainer, 0, tempPageLength - NumericConstants.THREE));
                         processTreeTable.removeExpandListener(expandListener);
                         processTreeTable.setCollapsed(contractMember.getParent1(), false);
                         processTreeTable.setCollapsed(contractMember.getParent2(), false);
@@ -3112,7 +3003,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 if (tableBeanId instanceof BeanItem<?>) {
                     targetItem = (BeanItem<?>) tableBeanId;
                 } else if (tableBeanId instanceof ContractMember) {
-                    targetItem = new BeanItem<ContractMember>((ContractMember) tableBeanId);
+                    targetItem = new BeanItem<>((ContractMember) tableBeanId);
                 } else {
                     targetItem = NULL_OBJECT;
                 }
@@ -3130,7 +3021,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
      * @throws PortalException
      */
     @SuppressWarnings("rawtypes")
-    public void saveTree(final Collection list) throws SystemException, PortalException {
+    public void saveTree(final Collection list, String parentCategory) throws SystemException, PortalException {
         LOGGER.debug("Entering saveTree method");
         try {
             final ContractDashboardLogic contractDashboardLogic = new ContractDashboardLogic();
@@ -3148,21 +3039,15 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 if (temp.getCategory().equals(Constants.CFP)) {
 
                     cfp = temp;
-                    ifp = new ContractMember();
-                    priceSchedule = new ContractMember();
-                    rebateSchedule = new ContractMember();
                     contractDashboardLogic.saveCFp(contract.getInternalId(), cfp);
                 }
                 if (temp.getCategory().equals(Constants.IFP)) {
                     ifp = temp;
-                    priceSchedule = new ContractMember();
-                    rebateSchedule = new ContractMember();
                     contractDashboardLogic.saveIFP(contract.getInternalId(), temp.isContractChild() ? 0 : cfp.getCfpContractId(), ifp);
 
                 }
                 if (temp.getCategory().equals(Constants.PRICE_SCHEDULE)) {
                     priceSchedule = temp;
-                    rebateSchedule = new ContractMember();
                     contractDashboardLogic.savePS(contract.getInternalId(), temp.isContractChild() ? 0 : cfp.getCfpContractId(), temp.isContractChild() ? 0 : ifp.getIfpContractId(), priceSchedule);
                 }
                 if (temp.getCategory().equals(Constants.REBATE_SCHEDULE)) {
@@ -3173,9 +3058,26 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 final Collection childlist = tree.getChildren(idValue);
                 if (childlist == null || childlist.isEmpty()) {
                 } else {
-                    saveTree(childlist);
+                    saveTree(childlist, temp.getCategory());
+                    if (parentCategory.equals(Constants.CFP)) {
+                        ifp = new ContractMember();
+                        priceSchedule = new ContractMember();
+                        rebateSchedule = new ContractMember();
+                    }
+                    if (parentCategory.equals(Constants.IFP)) {
+                        priceSchedule = new ContractMember();
+                        rebateSchedule = new ContractMember();
+
+                    }
+                    if (parentCategory.equals(Constants.PRICE_SCHEDULE)) {
+                        rebateSchedule = new ContractMember();
+                    }
+                    if (parentCategory.equals(Constants.REBATE_SCHEDULE)) {
+                        rebateSchedule = temp;
+                    }
                 }
                 contractDashboardLogic.callCcpProcedure();
+                contractDashboardLogic.callActualsDetailsProcedure();
                 getProcessedTree(rightSearchBinder);
                 tree.setHeight(TREE_HEIGHT);
             }
@@ -3233,11 +3135,11 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                 }
 
                                 if (dashBoardLogic.validateContractToProcess(contract)) {
-                                    MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                            + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                                    MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                            + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                         /**
-                                                 * Called when a Button has been
-                                                 * clicked .
+                                         * Called when a Button has been clicked
+                                         * .
                                          */
                                         @SuppressWarnings("PMD")
                                         public void buttonClicked(final ButtonId buttonId) {
@@ -3260,11 +3162,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                 sessionDTO.setEdit(Constants.N);
                             }
                             if (dashBoardLogic.validateContractToProcess(contract)) {
-                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                        + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                        + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                     /**
-                                             * Called when a Button has been
-                                             * clicked .
+                                     * Called when a Button has been clicked .
                                      */
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
@@ -3292,11 +3193,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                 sessionDTO.setEdit(Constants.N);
                             }
                             if (dashBoardLogic.validateContractToProcess(contract)) {
-                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                        + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                        + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                     /**
-                                             * Called when a Button has been
-                                             * clicked .
+                                     * Called when a Button has been clicked .
                                      */
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
@@ -3321,11 +3221,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             sessionDTO.setEdit(Constants.N);
                         }
                         if (dashBoardLogic.validateContractToProcess(contract)) {
-                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                    + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                    + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                 /**
-                                         * Called when a Button has been clicked
-                                         * .
+                                 * Called when a Button has been clicked .
                                  */
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
@@ -3356,11 +3255,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                 sessionDTO.setEdit(Constants.N);
                             }
                             if (dashBoardLogic.validateContractToProcess(contract)) {
-                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                        + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                        + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                     /**
-                                             * Called when a Button has been
-                                             * clicked .
+                                     * Called when a Button has been clicked .
                                      */
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
@@ -3384,11 +3282,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             sessionDTO.setEdit(Constants.N);
                         }
                         if (dashBoardLogic.validateContractToProcess(contract)) {
-                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                    + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                    + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                 /**
-                                         * Called when a Button has been clicked
-                                         * .
+                                 * Called when a Button has been clicked .
                                  */
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
@@ -3416,11 +3313,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             sessionDTO.setEdit(Constants.N);
                         }
                         if (dashBoardLogic.validateContractToProcess(contract)) {
-                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                    + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                    + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                 /**
-                                         * Called when a Button has been clicked
-                                         * .
+                                 * Called when a Button has been clicked .
                                  */
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
@@ -3444,8 +3340,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                         sessionDTO.setEdit(Constants.N);
                     }
                     if (dashBoardLogic.validateContractToProcess(contract)) {
-                        MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                        MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                             /**
                              * Called when a Button has been clicked .
                              */
@@ -3485,11 +3381,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                                 sessionDTO.setEdit(Constants.N);
                             }
                             if (dashBoardLogic.validateContractToProcess(contract)) {
-                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                        + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                                MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                        + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                     /**
-                                             * Called when a Button has been
-                                             * clicked .
+                                     * Called when a Button has been clicked .
                                      */
                                     @SuppressWarnings("PMD")
                                     public void buttonClicked(final ButtonId buttonId) {
@@ -3514,11 +3409,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
 
                         }
                         if (dashBoardLogic.validateContractToProcess(contract)) {
-                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                    + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                    + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                 /**
-                                         * Called when a Button has been clicked
-                                         * .
+                                 * Called when a Button has been clicked .
                                  */
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
@@ -3546,11 +3440,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             sessionDTO.setEdit(Constants.N);
                         }
                         if (dashBoardLogic.validateContractToProcess(contract)) {
-                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                    + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                    + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                 /**
-                                         * Called when a Button has been clicked
-                                         * .
+                                 * Called when a Button has been clicked .
                                  */
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
@@ -3574,8 +3467,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                         sessionDTO.setEdit(Constants.N);
                     }
                     if (dashBoardLogic.validateContractToProcess(contract)) {
-                        MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                        MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                             /**
                              * Called when a Button has been clicked .
                              */
@@ -3611,11 +3504,10 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             sessionDTO.setEdit(Constants.N);
                         }
                         if (dashBoardLogic.validateContractToProcess(contract)) {
-                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                    + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                            MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                    + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                                 /**
-                                         * Called when a Button has been clicked
-                                         * .
+                                 * Called when a Button has been clicked .
                                  */
                                 @SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
@@ -3639,8 +3531,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                         sessionDTO.setEdit(Constants.N);
                     }
                     if (dashBoardLogic.validateContractToProcess(contract)) {
-                        MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                        MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                             /**
                              * Called when a Button has been clicked .
                              */
@@ -3672,8 +3564,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                         sessionDTO.setEdit(Constants.N);
                     }
                     if (dashBoardLogic.validateContractToProcess(contract)) {
-                        MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                                + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                        MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                                + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                             /**
                              * Called when a Button has been clicked .
                              */
@@ -3699,8 +3591,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     sessionDTO.setEdit(Constants.N);
                 }
                 if (dashBoardLogic.validateContractToProcess(contract)) {
-                    MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, "The Contract selected to be ‘Processed’ already has Actuals, "
-                            + "Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?", new MessageBoxListener() {
+                    MessageBox.showPlain(Icon.QUESTION, Constants.CONFORMATION, ConstantUtil.CONTRACT_SELECTED_HAS_ACTUALS
+                            + ConstantUtil.FORECASTED_SALES_OR_FORECASTED_DISCOUNTS_PROCEED, new MessageBoxListener() {
                         /**
                          * Called when a Button has been clicked .
                          */
@@ -3735,7 +3627,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         if (systemId instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) systemId;
         } else if (systemId instanceof ContractMember) {
-            targetItem = new BeanItem<ContractMember>((ContractMember) systemId);
+            targetItem = new BeanItem<>((ContractMember) systemId);
         } else {
 
             targetItem = NULL_OBJECT;
@@ -4062,7 +3954,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             leftIfpItemNo.setImmediate(true);
             leftIfpItemNo.setValidationVisible(true);
             leftIfpItemNo.addValidator(new RegexpValidator(ContractUtils.SPECIAL_CHAR, ContractUtils.SPECIAL_CHAR_MSG));
-            leftIfpItemNo.addValidator(new StringLengthValidator(" Item No should be less than 50 characters", 0, NumericConstants.FIFTY, true));
+            leftIfpItemNo.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NO_SHOULD_BE_LESS_THAN_50_CHAR, 0, NumericConstants.FIFTY, true));
             leftIfpItemNo.setDescription(leftIfpItemNo.getValue());
             leftIfpItemNo.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4079,7 +3971,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             leftIfpItemName.addValidator(new RegexpValidator(ContractUtils.APOSTROPHE_SP_CHAR, ContractUtils.SPECIAL_CHAR_MSGS));
             leftIfpItemName.setImmediate(true);
             leftIfpItemName.setValidationVisible(true);
-            leftIfpItemName.addValidator(new StringLengthValidator(" Item Name Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
+            leftIfpItemName.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NAME_SHOULD_BE_LESS_THAN_100_CHAR, 0, NumericConstants.HUNDRED, true));
             leftIfpItemName.setDescription(leftIfpItemName.getValue());
             leftIfpItemName.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4188,7 +4080,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             leftPsItemNo.setImmediate(true);
             leftPsItemNo.setValidationVisible(true);
             leftPsItemNo.addValidator(new RegexpValidator(ContractUtils.SPECIAL_CHAR, ContractUtils.SPECIAL_CHAR_MSG));
-            leftPsItemNo.addValidator(new StringLengthValidator(" Item No should be less than 50 characters", 0, NumericConstants.FIFTY, true));
+            leftPsItemNo.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NO_SHOULD_BE_LESS_THAN_50_CHAR, 0, NumericConstants.FIFTY, true));
             leftPsItemNo.setDescription(leftIfpItemNo.getValue());
             leftPsItemNo.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4205,7 +4097,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             leftPsItemName.addValidator(new RegexpValidator(ContractUtils.APOSTROPHE_SP_CHAR, ContractUtils.SPECIAL_CHAR_MSGS));
             leftPsItemName.setImmediate(true);
             leftPsItemName.setValidationVisible(true);
-            leftPsItemName.addValidator(new StringLengthValidator(" Item Name Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
+            leftPsItemName.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NAME_SHOULD_BE_LESS_THAN_100_CHAR, 0, NumericConstants.HUNDRED, true));
             leftPsItemName.setDescription(leftPsItemName.getValue());
             leftPsItemName.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4301,7 +4193,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             leftRsItemNo.setImmediate(true);
             leftRsItemNo.setValidationVisible(true);
             leftRsItemNo.addValidator(new RegexpValidator(ContractUtils.SPECIAL_CHAR, ContractUtils.SPECIAL_CHAR_MSG));
-            leftRsItemNo.addValidator(new StringLengthValidator(" Item No should be less than 50 characters", 0, NumericConstants.FIFTY, true));
+            leftRsItemNo.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NO_SHOULD_BE_LESS_THAN_50_CHAR, 0, NumericConstants.FIFTY, true));
             leftRsItemNo.setDescription(leftIfpItemNo.getValue());
             leftRsItemNo.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4318,7 +4210,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             leftRsItemName.addValidator(new RegexpValidator(ContractUtils.APOSTROPHE_SP_CHAR, ContractUtils.SPECIAL_CHAR_MSGS));
             leftRsItemName.setImmediate(true);
             leftRsItemName.setValidationVisible(true);
-            leftRsItemName.addValidator(new StringLengthValidator(" Item Name Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
+            leftRsItemName.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NAME_SHOULD_BE_LESS_THAN_100_CHAR, 0, NumericConstants.HUNDRED, true));
             leftRsItemName.setDescription(leftRsItemName.getValue());
             leftRsItemName.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4622,7 +4514,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             rightIfpItemNo.setImmediate(true);
             rightIfpItemNo.setValidationVisible(true);
             rightIfpItemNo.addValidator(new RegexpValidator(ContractUtils.SPECIAL_CHAR, ContractUtils.SPECIAL_CHAR_MSG));
-            rightIfpItemNo.addValidator(new StringLengthValidator(" Item No should be less than 50 characters", 0, NumericConstants.FIFTY, true));
+            rightIfpItemNo.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NO_SHOULD_BE_LESS_THAN_50_CHAR, 0, NumericConstants.FIFTY, true));
             rightIfpItemNo.setDescription(rightIfpItemNo.getValue());
             rightIfpItemNo.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4639,7 +4531,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             rightIfpItemName.addValidator(new RegexpValidator(ContractUtils.APOSTROPHE_SP_CHAR, ContractUtils.SPECIAL_CHAR_MSGS));
             rightIfpItemName.setImmediate(true);
             rightIfpItemName.setValidationVisible(true);
-            rightIfpItemName.addValidator(new StringLengthValidator(" Item Name Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
+            rightIfpItemName.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NAME_SHOULD_BE_LESS_THAN_100_CHAR, 0, NumericConstants.HUNDRED, true));
             rightIfpItemName.setDescription(rightIfpItemName.getValue());
             rightIfpItemName.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4748,7 +4640,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             rightPsItemNo.setImmediate(true);
             rightPsItemNo.setValidationVisible(true);
             rightPsItemNo.addValidator(new RegexpValidator(ContractUtils.SPECIAL_CHAR, ContractUtils.SPECIAL_CHAR_MSG));
-            rightPsItemNo.addValidator(new StringLengthValidator(" Item No should be less than 50 characters", 0, NumericConstants.FIFTY, true));
+            rightPsItemNo.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NO_SHOULD_BE_LESS_THAN_50_CHAR, 0, NumericConstants.FIFTY, true));
             rightPsItemNo.setDescription(rightIfpItemNo.getValue());
             rightPsItemNo.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4765,7 +4657,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             rightPsItemName.addValidator(new RegexpValidator(ContractUtils.APOSTROPHE_SP_CHAR, ContractUtils.SPECIAL_CHAR_MSGS));
             rightPsItemName.setImmediate(true);
             rightPsItemName.setValidationVisible(true);
-            rightPsItemName.addValidator(new StringLengthValidator(" Item Name Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
+            rightPsItemName.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NAME_SHOULD_BE_LESS_THAN_100_CHAR, 0, NumericConstants.HUNDRED, true));
             rightPsItemName.setDescription(rightPsItemName.getValue());
             rightPsItemName.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -4878,7 +4770,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             rightRsItemName.addValidator(new RegexpValidator(ContractUtils.APOSTROPHE_SP_CHAR, ContractUtils.SPECIAL_CHAR_MSGS));
             rightRsItemName.setImmediate(true);
             rightRsItemName.setValidationVisible(true);
-            rightRsItemName.addValidator(new StringLengthValidator(" Item Name Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
+            rightRsItemName.addValidator(new StringLengthValidator(ConstantUtil.ITEM_NAME_SHOULD_BE_LESS_THAN_100_CHAR, 0, NumericConstants.HUNDRED, true));
             rightRsItemName.setDescription(rightRsItemName.getValue());
             rightRsItemName.addValueChangeListener(new Property.ValueChangeListener() {
                 /**
@@ -5330,7 +5222,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     } else if (ContractUtils.CFP_COMPONENT.equals(leftComponentValue)) {
                         detailPanel.setVisible(true);
                         detailsTable.setVisible(true);
-                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "type", "category", "status"});
+                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "type", "category", ConstantUtil.STATUS_PROPERTY});
                         detailsTable.setColumnHeaders(new String[]{"Company No", "Company Name", "Company Type", "Company Category", "CFP Status"});
                         if (Constants.SUMMARY.equals(String.valueOf(leftSearchType.getValue()))) {
                             contractGridLayout.setVisible(false);
@@ -5361,8 +5253,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     } else if (ContractUtils.IFP_COMPONENT.equals(leftComponentValue)) {
                         detailPanel.setVisible(true);
                         detailsTable.setVisible(true);
-                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "status", "startDate", "endDate"});
-                        detailsTable.setColumnHeaders(new String[]{"Item No", "Item Name", "IFP Status", "IFP Start Date", "IFP End Date"});
+                        detailsTable.setVisibleColumns(new Object[]{"no", "name", ConstantUtil.STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE});
+                        detailsTable.setColumnHeaders(new String[]{Constants.ITEM_NO2, Constants.ITEM_NAME2, "IFP Status", "IFP Start Date", "IFP End Date"});
                         if (Constants.SUMMARY.equals(String.valueOf(leftSearchType.getValue()))) {
                             contractGridLayout.setVisible(false);
                             cfpGridLayout.setVisible(false);
@@ -5392,8 +5284,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     } else if (ContractUtils.PS_COMPONENT.equals(leftComponentValue)) {
                         detailPanel.setVisible(true);
                         detailsTable.setVisible(true);
-                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "status", "startDate", "endDate"});
-                        detailsTable.setColumnHeaders(new String[]{"Item No", "Item Name", "PS Status", "PS Start Date", "PS End Date"});
+                        detailsTable.setVisibleColumns(new Object[]{"no", "name", ConstantUtil.STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE});
+                        detailsTable.setColumnHeaders(new String[]{Constants.ITEM_NO2, Constants.ITEM_NAME2, "PS Status", "PS Start Date", "PS End Date"});
 
                         if (Constants.SUMMARY.equals(String.valueOf(leftSearchType.getValue()))) {
                             contractGridLayout.setVisible(false);
@@ -5424,8 +5316,8 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     } else if (ContractUtils.RS_COMPONENT.equals(leftComponentValue)) {
                         detailPanel.setVisible(true);
                         detailsTable.setVisible(true);
-                        detailsTable.setVisibleColumns(new Object[]{"no", "name", "status", "startDate", "endDate"});
-                        detailsTable.setColumnHeaders(new String[]{"Item No", "Item Name", "RS Status", "RS Start Date", "RS End Date"});
+                        detailsTable.setVisibleColumns(new Object[]{"no", "name", ConstantUtil.STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE});
+                        detailsTable.setColumnHeaders(new String[]{Constants.ITEM_NO2, Constants.ITEM_NAME2, "RS Status", "RS Start Date", "RS End Date"});
 
                         if (Constants.SUMMARY.equals(String.valueOf(leftSearchType.getValue()))) {
                             contractGridLayout.setVisible(false);
@@ -5710,7 +5602,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
             MessageBox.showPlain(Icon.ERROR, Constants.ERROR, "Please select Search Result", ButtonId.OK);
         } else {
 
-            final BeanItem<?> targetItem = new BeanItem<ContractMember>((ContractMember) srcTableBeanId);
+            final BeanItem<?> targetItem = new BeanItem<>((ContractMember) srcTableBeanId);
             treeBean = tree.getValue() == null ? null : getBeanFromID(tree.getValue());
             treeBeanId = tree.getValue() == null ? null : tree.getValue();
 
@@ -5720,7 +5612,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     setTreeNode(targetItem, srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId);
                 } else {
                     final String message = "Cannot make a " + srcTableBean.getCategory() + " as contracts header";
-                    AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                    AbstractNotificationUtils.getWarningNotification(ConstantUtil.CRITERIA_MISMATCH, message);
                     return Boolean.FALSE;
                 }
             } else {
@@ -5780,7 +5672,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
      * @param targetItem
      * @throws Exception
      */
-    private void validation(List<Object> values, final BeanItem<?> targetItem, String category) throws SystemException{
+    private void validation(List<Object> values, final BeanItem<?> targetItem, String category) throws SystemException {
         String ids = StringUtils.EMPTY;
         for (int i = 0; i < values.size(); i++) {
             if (i == 0 && values.size() != 1) {
@@ -5820,59 +5712,27 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
     private Boolean loadTree(BeanItem<?> targetItem) throws SystemException {
         if (srcTableBean.getCategory().equals(Constants.CONTRACT)) {
             final String message = "Cannot make a " + srcTableBean.getCategory() + " as child node";
-            AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+            AbstractNotificationUtils.getWarningNotification(ConstantUtil.CRITERIA_MISMATCH, message);
         } else {
             if (srcTableBean.getCategory().equals(treeBean.getCategory())) {
                 final String message = srcTableBean.getCategory() + " cannot be added to  " + treeBean.getCategory();
-                AbstractNotificationUtils.getWarningNotification("Criteria Mismatch", message);
+                AbstractNotificationUtils.getWarningNotification(ConstantUtil.CRITERIA_MISMATCH, message);
             } else {
-                if (srcTableBean.getCategory().equals(Constants.PS_VALUE) && treeBean.getCategory().equals(Constants.IFP)) {
+                if (srcTableBean.getCategory().equals(Constants.PS_VALUE) && treeBean.getCategory().equals(Constants.IFP) && nodeDuplicateCheck()) {
                     final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
 
-                    psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", srcTableBean.getInternalId()));
-                    psDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.PS_MODEL_SID, srcTableBean.getInternalId()));
+                    psDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.INBOUND_STATUS, "D"));
                     psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.IFP_SYSTEM_ID)));
                     final List<PsDetails> priceScheduleDetailsList = dashBoardLogic.priceScheduleDetailsDynamicQuery(psDynamicQuery);
                     if (priceScheduleDetailsList.isEmpty()) {
-                        AbstractNotificationUtils.getWarningNotification("No Items", "No items Exists in PS");
+                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.NO_ITEMS, "No items Exists in PS");
                     } else {
                         final String psSystem = String.valueOf(priceScheduleDetailsList.get(0)).trim();
                         if (psSystem.equals(String.valueOf(treeBean.getModelSysId()).trim())) {
 
                             Object rootItemID = getRootContract(treeBeanId);
 
-                            if (tree.hasChildren(rootItemID == null ? treeBeanId : rootItemID)) {
-                                childList.clear();
-                                final Collection<Object> collection = getAllChildren(rootItemID == null ? treeBeanId : rootItemID);
-                                for (final Iterator<Object> iterator = collection.iterator(); iterator.hasNext();) {
-                                    final Object childId = iterator.next();
-                                    final ContractMember object = getBeanFromId(childId);
-                                    if (srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
-                                        final String messageStr = srcTableBean.getCategory() + Constants.ALREADY_ADDED;
-                                        AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", messageStr);
-                                        return Boolean.FALSE;
-                                    }
-                                }
-                            }
-                            // Added newly to avoid same IFP,PS and Rs under multiple CFPs
-                            if (!tree.rootItemIds().isEmpty()) {
-                                final Collection list = tree.rootItemIds();
-                                for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                                    final Object idValue = iterator.next();
-                                    childList.clear();
-                                    final Collection<Object> collection = getAllChildren(idValue);
-                                    final ContractMember contract = getBeanFromId(idValue);
-                                    final ContractMember targetContract = getBeanFromId(treeBeanId);
-                                    for (final Object id : collection) {
-                                        final ContractMember object = getBeanFromId(id);
-                                        if ((contract.getInternalId() == targetContract.getContractId() || (targetContract.getParent1() != null && contract.getInternalId() == targetContract.getParent1().getContractId())) && srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
-                                            final String message = srcTableBean.getCategory() + " Already Added";
-                                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                            return Boolean.FALSE;
-                                        }
-                                    }
-                                }
-                            }
                             if (Constants.CONTRACT.equals(getBeanFromID(treeBeanId).getCategory())) {
                                 getBeanFromID(targetItem).setContractId(getBeanFromID(treeBeanId).getInternalId());
                                 getBeanFromID(targetItem).setContractChild(true);
@@ -5881,56 +5741,24 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             }
                             setTreeNode(targetItem, srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId);
                         } else {
-                            final String message = srcTableBean.getCategory() + " does not associate with  " + treeBean.getCategory();
+                            final String message = srcTableBean.getCategory() + ConstantUtil.DOES_NOT_ASSOCIATE_WITH + treeBean.getCategory();
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, message);
                         }
                     }
-                }
-                else if (srcTableBean.getCategory().equals(Constants.RS_VALUE) && treeBean.getCategory().equals(Constants.IFP)) {
+                } else if (srcTableBean.getCategory().equals(Constants.RS_VALUE) && treeBean.getCategory().equals(Constants.IFP) && nodeDuplicateCheck()) {
                     LOGGER.debug("Inside Expected Code");
                     final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RS_MODEL_SID, srcTableBean.getInternalId()));
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.INBOUND_STATUS, "D"));
                     rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.IFP_SYSTEM_ID)));
                     final List<RsDetails> rebateScheduleDetailsList = dashBoardLogic.priceScheduleDetailsDynamicQuery(rsDynamicQuery);
                     if (rebateScheduleDetailsList.isEmpty()) {
 
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "No items Exists in RS");
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, ConstantUtil.NO_ITEMS_EXISTS_IN_RS);
                     } else {
                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
                         if (rsSystem.equals(String.valueOf(treeBean.getModelSysId()).trim())) {
                             Object rootItemID = getRootContract(treeBeanId);
-                            if (tree.hasChildren(rootItemID == null ? treeBeanId : rootItemID)) {
-                                childList.clear();
-                                final Collection<Object> collection = getAllChildren(rootItemID == null ? treeBeanId : rootItemID);
-                                for (final Object id : collection) {
-                                    final ContractMember object = getBeanFromId(id);
-                                    if (srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
-                                        final String message = srcTableBean.getCategory() + " Already Added";
-                                        AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                        return Boolean.FALSE;
-                                    }
-                                }
-                            }
-                            // Added newly to avoid same IFP,PS and Rs under multiple CFPs
-                            if (!tree.rootItemIds().isEmpty()) {
-                                final Collection list = tree.rootItemIds();
-                                for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                                    final Object idValue = iterator.next();
-                                    childList.clear();
-                                    final Collection<Object> collection = getAllChildren(idValue);
-                                    final ContractMember contract = getBeanFromId(idValue);
-                                    final ContractMember targetContract = getBeanFromId(treeBeanId);
-                                    for (final Object id : collection) {
-                                        final ContractMember object = getBeanFromId(id);
-                                        if ((contract.getInternalId() == targetContract.getContractId() || (targetContract.getParent1() != null && contract.getInternalId() == targetContract.getParent1().getContractId())) && srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
-                                            final String message = srcTableBean.getCategory() + " Already Added";
-                                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                            return Boolean.FALSE;
-                                        }
-                                    }
-                                }
-                            }
                             if (Constants.CONTRACT.equals(getBeanFromID(treeBeanId).getCategory())) {
                                 getBeanFromID(targetItem).setContractId(getBeanFromID(treeBeanId).getInternalId());
                                 getBeanFromID(targetItem).setContractChild(true);
@@ -5939,63 +5767,31 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             }
                             setTreeNode(targetItem, srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId);
                         } else {
-                            final String message = srcTableBean.getCategory() + " does not associate with  " + treeBean.getCategory();
+                            final String message = srcTableBean.getCategory() + ConstantUtil.DOES_NOT_ASSOCIATE_WITH + treeBean.getCategory();
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, message);
                         }
                     }
-                } else if (srcTableBean.getCategory().equals(Constants.RS_VALUE) && treeBean.getCategory().equals(Constants.PS_VALUE)) {
+                } else if (srcTableBean.getCategory().equals(Constants.RS_VALUE) && treeBean.getCategory().equals(Constants.PS_VALUE) && nodeDuplicateCheck()) {
 
                     final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
 
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
-                    rsDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.RS_MODEL_SID, srcTableBean.getInternalId()));
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.INBOUND_STATUS, "D"));
                     rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.IFP_SYSTEM_ID)));
                     final List<RsDetails> rebateScheduleDetailsList = dashBoardLogic.priceScheduleDetailsDynamicQuery(rsDynamicQuery);
                     if (rebateScheduleDetailsList.isEmpty()) {
 
-                        AbstractNotificationUtils.getWarningNotification("No Items", "No items Exists in RS");
+                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.NO_ITEMS, ConstantUtil.NO_ITEMS_EXISTS_IN_RS);
                     } else {
                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
 
                         final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
-                        psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", treeBean.getModelSysId()));
-                        psDynamicQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
+                        psDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantUtil.PS_MODEL_SID, treeBean.getModelSysId()));
+                        psDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantUtil.INBOUND_STATUS, "D"));
                         psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.IFP_SYSTEM_ID)));
                         final List<PsDetails> priceScheduleDetailsList = dashBoardLogic.priceScheduleDetailsDynamicQuery(psDynamicQuery);
 
                         if (rsSystem.equals(String.valueOf(priceScheduleDetailsList.get(0)).trim())) {
-                            Object rootItemID = getRootContract(treeBeanId);
-                            if (tree.hasChildren(rootItemID == null ? treeBeanId : rootItemID)) {
-                                childList.clear();
-                                final Collection<Object> collection = getAllChildren(rootItemID == null ? treeBeanId : rootItemID);
-                                for (final Object id : collection) {
-                                    final ContractMember object = getBeanFromId(id);
-                                    if (srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
-                                        final String message = srcTableBean.getCategory() + " Already Added";
-                                        AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                        return Boolean.FALSE;
-                                    }
-                                }
-                            }
-                            // Added newly to avoid same IFP,PS and Rs under multiple CFPs
-                            if (!tree.rootItemIds().isEmpty()) {
-                                final Collection list = tree.rootItemIds();
-                                for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                                    final Object idValue = iterator.next();
-                                    childList.clear();
-                                    final Collection<Object> collection = getAllChildren(idValue);
-                                    final ContractMember contract = getBeanFromId(idValue);
-                                    final ContractMember targetContract = getBeanFromId(treeBeanId);
-                                    for (final Object id : collection) {
-                                        final ContractMember object = getBeanFromId(id);
-                                        if ((contract.getInternalId() == targetContract.getContractId() || (targetContract.getParent1() != null && contract.getInternalId() == targetContract.getParent1().getContractId())) && srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
-                                            final String message = srcTableBean.getCategory() + " Already Added";
-                                            AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                            return Boolean.FALSE;
-                                        }
-                                    }
-                                }
-                            }
                             if (Constants.CONTRACT.equals(getBeanFromID(treeBeanId).getCategory())) {
                                 getBeanFromID(targetItem).setContractId(getBeanFromID(treeBeanId).getInternalId());
                                 getBeanFromID(targetItem).setContractChild(true);
@@ -6004,7 +5800,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                             }
                             setTreeNode(targetItem, srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId);
                         } else {
-                            final String message = srcTableBean.getCategory() + " does not associate with  " + treeBean.getCategory();
+                            final String message = srcTableBean.getCategory() + ConstantUtil.DOES_NOT_ASSOCIATE_WITH + treeBean.getCategory();
                             AbstractNotificationUtils.getWarningNotification(Constants.ERROR, message);
                         }
                     }
@@ -6012,31 +5808,20 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                     Object rootItemID = getRootContract(treeBeanId);
                     if (tree.hasChildren(rootItemID == null ? treeBeanId : rootItemID)) {
                         childList.clear();
-                        final Collection<Object> collection = getAllChildren(rootItemID == null ? treeBeanId : rootItemID);
-                        for (final Object id : collection) {
-                            final ContractMember object = getBeanFromId(id);
-                            if (srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
-                                final String message = srcTableBean.getCategory() + " Already Added";
-                                AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                return Boolean.FALSE;
-                            }
-                        }
-                    }
-                    // Added newly to avoid same IFP,PS and Rs under multiple CFPs
-                    if (!tree.rootItemIds().isEmpty()) {
-                        final Collection list = tree.rootItemIds();
-                        for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-                            final Object idValue = iterator.next();
-                            childList.clear();
-                            final Collection<Object> collection = getAllChildren(idValue);
-                            final ContractMember contract = getBeanFromId(idValue);
-                            final ContractMember targetContract = getBeanFromId(treeBeanId);
+                        final Collection<?> collection = tree.getChildren(treeBeanId );
+                        if (collection != null) {
                             for (final Object id : collection) {
                                 final ContractMember object = getBeanFromId(id);
-                                if ((contract.getInternalId() == targetContract.getContractId()|| (targetContract.getParent1() != null && contract.getInternalId() == targetContract.getParent1().getContractId())) && srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
-                                    final String message = srcTableBean.getCategory() + " Already Added";
-                                    AbstractNotificationUtils.getWarningNotification("Duplicate Criteria", message);
-                                    return Boolean.FALSE;
+                                if (srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
+                                    if ("CFP".equals(srcTableBean.getCategory())) {
+                                        final String message = srcTableBean.getCategory() + ConstantUtil.ALREADY_ADDED;
+                                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.DUPLICATE_CRITERIA, message);
+                                        return Boolean.FALSE;
+                                    } else {
+                                        final String message = srcTableBean.getCategory() + ConstantUtil.ALREADY_ADDED_IFP + treeBean.getCategory();
+                                        AbstractNotificationUtils.getWarningNotification(ConstantUtil.DUPLICATE_CRITERIA, message);
+                                        return Boolean.FALSE;
+                                    }
                                 }
                             }
                         }
@@ -6056,6 +5841,24 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         srcTableBeanId = Constants.NULL_OBJECT;
         return Boolean.TRUE;
     }
+    
+    
+    private boolean nodeDuplicateCheck() {
+        Object rootItemID = getRootContract(treeBeanId);
+        if (tree.hasChildren(rootItemID == null ? treeBeanId : rootItemID)) {
+            childList.clear();
+            final Collection<?> collection = tree.getChildren(treeBeanId);
+            if (collection != null) {
+                for (final Object id : collection) {
+                    final ContractMember object = getBeanFromId(id);
+                    if (srcTableBean.getInternalId() == object.getModelSysId() && srcTableBean.getCategory().equals(object.getCategory())) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     /**
      * Gets the null bean item
@@ -6071,7 +5874,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         if (tableID instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) tableID;
         } else if (tableID instanceof ContractMember) {
-            targetItem = new BeanItem<ContractMember>((ContractMember) tableID);
+            targetItem = new BeanItem<>((ContractMember) tableID);
         } else {
             targetItem = NULL_OBJECT;
         }
@@ -6216,16 +6019,16 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         next.addStyleName("pagedtable-next");
         last.addStyleName("pagedtable-last");
 
-        itemsPerPageLabel.addStyleName("pagedtable-label");
+        itemsPerPageLabel.addStyleName(ConstantUtil.PAGEDTABLELABEL);
         itemsPerPageSelect.addStyleName("pagedtable-combobox");
-        pageLabel.addStyleName("pagedtable-label");
-        currentPageTextField.addStyleName("pagedtable-label");
-        separatorLabel.addStyleName("pagedtable-label");
-        totalPagesLabel.addStyleName("pagedtable-label");
-        first.addStyleName("pagedtable-button");
-        previous.addStyleName("pagedtable-button");
-        next.addStyleName("pagedtable-button");
-        last.addStyleName("pagedtable-button");
+        pageLabel.addStyleName(ConstantUtil.PAGEDTABLELABEL);
+        currentPageTextField.addStyleName(ConstantUtil.PAGEDTABLELABEL);
+        separatorLabel.addStyleName(ConstantUtil.PAGEDTABLELABEL);
+        totalPagesLabel.addStyleName(ConstantUtil.PAGEDTABLELABEL);
+        first.addStyleName(ConstantUtil.PAGEDTABLEBUTTON);
+        previous.addStyleName(ConstantUtil.PAGEDTABLEBUTTON);
+        next.addStyleName(ConstantUtil.PAGEDTABLEBUTTON);
+        last.addStyleName(ConstantUtil.PAGEDTABLEBUTTON);
 
         pageSize.addComponent(itemsPerPageLabel);
         pageSize.addComponent(itemsPerPageSelect);
@@ -6292,7 +6095,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
      * @return int - total amount of pages.
      * @throws SystemException
      */
-    public int getTotalAmountOfPages() throws SystemException {
+    public int getTotalAmountOfPages() {
         int recordCount = cdbLogic.getRightQueriedCount(rightSearchBinder);
         double pageLength = tempPageLength;
         int pageCount = (int) Math.ceil(recordCount / pageLength);
@@ -6324,8 +6127,9 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
     }
 
     /**
+     *
      * Clears the container and adds the parent hierarchy for the pagination
-     * purpose.
+     * purpose .
      */
     private void configureParentHierarchy() {
         processTreeTable.getContainerDataSource().removeAllItems();
@@ -6349,7 +6153,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         int start = ((currentPageNo - 1) * tempPageLength) - ((currentPageNo - 1) * levelValue);
         int end = start + (tempPageLength - levelValue);
 
-        List<ContractMember> contractList = new ArrayList();
+        List<ContractMember> contractList;
         if (levelValue == 1) {
             contractList = cdbLogic.getLevel2List(lastParent, start, end, true);
             for (final Iterator<ContractMember> iterator = contractList.iterator(); iterator.hasNext();) {
@@ -6413,18 +6217,18 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
     }
 
     @Override
-    public void configureFields() throws SystemException, PortalException{
-
+    public void configureFields() throws SystemException, PortalException {
+        return;
     }
 
     @Override
-    public void addToContent() throws SystemException, PortalException{
-
+    public void addToContent() throws SystemException, PortalException {
+        return;
     }
 
     @Override
     public void searchLogic() {
-
+        return;
     }
 
     private void loadComboBox(ComboBox comboBox, List<HelperDTO> dropDownList) {
@@ -6463,7 +6267,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
          * @param value - Object
          * @throws InvalidValueException the invalid value exception
          */
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method for start date and end date");
             if (leftContractStartDate.getValue() != null && leftContractEndDate.getValue() != null) {
                 if (leftContractStartDate.getValue().after(leftContractEndDate.getValue())) {
@@ -6533,7 +6337,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
          * @param value - Object
          * @throws InvalidValueException the invalid value exception
          */
-        public void validate(final Object value) throws Validator.InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method for start date and end date");
             if (rightContractStartDate.getValue() != null && rightContractEndDate.getValue() != null) {
                 if (rightContractStartDate.getValue().after(rightContractEndDate.getValue())) {
@@ -6574,7 +6378,7 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
         }
     }
 
-    private Boolean validateEndStart(Object sourceBean, Object targetBean) throws SystemException {
+    private Boolean validateEndStart(Object sourceBean, Object targetBean) {
 
         srcTableBean = sourceBean == null ? null : getBeanFromID(sourceBean);
         srcTableBeanId = sourceBean == null ? null : sourceBean;
@@ -6592,11 +6396,9 @@ public final class DashBoardForm extends CustomComponent implements SearchBaseFo
                 AbstractNotificationUtils.getWarningNotification("Info", "The " + srcTableBean.getCategory() + " End Date is less than " + treeBean.getCategory() + " Start Date.");
                 return Boolean.FALSE;
             }
-
             if (srcTableBean.getStartDate().before(treeBean.getStartDate())) {
                 srcTableBean.setStartDate(treeBean.getStartDate());
             }
-
             //End date case
             if (treeBean.getEndDate() == null && srcTableBean.getEndDate() == null) {
             } else if (srcTableBean.getEndDate() == null && treeBean.getEndDate() != null) {

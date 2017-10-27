@@ -25,7 +25,7 @@ public class CommonQueryUtils {
     public static List getCFFData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside  get data");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(CustomSQLUtil.get(queryName));
@@ -98,7 +98,7 @@ public class CommonQueryUtils {
     public static List getAppData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql;
         LOGGER.debug("queryName - - >> " + queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {

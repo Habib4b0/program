@@ -16,6 +16,7 @@ import com.stpl.app.contract.util.ResponsiveUtils;
 import static com.stpl.app.serviceUtils.ConstantsUtils.QUOTE;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
+import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
@@ -142,7 +143,7 @@ public class RebatePlanLookup extends Window {
     /**
      * Init method to the lookup.
      */
-    private void init() throws SystemException {
+    private void init() {
         setContent(Clara.create(getClass().getResourceAsStream("/declarative-ui/contract-dashboard/rebate-plan-lookup.xml"), this));
         configureFields();
         configureBinder();        
@@ -152,7 +153,7 @@ public class RebatePlanLookup extends Window {
     /**
      * Configures the fields in the Search Criteria.
      */
-    private void configureFields() throws SystemException  {      
+    private void configureFields() {      
         commonUtil.loadComboBox(rebatePlanStatus,"STATUS", false);
         commonUtil.loadComboBox(rebatePlanType,"REBATE_PLAN_TYPE", false);     
      
@@ -183,7 +184,7 @@ public class RebatePlanLookup extends Window {
              */
             @SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
-              
+                return;
             }
         });
         excelExport.addClickListener(new Button.ClickListener() {
@@ -218,8 +219,8 @@ public class RebatePlanLookup extends Window {
         resultsTable.setSizeFull();
         resultsTable.setConverter("createdDate", new DateToStringConverter());
         resultsTable.setConverter("modifiedDate", new DateToStringConverter());
-        resultsTable.setVisibleColumns(ContractUtils.REBATE_PLAN_LOOKUP);
-        resultsTable.setColumnHeaders(ContractUtils.REBATE_PLAN_LOOKUP_HEADER);
+        resultsTable.setVisibleColumns(ContractUtils.getInstance().rebatePlanLookup);
+        resultsTable.setColumnHeaders(ContractUtils.getInstance().rebatePlanLookupHeader);
         resultsTable.setFilterBarVisible(true);
         resultsTable.addStyleName("filterbar");
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -248,7 +249,7 @@ public class RebatePlanLookup extends Window {
                              */
                             @SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
-
+                                return;
                             }
                         }, ButtonId.OK);
              }
@@ -286,20 +287,7 @@ public class RebatePlanLookup extends Window {
             isSelected = true;
             this.close();
         } else {
-            final MessageBox msg = MessageBox.showPlain(Icon.WARN, "Select error", "Please select a record.", new MessageBoxListener() {
-              
-                /**
-                 * The method is triggered when a button of the message box is
-                 * pressed .
-                 *
-                 * @param buttonId The buttonId of the pressed button.
-                 */
-            	@SuppressWarnings("PMD")
-                public void buttonClicked(final ButtonId buttonId) {
-                  
-                }
-            }, ButtonId.OK);
-            msg.getButton(ButtonId.OK).focus();
+            CommonUIUtils.getSelectErrorMessage();      
         }
     }
     
@@ -331,7 +319,7 @@ public class RebatePlanLookup extends Window {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof RebatePlanDTO) {
-            targetItem = new BeanItem<RebatePlanDTO>(
+            targetItem = new BeanItem<>(
                     (RebatePlanDTO) obj);
         }        
         return (RebatePlanDTO) targetItem.getBean();
@@ -355,7 +343,7 @@ public class RebatePlanLookup extends Window {
         this.isSelected = isSelected;
     }
 
-     protected void excelExportLogic() throws SystemException, PortalException {
+     protected void excelExportLogic() {
         LOGGER.debug("Entering excelExportLogic");
         createWorkSheet();
         LOGGER.debug("Ending excelExportLogic");
@@ -372,7 +360,7 @@ public class RebatePlanLookup extends Window {
         }
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
       
         RebatePlanDTO dto;
        List<RebatePlanDTO> resultList = (List<RebatePlanDTO>) dashboardLogic.loadRebatePlan(rebatePlanDTO,start,end,false,null,null); 

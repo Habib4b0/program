@@ -57,18 +57,18 @@ public class ProjectionSelectionDTO {
     int customId;
     int historyNum;
     int projectionNum;
-    List<String> levelValueList=new ArrayList<String>();
-    List<String> parentNodeList=new ArrayList<String>();
+    List<String> levelValueList=new ArrayList<>();
+    List<String> parentNodeList=new ArrayList<>();
     Date startDate;
     Date toDate;
     int ndcLevelNo;
-    List<String> columns=new ArrayList<String>();
-    List<String> periodList=new ArrayList<String>();
-    List<String> discountProgramsList=new ArrayList<String>();
-    Map<String,String> periodListMap=new HashMap<String,String>();
+    List<String> columns=new ArrayList<>();
+    List<String> periodList=new ArrayList<>();
+    List<String> discountProgramsList=new ArrayList<>();
+    Map<String,String> periodListMap=new HashMap<>();
     boolean isFilter;
     boolean isCustomHierarchy;
-    List<String> priceTypeList = new ArrayList<String>();
+    List<String> priceTypeList = new ArrayList<>();
     String variables;
     int brandMasterId=0;
     private HelperDTO therapeuticSid = new HelperDTO(0, SELECT_ONE.getConstant());
@@ -77,11 +77,11 @@ public class ProjectionSelectionDTO {
     private int customLevelNo;
     private String viewName=StringUtils.EMPTY;
     private HelperDTO ndcSid = new HelperDTO(0, SELECT_ONE.getConstant());
-    List<String> pivotList=new ArrayList<String>();
+    List<String> pivotList=new ArrayList<>();
     String ndcParent;
-    Map<String,String[]> notesMap=new HashMap<String,String[]>();
-    Map<String,String[]> secondRowNotesMap=new HashMap<String,String[]>();
-    Map<String,String[]> thirdRowNotesMap=new HashMap<String,String[]>();
+    Map<String,String[]> notesMap=new HashMap<>();
+    Map<String,String[]> secondRowNotesMap=new HashMap<>();
+    Map<String,String[]> thirdRowNotesMap=new HashMap<>();
     int histProjYear;
     int histProjMonth;
     int histProjPeriod;
@@ -95,7 +95,7 @@ public class ProjectionSelectionDTO {
     private HelperDTO ndcWSdto = new HelperDTO(0, SELECT_ONE.getConstant());
     private HelperDTO brandWSdto = new HelperDTO(0, SELECT_ONE.getConstant());
     // for paged Table
-    private List<String> nonFetchableIndex = new ArrayList<String>();
+    private List<String> nonFetchableIndex = new ArrayList<>();
     boolean excel=false;
     boolean brandSeclected=false;
         

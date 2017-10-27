@@ -58,7 +58,7 @@ public class DiscountDaoImpl implements DiscountDAO {
 
     public List<RemoveDiscountDto> getContracts(CustomFieldGroup removeDiscountDto,
             int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumn) {
-        List<RemoveDiscountDto> resultLists = new ArrayList<RemoveDiscountDto>();
+        List<RemoveDiscountDto> resultLists;
         String query = queryUtils.getDiscContract(removeDiscountDto, filters, sortByColumn);
         query = query + " OFFSET " + startIndex + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
         resultLists = (List<RemoveDiscountDto>) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -129,7 +129,7 @@ public class DiscountDaoImpl implements DiscountDAO {
     }
 
     public List<RemoveDiscountDto> getRebateSearch(String field, String value, int contractSid, int rsSid) {
-        List<RemoveDiscountDto> resultLists = new ArrayList<RemoveDiscountDto>();
+        List<RemoveDiscountDto> resultLists;
         String query = queryUtils.getRebates(field, value, contractSid, rsSid);
         resultLists = (List<RemoveDiscountDto>) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;

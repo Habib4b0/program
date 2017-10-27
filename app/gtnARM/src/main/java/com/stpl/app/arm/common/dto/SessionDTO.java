@@ -36,9 +36,42 @@ public class SessionDTO implements Cloneable {
     private String adjustmentType = StringUtils.EMPTY;
     private boolean workFlow;
     private int projectionId;
-    private Map<String,String> currentTableNames = new LinkedHashMap<>();
-    private Map<String,Map<String,String>> transactionTables = new LinkedHashMap<>();
+    private Map<String, String> currentTableNames = new LinkedHashMap<>();
+    private Map<String, Map<String, String>> transactionTables = new LinkedHashMap<>();
     private String screenName;
+
+    public SessionDTO() {
+        /*
+          EMPTY CONSTRUCTOE
+         */
+    }
+    
+    public SessionDTO(SessionDTO session) {
+        
+        this.mode = session.getMode();
+        this.sessionId = session.getSessionId();
+        this.sessionDate = session.getSessionDate();
+        this.userId = session.getUserId();
+        this.action = session.getAction();
+        this.editOperation = session.getEditOperation();
+        this.userName = session.getUserName();
+        this.currentDate = session.getCurrentDate();
+        this.vaadinSessionId = session.getVaadinSessionId();
+        this.processId = session.getProcessId();
+        this.workflowId = session.getWorkflowId();
+        this.workflowStatus = session.getWorkflowStatus();
+        this.workflowUserType = session.getWorkflowUserType();
+        this.noOfApproval = session.getNoOfApproval();
+        this.approvalLevel = session.getApprovalLevel();
+        this.configType = session.getConfigType();
+        this.description = session.getDescription();
+        this.adjustmentType = session.getAdjustmentType();
+        this.workFlow = session.isWorkFlow();
+        this.projectionId = session.getProjectionId();
+        this.currentTableNames = session.getCurrentTableNames();
+        this.transactionTables = session.getTransactionTables();
+        this.screenName = session.getScreenName();
+    }
 
     public Date getSessionDate() {
         return sessionDate;
@@ -64,9 +97,9 @@ public class SessionDTO implements Cloneable {
         this.mode = mode;
     }
 
-    @Override
-    public SessionDTO clone() throws CloneNotSupportedException {
-        SessionDTO selection = (SessionDTO) super.clone();
+
+    public SessionDTO getSessionDTO(SessionDTO session)  {
+        SessionDTO selection = new SessionDTO(session);
         selection.setSessionDate(sessionDate);
         selection.setSessionId(sessionId);
         selection.setMode(mode);
@@ -203,7 +236,7 @@ public class SessionDTO implements Cloneable {
 
     public String getConfigType() {
         return configType;
-}
+    }
 
     public void setConfigType(String configType) {
         this.configType = configType;

@@ -4,17 +4,22 @@
  */
 package com.stpl.app.contract.global.dto;
 
+import com.stpl.app.contract.common.dto.SessionDTO;
 import com.stpl.app.contract.common.util.CommonUtil;
 import com.stpl.app.contract.dashboard.dto.TempPricingDTO;
+import com.stpl.app.contract.global.logic.CFPSearchLogic;
 import com.stpl.app.contract.global.logic.IfpLogic;
 import com.stpl.app.contract.util.AbstractNotificationUtils;
 import com.stpl.app.contract.util.CommonUIUtils;
 import com.stpl.app.contract.util.Constants;
+import com.stpl.app.contract.util.QueryUtil;
+import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
@@ -28,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
 
 /**
@@ -50,14 +56,30 @@ public class IFPItemsTableGenerator extends DefaultFieldFactory {
     private CommonUtil commonUtil = CommonUtil.getInstance();
     Object[] dates;
     Map<String, List> tempDate;
-    List<Date> tempDateList = new ArrayList<Date>();
+    List<Date> tempDateList = new ArrayList<>();
     boolean isEdit = false;
+    ExtPagedTable table;
+    private CFPSearchLogic cfpLogic;
+     
+    private String userId;
+    
+    private String sessionId;
+    
+    List checkUpdate=new ArrayList();
+    
+    List checkSelect=new ArrayList();
+    
+    private int check;
+    
+    SessionDTO sessionDTO;
 
-    public IFPItemsTableGenerator(BeanItemContainer<TempPricingDTO> saveContainer, final Object[] dates, final Map<String, List> tempDate, boolean isEdit) {
+    public IFPItemsTableGenerator(BeanItemContainer<TempPricingDTO> saveContainer, final Object[] dates, final Map<String, List> tempDate, boolean isEdit, ExtPagedTable table,SessionDTO sessionDTO) {
         this.saveContainer = saveContainer;
         this.dates = dates;
         this.tempDate = tempDate;
         this.isEdit = isEdit;
+        this.table=table;
+        this.sessionDTO=sessionDTO;
     }
 
     /**
@@ -74,6 +96,8 @@ public class IFPItemsTableGenerator extends DefaultFieldFactory {
         tempDateList.add(temp.getStartDate());
         tempDateList.add(temp.getEndDate());
         tempDate.put(temp.getItemId(), tempDateList);
+         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
+         sessionId =sessionDTO.getUiSessionId();
 
 
         if (Constants.CHECK_BOX.equals(propertyId)) {
@@ -87,6 +111,38 @@ public class IFPItemsTableGenerator extends DefaultFieldFactory {
                     try {
                         saveContainer.addItem(itemId);
                         IfpLogic.saveToTempIFP(saveContainer.getItemIds(), isEdit);
+
+                    if (temp.getCheckbox() != null) {
+                        saveContainer.addItem(itemId);
+                         check=temp.getCheckbox()?1:0;
+                         
+                        checkUpdate=new ArrayList();
+                        
+
+                        checkUpdate.add(check);
+                        checkUpdate.add(sessionId);
+                        checkUpdate.add(userId);
+                        checkUpdate.add(temp.getTempItemPriceRebateSystemId());
+
+                        QueryUtil.updateAppData(checkUpdate, "IFPCheckUpdate");
+                        checkUpdate = new ArrayList();
+
+                        checkUpdate.add(sessionId);
+                        checkUpdate.add(userId);
+                        
+                        checkSelect=new ArrayList();
+
+                        checkSelect = QueryUtil.getAppData(checkUpdate,"IFPCheckSelect", null);
+
+                        if (checkSelect.size() == 0) {
+                            table.setCurrentPage(table.getCurrentPage());
+                            table.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, true);
+                        } else {
+                            table.setCurrentPage(table.getCurrentPage());
+                            table.setColumnCheckBox(ConstantsUtils.CHECK_BOX, true, false);
+                        }
+
+                    }
                     } catch (PortalException ex) {
                         LOGGER.error(ex);
                     } catch (SystemException ex) {

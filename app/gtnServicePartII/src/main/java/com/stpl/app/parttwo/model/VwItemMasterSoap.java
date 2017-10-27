@@ -90,6 +90,8 @@ public class VwItemMasterSoap implements Serializable {
     private String _itemCode;
     private Date _clottingFactorStartDate;
     private Date _nonFederalExpirationDate;
+    private int _baseCpiPrecision;
+    private int _baselineAmpPrecision;
 
     public VwItemMasterSoap() {
     }
@@ -174,6 +176,8 @@ public class VwItemMasterSoap implements Serializable {
         soapModel.setItemCode(model.getItemCode());
         soapModel.setClottingFactorStartDate(model.getClottingFactorStartDate());
         soapModel.setNonFederalExpirationDate(model.getNonFederalExpirationDate());
+        soapModel.setBaseCpiPrecision(model.getBaseCpiPrecision());
+        soapModel.setBaselineAmpPrecision(model.getBaselineAmpPrecision());
 
         return soapModel;
     }
@@ -837,5 +841,21 @@ public class VwItemMasterSoap implements Serializable {
 
     public void setNonFederalExpirationDate(Date nonFederalExpirationDate) {
         _nonFederalExpirationDate = nonFederalExpirationDate;
+    }
+
+    public int getBaseCpiPrecision() {
+        return _baseCpiPrecision;
+    }
+
+    public void setBaseCpiPrecision(int baseCpiPrecision) {
+        _baseCpiPrecision = baseCpiPrecision;
+    }
+
+    public int getBaselineAmpPrecision() {
+        return _baselineAmpPrecision;
+    }
+
+    public void setBaselineAmpPrecision(int baselineAmpPrecision) {
+        _baselineAmpPrecision = baselineAmpPrecision;
     }
 }

@@ -90,9 +90,9 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
 
     private TextField finalName = new TextField();
 
-    public BeanItemContainer<ProjectionNameDTO> attributesTableResultsBean = new BeanItemContainer<ProjectionNameDTO>(ProjectionNameDTO.class);
+    public BeanItemContainer<ProjectionNameDTO> attributesTableResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
 
-    public BeanItemContainer<ProjectionNameDTO> selectedResultsBean = new BeanItemContainer<ProjectionNameDTO>(ProjectionNameDTO.class);
+    public BeanItemContainer<ProjectionNameDTO> selectedResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
 
     final ProjectionNameDTO projectionNameDTO = new ProjectionNameDTO();
 
@@ -100,16 +100,16 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
 
     private static final BeanItem<?> NULL_OBJECT = null;
 
-    public static final Object[] PROJECTION_NAME_TABLE_COLUMNS = new Object[]{
+    public final Object[] projectionNameTableColumns = new Object[]{
         "businessProcessType", "selectedAttributes", "versionNo", "createdBy", "modifiedBy"};
 
-    public static final String[] PROJECTION_NAME_TABLE_HEADER = new String[]{
+    public final String[] projectionNameTableHeader = new String[]{
         "Business Process Type", "Selected Attributes", "Version No", "Created By", "Modified By"};
 
-    public static final Object[] ATTRIBUTES_TABLE_COLUMNS = new Object[]{
+    public final Object[] attributesTableColumns = new Object[]{
         "availableAttributes"};
 
-    public static final String[] ATTRIBUTES_TABLE_HEADER = new String[]{
+    public final String[] attributesTableHeader = new String[]{
         "Available Attributes"};
 
     private String nameTemplate;
@@ -170,12 +170,12 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
         return errorMsg;
     }
 
-    public static Object[] getForecastTableColumns() {
-        return PROJECTION_NAME_TABLE_COLUMNS;
+    public Object[] getForecastTableColumns() {
+        return projectionNameTableColumns;
     }
 
-    public static String[] getForecastTableHeader() {
-        return PROJECTION_NAME_TABLE_HEADER;
+    public String[] getForecastTableHeader() {
+        return projectionNameTableHeader;
     }
 
     /**
@@ -200,7 +200,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void init() throws SystemException, PortalException {
+    private void init() {
         LOGGER.debug("ProjNameConfigAddForm init method is started");
         setCompositionRoot(addToContent());
 
@@ -215,7 +215,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private VerticalLayout addToContent() throws SystemException, PortalException {
+    private VerticalLayout addToContent() {
         LOGGER.debug("addToContent Method Started ");
         final VerticalLayout content = new VerticalLayout();
         content.setSpacing(true);
@@ -305,7 +305,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                 if (attributesTable.getValue() == null) {
                     MessageBox.showPlain(Icon.INFO, "Halt", "Please select a row from Available  ", ButtonId.OK);
                 } else {
-                    addItemsButtonClick(event);
+                    addItemsButtonClick();
                 }
                 LOGGER.debug("In addGridButtons add.addClickListener completed");
             }
@@ -350,8 +350,8 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
         attributesTable.setFilterDecorator(new ExtDemoFilterDecorator());
         attributesTable.setContainerDataSource(attributesTableResultsBean);
         attributesTable.setCaption("Attributes");
-        attributesTable.setVisibleColumns(ATTRIBUTES_TABLE_COLUMNS);
-        attributesTable.setColumnHeaders(ATTRIBUTES_TABLE_HEADER);
+        attributesTable.setVisibleColumns(attributesTableColumns);
+        attributesTable.setColumnHeaders(attributesTableHeader);
         attributesTable.setPageLength(NumericConstants.FIVE);
         attributesTable.setWidth("300px");
         attributesTable.setImmediate(true);
@@ -365,7 +365,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                 selectedBeanId = event.getItemId();
                 BeanItem<ProjectionNameDTO> targetItem = null;
                 if (selectedBeanId instanceof ProjectionNameDTO) {
-                    targetItem = new BeanItem<ProjectionNameDTO>((ProjectionNameDTO) selectedBeanId);
+                    targetItem = new BeanItem<>((ProjectionNameDTO) selectedBeanId);
                 }
                 treeBean = (ProjectionNameDTO) targetItem.getBean();
                 LOGGER.debug("In add form attributesTable.addItemClickListener Ended");
@@ -390,7 +390,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
         selectedResults.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedResults.setContainerDataSource(selectedResultsBean);
 
-        selectedResults.setVisibleColumns(ATTRIBUTES_TABLE_COLUMNS);
+        selectedResults.setVisibleColumns(attributesTableColumns);
         selectedResults.setColumnHeaders("Selected Items");
         selectedResults.setPageLength(NumericConstants.FIVE);
         selectedResults.setWidth("300px");
@@ -405,7 +405,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                 availableBeanId = event.getItemId();
                 BeanItem<ProjectionNameDTO> targetItem = null;
                 if (availableBeanId instanceof ProjectionNameDTO) {
-                    targetItem = new BeanItem<ProjectionNameDTO>((ProjectionNameDTO) availableBeanId);
+                    targetItem = new BeanItem<>((ProjectionNameDTO) availableBeanId);
                 }
                 treeBean = (ProjectionNameDTO) targetItem.getBean();
                 LOGGER.debug("In addHierarchyTree hierarchyTree.addItemClickListener Ended");
@@ -437,7 +437,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                 if (sourceItemId instanceof BeanItem<?>) {
                     beanItem = (BeanItem<?>) sourceItemId;
                 } else if (sourceItemId instanceof ProjectionNameDTO) {
-                    beanItem = new BeanItem<ProjectionNameDTO>((ProjectionNameDTO) sourceItemId);
+                    beanItem = new BeanItem<>((ProjectionNameDTO) sourceItemId);
                 }
 
 
@@ -489,7 +489,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -566,10 +566,6 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                                     LOGGER.error(ex);
-                                }  catch (PortalException ex) {
-                                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                                    LOGGER.error(ex);
                                 } 
 
                             }
@@ -603,7 +599,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void saveButtonLogic() throws PortalException, SystemException {
+    private void saveButtonLogic() throws SystemException {
         LOGGER.debug("saveButtonLogic Method started ");
         if (!selectedResults.getItemIds().isEmpty()) {
             nameTemplate = "<" + businessProcess.getValue().toString() + ">";
@@ -652,7 +648,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
      * @param event the event
      *
      */
-    protected void addItemsButtonClick(final Button.ClickEvent event) {
+    protected void addItemsButtonClick() {
         LOGGER.debug("addItemsButtonClick Method started ");
         selectedResultsBean.addBean(treeBean);
 
@@ -719,7 +715,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
         if (systemId instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) systemId;
         } else if (systemId instanceof ProjectionNameDTO) {
-            targetItem = new BeanItem<ProjectionNameDTO>((ProjectionNameDTO) systemId);
+            targetItem = new BeanItem<>((ProjectionNameDTO) systemId);
         } else {
 
             targetItem = NULL_OBJECT;

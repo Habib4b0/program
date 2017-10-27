@@ -51,7 +51,7 @@ public final class UDCIncrementCheck {
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME,
                 listName));
 
-        List<HelperTable> list = new ArrayList<HelperTable>();
+        List<HelperTable> list;
       
             list = dao.getHelperTableList(helperDynamicQuery);
             if (list != null && !list.isEmpty()) {
@@ -87,7 +87,7 @@ public final class UDCIncrementCheck {
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME,
                 listName));
 
-        List<HelperTable> list = new ArrayList<HelperTable>();
+        List<HelperTable> list;
        
             list = dao.getHelperTableList(helperDynamicQuery);
             if (list != null &&  !list.isEmpty()) {
@@ -125,7 +125,7 @@ public final class UDCIncrementCheck {
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME,
                 listName));
 
-        List<HelperTable> list = new ArrayList<HelperTable>();
+        List<HelperTable> list;
       
             list = dao.getHelperTableList(helperDynamicQuery);
             if (list != null && !list.isEmpty()) {
@@ -161,7 +161,7 @@ public final class UDCIncrementCheck {
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME,
                 listName));
 
-        List<HelperTable> list = new ArrayList<HelperTable>();
+        List<HelperTable> list;
        
             list = dao.getHelperTableList(helperDynamicQuery);
             if (list != null &&  !list.isEmpty()) {

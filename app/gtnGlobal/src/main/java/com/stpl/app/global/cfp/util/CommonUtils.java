@@ -83,7 +83,7 @@ public class CommonUtils {
      */
     public Container searchFields() {
         LOGGER.debug("Entering CommonUtils searchFields");
-        final List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
         list.add(ConstantsUtils.SELECT_ONE);        
 		list.add("Company Name");
                 list.add("Company No");
@@ -156,7 +156,7 @@ public class CommonUtils {
     public ComboBox getNativeSelectForFilter(final ComboBox select, final List<HelperDTO> helperList) {
             
         select.addItem(0);
-        select.setItemCaption(0,ConstantsUtils.Show_All);
+        select.setItemCaption(0,ConstantsUtils.SHOW_ALL_CAPS);
        for (int i = 0; i < helperList.size(); i++) {
             final HelperDTO helperDTO = helperList.get(i);
             select.addItem(helperDTO.getId());
@@ -168,7 +168,7 @@ public class CommonUtils {
     public ComboBox getSelectedNativeSelect(final ComboBox select, final HelperDTO helperDTO) {
 
         select.addItem(0);
-        select.setItemCaption(0, ConstantsUtils.Show_All);
+        select.setItemCaption(0, ConstantsUtils.SHOW_ALL_CAPS);
         select.addItem(helperDTO.getId());
         select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
         return select;

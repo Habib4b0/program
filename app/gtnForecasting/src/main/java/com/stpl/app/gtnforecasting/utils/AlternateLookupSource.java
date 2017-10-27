@@ -21,15 +21,15 @@ public class AlternateLookupSource {
     
     
     
-    private List<ContractBrandDTO> contractcustomersList = new ArrayList<ContractBrandDTO>();
+    private List<ContractBrandDTO> contractcustomersList = new ArrayList<>();
     /**
      * The customers list.
      */
-    private List<AlternateHistoryDTO> customersList = new ArrayList<AlternateHistoryDTO>();
+    private List<AlternateHistoryDTO> customersList = new ArrayList<>();
     /**
      * The brand list.
      */
-    private List<AlternateHistoryDTO> brandList = new ArrayList<AlternateHistoryDTO>();
+    private List<AlternateHistoryDTO> brandList = new ArrayList<>();
 
     /**
      * Gets the customers list.

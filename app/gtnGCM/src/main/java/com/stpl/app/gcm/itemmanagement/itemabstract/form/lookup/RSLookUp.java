@@ -30,11 +30,11 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
@@ -48,7 +48,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  *
  * @author mohamed.hameed
  */
-public class RSLookUp extends CustomWindow {
+public class RSLookUp extends Window {
 private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
@@ -80,28 +80,30 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
     PopupDateField endDate;
     AbstractLookUpTableLogic tableLogic = new AbstractLookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<ComponentLookUpDTO>(ComponentLookUpDTO.class);
-    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<String>(String.class);
-    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<String>(String.class);
+    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
+    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
+    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     ComponentLookUpDTO componentDto;
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<ComponentLookUpDTO>(binderDto));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection = new SelectionDTO();
     AbstractLogic logic = AbstractLogic.getInstance();
-    List<String> countFlag = new ArrayList<String>();
-    List<String> loadDataFlag = new ArrayList<String>();
+    List<String> countFlag = new ArrayList<>();
+    List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
+    public static final String REBATE_PROGRAM_TYPE_HEADER = "REBATE_PROGRAM_TYPE";
     public Object RS_SEARCH_COLUMNS[] = new Object[]{
         "componentId", "componentNo", "componentName", "componentType", "rsProgramType", "category", "tradeClass", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
-    public String RS_SEARCH_HEADERS[] = new String[]{"REBATE_SCHEDULE ID", "REBATE_SCHEDULE No", "REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_TYPE", "REBATE_PROGRAM_TYPE", "REBATE_SCHEDULE_CATEGORY", "TRADE_CLASS", "REBATE_SCHEDULE_DESIGNATION", "PARENT_REBATE_SCHEDULE_ID", "PARENT_REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_STATUS", "REBATE_SCHEDULE_START_DATE", "REBATE_SCHEDULE_END_DATE"};
+    public String RS_SEARCH_HEADERS[] = new String[]{"REBATE_SCHEDULE ID", "REBATE_SCHEDULE No", "REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_TYPE", REBATE_PROGRAM_TYPE_HEADER, "REBATE_SCHEDULE_CATEGORY", "TRADE_CLASS", "REBATE_SCHEDULE_DESIGNATION", "PARENT_REBATE_SCHEDULE_ID", "PARENT_REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_STATUS", "REBATE_SCHEDULE_START_DATE", "REBATE_SCHEDULE_END_DATE"};
+    
 
-    public RSLookUp(final String component, final CustomTextField componentTextField) {
+    public RSLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;
         setContent(Clara.create(getClass().getResourceAsStream("/item/rsLookUp.xml"), this));
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
-        addStyleName(Constants.bootstrap);
-        addStyleName(Constants.bootstrap_forecast_bootstrap_nm);
+        addStyleName(Constants.BOOTSTRAP);
+        addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         setClosable(true);
         setModal(true);
         getBinder();
@@ -157,9 +159,11 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
             }
 
             public void filterRemoved(Object propertyId) {
+                return;
             }
 
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                return;
             }
 
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
@@ -179,7 +183,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
                 if ("rsProgramType".equals(propertyId)) {
                     try {
                         ComboBox rsProgramType = new ComboBox();
-                        logic.loadComboBox(rsProgramType, "REBATE_PROGRAM_TYPE", true);
+                        logic.loadComboBox(rsProgramType, REBATE_PROGRAM_TYPE_HEADER, true);
                         return rsProgramType;
                     } catch (Exception ex) {
                          LOGGER.error(ex);
@@ -215,7 +219,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
 
     private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<ComponentLookUpDTO>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
         return binder;
     }
@@ -259,6 +263,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset?");
 
@@ -302,7 +307,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
     }
 
     private void loadRptype() {
-      logic.loadComboBox(rsProgramType_DTO, "REBATE_PROGRAM_TYPE", false);
+      logic.loadComboBox(rsProgramType_DTO, REBATE_PROGRAM_TYPE_HEADER, false);
      
     }
 

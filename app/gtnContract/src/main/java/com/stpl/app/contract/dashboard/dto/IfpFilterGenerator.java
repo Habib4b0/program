@@ -31,11 +31,10 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
  */
 
 public class IfpFilterGenerator implements ExtFilterGenerator {
-    
     IfpLogic ifpLogic= new IfpLogic();
            
-    public static final Object[] IFP_ITEM_DETAILS_COL = new Object[]{"checkbox","recordType" ,Constants.ITEM_NO, Constants.ITEM_NAME, "itemDesc", "ifpStatus",START_DATE, END_DATE, "globalitemstatus",
-        "form", "strength", "therapyClass", "brand" ,Constants.ATTACHED_DATE, "modifiedDate","modifiedBy","createdDate","createdBy"};
+    public final Object[] IFP_ITEM_DETAILS_COL = new Object[]{"checkbox","recordType" ,Constants.ITEM_NO, Constants.ITEM_NAME, "itemDesc", "ifpStatus",START_DATE, END_DATE, "globalitemstatus",
+        "form", "strength", "therapyClass", ConstantsUtils.BRAND ,Constants.ATTACHED_DATE, "modifiedDate",Constants.MODIFIED_BY,"createdDate",ConstantsUtils.CREATEDBY};
     private CommonUtil commonUtil = CommonUtil.getInstance();
     
     @Override
@@ -47,7 +46,7 @@ public class IfpFilterGenerator implements ExtFilterGenerator {
     public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
       if (originatingField instanceof ComboBox) {
           if(originatingField.getValue()!=null){
-              if("brand".equals(propertyId.toString())||propertyId.toString().equals("createdBy") || propertyId.toString().equals("modifiedBy")){
+              if(ConstantsUtils.BRAND.equals(propertyId.toString())||propertyId.toString().equals(ConstantsUtils.CREATEDBY) || propertyId.toString().equals(Constants.MODIFIED_BY)){
                   return new SimpleStringFilter(propertyId,String.valueOf(originatingField.getValue()),false,false);
               }else{
                 return new SimpleStringFilter(propertyId,String.valueOf(((com.stpl.ifs.util.HelperDTO) originatingField.getValue()).getId()),false,false);
@@ -63,7 +62,7 @@ public class IfpFilterGenerator implements ExtFilterGenerator {
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
         try {
-            if ("ifpStatus".equals(propertyId) || "itemsStatus".equals(propertyId)
+            if ("ifPStatus".equals(propertyId) || "itemsStatus".equals(propertyId)
                     || "itemStatus".equals(propertyId) || ConstantsUtils.IFP_STATUS.equals(propertyId)) {
                 try {
                     ComboBox itemFamilyplanStatus = new ComboBox();
@@ -148,7 +147,7 @@ public class IfpFilterGenerator implements ExtFilterGenerator {
                 }
             }
             
-            if ("brand".equals(propertyId)) {
+            if (ConstantsUtils.BRAND.equals(propertyId)) {
                 try {  
                     final ComboBox brand = new ComboBox();
                     brand.setPageLength(NumericConstants.SEVEN);
@@ -178,7 +177,7 @@ public class IfpFilterGenerator implements ExtFilterGenerator {
             }
               final ComboBox comboBox = new ComboBox();
                Map<Integer, String> userMap = StplSecurity.getUserName();
-                if ("createdBy".equals(propertyId)) {
+                if (ConstantsUtils.CREATEDBY.equals(propertyId)) {
                         comboBox.addItem(0);
                         comboBox.setItemCaption(0, ConstantsUtils.SHOW_ALL);
                         for (Map.Entry<Integer, String> entry : userMap.entrySet()) {
@@ -189,7 +188,7 @@ public class IfpFilterGenerator implements ExtFilterGenerator {
                         comboBox.setNullSelectionItemId(0);
                         return comboBox;
                 }
-                if ("modifiedBy".equals(propertyId)) {
+                if (Constants.MODIFIED_BY.equals(propertyId)) {
                         comboBox.addItem(0);
                         comboBox.setItemCaption(0, ConstantsUtils.SHOW_ALL);
                         for (Map.Entry<Integer, String> entry : userMap.entrySet()) {
@@ -209,10 +208,12 @@ public class IfpFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+        return;
     }
 
     @Override

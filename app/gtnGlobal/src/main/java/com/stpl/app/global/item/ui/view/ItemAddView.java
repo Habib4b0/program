@@ -41,15 +41,15 @@ public class ItemAddView extends VerticalLayout implements View {
     /**
      * The identifier results bean.
      */
-    private final BeanItemContainer<ItemIrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<ItemIrtIdentifierDTO>(ItemIrtIdentifierDTO.class);
+    private final BeanItemContainer<ItemIrtIdentifierDTO> identifierResultsBean = new BeanItemContainer<>(ItemIrtIdentifierDTO.class);
     /**
      * The pricing results bean.
      */
-    private final BeanItemContainer<ItemPricingDTO> pricingResultsBean = new BeanItemContainer<ItemPricingDTO>(ItemPricingDTO.class);
+    private final BeanItemContainer<ItemPricingDTO> pricingResultsBean = new BeanItemContainer<>(ItemPricingDTO.class);
     /**
      * The binder.
      */
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<ItemMasterDTO>(new ItemMasterDTO()));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(new ItemMasterDTO()));
     /**
      * The item master dto.
      */
@@ -102,7 +102,7 @@ public class ItemAddView extends VerticalLayout implements View {
      * @throws SystemException
      * @throws Exception 
      */
-    public ItemAddView(final SessionDTO sessionDTO) throws PortalException, SystemException {
+    public ItemAddView(final SessionDTO sessionDTO) {
         super();
         setStyleName("bootstrap-company");
         setSpacing(true);

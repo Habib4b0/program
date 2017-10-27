@@ -1,5 +1,6 @@
 package com.stpl.app.gcm.tp.dao.impl;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.util.Constants;
@@ -43,11 +44,11 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
 
             query = "select count(*) from GCM_GLOBAL_DETAILS where USER_ID = '" + userId + "' AND SESSION_ID = '" + sessionId + "' and SCREEN_NAME = '" + screenName + "' and CHECK_RECORD = '1'";
         } else if (Constants.START_DATE.equals(validationType)) {
-            query = "select DISTINCT CM.CONTRACT_NAME from GCM_GLOBAL_DETAILS TEMP JOIN CONTRACT_MASTER CM on CM.CONTRACT_MASTER_SID = TEMP.CONTRACT_MASTER_SID \n"
-                    + "and TEMP.USER_ID = '" + userId + "' AND TEMP.SESSION_ID = '" + sessionId + "' and TEMP.SCREEN_NAME = '" + screenName + "' and TEMP.CHECK_RECORD = '1' and TEMP.START_DATE IS NULL";
+            query = "select DISTINCT CM.CONTRACT_NAME from GCM_GLOBAL_DETAILS TEMP JOIN CONTRACT_MASTER CM on CM.CONTRACT_MASTER_SID = TEMP.CONTRACT_MASTER_SID  \n"
+                    + "and TEMP.USER_ID = '" + userId + "' AND TEMP.SESSION_ID =  '" + sessionId + "' and TEMP.SCREEN_NAME =  '" + screenName + "' and TEMP.CHECK_RECORD = '1' and TEMP.START_DATE IS NULL";
         } else if (Constants.END_DATE.equals(validationType)) {
             query = "select DISTINCT CM.CONTRACT_NAME from GCM_GLOBAL_DETAILS TEMP JOIN CONTRACT_MASTER CM on CM.CONTRACT_MASTER_SID = TEMP.CONTRACT_MASTER_SID \n"
-                    + "and TEMP.USER_ID = '" + userId + "' AND TEMP.SESSION_ID = '" + sessionId + "' and TEMP.SCREEN_NAME = '" + screenName + "' and TEMP.CHECK_RECORD = '1' and TEMP.END_DATE IS NULL";
+                    + "and TEMP.USER_ID =  '" + userId + "' AND TEMP.SESSION_ID = '" + sessionId + "' and TEMP.SCREEN_NAME = '" + screenName + "' and TEMP.CHECK_RECORD = '1' and TEMP.END_DATE IS NULL";
         } else if ("status".equals(validationType)) {
             query = "select DISTINCT CM.CONTRACT_NAME from GCM_GLOBAL_DETAILS TEMP JOIN CONTRACT_MASTER CM on CM.CONTRACT_MASTER_SID = TEMP.CONTRACT_MASTER_SID \n"
                     + "and TEMP.USER_ID = '" + userId + "' AND TEMP.SESSION_ID = '" + sessionId + "' and TEMP.SCREEN_NAME = '" + screenName + "' and TEMP.CHECK_RECORD = '1' and TEMP.STATUS IS NULL";
@@ -88,8 +89,8 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
 
     public List searchLinkedCompanies(Map<String, Object> parameters) {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-        if (parameters.get("queryType") != null) {
-            if ("count".equalsIgnoreCase(String.valueOf(parameters.get("queryType")))) {
+        if (parameters.get(StringConstantsUtil.QUERY_TYPE) != null) {
+            if ("count".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.QUERY_TYPE)))) {
                 queryString.append("SELECT COUNT(*) FROM (");
             }
 
@@ -97,38 +98,38 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("searchSessionId")));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("searchSessionId")));
 
-            if (parameters.get("filter~fromCompanyId") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~fromCompanyId"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~fromCompanyId")))) {
+            if (parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_ID) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_ID)))) {
                 queryString.append(" AND CM1.COMPANY_ID like '");
-                queryString.append(String.valueOf(parameters.get("filter~fromCompanyId")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_ID)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~fromCompanyNo") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~fromCompanyNo"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~fromCompanyNo")))) {
+            if (parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_NO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_NO)))) {
                 queryString.append(" AND CM1.COMPANY_NO like '");
-                queryString.append(String.valueOf(parameters.get("filter~fromCompanyNo")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_NO)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~fromCompanyName") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~fromCompanyName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~fromCompanyName")))) {
+            if (parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_NAME)))) {
                 queryString.append(" AND CM1.COMPANY_NAME like '");
-                queryString.append(String.valueOf(parameters.get("filter~fromCompanyName")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.FILTERFROM_COMPANY_NAME)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~toCompanyId") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~toCompanyId"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~toCompanyId")))) {
+            if (parameters.get(StringConstantsUtil.FILTERTO_COMPANY_ID) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_ID)))) {
                 queryString.append(" AND CM2.COMPANY_ID like '");
-                queryString.append(String.valueOf(parameters.get("filter~toCompanyId")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_ID)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~toCompanyNo") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~toCompanyNo"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~toCompanyNo")))) {
+            if (parameters.get(StringConstantsUtil.FILTERTO_COMPANY_NO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_NO)))) {
                 queryString.append(" AND CM2.COMPANY_NO like '");
-                queryString.append(String.valueOf(parameters.get("filter~toCompanyNo")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_NO)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~toCompanyName") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~toCompanyName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~toCompanyName")))) {
+            if (parameters.get(StringConstantsUtil.FILTERTO_COMPANY_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_NAME)))) {
                 queryString.append(" AND CM2.COMPANY_NAME like '");
-                queryString.append(String.valueOf(parameters.get("filter~toCompanyName")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.FILTERTO_COMPANY_NAME)));
                 queryString.append("' ");
             }
 
-            if ("count".equalsIgnoreCase(String.valueOf(parameters.get("queryType")))) {
+            if ("count".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.QUERY_TYPE)))) {
                 queryString.append(")A");
 
             } else if (parameters.get("start") != null && parameters.get("offset") != null) {

@@ -112,4 +112,16 @@ public final class GlobalConstants {
     public static String getTableNames(final String screenName) {
         return properties.getProperty(screenName);
     }
+
+    public static String getPassword() {
+        return properties.getProperty("PASSWORD");
+    }
+
+    public static String getSupportPassword() {
+        return properties.getProperty("SUPPORT_PASS");
+    }
+
+    public static String getUserPassword() {
+        return properties.getProperty("USER_PASS");
+    }
 }

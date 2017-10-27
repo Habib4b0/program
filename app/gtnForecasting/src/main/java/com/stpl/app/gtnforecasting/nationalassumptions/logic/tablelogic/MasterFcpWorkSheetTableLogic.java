@@ -41,9 +41,9 @@ public class MasterFcpWorkSheetTableLogic  extends PageTreeTableLogic {
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated) {
-             List<String> indexList = new ArrayList<String>(getNonFetchableData().keySet());
+             List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);
            List<TableDTO> list = fcpResLogic.getConfiguredFcpWorkSheetResults(getLastParent(), start, offset, projSelDTO,sessionDTO);
         int i = start;
@@ -81,7 +81,7 @@ public class MasterFcpWorkSheetTableLogic  extends PageTreeTableLogic {
         return dto;
     }
 
-    public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo,boolean isTotal,SessionDTO sessionDTO) {
+    public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO,boolean isTotal,SessionDTO sessionDTO) {
          
         this.projSelDTO = projSelDTO;
         this.sessionDTO=sessionDTO;

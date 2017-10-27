@@ -58,15 +58,15 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     public static final Logger LOGGER = Logger.getLogger(SummarySalesProjectionTransfer.class);
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightDTO;
-    private ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<SalesTabDTO>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
-    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     /**
      * The map right visible columns.
      */
-    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<Object, Object[]>();
+    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     ExtFilterTreeTable leftTable;
     ExtFilterTreeTable rightTable;
     SalesTabTableLogic tableLogic = new SalesTabTableLogic();
@@ -75,7 +75,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     SessionDTO session;
     private ExtCustomTreeTable exportPeriodViewTable;
-    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<SalesTabDTO>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     LoadTabLogic tabLogic = new LoadTabLogic();
 
     /**
@@ -177,7 +177,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
 
     public void loadResultTable(boolean isFirst) {
         selectionDTO.setCompanyMasterSid(Integer.parseInt(session.getCompanyMasterSid()));
-        List<String> companyMasterSids = new ArrayList<String>();
+        List<String> companyMasterSids = new ArrayList<>();
         companyMasterSids.add(session.getCompanyMasterSid());
         selectionDTO.setCompanyMasterSids(companyMasterSids);
         selectionDTO.setCompanyName(session.getCompanyName());
@@ -207,6 +207,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /**
@@ -219,7 +220,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         configureExcelResultTable();
         loadExcelResultTable();
         exportPeriodViewTable.setRefresh(Boolean.TRUE);
-        Map<String, String> formatter = new HashMap<String, String>();
+        Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");
         CustomExcelExport exp = new CustomExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), "Sales Projection", "Sales Projection", "Sales_Projection.xls", false, formatter);
@@ -228,7 +229,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     }
 
     private void configureExcelResultTable() {
-        excelResultBean = new ExtTreeContainer<SalesTabDTO>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+        excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
         exportPeriodViewTable = new ExtFilterTreeTable();
         tradingPartnerSalesTableLayout.addComponent(exportPeriodViewTable);
         exportPeriodViewTable.setRefresh(Boolean.FALSE);

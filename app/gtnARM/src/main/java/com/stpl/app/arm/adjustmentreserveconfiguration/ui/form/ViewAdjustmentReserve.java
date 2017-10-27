@@ -6,8 +6,10 @@
 package com.stpl.app.arm.adjustmentreserveconfiguration.ui.form;
 
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
+import com.stpl.app.arm.adjustmentreserveconfiguration.saveaction.SaveMainToTempAction;
 import com.stpl.app.arm.adjustmentreserveconfiguration.ui.abstractreserveform.AbstractReserve;
 import com.stpl.app.arm.common.dto.SessionDTO;
+import com.stpl.app.arm.excecutors.ActionExecutor;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -22,8 +24,8 @@ public class ViewAdjustmentReserve extends AbstractReserve {
 
     AdjustmentReserveDTO selectedDto;
 
-    ViewAdjustmentReserve(SessionDTO session, AdjustmentReserveDTO dto,ReserveSelection resSelection) {
-        super("Adjustment & Reserve Configuration Details", session,resSelection);
+    ViewAdjustmentReserve(SessionDTO session, AdjustmentReserveDTO dto, ReserveSelection resSelection) {
+        super("Adjustment & Reserve Configuration Details", session, resSelection);
         selectedDto = dto;
         configureFields();
     }
@@ -68,7 +70,7 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         try {
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getBinder : "+ex);
         }
         return binder;
     }
@@ -89,6 +91,13 @@ public class ViewAdjustmentReserve extends AbstractReserve {
         selection.setIsViewMode(Boolean.TRUE);
 
         getMasterSids();
+        try {
+            ActionExecutor executor = new ActionExecutor();
+            executor.callingActionExecution(new SaveMainToTempAction(selection));
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
     }
 
     @Override
@@ -101,13 +110,24 @@ public class ViewAdjustmentReserve extends AbstractReserve {
 
             @Override
             public void noMethod() {
+                LOGGER.debug("noMethod Method:");
             }
         }.getConfirmationMessage("Confirmation", ARMMessages.getCloseMessageID008());
     }
 
     @Override
-    protected void addLineBtnLogic() {
+    public void configureTabAddLineLogic() {
+        LOGGER.debug("configureTabAddLineLogic Method:");
+    }
 
+    @Override
+    public void adjustmentSummaryAddLineLogic() {
+        LOGGER.debug("adjustmentSummaryAddLineLogic Method:");
+    }
+
+    @Override
+    protected void balanceSummaryAddLineLogic() {
+        LOGGER.debug("balanceSummaryAddLineLogic Method:");
     }
 
     @Override
@@ -128,7 +148,27 @@ public class ViewAdjustmentReserve extends AbstractReserve {
     }
 
     @Override
-    protected void loadResetData() {
+    protected void resetAdjustmentSummaryLine() {
+        LOGGER.debug("resetAdjustmentSummaryLine Method:");
     }
 
+    @Override
+    protected void resetConfigureTabLine() {
+        LOGGER.debug("resetConfigureTabLine Method:");
+    }
+
+    @Override
+    protected void resetBalanceSummaryLine() {
+        LOGGER.debug("resetBalanceSummaryLine Method:");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

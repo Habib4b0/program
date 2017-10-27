@@ -128,9 +128,9 @@ public class ComponentInfoDTO implements Serializable {
     private ComponentInfoDTO parent4;
     private String companyNo = StringUtils.EMPTY;
     private String companyName = StringUtils.EMPTY;
-    private List<ComponentInfoDTO> ifpList=new ArrayList<ComponentInfoDTO>();
-    private List<ComponentInfoDTO> rsList=new ArrayList<ComponentInfoDTO>();
-    private List<ComponentInfoDTO> psList=new ArrayList<ComponentInfoDTO>();
+    private List<ComponentInfoDTO> ifpList=new ArrayList<>();
+    private List<ComponentInfoDTO> rsList=new ArrayList<>();
+    private List<ComponentInfoDTO> psList=new ArrayList<>();
     public String getRsType() {
         return rsType;
     }

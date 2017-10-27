@@ -7,6 +7,7 @@ import org.jboss.logging.Logger;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -32,27 +33,26 @@ public final class ConnectionUtils {
      */
     public List getBCP_executableQuery(String dynamicQuery) {
         String[] query = new String[NumericConstants.ONE];
-        try (Connection connection = DataSourceConnection.getInstance().getConnection();){
-            LOGGER.debug("Entering getConnection ");
-            ResultSet result = connection.createStatement().executeQuery(dynamicQuery); 
+        try (Connection connection = DataSourceConnection.getInstance().getConnection();
+                Statement statement = connection.createStatement(); 
+                ResultSet result = statement.executeQuery(dynamicQuery)) {
+                LOGGER.debug("Entering getConnection ");
+                while (result.next()) {
+                    Clob clob = result.getClob(NumericConstants.ONE);
 
-            while (result.next()) {
-                Clob clob=  result.getClob(NumericConstants.ONE);               
+                    String res = clob.getSubString(NumericConstants.ONE, Long.valueOf(clob.length()).intValue());
 
-                String res = clob.getSubString(NumericConstants.ONE, Long.valueOf(clob.length()).intValue());
-
-                if (res != null && !res.isEmpty()) {
-                    res = makeExecutable(res);
-                } else {
-                    res = StringUtils.EMPTY;
+                    if (res != null && !res.isEmpty()) {
+                        res = makeExecutable(res);
+                    } else {
+                        res = StringUtils.EMPTY;
+                    }
+                    query[0] = res;
                 }
-                query[0] = res;
-            } 
-            
             LOGGER.debug("Ends getConnection with connectionPool");
             return Arrays.asList(query);
         } catch (SQLException ex) {
-           LOGGER.error(ex);
+            LOGGER.error(ex);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

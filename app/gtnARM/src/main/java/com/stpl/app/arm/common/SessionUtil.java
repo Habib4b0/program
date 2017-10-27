@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
  * @author Asha.Ravi
  */
 public class SessionUtil {
-    
-    public static int count = 1;
+
+    public static final int COUNT = 1;
 
     public static SessionDTO createSession() throws ParseException {
         SessionDTO session = new SessionDTO();
@@ -44,5 +44,5 @@ public class SessionUtil {
     public static String processProjectionId(String projectionId) {
         return projectionId.replaceAll(",", StringUtils.EMPTY);
     }
-    
+
 }

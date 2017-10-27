@@ -86,7 +86,7 @@ final String Select=CommonUtils.SELECT_ONE;
             public void error(com.vaadin.server.ErrorEvent event) {
                    
             
-
+                return;
             }
     });
 		
@@ -112,11 +112,11 @@ final String Select=CommonUtils.SELECT_ONE;
 						searchResultbeans.removeAllItems();
 						searchResultbeans.addAll(searchResults);
 						if(ModuleNameCheckingUtil.moduleNameCheckingFun(subModuleName.getValue().toString())){
-							tableField.setVisibleColumns(UIUtils.BUSINESS_ROLE_MODULE_MASTER_FIELDS_VIEW);
-							tableField.setColumnHeaders(UIUtils.BUSINESS_ROLE_MODULE_MASTER_HEADER_VIEW);
+							tableField.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterFieldsView);
+							tableField.setColumnHeaders(UIUtils.getInstance().businessRoleModuleMasterHeaderView);
 						}else{
-							tableField.setVisibleColumns(UIUtils.BUSINESS_ROLE_MODULE_MASTER_FIELDS);
-						        tableField.setColumnHeaders(UIUtils.BUSINESS_ROLE_MODULE_MASTER_FIELDS_HEADER);
+							tableField.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterFields);
+						        tableField.setColumnHeaders(UIUtils.getInstance().businessRoleModuleMasterFieldsHeader);
 						}
                                             }else{
                                   tableField.removeAllItems();

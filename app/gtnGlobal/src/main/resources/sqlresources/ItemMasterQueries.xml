@@ -1,0 +1,30 @@
+<sql>
+    <entity id="ItemUDC1Selection">
+        <query>
+    	<![CDATA[
+                SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME LIKE 'ARM_UDC1' 
+                ?
+                ORDER BY DESCRIPTION ASC 
+             ]]>
+        </query>
+    </entity>
+    <entity id="ItemUDC1DescriptionSelection">
+        <query>
+    	<![CDATA[
+                AND DESCRIPTION LIKE '%?%'
+             ]]>
+        </query>
+    </entity>
+    <entity id="PrecisionSelection">
+        <query>
+    	<![CDATA[
+               SELECT PRECISION_VALUE FROM PRECISION_ADJUSTMENT WHERE TABLE_TYPE = 'MASTER' 
+ AND TABLE_NAME = '?'
+AND COLUMN_NAME in ('?')
+
+                
+             ]]>
+        </query>
+    </entity>
+    
+</sql>

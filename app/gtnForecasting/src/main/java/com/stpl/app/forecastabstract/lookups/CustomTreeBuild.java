@@ -39,8 +39,8 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
      * @param string the string
      * @param projectionId the projection id
      */
-    public CustomTreeBuild(String string, SessionDTO session) {
-        this(string, session, 0);
+    public CustomTreeBuild(SessionDTO session) {
+        this(session, 0);
 	
     }
 
@@ -51,7 +51,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
      * @param projectionId the projection id
      * @param customId
      */
-    public CustomTreeBuild(String string, SessionDTO session, int customId) {
+    public CustomTreeBuild(SessionDTO session, int customId) {
         super();
         this.session = session;
         this.customId = customId;
@@ -247,7 +247,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected void loadCustomTree() {
         if (treecontainer == null) {
-            treecontainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+            treecontainer = new ExtTreeContainer<>(Leveldto.class);
         }
         treecontainer.removeAllItems();
         List<Leveldto> customList = CommonLogic.getCustomTree(customId);
@@ -269,7 +269,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected void loadCustomers() {
         if (customerContainer == null) {
-            customerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+            customerContainer = new BeanItemContainer<>(Leveldto.class);
         }
 
         List customerList = CommonLogic.getCustomerHierarchy(session.getProjectionId(), Integer.valueOf(session.getCustomerLevelNumber()));
@@ -293,7 +293,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected void loadProducts() {
         if (productContainer == null) {
-            productContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+            productContainer = new BeanItemContainer<>(Leveldto.class);
         }
 
         List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), session.getProductLevelNumber() != null ? Integer.valueOf(session.getProductLevelNumber()) : 1);
@@ -326,7 +326,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected AbstractContainer getProductsContainer() {
         if (productContainer == null) {
-            productContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+            productContainer = new BeanItemContainer<>(Leveldto.class);
         }
         return productContainer;
     }
@@ -334,7 +334,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected AbstractContainer getCustomersContainer() {
         if (customerContainer == null) {
-            customerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+            customerContainer = new BeanItemContainer<>(Leveldto.class);
         }
         return customerContainer;
     }
@@ -342,7 +342,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected AbstractContainer getCustomTreeContainer() {
         if (treecontainer == null) {
-            treecontainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+            treecontainer = new ExtTreeContainer<>(Leveldto.class);
         }
         return treecontainer;
     }

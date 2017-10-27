@@ -5,6 +5,7 @@
  */
 package com.stpl.app.adminconsole.processscheduler.ui.form;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
@@ -39,6 +40,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -125,27 +127,33 @@ public class processSchedulerForm extends CustomComponent {
 
     private ExtPagedTable manualProcTable = new ExtPagedTable(manualTabLogic);
 
-    private BeanItemContainer<ProcessSchedulerDTO> manualProcSchContainerBean = new BeanItemContainer<ProcessSchedulerDTO>(ProcessSchedulerDTO.class);
+    private BeanItemContainer<ProcessSchedulerDTO> manualProcSchContainerBean = new BeanItemContainer<>(ProcessSchedulerDTO.class);
 
     private BeanItemContainer<ProcessSchedulerDTO> resultBean = new BeanItemContainer<>(ProcessSchedulerDTO.class);
 
     public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
 
     public static ResourceBundle listBundle = ResourceBundle.getBundle("properties.labelname");
+    public static final String MSG_ID_061 = "MSG_ID_061";
     private String key = "processscheduler";
     boolean isload = false;
     ProcessSchedulerDTO ProcessDTO;
+    Date date = new Date();
     @UiField("updateBtn")
     private Button updateBtn;
     private static final ResourceBundle confirmationMessage = ResourceBundle.getBundle("properties.message");
-    public static final Object[] MANUAL_COLUMN = new Object[]{
+    public final Object[] manualColumn = new Object[]{
         "processDisplayName", "manualLastRun"};
 
-    public static final String[] MANUAL_HEADER = new String[]{
+    public final String[] manualHeader = new String[]{
         "Process Name", "Last Run"};
     CommonUtil commonUtil = new CommonUtil();
     CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
     SessionDTO sessionDTO;
+    public String timeHourOne;
+    public String timeHourTwo;
+    public String intervalHourOne;
+    public String intervalHourTwo;
 
     public processSchedulerForm(final SessionDTO sessionDTO) {
         super();
@@ -187,91 +195,177 @@ public class processSchedulerForm extends CustomComponent {
         minutesLB3.setVisible(isload);
     }
 
-    private void configureFields()  {
+    private void configureFields() {
 
         LOGGER.debug("Entering configureFields");
 
-        frequencyRadio.addItems("Interval", "Time");
-        frequencyRadio.select("Interval");
+        frequencyRadio.addItems(StringConstantUtils.INTERVAL, "Time");
+        frequencyRadio.select(StringConstantUtils.INTERVAL);
         updateBtn.setEnabled(false);
 
+        frequencyRadioValueChangeListener();
+
+        hourOneValueChangeListener();
+
+        hourTwoValueChangeListener();
+
+        startDate.setDateFormat("MM/dd/yyyy");
+        endDate.setDateFormat("MM/dd/yyyy");
+
+        statusConfig();
+
+        hoursOneConfig();
+
+        hoursTwoConfig();
+
+        hoursThreeConfig();
+
+        minutesOne.addItems(getDdlbValues(false, key));
+        minutesOne.setImmediate(true);
+        minutesOne.setNullSelectionAllowed(true);
+        minutesOne.setNullSelectionItemId(StringConstantUtils.SELECT_ONE);
+
+        minutesTwo.addItems(getDdlbValues(false, key));
+        minutesTwo.setImmediate(true);
+        minutesTwo.setNullSelectionAllowed(true);
+        minutesTwo.setNullSelectionItemId(StringConstantUtils.SELECT_ONE);
+
+        minutesThree.addItems(getDdlbValues(false, key));
+        minutesThree.setImmediate(true);
+        minutesThree.setNullSelectionAllowed(true);
+        minutesThree.setNullSelectionItemId(StringConstantUtils.SELECT_ONE);
+
+        statusValueChangeListener();
+
+        LOGGER.debug("Ending configureFields");
+
+    }
+
+    public void hoursThreeConfig() {
+        hoursThree.addItems(getDdlbValues(true, key));
+        hoursThree.setImmediate(true);
+        hoursThree.setNullSelectionAllowed(true);
+        hoursThree.setNullSelectionItemId(StringConstantUtils.SELECT_ONE);
+    }
+
+    public void hoursTwoConfig() {
+        hoursTwo.addItems(getDdlbValues(false, key));
+        hoursTwo.setImmediate(true);
+        hoursTwo.setNullSelectionAllowed(true);
+        hoursTwo.setNullSelectionItemId(StringConstantUtils.SELECT_ONE);
+    }
+
+    public void hoursOneConfig() {
+        hoursOne.addItems(getDdlbValues(true, key));
+        hoursOne.setImmediate(true);
+        hoursOne.setNullSelectionAllowed(true);
+        hoursOne.setNullSelectionItemId(StringConstantUtils.SELECT_ONE);
+    }
+
+    public void statusConfig() {
+        status.addItems(listBundle.getString("status" + key).split(","));
+        status.setImmediate(true);
+        status.setNullSelectionAllowed(true);
+        status.setNullSelectionItemId(StringConstantUtils.SELECT_ONE);
+    }
+
+    public void statusValueChangeListener() {
+        status.addValueChangeListener(new Property.ValueChangeListener() {
+            /**
+             *
+             */
+            public void valueChange(final Property.ValueChangeEvent event) {
+                if (String.valueOf(status.getValue()).equalsIgnoreCase("Inactive")) {
+                    processName.setEnabled(false);
+                } else {
+                    processName.setEnabled(true);
+                }
+            }
+        });
+    }
+
+    public void frequencyRadioValueChangeListener() {
         frequencyRadio.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                if ("Interval".equals(event.getProperty().getValue().toString())) {
-                    reset();
+                if (StringConstantUtils.INTERVAL.equals(event.getProperty().getValue().toString())) {
                     isload = false;
                     onLoad(isload);
                     hoursTwo.removeAllItems();
                     hoursTwo.addItems(getDdlbValues(false, key));
+                    loadIntervalHourddlb();
                 } else {
-                    reset();
                     isload = true;
                     onLoad(isload);
                     runOne.setValue("Run 1:");
                     hoursLB2.setCaption("hours");
                     hoursTwo.removeAllItems();
                     hoursTwo.addItems(getDdlbValues(true, key));
+                    loadTimeHourddlb();
+                    
+                }
+            }
+            
+        });
+    }
+
+    public void hourOneValueChangeListener() {
+        hoursOne.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (event.getProperty().getValue() != null) {
+                    if (StringConstantUtils.INTERVAL.equals(frequencyRadio.getValue().toString())) {
+                        intervalHourOne = String.valueOf(event.getProperty().getValue());
+                    } else {
+                        timeHourOne = String.valueOf(event.getProperty().getValue().toString());
+                    }
+                }
+                
+            }
+            
+        });
+    }
+
+    public void hourTwoValueChangeListener() {
+        hoursTwo.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (event.getProperty().getValue() != null) {
+                    if (StringConstantUtils.INTERVAL.equals(frequencyRadio.getValue().toString())) {
+                        intervalHourTwo = String.valueOf(event.getProperty().getValue());
+                    } else {
+                        timeHourTwo = String.valueOf(event.getProperty().getValue());
+                    }
+                    
                 }
             }
         });
+    }
 
-        startDate.setDateFormat("MM/dd/yyyy");
-        endDate.setDateFormat("MM/dd/yyyy");
+    private void loadIntervalHourddlb() {
+        hoursOne.select(intervalHourOne);
+        hoursTwo.select(intervalHourTwo);
+    }
 
-        status.addItems(listBundle.getString("status" + key).split(","));
-        status.setImmediate(true);
-        status.setNullSelectionAllowed(true);
-        status.setNullSelectionItemId("-Select One-");
-
-        hoursOne.addItems(getDdlbValues(true, key));
-        hoursOne.setImmediate(true);
-        hoursOne.setNullSelectionAllowed(true);
-        hoursOne.setNullSelectionItemId("-Select One-");
-
-        hoursTwo.addItems(getDdlbValues(false, key));
-        hoursTwo.setImmediate(true);
-        hoursTwo.setNullSelectionAllowed(true);
-        hoursTwo.setNullSelectionItemId("-Select One-");
-
-        hoursThree.addItems(getDdlbValues(true, key));
-        hoursThree.setImmediate(true);
-        hoursThree.setNullSelectionAllowed(true);
-        hoursThree.setNullSelectionItemId("-Select One-");
-
-        minutesOne.addItems(getDdlbValues(false, key));
-        minutesOne.setImmediate(true);
-        minutesOne.setNullSelectionAllowed(true);
-        minutesOne.setNullSelectionItemId("-Select One-");
-
-        minutesTwo.addItems(getDdlbValues(false, key));
-        minutesTwo.setImmediate(true);
-        minutesTwo.setNullSelectionAllowed(true);
-        minutesTwo.setNullSelectionItemId("-Select One-");
-
-        minutesThree.addItems(getDdlbValues(false, key));
-        minutesThree.setImmediate(true);
-        minutesThree.setNullSelectionAllowed(true);
-        minutesThree.setNullSelectionItemId("-Select One-");
-
-        LOGGER.debug("Ending configureFields");
-
+    private void loadTimeHourddlb() {
+        hoursOne.select(timeHourOne);
+        hoursTwo.select(timeHourTwo);
     }
 
     private void reset() {
         LOGGER.debug("Inside Reset()");
 
-        hoursOne.select("-Select One-");
-        minutesOne.select("-Select One-");
-        hoursTwo.select("-Select One-");
-        minutesTwo.select("-Select One-");
-        hoursThree.select("-Select One-");
-        minutesThree.select("-Select One-");
+        hoursOne.select(StringConstantUtils.SELECT_ONE);
+        minutesOne.select(StringConstantUtils.SELECT_ONE);
+        hoursTwo.select(StringConstantUtils.SELECT_ONE);
+        minutesTwo.select(StringConstantUtils.SELECT_ONE);
+        hoursThree.select(StringConstantUtils.SELECT_ONE);
+        minutesThree.select(StringConstantUtils.SELECT_ONE);
 
         LOGGER.debug("Ending Reset()");
     }
 
-    private void configureResultTable()  {
+    private void configureResultTable() {
 
         LOGGER.debug("Entering configureResultTable");
         addScheduleLayout();
@@ -361,8 +455,8 @@ public class processSchedulerForm extends CustomComponent {
         manualProcessesTable.addComponent(controlLayout);
         manualProcTable.setContainerDataSource(manualProcSchContainerBean);
 
-        manualProcTable.setVisibleColumns(MANUAL_COLUMN);
-        manualProcTable.setColumnHeaders(MANUAL_HEADER);
+        manualProcTable.setVisibleColumns(manualColumn);
+        manualProcTable.setColumnHeaders(manualHeader);
 
         LOGGER.debug("Ending configureManualTable");
     }
@@ -372,16 +466,16 @@ public class processSchedulerForm extends CustomComponent {
         frequencyRadio.select(dto.getFrequencyRadio());
         processName.setValue(dto.getProcessDisplayName());
         status.select(dto.getStatus());
-        if ("Interval".equals(dto.getFrequencyRadio())) {
-            hoursOne.select("24".equals(dto.getRunHours()) ? "-Select One-" : dto.getRunHours());
-            hoursTwo.select("24".equals(dto.getRunMinutes()) ? "-Select One-" : dto.getRunMinutes());
+        if (StringConstantUtils.INTERVAL.equals(dto.getFrequencyRadio())) {
+            hoursOne.select("24".equals(dto.getRunHours()) ? StringConstantUtils.SELECT_ONE : dto.getRunHours());
+            hoursTwo.select("24".equals(dto.getRunMinutes()) ? StringConstantUtils.SELECT_ONE : dto.getRunMinutes());
         } else {
-            hoursOne.select("24".equals(dto.getHoursOne()) ? "-Select One-" : dto.getHoursOne());
-            minutesOne.select("24".equals(dto.getMinutesOne()) ? "-Select One-" : dto.getMinutesOne());
-            hoursTwo.select("24".equals(dto.getHoursTwo()) ? "-Select One-" : dto.getHoursTwo());
-            minutesTwo.select("24".equals(dto.getMinutesTwo()) ? "-Select One-" : dto.getMinutesTwo());
-            hoursThree.select("24".equals(dto.getHoursThree()) ? "-Select One-" : dto.getHoursThree());
-            minutesThree.select("24".equals(dto.getMinutesThree()) ? "-Select One-" : dto.getMinutesThree());
+            hoursOne.select("24".equals(dto.getHoursOne()) ? StringConstantUtils.SELECT_ONE : dto.getHoursOne());
+            minutesOne.select("24".equals(dto.getMinutesOne()) ? StringConstantUtils.SELECT_ONE : dto.getMinutesOne());
+            hoursTwo.select("24".equals(dto.getHoursTwo()) ? StringConstantUtils.SELECT_ONE : dto.getHoursTwo());
+            minutesTwo.select("24".equals(dto.getMinutesTwo()) ? StringConstantUtils.SELECT_ONE : dto.getMinutesTwo());
+            hoursThree.select("24".equals(dto.getHoursThree()) ? StringConstantUtils.SELECT_ONE : dto.getHoursThree());
+            minutesThree.select("24".equals(dto.getMinutesThree()) ? StringConstantUtils.SELECT_ONE : dto.getMinutesThree());
         }
         startDate.setValue(dto.getStartDate());
         endDate.setValue(dto.getEndDate());
@@ -399,10 +493,11 @@ public class processSchedulerForm extends CustomComponent {
     @UiHandler("updateBtn")
     public void updateBtn(Button.ClickEvent event) {
         try {
-            if (check()) {
-                if(checkStartDateValidation()){
-                getFieldValue(ProcessDTO);
-                ProcessSchedulerLogic.update(ProcessDTO, sessionDTO);
+            if ((StringConstantUtils.INACTIVE).equals(String.valueOf(status.getValue()))) {
+                ProcessDTO.setStartDate((Date) (startDate.getValue() == null ? date : startDate.getValue()));
+                ProcessDTO.setEndDate((Date) (endDate.getValue() == null ? date : endDate.getValue()));
+                getFieldValueInactive(ProcessDTO);
+                ProcessSchedulerLogic.update(ProcessDTO);
                 Notification notif = null;
                 notif = new Notification(confirmationMessage.getString("MSG_ID_034"), Notification.Type.HUMANIZED_MESSAGE);
                 notif.setPosition(Position.MIDDLE_CENTER);
@@ -414,11 +509,28 @@ public class processSchedulerForm extends CustomComponent {
                 processName.setValue("");
                 startDate.setValue(null);
                 endDate.setValue(null);
-                status.select("-Select One-");
+                status.select(StringConstantUtils.SELECT_ONE);
                 updateBtn.setEnabled(false);
+            } else if (check()) {
+                if (checkStartDateValidation() && hourAndMinValidation()) {
+                    getFieldValue(ProcessDTO);
+                    ProcessSchedulerLogic.update(ProcessDTO);
+                    Notification notif = null;
+                    notif = new Notification(confirmationMessage.getString("MSG_ID_034"), Notification.Type.HUMANIZED_MESSAGE);
+                    notif.setPosition(Position.MIDDLE_CENTER);
+                    notif.setStyleName(ConstantsUtils.MY_STYLE);
+                    notif.setDelayMsec(NumericConstants.THREE_THOUSAND);
+                    notif.show(Page.getCurrent());
+                    tableLogic.setCurrentPage(1);
+                    reset();
+                    processName.setValue("");
+                    startDate.setValue(null);
+                    endDate.setValue(null);
+                    status.select(StringConstantUtils.SELECT_ONE);
+                    updateBtn.setEnabled(false);
                 }
             } else {
-                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), confirmationMessage.getString("MSG_ID_061"));
+                AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), confirmationMessage.getString(MSG_ID_061));
             }
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -426,13 +538,17 @@ public class processSchedulerForm extends CustomComponent {
     }
 
     private boolean check() {
-        if ("".equals(processName.getValue()) || status.getValue() == null
-                    || startDate.getValue() == null || endDate.getValue() == null
-                    || frequencyRadio.getValue()==null||hoursOne.getValue() == null) {
-                return false;
-            } else {
-                return true;
-            }
+        if (("Time".equals(String.valueOf(frequencyRadio.getValue()))) && ("".equals(processName.getValue()) || status.getValue() == null
+                || startDate.getValue() == null || endDate.getValue() == null
+                || frequencyRadio.getValue() == null)) {
+            return false;
+        } else if (("Interval".equals(String.valueOf(frequencyRadio.getValue()))) && ("".equals(processName.getValue()) || status.getValue() == null
+                || startDate.getValue() == null || endDate.getValue() == null
+                || frequencyRadio.getValue() == null )) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void getFieldValue(ProcessSchedulerDTO dto) {
@@ -441,7 +557,7 @@ public class processSchedulerForm extends CustomComponent {
         dto.setStatus(String.valueOf(status.getValue()));
         dto.setStartDate(startDate.getValue());
         dto.setEndDate(endDate.getValue());
-        if ("Interval".equals(dto.getFrequencyRadio())) {
+        if (StringConstantUtils.INTERVAL.equals(dto.getFrequencyRadio())) {
             dto.setRunHours(String.valueOf(hoursOne.getValue()));
             dto.setRunMinutes(String.valueOf(hoursTwo.getValue()));
             dto.setHoursOne(String.valueOf(NumericConstants.TWENTY_FOUR));
@@ -462,19 +578,44 @@ public class processSchedulerForm extends CustomComponent {
         }
     }
 
+    private void getFieldValueInactive(ProcessSchedulerDTO dto) {
+        dto.setProcessDisplayName(processName.getValue());
+        dto.setFrequencyRadio(frequencyRadio.getValue().toString());
+        dto.setStatus(String.valueOf(status.getValue()));
+        if (StringConstantUtils.INTERVAL.equals(dto.getFrequencyRadio())) {
+            dto.setRunHours(String.valueOf(hoursOne.getValue() == null ? String.valueOf(NumericConstants.TWENTY_FOUR) : String.valueOf(hoursOne.getValue())));
+            dto.setRunMinutes(String.valueOf(hoursTwo.getValue() == null ? String.valueOf(NumericConstants.SIXTY) : String.valueOf(hoursTwo.getValue())));
+            dto.setHoursOne(String.valueOf(NumericConstants.TWENTY_FOUR));
+            dto.setHoursTwo(String.valueOf(NumericConstants.TWENTY_FOUR));
+            dto.setHoursThree(String.valueOf(NumericConstants.TWENTY_FOUR));
+            dto.setMinutesOne(String.valueOf(NumericConstants.SIXTY));
+            dto.setMinutesTwo(String.valueOf(NumericConstants.SIXTY));
+            dto.setMinutesThree(String.valueOf(NumericConstants.SIXTY));
+        } else {
+            dto.setHoursOne(String.valueOf(hoursOne.getValue() == null ? String.valueOf(NumericConstants.TWENTY_FOUR) : String.valueOf(hoursOne.getValue())));
+            dto.setHoursTwo(String.valueOf(hoursTwo.getValue() == null ? String.valueOf(NumericConstants.TWENTY_FOUR) : String.valueOf(hoursTwo.getValue())));
+            dto.setHoursThree(String.valueOf(hoursThree.getValue() == null ? String.valueOf(NumericConstants.TWENTY_FOUR) : String.valueOf(hoursThree.getValue())));
+            dto.setMinutesOne(String.valueOf(minutesOne.getValue() == null ? String.valueOf(NumericConstants.SIXTY) : String.valueOf(minutesOne.getValue())));
+            dto.setMinutesTwo(String.valueOf(minutesTwo.getValue() == null ? String.valueOf(NumericConstants.SIXTY) : String.valueOf(minutesTwo.getValue())));
+            dto.setMinutesThree(String.valueOf(minutesThree.getValue() == null ? String.valueOf(NumericConstants.SIXTY) : String.valueOf(minutesThree.getValue())));
+            dto.setRunHours(String.valueOf(NumericConstants.TWENTY_FOUR));
+            dto.setRunMinutes(String.valueOf(NumericConstants.SIXTY));
+        }
+    }
+
     @UiHandler("runBtn1")
     public void runBtn1(Button.ClickEvent event) {
         ProcessSchedulerLogic manualSchedule = new ProcessSchedulerLogic();
         ProcessSchedulerLogic logic = new ProcessSchedulerLogic();
         ProcessSchedulerDTO processSchedulerDTO = (ProcessSchedulerDTO) manualProcTable.getValue();
-         final Date tempDate = new Date();
-                    final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
-                    sessionDTO.setSessionId(fmtID.format(tempDate));
+        final Date tempDate = new Date();
+        final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
+        sessionDTO.setSessionId(fmtID.format(tempDate));
         boolean notificationFlag = false;
         if (manualProcTable.getValue() == null) {
             AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), confirmationMessage.getString("MSG_ID_044"));
-        }else if(logic.checkForRunning(processSchedulerDTO.getProcessName())){
-            AbstractNotificationUtils.getInfoNotification(processSchedulerDTO.getProcessName()+" Manual process underway.", "Selected record " +processSchedulerDTO.getProcessName()+" is currently being processed. Please wait till the process is completed, to run the interface again.");
+        } else if (logic.checkForRunning(processSchedulerDTO.getProcessName())) {
+            AbstractNotificationUtils.getInfoNotification(processSchedulerDTO.getProcessName() + " Manual process underway.", "Selected record " + processSchedulerDTO.getProcessName() + " is currently being processed. Please wait till the process is completed, to run the interface again.");
         } else if ("HIERARCHY_DEFINITION_OUTBOUND".equals(processSchedulerDTO.getProcessName())) {
             HierarchyOutboundLookUp hierarchyOutboundLookUp = new HierarchyOutboundLookUp();
             UI.getCurrent().addWindow(hierarchyOutboundLookUp);
@@ -484,17 +625,17 @@ public class processSchedulerForm extends CustomComponent {
         } else if ("ACCRUAL_RATE_PROJECTION_INTERFACE".equals(processSchedulerDTO.getProcessName())) {
             logic.callSriptForArp(sessionDTO.getUserId(), sessionDTO.getArpSessionId());
             manualSchedule.updateLastRun(processSchedulerDTO.getProcessSid(), false);
-            notificationFlag=true;
-        } else if (ConstantsUtils.ADJ_RESERVER_DETAIL_INTERFACE.equals(processSchedulerDTO.getProcessName()) || ConstantsUtils.ADJ_GTN_DETAIL_INTERFACE.equals(processSchedulerDTO.getProcessName())){
-            logic.updateCheckRecord(processSchedulerDTO.getProcessName(),sessionDTO.getUserId(),sessionDTO.getArpSessionId());
+            notificationFlag = true;
+        } else if (ConstantsUtils.ADJ_RESERVER_DETAIL_INTERFACE.equals(processSchedulerDTO.getProcessName()) || ConstantsUtils.ADJ_GTN_DETAIL_INTERFACE.equals(processSchedulerDTO.getProcessName())) {
+            logic.updateCheckRecord(processSchedulerDTO.getProcessName(), sessionDTO.getUserId(), sessionDTO.getArpSessionId());
             manualSchedule.runJob(getFtpBundleValue(), processSchedulerDTO.getScriptName());
             manualSchedule.updateLastRun(processSchedulerDTO.getProcessSid(), false);
-            notificationFlag=true;
-        }else {
-           
+            notificationFlag = true;
+        } else {
+
             try {
-                if ("CFF_OUTBOUND_INTERFACE".equals(processSchedulerDTO.getProcessName())) { 
-                   
+                if ("CFF_OUTBOUND_INTERFACE".equals(processSchedulerDTO.getProcessName())) {
+
                     final CFFSearchLookUp lookUp = new CFFSearchLookUp(sessionDTO, processSchedulerDTO.getScriptName(), processSchedulerDTO.getProcessSid().toString(), processSchedulerDTO.getProcessDisplayName());
                     UI.getCurrent().addWindow(lookUp);
                     lookUp.addCloseListener(new Window.CloseListener() {
@@ -509,7 +650,7 @@ public class processSchedulerForm extends CustomComponent {
                 } else {
                     manualSchedule.runJob(getFtpBundleValue(), processSchedulerDTO.getScriptName());
                     manualSchedule.updateLastRun(processSchedulerDTO.getProcessSid(), false);
-                    notificationFlag=true;
+                    notificationFlag = true;
                 }
 
             } catch (Exception e) {
@@ -517,7 +658,7 @@ public class processSchedulerForm extends CustomComponent {
                 AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), processSchedulerDTO.getProcessDisplayName() + confirmationMessage.getString("MSG_ID_046"));
             }
         }
-        
+
         if (notificationFlag) {
             Notification notif = new Notification(processSchedulerDTO.getProcessDisplayName() + " " + confirmationMessage.getString("MSG_ID_045"), Notification.Type.HUMANIZED_MESSAGE);
             notif.setPosition(Position.MIDDLE_CENTER);
@@ -525,7 +666,7 @@ public class processSchedulerForm extends CustomComponent {
             notif.show(Page.getCurrent());
             notif.setDelayMsec(NumericConstants.TWO_THOUSAND);
         }
-        }
+    }
 
     private void setButtonLevelSecurity(Map<String, AppPermission> functionHM) {
         if (functionHM.get("updateBtn") != null && ((AppPermission) functionHM.get("updateBtn")).isFunctionFlag()) {
@@ -543,14 +684,63 @@ public class processSchedulerForm extends CustomComponent {
 
     private boolean checkStartDateValidation() {
         if (startDate.getValue().after(endDate.getValue())) {
-                AbstractNotificationUtils.getErrorNotification("Error", "End date should be after Start date");
-                return false;
-            } else if (startDate.getValue().equals(endDate.getValue())) {
-                AbstractNotificationUtils.getErrorNotification("Error", "Start date and End date are equal");
-                return false;
+            AbstractNotificationUtils.getErrorNotification("Error", "End date should be after Start date");
+            return false;
+        } else if (startDate.getValue().equals(endDate.getValue())) {
+            AbstractNotificationUtils.getErrorNotification("Error", "Start date and End date are equal");
+            return false;
             } else{
-                return true;
-            }
+            return true;
+        }
     }
 
+    private boolean hourAndMinValidation() {
+
+        if ("Time".equals(String.valueOf(frequencyRadio.getValue()))) {
+            if (null == hoursOne.getValue() || (null == minutesOne.getValue())) {
+                getNotification(Message.ERROR_HEADER, MSG_ID_061);
+                return false;
+            } else if (null == hoursOne.getValue() && (null != minutesOne.getValue())) {
+                getNotification(Message.NO_HOUR_HEADER, Message.NO_HOUR1_MSG);
+                return false;
+            } else if (null == hoursOne.getValue() && (null == minutesOne.getValue())) {
+                getNotification(Message.NO_HOUR_HEADER, Message.NO_HOUR1_MSG);
+                return false;
+            } else if ((null != hoursOne.getValue()) && (null == (minutesOne.getValue()))) {
+                getNotification(Message.NO_MIN_HEADER, Message.NO_MIN1_MSG);
+                return false;
+            } else if (null == hoursTwo.getValue() && (null != minutesTwo.getValue())) {
+                getNotification(Message.NO_HOUR_HEADER, Message.NO_HOUR2_MSG);
+                return false;
+            } else if ((null != hoursTwo.getValue()) && (null == (minutesTwo.getValue()))) {
+                getNotification(Message.NO_MIN_HEADER, Message.NO_MIN2_MSG);
+                return false;
+            } else if (null == hoursThree.getValue() && (null != minutesThree.getValue())) {
+                getNotification(Message.NO_HOUR_HEADER, Message.NO_HOUR3_MSG);
+                return false;
+            } else if ((null != hoursThree.getValue()) && (null == (minutesThree.getValue()))) {
+                getNotification(Message.NO_MIN_HEADER, Message.NO_MIN3_MSG);
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if (null == hoursOne.getValue() && null == hoursTwo.getValue()) {
+                getNotification(Message.ERROR_HEADER, MSG_ID_061);
+                return false;
+            } else if (null == hoursOne.getValue()) {
+                getNotification(Message.NO_HOUR_HEADER, Message.NO_HOUR_MSG);
+                return false;
+            } else if (null == hoursTwo.getValue()) {
+                getNotification(Message.NO_MIN_HEADER, Message.NO_MIN_MSG);
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    private void getNotification(String messageHeader,String messageBody){
+        AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(messageHeader), MessageUtil.getMessage(messageBody));
+    }
+    
 }

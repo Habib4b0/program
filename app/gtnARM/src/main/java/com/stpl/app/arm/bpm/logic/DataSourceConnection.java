@@ -18,71 +18,71 @@ import org.jboss.logging.Logger;
  * @author Asha.Ravi
  */
 public class DataSourceConnection {
-    
+
     /**
-	 * The instance.
-	 */
-	private static DataSourceConnection instance = new DataSourceConnection();
-	/**
-	 * The connection.
-	 */
-	public Connection connection;
-	/**
-	 * The datasource context.
-	 */
-	private final static String DATASOURCECONTEXT = "java:jboss/datasources/jdbc/appDataPool";
-	/**
-	 * The Constant LOGGER.
-	 */
-	private static final Logger LOGGER = Logger.getLogger(DataSourceConnection.class);
+     * The instance.
+     */
+    private static DataSourceConnection instance = new DataSourceConnection();
+    /**
+     * The connection.
+     */
+    public Connection connection;
+    /**
+     * The datasource context.
+     */
+    private static final String DATASOURCECONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    /**
+     * The Constant LOGGER.
+     */
+    private static final Logger LOGGER = Logger.getLogger(DataSourceConnection.class);
 
-	/**
-	 * Instantiates a new data source connection.
-	 */
-	private DataSourceConnection() {
-	}
+    /**
+     * Instantiates a new data source connection.
+     */
+    private DataSourceConnection() {
+    }
 
-	/**
-	 * Gets the single instance of DataSourceConnection.
-	 *
-	 * @return single instance of DataSourceConnection
-	 */
-	public static DataSourceConnection getInstance() {
-		return instance;
-	}
+    /**
+     * Gets the single instance of DataSourceConnection.
+     *
+     * @return single instance of DataSourceConnection
+     */
+    public static DataSourceConnection getInstance() {
+        return instance;
+    }
 
-	/**
-	 * Gets the connection.
-	 *
-	 * @return the connection
-	 * @throws Exception the exception
-	 */
-	public Connection getConnection() throws NamingException, SQLException  {
-		Context initialContext;
+    /**
+     * Gets the connection.
+     *
+     * @return the connection
+     * @throws Exception the exception
+     */
+    public Connection getConnection() throws NamingException, SQLException {
+        Context initialContext;
 
-		LOGGER.debug("Entering getConnection method ");
+        LOGGER.debug("Entering getConnection method ");
 
-		initialContext = new InitialContext();
-		DataSource datasource;
+        initialContext = new InitialContext();
+        DataSource datasource;
 
-		datasource = (DataSource) initialContext.lookup(DATASOURCECONTEXT);
+        datasource = (DataSource) initialContext.lookup(DATASOURCECONTEXT);
 
-		if (datasource != null) {
+        if (datasource != null) {
 
-			connection = datasource.getConnection();
+            connection = datasource.getConnection();
 
-		}
-		LOGGER.debug("End of getConnection method");
-		return connection;
-	}
+        }
+        LOGGER.debug("End of getConnection method");
+        return connection;
+    }
 
-	/**
-	 * Sets the connection.
-	 *
-	 * @param connection            the connection to set
-	 */
-	public void setConnection(final Connection connection) {
-		this.connection = connection;
-	}
-    
+    /**
+     * Sets the connection.
+     *
+     * @param connection the connection to set
+     */
+    public void setConnection(final Connection connection) {
+        this.connection = connection;
+    }
+
 }

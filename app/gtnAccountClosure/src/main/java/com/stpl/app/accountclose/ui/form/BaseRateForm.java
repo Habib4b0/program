@@ -83,7 +83,6 @@ public class BaseRateForm extends CustomComponent implements View {
     int tabPosition = 0;
     private BaseRateDTO baseRateDTO;
     SessionDTO session;
-    private CustomFieldGroup baseRateBinder;
     private BaseRateIndex baseRate;
     private BaseRateSummary baseRateSummary;
     private AdditionalInformation additionalInformation;

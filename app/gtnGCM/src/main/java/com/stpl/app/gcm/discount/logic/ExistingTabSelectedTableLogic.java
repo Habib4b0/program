@@ -39,7 +39,7 @@ private static final Logger LOGGER = Logger.getLogger(ExistingTabSelectedTableLo
     public List loadData(int start, int offset) {
         newDiscountTabDto.setStartIndex(start);
         newDiscountTabDto.setEndIndex(offset);
-        List<ContractsDetailsDto> resultList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> resultList = new ArrayList<>();
         try {
             resultList = logic.getItemsFromRs(newDiscountTabDto);
         } catch (Exception ex) {

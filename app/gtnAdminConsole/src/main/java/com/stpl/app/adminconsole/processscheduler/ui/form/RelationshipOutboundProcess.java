@@ -4,6 +4,7 @@
  */
 package com.stpl.app.adminconsole.processscheduler.ui.form;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.processscheduler.dto.OutboundFilterGenerator;
 import com.stpl.app.adminconsole.processscheduler.dto.OutboundTableDTO;
@@ -130,7 +131,7 @@ public class RelationshipOutboundProcess extends Window {
         return binder;
     }
 
-    public void init() throws SystemException{
+    public void init() {
 
         setContent(Clara.create(getClass().getResourceAsStream("/clara/relationshipBuilderoutbound.xml"), this));
         addStyleName("bootstrap-ui");
@@ -148,12 +149,12 @@ public class RelationshipOutboundProcess extends Window {
         configureTable();
     }
 
-    public void configureFields() throws SystemException {
+    public void configureFields() {
         try {
-            relationshipType.addItem("Primary");
+            relationshipType.addItem(StringConstantUtils.PRIMARY);
             relationshipType.addItem("Secondary");
-            relationshipType.select("Primary");
-            relationshipType.addItem("Primary");
+            relationshipType.select(StringConstantUtils.PRIMARY);
+            relationshipType.addItem(StringConstantUtils.PRIMARY);
             relationshipType.setImmediate(true);
             final LazyContainer hierarchyNameContainer = new LazyContainer(HelperDTO.class, new HierarchyNameContainer(null), new HierarchyNameCriteria());
             commonsUtil.loadLazyComboBox(hierarchyNameDDLB, hierarchyNameContainer);
@@ -186,11 +187,11 @@ public class RelationshipOutboundProcess extends Window {
         resultTable.setValidationVisible(false);
         resultTable.addStyleName("TableCheckBox");
         resultTable.addStyleName("filterbar");
-        resultTable.setVisibleColumns(CommonUIUtil.RELATIONSHIP_OUTBOUND_SEARCH_COLUMNS);
-        resultTable.setColumnHeaders(CommonUIUtil.RELATIONSHIP_OUTBOUND_SEARCH_HEADER);
+        resultTable.setVisibleColumns(CommonUIUtil.getInstance().relationshipOutboundSearchColumns);
+        resultTable.setColumnHeaders(CommonUIUtil.getInstance().relationshipOutboundSearchHeader);
         resultTable.setEditable(true);
-        resultTable.setColumnCheckBox("check", true);
-        resultTable.getFilterField("check").setVisible(false);
+        resultTable.setColumnCheckBox(CHECK, true);
+        resultTable.getFilterField(CHECK).setVisible(false);
         resultTable.setConverter(ConstantsUtils.CREATED_DATE, new DateToStringConverter());
         resultTable.setConverter(ConstantsUtils.MODIFIED_DATE, new DateToStringConverter());
         resultTable.setConverter(ConstantsUtils.START_DATE, new DateToStringConverter());
@@ -204,7 +205,7 @@ public class RelationshipOutboundProcess extends Window {
                     final Component uiContext) {
                 try {
                     final RelationshipOutboundDTO tableDto = (RelationshipOutboundDTO) itemId;
-                    if ("check".equals(propertyId)) {
+                    if (CHECK.equals(propertyId)) {
                         final CheckBox check = new CheckBox();
                         if (checkedHierarchy.get(tableDto.getRbSystemId()) != null) {
                             check.setValue(true);
@@ -240,19 +241,19 @@ public class RelationshipOutboundProcess extends Window {
         resultTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
             @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
-                if ("check".equals(event.getPropertyId().toString())) {
+                if (CHECK.equals(event.getPropertyId().toString())) {
                     if (event.isChecked()) {
                         checkedHierarchy.clear();
                         loadGrid(true);
                         // this setCurrentPage is used to refresh the lazy conatiner
                         resultTable.setCurrentPage(resultTable.getCurrentPage());
-                        resultTable.setColumnCheckBox("check", true, true);
+                        resultTable.setColumnCheckBox(CHECK, true, true);
                     } else {
                         checkedHierarchy.clear();
                         loadGrid(false);
                         // this setCurrentPage is used to refresh the lazy conatiner
                         resultTable.setCurrentPage(resultTable.getCurrentPage());
-                        resultTable.setColumnCheckBox("check", true, false);
+                        resultTable.setColumnCheckBox(CHECK, true, false);
 
                     }
                 }
@@ -260,6 +261,7 @@ public class RelationshipOutboundProcess extends Window {
         });
 
     }
+    public static final String CHECK = "check";
 
     @UiHandler("searchBtn")
     public void btnSearchLogic(Button.ClickEvent event) {
@@ -271,7 +273,7 @@ public class RelationshipOutboundProcess extends Window {
             try {
                 checkedHierarchy.clear();
                 binder.commit();
-                resultTable.setColumnCheckBox("check", true, false);
+                resultTable.setColumnCheckBox(CHECK, true, false);
                 loadGrid(false);
 
                 if (tableLogic.isResultsEmpty()) {
@@ -303,8 +305,8 @@ public class RelationshipOutboundProcess extends Window {
             resultTable.setImmediate(true);
             resultTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
             resultTable.addStyleName("TableCheckBox");
-            resultTable.setColumnCheckBox("check", true);
-            resultTable.getFilterField("check").setVisible(false);
+            resultTable.setColumnCheckBox(CHECK, true);
+            resultTable.getFilterField(CHECK).setVisible(false);
             resultTable.setSelectable(true);
             resultTable.markAsDirtyRecursive();
         } catch (Exception ex) {
@@ -326,7 +328,7 @@ public class RelationshipOutboundProcess extends Window {
                 StringBuilder ids = new StringBuilder(StringUtils.EMPTY);
                 String checkedIds = StringUtils.EMPTY;
                 boolean checkedAll = false;
-                if (resultTable.getColumnCheckBox("check")) {
+                if (resultTable.getColumnCheckBox(CHECK)) {
                     checkedAll = true;
                 } else if (!checkedHierarchy.isEmpty()) {
                     for (String keyId : checkedHierarchy.keySet()) {
@@ -355,7 +357,7 @@ public class RelationshipOutboundProcess extends Window {
 
     }
 
-    public void createWorkSheet(String csvName, String checkedIds, boolean isCheckAll) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void createWorkSheet(String csvName, String checkedIds, boolean isCheckAll) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount;
         try {
             if (isCheckAll) {
@@ -367,14 +369,13 @@ public class RelationshipOutboundProcess extends Window {
             LOGGER.error(ex);
         }
         recordCount = rbCsvList.size();
-        ExcelExportforBB.createWorkSheet(CommonUIUtil.RELATIONSHIP_OUTBOUND_EXCEL_HEADER, recordCount, this, UI.getCurrent(), csvName);
+        ExcelExportforBB.createWorkSheet(CommonUIUtil.getInstance().relationshipOutboundExcelHeader, recordCount, this, UI.getCurrent(), csvName);
     }
 
-    public void createWorkSheetContent(final Integer start,final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) {
         try {
-            LOGGER.info("Start index of record is : "+start);
             if (end != 0) {
-                ExcelExportforBB.createFileContent(CommonUIUtil.RELATIONSHIP_OUTBOUND_EXCEL_COLUMNS, rbCsvList, printWriter);
+                ExcelExportforBB.createFileContent(CommonUIUtil.getInstance().relationshipOutboundExcelColumns, rbCsvList, printWriter);
             }
         } catch (Exception e) {
             LOGGER.error(e);

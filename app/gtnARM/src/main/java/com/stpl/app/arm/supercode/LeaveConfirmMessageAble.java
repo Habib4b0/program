@@ -10,8 +10,12 @@ package com.stpl.app.arm.supercode;
  * @author Abhiram.Giri
  */
 public interface LeaveConfirmMessageAble {
+
     public abstract String leaveConfirmationHeader();
+
     public abstract String leaveConfirmationMessage();
+
     public abstract String leaveRestrictionHeader();
+
     public abstract String leaveRestrictionMessage();
 }

@@ -296,7 +296,7 @@ FROM   ITEM_MASTER IT
                    OR IT.FORM IS NULL )
             AND ( IT.STRENGTH LIKE '?'
                    OR IT.STRENGTH IS NULL )
-             AND (IT.CREATED_BY LIKE '?')     
+             AND (IT.CREATED_BY ?)     
             AND ( IT.NDC9 LIKE '?'
                    OR IT.NDC9 IS NULL )
            AND IsNull( IT.ITEM_CATEGORY,0) LIKE '?' 
@@ -386,7 +386,7 @@ FROM   ITEM_MASTER IT
               OR IT.FORM IS NULL )
             AND ( IT.STRENGTH LIKE '?'
               OR IT.STRENGTH IS NULL )
-             AND (IT.CREATED_BY LIKE '?')     
+             AND (IT.CREATED_BY ?)     
             AND ( IT.NDC9 LIKE '?'
               OR IT.NDC9 IS NULL )
             AND IsNull( IT.ITEM_CATEGORY,0) LIKE '?' 

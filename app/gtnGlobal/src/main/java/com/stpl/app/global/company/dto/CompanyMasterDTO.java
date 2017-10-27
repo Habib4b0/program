@@ -303,7 +303,7 @@ public class CompanyMasterDTO implements Serializable {
     /**
      * The company identifier list.
      */
-    private List<CompanyCrtIdentifierDTO> companyIdentifierList = new ArrayList<CompanyCrtIdentifierDTO>();
+    private List<CompanyCrtIdentifierDTO> companyIdentifierList = new ArrayList<>();
 
     /**
      * The record lock status.

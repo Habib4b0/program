@@ -8,33 +8,39 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Label;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains method to handle the error from UOI component.
  *
- * @author 
+ * @author
  */
 public class ErrorHandler extends DefaultErrorHandler {
 
-    /** The layout. */
+    /**
+     * The layout.
+     */
     private AbstractLayout layout;
-    
-    /** The Constant LOGGER. */
+
+    /**
+     * The Constant LOGGER.
+     */
     private static final Logger LOGGER = Logger.getLogger(ErrorHandler.class.getName());
-   
-   /** The cause. */
-   private static final String CAUSE = "<b>Ooops!!  There is a problem. Try again. If it repeats Contact your System admin.</b><br/>";
+
+    /**
+     * The cause.
+     */
+    private static final String CAUSE = "<b>Ooops!!  There is a problem. Try again. If it repeats Contact your System admin.</b><br/>";
+
     /**
      * Parameterized Constructor to initialize the layout field.
      *
      * @param layout - AbstractLayout
      */
     public ErrorHandler(final AbstractLayout layout) {
-    	super();
-        try{
-        this.layout = layout;
+        super();
+        try {
+            this.layout = layout;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in ErrorHandler :"+e);
         }
     }
 
@@ -43,48 +49,49 @@ public class ErrorHandler extends DefaultErrorHandler {
      *
      * @param event the event
      */
+    @Override
     public void error(final ErrorEvent event) {
-        try{
-      
-        for (Throwable t = event.getThrowable(); t != null;
-                t = t.getCause()) {
-            if (t.getCause() == null){
-                LOGGER.error(t.getClass().getName() + t);
+        try {
+
+            for (Throwable t = event.getThrowable(); t != null;
+                    t = t.getCause()) {
+                if (t.getCause() == null) {
+                    LOGGER.error(t.getClass().getName() + t);
+                }
             }
-        }   
-       
-        layout.addComponent(new Label(CAUSE, ContentMode.HTML));
-        doDefault(event);
+
+            layout.addComponent(new Label(CAUSE, ContentMode.HTML));
+            doDefault(event);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error :"+e);
         }
     }
 
-	/**
-	 * Gets the cause.
-	 *
-	 * @return the cause
-	 */
-	public String getCause() {
-		return CAUSE;
-	}
+    /**
+     * Gets the cause.
+     *
+     * @return the cause
+     */
+    public String getCause() {
+        return CAUSE;
+    }
 
-	/**
-	 * Gets the layout.
-	 *
-	 * @return the layout
-	 */
-	public  AbstractLayout getLayout() {
-		return layout;
-	}
+    /**
+     * Gets the layout.
+     *
+     * @return the layout
+     */
+    public AbstractLayout getLayout() {
+        return layout;
+    }
 
-	/**
-	 * Sets the layout.
-	 *
-	 * @param layout the new layout
-	 */
-	public  void setLayout(final AbstractLayout layout) {
-		this.layout = layout;
-	}
-    
+    /**
+     * Sets the layout.
+     *
+     * @param layout the new layout
+     */
+    public void setLayout(final AbstractLayout layout) {
+        this.layout = layout;
+    }
+
 }

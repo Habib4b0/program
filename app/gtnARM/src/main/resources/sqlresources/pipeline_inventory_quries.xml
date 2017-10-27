@@ -573,6 +573,10 @@ END IN (?)
         <query>
     
      <![CDATA[
+       
+     
+      
+     
        DECLARE @VIEW                  VARCHAR(50)='[$VIEW]',
        @PROJECTION_MASTER_SID INT= [PROJECTION_MASTER_SID],
        @PRODUCT_MASTER_SID INT= [PRODUCT_MASTER_SID],
@@ -580,6 +584,7 @@ END IN (?)
 
         DECLARE @VAR1 INT=(SELECT COUNT(1) FROM COMPANY_GROUP A
       JOIN [TABLE] B ON B.COMP_CUST_MASTER_SID=A.COMPANY_GROUP_SID)
+
 
       IF(@VAR1>0)
       BEGIN
@@ -602,7 +607,8 @@ END IN (?)
        MAINQ.RANK_VIEW FROM (
        SELECT
        ISNULL(SUM(AI.INVENTORY_UNITS),0)            AS INVENTORY_UNITS,
-       ISNULL(MAX(AI.TOTAL_INVENTORY),0)            AS TOTAL_INVENTORY,
+       CASE WHEN @VIEW='ITEM' THEN ISNULL(MAX(AI.TOTAL_INVENTORY),0) 
+	     WHEN @VIEW = 'BRAND' THEN    ISNULL(SUM(AI.TOTAL_INVENTORY),0) END   AS TOTAL_INVENTORY,
        
         CASE	
 	    WHEN @VIEW = 'ITEM' THEN ISNULL(MAX(B.WEEKS_ON_HAND), 0)
@@ -622,14 +628,14 @@ END IN (?)
 
        PRICE=CASE
                   WHEN @VIEW = 'ITEM' THEN ISNULL(MAX(AI.PRICE),0)
-                  WHEN @VIEW = 'BRAND' THEN null
+                  WHEN @VIEW = 'BRAND' THEN COALESCE((MAX(AI.NET_PIPELINE_VALUE)+MAX(AI.RETURN_RESERVE))/NULLIF(MAX(AI.TOTAL_INVENTORY),0),0)
                 END,
        PRICEOVERRIDE= CASE
                     WHEN @VIEW = 'ITEM' THEN MAX(AI.PRICE_OVERRIDE)
                     WHEN @VIEW = 'BRAND' THEN null
                   END,
-       ISNULL(MAX(AI.RETURN_RESERVE),0)              AS RETURN_RESERVE,
-       ISNULL(MAX(AI.NET_PIPELINE_VALUE),0)              AS NET_PIPELINE_VALUE,
+       ISNULL(SUM(AI.RETURN_RESERVE),0)              AS RETURN_RESERVE,
+       ISNULL(SUM(AI.NET_PIPELINE_VALUE),0)              AS NET_PIPELINE_VALUE,
        PRODUCT_NO= CASE
                     WHEN @VIEW = 'ITEM' THEN IM.ITEM_NO+' - '+IM.ITEM_NAME
                     WHEN @VIEW = 'BRAND' THEN BM.BRAND_ID+' - '+BM.BRAND_NAME
@@ -659,11 +665,13 @@ END IN (?)
              WHEN @VIEW = 'BRAND' THEN BM.BRAND_MASTER_SID 
       END  )
        FROM   [TABLE] AI
+
        	JOIN (SELECT DISTINCT	
 	ITEM_MASTER_SID,
         MAX(WEEKS_ON_HAND) WEEKS_ON_HAND,
         MAX(UNITS_PER_RETAIL) UNITS_PER_RETAIL
 	FROM [TABLE]
+
         GROUP BY ITEM_MASTER_SID) B
                         		
 	ON AI.ITEM_MASTER_SID = B.ITEM_MASTER_SID
@@ -675,8 +683,11 @@ END IN (?)
        JOIN BRAND_MASTER BM
          ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
        WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
-        @COMP_CUST_MASTER_SID
-       [BRAND_MASTER_SID] 
+         @COMP_CUST_MASTER_SID
+
+       [BRAND_MASTER_SID]
+        
+
        
        GROUP  BY CASE
             WHEN @VIEW = 'ITEM' THEN IM.ITEM_NO+' - '+IM.ITEM_NAME
@@ -741,10 +752,12 @@ END IN (?)
                     SUM(AI.INVENTORY_UNITS),
                     0
                 ) AS INVENTORY_UNITS,
-                ISNULL(
-                    MAX(AI.TOTAL_INVENTORY),
-                    0
-                ) AS TOTAL_INVENTORY,
+               CASE WHEN @VIEW='ITEM' THEN ISNULL(MAX(AI.TOTAL_INVENTORY),0) 
+	     WHEN @VIEW = 'BRAND' THEN    ISNULL(SUM(AI.TOTAL_INVENTORY),0) END   AS TOTAL_INVENTORY,
+
+
+
+
                 CASE
                     WHEN @VIEW = 'ITEM' THEN ISNULL(
                         MAX(B.WEEKS_ON_HAND),
@@ -767,18 +780,19 @@ END IN (?)
                         MAX(AI.PRICE),
                         0
                     )
-                    WHEN @VIEW = 'BRAND' THEN NULL
+                    WHEN @VIEW = 'BRAND' THEN 
+                    COALESCE((MAX(AI.NET_PIPELINE_VALUE)+MAX(AI.RETURN_RESERVE))/NULLIF(MAX(AI.TOTAL_INVENTORY),0),0)
                 END,
                 PRICEOVERRIDE = CASE
                     WHEN @VIEW = 'ITEM' THEN MAX(AI.PRICE_OVERRIDE)
                     WHEN @VIEW = 'BRAND' THEN NULL
                 END,
                 ISNULL(
-                    MAX(AI.RETURN_RESERVE),
+                    SUM(AI.RETURN_RESERVE),
                     0
                 ) AS RETURN_RESERVE,
                 ISNULL(
-                    MAX(AI.NET_PIPELINE_VALUE),
+                    SUM(AI.NET_PIPELINE_VALUE),
                     0
                 ) AS NET_PIPELINE_VALUE,
                 PRODUCT_NO = CASE
@@ -815,12 +829,14 @@ END IN (?)
                 )
             FROM
                 [TABLE] AI JOIN(
+
                     SELECT
                         DISTINCT ITEM_MASTER_SID,
                         MAX(WEEKS_ON_HAND) WEEKS_ON_HAND,
                         MAX(UNITS_PER_RETAIL) UNITS_PER_RETAIL
                     FROM
                         [TABLE]
+
                     GROUP BY
                         ITEM_MASTER_SID
                 ) B
@@ -831,7 +847,10 @@ END IN (?)
             WHERE
                 PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
                 @COMP_CUST_MASTER_SID
+
                 [BRAND_MASTER_SID] 
+                 
+
             GROUP BY
                 CASE
                     WHEN @VIEW = 'ITEM' THEN IM.ITEM_NO + ' - ' + IM.ITEM_NAME
@@ -848,7 +867,7 @@ END IN (?)
                 AI.COMP_CUST_MASTER_SID
         ) MAINQ
     WHERE
-        MAINQ.RANK_VIEW BETWEEN 0 AND 2
+        MAINQ.RANK_VIEW BETWEEN [START] AND [OFFSET]
 ) SELECT
     A.INVENTORY_UNITS,
     A.TOTAL_INVENTORY,
@@ -878,8 +897,7 @@ FROM
         ON A.PRODUCT_ID = B.PRODUCT_ID
 
 		END
-        
-                  ]]>  
+           ]]>  
         </query>
     </entity>
         
@@ -1193,7 +1211,7 @@ END IN (?)
         </query>
     </entity>
     
-    <entity id="TRANSACTION_3_Wf_Save_Query">
+    <entity id="Transaction_3_-_Pipeline_Inventory_True-up_Wf_Save_Query">
         <query>
             <![CDATA[
                 DELETE
@@ -1213,6 +1231,15 @@ WHERE
 
 DELETE ARM_TR_INVENTORY_DETAILS WHERE
 	PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+
+DELETE
+    AA
+FROM
+    ARM_ADJUSTMENTS AA
+JOIN ARM_ADJUSTMENT_DETAILS AAD ON
+    AA.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
+WHERE
+    PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
 
 INSERT
     INTO
@@ -1296,9 +1323,37 @@ INSERT
                 ST_ARM_TR_INVENTORY_DETAILS
             WHERE
                 PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+                
+INSERT
+    INTO
+        ARM_ADJUSTMENTS(
+            ARM_ADJUSTMENT_DETAILS_SID,
+            PERIOD_SID,
+            ADJUSTMENT_TYPE,
+            ACCOUNT,
+            DEBIT,
+            CREDIT
+        ) SELECT
+            ARM_ADJUSTMENT_DETAILS_SID,
+            PERIOD_SID,
+            ADJUSTMENT_TYPE,
+            ACCOUNT,
+            DEBIT,
+            CREDIT
+        FROM
+            ST_ARM_ADJUSTMENTS;
                
 DELETE
     ST_ARM_INVENTORY
+WHERE
+    PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+    
+DELETE
+    AA
+FROM
+    ST_ARM_ADJUSTMENTS AA
+JOIN ARM_ADJUSTMENT_DETAILS AAD ON
+    AA.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
 WHERE
     PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
 
@@ -1319,7 +1374,7 @@ DELETE ST_ARM_TR_INVENTORY_DETAILS WHERE
         </query>
     </entity>
     
-    <entity id="TRANSACTION~3_Wf_Edit_Query">
+    <entity id="Transaction_3_-_Pipeline_Inventory_True-up_Wf_Edit_Query">
         <query>
             <![CDATA[
                 INSERT
@@ -1400,6 +1455,27 @@ INSERT
                 ARM_TR_INVENTORY_DETAILS
             WHERE
                 PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+                INSERT
+                    INTO
+                        ST_ARM_ADJUSTMENTS(
+                                ARM_ADJUSTMENT_DETAILS_SID,
+                                PERIOD_SID,
+                                ADJUSTMENT_TYPE,
+                                ACCOUNT,
+                                DEBIT,
+                                CREDIT
+                        ) SELECT
+                                AA.ARM_ADJUSTMENT_DETAILS_SID,
+                                AA.PERIOD_SID,
+                                AA.ADJUSTMENT_TYPE,
+                                AA.CREDIT,
+                                AA.DEBIT
+                        FROM
+                                ARM_ADJUSTMENTS AA
+                        JOIN ARM_ADJUSTMENT_DETAILS AAD ON
+                                AA.ARM_ADJUSTMENT_DETAILS_SID = AAD.ARM_ADJUSTMENT_DETAILS_SID
+                        WHERE
+                                AAD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
             ]]>  
         </query>
     </entity>
@@ -1793,7 +1869,7 @@ INSERT
         <query>
              <![CDATA[
                SELECT DISTINCT CM.COMPANY_MASTER_SID,CM.COMPANY_NAME  FROM INVENTORY_WD_ACTUAL_DT CGA  
-                    JOIN DBO.COMPANY_MASTER CM ON CM.COMPANY_ID=CGA.COMPANY_ID    
+                    JOIN DBO.COMPANY_MASTER CM ON CM.COMPANY_ID=CGA.COMPANY_ID  ORDER BY  CM.COMPANY_MASTER_SID
              ]]>  
         </query>
     </entity>
@@ -1850,6 +1926,29 @@ SELECT ARM_ADJUSTMENT_DETAILS_SID,
 FROM   ? 
 WHERE  OVERRIDE IS NOT NULL 
        AND OVERRIDE != 0 
+       
+       ---UPDATE for Credit and debit Values in adjustments table
+UPDATE AA SET AA.CREDIT=BB.CREDIT,AA.DEBIT= BB.DEBIT
+FROM  ? AA INNER JOIN(SELECT TAM.ARM_ADJUSTMENT_DETAILS_SID AS ARM_ADJUSTMENT_DETAILS_SID,
+        ISNULL(A1.PERIOD_SID, A2.PERIOD_SID) AS PERIOD_SID,
+        ACCOUNT,
+        SUM(ABS(A1.ACCRUAL_AMOUNT))                  AS CREDIT,
+        SUM(ABS(A2.ACCRUAL_AMOUNT))                  AS DEBIT
+FROM   #TEMP_AMOUNT TAM
+        JOIN ARM_ADJ_RES_CCP AAC
+             ON TAM.ARM_ADJUSTMENT_DETAILS_SID = AAC.ARM_ADJUSTMENT_DETAILS_SID
+        LEFT JOIN #TEMP_AMOUNT A1
+                     ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A1.ARM_ADJUSTMENT_DETAILS_SID
+                           AND AAC.CREDIT = A1.INDICATOR
+        LEFT JOIN #TEMP_AMOUNT A2
+                     ON AAC.ARM_ADJUSTMENT_DETAILS_SID = A2.ARM_ADJUSTMENT_DETAILS_SID
+                           AND AAC.DEBIT = A2.INDICATOR
+            JOIN PERIOD P ON P.PERIOD_SID=ISNULL(A1.PERIOD_SID, A2.PERIOD_SID) AND P.PERIOD_SID=TAM.PERIOD_SID
+            WHERE CREDIT IS NOT NULL AND DEBIT IS NOT NULL
+GROUP  BY TAM.ARM_ADJUSTMENT_DETAILS_SID,
+              ISNULL(A1.PERIOD_SID, A2.PERIOD_SID),
+              ACCOUNT) BB ON AA.ARM_ADJUSTMENT_DETAILS_SID=BB.ARM_ADJUSTMENT_DETAILS_SID AND AA.PERIOD_SID=BB.PERIOD_SID
+              AND AA.ACCOUNT=BB.ACCOUNT
 
 IF OBJECT_ID('TEMPDB..#CURRENT_LIABILITY') IS NOT NULL 
   DROP TABLE #CURRENT_LIABILITY 

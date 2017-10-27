@@ -56,7 +56,7 @@ public class TempItemContainer implements BeanDAO<IFPItemDTO> {
     }
     public int count(BeanSearchCriteria sc) {
         try {
-            List list = ifpLogic.getResultTableResult(0,0,binder,new ArrayList<OrderByColumn>(), sc,true,getRecord());
+            List list = ifpLogic.getResultTableResult(0,0,new ArrayList<OrderByColumn>(), sc,true,getRecord());
             count = Integer.valueOf(String.valueOf(list.get(0)));
             return list==null ? 0 : count;
         } catch (SystemException ex) {
@@ -90,7 +90,7 @@ public class TempItemContainer implements BeanDAO<IFPItemDTO> {
                 IFPLogic.saveToTemp(saveContainer.getItemIds());
                 saveContainer.removeAllItems();
             }
-            List<Object[]> returnList =  ifpLogic.getResultTableResult(pageLength*currentPage,currentPage*pageLength+offset,binder,list, sc,false,getRecord());
+            List<Object[]> returnList =  ifpLogic.getResultTableResult(pageLength*currentPage,currentPage*pageLength+offset,list, sc,false,getRecord());
             return IFPLogic.getCoustomizedResult(returnList, binder, sessionDTO);
         } catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
@@ -114,7 +114,7 @@ public class TempItemContainer implements BeanDAO<IFPItemDTO> {
           catch (Exception e) {
                   LOGGER.error(e); 
                 }
-         return new ArrayList<IFPItemDTO>();
+         return new ArrayList<>();
     }
 
     public String getRecord() {

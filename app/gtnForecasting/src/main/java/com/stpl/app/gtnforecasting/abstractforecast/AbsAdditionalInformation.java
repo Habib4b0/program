@@ -104,7 +104,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
     protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
     private File logo = new File(basepath + "/WEB-INF/images/company_logo.png");
-    protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<NotesDTO>(NotesDTO.class);
+    protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;
     protected File fileUpload;
     protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(new File("tst")));
@@ -114,8 +114,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected File wordFile;
     protected File pdfFile;
     protected String fileUploadPath;
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<Integer, Boolean>();
-    public List<NotesDTO> removeDetailsList = new ArrayList<NotesDTO>();
+    private final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
+    public List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final NotesTabLogic logic = new NotesTabLogic();
     /**
      * The module name.
@@ -129,8 +129,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
      * The file path.
      */
     public final File filePathForLink = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + "National Assumptions");
-    public List<String> notesList = new ArrayList<String>();
-    public List<String> wordList = new ArrayList<String>();
+    public List<String> notesList = new ArrayList<>();
+    public List<String> wordList = new ArrayList<>();
     protected int projectionId = 0;
     protected String moduleName = StringUtils.EMPTY;
     private String mode = StringUtils.EMPTY;
@@ -229,8 +229,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         if (StringUtils.isEmpty(internalNotes.getValue())) {
             wordPngImage.setEnabled(false);
             pdfPngImage.setEnabled(false);
-            wordPngImage.setStyleName("Image-Disabled");
-            pdfPngImage.setStyleName("Image-Disabled");
+            wordPngImage.setStyleName(Constant.IMAGE_DISABLED);
+            pdfPngImage.setStyleName(Constant.IMAGE_DISABLED);
         }
         internalNotes.addValueChangeListener(new Property.ValueChangeListener() {
 
@@ -253,8 +253,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                     pdfDownloader.remove();
                     wordPngImage.setEnabled(false);
                     pdfPngImage.setEnabled(false);
-                    wordPngImage.setStyleName("Image-Disabled");
-                    pdfPngImage.setStyleName("Image-Disabled");
+                    wordPngImage.setStyleName(Constant.IMAGE_DISABLED);
+                    pdfPngImage.setStyleName(Constant.IMAGE_DISABLED);
                 }
             }
         });
@@ -573,7 +573,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
-        List<Object> list = new ArrayList<Object>(Arrays.asList(visibleColumns));
+        List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
         for (int i = 0, j = length; i < j; i++) {
             list.remove(propertyIds[i]);
         }

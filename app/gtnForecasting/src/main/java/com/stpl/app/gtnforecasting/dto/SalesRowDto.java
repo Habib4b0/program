@@ -25,22 +25,22 @@ public class SalesRowDto extends ExtMapDTO implements Comparator<SalesRowDto>{
     private String group = StringUtils.EMPTY;
     String ccpid = StringUtils.EMPTY;
 
-    private String customer = "empty";
-    private String contract = "empty";
-    private String product = "empty";
+    private String customer = Constant.EMPTY_STRING;
+    private String contract = Constant.EMPTY_STRING;
+    private String product = Constant.EMPTY_STRING;
 
     private Integer levelNo = new Integer(Constant.DASH);
     private Integer treeLevelNo = new Integer(Constant.DASH);
     private Integer relationLevelSid = new Integer(Constant.DASH);
     private String hierarchyNo = Constant.PERCENT;
-    private String hierarchyLevel="empty";
+    private String hierarchyLevel=Constant.EMPTY_STRING;
     private String returnDetailsSid = StringUtils.EMPTY;
     private String lastCustomerHierarchyno=Constant.PERCENT;
     private String lastProductHierarchyno=Constant.PERCENT;
     
-    private String hierarchyType="empty";
+    private String hierarchyType=Constant.EMPTY_STRING;
     
-    private String parentHierarchyType="empty";
+    private String parentHierarchyType=Constant.EMPTY_STRING;
     private Integer uncheckCount=new Integer(Constant.DASH);
     private Integer parent = 0;
     private String parentLevelIndicator = StringUtils.EMPTY;

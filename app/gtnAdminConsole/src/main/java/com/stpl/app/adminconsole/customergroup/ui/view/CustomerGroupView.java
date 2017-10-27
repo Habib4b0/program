@@ -51,16 +51,16 @@ public class CustomerGroupView extends VerticalLayout implements View {
     /**
      * The customer group binder.
      */
-    private ErrorfulFieldGroup customerGroupBinder = new ErrorfulFieldGroup(new BeanItem<CustomerGroupDTO>(customerGroupDTO));
+    private ErrorfulFieldGroup customerGroupBinder = new ErrorfulFieldGroup(new BeanItem<>(customerGroupDTO));
     /**
      * The customer binder.
      */
-    private ErrorfulFieldGroup customerBinder = new ErrorfulFieldGroup(new BeanItem<CustomerDetailsDTO>(customerDTO));
+    private ErrorfulFieldGroup customerBinder = new ErrorfulFieldGroup(new BeanItem<>(customerDTO));
     /**
      * The selected results bean.
      */
-    private final BeanItemContainer<CustomerDetailsDTO> selectedResultsBean = new BeanItemContainer<CustomerDetailsDTO>(CustomerDetailsDTO.class);
-    private final BeanItemContainer<CustomerDetailsDTO> availableResultsBean = new BeanItemContainer<CustomerDetailsDTO>(CustomerDetailsDTO.class);
+    private final BeanItemContainer<CustomerDetailsDTO> selectedResultsBean = new BeanItemContainer<>(CustomerDetailsDTO.class);
+    private final BeanItemContainer<CustomerDetailsDTO> availableResultsBean = new BeanItemContainer<>(CustomerDetailsDTO.class);
     /**
      * The customer group info.
      */
@@ -188,24 +188,24 @@ public class CustomerGroupView extends VerticalLayout implements View {
             Boolean flag = false;
             final int companyGroupSystemId = sessionDTO.getSystemId();
             this.removeAllComponents();
-            customerGroupBinder = new ErrorfulFieldGroup(new BeanItem<CustomerGroupDTO>(customerGroupDTO));
-            customerBinder = new ErrorfulFieldGroup(new BeanItem<CustomerDetailsDTO>(customerDTO));
+            customerGroupBinder = new ErrorfulFieldGroup(new BeanItem<>(customerGroupDTO));
+            customerBinder = new ErrorfulFieldGroup(new BeanItem<>(customerDTO));
             customerDTO = new CustomerDetailsDTO();
             customerGroupDTO = new CustomerGroupDTO();
             customerGroupInfo = new CustomerGroupInfo(customerGroupDTO, customerGroupBinder, customerBinder, customerDTO, selectedResultsBean, availableResultsBean, sessionDTO);
             addComponent(customerGroupInfo);
             setStyleName("bootstrap");
             if (companyGroupSystemId == ConstantsUtils.ZERO_NUM) {
-                customerGroupBinder = new ErrorfulFieldGroup(new BeanItem<CustomerGroupDTO>(customerGroupDTO));
-                customerBinder = new ErrorfulFieldGroup(new BeanItem<CustomerDetailsDTO>(customerDTO));
+                customerGroupBinder = new ErrorfulFieldGroup(new BeanItem<>(customerGroupDTO));
+                customerBinder = new ErrorfulFieldGroup(new BeanItem<>(customerDTO));
             } else {
-                customerBinder = new ErrorfulFieldGroup(new BeanItem<CustomerDetailsDTO>(customerDTO));
+                customerBinder = new ErrorfulFieldGroup(new BeanItem<>(customerDTO));
                 availableResultsBean.removeAllItems();
                 final String pageName = sessionDTO.getLogic();
                 if (ConstantsUtils.LOWERCASE_EDIT.equalsIgnoreCase(pageName) || ConstantsUtils.VIEW.equalsIgnoreCase(pageName) || ConstantsUtils.LOWERCASE_COPY.equalsIgnoreCase(pageName)) {
                     flag = true;
                 }
-                customerGroupBinder.setItemDataSource(new BeanItem<CustomerGroupDTO>(customerGroupDTO));
+                customerGroupBinder.setItemDataSource(new BeanItem<>(customerGroupDTO));
             }
             customerGroupInfo.entry(flag);
             LOGGER.debug("enter Ended");

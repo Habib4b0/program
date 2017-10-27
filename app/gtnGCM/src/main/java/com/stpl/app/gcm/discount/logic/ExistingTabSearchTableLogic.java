@@ -40,7 +40,7 @@ public class ExistingTabSearchTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         newDiscountTabDto.setStartIndex(start);
         newDiscountTabDto.setEndIndex(offset);
-        List<ContractsDetailsDto> resultList = new ArrayList<ContractsDetailsDto>();
+        List<ContractsDetailsDto> resultList = new ArrayList<>();
         try {
             resultList = logic.getRebateSchedule(newDiscountTabDto);
         } catch (Exception ex) {

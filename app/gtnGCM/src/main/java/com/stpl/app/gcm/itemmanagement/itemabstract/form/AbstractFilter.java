@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.data.Container;
@@ -48,13 +49,13 @@ public class AbstractFilter {
     }
 
     private void setFilterMap() {
-        filterMap.put("projectionIdLink", "Temp.PRICE_PLAN_ID");
-        filterMap.put("workFlowStatus", " HT.DESCRIPTION");
+        filterMap.put(Constants.PROJ_ID_LINK, "Temp.PRICE_PLAN_ID");
+        filterMap.put(Constants.WORKFLOW_STATUS, " HT.DESCRIPTION");
         filterMap.put(Constants.CONTRACT_HOLDER, "COMP.COMPANY_NAME");
-        filterMap.put(Constants.CONTRACT_NO, "CM.CONTRACT_NO");
+        filterMap.put(Constants.CONTRACT_NO, StringConstantsUtil.CM_CONTRACT_NO);
         filterMap.put(Constants.CONTRACT_NAME, "CM.CONTRACT_NAME");
         filterMap.put(Constants.MARKET_TYPE, "CM.CONTRACT_TYPE");
-        filterMap.put("status", "Temp.ITEM_STATUS");
+        filterMap.put(Constants.STATUS_S, "Temp.ITEM_STATUS");
         filterMap.put("contractPrice", "Temp.contract_price");
         filterMap.put("price", "Temp.price");
         filterMap.put("priceToleranceType", "Temp.price_tolerance_type");
@@ -169,7 +170,7 @@ public class AbstractFilter {
                             StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
                             StringBuilder temp = new StringBuilder(initial);
                             temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            if (!stringFilter.getPropertyId().toString().equals("brand")) {
+                            if (!stringFilter.getPropertyId().toString().equals(Constants.BRAND_PROPERTY)) {
                                 String filterString = "%" + stringFilter.getFilterString() + "%";
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, filterString);
                                 sql.append(temp);
@@ -177,7 +178,7 @@ public class AbstractFilter {
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, stringFilter.getFilterString());
                                 sql.append(temp);
                             }
-                            if (stringFilter.getPropertyId().toString().equals("workFlowStatus") || stringFilter.getPropertyId().toString().equals("projectionIdLink")) {
+                            if (stringFilter.getPropertyId().toString().equals(Constants.WORKFLOW_STATUS) || stringFilter.getPropertyId().toString().equals(Constants.PROJ_ID_LINK)) {
                                 sql.append("AND HT.DESCRIPTION NOT IN ('Approved')");
                             }
                             if (queryMap.get(stringFilter.getPropertyId().toString()).contains("DESCRIPTION")) {
@@ -187,7 +188,7 @@ public class AbstractFilter {
                             StringBuilder temp = new StringBuilder(str);
                             temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                             temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                            if (!stringFilter.getPropertyId().toString().equals("brand")) {
+                            if (!stringFilter.getPropertyId().toString().equals(Constants.BRAND_PROPERTY)) {
                                 String filterString = "%" + stringFilter.getFilterString() + "%";
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, filterString);
                                 sql.append(temp);
@@ -195,7 +196,7 @@ public class AbstractFilter {
                                 temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, stringFilter.getFilterString());
                                 sql.append(temp);
                             }
-                            if (stringFilter.getPropertyId().toString().equals("workFlowStatus") || stringFilter.getPropertyId().toString().equals("projectionIdLink")) {
+                            if (stringFilter.getPropertyId().toString().equals(Constants.WORKFLOW_STATUS) || stringFilter.getPropertyId().toString().equals(Constants.PROJ_ID_LINK)) {
                                 sql.append("AND HT.DESCRIPTION NOT IN ('Approved')");
                             }
                             if (queryMap.get(stringFilter.getPropertyId().toString()).contains("DESCRIPTION")) {
@@ -249,7 +250,7 @@ public class AbstractFilter {
 
     private void setSummaryFilterMap() {
         summaryFilterMap.put(Constants.CONTRACT_HOLDER, "COMP.COMPANY_NAME");
-        summaryFilterMap.put(Constants.CONTRACT_NO, "CM.CONTRACT_NO");
+        summaryFilterMap.put(Constants.CONTRACT_NO, StringConstantsUtil.CM_CONTRACT_NO);
         summaryFilterMap.put(Constants.CONTRACT_NAME, "CM.CONTRACT_NAME");
         summaryFilterMap.put(Constants.MARKET_TYPE, "CM.CONTRACT_TYPE");
         summaryFilterMap.put(Constants.START_DATE, "CM.START_DATE");
@@ -262,128 +263,128 @@ public class AbstractFilter {
     }
 
     private void setCFPFilterMap() {
-        cfpFilterMap.put("componentId", "CM.CFP_ID");
-        cfpFilterMap.put("componentNo", "CC.CFP_NO");
-        cfpFilterMap.put("componentName", "CC.CFP_NAME");
-        cfpFilterMap.put("componentType", "TY.DESCRIPTION");
-        cfpFilterMap.put("category", "CAT.DESCRIPTION");
-        cfpFilterMap.put("designation", "CC.CFP_DESIGNATION");
-        cfpFilterMap.put("componentStatus", "ST.DESCRIPTION");
-        cfpFilterMap.put("tradeClass", "TRADE.DESCRIPTION");
+        cfpFilterMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.CFP_ID");
+        cfpFilterMap.put(StringConstantsUtil.COMPONENT_NO, "CC.CFP_NO");
+        cfpFilterMap.put(StringConstantsUtil.COMPONENT_NAME, "CC.CFP_NAME");
+        cfpFilterMap.put(StringConstantsUtil.COMPONENT_TYPE, "TY.DESCRIPTION");
+        cfpFilterMap.put(Constants.CATEGORY, StringConstantsUtil.CAT_DESCRIPTION);
+        cfpFilterMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "CC.CFP_DESIGNATION");
+        cfpFilterMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.ST_DESCRIPTION);
+        cfpFilterMap.put(Constants.TRADE_CLASS_PROPERTY, "TRADE.DESCRIPTION");
         cfpFilterMap.put(Constants.START_DATE, "CC.CFP_START_DATE");
         cfpFilterMap.put(Constants.END_DATE, "CC.CFP_END_DATE");
     }
 
     private void setIFPFilterMap() {
-        ifpFilterMap.put("componentNo", "IFP_C.IFP_NO");
-        ifpFilterMap.put("componentName", "IFP_C.IFP_NAME");
-        ifpFilterMap.put("componentType", "IFP_TYPE.description");
-        ifpFilterMap.put("category", "IFP_Cat.DESCRIPTION");
-        ifpFilterMap.put("designation", "IFP_D.DESCRIPTION");
-        ifpFilterMap.put("componentStatus", "IFP_S.DESCRIPTION");
+        ifpFilterMap.put(StringConstantsUtil.COMPONENT_NO, "IFP_C.IFP_NO");
+        ifpFilterMap.put(StringConstantsUtil.COMPONENT_NAME, "IFP_C.IFP_NAME");
+        ifpFilterMap.put(StringConstantsUtil.COMPONENT_TYPE, "IFP_TYPE.description");
+        ifpFilterMap.put(Constants.CATEGORY, "IFP_Cat.DESCRIPTION");
+        ifpFilterMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "IFP_D.DESCRIPTION");
+        ifpFilterMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, "IFP_S.DESCRIPTION");
         ifpFilterMap.put(Constants.START_DATE, "IFP_C.IFP_START_DATE");
         ifpFilterMap.put(Constants.END_DATE, "IFP_C.IFP_END_DATE");
     }
 
     private void setPSFilterMap() {
-        psFilterMap.put("componentNo", "PS_C.PS_NO");
-        psFilterMap.put("componentName", "PS_C.PS_NAME");
-        psFilterMap.put("componentType", "PS_TYPE.description");
-        psFilterMap.put("category", "PS_Cat.DESCRIPTION");
-        psFilterMap.put("tradeClass", "PS_T.DESCRIPTION");
-        psFilterMap.put("designation", "PS_D.DESCRIPTION");
-        psFilterMap.put("componentStatus", "PS_S.DESCRIPTION");
+        psFilterMap.put(StringConstantsUtil.COMPONENT_NO, "PS_C.PS_NO");
+        psFilterMap.put(StringConstantsUtil.COMPONENT_NAME, "PS_C.PS_NAME");
+        psFilterMap.put(StringConstantsUtil.COMPONENT_TYPE, "PS_TYPE.description");
+        psFilterMap.put(Constants.CATEGORY, "PS_Cat.DESCRIPTION");
+        psFilterMap.put(Constants.TRADE_CLASS_PROPERTY, "PS_T.DESCRIPTION");
+        psFilterMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "PS_D.DESCRIPTION");
+        psFilterMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, "PS_S.DESCRIPTION");
         psFilterMap.put(Constants.START_DATE, "PS_C.IFP_START_DATE");
         psFilterMap.put(Constants.END_DATE, "PS_C.IFP_END_DATE");
     }
 
     private void setRSFilterMap() {
-        rsFilterMap.put("componentId", "RS_M.RS_ID");
-        rsFilterMap.put("componentNo", "RS_C.RS_NO");
-        rsFilterMap.put("componentName", "RS_C.RS_NAME");
-        rsFilterMap.put("componentType", "RS_TYPE.description");
+        rsFilterMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "RS_M.RS_ID");
+        rsFilterMap.put(StringConstantsUtil.COMPONENT_NO, "RS_C.RS_NO");
+        rsFilterMap.put(StringConstantsUtil.COMPONENT_NAME, "RS_C.RS_NAME");
+        rsFilterMap.put(StringConstantsUtil.COMPONENT_TYPE, "RS_TYPE.description");
         rsFilterMap.put("rsProgramType", "RSP_TY.description");
-        rsFilterMap.put("category", "RS_Cat.DESCRIPTION");
-        rsFilterMap.put("tradeClass", "TR.DESCRIPTION");
-        rsFilterMap.put("designation", "RS_C.RS_DESIGNATION");
-        rsFilterMap.put("componentStatus", "RS_S.DESCRIPTION");
+        rsFilterMap.put(Constants.CATEGORY, "RS_Cat.DESCRIPTION");
+        rsFilterMap.put(Constants.TRADE_CLASS_PROPERTY, "TR.DESCRIPTION");
+        rsFilterMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "RS_C.RS_DESIGNATION");
+        rsFilterMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, "RS_S.DESCRIPTION");
         rsFilterMap.put(Constants.START_DATE, "RS_C.RS_START_DATE");
         rsFilterMap.put(Constants.END_DATE, "RS_C.RS_END_DATE");
     }
 
     private void setCFPSearchFilterMap() {
-        cfpSearchFilterMap.put("componentId", "CM.CFP_ID");
-        cfpSearchFilterMap.put("componentNo", "CM.CFP_NO");
-        cfpSearchFilterMap.put("componentName", "CM.CFP_NAME");
-        cfpSearchFilterMap.put("componentType", "TYP.DESCRIPTION");
-        cfpSearchFilterMap.put("category", "CAT.DESCRIPTION");
-        cfpSearchFilterMap.put("designation", "CM.CFP_DESIGNATION");
-        cfpSearchFilterMap.put("componentStatus", "ST.DESCRIPTION");
-        cfpSearchFilterMap.put("tradeClass", "TC.DESCRIPTION");
+        cfpSearchFilterMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.CFP_ID");
+        cfpSearchFilterMap.put(StringConstantsUtil.COMPONENT_NO, "CM.CFP_NO");
+        cfpSearchFilterMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.CFP_NAME");
+        cfpSearchFilterMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYP_DESCRIPTION);
+        cfpSearchFilterMap.put(Constants.CATEGORY, StringConstantsUtil.CAT_DESCRIPTION);
+        cfpSearchFilterMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "CM.CFP_DESIGNATION");
+        cfpSearchFilterMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.ST_DESCRIPTION);
+        cfpSearchFilterMap.put(Constants.TRADE_CLASS_PROPERTY, "TC.DESCRIPTION");
         cfpSearchFilterMap.put(Constants.START_DATE, "CM.CFP_START_DATE");
         cfpSearchFilterMap.put(Constants.END_DATE, "CM.CFP_END_DATE");
     }
 
     private void setIFPSearchFilterMap() {
-        ifpSearchFilterMap.put("componentId", "CM.IFP_ID");
-        ifpSearchFilterMap.put("componentNo", "CC.IFP_NO");
-        ifpSearchFilterMap.put("componentName", "CC.IFP_NAME");
-        ifpSearchFilterMap.put("componentType", "TYP.DESCRIPTION");
-        ifpSearchFilterMap.put("category", "CAT.DESCRIPTION");
-        ifpSearchFilterMap.put("designation", "DESG.DESCRIPTION");
-        ifpSearchFilterMap.put("componentStatus", "ST.DESCRIPTION");
-        ifpSearchFilterMap.put("tradeClass", "TRADE.DESCRIPTION");
+        ifpSearchFilterMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.IFP_ID");
+        ifpSearchFilterMap.put(StringConstantsUtil.COMPONENT_NO, "CC.IFP_NO");
+        ifpSearchFilterMap.put(StringConstantsUtil.COMPONENT_NAME, "CC.IFP_NAME");
+        ifpSearchFilterMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYP_DESCRIPTION);
+        ifpSearchFilterMap.put(Constants.CATEGORY, StringConstantsUtil.CAT_DESCRIPTION);
+        ifpSearchFilterMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "DESG.DESCRIPTION");
+        ifpSearchFilterMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.ST_DESCRIPTION);
+        ifpSearchFilterMap.put(Constants.TRADE_CLASS_PROPERTY, "TRADE.DESCRIPTION");
         ifpSearchFilterMap.put(Constants.START_DATE, "CC.IFP_START_DATE");
         ifpSearchFilterMap.put(Constants.END_DATE, "CC.IFP_END_DATE");
     }
 
     private void setPSSearchFilterMap() {
-        psSearchFilterMap.put("componentNo", "PS.PS_NO");
-        psSearchFilterMap.put("componentName", "PS.PS_NAME");
-        psSearchFilterMap.put("category", "CAT.DESCRIPTION");
-        psSearchFilterMap.put("componentType", "TYP.DESCRIPTION");
-        psSearchFilterMap.put("designation", "desig.DESCRIPTION");
+        psSearchFilterMap.put(StringConstantsUtil.COMPONENT_NO, "PS.PS_NO");
+        psSearchFilterMap.put(StringConstantsUtil.COMPONENT_NAME, "PS.PS_NAME");
+        psSearchFilterMap.put(Constants.CATEGORY, StringConstantsUtil.CAT_DESCRIPTION);
+        psSearchFilterMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYP_DESCRIPTION);
+        psSearchFilterMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "desig.DESCRIPTION");
         psSearchFilterMap.put("parentPsId", "PS.PARENT_PS_ID");
         psSearchFilterMap.put("parentPsName", "PS.PARENT_PS_NAME");
-        psSearchFilterMap.put("componentStatus", "ST.DESCRIPTION");
+        psSearchFilterMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.ST_DESCRIPTION);
         psSearchFilterMap.put(Constants.START_DATE, "PS.PS_START_DATE");
         psSearchFilterMap.put(Constants.END_DATE, "PS.PS_END_DATE");
-        psSearchFilterMap.put("tradeClass", "TC.DESCRIPTION");
+        psSearchFilterMap.put(Constants.TRADE_CLASS_PROPERTY, "TC.DESCRIPTION");
     }
 
     public void setCfpComponentMap() {
-        cfpComponentInfoMap = new HashMap<String, String>();
-        cfpComponentInfoMap.put("attachedDate", "CFP_C.CFP_CONTRACT_ATTACHED_DATE");
-        cfpComponentInfoMap.put("itemNo", "IM.ITEM_NO");
-        cfpComponentInfoMap.put("itemName", "IM.ITEM_NAME");
+        cfpComponentInfoMap = new HashMap<>();
+        cfpComponentInfoMap.put(Constants.ATTACHED_DATE_PROPERTY, "CFP_C.CFP_CONTRACT_ATTACHED_DATE");
+        cfpComponentInfoMap.put(Constants.ITEM_NO_PROPERTY, StringConstantsUtil.IM_ITEM_NO);
+        cfpComponentInfoMap.put(Constants.ITEM_NAME_PROPERTY, StringConstantsUtil.IM_ITEM_NAME);
         cfpComponentInfoMap.put(Constants.START_DATE, "IM.ITEM_START_DATE");
         cfpComponentInfoMap.put(Constants.END_DATE, "IM.ITEM_END_DATE");
-        cfpComponentInfoMap.put("itemContractNo", "CM.CONTRACT_NO");
-        cfpComponentInfoMap.put("tradeClass", "TRAD.DESCRIPTION");
-        cfpComponentInfoMap.put("status", "ST.DESCRIPTION");
+        cfpComponentInfoMap.put("itemContractNo", StringConstantsUtil.CM_CONTRACT_NO);
+        cfpComponentInfoMap.put(Constants.TRADE_CLASS_PROPERTY, "TRAD.DESCRIPTION");
+        cfpComponentInfoMap.put(Constants.STATUS_S, StringConstantsUtil.ST_DESCRIPTION);
     }
 
     public void setIfpComponentMap() {
-        ifpComponentInfoMap = new HashMap<String, String>();
-        ifpComponentInfoMap.put("attachedDate", "IFP_D.IFP_CONTRACT_ATTACHED_DATE");
-        ifpComponentInfoMap.put("itemNo", "IM.ITEM_NO");
-        ifpComponentInfoMap.put("itemName", "IM.ITEM_NAME");
+        ifpComponentInfoMap = new HashMap<>();
+        ifpComponentInfoMap.put(Constants.ATTACHED_DATE_PROPERTY, "IFP_D.IFP_CONTRACT_ATTACHED_DATE");
+        ifpComponentInfoMap.put(Constants.ITEM_NO_PROPERTY, StringConstantsUtil.IM_ITEM_NO);
+        ifpComponentInfoMap.put(Constants.ITEM_NAME_PROPERTY, StringConstantsUtil.IM_ITEM_NAME);
         ifpComponentInfoMap.put(Constants.START_DATE, "IFP_D.ITEM_START_DATE");
         ifpComponentInfoMap.put(Constants.END_DATE, "IFP_D.ITEM_END_DATE");
-        ifpComponentInfoMap.put("brand", "BR.BRAND_NAME");
-        ifpComponentInfoMap.put("status", "ST.DESCRIPTION");
+        ifpComponentInfoMap.put(Constants.BRAND_PROPERTY, "BR.BRAND_NAME");
+        ifpComponentInfoMap.put(Constants.STATUS_S, StringConstantsUtil.ST_DESCRIPTION);
     }
 
     public void setPsComponentMap() {
-        psComponentInfoMap = new HashMap<String, String>();
-        psComponentInfoMap.put("itemNo", "IM.ITEM_NO");
-        psComponentInfoMap.put("itemName", "IM.ITEM_NAME");
+        psComponentInfoMap = new HashMap<>();
+        psComponentInfoMap.put(Constants.ITEM_NO_PROPERTY, StringConstantsUtil.IM_ITEM_NO);
+        psComponentInfoMap.put(Constants.ITEM_NAME_PROPERTY, StringConstantsUtil.IM_ITEM_NAME);
         psComponentInfoMap.put(Constants.START_DATE, "PS_D.CONTRACT_PRICE_START_DATE");
         psComponentInfoMap.put(Constants.END_DATE, "PS_D.CONTRACT_PRICE_END_DATE");
-        psComponentInfoMap.put("brand", " BM.BRAND_NAME");
-        psComponentInfoMap.put("status", "ST.DESCRIPTION");
+        psComponentInfoMap.put(Constants.BRAND_PROPERTY, " BM.BRAND_NAME");
+        psComponentInfoMap.put(Constants.STATUS_S, StringConstantsUtil.ST_DESCRIPTION);
         psComponentInfoMap.put("priceType", "IPQ.PRICING_QUALIFIER");
-        psComponentInfoMap.put("priceProtectionStatus", "ST.DESCRIPTION");
+        psComponentInfoMap.put("priceProtectionStatus", StringConstantsUtil.ST_DESCRIPTION);
         psComponentInfoMap.put("priceProtectionStartDate", "PS_D.CONTRACT_PRICE_START_DATE");
         psComponentInfoMap.put("priceProtectionEndDate", "PS_D.PRICE_PROTECTION_END_DATE");
         psComponentInfoMap.put("priceToleranceInterval", "PTI.DESCRIPTION");
@@ -391,24 +392,24 @@ public class AbstractFilter {
         psComponentInfoMap.put("priceToleranceType", " PTT.DESCRIPTION");
         psComponentInfoMap.put("priceTolerance", " PS_D.PRICE_TOLERANCE");
         psComponentInfoMap.put("resetDate", "Getdate()");
-        psComponentInfoMap.put("attachedDate", "PS_C.PS_CONTRACT_ATTACHED_DATE");
+        psComponentInfoMap.put(Constants.ATTACHED_DATE_PROPERTY, "PS_C.PS_CONTRACT_ATTACHED_DATE");
 
     }
 
     public void setRsComponentMap() {
-        rsComponentInfoMap = new HashMap<String, String>();
-        rsComponentInfoMap.put("itemNo", "IM.ITEM_NO");
-        rsComponentInfoMap.put("itemName", "IM.ITEM_NAME");
+        rsComponentInfoMap = new HashMap<>();
+        rsComponentInfoMap.put(Constants.ITEM_NO_PROPERTY, StringConstantsUtil.IM_ITEM_NO);
+        rsComponentInfoMap.put(Constants.ITEM_NAME_PROPERTY, StringConstantsUtil.IM_ITEM_NAME);
         rsComponentInfoMap.put(Constants.START_DATE, "RS_DETAILS.ITEM_REBATE_START_DATE");
         rsComponentInfoMap.put(Constants.END_DATE, "RS_DETAILS.ITEM_REBATE_END_DATE");
-        rsComponentInfoMap.put("brand", " BR.BRAND_NAME");
-        rsComponentInfoMap.put("status", "ST.DESCRIPTION");
+        rsComponentInfoMap.put(Constants.BRAND_PROPERTY, " BR.BRAND_NAME");
+        rsComponentInfoMap.put(Constants.STATUS_S, StringConstantsUtil.ST_DESCRIPTION);
         rsComponentInfoMap.put("formulaId", "FORMULA.FORMULA_NO");
         rsComponentInfoMap.put("formulaName", "FORMULA.FORMULA_DESC");
         rsComponentInfoMap.put("rebatePlanId", "RL.REBATE_PLAN_ID");
         rsComponentInfoMap.put("rebatePlanName", "RL.REBATE_PLAN_NAME");
         rsComponentInfoMap.put("rebateAmount", "RS_DETAILS.REBATE_AMOUNT");
         rsComponentInfoMap.put("bundleNo", "RS_DETAILS.BUNDLE_NO");
-        rsComponentInfoMap.put("attachedDate", "RS_CONT.RS_CONTRACT_ATTACHED_DATE");
+        rsComponentInfoMap.put(Constants.ATTACHED_DATE_PROPERTY, "RS_CONT.RS_CONTRACT_ATTACHED_DATE");
     }
 }

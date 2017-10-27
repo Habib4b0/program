@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 import com.stpl.ifs.util.QueryUtil;
+import java.util.Collections;
 
 /**
  *
@@ -52,7 +53,7 @@ public class SupplementalDiscountProjectionLogic {
     private static final Logger LOGGER = Logger.getLogger(SupplementalDiscountProjectionLogic.class);
     SalesProjectionDAO dao = new SalesProjectionDAOImpl();
     ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();
-    List<String> levelName = new ArrayList<String>();
+    List<String> levelName = new ArrayList<>();
     String projectionValue = StringUtils.EMPTY;
     boolean projectionValueFlag = false;
     String suppHeader = StringUtils.EMPTY;
@@ -61,7 +62,7 @@ public class SupplementalDiscountProjectionLogic {
     static HashMap<String, String> rsFormulaDbMap = new HashMap<>();
     public static final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constant.DATE_FORMAT);
 
-    public int getConfiguredSupplementalDiscountCount(Object parentId, ProjectionSelectionDTO projSelDTO, boolean isLevelCount) {
+    public int getConfiguredSupplementalDiscountCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
         int count = 0;
         if (parentId instanceof DiscountProjectionDTO) {
             DiscountProjectionDTO parentDto = (DiscountProjectionDTO) parentId;
@@ -85,7 +86,7 @@ public class SupplementalDiscountProjectionLogic {
                 projSelDTO.setContractID(parentDto.getContractID());
                 projSelDTO.setTherapeuticID(parentDto.getTherapeuticID());
                 projSelDTO.setBrandID(parentDto.getGroup());
-                projSelDTO.setSupplementalLevelName(Constant.PRODUCT);
+                projSelDTO.setSupplementalLevelName(Constant.PRODUCT_LABEL);
             }
         } else {
             if (projSelDTO.isIsFilter()) {
@@ -104,20 +105,18 @@ public class SupplementalDiscountProjectionLogic {
             if (filterCount != null && !filterCount.isEmpty()) {
                 count += filterCount.size();
             }
-            filterCount = null;
         } else {
             List<Object> masterData = getQueryToHitMasterTable(projSelDTO, false, false);
             if (masterData != null && !masterData.isEmpty()) {
                 Object ob = masterData.get(0);
                 count += Integer.valueOf(String.valueOf(ob));
             }
-            masterData = null;
         }
         return count;
     }
 
     public List<DiscountProjectionDTO> getConfiguredSupplementalDiscount(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        List<DiscountProjectionDTO> resultList = new ArrayList<DiscountProjectionDTO>();
+        List<DiscountProjectionDTO> resultList;
         if (parentId instanceof DiscountProjectionDTO) {
             DiscountProjectionDTO parentDto = (DiscountProjectionDTO) parentId;
             projSelDTO.setSupplementalLevelNo(parentDto.getSupplementalLevelNo());
@@ -166,31 +165,29 @@ public class SupplementalDiscountProjectionLogic {
         int neededRecord = offset;
         int started = start;
 
-        List<DiscountProjectionDTO> projDTOList = new ArrayList<DiscountProjectionDTO>();
-        List<DiscountProjectionDTO> nextLevelValueList = configureLevels(0, neededRecord, projSelDTO);
+        List<DiscountProjectionDTO> projDTOList = new ArrayList<>();
+        List<DiscountProjectionDTO> nextLevelValueList = configureLevels(neededRecord, projSelDTO);
         for (int i = started; (i < nextLevelValueList.size()) && (neededRecord > 0); i++) {
             projDTOList.add(nextLevelValueList.get(i));
             neededRecord--;
         }
-        nextLevelValueList = null;
 
         return projDTOList;
     }
 
-    public List<DiscountProjectionDTO> configureLevels(int start, int offset, ProjectionSelectionDTO projSelDTO) {
+    public List<DiscountProjectionDTO> configureLevels(int offset, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;
-        List<Object> masterData = new ArrayList<Object>();
+        List<Object> masterData = new ArrayList<>();
         if (neededRecord > 0) {
             masterData = getQueryToHitMasterTable(projSelDTO, false, false);
         }
-        return loadDTOList(projSelDTO, masterData, neededRecord);
+        return loadDTOList(projSelDTO, masterData);
     }
 
     public List<Object> getQueryToHitMasterTable(ProjectionSelectionDTO projSelDTO, boolean levelFlag, boolean suppLevelFlag) {
-        boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
         String[] tableLevelName = getTableAndLevelName(projSelDTO, false, false);
 
-        List<Object> objList = new ArrayList<Object>();
+        List<Object> objList = new ArrayList<>();
         if (isValidTableName(tableLevelName)) {
             String levelFieldSelection = StringUtils.EMPTY;
 
@@ -204,14 +201,14 @@ public class SupplementalDiscountProjectionLogic {
 
             String tempWerCon = StringUtils.EMPTY;
 
-            String customerFilter = StringUtils.EMPTY;
+            String customerFilter;
 
-            String selectQuery = StringUtils.EMPTY;
+            String selectQuery;
             String concat = StringUtils.EMPTY;
             String levelName = "'" + projSelDTO.getSupplementalLevelName() + "'" + " as LEVEL_NAME,";
             String tempName = StringUtils.EMPTY;
             String tempGroupName = StringUtils.EMPTY;
-            String finalQuery = StringUtils.EMPTY;
+            String finalQuery;
 
             customerFilter = getCustomerFilterQuery(projSelDTO);
 
@@ -220,12 +217,12 @@ public class SupplementalDiscountProjectionLogic {
                 selectedId = "0 AS COM_ID,0 AS CON_ID,0 AS THERAP_CLASS,0 AS BRAND_SID,0 AS NDC_ID,";
                 levelSelection = " CM.COMPANY_MASTER_SID,CM." + levelFieldSelection + ", ";
                 tempTableName = "COMPANY_MASTER";
-                tempWerCon = " CCP.CCP_DETAILS_SID = SUPMAS.CCP_DETAILS_SID\n"
+                tempWerCon = " CCP.CCP_DETAILS_SID = SUPMAS.CCP_DETAILS_SID \n"
                         + "and CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID\n";
                 projSelDTO.setLevelFieldSelection(levelFieldSelection);
                 tempGroupName = ",CM.COMPANY_ID";
                 if (suppLevelFlag) {
-                    tempWerCon = tempWerCon + " and CCP.COMPANY_MASTER_SID = " + projSelDTO.getLevelCompanySid();
+                    tempWerCon = tempWerCon + " and  CCP.COMPANY_MASTER_SID = " + projSelDTO.getLevelCompanySid();
                 }
                 orderBy = " order by CM.COMPANY_MASTER_SID,min(SUPMAS.CHECK_RECORD)";
             } else if (projSelDTO.getSupplementalLevelNo() == 1) {
@@ -236,23 +233,23 @@ public class SupplementalDiscountProjectionLogic {
                 tempWerCon = " CCP.CCP_DETAILS_SID = SUPMAS.CCP_DETAILS_SID " + "\n"
                         + " and TT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID\n";
                 if (!projSelDTO.isIsFilter()) {
-                    tempWerCon = tempWerCon + " and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCompanyID();
+                    tempWerCon = tempWerCon + " and  CCP.COMPANY_MASTER_SID = " + projSelDTO.getCompanyID();
                 }
                 if (suppLevelFlag) {
-                    tempWerCon = tempWerCon + " and CCP.CONTRACT_MASTER_SID = " + projSelDTO.getContractID();
+                    tempWerCon = tempWerCon + " and CCP.CONTRACT_MASTER_SID =  " + projSelDTO.getContractID();
                 }
                 tempGroupName = " ,CCP.COMPANY_MASTER_SID , CCP.CONTRACT_MASTER_SID";
                 orderBy = " order by TT.CONTRACT_MASTER_SID";
             } else if (projSelDTO.getSupplementalLevelNo() == 2) {
                 levelFieldSelection = tableLevelName[1];
-                selectedId = projSelDTO.getCompanyID() + " AS COM_ID," + projSelDTO.getContractID() + " AS CON_ID,0 AS THERAP_CLASS,0 AS BRAND_SID,0 AS NDC_ID,0 as ITEMID,";
+                selectedId = projSelDTO.getCompanyID() + " AS COM_ID ," + projSelDTO.getContractID() + " AS CON_ID,0 AS THERAP_CLASS,0 AS BRAND_SID,0 AS NDC_ID,0 as ITEMID,";
                 levelSelection = " TT." + levelFieldSelection + ",";
                 tempTableName = "ITEM_MASTER";
-                tempWerCon = " CCP.CCP_DETAILS_SID = SUPMAS.CCP_DETAILS_SID\n"
+                tempWerCon = " CCP.CCP_DETAILS_SID = SUPMAS.CCP_DETAILS_SID \n"
                         + "and TT.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID\n";
                 if (!projSelDTO.isIsFilter()) {
-                    tempWerCon = tempWerCon + " and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCompanyID()
-                            + " and CCP.CONTRACT_MASTER_SID = " + projSelDTO.getContractID();
+                    tempWerCon = tempWerCon + "  and CCP.COMPANY_MASTER_SID = " + projSelDTO.getCompanyID()
+                            + " and CCP.CONTRACT_MASTER_SID =  " + projSelDTO.getContractID();
                 }
                 tempGroupName = " ,CCP.COMPANY_MASTER_SID , CCP.CONTRACT_MASTER_SID ,CCP.ITEM_MASTER_SID ";
                 orderBy = " order by min(SUPMAS.CHECK_RECORD)";
@@ -339,17 +336,6 @@ public class SupplementalDiscountProjectionLogic {
             objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(finalQuery, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
 
             LOGGER.debug("objList  size " + objList.size());
-            finalQuery = null;
-            selectQuery = null;
-            tableName = null;
-            werCondition = null;
-            groupBy = null;
-            orderBy = null;
-            selectedId = null;
-            levelFieldSelection = null;
-            levelSelection = null;
-            tempTableName = null;
-            tempWerCon = null;
         } else {
             String query = "select LEVEL_NAME,\"TABLE_NAME\",FIELD_NAME from HIERARCHY_LEVEL_DEFINITION "
                     + "where HIERARCHY_DEFINITION_SID in (" + projSelDTO.getCustHierarchySid() + "," + projSelDTO.getProdHierarchySid() + ")";
@@ -382,27 +368,29 @@ public class SupplementalDiscountProjectionLogic {
 
                 if (!ddlbFlag) {
 
-                    str[0] = projSelDTO.getSupplementalLevelNo() == 0 ? Constant.COMPANY_MASTER : projSelDTO.getSupplementalLevelNo() == 1 ? Constant.CONTRACT_MASTER : projSelDTO.getSupplementalLevelNo() == NumericConstants.TWO ? Constant.ITEM_MASTER : projSelDTO.getSupplementalLevelNo() == NumericConstants.THREE ? "BRAND_MASTER" : projSelDTO.getSupplementalLevelNo() == NumericConstants.FOUR && !flag ? Constant.ITEM_MASTER : "BRAND_MASTER";
+                    str[0] = projSelDTO.getSupplementalLevelNo() == 0 ? Constant.COMPANY_MASTER : projSelDTO.getSupplementalLevelNo() == 1 ? Constant.CONTRACT_MASTER : projSelDTO.getSupplementalLevelNo() == NumericConstants.TWO ? Constant.ITEM_MASTER : projSelDTO.getSupplementalLevelNo() == NumericConstants.THREE ? BRAND_MASTER : projSelDTO.getSupplementalLevelNo() == NumericConstants.FOUR && !flag ? Constant.ITEM_MASTER : BRAND_MASTER;
 
                 } else {
-                    str[0] = "THERAPEUTIC CLASS".equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? Constant.ITEM_MASTER : Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? "BRAND_MASTER"
-                            : Constant.PRODUCT.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? Constant.ITEM_MASTER : null;
+                    str[0] = "THERAPEUTIC CLASS".equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? Constant.ITEM_MASTER : Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? BRAND_MASTER
+                            : Constant.PRODUCT_LABEL.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? Constant.ITEM_MASTER : null;
 
                 }
             }
             if (str[1] == null) {
                 if (!ddlbFlag) {
-                    str[1] = projSelDTO.getSupplementalLevelNo() == 0 ? "COMPANY_NO" : projSelDTO.getSupplementalLevelNo() == 1 ? "CONTRACT_NO" : projSelDTO.getSupplementalLevelNo() == NumericConstants.TWO ? "THERAPEUTIC_CLASS" : projSelDTO.getSupplementalLevelNo() == NumericConstants.THREE ? "BRAND_NAME" : projSelDTO.getSupplementalLevelNo() == NumericConstants.FOUR && !flag ? "ITEM_ID" : "BRAND_NAME";
+                    str[1] = projSelDTO.getSupplementalLevelNo() == 0 ? "COMPANY_NO" : projSelDTO.getSupplementalLevelNo() == 1 ? "CONTRACT_NO" : projSelDTO.getSupplementalLevelNo() == NumericConstants.TWO ? "THERAPEUTIC_CLASS" : projSelDTO.getSupplementalLevelNo() == NumericConstants.THREE ? BRAND_NAME : projSelDTO.getSupplementalLevelNo() == NumericConstants.FOUR && !flag ? "ITEM_ID" : BRAND_NAME;
 
                 } else {
-                    str[1] = "THERAPEUTIC CLASS".equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? "THERAPEUTIC_CLASS" : Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? "BRAND_NAME"
-                            : Constant.PRODUCT.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? "ITEM_ID" : null;
+                    str[1] = "THERAPEUTIC CLASS".equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? "THERAPEUTIC_CLASS" : Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? BRAND_NAME
+                            : Constant.PRODUCT_LABEL.equalsIgnoreCase(projSelDTO.getSupplementalLevelName()) ? "ITEM_ID" : null;
 
                 }
             }
         }
         return str;
     }
+    public static final String BRAND_NAME = "BRAND_NAME";
+    public static final String BRAND_MASTER = "BRAND_MASTER";
 
     public List<Object> getLevelList(int  customerHierId,int prodHierId) {
 
@@ -412,7 +400,7 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public String getFormattedValue(DecimalFormat FORMAT, String value) {
-        if (value.contains(Constant.NULL) || value.isEmpty() || value == null) {
+        if (value == null || value.contains(Constant.NULL) || value.isEmpty()) {
             value = Constant.DASH;
         } else {
             value = FORMAT.format(Double.valueOf(value));
@@ -500,19 +488,18 @@ public class SupplementalDiscountProjectionLogic {
                 }
             }
         }
-        projectionList = null;
 
         return dto;
     }
 
-    public void updateCheckedRecord(DiscountProjectionDTO checkedDto, ProjectionSelectionDTO projSelDto, int checkValue, String userId, String sessionId) {
+    public void updateCheckedRecord(DiscountProjectionDTO checkedDto, ProjectionSelectionDTO projSelDto, int checkValue) {
         try {
 
             String ccpDetailsId = StringUtils.EMPTY;
-            if (checkedDto.getProjectionDetailsSid() != 0 && ("Ndc".equalsIgnoreCase(checkedDto.getLevelName()) || Constant.PRODUCT.equalsIgnoreCase(checkedDto.getLevelName()))) {
+            if (checkedDto.getProjectionDetailsSid() != 0 && ("Ndc".equalsIgnoreCase(checkedDto.getLevelName()) || Constant.PRODUCT_LABEL.equalsIgnoreCase(checkedDto.getLevelName()))) {
                 ccpDetailsId = StringUtils.EMPTY + checkedDto.getCcpDetailsSID();
 
-            } else if (checkedDto.getCcpDetailIds().size() > 0 && !(Constant.PRODUCT.equalsIgnoreCase(checkedDto.getLevelName()))) {
+            } else if (checkedDto.getCcpDetailIds().size() > 0 && !(Constant.PRODUCT_LABEL.equalsIgnoreCase(checkedDto.getLevelName()))) {
                 ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
             }
             if (!StringUtils.EMPTY.equals(ccpDetailsId) && !Constant.NULL.equals(ccpDetailsId)) {
@@ -558,19 +545,19 @@ public class SupplementalDiscountProjectionLogic {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public void populateValues(DiscountProjectionDTO checkedDto, String value, Object fieldSelection, SessionDTO session) {
 
-        String ccpDetailsId = StringUtils.EMPTY;
+        String ccpDetailsId;
         if (checkedDto.getSupplementalLevelNo() == 5) {
             ccpDetailsId = checkedDto.getCcpDetailsSID().toString();
         } else {
             ccpDetailsId = CommonUtils.CollectionToString(checkedDto.getCcpDetailIds(), false);
         }
         if (fieldSelection.equals(METHODOLOGY.getConstant().toUpperCase())) {
-            populateMethodologyWithFormulaDetails(checkedDto, value, fieldSelection, session, ccpDetailsId);
+            populateMethodologyWithFormulaDetails(checkedDto, value, session);
         } else {
             populateUpadteQuery(checkedDto, value, fieldSelection, session, ccpDetailsId);
         }
@@ -579,7 +566,7 @@ public class SupplementalDiscountProjectionLogic {
 
     private List<Object> getProjectionList(DiscountProjectionDTO dto, ProjectionSelectionDTO projSelDTO) {
         if (projSelDTO.getSupplementalLevelNo() == 4) {
-            projSelDTO.setSupplementalLevelName(Constant.PRODUCT);
+            projSelDTO.setSupplementalLevelName(Constant.PRODUCT_LABEL);
         }
 
         StringBuilder queryBuilder1 = new StringBuilder();
@@ -607,7 +594,7 @@ public class SupplementalDiscountProjectionLogic {
         queryBuilder1.append(" FROM ST_M_SUPPLEMENTAL_DISC_PROJ SUPPROJ, \n");
         queryBuilder1.append("\"PERIOD\" PRD  ");
 
-        String ccpDetailsId = StringUtils.EMPTY;
+        String ccpDetailsId;
         if (projSelDTO.getSupplementalLevelNo() == 4) {
             queryBuilder1.append(" WHERE SUPPROJ.CCP_DETAILS_SID = " + dto.getCcpDetailsSID()+ " AND PRD.PERIOD_SID=SUPPROJ.PERIOD_SID \n");
         } else {
@@ -623,8 +610,8 @@ public class SupplementalDiscountProjectionLogic {
             select.addItem(SELECTMETHODOLOGY.getConstant());
             StringBuilder queryBuild = new StringBuilder();
 
-            queryBuild.append("select distinct FORMULA_NAME from FORECASTING_FORMULA FF , HELPER_TABLE HT where FF.FORMULA_TYPE = HT.HELPER_TABLE_SID \n"
-                    + "AND HT.LIST_NAME = 'FORMULA_TYPE' AND HT.DESCRIPTION = 'Supplemental' AND FF.IS_ACTIVE = 1 ORDER BY FORMULA_NAME");
+            queryBuild.append("select distinct FORMULA_NAME from FORECASTING_FORMULA FF , HELPER_TABLE HT where FF.FORMULA_TYPE = HT.HELPER_TABLE_SID  \n"
+                    + "AND HT.LIST_NAME = 'FORMULA_TYPE' AND HT.DESCRIPTION = 'Supplemental' AND FF.IS_ACTIVE = 1 ORDER BY FORMULA_NAME ");
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
@@ -634,7 +621,6 @@ public class SupplementalDiscountProjectionLogic {
                     select.addItem(ob);
                 }
             }
-            obList = null;
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -680,7 +666,7 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public String getRelationshipValue(int proj_Id) {
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list;
         String query = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID in\n"
                 + "(Select CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + proj_Id + ")\n"
                 + "and LEVEL_NAME='Market Type'";
@@ -692,7 +678,7 @@ public class SupplementalDiscountProjectionLogic {
 
     public String getMTLinked(int hier_Id) {
         String str = StringUtils.EMPTY;
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list;
         String query = "select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID\n"
                 + "in(select RELATIONSHIP_LEVEL_VALUES from  RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_LEVEL_SID in (select RELATIONSHIP_LEVEL_SID\n" +
                 " from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID=" + hier_Id + " and Level_NAME='Market Type'))";
@@ -708,7 +694,7 @@ public class SupplementalDiscountProjectionLogic {
     public ComboBox loadParityNativeSelect(final ComboBox select, SessionDTO sessionDTO, boolean nativeFlag) {
         try {
             select.addItem(SELECT_ONE);
-            List<Object> helperList = new ArrayList<Object>();
+            List<Object> helperList;
             LookUpDTO lookUpDTO = new LookUpDTO();
             helperList = loadParityLookup(sessionDTO, lookUpDTO, nativeFlag);
             for (int i = 0; i < helperList.size(); i++) {
@@ -767,8 +753,8 @@ public class SupplementalDiscountProjectionLogic {
     public int getProject(int proj_id) {
         int value = 0;
         try {
-            List<Integer> listInte = new ArrayList<Integer>();
-            List list = new ArrayList();
+            List<Integer> listInte = new ArrayList<>();
+            List list;
             String sql = StringUtils.EMPTY;
             if (proj_id != 0) {
                 sql = "select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS\n"
@@ -781,7 +767,6 @@ public class SupplementalDiscountProjectionLogic {
                 listInte.add(Integer.valueOf(String.valueOf(list.get(i))));
                 value = Integer.valueOf(String.valueOf(list.get(i)));
             }
-            list = null;
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -799,17 +784,17 @@ public class SupplementalDiscountProjectionLogic {
         } else if (propertyIdValue.contains(ACCESS.getConstant())) {
             tempStr = ACCESS.getConstant();
             columnName = tempStr;
-        } else if (propertyIdValue.contains("Discount1")) {
-            tempStr = "Discount1";
+        } else if (propertyIdValue.contains(Constant.DISCOUNT_ONE)) {
+            tempStr = Constant.DISCOUNT_ONE;
             columnName = tempStr.replace(tempStr, DISCOUNT1.getConstant());
-        } else if (propertyIdValue.contains("Discount2")) {
-            tempStr = "Discount2";
+        } else if (propertyIdValue.contains(Constant.DISCOUNT_TWO)) {
+            tempStr = Constant.DISCOUNT_TWO;
             columnName = tempStr.replace(tempStr, DISCOUNT2.getConstant());
         } else if (propertyIdValue.contains(Constant.DISCOUNT_SMALL)) {
             tempStr = Constant.DISCOUNT_SMALL;
             columnName = tempStr.replace(tempStr, DISCOUNT_PARITY.getConstant());
-        } else if (propertyIdValue.contains("ContractPrice")) {
-            tempStr = "ContractPrice";
+        } else if (propertyIdValue.contains(Constant.CONTRACT_PRICE_PROPERTY)) {
+            tempStr = Constant.CONTRACT_PRICE_PROPERTY;
             columnName = tempStr.replace(tempStr, CONTRACT_PRICE.getConstant());
         } else if (propertyIdValue.contains("ParityReference")) {
             tempStr = "ParityReference";
@@ -883,7 +868,7 @@ public class SupplementalDiscountProjectionLogic {
 
     public void supplementalSave(SessionDTO sessionDTO) {
         try {
-            List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+            List<StringBuilder> queryList = new ArrayList<>();
             StringBuilder query = new StringBuilder();
 
             queryList.add(getQueryToSaveMasterTable(sessionDTO));
@@ -903,12 +888,12 @@ public class SupplementalDiscountProjectionLogic {
                     + "   PROJECTION_RATE,\n"
                     + "   PROJECTION_SALES\n"
                     + "   FROM dbo.ST_M_SUPPLEMENTAL_DISC_PROJ\n"
-                    + "    WHERE USER_ID=" + sessionDTO.getUserId() + " AND SESSION_ID=" + sessionDTO.getSessionId() + " \n"
+                    + "    WHERE USER_ID=" + sessionDTO.getUserId() + "  AND SESSION_ID= " + sessionDTO.getSessionId() + " \n"
                     + "   ) AS SOURCE\n"
                     + "   ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)\n"
-                    + "   WHEN MATCHED\n"
-                    + "   THEN\n"
-                    + "   UPDATE SET\n"
+                    + "   WHEN MATCHED  \n"
+                    + Constant.THEN
+                    + "   UPDATE SET \n"
                     + "   TARGET.PERIOD_SID=SOURCE.PERIOD_SID,\n"
                     + "   TARGET.METHODOLOGY=SOURCE.METHODOLOGY,\n"
                     + "   TARGET.CONTRACT_PRICE=SOURCE.CONTRACT_PRICE,\n"
@@ -921,7 +906,7 @@ public class SupplementalDiscountProjectionLogic {
                     + "   TARGET.PROJECTION_RATE = SOURCE.PROJECTION_RATE,\n"
                     + "   TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES\n"
                     + "   WHEN NOT MATCHED BY TARGET\n"
-                    + "   THEN\n"
+                    + Constant.THEN
                     + "   INSERT (PROJECTION_DETAILS_SID,PERIOD_SID,METHODOLOGY,CONTRACT_PRICE,DISCOUNT_RATE_1,DISCOUNT_RATE_2,ACCESS,PARITY,PARITY_REFERENCE,PARITY_DISCOUNT,PROJECTION_RATE,PROJECTION_SALES) VALUES(SOURCE.PROJECTION_DETAILS_SID,\n"
                     + "   SOURCE.PERIOD_SID,\n"
                     + "   SOURCE.METHODOLOGY,\n"
@@ -941,7 +926,7 @@ public class SupplementalDiscountProjectionLogic {
                     + "    WHERE  USER_ID=" + sessionDTO.getUserId() + " AND SESSION_ID=" + sessionDTO.getSessionId() + " )  AS SOURCE\n"
                     + "  ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)\n"
                     + "   WHEN MATCHED\n"
-                    + "   THEN\n"
+                    + Constant.THEN
                     + "   UPDATE SET\n"
                     + "   TARGET.PERIOD_SID = SOURCE.PERIOD_SID,\n"
                     + "   TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,\n"
@@ -949,7 +934,7 @@ public class SupplementalDiscountProjectionLogic {
                     + "   TARGET.ACTUAL_PROJECTION_SALES=SOURCE.ACTUAL_PROJECTION_SALES,\n"
                     + "   TARGET.ACTUAL_PROJECTION_RATE=SOURCE.ACTUAL_PROJECTION_RATE\n"
                     + "    WHEN NOT MATCHED BY TARGET\n"
-                    + "   THEN\n"
+                    + Constant.THEN
                     + "   INSERT (PROJECTION_DETAILS_SID,PERIOD_SID,ACTUAL_SALES,ACTUAL_RATE,ACTUAL_PROJECTION_SALES,ACTUAL_PROJECTION_RATE) VALUES(SOURCE.PROJECTION_DETAILS_SID,\n"
                     + "   SOURCE.PERIOD_SID,\n"
                     + "   SOURCE.ACTUAL_SALES,\n"
@@ -979,7 +964,7 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public void clearTemp(final SessionDTO inputDto) {
-        Map<String, Object> input = new HashMap<String, Object>();
+        Map<String, Object> input = new HashMap<>();
         input.put("?UID", inputDto.getUserId());
         input.put("?SID", inputDto.getSessionId());
         Date tempDate = new Date();
@@ -1009,7 +994,7 @@ public class SupplementalDiscountProjectionLogic {
     public void insertInToTempTable(SessionDTO sessionDto) {
         clearTemp(sessionDto);
         try {
-            List<StringBuilder> queryList = new ArrayList<StringBuilder>();
+            List<StringBuilder> queryList = new ArrayList<>();
             StringBuilder query = new StringBuilder();
             final SimpleDateFormat fmt = new SimpleDateFormat(Constant.DATE_FORMAT);
             Date tempDate = fmt.parse(sessionDto.getSessionDate());
@@ -1111,15 +1096,15 @@ public class SupplementalDiscountProjectionLogic {
             levelName.add(Constant.CONTRACT_SMALL);
             levelName.add("Therapeutic Class");
             levelName.add(Constant.BRAND_CAPS);
-            levelName.add(Constant.PRODUCT);
+            levelName.add(Constant.PRODUCT_LABEL);
         }
         return levelName;
     }
 
     public List<Object> getLevelDdlbList(ProjectionSelectionDTO projSel) {
-        List<Object> returnList = new ArrayList<Object>();
+        List<Object> returnList = new ArrayList<>();
         try {
-            List<String> levelNameList = new ArrayList<String>();
+            List<String> levelNameList = new ArrayList<>();
             for (int i = 0; i < 4; i++) {
 
                 projSel.setSupplementalLevelName(getSupplementalLevelName(i));
@@ -1145,9 +1130,9 @@ public class SupplementalDiscountProjectionLogic {
         return returnList;
     }
 
-    public List<DiscountProjectionDTO> loadDTOList(ProjectionSelectionDTO projSelDTO, List<Object> masterData, int neededRecord) {
-        List<DiscountProjectionDTO> resultList = new ArrayList<DiscountProjectionDTO>();
-        List<Object> getNDCList = new ArrayList<Object>();
+    public List<DiscountProjectionDTO> loadDTOList(ProjectionSelectionDTO projSelDTO, List<Object> masterData) {
+        List<DiscountProjectionDTO> resultList = new ArrayList<>();
+        List<Object> getNDCList = new ArrayList<>();
         int count = 0;
         if (projSelDTO.getSupplementalLevelNo() == 2 || projSelDTO.getSupplementalLevelNo() == 4) {
             count = 6;
@@ -1241,7 +1226,7 @@ public class SupplementalDiscountProjectionLogic {
                     dto.setOnExpandTotalRow(1);
                     if (dto.getSupplementalLevelNo() == NumericConstants.FOUR || dto.getSupplementalLevelNo() == NumericConstants.FIVE) {
                         if (!StringUtils.EMPTY.equalsIgnoreCase(String.valueOf(obj[NumericConstants.ELEVEN])) && !Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.ELEVEN]))) {
-                            String str = StringUtils.EMPTY;
+                            String str;
                             if (String.valueOf(obj[NumericConstants.SEVEN]).equalsIgnoreCase(Constant.BRAND_CAPS)) {
                                 str = StringUtils.EMPTY.equals(String.valueOf(obj[NumericConstants.ELEVEN])) || Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.ELEVEN])) ? Constant.DASH : String.valueOf(obj[NumericConstants.ELEVEN]);
                             } else {
@@ -1269,8 +1254,6 @@ public class SupplementalDiscountProjectionLogic {
                 }
             }
         }
-        masterData = null;
-
         return resultList;
     }
 
@@ -1295,11 +1278,11 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public List<List> callParityProcedure(List<LookUpDTO> dtoList, String[] periodList, SessionDTO sessionDto) {
-        List<List> returnList = new ArrayList<List>();
-        final List<LookUpDTO> insertDtoList = new ArrayList<LookUpDTO>();
-        List<String> emptyNdcList = new ArrayList<String>();
-        List<List> emptyQuarterList = new ArrayList<List>();
-        List<String> emptyQuarterNdcName = new ArrayList<String>();
+        List<List> returnList = new ArrayList<>();
+        final List<LookUpDTO> insertDtoList = new ArrayList<>();
+        List<String> emptyNdcList = new ArrayList<>();
+        List<List> emptyQuarterList = new ArrayList<>();
+        List<String> emptyQuarterNdcName = new ArrayList<>();
 
         //emptyNdc
         //quarterEmtyNdc and quartername
@@ -1307,7 +1290,7 @@ public class SupplementalDiscountProjectionLogic {
         if (dtoList.size() > 0) {
 
             for (int i = 0; i < dtoList.size(); i++) {
-                List<String> quarList = new ArrayList<String>();
+                List<String> quarList = new ArrayList<>();
                 LookUpDTO lookUpDto = dtoList.get(i);
                 Object[] orderedArgs = {lookUpDto.getContractMasterSid(), lookUpDto.getItemMasterSid(), periodList[0],
                     periodList[periodList.length - 1], sessionDto.getUserId(), sessionDto.getSessionId()};
@@ -1364,8 +1347,8 @@ public class SupplementalDiscountProjectionLogic {
 
     public int getProjectionValue(String levelno, SessionDTO sessionDto) {
         int ccpDetailsId = 0;
-        String query = StringUtils.EMPTY;
-        List list = new ArrayList();
+        String query;
+        List list;
 
         query = "select CCP_DETAILS_SID from ST_M_SUPPLEMENTAL_DISC_MASTER \n"
                 + " CCP_DETAILS_SID in(\n"
@@ -1428,7 +1411,7 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public List<Object> getUpdateRecord(List<String> projectionDetailsList, String userId, String sessionId) {
-        List<Object> queryList = new ArrayList<Object>();
+        List<Object> queryList = new ArrayList<>();
         try {
             StringBuilder queryBuilder = new StringBuilder();
             String projectionDetailsId = StringUtils.EMPTY;
@@ -1467,14 +1450,13 @@ public class SupplementalDiscountProjectionLogic {
                 List<Object> list = (List<Object>) dao.executeSelectQuery(query.toString());
                 String tempPropertyId = propertyId.toString().replace(METHODOLOGY.getConstant(), StringUtils.EMPTY);
                 boolean[] containerPropertyCheck = new boolean[3];
-                containerPropertyCheck[0] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + "ContractPrice");
-                containerPropertyCheck[1] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + "Discount1");
-                containerPropertyCheck[2] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + "Discount2");
+                containerPropertyCheck[0] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + Constant.CONTRACT_PRICE_PROPERTY);
+                containerPropertyCheck[1] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + Constant.DISCOUNT_ONE);
+                containerPropertyCheck[2] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + Constant.DISCOUNT_TWO);
                 Map<String, Object> mapList = tableLogic.getExpandedTreeLevelList();
                 List<Object> currentContainerList = (List<Object>) ((Container.Indexed) tableLogic.getContainerDataSource()).getItemIds(0, tableLogic.getContainerDataSource().size());
                 if (list != null && list.size() > 0) {
                     Object[] ob = (Object[]) list.get(0);
-                    query = new StringBuilder();
                     methodologyUpdate(saveDto, session, ob, propertyId, tempStr, false);
                     updateFieldsBasedOnMethodology(tempPropertyId, tableLogic, ob, currentContainerList, propertyId, containerPropertyCheck, saveDto, tempStr);
                 } else {
@@ -1498,7 +1480,7 @@ public class SupplementalDiscountProjectionLogic {
         }
     }
 
-    private void populateMethodologyWithFormulaDetails(DiscountProjectionDTO saveDto, String value, Object fieldSelection, SessionDTO session, String projectionDetailsId) {
+    private void populateMethodologyWithFormulaDetails(DiscountProjectionDTO saveDto, String value, SessionDTO session) {
 
         String[] selectedLevelDetails = saveDto.getLevelDetails().split(",");
         int count = saveDto.getSupplementalLevelNo() == 1 ? selectedLevelDetails.length : 1;
@@ -1529,7 +1511,7 @@ public class SupplementalDiscountProjectionLogic {
                         List<Object> formulaList = getDataList(HeaderUtils.getQuarter(Integer.valueOf(ob[NumericConstants.THREE].toString())), Integer.valueOf(ob[NumericConstants.FIVE].toString()),
                                 HeaderUtils.getQuarter(Integer.valueOf(ob[NumericConstants.FOUR].toString())), Integer.valueOf(ob[NumericConstants.SIX].toString()), false);
                         List<Object> selectionList = getDataList(saveDto.getStartPeriod(), saveDto.getStartYear(), saveDto.getEndPeriod(), saveDto.getEndYear(), false);
-                        List<Object> finalList = new ArrayList<Object>();
+                        List<Object> finalList = new ArrayList<>();
                         for (Object object1 : formulaList) {
                             for (Object object2 : selectionList) {
                                 if (object1.toString().equalsIgnoreCase(object2.toString())) {
@@ -1562,7 +1544,7 @@ public class SupplementalDiscountProjectionLogic {
     public static List<Object> getDataList(int startPeriod, int startYear, int endPeriod, int endYear, boolean populateFlag) {
         int lastPr = NumericConstants.FOUR;
         int startPr = startPeriod;
-        List<Object> dmap = new ArrayList<Object>();
+        List<Object> dmap = new ArrayList<>();
         for (int yr = startYear; yr <= endYear; yr++) {
             if (yr == endYear) {
                 lastPr = endPeriod;
@@ -1629,7 +1611,7 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public int ndcCount(SessionDTO session, DiscountProjectionDTO saveDto, String columnName) {
-        List<Object> methodologyCount = new ArrayList<Object>();
+        List<Object> methodologyCount = new ArrayList<>();
         try {
             StringBuilder queryToCheckNdc = new StringBuilder();
             queryToCheckNdc.append("select DISTINCT " + columnName + " from ST_M_SUPPLEMENTAL_DISC_PROJ WHERE  CCP_DETAILS_SID IN ( " + CommonUtils.CollectionToString(saveDto.getParentCcpDetailIdList(), false) + " )\n"
@@ -1663,13 +1645,13 @@ public class SupplementalDiscountProjectionLogic {
             DiscountProjectionDTO saveDto, String[] tempStr) {
         if (saveDto.getSupplementalLevelNo() == NumericConstants.FIVE) {
             if (containerPropertyCheck[0]) {
-                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + "ContractPrice").setValue(ob[0].toString());
+                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + Constant.CONTRACT_PRICE_PROPERTY).setValue(ob[0].toString());
             }
             if (containerPropertyCheck[1]) {
-                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + "Discount1").setValue(ob[1].toString());
+                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + Constant.DISCOUNT_ONE).setValue(ob[1].toString());
             }
             if (containerPropertyCheck[NumericConstants.TWO]) {
-                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + "Discount2").setValue(ob[NumericConstants.TWO].toString());
+                tableLogic.getContainerDataSource().getContainerProperty(saveDto, tempPropertyId + Constant.DISCOUNT_TWO).setValue(ob[NumericConstants.TWO].toString());
             }
         } else {
             for (Object dto1 : currentContainerList) {
@@ -1678,13 +1660,13 @@ public class SupplementalDiscountProjectionLogic {
                         && String.valueOf(tempStr[0]).equals(dto.getItemIdForNdcLevel())) {
                     tableLogic.getContainerDataSource().getContainerProperty(dto1, propertyId).setValue(saveDto.getPropertyValue(propertyId));
                     if (containerPropertyCheck[0]) {
-                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + "ContractPrice").setValue(ob[0].toString());
+                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + Constant.CONTRACT_PRICE_PROPERTY).setValue(ob[0].toString());
                     }
                     if (containerPropertyCheck[1]) {
-                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + "Discount1").setValue(ob[1].toString());
+                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + Constant.DISCOUNT_ONE).setValue(ob[1].toString());
                     }
                     if (containerPropertyCheck[NumericConstants.TWO]) {
-                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + "Discount2").setValue(ob[NumericConstants.TWO].toString());
+                        tableLogic.getContainerDataSource().getContainerProperty(dto1, tempPropertyId + Constant.DISCOUNT_TWO).setValue(ob[NumericConstants.TWO].toString());
                     }
                 }
             }
@@ -1711,7 +1693,7 @@ public class SupplementalDiscountProjectionLogic {
                 + "   ) AS SOURCE\n"
                 + "   ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID)\n"
                 + "   WHEN MATCHED\n"
-                + "   THEN\n"
+                + Constant.THEN
                 + "   UPDATE SET\n"
                 + "   TARGET.MARKET_TYPE=SOURCE.MARKET_TYPE,\n"
                 + "   TARGET.ACTUAL_DISCOUNT=SOURCE.ACTUAL_DISCOUNT,\n"
@@ -1723,7 +1705,7 @@ public class SupplementalDiscountProjectionLogic {
                 + "   TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD, \n"
                 + "  TARGET.CASH_PAID_DATE =SOURCE.CASH_PAID_DATE \n"
                 + "   WHEN NOT MATCHED BY TARGET\n"
-                + "   THEN\n"
+                + Constant.THEN
                 + " INSERT( PROJECTION_DETAILS_SID,\n"
                 + "          MARKET_TYPE,\n"
                 + "          ACTUAL_DISCOUNT,\n"
@@ -1758,7 +1740,7 @@ public class SupplementalDiscountProjectionLogic {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -1816,7 +1798,7 @@ public class SupplementalDiscountProjectionLogic {
     }
 
     public List<String> getNativeDropDown() {
-        List<String> dropDownList = new ArrayList<String>();
+        List<String> dropDownList = new ArrayList<>();
         try {
 
             StringBuilder queryBuild = new StringBuilder();
@@ -1850,7 +1832,7 @@ public class SupplementalDiscountProjectionLogic {
      * @return
      */
     public Object loadFormula()  {
-        List<String> dropDownList = new ArrayList<String>();
+        List<String> dropDownList = new ArrayList<>();
         try {
             StringBuilder queryBuild = new StringBuilder();
             queryBuild.append("select distinct FORMULA_NAME from FORECASTING_FORMULA FF , HELPER_TABLE HT where FF.FORMULA_TYPE = HT.HELPER_TABLE_SID \n"
@@ -1879,7 +1861,7 @@ public class SupplementalDiscountProjectionLogic {
      * @return List<RebatePlanDTO>
      */
     private List<FormulaDTO> convertFormulaList(final List<String> list) {
-        List<FormulaDTO> resultList = new ArrayList<FormulaDTO>();
+        List<FormulaDTO> resultList = new ArrayList<>();
         for (String str : list) {
             FormulaDTO rSFormulaDTO = new FormulaDTO();
             rSFormulaDTO.setFormulaName(str);

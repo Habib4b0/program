@@ -108,13 +108,13 @@ public class DashboardSearchDAO implements BeanDAO<ContractMember> {
      * @return the list< contract member>
      */
     public List<ContractMember> find(final BeanSearchCriteria criteria, final int startIndex, final int offset, final List<OrderByColumn> columns) {
-        List<ContractMember> contractList = new ArrayList<ContractMember>();
+        List<ContractMember> contractList = new ArrayList<>();
         try {
             LOGGER.debug("Enters getAlSearchList method with parameters startIndex=" + startIndex + ", offset=" + offset + ", columns size=" + columns.size());
-            if (contractList != null) {
+            
             	contractList=logic.getComponentSearch(leftSearchBinder,component,criteria, startIndex, offset);
                 LOGGER.debug("End of  getAlSearchList method with contractList size=" + contractList.size());
-            }
+           
         } catch (Exception ex) {
           final   String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             LOGGER.error(errorMsg);

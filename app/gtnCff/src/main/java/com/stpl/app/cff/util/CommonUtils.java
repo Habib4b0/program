@@ -204,14 +204,18 @@ public class CommonUtils {
      * The Constant VAR_NETSALES.
      */
     public static final String VAR_NETSALES = "Net Sales";
+    
+    public static final String BUSINESS_PROCESS = "businessProcess";
+    
+    public static final String BP_NAME = "ALLERGAN";
 
-    static HashMap<String, String> cffColumnName = new HashMap<String, String>();
+    static HashMap<String, String> cffColumnName = new HashMap<>();
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
     public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
     public static final String BUSINESS_PROCESS_TYPE_CHANNELS = "Channel";
     public static final String BUSINESS_PROCESS_TYPE_RETURNS = "Returns";
-    public static final Object[] visibleColumnItemSearch = {"fileName", "fileType", "version", "activeFromDate", "activeToDate"};
-    public static final String[] columnHeaderItemSearch = {"File", "Type", "Version", "Active From", "Active To"};
+    public final Object[] visibleColumnItemSearch = {"fileName", "fileType", "version", "activeFromDate", "activeToDate"};
+    public final String[] columnHeaderItemSearch = {"File", "Type", "Version", "Active From", "Active To"};
     public static final String FILTERCOMBOBOX = "filterComboBox";
     private static final Date NULLOBJECT = null;
     public static final String EMPTY = ConstantsUtil.EMPTY;
@@ -260,7 +264,7 @@ public class CommonUtils {
      * @return the customized cff results
      */
     public List<CFFResultsDTO> getCustomizedCffResults(List<Object[]> resultsList) {
-        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<CFFResultsDTO>();
+        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<>();
         CFFResultsDTO cffResultsDTO;
         String s = "";
         HashMap<Long, String> hm = getUserInfo();
@@ -302,8 +306,8 @@ public class CommonUtils {
         return Arrays.asList(objectListToStringArray(objectList));
     }
 
-    public List<CFFResultsDTO> getCustomisedCFF(List<Object[]> list, SessionDTO sessionDTO) {
-        List<CFFResultsDTO> resultList = new ArrayList<CFFResultsDTO>();
+    public List<CFFResultsDTO> getCustomisedCFF(List<Object[]> list) {
+        List<CFFResultsDTO> resultList = new ArrayList<>();
         CFFResultsDTO cffResultsDTO;
         HashMap<Long, String> hm = getUserInfo();
         String userName = "";
@@ -394,7 +398,7 @@ public class CommonUtils {
     }
 
     public List<CFFResultsDTO> getCustomisedCFFDeatils(List<Object[]> list) {
-        List<CFFResultsDTO> resultList = new ArrayList<CFFResultsDTO>();
+        List<CFFResultsDTO> resultList = new ArrayList<>();
         CFFResultsDTO cffResultsDTO;
         HashMap<Long, String> hm = getUserInfo();
         String userName = "";
@@ -449,7 +453,7 @@ public class CommonUtils {
      */
     public HashMap<Long, String> getUserInfo() {
 
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil
                 .forClass(User.class);
         try {
@@ -457,7 +461,7 @@ public class CommonUtils {
         } catch (SystemException ex) {
             LOGGER.error(ex);
         }
-        HashMap<Long, String> userMap = new HashMap<Long, String>();
+        HashMap<Long, String> userMap = new HashMap<>();
         for (User user : users) {
             userMap.put(user.getUserId(), user.getFullName());
         }
@@ -502,7 +506,7 @@ public class CommonUtils {
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtil.LIST_NAME,
                 listName));
 
-        List<HelperTable> resultList = new ArrayList<HelperTable>();
+        List<HelperTable> resultList = new ArrayList<>();
         try {
             resultList = HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
 
@@ -545,7 +549,7 @@ public class CommonUtils {
      * @throws java.lang.Exception
      */
     public List<CFFSearchDTO> getCustomizedSearchResults(List<Object[]> resultList) {
-        List<CFFSearchDTO> cffSearchDTOs = new ArrayList<CFFSearchDTO>();
+        List<CFFSearchDTO> cffSearchDTOs = new ArrayList<>();
         CFFSearchDTO cffSearchDTOLoop;
         SimpleDateFormat form = new SimpleDateFormat("MM/dd/YYYY");
         Map<Integer, String> userInfo = StplSecurity.userMap;
@@ -611,7 +615,7 @@ public class CommonUtils {
     }
 
     public List<ApprovalDetailsDTO> getCustomisedApprovalDetails(List<CffApprovalDetails> approvalDetails) {
-        List<ApprovalDetailsDTO> custoList = new ArrayList<ApprovalDetailsDTO>();
+        List<ApprovalDetailsDTO> custoList = new ArrayList<>();
         ApprovalDetailsDTO dto;
         HashMap<Long, String> userInfo = getUserInfo();
         try {
@@ -644,7 +648,7 @@ public class CommonUtils {
     public HashMap<Integer, String> getApprovalDetails() {
 
         DynamicQuery cffApprovalDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
-        List<CffApprovalDetails> resultsList = new ArrayList<CffApprovalDetails>();
+        List<CffApprovalDetails> resultsList = new ArrayList<>();
         String s = "";
         HashMap<Long, String> userInfo = getUserInfo();
         int cffMasterId = 0;
@@ -653,7 +657,7 @@ public class CommonUtils {
         } catch (SystemException ex) {
             LOGGER.error(ex);
         }
-        HashMap<Integer, String> approvalDetails = new HashMap<Integer, String>();
+        HashMap<Integer, String> approvalDetails = new HashMap<>();
         for (CffApprovalDetails cffApprovalDetails : resultsList) {
             cffMasterId = cffApprovalDetails.getCffMasterSid();
             if (approvalDetails.get(cffMasterId) == null) {
@@ -793,9 +797,9 @@ public class CommonUtils {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtil.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
         }
@@ -1106,7 +1110,7 @@ public class CommonUtils {
     }
 
     public static Map<String, Integer> getHistoryEndDetails(SessionDTO session, String frequency) {
-        Map<String, Integer> history = new HashMap<String, Integer>();
+        Map<String, Integer> history;
         history = session.getHistoryEndDetails(frequency);
         if (history == null || history.isEmpty()) {
             history = getHistoryEndDetail(session, frequency);
@@ -1116,7 +1120,7 @@ public class CommonUtils {
     }
 
     private static Map<String, Integer> getHistoryEndDetail(SessionDTO session, String frequency) {
-        Map<String, Integer> history = new HashMap<String, Integer>();
+        Map<String, Integer> history = new HashMap<>();
         int frequencyDivision = 1;
         int historyEndPeriod = 1;
         int historyEndMonth = 1;
@@ -1241,7 +1245,7 @@ public class CommonUtils {
 
     public static List<String> loadHistory(String frequency, String period, SessionDTO session) {
         LOGGER.debug("Entering loadHistory method");
-        List<String> history = new ArrayList<String>();
+        List<String> history;
         history = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
@@ -1285,9 +1289,9 @@ public class CommonUtils {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtil.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
 }
@@ -1318,9 +1322,9 @@ public class CommonUtils {
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtil.DESCRIPTION);
         select.setData(listName);
-        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        List<HelperDTO> helperList = new ArrayList<>();
         helperList.add(defaultValue);
-        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<>(HelperDTO.class);
         if (helperListUtil.getListNameMap().get(listName) != null) {
             helperList.addAll(helperListUtil.getListNameMap().get(listName));
         }
@@ -1340,4 +1344,8 @@ public class CommonUtils {
         });
         return select;
     }
-        }
+    
+    public static boolean isValueEligibleForLoading() {
+        return System.getProperty(BUSINESS_PROCESS).equals(BP_NAME);
+    }
+}

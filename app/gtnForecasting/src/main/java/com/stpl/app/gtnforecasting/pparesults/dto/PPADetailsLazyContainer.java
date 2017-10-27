@@ -54,7 +54,7 @@ public class PPADetailsLazyContainer implements DAO<HelperDTO> {
         try {
             if (Constant.CONTRACT.equalsIgnoreCase(ddlbType) || ppaDetailsDTO.getSelectedContract() != 0
                     || ppaDetailsDTO.getSelectedCustomer() != 0 || ppaDetailsDTO.getSelectedBrand() != 0) {
-                count = logic.getPPADetailsDDLBCount(sc.getFilter(), dto, ddlbType, projectionId, ppaDetailsDTO);
+                count = logic.getPPADetailsDDLBCount(sc.getFilter(), ddlbType, projectionId, ppaDetailsDTO);
             }
 
         } catch (Exception ex) {

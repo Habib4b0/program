@@ -77,7 +77,7 @@ public class DiscountSelection extends Window {
     /**
      * The branditem bean.
      */
-    private BeanItemContainer<DiscountSelectionDTO> discountSelectionBean = new BeanItemContainer<DiscountSelectionDTO>(DiscountSelectionDTO.class);
+    private BeanItemContainer<DiscountSelectionDTO> discountSelectionBean = new BeanItemContainer<>(DiscountSelectionDTO.class);
 
     /**
      * The Constant LOGGER.
@@ -87,12 +87,12 @@ public class DiscountSelection extends Window {
     /**
      * Discount Names list
      */
-    List<String> selectedDiscounts = new ArrayList<String>();
+    List<String> selectedDiscounts = new ArrayList<>();
 
     /**
      * Discount Names list
      */
-    List<String> selectedDiscountsNoList = new ArrayList<String>();
+    List<String> selectedDiscountsNoList = new ArrayList<>();
 
     /**
      * The Constructor.
@@ -222,7 +222,7 @@ public class DiscountSelection extends Window {
              * Called when close button is clicked
              */
             public void buttonClick(final Button.ClickEvent event) {
-                List<List<String>> discountRSlist = new ArrayList<List<String>>();
+                List<List<String>> discountRSlist = new ArrayList<>();
                 List<String> rsIdList = new ArrayList<>();
                 List<String> rsNameList = new ArrayList<>();
                 selectedDiscounts.clear();
@@ -243,7 +243,7 @@ public class DiscountSelection extends Window {
                     }
                 }
 
-                if (selectedDiscounts != null && !selectedDiscounts.isEmpty()) {
+                if (!selectedDiscounts.isEmpty()) {
                     discountRSlist.add(rsIdList);
                     discountRSlist.add(rsNameList);
                     discountRSlist.add(selectedDiscounts);
@@ -267,7 +267,7 @@ public class DiscountSelection extends Window {
 
                     @Override
                     public void noMethod() {
-
+                        return;
                     }
 
                     @Override

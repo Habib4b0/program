@@ -55,6 +55,7 @@ public class ItemPricingWrapper implements ItemPricing,
         attributes.put("inboundStatus", getInboundStatus());
         attributes.put("itemPricingSid", getItemPricingSid());
         attributes.put("pricingCodeStatus", getPricingCodeStatus());
+        attributes.put("itemPricePrecision", getItemPricePrecision());
 
         return attributes;
     }
@@ -163,6 +164,13 @@ public class ItemPricingWrapper implements ItemPricing,
 
         if (pricingCodeStatus != null) {
             setPricingCodeStatus(pricingCodeStatus);
+        }
+
+        Integer itemPricePrecision = (Integer) attributes.get(
+                "itemPricePrecision");
+
+        if (itemPricePrecision != null) {
+            setItemPricePrecision(itemPricePrecision);
         }
     }
 
@@ -534,6 +542,26 @@ public class ItemPricingWrapper implements ItemPricing,
     @Override
     public void setPricingCodeStatus(int pricingCodeStatus) {
         _itemPricing.setPricingCodeStatus(pricingCodeStatus);
+    }
+
+    /**
+    * Returns the item price precision of this item pricing.
+    *
+    * @return the item price precision of this item pricing
+    */
+    @Override
+    public int getItemPricePrecision() {
+        return _itemPricing.getItemPricePrecision();
+    }
+
+    /**
+    * Sets the item price precision of this item pricing.
+    *
+    * @param itemPricePrecision the item price precision of this item pricing
+    */
+    @Override
+    public void setItemPricePrecision(int itemPricePrecision) {
+        _itemPricing.setItemPricePrecision(itemPricePrecision);
     }
 
     @Override

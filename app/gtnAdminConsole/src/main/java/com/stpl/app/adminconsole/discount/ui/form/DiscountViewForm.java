@@ -66,18 +66,18 @@ public class DiscountViewForm extends CustomComponent implements View {
     /**
      * The Constant DISCOUNT_TABLE_COLUMNS.
      */
-    public static final Object[] DISCOUNT_TABLE_COLUMNS = new Object[]{
+    public final Object[] discountTableColumns = new Object[]{
         "rebateName", "rebateNo", "rebateScheduleType", "rebateProgramType", "rebateScheduleCategory", "rebatePlanLevel"};
     /**
      * The Constant DISCOUNT_TABLE_HEADER.
      */
-    public static final String[] DISCOUNT_TABLE_HEADER = new String[]{
+    public final String[] discountTableHeader = new String[]{
         "RebateName", "RebateNo", "RebateScheduleType", "RebateProgramType", "RebateScheduleCategory", "RebatePlanLevel"};
 
     /**
      * The results bean.
      */
-    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<DiscountSearchDTO>(DiscountSearchDTO.class);
+    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
 
     /**
      * Gets the results bean.
@@ -156,8 +156,8 @@ public class DiscountViewForm extends CustomComponent implements View {
      *
      * @return the discount table columns
      */
-    public static Object[] getDiscountTableColumns() {
-        return DISCOUNT_TABLE_COLUMNS;
+    public Object[] getDiscountTableColumns() {
+        return discountTableColumns;
     }
 
     /**
@@ -165,8 +165,8 @@ public class DiscountViewForm extends CustomComponent implements View {
      *
      * @return the discount table header
      */
-    public static String[] getDiscountTableHeader() {
-        return DISCOUNT_TABLE_HEADER;
+    public String[] getDiscountTableHeader() {
+        return discountTableHeader;
     }
 
     /**
@@ -260,8 +260,8 @@ public class DiscountViewForm extends CustomComponent implements View {
         selectedRebate.setFilterBarVisible(true);
         selectedRebate.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedRebate.setContainerDataSource(resultsBean);
-        selectedRebate.setVisibleColumns(DISCOUNT_TABLE_COLUMNS);
-        selectedRebate.setColumnHeaders(DISCOUNT_TABLE_HEADER);
+        selectedRebate.setVisibleColumns(discountTableColumns);
+        selectedRebate.setColumnHeaders(discountTableHeader);
         selectedRebate.setSelectable(false);
         selectedRebate.setPageLength(NumericConstants.FIVE);
         selectedRebate.setSizeFull();
@@ -321,8 +321,7 @@ public class DiscountViewForm extends CustomComponent implements View {
      */
     @Override
     public void enter(final ViewChangeEvent event) {
-
-      
+        return;
     }
 
     /**

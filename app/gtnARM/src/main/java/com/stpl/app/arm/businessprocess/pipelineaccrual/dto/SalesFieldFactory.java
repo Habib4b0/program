@@ -35,7 +35,7 @@ public class SalesFieldFactory implements TableFieldFactory {
     private final int projectionId;
     private static final Logger LOGGER = Logger.getLogger(SalesFieldFactory.class);
     private final ExecutorService service = ThreadPool.getInstance().getService();
-    DataFormatConverter CUR_THREE = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
+    DataFormatConverter curthree = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
     PipelineAccrualSelectionDTO selection;
 
     public SalesFieldFactory(SalesLogic logic, PipelineAccrualSelectionDTO selection) {
@@ -47,12 +47,12 @@ public class SalesFieldFactory implements TableFieldFactory {
     @Override
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
         AdjustmentDTO dto = (AdjustmentDTO) itemId;
-        if (!dto.getChildrenAllowed() && VariableConstants.PRICE_OVERRIDE.equals(propertyId.toString()) && !ARMUtils.levelVariablesVarables.BRAND.toString().equalsIgnoreCase(String.valueOf(selection.getSales_levelFilterValue()))) {
+        if (!dto.getChildrenAllowed() && VariableConstants.PRICE_OVERRIDE.equals(propertyId.toString()) && !ARMUtils.levelVariablesVarables.BRAND.toString().equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue()))) {
             final TextField priceoverride = new TextField();
             priceoverride.setData(itemId);
             priceoverride.setImmediate(true);
             priceoverride.addStyleName("txtRightAlign");
-            priceoverride.setConverter(CUR_THREE);
+            priceoverride.setConverter(curthree);
             priceoverride.addFocusListener(new FieldEvents.FocusListener() {
                 @Override
                 public void focus(FieldEvents.FocusEvent event) {
@@ -90,11 +90,11 @@ public class SalesFieldFactory implements TableFieldFactory {
                 List input = new ArrayList();
                 input.add(selection.getSessionDTO().getCurrentTableNames().get(ST_ARM_PIPELINE_SALES.toString()));
                 input.add(isEmptied ? "NULL" : value.toString());
-                input.add(Integer.valueOf(dto.getBrand_item_masterSid()));
+                input.add(Integer.valueOf(dto.getBranditemmasterSid()));
                 input.add(projectionId);
                 service.submit(new UpdateOverride(input));
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("Error in priceOverrideListener :"+e);
             }
         }
     };

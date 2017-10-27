@@ -36,17 +36,13 @@ public class AssumptionPVSContainer  implements DAO<AssumptionPVDTO> {
 
     @Override
     public int count(SearchCriteria sc) {
-        try {
             count = logic.getLineCount(session);
-        } catch (SystemException ex) {
-             LOGGER.error(ex);
-        }
         return count;
     }
 
     @Override
     public List<AssumptionPVDTO> find(SearchCriteria sc, int i, int i1, List<OrderByColumn> list) {
-        List<AssumptionPVDTO> resultList = new ArrayList<AssumptionPVDTO>();
+        List<AssumptionPVDTO> resultList = new ArrayList<>();
         final int currentPage=table.getLeftFreezeAsTable().getCurrentPage()-1;
         final int pageLength=Integer.parseInt(String.valueOf(noOfRecs.getValue()));
         int offset=i1;

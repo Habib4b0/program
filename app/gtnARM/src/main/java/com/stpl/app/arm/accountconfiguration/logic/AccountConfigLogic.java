@@ -9,6 +9,7 @@ import com.stpl.app.arm.accountconfiguration.dto.AccountConfigDTO;
 import com.stpl.app.arm.accountconfiguration.dto.AccountConfigSelection;
 import com.stpl.app.arm.common.CommonFilterLogic;
 import com.stpl.app.arm.common.CommonLogic;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -24,6 +25,7 @@ import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
 import com.vaadin.data.Container;
 import com.vaadin.ui.ComboBox;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -63,23 +65,29 @@ public class AccountConfigLogic {
     }
 
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         try {
             resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            LOGGER.debug("resultList -- >>" + resultList.size());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in getFieldsForSecurity :"+ex);
         }
         return resultList;
     }
 
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.info("Enters getUserName method");
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
-        List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
-        for (User user : userList) {
-            userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+        try {
+            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+            List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
+            for (User user : userList) {
+                userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            }
+            LOGGER.debug("userMap -->" + userMap.size());
+            LOGGER.info("End of getUserName method");
+        } catch (Exception ex) {
+            LOGGER.error("Error in getUserName :"+ex);
         }
-        LOGGER.info("End of getUserName method");
         return userMap;
     }
 
@@ -89,12 +97,18 @@ public class AccountConfigLogic {
      * @param binderDto
      * @return int- count
      */
-    public int getAccountConfigCount(final AccountConfigDTO binderDto) throws Exception {
-        List searchInput = getSearchInputList(binderDto);
-        return CommonLogic.getCount(QueryUtils.getItemData(searchInput, "searchAccountConfig-count", null));
+    public int getAccountConfigCount(final AccountConfigDTO binderDto) {
+        int count = NumericConstants.ZERO;
+        try {
+            List searchInput = getSearchInputList(binderDto);
+            count = CommonLogic.getCount(QueryUtils.getItemData(searchInput, "searchAccountConfig-count", null));
+        } catch (Exception e) {
+            LOGGER.error("Error in getAccountConfigCount :"+e);
+        }
+        return count;
     }
 
-    public List getAccountConfigData(final AccountConfigDTO binderDto) throws Exception {
+    public List getAccountConfigData(final AccountConfigDTO binderDto) throws SQLException {
         List searchInput = getSearchInputList(binderDto);
         StringBuilder orderByQuery = CommonFilterLogic.getInstance().orderByQueryGenerator(binderDto.getSortByColumns(), getSortingMap(), "ACC.GL_COMPANY_MASTER_SID");
         searchInput.add(orderByQuery);
@@ -102,8 +116,7 @@ public class AccountConfigLogic {
         searchInput.add(binderDto.getOffset());
 
         List<Object[]> queryResultList = QueryUtils.getItemData(searchInput, "searchAccountConfig-Data", null);
-        List<AccountConfigDTO> resultList = getCustomizedAccountConfigResultList(queryResultList);
-        return resultList;
+        return getCustomizedAccountConfigResultList(queryResultList);
     }
 
     private List getSearchInputList(final AccountConfigDTO binderDto) throws SQLException {
@@ -139,16 +152,18 @@ public class AccountConfigLogic {
 
         StringBuilder sql = CommonFilterLogic.getInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap());
         if (sql != null) {
-            inputList.add(sql.toString().replace("where", " AND "));
+            inputList.add(sql.toString().replace(CommonConstant.WHERE, CommonConstant.AND));
         } else {
             inputList.add(StringUtils.EMPTY);
         }
         return inputList;
     }
 
-    private List<AccountConfigDTO> getCustomizedAccountConfigResultList(List<Object[]> resultList) throws Exception {
+    private List<AccountConfigDTO> getCustomizedAccountConfigResultList(List<Object[]> resultList) {
+        LOGGER.debug("--Inside getCustomizedAccountConfigResultList--");
         List<AccountConfigDTO> fullDataList = new ArrayList<>();
-        if (resultList != null & !resultList.isEmpty()) {
+        LOGGER.debug("resultList--" + resultList.size());
+        if (resultList != null && !resultList.isEmpty()) {
             for (Object[] str : resultList) {
                 AccountConfigDTO dto = new AccountConfigDTO();
                 dto.setCompanyNo(str[NumericConstants.ZERO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ZERO]));
@@ -172,46 +187,44 @@ public class AccountConfigLogic {
                 fullDataList.add(dto);
             }
         }
+        LOGGER.debug("fullDataList--" + fullDataList.size());
         return fullDataList;
     }
 
     private Map<String, String> getFilterMap() {
         Map<String, String> filterMap = new HashMap<>();
-        filterMap.put("companyNo", "CM.COMPANY_MASTER_SID");
-        filterMap.put("companyName", "cm.COMPANY_NAME");
-        filterMap.put("businessUnitNo", "BU.COMPANY_MASTER_SID");
-        filterMap.put("businessUnitName", "BU.COMPANY_NAME");
-        filterMap.put("account", "ACC.ACCOUNT");
-        filterMap.put("costCentre", "ACC.COST_CENTER");
-        filterMap.put("brand", "ACC.BRAND_MASTER_SID");
-        filterMap.put("createdBy", "ACC.CREATED_BY");
-        filterMap.put("createdDate", "ACC.CREATED_DATE");
-        filterMap.put("modifiedDate", "ACC.MODIFIED_DATE");
-        filterMap.put("source", "ACC.\"SOURCE\"");
-//        filterMap.put("SID", "ACC.GL_COMPANY_MASTER_SID");
+        filterMap.put(CommonConstant.COMPANY_NO, "CM.COMPANY_MASTER_SID");
+        filterMap.put(CommonConstant.COMPANY_NAME, "cm.COMPANY_NAME");
+        filterMap.put(CommonConstant.BUSINESS_UNIT_NO, "BU.COMPANY_MASTER_SID");
+        filterMap.put(CommonConstant.BUSINESS_UNIT_NAME, "BU.COMPANY_NAME");
+        filterMap.put(CommonConstant.ACCOUNT, "ACC.ACCOUNT");
+        filterMap.put(CommonConstant.COST_CENTRE, "ACC.COST_CENTER");
+        filterMap.put(CommonConstant.BRAND, "ACC.BRAND_MASTER_SID");
+        filterMap.put(CommonConstant.CREATED_BY, "ACC.CREATED_BY");
+        filterMap.put(CommonConstant.CREATED_DATE, "ACC.CREATED_DATE");
+        filterMap.put(CommonConstant.MODIFIED_DATE, "ACC.MODIFIED_DATE");
+        filterMap.put(CommonConstant.SOURCE, "ACC.\"SOURCE\"");
         return filterMap;
     }
 
     private Map<String, String> getSortingMap() {
         Map<String, String> filterMap = new HashMap<>();
-        filterMap.put("companyNo", "CM.COMPANY_NO");
-        filterMap.put("companyName", "cm.COMPANY_NAME");
-        filterMap.put("businessUnitNo", "BU.COMPANY_NO");
-        filterMap.put("businessUnitName", "BU.COMPANY_NAME");
-        filterMap.put("account", "ACC.ACCOUNT");
-        filterMap.put("costCentre", "ACC.COST_CENTER");
-        filterMap.put("brand", "bm.BRAND_NAME");
-        filterMap.put("createdBy", "(cr.firstName + ' ' + cr.lastName)");
-        filterMap.put("createdDate", "ACC.CREATED_DATE");
-        filterMap.put("modifiedDate", "ACC.MODIFIED_DATE");
-        filterMap.put("source", "ACC.\"SOURCE\"");
-//        filterMap.put("SID", "ACC.GL_COMPANY_MASTER_SID");
+        filterMap.put(CommonConstant.COMPANY_NO, "CM.COMPANY_NO");
+        filterMap.put(CommonConstant.COMPANY_NAME, "cm.COMPANY_NAME");
+        filterMap.put(CommonConstant.BUSINESS_UNIT_NO, "BU.COMPANY_NO");
+        filterMap.put(CommonConstant.BUSINESS_UNIT_NAME, "BU.COMPANY_NAME");
+        filterMap.put(CommonConstant.ACCOUNT, "ACC.ACCOUNT");
+        filterMap.put(CommonConstant.COST_CENTRE, "ACC.COST_CENTER");
+        filterMap.put(CommonConstant.BRAND, CommonConstant.BM_BRAND_NAME);
+        filterMap.put(CommonConstant.CREATED_BY, "(cr.firstName + ' ' + cr.lastName)");
+        filterMap.put(CommonConstant.CREATED_DATE, "ACC.CREATED_DATE");
+        filterMap.put(CommonConstant.MODIFIED_DATE, "ACC.MODIFIED_DATE");
+        filterMap.put(CommonConstant.SOURCE, "ACC.\"SOURCE\"");
         return filterMap;
     }
 
     public List<Object[]> loadAccountDdlb(List inputList) {
-        List<Object[]> queryResultList = QueryUtils.getItemData(inputList, "loadAccountDdlb", null);
-        return queryResultList;
+        return QueryUtils.getItemData(inputList, "loadAccountDdlb", null);
     }
 
     public int addLine(AccountConfigSelection selection) {
@@ -245,91 +258,28 @@ public class AccountConfigLogic {
 
     }
 
-    public int getAccountConfigCount(AccountConfigSelection selection, Set<Container.Filter> filters) throws Exception {
+    public int getAccountConfigCount(AccountConfigSelection selection, Set<Container.Filter> filters) throws SQLException {
         List<Object> input = new ArrayList();
         List<Object> inputtemp = new ArrayList();
         List<Object[]> data = new ArrayList<>();
-        StringBuilder account=new StringBuilder();
-        StringBuilder brand=new StringBuilder();
+        StringBuilder account = new StringBuilder();
+        StringBuilder brand = new StringBuilder();
         try (Connection con = SysDataSourceConnection.getConnection()) {
             input.add(selection.getTempTableName());
             input.add(con.getCatalog());
             StringBuilder filterQuery = CommonFilterLogic.getInstance().filterQueryGenerator(filters, loadFilterQueryMap());
-            input.add(filterQuery != null ? filterQuery.toString().replace("where", " AND ") : StringUtils.EMPTY);
+            input.add(filterQuery != null ? filterQuery.toString().replace(CommonConstant.WHERE, CommonConstant.AND) : StringUtils.EMPTY);
             if (selection.isCurrentView()) {
                 data = QueryUtils.getItemData(input, "AccoutConfig-Count", null);
             } else {
-                  if (!selection.getSession().getMode().equals("ADD") && !selection.getSession().getMode().equalsIgnoreCase("Copy")) {
+                if (!"ADD".equals(selection.getSession().getMode()) && !"Copy".equalsIgnoreCase(selection.getSession().getMode())) {
                     input.remove(selection.getTempTableName());
                     input.add(0, "HIST_ARM_ACC_CONFIG");
                     inputtemp.add(selection.getTempTableName());
-                     
+
                     input.add(selection.getSearchAccConfigDTO().getCompanySid());
                     input.add(selection.getSearchAccConfigDTO().getBuSid());
-                      if (selection.getSession().getMode().equalsIgnoreCase("View")) {
-                          account.append("'").append(selection.getSearchAccConfigDTO().getAccount()).append("'");
-                          input.add(account);
-                          input.add(selection.getSearchAccConfigDTO().getBrandSid());
-                      } else {
-                          List<Object> list = QueryUtils.getItemData(inputtemp, "temptable-Account", null);
-                          List<Object> list1 = QueryUtils.getItemData(inputtemp, "temptable-Brand", null);
-
-                          for (Object obj1 : list1) {
-                              brand.append(obj1).append(",");
-                          }
-                          brand.replace(brand.lastIndexOf(","), brand.lastIndexOf(",") + 1, "");
-                          for (Object obj1 : list) {
-                              account.append("'").append(obj1).append("'").append(",");
-                          }
-                          account.replace(account.lastIndexOf(","), account.lastIndexOf(",") + 1, "");
-                          input.add(account);
-                          input.add(brand);
-                      }
-                    
-                    data = QueryUtils.getItemData(input, "AccoutConfig-Count-History", null);
-                }
-            }
-            return CommonLogic.getCount(data);
-        }
-    }
-
-    /**
-     *
-     *
-     * @param selection
-     * @param start
-     * @param offset
-     * @param filters
-     * @param sortByColumns
-     * @return List<AccountConfigDTO>
-     * @throws java.lang.Exception
-     */
-    public List getAccountConfigData(AccountConfigSelection selection, int start, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws Exception {
-        List<Object> input = new ArrayList();
-        List<Object> inputtemp = new ArrayList();
-        List<Object[]> data = new ArrayList<>();
-        StringBuilder account=new StringBuilder();
-        StringBuilder brand=new StringBuilder();
-        try (Connection con = SysDataSourceConnection.getConnection()) {
-            input.add(selection.getTempTableName());
-            input.add(con.getCatalog());
-            StringBuilder filterQuery = CommonFilterLogic.getInstance().filterQueryGenerator(filters, loadFilterQueryMap());
-            
-            if (selection.isCurrentView()) {
-            input.add(filterQuery != null ? filterQuery.toString().replace("where", " AND ") : StringUtils.EMPTY);
-            StringBuilder sortByQuery = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, loadSortedQueryMap(), selection.isCurrentView() ? "ARM_ACC_CONFIG_SID" : "GL_COMPANY_MASTER_SID");
-            input.add(sortByQuery);
-            input.add(start);
-            input.add(offset);
-                data = QueryUtils.getItemData(input, "AccoutConfig-LoadData", null);
-            } else {
-                if (!selection.getSession().getMode().equals("ADD") && !selection.getSession().getMode().equalsIgnoreCase("Copy")) {
-                    input.remove(selection.getTempTableName());
-                    input.add(0, "HIST_ARM_ACC_CONFIG");
-                    inputtemp.add(selection.getTempTableName());
-                    input.add(selection.getSearchAccConfigDTO().getCompanySid());
-                    input.add(selection.getSearchAccConfigDTO().getBuSid());
-                    if (selection.getSession().getMode().equalsIgnoreCase("View")) {
+                    if ("View".equalsIgnoreCase(selection.getSession().getMode())) {
                         account.append("'").append(selection.getSearchAccConfigDTO().getAccount()).append("'");
                         input.add(account);
                         input.add(selection.getSearchAccConfigDTO().getBrandSid());
@@ -348,7 +298,71 @@ public class AccountConfigLogic {
                         input.add(account);
                         input.add(brand);
                     }
-                    input.add(filterQuery != null ? filterQuery.toString().replace("where", " AND ") : StringUtils.EMPTY);
+
+                    data = QueryUtils.getItemData(input, "AccoutConfig-Count-History", null);
+                }
+            }
+            return CommonLogic.getCount(data);
+        }
+    }
+
+    /**
+     *
+     *
+     * @param selection
+     * @param start
+     * @param offset
+     * @param filters
+     * @param sortByColumns
+     * @return List<AccountConfigDTO>
+     * @throws SQLException
+     * @throws java.lang.Exception
+     */
+    public List getAccountConfigData(AccountConfigSelection selection, int start, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) throws SQLException {
+        List<Object> input = new ArrayList();
+        List<Object> inputtemp = new ArrayList();
+        List<Object[]> data = new ArrayList<>();
+        StringBuilder account = new StringBuilder();
+        StringBuilder brand = new StringBuilder();
+        try (Connection con = SysDataSourceConnection.getConnection()) {
+            input.add(selection.getTempTableName());
+            input.add(con.getCatalog());
+            StringBuilder filterQuery = CommonFilterLogic.getInstance().filterQueryGenerator(filters, loadFilterQueryMap());
+
+            if (selection.isCurrentView()) {
+                input.add(filterQuery != null ? filterQuery.toString().replace(CommonConstant.WHERE, CommonConstant.AND) : StringUtils.EMPTY);
+                StringBuilder sortByQuery = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, loadSortedQueryMap(), selection.isCurrentView() ? "ARM_ACC_CONFIG_SID" : "GL_COMPANY_MASTER_SID");
+                input.add(sortByQuery);
+                input.add(start);
+                input.add(offset);
+                data = QueryUtils.getItemData(input, "AccoutConfig-LoadData", null);
+            } else {
+                if (!"ADD".equals(selection.getSession().getMode()) && !"Copy".equalsIgnoreCase(selection.getSession().getMode())) {
+                    input.remove(selection.getTempTableName());
+                    input.add(0, "HIST_ARM_ACC_CONFIG");
+                    inputtemp.add(selection.getTempTableName());
+                    input.add(selection.getSearchAccConfigDTO().getCompanySid());
+                    input.add(selection.getSearchAccConfigDTO().getBuSid());
+                    if ("View".equalsIgnoreCase(selection.getSession().getMode())) {
+                        account.append("'").append(selection.getSearchAccConfigDTO().getAccount()).append("'");
+                        input.add(account);
+                        input.add(selection.getSearchAccConfigDTO().getBrandSid());
+                    } else {
+                        List<Object> list = QueryUtils.getItemData(inputtemp, "temptable-Account", null);
+                        List<Object> list1 = QueryUtils.getItemData(inputtemp, "temptable-Brand", null);
+
+                        for (Object obj1 : list1) {
+                            brand.append(obj1).append(",");
+                        }
+                        brand.replace(brand.lastIndexOf(","), brand.lastIndexOf(",") + 1, "");
+                        for (Object obj1 : list) {
+                            account.append("'").append(obj1).append("'").append(",");
+                        }
+                        account.replace(account.lastIndexOf(","), account.lastIndexOf(",") + 1, "");
+                        input.add(account);
+                        input.add(brand);
+                    }
+                    input.add(filterQuery != null ? filterQuery.toString().replace(CommonConstant.WHERE, CommonConstant.AND) : StringUtils.EMPTY);
                     StringBuilder sortByQuery = CommonFilterLogic.getInstance().orderByQueryGenerator(sortByColumns, loadSortedQueryMap(), selection.isCurrentView() ? "ARM_ACC_CONFIG_SID" : "GL_COMPANY_MASTER_SID");
                     input.add(sortByQuery);
                     input.add(start);
@@ -366,7 +380,7 @@ public class AccountConfigLogic {
      * @param data
      * @return List<AccountConfigDTO>
      */
-    private List<AccountConfigDTO> customizeAccConfig(List<Object[]> data) throws Exception {
+    private List<AccountConfigDTO> customizeAccConfig(List<Object[]> data) {
         List<AccountConfigDTO> finalResult = new ArrayList<>();
         HelperDTO companyDto;
         HelperDTO businessUnitDto;
@@ -466,10 +480,13 @@ public class AccountConfigLogic {
 
         comboBox.addItem(NumericConstants.ZERO);
         comboBox.setItemCaption(NumericConstants.ZERO, isFiler ? ConstantsUtils.SHOW_ALL : GlobalConstants.getSelectOne());
+        List<Object[]> resultsListValue;
         if (resultsList.isEmpty()) {
-            resultsList = QueryUtils.getItemData(new ArrayList(), "loadBrand", null);
+            resultsListValue = QueryUtils.getItemData(new ArrayList(), "loadBrand", null);
+        } else {
+            resultsListValue = resultsList;
         }
-        for (Object[] obj : resultsList) {
+        for (Object[] obj : resultsListValue) {
             if (obj[NumericConstants.TWO] != null) {
                 comboBox.addItem((int) obj[NumericConstants.ZERO]);
                 comboBox.setItemCaption((int) obj[NumericConstants.ZERO], (isIdAndNameRequired ? (obj[NumericConstants.ONE] + " - ") : "") + obj[NumericConstants.TWO] + "");
@@ -502,7 +519,8 @@ public class AccountConfigLogic {
      * @return boolean true/false
      */
     public boolean isCheckedAtleastOneItem(String tempTableName) {
-        List<Object[]> checkedCountList = QueryUtils.getItemData(Arrays.asList(new String[]{tempTableName}), "isCheckedAtleastOneItem", null);
+        String[] tempTable = new String[]{tempTableName};
+        List<Object[]> checkedCountList = QueryUtils.getItemData(Arrays.asList(tempTable), "isCheckedAtleastOneItem", null);
         return CommonLogic.getCount(checkedCountList) != 0;
     }
 
@@ -576,43 +594,43 @@ public class AccountConfigLogic {
     private Map<String, String> loadFilterQueryMap() {
         Map<String, String> filterQueryMap = new HashMap<>();
         filterQueryMap.put("companyNoHelperDto", "comp.COMPANY_MASTER_SID");
-        filterQueryMap.put("companyNo", "comp.COMPANY_MASTER_SID");
+        filterQueryMap.put(CommonConstant.COMPANY_NO, "comp.COMPANY_MASTER_SID");
         filterQueryMap.put("businessNoHelperDto", "bu.COMPANY_MASTER_SID");
-        filterQueryMap.put("businessUnitNo", "bu.COMPANY_MASTER_SID");
-        filterQueryMap.put("account", "ACCOUNT");
+        filterQueryMap.put(CommonConstant.BUSINESS_UNIT_NO, "bu.COMPANY_MASTER_SID");
+        filterQueryMap.put(CommonConstant.ACCOUNT, "ACCOUNT");
         filterQueryMap.put("brandDdlb", "TEMP.BRAND_MASTER_SID");
-        filterQueryMap.put("brand", "TEMP.BRAND_MASTER_SID");
-        filterQueryMap.put("costCentre", "COST_CENTER");
+        filterQueryMap.put(CommonConstant.BRAND, "TEMP.BRAND_MASTER_SID");
+        filterQueryMap.put(CommonConstant.COST_CENTRE, "COST_CENTER");
         filterQueryMap.put("checkRecord", "CHECK_RECORD");
-        filterQueryMap.put("companyName", "COMP.COMPANY_NAME");
-        filterQueryMap.put("businessUnitName", "bU.COMPANY_NAME");
-        filterQueryMap.put("createdBy", "TEMP.CREATED_BY");
-        filterQueryMap.put("modifiedDate", "TEMP.MODIFIED_DATE");
-        filterQueryMap.put("createdDate", "TEMP.CREATED_DATE");
-        filterQueryMap.put("source", "TEMP.SOURCE");
+        filterQueryMap.put(CommonConstant.COMPANY_NAME, "COMP.COMPANY_NAME");
+        filterQueryMap.put(CommonConstant.BUSINESS_UNIT_NAME, "bU.COMPANY_NAME");
+        filterQueryMap.put(CommonConstant.CREATED_BY, "TEMP.CREATED_BY");
+        filterQueryMap.put(CommonConstant.MODIFIED_DATE, "TEMP.MODIFIED_DATE");
+        filterQueryMap.put(CommonConstant.CREATED_DATE, "TEMP.CREATED_DATE");
+        filterQueryMap.put(CommonConstant.SOURCE, "TEMP.SOURCE");
         return filterQueryMap;
     }
 
-     private Map<String, String> loadSortedQueryMap() {
+    private Map<String, String> loadSortedQueryMap() {
         Map<String, String> orderByQueryMap = new HashMap<>();
-        orderByQueryMap.put("companyNoHelperDto", "comp.COMPANY_NO");
-        orderByQueryMap.put("companyNo", "comp.COMPANY_NO");
-        orderByQueryMap.put("companyIdWithName", "comp.COMPANY_NO");
-        orderByQueryMap.put("businessNoHelperDto", "bu.COMPANY_NO");
-        orderByQueryMap.put("businessUnitNo", "bu.COMPANY_NO");
-        orderByQueryMap.put("buIdWithName", "bu.COMPANY_NO");
-        orderByQueryMap.put("account", "ACCOUNT");
-        orderByQueryMap.put("brandDdlb", "bm.BRAND_NAME");
-        orderByQueryMap.put("brand", "bm.BRAND_NAME");
-        orderByQueryMap.put("brandWithIdName", "bm.BRAND_NAME");
-        orderByQueryMap.put("costCentre", "COST_CENTER");
+        orderByQueryMap.put("companyNoHelperDto", CommonConstant.COMP_COMPANY_NO);
+        orderByQueryMap.put(CommonConstant.COMPANY_NO, CommonConstant.COMP_COMPANY_NO);
+        orderByQueryMap.put("companyIdWithName", CommonConstant.COMP_COMPANY_NO);
+        orderByQueryMap.put("businessNoHelperDto", CommonConstant.BU_COMPANY_NO);
+        orderByQueryMap.put(CommonConstant.BUSINESS_UNIT_NO, CommonConstant.BU_COMPANY_NO);
+        orderByQueryMap.put("buIdWithName", CommonConstant.BU_COMPANY_NO);
+        orderByQueryMap.put(CommonConstant.ACCOUNT, "ACCOUNT");
+        orderByQueryMap.put("brandDdlb", CommonConstant.BM_BRAND_NAME);
+        orderByQueryMap.put(CommonConstant.BRAND, CommonConstant.BM_BRAND_NAME);
+        orderByQueryMap.put("brandWithIdName", CommonConstant.BM_BRAND_NAME);
+        orderByQueryMap.put(CommonConstant.COST_CENTRE, "COST_CENTER");
         orderByQueryMap.put("checkRecord", "CHECK_RECORD");
-        orderByQueryMap.put("companyName", "COMP.COMPANY_NAME");
-        orderByQueryMap.put("businessUnitName", "bU.COMPANY_NAME");
-        orderByQueryMap.put("createdBy", "(cr.firstName + ' ' + cr.lastName)");
-        orderByQueryMap.put("modifiedDate", "TEMP.MODIFIED_DATE");
-        orderByQueryMap.put("createdDate", "TEMP.CREATED_DATE");
-        orderByQueryMap.put("source", "TEMP.SOURCE");
+        orderByQueryMap.put(CommonConstant.COMPANY_NAME, "COMP.COMPANY_NAME");
+        orderByQueryMap.put(CommonConstant.BUSINESS_UNIT_NAME, "bU.COMPANY_NAME");
+        orderByQueryMap.put(CommonConstant.CREATED_BY, "(cr.firstName + ' ' + cr.lastName)");
+        orderByQueryMap.put(CommonConstant.MODIFIED_DATE, "TEMP.MODIFIED_DATE");
+        orderByQueryMap.put(CommonConstant.CREATED_DATE, "TEMP.CREATED_DATE");
+        orderByQueryMap.put(CommonConstant.SOURCE, "TEMP.SOURCE");
         return orderByQueryMap;
 
     }
@@ -675,8 +693,7 @@ public class AccountConfigLogic {
     public Boolean deleteAccountConfigCombination(int masterId) {
         List inputList = new ArrayList<>();
         inputList.add(masterId);
-        Boolean isDeleted = QueryUtils.itemUpdate(inputList, "deleteAccountConfig");
-        return isDeleted;
+        return QueryUtils.itemUpdate(inputList, "deleteAccountConfig");
     }
 
 }

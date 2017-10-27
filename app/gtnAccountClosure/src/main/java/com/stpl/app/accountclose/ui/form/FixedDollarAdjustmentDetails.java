@@ -179,7 +179,6 @@ public class FixedDollarAdjustmentDetails extends CustomComponent implements Vie
     public ExtFilterTable adjustmentImpactTable = new ExtFilterTable();
     private BeanItemContainer<FixedDollarDTO> adjustmentImpactContainer = new BeanItemContainer<>(FixedDollarDTO.class);
     final FixedDollarCalculationLogic fdLogic = new FixedDollarCalculationLogic();
-    private String groupSid;
     TreeDTO dto = new TreeDTO();
     private String custGroupSid;
     private String prodGroupSid;
@@ -583,21 +582,7 @@ public class FixedDollarAdjustmentDetails extends CustomComponent implements Vie
      * @param dto
      * @return
      */
-    private int updateCheckedRecord(TreeDTO dto) {
-        LOGGER.info("Entering updateCheckedRecord ->" + dto.getComapnySid() + dto.getCcpSid());
-        String hierarchyNo = StringUtils.EMPTY;
-        int updatedRecordCount = 0;
-        int maxTreeLevelno = 0;
-        int treeLevelNo = 0;
-        int count = 0;
-        boolean checkValue = true;
-        setValues(dto);
-        commonLogic.updateCheckRecord(dto, 1, StringUtils.EMPTY);
-        updatedRecordCount = 5;
-        LOGGER.info(" Ending updateCheckedRecord ");
-        return updatedRecordCount;
-    }
-
+    
     /**
      * Updating Checked Record for Parent Level
      *

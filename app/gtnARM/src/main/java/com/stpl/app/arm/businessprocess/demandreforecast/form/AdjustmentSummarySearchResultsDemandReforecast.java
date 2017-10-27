@@ -32,23 +32,22 @@ public class AdjustmentSummarySearchResultsDemandReforecast extends AbstractDema
     }
 
     @Override
-    public DRSummaryLogic getLogic() {
-        return (DRSummaryLogic) super.getLogic();
+    public DRSummaryLogic getSummaryLogic() {
+        return (DRSummaryLogic) super.getSummaryLogic();
     }
 
     @Override
     public ExcelInterface getExcelLogic() {
-        return getLogic();
+        return getSummaryLogic();
     }
 
-   
     @Override
     public int getInterval() {
-       return NumericConstants.EIGHT;
+        return NumericConstants.EIGHT;
     }
 
     @Override
-    protected  String getTableNameForEdit() {
+    protected String getTableNameForEdit() {
         return "ST_ARM_DEMAND_RF_TRUE_UP_SUMMARY";
     }
 }

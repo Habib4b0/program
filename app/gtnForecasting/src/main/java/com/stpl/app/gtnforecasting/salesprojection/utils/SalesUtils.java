@@ -54,11 +54,11 @@ public class SalesUtils {
     
       public static String getPeriodFrequecy(final String frequency) {
         GtnSmallHashMap periodFrequencyMap = new GtnSmallHashMap();
-        periodFrequencyMap.put(QUARTERLY.getConstant(), "QUARTER");
+        periodFrequencyMap.put(QUARTERLY.getConstant(), Constant.QUARTER);
         periodFrequencyMap.put(ANNUALLY.getConstant(), "YEAR");
         periodFrequencyMap.put(ANNUAL.getConstant(), "YEAR");
         periodFrequencyMap.put(MONTHLY.getConstant(), "MONTH");
-        periodFrequencyMap.put(SEMI_ANNUALLY.getConstant(), "SEMI_ANNUAL");
+        periodFrequencyMap.put(SEMI_ANNUALLY.getConstant(), Constant.SEMI_ANNUAL);
         return String.valueOf(periodFrequencyMap.get(frequency));
     }
       
@@ -88,8 +88,8 @@ public class SalesUtils {
         return monthMap;
     }  
        public static String generateBaseLine(String period) {
-        String quarter = StringUtils.EMPTY;
-        String year = StringUtils.EMPTY;
+        String quarter;
+        String year;
         quarter = period.substring(0, NumericConstants.TWO);
         year = period.substring(NumericConstants.TWO, period.length());
         quarter = quarter.replace(Constant.Q_SMALL, Constant.Q);
@@ -146,8 +146,8 @@ public class SalesUtils {
      * @return
      */
     public static Map<Object, Object> getCHProjectionSelection(final int projectionId, final String screenName) {
-        List<Object[]> list = new ArrayList<Object[]>();
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        List<Object[]> list = new ArrayList<>();
+        Map<Object, Object> map = new HashMap<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(ChProjectionSelection.class);
         query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));

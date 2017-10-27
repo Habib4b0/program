@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class NMDiscountProjectionLogic {
     
-    public String buildCCPCountQuery(boolean isCustomer,int projectionSid,String userId,String sessionId) {
+    public String buildCCPCountQuery(boolean isCustomer,int projectionSid) {
         StringBuilder query = new StringBuilder();
         if (isCustomer) {
             query.append("SELECT Count(DISTINCT CCPD.Company_MASTER_SID) ");
@@ -70,7 +70,7 @@ public class NMDiscountProjectionLogic {
     
     
     
-     public String buildCCPListQuery(boolean isCustomer,int projectionSid,String userId,String sessionId) {
+     public String buildCCPListQuery(boolean isCustomer,int projectionSid) {
         StringBuilder query = new StringBuilder();
       
         query.append(" SELECT DISTINCT CCPD.CCP_DETAILS_SID ");
@@ -106,7 +106,7 @@ public class NMDiscountProjectionLogic {
     
     public int getCCPCount(String query) {
         int count = 0;
-        List<Object> objList = new ArrayList<Object>();
+        List<Object> objList;
         objList = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
 
         if (objList != null && !objList.isEmpty()) {
@@ -173,7 +173,7 @@ public class NMDiscountProjectionLogic {
      
        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(RsModel.class);
         dynamicQuery.add(RestrictionsFactoryUtil.eq("rsName", rsName));
-        List<RsModel> rsModelDetailsList=new ArrayList<RsModel>();
+        List<RsModel> rsModelDetailsList=new ArrayList<>();
         try {
         
            rsModelDetailsList= RsModelLocalServiceUtil.dynamicQuery(dynamicQuery);

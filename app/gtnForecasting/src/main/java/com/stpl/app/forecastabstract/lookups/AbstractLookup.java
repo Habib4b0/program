@@ -242,7 +242,7 @@ public abstract class AbstractLookup extends Window {
 
                     @Override
                     public void noMethod() {
-                       
+                       return;
                     }
                 };
                 notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");

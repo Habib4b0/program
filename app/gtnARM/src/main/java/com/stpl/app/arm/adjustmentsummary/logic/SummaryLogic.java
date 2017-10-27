@@ -5,8 +5,21 @@
  */
 package com.stpl.app.arm.adjustmentsummary.logic;
 
-import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
+import java.text.DateFormatSymbols;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractSummaryLogic;
 import com.stpl.app.arm.businessprocess.commontemplates.SummarySelection;
 import com.stpl.app.arm.common.CommonLogic;
@@ -16,24 +29,13 @@ import com.stpl.app.arm.supercode.DataResult;
 import com.stpl.app.arm.supercode.OriginalDataResult;
 import com.stpl.app.arm.supercode.SelectionDTO;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -59,7 +61,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
         return finalList;
     }
 
-    public List getRightTableHeaders(SummarySelection selection) throws ParseException {
+    public List getRightTableHeaders(SummarySelection selection) {
 
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
         String[] months = dateFormatSymbols.getShortMonths();
@@ -103,7 +105,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
         int totalMonth = getMonthsDifference(frmDate, toDate);
         if (isHeaderIsAvail(frmDate, toDate, totalMonth, selection.getSelectedAdjustmentTypeValues())) {
             int frequencyDivision = 1;
-            List finalList = new ArrayList();
+            List finalList;
             finalList = new ArrayList();
             List doubleColumns = new ArrayList();
             List doubleHeaders = new ArrayList();
@@ -148,8 +150,8 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
                         doubleHeaders.add(months[tempPeriod - 1] + " " + year);
                         break;
                     case NumericConstants.TWELVE:
-                        doubleColumn = "" + year;
-                        doubleHeaders.add("" + year);
+                        doubleColumn = String.valueOf(year);
+                        doubleHeaders.add(String.valueOf(year));
                         break;
                     default:
                         break;
@@ -157,43 +159,31 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
                 doubleColumns.add(doubleColumn);
                 tempList.clear();
                 for (int j = 0; j < adjustMentIds.size(); j++) {
+                    String adjType = selection.getSelectedAdjustmentTypeValues().get(j);
                     switch (frequencyDivision) {
-                        case NumericConstants.THREE: {
-                            String adjType = selection.getSelectedAdjustmentTypeValues().get(j);
-                            column = ARMUtils.Q + tempPeriod + year + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                            visibleHeaders.add(adjType);
-                            tempList.add(column);
-                            visibleColumn.add(column);
+                        case NumericConstants.THREE:
+                            column = getRightTableHeadersColumn(ARMUtils.Q, year, selection, index, tempPeriod, j);
                             break;
-                        }
-                        case NumericConstants.SIX: {
-                            String adjType = selection.getSelectedAdjustmentTypeValues().get(j);
-                            column = ARMUtils.S + tempPeriod + year + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                            visibleHeaders.add(adjType);
-                            tempList.add(column);
-                            visibleColumn.add(column);
+
+                        case NumericConstants.SIX:
+                            getRightTableHeadersColumn(ARMUtils.S, year, selection, index, tempPeriod, j);
                             break;
-                        }
-                        case 1: {
-                            String adjType = selection.getSelectedAdjustmentTypeValues().get(j);
-                            column = months[tempPeriod - 1] + year + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                            visibleHeaders.add(adjType);
-                            tempList.add(column);
-                            visibleColumn.add(column);
+
+                        case 1:
+                            column = getRightTableHeadersColumn(months[tempPeriod - 1], year, selection, index, 0, j);
                             break;
-                        }
-                        case NumericConstants.TWELVE: {
-                            String adjType = selection.getSelectedAdjustmentTypeValues().get(j);
-                            column = year + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
-                            visibleHeaders.add(adjType);
-                            tempPeriod = year;
-                            tempList.add(column);
-                            visibleColumn.add(column);
+
+                        case NumericConstants.TWELVE:
+                            column = getRightTableHeadersColumn(StringUtils.EMPTY, year, selection, index, tempPeriod, j);
                             break;
-                        }
+
                         default:
                             break;
                     }
+                    visibleHeaders.add(adjType);
+                    tempList.add(column);
+                    visibleColumn.add(column);
+
                     headerVlaueMap.put(StringUtils.EMPTY + tempPeriod + year + adjustMentIds.get(j).toString(), column);
                     index++;
                 }
@@ -211,7 +201,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             finalList.add(excelHeaderMap);
             return finalList;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public static final int getMonthsDifference(Date date1, Date date2) {
@@ -221,8 +211,8 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     }
 
     private boolean isHeaderIsAvail(Date frmDate, Date toDate, int totalMonth, List<String> selectedAdjustmentType) {
-        LOGGER.debug("selectedAdjustmentType.size()-->>" + selectedAdjustmentType.size()+"frmDate.after(toDate)-->>" + frmDate.after(toDate)+"totalMonth-->>" + totalMonth);
-        if (selectedAdjustmentType.size() > 0 && (toDate.equals(frmDate) || toDate.after(frmDate))) {
+        LOGGER.debug("selectedAdjustmentType.size()-->>" + selectedAdjustmentType.size() + "frmDate.after(toDate)-->>" + frmDate.after(toDate) + "totalMonth-->>" + totalMonth);
+        if (!selectedAdjustmentType.isEmpty() && (toDate.equals(frmDate) || toDate.after(frmDate))) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -233,28 +223,28 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
         try {
             SummarySelection selection = (SummarySelection) data;
             Object[] returnObj = new Object[NumericConstants.TWO];
-            String rebateRecord = StringUtils.EMPTY;
+            String rebateRecord;
             List<Object> inputs = new ArrayList<>();
             inputs.add(selection.getDataSelectionDTO().getProjectionId());
             inputs.add(ConstantsUtils.SELECT_ONE.equalsIgnoreCase(selection.getStatus()) ? StringUtils.EMPTY : selection.getStatus().replace("[", "").replace("]", ""));
             inputs.add(selection.getFrequency());
             inputs.add(CommonLogic.listToString(selection.getSelectedAdjustmentType()));
             selection.setMasterSids(ARMUtils.getMasterIdsMap());
-            String nextLevel = StringUtils.EMPTY;
+            String nextLevel;
             if (dto instanceof AdjustmentDTO) {
                 TreeMap<String, Integer> masterSids;
                 AdjustmentDTO val = (AdjustmentDTO) dto;
                 int levelNo = val.getLevelNo();
-                LOGGER.debug("levelNo-->>" + levelNo + "selection.getSummaryLevel()-->>" + selection.getSummaryLevel()+"selection.getSummaryLevel().get(levelNo)-->>" + selection.getSummaryLevel().get(levelNo));
+                LOGGER.debug("levelNo-->>" + levelNo + "selection.getSummaryLevel()-->>" + selection.getSummaryLevel() + "selection.getSummaryLevel().get(levelNo)-->>" + selection.getSummaryLevel().get(levelNo));
                 masterSids = (TreeMap<String, Integer>) val.getMasterIds().clone();
-                masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBrand_item_masterSid()));
+                masterSids.put(selection.getSummaryLevel().get(levelNo), Integer.valueOf(val.getBranditemmasterSid()));
                 selection.setMasterSids(masterSids);
                 if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(++levelNo))) {
-                    nextLevel = selection.getSummary_deductionLevelDes();
+                    nextLevel = selection.getSummarydeductionLevelDes();
                 } else {
                     nextLevel = selection.getSummaryLevel().get(levelNo);
                 }
-                selection.setSummary_viewType(selection.getSummaryLevel().get(levelNo));
+                selection.setSummaryviewType(selection.getSummaryLevel().get(levelNo));
                 selection.setLevelNo(levelNo);
             } else {
                 selection.setLevelNo(1);
@@ -262,34 +252,34 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
                 // Do not change the order of the below code
                 // This condition will work when Level filter is not used
                 if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummaryLevel().get(1))) {
-                    nextLevel = selection.getSummary_deductionLevelDes();
+                    nextLevel = selection.getSummarydeductionLevelDes();
                 } else {
                     nextLevel = selection.getSummaryLevel().get(1);
                 }
                 // This condition will work for Value Ddlb
-                if (selection.getSummary_valueSid() != 0) {
-                    selection.getMasterSids().put(selection.getSummary_levelFilterValue(), selection.getSummary_valueSid());
-                } else if (selection.getSummary_levelFilterNo() != 0) {
-                    selection.getMasterSids().put(selection.getSummary_levelFilterValue(), null);
+                if (selection.getSummaryvalueSid() != 0) {
+                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), selection.getSummaryvalueSid());
+                } else if (selection.getSummarylevelFilterNo() != 0) {
+                    selection.getMasterSids().put(selection.getSummarylevelFilterValue(), null);
                 }
                 //This will ovverride the default first Level (For Level Filter)
-                if (selection.getSummary_levelFilterNo() != 0) {
-                    if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummary_levelFilterValue())) {
-                        nextLevel = selection.getSummary_deductionLevelDes();
+                if (selection.getSummarylevelFilterNo() != 0) {
+                    if (ARMUtils.levelVariablesVarables.DEDUCTION.toString().equals(selection.getSummarylevelFilterValue())) {
+                        nextLevel = selection.getSummarydeductionLevelDes();
                     } else {
-                        nextLevel = selection.getSummary_levelFilterValue();
+                        nextLevel = selection.getSummarylevelFilterValue();
                     }
                 }
 
             }
             inputs.add(nextLevel);
-            rebateRecord = "WHERE" + ARMUtils.getDeductionValuesMap().get(selection.getSummary_deductionLevelDes()) + " IN ('" + StringUtils.join(selection.getDeductionVariableIds(), "','") + "' )";
+            rebateRecord = "WHERE" + ARMUtils.getDeductionValuesMap().get(selection.getSummarydeductionLevelDes()) + " IN ('" + StringUtils.join(selection.getDeductionVariableIds(), "','") + "' )";
             inputs.add(selection.getFromDate());
             inputs.add(selection.getToDate());
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.BRAND.toString()));
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CONTRACT.toString()));
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.CUSTOMER.toString()));
-            inputs.add(ARMUtils.getDeductionValuesMapForLevel().get(selection.getSummary_deductionLevelDes()));
+            inputs.add(ARMUtils.getDeductionValuesMapForLevel().get(selection.getSummarydeductionLevelDes()));
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.DEDUCTION.toString()));
             inputs.add(selection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()) == null ? "%" : selection.getMasterSids().get(ARMUtils.levelVariablesVarables.ITEM.toString()));
             inputs.add(ConstantsUtils.SELECT_ONE.equalsIgnoreCase(selection.getStatus()) ? " LEFT JOIN " : " JOIN ");
@@ -299,7 +289,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
 
             return returnObj;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in generateInputs :"+ex);
         }
         return null;
     }
@@ -308,7 +298,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     protected DataResult<T> getSummaryData(List<Object> inputs, Criteria criteria, TreeMap<String, Integer> masterSids) {
         boolean totalFlag = false;
         if ((criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO)))
-                && (criteria.getCurrentPage() == criteria.getLastPage()) && criteria.getSelectionDto().getSummary_levelFilterNo() == 0&& (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) {
+                && (criteria.getCurrentPage() == criteria.getLastPage()) && criteria.getSelectionDto().getSummarylevelFilterNo() == 0 && (criteria.getSiblingCount() == (criteria.getStart() + criteria.getOffset()))) {
             totalFlag = true;
             int offset = Integer.valueOf(inputs.get(inputs.size() - 1).toString()) - 1;
             inputs.set(inputs.size() - 1, offset);
@@ -332,7 +322,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     protected int getSummaryCount(List<Object> inputs, Criteria criteria) {
         int count = 0;
         count = CommonLogic.getCount(QueryUtils.getItemData(inputs, VariableConstants.ADJUSTMENT_SUMMARY, "AdjustmnetSummaryLoadCount"));
-        if (count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getSelectionDto().getSummary_levelFilterNo() == 0)) {
+        if (count > 0 && (criteria.getParent() == null || (!(criteria.getParent() instanceof AdjustmentDTO))) && (criteria.getSelectionDto().getSummarylevelFilterNo() == 0)) {
             count = count + 1;
         }
         LOGGER.debug("count-->>" + count);
@@ -342,7 +332,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     private DataResult<T> getCustomizedData(SelectionDTO data, List<Object[]> list) {
         SummarySelection selection = (SummarySelection) data;
         String lastMasterSid = StringUtils.EMPTY;
-        String mastersId = StringUtils.EMPTY;
+        String mastersId;
         List finalList = new ArrayList();
         Map<Object, String> headerValueMap = selection.getHeaderVisibleColumnMap();
         AdjustmentDTO dto = null;
@@ -353,22 +343,22 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
             if (!lastMasterSid.equals(mastersId) || dto == null) {
                 dto = new AdjustmentDTO();
                 finalList.add(dto);
-                dto.setBrand_item_masterSid(mastersId);
+                dto.setBranditemmasterSid(mastersId);
                 dto.setMasterIds(selection.getMasterSids());
                 dto.setLevelNo(selection.getLevelNo());
                 dto.setGroup(String.valueOf(list1[0]));
-                dto.setChildrenAllowed((!"Total".equalsIgnoreCase(dto.getGroup()) && selection.getSummary_levelFilterNo() == 0) ? isChild : false);
+                dto.setChildrenAllowed((!"Total".equalsIgnoreCase(dto.getGroup()) && selection.getSummarylevelFilterNo() == 0) ? isChild : false);
             }
 
-            int period = Integer.valueOf(list1[NumericConstants.TWO].toString());
-            int year = Integer.valueOf(list1[NumericConstants.THREE].toString());
+            int period = Integer.parseInt(list1[NumericConstants.TWO].toString());
+            int year = Integer.parseInt(list1[NumericConstants.THREE].toString());
             String temp = StringUtils.EMPTY + period + year + list1[NumericConstants.FOUR];
             if (headerValueMap.get(temp) != null) {
                 dto.addStringProperties(headerValueMap.get(temp), list1[NumericConstants.FIVE] == null ? StringUtils.EMPTY : decimalformat.format(Double.valueOf(String.valueOf(list1[NumericConstants.FIVE]))));
             }
             lastMasterSid = mastersId;
         }
-        OriginalDataResult<T> dataResult = new OriginalDataResult<T>();
+        OriginalDataResult<T> dataResult = new OriginalDataResult<>();
         dataResult.setDataResults(finalList);
         return dataResult;
     }
@@ -381,7 +371,7 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
     @Override
     public Boolean generateButtonCheck(SelectionDTO selection) {
         return true;
-        
+
     }
 
     @Override
@@ -389,39 +379,53 @@ public class SummaryLogic<T extends AdjustmentDTO> extends AbstractSummaryLogic<
         String query = SQlUtil.getQuery("getASSummaryExcelQuery");
         Object[] value = selection.getExcelHierarchy();
         query = query.replace("@LEVEL_VAL", StringUtils.join(value, ","));
-        query = query.replace("@DEDUCTIONLEVEL", selection.getSummary_deductionLevelDes());
-        query = query.replace("@DEDUCTIONVALUE", selection.getSummary_deductionValues().replace("'", "''"));
-        query = query.replace("@FREQUENCYSELECTED", selection.getSummary_FrequencyName());
+        query = query.replace("@DEDUCTIONLEVEL", selection.getSummarydeductionLevelDes());
+        query = query.replace("@DEDUCTIONVALUE", selection.getSummarydeductionValues().replace("'", "''"));
+        query = query.replace("@FREQUENCYSELECTED", selection.getSummaryFrequencyName());
         query = query.replace("@STARTPERIOD", selection.getFromDate());
         query = query.replace("@ENDPERIOD", selection.getToDate());
         query = query.replace("@PROJECTIONMASTERSID", String.valueOf(selection.getDataSelectionDTO().getProjectionId()));
         query = query.replace("@ADJUSTMENTTYPE", StringUtils.join(selection.getSelectedAdjustmentTypeValues().toArray(), ",").toUpperCase());
-        String status="0".equals(selection.getSummary_StatusID()) ? StringUtils.EMPTY : selection.getSummary_StatusID();
-            status=status.replace("[", "").replace("]", "");
-            query = query.replace("@WORKFLOWSTATUS", status);
+        String status = "0".equals(selection.getSummaryStatusID()) ? StringUtils.EMPTY : selection.getSummaryStatusID();
+        status = status.replace("[", "").replace("]", "");
+        query = query.replace("@WORKFLOWSTATUS", status);
         /**
          * Currently we can select only single work flow status so we should not
          * do left join for work flow status If they change the work flow status
          * column to multi select the we should do left join. The below query
          * replace is for future use.
          */
-        query = query.replace("@LEFT_JOIN", "0".equals(selection.getSummary_StatusID()) ? " LEFT " : StringUtils.EMPTY);
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return list;
+        query = query.replace("@LEFT_JOIN", "0".equals(selection.getSummaryStatusID()) ? " LEFT " : StringUtils.EMPTY);
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     @Override
     public List getTableInput(SessionDTO sessionDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     protected List getQueryTableinput(SessionDTO sessionDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public List getQueryTableinputparameter(SessionDTO sessionDTO) {
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException(CommonConstant.NOT_SUPPORTED_YET); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    private String getRightTableHeadersColumn(String q, int year, SummarySelection selection, int index, int tempPeriod, int j) {
+        String frontVal;
+        int tempPeriods;
+        if (q.isEmpty()) {
+            tempPeriods = year;
+            LOGGER.debug(tempPeriods);
+            frontVal = StringUtils.EMPTY;
+        } else {
+            tempPeriods = tempPeriod;
+            frontVal = q + (tempPeriods == 0 ? StringUtils.EMPTY : tempPeriods);
+        }
+        return frontVal + year + selection.getSelectedAdjustmentTypeValues().get(j).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY) + ARMUtils.DOT + index;
     }
+
+}

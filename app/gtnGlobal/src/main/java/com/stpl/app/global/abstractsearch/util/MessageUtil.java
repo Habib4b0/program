@@ -35,10 +35,10 @@ public final class MessageUtil {
 	 */
 	public static String getErrorCode(final String key) {
 		try {
-                    if (key != null && key.contains(key)) {
+                    if(key!=null && resouceBundle.containsKey(key)){
                         return resouceBundle.getString(key);
                     }
-                    return "";
+		   return "";
 		} catch (MissingResourceException e) {
                         LOGGER.error(e);
 			return "";

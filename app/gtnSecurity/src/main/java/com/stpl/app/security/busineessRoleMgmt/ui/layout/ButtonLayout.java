@@ -67,7 +67,7 @@ public class ButtonLayout extends HorizontalLayout {
             private static final long serialVersionUID = 1L;
 
             public void error(com.vaadin.server.ErrorEvent event) {
-                   
+                    return;
             
 
             }
@@ -95,7 +95,7 @@ public class ButtonLayout extends HorizontalLayout {
 
             public void error(com.vaadin.server.ErrorEvent event) {
                    
-            
+                return;
 
             }
     });
@@ -145,11 +145,7 @@ public class ButtonLayout extends HorizontalLayout {
 					// TODO Auto-generated catch block
 					LOGGER.error(e);
                                    
-				} catch (PortalException e) {
-					// TODO Auto-generated catch block
-					LOGGER.error(e);
-                                      
-				} catch (CommitException e) {
+				}  catch (CommitException e) {
 					// TODO Auto-generated catch block
 					LOGGER.error(e);
                                       

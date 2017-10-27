@@ -21,6 +21,7 @@ import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -162,7 +163,7 @@ public class MailConfigurationLogic {
     }  
 
     public List<ProcessSchedulerDTO> loadProcessNameDDlb() {
-        List<ProcessSchedulerDTO> processList = new ArrayList<ProcessSchedulerDTO>();
+        List<ProcessSchedulerDTO> processList = new ArrayList<>();
         List list = getSearchResult();
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
@@ -196,7 +197,7 @@ public class MailConfigurationLogic {
         } catch (Exception ex) {
            
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 

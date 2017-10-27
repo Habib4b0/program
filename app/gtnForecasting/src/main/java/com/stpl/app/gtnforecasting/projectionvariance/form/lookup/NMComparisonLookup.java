@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.projectionvariance.form.lookup;
 
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastPVComparisonLookup;
-import static com.stpl.app.gtnforecasting.abstractforecast.ForecastPVComparisonLookup.COMPARISON_RESULTS_COLUMNS;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -62,7 +61,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      * Channels
      * @param comparisonLookup Textfield which opens this lookup
      */
-    public NMComparisonLookup(final String windowName, final String moduleIndicator, final CustomTextField comparisonLookup, final int currentProjId, List<ComparisonLookupDTO> selectedList, final String screenName) {
+    public NMComparisonLookup(final CustomTextField comparisonLookup, final int currentProjId, List<ComparisonLookupDTO> selectedList, final String screenName) {
         super(screenName, comparisonLookup);
         this.currentProjId = currentProjId;
         this.selectedList = selectedList;
@@ -135,7 +134,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
 
                 tableLogic.fireSetData(comparisonLookup, false, screenName);
                 if (resultsTable.size() == 0) {
-                    MessageBox.showPlain(Icon.INFO, "Error", "No results could be found that match the entered search criteria.", ButtonId.OK);
+                    MessageBox.showPlain(Icon.INFO, Constant.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
                     addBtn.setEnabled(false);
                     addBtn.setImmediate(true);
                 } else {
@@ -145,7 +144,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
 
                 }
             } else {
-                MessageBox.showPlain(Icon.INFO, "Error", "Please select a Workflow Status", ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please select a Workflow Status", ButtonId.OK);
             }
 
         } catch (Exception e) {
@@ -180,6 +179,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage(CONFIRMATION.getConstant(), "Are you sure you want to reset?");
         LOGGER.info("Ending resetBtnLogic");
@@ -194,10 +194,10 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
         LOGGER.info("Inside addBtnLogic");
 
         if (recordSelectedFlag) {
-            addItemsButtonClick(event);
+            addItemsButtonClick();
             recordSelectedFlag = false;
         } else {
-            MessageBox.showPlain(Icon.INFO, "Error", "Please select a projection to add.", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please select a projection to add.", ButtonId.OK);
         }
         LOGGER.info("Ending addBtnLogic");
 
@@ -221,6 +221,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
 
             @Override
             public void noMethod() {
+                return;
             }
         }.getConfirmationMessage(CONFIRMATION.getConstant(), "Are you sure you want to reset the contents of the ‘Projections’ list view?");
         LOGGER.info("Ending projectionResetBtnLogic");
@@ -252,17 +253,17 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
     protected void removeBtnLogic(Button.ClickEvent event) {
         LOGGER.info("Inside removeBtnLogic");
         if (recordSelectedFlag) {
-            removeItemsButtonClick(event);
+            removeItemsButtonClick();
             recordSelectedFlag = false;
         } else {
-            MessageBox.showPlain(Icon.INFO, "Error", "Please select a projection to remove. ", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please select a projection to remove. ", ButtonId.OK);
         }
         LOGGER.info("Ending removeBtnLogic");
     }
 
     private void loadAvailableResults() {
         LOGGER.info("Inside loadAvailableResults");
-        Object[] objColumn = COMPARISON_RESULTS_COLUMNS;
+        Object[] objColumn = comparisonResultsColumns;
         resultsTable.setConverter("createdDateFrom", new DateToStringConverter());
         projectionTable.setConverter("createdDateFrom", new DateToStringConverter());
         for (Object objColumn1 : objColumn) {
@@ -320,10 +321,10 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void addItemsButtonClick(final Button.ClickEvent event) {
+    protected void addItemsButtonClick() {
         final java.util.Set<com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO> itemMasterDetailsList = (java.util.Set<com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO>) resultsTable.getValue();
         boolean flag = false;
-        List<com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO> addedItem = new ArrayList<com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO>();
+        List<com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO> addedItem = new ArrayList<>();
         if ((itemMasterDetailsList.size()) <= (NumericConstants.FIVE - selectedResultsBean.getItemIds().size())) {
             for (final Iterator<com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO> iterator = itemMasterDetailsList.iterator(); iterator.hasNext();) {
                 final com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO item = iterator.next();
@@ -360,7 +361,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
             projectionTable.setValue(null);
             resultsTable.setValue(null);
         } else {
-            MessageBox.showPlain(Icon.INFO, "Error", "Cannot Add more than Five items.  Please select five records or below and try again.", ButtonId.OK);
+            MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Cannot Add more than Five items.  Please select five records or below and try again.", ButtonId.OK);
         }
         if (resultsBean.size() > 0) {
             addBtn.setEnabled(true);
@@ -378,7 +379,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void removeItemsButtonClick(final Button.ClickEvent event) {
+    protected void removeItemsButtonClick() {
         final Object itemId = projectionTable.getValue();
         selectedResultsBean.removeItem(itemId);
         projectionTable.addItem(itemId);

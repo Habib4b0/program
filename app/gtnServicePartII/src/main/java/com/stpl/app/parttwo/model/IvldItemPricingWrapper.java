@@ -64,6 +64,7 @@ public class IvldItemPricingWrapper implements IvldItemPricing,
         attributes.put("itemPrice", getItemPrice());
         attributes.put("intfInsertedDate", getIntfInsertedDate());
         attributes.put("checkRecord", getCheckRecord());
+        attributes.put("itemPriceprecision", getItemPriceprecision());
 
         return attributes;
     }
@@ -228,6 +229,13 @@ public class IvldItemPricingWrapper implements IvldItemPricing,
 
         if (checkRecord != null) {
             setCheckRecord(checkRecord);
+        }
+
+        String itemPriceprecision = (String) attributes.get(
+                "itemPriceprecision");
+
+        if (itemPriceprecision != null) {
+            setItemPriceprecision(itemPriceprecision);
         }
     }
 
@@ -780,6 +788,26 @@ public class IvldItemPricingWrapper implements IvldItemPricing,
     @Override
     public void setCheckRecord(boolean checkRecord) {
         _ivldItemPricing.setCheckRecord(checkRecord);
+    }
+
+    /**
+    * Returns the item priceprecision of this ivld item pricing.
+    *
+    * @return the item priceprecision of this ivld item pricing
+    */
+    @Override
+    public java.lang.String getItemPriceprecision() {
+        return _ivldItemPricing.getItemPriceprecision();
+    }
+
+    /**
+    * Sets the item priceprecision of this ivld item pricing.
+    *
+    * @param itemPriceprecision the item priceprecision of this ivld item pricing
+    */
+    @Override
+    public void setItemPriceprecision(java.lang.String itemPriceprecision) {
+        _ivldItemPricing.setItemPriceprecision(itemPriceprecision);
     }
 
     @Override

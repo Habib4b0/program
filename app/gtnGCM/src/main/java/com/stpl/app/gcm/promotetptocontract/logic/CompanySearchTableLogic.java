@@ -7,6 +7,7 @@ package com.stpl.app.gcm.promotetptocontract.logic;
 import com.stpl.app.gcm.promotetptocontract.dto.PromoteTpToChDto;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -41,7 +42,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
             return compLogic.searchCompaniesLazy(tpDTo, start, offset,getFilters(), searchSessionid);
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            return Collections.emptyList();
         }
     }
 

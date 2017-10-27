@@ -173,16 +173,12 @@ public class CpuIoChart extends VerticalLayout {
     }
 
     void callJob(String database) {
-        try {
-
-            Connection connection = searchLogic.connectToDB();
-            Statement statment = connection.createStatement();
+        try (Connection connection = searchLogic.connectToDB(); Statement statment = connection.createStatement();) {
             String sqlDate = new SimpleDateFormat(Constants.yyyy_MM_dd_HH_mm_ss).format(selecteDate.getValue());
             String query = String.format("EXEC [PRC_PERFORMANCE_DASHBOARD] '%s', '%s'", database, sqlDate);
             statment.executeUpdate(query);
-            connection.close();
         } catch (Exception ex) {
-           LOGGER.debug(ex);
+            LOGGER.debug(ex);
         }
     }
 

@@ -14,6 +14,7 @@ import com.stpl.app.arm.supercode.HasSelection;
 import com.stpl.app.arm.supercode.HasTableLogic;
 import com.stpl.app.arm.supercode.LogicAble;
 import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.app.utils.ConstantsUtils;
@@ -48,10 +49,12 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.GridLayout;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
 /**
@@ -62,7 +65,7 @@ import org.jboss.logging.Logger;
 public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> extends VerticalLayout implements HasTableLogic, HasLogic, HasExcel, HasSelection, GenerateAble {
 
     @UiField("ARMLevelLabel")
-    protected Label ARMLevelLabel;
+    protected Label armLevelLabel;
     @UiField("TableLayout")
     protected VerticalLayout tableLayout;
     @UiField("abstractSearchContent")
@@ -83,7 +86,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected Button calculateBtn;
 
     @UiField("BB-export")
-    protected Button BBExport;
+    protected Button bbExport;
     @UiField("cpLabel")
     protected Label cpLabel;
     @UiField("BB-expand")
@@ -101,8 +104,10 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected final FreezePagedTreeTable table;
     protected ExtPagedTreeTable leftTable;
     protected ExtPagedTreeTable rightTable;
-    PropertyFormatCustomTreeTable excelTable;
-    private final float maxSplitPosition = 1000, minSplitPosition = 200, splitPosition = 300;
+    protected PropertyFormatCustomTreeTable excelTable;
+    private final float maxSplitPosition = 1000;
+    private final float minSplitPosition = 200;
+    private final float splitPosition = 300;
     protected final LogicAble logic;
     protected final T selection;
     protected ExtTreeContainer<AdjustmentDTO> resultBeanContainer = new ExtTreeContainer<>(
@@ -110,15 +115,14 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected ExtTreeContainer<AdjustmentDTO> excelBeanContainer;
     protected boolean valueChangeAllowed = false;
     protected boolean valueDdlbChangeAllowed = false;
-// 
     private boolean levelFilterEnable = false;
     private boolean levelFilterValueDdlbEnable = false;
-    private final Logger LOGGER = Logger.getLogger(AbstractSearchResults.class);
-    
+    private final Logger logger = Logger.getLogger(AbstractSearchResults.class);
+
     public AbstractSearchResults(LogicAble logic, T selection) {
         this.logic = logic;
         this.selection = selection;
-        this.tableLogic = new AdjustmentTableLogic(getLogic(), getSelection());
+        this.tableLogic = new AdjustmentTableLogic(getSummaryLogic(), getSelection());
         this.table = new FreezePagedTreeTable(getTableLogic());
     }
 
@@ -175,7 +179,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     public abstract void setVisibleColumnsAndHeaders();
 
     private void loadLabelValues() {
-        ARMLevelLabel.setCaption("Level:");
+        armLevelLabel.setCaption("Level:");
     }
 
     private final CustomNotification notifier = new CustomNotification();
@@ -196,6 +200,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
 
         @Override
         public void noMethod() {
+            LOGGER.debug("Inside the CustomNotification Listener NO Method");
         }
 
         @Override
@@ -210,6 +215,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                     case "CANCEL OVERRIDE":
                         cancelOverrideLogic();
                         break;
+                    default:
                 }
             }
         }
@@ -221,7 +227,9 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     }
 
     protected void cancelOverrideLogic() {
+        selection.setCancelOverride(true);
         refreshTableData(getAllExpandedHierarchyNo());
+        selection.setCancelOverride(false);
     }
 
     protected abstract boolean calculateLogic();
@@ -244,7 +252,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                     calculateLogic();
                     refreshTableData(getAllExpandedHierarchyNo());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    logger.error("Error in calculateBtn :"+e);
                 }
             }
         });
@@ -262,7 +270,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error("Error in expandButtonClick :"+e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -279,7 +287,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error("Error in collapseButtonClick :"+e);
         }
         AbstractNotificationUtils.getErrorNotification(ARMMessages.getExpandMessageName(), ARMMessages.getExpandMessageMsgId_001());
     }
@@ -312,7 +320,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     }
 
     @UiHandler("valueDdlb")
-    public void ValueDdlbValueChange(Property.ValueChangeEvent event) {
+    public void valueDdlbValueChangeMethod(Property.ValueChangeEvent event) {
         if (isValueChangeAllowed() && isLevelFilterValueDdlbEnable()) {
             Object value = event.getProperty().getValue();
             int val = 0;
@@ -320,7 +328,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 val = (Integer) value;
                 valueDdlbValueChange(val);
             } else {
-                LOGGER.error(String.valueOf(value) + " is not an integer ");
+                logger.error(String.valueOf(value) + " is not an integer ");
             }
         }
 
@@ -367,9 +375,8 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                 loadLevelFilterValueDdlb(value, levelNo);
                 setLevelFilterValueDdlbEnable(true);
             } catch (Exception e) {
-                LOGGER.error(e);
+                logger.error("Error in levelFilterValueChangeLogic "+e);
             }
-        } else {
         }
     }
 
@@ -386,7 +393,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    protected void excelExportLogic() throws SystemException, PortalException, IllegalAccessException, InvocationTargetException {
+    protected void excelExportLogic() throws IllegalAccessException, InvocationTargetException {
         tableLayout.addComponent(getExcelTable());
         getExcelTable().setContainerDataSource(getExcelContainer());
         getExcelTable().setRefresh(Boolean.FALSE);
@@ -421,7 +428,13 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     protected abstract boolean getIsDemandSreen();
 
     protected void callExcelCustomization(List list, Object[] excelHierarchy) throws IllegalAccessException, InvocationTargetException {
-        ExcelUtils.setExcelData(list, excelHierarchy, getExcelExportVisibleColumn(), getExcelContainer(), getisFixedColumns(), getInterval(), discountColumnNeeded(), getisDeductionCustomer(), Boolean.FALSE, getIsDemandSreen());
+        List<Object> listData = new ArrayList<>();
+        listData.add(getisFixedColumns());
+        listData.add(getisDeductionCustomer());
+        listData.add(getIsDemandSreen());
+        listData.add(getInterval());
+
+        ExcelUtils.setExcelData(list, excelHierarchy, getExcelExportVisibleColumn(), getExcelContainer(), discountColumnNeeded(),StringUtils.EMPTY, listData);
     }
 
     public PropertyFormatCustomTreeTable getExcelTable() {
@@ -433,7 +446,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
 
     public ExtTreeContainer<AdjustmentDTO> getExcelContainer() {
         if (excelBeanContainer == null) {
-            excelBeanContainer = new ExtTreeContainer<AdjustmentDTO>(AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
+            excelBeanContainer = new ExtTreeContainer<>(AdjustmentDTO.class, ExtContainer.DataStructureMode.LIST);
         }
         return excelBeanContainer;
     }
@@ -466,7 +479,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     }
 
     @Override
-    public LogicAble getLogic() {
+    public LogicAble getSummaryLogic() {
         return logic;
     }
 
@@ -510,7 +523,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         return table;
     }
 
-    public ExtTreeContainer<AdjustmentDTO> getResultBeanContainer() {
+    public ExtTreeContainer<AdjustmentDTO> getResultBeanContainerVal() {
         return resultBeanContainer;
     }
 
@@ -529,7 +542,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         try {
             excelExportLogic();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            logger.error("Error in exportButtonLogic :"+ex);
         }
     }
 
@@ -539,7 +552,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
 
     @Override
     public boolean isGenerated() {
-        return table.getRightFreezeAsTable().getItemIds().size() > 0;
+        return !table.getRightFreezeAsTable().getItemIds().isEmpty();
     }
 
     /**
@@ -565,29 +578,29 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     }
 
     protected void setConverter(ExtCustomTable excelTable, Object[] visibleColumns) {
-        DataFormatConverter currency_2_Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
-        DataFormatConverter rate_2_Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
-        DataFormatConverter rate_3_Dec = new DataFormatConverter(ARMConstants.getThreeDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
-        DataFormatConverter zero_Dec = new DataFormatConverter(ARMConstants.getNoDecFormat());
-        DataFormatConverter per_zero_Dec = new DataFormatConverter(ARMConstants.getNoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
-        DataFormatConverter currency_zero_Dec = new DataFormatConverter(ARMConstants.getCurrNoDecFormat());
-        DataFormatConverter num_2_Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat());
+        DataFormatConverter currency2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_DOLLAR);
+        DataFormatConverter rate2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
+        DataFormatConverter rate3Dec = new DataFormatConverter(ARMConstants.getThreeDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
+        DataFormatConverter zeroDec = new DataFormatConverter(ARMConstants.getNoDecFormat());
+        DataFormatConverter perzeroDec = new DataFormatConverter(ARMConstants.getNoDecFormat(), DataFormatConverter.INDICATOR_PERCENT);
+        DataFormatConverter currencyzeroDec = new DataFormatConverter(ARMConstants.getCurrNoDecFormat());
+        DataFormatConverter num2Dec = new DataFormatConverter(ARMConstants.getTwoDecFormat());
         for (Object visibleColumn : visibleColumns) {
-            if (!String.valueOf(visibleColumn).equals("group") && !String.valueOf(visibleColumn).equals("month")) {
-                if (isPercentageColumn_zero_Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, per_zero_Dec, Boolean.FALSE);
-                } else if (isPercentageColumn_2_Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate_2_Dec, Boolean.FALSE);
+            if (!"group".equals(String.valueOf(visibleColumn)) && !"month".equals(String.valueOf(visibleColumn))) {
+                if (isPercentageColumnzeroDecimal(visibleColumn.toString())) {
+                    excelTable.setConverter(visibleColumn, perzeroDec, Boolean.FALSE);
+                } else if (isPercentageColumn2Decimal(visibleColumn.toString())) {
+                    excelTable.setConverter(visibleColumn, rate2Dec, Boolean.FALSE);
                 } else if (isNumericTwoDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, num_2_Dec, Boolean.FALSE);
-                } else if (isPercentageColumn_3_Decimal(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, rate_3_Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, num2Dec, Boolean.FALSE);
+                } else if (isPercentageColumn3Decimal(visibleColumn.toString())) {
+                    excelTable.setConverter(visibleColumn, rate3Dec, Boolean.FALSE);
                 } else if (isUnitColumn(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, zero_Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, zeroDec, Boolean.FALSE);
                 } else if (isCurrencyZeroDecimalFormat(visibleColumn.toString())) {
-                    excelTable.setConverter(visibleColumn, currency_zero_Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, currencyzeroDec, Boolean.FALSE);
                 } else {
-                    excelTable.setConverter(visibleColumn, currency_2_Dec, Boolean.FALSE);
+                    excelTable.setConverter(visibleColumn, currency2Dec, Boolean.FALSE);
                 }
             }
         }
@@ -600,7 +613,7 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @param column
      * @return
      */
-    protected boolean isPercentageColumn_3_Decimal(String column) {
+    protected boolean isPercentageColumn3Decimal(String column) {
         return column.contains("Ratio") || column.contains("ratio") || column.contains("Per") || column.contains("per");
     }
 
@@ -611,8 +624,8 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @param column
      * @return
      */
-    protected boolean isPercentageColumn_2_Decimal(String column) {
-        column = null;
+    protected boolean isPercentageColumn2Decimal(String column) {
+        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME + column);
         return false;
     }
 
@@ -634,17 +647,17 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
      * @return
      */
     protected boolean isCurrencyZeroDecimalFormat(String column) {
-        column = null;
+        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME + column);
         return false;
     }
 
     protected boolean isNumericTwoDecimalFormat(String column) {
-        column = null;
+        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME + column);
         return false;
     }
 
-    protected boolean isPercentageColumn_zero_Decimal(String column) {
-        column = null;
+    protected boolean isPercentageColumnzeroDecimal(String column) {
+        logger.debug(CommonConstant.VISIBLE_COLUMN_NAME + column);
         return false;
     }
 
@@ -655,15 +668,13 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
                     .getAttribute(ConstantsUtils.USER_ID));
 
             final Map<String, AppPermission> functionCfpHM = stplSecurity.getBusinessFunctionPermission(userId, ARMUtils.BALANCE_SUMMARY_REPORT + ConstantUtil.COMMA + ConstantsUtils.SALES);
-            if (functionCfpHM.get("calculateBtn") != null && ((AppPermission) functionCfpHM.get("calculateBtn")).isFunctionFlag()) {
+            if (functionCfpHM.get("calculateBtn") != null && (functionCfpHM.get("calculateBtn")).isFunctionFlag()) {
                 calculateBtn();
             } else {
                 calculateBtn.setVisible(false);
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
+        } catch (SystemException | PortalException ex) {
+            logger.error("Error in configurePermission"+ex);
         }
     }
 
@@ -675,8 +686,8 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
         return collapseBtn;
     }
 
-    public Button getBBExport() {
-        return BBExport;
+    public Button getBbExport() {
+        return bbExport;
     }
 
     public Button getCalculateBtn() {
@@ -686,5 +697,15 @@ public abstract class AbstractSearchResults<T extends AbstractSelectionDTO> exte
     public Button getCancelOverride() {
         return cancelOverride;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
 }

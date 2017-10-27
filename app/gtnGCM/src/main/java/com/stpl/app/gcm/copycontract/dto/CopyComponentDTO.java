@@ -54,7 +54,6 @@ public class CopyComponentDTO implements Serializable {
     HelperDTO status;
     String rebateFrequency = StringUtils.EMPTY;
     String start = StringUtils.EMPTY;
-    String rsId = StringUtils.EMPTY;
     String rarType = StringUtils.EMPTY;
     String basis = StringUtils.EMPTY;
     String end = StringUtils.EMPTY;
@@ -380,15 +379,7 @@ public class CopyComponentDTO implements Serializable {
     public void setStart(String start) {
         this.start = start;
     }
-
-    public String getRsId() {
-        return rsId;
-    }
-
-    public void setRsId(String rsId) {
-        this.rsId = rsId;
-    }
-
+    
     public String getRarType() {
         return rarType;
     }

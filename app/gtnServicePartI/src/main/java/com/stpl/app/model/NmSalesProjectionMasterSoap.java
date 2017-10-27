@@ -17,7 +17,6 @@ public class NmSalesProjectionMasterSoap implements Serializable {
     private String _userGroup;
     private int _projectionDetailsSid;
     private String _methodology;
-    private String _calculationBased;
 
     public NmSalesProjectionMasterSoap() {
     }
@@ -31,7 +30,6 @@ public class NmSalesProjectionMasterSoap implements Serializable {
         soapModel.setUserGroup(model.getUserGroup());
         soapModel.setProjectionDetailsSid(model.getProjectionDetailsSid());
         soapModel.setMethodology(model.getMethodology());
-        soapModel.setCalculationBased(model.getCalculationBased());
 
         return soapModel;
     }
@@ -125,13 +123,5 @@ public class NmSalesProjectionMasterSoap implements Serializable {
 
     public void setMethodology(String methodology) {
         _methodology = methodology;
-    }
-
-    public String getCalculationBased() {
-        return _calculationBased;
-    }
-
-    public void setCalculationBased(String calculationBased) {
-        _calculationBased = calculationBased;
     }
 }

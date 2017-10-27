@@ -21,7 +21,7 @@ public class RelationshipCopyLogic {
 
     final public static RelationBuilderLogicDAO dao = new RelationBuilderLogicDAOImpl();
 
-    public static List<String> copyRelationship(int relationshipBuilderSysId, String newRelationshipName, String newRelationshipDescription) throws PortalException, SystemException {
+    public static void copyRelationship(int relationshipBuilderSysId, String newRelationshipName, String newRelationshipDescription) throws PortalException, SystemException {
         final int userId = Integer.valueOf((String) VaadinSession.getCurrent().getAttribute("userId"));
         RelationshipBuilder sourceRelation = dao.getRelationshipBuilder(relationshipBuilderSysId);
         RelationshipBuilder destRelation = RelationshipBuilderLocalServiceUtil.createRelationshipBuilder(0);
@@ -54,8 +54,7 @@ public class RelationshipCopyLogic {
             destLevel.setCreatedDate(new Date());
             destLevel.setModifiedDate(new Date());
             destLevel.setVersionNo(1);
-            destLevel = dao.addRelationshipLevelDefinition(destLevel);
+            dao.addRelationshipLevelDefinition(destLevel);
         }
-        return null;
     }
 }

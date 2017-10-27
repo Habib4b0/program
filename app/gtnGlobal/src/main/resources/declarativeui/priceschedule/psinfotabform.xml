@@ -6,7 +6,7 @@
 			<TextField id="priceScheduleId" enabled="true" immediate="true" />
 			<Label id="priceScheduleNoLb" value="Price Schedule No" styleName="mandatory" contentMode="HTML"  />
 			<TextField id="priceScheduleNo" enabled="true" immediate="true" />
-			<Label id="priceScheduleNameLb" value="Price Schedule Name" contentMode="HTML"  />
+			<Label id="priceScheduleNameLb" value="Price Schedule Name" styleName="mandatory" contentMode="HTML"  />
 			<TextField id="priceScheduleName" enabled="true" immediate="true" />
 			<Label id="priceScheduleStatusLb" value="Price Schedule Status" styleName="mandatory" contentMode="HTML"  />
 			<c:CustomComboBox id="priceScheduleStatus" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />

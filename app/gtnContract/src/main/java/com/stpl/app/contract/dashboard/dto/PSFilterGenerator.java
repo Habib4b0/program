@@ -100,7 +100,7 @@ public class PSFilterGenerator implements ExtFilterGenerator {
             try {
                 ComboBox comboBox = new ComboBox();
                 commonUtil.loadYesNoDDLB(comboBox, true);
-                comboBox.setDebugId("testing");
+                comboBox.setDebugId(ConstantsUtils.TESTING);
                 return comboBox;
             } catch (Exception ex) {
                 LOGGER.error(ex);
@@ -110,7 +110,7 @@ public class PSFilterGenerator implements ExtFilterGenerator {
             try {
                 ComboBox priceScheduleStatus = new ComboBox();
                 commonUtil.loadComboBox(priceScheduleStatus, UIUtils.STATUS, true);
-                priceScheduleStatus.setDebugId("testing");
+                priceScheduleStatus.setDebugId(ConstantsUtils.TESTING);
                 return priceScheduleStatus;
             } catch (Exception ex) {
                 LOGGER.error(ex);
@@ -121,7 +121,7 @@ public class PSFilterGenerator implements ExtFilterGenerator {
                 ComboBox resetType = new ComboBox();
                 commonUtil.loadComboBox(resetType, "resetType".equals(propertyId) ? UIUtils.RESET_TYPE : 
                                     "resetInterval".equals(propertyId) ? UIUtils.PRICE_TOLERANCE_INTERVAL : UIUtils.PRICE_TOLERANCE_FRERQUENCY, true);
-                resetType.setDebugId("testing");
+                resetType.setDebugId(ConstantsUtils.TESTING);
                 return resetType;
             } catch (Exception ex) {
                 LOGGER.error(ex);
@@ -131,7 +131,7 @@ public class PSFilterGenerator implements ExtFilterGenerator {
             try {
                 ComboBox priceScheduleType = new ComboBox();
                 commonUtil.loadComboBox(priceScheduleType, UIUtils.PS_TYPE, true);
-                priceScheduleType.setDebugId("testing");
+                priceScheduleType.setDebugId(ConstantsUtils.TESTING);
                 return priceScheduleType;
             } catch (Exception ex) {
                  LOGGER.error(ex);
@@ -148,7 +148,7 @@ public class PSFilterGenerator implements ExtFilterGenerator {
             try {
                 ComboBox tradeClass = new ComboBox();
                 commonUtil.loadComboBox(tradeClass, UIUtils.TRADE_CLASS, true);
-                tradeClass.setDebugId("testing");
+                tradeClass.setDebugId(ConstantsUtils.TESTING);
                 return tradeClass;
             } catch (Exception ex) {
                LOGGER.error(ex);
@@ -245,10 +245,12 @@ public class PSFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public void filterRemoved(Object propertyId) {
+        return;
     }
 
     @Override
     public void filterAdded(Object propertyId, Class<? extends Filter> filterType, Object value) {
+        return;
     }
 
     @Override

@@ -31,7 +31,7 @@ public class LoadDdlbDAO implements DAO<HelperDTO> {
     }
 
     public int count(SearchCriteria criteria) {
-        List<String> filterTextList = new ArrayList<String>();
+        List<String> filterTextList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";
         filterTextList.add(filterText);
         int count = logic.getDdlbCount(countFlag, filterTextList);
@@ -39,7 +39,7 @@ public class LoadDdlbDAO implements DAO<HelperDTO> {
     }
 
     public List<HelperDTO> find(SearchCriteria criteria, int startIndex, int offset, List<OrderByColumn> columns) {
-        List<String> offSetList = new ArrayList<String>();
+        List<String> offSetList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";
         offSetList.add(filterText);
         offSetList.add(String.valueOf(startIndex));

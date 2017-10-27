@@ -116,7 +116,7 @@ AS
                 CM.COMPANY_NO   BUSINESS_UNIT_NO,
                 CM.COMPANY_NAME BUSINESS_UNIT_NAME,
                 CASE
-                  WHEN IM.ITEM_ID IN (SELECT FM.ITEM_ID
+                  WHEN EXISTS (SELECT FM.ITEM_ID
                                       FROM   DEMAND_FORECAST FM
                                              JOIN (SELECT TOP 1 FT.FORECAST_NAME,
                                                                 FT.[VERSION]
@@ -130,7 +130,7 @@ AS
                                                           AND HT.DESCRIPTION = 'DEMAND'
                                                    ORDER  BY FT.FROM_PERIOD DESC) F
                                                ON FM.FORECAST_NAME = F.FORECAST_NAME
-                                                  AND FM.FORECAST_VER IN ( F.[VERSION], FLOOR(F.[VERSION]) )) THEN 1
+                                                  AND FM.FORECAST_VER IN ( F.[VERSION], FLOOR(F.[VERSION]) ) WHERE FM.ITEM_ID=IM.ITEM_ID) THEN 1
                   ELSE 0
                 END             IS_ACTIVE,
                 0               AS IS_FORECAST

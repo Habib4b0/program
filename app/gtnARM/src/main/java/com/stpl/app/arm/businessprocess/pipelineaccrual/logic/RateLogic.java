@@ -15,21 +15,19 @@ import java.util.List;
  *
  * @author srithar
  */
-public abstract class RateLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO> extends AbstractPipelineLogic<T,E> {
-
+public abstract class RateLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO> extends AbstractPipelineLogic<T, E> {
 
     /**
-     * 
+     *
      * @param result
      * @param selection
      * @param lastParent
-     * @return 
+     * @return
      */
     protected abstract List<AdjustmentDTO> customizeResultSet(List result, AbstractSelectionDTO selection, AdjustmentDTO lastParent);
 
-
     /**
-     * 
+     *
      * @param criteria
      * @param selection
      * @param lastParent
@@ -38,21 +36,19 @@ public abstract class RateLogic<T extends AdjustmentDTO, E extends AbstractSelec
      * @param offset
      * @param currentPage
      * @param lastPage
-     * @return 
+     * @return
      */
     protected abstract Object getRateQuery(Criteria criteria, boolean isCount, int start, int offset);
 
-
     /**
      * returns input for rate query w.r.t. level
+     *
      * @param parentDTO
      * @param selection
      * @param input
      * @param queryName
-     * @return 
+     * @return
      */
     protected abstract List getQueryInput(AdjustmentDTO parentDTO, AbstractSelectionDTO selection, List input, String queryName);
 
 }
-
-        

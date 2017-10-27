@@ -43,9 +43,9 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class DataSelectionUtil {
 
-    public static Map<String, String> userMap = new HashMap<String, String>();
-    public static Map<String, String> userIdMap = new HashMap<String, String>();
-    public static Map<String, String> discountMap = new HashMap<String, String>();
+    public static Map<String, String> userMap = new HashMap<>();
+    public static Map<String, String> userIdMap = new HashMap<>();
+    public static Map<String, String> discountMap = new HashMap<>();
 
     public static Date calculateHistory(final String frequency, final int histValue) {
 
@@ -115,7 +115,7 @@ public class DataSelectionUtil {
     public static String getItemSidForGroup(List<Leveldto> innerProdLevels, List<String> items) {
         StringBuilder itemList = new StringBuilder(StringUtils.EMPTY);
         if (items != null && !items.isEmpty()) {
-            items = new ArrayList<String>(new LinkedHashSet<String>(items));
+            items = new ArrayList<>(new LinkedHashSet<String>(items));
             for (int loop = 0, limit = items.size(); loop < limit; loop++) {
                 itemList.append("'");
                 itemList.append(items.get(loop));
@@ -131,18 +131,18 @@ public class DataSelectionUtil {
         query.append(" SELECT distinct im.");
         query.append(UiUtils.generateHqlField("ITEM_MASTER_SID", indicatorColumn));
         query.append(" FROM ");
-        query.append(UiUtils.generateHqlField("ITEM_MASTER", indicatorTable));
+        query.append(UiUtils.generateHqlField(StringConstantsUtil.ITEM_MASTER, indicatorTable));
         query.append(" im ");
 
         query.append(" WHERE ");
 
-        Map<String, Boolean> fieldDuplicationCheck = new HashMap<String, Boolean>();
+        Map<String, Boolean> fieldDuplicationCheck = new HashMap<>();
         Leveldto ddo;
         boolean orFlag = false;
         for (int loop = 0, limit = innerProdLevels.size(); loop < limit; loop++) {
             ddo = innerProdLevels.get(loop);
 
-                if (ddo.getTableName().equalsIgnoreCase("ITEM_MASTER") && (fieldDuplicationCheck.get(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn)) == null
+                if (ddo.getTableName().equalsIgnoreCase(StringConstantsUtil.ITEM_MASTER) && (fieldDuplicationCheck.get(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn)) == null
                         || !fieldDuplicationCheck.get(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn)))) {
                     if (orFlag) {
                         query.append(" or ");
@@ -169,8 +169,8 @@ public class DataSelectionUtil {
         if (selectedTable.hasChildren(item)) {
             Collection<?> children = selectedTable.getChildren(item);
             if (children != null && children.size() > 0) {
-                BeanItemContainer<Leveldto> tempBean = new BeanItemContainer<Leveldto>(Leveldto.class);
-                LinkedList<Object> children2 = new LinkedList<Object>();
+                BeanItemContainer<Leveldto> tempBean = new BeanItemContainer<>(Leveldto.class);
+                LinkedList<Object> children2 = new LinkedList<>();
                 for (Iterator<?> i = children.iterator(); i.hasNext();) {
                     children2.add((Object) i.next());
                 }
@@ -200,7 +200,7 @@ public class DataSelectionUtil {
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof Leveldto) {
-            targetItem = new BeanItem<Leveldto>((Leveldto) obj);
+            targetItem = new BeanItem<>((Leveldto) obj);
         }
 
         return (Leveldto) targetItem.getBean();
@@ -210,7 +210,7 @@ public class DataSelectionUtil {
         List<Integer> selectedRelationshipLevelSids = null;
         if (itemIds != null && !itemIds.isEmpty()) {
             Leveldto dto;
-            selectedRelationshipLevelSids = new ArrayList<Integer>();
+            selectedRelationshipLevelSids = new ArrayList<>();
             for (Object item : itemIds) {
                 dto = DataSelectionUtil.getBeanFromId(item);
                 selectedRelationshipLevelSids.add(dto.getRelationshipLevelSid());
@@ -221,19 +221,19 @@ public class DataSelectionUtil {
 
     public static List<String> storeUncommonValues(List<String> list1, List<String> list2) {
         // Prepare a union
-        List<String> union = new ArrayList<String>(list1);
+        List<String> union = new ArrayList<>(list1);
         union.addAll(list2);
         // Prepare an intersection
-        List<String> intersection = new ArrayList<String>(list1);
+        List<String> intersection = new ArrayList<>(list1);
         intersection.retainAll(list2);
         // Subtract the intersection from the union
         union.removeAll(intersection);
         return union;
     }
 
-    public static List<String> getTimePeriodList(Date start, Date end) throws ParseException {
+    public static List<String> getTimePeriodList(Date start, Date end) {
         SimpleDateFormat getYear = new SimpleDateFormat("yyyy");
-        List<String> quartersList = new ArrayList<String>();
+        List<String> quartersList = new ArrayList<>();
         int startQuarter = getQuarter(start);
         int endQuarter = getQuarter(end);
         int startYear = Integer.parseInt(getYear.format(start));
@@ -259,7 +259,7 @@ public class DataSelectionUtil {
     }
 
     public static List<String> getEndLevelHierNo(List<Leveldto> levels) {
-        List<String> hierNos = new ArrayList<String>();
+        List<String> hierNos = new ArrayList<>();
         for (Leveldto level : levels) {
             hierNos.add(String.valueOf(level.getHierarchyNo()));
         }
@@ -289,7 +289,7 @@ public class DataSelectionUtil {
         return date;
     }
 
-    public static String getTimePeriod(Date date) throws ParseException {
+    public static String getTimePeriod(Date date) {
         String timePeriod = StringUtils.EMPTY;
         if (date != null) {
             SimpleDateFormat getYear = new SimpleDateFormat("yyyy");
@@ -370,66 +370,66 @@ public class DataSelectionUtil {
 
     public static List<String> getRemovedLevelsRsid(List<Leveldto> originalList, List<Leveldto> newList) {
         List<String> endLevel = null;
-        List<String> oldRsids = new ArrayList<String>();
-        List<String> newRsds = new ArrayList<String>();
+        List<String> oldRsids = new ArrayList<>();
+        List<String> newRsds = new ArrayList<>();
         for (Leveldto level : originalList) {
             oldRsids.add(String.valueOf(level.getRelationshipLevelSid()));
         }
         for (Leveldto level : newList) {
             newRsds.add(String.valueOf(level.getRelationshipLevelSid()));
         }
-        endLevel = new ArrayList<String>(oldRsids);
+        endLevel = new ArrayList<>(oldRsids);
         endLevel.removeAll(newRsds);
         return endLevel;
     }
 
     public static List<String> getRemovedLevelsHno(List<Leveldto> originalList, List<Leveldto> newList) {
         List<String> endLevel = null;
-        List<String> oldRsids = new ArrayList<String>();
-        List<String> newRsds = new ArrayList<String>();
+        List<String> oldRsids = new ArrayList<>();
+        List<String> newRsds = new ArrayList<>();
         for (Leveldto level : originalList) {
             oldRsids.add(String.valueOf(level.getHierarchyNo()));
         }
         for (Leveldto level : newList) {
             newRsds.add(String.valueOf(level.getHierarchyNo()));
         }
-        endLevel = new ArrayList<String>(oldRsids);
+        endLevel = new ArrayList<>(oldRsids);
         endLevel.removeAll(newRsds);
         return endLevel;
     }
 
     public static List<String> getNewLevelRsid(List<Leveldto> originalList, List<Leveldto> newList) {
         List<String> addLevel = null;
-        List<String> oldHno = new ArrayList<String>();
-        List<String> newHno = new ArrayList<String>();
+        List<String> oldHno = new ArrayList<>();
+        List<String> newHno = new ArrayList<>();
         for (Leveldto level : originalList) {
             oldHno.add(String.valueOf(level.getRelationshipLevelSid()));
         }
         for (Leveldto level : newList) {
             newHno.add(String.valueOf(level.getRelationshipLevelSid()));
         }
-        addLevel = new ArrayList<String>(newHno);
+        addLevel = new ArrayList<>(newHno);
         addLevel.removeAll(oldHno);
         return addLevel;
     }
 
     public static List<String> getNewLevelHnos(List<Leveldto> originalList, List<Leveldto> newList) {
         List<String> addLevel = null;
-        List<String> oldHno = new ArrayList<String>();
-        List<String> newHno = new ArrayList<String>();
+        List<String> oldHno = new ArrayList<>();
+        List<String> newHno = new ArrayList<>();
         for (Leveldto level : originalList) {
             oldHno.add(level.getHierarchyNo());
         }
         for (Leveldto level : newList) {
             newHno.add(level.getHierarchyNo());
         }
-        addLevel = new ArrayList<String>(newHno);
+        addLevel = new ArrayList<>(newHno);
         addLevel.removeAll(oldHno);
         return addLevel;
     }
 
     public static List<String> getTempTableList() {
-        List<String> tempTables = new ArrayList<String>();
+        List<String> tempTables = new ArrayList<>();
         tempTables.add("ST_NM_SALES_PROJECTION");
         tempTables.add("ST_NM_ACTUAL_SALES");
         tempTables.add("ST_NM_SALES_PROJECTION_MASTER");
@@ -481,13 +481,13 @@ public class DataSelectionUtil {
         return date;
     }
 
-    public static void mapUsers() throws PortalException, SystemException {
+    public static void mapUsers() {
         userMap.clear();
     }
 
     public static String filterUser(String filter) {
-        List<String> keys = new ArrayList<String>();
-        String userIds = StringUtils.EMPTY;
+        List<String> keys = new ArrayList<>();
+        String userIds;
         if (userMap != null) {
             for (Map.Entry<String, String> entry : userMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
@@ -512,7 +512,7 @@ public class DataSelectionUtil {
     }
 
     public static List<Leveldto> getFSValue(final String relationshipLevelValue, final String fieldName) {
-        List<Leveldto> list = new ArrayList<Leveldto>();
+        List<Leveldto> list = new ArrayList<>();
         DataSelectionLogic logic = new DataSelectionLogic();
         List<Object> listValue = logic.getFSValue(relationshipLevelValue, fieldName);
         Leveldto dto = new Leveldto();
@@ -528,8 +528,8 @@ public class DataSelectionUtil {
     public static String getCcpWithCC(final List<Leveldto> ccList) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("SELECT DISTINCT CCP.itemMasterSid FROM CcpDetails CCP ");
-        List<String> companyMasterValues = new ArrayList<String>();
-        List<String> contractMasterValues = new ArrayList<String>();
+        List<String> companyMasterValues = new ArrayList<>();
+        List<String> contractMasterValues = new ArrayList<>();
         Leveldto ddo;
         for (int loop = 0, limit = ccList.size(); loop < limit; loop++) {
             ddo = ccList.get(loop);
@@ -553,14 +553,13 @@ public class DataSelectionUtil {
                 query.append(" CCP.contractMasterSid IN (");
                 query.append(UiUtils.stringListToString(contractMasterValues));
                 query.append(")");
-                and = StringUtils.EMPTY;
             }
         }
         return query.toString();
     }
 
     public static List<String> getItemSidFromHierarchy(List<Leveldto> innerProdLevels) {
-        List<String> items = new ArrayList<String>();
+        List<String> items = new ArrayList<>();
         if (innerProdLevels != null) {
             for (Leveldto leveldto : innerProdLevels) {
                 if (leveldto.isFromItem()) {
@@ -572,7 +571,7 @@ public class DataSelectionUtil {
     }
 
     public static List<String> getCustomerSidFromHierarchy(List<Leveldto> innerCustLevels) {
-        List<String> customers = new ArrayList<String>();
+        List<String> customers = new ArrayList<>();
         if (innerCustLevels != null) {
             for (Leveldto leveldto : innerCustLevels) {
                 if (leveldto.isFromCompany()) {
@@ -584,7 +583,7 @@ public class DataSelectionUtil {
     }
 
     public static List<String> getCompanySidFromHierarchy(List<Leveldto> innerProdLevels, String screenName) {
-        List<String> companies = new ArrayList<String>();
+        List<String> companies = new ArrayList<>();
         if (innerProdLevels != null) {
             for (Leveldto leveldto : innerProdLevels) {
                 if ((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS)) && leveldto.isFromCompany() || ("Company".equalsIgnoreCase(leveldto.getLevel()) || "GL Comp".contains(leveldto.getLevel()) || "GL Company".contains(leveldto.getLevel()))) {
@@ -597,13 +596,13 @@ public class DataSelectionUtil {
         return companies;
     }
 
-    public static void mapUserIds() throws PortalException, SystemException {
+    public static void mapUserIds() {
         userIdMap.clear();
     }
 
     public static String filterUserId(String filter) {
-        List<String> keys = new ArrayList<String>();
-        String userIds = StringUtils.EMPTY;
+        List<String> keys = new ArrayList<>();
+        String userIds;
         if (userIdMap != null) {
             for (Map.Entry<String, String> entry : userIdMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
@@ -638,7 +637,7 @@ public class DataSelectionUtil {
             } else if ("CONTRACT_MASTER".equalsIgnoreCase(levelDto.getTableName())
                     && levelDto.getLevel().contains("Contract")) {
                 level = INDICATOR_LEVEL_CONTRACT.getConstant();
-            } else if ("ITEM_MASTER".equalsIgnoreCase(levelDto.getTableName())
+            } else if (StringConstantsUtil.ITEM_MASTER.equalsIgnoreCase(levelDto.getTableName())
                     && (levelDto.getLevel().contains("NDC")
                     || "Item".equalsIgnoreCase(levelDto.getLevel()))) {
                 level = INDICATOR_LEVEL_NDC.getConstant();
@@ -647,13 +646,13 @@ public class DataSelectionUtil {
         return level;
     }
 
-    public static void mapDiscounts() throws PortalException, SystemException {
+    public static void mapDiscounts() {
         discountMap.clear();
     }
 
     public static String filterDiscount(String filter) {
-        List<String> keys = new ArrayList<String>();
-        String discountIds = StringUtils.EMPTY;
+        List<String> keys = new ArrayList<>();
+        String discountIds;
         if (discountMap != null) {
             for (Map.Entry<String, String> entry : discountMap.entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {

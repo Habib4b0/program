@@ -30,6 +30,7 @@ public class ItemPricingSoap implements Serializable {
     private String _inboundStatus;
     private int _itemPricingSid;
     private int _pricingCodeStatus;
+    private int _itemPricePrecision;
 
     public ItemPricingSoap() {
     }
@@ -54,6 +55,7 @@ public class ItemPricingSoap implements Serializable {
         soapModel.setInboundStatus(model.getInboundStatus());
         soapModel.setItemPricingSid(model.getItemPricingSid());
         soapModel.setPricingCodeStatus(model.getPricingCodeStatus());
+        soapModel.setItemPricePrecision(model.getItemPricePrecision());
 
         return soapModel;
     }
@@ -240,5 +242,13 @@ public class ItemPricingSoap implements Serializable {
 
     public void setPricingCodeStatus(int pricingCodeStatus) {
         _pricingCodeStatus = pricingCodeStatus;
+    }
+
+    public int getItemPricePrecision() {
+        return _itemPricePrecision;
+    }
+
+    public void setItemPricePrecision(int itemPricePrecision) {
+        _itemPricePrecision = itemPricePrecision;
     }
 }

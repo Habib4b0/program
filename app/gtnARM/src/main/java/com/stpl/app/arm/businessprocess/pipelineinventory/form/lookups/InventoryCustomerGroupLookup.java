@@ -84,8 +84,8 @@ public class InventoryCustomerGroupLookup extends Window {
      */
     @UiField("search")
     private Button searchBtn;
-    private final BeanItemContainer<CustomerGroupDTO> resultsContainer = new BeanItemContainer<CustomerGroupDTO>(CustomerGroupDTO.class);
-    private final BeanItemContainer<CustomerGroupDTO> resultsinventoryContainer = new BeanItemContainer<CustomerGroupDTO>(CustomerGroupDTO.class);
+    private final BeanItemContainer<CustomerGroupDTO> resultsContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
+    private final BeanItemContainer<CustomerGroupDTO> resultsinventoryContainer = new BeanItemContainer<>(CustomerGroupDTO.class);
     CustomerGrpAvailableTableLogic availableTableLogic = new CustomerGrpAvailableTableLogic();
     CustomerGroupDTO groupDTO = new CustomerGroupDTO();
     CustomerGrpSelectedTableLogic selectedTableLogic = new CustomerGrpSelectedTableLogic();
@@ -98,12 +98,13 @@ public class InventoryCustomerGroupLookup extends Window {
     String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
     SaveViewPopup viewPopup;
     ViewLookupDTO viewDTO = new ViewLookupDTO();
-    List<CustomerGroupDTO> customerGroupList = new ArrayList<CustomerGroupDTO>();
+    List<CustomerGroupDTO> customerGroupList = new ArrayList<>();
     List<String> customerListGroup = new ArrayList<>();
     AbstractSelectionDTO selectionDto;
     boolean submitted = Boolean.FALSE;
     Window instance = null;
-    String vmSid="0", viewCategory;
+    String vmSid = "0";
+    String viewCategory;
 
     public InventoryCustomerGroupLookup(int projectionId, AbstractSelectionDTO selectionDto) {
         super("Inventory Customer Group");
@@ -122,8 +123,6 @@ public class InventoryCustomerGroupLookup extends Window {
         setResizable(true);
         setModal(true);
         setSizeFull();
-//        setWidth(NumericConstants.FLOAT_SIXTY, Sizeable.Unit.PERCENTAGE);
-//        setHeight(NumericConstants.FLOAT_FORTY, Sizeable.Unit.PERCENTAGE);
         setContent(Clara.create(getClass().getResourceAsStream("/bussinessprocess/Inventory/customerGroupLookup.xml"), this));
         configureFields();
     }
@@ -135,29 +134,37 @@ public class InventoryCustomerGroupLookup extends Window {
         availableTableLogic.setItemsPerPage(NumericConstants.FIVE);
         availableTableLogic.sinkItemPerPageWithPageLength(false);
 
-        availableTable.setVisibleColumns(ARMUtils.CUSTOMER_GROUP_LOOKUP_COLUMNS);
-        availableTable.setColumnHeaders(ARMUtils.CUSTOMER_GROUP_LOOKUP_HEADERS);
+        availableTable.setVisibleColumns(ARMUtils.getCustomerGroupLookupColumns());
+        availableTable.setColumnHeaders(ARMUtils.getCustomerGroupLookupHeaders());
         availableTable.setImmediate(true);
         availableTable.setSelectable(true);
         availableTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
+                LOGGER.debug("Inside filterRemoved Method");
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                LOGGER.debug("Inside filterAdded Method");
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 return null;
             }
@@ -188,14 +195,14 @@ public class InventoryCustomerGroupLookup extends Window {
 
                 resultsContainer.removeAllItems();
                 availableTableLogic.getResultsinventoryContainer().removeAllItems();
-                
+
                 getCustomerGroupDto(groupDTO);
                 if (availableTableLogic.loadSetData(groupDTO, false, selectionDto)) {
                     Notification.show("Search Completed");
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in btnSearchLogic :"+ex);
         }
     }
 
@@ -218,7 +225,9 @@ public class InventoryCustomerGroupLookup extends Window {
     public void btnAddAllLogic(Button.ClickEvent event) {
         try {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
+                    LOGGER.debug("inside BTNAddAll Logic No Method");
 
                 }
 
@@ -243,7 +252,7 @@ public class InventoryCustomerGroupLookup extends Window {
             }.getConfirmationMessage(ARMMessages.getInventoryCustomerGroupADDALLErrorMsg1(), ARMMessages.getInventoryCustomerGroupADDALLErrorMsg2());
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in btnAddLineLogic :"+ex);
         }
     }
 
@@ -264,7 +273,9 @@ public class InventoryCustomerGroupLookup extends Window {
     @UiHandler("removeall")
     public void btnRmoveAllLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
+                LOGGER.debug("inside btnRmoveAllLogic  No Method");
 
             }
 
@@ -299,6 +310,7 @@ public class InventoryCustomerGroupLookup extends Window {
             new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
+                    LOGGER.debug("inside btnSubmitLogic  No Method");
 
                 }
 
@@ -311,7 +323,7 @@ public class InventoryCustomerGroupLookup extends Window {
                     instance.close();
                 }
             }.getConfirmationMessage("Confirm Submit", ARMMessages.getCGLookUpSubmitConfirmTransaction3());
-        }else{
+        } else {
             AbstractNotificationUtils.getErrorNotification("Error", ARMMessages.getLookUpSubmitErrorTransaction3());
         }
 
@@ -359,7 +371,7 @@ public class InventoryCustomerGroupLookup extends Window {
             viewPopup = new SaveViewPopup(saveViewDTO);
             getUI().addWindow(viewPopup);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Error in btnSaveViewLogic :"+e);
         }
     }
 
@@ -377,10 +389,12 @@ public class InventoryCustomerGroupLookup extends Window {
 
     @UiHandler("deleteViewBtn")
     public void deleteButtonClick(Button.ClickEvent event) {
-        
-          try {
+
+        try {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
+                    LOGGER.debug("inside deleteButtonClick  No Method");
 
                 }
 
@@ -392,14 +406,14 @@ public class InventoryCustomerGroupLookup extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 public void yesMethod() {
-                   ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
-                   arLogic.deleteViewLogic(viewDTO.getViewSid());
-                   refreshLookup();
+                    ExclusionDetailsLogic arLogic = new ExclusionDetailsLogic();
+                    arLogic.deleteViewLogic(viewDTO.getViewSid());
+                    refreshLookup();
                 }
             }.getConfirmationMessage(ARMMessages.getResetConfirmationMessage(), ARMMessages.getDeleteMessage_exclusion());
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("Error in deleteButtonClick :"+ex);
         }
     }
 
@@ -428,24 +442,33 @@ public class InventoryCustomerGroupLookup extends Window {
     private void configureInventoryTable() {
 
         selectedTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
+                LOGGER.debug("inside filterRemoved Method");
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
+                LOGGER.debug("inside filterAdded Method");
+
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 return null;
             }
@@ -453,8 +476,8 @@ public class InventoryCustomerGroupLookup extends Window {
         selectedTable.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedTableLogic.setContainerDataSource(resultsinventoryContainer);
 
-        selectedTable.setVisibleColumns(ARMUtils.CUSTOMER_GROUP_INVENTORY_COLUMNS);
-        selectedTable.setColumnHeaders(ARMUtils.CUSTOMER_GROUP_INVENTORY_HEADERS);
+        selectedTable.setVisibleColumns(ARMUtils.getCustomerGroupInventoryColumns());
+        selectedTable.setColumnHeaders(ARMUtils.getCustomerGroupInventoryHeaders());
         selectedTable.setImmediate(true);
         selectedTable.setSelectable(true);
         selectedTableLogic.setPageLength(NumericConstants.FIVE);
@@ -534,7 +557,7 @@ public class InventoryCustomerGroupLookup extends Window {
             try {
                 int userIdValue = userId.equals(StringUtils.EMPTY) ? 0 : Integer.parseInt(userId.replaceAll("\\D+", StringUtils.EMPTY));
                 if (viewLookUp == null) {
-                    viewLookUp = new PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, "CG",event.getComponent().getId(),"Customer Group");
+                    viewLookUp = new PrivatePublicLookup(event.getComponent().getCaption(), userIdValue, "CG", event.getComponent().getId(), "Customer Group");
                 } else {
                     viewLookUp.reloadScreen(event.getComponent().getCaption(), userIdValue, "CG", event.getComponent().getId());
                 }
@@ -545,13 +568,13 @@ public class InventoryCustomerGroupLookup extends Window {
                     @Override
                     public void windowClose(CloseEvent e) {
                         if (viewLookUp.getDtoValue().getCheckFlag()) {
-                          lookupLoadLogic(viewLookUp.getDtoValue());
+                            lookupLoadLogic(viewLookUp.getDtoValue());
                         }
                     }
                 });
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("Error in viewListener :"+ex);
             }
         }
     };
@@ -603,7 +626,9 @@ public class InventoryCustomerGroupLookup extends Window {
     @UiHandler("reset")
     public void btnResetLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
+                LOGGER.debug("inside btnResetLogic  No Method");
 
             }
 
@@ -624,7 +649,9 @@ public class InventoryCustomerGroupLookup extends Window {
     @UiHandler("resetBtn")
     public void resetButtonLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
+                LOGGER.debug("inside resetButtonLogic  No Method");
 
             }
 
@@ -656,11 +683,11 @@ public class InventoryCustomerGroupLookup extends Window {
         publicView.setValue(StringUtils.EMPTY);
         viewLookUp.getDtoValue().setCheckFlag(false);
     }
-    
+
     public void lookupLoadLogic(ViewLookupDTO viewLookupDTO) {
         privateView.setValue(StringUtils.EMPTY);
         publicView.setValue(StringUtils.EMPTY);
-        
+
         if ("publicView".equalsIgnoreCase(viewLookupDTO.getViewType())) {
             publicView.setValue(viewLookupDTO.getViewName());
             publicView.setImmediate(true);
@@ -678,16 +705,16 @@ public class InventoryCustomerGroupLookup extends Window {
         selectedTableLogic.loadSetData(groupDTO, false, selectionDto);
         groupDTO.setViewFlag(false);
     }
-    
-    public void loadInitialArc(String vmSid,String viewCategory) {
-        List<ViewLookupDTO> viewLookupDTO = pipelineLogic.getARCSavedPublicViewList(vmSid,viewCategory);
+
+    public void loadInitialArc(String vmSid, String viewCategory) {
+        List<ViewLookupDTO> viewLookupDTO = pipelineLogic.getARCSavedPublicViewList(vmSid, viewCategory);
         if (viewLookupDTO != null && !viewLookupDTO.isEmpty()) {
             lookupLoadLogic(viewLookupDTO.get(0));
-            this.vmSid=vmSid;
-            this.viewCategory=viewCategory;
+            this.vmSid = vmSid;
+            this.viewCategory = viewCategory;
         }
     }
-    
+
     public void resetFields() {
         resultsContainer.removeAllItems();
         resultsinventoryContainer.removeAllItems();
@@ -701,9 +728,20 @@ public class InventoryCustomerGroupLookup extends Window {
         groupDTO.setCustomerGroupName(customerGroupName.getValue().trim());
         groupDTO.setCustomerGroupNo(customerGroupNo.getValue().trim());
     }
-    public void loadCustomerGroupList(){
+
+    public void loadCustomerGroupList() {
         for (CustomerGroupDTO obj : availableTableLogic.getResultsinventoryContainer().getItemIds()) {
             selectionDto.addCustomerGroupSidSet(obj.getCustomerGroupSid());
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
-    }
-    }

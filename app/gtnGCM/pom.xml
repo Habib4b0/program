@@ -71,7 +71,7 @@
                 </exclusion>
             </exclusions>
         </dependency> 
-
+      
         <!-- Project Dependencies -->
         <dependency>
             <groupId>com.stpl.app</groupId>
@@ -170,8 +170,19 @@
             <version>${stpl.excelexport.version}</version>  
             <scope>provided</scope>          
         </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
-
+  
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>

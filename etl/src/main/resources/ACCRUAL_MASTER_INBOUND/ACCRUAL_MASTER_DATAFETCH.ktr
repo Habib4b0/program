@@ -69,6 +69,29 @@
   <notepads>
   </notepads>
   <connection>
+    <name>AGN_APP</name>
+    <server>10.4.48.18</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>BPIGTN_AGN_APP_UNIT</database>
+    <port>1433</port>
+    <username>bpigtn_agn_unit</username>
+    <password>Encrypted 294cd99bb5ffdb9b3b53afa4cf396aacc</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
     <name>BPI DB</name>
     <server>${BPI_HOST}</server>
     <type>MSSQL</type>
@@ -77,6 +100,29 @@
     <port>1433</port>
     <username>${BPI_USER}</username>
     <password>${BPI_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>stag</name>
+    <server>10.4.48.18</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>BPIGTN_AGN_STAGING_UNIT </database>
+    <port>1433</port>
+    <username>Bpigtn_db</username>
+    <password>Encrypted 2be98afc86aa7f2e4953dea728cb9fa9b</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -115,7 +161,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>RECEIVED COUNT</from><to>SET AUDIT STATUS</to><enabled>N</enabled> </hop>  <hop> <from>SET AUDIT STATUS</from><to>Audit Insert &#47; Update</to><enabled>N</enabled> </hop>  <hop> <from>TEMP</from><to>Memory Group by</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by</from><to>RECEIVED COUNT</to><enabled>N</enabled> </hop>  <hop> <from>STAGING</from><to>String operations</to><enabled>Y</enabled> </hop>  <hop> <from>String operations</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>String operations</from><to>TEMP</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING</from><to>Detect empty stream 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>ADD Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>RECEIVED_RECORD_COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2 2</from><to>INVALID UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2</from><to>MAIL CREATION</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>Group by</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT 2</from><to>SET VARIABLES 2</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Group by</from><to>Database join 2</to><enabled>N</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>FINAL AUDIT WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>INVALID COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID UPDATE</from><to>FINAL AUDIT WAIT 2</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL CREATION</from><to>Split field to rows</to><enabled>N</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT</from><to>Mail 2</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS 2</from><to>PICK UNIQUE CONTENT</to><enabled>N</enabled> </hop>  <hop> <from>SET VARIABLES 2</from><to>AUDIT_STATUS_UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows</from><to>GET MAIL PARAMETERS 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Detect empty stream 2</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT</from><to>SET VARIABLES 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 3</from><to>MAIL CREATION 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 3</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>AUDIT COMPLETION WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>STAGING AUDIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP</from><to>Database join 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Update</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>Database join 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Update</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>STAGING</from><to>String operations</to><enabled>Y</enabled> </hop>  <hop> <from>String operations</from><to>SNAPSHOT</to><enabled>N</enabled> </hop>  <hop> <from>String operations</from><to>TEMP</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING</from><to>Detect empty stream 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>ADD Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>RECEIVED_RECORD_COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2 2</from><to>INVALID UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2</from><to>MAIL CREATION</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>Group by</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT 2</from><to>SET VARIABLES 2</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Group by</from><to>Database join 2</to><enabled>N</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>FINAL AUDIT WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>INVALID COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID UPDATE</from><to>FINAL AUDIT WAIT 2</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL CREATION</from><to>Split field to rows</to><enabled>N</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT</from><to>Mail 2</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS 2</from><to>PICK UNIQUE CONTENT</to><enabled>N</enabled> </hop>  <hop> <from>SET VARIABLES 2</from><to>AUDIT_STATUS_UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows</from><to>GET MAIL PARAMETERS 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Detect empty stream 2</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT</from><to>SET VARIABLES 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 3</from><to>MAIL CREATION 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 3</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>AUDIT COMPLETION WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>STAGING AUDIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP</from><to>Database join 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Update</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>Database join 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Update</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update 2</name>
     <type>Update</type>
@@ -156,6 +202,30 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1257</xloc>
       <yloc>777</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>AUDIT COMPLETION WAIT</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Mail</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2449</xloc>
+      <yloc>1021</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -204,6 +274,54 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1359</xloc>
       <yloc>1212</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>AUDIT_STATUS_UPDATE 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>STATUS</name>
+        <rename>STATUS_N</rename>
+        </value>
+      <value>
+        <name>INTERFACE_RUN_END_DATE</name>
+        <rename>INTERFACE_RUN_END_DATE</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2532</xloc>
+      <yloc>1303</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -293,82 +411,6 @@
     </step>
 
   <step>
-    <name>Audit Insert &#47; Update</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema/>
-      <table>AUDIT_MASTER_INBOUND</table>
-      <key>
-        <name>BATCH_ID</name>
-        <field>BATCH_ID</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>APPLICATION_PROCESS</name>
-        <rename>APPLICATION_PROCESS</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>BATCH_ID</name>
-        <rename>BATCH_ID</rename>
-        <update>N</update>
-      </value>
-      <value>
-        <name>FILE_NAME</name>
-        <rename>FILE_NAME</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>INTERFACE_RUN_START_DATE</name>
-        <rename>Interface_Run_Start_Date</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>RECEIVED_RECORD_AMOUNT</name>
-        <rename>RECEIVED_AMOUNT</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>RECEIVED_RECORD_AMOUNT_ATTR</name>
-        <rename>Attribute</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>RECEIVED_RECORD_COUNT</name>
-        <rename>RECEIVED_COUNT</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>SENT_RECORD_COUNT</name>
-        <rename>SENT_COUNT</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>STATUS</name>
-        <rename>STATUS</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>459</xloc>
-      <yloc>741</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Database join</name>
     <type>DBJoin</type>
     <description/>
@@ -446,6 +488,82 @@ WHERE  b.PROCESS_NAME = &apos;ACCRUAL_INBOUND_INTERFACE&apos;
     </step>
 
   <step>
+    <name>Database join 2 2</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT TOP 1 A.HOST_NAME      AS MAIL_SERVER,
+       A.EMAIL_ADDRESS  AS SENDER_ADDRESS,
+	   A.PASSWORD AS SENDER_PASSWORD,
+       A.PORT_NUMBER    AS MAIL_PORT,
+       B.DESTINATION    AS DESTINATION_ADDRESS,
+       B.DESTINATION_CC AS DESTINATION_CC
+FROM   WF_MAIL_CONFIG A
+       JOIN MAIL_DETAILS B
+         ON 1 = 1
+WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
+       AND a.SMTP_FLAG = &apos;yes&apos; </sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2096</xloc>
+      <yloc>1410</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Database join 2 3</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>
+	   DECLARE @CONTENT VARCHAR(max)= &apos;Hi,&lt;br&gt;&lt;br&gt;&apos;
+SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,
+             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,
+             A.PASSWORD                      AS SENDER_PASSWORD,
+             A.PORT_NUMBER                   AS MAIL_PORT,
+             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,
+             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,
+             B.SUCCESS_MAIL_SUBJECT          AS SSUBJECT,
+            -- B.FAILURE_MAIL_BODY + @CONTENT  AS CONTENT,
+			 stuff(@CONTENT,charindex(&apos;Hi,&apos;,@CONTENT)+3,0,&apos;&lt;br&gt;&lt;br&gt;&apos;+B.SUCCESS_MAIL_BODY) as SCONTENT
+FROM   WF_MAIL_CONFIG A
+       JOIN WORKFLOW_PROFILE B
+         ON 1 = 1
+WHERE  b.PROCESS_NAME = &apos;LOT_MASTER_INTERFACE&apos;
+       AND a.SMTP_FLAG = &apos;yes&apos;
+</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2177</xloc>
+      <yloc>1073</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Detect empty stream 2</name>
     <type>DetectEmptyStream</type>
     <description/>
@@ -459,6 +577,24 @@ WHERE  b.PROCESS_NAME = &apos;ACCRUAL_INBOUND_INTERFACE&apos;
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>870</xloc>
       <yloc>235</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Dummy (do nothing)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2355</xloc>
+      <yloc>1213</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -490,6 +626,80 @@ where BATCH_ID=?
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1565</xloc>
       <yloc>789</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>FINAL AUDIT GENERATION 2</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT  distinct BATCH_ID AS BATCH,ADD_COUNT,INVALID_RECORD_COUNT,SENT_RECORD_COUNT,RECEIVED_RECORD_COUNT ,STATUS FROM AUDIT_MASTER_INBOUND  
+where BATCH_ID=?
+ and STATUS=&apos;R&apos;</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+      <field>
+        <name>batch_id_1</name>
+        <type>String</type>
+      </field>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2203</xloc>
+      <yloc>614</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>FINAL AUDIT GENERATION 2 3</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>
+SELECT REASON_FOR_FAILURE,
+              Count(*) AS &apos;NEW_COUNT&apos;,BATCH_ID as new_batch
+        FROM  IVLD_ACCRUAL_INBOUND
+        WHERE  batch_id = ?
+		   AND ( INTF_INSERTED_DATE &gt; (SELECT TOP 1 CREATED_DATE
+                                   FROM   audit_master_inbound
+                                   WHERE  APPLICATION_PROCESS = &apos;ACCRUAL_INBOUND_INTERFACE&apos;
+                                          AND BATCH_ID = ?) ) 
+        GROUP  BY REASON_FOR_FAILURE,BATCH_ID
+</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+      <field>
+        <name>batch_id_1</name>
+        <type>String</type>
+      </field>
+      <field>
+        <name>batch_id_1</name>
+        <type>String</type>
+      </field>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2175</xloc>
+      <yloc>844</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -546,6 +756,172 @@ where BATCH_ID=?
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1357</xloc>
       <yloc>1025</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>FOR HTML GROUP</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>STATUS</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>AddCounts</aggregate>
+          <subject>ADD_COUNT</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>,</valuefield>
+        </field>
+        <field>
+          <aggregate>InvalidCounts</aggregate>
+          <subject>INVALID_RECORD_COUNT</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>,</valuefield>
+        </field>
+        <field>
+          <aggregate>SentCounts</aggregate>
+          <subject>SENT_RECORD_COUNT</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>,</valuefield>
+        </field>
+        <field>
+          <aggregate>ReceivedCounts</aggregate>
+          <subject>RECEIVED_RECORD_COUNT</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>,</valuefield>
+        </field>
+        <field>
+          <aggregate>Batches</aggregate>
+          <subject>BATCH</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>,</valuefield>
+        </field>
+        <field>
+          <aggregate>InvalidReason</aggregate>
+          <subject>REASON_FOR_FAILURE</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>,</valuefield>
+        </field>
+        <field>
+          <aggregate>Count</aggregate>
+          <subject>NEW_COUNT</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>,</valuefield>
+        </field>
+        <field>
+          <aggregate>newbatch</aggregate>
+          <subject>new_batch</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>,</valuefield>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2175</xloc>
+      <yloc>946</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>GET MAIL PARAMETERS</name>
+    <type>GetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>DESTINATION_ADDRESS</name>
+        <variable>${DESTINATION_ADDRESS}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>DESTINATION_CC</name>
+        <variable>${DESTINATION_CC}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SENDER_ADDRESS</name>
+        <variable>${SENDER_ADDRESS}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SENDER_NAME</name>
+        <variable>${SENDER_NAME}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MAIL_SERVER</name>
+        <variable>${MAIL_SERVER}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MAIL_PORT</name>
+        <variable>${MAIL_PORT}</variable>
+        <type>Number</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2401</xloc>
+      <yloc>1407</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -918,6 +1294,352 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     </step>
 
   <step>
+    <name>MAIL CREATION 2</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>
+var SUBJECT=getVariable(&quot;COMPANY_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
+
+&#47;&#47;var aa=SCONTENT.getString();
+&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
+var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Change Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Delete Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&quot;;
+var batchIds = Batches.getString().split(&quot;,&quot;);
+var AddCount=AddCounts.getString().split(&quot;,&quot;);
+var ChangeCount=ChangeCounts.getString().split(&quot;,&quot;);
+var DeleteCount=DeleteCounts.getString().split(&quot;,&quot;);
+var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
+var SentCount=SentCounts.getString().split(&quot;,&quot;);
+var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
+var i;
+
+for(i=0;i&lt;batchIds.length;i++){
+
+
+	CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ChangeCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
+      
+    
+}
+
+
+&#47;&#47;CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;&quot;+no_key.getString()+&quot;&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
+
+CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
+</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
+        <rename>SUBJECT</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>CONTENT</name>
+        <rename>CONTENT</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>batchIds</name>
+        <rename>batchIds</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>AddCount</name>
+        <rename>AddCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>ChangeCount</name>
+        <rename>ChangeCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>DeleteCount</name>
+        <rename>DeleteCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>InvalidCount</name>
+        <rename>InvalidCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>SentCount</name>
+        <rename>SentCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>ReceivedCount</name>
+        <rename>ReceivedCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>i</name>
+        <rename>i</rename>
+        <type>Number</type>
+        <length>16</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2266</xloc>
+      <yloc>1205</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>MAIL CREATION 3</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>
+var SUBJECT=getVariable(&quot;COMPANY_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
+&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
+&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Change Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Delete Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
+var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
+var batchIds = Batches.getString().split(&quot;,&quot;);
+var AddCount=AddCounts.getString().split(&quot;,&quot;);
+&#47;&#47;var ChangeCount=ChangeCounts.getString().split(&quot;,&quot;);
+&#47;&#47;var DeleteCount=DeleteCounts.getString().split(&quot;,&quot;);
+var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
+var SentCount=SentCounts.getString().split(&quot;,&quot;);
+var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
+var i;
+var j;
+var invalidReason =InvalidReason.getString().split(&quot;,&quot;);
+var invalidCount =Count.getString().split(&quot;,&quot;);
+
+
+var oldBatchId;
+var oldReason;
+
+var batchIdForReason = newbatch.getString().split(&quot;,&quot;);
+
+for(i=0;i&lt;batchIds.length;i++){
+	
+	
+if(oldBatchId != batchIds[i]){
+	&#47;&#47;CONTENT+= &quot;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ChangeCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
+	CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
+oldBatchId = batchIds[i];
+}
+      
+    
+}
+CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;;
+
+oldBatchId= &quot;&quot;;
+
+for(i=0;i&lt;batchIdForReason.length;i++){
+
+if(oldBatchId != batchIdForReason[i]){
+if(i&gt;0){
+CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;
+oldReason = &quot;&quot;;
+}
+
+CONTENT+= &quot;&lt;br&gt;&quot;;
+CONTENT+= &quot;Batch ID: &quot;+batchIdForReason[i];
+CONTENT+= &quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Reason&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
+}
+
+if(oldReason != invalidReason[i]){
+
+CONTENT+= &quot;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+invalidReason[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+invalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
+oldReason = invalidReason[i];
+}
+
+if(i==batchIdForReason.length-1){
+CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;;
+}
+oldBatchId = batchIdForReason[i];
+}
+
+
+
+
+
+
+
+
+&#47;&#47;CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;&quot;+no_key.getString()+&quot;&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
+
+CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
+</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
+        <rename>SUBJECT</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>CONTENT</name>
+        <rename>CONTENT</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>batchIds</name>
+        <rename>batchIds</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>AddCount</name>
+        <rename>AddCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>InvalidCount</name>
+        <rename>InvalidCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>SentCount</name>
+        <rename>SentCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>ReceivedCount</name>
+        <rename>ReceivedCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>i</name>
+        <rename>i</rename>
+        <type>Number</type>
+        <length>16</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>j</name>
+        <rename>j</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>invalidReason</name>
+        <rename>invalidReason</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>invalidCount</name>
+        <rename>invalidCount</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>oldBatchId</name>
+        <rename>oldBatchId</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>oldReason</name>
+        <rename>oldReason</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>batchIdForReason</name>
+        <rename>batchIdForReason</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2175</xloc>
+      <yloc>1225</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mail</name>
+    <type>Mail</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <server>MAIL_SERVER</server>
+      <port>MAIL_PORT</port>
+      <destination>DESTINATION_ADDRESS</destination>
+      <destinationCc>DESTINATION_CC</destinationCc>
+      <destinationBCc/>
+      <replyToAddresses/>
+      <replyto>SENDER_ADDRESS</replyto>
+      <replytoname/>
+      <subject>SSUBJECT</subject>
+      <include_date>N</include_date>
+      <include_subfolders>N</include_subfolders>
+      <zipFilenameDynamic>N</zipFilenameDynamic>
+      <isFilenameDynamic>N</isFilenameDynamic>
+      <dynamicFieldname/>
+      <dynamicWildcard/>
+      <dynamicZipFilename/>
+      <sourcefilefoldername/>
+      <sourcewildcard/>
+      <contact_person/>
+      <contact_phone/>
+      <comment>CONTENT</comment>
+      <include_files>N</include_files>
+      <zip_files>N</zip_files>
+      <zip_name/>
+      <zip_limit_size>0</zip_limit_size>
+      <use_auth>N</use_auth>
+      <use_secure_auth>N</use_secure_auth>
+      <auth_user/>
+      <auth_password>Encrypted </auth_password>
+      <only_comment>Y</only_comment>
+      <use_HTML>Y</use_HTML>
+      <use_Priority>N</use_Priority>
+    <encoding>UTF-8</encoding>
+    <priority>normal</priority>
+    <importance>normal</importance>
+    <secureconnectiontype>SSL</secureconnectiontype>
+      <embeddedimages>
+      </embeddedimages>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2278</xloc>
+      <yloc>1709</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Mail 2</name>
     <type>Mail</type>
     <description/>
@@ -974,38 +1696,6 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     </step>
 
   <step>
-    <name>Memory Group by</name>
-    <type>MemoryGroupBy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <give_back_row>N</give_back_row>
-      <group>
-        <field>
-          <name>BATCH_ID</name>
-        </field>
-      </group>
-      <fields>
-        <field>
-          <aggregate>SENT_COUNT</aggregate>
-          <subject>BATCH_ID</subject>
-          <type>COUNT_ALL</type>
-          <valuefield/>
-        </field>
-      </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>459</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>PICK UNIQUE CONTENT</name>
     <type>Unique</type>
     <description/>
@@ -1030,8 +1720,8 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     </step>
 
   <step>
-    <name>RECEIVED COUNT</name>
-    <type>DBJoin</type>
+    <name>PICK UNIQUE CONTENT 2</name>
+    <type>Unique</type>
     <description/>
     <distribute>Y</distribute>
     <copies>1</copies>
@@ -1039,21 +1729,16 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>BPI DB</connection>
-    <rowlimit>0</rowlimit>
-    <sql>SELECT COUNT(*)  AS  RECEIVED_COUNT,Sum(AMOUNT)  AS RECEIVED_AMOUNT ,&apos;AMOUNT&apos; AS Attribute FROM STAG_ACCRUAL_INBOUND where BATCH_ID=?</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-      <field>
-        <name>BATCH_ID</name>
-        <type>String</type>
-      </field>
-    </parameter>
-     <cluster_schema/>
+      <count_rows>N</count_rows>
+      <count_field/>
+      <reject_duplicate_row>N</reject_duplicate_row>
+      <error_description/>
+    <fields>      <field>        <name>CONTENT</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>459</xloc>
-      <yloc>551</yloc>
+      <xloc>2278</xloc>
+      <yloc>1613</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1132,8 +1817,8 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     </step>
 
   <step>
-    <name>SET AUDIT STATUS</name>
-    <type>ScriptValueMod</type>
+    <name>REMOVE FIELDS 2 2</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <copies>1</copies>
@@ -1141,44 +1826,23 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS=&quot;R&quot;;
-var APPLICATION_PROCESS=&quot;ACCRUAL_MASTER_INTERFACE&quot;;
-var FILE_NAME=&quot;Accrual_Master_Intf.ksh&quot;
-var Interface_Run_Start_Date=new Date();</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS</name>
-        <rename>STATUS</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>APPLICATION_PROCESS</name>
-        <rename>APPLICATION_PROCESS</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>FILE_NAME</name>
-        <rename>FILE_NAME</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>Interface_Run_Start_Date</name>
-        <rename>Interface_Run_Start_Date</rename>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>    </fields>     <cluster_schema/>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>Batches</name>
+      </remove>      <remove>        <name>InvalidCounts</name>
+      </remove>      <remove>        <name>SentCounts</name>
+      </remove>      <remove>        <name>ReceivedCounts</name>
+      </remove>      <remove>        <name>AddCounts</name>
+      </remove>      <remove>        <name>batchIds</name>
+      </remove>      <remove>        <name>AddCount</name>
+      </remove>      <remove>        <name>InvalidCount</name>
+      </remove>      <remove>        <name>SentCount</name>
+      </remove>      <remove>        <name>ReceivedCount</name>
+      </remove>      <remove>        <name>i</name>
+      </remove>      <remove>        <name>BATCH_ID_SPLIT</name>
+      </remove>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>459</xloc>
-      <yloc>645</yloc>
+      <xloc>2278</xloc>
+      <yloc>1518</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1224,6 +1888,51 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1355</xloc>
       <yloc>1116</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SET VARIABLES 2 2</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+
+var STATUS_N=&quot;C&quot;;
+var STATUS_R=&quot;R&quot;;
+var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
+        <rename>STATUS_N</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>STATUS_R</name>
+        <rename>STATUS_R</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
+        <rename>INTERFACE_RUN_END_DATE</rename>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2532</xloc>
+      <yloc>1208</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1341,8 +2050,8 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
           <stream_name>ACCRUAL_PERIOD_END_DATE</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
         </field>
         <field>
           <column_name>SUB_LEDGER</column_name>
@@ -1393,6 +2102,78 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
           <stream_name>MODIFIED_DATE</stream_name>
         </field>
         <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
+        </field>
+        <field>
           <column_name>ACCRUAL_INTFID</column_name>
           <stream_name>ACCRUAL_INBOUND_INTERFACE_ID</stream_name>
         </field>
@@ -1441,7 +2222,7 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
 , ACCRUAL_TYPE
 , ACCRUAL_PERIOD_START_DATE
 , ACCRUAL_PERIOD_END_DATE
-, AMOUNT
+, DEDUCTION_AMOUNT
 , SUB_LEDGER
 , SUB_LEDGER_TYPE
 , DOCUMENT_TYPE
@@ -1455,6 +2236,24 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
 , MODIFIED_BY
 , MODIFIED_DATE
 , ADD_CHG_DEL_INDICATOR
+, COMPANY_NAME
+, BUSINESS_UNIT_ID
+, BUSINESS_UNIT_NO
+, BU_IDENT_CODE_QUALIFIER
+, BUSINESS_UNIT_NAME
+, ITEM_NAME
+, BRAND_NAME
+, ACCRUAL_CATEGORY
+, ACCRUAL_SCHEDULE_TYPE
+, ACCRUAL_PROGRAM_TYPE
+, SALES_AMOUNT
+, QUANTITY
+, ACCRUAL_UDC1
+, ACCRUAL_UDC2
+, ACCRUAL_UDC3
+, ACCRUAL_UDC4
+, ACCRUAL_UDC5
+, ACCRUAL_UDC6
 FROM ACCRUAL_INBOUND_INTERFACE
 </sql>
     <limit>0</limit>
@@ -1466,6 +2265,47 @@ FROM ACCRUAL_INBOUND_INTERFACE
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>289</xloc>
       <yloc>49</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>STAGING AUDIT</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>STAGING DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>AUDIT_INBOUND_INTERFACE</table>
+      <orderby>AUDIT_ID DESC</orderby>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>BATCH</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>AUDIT_ID</name>
+        <rename>AUDIT_ID</rename>
+        <default/>
+        <type>BigNumber</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2354</xloc>
+      <yloc>1093</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1491,6 +2331,31 @@ FROM ACCRUAL_INBOUND_INTERFACE
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1574</xloc>
       <yloc>1038</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Split field to rows 2</name>
+    <type>SplitFieldToRows3</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+   <splitfield>Batches</splitfield>
+   <delimiter>,</delimiter>
+   <newfield>BATCH_ID_SPLIT</newfield>
+   <rownum>N</rownum>
+   <rownum_field/>
+   <resetrownumber>Y</resetrownumber>
+   <delimiter_is_regex>Y</delimiter_is_regex>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2278</xloc>
+      <yloc>1326</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1952,10 +2817,6 @@ FROM ACCRUAL_INBOUND_INTERFACE
           <stream_name>ACCRUAL_PERIOD_END_DATE</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
-          <stream_name>AMOUNT</stream_name>
-        </field>
-        <field>
           <column_name>SUB_LEDGER</column_name>
           <stream_name>SUB_LEDGER</stream_name>
         </field>
@@ -2007,929 +2868,87 @@ FROM ACCRUAL_INBOUND_INTERFACE
           <column_name>ADD_CHG_DEL_INDICATOR</column_name>
           <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
         </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC1</column_name>
+          <stream_name>ACCRUAL_UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC2</column_name>
+          <stream_name>ACCRUAL_UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC3</column_name>
+          <stream_name>ACCRUAL_UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC4</column_name>
+          <stream_name>ACCRUAL_UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC5</column_name>
+          <stream_name>ACCRUAL_UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_UDC6</column_name>
+          <stream_name>ACCRUAL_UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>BU_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>BU_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NAME</column_name>
+          <stream_name>BUSINESS_UNIT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_NAME</column_name>
+          <stream_name>BRAND_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_CATEGORY</column_name>
+          <stream_name>ACCRUAL_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_SCHEDULE_TYPE</column_name>
+          <stream_name>ACCRUAL_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_AMOUNT</column_name>
+          <stream_name>DEDUCTION_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_ID</column_name>
+          <stream_name>BUSINESS_UNIT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUSINESS_UNIT_NO</column_name>
+          <stream_name>BUSINESS_UNIT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_PROGRAM_TYPE</column_name>
+          <stream_name>ACCRUAL_PROGRAM_TYPE</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>411</xloc>
+      <xloc>413</xloc>
       <yloc>319</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>AUDIT COMPLETION WAIT</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Mail</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2449</xloc>
-      <yloc>1021</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>AUDIT_STATUS_UPDATE 2</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>N</use_batch>
-    <error_ignored>N</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>AUDIT_MASTER_INBOUND</table>
-      <key>
-        <name>BATCH_ID</name>
-        <field>BATCH_ID</field>
-        <condition>=</condition>
-        <name2/>
-        </key>
-      <key>
-        <name>STATUS_R</name>
-        <field>STATUS</field>
-        <condition>=</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>STATUS</name>
-        <rename>STATUS_N</rename>
-        </value>
-      <value>
-        <name>INTERFACE_RUN_END_DATE</name>
-        <rename>INTERFACE_RUN_END_DATE</rename>
-        </value>
-      </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2532</xloc>
-      <yloc>1303</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Database join 2 2</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <rowlimit>0</rowlimit>
-    <sql>SELECT TOP 1 A.HOST_NAME      AS MAIL_SERVER,
-       A.EMAIL_ADDRESS  AS SENDER_ADDRESS,
-	   A.PASSWORD AS SENDER_PASSWORD,
-       A.PORT_NUMBER    AS MAIL_PORT,
-       B.DESTINATION    AS DESTINATION_ADDRESS,
-       B.DESTINATION_CC AS DESTINATION_CC
-FROM   WF_MAIL_CONFIG A
-       JOIN MAIL_DETAILS B
-         ON 1 = 1
-WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
-       AND a.SMTP_FLAG = &apos;yes&apos; </sql>
-    <outer_join>N</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2096</xloc>
-      <yloc>1410</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Database join 2 3</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <rowlimit>0</rowlimit>
-    <sql>
-	   DECLARE @CONTENT VARCHAR(max)= &apos;Hi,&lt;br&gt;&lt;br&gt;&apos;
-SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,
-             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,
-             A.PASSWORD                      AS SENDER_PASSWORD,
-             A.PORT_NUMBER                   AS MAIL_PORT,
-             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,
-             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,
-             B.SUCCESS_MAIL_SUBJECT          AS SSUBJECT,
-            -- B.FAILURE_MAIL_BODY + @CONTENT  AS CONTENT,
-			 stuff(@CONTENT,charindex(&apos;Hi,&apos;,@CONTENT)+3,0,&apos;&lt;br&gt;&lt;br&gt;&apos;+B.SUCCESS_MAIL_BODY) as SCONTENT
-FROM   WF_MAIL_CONFIG A
-       JOIN WORKFLOW_PROFILE B
-         ON 1 = 1
-WHERE  b.PROCESS_NAME = &apos;LOT_MASTER_INTERFACE&apos;
-       AND a.SMTP_FLAG = &apos;yes&apos;
-</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2177</xloc>
-      <yloc>1073</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Dummy (do nothing)</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2355</xloc>
-      <yloc>1213</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>FINAL AUDIT GENERATION 2</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <rowlimit>0</rowlimit>
-    <sql>SELECT  distinct BATCH_ID AS BATCH,ADD_COUNT,INVALID_RECORD_COUNT,SENT_RECORD_COUNT,RECEIVED_RECORD_COUNT ,STATUS FROM AUDIT_MASTER_INBOUND  
-where BATCH_ID=?
- and STATUS=&apos;R&apos;</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-      <field>
-        <name>batch_id_1</name>
-        <type>String</type>
-      </field>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2203</xloc>
-      <yloc>614</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>FINAL AUDIT GENERATION 2 3</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <rowlimit>0</rowlimit>
-    <sql>
-SELECT REASON_FOR_FAILURE,
-              Count(*) AS &apos;NEW_COUNT&apos;,BATCH_ID as new_batch
-        FROM  IVLD_ACCRUAL_INBOUND
-        WHERE  batch_id = ?
-		   AND ( INTF_INSERTED_DATE &gt; (SELECT TOP 1 CREATED_DATE
-                                   FROM   audit_master_inbound
-                                   WHERE  APPLICATION_PROCESS = &apos;ACCRUAL_INBOUND_INTERFACE
-                                          AND BATCH_ID = ?) ) 
-        GROUP  BY REASON_FOR_FAILURE,BATCH_ID
-</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-      <field>
-        <name>batch_id_1</name>
-        <type>String</type>
-      </field>
-      <field>
-        <name>batch_id_1</name>
-        <type>String</type>
-      </field>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2175</xloc>
-      <yloc>844</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>FOR HTML GROUP</name>
-    <type>MemoryGroupBy</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <give_back_row>N</give_back_row>
-      <group>
-        <field>
-          <name>STATUS</name>
-        </field>
-      </group>
-      <fields>
-        <field>
-          <aggregate>AddCounts</aggregate>
-          <subject>ADD_COUNT</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>,</valuefield>
-        </field>
-        <field>
-          <aggregate>InvalidCounts</aggregate>
-          <subject>INVALID_RECORD_COUNT</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>,</valuefield>
-        </field>
-        <field>
-          <aggregate>SentCounts</aggregate>
-          <subject>SENT_RECORD_COUNT</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>,</valuefield>
-        </field>
-        <field>
-          <aggregate>ReceivedCounts</aggregate>
-          <subject>RECEIVED_RECORD_COUNT</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>,</valuefield>
-        </field>
-        <field>
-          <aggregate>Batches</aggregate>
-          <subject>BATCH</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>,</valuefield>
-        </field>
-        <field>
-          <aggregate>InvalidReason</aggregate>
-          <subject>REASON_FOR_FAILURE</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>,</valuefield>
-        </field>
-        <field>
-          <aggregate>Count</aggregate>
-          <subject>NEW_COUNT</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>,</valuefield>
-        </field>
-        <field>
-          <aggregate>newbatch</aggregate>
-          <subject>new_batch</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>,</valuefield>
-        </field>
-      </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2175</xloc>
-      <yloc>946</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>GET MAIL PARAMETERS</name>
-    <type>GetVariable</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>DESTINATION_ADDRESS</name>
-        <variable>${DESTINATION_ADDRESS}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>DESTINATION_CC</name>
-        <variable>${DESTINATION_CC}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>SENDER_ADDRESS</name>
-        <variable>${SENDER_ADDRESS}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>SENDER_NAME</name>
-        <variable>${SENDER_NAME}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>MAIL_SERVER</name>
-        <variable>${MAIL_SERVER}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>MAIL_PORT</name>
-        <variable>${MAIL_PORT}</variable>
-        <type>Number</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2401</xloc>
-      <yloc>1407</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>MAIL CREATION 2</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <compatible>Y</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>
-var SUBJECT=getVariable(&quot;COMPANY_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
-
-&#47;&#47;var aa=SCONTENT.getString();
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Change Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Delete Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&quot;;
-var batchIds = Batches.getString().split(&quot;,&quot;);
-var AddCount=AddCounts.getString().split(&quot;,&quot;);
-var ChangeCount=ChangeCounts.getString().split(&quot;,&quot;);
-var DeleteCount=DeleteCounts.getString().split(&quot;,&quot;);
-var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
-var SentCount=SentCounts.getString().split(&quot;,&quot;);
-var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
-var i;
-
-for(i=0;i&lt;batchIds.length;i++){
-
-
-	CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ChangeCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-      
-    
-}
-
-
-&#47;&#47;CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;&quot;+no_key.getString()+&quot;&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
-        <rename>SUBJECT</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>CONTENT</name>
-        <rename>CONTENT</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>batchIds</name>
-        <rename>batchIds</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>AddCount</name>
-        <rename>AddCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>ChangeCount</name>
-        <rename>ChangeCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>DeleteCount</name>
-        <rename>DeleteCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>InvalidCount</name>
-        <rename>InvalidCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>SentCount</name>
-        <rename>SentCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>ReceivedCount</name>
-        <rename>ReceivedCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>i</name>
-        <rename>i</rename>
-        <type>Number</type>
-        <length>16</length>
-        <precision>2</precision>
-        <replace>N</replace>
-      </field>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2266</xloc>
-      <yloc>1205</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>MAIL CREATION 3</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <compatible>Y</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>
-var SUBJECT=getVariable(&quot;COMPANY_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Change Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Delete Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-var batchIds = Batches.getString().split(&quot;,&quot;);
-var AddCount=AddCounts.getString().split(&quot;,&quot;);
-&#47;&#47;var ChangeCount=ChangeCounts.getString().split(&quot;,&quot;);
-&#47;&#47;var DeleteCount=DeleteCounts.getString().split(&quot;,&quot;);
-var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
-var SentCount=SentCounts.getString().split(&quot;,&quot;);
-var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
-var i;
-var j;
-var invalidReason =InvalidReason.getString().split(&quot;,&quot;);
-var invalidCount =Count.getString().split(&quot;,&quot;);
-
-
-var oldBatchId;
-var oldReason;
-
-var batchIdForReason = newbatch.getString().split(&quot;,&quot;);
-
-for(i=0;i&lt;batchIds.length;i++){
-	
-	
-if(oldBatchId != batchIds[i]){
-	&#47;&#47;CONTENT+= &quot;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ChangeCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-	CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-oldBatchId = batchIds[i];
-}
-      
-    
-}
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;;
-
-oldBatchId= &quot;&quot;;
-
-for(i=0;i&lt;batchIdForReason.length;i++){
-
-if(oldBatchId != batchIdForReason[i]){
-if(i&gt;0){
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;
-oldReason = &quot;&quot;;
-}
-
-CONTENT+= &quot;&lt;br&gt;&quot;;
-CONTENT+= &quot;Batch ID: &quot;+batchIdForReason[i];
-CONTENT+= &quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Reason&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-}
-
-if(oldReason != invalidReason[i]){
-
-CONTENT+= &quot;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+invalidReason[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+invalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-oldReason = invalidReason[i];
-}
-
-if(i==batchIdForReason.length-1){
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;;
-}
-oldBatchId = batchIdForReason[i];
-}
-
-
-
-
-
-
-
-
-&#47;&#47;CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;&quot;+no_key.getString()+&quot;&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-
-CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
-        <rename>SUBJECT</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>CONTENT</name>
-        <rename>CONTENT</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>batchIds</name>
-        <rename>batchIds</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>AddCount</name>
-        <rename>AddCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>InvalidCount</name>
-        <rename>InvalidCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>SentCount</name>
-        <rename>SentCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>ReceivedCount</name>
-        <rename>ReceivedCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>i</name>
-        <rename>i</rename>
-        <type>Number</type>
-        <length>16</length>
-        <precision>2</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>j</name>
-        <rename>j</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>invalidReason</name>
-        <rename>invalidReason</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>invalidCount</name>
-        <rename>invalidCount</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>oldBatchId</name>
-        <rename>oldBatchId</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>oldReason</name>
-        <rename>oldReason</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>batchIdForReason</name>
-        <rename>batchIdForReason</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2175</xloc>
-      <yloc>1225</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mail</name>
-    <type>Mail</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <server>MAIL_SERVER</server>
-      <port>MAIL_PORT</port>
-      <destination>DESTINATION_ADDRESS</destination>
-      <destinationCc>DESTINATION_CC</destinationCc>
-      <destinationBCc/>
-      <replyToAddresses/>
-      <replyto>SENDER_ADDRESS</replyto>
-      <replytoname/>
-      <subject>SSUBJECT</subject>
-      <include_date>N</include_date>
-      <include_subfolders>N</include_subfolders>
-      <zipFilenameDynamic>N</zipFilenameDynamic>
-      <isFilenameDynamic>N</isFilenameDynamic>
-      <dynamicFieldname/>
-      <dynamicWildcard/>
-      <dynamicZipFilename/>
-      <sourcefilefoldername/>
-      <sourcewildcard/>
-      <contact_person/>
-      <contact_phone/>
-      <comment>CONTENT</comment>
-      <include_files>N</include_files>
-      <zip_files>N</zip_files>
-      <zip_name/>
-      <zip_limit_size>0</zip_limit_size>
-      <use_auth>N</use_auth>
-      <use_secure_auth>N</use_secure_auth>
-      <auth_user/>
-      <auth_password>Encrypted </auth_password>
-      <only_comment>Y</only_comment>
-      <use_HTML>Y</use_HTML>
-      <use_Priority>N</use_Priority>
-    <encoding>UTF-8</encoding>
-    <priority>normal</priority>
-    <importance>normal</importance>
-    <secureconnectiontype>SSL</secureconnectiontype>
-      <embeddedimages>
-      </embeddedimages>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2278</xloc>
-      <yloc>1709</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>PICK UNIQUE CONTENT 2</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <count_rows>N</count_rows>
-      <count_field/>
-      <reject_duplicate_row>N</reject_duplicate_row>
-      <error_description/>
-    <fields>      <field>        <name>CONTENT</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2278</xloc>
-      <yloc>1613</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>REMOVE FIELDS 2 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>Batches</name>
-      </remove>      <remove>        <name>InvalidCounts</name>
-      </remove>      <remove>        <name>SentCounts</name>
-      </remove>      <remove>        <name>ReceivedCounts</name>
-      </remove>      <remove>        <name>AddCounts</name>
-      </remove>      <remove>        <name>batchIds</name>
-      </remove>      <remove>        <name>AddCount</name>
-      </remove>      <remove>        <name>InvalidCount</name>
-      </remove>      <remove>        <name>SentCount</name>
-      </remove>      <remove>        <name>ReceivedCount</name>
-      </remove>      <remove>        <name>i</name>
-      </remove>      <remove>        <name>BATCH_ID_SPLIT</name>
-      </remove>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2278</xloc>
-      <yloc>1518</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>SET VARIABLES 2 2</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS_N=&quot;C&quot;;
-var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
-        <rename>STATUS_N</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>STATUS_R</name>
-        <rename>STATUS_R</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>INTERFACE_RUN_END_DATE</name>
-        <rename>INTERFACE_RUN_END_DATE</rename>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2532</xloc>
-      <yloc>1208</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>STAGING AUDIT</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>STAGING DB</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>AUDIT_INBOUND_INTERFACE</table>
-      <orderby>AUDIT_ID DESC</orderby>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>BATCH</name>
-        <field>BATCH_ID</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>AUDIT_ID</name>
-        <rename>AUDIT_ID</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2354</xloc>
-      <yloc>1093</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Split field to rows 2</name>
-    <type>SplitFieldToRows3</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-   <splitfield>Batches</splitfield>
-   <delimiter>,</delimiter>
-   <newfield>BATCH_ID_SPLIT</newfield>
-   <rownum>N</rownum>
-   <rownum_field/>
-   <resetrownumber>Y</resetrownumber>
-   <delimiter_is_regex>Y</delimiter_is_regex>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>2278</xloc>
-      <yloc>1326</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

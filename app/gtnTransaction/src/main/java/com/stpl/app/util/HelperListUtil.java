@@ -222,7 +222,7 @@ public class HelperListUtil {
                             if (helperList != null) {
                                 listNameMap.put(currentListName, helperList);
                             }
-                            helperList = new ArrayList<HelperDTO>();
+                            helperList = new ArrayList<>();
                         }
                         helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
                                 .getDescription()));
@@ -291,7 +291,7 @@ public class HelperListUtil {
             helperList.add(dto);
         }
        
-        listNameMap.put(ConstantUtil.ADJUSTMENT_TYPE, helperList);
+        listNameMap.put(ConstantUtil.ARM_ADJUSTMENT_TYPE, helperList);
     }
     
     public HelperDTO getHelperDTObyID(int id) {

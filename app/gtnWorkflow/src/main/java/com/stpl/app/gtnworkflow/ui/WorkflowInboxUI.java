@@ -81,14 +81,15 @@ public class WorkflowInboxUI extends UI implements PortletListener {
     }
 
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
+        return;
 
     }
 
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
-
+        return;
     }
 
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
-
+        return;
     }
 }

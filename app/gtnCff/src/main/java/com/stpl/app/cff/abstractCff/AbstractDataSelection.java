@@ -4,6 +4,7 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.Constants;
@@ -294,24 +295,24 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
     /**
      * Bean container for available customers.
      */
-    protected BeanItemContainer<Leveldto> availableCustomerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+    protected BeanItemContainer<Leveldto> availableCustomerContainer = new BeanItemContainer<>(Leveldto.class);
     /**
      * Bean container for available Product.
      */
-    protected BeanItemContainer<Leveldto> availableProductContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
-    protected final BeanItemContainer<Leveldto> productFilterContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+    protected BeanItemContainer<Leveldto> availableProductContainer = new BeanItemContainer<>(Leveldto.class);
+    protected final BeanItemContainer<Leveldto> productFilterContainer = new BeanItemContainer<>(Leveldto.class);
     /**
      * Bean container for selected customers.
      */
-    protected ExtTreeContainer<Leveldto> selectedCustomerContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+    protected ExtTreeContainer<Leveldto> selectedCustomerContainer = new ExtTreeContainer<>(Leveldto.class);
     /**
      * Bean container for selected Product.
      */
-    protected ExtTreeContainer<Leveldto> selectedProductContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+    protected ExtTreeContainer<Leveldto> selectedProductContainer = new ExtTreeContainer<>(Leveldto.class);
     /**
      * Bean container for result table.
      */
-    protected final BeanItemContainer<DataSelectionDTO> resultsContainer = new BeanItemContainer<DataSelectionDTO>(DataSelectionDTO.class);
+    protected final BeanItemContainer<DataSelectionDTO> resultsContainer = new BeanItemContainer<>(DataSelectionDTO.class);
     /**
      * NativeSelect for productForecastLevel.
      */
@@ -336,7 +337,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
      * Customer hierarchy DTO.
      */
     protected HierarchyLookupDTO customerHierarchyDto;
-    protected List<String> relationshipBuilderSids = new ArrayList<String>();
+    protected List<String> relationshipBuilderSids = new ArrayList<>();
     /**
      * Product hierarchy DTO.
      */
@@ -344,13 +345,13 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
     /**
      * The inner cust levels.
      */
-    protected List<Leveldto> innerCustLevels = new ArrayList<Leveldto>();
+    protected List<Leveldto> innerCustLevels = new ArrayList<>();
     protected List<String> groupFilteredCompanies = null;
     protected List<String> groupFilteredItems = null;
     /**
      * The inner cust levels.
      */
-    protected List<Leveldto> innerProdLevels = new ArrayList<Leveldto>();
+    protected List<Leveldto> innerProdLevels = new ArrayList<>();
     protected GroupDTO selectedProductGroupDTO;
     protected GroupDTO selectedCustomerGroupDTO;
     protected TextField projectionId = new TextField();
@@ -421,10 +422,10 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
                 configureCustomerDdlb();
             }
             deleteViewBtn.setEnabled(false);
-            publicView.setWidth("217px");
-            privateView.setWidth("217px");
-            businessUnit.setWidth("217px");
-            company.setWidth("217px");
+            publicView.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
+            privateView.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
+            businessUnit.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
+            company.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
             publicView.addClickListener(new CustomTextField.ClickListener() {
                 public void click(CustomTextField.ClickEvent event) {
                     loadPublicView();
@@ -632,7 +633,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
         StringBuilder returnString = new StringBuilder(StringUtils.EMPTY);
 
-        List<String> productHierarchyEndLevelsHierNo = new ArrayList<String>();
+        List<String> productHierarchyEndLevelsHierNo = new ArrayList<>();
         for (Object item : selectedProductContainer.getItemIds()) {
             if (!selectedProductContainer.hasChildren(item)) {
                 productHierarchyEndLevelsHierNo.add(getBeanFromId(item).getHierarchyNo());
@@ -652,21 +653,21 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
     }
 
     protected void resetOne() {
-        availableCustomerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+        availableCustomerContainer = new BeanItemContainer<>(Leveldto.class);
         availableCustomer.setContainerDataSource(availableCustomerContainer);
-        availableProductContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+        availableProductContainer = new BeanItemContainer<>(Leveldto.class);
         availableProduct.setContainerDataSource(availableProductContainer);
-        selectedCustomerContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+        selectedCustomerContainer = new ExtTreeContainer<>(Leveldto.class);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-        selectedProductContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+        selectedProductContainer = new ExtTreeContainer<>(Leveldto.class);
         selectedProduct.setContainerDataSource(selectedProductContainer);
-        availableProduct.setVisibleColumns("displayValue");
-        availableProduct.setColumnHeaders("Level");
-        availableCustomer.setVisibleColumns("displayValue");
-        availableCustomer.setColumnHeaders("Level");
-        selectedCustomer.setVisibleColumns("displayValue");
+        availableProduct.setVisibleColumns(StringConstantsUtil.DISPLAY_VALUE);
+        availableProduct.setColumnHeaders(StringConstantsUtil.LEVEL);
+        availableCustomer.setVisibleColumns(StringConstantsUtil.DISPLAY_VALUE);
+        availableCustomer.setColumnHeaders(StringConstantsUtil.LEVEL);
+        selectedCustomer.setVisibleColumns(StringConstantsUtil.DISPLAY_VALUE);
         selectedCustomer.setColumnHeaders("Customer Hierarchy Group Builder");
-        selectedProduct.setVisibleColumns("displayValue");
+        selectedProduct.setVisibleColumns(StringConstantsUtil.DISPLAY_VALUE);
         selectedProduct.setColumnHeaders("Product Hierarchy Group Builder");
         projectionId = new CustomTextField();
         viewId = new CustomTextField();
@@ -832,7 +833,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
         } else if (obj instanceof Leveldto) {
-            targetItem = new BeanItem<Leveldto>((Leveldto) obj);
+            targetItem = new BeanItem<>((Leveldto) obj);
         }
 
         return (Leveldto) targetItem.getBean();
@@ -909,9 +910,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         layoutG2.setMargin(Boolean.FALSE);
         layoutG2.addComponent(new Label("Private Views:") {
             {
-                setWidth("100px");
+                setWidth(StringConstantsUtil.HUNDRED_PX);
                 setContentMode(ContentMode.HTML);
-                setStyleName("labelresultalign");
+                setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
             }
         });
         privateView.setStyleName("searchText");
@@ -919,9 +920,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         layoutG2.addComponent(empty);
         layoutG2.addComponent(new Label("Public Views:") {
             {
-                setWidth("100px");
+                setWidth(StringConstantsUtil.HUNDRED_PX);
                 setContentMode(ContentMode.HTML);
-                setStyleName("labelresultalign");
+                setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
             }
         });
 
@@ -932,9 +933,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         layoutG2.addComponent(empty);
         layoutG2.addComponent(new Label("Company:") {
             {
-                setWidth("100px");
+                setWidth(StringConstantsUtil.HUNDRED_PX);
                 setContentMode(ContentMode.HTML);
-                setStyleName("labelresultalign");
+                setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
             }
         });
 
@@ -944,9 +945,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         layoutG2.addComponent(empty);
         layoutG2.addComponent(new Label("Business Unit:") {
             {
-                setWidth("100px");
+                setWidth(StringConstantsUtil.HUNDRED_PX);
                 setContentMode(ContentMode.HTML);
-                setStyleName("labelresultalign");
+                setStyleName(StringConstantsUtil.LABEL_RESULT_ALIGN);
             }
         });
 
@@ -959,16 +960,16 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         availableCustomer.setFilterBarVisible(true);
         availableCustomer.setStyleName(Constants.FILTER_TABLE);
         selectedCustomer.setSortEnabled(false);
-        customerHierarchy.setWidth("217px");
+        customerHierarchy.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
         customerLevel.setImmediate(true);
         level.setImmediate(true);
         availableCustomer.setContainerDataSource(availableCustomerContainer);
         selectedCustomer.setContainerDataSource(selectedCustomerContainer);
         availableCustomer.setImmediate(true);
         selectedCustomer.setImmediate(true);
-        availableCustomer.setVisibleColumns(new Object[]{"displayValue"});
-        availableCustomer.setColumnHeaders(new String[]{"Level"});
-        selectedCustomer.setVisibleColumns(new Object[]{"displayValue"});
+        availableCustomer.setVisibleColumns(new Object[]{StringConstantsUtil.DISPLAY_VALUE});
+        availableCustomer.setColumnHeaders(new String[]{StringConstantsUtil.LEVEL});
+        selectedCustomer.setVisibleColumns(new Object[]{StringConstantsUtil.DISPLAY_VALUE});
         selectedCustomer.setColumnHeaders(new String[]{"Customer Hierarchy Group Builder"});
         availableCustomer.setSelectable(true);
         selectedCustomer.setSelectable(true);
@@ -1043,14 +1044,14 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         availableProduct.setFilterBarVisible(true);
         availableProduct.setStyleName(Constants.FILTER_TABLE);
         selectedProduct.setSortEnabled(false);
-        productHierarchy.setWidth("217px");
+        productHierarchy.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
         availableProduct.setContainerDataSource(availableProductContainer);
         selectedProduct.setContainerDataSource(selectedProductContainer);
         availableProduct.setImmediate(true);
         selectedProduct.setImmediate(true);
-        availableProduct.setVisibleColumns(new Object[]{"displayValue"});
-        availableProduct.setColumnHeaders(new String[]{"Level"});
-        selectedProduct.setVisibleColumns(new Object[]{"displayValue"});
+        availableProduct.setVisibleColumns(new Object[]{StringConstantsUtil.DISPLAY_VALUE});
+        availableProduct.setColumnHeaders(new String[]{StringConstantsUtil.LEVEL});
+        selectedProduct.setVisibleColumns(new Object[]{StringConstantsUtil.DISPLAY_VALUE});
         selectedProduct.setColumnHeaders(new String[]{"Product Hierarchy Group Builder"});
         availableProduct.setSelectable(true);
         selectedProduct.setSelectable(true);

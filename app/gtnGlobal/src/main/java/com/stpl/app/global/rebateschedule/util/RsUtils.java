@@ -23,6 +23,15 @@ public final class RsUtils {
         
     }
     
+    private static RsUtils object;
+
+    public static RsUtils getInstance() {
+        if (object == null) {
+            object = new RsUtils();
+        }
+        return object;
+    }
+    
     final static Map<String, String> columnMap = new ConcurrentHashMap<>();
     final static Map<String, String> viewColumnMap = new ConcurrentHashMap<>();
     final static Map<String, String> rebatePlanLookupColumnMap = new ConcurrentHashMap<>();
@@ -39,6 +48,7 @@ public final class RsUtils {
     public final static String CALCULATION_RULE = "Calculation Rule";
     public final static String EVALUATION_RULE_BUNDLE = "Evaluation Rule Bundle";
     public final static String CALCULATION_RULE_BUNDLE = "Calculation Rule Bundle";
+    public final static String ATTACHED_DATE_LABEL = "Attached Date";
     final static Map<String, String> netSalesLookupColumnMap = new ConcurrentHashMap<>();
     
     /** The Constant REBATE_PLAN_TYPE. */
@@ -47,7 +57,7 @@ public final class RsUtils {
     /**
      * The Constant PARENT_COL_HEADERS.
      */
-    public static final String[] PARENT_COL_HEADERS = new String[]{
+    public final String[] parentColHeader = new String[]{
         "Rebate Schedule ID", "Rebate Schedule No",
         "Rebate Schedule Name",
         "Rebate Schedule Status", "Rebate Schedule Type",
@@ -55,10 +65,10 @@ public final class RsUtils {
     /**
      * The Constant PARENT_COL_COLUMNS.
      */
-    public static final Object[] PARENT_COL_COLUMNS = new Object[]{
+    public final Object[] parentColColumns = new Object[]{
         "rebateScheduleId", "rebateScheduleNo", "rebateScheduleName",
         "rebateScheduleStatus", "rebateScheduleType",
-        "rebateProgramType"};
+        ConstantsUtils.REBATE_PROGRAM_TYPE};
     /** The Constant rebateScheduleId. */
     public static final String REBATE_AMOUNT= "Rebate Amount";
     public static final String REBATE_PLAN_NAME= "Rebate Plan Name";
@@ -91,7 +101,7 @@ public final class RsUtils {
     
     
      public static Container searchFields() {
-        final List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
       list.add(ConstantsUtils.SELECT_ONE);
       list.add("IFP ID");
       list.add("IFP No");
@@ -110,46 +120,46 @@ public final class RsUtils {
        rsColumnName.put("rebateScheduleName", "rsName");
        rsColumnName.put("rebateScheduleStatus", "rsStatus");
        rsColumnName.put("rebateScheduleType", "rsType");
-       rsColumnName.put("rebateProgramType", "rebateProgramType");
+       rsColumnName.put(ConstantsUtils.REBATE_PROGRAM_TYPE, ConstantsUtils.REBATE_PROGRAM_TYPE);
        return rsColumnName;
    }    
    
    public static HashMap<String, String> loadRsRebateSetupColumnName() {
-       rsRebateSetupColumnName.put("itemNo", "itemNo");
-       rsRebateSetupColumnName.put("itemName", "itemName");
-       rsRebateSetupColumnName.put("formulaId", "rsDetailsFormulaId");
-       rsRebateSetupColumnName.put("formulaName", "rsDetailsFormulaName");
-       rsRebateSetupColumnName.put("rebateAmount", "rsDetailsRebateAmount");
-       rsRebateSetupColumnName.put("startDate", "itemRebateStartDate");
-       rsRebateSetupColumnName.put("endDate", "itemRebateEndDate");
-       rsRebateSetupColumnName.put("attachedStatus", "rsDetailsAttachedStatus");
-       rsRebateSetupColumnName.put("formulaType", "rsDetailsFormulaType");
-       rsRebateSetupColumnName.put("formulaMethodId", "rsDetailsFormulaMethodId");
-       rsRebateSetupColumnName.put("formulaNo", "rsDetailsFormulaNo");
-       rsRebateSetupColumnName.put("rebatePlanName", "rsDetailsRebatePlanName");
-       rsRebateSetupColumnName.put("attachedDate", "rsDetailsAttachedDate");
-       rsRebateSetupColumnName.put("revisionDate", "modifiedDate");
+       rsRebateSetupColumnName.put(ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NO);
+       rsRebateSetupColumnName.put(ConstantsUtils.ITEM_NAME, ConstantsUtils.ITEM_NAME);
+       rsRebateSetupColumnName.put(ConstantsUtils.FORMULA_ID, "rsDetailsFormulaId");
+       rsRebateSetupColumnName.put(ConstantsUtils.FORMULA_NAME, "rsDetailsFormulaName");
+       rsRebateSetupColumnName.put(ConstantsUtils.REBATE_AMOUNT, "rsDetailsRebateAmount");
+       rsRebateSetupColumnName.put(ConstantsUtils.START_DATE, "itemRebateStartDate");
+       rsRebateSetupColumnName.put(ConstantsUtils.END_DATE, "itemRebateEndDate");
+       rsRebateSetupColumnName.put(ConstantsUtils.ATTACHED_STATUS, "rsDetailsAttachedStatus");
+       rsRebateSetupColumnName.put(ConstantsUtils.FORMULA_TYPE, "rsDetailsFormulaType");
+       rsRebateSetupColumnName.put(ConstantsUtils.FORMULA_METHD_ID, "rsDetailsFormulaMethodId");
+       rsRebateSetupColumnName.put(ConstantsUtils.FORMULA_NO, "rsDetailsFormulaNo");
+       rsRebateSetupColumnName.put(ConstantsUtils.REBATE_PLAN_NAME, "rsDetailsRebatePlanName");
+       rsRebateSetupColumnName.put(ConstantsUtils.ATTACHED_DATE_PROPERTY, "rsDetailsAttachedDate");
+       rsRebateSetupColumnName.put(ConstantsUtils.REVISION_DATE, ConstantsUtils.MODIFIEDDATE);
        return rsRebateSetupColumnName;
    }  
     
     public static Map<String, String> loadColumnName() {
         if (columnMap.isEmpty()) {
-            columnMap.put("checkbox", "CHECK_RECORD");
-            columnMap.put("itemNo", "ITEM_NO");
-            columnMap.put("itemName", "ITEM_NAME");
-            columnMap.put("formulaId", "RS_DETAILS_FORMULA_ID");            
-            columnMap.put("rebateAmount", "RS_DETAILS_REBATE_AMOUNT");
-            columnMap.put("startDate", "ITEM_REBATE_START_DATE");
-            columnMap.put("endDate", "ITEM_REBATE_END_DATE");
-            columnMap.put("attachedStatus", "status");
-            columnMap.put("formulaType", "RS_DETAILS_FORMULA_TYPE");
-            columnMap.put("formulaMethodId", "RS_DETAILS_FORMULA_METHOD_ID");            
-            columnMap.put("attachedDate", "RS_DETAILS_ATTACHED_DATE");
-            columnMap.put("revisionDate", "RS_DETAILS_MODIFIED_DATE");
-            columnMap.put("rebatePlanName", "rpName");
-            columnMap.put("rebatePlanNo","REBATE_PLAN_NO");
-            columnMap.put("formulaName","FORMULA_NAME");
-            columnMap.put("formulaNo", "FORMULA_NO");
+            columnMap.put(ConstantsUtils.CHECK_BOX, "CHECK_RECORD");
+            columnMap.put(ConstantsUtils.ITEM_NO, "ITEM_NO");
+            columnMap.put(ConstantsUtils.ITEM_NAME, "ITEM_NAME");
+            columnMap.put(ConstantsUtils.FORMULA_ID, "RS_DETAILS_FORMULA_ID");            
+            columnMap.put(ConstantsUtils.REBATE_AMOUNT, "RS_DETAILS_REBATE_AMOUNT");
+            columnMap.put(ConstantsUtils.START_DATE, "ITEM_REBATE_START_DATE");
+            columnMap.put(ConstantsUtils.END_DATE, "ITEM_REBATE_END_DATE");
+            columnMap.put(ConstantsUtils.ATTACHED_STATUS, "status");
+            columnMap.put(ConstantsUtils.FORMULA_TYPE, "RS_DETAILS_FORMULA_TYPE");
+            columnMap.put(ConstantsUtils.FORMULA_METHD_ID, "RS_DETAILS_FORMULA_METHOD_ID");            
+            columnMap.put(ConstantsUtils.ATTACHED_DATE_PROPERTY, "RS_DETAILS_ATTACHED_DATE");
+            columnMap.put(ConstantsUtils.REVISION_DATE, "RS_DETAILS_MODIFIED_DATE");
+            columnMap.put(ConstantsUtils.REBATE_PLAN_NAME, "rpName");
+            columnMap.put(ConstantsUtils.REBATE_PLAN_NO,"REBATE_PLAN_NO");
+            columnMap.put(ConstantsUtils.FORMULA_NAME,"FORMULA_NAME");
+            columnMap.put(ConstantsUtils.FORMULA_NO, "FORMULA_NO");
             columnMap.put("bundleNo","BUNDLE_NO");
             columnMap.put("deductionCalendarName","DEDUCTION_CALENDAR_NAME");
             columnMap.put("deductionCalendarNo","DEDUCTION_CALENDAR_NO");
@@ -160,80 +170,82 @@ public final class RsUtils {
     
     public static Map<String, String> loadViewColumnName() {
         if (viewColumnMap.isEmpty()) {
-            viewColumnMap.put("itemNo", "ITEM_NO");
-            viewColumnMap.put("itemName", "ITEM_NAME");
-            viewColumnMap.put("formulaId", "FORMULA_ID");
-            viewColumnMap.put("formulaName", "FORMULA_NAME");
-            viewColumnMap.put("rebateAmount", "REBATE_AMOUNT");
-            viewColumnMap.put("startDate", "ITEM_REBATE_START_DATE");
-            viewColumnMap.put("endDate", "ITEM_REBATE_END_DATE");
+            viewColumnMap.put(ConstantsUtils.ITEM_NO, "ITEM_NO");
+            viewColumnMap.put(ConstantsUtils.ITEM_NAME, "ITEM_NAME");
+            viewColumnMap.put(ConstantsUtils.FORMULA_ID, "FORMULA_ID");
+            viewColumnMap.put(ConstantsUtils.FORMULA_NAME, "FORMULA_NAME");
+            viewColumnMap.put(ConstantsUtils.REBATE_AMOUNT, "REBATE_AMOUNT");
+            viewColumnMap.put(ConstantsUtils.START_DATE, "ITEM_REBATE_START_DATE");
+            viewColumnMap.put(ConstantsUtils.END_DATE, "ITEM_REBATE_END_DATE");
             viewColumnMap.put("attachedStatusValue", "status");
-            viewColumnMap.put("formulaType", "FORMULA_TYPE");
-            viewColumnMap.put("formulaMethodId", "FORMULA_METHOD_ID");
-            viewColumnMap.put("formulaNo", "FORMULA_NO");
-            viewColumnMap.put("attachedDate", "ITEM_RS_ATTACHED_DATE");
-            viewColumnMap.put("revisionDate", "MODIFIED_DATE");
-            viewColumnMap.put("rebatePlanName", "rpName");
+            viewColumnMap.put(ConstantsUtils.FORMULA_TYPE, "FORMULA_TYPE");
+            viewColumnMap.put(ConstantsUtils.FORMULA_METHD_ID, "FORMULA_METHOD_ID");
+            viewColumnMap.put(ConstantsUtils.FORMULA_NO, "FORMULA_NO");
+            viewColumnMap.put(ConstantsUtils.ATTACHED_DATE_PROPERTY, "ITEM_RS_ATTACHED_DATE");
+            viewColumnMap.put(ConstantsUtils.REVISION_DATE, "MODIFIED_DATE");
+            viewColumnMap.put(ConstantsUtils.REBATE_PLAN_NAME, "rpName");
         }
         return viewColumnMap;
 
     }
     
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final Object[] REBATE_SETUP_DEFAULT = new Object[]{
-        "checkbox", "itemNo", "itemName", "attachedStatus","startDate", "endDate"};
+    public final Object[] rebateSetupDefault = new Object[]{
+        ConstantsUtils.CHECK_BOX, ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ATTACHED_STATUS,ConstantsUtils.START_DATE, ConstantsUtils.END_DATE};
     
   /** The Constant ITEM_DETAILS_HEADER_IN_RS. */
-    public static final String[] REBATE_SETUP_DEFAULT_HEADER = new String[]{
-        "", "Item No", "Item Name", "RS Status","RS Start Date", "RS End Date"};    
+    public final String[] rebateSetupDefaultHeader = new String[]{
+        "", ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAMES, ConstantsUtils.RS_STATUS_LABEL,ConstantsUtils.RS_START_DATE_LABEL, ConstantsUtils.RS_END_DATE_LABEL};    
     
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final Object[] REBATE_SETUP_FORMULA = new Object[]{
-        "checkbox", "itemNo", "itemName", "attachedStatus","startDate", "endDate","formulaType","formulaNo", "formulaName", "netSalesFormulaNo","netSalesRule","evaluationRule","evaluationRuleBundle","calculationRule","calculationRuleBundle", "attachedDate"};
+    public final Object[] rebateSetupFormula = new Object[]{
+        ConstantsUtils.CHECK_BOX, ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ATTACHED_STATUS,ConstantsUtils.START_DATE, ConstantsUtils.END_DATE,ConstantsUtils.FORMULA_TYPE,
+        ConstantsUtils.FORMULA_NO, ConstantsUtils.FORMULA_NAME, ConstantsUtils.NET_SALES_FORMULA_NO,ConstantsUtils.NET_SALES_RULE,ConstantsUtils.EVALUATION_RULE,ConstantsUtils.EVALUATION_RULE_BUNDLE,ConstantsUtils.CALCULATION_RULE,
+        ConstantsUtils.CALCULATION_RULE_BUNDLE, ConstantsUtils.ATTACHED_DATE_PROPERTY};
    
   /** The Constant ITEM_DETAILS_HEADER_IN_RS. */
-    public static final String[] REBATE_SETUP_FORMULA_HEADER = new String[]{
-        "", "Item No", "Item Name", "RS Status","RS Start Date", "RS End Date","Formula Type","Formula No", "Formula Name", "Net Sales Formula","Net Sales Rule","Evaluation Rule","Evaluation Rule Bundle","Calculation Rule","Calculation Rule Bundle", "Attached Date"};
+    public final String[] rebateSetupFormulaHeader = new String[]{
+        "", ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAMES, ConstantsUtils.RS_STATUS_LABEL,ConstantsUtils.RS_START_DATE_LABEL, ConstantsUtils.RS_END_DATE_LABEL,"Formula Type","Formula No", "Formula Name", NET_SALES_FORMULA,NET_SALES_RULE,EVALUATION_RULE,EVALUATION_RULE_BUNDLE,CALCULATION_RULE,CALCULATION_RULE_BUNDLE, ATTACHED_DATE_LABEL};
     
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final Object[] REBATE_SETUP_DEDUCTION_CALENDAR = new Object[]{
-        "checkbox", "itemNo", "itemName", "attachedStatus","startDate", "endDate","deductionCalendarNo","deductionCalendarName","evaluationRule","evaluationRuleBundle","calculationRule","calculationRuleBundle","attachedDate"};
+    public final Object[] rebateSetupDeductionCalender = new Object[]{
+        ConstantsUtils.CHECK_BOX, ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ATTACHED_STATUS,ConstantsUtils.START_DATE, ConstantsUtils.END_DATE,"deductionCalendarNo","deductionCalendarName",ConstantsUtils.EVALUATION_RULE,ConstantsUtils.EVALUATION_RULE_BUNDLE,ConstantsUtils.CALCULATION_RULE,ConstantsUtils.CALCULATION_RULE_BUNDLE,ConstantsUtils.ATTACHED_DATE_PROPERTY};
     
   /** The Constant ITEM_DETAILS_HEADER_IN_RS. */
-    public static final String[] REBATE_SETUP_DEDUCTION_CALENDAR_HEADER = new String[]{
-        "", "Item No", "Item Name", "RS Status","RS Start Date", "RS End Date","Deduction Calendar No","Deduction Calendar Name","Evaluation Rule","Evaluation Rule Bundle","Calculation Rule","Calculation Rule Bundle","Attached Date"};
+    public final String[] rebateSetupDeductionCalenderHeader = new String[]{
+        "", ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAMES, ConstantsUtils.RS_STATUS_LABEL,ConstantsUtils.RS_START_DATE_LABEL, ConstantsUtils.RS_END_DATE_LABEL,"Deduction Calendar No",DEDUCTION_CALENDAR_NAME,EVALUATION_RULE,EVALUATION_RULE_BUNDLE,CALCULATION_RULE,CALCULATION_RULE_BUNDLE,ATTACHED_DATE_LABEL};
     
       /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final Object[] REBATE_SETUP_REBATE_PLAN = new Object[]{
-        "checkbox", "itemNo", "itemName", "attachedStatus","startDate", "endDate","bundleNo","rebatePlanNo","rebatePlanName", "netSalesFormulaNo","netSalesRule","evaluationRule","evaluationRuleBundle","calculationRule","calculationRuleBundle", "attachedDate"};
+    public final Object[] rebateSetupRebatePlan = new Object[]{
+        ConstantsUtils.CHECK_BOX, ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ATTACHED_STATUS,ConstantsUtils.START_DATE, ConstantsUtils.END_DATE,"bundleNo",ConstantsUtils.REBATE_PLAN_NO,ConstantsUtils.REBATE_PLAN_NAME, ConstantsUtils.NET_SALES_FORMULA_NO,ConstantsUtils.NET_SALES_RULE,ConstantsUtils.EVALUATION_RULE,ConstantsUtils.EVALUATION_RULE_BUNDLE,ConstantsUtils.CALCULATION_RULE,ConstantsUtils.CALCULATION_RULE_BUNDLE, ConstantsUtils.ATTACHED_DATE_PROPERTY};
     
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final String[] REBATE_SETUP_REBATE_PLAN_HEADER = new String[]{
-        "", "Item No", "Item Name", "RS Status","RS Start Date", "RS End Date","Bundle No","Rebate Plan No","Rebate Plan Name", "Net Sales Formula", "Attached Date"};  
+    public final String[] rebateSetupRebatePlanHeader = new String[]{
+        "", ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAMES, ConstantsUtils.RS_STATUS_LABEL,ConstantsUtils.RS_START_DATE_LABEL, ConstantsUtils.RS_END_DATE_LABEL,"Bundle No","Rebate Plan No",REBATE_PLAN_NAME, NET_SALES_FORMULA, ATTACHED_DATE_LABEL};  
     
       /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final Object[] REBATE_PLAN_LOOKUP = new Object[]{
-        "rebatePlanId", "rebatePlanNo", "rebatePlanName", "rebatePlanStatus","rebatePlanType","rebateStructure","rangeBasedOn","netSalesFormula" ,"netSalesRule","rebateBasedOn","createdDate","createdBy","modifiedDate","modifiedBy"};
+    public final Object[] rebatePlanLookup = new Object[]{
+        "rebatePlanId", ConstantsUtils.REBATE_PLAN_NO, ConstantsUtils.REBATE_PLAN_NAME, "rebatePlanStatus","rebatePlanType","rebateStructure","rangeBasedOn","netSalesFormula" ,ConstantsUtils.NET_SALES_RULE,"rebateBasedOn","createdDate",ConstantsUtils.CREATEDBY,ConstantsUtils.MODIFIEDDATE,ConstantsUtils.MODIFIEDBY};
     
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final String[] REBATE_PLAN_LOOKUP_HEADER = new String[]{
-        "Rebate Plan ID", "Rebate Plan No", "Rebate Plan Name", "Rebate Plan Status","Rebate Plan Type" ,"Rebate Structure","Range Based On","Net Sales Formula" ,"Net Sales Rule","Rebate Based On","Created Date","Created By","Modified Date","Modified By"}; 
+    public final String[] rebatePlanLookupHeader = new String[]{
+        "Rebate Plan ID", "Rebate Plan No", REBATE_PLAN_NAME, "Rebate Plan Status","Rebate Plan Type" ,"Rebate Structure","Range Based On",NET_SALES_FORMULA ,NET_SALES_RULE,"Rebate Based On","Created Date",ConstantsUtils.CREATED_BY,ConstantsUtils.MODIFIED_DATE,ConstantsUtils.MODIFIED_BY}; 
       
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final Object[] FORMULA_LOOKUP = new Object[]{
-        "formulaType", "formulaID", "formulaNo", "formulaName", "version"};
+    public final Object[] formulaLookup = new Object[]{
+        ConstantsUtils.FORMULA_TYPE, ConstantsUtils.FORMULA_ID, ConstantsUtils.FORMULA_NO, ConstantsUtils.FORMULA_NAME, "version"};
     
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final String[] FORMULA_LOOKUP_HEADER = new String[]{
+    public final String[] formulaLookupHeader = new String[]{
         "Formula Type", "Formula ID", "Formula No", "Formula Name", "Version"}; 
     
       /** The Constant DEDUCTION_LOOKUP_COLUMN. */
-    public static final Object[] DEDUCTION_LOOKUP_COLUMN = new Object[]{
-        "deductionNo", "deductionName", "deductionDesc","deductionCategory","creationDate","createdBy","modifiedDate","modifiedBy"}; 
+    public final Object[] deductionLookupColumn = new Object[]{
+        "deductionNo", "deductionName", "deductionDesc","deductionCategory","creationDate",ConstantsUtils.CREATEDBY,ConstantsUtils.MODIFIEDDATE,ConstantsUtils.MODIFIEDBY}; 
     
     /** The Constant DEDUCTION_LOOKUP_HEADER. */
-    public static final String[] DEDUCTION_LOOKUP_HEADER = new String[]{
-        "Deduction Calendar No", "Deduction Calendar Name", "Deduction Calendar Desc","Category","Creation Date","Created By","Modified Date","Modified By"}; 
+    public final String[] deductionLookupHeader = new String[]{
+        "Deduction Calendar No", DEDUCTION_CALENDAR_NAME, "Deduction Calendar Desc","Category","Creation Date",ConstantsUtils.CREATED_BY,ConstantsUtils.MODIFIED_DATE,ConstantsUtils.MODIFIED_BY}; 
 
     public static String getColumnName(String key){
         
@@ -247,19 +259,19 @@ public final class RsUtils {
        
     public static void loadRebatePlanLookupColumnMap() {
         rebatePlanLookupColumnMap.put("rebatePlanId", "RP.REBATE_PLAN_ID");
-        rebatePlanLookupColumnMap.put("rebatePlanNo", "RP.REBATE_PLAN_NO");
-        rebatePlanLookupColumnMap.put("rebatePlanName", "RP.REBATE_PLAN_NAME");
+        rebatePlanLookupColumnMap.put(ConstantsUtils.REBATE_PLAN_NO, "RP.REBATE_PLAN_NO");
+        rebatePlanLookupColumnMap.put(ConstantsUtils.REBATE_PLAN_NAME, "RP.REBATE_PLAN_NAME");
         rebatePlanLookupColumnMap.put("rebatePlanStatus", "RP.REBATE_PLAN_STATUS");
         rebatePlanLookupColumnMap.put("rebatePlanType", "RP.REBATE_PLAN_TYPE");
         rebatePlanLookupColumnMap.put("rebateStructure", "RP.REBATE_STRUCTURE");
         rebatePlanLookupColumnMap.put("rebateBasedOn", "RP.REBATE_BASED_ON");
         rebatePlanLookupColumnMap.put("rangeBasedOn", "RP.REBATE_RANGE_BASED_ON");
-        rebatePlanLookupColumnMap.put("createdBy", " RP.CREATED_BY");
+        rebatePlanLookupColumnMap.put(ConstantsUtils.CREATEDBY, " RP.CREATED_BY");
         rebatePlanLookupColumnMap.put("createdDate", "RP.CREATED_DATE");
-        rebatePlanLookupColumnMap.put("modifiedBy", "RP.MODIFIED_BY");
-        rebatePlanLookupColumnMap.put("modifiedDate", " RP.MODIFIED_DATE");
+        rebatePlanLookupColumnMap.put(ConstantsUtils.MODIFIEDBY, "RP.MODIFIED_BY");
+        rebatePlanLookupColumnMap.put(ConstantsUtils.MODIFIEDDATE, " RP.MODIFIED_DATE");
         rebatePlanLookupColumnMap.put("netSalesFormula", "NSF.NET_SALES_FORMULA_NAME");
-        rebatePlanLookupColumnMap.put("netSalesRule", "CDR.RULE_NAME");
+        rebatePlanLookupColumnMap.put(ConstantsUtils.NET_SALES_RULE, "CDR.RULE_NAME");
  
     }
 
@@ -268,11 +280,11 @@ public final class RsUtils {
     }
     
      /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final Object[] NET_SALES_LOOKUP = new Object[]{
-        "netSalesFormulaType", "netSalesFormulaId", "netSalesFormulaNo", "netSalesFormulaName","nsfcreatedDate", "nsfcreatedBy", "nsfmodifiedDate", "nsfmodifiedBy"};
+    public final Object[] NET_SALES_LOOKUP = new Object[]{
+        "netSalesFormulaType", "netSalesFormulaId", ConstantsUtils.NET_SALES_FORMULA_NO, "netSalesFormulaName","nsfcreatedDate", "nsfcreatedBy", "nsfmodifiedDate", "nsfmodifiedBy"};
     
     /** The Constant ITEM_DETAILS_COLUMNS_IN_RS. */
-    public static final String[] NET_SALES_LOOKUP_HEADER = new String[]{
-        "Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula No", "Net Sales Formula Name","Creation Date", "Created By", "Modified Date", "Modified By" }; 
+    public final String[] NET_SALES_LOOKUP_HEADER = new String[]{
+        "Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula No", "Net Sales Formula Name","Creation Date", ConstantsUtils.CREATED_BY, ConstantsUtils.MODIFIED_DATE, ConstantsUtils.MODIFIED_BY }; 
     
 }

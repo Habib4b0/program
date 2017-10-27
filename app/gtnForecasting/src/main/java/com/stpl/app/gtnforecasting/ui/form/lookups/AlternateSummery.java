@@ -38,7 +38,6 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -228,13 +227,13 @@ public class AlternateSummery extends CustomComponent {
     protected ExtFilterTreeTable rightTable;
     protected CustomTableHeaderDTO leftHeader = null;
     protected CustomTableHeaderDTO rightHeader = null;
-    final public BeanItemContainer<String> groupBean = new BeanItemContainer<String>(String.class);
-    final public BeanItemContainer<String> massGroupBean = new BeanItemContainer<String>(String.class);
+    final public BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
+    final public BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
     protected SessionDTO session;
     protected FreezePagedTreeTable resultsTable;
     protected AHSummeryTableLogic summeryTableLogic;
     protected ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
-    protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<SalesRowDto>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
     /**
      * Level Filter Listener
      */
@@ -248,13 +247,11 @@ public class AlternateSummery extends CustomComponent {
         }
     };
     Property.ValueChangeListener groupFilterValueChangeListener = null;
-    Property.ValueChangeListener baseLineFilterValueChangeListener = null;
-    Property.ValueChangeListener methodologyFilterValueChangeListener = null;
     ComboBox userGroupTest = new ComboBox();
     protected ComboBox metohdologyFilter = new ComboBox();
     protected ComboBox baseLineFilter = new ComboBox();
-    final public BeanItemContainer<String> methdologyBean = new BeanItemContainer<String>(String.class);
-    final public BeanItemContainer<String> baseLineBean = new BeanItemContainer<String>(String.class);
+    final public BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
+    final public BeanItemContainer<String> baseLineBean = new BeanItemContainer<>(String.class);
     protected String screenName;
 
     protected int customIdToSelect = 0;
@@ -271,8 +268,8 @@ public class AlternateSummery extends CustomComponent {
     private Map<Object, String> radioMap = new HashMap<>();
     protected boolean isSalesCalculated;
     List<String> checkedList;
-    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<String, Map<String, List<String>>>();
-    List<Object> checkedDiscountsPropertyIds = new ArrayList<Object>();
+    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
+    List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
 
     @UiField("GridLayoutProjection")
     protected GridLayout GridLayoutProjection;
@@ -338,8 +335,8 @@ public class AlternateSummery extends CustomComponent {
         actualsProjections.setStyleName(Constant.HORIZONTAL);
 
         view.addItem(Constant.CUSTOMER_SMALL);
-        view.addItem(Constant.PRODUCT);
-        view.addItem(Constant.CUSTOM);
+        view.addItem(Constant.PRODUCT_LABEL);
+        view.addItem(Constant.CUSTOM_LABEL);
         view.select(Constant.CUSTOMER_SMALL);
         view.setStyleName(Constant.HORIZONTAL);
 
@@ -352,7 +349,7 @@ public class AlternateSummery extends CustomComponent {
 
         excelTable.setVisible(false);
 
-        configureFrequency(nmFrequencyDdlb, historyDdlb, true);
+        configureFrequency(nmFrequencyDdlb, historyDdlb);
         loadFrequency(nmFrequencyDdlb, historyDdlb);
         level.addItem(Constant.SELECT_ONE);
         level.setNullSelectionItemId(Constant.SELECT_ONE);
@@ -379,21 +376,6 @@ public class AlternateSummery extends CustomComponent {
                 LOGGER.debug("groupDdlbChangeOption ValueChangeEvent ends ");
             }
         };
-
-        baseLineFilterValueChangeListener = new Property.ValueChangeListener() {
-
-            public void valueChange(Property.ValueChangeEvent event) {
-            }
-        };
-
-        methodologyFilterValueChangeListener = new Property.ValueChangeListener() {
-
-            public void valueChange(Property.ValueChangeEvent event) {
-            }
-        };
-
-        baseLineFilter.addValueChangeListener(baseLineFilterValueChangeListener);
-        metohdologyFilter.addValueChangeListener(methodologyFilterValueChangeListener);
 
         loadLevelFilterValue(String.valueOf(view.getValue()));
         view.addValueChangeListener(new Property.ValueChangeListener() {
@@ -478,11 +460,7 @@ public class AlternateSummery extends CustomComponent {
         }
         checkBoxMap.clear();
         radioMap.clear();
-        generateBtnLogic(event);
-    }
-
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        generateBtnLogic();
     }
 
     /**
@@ -542,7 +520,7 @@ public class AlternateSummery extends CustomComponent {
 
     private void addComponent() {
 
-        spAdjustment.setCaption("Sales Projection");
+        spAdjustment.setCaption(Constant.SALES_PROJECTION);
         proPeriodOrd.addItem(Constant.ASCENDING);
         proPeriodOrd.addItem(Constant.DESCENDING);
         proPeriodOrd.select(Constant.ASCENDING);
@@ -606,7 +584,7 @@ public class AlternateSummery extends CustomComponent {
         history = history.trim();
         final String actualsOrProjections = String.valueOf(actualsProjections.getValue());
         final String projectionPeriodorder = String.valueOf(proPeriodOrd.getValue());
-        Map<String, String> selection = new HashMap<String, String>();
+        Map<String, String> selection = new HashMap<>();
         selection.put(Constant.FREQUENCY, QUARTERLY.getConstant());
         selection.put(Constant.HISTORY, history);
         if (session.getForecastDTO().getForecastEndDate().after(session.getForecastDTO().getProjectionEndDate())) {
@@ -616,10 +594,10 @@ public class AlternateSummery extends CustomComponent {
         }
         selection.put(Constant.ORDER, projectionPeriodorder);
         selection.put("actualsorprojections", actualsOrProjections);
-        selection.put(Constant.SALES, "false");
-        selection.put(Constant.UNITS, "false");
-        selection.put(Constant.P_Growth, "false");
-        selection.put(Constant.A_Growth, "false");
+        selection.put(Constant.SALES, Constant.FALSE);
+        selection.put(Constant.UNITS, Constant.FALSE);
+        selection.put(Constant.P_GROWTH, Constant.FALSE);
+        selection.put(Constant.A_GROWTH, Constant.FALSE);
 
         return selection;
     }
@@ -658,18 +636,18 @@ public class AlternateSummery extends CustomComponent {
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }
-        if ((Constant.CUSTOM).equals(view.getValue())) {
+        if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
             newBtn.setEnabled(!Constant.VIEW.equals(session.getAction()));
             viewDdlb.setEnabled(!Constant.VIEW.equals(session.getAction()));
             projectionDTO.setIsCustomHierarchy(true);
-            projectionDTO.setHierarchyIndicator(Constant.CUSTOM);
+            projectionDTO.setHierarchyIndicator(Constant.CUSTOM_LABEL);
             loadLevelFilterValue(String.valueOf(view.getValue()));
             loadLevelAndFilterValue();
             level.setValue(SELECT_ONE);
@@ -756,7 +734,7 @@ public class AlternateSummery extends CustomComponent {
     protected void customTreeViewLogic() {
 
         LOGGER.debug("newCustomHierarchhy clickEvent method starts");
-        final CustomTreeBuild customTree = new CustomTreeBuild(Constant.ADD_FULL_SMALL, session);
+        final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
 
             public void windowClose(Window.CloseEvent e) {
@@ -776,7 +754,7 @@ public class AlternateSummery extends CustomComponent {
     public void editHierarchyLogic() {
         LOGGER.debug("Entering editHierarchyBtn");
         if (CommonLogic.editButtonValidation(viewDdlb, customViewList)) {
-            final CustomTreeBuild customTree = new CustomTreeBuild(Constant.EDIT, session, customId);
+            final CustomTreeBuild customTree = new CustomTreeBuild(session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
 
                 public void windowClose(Window.CloseEvent e) {
@@ -813,7 +791,7 @@ public class AlternateSummery extends CustomComponent {
      * @param history
      * @param flag
      */
-    private void configureFrequency(final ComboBox frequency, final ComboBox history, boolean flag) {
+    private void configureFrequency(final ComboBox frequency, final ComboBox history) {
         frequency.addItem(MONTHLY);
         frequency.addItem(QUARTERLY.getConstant());
 
@@ -859,8 +837,9 @@ public class AlternateSummery extends CustomComponent {
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
             hierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), projectionDTO.getProductLevelNo(), projectionDTO.getProdRelationshipBuilderSid());
         }
-        int maxLevel = hierarchy.size() - 1;
+        
         if (hierarchy != null) {
+            int maxLevel = hierarchy.size() - 1;
             for (Leveldto levelDto : hierarchy) {
                 String levelFiterSid = levelDto.getTreeLevelNo() + "~" + levelDto.getHierarchyIndicator();
                 String caption = Constant.LEVEL+ levelDto.getTreeLevelNo() + " - " + levelDto.getLevel();
@@ -878,9 +857,9 @@ public class AlternateSummery extends CustomComponent {
      * Configures the table for the excel export.
      */
     protected void configureExcelResultTable() {
-        excelContainer = new ExtTreeContainer<SalesRowDto>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
-        List<String> columnHeader = new ArrayList<String>();
-        List<Object> visibleColumns = new ArrayList<Object>();
+        excelContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+        List<String> columnHeader = new ArrayList<>();
+        List<Object> visibleColumns = new ArrayList<>();
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
 
         visibleColumns.add(Constant.LEVELNAME);
@@ -907,6 +886,7 @@ public class AlternateSummery extends CustomComponent {
     }
 
     protected void levelFilterDdlbChangeOption(boolean excelExport) {
+        LOGGER.debug("excelExport"+excelExport);
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
@@ -1032,9 +1012,9 @@ public class AlternateSummery extends CustomComponent {
     private void setProjectionSelection() {
         Map<Object, Object> map = null;
         if ("Returns".equalsIgnoreCase(screenName)) {
-            map = CommonLogic.getReturnsProjectionSelection(session.getProjectionId(), "Sales Projection");
+            map = CommonLogic.getReturnsProjectionSelection(session.getProjectionId());
         } else {
-            map = CommonLogic.getNMProjectionSelection(session.getProjectionId(), "Sales Projection");
+            map = CommonLogic.getNMProjectionSelection(session.getProjectionId(), Constant.SALES_PROJECTION);
         }
 
         if (map != null && !map.isEmpty()) {
@@ -1057,7 +1037,6 @@ public class AlternateSummery extends CustomComponent {
             if (value != null) {
                 actualsProjections.setValue(String.valueOf(value));
             }
-            value = map.get(Constant.VARIABLES);
 
         }
     }
@@ -1086,7 +1065,7 @@ public class AlternateSummery extends CustomComponent {
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
         configureProjectionDTO();
-        generateBtnLogic(null);
+        generateBtnLogic();
 
     }
 
@@ -1114,15 +1093,12 @@ public class AlternateSummery extends CustomComponent {
             excelTable.setRefresh(Boolean.TRUE);
             if (excelTable.size() > 0) {
                 ForecastUI.EXCEL_CLOSE=true;
-                ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), "Sales Projection", "Sales Projection", "Sales_Projection.xls", false);
+                ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
                 exp.export();
             }
         } catch (Exception e) {
             LOGGER.error(e);
         }
-    }
-
-    protected void viewChangeOption() {
     }
 
     protected void customDdlbChangeOption() {
@@ -1180,7 +1156,7 @@ public class AlternateSummery extends CustomComponent {
 
     }
 
-    protected void generateBtnLogic(Button.ClickEvent event) {
+    protected void generateBtnLogic() {
         try {
 
             LOGGER.debug("generate button click listener starts ");
@@ -1215,7 +1191,7 @@ public class AlternateSummery extends CustomComponent {
         summeryTableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         excelHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getAHSummeryTabLeftTableColumns(fullHeader);
-        session.setForecastName("Sales Projection");
+        session.setForecastName(Constant.SALES_PROJECTION);
         projectionDTO.setIsSumarry(true);
         rightHeader = HeaderUtils.getAlternateHistoryRightTableColumns(projectionDTO, session, fullHeader);
 
@@ -1246,9 +1222,9 @@ public class AlternateSummery extends CustomComponent {
         rightTable.setDoubleHeaderVisible(true);
         rightTable.setDoubleHeaderVisibleColumns(rightHeader.getDoubleColumns().toArray());
         rightTable.setDoubleHeaderColumnHeaders(rightHeader.getDoubleHeaders().toArray(new String[rightHeader.getDoubleHeaders().size()]));
-        resultsTable.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        resultsTable.setHeight(Constant.SIX_FIFTY_PX);
+        leftTable.setHeight(Constant.SIX_FIFTY_PX);
+        rightTable.setHeight(Constant.SIX_FIFTY_PX);
 
         rightTable.setDoubleHeaderMap(rightHeader.getDoubleHeaderMaps());
 
@@ -1279,7 +1255,7 @@ public class AlternateSummery extends CustomComponent {
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, true);
-        } else if ((Constant.CUSTOM).equals(view.getValue())) {
+        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {

@@ -1,5 +1,6 @@
 package com.stpl.app.contract.dashboard.ui.form;
 
+import com.stpl.app.contract.abstractsearch.util.ConstantUtil;
 import java.util.Date;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import com.stpl.app.contract.util.Constants;
 import com.stpl.app.contract.util.ErrorCodeUtil;
 import com.stpl.app.contract.util.ErrorCodes;
 import com.stpl.app.contract.common.util.CommonUtil;
+import com.stpl.app.contract.dashboard.util.ContractUtils;
 import com.stpl.app.contract.dashboard.util.ExcelExportUtil;
 import com.stpl.app.security.impl.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -325,7 +327,7 @@ public class ContractInfoTab extends CustomComponent {
     @UiField("excelBtn")
     private Button excelExport;
     
-    private BeanItemContainer<ContractMasterDTO> container = new BeanItemContainer<ContractMasterDTO>(ContractMasterDTO.class);
+    private BeanItemContainer<ContractMasterDTO> container = new BeanItemContainer<>(ContractMasterDTO.class);
     /**
      * HEADER_COLUMNS
      */
@@ -586,7 +588,7 @@ public class ContractInfoTab extends CustomComponent {
      * @throws SystemException 
      * @throws PortalException 
      */
-    public ContractInfoTab(final ContractMasterDTO contractMaster, final CustomFieldGroup contractBinder, final boolean isEditable) throws PortalException, SystemException {
+    public ContractInfoTab(final ContractMasterDTO contractMaster, final CustomFieldGroup contractBinder) throws PortalException, SystemException {
         super();
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarative-ui/contract-dashboard/contract-header.xml"),this));
         this.contractMaster = contractMaster;
@@ -602,7 +604,7 @@ public class ContractInfoTab extends CustomComponent {
     private void configureBinder() {
         LOGGER.debug("Entering getBinder method");        
         contractMasterBinder.bindMemberFields(this);
-        contractMasterBinder.setItemDataSource(new BeanItem<ContractMasterDTO>(contractMaster));
+        contractMasterBinder.setItemDataSource(new BeanItem<>(contractMaster));
         contractMasterBinder.setBuffered(true);        
         LOGGER.debug("End of getBinder method");
         
@@ -656,14 +658,14 @@ public class ContractInfoTab extends CustomComponent {
      * Configure fields
      * @throws Exception 
      */
-    public void configureFields() throws PortalException, SystemException {
+    public void configureFields() {
         
         contractSystemId.setImmediate(Boolean.TRUE);                
-        view.addItems("History", "Current", "Pending");
-        view.select("Current");
+        view.addItems(ConstantUtil.HISTORY, ConstantUtil.CURRENT, "Pending");
+        view.select(ConstantUtil.CURRENT);
 
-        level.addItems("Header", "Detail");
-        level.select("Header");
+        level.addItems(ConstantUtil.HEADER, ConstantUtil.DETAIL);
+        level.select(ConstantUtil.HEADER);
 
         contractHeader.setVisible(Boolean.TRUE);
         contractInfo.setVisible(Boolean.FALSE);
@@ -675,32 +677,32 @@ public class ContractInfoTab extends CustomComponent {
             @Override
             public void valueChange(ValueChangeEvent event) {
                 excelExport.setVisible(true);
-                if ("History".equals(view.getValue().toString())) {
-                    if ("Header".equals(level.getValue().toString())) {
+                if (ConstantUtil.HISTORY.equals(view.getValue().toString())) {
+                    if (ConstantUtil.HEADER.equals(level.getValue().toString())) {
                         contractHeader.setVisible(Boolean.FALSE);
                         contractInfo.setVisible(Boolean.FALSE);
                         contractHeaderTable.setVisible(Boolean.TRUE);
                         table.setVisibleColumns(HEADER_COLUMNS);
                         table.setColumnHeaders(HEADER_HEADER);
-                    } else if ("Detail".equals(level.getValue().toString())) {
+                    } else if (ConstantUtil.DETAIL.equals(level.getValue().toString())) {
                         contractHeader.setVisible(Boolean.FALSE);
                         contractInfo.setVisible(Boolean.FALSE);
                         contractHeaderTable.setVisible(Boolean.TRUE);
                         table.setVisibleColumns(DETAIL_COLUMNS);
                         table.setColumnHeaders(DETAIL_HEADER);
                     }
-                } else if ("Current".equals(view.getValue().toString()) || "Pending".equals(view.getValue().toString())) {
-                    if ("Header".equals(level.getValue().toString())) {
+                } else if (ConstantUtil.CURRENT.equals(view.getValue().toString()) || "Pending".equals(view.getValue().toString())) {
+                    if (ConstantUtil.HEADER.equals(level.getValue().toString())) {
                         contractHeader.setVisible(Boolean.TRUE);
                         contractInfo.setVisible(Boolean.FALSE);
                         contractHeaderTable.setVisible(Boolean.FALSE);
-                    } else if ("Detail".equals(level.getValue().toString())) {
+                    } else if (ConstantUtil.DETAIL.equals(level.getValue().toString())) {
                         contractHeader.setVisible(Boolean.FALSE);
                         contractInfo.setVisible(Boolean.TRUE);
                         contractHeaderTable.setVisible(Boolean.FALSE);
                     }
                 }
-                 if (!String.valueOf(view.getValue()).equals("History")) {
+                 if (!String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
                     excelExport.setVisible(false);
                 }
             }
@@ -711,28 +713,28 @@ public class ContractInfoTab extends CustomComponent {
             @Override
             public void valueChange(ValueChangeEvent event) {
                 excelExport.setVisible(true);
-                if ("Header".equals(level.getValue().toString())) {
-                    view.select("Current");
+                if (ConstantUtil.HEADER.equals(level.getValue().toString())) {
+                    view.select(ConstantUtil.CURRENT);
                     contractHeader.setVisible(Boolean.TRUE);
                     contractInfo.setVisible(Boolean.FALSE);
                     contractHeaderTable.setVisible(Boolean.FALSE);
-                } else if ("Detail".equals(level.getValue().toString())) {
-                    view.select("Current");
+                } else if (ConstantUtil.DETAIL.equals(level.getValue().toString())) {
+                    view.select(ConstantUtil.CURRENT);
                     contractHeader.setVisible(Boolean.FALSE);
                     contractInfo.setVisible(Boolean.TRUE);
                     contractHeaderTable.setVisible(Boolean.FALSE);
                 }
-                 if (!String.valueOf(view.getValue()).equals("History")) {
+                 if (!String.valueOf(view.getValue()).equals(ConstantUtil.HISTORY)) {
                     excelExport.setVisible(false);
                 }
             }
         });
         
-        proposedStartDate.setDateFormat("MM/dd/yyyy");
-        proposedEndDate.setDateFormat("MM/dd/yyyy");
-        originalStartDate.setDateFormat("MM/dd/yyyy");
-        originalEndDate.setDateFormat("MM/dd/yyyy");
-        lastUpdatedDate.setDateFormat("MM/dd/yyyy");
+        proposedStartDate.setDateFormat(ContractUtils.MMDDYYYY);
+        proposedEndDate.setDateFormat(ContractUtils.MMDDYYYY);
+        originalStartDate.setDateFormat(ContractUtils.MMDDYYYY);
+        originalEndDate.setDateFormat(ContractUtils.MMDDYYYY);
+        lastUpdatedDate.setDateFormat(ContractUtils.MMDDYYYY);
                 
         commonUtil.loadComboBox(awardStatus, UIUtils.STATUS, false);
         commonUtil.loadComboBox(priceResetIndicator, UIUtils.PRICE_RESET_INDICATOR, false);
@@ -875,6 +877,7 @@ public class ContractInfoTab extends CustomComponent {
         tradingPartnerName.setValidationVisible(true);
         tradingPartnerName.setImmediate(true);
         tradingPartnerName.addStyleName("searchicon");
+        tradingPartnerName.setRequiredError("Trading Partner should be selected on Contract Information tab");
 
         tradingPartnerName.setDescription(tradingPartnerName.getValue());
         tradingPartnerName.addValueChangeListener(new Property.ValueChangeListener() {
@@ -888,7 +891,7 @@ public class ContractInfoTab extends CustomComponent {
         });
 
         renegotiationStartDate.setImmediate(true);
-        renegotiationStartDate.setDateFormat("MM/dd/yyyy");
+        renegotiationStartDate.setDateFormat(ContractUtils.MMDDYYYY);
         renegotiationStartDate.setDescription(Constants.DATE);
         renegotiationStartDate.addValueChangeListener(new Property.ValueChangeListener() {
             /**
@@ -903,7 +906,7 @@ public class ContractInfoTab extends CustomComponent {
         renegotiationEndDate.setValidationVisible(true);
         renegotiationEndDate.setDescription(Constants.DATE);
         renegotiationEndDate.addValidator(new DateValidatorReNegotiation("Renegotiation End Date should be greater than Renegotiation Start Date"));
-        renegotiationEndDate.setDateFormat("MM/dd/yyyy");
+        renegotiationEndDate.setDateFormat(ContractUtils.MMDDYYYY);
         renegotiationEndDate.addValueChangeListener(new Property.ValueChangeListener() {
             /**
              * Method used for Value change listener for reEndDate
@@ -930,7 +933,7 @@ public class ContractInfoTab extends CustomComponent {
         priceprotectionEndDate.setValidationVisible(true);
         priceprotectionEndDate.setDescription(Constants.DATE);
         priceprotectionEndDate.addValidator(new DateValidatorPriceProtection("Price Protection End Date should be greater than Price Protection Start Date"));
-        priceprotectionEndDate.setDateFormat("MM/dd/yyyy");
+        priceprotectionEndDate.setDateFormat(ContractUtils.MMDDYYYY);
         priceprotectionEndDate.addValueChangeListener(new Property.ValueChangeListener() {
             /**
              * Method used to Value Change Listener for prEndDate
@@ -985,8 +988,7 @@ public class ContractInfoTab extends CustomComponent {
              * Method used for focus listener event to tPName
              */
             public void click(final CustomTextField.ClickEvent event) {
-                try {
-                    if(tradingLookUp==null){
+                if(tradingLookUp==null){
                     tradingLookUp = new TradingPartnerLookUp(tradingPartnerSystemId, tradingPartnerName);
                     UI.getCurrent().addWindow(tradingLookUp);
                     tradingLookUp.addCloseListener(new Window.CloseListener() {
@@ -1000,11 +1002,6 @@ public class ContractInfoTab extends CustomComponent {
                             tradingLookUp=null;
                         }
                     });
-                    }
-                } catch (SystemException ex) {
-                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                    LOGGER.error(errorMsg);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                 }
             }
         });
@@ -1112,7 +1109,7 @@ public class ContractInfoTab extends CustomComponent {
             }
         });
 
-        outsideOwner.setData("maxlengthvalidationfifty,maxlengthvalidationoutsideowner,numericvalidation,specialcharvalidationoutsideowner");
+        outsideOwner.setData("maxlengthvalidationfifty,maxlengthvalidationoutsideowner,null,null");
         outsideOwner.setImmediate(true);
         outsideOwner.setValidationVisible(true);
         outsideOwner.setDescription(outsideOwner.getValue());
@@ -1438,7 +1435,7 @@ public class ContractInfoTab extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method");
 
             if (startDate.getValue() != null && endDate.getValue() != null) {
@@ -1509,7 +1506,7 @@ public class ContractInfoTab extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate method");
 
             if (priceprotectionStartDate.getValue() != null && priceprotectionEndDate.getValue() != null) {
@@ -1579,7 +1576,7 @@ public class ContractInfoTab extends CustomComponent {
          * @throws InvalidValueException the invalid value exception
          */
         @Override
-        public void validate(final Object value) throws InvalidValueException {
+        public void validate(final Object value) {
             LOGGER.debug("Entering validate()");
 
             if (renegotiationStartDate.getValue() != null && renegotiationEndDate.getValue() != null) {
@@ -1675,8 +1672,8 @@ public class ContractInfoTab extends CustomComponent {
              */
             @SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
-                if("Header".equals(level.getValue().toString()) || "Detail".equals(level.getValue().toString())){
-                if("History".equals(view.getValue())){
+                if(ConstantUtil.HEADER.equals(level.getValue().toString()) || ConstantUtil.DETAIL.equals(level.getValue().toString())){
+                if(ConstantUtil.HISTORY.equals(view.getValue())){
                     try {
                         createWorkSheet();
                     } catch (Exception ex) {
@@ -1689,7 +1686,7 @@ public class ContractInfoTab extends CustomComponent {
                          */
                         @SuppressWarnings("PMD")
                         public void buttonClicked(final ButtonId buttonId) {
-
+                            return;
                         }
                     }, ButtonId.OK);
                 }
@@ -1714,7 +1711,7 @@ public class ContractInfoTab extends CustomComponent {
      * @throws InvocationTargetException
      * @throws Exception 
      */
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         int recordCount = 0;
         ExcelExportforBB.createWorkSheet(table.getColumnHeaders(), recordCount, this, getUI(), "Contract Info");
@@ -1729,7 +1726,7 @@ public class ContractInfoTab extends CustomComponent {
      * @throws PortalException
      * @throws SystemException 
      */
-    public void createWorkSheetContent() throws PortalException, SystemException {
+    public void createWorkSheetContent() {
         LOGGER.debug("Entering createWorkSheetContent");
 
         LOGGER.debug("Ending createWorkSheetContent");

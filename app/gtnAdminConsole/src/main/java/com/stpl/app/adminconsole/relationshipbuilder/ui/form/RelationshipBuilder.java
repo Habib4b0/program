@@ -4,6 +4,7 @@
  */
 package com.stpl.app.adminconsole.relationshipbuilder.ui.form;
 
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -109,13 +110,13 @@ public class RelationshipBuilder extends CustomComponent implements View {
     
     private Panel levelPanel = new Panel();
     
-    private List<BeanItemContainer<HierarchyLevelsDTO>> availableLevelsBeanList = new ArrayList<BeanItemContainer<HierarchyLevelsDTO>>();
+    private List<BeanItemContainer<HierarchyLevelsDTO>> availableLevelsBeanList = new ArrayList<>();
    
-    private List<BeanItemContainer<HierarchyLevelsDTO>> selectedLevelsBeanList = new ArrayList<BeanItemContainer<HierarchyLevelsDTO>>();
+    private List<BeanItemContainer<HierarchyLevelsDTO>> selectedLevelsBeanList = new ArrayList<>();
   
-    private List<ExtFilterTable> availableTableList = new ArrayList<ExtFilterTable>();
+    private List<ExtFilterTable> availableTableList = new ArrayList<>();
    
-    private List<ExtFilterTable> selectedTableList = new ArrayList<ExtFilterTable>();
+    private List<ExtFilterTable> selectedTableList = new ArrayList<>();
    
     private GridLayout layout;
    
@@ -129,17 +130,15 @@ public class RelationshipBuilder extends CustomComponent implements View {
    
     private String currentTreeStructure = StringUtils.EMPTY;
     
-    private BeanItemContainer<HierarchyLevelsDTO> finalSelectedResultsBean = new BeanItemContainer<HierarchyLevelsDTO>(HierarchyLevelsDTO.class);
+    private BeanItemContainer<HierarchyLevelsDTO> finalSelectedResultsBean = new BeanItemContainer<>(HierarchyLevelsDTO.class);
 
     /**
      * Instantiates a new relationship builder.
      *
      * @param relationshipBuilderBinder the relationship builder binder
      * @param relationshipBuilderDTO the relationship builder dto
-     * @throws Exception
-     * @throws SystemException
      */
-    public RelationshipBuilder(final CustomFieldGroup relationshipBuilderBinder, final RelationshipBuilderDTO relationshipBuilderDTO) throws SystemException {
+    public RelationshipBuilder(final CustomFieldGroup relationshipBuilderBinder, final RelationshipBuilderDTO relationshipBuilderDTO) {
         super();
         LOGGER.debug("inside RelationshipBuilder constructor");
         this.relationshipBuilderDTO = relationshipBuilderDTO;
@@ -529,10 +528,8 @@ public class RelationshipBuilder extends CustomComponent implements View {
     /**
      * Inits the.
      *
-     * @throws Exception
-     * @throws SystemException
      */
-    public final void init() throws SystemException {
+    public final void init() {
         LOGGER.debug("Entering init method");
         space.setHeight("20");
         setCompositionRoot(addToContent());
@@ -546,7 +543,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
      * @throws Exception
      * @throws SystemException
      */
-    private Component addToContent() throws SystemException {
+    private Component addToContent() {
         LOGGER.debug("Entering addToContent method");
         final VerticalLayout content = new VerticalLayout();
         space.setHeight("20");
@@ -570,7 +567,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
     private CustomFieldGroup getRelationBuilderBinder() {
         LOGGER.debug("Entering getRelationBuilderBinder method");
         relationshipBuilderBinder.bindMemberFields(this);
-        relationshipBuilderBinder.setItemDataSource(new BeanItem<RelationshipBuilderDTO>(relationshipBuilderDTO));
+        relationshipBuilderBinder.setItemDataSource(new BeanItem<>(relationshipBuilderDTO));
         relationshipBuilderBinder.setBuffered(true);
         relationshipBuilderBinder.setErrorDisplay(errorMsg);
         LOGGER.debug("getRelationBuilderBinder method returns CustonFieldGroup");
@@ -651,7 +648,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
      * @throws Exception
      * @throws SystemException
      */
-    private void configureFields() throws SystemException {
+    private void configureFields() {
         LOGGER.debug("Entering configureFields methods");
         relationshipName.focus();
         relationshipName.addValidator(new RegexpValidator(ValidationUtils.QUALIFIER_SPCL_CHARS, "RelationShip Name can contain only alphabets and numbers "));
@@ -670,7 +667,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
         relationshipDesc.setRequired(true);
 
         hierarchyNameDdlb.setNullSelectionAllowed(true);
-        hierarchyNameDdlb.setNullSelectionItemId("- Select One -");
+        hierarchyNameDdlb.setNullSelectionItemId(StringConstantUtils.SELECT_ONE_SPACE);
         loadHierarchy();
         hierarchyNameDdlb.setImmediate(true);
         /**
@@ -846,7 +843,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
      * @throws Exception
      * @throws SystemException
      */
-    private void loadHierarchy() throws SystemException {
+    private void loadHierarchy() {
         LOGGER.debug("Entering loadHierarchy method");
     }
 
@@ -930,7 +927,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
                     List<HierarchyLevelsDTO> savedLevelValues;
                     levelValues = levelValuesList.get(String.valueOf(levelObj.getHierarchyLevelDefinitionSid()));
                     if (rbSystemId == ConstantsUtils.ZERO_NUM) {
-                        savedLevelValues = new ArrayList<HierarchyLevelsDTO>();
+                        savedLevelValues = new ArrayList<>();
                     } else {
                         savedLevelValues = savedLevelValuesList.get(String.valueOf(levelObj.getHierarchyLevelDefinitionSid()));
                     }
@@ -968,7 +965,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
                     List<HierarchyLevelsDTO> savedLevelValues;
                     levelValues = levelValuesList.get(String.valueOf(levelObj.getHierarchyLevelDefinitionSid()));
                     if (rbSystemId == ConstantsUtils.ZERO_NUM) {
-                        savedLevelValues = new ArrayList<HierarchyLevelsDTO>();
+                        savedLevelValues = new ArrayList<>();
                     } else {
                         savedLevelValues = savedLevelValuesList.get(String.valueOf(levelObj.getHierarchyLevelDefinitionSid()));
                     }
@@ -1022,7 +1019,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
                             MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, "Multiple values cannot be allowed at the first level", ButtonId.OK);
                         } else {
                             if (levelNo == currentTreeStructure.split("~").length) {
-                                addItemsButtonClick(event, values, levelNo);
+                                addItemsButtonClick(values, levelNo);
 
                             } else {
                                 MessageBox.showPlain(Icon.INFO, "Oops!", "Tree Structure not completed, Please select values for all the sub levels", ButtonId.OK);
@@ -1030,7 +1027,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
 
                         }
                     } else {
-                        addItemsButtonClick(event, values, levelNo);
+                        addItemsButtonClick( values, levelNo);
                     }
 
                 }
@@ -1046,7 +1043,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
                     MessageBox.showPlain(Icon.INFO, "Halt", "Please select a row from Selected <Level " + levelNo + ">", ButtonId.OK);
 
                 } else {
-                    removeItemsButtonClick(event, values);
+                    removeItemsButtonClick(values);
                 }
             }
         });
@@ -1081,7 +1078,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
         }
         ExtFilterTable availableResults;
         BeanItemContainer<HierarchyLevelsDTO> availableResultsBean;
-        availableResultsBean = new BeanItemContainer<HierarchyLevelsDTO>(HierarchyLevelsDTO.class);
+        availableResultsBean = new BeanItemContainer<>(HierarchyLevelsDTO.class);
         availableResultsBean.removeAllItems();
         availableResultsBean.addAll(levelValues);
         availableLevelsBeanList.add(value - 1, availableResultsBean);
@@ -1091,7 +1088,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
         availableResults.setFilterDecorator(new ExtDemoFilterDecorator());
         availableResults.setContainerDataSource(availableLevelsBeanList.get(value - 1));
         availableResults.setCaption("Available <Level " + value + " > :");
-        availableResults.setVisibleColumns(CommonUIUtil.RB_AVAILABLE_LEVEL_COLUMN);
+        availableResults.setVisibleColumns(CommonUIUtil.getInstance().rbAvailableLevelColumn);
         availableResults.setColumnHeaders(levelName);
         availableResults.setPageLength(NumericConstants.FIVE);
         availableResults.setWidth("100%");
@@ -1108,7 +1105,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
             public void itemClick(final ItemClickEvent event) {
                 if (event != null && event.isDoubleClick()) {
                         LOGGER.debug("In addLevelStructure availableResults.addListener started");
-                        addItemsOnDoubleClick(event, value - 1);
+                        addItemsOnDoubleClick(value - 1);
                         LOGGER.debug("In addLevelStructure availableResults.addListener Ended");
                     }
             }
@@ -1118,7 +1115,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
          */
         availableResults.setErrorHandler(new ErrorHandler() {
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
         availableTableList.add(value - 1, availableResults);
@@ -1140,7 +1137,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
             selectedLevelsBeanList.clear();
         }
         BeanItemContainer<HierarchyLevelsDTO> selectedResultsBean;
-        selectedResultsBean = new BeanItemContainer<HierarchyLevelsDTO>(HierarchyLevelsDTO.class);
+        selectedResultsBean = new BeanItemContainer<>(HierarchyLevelsDTO.class);
         selectedResultsBean.removeAllItems();
         if (!savedLevelValues.isEmpty()) {
             selectedResultsBean.addAll(savedLevelValues);
@@ -1152,7 +1149,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
         selectedResults.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedResults.setContainerDataSource(selectedLevelsBeanList.get(name - 1));
         selectedResults.setCaption("Selected <Level " + name + " > :");
-        selectedResults.setVisibleColumns(CommonUIUtil.RB_SELECTED_LEVEL_COLUMN);
+        selectedResults.setVisibleColumns(CommonUIUtil.getInstance().rbSelectedLevelColumns);
         selectedResults.setColumnHeaders(levelName);
         selectedResults.setPageLength(NumericConstants.FIVE);
         selectedResults.setWidth("100%");
@@ -1169,7 +1166,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
             public void itemClick(final ItemClickEvent event) {
                 if (event != null && event.isDoubleClick()) {
                         LOGGER.debug("In addSelectedLevelValues selectedResults.addListener started");
-                        removeItemsOnDoubleClick(event, name - 1);
+                        removeItemsOnDoubleClick(name - 1);
                         LOGGER.debug("In addSelectedLevelValues selectedResults.addListener Ended");
                 }
             }
@@ -1179,7 +1176,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
          */
         selectedResults.setErrorHandler(new ErrorHandler() {
             public void error(final com.vaadin.server.ErrorEvent event) {
-
+                return;
             }
         });
 
@@ -1195,7 +1192,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
      * @param value
      * @param i the i
      */
-    protected void addItemsButtonClick(final Button.ClickEvent event, final int value, final int levelNo) {
+    protected void addItemsButtonClick( final int value, final int levelNo) {
         LOGGER.debug("Entering addItemsButtonClick with i value " + value + " and leval no" + levelNo);
 
         final HierarchyLevelsDTO itemId = (HierarchyLevelsDTO) availableTableList.get(value).getValue();
@@ -1238,7 +1235,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
      * @param value
      * @param i the i
      */
-    protected void removeItemsButtonClick(final Button.ClickEvent event, final int value) {
+    protected void removeItemsButtonClick(final int value) {
         LOGGER.debug("Entering removeItemsButtonClick method with i value:" + value);
         final Object itemId = selectedTableList.get(value).getValue();
         availableLevelsBeanList.get(value).addItem(itemId);
@@ -1253,7 +1250,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
      * @param event the event
      * @param event1
      */
-    protected void addItemsOnDoubleClick(final ItemClickEvent event, final int event1) {
+    protected void addItemsOnDoubleClick(final int event1) {
 
         LOGGER.debug("Entering addItemsOnDoubleClick method with i value:" + event1);
         final Object itemId = availableTableList.get(event1).getValue();
@@ -1270,7 +1267,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
      * @param values
      * @param i the i
      */
-    protected void removeItemsOnDoubleClick(final ItemClickEvent event, final int values) {
+    protected void removeItemsOnDoubleClick( final int values) {
         LOGGER.debug("Entering removeItemsOnDoubleClick method with i value:" + values);
         final Object itemId = selectedTableList.get(values).getValue();
         availableTableList.get(values).addItem(itemId);
@@ -1291,7 +1288,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
             relationshipDesc.setValue(ConstantsUtils.EMPTY);
             startDate.setValue(null);
             relationshipType.select(ConstantsUtils.PRIMARY);
-            hierarchyNameDdlb.setValue("- Select One -");
+            hierarchyNameDdlb.setValue(StringConstantUtils.SELECT_ONE_SPACE);
             hierarchyNameDdlb.setEnabled(true);
 
             final String fromViewPage = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.FRONT_VIEW_PAGE);
@@ -1337,7 +1334,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
      * .
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
-
+        return;
     }
 
     /**
@@ -1387,7 +1384,7 @@ public class RelationshipBuilder extends CustomComponent implements View {
                     relationshipDesc.setValue(ConstantsUtils.EMPTY);
                     startDate.setValue(null);
                     hierarchy.setValue(ConstantsUtils.EMPTY);
-                    hierarchyNameDdlb.setValue("- Select One -");
+                    hierarchyNameDdlb.setValue(StringConstantUtils.SELECT_ONE_SPACE);
                     relationshipType.select(ConstantsUtils.PRIMARY);
                     levelPanel.setVisible(false);
                     hierarchyNameDdlb.setEnabled(true);

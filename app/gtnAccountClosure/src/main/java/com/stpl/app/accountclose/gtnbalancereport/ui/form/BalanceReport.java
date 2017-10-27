@@ -127,7 +127,6 @@ public class BalanceReport extends CustomComponent {
     /**
      * The excel export image.
      */
-    private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
     BalanceReportResultsTableLogic tableLogic = new BalanceReportResultsTableLogic();
     public FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);

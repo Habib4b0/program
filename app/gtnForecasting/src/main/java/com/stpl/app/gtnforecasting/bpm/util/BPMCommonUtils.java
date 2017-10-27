@@ -42,7 +42,7 @@ public class BPMCommonUtils {
 
     public static List<Date> getStartDate(String quarter, int year) {
 
-        List<Date> dateList = new ArrayList<Date>();
+        List<Date> dateList = new ArrayList<>();
         int result = getQuarter(quarter);
         Calendar startDate = Calendar.getInstance();
         Calendar endDate = Calendar.getInstance();

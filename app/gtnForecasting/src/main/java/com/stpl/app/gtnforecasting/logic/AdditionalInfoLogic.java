@@ -73,7 +73,7 @@ public class AdditionalInfoLogic {
         List<DocDetails> docDetailsList;
         DocDetails docDetails;
 
-        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName "
+        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName  "
                 + moduleName);
 
         docDetailsList = addInfoDao.getAttachmentDTOList(dynamicQuery);
@@ -126,7 +126,7 @@ public class AdditionalInfoLogic {
      * @throws Exception the exception
      */
     public List<AttachmentDTO> getAttachmentDTOList(final int projectionId, final String moduleName) throws SystemException {
-        final List<AttachmentDTO> attachmentDTOList = new ArrayList<AttachmentDTO>();
+        final List<AttachmentDTO> attachmentDTOList = new ArrayList<>();
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
         dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_ID, projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
@@ -213,7 +213,7 @@ public class AdditionalInfoLogic {
      * @return List of AttachmentDTO Object .
      */
     public List<AttachmentDTO> addUserFile(final List<AttachmentDTO> list, final String userName) {
-        final List<AttachmentDTO> finalList = new ArrayList<AttachmentDTO>();
+        final List<AttachmentDTO> finalList = new ArrayList<>();
 
         LOGGER.debug("Entering addUserFile method with list size " + list.size() + " userName " + userName);
         for (final Iterator<AttachmentDTO> iterator = list.iterator(); iterator.hasNext();) {

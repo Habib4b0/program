@@ -77,7 +77,7 @@ public class ItemFamilyPlanUI extends UI {
 
 			navigator.setErrorView(new AbstractSearchView(ConstantUtil.ITEM_FAMILY_PLAN));
 
-		} catch (SystemException ex) {
+		}catch (SystemException ex) {
                         final  String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                         LOGGER.error(errorMsg);
                         final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {    
@@ -93,22 +93,15 @@ public class ItemFamilyPlanUI extends UI {
                                         }           
                                     }, ButtonId.OK);      
                                     msg.getButton(ButtonId.OK).focus();
-                } catch (PortalException pe) {
-			LOGGER.error(pe);
-			final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {    
-                            /**              
-                             * The method is triggered when a button of the message box is       
-                             * pressed .        
-                             *                
-                             * @param buttonId The buttonId of the pressed button.       
-                             */             
-                            @SuppressWarnings("PMD")        
-                            public void buttonClicked(final ButtonId buttonId) {      
-                                // Do Nothing     
-                            }           
-                        }, ButtonId.OK);      
-                        msg.getButton(ButtonId.OK).focus();
-		} catch (Exception e) {
+                }
+            /**
+             * The method is triggered when a button of the message box is
+             * pressed .
+             *
+             * @param buttonId The buttonId of the pressed button.
+             */
+            // Do Nothing
+             catch (Exception e) {
 			LOGGER.error(e);
 			final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {  
                             /**             

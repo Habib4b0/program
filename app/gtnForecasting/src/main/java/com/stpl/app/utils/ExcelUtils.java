@@ -48,7 +48,7 @@ public class ExcelUtils {
     public static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("#,##0.000");
     private static final DecimalFormat DOLLAR_RPU_FORMAT = new DecimalFormat("$#,##0.00");
 
-    public static void setExcelData(final List resultList, final List<PPAProjectionResultsDTO> totalList, final ProjectionSelectionDTO selection, ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer) throws IllegalAccessException, InvocationTargetException {
+    public static void setExcelData(final List resultList, final List<PPAProjectionResultsDTO> totalList, final ProjectionSelectionDTO selection, ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer)  {
         setTotalDataToExcelContainer(excelBeanContainer, totalList);
         setDataToExcelContainer(resultList, selection, excelBeanContainer);
     }
@@ -70,7 +70,7 @@ public class ExcelUtils {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    public static void setDataToExcelContainer(final List resultList, final ProjectionSelectionDTO selection, ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer) throws IllegalAccessException, InvocationTargetException {
+    public static void setDataToExcelContainer(final List resultList, final ProjectionSelectionDTO selection, ExtTreeContainer<PPAProjectionResultsDTO> excelBeanContainer)  {
 
         Map<String, List> hierarchyDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
 
@@ -83,7 +83,7 @@ public class ExcelUtils {
         Map<String, PPAProjectionResultsDTO> dtoMap = new HashMap<>();
 
         String lastHierarchyNo = StringUtils.EMPTY;
-        String lastParentHierarchyNo = StringUtils.EMPTY;
+        String lastParentHierarchyNo;
 
         for (int i = 0; i < resultList.size(); i++) {
 
@@ -240,7 +240,7 @@ public class ExcelUtils {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    public void setDataToExcelContainerForDPR(final List resultList, final List discountListForContract, final ProjectionSelectionDTO selection, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer) throws IllegalAccessException, InvocationTargetException {
+    public void setDataToExcelContainerForDPR(final List resultList, final List discountListForContract, final ProjectionSelectionDTO selection, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer)  {
         Map<String, List> hierarchyDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
         Map<String, DiscountProjectionResultsDTO> dtoMap = new HashMap<>();
         String frequency = selection.getFrequency();
@@ -297,7 +297,7 @@ public class ExcelUtils {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    public void setDataToExcelContainerForDPRCustom(final List resultList, final List discountListForContract, final ProjectionSelectionDTO selection, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer,boolean isPeriodView) throws IllegalAccessException, InvocationTargetException {
+    public void setDataToExcelContainerForDPRCustom(final List resultList, final List discountListForContract, final ProjectionSelectionDTO selection, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer,boolean isPeriodView)  {
         Map<String, List> hierarchyDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
         Map<String, DiscountProjectionResultsDTO> dtoMap = new HashMap<>();
         String frequency = selection.getFrequency();
@@ -325,11 +325,11 @@ public class ExcelUtils {
                     }
                 }
                 if (!isPeriodView) {
-                    discountIndex = discountIndexForCustomDiscountView(discountIndex, discountListForContract, frequency, excelBeanContainer, dto, isPeriodView, selection);
+                    discountIndex = discountIndexForCustomDiscountView(discountIndex, discountListForContract, frequency, excelBeanContainer, dto, selection);
 
                 } else {
                    
-                    discountIndex = discountIndexForCustomPeriodView(discountIndex, discountListForContract, frequency, excelBeanContainer, dto, isPeriodView, selection);
+                    discountIndex = discountIndexForCustomPeriodView(discountIndex, discountListForContract, frequency, excelBeanContainer, dto, selection);
                 
                 }
                 dto = new DiscountProjectionResultsDTO();
@@ -337,7 +337,7 @@ public class ExcelUtils {
     }
         }
 
-    private int discountIndexForCustomPeriodView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent,boolean isPeriodView, final ProjectionSelectionDTO selection) {
+    private int discountIndexForCustomPeriodView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent, final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
         for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
             discountIndex = i;
@@ -361,7 +361,7 @@ public class ExcelUtils {
         return discountIndex;
     }
     
-    private int discountIndexForCustomDiscountView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent,boolean isPeriodView,final ProjectionSelectionDTO selection) {
+    private int discountIndexForCustomDiscountView(int discountIndex, final List discountListForContract, final String frequency, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer, DiscountProjectionResultsDTO parent,final ProjectionSelectionDTO selection) {
         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
         for (int i = discountIndex + 1; i < discountListForContract.size(); i++) {
             discountIndex = i;
@@ -369,18 +369,21 @@ public class ExcelUtils {
             String period = obj[NumericConstants.TWO].toString();
             String lastHierarchyNo = obj[0].toString();
             String lastParentHierarchyNo = obj[NumericConstants.TEN] == null ? null : obj[NumericConstants.TEN].toString();
-            setActualProjectionValue(dto, obj, obj[NumericConstants.FOURTEEN].toString().replace(" ", StringUtils.EMPTY), selection); 
+            String periodsFreq = getFrequency(frequency, obj);
+            if (selection.getPeriodList().contains(periodsFreq)) {
+                setActualProjectionValue(dto, obj, obj[NumericConstants.FIFTEEN].toString().replace(" ", StringUtils.EMPTY), selection);
             if ((parent.getHierarchyNo().equals(lastHierarchyNo) || (lastParentHierarchyNo != null && parent.getParentHierarchyNo().equals(lastParentHierarchyNo))) && (discountListForContract.size() == i + 1 || !period.equals(((Object[]) discountListForContract.get(i + 1))[NumericConstants.TWO].toString()) || !lastHierarchyNo.equals(((Object[]) discountListForContract.get(i + 1))[0].toString()) || lastParentHierarchyNo != null && !lastParentHierarchyNo.equals(((Object[]) discountListForContract.get(i + 1))[NumericConstants.TEN].toString()))) {
                 dto.setHierarchyNo(lastHierarchyNo);
                 dto.setParentHierarchyNo(lastParentHierarchyNo);
-                dto.setGroup(getFrequencyForGroup(frequency,obj));
+                dto.setGroup(getFrequencyForGroup(frequency, obj));
                 addItemsToContainer(excelBeanContainer, dto);
                 excelBeanContainer.setParent(dto, parent);
                 dto = new DiscountProjectionResultsDTO();
-                if ((discountListForContract.size() > (i+1)) && (!parent.getHierarchyNo().equals(((Object[]) discountListForContract.get(i + 1))[0].toString()) || (lastParentHierarchyNo != null && !parent.getParentHierarchyNo().equals(((Object[]) discountListForContract.get(i + 1))[NumericConstants.TEN].toString())))) {
+                if ((discountListForContract.size() > (i + 1)) && (!parent.getHierarchyNo().equals(((Object[]) discountListForContract.get(i + 1))[0].toString()) || (lastParentHierarchyNo != null && !parent.getParentHierarchyNo().equals(((Object[]) discountListForContract.get(i + 1))[NumericConstants.TEN].toString())))) {
                     break;
                 }
             }
+        }
         }
         return discountIndex;
     }
@@ -467,7 +470,7 @@ public class ExcelUtils {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    public void setDataToExcelContainerForDPRDiscountView(final List resultList, final List discountListForContract, final ProjectionSelectionDTO selection, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer) throws IllegalAccessException, InvocationTargetException {
+    public void setDataToExcelContainerForDPRDiscountView(final List resultList, final List discountListForContract, final ProjectionSelectionDTO selection, ExtTreeContainer<DiscountProjectionResultsDTO> excelBeanContainer)  {
         Map<String, List> hierarchyDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
         Map<String, DiscountProjectionResultsDTO> dtoMap = new HashMap<>();
         String frequency = selection.getFrequency();

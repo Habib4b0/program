@@ -327,7 +327,7 @@ public class TempPricingDTO implements Serializable {
     
     private HelperDTO selectedBasePrice = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
 
-    private Map<String,Field> dtoFields = new HashMap<String,Field>();
+    private Map<String,Field> dtoFields = new HashMap<>();
 
     private HelperDTO ifpStatus = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
     private String itemDesc = StringUtils.EMPTY;

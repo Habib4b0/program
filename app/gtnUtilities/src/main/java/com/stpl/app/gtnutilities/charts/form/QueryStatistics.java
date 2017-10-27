@@ -100,6 +100,7 @@ public class QueryStatistics extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
     public void enter(final ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /**
@@ -224,7 +225,7 @@ public class QueryStatistics extends CustomComponent implements View {
         databaseDdlb.addItems(HelperTableLocalServiceUtil.executeSelectQuery("select name from sys.databases"));
         databaseDdlb.select(Constants.SELECT_ONE);
     }
-    private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void createWorkSheet() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
       
         List list = searchLogic.fetchDataFromDB(getInputArray(),NumericConstants.ZERO, NumericConstants.ZERO, true, tableLogic.getFilters(), null, true);
         final long recordCount = list == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(list.get(NumericConstants.ZERO)));
@@ -232,7 +233,7 @@ public class QueryStatistics extends CustomComponent implements View {
                 (String.valueOf(selectType.getValue()) + Constants.UNDERSCORE + selectedParameter));
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter)  {
         String value = null;
         List<Object[]> resultList = searchLogic.fetchDataFromDB(getInputArray(), start, end, false, tableLogic.getFilters(), null, true);
         for (int i = NumericConstants.ZERO; i < resultList.size(); i++) {

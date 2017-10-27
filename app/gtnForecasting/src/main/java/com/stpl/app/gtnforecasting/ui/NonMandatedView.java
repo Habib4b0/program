@@ -36,14 +36,14 @@ public class NonMandatedView extends VerticalLayout {
     /**
      * Binder for DataSelection.
      */
-    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<DataSelectionDTO>(dataSelectionDTO));
+    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
 
     ForecastForm nonMandatedForm;
 
     /**
      * Default constructor.
      */
-    public NonMandatedView(SessionDTO session, DataSelectionDTO dataSelectionDTO, NonMandatedViewWindow viewWindow, DataSelectionForm dataSelectionForm) throws SystemException {
+    public NonMandatedView(SessionDTO session, DataSelectionDTO dataSelectionDTO)  {
         this.session = session;
         this.dataSelectionDTO = dataSelectionDTO;
         try {
@@ -61,8 +61,8 @@ public class NonMandatedView extends VerticalLayout {
      * @param event the event
      */
     public void enter() {
-        dataSelectionBinder.setItemDataSource(new BeanItem<DataSelectionDTO>(dataSelectionDTO));
-        nonMandatedForm.configureOnEnter(session.getProjectionId(), dataSelectionDTO);
+        dataSelectionBinder.setItemDataSource(new BeanItem<>(dataSelectionDTO));
+        nonMandatedForm.configureOnEnter();
     }
 
 }

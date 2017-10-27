@@ -216,8 +216,8 @@ public class PPAProjectionResults extends CustomComponent implements View {
     /**
      * The result bean.
      */
-    private ExtTreeContainer<PPAProjectionResultsDTO> resultBean = new ExtTreeContainer<PPAProjectionResultsDTO>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
-    List<Leveldto> viewChangeHierarchy = new ArrayList<Leveldto>();
+    private ExtTreeContainer<PPAProjectionResultsDTO> resultBean = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+    List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     ExtCustomTreeTable excelTable;
     /**
      * Instantiates a new SALES_SMALL projection results.
@@ -229,6 +229,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
     CustomTableHeaderDTO leftdto;
     SessionDTO session;
     private int hierarchyLevelNo = 1;
+    public static final String PIVOT_VIEW_LABEL = "Pivot View";
     /**
      * The map right visible columns.
      */
@@ -250,15 +251,15 @@ public class PPAProjectionResults extends CustomComponent implements View {
     int customIdToSelect = 0;
     boolean customHierarchy = false;
     int customId = 0;
-    List<CustomViewMaster> customViewList = new ArrayList<CustomViewMaster>();
+    List<CustomViewMaster> customViewList = new ArrayList<>();
     ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
     boolean isGenerated;
     PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
     public static final DataFormatConverter percentFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_PERCENT);
     ExtTreeContainer<PPAProjectionResultsDTO> excelContainer = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
-    String[] pivotHeaderForActuals = {"Group", "Discount $ Per Unit Actuals", "Discount % Actuals", "Unit Volume Actulas", "Total Discount Amount Actulas"};
-    String[] pivotHeaderForProjections = {"Group", "Discount $ Per Unit Projections", "Discount % Projections", "Unit Volume Projections", "Total Discount Amount Projections"};
-    String[] pivotHeaderForBoth = {"Group", "Discount $ Per Unit Actuals", "Discount $ Per Unit Projections", "Discount % Actuals", "Discount % Projections", "Unit Volume Actulas", "Unit Volume Projections", "Total Discount Amount Actulas", "Total Discount Amount Projections"};
+    String[] pivotHeaderForActuals = {Constant.GROUPFCAPS, "Discount $ Per Unit Actuals", "Discount % Actuals", "Unit Volume Actulas", "Total Discount Amount Actulas"};
+    String[] pivotHeaderForProjections = {Constant.GROUPFCAPS, "Discount $ Per Unit Projections", "Discount % Projections", "Unit Volume Projections", "Total Discount Amount Projections"};
+    String[] pivotHeaderForBoth = {Constant.GROUPFCAPS, "Discount $ Per Unit Actuals", "Discount $ Per Unit Projections", "Discount % Actuals", "Discount % Projections", "Unit Volume Actulas", "Unit Volume Projections", "Total Discount Amount Actulas", "Total Discount Amount Projections"};
     Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
@@ -274,6 +275,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
     boolean generated = false;
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     PPADetailsLookup ppaDetailsLookup = null;
+    boolean isTabVisible = true;
 
     /**
      * Instantiates a new PPA projection results.
@@ -284,7 +286,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         projectionId = session.getProjectionId();
         this.session = session;
         selection.setScreenName(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED);
-        selection.setTabName("PPA Projection Results");
+        selection.setTabName(Constant.PPA_PROJECTION_RESULT);
         tableLogic.setSession(session);
         tableLogic.setTempPageLength(NumericConstants.TWENTY);
         tableLogic.setPageLength(NumericConstants.TWENTY);
@@ -347,8 +349,8 @@ public class PPAProjectionResults extends CustomComponent implements View {
             pivotView.addItem(Constant.VARIABLE);
             pivotView.setValue(Constant.PERIOD);
             view.addItem(Constant.CUSTOMER_SMALL);
-            view.addItem(Constant.PRODUCT);
-            view.addItem(Constant.CUSTOM);
+            view.addItem(Constant.PRODUCT_LABEL);
+            view.addItem(Constant.CUSTOM_LABEL);
             view.setValue(Constant.CUSTOMER_SMALL);
             level.addItem(SELECT_ONE);
             level.setNullSelectionItemId(SELECT_ONE);
@@ -410,12 +412,12 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     protected final List<String> loadHistory(String frequency, String period)  {
         LOGGER.debug("Entering loadHistory method");
-        List<String> history = new ArrayList<String>();
+        List<String> history;
         history = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
             endValue = CommonUtils.getProjections(session.getFromDate(), new Date(), frequency);
-            history = CommonUtils.getHistoryDdlbList(endValue, frequency, period);
+            history = CommonUtils.getHistoryDdlbList(endValue, period);
         }
 
         session.addFrequencyAndQuater(frequency, history);
@@ -444,21 +446,17 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * @throws Exception the exception
      */
     @UiHandler("generateBtn")
-    public void generateButtonLogic(Button.ClickEvent event) throws SystemException, PortalException{
+    public void generateButtonLogic(Button.ClickEvent event) {
         LOGGER.debug("Entering Generate button Logic");
         session.setIsPPAUpdated(true);
      try {       
-         if(!Constant.VIEW.equals(session.getAction())){
-             CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.PPA_PROCEDURE_CALL));
-             logic.callPPAGenerateProcedures(selection);
-             CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.PRC_PPA_GENERATE_CALL));
-         }
+            ppaProcedure();
             if (frequency.getValue() != null && history.getValue() != null) {
                 generated = true;
                 firstGenerated = true;
 
                 if (pivotView.getValue().toString().equals(Constant.VARIABLE)) {
-                    resultsCaption.setCaption("Pivot View");
+                    resultsCaption.setCaption(PIVOT_VIEW_LABEL);
                 } else {
                     resultsCaption.setCaption("Period View");
                 }
@@ -482,12 +480,20 @@ public class PPAProjectionResults extends CustomComponent implements View {
         }
         generated = false;
     }
+    
+    public void ppaProcedure() {
+        if (!Constant.VIEW.equals(session.getAction())) {
+            CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.PPA_PROCEDURE_CALL));
+            logic.callPPAGenerateProcedures(selection);
+            CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.PRC_PPA_GENERATE_CALL));
+        }
+    }
 
     private void configureTable() {
         LOGGER.debug("Starting configure table ");
-        List<Object> visibleColumn = new ArrayList<Object>();
+        List<Object> visibleColumn;
         List<String> columnHeader;
-        List<Object> doubleVisibleColumn = new ArrayList<Object>();
+        List<Object> doubleVisibleColumn;
         List<String> doubleColumnHeader;
         fullHeader = new CustomTableHeaderDTO();
         leftdto = HeaderUtils.getPPAProjectionResultsLeftTableColumns(fullHeader);
@@ -521,9 +527,9 @@ public class PPAProjectionResults extends CustomComponent implements View {
 
         rightTable.setColumnHeaders(columnHeader.toArray(new String[columnHeader.size()]));
         periodTableId.setDoubleHeaderVisible(true);
-        periodTableId.setHeight("650px");
-        leftTable.setHeight("650px");
-        rightTable.setHeight("650px");
+        periodTableId.setHeight(Constant.SIX_FIFTY_PX);
+        leftTable.setHeight(Constant.SIX_FIFTY_PX);
+        rightTable.setHeight(Constant.SIX_FIFTY_PX);
         rightTable
                 .setDoubleHeaderVisibleColumns(doubleVisibleColumn.toArray());
         rightTable
@@ -549,6 +555,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
+                return;
             }
 
             @Override
@@ -577,6 +584,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        return;
     }
 
     /**
@@ -588,7 +596,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * @throws Exception the exception
      */
     @UiHandler("collapseBtn")
-    public void collapseLvlBtn(Button.ClickEvent event) throws SystemException, PortalException {
+    public void collapseLvlBtn(Button.ClickEvent event)  {
         expandCollapseLevelOption(Boolean.FALSE, level.getValue());
     }
 
@@ -601,7 +609,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * @throws Exception the exception
      */
     @UiHandler("expandBtn")
-    public void expandLvlBtn(Button.ClickEvent event) throws SystemException, PortalException {
+    public void expandLvlBtn(Button.ClickEvent event)  {
         expandCollapseLevelOption(Boolean.TRUE, level.getValue());
     }
 
@@ -639,7 +647,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void excelExportLogic() throws SystemException, PortalException {
+    private void excelExportLogic()  {
 
         excelTable = new ExtCustomTreeTable();
         verticalLayout.addComponent(excelTable);
@@ -655,7 +663,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         levelFilterDdlbChangeOption(true);
         excelTable.setRefresh(Boolean.TRUE);
         ForecastUI.EXCEL_CLOSE = true;
-        ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), "PPA Projection Results", "PPA Projection Results", "PPA_Projection_Results.xls", false);
+        ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.PPA_PROJECTION_RESULT, Constant.PPA_PROJECTION_RESULT, "PPA_Projection_Results.xls", false);
         export.export();
         verticalLayout.removeComponent(excelTable);
     }
@@ -669,7 +677,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * @throws Exception
      */
     @UiHandler("excelBtn")
-    public void excelBtn(Button.ClickEvent event) throws SystemException, PortalException {
+    public void excelBtn(Button.ClickEvent event)  {
         if (!selection.isIsCustomHierarchy()) {
             excelExportLogic();
         } else {
@@ -686,7 +694,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * @throws Exception the exception
      */
     @UiHandler("graphBtn")
-    public void graphButtonLogic(Button.ClickEvent event) throws SystemException, PortalException {
+    public void graphButtonLogic(Button.ClickEvent event)  {
         chartExportLogic();
     }
 
@@ -698,7 +706,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void chartExportLogic() throws SystemException, PortalException {
+    private void chartExportLogic()  {
 
         List chartiLst = new ArrayList();
         for (Object obj : tableLogic.getLogic().getChartList()) {
@@ -723,7 +731,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     @UiHandler("newBtn")
     public void newHierarchyBtn(Button.ClickEvent event) {
-        final CustomTreeBuild customTree = new CustomTreeBuild(Constant.ADD_SMALL, session);
+        final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
@@ -751,7 +759,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
     @UiHandler("editBtn")
     public void editHierarchyBtn(Button.ClickEvent event) {
         if (CommonLogic.editButtonValidation(customDdlb, customViewList)) {
-            final CustomTreeBuild customTree = new CustomTreeBuild(Constant.EDIT, session, customId);
+            final CustomTreeBuild customTree = new CustomTreeBuild( session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
                 @Override
                 public void windowClose(Window.CloseEvent e) {
@@ -792,7 +800,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         editBtn.setEnabled(Boolean.FALSE);
         newBtn.setEnabled(Boolean.FALSE);
         if (view.getValue() != null) {
-            if (Constant.CUSTOM.equals(String.valueOf(view.getValue()))) {
+            if (Constant.CUSTOM_LABEL.equals(String.valueOf(view.getValue()))) {
                 selection.setHierarchyIndicator(StringUtils.EMPTY);
                 selection.setIsCustomHierarchy(Boolean.TRUE);
                 levelFilter.setEnabled(Boolean.FALSE);
@@ -823,7 +831,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                             java.util.logging.Logger.getLogger(PPAProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                } else if (Constant.PRODUCT.equals(String.valueOf(view.getValue()))) {
+                } else if (Constant.PRODUCT_LABEL.equals(String.valueOf(view.getValue()))) {
                     selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     selection.setRelationshipBuilderSid(selection.getProdRelationshipBuilderSid());
                     hierarchyLevelNo = Integer.valueOf(session.getProductLevelNumber());
@@ -941,7 +949,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             selection.setProjectionNum(CommonUtils.getProjectionNumber(selection.getFrequency(), session));
         }
         selection.setStartDate(logic.getStartForData(frequency.getValue().toString(), Integer.valueOf(history.getValue().toString()) + 1, history.getItemCaption(history.getValue()), session));
-        loadGroupFilter(selection.getProjectionId(), selection.getUserId(), selection.getSessionId());
+        loadGroupFilter();
         groupChange(false);
     }
 
@@ -952,12 +960,12 @@ public class PPAProjectionResults extends CustomComponent implements View {
             frequency.select(map.get(Constant.FREQUENCY));
             history.select(Integer.valueOf(map.get(Constant.HISTORY).toString()));
             periodOrder.select(map.get(Constant.PERIOD_ORDER));
-            pivotView.select(map.get("Pivot View"));
+            pivotView.select(map.get(PIVOT_VIEW_LABEL));
             actualOrProj.select(map.get("Actual/projection"));
         }
     }
 
-    public void loadGroupFilter(int projId, int userId, int sessionId)  {
+    public void loadGroupFilter()  {
         LOGGER.debug("loadGroupFilter initiated ");
         group.setEnabled(true);
         group.removeAllItems();
@@ -973,7 +981,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
     }
 
     public void loadGroupFilterOntabChange()  {
-        loadGroupFilter(session.getProjectionId(), selection.getUserId(), selection.getSessionId());
+        loadGroupFilter();
     }
 
     public void saveButtonLogic() {
@@ -982,7 +990,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         map.put(Constant.FREQUENCY, frequency.getValue().toString());
         map.put(Constant.HISTORY, history.getValue().toString());
         map.put(Constant.PERIOD_ORDER, periodOrder.getValue().toString());
-        map.put("Pivot View", pivotView.getValue().toString());
+        map.put(PIVOT_VIEW_LABEL, pivotView.getValue().toString());
         map.put("Actual/projection", actualOrProj.getValue().toString());
         sprCommonLogic.saveNMSRPSelection(map, projectionId, Constant.PPA_PROJECTION_RESULT);
     }
@@ -1021,7 +1029,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         List<Leveldto> hierarchy = null;
        String view = StringUtils.EMPTY;
         if (selection.isIsCustomHierarchy()) {
-            view = Constant.CUSTOM;
+            view = Constant.CUSTOM_LABEL;
             if (!session.getCustomHierarchyMap().containsKey(customId)) {
             Utility.loadCustomHierarchyList(session);
             }
@@ -1033,7 +1041,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(selection.getHierarchyIndicator())) {
             hierarchy = session.getProductHierarchyList();
         }
-         Utility.loadLevelDDlbValue(level, levelFilter, null, hierarchy, view);
+         Utility.loadLevelDDlbValue(level, levelFilter, hierarchy);
 
         LOGGER.debug("loadLevelFilter ends ");
         }
@@ -1087,14 +1095,14 @@ public class PPAProjectionResults extends CustomComponent implements View {
     /**
      * Loads the results.
      */
-    @SuppressWarnings("serial")
+      @SuppressWarnings("serial")
     private void loadResultTable(int levelNo, String hierarchyNo)  {
         LOGGER.debug("Insie loadresults table ");
         selection.setFilterLevelNo(levelNo);
         selection.setFilterHierarchyNo(hierarchyNo);
         selection.setProductHierarchyNo(StringUtils.EMPTY);
         selection.setCustomerHierarchyNo(StringUtils.EMPTY);
-        tableLogic.setProjectionResultsData(selection, isGenerated);
+        tableLogic.setProjectionResultsData(selection);
         periodTableId.getLeftFreezeAsTable().setFilterBarVisible(true);
         periodTableId.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         selection.setProjectionId(session.getProjectionId());
@@ -1211,12 +1219,20 @@ public class PPAProjectionResults extends CustomComponent implements View {
             excelTable.setColumnHeaders(visibleHeaders);
             excelContainer = logic.getLoadedExcelContainer(selection, excelContainer);
             ForecastUI.EXCEL_CLOSE = true;
-            ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), "PPA Projection Results", "PPA Projection Results", "PPA_Projection_Results.xls", false);
+            ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.PPA_PROJECTION_RESULT, Constant.PPA_PROJECTION_RESULT, "PPA_Projection_Results.xls", false);
             export.export();
             verticalLayout.removeComponent(excelTable);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
+    }
+
+    public boolean isIsTabVisible() {
+        return isTabVisible;
+    }
+
+    public void setIsTabVisible(boolean isTabVisible) {
+        this.isTabVisible = isTabVisible;
     }
 
 }
